@@ -18,6 +18,7 @@ export interface ClerkTranslatorAddress {
   source: string;
   type: string;
   selected?: boolean;
+  autoSelected?: boolean;
 }
 
 export interface ClerkTranslatorTextFields {

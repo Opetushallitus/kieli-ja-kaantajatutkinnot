@@ -7,6 +7,7 @@ import fi.oph.akr.onr.dto.ContactDetailsGroupType;
 import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.util.CyclicIterable;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -37,26 +38,28 @@ public class PersonalDataFactory {
       .email(nickName.toLowerCase() + "." + lastName.toLowerCase() + "@example.invalid")
       .phoneNumber(counterValue % 10 != 0 ? "+35840" + (1000000 + counterValue) : null)
       .address(
-        List.of(
-          TranslatorAddressDTO
-            .builder()
-            .street(streets.next())
-            .postalCode(postalCodes.next())
-            .town(towns.next())
-            .country(countries.next())
-            .source(ContactDetailsGroupSource.AKR)
-            .type(ContactDetailsGroupType.AKR_OSOITE)
-            .build(),
-          TranslatorAddressDTO
-            .builder()
-            .street(streetsVTJ.next())
-            .postalCode(postalCodesVTJ.next())
-            .town(townsVTJ.next())
-            .country(countriesVTJ.next())
-            .source(ContactDetailsGroupSource.VTJ)
-            .type(ContactDetailsGroupType.VAKINAINEN_ULKOMAAN_OSOITE)
-            .build()
-        )
+        counterValue % 10 != 0
+          ? List.of(
+            TranslatorAddressDTO
+              .builder()
+              .street(streets.next())
+              .postalCode(postalCodes.next())
+              .town(towns.next())
+              .country(countries.next())
+              .source(ContactDetailsGroupSource.AKR)
+              .type(ContactDetailsGroupType.AKR_OSOITE)
+              .build(),
+            TranslatorAddressDTO
+              .builder()
+              .street(streetsVTJ.next())
+              .postalCode(postalCodesVTJ.next())
+              .town(townsVTJ.next())
+              .country(countriesVTJ.next())
+              .source(ContactDetailsGroupSource.VTJ)
+              .type(ContactDetailsGroupType.VAKINAINEN_ULKOMAAN_OSOITE)
+              .build()
+          )
+          : Collections.emptyList()
       )
       .build();
   }
@@ -262,11 +265,11 @@ public class PersonalDataFactory {
 
   private final Iterator<String> countries = cyclicIterator("Suomi", "suomi", "SUOMI", "Finland", "", null);
 
-  private final Iterator<String> streetsVTJ = cyclicIterator("Downing Street 1", null);
+  private final Iterator<String> streetsVTJ = cyclicIterator("Downing Street 1", null, "Times Square 1");
 
-  private final Iterator<String> postalCodesVTJ = cyclicIterator("00100", null);
+  private final Iterator<String> postalCodesVTJ = cyclicIterator("00100", null, "90100");
 
-  private final Iterator<String> townsVTJ = cyclicIterator("London", null);
+  private final Iterator<String> townsVTJ = cyclicIterator("London", null, "New York");
 
-  private final Iterator<String> countriesVTJ = cyclicIterator("UK", "DEU", "", null);
+  private final Iterator<String> countriesVTJ = cyclicIterator("UK", null, "DEU", "", null, null);
 }

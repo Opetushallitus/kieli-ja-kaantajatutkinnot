@@ -16,7 +16,8 @@ public record ClerkTranslatorAddressDTO(
   @Size(max = 255) String country,
   @NonNull ContactDetailsGroupSource source,
   @NonNull ContactDetailsGroupType type,
-  @NonNull Boolean selected
+  @NonNull Boolean selected,
+  Boolean autoSelected
 )
   implements CommonTranslatorAddressDTO {
   public ClerkTranslatorAddressDTO {

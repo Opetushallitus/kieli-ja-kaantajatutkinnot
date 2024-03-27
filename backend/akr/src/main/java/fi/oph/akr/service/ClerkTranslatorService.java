@@ -160,6 +160,14 @@ public class ClerkTranslatorService {
     );
   }
 
+  private boolean isAddressAutomaticallySelected(final TranslatorAddressDTO address, final PersonalData personalData) {
+    final TranslatorAddressDTO translatorAddressDTO = ContactDetailsUtil.findMostSuitableAddress(personalData);
+
+    return (
+      address.source().equals(translatorAddressDTO.source()) && address.type().equals(translatorAddressDTO.type())
+    );
+  }
+
   private List<ClerkTranslatorAddressDTO> createTranslatorAddressDTO(
     final PersonalData personalData,
     final Translator translator
@@ -177,6 +185,7 @@ public class ClerkTranslatorService {
           .source(addr.source())
           .type(addr.type())
           .selected(isAddressSelected(translator, addr))
+          .autoSelected(isAddressAutomaticallySelected(addr, personalData))
           .build()
       )
       .toList();
