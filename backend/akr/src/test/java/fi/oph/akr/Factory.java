@@ -1,5 +1,6 @@
 package fi.oph.akr;
 
+import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.model.Authorisation;
 import fi.oph.akr.model.AuthorisationBasis;
 import fi.oph.akr.model.AuthorisationTermReminder;
@@ -12,7 +13,10 @@ import fi.oph.akr.model.EmailType;
 import fi.oph.akr.model.ExaminationDate;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.model.Translator;
+import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
+import fi.oph.akr.onr.dto.ContactDetailsGroupType;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 public class Factory {
@@ -176,5 +180,24 @@ public class Factory {
     e.setEmailType(emailType);
     e.setCount(count);
     return e;
+  }
+
+  public static List<TranslatorAddressDTO> createAddress(
+    final String street,
+    final String postalCode,
+    final String town,
+    final String country
+  ) {
+    return List.of(
+      TranslatorAddressDTO
+        .builder()
+        .street(street)
+        .postalCode(postalCode)
+        .town(town)
+        .country(country)
+        .source(ContactDetailsGroupSource.AKR)
+        .type(ContactDetailsGroupType.AKR_OSOITE)
+        .build()
+    );
   }
 }

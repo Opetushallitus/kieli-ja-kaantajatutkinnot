@@ -281,7 +281,7 @@ class ClerkTranslatorServiceTest {
             .lastName(lastNames.get(i))
             .email(emails.get(i))
             .phoneNumber(phoneNumbers.get(i))
-            .address(createAddress(streets.get(i), postalCodes.get(i), towns.get(i), countries.get(i)))
+            .address(Factory.createAddress(streets.get(i), postalCodes.get(i), towns.get(i), countries.get(i)))
             .individualised(false)
             .hasIndividualisedAddress(false)
             .build()
@@ -330,25 +330,6 @@ class ClerkTranslatorServiceTest {
         .source(ContactDetailsGroupSource.AKR)
         .type(ContactDetailsGroupType.AKR_OSOITE)
         .selected(true)
-        .build()
-    );
-  }
-
-  private List<TranslatorAddressDTO> createAddress(
-    final String street,
-    final String postalCode,
-    final String town,
-    final String country
-  ) {
-    return List.of(
-      TranslatorAddressDTO
-        .builder()
-        .street(street)
-        .postalCode(postalCode)
-        .town(town)
-        .country(country)
-        .source(ContactDetailsGroupSource.AKR)
-        .type(ContactDetailsGroupType.AKR_OSOITE)
         .build()
     );
   }
@@ -1046,7 +1027,7 @@ class ClerkTranslatorServiceTest {
       .lastName("Suku")
       .firstName("Etu")
       .nickName("Etu")
-      .address(createAddress("st", "pstl", "tw", "FI"))
+      .address(Factory.createAddress("st", "pstl", "tw", "FI"))
       .identityNumber("112233")
       .individualised(true)
       .hasIndividualisedAddress(false)
