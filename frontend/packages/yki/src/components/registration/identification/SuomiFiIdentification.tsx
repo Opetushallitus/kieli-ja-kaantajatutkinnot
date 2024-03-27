@@ -28,7 +28,7 @@ export const SuomiFiIdentification = () => {
         size="large"
         variant={Variant.Contained}
         color={Color.Secondary}
-        href={`${APIEndpoints.SuomiFiAuthRedirect}?examSessionId=${examSession.id}`}
+        href={`${APIEndpoints.Authenticate}?examSessionId=${examSession.id}`}
       >
         {t('suomiFiButtonText')}
       </CustomButton>

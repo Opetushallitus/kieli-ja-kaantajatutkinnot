@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import { WithId } from 'shared/interfaces';
 
 import {
@@ -63,6 +64,17 @@ export interface PublicRegistrationInitErrorResponse {
     full?: boolean;
     registered?: boolean;
   };
+}
+
+export function isRegistrationInitErrorResponse(
+  response: AxiosResponse,
+): response is AxiosResponse<PublicRegistrationInitErrorResponse> {
+  const error = response.data.error;
+  if (!error) {
+    return false;
+  }
+
+  return 'closed' in error || 'full' in error || 'exists' in error;
 }
 
 export interface PublicRegistrationFormSubmitErrorResponse {

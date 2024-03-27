@@ -9,7 +9,10 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { cancelRegistration } from 'redux/reducers/registration';
 
-export const useRegistrationNavigationProtection = (when: boolean) => {
+export const useRegistrationNavigationProtection = (
+  when: boolean,
+  dialogContent: React.ReactNode,
+) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.registrationPage.abortDialog',
   });
@@ -21,7 +24,7 @@ export const useRegistrationNavigationProtection = (when: boolean) => {
       showDialog({
         title: t('title'),
         severity: Severity.Info,
-        description: t('description'),
+        content: dialogContent,
         actions: [
           {
             title: t('actions.confirm'),
@@ -40,7 +43,7 @@ export const useRegistrationNavigationProtection = (when: boolean) => {
         onClose: cancelNavigation,
       });
     },
-    [dispatch, showDialog, t],
+    [dispatch, showDialog, t, dialogContent],
   );
 
   useCommonNavigationProtection(when, showConfirmationDialog);

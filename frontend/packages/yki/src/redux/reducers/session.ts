@@ -38,9 +38,12 @@ const sessionSlice = createSlice({
     rejectSession(state) {
       state.status = APIResponseStatus.Error;
     },
+    resetSession(_) {
+      return initialState;
+    },
   },
 });
 
 export const sessionReducer = sessionSlice.reducer;
-export const { acceptSession, loadSession, rejectSession } =
+export const { acceptSession, loadSession, rejectSession, resetSession } =
   sessionSlice.actions;

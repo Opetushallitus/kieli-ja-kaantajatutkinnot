@@ -264,6 +264,17 @@
         },
         "steps": {
           "identify": {
+            "alreadyLoggedIn": {
+              "caption": "Olet jo tunnistautunut seuraavin tiedoin:",
+              "labels": {
+                "abort": "Keskeytä ilmoittautuminen",
+                "continueToRegistration": "Jatka ilmoittautumiseen",
+                "email": "Sähköpostiosoite",
+                "name": "Nimi"
+              },
+              "reauthenticate": "Mikäli tämä et ole sinä tai haluat tunnistautua jollain toisella tavalla, paina Kirjaudu ulos -painiketta sivun yläosassa ja tunnistaudu uudelleen ilmoittautumisen yhteydessä.",
+              "title": "Jatka tunnistautuneena"
+            },
             "caption": "Sinun täytyy tunnistautua YKI-testiin ilmoittautumista varten. Käytä tunnistautumiseen osallistujan henkilötietoja.",
             "emailButtonText": "tunnistaudu sähköpostilla",
             "emailError": "Virheellinen sähköpostiosoite",
@@ -347,6 +358,11 @@
             "description": "Tilaisuuteen ilmoittautuminen ei ole enää mahdollista. Ilmoittautumisaika on päättynyt.",
             "title": "Ilmoittautumisaika on päättynyt"
           },
+          "unauthorized": {
+            "backToIdentification": "Siirry tunnistautumisen valintaan",
+            "description": "Voimassaolevia tunnistautumistietoja ei löytynyt. Jos olit aiemmin tunnistautunut, tunnistautumistietosi ovat voineet vanhentua. Sinun täytyy tunnistautua ennen kuin voit ilmoittautua tutkintoon.",
+            "title": "Et ole tunnistautunut"
+          },
           "upcoming": {
             "description": "Ilmoittautuminen ei ole vielä mahdollista. Ilmoittautumisaika ei ole alkanut.",
             "title": "Ilmoittautumisaika ei ole alkanut"
@@ -425,6 +441,7 @@
             "confirm": "Kyllä, keskeytän ilmoittautumisen"
           },
           "description": "Haluatko keskeyttää ilmoittautumisen? Menetät täyttämäsi tiedot.",
+          "notice": "<strong>Huomio!</strong> Jos olet tunnistautunut, tunnistautumisesi säilyy edelleen voimassa. Voit kirjautua ulos painamalla Kirjaudu ulos -painiketta ruudun yläosassa.",
           "title": "Keskeytä ilmoittautuminen"
         },
         "description": {

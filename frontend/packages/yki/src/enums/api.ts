@@ -1,4 +1,5 @@
 export enum APIEndpoints {
+  Authenticate = '/yki/auth/',
   CountryCodes = '/yki/api/code/maatjavaltiot2',
   ExamSessions = '/yki/api/exam-session',
   ExamSession = '/yki/api/exam-session/:examSessionId',
@@ -12,7 +13,6 @@ export enum APIEndpoints {
   Logout = '/yki/auth/logout',
   Registration = '/yki/api/registration/:registrationId',
   SubmitRegistration = '/yki/api/registration/:registrationId/submit',
-  SuomiFiAuthRedirect = '/yki/auth/',
   User = '/yki/api/user/identity',
   OpenRegistrations = '/yki/api/user/open-registrations',
 }
