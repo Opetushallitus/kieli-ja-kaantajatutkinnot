@@ -6,9 +6,18 @@
   @include phone {
     align-items: flex-end;
     flex-direction: column;
-    gap: 0;
     justify-content: center;
-    padding: 1rem 2rem 1rem 1rem;
+    padding: 1rem 0 0;
+  }
+
+  & &__logout-button {
+    background-color: $color-primary;
+  }
+
+  & &__user-details {
+    @include phone {
+      padding: 0 2rem;
+    }
   }
 
   & &__user-icon {
@@ -17,7 +26,16 @@
   }
 
   & &__open-registrations {
-    margin-right: auto;
+    @include not-phone {
+      margin-right: auto;
+    }
+
+    @include phone {
+      align-items: flex-end;
+      background-color: $color-grey-400;
+      padding: 2rem;
+      width: 100%;
+    }
 
     & a {
       color: $color-secondary-dark;
@@ -28,10 +46,6 @@
       margin: 0;
       text-decoration: underline;
       text-transform: initial;
-
-      @include phone {
-        font-size: 1.5rem;
-      }
     }
   }
 }
