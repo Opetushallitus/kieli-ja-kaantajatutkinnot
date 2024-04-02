@@ -189,7 +189,7 @@ public class ContactDetailsUtil {
       .orElse(null);
   }
 
-  private static TranslatorAddressDTO findMostSuitableAddress(final PersonalData personalData) {
+  public static TranslatorAddressDTO findMostSuitableAddress(final PersonalData personalData) {
     return personalData
       .getAddress()
       .stream()
