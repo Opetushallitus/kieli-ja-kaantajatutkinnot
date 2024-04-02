@@ -6,6 +6,7 @@ on:
     paths:
       - "backend/otr/**"
       - "frontend/packages/otr/**"
+      - "frontend/yarn.lock"
       - "!**/*.md"
     # Setting 'branches' has the side effect that just pushing tags does not start workflows.
     branches:
