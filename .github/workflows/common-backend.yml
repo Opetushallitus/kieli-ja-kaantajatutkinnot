@@ -53,11 +53,13 @@ jobs:
           echo 'Installation of wkhtmltopdf completed'
         shell: bash
       - name: Build with Maven
+        working-directory: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}
+        run: mvn clean install -Dplugin.prettier.goal=check
         env:
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_REGISTRY_TOKEN: ${{ github.token }}
-        working-directory: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}
-        run: mvn clean install -Dplugin.prettier.goal=check
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ github.token }}
       - uses: actions/cache@v3
         with:
           path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/target/${{ inputs.app-name }}-*.jar
