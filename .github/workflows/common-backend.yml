@@ -52,7 +52,7 @@ jobs:
           wkhtmltopdf --version
           echo 'Installation of wkhtmltopdf completed'
         shell: bash
-      - name: maven-settings
+      - name: Prepare maven settings
         uses: s4u/maven-settings-action@v2
         with:
           servers: '[{"id": "oph-github-packages", "username": "${GITHUB_USERNAME}", "password": "${GITHUB_REGISTRY_TOKEN}"}]'

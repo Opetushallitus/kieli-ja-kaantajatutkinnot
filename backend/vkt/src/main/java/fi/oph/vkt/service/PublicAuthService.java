@@ -7,13 +7,12 @@ import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import fi.vm.sade.javautils.nio.cas.CasLogout;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
-
-import fi.vm.sade.javautils.nio.cas.CasLogout;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,7 +89,6 @@ public class PublicAuthService {
   public void logoutSession(final String logoutRequest) {
     final CasLogout casLogout = new CasLogout();
     final Optional<String> ticket = casLogout.parseTicketFromLogoutRequest(logoutRequest);
-
     // TODO 2
 
   }

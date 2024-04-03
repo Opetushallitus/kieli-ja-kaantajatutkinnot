@@ -240,9 +240,7 @@ public class PublicController {
   }
 
   @PostMapping(path = "/auth/logout/callback")
-  public void logoutCasCallback(
-      @RequestBody final String logoutRequest
-  ) throws IOException {
+  public void logoutCasCallback(@RequestBody final String logoutRequest) throws IOException {
     publicAuthService.logoutSession(logoutRequest);
   }
 
