@@ -52,14 +52,16 @@ jobs:
           wkhtmltopdf --version
           echo 'Installation of wkhtmltopdf completed'
         shell: bash
+      - name: maven-settings
+        uses: s4u/maven-settings-action@v2
+        with:
+          servers: '[{"id": "oph-github-packages", "username": "${GITHUB_USERNAME}", "password": "${GITHUB_REGISTRY_TOKEN}"}]'
       - name: Build with Maven
         working-directory: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}
         run: mvn clean install -Dplugin.prettier.goal=check
         env:
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_REGISTRY_TOKEN: ${{ github.token }}
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ github.token }}
       - uses: actions/cache@v3
         with:
           path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/target/${{ inputs.app-name }}-*.jar

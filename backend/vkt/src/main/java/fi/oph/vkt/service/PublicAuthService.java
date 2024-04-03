@@ -90,8 +90,8 @@ public class PublicAuthService {
   public void logoutSession(final String logoutRequest) {
     final CasLogout casLogout = new CasLogout();
     final Optional<String> ticket = casLogout.parseTicketFromLogoutRequest(logoutRequest);
-    
-    // TODO
+
+    // TODO 2
 
   }
 }
