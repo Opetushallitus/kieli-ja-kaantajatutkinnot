@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
@@ -39,6 +40,7 @@ public class PublicAuthServiceTest {
   @BeforeEach
   public void setup() {
     final Environment environment = mock(Environment.class);
+    final SessionRegistry sessionRegistry = mock(SessionRegistry.class);
 
     when(environment.getRequiredProperty("app.cas-oppija.login-url")).thenReturn("https://foo.bar");
     when(environment.getRequiredProperty("app.cas-oppija.service-url"))
@@ -55,7 +57,8 @@ public class PublicAuthServiceTest {
     when(casTicketValidationService.validate(anyString(), anyLong(), eq(EnrollmentType.RESERVATION)))
       .thenReturn(personDetails);
 
-    publicAuthService = new PublicAuthService(casTicketValidationService, personRepository, environment);
+    publicAuthService =
+      new PublicAuthService(casTicketValidationService, personRepository, environment, sessionRegistry);
   }
 
   @Test
