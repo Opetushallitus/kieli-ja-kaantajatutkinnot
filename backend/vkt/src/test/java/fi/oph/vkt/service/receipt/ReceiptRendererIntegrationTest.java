@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
@@ -17,6 +19,9 @@ class ReceiptRendererIntegrationTest {
 
   @Resource
   private ReceiptRenderer receiptRenderer;
+
+  @MockBean
+  private SessionRegistry sessionRegistry;
 
   @Test
   public void testGetReceiptHtml() {
