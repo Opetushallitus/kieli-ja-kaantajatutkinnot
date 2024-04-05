@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.10.6] - 2024-04-05
+
+### Fixed
+- Dialog content is focused on open
+- Added aria-model=true attribute to dialogs
+
 ## [1.10.5] - 2024-02-28
 
 ### Fixed

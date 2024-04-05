@@ -5,6 +5,7 @@ import {
   DialogTitle,
 } from '@mui/material';
 
+import { useEffect, useRef } from 'react';
 import { Color } from '../../enums';
 import { useDialog } from '../../hooks/useDialog/useDialog';
 import { CustomButton } from '../CustomButton/CustomButton';
@@ -14,6 +15,20 @@ import './DialogBox.scss';
 
 export const DialogBox = () => {
   const { activeDialog, removeDialog } = useDialog();
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (activeDialog) {
+        const dialogContainer = dialogRef.current;
+
+        if (dialogContainer) {
+          const dialog = dialogContainer.querySelector('[role="dialog"]');
+          if (dialog instanceof HTMLDivElement) {
+            dialog.focus();
+          }
+      }
+    }
+  }, [activeDialog]);
 
   const handleClose = () => {
     if (activeDialog?.onClose) {
@@ -37,6 +52,8 @@ export const DialogBox = () => {
           className={`dialog-box--${activeDialog.severity}`}
           open={!!activeDialog}
           onClose={handleClose}
+          PaperProps={{ 'aria-modal': true }}
+          ref={dialogRef}
         >
           <DialogTitle>{activeDialog.title}</DialogTitle>
           <DialogContent>
