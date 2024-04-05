@@ -2687,7 +2687,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared":
+"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.10.6":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
   languageName: unknown
@@ -2707,7 +2707,7 @@ __metadata:
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.yki@workspace:packages/yki"
   dependencies:
     multer: "npm:^1.4.5-lts.1"
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.10.5"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.10.6"
   languageName: unknown
   linkType: soft
 
