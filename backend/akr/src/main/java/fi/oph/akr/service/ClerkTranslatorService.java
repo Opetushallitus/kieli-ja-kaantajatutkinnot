@@ -125,7 +125,7 @@ public class ClerkTranslatorService {
       .build();
     stopWatch.stop();
 
-    LOG.debug(stopWatch.toString());
+    LOG.info("{}", stopWatch);
 
     return val;
   }
