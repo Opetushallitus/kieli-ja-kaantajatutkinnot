@@ -55,6 +55,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StopWatch;
 
 @Service
 @RequiredArgsConstructor
@@ -80,26 +81,53 @@ public class ClerkTranslatorService {
   }
 
   private ClerkTranslatorResponseDTO listTranslatorsWithoutAudit() {
-    final List<Translator> translators = translatorRepository.findExistingTranslators();
-    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
-    final Map<Long, List<AuthorisationProjection>> authorisationProjections = getAuthorisationProjections();
+    StopWatch stopWatch = new StopWatch();
 
+    stopWatch.start("findExistingTranslators");
+    final List<Translator> translators = translatorRepository.findExistingTranslators();
+    stopWatch.stop();
+
+    stopWatch.start("getCachedPersonalDatas");
+    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
+    stopWatch.stop();
+
+    stopWatch.start("getAuthorisationProjections");
+    final Map<Long, List<AuthorisationProjection>> authorisationProjections = getAuthorisationProjections();
+    stopWatch.stop();
+
+    stopWatch.start("createClerkTranslatorDTOs");
     final List<ClerkTranslatorDTO> clerkTranslatorDTOS = createClerkTranslatorDTOs(
       translators,
       personalDatas,
       authorisationProjections
     );
-    final LanguagePairsDictDTO languagePairsDictDTO = getLanguagePairsDictDTO();
-    final List<MeetingDateDTO> meetingDateDTOS = meetingDateService.listMeetingDatesWithoutAudit();
-    final List<ExaminationDateDTO> examinationDateDTOS = examinationDateService.listExaminationDatesWithoutAudit();
+    stopWatch.stop();
 
-    return ClerkTranslatorResponseDTO
+    stopWatch.start("getLanguagePairsDictDTO");
+    final LanguagePairsDictDTO languagePairsDictDTO = getLanguagePairsDictDTO();
+    stopWatch.stop();
+
+    stopWatch.start("listMeetingDatesWithoutAudit");
+    final List<MeetingDateDTO> meetingDateDTOS = meetingDateService.listMeetingDatesWithoutAudit();
+    stopWatch.stop();
+
+    stopWatch.start("listExaminationDatesWithoutAudit");
+    final List<ExaminationDateDTO> examinationDateDTOS = examinationDateService.listExaminationDatesWithoutAudit();
+    stopWatch.stop();
+
+    stopWatch.start("ClerkTranslatorResponseDTO constructor");
+    final ClerkTranslatorResponseDTO val = ClerkTranslatorResponseDTO
       .builder()
       .translators(clerkTranslatorDTOS)
       .langs(languagePairsDictDTO)
       .meetingDates(meetingDateDTOS)
       .examinationDates(examinationDateDTOS)
       .build();
+    stopWatch.stop();
+
+    LOG.debug(stopWatch.toString());
+
+    return val;
   }
 
   private Map<Long, List<AuthorisationProjection>> getAuthorisationProjections() {
