@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
+import fi.oph.vkt.repository.CasTicketRepository;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
 import fi.oph.vkt.service.auth.ticketValidator.TicketValidator;
@@ -22,7 +23,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.env.Environment;
-import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
@@ -40,7 +40,7 @@ public class PublicAuthServiceTest {
   @BeforeEach
   public void setup() {
     final Environment environment = mock(Environment.class);
-    final SessionRegistry sessionRegistry = mock(SessionRegistry.class);
+    final CasTicketRepository casTicketRepository = mock(CasTicketRepository.class);
 
     when(environment.getRequiredProperty("app.cas-oppija.login-url")).thenReturn("https://foo.bar");
     when(environment.getRequiredProperty("app.cas-oppija.service-url"))
@@ -58,7 +58,7 @@ public class PublicAuthServiceTest {
       .thenReturn(personDetails);
 
     publicAuthService =
-      new PublicAuthService(casTicketValidationService, personRepository, environment, sessionRegistry);
+      new PublicAuthService(casTicketValidationService, personRepository, environment, casTicketRepository);
   }
 
   @Test

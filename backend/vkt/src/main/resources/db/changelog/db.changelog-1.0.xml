@@ -634,4 +634,23 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="2024-04-08-cas-person-ticket" author="jrkkp">
+        <createTable tableName="cas_ticket">
+            <column name="person_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ticket" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="cas_ticket" baseColumnNames="person_id"
+                                 referencedTableName="person" referencedColumnNames="person_id"
+                                 constraintName="fk_cas_ticket_person"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+
 </databaseChangeLog>

@@ -233,6 +233,7 @@ public class PublicController {
   @GetMapping(path = "/auth/logout")
   public void logout(final HttpSession session, final HttpServletResponse httpResponse) throws IOException {
     if (session != null) {
+      publicAuthService.logout(session);
       session.invalidate();
     }
 
@@ -241,7 +242,7 @@ public class PublicController {
 
   @PostMapping(path = "/auth/logout/callback")
   public void logoutCasCallback(@RequestBody final String logoutRequest) throws IOException {
-    publicAuthService.logoutSession(logoutRequest);
+    publicAuthService.logout(logoutRequest);
   }
 
   @GetMapping(path = "/payment/create/{enrollmentId:\\d+}/redirect")

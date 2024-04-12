@@ -10,9 +10,6 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test-hsql")
 class VktApplicationTests {
 
-  @MockBean
-  private SessionRegistry sessionRegistry;
-
   @Test
   void contextLoads() {}
 }
