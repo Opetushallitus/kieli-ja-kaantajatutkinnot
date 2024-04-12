@@ -395,6 +395,7 @@ class ClerkInterpreterServiceTest {
       );
 
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.createInterpreter(createDTO);
+    final InterpreterAuditDTO auditDTO = new InterpreterAuditDTO(interpreterDTO);
 
     assertNotNull(interpreterDTO.id());
     assertEquals(0, interpreterDTO.version());
@@ -419,6 +420,7 @@ class ClerkInterpreterServiceTest {
     assertEquals(2, interpreterDTO.qualifications().effective().size());
 
     final ClerkQualificationDTO qualification1 = interpreterDTO.qualifications().effective().get(0);
+    final QualificationAuditDTO qualification1AuditDTO = new QualificationAuditDTO(qualification1);
     assertEquals(0, qualification1.version());
     assertEquals("FI", qualification1.fromLang());
     assertEquals("SE", qualification1.toLang());
@@ -429,6 +431,7 @@ class ClerkInterpreterServiceTest {
     assertEquals("123", qualification1.diaryNumber());
 
     final ClerkQualificationDTO qualification2 = interpreterDTO.qualifications().effective().get(1);
+    final QualificationAuditDTO qualification2AuditDTO = new QualificationAuditDTO(qualification2);
     assertEquals("FI", qualification2.fromLang());
     assertEquals("DE", qualification2.toLang());
     assertEquals(yesterday, qualification2.beginDate());
@@ -437,7 +440,9 @@ class ClerkInterpreterServiceTest {
     assertFalse(qualification2.permissionToPublish());
     assertEquals("234", qualification2.diaryNumber());
 
-    verify(auditService).logById(OtrOperation.CREATE_INTERPRETER, interpreterDTO.id());
+    verify(auditService).logCreate(OtrOperation.CREATE_QUALIFICATION, qualification1.id(), qualification1AuditDTO);
+    verify(auditService).logCreate(OtrOperation.CREATE_QUALIFICATION, qualification2.id(), qualification2AuditDTO);
+    verify(auditService).logCreate(OtrOperation.CREATE_INTERPRETER, interpreterDTO.id(), auditDTO);
     verifyNoMoreInteractions(auditService);
   }
 
@@ -503,6 +508,10 @@ class ClerkInterpreterServiceTest {
       );
 
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.createInterpreter(createDTO);
+    final InterpreterAuditDTO auditDTO = new InterpreterAuditDTO(interpreterDTO);
+    final QualificationAuditDTO qualificationAuditDTO = new QualificationAuditDTO(
+      interpreterDTO.qualifications().effective().get(0)
+    );
 
     assertTrue(interpreterDTO.isIndividualised());
     assertTrue(interpreterDTO.hasIndividualisedAddress());
@@ -511,7 +520,9 @@ class ClerkInterpreterServiceTest {
     verify(onrService).updatePersonalData(any());
     verify(onrService, times(0)).insertPersonalData(any());
 
-    verify(auditService).logById(OtrOperation.CREATE_INTERPRETER, interpreterDTO.id());
+    verify(auditService)
+      .logCreate(OtrOperation.CREATE_QUALIFICATION, qualificationAuditDTO.id(), qualificationAuditDTO);
+    verify(auditService).logCreate(OtrOperation.CREATE_INTERPRETER, interpreterDTO.id(), auditDTO);
     verifyNoMoreInteractions(auditService);
   }
 
@@ -879,6 +890,7 @@ class ClerkInterpreterServiceTest {
       .filter(dto -> dto.diaryNumber() != null && dto.diaryNumber().equals("1000"))
       .toList()
       .get(0);
+    final QualificationAuditDTO auditDTO = new QualificationAuditDTO(qualificationDTO);
 
     assertNotNull(qualificationDTO);
     assertEquals(0, qualificationDTO.version());
@@ -889,7 +901,8 @@ class ClerkInterpreterServiceTest {
     assertEquals(ExaminationType.KKT, qualificationDTO.examinationType());
     assertFalse(qualificationDTO.permissionToPublish());
 
-    verify(auditService).logQualification(OtrOperation.CREATE_QUALIFICATION, interpreter, qualificationDTO.id());
+    verify(auditService)
+      .logQualification(OtrOperation.CREATE_QUALIFICATION, interpreter, qualificationDTO.id(), auditDTO);
     verifyNoMoreInteractions(auditService);
   }
 

@@ -239,12 +239,17 @@ public class ClerkInterpreterService {
 
     dto
       .qualifications()
-      .forEach(qualificationCreateDTO -> createQualification(interpreter, meetingDates, qualificationCreateDTO));
+      .forEach(qualificationCreateDTO -> {
+        Qualification qualification = createQualification(interpreter, meetingDates, qualificationCreateDTO);
+        final QualificationAuditDTO qualificationAuditDTO = new QualificationAuditDTO(qualification);
+        auditService.logCreate(OtrOperation.CREATE_QUALIFICATION, qualification.getId(), qualificationAuditDTO);
+      });
 
     interpreterRepository.saveAndFlush(interpreter);
 
     final ClerkInterpreterDTO result = getInterpreterWithoutAudit(interpreter.getId());
-    auditService.logById(OtrOperation.CREATE_INTERPRETER, interpreter.getId());
+    final InterpreterAuditDTO auditDTO = new InterpreterAuditDTO(result);
+    auditService.logCreate(OtrOperation.CREATE_INTERPRETER, interpreter.getId(), auditDTO);
     return result;
   }
 
@@ -421,10 +426,11 @@ public class ClerkInterpreterService {
     final Interpreter interpreter = interpreterRepository.getReferenceById(interpreterId);
 
     final Qualification qualification = createQualification(interpreter, meetingDates, dto);
+    final QualificationAuditDTO auditDTO = new QualificationAuditDTO(qualification);
     interpreterRepository.saveAndFlush(interpreter);
 
     final ClerkInterpreterDTO result = getInterpreterWithoutAudit(interpreter.getId());
-    auditService.logQualification(OtrOperation.CREATE_QUALIFICATION, interpreter, qualification.getId());
+    auditService.logQualification(OtrOperation.CREATE_QUALIFICATION, interpreter, qualification.getId(), auditDTO);
     return result;
   }
 
