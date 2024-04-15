@@ -30,6 +30,7 @@ const AlreadyLoggedIn = () => {
     <>
       <Text>{t('registrationIsBindingAdvisory')}</Text>
       <H2>{t('alreadyLoggedIn.caption')}</H2>
+      <Text> {t('alreadyLoggedIn.currentLoginInformation')}</Text>
       <Text>
         {isSuomiFiAuthenticatedSession && (
           <>

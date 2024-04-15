@@ -265,7 +265,8 @@
         "steps": {
           "identify": {
             "alreadyLoggedIn": {
-              "caption": "Olet jo tunnistautunut seuraavin tiedoin:",
+              "caption": "Tarkista tunnistautumistiedot",
+              "currentLoginInformation": "Olet tunnistautunut seuraavilla tiedoilla:",
               "labels": {
                 "abort": "Keskeytä ilmoittautuminen",
                 "continueToRegistration": "Jatka ilmoittautumiseen",
