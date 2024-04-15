@@ -10,6 +10,7 @@ import fi.oph.vkt.service.auth.CasTicketValidationService;
 import fi.oph.vkt.util.SessionUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import fi.oph.vkt.util.exception.NotFoundException;
 import fi.vm.sade.javautils.nio.cas.CasLogout;
 import jakarta.servlet.http.HttpSession;
 import java.net.URLEncoder;
@@ -91,6 +92,7 @@ public class PublicAuthService {
     final CasTicket casTicket = casTicketRepository.findByPerson(person).orElse(new CasTicket());
     casTicket.setPerson(person);
     casTicket.setTicket(ticket);
+    
     casTicketRepository.saveAndFlush(casTicket);
 
     return person;
@@ -114,5 +116,28 @@ public class PublicAuthService {
 
       person.ifPresent(this::logout);
     }
+  }
+
+  public Boolean hasTicket(final Person person) {
+    return casTicketRepository.findByPerson(person).isPresent();
+  }
+
+  public Person getPersonFromSession(final HttpSession session) {
+    if (!SessionUtil.hasPersonId(session)) {
+      throw new NotFoundException("Person not found from session");
+    }
+
+    final Long personId = SessionUtil.getPersonId(session);
+    final Optional<Person> person = personRepository.findById(personId);
+
+    if (person.isEmpty()) {
+      throw new NotFoundException("Person not found from repository");
+    }
+
+    if (!hasTicket(person.get())) {
+      throw new NotFoundException("Person does not have valid ticket");
+    }
+
+    return person.get();
   }
 }

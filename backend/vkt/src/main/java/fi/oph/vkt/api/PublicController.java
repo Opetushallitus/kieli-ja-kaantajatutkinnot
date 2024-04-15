@@ -83,7 +83,7 @@ public class PublicController {
     @PathVariable final long reservationId,
     final HttpSession session
   ) {
-    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+    final Person person = publicAuthService.getPersonFromSession(session);
 
     return publicEnrollmentService.createEnrollment(dto, reservationId, person);
   }
@@ -95,7 +95,7 @@ public class PublicController {
     @RequestParam final long examEventId,
     final HttpSession session
   ) {
-    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+    final Person person = publicAuthService.getPersonFromSession(session);
 
     return publicEnrollmentService.updateEnrollmentForPayment(dto, examEventId, person);
   }
@@ -107,7 +107,7 @@ public class PublicController {
     @RequestParam final long examEventId,
     final HttpSession session
   ) {
-    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+    final Person person = publicAuthService.getPersonFromSession(session);
 
     return publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, person);
   }
@@ -128,14 +128,14 @@ public class PublicController {
     @PathVariable final long examEventId,
     final HttpSession session
   ) {
-    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+    final Person person = publicAuthService.getPersonFromSession(session);
 
     return publicEnrollmentService.getEnrollmentInitialisationDTO(examEventId, person);
   }
 
   @PutMapping(path = "/reservation/{reservationId:\\d+}/renew")
   public PublicReservationDTO renewReservation(@PathVariable final long reservationId, final HttpSession session) {
-    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+    final Person person = publicAuthService.getPersonFromSession(session);
 
     return publicReservationService.renewReservation(reservationId, person);
   }
@@ -166,7 +166,7 @@ public class PublicController {
 
   @DeleteMapping(path = "/reservation/{reservationId:\\d+}")
   public void deleteReservation(@PathVariable final long reservationId, final HttpSession session) {
-    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+    final Person person = publicAuthService.getPersonFromSession(session);
 
     publicReservationService.deleteReservation(reservationId, person);
   }
@@ -227,7 +227,7 @@ public class PublicController {
       return Optional.empty();
     }
 
-    return Optional.of(publicPersonService.getPersonDTO(SessionUtil.getPersonId(session)));
+    return Optional.of(publicPersonService.getPersonDTO(publicAuthService.getPersonFromSession(session)));
   }
 
   @GetMapping(path = "/auth/logout")

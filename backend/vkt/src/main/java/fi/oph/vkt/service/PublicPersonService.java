@@ -18,7 +18,7 @@ public class PublicPersonService {
     return personRepository.findById(personId).orElseThrow(() -> new NotFoundException("Person not found"));
   }
 
-  public PublicPersonDTO getPersonDTO(final Long personId) {
-    return PersonUtil.createPublicPersonDTO(getPerson(personId));
+  public PublicPersonDTO getPersonDTO(final Person person) {
+    return PersonUtil.createPublicPersonDTO(person);
   }
 }
