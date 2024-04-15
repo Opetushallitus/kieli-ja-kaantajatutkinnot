@@ -15,7 +15,9 @@ import fi.vm.sade.javautils.nio.cas.CasLogout;
 import jakarta.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -146,5 +149,15 @@ public class PublicAuthService {
     }
 
     return person.get();
+  }
+
+  @Transactional(isolation = Isolation.SERIALIZABLE)
+  public void deleteExpiredTokens() {
+    // Pretty much arbitrary ttl after expiry time of a reservation
+    final Duration ttl = Duration.of(2, ChronoUnit.HOURS);
+
+    casTicketRepository
+      .findByCreatedAtIsBefore(LocalDateTime.now().minus(ttl))
+      .forEach(casTicket -> casTicketRepository.deleteById(casTicket.getId()));
   }
 }

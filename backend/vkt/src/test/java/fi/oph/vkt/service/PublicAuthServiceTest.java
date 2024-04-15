@@ -3,11 +3,11 @@ package fi.oph.vkt.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import fi.oph.vkt.model.CasTicket;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
@@ -16,7 +16,9 @@ import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
 import fi.oph.vkt.service.auth.ticketValidator.TicketValidator;
 import jakarta.annotation.Resource;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,6 +34,9 @@ public class PublicAuthServiceTest {
   @Resource
   private PersonRepository personRepository;
 
+  @Resource
+  private CasTicketRepository casTicketRepository;
+
   @MockBean
   private TicketValidator ticketValidatorMock;
 
@@ -40,7 +45,6 @@ public class PublicAuthServiceTest {
   @BeforeEach
   public void setup() {
     final Environment environment = mock(Environment.class);
-    final CasTicketRepository casTicketRepository = mock(CasTicketRepository.class);
 
     when(environment.getRequiredProperty("app.cas-oppija.login-url")).thenReturn("https://foo.bar");
     when(environment.getRequiredProperty("app.cas-oppija.service-url"))
@@ -48,14 +52,22 @@ public class PublicAuthServiceTest {
 
     final CasTicketValidationService casTicketValidationService = new CasTicketValidationService(ticketValidatorMock);
 
-    final Map<String, String> personDetails = Map.ofEntries(
+    final Map<String, String> personDetails1 = Map.ofEntries(
       Map.entry("firstName", "Tessa"),
       Map.entry("lastName", "Testilä"),
       Map.entry("oid", "999"),
       Map.entry("otherIdentifier", "10000")
     );
-    when(casTicketValidationService.validate(anyString(), anyLong(), eq(EnrollmentType.RESERVATION)))
-      .thenReturn(personDetails);
+    final Map<String, String> personDetails2 = Map.ofEntries(
+      Map.entry("firstName", "Max"),
+      Map.entry("lastName", "Syöttöpaine"),
+      Map.entry("oid", "111"),
+      Map.entry("otherIdentifier", "20000")
+    );
+    when(casTicketValidationService.validate(eq("ticket-123"), anyLong(), eq(EnrollmentType.RESERVATION)))
+      .thenReturn(personDetails1);
+    when(casTicketValidationService.validate(eq("ticket-124"), anyLong(), eq(EnrollmentType.RESERVATION)))
+      .thenReturn(personDetails2);
 
     publicAuthService =
       new PublicAuthService(casTicketValidationService, personRepository, environment, casTicketRepository);
@@ -67,6 +79,32 @@ public class PublicAuthServiceTest {
 
     assertPersonDetails(person);
     assertTrue(personRepository.findByOid("999").isPresent());
+    assertTrue(casTicketRepository.findByPerson(person).isPresent());
+  }
+
+  @Test
+  public void testCreatePersonFromTicketAndLogout() {
+    final Person person = publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
+
+    publicAuthService.logout(person);
+
+    assertTrue(casTicketRepository.findByPerson(person).isEmpty());
+  }
+
+  @Test
+  public void testDeleteExpiredTokens() {
+    final Person person = publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
+    final CasTicket casTicket = casTicketRepository.findByPerson(person).orElseThrow();
+
+    final Duration ttl = Duration.of(3, ChronoUnit.HOURS);
+    casTicket.setCreatedAt(LocalDateTime.now().minus(ttl));
+    publicAuthService.createPersonFromTicket("ticket-124", 1L, EnrollmentType.RESERVATION);
+
+    assertEquals(2, casTicketRepository.findAll().size());
+
+    publicAuthService.deleteExpiredTokens();
+
+    assertEquals(1, casTicketRepository.findAll().size());
   }
 
   @Test

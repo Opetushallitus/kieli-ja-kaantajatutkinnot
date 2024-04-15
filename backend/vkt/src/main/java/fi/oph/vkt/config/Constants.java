@@ -14,4 +14,6 @@ public class Constants {
   public static final String DELETE_EXPIRED_RESERVATIONS_CRON = "0 30 9 * * *";
   // Daily at 10:00
   public static final String DELETE_OBSOLETE_PERSONS_CRON = "0 0 10 * * *";
+  // Daily at 11:00
+  public static final String DELETE_EXPIRED_TOKENS_CRON = "0 0 11 * * *";
 }
