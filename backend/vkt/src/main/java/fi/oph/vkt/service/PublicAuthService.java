@@ -87,17 +87,20 @@ public class PublicAuthService {
     person.setOtherIdentifier(otherIdentifier);
     person.setLatestIdentifiedAt(LocalDateTime.now());
 
-    personRepository.saveAndFlush(person);
+    final Person savedPerson = personRepository.saveAndFlush(person);
 
-    final CasTicket casTicket = casTicketRepository.findByPerson(person).orElse(new CasTicket());
-    casTicket.setPerson(person);
+    final CasTicket casTicket = casTicketRepository.findByPerson(savedPerson).orElse(new CasTicket());
+    final LocalDateTime now = LocalDateTime.now();
+    casTicket.setPerson(savedPerson);
     casTicket.setTicket(ticket);
+    casTicket.setCreatedAt(now);
 
     casTicketRepository.saveAndFlush(casTicket);
 
-    return person;
+    return savedPerson;
   }
 
+  @Transactional
   public void logout(final String logoutRequest) {
     final CasLogout casLogout = new CasLogout();
     final Optional<String> ticket = casLogout.parseTicketFromLogoutRequest(logoutRequest);
@@ -105,10 +108,12 @@ public class PublicAuthService {
     ticket.ifPresent(casTicketRepository::deleteAllByTicket);
   }
 
+  @Transactional
   public void logout(final Person person) {
     casTicketRepository.deleteAllByPerson(person);
   }
 
+  @Transactional
   public void logout(final HttpSession session) {
     if (SessionUtil.hasPersonId(session)) {
       final Long personId = SessionUtil.getPersonId(session);
@@ -118,10 +123,12 @@ public class PublicAuthService {
     }
   }
 
+  @Transactional(readOnly = true)
   public Boolean hasTicket(final Person person) {
     return casTicketRepository.findByPerson(person).isPresent();
   }
 
+  @Transactional(readOnly = true)
   public Person getPersonFromSession(final HttpSession session) {
     if (!SessionUtil.hasPersonId(session)) {
       throw new NotFoundException("Person not found from session");
