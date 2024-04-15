@@ -92,7 +92,7 @@ public class PublicAuthService {
     final CasTicket casTicket = casTicketRepository.findByPerson(person).orElse(new CasTicket());
     casTicket.setPerson(person);
     casTicket.setTicket(ticket);
-    
+
     casTicketRepository.saveAndFlush(casTicket);
 
     return person;
