@@ -171,7 +171,10 @@ public class WebSecurityConfig {
     requestHandler.setCsrfRequestAttributeName(null);
 
     return httpSecurity.csrf(configurer ->
-      configurer.csrfTokenRepository(csrfTokenRepository).csrfTokenRequestHandler(requestHandler)
+      configurer
+        .csrfTokenRepository(csrfTokenRepository)
+        .csrfTokenRequestHandler(requestHandler)
+        .ignoringRequestMatchers("/auth/validate/*/*") // Required for CAS logout callback
     );
   }
 }
