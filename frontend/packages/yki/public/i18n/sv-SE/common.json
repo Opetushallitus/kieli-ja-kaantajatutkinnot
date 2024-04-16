@@ -74,7 +74,14 @@
           "activeRegistrations_one": "Du har redan påbörjat 1 anmälan.",
           "activeRegistrations_other": "Du har redan påbörjat {{count}} anmälningar.",
           "continueToRegistration": "Gå tillbaka till anmälningsblanketten.",
-          "logOut": "Logga ut"
+          "logOut": "Logga ut",
+          "logOutDialog": {
+            "cancelButton": "Jag vill inte logga ut",
+            "confirmButton": "Ja, jag loggar ut",
+            "description1": "Är du säker på att du vill logga ut? ",
+            "description2": "Du förlorar uppgifterna som du har fyllt i och din anmälan kommer att avbrytas.",
+            "title": "Logga ut"
+          }
         },
         "lang": {
           "en": "In English",

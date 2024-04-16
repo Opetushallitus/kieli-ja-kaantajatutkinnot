@@ -96,7 +96,8 @@ describe('PublicRegistrationPage', () => {
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 
-      onInitRegistrationPage.expectTitle('Jatka tunnistautuneena');
+      onInitRegistrationPage.expectTitle('Tunnistaudu ilmoittautumista varten');
+      onInitRegistrationPage.expectVisibleContinueToRegistrationButton();
     });
 
     after(() => {

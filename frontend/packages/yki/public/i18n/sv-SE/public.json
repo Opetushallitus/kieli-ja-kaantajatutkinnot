@@ -264,6 +264,18 @@
         },
         "steps": {
           "identify": {
+            "alreadyLoggedIn": {
+              "caption": "Kontrollera identifieringsuppgifterna",
+              "currentLoginInformation": "Du har identifierat dig med följande uppgifter:",
+              "labels": {
+                "abort": "Avbryt anmälan",
+                "continueToRegistration": "Fortsätt anmälan",
+                "email": "E-postadress",
+                "name": "Namn"
+              },
+              "reauthenticate": "Kontrollera att du har identifierat dig med de uppgifter som tillhör personen som deltar i YKI-testet. Om du har identifierat dig med någon annans personuppgifter, tryck på logga ut högst uppe på sidan och börja anmälan på nytt.",
+              "title": "Identifiera dig för anmälan"
+            },
             "caption": "Du ska identifiera dig för att anmäla dig till allmän språkexamen (YKI). Använd testdeltagarens personuppgifter vid anmälan.",
             "emailButtonText": "Identifiera dig med din e-postadress",
             "emailError": "Felaktig e-postadress",
@@ -347,6 +359,11 @@
             "description": "Det är inte längre möjligt att anmäla sig. Anmälningstiden har upphört.",
             "title": "Anmälningstiden har upphört"
           },
+          "unauthorized": {
+            "backToIdentification": "Klicka här för att välja identifieringsmetod",
+            "description": "Vi hittade inte dina identifieringsuppgifter. Din tidigare identifiering kan ha gått ut. Du ska identifiera dig för att anmäla dig till ett YKI-test.",
+            "title": "Du har inte identifierat dig"
+          },
           "upcoming": {
             "description": "Det är inte ännu möjligt att anmäla sig. Anmälningstiden har inte börjat.",
             "title": "Anmälningstiden har inte börjat"
@@ -425,6 +442,7 @@
             "confirm": "Ja, jag vill avbryta min anmälan"
           },
           "description": "Vill du avbryta anmälan? Du förlorar uppgifterna som du har fyllt i.",
+          "notice": "Om du har identifierat dig, förblir din identifiering aktiv även om du avbryter anmälan. Om du inte längre vill använda tjänsten som identifierad, klicka på logga ut högst uppe på sidan.",
           "title": "Avbryt anmälan"
         },
         "description": {
