@@ -240,8 +240,8 @@ public class PublicController {
     httpResponse.sendRedirect(publicAuthService.createCasLogoutUrl());
   }
 
-  @PostMapping(path = "/auth/logout/callback")
-  public void logoutCasCallback(@RequestBody final String logoutRequest) throws IOException {
+  @PostMapping(path = "/auth/validate/*/*")
+  public void logoutCasCallback(@RequestBody final String logoutRequest) {
     publicAuthService.logout(logoutRequest);
   }
 
