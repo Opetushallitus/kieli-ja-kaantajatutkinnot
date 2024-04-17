@@ -3,11 +3,13 @@ package fi.oph.vkt.config;
 import fi.oph.vkt.payment.PaymentProvider;
 import fi.oph.vkt.payment.paytrail.PaytrailConfig;
 import fi.oph.vkt.payment.paytrail.PaytrailPaymentProvider;
+import fi.oph.vkt.service.auth.CasSessionMappingStorage;
 import fi.oph.vkt.service.auth.ticketValidator.CasTicketValidator;
 import fi.oph.vkt.service.email.sender.EmailSender;
 import fi.oph.vkt.service.email.sender.EmailSenderNoOp;
 import fi.oph.vkt.service.email.sender.EmailSenderViestintapalvelu;
 import fi.oph.vkt.util.UUIDSource;
+import org.apereo.cas.client.session.SessionMappingStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -67,6 +69,11 @@ public class AppConfig {
       .build();
 
     return new CasTicketValidator(environment, webClient);
+  }
+
+  @Bean
+  public CasSessionMappingStorage sessionMappingStorage() {
+    return new CasSessionMappingStorage();
   }
 
   @Bean

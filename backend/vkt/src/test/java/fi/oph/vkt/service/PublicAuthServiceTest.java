@@ -13,6 +13,7 @@ import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.repository.CasTicketRepository;
 import fi.oph.vkt.repository.PersonRepository;
+import fi.oph.vkt.service.auth.CasSessionMappingStorage;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
 import fi.oph.vkt.service.auth.ticketValidator.TicketValidator;
 import jakarta.annotation.Resource;
@@ -46,6 +47,7 @@ public class PublicAuthServiceTest {
   @BeforeEach
   public void setup() {
     final Environment environment = mock(Environment.class);
+    final CasSessionMappingStorage casSessionMappingStorage = mock(CasSessionMappingStorage.class);
 
     when(environment.getRequiredProperty("app.cas-oppija.login-url")).thenReturn("https://foo.bar");
     when(environment.getRequiredProperty("app.cas-oppija.service-url"))
@@ -71,7 +73,13 @@ public class PublicAuthServiceTest {
       .thenReturn(personDetails2);
 
     publicAuthService =
-      new PublicAuthService(casTicketValidationService, personRepository, environment, casTicketRepository);
+      new PublicAuthService(
+        casTicketValidationService,
+        personRepository,
+        environment,
+        casTicketRepository,
+        casSessionMappingStorage
+      );
   }
 
   @Test

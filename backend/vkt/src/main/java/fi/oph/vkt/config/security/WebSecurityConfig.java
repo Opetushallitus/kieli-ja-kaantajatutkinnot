@@ -26,17 +26,18 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-@Profile("!dev")
+@Profile("dev")
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 
   private final Environment environment;
-  private final SessionMappingStorage sessionMappingStorage = new HashMapBackedSessionMappingStorage();
+  private final SessionMappingStorage sessionMappingStorage;
 
   @Autowired
-  public WebSecurityConfig(final Environment environment) {
+  public WebSecurityConfig(final Environment environment, final SessionMappingStorage sessionMappingStorage) {
     this.environment = environment;
+    this.sessionMappingStorage = sessionMappingStorage;
   }
 
   @Bean

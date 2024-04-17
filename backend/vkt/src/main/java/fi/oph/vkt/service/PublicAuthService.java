@@ -6,6 +6,7 @@ import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.repository.CasTicketRepository;
 import fi.oph.vkt.repository.PersonRepository;
+import fi.oph.vkt.service.auth.CasSessionMappingStorage;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
 import fi.oph.vkt.util.SessionUtil;
 import fi.oph.vkt.util.exception.APIException;
@@ -21,6 +22,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.apereo.cas.client.session.SessionMappingStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
@@ -38,6 +40,7 @@ public class PublicAuthService {
   private final PersonRepository personRepository;
   private final Environment environment;
   private final CasTicketRepository casTicketRepository;
+  private final CasSessionMappingStorage sessionMappingStorage;
 
   public String createCasLoginUrl(final long examEventId, final EnrollmentType type, final AppLocale appLocale) {
     final String casLoginUrl = environment.getRequiredProperty("app.cas-oppija.login-url");
@@ -127,8 +130,8 @@ public class PublicAuthService {
   }
 
   @Transactional(readOnly = true)
-  public Boolean hasTicket(final Person person) {
-    return casTicketRepository.findByPerson(person).isPresent();
+  public Boolean hasTicket(final HttpSession session) {
+    return !sessionMappingStorage.getSessionMappingId(session).isEmpty();
   }
 
   @Transactional(readOnly = true)
@@ -144,7 +147,7 @@ public class PublicAuthService {
       throw new NotFoundException("Person not found from repository");
     }
 
-    if (!hasTicket(person.get())) {
+    if (!hasTicket(session)) {
       throw new NotFoundException("Person does not have valid ticket");
     }
 
