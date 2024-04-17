@@ -36,7 +36,7 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.util.Assert;
 
-@Profile("!dev")
+@Profile("dev")
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfigDev {
