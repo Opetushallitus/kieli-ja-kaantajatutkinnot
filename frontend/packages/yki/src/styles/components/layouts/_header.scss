@@ -1,7 +1,16 @@
 .header {
   &__toolbar {
-    display: flex;
-    flex-wrap: wrap;
+    // stylelint-disable-next-line selector-class-pattern
+    &.MuiToolbar-root {
+      @include not-phone {
+        display: grid;
+        grid-template-areas:
+          'logo language-select'
+          'logo tabs';
+        grid-auto-columns: min-content auto;
+      }
+      flex-wrap: wrap;
+    }
 
     div &__mobile-lang-select {
       min-height: fit-content;
@@ -9,13 +18,16 @@
     }
   }
 
-  &__left button,
-  &__center button,
-  &__right button {
+  &__logo button,
+  &__tabs button,
+  &__language-select button {
     @include header-text;
   }
 
-  &__left {
+  &__logo {
+    @include not-phone {
+      grid-area: logo;
+    }
     margin-right: 5rem;
     padding: 2rem 0;
     @include phone {
@@ -34,22 +46,26 @@
     }
   }
 
-  &__center {
+  &__tabs {
+    @include not-phone {
+      grid-area: tabs;
+    }
     align-self: flex-end;
-    justify-self: flex-end;
+    justify-self: start;
 
     [role='tablist'] {
       gap: 3rem;
     }
   }
 
-  &__right {
+  &__language-select {
+    @include not-phone {
+      grid-area: language-select;
+    }
     align-self: center;
     color: $color-secondary-dark;
-    display: flex;
-    flex-grow: 1;
     gap: 2rem;
-    justify-content: flex-end;
+    justify-self: end;
 
     @include phone {
       align-self: center;

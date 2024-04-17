@@ -7,6 +7,7 @@ import { FC, useEffect } from 'react';
 import { generatePath, Link, matchPath, useLocation } from 'react-router-dom';
 import { Text } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -41,60 +42,122 @@ const generateLogoutURL = () => {
   return `${APIEndpoints.Logout}?redirect=${window.location.origin}${AppRoutes.LogoutSuccess}`;
 };
 
+const OpenRegistrationsContent = ({
+  count,
+  examSessionId,
+}: {
+  count: number;
+  examSessionId: string;
+}) => {
+  const translateCommon = useCommonTranslation();
+
+  return (
+    <>
+      <Text>
+        {translateCommon('header.sessionState.activeRegistrations', {
+          count,
+        })}
+      </Text>
+      <Link
+        to={generatePath(AppRoutes.ExamSessionRegistration, {
+          examSessionId,
+        })}
+      >
+        {translateCommon('header.sessionState.continueToRegistration')}
+      </Link>
+    </>
+  );
+};
+
 export const SessionStateHeader: FC = () => {
   const location = useLocation();
   const translateCommon = useCommonTranslation();
-  const userOpenRegistrations = useAppSelector(userOpenRegistrationsSelector);
+  const { openRegistrations, status: openRegistrationsStatus } = useAppSelector(
+    userOpenRegistrationsSelector,
+  );
   const session = useAppSelector(sessionSelector).loggedInSession;
   const dispatch = useAppDispatch();
   const isAuthenticated = session && session.identity !== null;
   const notOnRegistrationPage =
     matchPath(AppRoutes.ExamSessionRegistration, location.pathname) === null;
+  const { isPhone } = useWindowProperties();
+  const openRegistrationsCount =
+    (notOnRegistrationPage && openRegistrations && openRegistrations.length) ||
+    0;
+  const exampleOpenRegistration =
+    notOnRegistrationPage && openRegistrations && openRegistrations[0];
 
   useEffect(() => {
     const needsUserOpenRegistrations =
       isAuthenticated &&
       notOnRegistrationPage &&
-      userOpenRegistrations.status === APIResponseStatus.NotStarted;
+      openRegistrationsStatus === APIResponseStatus.NotStarted;
 
     if (needsUserOpenRegistrations) {
       dispatch(loadUserOpenRegistrations());
     }
-  }, [isAuthenticated, notOnRegistrationPage, userOpenRegistrations, dispatch]);
+  }, [
+    isAuthenticated,
+    notOnRegistrationPage,
+    openRegistrationsStatus,
+    dispatch,
+  ]);
 
   if (!isAuthenticated) return <></>;
 
-  return (
-    <div className="session-header columns gapped">
-      {notOnRegistrationPage &&
-        userOpenRegistrations.openRegistrations &&
-        userOpenRegistrations.openRegistrations[0] && (
-          <div className="session-header__open-registrations columns gapped-xxs">
-            <Text>
-              {translateCommon('header.sessionState.activeRegistrations', {
-                count: userOpenRegistrations.openRegistrations.length,
-              })}
-            </Text>
-            <Link
-              to={generatePath(AppRoutes.ExamSessionRegistration, {
-                examSessionId:
-                  userOpenRegistrations.openRegistrations[0].exam_session_id.toString(),
-              })}
+  if (isPhone) {
+    return (
+      <div className={'session-header rows gapped-xs'}>
+        <div className="session-header__user-details rows gapped-xs">
+          <Text className="columns gapped-xxs">
+            <PersonIcon className="session-header__user-icon" />
+            {getUserName(session)}
+          </Text>
+          <a href={generateLogoutURL()}>
+            <Button
+              className="session-header__logout-button"
+              color={Color.Secondary}
+              variant={Variant.Outlined}
             >
-              {translateCommon('header.sessionState.continueToRegistration')}
-            </Link>
+              <LogoutIcon />
+              {translateCommon('header.sessionState.logOut')}
+            </Button>
+          </a>
+        </div>
+        {exampleOpenRegistration && (
+          <div className="session-header__open-registrations rows">
+            <OpenRegistrationsContent
+              count={openRegistrationsCount}
+              examSessionId={exampleOpenRegistration.exam_session_id.toString()}
+            />
           </div>
         )}
-      <Text className="columns gapped-xxs session-header__user-details">
-        <PersonIcon className="session-header__user-icon" />
-        {getUserName(session)}
-      </Text>
-      <a href={generateLogoutURL()}>
-        <Button color={Color.Secondary} variant={Variant.Outlined}>
+      </div>
+    );
+  } else {
+    return (
+      <div className="session-header columns gapped">
+        {exampleOpenRegistration && (
+          <div className="session-header__open-registrations columns gapped-xxs">
+            <OpenRegistrationsContent
+              count={openRegistrationsCount}
+              examSessionId={exampleOpenRegistration.exam_session_id.toString()}
+            />
+          </div>
+        )}
+        <Text className="columns gapped-xxs session-header__user-details">
+          <PersonIcon className="session-header__user-icon" />
+          {getUserName(session)}
+        </Text>
+        <Button
+          className="session-header__logout-button"
+          color={Color.Secondary}
+          variant={Variant.Outlined}
+        >
           <LogoutIcon />
           {translateCommon('header.sessionState.logOut')}
         </Button>
-      </a>
-    </div>
-  );
+      </div>
+    );
+  }
 };

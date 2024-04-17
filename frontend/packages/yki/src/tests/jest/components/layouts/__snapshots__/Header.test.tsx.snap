@@ -51,47 +51,43 @@ exports[`Header should render Header correctly 1`] = `
         </svg>
         Susanna Uusivälimerkki
       </p>
-      <a
-        href="/yki/auth/logout?redirect=http://localhost/yki/uloskirjautuminen-onnistui"
+      <button
+        className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium session-header__logout-button css-1l9sosn-MuiButtonBase-root-MuiButton-root"
+        disabled={false}
+        onBlur={[Function]}
+        onContextMenu={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="button"
       >
-        <button
-          className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1l9sosn-MuiButtonBase-root-MuiButton-root"
-          disabled={false}
-          onBlur={[Function]}
-          onContextMenu={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={0}
-          type="button"
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          data-testid="LogoutOutlinedIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
         >
-          <svg
-            aria-hidden={true}
-            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="LogoutOutlinedIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="m17 8-1.41 1.41L17.17 11H9v2h8.17l-1.58 1.58L17 16l4-4-4-4zM5 5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7v-2H5V5z"
-            />
-          </svg>
-          header.sessionState.logOut
-        </button>
-      </a>
+          <path
+            d="m17 8-1.41 1.41L17.17 11H9v2h8.17l-1.58 1.58L17 16l4-4-4-4zM5 5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7v-2H5V5z"
+          />
+        </svg>
+        header.sessionState.logOut
+      </button>
     </div>
     <div
       className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular header__toolbar css-hyum1k-MuiToolbar-root"
     >
       <div
-        className="header__left"
+        className="header__logo"
       >
         <a
           href="/yki/ilmoittautuminen"
@@ -102,7 +98,7 @@ exports[`Header should render Header correctly 1`] = `
           >
             <img
               alt="ophLogoToFrontPageAlt"
-              className="header__left__logo"
+              className="header__logo__logo"
               src="test"
             />
             <p
@@ -114,7 +110,7 @@ exports[`Header should render Header correctly 1`] = `
         </a>
       </div>
       <div
-        className="header__center"
+        className="header__tabs"
       >
         <div
           className="MuiTabs-root css-1ujnqem-MuiTabs-root"
@@ -187,7 +183,7 @@ exports[`Header should render Header correctly 1`] = `
         </div>
       </div>
       <div
-        className="header__right"
+        className="header__language-select"
       >
         <nav
           aria-label="header.accessibility.langSelectorAriaLabel"

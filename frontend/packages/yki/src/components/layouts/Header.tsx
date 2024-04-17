@@ -58,10 +58,10 @@ export const Header = (): JSX.Element => {
         )}
         <SessionStateHeader />
         <Toolbar className="header__toolbar">
-          <div className="header__left">
+          <div className="header__logo">
             <Link to={logoRedirectURL}>
               <OPHLogoViewer
-                className="header__left__logo"
+                className="header__logo__logo"
                 direction={Direction.Horizontal}
                 alt={translateCommon('ophLogoToFrontPageAlt')}
                 currentLang={getCurrentLang()}
@@ -69,10 +69,10 @@ export const Header = (): JSX.Element => {
               />
             </Link>
           </div>
-          <div className="header__center">
+          <div className="header__tabs">
             <PublicNavTabs />
           </div>
-          <div className="header__right">
+          <div className="header__language-select">
             {!isPhone && (
               <LangSelector
                 changeLang={changeLang}
