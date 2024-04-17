@@ -10,6 +10,7 @@ export enum PublicRegistrationInitError {
   ExamSessionFull = 'full',
   Generic = 'generic',
   Past = 'past',
+  Unauthorized = 'unauthorized',
   Upcoming = 'upcoming',
 }
 

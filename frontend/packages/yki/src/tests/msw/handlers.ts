@@ -4,7 +4,7 @@ import { APIEndpoints } from 'enums/api';
 import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
-import { SuomiFiAuthenticatedSessionResponse } from 'tests/msw/fixtures/identity';
+import { NoSessionResponse } from 'tests/msw/fixtures/identity';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 
 const notFound = () => new HttpResponse(null, { status: 404 });
@@ -39,9 +39,9 @@ export const handlers = [
       return notFound();
     }
   }),
-  http.get(APIEndpoints.User, () =>
-    HttpResponse.json(SuomiFiAuthenticatedSessionResponse),
-  ),
+  http.get(APIEndpoints.User, () => {
+    return HttpResponse.json(NoSessionResponse);
+  }),
   http.post(APIEndpoints.EvaluationOrder, () =>
     HttpResponse.json(evaluationOrderPostResponse),
   ),

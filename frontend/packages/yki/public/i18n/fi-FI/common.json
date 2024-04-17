@@ -74,7 +74,14 @@
           "activeRegistrations_one": "Sinulla on 1 ilmoittautuminen kesken.",
           "activeRegistrations_other": "Sinulla on {{count}} ilmoittautumista kesken.",
           "continueToRegistration": "Siirry takaisin ilmoittautumislomakkeelle.",
-          "logOut": "Kirjaudu ulos"
+          "logOut": "Kirjaudu ulos",
+          "logOutDialog": {
+            "cancelButton": "En halua kirjautua ulos",
+            "confirmButton": "Kyllä, kirjaudun ulos",
+            "description1": "Haluatko varmasti kirjautua ulos?",
+            "description2": "Menetät täyttämäsi tiedot ja ilmoittautumisesi keskeytyy.",
+            "title": "Kirjaudu ulos"
+          }
         },
         "lang": {
           "en": "In English",

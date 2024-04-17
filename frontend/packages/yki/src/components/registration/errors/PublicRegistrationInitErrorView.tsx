@@ -1,9 +1,11 @@
-import { Text } from 'shared/components';
+import { CustomButton, Text } from 'shared/components';
+import { Color, Variant } from 'shared/enums';
 
 import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
+import { AppRoutes } from 'enums/app';
 import { PublicRegistrationInitError } from 'enums/publicRegistration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
@@ -13,20 +15,40 @@ const DescribeInitError = () => {
     keyPrefix: 'yki.component.registration.unavailable',
   });
 
-  const error = useAppSelector(registrationSelector).initRegistration
-    .error as PublicRegistrationInitError;
+  const error = useAppSelector(registrationSelector).initRegistration.error;
 
   switch (error) {
-    // TODO The designs for the "already registered" case are much more complex
-    //  than the current implementation.
     case PublicRegistrationInitError.AlreadyRegistered:
       return <Text>{t('alreadyRegistered.description')}</Text>;
     case PublicRegistrationInitError.ExamSessionFull:
     case PublicRegistrationInitError.Past:
+    case PublicRegistrationInitError.Unauthorized:
     case PublicRegistrationInitError.Upcoming:
-    default:
       return <Text>{t(error + '.description')}</Text>;
+    default:
+      return <Text>{t('generic.description')}</Text>;
   }
+};
+
+const BackToIdentificationButton = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.unavailable.unauthorized',
+  });
+  const { examSession } = useAppSelector(examSessionSelector);
+
+  return (
+    <CustomButton
+      className="fit-content-max-width"
+      color={Color.Secondary}
+      variant={Variant.Contained}
+      href={AppRoutes.ExamSession.replace(
+        /:examSessionId/,
+        `${examSession?.id}`,
+      )}
+    >
+      {t('backToIdentification')}
+    </CustomButton>
+  );
 };
 
 export const PublicRegistrationInitErrorView = () => {
@@ -51,7 +73,11 @@ export const PublicRegistrationInitErrorView = () => {
         }
       >
         <DescribeInitError />
-        <BackToFrontPageButton />
+        {error === PublicRegistrationInitError.Unauthorized ? (
+          <BackToIdentificationButton />
+        ) : (
+          <BackToFrontPageButton />
+        )}
       </div>
     </div>
   );

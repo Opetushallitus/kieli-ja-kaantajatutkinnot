@@ -264,6 +264,18 @@
         },
         "steps": {
           "identify": {
+            "alreadyLoggedIn": {
+              "caption": "Check identification details",
+              "currentLoginInformation": "You have identified yourself with the following information:",
+              "labels": {
+                "abort": "Quit registration",
+                "continueToRegistration": "Continue registration",
+                "email": "Email address",
+                "name": "Name"
+              },
+              "reauthenticate": "Check that you have identified yourself with the personal information of the person taking the YKI test. If you have identified yourself with someone else's personal information, click the Log out button at the top of the page and start the registration again.",
+              "title": "Identify yourself for registration"
+            },
             "caption": "You must identify yourself to register for a YKI test. Use the personal information of the person taking the YKI test for the identification.",
             "emailButtonText": "identify with email",
             "emailError": "Invalid email address",
@@ -347,6 +359,11 @@
             "description": "Registration is not possible anymore. The registration period has ended.",
             "title": "Registration period has ended"
           },
+          "unauthorized": {
+            "backToIdentification": "Proceed to select your identification method",
+            "description": "We could not find your identification details. Your previous identification may have expired. You must identify yourself to register for a YKI test.",
+            "title": "You have not identified yourself"
+          },
           "upcoming": {
             "description": "Registration is not possible at the moment. The registration period has not started yet.",
             "title": "Registration has not started"
@@ -425,6 +442,7 @@
             "confirm": "Yes, I want to quit the registration"
           },
           "description": "Do you want to quit the registration? Any information you have filled in will be lost.",
+          "notice": "If you have identified yourself, your identification will remain active even if you quit the registration. If you no longer want to use the service as identified, click the Log out button at the top of the page.",
           "title": "Quit registration"
         },
         "description": {

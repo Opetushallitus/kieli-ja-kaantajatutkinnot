@@ -264,6 +264,18 @@
         },
         "steps": {
           "identify": {
+            "alreadyLoggedIn": {
+              "caption": "Tarkista tunnistautumistiedot",
+              "currentLoginInformation": "Olet tunnistautunut seuraavilla tiedoilla:",
+              "labels": {
+                "abort": "Keskeytä ilmoittautuminen",
+                "continueToRegistration": "Jatka ilmoittautumiseen",
+                "email": "Sähköpostiosoite",
+                "name": "Nimi"
+              },
+              "reauthenticate": "Tarkista, että olet tunnistautunut sen henkilön tiedoilla, joka osallistuu YKI-testiin. Jos olet tunnistautunut väärän henkilön tiedoilla, paina Kirjaudu ulos -painiketta sivun yläosassa ja aloita ilmoittautuminen uudelleen.",
+              "title": "Tunnistaudu ilmoittautumista varten"
+            },
             "caption": "Sinun täytyy tunnistautua YKI-testiin ilmoittautumista varten. Käytä tunnistautumiseen osallistujan henkilötietoja.",
             "emailButtonText": "tunnistaudu sähköpostilla",
             "emailError": "Virheellinen sähköpostiosoite",
@@ -347,6 +359,11 @@
             "description": "Tilaisuuteen ilmoittautuminen ei ole enää mahdollista. Ilmoittautumisaika on päättynyt.",
             "title": "Ilmoittautumisaika on päättynyt"
           },
+          "unauthorized": {
+            "backToIdentification": "Siirry valitsemaan tunnistautumistapasi",
+            "description": "Emme löytäneet tunnistautumistietojasi. Aikaisempi tunnistautumisesi on voinut vanhentua. Sinun täytyy tunnistautua YKI-testiin ilmoittautumista varten.",
+            "title": "Et ole tunnistautunut"
+          },
           "upcoming": {
             "description": "Ilmoittautuminen ei ole vielä mahdollista. Ilmoittautumisaika ei ole alkanut.",
             "title": "Ilmoittautumisaika ei ole alkanut"
@@ -425,6 +442,7 @@
             "confirm": "Kyllä, keskeytän ilmoittautumisen"
           },
           "description": "Haluatko keskeyttää ilmoittautumisen? Menetät täyttämäsi tiedot.",
+          "notice": "Jos olet tunnistautunut, tunnistautumisesi säilyy aktiivisena, vaikka keskeytät ilmoittautumisen. Jos et halua jatkaa palvelun käyttöä tunnistautuneena, paina Kirjaudu ulos -painiketta sivun yläosassa.",
           "title": "Keskeytä ilmoittautuminen"
         },
         "description": {

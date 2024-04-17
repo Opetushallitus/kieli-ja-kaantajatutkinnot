@@ -74,7 +74,14 @@
           "activeRegistrations_one": "You have already started 1 registration.",
           "activeRegistrations_other": "You have already started {{count}} registrations.",
           "continueToRegistration": "Return to the registration form.",
-          "logOut": "Log out"
+          "logOut": "Log out",
+          "logOutDialog": {
+            "cancelButton": "I do not want to log out",
+            "confirmButton": "Yes, log me out",
+            "description1": "Are you sure you want to log out?",
+            "description2": "Any information you have filled in will be lost and your registration will be terminated.",
+            "title": "Log out"
+          }
         },
         "lang": {
           "en": "In English",

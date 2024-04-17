@@ -1,6 +1,11 @@
+import { http, HttpResponse } from 'msw';
+
+import { APIEndpoints } from 'enums/api';
 import { onInitRegistrationPage } from 'tests/cypress/support/page-objects/initRegistrationPage';
 import { onPublicRegistrationPage } from 'tests/cypress/support/page-objects/publicRegistrationPage';
 import { findDialogByText } from 'tests/cypress/support/utils/dialog';
+import { worker } from 'tests/msw/browser';
+import { SuomiFiAuthenticatedSessionResponse } from 'tests/msw/fixtures/identity';
 
 describe('PublicRegistrationPage', () => {
   beforeEach(() => {
@@ -67,6 +72,38 @@ describe('PublicRegistrationPage', () => {
         .click();
 
       onInitRegistrationPage.expectTitle('Tunnistaudu ilmoittautumista varten');
+    });
+
+    before(() => {
+      worker.stop();
+      worker.use(
+        http.get(APIEndpoints.User, () => {
+          return HttpResponse.json(SuomiFiAuthenticatedSessionResponse);
+        }),
+      );
+      worker.start();
+    });
+
+    it('or by continuing with current identification data if already authenticated', () => {
+      onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
+      onPublicRegistrationPage.selectExamLevel('kaikki tasot');
+      onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
+      onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
+      onPublicRegistrationPage.search();
+
+      onPublicRegistrationPage
+        .getResultRows()
+        .findByRole('button', { name: /Ilmoittaudu/ })
+        .click();
+
+      onInitRegistrationPage.expectTitle('Tunnistaudu ilmoittautumista varten');
+      onInitRegistrationPage.expectVisibleContinueToRegistrationButton();
+    });
+
+    after(() => {
+      worker.stop();
+      worker.resetHandlers();
+      worker.start();
     });
 
     it('or by subscribing to notifications of available seats', () => {

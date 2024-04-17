@@ -269,6 +269,7 @@ const quarantines = {
 
 const initialOrganizers = [...organizers];
 
+/*
 const adminUser = {
   identity: {
     username: 'ykitestaaja',
@@ -283,6 +284,7 @@ const adminUser = {
   },
   'auth-method': 'CAS',
 };
+*/
 
 /*
 const organizerUser = {
@@ -310,7 +312,7 @@ const loginLinkAuthenticatedUser = {
 };
 */
 
-/*
+
 const suomiFiAuthenticatedUser = {
   identity: {
     first_name: 'Susanna',
@@ -326,7 +328,6 @@ const suomiFiAuthenticatedUser = {
   },
   'auth-method': 'SUOMIFI',
 };
-*/
 
 /*
 const unauthenticatedUser = {
@@ -1022,7 +1023,7 @@ module.exports = function (app) {
   app.get('/yki/api/user/identity', (req, res) => {
     try {
       res.set('Content-Type', 'application/json; charset=utf-8');
-      res.send(adminUser);
+      res.send(suomiFiAuthenticatedUser);
     } catch (err) {
       printError(req, err);
       res.status(404).send(err.message);
@@ -1064,6 +1065,8 @@ module.exports = function (app) {
           // This error case shouldn't ordinarily happen
           case 14:
             res.status(409).send({ error: { full: false, registered: false } });
+          case 16:
+            res.status(401).send("Unauthorized");
           default:
             req.body.exam_session_id % 2 === 0
               ? res.send(initRegistrationEmailAuth)
