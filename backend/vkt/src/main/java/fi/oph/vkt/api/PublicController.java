@@ -242,6 +242,8 @@ public class PublicController {
 
   @PostMapping(path = "/auth/validate/*/*")
   public void logoutCasCallback(@RequestBody final String logoutRequest) {
+    // TODO: remove this
+    LOG.error("CAS callback for logoutrequest: " + logoutRequest);
     publicAuthService.logout(logoutRequest);
   }
 

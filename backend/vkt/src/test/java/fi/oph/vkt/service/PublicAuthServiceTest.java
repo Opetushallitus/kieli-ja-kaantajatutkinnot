@@ -20,6 +20,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
+import javax.xml.parsers.ParserConfigurationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -89,6 +90,30 @@ public class PublicAuthServiceTest {
     publicAuthService.logout(person);
 
     assertTrue(casTicketRepository.findByPerson(person).isEmpty());
+  }
+
+  @Test
+  public void testCreatePersonFromTicketAndCallbackLogout() throws ParserConfigurationException {
+    final Person person1 = publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
+    final Person person2 = publicAuthService.createPersonFromTicket("ticket-124", 1L, EnrollmentType.RESERVATION);
+    final String logoutRequest =
+      "<samlp:LogoutRequest" +
+      " xmlns:samlp=\"urn:oasis:names:tc:SAML:2.0:protocol\"" +
+      " xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\"" +
+      " ID=\"[RANDOM ID]\"" +
+      " Version=\"2.0\"" +
+      " IssueInstant=\"[CURRENT DATE/TIME]\">" +
+      "<saml:NameID>@NOT_USED@</saml:NameID>" +
+      "<samlp:SessionIndex>ticket-123</samlp:SessionIndex>" +
+      "</samlp:LogoutRequest>";
+
+    assertTrue(casTicketRepository.findByPerson(person1).isPresent());
+    assertTrue(casTicketRepository.findByPerson(person2).isPresent());
+
+    publicAuthService.logout(logoutRequest);
+
+    assertTrue(casTicketRepository.findByPerson(person1).isEmpty());
+    assertTrue(casTicketRepository.findByPerson(person2).isPresent());
   }
 
   @Test
