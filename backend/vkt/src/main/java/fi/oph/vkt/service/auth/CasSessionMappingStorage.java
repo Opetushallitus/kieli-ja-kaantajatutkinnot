@@ -4,6 +4,8 @@ import fi.oph.vkt.model.CasTicket;
 import fi.oph.vkt.repository.CasTicketRepository;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import org.apereo.cas.client.session.SessionMappingStorage;
 import org.springframework.session.FindByIndexNameSessionRepository;
@@ -11,6 +13,8 @@ import org.springframework.session.Session;
 import org.springframework.transaction.annotation.Transactional;
 
 public class CasSessionMappingStorage implements SessionMappingStorage {
+
+  private final Map<String, HttpSession> MANAGED_SESSIONS = new HashMap();
 
   private final FindByIndexNameSessionRepository<? extends Session> sessions;
   private final CasTicketRepository casTicketRepository;
@@ -24,33 +28,38 @@ public class CasSessionMappingStorage implements SessionMappingStorage {
   }
 
   @Transactional
-  public HttpSession removeSessionByMappingId(final String mappingId) {
+  public synchronized HttpSession removeSessionByMappingId(final String mappingId) {
     final Optional<CasTicket> casTicket = casTicketRepository.findByTicket(mappingId);
 
     if (casTicket.isPresent()) {
-      final HttpSession session = (HttpSession) sessions.findById(casTicket.get().getSessionId());
+      final Session session = sessions.findById(casTicket.get().getSessionId());
+      final HttpSession httpSession = (HttpSession) this.MANAGED_SESSIONS.get(session.getId());
+
       if (session != null) {
         this.removeBySessionById(session.getId());
       }
 
-      return session;
+      return httpSession;
     }
 
     return null;
   }
 
   @Transactional
-  public void removeBySessionById(final String sessionId) {
+  public synchronized void removeBySessionById(final String sessionId) {
     casTicketRepository.deleteAllBySessionId(sessionId);
+    sessions.deleteById(sessionId);
+    this.MANAGED_SESSIONS.remove(sessionId);
   }
 
   @Transactional
-  public void addSessionById(final String mappingId, final HttpSession session) {
+  public synchronized void addSessionById(final String mappingId, final HttpSession session) {
     final CasTicket casTicket = casTicketRepository.findBySessionId(session.getId()).orElse(new CasTicket());
     casTicket.setSessionId(session.getId());
     casTicket.setTicket(mappingId);
     casTicket.setCreatedAt(LocalDateTime.now());
     casTicketRepository.saveAndFlush(casTicket);
+    this.MANAGED_SESSIONS.put(session.getId(), session);
   }
 
   @Transactional(readOnly = true)
