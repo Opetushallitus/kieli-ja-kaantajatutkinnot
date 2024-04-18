@@ -127,7 +127,7 @@ function* cancelRegistrationSaga() {
     yield put(resetUserOpenRegistrations());
   } catch (error) {
     yield put(rejectCancelRegistration());
-    if (isAxiosError(error) && error.status === 401) {
+    if (isAxiosError(error) && error.response?.status === 401) {
       yield put(resetSession());
     }
   }
