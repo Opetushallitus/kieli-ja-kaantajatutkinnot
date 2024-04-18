@@ -254,6 +254,11 @@ public class PublicController {
     httpResponse.sendRedirect(publicAuthService.createCasLogoutUrl());
   }
 
+  @PostMapping(path = "/auth/validate/*/*")
+  public void logoutCasCallback() {
+    // This method is needed for CAS logout callback
+  }
+
   @GetMapping(path = "/payment/create/{enrollmentId:\\d+}/redirect")
   public void createPaymentAndRedirect(
     @PathVariable final Long enrollmentId,
