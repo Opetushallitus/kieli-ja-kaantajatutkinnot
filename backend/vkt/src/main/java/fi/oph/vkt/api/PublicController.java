@@ -31,8 +31,13 @@ import java.util.Optional;
 import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.session.FindByIndexNameSessionRepository;
+import org.springframework.session.Session;
+import org.springframework.session.SessionRepository;
+import org.springframework.session.jdbc.JdbcIndexedSessionRepository;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,6 +75,9 @@ public class PublicController {
 
   @Resource
   private UIRouteUtil uiRouteUtil;
+
+  @Autowired
+  private FindByIndexNameSessionRepository<? extends Session> sessions;
 
   @GetMapping(path = "/examEvent")
   public List<PublicExamEventDTO> list() {
@@ -244,13 +252,6 @@ public class PublicController {
     }
 
     httpResponse.sendRedirect(publicAuthService.createCasLogoutUrl());
-  }
-
-  @PostMapping(path = "/auth/validate/*/*")
-  public void logoutCasCallback(@RequestBody final String logoutRequest) {
-    // TODO: remove this
-    LOG.error("CAS callback for logoutrequest: " + logoutRequest);
-    publicAuthService.logout(logoutRequest);
   }
 
   @GetMapping(path = "/payment/create/{enrollmentId:\\d+}/redirect")

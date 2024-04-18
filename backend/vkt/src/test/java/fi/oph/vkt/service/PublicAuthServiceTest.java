@@ -7,7 +7,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import fi.oph.vkt.model.CasTicket;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
@@ -17,11 +16,8 @@ import fi.oph.vkt.service.auth.CasSessionMappingStorage;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
 import fi.oph.vkt.service.auth.ticketValidator.TicketValidator;
 import jakarta.annotation.Resource;
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Map;
-import javax.xml.parsers.ParserConfigurationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -88,56 +84,6 @@ public class PublicAuthServiceTest {
 
     assertPersonDetails(person);
     assertTrue(personRepository.findByOid("999").isPresent());
-    assertTrue(casTicketRepository.findByPerson(person).isPresent());
-  }
-
-  @Test
-  public void testCreatePersonFromTicketAndLogout() {
-    final Person person = publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
-
-    publicAuthService.logout(person);
-
-    assertTrue(casTicketRepository.findByPerson(person).isEmpty());
-  }
-
-  @Test
-  public void testCreatePersonFromTicketAndCallbackLogout() throws ParserConfigurationException {
-    final Person person1 = publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
-    final Person person2 = publicAuthService.createPersonFromTicket("ticket-124", 1L, EnrollmentType.RESERVATION);
-    final String logoutRequest =
-      "<samlp:LogoutRequest" +
-      " xmlns:samlp=\"urn:oasis:names:tc:SAML:2.0:protocol\"" +
-      " xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\"" +
-      " ID=\"[RANDOM ID]\"" +
-      " Version=\"2.0\"" +
-      " IssueInstant=\"[CURRENT DATE/TIME]\">" +
-      "<saml:NameID>@NOT_USED@</saml:NameID>" +
-      "<samlp:SessionIndex>ticket-123</samlp:SessionIndex>" +
-      "</samlp:LogoutRequest>";
-
-    assertTrue(casTicketRepository.findByPerson(person1).isPresent());
-    assertTrue(casTicketRepository.findByPerson(person2).isPresent());
-
-    publicAuthService.logout(logoutRequest);
-
-    assertTrue(casTicketRepository.findByPerson(person1).isEmpty());
-    assertTrue(casTicketRepository.findByPerson(person2).isPresent());
-  }
-
-  @Test
-  public void testDeleteExpiredTokens() {
-    final Person person = publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
-    final CasTicket casTicket = casTicketRepository.findByPerson(person).orElseThrow();
-
-    final Duration ttl = Duration.of(3, ChronoUnit.HOURS);
-    casTicket.setCreatedAt(LocalDateTime.now().minus(ttl));
-    publicAuthService.createPersonFromTicket("ticket-124", 1L, EnrollmentType.RESERVATION);
-
-    assertEquals(2, casTicketRepository.findAll().size());
-
-    publicAuthService.deleteExpiredTokens();
-
-    assertEquals(1, casTicketRepository.findAll().size());
   }
 
   @Test

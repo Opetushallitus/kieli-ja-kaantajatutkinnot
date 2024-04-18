@@ -18,13 +18,8 @@ import lombok.Setter;
 public class CasTicket {
 
   @Id
-  @Column(name = "person_id", nullable = false)
-  private Long id;
-
-  @OneToOne
-  @MapsId
-  @JoinColumn(name = "person_id")
-  private Person person;
+  @Column(name = "session_id", nullable = false)
+  private String sessionId;
 
   @Column(name = "ticket", nullable = false, unique = true)
   private String ticket;

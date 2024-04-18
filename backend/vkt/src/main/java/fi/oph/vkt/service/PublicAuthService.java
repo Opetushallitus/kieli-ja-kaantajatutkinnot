@@ -12,7 +12,6 @@ import fi.oph.vkt.util.SessionUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
-import fi.vm.sade.javautils.nio.cas.CasLogout;
 import jakarta.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -22,7 +21,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.apereo.cas.client.session.SessionMappingStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
@@ -93,40 +91,12 @@ public class PublicAuthService {
     person.setOtherIdentifier(otherIdentifier);
     person.setLatestIdentifiedAt(LocalDateTime.now());
 
-    final Person savedPerson = personRepository.saveAndFlush(person);
-
-    final CasTicket casTicket = casTicketRepository.findByPerson(savedPerson).orElse(new CasTicket());
-    final LocalDateTime now = LocalDateTime.now();
-    casTicket.setPerson(savedPerson);
-    casTicket.setTicket(ticket);
-    casTicket.setCreatedAt(now);
-
-    casTicketRepository.saveAndFlush(casTicket);
-
-    return savedPerson;
-  }
-
-  @Transactional
-  public void logout(final String logoutRequest) {
-    final CasLogout casLogout = new CasLogout();
-    final Optional<String> ticket = casLogout.parseTicketFromLogoutRequest(logoutRequest);
-
-    ticket.ifPresent(casTicketRepository::deleteAllByTicket);
-  }
-
-  @Transactional
-  public void logout(final Person person) {
-    casTicketRepository.deleteAllByPerson(person);
+    return personRepository.saveAndFlush(person);
   }
 
   @Transactional
   public void logout(final HttpSession session) {
-    if (SessionUtil.hasPersonId(session)) {
-      final Long personId = SessionUtil.getPersonId(session);
-      final Optional<Person> person = personRepository.findById(personId);
-
-      person.ifPresent(this::logout);
-    }
+    casTicketRepository.deleteAllBySessionId(session.getId());
   }
 
   @Transactional(readOnly = true)
@@ -156,11 +126,10 @@ public class PublicAuthService {
 
   @Transactional(isolation = Isolation.SERIALIZABLE)
   public void deleteExpiredTokens() {
-    // Pretty much arbitrary ttl after expiry time of a reservation
-    final Duration ttl = Duration.of(2, ChronoUnit.HOURS);
+    final Duration ttl = Duration.of(24, ChronoUnit.HOURS);
 
     casTicketRepository
       .findByCreatedAtIsBefore(LocalDateTime.now().minus(ttl))
-      .forEach(casTicket -> casTicketRepository.deleteById(casTicket.getId()));
+      .forEach(casTicket -> casTicketRepository.deleteAllBySessionId(casTicket.getSessionId()));
   }
 }

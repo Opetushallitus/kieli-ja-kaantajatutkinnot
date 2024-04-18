@@ -9,10 +9,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CasTicketRepository extends BaseRepository<CasTicket> {
-  Optional<CasTicket> findByPerson(final Person person);
+  Optional<CasTicket> findBySessionId(final String session_id);
+  Optional<CasTicket> findByTicket(final String ticket);
 
   void deleteAllByTicket(final String ticket);
-  void deleteAllByPerson(final Person person);
+  void deleteAllBySessionId(final String session_id);
 
   List<CasTicket> findByCreatedAtIsBefore(final LocalDateTime before);
 }

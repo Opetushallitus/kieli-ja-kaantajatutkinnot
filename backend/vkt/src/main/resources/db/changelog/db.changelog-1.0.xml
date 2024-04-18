@@ -634,9 +634,9 @@
         </addColumn>
     </changeSet>
 
-    <changeSet id="2024-04-08-cas-person-ticket" author="jrkkp">
+    <changeSet id="2024-04-08-cas-session-ticket" author="jrkkp">
         <createTable tableName="cas_ticket">
-            <column name="person_id" type="BIGINT">
+            <column name="session_id" type="TEXT">
                 <constraints nullable="false"/>
             </column>
             <column name="ticket" type="TEXT">
@@ -647,10 +647,10 @@
             </column>
         </createTable>
 
-        <addForeignKeyConstraint baseTableName="cas_ticket" baseColumnNames="person_id"
+        <!--<addForeignKeyConstraint baseTableName="cas_ticket" baseColumnNames="person_id"
                                  referencedTableName="person" referencedColumnNames="person_id"
                                  constraintName="fk_cas_ticket_person"
-                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>-->
     </changeSet>
 
 </databaseChangeLog>
