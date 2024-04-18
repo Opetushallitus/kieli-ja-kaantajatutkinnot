@@ -93,6 +93,8 @@ function* submitRegistrationFormSaga() {
 
       if (response.data && response.data.error) {
         yield put(rejectPublicRegistrationSubmission(response.data));
+      } else if (response.status === 401) {
+        yield put(resetSession());
       } else {
         yield put(rejectPublicRegistrationSubmission({ error: {} }));
       }
@@ -119,6 +121,9 @@ function* cancelRegistrationSaga() {
     yield put(resetUserOpenRegistrations());
   } catch (error) {
     yield put(rejectCancelRegistration());
+    if (isAxiosError(error) && error.status === 401) {
+      yield put(resetSession());
+    }
   }
 }
 
