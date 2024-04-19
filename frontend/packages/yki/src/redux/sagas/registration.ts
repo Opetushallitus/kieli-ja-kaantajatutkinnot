@@ -5,6 +5,7 @@ import { AxiosResponse, isAxiosError } from 'axios';
 import axiosInstance from 'configs/axios';
 import { getCurrentLang } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
+import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import {
   PublicRegistrationFormSubmitErrorResponse,
   PublicRegistrationInitErrorResponse,
@@ -22,6 +23,7 @@ import {
   rejectPublicRegistrationInit,
   rejectPublicRegistrationSubmission,
   resetPublicRegistration,
+  setActiveStep,
   submitPublicRegistration,
 } from 'redux/reducers/registration';
 import { resetSession } from 'redux/reducers/session';
@@ -93,6 +95,12 @@ function* submitRegistrationFormSaga() {
 
       if (response.data && response.data.error) {
         yield put(rejectPublicRegistrationSubmission(response.data));
+      } else if (response.status === 401) {
+        // Session expired before submission -> redirect user to selecting identification method
+        yield put(resetSession());
+        yield put(resetPublicRegistration());
+        yield put(rejectPublicRegistrationInit(response));
+        yield put(setActiveStep(PublicRegistrationFormStep.Identify));
       } else {
         yield put(rejectPublicRegistrationSubmission({ error: {} }));
       }
@@ -119,6 +127,9 @@ function* cancelRegistrationSaga() {
     yield put(resetUserOpenRegistrations());
   } catch (error) {
     yield put(rejectCancelRegistration());
+    if (isAxiosError(error) && error.response?.status === 401) {
+      yield put(resetSession());
+    }
   }
 }
 
