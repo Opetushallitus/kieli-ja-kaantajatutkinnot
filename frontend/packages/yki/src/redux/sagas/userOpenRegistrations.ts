@@ -1,5 +1,5 @@
 import { call, delay, put, takeLatest } from '@redux-saga/core/effects';
-import { AxiosResponse, isAxiosError } from 'axios';
+import { AxiosResponse } from 'axios';
 import dayjs, { Dayjs } from 'dayjs';
 
 import axiosInstance from 'configs/axios';
@@ -8,7 +8,6 @@ import {
   UserOpenRegistration,
   UserOpenRegistrationsResponse,
 } from 'interfaces/publicRegistration';
-import { resetSession } from 'redux/reducers/session';
 import {
   acceptUserOpenRegistrations,
   loadUserOpenRegistrations,
@@ -46,11 +45,6 @@ function* loadUserOpenRegistrationsSaga() {
     yield put(resetUserOpenRegistrations());
   } catch (error) {
     yield put(rejectUserOpenRegistrations());
-    if (isAxiosError(error)) {
-      if (error.status === 401) {
-        yield put(resetSession());
-      }
-    }
   }
 }
 
