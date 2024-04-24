@@ -105,6 +105,13 @@ const emptyAddress = {
 const findAkrAddress = (addresses: Array<ClerkTranslatorAddress>) =>
   addresses.find((addr) => addr.source === ClerkTranslatorAddressSource.AKR);
 
+const findVisibleAkrAddress = (addresses: Array<ClerkTranslatorAddress>) =>
+  addresses
+    .filter(
+      (addr) => addr.street || addr.country || addr.town || addr.postalCode,
+    )
+    .find((addr) => addr.source === ClerkTranslatorAddressSource.AKR);
+
 const ClerkTranslatorDetailsTextField = ({
   translator,
   field,
@@ -224,6 +231,9 @@ export const ClerkTranslatorDetailsFields = ({
   const hasAkrAddress =
     translator?.address && !!findAkrAddress(translator.address);
 
+  const hasVisibleAkrAddress =
+    translator?.address && !!findVisibleAkrAddress(translator.address);
+
   const modifyOrAppend = (
     address: ClerkTranslatorAddress,
     addresses: Array<ClerkTranslatorAddress>,
@@ -282,7 +292,7 @@ export const ClerkTranslatorDetailsFields = ({
           variant={Variant.Contained}
           color={Color.Secondary}
           startIcon={<AddIcon />}
-          disabled={editDisabled || hasAkrAddress}
+          disabled={editDisabled || hasVisibleAkrAddress}
           onClick={() => setOpen(true)}
         >
           {t('addAddress')}
