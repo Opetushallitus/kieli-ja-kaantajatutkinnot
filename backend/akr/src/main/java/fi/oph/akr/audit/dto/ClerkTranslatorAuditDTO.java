@@ -9,6 +9,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.NonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Builder
 public record ClerkTranslatorAuditDTO(
@@ -47,7 +49,14 @@ public record ClerkTranslatorAuditDTO(
         .collect(
           Collectors.toMap(
             address -> address.source() + ":" + address.type(),
-            address -> new TranslatorAddressDTO(address)
+            address -> new TranslatorAddressDTO(address),
+            (address1, address2) -> {
+              final Logger log = LoggerFactory.getLogger(ClerkTranslatorAuditDTO.class);
+              log.warn(
+                String.format("Address with duplicate ONR source. Address 1: '%', address 2: '%'", address1, address2)
+              );
+              return address2;
+            }
           )
         ),
       translator.extraInformation(),

@@ -242,7 +242,12 @@ public class ClerkInterpreterService {
       .forEach(qualificationCreateDTO -> {
         Qualification qualification = createQualification(interpreter, meetingDates, qualificationCreateDTO);
         final QualificationAuditDTO qualificationAuditDTO = new QualificationAuditDTO(qualification);
-        auditService.logCreate(OtrOperation.CREATE_QUALIFICATION, qualification.getId(), qualificationAuditDTO);
+        auditService.logQualification(
+          OtrOperation.CREATE_QUALIFICATION,
+          interpreter,
+          qualification.getId(),
+          qualificationAuditDTO
+        );
       });
 
     interpreterRepository.saveAndFlush(interpreter);
