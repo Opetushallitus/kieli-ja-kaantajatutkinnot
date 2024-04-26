@@ -47,8 +47,8 @@ public class CasSessionMappingStorage implements SessionMappingStorage {
 
   @Transactional
   public synchronized void removeBySessionById(final String sessionId) {
-    casTicketRepository.deleteAllBySessionId(sessionId);
-    sessions.deleteById(sessionId);
+    //casTicketRepository.deleteAllBySessionId(sessionId);
+    //sessions.deleteById(sessionId);
     this.MANAGED_SESSIONS.remove(sessionId);
   }
 

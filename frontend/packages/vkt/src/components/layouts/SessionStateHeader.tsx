@@ -9,17 +9,25 @@ import { Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
+import { useInterval } from 'hooks/useInterval';
 
 interface SessionStateHeaderProps {
   firstName: string;
   lastName: string;
 }
 
+const heartBeat = () => {
+  if (!document.hidden) {
+    // TODO
+  }
+};
+
 export const SessionStateHeader: FC<SessionStateHeaderProps> = ({
   firstName,
   lastName,
 }) => {
   const translateCommon = useCommonTranslation();
+  useInterval(heartBeat, 5000);
 
   return (
     <div className="session-header columns gapped">

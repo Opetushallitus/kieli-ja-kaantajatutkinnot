@@ -18,6 +18,8 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -101,7 +103,9 @@ public class PublicAuthService {
 
   @Transactional(readOnly = true)
   public Boolean hasTicket(final HttpSession session) {
-    return !sessionMappingStorage.getSessionMappingId(session).isEmpty();
+    final String ticket = sessionMappingStorage.getSessionMappingId(session);
+
+    return ticket != null && !ticket.isEmpty();
   }
 
   @Transactional(readOnly = true)
@@ -117,7 +121,8 @@ public class PublicAuthService {
       throw new NotFoundException("Person not found from repository");
     }
 
-    if (!hasTicket(session)) {
+    final List<String> activeProfiles = Arrays.asList(environment.getActiveProfiles());
+    if (!activeProfiles.contains("dev") && !hasTicket(session)) {
       throw new NotFoundException("Person does not have valid ticket");
     }
 
