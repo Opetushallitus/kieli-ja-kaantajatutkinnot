@@ -244,7 +244,7 @@ public class ClerkInterpreterService {
         final QualificationAuditDTO qualificationAuditDTO = new QualificationAuditDTO(qualification);
         auditService.logQualification(
           OtrOperation.CREATE_QUALIFICATION,
-          interpreter,
+          interpreter.getId(),
           qualification.getId(),
           qualificationAuditDTO
         );
@@ -435,7 +435,12 @@ public class ClerkInterpreterService {
     interpreterRepository.saveAndFlush(interpreter);
 
     final ClerkInterpreterDTO result = getInterpreterWithoutAudit(interpreter.getId());
-    auditService.logQualification(OtrOperation.CREATE_QUALIFICATION, interpreter, qualification.getId(), auditDTO);
+    auditService.logQualification(
+      OtrOperation.CREATE_QUALIFICATION,
+      interpreter.getId(),
+      qualification.getId(),
+      auditDTO
+    );
     return result;
   }
 

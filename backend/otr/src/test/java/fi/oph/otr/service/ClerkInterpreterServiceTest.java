@@ -440,8 +440,20 @@ class ClerkInterpreterServiceTest {
     assertFalse(qualification2.permissionToPublish());
     assertEquals("234", qualification2.diaryNumber());
 
-    verify(auditService).logCreate(OtrOperation.CREATE_QUALIFICATION, qualification1.id(), qualification1AuditDTO);
-    verify(auditService).logCreate(OtrOperation.CREATE_QUALIFICATION, qualification2.id(), qualification2AuditDTO);
+    verify(auditService)
+      .logQualification(
+        OtrOperation.CREATE_QUALIFICATION,
+        interpreterDTO.id(),
+        qualification1.id(),
+        qualification1AuditDTO
+      );
+    verify(auditService)
+      .logQualification(
+        OtrOperation.CREATE_QUALIFICATION,
+        interpreterDTO.id(),
+        qualification2.id(),
+        qualification2AuditDTO
+      );
     verify(auditService).logCreate(OtrOperation.CREATE_INTERPRETER, interpreterDTO.id(), auditDTO);
     verifyNoMoreInteractions(auditService);
   }
@@ -521,7 +533,12 @@ class ClerkInterpreterServiceTest {
     verify(onrService, times(0)).insertPersonalData(any());
 
     verify(auditService)
-      .logCreate(OtrOperation.CREATE_QUALIFICATION, qualificationAuditDTO.id(), qualificationAuditDTO);
+      .logQualification(
+        OtrOperation.CREATE_QUALIFICATION,
+        interpreterDTO.id(),
+        qualificationAuditDTO.id(),
+        qualificationAuditDTO
+      );
     verify(auditService).logCreate(OtrOperation.CREATE_INTERPRETER, interpreterDTO.id(), auditDTO);
     verifyNoMoreInteractions(auditService);
   }
@@ -902,7 +919,7 @@ class ClerkInterpreterServiceTest {
     assertFalse(qualificationDTO.permissionToPublish());
 
     verify(auditService)
-      .logQualification(OtrOperation.CREATE_QUALIFICATION, interpreter, qualificationDTO.id(), auditDTO);
+      .logQualification(OtrOperation.CREATE_QUALIFICATION, interpreter.getId(), qualificationDTO.id(), auditDTO);
     verifyNoMoreInteractions(auditService);
   }
 

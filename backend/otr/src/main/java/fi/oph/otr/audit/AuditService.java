@@ -57,14 +57,14 @@ public class AuditService {
 
   public <T> void logQualification(
     final OtrOperation operation,
-    final Interpreter interpreter,
+    final long interpreterId,
     final long qualificationId,
     final T dto
   ) {
     log(
       operation,
       new Target.Builder()
-        .setField("interpreterId", Long.toString(interpreter.getId()))
+        .setField("interpreterId", Long.toString(interpreterId))
         .setField("qualificationId", Long.toString(qualificationId))
         .build(),
       Changes.addedDto(dto)
