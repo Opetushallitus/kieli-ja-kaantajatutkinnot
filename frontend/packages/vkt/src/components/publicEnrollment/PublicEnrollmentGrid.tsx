@@ -38,20 +38,23 @@ const SessionExpiredModal = () => {
       aria-labelledby="session-expired-modal-title"
       aria-describedby="session-expired-modal-description"
       modalTitle={'Istuntosi on vanhentunut'}
+      onCloseModal={() => {}}
     >
-      <Text id="session-expired-modal-description">
-        Istuntosi on vanhentunut. Ole hyvä ja tunnistaudu uudelleen.
-      </Text>
-      <div className="columns gapped flex-end">
-        <CustomButton
-          data-testid="public-enrollment__session-expired-modal-button"
-          variant={Variant.Contained}
-          color={Color.Secondary}
-          href={AppRoutes.PublicHomePage}
-        >
-          {translateCommon('frontPage')}
-        </CustomButton>
-      </div>
+      <>
+        <Text id="session-expired-modal-description">
+          Istuntosi on vanhentunut. Ole hyvä ja tunnistaudu uudelleen.
+        </Text>
+        <div className="columns gapped flex-end">
+          <CustomButton
+            data-testid="public-enrollment__session-expired-modal-button"
+            variant={Variant.Contained}
+            color={Color.Secondary}
+            href={AppRoutes.PublicHomePage}
+          >
+            {translateCommon('backToHomePage')}
+          </CustomButton>
+        </div>
+      </>
     </CustomModal>
   );
 };

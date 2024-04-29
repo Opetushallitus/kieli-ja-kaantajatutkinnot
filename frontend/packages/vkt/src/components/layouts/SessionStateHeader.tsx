@@ -31,7 +31,7 @@ export const SessionStateHeader: FC<SessionStateHeaderProps> = ({
     }
   };
 
-  useInterval(heartBeat, 5000);
+  useInterval(heartBeat, 5000); // Every 5 seconds
 
   return (
     <div className="session-header columns gapped">
