@@ -15,6 +15,13 @@ import { publicEnrollmentInitialisation } from 'tests/msw/fixtures/publicEnrollm
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
 
 export const handlers = [
+  http.get(APIEndpoints.PublicUser, () => {
+    return new Response({
+      id: 1,
+      lastName: 'Demo',
+      firstName: 'Nordea'
+    });
+  }),
   http.get(APIEndpoints.PublicExamEvent, () => {
     return new Response(JSON.stringify(publicExamEvents11));
   }),
