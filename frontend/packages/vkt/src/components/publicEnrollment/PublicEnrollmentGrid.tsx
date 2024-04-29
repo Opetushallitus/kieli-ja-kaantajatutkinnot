@@ -1,8 +1,13 @@
 import { Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { LoadingProgressIndicator } from 'shared/components';
-import { APIResponseStatus } from 'shared/enums';
+import {
+  CustomButton,
+  CustomModal,
+  LoadingProgressIndicator,
+  Text,
+} from 'shared/components';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { PublicEnrollmentDesktopGrid } from 'components/publicEnrollment/PublicEnrollmentDesktopGrid';
@@ -11,6 +16,7 @@ import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, EnrollmentStatus } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { useAuthentication } from 'hooks/useAuthentication';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import {
   loadEnrollmentInitialisation,
@@ -21,6 +27,35 @@ import {
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { ExamEventUtils } from 'utils/examEvent';
 
+const SessionExpiredModal = () => {
+  const translateCommon = useCommonTranslation();
+
+  return (
+    <CustomModal
+      data-testid="public-enrollment__session-expired-modal"
+      className="public-enrollment__session-expired-modal"
+      open={true}
+      aria-labelledby="session-expired-modal-title"
+      aria-describedby="session-expired-modal-description"
+      modalTitle={'Istuntosi on vanhentunut'}
+    >
+      <Text id="session-expired-modal-description">
+        Istuntosi on vanhentunut. Ole hyvä ja tunnistaudu uudelleen.
+      </Text>
+      <div className="columns gapped flex-end">
+        <CustomButton
+          data-testid="public-enrollment__session-expired-modal-button"
+          variant={Variant.Contained}
+          color={Color.Secondary}
+          href={AppRoutes.PublicHomePage}
+        >
+          {translateCommon('frontPage')}
+        </CustomButton>
+      </div>
+    </CustomModal>
+  );
+};
+
 export const PublicEnrollmentGrid = ({
   activeStep,
 }: {
@@ -30,6 +65,7 @@ export const PublicEnrollmentGrid = ({
   const [isStepValid, setIsStepValid] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
   const translateCommon = useCommonTranslation();
+  const { publicUser } = useAuthentication();
 
   // Redux
   const dispatch = useAppDispatch();
@@ -49,6 +85,11 @@ export const PublicEnrollmentGrid = ({
   const isAuthenticatePassed =
     activeStep > PublicEnrollmentFormStep.Authenticate;
   const isAuthenticateActive = !isAuthenticatePassed;
+
+  const isAuthenticationValid =
+    !isAuthenticatePassed ||
+    publicUser.status === APIResponseStatus.NotStarted ||
+    publicUser.isAuthenticated;
 
   useEffect(() => {
     if (params.examEventId) {
@@ -145,6 +186,7 @@ export const PublicEnrollmentGrid = ({
       direction="column"
       className="public-enrollment"
     >
+      {!isAuthenticationValid && <SessionExpiredModal />}
       {isPhone ? (
         <PublicEnrollmentPhoneGrid
           isStepValid={isStepValid}
