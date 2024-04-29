@@ -1,6 +1,9 @@
 import { onPublicEnrollmentPage } from 'tests/cypress/support/page-objects/publicEnrollmentPage';
 import { onPublicHomePage } from 'tests/cypress/support/page-objects/publicHomePage';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
+import { fixedDateForTests } from 'tests/cypress/support/utils/date';
+import { HTTPStatusCode } from 'shared/enums';
+import { APIEndpoints } from 'enums/api';
 
 beforeEach(() => {
   cy.openPublicEnrollmentPage(2);
@@ -17,9 +20,27 @@ describe('Public enrollment', () => {
     });
 
     it('reservation should allow renewal', () => {
+      const response: PublicReservationResponse = {
+        id: 1,
+        expiresAt: fixedDateForTests.add(59, 'minute').format(),
+        createdAt: fixedDateForTests.format(),
+        renewedAt: fixedDateForTests.add(29, 'minute').format(),
+        isRenewable: false,
+      };
+
+      cy.intercept(
+        'PUT',
+        `${APIEndpoints.PublicReservation}/1/renew`,
+        {
+          statusCode: HTTPStatusCode.Ok,
+          body: response,
+        },
+      ).as('renewReservation');
+
       onPublicHomePage.expectReservationTimeLeft('30', '00');
       cy.tick(29 * 60 * 1000);
       onPublicHomePage.clickReservationRenewButton();
+      cy.wait('@renewReservation');
       cy.tick(30 * 1000);
       onPublicHomePage.expectReservationTimeLeft('29', '30');
     });

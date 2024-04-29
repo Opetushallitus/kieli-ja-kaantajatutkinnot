@@ -6,6 +6,7 @@ import {
   PublicReservationDetailsResponse,
   PublicReservationResponse,
 } from 'interfaces/publicEnrollment';
+import { PublicPerson } from 'interfaces/publicPerson';
 import { fixedDateForTests } from 'tests/cypress/support/utils/date';
 import { clerkExamEvent } from 'tests/msw/fixtures/clerkExamEvent';
 import { clerkExamEvents9 } from 'tests/msw/fixtures/clerkExamEvents9';
@@ -16,28 +17,19 @@ import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
 
 export const handlers = [
   http.get(APIEndpoints.PublicUser, () => {
-    return new Response(JSON.stringify({
+    const person: PublicPerson = {
       id: 1,
       lastName: 'Demo',
-      firstName: 'Nordea'
-    }));
+      firstName: 'Nordea',
+    };
+
+    return new Response(JSON.stringify(person));
   }),
   http.get(APIEndpoints.PublicExamEvent, () => {
     return new Response(JSON.stringify(publicExamEvents11));
   }),
   http.get(APIEndpoints.PublicUser, () => {
     return new Response(JSON.stringify(null));
-  }),
-  http.put(`${APIEndpoints.PublicReservation}/1/renew`, () => {
-    const response: PublicReservationResponse = {
-      id: 1,
-      expiresAt: fixedDateForTests.add(59, 'minute').format(),
-      createdAt: fixedDateForTests.format(),
-      renewedAt: fixedDateForTests.add(29, 'minute').format(),
-      isRenewable: false,
-    };
-
-    return new Response(JSON.stringify(response), { status: 201 });
   }),
   http.post(`${APIEndpoints.PublicExamEvent}/2/reservation`, () => {
     const response: PublicReservationDetailsResponse = {
