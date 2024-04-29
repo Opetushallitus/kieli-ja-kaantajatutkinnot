@@ -1,9 +1,10 @@
+import { HTTPStatusCode } from 'shared/enums';
+
+import { APIEndpoints } from 'enums/api';
 import { onPublicEnrollmentPage } from 'tests/cypress/support/page-objects/publicEnrollmentPage';
 import { onPublicHomePage } from 'tests/cypress/support/page-objects/publicHomePage';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 import { fixedDateForTests } from 'tests/cypress/support/utils/date';
-import { HTTPStatusCode } from 'shared/enums';
-import { APIEndpoints } from 'enums/api';
 
 beforeEach(() => {
   cy.openPublicEnrollmentPage(2);
@@ -28,14 +29,10 @@ describe('Public enrollment', () => {
         isRenewable: false,
       };
 
-      cy.intercept(
-        'PUT',
-        `${APIEndpoints.PublicReservation}/1/renew`,
-        {
-          statusCode: HTTPStatusCode.Ok,
-          body: response,
-        },
-      ).as('renewReservation');
+      cy.intercept('PUT', `${APIEndpoints.PublicReservation}/1/renew`, {
+        statusCode: HTTPStatusCode.Ok,
+        body: response,
+      }).as('renewReservation');
 
       onPublicHomePage.expectReservationTimeLeft('30', '00');
       cy.tick(29 * 60 * 1000);

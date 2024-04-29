@@ -2,10 +2,7 @@ import { http } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
 import { ClerkEnrollmentStatusChange } from 'interfaces/clerkEnrollment';
-import {
-  PublicReservationDetailsResponse,
-  PublicReservationResponse,
-} from 'interfaces/publicEnrollment';
+import { PublicReservationDetailsResponse } from 'interfaces/publicEnrollment';
 import { PublicPerson } from 'interfaces/publicPerson';
 import { fixedDateForTests } from 'tests/cypress/support/utils/date';
 import { clerkExamEvent } from 'tests/msw/fixtures/clerkExamEvent';
