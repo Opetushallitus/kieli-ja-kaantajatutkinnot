@@ -13,14 +13,14 @@ import { publicEnrollmentInitialisation } from 'tests/msw/fixtures/publicEnrollm
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
 
 export const handlers = [
-  http.get(APIEndpoints.PublicUser, () => {
+  http.get(APIEndpoints.PublicUser, ({ cookies }) => {
     const person: PublicPerson = {
       id: 1,
       lastName: 'Demo',
       firstName: 'Nordea',
     };
 
-    return new Response(JSON.stringify(person));
+    return new Response(cookies.noAuth ? 'null' : JSON.stringify(person));
   }),
   http.get(APIEndpoints.PublicExamEvent, () => {
     return new Response(JSON.stringify(publicExamEvents11));

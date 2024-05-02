@@ -47,6 +47,15 @@ describe('Public enrollment', () => {
       onPublicHomePage.expectReservationExpiredOkButtonEnabled();
     });
 
+    it('should show session expired modal', () => {
+      // Only used in mockup server to trigger
+      // logged out response
+      cy.setCookie('noAuth', 'true');
+      cy.wait(10);
+      cy.tick(6 * 1000);
+      onPublicHomePage.expectSessionExpiredModal();
+    });
+
     it('should be able to fill out enrollment info', () => {
       cy.tick(3000);
 
