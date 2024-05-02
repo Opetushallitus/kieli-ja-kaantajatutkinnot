@@ -5,6 +5,7 @@ import fi.oph.otr.api.dto.clerk.modify.MeetingDateCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.MeetingDateUpdateDTO;
 import fi.oph.otr.audit.AuditService;
 import fi.oph.otr.audit.OtrOperation;
+import fi.oph.otr.audit.dto.MeetingDateAuditDTO;
 import fi.oph.otr.model.MeetingDate;
 import fi.oph.otr.repository.MeetingDateRepository;
 import fi.oph.otr.util.exception.APIException;
@@ -43,7 +44,8 @@ public class MeetingDateService {
     }
 
     final MeetingDateDTO result = toDTO(meetingDate);
-    auditService.logById(OtrOperation.CREATE_MEETING_DATE, meetingDate.getId());
+    final MeetingDateAuditDTO auditDto = new MeetingDateAuditDTO(result);
+    auditService.logCreate(OtrOperation.CREATE_MEETING_DATE, meetingDate.getId(), auditDto);
     return result;
   }
 
@@ -51,6 +53,8 @@ public class MeetingDateService {
   public MeetingDateDTO updateMeetingDate(final MeetingDateUpdateDTO dto) {
     final MeetingDate meetingDate = meetingDateRepository.getReferenceById(dto.id());
     meetingDate.assertVersion(dto.version());
+
+    final MeetingDateAuditDTO oldAuditDto = new MeetingDateAuditDTO(meetingDate);
 
     if (!meetingDate.getQualifications().isEmpty()) {
       throw new APIException(APIExceptionType.MEETING_DATE_UPDATE_HAS_QUALIFICATIONS);
@@ -64,7 +68,8 @@ public class MeetingDateService {
     }
 
     final MeetingDateDTO result = toDTO(meetingDate);
-    auditService.logById(OtrOperation.UPDATE_MEETING_DATE, meetingDate.getId());
+    final MeetingDateAuditDTO newAuditDto = new MeetingDateAuditDTO(result);
+    auditService.logUpdate(OtrOperation.UPDATE_MEETING_DATE, meetingDate.getId(), oldAuditDto, newAuditDto);
     return result;
   }
 

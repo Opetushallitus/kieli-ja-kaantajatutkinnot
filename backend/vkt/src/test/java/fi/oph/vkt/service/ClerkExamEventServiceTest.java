@@ -294,6 +294,7 @@ public class ClerkExamEventServiceTest {
     assertEquals(1, allExamEvents.size());
 
     final ExamEvent examEvent = allExamEvents.get(0);
+    final ClerkExamEventAuditDTO auditDTO = ExamEventUtil.createExamEventAuditDTO(examEvent);
 
     assertEquals(examEvent.getId(), examEventDTO.id());
     assertEquals(examEvent.getVersion(), examEventDTO.version());
@@ -306,7 +307,7 @@ public class ClerkExamEventServiceTest {
 
     assertEquals(0, examEventDTO.enrollments().size());
 
-    verify(auditService).logById(VktOperation.CREATE_EXAM_EVENT, examEvent.getId());
+    verify(auditService).logCreate(VktOperation.CREATE_EXAM_EVENT, examEvent.getId(), auditDTO);
     verifyNoMoreInteractions(auditService);
   }
 

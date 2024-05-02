@@ -278,10 +278,22 @@ public class ClerkTranslatorService {
     final Map<LocalDate, MeetingDate> meetingDates = getLocalDateMeetingDateMap();
     final Map<LocalDate, ExaminationDate> examinationDates = getLocalDateExaminationDateMap();
 
-    dto.authorisations().forEach(authDto -> createAuthorisation(translator, meetingDates, examinationDates, authDto));
+    dto
+      .authorisations()
+      .forEach(authDto -> {
+        Authorisation authorisation = createAuthorisation(translator, meetingDates, examinationDates, authDto);
+        final AuthorisationAuditDTO authorisationAuditDTO = new AuthorisationAuditDTO(authorisation);
+        auditService.logAuthorisation(
+          AkrOperation.CREATE_AUTHORISATION,
+          translator.getId(),
+          authorisation.getId(),
+          authorisationAuditDTO
+        );
+      });
 
     final ClerkTranslatorDTO result = getTranslatorWithoutAudit(translator.getId());
-    auditService.logById(AkrOperation.CREATE_TRANSLATOR, translator.getId());
+    final ClerkTranslatorAuditDTO auditDTO = new ClerkTranslatorAuditDTO(result);
+    auditService.logCreate(AkrOperation.CREATE_TRANSLATOR, translator.getId(), auditDTO);
     return result;
   }
 
@@ -406,7 +418,13 @@ public class ClerkTranslatorService {
     final Authorisation authorisation = createAuthorisation(translator, meetingDates, examinationDates, dto);
 
     final ClerkTranslatorDTO result = getTranslatorWithoutAudit(translator.getId());
-    auditService.logAuthorisation(AkrOperation.CREATE_AUTHORISATION, translator, authorisation.getId());
+    final AuthorisationAuditDTO auditDTO = new AuthorisationAuditDTO(authorisation);
+    auditService.logAuthorisation(
+      AkrOperation.CREATE_AUTHORISATION,
+      translator.getId(),
+      authorisation.getId(),
+      auditDTO
+    );
     return result;
   }
 

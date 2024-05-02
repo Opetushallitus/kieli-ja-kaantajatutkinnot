@@ -55,6 +55,51 @@ public class AuditService {
     );
   }
 
+  public <T> void logQualification(
+    final OtrOperation operation,
+    final long interpreterId,
+    final long qualificationId,
+    final T dto
+  ) {
+    log(
+      operation,
+      new Target.Builder()
+        .setField("interpreterId", Long.toString(interpreterId))
+        .setField("qualificationId", Long.toString(qualificationId))
+        .build(),
+      Changes.addedDto(dto)
+    );
+  }
+
+  public <T> void logQualification(
+    final OtrOperation operation,
+    final Interpreter interpreter,
+    final long qualificationId,
+    final T dtoBefore,
+    final T dtoAfter
+  ) {
+    log(
+      operation,
+      new Target.Builder()
+        .setField("interpreterId", Long.toString(interpreter.getId()))
+        .setField("qualificationId", Long.toString(qualificationId))
+        .build(),
+      Changes.updatedDto(dtoAfter, dtoBefore)
+    );
+  }
+
+  public <T> void logUpdate(final OtrOperation operation, final long id, final T dtoBefore, final T dtoAfter) {
+    log(
+      operation,
+      new Target.Builder().setField("id", Long.toString(id)).build(),
+      Changes.updatedDto(dtoAfter, dtoBefore)
+    );
+  }
+
+  public <T> void logCreate(final OtrOperation operation, final long id, final T dto) {
+    log(operation, new Target.Builder().setField("id", Long.toString(id)).build(), Changes.addedDto(dto));
+  }
+
   private void log(final OtrOperation operation, final Target target, final Changes changes) {
     final User user = getUser();
     audit.log(user, operation, target, changes);

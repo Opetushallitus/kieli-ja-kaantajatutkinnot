@@ -11,6 +11,8 @@ import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationUpdateDTO;
 import fi.oph.otr.audit.AuditService;
 import fi.oph.otr.audit.OtrOperation;
+import fi.oph.otr.audit.dto.InterpreterAuditDTO;
+import fi.oph.otr.audit.dto.QualificationAuditDTO;
 import fi.oph.otr.model.BaseEntity;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.MeetingDate;
@@ -237,12 +239,22 @@ public class ClerkInterpreterService {
 
     dto
       .qualifications()
-      .forEach(qualificationCreateDTO -> createQualification(interpreter, meetingDates, qualificationCreateDTO));
+      .forEach(qualificationCreateDTO -> {
+        Qualification qualification = createQualification(interpreter, meetingDates, qualificationCreateDTO);
+        final QualificationAuditDTO qualificationAuditDTO = new QualificationAuditDTO(qualification);
+        auditService.logQualification(
+          OtrOperation.CREATE_QUALIFICATION,
+          interpreter.getId(),
+          qualification.getId(),
+          qualificationAuditDTO
+        );
+      });
 
     interpreterRepository.saveAndFlush(interpreter);
 
     final ClerkInterpreterDTO result = getInterpreterWithoutAudit(interpreter.getId());
-    auditService.logById(OtrOperation.CREATE_INTERPRETER, interpreter.getId());
+    final InterpreterAuditDTO auditDTO = new InterpreterAuditDTO(result);
+    auditService.logCreate(OtrOperation.CREATE_INTERPRETER, interpreter.getId(), auditDTO);
     return result;
   }
 
@@ -380,6 +392,9 @@ public class ClerkInterpreterService {
     final Interpreter interpreter = interpreterRepository.getReferenceById(dto.id());
     interpreter.assertVersion(dto.version());
 
+    final PersonalData oldPersonalData = onrService.getCachedPersonalDatas().get(interpreter.getOnrId());
+    final InterpreterAuditDTO oldAuditDto = new InterpreterAuditDTO(interpreter, oldPersonalData);
+
     final PersonalData personalData = createPersonalData(interpreter.getOnrId(), dto);
     validatePersonalData(personalData);
     onrService.updatePersonalData(personalData);
@@ -393,7 +408,8 @@ public class ClerkInterpreterService {
     interpreterRepository.saveAndFlush(interpreter);
 
     final ClerkInterpreterDTO result = getInterpreterWithoutAudit(interpreter.getId());
-    auditService.logById(OtrOperation.UPDATE_INTERPRETER, interpreter.getId());
+    final InterpreterAuditDTO newAuditDto = new InterpreterAuditDTO(result);
+    auditService.logUpdate(OtrOperation.UPDATE_INTERPRETER, interpreter.getId(), oldAuditDto, newAuditDto);
     return result;
   }
 
@@ -415,10 +431,16 @@ public class ClerkInterpreterService {
     final Interpreter interpreter = interpreterRepository.getReferenceById(interpreterId);
 
     final Qualification qualification = createQualification(interpreter, meetingDates, dto);
+    final QualificationAuditDTO auditDTO = new QualificationAuditDTO(qualification);
     interpreterRepository.saveAndFlush(interpreter);
 
     final ClerkInterpreterDTO result = getInterpreterWithoutAudit(interpreter.getId());
-    auditService.logQualification(OtrOperation.CREATE_QUALIFICATION, interpreter, qualification.getId());
+    auditService.logQualification(
+      OtrOperation.CREATE_QUALIFICATION,
+      interpreter.getId(),
+      qualification.getId(),
+      auditDTO
+    );
     return result;
   }
 
@@ -428,6 +450,7 @@ public class ClerkInterpreterService {
     validateQualification(meetingDates, dto);
 
     final Qualification qualification = qualificationRepository.getReferenceById(dto.id());
+    final QualificationAuditDTO oldAuditDto = new QualificationAuditDTO(qualification);
     qualification.assertVersion(dto.version());
 
     copyFromQualificationDTO(qualification, meetingDates, dto);
@@ -436,7 +459,15 @@ public class ClerkInterpreterService {
     final Interpreter interpreter = qualification.getInterpreter();
 
     final ClerkInterpreterDTO result = getInterpreterWithoutAudit(interpreter.getId());
-    auditService.logQualification(OtrOperation.UPDATE_QUALIFICATION, interpreter, qualification.getId());
+
+    final QualificationAuditDTO newAuditDto = new QualificationAuditDTO(qualification);
+    auditService.logQualification(
+      OtrOperation.UPDATE_QUALIFICATION,
+      interpreter,
+      qualification.getId(),
+      oldAuditDto,
+      newAuditDto
+    );
     return result;
   }
 

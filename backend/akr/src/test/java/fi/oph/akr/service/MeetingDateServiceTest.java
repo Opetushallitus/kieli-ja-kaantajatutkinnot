@@ -74,6 +74,7 @@ class MeetingDateServiceTest {
     final MeetingDateCreateDTO dto = MeetingDateCreateDTO.builder().date(LocalDate.now()).build();
 
     final MeetingDateDTO response = meetingDateService.createMeetingDate(dto);
+    final MeetingDateAuditDTO auditDTO = new MeetingDateAuditDTO(response);
     assertEquals(dto.date(), response.date());
 
     final List<MeetingDate> allMeetingDates = meetingDateRepository.findAll();
@@ -81,7 +82,7 @@ class MeetingDateServiceTest {
     assertEquals(response.id(), allMeetingDates.get(0).getId());
     assertEquals(response.date(), allMeetingDates.get(0).getDate());
 
-    verify(auditService).logById(AkrOperation.CREATE_MEETING_DATE, response.id());
+    verify(auditService).logCreate(AkrOperation.CREATE_MEETING_DATE, response.id(), auditDTO);
     verifyNoMoreInteractions(auditService);
   }
 
