@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 12.9 (Debian 12.9-1.pgdg110+1)
--- Dumped by pg_dump version 14.7 (Homebrew)
+-- Dumped by pg_dump version 12.9 (Debian 12.9-1.pgdg110+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -77,17 +77,19 @@ COPY public.databasechangelog (id, author, filename, dateexecuted, orderexecuted
 2022-12-06-add-enum-email_type	terova	migrations.xml	2022-12-06 14:21:45.065383	12	EXECUTED	8:9d2dd6c5fb47e67ba50c6cf0db4edd47	createTable tableName=email_type; insert tableName=email_type		\N	4.9.1	\N	\N	0336504848
 2022-12-06-create-email-table	terova	migrations.xml	2022-12-06 14:21:45.096787	13	EXECUTED	8:fc290ff4700b729ac568057c7dd6c211	createTable tableName=email; addForeignKeyConstraint baseTableName=email, constraintName=fk_email_email_type, referencedTableName=email_type		\N	4.9.1	\N	\N	0336504848
 2022-12-06-create-email_attachment-table	terova	migrations.xml	2022-12-06 18:42:00.87481	14	EXECUTED	8:27ead2667c986a4fb6325d9d93238151	createTable tableName=email_attachment; addForeignKeyConstraint baseTableName=email_attachment, constraintName=fk_email_attachment_email, referencedTableName=email		\N	4.9.1	\N	\N	0352120682
-2023-01-18-modify_enrollment-table_previous-enrollment-date	mikhuttu	migrations.xml	2023-05-29 09:17:57.498963	15	EXECUTED	8:b5bb9828cdc9f6349c1e92af6da50bcd	modifyDataType columnName=previous_enrollment_date, tableName=enrollment; renameColumn newColumnName=previous_enrollment, oldColumnName=previous_enrollment_date, tableName=enrollment		\N	4.9.1	\N	\N	5351877372
-2023-02-03-add_reservation-table_renewed_at	jrkkp	migrations.xml	2023-05-29 09:17:57.503008	16	EXECUTED	8:e9cd840a8006f4a136fac6e259048628	addColumn tableName=reservation		\N	4.9.1	\N	\N	5351877372
-2023-03-20-add_spring_session_table	jrkkp	migrations.xml	2023-05-29 09:17:57.520006	17	EXECUTED	8:74529b81aca9ec770312c7017e0c594d	createTable tableName=spring_session; createIndex indexName=spring_session_expires_idx, tableName=spring_session; createIndex indexName=spring_session_principal_idx, tableName=spring_session; createTable tableName=spring_session_attributes; addPri...		\N	4.9.1	\N	\N	5351877372
-2023-04-11-add_person_oid	jrkkp	migrations.xml	2023-05-29 09:17:57.530923	18	EXECUTED	8:5b0623c9012a91e8f39b129672804bde	addColumn tableName=person; dropNotNullConstraint columnName=identity_number, tableName=person		\N	4.9.1	\N	\N	5351877372
-2023-05-03-add-enrollment-to-queue-confirmation-email_type	mikhuttu	migrations.xml	2023-05-29 09:17:57.534001	19	EXECUTED	8:4502d8b0afd0a1b88b7649fa2db135f4	insert tableName=email_type		\N	4.9.1	\N	\N	5351877372
-2023-05-25-payment-table	jrkkp	migrations.xml	2023-05-29 09:17:57.545296	20	EXECUTED	8:1869b55cb1a464dee967a5b832c80003	createTable tableName=payment; insert tableName=enrollment_status; insert tableName=enrollment_status; addForeignKeyConstraint baseTableName=payment, constraintName=fk_payment_enrollment, referencedTableName=enrollment		\N	4.9.1	\N	\N	5351877372
-2023-05-30-modify_payment-table_amount	mikhuttu	migrations.xml	2023-05-30 13:31:02.784706	21	EXECUTED	8:a1e8d1377da2bc6360f9971c8b052cb4	modifyDataType columnName=amount, tableName=payment		\N	4.9.1	\N	\N	5453462712
-2023-06-01-enrollment-payment-link-hash	jrkkp	migrations.xml	2023-06-01 13:53:01.472105	22	EXECUTED	8:0fc928a86fa41527372d8e8af21e813b	addColumn tableName=enrollment		\N	4.9.1	\N	\N	5627581378
-2023-06-02-rename-enrollment-status-EXPECTING_PAYMENT	mikhuttu	migrations.xml	2023-06-02 08:38:57.704377	23	EXECUTED	8:a35dc4c9e0d0d241f4293f0b2ba16224	insert tableName=enrollment_status; sql; sql		\N	4.9.1	\N	\N	5695137627
-2023-06-16-person-latest-identified-at	mikhuttu	migrations.xml	2023-06-16 09:46:36.462511	24	EXECUTED	8:51d5c16082a3fd83108e9c40e7ae78e6	addColumn tableName=person; sql; addNotNullConstraint columnName=latest_identified_at, tableName=person		\N	4.20.0	\N	\N	6908796433
-2023-06-29-remove-person-identity_number	mikhuttu	migrations.xml	2023-06-29 09:32:48.572192	25	EXECUTED	8:5b23bce4f54b5583b757ad6bb81c612d	dropColumn columnName=identity_number, tableName=person; dropColumn columnName=date_of_birth, tableName=person		\N	4.20.0	\N	\N	8031168558
+2023-01-18-modify_enrollment-table_previous-enrollment-date	mikhuttu	migrations.xml	2023-10-05 12:40:24.529359	15	EXECUTED	8:b5bb9828cdc9f6349c1e92af6da50bcd	modifyDataType columnName=previous_enrollment_date, tableName=enrollment; renameColumn newColumnName=previous_enrollment, oldColumnName=previous_enrollment_date, tableName=enrollment		\N	4.20.0	\N	\N	6498824505
+2023-02-03-add_reservation-table_renewed_at	jrkkp	migrations.xml	2023-10-05 12:40:24.534427	16	EXECUTED	8:e9cd840a8006f4a136fac6e259048628	addColumn tableName=reservation		\N	4.20.0	\N	\N	6498824505
+2023-03-20-add_spring_session_table	jrkkp	migrations.xml	2023-10-05 12:40:24.548449	17	EXECUTED	8:74529b81aca9ec770312c7017e0c594d	createTable tableName=spring_session; createIndex indexName=spring_session_expires_idx, tableName=spring_session; createIndex indexName=spring_session_principal_idx, tableName=spring_session; createTable tableName=spring_session_attributes; addPri...		\N	4.20.0	\N	\N	6498824505
+2023-04-11-add_person_oid	jrkkp	migrations.xml	2023-10-05 12:40:24.558025	18	EXECUTED	8:5b0623c9012a91e8f39b129672804bde	addColumn tableName=person; dropNotNullConstraint columnName=identity_number, tableName=person		\N	4.20.0	\N	\N	6498824505
+2023-05-03-add-enrollment-to-queue-confirmation-email_type	mikhuttu	migrations.xml	2023-10-05 12:40:24.561463	19	EXECUTED	8:4502d8b0afd0a1b88b7649fa2db135f4	insert tableName=email_type		\N	4.20.0	\N	\N	6498824505
+2023-05-25-payment-table	jrkkp	migrations.xml	2023-10-05 12:40:24.571098	20	EXECUTED	8:1869b55cb1a464dee967a5b832c80003	createTable tableName=payment; insert tableName=enrollment_status; insert tableName=enrollment_status; addForeignKeyConstraint baseTableName=payment, constraintName=fk_payment_enrollment, referencedTableName=enrollment		\N	4.20.0	\N	\N	6498824505
+2023-05-30-modify_payment-table_amount	mikhuttu	migrations.xml	2023-10-05 12:40:24.577595	21	EXECUTED	8:a1e8d1377da2bc6360f9971c8b052cb4	modifyDataType columnName=amount, tableName=payment		\N	4.20.0	\N	\N	6498824505
+2023-06-01-enrollment-payment-link-hash	jrkkp	migrations.xml	2023-10-05 12:40:24.583222	22	EXECUTED	8:0fc928a86fa41527372d8e8af21e813b	addColumn tableName=enrollment		\N	4.20.0	\N	\N	6498824505
+2023-06-02-rename-enrollment-status-EXPECTING_PAYMENT	mikhuttu	migrations.xml	2023-10-05 12:40:24.591858	23	EXECUTED	8:a35dc4c9e0d0d241f4293f0b2ba16224	insert tableName=enrollment_status; sql; sql		\N	4.20.0	\N	\N	6498824505
+2023-06-16-person-latest-identified-at	mikhuttu	migrations.xml	2023-10-05 12:40:24.596771	24	EXECUTED	8:51d5c16082a3fd83108e9c40e7ae78e6	addColumn tableName=person; sql; addNotNullConstraint columnName=latest_identified_at, tableName=person		\N	4.20.0	\N	\N	6498824505
+2023-06-29-remove-person-identity_number	mikhuttu	migrations.xml	2023-10-05 12:40:24.600916	25	EXECUTED	8:5b23bce4f54b5583b757ad6bb81c612d	dropColumn columnName=identity_number, tableName=person; dropColumn columnName=date_of_birth, tableName=person		\N	4.20.0	\N	\N	6498824505
+2023-08-03-payment-add-refunded	jrkkp	migrations.xml	2023-10-05 12:40:24.60417	26	EXECUTED	8:fb56e2324ab73d52aefd19c907295aa3	addColumn tableName=payment		\N	4.20.0	\N	\N	6498824505
+2023-09-07-enrollment-is-anonymized	mikhuttu	migrations.xml	2023-10-05 12:40:24.608176	27	EXECUTED	8:3a3c0039e1c2c3e5a79b4e62612246c1	addColumn tableName=enrollment; dropDefaultValue columnName=is_anonymized, tableName=enrollment		\N	4.20.0	\N	\N	6498824505
 \.
 
 

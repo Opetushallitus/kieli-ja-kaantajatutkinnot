@@ -19,6 +19,7 @@ email.service-url=${virkailija.host.alb}/ryhmasahkoposti-service/email/firewall
 reservation.duration=PT30M
 
 public-base-url={{vkt_app_url}}
+salt={{vkt_salt}}
 
 cas-oppija.login-url={{opintopolku_baseurl}}/cas-oppija/login
 cas-oppija.logout-url={{opintopolku_baseurl}}/cas-oppija/logout
