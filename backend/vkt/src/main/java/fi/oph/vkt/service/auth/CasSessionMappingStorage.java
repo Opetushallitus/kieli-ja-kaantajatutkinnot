@@ -37,6 +37,7 @@ public class CasSessionMappingStorage implements SessionMappingStorage {
 
       if (session != null) {
         this.removeBySessionById(session.getId());
+        sessions.deleteById(session.getId());
       }
 
       return httpSession;
