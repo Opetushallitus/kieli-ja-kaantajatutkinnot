@@ -25,9 +25,6 @@ export const handlers = [
   http.get(APIEndpoints.PublicExamEvent, () => {
     return new Response(JSON.stringify(publicExamEvents11));
   }),
-  http.get(APIEndpoints.PublicUser, () => {
-    return new Response(JSON.stringify(null));
-  }),
   http.post(`${APIEndpoints.PublicExamEvent}/2/reservation`, () => {
     const response: PublicReservationDetailsResponse = {
       examEvent: publicExamEvents11[1],
