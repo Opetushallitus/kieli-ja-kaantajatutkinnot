@@ -9,13 +9,8 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CasAttributes {
+public class CasAuthenticationFailure {
 
-  private String firstName;
-  private String familyName;
-  private String sn;
-  private String personOid;
-  private String personIdentifier;
-  private String nationalIdentificationNumber;
-  private String code;
+  public String message;
+  public CasAttributes attributes;
 }

@@ -175,7 +175,8 @@ public class WebSecurityConfig {
       configurer
         .csrfTokenRepository(csrfTokenRepository)
         .csrfTokenRequestHandler(requestHandler)
-        .ignoringRequestMatchers("/api/v1/auth/validate/*/*") // Required for CAS logout callback
+        .ignoringRequestMatchers("/api/v1/auth/validate/*/*") // Required for public CAS logout callback
+        .ignoringRequestMatchers("/vkt/virkailija/login/cas ") // Required for clerk CAS logout callback
     );
   }
 }
