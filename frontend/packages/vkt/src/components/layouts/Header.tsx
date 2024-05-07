@@ -8,7 +8,7 @@ import {
   SkipLink,
   Text,
 } from 'shared/components';
-import { AppLanguage, Direction } from 'shared/enums';
+import { APIResponseStatus, AppLanguage, Direction } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { ClerkHeaderButtons } from 'components/layouts/clerkHeader/ClerkHeaderButtons';
@@ -38,11 +38,17 @@ export const Header = (): JSX.Element => {
     [translateCommon('header.lang.sv'), swedish],
   ]);
 
-  const { isAuthenticated, isClerkUI, publicUser } = useAuthentication();
+  const { isAuthenticated, isClerkUI, clerkUser, publicUser } =
+    useAuthentication();
   const logoRedirectURL = isAuthenticated
     ? AppRoutes.ClerkHomePage
     : AppRoutes.PublicHomePage;
   const { isPhone } = useWindowProperties();
+
+  const isClerkAuthenticationValid =
+    clerkUser.status == APIResponseStatus.NotStarted ||
+    clerkUser.status == APIResponseStatus.InProgress ||
+    clerkUser.isAuthenticated;
 
   const heartBeat = () => {
     if (isAuthenticated || publicUser?.isAuthenticated) {
@@ -56,7 +62,9 @@ export const Header = (): JSX.Element => {
 
   return (
     <>
-      {isClerkUI && !isAuthenticated && <SessionExpiredModal isClerkUI />}
+      {isClerkUI && !isClerkAuthenticationValid && (
+        <SessionExpiredModal isClerkUI />
+      )}
       <SkipLink
         href="#main-content"
         text={translateCommon('header.accessibility.continueToMain')}

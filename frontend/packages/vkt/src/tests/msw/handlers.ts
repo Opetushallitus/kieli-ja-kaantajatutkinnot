@@ -2,6 +2,7 @@ import { http } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
 import { ClerkEnrollmentStatusChange } from 'interfaces/clerkEnrollment';
+import { ClerkUser } from 'interfaces/clerkUser';
 import { PublicReservationDetailsResponse } from 'interfaces/publicEnrollment';
 import { PublicPerson } from 'interfaces/publicPerson';
 import { fixedDateForTests } from 'tests/cypress/support/utils/date';
@@ -13,6 +14,13 @@ import { publicEnrollmentInitialisation } from 'tests/msw/fixtures/publicEnrollm
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
 
 export const handlers = [
+  http.get(APIEndpoints.ClerkUser, ({ cookies }) => {
+    const user: ClerkUser = {
+      oid: '1.2.246.562.10.00000000001',
+    };
+
+    return new Response(cookies.noAuth ? 'null' : JSON.stringify(user));
+  }),
   http.get(APIEndpoints.PublicUser, ({ cookies }) => {
     const person: PublicPerson = {
       id: 1,

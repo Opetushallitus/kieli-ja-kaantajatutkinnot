@@ -33,6 +33,7 @@ export const useAuthentication = () => {
   return {
     isAuthenticated: clerkUser.isAuthenticated,
     isClerkUI: isClerkURL,
-    publicUser: publicUser,
+    publicUser,
+    clerkUser,
   };
 };
