@@ -20,7 +20,7 @@ class PublicHomePage {
     enrollAuthenticateButton: () =>
       cy.findByTestId('public-enrollment__authenticate-button'),
     sessionExpiredModal: () =>
-      cy.findByTestId('public-enrollment__session-expired-modal'),
+      cy.findByTestId('session-expired-modal'),
   };
 
   clickExamEventRow(id: number) {

@@ -9,8 +9,8 @@ export const SessionExpiredModal = ({ isClerkUI }: { isClerkUI: boolean }) => {
 
   return (
     <CustomModal
-      data-testid="public-enrollment__session-expired-modal"
-      className="public-enrollment__session-expired-modal"
+      data-testid="session-expired-modal"
+      className="session-expired-modal"
       open={true}
       aria-labelledby="session-expired-modal-title"
       aria-describedby="session-expired-modal-description"
@@ -27,7 +27,7 @@ export const SessionExpiredModal = ({ isClerkUI }: { isClerkUI: boolean }) => {
         </Text>
         <div className="columns gapped flex-end">
           <CustomButton
-            data-testid="public-enrollment__session-expired-modal-button"
+            data-testid="session-expired-modal-button"
             variant={Variant.Contained}
             color={Color.Secondary}
             href={AppRoutes.PublicHomePage}

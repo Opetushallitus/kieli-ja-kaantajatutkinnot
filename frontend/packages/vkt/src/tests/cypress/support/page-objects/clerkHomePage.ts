@@ -11,6 +11,8 @@ class ClerkHomePage {
       cy.findByTestId(`clerk-exam-event-toggle-filters__${toggleFilter}-btn`),
     unusedSeatsNotification: () =>
       cy.findByTestId('clerk-homepage__notification___seats-available'),
+    sessionExpiredModal: () =>
+      cy.findByTestId('session-expired-modal'),
   };
 
   clickExamEventRow(id: number) {
@@ -41,6 +43,10 @@ class ClerkHomePage {
 
   expectUnusedSeatsNotification() {
     this.elements.unusedSeatsNotification().should('be.visible');
+  }
+
+  expectSessionExpiredModal() {
+    this.elements.sessionExpiredModal().should('be.visible');
   }
 }
 

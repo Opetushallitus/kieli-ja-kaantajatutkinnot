@@ -53,4 +53,14 @@ describe('ClerkHomePage', () => {
     onClerkHomePage.clickCreateExamEvent();
     cy.isOnPage(AppRoutes.ClerkExamEventCreatePage);
   });
+
+  it('should show session expired modal', () => {
+    // Only used in mockup server to trigger
+    // logged out response
+    cy.setCookie('noAuth', 'true');
+    cy.wait(10);
+    cy.tick(6 * 1000);
+    onClerkHomePage.expectSessionExpiredModal();
+  });
+
 });
