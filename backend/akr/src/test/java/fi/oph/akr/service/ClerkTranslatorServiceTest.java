@@ -555,6 +555,7 @@ class ClerkTranslatorServiceTest {
     when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(onrId, personalData));
 
     final ClerkTranslatorDTO response = clerkTranslatorService.createTranslator(createDTO);
+    final ClerkTranslatorAuditDTO auditDTO = new ClerkTranslatorAuditDTO(response);
 
     assertResponseMatchesGet(response);
 
@@ -562,9 +563,17 @@ class ClerkTranslatorServiceTest {
 
     assertEquals(1, response.authorisations().effective().size());
     final AuthorisationDTO authDto = response.authorisations().effective().get(0);
+    final AuthorisationAuditDTO authorisationAuditDTO = new AuthorisationAuditDTO(authDto);
     assertAuthorisationCommonFields(expectedAuth, authDto);
 
-    verify(auditService).logById(AkrOperation.CREATE_TRANSLATOR, response.id());
+    verify(auditService)
+      .logAuthorisation(
+        AkrOperation.CREATE_AUTHORISATION,
+        response.id(),
+        authorisationAuditDTO.id(),
+        authorisationAuditDTO
+      );
+    verify(auditService).logCreate(AkrOperation.CREATE_TRANSLATOR, response.id(), auditDTO);
     verifyNoMoreInteractions(auditService);
   }
 
@@ -582,6 +591,7 @@ class ClerkTranslatorServiceTest {
     when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(onrId, personalData));
 
     final ClerkTranslatorDTO response = clerkTranslatorService.createTranslator(createDTO);
+    final ClerkTranslatorAuditDTO auditDTO = new ClerkTranslatorAuditDTO(response);
 
     assertResponseMatchesGet(response);
 
@@ -589,9 +599,17 @@ class ClerkTranslatorServiceTest {
 
     assertEquals(1, response.authorisations().effective().size());
     final AuthorisationDTO authDto = response.authorisations().effective().get(0);
+    final AuthorisationAuditDTO authorisationAuditDTO = new AuthorisationAuditDTO(authDto);
     assertAuthorisationCommonFields(expectedAuth, authDto);
 
-    verify(auditService).logById(AkrOperation.CREATE_TRANSLATOR, response.id());
+    verify(auditService)
+      .logAuthorisation(
+        AkrOperation.CREATE_AUTHORISATION,
+        response.id(),
+        authorisationAuditDTO.id(),
+        authorisationAuditDTO
+      );
+    verify(auditService).logCreate(AkrOperation.CREATE_TRANSLATOR, response.id(), auditDTO);
     verifyNoMoreInteractions(auditService);
   }
 
@@ -785,8 +803,10 @@ class ClerkTranslatorServiceTest {
       .orElseThrow();
 
     assertAuthorisationCommonFields(createDTO, authorisationDTO);
+    final AuthorisationAuditDTO auditDTO = new AuthorisationAuditDTO(authorisationDTO);
 
-    verify(auditService).logAuthorisation(AkrOperation.CREATE_AUTHORISATION, translator, authorisationDTO.id());
+    verify(auditService)
+      .logAuthorisation(AkrOperation.CREATE_AUTHORISATION, translator.getId(), authorisationDTO.id(), auditDTO);
     verifyNoMoreInteractions(auditService);
   }
 

@@ -23,6 +23,8 @@ import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationUpdateDTO;
 import fi.oph.otr.audit.AuditService;
 import fi.oph.otr.audit.OtrOperation;
+import fi.oph.otr.audit.dto.InterpreterAuditDTO;
+import fi.oph.otr.audit.dto.QualificationAuditDTO;
 import fi.oph.otr.model.ExaminationType;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.MeetingDate;
@@ -393,6 +395,7 @@ class ClerkInterpreterServiceTest {
       );
 
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.createInterpreter(createDTO);
+    final InterpreterAuditDTO auditDTO = new InterpreterAuditDTO(interpreterDTO);
 
     assertNotNull(interpreterDTO.id());
     assertEquals(0, interpreterDTO.version());
@@ -417,6 +420,7 @@ class ClerkInterpreterServiceTest {
     assertEquals(2, interpreterDTO.qualifications().effective().size());
 
     final ClerkQualificationDTO qualification1 = interpreterDTO.qualifications().effective().get(0);
+    final QualificationAuditDTO qualification1AuditDTO = new QualificationAuditDTO(qualification1);
     assertEquals(0, qualification1.version());
     assertEquals("FI", qualification1.fromLang());
     assertEquals("SE", qualification1.toLang());
@@ -427,6 +431,7 @@ class ClerkInterpreterServiceTest {
     assertEquals("123", qualification1.diaryNumber());
 
     final ClerkQualificationDTO qualification2 = interpreterDTO.qualifications().effective().get(1);
+    final QualificationAuditDTO qualification2AuditDTO = new QualificationAuditDTO(qualification2);
     assertEquals("FI", qualification2.fromLang());
     assertEquals("DE", qualification2.toLang());
     assertEquals(yesterday, qualification2.beginDate());
@@ -435,7 +440,21 @@ class ClerkInterpreterServiceTest {
     assertFalse(qualification2.permissionToPublish());
     assertEquals("234", qualification2.diaryNumber());
 
-    verify(auditService).logById(OtrOperation.CREATE_INTERPRETER, interpreterDTO.id());
+    verify(auditService)
+      .logQualification(
+        OtrOperation.CREATE_QUALIFICATION,
+        interpreterDTO.id(),
+        qualification1.id(),
+        qualification1AuditDTO
+      );
+    verify(auditService)
+      .logQualification(
+        OtrOperation.CREATE_QUALIFICATION,
+        interpreterDTO.id(),
+        qualification2.id(),
+        qualification2AuditDTO
+      );
+    verify(auditService).logCreate(OtrOperation.CREATE_INTERPRETER, interpreterDTO.id(), auditDTO);
     verifyNoMoreInteractions(auditService);
   }
 
@@ -501,6 +520,10 @@ class ClerkInterpreterServiceTest {
       );
 
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.createInterpreter(createDTO);
+    final InterpreterAuditDTO auditDTO = new InterpreterAuditDTO(interpreterDTO);
+    final QualificationAuditDTO qualificationAuditDTO = new QualificationAuditDTO(
+      interpreterDTO.qualifications().effective().get(0)
+    );
 
     assertTrue(interpreterDTO.isIndividualised());
     assertTrue(interpreterDTO.hasIndividualisedAddress());
@@ -509,7 +532,14 @@ class ClerkInterpreterServiceTest {
     verify(onrService).updatePersonalData(any());
     verify(onrService, times(0)).insertPersonalData(any());
 
-    verify(auditService).logById(OtrOperation.CREATE_INTERPRETER, interpreterDTO.id());
+    verify(auditService)
+      .logQualification(
+        OtrOperation.CREATE_QUALIFICATION,
+        interpreterDTO.id(),
+        qualificationAuditDTO.id(),
+        qualificationAuditDTO
+      );
+    verify(auditService).logCreate(OtrOperation.CREATE_INTERPRETER, interpreterDTO.id(), auditDTO);
     verifyNoMoreInteractions(auditService);
   }
 
@@ -683,29 +713,27 @@ class ClerkInterpreterServiceTest {
       .regions(List.of("01"))
       .build();
 
-    when(onrService.getCachedPersonalDatas())
-      .thenReturn(
-        Map.of(
-          "onrId",
-          createPersonalData(
-            "onrId",
-            updateDTO.lastName(),
-            updateDTO.firstName(),
-            updateDTO.nickName(),
-            updateDTO.identityNumber(),
-            updateDTO.email(),
-            updateDTO.phoneNumber(),
-            updateDTO.street(),
-            updateDTO.postalCode(),
-            updateDTO.town(),
-            updateDTO.country(),
-            updateDTO.isIndividualised(),
-            updateDTO.hasIndividualisedAddress()
-          )
-        )
-      );
+    PersonalData mockPersonalData = createPersonalData(
+      "onrId",
+      updateDTO.lastName(),
+      updateDTO.firstName(),
+      updateDTO.nickName(),
+      updateDTO.identityNumber(),
+      updateDTO.email(),
+      updateDTO.phoneNumber(),
+      updateDTO.street(),
+      updateDTO.postalCode(),
+      updateDTO.town(),
+      updateDTO.country(),
+      updateDTO.isIndividualised(),
+      updateDTO.hasIndividualisedAddress()
+    );
 
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of("onrId", mockPersonalData));
+
+    final InterpreterAuditDTO oldAuditDto = new InterpreterAuditDTO(interpreter, mockPersonalData);
     final ClerkInterpreterDTO updated = clerkInterpreterService.updateInterpreter(updateDTO);
+    final InterpreterAuditDTO newAuditDTO = new InterpreterAuditDTO(updated);
 
     assertEquals(interpreter.getId(), updated.id());
     assertEquals(initialVersion + 1, updated.version());
@@ -719,7 +747,7 @@ class ClerkInterpreterServiceTest {
     assertEquals(List.of("01"), updated.regions());
 
     verify(onrService).updatePersonalData(any());
-    verify(auditService).logById(OtrOperation.UPDATE_INTERPRETER, updated.id());
+    verify(auditService).logUpdate(OtrOperation.UPDATE_INTERPRETER, updated.id(), oldAuditDto, newAuditDTO);
     verifyNoMoreInteractions(auditService);
   }
 
@@ -752,34 +780,31 @@ class ClerkInterpreterServiceTest {
       .regions(List.of("01", "01", "02"))
       .build();
 
-    when(onrService.getCachedPersonalDatas())
-      .thenReturn(
-        Map.of(
-          "onrId",
-          createPersonalData(
-            "onrId",
-            updateDTO.lastName(),
-            updateDTO.firstName(),
-            updateDTO.nickName(),
-            updateDTO.identityNumber(),
-            updateDTO.email(),
-            updateDTO.phoneNumber(),
-            updateDTO.street(),
-            updateDTO.postalCode(),
-            updateDTO.town(),
-            updateDTO.country(),
-            updateDTO.isIndividualised(),
-            updateDTO.hasIndividualisedAddress()
-          )
-        )
-      );
+    PersonalData mockPersonalData = createPersonalData(
+      "onrId",
+      updateDTO.lastName(),
+      updateDTO.firstName(),
+      updateDTO.nickName(),
+      updateDTO.identityNumber(),
+      updateDTO.email(),
+      updateDTO.phoneNumber(),
+      updateDTO.street(),
+      updateDTO.postalCode(),
+      updateDTO.town(),
+      updateDTO.country(),
+      updateDTO.isIndividualised(),
+      updateDTO.hasIndividualisedAddress()
+    );
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of("onrId", mockPersonalData));
 
+    final InterpreterAuditDTO oldAuditDto = new InterpreterAuditDTO(interpreter, mockPersonalData);
     final ClerkInterpreterDTO updated = clerkInterpreterService.updateInterpreter(updateDTO);
+    final InterpreterAuditDTO newAuditDTO = new InterpreterAuditDTO(updated);
 
     assertEquals(List.of("01", "02"), updated.regions());
 
     verify(onrService).updatePersonalData(any());
-    verify(auditService).logById(OtrOperation.UPDATE_INTERPRETER, updated.id());
+    verify(auditService).logUpdate(OtrOperation.UPDATE_INTERPRETER, updated.id(), oldAuditDto, newAuditDTO);
     verifyNoMoreInteractions(auditService);
   }
 
@@ -882,6 +907,7 @@ class ClerkInterpreterServiceTest {
       .filter(dto -> dto.diaryNumber() != null && dto.diaryNumber().equals("1000"))
       .toList()
       .get(0);
+    final QualificationAuditDTO auditDTO = new QualificationAuditDTO(qualificationDTO);
 
     assertNotNull(qualificationDTO);
     assertEquals(0, qualificationDTO.version());
@@ -892,7 +918,8 @@ class ClerkInterpreterServiceTest {
     assertEquals(ExaminationType.KKT, qualificationDTO.examinationType());
     assertFalse(qualificationDTO.permissionToPublish());
 
-    verify(auditService).logQualification(OtrOperation.CREATE_QUALIFICATION, interpreter, qualificationDTO.id());
+    verify(auditService)
+      .logQualification(OtrOperation.CREATE_QUALIFICATION, interpreter.getId(), qualificationDTO.id(), auditDTO);
     verifyNoMoreInteractions(auditService);
   }
 
@@ -1014,11 +1041,14 @@ class ClerkInterpreterServiceTest {
       .diaryNumber("2000")
       .build();
 
+    final QualificationAuditDTO oldAuditDto = new QualificationAuditDTO(qualification);
+
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.updateQualification(updateDTO);
 
     assertEquals(1, interpreterDTO.qualifications().effective().size());
     assertEquals(1, interpreterDTO.qualifications().expiring().size());
     final ClerkQualificationDTO qualificationDTO = interpreterDTO.qualifications().expiring().get(0);
+    final QualificationAuditDTO newAuditDto = new QualificationAuditDTO(qualificationDTO);
 
     assertEquals(updateDTO.version() + 1, qualificationDTO.version());
     assertEquals("FI", qualificationDTO.fromLang());
@@ -1029,7 +1059,14 @@ class ClerkInterpreterServiceTest {
     assertTrue(qualificationDTO.permissionToPublish());
     assertEquals("2000", qualificationDTO.diaryNumber());
 
-    verify(auditService).logQualification(OtrOperation.UPDATE_QUALIFICATION, interpreter, qualificationDTO.id());
+    verify(auditService)
+      .logQualification(
+        OtrOperation.UPDATE_QUALIFICATION,
+        interpreter,
+        qualificationDTO.id(),
+        oldAuditDto,
+        newAuditDto
+      );
     verifyNoMoreInteractions(auditService);
   }
 

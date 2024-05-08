@@ -40,7 +40,8 @@ public class MeetingDateService {
     }
 
     final MeetingDateDTO result = toDTO(meetingDate);
-    auditService.logById(AkrOperation.CREATE_MEETING_DATE, meetingDate.getId());
+    final MeetingDateAuditDTO auditDto = new MeetingDateAuditDTO(result);
+    auditService.logCreate(AkrOperation.CREATE_MEETING_DATE, meetingDate.getId(), auditDto);
     return result;
   }
 

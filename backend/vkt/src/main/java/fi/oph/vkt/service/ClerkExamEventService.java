@@ -115,7 +115,8 @@ public class ClerkExamEventService {
       throw ex;
     }
 
-    auditService.logById(VktOperation.CREATE_EXAM_EVENT, examEvent.getId());
+    final ClerkExamEventAuditDTO auditDto = ExamEventUtil.createExamEventAuditDTO(examEvent);
+    auditService.logCreate(VktOperation.CREATE_EXAM_EVENT, examEvent.getId(), auditDto);
     return getExamEventWithoutAudit(examEvent.getId());
   }
 

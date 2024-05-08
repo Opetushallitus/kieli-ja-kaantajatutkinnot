@@ -12,6 +12,7 @@ import fi.oph.otr.api.dto.clerk.modify.MeetingDateCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.MeetingDateUpdateDTO;
 import fi.oph.otr.audit.AuditService;
 import fi.oph.otr.audit.OtrOperation;
+import fi.oph.otr.audit.dto.MeetingDateAuditDTO;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.MeetingDate;
 import fi.oph.otr.model.Qualification;
@@ -73,6 +74,7 @@ class MeetingDateServiceTest {
     final MeetingDateCreateDTO dto = MeetingDateCreateDTO.builder().date(LocalDate.now()).build();
 
     final MeetingDateDTO response = meetingDateService.createMeetingDate(dto);
+    final MeetingDateAuditDTO auditDTO = new MeetingDateAuditDTO(response);
     assertEquals(dto.date(), response.date());
 
     final List<MeetingDate> allMeetingDates = meetingDateRepository.findAll();
@@ -80,7 +82,7 @@ class MeetingDateServiceTest {
     assertEquals(response.id(), allMeetingDates.get(0).getId());
     assertEquals(response.date(), allMeetingDates.get(0).getDate());
 
-    verify(auditService).logById(OtrOperation.CREATE_MEETING_DATE, response.id());
+    verify(auditService).logCreate(OtrOperation.CREATE_MEETING_DATE, response.id(), auditDTO);
     verifyNoMoreInteractions(auditService);
   }
 
@@ -101,6 +103,7 @@ class MeetingDateServiceTest {
   public void testMeetingDateUpdate() {
     final MeetingDate meetingDate = Factory.meetingDate();
     entityManager.persist(meetingDate);
+    final MeetingDateAuditDTO oldAuditDto = new MeetingDateAuditDTO(meetingDate);
 
     final MeetingDateUpdateDTO updateDTO = MeetingDateUpdateDTO
       .builder()
@@ -110,12 +113,13 @@ class MeetingDateServiceTest {
       .build();
 
     final MeetingDateDTO response = meetingDateService.updateMeetingDate(updateDTO);
+    final MeetingDateAuditDTO newAuditDto = new MeetingDateAuditDTO(response);
 
     assertEquals(updateDTO.id(), response.id());
     assertEquals(updateDTO.version() + 1, response.version());
     assertEquals(updateDTO.date(), response.date());
 
-    verify(auditService).logById(OtrOperation.UPDATE_MEETING_DATE, response.id());
+    verify(auditService).logUpdate(OtrOperation.UPDATE_MEETING_DATE, response.id(), oldAuditDto, newAuditDto);
     verifyNoMoreInteractions(auditService);
   }
 
