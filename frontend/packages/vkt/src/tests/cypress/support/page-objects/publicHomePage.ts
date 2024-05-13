@@ -19,8 +19,7 @@ class PublicHomePage {
       cy.findByTestId('public-enrollment__reservation-expired-ok-button'),
     enrollAuthenticateButton: () =>
       cy.findByTestId('public-enrollment__authenticate-button'),
-    sessionExpiredModal: () =>
-      cy.findByTestId('session-expired-modal'),
+    sessionExpiredModal: () => cy.findByTestId('session-expired-modal'),
   };
 
   clickExamEventRow(id: number) {

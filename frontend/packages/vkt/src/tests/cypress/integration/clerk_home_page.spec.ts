@@ -62,5 +62,4 @@ describe('ClerkHomePage', () => {
     cy.tick(6 * 1000);
     onClerkHomePage.expectSessionExpiredModal();
   });
-
 });
