@@ -20,6 +20,7 @@ import fi.oph.vkt.service.PublicReservationService;
 import fi.oph.vkt.util.SessionUtil;
 import fi.oph.vkt.util.UIRouteUtil;
 import fi.oph.vkt.util.exception.APIException;
+import fi.oph.vkt.util.exception.NotFoundException;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -75,9 +76,6 @@ public class PublicController {
 
   @Resource
   private UIRouteUtil uiRouteUtil;
-
-  @Autowired
-  private FindByIndexNameSessionRepository<? extends Session> sessions;
 
   @GetMapping(path = "/examEvent")
   public List<PublicExamEventDTO> list() {
@@ -237,7 +235,7 @@ public class PublicController {
 
     try {
       return Optional.of(publicPersonService.getPersonDTO(publicAuthService.getPersonFromSession(session)));
-    } catch (Exception e) {
+    } catch (final NotFoundException e) {
       session.invalidate();
 
       return Optional.empty();
