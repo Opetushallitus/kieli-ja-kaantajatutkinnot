@@ -1,5 +1,6 @@
 package fi.oph.akr.audit.dto;
 
+import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorDTO;
 import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.model.Translator;
@@ -31,7 +32,7 @@ public record ClerkTranslatorAuditDTO(
   String selectedType
 )
   implements AuditEntityDTO {
-  public ClerkTranslatorAuditDTO(ClerkTranslatorDTO translator) {
+  public ClerkTranslatorAuditDTO(final ClerkTranslatorDTO translator) {
     this(
       translator.id(),
       translator.version(),
@@ -49,11 +50,15 @@ public record ClerkTranslatorAuditDTO(
         .collect(
           Collectors.toMap(
             address -> address.source() + ":" + address.type(),
-            address -> new TranslatorAddressDTO(address),
+            TranslatorAddressDTO::new,
             (address1, address2) -> {
               final Logger log = LoggerFactory.getLogger(ClerkTranslatorAuditDTO.class);
               log.warn(
-                String.format("Address with duplicate ONR source. Address 1: '%', address 2: '%'", address1, address2)
+                String.format(
+                  "Address with duplicate ONR source. Address 1: '%s', address 2: '%s'",
+                  address1.source(),
+                  address2.source()
+                )
               );
               return address2;
             }
@@ -61,8 +66,8 @@ public record ClerkTranslatorAuditDTO(
         ),
       translator.extraInformation(),
       translator.isAssuranceGiven(),
-      translator.address().stream().filter(addr -> addr.selected()).findAny().get().source().toString(),
-      translator.address().stream().filter(addr -> addr.selected()).findAny().get().type().toString()
+      translator.address().stream().filter(ClerkTranslatorAddressDTO::selected).findAny().get().source().toString(),
+      translator.address().stream().filter(ClerkTranslatorAddressDTO::selected).findAny().get().type().toString()
     );
   }
 
@@ -81,7 +86,23 @@ public record ClerkTranslatorAuditDTO(
       personalData
         .getAddress()
         .stream()
-        .collect(Collectors.toMap(address -> address.source() + ":" + address.type(), Function.identity())),
+        .collect(
+          Collectors.toMap(
+            address -> address.source() + ":" + address.type(),
+            Function.identity(),
+            (address1, address2) -> {
+              final Logger log = LoggerFactory.getLogger(ClerkTranslatorAuditDTO.class);
+              log.warn(
+                String.format(
+                  "Address with duplicate ONR source. Address 1: '%s', address 2: '%s'",
+                  address1.source(),
+                  address2.source()
+                )
+              );
+              return address2;
+            }
+          )
+        ),
       translator.getExtraInformation(),
       translator.isAssuranceGiven(),
       translator.getSelectedSource(),

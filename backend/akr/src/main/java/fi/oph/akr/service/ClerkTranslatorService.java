@@ -281,7 +281,7 @@ public class ClerkTranslatorService {
     dto
       .authorisations()
       .forEach(authDto -> {
-        Authorisation authorisation = createAuthorisation(translator, meetingDates, examinationDates, authDto);
+        final Authorisation authorisation = createAuthorisation(translator, meetingDates, examinationDates, authDto);
         final AuthorisationAuditDTO authorisationAuditDTO = new AuthorisationAuditDTO(authorisation);
         auditService.logAuthorisation(
           AkrOperation.CREATE_AUTHORISATION,
@@ -292,8 +292,14 @@ public class ClerkTranslatorService {
       });
 
     final ClerkTranslatorDTO result = getTranslatorWithoutAudit(translator.getId());
-    final ClerkTranslatorAuditDTO auditDTO = new ClerkTranslatorAuditDTO(result);
-    auditService.logCreate(AkrOperation.CREATE_TRANSLATOR, translator.getId(), auditDTO);
+
+    try {
+      final ClerkTranslatorAuditDTO auditDTO = new ClerkTranslatorAuditDTO(result);
+      auditService.logCreate(AkrOperation.CREATE_TRANSLATOR, translator.getId(), auditDTO);
+    } catch (final Exception e) {
+      LOG.error("Failed to audit log create operation", e);
+    }
+
     return result;
   }
 
@@ -322,7 +328,7 @@ public class ClerkTranslatorService {
 
     final PersonalData oldPersonalData = onrService.getCachedPersonalDatas().get(translator.getOnrId());
     final PersonalData personalData = createPersonalData(translator.getOnrId(), dto);
-    ClerkTranslatorAuditDTO oldTranslatorDTO = new ClerkTranslatorAuditDTO(translator, oldPersonalData);
+    final ClerkTranslatorAuditDTO oldTranslatorDTO = new ClerkTranslatorAuditDTO(translator, oldPersonalData);
 
     validatePersonalData(personalData);
     onrService.updatePersonalData(personalData);
@@ -332,8 +338,14 @@ public class ClerkTranslatorService {
     translatorRepository.flush();
 
     final ClerkTranslatorDTO result = getTranslatorWithoutAudit(translator.getId());
-    ClerkTranslatorAuditDTO newTranslator = new ClerkTranslatorAuditDTO(translator, personalData);
-    auditService.logUpdate(AkrOperation.UPDATE_TRANSLATOR, translator.getId(), oldTranslatorDTO, newTranslator);
+
+    try {
+      final ClerkTranslatorAuditDTO newTranslator = new ClerkTranslatorAuditDTO(translator, personalData);
+      auditService.logUpdate(AkrOperation.UPDATE_TRANSLATOR, translator.getId(), oldTranslatorDTO, newTranslator);
+    } catch (final Exception e) {
+      LOG.error("Failed to audit log create operation", e);
+    }
+
     return result;
   }
 
