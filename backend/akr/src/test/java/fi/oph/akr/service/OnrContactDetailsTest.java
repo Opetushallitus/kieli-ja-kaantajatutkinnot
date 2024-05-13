@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
-
 import org.asynchttpclient.Request;
 import org.asynchttpclient.Response;
 import org.junit.jupiter.api.BeforeEach;

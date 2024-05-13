@@ -1,7 +1,6 @@
 package fi.oph.akr.api.dto.clerk.modify;
 
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
-
 import java.util.List;
 
 public interface TranslatorDTOCommonFields {
