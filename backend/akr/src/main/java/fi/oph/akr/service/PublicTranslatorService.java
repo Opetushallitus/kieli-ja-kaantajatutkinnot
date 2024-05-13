@@ -3,7 +3,6 @@ package fi.oph.akr.service;
 import fi.oph.akr.api.dto.LanguagePairDTO;
 import fi.oph.akr.api.dto.LanguagePairsDictDTO;
 import fi.oph.akr.api.dto.PublicTownDTO;
-import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
 import fi.oph.akr.api.dto.translator.PublicTranslatorDTO;
 import fi.oph.akr.api.dto.translator.PublicTranslatorResponseDTO;
 import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;

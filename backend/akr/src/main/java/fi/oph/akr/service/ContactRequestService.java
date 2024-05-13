@@ -60,7 +60,7 @@ public class ContactRequestService {
     final List<TranslatorPersonalDataDTO> translatorsPersonalDataDTOs = translators
       .stream()
       .map(t -> {
-        PersonalData personalData = personalDatas.get(t.getOnrId());
+        final PersonalData personalData = personalDatas.get(t.getOnrId());
         return TranslatorPersonalDataDTO
           .builder()
           .translatorId(t.getId())

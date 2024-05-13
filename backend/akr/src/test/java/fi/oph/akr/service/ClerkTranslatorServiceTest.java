@@ -679,10 +679,10 @@ class ClerkTranslatorServiceTest {
 
     final PersonalData personalData = defaultPersonalData(updateDTO, translator.getOnrId());
     when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
-    ClerkTranslatorAuditDTO oldDTO = new ClerkTranslatorAuditDTO(translator, personalData);
+    final ClerkTranslatorAuditDTO oldDTO = new ClerkTranslatorAuditDTO(translator, personalData);
 
     final ClerkTranslatorDTO response = clerkTranslatorService.updateTranslator(updateDTO);
-    ClerkTranslatorAuditDTO newDTO = new ClerkTranslatorAuditDTO(response);
+    final ClerkTranslatorAuditDTO newDTO = new ClerkTranslatorAuditDTO(response);
 
     assertResponseMatchesGet(response);
 
@@ -708,10 +708,10 @@ class ClerkTranslatorServiceTest {
 
     final PersonalData personalData = defaultPersonalData(updateDTO, translator.getOnrId());
     when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
-    ClerkTranslatorAuditDTO oldDTO = new ClerkTranslatorAuditDTO(translator, personalData);
+    final ClerkTranslatorAuditDTO oldDTO = new ClerkTranslatorAuditDTO(translator, personalData);
 
     final ClerkTranslatorDTO response = clerkTranslatorService.updateTranslator(updateDTO);
-    ClerkTranslatorAuditDTO newDTO = new ClerkTranslatorAuditDTO(response);
+    final ClerkTranslatorAuditDTO newDTO = new ClerkTranslatorAuditDTO(response);
 
     assertResponseMatchesGet(response);
 
@@ -825,7 +825,7 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(translator);
     entityManager.persist(authorisation);
 
-    AuthorisationAuditDTO oldDTO = new AuthorisationAuditDTO(authorisation);
+    final AuthorisationAuditDTO oldDTO = new AuthorisationAuditDTO(authorisation);
 
     final AuthorisationUpdateDTO updateDTO = AuthorisationUpdateDTO
       .builder()
@@ -845,7 +845,7 @@ class ClerkTranslatorServiceTest {
     assertResponseMatchesGet(response);
 
     final AuthorisationDTO authorisationDTO = response.authorisations().effective().get(0);
-    AuthorisationAuditDTO newDTO = new AuthorisationAuditDTO(authorisationDTO);
+    final AuthorisationAuditDTO newDTO = new AuthorisationAuditDTO(authorisationDTO);
     assertEquals(updateDTO.id(), authorisationDTO.id());
     assertEquals(updateDTO.version() + 1, authorisationDTO.version());
     assertAuthorisationCommonFields(updateDTO, authorisationDTO);

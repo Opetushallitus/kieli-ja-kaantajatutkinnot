@@ -1,7 +1,6 @@
 package fi.oph.akr.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -20,10 +19,9 @@ import fi.oph.akr.onr.model.PersonalData;
 import fi.vm.sade.javautils.nio.cas.CasClient;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
-import org.apache.commons.collections4.CollectionUtils;
+
 import org.asynchttpclient.Request;
 import org.asynchttpclient.Response;
 import org.junit.jupiter.api.BeforeEach;

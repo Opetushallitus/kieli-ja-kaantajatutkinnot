@@ -71,7 +71,7 @@ public record ClerkTranslatorAuditDTO(
     );
   }
 
-  public ClerkTranslatorAuditDTO(Translator translator, PersonalData personalData) {
+  public ClerkTranslatorAuditDTO(final Translator translator, final PersonalData personalData) {
     this(
       translator.getId(),
       translator.getVersion(),
