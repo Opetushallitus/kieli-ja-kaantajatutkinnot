@@ -343,7 +343,7 @@ public class ClerkTranslatorService {
       final ClerkTranslatorAuditDTO newTranslator = new ClerkTranslatorAuditDTO(translator, personalData);
       auditService.logUpdate(AkrOperation.UPDATE_TRANSLATOR, translator.getId(), oldTranslatorDTO, newTranslator);
     } catch (final Exception e) {
-      LOG.error("Failed to audit log create operation", e);
+      LOG.error("Failed to audit log update operation", e);
     }
 
     return result;
