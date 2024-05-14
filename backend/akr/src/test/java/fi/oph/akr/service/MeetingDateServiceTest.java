@@ -103,7 +103,7 @@ class MeetingDateServiceTest {
   public void testMeetingDateUpdate() {
     final MeetingDate meetingDate = Factory.meetingDate();
     entityManager.persist(meetingDate);
-    MeetingDateAuditDTO oldDTO = new MeetingDateAuditDTO(meetingDate);
+    final MeetingDateAuditDTO oldDTO = new MeetingDateAuditDTO(meetingDate);
 
     final MeetingDateUpdateDTO updateDTO = MeetingDateUpdateDTO
       .builder()
@@ -113,7 +113,7 @@ class MeetingDateServiceTest {
       .build();
 
     final MeetingDateDTO response = meetingDateService.updateMeetingDate(updateDTO);
-    MeetingDateAuditDTO newDTO = new MeetingDateAuditDTO(response);
+    final MeetingDateAuditDTO newDTO = new MeetingDateAuditDTO(response);
 
     assertEquals(updateDTO.id(), response.id());
     assertEquals(updateDTO.version() + 1, response.version());

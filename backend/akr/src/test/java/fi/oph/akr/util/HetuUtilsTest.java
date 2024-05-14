@@ -88,46 +88,46 @@ class HetuUtilsTest {
 
   @ParameterizedTest
   @MethodSource("valid")
-  void testValid(Fixture fixture) {
+  void testValid(final Fixture fixture) {
     assertThat(HetuUtils.hetuIsValid(fixture.getHetu())).isTrue();
   }
 
   @ParameterizedTest
   @MethodSource("excel")
-  void testDisallowFakes(Fixture fixture) {
+  void testDisallowFakes(final Fixture fixture) {
     HetuUtils.setAllowFake(!HetuUtils.ALLOW_FAKE_DEFAULT);
     assertThat(HetuUtils.hetuIsValid(fixture.getHetu())).isFalse();
   }
 
   @ParameterizedTest
   @MethodSource("generated")
-  void testDisallowFakesAcceptValid(Fixture fixture) {
+  void testDisallowFakesAcceptValid(final Fixture fixture) {
     HetuUtils.setAllowFake(!HetuUtils.ALLOW_FAKE_DEFAULT);
     assertThat(HetuUtils.hetuIsValid(fixture.getHetu())).isTrue();
   }
 
   @ParameterizedTest
   @MethodSource("valid")
-  void testInvalid(Fixture fixture) {
+  void testInvalid(final Fixture fixture) {
     // Replace checksum with "O" to be sure that hetu is invalid
     assertThat(HetuUtils.hetuIsValid(fixture.getHetu().substring(0, fixture.getHetu().length() - 1) + "O")).isFalse();
   }
 
   @ParameterizedTest
   @MethodSource("valid")
-  void testYearExtraction(Fixture fixture) {
+  void testYearExtraction(final Fixture fixture) {
     assertThat(HetuUtils.dateFromHetu(fixture.getHetu())).isEqualTo(fixture.getDob());
   }
 
   @ParameterizedTest
   @MethodSource("valid")
-  void testGenderExtraction(Fixture fixture) {
+  void testGenderExtraction(final Fixture fixture) {
     assertThat(HetuUtils.sukupuoliFromHetu(fixture.getHetu())).isEqualTo(fixture.getGender());
   }
 
   @ParameterizedTest
   @MethodSource("bogus")
-  void testBogus(String hetu) {
+  void testBogus(final String hetu) {
     assertThat(HetuUtils.hetuIsValid(hetu)).isFalse();
   }
 

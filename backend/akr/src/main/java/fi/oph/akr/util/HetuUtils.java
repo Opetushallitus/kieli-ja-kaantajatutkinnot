@@ -58,7 +58,7 @@ public class HetuUtils {
     allowFake = allow;
   }
 
-  public static boolean hetuIsValid(String hetu) {
+  public static boolean hetuIsValid(final String hetu) {
     if (hetu != null && hetu.length() == 11) {
       try {
         dateFromHetu(hetu);
@@ -66,45 +66,45 @@ public class HetuUtils {
           extractTarkistusmerkki(hetu) == tarkistusmerkit[tarkistussumma(hetu) % tarkistusmerkit.length] &&
           checkForFake(hetu)
         );
-      } catch (Exception e) {
+      } catch (final Exception e) {
         // do not throw exceptions
       }
     }
     return false;
   }
 
-  private static boolean checkForFake(String hetu) {
+  private static boolean checkForFake(final String hetu) {
     return allowFake || hetu.charAt(7) != '9';
   }
 
-  public static LocalDate dateFromHetu(String hetu) {
+  public static LocalDate dateFromHetu(final String hetu) {
     return LocalDate.parse(
       String.format("%s%s%s", extractPvm(hetu), extractVuosisata(hetu), extractVuosi(hetu)),
       dateFormatter
     );
   }
 
-  public static String sukupuoliFromHetu(String hetu) {
+  public static String sukupuoliFromHetu(final String hetu) {
     return Character.digit(hetu.charAt(9), 10) % 2 == 0 ? "2" : "1";
   }
 
-  private static char extractTarkistusmerkki(String hetu) {
+  private static char extractTarkistusmerkki(final String hetu) {
     return hetu.charAt(10);
   }
 
-  private static int tarkistussumma(String hetu) {
+  private static int tarkistussumma(final String hetu) {
     return Integer.parseInt(hetu.substring(0, 6) + hetu.substring(7, 10), 10);
   }
 
-  private static String extractVuosisata(String hetu) {
+  private static String extractVuosisata(final String hetu) {
     return Optional.of(vuosisataByErotinmerkki.get(hetu.substring(6, 7))).get();
   }
 
-  private static String extractVuosi(String hetu) {
+  private static String extractVuosi(final String hetu) {
     return hetu.substring(4, 6);
   }
 
-  private static String extractPvm(String hetu) {
+  private static String extractPvm(final String hetu) {
     return hetu.substring(0, 4);
   }
 }

@@ -23,7 +23,7 @@ public record AuthorisationAuditDTO(
   String examinationDate
 )
   implements AuditEntityDTO {
-  public AuthorisationAuditDTO(AuthorisationDTO update) {
+  public AuthorisationAuditDTO(final AuthorisationDTO update) {
     this(
       update.id(),
       update.version(),
@@ -37,7 +37,7 @@ public record AuthorisationAuditDTO(
       DateUtil.formatOptionalDate(update.examinationDate())
     );
   }
-  public AuthorisationAuditDTO(AuthorisationUpdateDTO update) {
+  public AuthorisationAuditDTO(final AuthorisationUpdateDTO update) {
     this(
       update.id(),
       update.version(),
@@ -52,7 +52,7 @@ public record AuthorisationAuditDTO(
     );
   }
 
-  public AuthorisationAuditDTO(Authorisation authorisation) {
+  public AuthorisationAuditDTO(final Authorisation authorisation) {
     this(
       authorisation.getId(),
       authorisation.getVersion(),

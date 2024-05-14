@@ -15,13 +15,13 @@ public record MeetingDateAuditDTO(
   @NonNull @NotNull String date
 )
   implements AuditEntityDTO {
-  public MeetingDateAuditDTO(MeetingDateUpdateDTO date) {
+  public MeetingDateAuditDTO(final MeetingDateUpdateDTO date) {
     this(date.id(), date.version(), DateUtil.formatOptionalDate(date.date()));
   }
-  public MeetingDateAuditDTO(MeetingDateDTO date) {
+  public MeetingDateAuditDTO(final MeetingDateDTO date) {
     this(date.id(), date.version(), DateUtil.formatOptionalDate(date.date()));
   }
-  public MeetingDateAuditDTO(MeetingDate date) {
+  public MeetingDateAuditDTO(final MeetingDate date) {
     this(date.getId(), date.getVersion(), DateUtil.formatOptionalDate(date.getDate()));
   }
 }

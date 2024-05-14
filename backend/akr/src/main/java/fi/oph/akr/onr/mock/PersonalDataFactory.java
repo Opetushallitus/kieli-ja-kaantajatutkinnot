@@ -1,6 +1,5 @@
 package fi.oph.akr.onr.mock;
 
-import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
 import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
 import fi.oph.akr.onr.dto.ContactDetailsGroupType;

@@ -110,7 +110,7 @@ class ContactRequestServiceTest {
     when(templateRenderer.renderContactRequestClerkEmailBody(anyMap()))
       .thenAnswer(
         new Answer() {
-          public Object answer(InvocationOnMock invocation) {
+          public Object answer(final InvocationOnMock invocation) {
             return Arrays.toString(invocation.getArguments());
           }
         }

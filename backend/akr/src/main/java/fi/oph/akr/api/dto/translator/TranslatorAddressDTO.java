@@ -16,7 +16,7 @@ public record TranslatorAddressDTO(
   @NonNull ContactDetailsGroupType type
 )
   implements CommonTranslatorAddressDTO {
-  public TranslatorAddressDTO(ClerkTranslatorAddressDTO address) {
+  public TranslatorAddressDTO(final ClerkTranslatorAddressDTO address) {
     this(address.street(), address.postalCode(), address.town(), address.country(), address.source(), address.type());
   }
 }

@@ -20,12 +20,15 @@ import org.asynchttpclient.Request;
 import org.asynchttpclient.RequestBuilder;
 import org.asynchttpclient.Response;
 import org.asynchttpclient.util.HttpConstants.Methods;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 public class OnrOperationApiImpl implements OnrOperationApi {
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+  private static final Logger LOG = LoggerFactory.getLogger(OnrService.class);
 
   private final CasClient onrClient;
 
@@ -178,6 +181,8 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       .build();
 
     final Response response = onrClient.executeBlocking(request);
+
+    LOG.info("Update response from onr for oid {} is {}", personalData.getOnrId(), response.getResponseBody());
 
     if (response.getStatusCode() != HttpStatus.OK.value()) {
       throw new RuntimeException(
