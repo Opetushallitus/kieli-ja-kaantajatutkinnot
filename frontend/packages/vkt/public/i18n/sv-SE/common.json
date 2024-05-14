@@ -150,6 +150,11 @@
         "clerkHomepage": "Administratör"
       },
       "requiredFieldsInfo": "Fält markerade med en stjärna (*) är obligatoriska.",
+      "sessionExpired": {
+        "title": "Din session har gått ut",
+        "descriptionPublic": "Din session har gått ut. Vänligen identifiera dig på nytt.",
+        "descriptionClerk": "Din session har gått ut. Vänligen identifiera dig på nytt."
+      },
       "rowsPerPageLabel": "Resultat per sida",
       "save": "Spara",
       "vktHomepage": {
