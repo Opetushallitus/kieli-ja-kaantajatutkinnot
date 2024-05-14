@@ -10,4 +10,5 @@ import lombok.extern.jackson.Jacksonized;
 public class CasResponse {
 
   public CasAuthenticationSuccess authenticationSuccess;
+  public CasAuthenticationFailure authenticationFailure;
 }

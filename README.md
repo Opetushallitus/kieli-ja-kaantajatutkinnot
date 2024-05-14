@@ -86,6 +86,49 @@ docker-compose -f docker-compose-<app>.yml up --build --force-recreate --renew-a
 
 After starting the services, the frontend runs on > <http://localhost:4000>
 
+### Github maven authentication
+
+To read packages from github maven repository you need to enable token authentication from maven settings file:
+
+~/.m2/settings.xml
+```xml
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <activeProfiles>
+        <activeProfile>github</activeProfile>
+    </activeProfiles>
+
+    <profiles>
+        <profile>
+            <id>github</id>
+            <repositories>
+                <repository>
+                    <id>oph-github-packages</id>
+                    <url>https://maven.pkg.github.com/Opetushallitus/packages</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+
+    <servers>
+        <server>
+            <id>oph-github-packages</id>
+            <username>github-username</username>
+            <password>ghp_TOKEN_CLASSIC</password>
+        </server>
+    </servers>
+</settings>
+```
+
 &nbsp;
 
 ## Deployment

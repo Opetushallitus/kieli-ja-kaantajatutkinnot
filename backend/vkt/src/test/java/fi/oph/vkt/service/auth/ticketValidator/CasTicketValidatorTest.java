@@ -96,7 +96,7 @@ public class CasTicketValidatorTest {
   @Test
   public void testValidateTicketFail200() {
     final APIException ex = assertThrows(APIException.class, () -> doRequest(getMockFailResponse(), 200));
-    assertEquals(APIExceptionType.TICKET_VALIDATION_ERROR, ex.getExceptionType());
+    assertEquals(APIExceptionType.INVALID_TICKET, ex.getExceptionType());
   }
 
   private Map<String, String> doRequest(final String response) {

@@ -5,12 +5,14 @@ import { LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
+import { SessionExpiredModal } from 'components/layouts/SessionExpiredModal';
 import { PublicEnrollmentDesktopGrid } from 'components/publicEnrollment/PublicEnrollmentDesktopGrid';
 import { PublicEnrollmentPhoneGrid } from 'components/publicEnrollment/PublicEnrollmentPhoneGrid';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, EnrollmentStatus } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { useAuthentication } from 'hooks/useAuthentication';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import {
   loadEnrollmentInitialisation,
@@ -30,6 +32,7 @@ export const PublicEnrollmentGrid = ({
   const [isStepValid, setIsStepValid] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
   const translateCommon = useCommonTranslation();
+  const { publicUser } = useAuthentication();
 
   // Redux
   const dispatch = useAppDispatch();
@@ -49,6 +52,12 @@ export const PublicEnrollmentGrid = ({
   const isAuthenticatePassed =
     activeStep > PublicEnrollmentFormStep.Authenticate;
   const isAuthenticateActive = !isAuthenticatePassed;
+
+  const isAuthenticationValid =
+    !isAuthenticatePassed ||
+    publicUser.status === APIResponseStatus.NotStarted ||
+    publicUser.status === APIResponseStatus.InProgress ||
+    publicUser.isAuthenticated;
 
   useEffect(() => {
     if (params.examEventId) {
@@ -145,6 +154,7 @@ export const PublicEnrollmentGrid = ({
       direction="column"
       className="public-enrollment"
     >
+      {!isAuthenticationValid && <SessionExpiredModal isClerkUI={false} />}
       {isPhone ? (
         <PublicEnrollmentPhoneGrid
           isStepValid={isStepValid}

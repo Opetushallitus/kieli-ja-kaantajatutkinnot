@@ -3,11 +3,15 @@ package fi.oph.vkt.config;
 import fi.oph.vkt.payment.PaymentProvider;
 import fi.oph.vkt.payment.paytrail.PaytrailConfig;
 import fi.oph.vkt.payment.paytrail.PaytrailPaymentProvider;
+import fi.oph.vkt.repository.CasTicketRepository;
+import fi.oph.vkt.service.auth.CasSessionMappingStorage;
 import fi.oph.vkt.service.auth.ticketValidator.CasTicketValidator;
 import fi.oph.vkt.service.email.sender.EmailSender;
 import fi.oph.vkt.service.email.sender.EmailSenderNoOp;
 import fi.oph.vkt.service.email.sender.EmailSenderViestintapalvelu;
 import fi.oph.vkt.util.UUIDSource;
+import jakarta.servlet.ServletContext;
+import org.apereo.cas.client.session.SessionMappingStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +22,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.session.FindByIndexNameSessionRepository;
+import org.springframework.session.Session;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -67,6 +73,14 @@ public class AppConfig {
       .build();
 
     return new CasTicketValidator(environment, webClient);
+  }
+
+  @Bean
+  public CasSessionMappingStorage sessionMappingStorage(
+    final FindByIndexNameSessionRepository<? extends Session> sessions,
+    final CasTicketRepository casTicketRepository
+  ) {
+    return new CasSessionMappingStorage(sessions, casTicketRepository);
   }
 
   @Bean

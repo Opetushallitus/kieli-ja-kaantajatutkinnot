@@ -32,11 +32,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurityConfig {
 
   private final Environment environment;
-  private final SessionMappingStorage sessionMappingStorage = new HashMapBackedSessionMappingStorage();
+  private final SessionMappingStorage sessionMappingStorage;
 
   @Autowired
-  public WebSecurityConfig(final Environment environment) {
+  public WebSecurityConfig(final Environment environment, final SessionMappingStorage sessionMappingStorage) {
     this.environment = environment;
+    this.sessionMappingStorage = sessionMappingStorage;
   }
 
   @Bean
@@ -171,7 +172,11 @@ public class WebSecurityConfig {
     requestHandler.setCsrfRequestAttributeName(null);
 
     return httpSecurity.csrf(configurer ->
-      configurer.csrfTokenRepository(csrfTokenRepository).csrfTokenRequestHandler(requestHandler)
+      configurer
+        .csrfTokenRepository(csrfTokenRepository)
+        .csrfTokenRequestHandler(requestHandler)
+        .ignoringRequestMatchers("/api/v1/auth/validate/*/*") // Required for public CAS logout callback
+        .ignoringRequestMatchers("/vkt/virkailija/login/cas ") // Required for clerk CAS logout callback
     );
   }
 }

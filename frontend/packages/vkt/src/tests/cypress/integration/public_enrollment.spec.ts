@@ -1,6 +1,10 @@
+import { HTTPStatusCode } from 'shared/enums';
+
+import { APIEndpoints } from 'enums/api';
 import { onPublicEnrollmentPage } from 'tests/cypress/support/page-objects/publicEnrollmentPage';
 import { onPublicHomePage } from 'tests/cypress/support/page-objects/publicHomePage';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
+import { fixedDateForTests } from 'tests/cypress/support/utils/date';
 
 beforeEach(() => {
   cy.openPublicEnrollmentPage(2);
@@ -17,9 +21,23 @@ describe('Public enrollment', () => {
     });
 
     it('reservation should allow renewal', () => {
+      const response: PublicReservationResponse = {
+        id: 1,
+        expiresAt: fixedDateForTests.add(59, 'minute').format(),
+        createdAt: fixedDateForTests.format(),
+        renewedAt: fixedDateForTests.add(29, 'minute').format(),
+        isRenewable: false,
+      };
+
+      cy.intercept('PUT', `${APIEndpoints.PublicReservation}/1/renew`, {
+        statusCode: HTTPStatusCode.Ok,
+        body: response,
+      }).as('renewReservation');
+
       onPublicHomePage.expectReservationTimeLeft('30', '00');
       cy.tick(29 * 60 * 1000);
       onPublicHomePage.clickReservationRenewButton();
+      cy.wait('@renewReservation');
       cy.tick(30 * 1000);
       onPublicHomePage.expectReservationTimeLeft('29', '30');
     });
@@ -27,6 +45,15 @@ describe('Public enrollment', () => {
     it('reservation expired should display info modal', () => {
       cy.tick(31 * 60 * 1000);
       onPublicHomePage.expectReservationExpiredOkButtonEnabled();
+    });
+
+    it('should show session expired modal', () => {
+      // Only used in mockup server to trigger
+      // logged out response
+      cy.setCookie('noAuth', 'true');
+      cy.wait(10);
+      cy.tick(6 * 1000);
+      onPublicHomePage.expectSessionExpiredModal();
     });
 
     it('should be able to fill out enrollment info', () => {

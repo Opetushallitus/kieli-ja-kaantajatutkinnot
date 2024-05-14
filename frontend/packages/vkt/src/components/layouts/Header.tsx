@@ -8,11 +8,12 @@ import {
   SkipLink,
   Text,
 } from 'shared/components';
-import { AppLanguage, Direction } from 'shared/enums';
+import { APIResponseStatus, AppLanguage, Direction } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { ClerkHeaderButtons } from 'components/layouts/clerkHeader/ClerkHeaderButtons';
 import { ClerkNavTabs } from 'components/layouts/clerkHeader/ClerkNavTabs';
+import { SessionExpiredModal } from 'components/layouts/SessionExpiredModal';
 import { SessionStateHeader } from 'components/layouts/SessionStateHeader';
 import {
   changeLang,
@@ -20,10 +21,15 @@ import {
   getSupportedLangs,
   useCommonTranslation,
 } from 'configs/i18n';
+import { useAppDispatch } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { useAuthentication } from 'hooks/useAuthentication';
+import { useInterval } from 'hooks/useInterval';
+import { loadClerkUser } from 'redux/reducers/clerkUser';
+import { loadPublicUser } from 'redux/reducers/publicUser';
 
 export const Header = (): JSX.Element => {
+  const dispatch = useAppDispatch();
   const translateCommon = useCommonTranslation();
   const [finnish, swedish] = getSupportedLangs();
 
@@ -32,14 +38,33 @@ export const Header = (): JSX.Element => {
     [translateCommon('header.lang.sv'), swedish],
   ]);
 
-  const { isAuthenticated, isClerkUI, publicUser } = useAuthentication();
+  const { isAuthenticated, isClerkUI, clerkUser, publicUser } =
+    useAuthentication();
   const logoRedirectURL = isAuthenticated
     ? AppRoutes.ClerkHomePage
     : AppRoutes.PublicHomePage;
   const { isPhone } = useWindowProperties();
 
+  const isClerkAuthenticationValid =
+    clerkUser.status == APIResponseStatus.NotStarted ||
+    clerkUser.status == APIResponseStatus.InProgress ||
+    clerkUser.isAuthenticated;
+
+  const heartBeat = () => {
+    if (isAuthenticated || publicUser?.isAuthenticated) {
+      if (!document.hidden) {
+        dispatch(isClerkUI ? loadClerkUser() : loadPublicUser());
+      }
+    }
+  };
+
+  useInterval(heartBeat, 5000); // Every 5 seconds
+
   return (
     <>
+      {isClerkUI && !isClerkAuthenticationValid && (
+        <SessionExpiredModal isClerkUI />
+      )}
       <SkipLink
         href="#main-content"
         text={translateCommon('header.accessibility.continueToMain')}

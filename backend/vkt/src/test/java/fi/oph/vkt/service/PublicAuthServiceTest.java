@@ -3,7 +3,6 @@ package fi.oph.vkt.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -11,7 +10,9 @@ import static org.mockito.Mockito.when;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
+import fi.oph.vkt.repository.CasTicketRepository;
 import fi.oph.vkt.repository.PersonRepository;
+import fi.oph.vkt.service.auth.CasSessionMappingStorage;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
 import fi.oph.vkt.service.auth.ticketValidator.TicketValidator;
 import jakarta.annotation.Resource;
@@ -31,6 +32,9 @@ public class PublicAuthServiceTest {
   @Resource
   private PersonRepository personRepository;
 
+  @Resource
+  private CasTicketRepository casTicketRepository;
+
   @MockBean
   private TicketValidator ticketValidatorMock;
 
@@ -39,6 +43,7 @@ public class PublicAuthServiceTest {
   @BeforeEach
   public void setup() {
     final Environment environment = mock(Environment.class);
+    final CasSessionMappingStorage casSessionMappingStorage = mock(CasSessionMappingStorage.class);
 
     when(environment.getRequiredProperty("app.cas-oppija.login-url")).thenReturn("https://foo.bar");
     when(environment.getRequiredProperty("app.cas-oppija.service-url"))
@@ -46,16 +51,31 @@ public class PublicAuthServiceTest {
 
     final CasTicketValidationService casTicketValidationService = new CasTicketValidationService(ticketValidatorMock);
 
-    final Map<String, String> personDetails = Map.ofEntries(
+    final Map<String, String> personDetails1 = Map.ofEntries(
       Map.entry("firstName", "Tessa"),
       Map.entry("lastName", "Testilä"),
       Map.entry("oid", "999"),
       Map.entry("otherIdentifier", "10000")
     );
-    when(casTicketValidationService.validate(anyString(), anyLong(), eq(EnrollmentType.RESERVATION)))
-      .thenReturn(personDetails);
+    final Map<String, String> personDetails2 = Map.ofEntries(
+      Map.entry("firstName", "Max"),
+      Map.entry("lastName", "Syöttöpaine"),
+      Map.entry("oid", "111"),
+      Map.entry("otherIdentifier", "20000")
+    );
+    when(casTicketValidationService.validate(eq("ticket-123"), anyLong(), eq(EnrollmentType.RESERVATION)))
+      .thenReturn(personDetails1);
+    when(casTicketValidationService.validate(eq("ticket-124"), anyLong(), eq(EnrollmentType.RESERVATION)))
+      .thenReturn(personDetails2);
 
-    publicAuthService = new PublicAuthService(casTicketValidationService, personRepository, environment);
+    publicAuthService =
+      new PublicAuthService(
+        casTicketValidationService,
+        personRepository,
+        environment,
+        casTicketRepository,
+        casSessionMappingStorage
+      );
   }
 
   @Test

@@ -2,10 +2,9 @@ import { http } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
 import { ClerkEnrollmentStatusChange } from 'interfaces/clerkEnrollment';
-import {
-  PublicReservationDetailsResponse,
-  PublicReservationResponse,
-} from 'interfaces/publicEnrollment';
+import { ClerkUser } from 'interfaces/clerkUser';
+import { PublicReservationDetailsResponse } from 'interfaces/publicEnrollment';
+import { PublicPerson } from 'interfaces/publicPerson';
 import { fixedDateForTests } from 'tests/cypress/support/utils/date';
 import { clerkExamEvent } from 'tests/msw/fixtures/clerkExamEvent';
 import { clerkExamEvents9 } from 'tests/msw/fixtures/clerkExamEvents9';
@@ -15,22 +14,24 @@ import { publicEnrollmentInitialisation } from 'tests/msw/fixtures/publicEnrollm
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
 
 export const handlers = [
-  http.get(APIEndpoints.PublicExamEvent, () => {
-    return new Response(JSON.stringify(publicExamEvents11));
-  }),
-  http.get(APIEndpoints.PublicUser, () => {
-    return new Response(JSON.stringify(null));
-  }),
-  http.put(`${APIEndpoints.PublicReservation}/1/renew`, () => {
-    const response: PublicReservationResponse = {
-      id: 1,
-      expiresAt: fixedDateForTests.add(59, 'minute').format(),
-      createdAt: fixedDateForTests.format(),
-      renewedAt: fixedDateForTests.add(29, 'minute').format(),
-      isRenewable: false,
+  http.get(APIEndpoints.ClerkUser, ({ cookies }) => {
+    const user: ClerkUser = {
+      oid: '1.2.246.562.10.00000000001',
     };
 
-    return new Response(JSON.stringify(response), { status: 201 });
+    return new Response(cookies.noAuth ? 'null' : JSON.stringify(user));
+  }),
+  http.get(APIEndpoints.PublicUser, ({ cookies }) => {
+    const person: PublicPerson = {
+      id: 1,
+      lastName: 'Demo',
+      firstName: 'Nordea',
+    };
+
+    return new Response(cookies.noAuth ? 'null' : JSON.stringify(person));
+  }),
+  http.get(APIEndpoints.PublicExamEvent, () => {
+    return new Response(JSON.stringify(publicExamEvents11));
   }),
   http.post(`${APIEndpoints.PublicExamEvent}/2/reservation`, () => {
     const response: PublicReservationDetailsResponse = {

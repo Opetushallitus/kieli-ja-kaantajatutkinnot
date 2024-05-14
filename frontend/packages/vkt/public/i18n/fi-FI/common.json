@@ -158,6 +158,11 @@
         "logoutSuccess": "Uloskirjautuminen onnnistui"
       },
       "requiredFieldsInfo": "Tähdellä (*) merkityt kentät ovat pakollisia.",
+      "sessionExpired": {
+        "title": "Istuntosi on vanhentunut",
+        "descriptionPublic": "Istuntosi on vanhentunut. Ole hyvä ja tunnistaudu uudelleen.",
+        "descriptionClerk": "Istuntosi on vanhentunut. Ole hyvä ja kirjaudu uudelleen."
+      },
       "rowsPerPageLabel": "Tulokset per sivu",
       "save": "Tallenna",
       "vktHomepage": {

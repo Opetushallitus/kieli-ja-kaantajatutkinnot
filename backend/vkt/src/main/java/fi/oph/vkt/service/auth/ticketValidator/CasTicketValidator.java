@@ -40,6 +40,10 @@ public class CasTicketValidator implements TicketValidator {
 
     final CasResponse casResponse = parseCasResponse(response);
 
+    if (casResponse.getAuthenticationFailure() != null) {
+      throw new APIException(APIExceptionType.INVALID_TICKET);
+    }
+
     if (casResponse.getAuthenticationSuccess().getUser().isEmpty()) {
       throw new APIException(APIExceptionType.INVALID_TICKET);
     }

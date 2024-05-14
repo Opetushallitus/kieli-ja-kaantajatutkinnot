@@ -20,6 +20,7 @@ import fi.oph.vkt.service.PublicReservationService;
 import fi.oph.vkt.util.SessionUtil;
 import fi.oph.vkt.util.UIRouteUtil;
 import fi.oph.vkt.util.exception.APIException;
+import fi.oph.vkt.util.exception.NotFoundException;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -31,8 +32,13 @@ import java.util.Optional;
 import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.session.FindByIndexNameSessionRepository;
+import org.springframework.session.Session;
+import org.springframework.session.SessionRepository;
+import org.springframework.session.jdbc.JdbcIndexedSessionRepository;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -83,7 +89,7 @@ public class PublicController {
     @PathVariable final long reservationId,
     final HttpSession session
   ) {
-    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+    final Person person = publicAuthService.getPersonFromSession(session);
 
     return publicEnrollmentService.createEnrollment(dto, reservationId, person);
   }
@@ -95,7 +101,7 @@ public class PublicController {
     @RequestParam final long examEventId,
     final HttpSession session
   ) {
-    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+    final Person person = publicAuthService.getPersonFromSession(session);
 
     return publicEnrollmentService.updateEnrollmentForPayment(dto, examEventId, person);
   }
@@ -107,7 +113,7 @@ public class PublicController {
     @RequestParam final long examEventId,
     final HttpSession session
   ) {
-    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+    final Person person = publicAuthService.getPersonFromSession(session);
 
     return publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, person);
   }
@@ -128,14 +134,14 @@ public class PublicController {
     @PathVariable final long examEventId,
     final HttpSession session
   ) {
-    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+    final Person person = publicAuthService.getPersonFromSession(session);
 
     return publicEnrollmentService.getEnrollmentInitialisationDTO(examEventId, person);
   }
 
   @PutMapping(path = "/reservation/{reservationId:\\d+}/renew")
   public PublicReservationDTO renewReservation(@PathVariable final long reservationId, final HttpSession session) {
-    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+    final Person person = publicAuthService.getPersonFromSession(session);
 
     return publicReservationService.renewReservation(reservationId, person);
   }
@@ -166,7 +172,7 @@ public class PublicController {
 
   @DeleteMapping(path = "/reservation/{reservationId:\\d+}")
   public void deleteReservation(@PathVariable final long reservationId, final HttpSession session) {
-    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+    final Person person = publicAuthService.getPersonFromSession(session);
 
     publicReservationService.deleteReservation(reservationId, person);
   }
@@ -223,16 +229,23 @@ public class PublicController {
 
   @GetMapping(path = "/auth/info")
   public Optional<PublicPersonDTO> authInfo(final HttpSession session) {
-    if (session == null || !SessionUtil.hasPersonId(session)) {
+    if (session == null) {
       return Optional.empty();
     }
 
-    return Optional.of(publicPersonService.getPersonDTO(SessionUtil.getPersonId(session)));
+    try {
+      return Optional.of(publicPersonService.getPersonDTO(publicAuthService.getPersonFromSession(session)));
+    } catch (final NotFoundException e) {
+      session.invalidate();
+
+      return Optional.empty();
+    }
   }
 
   @GetMapping(path = "/auth/logout")
   public void logout(final HttpSession session, final HttpServletResponse httpResponse) throws IOException {
     if (session != null) {
+      publicAuthService.logout(session);
       session.invalidate();
     }
 
