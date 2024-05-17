@@ -10,6 +10,8 @@ app:
     paytrail:
       secret: SAIPPUAKAUPPIAS
       account: 375917
+  featureFlags:
+    freeEnrollmentAllowed: true
 springdoc:
   swagger-ui:
     enabled: true
