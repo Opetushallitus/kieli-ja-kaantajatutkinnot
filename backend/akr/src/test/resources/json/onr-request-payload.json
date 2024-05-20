@@ -1,0 +1,111 @@
+{
+  "oidHenkilo": "1.2.3.4",
+  "sukunimi": "Suku",
+  "etunimet": "Etu",
+  "kutsumanimi": "Etu",
+  "hetu": null,
+  "yksiloityVTJ": true,
+  "yhteystiedotRyhma": [
+    {
+      "readOnly": false,
+      "ryhmaKuvaus": "yhteystietotyyppi13",
+      "ryhmaAlkuperaTieto": "alkupera7",
+      "yhteystieto": [
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KUNTA",
+          "yhteystietoArvo": "Järvenpää"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KAUPUNKI",
+          "yhteystietoArvo": "Järvenpää"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_MATKAPUHELINNUMERO",
+          "yhteystietoArvo": "12345"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_POSTINUMERO",
+          "yhteystietoArvo": "0100"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_SAHKOPOSTI",
+          "yhteystietoArvo": "foo@bar.invalid"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_PUHELINNUMERO",
+          "yhteystietoArvo": "12345"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KATUOSOITE",
+          "yhteystietoArvo": "Katu2"
+        }
+      ]
+    },
+    {
+      "readOnly": false,
+      "ryhmaKuvaus": "yhteystietotyyppi13",
+      "ryhmaAlkuperaTieto": "alkupera7",
+      "yhteystieto": [
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KUNTA",
+          "yhteystietoArvo": "Järvenpää"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_PUHELINNUMERO",
+          "yhteystietoArvo": "12345"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_POSTINUMERO",
+          "yhteystietoArvo": "0100"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_MATKAPUHELINNUMERO",
+          "yhteystietoArvo": "01234"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_SAHKOPOSTI",
+          "yhteystietoArvo": "foo@bar.invalid"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KATUOSOITE",
+          "yhteystietoArvo": "Katu001"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KAUPUNKI",
+          "yhteystietoArvo": "Järvenpää"
+        }
+      ]
+    },
+    {
+      "readOnly": null,
+      "ryhmaKuvaus": "yhteystietotyyppi14",
+      "ryhmaAlkuperaTieto": "alkupera8",
+      "yhteystieto": [
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KATUOSOITE",
+          "yhteystietoArvo": "testikatu"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_PUHELINNUMERO",
+          "yhteystietoArvo": null
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_MAA",
+          "yhteystietoArvo": "FI"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KAUPUNKI",
+          "yhteystietoArvo": "Testikaupunki"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_POSTINUMERO",
+          "yhteystietoArvo": "90100"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_SAHKOPOSTI",
+          "yhteystietoArvo": null
+        }
+      ]
+    }
+  ]
+}
