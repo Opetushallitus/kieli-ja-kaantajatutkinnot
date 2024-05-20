@@ -182,7 +182,7 @@ public class OnrOperationApiImpl implements OnrOperationApi {
 
     final Response response = onrClient.executeBlocking(request);
 
-    LOG.info("Update response from onr for oid {} is {}", personalData.getOnrId(), response.getResponseBody());
+    LOG.info("Update response from onr for onrId {} is {}", personalData.getOnrId(), response.getResponseBody());
 
     if (response.getStatusCode() != HttpStatus.OK.value()) {
       throw new RuntimeException(

@@ -128,13 +128,14 @@ public class ClerkTranslatorService {
         );
 
         if (personalData == null) {
-          LOG.error("Error fetching the translator from onr with oid {}", translator.getOnrId());
+          LOG.error("Error fetching the translator from onr with onrId {}", translator.getOnrId());
           throw new APIException(APIExceptionType.TRANSLATOR_ONR_ID_NOT_FOUND);
         }
 
         return ClerkTranslatorDTO
           .builder()
           .id(translator.getId())
+          .onrId(translator.getOnrId())
           .version(translator.getVersion())
           .isIndividualised(personalData.getIndividualised())
           .hasIndividualisedAddress(personalData.getHasIndividualisedAddress())
@@ -572,7 +573,7 @@ public class ClerkTranslatorService {
         }
 
         if (personalData == null) {
-          LOG.error("Error fetching the translator from onr with oid {}", translator.getOnrId());
+          LOG.error("Error fetching the translator from onr with onrId {}", translator.getOnrId());
           throw new APIException(APIExceptionType.TRANSLATOR_ONR_ID_NOT_FOUND);
         }
 
