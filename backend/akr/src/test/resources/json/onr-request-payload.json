@@ -83,11 +83,11 @@
       "yhteystieto": [
         {
           "yhteystietoTyyppi": "YHTEYSTIETO_KATUOSOITE",
-          "yhteystietoArvo": "testikatu"
+          "yhteystietoArvo": "testi katu"
         },
         {
           "yhteystietoTyyppi": "YHTEYSTIETO_PUHELINNUMERO",
-          "yhteystietoArvo": null
+          "yhteystietoArvo": "01234"
         },
         {
           "yhteystietoTyyppi": "YHTEYSTIETO_MAA",
@@ -103,7 +103,7 @@
         },
         {
           "yhteystietoTyyppi": "YHTEYSTIETO_SAHKOPOSTI",
-          "yhteystietoArvo": null
+          "yhteystietoArvo": "foo@bar"
         }
       ]
     }

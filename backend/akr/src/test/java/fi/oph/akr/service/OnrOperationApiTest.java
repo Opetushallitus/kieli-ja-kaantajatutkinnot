@@ -9,12 +9,15 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.akr.Factory;
 import fi.oph.akr.onr.OnrOperationApiImpl;
+import fi.oph.akr.onr.dto.ContactDetailsGroupDTO;
 import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
 import fi.oph.akr.onr.dto.ContactDetailsGroupType;
 import fi.oph.akr.onr.dto.PersonalDataDTO;
 import fi.oph.akr.onr.model.PersonalData;
 import fi.vm.sade.javautils.nio.cas.CasClient;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.asynchttpclient.Request;
 import org.asynchttpclient.Response;
 import org.junit.jupiter.api.Test;
@@ -34,7 +37,7 @@ public class OnrOperationApiTest {
   private org.springframework.core.io.Resource onrMockRequest;
 
   @Test
-  public void shouldUpdateAkrContactDetailsGroupWithEmptyAddress() throws Exception {
+  public void shouldUpdateAkrContactDetailsGroup() throws Exception {
     final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     final CasClient casClient = mock(CasClient.class);
     when(casClient.executeBlocking(any()))
@@ -61,6 +64,8 @@ public class OnrOperationApiTest {
             .ignoringCollectionOrder()
             .ignoringFields("contactDetailsSet")
             .isEqualTo(expected.getContactDetailsGroups());
+
+          assertDetailsGroupsEquals(actual.getContactDetailsGroups(), expected.getContactDetailsGroups());
         }
 
         when(response.getStatusCode()).thenReturn(HttpStatus.OK.value());
@@ -112,5 +117,41 @@ public class OnrOperationApiTest {
       .build();
 
     onrOperationApi.updatePersonalData(personalData);
+  }
+
+  private static void assertDetailsGroupsEquals(
+    final List<ContactDetailsGroupDTO> actual,
+    final List<ContactDetailsGroupDTO> expected
+  ) {
+    final ContactDetailsGroupDTO actualContactDetailsGroups = actual
+      .stream()
+      .filter(group ->
+        group.getSource().equals(ContactDetailsGroupSource.AKR) &&
+        group.getType().equals(ContactDetailsGroupType.AKR_OSOITE)
+      )
+      .findFirst()
+      .orElse(null);
+    final ContactDetailsGroupDTO expectedContactDetailsGroups = expected
+      .stream()
+      .filter(group ->
+        group.getSource().equals(ContactDetailsGroupSource.AKR) &&
+        group.getType().equals(ContactDetailsGroupType.AKR_OSOITE)
+      )
+      .findFirst()
+      .orElse(null);
+
+    assert actualContactDetailsGroups != null;
+    assert expectedContactDetailsGroups != null;
+    final Map<String, String> actualDetailsSet = collectDetailsSetToMap(actualContactDetailsGroups);
+    final Map<String, String> expectedDetailsSet = collectDetailsSetToMap(expectedContactDetailsGroups);
+
+    assertThat(actualDetailsSet).usingRecursiveComparison().ignoringCollectionOrder().isEqualTo(expectedDetailsSet);
+  }
+
+  private static Map<String, String> collectDetailsSetToMap(final ContactDetailsGroupDTO contactDetailsGroupDTO) {
+    return contactDetailsGroupDTO
+      .getContactDetailsSet()
+      .stream()
+      .collect(Collectors.toMap(k -> k.getType().toString(), v -> v.getValue() == null ? "" : v.getValue()));
   }
 }
