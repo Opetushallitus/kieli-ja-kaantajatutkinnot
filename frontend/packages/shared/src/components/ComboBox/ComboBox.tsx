@@ -1,12 +1,14 @@
 import {
   Autocomplete,
   AutocompleteProps,
+  AutocompleteRenderInputParams,
   createFilterOptions,
   FilterOptionsState,
   FormControl,
   FormHelperText,
   TextField,
 } from '@mui/material';
+import React, { ReactElement } from 'react';
 
 import { useWindowProperties } from '../../hooks';
 import {
@@ -23,7 +25,6 @@ interface ComboBoxProps {
   showInputLabel?: boolean;
   helperText?: string;
   showError?: boolean;
-  useNativeSelect?: boolean;
   variant: 'filled' | 'outlined' | 'standard';
   getOptionLabel?: (option: AutocompleteValue) => string;
   values: Array<ComboBoxOption>;
@@ -70,6 +71,38 @@ const filterOptions: (
   trim: true,
 });
 
+const simplifyAutocompleteInput = (params: AutocompleteRenderInputParams) => {
+  // Remove linking from label to input to simplify screen reader usage
+  const labelPropsWithForDisabled = {
+    id: params.InputLabelProps.id,
+    htmlFor: '',
+  };
+
+  // Adds aria-hidden to clickable buttons inside ComboBox input field
+  let inputButtons = params.InputProps.endAdornment;
+  if (React.isValidElement(inputButtons)) {
+    const ariaHiddenChildren = inputButtons.props.children.map(
+      (e: ReactElement) =>
+        e && e.props
+          ? {
+              ...e,
+              props: { ...e.props, 'aria-hidden': true },
+            }
+          : e,
+    );
+    inputButtons = {
+      ...inputButtons,
+      props: { ...inputButtons.props, children: ariaHiddenChildren },
+    };
+  }
+  const inputProps = {
+    ...params.InputProps,
+    endAdornment: inputButtons,
+  };
+
+  return { labelPropsWithForDisabled, inputProps };
+};
+
 export const valueAsOption = (value: string) => ({
   value: value,
   label: value,
@@ -82,7 +115,6 @@ const NativeSelectOrComboBox = ({
   helperText,
   showError,
   onChange,
-  useNativeSelect,
   ...rest
 }: ComboBoxProps & AutoCompleteComboBox) => {
   const { isPhone } = useWindowProperties();
@@ -92,7 +124,7 @@ const NativeSelectOrComboBox = ({
     return activeOption ? activeOption.label : '';
   };
 
-  if (useNativeSelect || isPhone) {
+  if (isPhone) {
     const nativeSelectProps: CustomNativeSelectProps = {
       placeholder: label || '',
       values,
@@ -119,18 +151,21 @@ const NativeSelectOrComboBox = ({
         isOptionEqualToValue={isOptionEqualToValue}
         options={values}
         filterOptions={filterOptions}
-        closeText=""
-        openText=""
         renderInput={(params) => {
-          console.log(params);
+          const { labelPropsWithForDisabled, inputProps } =
+            simplifyAutocompleteInput(params);
+
           return (
             <TextField
               {...params}
+              InputProps={inputProps}
+              InputLabelProps={labelPropsWithForDisabled}
               label={label}
               variant={variant}
               error={showError}
             />
-          )}}
+          );
+        }}
         onChange={(_, v: AutocompleteValue) => {
           onChange(v?.value);
         }}
