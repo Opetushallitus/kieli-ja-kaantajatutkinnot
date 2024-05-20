@@ -41,24 +41,19 @@ public class PersonalDataFactory {
           ? List.of(
             TranslatorAddressDTO
               .builder()
+              .street(streets.next())
+              .postalCode(postalCodes.next())
+              .town(towns.next())
+              .country(countries.next())
               .source(ContactDetailsGroupSource.AKR)
               .type(ContactDetailsGroupType.AKR_OSOITE)
               .build(),
             TranslatorAddressDTO
               .builder()
-              .street("katu")
-              .postalCode("0010")
-              .town("kaupunki")
-              .country(null)
-              .source(ContactDetailsGroupSource.OTR)
-              .type(ContactDetailsGroupType.OTR_OSOITE)
-              .build(),
-            TranslatorAddressDTO
-              .builder()
-              .street("katu")
-              .postalCode("0010")
-              .town("kaupunki")
-              .country(null)
+              .street(streets.next())
+              .postalCode(postalCodes.next())
+              .town(towns.next())
+              .country(countries.next())
               .source(ContactDetailsGroupSource.OTR)
               .type(ContactDetailsGroupType.OTR_OSOITE)
               .build(),
