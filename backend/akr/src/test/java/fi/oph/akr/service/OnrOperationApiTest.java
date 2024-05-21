@@ -113,7 +113,7 @@ public class OnrOperationApiTest {
       )
       .identityNumber("111111-1111")
       .individualised(true)
-      .hasIndividualisedAddress(false)
+      .hasIndividualisedAddress(true)
       .build();
 
     onrOperationApi.updatePersonalData(personalData);
