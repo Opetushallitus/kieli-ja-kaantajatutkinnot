@@ -45,11 +45,14 @@ export function Pagination<T extends WithId>({
       onRowsPerPageChange={(e) => handleRowsPerPageChange(+e.target.value)}
       rowsPerPage={rowsPerPage}
       rowsPerPageOptions={rowsPerPageOptions}
-      labelRowsPerPage={rowsPerPageLabel}
+      labelRowsPerPage={<p id={'rowsPerPage'}>{rowsPerPageLabel}</p>}
       labelDisplayedRows={labelDisplayedRows ?? defaultDisplayedRowsLabel}
       backIconButtonProps={backIconButtonProps}
       nextIconButtonProps={nextIconButtonProps}
-      SelectProps={{ native: isPhone }}
+      SelectProps={{
+        native: isPhone,
+        inputProps: { 'aria-labeledby': 'rowsPerPage' },
+      }}
     />
   );
 }
