@@ -97,8 +97,6 @@ const SelectExamLanguage = ({
     >
       <Typography
         variant="h3"
-        component="label"
-        htmlFor="public-exam-session-filters__language-filter"
         sx={showError && !language ? { color: 'error.main' } : {}}
       >
         {translateCommon('language')}{' '}
@@ -162,12 +160,7 @@ const SelectExamLevel = ({
       className="public-exam-session-filters__filter"
       error={showError && !level}
     >
-      <Typography
-        variant="h3"
-        component="label"
-        htmlFor="public-exam-session-filters__level-filter"
-        sx={showError && !level ? errorStyles : {}}
-      >
+      <Typography variant="h3" sx={showError && !level ? errorStyles : {}}>
         {translateCommon('level')}{' '}
         <span className="public-exam-session-filters__hint">
           {t('filters.selectExamDetails.required')}

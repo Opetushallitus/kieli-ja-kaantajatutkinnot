@@ -72,12 +72,6 @@ const filterOptions: (
 });
 
 const simplifyAutocompleteInput = (params: AutocompleteRenderInputParams) => {
-  // Remove linking from label to input to simplify screen reader usage
-  const labelPropsWithForDisabled = {
-    id: params.InputLabelProps.id,
-    htmlFor: '',
-  };
-
   // Adds aria-hidden to clickable buttons inside ComboBox input field
   let inputButtons = params.InputProps.endAdornment;
   if (React.isValidElement(inputButtons)) {
@@ -100,7 +94,7 @@ const simplifyAutocompleteInput = (params: AutocompleteRenderInputParams) => {
     endAdornment: inputButtons,
   };
 
-  return { labelPropsWithForDisabled, inputProps };
+  return inputProps;
 };
 
 export const valueAsOption = (value: string) => ({
@@ -152,14 +146,12 @@ const NativeSelectOrComboBox = ({
         options={values}
         filterOptions={filterOptions}
         renderInput={(params) => {
-          const { labelPropsWithForDisabled, inputProps } =
-            simplifyAutocompleteInput(params);
+          const inputProps = simplifyAutocompleteInput(params);
 
           return (
             <TextField
               {...params}
               InputProps={inputProps}
-              InputLabelProps={labelPropsWithForDisabled}
               label={label}
               variant={variant}
               error={showError}
