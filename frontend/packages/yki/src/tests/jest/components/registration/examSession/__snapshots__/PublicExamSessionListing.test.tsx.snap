@@ -18,7 +18,11 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           className="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
           id=":r1:"
         >
-          component.table.pagination.rowsPerPage
+          <p
+            id="rowsPerPage"
+          >
+            component.table.pagination.rowsPerPage
+          </p>
         </p>
         <div
           className="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
@@ -43,6 +47,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           <input
             aria-hidden={true}
             aria-invalid={false}
+            aria-labeledby="rowsPerPage"
             className="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
             onAnimationStart={[Function]}
             onChange={[Function]}
@@ -981,7 +986,11 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           className="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
           id=":r4:"
         >
-          component.table.pagination.rowsPerPage
+          <p
+            id="rowsPerPage"
+          >
+            component.table.pagination.rowsPerPage
+          </p>
         </p>
         <div
           className="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
@@ -1006,6 +1015,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           <input
             aria-hidden={true}
             aria-invalid={false}
+            aria-labeledby="rowsPerPage"
             className="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
             onAnimationStart={[Function]}
             onChange={[Function]}

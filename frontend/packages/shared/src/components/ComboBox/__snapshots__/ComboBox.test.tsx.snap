@@ -44,6 +44,7 @@ exports[`ComboBox should render ComboBox correctly 1`] = `
           className="MuiAutocomplete-endAdornment css-1q60rmi-MuiAutocomplete-endAdornment"
         >
           <button
+            aria-hidden={true}
             aria-label="Open"
             className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator css-qzbt6i-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-popupIndicator"
             disabled={false}

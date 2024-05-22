@@ -19,13 +19,13 @@ export const DialogBox = () => {
 
   useEffect(() => {
     if (activeDialog) {
-        const dialogContainer = dialogRef.current;
+      const dialogContainer = dialogRef.current;
 
-        if (dialogContainer) {
-          const dialog = dialogContainer.querySelector('[role="dialog"]');
-          if (dialog instanceof HTMLDivElement) {
-            dialog.focus();
-          }
+      if (dialogContainer) {
+        const dialog = dialogContainer.querySelector('[role="dialog"]');
+        if (dialog instanceof HTMLDivElement) {
+          dialog.focus();
+        }
       }
     }
   }, [activeDialog]);

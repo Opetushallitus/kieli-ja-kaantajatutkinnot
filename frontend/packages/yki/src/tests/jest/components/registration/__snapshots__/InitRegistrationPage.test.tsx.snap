@@ -644,13 +644,15 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
         className="rows gapped-xxl"
       >
         <div
+          aria-label="label"
           className="MuiStepper-root MuiStepper-horizontal public-registration__grid__stepper css-m5vj9m-MuiStepper-root"
+          role="group"
         >
           <div
             className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
           >
             <span
-              aria-label="phase 1/4, active: step.Identify"
+              aria-current="step"
               className="MuiStepLabel-root MuiStepLabel-horizontal css-ascpo7-MuiStepLabel-root"
             >
               <span
@@ -684,6 +686,11 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                 <span
                   className="MuiStepLabel-label Mui-active css-1hv8oq8-MuiStepLabel-label"
                 >
+                  <p
+                    className="MuiTypography-root MuiTypography-body1 css-1azqlft-MuiTypography-root"
+                  >
+                    phase phaseNumber
+                  </p>
                   step.Identify
                 </span>
               </span>
@@ -700,7 +707,7 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
             className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
           >
             <span
-              aria-label="phase 2/4: step.Register"
+              aria-current={false}
               className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
             >
               <span
@@ -734,6 +741,11 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                 <span
                   className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
                 >
+                  <p
+                    className="MuiTypography-root MuiTypography-body1 css-1azqlft-MuiTypography-root"
+                  >
+                    phase phaseNumber
+                  </p>
                   step.Register
                 </span>
               </span>
@@ -750,7 +762,7 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
             className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
           >
             <span
-              aria-label="phase 3/4: step.Payment"
+              aria-current={false}
               className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
             >
               <span
@@ -784,6 +796,11 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                 <span
                   className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
                 >
+                  <p
+                    className="MuiTypography-root MuiTypography-body1 css-1azqlft-MuiTypography-root"
+                  >
+                    phase phaseNumber
+                  </p>
                   step.Payment
                 </span>
               </span>
@@ -800,7 +817,7 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
             className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
           >
             <span
-              aria-label="phase 4/4: step.Done"
+              aria-current={false}
               className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
             >
               <span
@@ -834,6 +851,11 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                 <span
                   className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
                 >
+                  <p
+                    className="MuiTypography-root MuiTypography-body1 css-1azqlft-MuiTypography-root"
+                  >
+                    phase phaseNumber
+                  </p>
                   step.Done
                 </span>
               </span>
@@ -1123,13 +1145,15 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
         className="rows gapped-xxl"
       >
         <div
+          aria-label="label"
           className="MuiStepper-root MuiStepper-horizontal public-registration__grid__stepper css-m5vj9m-MuiStepper-root"
+          role="group"
         >
           <div
             className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
           >
             <span
-              aria-label="phase 1/4, active: step.Identify"
+              aria-current="step"
               className="MuiStepLabel-root MuiStepLabel-horizontal css-ascpo7-MuiStepLabel-root"
             >
               <span
@@ -1163,6 +1187,11 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 <span
                   className="MuiStepLabel-label Mui-active css-1hv8oq8-MuiStepLabel-label"
                 >
+                  <p
+                    className="MuiTypography-root MuiTypography-body1 css-1azqlft-MuiTypography-root"
+                  >
+                    phase phaseNumber
+                  </p>
                   step.Identify
                 </span>
               </span>
@@ -1179,7 +1208,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
             className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
           >
             <span
-              aria-label="phase 2/4: step.Register"
+              aria-current={false}
               className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
             >
               <span
@@ -1213,6 +1242,11 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 <span
                   className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
                 >
+                  <p
+                    className="MuiTypography-root MuiTypography-body1 css-1azqlft-MuiTypography-root"
+                  >
+                    phase phaseNumber
+                  </p>
                   step.Register
                 </span>
               </span>
@@ -1229,7 +1263,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
             className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
           >
             <span
-              aria-label="phase 3/4: step.Payment"
+              aria-current={false}
               className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
             >
               <span
@@ -1263,6 +1297,11 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 <span
                   className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
                 >
+                  <p
+                    className="MuiTypography-root MuiTypography-body1 css-1azqlft-MuiTypography-root"
+                  >
+                    phase phaseNumber
+                  </p>
                   step.Payment
                 </span>
               </span>
@@ -1279,7 +1318,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
             className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
           >
             <span
-              aria-label="phase 4/4: step.Done"
+              aria-current={false}
               className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
             >
               <span
@@ -1313,6 +1352,11 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 <span
                   className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
                 >
+                  <p
+                    className="MuiTypography-root MuiTypography-body1 css-1azqlft-MuiTypography-root"
+                  >
+                    phase phaseNumber
+                  </p>
                   step.Done
                 </span>
               </span>

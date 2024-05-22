@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.10.7] - 2024-05-23
+
+### Changed
+- Improve ComboBox accessibility
+- Label "results per page" 
+
 ## [1.10.6] - 2024-04-05
 
 ### Fixed
