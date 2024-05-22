@@ -1,4 +1,5 @@
 import { Add as AddIcon } from '@mui/icons-material';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { FormHelperTextProps } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import {
@@ -8,6 +9,7 @@ import {
   CustomTextField,
   H3,
   InfoText,
+  Text,
 } from 'shared/components';
 import {
   Color,
@@ -275,6 +277,21 @@ export const ClerkTranslatorDetailsFields = ({
           )}
         />
       </div>
+      {translator?.onrId && (
+        <Text>
+          <a
+            href={`/henkilo-ui/oppija/${translator?.onrId}`}
+            aria-label={t('openTranslatorInONR')}
+            style={{ display: 'inline-flex' }}
+            className="columns align-items-start gapped-xxs"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {t('openTranslatorInONR')}
+            <OpenInNewIcon />
+          </a>
+        </Text>
+      )}
       <H3>{t('header.address')}</H3>
       <div>
         <ClerkTranslatorPrimaryAddress

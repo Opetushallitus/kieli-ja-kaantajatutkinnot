@@ -37,10 +37,10 @@ public class OnrContactDetailsTest {
   private OnrOperationApi onrOperationApi;
 
   @Value("classpath:json/onr-person-1.json")
-  private org.springframework.core.io.Resource onrMockRequest1;
+  private org.springframework.core.io.Resource onrMockResponse1;
 
   @Value("classpath:json/onr-person-2.json")
-  private org.springframework.core.io.Resource onrMockRequest2;
+  private org.springframework.core.io.Resource onrMockResponse2;
 
   @BeforeEach
   public void setup() throws ExecutionException, InterruptedException, IOException {
@@ -52,10 +52,10 @@ public class OnrContactDetailsTest {
         final String mockJson =
           switch (request.getUrl()) {
             case "http://localhost/henkilo/hetu=111111-1111" -> new String(
-              onrMockRequest1.getInputStream().readAllBytes()
+              onrMockResponse1.getInputStream().readAllBytes()
             );
             case "http://localhost/henkilo/hetu=222222-2222" -> new String(
-              onrMockRequest2.getInputStream().readAllBytes()
+              onrMockResponse2.getInputStream().readAllBytes()
             );
             default -> "";
           };
@@ -78,7 +78,7 @@ public class OnrContactDetailsTest {
       .phoneNumber("1234")
       .firstName("Etu")
       .nickName("Etu")
-      .address(Factory.createAddress("st", "pstl", "tw", "FI"))
+      .address(Factory.createAddressList("st", "pstl", "tw", "FI"))
       .identityNumber("112233")
       .individualised(true)
       .hasIndividualisedAddress(false)

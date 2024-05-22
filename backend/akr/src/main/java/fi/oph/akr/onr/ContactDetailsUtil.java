@@ -112,11 +112,6 @@ public class ContactDetailsUtil {
   }
 
   public static ContactDetailsGroupDTO createAkrContactDetailsGroup(final PersonalData personalData) {
-    final Set<ContactDetailsType> akrContactDetailsTypes = Set.of(
-      ContactDetailsType.EMAIL,
-      ContactDetailsType.PHONE_NUMBER
-    );
-
     final Optional<TranslatorAddressDTO> address = findAkrAddressDetails(personalData);
     final Set<ContactDetailsDTO> contactDetailsSet = Stream
       .of(
@@ -130,7 +125,6 @@ public class ContactDetailsUtil {
         createContactDetailsDTO(ContactDetailsType.TOWN, address.map(TranslatorAddressDTO::town).orElse(null)),
         createContactDetailsDTO(ContactDetailsType.COUNTRY, address.map(TranslatorAddressDTO::country).orElse(null))
       )
-      .filter(dto -> !personalData.getHasIndividualisedAddress() || akrContactDetailsTypes.contains(dto.getType()))
       .collect(Collectors.toSet());
 
     final ContactDetailsGroupDTO contactDetailsGroupDTO = new ContactDetailsGroupDTO();

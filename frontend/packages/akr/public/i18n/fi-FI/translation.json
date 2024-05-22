@@ -113,6 +113,7 @@
           "updateFailed": "Tietojen tallennus epäonnistui"
         },
         "translatorDetails": {
+          "openTranslatorInONR": "Näytä tiedot oppijanumerorekisterissä",
           "cancelUpdateDialog": {
             "description": "Menetät tekemäsi muutokset.",
             "title": "Haluatko poistua muokkausnäkymästä?"
