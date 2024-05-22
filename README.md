@@ -13,8 +13,8 @@ This mono-repo contains the language and translator services of the Finnish Nati
 - Maven 3.1+
 - JDK 17
 - PostgreSQL 14.7
-- node v16.16.0
-- yarn 3.2.2 (to enable it, run the following command: `corepack enable`)
+- node v20.9.0
+- yarn 4.0.1 (to enable it, run the following command: `corepack enable`)
 
 &nbsp;
 
@@ -202,6 +202,28 @@ If you are using IntelliJ, you might want to configure it to warn for non-final 
 `Preferences/Settings > Editor > Inspections > Java > Code style issues > Local variable or parameter can be final`
 
 &nbsp;
+
+## Debugging
+
+### Show generated SQL in Spring
+
+Add this to application-dev.yaml
+
+```yml
+logging:
+  level:
+    org.hibernate.sql: DEBUG
+    org.hibernate.type: trace
+
+spring:
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+```
+
 
 ## Git conventions
 
