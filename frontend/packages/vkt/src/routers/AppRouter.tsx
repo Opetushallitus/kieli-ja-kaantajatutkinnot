@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -12,11 +12,13 @@ import {
   NotifierContextProvider,
   ScrollToTop,
 } from 'shared/components';
+import { APIResponseStatus } from 'shared/enums';
 import { TitlePage } from 'shared/utils';
 
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
@@ -30,9 +32,20 @@ import { NotFoundPage } from 'pages/NotFoundPage';
 import { PrivacyPolicyPage } from 'pages/PrivacyPolicyPage';
 import { PublicEnrollmentPage } from 'pages/PublicEnrollmentPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
+import { loadFeatureFlags } from 'redux/reducers/featureFlags';
+import { featureFlagsSelector } from 'redux/selectors/featureFlags';
 import { persistor } from 'redux/store';
 
 export const AppRouter: FC = () => {
+  const { status: featureFlagsStatus } = useAppSelector(featureFlagsSelector);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (featureFlagsStatus === APIResponseStatus.NotStarted) {
+      dispatch(loadFeatureFlags());
+    }
+  }, [dispatch, featureFlagsStatus]);
+
   const translateCommon = useCommonTranslation();
   const appTitle = translateCommon('appTitle');
 
