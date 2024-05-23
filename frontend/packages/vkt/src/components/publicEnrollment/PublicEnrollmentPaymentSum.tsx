@@ -15,7 +15,9 @@ export const PublicEnrollmentPaymentSum = ({
 
   const sum = PublicEnrollmentUtils.calculateExaminationPaymentSum(enrollment);
 
-  const content = `${t('title')}: ${sum.toFixed(2).replace('.', ',')} €`;
+  const content = enrollment.isFree
+    ? `${t('title')}:  ${t('free')}`
+    : `${t('title')}: ${sum.toFixed(2).replace('.', ',')} €`;
 
   return (
     <div className="columns flex-end">

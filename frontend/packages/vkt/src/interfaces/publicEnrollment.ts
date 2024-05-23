@@ -47,6 +47,7 @@ export interface PublicEnrollment
   status?: EnrollmentStatus;
   examEventId?: number;
   hasPaymentLink?: boolean;
+  isFree?: boolean;
 }
 
 export interface PublicEnrollmentResponse

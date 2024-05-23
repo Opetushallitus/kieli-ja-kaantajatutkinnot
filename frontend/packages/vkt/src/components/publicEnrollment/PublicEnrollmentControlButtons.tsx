@@ -67,6 +67,18 @@ export const PublicEnrollmentControlButtons = ({
   const isEnrollmentToQueue =
     !reservation && !isPaymentLinkPreviewView && !enrollment.id;
 
+  const submitButtonText = () => {
+    if (isEnrollmentToQueue) {
+      return t('enrollToQueue');
+    }
+
+    if (enrollment.isFree) {
+      return t('enroll');
+    }
+
+    return t('pay');
+  };
+
   const handleCancelBtnClick = () => {
     if (isPaymentLinkPreviewView) {
       dispatch(cancelPublicEnrollment());
@@ -224,7 +236,7 @@ export const PublicEnrollmentControlButtons = ({
         data-testid="public-enrollment__controlButtons__submit"
         disabled={isUserActionLoading || isPaymentLoading}
       >
-        {isEnrollmentToQueue ? t('enrollToQueue') : t('pay')}
+        {submitButtonText()}
       </CustomButton>
     </LoadingProgressIndicator>
   );
