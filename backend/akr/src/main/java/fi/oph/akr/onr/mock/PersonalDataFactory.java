@@ -50,6 +50,15 @@ public class PersonalDataFactory {
               .build(),
             TranslatorAddressDTO
               .builder()
+              .street(streets.next())
+              .postalCode(postalCodes.next())
+              .town(towns.next())
+              .country(countries.next())
+              .source(ContactDetailsGroupSource.OTR)
+              .type(ContactDetailsGroupType.OTR_OSOITE)
+              .build(),
+            TranslatorAddressDTO
+              .builder()
               .street(streetsVTJ.next())
               .postalCode(postalCodesVTJ.next())
               .town(townsVTJ.next())

@@ -182,22 +182,40 @@ public class Factory {
     return e;
   }
 
-  public static List<TranslatorAddressDTO> createAddress(
+  public static TranslatorAddressDTO createAddress(
+    final String street,
+    final String postalCode,
+    final String town,
+    final String country,
+    final ContactDetailsGroupSource source,
+    final ContactDetailsGroupType type
+  ) {
+    return TranslatorAddressDTO
+      .builder()
+      .street(street)
+      .postalCode(postalCode)
+      .town(town)
+      .country(country)
+      .source(source)
+      .type(type)
+      .build();
+  }
+
+  public static List<TranslatorAddressDTO> createAddressList(
     final String street,
     final String postalCode,
     final String town,
     final String country
   ) {
     return List.of(
-      TranslatorAddressDTO
-        .builder()
-        .street(street)
-        .postalCode(postalCode)
-        .town(town)
-        .country(country)
-        .source(ContactDetailsGroupSource.AKR)
-        .type(ContactDetailsGroupType.AKR_OSOITE)
-        .build()
+      createAddress(
+        street,
+        postalCode,
+        town,
+        country,
+        ContactDetailsGroupSource.AKR,
+        ContactDetailsGroupType.AKR_OSOITE
+      )
     );
   }
 }

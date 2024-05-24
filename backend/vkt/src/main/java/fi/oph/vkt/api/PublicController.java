@@ -7,10 +7,12 @@ import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.model.type.ExamLevel;
+import fi.oph.vkt.service.FeatureFlagService;
 import fi.oph.vkt.service.PaymentService;
 import fi.oph.vkt.service.PublicAuthService;
 import fi.oph.vkt.service.PublicEnrollmentService;
@@ -26,10 +28,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +80,9 @@ public class PublicController {
 
   @Resource
   private UIRouteUtil uiRouteUtil;
+
+  @Resource
+  private FeatureFlagService featureFlagService;
 
   @GetMapping(path = "/examEvent")
   public List<PublicExamEventDTO> list() {
@@ -340,5 +347,12 @@ public class PublicController {
         httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
       }
     }
+  }
+
+  @GetMapping(path = "/featureFlags")
+  public Map<String, Boolean> getFeatureFlags() {
+    return Arrays
+      .stream(FeatureFlag.values())
+      .collect(Collectors.toMap(FeatureFlag::getPropertyKey, f -> featureFlagService.isEnabled(f)));
   }
 }

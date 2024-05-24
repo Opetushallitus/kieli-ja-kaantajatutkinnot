@@ -27,3 +27,5 @@ cas-oppija.validate-ticket-url={{opintopolku_baseurl}}/cas-oppija/serviceValidat
 
 payment.paytrail.secret={{vkt_paytrail_secret}}
 payment.paytrail.account={{vkt_paytrail_account}}
+
+feature-flags.free-enrollment-allowed={{vkt_feature_free_enrollment_allowed}}

@@ -10,6 +10,7 @@ export enum APIEndpoints {
   PublicUser = '/vkt/api/v1/auth/info',
   ClerkEnrollment = '/vkt/api/v1/clerk/enrollment',
   ClerkPayment = '/vkt/api/v1/clerk/payment',
+  FeatureFlags = '/vkt/api/v1/featureFlags',
 }
 
 /**

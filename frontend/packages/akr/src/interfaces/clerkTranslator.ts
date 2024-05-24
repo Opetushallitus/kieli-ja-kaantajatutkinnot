@@ -34,6 +34,7 @@ export interface ClerkTranslatorTextFields {
 
 export interface ClerkTranslatorBasicInformation
   extends ClerkTranslatorTextFields {
+  onrId?: string;
   isAssuranceGiven: boolean;
 }
 
