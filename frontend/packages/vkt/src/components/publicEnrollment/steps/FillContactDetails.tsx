@@ -4,14 +4,16 @@ import { InputAutoComplete, TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
 import { FieldErrors, getErrors, hasErrors } from 'shared/utils';
 
+import { EducationDetails } from 'components/publicEnrollment/steps/EducationDetails';
 import { PersonDetails } from 'components/publicEnrollment/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {
   PublicEnrollment,
   PublicEnrollmentContactDetails,
 } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
+import { featureFlagsSelector } from 'redux/selectors/featureFlags';
 
 const fields: Array<TextField<PublicEnrollmentContactDetails>> = [
   {
@@ -69,6 +71,7 @@ export const FillContactDetails = ({
     keyPrefix: 'vkt.component.publicEnrollment.steps.fillContactDetails',
   });
   const translateCommon = useCommonTranslation();
+  const { freeEnrollmentAllowed } = useAppSelector(featureFlagsSelector);
 
   const [dirtyFields, setDirtyFields] = useState<
     Array<keyof PublicEnrollmentContactDetails>
@@ -105,6 +108,14 @@ export const FillContactDetails = ({
         }),
       );
     };
+
+  const handleEducationChange = (isFree: boolean) => {
+    dispatch(
+      updatePublicEnrollment({
+        isFree,
+      }),
+    );
+  };
 
   const handleBlur =
     (fieldName: keyof PublicEnrollmentContactDetails) => () => {
@@ -173,6 +184,9 @@ export const FillContactDetails = ({
         type={TextFieldTypes.PhoneNumber}
         autoComplete={InputAutoComplete.PhoneNumber}
       />
+      {freeEnrollmentAllowed && (
+        <EducationDetails handleChange={handleEducationChange} />
+      )}
     </div>
   );
 };

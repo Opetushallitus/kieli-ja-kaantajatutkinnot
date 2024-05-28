@@ -33,7 +33,7 @@ export const initialState: PublicEnrollmentState = {
     email: '',
     emailConfirmation: '',
     phoneNumber: '',
-    isFree: true,
+    isFree: false,
     oralSkill: false,
     textualSkill: false,
     understandingSkill: false,

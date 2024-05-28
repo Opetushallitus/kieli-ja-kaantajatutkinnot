@@ -61,6 +61,9 @@ export const PublicEnrollmentDesktopGrid = ({
   const isEnrollmentSubmitLoading =
     enrollmentSubmitStatus === APIResponseStatus.InProgress;
 
+  const includePaymentStep =
+    ExamEventUtils.hasOpenings(examEvent) && !enrollment.isFree;
+
   return (
     <>
       <Grid className="public-enrollment__grid" item>
@@ -79,7 +82,7 @@ export const PublicEnrollmentDesktopGrid = ({
             >
               <PublicEnrollmentStepper
                 activeStep={activeStep}
-                includePaymentStep={ExamEventUtils.hasOpenings(examEvent)}
+                includePaymentStep={includePaymentStep}
               />
               {reservation && !isPreviewPassed && (
                 <PublicEnrollmentTimer

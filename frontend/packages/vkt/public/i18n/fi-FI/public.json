@@ -33,7 +33,8 @@
             "title": "Peru ilmoittautuminen"
           },
           "enrollToQueue": "Ilmoittaudu jonoon",
-          "pay": "Siirry maksamaan"
+          "pay": "Siirry maksamaan",
+          "enroll": "Ilmoittaudu"
         },
         "examEventDetails": {
           "enrollmentToQueue": "ilmoittautuminen jonoon",
@@ -53,7 +54,8 @@
           "reservationInfoText": "Jos ilmoittautumisesi on kesken, paina \"Jatka ilmoittautumista\"."
         },
         "paymentSum": {
-          "title": "Tutkintomaksu"
+          "title": "Tutkintomaksu",
+          "free": "Ilmainen"
         },
         "stepHeading": {
           "common": {
@@ -138,6 +140,13 @@
             "firstName": "Etunimet",
             "lastName": "Sukunimi",
             "title": "Henkilötietosi"
+          },
+          "educationDetails": {
+            "education": "Koulutus",
+            "no": "Ei",
+            "highschool": "Ylioppilastutkinto tai vastaava ulkomaalainen tutkinto",
+            "college": "Korkeakoulututkinto",
+            "collegeEnrolled": "Olen kirjoilla korkeakoulussa"
           },
           "preview": {
             "certificateShippingDetails": {
