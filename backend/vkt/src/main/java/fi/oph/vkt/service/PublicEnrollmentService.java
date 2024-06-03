@@ -246,7 +246,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
 
     final LocalDateTime expiresAt = enrollment.getPaymentLinkExpiresAt();
 
-    if (enrollment.getStatus() != EnrollmentStatus.SHIFTED_FROM_QUEUE) {
+    if (enrollment.getStatus() != EnrollmentStatus.AWAITING_PAYMENT) {
       throw new APIException(APIExceptionType.PAYMENT_LINK_INVALID_ENROLLMENT_STATUS);
     }
     if (expiresAt == null || expiresAt.isBefore(LocalDateTime.now())) {

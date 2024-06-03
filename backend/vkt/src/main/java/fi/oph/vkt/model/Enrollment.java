@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -97,6 +98,10 @@ public class Enrollment extends BaseEntity {
 
   @OneToMany(mappedBy = "enrollment")
   private List<Payment> payments = new ArrayList<>();
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "free_enrollment", referencedColumnName = "free_enrollment_id")
+  private FreeEnrollment freeEnrollment;
 
   public boolean isCancelled() {
     return this.status == EnrollmentStatus.CANCELED || this.status == EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT;

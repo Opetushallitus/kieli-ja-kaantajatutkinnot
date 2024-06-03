@@ -294,7 +294,7 @@ public class PaymentServiceTest {
     paymentService.finalizePayment(payment.getId(), paymentParams);
 
     verify(publicEnrollmentEmailService, times(1)).sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()));
-    assertEquals(EnrollmentStatus.PAID, enrollment.getStatus());
+    assertEquals(EnrollmentStatus.COMPLETED, enrollment.getStatus());
     assertEquals(PaymentStatus.OK, payment.getPaymentStatus());
   }
 
