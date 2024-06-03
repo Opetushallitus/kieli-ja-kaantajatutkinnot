@@ -75,7 +75,7 @@ public class PaymentService {
           enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
         }
       }
-      case OK -> enrollment.setStatus(EnrollmentStatus.PAID);
+      case OK -> enrollment.setStatus(EnrollmentStatus.COMPLETED);
       case FAIL -> {
         if (enrollment.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT) {
           enrollment.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
@@ -164,7 +164,7 @@ public class PaymentService {
       throw new APIException(APIExceptionType.PAYMENT_PERSON_SESSION_MISMATCH);
     }
 
-    if (enrollment.getStatus() == EnrollmentStatus.PAID) {
+    if (enrollment.getStatus() == EnrollmentStatus.COMPLETED) {
       throw new APIException(APIExceptionType.ENROLLMENT_ALREADY_PAID);
     }
 

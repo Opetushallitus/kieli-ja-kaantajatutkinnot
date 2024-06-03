@@ -23,7 +23,8 @@ public record PublicEnrollmentCreateDTO(
   @Size(max = 255) String street,
   @Size(max = 255) String postalCode,
   @Size(max = 255) String town,
-  @Size(max = 255) String country
+  @Size(max = 255) String country,
+  Boolean isFree
 )
   implements EnrollmentDTOCommonFields {
   public PublicEnrollmentCreateDTO {
