@@ -340,11 +340,11 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     // TODO check that validations from creation are still valid?
 
     final Enrollment enrollment = createOrUpdateExistingEnrollment(
-            dto,
-            examEvent,
-            person,
-            EnrollmentStatus.AWAITING_APPROVAL,
-            null
+      dto,
+      examEvent,
+      person,
+      EnrollmentStatus.AWAITING_APPROVAL,
+      null
     );
 
     // TODO This needs proper handling
