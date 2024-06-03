@@ -43,7 +43,7 @@ const AlreadyLoggedIn = () => {
           <>
             <strong>{t('alreadyLoggedIn.labels.email') + ':'}</strong>
             &nbsp;
-            {`${loggedInSession.identity['external-user-id']}`}
+            {`${loggedInSession.identity.email}`}
           </>
         )}
       </Text>

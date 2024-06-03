@@ -32,7 +32,7 @@ const getUserName = (
     case 'SUOMIFI':
       return `${user.identity.first_name} ${user.identity.last_name}`;
     case 'EMAIL':
-      return user.identity['external-user-id'];
+      return user.identity.email;
     case 'CAS':
       return user.identity.username;
   }

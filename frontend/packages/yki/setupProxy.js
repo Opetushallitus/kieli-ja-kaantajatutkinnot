@@ -306,7 +306,7 @@ const organizerUser = {
 /*
 const loginLinkAuthenticatedUser = {
   identity: {
-    'external-user-id': 'testikaeyttaejae@test.invalid',
+    'email': 'testikaeyttaejae@test.invalid',
   },
   'auth-method': 'EMAIL',
 };

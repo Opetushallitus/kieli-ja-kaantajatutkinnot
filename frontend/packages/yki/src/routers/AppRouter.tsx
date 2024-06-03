@@ -44,6 +44,9 @@ export const AppRouter: FC = () => {
 
   useEffect(() => {
     if (sessionStatus === APIResponseStatus.NotStarted) {
+      // TODO This is too eager.
+      // Session status is not needed, for example, when landing on RegistrationPaymentStatusPage.
+      // Figure out a better way to select when to load session data..
       dispatch(loadSession());
     }
   }, [dispatch, sessionStatus]);
