@@ -98,6 +98,11 @@ public class PublicController {
   ) {
     final Person person = publicAuthService.getPersonFromSession(session);
 
+    // TODO this might need separate endpoint?
+    if (dto.isFree() && featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
+      return publicEnrollmentService.createFreeEnrollment(dto, reservationId, person);
+    }
+
     return publicEnrollmentService.createEnrollment(dto, reservationId, person);
   }
 
@@ -109,6 +114,11 @@ public class PublicController {
     final HttpSession session
   ) {
     final Person person = publicAuthService.getPersonFromSession(session);
+
+    // TODO this might need separate endpoint?
+    if (dto.isFree() && featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
+      return publicEnrollmentService.updateEnrollmentForFree(dto, examEventId, person);
+    }
 
     return publicEnrollmentService.updateEnrollmentForPayment(dto, examEventId, person);
   }
