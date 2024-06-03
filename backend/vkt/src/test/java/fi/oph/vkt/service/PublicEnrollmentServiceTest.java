@@ -26,6 +26,7 @@ import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
@@ -65,6 +66,9 @@ public class PublicEnrollmentServiceTest {
   private ReservationRepository reservationRepository;
 
   @Resource
+  private FreeEnrollmentRepository freeEnrollmentRepository;
+
+  @Resource
   private TestEntityManager entityManager;
 
   private PublicEnrollmentService publicEnrollmentService;
@@ -86,7 +90,9 @@ public class PublicEnrollmentServiceTest {
         examEventRepository,
         publicEnrollmentEmailServiceMock,
         publicReservationService,
-        reservationRepository
+        reservationRepository,
+        freeEnrollmentRepository,
+        environment
       );
   }
 
