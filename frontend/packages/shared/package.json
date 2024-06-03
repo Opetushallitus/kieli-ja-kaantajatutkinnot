@@ -1,6 +1,6 @@
 {
   "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.shared",
-  "version": "1.10.6",
+  "version": "1.10.7",
   "description": "Shared Frontend Package",
   "exports": {
     "./components": "./src/components/index.tsx",

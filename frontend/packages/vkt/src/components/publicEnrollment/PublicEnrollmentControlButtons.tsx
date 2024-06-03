@@ -10,7 +10,6 @@ import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import { EnrollmentStatus } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
   PublicEnrollment,
@@ -24,6 +23,7 @@ import {
   loadPublicEnrollmentUpdate,
   setLoadingPayment,
 } from 'redux/reducers/publicEnrollment';
+import { EnrollmentUtils } from 'utils/enrollment';
 import { RouteUtils } from 'utils/routes';
 
 export const PublicEnrollmentControlButtons = ({
@@ -110,7 +110,7 @@ export const PublicEnrollmentControlButtons = ({
 
   useEffect(() => {
     if (submitStatus === APIResponseStatus.Success) {
-      if (enrollment.status != EnrollmentStatus.QUEUED) {
+      if (EnrollmentUtils.isPaymentRequired(enrollment)) {
         // Safari needs time to re-render loading indicator
         setTimeout(() => {
           window.location.href = RouteUtils.getPaymentCreateApiRoute(
@@ -124,14 +124,7 @@ export const PublicEnrollmentControlButtons = ({
         );
       }
     }
-  }, [
-    submitStatus,
-    navigate,
-    dispatch,
-    examEventId,
-    enrollment.id,
-    enrollment.status,
-  ]);
+  }, [submitStatus, navigate, dispatch, examEventId, enrollment]);
 
   const handleBackBtnClick = () => {
     const nextStep: PublicEnrollmentFormStep = activeStep - 1;

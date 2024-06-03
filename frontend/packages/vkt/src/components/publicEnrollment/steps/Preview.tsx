@@ -56,38 +56,52 @@ const ExamEventDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
   });
   const translateCommon = useCommonTranslation();
 
-  const translateIfSelected = (skill: keyof PartialExamsAndSkills) => {
-    return enrollment[skill]
-      ? translateCommon(`enrollment.partialExamsAndSkills.${skill}`)
-      : undefined;
-  };
-
-  const skills = [
-    translateIfSelected('textualSkill'),
-    translateIfSelected('oralSkill'),
-    translateIfSelected('understandingSkill'),
-  ].filter((s) => !!s);
+  const skills = ['textualSkill', 'oralSkill', 'understandingSkill'].filter(
+    (skill) => !!enrollment[skill as keyof PartialExamsAndSkills],
+  );
 
   const partialExams = [
-    translateIfSelected('writingPartialExam'),
-    translateIfSelected('readingComprehensionPartialExam'),
-    translateIfSelected('speakingPartialExam'),
-    translateIfSelected('speechComprehensionPartialExam'),
-  ].filter((s) => !!s);
+    'writingPartialExam',
+    'readingComprehensionPartialExam',
+    'speakingPartialExam',
+    'speechComprehensionPartialExam',
+  ].filter((exam) => !!enrollment[exam as keyof PartialExamsAndSkills]);
 
-  const displayBulletList = (
-    label: string,
-    items: Array<string | undefined>,
-  ) => (
+  const displaySkillsList = () => (
+    <div className="rows gapped-xxs">
+      <div className="grid-3-columns gapped">
+        <Text className="bold">{t('selectedPartialExamsLabel')}</Text>
+        <Text className="bold">Ilmaisia kertoja</Text>
+        <Text className="bold">Hinta</Text>
+      </div>
+      {skills.map((skill, i) => (
+        <div key={i} className="grid-3-columns gapped">
+          <Text>
+            {translateCommon(`enrollment.partialExamsAndSkills.${skill}`)}
+          </Text>
+          {skill != 'understandingSkill' && (
+            <>
+              <Text>3/3</Text>
+              <Text>0&euro;</Text>
+            </>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+
+  const displayExamsList = () => (
     <div className="rows gapped-xxs">
       <Text className="bold">
-        {label}
+        {t('selectedSkillsLabel')}
         {':'}
       </Text>
       <ul className="public-enrollment__grid__preview__bullet-list">
-        {items.map((item, i) => (
+        {partialExams.map((skill, i) => (
           <Text key={i}>
-            <li>{item}</li>
+            <li>
+              {translateCommon(`enrollment.partialExamsAndSkills.${skill}`)}
+            </li>
           </Text>
         ))}
       </ul>
@@ -97,8 +111,8 @@ const ExamEventDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
   return (
     <div className="rows gapped">
       <H2>{t('title')}</H2>
-      {displayBulletList(t('selectedSkillsLabel'), skills)}
-      {displayBulletList(t('selectedPartialExamsLabel'), partialExams)}
+      {displaySkillsList()}
+      {displayExamsList()}
       <div className="rows gapped-xxs">
         <Text className="bold">
           {t('previousEnrollmentLabel')}

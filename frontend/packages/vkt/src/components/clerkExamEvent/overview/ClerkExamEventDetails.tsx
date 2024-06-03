@@ -318,6 +318,11 @@ export const ClerkExamEventDetails = () => {
       />
       <EnrollmentList
         enrollments={enrollments}
+        status={EnrollmentStatus.AWAITING_APPROVAL}
+        examEventId={examEventDetails.id}
+      />
+      <EnrollmentList
+        enrollments={enrollments}
         status={EnrollmentStatus.SHIFTED_FROM_QUEUE}
         examEventId={examEventDetails.id}
       />

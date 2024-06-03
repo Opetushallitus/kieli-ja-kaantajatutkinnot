@@ -1,5 +1,6 @@
 import { StringUtils } from 'shared/utils';
 
+import { EnrollmentStatus } from 'enums/app';
 import {
   CertificateShippingData,
   PartialExamsAndSkills,
@@ -42,6 +43,14 @@ export class EnrollmentUtils {
       isOralExamsSelected &&
       isTextualExamsSelected &&
       isUnderstandingExamsSelected
+    );
+  }
+
+  static isPaymentRequired(enrollment: PublicEnrollment) {
+    return (
+      enrollment.status == EnrollmentStatus.SHIFTED_FROM_QUEUE ||
+      enrollment.status ==
+        EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
     );
   }
 

@@ -5,6 +5,7 @@ import {
   CertificateShippingData,
   PartialExamsAndSkills,
 } from 'interfaces/common/enrollment';
+import { PublicEducationDetails } from 'interfaces/publicEducation';
 import { PublicExamEventResponse } from 'interfaces/publicExamEvent';
 import { PublicPerson } from 'interfaces/publicPerson';
 import { WithId } from 'interfaces/with';
@@ -48,6 +49,7 @@ export interface PublicEnrollment
   examEventId?: number;
   hasPaymentLink?: boolean;
   isFree?: boolean;
+  education?: PublicEducationDetails;
 }
 
 export interface PublicEnrollmentResponse
