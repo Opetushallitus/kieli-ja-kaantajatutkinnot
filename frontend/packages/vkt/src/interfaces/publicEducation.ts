@@ -1,5 +1,4 @@
 interface Education {
-  allowsFreeEnrollment: boolean;
   name: string;
   ongoing: boolean;
 }
@@ -9,7 +8,7 @@ interface FreeEnrollments {
   oralSkill: 0 | 1 | 2 | 3;
 }
 
-export interface PublicEducationDetails {
-  educationHistory: Education[];
+export interface PublicFreeEnrollmentDetails {
+  freeEnrollmentBasis: Education;
   freeEnrollments: FreeEnrollments;
 }

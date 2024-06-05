@@ -4,7 +4,7 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { H2, Text } from 'shared/components';
+import { FileUpload, H2, Text } from 'shared/components';
 
 import { usePublicTranslation } from 'configs/i18n';
 
@@ -20,6 +20,8 @@ export const EducationDetails = ({
   const handleRadioChange = () => {
     handleChange(true);
   };
+
+  const handleFileUpload = (files: FileList) => {};
 
   return (
     <div className="margin-top-lg rows gapped">
@@ -59,6 +61,7 @@ export const EducationDetails = ({
           </RadioGroup>
         </FormControl>
       </fieldset>
+      <FileUpload onChange={handleFileUpload} />
     </div>
   );
 };

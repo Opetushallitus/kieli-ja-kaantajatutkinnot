@@ -40,6 +40,7 @@ export { ToggleFilterGroup } from './ToggleFilterGroup/ToggleFilterGroup';
 export { LangSelector } from './LangSelector/LangSelector';
 export { InfoText } from './InfoText/InfoText';
 export { OPHClerkLogo } from './OPHClerkLogo/OPHClerkLogo';
+export { FileUpload } from './FileUpload/FileUpload';
 export { Notifier } from './Notifier/Notifier';
 export { NotifierContextProvider } from './Notifier/NotifierContextProvider';
 export { CookieBanner } from './CookieBanner/CookieBanner';
