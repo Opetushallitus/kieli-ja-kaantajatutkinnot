@@ -26,7 +26,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +39,6 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   private final PublicReservationService publicReservationService;
   private final ReservationRepository reservationRepository;
   private final FreeEnrollmentRepository freeEnrollmentRepository;
-  private final Environment environment;
 
   @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollment(final long examEventId, final Person person) {

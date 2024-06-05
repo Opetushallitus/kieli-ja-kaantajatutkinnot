@@ -19,6 +19,8 @@ import fi.oph.vkt.service.PublicEnrollmentService;
 import fi.oph.vkt.service.PublicExamEventService;
 import fi.oph.vkt.service.PublicPersonService;
 import fi.oph.vkt.service.PublicReservationService;
+import fi.oph.vkt.service.koski.KoskiService;
+import fi.oph.vkt.service.koski.dto.KoskiResponseDTO;
 import fi.oph.vkt.util.SessionUtil;
 import fi.oph.vkt.util.UIRouteUtil;
 import fi.oph.vkt.util.exception.APIException;
@@ -77,6 +79,9 @@ public class PublicController {
 
   @Resource
   private PublicReservationService publicReservationService;
+
+  @Resource
+  private KoskiService koskiService;
 
   @Resource
   private UIRouteUtil uiRouteUtil;
@@ -141,6 +146,14 @@ public class PublicController {
   @GetMapping(path = "/examEvent/{examEventId:\\d+}")
   public PublicExamEventDTO getExamEventInfo(@PathVariable final long examEventId) {
     return publicExamEventService.getExamEvent(examEventId);
+  }
+
+  /**
+   * TODO: remove this
+   */
+  @GetMapping(path = "/education")
+  public KoskiResponseDTO getEducation() {
+    return koskiService.findEducations();
   }
 
   /**
