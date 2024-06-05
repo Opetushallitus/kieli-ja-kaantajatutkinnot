@@ -153,7 +153,7 @@ public class PublicController {
    */
   @GetMapping(path = "/education")
   public KoskiResponseDTO getEducation() {
-    return koskiService.findEducations();
+    return koskiService.findEducations("1.2.246.562.24.97984579806");
   }
 
   /**

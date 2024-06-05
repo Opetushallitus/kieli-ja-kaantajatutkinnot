@@ -2,6 +2,7 @@ package fi.oph.vkt.service.koski;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.vkt.service.koski.dto.KoskiResponseDTO;
+import fi.oph.vkt.service.koski.dto.RequestBody;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,14 +20,16 @@ public class KoskiService {
 
   private final WebClient koskiClient;
 
-  public KoskiResponseDTO findEducations() {
+  public KoskiResponseDTO findEducations(final String oid) {
     final ObjectMapper objectMapper = new ObjectMapper();
+    final RequestBody body = new RequestBody(oid);
 
     try {
+      final String bodyJson = objectMapper.writeValueAsString(body);
       final String response = koskiClient
         .post()
         .uri("/oid")
-        .bodyValue("{ \"oid\": \"1.2.246.562.24.97984579806\" }")
+        .bodyValue(bodyJson)
         .exchangeToMono(clientResponse -> {
           if (clientResponse.statusCode().isError()) {
             return clientResponse.createException().flatMap(Mono::error);
