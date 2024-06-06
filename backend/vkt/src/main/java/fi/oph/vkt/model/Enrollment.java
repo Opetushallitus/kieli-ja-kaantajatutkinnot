@@ -99,7 +99,7 @@ public class Enrollment extends BaseEntity {
   @OneToMany(mappedBy = "enrollment")
   private List<Payment> payments = new ArrayList<>();
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "free_enrollment", referencedColumnName = "free_enrollment_id")
   private FreeEnrollment freeEnrollment;
 

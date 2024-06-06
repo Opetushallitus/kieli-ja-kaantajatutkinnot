@@ -11,6 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,4 +41,7 @@ public class FreeEnrollment extends BaseEntity {
 
   @Column(name = "comment")
   String comment;
+
+  @OneToOne(mappedBy = "freeEnrollment", fetch = FetchType.LAZY, optional = false)
+  Enrollment enrollment;
 }
