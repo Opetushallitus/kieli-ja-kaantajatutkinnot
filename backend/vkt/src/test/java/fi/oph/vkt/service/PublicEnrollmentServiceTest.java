@@ -21,6 +21,7 @@ import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.type.EnrollmentStatus;
@@ -72,6 +73,7 @@ public class PublicEnrollmentServiceTest {
   private TestEntityManager entityManager;
 
   private PublicEnrollmentService publicEnrollmentService;
+  private FeatureFlagService featureFlagService;
 
   @BeforeEach
   public void setup() throws IOException, InterruptedException {
@@ -79,6 +81,9 @@ public class PublicEnrollmentServiceTest {
 
     final Environment environment = mock(Environment.class);
     when(environment.getRequiredProperty("app.reservation.duration")).thenReturn(ONE_MINUTE.toString());
+
+    final FeatureFlagService featureFlagService = mock(FeatureFlagService.class);
+    when(featureFlagService.isEnabled(any(FeatureFlag.class))).thenReturn(true);
 
     final PublicReservationService publicReservationService = new PublicReservationService(
       reservationRepository,
@@ -92,7 +97,7 @@ public class PublicEnrollmentServiceTest {
         publicReservationService,
         reservationRepository,
         freeEnrollmentRepository,
-        environment
+        featureFlagService
       );
   }
 

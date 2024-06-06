@@ -4,10 +4,12 @@ import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
+import fi.oph.vkt.api.dto.PublicFreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
@@ -22,6 +24,7 @@ import fi.oph.vkt.util.PersonUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
+import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -40,7 +43,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   private final PublicReservationService publicReservationService;
   private final ReservationRepository reservationRepository;
   private final FreeEnrollmentRepository freeEnrollmentRepository;
-  private final Environment environment;
+  private final FeatureFlagService featureFlagService;
 
   @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollment(final long examEventId, final Person person) {
@@ -70,6 +73,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       person,
       openings,
       Optional.of(reservationDTO),
+      Optional.empty(),
       Optional.empty()
     );
   }
@@ -95,12 +99,28 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final Optional<PublicEnrollmentDTO> optionalEnrollmentDTO = findEnrollment(examEvent, person, enrollmentRepository)
       .map(this::createEnrollmentDTO);
 
+    Optional<PublicFreeEnrollmentDetails> optionalPublicFreeEnrollmentDetails;
+    if (featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
+      final int freeTextualSkillExamsLeft =
+        3 - freeEnrollmentRepository.findUsedTextualSkillFreeEnrollmentsForPerson(person.getId());
+      final int freeOralSkillExamsLeft =
+        3 - freeEnrollmentRepository.findUsedOralSkillFreeEnrollmentsForPerson(person.getId());
+      final PublicFreeEnrollmentDetails freeEnrollmentDetails = new PublicFreeEnrollmentDetails(
+        freeTextualSkillExamsLeft,
+        freeOralSkillExamsLeft
+      );
+      optionalPublicFreeEnrollmentDetails = Optional.of(freeEnrollmentDetails);
+    } else {
+      optionalPublicFreeEnrollmentDetails = Optional.empty();
+    }
+
     return createEnrollmentInitialisationDTO(
       examEvent,
       person,
       openings,
       optionalReservationDTO,
-      optionalEnrollmentDTO
+      optionalEnrollmentDTO,
+      optionalPublicFreeEnrollmentDetails
     );
   }
 
@@ -133,7 +153,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final Person person,
     final long openings,
     final Optional<PublicReservationDTO> optionalReservationDTO,
-    final Optional<PublicEnrollmentDTO> optionalEnrollmentDTO
+    final Optional<PublicEnrollmentDTO> optionalEnrollmentDTO,
+    final Optional<PublicFreeEnrollmentDetails> optionalPublicFreeEnrollmentDetails
   ) {
     final PublicExamEventDTO examEventDTO = PublicExamEventDTO
       .builder()
@@ -153,6 +174,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .person(personDTO)
       .reservation(optionalReservationDTO.orElse(null))
       .enrollment(optionalEnrollmentDTO.orElse(null))
+      .freeEnrollmentDetails(optionalPublicFreeEnrollmentDetails.orElse(null))
       .build();
   }
 
@@ -175,7 +197,14 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
     }
 
-    return createEnrollmentInitialisationDTO(examEvent, person, openings, Optional.empty(), Optional.empty());
+    return createEnrollmentInitialisationDTO(
+      examEvent,
+      person,
+      openings,
+      Optional.empty(),
+      Optional.empty(),
+      Optional.empty()
+    );
   }
 
   @Transactional
