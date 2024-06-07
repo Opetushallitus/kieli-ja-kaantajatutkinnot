@@ -11,6 +11,7 @@ export enum APIEndpoints {
   ClerkEnrollment = '/vkt/api/v1/clerk/enrollment',
   ClerkPayment = '/vkt/api/v1/clerk/payment',
   FeatureFlags = '/vkt/api/v1/featureFlags',
+  UploadPostPolicy = '/vkt/api/v1/uploadPostPolicy/:examEventId',
 }
 
 /**

@@ -1,17 +1,28 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { H2, LabeledTextField, Text } from 'shared/components';
-import { InputAutoComplete, TextFieldTypes } from 'shared/enums';
+import { CustomButton, H2, LabeledTextField, Text } from 'shared/components';
+import {
+  APIResponseStatus,
+  Color,
+  InputAutoComplete,
+  TextFieldTypes,
+  Variant,
+} from 'shared/enums';
 import { TextField } from 'shared/interfaces';
 import { FieldErrors, getErrors, hasErrors } from 'shared/utils';
 
 import { PersonDetails } from 'components/publicEnrollment/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {
   PublicEnrollment,
   PublicEnrollmentContactDetails,
 } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
+import {
+  loadUploadPostPolicy,
+  startFileUpload,
+} from 'redux/reducers/publicFileUpload';
+import { publicFileUploadSelector } from 'redux/selectors/publicFileUpload';
 
 const fields: Array<TextField<PublicEnrollmentContactDetails>> = [
   {
@@ -54,6 +65,70 @@ const emailsMatch = (
   return errors;
 };
 
+const FileUpload = () => {
+  // TODO Implement first as plain old form submit
+  // TODO Then change implementation to go through redux store
+  // and send form data with axios in a saga
+  const dispatch = useAppDispatch();
+  const [file, setFile] = useState<File | null>(null);
+  const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  };
+  const onUpload = () => {
+    if (file) {
+      // eslint-disable-next-line no-console
+      console.log('starting upload.... file:', file);
+      dispatch(startFileUpload(file));
+    }
+  };
+  const policy = useAppSelector(publicFileUploadSelector).policy;
+  const { status: fileUploadStatus } = useAppSelector(
+    publicFileUploadSelector,
+  ).fileUpload;
+  const actionTarget = `https://${policy.bucket}.s3.localhost.localstack.cloud:4566`;
+
+  if (!policy) {
+    return null;
+  }
+
+  return (
+    <form action={actionTarget} method="post" encType="multipart/form-data">
+      <input type="file" name="file" onChange={onFileChange}></input>
+      <button type="submit">Form submit</button>
+      <CustomButton
+        disabled={!file || fileUploadStatus === APIResponseStatus.InProgress}
+        onClick={onUpload}
+        variant={Variant.Outlined}
+        color={Color.Secondary}
+      >
+        Submit
+      </CustomButton>
+      <input type="hidden" name="key" value={policy['key']} />
+      <input type="hidden" name="Content-Type" value={policy['content-type']} />
+      <input type="hidden" name="Expires" value={policy['expires']} />
+      <input
+        type="hidden"
+        name="X-Amz-Credential"
+        value={policy['x-amz-credential']}
+      />
+      <input
+        type="hidden"
+        name="X-Amz-Algorithm"
+        value={policy['x-amz-algorithm']}
+      />
+      <input type="hidden" name="X-Amz-Date" value={policy['x-amz-date']} />
+      <input
+        type="hidden"
+        name="X-Amz-Signature"
+        value={policy['x-amz-signature']}
+      />
+      <input type="hidden" name="Policy" value={policy['policy']} />
+    </form>
+  );
+};
+
 export const FillContactDetails = ({
   enrollment,
   isLoading,
@@ -76,6 +151,10 @@ export const FillContactDetails = ({
 
   const dispatch = useAppDispatch();
 
+  const { status: uploadPolicyStatus } = useAppSelector(
+    publicFileUploadSelector,
+  ).policy;
+
   const dirty = showValidation ? undefined : dirtyFields;
   const errors = getErrors<PublicEnrollmentContactDetails>({
     fields,
@@ -84,6 +163,12 @@ export const FillContactDetails = ({
     dirtyFields: dirty,
     extraValidation: emailsMatch.bind(this, t),
   });
+
+  useEffect(() => {
+    if (uploadPolicyStatus === APIResponseStatus.NotStarted) {
+      dispatch(loadUploadPostPolicy(enrollment.examEventId as number));
+    }
+  }, [dispatch, enrollment.examEventId, uploadPolicyStatus]);
 
   useEffect(() => {
     setIsStepValid(
@@ -173,6 +258,7 @@ export const FillContactDetails = ({
         type={TextFieldTypes.PhoneNumber}
         autoComplete={InputAutoComplete.PhoneNumber}
       />
+      {uploadPolicyStatus === APIResponseStatus.Success && <FileUpload />}
     </div>
   );
 };
