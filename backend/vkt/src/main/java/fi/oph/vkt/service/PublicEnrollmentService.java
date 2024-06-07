@@ -207,6 +207,30 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     );
   }
 
+  private FreeEnrollment validateFreeEnrollment(Person person) throws APIException {
+    // TODO validate that enrollment is actually free
+    // - read user provided reason for free enrollment
+    // - depending on choice:
+    //   *  check saved Koski-data
+    //   *  check that enrollment contains uploaded files
+
+    FreeEnrollmentSource reason = FreeEnrollmentSource.KOSKI_COMPLETED_DEGREE;
+
+    int freeTextualExamsUsed = freeEnrollmentRepository.findUsedTextualSkillFreeEnrollmentsForPerson(person.getId());
+    int freeOralExamsUsed = freeEnrollmentRepository.findUsedOralSkillFreeEnrollmentsForPerson(person.getId());
+    if (freeTextualExamsUsed >= 3 || freeOralExamsUsed >= 3) {
+      throw new APIException(APIExceptionType.FREE_ENROLLMENT_ALL_USED);
+    }
+
+    FreeEnrollment freeEnrollment = new FreeEnrollment();
+    freeEnrollment.setApproved(false);
+    freeEnrollment.setPerson(person);
+    freeEnrollment.setSource(reason);
+    freeEnrollmentRepository.saveAndFlush(freeEnrollment);
+
+    return freeEnrollment;
+  }
+
   @Transactional
   public PublicEnrollmentDTO createEnrollment(
     final PublicEnrollmentCreateDTO dto,
@@ -245,17 +269,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
     }
 
-    // TODO validate that enrollment is actually free
-    // Either: check Koski/user-provided certificate
-    // Or: seperate API-endpoint for creating FreeEnrollment entity, that is checked here
-
-    // Validate that there are unused free enrollments
-
-    FreeEnrollment freeEnrollment = new FreeEnrollment();
-    freeEnrollment.setApproved(false);
-    freeEnrollment.setPerson(person);
-    freeEnrollment.setSource(FreeEnrollmentSource.KOSKI_COMPLETED_DEGREE);
-    freeEnrollmentRepository.saveAndFlush(freeEnrollment);
+    FreeEnrollment freeEnrollment = validateFreeEnrollment(person);
 
     final Enrollment enrollment = createOrUpdateExistingEnrollment(
       dto,
@@ -305,13 +319,17 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final long examEventId,
     final Person person
   ) {
+    FreeEnrollment freeEnrollment = null;
+    if (dto.isFree() && featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
+      freeEnrollment = validateFreeEnrollment(person);
+    }
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
     final Enrollment enrollment = createOrUpdateExistingEnrollment(
       dto,
       examEvent,
       person,
       EnrollmentStatus.QUEUED,
-      null
+      freeEnrollment
     );
 
     publicEnrollmentEmailService.sendEnrollmentToQueueConfirmationEmail(enrollment, person);
@@ -365,20 +383,18 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   ) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
 
-    // TODO check that validations from creation are still valid?
+    FreeEnrollment freeEnrollment = null;
+    if (dto.isFree() && featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
+      freeEnrollment = validateFreeEnrollment(person);
+    }
 
     final Enrollment enrollment = createOrUpdateExistingEnrollment(
       dto,
       examEvent,
       person,
       EnrollmentStatus.AWAITING_APPROVAL,
-      null
+      freeEnrollment
     );
-
-    // TODO This needs proper handling
-    if (enrollment.getFreeEnrollment() == null) {
-      throw new APIException(APIExceptionType.PAYMENT_VALIDATION_FAIL);
-    }
 
     return createEnrollmentDTO(enrollment);
   }
