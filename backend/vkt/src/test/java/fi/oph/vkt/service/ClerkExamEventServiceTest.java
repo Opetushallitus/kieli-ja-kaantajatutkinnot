@@ -105,9 +105,9 @@ public class ClerkExamEventServiceTest {
     entityManager.persist(upcomingEventFi);
     entityManager.persist(futureEvent);
 
-    createEnrollment(futureEvent, EnrollmentStatus.PAID);
+    createEnrollment(futureEvent, EnrollmentStatus.COMPLETED);
     createEnrollment(futureEvent, EnrollmentStatus.QUEUED);
-    createEnrollment(futureEvent, EnrollmentStatus.SHIFTED_FROM_QUEUE);
+    createEnrollment(futureEvent, EnrollmentStatus.AWAITING_PAYMENT);
     createEnrollment(futureEvent, EnrollmentStatus.CANCELED);
 
     final List<ClerkExamEventListDTO> examEventListDTOs = clerkExamEventService.list();

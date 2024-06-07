@@ -8,11 +8,14 @@ import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.type.EnrollmentStatus;
+import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.PersonUtil;
@@ -23,6 +26,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +39,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   private final PublicEnrollmentEmailService publicEnrollmentEmailService;
   private final PublicReservationService publicReservationService;
   private final ReservationRepository reservationRepository;
+  private final FreeEnrollmentRepository freeEnrollmentRepository;
+  private final Environment environment;
 
   @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollment(final long examEventId, final Person person) {
@@ -189,9 +195,49 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       dto,
       examEvent,
       person,
-      EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
+      EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
+      null
     );
     reservationRepository.deleteById(reservationId);
+
+    return createEnrollmentDTO(enrollment);
+  }
+
+  @Transactional
+  public PublicEnrollmentDTO createFreeEnrollment(
+    final PublicEnrollmentCreateDTO dto,
+    final long reservationId,
+    final Person person
+  ) {
+    final Reservation reservation = reservationRepository.getReferenceById(reservationId);
+    final ExamEvent examEvent = reservation.getExamEvent();
+
+    if (person.getId() != reservation.getPerson().getId()) {
+      throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
+    }
+
+    // TODO validate that enrollment is actually free
+    // Either: check Koski/user-provided certificate
+    // Or: seperate API-endpoint for creating FreeEnrollment entity, that is checked here
+
+    // Validate that there are unused free enrollments
+
+    FreeEnrollment freeEnrollment = new FreeEnrollment();
+    freeEnrollment.setApproved(false);
+    freeEnrollment.setPerson(person);
+    freeEnrollment.setSource(FreeEnrollmentSource.KOSKI_COMPLETED_DEGREE);
+    freeEnrollmentRepository.saveAndFlush(freeEnrollment);
+
+    final Enrollment enrollment = createOrUpdateExistingEnrollment(
+      dto,
+      examEvent,
+      person,
+      EnrollmentStatus.AWAITING_APPROVAL,
+      freeEnrollment
+    );
+    reservationRepository.deleteById(reservationId);
+
+    // TODO send confirmation email
 
     return createEnrollmentDTO(enrollment);
   }
@@ -200,12 +246,14 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final PublicEnrollmentCreateDTO dto,
     final ExamEvent examEvent,
     final Person person,
-    final EnrollmentStatus enrollmentStatus
+    final EnrollmentStatus enrollmentStatus,
+    final FreeEnrollment freeEnrollment
   ) {
     final Enrollment enrollment = findEnrollment(examEvent, person, enrollmentRepository).orElse(new Enrollment());
     enrollment.setExamEvent(examEvent);
     enrollment.setPerson(person);
     enrollment.setStatus(enrollmentStatus);
+    enrollment.setFreeEnrollment(freeEnrollment != null ? freeEnrollment : enrollment.getFreeEnrollment());
 
     copyDtoFieldsToEnrollment(enrollment, dto);
     if (dto.digitalCertificateConsent()) {
@@ -229,7 +277,13 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final Person person
   ) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-    final Enrollment enrollment = createOrUpdateExistingEnrollment(dto, examEvent, person, EnrollmentStatus.QUEUED);
+    final Enrollment enrollment = createOrUpdateExistingEnrollment(
+      dto,
+      examEvent,
+      person,
+      EnrollmentStatus.QUEUED,
+      null
+    );
 
     publicEnrollmentEmailService.sendEnrollmentToQueueConfirmationEmail(enrollment, person);
 
@@ -246,7 +300,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
 
     final LocalDateTime expiresAt = enrollment.getPaymentLinkExpiresAt();
 
-    if (enrollment.getStatus() != EnrollmentStatus.SHIFTED_FROM_QUEUE) {
+    if (enrollment.getStatus() != EnrollmentStatus.AWAITING_PAYMENT) {
       throw new APIException(APIExceptionType.PAYMENT_LINK_INVALID_ENROLLMENT_STATUS);
     }
     if (expiresAt == null || expiresAt.isBefore(LocalDateTime.now())) {
@@ -267,8 +321,35 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       dto,
       examEvent,
       person,
-      EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
+      EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
+      null
     );
+
+    return createEnrollmentDTO(enrollment);
+  }
+
+  @Transactional
+  public PublicEnrollmentDTO updateEnrollmentForFree(
+    final PublicEnrollmentCreateDTO dto,
+    final long examEventId,
+    final Person person
+  ) {
+    final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
+
+    // TODO check that validations from creation are still valid?
+
+    final Enrollment enrollment = createOrUpdateExistingEnrollment(
+      dto,
+      examEvent,
+      person,
+      EnrollmentStatus.AWAITING_APPROVAL,
+      null
+    );
+
+    // TODO This needs proper handling
+    if (enrollment.getFreeEnrollment() == null) {
+      throw new APIException(APIExceptionType.PAYMENT_VALIDATION_FAIL);
+    }
 
     return createEnrollmentDTO(enrollment);
   }
