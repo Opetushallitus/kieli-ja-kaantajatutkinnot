@@ -1,7 +1,7 @@
 {
   "CORSRules": [
     {
-      "AllowedOrigins": ["https://localhost:4002"],
+      "AllowedOrigins": ["http://localhost:4002"],
       "AllowedHeaders": ["*"],
       "AllowedMethods": ["PUT", "POST", "DELETE"],
       "MaxAgeSeconds": 3000,
