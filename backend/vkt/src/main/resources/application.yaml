@@ -85,6 +85,10 @@ app:
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}
+  koski:
+    url: https://koski.testiopintopolku.fi/koski/api/vkt
+    user: ${koski.username:null}
+    password: ${koski.password:null}
   payment:
     paytrail:
       url: https://services.paytrail.com

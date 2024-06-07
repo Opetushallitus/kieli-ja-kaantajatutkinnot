@@ -22,6 +22,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.Session;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -64,6 +66,20 @@ public class AppConfig {
     final UUIDSource uuidSource = new UUIDSource();
 
     return new PaytrailPaymentProvider(webClient, paytrailConfig, uuidSource);
+  }
+
+  @Bean
+  public WebClient koskiClient(final Environment environment) {
+    return webClientBuilderWithCallerId()
+      .baseUrl(environment.getRequiredProperty("app.koski.url"))
+      .defaultHeaders(headers -> {
+        headers.setBasicAuth(
+          environment.getRequiredProperty("app.koski.user"),
+          environment.getRequiredProperty("app.koski.password")
+        );
+        headers.setContentType(MediaType.APPLICATION_JSON);
+      })
+      .build();
   }
 
   @Bean
