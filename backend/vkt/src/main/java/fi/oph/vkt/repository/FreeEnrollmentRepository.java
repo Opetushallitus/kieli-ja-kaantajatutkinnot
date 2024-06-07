@@ -1,6 +1,7 @@
 package fi.oph.vkt.repository;
 
 import fi.oph.vkt.model.FreeEnrollment;
+import fi.oph.vkt.model.type.EnrollmentStatus;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +12,8 @@ public interface FreeEnrollmentRepository extends BaseRepository<FreeEnrollment>
     " FROM FreeEnrollment f" +
     " JOIN f.enrollment e" +
     " WHERE f.person.id = ?1" +
+    " AND (e.status = fi.oph.vkt.model.type.EnrollmentStatus.COMPLETED" +
+    " OR e.status = fi.oph.vkt.model.type.EnrollmentStatus.AWAITING_APPROVAL)" +
     " AND e.textualSkill = true"
   )
   int findUsedTextualSkillFreeEnrollmentsForPerson(final long personId);
@@ -20,6 +23,8 @@ public interface FreeEnrollmentRepository extends BaseRepository<FreeEnrollment>
     " FROM FreeEnrollment f" +
     " JOIN f.enrollment e" +
     " WHERE f.person.id = ?1" +
+    " AND (e.status = fi.oph.vkt.model.type.EnrollmentStatus.COMPLETED" +
+    "   OR e.status = fi.oph.vkt.model.type.EnrollmentStatus.AWAITING_APPROVAL)" +
     " AND e.oralSkill = true"
   )
   int findUsedOralSkillFreeEnrollmentsForPerson(final long personId);
