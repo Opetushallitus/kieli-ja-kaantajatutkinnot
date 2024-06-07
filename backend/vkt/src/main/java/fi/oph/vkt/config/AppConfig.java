@@ -27,6 +27,9 @@ import org.springframework.session.Session;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 
 @Configuration
 public class AppConfig {
@@ -100,6 +103,16 @@ public class AppConfig {
     templateResolver.setTemplateMode(TemplateMode.HTML);
     templateResolver.setOrder(2);
     return templateResolver;
+  }
+
+  @Bean
+  public AwsCredentialsProvider awsCredentialsProvider(final Environment environment) {
+    return StaticCredentialsProvider.create(
+      AwsBasicCredentials.create(
+        environment.getRequiredProperty("app.aws.access-key-id"),
+        environment.getRequiredProperty("app.aws.secret-access-key")
+      )
+    );
   }
 
   private static WebClient.Builder webClientBuilderWithCallerId() {

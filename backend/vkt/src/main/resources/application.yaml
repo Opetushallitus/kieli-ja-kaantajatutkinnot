@@ -92,3 +92,7 @@ app:
       account: ${payment.paytrail.account:null}
   featureFlags:
     freeEnrollmentAllowed: ${feature-flags.free-enrollment-allowed:false}
+  aws:
+    access-key-id: ${aws.access-key-id:test}
+    secret-access-key: ${aws.secret-access-key:test}
+    s3-bucket: ${aws.s3-bucket:test}
