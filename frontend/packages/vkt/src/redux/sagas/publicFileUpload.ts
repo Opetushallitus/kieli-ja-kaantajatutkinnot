@@ -79,7 +79,11 @@ function* startFileUploadSaga(action: PayloadAction<File>) {
         bucket,
         ...policy
       } = state.policy;
-      const postData = { ...policy, file: action.payload };
+      const postData = {
+        ...policy,
+        file: action.payload,
+        //enctype: 'multipart/form-data',
+      };
       // eslint-disable-next-line no-console
       console.log('in startFileUpload, file:', postData.file);
 
@@ -92,31 +96,15 @@ function* startFileUploadSaga(action: PayloadAction<File>) {
       formData.append('x-amz-credential', policy['x-amz-credential'] as string);
       formData.append('x-amz-date', policy['x-amz-date'] as string);
       formData.append('x-amz-signature', policy['x-amz-signature'] as string);
+      // TODO Uploaded files are named $filename. Try to fix.
       formData.append('file', postData.file);
-      /*for (const field of policyKeys) {
-        if (policy[field as keyof UploadPostPolicy]) {
-          formData.append(
-            field,
-            policy[field as keyof UploadPostPolicy] as string,
-          );
-        }
-      }*/
-      // TODO Enable CORS!
-      /*yield call(
-        axiosInstance.postForm,
-        `https://${bucket}.s3.localhost.localstack.cloud:4566`,
-        postData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        },
-      );*/
+      // For some reason trying to POST with axios couldn't be made to work -
+      // according to S3 error, enctype=multipart/form-data was not set, no matter what.
+      // Using fetch however works fine.
       yield call(
-        axiosInstance.post,
+        fetch,
         `https://${bucket}.s3.localhost.localstack.cloud:4566`,
-        formData,
-        { headers: { 'Content-Type': 'multipart/form-data' } },
+        { method: 'POST', body: formData },
       );
       yield put(acceptFileUpload());
     }
