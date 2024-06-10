@@ -1,10 +1,14 @@
 package fi.oph.vkt.service;
 
+<<<<<<< HEAD
+=======
+import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
+>>>>>>> 5b674dd2 (VKT(Backend): Allow enrollment into queue for free)
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
-import fi.oph.vkt.api.dto.PublicFreeEnrollmentDetails;
+import fi.oph.vkt.api.dto.PublicFreeEnrollmentDetailsDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Enrollment;
@@ -19,13 +23,11 @@ import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.ReservationRepository;
-import fi.oph.vkt.service.aws.S3Service;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.PersonUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
-import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -69,6 +71,11 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     }
 
     final PublicReservationDTO reservationDTO = publicReservationService.createOrReplaceReservation(examEvent, person);
+    final Optional<FreeEnrollmentDetails> optionalPublicFreeEnrollmentDetails = featureFlagService.isEnabled(
+        FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED
+      )
+      ? Optional.of(enrollmentRepository.countEnrollmentsByPerson(person))
+      : Optional.empty();
 
     return createEnrollmentInitialisationDTO(
       examEvent,
@@ -76,7 +83,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       openings,
       Optional.of(reservationDTO),
       Optional.empty(),
-      Optional.empty()
+      optionalPublicFreeEnrollmentDetails
     );
   }
 
@@ -101,20 +108,11 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final Optional<PublicEnrollmentDTO> optionalEnrollmentDTO = findEnrollment(examEvent, person, enrollmentRepository)
       .map(this::createEnrollmentDTO);
 
-    Optional<PublicFreeEnrollmentDetails> optionalPublicFreeEnrollmentDetails;
-    if (featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
-      final int freeTextualSkillExamsLeft =
-        3 - freeEnrollmentRepository.findUsedTextualSkillFreeEnrollmentsForPerson(person.getId());
-      final int freeOralSkillExamsLeft =
-        3 - freeEnrollmentRepository.findUsedOralSkillFreeEnrollmentsForPerson(person.getId());
-      final PublicFreeEnrollmentDetails freeEnrollmentDetails = new PublicFreeEnrollmentDetails(
-        freeTextualSkillExamsLeft,
-        freeOralSkillExamsLeft
-      );
-      optionalPublicFreeEnrollmentDetails = Optional.of(freeEnrollmentDetails);
-    } else {
-      optionalPublicFreeEnrollmentDetails = Optional.empty();
-    }
+    final Optional<FreeEnrollmentDetails> optionalPublicFreeEnrollmentDetails = featureFlagService.isEnabled(
+        FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED
+      )
+      ? Optional.of(enrollmentRepository.countEnrollmentsByPerson(person))
+      : Optional.empty();
 
     return createEnrollmentInitialisationDTO(
       examEvent,
@@ -156,7 +154,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final long openings,
     final Optional<PublicReservationDTO> optionalReservationDTO,
     final Optional<PublicEnrollmentDTO> optionalEnrollmentDTO,
-    final Optional<PublicFreeEnrollmentDetails> optionalPublicFreeEnrollmentDetails
+    final Optional<FreeEnrollmentDetails> optionalPublicFreeEnrollmentDetails
   ) {
     final PublicExamEventDTO examEventDTO = PublicExamEventDTO
       .builder()
@@ -170,13 +168,23 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
 
     final PublicPersonDTO personDTO = PersonUtil.createPublicPersonDTO(person);
 
+    final PublicFreeEnrollmentDetailsDTO freeEnrollmentDetailsDTO = optionalPublicFreeEnrollmentDetails
+      .map(e ->
+        PublicFreeEnrollmentDetailsDTO
+          .builder()
+          .freeOralSkillLeft(Math.min(0, 3 - e.oralSkillCount()))
+          .freeTextualSkillLeft(Math.min(0, 3 - e.textualSkillCount()))
+          .build()
+      )
+      .orElse(null);
+
     return PublicEnrollmentInitialisationDTO
       .builder()
       .examEvent(examEventDTO)
       .person(personDTO)
       .reservation(optionalReservationDTO.orElse(null))
       .enrollment(optionalEnrollmentDTO.orElse(null))
-      .freeEnrollmentDetails(optionalPublicFreeEnrollmentDetails.orElse(null))
+      .freeEnrollmentDetails(freeEnrollmentDetailsDTO)
       .build();
   }
 
@@ -199,13 +207,19 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
     }
 
+    final Optional<FreeEnrollmentDetails> optionalPublicFreeEnrollmentDetails = featureFlagService.isEnabled(
+        FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED
+      )
+      ? Optional.of(enrollmentRepository.countEnrollmentsByPerson(person))
+      : Optional.empty();
+
     return createEnrollmentInitialisationDTO(
       examEvent,
       person,
       openings,
       Optional.empty(),
       Optional.empty(),
-      Optional.empty()
+      optionalPublicFreeEnrollmentDetails
     );
   }
 
@@ -216,15 +230,14 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     //   *  check saved Koski-data
     //   *  check that enrollment contains uploaded files
 
-    FreeEnrollmentSource reason = FreeEnrollmentSource.KOSKI_COMPLETED_DEGREE;
+    final FreeEnrollmentSource reason = FreeEnrollmentSource.KOSKI_COMPLETED_DEGREE;
 
-    int freeTextualExamsUsed = freeEnrollmentRepository.findUsedTextualSkillFreeEnrollmentsForPerson(person.getId());
-    int freeOralExamsUsed = freeEnrollmentRepository.findUsedOralSkillFreeEnrollmentsForPerson(person.getId());
-    if (freeTextualExamsUsed >= 3 || freeOralExamsUsed >= 3) {
+    final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(person);
+    if (freeEnrollmentDetails.textualSkillCount() >= 3 || freeEnrollmentDetails.oralSkillCount() >= 3) {
       throw new APIException(APIExceptionType.FREE_ENROLLMENT_ALL_USED);
     }
 
-    FreeEnrollment freeEnrollment = new FreeEnrollment();
+    final FreeEnrollment freeEnrollment = new FreeEnrollment();
     freeEnrollment.setApproved(false);
     freeEnrollment.setPerson(person);
     freeEnrollment.setSource(reason);
@@ -271,7 +284,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
     }
 
-    FreeEnrollment freeEnrollment = validateFreeEnrollment(person);
+    final FreeEnrollment freeEnrollment = validateFreeEnrollment(person);
 
     final Enrollment enrollment = createOrUpdateExistingEnrollment(
       dto,
