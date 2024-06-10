@@ -1,9 +1,6 @@
 package fi.oph.vkt.service;
 
-<<<<<<< HEAD
-=======
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
->>>>>>> 5b674dd2 (VKT(Backend): Allow enrollment into queue for free)
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
@@ -23,6 +20,7 @@ import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.ReservationRepository;
+import fi.oph.vkt.service.aws.S3Service;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.PersonUtil;
 import fi.oph.vkt.util.exception.APIException;
@@ -172,8 +170,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .map(e ->
         PublicFreeEnrollmentDetailsDTO
           .builder()
-          .freeOralSkillLeft(Math.min(0, 3 - e.oralSkillCount()))
-          .freeTextualSkillLeft(Math.min(0, 3 - e.textualSkillCount()))
+          .freeOralSkillLeft(Math.max(0, 3 - e.oralSkillCount()))
+          .freeTextualSkillLeft(Math.max(0, 3 - e.textualSkillCount()))
           .build()
       )
       .orElse(null);
@@ -438,8 +436,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new NotFoundException("No unfinished enrollment or reservation for exam event found");
     }
 
-    String key = examEventId + "/" + person.getOid() + "/" + filename;
-    LocalDate objectExpiry = examEvent.getDate().plusMonths(1);
+    final String key = examEventId + "/" + person.getOid() + "/" + filename;
+    final LocalDate objectExpiry = examEvent.getDate().plusMonths(1);
 
     return s3Service.getPresignedPostRequest(key, objectExpiry);
   }
