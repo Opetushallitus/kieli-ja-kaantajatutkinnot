@@ -8,10 +8,7 @@ import { watchClerkUser } from 'redux/sagas/clerkUser';
 import { watchFeatureFlags } from 'redux/sagas/featureFlags';
 import { watchPublicEnrollments } from 'redux/sagas/publicEnrollment';
 import { watchPublicExamEvents } from 'redux/sagas/publicExamEvent';
-import {
-  watchFileUpload,
-  watchUploadPostPolicy,
-} from 'redux/sagas/publicFileUpload';
+import { watchFileUpload } from 'redux/sagas/publicFileUpload';
 import { watchPublicUser } from 'redux/sagas/publicUser';
 
 export default function* rootSaga() {
@@ -25,7 +22,6 @@ export default function* rootSaga() {
     watchClerkExamEventOverview(),
     watchClerkEnrollmentDetails(),
     watchFeatureFlags(),
-    watchUploadPostPolicy(),
     watchFileUpload(),
   ]);
 }

@@ -355,18 +355,20 @@ public class PublicController {
       .collect(Collectors.toMap(FeatureFlag::getPropertyKey, f -> featureFlagService.isEnabled(f)));
   }
 
-  // TODO Read bucket name from configuration
   // TODO Restrict access. Perhaps endpoint is only needed for clerk usage?
   // TODO Perhaps this could just redirect to the URL?
   @GetMapping(path = "/presign")
   public String getPresignedUrl(@RequestParam final String key) {
-    return s3Service.getPresignedUrl("opintopolku-dev-vkt", key);
+    return s3Service.getPresignedUrl(key);
   }
 
   @GetMapping(path = "/uploadPostPolicy/{examEventId:\\d+}")
-  public Map<String, String> getPresignedPostPolicy(@PathVariable final long examEventId, final HttpSession session) {
+  public Map<String, String> getPresignedPostPolicy(
+    @PathVariable final long examEventId,
+    @RequestParam final String filename,
+    final HttpSession session
+  ) {
     Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
-    // Hardcoded for earlier testing: return s3Service.getPresignedPostRequest("opintopolku-dev-vkt", "examEventId/personOid/");
-    return publicEnrollmentService.getPresignedPostRequest(examEventId, person);
+    return publicEnrollmentService.getPresignedPostRequest(examEventId, person, filename);
   }
 }

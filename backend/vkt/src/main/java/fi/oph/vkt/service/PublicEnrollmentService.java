@@ -277,7 +277,12 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     return createEnrollmentDTO(enrollment);
   }
 
-  public Map<String, String> getPresignedPostRequest(final long examEventId, final Person person) {
+  @Transactional(readOnly = true)
+  public Map<String, String> getPresignedPostRequest(
+    final long examEventId,
+    final Person person,
+    final String filename
+  ) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
 
     // Allow uploading only if person is actively trying to enroll or make a reservation
@@ -296,8 +301,9 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new NotFoundException("No unfinished enrollment or reservation for exam event found");
     }
 
-    String keyPrefix = examEventId + "/" + person.getOid() + "/$filename";
+    String key = examEventId + "/" + person.getOid() + "/" + filename;
+    LocalDate objectExpiry = examEvent.getDate().plusMonths(1);
 
-    return s3Service.getPresignedPostRequest("opintopolku-dev-vkt", keyPrefix);
+    return s3Service.getPresignedPostRequest(key, objectExpiry);
   }
 }
