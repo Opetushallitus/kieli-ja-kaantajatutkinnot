@@ -13,6 +13,7 @@ import { clerkUserReducer } from 'redux/reducers/clerkUser';
 import { featureFlagsReducer } from 'redux/reducers/featureFlags';
 import { publicEnrollmentReducer } from 'redux/reducers/publicEnrollment';
 import { publicExamEventReducer } from 'redux/reducers/publicExamEvent';
+import { publicFileUploadReducer } from 'redux/reducers/publicFileUpload';
 import { publicUserReducer } from 'redux/reducers/publicUser';
 import rootSaga from 'redux/sagas/index';
 
@@ -34,6 +35,7 @@ const reducer = combineReducers({
   clerkExamEventOverview: clerkExamEventOverviewReducer,
   clerkEnrollmentDetails: clerkEnrollmentDetailsReducer,
   featureFlags: featureFlagsReducer,
+  publicFileUpload: publicFileUploadReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

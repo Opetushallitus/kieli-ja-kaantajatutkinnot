@@ -28,6 +28,7 @@ import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.ReservationRepository;
+import fi.oph.vkt.service.aws.S3Service;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
@@ -71,6 +72,9 @@ public class PublicEnrollmentServiceTest {
   @Resource
   private TestEntityManager entityManager;
 
+  @MockBean
+  private S3Service s3Service;
+
   private PublicEnrollmentService publicEnrollmentService;
 
   @BeforeEach
@@ -92,7 +96,7 @@ public class PublicEnrollmentServiceTest {
         publicReservationService,
         reservationRepository,
         freeEnrollmentRepository,
-        environment
+        s3Service
       );
   }
 

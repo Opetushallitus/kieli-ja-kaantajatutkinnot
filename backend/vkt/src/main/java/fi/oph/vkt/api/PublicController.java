@@ -20,6 +20,7 @@ import fi.oph.vkt.service.PublicEnrollmentService;
 import fi.oph.vkt.service.PublicExamEventService;
 import fi.oph.vkt.service.PublicPersonService;
 import fi.oph.vkt.service.PublicReservationService;
+import fi.oph.vkt.service.aws.S3Service;
 import fi.oph.vkt.service.koski.KoskiService;
 import fi.oph.vkt.service.koski.dto.KoskiResponseDTO;
 import fi.oph.vkt.util.SessionUtil;
@@ -39,13 +40,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.session.FindByIndexNameSessionRepository;
-import org.springframework.session.Session;
-import org.springframework.session.SessionRepository;
-import org.springframework.session.jdbc.JdbcIndexedSessionRepository;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -89,6 +85,9 @@ public class PublicController {
 
   @Resource
   private FeatureFlagService featureFlagService;
+
+  @Resource
+  private S3Service s3Service;
 
   @GetMapping(path = "/examEvent")
   public List<PublicExamEventDTO> list() {
@@ -378,5 +377,22 @@ public class PublicController {
     return Arrays
       .stream(FeatureFlag.values())
       .collect(Collectors.toMap(FeatureFlag::getPropertyKey, f -> featureFlagService.isEnabled(f)));
+  }
+
+  // TODO Restrict access. Perhaps endpoint is only needed for clerk usage?
+  // TODO Perhaps this could just redirect to the URL?
+  @GetMapping(path = "/presign")
+  public String getPresignedUrl(@RequestParam final String key) {
+    return s3Service.getPresignedUrl(key);
+  }
+
+  @GetMapping(path = "/uploadPostPolicy/{examEventId:\\d+}")
+  public Map<String, String> getPresignedPostPolicy(
+    @PathVariable final long examEventId,
+    @RequestParam final String filename,
+    final HttpSession session
+  ) {
+    Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+    return publicEnrollmentService.getPresignedPostRequest(examEventId, person, filename);
   }
 }

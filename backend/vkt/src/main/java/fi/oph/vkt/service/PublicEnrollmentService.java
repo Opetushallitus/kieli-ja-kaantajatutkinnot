@@ -17,6 +17,7 @@ import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.ReservationRepository;
+import fi.oph.vkt.service.aws.S3Service;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.PersonUtil;
 import fi.oph.vkt.util.exception.APIException;
@@ -24,6 +25,7 @@ import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   private final PublicReservationService publicReservationService;
   private final ReservationRepository reservationRepository;
   private final FreeEnrollmentRepository freeEnrollmentRepository;
+  private final S3Service s3Service;
 
   @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollment(final long examEventId, final Person person) {
@@ -337,11 +340,11 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     // TODO check that validations from creation are still valid?
 
     final Enrollment enrollment = createOrUpdateExistingEnrollment(
-      dto,
-      examEvent,
-      person,
-      EnrollmentStatus.AWAITING_APPROVAL,
-      null
+            dto,
+            examEvent,
+            person,
+            EnrollmentStatus.AWAITING_APPROVAL,
+            null
     );
 
     // TODO This needs proper handling
@@ -350,5 +353,35 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     }
 
     return createEnrollmentDTO(enrollment);
+  }
+
+  @Transactional(readOnly = true)
+  public Map<String, String> getPresignedPostRequest(
+    final long examEventId,
+    final Person person,
+    final String filename
+  ) {
+    final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
+
+    // Allow uploading only if person is actively trying to enroll or make a reservation
+    boolean uploadAllowed = false;
+    final Optional<Enrollment> enrollment = findEnrollment(examEvent, person, enrollmentRepository);
+    if (enrollment.isPresent()) {
+      uploadAllowed = enrollment.get().isExpectingPayment();
+    }
+    if (!uploadAllowed) {
+      final Optional<Reservation> reservation = reservationRepository.findByExamEventAndPerson(examEvent, person);
+      if (reservation.isPresent()) {
+        uploadAllowed = reservation.get().isActive();
+      }
+    }
+    if (!uploadAllowed) {
+      throw new NotFoundException("No unfinished enrollment or reservation for exam event found");
+    }
+
+    String key = examEventId + "/" + person.getOid() + "/" + filename;
+    LocalDate objectExpiry = examEvent.getDate().plusMonths(1);
+
+    return s3Service.getPresignedPostRequest(key, objectExpiry);
   }
 }
