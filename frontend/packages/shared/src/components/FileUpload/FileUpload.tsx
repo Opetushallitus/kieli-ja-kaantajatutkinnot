@@ -1,4 +1,5 @@
 import { ChangeEvent, FC } from 'react';
+import './FileUpload.scss';
 
 type FileUploadProps = {
   onChange: (files: FileList) => void;

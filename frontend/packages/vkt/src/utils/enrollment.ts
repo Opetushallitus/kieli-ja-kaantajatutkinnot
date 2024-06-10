@@ -48,7 +48,7 @@ export class EnrollmentUtils {
 
   static isPaymentRequired(enrollment: PublicEnrollment) {
     return (
-      enrollment.status == EnrollmentStatus.SHIFTED_FROM_QUEUE ||
+      enrollment.status == EnrollmentStatus.AWAITING_PAYMENT ||
       enrollment.status ==
         EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
     );

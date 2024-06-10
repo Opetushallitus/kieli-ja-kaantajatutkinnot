@@ -21,7 +21,7 @@ export const EducationDetails = ({
     handleChange(true);
   };
 
-  const handleFileUpload = (files: FileList) => {};
+  const handleFileUpload = (_files: FileList) => {};
 
   return (
     <div className="margin-top-lg rows gapped">
