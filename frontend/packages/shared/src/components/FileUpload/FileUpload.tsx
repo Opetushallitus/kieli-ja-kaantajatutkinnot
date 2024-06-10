@@ -2,10 +2,11 @@ import { ChangeEvent, FC } from 'react';
 import './FileUpload.scss';
 
 type FileUploadProps = {
+  accept?: string;
   onChange: (files: FileList) => void;
 };
 
-export const FileUpload: FC<FileUploadProps> = ({ onChange }) => {
+export const FileUpload: FC<FileUploadProps> = ({ accept, onChange }) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       onChange(event.target.files);
@@ -15,7 +16,7 @@ export const FileUpload: FC<FileUploadProps> = ({ onChange }) => {
   return (
     <div className="custom-fileupload">
       <div className="rows gapped">
-        <input type="file" onChange={handleChange} />
+        <input accept={accept} type="file" onChange={handleChange} />
       </div>
     </div>
   );

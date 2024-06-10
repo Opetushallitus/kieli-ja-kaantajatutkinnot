@@ -7,6 +7,10 @@ import {
 import { FileUpload, H2, Text } from 'shared/components';
 
 import { usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { PublicExamEvent } from 'interfaces/publicExamEvent';
+import { startFileUpload } from 'redux/reducers/publicFileUpload';
+import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
 export const EducationDetails = ({
   handleChange,
@@ -17,11 +21,19 @@ export const EducationDetails = ({
     keyPrefix: 'vkt.component.publicEnrollment.steps.educationDetails',
   });
 
+  const { id } = useAppSelector(publicEnrollmentSelector)
+    .examEvent as PublicExamEvent;
+  const dispatch = useAppDispatch();
+
   const handleRadioChange = () => {
     handleChange(true);
   };
 
-  const handleFileUpload = (_files: FileList) => {};
+  const handleFileUpload = (files: FileList) => {
+    if (files.length > 0) {
+      dispatch(startFileUpload({ file: files[0], examEventId: id }));
+    }
+  };
 
   return (
     <div className="margin-top-lg rows gapped">
@@ -61,7 +73,10 @@ export const EducationDetails = ({
           </RadioGroup>
         </FormControl>
       </fieldset>
-      <FileUpload onChange={handleFileUpload} />
+      <FileUpload
+        accept="application/pdf,image/jpeg,image/png"
+        onChange={handleFileUpload}
+      />
     </div>
   );
 };
