@@ -156,7 +156,7 @@ public class PublicController {
   public List<PublicEducationDTO> getEducation(final HttpSession session) throws JsonProcessingException {
     final Person person = publicAuthService.getPersonFromSession(session);
 
-    return koskiService.findEducations("1.2.246.562.24.97984579806" /* person.getOid() */);
+    return koskiService.findEducations("1.2.246.562.24.97984579806"/* person.getOid() */);
   }
 
   /**

@@ -477,7 +477,8 @@ public class PublicEnrollmentServiceTest {
       .street("Katu 1")
       .postalCode("00000")
       .town("Kaupunki")
-      .country("Maa");
+      .country("Maa")
+      .isFree(false);
   }
 
   private void assertCreatedEnrollment(
