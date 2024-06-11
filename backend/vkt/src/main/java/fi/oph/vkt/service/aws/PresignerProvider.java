@@ -15,7 +15,6 @@ import tel.schich.awss3postobjectpresigner.S3PostObjectPresigner;
 public class PresignerProvider {
 
   private final AwsCredentialsProvider credentialsProvider;
-  private final S3Config s3Config;
 
   @Profile("dev")
   @Bean
