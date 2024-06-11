@@ -4,13 +4,13 @@
 
 .custom-fileupload input {
   width: fit-content;
-  border:1px dashed blue;
+  border: 1px dashed colors.$color-secondary;
   font-size: 120%;
 }
 
 .custom-fileupload input::file-selector-button {
-  background: blue;
-  border: 1px solid white;
-  color: white;
+  background: colors.$color-secondary;
+  border: 1px solid colors.$color-primary;
+  color: colors.$color-primary;
   padding: 10px;
 }
