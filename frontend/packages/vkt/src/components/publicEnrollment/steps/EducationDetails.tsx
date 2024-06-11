@@ -4,13 +4,20 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { FileUpload, H2, Text } from 'shared/components';
+import {
+  FileUpload,
+  H2,
+  LoadingProgressIndicator,
+  Text,
+} from 'shared/components';
+import { APIResponseStatus } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { startFileUpload } from 'redux/reducers/publicFileUpload';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
+import { publicFileUploadSelector } from 'redux/selectors/publicFileUpload';
 
 export const EducationDetails = ({
   handleChange,
@@ -24,6 +31,8 @@ export const EducationDetails = ({
   const { id } = useAppSelector(publicEnrollmentSelector)
     .examEvent as PublicExamEvent;
   const dispatch = useAppDispatch();
+
+  const { status: fileUploadStatus } = useAppSelector(publicFileUploadSelector);
 
   const handleRadioChange = () => {
     handleChange(true);
@@ -73,10 +82,14 @@ export const EducationDetails = ({
           </RadioGroup>
         </FormControl>
       </fieldset>
-      <FileUpload
-        accept="application/pdf,image/jpeg,image/png"
-        onChange={handleFileUpload}
-      />
+      <LoadingProgressIndicator
+        isLoading={fileUploadStatus === APIResponseStatus.InProgress}
+      >
+        <FileUpload
+          accept="application/pdf,image/jpeg,image/png"
+          onChange={handleFileUpload}
+        />
+      </LoadingProgressIndicator>
     </div>
   );
 };
