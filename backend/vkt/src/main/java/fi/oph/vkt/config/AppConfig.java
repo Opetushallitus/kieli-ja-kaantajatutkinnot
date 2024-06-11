@@ -20,6 +20,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
@@ -122,11 +123,12 @@ public class AppConfig {
   }
 
   @Bean
-  public AwsCredentialsProvider awsCredentialsProvider(final Environment environment) {
+  @Profile("dev")
+  public AwsCredentialsProvider localstackAwsCredentialsProvider(final Environment environment) {
     return StaticCredentialsProvider.create(
       AwsBasicCredentials.create(
-        environment.getRequiredProperty("app.aws.access-key-id"),
-        environment.getRequiredProperty("app.aws.secret-access-key")
+        environment.getRequiredProperty("app.aws.localstack.access-key-id"),
+        environment.getRequiredProperty("app.aws.localstack.secret-access-key")
       )
     );
   }

@@ -13,8 +13,9 @@ app:
   featureFlags:
     freeEnrollmentAllowed: true
   aws:
-    access-key-id: test
-    secret-access-key: test
+    localstack:
+      access-key-id: test
+      secret-access-key: test
     s3-bucket: opintopolku-dev-vkt
 springdoc:
   swagger-ui:
