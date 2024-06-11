@@ -1,6 +1,7 @@
 package fi.oph.vkt.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
@@ -152,8 +153,10 @@ public class PublicController {
    * TODO: remove this
    */
   @GetMapping(path = "/education")
-  public KoskiResponseDTO getEducation() throws JsonProcessingException {
-    return koskiService.findEducations("1.2.246.562.24.97984579806");
+  public List<PublicEducationDTO> getEducation(final HttpSession session) throws JsonProcessingException {
+    final Person person = publicAuthService.getPersonFromSession(session);
+
+    return koskiService.findEducations("1.2.246.562.24.97984579806" /* person.getOid() */);
   }
 
   /**

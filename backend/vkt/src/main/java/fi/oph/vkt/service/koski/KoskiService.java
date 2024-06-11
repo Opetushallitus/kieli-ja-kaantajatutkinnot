@@ -2,8 +2,10 @@ package fi.oph.vkt.service.koski;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.service.koski.dto.KoskiResponseDTO;
 import fi.oph.vkt.service.koski.dto.RequestBody;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,9 +51,14 @@ public class KoskiService {
     }
   }
 
-  public KoskiResponseDTO findEducations(final String oid) throws JsonProcessingException {
+  public List<PublicEducationDTO> findEducations(final String oid) throws JsonProcessingException {
     final ObjectMapper objectMapper = new ObjectMapper();
+    final KoskiResponseDTO koskiResponseDTO = objectMapper.readValue(requestWithRetries(oid), KoskiResponseDTO.class);
 
-    return objectMapper.readValue(requestWithRetries(oid), KoskiResponseDTO.class);
+    return koskiResponseDTO
+      .getOpiskeluoikeudet()
+      .stream()
+      .map(k -> PublicEducationDTO.builder().educationType(k.getTyyppi().getKoodiarvo()).isActive(false).build())
+      .toList();
   }
 }
