@@ -158,9 +158,9 @@ export const PublicEnrollmentGrid = ({
       {isPhone ? (
         <PublicEnrollmentPhoneGrid
           isStepValid={isStepValid}
-          isShiftedFromQueue={isShiftedFromQueue}
+          isShiftedFromQueue={!!isShiftedFromQueue}
           isExamEventDetailsAvailable={isExamEventDetailsAvailable}
-          isPaymentSumAvailable={isPaymentSumAvailable}
+          isPaymentSumAvailable={!!isPaymentSumAvailable}
           isPreviewStepActive={isPreviewStepActive}
           isPreviewPassed={isPreviewPassed}
           isEnrollmentToQueue={isEnrollmentToQueue}
@@ -173,9 +173,9 @@ export const PublicEnrollmentGrid = ({
       ) : (
         <PublicEnrollmentDesktopGrid
           isStepValid={isStepValid}
-          isShiftedFromQueue={isShiftedFromQueue}
+          isShiftedFromQueue={!!isShiftedFromQueue}
           isExamEventDetailsAvailable={isExamEventDetailsAvailable}
-          isPaymentSumAvailable={isPaymentSumAvailable}
+          isPaymentSumAvailable={!!isPaymentSumAvailable}
           isPreviewStepActive={isPreviewStepActive}
           isPreviewPassed={isPreviewPassed}
           isEnrollmentToQueue={isEnrollmentToQueue}
