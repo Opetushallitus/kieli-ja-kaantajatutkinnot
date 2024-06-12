@@ -386,7 +386,11 @@ public class PublicController {
   // TODO Perhaps this could just redirect to the URL?
   @GetMapping(path = "/presign")
   public String getPresignedUrl(@RequestParam final String key) {
-    return s3Service.getPresignedUrl(key);
+    if (featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
+      return s3Service.getPresignedUrl(key);
+    } else {
+      throw new RuntimeException("Not allowed");
+    }
   }
 
   @GetMapping(path = "/uploadPostPolicy/{examEventId:\\d+}")
@@ -395,7 +399,11 @@ public class PublicController {
     @RequestParam final String filename,
     final HttpSession session
   ) {
-    Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
-    return publicEnrollmentService.getPresignedPostRequest(examEventId, person, filename);
+    if (featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
+      Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+      return publicEnrollmentService.getPresignedPostRequest(examEventId, person, filename);
+    } else {
+      throw new RuntimeException("Not allowed");
+    }
   }
 }
