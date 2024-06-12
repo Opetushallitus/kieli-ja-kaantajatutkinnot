@@ -86,7 +86,7 @@ export const EducationDetails = ({
         isLoading={fileUploadStatus === APIResponseStatus.InProgress}
       >
         <FileUpload
-          accept="application/pdf,image/jpeg,image/png"
+          accept="application/pdf,image/jpeg,image/png,image/heic,image/tiff,image/webp"
           onChange={handleFileUpload}
         />
       </LoadingProgressIndicator>

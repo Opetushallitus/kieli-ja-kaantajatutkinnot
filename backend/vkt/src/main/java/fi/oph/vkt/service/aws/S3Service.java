@@ -24,8 +24,9 @@ public class S3Service {
   private final S3PostObjectPresigner postObjectPresigner;
   private final S3Config s3Config;
 
-  private static final int TEN_MEGABYTES = 10 * 1024 * 1024;
-  private static final String ACCEPTED_CONTENT_TYPES = "application/pdf,image/jpeg,image/png";
+  private static final int MAX_SIZE_100_MB = 100 * 1024 * 1024;
+  private static final String ACCEPTED_CONTENT_TYPES =
+    "application/pdf,image/jpeg,image/png,image/heic,image/tiff,image/webp";
   private static final Duration POST_POLICY_VALID_FOR_ONE_MIN = Duration.ofMinutes(1);
 
   public String getPresignedUrl(String key) {
@@ -46,7 +47,7 @@ public class S3Service {
       .bucket(s3Config.getBucketName())
       .expiration(POST_POLICY_VALID_FOR_ONE_MIN)
       .withCondition(Conditions.keyStartsWith(key))
-      .withCondition(Conditions.contentLengthRange(0, TEN_MEGABYTES))
+      .withCondition(Conditions.contentLengthRange(0, MAX_SIZE_100_MB))
       .withCondition(Conditions.contentTypeHeaderEquals(ACCEPTED_CONTENT_TYPES))
       .withCondition(
         Conditions.expiresHeaderEquals(
