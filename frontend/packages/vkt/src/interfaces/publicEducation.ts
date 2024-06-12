@@ -1,14 +1,14 @@
-interface Education {
+export interface Education {
   name: string;
   ongoing: boolean;
 }
 
-interface FreeEnrollments {
-  textualSkill: 0 | 1 | 2 | 3;
-  oralSkill: 0 | 1 | 2 | 3;
+export interface PublicEducationResponse {
+  educationType: string;
+  isActive: boolean;
 }
 
 export interface PublicFreeEnrollmentDetails {
-  freeEnrollmentBasis: Education;
-  freeEnrollments: FreeEnrollments;
+  freeOralSkillLeft: 0 | 1 | 2 | 3;
+  freeTextualSkillLeft: 0 | 1 | 2 | 3;
 }

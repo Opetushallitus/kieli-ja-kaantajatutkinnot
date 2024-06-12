@@ -4,6 +4,7 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
+import { useEffect } from 'react';
 import {
   FileUpload,
   H2,
@@ -14,12 +15,15 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { Education } from 'interfaces/publicEducation';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
+import { loadPublicEducation } from 'redux/reducers/publicEducation';
 import { startFileUpload } from 'redux/reducers/publicFileUpload';
+import { publicEducationSelector } from 'redux/selectors/publicEducation';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicFileUploadSelector } from 'redux/selectors/publicFileUpload';
 
-export const EducationDetails = ({
+const SelectEducation = ({
   handleChange,
 }: {
   handleChange: (isFree: boolean) => void;
@@ -28,9 +32,9 @@ export const EducationDetails = ({
     keyPrefix: 'vkt.component.publicEnrollment.steps.educationDetails',
   });
 
+  const dispatch = useAppDispatch();
   const { id } = useAppSelector(publicEnrollmentSelector)
     .examEvent as PublicExamEvent;
-  const dispatch = useAppDispatch();
 
   const { status: fileUploadStatus } = useAppSelector(publicFileUploadSelector);
 
@@ -45,8 +49,7 @@ export const EducationDetails = ({
   };
 
   return (
-    <div className="margin-top-lg rows gapped">
-      <H2>Koulutustiedot</H2>
+    <>
       <fieldset className="public-enrollment__grid__education-details">
         <legend>
           <Text>
@@ -90,6 +93,51 @@ export const EducationDetails = ({
           onChange={handleFileUpload}
         />
       </LoadingProgressIndicator>
+    </>
+  );
+};
+
+const EducationList = ({ educations }: { educations: Array<Education> }) => {
+  return educations.map((education) => (
+    <span key={`education-type-${education.name}`}>{education.name}</span>
+  ));
+};
+
+export const EducationDetails = ({
+  handleChange,
+}: {
+  handleChange: (isFree: boolean) => void;
+}) => {
+  const { t } = usePublicTranslation({
+    keyPrefix:
+      'vkt.component.publicEnrollment.steps.fillContactDetails.educationDetails',
+  });
+
+  const dispatch = useAppDispatch();
+
+  const { status: educationStatus, education: educations } = useAppSelector(
+    publicEducationSelector,
+  );
+
+  useEffect(() => {
+    if (educationStatus === APIResponseStatus.NotStarted) {
+      dispatch(loadPublicEducation());
+    }
+    if (educationStatus === APIResponseStatus.Success) {
+      if (educations && educations.length > 0) {
+        handleChange(true);
+      }
+    }
+  }, [educationStatus, educations, handleChange, dispatch]);
+
+  return (
+    <div className="margin-top-lg rows gapped">
+      <H2>{t('educationInfoTitle')}</H2>
+      {educations ? (
+        <EducationList educations={educations} />
+      ) : (
+        <SelectEducation handleChange={handleChange} />
+      )}
     </div>
   );
 };

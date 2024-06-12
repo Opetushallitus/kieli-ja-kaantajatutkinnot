@@ -55,8 +55,9 @@ const ExamEventDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
     keyPrefix: 'vkt.component.publicEnrollment.steps.preview.examEventDetails',
   });
   const translateCommon = useCommonTranslation();
+  const { freeEnrollmentDetails } = useAppSelector(publicEnrollmentSelector);
 
-  const skills = ['textualSkill', 'oralSkill', 'understandingSkill'].filter(
+  const skills = ['textualSkill', 'oralSkill'].filter(
     (skill) => !!enrollment[skill as keyof PartialExamsAndSkills],
   );
 
@@ -67,11 +68,28 @@ const ExamEventDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
     'speechComprehensionPartialExam',
   ].filter((exam) => !!enrollment[exam as keyof PartialExamsAndSkills]);
 
+  const getFreeEnrollmentsLeft = (skill: string) => {
+    if (!freeEnrollmentDetails) {
+      return '';
+    }
+
+    switch (skill) {
+      case 'textualSkill':
+        return freeEnrollmentDetails.freeTextualSkillLeft;
+      case 'oralSkill':
+        return freeEnrollmentDetails.freeOralSkillLeft;
+      default:
+        return '';
+    }
+  };
+
   const displaySkillsList = () => (
     <div className="rows gapped-xxs">
       <div className="grid-3-columns gapped">
         <Text className="bold">{t('selectedPartialExamsLabel')}</Text>
-        <Text className="bold">Ilmaisia kertoja</Text>
+        {enrollment.isFree && (
+          <Text className="bold">Ilmaisia kertoja jäljellä</Text>
+        )}
         <Text className="bold">Hinta</Text>
       </div>
       {skills.map((skill, i) => (
@@ -79,12 +97,10 @@ const ExamEventDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
           <Text>
             {translateCommon(`enrollment.partialExamsAndSkills.${skill}`)}
           </Text>
-          {skill != 'understandingSkill' && (
-            <>
-              <Text>3/3</Text>
-              <Text>0&euro;</Text>
-            </>
+          {enrollment.isFree && (
+            <Text>{getFreeEnrollmentsLeft(skill)} / 3</Text>
           )}
+          <Text>0&euro;</Text>
         </div>
       ))}
     </div>

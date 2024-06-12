@@ -29,6 +29,7 @@ export interface PublicReservationDetailsResponse {
   person: PublicPerson;
   reservation?: PublicReservationResponse;
   enrollment?: PublicEnrollmentResponse;
+  freeEnrollmentDetails?: PublicFreeEnrollmentDetails;
 }
 
 export interface PublicEnrollmentContactDetails {
@@ -49,7 +50,6 @@ export interface PublicEnrollment
   examEventId?: number;
   hasPaymentLink?: boolean;
   isFree?: boolean;
-  freeEnrollmentDetails?: PublicFreeEnrollmentDetails;
 }
 
 export interface PublicEnrollmentResponse

@@ -11,6 +11,7 @@ import { clerkListExamEventReducer } from 'redux/reducers/clerkListExamEvent';
 import { clerkNewExamDateReducer } from 'redux/reducers/clerkNewExamDate';
 import { clerkUserReducer } from 'redux/reducers/clerkUser';
 import { featureFlagsReducer } from 'redux/reducers/featureFlags';
+import { publicEducationReducer } from 'redux/reducers/publicEducation';
 import { publicEnrollmentReducer } from 'redux/reducers/publicEnrollment';
 import { publicExamEventReducer } from 'redux/reducers/publicExamEvent';
 import { publicFileUploadReducer } from 'redux/reducers/publicFileUpload';
@@ -36,6 +37,7 @@ const reducer = combineReducers({
   clerkEnrollmentDetails: clerkEnrollmentDetailsReducer,
   featureFlags: featureFlagsReducer,
   publicFileUpload: publicFileUploadReducer,
+  publicEducation: publicEducationReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

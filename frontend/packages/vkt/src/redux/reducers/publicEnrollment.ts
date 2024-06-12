@@ -1,6 +1,7 @@
 import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
+import { PublicFreeEnrollmentDetails } from 'interfaces/publicEducation';
 import {
   PublicEnrollment,
   PublicReservation,
@@ -20,6 +21,7 @@ export interface PublicEnrollmentState {
   examEvent?: PublicExamEvent;
   person?: PublicPerson;
   reservation?: PublicReservation; // undefined if enrolling to queue
+  freeEnrollmentDetails?: PublicFreeEnrollmentDetails;
 }
 
 export const initialState: PublicEnrollmentState = {
@@ -57,6 +59,7 @@ export const initialState: PublicEnrollmentState = {
   examEvent: undefined,
   person: undefined,
   reservation: undefined,
+  freeEnrollmentDetails: undefined,
 };
 
 const publicEnrollmentSlice = createSlice({
@@ -87,6 +90,7 @@ const publicEnrollmentSlice = createSlice({
         person: PublicPerson;
         reservation?: PublicReservation;
         enrollment?: PublicEnrollment;
+        freeEnrollmentDetails?: PublicFreeEnrollmentDetails;
       }>,
     ) {
       state.enrollmentInitialisationStatus = APIResponseStatus.Success;
@@ -114,6 +118,7 @@ const publicEnrollmentSlice = createSlice({
       state.examEvent = action.payload.examEvent;
       state.person = action.payload.person;
       state.reservation = action.payload.reservation;
+      state.freeEnrollmentDetails = action.payload.freeEnrollmentDetails;
     },
     renewReservation(state, _action: PayloadAction<number>) {
       state.renewReservationStatus = APIResponseStatus.InProgress;

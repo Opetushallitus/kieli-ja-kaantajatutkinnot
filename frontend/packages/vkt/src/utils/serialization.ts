@@ -15,6 +15,7 @@ import {
   ClerkListExamEvent,
   ClerkListExamEventResponse,
 } from 'interfaces/clerkListExamEvent';
+import { Education, PublicEducationResponse } from 'interfaces/publicEducation';
 import {
   PublicEnrollment,
   PublicEnrollmentResponse,
@@ -131,5 +132,14 @@ export class SerializationUtils {
         SerializationUtils.serializeClerkEnrollment,
       ),
     };
+  }
+
+  static deserializePublicEducation(
+    education: Array<PublicEducationResponse>,
+  ): Array<Education> {
+    return education.map((e) => ({
+      name: e.educationType,
+      ongoing: e.isActive,
+    }));
   }
 }

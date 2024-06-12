@@ -113,7 +113,10 @@
             "phoneNumber": {
               "label": "Puhelinnumero *"
             },
-            "title": "Yhteystietosi"
+            "title": "Yhteystietosi",
+            "educationDetails": {
+              "educationInfoTitle": "Koulutustiedot"
+            }
           },
           "partialExamsSelection": {
             "partialExamsTitle": "Valitse osakokeet",

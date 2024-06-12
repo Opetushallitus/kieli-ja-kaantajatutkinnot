@@ -16,6 +16,7 @@
           "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksu kesken",
           "COMPLETED": "Maksettu",
           "QUEUED": "Jonossa",
+          "AWAITING_APPROVAL": "Odottaa tarkastusta",
           "AWAITING_PAYMENT": "Siirretty jonosta / maksu puuttuu"
         },
         "header": {
@@ -127,6 +128,7 @@
           "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksua odottavat (keskeneräinen)",
           "COMPLETED": "Ilmoittautuneet",
           "QUEUED": "Jonoon ilmoittautuneet",
+          "AWAITING_APPROVAL": "Odottaa tarkastusta",
           "AWAITING_PAYMENT": "Jonosta siirretyt / maksu puuttuu"
         },
         "copyClipboard": {
