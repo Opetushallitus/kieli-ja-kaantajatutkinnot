@@ -86,7 +86,7 @@ app:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}
   koski:
-    url: https://koski.testiopintopolku.fi/koski/api/vkt
+    url: ${koski.url:null}
     user: ${koski.username:null}
     password: ${koski.password:null}
   payment:
