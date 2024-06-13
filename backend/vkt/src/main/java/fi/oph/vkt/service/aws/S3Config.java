@@ -15,9 +15,9 @@ public class S3Config {
   public String getBucketURI() {
     final List<String> activeProfiles = Arrays.asList(environment.getActiveProfiles());
     if (activeProfiles.contains("dev")) {
-      return "https://" + getBucketName() + ".s3.localhost.localstack.cloud:4566";
+      return "https://" + getBucketName() + ".s3.localhost.localstack.cloud:4566/";
     } else {
-      return "https://" + getBucketName() + ".s3.eu-west-1.amazonaws.com";
+      return "https://" + getBucketName() + ".s3.eu-west-1.amazonaws.com/";
     }
   }
 
