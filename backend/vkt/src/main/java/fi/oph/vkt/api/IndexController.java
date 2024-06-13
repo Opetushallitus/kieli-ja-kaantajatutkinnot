@@ -30,7 +30,7 @@ public class IndexController {
       "style-src 'self' 'nonce-" +
       nonce +
       "' 'unsafe-inline'; " +
-      "connect-src " +
+      "connect-src 'self' " +
       s3Config.getBucketURI() +
       "; " +
       "img-src 'self'; " +
