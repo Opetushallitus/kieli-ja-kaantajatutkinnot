@@ -31,9 +31,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
-import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.ContainerCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 
 @Configuration
@@ -138,7 +137,7 @@ public class AppConfig {
   @Bean
   @Profile("!dev")
   public AwsCredentialsProvider defaultAwsCredentialsProvider() {
-    return DefaultCredentialsProvider.create();
+    return ContainerCredentialsProvider.builder().build();
   }
 
   private static WebClient.Builder webClientBuilderWithCallerId() {
