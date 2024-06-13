@@ -6,6 +6,11 @@ import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.service.koski.dto.KoskiResponseDTO;
 import fi.oph.vkt.service.koski.dto.RequestBody;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +26,11 @@ public class KoskiService {
   private static final Logger LOG = LoggerFactory.getLogger(KoskiService.class);
 
   private final WebClient koskiClient;
+
+  private static <T> Predicate<T> distinctByKey(final Function<? super T, ?> keyExtractor) {
+    final Set<Object> seen = ConcurrentHashMap.newKeySet();
+    return t -> seen.add(keyExtractor.apply(t));
+  }
 
   private String requestWithRetries(final String oid) {
     try {
@@ -59,6 +69,7 @@ public class KoskiService {
       .getOpiskeluoikeudet()
       .stream()
       .map(k -> PublicEducationDTO.builder().educationType(k.getTyyppi().getKoodiarvo()).isActive(false).build())
+      .filter(distinctByKey(PublicEducationDTO::educationType))
       .toList();
   }
 }

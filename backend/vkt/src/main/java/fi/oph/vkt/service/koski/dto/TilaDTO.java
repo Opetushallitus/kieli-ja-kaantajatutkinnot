@@ -5,12 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 
+import java.util.List;
+
 @Data
 @Builder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OpiskeluoikeusDTO {
+public class TilaDTO {
 
-  private TyyppiDTO tyyppi;
-  private TilaDTO tila;
+  private List<OpiskelujaksoDTO> opiskelujaksot;
 }

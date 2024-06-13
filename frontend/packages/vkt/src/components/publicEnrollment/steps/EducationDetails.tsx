@@ -123,21 +123,23 @@ export const EducationDetails = ({
     if (educationStatus === APIResponseStatus.NotStarted) {
       dispatch(loadPublicEducation());
     }
-    if (educationStatus === APIResponseStatus.Success) {
-      if (educations && educations.length > 0) {
-        handleChange(true);
-      }
-    }
-  }, [educationStatus, educations, handleChange, dispatch]);
+  }, [educationStatus, educations, dispatch]);
+
+  const isEducationLoading =
+    educationStatus === APIResponseStatus.InProgress ||
+    educationStatus === APIResponseStatus.NotStarted;
 
   return (
     <div className="margin-top-lg rows gapped">
       <H2>{t('educationInfoTitle')}</H2>
-      {educations ? (
-        <EducationList educations={educations} />
-      ) : (
-        <SelectEducation handleChange={handleChange} />
-      )}
+      <LoadingProgressIndicator isLoading={isEducationLoading}>
+        {!isEducationLoading &&
+          (educations ? (
+            <EducationList educations={educations} />
+          ) : (
+            <SelectEducation handleChange={handleChange} />
+          ))}
+      </LoadingProgressIndicator>
     </div>
   );
 };

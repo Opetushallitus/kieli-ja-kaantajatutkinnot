@@ -9,8 +9,8 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OpiskeluoikeusDTO {
+public class OpiskelujaksoDTO {
 
-  private TyyppiDTO tyyppi;
-  private TilaDTO tila;
+  private String alku;
+  private OpiskelujaksoTilaDTO tila;
 }

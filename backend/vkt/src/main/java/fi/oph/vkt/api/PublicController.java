@@ -34,6 +34,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -155,8 +156,11 @@ public class PublicController {
   @GetMapping(path = "/education")
   public List<PublicEducationDTO> getEducation(final HttpSession session) throws JsonProcessingException {
     final Person person = publicAuthService.getPersonFromSession(session);
+    final String oid = person.getOid();
 
-    return koskiService.findEducations("1.2.246.562.24.97984579806"/* person.getOid() */);
+    return oid != null && !oid.isEmpty()
+      ? koskiService.findEducations(/*"1.2.246.562.24.97984579806"*/ oid)
+      : Collections.emptyList();
   }
 
   /**
