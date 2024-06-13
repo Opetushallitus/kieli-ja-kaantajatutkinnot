@@ -30,6 +30,9 @@ export const handlers = [
 
     return new Response(cookies.noAuth ? 'null' : JSON.stringify(person));
   }),
+  http.get(APIEndpoints.PublicEducation, () => {
+    return new Response(JSON.stringify([]));
+  }),
   http.get(APIEndpoints.PublicExamEvent, () => {
     return new Response(JSON.stringify(publicExamEvents11));
   }),

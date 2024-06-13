@@ -158,9 +158,15 @@ public class PublicController {
     final Person person = publicAuthService.getPersonFromSession(session);
     final String oid = person.getOid();
 
-    return oid != null && !oid.isEmpty()
-      ? koskiService.findEducations(/*"1.2.246.562.24.97984579806"*/oid)
-      : Collections.emptyList();
+    if (oid == null || oid.isEmpty()) {
+      return Collections.emptyList();
+    }
+
+    try {
+      return koskiService.findEducations(/*"1.2.246.562.24.97984579806"*/oid);
+    } catch (final Exception e) {
+      return Collections.emptyList();
+    }
   }
 
   /**

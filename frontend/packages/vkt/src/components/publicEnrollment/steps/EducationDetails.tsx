@@ -15,7 +15,7 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { Education } from 'interfaces/publicEducation';
+import { Education, HandleChange } from 'interfaces/publicEducation';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { loadPublicEducation } from 'redux/reducers/publicEducation';
 import { startFileUpload } from 'redux/reducers/publicFileUpload';
@@ -23,11 +23,7 @@ import { publicEducationSelector } from 'redux/selectors/publicEducation';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicFileUploadSelector } from 'redux/selectors/publicFileUpload';
 
-const SelectEducation = ({
-  handleChange,
-}: {
-  handleChange: (isFree: boolean) => void;
-}) => {
+const SelectEducation = ({ handleChange }: { handleChange: HandleChange }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.educationDetails',
   });
@@ -97,7 +93,24 @@ const SelectEducation = ({
   );
 };
 
-const EducationList = ({ educations }: { educations: Array<Education> }) => {
+const EducationList = ({
+  educations,
+  handleChange,
+}: {
+  educations: Array<Education>;
+  handleChange: HandleChange;
+}) => {
+  useEffect(() => {
+    if (educations && educations.length > 0) {
+      handleChange(true, {
+        type: (educations && educations[0].name) || '',
+        source: 'koski',
+      });
+    } else {
+      handleChange(false, undefined);
+    }
+  }, [educations, handleChange]);
+
   return educations.map((education) => (
     <span key={`education-type-${education.name}`}>{education.name}</span>
   ));
@@ -106,13 +119,12 @@ const EducationList = ({ educations }: { educations: Array<Education> }) => {
 export const EducationDetails = ({
   handleChange,
 }: {
-  handleChange: (isFree: boolean) => void;
+  handleChange: HandleChange;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix:
       'vkt.component.publicEnrollment.steps.fillContactDetails.educationDetails',
   });
-
   const dispatch = useAppDispatch();
 
   const { status: educationStatus, education: educations } = useAppSelector(
@@ -134,8 +146,11 @@ export const EducationDetails = ({
       <H2>{t('educationInfoTitle')}</H2>
       <LoadingProgressIndicator isLoading={isEducationLoading}>
         {!isEducationLoading &&
-          (educations ? (
-            <EducationList educations={educations} />
+          (educations && educations.length > 0 ? (
+            <EducationList
+              handleChange={handleChange}
+              educations={educations}
+            />
           ) : (
             <SelectEducation handleChange={handleChange} />
           ))}

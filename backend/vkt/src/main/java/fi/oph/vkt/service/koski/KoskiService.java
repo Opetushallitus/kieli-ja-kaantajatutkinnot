@@ -1,11 +1,17 @@
 package fi.oph.vkt.service.koski;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.service.koski.dto.KoskiResponseDTO;
+import fi.oph.vkt.service.koski.dto.OpiskeluoikeusDTO;
+import fi.oph.vkt.service.koski.dto.OpiskeluoikeusjaksoDTO;
+import fi.oph.vkt.service.koski.dto.OpiskeluoikeusjaksoTila;
 import fi.oph.vkt.service.koski.dto.RequestBody;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -23,6 +29,7 @@ import reactor.core.publisher.Mono;
 public class KoskiService {
 
   private static final Logger LOG = LoggerFactory.getLogger(KoskiService.class);
+  private static final int REQUEST_ATTEMPTS = 3;
 
   private final WebClient koskiClient;
 
@@ -31,7 +38,7 @@ public class KoskiService {
     return t -> seen.add(keyExtractor.apply(t));
   }
 
-  private String requestWithRetries(final String oid) {
+  private String requestWithRetries(final String oid, final int attemptsRemaining) throws JsonProcessingException {
     try {
       final ObjectMapper objectMapper = new ObjectMapper();
       final RequestBody body = new RequestBody(oid);
@@ -56,18 +63,57 @@ public class KoskiService {
       );
       throw new RuntimeException(e);
     } catch (final Exception e) {
-      throw new RuntimeException(e);
+      final int retries = attemptsRemaining - 1;
+      LOG.error("KOSKI request failed! Retries remaining: {}", retries, e);
+      if (retries > 0) {
+        return requestWithRetries(oid, retries);
+      } else {
+        throw e;
+      }
     }
+  }
+
+  private Boolean filterByState(final OpiskeluoikeusDTO opiskeluoikeus) {
+    final OpiskeluoikeusjaksoTila latestState = findLatestState(opiskeluoikeus);
+
+    return (
+      latestState != null &&
+      (latestState.equals(OpiskeluoikeusjaksoTila.ACTIVE) || latestState.equals(OpiskeluoikeusjaksoTila.CONCLUDED))
+    );
+  }
+
+  private OpiskeluoikeusjaksoTila findLatestState(final OpiskeluoikeusDTO opiskeluoikeus) {
+    final Optional<OpiskeluoikeusjaksoDTO> latestOpiskeluoikeusjakso = opiskeluoikeus
+      .getTila()
+      .getOpiskeluoikeusjaksot()
+      .stream()
+      .max(Comparator.comparing(OpiskeluoikeusjaksoDTO::getAlku));
+
+    return latestOpiskeluoikeusjakso
+      .map(opiskeluoikeusjaksoDTO -> opiskeluoikeusjaksoDTO.getTila().getKoodiarvo())
+      .orElse(null);
+  }
+
+  private Boolean isActive(final OpiskeluoikeusDTO opiskeluoikeus) {
+    final OpiskeluoikeusjaksoTila latestState = findLatestState(opiskeluoikeus);
+
+    return (latestState != null && latestState.equals(OpiskeluoikeusjaksoTila.ACTIVE));
   }
 
   public List<PublicEducationDTO> findEducations(final String oid) throws JsonProcessingException {
     final ObjectMapper objectMapper = new ObjectMapper();
-    final KoskiResponseDTO koskiResponseDTO = objectMapper.readValue(requestWithRetries(oid), KoskiResponseDTO.class);
+    objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
+
+    final KoskiResponseDTO koskiResponseDTO = objectMapper.readValue(
+      requestWithRetries(oid, REQUEST_ATTEMPTS),
+      KoskiResponseDTO.class
+    );
 
     return koskiResponseDTO
       .getOpiskeluoikeudet()
       .stream()
-      .map(k -> PublicEducationDTO.builder().educationType(k.getTyyppi().getKoodiarvo()).isActive(false).build())
+      .filter(this::filterByState)
+      .map(k -> PublicEducationDTO.builder().educationType(k.getTyyppi().getKoodiarvo()).isActive(isActive(k)).build())
       .filter(distinctByKey(PublicEducationDTO::educationType))
       .toList();
   }

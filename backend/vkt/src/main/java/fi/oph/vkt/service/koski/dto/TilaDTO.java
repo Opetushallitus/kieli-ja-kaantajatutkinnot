@@ -12,5 +12,5 @@ import lombok.extern.jackson.Jacksonized;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TilaDTO {
 
-  private List<OpiskelujaksoDTO> opiskelujaksot;
+  private List<OpiskeluoikeusjaksoDTO> opiskeluoikeusjaksot;
 }

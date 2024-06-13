@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { H2, LabeledTextField, Text } from 'shared/components';
 import { InputAutoComplete, TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
@@ -8,6 +8,10 @@ import { EducationDetails } from 'components/publicEnrollment/steps/EducationDet
 import { PersonDetails } from 'components/publicEnrollment/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import {
+  HandleChange,
+  PublicFreeEnrollmentBasis,
+} from 'interfaces/publicEducation';
 import {
   PublicEnrollment,
   PublicEnrollmentContactDetails,
@@ -109,13 +113,18 @@ export const FillContactDetails = ({
       );
     };
 
-  const handleEducationChange = (isFree: boolean) => {
+  const handleEductionChangeFn: HandleChange = (
+    isFree: boolean,
+    feeEnrollmentBasis?: PublicFreeEnrollmentBasis,
+  ) => {
     dispatch(
       updatePublicEnrollment({
         isFree,
+        feeEnrollmentBasis,
       }),
     );
   };
+  const handleEducationChange = useCallback(handleEductionChangeFn, [dispatch]);
 
   const handleBlur =
     (fieldName: keyof PublicEnrollmentContactDetails) => () => {
