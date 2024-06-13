@@ -159,7 +159,7 @@ public class PublicController {
     final String oid = person.getOid();
 
     return oid != null && !oid.isEmpty()
-      ? koskiService.findEducations(/*"1.2.246.562.24.97984579806"*/ oid)
+      ? koskiService.findEducations(/*"1.2.246.562.24.97984579806"*/oid)
       : Collections.emptyList();
   }
 
