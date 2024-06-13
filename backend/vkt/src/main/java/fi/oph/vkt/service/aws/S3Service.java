@@ -7,8 +7,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
@@ -34,7 +32,6 @@ public class S3Service {
   private static final String ACCEPTED_CONTENT_TYPES =
     "application/pdf,image/jpeg,image/png,image/heic,image/tiff,image/webp";
   private static final Duration POST_POLICY_VALID_FOR_ONE_MIN = Duration.ofMinutes(1);
-  private static final Logger LOG = LoggerFactory.getLogger(S3Service.class);
 
   public String getPresignedUrl(String key) {
     GetObjectRequest request = GetObjectRequest.builder().bucket(s3Config.getBucketName()).key(key).build();
@@ -49,7 +46,7 @@ public class S3Service {
   }
 
   public Map<String, String> getPresignedPostRequest(String key, LocalDate objectExpiry) {
-    S3PostObjectRequest request = S3PostObjectRequest
+    S3PostObjectRequest.Builder requestBuilder = S3PostObjectRequest
       .builder()
       .bucket(s3Config.getBucketName())
       .expiration(POST_POLICY_VALID_FOR_ONE_MIN)
@@ -60,18 +57,17 @@ public class S3Service {
         Conditions.expiresHeaderEquals(
           DateTimeFormatter.RFC_1123_DATE_TIME.format(objectExpiry.atStartOfDay(ZoneId.of("GMT")))
         )
-      )
-      .build();
+      );
+    AwsCredentials credentials = awsCredentialsProvider.resolveCredentials();
+    if (credentials instanceof AwsSessionCredentials) {
+      String sessionToken = ((AwsSessionCredentials) credentials).sessionToken();
+      requestBuilder = requestBuilder.withCondition(Conditions.amzHeaderEquals("security-token", sessionToken));
+    }
+    S3PostObjectRequest request = requestBuilder.build();
     Map<String, String> presigned = postObjectPresigner.presignPost(request).constantFields();
     HashMap<String, String> presignedRequestWithKey = new HashMap<>(presigned);
     presignedRequestWithKey.put("key", key);
     presignedRequestWithKey.put("bucketURI", s3Config.getBucketURI());
-
-    AwsCredentials credentials = awsCredentialsProvider.resolveCredentials();
-    LOG.info("credentials: class {}", credentials.getClass().getName());
-    if (credentials instanceof AwsSessionCredentials) {
-      presignedRequestWithKey.put("x-amz-security-token", ((AwsSessionCredentials) credentials).sessionToken());
-    }
 
     return presignedRequestWithKey;
   }
