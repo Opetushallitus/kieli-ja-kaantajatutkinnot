@@ -25,6 +25,7 @@ const policyKeys = [
   'x-amz-signature',
   'x-amz-algorithm',
   'x-amz-credential',
+  'x-amz-security-token',
 ];
 
 const deserializeUploadPostPolicyResponse = (
@@ -69,6 +70,9 @@ function* startFileUploadSaga(
     formData.append('x-amz-credential', policy['x-amz-credential']);
     formData.append('x-amz-date', policy['x-amz-date']);
     formData.append('x-amz-signature', policy['x-amz-signature']);
+    if (policy['x-amz-security-token']) {
+      formData.append('x-amz-security-token', policy['x-amz-security-token']);
+    }
     formData.append('file', file);
     // For some reason trying to POST with axios couldn't be made to work -
     // according to S3 error, enctype=multipart/form-data was not set, no matter what.

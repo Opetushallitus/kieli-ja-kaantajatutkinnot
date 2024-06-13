@@ -11,6 +11,7 @@ export interface UploadPostPolicy {
   'x-amz-signature': string;
   'x-amz-algorithm': string;
   'x-amz-credential': string;
+  'x-amz-security-token'?: string;
 }
 
 export interface PublicFileUploadState {

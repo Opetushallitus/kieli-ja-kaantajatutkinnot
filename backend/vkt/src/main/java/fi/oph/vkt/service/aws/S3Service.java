@@ -70,7 +70,7 @@ public class S3Service {
     AwsCredentials credentials = awsCredentialsProvider.resolveCredentials();
     LOG.info("credentials: class {}", credentials.getClass().getName());
     if (credentials instanceof AwsSessionCredentials) {
-      presignedRequestWithKey.put("x-amz-session-token", ((AwsSessionCredentials) credentials).sessionToken());
+      presignedRequestWithKey.put("x-amz-security-token", ((AwsSessionCredentials) credentials).sessionToken());
     }
 
     return presignedRequestWithKey;
