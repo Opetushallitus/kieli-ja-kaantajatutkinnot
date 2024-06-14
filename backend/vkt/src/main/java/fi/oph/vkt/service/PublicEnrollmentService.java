@@ -437,8 +437,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     }
 
     final String key = examEventId + "/" + person.getOid() + "/" + filename;
-    final LocalDate objectExpiry = examEvent.getDate().plusMonths(1);
 
-    return s3Service.getPresignedPostRequest(key, objectExpiry);
+    return s3Service.getPresignedPostRequest(key);
   }
 }

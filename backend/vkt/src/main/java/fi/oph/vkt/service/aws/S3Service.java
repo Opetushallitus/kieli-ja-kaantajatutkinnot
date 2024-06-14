@@ -32,6 +32,7 @@ public class S3Service {
   private static final String ACCEPTED_CONTENT_TYPES =
     "application/pdf,image/jpeg,image/png,image/heic,image/tiff,image/webp";
   private static final Duration POST_POLICY_VALID_FOR_ONE_MIN = Duration.ofMinutes(1);
+  private static final int OBJECT_EXPIRY_MONTHS = 3;
 
   public String getPresignedUrl(String key) {
     GetObjectRequest request = GetObjectRequest.builder().bucket(s3Config.getBucketName()).key(key).build();
@@ -45,7 +46,9 @@ public class S3Service {
     return presignedRequest.url().toExternalForm();
   }
 
-  public Map<String, String> getPresignedPostRequest(String key, LocalDate objectExpiry) {
+  public Map<String, String> getPresignedPostRequest(String key) {
+    final LocalDate objectExpiry = LocalDate.now().plusMonths(OBJECT_EXPIRY_MONTHS);
+
     S3PostObjectRequest.Builder requestBuilder = S3PostObjectRequest
       .builder()
       .bucket(s3Config.getBucketName())
