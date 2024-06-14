@@ -14,6 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,4 +45,8 @@ public class FreeEnrollment extends BaseEntity {
 
   @OneToOne(mappedBy = "freeEnrollment", fetch = FetchType.LAZY, optional = false)
   Enrollment enrollment;
+
+  @OneToMany(fetch = FetchType.LAZY)
+  @JoinColumn(name = "uploaded_file_attachment", referencedColumnName = "free_enrollment_id")
+  List<UploadedFileAttachment> attachments;
 }
