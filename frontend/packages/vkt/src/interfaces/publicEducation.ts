@@ -1,11 +1,27 @@
+export enum FreeBasisSource {
+  KOSKI,
+  User,
+}
+
+export enum EducationType {
+  MatriculationExam = 'MatriculationExam',
+  HigherEducationEnrolled = 'HigherEducationEnrolled',
+  HigherEducationConcluded = 'HigherEducationConcluded',
+  DIA = 'DIA',
+  Other = 'Other',
+  Unknown = 'Unknown',
+  None = 'None',
+}
+
 export interface Education {
-  name: string;
+  name: EducationType;
   ongoing: boolean;
 }
 
 interface Attachment {
   name: string;
   id: string;
+  size: string;
 }
 
 export interface PublicEducationResponse {
@@ -14,8 +30,8 @@ export interface PublicEducationResponse {
 }
 
 export interface PublicFreeEnrollmentBasis {
-  type: string;
-  source: string;
+  type: EducationType;
+  source: FreeBasisSource;
   attachments?: Array<Attachment>;
 }
 

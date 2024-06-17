@@ -4,7 +4,7 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import {
   FileUpload,
   H2,
@@ -15,7 +15,12 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { Education, HandleChange } from 'interfaces/publicEducation';
+import {
+  Education,
+  EducationType,
+  FreeBasisSource,
+  HandleChange,
+} from 'interfaces/publicEducation';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { loadPublicEducation } from 'redux/reducers/publicEducation';
 import { startFileUpload } from 'redux/reducers/publicFileUpload';
@@ -34,8 +39,11 @@ const SelectEducation = ({ handleChange }: { handleChange: HandleChange }) => {
 
   const { status: fileUploadStatus } = useAppSelector(publicFileUploadSelector);
 
-  const handleRadioChange = () => {
-    handleChange(true);
+  const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
+    handleChange(true, {
+      type: event.target.value as EducationType,
+      source: FreeBasisSource.User,
+    });
   };
 
   const handleFileUpload = (files: FileList) => {
@@ -56,25 +64,25 @@ const SelectEducation = ({ handleChange }: { handleChange: HandleChange }) => {
           <RadioGroup onChange={handleRadioChange}>
             <FormControlLabel
               className="radio-group-label"
-              value={'1'}
+              value={EducationType.None}
               control={<Radio />}
               label={t('no')}
             />
             <FormControlLabel
               className="radio-group-label"
-              value={'2'}
+              value={EducationType.MatriculationExam}
               control={<Radio />}
               label={t('highschool')}
             />
             <FormControlLabel
               className="radio-group-label"
-              value={'3'}
+              value={EducationType.HigherEducationConcluded}
               control={<Radio />}
               label={t('college')}
             />
             <FormControlLabel
               className="radio-group-label"
-              value={'4'}
+              value={EducationType.HigherEducationEnrolled}
               control={<Radio />}
               label={t('collegeEnrolled')}
             />
@@ -103,8 +111,8 @@ const EducationList = ({
   useEffect(() => {
     if (educations && educations.length > 0) {
       handleChange(true, {
-        type: (educations && educations[0].name) || '',
-        source: 'koski',
+        type: (educations && educations[0].name) || EducationType.Unknown,
+        source: FreeBasisSource.KOSKI,
       });
     } else {
       handleChange(false, undefined);

@@ -15,7 +15,11 @@ import {
   ClerkListExamEvent,
   ClerkListExamEventResponse,
 } from 'interfaces/clerkListExamEvent';
-import { Education, PublicEducationResponse } from 'interfaces/publicEducation';
+import {
+  Education,
+  EducationType,
+  PublicEducationResponse,
+} from 'interfaces/publicEducation';
 import {
   PublicEnrollment,
   PublicEnrollmentResponse,
@@ -137,8 +141,23 @@ export class SerializationUtils {
   static deserializePublicEducation(
     education: Array<PublicEducationResponse>,
   ): Array<Education> {
+    const toEducationType = (education: string, isActive: boolean) => {
+      switch (education) {
+        case 'korkeakoulu':
+          return isActive
+            ? EducationType.HigherEducationEnrolled
+            : EducationType.HigherEducationConcluded;
+        case 'dia':
+          return EducationType.DIA;
+        case 'ylioppilas':
+          return EducationType.MatriculationExam;
+        default:
+          return EducationType.Unknown;
+      }
+    };
+
     return education.map((e) => ({
-      name: e.educationType,
+      name: toEducationType(e.educationType, e.isActive),
       ongoing: e.isActive,
     }));
   }

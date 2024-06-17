@@ -150,9 +150,6 @@ public class PublicController {
     return publicExamEventService.getExamEvent(examEventId);
   }
 
-  /**
-   * TODO: remove this
-   */
   @GetMapping(path = "/education")
   public List<PublicEducationDTO> getEducation(final HttpSession session) throws JsonProcessingException {
     final Person person = publicAuthService.getPersonFromSession(session);
