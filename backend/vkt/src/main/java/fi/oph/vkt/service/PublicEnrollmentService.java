@@ -221,7 +221,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     );
   }
 
-  private FreeEnrollment saveFreeEnrollment(final Person person, final PublicEnrollmentCreateDTO dto) throws APIException {
+  private FreeEnrollment saveFreeEnrollment(final Person person, final PublicEnrollmentCreateDTO dto)
+    throws APIException {
     // TODO validate that enrollment is actually free
     // - read user provided reason for free enrollment
     // - depending on choice:
