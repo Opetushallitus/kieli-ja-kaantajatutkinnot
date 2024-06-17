@@ -34,14 +34,11 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { EnrollmentStatus, PaymentStatus } from 'enums/app';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
+import { ClerkFreeEnrollmentBasis } from 'interfaces/clerkEducation';
 import { ClerkEnrollment, ClerkPayment } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
-import {
-  Attachment,
-  FreeBasisSource,
-  PublicFreeEnrollmentBasis,
-} from 'interfaces/publicEducation';
+import { Attachment, FreeBasisSource } from 'interfaces/publicEducation';
 import {
   createClerkEnrollmentPaymentLink,
   setClerkPaymentRefunded,
@@ -82,7 +79,7 @@ const FreeEnrollmentBasis = ({
   basis,
   disabled,
 }: {
-  basis: PublicFreeEnrollmentBasis;
+  basis: ClerkFreeEnrollmentBasis;
   disabled: boolean;
 }) => {
   const { t } = useClerkTranslation({
@@ -139,6 +136,7 @@ const FreeEnrollmentBasis = ({
             <CustomTextField
               type={TextFieldTypes.Textarea}
               disabled={disabled}
+              value={basis.comment}
               multiline
             />
           </fieldset>

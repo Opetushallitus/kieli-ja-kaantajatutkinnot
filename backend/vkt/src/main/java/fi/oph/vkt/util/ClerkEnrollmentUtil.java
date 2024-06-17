@@ -1,7 +1,7 @@
 package fi.oph.vkt.util;
 
-import fi.oph.vkt.api.dto.PublicFeeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkFeeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
@@ -25,11 +25,13 @@ public class ClerkEnrollmentUtil {
       .collect(Collectors.toList());
 
     final FreeEnrollment freeEnrollment = enrollment.getFreeEnrollment();
-    final PublicFeeEnrollmentBasisDTO freeEnrollmentBasisDTO = freeEnrollment != null
-      ? PublicFeeEnrollmentBasisDTO
+    final ClerkFeeEnrollmentBasisDTO freeEnrollmentBasisDTO = freeEnrollment != null
+      ? ClerkFeeEnrollmentBasisDTO
         .builder()
         .type(freeEnrollment.getSource().toString())
         .source(freeEnrollment.getSource().toString())
+        .approved(freeEnrollment.isApproved())
+        .comment(freeEnrollment.getComment())
         .build()
       : null;
 
