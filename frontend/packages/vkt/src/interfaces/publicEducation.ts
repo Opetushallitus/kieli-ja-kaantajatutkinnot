@@ -18,7 +18,7 @@ export interface Education {
   ongoing: boolean;
 }
 
-interface Attachment {
+export interface Attachment {
   name: string;
   id: string;
   size: string;

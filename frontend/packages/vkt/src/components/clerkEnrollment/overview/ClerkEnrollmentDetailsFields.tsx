@@ -1,4 +1,11 @@
-import { Checkbox, FormControlLabel, FormHelperTextProps } from '@mui/material';
+import {
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormHelperTextProps,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import {
   CustomButton,
@@ -30,6 +37,11 @@ import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import { ClerkEnrollment, ClerkPayment } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
+import {
+  Attachment,
+  FreeBasisSource,
+  PublicFreeEnrollmentBasis,
+} from 'interfaces/publicEducation';
 import {
   createClerkEnrollmentPaymentLink,
   setClerkPaymentRefunded,
@@ -63,6 +75,76 @@ const CheckboxField = ({
       }
       label={translateCommon(`enrollment.partialExamsAndSkills.${fieldName}`)}
     />
+  );
+};
+
+const FreeEnrollmentBasis = ({
+  basis,
+  disabled,
+}: {
+  basis: PublicFreeEnrollmentBasis;
+  disabled: boolean;
+}) => {
+  const { t } = useClerkTranslation({
+    keyPrefix: 'vkt.component.clerkEnrollmentDetails',
+  });
+
+  const handleRadioChange = () => {};
+
+  return (
+    <div className="rows gapped-xxl margin-top-lg">
+      <div className="rows gapped">
+        <H3>{t('freeEnrollment.title')}</H3>
+        <Text>{t('freeEnrollment.description')}</Text>
+        <ul className="public-enrollment__grid__preview__bullet-list">
+          <li key={`education-type-${basis.type}`}>
+            {t(`type.${basis.type}`)}
+          </li>
+        </ul>
+        {basis.attachments && basis.attachments.length > 0 && (
+          <ul className="public-enrollment__grid__preview__bullet-list">
+            {basis.attachments.map((attachment: Attachment) => (
+              <li key={`education-attachment-${attachment.id}`}>
+                {attachment.name}
+              </li>
+            ))}
+          </ul>
+        )}
+        {basis.source === FreeBasisSource.User && (
+          <fieldset className="clerk-enrollment-details-fields__approve">
+            <legend>
+              <Text>
+                <b>{t('freeEnrollment.inspect')}</b>
+              </Text>
+            </legend>
+            <FormControl error={false}>
+              <RadioGroup onChange={handleRadioChange}>
+                <FormControlLabel
+                  className="radio-group-label"
+                  value={1}
+                  control={<Radio />}
+                  label={t('freeEnrollment.deny')}
+                  disabled={disabled}
+                />
+                <FormControlLabel
+                  className="radio-group-label"
+                  value={2}
+                  control={<Radio />}
+                  label={t('freeEnrollment.approve')}
+                  disabled={disabled}
+                />
+              </RadioGroup>
+            </FormControl>
+            <Text className="bold">Kommentti</Text>
+            <CustomTextField
+              type={TextFieldTypes.Textarea}
+              disabled={disabled}
+              multiline
+            />
+          </fieldset>
+        )}
+      </div>
+    </div>
   );
 };
 
@@ -456,6 +538,12 @@ export const ClerkEnrollmentDetailsFields = ({
           <H3>{t('status')}</H3>
           <Text>{t(`enrollmentStatus.${enrollment.status}`)}</Text>
         </div>
+        {enrollment.freeEnrollmentBasis && (
+          <FreeEnrollmentBasis
+            basis={enrollment.freeEnrollmentBasis}
+            disabled={editDisabled}
+          />
+        )}
         {displayPaymentInformation && (
           <div className="rows gapped-xxl margin-top-lg">
             <div className="rows gapped">

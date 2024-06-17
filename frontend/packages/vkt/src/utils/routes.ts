@@ -71,6 +71,12 @@ export class RouteUtils {
           AppRoutes.PublicEnrollmentDone,
           examEventId,
         );
+
+      case PublicEnrollmentFormStep.DoneFree:
+        return RouteUtils.replaceExamEventId(
+          AppRoutes.PublicEnrollmentDone,
+          examEventId,
+        );
     }
   }
 

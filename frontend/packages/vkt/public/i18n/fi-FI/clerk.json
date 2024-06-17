@@ -68,6 +68,13 @@
         "toasts": {
           "enrollmentCanceled": "Ilmoittautuminen peruutettiin",
           "updated": "Tiedot tallennettiin"
+        },
+        "freeEnrollment": {
+          "title": "Ilmainen ilmoittautuminen",
+          "description": "Ilmainen ilmoittautuminen",
+          "approve": "Hyväksy",
+          "deny": "Hylkää",
+          "inspect": "Tarkasta"
         }
       },
       "clerkEnrollmentListing": {

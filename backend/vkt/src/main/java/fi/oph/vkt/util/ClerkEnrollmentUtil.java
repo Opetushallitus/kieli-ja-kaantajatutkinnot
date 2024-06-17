@@ -1,10 +1,12 @@
 package fi.oph.vkt.util;
 
+import fi.oph.vkt.api.dto.PublicFeeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Person;
 import java.util.Comparator;
 import java.util.List;
@@ -21,6 +23,15 @@ public class ClerkEnrollmentUtil {
       .map(ClerkPaymentUtil::createClerkPaymentDTO)
       .sorted(Comparator.comparing(ClerkPaymentDTO::createdAt).reversed())
       .collect(Collectors.toList());
+
+    final FreeEnrollment freeEnrollment = enrollment.getFreeEnrollment();
+    final PublicFeeEnrollmentBasisDTO freeEnrollmentBasisDTO = freeEnrollment != null
+      ? PublicFeeEnrollmentBasisDTO
+        .builder()
+        .type(freeEnrollment.getSource().toString())
+        .source(freeEnrollment.getSource().toString())
+        .build()
+      : null;
 
     return ClerkEnrollmentDTO
       .builder()
@@ -45,6 +56,7 @@ public class ClerkEnrollmentUtil {
       .town(enrollment.getTown())
       .country(enrollment.getCountry())
       .payments(paymentDTOs)
+      .freeEnrollmentBasis(freeEnrollmentBasisDTO)
       .build();
   }
 
