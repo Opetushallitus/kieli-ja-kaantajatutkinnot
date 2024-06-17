@@ -1,5 +1,6 @@
 package fi.oph.vkt.api.dto;
 
+import fi.oph.vkt.util.StringUtil;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
@@ -10,4 +11,10 @@ public record FreeEnrollmentAttachmentDTO(
   @NonNull @NotNull @Size(max = 255) String name,
   @NonNull @NotNull @Size(max = 255) String id,
   @NonNull @NotNull @Size(max = 255) String size
-) {}
+) {
+  public FreeEnrollmentAttachmentDTO {
+    name = StringUtil.sanitize(name);
+    id = StringUtil.sanitize(id);
+    size = StringUtil.sanitize(size);
+  }
+}

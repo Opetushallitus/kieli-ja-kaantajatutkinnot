@@ -61,10 +61,12 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
       freeEnrollment.setComment(dto.freeEnrollmentBasis().comment());
       freeEnrollmentRepository.flush();
 
-      if (dto.freeEnrollmentBasis().approved().equals(true)) {
-        enrollment.setStatus(EnrollmentStatus.COMPLETED);
-      } else if (dto.freeEnrollmentBasis().approved().equals(false)) {
-        enrollment.setStatus(EnrollmentStatus.AWAITING_PAYMENT);
+      if (dto.freeEnrollmentBasis().approved() != null) {
+        if (dto.freeEnrollmentBasis().approved()) {
+          enrollment.setStatus(EnrollmentStatus.COMPLETED);
+        } else {
+          enrollment.setStatus(EnrollmentStatus.AWAITING_PAYMENT);
+        }
       }
     }
 
