@@ -30,6 +30,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -439,8 +440,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new NotFoundException("No unfinished enrollment or reservation for exam event found");
     }
 
-    final String key = examEventId + "/" + person.getOid() + "/" + filename;
-
+    final String key = examEventId + "/" + person.getUuid() + "/" + filename;
     return s3Service.getPresignedPostRequest(key);
   }
 }

@@ -11,6 +11,7 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -47,4 +48,7 @@ public class Person extends BaseEntity {
 
   @OneToMany(mappedBy = "person")
   private List<Reservation> reservations = new ArrayList<>();
+
+  @Column(name = "uuid", unique = true)
+  private UUID uuid;
 }
