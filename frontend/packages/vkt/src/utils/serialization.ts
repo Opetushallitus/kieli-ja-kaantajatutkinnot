@@ -143,7 +143,7 @@ export class SerializationUtils {
   ): Array<Education> {
     const toEducationType = (education: string, isActive: boolean) => {
       switch (education) {
-        case 'korkeakoulu':
+        case 'korkeakoulutus':
           return isActive
             ? EducationType.HigherEducationEnrolled
             : EducationType.HigherEducationConcluded;

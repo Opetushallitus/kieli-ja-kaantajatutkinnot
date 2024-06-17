@@ -108,6 +108,11 @@ const EducationList = ({
   educations: Array<Education>;
   handleChange: HandleChange;
 }) => {
+  const { t } = usePublicTranslation({
+    keyPrefix:
+      'vkt.component.publicEnrollment.steps.fillContactDetails.educationDetails',
+  });
+
   useEffect(() => {
     if (educations && educations.length > 0) {
       handleChange(true, {
@@ -119,9 +124,18 @@ const EducationList = ({
     }
   }, [educations, handleChange]);
 
-  return educations.map((education) => (
-    <span key={`education-type-${education.name}`}>{education.name}</span>
-  ));
+  return (
+    <div className="rows gapped">
+      <Text>{t('freeEnrollmentDescription')}</Text>
+      <ul className="public-enrollment__grid__preview__bullet-list">
+        {educations.map((education) => (
+          <li key={`education-type-${education.name}`}>
+            {t(`type.${education.name}`)}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 export const EducationDetails = ({

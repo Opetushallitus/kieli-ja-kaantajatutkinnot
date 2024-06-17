@@ -1,8 +1,6 @@
 package fi.oph.vkt.model.type;
 
 public enum FreeEnrollmentSource {
-  KOSKI_COMPLETED_DEGREE,
-  KOSKI_STUDY_RIGHT,
-  USER_COMPLETED_DEGREE_CERTIFICATE,
-  USER_STUDY_RIGHT_CERTIFICATE,
+  KOSKI,
+  USER,
 }

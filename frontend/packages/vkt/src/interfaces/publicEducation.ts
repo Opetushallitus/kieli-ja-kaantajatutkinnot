@@ -1,6 +1,6 @@
 export enum FreeBasisSource {
-  KOSKI,
-  User,
+  KOSKI = 'KOSKI',
+  User = 'USER',
 }
 
 export enum EducationType {
