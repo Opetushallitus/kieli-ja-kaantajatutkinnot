@@ -8,11 +8,13 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.NonNull;
 
+import java.util.List;
+
 @Builder
 public record ClerkFeeEnrollmentBasisDTO(
   @NonNull @NotNull @Size(max = 255) String type,
   @NonNull @NotNull @Size(max = 255) String source,
-  FreeEnrollmentAttachmentDTO attachments,
+  List<FreeEnrollmentAttachmentDTO> attachments,
   @Size(max = 10240) String comment,
   Boolean approved
 )
