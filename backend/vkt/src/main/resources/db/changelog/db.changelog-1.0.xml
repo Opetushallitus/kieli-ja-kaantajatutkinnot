@@ -754,6 +754,15 @@
         <sql>
             DELETE FROM enrollment_status WHERE name = 'SHIFTED_FROM_QUEUE'
         </sql>
+        <addColumn tableName="person">
+            <column name="uuid" type="UUID">
+                <constraints unique="true" />
+            </column>
+        </addColumn>
+        <sql>
+            UPDATE person SET uuid=gen_random_uuid() WHERE uuid IS NULL
+        </sql>
+        <addNotNullConstraint tableName="person" columnName="uuid" />
     </changeSet>
 
 </databaseChangeLog>
