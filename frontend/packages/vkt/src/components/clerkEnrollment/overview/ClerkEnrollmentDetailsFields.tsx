@@ -33,7 +33,10 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { EnrollmentStatus, PaymentStatus } from 'enums/app';
-import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
+import {
+  ClerkEnrollmentFreeBasisFieldEnum,
+  ClerkEnrollmentTextFieldEnum,
+} from 'enums/clerkEnrollment';
 import { ClerkFreeEnrollmentBasis } from 'interfaces/clerkEducation';
 import { ClerkEnrollment, ClerkPayment } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
@@ -45,6 +48,11 @@ import {
 } from 'redux/reducers/clerkEnrollmentDetails';
 import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
 import { DateTimeUtils } from 'utils/dateTime';
+
+enum YESNO {
+  YES = 'yes',
+  NO = 'no',
+}
 
 const CheckboxField = ({
   enrollment,
@@ -78,15 +86,29 @@ const CheckboxField = ({
 const FreeEnrollmentBasis = ({
   basis,
   disabled,
+  onTextFieldChange,
+  onCheckboxFieldChange,
 }: {
   basis: ClerkFreeEnrollmentBasis;
   disabled: boolean;
+  onTextFieldChange: (
+    field: ClerkEnrollmentTextFieldEnum | ClerkEnrollmentFreeBasisFieldEnum,
+  ) => (event: ChangeEvent<HTMLTextAreaElement>) => void;
+  onCheckboxFieldChange: (
+    field:
+      | keyof PartialExamsAndSkills
+      | keyof Pick<ClerkEnrollment, 'digitalCertificateConsent'>
+      | keyof Pick<ClerkFreeEnrollmentBasis, 'comment' | 'approved'>,
+    fieldValue: boolean,
+  ) => void;
 }) => {
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkEnrollmentDetails',
   });
 
-  const handleRadioChange = () => {};
+  const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
+    onCheckboxFieldChange('approved', event.target.value === YESNO.YES);
+  };
 
   return (
     <div className="rows gapped-xxl margin-top-lg">
@@ -118,14 +140,16 @@ const FreeEnrollmentBasis = ({
               <RadioGroup onChange={handleRadioChange}>
                 <FormControlLabel
                   className="radio-group-label"
-                  value={1}
+                  value={YESNO.NO}
+                  checked={basis.approved === false}
                   control={<Radio />}
                   label={t('freeEnrollment.deny')}
                   disabled={disabled}
                 />
                 <FormControlLabel
                   className="radio-group-label"
-                  value={2}
+                  value={YESNO.YES}
+                  checked={basis.approved === true}
                   control={<Radio />}
                   label={t('freeEnrollment.approve')}
                   disabled={disabled}
@@ -138,6 +162,9 @@ const FreeEnrollmentBasis = ({
               disabled={disabled}
               value={basis.comment}
               multiline
+              onChange={onTextFieldChange(
+                ClerkEnrollmentFreeBasisFieldEnum.Comment,
+              )}
             />
           </fieldset>
         )}
@@ -315,12 +342,13 @@ export const ClerkEnrollmentDetailsFields = ({
   topControlButtons: JSX.Element;
   showFieldErrorBeforeChange: boolean;
   onTextFieldChange: (
-    field: ClerkEnrollmentTextFieldEnum,
+    field: ClerkEnrollmentTextFieldEnum | ClerkEnrollmentFreeBasisFieldEnum,
   ) => (event: ChangeEvent<HTMLTextAreaElement>) => void;
   onCheckboxFieldChange: (
     field:
       | keyof PartialExamsAndSkills
-      | keyof Pick<ClerkEnrollment, 'digitalCertificateConsent'>,
+      | keyof Pick<ClerkEnrollment, 'digitalCertificateConsent'>
+      | keyof Pick<ClerkFreeEnrollmentBasis, 'comment' | 'approved'>,
     fieldValue: boolean,
   ) => void;
 }) => {
@@ -540,6 +568,8 @@ export const ClerkEnrollmentDetailsFields = ({
           <FreeEnrollmentBasis
             basis={enrollment.freeEnrollmentBasis}
             disabled={editDisabled}
+            onTextFieldChange={onTextFieldChange}
+            onCheckboxFieldChange={onCheckboxFieldChange}
           />
         )}
         {displayPaymentInformation && (
