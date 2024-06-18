@@ -754,6 +754,11 @@
         <sql>
             DELETE FROM enrollment_status WHERE name = 'SHIFTED_FROM_QUEUE'
         </sql>
+    </changeSet>
+    <changeSet id="2024-06-18-add-uuid-to-person-postgres" author="pkoivisto">
+        <preConditions onFail="CONTINUE">
+            <dbms type="postgresql" />
+        </preConditions>
         <addColumn tableName="person">
             <column name="uuid" type="UUID">
                 <constraints unique="true" />
@@ -764,5 +769,18 @@
         </sql>
         <addNotNullConstraint tableName="person" columnName="uuid" />
     </changeSet>
-
+    <changeSet id="2024-06-18-add-uuid-to-person-hsqldb" author="pkoivisto">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb" />
+        </preConditions>
+        <addColumn tableName="person">
+            <column name="uuid" type="UUID">
+                <constraints unique="true" />
+            </column>
+        </addColumn>
+        <sql>
+            UPDATE person SET uuid=uuid() WHERE uuid IS NULL
+        </sql>
+        <addNotNullConstraint tableName="person" columnName="uuid" />
+    </changeSet>
 </databaseChangeLog>
