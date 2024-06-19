@@ -8,6 +8,7 @@ import {
   PublicFileUploadParameters,
   UploadPostPolicy,
 } from 'interfaces/publicFileUpload';
+import { storeUploadedFileAttachment } from 'redux/reducers/publicEnrollment';
 import {
   acceptFileUpload,
   rejectFileUpload,
@@ -82,6 +83,13 @@ function* startFileUploadSaga(
       body: formData,
     });
     yield put(acceptFileUpload());
+    yield put(
+      storeUploadedFileAttachment({
+        id: policy.key,
+        name: file.name,
+        size: file.size,
+      }),
+    );
   } catch (error) {
     yield put(rejectFileUpload());
   }

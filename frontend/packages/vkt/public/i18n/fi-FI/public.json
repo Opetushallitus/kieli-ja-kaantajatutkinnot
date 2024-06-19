@@ -152,11 +152,14 @@
             "title": "Henkilötietosi"
           },
           "educationDetails": {
-            "education": "Koulutus",
-            "no": "Ei",
-            "highschool": "Ylioppilastutkinto tai vastaava ulkomaalainen tutkinto",
             "college": "Korkeakoulututkinto",
-            "collegeEnrolled": "Olen kirjoilla korkeakoulussa"
+            "collegeEnrolled": "Olen kirjoilla korkeakoulussa",
+            "education": "Minulla on jokin ilmaiseen kielitutkintoon oikeuttava peruste *",
+            "highschool": "Ylioppilastutkinto tai vastaava ulkomaalainen tutkinto",
+            "no": "Ei",
+            "uploadAttachment": {
+              "title": "Lähetä todistus valitusta tutkinnosta tai ote korkeakoulussa kirjoilla olemisesta *"
+            }
           },
           "preview": {
             "certificateShippingDetails": {

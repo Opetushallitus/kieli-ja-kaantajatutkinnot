@@ -8,6 +8,7 @@ import { ChangeEvent, useEffect } from 'react';
 import {
   FileUpload,
   H2,
+  H3,
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
@@ -27,24 +28,22 @@ import { startFileUpload } from 'redux/reducers/publicFileUpload';
 import { publicEducationSelector } from 'redux/selectors/publicEducation';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicFileUploadSelector } from 'redux/selectors/publicFileUpload';
+import { FileUtils } from 'utils/file';
 
-const SelectEducation = ({ handleChange }: { handleChange: HandleChange }) => {
+const UploadAttachments = () => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.steps.educationDetails',
+    keyPrefix:
+      'vkt.component.publicEnrollment.steps.educationDetails.uploadAttachment',
   });
 
   const dispatch = useAppDispatch();
   const { id } = useAppSelector(publicEnrollmentSelector)
     .examEvent as PublicExamEvent;
+  const { freeEnrollmentBasis } = useAppSelector(
+    publicEnrollmentSelector,
+  ).enrollment;
 
   const { status: fileUploadStatus } = useAppSelector(publicFileUploadSelector);
-
-  const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
-    handleChange(true, {
-      type: event.target.value as EducationType,
-      source: FreeBasisSource.User,
-    });
-  };
 
   const handleFileUpload = (files: FileList) => {
     if (files.length > 0) {
@@ -54,41 +53,7 @@ const SelectEducation = ({ handleChange }: { handleChange: HandleChange }) => {
 
   return (
     <>
-      <fieldset className="public-enrollment__grid__education-details">
-        <legend>
-          <Text>
-            <b>{t('education')}</b>
-          </Text>
-        </legend>
-        <FormControl error={false}>
-          <RadioGroup onChange={handleRadioChange}>
-            <FormControlLabel
-              className="radio-group-label"
-              value={EducationType.None}
-              control={<Radio />}
-              label={t('no')}
-            />
-            <FormControlLabel
-              className="radio-group-label"
-              value={EducationType.MatriculationExam}
-              control={<Radio />}
-              label={t('highschool')}
-            />
-            <FormControlLabel
-              className="radio-group-label"
-              value={EducationType.HigherEducationConcluded}
-              control={<Radio />}
-              label={t('college')}
-            />
-            <FormControlLabel
-              className="radio-group-label"
-              value={EducationType.HigherEducationEnrolled}
-              control={<Radio />}
-              label={t('collegeEnrolled')}
-            />
-          </RadioGroup>
-        </FormControl>
-      </fieldset>
+      <H3>{t('title')}</H3>
       <LoadingProgressIndicator
         isLoading={fileUploadStatus === APIResponseStatus.InProgress}
       >
@@ -97,7 +62,64 @@ const SelectEducation = ({ handleChange }: { handleChange: HandleChange }) => {
           onChange={handleFileUpload}
         />
       </LoadingProgressIndicator>
+      {freeEnrollmentBasis?.attachments &&
+        freeEnrollmentBasis?.attachments.map((a) => (
+          <div key={a.id}>
+            <Text>
+              {a.name}&nbsp;({FileUtils.getReadableFileSize(a.size)})
+            </Text>
+          </div>
+        ))}
     </>
+  );
+};
+
+const SelectEducation = ({ handleChange }: { handleChange: HandleChange }) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicEnrollment.steps.educationDetails',
+  });
+
+  const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
+    handleChange(event.target.value !== EducationType.None, {
+      type: event.target.value as EducationType,
+      source: FreeBasisSource.User,
+    });
+  };
+
+  return (
+    <fieldset className="public-enrollment__grid__education-details">
+      <legend>
+        <H3>{t('education')}</H3>
+      </legend>
+      <FormControl error={false}>
+        <RadioGroup onChange={handleRadioChange}>
+          <FormControlLabel
+            className="radio-group-label"
+            value={EducationType.None}
+            control={<Radio />}
+            label={t('no')}
+          />
+          <FormControlLabel
+            className="radio-group-label"
+            value={EducationType.MatriculationExam}
+            control={<Radio />}
+            label={t('highschool')}
+          />
+          <FormControlLabel
+            className="radio-group-label"
+            value={EducationType.HigherEducationConcluded}
+            control={<Radio />}
+            label={t('college')}
+          />
+          <FormControlLabel
+            className="radio-group-label"
+            value={EducationType.HigherEducationEnrolled}
+            control={<Radio />}
+            label={t('collegeEnrolled')}
+          />
+        </RadioGroup>
+      </FormControl>
+    </fieldset>
   );
 };
 
@@ -152,6 +174,9 @@ export const EducationDetails = ({
   const { status: educationStatus, education: educations } = useAppSelector(
     publicEducationSelector,
   );
+  const { isFree, freeEnrollmentBasis } = useAppSelector(
+    publicEnrollmentSelector,
+  ).enrollment;
 
   useEffect(() => {
     if (educationStatus === APIResponseStatus.NotStarted) {
@@ -163,20 +188,23 @@ export const EducationDetails = ({
     educationStatus === APIResponseStatus.InProgress ||
     educationStatus === APIResponseStatus.NotStarted;
 
+  const foundSuitableEducationDetails =
+    !isEducationLoading && educations && educations.length > 0;
+
   return (
     <div className="margin-top-lg rows gapped">
       <H2>{t('educationInfoTitle')}</H2>
       <LoadingProgressIndicator isLoading={isEducationLoading}>
-        {!isEducationLoading &&
-          (educations && educations.length > 0 ? (
-            <EducationList
-              handleChange={handleChange}
-              educations={educations}
-            />
-          ) : (
-            <SelectEducation handleChange={handleChange} />
-          ))}
+        {foundSuitableEducationDetails && (
+          <EducationList handleChange={handleChange} educations={educations} />
+        )}
       </LoadingProgressIndicator>
+      {!isEducationLoading && !foundSuitableEducationDetails && (
+        <>
+          <SelectEducation handleChange={handleChange} />
+          {freeEnrollmentBasis && isFree && <UploadAttachments />}
+        </>
+      )}
     </div>
   );
 };

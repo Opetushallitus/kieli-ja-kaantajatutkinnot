@@ -1,7 +1,10 @@
 import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { PublicFreeEnrollmentDetails } from 'interfaces/publicEducation';
+import {
+  Attachment,
+  PublicFreeEnrollmentDetails,
+} from 'interfaces/publicEducation';
 import {
   PublicEnrollment,
   PublicReservation,
@@ -176,6 +179,18 @@ const publicEnrollmentSlice = createSlice({
     ) {
       state.enrollmentSubmitStatus = APIResponseStatus.InProgress;
     },
+    storeUploadedFileAttachment(state, action: PayloadAction<Attachment>) {
+      if (state.enrollment.freeEnrollmentBasis) {
+        if (state.enrollment.freeEnrollmentBasis.attachments) {
+          state.enrollment.freeEnrollmentBasis.attachments = [
+            ...state.enrollment.freeEnrollmentBasis.attachments,
+            action.payload,
+          ];
+        } else {
+          state.enrollment.freeEnrollmentBasis.attachments = [action.payload];
+        }
+      }
+    },
     rejectPublicEnrollmentSave(state) {
       state.enrollmentSubmitStatus = APIResponseStatus.Error;
     },
@@ -218,4 +233,5 @@ export const {
   storePublicEnrollmentSave,
   setPublicEnrollmentExamEventIdIfNotSet,
   setLoadingPayment,
+  storeUploadedFileAttachment,
 } = publicEnrollmentSlice.actions;
