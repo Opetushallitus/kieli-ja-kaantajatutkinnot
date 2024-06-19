@@ -30,7 +30,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -230,7 +229,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     //   *  check saved Koski-data
     //   *  check that enrollment contains uploaded files
 
-    final FreeEnrollmentSource reason = dto.feeEnrollmentBasis().source().equals("KOSKI")
+    final FreeEnrollmentSource reason = dto.freeEnrollmentBasis().source().equals("KOSKI")
       ? FreeEnrollmentSource.KOSKI
       : FreeEnrollmentSource.USER;
 

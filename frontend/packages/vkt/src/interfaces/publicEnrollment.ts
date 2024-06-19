@@ -53,7 +53,7 @@ export interface PublicEnrollment
   examEventId?: number;
   hasPaymentLink?: boolean;
   isFree?: boolean;
-  feeEnrollmentBasis?: PublicFreeEnrollmentBasis;
+  freeEnrollmentBasis?: PublicFreeEnrollmentBasis;
 }
 
 export interface PublicEnrollmentResponse

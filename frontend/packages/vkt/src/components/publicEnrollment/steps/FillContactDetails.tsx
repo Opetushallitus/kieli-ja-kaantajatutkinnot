@@ -115,12 +115,12 @@ export const FillContactDetails = ({
 
   const handleEductionChangeFn: HandleChange = (
     isFree: boolean,
-    feeEnrollmentBasis?: PublicFreeEnrollmentBasis,
+    freeEnrollmentBasis?: PublicFreeEnrollmentBasis,
   ) => {
     dispatch(
       updatePublicEnrollment({
         isFree,
-        feeEnrollmentBasis,
+        freeEnrollmentBasis,
       }),
     );
   };

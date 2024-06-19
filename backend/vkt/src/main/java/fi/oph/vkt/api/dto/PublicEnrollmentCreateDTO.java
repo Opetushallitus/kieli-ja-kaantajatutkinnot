@@ -25,7 +25,7 @@ public record PublicEnrollmentCreateDTO(
   @Size(max = 255) String town,
   @Size(max = 255) String country,
   Boolean isFree,
-  PublicFeeEnrollmentBasisDTO feeEnrollmentBasis
+  PublicFreeEnrollmentBasisDTO freeEnrollmentBasis
 )
   implements EnrollmentDTOCommonFields {
   public PublicEnrollmentCreateDTO {

@@ -1,10 +1,6 @@
 package fi.oph.vkt.api.dto.clerk;
 
 import fi.oph.vkt.api.dto.EnrollmentDTOCommonFields;
-import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
-import fi.oph.vkt.api.dto.PublicFeeEnrollmentBasisDTO;
-import fi.oph.vkt.api.dto.PublicFreeEnrollmentDetailsDTO;
-import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

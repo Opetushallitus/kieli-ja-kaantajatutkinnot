@@ -21,7 +21,7 @@ export interface Education {
 export interface Attachment {
   name: string;
   id: string;
-  size: string;
+  size: number;
 }
 
 export interface PublicEducationResponse {

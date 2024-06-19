@@ -5,10 +5,9 @@ import fi.oph.vkt.api.dto.FreeEnrollmentBasisDTOCommonFields;
 import fi.oph.vkt.util.StringUtil;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.util.List;
 import lombok.Builder;
 import lombok.NonNull;
-
-import java.util.List;
 
 @Builder
 public record ClerkFeeEnrollmentBasisDTO(
