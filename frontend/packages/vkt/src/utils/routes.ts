@@ -66,13 +66,13 @@ export class RouteUtils {
           examEventId,
         );
 
-      case PublicEnrollmentFormStep.Done:
+      case PublicEnrollmentFormStep.DoneQueued:
         return RouteUtils.replaceExamEventId(
-          AppRoutes.PublicEnrollmentDone,
+          AppRoutes.PublicEnrollmentDoneQueued,
           examEventId,
         );
 
-      case PublicEnrollmentFormStep.DoneFree:
+      case PublicEnrollmentFormStep.Done:
         return RouteUtils.replaceExamEventId(
           AppRoutes.PublicEnrollmentDone,
           examEventId,

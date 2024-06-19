@@ -118,6 +118,13 @@ export const PublicEnrollmentControlButtons = ({
           );
         }, 200);
         dispatch(setLoadingPayment());
+      } else if (EnrollmentUtils.isQueued(enrollment)) {
+        navigate(
+          RouteUtils.stepToRoute(
+            PublicEnrollmentFormStep.DoneQueued,
+            examEventId,
+          ),
+        );
       } else {
         navigate(
           RouteUtils.stepToRoute(PublicEnrollmentFormStep.Done, examEventId),

@@ -60,7 +60,8 @@
         "stepHeading": {
           "common": {
             "Authenticate": "Tunnistaudu",
-            "Done": "Valmis – jonopaikka varattu",
+            "Done": "Valmis",
+            "DoneQueued": "Valmis – jonopaikka varattu",
             "FillContactDetails": "Täytä yhteystietosi",
             "Payment": "Maksua ei suoritettu",
             "PaymentSuccess": "Valmis - ilmoittautuminen onnistui",
@@ -98,7 +99,8 @@
             "title": "Tutkintotodistuksen toimitus"
           },
           "done": {
-            "description": "Ilmoittautuminen tutkinnon jonotuspaikalle onnistui! Sinulle lähetetään vahvistus osoitteeseen"
+            "description": "Ilmoittautuminen tutkintoon onnistui! Sinulle lähetetään vahvistus osoitteeseen",
+            "descriptionQueued": "Ilmoittautuminen tutkinnon jonotuspaikalle onnistui! Sinulle lähetetään vahvistus osoitteeseen"
           },
           "fillContactDetails": {
             "email": {

@@ -107,7 +107,10 @@ const FreeEnrollmentBasis = ({
   });
 
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onCheckboxFieldChange('approved', event.target.value === YESNO.YES);
+    onCheckboxFieldChange(
+      ClerkEnrollmentFreeBasisFieldEnum.Approved,
+      event.target.value === YESNO.YES,
+    );
   };
 
   return (

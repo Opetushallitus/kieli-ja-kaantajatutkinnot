@@ -167,4 +167,19 @@ public class PublicEnrollmentEmailService {
 
     emailService.saveEmail(emailType, emailData);
   }
+
+  public void sendFreeEnrollmentConfirmationEmail(final Enrollment enrollment, final Person person) {
+    final Map<String, Object> templateParams = getEmailParams(enrollment);
+
+    final String recipientName = person.getFirstName() + " " + person.getLastName();
+    final String recipientAddress = enrollment.getEmail();
+    final String subject = String.format(
+      "%s | %s",
+      LocalisationUtil.translate(localeFI, "subject.enrollment-confirmation"),
+      LocalisationUtil.translate(localeSV, "subject.enrollment-confirmation")
+    );
+    final String body = templateRenderer.renderEnrollmentConfirmationEmailBody(templateParams);
+
+    createEmail(recipientName, recipientAddress, subject, body, List.of(), EmailType.ENROLLMENT_CONFIRMATION);
+  }
 }

@@ -286,17 +286,13 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     }
 
     final FreeEnrollment freeEnrollment = saveFreeEnrollment(person, dto);
-
-    final Enrollment enrollment = createOrUpdateExistingEnrollment(
-      dto,
-      examEvent,
-      person,
-      EnrollmentStatus.AWAITING_APPROVAL,
-      freeEnrollment
-    );
+    final EnrollmentStatus status = freeEnrollment.getSource().equals(FreeEnrollmentSource.KOSKI)
+      ? EnrollmentStatus.COMPLETED
+      : EnrollmentStatus.AWAITING_APPROVAL;
+    final Enrollment enrollment = createOrUpdateExistingEnrollment(dto, examEvent, person, status, freeEnrollment);
     reservationRepository.deleteById(reservationId);
 
-    // TODO send confirmation email
+    publicEnrollmentEmailService.sendFreeEnrollmentConfirmationEmail(enrollment, person);
 
     return createEnrollmentDTO(enrollment);
   }

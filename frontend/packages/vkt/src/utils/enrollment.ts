@@ -54,6 +54,10 @@ export class EnrollmentUtils {
     );
   }
 
+  static isQueued(enrollment: PublicEnrollment) {
+    return enrollment.status == EnrollmentStatus.QUEUED;
+  }
+
   static isValidCertificateShipping(shippingData: CertificateShippingData) {
     const isAddressFieldsFilled = [
       shippingData.street,

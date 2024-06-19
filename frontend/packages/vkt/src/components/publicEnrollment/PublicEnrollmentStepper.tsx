@@ -49,7 +49,10 @@ export const PublicEnrollmentStepper = ({
     // "Hack" for not having Mui-Active for Payment step
     if (activeStep === PublicEnrollmentFormStep.Payment) {
       return activeStep;
-    } else if (activeStep === PublicEnrollmentFormStep.Done) {
+    } else if (
+      activeStep === PublicEnrollmentFormStep.Done ||
+      activeStep === PublicEnrollmentFormStep.DoneQueued
+    ) {
       return doneStepNumber - 1;
     }
 

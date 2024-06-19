@@ -8,7 +8,13 @@ import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { resetPublicExamEventSelections } from 'redux/reducers/publicExamEvent';
 
-export const Done = ({ enrollment }: { enrollment: PublicEnrollment }) => {
+export const Done = ({
+  enrollment,
+  isQueued,
+}: {
+  enrollment: PublicEnrollment;
+  isQueued: boolean;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.done',
   });
@@ -25,7 +31,11 @@ export const Done = ({ enrollment }: { enrollment: PublicEnrollment }) => {
 
   return (
     <div className="margin-top-lg rows gapped">
-      <Text>{`${t('description')}: ${enrollment.email}`}</Text>
+      <Text>
+        {isQueued
+          ? `${t('descriptionQueued')}: ${enrollment.email}`
+          : `${t('description')}: ${enrollment.email}`}
+      </Text>
       <CustomButton
         className="align-self-start margin-top-lg"
         color="secondary"

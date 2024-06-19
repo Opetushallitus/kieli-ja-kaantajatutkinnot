@@ -91,7 +91,8 @@ export const PublicEnrollmentPhoneGrid = ({
 
     if (
       activeStep === PublicEnrollmentFormStep.PaymentSuccess ||
-      activeStep === PublicEnrollmentFormStep.Done
+      activeStep === PublicEnrollmentFormStep.Done ||
+      activeStep === PublicEnrollmentFormStep.DoneQueued
     ) {
       return <>{heading}</>;
     }

@@ -12,6 +12,7 @@ export class ExamEventUtils {
     const participationStatuses = [
       EnrollmentStatus.COMPLETED,
       EnrollmentStatus.AWAITING_PAYMENT,
+      EnrollmentStatus.AWAITING_APPROVAL,
       EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
     ];
     const { enrollments } = examEventDetails;
