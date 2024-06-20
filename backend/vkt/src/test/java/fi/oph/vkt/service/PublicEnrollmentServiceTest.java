@@ -29,6 +29,7 @@ import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.ReservationRepository;
+import fi.oph.vkt.repository.UploadedFileAttachmentRepository;
 import fi.oph.vkt.service.aws.S3Service;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
@@ -79,6 +80,9 @@ public class PublicEnrollmentServiceTest {
   private PublicEnrollmentService publicEnrollmentService;
   private FeatureFlagService featureFlagService;
 
+  @Resource
+  private UploadedFileAttachmentRepository uploadedFileAttachmentRepository;
+
   @BeforeEach
   public void setup() throws IOException, InterruptedException {
     doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentToQueueConfirmationEmail(any(), any());
@@ -102,7 +106,8 @@ public class PublicEnrollmentServiceTest {
         reservationRepository,
         freeEnrollmentRepository,
         s3Service,
-        featureFlagService
+        featureFlagService,
+        uploadedFileAttachmentRepository
       );
   }
 

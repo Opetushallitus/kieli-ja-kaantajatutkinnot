@@ -1,10 +1,12 @@
 package fi.oph.vkt.service;
 
+import fi.oph.vkt.api.dto.FreeEnrollmentAttachmentDTO;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
+import fi.oph.vkt.api.dto.PublicFreeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.PublicFreeEnrollmentDetailsDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
@@ -14,12 +16,14 @@ import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
+import fi.oph.vkt.model.UploadedFileAttachment;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.ReservationRepository;
+import fi.oph.vkt.repository.UploadedFileAttachmentRepository;
 import fi.oph.vkt.service.aws.S3Service;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.PersonUtil;
@@ -28,8 +32,11 @@ import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +53,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   private final FreeEnrollmentRepository freeEnrollmentRepository;
   private final S3Service s3Service;
   private final FeatureFlagService featureFlagService;
+  private final UploadedFileAttachmentRepository uploadedFileAttachmentRepository;
 
   @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollment(final long examEventId, final Person person) {
@@ -244,6 +252,27 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     freeEnrollment.setSource(reason);
     freeEnrollmentRepository.saveAndFlush(freeEnrollment);
 
+    if (dto.freeEnrollmentBasis().attachments() != null) {
+      final List<UploadedFileAttachment> attachments = dto
+        .freeEnrollmentBasis()
+        .attachments()
+        .stream()
+        .map(attachmentDTO -> {
+          final UploadedFileAttachment attachment = new UploadedFileAttachment();
+          attachment.setFilename(attachmentDTO.name());
+          attachment.setKey(attachmentDTO.id());
+          attachment.setSize(attachmentDTO.size());
+          attachment.setFreeEnrollment(freeEnrollment);
+          uploadedFileAttachmentRepository.saveAndFlush(attachment);
+
+          return attachment;
+        })
+        .collect(Collectors.toList());
+
+      freeEnrollment.setAttachments(attachments);
+      freeEnrollmentRepository.saveAndFlush(freeEnrollment);
+    }
+
     return freeEnrollment;
   }
 
@@ -436,6 +465,9 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     }
 
     final String key = examEventId + "/" + person.getUuid() + "/" + filename;
+    // TODO Record a database entry per presigned POST request
+    // Later, validate attachment metadata submitted as part of enrollment against
+    // the recorded entries.
     return s3Service.getPresignedPostRequest(key);
   }
 }

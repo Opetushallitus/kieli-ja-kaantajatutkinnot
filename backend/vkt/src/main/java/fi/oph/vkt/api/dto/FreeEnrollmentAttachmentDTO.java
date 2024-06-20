@@ -10,11 +10,10 @@ import lombok.NonNull;
 public record FreeEnrollmentAttachmentDTO(
   @NonNull @NotNull @Size(max = 255) String name,
   @NonNull @NotNull @Size(max = 255) String id,
-  @NonNull @NotNull @Size(max = 255) String size
+  int size
 ) {
   public FreeEnrollmentAttachmentDTO {
     name = StringUtil.sanitize(name);
     id = StringUtil.sanitize(id);
-    size = StringUtil.sanitize(size);
   }
 }
