@@ -1,5 +1,6 @@
 package fi.oph.vkt.util;
 
+import fi.oph.vkt.api.dto.FreeEnrollmentAttachmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkFeeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
@@ -32,6 +33,15 @@ public class ClerkEnrollmentUtil {
         .source(freeEnrollment.getSource().toString())
         .approved(freeEnrollment.isApproved())
         .comment(freeEnrollment.getComment())
+        .attachments(
+          freeEnrollment
+            .getAttachments()
+            .stream()
+            .map(attachment ->
+              new FreeEnrollmentAttachmentDTO(attachment.getFilename(), attachment.getKey(), attachment.getSize())
+            )
+            .collect(Collectors.toList())
+        )
         .build()
       : null;
 
