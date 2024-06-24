@@ -61,6 +61,7 @@ export const PublicEnrollmentPhoneGrid = ({
     cancelStatus,
     enrollment,
     reservation,
+    freeEnrollmentDetails,
   } = useAppSelector(publicEnrollmentSelector);
 
   const isRenewOrCancelLoading = [
@@ -140,7 +141,10 @@ export const PublicEnrollmentPhoneGrid = ({
                 />
               )}
               {isPaymentSumAvailable && (
-                <PublicEnrollmentPaymentSum enrollment={enrollment} />
+                <PublicEnrollmentPaymentSum
+                  enrollment={enrollment}
+                  freeEnrollmentDetails={freeEnrollmentDetails}
+                />
               )}
             </div>
           </StackableMobileAppBar>

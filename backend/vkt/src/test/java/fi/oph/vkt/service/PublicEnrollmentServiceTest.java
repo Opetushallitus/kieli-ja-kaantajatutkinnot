@@ -31,6 +31,7 @@ import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.repository.UploadedFileAttachmentRepository;
 import fi.oph.vkt.service.aws.S3Service;
+import fi.oph.vkt.service.koski.KoskiService;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
@@ -77,8 +78,10 @@ public class PublicEnrollmentServiceTest {
   @MockBean
   private S3Service s3Service;
 
+  @MockBean
+  private KoskiService koskiService;
+
   private PublicEnrollmentService publicEnrollmentService;
-  private FeatureFlagService featureFlagService;
 
   @Resource
   private UploadedFileAttachmentRepository uploadedFileAttachmentRepository;
@@ -107,7 +110,8 @@ public class PublicEnrollmentServiceTest {
         freeEnrollmentRepository,
         s3Service,
         featureFlagService,
-        uploadedFileAttachmentRepository
+        uploadedFileAttachmentRepository,
+        koskiService
       );
   }
 

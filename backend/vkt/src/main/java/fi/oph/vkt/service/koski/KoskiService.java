@@ -100,21 +100,28 @@ public class KoskiService {
     return (latestState != null && latestState.equals(OpiskeluoikeusjaksoTila.ACTIVE));
   }
 
-  public List<PublicEducationDTO> findEducations(final String oid) throws JsonProcessingException {
-    final ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
+  public List<PublicEducationDTO> findEducations(final String oid) {
+    try {
+      final ObjectMapper objectMapper = new ObjectMapper();
+      objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
 
-    final KoskiResponseDTO koskiResponseDTO = objectMapper.readValue(
-      requestWithRetries(oid, REQUEST_ATTEMPTS),
-      KoskiResponseDTO.class
-    );
+      final KoskiResponseDTO koskiResponseDTO = objectMapper.readValue(
+        requestWithRetries(oid, REQUEST_ATTEMPTS),
+        KoskiResponseDTO.class
+      );
 
-    return koskiResponseDTO
-      .getOpiskeluoikeudet()
-      .stream()
-      .filter(this::filterByState)
-      .map(k -> PublicEducationDTO.builder().educationType(k.getTyyppi().getKoodiarvo()).isActive(isActive(k)).build())
-      .filter(distinctByKey(PublicEducationDTO::educationType))
-      .toList();
+      return koskiResponseDTO
+        .getOpiskeluoikeudet()
+        .stream()
+        .filter(this::filterByState)
+        .map(k -> PublicEducationDTO.builder().educationType(k.getTyyppi().getKoodiarvo()).isActive(isActive(k)).build()
+        )
+        .filter(distinctByKey(PublicEducationDTO::educationType))
+        .toList();
+    } catch (final Exception e) {
+      LOG.error("KOSKI failed due to unknown error", e);
+
+      return List.of();
+    }
   }
 }

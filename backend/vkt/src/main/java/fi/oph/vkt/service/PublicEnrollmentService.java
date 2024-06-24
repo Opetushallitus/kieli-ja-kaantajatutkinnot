@@ -2,6 +2,7 @@ package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.FreeEnrollmentAttachmentDTO;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
+import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
@@ -25,6 +26,7 @@ import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.repository.UploadedFileAttachmentRepository;
 import fi.oph.vkt.service.aws.S3Service;
+import fi.oph.vkt.service.koski.KoskiService;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.PersonUtil;
 import fi.oph.vkt.util.exception.APIException;
@@ -54,6 +56,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   private final S3Service s3Service;
   private final FeatureFlagService featureFlagService;
   private final UploadedFileAttachmentRepository uploadedFileAttachmentRepository;
+  private final KoskiService koskiService;
 
   @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollment(final long examEventId, final Person person) {
@@ -231,15 +234,19 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
 
   private FreeEnrollment saveFreeEnrollment(final Person person, final PublicEnrollmentCreateDTO dto)
     throws APIException {
-    // TODO validate that enrollment is actually free
-    // - read user provided reason for free enrollment
-    // - depending on choice:
-    //   *  check saved Koski-data
-    //   *  check that enrollment contains uploaded files
-
     final FreeEnrollmentSource reason = dto.freeEnrollmentBasis().source().equals("KOSKI")
       ? FreeEnrollmentSource.KOSKI
       : FreeEnrollmentSource.USER;
+
+    if (reason.equals(FreeEnrollmentSource.KOSKI) && person.getOid() != null && !person.getOid().isEmpty()) {
+      final List<PublicEducationDTO> educations = koskiService.findEducations(person.getOid());
+
+      if (educations.isEmpty()) {
+        throw new APIException(APIExceptionType.KOSKI_DATA_MISMATCH);
+      }
+    } else if (dto.freeEnrollmentBasis().attachments() != null && dto.freeEnrollmentBasis().attachments().isEmpty()) {
+      throw new APIException(APIExceptionType.USER_ATTACHMENTS_MISSING);
+    }
 
     final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(person);
     if (freeEnrollmentDetails.textualSkillCount() >= 3 || freeEnrollmentDetails.oralSkillCount() >= 3) {

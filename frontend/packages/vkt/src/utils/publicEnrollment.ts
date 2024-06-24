@@ -1,4 +1,5 @@
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { PublicFreeEnrollmentDetails } from 'interfaces/publicEducation';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 
 export class PublicEnrollmentUtils {
@@ -31,13 +32,34 @@ export class PublicEnrollmentUtils {
     return steps[currentIndex + 1];
   }
 
-  static calculateExaminationPaymentSum(enrollment: PublicEnrollment) {
-    const selectedSkillsCount = [
-      enrollment.oralSkill,
-      enrollment.textualSkill,
-      enrollment.understandingSkill,
-    ].filter((s) => s).length;
+  static calculateExaminationPaymentSum(
+    enrollment: PublicEnrollment,
+    freeEnrollmentDetails?: PublicFreeEnrollmentDetails,
+  ) {
+    let selectedNonFreeSkillsCount = 0;
 
-    return 257 * Math.min(selectedSkillsCount, 2);
+    if (enrollment.freeEnrollmentBasis && freeEnrollmentDetails) {
+      if (
+        enrollment.oralSkill &&
+        freeEnrollmentDetails.freeOralSkillLeft <= 0
+      ) {
+        selectedNonFreeSkillsCount++;
+      }
+
+      if (
+        enrollment.textualSkill &&
+        freeEnrollmentDetails.freeTextualSkillLeft <= 0
+      ) {
+        selectedNonFreeSkillsCount++;
+      }
+    } else {
+      selectedNonFreeSkillsCount = [
+        enrollment.oralSkill,
+        enrollment.textualSkill,
+        enrollment.understandingSkill,
+      ].filter((s) => s).length;
+    }
+
+    return 257 * Math.min(selectedNonFreeSkillsCount, 2);
   }
 }

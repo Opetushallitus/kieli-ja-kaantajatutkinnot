@@ -5,6 +5,7 @@ import {
   CertificateShippingData,
   PartialExamsAndSkills,
 } from 'interfaces/common/enrollment';
+import { PublicFreeEnrollmentDetails } from 'interfaces/publicEducation';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 
 export class EnrollmentUtils {
@@ -44,6 +45,35 @@ export class EnrollmentUtils {
       isTextualExamsSelected &&
       isUnderstandingExamsSelected
     );
+  }
+
+  static isFree(
+    enrollment: PublicEnrollment,
+    freeEnrollmentDetails?: PublicFreeEnrollmentDetails,
+  ) {
+    if (!enrollment.freeEnrollmentBasis || !freeEnrollmentDetails) {
+      return false;
+    }
+
+    if (
+      freeEnrollmentDetails.freeOralSkillLeft <= 0 &&
+      freeEnrollmentDetails.freeTextualSkillLeft <= 0
+    ) {
+      return false;
+    }
+
+    if (enrollment.oralSkill && freeEnrollmentDetails.freeOralSkillLeft <= 0) {
+      return false;
+    }
+
+    if (
+      enrollment.textualSkill &&
+      freeEnrollmentDetails.freeTextualSkillLeft <= 0
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   static isPaymentRequired(enrollment: PublicEnrollment) {

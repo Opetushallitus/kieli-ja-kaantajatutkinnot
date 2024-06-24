@@ -154,6 +154,10 @@ const publicEnrollmentSlice = createSlice({
       state.enrollment = {
         ...newEnrollment,
         ...{
+          isFree: EnrollmentUtils.isFree(
+            newEnrollment,
+            state.freeEnrollmentDetails,
+          ),
           understandingSkill:
             newEnrollment.speechComprehensionPartialExam &&
             newEnrollment.readingComprehensionPartialExam,
