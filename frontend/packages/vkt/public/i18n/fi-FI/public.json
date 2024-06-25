@@ -175,7 +175,9 @@
             },
             "educationDetails": {
               "title": "Koulutustiedot",
-              "description": "Maksuttomaan ilmoittautumiseen oikeuttava koulutus"
+              "description": "Maksuttomaan ilmoittautumiseen oikeuttava koulutus",
+              "freeEnrollmentsLeft": "Maksuttomia kertoja jäljellä",
+              "price": "Hinta"
             },
             "examEventDetails": {
               "previousEnrollmentLabel": "Olen osallistunut valtionhallinnon kielitutkintoon aikaisemmin",

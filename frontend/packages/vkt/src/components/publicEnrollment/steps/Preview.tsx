@@ -14,6 +14,7 @@ import { PublicFreeEnrollmentBasis } from 'interfaces/publicEducation';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
+import { ENROLLMENT_SKILL_PRICE } from 'utils/publicEnrollment';
 
 const EducationDetails = ({
   freeEnrollmentBasis,
@@ -91,7 +92,7 @@ const ContactDetails = ({
 
 const ExamEventDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.steps.preview.examEventDetails',
+    keyPrefix: 'vkt.component.publicEnrollment.steps.preview',
   });
   const translateCommon = useCommonTranslation();
   const { freeEnrollmentDetails } = useAppSelector(publicEnrollmentSelector);
@@ -122,14 +123,43 @@ const ExamEventDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
     }
   };
 
+  const getEnrollmentSkillPrice = (skill: string) => {
+    if (!freeEnrollmentDetails) {
+      return ENROLLMENT_SKILL_PRICE;
+    }
+
+    switch (skill) {
+      case 'textualSkill':
+        return freeEnrollmentDetails.freeTextualSkillLeft > 0
+          ? 0
+          : ENROLLMENT_SKILL_PRICE;
+      case 'oralSkill':
+        return freeEnrollmentDetails.freeOralSkillLeft > 0
+          ? 0
+          : ENROLLMENT_SKILL_PRICE;
+      default:
+        return ENROLLMENT_SKILL_PRICE;
+    }
+  };
+
+  const hasFreeEnrollments =
+    freeEnrollmentDetails &&
+    enrollment.freeEnrollmentBasis &&
+    (freeEnrollmentDetails.freeTextualSkillLeft > 0 ||
+      freeEnrollmentDetails.freeOralSkillLeft > 0);
+
   const displaySkillsList = () => (
     <div className="rows gapped-xxs">
       <div className="grid-3-columns gapped">
-        <Text className="bold">{t('selectedPartialExamsLabel')}</Text>
-        {enrollment.isFree && (
-          <Text className="bold">Ilmaisia kertoja jäljellä</Text>
+        <Text className="bold">
+          {t('examEventDetails.selectedPartialExamsLabel')}
+        </Text>
+        {hasFreeEnrollments && (
+          <Text className="bold">
+            {t('educationDetails.freeEnrollmentsLeft')}
+          </Text>
         )}
-        <Text className="bold">Hinta</Text>
+        <Text className="bold">{t('educationDetails.price')}</Text>
       </div>
       {skills.map((skill, i) => (
         <div key={i} className="grid-3-columns gapped">
@@ -139,7 +169,7 @@ const ExamEventDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
           {enrollment.isFree && (
             <Text>{getFreeEnrollmentsLeft(skill)} / 3</Text>
           )}
-          <Text>0&euro;</Text>
+          <Text>{getEnrollmentSkillPrice(skill)}&euro;</Text>
         </div>
       ))}
     </div>
@@ -148,7 +178,7 @@ const ExamEventDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
   const displayExamsList = () => (
     <div className="rows gapped-xxs">
       <Text className="bold">
-        {t('selectedSkillsLabel')}
+        {t('examEventDetails.selectedSkillsLabel')}
         {':'}
       </Text>
       <ul className="public-enrollment__grid__preview__bullet-list">
@@ -165,12 +195,12 @@ const ExamEventDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
 
   return (
     <div className="rows gapped">
-      <H2>{t('title')}</H2>
+      <H2>{t('examEventDetails.title')}</H2>
       {displaySkillsList()}
       {displayExamsList()}
       <div className="rows gapped-xxs">
         <Text className="bold">
-          {t('previousEnrollmentLabel')}
+          {t('examEventDetails.previousEnrollmentLabel')}
           {':'}
         </Text>
         <Text>

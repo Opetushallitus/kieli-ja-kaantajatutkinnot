@@ -2,6 +2,8 @@ import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { PublicFreeEnrollmentDetails } from 'interfaces/publicEducation';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 
+export const ENROLLMENT_SKILL_PRICE = 257;
+
 export class PublicEnrollmentUtils {
   static getEnrollmentSteps(includePaymentStep: boolean) {
     return includePaymentStep
@@ -60,6 +62,6 @@ export class PublicEnrollmentUtils {
       ].filter((s) => s).length;
     }
 
-    return 257 * Math.min(selectedNonFreeSkillsCount, 2);
+    return ENROLLMENT_SKILL_PRICE * Math.min(selectedNonFreeSkillsCount, 2);
   }
 }
