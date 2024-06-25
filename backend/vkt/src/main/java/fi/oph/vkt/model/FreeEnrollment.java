@@ -1,6 +1,7 @@
 package fi.oph.vkt.model;
 
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
+import fi.oph.vkt.model.type.FreeEnrollmentType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -37,7 +38,11 @@ public class FreeEnrollment extends BaseEntity {
   @Enumerated(value = EnumType.STRING)
   FreeEnrollmentSource source;
 
-  @Column(name = "approved", nullable = false)
+  @Column(name = "type", nullable = false)
+  @Enumerated(value = EnumType.STRING)
+  FreeEnrollmentType type;
+
+  @Column(name = "approved")
   boolean approved;
 
   @Column(name = "comment")

@@ -29,8 +29,8 @@ public class ClerkEnrollmentUtil {
     final ClerkFeeEnrollmentBasisDTO freeEnrollmentBasisDTO = freeEnrollment != null
       ? ClerkFeeEnrollmentBasisDTO
         .builder()
-        .type(freeEnrollment.getSource().toString())
-        .source(freeEnrollment.getSource().toString())
+        .type(freeEnrollment.getType())
+        .source(freeEnrollment.getSource())
         .approved(freeEnrollment.isApproved())
         .comment(freeEnrollment.getComment())
         .attachments(

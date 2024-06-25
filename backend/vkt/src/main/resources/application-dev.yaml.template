@@ -17,6 +17,10 @@ app:
       access-key-id: test
       secret-access-key: test
     s3-bucket: opintopolku-dev-vkt
+  koski:
+    url: fill-koski-url
+    user: fill-koski-user
+    password: fill-koski-password
 springdoc:
   swagger-ui:
     enabled: true

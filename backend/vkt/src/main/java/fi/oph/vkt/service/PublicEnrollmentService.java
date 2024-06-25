@@ -20,6 +20,7 @@ import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.UploadedFileAttachment;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
+import fi.oph.vkt.model.type.FreeEnrollmentType;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
@@ -234,9 +235,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
 
   private FreeEnrollment saveFreeEnrollment(final Person person, final PublicEnrollmentCreateDTO dto)
     throws APIException {
-    final FreeEnrollmentSource reason = dto.freeEnrollmentBasis().source().equals("KOSKI")
-      ? FreeEnrollmentSource.KOSKI
-      : FreeEnrollmentSource.USER;
+    final FreeEnrollmentSource reason = dto.freeEnrollmentBasis().source();
+    final FreeEnrollmentType type = dto.freeEnrollmentBasis().type();
 
     if (reason.equals(FreeEnrollmentSource.KOSKI) && person.getOid() != null && !person.getOid().isEmpty()) {
       final List<PublicEducationDTO> educations = koskiService.findEducations(person.getOid());
@@ -254,9 +254,10 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     }
 
     final FreeEnrollment freeEnrollment = new FreeEnrollment();
-    freeEnrollment.setApproved(reason.equals(FreeEnrollmentSource.KOSKI));
+    freeEnrollment.setApproved(reason.equals(FreeEnrollmentSource.KOSKI) ? true : null);
     freeEnrollment.setPerson(person);
     freeEnrollment.setSource(reason);
+    freeEnrollment.setType(type);
     freeEnrollmentRepository.saveAndFlush(freeEnrollment);
 
     if (dto.freeEnrollmentBasis().attachments() != null) {

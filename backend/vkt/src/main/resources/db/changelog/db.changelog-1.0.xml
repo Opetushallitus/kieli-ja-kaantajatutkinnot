@@ -679,9 +679,10 @@
             <column name="source" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="approved" type="BOOLEAN">
+            <column name="type" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="approved" type="BOOLEAN"/>
             <column name="comment" type="TEXT"/>
         </createTable>
         <addForeignKeyConstraint baseTableName="free_enrollment" baseColumnNames="person_id"

@@ -8,6 +8,7 @@ export enum EducationType {
   HigherEducationEnrolled = 'HigherEducationEnrolled',
   HigherEducationConcluded = 'HigherEducationConcluded',
   DIA = 'DIA',
+  EB = 'EB',
   Other = 'Other',
   Unknown = 'Unknown',
   None = 'None',

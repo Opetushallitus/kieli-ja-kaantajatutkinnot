@@ -173,6 +173,10 @@
               "phoneNumber": "Puhelinnumero",
               "title": "Yhteystietosi"
             },
+            "educationDetails": {
+              "title": "Koulutustiedot",
+              "description": "Maksuttomaan ilmoittautumiseen oikeuttava koulutus"
+            },
             "examEventDetails": {
               "previousEnrollmentLabel": "Olen osallistunut valtionhallinnon kielitutkintoon aikaisemmin",
               "selectedSkillsLabel": "Valitut tutkinnot",

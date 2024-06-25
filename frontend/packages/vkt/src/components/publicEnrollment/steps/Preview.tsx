@@ -10,9 +10,48 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
+import { PublicFreeEnrollmentBasis } from 'interfaces/publicEducation';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
+
+const EducationDetails = ({
+  freeEnrollmentBasis,
+}: {
+  freeEnrollmentBasis: PublicFreeEnrollmentBasis;
+}) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicEnrollment.steps',
+  });
+
+  return (
+    <div className="rows gapped">
+      <H2>{t('preview.educationDetails.title')}</H2>
+      <Text>{t('preview.educationDetails.description')}</Text>
+      <div className="grid-2-columns gapped">
+        <div className="rows">
+          <Text>
+            {t(
+              `fillContactDetails.educationDetails.type.${freeEnrollmentBasis.type}`,
+            )}
+          </Text>
+        </div>
+        {freeEnrollmentBasis.attachments && (
+          <>
+            <Text className="bold">
+              {t('preview.educationDetails.attachments')}
+            </Text>
+            {freeEnrollmentBasis.attachments.map((attachment) => (
+              <div key={`attachment-${attachment.id}`} className="rows">
+                <Text>{attachment.name}</Text>
+              </div>
+            ))}
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const ContactDetails = ({
   email,
@@ -248,6 +287,11 @@ export const Preview = ({
           email={enrollment.email}
           phoneNumber={enrollment.phoneNumber}
         />
+        {enrollment.freeEnrollmentBasis && (
+          <EducationDetails
+            freeEnrollmentBasis={enrollment.freeEnrollmentBasis}
+          />
+        )}
       </div>
       <ExamEventDetails enrollment={enrollment} />
       <CertificateShippingDetails enrollment={enrollment} />
