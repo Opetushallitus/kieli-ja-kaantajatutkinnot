@@ -21,9 +21,7 @@ import fi.oph.vkt.service.PublicEnrollmentService;
 import fi.oph.vkt.service.PublicExamEventService;
 import fi.oph.vkt.service.PublicPersonService;
 import fi.oph.vkt.service.PublicReservationService;
-import fi.oph.vkt.service.aws.S3Service;
 import fi.oph.vkt.service.koski.KoskiService;
-import fi.oph.vkt.service.koski.dto.KoskiResponseDTO;
 import fi.oph.vkt.util.SessionUtil;
 import fi.oph.vkt.util.UIRouteUtil;
 import fi.oph.vkt.util.exception.APIException;
@@ -87,9 +85,6 @@ public class PublicController {
 
   @Resource
   private FeatureFlagService featureFlagService;
-
-  @Resource
-  private S3Service s3Service;
 
   @GetMapping(path = "/examEvent")
   public List<PublicExamEventDTO> list() {
@@ -387,17 +382,6 @@ public class PublicController {
     return Arrays
       .stream(FeatureFlag.values())
       .collect(Collectors.toMap(FeatureFlag::getPropertyKey, f -> featureFlagService.isEnabled(f)));
-  }
-
-  // TODO Restrict access. Perhaps endpoint is only needed for clerk usage?
-  // TODO Perhaps this could just redirect to the URL?
-  @GetMapping(path = "/presign")
-  public String getPresignedUrl(@RequestParam final String key) {
-    if (featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
-      return s3Service.getPresignedUrl(key);
-    } else {
-      throw new RuntimeException("Not allowed");
-    }
   }
 
   @GetMapping(path = "/uploadPostPolicy/{examEventId:\\d+}")

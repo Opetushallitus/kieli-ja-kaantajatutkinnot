@@ -9,7 +9,11 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
+import fi.oph.vkt.config.security.WebSecurityConfigDev;
+import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.service.ClerkEnrollmentService;
+import fi.oph.vkt.service.FeatureFlagService;
+import fi.oph.vkt.service.aws.S3Service;
 import fi.oph.vkt.service.receipt.ReceiptData;
 import fi.oph.vkt.service.receipt.ReceiptRenderer;
 import fi.oph.vkt.util.LocalisationUtil;
@@ -28,6 +32,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -45,6 +50,12 @@ public class ClerkEnrollmentController {
 
   @Resource
   private ReceiptRenderer receiptRenderer;
+
+  @Resource
+  private FeatureFlagService featureFlagService;
+
+  @Resource
+  private S3Service s3Service;
 
   @PutMapping
   @Operation(tags = TAG_ENROLLMENT, summary = "Update enrollment")
@@ -86,5 +97,15 @@ public class ClerkEnrollmentController {
     final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollmentId, locale);
     final ByteArrayInputStream bis = new ByteArrayInputStream(receiptRenderer.getReceiptPdfBytes(receiptData, locale));
     return ResponseEntity.ok().body(new InputStreamResource(bis));
+  }
+
+  // TODO Perhaps this could just redirect to the URL?
+  @GetMapping(path = "/presign")
+  public String getPresignedUrl(@RequestParam final String key) {
+    if (featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
+      return s3Service.getPresignedUrl(key);
+    } else {
+      throw new RuntimeException("Not allowed");
+    }
   }
 }
