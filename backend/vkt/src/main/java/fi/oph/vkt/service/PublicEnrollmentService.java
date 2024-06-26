@@ -1,12 +1,12 @@
 package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
+import fi.oph.vkt.api.dto.FreeEnrollmentDetailsDTO;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
-import fi.oph.vkt.api.dto.PublicFreeEnrollmentDetailsDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Enrollment;
@@ -176,9 +176,9 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
 
     final PublicPersonDTO personDTO = PersonUtil.createPublicPersonDTO(person);
 
-    final PublicFreeEnrollmentDetailsDTO freeEnrollmentDetailsDTO = optionalPublicFreeEnrollmentDetails
+    final FreeEnrollmentDetailsDTO freeEnrollmentDetailsDTO = optionalPublicFreeEnrollmentDetails
       .map(e ->
-        PublicFreeEnrollmentDetailsDTO
+        FreeEnrollmentDetailsDTO
           .builder()
           .freeOralSkillLeft(Math.max(0, 3 - e.oralSkillCount()))
           .freeTextualSkillLeft(Math.max(0, 3 - e.textualSkillCount()))

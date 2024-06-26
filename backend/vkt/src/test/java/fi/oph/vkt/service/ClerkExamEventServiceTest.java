@@ -24,6 +24,7 @@ import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
+import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.exception.APIException;
@@ -64,10 +65,11 @@ public class ClerkExamEventServiceTest {
   private TestEntityManager entityManager;
 
   private ClerkExamEventService clerkExamEventService;
+  private EnrollmentRepository enrollmentRepository;
 
   @BeforeEach
   public void setup() {
-    clerkExamEventService = new ClerkExamEventService(examEventRepository, auditService);
+    clerkExamEventService = new ClerkExamEventService(examEventRepository, enrollmentRepository, auditService);
   }
 
   @Test

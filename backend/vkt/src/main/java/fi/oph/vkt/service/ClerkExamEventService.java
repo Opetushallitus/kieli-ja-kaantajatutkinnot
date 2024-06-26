@@ -1,5 +1,6 @@
 package fi.oph.vkt.service;
 
+import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventCreateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventDTO;
@@ -13,6 +14,7 @@ import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.ClerkExamEventProjection;
+import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.ExamEventUtil;
@@ -24,7 +26,9 @@ import fi.oph.vkt.view.ExamEventXlsxDataRowUtil;
 import fi.oph.vkt.view.ExamEventXlsxView;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -36,6 +40,7 @@ import org.springframework.web.servlet.view.document.AbstractXlsxView;
 public class ClerkExamEventService {
 
   private final ExamEventRepository examEventRepository;
+  private final EnrollmentRepository enrollmentRepository;
   private final AuditService auditService;
 
   @Transactional(readOnly = true)
@@ -81,9 +86,18 @@ public class ClerkExamEventService {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
     final List<Enrollment> enrollments = examEvent.getEnrollments();
 
+    final Map<Long, FreeEnrollmentDetails> freeEnrollmentDetails = enrollments
+      .stream()
+      .collect(
+        Collectors.toMap(
+          enrollment -> enrollment.getPerson().getId(),
+          enrollment -> enrollmentRepository.countEnrollmentsByPerson(enrollment.getPerson())
+        )
+      );
+
     final List<ClerkEnrollmentDTO> enrollmentDTOs = enrollments
       .stream()
-      .map(ClerkEnrollmentUtil::createClerkEnrollmentDTO)
+      .map(e -> ClerkEnrollmentUtil.createClerkEnrollmentDTO(e, freeEnrollmentDetails.get(e.getPerson().getId())))
       .toList();
 
     return ClerkExamEventDTO

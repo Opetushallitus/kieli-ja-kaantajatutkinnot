@@ -1,6 +1,8 @@
 package fi.oph.vkt.util;
 
 import fi.oph.vkt.api.dto.FreeEnrollmentAttachmentDTO;
+import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
+import fi.oph.vkt.api.dto.FreeEnrollmentDetailsDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkFeeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
@@ -15,7 +17,10 @@ import java.util.stream.Collectors;
 
 public class ClerkEnrollmentUtil {
 
-  public static ClerkEnrollmentDTO createClerkEnrollmentDTO(final Enrollment enrollment) {
+  public static ClerkEnrollmentDTO createClerkEnrollmentDTO(
+    final Enrollment enrollment,
+    final FreeEnrollmentDetails freeEnrollmentDetails
+  ) {
     final ClerkPersonDTO personDTO = createClerkPersonDTO(enrollment.getPerson());
 
     final List<ClerkPaymentDTO> paymentDTOs = enrollment
@@ -45,6 +50,14 @@ public class ClerkEnrollmentUtil {
         .build()
       : null;
 
+    final FreeEnrollmentDetailsDTO freeEnrollmentDetailsDTO = freeEnrollmentDetails == null
+      ? null
+      : FreeEnrollmentDetailsDTO
+        .builder()
+        .freeOralSkillLeft(Math.max(0, 3 - freeEnrollmentDetails.oralSkillCount()))
+        .freeTextualSkillLeft(Math.max(0, 3 - freeEnrollmentDetails.textualSkillCount()))
+        .build();
+
     return ClerkEnrollmentDTO
       .builder()
       .id(enrollment.getId())
@@ -69,6 +82,7 @@ public class ClerkEnrollmentUtil {
       .country(enrollment.getCountry())
       .payments(paymentDTOs)
       .freeEnrollmentBasis(freeEnrollmentBasisDTO)
+      .freeEnrollmentDetails(freeEnrollmentDetailsDTO)
       .build();
   }
 

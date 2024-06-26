@@ -9,5 +9,5 @@ public record PublicEnrollmentInitialisationDTO(
   @NonNull PublicPersonDTO person,
   PublicReservationDTO reservation,
   PublicEnrollmentDTO enrollment,
-  PublicFreeEnrollmentDetailsDTO freeEnrollmentDetails
+  FreeEnrollmentDetailsDTO freeEnrollmentDetails
 ) {}

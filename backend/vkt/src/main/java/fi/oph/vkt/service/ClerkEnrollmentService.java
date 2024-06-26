@@ -1,5 +1,6 @@
 package fi.oph.vkt.service;
 
+import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
@@ -76,7 +77,11 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final ClerkEnrollmentAuditDTO newAuditDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
     auditService.logUpdate(VktOperation.UPDATE_ENROLLMENT, enrollment.getId(), oldAuditDto, newAuditDto);
 
-    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollmentRepository.getReferenceById(enrollment.getId()));
+    FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(enrollment.getPerson());
+    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(
+      enrollmentRepository.getReferenceById(enrollment.getId()),
+      freeEnrollmentDetails
+    );
   }
 
   @Transactional
@@ -91,7 +96,11 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final ClerkEnrollmentAuditDTO newAuditDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
     auditService.logUpdate(VktOperation.UPDATE_ENROLLMENT_STATUS, enrollment.getId(), oldAuditDto, newAuditDto);
 
-    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollmentRepository.getReferenceById(enrollment.getId()));
+    FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(enrollment.getPerson());
+    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(
+      enrollmentRepository.getReferenceById(enrollment.getId()),
+      freeEnrollmentDetails
+    );
   }
 
   @Transactional
@@ -114,7 +123,11 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final ClerkEnrollmentAuditDTO newAuditDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
     auditService.logUpdate(VktOperation.MOVE_ENROLLMENT, enrollment.getId(), oldAuditDto, newAuditDto);
 
-    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollmentRepository.getReferenceById(enrollment.getId()));
+    FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(enrollment.getPerson());
+    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(
+      enrollmentRepository.getReferenceById(enrollment.getId()),
+      freeEnrollmentDetails
+    );
   }
 
   @Transactional

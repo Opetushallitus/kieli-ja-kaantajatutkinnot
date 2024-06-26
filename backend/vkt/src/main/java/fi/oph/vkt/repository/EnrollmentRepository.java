@@ -17,7 +17,7 @@ public interface EnrollmentRepository extends BaseRepository<Enrollment> {
   Optional<Enrollment> findByExamEventAndPaymentLinkHash(final ExamEvent examEvent, final String paymentLinkHash);
 
   @Query(
-    "SELECT new fi.oph.vkt.api.dto.FreeEnrollmentDetails(count(e.textualSkill), count(e.oralSkill))" +
+    "SELECT new fi.oph.vkt.api.dto.FreeEnrollmentDetails(count(e.textualSkill) filter (where e.textualSkill), count(e.oralSkill) filter (where e.oralSkill))" +
     " FROM Enrollment e" +
     " WHERE e.person = ?1" +
     " AND e.status IN (fi.oph.vkt.model.type.EnrollmentStatus.COMPLETED, fi.oph.vkt.model.type.EnrollmentStatus.AWAITING_APPROVAL)"

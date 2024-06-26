@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record PublicFreeEnrollmentDetailsDTO(
+public record FreeEnrollmentDetailsDTO(
   @NonNull @NotNull Long freeOralSkillLeft,
   @NonNull @NotNull Long freeTextualSkillLeft
 ) {}
