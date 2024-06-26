@@ -3,6 +3,7 @@ package fi.oph.vkt.util;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import fi.oph.vkt.Factory;
+import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
@@ -17,10 +18,10 @@ public class EnrollmentUtilTest {
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
 
     enrollment.setTextualSkill(false);
-    assertEquals(0, EnrollmentUtil.getTextualSkillFee(enrollment));
+    assertEquals(0, EnrollmentUtil.getTextualSkillFee(enrollment, new FreeEnrollmentDetails(0L, 0L)));
 
     enrollment.setTextualSkill(true);
-    assertEquals(25700, EnrollmentUtil.getTextualSkillFee(enrollment));
+    assertEquals(25700, EnrollmentUtil.getTextualSkillFee(enrollment, new FreeEnrollmentDetails(0L, 0L)));
   }
 
   @Test
@@ -30,10 +31,10 @@ public class EnrollmentUtilTest {
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
 
     enrollment.setOralSkill(false);
-    assertEquals(0, EnrollmentUtil.getOralSkillFee(enrollment));
+    assertEquals(0, EnrollmentUtil.getOralSkillFee(enrollment, new FreeEnrollmentDetails(0L, 0L)));
 
     enrollment.setOralSkill(true);
-    assertEquals(25700, EnrollmentUtil.getOralSkillFee(enrollment));
+    assertEquals(25700, EnrollmentUtil.getOralSkillFee(enrollment, new FreeEnrollmentDetails(0L, 0L)));
   }
 
   @Test

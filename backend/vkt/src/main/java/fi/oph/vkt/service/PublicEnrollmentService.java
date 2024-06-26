@@ -1,13 +1,11 @@
 package fi.oph.vkt.service;
 
-import fi.oph.vkt.api.dto.FreeEnrollmentAttachmentDTO;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
-import fi.oph.vkt.api.dto.PublicFreeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.PublicFreeEnrollmentDetailsDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
@@ -28,6 +26,7 @@ import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.repository.UploadedFileAttachmentRepository;
 import fi.oph.vkt.service.aws.S3Service;
 import fi.oph.vkt.service.koski.KoskiService;
+import fi.oph.vkt.util.EnrollmentUtil;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.PersonUtil;
 import fi.oph.vkt.util.exception.APIException;
@@ -35,7 +34,6 @@ import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -233,7 +231,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     );
   }
 
-  private FreeEnrollment saveFreeEnrollment(final Person person, final PublicEnrollmentCreateDTO dto)
+  @Transactional
+  protected FreeEnrollment saveFreeEnrollment(final Person person, final PublicEnrollmentCreateDTO dto)
     throws APIException {
     final FreeEnrollmentSource reason = dto.freeEnrollmentBasis().source();
     final FreeEnrollmentType type = dto.freeEnrollmentBasis().type();
@@ -246,11 +245,6 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       }
     } else if (dto.freeEnrollmentBasis().attachments() != null && dto.freeEnrollmentBasis().attachments().isEmpty()) {
       throw new APIException(APIExceptionType.USER_ATTACHMENTS_MISSING);
-    }
-
-    final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(person);
-    if (freeEnrollmentDetails.textualSkillCount() >= 3 || freeEnrollmentDetails.oralSkillCount() >= 3) {
-      throw new APIException(APIExceptionType.FREE_ENROLLMENT_ALL_USED);
     }
 
     final FreeEnrollment freeEnrollment = new FreeEnrollment();
@@ -323,15 +317,42 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     }
 
     final FreeEnrollment freeEnrollment = saveFreeEnrollment(person, dto);
-    final EnrollmentStatus status = freeEnrollment.getSource().equals(FreeEnrollmentSource.KOSKI)
-      ? EnrollmentStatus.COMPLETED
-      : EnrollmentStatus.AWAITING_APPROVAL;
+    final EnrollmentStatus status = createFreeEnrollmentNextStatus(freeEnrollment, person, dto);
     final Enrollment enrollment = createOrUpdateExistingEnrollment(dto, examEvent, person, status, freeEnrollment);
     reservationRepository.deleteById(reservationId);
 
     publicEnrollmentEmailService.sendFreeEnrollmentConfirmationEmail(enrollment, person);
 
     return createEnrollmentDTO(enrollment);
+  }
+
+  @Transactional(readOnly = true)
+  protected EnrollmentStatus createFreeEnrollmentNextStatus(
+    final FreeEnrollment freeEnrollment,
+    final Person person,
+    final PublicEnrollmentCreateDTO dto
+  ) {
+    final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(person);
+
+    if (freeEnrollment.getSource().equals(FreeEnrollmentSource.KOSKI)) {
+      if (
+        (dto.textualSkill() && freeEnrollmentDetails.textualSkillCount() >= EnrollmentUtil.FREE_ENROLLMENT_LIMIT) ||
+        (dto.oralSkill() && freeEnrollmentDetails.oralSkillCount() >= EnrollmentUtil.FREE_ENROLLMENT_LIMIT)
+      ) {
+        return EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT;
+      }
+
+      return EnrollmentStatus.COMPLETED;
+    } else {
+      if (
+        (dto.textualSkill() && freeEnrollmentDetails.textualSkillCount() < EnrollmentUtil.FREE_ENROLLMENT_LIMIT) ||
+        (dto.oralSkill() && freeEnrollmentDetails.oralSkillCount() < EnrollmentUtil.FREE_ENROLLMENT_LIMIT)
+      ) {
+        return EnrollmentStatus.AWAITING_APPROVAL;
+      }
+
+      return EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT;
+    }
   }
 
   private Enrollment createOrUpdateExistingEnrollment(
@@ -441,7 +462,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       dto,
       examEvent,
       person,
-      EnrollmentStatus.AWAITING_APPROVAL,
+      EnrollmentStatus.AWAITING_APPROVAL, // TODO
       freeEnrollment
     );
 

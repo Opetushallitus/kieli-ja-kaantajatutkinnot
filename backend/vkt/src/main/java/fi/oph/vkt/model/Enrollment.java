@@ -117,4 +117,8 @@ public class Enrollment extends BaseEntity {
       this.status == EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT
     );
   }
+
+  public boolean hasApprovedFreeBasis() {
+    return (this.getFreeEnrollment() != null && this.getFreeEnrollment().approved);
+  }
 }

@@ -1,7 +1,9 @@
 package fi.oph.vkt.service;
 
+import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
@@ -52,14 +54,16 @@ public class PaymentService {
       .build();
   }
 
-  private List<Item> getItems(final Enrollment enrollment) {
+  private List<Item> getItems(final Enrollment enrollment, final FreeEnrollmentDetails freeEnrollmentDetails) {
     final List<Item> itemList = new ArrayList<>();
 
     if (enrollment.isTextualSkill()) {
-      itemList.add(getItem(EnrollmentSkill.TEXTUAL, EnrollmentUtil.getTextualSkillFee(enrollment)));
+      itemList.add(
+        getItem(EnrollmentSkill.TEXTUAL, EnrollmentUtil.getTextualSkillFee(enrollment, freeEnrollmentDetails))
+      );
     }
     if (enrollment.isOralSkill()) {
-      itemList.add(getItem(EnrollmentSkill.ORAL, EnrollmentUtil.getOralSkillFee(enrollment)));
+      itemList.add(getItem(EnrollmentSkill.ORAL, EnrollmentUtil.getOralSkillFee(enrollment, freeEnrollmentDetails)));
     }
     if (enrollment.isUnderstandingSkill()) {
       itemList.add(getItem(EnrollmentSkill.UNDERSTANDING, EnrollmentUtil.getUnderstandingSkillFee(enrollment)));
@@ -168,7 +172,8 @@ public class PaymentService {
       throw new APIException(APIExceptionType.ENROLLMENT_ALREADY_PAID);
     }
 
-    final List<Item> itemList = getItems(enrollment);
+    final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(person);
+    final List<Item> itemList = getItems(enrollment, freeEnrollmentDetails);
     final Customer customer = Customer
       .builder()
       .email(getCustomerField(enrollment.getEmail(), Customer.EMAIL_MAX_LENGTH))
@@ -177,7 +182,7 @@ public class PaymentService {
       .lastName(getCustomerField(person.getLastName(), Customer.LAST_NAME_MAX_LENGTH))
       .build();
 
-    final int amount = EnrollmentUtil.getTotalFee(enrollment);
+    final int amount = EnrollmentUtil.getTotalFee(enrollment, freeEnrollmentDetails);
 
     final Payment payment = new Payment();
     payment.setEnrollment(enrollment);

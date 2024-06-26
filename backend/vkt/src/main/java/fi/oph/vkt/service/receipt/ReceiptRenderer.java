@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jhonnymertz.wkhtmltopdf.wrapper.Pdf;
 import com.github.jhonnymertz.wkhtmltopdf.wrapper.configurations.WrapperConfig;
+import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Payment;
@@ -44,6 +45,7 @@ public class ReceiptRenderer {
     final ExamEvent examEvent = enrollment.getExamEvent();
     final Person person = enrollment.getPerson();
     final Payment payment = enrollment.getPayments().get(0);
+    final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(person);
 
     final ExamLanguage examLanguage = examEvent.getLanguage();
 
@@ -60,7 +62,7 @@ public class ReceiptRenderer {
     final String participant = String.format("%s, %s", person.getLastName(), person.getFirstName());
     final String totalAmount = String.format("%s €", payment.getAmount() / 100);
 
-    final List<ReceiptItem> items = getReceiptItems(enrollment, examLanguage, locale);
+    final List<ReceiptItem> items = getReceiptItems(enrollment, examLanguage, locale, freeEnrollmentDetails);
 
     return ReceiptData
       .builder()
@@ -89,7 +91,8 @@ public class ReceiptRenderer {
   private static List<ReceiptItem> getReceiptItems(
     final Enrollment enrollment,
     final ExamLanguage examLanguage,
-    final Locale locale
+    final Locale locale,
+    final FreeEnrollmentDetails freeEnrollmentDetails
   ) {
     final String examLanguageKey = examLanguage == ExamLanguage.FI ? "lang.finnish" : "lang.swedish";
     final String examLanguageName = LocalisationUtil.translate(locale, examLanguageKey);
@@ -101,7 +104,7 @@ public class ReceiptRenderer {
             ? ReceiptItem
               .builder()
               .name(StringUtils.capitalize(LocalisationUtil.translate(locale, "skill.textual", examLanguageName)))
-              .amount(String.format("%s €", EnrollmentUtil.getTextualSkillFee(enrollment) / 100))
+              .amount(String.format("%s €", EnrollmentUtil.getTextualSkillFee(enrollment, freeEnrollmentDetails) / 100))
               .build()
             : null
         ),
@@ -110,7 +113,7 @@ public class ReceiptRenderer {
             ? ReceiptItem
               .builder()
               .name(StringUtils.capitalize(LocalisationUtil.translate(locale, "skill.oral", examLanguageName)))
-              .amount(String.format("%s €", EnrollmentUtil.getOralSkillFee(enrollment) / 100))
+              .amount(String.format("%s €", EnrollmentUtil.getOralSkillFee(enrollment, freeEnrollmentDetails) / 100))
               .build()
             : null
         ),
