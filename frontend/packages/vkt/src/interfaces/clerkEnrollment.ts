@@ -7,6 +7,7 @@ import {
   CertificateShippingData,
   PartialExamsAndSkills,
 } from 'interfaces/common/enrollment';
+import { PublicFreeEnrollmentDetails } from 'interfaces/publicEducation';
 
 interface ClerkPerson extends WithId, WithVersion {
   lastName: string;
@@ -49,7 +50,9 @@ export interface ClerkEnrollment
   email: string;
   phoneNumber: string;
   payments: Array<ClerkPayment>;
+  isFree?: boolean;
   freeEnrollmentBasis?: ClerkFreeEnrollmentBasis;
+  freeEnrollmentDetails?: PublicFreeEnrollmentDetails;
 }
 
 export interface ClerkEnrollmentResponse

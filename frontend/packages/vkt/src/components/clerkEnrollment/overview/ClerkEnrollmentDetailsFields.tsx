@@ -26,6 +26,7 @@ import {
 import { useDialog } from 'shared/hooks';
 import { InputFieldUtils } from 'shared/utils';
 
+import { ExamEventDetails } from 'components/publicEnrollment/steps/ExamEventDetails';
 import {
   translateOutsideComponent,
   useClerkTranslation,
@@ -563,6 +564,7 @@ export const ClerkEnrollmentDetailsFields = ({
             </div>
           </div>
         </div>
+        <ExamEventDetails enrollment={enrollment} />
         <div className="rows gapped-sm margin-top-lg">
           <H3>{t('status')}</H3>
           <Text>{t(`enrollmentStatus.${enrollment.status}`)}</Text>
