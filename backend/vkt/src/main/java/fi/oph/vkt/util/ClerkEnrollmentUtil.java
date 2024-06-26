@@ -31,7 +31,7 @@ public class ClerkEnrollmentUtil {
         .builder()
         .type(freeEnrollment.getType())
         .source(freeEnrollment.getSource())
-        .approved(freeEnrollment.isApproved())
+        .approved(freeEnrollment.getApproved())
         .comment(freeEnrollment.getComment())
         .attachments(
           freeEnrollment

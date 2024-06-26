@@ -43,7 +43,7 @@ public class FreeEnrollment extends BaseEntity {
   FreeEnrollmentType type;
 
   @Column(name = "approved")
-  boolean approved;
+  Boolean approved;
 
   @Column(name = "comment")
   String comment;
