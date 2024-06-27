@@ -9,7 +9,6 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
-import fi.oph.vkt.config.security.WebSecurityConfigDev;
 import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.service.ClerkEnrollmentService;
 import fi.oph.vkt.service.FeatureFlagService;
@@ -23,13 +22,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.URI;
 import java.util.Locale;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -79,13 +74,12 @@ public class ClerkEnrollmentController {
     return clerkEnrollmentService.move(dto);
   }
 
-  @GetMapping(path = "/attachment")
+  @GetMapping(path = "/attachment", consumes = ALL_VALUE)
   @Operation(tags = TAG_ENROLLMENT, summary = "Download enrollment attachment")
-  public ResponseEntity<HttpHeaders> attachmentRedirect(@RequestParam final String key) {
+  public void attachmentRedirect(final HttpServletResponse response, @RequestParam final String key)
+    throws IOException {
     if (featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
-      HttpHeaders headers = new HttpHeaders();
-      headers.setLocation(URI.create(s3Service.getPresignedUrl(key)));
-      return new ResponseEntity<>(headers, HttpStatus.TEMPORARY_REDIRECT);
+      response.sendRedirect(s3Service.getPresignedUrl(key));
     } else {
       throw new RuntimeException("Not allowed");
     }
