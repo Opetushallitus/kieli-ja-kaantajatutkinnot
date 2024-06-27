@@ -64,8 +64,10 @@ public class ClerkExamEventServiceTest {
   @Resource
   private TestEntityManager entityManager;
 
-  private ClerkExamEventService clerkExamEventService;
+  @Resource
   private EnrollmentRepository enrollmentRepository;
+
+  private ClerkExamEventService clerkExamEventService;
 
   @BeforeEach
   public void setup() {
