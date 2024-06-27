@@ -425,37 +425,18 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final Person person
   ) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-    final Enrollment enrollment = createOrUpdateExistingEnrollment(
-      dto,
-      examEvent,
-      person,
-      EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
-      null
-    );
-
-    return createEnrollmentDTO(enrollment);
-  }
-
-  @Transactional
-  public PublicEnrollmentDTO updateEnrollmentForFree(
-    final PublicEnrollmentCreateDTO dto,
-    final long examEventId,
-    final Person person
-  ) {
-    final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
 
     FreeEnrollment freeEnrollment = null;
-    if (dto.isFree() && featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
+    EnrollmentStatus status = EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT;
+    if (
+      dto.freeEnrollmentBasis() != null &&
+      featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)
+    ) {
       freeEnrollment = saveFreeEnrollment(person, dto);
+      status = createFreeEnrollmentNextStatus(freeEnrollment, person, dto);
     }
 
-    final Enrollment enrollment = createOrUpdateExistingEnrollment(
-      dto,
-      examEvent,
-      person,
-      EnrollmentStatus.AWAITING_APPROVAL, // TODO
-      freeEnrollment
-    );
+    final Enrollment enrollment = createOrUpdateExistingEnrollment(dto, examEvent, person, status, freeEnrollment);
 
     return createEnrollmentDTO(enrollment);
   }
