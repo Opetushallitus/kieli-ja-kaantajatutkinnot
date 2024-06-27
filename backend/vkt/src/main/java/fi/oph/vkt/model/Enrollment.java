@@ -119,10 +119,10 @@ public class Enrollment extends BaseEntity {
   }
 
   public boolean enrollmentNeedsApproval() {
-    return (this.getFreeEnrollment() != null && this.getFreeEnrollment().approved == null);
+    return (this.getFreeEnrollment() != null && this.getFreeEnrollment().getApproved() == null);
   }
 
   public boolean hasApprovedFreeBasis() {
-    return (this.getFreeEnrollment() != null && this.getFreeEnrollment().approved);
+    return (this.getFreeEnrollment() != null && this.getFreeEnrollment().getApproved());
   }
 }

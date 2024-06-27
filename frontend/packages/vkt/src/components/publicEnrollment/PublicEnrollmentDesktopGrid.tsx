@@ -51,6 +51,7 @@ export const PublicEnrollmentDesktopGrid = ({
     cancelStatus,
     enrollment,
     reservation,
+    freeEnrollmentDetails,
   } = useAppSelector(publicEnrollmentSelector);
 
   const isRenewOrCancelLoading = [
@@ -111,7 +112,10 @@ export const PublicEnrollmentDesktopGrid = ({
                 showValidation={showValidation}
               />
               {isPaymentSumAvailable && (
-                <PublicEnrollmentPaymentSum enrollment={enrollment} />
+                <PublicEnrollmentPaymentSum
+                  enrollment={enrollment}
+                  freeEnrollmentDetails={freeEnrollmentDetails}
+                />
               )}
               {activeStep > PublicEnrollmentFormStep.Authenticate &&
                 !isPreviewPassed && (
