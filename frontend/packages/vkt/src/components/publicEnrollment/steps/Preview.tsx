@@ -28,7 +28,7 @@ const EducationDetails = ({
     <div className="rows gapped">
       <H2>{t('preview.educationDetails.title')}</H2>
       <Text>{t('preview.educationDetails.description')}</Text>
-      <div className="grid-2-columns gapped">
+      <div className="rows gapped">
         <div className="rows">
           <ul>
             <li>
@@ -41,16 +41,16 @@ const EducationDetails = ({
           </ul>
         </div>
         {freeEnrollmentBasis.attachments && (
-          <>
-            <Text className="bold">
-              {t('preview.educationDetails.attachments')}
-            </Text>
-            {freeEnrollmentBasis.attachments.map((attachment) => (
-              <div key={`attachment-${attachment.id}`} className="rows">
-                <Text>{attachment.name}</Text>
-              </div>
-            ))}
-          </>
+          <div className="rows">
+            <Text className="bold">{t('educationDetails.attachments')}</Text>
+            <ul>
+              {freeEnrollmentBasis.attachments.map((attachment) => (
+                <li key={`attachment-${attachment.id}`}>
+                  <Text>{attachment.name}</Text>
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
       </div>
     </div>

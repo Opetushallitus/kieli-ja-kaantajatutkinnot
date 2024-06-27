@@ -160,6 +160,7 @@
             "education": "Minulla on jokin ilmaiseen kielitutkintoon oikeuttava peruste *",
             "highschool": "Ylioppilastutkinto tai vastaava ulkomaalainen tutkinto",
             "no": "Ei",
+            "attachments": "Liitteet",
             "uploadAttachment": {
               "title": "Lähetä todistus valitusta tutkinnosta tai ote korkeakoulussa kirjoilla olemisesta *"
             }
