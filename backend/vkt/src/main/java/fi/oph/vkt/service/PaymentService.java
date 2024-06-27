@@ -3,7 +3,6 @@ package fi.oph.vkt.service;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
-import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
@@ -72,6 +71,13 @@ public class PaymentService {
     return itemList;
   }
 
+  private EnrollmentStatus getPaymentSuccessEnrollmentNextStatus(final Enrollment enrollment) {
+    // Enrollment can be partially paid but still needs approval
+    // This can happen if you have free enrollment for only one
+    // skill but you apply for both
+    return enrollment.enrollmentNeedsApproval() ? EnrollmentStatus.AWAITING_APPROVAL : EnrollmentStatus.COMPLETED;
+  }
+
   private void setEnrollmentStatus(final Enrollment enrollment, final PaymentStatus paymentStatus) {
     switch (paymentStatus) {
       case NEW -> {
@@ -79,7 +85,7 @@ public class PaymentService {
           enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
         }
       }
-      case OK -> enrollment.setStatus(EnrollmentStatus.COMPLETED);
+      case OK -> enrollment.setStatus(getPaymentSuccessEnrollmentNextStatus(enrollment));
       case FAIL -> {
         if (enrollment.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT) {
           enrollment.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
@@ -196,10 +202,6 @@ public class PaymentService {
       amount,
       appLocale
     );
-
-    // Ensures the enrollment is in EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT state after payment creation.
-    // Necessary for the case when a person enrolls again to the same exam event with an existing cancelled enrollment.
-    setEnrollmentStatus(enrollment, PaymentStatus.NEW);
 
     // Ensures the enrollment is in EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT state after payment creation.
     // Necessary for the case when a person enrolls again to the same exam event with an existing cancelled enrollment.

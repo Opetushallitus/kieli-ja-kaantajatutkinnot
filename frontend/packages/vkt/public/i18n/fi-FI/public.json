@@ -118,7 +118,8 @@
             "title": "Yhteystietosi",
             "educationDetails": {
               "educationInfoTitle": "Koulutustiedot",
-              "freeEnrollmentDescription": "Olet oikeutettu ilmaiseen tutkintoon:",
+              "freeEnrollmentDescription": "Tietojemme mukaan olet suorittanut tai suorittamassa seuraavan tutkinnon:",
+              "freeEnrollmentDescription2": "Tämä voi oikeuttaa sinut ilmoittautumaan tutkintoon maksuttomasti kolme kertaa.",
               "type": {
                 "MatriculationExam": "Ylioppilastutkinto",
                 "HigherEducationEnrolled": "Korkeakoulututkinto",

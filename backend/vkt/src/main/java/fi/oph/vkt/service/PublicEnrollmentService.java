@@ -334,25 +334,16 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   ) {
     final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(person);
 
-    if (freeEnrollment.getSource().equals(FreeEnrollmentSource.KOSKI)) {
-      if (
-        (dto.textualSkill() && freeEnrollmentDetails.textualSkillCount() >= EnrollmentUtil.FREE_ENROLLMENT_LIMIT) ||
-        (dto.oralSkill() && freeEnrollmentDetails.oralSkillCount() >= EnrollmentUtil.FREE_ENROLLMENT_LIMIT)
-      ) {
-        return EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT;
-      }
-
-      return EnrollmentStatus.COMPLETED;
-    } else {
-      if (
-        (dto.textualSkill() && freeEnrollmentDetails.textualSkillCount() < EnrollmentUtil.FREE_ENROLLMENT_LIMIT) ||
-        (dto.oralSkill() && freeEnrollmentDetails.oralSkillCount() < EnrollmentUtil.FREE_ENROLLMENT_LIMIT)
-      ) {
-        return EnrollmentStatus.AWAITING_APPROVAL;
-      }
-
+    if (
+      (dto.textualSkill() && freeEnrollmentDetails.textualSkillCount() >= EnrollmentUtil.FREE_ENROLLMENT_LIMIT) ||
+      (dto.oralSkill() && freeEnrollmentDetails.oralSkillCount() >= EnrollmentUtil.FREE_ENROLLMENT_LIMIT)
+    ) {
       return EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT;
     }
+
+    return freeEnrollment.getSource().equals(FreeEnrollmentSource.KOSKI)
+      ? EnrollmentStatus.COMPLETED
+      : EnrollmentStatus.AWAITING_APPROVAL;
   }
 
   private Enrollment createOrUpdateExistingEnrollment(

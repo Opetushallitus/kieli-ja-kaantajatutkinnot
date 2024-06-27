@@ -152,10 +152,11 @@ const EducationList = ({
       <ul className="public-enrollment__grid__preview__bullet-list">
         {educations.map((education) => (
           <li key={`education-type-${education.name}`}>
-            {t(`type.${education.name}`)}
+            <Text className="bold">{t(`type.${education.name}`)}</Text>
           </li>
         ))}
       </ul>
+      <Text>{t('freeEnrollmentDescription2')}</Text>
     </div>
   );
 };

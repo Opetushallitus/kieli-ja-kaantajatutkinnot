@@ -30,11 +30,15 @@ const EducationDetails = ({
       <Text>{t('preview.educationDetails.description')}</Text>
       <div className="grid-2-columns gapped">
         <div className="rows">
-          <Text>
-            {t(
-              `fillContactDetails.educationDetails.type.${freeEnrollmentBasis.type}`,
-            )}
-          </Text>
+          <ul>
+            <li>
+              <Text>
+                {t(
+                  `fillContactDetails.educationDetails.type.${freeEnrollmentBasis.type}`,
+                )}
+              </Text>
+            </li>
+          </ul>
         </div>
         {freeEnrollmentBasis.attachments && (
           <>
