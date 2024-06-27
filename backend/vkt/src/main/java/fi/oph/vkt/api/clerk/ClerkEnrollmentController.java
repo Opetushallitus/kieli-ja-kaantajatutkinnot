@@ -23,9 +23,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Locale;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -75,6 +79,18 @@ public class ClerkEnrollmentController {
     return clerkEnrollmentService.move(dto);
   }
 
+  @GetMapping(path = "/attachment")
+  @Operation(tags = TAG_ENROLLMENT, summary = "Download enrollment attachment")
+  public ResponseEntity<HttpHeaders> attachmentRedirect(@RequestParam final String key) {
+    if (featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
+      HttpHeaders headers = new HttpHeaders();
+      headers.setLocation(URI.create(s3Service.getPresignedUrl(key)));
+      return new ResponseEntity<>(headers, HttpStatus.TEMPORARY_REDIRECT);
+    } else {
+      throw new RuntimeException("Not allowed");
+    }
+  }
+
   @PostMapping("/{enrollmentId:\\d+}/paymentLink")
   @Operation(tags = TAG_ENROLLMENT, summary = "Create payment link for enrollment")
   public ClerkPaymentLinkDTO createPaymentLink(@PathVariable final long enrollmentId) {
@@ -97,15 +113,5 @@ public class ClerkEnrollmentController {
     final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollmentId, locale);
     final ByteArrayInputStream bis = new ByteArrayInputStream(receiptRenderer.getReceiptPdfBytes(receiptData, locale));
     return ResponseEntity.ok().body(new InputStreamResource(bis));
-  }
-
-  // TODO Perhaps this could just redirect to the URL?
-  @GetMapping(path = "/presign")
-  public String getPresignedUrl(@RequestParam final String key) {
-    if (featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
-      return s3Service.getPresignedUrl(key);
-    } else {
-      throw new RuntimeException("Not allowed");
-    }
   }
 }

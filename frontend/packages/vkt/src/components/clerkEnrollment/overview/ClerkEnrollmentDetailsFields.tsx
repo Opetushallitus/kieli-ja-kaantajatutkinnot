@@ -1,3 +1,4 @@
+import DownloadIcon from '@mui/icons-material/Download';
 import {
   Checkbox,
   FormControl,
@@ -7,6 +8,7 @@ import {
   RadioGroup,
 } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   CustomButton,
   CustomModal,
@@ -33,6 +35,7 @@ import {
   useCommonTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { APIEndpoints } from 'enums/api';
 import { EnrollmentStatus, PaymentStatus } from 'enums/app';
 import {
   ClerkEnrollmentFreeBasisFieldEnum,
@@ -49,6 +52,7 @@ import {
 } from 'redux/reducers/clerkEnrollmentDetails';
 import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
 import { DateTimeUtils } from 'utils/dateTime';
+import { FileUtils } from 'utils/file';
 
 enum YESNO {
   YES = 'yes',
@@ -81,6 +85,27 @@ const CheckboxField = ({
       }
       label={translateCommon(`enrollment.partialExamsAndSkills.${fieldName}`)}
     />
+  );
+};
+
+const DownloadAttachment = ({ attachment }: { attachment: Attachment }) => {
+  return (
+    <div className="columns gapped">
+      <Text>{attachment.name}</Text>
+      <Text>({FileUtils.getReadableFileSize(attachment.size)})</Text>
+      <Link
+        to={`${APIEndpoints.ClerkEnrollment}/attachment?key=${attachment.id}`}
+        target="_blank"
+      >
+        <CustomButton
+          variant={Variant.Outlined}
+          color={Color.Secondary}
+          startIcon={<DownloadIcon />}
+        >
+          Lataa tiedosto
+        </CustomButton>
+      </Link>
+    </div>
   );
 };
 
@@ -120,19 +145,17 @@ const FreeEnrollmentBasis = ({
         <H3>{t('freeEnrollment.title')}</H3>
         <Text>{t('freeEnrollment.description')}</Text>
         <ul className="public-enrollment__grid__preview__bullet-list">
-          <li key={`education-type-${basis.type}`}>
-            {t(`type.${basis.type}`)}
-          </li>
+          <Text>
+            <li key={`education-type-${basis.type}`}>
+              {t(`type.${basis.type}`)}
+            </li>
+          </Text>
         </ul>
-        {basis.attachments && basis.attachments.length > 0 && (
-          <ul className="public-enrollment__grid__preview__bullet-list">
-            {basis.attachments.map((attachment: Attachment) => (
-              <li key={`education-attachment-${attachment.id}`}>
-                {attachment.name}
-              </li>
-            ))}
-          </ul>
-        )}
+        {basis.attachments &&
+          basis.attachments.length > 0 &&
+          basis.attachments.map((attachment) => (
+            <DownloadAttachment key={attachment.id} attachment={attachment} />
+          ))}
         {basis.source === FreeBasisSource.User && (
           <fieldset className="clerk-enrollment-details-fields__approve">
             <legend>
