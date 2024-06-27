@@ -690,11 +690,7 @@
                                  constraintName="fk_free_enrollment_person"
                                  onDelete="NO ACTION" onUpdate="NO ACTION"/>
        <addColumn tableName="enrollment">
-           <column name="free_enrollment" type="BIGSERIAL" >
-               <constraints foreignKeyName="enrollment_free_enrollment_fk"
-                            referencedTableName="person"
-                            referencedColumnNames="person_id"/>
-           </column>
+           <column name="free_enrollment" type="BIGSERIAL" />
        </addColumn>
         <addForeignKeyConstraint baseTableName="enrollment" baseColumnNames="free_enrollment"
                                  referencedTableName="free_enrollment" referencedColumnNames="free_enrollment_id"
