@@ -255,6 +255,10 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     freeEnrollmentRepository.saveAndFlush(freeEnrollment);
 
     if (dto.freeEnrollmentBasis().attachments() != null) {
+      // TODO Validate attachment metadata before persisting freeEnrollment
+      // - Ensure that user is only able to reference attachments uploaded by themselves
+      // - Ensure that object key (attachmentDTO.id()) is prefixed by the correct enrollment id and
+      //   correct person UUID
       final List<UploadedFileAttachment> attachments = dto
         .freeEnrollmentBasis()
         .attachments()
@@ -465,6 +469,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new NotFoundException("No unfinished enrollment or reservation for exam event found");
     }
 
+    // TODO Instead of filename, use a UUID + file type extension as the key suffix.
     final String key = examEventId + "/" + person.getUuid() + "/" + filename;
     // TODO Record a database entry per presigned POST request
     // Later, validate attachment metadata submitted as part of enrollment against
