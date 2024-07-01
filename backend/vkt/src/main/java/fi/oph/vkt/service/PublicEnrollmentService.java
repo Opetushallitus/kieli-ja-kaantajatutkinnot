@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -476,11 +477,10 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new NotFoundException("No unfinished enrollment or reservation for exam event found");
     }
 
-    // TODO Instead of filename, use a UUID + file type extension as the key suffix.
-    final String key = examEventId + "/" + person.getUuid() + "/" + filename;
-    // TODO Record a database entry per presigned POST request
-    // Later, validate attachment metadata submitted as part of enrollment against
-    // the recorded entries.
+    final String millis = String.valueOf(System.currentTimeMillis());
+    final String extension = FilenameUtils.getExtension(filename);
+    final String key = examEventId + "/" + person.getUuid() + "/" + millis + "." + extension;
+
     return s3Service.getPresignedPostRequest(key);
   }
 }
