@@ -181,8 +181,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .map(e ->
         FreeEnrollmentDetailsDTO
           .builder()
-          .freeOralSkillLeft(Math.max(0, 3 - e.oralSkillCount()))
-          .freeTextualSkillLeft(Math.max(0, 3 - e.textualSkillCount()))
+          .freeOralSkillLeft(Math.max(0, EnrollmentUtil.FREE_ENROLLMENT_LIMIT - e.oralSkillCount()))
+          .freeTextualSkillLeft(Math.max(0, EnrollmentUtil.FREE_ENROLLMENT_LIMIT - e.textualSkillCount()))
           .build()
       )
       .orElse(null);

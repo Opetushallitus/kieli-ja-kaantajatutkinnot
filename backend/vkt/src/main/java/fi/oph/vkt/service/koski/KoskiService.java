@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.service.koski.dto.KoskiResponseDTO;
+import fi.oph.vkt.service.koski.dto.KoulutusTyyppi;
 import fi.oph.vkt.service.koski.dto.OpiskeluoikeusDTO;
 import fi.oph.vkt.service.koski.dto.OpiskeluoikeusjaksoDTO;
 import fi.oph.vkt.service.koski.dto.OpiskeluoikeusjaksoTila;
@@ -74,6 +75,21 @@ public class KoskiService {
   }
 
   private Boolean filterByState(final OpiskeluoikeusDTO opiskeluoikeus) {
+    if (opiskeluoikeus.getTyyppi() == null) {
+      return false;
+    }
+
+    final KoulutusTyyppi koulutusTyyppi = opiskeluoikeus.getTyyppi().getKoodiarvo();
+    if (koulutusTyyppi == null) {
+      return false;
+    }
+
+    // Other education types are automatically accepted,
+    // higher education must have active or concluded status
+    if (!koulutusTyyppi.equals(KoulutusTyyppi.HigherEducation)) {
+      return true;
+    }
+
     final OpiskeluoikeusjaksoTila latestState = findLatestState(opiskeluoikeus);
 
     return (
@@ -110,11 +126,22 @@ public class KoskiService {
         KoskiResponseDTO.class
       );
 
+      if (koskiResponseDTO.getHenkilo() == null || !oid.equals(koskiResponseDTO.getHenkilo().getOid())) {
+        throw new Exception(
+          String.format("KOSKI OID (%s) does not match provided OID (%s)", koskiResponseDTO.getHenkilo().getOid(), oid)
+        );
+      }
+
       return koskiResponseDTO
         .getOpiskeluoikeudet()
         .stream()
         .filter(this::filterByState)
-        .map(k -> PublicEducationDTO.builder().educationType(k.getTyyppi().getKoodiarvo()).isActive(isActive(k)).build()
+        .map(k ->
+          PublicEducationDTO
+            .builder()
+            .educationType(k.getTyyppi().getKoodiarvo().toString())
+            .isActive(isActive(k))
+            .build()
         )
         .filter(distinctByKey(PublicEducationDTO::educationType))
         .toList();

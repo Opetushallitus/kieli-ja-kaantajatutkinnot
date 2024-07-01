@@ -147,8 +147,10 @@ export class SerializationUtils {
           return isActive
             ? EducationType.HigherEducationEnrolled
             : EducationType.HigherEducationConcluded;
-        case 'dia':
+        case 'diatutkinto':
           return EducationType.DIA;
+        case 'ebtutkinto':
+          return EducationType.EB;
         case 'ylioppilas':
           return EducationType.MatriculationExam;
         default:

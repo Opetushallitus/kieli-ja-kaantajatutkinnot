@@ -124,7 +124,8 @@
                 "MatriculationExam": "Ylioppilastutkinto",
                 "HigherEducationEnrolled": "Korkeakoulututkinto",
                 "HigherEducationConcluded": "Korkeakoulututkinto",
-                "DIA": "DIA"
+                "DIA": "DIA-tutkinto",
+                "EB": "EB-tutkinto"
               }
             }
           },

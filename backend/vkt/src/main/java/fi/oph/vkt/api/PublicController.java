@@ -153,7 +153,7 @@ public class PublicController {
     }
 
     try {
-      return koskiService.findEducations(/*"1.2.246.562.24.97984579806"*/oid);
+      return koskiService.findEducations(oid);
     } catch (final Exception e) {
       return Collections.emptyList();
     }
