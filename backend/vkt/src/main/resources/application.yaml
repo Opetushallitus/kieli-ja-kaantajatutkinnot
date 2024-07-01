@@ -87,7 +87,7 @@ app:
     service-url: ${email.service-url:null}
   koski:
     url: ${koski.url:null}
-    user: ${koski.username:null}
+    user: ${koski.user:null}
     password: ${koski.password:null}
   payment:
     paytrail:
