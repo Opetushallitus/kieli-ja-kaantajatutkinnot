@@ -232,8 +232,11 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional
-  protected FreeEnrollment saveFreeEnrollment(final Person person, final PublicEnrollmentCreateDTO dto)
-    throws APIException {
+  protected FreeEnrollment saveFreeEnrollment(
+    final Person person,
+    final PublicEnrollmentCreateDTO dto,
+    final long examEventId
+  ) throws APIException {
     final FreeEnrollmentSource reason = dto.freeEnrollmentBasis().source();
     final FreeEnrollmentType type = dto.freeEnrollmentBasis().type();
 
@@ -264,6 +267,10 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
         .attachments()
         .stream()
         .map(attachmentDTO -> {
+          if (!EnrollmentUtil.validateAttachmentId(attachmentDTO.id(), person, examEventId)) {
+            throw new APIException(APIExceptionType.INVALID_ATTACHMENT);
+          }
+
           final UploadedFileAttachment attachment = new UploadedFileAttachment();
           attachment.setFilename(attachmentDTO.name());
           attachment.setKey(attachmentDTO.id());
@@ -320,7 +327,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
     }
 
-    final FreeEnrollment freeEnrollment = saveFreeEnrollment(person, dto);
+    final FreeEnrollment freeEnrollment = saveFreeEnrollment(person, dto, examEvent.getId());
     final EnrollmentStatus status = createFreeEnrollmentNextStatus(freeEnrollment, person, dto);
     final Enrollment enrollment = createOrUpdateExistingEnrollment(dto, examEvent, person, status, freeEnrollment);
     reservationRepository.deleteById(reservationId);
@@ -386,7 +393,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   ) {
     FreeEnrollment freeEnrollment = null;
     if (dto.isFree() && featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
-      freeEnrollment = saveFreeEnrollment(person, dto);
+      freeEnrollment = saveFreeEnrollment(person, dto, examEventId);
     }
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
     final Enrollment enrollment = createOrUpdateExistingEnrollment(
@@ -436,7 +443,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       dto.freeEnrollmentBasis() != null &&
       featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)
     ) {
-      freeEnrollment = saveFreeEnrollment(person, dto);
+      freeEnrollment = saveFreeEnrollment(person, dto, examEventId);
       status = createFreeEnrollmentNextStatus(freeEnrollment, person, dto);
     }
 

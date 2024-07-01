@@ -2,9 +2,10 @@ package fi.oph.vkt.util;
 
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.model.Enrollment;
-import fi.oph.vkt.model.FreeEnrollment;
+import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.ExamLevel;
-import fi.oph.vkt.service.PublicEnrollmentService;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EnrollmentUtil {
 
@@ -37,6 +38,18 @@ public class EnrollmentUtil {
     return (enrollment.hasApprovedFreeBasis() && freeEnrollmentDetails.oralSkillCount() < FREE_ENROLLMENT_LIMIT)
       ? 0
       : SKILL_FEE;
+  }
+
+  public static boolean validateAttachmentId(final String attachmentId, final Person person, final long examEventId) {
+    final Pattern attachmentIdPattern = Pattern.compile("^(\\d+)\\/([a-z0-9\\-]+)\\/.*");
+    final Matcher matcher = attachmentIdPattern.matcher(attachmentId);
+    if (!matcher.matches() || matcher.group(1) == null || matcher.group(2) == null) {
+      return false;
+    }
+
+    final Long parsedExamEventId = Long.valueOf(matcher.group(1));
+
+    return parsedExamEventId.equals(examEventId) && matcher.group(2).equals(person.getUuid().toString());
   }
 
   public static int getUnderstandingSkillFee(final Enrollment enrollment) {
