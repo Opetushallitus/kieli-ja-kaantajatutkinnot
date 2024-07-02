@@ -74,7 +74,21 @@
           "description": "Ilmainen ilmoittautuminen",
           "approve": "Hyväksy",
           "deny": "Hylkää",
-          "inspect": "Tarkasta"
+          "inspect": "Tarkasta",
+          "type": {
+            "MatriculationExam": "Ylioppilastutkinto",
+            "HigherEducationEnrolled": "Korkeakoulututkinto kesken",
+            "HigherEducationConcluded": "Korkeakoulututkinto",
+            "DIA": "DIA",
+            "EB": "EB",
+            "Other": "Muu",
+            "Unknown": "Ei tietoa",
+            "None": "Ei"
+          },
+          "source": {
+            "USER": "Käyttäjän ilmoittama",
+            "KOSKI": "Tieto saatu KOSKI-integraatiosta"
+          }
         }
       },
       "clerkEnrollmentListing": {

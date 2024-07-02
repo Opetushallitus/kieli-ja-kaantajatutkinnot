@@ -147,7 +147,10 @@ const FreeEnrollmentBasis = ({
         <ul className="public-enrollment__grid__preview__bullet-list">
           <Text>
             <li key={`education-type-${basis.type}`}>
-              {t(`type.${basis.type}`)}
+              {t(`freeEnrollment.type.${basis.type}`)}
+              {' ('}
+              {t(`freeEnrollment.source.${basis.source}`)}
+              {')'}
             </li>
           </Text>
         </ul>
