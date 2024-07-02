@@ -87,7 +87,7 @@
           },
           "source": {
             "USER": "Käyttäjän ilmoittama",
-            "KOSKI": "Tieto saatu KOSKI-integraatiosta"
+            "KOSKI": "Tieto KOSKI-integraatiosta"
           }
         }
       },
