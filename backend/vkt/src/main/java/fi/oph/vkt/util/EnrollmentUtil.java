@@ -25,7 +25,7 @@ public class EnrollmentUtil {
       return 0;
     }
 
-    return (enrollment.hasApprovedFreeBasis() && freeEnrollmentDetails.textualSkillCount() < FREE_ENROLLMENT_LIMIT)
+    return (enrollment.hasApplicableFreeBasis() && freeEnrollmentDetails.textualSkillCount() < FREE_ENROLLMENT_LIMIT)
       ? 0
       : SKILL_FEE;
   }
@@ -35,7 +35,7 @@ public class EnrollmentUtil {
       return 0;
     }
 
-    return (enrollment.hasApprovedFreeBasis() && freeEnrollmentDetails.oralSkillCount() < FREE_ENROLLMENT_LIMIT)
+    return (enrollment.hasApplicableFreeBasis() && freeEnrollmentDetails.oralSkillCount() < FREE_ENROLLMENT_LIMIT)
       ? 0
       : SKILL_FEE;
   }
