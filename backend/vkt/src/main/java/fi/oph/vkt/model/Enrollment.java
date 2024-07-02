@@ -123,6 +123,10 @@ public class Enrollment extends BaseEntity {
   }
 
   public boolean hasApprovedFreeBasis() {
-    return (this.getFreeEnrollment() != null && this.getFreeEnrollment().getApproved());
+    return (
+      this.getFreeEnrollment() != null &&
+      this.getFreeEnrollment().getApproved() != null &&
+      this.getFreeEnrollment().getApproved()
+    );
   }
 }
