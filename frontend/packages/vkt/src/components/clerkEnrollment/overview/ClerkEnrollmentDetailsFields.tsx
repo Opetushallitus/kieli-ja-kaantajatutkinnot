@@ -524,70 +524,83 @@ export const ClerkEnrollmentDetailsFields = ({
             editDisabled,
           )}
         />
-        <div className="columns align-items-start clerk-enrollment-details-fields__skills">
-          <div className="rows gapped-xs">
-            <div className="margin-top-sm columns gapped">
-              <H3>{t('header.selectedSkills')}</H3>
+        {!editDisabled && (
+          <div className="rows align-items-start clerk-enrollment-details-fields__skills">
+            <div className="rows gapped-sm">
+              <div className="margin-top-sm columns gapped">
+                <H3>{t('header.selectedSkills')}</H3>
+              </div>
+              <div className="rows clerk-enrollment-details-fields__skills__checkboxes">
+                <CheckboxField
+                  enrollment={enrollment}
+                  fieldName={'textualSkill'}
+                  onClick={toggleSkill}
+                  disabled={editDisabled}
+                />
+                <CheckboxField
+                  enrollment={enrollment}
+                  fieldName={'oralSkill'}
+                  onClick={toggleSkill}
+                  disabled={editDisabled}
+                />
+              </div>
             </div>
-            <div className="rows clerk-enrollment-details-fields__skills__checkboxes">
-              <CheckboxField
-                enrollment={enrollment}
-                fieldName={'textualSkill'}
-                onClick={toggleSkill}
-                disabled={editDisabled}
-              />
-              <CheckboxField
-                enrollment={enrollment}
-                fieldName={'oralSkill'}
-                onClick={toggleSkill}
-                disabled={editDisabled}
-              />
-              <CheckboxField
-                enrollment={enrollment}
-                fieldName={'understandingSkill'}
-                onClick={toggleSkill}
-                disabled={editDisabled}
-              />
+            <div className="rows gapped margin-top-sm">
+              <H3>{t('header.selectedPartialExams')}</H3>
+              <div className="columns gapped-xxl">
+                <div className="rows clerk-enrollment-details-fields__skills__checkboxes gapped-sm">
+                  <H3>
+                    {translateCommon(
+                      'enrollment.partialExamsAndSkills.oralSkill',
+                    )}{' '}
+                    *
+                  </H3>
+                  <CheckboxField
+                    enrollment={enrollment}
+                    fieldName={'speakingPartialExam'}
+                    onClick={togglePartialExam}
+                    disabled={!enrollment.oralSkill || editDisabled}
+                  />
+                  <CheckboxField
+                    enrollment={enrollment}
+                    fieldName={'speechComprehensionPartialExam'}
+                    onClick={togglePartialExam}
+                    disabled={
+                      (!enrollment.oralSkill &&
+                        !enrollment.understandingSkill) ||
+                      editDisabled
+                    }
+                  />
+                </div>
+                <div className="rows clerk-enrollment-details-fields__skills__checkboxes gapped-sm">
+                  <H3>
+                    {translateCommon(
+                      'enrollment.partialExamsAndSkills.textualSkill',
+                    )}{' '}
+                    *
+                  </H3>
+                  <CheckboxField
+                    enrollment={enrollment}
+                    fieldName={'writingPartialExam'}
+                    onClick={togglePartialExam}
+                    disabled={!enrollment.textualSkill || editDisabled}
+                  />
+                  <CheckboxField
+                    enrollment={enrollment}
+                    fieldName={'readingComprehensionPartialExam'}
+                    onClick={togglePartialExam}
+                    disabled={
+                      (!enrollment.textualSkill &&
+                        !enrollment.understandingSkill) ||
+                      editDisabled
+                    }
+                  />
+                </div>
+              </div>
             </div>
           </div>
-          <div className="rows gapped-xs margin-top-sm">
-            <H3>{t('header.selectedPartialExams')}</H3>
-            <div className="rows clerk-enrollment-details-fields__skills__checkboxes">
-              <CheckboxField
-                enrollment={enrollment}
-                fieldName={'writingPartialExam'}
-                onClick={togglePartialExam}
-                disabled={!enrollment.textualSkill || editDisabled}
-              />
-              <CheckboxField
-                enrollment={enrollment}
-                fieldName={'readingComprehensionPartialExam'}
-                onClick={togglePartialExam}
-                disabled={
-                  (!enrollment.textualSkill &&
-                    !enrollment.understandingSkill) ||
-                  editDisabled
-                }
-              />
-              <CheckboxField
-                enrollment={enrollment}
-                fieldName={'speakingPartialExam'}
-                onClick={togglePartialExam}
-                disabled={!enrollment.oralSkill || editDisabled}
-              />
-              <CheckboxField
-                enrollment={enrollment}
-                fieldName={'speechComprehensionPartialExam'}
-                onClick={togglePartialExam}
-                disabled={
-                  (!enrollment.oralSkill && !enrollment.understandingSkill) ||
-                  editDisabled
-                }
-              />
-            </div>
-          </div>
-        </div>
-        <ExamEventDetails enrollment={enrollment} />
+        )}
+        <ExamEventDetails enrollment={enrollment} clerkView={true} />
         <div className="rows gapped-sm margin-top-lg">
           <H3>{t('status')}</H3>
           <Text>{t(`enrollmentStatus.${enrollment.status}`)}</Text>
