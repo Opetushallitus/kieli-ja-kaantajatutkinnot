@@ -22,6 +22,7 @@ import {
   FreeBasisSource,
   HandleChange,
 } from 'interfaces/publicEducation';
+import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { loadPublicEducation } from 'redux/reducers/publicEducation';
 import { startFileUpload } from 'redux/reducers/publicFileUpload';
@@ -75,7 +76,13 @@ const UploadAttachments = () => {
   );
 };
 
-const SelectEducation = ({ handleChange }: { handleChange: HandleChange }) => {
+const SelectEducation = ({
+  enrollment,
+  handleChange,
+}: {
+  enrollment: PublicEnrollment;
+  handleChange: HandleChange;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.educationDetails',
   });
@@ -86,6 +93,9 @@ const SelectEducation = ({ handleChange }: { handleChange: HandleChange }) => {
       source: FreeBasisSource.User,
     });
   };
+
+  const selectedType =
+    enrollment.freeEnrollmentBasis && enrollment.freeEnrollmentBasis.type;
 
   return (
     <fieldset className="public-enrollment__grid__education-details">
@@ -99,24 +109,28 @@ const SelectEducation = ({ handleChange }: { handleChange: HandleChange }) => {
             value={EducationType.None}
             control={<Radio />}
             label={t('no')}
+            checked={selectedType === EducationType.None}
           />
           <FormControlLabel
             className="radio-group-label"
             value={EducationType.MatriculationExam}
             control={<Radio />}
             label={t('highschool')}
+            checked={selectedType === EducationType.MatriculationExam}
           />
           <FormControlLabel
             className="radio-group-label"
             value={EducationType.HigherEducationConcluded}
             control={<Radio />}
             label={t('college')}
+            checked={selectedType === EducationType.HigherEducationConcluded}
           />
           <FormControlLabel
             className="radio-group-label"
             value={EducationType.HigherEducationEnrolled}
             control={<Radio />}
             label={t('collegeEnrolled')}
+            checked={selectedType === EducationType.HigherEducationEnrolled}
           />
         </RadioGroup>
       </FormControl>
@@ -173,13 +187,13 @@ export const EducationDetails = ({
   });
   const dispatch = useAppDispatch();
 
+  const { enrollment, freeEnrollmentDetails } = useAppSelector(
+    publicEnrollmentSelector,
+  );
   const { status: educationStatus, education: educations } = useAppSelector(
     publicEducationSelector,
   );
-  const { isFree, freeEnrollmentBasis } = useAppSelector(
-    publicEnrollmentSelector,
-  ).enrollment;
-  const { freeEnrollmentDetails } = useAppSelector(publicEnrollmentSelector);
+  const { isFree, freeEnrollmentBasis } = enrollment;
 
   useEffect(() => {
     if (educationStatus === APIResponseStatus.NotStarted) {
@@ -213,7 +227,10 @@ export const EducationDetails = ({
         </LoadingProgressIndicator>
         {!isEducationLoading && !foundSuitableEducationDetails && (
           <>
-            <SelectEducation handleChange={handleChange} />
+            <SelectEducation
+              enrollment={enrollment}
+              handleChange={handleChange}
+            />
             {attachmentsRequired && <UploadAttachments />}
           </>
         )}
