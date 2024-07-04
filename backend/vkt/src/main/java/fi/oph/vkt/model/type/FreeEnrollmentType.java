@@ -7,4 +7,5 @@ public enum FreeEnrollmentType {
   DIA,
   EB,
   Other,
+  None,
 }

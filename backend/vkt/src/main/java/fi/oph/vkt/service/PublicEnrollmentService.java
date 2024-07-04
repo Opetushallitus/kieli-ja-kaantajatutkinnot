@@ -442,6 +442,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     EnrollmentStatus status = EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT;
     if (
       dto.freeEnrollmentBasis() != null &&
+      !FreeEnrollmentType.None.equals(dto.freeEnrollmentBasis().type()) &&
       featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)
     ) {
       freeEnrollment = saveFreeEnrollment(person, dto, examEventId);

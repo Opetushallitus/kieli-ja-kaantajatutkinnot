@@ -6,6 +6,7 @@ import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
+import { EnrollmentUtils } from 'utils/enrollment';
 import { ENROLLMENT_SKILL_PRICE } from 'utils/publicEnrollment';
 export const ExamEventDetails = ({
   enrollment,
@@ -50,7 +51,7 @@ export const ExamEventDetails = ({
   };
 
   const getEnrollmentSkillPrice = (skill: string) => {
-    if (!freeEnrollmentDetails) {
+    if (!freeEnrollmentDetails || !EnrollmentUtils.hasFreeBasis(enrollment)) {
       return ENROLLMENT_SKILL_PRICE;
     }
 
@@ -70,7 +71,7 @@ export const ExamEventDetails = ({
 
   const hasFreeEnrollments =
     freeEnrollmentDetails &&
-    enrollment.freeEnrollmentBasis &&
+    EnrollmentUtils.hasFreeBasis(enrollment) &&
     (freeEnrollmentDetails.freeTextualSkillLeft > 0 ||
       freeEnrollmentDetails.freeOralSkillLeft > 0);
 
@@ -94,7 +95,7 @@ export const ExamEventDetails = ({
           <Text>
             {translateCommon(`enrollment.partialExamsAndSkills.${skill}`)}
           </Text>
-          {(enrollment.isFree || enrollment.freeEnrollmentBasis) &&
+          {(enrollment.isFree || EnrollmentUtils.hasFreeBasis(enrollment)) &&
             !clerkView && <Text>{getFreeEnrollmentsLeft(skill)} / 3</Text>}
           {!clerkView && <Text>{getEnrollmentSkillPrice(skill)}&euro;</Text>}
         </div>

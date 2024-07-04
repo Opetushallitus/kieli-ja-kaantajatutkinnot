@@ -14,6 +14,7 @@ import { PublicFreeEnrollmentBasis } from 'interfaces/publicEducation';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
+import { EnrollmentUtils } from 'utils/enrollment';
 
 const EducationDetails = ({
   freeEnrollmentBasis,
@@ -197,11 +198,12 @@ export const Preview = ({
           email={enrollment.email}
           phoneNumber={enrollment.phoneNumber}
         />
-        {enrollment.freeEnrollmentBasis && (
-          <EducationDetails
-            freeEnrollmentBasis={enrollment.freeEnrollmentBasis}
-          />
-        )}
+        {EnrollmentUtils.hasFreeBasis(enrollment) &&
+          enrollment.freeEnrollmentBasis && (
+            <EducationDetails
+              freeEnrollmentBasis={enrollment.freeEnrollmentBasis}
+            />
+          )}
       </div>
       <ExamEventDetails enrollment={enrollment} />
       <CertificateShippingDetails enrollment={enrollment} />

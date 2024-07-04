@@ -1,11 +1,15 @@
 import { StringUtils } from 'shared/utils';
 
 import { EnrollmentStatus } from 'enums/app';
+import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
 import {
   CertificateShippingData,
   PartialExamsAndSkills,
 } from 'interfaces/common/enrollment';
-import { PublicFreeEnrollmentDetails } from 'interfaces/publicEducation';
+import {
+  EducationType,
+  PublicFreeEnrollmentDetails,
+} from 'interfaces/publicEducation';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 
 export class EnrollmentUtils {
@@ -47,11 +51,18 @@ export class EnrollmentUtils {
     );
   }
 
+  static hasFreeBasis(enrollment: PublicEnrollment | ClerkEnrollment) {
+    return (
+      enrollment.freeEnrollmentBasis &&
+      enrollment.freeEnrollmentBasis.type !== EducationType.None
+    );
+  }
+
   static isFree(
     enrollment: PublicEnrollment,
     freeEnrollmentDetails?: PublicFreeEnrollmentDetails,
   ) {
-    if (!enrollment.freeEnrollmentBasis || !freeEnrollmentDetails) {
+    if (!EnrollmentUtils.hasFreeBasis(enrollment) || !freeEnrollmentDetails) {
       return false;
     }
 

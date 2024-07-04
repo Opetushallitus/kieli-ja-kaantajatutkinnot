@@ -192,6 +192,11 @@ export const EducationDetails = ({
   const foundSuitableEducationDetails =
     !isEducationLoading && educations && educations.length > 0;
 
+  const attachmentsRequired =
+    freeEnrollmentBasis &&
+    freeEnrollmentBasis.type !== EducationType.None &&
+    isFree;
+
   return (
     <div className="margin-top-lg rows gapped">
       <H2>{t('educationInfoTitle')}</H2>
@@ -203,7 +208,7 @@ export const EducationDetails = ({
       {!isEducationLoading && !foundSuitableEducationDetails && (
         <>
           <SelectEducation handleChange={handleChange} />
-          {freeEnrollmentBasis && isFree && <UploadAttachments />}
+          {attachmentsRequired && <UploadAttachments />}
         </>
       )}
     </div>

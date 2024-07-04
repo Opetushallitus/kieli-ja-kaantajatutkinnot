@@ -14,6 +14,7 @@ import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.model.type.ExamLevel;
+import fi.oph.vkt.model.type.FreeEnrollmentType;
 import fi.oph.vkt.service.FeatureFlagService;
 import fi.oph.vkt.service.PaymentService;
 import fi.oph.vkt.service.PublicAuthService;
@@ -103,6 +104,7 @@ public class PublicController {
     // TODO this might need separate endpoint?
     if (
       dto.freeEnrollmentBasis() != null &&
+      !FreeEnrollmentType.None.equals(dto.freeEnrollmentBasis().type()) &&
       featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)
     ) {
       return publicEnrollmentService.createFreeEnrollment(dto, reservationId, person);

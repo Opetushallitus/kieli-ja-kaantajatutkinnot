@@ -1,6 +1,7 @@
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { PublicFreeEnrollmentDetails } from 'interfaces/publicEducation';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
+import { EnrollmentUtils } from 'utils/enrollment';
 
 export const ENROLLMENT_SKILL_PRICE = 257;
 
@@ -40,7 +41,7 @@ export class PublicEnrollmentUtils {
   ) {
     let selectedNonFreeSkillsCount = 0;
 
-    if (enrollment.freeEnrollmentBasis && freeEnrollmentDetails) {
+    if (EnrollmentUtils.hasFreeBasis(enrollment) && freeEnrollmentDetails) {
       if (
         enrollment.oralSkill &&
         freeEnrollmentDetails.freeOralSkillLeft <= 0
