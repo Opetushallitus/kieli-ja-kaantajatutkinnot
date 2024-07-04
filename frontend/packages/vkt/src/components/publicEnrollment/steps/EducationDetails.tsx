@@ -28,6 +28,7 @@ import { startFileUpload } from 'redux/reducers/publicFileUpload';
 import { publicEducationSelector } from 'redux/selectors/publicEducation';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicFileUploadSelector } from 'redux/selectors/publicFileUpload';
+import { EnrollmentUtils } from 'utils/enrollment';
 import { FileUtils } from 'utils/file';
 
 const UploadAttachments = () => {
@@ -178,6 +179,7 @@ export const EducationDetails = ({
   const { isFree, freeEnrollmentBasis } = useAppSelector(
     publicEnrollmentSelector,
   ).enrollment;
+  const { freeEnrollmentDetails } = useAppSelector(publicEnrollmentSelector);
 
   useEffect(() => {
     if (educationStatus === APIResponseStatus.NotStarted) {
@@ -198,19 +200,24 @@ export const EducationDetails = ({
     isFree;
 
   return (
-    <div className="margin-top-lg rows gapped">
-      <H2>{t('educationInfoTitle')}</H2>
-      <LoadingProgressIndicator isLoading={isEducationLoading}>
-        {foundSuitableEducationDetails && (
-          <EducationList handleChange={handleChange} educations={educations} />
+    EnrollmentUtils.hasFreeEnrollmentsLeft(freeEnrollmentDetails) && (
+      <div className="margin-top-lg rows gapped">
+        <H2>{t('educationInfoTitle')}</H2>
+        <LoadingProgressIndicator isLoading={isEducationLoading}>
+          {foundSuitableEducationDetails && (
+            <EducationList
+              handleChange={handleChange}
+              educations={educations}
+            />
+          )}
+        </LoadingProgressIndicator>
+        {!isEducationLoading && !foundSuitableEducationDetails && (
+          <>
+            <SelectEducation handleChange={handleChange} />
+            {attachmentsRequired && <UploadAttachments />}
+          </>
         )}
-      </LoadingProgressIndicator>
-      {!isEducationLoading && !foundSuitableEducationDetails && (
-        <>
-          <SelectEducation handleChange={handleChange} />
-          {attachmentsRequired && <UploadAttachments />}
-        </>
-      )}
-    </div>
+      </div>
+    )
   );
 };

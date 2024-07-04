@@ -51,6 +51,16 @@ export class EnrollmentUtils {
     );
   }
 
+  static hasFreeEnrollmentsLeft(
+    freeEnrollmentDetails?: PublicFreeEnrollmentDetails,
+  ) {
+    return (
+      freeEnrollmentDetails &&
+      freeEnrollmentDetails.freeOralSkillLeft > 0 &&
+      freeEnrollmentDetails.freeTextualSkillLeft > 0
+    );
+  }
+
   static hasFreeBasis(enrollment: PublicEnrollment | ClerkEnrollment) {
     return (
       enrollment.freeEnrollmentBasis &&
