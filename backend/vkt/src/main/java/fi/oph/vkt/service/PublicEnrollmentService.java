@@ -1,5 +1,6 @@
 package fi.oph.vkt.service;
 
+import fi.oph.vkt.api.dto.FreeEnrollmentAttachmentDTO;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetailsDTO;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
@@ -7,6 +8,7 @@ import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
+import fi.oph.vkt.api.dto.PublicFreeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Enrollment;
@@ -133,6 +135,38 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     );
   }
 
+  private List<FreeEnrollmentAttachmentDTO> createPublicFreeEnrollmentAttachmentsDTO(
+    final FreeEnrollment freeEnrollment
+  ) {
+    if (freeEnrollment.getAttachments() == null || freeEnrollment.getAttachments().isEmpty()) {
+      return List.of();
+    }
+    return freeEnrollment
+      .getAttachments()
+      .stream()
+      .map(a -> FreeEnrollmentAttachmentDTO.builder().id(a.getKey()).name(a.getFilename()).size(a.getSize()).build())
+      .toList();
+  }
+
+  private PublicFreeEnrollmentBasisDTO createPublicFreeEnrollmentBasisDTO(final Enrollment enrollment) {
+    final FreeEnrollment freeEnrollment = enrollment.getFreeEnrollment();
+
+    if (freeEnrollment == null) {
+      return null;
+    }
+
+    if (freeEnrollment.getApproved() != null && !freeEnrollment.getApproved()) {
+      return null;
+    }
+
+    return PublicFreeEnrollmentBasisDTO
+      .builder()
+      .attachments(createPublicFreeEnrollmentAttachmentsDTO(freeEnrollment))
+      .source(freeEnrollment.getSource())
+      .type(freeEnrollment.getType())
+      .build();
+  }
+
   private PublicEnrollmentDTO createEnrollmentDTO(final Enrollment enrollment) {
     return PublicEnrollmentDTO
       .builder()
@@ -154,6 +188,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .town(enrollment.getTown())
       .country(enrollment.getCountry())
       .hasPaymentLink(enrollment.getPaymentLinkHash() != null)
+      .freeEnrollmentBasis(createPublicFreeEnrollmentBasisDTO(enrollment))
       .build();
   }
 
@@ -259,10 +294,6 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     freeEnrollmentRepository.saveAndFlush(freeEnrollment);
 
     if (dto.freeEnrollmentBasis().attachments() != null) {
-      // TODO Validate attachment metadata before persisting freeEnrollment
-      // - Ensure that user is only able to reference attachments uploaded by themselves
-      // - Ensure that object key (attachmentDTO.id()) is prefixed by the correct enrollment id and
-      //   correct person UUID
       final List<UploadedFileAttachment> attachments = dto
         .freeEnrollmentBasis()
         .attachments()
@@ -272,7 +303,17 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
             throw new APIException(APIExceptionType.INVALID_ATTACHMENT);
           }
 
-          final UploadedFileAttachment attachment = new UploadedFileAttachment();
+          final UploadedFileAttachment attachment = uploadedFileAttachmentRepository
+            .findByKey(attachmentDTO.id())
+            .orElse(new UploadedFileAttachment());
+
+          if (
+            attachment.getFreeEnrollment() != null &&
+            attachment.getFreeEnrollment().getPerson().getId() != person.getId()
+          ) {
+            throw new APIException(APIExceptionType.ATTACHMENT_PERSON_MISMATCH);
+          }
+
           attachment.setFilename(attachmentDTO.name());
           attachment.setKey(attachmentDTO.id());
           attachment.setSize(attachmentDTO.size());

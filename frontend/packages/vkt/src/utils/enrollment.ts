@@ -56,8 +56,8 @@ export class EnrollmentUtils {
   ) {
     return (
       freeEnrollmentDetails &&
-      freeEnrollmentDetails.freeOralSkillLeft > 0 &&
-      freeEnrollmentDetails.freeTextualSkillLeft > 0
+      (freeEnrollmentDetails.freeOralSkillLeft > 0 ||
+        freeEnrollmentDetails.freeTextualSkillLeft > 0)
     );
   }
 
