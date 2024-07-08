@@ -101,7 +101,8 @@
         "row": {
           "changeEnrollmentStatus": {
             "backToQueue": "Siirrä takaisin jonoon",
-            "toExamEvent": "Siirrä tutkintoon"
+            "toExamEvent": "Siirrä tutkintoon",
+            "approveFreeExam": "Tarkasta todistus"
           },
           "fullExam": "Koko tutkinto"
         }
@@ -122,6 +123,7 @@
           "language": "Kieli ja taso",
           "registrationCloses": "Ilmoittautuminen sulkeutuu"
         },
+        "more": "Lisätietoja",
         "title": "Tutkintotilaisuudet",
         "toggleFilters": {
           "passed": "Menneet",

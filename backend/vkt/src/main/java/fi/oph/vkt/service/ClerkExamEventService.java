@@ -12,7 +12,6 @@ import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.audit.dto.ClerkExamEventAuditDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
-import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.ClerkExamEventProjection;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
@@ -65,6 +64,7 @@ public class ClerkExamEventService {
           .maxParticipants(e.maxParticipants())
           .isUnusedSeats(isUnusedSeats)
           .isHidden(e.isHidden())
+          .unApprovedFreeEnrollments(e.unApprovedFreeEnrollments())
           .build();
       })
       .sorted(Comparator.comparing(ClerkExamEventListDTO::date).thenComparing(ClerkExamEventListDTO::language))
