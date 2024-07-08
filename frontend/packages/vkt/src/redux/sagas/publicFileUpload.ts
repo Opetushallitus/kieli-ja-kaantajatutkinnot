@@ -3,17 +3,19 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 
 import axiosInstance from 'configs/axios';
-import { APIEndpoints } from 'enums/api';
+import { APIEndpoints, APIError } from 'enums/api';
 import {
   PublicFileUploadParameters,
   UploadPostPolicy,
 } from 'interfaces/publicFileUpload';
+import { setAPIError } from 'redux/reducers/APIError';
 import { storeUploadedFileAttachment } from 'redux/reducers/publicEnrollment';
 import {
   acceptFileUpload,
   rejectFileUpload,
   startFileUpload,
 } from 'redux/reducers/publicFileUpload';
+import { NotifierUtils } from 'utils/notifier';
 
 type UploadPostPolicyResponse = Record<string, string>;
 
@@ -91,6 +93,10 @@ function* startFileUploadSaga(
       }),
     );
   } catch (error) {
+    const errorMessage = NotifierUtils.getURLErrorMessage(
+      APIError.FileUploadError,
+    );
+    yield put(setAPIError(errorMessage));
     yield put(rejectFileUpload());
   }
 }

@@ -23,9 +23,7 @@ function* loadClerkUserSaga() {
     } else {
       yield put(rejectClerkUser());
     }
-  } catch (error) {
-    yield put(rejectClerkUser());
-  }
+  } catch (error) {}
 }
 
 export function* watchClerkUser() {

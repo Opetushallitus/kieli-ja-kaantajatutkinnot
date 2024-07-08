@@ -42,4 +42,6 @@ export enum APIError {
   ReservationPersonSessionMismatch = 'reservationPersonSessionMismatch',
   SessionMissingPersonId = 'sessionMissingPersonId',
   TicketValidationError = 'ticketValidationError',
+  FileUploadError = 'fileUploadError',
+  userAttachmentsMissing = 'userAttachmentsMissing',
 }

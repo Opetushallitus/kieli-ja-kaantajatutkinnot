@@ -195,7 +195,7 @@
           },
           "previousEnrollment": {
             "radioButtons": {
-              "label": "Oletko osallistunut aiemmin valtionhallinnon kielitutkintoon? *"
+              "label": "Oletko osallistunut aiemmin valtionhallinnon erinomaisen tason kielitutkintoon? *"
             },
             "textField": {
               "label": "Milloin olet viimeksi osallistunut? *",

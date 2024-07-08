@@ -23,9 +23,7 @@ function* loadPublicUserSaga() {
     } else {
       yield put(rejectPublicUser());
     }
-  } catch (error) {
-    yield put(rejectPublicUser());
-  }
+  } catch (error) {}
 }
 
 export function* watchPublicUser() {

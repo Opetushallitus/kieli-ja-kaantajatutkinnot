@@ -72,7 +72,9 @@
           "renewReservationNotAllowed": "Paikkavarauksen uusiminen epäonnistui",
           "reservationPersonSessionMismatch": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
           "sessionMissingPersonId": "Et ole tunnistautunut, ole hyvä ja tunnistaudu uudelleen",
-          "ticketValidationError": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen"
+          "ticketValidationError": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen",
+          "fileUploadError": "Tiedoston lähetys epäonnistui, ole hyvä ja yritä uudelleen",
+          "userAttachmentsMissing": "Koulutusvalinnan vaadittavat liitteet puuttuu"
         },
         "customTextField": {
           "emailFormat": "Sähköpostiosoite on virheellinen",
