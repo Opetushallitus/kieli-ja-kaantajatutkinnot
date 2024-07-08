@@ -5,7 +5,6 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkFeeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
