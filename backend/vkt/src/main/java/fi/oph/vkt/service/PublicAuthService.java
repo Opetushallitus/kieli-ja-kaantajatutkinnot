@@ -1,6 +1,5 @@
 package fi.oph.vkt.service;
 
-import fi.oph.vkt.model.CasTicket;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
