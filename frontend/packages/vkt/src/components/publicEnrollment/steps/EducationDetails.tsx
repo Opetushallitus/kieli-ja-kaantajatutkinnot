@@ -1,6 +1,7 @@
 import {
   FormControl,
   FormControlLabel,
+  FormHelperText,
   Radio,
   RadioGroup,
 } from '@mui/material';
@@ -14,7 +15,7 @@ import {
 } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {
   Education,
@@ -32,7 +33,14 @@ import { publicFileUploadSelector } from 'redux/selectors/publicFileUpload';
 import { EnrollmentUtils } from 'utils/enrollment';
 import { FileUtils } from 'utils/file';
 
-const UploadAttachments = () => {
+const UploadAttachments = ({
+  isAttachmentsValid,
+  showValidation,
+}: {
+  isAttachmentsValid: boolean;
+  showValidation: boolean;
+}) => {
+  const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix:
       'vkt.component.publicEnrollment.steps.educationDetails.uploadAttachment',
@@ -44,6 +52,7 @@ const UploadAttachments = () => {
   const { freeEnrollmentBasis } = useAppSelector(
     publicEnrollmentSelector,
   ).enrollment;
+  const showError = showValidation && !isAttachmentsValid;
 
   const { status: fileUploadStatus } = useAppSelector(publicFileUploadSelector);
 
@@ -62,6 +71,7 @@ const UploadAttachments = () => {
         <FileUpload
           accept="application/pdf,image/jpeg,image/png,image/heic,image/tiff,image/webp"
           onChange={handleFileUpload}
+          error={showError}
         />
       </LoadingProgressIndicator>
       {freeEnrollmentBasis?.attachments &&
@@ -72,6 +82,11 @@ const UploadAttachments = () => {
             </Text>
           </div>
         ))}
+      {showError && (
+        <FormHelperText id="has-select-education-error" error={true}>
+          {translateCommon('errors.customTextField.required')}
+        </FormHelperText>
+      )}
     </>
   );
 };
@@ -79,10 +94,15 @@ const UploadAttachments = () => {
 const SelectEducation = ({
   enrollment,
   handleChange,
+  showValidation,
+  isEducationValid,
 }: {
   enrollment: PublicEnrollment;
   handleChange: HandleChange;
+  showValidation: boolean;
+  isEducationValid: boolean;
 }) => {
+  const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.educationDetails',
   });
@@ -97,42 +117,49 @@ const SelectEducation = ({
   const selectedType =
     enrollment.freeEnrollmentBasis && enrollment.freeEnrollmentBasis.type;
 
+  const showError = showValidation && !isEducationValid;
+
   return (
     <fieldset className="public-enrollment__grid__education-details">
       <legend>
         <H3>{t('education')}</H3>
       </legend>
-      <FormControl error={false}>
+      <FormControl error={showError}>
         <RadioGroup onChange={handleRadioChange}>
           <FormControlLabel
-            className="radio-group-label"
             value={EducationType.None}
             control={<Radio />}
             label={t('no')}
             checked={selectedType === EducationType.None}
+            className={`radio-group-label ${showError && 'checkbox-error'}`}
           />
           <FormControlLabel
-            className="radio-group-label"
             value={EducationType.MatriculationExam}
             control={<Radio />}
             label={t('highschool')}
             checked={selectedType === EducationType.MatriculationExam}
+            className={`radio-group-label ${showError && 'checkbox-error'}`}
           />
           <FormControlLabel
-            className="radio-group-label"
             value={EducationType.HigherEducationConcluded}
             control={<Radio />}
             label={t('college')}
             checked={selectedType === EducationType.HigherEducationConcluded}
+            className={`radio-group-label ${showError && 'checkbox-error'}`}
           />
           <FormControlLabel
-            className="radio-group-label"
             value={EducationType.HigherEducationEnrolled}
             control={<Radio />}
             label={t('collegeEnrolled')}
             checked={selectedType === EducationType.HigherEducationEnrolled}
+            className={`radio-group-label ${showError && 'checkbox-error'}`}
           />
         </RadioGroup>
+        {showError && (
+          <FormHelperText id="has-select-education-error" error={true}>
+            {translateCommon('errors.customTextField.required')}
+          </FormHelperText>
+        )}
       </FormControl>
     </fieldset>
   );
@@ -178,8 +205,14 @@ const EducationList = ({
 
 export const EducationDetails = ({
   handleChange,
+  showValidation,
+  isEducationValid,
+  isAttachmentsValid,
 }: {
   handleChange: HandleChange;
+  showValidation: boolean;
+  isEducationValid: boolean;
+  isAttachmentsValid: boolean;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix:
@@ -217,6 +250,15 @@ export const EducationDetails = ({
     EnrollmentUtils.hasFreeEnrollmentsLeft(freeEnrollmentDetails) && (
       <div className="margin-top-lg rows gapped">
         <H2>{t('educationInfoTitle')}</H2>
+        {isEducationLoading && showValidation && (
+          <FormHelperText
+            className="margin-bottom-lg"
+            id="education-loading-error"
+            error={true}
+          >
+            {t('errorWaitEducations')}
+          </FormHelperText>
+        )}
         <LoadingProgressIndicator isLoading={isEducationLoading}>
           {foundSuitableEducationDetails && (
             <EducationList
@@ -230,8 +272,15 @@ export const EducationDetails = ({
             <SelectEducation
               enrollment={enrollment}
               handleChange={handleChange}
+              showValidation={showValidation}
+              isEducationValid={isEducationValid}
             />
-            {attachmentsRequired && <UploadAttachments />}
+            {attachmentsRequired && (
+              <UploadAttachments
+                showValidation={showValidation}
+                isAttachmentsValid={isAttachmentsValid}
+              />
+            )}
           </>
         )}
       </div>

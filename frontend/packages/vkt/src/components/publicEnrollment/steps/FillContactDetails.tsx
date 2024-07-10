@@ -18,6 +18,8 @@ import {
 } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { featureFlagsSelector } from 'redux/selectors/featureFlags';
+import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
+import { EnrollmentUtils } from 'utils/enrollment';
 
 const fields: Array<TextField<PublicEnrollmentContactDetails>> = [
   {
@@ -76,6 +78,7 @@ export const FillContactDetails = ({
   });
   const translateCommon = useCommonTranslation();
   const { freeEnrollmentAllowed } = useAppSelector(featureFlagsSelector);
+  const { freeEnrollmentDetails } = useAppSelector(publicEnrollmentSelector);
 
   const [dirtyFields, setDirtyFields] = useState<
     Array<keyof PublicEnrollmentContactDetails>
@@ -91,6 +94,12 @@ export const FillContactDetails = ({
     dirtyFields: dirty,
     extraValidation: emailsMatch.bind(this, t),
   });
+  const isEducationValid = EnrollmentUtils.isValidFreeBasisIfRequired(
+    enrollment,
+    freeEnrollmentDetails,
+  );
+  const isAttachmentsValid =
+    EnrollmentUtils.isValidAttachmentsIfRequired(enrollment);
 
   useEffect(() => {
     setIsStepValid(
@@ -99,9 +108,18 @@ export const FillContactDetails = ({
         values: enrollment,
         t: translateCommon,
         extraValidation: emailsMatch.bind(this, t),
-      }),
+      }) &&
+        isEducationValid &&
+        isAttachmentsValid,
     );
-  }, [setIsStepValid, enrollment, t, translateCommon]);
+  }, [
+    setIsStepValid,
+    enrollment,
+    t,
+    translateCommon,
+    isEducationValid,
+    isAttachmentsValid,
+  ]);
 
   const handleChange =
     (fieldName: keyof PublicEnrollmentContactDetails) =>
@@ -194,7 +212,12 @@ export const FillContactDetails = ({
         autoComplete={InputAutoComplete.PhoneNumber}
       />
       {freeEnrollmentAllowed && (
-        <EducationDetails handleChange={handleEducationChange} />
+        <EducationDetails
+          isEducationValid={isEducationValid}
+          isAttachmentsValid={isAttachmentsValid}
+          showValidation={showValidation}
+          handleChange={handleEducationChange}
+        />
       )}
     </div>
   );

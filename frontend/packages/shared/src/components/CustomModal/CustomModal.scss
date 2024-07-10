@@ -2,15 +2,11 @@
 @use '../../styles/abstracts/colors';
 @use '../../styles/abstracts/maps';
 
-.custom-fileupload input {
-  width: fit-content;
-  border: 1px dashed colors.$color-secondary;
-  font-size: 120%;
-}
-
-.custom-fileupload input::file-selector-button {
-  background: colors.$color-secondary;
-  border: 1px solid colors.$color-primary;
-  color: colors.$color-primary;
-  padding: 10px;
+.custom-modal {
+  background: colors.$color-primary;
+  left: 50%;
+  padding: map.get(maps.$spacing, 'lg');
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }

@@ -8,6 +8,7 @@ import {
 } from 'interfaces/common/enrollment';
 import {
   EducationType,
+  FreeBasisSource,
   PublicFreeEnrollmentDetails,
 } from 'interfaces/publicEducation';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
@@ -49,6 +50,37 @@ export class EnrollmentUtils {
       isTextualExamsSelected &&
       isUnderstandingExamsSelected
     );
+  }
+
+  static isValidAttachmentsIfRequired(enrollment: PublicEnrollment) {
+    if (
+      !enrollment.freeEnrollmentBasis ||
+      enrollment.freeEnrollmentBasis.source !== FreeBasisSource.User ||
+      enrollment.freeEnrollmentBasis.type === EducationType.None
+    ) {
+      return true;
+    }
+
+    return !!(
+      enrollment.freeEnrollmentBasis.attachments &&
+      enrollment.freeEnrollmentBasis.attachments.length > 0
+    );
+  }
+
+  static isValidFreeBasisIfRequired(
+    enrollment: PublicEnrollment,
+    freeEnrollmentDetails?: PublicFreeEnrollmentDetails,
+  ) {
+    // If no free enrollment details, then assume
+    // no free enrollments left and free basis is not required
+    if (
+      !freeEnrollmentDetails ||
+      !EnrollmentUtils.hasFreeEnrollmentsLeft(freeEnrollmentDetails)
+    ) {
+      return true;
+    }
+
+    return !!enrollment.freeEnrollmentBasis;
   }
 
   static hasFreeEnrollmentsLeft(

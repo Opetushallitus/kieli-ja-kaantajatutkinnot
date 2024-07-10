@@ -1,7 +1,6 @@
 package fi.oph.vkt.scheduled;
 
 import fi.oph.vkt.config.Constants;
-import fi.oph.vkt.service.ClerkReservationService;
 import fi.oph.vkt.service.PublicAuthService;
 import fi.oph.vkt.util.SchedulingUtil;
 import jakarta.annotation.Resource;
