@@ -185,13 +185,14 @@ export const ClerkEnrollmentDetails = () => {
   };
 
   const handleSaveButtonClick = () => {
-    enrollmentDetails.understandingSkill =
-      enrollmentDetails.speechComprehensionPartialExam &&
-      enrollmentDetails.readingComprehensionPartialExam;
-
     dispatch(
       updateClerkEnrollmentDetails({
-        enrollment: enrollmentDetails,
+        enrollment: {
+          ...enrollmentDetails,
+          understandingSkill:
+            enrollmentDetails.speechComprehensionPartialExam &&
+            enrollmentDetails.readingComprehensionPartialExam,
+        },
         examEvent,
       }),
     );
