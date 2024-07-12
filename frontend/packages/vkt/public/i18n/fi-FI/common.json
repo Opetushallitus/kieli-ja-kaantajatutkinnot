@@ -95,8 +95,7 @@
         "EXCELLENT": "Erinomainen taito"
       },
       "examinationPayment": {
-        "part1": "Tutkintomaksu on 514 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kerralla.",
-        "part2": "Tutkintomaksu on 257 euroa, jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
+        "part1": "Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana."
       },
       "header": {
         "accessibility": {
@@ -112,7 +111,7 @@
         }
       },
       "info": {
-        "previousEnrollment": "Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana. Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osan suorittamispäivästä alkaen.",
+        "previousEnrollment": "Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinnon loppuun. Aika lasketaan ensimmäisen osan suorittamispäivästä alkaen. Tieto aiemmasta tutkintoon osallistumisesta tarvitaan kielitutkintojen uusintojen seuraamista varten. Tieto ennen 1.8.2024 suoritetuista tutkinnoista ei vaikuta maksuttomien suorituskertojen määrään.",
         "selectExam": "Kun olet suorittanut hyväksytysti suullisen ja kirjallisen taidon tutkinnot, saat todistukseen merkinnän myös ymmärtämisen taidon tutkinnon suorittamisesta."
       },
       "languageFilter": {

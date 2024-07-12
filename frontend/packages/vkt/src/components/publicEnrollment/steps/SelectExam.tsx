@@ -56,7 +56,6 @@ export const SelectExam = ({
       <H2>{t('title')}</H2>
       <div className="rows">
         <Text>{translateCommon('examinationPayment.part1')}</Text>
-        <Text>{translateCommon('examinationPayment.part2')}</Text>
       </div>
       <Text>{translateCommon('info.selectExam')}</Text>
       <PartialExamsSelection

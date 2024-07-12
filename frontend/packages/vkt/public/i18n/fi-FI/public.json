@@ -55,14 +55,14 @@
         },
         "paymentSum": {
           "title": "Tutkintomaksu",
-          "free": "Ilmainen"
+          "free": "Maksuton"
         },
         "stepHeading": {
           "common": {
             "Authenticate": "Tunnistaudu",
             "Done": "Valmis",
             "DoneQueued": "Valmis – jonopaikka varattu",
-            "FillContactDetails": "Täytä yhteystietosi",
+            "FillContactDetails": "Täytä tiedot",
             "Payment": "Maksua ei suoritettu",
             "PaymentSuccess": "Valmis - ilmoittautuminen onnistui",
             "Preview": "Esikatsele",
@@ -84,7 +84,7 @@
           "step": {
             "Authenticate": "Tunnistaudu",
             "Done": "Valmis",
-            "FillContactDetails": "Täytä yhteystietosi",
+            "FillContactDetails": "Täytä tiedot",
             "Payment": "Maksu",
             "PaymentSuccess": "Valmis",
             "Preview": "Esikatsele",
@@ -158,13 +158,18 @@
           },
           "educationDetails": {
             "college": "Korkeakoulututkinto",
-            "collegeEnrolled": "Olen kirjoilla korkeakoulussa",
-            "education": "Minulla on jokin ilmaiseen kielitutkintoon oikeuttava peruste *",
+            "collegeEnrolled": "Olen suorittamassa korkeakoulututkintoa",
+            "education": "Minulla on jokin maksuttomaan kielitutkintoon oikeuttava peruste *",
             "highschool": "Ylioppilastutkinto tai vastaava ulkomaalainen tutkinto",
-            "no": "Ei",
+            "educationSelectHelpText": "Emme löytäneet KOSKI-tietovarannosta maksuttomaan ilmoittautumiseen oikeuttavaa koulutustietoa. Saatat kuitenkin olla oikeutettu maksuttomaan ilmoittautumiseen, jos olet suorittanut suomalaisen tutkinnon ennen vuotta 1995 tai olet suorittamassa tai suorittanut korkeakoulututkinnon ulkomailla.",
+            "educationSelectChooseOne": "Valitse alla olevista vaihtoehdoista yksi:",
+            "no": "Ei perustetta maksuttomalle kielitutkinnolle",
             "attachments": "Liitteet",
+            "attachmentsCheck": "Liitteet (virkailija tarkastaa)",
             "uploadAttachment": {
-              "title": "Lähetä todistus valitusta tutkinnosta tai ote korkeakoulussa kirjoilla olemisesta *"
+              "title": "Lähetä todistus valitusta tutkinnosta tai ote korkeakoulussa kirjoilla olemisesta *",
+              "helpText1": "Voit todistaa täyttäväsi perusteen maksuttomaan tutkintoon todistusasiakirjoilla. Opetushallituksen virkailija tarkastaa, täyttävätkö lähettämäsi asiakirjat maksuttomuuden ehdot. ",
+              "helpText2": "Voit lisätä enimmillään 10 asiakirjaa. Asiakirja voi olla hyvälaatuinen pdf- tai kuvatiedosto. Liitä kopio alkuperäisestä tutkintotodistuksesta tai korkeakoulun opiskeluoikeudesta todistavasta asiakirjasta. Liitä asiakirjasta myös käännös suomeksi, ruotsiksi tai englanniksi, jos alkuperäisen asiakirjan kieli on muu kuin suomi, ruotsi tai englanti. Nimeä liite selvästi (esim. tutkintotodistus Bachelor.pdf, tutkintotodistus kaannos.pdf, opiskeluoikeus.pdf)"
             }
           },
           "preview": {
@@ -184,25 +189,25 @@
               "price": "Hinta"
             },
             "examEventDetails": {
-              "previousEnrollmentLabel": "Olen osallistunut valtionhallinnon kielitutkintoon aikaisemmin",
+              "previousEnrollmentLabel": "Aikaisempiin erinomaisen taidon tutkintoihin osallistuminen",
               "selectedSkillsLabel": "Valitut tutkinnot",
               "selectedPartialExamsLabel": "Valitut osakokeet",
               "title": "Tutkinnon tiedot"
             },
             "privacyStatement": {
-              "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen (pakollinen).",
+              "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen (pakollinen). Jos en pysty osallistumaan tutkintoon, niin ilmoitan peruutuksesta mahdollisimman pian Opetushallitukselle.",
               "linkLabel": "tietosuojaselosteen"
             }
           },
           "previousEnrollment": {
             "radioButtons": {
-              "label": "Oletko osallistunut aiemmin valtionhallinnon erinomaisen tason kielitutkintoon? *"
+              "label": "Oletko osallistunut aiemmin erinomaisen taidon kielitutkintoon? *"
             },
             "textField": {
               "label": "Milloin olet viimeksi osallistunut? *",
               "placeholder": "Kirjoita päivämäärä tai vapaa teksti"
             },
-            "title": "Aikaisempiin tutkintoihin osallistuminen"
+            "title": "Aikaisempiin erinomaisen taidon tutkintoihin osallistuminen"
           }
         }
       },

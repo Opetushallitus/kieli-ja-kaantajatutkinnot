@@ -43,7 +43,9 @@ const EducationDetails = ({
         </div>
         {freeEnrollmentBasis.attachments && (
           <div className="rows">
-            <Text className="bold">{t('educationDetails.attachments')}</Text>
+            <Text className="bold">
+              {t('educationDetails.attachmentsCheck')}
+            </Text>
             <ul>
               {freeEnrollmentBasis.attachments.map((attachment) => (
                 <li key={`attachment-${attachment.id}`}>

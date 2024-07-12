@@ -65,6 +65,8 @@ const UploadAttachments = ({
   return (
     <>
       <H3>{t('title')}</H3>
+      <Text>{t('helpText1')}</Text>
+      <Text>{t('helpText2')}</Text>
       <LoadingProgressIndicator
         isLoading={fileUploadStatus === APIResponseStatus.InProgress}
       >
@@ -120,48 +122,52 @@ const SelectEducation = ({
   const showError = showValidation && !isEducationValid;
 
   return (
-    <fieldset className="public-enrollment__grid__education-details">
-      <legend>
-        <H3>{t('education')}</H3>
-      </legend>
-      <FormControl error={showError}>
-        <RadioGroup onChange={handleRadioChange}>
-          <FormControlLabel
-            value={EducationType.None}
-            control={<Radio />}
-            label={t('no')}
-            checked={selectedType === EducationType.None}
-            className={`radio-group-label ${showError && 'checkbox-error'}`}
-          />
-          <FormControlLabel
-            value={EducationType.MatriculationExam}
-            control={<Radio />}
-            label={t('highschool')}
-            checked={selectedType === EducationType.MatriculationExam}
-            className={`radio-group-label ${showError && 'checkbox-error'}`}
-          />
-          <FormControlLabel
-            value={EducationType.HigherEducationConcluded}
-            control={<Radio />}
-            label={t('college')}
-            checked={selectedType === EducationType.HigherEducationConcluded}
-            className={`radio-group-label ${showError && 'checkbox-error'}`}
-          />
-          <FormControlLabel
-            value={EducationType.HigherEducationEnrolled}
-            control={<Radio />}
-            label={t('collegeEnrolled')}
-            checked={selectedType === EducationType.HigherEducationEnrolled}
-            className={`radio-group-label ${showError && 'checkbox-error'}`}
-          />
-        </RadioGroup>
-        {showError && (
-          <FormHelperText id="has-select-education-error" error={true}>
-            {translateCommon('errors.customTextField.required')}
-          </FormHelperText>
-        )}
-      </FormControl>
-    </fieldset>
+    <>
+      <Text>{t('educationSelectHelpText')}</Text>
+      <Text>{t('educationSelectChooseOne')}</Text>
+      <fieldset className="public-enrollment__grid__education-details margin-top-sm">
+        <legend>
+          <H3>{t('education')}</H3>
+        </legend>
+        <FormControl error={showError}>
+          <RadioGroup onChange={handleRadioChange}>
+            <FormControlLabel
+              value={EducationType.None}
+              control={<Radio />}
+              label={t('no')}
+              checked={selectedType === EducationType.None}
+              className={`radio-group-label ${showError && 'checkbox-error'}`}
+            />
+            <FormControlLabel
+              value={EducationType.MatriculationExam}
+              control={<Radio />}
+              label={t('highschool')}
+              checked={selectedType === EducationType.MatriculationExam}
+              className={`radio-group-label ${showError && 'checkbox-error'}`}
+            />
+            <FormControlLabel
+              value={EducationType.HigherEducationConcluded}
+              control={<Radio />}
+              label={t('college')}
+              checked={selectedType === EducationType.HigherEducationConcluded}
+              className={`radio-group-label ${showError && 'checkbox-error'}`}
+            />
+            <FormControlLabel
+              value={EducationType.HigherEducationEnrolled}
+              control={<Radio />}
+              label={t('collegeEnrolled')}
+              checked={selectedType === EducationType.HigherEducationEnrolled}
+              className={`radio-group-label ${showError && 'checkbox-error'}`}
+            />
+          </RadioGroup>
+          {showError && (
+            <FormHelperText id="has-select-education-error" error={true}>
+              {translateCommon('errors.customTextField.required')}
+            </FormHelperText>
+          )}
+        </FormControl>
+      </fieldset>
+    </>
   );
 };
 
