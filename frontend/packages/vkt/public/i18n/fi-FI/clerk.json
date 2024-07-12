@@ -14,7 +14,7 @@
           "CANCELED": "Peruutettu",
           "CANCELED_UNFINISHED_ENROLLMENT": "Peruuttanut",
           "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksu kesken",
-          "COMPLETED": "Maksettu",
+          "COMPLETED": "Valmis",
           "QUEUED": "Jonossa",
           "AWAITING_APPROVAL": "Odottaa tarkastusta",
           "AWAITING_PAYMENT": "Siirretty jonosta / maksu puuttuu"
