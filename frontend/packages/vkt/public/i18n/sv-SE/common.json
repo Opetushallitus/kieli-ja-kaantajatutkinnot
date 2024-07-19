@@ -72,7 +72,9 @@
           "renewReservationNotAllowed": "Platsreservationen kunde inte förnyas",
           "reservationPersonSessionMismatch": "Funktionen misslyckades, försök på nytt senare",
           "sessionMissingPersonId": "Du har inte identifierat dig. Vänligen identifiera dig på nytt.",
-          "ticketValidationError": "Identifieringen misslyckades. Vänligen identifiera dig på nytt."
+          "ticketValidationError": "Identifieringen misslyckades. Vänligen identifiera dig på nytt.",
+          "fileUploadError": "Det gick inte att skicka filen, försök på nytt.",
+          "userAttachmentsMissing": "Bilagor som krävs för utbildningsuppgifter saknas."
         },
         "customTextField": {
           "emailFormat": "E-postadressen är felaktig",
@@ -93,8 +95,7 @@
         "EXCELLENT": "Utmärkta språkkunskaper"
       },
       "examinationPayment": {
-        "part1": "Examensavgiften är 514 euro om du avlägger examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift samtidigt.",
-        "part2": "Examensavgiften är 257 euro om du avlägger antigen examen som gäller förmåga att använda språket i tal eller examen som gäller förmåga att använda språket i skrift eller ett av delproven."
+        "part1": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen."
       },
       "header": {
         "accessibility": {
@@ -110,7 +111,7 @@
         }
       },
       "info": {
-        "previousEnrollment": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen. Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.",
+        "previousEnrollment": "Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen. Vi behöver information om deltagande i tidigare examina för att följa omtagningar. Information om examina som avlagts före 1.8.2024 påverkar inte antalet avgiftsfria examina.",
         "selectExam": "När du har blivit godkänd i examina som gäller förmåga att använda språket i tal och i skrift får du ett intyg även för förmågan att förstå språket."
       },
       "languageFilter": {

@@ -167,7 +167,7 @@
             "attachments": "Liitteet",
             "attachmentsCheck": "Liitteet (virkailija tarkastaa)",
             "uploadAttachment": {
-              "title": "Lähetä todistus valitusta tutkinnosta tai ote korkeakoulussa kirjoilla olemisesta *",
+              "title": "Lähetä tutkintotodistus tai opiskelutodistus *",
               "helpText1": "Voit todistaa täyttäväsi perusteen maksuttomaan tutkintoon todistusasiakirjoilla. Opetushallituksen virkailija tarkastaa, täyttävätkö lähettämäsi asiakirjat maksuttomuuden ehdot. ",
               "helpText2": "Voit lisätä enimmillään 10 asiakirjaa. Asiakirja voi olla hyvälaatuinen pdf- tai kuvatiedosto. Liitä kopio alkuperäisestä tutkintotodistuksesta tai korkeakoulun opiskeluoikeudesta todistavasta asiakirjasta. Liitä asiakirjasta myös käännös suomeksi, ruotsiksi tai englanniksi, jos alkuperäisen asiakirjan kieli on muu kuin suomi, ruotsi tai englanti. Nimeä liite selvästi (esim. tutkintotodistus Bachelor.pdf, tutkintotodistus kaannos.pdf, opiskeluoikeus.pdf)"
             }
@@ -195,7 +195,7 @@
               "title": "Tutkinnon tiedot"
             },
             "privacyStatement": {
-              "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen (pakollinen). Jos en pysty osallistumaan tutkintoon, niin ilmoitan peruutuksesta mahdollisimman pian Opetushallitukselle.",
+              "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen (pakollinen). Jos en pysty osallistumaan tutkintoon, ilmoitan peruutuksesta mahdollisimman pian Opetushallitukselle.",
               "linkLabel": "tietosuojaselosteen"
             }
           },

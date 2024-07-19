@@ -70,8 +70,8 @@
           "updated": "Tiedot tallennettiin"
         },
         "freeEnrollment": {
-          "title": "Ilmainen ilmoittautuminen",
-          "description": "Ilmainen ilmoittautuminen",
+          "title": "Maksuton ilmoittautuminen",
+          "description": "Maksuton ilmoittautuminen",
           "approve": "Hyväksy",
           "deny": "Hylkää",
           "inspect": "Tarkasta",
