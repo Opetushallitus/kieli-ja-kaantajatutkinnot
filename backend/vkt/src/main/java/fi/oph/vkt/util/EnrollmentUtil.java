@@ -59,4 +59,8 @@ public class EnrollmentUtil {
 
     return enrollment.getExamEvent().getLevel() == ExamLevel.EXCELLENT ? 0 : SKILL_FEE;
   }
+
+  public static long getFreeExamsLeft(long used) {
+    return Math.max(0, EnrollmentUtil.FREE_ENROLLMENT_LIMIT - used);
+  }
 }

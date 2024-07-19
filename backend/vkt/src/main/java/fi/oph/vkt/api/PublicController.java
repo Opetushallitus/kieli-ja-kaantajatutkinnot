@@ -101,7 +101,6 @@ public class PublicController {
   ) {
     final Person person = publicAuthService.getPersonFromSession(session);
 
-    // TODO this might need separate endpoint?
     if (
       dto.freeEnrollmentBasis() != null &&
       !FreeEnrollmentType.None.equals(dto.freeEnrollmentBasis().type()) &&

@@ -3,6 +3,7 @@ package fi.oph.vkt.service;
 import static fi.oph.vkt.util.LocalisationUtil.localeFI;
 import static fi.oph.vkt.util.LocalisationUtil.localeSV;
 
+import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.model.EmailType;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
@@ -13,6 +14,7 @@ import fi.oph.vkt.service.email.EmailData;
 import fi.oph.vkt.service.email.EmailService;
 import fi.oph.vkt.service.receipt.ReceiptData;
 import fi.oph.vkt.service.receipt.ReceiptRenderer;
+import fi.oph.vkt.util.EnrollmentUtil;
 import fi.oph.vkt.util.LocalisationUtil;
 import fi.oph.vkt.util.TemplateRenderer;
 import java.io.IOException;
@@ -168,8 +170,14 @@ public class PublicEnrollmentEmailService {
     emailService.saveEmail(emailType, emailData);
   }
 
-  public void sendFreeEnrollmentConfirmationEmail(final Enrollment enrollment, final Person person) {
+  @Transactional
+  public void sendFreeEnrollmentConfirmationEmail(
+    final Enrollment enrollment,
+    final Person person,
+    final FreeEnrollmentDetails freeEnrollmentDetails
+  ) {
     final Map<String, Object> templateParams = getEmailParams(enrollment);
+    getFreeEmailParams(templateParams, freeEnrollmentDetails);
 
     final String recipientName = person.getFirstName() + " " + person.getLastName();
     final String recipientAddress = enrollment.getEmail();
@@ -178,8 +186,58 @@ public class PublicEnrollmentEmailService {
       LocalisationUtil.translate(localeFI, "subject.enrollment-confirmation"),
       LocalisationUtil.translate(localeSV, "subject.enrollment-confirmation")
     );
-    final String body = templateRenderer.renderEnrollmentConfirmationEmailBody(templateParams);
+    final String body = templateRenderer.renderFreeEnrollmentConfirmationEmailBody(
+      templateParams,
+      enrollment.getFreeEnrollment().getSource()
+    );
 
     createEmail(recipientName, recipientAddress, subject, body, List.of(), EmailType.ENROLLMENT_CONFIRMATION);
+  }
+
+  @Transactional
+  public void sendFreeEnrollmentToQueueConfirmationEmail(
+    final Enrollment enrollment,
+    final Person person,
+    final FreeEnrollmentDetails freeEnrollmentDetails
+  ) {
+    final Map<String, Object> templateParams = getEmailParams(enrollment);
+    getFreeEmailParams(templateParams, freeEnrollmentDetails);
+
+    final String recipientName = person.getFirstName() + " " + person.getLastName();
+    final String recipientAddress = enrollment.getEmail();
+    final String subject = String.format(
+      "%s | %s",
+      LocalisationUtil.translate(localeFI, "subject.enrollment-to-queue-confirmation"),
+      LocalisationUtil.translate(localeSV, "subject.enrollment-to-queue-confirmation")
+    );
+    final String body = templateRenderer.renderFreeEnrollmentToQueueConfirmationEmailBody(
+      templateParams,
+      enrollment.getFreeEnrollment().getSource()
+    );
+
+    createEmail(recipientName, recipientAddress, subject, body, List.of(), EmailType.ENROLLMENT_TO_QUEUE_CONFIRMATION);
+  }
+
+  public void getFreeEmailParams(Map<String, Object> params, FreeEnrollmentDetails details) {
+    params.put(
+      "freeExamsLeftFI",
+      String.format(
+        "%s: %s/3. %s: %s/3",
+        LocalisationUtil.translate(localeFI, "skill.mail.textual"),
+        EnrollmentUtil.getFreeExamsLeft(details.textualSkillCount()),
+        LocalisationUtil.translate(localeFI, "skill.mail.oral"),
+        EnrollmentUtil.getFreeExamsLeft(details.oralSkillCount())
+      )
+    );
+    params.put(
+      "freeExamsLeftSV",
+      String.format(
+        "%s: %s/3. %s: %s/3",
+        LocalisationUtil.translate(localeSV, "skill.mail.textual"),
+        EnrollmentUtil.getFreeExamsLeft(details.textualSkillCount()),
+        LocalisationUtil.translate(localeSV, "skill.mail.oral"),
+        EnrollmentUtil.getFreeExamsLeft(details.oralSkillCount())
+      )
+    );
   }
 }

@@ -216,8 +216,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .map(e ->
         FreeEnrollmentDetailsDTO
           .builder()
-          .freeOralSkillLeft(Math.max(0, EnrollmentUtil.FREE_ENROLLMENT_LIMIT - e.oralSkillCount()))
-          .freeTextualSkillLeft(Math.max(0, EnrollmentUtil.FREE_ENROLLMENT_LIMIT - e.textualSkillCount()))
+          .freeOralSkillLeft(EnrollmentUtil.getFreeExamsLeft(e.oralSkillCount()))
+          .freeTextualSkillLeft(EnrollmentUtil.getFreeExamsLeft(e.textualSkillCount()))
           .build()
       )
       .orElse(null);
@@ -369,12 +369,15 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
     }
 
+    final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(person);
     final FreeEnrollment freeEnrollment = saveFreeEnrollment(person, dto, examEvent.getId());
     final EnrollmentStatus status = createFreeEnrollmentNextStatus(freeEnrollment, person, dto);
     final Enrollment enrollment = createOrUpdateExistingEnrollment(dto, examEvent, person, status, freeEnrollment);
     reservationRepository.deleteById(reservationId);
 
-    publicEnrollmentEmailService.sendFreeEnrollmentConfirmationEmail(enrollment, person);
+    if (status == EnrollmentStatus.COMPLETED || status == EnrollmentStatus.AWAITING_APPROVAL) {
+      publicEnrollmentEmailService.sendFreeEnrollmentConfirmationEmail(enrollment, person, freeEnrollmentDetails);
+    }
 
     return createEnrollmentDTO(enrollment);
   }
@@ -434,8 +437,10 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final Person person
   ) {
     FreeEnrollment freeEnrollment = null;
+    FreeEnrollmentDetails freeEnrollmentDetails = null;
     if (dto.isFree() && featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
       freeEnrollment = saveFreeEnrollment(person, dto, examEventId);
+      freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(person);
     }
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
     final Enrollment enrollment = createOrUpdateExistingEnrollment(
@@ -446,7 +451,15 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       freeEnrollment
     );
 
-    publicEnrollmentEmailService.sendEnrollmentToQueueConfirmationEmail(enrollment, person);
+    if (freeEnrollmentDetails != null && freeEnrollment != null) {
+      publicEnrollmentEmailService.sendFreeEnrollmentToQueueConfirmationEmail(
+        enrollment,
+        person,
+        freeEnrollmentDetails
+      );
+    } else {
+      publicEnrollmentEmailService.sendEnrollmentToQueueConfirmationEmail(enrollment, person);
+    }
 
     return createEnrollmentDTO(enrollment);
   }
@@ -480,6 +493,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
 
     FreeEnrollment freeEnrollment = null;
+    FreeEnrollmentDetails freeEnrollmentDetails = null;
     EnrollmentStatus status = EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT;
     if (
       dto.freeEnrollmentBasis() != null &&
@@ -487,10 +501,17 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)
     ) {
       freeEnrollment = saveFreeEnrollment(person, dto, examEventId);
+      freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(person);
       status = createFreeEnrollmentNextStatus(freeEnrollment, person, dto);
     }
 
     final Enrollment enrollment = createOrUpdateExistingEnrollment(dto, examEvent, person, status, freeEnrollment);
+    if (
+      freeEnrollmentDetails != null &&
+      (status == EnrollmentStatus.COMPLETED || status == EnrollmentStatus.AWAITING_APPROVAL)
+    ) {
+      publicEnrollmentEmailService.sendFreeEnrollmentConfirmationEmail(enrollment, person, freeEnrollmentDetails);
+    }
 
     return createEnrollmentDTO(enrollment);
   }

@@ -54,8 +54,8 @@ public class ClerkEnrollmentUtil {
       ? null
       : FreeEnrollmentDetailsDTO
         .builder()
-        .freeOralSkillLeft(Math.max(0, 3 - freeEnrollmentDetails.oralSkillCount()))
-        .freeTextualSkillLeft(Math.max(0, 3 - freeEnrollmentDetails.textualSkillCount()))
+        .freeOralSkillLeft(EnrollmentUtil.getFreeExamsLeft(freeEnrollmentDetails.oralSkillCount()))
+        .freeTextualSkillLeft(EnrollmentUtil.getFreeExamsLeft(freeEnrollmentDetails.textualSkillCount()))
         .build();
 
     return ClerkEnrollmentDTO

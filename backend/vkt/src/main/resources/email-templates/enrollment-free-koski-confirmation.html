@@ -5,7 +5,7 @@
             Hei,
         </p>
         <p>
-            Olet ilmoittautunut jonotuspaikalle Valtionhallinnon kielitutkintoon. Olemme sinuun yhteydessä, mikäli tutkintotilaisuuteen vapautuu paikkoja. Ohessa tiedot ilmoittautumisestasi.
+            Olet ilmoittautunut Valtionhallinnon kielitutkintoon. Tietojemme mukaan olet oikeutettu maksuttomaan tutkintoon. Ohessa tiedot ilmoittautumisestasi.
         </p>
         <br/>
 
@@ -13,16 +13,21 @@
             <b>Tutkinnon kieli:</b> <span th:text="${examLanguageFI}"></span><br/>
             <b>Tutkinnon taso:</b> <span th:text="${examLevelFI}"></span><br/>
             <b>Tutkintopäivä:</b> <span th:text="${examDate}"></span><br/>
-            <b>Oikeutettu maksuttomaan tutkintoon:</b> <span>Ei</span><br/>
+            <b>Oikeutettu maksuttomaan tutkintoon:</b> <span>Kyllä</span><br/>
             <b>Valitsemasi taidot:</b> <span th:text="${skillsFI}"></span><br/>
             <b>Valitsemasi osakokeet:</b> <span th:text="${partialExamsFI}"></span><br/>
+            <b>Maksuttomia tutkintokertoja jäljellä:</b> <span th:text="${freeExamsLeftFI}"></span><br/>
         </p>
         <br/>
 
+        <p><b>Tietoa tutkintotilaisuudesta</b></p>
+
+        <p>Tutkintotilaisuus järjestetään Opetushallituksen tiloissa osoitteessa Hakaniemenranta 6, 00530 Helsinki.</p>
+        <p>Tutkinnon suorittamiseen kannattaa varata koko päivä. Tutkintotilaisuus alkaa klo 9.00 kirjallisen taidon tutkinnolla ja jatkuu iltapäivällä suullisen taidon tutkinnolla. Tutkinnon päättymisaika riippuu tutkintoon osallistuvien määrästä. Saat tarkemmat ohjeet tutkintopäivän kulusta viikkoa ennen tutkintopäivää.</p>
         <p>Jos sinulla on kysyttävää tutkinnosta, voit lähettää meille sähköpostia osoitteeseen <a href="mailto:kielitutkinnot@oph.fi">kielitutkinnot@oph.fi</a>. Ilmoitathan viipymättä, jos et pysty osallistumaan tutkintoon.</p>
         <p>
             Lisätietoa tutkinnosta löydät Opetushallituksen verkkopalvelusta:<br/>
-            <a href="https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot" target="_blank">Valtionhallinnon kielitutkinnot (VKT)</a>
+            <a href="https://www.oph.fi/fi/koulutus-ja-tutkinnot/erinomaisen-taidon-tutkinnot" target="_blank">Valtionhallinnon kielitutkinnot (VKT)</a>
         </p>
         <br/>
 
@@ -38,23 +43,29 @@
             Hej,
         </p>
         <p>
-            Du har en plats i kön för Språkexamen för statsförvaltningen (VKT). Vi kommer att kontakta dig om platser blir lediga. Uppgifter om din anmälan hittar du nedan.
+            Du har anmält dig till Språkexamen för statsförvaltningen (VKT). Enligt våra uppgifter har du rätt till en avgiftsfri examen. Uppgifter om din anmälan hittar du nedan. Bifogat finns även kvittot för din examensavgift på finska och på svenska.
         </p>
         <br/>
+        <p><b>Information om examenstillfället</b></p>
 
         <p>
             <b>Examensspråk:</b> <span th:text="${examLanguageSV}"></span><br/>
             <b>Examensnivå:</b> <span th:text="${examLevelSV}"></span><br/>
             <b>Examensdatum:</b> <span th:text="${examDate}"></span><br/>
+            <b>Rätt till avgiftsfri anmälan:</b> <span>Ja</span><br/>
             <b>Förmågor som du har valt:</b> <span th:text="${skillsSV}"></span><br/>
             <b>Delprov som du har valt:</b> <span th:text="${partialExamsSV}"></span><br/>
+            <b>Antalet avgiftsfria examina kvar:</b> <span th:text="${freeExamsLeftSV}"></span><br/>
         </p>
         <br/>
+        <p><b>Information om examenstillfället</b></p>
 
+        <p>Examenstillfället anordnas hos Utbildningsstyrelsen på adressen Hagnäskajen 6, 00530 Helsingfors.</p>
+        <p>Det är skäl att reservera hela dagen för examen. Examenstillfället börjar klockan 9.00 med provet i skriftlig förmåga och fortsätter på eftermiddagen med provet i muntlig förmåga. Deltagarantalet avgör när examenstillfället slutar. Du får närmare anvisningar om examensdagens program en vecka före examensdagen.</p>
         <p>Om du har frågor om examen, kan du kontakta oss per e-post på adressen <a href="mailto:kielitutkinnot@oph.fi">kielitutkinnot@oph.fi</a>. Vänligen meddela omedelbart om du inte kan delta i examen.</p>
         <p>
             Närmare information om examen finns på Utbildningsstyrelsens webbplats:<br/>
-            <a href="https://www.oph.fi/sv/tjanster/statsforvaltningens-sprakexamina" target="_blank">Språkexamina för statsförvaltningen (VKT)</a>
+            <a href="https://www.oph.fi/sv/utbildning-och-examina/examina-som-galler-utmarkta-sprakkunskaper" target="_blank">Språkexamina för statsförvaltningen (VKT)</a>
         </p>
         <br/>
 
