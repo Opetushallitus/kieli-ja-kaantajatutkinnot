@@ -144,13 +144,22 @@ const CertificateShippingDetails = ({
   );
 };
 
-const PrivacyStatementCheckboxLabel = () => {
+const PrivacyStatementCheckboxLabel = ({
+  enrollment,
+}: {
+  enrollment: PublicEnrollment;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.preview.privacyStatement',
   });
 
   return (
-    <Trans t={t} i18nKey="label">
+    <Trans
+      t={t}
+      i18nKey={
+        enrollment.isFree ? 'freeEnrollmentLabel' : 'paidEnrollmentLabel'
+      }
+    >
       <WebLink
         href={AppRoutes.PrivacyPolicyPage}
         label={t('linkLabel')}
@@ -224,7 +233,7 @@ export const Preview = ({
                 }
               />
             }
-            label={<PrivacyStatementCheckboxLabel />}
+            label={<PrivacyStatementCheckboxLabel enrollment={enrollment} />}
             className={`public-enrollment__grid__preview__privacy-statement-checkbox-label ${
               hasPrivacyStatementError && 'checkbox-error'
             }`}

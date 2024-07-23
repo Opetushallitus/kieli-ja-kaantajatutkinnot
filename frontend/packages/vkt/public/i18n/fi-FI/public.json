@@ -100,7 +100,13 @@
           },
           "done": {
             "description": "Ilmoittautuminen tutkintoon onnistui! Sinulle lähetetään vahvistus osoitteeseen",
-            "descriptionQueued": "Ilmoittautuminen tutkinnon jonotuspaikalle onnistui! Sinulle lähetetään vahvistus osoitteeseen"
+            "descriptionQueued": "Ilmoittautuminen tutkinnon jonotuspaikalle onnistui! Sinulle lähetetään vahvistus osoitteeseen",
+            "freePendingVerification": {
+              "description": "Olet ilmoittautunut tutkintoon. Sinulle lähetetään tiedot ilmoittautumisesta osoitteeseen",
+              "part1": "Opetushallituksen virkailija tarkastaa lähettämäsi asiakirjat mahdollisimman pian.",
+              "part2": "Jos maksuttomuuden ehdot täyttyvät, tutkinto on maksuton ja saat sähköpostilla vahvistuksen ilmoittautumisesta.",
+              "part3": "Jos ehdot eivät täyty, tutkinto on maksullinen ja saat sähköpostilla maksulinkin tutkintomaksun maksamista varten."
+            }
           },
           "fillContactDetails": {
             "email": {
@@ -139,6 +145,8 @@
             "noFullExam": "En, haluan suorittaa vain jommankumman tutkinnon tai yksittäisen osakokeen"
           },
           "selectExam": {
+            "part1": "Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana.",
+            "part2": "Kun olet suorittanut hyväksytysti suullisen ja kirjallisen taidon tutkinnot, saat todistukseen merkinnän myös ymmärtämisen taidon tutkinnon suorittamisesta.",
             "title": "Tutkinnon valinta"
           },
           "paymentFail": {
@@ -195,11 +203,14 @@
               "title": "Tutkinnon tiedot"
             },
             "privacyStatement": {
-              "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen (pakollinen). Jos en pysty osallistumaan tutkintoon, ilmoitan peruutuksesta mahdollisimman pian Opetushallitukselle.",
-              "linkLabel": "tietosuojaselosteen"
+              "freeEnrollmentLabel": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen (pakollinen). Ymmärrän, että ilmoittautuminen vie yhden maksuttoman tutkintokerran. Jos en pysty osallistumaan tutkintoon, ilmoitan peruutuksesta mahdollisimman pian Opetushallitukselle.",
+              "linkLabel": "tietosuojaselosteen",
+              "paidEnrollmentLabel": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen (pakollinen). Jos en pysty osallistumaan tutkintoon, ilmoitan peruutuksesta mahdollisimman pian Opetushallitukselle."
             }
           },
           "previousEnrollment": {
+            "part1": "Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osan suorittamispäivästä alkaen.",
+            "part2": "Tieto aiemmasta tutkintoon osallistumisesta tarvitaan kielitutkintojen uusintojen seuraamista varten. Tieto ennen 1.8.2024 suoritetuista tutkinnoista ei vaikuta maksuttomien suorituskertojen määrään.",
             "radioButtons": {
               "label": "Oletko osallistunut aiemmin erinomaisen taidon kielitutkintoon? *"
             },
@@ -222,15 +233,32 @@
           "line2": "Valtionhallinnon erinomaisen taidon kielitutkintoja ovat"
         },
         "enrollment": {
-          "description": "Ilmoittautumista varten sinun täytyy tunnistautua suomi.fi-palvelun kautta. Ilmoittautumisen yhteydessä maksetaan myös tutkintomaksu.",
-          "title": "Ilmoittautuminen ja tutkintomaksut"
-        },
-        "extraInformation": {
-          "description": "Lisätietoa tutkinnosta",
           "link": {
-            "label": "Opetushallituksen verkkopalvelusta",
-            "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot"
-          }
+            "label": "Opetushallituksen verkkosivulla.",
+            "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/erinomaisen-taidon-tutkinnot"
+          },
+          "part1": "Ilmoittautumista varten sinun täytyy tunnistautua suomi.fi-palvelun kautta.",
+          "part2": "Tunnistautumisen jälkeen järjestelmä tarkastaa maksuttomuuden ehdot täyttävät koulutustiedot KOSKI-tietovarannosta.",
+          "part3": "Jos ehdot täyttäviä koulutustietoja ei löydy, mutta olet oikeutettu maksuttomaan tutkintoon, voit liittää ilmoittautumislomakkeelle todistusasiakirjoja.",
+          "part4": "Opetushallituksen virkailija tarkastaa asiakirjat.",
+          "part5": "Lisätietoa",
+          "title": "Ilmoittautuminen ja maksuttomuuden ehtojen tarkistus"
+        },
+        "freeExamination": {
+          "conditions": {
+            "link": {
+              "label": "Opetushallituksen verkkosivuilla.",
+              "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/erinomaisen-taidon-tutkinnot"
+            },
+            "part1": "Valtionhallinnon kielitutkintojen erinomaisen taidon tutkinnot ovat maksuttomia tietyin ehdoin 1.8.2024 alkaen. Maksuttomuuden ehdoista löytyy lisätietoa",
+            "part2": "Maksuttomaan ilmoittaumiseen oikeutettu henkilö saa ilmoittautua tutkintoon maksutta kolme kertaa. Koska tutkinnon voi suorittaa osissa, maksuttomaan tutkintoon oikeutettu henkilö voi ilmoittautua kolme kertaa maksutta sekä suullisen että kirjallisen taidon tutkintoon."
+          },
+          "ineligibility": {
+            "description": "Henkilöt, jotka eivät ole oikeutettuja maksuttomaan tutkintoon, maksavat ilmoittautumisen yhteydessä tutkintomaksun.",
+            "fullExaminationPayment": "Tutkintomaksu on 514 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kertaa.",
+            "partialExaminationPayment": "Tutkintomaksu on 257 euroa, jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
+          },
+          "title": "Tutkinnon maksuttomuus"
         },
         "title": "Valtionhallinnon kielitutkinnot (VKT) – ilmoittautuminen erinomaisen taidon tutkintoihin"
       },

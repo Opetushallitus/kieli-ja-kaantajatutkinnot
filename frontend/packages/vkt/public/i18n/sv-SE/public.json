@@ -225,13 +225,6 @@
           "description": "Du ska identifiera dig via suomi.fi -tjänsten. I samband med anmälan betalas även examensavgiften.",
           "title": "Anmälan och examensavgiften"
         },
-        "extraInformation": {
-          "description": "Mera information om examina på",
-          "link": {
-            "label": "Utbildningstyrelsens webbplats",
-            "url": "https://www.oph.fi/sv/sprakexamina-statsforvaltningen-vkt"
-          }
-        },
         "title": "Språkexamina för statsförvaltningen (VKT) - anmälan till examina som gäller utmärkta språkkunskaper"
       },
       "publicExamEventListing": {

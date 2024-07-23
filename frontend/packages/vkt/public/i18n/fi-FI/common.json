@@ -94,9 +94,6 @@
       "examLevel": {
         "EXCELLENT": "Erinomainen taito"
       },
-      "examinationPayment": {
-        "part1": "Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana."
-      },
       "header": {
         "accessibility": {
           "continueToMain": "Jatka sisältöön",
@@ -111,7 +108,7 @@
         }
       },
       "info": {
-        "previousEnrollment": "Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinnon loppuun. Aika lasketaan ensimmäisen osan suorittamispäivästä alkaen. Tieto aiemmasta tutkintoon osallistumisesta tarvitaan kielitutkintojen uusintojen seuraamista varten. Tieto ennen 1.8.2024 suoritetuista tutkinnoista ei vaikuta maksuttomien suorituskertojen määrään.",
+        "previousEnrollment": "Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana. Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinnon loppuun. Aika lasketaan ensimmäisen osan suorittamispäivästä alkaen.",
         "selectExam": "Kun olet suorittanut hyväksytysti suullisen ja kirjallisen taidon tutkinnot, saat todistukseen merkinnän myös ymmärtämisen taidon tutkinnon suorittamisesta."
       },
       "languageFilter": {
@@ -140,29 +137,28 @@
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Valtionhallinnon kielitutkintojen ilmoittautumisjärjestelmän etusivulle.",
       "pageTitle": {
-        "frontPage": "Etusivu",
-        "notFound": "Etsimääsi sivua ei löytynyt",
-        "authenticate": "Ilmoittautuminen - tunnistaudu",
-        "contactDetails": "Ilmoittautuminen - täytä yhteystietosi",
-        "selectExam": "Ilmoittautuminen - valitse tutkinto",
-        "preview": "Ilmoittautuminen - esikatsele",
-        "paymentFail": "Ilmoittautuminen - maksua ei suoritettu",
-        "paymentSuccess": "Ilmoittautuminen - maksu valmis",
-        "done": "Ilmoittautuminen - valmis",
-        "logoutSuccess": "Uloskirjautuminen onnnistui",
         "accessibilityStatement": "Saavutettavuusseloste",
-        "privacyPolicy": "Tietosuojaseloste",
+        "authenticate": "Ilmoittautuminen - tunnistaudu",
         "clerkEnrollmentOverview": "Virkailija ilmoittautuminen",
         "clerkExamEventCreate": "Virkailija lisää tutkintopäivä",
         "clerkExamOverview": "Virkailija tutkintosivu",
         "clerkHomepage": "Virkailija",
-        "logoutSuccess": "Uloskirjautuminen onnnistui"
+        "contactDetails": "Ilmoittautuminen - täytä yhteystietosi",
+        "done": "Ilmoittautuminen - valmis",
+        "frontPage": "Etusivu",
+        "logoutSuccess": "Uloskirjautuminen onnnistui",
+        "notFound": "Etsimääsi sivua ei löytynyt",
+        "paymentFail": "Ilmoittautuminen - maksua ei suoritettu",
+        "paymentSuccess": "Ilmoittautuminen - maksu valmis",
+        "preview": "Ilmoittautuminen - esikatsele",
+        "privacyPolicy": "Tietosuojaseloste",
+        "selectExam": "Ilmoittautuminen - valitse tutkinto"
       },
       "requiredFieldsInfo": "Tähdellä (*) merkityt kentät ovat pakollisia.",
       "sessionExpired": {
-        "title": "Istuntosi on vanhentunut",
+        "descriptionClerk": "Istuntosi on vanhentunut. Ole hyvä ja kirjaudu uudelleen.",
         "descriptionPublic": "Istuntosi on vanhentunut. Ole hyvä ja tunnistaudu uudelleen.",
-        "descriptionClerk": "Istuntosi on vanhentunut. Ole hyvä ja kirjaudu uudelleen."
+        "title": "Istuntosi on vanhentunut"
       },
       "rowsPerPageLabel": "Tulokset per sivu",
       "save": "Tallenna",
