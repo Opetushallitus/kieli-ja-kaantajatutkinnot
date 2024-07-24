@@ -108,7 +108,7 @@
         }
       },
       "info": {
-        "previousEnrollment": "Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen. Vi behöver information om deltagande i tidigare examina för att följa omtagningar. Information om examina som avlagts före 1.8.2024 påverkar inte antalet avgiftsfria examina.",
+        "previousEnrollment": "Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.",
         "selectExam": "När du har blivit godkänd i examina som gäller förmåga att använda språket i tal och i skrift får du ett intyg även för förmågan att förstå språket."
       },
       "languageFilter": {

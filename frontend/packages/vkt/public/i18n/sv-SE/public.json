@@ -136,6 +136,8 @@
             "noFullExam": "Nej, jag vill endast avlägga någondera av examina eller ett delprov"
           },
           "selectExam": {
+            "part1": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen.",
+            "part2": "När du har blivit godkänd i examina som gäller förmåga att använda språket i tal och i skrift får du ett intyg även för förmågan att förstå språket.",
             "title": "Val av examen"
           },
           "paymentFail": {
@@ -200,6 +202,8 @@
             }
           },
           "previousEnrollment": {
+            "part1": "Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.",
+            "part2": "Vi behöver information om deltagande i tidigare examina för att följa omtagningar. Information om examina som avlagts före 1.8.2024 påverkar inte antalet avgiftsfria examina.",
             "radioButtons": {
               "label": "Har du tidigare deltagit i språkexamina för statsförvaltingen som gäller utmärkta språkkunskaper? *"
             },
@@ -222,8 +226,32 @@
           "line2": "Examina som gäller utmärkta språkkunskaper är"
         },
         "enrollment": {
-          "description": "Du ska identifiera dig via suomi.fi -tjänsten. I samband med anmälan betalas även examensavgiften.",
-          "title": "Anmälan och examensavgiften"
+          "link": {
+            "label": "TODO Opetushallituksen verkkosivuilla.",
+            "url": "https://www.oph.fi/sv/utbildning-och-examina/examina-som-galler-utmarkta-sprakkunskaper"
+          },
+          "part1": "TODO Ilmoittautumista varten sinun täytyy tunnistautua suomi.fi-palvelun kautta.",
+          "part2": "TODO Tunnistautumisen jälkeen järjestelmä tarkastaa maksuttomuuden ehdot täyttävät koulutustiedot KOSKI-tietovarannosta.",
+          "part3": "TODO Jos ehdot täyttäviä koulutustietoja ei löydy, mutta olet oikeutettu maksuttomaan tutkintoon, voit liittää ilmoittautumislomakkeelle todistusasiakirjoja.",
+          "part4": "TODO Opetushallituksen virkailija tarkastaa asiakirjat.",
+          "part5": "TODO Lisätietoa",
+          "title": "TODO KÄÄNNÖKSET Anmälan och examensavgiften"
+        },
+        "freeExamination": {
+          "conditions": {
+            "link": {
+              "label": "TODO Opetushallituksen verkkosivuilla.",
+              "url": "https://www.oph.fi/sv/utbildning-och-examina/examina-som-galler-utmarkta-sprakkunskaper"
+            },
+            "part1": "TODO Valtionhallinnon kielitutkintojen erinomaisen taidon tutkinnot ovat maksuttomia tietyin ehdoin 1.8.2024 alkaen. Maksuttomuuden ehdoista löytyy lisätietoa",
+            "part2": "TODO Maksuttomaan ilmoittaumiseen oikeutettu henkilö saa ilmoittautua tutkintoon maksutta kolme kertaa. Koska tutkinnon voi suorittaa osissa, maksuttomaan tutkintoon oikeutettu henkilö voi ilmoittautua kolme kertaa maksutta sekä suullisen että kirjallisen taidon tutkintoon."
+          },
+          "ineligibility": {
+            "description": "TODO Henkilöt, jotka eivät ole oikeutettuja maksuttomaan tutkintoon, maksavat ilmoittautumisen yhteydessä tutkintomaksun.",
+            "fullExaminationPayment": "TODO Tutkintomaksu on 514 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kertaa.",
+            "partialExaminationPayment": "TODO Tutkintomaksu on 257 euroa, jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
+          },
+          "title": "TODO KÄÄNNÖKSET Tutkinnon maksuttomuus"
         },
         "title": "Språkexamina för statsförvaltningen (VKT) - anmälan till examina som gäller utmärkta språkkunskaper"
       },
