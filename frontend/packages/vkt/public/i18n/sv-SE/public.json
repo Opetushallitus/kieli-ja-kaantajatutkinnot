@@ -96,7 +96,14 @@
           },
           "certificateShipping": { "title": "Leverans av examensintyget" },
           "done": {
-            "description": "Du har en plats i kön för examen! Du får en bekräftelse till adressen"
+            "description": "Du har anmält dig till examen! Du får en bekräftelse till adressen",
+            "descriptionQueued": "Du har en plats i kön för examen! Du får en bekräftelse till adressen",
+            "freePendingVerification": {
+              "description": "Du har anmält dig till examen. Vi skickar information om anmälan till adressen",
+              "part1": "Dina dokument granskas på Utbildningsstyrelsen so fort som möjligt.",
+              "part2": "Ifall du har rätt till en avgiftsfri examen får du en bekräftelse om din anmälan per e-post.",
+              "part3": "Om du inte har rätt till en avgiftsfri examen får du en länk för att betala examensavgiften."
+            }
           },
           "fillContactDetails": {
             "email": {
@@ -196,9 +203,9 @@
               "title": "Uppgifter om examen"
             },
             "privacyStatement": {
-              "ariaLabel": "Dataskyddsbeskrivning",
-              "label": "Jag har läst <0></0> för den här tjänsten och accepterar den (obligatoriskt).",
-              "linkLabel": "dataskyddsbeskrivningen"
+              "freeEnrollmentLabel": "Jag har läst <0></0> av denna service och godtar den (obligatorisk). Jag förstår att anmälan tar en av de avgiftsfria examina. Om jag inte kan delta i examen informerar jag Utbildningsstyrelsen om annulering så fort som möjligt.",
+              "linkLabel": "dataskyddsbeskrivningen",
+              "paidEnrollmentLabel": "Jag har läst <0></0> av denna service och godtar den (obligatorisk). Om jag inte kan delta i examen informerar jag Utbildningsstyrelsen om annulering så fort som möjligt."
             }
           },
           "previousEnrollment": {
@@ -227,31 +234,31 @@
         },
         "enrollment": {
           "link": {
-            "label": "TODO Opetushallituksen verkkosivuilla.",
+            "label": "på Utbildningsstyrelsens webbplats.",
             "url": "https://www.oph.fi/sv/utbildning-och-examina/examina-som-galler-utmarkta-sprakkunskaper"
           },
-          "part1": "TODO Ilmoittautumista varten sinun täytyy tunnistautua suomi.fi-palvelun kautta.",
-          "part2": "TODO Tunnistautumisen jälkeen järjestelmä tarkastaa maksuttomuuden ehdot täyttävät koulutustiedot KOSKI-tietovarannosta.",
-          "part3": "TODO Jos ehdot täyttäviä koulutustietoja ei löydy, mutta olet oikeutettu maksuttomaan tutkintoon, voit liittää ilmoittautumislomakkeelle todistusasiakirjoja.",
-          "part4": "TODO Opetushallituksen virkailija tarkastaa asiakirjat.",
-          "part5": "TODO Lisätietoa",
-          "title": "TODO KÄÄNNÖKSET Anmälan och examensavgiften"
+          "part1": "För att anmäla dig till examen ska du identifiera dig via suomi.fi -tjänsten.",
+          "part2": "Efter identifieringen kontrollerar systemet i informationsresursen KOSKI om du har rätt till en avgiftsfri anmälan.",
+          "part3": "Om uppgifterna om din utbildning inte hittas och du har rätt till en avgiftsfri examen kan du bifoga intyg i din anmälan.",
+          "part4": "Dina dokument granskas på Utbildningsstyrelsen.",
+          "part5": "Mer information",
+          "title": "Anmälan och kontrollering av rätt till en avgiftsfri examen"
         },
         "freeExamination": {
           "conditions": {
             "link": {
-              "label": "TODO Opetushallituksen verkkosivuilla.",
+              "label": "på Utbildningsstyrelsens webbplats.",
               "url": "https://www.oph.fi/sv/utbildning-och-examina/examina-som-galler-utmarkta-sprakkunskaper"
             },
-            "part1": "TODO Valtionhallinnon kielitutkintojen erinomaisen taidon tutkinnot ovat maksuttomia tietyin ehdoin 1.8.2024 alkaen. Maksuttomuuden ehdoista löytyy lisätietoa",
-            "part2": "TODO Maksuttomaan ilmoittaumiseen oikeutettu henkilö saa ilmoittautua tutkintoon maksutta kolme kertaa. Koska tutkinnon voi suorittaa osissa, maksuttomaan tutkintoon oikeutettu henkilö voi ilmoittautua kolme kertaa maksutta sekä suullisen että kirjallisen taidon tutkintoon."
+            "part1": "Språkexamina för statsförvaltningen som gäller utmärkta språkkunskaper är avgiftsfria med vissa villkor från och med 1 augusti 2024",
+            "part2": "Den som har rätt till en avgiftsfri examen kan anmäla sig till examen avgiftsfritt tre gånger. Eftersom examen kan avläggas i delar, kan den som har rätt till en avgiftsfri examen anmäla sig avgiftsfritt tre gånger både till examen som gäller förmåga att använda språket i tal och till examen som gäller förmåga att använda språket i skrift."
           },
           "ineligibility": {
-            "description": "TODO Henkilöt, jotka eivät ole oikeutettuja maksuttomaan tutkintoon, maksavat ilmoittautumisen yhteydessä tutkintomaksun.",
-            "fullExaminationPayment": "TODO Tutkintomaksu on 514 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kertaa.",
-            "partialExaminationPayment": "TODO Tutkintomaksu on 257 euroa, jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
+            "description": "Den som inte har rätt till avgiftsfri examen, ska i samband med anmälning betala även examensavgiften.",
+            "fullExaminationPayment": "Examensavgiften är 514 euro om muntlig och skriftlig examen avläggs samtidigt ",
+            "partialExaminationPayment": "Examensavgiften är 257 euro om du avlägger antingen examen som gäller förmåga att använda språket i tal eller examen som gäller förmåga att använda språket i skrift eller ett av delproven."
           },
-          "title": "TODO KÄÄNNÖKSET Tutkinnon maksuttomuus"
+          "title": "Avgftsfri examen"
         },
         "title": "Språkexamina för statsförvaltningen (VKT) - anmälan till examina som gäller utmärkta språkkunskaper"
       },
