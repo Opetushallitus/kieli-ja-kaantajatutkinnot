@@ -268,6 +268,47 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional
+  protected List<UploadedFileAttachment> validateAndPersistAttachments(
+    final PublicEnrollmentCreateDTO dto,
+    final FreeEnrollment freeEnrollment,
+    final Person person,
+    final long examEventId
+  ) {
+    List<FreeEnrollmentAttachmentDTO> attachmentDTOs = dto.freeEnrollmentBasis().attachments();
+
+    if (attachmentDTOs.size() > 10) {
+      throw new APIException(APIExceptionType.TOO_MANY_ATTACHMENTS);
+    }
+
+    return attachmentDTOs
+      .stream()
+      .map(attachmentDTO -> {
+        if (!EnrollmentUtil.validateAttachmentId(attachmentDTO.id(), person, examEventId)) {
+          throw new APIException(APIExceptionType.INVALID_ATTACHMENT);
+        }
+
+        final UploadedFileAttachment attachment = uploadedFileAttachmentRepository
+          .findByKey(attachmentDTO.id())
+          .orElse(new UploadedFileAttachment());
+
+        if (
+          attachment.getFreeEnrollment() != null && attachment.getFreeEnrollment().getPerson().getId() != person.getId()
+        ) {
+          throw new APIException(APIExceptionType.ATTACHMENT_PERSON_MISMATCH);
+        }
+
+        attachment.setFilename(attachmentDTO.name());
+        attachment.setKey(attachmentDTO.id());
+        attachment.setSize(attachmentDTO.size());
+        attachment.setFreeEnrollment(freeEnrollment);
+        uploadedFileAttachmentRepository.saveAndFlush(attachment);
+
+        return attachment;
+      })
+      .collect(Collectors.toList());
+  }
+
+  @Transactional
   protected FreeEnrollment saveFreeEnrollment(
     final Person person,
     final PublicEnrollmentCreateDTO dto,
@@ -294,36 +335,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     freeEnrollmentRepository.saveAndFlush(freeEnrollment);
 
     if (dto.freeEnrollmentBasis().attachments() != null) {
-      final List<UploadedFileAttachment> attachments = dto
-        .freeEnrollmentBasis()
-        .attachments()
-        .stream()
-        .map(attachmentDTO -> {
-          if (!EnrollmentUtil.validateAttachmentId(attachmentDTO.id(), person, examEventId)) {
-            throw new APIException(APIExceptionType.INVALID_ATTACHMENT);
-          }
-
-          final UploadedFileAttachment attachment = uploadedFileAttachmentRepository
-            .findByKey(attachmentDTO.id())
-            .orElse(new UploadedFileAttachment());
-
-          if (
-            attachment.getFreeEnrollment() != null &&
-            attachment.getFreeEnrollment().getPerson().getId() != person.getId()
-          ) {
-            throw new APIException(APIExceptionType.ATTACHMENT_PERSON_MISMATCH);
-          }
-
-          attachment.setFilename(attachmentDTO.name());
-          attachment.setKey(attachmentDTO.id());
-          attachment.setSize(attachmentDTO.size());
-          attachment.setFreeEnrollment(freeEnrollment);
-          uploadedFileAttachmentRepository.saveAndFlush(attachment);
-
-          return attachment;
-        })
-        .collect(Collectors.toList());
-
+      final List<UploadedFileAttachment> attachments =
+        this.validateAndPersistAttachments(dto, freeEnrollment, person, examEventId);
       freeEnrollment.setAttachments(attachments);
       freeEnrollmentRepository.saveAndFlush(freeEnrollment);
     }
