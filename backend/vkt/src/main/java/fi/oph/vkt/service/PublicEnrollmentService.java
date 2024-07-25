@@ -31,9 +31,11 @@ import fi.oph.vkt.service.koski.KoskiService;
 import fi.oph.vkt.util.EnrollmentUtil;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.PersonUtil;
+import fi.oph.vkt.util.SessionUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
+import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -533,21 +535,28 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   public Map<String, String> getPresignedPostRequest(
     final long examEventId,
     final Person person,
+    final HttpSession session,
     final String filename
   ) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
 
-    // Allow uploading only if person is actively trying to enroll or make a reservation
+    // Allow uploading only if person is actively trying to enroll or reserve a place in the queue
     boolean uploadAllowed = false;
     final Optional<Enrollment> enrollment = findEnrollment(examEvent, person, enrollmentRepository);
     if (enrollment.isPresent()) {
       uploadAllowed = enrollment.get().isExpectingPayment();
     }
+    // Enrollment data not yet initialized, so let's check for reservation instead.
     if (!uploadAllowed) {
       final Optional<Reservation> reservation = reservationRepository.findByExamEventAndPerson(examEvent, person);
       if (reservation.isPresent()) {
         uploadAllowed = reservation.get().isActive();
       }
+    }
+    // If enrollment or reservation is not found, user might be enrolling into queue.
+    if (!uploadAllowed) {
+      Long queueExamEventId = SessionUtil.getQueueExamId(session);
+      uploadAllowed = (queueExamEventId == examEventId);
     }
     if (!uploadAllowed) {
       throw new NotFoundException("No unfinished enrollment or reservation for exam event found");
