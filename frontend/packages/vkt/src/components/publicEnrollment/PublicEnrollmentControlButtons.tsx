@@ -150,7 +150,9 @@ export const PublicEnrollmentControlButtons = ({
 
   const handleSubmitBtnClick = () => {
     if (isStepValid) {
-      setIsPaymentLoading(true);
+      if (!enrollment.isFree) {
+        setIsPaymentLoading(true);
+      }
       setShowValidation(false);
       if (isPaymentLinkPreviewView) {
         // Safari needs time to re-render loading indicator
