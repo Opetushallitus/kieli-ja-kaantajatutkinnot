@@ -1,3 +1,6 @@
+import DeleteIcon from '@mui/icons-material/Delete';
+import ImageIcon from '@mui/icons-material/Image';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import {
   FormControl,
   FormControlLabel,
@@ -7,17 +10,19 @@ import {
 } from '@mui/material';
 import { ChangeEvent, useEffect } from 'react';
 import {
+  CustomButton,
   FileUpload,
   H2,
   H3,
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
-import { APIResponseStatus } from 'shared/enums';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {
+  Attachment,
   Education,
   EducationType,
   FreeBasisSource,
@@ -26,12 +31,80 @@ import {
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { loadPublicEducation } from 'redux/reducers/publicEducation';
+import { removeUploadedFileAttachment } from 'redux/reducers/publicEnrollment';
 import { startFileUpload } from 'redux/reducers/publicFileUpload';
 import { publicEducationSelector } from 'redux/selectors/publicEducation';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicFileUploadSelector } from 'redux/selectors/publicFileUpload';
 import { EnrollmentUtils } from 'utils/enrollment';
 import { FileUtils } from 'utils/file';
+
+const getAttachmentsCount = (enrollment: PublicEnrollment): number => {
+  if (enrollment.freeEnrollmentBasis?.attachments) {
+    return enrollment.freeEnrollmentBasis.attachments.length;
+  }
+
+  return 0;
+};
+
+type AttachmentType = 'pdf' | 'image';
+
+const getAttachmentType = (attachment: Attachment): AttachmentType => {
+  if (attachment.name.endsWith('.pdf')) {
+    return 'pdf';
+  }
+
+  return 'image';
+};
+
+const AttachmentsList = () => {
+  const { freeEnrollmentBasis } = useAppSelector(
+    publicEnrollmentSelector,
+  ).enrollment;
+  const dispatch = useAppDispatch();
+
+  const translateCommon = useCommonTranslation();
+  const { t } = usePublicTranslation({
+    keyPrefix:
+      'vkt.component.publicEnrollment.steps.educationDetails.uploadAttachment.attachmentsList',
+  });
+
+  if (!freeEnrollmentBasis?.attachments) {
+    return null;
+  }
+
+  const deleteAttachment = (attachment: Attachment) => {
+    dispatch(removeUploadedFileAttachment(attachment));
+  };
+
+  return (
+    <>
+      <H3>{t('title')}:</H3>
+      <div className="rows">
+        {freeEnrollmentBasis.attachments.map((a) => (
+          <div key={a.id} className="columns gapped-xs">
+            {getAttachmentType(a) === 'pdf' ? (
+              <PictureAsPdfIcon />
+            ) : (
+              <ImageIcon />
+            )}
+            <Text className="grow">
+              {a.name}&nbsp;({FileUtils.getReadableFileSize(a.size)})
+            </Text>
+            <CustomButton
+              startIcon={<DeleteIcon />}
+              onClick={() => deleteAttachment(a)}
+              color={Color.Error}
+              variant={Variant.Text}
+            >
+              {translateCommon('delete')}
+            </CustomButton>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+};
 
 const UploadAttachments = ({
   isAttachmentsValid,
@@ -46,12 +119,12 @@ const UploadAttachments = ({
       'vkt.component.publicEnrollment.steps.educationDetails.uploadAttachment',
   });
 
+  const enrollment = useAppSelector(publicEnrollmentSelector).enrollment;
+  const attachmentsCount = getAttachmentsCount(enrollment);
+
   const dispatch = useAppDispatch();
   const { id } = useAppSelector(publicEnrollmentSelector)
     .examEvent as PublicExamEvent;
-  const { freeEnrollmentBasis } = useAppSelector(
-    publicEnrollmentSelector,
-  ).enrollment;
   const showError = showValidation && !isAttachmentsValid;
 
   const { status: fileUploadStatus } = useAppSelector(publicFileUploadSelector);
@@ -67,23 +140,23 @@ const UploadAttachments = ({
       <H3>{t('title')}</H3>
       <Text>{t('helpText1')}</Text>
       <Text>{t('helpText2')}</Text>
-      <LoadingProgressIndicator
-        isLoading={fileUploadStatus === APIResponseStatus.InProgress}
-      >
-        <FileUpload
-          accept="application/pdf,image/jpeg,image/png,image/heic,image/tiff,image/webp"
-          onChange={handleFileUpload}
-          error={showError}
-        />
-      </LoadingProgressIndicator>
-      {freeEnrollmentBasis?.attachments &&
-        freeEnrollmentBasis?.attachments.map((a) => (
-          <div key={a.id}>
-            <Text>
-              {a.name}&nbsp;({FileUtils.getReadableFileSize(a.size)})
-            </Text>
-          </div>
-        ))}
+      {attachmentsCount < 10 && (
+        <LoadingProgressIndicator
+          isLoading={fileUploadStatus === APIResponseStatus.InProgress}
+        >
+          <FileUpload
+            accept="application/pdf,image/jpeg,image/png,image/heic,image/tiff,image/webp"
+            onChange={handleFileUpload}
+            error={showError}
+          />
+        </LoadingProgressIndicator>
+      )}
+      {attachmentsCount >= 10 && (
+        <Text>
+          <b>{t('maxAttachmentsReached')}</b>
+        </Text>
+      )}
+      <AttachmentsList />
       {showError && (
         <FormHelperText id="has-select-education-error" error={true}>
           {translateCommon('errors.customTextField.required')}
