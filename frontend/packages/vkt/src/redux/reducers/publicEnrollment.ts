@@ -195,16 +195,6 @@ const publicEnrollmentSlice = createSlice({
         }
       }
     },
-    removeUploadedFileAttachment(state, action: PayloadAction<Attachment>) {
-      if (state.enrollment.freeEnrollmentBasis) {
-        if (state.enrollment.freeEnrollmentBasis.attachments) {
-          state.enrollment.freeEnrollmentBasis.attachments =
-            state.enrollment.freeEnrollmentBasis.attachments.filter(
-              (a) => a.id !== action.payload.id,
-            );
-        }
-      }
-    },
     rejectPublicEnrollmentSave(state) {
       state.enrollmentSubmitStatus = APIResponseStatus.Error;
     },
@@ -248,5 +238,4 @@ export const {
   setPublicEnrollmentExamEventIdIfNotSet,
   setLoadingPayment,
   storeUploadedFileAttachment,
-  removeUploadedFileAttachment,
 } = publicEnrollmentSlice.actions;
