@@ -566,6 +566,6 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final String extension = FilenameUtils.getExtension(filename);
     final String key = examEventId + "/" + person.getUuid() + "/" + millis + "." + extension;
 
-    return s3Service.getPresignedPostRequest(key);
+    return s3Service.getPresignedPostRequest(key, extension);
   }
 }

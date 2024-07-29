@@ -1,5 +1,7 @@
 package fi.oph.vkt.service.aws;
 
+import fi.oph.vkt.util.exception.APIException;
+import fi.oph.vkt.util.exception.APIExceptionType;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -29,10 +31,23 @@ public class S3Service {
   private final AwsCredentialsProvider awsCredentialsProvider;
 
   private static final int MAX_SIZE_100_MB = 100 * 1024 * 1024;
-  private static final String ACCEPTED_CONTENT_TYPES =
-    "application/pdf,image/jpeg,image/png,image/heic,image/tiff,image/webp";
   private static final Duration POST_POLICY_VALID_FOR_ONE_MIN = Duration.ofMinutes(1);
   private static final int OBJECT_EXPIRY_MONTHS = 3;
+
+  private static String guessContentType(String extension) {
+    if (extension == null) {
+      throw new APIException(APIExceptionType.INVALID_ATTACHMENT);
+    }
+    return switch (extension.toLowerCase()) {
+      case "pdf" -> "application/pdf";
+      case "jpg", "jpeg" -> "image/jpeg";
+      case "png" -> "image/png";
+      case "heic" -> "image/heic";
+      case "tiff" -> "image/tiff";
+      case "webp" -> "image/webp";
+      default -> throw new APIException(APIExceptionType.INVALID_ATTACHMENT);
+    };
+  }
 
   public String getPresignedUrl(String key) {
     GetObjectRequest request = GetObjectRequest.builder().bucket(s3Config.getBucketName()).key(key).build();
@@ -46,8 +61,9 @@ public class S3Service {
     return presignedRequest.url().toExternalForm();
   }
 
-  public Map<String, String> getPresignedPostRequest(String key) {
+  public Map<String, String> getPresignedPostRequest(String key, String extension) {
     final LocalDate objectExpiry = LocalDate.now().plusMonths(OBJECT_EXPIRY_MONTHS);
+    final String contentType = guessContentType(extension);
 
     S3PostObjectRequest.Builder requestBuilder = S3PostObjectRequest
       .builder()
@@ -55,7 +71,7 @@ public class S3Service {
       .expiration(POST_POLICY_VALID_FOR_ONE_MIN)
       .withCondition(Conditions.keyStartsWith(key))
       .withCondition(Conditions.contentLengthRange(0, MAX_SIZE_100_MB))
-      .withCondition(Conditions.contentTypeHeaderEquals(ACCEPTED_CONTENT_TYPES))
+      .withCondition(Conditions.contentTypeHeaderEquals(contentType))
       .withCondition(
         Conditions.expiresHeaderEquals(
           DateTimeFormatter.RFC_1123_DATE_TIME.format(objectExpiry.atStartOfDay(ZoneId.of("GMT")))
