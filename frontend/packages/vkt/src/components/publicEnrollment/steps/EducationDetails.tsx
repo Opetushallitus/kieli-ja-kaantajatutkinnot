@@ -131,6 +131,7 @@ const UploadAttachments = ({
             accept="application/pdf,image/jpeg,image/png,image/heic,image/tiff,image/webp"
             onChange={handleFileUpload}
             error={showError}
+            labelText={t('uploadFile')}
           />
         </LoadingProgressIndicator>
       )}

@@ -181,7 +181,8 @@
               "helpText1": "Voit todistaa täyttäväsi perusteen maksuttomaan tutkintoon todistusasiakirjoilla. Opetushallituksen virkailija tarkastaa, täyttävätkö lähettämäsi asiakirjat maksuttomuuden ehdot. ",
               "helpText2": "Voit lisätä enimmillään 10 asiakirjaa. Asiakirja voi olla hyvälaatuinen pdf- tai kuvatiedosto. Liitä kopio alkuperäisestä tutkintotodistuksesta tai korkeakoulun opiskeluoikeudesta todistavasta asiakirjasta. Liitä asiakirjasta myös käännös suomeksi, ruotsiksi tai englanniksi, jos alkuperäisen asiakirjan kieli on muu kuin suomi, ruotsi tai englanti. Nimeä liite selvästi (esim. tutkintotodistus Bachelor.pdf, tutkintotodistus kaannos.pdf, opiskeluoikeus.pdf)",
               "maxAttachmentsReached": "Olet lisännyt jo 10 asiakirjaa. Et voi enää lisätä uusia asiakirjoja.",
-              "title": "Lähetä tutkintotodistus tai opiskelutodistus *"
+              "title": "Lähetä tutkintotodistus tai opiskelutodistus *",
+              "uploadFile": "Lähetä tiedosto"
             }
           },
           "preview": {
