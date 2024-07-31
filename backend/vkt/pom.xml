@@ -17,6 +17,17 @@
   <name>vkt</name>
   <description>Valtionhallinnon kielitutkinnot</description>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>software.amazon.awssdk</groupId>
+        <artifactId>bom</artifactId>
+        <version>2.25.66</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>com.github.jhonnymertz</groupId>
@@ -49,7 +60,15 @@
       <artifactId>commons-io</artifactId>
       <version>2.15.1</version>
     </dependency>
-
+    <dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>s3</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>tel.schich</groupId>
+      <artifactId>aws-s3-post-object-presigner</artifactId>
+      <version>0.1.1</version>
+    </dependency>
   </dependencies>
 
 </project>
