@@ -1,10 +1,14 @@
-import { InfoOutlined as InfoIcon } from '@mui/icons-material';
+import {
+  ChevronRight,
+  InfoOutlined as InfoIcon,
+  WarningAmber,
+} from '@mui/icons-material';
 import { TableCell, TableRow } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { Text } from 'shared/components';
-import { Color } from 'shared/enums';
+import { CustomButtonLink, Text } from 'shared/components';
+import { Color, Variant } from 'shared/enums';
 
-import { useCommonTranslation } from 'configs/i18n';
+import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import { ClerkListExamEvent } from 'interfaces/clerkListExamEvent';
 import { DateTimeUtils } from 'utils/dateTime';
@@ -16,6 +20,9 @@ export const ClerkExamEventListingRow = ({
   examEvent: ClerkListExamEvent;
 }) => {
   const translateCommon = useCommonTranslation();
+  const { t } = useClerkTranslation({
+    keyPrefix: 'vkt.component.clerkExamEventListing',
+  });
 
   const examEventUrl = AppRoutes.ClerkExamEventOverviewPage.replace(
     /:examEventId$/,
@@ -55,6 +62,11 @@ export const ClerkExamEventListingRow = ({
               <InfoIcon color={Color.Secondary} />
             </div>
           )}
+          {examEvent.unApprovedFreeEnrollments > 0 && (
+            <div>
+              <WarningAmber color={Color.Warning} />
+            </div>
+          )}
         </TableCell>
         <TableCell>
           <Text>
@@ -62,6 +74,17 @@ export const ClerkExamEventListingRow = ({
               ? translateCommon('yes')
               : translateCommon('no')}
           </Text>
+        </TableCell>
+        <TableCell>
+          <CustomButtonLink
+            sx={{ padding: 0 }}
+            variant={Variant.Text}
+            color={Color.Secondary}
+            endIcon={<ChevronRight />}
+            to={examEventUrl}
+          >
+            {t('more')}
+          </CustomButtonLink>
         </TableCell>
       </TableRow>
     </>

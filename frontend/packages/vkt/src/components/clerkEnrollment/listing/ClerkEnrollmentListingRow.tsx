@@ -1,6 +1,8 @@
+import { ChevronRight } from '@mui/icons-material';
 import { TableCell, TableRow } from '@mui/material';
 import { useNavigate } from 'react-router';
-import { Text } from 'shared/components';
+import { CustomButton, Text } from 'shared/components';
+import { Color, Variant } from 'shared/enums';
 
 import { ChangeEnrollmentStatusButton } from 'components/clerkEnrollment/listing/ChangeEnrollmentStatusButton';
 import { useClerkTranslation } from 'configs/i18n';
@@ -90,10 +92,20 @@ export const ClerkEnrollmentListingRow = ({
         </TableCell>
         <TableCell sx={{ width: '20%' }} align="right">
           {[
-            EnrollmentStatus.SHIFTED_FROM_QUEUE,
+            EnrollmentStatus.AWAITING_PAYMENT,
             EnrollmentStatus.QUEUED,
           ].includes(enrollment.status) && (
             <ChangeEnrollmentStatusButton enrollment={enrollment} />
+          )}
+          {enrollment.status === EnrollmentStatus.AWAITING_APPROVAL && (
+            <CustomButton
+              sx={{ padding: 0 }}
+              variant={Variant.Text}
+              color={Color.Secondary}
+              endIcon={<ChevronRight />}
+            >
+              {t('changeEnrollmentStatus.approveFreeExam')}
+            </CustomButton>
           )}
         </TableCell>
       </TableRow>

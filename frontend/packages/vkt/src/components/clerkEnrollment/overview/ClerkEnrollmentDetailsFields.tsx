@@ -1,5 +1,14 @@
-import { Checkbox, FormControlLabel, FormHelperTextProps } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
+import {
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormHelperTextProps,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
 import { ChangeEvent, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   CustomButton,
   CustomModal,
@@ -19,23 +28,36 @@ import {
 import { useDialog } from 'shared/hooks';
 import { InputFieldUtils } from 'shared/utils';
 
+import { ExamEventDetails } from 'components/publicEnrollment/steps/ExamEventDetails';
 import {
   translateOutsideComponent,
   useClerkTranslation,
   useCommonTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { APIEndpoints } from 'enums/api';
 import { EnrollmentStatus, PaymentStatus } from 'enums/app';
-import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
+import {
+  ClerkEnrollmentFreeBasisFieldEnum,
+  ClerkEnrollmentTextFieldEnum,
+} from 'enums/clerkEnrollment';
+import { ClerkFreeEnrollmentBasis } from 'interfaces/clerkEducation';
 import { ClerkEnrollment, ClerkPayment } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
+import { Attachment, FreeBasisSource } from 'interfaces/publicEducation';
 import {
   createClerkEnrollmentPaymentLink,
   setClerkPaymentRefunded,
 } from 'redux/reducers/clerkEnrollmentDetails';
 import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
 import { DateTimeUtils } from 'utils/dateTime';
+import { FileUtils } from 'utils/file';
+
+enum YESNO {
+  YES = 'yes',
+  NO = 'no',
+}
 
 const CheckboxField = ({
   enrollment,
@@ -63,6 +85,121 @@ const CheckboxField = ({
       }
       label={translateCommon(`enrollment.partialExamsAndSkills.${fieldName}`)}
     />
+  );
+};
+
+const DownloadAttachment = ({ attachment }: { attachment: Attachment }) => {
+  return (
+    <div className="columns gapped">
+      <Text>{attachment.name}</Text>
+      <Text>({FileUtils.getReadableFileSize(attachment.size)})</Text>
+      <Link
+        to={`${APIEndpoints.ClerkEnrollment}/attachment?key=${attachment.id}`}
+        target="_blank"
+      >
+        <CustomButton
+          variant={Variant.Outlined}
+          color={Color.Secondary}
+          startIcon={<DownloadIcon />}
+        >
+          Lataa tiedosto
+        </CustomButton>
+      </Link>
+    </div>
+  );
+};
+
+const FreeEnrollmentBasis = ({
+  basis,
+  disabled,
+  onTextFieldChange,
+  onCheckboxFieldChange,
+}: {
+  basis: ClerkFreeEnrollmentBasis;
+  disabled: boolean;
+  onTextFieldChange: (
+    field: ClerkEnrollmentTextFieldEnum | ClerkEnrollmentFreeBasisFieldEnum,
+  ) => (event: ChangeEvent<HTMLTextAreaElement>) => void;
+  onCheckboxFieldChange: (
+    field:
+      | keyof PartialExamsAndSkills
+      | keyof Pick<ClerkEnrollment, 'digitalCertificateConsent'>
+      | keyof Pick<ClerkFreeEnrollmentBasis, 'comment' | 'approved'>,
+    fieldValue: boolean,
+  ) => void;
+}) => {
+  const { t } = useClerkTranslation({
+    keyPrefix: 'vkt.component.clerkEnrollmentDetails',
+  });
+
+  const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
+    onCheckboxFieldChange(
+      ClerkEnrollmentFreeBasisFieldEnum.Approved,
+      event.target.value === YESNO.YES,
+    );
+  };
+
+  return (
+    <div className="rows gapped-xxl margin-top-lg">
+      <div className="rows gapped">
+        <H3>{t('freeEnrollment.title')}</H3>
+        <Text>{t('freeEnrollment.description')}</Text>
+        <ul className="public-enrollment__grid__preview__bullet-list">
+          <Text>
+            <li key={`education-type-${basis.type}`}>
+              {t(`freeEnrollment.type.${basis.type}`)}
+              {' ('}
+              {t(`freeEnrollment.source.${basis.source}`)}
+              {')'}
+            </li>
+          </Text>
+        </ul>
+        {basis.attachments &&
+          basis.attachments.length > 0 &&
+          basis.attachments.map((attachment) => (
+            <DownloadAttachment key={attachment.id} attachment={attachment} />
+          ))}
+        {basis.source === FreeBasisSource.User && (
+          <fieldset className="clerk-enrollment-details-fields__approve">
+            <legend>
+              <Text>
+                <b>{t('freeEnrollment.inspect')}</b>
+              </Text>
+            </legend>
+            <FormControl error={false}>
+              <RadioGroup onChange={handleRadioChange}>
+                <FormControlLabel
+                  className="radio-group-label"
+                  value={YESNO.NO}
+                  checked={basis.approved === false}
+                  control={<Radio />}
+                  label={t('freeEnrollment.deny')}
+                  disabled={disabled}
+                />
+                <FormControlLabel
+                  className="radio-group-label"
+                  value={YESNO.YES}
+                  checked={basis.approved === true}
+                  control={<Radio />}
+                  label={t('freeEnrollment.approve')}
+                  disabled={disabled}
+                />
+              </RadioGroup>
+            </FormControl>
+            <Text className="bold">Kommentti</Text>
+            <CustomTextField
+              type={TextFieldTypes.Textarea}
+              disabled={disabled}
+              value={basis.comment}
+              multiline
+              onChange={onTextFieldChange(
+                ClerkEnrollmentFreeBasisFieldEnum.Comment,
+              )}
+            />
+          </fieldset>
+        )}
+      </div>
+    </div>
   );
 };
 
@@ -235,12 +372,13 @@ export const ClerkEnrollmentDetailsFields = ({
   topControlButtons: JSX.Element;
   showFieldErrorBeforeChange: boolean;
   onTextFieldChange: (
-    field: ClerkEnrollmentTextFieldEnum,
+    field: ClerkEnrollmentTextFieldEnum | ClerkEnrollmentFreeBasisFieldEnum,
   ) => (event: ChangeEvent<HTMLTextAreaElement>) => void;
   onCheckboxFieldChange: (
     field:
       | keyof PartialExamsAndSkills
-      | keyof Pick<ClerkEnrollment, 'digitalCertificateConsent'>,
+      | keyof Pick<ClerkEnrollment, 'digitalCertificateConsent'>
+      | keyof Pick<ClerkFreeEnrollmentBasis, 'comment' | 'approved'>,
     fieldValue: boolean,
   ) => void;
 }) => {
@@ -326,8 +464,8 @@ export const ClerkEnrollmentDetailsFields = ({
 
   const displayPaymentInformation =
     [
-      EnrollmentStatus.PAID,
-      EnrollmentStatus.SHIFTED_FROM_QUEUE,
+      EnrollmentStatus.COMPLETED,
+      EnrollmentStatus.AWAITING_PAYMENT,
       EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
     ].includes(enrollment.status) || enrollment.payments.length > 0;
 
@@ -389,73 +527,95 @@ export const ClerkEnrollmentDetailsFields = ({
             editDisabled,
           )}
         />
-        <div className="columns align-items-start clerk-enrollment-details-fields__skills">
-          <div className="rows gapped-xs">
-            <div className="margin-top-sm columns gapped">
-              <H3>{t('header.selectedSkills')}</H3>
+        {!editDisabled && (
+          <div className="rows align-items-start clerk-enrollment-details-fields__skills">
+            <div className="rows gapped-sm">
+              <div className="margin-top-sm columns gapped">
+                <H3>{t('header.selectedSkills')}</H3>
+              </div>
+              <div className="rows clerk-enrollment-details-fields__skills__checkboxes">
+                <CheckboxField
+                  enrollment={enrollment}
+                  fieldName={'textualSkill'}
+                  onClick={toggleSkill}
+                  disabled={editDisabled}
+                />
+                <CheckboxField
+                  enrollment={enrollment}
+                  fieldName={'oralSkill'}
+                  onClick={toggleSkill}
+                  disabled={editDisabled}
+                />
+              </div>
             </div>
-            <div className="rows clerk-enrollment-details-fields__skills__checkboxes">
-              <CheckboxField
-                enrollment={enrollment}
-                fieldName={'textualSkill'}
-                onClick={toggleSkill}
-                disabled={editDisabled}
-              />
-              <CheckboxField
-                enrollment={enrollment}
-                fieldName={'oralSkill'}
-                onClick={toggleSkill}
-                disabled={editDisabled}
-              />
-              <CheckboxField
-                enrollment={enrollment}
-                fieldName={'understandingSkill'}
-                onClick={toggleSkill}
-                disabled={editDisabled}
-              />
+            <div className="rows gapped margin-top-sm">
+              <H3>{t('header.selectedPartialExams')}</H3>
+              <div className="columns gapped-xxl">
+                <div className="rows clerk-enrollment-details-fields__skills__checkboxes gapped-sm">
+                  <H3>
+                    {translateCommon(
+                      'enrollment.partialExamsAndSkills.oralSkill',
+                    )}{' '}
+                    *
+                  </H3>
+                  <CheckboxField
+                    enrollment={enrollment}
+                    fieldName={'speakingPartialExam'}
+                    onClick={togglePartialExam}
+                    disabled={!enrollment.oralSkill || editDisabled}
+                  />
+                  <CheckboxField
+                    enrollment={enrollment}
+                    fieldName={'speechComprehensionPartialExam'}
+                    onClick={togglePartialExam}
+                    disabled={
+                      (!enrollment.oralSkill &&
+                        !enrollment.understandingSkill) ||
+                      editDisabled
+                    }
+                  />
+                </div>
+                <div className="rows clerk-enrollment-details-fields__skills__checkboxes gapped-sm">
+                  <H3>
+                    {translateCommon(
+                      'enrollment.partialExamsAndSkills.textualSkill',
+                    )}{' '}
+                    *
+                  </H3>
+                  <CheckboxField
+                    enrollment={enrollment}
+                    fieldName={'writingPartialExam'}
+                    onClick={togglePartialExam}
+                    disabled={!enrollment.textualSkill || editDisabled}
+                  />
+                  <CheckboxField
+                    enrollment={enrollment}
+                    fieldName={'readingComprehensionPartialExam'}
+                    onClick={togglePartialExam}
+                    disabled={
+                      (!enrollment.textualSkill &&
+                        !enrollment.understandingSkill) ||
+                      editDisabled
+                    }
+                  />
+                </div>
+              </div>
             </div>
           </div>
-          <div className="rows gapped-xs margin-top-sm">
-            <H3>{t('header.selectedPartialExams')}</H3>
-            <div className="rows clerk-enrollment-details-fields__skills__checkboxes">
-              <CheckboxField
-                enrollment={enrollment}
-                fieldName={'writingPartialExam'}
-                onClick={togglePartialExam}
-                disabled={!enrollment.textualSkill || editDisabled}
-              />
-              <CheckboxField
-                enrollment={enrollment}
-                fieldName={'readingComprehensionPartialExam'}
-                onClick={togglePartialExam}
-                disabled={
-                  (!enrollment.textualSkill &&
-                    !enrollment.understandingSkill) ||
-                  editDisabled
-                }
-              />
-              <CheckboxField
-                enrollment={enrollment}
-                fieldName={'speakingPartialExam'}
-                onClick={togglePartialExam}
-                disabled={!enrollment.oralSkill || editDisabled}
-              />
-              <CheckboxField
-                enrollment={enrollment}
-                fieldName={'speechComprehensionPartialExam'}
-                onClick={togglePartialExam}
-                disabled={
-                  (!enrollment.oralSkill && !enrollment.understandingSkill) ||
-                  editDisabled
-                }
-              />
-            </div>
-          </div>
-        </div>
+        )}
+        <ExamEventDetails enrollment={enrollment} clerkView={true} />
         <div className="rows gapped-sm margin-top-lg">
           <H3>{t('status')}</H3>
           <Text>{t(`enrollmentStatus.${enrollment.status}`)}</Text>
         </div>
+        {enrollment.freeEnrollmentBasis && (
+          <FreeEnrollmentBasis
+            basis={enrollment.freeEnrollmentBasis}
+            disabled={editDisabled}
+            onTextFieldChange={onTextFieldChange}
+            onCheckboxFieldChange={onCheckboxFieldChange}
+          />
+        )}
         {displayPaymentInformation && (
           <div className="rows gapped-xxl margin-top-lg">
             <div className="rows gapped">
@@ -463,7 +623,7 @@ export const ClerkEnrollmentDetailsFields = ({
               {enrollment.payments.length > 0 && (
                 <PaymentDetails payment={enrollment.payments[0]} />
               )}
-              {enrollment.status === EnrollmentStatus.SHIFTED_FROM_QUEUE && (
+              {enrollment.status === EnrollmentStatus.AWAITING_PAYMENT && (
                 <div className="columns flex-start">
                   <CustomButton
                     color={Color.Secondary}

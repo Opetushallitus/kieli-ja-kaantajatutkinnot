@@ -10,8 +10,12 @@ import { MoveModal } from 'components/clerkEnrollment/overview/MoveModal';
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { EnrollmentStatus, UIMode } from 'enums/app';
-import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
+import {
+  ClerkEnrollmentFreeBasisFieldEnum,
+  ClerkEnrollmentTextFieldEnum,
+} from 'enums/clerkEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
+import { ClerkFreeEnrollmentBasis } from 'interfaces/clerkEducation';
 import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import {
@@ -109,7 +113,7 @@ export const ClerkEnrollmentDetails = () => {
     EnrollmentUtils.isValidCertificateShipping(enrollmentDetails);
 
   const handleTextFieldChange =
-    (field: ClerkEnrollmentTextFieldEnum) =>
+    (field: ClerkEnrollmentTextFieldEnum | ClerkEnrollmentFreeBasisFieldEnum) =>
     (event: ChangeEvent<HTMLTextAreaElement>) => {
       handleFieldChange(field, event.target.value);
     };
@@ -117,7 +121,8 @@ export const ClerkEnrollmentDetails = () => {
   const handleCheckboxFieldChange = (
     field:
       | keyof PartialExamsAndSkills
-      | keyof Pick<ClerkEnrollment, 'digitalCertificateConsent'>,
+      | keyof Pick<ClerkEnrollment, 'digitalCertificateConsent'>
+      | keyof Pick<ClerkFreeEnrollmentBasis, 'comment' | 'approved'>,
     fieldValue: boolean,
   ) => {
     handleFieldChange(field, fieldValue);
@@ -126,8 +131,10 @@ export const ClerkEnrollmentDetails = () => {
   const handleFieldChange = (
     field:
       | ClerkEnrollmentTextFieldEnum
+      | ClerkEnrollmentFreeBasisFieldEnum
       | keyof PartialExamsAndSkills
-      | keyof Pick<ClerkEnrollment, 'digitalCertificateConsent'>,
+      | keyof Pick<ClerkEnrollment, 'digitalCertificateConsent'>
+      | keyof Pick<ClerkFreeEnrollmentBasis, 'comment' | 'approved'>,
     fieldValue: string | boolean,
   ) => {
     setHasLocalChanges(true);
@@ -148,6 +155,24 @@ export const ClerkEnrollmentDetails = () => {
             [field]: fieldValue,
           },
         };
+      } else if (
+        field === ClerkEnrollmentFreeBasisFieldEnum.Approved ||
+        field === ClerkEnrollmentFreeBasisFieldEnum.Comment
+      ) {
+        // It should not be possible to update freeEnrollmentBasis
+        // if it does not exists, but compiler is not smart
+        // enough to understand that so this if else is needed
+        if (prevState.freeEnrollmentBasis) {
+          updatedEnrollmentDetails = {
+            ...prevState,
+            freeEnrollmentBasis: {
+              ...prevState.freeEnrollmentBasis,
+              [field]: fieldValue,
+            },
+          };
+        } else {
+          updatedEnrollmentDetails = prevState;
+        }
       } else {
         updatedEnrollmentDetails = {
           ...prevState,
@@ -162,7 +187,12 @@ export const ClerkEnrollmentDetails = () => {
   const handleSaveButtonClick = () => {
     dispatch(
       updateClerkEnrollmentDetails({
-        enrollment: enrollmentDetails,
+        enrollment: {
+          ...enrollmentDetails,
+          understandingSkill:
+            enrollmentDetails.speechComprehensionPartialExam &&
+            enrollmentDetails.readingComprehensionPartialExam,
+        },
         examEvent,
       }),
     );

@@ -175,9 +175,9 @@ export const ClerkExamEventDetails = () => {
     {
       icon: <ContentCopyIcon />,
       label: t('copyClipboard.copyPaid'),
-      onClick: copyEmails.bind(this, enrollments, EnrollmentStatus.PAID),
+      onClick: copyEmails.bind(this, enrollments, EnrollmentStatus.COMPLETED),
       disabled:
-        enrollmentFilter(enrollments, EnrollmentStatus.PAID).length <= 0,
+        enrollmentFilter(enrollments, EnrollmentStatus.COMPLETED).length <= 0,
     },
     {
       icon: <ContentCopyIcon />,
@@ -313,12 +313,17 @@ export const ClerkExamEventDetails = () => {
       </div>
       <EnrollmentList
         enrollments={enrollments}
-        status={EnrollmentStatus.PAID}
+        status={EnrollmentStatus.COMPLETED}
         examEventId={examEventDetails.id}
       />
       <EnrollmentList
         enrollments={enrollments}
-        status={EnrollmentStatus.SHIFTED_FROM_QUEUE}
+        status={EnrollmentStatus.AWAITING_APPROVAL}
+        examEventId={examEventDetails.id}
+      />
+      <EnrollmentList
+        enrollments={enrollments}
+        status={EnrollmentStatus.AWAITING_PAYMENT}
         examEventId={examEventDetails.id}
       />
       <EnrollmentList
