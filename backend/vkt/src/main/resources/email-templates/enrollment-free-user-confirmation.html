@@ -5,20 +5,25 @@
             Hei,
         </p>
         <p>
-            Olet ilmoittautunut Valtionhallinnon kielitutkintoon. Ohessa tiedot ilmoittautumisestasi. Liitteenä myös maksukuitti suomeksi ja ruotsiksi.
+            Olet ilmoittautunut Valtionhallinnon kielitutkintoon. Olet ilmoittanut ilmoittautumislomakkeella, että olet oikeutettu maksuttomaan tutkintoon ja lisännyt todistusasiakirjoja.
         </p>
+        <p>Virkailija tarkastaa, täyttävätkö asiakirjat maksuttomuuden ehdot. Asiakirjat tarkastetaan mahdollisimman pian.</p>
+        <p>Jos ehdot täyttyvät, tutkinto on maksuton ja saat sähköpostilla vahvistuksen ilmoittautumisesta.</p>
+        <p>Jos ehdot eivät täyty, tutkinto on maksullinen ja saat sähköpostilla maksulinkin tutkintomaksun maksamista varten.</p>
+        <p>Ohessa tiedot ilmoittautumisestasi.</p>
+
         <br/>
 
         <p>
             <b>Tutkinnon kieli:</b> <span th:text="${examLanguageFI}"></span><br/>
             <b>Tutkinnon taso:</b> <span th:text="${examLevelFI}"></span><br/>
             <b>Tutkintopäivä:</b> <span th:text="${examDate}"></span><br/>
-            <b>Oikeutettu maksuttomaan tutkintoon:</b> <span>Ei</span><br/>
+            <b>Oikeutettu maksuttomaan tutkintoon:</b> <span>Virkailija tarkastaa</span><br/>
             <b>Valitsemasi taidot:</b> <span th:text="${skillsFI}"></span><br/>
             <b>Valitsemasi osakokeet:</b> <span th:text="${partialExamsFI}"></span><br/>
+            <b>Maksuttomia tutkintokertoja jäljellä:</b> <span th:text="${freeExamsLeftFI}"></span><br/>
         </p>
         <br/>
-
         <p><b>Tietoa tutkintotilaisuudesta</b></p>
 
         <p>Tutkintotilaisuus järjestetään Opetushallituksen tiloissa osoitteessa Hakaniemenranta 6, 00530 Helsinki.</p>
@@ -41,18 +46,20 @@
         <p>
             Hej,
         </p>
-        <p>
-            Du har anmält dig till Språkexamen för statsförvaltningen (VKT). Uppgifter om din anmälan hittar du nedan. Bifogat finns även kvittot för din examensavgift på finska och på svenska.
-        </p>
+        <p>Du har anmält dig till Språkexamen för statsförvaltningen (VKT).</p>
+        <p>Du har informerat på anmälningsblanketten att du har rätt till en avgiftsfri examen och bifogat intyg. Dina intyg granskas så fort som möjligt.</p>
+        <p>Ifall du har rätt till en avgiftsfri examen får du en bekräftelse om din anmälan per e-post. Om du inte har rätt till en avgiftsfri examen får du en länk för att betala examensavgiften.</p>
+        <p>Uppgifter om din anmälan hittar du nedan. Bifogat finns även kvittot för din examensavgift på finska och på svenska.</p>
         <br/>
 
         <p>
             <b>Examensspråk:</b> <span th:text="${examLanguageSV}"></span><br/>
             <b>Examensnivå:</b> <span th:text="${examLevelSV}"></span><br/>
             <b>Examensdatum:</b> <span th:text="${examDate}"></span><br/>
-            <b>Rätt till avgiftsfri anmälan:</b> <span>Nej</span><br/>
+            <b>Rätt till avgiftsfri anmälan:</b> <span>Granskas på Utbildningstyrelsen</span><br/>
             <b>Förmågor som du har valt:</b> <span th:text="${skillsSV}"></span><br/>
             <b>Delprov som du har valt:</b> <span th:text="${partialExamsSV}"></span><br/>
+            <b>Antalet avgiftsfria examina kvar:</b> <span th:text="${freeExamsLeftSV}"></span><br/>
         </p>
         <br/>
         <p><b>Information om examenstillfället</b></p>
