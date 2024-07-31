@@ -10,8 +10,6 @@ import fi.oph.vkt.service.email.sender.EmailSender;
 import fi.oph.vkt.service.email.sender.EmailSenderNoOp;
 import fi.oph.vkt.service.email.sender.EmailSenderViestintapalvelu;
 import fi.oph.vkt.util.UUIDSource;
-import jakarta.servlet.ServletContext;
-import org.apereo.cas.client.session.SessionMappingStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,13 +18,19 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.http.MediaType;
 import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.Session;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.ContainerCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 
 @Configuration
 public class AppConfig {
@@ -67,6 +71,20 @@ public class AppConfig {
   }
 
   @Bean
+  public WebClient koskiClient(final Environment environment) {
+    return webClientBuilderWithCallerId()
+      .baseUrl(environment.getRequiredProperty("app.koski.url"))
+      .defaultHeaders(headers -> {
+        headers.setBasicAuth(
+          environment.getRequiredProperty("app.koski.user"),
+          environment.getRequiredProperty("app.koski.password")
+        );
+        headers.setContentType(MediaType.APPLICATION_JSON);
+      })
+      .build();
+  }
+
+  @Bean
   public CasTicketValidator casTicketValidator(final Environment environment) {
     final WebClient webClient = webClientBuilderWithCallerId()
       .baseUrl(environment.getRequiredProperty("app.cas-oppija.validate-ticket-url"))
@@ -100,6 +118,23 @@ public class AppConfig {
     templateResolver.setTemplateMode(TemplateMode.HTML);
     templateResolver.setOrder(2);
     return templateResolver;
+  }
+
+  @Bean
+  @Profile("dev")
+  public AwsCredentialsProvider localstackAwsCredentialsProvider(final Environment environment) {
+    return StaticCredentialsProvider.create(
+      AwsBasicCredentials.create(
+        environment.getRequiredProperty("app.aws.localstack.access-key-id"),
+        environment.getRequiredProperty("app.aws.localstack.secret-access-key")
+      )
+    );
+  }
+
+  @Bean
+  @Profile("!dev")
+  public AwsCredentialsProvider defaultAwsCredentialsProvider() {
+    return ContainerCredentialsProvider.builder().build();
   }
 
   private static WebClient.Builder webClientBuilderWithCallerId() {
