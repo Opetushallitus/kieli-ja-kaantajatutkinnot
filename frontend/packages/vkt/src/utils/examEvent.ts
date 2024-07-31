@@ -10,8 +10,9 @@ import { PublicExamEvent } from 'interfaces/publicExamEvent';
 export class ExamEventUtils {
   static getIsExamEventWithUnusedSeats(examEventDetails: ClerkExamEvent) {
     const participationStatuses = [
-      EnrollmentStatus.PAID,
-      EnrollmentStatus.SHIFTED_FROM_QUEUE,
+      EnrollmentStatus.COMPLETED,
+      EnrollmentStatus.AWAITING_PAYMENT,
+      EnrollmentStatus.AWAITING_APPROVAL,
       EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
     ];
     const { enrollments } = examEventDetails;
