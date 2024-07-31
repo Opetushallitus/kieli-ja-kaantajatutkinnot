@@ -92,10 +92,6 @@
       "examLevel": {
         "EXCELLENT": "Utmärkta språkkunskaper"
       },
-      "examinationPayment": {
-        "part1": "Examensavgiften är 514 euro om du avlägger examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift samtidigt.",
-        "part2": "Examensavgiften är 257 euro om du avlägger antigen examen som gäller förmåga att använda språket i tal eller examen som gäller förmåga att använda språket i skrift eller ett av delproven."
-      },
       "header": {
         "accessibility": {
           "continueToMain": "Fortsätt till innehållet",
