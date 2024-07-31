@@ -5,13 +5,22 @@ server:
         secure: false
 app:
   reservation:
-    duration: PT5M
+    duration: PT50M
   payment:
     paytrail:
       secret: SAIPPUAKAUPPIAS
       account: 375917
   featureFlags:
     freeEnrollmentAllowed: true
+  aws:
+    localstack:
+      access-key-id: test
+      secret-access-key: test
+    s3-bucket: opintopolku-dev-vkt
+  koski:
+    url: fill-koski-url
+    user: fill-koski-user
+    password: fill-koski-password
 springdoc:
   swagger-ui:
     enabled: true

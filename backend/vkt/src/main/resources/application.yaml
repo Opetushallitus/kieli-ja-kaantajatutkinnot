@@ -85,6 +85,10 @@ app:
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}
+  koski:
+    url: ${koski.url:null}
+    user: ${koski.user:null}
+    password: ${koski.password:null}
   payment:
     paytrail:
       url: https://services.paytrail.com
@@ -92,3 +96,5 @@ app:
       account: ${payment.paytrail.account:null}
   featureFlags:
     freeEnrollmentAllowed: ${feature-flags.free-enrollment-allowed:false}
+  aws:
+    s3-bucket: ${aws.s3-bucket:test}
