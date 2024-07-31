@@ -9,7 +9,10 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
+import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.service.ClerkEnrollmentService;
+import fi.oph.vkt.service.FeatureFlagService;
+import fi.oph.vkt.service.aws.S3Service;
 import fi.oph.vkt.service.receipt.ReceiptData;
 import fi.oph.vkt.service.receipt.ReceiptRenderer;
 import fi.oph.vkt.util.LocalisationUtil;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -46,6 +50,12 @@ public class ClerkEnrollmentController {
   @Resource
   private ReceiptRenderer receiptRenderer;
 
+  @Resource
+  private FeatureFlagService featureFlagService;
+
+  @Resource
+  private S3Service s3Service;
+
   @PutMapping
   @Operation(tags = TAG_ENROLLMENT, summary = "Update enrollment")
   public ClerkEnrollmentDTO updateEnrollment(@RequestBody @Valid final ClerkEnrollmentUpdateDTO dto) {
@@ -62,6 +72,17 @@ public class ClerkEnrollmentController {
   @Operation(tags = TAG_ENROLLMENT, summary = "Move enrollment to another exam event")
   public ClerkEnrollmentDTO move(@RequestBody @Valid final ClerkEnrollmentMoveDTO dto) {
     return clerkEnrollmentService.move(dto);
+  }
+
+  @GetMapping(path = "/attachment", consumes = ALL_VALUE)
+  @Operation(tags = TAG_ENROLLMENT, summary = "Download enrollment attachment")
+  public void attachmentRedirect(final HttpServletResponse response, @RequestParam final String key)
+    throws IOException {
+    if (featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
+      response.sendRedirect(s3Service.getPresignedUrl(key));
+    } else {
+      throw new RuntimeException("Not allowed");
+    }
   }
 
   @PostMapping("/{enrollmentId:\\d+}/paymentLink")

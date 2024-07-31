@@ -1,5 +1,7 @@
 package fi.oph.vkt.api;
 
+import fi.oph.vkt.service.aws.S3Config;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import java.security.SecureRandom;
 import java.util.Base64;
@@ -16,7 +18,10 @@ public class IndexController {
   private static final int NONCE_BYTES = 32;
   private final SecureRandom secureRandom = new SecureRandom();
 
-  private static void addCSPHeaders(final HttpServletResponse response, final String nonce) {
+  @Resource
+  private S3Config s3Config;
+
+  private void addCSPHeaders(final HttpServletResponse response, final String nonce) {
     final String csp =
       "default-src 'none'; " +
       "script-src 'self' 'nonce-" +
@@ -25,7 +30,9 @@ public class IndexController {
       "style-src 'self' 'nonce-" +
       nonce +
       "' 'unsafe-inline'; " +
-      "connect-src 'self'; " +
+      "connect-src 'self' " +
+      s3Config.getBucketURI() +
+      "; " +
       "img-src 'self'; " +
       "font-src 'self'; " +
       "base-uri 'self'; " +
