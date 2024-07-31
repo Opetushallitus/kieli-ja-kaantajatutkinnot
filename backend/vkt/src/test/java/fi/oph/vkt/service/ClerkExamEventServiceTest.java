@@ -24,6 +24,7 @@ import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
+import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.exception.APIException;
@@ -63,11 +64,14 @@ public class ClerkExamEventServiceTest {
   @Resource
   private TestEntityManager entityManager;
 
+  @Resource
+  private EnrollmentRepository enrollmentRepository;
+
   private ClerkExamEventService clerkExamEventService;
 
   @BeforeEach
   public void setup() {
-    clerkExamEventService = new ClerkExamEventService(examEventRepository, auditService);
+    clerkExamEventService = new ClerkExamEventService(examEventRepository, enrollmentRepository, auditService);
   }
 
   @Test
@@ -105,9 +109,9 @@ public class ClerkExamEventServiceTest {
     entityManager.persist(upcomingEventFi);
     entityManager.persist(futureEvent);
 
-    createEnrollment(futureEvent, EnrollmentStatus.PAID);
+    createEnrollment(futureEvent, EnrollmentStatus.COMPLETED);
     createEnrollment(futureEvent, EnrollmentStatus.QUEUED);
-    createEnrollment(futureEvent, EnrollmentStatus.SHIFTED_FROM_QUEUE);
+    createEnrollment(futureEvent, EnrollmentStatus.AWAITING_PAYMENT);
     createEnrollment(futureEvent, EnrollmentStatus.CANCELED);
 
     final List<ClerkExamEventListDTO> examEventListDTOs = clerkExamEventService.list();
