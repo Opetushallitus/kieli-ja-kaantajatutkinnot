@@ -1,17 +1,25 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { H2, LabeledTextField, Text } from 'shared/components';
 import { InputAutoComplete, TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
 import { FieldErrors, getErrors, hasErrors } from 'shared/utils';
 
+import { EducationDetails } from 'components/publicEnrollment/steps/EducationDetails';
 import { PersonDetails } from 'components/publicEnrollment/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import {
+  HandleChange,
+  PublicFreeEnrollmentBasis,
+} from 'interfaces/publicEducation';
 import {
   PublicEnrollment,
   PublicEnrollmentContactDetails,
 } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
+import { featureFlagsSelector } from 'redux/selectors/featureFlags';
+import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
+import { EnrollmentUtils } from 'utils/enrollment';
 
 const fields: Array<TextField<PublicEnrollmentContactDetails>> = [
   {
@@ -69,6 +77,8 @@ export const FillContactDetails = ({
     keyPrefix: 'vkt.component.publicEnrollment.steps.fillContactDetails',
   });
   const translateCommon = useCommonTranslation();
+  const { freeEnrollmentAllowed } = useAppSelector(featureFlagsSelector);
+  const { freeEnrollmentDetails } = useAppSelector(publicEnrollmentSelector);
 
   const [dirtyFields, setDirtyFields] = useState<
     Array<keyof PublicEnrollmentContactDetails>
@@ -84,6 +94,12 @@ export const FillContactDetails = ({
     dirtyFields: dirty,
     extraValidation: emailsMatch.bind(this, t),
   });
+  const isEducationValid = EnrollmentUtils.isValidFreeBasisIfRequired(
+    enrollment,
+    freeEnrollmentDetails,
+  );
+  const isAttachmentsValid =
+    EnrollmentUtils.isValidAttachmentsIfRequired(enrollment);
 
   useEffect(() => {
     setIsStepValid(
@@ -92,9 +108,18 @@ export const FillContactDetails = ({
         values: enrollment,
         t: translateCommon,
         extraValidation: emailsMatch.bind(this, t),
-      }),
+      }) &&
+        isEducationValid &&
+        isAttachmentsValid,
     );
-  }, [setIsStepValid, enrollment, t, translateCommon]);
+  }, [
+    setIsStepValid,
+    enrollment,
+    t,
+    translateCommon,
+    isEducationValid,
+    isAttachmentsValid,
+  ]);
 
   const handleChange =
     (fieldName: keyof PublicEnrollmentContactDetails) =>
@@ -105,6 +130,19 @@ export const FillContactDetails = ({
         }),
       );
     };
+
+  const handleEductionChangeFn: HandleChange = (
+    isFree: boolean,
+    freeEnrollmentBasis?: PublicFreeEnrollmentBasis,
+  ) => {
+    dispatch(
+      updatePublicEnrollment({
+        isFree,
+        freeEnrollmentBasis,
+      }),
+    );
+  };
+  const handleEducationChange = useCallback(handleEductionChangeFn, [dispatch]);
 
   const handleBlur =
     (fieldName: keyof PublicEnrollmentContactDetails) => () => {
@@ -173,6 +211,14 @@ export const FillContactDetails = ({
         type={TextFieldTypes.PhoneNumber}
         autoComplete={InputAutoComplete.PhoneNumber}
       />
+      {freeEnrollmentAllowed && (
+        <EducationDetails
+          isEducationValid={isEducationValid}
+          isAttachmentsValid={isAttachmentsValid}
+          showValidation={showValidation}
+          handleChange={handleEducationChange}
+        />
+      )}
     </div>
   );
 };

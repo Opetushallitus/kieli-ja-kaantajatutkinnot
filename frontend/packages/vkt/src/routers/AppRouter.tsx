@@ -158,6 +158,16 @@ export const AppRouter: FC = () => {
               </TitlePage>
             }
           />
+          <Route
+            path={AppRoutes.PublicEnrollmentDoneQueued}
+            element={
+              <TitlePage title={createTitle('done')}>
+                <PublicEnrollmentPage
+                  activeStep={PublicEnrollmentFormStep.DoneQueued}
+                />
+              </TitlePage>
+            }
+          />
         </Route>
         <Route
           path={AppRoutes.AccessibilityStatementPage}

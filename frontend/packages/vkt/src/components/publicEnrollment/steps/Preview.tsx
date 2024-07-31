@@ -5,14 +5,60 @@ import { Trans } from 'react-i18next';
 import { H2, Text, WebLink } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 
+import { ExamEventDetails } from 'components/publicEnrollment/steps/ExamEventDetails';
 import { PersonDetails } from 'components/publicEnrollment/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
+import { PublicFreeEnrollmentBasis } from 'interfaces/publicEducation';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
+import { EnrollmentUtils } from 'utils/enrollment';
+
+const EducationDetails = ({
+  freeEnrollmentBasis,
+}: {
+  freeEnrollmentBasis: PublicFreeEnrollmentBasis;
+}) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicEnrollment.steps',
+  });
+
+  return (
+    <div className="rows gapped">
+      <H2>{t('preview.educationDetails.title')}</H2>
+      <Text>{t('preview.educationDetails.description')}</Text>
+      <div className="rows gapped">
+        <div className="rows">
+          <ul>
+            <li>
+              <Text>
+                {t(
+                  `fillContactDetails.educationDetails.type.${freeEnrollmentBasis.type}`,
+                )}
+              </Text>
+            </li>
+          </ul>
+        </div>
+        {freeEnrollmentBasis.attachments && (
+          <div className="rows">
+            <Text className="bold">
+              {t('educationDetails.attachmentsCheck')}
+            </Text>
+            <ul>
+              {freeEnrollmentBasis.attachments.map((attachment) => (
+                <li key={`attachment-${attachment.id}`}>
+                  <Text>{attachment.name}</Text>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const ContactDetails = ({
   email,
@@ -45,70 +91,6 @@ const ContactDetails = ({
             {phoneNumber}
           </Text>
         </div>
-      </div>
-    </div>
-  );
-};
-
-const ExamEventDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
-  const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.steps.preview.examEventDetails',
-  });
-  const translateCommon = useCommonTranslation();
-
-  const translateIfSelected = (skill: keyof PartialExamsAndSkills) => {
-    return enrollment[skill]
-      ? translateCommon(`enrollment.partialExamsAndSkills.${skill}`)
-      : undefined;
-  };
-
-  const skills = [
-    translateIfSelected('textualSkill'),
-    translateIfSelected('oralSkill'),
-    translateIfSelected('understandingSkill'),
-  ].filter((s) => !!s);
-
-  const partialExams = [
-    translateIfSelected('writingPartialExam'),
-    translateIfSelected('readingComprehensionPartialExam'),
-    translateIfSelected('speakingPartialExam'),
-    translateIfSelected('speechComprehensionPartialExam'),
-  ].filter((s) => !!s);
-
-  const displayBulletList = (
-    label: string,
-    items: Array<string | undefined>,
-  ) => (
-    <div className="rows gapped-xxs">
-      <Text className="bold">
-        {label}
-        {':'}
-      </Text>
-      <ul className="public-enrollment__grid__preview__bullet-list">
-        {items.map((item, i) => (
-          <Text key={i}>
-            <li>{item}</li>
-          </Text>
-        ))}
-      </ul>
-    </div>
-  );
-
-  return (
-    <div className="rows gapped">
-      <H2>{t('title')}</H2>
-      {displayBulletList(t('selectedSkillsLabel'), skills)}
-      {displayBulletList(t('selectedPartialExamsLabel'), partialExams)}
-      <div className="rows gapped-xxs">
-        <Text className="bold">
-          {t('previousEnrollmentLabel')}
-          {':'}
-        </Text>
-        <Text>
-          {enrollment.hasPreviousEnrollment
-            ? `${translateCommon('yes')}: ${enrollment.previousEnrollment}`
-            : translateCommon('no')}
-        </Text>
       </div>
     </div>
   );
@@ -162,13 +144,22 @@ const CertificateShippingDetails = ({
   );
 };
 
-const PrivacyStatementCheckboxLabel = () => {
+const PrivacyStatementCheckboxLabel = ({
+  enrollment,
+}: {
+  enrollment: PublicEnrollment;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.preview.privacyStatement',
   });
 
   return (
-    <Trans t={t} i18nKey="label">
+    <Trans
+      t={t}
+      i18nKey={
+        enrollment.isFree ? 'freeEnrollmentLabel' : 'paidEnrollmentLabel'
+      }
+    >
       <WebLink
         href={AppRoutes.PrivacyPolicyPage}
         label={t('linkLabel')}
@@ -218,6 +209,12 @@ export const Preview = ({
           email={enrollment.email}
           phoneNumber={enrollment.phoneNumber}
         />
+        {EnrollmentUtils.hasFreeBasis(enrollment) &&
+          enrollment.freeEnrollmentBasis && (
+            <EducationDetails
+              freeEnrollmentBasis={enrollment.freeEnrollmentBasis}
+            />
+          )}
       </div>
       <ExamEventDetails enrollment={enrollment} />
       <CertificateShippingDetails enrollment={enrollment} />
@@ -236,7 +233,7 @@ export const Preview = ({
                 }
               />
             }
-            label={<PrivacyStatementCheckboxLabel />}
+            label={<PrivacyStatementCheckboxLabel enrollment={enrollment} />}
             className={`public-enrollment__grid__preview__privacy-statement-checkbox-label ${
               hasPrivacyStatementError && 'checkbox-error'
             }`}

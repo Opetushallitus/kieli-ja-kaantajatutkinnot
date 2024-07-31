@@ -61,6 +61,7 @@ export const PublicEnrollmentPhoneGrid = ({
     cancelStatus,
     enrollment,
     reservation,
+    freeEnrollmentDetails,
   } = useAppSelector(publicEnrollmentSelector);
 
   const isRenewOrCancelLoading = [
@@ -91,7 +92,8 @@ export const PublicEnrollmentPhoneGrid = ({
 
     if (
       activeStep === PublicEnrollmentFormStep.PaymentSuccess ||
-      activeStep === PublicEnrollmentFormStep.Done
+      activeStep === PublicEnrollmentFormStep.Done ||
+      activeStep === PublicEnrollmentFormStep.DoneQueued
     ) {
       return <>{heading}</>;
     }
@@ -139,7 +141,10 @@ export const PublicEnrollmentPhoneGrid = ({
                 />
               )}
               {isPaymentSumAvailable && (
-                <PublicEnrollmentPaymentSum enrollment={enrollment} />
+                <PublicEnrollmentPaymentSum
+                  enrollment={enrollment}
+                  freeEnrollmentDetails={freeEnrollmentDetails}
+                />
               )}
             </div>
           </StackableMobileAppBar>
