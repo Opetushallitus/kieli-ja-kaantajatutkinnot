@@ -2,10 +2,12 @@ import { Dayjs } from 'dayjs';
 import { WithId, WithVersion } from 'shared/interfaces';
 
 import { EnrollmentStatus, PaymentStatus } from 'enums/app';
+import { ClerkFreeEnrollmentBasis } from 'interfaces/clerkEducation';
 import {
   CertificateShippingData,
   PartialExamsAndSkills,
 } from 'interfaces/common/enrollment';
+import { PublicFreeEnrollmentDetails } from 'interfaces/publicEducation';
 
 interface ClerkPerson extends WithId, WithVersion {
   lastName: string;
@@ -48,6 +50,9 @@ export interface ClerkEnrollment
   email: string;
   phoneNumber: string;
   payments: Array<ClerkPayment>;
+  isFree?: boolean;
+  freeEnrollmentBasis?: ClerkFreeEnrollmentBasis;
+  freeEnrollmentDetails?: PublicFreeEnrollmentDetails;
 }
 
 export interface ClerkEnrollmentResponse

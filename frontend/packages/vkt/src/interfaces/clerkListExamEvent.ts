@@ -12,6 +12,7 @@ export interface ClerkListExamEvent extends WithId {
   maxParticipants: number;
   isUnusedSeats: boolean;
   isHidden: boolean;
+  unApprovedFreeEnrollments: number;
 }
 
 export interface ClerkListExamEventResponse
