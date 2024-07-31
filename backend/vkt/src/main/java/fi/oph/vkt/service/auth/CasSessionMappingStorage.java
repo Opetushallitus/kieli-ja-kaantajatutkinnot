@@ -33,14 +33,14 @@ public class CasSessionMappingStorage implements SessionMappingStorage {
 
     if (casTicket.isPresent()) {
       final Session session = sessions.findById(casTicket.get().getSessionId());
-      final HttpSession httpSession = (HttpSession) this.MANAGED_SESSIONS.get(session.getId());
 
       if (session != null) {
+        final HttpSession httpSession = (HttpSession) this.MANAGED_SESSIONS.get(session.getId());
         this.removeBySessionById(session.getId());
         sessions.deleteById(session.getId());
-      }
 
-      return httpSession;
+        return httpSession;
+      }
     }
 
     return null;

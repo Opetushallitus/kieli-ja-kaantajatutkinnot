@@ -1,5 +1,6 @@
 package fi.oph.vkt.service;
 
+import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Payment;
@@ -52,20 +53,29 @@ public class PaymentService {
       .build();
   }
 
-  private List<Item> getItems(final Enrollment enrollment) {
+  private List<Item> getItems(final Enrollment enrollment, final FreeEnrollmentDetails freeEnrollmentDetails) {
     final List<Item> itemList = new ArrayList<>();
 
     if (enrollment.isTextualSkill()) {
-      itemList.add(getItem(EnrollmentSkill.TEXTUAL, EnrollmentUtil.getTextualSkillFee(enrollment)));
+      itemList.add(
+        getItem(EnrollmentSkill.TEXTUAL, EnrollmentUtil.getTextualSkillFee(enrollment, freeEnrollmentDetails))
+      );
     }
     if (enrollment.isOralSkill()) {
-      itemList.add(getItem(EnrollmentSkill.ORAL, EnrollmentUtil.getOralSkillFee(enrollment)));
+      itemList.add(getItem(EnrollmentSkill.ORAL, EnrollmentUtil.getOralSkillFee(enrollment, freeEnrollmentDetails)));
     }
     if (enrollment.isUnderstandingSkill()) {
       itemList.add(getItem(EnrollmentSkill.UNDERSTANDING, EnrollmentUtil.getUnderstandingSkillFee(enrollment)));
     }
 
     return itemList;
+  }
+
+  private EnrollmentStatus getPaymentSuccessEnrollmentNextStatus(final Enrollment enrollment) {
+    // Enrollment can be partially paid but still needs approval
+    // This can happen if you have free enrollment for only one
+    // skill but you apply for both
+    return enrollment.enrollmentNeedsApproval() ? EnrollmentStatus.AWAITING_APPROVAL : EnrollmentStatus.COMPLETED;
   }
 
   private void setEnrollmentStatus(final Enrollment enrollment, final PaymentStatus paymentStatus) {
@@ -75,7 +85,7 @@ public class PaymentService {
           enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
         }
       }
-      case OK -> enrollment.setStatus(EnrollmentStatus.PAID);
+      case OK -> enrollment.setStatus(getPaymentSuccessEnrollmentNextStatus(enrollment));
       case FAIL -> {
         if (enrollment.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT) {
           enrollment.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
@@ -164,11 +174,12 @@ public class PaymentService {
       throw new APIException(APIExceptionType.PAYMENT_PERSON_SESSION_MISMATCH);
     }
 
-    if (enrollment.getStatus() == EnrollmentStatus.PAID) {
+    if (enrollment.getStatus() == EnrollmentStatus.COMPLETED) {
       throw new APIException(APIExceptionType.ENROLLMENT_ALREADY_PAID);
     }
 
-    final List<Item> itemList = getItems(enrollment);
+    final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(person);
+    final List<Item> itemList = getItems(enrollment, freeEnrollmentDetails);
     final Customer customer = Customer
       .builder()
       .email(getCustomerField(enrollment.getEmail(), Customer.EMAIL_MAX_LENGTH))
@@ -177,7 +188,7 @@ public class PaymentService {
       .lastName(getCustomerField(person.getLastName(), Customer.LAST_NAME_MAX_LENGTH))
       .build();
 
-    final int amount = EnrollmentUtil.getTotalFee(enrollment);
+    final int amount = EnrollmentUtil.getTotalFee(enrollment, freeEnrollmentDetails);
 
     final Payment payment = new Payment();
     payment.setEnrollment(enrollment);
@@ -191,10 +202,6 @@ public class PaymentService {
       amount,
       appLocale
     );
-
-    // Ensures the enrollment is in EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT state after payment creation.
-    // Necessary for the case when a person enrolls again to the same exam event with an existing cancelled enrollment.
-    setEnrollmentStatus(enrollment, PaymentStatus.NEW);
 
     // Ensures the enrollment is in EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT state after payment creation.
     // Necessary for the case when a person enrolls again to the same exam event with an existing cancelled enrollment.
