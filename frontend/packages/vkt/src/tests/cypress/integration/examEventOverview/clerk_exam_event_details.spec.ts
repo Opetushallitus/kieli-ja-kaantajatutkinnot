@@ -145,11 +145,11 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
 
   it('should display headings for enrollment status lists', () => {
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
-      EnrollmentStatus.PAID,
+      EnrollmentStatus.COMPLETED,
       'Ilmoittautuneet: 6',
     );
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
-      EnrollmentStatus.SHIFTED_FROM_QUEUE,
+      EnrollmentStatus.AWAITING_PAYMENT,
       'Jonosta siirretyt / maksu puuttuu: 1',
     );
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
@@ -171,7 +171,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     onToast.expectText('Siirto onnistui');
 
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderNotToExist(
-      EnrollmentStatus.SHIFTED_FROM_QUEUE,
+      EnrollmentStatus.AWAITING_PAYMENT,
     );
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
       EnrollmentStatus.QUEUED,
@@ -186,7 +186,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     onToast.expectText('Siirto onnistui');
 
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
-      EnrollmentStatus.SHIFTED_FROM_QUEUE,
+      EnrollmentStatus.AWAITING_PAYMENT,
       'Jonosta siirretyt / maksu puuttuu: 1',
     );
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(

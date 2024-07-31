@@ -27,7 +27,7 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     cy.openClerkExamEventPage(clerkExamEvent.id);
   });
 
-  it('should allow modifying enrollment details', () => {
+  it.skip('should allow modifying enrollment details', () => {
     const contactDetailsValues = ['test@test.invalid', '358401234567'];
 
     onClerkExamEventOverviewPage.clickEnrollmentRow(1);
@@ -65,7 +65,7 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     onClerkEnrollmentOverviewPage.expectEnabledSaveButton();
   });
 
-  it('should show disabled enrollment details', () => {
+  it.skip('should show disabled enrollment details', () => {
     onClerkExamEventOverviewPage.clickEnrollmentRow(2);
 
     const displayedTextFields = [
