@@ -183,15 +183,32 @@
           "line2": "Valtionhallinnon erinomaisen taidon kielitutkintoja ovat"
         },
         "enrollment": {
-          "description": "Ilmoittautumista varten sinun täytyy tunnistautua suomi.fi-palvelun kautta. Ilmoittautumisen yhteydessä maksetaan myös tutkintomaksu.",
-          "title": "Ilmoittautuminen ja tutkintomaksut"
-        },
-        "extraInformation": {
-          "description": "Lisätietoa tutkinnosta",
           "link": {
-            "label": "Opetushallituksen verkkopalvelusta",
-            "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot"
-          }
+            "label": "Opetushallituksen verkkosivulla.",
+            "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/erinomaisen-taidon-tutkinnot"
+          },
+          "part1": "Ilmoittautumista varten sinun täytyy tunnistautua suomi.fi-palvelun kautta.",
+          "part2": "Tunnistautumisen jälkeen järjestelmä tarkastaa maksuttomuuden ehdot täyttävät koulutustiedot KOSKI-tietovarannosta.",
+          "part3": "Jos ehdot täyttäviä koulutustietoja ei löydy, mutta olet oikeutettu maksuttomaan tutkintoon, voit liittää ilmoittautumislomakkeelle todistusasiakirjoja.",
+          "part4": "Opetushallituksen virkailija tarkastaa asiakirjat.",
+          "part5": "Lisätietoa",
+          "title": "Ilmoittautuminen ja maksuttomuuden ehtojen tarkistus"
+        },
+        "freeExamination": {
+          "conditions": {
+            "link": {
+              "label": "Opetushallituksen verkkosivuilla.",
+              "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/erinomaisen-taidon-tutkinnot"
+            },
+            "part1": "Valtionhallinnon kielitutkintojen erinomaisen taidon tutkinnot ovat maksuttomia tietyin ehdoin 1.8.2024 alkaen. Maksuttomuuden ehdoista löytyy lisätietoa",
+            "part2": "Maksuttomaan ilmoittaumiseen oikeutettu henkilö saa ilmoittautua tutkintoon maksutta kolme kertaa. Koska tutkinnon voi suorittaa osissa, maksuttomaan tutkintoon oikeutettu henkilö voi ilmoittautua kolme kertaa maksutta sekä suullisen että kirjallisen taidon tutkintoon."
+          },
+          "ineligibility": {
+            "description": "Henkilöt, jotka eivät ole oikeutettuja maksuttomaan tutkintoon, maksavat ilmoittautumisen yhteydessä tutkintomaksun.",
+            "fullExaminationPayment": "Tutkintomaksu on 514 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kertaa.",
+            "partialExaminationPayment": "Tutkintomaksu on 257 euroa, jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
+          },
+          "title": "Tutkinnon maksuttomuus"
         },
         "title": "Valtionhallinnon kielitutkinnot (VKT) – ilmoittautuminen erinomaisen taidon tutkintoihin"
       },
