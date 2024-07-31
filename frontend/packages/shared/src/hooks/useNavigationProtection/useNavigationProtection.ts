@@ -16,7 +16,6 @@ export const useNavigationProtection = (
     currentLocation: Location;
     nextLocation: Location;
   }): boolean => {
-
     if (baseUrl) {
       return !!(
         when &&
@@ -25,12 +24,9 @@ export const useNavigationProtection = (
         currentLocation.pathname !== nextLocation.pathname
       );
     } else {
-      return !!(
-        when &&
-        currentLocation.pathname !== nextLocation.pathname
-      );
+      return !!(when && currentLocation.pathname !== nextLocation.pathname);
     }
-  }
+  };
 
   const blocker = useBlocker(shouldBlock);
 

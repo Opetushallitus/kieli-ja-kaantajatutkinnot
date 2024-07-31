@@ -4,8 +4,8 @@ import {
   DialogContent,
   DialogTitle,
 } from '@mui/material';
-
 import { useEffect, useRef } from 'react';
+
 import { Color } from '../../enums';
 import { useDialog } from '../../hooks/useDialog/useDialog';
 import { CustomButton } from '../CustomButton/CustomButton';
@@ -19,13 +19,13 @@ export const DialogBox = () => {
 
   useEffect(() => {
     if (activeDialog) {
-        const dialogContainer = dialogRef.current;
+      const dialogContainer = dialogRef.current;
 
-        if (dialogContainer) {
-          const dialog = dialogContainer.querySelector('[role="dialog"]');
-          if (dialog instanceof HTMLDivElement) {
-            dialog.focus();
-          }
+      if (dialogContainer) {
+        const dialog = dialogContainer.querySelector('[role="dialog"]');
+        if (dialog instanceof HTMLDivElement) {
+          dialog.focus();
+        }
       }
     }
   }, [activeDialog]);
