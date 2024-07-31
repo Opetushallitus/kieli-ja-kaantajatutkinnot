@@ -18,14 +18,12 @@ function* loadClerkUserSaga() {
       APIEndpoints.ClerkUser,
     );
 
-    if (response.status === HTTPStatusCode.Ok && response.data.oid) {
+    if (response.status === HTTPStatusCode.Ok && response.data?.oid) {
       yield put(storeClerkUser(response.data));
     } else {
       yield put(rejectClerkUser());
     }
-  } catch (error) {
-    yield put(rejectClerkUser());
-  }
+  } catch (error) {}
 }
 
 export function* watchClerkUser() {
