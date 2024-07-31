@@ -72,7 +72,9 @@
           "renewReservationNotAllowed": "Platsreservationen kunde inte förnyas",
           "reservationPersonSessionMismatch": "Funktionen misslyckades, försök på nytt senare",
           "sessionMissingPersonId": "Du har inte identifierat dig. Vänligen identifiera dig på nytt.",
-          "ticketValidationError": "Identifieringen misslyckades. Vänligen identifiera dig på nytt."
+          "ticketValidationError": "Identifieringen misslyckades. Vänligen identifiera dig på nytt.",
+          "fileUploadError": "Det gick inte att skicka filen, försök på nytt.",
+          "userAttachmentsMissing": "Bilagor som krävs för utbildningsuppgifter saknas."
         },
         "customTextField": {
           "emailFormat": "E-postadressen är felaktig",

@@ -72,7 +72,9 @@
           "renewReservationNotAllowed": "Paikkavarauksen uusiminen epäonnistui",
           "reservationPersonSessionMismatch": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
           "sessionMissingPersonId": "Et ole tunnistautunut, ole hyvä ja tunnistaudu uudelleen",
-          "ticketValidationError": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen"
+          "ticketValidationError": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen",
+          "fileUploadError": "Tiedoston lähetys epäonnistui, ole hyvä ja yritä uudelleen",
+          "userAttachmentsMissing": "Koulutusvalinnan vaadittavat liitteet puuttuu"
         },
         "customTextField": {
           "emailFormat": "Sähköpostiosoite on virheellinen",
@@ -135,29 +137,28 @@
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Valtionhallinnon kielitutkintojen ilmoittautumisjärjestelmän etusivulle.",
       "pageTitle": {
-        "frontPage": "Etusivu",
-        "notFound": "Etsimääsi sivua ei löytynyt",
-        "authenticate": "Ilmoittautuminen - tunnistaudu",
-        "contactDetails": "Ilmoittautuminen - täytä yhteystietosi",
-        "selectExam": "Ilmoittautuminen - valitse tutkinto",
-        "preview": "Ilmoittautuminen - esikatsele",
-        "paymentFail": "Ilmoittautuminen - maksua ei suoritettu",
-        "paymentSuccess": "Ilmoittautuminen - maksu valmis",
-        "done": "Ilmoittautuminen - valmis",
-        "logoutSuccess": "Uloskirjautuminen onnnistui",
         "accessibilityStatement": "Saavutettavuusseloste",
-        "privacyPolicy": "Tietosuojaseloste",
+        "authenticate": "Ilmoittautuminen - tunnistaudu",
         "clerkEnrollmentOverview": "Virkailija ilmoittautuminen",
         "clerkExamEventCreate": "Virkailija lisää tutkintopäivä",
         "clerkExamOverview": "Virkailija tutkintosivu",
         "clerkHomepage": "Virkailija",
-        "logoutSuccess": "Uloskirjautuminen onnnistui"
+        "contactDetails": "Ilmoittautuminen - täytä yhteystietosi",
+        "done": "Ilmoittautuminen - valmis",
+        "frontPage": "Etusivu",
+        "logoutSuccess": "Uloskirjautuminen onnnistui",
+        "notFound": "Etsimääsi sivua ei löytynyt",
+        "paymentFail": "Ilmoittautuminen - maksua ei suoritettu",
+        "paymentSuccess": "Ilmoittautuminen - maksu valmis",
+        "preview": "Ilmoittautuminen - esikatsele",
+        "privacyPolicy": "Tietosuojaseloste",
+        "selectExam": "Ilmoittautuminen - valitse tutkinto"
       },
       "requiredFieldsInfo": "Tähdellä (*) merkityt kentät ovat pakollisia.",
       "sessionExpired": {
-        "title": "Istuntosi on vanhentunut",
+        "descriptionClerk": "Istuntosi on vanhentunut. Ole hyvä ja kirjaudu uudelleen.",
         "descriptionPublic": "Istuntosi on vanhentunut. Ole hyvä ja tunnistaudu uudelleen.",
-        "descriptionClerk": "Istuntosi on vanhentunut. Ole hyvä ja kirjaudu uudelleen."
+        "title": "Istuntosi on vanhentunut"
       },
       "rowsPerPageLabel": "Tulokset per sivu",
       "save": "Tallenna",

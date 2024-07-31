@@ -33,7 +33,8 @@
             "title": "Peru ilmoittautuminen"
           },
           "enrollToQueue": "Ilmoittaudu jonoon",
-          "pay": "Siirry maksamaan"
+          "pay": "Siirry maksamaan",
+          "enroll": "Ilmoittaudu"
         },
         "examEventDetails": {
           "enrollmentToQueue": "ilmoittautuminen jonoon",
@@ -53,13 +54,15 @@
           "reservationInfoText": "Jos ilmoittautumisesi on kesken, paina \"Jatka ilmoittautumista\"."
         },
         "paymentSum": {
-          "title": "Tutkintomaksu"
+          "title": "Tutkintomaksu",
+          "free": "Maksuton"
         },
         "stepHeading": {
           "common": {
             "Authenticate": "Tunnistaudu",
-            "Done": "Valmis – jonopaikka varattu",
-            "FillContactDetails": "Täytä yhteystietosi",
+            "Done": "Valmis",
+            "DoneQueued": "Valmis – jonopaikka varattu",
+            "FillContactDetails": "Täytä tiedot",
             "Payment": "Maksua ei suoritettu",
             "PaymentSuccess": "Valmis - ilmoittautuminen onnistui",
             "Preview": "Esikatsele",
@@ -81,7 +84,7 @@
           "step": {
             "Authenticate": "Tunnistaudu",
             "Done": "Valmis",
-            "FillContactDetails": "Täytä yhteystietosi",
+            "FillContactDetails": "Täytä tiedot",
             "Payment": "Maksu",
             "PaymentSuccess": "Valmis",
             "Preview": "Esikatsele",
@@ -96,7 +99,14 @@
             "title": "Tutkintotodistuksen toimitus"
           },
           "done": {
-            "description": "Ilmoittautuminen tutkinnon jonotuspaikalle onnistui! Sinulle lähetetään vahvistus osoitteeseen"
+            "description": "Ilmoittautuminen tutkintoon onnistui! Sinulle lähetetään vahvistus osoitteeseen",
+            "descriptionQueued": "Ilmoittautuminen tutkinnon jonotuspaikalle onnistui! Sinulle lähetetään vahvistus osoitteeseen",
+            "freePendingVerification": {
+              "description": "Olet ilmoittautunut tutkintoon. Sinulle lähetetään tiedot ilmoittautumisesta osoitteeseen",
+              "part1": "Opetushallituksen virkailija tarkastaa lähettämäsi asiakirjat mahdollisimman pian.",
+              "part2": "Jos maksuttomuuden ehdot täyttyvät, tutkinto on maksuton ja saat sähköpostilla vahvistuksen ilmoittautumisesta.",
+              "part3": "Jos ehdot eivät täyty, tutkinto on maksullinen ja saat sähköpostilla maksulinkin tutkintomaksun maksamista varten."
+            }
           },
           "fillContactDetails": {
             "email": {
@@ -111,7 +121,20 @@
             "phoneNumber": {
               "label": "Puhelinnumero *"
             },
-            "title": "Yhteystietosi"
+            "title": "Yhteystietosi",
+            "educationDetails": {
+              "errorWaitEducations": "Odota koulutustietojen latautumista.",
+              "educationInfoTitle": "Koulutustiedot",
+              "freeEnrollmentDescription": "Tietojemme mukaan olet suorittanut tai suorittamassa seuraavan tutkinnon:",
+              "freeEnrollmentDescription2": "Tämä voi oikeuttaa sinut ilmoittautumaan tutkintoon maksuttomasti kolme kertaa.",
+              "type": {
+                "MatriculationExam": "Ylioppilastutkinto",
+                "HigherEducationEnrolled": "Korkeakoulututkinto",
+                "HigherEducationConcluded": "Korkeakoulututkinto",
+                "DIA": "DIA-tutkinto",
+                "EB": "EB-tutkinto"
+              }
+            }
           },
           "partialExamsSelection": {
             "partialExamsTitle": "Valitse osakokeet",
@@ -122,6 +145,8 @@
             "noFullExam": "En, haluan suorittaa vain jommankumman tutkinnon tai yksittäisen osakokeen"
           },
           "selectExam": {
+            "part1": "Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana.",
+            "part2": "Kun olet suorittanut hyväksytysti suullisen ja kirjallisen taidon tutkinnot, saat todistukseen merkinnän myös ymmärtämisen taidon tutkinnon suorittamisesta.",
             "title": "Tutkinnon valinta"
           },
           "paymentFail": {
@@ -139,6 +164,27 @@
             "lastName": "Sukunimi",
             "title": "Henkilötietosi"
           },
+          "educationDetails": {
+            "college": "Korkeakoulututkinto",
+            "collegeEnrolled": "Olen suorittamassa korkeakoulututkintoa",
+            "education": "Minulla on jokin maksuttomaan kielitutkintoon oikeuttava peruste *",
+            "highschool": "Ylioppilastutkinto tai vastaava ulkomaalainen tutkinto",
+            "educationSelectHelpText": "Emme löytäneet KOSKI-tietovarannosta maksuttomaan ilmoittautumiseen oikeuttavaa koulutustietoa. Saatat kuitenkin olla oikeutettu maksuttomaan ilmoittautumiseen, jos olet suorittanut suomalaisen tutkinnon ennen vuotta 1995 tai olet suorittamassa tai suorittanut korkeakoulututkinnon ulkomailla.",
+            "educationSelectChooseOne": "Valitse alla olevista vaihtoehdoista yksi:",
+            "no": "Ei perustetta maksuttomalle kielitutkinnolle",
+            "attachments": "Liitteet",
+            "attachmentsCheck": "Liitteet (virkailija tarkastaa)",
+            "uploadAttachment": {
+              "attachmentsList": {
+                "title": "Lisäämäsi asiakirjat"
+              },
+              "helpText1": "Voit todistaa täyttäväsi perusteen maksuttomaan tutkintoon todistusasiakirjoilla. Opetushallituksen virkailija tarkastaa, täyttävätkö lähettämäsi asiakirjat maksuttomuuden ehdot. ",
+              "helpText2": "Voit lisätä enimmillään 10 asiakirjaa. Asiakirja voi olla hyvälaatuinen pdf- tai kuvatiedosto. Liitä kopio alkuperäisestä tutkintotodistuksesta tai korkeakoulun opiskeluoikeudesta todistavasta asiakirjasta. Liitä asiakirjasta myös käännös suomeksi, ruotsiksi tai englanniksi, jos alkuperäisen asiakirjan kieli on muu kuin suomi, ruotsi tai englanti. Nimeä liite selvästi (esim. tutkintotodistus Bachelor.pdf, tutkintotodistus kaannos.pdf, opiskeluoikeus.pdf)",
+              "maxAttachmentsReached": "Olet lisännyt jo 10 asiakirjaa. Et voi enää lisätä uusia asiakirjoja.",
+              "title": "Lähetä tutkintotodistus tai opiskelutodistus *",
+              "uploadFile": "Lähetä tiedosto"
+            }
+          },
           "preview": {
             "certificateShippingDetails": {
               "addressLabel": "Toimitusosoite",
@@ -149,26 +195,35 @@
               "phoneNumber": "Puhelinnumero",
               "title": "Yhteystietosi"
             },
+            "educationDetails": {
+              "title": "Koulutustiedot",
+              "description": "Maksuttomaan ilmoittautumiseen oikeuttava koulutus",
+              "freeEnrollmentsLeft": "Maksuttomia kertoja jäljellä",
+              "price": "Hinta"
+            },
             "examEventDetails": {
-              "previousEnrollmentLabel": "Olen osallistunut valtionhallinnon kielitutkintoon aikaisemmin",
+              "previousEnrollmentLabel": "Aikaisempiin erinomaisen taidon tutkintoihin osallistuminen",
               "selectedSkillsLabel": "Valitut tutkinnot",
               "selectedPartialExamsLabel": "Valitut osakokeet",
               "title": "Tutkinnon tiedot"
             },
             "privacyStatement": {
-              "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen (pakollinen).",
-              "linkLabel": "tietosuojaselosteen"
+              "freeEnrollmentLabel": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen (pakollinen). Ymmärrän, että ilmoittautuminen vie yhden maksuttoman tutkintokerran. Jos en pysty osallistumaan tutkintoon, ilmoitan peruutuksesta mahdollisimman pian Opetushallitukselle.",
+              "linkLabel": "tietosuojaselosteen",
+              "paidEnrollmentLabel": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen (pakollinen). Jos en pysty osallistumaan tutkintoon, ilmoitan peruutuksesta mahdollisimman pian Opetushallitukselle."
             }
           },
           "previousEnrollment": {
+            "part1": "Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osan suorittamispäivästä alkaen.",
+            "part2": "Tieto aiemmasta tutkintoon osallistumisesta tarvitaan kielitutkintojen uusintojen seuraamista varten. Tieto ennen 1.8.2024 suoritetuista tutkinnoista ei vaikuta maksuttomien suorituskertojen määrään.",
             "radioButtons": {
-              "label": "Oletko osallistunut aiemmin valtionhallinnon kielitutkintoon? *"
+              "label": "Oletko osallistunut aiemmin erinomaisen taidon kielitutkintoon? *"
             },
             "textField": {
               "label": "Milloin olet viimeksi osallistunut? *",
               "placeholder": "Kirjoita päivämäärä tai vapaa teksti"
             },
-            "title": "Aikaisempiin tutkintoihin osallistuminen"
+            "title": "Aikaisempiin erinomaisen taidon tutkintoihin osallistuminen"
           }
         }
       },
