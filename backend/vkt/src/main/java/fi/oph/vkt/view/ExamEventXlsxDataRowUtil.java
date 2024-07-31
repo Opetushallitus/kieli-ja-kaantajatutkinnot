@@ -53,8 +53,9 @@ public class ExamEventXlsxDataRowUtil {
 
   private static String statusToText(final EnrollmentStatus status) {
     return switch (status) {
-      case PAID -> "Maksettu";
-      case SHIFTED_FROM_QUEUE -> "Siirretty jonosta tutkintoon";
+      case COMPLETED -> "Maksettu";
+      case AWAITING_PAYMENT -> "Siirretty jonosta tutkintoon tai maksuttomuus hylättiin";
+      case AWAITING_APPROVAL -> "Odottaa maksuttomuuden hyväksyntää";
       case QUEUED -> "Jonossa";
       case CANCELED -> "Peruttu";
       case EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT -> "Odottaa maksua (keskeneräinen ilmoittautuminen)";

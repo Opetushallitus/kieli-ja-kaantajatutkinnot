@@ -1,10 +1,15 @@
 package fi.oph.vkt.util;
 
+import fi.oph.vkt.api.dto.FreeEnrollmentAttachmentDTO;
+import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
+import fi.oph.vkt.api.dto.FreeEnrollmentDetailsDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkFeeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Person;
 import java.util.Comparator;
 import java.util.List;
@@ -12,7 +17,10 @@ import java.util.stream.Collectors;
 
 public class ClerkEnrollmentUtil {
 
-  public static ClerkEnrollmentDTO createClerkEnrollmentDTO(final Enrollment enrollment) {
+  public static ClerkEnrollmentDTO createClerkEnrollmentDTO(
+    final Enrollment enrollment,
+    final FreeEnrollmentDetails freeEnrollmentDetails
+  ) {
     final ClerkPersonDTO personDTO = createClerkPersonDTO(enrollment.getPerson());
 
     final List<ClerkPaymentDTO> paymentDTOs = enrollment
@@ -21,6 +29,34 @@ public class ClerkEnrollmentUtil {
       .map(ClerkPaymentUtil::createClerkPaymentDTO)
       .sorted(Comparator.comparing(ClerkPaymentDTO::createdAt).reversed())
       .collect(Collectors.toList());
+
+    final FreeEnrollment freeEnrollment = enrollment.getFreeEnrollment();
+    final ClerkFeeEnrollmentBasisDTO freeEnrollmentBasisDTO = freeEnrollment != null
+      ? ClerkFeeEnrollmentBasisDTO
+        .builder()
+        .type(freeEnrollment.getType())
+        .source(freeEnrollment.getSource())
+        .approved(freeEnrollment.getApproved())
+        .comment(freeEnrollment.getComment())
+        .attachments(
+          freeEnrollment
+            .getAttachments()
+            .stream()
+            .map(attachment ->
+              new FreeEnrollmentAttachmentDTO(attachment.getFilename(), attachment.getKey(), attachment.getSize())
+            )
+            .collect(Collectors.toList())
+        )
+        .build()
+      : null;
+
+    final FreeEnrollmentDetailsDTO freeEnrollmentDetailsDTO = freeEnrollmentDetails == null
+      ? null
+      : FreeEnrollmentDetailsDTO
+        .builder()
+        .freeOralSkillLeft(EnrollmentUtil.getFreeExamsLeft(freeEnrollmentDetails.oralSkillCount()))
+        .freeTextualSkillLeft(EnrollmentUtil.getFreeExamsLeft(freeEnrollmentDetails.textualSkillCount()))
+        .build();
 
     return ClerkEnrollmentDTO
       .builder()
@@ -45,6 +81,8 @@ public class ClerkEnrollmentUtil {
       .town(enrollment.getTown())
       .country(enrollment.getCountry())
       .payments(paymentDTOs)
+      .freeEnrollmentBasis(freeEnrollmentBasisDTO)
+      .freeEnrollmentDetails(freeEnrollmentDetailsDTO)
       .build();
   }
 

@@ -14,8 +14,9 @@ public class ExamEventUtil {
     final long participants = enrollments
       .stream()
       .filter(e ->
-        e.getStatus() == EnrollmentStatus.PAID ||
-        e.getStatus() == EnrollmentStatus.SHIFTED_FROM_QUEUE ||
+        e.getStatus() == EnrollmentStatus.COMPLETED ||
+        e.getStatus() == EnrollmentStatus.AWAITING_APPROVAL ||
+        e.getStatus() == EnrollmentStatus.AWAITING_PAYMENT ||
         e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
       )
       .count();
