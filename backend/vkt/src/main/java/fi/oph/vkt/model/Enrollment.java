@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -98,6 +99,10 @@ public class Enrollment extends BaseEntity {
   @OneToMany(mappedBy = "enrollment")
   private List<Payment> payments = new ArrayList<>();
 
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "free_enrollment", referencedColumnName = "free_enrollment_id")
+  private FreeEnrollment freeEnrollment;
+
   public boolean isCancelled() {
     return this.status == EnrollmentStatus.CANCELED || this.status == EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT;
   }
@@ -110,6 +115,19 @@ public class Enrollment extends BaseEntity {
     return (
       this.status == EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT ||
       this.status == EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT
+    );
+  }
+
+  public boolean enrollmentNeedsApproval() {
+    return (this.getFreeEnrollment() != null && this.getFreeEnrollment().getApproved() == null);
+  }
+
+  public boolean hasApplicableFreeBasis() {
+    // Approval may be undecided (null) in which case
+    // it is assumed as valid
+    return (
+      this.getFreeEnrollment() != null &&
+      (this.getFreeEnrollment().getApproved() == null || this.getFreeEnrollment().getApproved())
     );
   }
 }

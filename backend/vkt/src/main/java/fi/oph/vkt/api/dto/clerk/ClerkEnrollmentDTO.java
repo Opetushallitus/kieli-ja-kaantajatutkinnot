@@ -1,6 +1,7 @@
 package fi.oph.vkt.api.dto.clerk;
 
 import fi.oph.vkt.api.dto.EnrollmentDTOCommonFields;
+import fi.oph.vkt.api.dto.FreeEnrollmentDetailsDTO;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -31,6 +32,8 @@ public record ClerkEnrollmentDTO(
   String postalCode,
   String town,
   String country,
-  @NonNull @NotNull List<ClerkPaymentDTO> payments
+  @NonNull @NotNull List<ClerkPaymentDTO> payments,
+  ClerkFeeEnrollmentBasisDTO freeEnrollmentBasis,
+  FreeEnrollmentDetailsDTO freeEnrollmentDetails
 )
   implements EnrollmentDTOCommonFields {}
