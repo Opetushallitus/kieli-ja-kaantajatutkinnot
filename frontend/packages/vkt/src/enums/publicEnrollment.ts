@@ -5,5 +5,6 @@ export enum PublicEnrollmentFormStep {
   Preview,
   Payment,
   PaymentSuccess,
+  DoneQueued,
   Done,
 }
