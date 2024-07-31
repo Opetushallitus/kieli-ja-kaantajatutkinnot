@@ -63,3 +63,5 @@ dist
 !**/.yarn/releases
 !**/.yarn/sdks
 !**/.yarn/versions
+
+backend/vkt/src/main/resources/application-dev.yaml
