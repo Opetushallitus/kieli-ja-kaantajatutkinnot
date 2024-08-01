@@ -229,7 +229,7 @@
             "point2": "examen som gäller förmåga att använda finska eller svenska i skrift (med delproven läsförståelse och skriftlig färdighet)",
             "point3": "examen som gäller förmåga att förstå finska eller svenska (med delproven hörförståelse och läsförståelse)"
           },
-          "line1": "Språkexamina för statsförvaltningen är avsedda för att visa sådana språkkunskaper i det andra inhemska språket som krävs av offentligt anställda. Med examensintygen kan man visa förmåga att använda finska eller svenska i tal och i skrift samt förmåga att förstå språket",
+          "line1": "Språkexamina för statsförvaltningen är avsedda för att visa sådana språkkunskaper i det andra inhemska språket som krävs av offentligt anställda. Med examensintygen kan man visa förmåga att använda finska eller svenska i tal och i skrift samt förmåga att förstå språket.",
           "line2": "Examina som gäller utmärkta språkkunskaper är"
         },
         "enrollment": {
@@ -251,11 +251,11 @@
               "url": "https://www.oph.fi/sv/utbildning-och-examina/examina-som-galler-utmarkta-sprakkunskaper"
             },
             "part1": "Språkexamina för statsförvaltningen som gäller utmärkta språkkunskaper är avgiftsfria med vissa villkor från och med 1 augusti 2024",
-            "part2": "Den som har rätt till en avgiftsfri examen kan anmäla sig till examen avgiftsfritt tre gånger. Eftersom examen kan avläggas i delar, kan den som har rätt till en avgiftsfri examen anmäla sig avgiftsfritt tre gånger både till examen som gäller förmåga att använda språket i tal och till examen som gäller förmåga att använda språket i skrift."
+            "part2": "Den som har rätt till en avgiftsfri examen kan anmäla sig till examen avgiftsfritt tre gånger. Eftersom examen kan avläggas i delar, kan den som har rätt till en avgiftsfri examen anmäla sig avgiftsfritt tre gånger både till examen som gäller förmåga att använda språket i tal och till examen som gäller förmåga att använda språket i skrift."
           },
           "ineligibility": {
             "description": "Den som inte har rätt till avgiftsfri examen, ska i samband med anmälning betala även examensavgiften.",
-            "fullExaminationPayment": "Examensavgiften är 514 euro om muntlig och skriftlig examen avläggs samtidigt ",
+            "fullExaminationPayment": "Examensavgiften är 514 euro om muntlig och skriftlig examen avläggs samtidigt.",
             "partialExaminationPayment": "Examensavgiften är 257 euro om du avlägger antingen examen som gäller förmåga att använda språket i tal eller examen som gäller förmåga att använda språket i skrift eller ett av delproven."
           },
           "title": "Avgftsfri examen"
