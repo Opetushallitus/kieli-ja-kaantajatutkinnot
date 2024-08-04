@@ -27,6 +27,9 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     cy.openClerkExamEventPage(clerkExamEvent.id);
   });
 
+  // TODO Fix and re-enable test.
+  // Fails at the moment because there no longer is a checkbox for the understanding skill.
+  // Should the skill be instead inferred from the partial exams selected?
   it.skip('should allow modifying enrollment details', () => {
     const contactDetailsValues = ['test@test.invalid', '358401234567'];
 
@@ -65,6 +68,7 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     onClerkEnrollmentOverviewPage.expectEnabledSaveButton();
   });
 
+  // TODO Fix and re-enable test.
   it.skip('should show disabled enrollment details', () => {
     onClerkExamEventOverviewPage.clickEnrollmentRow(2);
 
