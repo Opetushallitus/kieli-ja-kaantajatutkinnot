@@ -89,6 +89,10 @@ const CheckboxField = ({
 };
 
 const DownloadAttachment = ({ attachment }: { attachment: Attachment }) => {
+  const { t } = useClerkTranslation({
+    keyPrefix: 'vkt.component.clerkEnrollmentDetails.attachment',
+  });
+
   return (
     <div className="columns gapped">
       <Text>{attachment.name}</Text>
@@ -102,7 +106,7 @@ const DownloadAttachment = ({ attachment }: { attachment: Attachment }) => {
           color={Color.Secondary}
           startIcon={<DownloadIcon />}
         >
-          Lataa tiedosto
+          {t('download')}
         </CustomButton>
       </Link>
     </div>

@@ -2,6 +2,9 @@
   "vkt": {
     "component": {
       "clerkEnrollmentDetails": {
+        "attachment": {
+          "download": "Lataa tiedosto"
+        },
         "cancelEnrollment": "Peruuta ilmoittautuminen",
         "cancelEnrollmentDialog": {
           "description": "Tätä toimintoa ei voi peruuttaa!",
