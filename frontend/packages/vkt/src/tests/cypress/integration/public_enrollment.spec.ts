@@ -1,6 +1,7 @@
 import { HTTPStatusCode } from 'shared/enums';
 
 import { APIEndpoints } from 'enums/api';
+import { PublicReservationResponse } from 'interfaces/publicEnrollment';
 import { onPublicEnrollmentPage } from 'tests/cypress/support/page-objects/publicEnrollmentPage';
 import { onPublicHomePage } from 'tests/cypress/support/page-objects/publicHomePage';
 import { onToast } from 'tests/cypress/support/page-objects/toast';

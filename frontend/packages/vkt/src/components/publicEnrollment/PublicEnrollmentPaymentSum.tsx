@@ -28,7 +28,12 @@ export const PublicEnrollmentPaymentSum = ({
 
   return (
     <div className="columns flex-end">
-      <H1 className="margin-top-lg">{content}</H1>
+      <H1
+        data-testid="public-enrollment__payment-sum"
+        className="margin-top-lg"
+      >
+        {content}
+      </H1>
     </div>
   );
 };

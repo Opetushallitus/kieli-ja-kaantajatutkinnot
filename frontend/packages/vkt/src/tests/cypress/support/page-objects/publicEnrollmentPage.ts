@@ -30,6 +30,9 @@ class PublicEnrollmentPage {
       cy.get(`#has-previous-enrollment-error`),
     enrollmentFullExamCheckbox: () =>
       cy.findByTestId('enrollment-checkbox-full-exam').find('input'),
+    formTextContents: () =>
+      cy.get('div.public-enrollment__grid__form-container'),
+    paymentSumHeading: () => cy.findByTestId('public-enrollment__payment-sum'),
   };
 
   expectEnrollmentDetails(details: string) {
@@ -109,6 +112,12 @@ class PublicEnrollmentPage {
   }
   enrollmentFullExamCheckbox() {
     this.elements.enrollmentFullExamCheckbox().should('be.exist').check();
+  }
+  expectTextContents(contents: string) {
+    this.elements.formTextContents().should('contain.text', contents);
+  }
+  expectPaymentSum(sum: string) {
+    this.elements.paymentSumHeading().should('contain.text', sum);
   }
 }
 

@@ -20,3 +20,17 @@ export const publicEnrollmentInitialisation = {
     isRenewable: true,
   },
 };
+
+export const examEventIdWithKoskiEducationDetailsFound = 234;
+
+export const publicEnrollmentInitialisationWithFreeEnrollments = {
+  ...publicEnrollmentInitialisation,
+  examEvent: {
+    ...publicEnrollmentInitialisation.examEvent,
+    id: examEventIdWithKoskiEducationDetailsFound,
+  },
+  freeEnrollmentDetails: {
+    freeOralSkillLeft: 3,
+    freeTextualSkillLeft: 3,
+  },
+};
