@@ -74,6 +74,9 @@ export const PublicEnrollmentPhoneGrid = ({
 
   const [appBarState, setAppBarState] = useState<MobileAppBarState>({});
 
+  const includePaymentStep =
+    ExamEventUtils.hasOpenings(examEvent) && !enrollment.isFree;
+
   const memoizedSetAppBarState = useCallback(
     (order: number, height: number) =>
       setAppBarState((prev) => ({
@@ -100,7 +103,7 @@ export const PublicEnrollmentPhoneGrid = ({
 
     const nextStepIndex = PublicEnrollmentUtils.getEnrollmentNextStep(
       activeStep,
-      ExamEventUtils.hasOpenings(examEvent),
+      includePaymentStep,
     );
 
     return (
@@ -165,7 +168,7 @@ export const PublicEnrollmentPhoneGrid = ({
               <div className="columns gapped-xxl">
                 <PublicEnrollmentStepper
                   activeStep={activeStep}
-                  includePaymentStep={ExamEventUtils.hasOpenings(examEvent)}
+                  includePaymentStep={includePaymentStep}
                 />
                 <div className="rows gapped-xs grow">
                   {getMobileStepperHeading()}
