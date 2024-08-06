@@ -151,7 +151,7 @@ export class SerializationUtils {
           return EducationType.DIA;
         case 'ebtutkinto':
           return EducationType.EB;
-        case 'ylioppilas':
+        case 'ylioppilastutkinto':
           return EducationType.MatriculationExam;
         default:
           return EducationType.Unknown;

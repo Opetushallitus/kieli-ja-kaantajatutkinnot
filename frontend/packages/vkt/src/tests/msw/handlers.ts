@@ -41,7 +41,16 @@ export const handlers = [
       )
     ) {
       return new Response(
-        JSON.stringify([{ educationType: 'ylioppilas', isActive: true }]),
+        JSON.stringify([
+          {
+            educationType: 'ylioppilastutkinto',
+            isActive: false,
+          },
+          {
+            educationType: 'korkeakoulutus',
+            isActive: false,
+          },
+        ]),
       );
     } else {
       return new Response(JSON.stringify([]));
