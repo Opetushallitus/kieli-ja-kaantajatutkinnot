@@ -9,6 +9,7 @@ import {
   RadioGroup,
 } from '@mui/material';
 import { ChangeEvent, useEffect } from 'react';
+import { Trans } from 'react-i18next';
 import {
   CustomButton,
   FileUpload,
@@ -81,7 +82,12 @@ const AttachmentsList = () => {
       severity: Severity.Error,
       content: (
         <Text>
-          {t('deleteAttachment.description')} <b>{attachment.name}</b>?
+          <Trans
+            t={t}
+            i18nKey="deleteAttachment.description"
+            components={[<b key={`delete-attachment-b-${attachment.id}`} />]}
+            values={{ fileName: attachment.name }}
+          />
         </Text>
       ),
       actions: [

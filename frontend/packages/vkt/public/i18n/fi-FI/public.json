@@ -179,7 +179,7 @@
                 "title": "Lisäämäsi asiakirjat"
               },
               "deleteAttachment": {
-                "description": "Haluatko varmasti poistaa lisäämäsi asiakirjan",
+                "description": "Haluatko varmasti poistaa lisäämäsi asiakirjan <0>{{fileName}}</0>?",
                 "title": "Vahvista asiakirjan poisto"
               },
               "helpText1": "Voit todistaa täyttäväsi perusteen maksuttomaan tutkintoon todistusasiakirjoilla. Opetushallituksen virkailija tarkastaa, täyttävätkö lähettämäsi asiakirjat maksuttomuuden ehdot. ",
