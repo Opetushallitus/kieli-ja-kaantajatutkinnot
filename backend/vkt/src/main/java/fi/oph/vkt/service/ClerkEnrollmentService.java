@@ -61,7 +61,17 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
       freeEnrollment.setComment(dto.freeEnrollmentBasis().comment());
       freeEnrollmentRepository.flush();
 
-      if (dto.freeEnrollmentBasis().approved() != null) {
+      // If clerk user has explicitly approved or rejected the qualifications for free enrollment,
+      // the enrollment status should be updated accordingly.
+      // However, we must guard against updating the status eg. already cancelled enrollments by accident.
+      if (
+        dto.freeEnrollmentBasis().approved() != null &&
+        (
+          enrollment.getStatus() == EnrollmentStatus.AWAITING_APPROVAL ||
+          enrollment.getStatus() == EnrollmentStatus.AWAITING_PAYMENT ||
+          enrollment.getStatus() == EnrollmentStatus.COMPLETED
+        )
+      ) {
         if (dto.freeEnrollmentBasis().approved()) {
           enrollment.setStatus(EnrollmentStatus.COMPLETED);
         } else {
