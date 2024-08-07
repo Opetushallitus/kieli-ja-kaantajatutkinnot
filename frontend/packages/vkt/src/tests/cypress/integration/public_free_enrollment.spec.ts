@@ -2,7 +2,7 @@ import { onPublicEnrollmentPage } from 'tests/cypress/support/page-objects/publi
 import { examEventIdWithKoskiEducationDetailsFound } from 'tests/msw/fixtures/publicEnrollmentInitialisation';
 
 describe('Public enrollment without payment', () => {
-  it.skip('is possible when suitable education credentials are returned from KOSKI', () => {
+  it('is possible when suitable education credentials are returned from KOSKI', () => {
     cy.openPublicEnrollmentPage(examEventIdWithKoskiEducationDetailsFound);
     onPublicEnrollmentPage.expectTextContents(
       'Tietojemme mukaan olet suorittanut tai suorittamassa seuraavan tutkinnon:',

@@ -1,6 +1,9 @@
-import { AxiosError } from 'axios';
-import { put, takeLatest } from 'redux-saga/effects';
+import { AxiosError, AxiosResponse } from 'axios';
+import { call, put, takeLatest } from 'redux-saga/effects';
 
+import axiosInstance from 'configs/axios';
+import { APIEndpoints } from 'enums/api';
+import { PublicEducationResponse } from 'interfaces/publicEducation';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
   loadPublicEducation,
@@ -12,8 +15,12 @@ import { SerializationUtils } from 'utils/serialization';
 
 function* loadPublicEducationSaga() {
   try {
-    // Temporarily return empty public education data to allow testing attachment upload functionality in production
-    const response = { data: [] };
+    const loadUrl = `${APIEndpoints.PublicEducation}`;
+    const response: AxiosResponse<Array<PublicEducationResponse>> = yield call(
+      axiosInstance.get,
+      loadUrl,
+    );
+
     const publicEducation = SerializationUtils.deserializePublicEducation(
       response.data,
     );
