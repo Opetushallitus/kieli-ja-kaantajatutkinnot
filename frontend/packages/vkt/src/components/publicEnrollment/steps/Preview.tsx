@@ -9,7 +9,6 @@ import { ExamEventDetails } from 'components/publicEnrollment/steps/ExamEventDet
 import { PersonDetails } from 'components/publicEnrollment/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
 import { PublicFreeEnrollmentBasis } from 'interfaces/publicEducation';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
@@ -152,6 +151,7 @@ const PrivacyStatementCheckboxLabel = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.preview.privacyStatement',
   });
+  const translateCommon = useCommonTranslation();
 
   return (
     <Trans
@@ -161,7 +161,7 @@ const PrivacyStatementCheckboxLabel = ({
       }
     >
       <WebLink
-        href={AppRoutes.PrivacyPolicyPage}
+        href={translateCommon('vktPrivacyPolicy.link')}
         label={t('linkLabel')}
         endIcon={<OpenInNewIcon />}
       />

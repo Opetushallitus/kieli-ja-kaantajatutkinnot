@@ -151,7 +151,6 @@
         "paymentFail": "Ilmoittautuminen - maksua ei suoritettu",
         "paymentSuccess": "Ilmoittautuminen - maksu valmis",
         "preview": "Ilmoittautuminen - esikatsele",
-        "privacyPolicy": "Tietosuojaseloste",
         "selectExam": "Ilmoittautuminen - valitse tutkinto"
       },
       "requiredFieldsInfo": "Tähdellä (*) merkityt kentät ovat pakollisia.",
@@ -165,6 +164,10 @@
       "vktHomepage": {
         "ariaLabel": "Valtiohallinnon kielitutkinnot (oph.fi), avaa uudessa välilehdessä",
         "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot-vkt"
+      },
+      "vktPrivacyPolicy": {
+        "ariaLabel": "Tietoa henkilötietojen käsittelystä (oph.fi), avaa uudessa välilehdessä",
+        "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/erinomaisen-taidon-tutkinnot#anchor-tietoa-henkilotietojen-kasittelysta-"
       },
       "cookieBanner": {
         "buttonAriaLabel": "Sulje evästetiedot",
