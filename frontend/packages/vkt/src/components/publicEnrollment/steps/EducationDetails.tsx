@@ -17,7 +17,8 @@ import {
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
-import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -62,24 +63,45 @@ const AttachmentsList = () => {
     publicEnrollmentSelector,
   ).enrollment;
   const dispatch = useAppDispatch();
+  const { showDialog } = useDialog();
 
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix:
-      'vkt.component.publicEnrollment.steps.educationDetails.uploadAttachment.attachmentsList',
+      'vkt.component.publicEnrollment.steps.educationDetails.uploadAttachment',
   });
 
   if (!freeEnrollmentBasis?.attachments) {
     return null;
   }
 
-  const deleteAttachment = (attachment: Attachment) => {
-    dispatch(removeUploadedFileAttachment(attachment));
+  const confirmDeleteAttachment = (attachment: Attachment) => {
+    showDialog({
+      title: t('deleteAttachment.title'),
+      severity: Severity.Error,
+      content: (
+        <Text>
+          {t('deleteAttachment.description')} <b>{attachment.name}</b>?
+        </Text>
+      ),
+      actions: [
+        {
+          title: translateCommon('cancel'),
+          variant: Variant.Outlined,
+        },
+        {
+          title: translateCommon('delete'),
+          buttonColor: Color.Error,
+          variant: Variant.Contained,
+          action: () => dispatch(removeUploadedFileAttachment(attachment)),
+        },
+      ],
+    });
   };
 
   return (
     <>
-      <H3>{t('title')}:</H3>
+      <H3>{t('attachmentsList.title')}:</H3>
       <div className="rows">
         {freeEnrollmentBasis.attachments.map((a) => (
           <div key={a.id} className="columns gapped-xs">
@@ -93,7 +115,7 @@ const AttachmentsList = () => {
             </Text>
             <CustomButton
               startIcon={<DeleteIcon />}
-              onClick={() => deleteAttachment(a)}
+              onClick={() => confirmDeleteAttachment(a)}
               color={Color.Error}
               variant={Variant.Text}
             >
