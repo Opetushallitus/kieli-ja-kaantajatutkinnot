@@ -206,7 +206,7 @@ public class PublicEnrollmentEmailServiceTest {
       "partialExamsFI",
       "kirjoittaminen, tekstin ymmärtäminen, puheen ymmärtäminen",
       "partialExamsSV",
-      "skriftlig färdighet, textförståelse, hörförståelse"
+      "skriftlig färdighet, läsförståelse, hörförståelse"
     );
 
     when(templateRenderer.renderEnrollmentToQueueConfirmationEmailBody(expectedTemplateParams))
