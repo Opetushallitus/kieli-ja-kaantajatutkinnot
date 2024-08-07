@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.10.7] - 2024-08-07
+
+### Added
+- New FileUpload component
+
 ## [1.10.6] - 2024-04-05
 
 ### Fixed
