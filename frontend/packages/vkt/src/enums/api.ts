@@ -4,6 +4,7 @@ export enum APIEndpoints {
   PublicExamEvent = '/vkt/api/v1/examEvent',
   PublicEnrollment = '/vkt/api/v1/enrollment',
   PublicReservation = '/vkt/api/v1/reservation',
+  PublicEducation = '/vkt/api/v1/education',
   PaymentCreate = '/vkt/api/v1/payment/create/:enrollmentId/redirect?locale=:locale',
   ClerkExamEvent = '/vkt/api/v1/clerk/examEvent',
   ClerkUser = '/vkt/api/v1/clerk/user',
@@ -11,6 +12,7 @@ export enum APIEndpoints {
   ClerkEnrollment = '/vkt/api/v1/clerk/enrollment',
   ClerkPayment = '/vkt/api/v1/clerk/payment',
   FeatureFlags = '/vkt/api/v1/featureFlags',
+  UploadPostPolicy = '/vkt/api/v1/uploadPostPolicy/:examEventId',
 }
 
 /**
@@ -40,4 +42,6 @@ export enum APIError {
   ReservationPersonSessionMismatch = 'reservationPersonSessionMismatch',
   SessionMissingPersonId = 'sessionMissingPersonId',
   TicketValidationError = 'ticketValidationError',
+  FileUploadError = 'fileUploadError',
+  userAttachmentsMissing = 'userAttachmentsMissing',
 }

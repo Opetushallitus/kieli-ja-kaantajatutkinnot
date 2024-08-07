@@ -61,6 +61,7 @@ export const PublicEnrollmentPhoneGrid = ({
     cancelStatus,
     enrollment,
     reservation,
+    freeEnrollmentDetails,
   } = useAppSelector(publicEnrollmentSelector);
 
   const isRenewOrCancelLoading = [
@@ -72,6 +73,9 @@ export const PublicEnrollmentPhoneGrid = ({
     enrollmentSubmitStatus === APIResponseStatus.InProgress;
 
   const [appBarState, setAppBarState] = useState<MobileAppBarState>({});
+
+  const includePaymentStep =
+    ExamEventUtils.hasOpenings(examEvent) && !enrollment.isFree;
 
   const memoizedSetAppBarState = useCallback(
     (order: number, height: number) =>
@@ -91,14 +95,15 @@ export const PublicEnrollmentPhoneGrid = ({
 
     if (
       activeStep === PublicEnrollmentFormStep.PaymentSuccess ||
-      activeStep === PublicEnrollmentFormStep.Done
+      activeStep === PublicEnrollmentFormStep.Done ||
+      activeStep === PublicEnrollmentFormStep.DoneQueued
     ) {
       return <>{heading}</>;
     }
 
     const nextStepIndex = PublicEnrollmentUtils.getEnrollmentNextStep(
       activeStep,
-      ExamEventUtils.hasOpenings(examEvent),
+      includePaymentStep,
     );
 
     return (
@@ -139,7 +144,10 @@ export const PublicEnrollmentPhoneGrid = ({
                 />
               )}
               {isPaymentSumAvailable && (
-                <PublicEnrollmentPaymentSum enrollment={enrollment} />
+                <PublicEnrollmentPaymentSum
+                  enrollment={enrollment}
+                  freeEnrollmentDetails={freeEnrollmentDetails}
+                />
               )}
             </div>
           </StackableMobileAppBar>
@@ -160,7 +168,7 @@ export const PublicEnrollmentPhoneGrid = ({
               <div className="columns gapped-xxl">
                 <PublicEnrollmentStepper
                   activeStep={activeStep}
-                  includePaymentStep={ExamEventUtils.hasOpenings(examEvent)}
+                  includePaymentStep={includePaymentStep}
                 />
                 <div className="rows gapped-xs grow">
                   {getMobileStepperHeading()}

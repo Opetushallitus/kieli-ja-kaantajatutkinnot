@@ -21,12 +21,17 @@ import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.ReservationRepository;
+import fi.oph.vkt.repository.UploadedFileAttachmentRepository;
+import fi.oph.vkt.service.aws.S3Service;
+import fi.oph.vkt.service.koski.KoskiService;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
@@ -65,9 +70,21 @@ public class PublicEnrollmentServiceTest {
   private ReservationRepository reservationRepository;
 
   @Resource
+  private FreeEnrollmentRepository freeEnrollmentRepository;
+
+  @Resource
   private TestEntityManager entityManager;
 
+  @MockBean
+  private S3Service s3Service;
+
+  @MockBean
+  private KoskiService koskiService;
+
   private PublicEnrollmentService publicEnrollmentService;
+
+  @Resource
+  private UploadedFileAttachmentRepository uploadedFileAttachmentRepository;
 
   @BeforeEach
   public void setup() throws IOException, InterruptedException {
@@ -75,6 +92,9 @@ public class PublicEnrollmentServiceTest {
 
     final Environment environment = mock(Environment.class);
     when(environment.getRequiredProperty("app.reservation.duration")).thenReturn(ONE_MINUTE.toString());
+
+    final FeatureFlagService featureFlagService = mock(FeatureFlagService.class);
+    when(featureFlagService.isEnabled(any(FeatureFlag.class))).thenReturn(true);
 
     final PublicReservationService publicReservationService = new PublicReservationService(
       reservationRepository,
@@ -86,14 +106,19 @@ public class PublicEnrollmentServiceTest {
         examEventRepository,
         publicEnrollmentEmailServiceMock,
         publicReservationService,
-        reservationRepository
+        reservationRepository,
+        freeEnrollmentRepository,
+        s3Service,
+        featureFlagService,
+        uploadedFileAttachmentRepository,
+        koskiService
       );
   }
 
   @Test
   public void testInitialiseEnrollmentToExamEventWithRoom() {
     final ExamEvent examEvent = createExamEvent(2);
-    createEnrollment(examEvent, EnrollmentStatus.PAID);
+    createEnrollment(examEvent, EnrollmentStatus.COMPLETED);
     createEnrollment(examEvent, EnrollmentStatus.CANCELED);
     final Person person = createPerson();
 
@@ -188,8 +213,8 @@ public class PublicEnrollmentServiceTest {
   @Test
   public void testInitialiseEnrollmentFailsToFullExamEvent() {
     final ExamEvent examEvent = createExamEvent(2);
-    createEnrollment(examEvent, EnrollmentStatus.PAID);
-    createEnrollment(examEvent, EnrollmentStatus.SHIFTED_FROM_QUEUE);
+    createEnrollment(examEvent, EnrollmentStatus.COMPLETED);
+    createEnrollment(examEvent, EnrollmentStatus.AWAITING_PAYMENT);
     final Person person = createPerson();
 
     final APIException ex = assertThrows(
@@ -202,7 +227,7 @@ public class PublicEnrollmentServiceTest {
   @Test
   public void testInitialiseEnrollmentFailsToDuplicatePerson() {
     final ExamEvent examEvent = createExamEvent(2);
-    final Enrollment enrollment = createEnrollment(examEvent, EnrollmentStatus.PAID);
+    final Enrollment enrollment = createEnrollment(examEvent, EnrollmentStatus.COMPLETED);
 
     final APIException ex = assertThrows(
       APIException.class,
@@ -321,7 +346,7 @@ public class PublicEnrollmentServiceTest {
   @Test
   public void testInitialiseEnrollmentToQueue() {
     final ExamEvent examEvent = createExamEvent(1);
-    createEnrollment(examEvent, EnrollmentStatus.PAID);
+    createEnrollment(examEvent, EnrollmentStatus.COMPLETED);
     final Person person = createPerson();
 
     final PublicEnrollmentInitialisationDTO dto = publicEnrollmentService.initialiseEnrollmentToQueue(
@@ -346,8 +371,8 @@ public class PublicEnrollmentServiceTest {
   @Test
   public void testInitialiseEnrollmentQueueFailsToDuplicatePerson() {
     final ExamEvent examEvent = createExamEvent(2);
-    final Enrollment enrollment = createEnrollment(examEvent, EnrollmentStatus.PAID);
-    createEnrollment(examEvent, EnrollmentStatus.PAID);
+    final Enrollment enrollment = createEnrollment(examEvent, EnrollmentStatus.COMPLETED);
+    createEnrollment(examEvent, EnrollmentStatus.COMPLETED);
 
     final APIException ex = assertThrows(
       APIException.class,
@@ -461,7 +486,8 @@ public class PublicEnrollmentServiceTest {
       .street("Katu 1")
       .postalCode("00000")
       .town("Kaupunki")
-      .country("Maa");
+      .country("Maa")
+      .isFree(false);
   }
 
   private void assertCreatedEnrollment(
@@ -542,7 +568,7 @@ public class PublicEnrollmentServiceTest {
     final Person person = Factory.person();
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
 
-    enrollment.setStatus(EnrollmentStatus.SHIFTED_FROM_QUEUE);
+    enrollment.setStatus(EnrollmentStatus.AWAITING_PAYMENT);
     enrollment.setPaymentLinkHash("269a2da4-58bb-45eb-b125-522b77e9167c");
     enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().plusMinutes(5));
 
@@ -564,7 +590,7 @@ public class PublicEnrollmentServiceTest {
     final Person person = Factory.person();
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
 
-    enrollment.setStatus(EnrollmentStatus.PAID);
+    enrollment.setStatus(EnrollmentStatus.COMPLETED);
     enrollment.setPaymentLinkHash("269a2da4-58bb-45eb-b125-522b77e9167c");
     enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().plusMinutes(5));
 
@@ -589,7 +615,7 @@ public class PublicEnrollmentServiceTest {
     final Person person = Factory.person();
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
 
-    enrollment.setStatus(EnrollmentStatus.SHIFTED_FROM_QUEUE);
+    enrollment.setStatus(EnrollmentStatus.AWAITING_PAYMENT);
     enrollment.setPaymentLinkHash("269a2da4-58bb-45eb-b125-522b77e9167c");
     enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().minusMinutes(5));
 
@@ -614,7 +640,7 @@ public class PublicEnrollmentServiceTest {
     final Person person = Factory.person();
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
 
-    enrollment.setStatus(EnrollmentStatus.SHIFTED_FROM_QUEUE);
+    enrollment.setStatus(EnrollmentStatus.AWAITING_PAYMENT);
     enrollment.setPaymentLinkHash("269a2da4-58bb-45eb-b125-522b77e9167c");
     enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().plusMinutes(5));
 

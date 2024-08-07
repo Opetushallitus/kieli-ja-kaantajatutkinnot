@@ -129,7 +129,11 @@ export const PreviousEnrollment = ({
     <>
       <div className="margin-top-sm rows gapped">
         <H2>{t('title')}</H2>
-        <Text>{translateCommon('info.previousEnrollment')}</Text>
+        <Text>
+          {t('part1')}
+          <br />
+          {t('part2')}
+        </Text>
       </div>
       <div className="public-enrollment__grid__previous-enrollment rows gapped">
         <FormControl component="fieldset">

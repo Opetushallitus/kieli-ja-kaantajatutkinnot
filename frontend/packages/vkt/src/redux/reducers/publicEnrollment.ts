@@ -2,6 +2,10 @@ import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import {
+  Attachment,
+  PublicFreeEnrollmentDetails,
+} from 'interfaces/publicEducation';
+import {
   PublicEnrollment,
   PublicReservation,
 } from 'interfaces/publicEnrollment';
@@ -20,6 +24,7 @@ export interface PublicEnrollmentState {
   examEvent?: PublicExamEvent;
   person?: PublicPerson;
   reservation?: PublicReservation; // undefined if enrolling to queue
+  freeEnrollmentDetails?: PublicFreeEnrollmentDetails;
 }
 
 export const initialState: PublicEnrollmentState = {
@@ -33,6 +38,7 @@ export const initialState: PublicEnrollmentState = {
     email: '',
     emailConfirmation: '',
     phoneNumber: '',
+    isFree: false,
     oralSkill: false,
     textualSkill: false,
     understandingSkill: false,
@@ -56,6 +62,7 @@ export const initialState: PublicEnrollmentState = {
   examEvent: undefined,
   person: undefined,
   reservation: undefined,
+  freeEnrollmentDetails: undefined,
 };
 
 const publicEnrollmentSlice = createSlice({
@@ -86,6 +93,7 @@ const publicEnrollmentSlice = createSlice({
         person: PublicPerson;
         reservation?: PublicReservation;
         enrollment?: PublicEnrollment;
+        freeEnrollmentDetails?: PublicFreeEnrollmentDetails;
       }>,
     ) {
       state.enrollmentInitialisationStatus = APIResponseStatus.Success;
@@ -113,6 +121,7 @@ const publicEnrollmentSlice = createSlice({
       state.examEvent = action.payload.examEvent;
       state.person = action.payload.person;
       state.reservation = action.payload.reservation;
+      state.freeEnrollmentDetails = action.payload.freeEnrollmentDetails;
     },
     renewReservation(state, _action: PayloadAction<number>) {
       state.renewReservationStatus = APIResponseStatus.InProgress;
@@ -145,6 +154,10 @@ const publicEnrollmentSlice = createSlice({
       state.enrollment = {
         ...newEnrollment,
         ...{
+          isFree: EnrollmentUtils.isFree(
+            newEnrollment,
+            state.freeEnrollmentDetails,
+          ),
           understandingSkill:
             newEnrollment.speechComprehensionPartialExam &&
             newEnrollment.readingComprehensionPartialExam,
@@ -169,6 +182,28 @@ const publicEnrollmentSlice = createSlice({
       }>,
     ) {
       state.enrollmentSubmitStatus = APIResponseStatus.InProgress;
+    },
+    storeUploadedFileAttachment(state, action: PayloadAction<Attachment>) {
+      if (state.enrollment.freeEnrollmentBasis) {
+        if (state.enrollment.freeEnrollmentBasis.attachments) {
+          state.enrollment.freeEnrollmentBasis.attachments = [
+            ...state.enrollment.freeEnrollmentBasis.attachments,
+            action.payload,
+          ];
+        } else {
+          state.enrollment.freeEnrollmentBasis.attachments = [action.payload];
+        }
+      }
+    },
+    removeUploadedFileAttachment(state, action: PayloadAction<Attachment>) {
+      if (state.enrollment.freeEnrollmentBasis) {
+        if (state.enrollment.freeEnrollmentBasis.attachments) {
+          state.enrollment.freeEnrollmentBasis.attachments =
+            state.enrollment.freeEnrollmentBasis.attachments.filter(
+              (a) => a.id !== action.payload.id,
+            );
+        }
+      }
     },
     rejectPublicEnrollmentSave(state) {
       state.enrollmentSubmitStatus = APIResponseStatus.Error;
@@ -212,4 +247,6 @@ export const {
   storePublicEnrollmentSave,
   setPublicEnrollmentExamEventIdIfNotSet,
   setLoadingPayment,
+  storeUploadedFileAttachment,
+  removeUploadedFileAttachment,
 } = publicEnrollmentSlice.actions;

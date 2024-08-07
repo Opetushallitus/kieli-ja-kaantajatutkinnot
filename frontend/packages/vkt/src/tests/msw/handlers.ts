@@ -10,7 +10,11 @@ import { clerkExamEvent } from 'tests/msw/fixtures/clerkExamEvent';
 import { clerkExamEvents9 } from 'tests/msw/fixtures/clerkExamEvents9';
 import { clerkPaymentRefunded } from 'tests/msw/fixtures/clerkPaymentRefunded';
 import { person } from 'tests/msw/fixtures/person';
-import { publicEnrollmentInitialisation } from 'tests/msw/fixtures/publicEnrollmentInitialisation';
+import {
+  examEventIdWithKoskiEducationDetailsFound,
+  publicEnrollmentInitialisation,
+  publicEnrollmentInitialisationWithFreeEnrollments,
+} from 'tests/msw/fixtures/publicEnrollmentInitialisation';
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
 
 export const handlers = [
@@ -29,6 +33,28 @@ export const handlers = [
     };
 
     return new Response(cookies.noAuth ? 'null' : JSON.stringify(person));
+  }),
+  http.get(APIEndpoints.PublicEducation, ({ request }) => {
+    if (
+      request.referrer.endsWith(
+        `/vkt/ilmoittaudu/${examEventIdWithKoskiEducationDetailsFound}/tiedot`,
+      )
+    ) {
+      return new Response(
+        JSON.stringify([
+          {
+            educationType: 'ylioppilastutkinto',
+            isActive: false,
+          },
+          {
+            educationType: 'korkeakoulutus',
+            isActive: false,
+          },
+        ]),
+      );
+    } else {
+      return new Response(JSON.stringify([]));
+    }
   }),
   http.get(APIEndpoints.PublicExamEvent, () => {
     return new Response(JSON.stringify(publicExamEvents11));
@@ -105,7 +131,23 @@ export const handlers = [
       status: 200,
     });
   }),
+  http.get(
+    `${APIEndpoints.PublicExamEvent}/${examEventIdWithKoskiEducationDetailsFound}/enrollment`,
+    () => {
+      return new Response(
+        JSON.stringify(publicEnrollmentInitialisationWithFreeEnrollments),
+        {
+          status: 200,
+        },
+      );
+    },
+  ),
   http.put(`${APIEndpoints.ClerkPayment}/1/refunded`, () => {
     return new Response(JSON.stringify(clerkPaymentRefunded), { status: 200 });
+  }),
+  http.get(APIEndpoints.FeatureFlags, () => {
+    return new Response(JSON.stringify({ freeEnrollmentAllowed: true }), {
+      status: 200,
+    });
   }),
 ];

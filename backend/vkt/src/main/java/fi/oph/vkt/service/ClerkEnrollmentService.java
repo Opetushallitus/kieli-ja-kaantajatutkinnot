@@ -1,5 +1,6 @@
 package fi.oph.vkt.service;
 
+import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
@@ -10,11 +11,13 @@ import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.PaymentRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.UUIDSource;
@@ -44,12 +47,38 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   private final AuditService auditService;
   private final Environment environment;
   private final UUIDSource uuidSource;
+  private final FreeEnrollmentRepository freeEnrollmentRepository;
 
   @Transactional
   public ClerkEnrollmentDTO update(final ClerkEnrollmentUpdateDTO dto) {
     final Enrollment enrollment = enrollmentRepository.getReferenceById(dto.id());
+    final FreeEnrollment freeEnrollment = enrollment.getFreeEnrollment();
     final ClerkEnrollmentAuditDTO oldAuditDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
     enrollment.assertVersion(dto.version());
+
+    if (dto.freeEnrollmentBasis() != null && freeEnrollment != null) {
+      freeEnrollment.setApproved(dto.freeEnrollmentBasis().approved());
+      freeEnrollment.setComment(dto.freeEnrollmentBasis().comment());
+      freeEnrollmentRepository.flush();
+
+      // If clerk user has explicitly approved or rejected the qualifications for free enrollment,
+      // the enrollment status should be updated accordingly.
+      // However, we must guard against updating the status eg. already cancelled enrollments by accident.
+      if (
+        dto.freeEnrollmentBasis().approved() != null &&
+        (
+          enrollment.getStatus() == EnrollmentStatus.AWAITING_APPROVAL ||
+          enrollment.getStatus() == EnrollmentStatus.AWAITING_PAYMENT ||
+          enrollment.getStatus() == EnrollmentStatus.COMPLETED
+        )
+      ) {
+        if (dto.freeEnrollmentBasis().approved()) {
+          enrollment.setStatus(EnrollmentStatus.COMPLETED);
+        } else {
+          enrollment.setStatus(EnrollmentStatus.AWAITING_PAYMENT);
+        }
+      }
+    }
 
     copyDtoFieldsToEnrollment(enrollment, dto);
     enrollmentRepository.flush();
@@ -57,7 +86,11 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final ClerkEnrollmentAuditDTO newAuditDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
     auditService.logUpdate(VktOperation.UPDATE_ENROLLMENT, enrollment.getId(), oldAuditDto, newAuditDto);
 
-    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollmentRepository.getReferenceById(enrollment.getId()));
+    FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(enrollment.getPerson());
+    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(
+      enrollmentRepository.getReferenceById(enrollment.getId()),
+      freeEnrollmentDetails
+    );
   }
 
   @Transactional
@@ -72,7 +105,11 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final ClerkEnrollmentAuditDTO newAuditDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
     auditService.logUpdate(VktOperation.UPDATE_ENROLLMENT_STATUS, enrollment.getId(), oldAuditDto, newAuditDto);
 
-    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollmentRepository.getReferenceById(enrollment.getId()));
+    FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(enrollment.getPerson());
+    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(
+      enrollmentRepository.getReferenceById(enrollment.getId()),
+      freeEnrollmentDetails
+    );
   }
 
   @Transactional
@@ -95,7 +132,11 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final ClerkEnrollmentAuditDTO newAuditDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
     auditService.logUpdate(VktOperation.MOVE_ENROLLMENT, enrollment.getId(), oldAuditDto, newAuditDto);
 
-    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollmentRepository.getReferenceById(enrollment.getId()));
+    FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(enrollment.getPerson());
+    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(
+      enrollmentRepository.getReferenceById(enrollment.getId()),
+      freeEnrollmentDetails
+    );
   }
 
   @Transactional

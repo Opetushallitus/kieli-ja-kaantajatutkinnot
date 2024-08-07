@@ -5,6 +5,10 @@ import {
   CertificateShippingData,
   PartialExamsAndSkills,
 } from 'interfaces/common/enrollment';
+import {
+  PublicFreeEnrollmentBasis,
+  PublicFreeEnrollmentDetails,
+} from 'interfaces/publicEducation';
 import { PublicExamEventResponse } from 'interfaces/publicExamEvent';
 import { PublicPerson } from 'interfaces/publicPerson';
 import { WithId } from 'interfaces/with';
@@ -28,6 +32,7 @@ export interface PublicReservationDetailsResponse {
   person: PublicPerson;
   reservation?: PublicReservationResponse;
   enrollment?: PublicEnrollmentResponse;
+  freeEnrollmentDetails?: PublicFreeEnrollmentDetails;
 }
 
 export interface PublicEnrollmentContactDetails {
@@ -47,6 +52,8 @@ export interface PublicEnrollment
   status?: EnrollmentStatus;
   examEventId?: number;
   hasPaymentLink?: boolean;
+  isFree?: boolean;
+  freeEnrollmentBasis?: PublicFreeEnrollmentBasis;
 }
 
 export interface PublicEnrollmentResponse

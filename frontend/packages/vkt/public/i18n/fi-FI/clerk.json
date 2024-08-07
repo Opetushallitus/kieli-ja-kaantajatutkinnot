@@ -2,6 +2,9 @@
   "vkt": {
     "component": {
       "clerkEnrollmentDetails": {
+        "attachment": {
+          "download": "Lataa tiedosto"
+        },
         "cancelEnrollment": "Peruuta ilmoittautuminen",
         "cancelEnrollmentDialog": {
           "description": "Tätä toimintoa ei voi peruuttaa!",
@@ -14,9 +17,10 @@
           "CANCELED": "Peruutettu",
           "CANCELED_UNFINISHED_ENROLLMENT": "Peruuttanut",
           "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksu kesken",
-          "PAID": "Maksettu",
+          "COMPLETED": "Valmis",
           "QUEUED": "Jonossa",
-          "SHIFTED_FROM_QUEUE": "Siirretty jonosta / maksu puuttuu"
+          "AWAITING_APPROVAL": "Odottaa tarkastusta",
+          "AWAITING_PAYMENT": "Siirretty jonosta / maksu puuttuu"
         },
         "header": {
           "contactDetails": "Yhteystiedot",
@@ -67,6 +71,27 @@
         "toasts": {
           "enrollmentCanceled": "Ilmoittautuminen peruutettiin",
           "updated": "Tiedot tallennettiin"
+        },
+        "freeEnrollment": {
+          "title": "Maksuton ilmoittautuminen",
+          "description": "Maksuton ilmoittautuminen",
+          "approve": "Hyväksy",
+          "deny": "Hylkää",
+          "inspect": "Tarkasta",
+          "type": {
+            "MatriculationExam": "Ylioppilastutkinto",
+            "HigherEducationEnrolled": "Korkeakoulututkinto kesken",
+            "HigherEducationConcluded": "Korkeakoulututkinto",
+            "DIA": "DIA",
+            "EB": "EB",
+            "Other": "Muu",
+            "Unknown": "Ei tietoa",
+            "None": "Ei"
+          },
+          "source": {
+            "USER": "Käyttäjän ilmoittama",
+            "KOSKI": "Tieto KOSKI-integraatiosta"
+          }
         }
       },
       "clerkEnrollmentListing": {
@@ -79,7 +104,8 @@
         "row": {
           "changeEnrollmentStatus": {
             "backToQueue": "Siirrä takaisin jonoon",
-            "toExamEvent": "Siirrä tutkintoon"
+            "toExamEvent": "Siirrä tutkintoon",
+            "approveFreeExam": "Tarkasta todistus"
           },
           "fullExam": "Koko tutkinto"
         }
@@ -100,6 +126,7 @@
           "language": "Kieli ja taso",
           "registrationCloses": "Ilmoittautuminen sulkeutuu"
         },
+        "more": "Lisätietoja",
         "title": "Tutkintotilaisuudet",
         "toggleFilters": {
           "passed": "Menneet",
@@ -125,9 +152,10 @@
           "CANCELED": "Peruutetut",
           "CANCELED_UNFINISHED_ENROLLMENT": "Keskeytetyt (keskeneräinen)",
           "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksua odottavat (keskeneräinen)",
-          "PAID": "Ilmoittautuneet",
+          "COMPLETED": "Ilmoittautuneet",
           "QUEUED": "Jonoon ilmoittautuneet",
-          "SHIFTED_FROM_QUEUE": "Jonosta siirretyt / maksu puuttuu"
+          "AWAITING_APPROVAL": "Odottaa tarkastusta",
+          "AWAITING_PAYMENT": "Jonosta siirretyt / maksu puuttuu"
         },
         "copyClipboard": {
           "copyAll": "Kopioi sähköpostit",

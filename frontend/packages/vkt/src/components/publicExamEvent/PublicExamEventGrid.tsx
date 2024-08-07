@@ -55,24 +55,44 @@ export const PublicExamEventGrid = () => {
           <Text>{translateCommon('info.previousEnrollment')}</Text>
         </div>
         <div className="margin-top-xxl rows gapped">
-          <H2>{t('enrollment.title')}</H2>
-          <div className="rows">
-            <Text>{t('enrollment.description')}</Text>
-            <BulletList
-              points={[
-                translateCommon('examinationPayment.part1'),
-                translateCommon('examinationPayment.part2'),
-              ]}
+          <H2>{t('freeExamination.title')}</H2>
+          <Text>
+            {t('freeExamination.conditions.part1')}{' '}
+            <WebLink
+              href={t('freeExamination.conditions.link.url')}
+              label={t('freeExamination.conditions.link.label')}
+              endIcon={<OpenInNewIcon />}
             />
-            <Text className="margin-top-lg">
-              {t('extraInformation.description')}{' '}
-              <WebLink
-                href={t('extraInformation.link.url')}
-                label={t('extraInformation.link.label')}
-                endIcon={<OpenInNewIcon />}
-              />
-            </Text>
-          </div>
+          </Text>
+          <Text>{t('freeExamination.conditions.part2')}</Text>
+          <Text>
+            {t('freeExamination.ineligibility.description')}
+            <br />
+            {t('freeExamination.ineligibility.fullExaminationPayment')}
+            <br />
+            {t('freeExamination.ineligibility.partialExaminationPayment')}
+          </Text>
+        </div>
+        <div className="margin-top-xxl rows gapped">
+          <H2>{t('enrollment.title')}</H2>
+          <Text>
+            {t('enrollment.part1')}
+            <br />
+            {t('enrollment.part2')}
+          </Text>
+          <Text>
+            {t('enrollment.part3')}
+            <br />
+            {t('enrollment.part4')}
+          </Text>
+          <Text>
+            {t('enrollment.part5')}{' '}
+            <WebLink
+              href={t('enrollment.link.url')}
+              label={t('enrollment.link.label')}
+              endIcon={<OpenInNewIcon />}
+            />
+          </Text>
         </div>
       </Grid>
       <Grid item className="public-homepage__grid-container__result-box">

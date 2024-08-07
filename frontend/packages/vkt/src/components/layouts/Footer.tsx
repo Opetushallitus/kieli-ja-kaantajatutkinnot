@@ -34,9 +34,16 @@ export const Footer = () => {
                 <Link to={AppRoutes.AccessibilityStatementPage}>
                   <Text>{t('links.accessibility.text')}</Text>
                 </Link>
-                <Link to={AppRoutes.PrivacyPolicyPage}>
-                  <Text>{t('links.privacy.text')}</Text>
-                </Link>
+                <a
+                  href={translateCommon('vktPrivacyPolicy.link')}
+                  aria-label={translateCommon('vktPrivacyPolicy.ariaLabel')}
+                  className="columns gapped-xxs"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {t('links.privacy.text')}
+                  <OpenInNewIcon />
+                </a>
                 <a
                   href={translateCommon('vktHomepage.link')}
                   aria-label={translateCommon('vktHomepage.ariaLabel')}

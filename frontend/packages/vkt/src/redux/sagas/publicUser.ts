@@ -18,14 +18,12 @@ function* loadPublicUserSaga() {
       APIEndpoints.PublicUser,
     );
 
-    if (response.status === HTTPStatusCode.Ok) {
+    if (response.status === HTTPStatusCode.Ok && response.data) {
       yield put(storePublicUser(response.data));
     } else {
       yield put(rejectPublicUser());
     }
-  } catch (error) {
-    yield put(rejectPublicUser());
-  }
+  } catch (error) {}
 }
 
 export function* watchPublicUser() {

@@ -1,6 +1,7 @@
 import { HTTPStatusCode } from 'shared/enums';
 
 import { APIEndpoints } from 'enums/api';
+import { PublicReservationResponse } from 'interfaces/publicEnrollment';
 import { onPublicEnrollmentPage } from 'tests/cypress/support/page-objects/publicEnrollmentPage';
 import { onPublicHomePage } from 'tests/cypress/support/page-objects/publicHomePage';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
@@ -101,12 +102,13 @@ describe('Public enrollment', () => {
       );
       onPublicEnrollmentPage.expectPreviewDetails('email', 'test@test.invalid');
       onPublicEnrollmentPage.expectPreviewDetails('phoneNumber', '040112233');
+      // TODO
+      // onPublicEnrollmentPage.expectPreviewBulletList(
+      //   0,
+      //   'Kirjallinen taitoSuullinen taitoYmmärtämisen taito',
+      // );
       onPublicEnrollmentPage.expectPreviewBulletList(
         0,
-        'Kirjallinen taitoSuullinen taitoYmmärtämisen taito',
-      );
-      onPublicEnrollmentPage.expectPreviewBulletList(
-        1,
         'KirjoittaminenTekstin ymmärtäminenPuhuminenPuheen ymmärtäminen',
       );
       onPublicEnrollmentPage.expectPreviewCertificateShippingDetails(

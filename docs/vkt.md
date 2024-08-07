@@ -2,6 +2,10 @@
 
 ## Backend
 
+### Setup localstack
+
+See [localstack/README.md](../localstack/README.md).
+
 ### Build and Run
 
 Using Maven

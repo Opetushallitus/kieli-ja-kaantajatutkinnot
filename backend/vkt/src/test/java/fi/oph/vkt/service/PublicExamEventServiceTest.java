@@ -98,8 +98,8 @@ public class PublicExamEventServiceTest {
     createReservations(futureEvent1, 2, LocalDateTime.now().plusMinutes(1));
     createReservations(futureEvent1, 1, LocalDateTime.now());
 
-    createEnrollment(futureEvent2, EnrollmentStatus.PAID);
-    createEnrollment(futureEvent2, EnrollmentStatus.SHIFTED_FROM_QUEUE);
+    createEnrollment(futureEvent2, EnrollmentStatus.COMPLETED);
+    createEnrollment(futureEvent2, EnrollmentStatus.AWAITING_PAYMENT);
     createEnrollment(futureEvent2, EnrollmentStatus.CANCELED);
     createReservations(futureEvent2, 2, LocalDateTime.now().plusMinutes(1));
 
@@ -202,7 +202,7 @@ public class PublicExamEventServiceTest {
     entityManager.persist(event);
 
     for (int i = 0; i < howManyParticipants; i++) {
-      createEnrollment(event, EnrollmentStatus.PAID);
+      createEnrollment(event, EnrollmentStatus.COMPLETED);
     }
     createReservations(event, howManyReservations, LocalDateTime.now().plusMinutes(1));
 
@@ -255,7 +255,7 @@ public class PublicExamEventServiceTest {
 
     entityManager.persist(event);
 
-    createEnrollment(event, EnrollmentStatus.PAID);
+    createEnrollment(event, EnrollmentStatus.COMPLETED);
     createEnrollment(event, EnrollmentStatus.QUEUED);
 
     final PublicExamEventDTO publicExamEventDTO = publicExamEventService.listExamEvents(ExamLevel.EXCELLENT).get(0);

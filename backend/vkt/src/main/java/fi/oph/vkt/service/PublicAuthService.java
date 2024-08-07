@@ -1,6 +1,5 @@
 package fi.oph.vkt.service;
 
-import fi.oph.vkt.model.CasTicket;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
@@ -22,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,6 +92,7 @@ public class PublicAuthService {
     person.setOid(oid);
     person.setOtherIdentifier(otherIdentifier);
     person.setLatestIdentifiedAt(LocalDateTime.now());
+    person.setUuid(UUID.randomUUID());
 
     return personRepository.saveAndFlush(person);
   }

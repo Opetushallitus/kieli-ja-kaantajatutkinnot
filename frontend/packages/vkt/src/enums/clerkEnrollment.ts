@@ -9,3 +9,8 @@ export enum ClerkEnrollmentTextFieldEnum {
   Town = 'town',
   Country = 'country',
 }
+
+export enum ClerkEnrollmentFreeBasisFieldEnum {
+  Approved = 'approved',
+  Comment = 'comment',
+}

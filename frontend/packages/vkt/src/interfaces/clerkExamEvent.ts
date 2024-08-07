@@ -27,6 +27,7 @@ export interface DraftClerkExamEvent
     | 'maxParticipants'
     | 'registrationCloses'
     | 'enrollments'
+    | 'unApprovedFreeEnrollments'
   > {
   language?: Exclude<ExamLanguage, ExamLanguage.ALL>;
   level?: ExamLevel;
@@ -47,4 +48,5 @@ export interface ClerkExamEvent
     WithVersion,
     ClerkExamEventBasicInformation {
   enrollments: Array<ClerkEnrollment>;
+  unApprovedFreeEnrollments: number;
 }

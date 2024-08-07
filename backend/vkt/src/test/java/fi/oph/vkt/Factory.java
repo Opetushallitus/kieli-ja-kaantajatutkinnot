@@ -39,6 +39,7 @@ public class Factory {
     person.setFirstName("Foo Bar");
     person.setOid(UUID.randomUUID().toString());
     person.setLatestIdentifiedAt(LocalDateTime.now());
+    person.setUuid(UUID.randomUUID());
 
     return person;
   }
@@ -52,7 +53,7 @@ public class Factory {
     enrollment.setSpeechComprehensionPartialExam(true);
     enrollment.setWritingPartialExam(false);
     enrollment.setReadingComprehensionPartialExam(false);
-    enrollment.setStatus(EnrollmentStatus.PAID);
+    enrollment.setStatus(EnrollmentStatus.COMPLETED);
     enrollment.setPreviousEnrollment("1.11.2022");
     enrollment.setDigitalCertificateConsent(true);
     enrollment.setEmail("foo.tester@invalid");

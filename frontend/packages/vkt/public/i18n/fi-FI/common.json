@@ -72,7 +72,9 @@
           "renewReservationNotAllowed": "Paikkavarauksen uusiminen epäonnistui",
           "reservationPersonSessionMismatch": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
           "sessionMissingPersonId": "Et ole tunnistautunut, ole hyvä ja tunnistaudu uudelleen",
-          "ticketValidationError": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen"
+          "ticketValidationError": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen",
+          "fileUploadError": "Tiedoston lähetys epäonnistui, ole hyvä ja yritä uudelleen",
+          "userAttachmentsMissing": "Koulutusvalinnan vaadittavat liitteet puuttuu"
         },
         "customTextField": {
           "emailFormat": "Sähköpostiosoite on virheellinen",
@@ -91,10 +93,6 @@
       },
       "examLevel": {
         "EXCELLENT": "Erinomainen taito"
-      },
-      "examinationPayment": {
-        "part1": "Tutkintomaksu on 514 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kerralla.",
-        "part2": "Tutkintomaksu on 257 euroa, jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
       },
       "header": {
         "accessibility": {
@@ -139,35 +137,37 @@
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Valtionhallinnon kielitutkintojen ilmoittautumisjärjestelmän etusivulle.",
       "pageTitle": {
-        "frontPage": "Etusivu",
-        "notFound": "Etsimääsi sivua ei löytynyt",
-        "authenticate": "Ilmoittautuminen - tunnistaudu",
-        "contactDetails": "Ilmoittautuminen - täytä yhteystietosi",
-        "selectExam": "Ilmoittautuminen - valitse tutkinto",
-        "preview": "Ilmoittautuminen - esikatsele",
-        "paymentFail": "Ilmoittautuminen - maksua ei suoritettu",
-        "paymentSuccess": "Ilmoittautuminen - maksu valmis",
-        "done": "Ilmoittautuminen - valmis",
-        "logoutSuccess": "Uloskirjautuminen onnnistui",
         "accessibilityStatement": "Saavutettavuusseloste",
-        "privacyPolicy": "Tietosuojaseloste",
+        "authenticate": "Ilmoittautuminen - tunnistaudu",
         "clerkEnrollmentOverview": "Virkailija ilmoittautuminen",
         "clerkExamEventCreate": "Virkailija lisää tutkintopäivä",
         "clerkExamOverview": "Virkailija tutkintosivu",
         "clerkHomepage": "Virkailija",
-        "logoutSuccess": "Uloskirjautuminen onnnistui"
+        "contactDetails": "Ilmoittautuminen - täytä yhteystietosi",
+        "done": "Ilmoittautuminen - valmis",
+        "frontPage": "Etusivu",
+        "logoutSuccess": "Uloskirjautuminen onnnistui",
+        "notFound": "Etsimääsi sivua ei löytynyt",
+        "paymentFail": "Ilmoittautuminen - maksua ei suoritettu",
+        "paymentSuccess": "Ilmoittautuminen - maksu valmis",
+        "preview": "Ilmoittautuminen - esikatsele",
+        "selectExam": "Ilmoittautuminen - valitse tutkinto"
       },
       "requiredFieldsInfo": "Tähdellä (*) merkityt kentät ovat pakollisia.",
       "sessionExpired": {
-        "title": "Istuntosi on vanhentunut",
+        "descriptionClerk": "Istuntosi on vanhentunut. Ole hyvä ja kirjaudu uudelleen.",
         "descriptionPublic": "Istuntosi on vanhentunut. Ole hyvä ja tunnistaudu uudelleen.",
-        "descriptionClerk": "Istuntosi on vanhentunut. Ole hyvä ja kirjaudu uudelleen."
+        "title": "Istuntosi on vanhentunut"
       },
       "rowsPerPageLabel": "Tulokset per sivu",
       "save": "Tallenna",
       "vktHomepage": {
         "ariaLabel": "Valtiohallinnon kielitutkinnot (oph.fi), avaa uudessa välilehdessä",
         "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot-vkt"
+      },
+      "vktPrivacyPolicy": {
+        "ariaLabel": "Tietoa henkilötietojen käsittelystä (oph.fi), avaa uudessa välilehdessä",
+        "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/erinomaisen-taidon-tutkinnot#anchor-tietoa-henkilotietojen-kasittelysta-"
       },
       "cookieBanner": {
         "buttonAriaLabel": "Sulje evästetiedot",

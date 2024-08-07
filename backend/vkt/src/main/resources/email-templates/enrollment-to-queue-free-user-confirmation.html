@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fi">
+    <body>
+        <p>
+            Hei,
+        </p>
+        <p>Olet ilmoittautunut jonotuspaikalle Valtionhallinnon kielitutkintoon. Olemme sinuun yhteydessä, mikäli tutkintotilaisuuteen vapautuu paikkoja.</p>
+        <p>Olet ilmoittanut ilmoittautumislomakkeella, että olet oikeutettu maksuttomaan tutkintoon ja lisännyt todistusasiakirjoja. Jos saat paikan tutkintoon, virkailija tarkastaa, täyttävätkö asiakirjat maksuttomuuden ehdot.</p>
+        <p>Jos ehdot täyttyvät, tutkinto on maksuton ja saat sähköpostilla vahvistuksen ilmoittautumisesta.</p>
+        <p>Jos ehdot eivät täyty, tutkinto on maksullinen ja saat sähköpostilla maksulinkin tutkintomaksun maksamista varten.</p>
+        <p>Ohessa tiedot ilmoittautumisestasi.</p>
+        <br/>
+
+        <p>
+            <b>Tutkinnon kieli:</b> <span th:text="${examLanguageFI}"></span><br/>
+            <b>Tutkinnon taso:</b> <span th:text="${examLevelFI}"></span><br/>
+            <b>Tutkintopäivä:</b> <span th:text="${examDate}"></span><br/>
+            <b>Oikeutettu maksuttomaan tutkintoon:</b> <span>Virkailija tarkastaa</span><br/>
+            <b>Valitsemasi taidot:</b> <span th:text="${skillsFI}"></span><br/>
+            <b>Valitsemasi osakokeet:</b> <span th:text="${partialExamsFI}"></span><br/>
+            <b>Maksuttomia tutkintokertoja jäljellä:</b> <span th:text="${freeExamsLeftFI}"></span><br/>
+        </p>
+        <br/>
+
+        <p>Jos sinulla on kysyttävää tutkinnosta, voit lähettää meille sähköpostia osoitteeseen <a href="mailto:kielitutkinnot@oph.fi">kielitutkinnot@oph.fi</a>. Ilmoitathan viipymättä, jos et pysty osallistumaan tutkintoon.</p>
+        <p>
+            Lisätietoa tutkinnosta löydät Opetushallituksen verkkopalvelusta:<br/>
+            <a href="https://www.oph.fi/fi/koulutus-ja-tutkinnot/erinomaisen-taidon-tutkinnot" target="_blank">Valtionhallinnon kielitutkinnot (VKT)</a>
+        </p>
+        <br/>
+
+        <p>
+            Älä vastaa tähän viestiin - viesti on lähetetty automaattisesti.
+        </p>
+        <p style="border-bottom: 1px solid black; padding-bottom: 15px;">
+            Ystävällisin terveisin<br/>
+            Opetushallitus
+        </p>
+
+        <p>
+            Hej,
+        </p>
+        <p>Du har en plats i kön för Språkexamen för statsförvaltningen (VKT). Vi kontaktar dig om platser blir lediga.</p>
+        <p>Du har uppgett på anmälningsblanketten att du har rätt till avgiftsfri examen och bifogat intyg. Om du får en plats vid examenstillfället granskas dina intyg vid Utbildningsstyrelsen.</p>
+        <p>Ifall du har rätt till avgiftsfri examen får du en bekräftelse på din anmälan per e-post.</p>
+        <p>Om du inte har rätt till avgiftsfri examen, får du en länk för att betala examensavgiften.</p>
+        <p>Uppgifter om din anmälan hittar du nedan.</p>
+
+        <br/>
+
+        <p>
+            <b>Examensspråk:</b> <span th:text="${examLanguageSV}"></span><br/>
+            <b>Examensnivå:</b> <span th:text="${examLevelSV}"></span><br/>
+            <b>Examensdatum:</b> <span th:text="${examDate}"></span><br/>
+            <b>Rätt till avgiftsfri examen:</b> <span>Granskas på Utbildningstyrelsen</span><br/>
+            <b>Förmågor som du har valt:</b> <span th:text="${skillsSV}"></span><br/>
+            <b>Delprov som du har valt:</b> <span th:text="${partialExamsSV}"></span><br/>
+            <b>Antal avgiftsfria examina kvar:</b> <span th:text="${freeExamsLeftSV}"></span><br/>
+        </p>
+        <br/>
+
+        <p>Om du har frågor om examen, kan du kontakta oss per e-post på adressen <a href="mailto:kielitutkinnot@oph.fi">kielitutkinnot@oph.fi</a>. Vänligen meddela omedelbart om du inte kan delta i examen.</p>
+        <p>
+            Närmare information om examen finns på Utbildningsstyrelsens webbplats:<br/>
+            <a href="https://www.oph.fi/sv/utbildning-och-examina/examina-som-galler-utmarkta-sprakkunskaper" target="_blank">Språkexamina för statsförvaltningen (VKT)</a>
+        </p>
+        <br/>
+
+        <p>
+            Svara inte på detta meddelande, det har skickats automatiskt.
+        </p>
+        <p>
+            Med vänlig hälsning<br/>
+            Utbildningsstyrelsen
+        </p>
+    </body>
+</html>

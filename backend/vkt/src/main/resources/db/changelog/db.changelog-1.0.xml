@@ -655,5 +655,129 @@
             </column>
         </createTable>
     </changeSet>
-
+    <changeSet id="2024-05-31-free-enrollment" author="lket">
+        <createTable tableName="free_enrollment">
+            <column autoIncrement="true" name="free_enrollment_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="free_enrollment_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="person_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="approved" type="BOOLEAN"/>
+            <column name="comment" type="TEXT"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="free_enrollment" baseColumnNames="person_id"
+                                 referencedTableName="person" referencedColumnNames="person_id"
+                                 constraintName="fk_free_enrollment_person"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+       <addColumn tableName="enrollment">
+           <column name="free_enrollment" type="BIGSERIAL" />
+       </addColumn>
+        <addForeignKeyConstraint baseTableName="enrollment" baseColumnNames="free_enrollment"
+                                 referencedTableName="free_enrollment" referencedColumnNames="free_enrollment_id"
+                                 constraintName="fk_enrollment_free_enrollment"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+        <createTable tableName="uploaded_file_attachment">
+            <column autoIncrement="true" name="attachment_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="uploaded_file_attachment_pkey" />
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="free_enrollment_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="key" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="uploaded_file_attachment_key_uniq_idx"/>
+            </column>
+            <column name="filename" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+            <column name="size" type="INT">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="uploaded_file_attachment" baseColumnNames="free_enrollment_id"
+                                 referencedTableName="free_enrollment" referencedColumnNames="free_enrollment_id"
+                                 constraintName="fk_uploaded_file_attachment_free_enrollment"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+        <insert tableName="enrollment_status">
+            <column name="name" value="COMPLETED"/>
+        </insert>
+        <insert tableName="enrollment_status">
+            <column name="name" value="AWAITING_PAYMENT"/>
+        </insert>
+        <insert tableName="enrollment_status">
+            <column name="name" value="AWAITING_APPROVAL"/>
+        </insert>
+        <sql>
+            UPDATE enrollment SET status = 'COMPLETED' WHERE status = 'PAID'
+        </sql>
+        <sql>
+            UPDATE enrollment SET status = 'AWAITING_PAYMENT' WHERE status = 'SHIFTED_FROM_QUEUE'
+        </sql>
+        <sql>
+            DELETE FROM enrollment_status WHERE name = 'PAID'
+        </sql>
+        <sql>
+            DELETE FROM enrollment_status WHERE name = 'SHIFTED_FROM_QUEUE'
+        </sql>
+    </changeSet>
+    <changeSet id="2024-06-18-add-uuid-to-person-postgres" author="pkoivisto">
+        <preConditions onFail="CONTINUE">
+            <dbms type="postgresql" />
+        </preConditions>
+        <addColumn tableName="person">
+            <column name="uuid" type="UUID">
+                <constraints unique="true" />
+            </column>
+        </addColumn>
+        <sql>
+            UPDATE person SET uuid=gen_random_uuid() WHERE uuid IS NULL
+        </sql>
+        <addNotNullConstraint tableName="person" columnName="uuid" />
+    </changeSet>
+    <changeSet id="2024-06-18-add-uuid-to-person-hsqldb" author="pkoivisto">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb" />
+        </preConditions>
+        <addColumn tableName="person">
+            <column name="uuid" type="UUID">
+                <constraints unique="true" />
+            </column>
+        </addColumn>
+        <sql>
+            UPDATE person SET uuid=uuid() WHERE uuid IS NULL
+        </sql>
+        <addNotNullConstraint tableName="person" columnName="uuid" />
+    </changeSet>
 </databaseChangeLog>

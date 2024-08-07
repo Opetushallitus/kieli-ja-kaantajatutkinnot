@@ -27,6 +27,7 @@ import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.PaymentRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.UUIDSource;
@@ -49,6 +50,9 @@ class ClerkEnrollmentServiceTest {
 
   @Resource
   private EnrollmentRepository enrollmentRepository;
+
+  @Resource
+  private FreeEnrollmentRepository freeEnrollmentRepository;
 
   @Resource
   private ExamEventRepository examEventRepository;
@@ -79,7 +83,8 @@ class ClerkEnrollmentServiceTest {
         paymentRepository,
         auditService,
         environment,
-        uuidSource
+        uuidSource,
+        freeEnrollmentRepository
       );
   }
 

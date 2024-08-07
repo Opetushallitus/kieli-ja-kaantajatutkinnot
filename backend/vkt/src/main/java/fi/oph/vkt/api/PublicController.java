@@ -1,5 +1,7 @@
 package fi.oph.vkt.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
@@ -12,6 +14,7 @@ import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.model.type.ExamLevel;
+import fi.oph.vkt.model.type.FreeEnrollmentType;
 import fi.oph.vkt.service.FeatureFlagService;
 import fi.oph.vkt.service.PaymentService;
 import fi.oph.vkt.service.PublicAuthService;
@@ -19,6 +22,7 @@ import fi.oph.vkt.service.PublicEnrollmentService;
 import fi.oph.vkt.service.PublicExamEventService;
 import fi.oph.vkt.service.PublicPersonService;
 import fi.oph.vkt.service.PublicReservationService;
+import fi.oph.vkt.service.koski.KoskiService;
 import fi.oph.vkt.util.SessionUtil;
 import fi.oph.vkt.util.UIRouteUtil;
 import fi.oph.vkt.util.exception.APIException;
@@ -29,6 +33,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -36,13 +41,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.session.FindByIndexNameSessionRepository;
-import org.springframework.session.Session;
-import org.springframework.session.SessionRepository;
-import org.springframework.session.jdbc.JdbcIndexedSessionRepository;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,6 +79,9 @@ public class PublicController {
   private PublicReservationService publicReservationService;
 
   @Resource
+  private KoskiService koskiService;
+
+  @Resource
   private UIRouteUtil uiRouteUtil;
 
   @Resource
@@ -97,6 +100,14 @@ public class PublicController {
     final HttpSession session
   ) {
     final Person person = publicAuthService.getPersonFromSession(session);
+
+    if (
+      dto.freeEnrollmentBasis() != null &&
+      !FreeEnrollmentType.None.equals(dto.freeEnrollmentBasis().type()) &&
+      featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)
+    ) {
+      return publicEnrollmentService.createFreeEnrollment(dto, reservationId, person);
+    }
 
     return publicEnrollmentService.createEnrollment(dto, reservationId, person);
   }
@@ -131,6 +142,22 @@ public class PublicController {
   @GetMapping(path = "/examEvent/{examEventId:\\d+}")
   public PublicExamEventDTO getExamEventInfo(@PathVariable final long examEventId) {
     return publicExamEventService.getExamEvent(examEventId);
+  }
+
+  @GetMapping(path = "/education")
+  public List<PublicEducationDTO> getEducation(final HttpSession session) throws JsonProcessingException {
+    final Person person = publicAuthService.getPersonFromSession(session);
+    final String oid = person.getOid();
+
+    if (oid == null || oid.isEmpty()) {
+      return Collections.emptyList();
+    }
+
+    try {
+      return koskiService.findEducations(oid);
+    } catch (final Exception e) {
+      return Collections.emptyList();
+    }
   }
 
   /**
@@ -220,8 +247,10 @@ public class PublicController {
 
       if (enrollmentType.equals(EnrollmentType.QUEUE)) {
         publicEnrollmentService.initialiseEnrollmentToQueue(examEventId, person);
+        SessionUtil.setQueueExamId(session, examEventId);
       } else {
         publicEnrollmentService.initialiseEnrollment(examEventId, person);
+        SessionUtil.setQueueExamId(session, null);
       }
 
       httpResponse.sendRedirect(uiRouteUtil.getEnrollmentContactDetailsUrl(examEventId));
@@ -354,5 +383,19 @@ public class PublicController {
     return Arrays
       .stream(FeatureFlag.values())
       .collect(Collectors.toMap(FeatureFlag::getPropertyKey, f -> featureFlagService.isEnabled(f)));
+  }
+
+  @GetMapping(path = "/uploadPostPolicy/{examEventId:\\d+}")
+  public Map<String, String> getPresignedPostPolicy(
+    @PathVariable final long examEventId,
+    @RequestParam final String filename,
+    final HttpSession session
+  ) {
+    if (featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
+      Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+      return publicEnrollmentService.getPresignedPostRequest(examEventId, person, session, filename);
+    } else {
+      throw new RuntimeException("Not allowed");
+    }
   }
 }

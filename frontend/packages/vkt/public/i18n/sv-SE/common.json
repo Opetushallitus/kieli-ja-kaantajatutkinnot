@@ -72,7 +72,9 @@
           "renewReservationNotAllowed": "Platsreservationen kunde inte förnyas",
           "reservationPersonSessionMismatch": "Funktionen misslyckades, försök på nytt senare",
           "sessionMissingPersonId": "Du har inte identifierat dig. Vänligen identifiera dig på nytt.",
-          "ticketValidationError": "Identifieringen misslyckades. Vänligen identifiera dig på nytt."
+          "ticketValidationError": "Identifieringen misslyckades. Vänligen identifiera dig på nytt.",
+          "fileUploadError": "Det gick inte att skicka filen, försök på nytt.",
+          "userAttachmentsMissing": "Bilagor som krävs för uppgiften om utbildning saknas"
         },
         "customTextField": {
           "emailFormat": "E-postadressen är felaktig",
@@ -91,10 +93,6 @@
       },
       "examLevel": {
         "EXCELLENT": "Utmärkta språkkunskaper"
-      },
-      "examinationPayment": {
-        "part1": "Examensavgiften är 514 euro om du avlägger examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift samtidigt.",
-        "part2": "Examensavgiften är 257 euro om du avlägger antigen examen som gäller förmåga att använda språket i tal eller examen som gäller förmåga att använda språket i skrift eller ett av delproven."
       },
       "header": {
         "accessibility": {
@@ -160,6 +158,10 @@
       "vktHomepage": {
         "ariaLabel": "Språkexamina för statsförvaltningen (oph.fi), öppnas i en ny flik",
         "link": "https://www.oph.fi/sv/sprakexamina-statsforvaltningen-vkt"
+      },
+      "vktPrivacyPolicy": {
+        "ariaLabel": "Information om behandlingen av personuppgifter (oph.fi), öppnas i en ny flik",
+        "link": "https://www.oph.fi/sv/utbildning-och-examina/examina-som-galler-utmarkta-sprakkunskaper#anchor-information-om-behandlingen-av-personuppgifter"
       },
       "cookieBanner": {
         "buttonAriaLabel": "Stäng informationrutan om kakor",

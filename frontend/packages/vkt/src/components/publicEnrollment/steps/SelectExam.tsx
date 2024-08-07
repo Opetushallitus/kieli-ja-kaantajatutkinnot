@@ -54,11 +54,11 @@ export const SelectExam = ({
     <div className="margin-top-xxl rows gapped">
       <Text>{translateCommon('requiredFieldsInfo')}</Text>
       <H2>{t('title')}</H2>
-      <div className="rows">
-        <Text>{translateCommon('examinationPayment.part1')}</Text>
-        <Text>{translateCommon('examinationPayment.part2')}</Text>
-      </div>
-      <Text>{translateCommon('info.selectExam')}</Text>
+      <Text>
+        {t('part1')}
+        <br />
+        {t('part2')}
+      </Text>
       <PartialExamsSelection
         enrollment={enrollment}
         editingDisabled={isLoading}

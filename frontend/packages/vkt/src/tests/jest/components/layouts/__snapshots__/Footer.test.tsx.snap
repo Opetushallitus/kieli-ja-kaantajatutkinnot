@@ -27,14 +27,24 @@ exports[`Footer should render Footer correctly 1`] = `
           </p>
         </a>
         <a
-          href="/vkt/tietosuojaseloste"
-          onClick={[Function]}
+          aria-label="vktPrivacyPolicy.ariaLabel"
+          className="columns gapped-xxs"
+          href="vktPrivacyPolicy.link"
+          rel="noreferrer"
+          target="_blank"
         >
-          <p
-            className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          links.privacy.text
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="OpenInNewIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
           >
-            links.privacy.text
-          </p>
+            <path
+              d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+            />
+          </svg>
         </a>
         <a
           aria-label="vktHomepage.ariaLabel"

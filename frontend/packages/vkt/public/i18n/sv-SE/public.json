@@ -19,7 +19,7 @@
             "title": "Respons och utvecklingsidéer"
           },
           "privacy": {
-            "text": "Dataskyddsbeskrivning"
+            "text": "Dataskyddsbeskrivning (oph.fi)"
           },
           "vktHomepage": {
             "text": "Språkexamina för statsförvaltningen (oph.fi)"
@@ -53,13 +53,15 @@
           "reservationInfoText": "Om din anmälan inte är slutförd, välj \"Fortsätt anmälan\""
         },
         "paymentSum": {
-          "title": "Examensavgift"
+          "title": "Examensavgift",
+          "free": "Avgiftsfri"
         },
         "stepHeading": {
           "common": {
             "Authenticate": "Identifiera dig",
-            "Done": "Färdigt - du har en plats i kön",
-            "FillContactDetails": "Fyll i dina kontaktuppgifter",
+            "Done": "Färdig",
+            "DoneQueued": "Färdig - du har en plats i kön",
+            "FillContactDetails": "Fyll i uppgifter",
             "Payment": "Avgiften har inte betalats",
             "PaymentSuccess": "Färdigt - anmälan lyckades",
             "Preview": "Förhandsgranska",
@@ -94,7 +96,14 @@
           },
           "certificateShipping": { "title": "Leverans av examensintyget" },
           "done": {
-            "description": "Du har en plats i kön för examen! Du får en bekräftelse till adressen"
+            "description": "Du har anmält dig till examen! Du får en bekräftelse till adressen",
+            "descriptionQueued": "Du har en plats i kön för examen! Du får en bekräftelse till adressen",
+            "freePendingVerification": {
+              "description": "Du har anmält dig till examen. Vi skickar information om anmälan till adressen",
+              "part1": "Dina dokument granskas vid Utbildningsstyrelsen so fort som möjligt.",
+              "part2": "Om du har rätt till avgiftsfri examen får du en bekräftelse på din anmälan per e-post.",
+              "part3": "Om du inte har rätt till avgiftsfri examen får du en länk för att betala examensavgiften."
+            }
           },
           "fillContactDetails": {
             "email": {
@@ -109,7 +118,20 @@
             "phoneNumber": {
               "label": "Telefonnummer *"
             },
-            "title": "Dina kontaktuppgifter"
+            "title": "Dina kontaktuppgifter",
+            "educationDetails": {
+              "errorWaitEducations": "Utbildningsuppgiter laddas ner. Var god och vänta.",
+              "educationInfoTitle": "Utbildningsuppgifter",
+              "freeEnrollmentDescription": "Enligt våra uppgifter har du avlagt eller studerar i syfte att avlägga följande examen:",
+              "freeEnrollmentDescription2": "Du kan därmed ha rätt att delta språkexamen avgiftsfritt tre gånger.",
+              "type": {
+                "MatriculationExam": "Studentexamen",
+                "HigherEducationEnrolled": "Högskoleexamen",
+                "HigherEducationConcluded": "Högskoleexamen",
+                "DIA": "DIA-examen",
+                "EB": "EB-examen"
+              }
+            }
           },
           "partialExamsSelection": {
             "partialExamsTitle": "Välj delproven *",
@@ -121,6 +143,8 @@
             "noFullExam": "Nej, jag vill endast avlägga någondera av examina eller ett delprov"
           },
           "selectExam": {
+            "part1": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen.",
+            "part2": "När du har blivit godkänd i examina som gäller förmåga att använda språket i tal och i skrift får du ett intyg även för förmågan att förstå språket.",
             "title": "Val av examen"
           },
           "paymentFail": {
@@ -140,6 +164,31 @@
             "lastName": "Efternamn",
             "title": "Dina personuppgifter"
           },
+          "educationDetails": {
+            "college": "Högskoleexamen",
+            "collegeEnrolled": "Jag studerar i syfte att avlägga högskoleexamen",
+            "education": "Jag har rätt till avgiftsfritt språkexamen *",
+            "highschool": "Studentexamen eller motsvarande utländsk examen",
+            "educationSelectHelpText": "Vi hittade inga utbildningsuppgifter som skulle ge dig rätt till avgiftsfri examen i informationsresursen KOSKI. Du kan ändå ha rätt till avgiftsfri examen om du har avlagt högskoleexamen i Finland före 1995 eller om du har avlagt eller studerar i syfter att avlägga en högskoleexamen utomlands.",
+            "educationSelectChooseOne": "Välj ett av följande alternativ:",
+            "no": "Jag har inte rätt till avgiftsfri språkexamen",
+            "attachments": "Bilagor",
+            "attachmentsCheck": "Bilagor (granskas vid Utbildningsstyrelsen)",
+            "uploadAttachment": {
+              "attachmentsList": {
+                "title": "Dina bifogade dokument"
+              },
+              "deleteAttachment": {
+                "description": "Är du säker på att du vill radera dokumentet <0>{{fileName}}</0> som du har bifogat?",
+                "title": "Bekräfta radering av dokumentet"
+              },
+              "helpText1": "Med intyg kan du bevisa att du har rätt till en avgiftsfri examen. Dina dokument granskas på Utbildningsstyrelsen.",
+              "helpText2": "Du kan bifoga högst tio dokument. Dokumenten kan vara pdf- eller bildfiler av god kvalitet. Bifoga en kopia av det ursprungliga examensintyget eller studieintyget. Bifoga även en översättning av dokumentet till finska, svenska eller engelska ifall det ursprungliga dokumentet är på något annat språk. Namnge bilagorna tydligt (t.ex. examensintyg.pdf, studieintyg.jpg, oversattning_examensintyg.pdf).",
+              "maxAttachmentsReached": "Du har redan bifogat tio dokument. Du kan inte lägga till fler dokument.",
+              "title": "Skicka examensintyg eller studieintyg *",
+              "uploadFile": "Skicka filen"
+            }
+          },
           "preview": {
             "certificateShippingDetails": {
               "addressLabel": "Leveransadress",
@@ -150,27 +199,35 @@
               "phoneNumber": "Telefonnummer",
               "title": "Dina kontaktuppgifter"
             },
+            "educationDetails": {
+              "title": "Utbildningsuppgifter",
+              "description": "Utbildning som ger rätt till avgiftsfri examen",
+              "freeEnrollmentsLeft": "Antalet avgiftsfria examina kvar",
+              "price": "Pris"
+            },
             "examEventDetails": {
-              "previousEnrollmentLabel": "Jag har deltagit språkexamina för statsförvaltingen tidigare",
+              "previousEnrollmentLabel": "Deltagande i tidigare språkexamina för statsförvaltingen som gäller utmärkta språkkunskaper",
               "selectedSkillsLabel": "Valda examina",
               "selectedPartialExamsLabel": "Valda delprov",
               "title": "Uppgifter om examen"
             },
             "privacyStatement": {
-              "ariaLabel": "Dataskyddsbeskrivning",
-              "label": "Jag har läst <0></0> för den här tjänsten och accepterar den (obligatoriskt).",
-              "linkLabel": "dataskyddsbeskrivningen"
+              "freeEnrollmentLabel": "Jag har läst <0></0> för tjänsten och godtar dem (obligatoriskt). Jag förstår att den här anmälan utgör en av de avgiftsfria examina. Om jag inte kan delta i examen, informerar jag Utbildningsstyrelsen om detta så fort som möjligt.",
+              "linkLabel": "dataskyddsbeskrivningen",
+              "paidEnrollmentLabel": "Jag har läst <0></0> för tjänsten och godtar dem (obligatoriskt). Om jag inte kan delta i examen, informerar jag Utbildningsstyrelsen om detta så fort som möjligt. "
             }
           },
           "previousEnrollment": {
+            "part1": "Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.",
+            "part2": "Vi behöver information om deltagande i tidigare examina för att hålla koll på omtagningar. Information om examina som avlagts före 1.8.2024 påverkar inte antalet avgiftsfria examina.",
             "radioButtons": {
-              "label": "Har du deltagit språkexamina för statsförvaltningen tidigare? *"
+              "label": "Har du tidigare deltagit i språkexamina för statsförvaltingen som gäller utmärkta språkkunskaper? *"
             },
             "textField": {
               "label": "När har du deltagit senast? *",
               "placeholder": "Datum eller fritext"
             },
-            "title": "Deltagande i tidigare examina"
+            "title": "Deltagande i tidigare språkexamina för statsförvaltingen som gäller utmärkta språkkunskaper"
           }
         }
       },
@@ -181,19 +238,36 @@
             "point2": "examen som gäller förmåga att använda finska eller svenska i skrift (med delproven läsförståelse och skriftlig färdighet)",
             "point3": "examen som gäller förmåga att förstå finska eller svenska (med delproven hörförståelse och läsförståelse)"
           },
-          "line1": "Språkexamina för statsförvaltningen är avsedda för att visa sådana språkkunskaper i det andra inhemska språket som krävs av offentligt anställda. Med examensintygen kan man visa förmåga att använda finska eller svenska i tal och i skrift samt förmåga att förstå språket",
+          "line1": "Språkexamina för statsförvaltningen är avsedda för att visa sådana språkkunskaper i det andra inhemska språket som krävs av offentligt anställda. Med examensintygen kan man visa förmåga att använda finska eller svenska i tal och i skrift samt förmåga att förstå språket.",
           "line2": "Examina som gäller utmärkta språkkunskaper är"
         },
         "enrollment": {
-          "description": "Du ska identifiera dig via suomi.fi -tjänsten. I samband med anmälan betalas även examensavgiften.",
-          "title": "Anmälan och examensavgiften"
-        },
-        "extraInformation": {
-          "description": "Mera information om examina på",
           "link": {
-            "label": "Utbildningstyrelsens webbplats",
-            "url": "https://www.oph.fi/sv/sprakexamina-statsforvaltningen-vkt"
-          }
+            "label": "på Utbildningsstyrelsens webbplats.",
+            "url": "https://www.oph.fi/sv/utbildning-och-examina/examina-som-galler-utmarkta-sprakkunskaper"
+          },
+          "part1": "För att anmäla dig till examen ska du identifiera dig via tjänsten Suomi.fi.",
+          "part2": "Efter detta kontrollerar systemet i informationsresursen KOSKI om du har rätt till avgiftsfri examen.",
+          "part3": "Om uppgifter om din utbildning inte hittas och du har rätt till avgiftsfri examen, kan du bifoga intyg till din anmälan.",
+          "part4": "Dina dokument granskas vid Utbildningsstyrelsen.",
+          "part5": "Mer information",
+          "title": "Anmälan och kontroll av rätten till avgiftsfri examen"
+        },
+        "freeExamination": {
+          "conditions": {
+            "link": {
+              "label": "på Utbildningsstyrelsens webbplats.",
+              "url": "https://www.oph.fi/sv/utbildning-och-examina/examina-som-galler-utmarkta-sprakkunskaper"
+            },
+            "part1": "Språkexamina för statsförvaltningen som gäller utmärkta språkkunskaper är avgiftsfria med vissa villkor från och med 1 augusti 2024. Mer information om villkoren för avgiftsfri examen",
+            "part2": "Den som har rätt till avgiftsfri examen kan anmäla sig till examen avgiftsfritt tre gånger. Eftersom examen kan avläggas i delar, kan den som har rätt till avgiftsfri examen anmäla sig avgiftsfritt tre gånger både till examen som gäller förmåga att använda språket i tal och till examen som gäller förmåga att använda språket i skrift."
+          },
+          "ineligibility": {
+            "description": "Den som inte har rätt till avgiftsfri examen, ska i samband med anmälning betala även examensavgiften.",
+            "fullExaminationPayment": "Examensavgiften är 514 euro om muntlig och skriftlig examen avläggs samtidigt.",
+            "partialExaminationPayment": "Examensavgiften är 257 euro om du avlägger antingen examen som gäller förmåga att använda språket i tal eller examen som gäller förmåga att använda språket i skrift eller ett av delproven."
+          },
+          "title": "Avgftsfri examen"
         },
         "title": "Språkexamina för statsförvaltningen (VKT) - anmälan till examina som gäller utmärkta språkkunskaper"
       },

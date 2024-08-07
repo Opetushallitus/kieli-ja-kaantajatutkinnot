@@ -12,5 +12,6 @@ public record ClerkExamEventProjection(
   LocalDate registrationCloses,
   long participants,
   long maxParticipants,
-  boolean isHidden
+  boolean isHidden,
+  long unApprovedFreeEnrollments
 ) {}

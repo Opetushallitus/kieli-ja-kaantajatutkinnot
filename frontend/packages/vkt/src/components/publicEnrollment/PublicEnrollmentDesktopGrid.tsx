@@ -51,6 +51,7 @@ export const PublicEnrollmentDesktopGrid = ({
     cancelStatus,
     enrollment,
     reservation,
+    freeEnrollmentDetails,
   } = useAppSelector(publicEnrollmentSelector);
 
   const isRenewOrCancelLoading = [
@@ -60,6 +61,9 @@ export const PublicEnrollmentDesktopGrid = ({
 
   const isEnrollmentSubmitLoading =
     enrollmentSubmitStatus === APIResponseStatus.InProgress;
+
+  const includePaymentStep =
+    ExamEventUtils.hasOpenings(examEvent) && !enrollment.isFree;
 
   return (
     <>
@@ -79,7 +83,7 @@ export const PublicEnrollmentDesktopGrid = ({
             >
               <PublicEnrollmentStepper
                 activeStep={activeStep}
-                includePaymentStep={ExamEventUtils.hasOpenings(examEvent)}
+                includePaymentStep={includePaymentStep}
               />
               {reservation && !isPreviewPassed && (
                 <PublicEnrollmentTimer
@@ -108,7 +112,10 @@ export const PublicEnrollmentDesktopGrid = ({
                 showValidation={showValidation}
               />
               {isPaymentSumAvailable && (
-                <PublicEnrollmentPaymentSum enrollment={enrollment} />
+                <PublicEnrollmentPaymentSum
+                  enrollment={enrollment}
+                  freeEnrollmentDetails={freeEnrollmentDetails}
+                />
               )}
               {activeStep > PublicEnrollmentFormStep.Authenticate &&
                 !isPreviewPassed && (
