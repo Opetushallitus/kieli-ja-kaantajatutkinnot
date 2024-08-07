@@ -1,3 +1,4 @@
+import DeleteIcon from '@mui/icons-material/Delete';
 import ImageIcon from '@mui/icons-material/Image';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import {
@@ -9,13 +10,14 @@ import {
 } from '@mui/material';
 import { ChangeEvent, useEffect } from 'react';
 import {
+  CustomButton,
   FileUpload,
   H2,
   H3,
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
-import { APIResponseStatus } from 'shared/enums';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -29,6 +31,7 @@ import {
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { loadPublicEducation } from 'redux/reducers/publicEducation';
+import { removeUploadedFileAttachment } from 'redux/reducers/publicEnrollment';
 import { startFileUpload } from 'redux/reducers/publicFileUpload';
 import { publicEducationSelector } from 'redux/selectors/publicEducation';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
@@ -58,7 +61,9 @@ const AttachmentsList = () => {
   const { freeEnrollmentBasis } = useAppSelector(
     publicEnrollmentSelector,
   ).enrollment;
+  const dispatch = useAppDispatch();
 
+  const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix:
       'vkt.component.publicEnrollment.steps.educationDetails.uploadAttachment.attachmentsList',
@@ -67,6 +72,10 @@ const AttachmentsList = () => {
   if (!freeEnrollmentBasis?.attachments) {
     return null;
   }
+
+  const deleteAttachment = (attachment: Attachment) => {
+    dispatch(removeUploadedFileAttachment(attachment));
+  };
 
   return (
     <>
@@ -82,6 +91,14 @@ const AttachmentsList = () => {
             <Text className="grow">
               {a.name}&nbsp;({FileUtils.getReadableFileSize(a.size)})
             </Text>
+            <CustomButton
+              startIcon={<DeleteIcon />}
+              onClick={() => deleteAttachment(a)}
+              color={Color.Error}
+              variant={Variant.Text}
+            >
+              {translateCommon('delete')}
+            </CustomButton>
           </div>
         ))}
       </div>
