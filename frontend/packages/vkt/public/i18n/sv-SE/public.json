@@ -100,9 +100,9 @@
             "descriptionQueued": "Du har en plats i kön för examen! Du får en bekräftelse till adressen",
             "freePendingVerification": {
               "description": "Du har anmält dig till examen. Vi skickar information om anmälan till adressen",
-              "part1": "Dina dokument granskas på Utbildningsstyrelsen so fort som möjligt.",
-              "part2": "Ifall du har rätt till en avgiftsfri examen får du en bekräftelse om din anmälan per e-post.",
-              "part3": "Om du inte har rätt till en avgiftsfri examen får du en länk för att betala examensavgiften."
+              "part1": "Dina dokument granskas vid Utbildningsstyrelsen so fort som möjligt.",
+              "part2": "Om du har rätt till avgiftsfri examen får du en bekräftelse på din anmälan per e-post.",
+              "part3": "Om du inte har rätt till avgiftsfri examen får du en länk för att betala examensavgiften."
             }
           },
           "fillContactDetails": {
@@ -122,8 +122,8 @@
             "educationDetails": {
               "errorWaitEducations": "Utbildningsuppgiter laddas ner. Var god och vänta.",
               "educationInfoTitle": "Utbildningsuppgifter",
-              "freeEnrollmentDescription": "Enligt våra uppgifter har du avlagt eller studerar i syfte att avlägga följande högskoleexamen:",
-              "freeEnrollmentDescription2": "Du kan ha rätt att delta språkexamen avgiftsfritt tre gånger.",
+              "freeEnrollmentDescription": "Enligt våra uppgifter har du avlagt eller studerar i syfte att avlägga följande examen:",
+              "freeEnrollmentDescription2": "Du kan därmed ha rätt att delta språkexamen avgiftsfritt tre gånger.",
               "type": {
                 "MatriculationExam": "Studentexamen",
                 "HigherEducationEnrolled": "Högskoleexamen",
@@ -167,17 +167,22 @@
           "educationDetails": {
             "college": "Högskoleexamen",
             "collegeEnrolled": "Jag studerar i syfte att avlägga högskoleexamen",
-            "education": "Jag har rätt till ett avgiftsfritt språkexamen *",
+            "education": "Jag har rätt till avgiftsfritt språkexamen *",
             "highschool": "Studentexamen eller motsvarande utländsk examen",
-            "educationSelectHelpText": "Vi hittade inte utbildningsuppgifter som skulle ge dig rätt till en avgiftsfri anmälan i informationsresursen KOSKI. Du kan ha rätt till en avgiftsfri anmälan om du har avlagt högskoleexamen i Finland före 1995 eller om du har avlagt eller studerar i syfter att avlägga en högskoleexamen utomlands.",
+            "educationSelectHelpText": "Vi hittade inga utbildningsuppgifter som skulle ge dig rätt till avgiftsfri examen i informationsresursen KOSKI. Du kan ändå ha rätt till avgiftsfri examen om du har avlagt högskoleexamen i Finland före 1995 eller om du har avlagt eller studerar i syfter att avlägga en högskoleexamen utomlands.",
             "educationSelectChooseOne": "Välj ett av följande alternativ:",
-            "no": "Jag har inte rätt till en avgiftsfri språkexamen",
+            "no": "Jag har inte rätt till avgiftsfri språkexamen",
             "attachments": "Bilagor",
-            "attachmentsCheck": "Bilagor (granskas på Utbildningsstyrelsen)",
+            "attachmentsCheck": "Bilagor (granskas vid Utbildningsstyrelsen)",
             "uploadAttachment": {
-              "title": "Skicka examensintyg eller närvarointyg ",
+              "attachmentsList": {
+                "title": "Dina bifogade dokument"
+              },
               "helpText1": "Med intyg kan du bevisa att du har rätt till en avgiftsfri examen. Dina dokument granskas på Utbildningsstyrelsen.",
-              "helpText2": "Du kan bifoga högst 10 dokument. Dokument kan vara pdf- eller bildfiler av god kvalitet. Bifoga en kopia av det ursprungliga examensintyget eller av närvarointyget. Bifoga även en översättning av dokumentet till finska, svenska eller engelska ifall det ursprungliga dokumentets språk är något annat än finska, svenska eller engelska. Namnge bilagorna tydligt (t.ex. examensbevis.pdf, studieratt.jpg, oversattning_examensbevis.pdf).  "
+              "helpText2": "Du kan bifoga högst tio dokument. Dokumenten kan vara pdf- eller bildfiler av god kvalitet. Bifoga en kopia av det ursprungliga examensintyget eller studieintyget. Bifoga även en översättning av dokumentet till finska, svenska eller engelska ifall det ursprungliga dokumentet är på något annat språk. Namnge bilagorna tydligt (t.ex. examensintyg.pdf, studieintyg.jpg, oversattning_examensintyg.pdf).",
+              "maxAttachmentsReached": "Du har redan bifogat tio dokument. Du kan inte lägga till fler dokument.",
+              "title": "Skicka examensintyg eller studieintyg *",
+              "uploadFile": "Skicka filen"
             }
           },
           "preview": {
@@ -192,7 +197,7 @@
             },
             "educationDetails": {
               "title": "Utbildningsuppgifter",
-              "description": "Utbilndning som ger rätt till avgiftsfri anmälan",
+              "description": "Utbildning som ger rätt till avgiftsfri examen",
               "freeEnrollmentsLeft": "Antalet avgiftsfria examina kvar",
               "price": "Pris"
             },
@@ -203,14 +208,14 @@
               "title": "Uppgifter om examen"
             },
             "privacyStatement": {
-              "freeEnrollmentLabel": "Jag har läst <0></0> av denna service och godtar den (obligatorisk). Jag förstår att anmälan tar en av de avgiftsfria examina. Om jag inte kan delta i examen informerar jag Utbildningsstyrelsen om annulering så fort som möjligt.",
+              "freeEnrollmentLabel": "Jag har läst <0></0> för tjänsten och godtar dem (obligatoriskt). Jag förstår att den här anmälan utgör en av de avgiftsfria examina. Om jag inte kan delta i examen, informerar jag Utbildningsstyrelsen om detta så fort som möjligt.",
               "linkLabel": "dataskyddsbeskrivningen",
-              "paidEnrollmentLabel": "Jag har läst <0></0> av denna service och godtar den (obligatorisk). Om jag inte kan delta i examen informerar jag Utbildningsstyrelsen om annulering så fort som möjligt."
+              "paidEnrollmentLabel": "Jag har läst <0></0> för tjänsten och godtar dem (obligatoriskt). Om jag inte kan delta i examen, informerar jag Utbildningsstyrelsen om detta så fort som möjligt. "
             }
           },
           "previousEnrollment": {
             "part1": "Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.",
-            "part2": "Vi behöver information om deltagande i tidigare examina för att följa omtagningar. Information om examina som avlagts före 1.8.2024 påverkar inte antalet avgiftsfria examina.",
+            "part2": "Vi behöver information om deltagande i tidigare examina för att hålla koll på omtagningar. Information om examina som avlagts före 1.8.2024 påverkar inte antalet avgiftsfria examina.",
             "radioButtons": {
               "label": "Har du tidigare deltagit i språkexamina för statsförvaltingen som gäller utmärkta språkkunskaper? *"
             },
@@ -237,12 +242,12 @@
             "label": "på Utbildningsstyrelsens webbplats.",
             "url": "https://www.oph.fi/sv/utbildning-och-examina/examina-som-galler-utmarkta-sprakkunskaper"
           },
-          "part1": "För att anmäla dig till examen ska du identifiera dig via suomi.fi -tjänsten.",
-          "part2": "Efter identifieringen kontrollerar systemet i informationsresursen KOSKI om du har rätt till en avgiftsfri anmälan.",
-          "part3": "Om uppgifterna om din utbildning inte hittas och du har rätt till en avgiftsfri examen kan du bifoga intyg i din anmälan.",
-          "part4": "Dina dokument granskas på Utbildningsstyrelsen.",
+          "part1": "För att anmäla dig till examen ska du identifiera dig via tjänsten Suomi.fi.",
+          "part2": "Efter detta kontrollerar systemet i informationsresursen KOSKI om du har rätt till avgiftsfri examen.",
+          "part3": "Om uppgifter om din utbildning inte hittas och du har rätt till avgiftsfri examen, kan du bifoga intyg till din anmälan.",
+          "part4": "Dina dokument granskas vid Utbildningsstyrelsen.",
           "part5": "Mer information",
-          "title": "Anmälan och kontrollering av rätt till en avgiftsfri examen"
+          "title": "Anmälan och kontroll av rätten till avgiftsfri examen"
         },
         "freeExamination": {
           "conditions": {
@@ -250,8 +255,8 @@
               "label": "på Utbildningsstyrelsens webbplats.",
               "url": "https://www.oph.fi/sv/utbildning-och-examina/examina-som-galler-utmarkta-sprakkunskaper"
             },
-            "part1": "Språkexamina för statsförvaltningen som gäller utmärkta språkkunskaper är avgiftsfria med vissa villkor från och med 1 augusti 2024",
-            "part2": "Den som har rätt till en avgiftsfri examen kan anmäla sig till examen avgiftsfritt tre gånger. Eftersom examen kan avläggas i delar, kan den som har rätt till en avgiftsfri examen anmäla sig avgiftsfritt tre gånger både till examen som gäller förmåga att använda språket i tal och till examen som gäller förmåga att använda språket i skrift."
+            "part1": "Språkexamina för statsförvaltningen som gäller utmärkta språkkunskaper är avgiftsfria med vissa villkor från och med 1 augusti 2024. Mer information om villkoren för avgiftsfri examen",
+            "part2": "Den som har rätt till avgiftsfri examen kan anmäla sig till examen avgiftsfritt tre gånger. Eftersom examen kan avläggas i delar, kan den som har rätt till avgiftsfri examen anmäla sig avgiftsfritt tre gånger både till examen som gäller förmåga att använda språket i tal och till examen som gäller förmåga att använda språket i skrift."
           },
           "ineligibility": {
             "description": "Den som inte har rätt till avgiftsfri examen, ska i samband med anmälning betala även examensavgiften.",
