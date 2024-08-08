@@ -10,6 +10,7 @@ import fi.oph.vkt.service.email.sender.EmailSender;
 import fi.oph.vkt.service.email.sender.EmailSenderNoOp;
 import fi.oph.vkt.service.email.sender.EmailSenderViestintapalvelu;
 import fi.oph.vkt.util.UUIDSource;
+import java.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,11 +23,14 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.Session;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
+import reactor.netty.http.client.HttpClient;
+import reactor.netty.resources.ConnectionProvider;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.ContainerCredentialsProvider;
@@ -138,6 +142,18 @@ public class AppConfig {
   }
 
   private static WebClient.Builder webClientBuilderWithCallerId() {
-    return WebClient.builder().defaultHeader("Caller-Id", Constants.CALLER_ID);
+    ConnectionProvider connectionProvider = ConnectionProvider
+      .builder("custom-connection-provider")
+      .maxConnections(50)
+      .maxIdleTime(Duration.ofSeconds(20))
+      .maxLifeTime(Duration.ofSeconds(60))
+      .pendingAcquireTimeout(Duration.ofSeconds(60))
+      .evictInBackground(Duration.ofSeconds(120))
+      .build();
+    HttpClient httpClient = HttpClient.create(connectionProvider);
+    return WebClient
+      .builder()
+      .defaultHeader("Caller-Id", Constants.CALLER_ID)
+      .clientConnector(new ReactorClientHttpConnector(httpClient));
   }
 }
