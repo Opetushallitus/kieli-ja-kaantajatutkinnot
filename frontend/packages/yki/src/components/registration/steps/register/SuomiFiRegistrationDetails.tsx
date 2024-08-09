@@ -98,14 +98,24 @@ export const SuomiFiRegistrationDetails = () => {
   const nationalities = useAppSelector(nationalitiesSelector).nationalities;
   const nationalityOptions = useNationalityOptions();
 
+  const updateRegistrationField = (
+    fieldName: keyof Omit<PublicSuomiFiRegistration, 'id'>,
+    value: string | boolean,
+  ) => {
+    dispatch(updatePublicRegistration({ [fieldName]: value }));
+  };
+
   const handleChange =
     (fieldName: keyof Omit<PublicSuomiFiRegistration, 'id'>) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      dispatch(
-        updatePublicRegistration({
-          [fieldName]: event.target.value,
-        }),
-      );
+      updateRegistrationField(fieldName, event.target.value);
+    };
+
+  const handleBlur =
+    (fieldName: keyof Omit<PublicSuomiFiRegistration, 'id'>) =>
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const trimmedValue = event.target.value ? event.target.value.trim() : '';
+      updateRegistrationField(fieldName, trimmedValue);
     };
 
   const handlePhoneNumberBlur = () => {
@@ -127,6 +137,7 @@ export const SuomiFiRegistrationDetails = () => {
       label: t('labels.' + fieldName) + ' *',
       placeholder: t('placeholders.' + fieldName),
       onChange: handleChange(fieldName),
+      onBlur: handleBlur(fieldName),
       error: showErrors && !!registrationErrors[fieldName],
       helperText: registrationErrors[fieldName]
         ? translateCommon(registrationErrors[fieldName] as string)

@@ -128,5 +128,40 @@ describe('ExamDetailsPage', () => {
       onExamDetailsPage.submitForm();
       onExamDetailsPage.isFormSubmitted();
     });
+
+    it('text fields filled by user are trimmed of whitespace before sending to backend', () => {
+      cy.openExamSessionRegistrationForm(examSessionResponse.id);
+      cy.intercept('POST', APIEndpoints.InitRegistration, {
+        statusCode: 200,
+        body: getInitRegistrationResponse(true),
+      }).as('initRegistration');
+      cy.wait('@initRegistration');
+      onExamDetailsPage.isVisible();
+      const email = 'teuvotesti@test.invalid';
+      onExamDetailsPage.fillFieldByLabel(
+        'Sähköpostiosoite *',
+        '   ' + email,
+      );
+      onExamDetailsPage.fillFieldByLabel(
+        'Vahvista sähköpostiosoite *',
+        email + '   ',
+      );
+      onExamDetailsPage.fillFieldByLabel('Puhelinnumero *', ' +358 50 123 4567  ');
+
+      // Interact with other fields to force onBlur handler to run, which will perform the actual trimming of text inputs.
+      onExamDetailsPage.selectNationality('Serbia');
+      onExamDetailsPage.selectCertificateLanguage('englanti');
+
+      onExamDetailsPage.expectFieldText('Sähköpostiosoite *', email);
+      onExamDetailsPage.expectFieldText('Puhelinnumero *', '+358501234567');
+
+      onExamDetailsPage.acceptTermsOfRegistration();
+      onExamDetailsPage.acceptPrivacyPolicy();
+
+      handleRedirect();
+
+      onExamDetailsPage.submitForm();
+      onExamDetailsPage.isFormSubmitted();
+    })
   });
 });
