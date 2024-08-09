@@ -84,6 +84,19 @@ export const EmailRegistrationDetails = () => {
       );
     };
 
+  const handleBlur =
+    (fieldName: keyof Omit<PublicEmailRegistration, 'id'>) =>
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const trimmedValue = event.target.value ? event.target.value.trim() : '';
+      const value = getEventTargetValue(trimmedValue);
+
+      dispatch(
+        updatePublicRegistration({
+          [fieldName]: value,
+        }),
+      );
+    };
+
   const handlePhoneNumberBlur = () => {
     dispatch(
       updatePublicRegistration({
@@ -99,6 +112,7 @@ export const EmailRegistrationDetails = () => {
     label: t('labels.' + fieldName) + ' *',
     placeholder: t('placeholders.' + fieldName),
     onChange: handleChange(fieldName),
+    onBlur: handleBlur(fieldName),
     error: showErrors && !!registrationErrors[fieldName],
     helperText: registrationErrors[fieldName]
       ? translateCommon(registrationErrors[fieldName] as string)
