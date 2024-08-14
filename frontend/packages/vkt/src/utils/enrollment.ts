@@ -39,17 +39,7 @@ export class EnrollmentUtils {
       ? skills.writingPartialExam || skills.readingComprehensionPartialExam
       : true;
 
-    const isUnderstandingExamsSelected = skills.understandingSkill
-      ? skills.speechComprehensionPartialExam ||
-        skills.readingComprehensionPartialExam
-      : true;
-
-    return (
-      isSkillsSelected &&
-      isOralExamsSelected &&
-      isTextualExamsSelected &&
-      isUnderstandingExamsSelected
-    );
+    return isSkillsSelected && isOralExamsSelected && isTextualExamsSelected;
   }
 
   static isValidAttachmentsIfRequired(enrollment: PublicEnrollment) {
