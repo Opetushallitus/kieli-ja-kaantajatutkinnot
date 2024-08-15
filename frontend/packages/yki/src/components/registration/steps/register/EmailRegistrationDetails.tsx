@@ -46,6 +46,7 @@ export const EmailRegistrationDetails = () => {
   const dispatch = useAppDispatch();
   const registration: Partial<PublicEmailRegistration> =
     useAppSelector(registrationSelector).registration;
+
   const { showErrors } = useAppSelector(registrationSelector);
   const { nationalities } = useAppSelector(nationalitiesSelector);
   const nationalityOptions = useNationalityOptions();
@@ -72,16 +73,27 @@ export const EmailRegistrationDetails = () => {
     return value;
   };
 
+  const updateRegistrationField = (
+    fieldName: keyof Omit<PublicEmailRegistration, 'id'>,
+    value: string | boolean,
+  ) => {
+    dispatch(updatePublicRegistration({ [fieldName]: value }));
+  };
+
   const handleChange =
     (fieldName: keyof Omit<PublicEmailRegistration, 'id'>) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const value = getEventTargetValue(event.target.value);
-
-      dispatch(
-        updatePublicRegistration({
-          [fieldName]: value,
-        }),
+      updateRegistrationField(
+        fieldName,
+        getEventTargetValue(event.target.value),
       );
+    };
+
+  const handleBlur =
+    (fieldName: keyof Omit<PublicEmailRegistration, 'id'>) =>
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const trimmedValue = event.target.value ? event.target.value.trim() : '';
+      updateRegistrationField(fieldName, getEventTargetValue(trimmedValue));
     };
 
   const handlePhoneNumberBlur = () => {
@@ -99,6 +111,7 @@ export const EmailRegistrationDetails = () => {
     label: t('labels.' + fieldName) + ' *',
     placeholder: t('placeholders.' + fieldName),
     onChange: handleChange(fieldName),
+    onBlur: handleBlur(fieldName),
     error: showErrors && !!registrationErrors[fieldName],
     helperText: registrationErrors[fieldName]
       ? translateCommon(registrationErrors[fieldName] as string)
