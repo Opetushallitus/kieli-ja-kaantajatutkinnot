@@ -1,7 +1,7 @@
 import { SelectChangeEvent } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect, useRef } from 'react';
-import { CustomCircularProgress, H2, PaginatedTable } from 'shared/components';
+import { CustomCircularProgress, CustomTable, H2 } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -81,21 +81,15 @@ export const PublicExamEventListing = ({
               <H2>{t('title')}</H2>
             </div>
           </div>
-          <PaginatedTable
-            headerContent={
-              <LanguageFilter
-                value={languageFilter}
-                onChange={handleLanguageFilterChange}
-              />
-            }
+          <LanguageFilter
+            value={languageFilter}
+            onChange={handleLanguageFilterChange}
+          />
+          <CustomTable
             className="table-layout-auto"
             data={filteredExamEvents}
-            header={<PublicExamEventListingHeader />}
             getRowDetails={getRowDetails}
-            initialRowsPerPage={20}
-            rowsPerPageOptions={[20, 50]}
-            rowsPerPageLabel={translateCommon('rowsPerPageLabel')}
-            stickyHeader
+            header={<PublicExamEventListingHeader />}
           />
         </>
       );
