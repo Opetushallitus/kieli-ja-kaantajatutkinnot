@@ -183,7 +183,7 @@
                 "title": "Vahvista asiakirjan poisto"
               },
               "helpText1": "Voit todistaa täyttäväsi perusteen maksuttomaan tutkintoon todistusasiakirjoilla. Opetushallituksen virkailija tarkastaa, täyttävätkö lähettämäsi asiakirjat maksuttomuuden ehdot. ",
-              "helpText2": "Voit lisätä enimmillään 10 asiakirjaa. Asiakirja voi olla hyvälaatuinen pdf- tai kuvatiedosto. Liitä kopio alkuperäisestä tutkintotodistuksesta tai korkeakoulun opiskeluoikeudesta todistavasta asiakirjasta. Liitä asiakirjasta myös käännös suomeksi, ruotsiksi tai englanniksi, jos alkuperäisen asiakirjan kieli on muu kuin suomi, ruotsi tai englanti. Nimeä liite selvästi (esim. tutkintotodistus Bachelor.pdf, tutkintotodistus kaannos.pdf, opiskeluoikeus.pdf)",
+              "helpText2": "Voit lisätä enimmillään 10 asiakirjaa. Asiakirja voi olla hyvälaatuinen PDF- tai kuvatiedosto. Liitä kopio alkuperäisestä tutkintotodistuksesta tai korkeakoulun opiskeluoikeudesta todistavasta asiakirjasta. Liitä asiakirjasta myös käännös suomeksi, ruotsiksi tai englanniksi, jos alkuperäisen asiakirjan kieli on muu kuin suomi, ruotsi tai englanti. Nimeä liite selvästi (esim. tutkintotodistus Bachelor.pdf, tutkintotodistus kaannos.pdf, opiskeluoikeus.pdf)",
               "maxAttachmentsReached": "Olet lisännyt jo 10 asiakirjaa. Et voi enää lisätä uusia asiakirjoja.",
               "title": "Lähetä tutkintotodistus tai opiskelutodistus *",
               "uploadFile": "Lähetä tiedosto"
@@ -234,24 +234,25 @@
       "publicExamEventGrid": {
         "description": {
           "bulletPoints": {
-            "point1": "suullisen taidon tutkinto (= puhumisen ja puheen ymmärtämisen osakokeet)",
-            "point2": "kirjallisen taidon tutkinto (= kirjoittamisen ja tekstin ymmärtämisen osakokeet)",
-            "point3": "ymmärtämisen taidon tutkinto (= tekstin ymmärtämisen ja puheen ymmärtämisen osakokeet)"
+            "point1": "<0>suullisen taidon tutkinto</0> (= puhumisen ja puheen ymmärtämisen osakokeet)</b>",
+            "point2": "<0>kirjallisen taidon tutkinto</0> (= kirjoittamisen ja tekstin ymmärtämisen osakokeet)",
+            "point3": "<0>ymmärtämisen taidon tutkinto</0> (= tekstin ymmärtämisen ja puheen ymmärtämisen osakokeet)"
           },
-          "line1": "Valtionhallinnon kielitutkinnot (VKT) on tarkoitettu julkishallinnon henkilöstön toisen kotimaisen kielen hallinnan osoittamiseen. Tutkinnoilla osoitetaan suomen tai ruotsin kielen suullinen, kirjallinen ja ymmärtämisen taito.",
-          "line2": "Valtionhallinnon erinomaisen taidon kielitutkintoja ovat"
+
+          "skills": "Valtionhallinnon erinomaisen taidon kielitutkintoja ovat",
+          "title": "Yleistä valtionhallinnon kielitutkinnoista"
         },
         "enrollment": {
           "link": {
             "label": "Opetushallituksen verkkosivulla.",
             "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/erinomaisen-taidon-tutkinnot"
           },
-          "part1": "Ilmoittautumista varten sinun täytyy tunnistautua suomi.fi-palvelun kautta.",
+          "part1": "<0>Ilmoittautumista varten sinun täytyy tunnistautua suomi.fi-palvelun kautta.</0>",
           "part2": "Tunnistautumisen jälkeen järjestelmä tarkastaa maksuttomuuden ehdot täyttävät koulutustiedot KOSKI-tietovarannosta.",
-          "part3": "Jos ehdot täyttäviä koulutustietoja ei löydy, mutta olet oikeutettu maksuttomaan tutkintoon, voit liittää ilmoittautumislomakkeelle todistusasiakirjoja.",
+          "part3": "Jos ehdot täyttäviä koulutustietoja ei löydy, mutta olet oikeutettu maksuttomaan tutkintoon, <0>voit liittää ilmoittautumislomakkeelle todistusasiakirjoja.</0>",
           "part4": "Opetushallituksen virkailija tarkastaa asiakirjat.",
           "part5": "Lisätietoa",
-          "title": "Ilmoittautuminen ja maksuttomuuden ehtojen tarkistus"
+          "title": "Ilmoittautuminen ja maksuttomuuden ehtojen tarkastus"
         },
         "freeExamination": {
           "conditions": {
@@ -259,15 +260,19 @@
               "label": "Opetushallituksen verkkosivuilla.",
               "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/erinomaisen-taidon-tutkinnot"
             },
-            "part1": "Valtionhallinnon kielitutkintojen erinomaisen taidon tutkinnot ovat maksuttomia tietyin ehdoin 1.8.2024 alkaen. Maksuttomuuden ehdoista löytyy lisätietoa",
-            "part2": "Maksuttomaan ilmoittaumiseen oikeutettu henkilö saa ilmoittautua tutkintoon maksutta kolme kertaa. Koska tutkinnon voi suorittaa osissa, maksuttomaan tutkintoon oikeutettu henkilö voi ilmoittautua kolme kertaa maksutta sekä suullisen että kirjallisen taidon tutkintoon."
+            "part1": "Valtionhallinnon kielitutkintojen <0>erinomaisen taidon tutkinnot ovat maksuttomia tietyin ehdoin 1.8.2024 alkaen.</0> Maksuttomuuden ehdoista löytyy lisätietoa",
+            "part2": "<0>Maksuttomaan ilmoittaumiseen oikeutettu henkilö saa ilmoittautua tutkintoon maksutta kolme kertaa.</0> Koska tutkinnon voi suorittaa osissa, maksuttomaan tutkintoon oikeutettu henkilö voi ilmoittautua kolme kertaa maksutta sekä suullisen että kirjallisen taidon tutkintoon."
           },
           "ineligibility": {
-            "description": "Henkilöt, jotka eivät ole oikeutettuja maksuttomaan tutkintoon, maksavat ilmoittautumisen yhteydessä tutkintomaksun.",
+            "description": "<0>Henkilöt, jotka eivät ole oikeutettuja maksuttomaan tutkintoon, maksavat ilmoittautumisen yhteydessä tutkintomaksun:</0>",
             "fullExaminationPayment": "Tutkintomaksu on 514 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kertaa.",
             "partialExaminationPayment": "Tutkintomaksu on 257 euroa, jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
           },
           "title": "Tutkinnon maksuttomuus"
+        },
+        "introduction": {
+          "line1": "Valtionhallinnon kielitutkinnot (VKT) on tarkoitettu julkishallinnon henkilöstön toisen kotimaisen kielen hallinnan osoittamiseen.",
+          "line2": "Tutkinnoilla osoitetaan suomen tai ruotsin kielen suullinen, kirjallinen ja ymmärtämisen taito."
         },
         "title": "Valtionhallinnon kielitutkinnot (VKT) – ilmoittautuminen erinomaisen taidon tutkintoihin"
       },
