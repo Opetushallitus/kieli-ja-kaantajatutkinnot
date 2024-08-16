@@ -54,6 +54,7 @@ export interface PublicEnrollment
   hasPaymentLink?: boolean;
   isFree?: boolean;
   freeEnrollmentBasis?: PublicFreeEnrollmentBasis;
+  isQueued?: boolean;
 }
 
 export interface PublicEnrollmentResponse
