@@ -120,6 +120,7 @@ export const PublicEnrollmentDesktopGrid = ({
               {activeStep > PublicEnrollmentFormStep.Authenticate &&
                 !isPreviewPassed && (
                   <PublicEnrollmentControlButtons
+                    isEnrollmentToQueue={isEnrollmentToQueue}
                     submitStatus={enrollmentSubmitStatus}
                     activeStep={activeStep}
                     examEvent={examEvent}

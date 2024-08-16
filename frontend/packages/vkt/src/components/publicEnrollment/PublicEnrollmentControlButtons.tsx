@@ -37,6 +37,7 @@ export const PublicEnrollmentControlButtons = ({
   setShowValidation,
   submitStatus,
   isPaymentLinkPreviewView,
+  isEnrollmentToQueue,
 }: {
   activeStep: PublicEnrollmentFormStep;
   examEvent: PublicExamEvent;
@@ -48,6 +49,7 @@ export const PublicEnrollmentControlButtons = ({
   setShowValidation: (showValidation: boolean) => void;
   submitStatus: APIResponseStatus;
   isPaymentLinkPreviewView: boolean;
+  isEnrollmentToQueue: boolean;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.controlButtons',
@@ -64,8 +66,6 @@ export const PublicEnrollmentControlButtons = ({
   const { showDialog } = useDialog();
   const reservationId = reservation?.id;
   const examEventId = examEvent.id;
-  const isEnrollmentToQueue =
-    !reservation && !isPaymentLinkPreviewView && !enrollment.id;
 
   const submitButtonText = () => {
     if (isEnrollmentToQueue) {

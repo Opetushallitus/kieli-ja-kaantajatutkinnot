@@ -85,6 +85,9 @@ public class Enrollment extends BaseEntity {
   @Column(name = "payment_link_hash", unique = true)
   private String paymentLinkHash;
 
+  @Column(name = "is_queued")
+  private Boolean isQueued;
+
   @Column(name = "payment_link_expires_at")
   private LocalDateTime paymentLinkExpiresAt;
 

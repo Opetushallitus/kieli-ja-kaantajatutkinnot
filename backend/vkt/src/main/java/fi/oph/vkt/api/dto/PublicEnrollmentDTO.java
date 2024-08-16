@@ -26,6 +26,7 @@ public record PublicEnrollmentDTO(
   String town,
   String country,
   Boolean hasPaymentLink,
-  PublicFreeEnrollmentBasisDTO freeEnrollmentBasis
+  PublicFreeEnrollmentBasisDTO freeEnrollmentBasis,
+  Boolean isQueued
 )
   implements EnrollmentDTOCommonFields {}
