@@ -182,8 +182,15 @@
                 "description": "Är du säker på att du vill radera dokumentet <0>{{fileName}}</0> som du har bifogat?",
                 "title": "Bekräfta radering av dokumentet"
               },
-              "helpText1": "Med intyg kan du bevisa att du har rätt till en avgiftsfri examen. Dina dokument granskas på Utbildningsstyrelsen.",
-              "helpText2": "Du kan bifoga högst tio dokument. Dokumenten kan vara PDF- eller bildfiler av god kvalitet. Bifoga en kopia av det ursprungliga examensintyget eller studieintyget. Bifoga även en översättning av dokumentet till finska, svenska eller engelska ifall det ursprungliga dokumentet är på något annat språk. Namnge bilagorna tydligt (t.ex. examensintyg.pdf, studieintyg.jpg, oversattning_examensintyg.pdf).",
+              "instructions": {
+                "part1": "Du kan bifoga högst tio dokument.",
+                "part2": "Dokumenten kan vara PDF- eller bildfiler av god kvalitet.",
+                "part3": "Bifoga en kopia av det ursprungliga examensintyget eller studieintyget.",
+                "part4": "Bifoga även en översättning av dokumentet till finska, svenska eller engelska ifall det ursprungliga dokumentet är på något annat språk.",
+                "part5": "Namnge bilagorna tydligt (t.ex. examensintyg.pdf, studieintyg.jpg, oversattning_examensintyg.pdf)."
+              },
+              "helpText1": "Med intyg kan du bevisa att du har rätt till en avgiftsfri examen.",
+              "helpText2": "Dina dokument granskas på Utbildningsstyrelsen.",
               "maxAttachmentsReached": "Du har redan bifogat tio dokument. Du kan inte lägga till fler dokument.",
               "title": "Skicka examensintyg eller studieintyg *",
               "uploadFile": "Skicka filen"

@@ -182,8 +182,16 @@
                 "description": "Haluatko varmasti poistaa lisäämäsi asiakirjan <0>{{fileName}}</0>?",
                 "title": "Vahvista asiakirjan poisto"
               },
-              "helpText1": "Voit todistaa täyttäväsi perusteen maksuttomaan tutkintoon todistusasiakirjoilla. Opetushallituksen virkailija tarkastaa, täyttävätkö lähettämäsi asiakirjat maksuttomuuden ehdot. ",
-              "helpText2": "Voit lisätä enimmillään 10 asiakirjaa. Asiakirja voi olla hyvälaatuinen PDF- tai kuvatiedosto. Liitä kopio alkuperäisestä tutkintotodistuksesta tai korkeakoulun opiskeluoikeudesta todistavasta asiakirjasta. Liitä asiakirjasta myös käännös suomeksi, ruotsiksi tai englanniksi, jos alkuperäisen asiakirjan kieli on muu kuin suomi, ruotsi tai englanti. Nimeä liite selvästi (esim. tutkintotodistus Bachelor.pdf, tutkintotodistus kaannos.pdf, opiskeluoikeus.pdf)",
+              "instructions": {
+                "part1": "Voit lisätä enimmillään 10 asiakirjaa.",
+                "part2": "Asiakirja voi olla hyvälaatuinen PDF- tai kuvatiedosto.",
+                "part3": "Liitä kopio alkuperäisestä tutkintotodistuksesta tai korkeakoulun opiskeluoikeudesta todistavasta asiakirjasta.",
+                "part4": "Liitä asiakirjasta myös käännös suomeksi, ruotsiksi tai englanniksi, jos alkuperäisen asiakirjan kieli on muu kuin suomi, ruotsi tai englanti.",
+                "part5": "Nimeä liite selvästi (esim. tutkintotodistus Bachelor.pdf, tutkintotodistus kaannos.pdf, opiskeluoikeus.pdf).",
+                "title": "Ohjeita tiedoston lähettämiseksi:"
+              },
+              "helpText1": "Voit todistaa täyttäväsi perusteen maksuttomaan tutkintoon todistusasiakirjoilla.",
+              "helpText2": "Opetushallituksen virkailija tarkastaa, täyttävätkö lähettämäsi asiakirjat maksuttomuuden ehdot.",
               "maxAttachmentsReached": "Olet lisännyt jo 10 asiakirjaa. Et voi enää lisätä uusia asiakirjoja.",
               "title": "Lähetä tutkintotodistus tai opiskelutodistus *",
               "uploadFile": "Lähetä tiedosto"

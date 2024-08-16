@@ -166,8 +166,19 @@ const UploadAttachments = ({
   return (
     <>
       <H3>{t('title')}</H3>
-      <Text>{t('helpText1')}</Text>
-      <Text>{t('helpText2')}</Text>
+      <Text>
+        {t('helpText1')}
+        <br />
+        {t('helpText2')}
+      </Text>
+      <Text>
+        {t('instructions.title')}
+        <ul style={{ marginTop: 0 }}>
+          {[1, 2, 3, 4, 5].map((i) => (
+            <li key={i}>{t('instructions.part' + i)}</li>
+          ))}
+        </ul>
+      </Text>
       {attachmentsCount < 10 && (
         <LoadingProgressIndicator
           isLoading={fileUploadStatus === APIResponseStatus.InProgress}
