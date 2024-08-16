@@ -8,7 +8,7 @@ describe('PublicHomePage (mobile)', () => {
     cy.openPublicHomePage();
   });
 
-  it('should show the filtered amount of exam events in table pagination', () => {
+  it('should allow filtering exam events based on exam language', () => {
     onPublicHomePage.expectFilteredExamEventsCount(publicExamEvents11.length);
 
     onPublicHomePage.filterByLanguage(ExamLanguage.FI);
