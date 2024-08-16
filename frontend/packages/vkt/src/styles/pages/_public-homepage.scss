@@ -22,4 +22,16 @@
       }
     }
   }
+
+  & &__info-box {
+    background-color: $color-blue-200;
+
+    @include phone {
+      padding: 2rem 1rem;
+    }
+
+    @include not-phone {
+      padding: 3rem 1rem;
+    }
+  }
 }
