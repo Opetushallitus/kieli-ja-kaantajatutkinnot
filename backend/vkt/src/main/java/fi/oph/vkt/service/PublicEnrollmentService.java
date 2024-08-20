@@ -98,7 +98,11 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     );
   }
 
-  private void cancelPotentialUnfinishedEnrollment(final ExamEvent examEvent, final Person person, final Boolean isQueued) {
+  private void cancelPotentialUnfinishedEnrollment(
+    final ExamEvent examEvent,
+    final Person person,
+    final Boolean isQueued
+  ) {
     findEnrollment(examEvent, person, enrollmentRepository)
       .filter(Enrollment::isUnfinished)
       .ifPresent(enrollment -> {
@@ -393,7 +397,14 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(person);
     final FreeEnrollment freeEnrollment = saveFreeEnrollment(person, dto, examEvent.getId());
     final EnrollmentStatus status = createFreeEnrollmentNextStatus(freeEnrollment, person, dto);
-    final Enrollment enrollment = createOrUpdateExistingEnrollment(dto, examEvent, person, status, freeEnrollment, false);
+    final Enrollment enrollment = createOrUpdateExistingEnrollment(
+      dto,
+      examEvent,
+      person,
+      status,
+      freeEnrollment,
+      false
+    );
     reservationRepository.deleteById(reservationId);
 
     if (status == EnrollmentStatus.COMPLETED || status == EnrollmentStatus.AWAITING_APPROVAL) {
@@ -529,7 +540,14 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       status = createFreeEnrollmentNextStatus(freeEnrollment, person, dto);
     }
 
-    final Enrollment enrollment = createOrUpdateExistingEnrollment(dto, examEvent, person, status, freeEnrollment, false);
+    final Enrollment enrollment = createOrUpdateExistingEnrollment(
+      dto,
+      examEvent,
+      person,
+      status,
+      freeEnrollment,
+      false
+    );
     if (
       freeEnrollmentDetails != null &&
       (status == EnrollmentStatus.COMPLETED || status == EnrollmentStatus.AWAITING_APPROVAL)

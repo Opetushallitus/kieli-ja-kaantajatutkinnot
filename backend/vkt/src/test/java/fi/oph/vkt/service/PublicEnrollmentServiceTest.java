@@ -394,7 +394,7 @@ public class PublicEnrollmentServiceTest {
     final PublicEnrollmentCreateDTO dto = createDTOBuilder().digitalCertificateConsent(true).build();
 
     publicEnrollmentService.createEnrollment(dto, reservation.getId(), person);
-    assertCreatedEnrollment(0L, EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, dto);
+    assertCreatedEnrollment(0L, EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, false, dto);
 
     assertEquals(0, reservationRepository.count());
   }
@@ -412,7 +412,7 @@ public class PublicEnrollmentServiceTest {
     final PublicEnrollmentCreateDTO dto = createDTOBuilder().digitalCertificateConsent(false).build();
 
     publicEnrollmentService.createEnrollment(dto, reservation.getId(), person);
-    assertCreatedEnrollment(0L, EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, dto);
+    assertCreatedEnrollment(0L, EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, false, dto);
   }
 
   @Test
@@ -432,7 +432,7 @@ public class PublicEnrollmentServiceTest {
     final PublicEnrollmentCreateDTO dto = createDTOBuilder().digitalCertificateConsent(true).build();
 
     publicEnrollmentService.createEnrollment(dto, reservation.getId(), person);
-    assertCreatedEnrollment(1L, EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, dto);
+    assertCreatedEnrollment(1L, EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, false, dto);
   }
 
   @Test
@@ -493,6 +493,7 @@ public class PublicEnrollmentServiceTest {
   private void assertCreatedEnrollment(
     final long expectedVersion,
     final EnrollmentStatus expectedStatus,
+    final Boolean expectedIsQueued,
     final PublicEnrollmentCreateDTO dto
   ) {
     final List<Enrollment> enrollments = enrollmentRepository.findAll();
@@ -511,6 +512,7 @@ public class PublicEnrollmentServiceTest {
     assertEquals(dto.digitalCertificateConsent(), enrollment.isDigitalCertificateConsent());
     assertEquals(dto.email(), enrollment.getEmail());
     assertEquals(dto.phoneNumber(), enrollment.getPhoneNumber());
+    assertEquals(expectedIsQueued, enrollment.getIsQueued());
     assertEquals(expectedStatus, enrollment.getStatus());
 
     if (dto.digitalCertificateConsent()) {
@@ -538,7 +540,7 @@ public class PublicEnrollmentServiceTest {
 
     publicEnrollmentService.createEnrollmentToQueue(dto, examEvent.getId(), person);
 
-    assertCreatedEnrollment(0L, EnrollmentStatus.QUEUED, dto);
+    assertCreatedEnrollment(0L, EnrollmentStatus.QUEUED, true, dto);
     verify(publicEnrollmentEmailServiceMock, times(1)).sendEnrollmentToQueueConfirmationEmail(any(), any());
   }
 
@@ -558,7 +560,7 @@ public class PublicEnrollmentServiceTest {
 
     publicEnrollmentService.createEnrollmentToQueue(dto, examEvent.getId(), person);
 
-    assertCreatedEnrollment(1L, EnrollmentStatus.QUEUED, dto);
+    assertCreatedEnrollment(1L, EnrollmentStatus.QUEUED, true, dto);
     verify(publicEnrollmentEmailServiceMock, times(1)).sendEnrollmentToQueueConfirmationEmail(any(), any());
   }
 

@@ -1,0 +1,186 @@
+{
+  "henkilö": {
+    "oid": "1.2.246.562.24.97984579806",
+    "syntymäaika": "1995-05-18",
+    "etunimet": "Jana Testi",
+    "sukunimi": "Poutanen-Testi",
+    "kutsumanimi": "Jana"
+  },
+  "opiskeluoikeudet": [
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.67476956288",
+        "oppilaitosnumero": {
+          "koodiarvo": "10065",
+          "nimi": {
+            "fi": "Metropolia Ammattikorkeakoulu",
+            "sv": "Metropolia Ammattikorkeakoulu",
+            "en": "Metropolia University of Applied Sciences"
+          },
+          "lyhytNimi": {
+            "fi": "Metropolia Ammattikorkeakoulu",
+            "sv": "Metropolia Ammattikorkeakoulu",
+            "en": "Metropolia University of Applied Sciences"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Metropolia Ammattikorkeakoulu",
+          "sv": "Metropolia Ammattikorkeakoulu",
+          "en": "Metropolia University of Applied Sciences"
+        },
+        "kotipaikka": {
+          "koodiarvo": "091",
+          "nimi": {
+            "fi": "Helsinki",
+            "sv": "Helsingfors"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2019-05-24",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2019-01-24",
+            "tila": {
+              "koodiarvo": "1",
+              "nimi": {
+                "fi": "aktiivinen",
+                "sv": "aktiv",
+                "en": "active"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2019-05-25",
+            "tila": {
+              "koodiarvo": "3",
+              "nimi": {
+                "fi": "valmistunut",
+                "sv": "slutförd",
+                "en": "concluded"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "1",
+          "nimi": {
+            "fi": "Ammattikorkeakoulututkinto",
+            "sv": "Yrkeshögskoleexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        },
+        "lukukausiIlmoittautuminen": {
+          "ilmoittautumisjaksot": [
+            {
+              "alku": "2019-01-01",
+              "loppu": "2019-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              }
+            }
+          ]
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "671114",
+              "nimi": {
+                "fi": "Toimintaterapeutti (AMK)",
+                "sv": "Ergoterapeut (YH)",
+                "en": "Bachelor of Health Care (UAS), Occupational Therapist"
+              },
+              "lyhytNimi": {
+                "fi": "Toimintaterapeutti (AMK)",
+                "sv": "Ergoterapeut (YH)",
+                "en": "BHC (UAS), Occ. Therapist"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            },
+            "virtaNimi": {
+              "fi": "Toimintaterapian tutkinto-ohjelma",
+              "sv": "Toimintaterapian tutkinto-ohjelma",
+              "en": "Toimintaterapian tutkinto-ohjelma, Degree Programme in Occupational Therapy"
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "vahvistus": {
+            "päivä": "2019-05-24"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.67476956288",
+            "nimi": {
+              "fi": "Metropolia Ammattikorkeakoulu",
+              "sv": "Metropolia Ammattikorkeakoulu",
+              "en": "Metropolia University of Applied Sciences"
+            },
+            "kotipaikka": {
+              "koodiarvo": "091",
+              "nimi": {
+                "fi": "Helsinki",
+                "sv": "Helsingfors"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "luokittelu": [
+        {
+          "koodiarvo": "3",
+          "nimi": {
+            "fi": "Aikuiskoulutus"
+          },
+          "koodistoUri": "virtaopiskeluoikeudenluokittelu",
+          "koodistoVersio": 1
+        },
+        {
+          "koodiarvo": "7",
+          "nimi": {
+            "fi": "Kansainvälinen kaksoistutkinto"
+          },
+          "koodistoUri": "virtaopiskeluoikeudenluokittelu",
+          "koodistoVersio": 1
+        }
+      ],
+      "alkamispäivä": "2019-01-24"
+    }
+  ]
+}
