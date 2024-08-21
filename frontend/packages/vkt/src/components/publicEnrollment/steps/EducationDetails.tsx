@@ -7,6 +7,7 @@ import {
   FormHelperText,
   Radio,
   RadioGroup,
+  Typography,
 } from '@mui/material';
 import { ChangeEvent, useEffect } from 'react';
 import { Trans } from 'react-i18next';
@@ -171,14 +172,16 @@ const UploadAttachments = ({
         <br />
         {t('helpText2')}
       </Text>
-      <Text>
-        {t('instructions.title')}
+      <div className="rows">
+        <Text>{t('instructions.title')}</Text>
         <ul style={{ marginTop: 0 }}>
           {[1, 2, 3, 4, 5].map((i) => (
-            <li key={i}>{t('instructions.part' + i)}</li>
+            <Typography key={i} component="li" variant="body1">
+              {t('instructions.part' + i)}
+            </Typography>
           ))}
         </ul>
-      </Text>
+      </div>
       {attachmentsCount < 10 && (
         <LoadingProgressIndicator
           isLoading={fileUploadStatus === APIResponseStatus.InProgress}
