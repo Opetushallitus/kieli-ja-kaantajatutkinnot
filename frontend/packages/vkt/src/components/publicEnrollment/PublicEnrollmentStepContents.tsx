@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 
 import { Authenticate } from 'components/publicEnrollment/steps/Authenticate';
 import { Done } from 'components/publicEnrollment/steps/Done';
+import { EducationDetails } from 'components/publicEnrollment/steps/EducationDetails';
 import { FillContactDetails } from 'components/publicEnrollment/steps/FillContactDetails';
 import { PaymentFail } from 'components/publicEnrollment/steps/PaymentFail';
 import { PaymentSuccess } from 'components/publicEnrollment/steps/PaymentSuccess';
@@ -44,6 +45,15 @@ export const PublicEnrollmentStepContents = ({
     case PublicEnrollmentFormStep.FillContactDetails:
       return (
         <FillContactDetails
+          enrollment={enrollment}
+          isLoading={isRenewOrCancelLoading}
+          setIsStepValid={setIsStepValid}
+          showValidation={showValidation}
+        />
+      );
+    case PublicEnrollmentFormStep.EducationDetails:
+      return (
+        <EducationDetails
           enrollment={enrollment}
           isLoading={isRenewOrCancelLoading}
           setIsStepValid={setIsStepValid}

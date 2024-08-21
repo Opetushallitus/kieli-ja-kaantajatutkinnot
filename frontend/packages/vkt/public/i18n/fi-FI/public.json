@@ -61,8 +61,9 @@
           "common": {
             "Authenticate": "Tunnistaudu",
             "Done": "Valmis",
-            "DoneQueued": "Valmis – jonopaikka varattu",
-            "FillContactDetails": "Täytä tiedot",
+            "DoneQueued": "Valmis - jonopaikka varattu",
+            "EducationDetails": "Koulutustiedot",
+            "FillContactDetails": "Täytä yhteystietosi",
             "Payment": "Maksua ei suoritettu",
             "PaymentSuccess": "Valmis - ilmoittautuminen onnistui",
             "Preview": "Esikatsele",
@@ -84,7 +85,8 @@
           "step": {
             "Authenticate": "Tunnistaudu",
             "Done": "Valmis",
-            "FillContactDetails": "Täytä tiedot",
+            "EducationDetails": "Koulutustiedot",
+            "FillContactDetails": "Täytä yhteystietosi",
             "Payment": "Maksu",
             "PaymentSuccess": "Valmis",
             "Preview": "Esikatsele",
@@ -95,8 +97,8 @@
           "authenticate": {
             "auth": "Tunnistaudu suomi.fi:n kautta"
           },
-          "certificateShipping": {
-            "title": "Tutkintotodistuksen toimitus"
+          "addressDetails": {
+            "title": "Osoitetiedot"
           },
           "done": {
             "description": "Ilmoittautuminen tutkintoon onnistui! Sinulle lähetetään vahvistus osoitteeseen",
