@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { H2, Text } from 'shared/components';
 
-import { CertificateShipping } from 'components/publicEnrollment/steps/selectExam/CertificateShipping';
 import { PartialExamsSelection } from 'components/publicEnrollment/steps/selectExam/PartialExamsSelection';
 import { PreviousEnrollment } from 'components/publicEnrollment/steps/selectExam/PreviousEnrollment';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -27,28 +26,15 @@ export const SelectExam = ({
     useState(false);
   const [isValidPartialExamsSelection, setIsValidPartialExamsSelection] =
     useState(false);
-  const [isValidCertificateShipping, setIsValidCertificateShipping] =
-    useState(false);
 
   const setPreviousEnrollment = (isValid: boolean) =>
     setIsValidPreviousEnrollment(isValid);
   const setPartialExamsSelection = (isValid: boolean) =>
     setIsValidPartialExamsSelection(isValid);
-  const setCertificateShipping = (isValid: boolean) =>
-    setIsValidCertificateShipping(isValid);
 
   useEffect(() => {
-    setIsStepValid(
-      isValidPreviousEnrollment &&
-        isValidPartialExamsSelection &&
-        isValidCertificateShipping,
-    );
-  }, [
-    setIsStepValid,
-    isValidPreviousEnrollment,
-    isValidPartialExamsSelection,
-    isValidCertificateShipping,
-  ]);
+    setIsStepValid(isValidPreviousEnrollment && isValidPartialExamsSelection);
+  }, [setIsStepValid, isValidPreviousEnrollment, isValidPartialExamsSelection]);
 
   return (
     <div className="margin-top-xxl rows gapped">
@@ -69,12 +55,6 @@ export const SelectExam = ({
         enrollment={enrollment}
         editingDisabled={isLoading}
         setValid={setPreviousEnrollment}
-        showValidation={showValidation}
-      />
-      <CertificateShipping
-        enrollment={enrollment}
-        editingDisabled={isLoading}
-        setValid={setCertificateShipping}
         showValidation={showValidation}
       />
     </div>

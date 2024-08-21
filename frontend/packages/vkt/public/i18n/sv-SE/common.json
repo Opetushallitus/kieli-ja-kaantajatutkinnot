@@ -134,6 +134,7 @@
         "notFound": "Sidan hittades inte",
         "authenticate": "Anmälan - identifiera dig",
         "contactDetails": "Anmälan - fyll i dina kontaktuppgifter",
+        "educationDetails": "Anmälan - utbildningsuppgifter",
         "selectExam": "Anmälan - välj examen",
         "preview": "Anmälan - förhandsgranska",
         "paymentFail": "Anmälan - avgiften har inte betalats",

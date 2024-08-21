@@ -247,6 +247,7 @@ export const PublicEnrollmentControlButtons = ({
 
   const renderNext = [
     PublicEnrollmentFormStep.FillContactDetails,
+    PublicEnrollmentFormStep.EducationDetails,
     PublicEnrollmentFormStep.SelectExam,
   ].includes(activeStep);
 

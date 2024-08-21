@@ -7,22 +7,21 @@ export const ENROLLMENT_SKILL_PRICE = 257;
 
 export class PublicEnrollmentUtils {
   static getEnrollmentSteps(includePaymentStep: boolean) {
+    const commonSteps = [
+      PublicEnrollmentFormStep.Authenticate,
+      PublicEnrollmentFormStep.FillContactDetails,
+      PublicEnrollmentFormStep.EducationDetails,
+      PublicEnrollmentFormStep.SelectExam,
+      PublicEnrollmentFormStep.Preview,
+    ];
+
     return includePaymentStep
       ? [
-          PublicEnrollmentFormStep.Authenticate,
-          PublicEnrollmentFormStep.FillContactDetails,
-          PublicEnrollmentFormStep.SelectExam,
-          PublicEnrollmentFormStep.Preview,
+          ...commonSteps,
           PublicEnrollmentFormStep.Payment,
           PublicEnrollmentFormStep.PaymentSuccess,
         ]
-      : [
-          PublicEnrollmentFormStep.Authenticate,
-          PublicEnrollmentFormStep.FillContactDetails,
-          PublicEnrollmentFormStep.SelectExam,
-          PublicEnrollmentFormStep.Preview,
-          PublicEnrollmentFormStep.Done,
-        ];
+      : [...commonSteps, PublicEnrollmentFormStep.Done];
   }
 
   static getEnrollmentNextStep(
