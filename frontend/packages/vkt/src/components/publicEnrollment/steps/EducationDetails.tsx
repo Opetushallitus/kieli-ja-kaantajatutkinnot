@@ -9,7 +9,7 @@ import {
   RadioGroup,
   Typography,
 } from '@mui/material';
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, useCallback, useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import {
   CustomButton,
@@ -30,11 +30,15 @@ import {
   EducationType,
   FreeBasisSource,
   HandleChange,
+  PublicFreeEnrollmentBasis,
 } from 'interfaces/publicEducation';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { loadPublicEducation } from 'redux/reducers/publicEducation';
-import { removeUploadedFileAttachment } from 'redux/reducers/publicEnrollment';
+import {
+  removeUploadedFileAttachment,
+  updatePublicEnrollment,
+} from 'redux/reducers/publicEnrollment';
 import { startFileUpload } from 'redux/reducers/publicFileUpload';
 import { publicEducationSelector } from 'redux/selectors/publicEducation';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
@@ -326,15 +330,15 @@ const EducationList = ({
 };
 
 export const EducationDetails = ({
-  handleChange,
   showValidation,
-  isEducationValid,
-  isAttachmentsValid,
+  isLoading,
+  setIsStepValid,
+  enrollment,
 }: {
-  handleChange: HandleChange;
   showValidation: boolean;
-  isEducationValid: boolean;
-  isAttachmentsValid: boolean;
+  isLoading: boolean;
+  setIsStepValid: (isValid: boolean) => void;
+  enrollment: PublicEnrollment;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix:
@@ -342,9 +346,7 @@ export const EducationDetails = ({
   });
   const dispatch = useAppDispatch();
 
-  const { enrollment, freeEnrollmentDetails } = useAppSelector(
-    publicEnrollmentSelector,
-  );
+  const { freeEnrollmentDetails } = useAppSelector(publicEnrollmentSelector);
   const { status: educationStatus, education: educations } = useAppSelector(
     publicEducationSelector,
   );
@@ -368,6 +370,31 @@ export const EducationDetails = ({
     freeEnrollmentBasis.type !== EducationType.None &&
     isFree;
 
+  const isEducationValid = EnrollmentUtils.isValidFreeBasisIfRequired(
+    enrollment,
+    freeEnrollmentDetails,
+  );
+  const isAttachmentsValid =
+    EnrollmentUtils.isValidAttachmentsIfRequired(enrollment);
+
+  const handleEductionChangeFn: HandleChange = (
+    isFree: boolean,
+    freeEnrollmentBasis?: PublicFreeEnrollmentBasis,
+  ) => {
+    dispatch(
+      updatePublicEnrollment({
+        isFree,
+        freeEnrollmentBasis,
+      }),
+    );
+  };
+  const handleEducationChange = useCallback(handleEductionChangeFn, [dispatch]);
+
+  useEffect(() => {
+    setIsStepValid(isEducationValid && isAttachmentsValid),
+      [setIsStepValid, isEducationValid, isAttachmentsValid];
+  });
+
   return (
     EnrollmentUtils.hasFreeEnrollmentsLeft(freeEnrollmentDetails) && (
       <div className="margin-top-lg rows gapped">
@@ -381,30 +408,32 @@ export const EducationDetails = ({
             {t('errorWaitEducations')}
           </FormHelperText>
         )}
-        <LoadingProgressIndicator isLoading={isEducationLoading}>
+        <LoadingProgressIndicator isLoading={isLoading || isEducationLoading}>
           {foundSuitableEducationDetails && (
             <EducationList
-              handleChange={handleChange}
+              handleChange={handleEducationChange}
               educations={educations}
             />
           )}
         </LoadingProgressIndicator>
-        {!isEducationLoading && !foundSuitableEducationDetails && (
-          <>
-            <SelectEducation
-              enrollment={enrollment}
-              handleChange={handleChange}
-              showValidation={showValidation}
-              isEducationValid={isEducationValid}
-            />
-            {attachmentsRequired && (
-              <UploadAttachments
+        {!isLoading &&
+          !isEducationLoading &&
+          !foundSuitableEducationDetails && (
+            <>
+              <SelectEducation
+                enrollment={enrollment}
+                handleChange={handleEducationChange}
                 showValidation={showValidation}
-                isAttachmentsValid={isAttachmentsValid}
+                isEducationValid={isEducationValid}
               />
-            )}
-          </>
-        )}
+              {attachmentsRequired && (
+                <UploadAttachments
+                  showValidation={showValidation}
+                  isAttachmentsValid={isAttachmentsValid}
+                />
+              )}
+            </>
+          )}
       </div>
     )
   );

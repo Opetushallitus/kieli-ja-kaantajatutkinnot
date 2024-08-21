@@ -109,6 +109,16 @@ export const AppRouter: FC = () => {
             }
           />
           <Route
+            path={AppRoutes.PublicEnrollmentEducationDetails}
+            element={
+              <TitlePage title={createTitle('educationDetails')}>
+                <PublicEnrollmentPage
+                  activeStep={PublicEnrollmentFormStep.EducationDetails}
+                />
+              </TitlePage>
+            }
+          />
+          <Route
             path={AppRoutes.PublicEnrollmentSelectExam}
             element={
               <TitlePage title={createTitle('selectExam')}>

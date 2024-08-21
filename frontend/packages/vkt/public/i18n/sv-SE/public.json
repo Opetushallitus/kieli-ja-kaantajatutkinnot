@@ -61,7 +61,8 @@
             "Authenticate": "Identifiera dig",
             "Done": "Färdig",
             "DoneQueued": "Färdig - du har en plats i kön",
-            "FillContactDetails": "Fyll i uppgifter",
+            "EducationDetails": "Utbildningsuppgifter",
+            "FillContactDetails": "Fyll i dina kontaktuppgifter",
             "Payment": "Avgiften har inte betalats",
             "PaymentSuccess": "Färdigt - anmälan lyckades",
             "Preview": "Förhandsgranska",
@@ -83,6 +84,7 @@
           "step": {
             "Authenticate": "Identifiera dig",
             "Done": "Färdigt",
+            "EducationDetails": "Utbildningsuppgifter",
             "FillContactDetails": "Fyll i dina kontaktuppgifter",
             "Payment": "Betalning",
             "PaymentSuccess": "Färdig",
@@ -94,7 +96,9 @@
           "authenticate": {
             "auth": "Identifiera dig via suomi.fi -tjänsten"
           },
-          "certificateShipping": { "title": "Leverans av examensintyget" },
+          "addressDetails": {
+            "title": "Adressinformation"
+          },
           "done": {
             "description": "Du har anmält dig till examen! Du får en bekräftelse till adressen",
             "descriptionQueued": "Du har en plats i kön för examen! Du får en bekräftelse till adressen",
