@@ -58,14 +58,15 @@ public class KoskiService {
         .block();
     } catch (final WebClientResponseException e) {
       LOG.error(
-        "KOSKI returned error status {}\n response body: {}",
+        "KOSKI request for OID {} returned error status {}\n response body: {}",
+        oid,
         e.getStatusCode().value(),
         e.getResponseBodyAsString()
       );
       throw new RuntimeException(e);
     } catch (final Exception e) {
       final int retries = attemptsRemaining - 1;
-      LOG.error("KOSKI request failed! Retries remaining: {}", retries, e);
+      LOG.error("KOSKI request failed! Retries remaining: {}, OID: {}", retries, e, oid);
       if (retries > 0) {
         return requestWithRetries(oid, retries);
       } else {
