@@ -81,10 +81,4 @@ public class IndexController {
     addCSPHeaders(response, cspNonce);
     return new ModelAndView("index.html", Map.of("cspNonce", cspNonce));
   }
-
-  @ExceptionHandler(value = NoResourceFoundException.class)
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  public NotFoundException handleNoResourceFoundException(final NoResourceFoundException ex) {
-    return new NotFoundException("Not found");
-  }
 }
