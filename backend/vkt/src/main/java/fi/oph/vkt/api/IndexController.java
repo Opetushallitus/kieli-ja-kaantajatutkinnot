@@ -1,6 +1,11 @@
 package fi.oph.vkt.api;
 
 import fi.oph.vkt.service.aws.S3Config;
+import fi.oph.vkt.util.exception.NotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import java.security.SecureRandom;
@@ -75,5 +80,11 @@ public class IndexController {
     final String cspNonce = getNonce();
     addCSPHeaders(response, cspNonce);
     return new ModelAndView("index.html", Map.of("cspNonce", cspNonce));
+  }
+
+  @ExceptionHandler(value = NoResourceFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public NotFoundException handleNoResourceFoundException(final NoResourceFoundException ex) {
+    return new NotFoundException("Not found");
   }
 }
