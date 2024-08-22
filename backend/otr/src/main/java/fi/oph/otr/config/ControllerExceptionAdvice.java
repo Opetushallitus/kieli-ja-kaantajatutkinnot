@@ -19,6 +19,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @Order(value = Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
@@ -46,7 +48,15 @@ public class ControllerExceptionAdvice {
     return badRequest(APIExceptionType.INVALID_VERSION);
   }
 
+  @ExceptionHandler(NoResourceFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public ResponseEntity<Object> handleNoResourceFoundException(final NotFoundException ex) {
+    LOG.error("NotFoundException: " + ex.getMessage());
+    return notFound();
+  }
+
   @ExceptionHandler(NotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
   public ResponseEntity<Object> handleNotFoundException(final NotFoundException ex) {
     LOG.error("NotFoundException: " + ex.getMessage());
     return notFound();

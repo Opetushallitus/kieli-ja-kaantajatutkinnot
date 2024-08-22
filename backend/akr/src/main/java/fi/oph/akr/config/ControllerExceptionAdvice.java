@@ -56,6 +56,7 @@ public class ControllerExceptionAdvice {
   }
 
   @ExceptionHandler(NotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
   public ResponseEntity<Object> handleNotFoundException(final NotFoundException ex) {
     LOG.error("NotFoundException: " + ex.getMessage());
     return notFound();
