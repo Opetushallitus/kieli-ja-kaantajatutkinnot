@@ -125,7 +125,6 @@
             "title": "Dina kontaktuppgifter",
             "educationDetails": {
               "errorWaitEducations": "Utbildningsuppgiter laddas ner. Var god och vänta.",
-              "educationInfoTitle": "Utbildningsuppgifter",
               "freeEnrollmentDescription": "Enligt våra uppgifter har du avlagt eller studerar i syfte att avlägga följande examen:",
               "freeEnrollmentDescription2": "Du kan därmed ha rätt att delta språkexamen avgiftsfritt tre gånger.",
               "type": {

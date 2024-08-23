@@ -14,7 +14,6 @@ import { Trans } from 'react-i18next';
 import {
   CustomButton,
   FileUpload,
-  H2,
   H3,
   LoadingProgressIndicator,
   Text,
@@ -169,7 +168,7 @@ const UploadAttachments = ({
   };
 
   return (
-    <>
+    <div className="rows gapped">
       <H3>{t('title')}</H3>
       <Text>
         {t('helpText1')}
@@ -209,7 +208,7 @@ const UploadAttachments = ({
           {translateCommon('errors.customTextField.required')}
         </FormHelperText>
       )}
-    </>
+    </div>
   );
 };
 
@@ -242,7 +241,7 @@ const SelectEducation = ({
   const showError = showValidation && !isEducationValid;
 
   return (
-    <>
+    <div className="rows gapped">
       <Text>{t('educationSelectHelpText')}</Text>
       <Text>{t('educationSelectChooseOne')}</Text>
       <fieldset className="public-enrollment__grid__education-details margin-top-sm">
@@ -287,7 +286,7 @@ const SelectEducation = ({
           )}
         </FormControl>
       </fieldset>
-    </>
+    </div>
   );
 };
 
@@ -370,10 +369,12 @@ export const EducationDetails = ({
     freeEnrollmentBasis.type !== EducationType.None &&
     isFree;
 
-  const isEducationValid = EnrollmentUtils.isValidFreeBasisIfRequired(
-    enrollment,
-    freeEnrollmentDetails,
-  );
+  const isEducationValid =
+    !!freeEnrollmentBasis &&
+    EnrollmentUtils.isValidFreeBasisIfRequired(
+      enrollment,
+      freeEnrollmentDetails,
+    );
   const isAttachmentsValid =
     EnrollmentUtils.isValidAttachmentsIfRequired(enrollment);
 
@@ -396,26 +397,26 @@ export const EducationDetails = ({
   });
 
   return (
-    EnrollmentUtils.hasFreeEnrollmentsLeft(freeEnrollmentDetails) && (
-      <div className="margin-top-lg rows gapped">
-        <H2>{t('educationInfoTitle')}</H2>
-        {isEducationLoading && showValidation && (
-          <FormHelperText
-            className="margin-bottom-lg"
-            id="education-loading-error"
-            error={true}
-          >
-            {t('errorWaitEducations')}
-          </FormHelperText>
+    <div className="rows gapped">
+      {isEducationLoading && showValidation && (
+        <FormHelperText
+          className="margin-bottom-lg"
+          id="education-loading-error"
+          error={true}
+        >
+          {t('errorWaitEducations')}
+        </FormHelperText>
+      )}
+      <LoadingProgressIndicator
+        isLoading={isLoading || isEducationLoading}
+        displayBlock={true}
+      >
+        {foundSuitableEducationDetails && (
+          <EducationList
+            handleChange={handleEducationChange}
+            educations={educations}
+          />
         )}
-        <LoadingProgressIndicator isLoading={isLoading || isEducationLoading}>
-          {foundSuitableEducationDetails && (
-            <EducationList
-              handleChange={handleEducationChange}
-              educations={educations}
-            />
-          )}
-        </LoadingProgressIndicator>
         {!isLoading &&
           !isEducationLoading &&
           !foundSuitableEducationDetails && (
@@ -434,7 +435,7 @@ export const EducationDetails = ({
               )}
             </>
           )}
-      </div>
-    )
+      </LoadingProgressIndicator>
+    </div>
   );
 };
