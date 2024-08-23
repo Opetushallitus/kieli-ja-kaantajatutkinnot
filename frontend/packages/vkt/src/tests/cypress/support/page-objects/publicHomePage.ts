@@ -9,7 +9,10 @@ class PublicHomePage {
     examEventRow: (id: number) => cy.findByTestId(row(id)),
     examEventRowCheckbox: (id: number) =>
       cy.findByTestId(row(id)).find('input[type=checkbox]'),
-    examEventRows: () => cy.get('.public-homepage__grid-container__result-box').find('table > tbody > tr'),
+    examEventRows: () =>
+      cy
+        .get('.public-homepage__grid-container__result-box')
+        .find('table > tbody > tr'),
     languageFilter: () => cy.findByTestId('exam-events__language-filter'),
     reservationTimerText: () =>
       cy.findByTestId('public-enrollment__reservation-timer-text'),
