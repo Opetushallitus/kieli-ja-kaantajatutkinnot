@@ -37,7 +37,7 @@ export const handlers = [
   http.get(APIEndpoints.PublicEducation, ({ request }) => {
     if (
       request.referrer.endsWith(
-        `/vkt/ilmoittaudu/${examEventIdWithKoskiEducationDetailsFound}/tiedot`,
+        `/vkt/ilmoittaudu/${examEventIdWithKoskiEducationDetailsFound}/koulutus`,
       )
     ) {
       return new Response(

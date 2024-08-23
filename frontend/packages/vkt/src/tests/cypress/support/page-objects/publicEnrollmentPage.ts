@@ -24,15 +24,20 @@ class PublicEnrollmentPage {
       cy.findByTestId('public-enrollment__controlButtons__back'),
     submitButton: () =>
       cy.findByTestId('public-enrollment__controlButtons__submit'),
-    enrollmentPreviouslyEnrolledCheckbox: (checkboxName: string) =>
-      cy.findByTestId(`enrollment-checkbox-${checkboxName}`).find('span>input'),
+    enrollmentPreviouslyEnrolledRadio: (radioLabel: string) =>
+      cy.findByTestId(`enrollment-checkbox-${radioLabel}`).find('span>input'),
     enrollmentPreviouslyEnrolledError: () =>
       cy.get(`#has-previous-enrollment-error`),
-    enrollmentFullExamCheckbox: () =>
+    enrollmentFullExamRadio: () =>
       cy.findByTestId('enrollment-checkbox-full-exam').find('input'),
+    fullExamError: () => cy.get('#full-exam-error'),
+    educationDetailsError: () => cy.get('#has-select-education-error'),
     formTextContents: () =>
       cy.get('div.public-enrollment__grid__form-container'),
     paymentSumHeading: () => cy.findByTestId('public-enrollment__payment-sum'),
+    stepHeading: (heading: string) =>
+      cy.findByRole('heading', { name: heading }),
+    radioButton: (label: string) => cy.findByRole('radio', { name: label }),
   };
 
   expectEnrollmentDetails(details: string) {
@@ -64,7 +69,7 @@ class PublicEnrollmentPage {
   expectContactDetailsErrorNotExist(field: string) {
     this.elements.enrollmentContactDetailsFieldError(field).should('not.exist');
   }
-  expectPreviuoslyEnrolledError() {
+  expectPreviouslyEnrolledError() {
     this.elements
       .enrollmentPreviouslyEnrolledError()
       .should('be.visible')
@@ -83,6 +88,24 @@ class PublicEnrollmentPage {
     this.elements
       .enrollmentCertificateShippingDetailsError(field)
       .should('not.exist');
+  }
+  expectEducationDetailsError() {
+    this.elements
+      .educationDetailsError()
+      .should('be.visible')
+      .should('have.text', 'Tieto on pakollinen');
+  }
+  expectEducationDetailsErrorNotExist() {
+    this.elements.educationDetailsError().should('not.exist');
+  }
+  expectFullExamError() {
+    this.elements
+      .fullExamError()
+      .should('be.visible')
+      .should('have.text', 'Tieto on pakollinen');
+  }
+  expectFullExamErrorNotExist() {
+    this.elements.fullExamError().should('not.exist');
   }
   fillOutContactDetails(field: string, details: string) {
     this.elements
@@ -104,20 +127,26 @@ class PublicEnrollmentPage {
   clickSubmit() {
     this.elements.submitButton().should('be.visible').click();
   }
-  checkEnrollmentPreviouslyEnrolledCheckbox(checkboxName: string) {
+  checkEnrollmentPreviouslyEnrolledRadio(radioName: string) {
     this.elements
-      .enrollmentPreviouslyEnrolledCheckbox(checkboxName)
+      .enrollmentPreviouslyEnrolledRadio(radioName)
       .should('be.exist')
       .check();
   }
-  enrollmentFullExamCheckbox() {
-    this.elements.enrollmentFullExamCheckbox().should('be.exist').check();
+  enrollmentFullExamRadio() {
+    this.elements.enrollmentFullExamRadio().should('be.exist').check();
   }
   expectTextContents(contents: string) {
     this.elements.formTextContents().should('contain.text', contents);
   }
   expectPaymentSum(sum: string) {
     this.elements.paymentSumHeading().should('contain.text', sum);
+  }
+  expectStepHeading(heading: string) {
+    this.elements.stepHeading(heading).should('be.visible');
+  }
+  selectRadioButton(label: string) {
+    this.elements.radioButton(label).click();
   }
 }
 
