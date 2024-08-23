@@ -126,7 +126,6 @@
             "title": "Yhteystietosi",
             "educationDetails": {
               "errorWaitEducations": "Odota koulutustietojen latautumista.",
-              "educationInfoTitle": "Koulutustiedot",
               "freeEnrollmentDescription": "Tietojemme mukaan olet suorittanut tai suorittamassa seuraavan tutkinnon:",
               "freeEnrollmentDescription2": "Tämä voi oikeuttaa sinut ilmoittautumaan tutkintoon maksuttomasti kolme kertaa.",
               "type": {
