@@ -4,22 +4,13 @@ import { examEventIdWithKoskiEducationDetailsFound } from 'tests/msw/fixtures/pu
 describe('Public enrollment without payment', () => {
   it('is possible when suitable education credentials are returned from KOSKI', () => {
     cy.openPublicEnrollmentPage(examEventIdWithKoskiEducationDetailsFound);
-    onPublicEnrollmentPage.expectTextContents(
-      'Tietojemme mukaan olet suorittanut tai suorittamassa seuraavan tutkinnon:',
-    );
-    onPublicEnrollmentPage.expectTextContents('Ylioppilastutkinto');
-
+    onPublicEnrollmentPage.expectStepHeading('Täytä yhteystietosi');
     onPublicEnrollmentPage.fillOutContactDetails('email', 'test@test.invalid');
     onPublicEnrollmentPage.fillOutContactDetails(
       'emailConfirmation',
       'test@test.invalid',
     );
     onPublicEnrollmentPage.fillOutContactDetails('phoneNumber', '040112233');
-    onPublicEnrollmentPage.clickNext();
-    onPublicEnrollmentPage.checkEnrollmentPreviouslyEnrolledCheckbox(
-      'previously-enrolled-no',
-    );
-    onPublicEnrollmentPage.enrollmentFullExamCheckbox();
     onPublicEnrollmentPage.fillOutCertificateShippingDetails('street', 'Katu');
     onPublicEnrollmentPage.fillOutCertificateShippingDetails(
       'postalCode',
@@ -35,6 +26,21 @@ describe('Public enrollment without payment', () => {
     );
     onPublicEnrollmentPage.clickNext();
 
+    onPublicEnrollmentPage.expectStepHeading('Koulutustiedot');
+    onPublicEnrollmentPage.expectTextContents(
+      'Tietojemme mukaan olet suorittanut tai suorittamassa seuraavan tutkinnon:',
+    );
+    onPublicEnrollmentPage.expectTextContents('Ylioppilastutkinto');
+    onPublicEnrollmentPage.clickNext();
+
+    onPublicEnrollmentPage.expectStepHeading('Valitse tutkinto');
+    onPublicEnrollmentPage.checkEnrollmentPreviouslyEnrolledRadio(
+      'previously-enrolled-no',
+    );
+    onPublicEnrollmentPage.enrollmentFullExamRadio();
+    onPublicEnrollmentPage.clickNext();
+
+    onPublicEnrollmentPage.expectStepHeading('Esikatsele');
     onPublicEnrollmentPage.expectPaymentSum('Maksuton');
   });
 });
