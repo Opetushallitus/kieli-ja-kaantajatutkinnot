@@ -51,7 +51,7 @@ public class ControllerExceptionAdvice {
   @ExceptionHandler(NoResourceFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ResponseEntity<Object> handleNoResourceFoundException(final NotFoundException ex) {
-    LOG.error("NotFoundException: " + ex.getMessage());
+    LOG.error("NoResourceFoundException: " + ex.getMessage());
     return notFound();
   }
 
