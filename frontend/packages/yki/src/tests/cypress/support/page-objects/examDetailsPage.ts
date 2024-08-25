@@ -34,6 +34,10 @@ class ExamDetailsPage {
     this.elements.textboxByLabel(label).type(value);
   }
 
+  expectFieldText(label: string, value: string) {
+    this.elements.textboxByLabel(label).should('have.value', value);
+  }
+
   selectCertificateLanguage(language: string) {
     cy.findByRole('group', { name: 'Millä kielellä haluat todistuksesi? *' })
       .findByRole('radio', { name: language })

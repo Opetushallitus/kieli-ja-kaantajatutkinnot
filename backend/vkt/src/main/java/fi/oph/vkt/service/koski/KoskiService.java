@@ -59,7 +59,8 @@ public class KoskiService {
     } catch (final WebClientResponseException e) {
       final int retries = attemptsRemaining - 1;
       LOG.error(
-        "KOSKI returned error status {}\n response body: {}, Retries remaining: {}",
+        "KOSKI request for OID {} returned error status {}\n response body: {}, Retries remaining: {}",
+        oid,
         e.getStatusCode().value(),
         e.getResponseBodyAsString(),
         retries
@@ -71,7 +72,7 @@ public class KoskiService {
       }
     } catch (final Exception e) {
       final int retries = attemptsRemaining - 1;
-      LOG.error("KOSKI request failed for unkown reason! Retries remaining: {}", retries, e);
+      LOG.error("KOSKI request failed for unknown reason! Retries remaining: {}, OID: {}", retries, oid, e);
       if (retries > 0) {
         return requestWithRetries(oid, retries);
       } else {
