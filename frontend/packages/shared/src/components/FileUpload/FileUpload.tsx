@@ -1,33 +1,39 @@
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { Button } from '@mui/material';
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, DragEvent, FC } from 'react';
+
 import './FileUpload.scss';
+import { Text } from '../../components';
 import { Color, Variant } from '../../enums';
+import { useWindowProperties } from '../../hooks';
 
 type FileUploadProps = {
   accept?: string;
   error?: boolean;
   onChange: (files: FileList) => void;
-  labelText: string;
+  buttonText: string;
+  dropZoneText: string;
 };
 
 export const FileUpload: FC<FileUploadProps> = ({
   accept,
   onChange,
   error,
-  labelText,
+  buttonText,
+  dropZoneText,
 }) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       onChange(event.target.files);
     }
   };
+  const { isPhone } = useWindowProperties();
 
   return (
     <div
-      className={
-        error ? 'custom-fileupload file-upload-error' : 'custom-fileupload'
-      }
+      className={`columns custom-fileupload ${
+        error ? 'file-upload-error' : ''
+      }`}
     >
       <Button
         component="label"
@@ -35,7 +41,7 @@ export const FileUpload: FC<FileUploadProps> = ({
         color={error ? Color.Error : Color.Secondary}
         startIcon={<FileUploadIcon />}
       >
-        {labelText}
+        {buttonText}
         <input
           id="custom-fileupload"
           accept={accept}
@@ -43,6 +49,20 @@ export const FileUpload: FC<FileUploadProps> = ({
           onChange={handleChange}
         />
       </Button>
+      {!isPhone && (
+        <div
+          className="file-dropzone"
+          onDragOver={(e: DragEvent<HTMLDivElement>) => {
+            e.preventDefault();
+          }}
+          onDrop={(e: DragEvent<HTMLDivElement>) => {
+            e.preventDefault();
+            onChange(e.dataTransfer.files);
+          }}
+        >
+          <Text>{dropZoneText}</Text>
+        </div>
+      )}
     </div>
   );
 };
