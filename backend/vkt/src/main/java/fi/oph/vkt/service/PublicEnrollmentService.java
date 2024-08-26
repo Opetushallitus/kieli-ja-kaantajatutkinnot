@@ -76,7 +76,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     if (ExamEventUtil.isCongested(examEvent)) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_HAS_CONGESTION);
     }
-    if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
+    if (examEvent.getRegistrationCloses().isBefore(LocalDateTime.now())) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_REGISTRATION_CLOSED);
     }
     if (isPersonEnrolled(examEvent, person, enrollmentRepository)) {
@@ -208,6 +208,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .language(examEvent.getLanguage())
       .date(examEvent.getDate())
       .registrationCloses(examEvent.getRegistrationCloses())
+      .registrationOpens(examEvent.getRegistrationOpens())
       .openings(openings)
       .hasCongestion(false)
       .build();
@@ -246,7 +247,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     if (openings > 0) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_TO_QUEUE_HAS_ROOM);
     }
-    if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
+    if (examEvent.getRegistrationCloses().isBefore(LocalDateTime.now())) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_REGISTRATION_CLOSED);
     }
     if (isPersonEnrolled(examEvent, person, enrollmentRepository)) {

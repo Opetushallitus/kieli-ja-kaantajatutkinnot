@@ -265,7 +265,7 @@ public class PublicEnrollmentServiceTest {
   @Test
   public void testInitialiseEnrollmentFailsWithRegistrationClosed() {
     final ExamEvent examEvent = Factory.examEvent();
-    examEvent.setRegistrationCloses(LocalDate.now().minusDays(1));
+    examEvent.setRegistrationCloses(LocalDateTime.now().minusDays(1));
     entityManager.persist(examEvent);
     final Person person = createPerson();
 

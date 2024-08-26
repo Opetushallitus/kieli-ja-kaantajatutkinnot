@@ -60,6 +60,7 @@ public class ClerkExamEventService {
           .level(e.level())
           .date(e.date())
           .registrationCloses(e.registrationCloses())
+          .registrationOpens(e.registrationOpens())
           .participants(e.participants())
           .maxParticipants(e.maxParticipants())
           .isUnusedSeats(isUnusedSeats)

@@ -4,6 +4,7 @@ import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Builder;
 import lombok.NonNull;
@@ -15,7 +16,7 @@ public record ClerkExamEventDTO(
   @NonNull @NotNull ExamLanguage language,
   @NonNull @NotNull ExamLevel level,
   @NonNull @NotNull LocalDate date,
-  @NonNull @NotNull LocalDate registrationCloses,
+  @NonNull @NotNull LocalDateTime registrationCloses,
   @NonNull @NotNull Boolean isHidden,
   @NonNull @NotNull Long maxParticipants,
   @NonNull @NotNull List<ClerkEnrollmentDTO> enrollments

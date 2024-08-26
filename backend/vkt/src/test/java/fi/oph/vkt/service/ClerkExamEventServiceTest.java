@@ -35,6 +35,7 @@ import fi.oph.vkt.view.ExamEventXlsxView;
 import jakarta.annotation.Resource;
 import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -76,28 +77,28 @@ public class ClerkExamEventServiceTest {
 
   @Test
   public void testListExamEvents() {
-    final LocalDate now = LocalDate.now();
+    final LocalDateTime now = LocalDateTime.now();
 
     final ExamEvent pastEvent = Factory.examEvent();
-    pastEvent.setDate(now.minusWeeks(3));
+    pastEvent.setDate(now.toLocalDate().minusWeeks(3));
     pastEvent.setRegistrationCloses(now.minusWeeks(4));
 
     final ExamEvent eventToday = Factory.examEvent(ExamLanguage.FI);
-    eventToday.setDate(now);
+    eventToday.setDate(now.toLocalDate());
 
     final ExamEvent eventWithRegistrationClosed = Factory.examEvent();
-    eventWithRegistrationClosed.setDate(now.plusDays(3));
+    eventWithRegistrationClosed.setDate(now.toLocalDate().plusDays(3));
     eventWithRegistrationClosed.setRegistrationCloses(now.minusDays(1));
 
     final ExamEvent hiddenEvent = Factory.examEvent();
     hiddenEvent.setHidden(true);
-    hiddenEvent.setDate(now.plusWeeks(1));
+    hiddenEvent.setDate(now.toLocalDate().plusWeeks(1));
 
     final ExamEvent upcomingEventSv = Factory.examEvent(ExamLanguage.SV);
     final ExamEvent upcomingEventFi = Factory.examEvent(ExamLanguage.FI);
 
     final ExamEvent futureEvent = Factory.examEvent(ExamLanguage.FI);
-    futureEvent.setDate(now.plusWeeks(3));
+    futureEvent.setDate(now.toLocalDate().plusWeeks(3));
     futureEvent.setRegistrationCloses(now.plusWeeks(2));
     futureEvent.setMaxParticipants(3);
 
@@ -287,7 +288,7 @@ public class ClerkExamEventServiceTest {
       .language(ExamLanguage.FI)
       .level(ExamLevel.EXCELLENT)
       .date(LocalDate.now().plusMonths(1))
-      .registrationCloses(LocalDate.now().plusWeeks(1))
+      .registrationCloses(LocalDateTime.now().plusWeeks(1))
       .isHidden(true)
       .maxParticipants(2L)
       .build();
@@ -324,7 +325,11 @@ public class ClerkExamEventServiceTest {
       .date(LocalDate.now().plusMonths(1));
 
     clerkExamEventService.createExamEvent(
-      duplicateDTOBuilder.registrationCloses(LocalDate.now().plusWeeks(1)).isHidden(true).maxParticipants(2L).build()
+      duplicateDTOBuilder
+        .registrationCloses(LocalDateTime.now().plusWeeks(1))
+        .isHidden(true)
+        .maxParticipants(2L)
+        .build()
     );
     reset(auditService);
 
@@ -332,7 +337,7 @@ public class ClerkExamEventServiceTest {
       APIException.class,
       () ->
         clerkExamEventService.createExamEvent(
-          duplicateDTOBuilder.registrationCloses(LocalDate.now()).isHidden(false).maxParticipants(3L).build()
+          duplicateDTOBuilder.registrationCloses(LocalDateTime.now()).isHidden(false).maxParticipants(3L).build()
         )
     );
     assertEquals(APIExceptionType.EXAM_EVENT_DUPLICATE, ex.getExceptionType());

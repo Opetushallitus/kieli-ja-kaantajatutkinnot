@@ -26,7 +26,8 @@ public class Factory {
     examEvent.setLanguage(language);
     examEvent.setLevel(ExamLevel.EXCELLENT);
     examEvent.setDate(LocalDate.now().plusDays(8));
-    examEvent.setRegistrationCloses(LocalDate.now());
+    examEvent.setRegistrationCloses(LocalDateTime.now().plusDays(4));
+    examEvent.setRegistrationOpens(LocalDateTime.now().minusDays(2));
     examEvent.setHidden(false);
     examEvent.setMaxParticipants(10);
 

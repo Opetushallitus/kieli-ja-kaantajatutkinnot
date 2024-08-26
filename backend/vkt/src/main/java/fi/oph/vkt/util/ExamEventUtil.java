@@ -46,7 +46,7 @@ public class ExamEventUtil {
       .language(examEvent.getLanguage())
       .level(examEvent.getLevel())
       .date(DateUtil.formatOptionalDate(examEvent.getDate()))
-      .registrationCloses(DateUtil.formatOptionalDate(examEvent.getRegistrationCloses()))
+      .registrationCloses(DateUtil.formatOptionalDatetime(examEvent.getRegistrationCloses()))
       .isHidden(examEvent.isHidden())
       .maxParticipants(examEvent.getMaxParticipants())
       .build();

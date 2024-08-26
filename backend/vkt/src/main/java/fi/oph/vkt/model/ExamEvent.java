@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -39,8 +40,11 @@ public class ExamEvent extends BaseEntity {
   @Column(name = "date", nullable = false)
   private LocalDate date;
 
+  @Column(name = "registration_opens", nullable = false)
+  private LocalDateTime registrationOpens;
+
   @Column(name = "registration_closes", nullable = false)
-  private LocalDate registrationCloses;
+  private LocalDateTime registrationCloses;
 
   @Column(name = "is_hidden", nullable = false)
   private boolean isHidden;
