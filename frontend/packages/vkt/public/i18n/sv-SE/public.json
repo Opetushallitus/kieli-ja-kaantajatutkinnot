@@ -196,7 +196,8 @@
               "helpText2": "Dina dokument granskas på Utbildningsstyrelsen.",
               "maxAttachmentsReached": "Du har redan bifogat tio dokument. Du kan inte lägga till fler dokument.",
               "title": "Skicka examensintyg eller studieintyg *",
-              "uploadFile": "Skicka filen"
+              "uploadFile": "Skicka filen",
+              "dropFile": "Släpp filen här"
             }
           },
           "preview": {

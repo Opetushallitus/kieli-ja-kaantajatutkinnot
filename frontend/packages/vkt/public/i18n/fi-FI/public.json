@@ -195,7 +195,8 @@
               "helpText2": "Opetushallituksen virkailija tarkastaa, täyttävätkö lähettämäsi asiakirjat maksuttomuuden ehdot.",
               "maxAttachmentsReached": "Olet lisännyt jo 10 asiakirjaa. Et voi enää lisätä uusia asiakirjoja.",
               "title": "Lähetä tutkintotodistus tai opiskelutodistus *",
-              "uploadFile": "Lähetä tiedosto"
+              "uploadFile": "Lähetä tiedosto",
+              "dropFile": "Pudota tiedosto tähän"
             }
           },
           "preview": {
