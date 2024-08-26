@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.10.8] - 2024-08-26
+
+### Changed
+- Include a file drop zone by default on desktop with the file upload component
+
 ## [1.10.7] - 2024-08-07
 
 ### Added
