@@ -112,25 +112,18 @@ public class PublicEnrollmentEmailServiceTest {
     entityManager.persist(person);
     entityManager.persist(enrollment);
 
-    final Map<String, Object> expectedTemplateParams = Map.of(
-      "examLanguageFI",
-      "suomi",
-      "examLanguageSV",
-      "finska",
-      "examLevelFI",
-      "erinomainen taito",
-      "examLevelSV",
-      "utmärkta språkkunskaper",
-      "examDate",
-      "12.03.2025",
-      "skillsFI",
-      "suullinen taito",
-      "skillsSV",
-      "förmåga att använda finska i tal",
-      "partialExamsFI",
-      "puhuminen, puheen ymmärtäminen",
-      "partialExamsSV",
-      "muntlig färdighet, hörförståelse"
+    final Map<String, Object> expectedTemplateParams = Map.ofEntries(
+      Map.entry("examLanguageFI", "suomi"),
+      Map.entry("examLanguageSV", "finska"),
+      Map.entry("examLevelFI", "erinomainen taito"),
+      Map.entry("examLevelSV", "utmärkta språkkunskaper"),
+      Map.entry("examDate", "12.03.2025"),
+      Map.entry("skillsFI", "suullinen taito"),
+      Map.entry("skillsSV", "förmåga att använda finska i tal"),
+      Map.entry("partialExamsFI", "puhuminen, puheen ymmärtäminen"),
+      Map.entry("partialExamsSV", "muntlig färdighet, hörförståelse"),
+      Map.entry("type", "enrollment"),
+      Map.entry("isFree", false)
     );
 
     when(environment.getRequiredProperty("app.email.sending-enabled", Boolean.class)).thenReturn(true);
@@ -188,28 +181,21 @@ public class PublicEnrollmentEmailServiceTest {
     entityManager.persist(person);
     entityManager.persist(enrollment);
 
-    final Map<String, Object> expectedTemplateParams = Map.of(
-      "examLanguageFI",
-      "ruotsi",
-      "examLanguageSV",
-      "svenska",
-      "examLevelFI",
-      "erinomainen taito",
-      "examLevelSV",
-      "utmärkta språkkunskaper",
-      "examDate",
-      "12.03.2025",
-      "skillsFI",
-      "kirjallinen taito, ymmärtämisen taito",
-      "skillsSV",
-      "förmåga att använda svenska i skrift, förmåga att förstå svenska",
-      "partialExamsFI",
-      "kirjoittaminen, tekstin ymmärtäminen, puheen ymmärtäminen",
-      "partialExamsSV",
-      "skriftlig färdighet, läsförståelse, hörförståelse"
+    final Map<String, Object> expectedTemplateParams = Map.ofEntries(
+      Map.entry("examLanguageFI", "ruotsi"),
+      Map.entry("examLanguageSV", "svenska"),
+      Map.entry("examLevelFI", "erinomainen taito"),
+      Map.entry("examLevelSV", "utmärkta språkkunskaper"),
+      Map.entry("examDate", "12.03.2025"),
+      Map.entry("skillsFI", "kirjallinen taito, ymmärtämisen taito"),
+      Map.entry("skillsSV", "förmåga att använda svenska i skrift, förmåga att förstå svenska"),
+      Map.entry("partialExamsFI", "kirjoittaminen, tekstin ymmärtäminen, puheen ymmärtäminen"),
+      Map.entry("partialExamsSV", "skriftlig färdighet, läsförståelse, hörförståelse"),
+      Map.entry("type", "queue"),
+      Map.entry("isFree", false)
     );
 
-    when(templateRenderer.renderEnrollmentToQueueConfirmationEmailBody(expectedTemplateParams))
+    when(templateRenderer.renderEnrollmentConfirmationEmailBody(expectedTemplateParams))
       .thenReturn("<html>enrollment-to-queue</html>");
 
     publicEnrollmentEmailService.sendEnrollmentToQueueConfirmationEmail(enrollment, person);
