@@ -38,6 +38,7 @@ public class ClerkEnrollmentUtil {
         .source(freeEnrollment.getSource())
         .approved(freeEnrollment.getApproved())
         .comment(freeEnrollment.getComment())
+        .koskiEducations(freeEnrollment.getKoskiEducations())
         .attachments(
           freeEnrollment
             .getAttachments()
