@@ -65,7 +65,13 @@ const DescriptionBox = () => {
         </div>
 
         <Text>{translateCommon('info.selectExam')}</Text>
-        <Text>{translateCommon('info.previousEnrollment')}</Text>
+        <Text>
+          <Trans
+            t={translateCommon}
+            i18nKey="info.previousEnrollment"
+            components={[<b key="0" />, <b key="1" />]}
+          ></Trans>
+        </Text>
       </div>
     </Container>
   );
@@ -168,7 +174,7 @@ export const PublicExamEventGrid = () => {
           </Text>
           <div
             className={
-              isPhone ? 'rows gapped' : 'columns gapped-sm align-items-start'
+              isPhone ? 'rows gapped' : 'columns gapped align-items-start'
             }
           >
             <DescriptionBox />
