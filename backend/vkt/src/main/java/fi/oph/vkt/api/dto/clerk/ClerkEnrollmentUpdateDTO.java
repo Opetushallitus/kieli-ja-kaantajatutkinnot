@@ -27,7 +27,7 @@ public record ClerkEnrollmentUpdateDTO(
   @Size(max = 255) String postalCode,
   @Size(max = 255) String town,
   @Size(max = 255) String country,
-  ClerkFeeEnrollmentBasisDTO freeEnrollmentBasis
+  ClerkFreeEnrollmentBasisDTO freeEnrollmentBasis
 )
   implements EnrollmentDTOCommonFields {
   public ClerkEnrollmentUpdateDTO {
