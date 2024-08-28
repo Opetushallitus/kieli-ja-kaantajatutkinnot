@@ -4,6 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
+import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.FreeEnrollment;
+import fi.oph.vkt.model.KoskiEducations;
+import fi.oph.vkt.model.type.FreeEnrollmentSource;
+import fi.oph.vkt.model.type.FreeEnrollmentType;
+import fi.oph.vkt.repository.KoskiEducationsRepository;
 import fi.oph.vkt.service.koski.dto.KoskiResponseDTO;
 import fi.oph.vkt.service.koski.dto.KoulutusTyyppi;
 import fi.oph.vkt.service.koski.dto.OpiskeluoikeusDTO;
@@ -17,10 +23,13 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
@@ -33,6 +42,7 @@ public class KoskiService {
   private static final int REQUEST_ATTEMPTS = 3;
 
   private final WebClient koskiClient;
+  private final KoskiEducationsRepository koskiEducationsRepository;
 
   private static <T> Predicate<T> distinctByKey(final Function<? super T, ?> keyExtractor) {
     final Set<Object> seen = ConcurrentHashMap.newKeySet();
@@ -155,5 +165,35 @@ public class KoskiService {
 
       return List.of();
     }
+  }
+
+  @Transactional(isolation = Isolation.SERIALIZABLE)
+  public KoskiEducations saveEducationsForEnrollment(
+    final FreeEnrollment freeEnrollment,
+    final long examEventId,
+    List<PublicEducationDTO> educationDTOs
+  ) {
+    final KoskiEducations koskiEducations = new KoskiEducations();
+    koskiEducations.setFreeEnrollmentId(freeEnrollment.getId());
+    koskiEducations.setExamEventId(examEventId);
+
+    Set<FreeEnrollmentType> freeEnrollmentTypes = educationDTOs
+      .stream()
+      .map(FreeEnrollmentType::fromEducationDTO)
+      .collect(Collectors.toSet());
+
+    koskiEducations.setMatriculationExam(freeEnrollmentTypes.contains(FreeEnrollmentType.MatriculationExam));
+    koskiEducations.setHigherEducationConcluded(
+      freeEnrollmentTypes.contains(FreeEnrollmentType.HigherEducationConcluded)
+    );
+    koskiEducations.setHigherEducationEnrolled(
+      freeEnrollmentTypes.contains(FreeEnrollmentType.HigherEducationEnrolled)
+    );
+    koskiEducations.setDia(freeEnrollmentTypes.contains(FreeEnrollmentType.DIA));
+    koskiEducations.setEb(freeEnrollmentTypes.contains(FreeEnrollmentType.EB));
+    koskiEducations.setOther(freeEnrollmentTypes.contains(FreeEnrollmentType.Other));
+
+    koskiEducationsRepository.saveAndFlush(koskiEducations);
+    return koskiEducations;
   }
 }

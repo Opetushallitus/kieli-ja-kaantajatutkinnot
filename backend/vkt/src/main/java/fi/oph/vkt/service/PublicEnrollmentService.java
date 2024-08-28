@@ -328,8 +328,9 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final FreeEnrollmentSource reason = dto.freeEnrollmentBasis().source();
     final FreeEnrollmentType type = dto.freeEnrollmentBasis().type();
 
+    List<PublicEducationDTO> educations = List.of();
     if (reason.equals(FreeEnrollmentSource.KOSKI) && person.getOid() != null && !person.getOid().isEmpty()) {
-      final List<PublicEducationDTO> educations = koskiService.findEducations(person.getOid());
+      educations = koskiService.findEducations(person.getOid());
 
       if (educations.isEmpty()) {
         throw new APIException(APIExceptionType.KOSKI_DATA_MISMATCH);
@@ -344,6 +345,10 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     freeEnrollment.setSource(reason);
     freeEnrollment.setType(type);
     freeEnrollmentRepository.saveAndFlush(freeEnrollment);
+
+    if (reason.equals(FreeEnrollmentSource.KOSKI) && !educations.isEmpty()) {
+      koskiService.saveEducationsForEnrollment(freeEnrollment, examEventId, educations);
+    }
 
     if (dto.freeEnrollmentBasis().attachments() != null) {
       final List<UploadedFileAttachment> attachments =
