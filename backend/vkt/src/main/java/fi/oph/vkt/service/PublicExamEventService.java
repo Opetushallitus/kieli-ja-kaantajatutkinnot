@@ -70,6 +70,7 @@ public class PublicExamEventService {
           .registrationOpens(e.registrationOpens())
           .openings(openings)
           .hasCongestion(hasCongestion)
+          .isOpen(true)
           .build();
       })
       .sorted(Comparator.comparing(PublicExamEventDTO::date).thenComparing(PublicExamEventDTO::language))

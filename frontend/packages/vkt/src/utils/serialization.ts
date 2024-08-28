@@ -39,6 +39,7 @@ export class SerializationUtils {
       ...publicExamEvent,
       date: dayjs(publicExamEvent.date),
       registrationCloses: dayjs(publicExamEvent.registrationCloses),
+      registrationOpens: dayjs(publicExamEvent.registrationOpens),
     };
   }
 

@@ -14,5 +14,6 @@ public record PublicExamEventDTO(
   @NonNull LocalDateTime registrationCloses,
   @NonNull LocalDateTime registrationOpens,
   @NonNull Long openings,
+  @NonNull Boolean isOpen,
   @NonNull Boolean hasCongestion
 ) {}
