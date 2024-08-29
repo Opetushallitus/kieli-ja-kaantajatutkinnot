@@ -25,7 +25,8 @@ public class KoskiEducations {
   @Column(name = "koski_educations_id", nullable = false)
   private Long koskiEducationsId;
 
-  @OneToOne(mappedBy = "koskiEducations", fetch = FetchType.LAZY, optional = false)
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "free_enrollment_id", referencedColumnName = "free_enrollment_id")
   private FreeEnrollment freeEnrollment;
 
   @Column(name = "exam_event_id", nullable = false)

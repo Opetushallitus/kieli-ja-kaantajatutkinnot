@@ -3,6 +3,7 @@ package fi.oph.vkt.util;
 import fi.oph.vkt.api.dto.FreeEnrollmentAttachmentDTO;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetailsDTO;
+import fi.oph.vkt.api.dto.KoskiEducationsDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkFreeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
@@ -10,6 +11,7 @@ import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.FreeEnrollment;
+import fi.oph.vkt.model.KoskiEducations;
 import fi.oph.vkt.model.Person;
 import java.util.Comparator;
 import java.util.List;
@@ -35,13 +37,11 @@ public class ClerkEnrollmentUtil {
       .collect(Collectors.toList());
 
     final FreeEnrollment freeEnrollment = enrollment.getFreeEnrollment();
-    if (enrollment.getId() == 69) {
-      LOG.warn(
-        "69 -> freeEnrollmentId: {}, koskiEducations: {}",
-        freeEnrollment.getId(),
-        freeEnrollment.getKoskiEducations()
-      );
+    KoskiEducationsDTO koskiEducationsDTO = null;
+    if (freeEnrollment != null && freeEnrollment.getKoskiEducations() != null) {
+      koskiEducationsDTO = createKoskiEducationsDTO(freeEnrollment.getKoskiEducations());
     }
+
     final ClerkFreeEnrollmentBasisDTO freeEnrollmentBasisDTO = freeEnrollment != null
       ? ClerkFreeEnrollmentBasisDTO
         .builder()
@@ -49,7 +49,7 @@ public class ClerkEnrollmentUtil {
         .source(freeEnrollment.getSource())
         .approved(freeEnrollment.getApproved())
         .comment(freeEnrollment.getComment())
-        .koskiEducations(freeEnrollment.getKoskiEducations())
+        .koskiEducations(koskiEducationsDTO)
         .attachments(
           freeEnrollment
             .getAttachments()
@@ -134,6 +134,18 @@ public class ClerkEnrollmentUtil {
       .country(enrollment.getCountry())
       .paymentLinkHash(enrollment.getPaymentLinkHash())
       .paymentLinkExpiresAt(DateUtil.formatOptionalDatetime(enrollment.getPaymentLinkExpiresAt()))
+      .build();
+  }
+
+  public static KoskiEducationsDTO createKoskiEducationsDTO(final KoskiEducations koskiEducations) {
+    return KoskiEducationsDTO
+      .builder()
+      .matriculationExam(koskiEducations.getMatriculationExam())
+      .higherEducationConcluded(koskiEducations.getHigherEducationConcluded())
+      .higherEducationEnrolled(koskiEducations.getHigherEducationEnrolled())
+      .dia(koskiEducations.getDia())
+      .eb(koskiEducations.getEb())
+      .other(koskiEducations.getOther())
       .build();
   }
 }

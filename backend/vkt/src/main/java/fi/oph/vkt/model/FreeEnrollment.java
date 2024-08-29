@@ -55,7 +55,6 @@ public class FreeEnrollment extends BaseEntity {
   @JoinColumn(name = "free_enrollment_id", referencedColumnName = "free_enrollment_id")
   List<UploadedFileAttachment> attachments;
 
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "free_enrollment_id", referencedColumnName = "free_enrollment_id")
+  @OneToOne(mappedBy = "freeEnrollment", fetch = FetchType.LAZY)
   KoskiEducations koskiEducations;
 }
