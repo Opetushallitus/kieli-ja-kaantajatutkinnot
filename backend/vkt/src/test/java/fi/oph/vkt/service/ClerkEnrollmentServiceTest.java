@@ -69,7 +69,7 @@ class ClerkEnrollmentServiceTest {
   @Resource
   private TestEntityManager entityManager;
 
-  @Resource
+  @MockBean
   private KoskiService koskiService;
 
   @BeforeEach
