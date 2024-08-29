@@ -67,7 +67,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
 
       // If clerk user has explicitly approved or rejected the qualifications for free enrollment,
       // the enrollment status should be updated accordingly.
-      // However, we must guard against updating the status eg. already cancelled enrollments by accident.
+      // However, we must guard against updating the status of eg. already cancelled enrollments by accident.
       if (
         dto.freeEnrollmentBasis().approved() != null &&
         (
@@ -204,6 +204,8 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   public void getAndSaveKoskiEducationDetailsForEnrollment(final long enrollmentId) {
     final Enrollment enrollment = enrollmentRepository.getReferenceById(enrollmentId);
     final FreeEnrollment freeEnrollment = enrollment.getFreeEnrollment();
+    LOG.warn("Got enrollment: {}", enrollment);
+    LOG.warn("Got freeEnrollment: {}", freeEnrollment);
     if (freeEnrollment == null || freeEnrollment.getSource() != FreeEnrollmentSource.KOSKI) {
       throw new RuntimeException("Can't persist education details if source of free enrollment isn't Koski");
     }

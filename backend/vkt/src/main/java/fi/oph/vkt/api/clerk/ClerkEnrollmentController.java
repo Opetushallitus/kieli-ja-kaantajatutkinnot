@@ -110,7 +110,7 @@ public class ClerkEnrollmentController {
     return ResponseEntity.ok().body(new InputStreamResource(bis));
   }
 
-  @PostMapping("/{enrollmentId:\\d+}/refreshKoskiEducationDetails")
+  @PostMapping(path = "/{enrollmentId:\\d+}/refreshKoskiEducationDetails", consumes = ALL_VALUE, produces = ALL_VALUE)
   @Operation(tags = TAG_ENROLLMENT, summary = "Refresh education details from KOSKI")
   public void refreshKoskiEducationDetails(final HttpServletResponse response, @PathVariable final long enrollmentId) {
     clerkEnrollmentService.getAndSaveKoskiEducationDetailsForEnrollment(enrollmentId);

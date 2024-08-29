@@ -174,7 +174,7 @@ public class KoskiService {
     List<PublicEducationDTO> educationDTOs
   ) {
     final KoskiEducations koskiEducations = new KoskiEducations();
-    koskiEducations.setFreeEnrollmentId(freeEnrollment.getId());
+    koskiEducations.setFreeEnrollment(freeEnrollment);
     koskiEducations.setExamEventId(examEventId);
 
     Set<FreeEnrollmentType> freeEnrollmentTypes = educationDTOs

@@ -86,6 +86,8 @@ public class ClerkExamEventService {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
     final List<Enrollment> enrollments = examEvent.getEnrollments();
 
+    // TODO Mapping from personId to enrollments per person isn't good enough here!
+    // Somehow we lose connection from enrollment to the right free_enrollment??
     final Map<Long, FreeEnrollmentDetails> freeEnrollmentDetails = enrollments
       .stream()
       .collect(
