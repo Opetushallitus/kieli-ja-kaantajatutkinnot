@@ -21,6 +21,7 @@ import {
   rejectClerkEnrollmentDetailsUpdate,
   rejectClerkEnrollmentPaymentLink,
   rejectClerkPaymentRefunded,
+  rejectKoskiEducationDetailsRefresh,
   rejectMoveEnrollment,
   setClerkPaymentRefunded,
   startKoskiEducationDetailsRefresh,
@@ -136,6 +137,7 @@ function* startKoskiEducationDetailsRefreshSaga(action: PayloadAction<number>) {
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
+    yield put(rejectKoskiEducationDetailsRefresh());
   }
 }
 

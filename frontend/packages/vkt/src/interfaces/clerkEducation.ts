@@ -7,7 +7,7 @@ export interface ClerkFreeEnrollmentBasis extends PublicFreeEnrollmentBasis {
 }
 
 interface KoskiEducations {
-  matriculationExam: boolean
+  matriculationExam: boolean;
   higherEducationConcluded: boolean;
   higherEducationEnrolled: boolean;
   eb: boolean;
