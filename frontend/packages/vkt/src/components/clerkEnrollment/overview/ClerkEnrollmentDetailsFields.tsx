@@ -45,10 +45,15 @@ import { ClerkFreeEnrollmentBasis } from 'interfaces/clerkEducation';
 import { ClerkEnrollment, ClerkPayment } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
-import { Attachment, FreeBasisSource } from 'interfaces/publicEducation';
+import {
+  Attachment,
+  EducationType,
+  FreeBasisSource,
+} from 'interfaces/publicEducation';
 import {
   createClerkEnrollmentPaymentLink,
   setClerkPaymentRefunded,
+  startKoskiEducationDetailsRefresh,
 } from 'redux/reducers/clerkEnrollmentDetails';
 import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
 import { DateTimeUtils } from 'utils/dateTime';
@@ -113,12 +118,81 @@ const DownloadAttachment = ({ attachment }: { attachment: Attachment }) => {
   );
 };
 
+const KoskiEducationDetails = ({
+  enrollment,
+  basis,
+}: {
+  enrollment: ClerkEnrollment;
+  basis: ClerkFreeEnrollmentBasis;
+}) => {
+  const { t } = useClerkTranslation({
+    keyPrefix: 'vkt.component.clerkEnrollmentDetails.freeEnrollment',
+  });
+  const allKoskiEducations = [];
+  if (basis.koskiEducations) {
+    if (basis.koskiEducations.matriculationExam) {
+      allKoskiEducations.push(EducationType.MatriculationExam);
+    }
+    if (basis.koskiEducations.higherEducationConcluded) {
+      allKoskiEducations.push(EducationType.HigherEducationConcluded);
+    }
+    if (basis.koskiEducations.higherEducationEnrolled) {
+      allKoskiEducations.push(EducationType.HigherEducationEnrolled);
+    }
+    if (basis.koskiEducations.dia) {
+      allKoskiEducations.push(EducationType.DIA);
+    }
+    if (basis.koskiEducations.eb) {
+      allKoskiEducations.push(EducationType.EB);
+    }
+    if (basis.koskiEducations.other) {
+      allKoskiEducations.push(EducationType.Other);
+    }
+  }
+  const dispatch = useAppDispatch();
+
+  const refreshKoskiEducationDetails = () => {
+    dispatch(startKoskiEducationDetailsRefresh(enrollment.id));
+  };
+
+  return basis.koskiEducations ? (
+    <ul className="public-enrollment__grid__preview__bullet-list">
+      <Text>
+        {allKoskiEducations.map((type) => (
+          <li key={`education-type-${type}`}>{t(`type.${type}`)}</li>
+        ))}
+      </Text>
+    </ul>
+  ) : (
+    <>
+      <div style={{ maxWidth: '100%', width: '100%' }}>
+        <CustomButton
+          color={Color.Secondary}
+          variant={Variant.Contained}
+          onClick={() => refreshKoskiEducationDetails()}
+        >
+          {t('getAllKoskiEducations')}
+        </CustomButton>
+      </div>
+      <ul className="public-enrollment__grid__preview__bullet-list">
+        <Text>
+          <li key={`education-type-${basis.type}`}>
+            {t(`type.${basis.type}`)}
+          </li>
+        </Text>
+      </ul>
+    </>
+  );
+};
+
 const FreeEnrollmentBasis = ({
+  enrollment,
   basis,
   disabled,
   onTextFieldChange,
   onCheckboxFieldChange,
 }: {
+  enrollment: ClerkEnrollment;
   basis: ClerkFreeEnrollmentBasis;
   disabled: boolean;
   onTextFieldChange: (
@@ -146,18 +220,20 @@ const FreeEnrollmentBasis = ({
   return (
     <div className="rows gapped-xxl margin-top-lg">
       <div className="rows gapped">
-        <H3>{t('freeEnrollment.title')}</H3>
-        <Text>{t('freeEnrollment.description')}</Text>
-        <ul className="public-enrollment__grid__preview__bullet-list">
-          <Text>
-            <li key={`education-type-${basis.type}`}>
-              {t(`freeEnrollment.type.${basis.type}`)}
-              {' ('}
-              {t(`freeEnrollment.source.${basis.source}`)}
-              {')'}
-            </li>
-          </Text>
-        </ul>
+        <H2>{t('freeEnrollment.title')}</H2>
+        <H3> {t(`freeEnrollment.source.${basis.source}`)}</H3>
+        {basis.source === FreeBasisSource.KOSKI && (
+          <KoskiEducationDetails enrollment={enrollment} basis={basis} />
+        )}
+        {basis.source === FreeBasisSource.User && (
+          <ul className="public-enrollment__grid__preview__bullet-list">
+            <Text>
+              <li key={`education-type-${basis.type}`}>
+                {t(`freeEnrollment.type.${basis.type}`)}
+              </li>
+            </Text>
+          </ul>
+        )}
         {basis.attachments &&
           basis.attachments.length > 0 &&
           basis.attachments.map((attachment) => (
@@ -614,6 +690,7 @@ export const ClerkEnrollmentDetailsFields = ({
         </div>
         {enrollment.freeEnrollmentBasis && (
           <FreeEnrollmentBasis
+            enrollment={enrollment}
             basis={enrollment.freeEnrollmentBasis}
             disabled={editDisabled}
             onTextFieldChange={onTextFieldChange}

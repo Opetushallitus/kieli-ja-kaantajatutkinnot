@@ -91,7 +91,8 @@
           "source": {
             "USER": "Käyttäjän ilmoittama",
             "KOSKI": "Tieto KOSKI-integraatiosta"
-          }
+          },
+          "getAllKoskiEducations": "Hae kaikki KOSKI-koulutustiedot"
         }
       },
       "clerkEnrollmentListing": {
