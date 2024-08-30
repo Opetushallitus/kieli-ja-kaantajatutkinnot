@@ -204,8 +204,6 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   public void getAndSaveKoskiEducationDetailsForEnrollment(final long enrollmentId) {
     final Enrollment enrollment = enrollmentRepository.getReferenceById(enrollmentId);
     final FreeEnrollment freeEnrollment = enrollment.getFreeEnrollment();
-    LOG.warn("Got enrollment: {}", enrollment);
-    LOG.warn("Got freeEnrollment: {}", freeEnrollment);
     if (freeEnrollment == null || freeEnrollment.getSource() != FreeEnrollmentSource.KOSKI) {
       throw new RuntimeException("Can't persist education details if source of free enrollment isn't Koski");
     }
