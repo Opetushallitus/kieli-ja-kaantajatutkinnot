@@ -2,8 +2,12 @@ package fi.oph.vkt.view;
 
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.FreeEnrollment;
+import fi.oph.vkt.model.KoskiEducations;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentStatus;
+import fi.oph.vkt.model.type.FreeEnrollmentSource;
+import fi.oph.vkt.model.type.FreeEnrollmentType;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -27,7 +31,7 @@ public class ExamEventXlsxDataRowUtil {
   }
 
   private static ExamEventXlsxDataRow createDataRow(final Enrollment enrollment, final Person person) {
-    return ExamEventXlsxDataRow
+    ExamEventXlsxDataRow.ExamEventXlsxDataRowBuilder builder = ExamEventXlsxDataRow
       .builder()
       .enrollmentTime(DATETIME_FORMAT.format(enrollment.getCreatedAt()))
       .lastName(person.getLastName())
@@ -47,8 +51,49 @@ public class ExamEventXlsxDataRowUtil {
       .street(enrollment.getStreet())
       .postalCode(enrollment.getPostalCode())
       .town(enrollment.getTown())
-      .country(enrollment.getCountry())
-      .build();
+      .country(enrollment.getCountry());
+
+    if (enrollment.getFreeEnrollment() != null) {
+      FreeEnrollment freeEnrollment = enrollment.getFreeEnrollment();
+      builder =
+        builder
+          .isFree(boolToInt(freeEnrollment.getSource() == FreeEnrollmentSource.KOSKI || freeEnrollment.getApproved()))
+          .freeEnrollmentSource(freeEnrollment.getSource());
+      if (freeEnrollment.getKoskiEducations() != null) {
+        KoskiEducations koskiEducations = freeEnrollment.getKoskiEducations();
+        builder =
+          builder
+            .matriculationExam(boolToInt(koskiEducations.getMatriculationExam()))
+            .dia(boolToInt(koskiEducations.getDia()))
+            .eb(boolToInt(koskiEducations.getEb()))
+            .higherEducationConcluded(boolToInt(koskiEducations.getHigherEducationConcluded()))
+            .higherEducationEnrolled(boolToInt(koskiEducations.getHigherEducationEnrolled()));
+      } else {
+        FreeEnrollmentType type = freeEnrollment.getType();
+        boolean matriculationExam = type == FreeEnrollmentType.MatriculationExam;
+        boolean dia = type == FreeEnrollmentType.DIA;
+        boolean eb = type == FreeEnrollmentType.EB;
+        boolean higherEducationConcluded = type == FreeEnrollmentType.HigherEducationConcluded;
+        boolean higherEducationEnrolled = type == FreeEnrollmentType.HigherEducationEnrolled;
+        builder =
+          builder
+            .matriculationExam(boolToInt(matriculationExam))
+            .dia(boolToInt(dia))
+            .eb(boolToInt(eb))
+            .higherEducationConcluded(boolToInt(higherEducationConcluded))
+            .higherEducationEnrolled(boolToInt(higherEducationEnrolled));
+      }
+    } else {
+      builder =
+        builder
+          .isFree(boolToInt(false))
+          .matriculationExam(boolToInt(false))
+          .dia(boolToInt(false))
+          .eb(boolToInt(false))
+          .higherEducationConcluded(boolToInt(false))
+          .higherEducationEnrolled(boolToInt(false));
+    }
+    return builder.build();
   }
 
   private static String statusToText(final EnrollmentStatus status) {

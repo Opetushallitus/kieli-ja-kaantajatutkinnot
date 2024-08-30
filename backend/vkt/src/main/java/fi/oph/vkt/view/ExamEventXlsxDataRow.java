@@ -1,5 +1,7 @@
 package fi.oph.vkt.view;
 
+import fi.oph.vkt.model.type.FreeEnrollmentSource;
+import fi.oph.vkt.model.type.FreeEnrollmentType;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -17,6 +19,13 @@ public record ExamEventXlsxDataRow(
   @NonNull Integer readingComprehension,
   @NonNull Integer speaking,
   @NonNull Integer speechComprehension,
+  @NonNull Integer isFree,
+  FreeEnrollmentSource freeEnrollmentSource,
+  @NonNull Integer matriculationExam,
+  @NonNull Integer dia,
+  @NonNull Integer eb,
+  @NonNull Integer higherEducationConcluded,
+  @NonNull Integer higherEducationEnrolled,
   @NonNull String email,
   @NonNull String phoneNumber,
   @NonNull Integer digitalCertificateConsent,

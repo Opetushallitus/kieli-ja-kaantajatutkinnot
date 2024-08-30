@@ -1,5 +1,6 @@
 package fi.oph.vkt.view;
 
+import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -52,7 +53,14 @@ public class ExamEventXlsxView extends AbstractXlsxView {
       "KI", // Kirjoittaminen
       "TY", // Tekstin ymmärtäminen
       "PU", // Puhuminen
-      "PY", // Puheen ymmärtäminen
+      "PY", // Puheen ymmärtäminen,
+      "Maksuton",
+      "Koulutustiedon lähde",
+      "Ylioppilastutkinto",
+      "DIA-tutkinto",
+      "EB-tutkinto",
+      "Korkeakoulututkinto",
+      "Korkeakouluopinnot käynnissä",
       "Sähköposti",
       "Puhelin",
       "Sähk. Tod.",
@@ -84,6 +92,21 @@ public class ExamEventXlsxView extends AbstractXlsxView {
       row.createCell(++ci).setCellValue(dataRow.readingComprehension());
       row.createCell(++ci).setCellValue(dataRow.speaking());
       row.createCell(++ci).setCellValue(dataRow.speechComprehension());
+
+      row.createCell(++ci).setCellValue(dataRow.isFree());
+      row
+        .createCell(++ci)
+        .setCellValue(
+          dataRow.freeEnrollmentSource() == null
+            ? "-"
+            : dataRow.freeEnrollmentSource() == FreeEnrollmentSource.KOSKI ? "KOSKI" : "Käyttäjä"
+        );
+      row.createCell(++ci).setCellValue(dataRow.matriculationExam());
+      row.createCell(++ci).setCellValue(dataRow.dia());
+      row.createCell(++ci).setCellValue(dataRow.eb());
+      row.createCell(++ci).setCellValue(dataRow.higherEducationConcluded());
+      row.createCell(++ci).setCellValue(dataRow.higherEducationEnrolled());
+
       row.createCell(++ci).setCellValue(dataRow.email());
       row.createCell(++ci).setCellValue(dataRow.phoneNumber());
       row.createCell(++ci).setCellValue(dataRow.digitalCertificateConsent());
