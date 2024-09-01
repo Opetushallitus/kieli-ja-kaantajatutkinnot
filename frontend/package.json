@@ -34,7 +34,7 @@
     "@mui/x-date-pickers": "^5.0.20",
     "@reduxjs/toolkit": "^1.9.7",
     "@types/js-cookie": "^3.0.5",
-    "axios": "^1.6.0",
+    "axios": "^1.7.4",
     "dayjs": "^1.11.10",
     "finnish-personal-identity-code-validator": "kimmotaskinen/finnish-personal-identity-code-validator#support-new-delimiters",
     "history": "^5.3.0",

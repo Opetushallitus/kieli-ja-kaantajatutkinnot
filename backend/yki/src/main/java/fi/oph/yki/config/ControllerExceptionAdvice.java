@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @Order(value = Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
@@ -37,6 +40,13 @@ public class ControllerExceptionAdvice {
     }
   }
 
+  @ExceptionHandler(NoResourceFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public ResponseEntity<Object> handleNoResourceFoundException(final ChangeSetPersister.NotFoundException ex) {
+    LOG.error("NoResourceFoundException: " + ex.getMessage());
+    return notFound();
+  }
+
   @ExceptionHandler(Exception.class)
   public ResponseEntity<Object> handleRest(final Exception ex) {
     final String exceptionClassName = ex.getClass().getSimpleName();
@@ -48,6 +58,10 @@ public class ControllerExceptionAdvice {
       LOG.error("Exception caught", ex);
       return internalServerError();
     }
+  }
+
+  private ResponseEntity<Object> notFound() {
+    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 
   private ResponseEntity<Object> badRequest() {
