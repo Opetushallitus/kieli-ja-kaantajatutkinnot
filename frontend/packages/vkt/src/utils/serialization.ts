@@ -72,6 +72,7 @@ export class SerializationUtils {
       ...listExamEvent,
       date: dayjs(listExamEvent.date),
       registrationCloses: dayjs(listExamEvent.registrationCloses),
+      registrationOpens: dayjs(listExamEvent.registrationOpens),
     };
   }
 
@@ -114,6 +115,7 @@ export class SerializationUtils {
       ...examEvent,
       date: dayjs(examEvent.date),
       registrationCloses: dayjs(examEvent.registrationCloses),
+      registrationOpens: dayjs(examEvent.registrationOpens),
       enrollments: examEvent.enrollments.map(
         SerializationUtils.deserializeClerkEnrollment,
       ),
@@ -124,7 +126,12 @@ export class SerializationUtils {
     return {
       ...examEvent,
       date: DateUtils.serializeDate(examEvent.date),
-      registrationCloses: DateUtils.serializeDate(examEvent.registrationCloses),
+      registrationCloses: DateUtils.serializeDateTime(
+        examEvent.registrationCloses,
+      ),
+      registrationOpens: DateUtils.serializeDateTime(
+        examEvent.registrationOpens,
+      ),
     };
   }
 
@@ -132,7 +139,12 @@ export class SerializationUtils {
     return {
       ...examEvent,
       date: DateUtils.serializeDate(examEvent.date),
-      registrationCloses: DateUtils.serializeDate(examEvent.registrationCloses),
+      registrationCloses: DateUtils.serializeDateTime(
+        examEvent.registrationCloses,
+      ),
+      registrationOpens: DateUtils.serializeDateTime(
+        examEvent.registrationOpens,
+      ),
       enrollments: examEvent.enrollments.map(
         SerializationUtils.serializeClerkEnrollment,
       ),

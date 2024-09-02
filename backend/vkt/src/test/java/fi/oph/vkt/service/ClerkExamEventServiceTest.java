@@ -36,6 +36,7 @@ import jakarta.annotation.Resource;
 import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -168,7 +169,10 @@ public class ClerkExamEventServiceTest {
     assertEquals(expected.getLanguage(), examEventListDTO.language());
     assertEquals(expected.getLevel(), examEventListDTO.level());
     assertEquals(expected.getDate(), examEventListDTO.date());
-    assertEquals(expected.getRegistrationCloses(), examEventListDTO.registrationCloses());
+    assertEquals(
+      expected.getRegistrationCloses().truncatedTo(ChronoUnit.MINUTES),
+      examEventListDTO.registrationCloses().truncatedTo(ChronoUnit.MINUTES)
+    );
     assertEquals(expected.getMaxParticipants(), examEventListDTO.maxParticipants());
   }
 

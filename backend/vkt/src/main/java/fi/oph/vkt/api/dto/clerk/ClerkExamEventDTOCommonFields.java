@@ -10,6 +10,7 @@ public interface ClerkExamEventDTOCommonFields {
   ExamLevel level();
   LocalDate date();
   LocalDateTime registrationCloses();
+  LocalDateTime registrationOpens();
   Boolean isHidden();
   Long maxParticipants();
 }

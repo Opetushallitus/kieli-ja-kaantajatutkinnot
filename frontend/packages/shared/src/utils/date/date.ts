@@ -74,6 +74,10 @@ export class DateUtils {
     return date?.format('YYYY-MM-DD');
   }
 
+  static serializeDateTime(date?: Dayjs) {
+    return date?.format('YYYY-MM-DDTHH:mm:ss');
+  }
+
   static isValidDate(date?: Dayjs) {
     return date ? date.isValid() : false;
   }

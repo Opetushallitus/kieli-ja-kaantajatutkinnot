@@ -211,6 +211,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .registrationOpens(examEvent.getRegistrationOpens())
       .openings(openings)
       .hasCongestion(false)
+      .isOpen(ExamEventUtil.isOpen(examEvent))
       .build();
 
     final PublicPersonDTO personDTO = PersonUtil.createPublicPersonDTO(person);

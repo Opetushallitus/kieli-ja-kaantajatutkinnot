@@ -33,7 +33,7 @@ export const ClerkExamEventDetailsFields = ({
   onDateChange: (
     field: keyof Pick<
       ClerkExamEventBasicInformation,
-      'date' | 'registrationCloses'
+      'date' | 'registrationCloses' | 'registrationOpens'
     >,
   ) => (date: Dayjs | null) => void;
   onCheckBoxChange: (
@@ -113,6 +113,18 @@ export const ClerkExamEventDetailsFields = ({
       <div className="margin-top-lg grid-columns gapped">
         <div
           className="rows gapped"
+          data-testid="clerk-exam-event__basic-information__registrationOpens"
+        >
+          <H3>{t('registrationOpens')}</H3>
+          <CustomDatePicker
+            value={dayjs(examEvent.registrationOpens)}
+            setValue={onDateChange('registrationOpens')}
+            maxDate={examEvent.registrationCloses}
+            disabled={editDisabled}
+          />
+        </div>
+        <div
+          className="rows gapped"
           data-testid="clerk-exam-event__basic-information__registrationCloses"
         >
           <H3>{t('registrationCloses')}</H3>
@@ -123,6 +135,8 @@ export const ClerkExamEventDetailsFields = ({
             disabled={editDisabled}
           />
         </div>
+      </div>
+      <div className="margin-top-lg grid-columns gapped">
         <div className="rows gapped">
           <H3>{t('fillingsTotal')}</H3>
           <CustomTextField

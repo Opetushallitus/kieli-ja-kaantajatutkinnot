@@ -14,11 +14,15 @@ describe('ClerkCreateExamEventPage', () => {
   it('should enable save when valid form is inputted', () => {
     const examDate = dayjs().add(daysInFuture, 'day');
     const closesDate = examDate.subtract(2, 'day');
+    const opensDate = examDate.subtract(3, 'day');
 
     onClerkExamEventCreatePage.inputLanguageAndLevel('Suomi, Erinomainen');
     onClerkExamEventCreatePage.inputExamDate(examDate.format(dayFormat));
     onClerkExamEventCreatePage.inputRegistrationClosesDate(
       closesDate.format(dayFormat),
+    );
+    onClerkExamEventCreatePage.inputRegistrationOpensDate(
+      opensDate.format(dayFormat),
     );
     onClerkExamEventCreatePage.saveButtonEnabledIs(false);
     onClerkExamEventCreatePage.inputMaxParticipants(20);

@@ -203,7 +203,7 @@ export const ClerkExamEventDetails = () => {
     (
       field: keyof Pick<
         ClerkExamEventBasicInformation,
-        'date' | 'registrationCloses'
+        'date' | 'registrationCloses' | 'registrationOpens'
       >,
     ) =>
     (date: Dayjs | null) => {

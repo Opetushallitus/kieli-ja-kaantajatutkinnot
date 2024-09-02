@@ -12,6 +12,7 @@ export interface ClerkExamEventBasicInformation {
   level: ExamLevel;
   date: Dayjs;
   registrationCloses: Dayjs;
+  registrationOpens: Dayjs;
   isHidden: boolean;
   maxParticipants: number;
 }
@@ -26,6 +27,7 @@ export interface DraftClerkExamEvent
     | 'date'
     | 'maxParticipants'
     | 'registrationCloses'
+    | 'registrationOpens'
     | 'enrollments'
     | 'unApprovedFreeEnrollments'
   > {
@@ -33,13 +35,18 @@ export interface DraftClerkExamEvent
   level?: ExamLevel;
   date?: Dayjs;
   registrationCloses?: Dayjs;
+  registrationOpens?: Dayjs;
   maxParticipants?: number;
 }
 
 export interface ClerkExamEventResponse
-  extends Omit<ClerkExamEvent, 'date' | 'registrationCloses' | 'enrollments'> {
+  extends Omit<
+    ClerkExamEvent,
+    'date' | 'registrationCloses' | 'registrationOpens' | 'enrollments'
+  > {
   date: string;
   registrationCloses: string;
+  registrationOpens: string;
   enrollments: Array<ClerkEnrollmentResponse>;
 }
 
