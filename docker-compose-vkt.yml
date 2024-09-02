@@ -62,13 +62,15 @@ services:
       - PGPORT=6432
 
   localstack:
-    image: localstack/localstack
+    image: localstack/localstack:3.7.0
     ports:
       - "4566:4566"
     networks:
       - vkt-dev
     environment:
       - EXTRA_CORS_ALLOWED_ORIGINS="'*'"
+      - HOSTNAME=localhost.localstack.cloud
+      - LOCALSTACK_HOST=localhost.localstack.cloud
 
 networks:
   vkt-dev: {}
