@@ -1,5 +1,4 @@
 import { Step, StepLabel, Stepper } from '@mui/material';
-import { useEffect } from 'react';
 import { CircularStepper } from 'shared/components';
 import { Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
@@ -15,11 +14,6 @@ export const PublicEnrollmentStepper = ({
   activeStep: PublicEnrollmentFormStep;
   includePaymentStep: boolean;
 }) => {
-  useEffect(() => {
-    document
-      .getElementById(`public-enrollment-step-label-${activeStep}`)
-      ?.focus();
-  }, [activeStep]);
   const { isPhone } = useWindowProperties();
 
   const { t } = usePublicTranslation({
