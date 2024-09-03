@@ -1,4 +1,5 @@
 import { TableCell } from '@mui/material';
+import { Trans } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import {
   CustomButton,
@@ -74,7 +75,7 @@ export const PublicExamEventPhoneCells = ({
 }: {
   examEvent: PublicExamEvent;
 }) => {
-  const { language, date, registrationCloses } = examEvent;
+  const { language, date, registrationCloses, registrationOpens } = examEvent;
 
   // I18n
   const { t } = usePublicTranslation({
@@ -115,20 +116,41 @@ export const PublicExamEventPhoneCells = ({
           <Text>{DateUtils.formatOptionalDate(date, 'l')}</Text>
         </div>
         <div className="rows">
-          <b>{t('header.registrationCloses')}</b>
-          <Text>{DateUtils.formatOptionalDate(registrationCloses, 'l')}</Text>
+          <b>{t('header.registrationDates')}</b>
+          <Text>
+            {DateUtils.formatOptionalDateTime(
+              registrationOpens,
+              t('row.registrationTimeFormat'),
+            )}
+            -
+            <br />
+            {DateUtils.formatOptionalDateTime(registrationCloses)}
+          </Text>
         </div>
         <div className="rows">
           <b>{t('header.openings')}</b>
           {getOpeningsText(examEvent, t)}
         </div>
-        {renderEnrollmentButton(
-          examEvent,
-          examEvent === selectedExamEvent,
-          examEvent.hasCongestion || isInitialisationInProgress,
-          handleOnClick,
-          t,
-          translateCommon,
+        {!examEvent.isOpen ? (
+          <Trans
+            t={t}
+            i18nKey="row.registrationOpensAt"
+            values={{
+              registrationOpens: DateUtils.formatOptionalDateTime(
+                registrationOpens,
+                t('row.registrationTimeFormat'),
+              ),
+            }}
+          />
+        ) : (
+          renderEnrollmentButton(
+            examEvent,
+            examEvent === selectedExamEvent,
+            examEvent.hasCongestion || isInitialisationInProgress,
+            handleOnClick,
+            t,
+            translateCommon,
+          )
         )}
       </div>
     </TableCell>
@@ -140,7 +162,7 @@ export const PublicExamEventDesktopCells = ({
 }: {
   examEvent: PublicExamEvent;
 }) => {
-  const { language, date, registrationCloses } = examEvent;
+  const { language, date, registrationCloses, registrationOpens } = examEvent;
 
   // I18n
   const { t } = usePublicTranslation({
@@ -178,17 +200,40 @@ export const PublicExamEventDesktopCells = ({
         <Text>{DateUtils.formatOptionalDate(date, 'l')}</Text>
       </TableCell>
       <TableCell>
-        <Text>{DateUtils.formatOptionalDate(registrationCloses, 'l')}</Text>
+        <Text>
+          {DateUtils.formatOptionalDateTime(
+            registrationOpens,
+            t('row.registrationTimeFormat'),
+          )}{' '}
+          - <br />
+          {DateUtils.formatOptionalDateTime(
+            registrationCloses,
+            t('row.registrationTimeFormat'),
+          )}
+        </Text>
       </TableCell>
       <TableCell>{getOpeningsText(examEvent, t)}</TableCell>
       <TableCell>
-        {renderEnrollmentButton(
-          examEvent,
-          examEvent === selectedExamEvent,
-          examEvent.hasCongestion || isInitialisationInProgress,
-          handleOnClick,
-          t,
-          translateCommon,
+        {!examEvent.isOpen ? (
+          <Trans
+            t={t}
+            i18nKey="row.registrationOpensAt"
+            values={{
+              registrationOpens: DateUtils.formatOptionalDateTime(
+                registrationOpens,
+                t('row.registrationTimeFormat'),
+              ),
+            }}
+          />
+        ) : (
+          renderEnrollmentButton(
+            examEvent,
+            examEvent === selectedExamEvent,
+            examEvent.hasCongestion || isInitialisationInProgress,
+            handleOnClick,
+            t,
+            translateCommon,
+          )
         )}
       </TableCell>
     </>

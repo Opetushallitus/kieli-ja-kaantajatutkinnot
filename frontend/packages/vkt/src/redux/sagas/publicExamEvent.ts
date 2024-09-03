@@ -6,6 +6,7 @@ import { APIEndpoints } from 'enums/api';
 import { PublicExamEventResponse } from 'interfaces/publicExamEvent';
 import {
   loadPublicExamEvents,
+  refreshPublicExamEvents,
   rejectPublicExamEvents,
   storePublicExamEvents,
 } from 'redux/reducers/publicExamEvent';
@@ -28,4 +29,5 @@ function* loadPublicExamEventsSaga() {
 
 export function* watchPublicExamEvents() {
   yield takeLatest(loadPublicExamEvents.type, loadPublicExamEventsSaga);
+  yield takeLatest(refreshPublicExamEvents.type, loadPublicExamEventsSaga);
 }

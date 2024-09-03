@@ -23,6 +23,7 @@ const publicExamEventSlice = createSlice({
     loadPublicExamEvents(state) {
       state.status = APIResponseStatus.InProgress;
     },
+    refreshPublicExamEvents() {},
     rejectPublicExamEvents(state) {
       state.status = APIResponseStatus.Error;
     },
@@ -48,6 +49,7 @@ const publicExamEventSlice = createSlice({
 export const publicExamEventReducer = publicExamEventSlice.reducer;
 export const {
   loadPublicExamEvents,
+  refreshPublicExamEvents,
   rejectPublicExamEvents,
   resetPublicExamEventSelections,
   storePublicExamEvents,

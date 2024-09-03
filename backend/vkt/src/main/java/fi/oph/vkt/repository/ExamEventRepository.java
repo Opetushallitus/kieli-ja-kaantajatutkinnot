@@ -16,7 +16,6 @@ public interface ExamEventRepository extends BaseRepository<ExamEvent> {
     " LEFT JOIN e.enrollments en ON en.status = 'COMPLETED' OR en.status = 'AWAITING_PAYMENT' OR en.status = 'AWAITING_APPROVAL' OR en.status = 'EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT'" +
     " WHERE e.level = ?1" +
     " AND e.registrationCloses >= CURRENT_TIMESTAMP" +
-    " AND e.registrationOpens <= CURRENT_TIMESTAMP" +
     " AND e.isHidden = false" +
     " GROUP BY e.id"
   )
@@ -28,7 +27,6 @@ public interface ExamEventRepository extends BaseRepository<ExamEvent> {
     " LEFT JOIN e.enrollments en ON en.status = 'QUEUED'" +
     " WHERE e.level = ?1" +
     " AND e.registrationCloses >= CURRENT_TIMESTAMP" +
-    " AND e.registrationOpens <= CURRENT_TIMESTAMP" +
     " AND e.isHidden = false" +
     " GROUP BY e.id" +
     " HAVING COUNT(en) > 0"

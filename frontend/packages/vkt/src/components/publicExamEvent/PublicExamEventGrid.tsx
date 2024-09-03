@@ -2,10 +2,12 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Grid, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { H1, H2, HeaderSeparator, Text, WebLink } from 'shared/components';
+import { APIResponseStatus } from 'shared/enums';
 
 import { PublicExamEventListing } from 'components/publicExamEvent/listing/PublicExamEventListing';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { useInterval } from 'hooks/useInterval';
 import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { loadPublicExamEvents } from 'redux/reducers/publicExamEvent';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
@@ -33,6 +35,16 @@ export const PublicExamEventGrid = () => {
     dispatch(resetPublicEnrollment());
     dispatch(loadPublicExamEvents());
   }, [dispatch]);
+
+  const listingRefresh = () => {
+    if (status === APIResponseStatus.Success) {
+      if (!document.hidden) {
+        dispatch(loadPublicExamEvents());
+      }
+    }
+  };
+
+  useInterval(listingRefresh, 10000); // Every 10 seconds
 
   return (
     <>
