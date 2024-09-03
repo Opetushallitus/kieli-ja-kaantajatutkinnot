@@ -16,13 +16,8 @@ public record ClerkExamEventUpdateDTO(
   @NonNull @NotNull ExamLanguage language,
   @NonNull @NotNull ExamLevel level,
   @NonNull @NotNull LocalDate date,
-
-  @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-  @NonNull @NotNull LocalDateTime registrationCloses,
-
-  @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-  @NonNull @NotNull LocalDateTime registrationOpens,
-
+  @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") @NonNull @NotNull LocalDateTime registrationCloses,
+  @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") @NonNull @NotNull LocalDateTime registrationOpens,
   @NonNull @NotNull Boolean isHidden,
   @NonNull @NotNull Long maxParticipants
 )

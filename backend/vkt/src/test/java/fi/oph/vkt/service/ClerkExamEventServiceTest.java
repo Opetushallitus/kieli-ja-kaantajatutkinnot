@@ -293,6 +293,7 @@ public class ClerkExamEventServiceTest {
       .level(ExamLevel.EXCELLENT)
       .date(LocalDate.now().plusMonths(1))
       .registrationCloses(LocalDateTime.now().plusWeeks(1))
+      .registrationOpens(LocalDateTime.now().plusDays(3))
       .isHidden(true)
       .maxParticipants(2L)
       .build();
@@ -331,6 +332,7 @@ public class ClerkExamEventServiceTest {
     clerkExamEventService.createExamEvent(
       duplicateDTOBuilder
         .registrationCloses(LocalDateTime.now().plusWeeks(1))
+        .registrationOpens(LocalDateTime.now().plusDays(3))
         .isHidden(true)
         .maxParticipants(2L)
         .build()
@@ -410,6 +412,7 @@ public class ClerkExamEventServiceTest {
       .level(examEvent.getLevel())
       .date(examEvent.getDate().plusDays(1))
       .registrationCloses(examEvent.getRegistrationCloses().plusDays(1))
+      .registrationOpens(examEvent.getRegistrationOpens().plusDays(1))
       .isHidden(!examEvent.isHidden())
       .maxParticipants(examEvent.getMaxParticipants() + 1);
   }
