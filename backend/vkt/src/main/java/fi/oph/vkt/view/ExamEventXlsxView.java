@@ -61,6 +61,7 @@ public class ExamEventXlsxView extends AbstractXlsxView {
       "EB-tutkinto",
       "Korkeakoulututkinto",
       "Korkeakouluopinnot käynnissä",
+      "Muu tutkinto",
       "Sähköposti",
       "Puhelin",
       "Sähk. Tod.",
@@ -106,6 +107,7 @@ public class ExamEventXlsxView extends AbstractXlsxView {
       row.createCell(++ci).setCellValue(dataRow.eb());
       row.createCell(++ci).setCellValue(dataRow.higherEducationConcluded());
       row.createCell(++ci).setCellValue(dataRow.higherEducationEnrolled());
+      row.createCell(++ci).setCellValue(dataRow.otherEducation());
 
       row.createCell(++ci).setCellValue(dataRow.email());
       row.createCell(++ci).setCellValue(dataRow.phoneNumber());

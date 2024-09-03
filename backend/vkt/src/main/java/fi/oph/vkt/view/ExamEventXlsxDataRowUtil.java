@@ -67,7 +67,8 @@ public class ExamEventXlsxDataRowUtil {
             .dia(boolToInt(koskiEducations.getDia()))
             .eb(boolToInt(koskiEducations.getEb()))
             .higherEducationConcluded(boolToInt(koskiEducations.getHigherEducationConcluded()))
-            .higherEducationEnrolled(boolToInt(koskiEducations.getHigherEducationEnrolled()));
+            .higherEducationEnrolled(boolToInt(koskiEducations.getHigherEducationEnrolled()))
+            .otherEducation(boolToInt(koskiEducations.getOther()));
       } else {
         FreeEnrollmentType type = freeEnrollment.getType();
         boolean matriculationExam = type == FreeEnrollmentType.MatriculationExam;
@@ -75,13 +76,15 @@ public class ExamEventXlsxDataRowUtil {
         boolean eb = type == FreeEnrollmentType.EB;
         boolean higherEducationConcluded = type == FreeEnrollmentType.HigherEducationConcluded;
         boolean higherEducationEnrolled = type == FreeEnrollmentType.HigherEducationEnrolled;
+        boolean otherEducation = type == FreeEnrollmentType.Other;
         builder =
           builder
             .matriculationExam(boolToInt(matriculationExam))
             .dia(boolToInt(dia))
             .eb(boolToInt(eb))
             .higherEducationConcluded(boolToInt(higherEducationConcluded))
-            .higherEducationEnrolled(boolToInt(higherEducationEnrolled));
+            .higherEducationEnrolled(boolToInt(higherEducationEnrolled))
+            .otherEducation(boolToInt(otherEducation));
       }
     } else {
       builder =
@@ -91,7 +94,8 @@ public class ExamEventXlsxDataRowUtil {
           .dia(boolToInt(false))
           .eb(boolToInt(false))
           .higherEducationConcluded(boolToInt(false))
-          .higherEducationEnrolled(boolToInt(false));
+          .higherEducationEnrolled(boolToInt(false))
+          .otherEducation(boolToInt(false));
     }
     return builder.build();
   }
