@@ -173,6 +173,10 @@ public class ClerkExamEventServiceTest {
       expected.getRegistrationCloses().truncatedTo(ChronoUnit.MINUTES),
       examEventListDTO.registrationCloses().truncatedTo(ChronoUnit.MINUTES)
     );
+    assertEquals(
+      expected.getRegistrationOpens().truncatedTo(ChronoUnit.MINUTES),
+      examEventListDTO.registrationOpens().truncatedTo(ChronoUnit.MINUTES)
+    );
     assertEquals(expected.getMaxParticipants(), examEventListDTO.maxParticipants());
   }
 

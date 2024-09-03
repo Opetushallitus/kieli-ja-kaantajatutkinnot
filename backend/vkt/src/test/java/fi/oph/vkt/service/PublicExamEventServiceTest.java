@@ -18,6 +18,7 @@ import fi.oph.vkt.repository.ReservationRepository;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
@@ -253,7 +254,14 @@ public class PublicExamEventServiceTest {
     assertEquals(expected.getId(), examEventDTO.id());
     assertEquals(expected.getLanguage(), examEventDTO.language());
     assertEquals(expected.getDate(), examEventDTO.date());
-    assertEquals(expected.getRegistrationCloses(), examEventDTO.registrationCloses());
+    assertEquals(
+      expected.getRegistrationCloses().truncatedTo(ChronoUnit.MINUTES),
+      examEventDTO.registrationCloses().truncatedTo(ChronoUnit.MINUTES)
+    );
+    assertEquals(
+      expected.getRegistrationOpens().truncatedTo(ChronoUnit.MINUTES),
+      examEventDTO.registrationOpens().truncatedTo(ChronoUnit.MINUTES)
+    );
   }
 
   @Test
