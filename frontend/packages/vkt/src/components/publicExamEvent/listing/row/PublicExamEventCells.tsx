@@ -7,7 +7,6 @@ import {
   Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
-import { DateUtils } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -15,6 +14,7 @@ import { AppRoutes, ExamLevel } from 'enums/app';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { storePublicExamEvent } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
+import { DateTimeUtils } from 'utils/dateTime';
 import { ExamEventUtils } from 'utils/examEvent';
 
 const getOpeningsText = (
@@ -113,18 +113,15 @@ export const PublicExamEventPhoneCells = ({
         </div>
         <div className="rows">
           <b>{t('header.examDate')}</b>
-          <Text>{DateUtils.formatOptionalDate(date, 'l')}</Text>
+          <Text>{DateTimeUtils.renderDate(date)}</Text>
         </div>
         <div className="rows">
           <b>{t('header.registrationDates')}</b>
           <Text>
-            {DateUtils.formatOptionalDateTime(
-              registrationOpens,
-              t('row.registrationTimeFormat'),
-            )}
+            {DateTimeUtils.renderDateTime(registrationOpens)}
             -
             <br />
-            {DateUtils.formatOptionalDateTime(registrationCloses)}
+            {DateTimeUtils.renderDateTime(registrationCloses)}
           </Text>
         </div>
         <div className="rows">
@@ -136,10 +133,8 @@ export const PublicExamEventPhoneCells = ({
             t={t}
             i18nKey="row.registrationOpensAt"
             values={{
-              registrationOpens: DateUtils.formatOptionalDateTime(
-                registrationOpens,
-                t('row.registrationTimeFormat'),
-              ),
+              registrationOpens:
+                DateTimeUtils.renderDateTime(registrationOpens),
             }}
           />
         ) : (
@@ -197,19 +192,12 @@ export const PublicExamEventDesktopCells = ({
         </Text>
       </TableCell>
       <TableCell>
-        <Text>{DateUtils.formatOptionalDate(date, 'l')}</Text>
+        <Text>{DateTimeUtils.renderDate(date)}</Text>
       </TableCell>
       <TableCell>
         <Text>
-          {DateUtils.formatOptionalDateTime(
-            registrationOpens,
-            t('row.registrationTimeFormat'),
-          )}{' '}
-          - <br />
-          {DateUtils.formatOptionalDateTime(
-            registrationCloses,
-            t('row.registrationTimeFormat'),
-          )}
+          {DateTimeUtils.renderDateTime(registrationOpens)} - <br />
+          {DateTimeUtils.renderDateTime(registrationCloses)}
         </Text>
       </TableCell>
       <TableCell>{getOpeningsText(examEvent, t)}</TableCell>
@@ -219,10 +207,8 @@ export const PublicExamEventDesktopCells = ({
             t={t}
             i18nKey="row.registrationOpensAt"
             values={{
-              registrationOpens: DateUtils.formatOptionalDateTime(
-                registrationOpens,
-                t('row.registrationTimeFormat'),
-              ),
+              registrationOpens:
+                DateTimeUtils.renderDateTime(registrationOpens),
             }}
           />
         ) : (

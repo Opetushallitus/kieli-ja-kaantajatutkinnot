@@ -16,6 +16,7 @@ import {
   ClerkExamEvent,
   ClerkExamEventBasicInformation,
 } from 'interfaces/clerkExamEvent';
+import { DateTimeUtils } from 'utils/dateTime';
 
 export const ClerkExamEventDetailsFields = ({
   examEvent,
@@ -116,24 +117,38 @@ export const ClerkExamEventDetailsFields = ({
           data-testid="clerk-exam-event__basic-information__registrationOpens"
         >
           <H3>{t('registrationOpens')}</H3>
-          <CustomDatePicker
-            value={dayjs(examEvent.registrationOpens)}
-            setValue={onDateChange('registrationOpens')}
-            maxDate={examEvent.registrationCloses}
-            disabled={editDisabled}
-          />
+          <div>
+            <CustomDatePicker
+              value={dayjs(examEvent.registrationOpens)}
+              setValue={(value: Dayjs | null) =>
+                onDateChange('registrationOpens')(
+                  value?.hour(10).minute(0) ?? null,
+                )
+              }
+              maxDate={examEvent.registrationCloses}
+              disabled={editDisabled}
+            />
+            {DateTimeUtils.renderTime(examEvent.registrationOpens)}
+          </div>
         </div>
         <div
           className="rows gapped"
           data-testid="clerk-exam-event__basic-information__registrationCloses"
         >
           <H3>{t('registrationCloses')}</H3>
-          <CustomDatePicker
-            value={dayjs(examEvent.registrationCloses)}
-            setValue={onDateChange('registrationCloses')}
-            maxDate={examEvent.date && examEvent.date.subtract(1, 'd')}
-            disabled={editDisabled}
-          />
+          <div>
+            <CustomDatePicker
+              value={dayjs(examEvent.registrationCloses)}
+              setValue={(value: Dayjs | null) =>
+                onDateChange('registrationCloses')(
+                  value?.hour(16).minute(0) ?? null,
+                )
+              }
+              maxDate={examEvent.date && examEvent.date.subtract(1, 'd')}
+              disabled={editDisabled}
+            />
+            {DateTimeUtils.renderTime(examEvent.registrationCloses)}
+          </div>
         </div>
       </div>
       <div className="margin-top-lg grid-columns gapped">

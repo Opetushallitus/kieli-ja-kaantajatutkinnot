@@ -12,7 +12,7 @@ export const ClerkExamRegistrationCloses = ({
   examForm: DraftClerkExamEvent;
 }) => {
   const { t } = useClerkTranslation({
-    keyPrefix: 'vkt.component.clerkExamEventListing',
+    keyPrefix: 'vkt.component.clerkExamEventOverview.examEventDetailsFields',
   });
   const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
@@ -30,7 +30,7 @@ export const ClerkExamRegistrationCloses = ({
       className="rows gapped"
       data-testid="clerk-exam__event-information__registration-closes"
     >
-      <H3>{t('header.registrationCloses')}</H3>
+      <H3>{t('registrationCloses')}</H3>
       <div>
         <CustomDatePicker
           minDate={examForm.registrationOpens ?? dayjs()}
@@ -39,7 +39,7 @@ export const ClerkExamRegistrationCloses = ({
           label={translateCommon('choose')}
           value={examForm.registrationCloses ?? null}
         />
-        Klo 16:00
+        {t('registrationClosesTime')}
       </div>
     </div>
   );

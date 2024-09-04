@@ -125,7 +125,8 @@
           "hidden": "Piilotettu",
           "language": "Kieli ja taso",
           "registrationCloses": "Ilmoittautuminen sulkeutuu",
-          "registrationOpens": "Ilmoittautuminen avautuu"
+          "registrationOpens": "Ilmoittautuminen avautuu",
+          "registrationDates": "Ilmoittautumisaika"
         },
         "more": "Lisätietoja",
         "title": "Tutkintotilaisuudet",
@@ -148,6 +149,8 @@
           "language": "Kieli",
           "level": "Taso",
           "registrationCloses": "Ilmoittautuminen sulkeutuu",
+          "registrationClosesTime": "klo 16.00",
+          "registrationOpensTime": "klo 10.00",
           "registrationOpens": "Ilmoittautuminen avautuu"
         },
         "examEventListingHeader": {

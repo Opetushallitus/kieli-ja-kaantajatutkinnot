@@ -291,7 +291,6 @@
           }
         },
         "row": {
-          "registrationTimeFormat": "L [klo.] HH:mm",
           "enroll": "Ilmoittaudu",
           "enrollLater": "Ilmoittaudu myöhemmin",
           "enrollToQueue": "Ilmoittaudu jonoon",

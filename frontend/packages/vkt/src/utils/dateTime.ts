@@ -13,6 +13,10 @@ export class DateTimeUtils {
     );
   }
 
+  static renderTime(dateTime?: Dayjs) {
+    return DateUtils.formatOptionalTime(dateTime);
+  }
+
   static renderDate(dateTime?: Dayjs) {
     const t = translateOutsideComponent();
 
