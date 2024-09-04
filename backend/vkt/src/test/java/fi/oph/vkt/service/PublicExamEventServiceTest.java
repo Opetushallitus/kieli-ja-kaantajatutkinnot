@@ -16,7 +16,6 @@ import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import jakarta.annotation.Resource;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -117,10 +116,11 @@ public class PublicExamEventServiceTest {
     createReservations(futureEvent2, 2, LocalDateTime.now().plusMinutes(1));
 
     final List<PublicExamEventDTO> examEventDTOs = publicExamEventService.listExamEvents(ExamLevel.EXCELLENT);
-    assertEquals(6, examEventDTOs.size());
+    assertEquals(7, examEventDTOs.size());
 
     final List<ExamEvent> expectedExamEventsOrdered = List.of(
       eventToday,
+      futureEventNotOpen,
       upcomingEventFi,
       upcomingEventSv,
       futureEvent1,
@@ -140,12 +140,19 @@ public class PublicExamEventServiceTest {
         if (expected == futureEvent1) {
           assertEquals(3, dto.openings());
           assertFalse(dto.hasCongestion(), "futureEvent1 should not have congestion");
+          assertTrue(dto.isOpen());
         } else if (expected == futureEvent2) {
           assertEquals(2, dto.openings());
           assertTrue(dto.hasCongestion(), "futureEvent2 should have congestion");
+          assertTrue(dto.isOpen());
+        } else if (expected == futureEventNotOpen) {
+          assertEquals(expected.getMaxParticipants(), dto.openings());
+          assertFalse(dto.hasCongestion());
+          assertFalse(dto.isOpen(), "futureEventNotOpen should have isOpen = false");
         } else {
           assertEquals(expected.getMaxParticipants(), dto.openings());
           assertFalse(dto.hasCongestion());
+          assertTrue(dto.isOpen());
         }
       });
   }

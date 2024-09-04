@@ -9,7 +9,10 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { useInterval } from 'hooks/useInterval';
 import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
-import { loadPublicExamEvents } from 'redux/reducers/publicExamEvent';
+import {
+  loadPublicExamEvents,
+  refreshPublicExamEvents,
+} from 'redux/reducers/publicExamEvent';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 const BulletList = ({ points }: { points: Array<string> }) => {
@@ -39,7 +42,7 @@ export const PublicExamEventGrid = () => {
   const listingRefresh = () => {
     if (status === APIResponseStatus.Success) {
       if (!document.hidden) {
-        dispatch(loadPublicExamEvents());
+        dispatch(refreshPublicExamEvents());
       }
     }
   };
