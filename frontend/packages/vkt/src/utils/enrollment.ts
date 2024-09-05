@@ -31,15 +31,15 @@ export class EnrollmentUtils {
     const isSkillsSelected =
       skills.oralSkill || skills.textualSkill || skills.understandingSkill;
 
-    const isOralExamsSelected = skills.oralSkill
+    const isOralExamsValid = skills.oralSkill
       ? skills.speakingPartialExam || skills.speechComprehensionPartialExam
       : true;
 
-    const isTextualExamsSelected = skills.textualSkill
+    const isTextualExamsValid = skills.textualSkill
       ? skills.writingPartialExam || skills.readingComprehensionPartialExam
       : true;
 
-    return isSkillsSelected && isOralExamsSelected && isTextualExamsSelected;
+    return isSkillsSelected && isOralExamsValid && isTextualExamsValid;
   }
 
   static isValidAttachmentsIfRequired(enrollment: PublicEnrollment) {

@@ -18,10 +18,6 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     'writingPartialExam',
     'readingComprehensionPartialExam',
   ];
-  const checkboxFields = [
-    ...partialsExamsAndSkillsFields,
-    //'digitalCertificateConsent',
-  ];
 
   beforeEach(() => {
     cy.openClerkExamEventPage(clerkExamEvent.id);
