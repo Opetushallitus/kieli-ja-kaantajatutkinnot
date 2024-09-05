@@ -350,7 +350,7 @@ export const EducationDetails = ({
   const { status: educationStatus, education: educations } = useAppSelector(
     publicEducationSelector,
   );
-  const { isFree, freeEnrollmentBasis } = enrollment;
+  const { freeEnrollmentBasis } = enrollment;
 
   useEffect(() => {
     if (educationStatus === APIResponseStatus.NotStarted) {
@@ -367,8 +367,8 @@ export const EducationDetails = ({
 
   const attachmentsRequired =
     freeEnrollmentBasis &&
-    freeEnrollmentBasis.type !== EducationType.None &&
-    isFree;
+    freeEnrollmentBasis.source === FreeBasisSource.User &&
+    freeEnrollmentBasis.type !== EducationType.None;
 
   const isEducationValid =
     !!freeEnrollmentBasis &&
