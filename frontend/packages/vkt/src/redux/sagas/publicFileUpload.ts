@@ -86,6 +86,8 @@ function* startFileUploadSaga(
       body: formData,
     });
     if (!response.ok) {
+      // Unlike axios, fetch doesn't throw but on error but instead returns an error response.
+      // Let us throw ourselves to ensure errors get handled properly.
       throw new Error(`POSTing to s3 failed, status: ${response.status}`);
     }
     yield put(acceptFileUpload());
