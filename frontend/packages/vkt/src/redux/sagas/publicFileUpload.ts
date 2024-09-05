@@ -80,10 +80,14 @@ function* startFileUploadSaga(
     // For some reason trying to POST with axios couldn't be made to work -
     // according to S3 error, enctype=multipart/form-data was not set, no matter what.
     // Using fetch however works fine.
-    yield call(fetch, bucketURI, {
+
+    const response: Response = yield call(fetch, bucketURI, {
       method: 'POST',
       body: formData,
     });
+    if (!response.ok) {
+      throw new Error(`POSTing to s3 failed, status: ${response.status}`);
+    }
     yield put(acceptFileUpload());
     yield put(
       storeUploadedFileAttachment({
