@@ -5,7 +5,11 @@ import { useAppSelector } from 'configs/redux';
 import { PublicPerson } from 'interfaces/publicPerson';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
-export const PersonDetails = () => {
+export const PersonDetails = ({
+  isPreviewStep,
+}: {
+  isPreviewStep: boolean;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.personDetails',
   });
@@ -30,7 +34,9 @@ export const PersonDetails = () => {
     <div className="rows gapped">
       <H2>{t('title')}</H2>
       <div
-        className="grid-2-columns gapped"
+        className={
+          'gapped ' + isPreviewStep ? 'grid-3-columns' : 'grid-columns'
+        }
         data-testid="enrollment-person-details"
       >
         {displayField('lastName')}
