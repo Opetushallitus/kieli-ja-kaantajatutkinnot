@@ -156,7 +156,7 @@ export const PublicEnrollmentPhoneGrid = ({
           <LoadingProgressIndicator
             isLoading={isRenewOrCancelLoading}
             translateCommon={translateCommon}
-            displayBlock={true}
+            displayBlock={false}
           >
             <div
               className={
