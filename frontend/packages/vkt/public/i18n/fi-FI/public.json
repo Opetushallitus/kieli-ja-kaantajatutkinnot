@@ -217,7 +217,12 @@
             },
             "examEventDetails": {
               "previousEnrollmentLabel": "Aikaisempiin erinomaisen taidon tutkintoihin osallistuminen",
-              "selectedSkillsLabel": "Valitut tutkinnot",
+              "desktop": {
+                "selectedSkillsLabel": "Valitut tutkinnot"
+              },
+              "phone": {
+                "selectedSkillLabel": "Valittu tutkinto"
+              },
               "selectedPartialExamsLabel": "Valitut osakokeet",
               "title": "Tutkinnon tiedot"
             },
