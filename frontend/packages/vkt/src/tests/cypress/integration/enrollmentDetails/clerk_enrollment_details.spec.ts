@@ -18,19 +18,12 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     'writingPartialExam',
     'readingComprehensionPartialExam',
   ];
-  const checkboxFields = [
-    ...partialsExamsAndSkillsFields,
-    //'digitalCertificateConsent',
-  ];
 
   beforeEach(() => {
     cy.openClerkExamEventPage(clerkExamEvent.id);
   });
 
-  // TODO Fix and re-enable test.
-  // Fails at the moment because there no longer is a checkbox for the understanding skill.
-  // Should the skill be instead inferred from the partial exams selected?
-  it.skip('should allow modifying enrollment details', () => {
+  it('should allow modifying enrollment details', () => {
     const contactDetailsValues = ['test@test.invalid', '358401234567'];
 
     onClerkExamEventOverviewPage.clickEnrollmentRow(1);
@@ -47,14 +40,8 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
       'tammikuussa 2023',
     );
 
-    // Remove skill and partial exam selections
-    onClerkEnrollmentOverviewPage.clickCheckBox('textualSkill');
-    onClerkEnrollmentOverviewPage.clickCheckBox('understandingSkill');
-    onClerkEnrollmentOverviewPage.expectDisabledSaveButton();
-
     // Select some skills and partial exams
     onClerkEnrollmentOverviewPage.clickCheckBox('oralSkill');
-    onClerkEnrollmentOverviewPage.clickCheckBox('understandingSkill');
     onClerkEnrollmentOverviewPage.clickCheckBox('speakingPartialExam');
     onClerkEnrollmentOverviewPage.clickCheckBox(
       'readingComprehensionPartialExam',
@@ -66,10 +53,16 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
       onClerkEnrollmentOverviewPage.editTextField(f, `test-${f}`),
     );
     onClerkEnrollmentOverviewPage.expectEnabledSaveButton();
+
+    // Remove skill and partial exam selections
+    onClerkEnrollmentOverviewPage.clickCheckBox('speakingPartialExam');
+    onClerkEnrollmentOverviewPage.clickCheckBox(
+      'readingComprehensionPartialExam',
+    );
+    onClerkEnrollmentOverviewPage.expectDisabledSaveButton();
   });
 
-  // TODO Fix and re-enable test.
-  it.skip('should show disabled enrollment details', () => {
+  it('should show disabled enrollment details', () => {
     onClerkExamEventOverviewPage.clickEnrollmentRow(2);
 
     const displayedTextFields = [
@@ -83,7 +76,7 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     );
 
     addressFields.forEach((f) =>
-      onClerkEnrollmentOverviewPage.expectTextFieldNotToExist(f),
+      onClerkEnrollmentOverviewPage.expectDetailFieldNotToExist(f),
     );
 
     onClerkEnrollmentOverviewPage.expectTextFieldValue('firstName', 'Hanna');
@@ -101,22 +94,9 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
       '',
     );
 
-    const checkedCheckBoxFields = [
-      'oralSkill',
-      'textualSkill',
-      'writingPartialExam',
-      'speechComprehensionPartialExam',
-      'readingComprehensionPartialExam',
-      //'digitalCertificateConsent', TODO: when available
-    ];
-
-    checkboxFields.forEach((f) => {
-      onClerkEnrollmentOverviewPage.expectCheckboxFieldDisabled(f);
-
-      checkedCheckBoxFields.includes(f)
-        ? onClerkEnrollmentOverviewPage.expectCheckboxFieldChecked(f)
-        : onClerkEnrollmentOverviewPage.expectCheckboxFieldNotChecked(f);
-    });
+    onClerkEnrollmentOverviewPage.expectDetailFieldNotToExist(
+      'speakingPartialExam',
+    );
   });
 
   it('should allow canceling enrollment', () => {

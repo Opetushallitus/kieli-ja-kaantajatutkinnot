@@ -14,6 +14,11 @@ class ClerkEnrollmentOverviewPage {
       cy.findByTestId(`clerk-payment-${paymentId}__set-refunded`),
     refundedAt: (paymentId: number) =>
       cy.findByTestId(`clerk-payment-${paymentId}__refunded-at`),
+    textArea: (fieldName: string) =>
+      cy
+        .findByTestId(`clerk-enrollment__details-fields__${fieldName}`)
+        .should('be.visible')
+        .find('div>textarea'),
     textField: (fieldName: string) =>
       cy
         .findByTestId(`clerk-enrollment__details-fields__${fieldName}`)
@@ -25,12 +30,16 @@ class ClerkEnrollmentOverviewPage {
     this.elements.textField(fieldName).should('have.value', value);
   }
 
+  expectTextAreaDisabled(fieldName: string) {
+    this.elements.textArea(fieldName).should('be.disabled');
+  }
+
   expectTextFieldDisabled(fieldName: string) {
     this.elements.textField(fieldName).should('be.disabled');
   }
 
-  expectTextFieldNotToExist(fieldName: string) {
-    cy.get(`clerk-enrollment__details-fields__${fieldName}`).should(
+  expectDetailFieldNotToExist(fieldName: string) {
+    cy.findByTestId(`clerk-enrollment__details-fields__${fieldName}`).should(
       'not.exist',
     );
   }

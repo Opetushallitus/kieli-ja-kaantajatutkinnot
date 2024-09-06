@@ -193,6 +193,7 @@ const FreeEnrollmentBasis = ({
             <Text className="bold">Kommentti</Text>
             <CustomTextField
               type={TextFieldTypes.Textarea}
+              data-testid={'clerk-enrollment__details-fields__approveComment'}
               disabled={disabled}
               value={basis.comment}
               multiline
