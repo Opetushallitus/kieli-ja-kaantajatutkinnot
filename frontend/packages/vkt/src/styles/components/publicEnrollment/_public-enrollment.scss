@@ -79,8 +79,10 @@
         padding-left: 1rem;
         width: 70%;
 
-        & span:last-child {
-          margin-bottom: -3rem;
+        @include not-phone {
+          & span:last-child {
+            margin-bottom: -3rem;
+          }
         }
       }
     }
