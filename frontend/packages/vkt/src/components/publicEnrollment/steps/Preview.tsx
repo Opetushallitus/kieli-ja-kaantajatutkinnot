@@ -73,7 +73,7 @@ const ContactDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
   return (
     <div className="rows gapped">
       <H2>{t('title')}</H2>
-      <div className="grid-columns gapped">
+      <div className="grid-3-columns gapped">
         <div className="rows">
           <Text className="bold">
             {t('email')}
@@ -170,19 +170,17 @@ export const Preview = ({
 
   return (
     <div className="margin-top-xxl rows gapped-xxl">
-      <div className="rows gapped-xxl public-enrollment__grid__contact-details">
-        <PersonDetails />
-        <ContactDetails enrollment={enrollment} />
-        {EnrollmentUtils.hasFreeBasis(enrollment) &&
-          enrollment.freeEnrollmentBasis && (
-            <>
-              <EducationDetails
-                freeEnrollmentBasis={enrollment.freeEnrollmentBasis}
-              />
-              <Divider />
-            </>
-          )}
-      </div>
+      <PersonDetails isPreviewStep={true} />
+      <ContactDetails enrollment={enrollment} />
+      {EnrollmentUtils.hasFreeBasis(enrollment) &&
+        enrollment.freeEnrollmentBasis && (
+          <>
+            <Divider />
+            <EducationDetails
+              freeEnrollmentBasis={enrollment.freeEnrollmentBasis}
+            />
+          </>
+        )}
       <Divider />
       <ExamEventDetails enrollment={enrollment} />
       <Divider />

@@ -157,7 +157,7 @@ export const FillContactDetails = ({
 
   return (
     <div className="margin-top-sm rows gapped public-enrollment__grid__contact-details">
-      <PersonDetails />
+      <PersonDetails isPreviewStep={false} />
       <div className="margin-top-lg rows gapped">
         <H2>{t('title')}</H2>
         <Text>{translateCommon('requiredFieldsInfo')}</Text>

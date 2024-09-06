@@ -218,7 +218,12 @@
             },
             "examEventDetails": {
               "previousEnrollmentLabel": "Deltagande i tidigare språkexamina för statsförvaltingen som gäller utmärkta språkkunskaper",
-              "selectedSkillsLabel": "Valda examina",
+              "desktop": {
+                "selectedSkillsLabel": "Valda examina"
+              },
+              "phone": {
+                "selectedSkillLabel": "Valt examen"
+              },
               "selectedPartialExamsLabel": "Valda delprov",
               "title": "Uppgifter om examen"
             },
