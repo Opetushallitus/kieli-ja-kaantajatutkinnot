@@ -68,7 +68,7 @@ public class S3Service {
     S3PostObjectRequest.Builder requestBuilder = S3PostObjectRequest
       .builder()
       .bucket(s3Config.getBucketName())
-      .expiration(POST_POLICY_VALID_FOR_ONE_MIN)
+      .expiration(Instant.now().with(ChronoField.MICRO_OF_SECOND, 1).plus(POST_POLICY_VALID_FOR_ONE_MIN))
       .withCondition(Conditions.keyStartsWith(key))
       .withCondition(Conditions.contentLengthRange(0, MAX_SIZE_100_MB))
       .withCondition(Conditions.contentTypeHeaderEquals(contentType))
