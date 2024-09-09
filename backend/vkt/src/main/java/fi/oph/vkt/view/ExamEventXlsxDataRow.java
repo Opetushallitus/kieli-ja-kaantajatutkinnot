@@ -19,7 +19,7 @@ public record ExamEventXlsxDataRow(
   @NonNull Integer readingComprehension,
   @NonNull Integer speaking,
   @NonNull Integer speechComprehension,
-  @NonNull Integer isFree,
+  Integer isFree,
   FreeEnrollmentSource freeEnrollmentSource,
   @NonNull Integer matriculationExam,
   @NonNull Integer dia,

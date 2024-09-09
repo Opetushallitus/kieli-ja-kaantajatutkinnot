@@ -94,7 +94,12 @@ public class ExamEventXlsxView extends AbstractXlsxView {
       row.createCell(++ci).setCellValue(dataRow.speaking());
       row.createCell(++ci).setCellValue(dataRow.speechComprehension());
 
-      row.createCell(++ci).setCellValue(dataRow.isFree());
+      if (dataRow.isFree() != null) {
+        row.createCell(++ci).setCellValue(dataRow.isFree());
+      } else {
+        row.createCell(++ci);
+      }
+
       row
         .createCell(++ci)
         .setCellValue(

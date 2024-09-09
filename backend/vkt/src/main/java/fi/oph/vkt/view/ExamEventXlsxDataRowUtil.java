@@ -55,10 +55,16 @@ public class ExamEventXlsxDataRowUtil {
 
     if (enrollment.getFreeEnrollment() != null) {
       FreeEnrollment freeEnrollment = enrollment.getFreeEnrollment();
-      builder =
-        builder
-          .isFree(boolToInt(freeEnrollment.getSource() == FreeEnrollmentSource.KOSKI || freeEnrollment.getApproved()))
-          .freeEnrollmentSource(freeEnrollment.getSource());
+      FreeEnrollmentSource freeEnrollmentSource = freeEnrollment.getSource();
+      builder = builder.freeEnrollmentSource(freeEnrollmentSource);
+      if (freeEnrollmentSource == FreeEnrollmentSource.KOSKI) {
+        builder = builder.isFree(boolToInt(true));
+      } else {
+        Boolean approved = freeEnrollment.getApproved();
+        if (approved != null) {
+          builder = builder.isFree(boolToInt(approved));
+        }
+      }
       if (freeEnrollment.getKoskiEducations() != null) {
         KoskiEducations koskiEducations = freeEnrollment.getKoskiEducations();
         builder =
