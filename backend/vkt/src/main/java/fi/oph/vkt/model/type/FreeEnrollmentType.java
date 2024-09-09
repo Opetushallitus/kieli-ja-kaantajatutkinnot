@@ -26,6 +26,6 @@ public enum FreeEnrollmentType {
       return DIA;
     } else if (educationType.equals(KoulutusTyyppi.EB.toString())) {
       return EB;
-    } else return None;
+    } else return Other;
   }
 }

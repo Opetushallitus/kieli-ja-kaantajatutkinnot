@@ -16,12 +16,8 @@ import fi.oph.vkt.model.Person;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ClerkEnrollmentUtil {
-
-  private static Logger LOG = LoggerFactory.getLogger(ClerkEnrollmentUtil.class);
 
   public static ClerkEnrollmentDTO createClerkEnrollmentDTO(
     final Enrollment enrollment,
