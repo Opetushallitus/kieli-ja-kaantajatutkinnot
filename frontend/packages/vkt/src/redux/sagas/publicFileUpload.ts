@@ -87,7 +87,7 @@ function* startFileUploadSaga(
     });
     if (!response.ok) {
       // Unlike axios, fetch doesn't throw but on error but instead returns an error response.
-      // We should therefore explicitly throw here to ensure the execution is transferred
+      // We therefore make a point of throwing here to ensure the execution is transferred
       // to the error handler.
       throw new Error(`POSTing to s3 failed, status: ${response.status}`);
     }
