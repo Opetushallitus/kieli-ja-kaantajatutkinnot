@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.11.0] - 2024-09-11
+
+### Changed
+- Updated react-router-dom, causing changes to useNavigationBlocker
+
 ## [1.10.8] - 2024-08-26
 
 ### Changed
