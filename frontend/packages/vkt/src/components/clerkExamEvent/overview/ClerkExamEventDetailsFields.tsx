@@ -6,6 +6,7 @@ import {
   CustomSwitch,
   CustomTextField,
   H3,
+  Text,
 } from 'shared/components';
 import { TextFieldTypes, TextFieldVariant } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
@@ -117,7 +118,7 @@ export const ClerkExamEventDetailsFields = ({
           data-testid="clerk-exam-event__basic-information__registrationOpens"
         >
           <H3>{t('registrationOpens')}</H3>
-          <div>
+          <div className="columns gapped-xs">
             <CustomDatePicker
               value={dayjs(examEvent.registrationOpens)}
               setValue={(value: Dayjs | null) =>
@@ -128,7 +129,7 @@ export const ClerkExamEventDetailsFields = ({
               maxDate={examEvent.registrationCloses}
               disabled={editDisabled}
             />
-            {DateTimeUtils.renderTime(examEvent.registrationOpens)}
+            <Text>{DateTimeUtils.renderTime(examEvent.registrationOpens)}</Text>
           </div>
         </div>
         <div
@@ -136,7 +137,7 @@ export const ClerkExamEventDetailsFields = ({
           data-testid="clerk-exam-event__basic-information__registrationCloses"
         >
           <H3>{t('registrationCloses')}</H3>
-          <div>
+          <div className="columns gapped-xs">
             <CustomDatePicker
               value={dayjs(examEvent.registrationCloses)}
               setValue={(value: Dayjs | null) =>
@@ -147,7 +148,9 @@ export const ClerkExamEventDetailsFields = ({
               maxDate={examEvent.date && examEvent.date.subtract(1, 'd')}
               disabled={editDisabled}
             />
-            {DateTimeUtils.renderTime(examEvent.registrationCloses)}
+            <Text>
+              {DateTimeUtils.renderTime(examEvent.registrationCloses)}
+            </Text>
           </div>
         </div>
       </div>

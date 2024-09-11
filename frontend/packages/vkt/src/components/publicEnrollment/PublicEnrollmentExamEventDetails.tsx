@@ -1,9 +1,9 @@
 import { Text } from 'shared/components';
-import { DateUtils } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { ExamLevel } from 'enums/app';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
+import { DateTimeUtils } from 'utils/dateTime';
 import { ExamEventUtils } from 'utils/examEvent';
 
 export const PublicEnrollmentExamEventDetails = ({
@@ -42,12 +42,12 @@ export const PublicEnrollmentExamEventDetails = ({
       <Text>
         {t('examDate')}
         {': '}
-        <b>{DateUtils.formatOptionalDate(examEvent.date, 'l')}</b>
+        <b>{DateTimeUtils.renderDate(examEvent.date)}</b>
       </Text>
       <Text>
         {t('registrationCloses')}
         {': '}
-        <b>{DateUtils.formatOptionalDate(examEvent.registrationCloses, 'l')}</b>
+        <b>{DateTimeUtils.renderCloseDateTime(examEvent.registrationCloses)}</b>
       </Text>
       {showOpenings && (
         <Text>

@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { CustomDatePicker, H3 } from 'shared/components';
+import { CustomDatePicker, H3, Text } from 'shared/components';
 
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
@@ -31,7 +31,7 @@ export const ClerkExamRegistrationOpens = ({
       data-testid="clerk-exam__event-information__registration-opens"
     >
       <H3>{t('header.registrationOpens')}</H3>
-      <div>
+      <div className="columns gapped-xs">
         <CustomDatePicker
           minDate={dayjs()}
           maxDate={examForm.registrationCloses}
@@ -39,7 +39,7 @@ export const ClerkExamRegistrationOpens = ({
           label={translateCommon('choose')}
           value={examForm?.registrationOpens ?? null}
         />
-        Klo 10:00
+        <Text>{translateCommon('dates.registrationOpensAt')}</Text>
       </div>
     </div>
   );

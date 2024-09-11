@@ -38,10 +38,11 @@ public class PublicExamEventService {
       .id(examEvent.getId())
       .language(examEvent.getLanguage())
       .date(examEvent.getDate())
-      .registrationCloses(examEvent.getRegistrationCloses())
-      .registrationOpens(examEvent.getRegistrationOpens())
+      .registrationCloses(examEvent.getRegistrationCloses().toLocalDate())
+      .registrationOpens(examEvent.getRegistrationOpens().toLocalDate())
       .openings(ExamEventUtil.getOpenings(examEvent))
       .hasCongestion(ExamEventUtil.isCongested(examEvent))
+      .isOpen(ExamEventUtil.isOpen(examEvent.getRegistrationCloses(), examEvent.getRegistrationOpens()))
       .build();
   }
 
@@ -66,8 +67,8 @@ public class PublicExamEventService {
           .id(e.id())
           .language(e.language())
           .date(e.date())
-          .registrationCloses(e.registrationCloses())
-          .registrationOpens(e.registrationOpens())
+          .registrationCloses(e.registrationCloses().toLocalDate())
+          .registrationOpens(e.registrationOpens().toLocalDate())
           .openings(openings)
           .hasCongestion(hasCongestion)
           .isOpen(ExamEventUtil.isOpen(e.registrationCloses(), e.registrationOpens()))

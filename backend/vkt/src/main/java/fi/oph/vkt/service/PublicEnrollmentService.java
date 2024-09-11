@@ -211,8 +211,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .id(examEvent.getId())
       .language(examEvent.getLanguage())
       .date(examEvent.getDate())
-      .registrationCloses(examEvent.getRegistrationCloses())
-      .registrationOpens(examEvent.getRegistrationOpens())
+      .registrationCloses(examEvent.getRegistrationCloses().toLocalDate())
+      .registrationOpens(examEvent.getRegistrationOpens().toLocalDate())
       .openings(openings)
       .hasCongestion(false)
       .isOpen(ExamEventUtil.isOpen(examEvent))
@@ -573,7 +573,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   ) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
 
-    if (person == null || examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
+    if (person == null || examEvent.getRegistrationCloses().isBefore(LocalDateTime.now())) {
       throw new NotFoundException("Uploading not allowed. Person is null or exam is closed");
     }
 

@@ -54,7 +54,7 @@ export const ClerkExamEventListingRow = ({
         </TableCell>
         <TableCell>
           <Text>
-            {DateTimeUtils.renderDateTime(examEvent.registrationOpens)} - <br />
+            {DateTimeUtils.renderDateTime(examEvent.registrationOpens)} — <br />
             {DateTimeUtils.renderDateTime(examEvent.registrationCloses)}
           </Text>
         </TableCell>

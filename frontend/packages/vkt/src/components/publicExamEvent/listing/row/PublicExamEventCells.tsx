@@ -118,10 +118,10 @@ export const PublicExamEventPhoneCells = ({
         <div className="rows">
           <b>{t('header.registrationDates')}</b>
           <Text>
-            {DateTimeUtils.renderDateTime(registrationOpens)}
-            -
+            {DateTimeUtils.renderOpenDateTime(registrationOpens)}
+            —
             <br />
-            {DateTimeUtils.renderDateTime(registrationCloses)}
+            {DateTimeUtils.renderCloseDateTime(registrationCloses)}
           </Text>
         </div>
         <div className="rows">
@@ -196,8 +196,8 @@ export const PublicExamEventDesktopCells = ({
       </TableCell>
       <TableCell>
         <Text>
-          {DateTimeUtils.renderDateTime(registrationOpens)} - <br />
-          {DateTimeUtils.renderDateTime(registrationCloses)}
+          {DateTimeUtils.renderOpenDateTime(registrationOpens)} — <br />
+          {DateTimeUtils.renderCloseDateTime(registrationCloses)}
         </Text>
       </TableCell>
       <TableCell>{getOpeningsText(examEvent, t)}</TableCell>
