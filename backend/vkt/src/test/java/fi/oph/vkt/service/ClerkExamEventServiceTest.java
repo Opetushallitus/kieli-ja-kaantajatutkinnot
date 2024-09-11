@@ -444,7 +444,7 @@ public class ClerkExamEventServiceTest {
 
       final Sheet sheet = workbook.getSheetAt(0);
       assertEquals(2, sheet.getPhysicalNumberOfRows());
-      assertEquals(21, sheet.getRow(1).getPhysicalNumberOfCells());
+      assertEquals(29, sheet.getRow(1).getPhysicalNumberOfCells());
       assertEquals("Tester", sheet.getRow(1).getCell(3).getStringCellValue());
     }
   }
