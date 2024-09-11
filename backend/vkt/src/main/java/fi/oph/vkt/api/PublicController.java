@@ -247,10 +247,8 @@ public class PublicController {
 
       if (enrollmentType.equals(EnrollmentType.QUEUE)) {
         publicEnrollmentService.initialiseEnrollmentToQueue(examEventId, person);
-        SessionUtil.setQueueExamId(session, examEventId);
       } else {
         publicEnrollmentService.initialiseEnrollment(examEventId, person);
-        SessionUtil.setQueueExamId(session, null);
       }
 
       httpResponse.sendRedirect(uiRouteUtil.getEnrollmentContactDetailsUrl(examEventId));
@@ -392,8 +390,8 @@ public class PublicController {
     final HttpSession session
   ) {
     if (featureFlagService.isEnabled(FeatureFlag.FREE_ENROLLMENT_FOR_HIGHEST_LEVEL_ALLOWED)) {
-      Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
-      return publicEnrollmentService.getPresignedPostRequest(examEventId, person, session, filename);
+      final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+      return publicEnrollmentService.getPresignedPostRequest(examEventId, person, filename);
     } else {
       throw new RuntimeException("Not allowed");
     }

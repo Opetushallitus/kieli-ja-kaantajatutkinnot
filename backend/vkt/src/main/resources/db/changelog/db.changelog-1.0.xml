@@ -780,4 +780,16 @@
         </sql>
         <addNotNullConstraint tableName="person" columnName="uuid" />
     </changeSet>
+
+    <changeSet id="2024-08-14-add-is-queued-to-enrollment" author="jrkkp">
+        <addColumn tableName="enrollment">
+            <column name="is_queued" type="BOOLEAN" />
+        </addColumn>
+        <sql>
+            UPDATE enrollment SET is_queued = 't' WHERE status = 'QUEUED'
+        </sql>
+        <sql>
+            UPDATE enrollment SET is_queued = 'f' WHERE status = 'COMPLETED'
+        </sql>
+    </changeSet>
 </databaseChangeLog>

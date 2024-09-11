@@ -131,9 +131,16 @@ export const PublicEnrollmentGrid = ({
     );
   }
 
-  const isEnrollmentToQueue =
+  // Queue logic is somewhat complicated
+  //  - either there is no reservation and no enrollment.id
+  //  - or there is enrollment.id but it has isQueued flag
+  // However, there is no reservation before authentication even
+  // when not rolling to queue. In both cases enrollment.id can exist or not
+  const isQueued = (!reservation && !enrollment.id) || enrollment.isQueued;
+  const isEnrollmentToQueue = !!(
     (isAuthenticateActive && !ExamEventUtils.hasOpenings(examEvent)) ||
-    (isAuthenticatePassed && !reservation);
+    (isAuthenticatePassed && isQueued)
+  );
 
   const isShiftedFromQueue =
     enrollment.status === EnrollmentStatus.AWAITING_PAYMENT ||

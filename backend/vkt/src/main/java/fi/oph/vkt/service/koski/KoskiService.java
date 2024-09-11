@@ -57,16 +57,22 @@ public class KoskiService {
         })
         .block();
     } catch (final WebClientResponseException e) {
+      final int retries = attemptsRemaining - 1;
       LOG.error(
-        "KOSKI request for OID {} returned error status {}\n response body: {}",
+        "KOSKI request for OID {} returned error status {}\n response body: {}, Retries remaining: {}",
         oid,
         e.getStatusCode().value(),
-        e.getResponseBodyAsString()
+        e.getResponseBodyAsString(),
+        retries
       );
-      throw new RuntimeException(e);
+      if (retries > 0) {
+        return requestWithRetries(oid, retries);
+      } else {
+        throw e;
+      }
     } catch (final Exception e) {
       final int retries = attemptsRemaining - 1;
-      LOG.error("KOSKI request failed! Retries remaining: {}, OID: {}", retries, e, oid);
+      LOG.error("KOSKI request failed for unknown reason! Retries remaining: {}, OID: {}", retries, oid, e);
       if (retries > 0) {
         return requestWithRetries(oid, retries);
       } else {
@@ -122,10 +128,8 @@ public class KoskiService {
       final ObjectMapper objectMapper = new ObjectMapper();
       objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
 
-      final KoskiResponseDTO koskiResponseDTO = objectMapper.readValue(
-        requestWithRetries(oid, REQUEST_ATTEMPTS),
-        KoskiResponseDTO.class
-      );
+      final String response = requestWithRetries(oid, REQUEST_ATTEMPTS);
+      final KoskiResponseDTO koskiResponseDTO = objectMapper.readValue(response, KoskiResponseDTO.class);
 
       if (koskiResponseDTO.getHenkilo() == null || !oid.equals(koskiResponseDTO.getHenkilo().getOid())) {
         throw new Exception(
