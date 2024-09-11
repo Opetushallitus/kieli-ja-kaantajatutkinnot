@@ -58,6 +58,7 @@ export const initialState: PublicEnrollmentState = {
     status: undefined,
     examEventId: undefined,
     hasPaymentLink: undefined,
+    isQueued: undefined,
   },
   examEvent: undefined,
   person: undefined,

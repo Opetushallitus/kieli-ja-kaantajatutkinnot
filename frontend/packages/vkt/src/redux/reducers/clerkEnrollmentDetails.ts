@@ -16,6 +16,7 @@ interface ClerkEnrollmentDetailsState {
   paymentLinkStatus: APIResponseStatus;
   paymentLink?: ClerkPaymentLink;
   paymentRefundStatus: APIResponseStatus;
+  koskiEducationDetailsRefresh: APIResponseStatus;
 }
 
 const initialState: ClerkEnrollmentDetailsState = {
@@ -23,6 +24,7 @@ const initialState: ClerkEnrollmentDetailsState = {
   moveStatus: APIResponseStatus.NotStarted,
   paymentLinkStatus: APIResponseStatus.NotStarted,
   paymentRefundStatus: APIResponseStatus.NotStarted,
+  koskiEducationDetailsRefresh: APIResponseStatus.NotStarted,
 };
 
 const clerkEnrollmentDetailsSlice = createSlice({
@@ -102,6 +104,15 @@ const clerkEnrollmentDetailsSlice = createSlice({
     rejectClerkPaymentRefunded(state) {
       state.paymentRefundStatus = APIResponseStatus.Error;
     },
+    startKoskiEducationDetailsRefresh(state, _action: PayloadAction<number>) {
+      state.koskiEducationDetailsRefresh = APIResponseStatus.InProgress;
+    },
+    acceptKoskiEducationDetailsRefresh(state) {
+      state.koskiEducationDetailsRefresh = APIResponseStatus.Success;
+    },
+    rejectKoskiEducationDetailsRefresh(state) {
+      state.koskiEducationDetailsRefresh = APIResponseStatus.Error;
+    },
   },
 });
 
@@ -123,4 +134,7 @@ export const {
   setClerkPaymentRefunded,
   storeClerkPaymentRefunded,
   rejectClerkPaymentRefunded,
+  startKoskiEducationDetailsRefresh,
+  acceptKoskiEducationDetailsRefresh,
+  rejectKoskiEducationDetailsRefresh,
 } = clerkEnrollmentDetailsSlice.actions;

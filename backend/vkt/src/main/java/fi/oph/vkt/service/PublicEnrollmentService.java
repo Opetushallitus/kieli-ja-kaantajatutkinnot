@@ -31,11 +31,9 @@ import fi.oph.vkt.service.koski.KoskiService;
 import fi.oph.vkt.util.EnrollmentUtil;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.PersonUtil;
-import fi.oph.vkt.util.SessionUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
-import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -67,7 +65,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
 
     // Should be done before computing the amount of openings
-    cancelPotentialUnfinishedEnrollment(examEvent, person);
+    cancelPotentialUnfinishedEnrollment(examEvent, person, false);
 
     final long openings = ExamEventUtil.getOpenings(examEvent);
     if (openings <= 0) {
@@ -100,11 +98,16 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     );
   }
 
-  private void cancelPotentialUnfinishedEnrollment(final ExamEvent examEvent, final Person person) {
+  private void cancelPotentialUnfinishedEnrollment(
+    final ExamEvent examEvent,
+    final Person person,
+    final Boolean isQueued
+  ) {
     findEnrollment(examEvent, person, enrollmentRepository)
       .filter(Enrollment::isUnfinished)
       .ifPresent(enrollment -> {
         enrollment.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
+        enrollment.setIsQueued(isQueued);
         enrollmentRepository.saveAndFlush(enrollment);
       });
   }
@@ -191,6 +194,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .country(enrollment.getCountry())
       .hasPaymentLink(enrollment.getPaymentLinkHash() != null)
       .freeEnrollmentBasis(createPublicFreeEnrollmentBasisDTO(enrollment))
+      .isQueued(enrollment.getIsQueued())
       .build();
   }
 
@@ -240,9 +244,14 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(final long examEventId, final Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
 
+    // If person did not finish payment, allow to continue previous enrollment
+    // instead of enrolling to queue
     if (hasPersonUnfinishedPayment(examEvent, person, enrollmentRepository)) {
       return initialiseEnrollment(examEventId, person);
     }
+
+    // Should be done before computing the amount of openings
+    cancelPotentialUnfinishedEnrollment(examEvent, person, true);
 
     final long openings = ExamEventUtil.getOpenings(examEvent);
     if (openings > 0) {
@@ -278,7 +287,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final Person person,
     final long examEventId
   ) {
-    List<FreeEnrollmentAttachmentDTO> attachmentDTOs = dto.freeEnrollmentBasis().attachments();
+    final List<FreeEnrollmentAttachmentDTO> attachmentDTOs = dto.freeEnrollmentBasis().attachments();
 
     if (attachmentDTOs.size() > 10) {
       throw new APIException(APIExceptionType.TOO_MANY_ATTACHMENTS);
@@ -321,8 +330,9 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final FreeEnrollmentSource reason = dto.freeEnrollmentBasis().source();
     final FreeEnrollmentType type = dto.freeEnrollmentBasis().type();
 
+    List<PublicEducationDTO> educations = List.of();
     if (reason.equals(FreeEnrollmentSource.KOSKI) && person.getOid() != null && !person.getOid().isEmpty()) {
-      final List<PublicEducationDTO> educations = koskiService.findEducations(person.getOid());
+      educations = koskiService.findEducations(person.getOid());
 
       if (educations.isEmpty()) {
         throw new APIException(APIExceptionType.KOSKI_DATA_MISMATCH);
@@ -337,6 +347,10 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     freeEnrollment.setSource(reason);
     freeEnrollment.setType(type);
     freeEnrollmentRepository.saveAndFlush(freeEnrollment);
+
+    if (reason.equals(FreeEnrollmentSource.KOSKI) && !educations.isEmpty()) {
+      koskiService.saveEducationsForEnrollment(freeEnrollment, examEventId, educations);
+    }
 
     if (dto.freeEnrollmentBasis().attachments() != null) {
       final List<UploadedFileAttachment> attachments =
@@ -366,7 +380,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       examEvent,
       person,
       EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
-      null
+      null,
+      false
     );
     reservationRepository.deleteById(reservationId);
 
@@ -389,7 +404,14 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(person);
     final FreeEnrollment freeEnrollment = saveFreeEnrollment(person, dto, examEvent.getId());
     final EnrollmentStatus status = createFreeEnrollmentNextStatus(freeEnrollment, person, dto);
-    final Enrollment enrollment = createOrUpdateExistingEnrollment(dto, examEvent, person, status, freeEnrollment);
+    final Enrollment enrollment = createOrUpdateExistingEnrollment(
+      dto,
+      examEvent,
+      person,
+      status,
+      freeEnrollment,
+      false
+    );
     reservationRepository.deleteById(reservationId);
 
     if (status == EnrollmentStatus.COMPLETED || status == EnrollmentStatus.AWAITING_APPROVAL) {
@@ -424,12 +446,14 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final ExamEvent examEvent,
     final Person person,
     final EnrollmentStatus enrollmentStatus,
-    final FreeEnrollment freeEnrollment
+    final FreeEnrollment freeEnrollment,
+    final Boolean isQueued
   ) {
     final Enrollment enrollment = findEnrollment(examEvent, person, enrollmentRepository).orElse(new Enrollment());
     enrollment.setExamEvent(examEvent);
     enrollment.setPerson(person);
     enrollment.setStatus(enrollmentStatus);
+    enrollment.setIsQueued(isQueued);
     enrollment.setFreeEnrollment(freeEnrollment != null ? freeEnrollment : enrollment.getFreeEnrollment());
 
     copyDtoFieldsToEnrollment(enrollment, dto);
@@ -465,7 +489,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       examEvent,
       person,
       EnrollmentStatus.QUEUED,
-      freeEnrollment
+      freeEnrollment,
+      true
     );
 
     if (freeEnrollmentDetails != null && freeEnrollment != null) {
@@ -522,7 +547,14 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       status = createFreeEnrollmentNextStatus(freeEnrollment, person, dto);
     }
 
-    final Enrollment enrollment = createOrUpdateExistingEnrollment(dto, examEvent, person, status, freeEnrollment);
+    final Enrollment enrollment = createOrUpdateExistingEnrollment(
+      dto,
+      examEvent,
+      person,
+      status,
+      freeEnrollment,
+      false
+    );
     if (
       freeEnrollmentDetails != null &&
       (status == EnrollmentStatus.COMPLETED || status == EnrollmentStatus.AWAITING_APPROVAL)
@@ -537,31 +569,12 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   public Map<String, String> getPresignedPostRequest(
     final long examEventId,
     final Person person,
-    final HttpSession session,
     final String filename
   ) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
 
-    // Allow uploading only if person is actively trying to enroll or reserve a place in the queue
-    boolean uploadAllowed = false;
-    final Optional<Enrollment> enrollment = findEnrollment(examEvent, person, enrollmentRepository);
-    if (enrollment.isPresent()) {
-      uploadAllowed = enrollment.get().isExpectingPayment();
-    }
-    // Enrollment data not yet initialized, so let's check for reservation instead.
-    if (!uploadAllowed) {
-      final Optional<Reservation> reservation = reservationRepository.findByExamEventAndPerson(examEvent, person);
-      if (reservation.isPresent()) {
-        uploadAllowed = reservation.get().isActive();
-      }
-    }
-    // If enrollment or reservation is not found, user might be enrolling into queue.
-    if (!uploadAllowed) {
-      Long queueExamEventId = SessionUtil.getQueueExamId(session);
-      uploadAllowed = (queueExamEventId == examEventId);
-    }
-    if (!uploadAllowed) {
-      throw new NotFoundException("No unfinished enrollment or reservation for exam event found");
+    if (person == null || examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
+      throw new NotFoundException("Uploading not allowed. Person is null or exam is closed");
     }
 
     final String millis = String.valueOf(System.currentTimeMillis());

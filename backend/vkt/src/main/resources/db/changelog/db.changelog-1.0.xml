@@ -780,7 +780,64 @@
         </sql>
         <addNotNullConstraint tableName="person" columnName="uuid" />
     </changeSet>
-    <changeSet id="2024-08-26-registration-open-and-close-times-psql" author="jrkkp">
+    <changeSet id="2024-08-14-add-is-queued-to-enrollment" author="jrkkp">
+        <addColumn tableName="enrollment">
+            <column name="is_queued" type="BOOLEAN" />
+        </addColumn>
+        <sql>
+            UPDATE enrollment SET is_queued = 't' WHERE status = 'QUEUED'
+        </sql>
+        <sql>
+            UPDATE enrollment SET is_queued = 'f' WHERE status = 'COMPLETED'
+        </sql>
+    </changeSet>
+    <changeSet id="2024-08-27-all-koski-educations" author="pkoivisto">
+        <createTable tableName="koski_educations">
+            <column autoIncrement="true" name="koski_educations_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="koski_educations_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="free_enrollment_id" type="BIGINT">
+                <constraints unique="true" nullable="true" />
+            </column>
+            <column name="exam_event_id" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="matriculation_exam" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="higher_education_concluded" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="higher_education_enrolled" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="eb" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dia" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="other" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="koski_educations"
+                baseColumnNames="free_enrollment_id"
+                constraintName="fk_koski_educations_free_enrollment"
+                referencedTableName="free_enrollment"
+                referencedColumnNames="free_enrollment_id" />
+        <addForeignKeyConstraint
+                baseTableName="koski_educations"
+                baseColumnNames="exam_event_id"
+                constraintName="fk_koski_educations_exam_event"
+                referencedTableName="exam_event"
+                referencedColumnNames="exam_event_id" />
+    </changeSet>
+    <changeSet id="2024-09-11-registration-open-and-close-times-psql" author="jrkkp">
         <preConditions onFail="CONTINUE">
             <dbms type="postgresql" />
         </preConditions>
@@ -792,7 +849,7 @@
             ALTER TABLE exam_event ALTER COLUMN registration_opens SET NOT NULL;
         </sql>
     </changeSet>
-    <changeSet id="2024-08-26-registration-open-and-close-times-hsqldb" author="jrkkp">
+    <changeSet id="2024-09-11-registration-open-and-close-times-hsqldb" author="jrkkp">
         <preConditions onFail="CONTINUE">
             <dbms type="hsqldb" />
         </preConditions>

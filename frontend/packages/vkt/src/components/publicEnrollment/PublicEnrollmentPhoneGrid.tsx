@@ -213,6 +213,7 @@ export const PublicEnrollmentPhoneGrid = ({
                   isEnrollmentSubmitLoading={isEnrollmentSubmitLoading}
                   isStepValid={isStepValid}
                   setShowValidation={setShowValidation}
+                  isEnrollmentToQueue={isEnrollmentToQueue}
                   isPaymentLinkPreviewView={
                     isShiftedFromQueue && isPreviewStepActive
                   }

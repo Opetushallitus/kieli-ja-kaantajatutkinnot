@@ -14,14 +14,17 @@ import {
 import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
+  acceptKoskiEducationDetailsRefresh,
   createClerkEnrollmentPaymentLink,
   moveEnrollment,
   moveEnrollmentSucceeded,
   rejectClerkEnrollmentDetailsUpdate,
   rejectClerkEnrollmentPaymentLink,
   rejectClerkPaymentRefunded,
+  rejectKoskiEducationDetailsRefresh,
   rejectMoveEnrollment,
   setClerkPaymentRefunded,
+  startKoskiEducationDetailsRefresh,
   storeClerkEnrollmentDetailsUpdate,
   storeClerkEnrollmentPaymentLink,
   storeClerkPaymentRefunded,
@@ -121,6 +124,23 @@ function* setClerkPaymentRefundedSaga(action: PayloadAction<number>) {
   }
 }
 
+function* startKoskiEducationDetailsRefreshSaga(action: PayloadAction<number>) {
+  try {
+    yield call(
+      axiosInstance.post,
+      `${APIEndpoints.ClerkRefreshKoskiEducationDetails.replace(
+        /:enrollmentId/,
+        `${action.payload}`,
+      )}`,
+    );
+    yield put(acceptKoskiEducationDetailsRefresh());
+  } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    yield put(rejectKoskiEducationDetailsRefresh());
+  }
+}
+
 export function* watchClerkEnrollmentDetails() {
   yield takeLatest(
     createClerkEnrollmentPaymentLink,
@@ -132,4 +152,8 @@ export function* watchClerkEnrollmentDetails() {
   );
   yield takeLatest(moveEnrollment, moveEnrollmentSaga);
   yield takeLatest(setClerkPaymentRefunded, setClerkPaymentRefundedSaga);
+  yield takeLatest(
+    startKoskiEducationDetailsRefresh,
+    startKoskiEducationDetailsRefreshSaga,
+  );
 }

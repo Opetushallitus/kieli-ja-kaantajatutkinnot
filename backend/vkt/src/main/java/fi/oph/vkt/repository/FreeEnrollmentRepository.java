@@ -12,6 +12,7 @@ public interface FreeEnrollmentRepository extends BaseRepository<FreeEnrollment>
     " FROM FreeEnrollment f" +
     " JOIN f.enrollment e" +
     " WHERE f.person.id = ?1" +
+    " AND f.approved <> false" +
     " AND (e.status = fi.oph.vkt.model.type.EnrollmentStatus.COMPLETED" +
     " OR e.status = fi.oph.vkt.model.type.EnrollmentStatus.AWAITING_APPROVAL)" +
     " AND e.textualSkill = true"
@@ -23,6 +24,7 @@ public interface FreeEnrollmentRepository extends BaseRepository<FreeEnrollment>
     " FROM FreeEnrollment f" +
     " JOIN f.enrollment e" +
     " WHERE f.person.id = ?1" +
+    " AND f.approved <> false" +
     " AND (e.status = fi.oph.vkt.model.type.EnrollmentStatus.COMPLETED" +
     "   OR e.status = fi.oph.vkt.model.type.EnrollmentStatus.AWAITING_APPROVAL)" +
     " AND e.oralSkill = true"

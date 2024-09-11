@@ -1,6 +1,7 @@
 package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
+import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
@@ -14,11 +15,13 @@ import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.type.EnrollmentStatus;
+import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.PaymentRepository;
+import fi.oph.vkt.service.koski.KoskiService;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
@@ -48,6 +51,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   private final Environment environment;
   private final UUIDSource uuidSource;
   private final FreeEnrollmentRepository freeEnrollmentRepository;
+  private final KoskiService koskiService;
 
   @Transactional
   public ClerkEnrollmentDTO update(final ClerkEnrollmentUpdateDTO dto) {
@@ -63,7 +67,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
 
       // If clerk user has explicitly approved or rejected the qualifications for free enrollment,
       // the enrollment status should be updated accordingly.
-      // However, we must guard against updating the status eg. already cancelled enrollments by accident.
+      // However, we must guard against updating the status of eg. already cancelled enrollments by accident.
       if (
         dto.freeEnrollmentBasis().approved() != null &&
         (
@@ -194,5 +198,19 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
           enrollmentRepository.deleteById(enrollment.getId());
         }
       });
+  }
+
+  @Transactional(isolation = Isolation.SERIALIZABLE)
+  public void getAndSaveKoskiEducationDetailsForEnrollment(final long enrollmentId) {
+    final Enrollment enrollment = enrollmentRepository.getReferenceById(enrollmentId);
+    final FreeEnrollment freeEnrollment = enrollment.getFreeEnrollment();
+    if (freeEnrollment == null || freeEnrollment.getSource() != FreeEnrollmentSource.KOSKI) {
+      throw new RuntimeException("Can't persist education details if source of free enrollment isn't Koski");
+    }
+    List<PublicEducationDTO> educationDTOs = koskiService.findEducations(enrollment.getPerson().getOid());
+    if (educationDTOs.isEmpty()) {
+      throw new RuntimeException("Koski returned empty education details");
+    }
+    koskiService.saveEducationsForEnrollment(freeEnrollment, enrollment.getExamEvent().getId(), educationDTOs);
   }
 }
