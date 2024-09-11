@@ -24,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Locale;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -107,5 +108,12 @@ public class ClerkEnrollmentController {
     final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollmentId, locale);
     final ByteArrayInputStream bis = new ByteArrayInputStream(receiptRenderer.getReceiptPdfBytes(receiptData, locale));
     return ResponseEntity.ok().body(new InputStreamResource(bis));
+  }
+
+  @PostMapping(path = "/{enrollmentId:\\d+}/refreshKoskiEducationDetails", consumes = ALL_VALUE, produces = ALL_VALUE)
+  @Operation(tags = TAG_ENROLLMENT, summary = "Refresh education details from KOSKI")
+  public void refreshKoskiEducationDetails(final HttpServletResponse response, @PathVariable final long enrollmentId) {
+    clerkEnrollmentService.getAndSaveKoskiEducationDetailsForEnrollment(enrollmentId);
+    response.setStatus(HttpStatus.CREATED.value());
   }
 }

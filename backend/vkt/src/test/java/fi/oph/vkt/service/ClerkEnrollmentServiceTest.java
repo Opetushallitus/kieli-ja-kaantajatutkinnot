@@ -29,6 +29,7 @@ import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.PaymentRepository;
+import fi.oph.vkt.service.koski.KoskiService;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
@@ -68,6 +69,9 @@ class ClerkEnrollmentServiceTest {
   @Resource
   private TestEntityManager entityManager;
 
+  @MockBean
+  private KoskiService koskiService;
+
   @BeforeEach
   public void setup() {
     final Environment environment = mock(Environment.class);
@@ -84,7 +88,8 @@ class ClerkEnrollmentServiceTest {
         auditService,
         environment,
         uuidSource,
-        freeEnrollmentRepository
+        freeEnrollmentRepository,
+        koskiService
       );
   }
 

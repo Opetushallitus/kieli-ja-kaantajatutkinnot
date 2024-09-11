@@ -1,16 +1,13 @@
 package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.api.dto.PublicEducationDTO;
+import fi.oph.vkt.repository.KoskiEducationsRepository;
 import fi.oph.vkt.service.koski.KoskiService;
+import jakarta.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -20,7 +17,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -36,8 +32,14 @@ public class KoskiServiceTest {
   @Value("classpath:koski/koski-nordea-demo-response.json")
   private org.springframework.core.io.Resource koskiNordeaDemoResponse;
 
+  @Value("classpath:koski/koski-combined-response.json")
+  private org.springframework.core.io.Resource koskiCombinedResponse;
+
   private MockWebServer mockWebServer;
   private String koskiUrl;
+
+  @Resource
+  private KoskiEducationsRepository koskiEducationsRepository;
 
   @BeforeEach
   public void setup() throws IOException {
@@ -74,6 +76,17 @@ public class KoskiServiceTest {
   }
 
   @Test
+  public void testFetchKoskiCombined() throws IOException, InterruptedException {
+    final List<PublicEducationDTO> educations = doRequest(getMockCombinedResponse(), "1.2.246.562.24.37998958910");
+
+    final RecordedRequest request = mockWebServer.takeRequest();
+    assertEquals("POST", request.getMethod());
+    assertEquals(koskiUrl + "/oid", Objects.requireNonNull(request.getRequestUrl()).toString());
+    assertEquals("{\"oid\":\"1.2.246.562.24.37998958910\"}", request.getBody().readUtf8());
+    assertEquals(4, educations.size());
+  }
+
+  @Test
   public void testFetchKoskiRetry() throws IOException, InterruptedException {
     final WebClient webClient = WebClient.builder().baseUrl(koskiUrl).build();
 
@@ -93,7 +106,7 @@ public class KoskiServiceTest {
         .setBody(response)
     );
 
-    final KoskiService koskiService = new KoskiService(webClient);
+    final KoskiService koskiService = new KoskiService(webClient, koskiEducationsRepository);
     final List<PublicEducationDTO> educations = koskiService.findEducations("1.2.246.562.24.97984579806");
 
     final RecordedRequest failingRequest = mockWebServer.takeRequest();
@@ -121,9 +134,13 @@ public class KoskiServiceTest {
         .setBody(response)
     );
 
-    final KoskiService koskiService = new KoskiService(webClient);
+    final KoskiService koskiService = new KoskiService(webClient, koskiEducationsRepository);
 
     return koskiService.findEducations(oid);
+  }
+
+  private String getMockCombinedResponse() throws IOException {
+    return new String(koskiCombinedResponse.getInputStream().readAllBytes());
   }
 
   private String getMockKorkeakouluResponse() throws IOException {

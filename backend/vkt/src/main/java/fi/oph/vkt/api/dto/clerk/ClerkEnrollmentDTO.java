@@ -33,7 +33,7 @@ public record ClerkEnrollmentDTO(
   String town,
   String country,
   @NonNull @NotNull List<ClerkPaymentDTO> payments,
-  ClerkFeeEnrollmentBasisDTO freeEnrollmentBasis,
+  ClerkFreeEnrollmentBasisDTO freeEnrollmentBasis,
   FreeEnrollmentDetailsDTO freeEnrollmentDetails
 )
   implements EnrollmentDTOCommonFields {}

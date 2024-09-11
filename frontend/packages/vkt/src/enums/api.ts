@@ -13,6 +13,7 @@ export enum APIEndpoints {
   ClerkPayment = '/vkt/api/v1/clerk/payment',
   FeatureFlags = '/vkt/api/v1/featureFlags',
   UploadPostPolicy = '/vkt/api/v1/uploadPostPolicy/:examEventId',
+  ClerkRefreshKoskiEducationDetails = '/vkt/api/v1/clerk/enrollment/:enrollmentId/refreshKoskiEducationDetails',
 }
 
 /**
