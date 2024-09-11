@@ -320,7 +320,7 @@ public class PublicEnrollmentServiceTest {
     assertEquals(examEvent.getId(), examEventDTO.id());
     assertEquals(examEvent.getLanguage(), examEventDTO.language());
     assertEquals(examEvent.getDate(), examEventDTO.date());
-    assertEquals(examEvent.getRegistrationCloses(), examEventDTO.registrationCloses());
+    assertEquals(examEvent.getRegistrationCloses().toLocalDate(), examEventDTO.registrationCloses());
     assertEquals(openings, examEventDTO.openings());
     assertFalse(examEventDTO.hasCongestion());
 
