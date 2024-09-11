@@ -32,6 +32,9 @@ public class KoskiServiceTest {
   @Value("classpath:koski/koski-nordea-demo-response.json")
   private org.springframework.core.io.Resource koskiNordeaDemoResponse;
 
+  @Value("classpath:koski/koski-combined-response.json")
+  private org.springframework.core.io.Resource koskiCombinedResponse;
+
   private MockWebServer mockWebServer;
   private String koskiUrl;
 
@@ -70,6 +73,17 @@ public class KoskiServiceTest {
     assertEquals(koskiUrl + "/oid", Objects.requireNonNull(request.getRequestUrl()).toString());
     assertEquals("{\"oid\":\"1.2.246.562.24.37998958910\"}", request.getBody().readUtf8());
     assertEquals(1, educations.size());
+  }
+
+  @Test
+  public void testFetchKoskiCombined() throws IOException, InterruptedException {
+    final List<PublicEducationDTO> educations = doRequest(getMockCombinedResponse(), "1.2.246.562.24.37998958910");
+
+    final RecordedRequest request = mockWebServer.takeRequest();
+    assertEquals("POST", request.getMethod());
+    assertEquals(koskiUrl + "/oid", Objects.requireNonNull(request.getRequestUrl()).toString());
+    assertEquals("{\"oid\":\"1.2.246.562.24.37998958910\"}", request.getBody().readUtf8());
+    assertEquals(4, educations.size());
   }
 
   @Test
@@ -123,6 +137,10 @@ public class KoskiServiceTest {
     final KoskiService koskiService = new KoskiService(webClient, koskiEducationsRepository);
 
     return koskiService.findEducations(oid);
+  }
+
+  private String getMockCombinedResponse() throws IOException {
+    return new String(koskiCombinedResponse.getInputStream().readAllBytes());
   }
 
   private String getMockKorkeakouluResponse() throws IOException {
