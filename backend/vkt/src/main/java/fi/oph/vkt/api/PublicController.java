@@ -247,10 +247,8 @@ public class PublicController {
 
       if (enrollmentType.equals(EnrollmentType.QUEUE)) {
         publicEnrollmentService.initialiseEnrollmentToQueue(examEventId, person);
-        SessionUtil.setQueueExamId(session, examEventId);
       } else {
         publicEnrollmentService.initialiseEnrollment(examEventId, person);
-        SessionUtil.setQueueExamId(session, null);
       }
 
       httpResponse.sendRedirect(uiRouteUtil.getEnrollmentContactDetailsUrl(examEventId));
