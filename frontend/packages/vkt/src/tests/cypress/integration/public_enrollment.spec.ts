@@ -95,7 +95,7 @@ describe('Public enrollment', () => {
       );
       onPublicEnrollmentPage.clickNext();
       onPublicEnrollmentPage.expectEnrollmentDetails(
-        'Tutkinto: Ruotsi, erinomainen taitoTutkintopäivä: 22.3.2022Ilmoittautuminen sulkeutuu: 15.3.2022 klo 16:00Paikkoja vapaana: 6',
+        'Tutkinto: Ruotsi, erinomainen taitoTutkintopäivä: 22.3.2022Ilmoittautuminen sulkeutuu: 15.3.2022 klo 16.00Paikkoja vapaana: 6',
       );
       onPublicEnrollmentPage.expectEnrollmentPersonDetails(
         'Sukunimi:TestiläEtunimet:Tessa',
