@@ -51,13 +51,13 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
-    <!-- Force 6.3.2 since there is vulnerability in 6.3.1 -->
+    <!-- Force 6.3.3 since there is vulnerability in 6.3.1 -->
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-config</artifactId>
-      <version>6.3.2</version>
+      <version>6.3.3</version>
     </dependency>
-    <!-- Force 6.3.2 since there is vulnerability in 6.3.1 -->
+    <!-- Force 6.3.3 since there is vulnerability in 6.3.1 -->
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-web</artifactId>
