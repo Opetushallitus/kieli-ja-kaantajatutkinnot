@@ -40,7 +40,7 @@
             <b>Oikeutettu maksuttomaan tutkintoon:</b> <span th:text="${isFree}? 'Kyllä' : 'Ei'">Ei</span><br/>
             <b>Valitsemasi taidot:</b> <span th:text="${skillsFI}"></span><br/>
             <b>Valitsemasi osakokeet:</b> <span th:text="${partialExamsFI}"></span><br/>
-            <th:block th:if="${!#strings.isEmpty(freeExamsLeftFI)}"></th:block><b>Maksuttomia tutkintokertoja jäljellä:</b> <span th:text="${freeExamsLeftFI}"></span><br/></th>
+            <th:block th:if="${!#strings.isEmpty(freeExamsLeftFI)}"><b>Maksuttomia tutkintokertoja jäljellä:</b> <span th:text="${freeExamsLeftFI}"></span><br/></th:block>
         </p>
         <br/>
 
@@ -102,7 +102,7 @@
             <b>Rätt till avgiftsfri examen:</b> <span th:text="${isFree} ? 'Ja' : 'Nej'">Nej</span><br/>
             <b>Förmågor som du har valt:</b> <span th:text="${skillsSV}"></span><br/>
             <b>Delprov som du har valt:</b> <span th:text="${partialExamsSV}"></span><br/>
-            <th:block th:if="${!#strings.isEmpty(freeExamsLeftSV)}"></th:block><b>Antal avgiftsfria examina kvar:</b> <span th:text="${freeExamsLeftSV}"></span><br/></th>
+            <th:block th:if="${!#strings.isEmpty(freeExamsLeftSV)}"><b>Antal avgiftsfria examina kvar:</b> <span th:text="${freeExamsLeftSV}"></span><br/></th:block>
         </p>
         <br/>
         <p><b>Information om examenstillfället</b></p>
