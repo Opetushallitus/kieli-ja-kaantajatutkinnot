@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.11.1] - 2024-09-13
+
+### Fixed
+- Updated MUI dependencies, resulting in changes to the Select component and its types.
+- Fixed usages of Select accordingly.
+
 ## [1.11.0] - 2024-09-11
 
 ### Changed
