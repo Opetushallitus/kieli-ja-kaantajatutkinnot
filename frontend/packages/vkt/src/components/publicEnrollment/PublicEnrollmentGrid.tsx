@@ -150,7 +150,8 @@ export const PublicEnrollmentGrid = ({
   const isPreviewPassed = activeStep > PublicEnrollmentFormStep.Preview;
 
   const isExamEventDetailsAvailable =
-    activeStep !== PublicEnrollmentFormStep.FillContactDetails;
+    activeStep !== PublicEnrollmentFormStep.FillContactDetails &&
+    activeStep !== PublicEnrollmentFormStep.EducationDetails;
   const isPaymentSumAvailable =
     isPreviewStepActive && (!!reservation || isShiftedFromQueue);
 

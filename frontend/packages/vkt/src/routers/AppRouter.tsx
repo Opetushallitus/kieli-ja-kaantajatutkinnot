@@ -29,7 +29,6 @@ import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
 import { LogoutSuccess } from 'pages/LogoutSuccess';
 import { NotFoundPage } from 'pages/NotFoundPage';
-import { PrivacyPolicyPage } from 'pages/PrivacyPolicyPage';
 import { PublicEnrollmentPage } from 'pages/PublicEnrollmentPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 import { loadFeatureFlags } from 'redux/reducers/featureFlags';
@@ -109,6 +108,16 @@ export const AppRouter: FC = () => {
             }
           />
           <Route
+            path={AppRoutes.PublicEnrollmentEducationDetails}
+            element={
+              <TitlePage title={createTitle('educationDetails')}>
+                <PublicEnrollmentPage
+                  activeStep={PublicEnrollmentFormStep.EducationDetails}
+                />
+              </TitlePage>
+            }
+          />
+          <Route
             path={AppRoutes.PublicEnrollmentSelectExam}
             element={
               <TitlePage title={createTitle('selectExam')}>
@@ -174,14 +183,6 @@ export const AppRouter: FC = () => {
           element={
             <TitlePage title={createTitle('accessibilityStatement')}>
               <AccessibilityStatementPage />
-            </TitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.PrivacyPolicyPage}
-          element={
-            <TitlePage title={createTitle('privacyPolicy')}>
-              <PrivacyPolicyPage />
             </TitlePage>
           }
         />

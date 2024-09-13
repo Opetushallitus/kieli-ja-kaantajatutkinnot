@@ -42,6 +42,12 @@ export class RouteUtils {
           examEventId,
         );
 
+      case PublicEnrollmentFormStep.EducationDetails:
+        return RouteUtils.replaceExamEventId(
+          AppRoutes.PublicEnrollmentEducationDetails,
+          examEventId,
+        );
+
       case PublicEnrollmentFormStep.SelectExam:
         return RouteUtils.replaceExamEventId(
           AppRoutes.PublicEnrollmentSelectExam,

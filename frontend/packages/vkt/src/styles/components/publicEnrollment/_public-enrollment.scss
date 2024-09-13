@@ -6,7 +6,7 @@
       padding: 3rem;
 
       @include phone {
-        margin-bottom: 22rem;
+        margin-bottom: 26rem;
         padding: 2rem;
       }
 
@@ -79,8 +79,10 @@
         padding-left: 1rem;
         width: 70%;
 
-        & span:last-child {
-          margin-bottom: -3rem;
+        @include not-phone {
+          & span:last-child {
+            margin-bottom: -3rem;
+          }
         }
       }
     }

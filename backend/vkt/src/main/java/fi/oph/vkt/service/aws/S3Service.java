@@ -3,9 +3,11 @@ package fi.oph.vkt.service.aws;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -68,7 +70,7 @@ public class S3Service {
     S3PostObjectRequest.Builder requestBuilder = S3PostObjectRequest
       .builder()
       .bucket(s3Config.getBucketName())
-      .expiration(POST_POLICY_VALID_FOR_ONE_MIN)
+      .expiration(Instant.now().with(ChronoField.MICRO_OF_SECOND, 1).plus(POST_POLICY_VALID_FOR_ONE_MIN))
       .withCondition(Conditions.keyStartsWith(key))
       .withCondition(Conditions.contentLengthRange(0, MAX_SIZE_100_MB))
       .withCondition(Conditions.contentTypeHeaderEquals(contentType))

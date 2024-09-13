@@ -1,5 +1,10 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Checkbox, FormControlLabel, FormHelperText } from '@mui/material';
+import {
+  Checkbox,
+  Divider,
+  FormControlLabel,
+  FormHelperText,
+} from '@mui/material';
 import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import { H2, Text, WebLink } from 'shared/components';
@@ -59,27 +64,22 @@ const EducationDetails = ({
   );
 };
 
-const ContactDetails = ({
-  email,
-  phoneNumber,
-}: {
-  email: string;
-  phoneNumber: string;
-}) => {
+const ContactDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.preview.contactDetails',
   });
+  const translateCommon = useCommonTranslation();
 
   return (
     <div className="rows gapped">
       <H2>{t('title')}</H2>
-      <div className="grid-2-columns gapped">
+      <div className="grid-3-columns gapped">
         <div className="rows">
           <Text className="bold">
             {t('email')}
             {':'}
           </Text>
-          <Text data-testid="enrollment-preview-email">{email}</Text>
+          <Text data-testid="enrollment-preview-email">{enrollment.email}</Text>
         </div>
         <div className="rows">
           <Text className="bold">
@@ -87,57 +87,24 @@ const ContactDetails = ({
             {':'}
           </Text>
           <Text data-testid="enrollment-preview-phoneNumber">
-            {phoneNumber}
+            {enrollment.phoneNumber}
           </Text>
         </div>
-      </div>
-    </div>
-  );
-};
-
-const CertificateShippingDetails = ({
-  enrollment,
-}: {
-  enrollment: PublicEnrollment;
-}) => {
-  const { t } = usePublicTranslation({
-    keyPrefix:
-      'vkt.component.publicEnrollment.steps.preview.certificateShippingDetails',
-  });
-  const translateCommon = useCommonTranslation();
-
-  const digitalConsentEnabled = false;
-
-  return (
-    <div className="rows gapped-sm">
-      <H2>{t('title')}</H2>
-      {digitalConsentEnabled && (
-        <div className="rows gapped-xxs">
+        <div className="rows">
           <Text className="bold">
-            {translateCommon('enrollment.certificateShipping.consent')}
+            {translateCommon('enrollment.certificateShipping.addressTitle')}
             {':'}
           </Text>
-          <Text>
-            {enrollment.digitalCertificateConsent
-              ? translateCommon('yes')
-              : translateCommon('no')}
+          <Text data-testid="enrollment-preview-certificate-shipping-details">
+            {enrollment.street}
+            {', '}
+            {enrollment.postalCode}
+            {', '}
+            {enrollment.town}
+            {', '}
+            {enrollment.country}
           </Text>
         </div>
-      )}
-      <div className="rows gapped-xxs">
-        <Text className="bold">
-          {t('addressLabel')}
-          {':'}
-        </Text>
-        <Text data-testid="enrollment-preview-certificate-shipping-details">
-          {enrollment.street}
-          {', '}
-          {enrollment.postalCode}
-          {', '}
-          {enrollment.town}
-          {', '}
-          {enrollment.country}
-        </Text>
       </div>
     </div>
   );
@@ -203,21 +170,20 @@ export const Preview = ({
 
   return (
     <div className="margin-top-xxl rows gapped-xxl">
-      <div className="rows gapped-xxl public-enrollment__grid__contact-details">
-        <PersonDetails />
-        <ContactDetails
-          email={enrollment.email}
-          phoneNumber={enrollment.phoneNumber}
-        />
-        {EnrollmentUtils.hasFreeBasis(enrollment) &&
-          enrollment.freeEnrollmentBasis && (
+      <PersonDetails isPreviewStep={true} />
+      <ContactDetails enrollment={enrollment} />
+      {EnrollmentUtils.hasFreeBasis(enrollment) &&
+        enrollment.freeEnrollmentBasis && (
+          <>
+            <Divider />
             <EducationDetails
               freeEnrollmentBasis={enrollment.freeEnrollmentBasis}
             />
-          )}
-      </div>
+          </>
+        )}
+      <Divider />
       <ExamEventDetails enrollment={enrollment} />
-      <CertificateShippingDetails enrollment={enrollment} />
+      <Divider />
       <div className="rows gapped-sm">
         <H2>{translateCommon('acceptTerms')}</H2>
         <div>

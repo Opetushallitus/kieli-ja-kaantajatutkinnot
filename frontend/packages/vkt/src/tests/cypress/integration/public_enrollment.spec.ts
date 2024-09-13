@@ -60,6 +60,7 @@ describe('Public enrollment', () => {
     it('should be able to fill out enrollment info', () => {
       cy.tick(3000);
 
+      onPublicEnrollmentPage.expectStepHeading('Täytä yhteystietosi');
       onPublicEnrollmentPage.expectEnrollmentPersonDetails(
         'Sukunimi:TestiläEtunimet:Tessa',
       );
@@ -72,11 +73,7 @@ describe('Public enrollment', () => {
         'test@test.invalid',
       );
       onPublicEnrollmentPage.fillOutContactDetails('phoneNumber', '040112233');
-      onPublicEnrollmentPage.clickNext();
-      onPublicEnrollmentPage.checkEnrollmentPreviouslyEnrolledCheckbox(
-        'previously-enrolled-no',
-      );
-      onPublicEnrollmentPage.enrollmentFullExamCheckbox();
+
       onPublicEnrollmentPage.fillOutCertificateShippingDetails(
         'street',
         'Katu',
@@ -94,6 +91,20 @@ describe('Public enrollment', () => {
         'Suomi',
       );
       onPublicEnrollmentPage.clickNext();
+
+      onPublicEnrollmentPage.expectStepHeading('Koulutustiedot');
+      onPublicEnrollmentPage.selectRadioButton(
+        'Ei perustetta maksuttomalle kielitutkinnolle',
+      );
+      onPublicEnrollmentPage.clickNext();
+
+      onPublicEnrollmentPage.checkEnrollmentPreviouslyEnrolledRadio(
+        'previously-enrolled-no',
+      );
+      onPublicEnrollmentPage.enrollmentFullExamRadio();
+
+      onPublicEnrollmentPage.clickNext();
+
       onPublicEnrollmentPage.expectEnrollmentDetails(
         'Tutkinto: Ruotsi, erinomainen taitoTutkintopäivä: 22.3.2022Ilmoittautuminen sulkeutuu: 15.3.2022Paikkoja vapaana: 6',
       );
@@ -148,13 +159,6 @@ describe('Public enrollment', () => {
       );
       onPublicEnrollmentPage.fillOutContactDetails('phoneNumber', '040112233');
       onPublicEnrollmentPage.expectContactDetailsErrorNotExist('phoneNumber');
-      onPublicEnrollmentPage.clickNext();
-      onPublicEnrollmentPage.clickNext();
-      onPublicEnrollmentPage.expectPreviuoslyEnrolledError();
-      onPublicEnrollmentPage.checkEnrollmentPreviouslyEnrolledCheckbox(
-        'previously-enrolled-no',
-      );
-      onPublicEnrollmentPage.expectPreviouslyEnrolledErrorNotExist();
 
       onPublicEnrollmentPage.expectCertificateShippingDetailsError('street');
       onPublicEnrollmentPage.fillOutCertificateShippingDetails(
@@ -191,6 +195,30 @@ describe('Public enrollment', () => {
         'country',
       );
       onPublicEnrollmentPage.clickNext();
+
+      onPublicEnrollmentPage.expectStepHeading('Koulutustiedot');
+      onPublicEnrollmentPage.clickNext();
+      onPublicEnrollmentPage.expectEducationDetailsError();
+      onPublicEnrollmentPage.selectRadioButton(
+        'Ei perustetta maksuttomalle kielitutkinnolle',
+      );
+      onPublicEnrollmentPage.expectEducationDetailsErrorNotExist();
+      onPublicEnrollmentPage.clickNext();
+
+      onPublicEnrollmentPage.expectStepHeading('Valitse tutkinto');
+      onPublicEnrollmentPage.clickNext();
+      onPublicEnrollmentPage.expectFullExamError();
+      onPublicEnrollmentPage.enrollmentFullExamRadio();
+      onPublicEnrollmentPage.expectFullExamErrorNotExist();
+
+      onPublicEnrollmentPage.expectPreviouslyEnrolledError();
+      onPublicEnrollmentPage.checkEnrollmentPreviouslyEnrolledRadio(
+        'previously-enrolled-no',
+      );
+      onPublicEnrollmentPage.expectPreviouslyEnrolledErrorNotExist();
+
+      onPublicEnrollmentPage.clickNext();
+      onPublicEnrollmentPage.expectStepHeading('Esikatsele');
 
       // TODO: test when consent error handling is added
       // onPublicEnrollmentPage.clickSubmit();

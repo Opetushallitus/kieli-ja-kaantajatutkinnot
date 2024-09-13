@@ -7,13 +7,13 @@ import {
   FormHelperText,
   Radio,
   RadioGroup,
+  Typography,
 } from '@mui/material';
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, useCallback, useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import {
   CustomButton,
   FileUpload,
-  H2,
   H3,
   LoadingProgressIndicator,
   Text,
@@ -29,11 +29,15 @@ import {
   EducationType,
   FreeBasisSource,
   HandleChange,
+  PublicFreeEnrollmentBasis,
 } from 'interfaces/publicEducation';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { loadPublicEducation } from 'redux/reducers/publicEducation';
-import { removeUploadedFileAttachment } from 'redux/reducers/publicEnrollment';
+import {
+  removeUploadedFileAttachment,
+  updatePublicEnrollment,
+} from 'redux/reducers/publicEnrollment';
 import { startFileUpload } from 'redux/reducers/publicFileUpload';
 import { publicEducationSelector } from 'redux/selectors/publicEducation';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
@@ -164,10 +168,23 @@ const UploadAttachments = ({
   };
 
   return (
-    <>
+    <div className="rows gapped">
       <H3>{t('title')}</H3>
-      <Text>{t('helpText1')}</Text>
-      <Text>{t('helpText2')}</Text>
+      <Text>
+        {t('helpText1')}
+        <br />
+        {t('helpText2')}
+      </Text>
+      <div className="rows">
+        <Text>{t('instructions.title')}</Text>
+        <ul style={{ marginTop: 0 }}>
+          {[1, 2, 3, 4, 5].map((i) => (
+            <Typography key={i} component="li" variant="body1">
+              {t('instructions.part' + i)}
+            </Typography>
+          ))}
+        </ul>
+      </div>
       {attachmentsCount < 10 && (
         <LoadingProgressIndicator
           isLoading={fileUploadStatus === APIResponseStatus.InProgress}
@@ -176,7 +193,8 @@ const UploadAttachments = ({
             accept="application/pdf,image/jpeg,image/png,image/heic,image/tiff,image/webp"
             onChange={handleFileUpload}
             error={showError}
-            labelText={t('uploadFile')}
+            buttonText={t('uploadFile')}
+            dropZoneText={t('dropFile')}
           />
         </LoadingProgressIndicator>
       )}
@@ -191,7 +209,7 @@ const UploadAttachments = ({
           {translateCommon('errors.customTextField.required')}
         </FormHelperText>
       )}
-    </>
+    </div>
   );
 };
 
@@ -224,7 +242,7 @@ const SelectEducation = ({
   const showError = showValidation && !isEducationValid;
 
   return (
-    <>
+    <div className="rows gapped">
       <Text>{t('educationSelectHelpText')}</Text>
       <Text>{t('educationSelectChooseOne')}</Text>
       <fieldset className="public-enrollment__grid__education-details margin-top-sm">
@@ -269,7 +287,7 @@ const SelectEducation = ({
           )}
         </FormControl>
       </fieldset>
-    </>
+    </div>
   );
 };
 
@@ -312,15 +330,15 @@ const EducationList = ({
 };
 
 export const EducationDetails = ({
-  handleChange,
   showValidation,
-  isEducationValid,
-  isAttachmentsValid,
+  isLoading,
+  setIsStepValid,
+  enrollment,
 }: {
-  handleChange: HandleChange;
   showValidation: boolean;
-  isEducationValid: boolean;
-  isAttachmentsValid: boolean;
+  isLoading: boolean;
+  setIsStepValid: (isValid: boolean) => void;
+  enrollment: PublicEnrollment;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix:
@@ -328,13 +346,11 @@ export const EducationDetails = ({
   });
   const dispatch = useAppDispatch();
 
-  const { enrollment, freeEnrollmentDetails } = useAppSelector(
-    publicEnrollmentSelector,
-  );
+  const { freeEnrollmentDetails } = useAppSelector(publicEnrollmentSelector);
   const { status: educationStatus, education: educations } = useAppSelector(
     publicEducationSelector,
   );
-  const { isFree, freeEnrollmentBasis } = enrollment;
+  const { freeEnrollmentBasis } = enrollment;
 
   useEffect(() => {
     if (educationStatus === APIResponseStatus.NotStarted) {
@@ -351,47 +367,76 @@ export const EducationDetails = ({
 
   const attachmentsRequired =
     freeEnrollmentBasis &&
-    freeEnrollmentBasis.type !== EducationType.None &&
-    isFree;
+    freeEnrollmentBasis.source === FreeBasisSource.User &&
+    freeEnrollmentBasis.type !== EducationType.None;
+
+  const isEducationValid =
+    !!freeEnrollmentBasis &&
+    EnrollmentUtils.isValidFreeBasisIfRequired(
+      enrollment,
+      freeEnrollmentDetails,
+    );
+  const isAttachmentsValid =
+    EnrollmentUtils.isValidAttachmentsIfRequired(enrollment);
+
+  const handleEductionChangeFn: HandleChange = (
+    isFree: boolean,
+    freeEnrollmentBasis?: PublicFreeEnrollmentBasis,
+  ) => {
+    dispatch(
+      updatePublicEnrollment({
+        isFree,
+        freeEnrollmentBasis,
+      }),
+    );
+  };
+  const handleEducationChange = useCallback(handleEductionChangeFn, [dispatch]);
+
+  useEffect(() => {
+    setIsStepValid(isEducationValid && isAttachmentsValid),
+      [setIsStepValid, isEducationValid, isAttachmentsValid];
+  });
 
   return (
-    EnrollmentUtils.hasFreeEnrollmentsLeft(freeEnrollmentDetails) && (
-      <div className="margin-top-lg rows gapped">
-        <H2>{t('educationInfoTitle')}</H2>
-        {isEducationLoading && showValidation && (
-          <FormHelperText
-            className="margin-bottom-lg"
-            id="education-loading-error"
-            error={true}
-          >
-            {t('errorWaitEducations')}
-          </FormHelperText>
+    <div className="rows gapped">
+      {isEducationLoading && showValidation && (
+        <FormHelperText
+          className="margin-bottom-lg"
+          id="education-loading-error"
+          error={true}
+        >
+          {t('errorWaitEducations')}
+        </FormHelperText>
+      )}
+      <LoadingProgressIndicator
+        isLoading={isLoading || isEducationLoading}
+        displayBlock={true}
+      >
+        {foundSuitableEducationDetails && (
+          <EducationList
+            handleChange={handleEducationChange}
+            educations={educations}
+          />
         )}
-        <LoadingProgressIndicator isLoading={isEducationLoading}>
-          {foundSuitableEducationDetails && (
-            <EducationList
-              handleChange={handleChange}
-              educations={educations}
-            />
-          )}
-        </LoadingProgressIndicator>
-        {!isEducationLoading && !foundSuitableEducationDetails && (
-          <>
-            <SelectEducation
-              enrollment={enrollment}
-              handleChange={handleChange}
-              showValidation={showValidation}
-              isEducationValid={isEducationValid}
-            />
-            {attachmentsRequired && (
-              <UploadAttachments
+        {!isLoading &&
+          !isEducationLoading &&
+          !foundSuitableEducationDetails && (
+            <>
+              <SelectEducation
+                enrollment={enrollment}
+                handleChange={handleEducationChange}
                 showValidation={showValidation}
-                isAttachmentsValid={isAttachmentsValid}
+                isEducationValid={isEducationValid}
               />
-            )}
-          </>
-        )}
-      </div>
-    )
+              {attachmentsRequired && (
+                <UploadAttachments
+                  showValidation={showValidation}
+                  isAttachmentsValid={isAttachmentsValid}
+                />
+              )}
+            </>
+          )}
+      </LoadingProgressIndicator>
+    </div>
   );
 };
