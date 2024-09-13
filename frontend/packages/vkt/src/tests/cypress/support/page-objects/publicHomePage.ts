@@ -9,8 +9,11 @@ class PublicHomePage {
     examEventRow: (id: number) => cy.findByTestId(row(id)),
     examEventRowCheckbox: (id: number) =>
       cy.findByTestId(row(id)).find('input[type=checkbox]'),
+    examEventRows: () =>
+      cy
+        .get('.public-homepage__grid-container__result-box')
+        .find('table > tbody > tr'),
     languageFilter: () => cy.findByTestId('exam-events__language-filter'),
-    pagination: () => cy.get('.table__head-box__pagination'),
     reservationTimerText: () =>
       cy.findByTestId('public-enrollment__reservation-timer-text'),
     reservationRenewButton: () =>
@@ -35,9 +38,7 @@ class PublicHomePage {
   }
 
   expectFilteredExamEventsCount(count: number) {
-    this.elements
-      .pagination()
-      .should('contain.text', `1 - ${count} / ${count}`);
+    this.elements.examEventRows().should('have.length', count);
   }
 
   expectEnrollButtonText(examEventId: number, text: string) {

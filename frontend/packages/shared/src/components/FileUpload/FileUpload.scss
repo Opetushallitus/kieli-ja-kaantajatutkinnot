@@ -2,24 +2,30 @@
 @use '../../styles/abstracts/colors';
 @use '../../styles/abstracts/maps';
 
-.custom-fileupload input {
-  width: fit-content;
-  border: 1px dashed colors.$color-secondary;
-  font-size: 120%;
-  display: none;
-}
+.custom-fileupload {
+  input {
+    display: none;
+  }
 
-.custom-fileupload.file-upload-error input {
-  border: 1px dashed colors.$color-red-500;
-}
+  &.file-upload-error {
+    .file-dropzone {
+      border-top: 1px dashed colors.$color-red-500;
+      border-right: 1px dashed colors.$color-red-500;
+      border-bottom: 1px dashed colors.$color-red-500;
+      p {
+        color: colors.$color-red-500;
+      }
+    }
+  }
 
-.custom-fileupload.file-upload-error input::file-selector-button {
-  background: colors.$color-red-500;
-}
-
-.custom-fileupload input::file-selector-button {
-  background: colors.$color-secondary;
-  border: 1px solid colors.$color-primary;
-  color: colors.$color-primary;
-  padding: 10px;
+  .file-dropzone {
+    align-content: center;
+    height: 100%;
+    border-top: 1px dashed colors.$color-secondary;
+    border-right: 1px dashed colors.$color-secondary;
+    border-bottom: 1px dashed colors.$color-secondary;
+    padding-left: 1vw;
+    padding-right: 10vw;
+    cursor: copy;
+  }
 }

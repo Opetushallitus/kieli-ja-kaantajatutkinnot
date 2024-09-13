@@ -14,7 +14,7 @@ describe('PublicHomePage', () => {
     onCookieBanner.getBanner().should('not.exist');
   });
 
-  it('should show the filtered amount of exam events in table pagination', () => {
+  it('should allow filtering exam events based on exam language', () => {
     onPublicHomePage.expectFilteredExamEventsCount(publicExamEvents11.length);
 
     onPublicHomePage.filterByLanguage(ExamLanguage.FI);

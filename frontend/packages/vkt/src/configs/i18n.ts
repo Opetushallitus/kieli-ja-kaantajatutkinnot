@@ -11,12 +11,10 @@ import { DateUtils } from 'shared/utils';
 import accessibilityFI from 'public/i18n/fi-FI/accessibility.json';
 import clerkFI from 'public/i18n/fi-FI/clerk.json';
 import commonFI from 'public/i18n/fi-FI/common.json';
-import privacyFI from 'public/i18n/fi-FI/privacy.json';
 import publicFI from 'public/i18n/fi-FI/public.json';
 import accessibilitySV from 'public/i18n/sv-SE/accessibility.json';
 import clerkSV from 'public/i18n/sv-SE/clerk.json';
 import commonSV from 'public/i18n/sv-SE/common.json';
-import privacySV from 'public/i18n/sv-SE/privacy.json';
 import publicSV from 'public/i18n/sv-SE/public.json';
 
 // Defaults and resources
@@ -30,14 +28,12 @@ const resources = {
     [I18nNamespace.Accessibility]: accessibilityFI,
     [I18nNamespace.Clerk]: clerkFI,
     [I18nNamespace.Common]: commonFI,
-    [I18nNamespace.Privacy]: privacyFI,
     [I18nNamespace.Public]: publicFI,
   },
   [langSV]: {
     [I18nNamespace.Accessibility]: accessibilitySV,
     [I18nNamespace.Clerk]: clerkSV,
     [I18nNamespace.Common]: commonSV,
-    [I18nNamespace.Privacy]: privacySV,
     [I18nNamespace.Public]: publicSV,
   },
 };
@@ -102,17 +98,6 @@ export const useCommonTranslation = () => {
       keyPrefix: 'vkt.common',
     },
     I18nNamespace.Common,
-  );
-
-  return t;
-};
-
-export const usePrivacyTranslation = () => {
-  const { t } = useAppTranslation(
-    {
-      keyPrefix: 'vkt.privacy',
-    },
-    I18nNamespace.Privacy,
   );
 
   return t;

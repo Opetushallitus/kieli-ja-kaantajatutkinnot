@@ -45,7 +45,7 @@ export const CertificateShipping = ({
   showValidation: boolean;
 }) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.steps.certificateShipping',
+    keyPrefix: 'vkt.component.publicEnrollment.steps.addressDetails',
   });
   const translateCommon = useCommonTranslation();
   const digitalConsentEnabled = false;
@@ -148,7 +148,7 @@ export const CertificateShipping = ({
         <Text>
           {translateCommon('enrollment.certificateShipping.description')}
         </Text>
-        <div className="margin-top-lg grid-columns gapped">
+        <div className="margin-top-lg grid-2-columns gapped">
           <LabeledTextField
             {...getCustomTextFieldAttributes('street')}
             value={enrollment.street}

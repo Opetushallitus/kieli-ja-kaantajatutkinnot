@@ -8,6 +8,7 @@ export enum AppRoutes {
   PublicEnrollment = '/vkt/ilmoittaudu',
   PublicAuth = '/vkt/ilmoittaudu/:examEventId/tunnistaudu',
   PublicEnrollmentContactDetails = '/vkt/ilmoittaudu/:examEventId/tiedot',
+  PublicEnrollmentEducationDetails = '/vkt/ilmoittaudu/:examEventId/koulutus',
   PublicEnrollmentSelectExam = '/vkt/ilmoittaudu/:examEventId/tutkinto',
   PublicEnrollmentPreview = '/vkt/ilmoittaudu/:examEventId/esikatsele',
   PublicEnrollmentPaymentFail = '/vkt/ilmoittaudu/:examEventId/maksu/peruutettu',
