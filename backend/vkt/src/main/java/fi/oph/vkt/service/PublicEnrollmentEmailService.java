@@ -183,8 +183,12 @@ public class PublicEnrollmentEmailService {
     final Person person,
     final FreeEnrollmentDetails freeEnrollmentDetails
   ) {
-    final Map<String, Object> templateParams = getEmailParams(enrollment);
-    getFreeEmailParams(templateParams, freeEnrollmentDetails, enrollment.getFreeEnrollment().getSource(), "enrollment");
+    final Map<String, Object> templateParams = withFreeEmailParams(
+      getEmailParams(enrollment),
+      freeEnrollmentDetails,
+      enrollment.getFreeEnrollment().getSource(),
+      "enrollment"
+    );
 
     final String recipientName = person.getFirstName() + " " + person.getLastName();
     final String recipientAddress = enrollment.getEmail();
@@ -204,8 +208,12 @@ public class PublicEnrollmentEmailService {
     final Person person,
     final FreeEnrollmentDetails freeEnrollmentDetails
   ) {
-    final Map<String, Object> templateParams = getEmailParams(enrollment);
-    getFreeEmailParams(templateParams, freeEnrollmentDetails, enrollment.getFreeEnrollment().getSource(), "queue");
+    final Map<String, Object> templateParams = withFreeEmailParams(
+      getEmailParams(enrollment),
+      freeEnrollmentDetails,
+      enrollment.getFreeEnrollment().getSource(),
+      "queue"
+    );
 
     final String recipientName = person.getFirstName() + " " + person.getLastName();
     final String recipientAddress = enrollment.getEmail();
@@ -225,10 +233,13 @@ public class PublicEnrollmentEmailService {
     final Person person,
     final FreeEnrollmentDetails freeEnrollmentDetails
   ) throws IOException, InterruptedException {
-    final Map<String, Object> templateParams = getEmailParams(enrollment);
-    getFreeEmailParams(templateParams, freeEnrollmentDetails, enrollment.getFreeEnrollment().getSource(), "queue");
+    final Map<String, Object> templateParams = withFreeEmailParams(
+      getEmailParams(enrollment),
+      freeEnrollmentDetails,
+      enrollment.getFreeEnrollment().getSource(),
+      "enrollment"
+    );
     templateParams.put("isFree", "false");
-    templateParams.put("type", "enrollment");
 
     final String recipientName = person.getFirstName() + " " + person.getLastName();
     final String recipientAddress = enrollment.getEmail();
@@ -255,10 +266,13 @@ public class PublicEnrollmentEmailService {
     final Person person,
     final FreeEnrollmentDetails freeEnrollmentDetails
   ) {
-    final Map<String, Object> templateParams = getEmailParams(enrollment);
-    getFreeEmailParams(templateParams, freeEnrollmentDetails, enrollment.getFreeEnrollment().getSource(), "queue");
+    final Map<String, Object> templateParams = withFreeEmailParams(
+      getEmailParams(enrollment),
+      freeEnrollmentDetails,
+      enrollment.getFreeEnrollment().getSource(),
+      "queue"
+    );
     templateParams.put("isFree", "false");
-    templateParams.put("type", "queue");
 
     final String recipientName = person.getFirstName() + " " + person.getLastName();
     final String recipientAddress = enrollment.getEmail();
@@ -272,16 +286,17 @@ public class PublicEnrollmentEmailService {
     createEmail(recipientName, recipientAddress, subject, body, List.of(), EmailType.ENROLLMENT_TO_QUEUE_CONFIRMATION);
   }
 
-  public void getFreeEmailParams(
+  public Map<String, Object> withFreeEmailParams(
     Map<String, Object> params,
     FreeEnrollmentDetails details,
     FreeEnrollmentSource source,
     String type
   ) {
-    params.put("isFree", true);
-    params.put("type", type);
-    params.put("source", source.name());
-    params.put(
+    Map<String, Object> freeParams = new HashMap<>(params);
+    freeParams.put("isFree", true);
+    freeParams.put("type", type);
+    freeParams.put("source", source.name());
+    freeParams.put(
       "freeExamsLeftFI",
       String.format(
         "%s: %s/3. %s: %s/3",
@@ -291,7 +306,7 @@ public class PublicEnrollmentEmailService {
         EnrollmentUtil.getFreeExamsLeft(details.oralSkillCount())
       )
     );
-    params.put(
+    freeParams.put(
       "freeExamsLeftSV",
       String.format(
         "%s: %s/3. %s: %s/3",
@@ -301,5 +316,7 @@ public class PublicEnrollmentEmailService {
         EnrollmentUtil.getFreeExamsLeft(details.oralSkillCount())
       )
     );
+
+    return freeParams;
   }
 }
