@@ -687,7 +687,7 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                   className="MuiStepLabel-label Mui-active css-1hv8oq8-MuiStepLabel-label"
                 >
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-1azqlft-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
                   >
                     phase phaseNumber: step.Identify
                   </p>
@@ -746,7 +746,7 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                   className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
                 >
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-1azqlft-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
                   >
                     phase phaseNumber: step.Register
                   </p>
@@ -805,7 +805,7 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                   className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
                 >
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-1azqlft-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
                   >
                     phase phaseNumber: step.Payment
                   </p>
@@ -864,7 +864,7 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                   className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
                 >
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-1azqlft-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
                   >
                     phase phaseNumber: step.Done
                   </p>
@@ -1204,7 +1204,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   className="MuiStepLabel-label Mui-active css-1hv8oq8-MuiStepLabel-label"
                 >
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-1azqlft-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
                   >
                     phase phaseNumber: step.Identify
                   </p>
@@ -1263,7 +1263,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
                 >
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-1azqlft-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
                   >
                     phase phaseNumber: step.Register
                   </p>
@@ -1322,7 +1322,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
                 >
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-1azqlft-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
                   >
                     phase phaseNumber: step.Payment
                   </p>
@@ -1381,7 +1381,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
                 >
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-1azqlft-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
                   >
                     phase phaseNumber: step.Done
                   </p>

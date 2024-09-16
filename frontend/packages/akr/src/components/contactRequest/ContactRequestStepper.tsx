@@ -1,5 +1,4 @@
-import { Step, StepLabel, Stepper, Typography } from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
+import { Step, StepLabel, Stepper } from '@mui/material';
 import { CircularStepper } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -48,12 +47,10 @@ export const ContactRequestStepper = () => {
     <div aria-label={t('ariaLabel')} role="group">
       <CircularStepper
         value={value}
-        aria-hidden={true}
         ariaLabel={ariaLabel}
         phaseText={text}
         size={90}
       />
-      <Typography sx={visuallyHidden}>{ariaLabel}</Typography>
     </div>
   ) : (
     <Stepper

@@ -86,15 +86,13 @@ export const PublicRegistrationStepper = () => {
       >
         <CircularStepper
           value={mobileStepValue}
-          aria-hidden={true}
           ariaLabel={mobileAriaLabel}
           phaseText={phaseText}
           color={isError ? Color.Error : Color.Secondary}
           size={90}
         />
-        <Text sx={visuallyHidden}>{mobileAriaLabel}</Text>
         <div className="rows">
-          <Typography component="p" variant="h2">
+          <Typography component="p" variant="h2" aria-hidden={true}>
             {getDescription(stepValue)}
           </Typography>
           {!isError && <Text>{getNextInformation(stepValue)}</Text>}

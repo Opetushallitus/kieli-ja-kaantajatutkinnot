@@ -66,24 +66,14 @@ export const PublicEnrollmentStepper = ({
 
   const stepValue = Math.min(activeStep, doneStepNumber);
 
-  const currentStep = `${t('currentStep')}: ${getDescription(stepValue)}.`;
-  const nextStep =
-    stepValue + 1 <= doneStepNumber
-      ? `${t('nextStep')}: ${getDescription(stepValue + 1)}.`
-      : '';
-
   const mobileStepValue = stepValue * (100 / doneStepNumber);
   const mobilePhaseText = `${stepValue}/${doneStepNumber}`;
-  const mobileAriaLabel = `${getPhaseDescription(stepValue)}
-  ${currentStep}
-  ${nextStep}`;
 
   return isPhone ? (
     <div role="group" aria-label={t('phases')}>
       <CircularStepper
         value={mobileStepValue}
-        aria-hidden={true}
-        ariaLabel={mobileAriaLabel}
+        ariaLabel={getPhaseDescription(stepValue)}
         phaseText={mobilePhaseText}
         color={
           activeStep === PublicEnrollmentFormStep.Payment
@@ -92,9 +82,6 @@ export const PublicEnrollmentStepper = ({
         }
         size={90}
       />
-      <Typography sx={visuallyHidden}>
-        {getPhaseDescription(stepValue)}
-      </Typography>
     </div>
   ) : (
     <Stepper
