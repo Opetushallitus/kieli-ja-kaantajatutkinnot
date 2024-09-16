@@ -9,6 +9,12 @@ class MeetingDatesPage {
     addButton: () => cy.findByTestId('meeting-dates-page__add-btn'),
     tableRow: (i: number) =>
       cy.get('.meeting-dates__listing > tbody > tr').eq(i),
+    meetingDateRow: (date: string) =>
+      cy
+        .get('.meeting-dates__listing > tbody > tr')
+        .contains(date)
+        .first()
+        .parentsUntil('tr'),
   };
 
   expectTotalMeetingDatesCount(count: number) {
@@ -39,8 +45,13 @@ class MeetingDatesPage {
     this.elements.addButton().should('be.visible').click();
   }
 
-  clickDeleteRowIcon(i: number) {
-    this.elements.tableRow(i).find('button').should('be.visible').click();
+  deleteMeetingDate(date: string) {
+    this.elements
+      .meetingDateRow(date)
+      .siblings()
+      .find('button')
+      .should('be.visible')
+      .click();
   }
 }
 

@@ -111,8 +111,8 @@ describe('PublicTranslatorFilters', () => {
   it('it should show a toast notification when language pair is defined, a translator is selected, and user tries to change from lang', () => {
     onPublicTranslatorFilters.filterByLanguagePair(isPhone, 'suomi', 'ruotsi');
     onPublicTranslatorsListing.clickTranslatorRow('1940');
-    onPublicTranslatorFilters.clickFromLang();
-
+    const force = true;
+    onPublicTranslatorFilters.clickFromLang(force);
     onToast.expectText('Voit valita vain yhden kieliparin yhteydenottoon');
   });
 

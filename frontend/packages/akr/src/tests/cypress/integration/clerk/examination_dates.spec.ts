@@ -13,7 +13,11 @@ const examinationDateToAdd = {
   version: 0,
   date: '2030-10-04',
 };
-const examinationDateToDelete = 5;
+
+const examinationDateToDelete = {
+  id: 5,
+  dateLabel: '18.11.2021',
+};
 
 beforeEach(() => {
   cy.fixture('examination_dates_10.json').then((dates) => {
@@ -94,7 +98,8 @@ describe('ExaminationDatesPage', () => {
   });
 
   it('should open a confirmation dialog when row delete icon is clicked, and do no changes if user backs out', () => {
-    onExaminationDatesPage.clickDeleteRowIcon(1);
+    onExaminationDatesPage.filterByStatus(ExaminationDateStatus.Passed);
+    onExaminationDatesPage.deleteExaminationDate(examinationDateToDelete.dateLabel);
 
     onDialog.expectText('Haluatko varmasti poistaa tutkintopäivän?');
     onDialog.clickButtonByText('Takaisin');
@@ -103,38 +108,46 @@ describe('ExaminationDatesPage', () => {
   });
 
   it('should open a confirmation dialog when row delete icon is clicked, and delete the selected examination date if user confirms', () => {
-    const newExaminationDates = examinationDates.filter(
-      (m) => m.id !== examinationDateToDelete,
-    );
-
-    cy.intercept('GET', APIEndpoints.ExaminationDate, [...newExaminationDates]);
     onExaminationDatesPage.filterByStatus(ExaminationDateStatus.Passed);
-    onExaminationDatesPage.clickDeleteRowIcon(1);
+    onExaminationDatesPage.deleteExaminationDate(
+      examinationDateToDelete.dateLabel,
+    );
 
     cy.intercept(
       'DELETE',
-      `${APIEndpoints.ExaminationDate}/${examinationDateToDelete}`,
+      `${APIEndpoints.ExaminationDate}/${examinationDateToDelete.id}`,
       {},
-    ).as('delete');
+    ).as('deleteExamDate');
+    const newExaminationDates = examinationDates.filter(
+      (m) => m.id !== examinationDateToDelete.id,
+    );
+    cy.intercept('GET', APIEndpoints.ExaminationDate, [
+      ...newExaminationDates,
+    ]).as('examDatesReload');
 
     onDialog.clickButtonByText('Kyllä');
-    cy.wait('@delete');
+    cy.wait('@deleteExamDate');
+    cy.wait('@examDatesReload');
 
     onExaminationDatesPage.expectRowToContain(0, '01.01.2022');
     onExaminationDatesPage.expectRowToContain(1, '15.08.2021');
     onExaminationDatesPage.expectTotalExaminationDatesCount(9);
     onExaminationDatesPage.expectSelectedExaminationDatesCount(5);
 
-    onToast.expectText('Tutkintopäivä 18.11.2021 poistettu');
+    onToast.expectText(
+      `Tutkintopäivä ${examinationDateToDelete.dateLabel} poistettu`,
+    );
   });
 
   it('should show an error toast if examination date is chosen to be deleted, but an API error occurs', () => {
     onExaminationDatesPage.filterByStatus(ExaminationDateStatus.Passed);
-    onExaminationDatesPage.clickDeleteRowIcon(1);
+    onExaminationDatesPage.deleteExaminationDate(
+      examinationDateToDelete.dateLabel,
+    );
 
     cy.intercept(
       'DELETE',
-      `${APIEndpoints.ExaminationDate}/${examinationDateToDelete}`,
+      `${APIEndpoints.ExaminationDate}/${examinationDateToDelete.id}`,
       createAPIErrorResponse(APIError.ExaminationDateDeleteHasAuthorisations),
     ).as('deleteWithError');
     onDialog.clickButtonByText('Kyllä');
