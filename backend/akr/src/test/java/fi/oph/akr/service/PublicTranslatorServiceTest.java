@@ -248,7 +248,8 @@ class PublicTranslatorServiceTest {
       Pair.of("Kaupunki1", "SWE"),
       Pair.of("Kaupunki3", "SWE"),
       Pair.of("Kaupunki2", "NOR"),
-      Pair.of("Kaupunki1", null)
+      Pair.of("Kaupunki1", null),
+      Pair.of("Sant Boi", "SPA")
     );
 
     final Map<String, PersonalData> personalDatasTest = new HashMap<String, PersonalData>();
@@ -310,7 +311,8 @@ class PublicTranslatorServiceTest {
         "Kaupunki1",
         "Kaupunki3",
         "Kaupunki2",
-        "Kaupunki1"
+        "Kaupunki1",
+        "Sant Boi"
       ),
       translators.stream().map(PublicTranslatorDTO::town).toList()
     );
@@ -322,7 +324,8 @@ class PublicTranslatorServiceTest {
         createPublicTownDTO("Tampere", "Tammerfors", null),
         createPublicTownDTO("Kaupunki1", "SWE"),
         createPublicTownDTO("Kaupunki2", "NOR"),
-        createPublicTownDTO("Kaupunki3", "SWE")
+        createPublicTownDTO("Kaupunki3", "SWE"),
+        createPublicTownDTO("Sant Boi", "SPA")
       ),
       responseDTO.towns()
     );
