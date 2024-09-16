@@ -79,12 +79,12 @@ class PublicTranslatorFilters {
     this.elements.search().should('be.visible').click();
   }
 
-  clickFromLang() {
-    this.elements.fromLangComboBox().should('be.visible').click();
+  clickFromLang(force?: boolean) {
+    this.elements.fromLangComboBox().should('be.visible').click({ force });
   }
 
-  clickToLang() {
-    this.elements.toLangComboBox().should('be.visible').click();
+  clickToLang(force?: boolean) {
+    this.elements.toLangComboBox().should('be.visible').click({ force });
   }
 
   expectSearchButtonTo(assert: string) {
