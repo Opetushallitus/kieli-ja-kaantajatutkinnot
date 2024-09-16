@@ -96,10 +96,10 @@ const NativeSelectOrComboBox = ({
       values,
       helperText,
       showError,
-      value: rest.value,
-      id: rest.id,
+      value: rest.value || '',
       disabled: rest.disabled,
       'data-testid': rest['data-testid'],
+      variant: 'outlined'
     };
 
     return (

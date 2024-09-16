@@ -73,6 +73,12 @@ jobs:
           wait-on: ${{ inputs.cypress-base-url }}
           command: yarn ${{ inputs.app-name }}:test:cypress
         timeout-minutes: 10
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: ${{ env.FRONTEND_DIR }}/packages/${{ inputs.app-name }}/src/tests/cypress/screenshots
       - name: Build
         working-directory: ${{ env.FRONTEND_DIR }}
         run: yarn ${{ inputs.app-name }}:build

@@ -9,7 +9,6 @@ import { ControlButtons } from 'components/contactRequest/ControlButtons';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';
-import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { updateContactRequest } from 'redux/reducers/contactRequest';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
 import { publicTranslatorsSelector } from 'redux/selectors/publicTranslator';
@@ -44,8 +43,6 @@ export const ContactRequestPage = () => {
       }),
     );
   }, [dispatch, from, to, selectedTranslators]);
-
-  useNavigationProtection(hasLocalChanges);
 
   const disableNextCb = (disabled: boolean) => setDisableNext(disabled);
   const showControlButtons =

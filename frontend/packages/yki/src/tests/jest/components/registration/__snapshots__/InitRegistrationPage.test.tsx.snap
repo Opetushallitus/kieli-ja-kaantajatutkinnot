@@ -239,7 +239,7 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
           >
             <button
               aria-disabled={false}
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium full-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary full-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -360,7 +360,7 @@ exports[`InitRegistrationPage should not let user proceed if exam is full and th
               full.description
             </p>
             <a
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium fit-content-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
               href="/yki/ilmoittautuminen"
               onBlur={[Function]}
               onContextMenu={[Function]}
@@ -482,7 +482,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
               upcoming.description
             </p>
             <a
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium fit-content-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
               href="/yki/ilmoittautuminen"
               onBlur={[Function]}
               onContextMenu={[Function]}
@@ -601,7 +601,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
               past.description
             </p>
             <a
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium fit-content-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
               href="/yki/ilmoittautuminen"
               onBlur={[Function]}
               onContextMenu={[Function]}
@@ -943,7 +943,7 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                 withFinnishSSN.info
               </p>
               <a
-                className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge public-registration__grid__form-container__registration-button css-1xnmwiw-MuiButtonBase-root-MuiButton-root"
+                className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-1xnmwiw-MuiButtonBase-root-MuiButton-root"
                 href="/yki/auth/?examSessionId=888"
                 onBlur={[Function]}
                 onContextMenu={[Function]}
@@ -1035,7 +1035,7 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                   className="rows"
                 >
                   <button
-                    className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium public-registration__grid__form-container__registration-button css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+                    className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-zcbmsk-MuiButtonBase-root-MuiButton-root"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1073,7 +1073,7 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                     onClick={[Function]}
                   >
                     <button
-                      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-1d3f8j8-MuiButtonBase-root-MuiButton-root"
+                      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1d3f8j8-MuiButtonBase-root-MuiButton-root"
                       data-testid="public-registration__controlButtons__abort"
                       disabled={false}
                       onBlur={[Function]}
@@ -1422,7 +1422,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 withFinnishSSN.info
               </p>
               <a
-                className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge public-registration__grid__form-container__registration-button css-1xnmwiw-MuiButtonBase-root-MuiButton-root"
+                className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-1xnmwiw-MuiButtonBase-root-MuiButton-root"
                 href="/yki/auth/?examSessionId=11"
                 onBlur={[Function]}
                 onContextMenu={[Function]}
@@ -1511,7 +1511,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   className="rows"
                 >
                   <button
-                    className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium public-registration__grid__form-container__registration-button css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+                    className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-zcbmsk-MuiButtonBase-root-MuiButton-root"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1546,7 +1546,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     onClick={[Function]}
                   >
                     <button
-                      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-1d3f8j8-MuiButtonBase-root-MuiButton-root"
+                      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1d3f8j8-MuiButtonBase-root-MuiButton-root"
                       data-testid="public-registration__controlButtons__abort"
                       disabled={false}
                       onBlur={[Function]}
