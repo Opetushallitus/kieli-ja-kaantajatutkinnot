@@ -132,13 +132,23 @@ public class PaymentService {
     }
 
     final Enrollment enrollment = payment.getEnrollment();
+    FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(enrollment.getPerson());
+
     setEnrollmentStatus(enrollment, newStatus);
 
     payment.setPaymentStatus(newStatus);
     paymentRepository.saveAndFlush(payment);
 
     if (newStatus == PaymentStatus.OK) {
-      publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment);
+      if (enrollment.getFreeEnrollment() != null) {
+        publicEnrollmentEmailService.sendPartiallyFreeEnrollmentConfirmationEmail(
+          enrollment,
+          enrollment.getPerson(),
+          freeEnrollmentDetails
+        );
+      } else {
+        publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment);
+      }
     }
 
     return payment;
