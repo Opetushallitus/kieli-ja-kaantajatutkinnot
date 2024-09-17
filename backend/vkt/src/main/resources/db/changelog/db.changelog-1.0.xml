@@ -859,4 +859,32 @@
             ALTER TABLE exam_event ADD COLUMN registration_opens TIMESTAMP WITH TIME ZONE;
         </sql>
     </changeSet>
+    <changeSet id="2024-09-16-enrollment_appointment" author="jrkkp">
+        <createTable tableName="enrollment_appointment">
+            <column autoIncrement="true" name="enrollment_appointment_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="enrollment_appointment_pkey" />
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="auth_hash" type="TEXT" />
+            <column name="email" type="TEXT" />
+            <column name="phone" type="TEXT" />
+            <column name="street" type="TEXT"/>
+            <column name="postal_code" type="TEXT"/>
+            <column name="town" type="TEXT"/>
+            <column name="country" type="TEXT"/>
+            <column name="person_id" type="BIGINT" />
+        </createTable>
+        <addColumn tableName="payment">
+            <column name="enrollment_appointment_id" type="BIGINT" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

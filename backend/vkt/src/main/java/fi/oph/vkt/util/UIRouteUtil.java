@@ -30,4 +30,8 @@ public class UIRouteUtil {
   private String getPublicBaseUrl() {
     return environment.getRequiredProperty("app.base-url.public");
   }
+
+  public String getEnrollmentAppointmentUrl(final long enrollmentAppointmentId) {
+    return String.format("%s/ota-yhteytta/%s/tunnistaudu", getPublicBaseUrl(), enrollmentAppointmentId);
+  }
 }
