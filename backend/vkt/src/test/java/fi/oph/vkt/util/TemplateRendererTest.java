@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import jakarta.annotation.Resource;
+import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,15 +25,32 @@ class TemplateRendererTest {
 
     assertCommonEnrollmentConfirmationEmailContent(content);
     assertTrue(content.contains("maksukuitti"));
+    assertFalse(content.contains("oikeutettu maksuttomaan"));
   }
 
   @Test
   public void testRenderEnrollmentToQueueConfirmation() {
     final Map<String, Object> params = getCommonEnrollmentConfirmationParams();
-    final String content = templateRenderer.renderEnrollmentToQueueConfirmationEmailBody(params);
+    final HashMap queueParams = new HashMap(params);
+    queueParams.put("type", "queue");
+    final String content = templateRenderer.renderEnrollmentConfirmationEmailBody(queueParams);
 
     assertCommonEnrollmentConfirmationEmailContent(content);
     assertFalse(content.contains("maksukuitti"));
+    assertFalse(content.contains("oikeutettu maksuttomaan"));
+  }
+
+  @Test
+  public void testRenderFreeEnrollmentConfirmation() {
+    final Map<String, Object> params = getCommonEnrollmentConfirmationParams();
+    final HashMap queueParams = new HashMap(params);
+    queueParams.put("isFree", true);
+    queueParams.put("source", "KOSKI");
+    final String content = templateRenderer.renderEnrollmentConfirmationEmailBody(queueParams);
+
+    assertCommonEnrollmentConfirmationEmailContent(content);
+    assertFalse(content.contains("maksukuitti"));
+    assertTrue(content.contains("oikeutettu maksuttomaan"));
   }
 
   private Map<String, Object> getCommonEnrollmentConfirmationParams() {
@@ -48,7 +66,11 @@ class TemplateRendererTest {
       "partialExamsFI",
       "kirjoittaminen, tekstin ymmärtäminen, puhuminen",
       "examLanguageSV",
-      "finska"
+      "finska",
+      "type",
+      "enrollment",
+      "isFree",
+      false
     );
   }
 

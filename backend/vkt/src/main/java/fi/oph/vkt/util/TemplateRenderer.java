@@ -15,34 +15,8 @@ public class TemplateRenderer {
 
   private final TemplateEngine templateEngine;
 
-  public String renderFreeEnrollmentConfirmationEmailBody(
-    final Map<String, Object> params,
-    FreeEnrollmentSource source
-  ) {
-    if (source.equals(FreeEnrollmentSource.KOSKI)) {
-      return renderTemplate("enrollment-free-koski-confirmation", params, Optional.empty());
-    } else {
-      return renderTemplate("enrollment-free-user-confirmation", params, Optional.empty());
-    }
-  }
-
   public String renderEnrollmentConfirmationEmailBody(final Map<String, Object> params) {
     return renderTemplate("enrollment-confirmation", params, Optional.empty());
-  }
-
-  public String renderEnrollmentToQueueConfirmationEmailBody(final Map<String, Object> params) {
-    return renderTemplate("enrollment-to-queue-confirmation", params, Optional.empty());
-  }
-
-  public String renderFreeEnrollmentToQueueConfirmationEmailBody(
-    final Map<String, Object> params,
-    FreeEnrollmentSource source
-  ) {
-    if (source.equals(FreeEnrollmentSource.KOSKI)) {
-      return renderTemplate("enrollment-to-queue-free-koski-confirmation", params, Optional.empty());
-    } else {
-      return renderTemplate("enrollment-to-queue-free-user-confirmation", params, Optional.empty());
-    }
   }
 
   public String renderReceipt(final Locale locale, final Map<String, Object> params) {

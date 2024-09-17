@@ -1,21 +1,46 @@
 <!DOCTYPE html>
-<html lang="fi">
+<html lang="fi" xmlns:th="http://www.thymeleaf.org">
     <body>
         <p>
             Hei,
         </p>
-        <p>
-            Olet ilmoittautunut Valtionhallinnon kielitutkintoon. Ohessa tiedot ilmoittautumisestasi. Liitteenä myös maksukuitti suomeksi ja ruotsiksi.
-        </p>
+        <th:block th:if="${!isFree and type == 'enrollment'}">
+            <p>Olet ilmoittautunut Valtionhallinnon kielitutkintoon. Ohessa tiedot ilmoittautumisestasi. Liitteenä myös maksukuitti suomeksi ja ruotsiksi.</p>
+        </th:block>
+        <th:block th:if="${!isFree and type == 'queue'}">
+            <p>Olet ilmoittautunut jonotuspaikalle Valtionhallinnon kielitutkintoon. Olemme sinuun yhteydessä, mikäli tutkintotilaisuuteen vapautuu paikkoja. Ohessa tiedot ilmoittautumisestasi.</p>
+        </th:block>
+        <th:block th:if="${isFree and source == 'KOSKI' and type == 'enrollment'}">
+            <p>Olet ilmoittautunut Valtionhallinnon kielitutkintoon. Tietojemme mukaan olet oikeutettu maksuttomaan tutkintoon. Ohessa tiedot ilmoittautumisestasi.</p>
+        </th:block>
+        <th:block th:if="${isFree and source == 'USER' and type == 'enrollment'}">
+            <p>Olet ilmoittautunut Valtionhallinnon kielitutkintoon. Olet ilmoittanut ilmoittautumislomakkeella, että olet oikeutettu maksuttomaan tutkintoon ja lisännyt todistusasiakirjoja.</p>
+            <p>Virkailija tarkastaa, täyttävätkö asiakirjat maksuttomuuden ehdot. Asiakirjat tarkastetaan mahdollisimman pian.</p>
+            <p>Jos ehdot täyttyvät, tutkinto on maksuton ja saat sähköpostilla vahvistuksen ilmoittautumisesta.</p>
+            <p>Jos ehdot eivät täyty, tutkinto on maksullinen ja saat sähköpostilla maksulinkin tutkintomaksun maksamista varten.</p>
+            <p>Ohessa tiedot ilmoittautumisestasi.</p>
+        </th:block>
+        <th:block th:if="${isFree and source == 'KOSKI' and type == 'queue'}">
+            <p>Olet ilmoittautunut jonotuspaikalle Valtionhallinnon kielitutkintoon. Olemme sinuun yhteydessä, mikäli tutkintotilaisuuteen vapautuu paikkoja.</p>
+            <p>Tietojemme mukaan olet oikeutettu maksuttomaan tutkintoon. Jos saat paikan tutkintoon, sinun ei tarvitse maksaa tutkintomaksua. Ohessa tiedot ilmoittautumisestasi.</p>
+        </th:block>
+        <th:block th:if="${isFree and source == 'USER' and type == 'queue'}">
+            <p>Olet ilmoittautunut jonotuspaikalle Valtionhallinnon kielitutkintoon. Olemme sinuun yhteydessä, mikäli tutkintotilaisuuteen vapautuu paikkoja.</p>
+            <p>Olet ilmoittanut ilmoittautumislomakkeella, että olet oikeutettu maksuttomaan tutkintoon ja lisännyt todistusasiakirjoja. Jos saat paikan tutkintoon, virkailija tarkastaa, täyttävätkö asiakirjat maksuttomuuden ehdot.</p>
+            <p>Jos ehdot täyttyvät, tutkinto on maksuton ja saat sähköpostilla vahvistuksen ilmoittautumisesta.</p>
+            <p>Jos ehdot eivät täyty, tutkinto on maksullinen ja saat sähköpostilla maksulinkin tutkintomaksun maksamista varten.</p>
+            <p>Ohessa tiedot ilmoittautumisestasi.</p>
+        </th:block>
         <br/>
 
         <p>
             <b>Tutkinnon kieli:</b> <span th:text="${examLanguageFI}"></span><br/>
             <b>Tutkinnon taso:</b> <span th:text="${examLevelFI}"></span><br/>
             <b>Tutkintopäivä:</b> <span th:text="${examDate}"></span><br/>
-            <b>Oikeutettu maksuttomaan tutkintoon:</b> <span>Ei</span><br/>
+            <b>Oikeutettu maksuttomaan tutkintoon:</b> <span th:text="${isFree}? 'Kyllä' : 'Ei'">Ei</span><br/>
             <b>Valitsemasi taidot:</b> <span th:text="${skillsFI}"></span><br/>
             <b>Valitsemasi osakokeet:</b> <span th:text="${partialExamsFI}"></span><br/>
+            <th:block th:if="${!#strings.isEmpty(freeExamsLeftFI)}"><b>Maksuttomia tutkintokertoja jäljellä:</b> <span th:text="${freeExamsLeftFI}"></span><br/></th:block>
         </p>
         <br/>
 
@@ -41,18 +66,43 @@
         <p>
             Hej,
         </p>
-        <p>
-            Du har anmält dig till Språkexamen för statsförvaltningen (VKT). Uppgifter om din anmälan hittar du nedan. Bifogat finns även kvittot för din examensavgift på finska och på svenska.
-        </p>
+        <th:block th:if="${!isFree and type == 'enrollment'}">
+            <p>Du har anmält dig till Språkexamen för statsförvaltningen (VKT). Uppgifter om din anmälan hittar du nedan. Bifogat finns även kvittot för din examensavgift på finska och på svenska.</p>
+        </th:block>
+        <th:block th:if="${!isFree and type == 'queue'}">
+            <p>Du har en plats i kön för Språkexamen för statsförvaltningen (VKT). Vi kommer att kontakta dig om platser blir lediga. Uppgifter om din anmälan hittar du nedan.</p>
+        </th:block>
+        <th:block th:if="${isFree and source == 'KOSKI' and type == 'enrollment'}">
+            <p>Du har anmält dig till Språkexamen för statsförvaltningen (VKT). Enligt våra uppgifter har du rätt till avgiftsfri examen. Uppgifter om din anmälan hittar du nedan.</p>
+        </th:block>
+        <th:block th:if="${isFree and source == 'USER' and type == 'enrollment'}">
+            <p>Du har anmält dig till Språkexamen för statsförvaltningen (VKT).</p>
+            <p>Du har uppgett på anmälningsblanketten att du har rätt till avgiftsfri examen och bifogat intyg. Dina intyg granskas vid Utbildningsstyrelsen så fort som möjligt.</p>
+            <p>Om du har rätt till avgiftsfri examen får du en bekräftelse på din anmälan per e-post.</p>
+            <p>Om du inte har rätt till avgiftsfri examen, får du en länk för att betala examensavgiften.</p>
+            <p>Uppgifter om din anmälan hittar du nedan.</p>
+        </th:block>
+        <th:block th:if="${isFree and source == 'KOSKI' and type == 'queue'}">
+            <p>Du har en plats i kön för Språkexamen för statsförvaltningen (VKT). Vi kommer att kontakta dig om platser blir lediga.</p>
+            <p>Enligt våra uppgifter har du rätt till avgiftsfri examen. Ifall du får plats vid examenstillfället behöver du inte betala examensavgift. Uppgifter om din anmälan hittar du nedan.</p>
+        </th:block>
+        <th:block th:if="${isFree and source == 'USER' and type == 'queue'}">
+            <p>Du har en plats i kön för Språkexamen för statsförvaltningen (VKT). Vi kontaktar dig om platser blir lediga.</p>
+            <p>Du har uppgett på anmälningsblanketten att du har rätt till avgiftsfri examen och bifogat intyg. Om du får en plats vid examenstillfället granskas dina intyg vid Utbildningsstyrelsen.</p>
+            <p>Ifall du har rätt till avgiftsfri examen får du en bekräftelse på din anmälan per e-post.</p>
+            <p>Om du inte har rätt till avgiftsfri examen, får du en länk för att betala examensavgiften.</p>
+            <p>Uppgifter om din anmälan hittar du nedan.</p>
+        </th:block>
         <br/>
 
         <p>
             <b>Examensspråk:</b> <span th:text="${examLanguageSV}"></span><br/>
             <b>Examensnivå:</b> <span th:text="${examLevelSV}"></span><br/>
             <b>Examensdatum:</b> <span th:text="${examDate}"></span><br/>
-            <b>Rätt till avgiftsfri examen:</b> <span>Nej</span><br/>
+            <b>Rätt till avgiftsfri examen:</b> <span th:text="${isFree} ? 'Ja' : 'Nej'">Nej</span><br/>
             <b>Förmågor som du har valt:</b> <span th:text="${skillsSV}"></span><br/>
             <b>Delprov som du har valt:</b> <span th:text="${partialExamsSV}"></span><br/>
+            <th:block th:if="${!#strings.isEmpty(freeExamsLeftSV)}"><b>Antal avgiftsfria examina kvar:</b> <span th:text="${freeExamsLeftSV}"></span><br/></th:block>
         </p>
         <br/>
         <p><b>Information om examenstillfället</b></p>
