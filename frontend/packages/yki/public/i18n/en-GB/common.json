@@ -68,7 +68,8 @@
       "header": {
         "accessibility": {
           "continueToMain": "Continue to content",
-          "langSelectorAriaLabel": "Kieli / Språk / Language"
+          "langSelectorAriaLabel": "Kieli / Språk / Language",
+          "mainNavigation": "Main navigation"
         },
         "sessionState": {
           "activeRegistrations_one": "You have already started 1 registration.",
