@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.11.3] - 2024-09-18 (TODO: Bump actual version in package.json)
+
+### Added
+- New NavigationLinks component as a more accessible replacement for navigation tabs
+
 ## [1.11.2] - 2024-09-16
+
 ### Fixed
 - Improve CircularStepper accessibility
 

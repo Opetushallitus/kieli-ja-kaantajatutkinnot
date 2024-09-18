@@ -1,0 +1,26 @@
+@use '../../styles/abstracts/colors';
+
+.navigation-links {
+  ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    gap: 6rem;
+    margin: 0;
+
+    > li {
+      padding-bottom: 2rem;
+      > a {
+        text-decoration: none;
+      }
+    }
+
+    li.active {
+      p {
+        color: colors.$color-secondary;
+        font-weight: 700;
+      }
+      border-bottom: 2px solid colors.$color-secondary;
+    }
+  }
+}
