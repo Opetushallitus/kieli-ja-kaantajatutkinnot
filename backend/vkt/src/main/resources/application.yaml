@@ -96,5 +96,6 @@ app:
       account: ${payment.paytrail.account:null}
   featureFlags:
     freeEnrollmentAllowed: ${feature-flags.free-enrollment-allowed:false}
+    goodAndSatisfactoryLevel: ${feature-flags.good-and-satisfactory-level:false}
   aws:
     s3-bucket: ${aws.s3-bucket:test}
