@@ -78,7 +78,7 @@ export const LanguageSelect = ({
     const nativeSelectProps: CustomNativeSelectProps = {
       placeholder: rest.label || '',
       values: sortedOptions,
-      value,
+      value: value || '',
       helperText,
       showError,
       'data-testid': rest['data-testid'],

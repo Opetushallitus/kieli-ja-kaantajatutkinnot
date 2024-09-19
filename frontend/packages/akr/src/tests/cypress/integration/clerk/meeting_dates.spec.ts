@@ -13,8 +13,7 @@ const meetingDateToAdd = {
   version: 0,
   date: '2030-10-04',
 };
-const meetingDateToBeDeleted = 5;
-
+const meetingDateToBeDeleted = { id: 5, dateLabel: '18.11.2021' };
 beforeEach(() => {
   cy.fixture('meeting_dates_10.json').then((dates) => {
     meetingDates = dates;
@@ -93,7 +92,8 @@ describe('MeetingDatesPage', () => {
   });
 
   it('should open a confirmation dialog when row delete icon is clicked, and do no changes if user backs out', () => {
-    onMeetingDatesPage.clickDeleteRowIcon(1);
+    onMeetingDatesPage.filterByStatus(MeetingDateStatus.Passed);
+    onMeetingDatesPage.deleteMeetingDate(meetingDateToBeDeleted.dateLabel);
 
     onDialog.expectText('Haluatko varmasti poistaa kokouspäivän?');
     onDialog.clickButtonByText('Takaisin');
@@ -102,19 +102,18 @@ describe('MeetingDatesPage', () => {
   });
 
   it('should open a confirmation dialog when row delete icon is clicked, and delete the selected meeting date if user confirms', () => {
-    const newMeetingDates = meetingDates.filter(
-      (m) => m.id !== meetingDateToBeDeleted,
-    );
-
-    cy.intercept('GET', APIEndpoints.MeetingDate, [...newMeetingDates]);
     onMeetingDatesPage.filterByStatus(MeetingDateStatus.Passed);
-    onMeetingDatesPage.clickDeleteRowIcon(1);
+    onMeetingDatesPage.deleteMeetingDate(meetingDateToBeDeleted.dateLabel);
 
     cy.intercept(
       'DELETE',
-      `${APIEndpoints.MeetingDate}/${meetingDateToBeDeleted}`,
+      `${APIEndpoints.MeetingDate}/${meetingDateToBeDeleted.id}`,
       {},
     ).as('delete');
+    const newMeetingDates = meetingDates.filter(
+      (m) => m.id !== meetingDateToBeDeleted.id,
+    );
+    cy.intercept('GET', APIEndpoints.MeetingDate, [...newMeetingDates]);
 
     onDialog.clickButtonByText('Kyllä');
 
@@ -123,16 +122,18 @@ describe('MeetingDatesPage', () => {
     onMeetingDatesPage.expectTotalMeetingDatesCount(9);
     onMeetingDatesPage.expectSelectedMeetingDatesCount(5);
 
-    onToast.expectText('Kokouspäivä 18.11.2021 poistettu');
+    onToast.expectText(
+      `Kokouspäivä ${meetingDateToBeDeleted.dateLabel} poistettu`,
+    );
   });
 
   it('should show an error toast if meeting date is chosen to be deleted, but an API error occurs', () => {
     onMeetingDatesPage.filterByStatus(MeetingDateStatus.Passed);
-    onMeetingDatesPage.clickDeleteRowIcon(1);
+    onMeetingDatesPage.deleteMeetingDate(meetingDateToBeDeleted.dateLabel);
 
     cy.intercept(
       'DELETE',
-      `${APIEndpoints.MeetingDate}/${meetingDateToBeDeleted}`,
+      `${APIEndpoints.MeetingDate}/${meetingDateToBeDeleted.id}`,
       createAPIErrorResponse(APIError.MeetingDateDeleteHasAuthorisations),
     ).as('deleteWithError');
     onDialog.clickButtonByText('Kyllä');

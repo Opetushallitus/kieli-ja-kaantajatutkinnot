@@ -1,8 +1,8 @@
 import {
+  BaseSelectProps,
   FormControl,
   FormHelperText,
   Select,
-  SelectProps,
 } from '@mui/material';
 import { FC } from 'react';
 
@@ -10,12 +10,13 @@ import { Variant } from '../../enums';
 import { ComboBoxOption } from '../../interfaces';
 import { Text } from '../Text/Text';
 
-export interface CustomNativeSelectProps extends SelectProps {
+export interface CustomNativeSelectProps
+  extends BaseSelectProps<ComboBoxOption> {
   'data-testid'?: string;
   helperText?: string;
   showError?: boolean;
   placeholder: string;
-  value: ComboBoxOption | null;
+  value: '' | ComboBoxOption | undefined;
   values: Array<ComboBoxOption>;
 }
 
@@ -26,11 +27,11 @@ const CustomSelect = ({
   ...rest
 }: CustomNativeSelectProps) => {
   const options = [{ label: placeholder, value: '' }, ...values];
-
+  const inputValue = (value && value.value) ? value : '';
   return (
     <Select
       variant={Variant.Outlined}
-      value={value?.value || ''}
+      value={inputValue}
       {...rest}
       native
     >
@@ -57,7 +58,7 @@ export const NativeSelect: FC<CustomNativeSelectProps> = ({
 };
 
 export const NativeSelectWithLabel: FC<
-  CustomNativeSelectProps & { label: string }
+  CustomNativeSelectProps & { id: string; label: string }
 > = ({ id, showError, helperText, label, ...rest }) => {
   const errorStyles = showError ? { color: 'error.main' } : {};
 

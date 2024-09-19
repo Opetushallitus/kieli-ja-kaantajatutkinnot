@@ -110,10 +110,11 @@ export const AccessibilityStatementPage = () => {
                   <ItemBulletList
                     key={`items-${i}`}
                     item={translateAccessibility(`content.caveats.${i}.name`)}
-                    bulletPoints={translateAccessibility(
-                      `content.caveats.${i}.points`,
-                      { returnObjects: true },
-                    )}
+                    bulletPoints={
+                      translateAccessibility(`content.caveats.${i}.points`, {
+                        returnObjects: true,
+                      }) as Array<string>
+                    }
                   />
                 ))}
               </ul>

@@ -23,7 +23,7 @@ function* loadUserOpenRegistrationsSaga() {
     );
     yield put(acceptUserOpenRegistrations(response.data));
 
-    // Reset known open registrations after the first expires,
+    // Reset known open registrations after the first one expires,
     // possibly triggering a new API call
     const maxPossibleExpiry = dayjs().add(30, 'minute');
     const nextToExpire: Dayjs = response.data.open_registrations.reduce(

@@ -147,10 +147,13 @@ export const ClerkSendEmailPage = () => {
   const initialFieldErrors = { subject: '', message: '' };
   const [fieldErrors, setFieldErrors] =
     useState<typeof initialFieldErrors>(initialFieldErrors);
+
+  const emptyBody = StringUtils.isBlankString(email.body);
+  const emptySubject = StringUtils.isBlankString(email.subject);
   const submitDisabled =
     isLoading ||
-    StringUtils.isBlankString(email.subject) ||
-    StringUtils.isBlankString(email.body) ||
+    emptySubject ||
+    emptyBody ||
     fieldErrors.message.length > 0 ||
     translators.length == 0;
 
@@ -158,6 +161,21 @@ export const ClerkSendEmailPage = () => {
   const navigate = useNavigate();
 
   const { showToast } = useToast();
+
+  // Enable navigation protection when subject or body are modified.
+  // Disable navigation protection if API request succeeds or is cancelled.
+  useNavigationProtection(
+    (!emptyBody || !emptySubject) &&
+      !(
+        status === APIResponseStatus.Success ||
+        status === APIResponseStatus.Cancelled
+      ),
+  );
+
+  // Show toast on success.
+  // If an error occurs, a corresponding toast is shown from within the saga.
+  // Finally, if API request succeeds or is cancelled, reset input fields and
+  // navigate back to the clerk registry view.
   useEffect(() => {
     if (status == APIResponseStatus.Success) {
       showToast({
@@ -215,8 +233,6 @@ export const ClerkSendEmailPage = () => {
     },
     [t],
   );
-
-  useNavigationProtection(isLoading);
 
   return (
     <Box className="clerk-send-email-page">

@@ -44,6 +44,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             aria-hidden={true}
             aria-invalid={false}
             className="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            disabled={false}
             onAnimationStart={[Function]}
             onChange={[Function]}
             tabIndex={-1}
@@ -265,7 +266,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             onClick={[Function]}
           >
             <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1l9sosn-MuiButtonBase-root-MuiButton-root"
+              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1l9sosn-MuiButtonBase-root-MuiButton-root"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -356,7 +357,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             onClick={[Function]}
           >
             <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1l9sosn-MuiButtonBase-root-MuiButton-root"
+              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1l9sosn-MuiButtonBase-root-MuiButton-root"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -562,7 +563,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             onClick={[Function]}
           >
             <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1l9sosn-MuiButtonBase-root-MuiButton-root"
+              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1l9sosn-MuiButtonBase-root-MuiButton-root"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -648,7 +649,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             onClick={[Function]}
           >
             <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1l9sosn-MuiButtonBase-root-MuiButton-root"
+              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1l9sosn-MuiButtonBase-root-MuiButton-root"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -734,7 +735,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             onClick={[Function]}
           >
             <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1l9sosn-MuiButtonBase-root-MuiButton-root"
+              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1l9sosn-MuiButtonBase-root-MuiButton-root"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -820,7 +821,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             onClick={[Function]}
           >
             <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1l9sosn-MuiButtonBase-root-MuiButton-root"
+              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1l9sosn-MuiButtonBase-root-MuiButton-root"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -1007,6 +1008,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             aria-hidden={true}
             aria-invalid={false}
             className="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            disabled={false}
             onAnimationStart={[Function]}
             onChange={[Function]}
             tabIndex={-1}
