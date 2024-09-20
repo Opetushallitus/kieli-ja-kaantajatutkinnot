@@ -2,6 +2,7 @@ package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
@@ -14,6 +15,7 @@ import fi.oph.vkt.payment.paytrail.Customer;
 import fi.oph.vkt.payment.paytrail.Item;
 import fi.oph.vkt.payment.paytrail.PaytrailConfig;
 import fi.oph.vkt.payment.paytrail.PaytrailResponseDTO;
+import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.PaymentRepository;
 import fi.oph.vkt.util.EnrollmentUtil;
@@ -24,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +43,7 @@ public class PaymentService {
   private final PaymentProvider paymentProvider;
   private final PaymentRepository paymentRepository;
   private final EnrollmentRepository enrollmentRepository;
+  private final EnrollmentAppointmentRepository enrollmentAppointmentRepository;
   private final Environment environment;
   private final PublicEnrollmentEmailService publicEnrollmentEmailService;
 
@@ -51,6 +55,24 @@ public class PaymentService {
       .vatPercentage(PaytrailConfig.VAT)
       .productCode(enrollmentSkill.toString())
       .build();
+  }
+
+  private List<Item> getItems(final EnrollmentAppointment enrollmentAppointment) {
+    final List<Item> itemList = new ArrayList<>();
+
+    if (enrollmentAppointment.isTextualSkill()) {
+      itemList.add(getItem(EnrollmentSkill.TEXTUAL, EnrollmentUtil.getTextualSkillFee(enrollmentAppointment)));
+    }
+    if (enrollmentAppointment.isOralSkill()) {
+      itemList.add(getItem(EnrollmentSkill.ORAL, EnrollmentUtil.getOralSkillFee(enrollmentAppointment)));
+    }
+    if (enrollmentAppointment.isUnderstandingSkill()) {
+      itemList.add(
+        getItem(EnrollmentSkill.UNDERSTANDING, EnrollmentUtil.getUnderstandingSkillFee(enrollmentAppointment))
+      );
+    }
+
+    return itemList;
   }
 
   private List<Item> getItems(final Enrollment enrollment, final FreeEnrollmentDetails freeEnrollmentDetails) {
@@ -162,6 +184,53 @@ public class PaymentService {
     final ExamEvent examEvent = payment.getEnrollment().getExamEvent();
 
     return String.format("%s/ilmoittaudu/%d/maksu/%s", baseUrl, examEvent.getId(), state);
+  }
+
+  @Transactional
+  public String createPaymentForEnrollmentAppointment(
+    final Long enrollmentId,
+    final Person person,
+    final AppLocale appLocale
+  ) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository
+      .findById(enrollmentId)
+      .orElseThrow(() -> new NotFoundException("Enrollment not found"));
+
+    if (enrollmentAppointment.getPerson() == null || enrollmentAppointment.getPerson().getId() != person.getId()) {
+      throw new APIException(APIExceptionType.PAYMENT_PERSON_SESSION_MISMATCH);
+    }
+
+    final List<Item> itemList = getItems(enrollmentAppointment);
+    final Customer customer = Customer
+      .builder()
+      .email(getCustomerField(enrollmentAppointment.getEmail(), Customer.EMAIL_MAX_LENGTH))
+      .phone(getCustomerField(enrollmentAppointment.getPhoneNumber(), Customer.PHONE_MAX_LENGTH))
+      .firstName(getCustomerField(person.getFirstName(), Customer.FIRST_NAME_MAX_LENGTH))
+      .lastName(getCustomerField(person.getLastName(), Customer.LAST_NAME_MAX_LENGTH))
+      .build();
+
+    final int amount = EnrollmentUtil.getTotalFee(enrollmentAppointment);
+
+    final Payment payment = new Payment();
+    payment.setEnrollmentAppointment(enrollmentAppointment);
+    payment.setAmount(amount);
+    paymentRepository.saveAndFlush(payment);
+
+    final PaytrailResponseDTO response = paymentProvider.createPayment(
+      itemList,
+      payment.getId(),
+      customer,
+      amount,
+      appLocale
+    );
+
+    payment.setTransactionId(response.getTransactionId());
+    payment.setReference(response.getReference());
+    payment.setPaymentUrl(response.getHref());
+    payment.setPaymentStatus(PaymentStatus.NEW);
+    paymentRepository.saveAndFlush(payment);
+
+    return payment.getPaymentUrl();
   }
 
   @Transactional

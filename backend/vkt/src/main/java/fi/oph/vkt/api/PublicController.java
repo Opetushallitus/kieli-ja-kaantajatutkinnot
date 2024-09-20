@@ -321,20 +321,22 @@ public class PublicController {
     httpResponse.sendRedirect(publicAuthService.createCasLogoutUrl());
   }
 
-  @GetMapping(path = "/payment/create/{enrollmentId:\\d+}/redirect")
+  @GetMapping(path = "/payment/create/{targetId:\\d+}/{type:\\w}/redirect")
   public void createPaymentAndRedirect(
-    @PathVariable final Long enrollmentId,
+    @PathVariable final Long targetId,
+    @PathVariable final String type,
     @RequestParam final Optional<String> locale,
     final HttpSession session,
     final HttpServletResponse httpResponse
   ) throws IOException {
     try {
+      final EnrollmentType enrollmentType = EnrollmentType.fromString(type);
       final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
-      final String redirectUrl = paymentService.createPaymentForEnrollment(
-        enrollmentId,
-        person,
-        locale.isPresent() ? AppLocale.fromString(locale.get()) : AppLocale.FI
-      );
+      final AppLocale localeOrDefault = locale.isPresent() ? AppLocale.fromString(locale.get()) : AppLocale.FI;
+
+      final String redirectUrl = enrollmentType.equals(EnrollmentType.APPOINTMENT)
+        ? paymentService.createPaymentForEnrollmentAppointment(targetId, person, localeOrDefault)
+        : paymentService.createPaymentForEnrollment(targetId, person, localeOrDefault);
 
       httpResponse.sendRedirect(redirectUrl);
     } catch (final APIException e) {
