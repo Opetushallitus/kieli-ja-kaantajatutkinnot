@@ -15,6 +15,8 @@ export enum AppRoutes {
   PublicEnrollmentPaymentSuccess = '/vkt/ilmoittaudu/:examEventId/maksu/valmis',
   PublicEnrollmentDoneQueued = '/vkt/ilmoittaudu/:examEventId/jono-valmis',
   PublicEnrollmentDone = '/vkt/ilmoittaudu/:examEventId/valmis',
+  PublicEnrollmentAppointment = '/vkt/markkinapaikka',
+  PublicAuthAppointment = '/vkt/markkinapaikka/:enrollmentId/tunnistaudu',
   ClerkHomePage = '/vkt/virkailija',
   ClerkExamEventCreatePage = '/vkt/virkailija/tutkintotilaisuus/luo',
   ClerkExamEventOverviewPage = '/vkt/virkailija/tutkintotilaisuus/:examEventId',

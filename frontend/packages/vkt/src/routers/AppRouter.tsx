@@ -178,6 +178,17 @@ export const AppRouter: FC = () => {
             }
           />
         </Route>
+        <Route path={AppRoutes.PublicEnrollmentAppointment}>
+          <Route
+            path={AppRoutes.PublicAuthAppointment}
+            element={
+              <TitlePage title={createTitle('authenticate')}>
+                <PublicEnrollmentAppointmentPage
+                  activeStep={PublicEnrollmentFormStep.Authenticate}
+                />
+              </TitlePage>
+            }
+          />
         <Route
           path={AppRoutes.AccessibilityStatementPage}
           element={
