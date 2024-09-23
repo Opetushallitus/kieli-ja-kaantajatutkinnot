@@ -109,8 +109,5 @@
     "webpack": "^5.94.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
-  },
-  "@comments": {
-    "react-router-dom": "Do not update past 6.13.0 until useBlocker is fixed, see https://github.com/remix-run/react-router/issues/11155"
   }
 }
