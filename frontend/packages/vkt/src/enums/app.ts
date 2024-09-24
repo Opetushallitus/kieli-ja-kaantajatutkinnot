@@ -2,26 +2,42 @@ export enum AppConstants {
   CallerID = '1.2.246.562.10.00000000001.vkt',
 }
 
+const excellentLevelRoutePrefix = '/vkt/erinomainen-taito';
+const excellentLevelEnrollmentRoute =
+  excellentLevelRoutePrefix + '/ilmoittaudu';
+
 export enum AppRoutes {
   PublicRoot = '/vkt',
   PublicHomePage = '/vkt/etusivu',
-  PublicEnrollment = '/vkt/ilmoittaudu',
-  PublicAuth = '/vkt/ilmoittaudu/:examEventId/tunnistaudu',
-  PublicEnrollmentContactDetails = '/vkt/ilmoittaudu/:examEventId/tiedot',
-  PublicEnrollmentEducationDetails = '/vkt/ilmoittaudu/:examEventId/koulutus',
-  PublicEnrollmentSelectExam = '/vkt/ilmoittaudu/:examEventId/tutkinto',
-  PublicEnrollmentPreview = '/vkt/ilmoittaudu/:examEventId/esikatsele',
-  PublicEnrollmentPaymentFail = '/vkt/ilmoittaudu/:examEventId/maksu/peruutettu',
-  PublicEnrollmentPaymentSuccess = '/vkt/ilmoittaudu/:examEventId/maksu/valmis',
-  PublicEnrollmentDoneQueued = '/vkt/ilmoittaudu/:examEventId/jono-valmis',
-  PublicEnrollmentDone = '/vkt/ilmoittaudu/:examEventId/valmis',
+  // Routes for excellent level
+  PublicExcellentLevelLanding = excellentLevelRoutePrefix,
+  PublicEnrollment = excellentLevelEnrollmentRoute,
+  PublicAuth = excellentLevelEnrollmentRoute + '/:examEventId/tunnistaudu',
+  PublicEnrollmentContactDetails = excellentLevelEnrollmentRoute +
+    '/:examEventId/tiedot',
+  PublicEnrollmentEducationDetails = excellentLevelEnrollmentRoute +
+    '/:examEventId/koulutus',
+  PublicEnrollmentSelectExam = excellentLevelEnrollmentRoute +
+    '/:examEventId/tutkinto',
+  PublicEnrollmentPreview = excellentLevelEnrollmentRoute +
+    '/:examEventId/esikatsele',
+  PublicEnrollmentPaymentFail = excellentLevelEnrollmentRoute +
+    '/:examEventId/maksu/peruutettu',
+  PublicEnrollmentPaymentSuccess = excellentLevelEnrollmentRoute +
+    '/:examEventId/maksu/valmis',
+  PublicEnrollmentDoneQueued = excellentLevelEnrollmentRoute +
+    '/:examEventId/jono-valmis',
+  PublicEnrollmentDone = excellentLevelEnrollmentRoute + '/:examEventId/valmis',
+  // Routes for good and satisfactory level - TODO
+  PublicGoodAndSatisfactoryLevelLanding = '/vkt/hyva-ja-tyydyttava-taito',
+  // Routes for clerk user
   ClerkHomePage = '/vkt/virkailija',
   ClerkExamEventCreatePage = '/vkt/virkailija/tutkintotilaisuus/luo',
   ClerkExamEventOverviewPage = '/vkt/virkailija/tutkintotilaisuus/:examEventId',
   ClerkEnrollmentOverviewPage = '/vkt/virkailija/tutkintotilaisuus/:examEventId/ilmoittautuminen',
   ClerkLocalLogoutPage = '/vkt/cas/localLogout',
+  // Miscellaneous
   AccessibilityStatementPage = '/vkt/saavutettavuusseloste',
-  PrivacyPolicyPage = '/vkt/tietosuojaseloste',
   LogoutSuccess = '/vkt/uloskirjautuminen-onnistui',
   NotFoundPage = '*',
 }
