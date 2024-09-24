@@ -2,13 +2,11 @@ import { Grid, Paper } from '@mui/material';
 import { LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
-import { PublicEnrollmentControlButtons } from 'components/publicEnrollment/PublicEnrollmentControlButtons';
-import { PublicEnrollmentExamEventDetails } from 'components/publicEnrollment/PublicEnrollmentExamEventDetails';
-import { PublicEnrollmentPaymentSum } from 'components/publicEnrollment/PublicEnrollmentPaymentSum';
-import { PublicEnrollmentStepContents } from 'components/publicEnrollment/PublicEnrollmentStepContents';
-import { PublicEnrollmentStepHeading } from 'components/publicEnrollment/PublicEnrollmentStepHeading';
-import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
-import { PublicEnrollmentTimer } from 'components/publicEnrollment/PublicEnrollmentTimer';
+import { PublicEnrollmentAppointmentControlButtons } from 'components/publicEnrollment/PublicEnrollmentAppointmentControlButtons';
+import { PublicEnrollmentAppointmentPaymentSum } from 'components/publicEnrollment/PublicEnrollmentAppointmentPaymentSum';
+import { PublicEnrollmentAppointmentStepContents } from 'components/publicEnrollment/PublicEnrollmentAppointmentStepContents';
+import { PublicEnrollmentAppointmentStepHeading } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentStepHeading';
+import { PublicEnrollmentAppointmentStepper } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentStepper';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
@@ -81,28 +79,15 @@ export const PublicEnrollmentAppointmentDesktopGrid = ({
                   : 'public-enrollment__grid__form-container'
               }
             >
-              <PublicEnrollmentStepper
+              <PublicEnrollmentAppointmentStepper
                 activeStep={activeStep}
                 includePaymentStep={includePaymentStep}
               />
-              {reservation && !isPreviewPassed && (
-                <PublicEnrollmentTimer
-                  reservation={reservation}
-                  isLoading={isRenewOrCancelLoading}
-                />
-              )}
-              <PublicEnrollmentStepHeading
+              <PublicEnrollmentAppointmentStepHeading
                 activeStep={activeStep}
                 isEnrollmentToQueue={isEnrollmentToQueue}
               />
-              {isExamEventDetailsAvailable && (
-                <PublicEnrollmentExamEventDetails
-                  examEvent={examEvent}
-                  showOpenings={!isPreviewPassed && !isShiftedFromQueue}
-                  isEnrollmentToQueue={isEnrollmentToQueue}
-                />
-              )}
-              <PublicEnrollmentStepContents
+              <PublicEnrollmentAppointmentStepContents
                 examEvent={examEvent}
                 activeStep={activeStep}
                 enrollment={enrollment}
@@ -112,14 +97,14 @@ export const PublicEnrollmentAppointmentDesktopGrid = ({
                 showValidation={showValidation}
               />
               {isPaymentSumAvailable && (
-                <PublicEnrollmentPaymentSum
+                <PublicEnrollmentAppointmentPaymentSum
                   enrollment={enrollment}
                   freeEnrollmentDetails={freeEnrollmentDetails}
                 />
               )}
               {activeStep > PublicEnrollmentFormStep.Authenticate &&
                 !isPreviewPassed && (
-                  <PublicEnrollmentControlButtons
+                  <PublicEnrollmentAppointmentControlButtons
                     isEnrollmentToQueue={isEnrollmentToQueue}
                     submitStatus={enrollmentSubmitStatus}
                     activeStep={activeStep}
