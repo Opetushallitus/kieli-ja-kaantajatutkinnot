@@ -1,8 +1,9 @@
 import { AppBar, Toolbar } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, matchPath, useLocation } from 'react-router-dom';
 import {
   CookieBanner,
   LangSelector,
+  NavigationLinks,
   OPHClerkLogo,
   OPHLogoViewer,
   SkipLink,
@@ -21,12 +22,61 @@ import {
   getSupportedLangs,
   useCommonTranslation,
 } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { AppRoutes, PublicNavigationLink } from 'enums/app';
 import { useAuthentication } from 'hooks/useAuthentication';
 import { useInterval } from 'hooks/useInterval';
 import { loadClerkUser } from 'redux/reducers/clerkUser';
 import { loadPublicUser } from 'redux/reducers/publicUser';
+import { featureFlagsSelector } from 'redux/selectors/featureFlags';
+
+const isPathActive = (currentPath: string, route: AppRoutes) =>
+  !!matchPath({ path: route, end: false }, currentPath);
+
+const PublicNavigationLinks = () => {
+  const translateCommon = useCommonTranslation();
+  const { pathname } = useLocation();
+  const { goodAndSatisfactoryLevel } = useAppSelector(featureFlagsSelector);
+  const excellentLevelLink = {
+    active: isPathActive(pathname, AppRoutes.PublicExcellentLevelLanding),
+    label: translateCommon(
+      `header.publicNavigationLinks.${PublicNavigationLink.ExcellentLevel}`,
+    ),
+    href: AppRoutes.PublicExcellentLevelLanding,
+  };
+
+  const navigationLinks = goodAndSatisfactoryLevel
+    ? [
+        {
+          active: isPathActive(pathname, AppRoutes.PublicHomePage),
+          label: translateCommon(
+            `header.publicNavigationLinks.${PublicNavigationLink.FrontPage}`,
+          ),
+          href: AppRoutes.PublicHomePage,
+        },
+        excellentLevelLink,
+        {
+          active: isPathActive(
+            pathname,
+            AppRoutes.PublicGoodAndSatisfactoryLevelLanding,
+          ),
+          label: translateCommon(
+            `header.publicNavigationLinks.${PublicNavigationLink.GoodAndSatisfactoryLevel}`,
+          ),
+          href: AppRoutes.PublicGoodAndSatisfactoryLevelLanding,
+        },
+      ]
+    : [excellentLevelLink];
+
+  return (
+    <NavigationLinks
+      navigationAriaLabel={translateCommon(
+        'header.accessibility.mainNavigation',
+      )}
+      links={navigationLinks}
+    />
+  );
+};
 
 export const Header = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -40,9 +90,13 @@ export const Header = (): JSX.Element => {
 
   const { isAuthenticated, isClerkUI, clerkUser, publicUser } =
     useAuthentication();
+  const goodAndSatisfactoryLevelSupported =
+    useAppSelector(featureFlagsSelector).goodAndSatisfactoryLevel;
   const logoRedirectURL = isAuthenticated
     ? AppRoutes.ClerkHomePage
     : AppRoutes.PublicHomePage;
+  const activeUrl = window.location.href;
+  const isPublicUrl = !activeUrl.includes(AppRoutes.ClerkHomePage);
   const { isPhone } = useWindowProperties();
 
   const isClerkAuthenticationValid =
@@ -110,6 +164,9 @@ export const Header = (): JSX.Element => {
           </div>
           <div className="header__center">
             {isAuthenticated && <ClerkNavTabs />}
+            {isPublicUrl && goodAndSatisfactoryLevelSupported && (
+              <PublicNavigationLinks />
+            )}
           </div>
           <div className="header__right">
             {isAuthenticated && <ClerkHeaderButtons />}

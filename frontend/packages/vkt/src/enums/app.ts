@@ -67,3 +67,9 @@ export enum PaymentStatus {
   PENDING = 'PENDING',
   DELAYED = 'DELAYED',
 }
+
+export enum PublicNavigationLink {
+  FrontPage = 'frontPage',
+  ExcellentLevel = 'excellentLevel',
+  GoodAndSatisfactoryLevel = 'goodAndSatisfactoryLevel',
+}
