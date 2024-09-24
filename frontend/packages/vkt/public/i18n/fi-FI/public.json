@@ -322,6 +322,20 @@
       "logoutSuccessPage": {
         "heading": "Uloskirjautuminen onnnistui",
         "info": "Olet kirjautunut ulos. Suljethan vielä kaikki selainikkunat."
+      },
+      "goodAndSatisfactoryLevel": {
+        "title": "Hyvän ja tyydyttävän taidon tutkinnot"
+      },
+      "publicHomePage": {
+        "description": {
+          "part1": "Valtionhallinnon kielitutkinnot (VKT) on tarkoitettu julkishallinnon henkilöstön toisen kotimaisen kielen hallinnan osoittamiseen.",
+          "part2": "Tutkinnoilla osoitetaan suomen tai ruotsin kielen suullinen, kirjallinen ja ymmärtämisen taito."
+        },
+        "selectExamination": {
+          "description": "Valtionhallinnon kielitutkintoja on kahta eri tyyppiä: toisella voit osoittaa erinomaisen taidon hallintaa ja toisella joko hyvän tai tyydyttävän taidon hallintaa.",
+          "heading": "Valitse tutkintosi"
+        },
+        "title": "Valtionhallinnon kielitutkinnot (VKT)"
       }
     }
   }

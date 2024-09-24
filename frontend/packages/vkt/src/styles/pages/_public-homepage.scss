@@ -35,4 +35,19 @@
       padding: 3rem 2rem;
     }
   }
+
+  & &__cards {
+    @include not-phone {
+      width: 100%;
+    }
+  }
+
+  & &__level-description-card {
+    background-color: $color-blue-200;
+    padding: 2rem;
+    @include not-phone {
+      width: 50%;
+      height: 50rem;
+    }
+  }
 }
