@@ -16,6 +16,7 @@ import {
   publicEnrollmentInitialisationWithFreeEnrollments,
 } from 'tests/msw/fixtures/publicEnrollmentInitialisation';
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
+import { AppRoutes } from 'enums/app';
 
 export const handlers = [
   http.get(APIEndpoints.ClerkUser, ({ cookies }) => {
@@ -37,7 +38,10 @@ export const handlers = [
   http.get(APIEndpoints.PublicEducation, ({ request }) => {
     if (
       request.referrer.endsWith(
-        `/vkt/ilmoittaudu/${examEventIdWithKoskiEducationDetailsFound}/koulutus`,
+        AppRoutes.PublicEnrollmentEducationDetails.replace(
+          /:examEventId/,
+          `${examEventIdWithKoskiEducationDetailsFound}`,
+        ),
       )
     ) {
       return new Response(
