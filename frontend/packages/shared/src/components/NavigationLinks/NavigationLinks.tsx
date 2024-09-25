@@ -1,5 +1,6 @@
-import { Text } from '../Text/Text';
 import { Link } from 'react-router-dom';
+
+import { Text } from '../Text/Text';
 import './NavigationLinks.scss';
 
 interface NavigationLinksProps {

@@ -7,20 +7,20 @@
     flex-direction: row;
     gap: 6rem;
     margin: 0;
+  }
 
-    > li {
-      padding-bottom: 2rem;
-      > a {
-        text-decoration: none;
-      }
+  li {
+    padding-bottom: 2rem;
+    > a {
+      text-decoration: none;
     }
+  }
 
-    li.active {
-      p {
-        color: colors.$color-secondary;
-        font-weight: 700;
-      }
-      border-bottom: 2px solid colors.$color-secondary;
+  li.active {
+    p {
+      color: colors.$color-secondary;
+      font-weight: 700;
     }
+    border-bottom: 2px solid colors.$color-secondary;
   }
 }
