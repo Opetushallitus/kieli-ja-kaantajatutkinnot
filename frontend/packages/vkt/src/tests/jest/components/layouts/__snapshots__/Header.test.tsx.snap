@@ -45,7 +45,28 @@ exports[`Header should render Header correctly 1`] = `
       </div>
       <div
         className="header__center"
-      />
+      >
+        <nav
+          aria-label="header.accessibility.mainNavigation"
+          className="navigation-links"
+        >
+          <ul>
+            <li>
+              <a
+                aria-current={false}
+                href="/vkt/erinomainen-taito"
+                onClick={[Function]}
+              >
+                <p
+                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                >
+                  header.publicNavigationLinks.excellentLevel
+                </p>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
       <div
         className="header__right"
       >
