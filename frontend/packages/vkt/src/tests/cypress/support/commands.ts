@@ -5,7 +5,7 @@ Cypress.Commands.add('openPublicHomePage', () => {
   cy.window().then((win) => {
     win.sessionStorage.setItem('persist:root', '{}');
   });
-  cy.visit(AppRoutes.PublicHomePage);
+  cy.visit(AppRoutes.PublicExcellentLevelLanding);
 });
 
 Cypress.Commands.add(
