@@ -90,8 +90,6 @@ export const Header = (): JSX.Element => {
 
   const { isAuthenticated, isClerkUI, clerkUser, publicUser } =
     useAuthentication();
-  const goodAndSatisfactoryLevelSupported =
-    useAppSelector(featureFlagsSelector).goodAndSatisfactoryLevel;
   const logoRedirectURL = isAuthenticated
     ? AppRoutes.ClerkHomePage
     : AppRoutes.PublicHomePage;
@@ -164,9 +162,7 @@ export const Header = (): JSX.Element => {
           </div>
           <div className="header__center">
             {isAuthenticated && <ClerkNavTabs />}
-            {isPublicUrl && goodAndSatisfactoryLevelSupported && (
-              <PublicNavigationLinks />
-            )}
+            {isPublicUrl && <PublicNavigationLinks />}
           </div>
           <div className="header__right">
             {isAuthenticated && <ClerkHeaderButtons />}
