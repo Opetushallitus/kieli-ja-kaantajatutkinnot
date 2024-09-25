@@ -38,7 +38,6 @@ import fi.oph.vkt.util.exception.NotFoundException;
 import jakarta.annotation.Resource;
 import java.io.IOException;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
