@@ -4,15 +4,13 @@ import { Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { usePublicTranslation } from 'configs/i18n';
-import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { PublicEnrollmentAppointmentFormStep } from 'enums/publicEnrollment';
 import { PublicEnrollmentUtils } from 'utils/publicEnrollment';
 
-export const PublicEnrollmentStepper = ({
+export const PublicEnrollmentAppointmentStepper = ({
   activeStep,
-  includePaymentStep,
 }: {
-  activeStep: PublicEnrollmentFormStep;
-  includePaymentStep: boolean;
+  activeStep: PublicEnrollmentAppointmentFormStep;
 }) => {
   const { isPhone } = useWindowProperties();
 
@@ -20,12 +18,12 @@ export const PublicEnrollmentStepper = ({
     keyPrefix: 'vkt.component.publicEnrollment.stepper',
   });
 
-  const steps = PublicEnrollmentUtils.getEnrollmentSteps(includePaymentStep);
+  const steps = PublicEnrollmentUtils.getEnrollmentAppointmentSteps();
 
   const doneStepNumber = steps.length;
 
-  const getDescription = (step: PublicEnrollmentFormStep) => {
-    return t(`step.${PublicEnrollmentFormStep[step]}`);
+  const getDescription = (step: PublicEnrollmentAppointmentFormStep) => {
+    return t(`step.${PublicEnrollmentAppointmentFormStep[step]}`);
   };
 
   const getStepAriaLabel = (stepNumber: number, stepIndex: number) => {
@@ -40,24 +38,17 @@ export const PublicEnrollmentStepper = ({
   };
 
   const getDesktopActiveStep = () => {
-    // "Hack" for not having Mui-Active for Payment step
-    if (activeStep === PublicEnrollmentFormStep.Payment) {
-      return activeStep;
-    } else if (
-      activeStep === PublicEnrollmentFormStep.Done ||
-      activeStep === PublicEnrollmentFormStep.DoneQueued
-    ) {
-      return doneStepNumber - 1;
-    }
-
     return activeStep - 1;
   };
 
-  const hasError = (step: PublicEnrollmentFormStep) => {
-    return step === PublicEnrollmentFormStep.Payment && step === activeStep;
+  const hasError = (step: PublicEnrollmentAppointmentFormStep) => {
+    return (
+      step === PublicEnrollmentAppointmentFormStep.Payment &&
+      step === activeStep
+    );
   };
 
-  const isStepCompleted = (step: PublicEnrollmentFormStep) => {
+  const isStepCompleted = (step: PublicEnrollmentAppointmentFormStep) => {
     return step < activeStep;
   };
 
@@ -66,7 +57,7 @@ export const PublicEnrollmentStepper = ({
   const mobileStepValue = stepValue * (100 / doneStepNumber);
   const mobilePhaseText = `${stepValue}/${doneStepNumber}`;
   const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${t(
-    `step.${PublicEnrollmentFormStep[activeStep]}`,
+    `step.${PublicEnrollmentAppointmentFormStep[activeStep]}`,
   )}`;
 
   return isPhone ? (
@@ -75,7 +66,7 @@ export const PublicEnrollmentStepper = ({
       ariaLabel={mobileAriaLabel}
       phaseText={mobilePhaseText}
       color={
-        activeStep === PublicEnrollmentFormStep.Payment
+        activeStep === PublicEnrollmentAppointmentFormStep.Payment
           ? Color.Error
           : Color.Secondary
       }

@@ -12,6 +12,7 @@ export enum PublicEnrollmentFormStep {
 
 export enum PublicEnrollmentAppointmentFormStep {
   Authenticate = 1,
+  FillContactDetails,
   Preview,
   Payment,
   PaymentSuccess,

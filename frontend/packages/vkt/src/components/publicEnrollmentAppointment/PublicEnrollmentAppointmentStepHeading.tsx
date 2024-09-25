@@ -7,10 +7,8 @@ import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 
 export const PublicEnrollmentAppointmentStepHeading = ({
   activeStep,
-  isEnrollmentToQueue,
 }: {
   activeStep: PublicEnrollmentFormStep;
-  isEnrollmentToQueue: boolean;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.stepHeading',
@@ -26,9 +24,7 @@ export const PublicEnrollmentAppointmentStepHeading = ({
 
   const headingText =
     activeStep === PublicEnrollmentFormStep.Authenticate
-      ? isEnrollmentToQueue
-        ? t(`toQueue.${PublicEnrollmentFormStep[activeStep]}`)
-        : t(`toExam.${PublicEnrollmentFormStep[activeStep]}`)
+      ? t(`toExam.${PublicEnrollmentFormStep[activeStep]}`)
       : t(`common.${PublicEnrollmentFormStep[activeStep]}`);
 
   return (
