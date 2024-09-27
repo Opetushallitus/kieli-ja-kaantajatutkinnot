@@ -35,7 +35,7 @@
     <!-- latest version for Java 17 https://github.com/lukas-krecan/ShedLock#versions -->
     <shedlock.version>4.48.0</shedlock.version>
     <poi.version>5.3.0</poi.version>
-    <liquibase.version>4.29.1</liquibase.version>
+    <liquibase.version>4.29.2</liquibase.version>
   </properties>
 
   <dependencies>
