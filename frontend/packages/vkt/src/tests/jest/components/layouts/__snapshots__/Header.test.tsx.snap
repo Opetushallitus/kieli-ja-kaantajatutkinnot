@@ -21,7 +21,7 @@ exports[`Header should render Header correctly 1`] = `
       className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular header__toolbar css-hyum1k-MuiToolbar-root"
     >
       <div
-        className="header__left"
+        className="header__logo"
       >
         <a
           href="/vkt/etusivu"
@@ -32,7 +32,7 @@ exports[`Header should render Header correctly 1`] = `
           >
             <img
               alt="ophLogoToFrontPageAlt"
-              className="header__left__logo"
+              className="header__logo__logo"
               src="test"
             />
             <p
@@ -44,7 +44,7 @@ exports[`Header should render Header correctly 1`] = `
         </a>
       </div>
       <div
-        className="header__center"
+        className="header__navigation"
       >
         <nav
           aria-label="header.accessibility.mainNavigation"
@@ -68,7 +68,7 @@ exports[`Header should render Header correctly 1`] = `
         </nav>
       </div>
       <div
-        className="header__right"
+        className="header__language-select"
       >
         <nav
           aria-label="header.accessibility.langSelectorAriaLabel"
