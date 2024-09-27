@@ -1,20 +1,23 @@
 @use '../../styles/abstracts/colors';
 
-.navigation-links {
+button.navigation-menu-toggle {
+  background-color: colors.$color-primary;
+  border: 0;
+}
+
+.navigation-menu-contents {
   ul {
     list-style-type: none;
     display: flex;
-    flex-direction: row;
-    gap: 6rem;
-    margin: 0;
+    flex-direction: column;
+    padding: 1rem;
   }
 
   li {
-    padding-bottom: 2rem;
-
     > a {
       text-decoration: none;
     }
+    padding: 1rem;
   }
 
   li.active {
@@ -22,6 +25,6 @@
       color: colors.$color-secondary;
       font-weight: 700;
     }
-    border-bottom: 2px solid colors.$color-secondary;
+    border-left: 2px solid colors.$color-secondary;
   }
 }
