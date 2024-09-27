@@ -8,8 +8,8 @@
           'logo language-select'
           'logo navigation';
         grid-auto-columns: min-content auto;
+        flex-wrap: wrap;
       }
-      flex-wrap: wrap;
     }
 
     div &__mobile-lang-select {
@@ -19,7 +19,6 @@
   }
 
   &__logo button,
-  &__navigation button,
   &__language-select button {
     @include header-text;
   }
@@ -27,11 +26,13 @@
   &__logo {
     @include not-phone {
       grid-area: logo;
+      display: flex;
     }
     margin-right: 5rem;
     padding: 2rem 0;
     @include phone {
       margin-right: 0;
+      width: 100%;
     }
 
     & > a {
@@ -49,9 +50,12 @@
   &__navigation {
     @include not-phone {
       grid-area: navigation;
+      align-self: flex-end;
+      justify-self: start;
     }
-    align-self: flex-end;
-    justify-self: start;
+    @include phone {
+      margin-left: auto;
+    }
   }
 
   &__language-select {

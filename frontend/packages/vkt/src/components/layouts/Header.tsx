@@ -1,15 +1,24 @@
 import { AppBar, Toolbar } from '@mui/material';
+import { TFunction } from 'i18next';
+import { useState } from 'react';
 import { Link, matchPath, useLocation } from 'react-router-dom';
 import {
   CookieBanner,
   LangSelector,
+  MobileNavigationMenuContents,
+  MobileNavigationMenuToggle,
   NavigationLinks,
   OPHClerkLogo,
   OPHLogoViewer,
   SkipLink,
   Text,
 } from 'shared/components';
-import { APIResponseStatus, AppLanguage, Direction } from 'shared/enums';
+import {
+  APIResponseStatus,
+  AppLanguage,
+  Direction,
+  I18nNamespace,
+} from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { ClerkHeaderButtons } from 'components/layouts/clerkHeader/ClerkHeaderButtons';
@@ -33,10 +42,11 @@ import { featureFlagsSelector } from 'redux/selectors/featureFlags';
 const isPathActive = (currentPath: string, route: AppRoutes) =>
   !!matchPath({ path: route, end: false }, currentPath);
 
-const PublicNavigationLinks = () => {
-  const translateCommon = useCommonTranslation();
-  const { pathname } = useLocation();
-  const { goodAndSatisfactoryLevel } = useAppSelector(featureFlagsSelector);
+const getNavigationLinks = (
+  pathname: string,
+  goodAndSatisfactoryLevel: boolean,
+  translateCommon: TFunction<I18nNamespace, string>,
+) => {
   const excellentLevelLink = {
     active: isPathActive(pathname, AppRoutes.PublicExcellentLevelLanding),
     label: translateCommon(
@@ -68,12 +78,52 @@ const PublicNavigationLinks = () => {
       ]
     : [excellentLevelLink];
 
+  return navigationLinks;
+};
+
+const PublicNavigationLinks = () => {
+  const translateCommon = useCommonTranslation();
+  const { pathname } = useLocation();
+  const { goodAndSatisfactoryLevel } = useAppSelector(featureFlagsSelector);
+
+  const navigationLinks = getNavigationLinks(
+    pathname,
+    !!goodAndSatisfactoryLevel,
+    translateCommon,
+  );
+
   return (
     <NavigationLinks
       navigationAriaLabel={translateCommon(
         'header.accessibility.mainNavigation',
       )}
       links={navigationLinks}
+    />
+  );
+};
+
+const PublicMobileNavigationMenu = ({
+  closeMenu,
+}: {
+  closeMenu: () => void;
+}) => {
+  const translateCommon = useCommonTranslation();
+  const { pathname } = useLocation();
+  const { goodAndSatisfactoryLevel } = useAppSelector(featureFlagsSelector);
+
+  const navigationLinks = getNavigationLinks(
+    pathname,
+    !!goodAndSatisfactoryLevel,
+    translateCommon,
+  );
+
+  return (
+    <MobileNavigationMenuContents
+      navigationAriaLabel={translateCommon(
+        'header.accessibility.mainNavigation',
+      )}
+      links={navigationLinks}
+      closeMenu={closeMenu}
     />
   );
 };
@@ -109,6 +159,7 @@ export const Header = (): JSX.Element => {
       }
     }
   };
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useInterval(heartBeat, 5000); // Every 5 seconds
 
@@ -155,14 +206,28 @@ export const Header = (): JSX.Element => {
                   direction={Direction.Horizontal}
                   alt={translateCommon('ophLogoToFrontPageAlt')}
                   currentLang={getCurrentLang()}
-                  title={translateCommon('appNameAbbreviation')}
+                  title={
+                    !isPhone
+                      ? translateCommon('appNameAbbreviation')
+                      : undefined
+                  }
                 />
               )}
             </Link>
           </div>
           <div className="header__navigation">
             {isAuthenticated && <ClerkNavTabs />}
-            {isPublicUrl && <PublicNavigationLinks />}
+            {isPublicUrl && !isPhone && <PublicNavigationLinks />}
+            {isPublicUrl && isPhone && (
+              <MobileNavigationMenuToggle
+                openStateLabel="Sulje"
+                openStateAriaLabel="Sulje valikko"
+                closedStateLabel="Valikko"
+                closedStateAriaLabel="Avaa valikko"
+                isOpen={isMobileMenuOpen}
+                setIsOpen={setIsMobileMenuOpen}
+              />
+            )}
           </div>
           <div className="header__language-select">
             {isAuthenticated && <ClerkHeaderButtons />}
@@ -178,6 +243,11 @@ export const Header = (): JSX.Element => {
             )}
           </div>
         </Toolbar>
+        {isPhone && isMobileMenuOpen && (
+          <PublicMobileNavigationMenu
+            closeMenu={() => setIsMobileMenuOpen(false)}
+          />
+        )}
       </AppBar>
       {!isClerkUI && (
         <CookieBanner
