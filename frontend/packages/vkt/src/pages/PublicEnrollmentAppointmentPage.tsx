@@ -1,12 +1,12 @@
 import { Box, Grid } from '@mui/material';
 
 import { PublicEnrollmentAppointmentGrid } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentGrid';
-import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { PublicEnrollmentAppointmentFormStep } from 'enums/publicEnrollment';
 
 export const PublicEnrollmentAppointmentPage = ({
   activeStep,
 }: {
-  activeStep: PublicEnrollmentFormStep;
+  activeStep: PublicEnrollmentAppointmentFormStep;
 }) => {
   return (
     <Box className="public-homepage">

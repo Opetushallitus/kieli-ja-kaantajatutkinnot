@@ -66,7 +66,10 @@ const publicEnrollmentAppointmentSlice = createSlice({
     rejectPublicEnrollmentAppointment(state) {
       state.loadEnrollmentStatus = APIResponseStatus.Error;
     },
-    storePublicEnrollmentAppointment(state, action: PayloadAction<PublicExamEvent>) {
+    storePublicEnrollmentAppointment(
+      state,
+      action: PayloadAction<PublicExamEvent>,
+    ) {
       state.loadEnrollmentStatus = APIResponseStatus.Success;
     },
     setLoadingPayment(state) {
@@ -75,7 +78,8 @@ const publicEnrollmentAppointmentSlice = createSlice({
   },
 });
 
-export const publicEnrollmentAppointmentReducer = publicEnrollmentAppointmentSlice.reducer;
+export const publicEnrollmentAppointmentReducer =
+  publicEnrollmentAppointmentSlice.reducer;
 export const {
   loadPublicEnrollmentAppointment,
   rejectPublicEnrollmentAppointment,

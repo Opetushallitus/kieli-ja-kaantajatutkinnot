@@ -19,7 +19,11 @@ import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { EnrollmentUtils } from 'utils/enrollment';
 
-const ContactDetails = ({ enrollment }: { enrollment: PublicEnrollmentAppointment }) => {
+const ContactDetails = ({
+  enrollment,
+}: {
+  enrollment: PublicEnrollmentAppointment;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.preview.contactDetails',
   });

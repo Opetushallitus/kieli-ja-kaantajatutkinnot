@@ -210,9 +210,7 @@ export const AppRouter: FC = () => {
             element={
               <TitlePage title={createTitle('preview')}>
                 <PublicEnrollmentAppointmentPage
-                  activeStep={
-                    PublicEnrollmentAppointmentFormStep.Preview
-                  }
+                  activeStep={PublicEnrollmentAppointmentFormStep.Preview}
                 />
               </TitlePage>
             }

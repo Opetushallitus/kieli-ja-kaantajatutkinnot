@@ -1,13 +1,16 @@
 import { Grid } from '@mui/material';
 
 import { PublicEnrollmentAppointmentDesktopGrid } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentDesktopGrid';
-import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { PublicEnrollmentAppointmentFormStep } from 'enums/publicEnrollment';
+import { publicEnrollmentAppointmentSelector } from 'redux/selectors/publicEnrollmentAppointment';
 
 export const PublicEnrollmentAppointmentGrid = ({
   activeStep,
 }: {
-  activeStep: PublicEnrollmentFormStep;
+  activeStep: PublicEnrollmentAppointmentFormStep;
 }) => {
+  const { enrollment } = useAppSelector(publicEnrollmentAppointmentSelector);
+
   return (
     <Grid
       container
@@ -15,7 +18,10 @@ export const PublicEnrollmentAppointmentGrid = ({
       direction="column"
       className="public-enrollment"
     >
-      <PublicEnrollmentAppointmentDesktopGrid activeStep={activeStep} />
+      <PublicEnrollmentAppointmentDesktopGrid
+        enrollment={enrollment}
+        activeStep={activeStep}
+      />
     </Grid>
   );
 };

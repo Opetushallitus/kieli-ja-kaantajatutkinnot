@@ -8,11 +8,14 @@ import { PublicEnrollmentAppointmentStepHeading } from 'components/publicEnrollm
 import { PublicEnrollmentAppointmentStepper } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentStepper';
 import { useCommonTranslation } from 'configs/i18n';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { PublicEnrollmentAppointment } from 'interfaces/publicEnrollment';
 
 export const PublicEnrollmentAppointmentDesktopGrid = ({
   activeStep,
+  enrollment,
 }: {
   activeStep: PublicEnrollmentFormStep;
+  enrollment: PublicEnrollmentAppointment;
 }) => {
   const translateCommon = useCommonTranslation();
 
@@ -30,6 +33,7 @@ export const PublicEnrollmentAppointmentDesktopGrid = ({
               <PublicEnrollmentAppointmentStepHeading activeStep={activeStep} />
               <PublicEnrollmentAppointmentStepContents
                 activeStep={activeStep}
+                enrollment={enrollment}
               />
               {activeStep > PublicEnrollmentFormStep.Authenticate && (
                 <PublicEnrollmentAppointmentPaymentSum />

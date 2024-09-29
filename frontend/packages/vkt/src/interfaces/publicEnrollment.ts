@@ -57,8 +57,7 @@ export interface PublicEnrollment
   isQueued?: boolean;
 }
 
-export interface PublicEnrollmentAppointment extends PublicEnrollment {
-}
+export interface PublicEnrollmentAppointment extends PublicEnrollment {}
 
 export interface PublicEnrollmentResponse
   extends Omit<

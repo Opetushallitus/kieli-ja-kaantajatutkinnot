@@ -57,13 +57,7 @@ const emailsMatch = (
   return errors;
 };
 
-export const FillContactDetails = (
-{
-  isLoading,
-}: {
-  isLoading: boolean;
-}
-) => {
+export const FillContactDetails = ({ isLoading }: { isLoading: boolean }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.fillContactDetails',
   });
@@ -156,9 +150,7 @@ export const FillContactDetails = (
         autoComplete={InputAutoComplete.PhoneNumber}
       />
       {!isPhone && <Divider />}
-      <CertificateShipping
-        editingDisabled={isLoading}
-      />
+      <CertificateShipping editingDisabled={isLoading} />
     </div>
   );
 };
