@@ -1,12 +1,10 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { TFunction } from 'i18next';
-import { useState } from 'react';
 import { Link, matchPath, useLocation } from 'react-router-dom';
 import {
   CookieBanner,
   LangSelector,
-  MobileNavigationMenuContents,
-  MobileNavigationMenuToggle,
+  MobileNavigationMenuWithPortal,
   NavigationLinks,
   OPHClerkLogo,
   OPHLogoViewer,
@@ -102,11 +100,7 @@ const PublicNavigationLinks = () => {
   );
 };
 
-const PublicMobileNavigationMenu = ({
-  closeMenu,
-}: {
-  closeMenu: () => void;
-}) => {
+const PublicMobileNavigationMenu = () => {
   const translateCommon = useCommonTranslation();
   const { pathname } = useLocation();
   const { goodAndSatisfactoryLevel } = useAppSelector(featureFlagsSelector);
@@ -117,13 +111,23 @@ const PublicMobileNavigationMenu = ({
     translateCommon,
   );
 
+  const portalContainer = document.getElementById('mobile-menu-placeholder');
+
+  if (!portalContainer) {
+    return null;
+  }
+
   return (
-    <MobileNavigationMenuContents
+    <MobileNavigationMenuWithPortal
       navigationAriaLabel={translateCommon(
         'header.accessibility.mainNavigation',
       )}
+      openStateLabel="Sulje"
+      openStateAriaLabel="Sulje valikko"
+      closedStateLabel="Valikko"
+      closedStateAriaLabel="Avaa valikko"
       links={navigationLinks}
-      closeMenu={closeMenu}
+      portalContainer={portalContainer}
     />
   );
 };
@@ -159,7 +163,6 @@ export const Header = (): JSX.Element => {
       }
     }
   };
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useInterval(heartBeat, 5000); // Every 5 seconds
 
@@ -218,16 +221,7 @@ export const Header = (): JSX.Element => {
           <div className="header__navigation">
             {isAuthenticated && <ClerkNavTabs />}
             {isPublicUrl && !isPhone && <PublicNavigationLinks />}
-            {isPublicUrl && isPhone && (
-              <MobileNavigationMenuToggle
-                openStateLabel="Sulje"
-                openStateAriaLabel="Sulje valikko"
-                closedStateLabel="Valikko"
-                closedStateAriaLabel="Avaa valikko"
-                isOpen={isMobileMenuOpen}
-                setIsOpen={setIsMobileMenuOpen}
-              />
-            )}
+            {isPublicUrl && isPhone && <PublicMobileNavigationMenu />}
           </div>
           <div className="header__language-select">
             {isAuthenticated && <ClerkHeaderButtons />}
@@ -243,11 +237,6 @@ export const Header = (): JSX.Element => {
             )}
           </div>
         </Toolbar>
-        {isPhone && isMobileMenuOpen && (
-          <PublicMobileNavigationMenu
-            closeMenu={() => setIsMobileMenuOpen(false)}
-          />
-        )}
       </AppBar>
       {!isClerkUI && (
         <CookieBanner
