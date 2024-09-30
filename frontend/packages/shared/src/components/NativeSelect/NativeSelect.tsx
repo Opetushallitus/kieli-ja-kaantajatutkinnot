@@ -27,14 +27,10 @@ const CustomSelect = ({
   ...rest
 }: CustomNativeSelectProps) => {
   const options = [{ label: placeholder, value: '' }, ...values];
-  const inputValue = (value && value.value) ? value : '';
+  const inputValue = value && value.value ? value : '';
+
   return (
-    <Select
-      variant={Variant.Outlined}
-      value={inputValue}
-      {...rest}
-      native
-    >
+    <Select variant={Variant.Outlined} value={inputValue} {...rest} native>
       {options.map(({ label, value }) => (
         <option key={value} value={value}>
           {label}
