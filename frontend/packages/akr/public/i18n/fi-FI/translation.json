@@ -213,6 +213,8 @@
         "recipients": "Vastaanottajat",
         "steps": {
           "active": "Aktiivinen",
+          "ariaLabel": "Yhteydenottopyynnön vaiheet",
+          "phaseNumber": "{{current}} kautta {{total}}",
           "completed": "Suoritettu",
           "Done": "Valmis!",
           "FillContactDetails": "Täytä yhteystietosi",

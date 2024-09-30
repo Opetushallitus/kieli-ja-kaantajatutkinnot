@@ -1,6 +1,7 @@
-import { Step, StepLabel, Stepper } from '@mui/material';
+import { Step, StepLabel, Stepper, Typography } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import { useSearchParams } from 'react-router-dom';
-import { CircularStepper, H2, Text } from 'shared/components';
+import { CircularStepper, Text } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -38,14 +39,6 @@ export const PublicRegistrationStepper = () => {
     .map(Number)
     .filter((i) => i <= doneStepNumber);
 
-  const getStatusText = (stepNumber: number) => {
-    if (stepNumber < activeStep) {
-      return t('completed');
-    } else if (stepNumber === activeStep) {
-      return t('active');
-    }
-  };
-
   const getDescription = (stepNumber: number) => {
     return t(`step.${PublicRegistrationFormStep[stepNumber]}`);
   };
@@ -60,9 +53,16 @@ export const PublicRegistrationStepper = () => {
     }
   };
 
-  const getStepAriaLabel = (stepNumber: number) => {
-    const part = `${stepNumber}/${stepNumbers.length}`;
-    const statusText = getStatusText(stepNumber);
+  const isStepCompleted = (step: number) => {
+    return step < activeStep;
+  };
+
+  const getPhaseDescription = (stepNumber: number) => {
+    const part = t('phaseNumber', {
+      current: stepNumber,
+      total: stepNumbers.length,
+    });
+    const statusText = isStepCompleted(stepNumber) ? t('completed') : '';
     const partStatus = statusText ? `${part}, ${statusText}` : part;
 
     return `${t('phase')} ${partStatus}: ${getDescription(stepNumber)}`;
@@ -74,23 +74,27 @@ export const PublicRegistrationStepper = () => {
       : Math.min(activeStep, doneStepNumber);
 
   const mobileStepValue = stepValue * (100 / doneStepNumber);
-  const mobilePhaseText = `${stepValue}/${doneStepNumber}`;
-  const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${getDescription(
-    stepValue,
-  )}`;
+  const phaseText = `${stepValue}/${doneStepNumber}`;
+  const mobileAriaLabel = `${getPhaseDescription(stepValue)}`;
 
   if (isPhone) {
     return (
-      <div className="columns gapped-xxl public-registration__grid__circular-stepper-container">
+      <div
+        className="columns gapped-xxl public-registration__grid__circular-stepper-container"
+        aria-label={t('label')}
+        role="group"
+      >
         <CircularStepper
           value={mobileStepValue}
           ariaLabel={mobileAriaLabel}
-          phaseText={mobilePhaseText}
+          phaseText={phaseText}
           color={isError ? Color.Error : Color.Secondary}
           size={90}
         />
         <div className="rows">
-          <H2>{getDescription(stepValue)}</H2>
+          <Typography component="p" variant="h2" aria-hidden={true}>
+            {getDescription(stepValue)}
+          </Typography>
           {!isError && <Text>{getNextInformation(stepValue)}</Text>}
         </div>
       </div>
@@ -99,13 +103,15 @@ export const PublicRegistrationStepper = () => {
     return (
       <Stepper
         className="public-registration__grid__stepper"
+        aria-label={t('label')}
         activeStep={stepValue - 1}
+        role="group"
       >
         {stepNumbers.map((i) => (
           <Step key={i}>
             <StepLabel
-              aria-label={getStepAriaLabel(i)}
               error={isError && stepValue === i}
+              aria-current={stepValue === i && 'step'}
               className={
                 stepValue === i && isError
                   ? 'public-registration__grid__stepper__step-error'
@@ -114,7 +120,8 @@ export const PublicRegistrationStepper = () => {
                   : undefined
               }
             >
-              {getDescription(i)}
+              <Text sx={visuallyHidden}>{getPhaseDescription(i)}</Text>
+              <span aria-hidden={true}>{getDescription(i)}</span>
             </StepLabel>
           </Step>
         ))}

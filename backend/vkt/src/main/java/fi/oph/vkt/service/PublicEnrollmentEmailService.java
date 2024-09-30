@@ -245,8 +245,8 @@ public class PublicEnrollmentEmailService {
     final String recipientAddress = enrollment.getEmail();
     final String subject = String.format(
       "%s | %s",
-      LocalisationUtil.translate(localeFI, "subject.enrollment-to-queue-confirmation"),
-      LocalisationUtil.translate(localeSV, "subject.enrollment-to-queue-confirmation")
+      LocalisationUtil.translate(localeFI, "subject.enrollment-confirmation"),
+      LocalisationUtil.translate(localeSV, "subject.enrollment-confirmation")
     );
     final String body = templateRenderer.renderEnrollmentConfirmationEmailBody(templateParams);
 
