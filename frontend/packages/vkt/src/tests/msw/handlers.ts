@@ -1,6 +1,7 @@
 import { http } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
+import { AppRoutes } from 'enums/app';
 import { ClerkEnrollmentStatusChange } from 'interfaces/clerkEnrollment';
 import { ClerkUser } from 'interfaces/clerkUser';
 import { PublicReservationDetailsResponse } from 'interfaces/publicEnrollment';
@@ -16,7 +17,6 @@ import {
   publicEnrollmentInitialisationWithFreeEnrollments,
 } from 'tests/msw/fixtures/publicEnrollmentInitialisation';
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
-import { AppRoutes } from 'enums/app';
 
 export const handlers = [
   http.get(APIEndpoints.ClerkUser, ({ cookies }) => {

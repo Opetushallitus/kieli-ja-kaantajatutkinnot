@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.11.5] - 2024-09-27
 
 ### Added
-- MobileNavigationMenuToggle and MobileNavigationMenuContents components
+- MobileNavigationMenuWithPortal component
 
 ## [1.11.4] - 2024-10-07
 
