@@ -252,8 +252,10 @@
         "stepper": {
           "active": "Aktiivinen",
           "completed": "Suoritettu",
+          "label": "Ilmoittautumisen vaiheet",
           "paymentAborted": "Maksu keskeytyi",
           "phase": "Vaihe",
+          "phaseNumber": "{{current}} kautta {{total}}",
           "step": {
             "Done": "Valmis",
             "Identify": "Tunnistaudu",
