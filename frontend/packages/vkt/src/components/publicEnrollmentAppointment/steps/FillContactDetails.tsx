@@ -12,6 +12,7 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import {
   PublicEnrollment,
+  PublicEnrollmentAppointment,
   PublicEnrollmentContactDetails,
 } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
@@ -57,7 +58,13 @@ const emailsMatch = (
   return errors;
 };
 
-export const FillContactDetails = ({ isLoading }: { isLoading: boolean }) => {
+export const FillContactDetails = ({
+  isLoading,
+  enrollment,
+}: {
+  isLoading: boolean;
+  enrollment: PublicEnrollmentAppointment;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.fillContactDetails',
   });
@@ -118,30 +125,6 @@ export const FillContactDetails = ({ isLoading }: { isLoading: boolean }) => {
   return (
     <div className="margin-top-sm rows gapped public-enrollment__grid__contact-details">
       <PersonDetails isPreviewStep={false} />
-      <div className="margin-top-lg rows gapped">
-        <H2>{t('title')}</H2>
-        <Text>{translateCommon('requiredFieldsInfo')}</Text>
-        <div className="grid-2-columns gapped">
-          <LabeledTextField
-            {...getCustomTextFieldAttributes('email')}
-            placeholder={t('email.placeholder')}
-            type={TextFieldTypes.Email}
-            value={''}
-            autoComplete={InputAutoComplete.Email}
-          />
-          <LabeledTextField
-            {...getCustomTextFieldAttributes('emailConfirmation')}
-            placeholder={t('emailConfirmation.placeholder')}
-            type={TextFieldTypes.Email}
-            value={''}
-            onPaste={(e) => {
-              e.preventDefault();
-
-              return false;
-            }}
-          />
-        </div>
-      </div>
       <LabeledTextField
         {...getCustomTextFieldAttributes('phoneNumber')}
         className="phone-number"
@@ -150,7 +133,12 @@ export const FillContactDetails = ({ isLoading }: { isLoading: boolean }) => {
         autoComplete={InputAutoComplete.PhoneNumber}
       />
       {!isPhone && <Divider />}
-      <CertificateShipping editingDisabled={isLoading} />
+      <CertificateShipping
+        enrollment={enrollment}
+        editingDisabled={isLoading}
+        setValid={(isValid) => console.log(isValid)}
+        showValidation={false}
+      />
     </div>
   );
 };

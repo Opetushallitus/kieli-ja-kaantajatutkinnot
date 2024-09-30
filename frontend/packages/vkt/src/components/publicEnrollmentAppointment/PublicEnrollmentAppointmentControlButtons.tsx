@@ -15,8 +15,10 @@ import { RouteUtils } from 'utils/routes';
 
 export const PublicEnrollmentAppointmentControlButtons = ({
   activeStep,
+  enrollment,
 }: {
   activeStep: PublicEnrollmentFormStep;
+  enrollment: PublicEnrollmentAppointment;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.controlButtons',
@@ -36,26 +38,7 @@ export const PublicEnrollmentAppointmentControlButtons = ({
   };
 
   const handleCancelBtnClick = () => {
-    cancelPublicEnrollment();
-
-    showDialog({
-      title: t('cancelDialog.title'),
-      severity: Severity.Info,
-      description: t('cancelDialog.description'),
-      actions: [
-        {
-          title: translateCommon('back'),
-          variant: Variant.Outlined,
-        },
-        {
-          title: translateCommon('yes'),
-          variant: Variant.Contained,
-          action: () => {
-            dispatch(confirmAction);
-          },
-        },
-      ],
-    });
+    // FIXME
   };
 
   useEffect(() => {
@@ -68,7 +51,7 @@ export const PublicEnrollmentAppointmentControlButtons = ({
       }, 200);
       dispatch(setLoadingPayment());
     }
-  }, [submitStatus, dispatch]);
+  }, [submitStatus, enrollment.id, dispatch]);
 
   const handleBackBtnClick = () => {
     const nextStep: PublicEnrollmentFormStep = activeStep - 1;

@@ -15,7 +15,7 @@ export const PublicEnrollmentAppointmentStepContents = ({
     case PublicEnrollmentAppointmentFormStep.Authenticate:
       return <Authenticate />;
     case PublicEnrollmentAppointmentFormStep.FillContactDetails:
-      return <FillContactDetails isLoading={false} />;
+      return <FillContactDetails enrollment={enrollment} isLoading={false} />;
     case PublicEnrollmentAppointmentFormStep.Preview:
       return <Preview enrollment={enrollment} isLoading={false} />;
   }

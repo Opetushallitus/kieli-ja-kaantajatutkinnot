@@ -41,6 +41,7 @@ export const PublicEnrollmentAppointmentDesktopGrid = ({
               {activeStep > PublicEnrollmentFormStep.Authenticate && (
                 <PublicEnrollmentAppointmentControlButtons
                   activeStep={activeStep}
+                  enrollment={enrollment}
                 />
               )}
             </div>

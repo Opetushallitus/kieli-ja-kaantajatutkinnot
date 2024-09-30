@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material';
 
 import { PublicEnrollmentAppointmentDesktopGrid } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentDesktopGrid';
+import { useAppSelector } from 'configs/redux';
 import { PublicEnrollmentAppointmentFormStep } from 'enums/publicEnrollment';
 import { publicEnrollmentAppointmentSelector } from 'redux/selectors/publicEnrollmentAppointment';
 

@@ -5,7 +5,6 @@ import {
   FormControlLabel,
   FormHelperText,
 } from '@mui/material';
-import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import { H2, Text, WebLink } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
@@ -17,7 +16,6 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicEnrollmentAppointment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
-import { EnrollmentUtils } from 'utils/enrollment';
 
 const ContactDetails = ({
   enrollment,
@@ -98,21 +96,13 @@ const PrivacyStatementCheckboxLabel = ({
 export const Preview = ({
   enrollment,
   isLoading,
-  setIsStepValid,
-  showValidation,
 }: {
   enrollment: PublicEnrollmentAppointment;
   isLoading: boolean;
-  setIsStepValid: (isValid: boolean) => void;
-  showValidation: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
 
   const { paymentLoadingStatus } = useAppSelector(publicEnrollmentSelector);
-
-  useEffect(() => {
-    setIsStepValid(enrollment.privacyStatementConfirmation);
-  }, [setIsStepValid, enrollment]);
 
   const dispatch = useAppDispatch();
 
@@ -124,8 +114,7 @@ export const Preview = ({
     );
   };
 
-  const hasPrivacyStatementError =
-    showValidation && !enrollment.privacyStatementConfirmation;
+  const hasPrivacyStatementError = !enrollment.privacyStatementConfirmation;
 
   return (
     <div className="margin-top-xxl rows gapped-xxl">

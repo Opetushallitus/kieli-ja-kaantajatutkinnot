@@ -1,24 +1,15 @@
-import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import {
-  Attachment,
-  PublicFreeEnrollmentDetails,
-} from 'interfaces/publicEducation';
-import {
-  PublicEnrollment,
-  PublicReservation,
-} from 'interfaces/publicEnrollment';
-import { PublicExamEvent } from 'interfaces/publicExamEvent';
+import { PublicEnrollmentAppointment } from 'interfaces/publicEnrollment';
 import { PublicPerson } from 'interfaces/publicPerson';
-import { EnrollmentUtils } from 'utils/enrollment';
 
 export interface PublicEnrollmentAppointmentState {
   loadEnrollmentStatus: APIResponseStatus;
   enrollmentSubmitStatus: APIResponseStatus;
   paymentLoadingStatus: APIResponseStatus;
   cancelStatus: APIResponseStatus;
-  enrollment: PublicEnrollment;
+  enrollment: PublicEnrollmentAppointment;
   person?: PublicPerson;
 }
 
@@ -66,10 +57,7 @@ const publicEnrollmentAppointmentSlice = createSlice({
     rejectPublicEnrollmentAppointment(state) {
       state.loadEnrollmentStatus = APIResponseStatus.Error;
     },
-    storePublicEnrollmentAppointment(
-      state,
-      action: PayloadAction<PublicExamEvent>,
-    ) {
+    storePublicEnrollmentAppointment(state) {
       state.loadEnrollmentStatus = APIResponseStatus.Success;
     },
     setLoadingPayment(state) {
