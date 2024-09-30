@@ -1,8 +1,9 @@
+import { FocusTrap } from '@mui/base/FocusTrap';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
-import { ClickAwayListener, Divider } from '@mui/material';
-import { FocusTrap } from '@mui/base/FocusTrap';
-import { Fragment } from 'react';
+import { ClickAwayListener, Divider, Paper } from '@mui/material';
+import { Fragment, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 
 import { Color } from '../../enums';
@@ -11,7 +12,7 @@ import { Text } from '../Text/Text';
 
 import './MobileNavigationMenu.scss';
 
-export const MobileNavigationMenuToggle = ({
+const MobileNavigationMenuToggle = ({
   openStateLabel,
   openStateAriaLabel,
   closedStateLabel,
@@ -73,10 +74,6 @@ export const MobileNavigationMenuContents = ({
   links,
   closeMenu,
 }: MobileNavigationMenuProps) => {
-  // TODO
-  // - positioning of menu
-  // - border-shadow to bottom of element.. perhaps use a wrapper like Paper or something
-
   const handleClickAway = (e: MouseEvent | TouchEvent) => {
     // Prevent event default so that when user clicks on menu close button (outside actual menu contents),
     // the menu isn't immediately opened again.
@@ -92,11 +89,15 @@ export const MobileNavigationMenuContents = ({
 
   return (
     <FocusTrap open={true}>
-      <div onKeyDown={handleEsc} role="presentation">
+      <Paper
+        onKeyDown={handleEsc}
+        role="presentation"
+        tabIndex={-1}
+        elevation={3}
+      >
         <nav
           className="navigation-menu-contents"
           aria-label={navigationAriaLabel}
-          tabIndex={-1}
         >
           <ClickAwayListener onClickAway={handleClickAway}>
             <ul className="gapped-sm">
@@ -117,7 +118,47 @@ export const MobileNavigationMenuContents = ({
             </ul>
           </ClickAwayListener>
         </nav>
-      </div>
+      </Paper>
     </FocusTrap>
+  );
+};
+
+export const MobileNavigationMenuWithPortal = ({
+  navigationAriaLabel,
+  openStateLabel,
+  openStateAriaLabel,
+  closedStateLabel,
+  closedStateAriaLabel,
+  links,
+  portalContainer,
+}: {
+  openStateLabel: string;
+  openStateAriaLabel: string;
+  closedStateLabel: string;
+  closedStateAriaLabel: string;
+  portalContainer: HTMLElement;
+} & NavigationLinksProps) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  return (
+    <>
+      <MobileNavigationMenuToggle
+        openStateAriaLabel={openStateAriaLabel}
+        openStateLabel={openStateLabel}
+        closedStateAriaLabel={closedStateAriaLabel}
+        closedStateLabel={closedStateLabel}
+        isOpen={isMenuOpen}
+        setIsOpen={() => setIsMenuOpen(true)}
+      />
+      {isMenuOpen &&
+        createPortal(
+          <MobileNavigationMenuContents
+            navigationAriaLabel={navigationAriaLabel}
+            links={links}
+            closeMenu={() => setIsMenuOpen(false)}
+          />,
+          portalContainer,
+        )}
+    </>
   );
 };
