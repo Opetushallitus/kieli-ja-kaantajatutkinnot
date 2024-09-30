@@ -34,7 +34,6 @@ import fi.oph.vkt.util.PersonUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
