@@ -2,6 +2,7 @@ import { Box, Grid, Paper, Typography } from '@mui/material';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { H1, H2, H3, HeaderSeparator, Text, WebLink } from 'shared/components';
+import { useWindowProperties } from 'shared/hooks';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
@@ -69,6 +70,7 @@ export const PublicHomePage: FC = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicHomePage',
   });
+  const { isPhone } = useWindowProperties();
 
   return (
     <Box className="public-homepage">
@@ -89,7 +91,11 @@ export const PublicHomePage: FC = () => {
             </Text>
             <H2>{t('selectExamination.heading')}</H2>
             <Text>{t('selectExamination.description')}</Text>
-            <div className="public-homepage__cards columns gapped">
+            <div
+              className={`public-homepage__cards gapped ${
+                isPhone ? 'rows' : 'columns'
+              }`}
+            >
               <ExcellentLevelCard />
               <GoodAndSatisfactoryLevelCard />
             </div>
