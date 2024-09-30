@@ -5,6 +5,7 @@ exports[`CircularStepper should render correctly 1`] = `
   className="circular-stepper"
 >
   <span
+    aria-hidden={true}
     aria-label="phase Test Phase 1: Description text"
     aria-valuenow={33}
     className="MuiCircularProgress-root MuiCircularProgress-determinate MuiCircularProgress-colorSecondary circular-stepper__progress css-1bx0sm6-MuiCircularProgress-root"
@@ -38,6 +39,7 @@ exports[`CircularStepper should render correctly 1`] = `
     </svg>
   </span>
   <div
+    aria-hidden={true}
     className="circular-stepper__heading"
   >
     <h3
@@ -46,5 +48,10 @@ exports[`CircularStepper should render correctly 1`] = `
       Test Phase 1
     </h3>
   </div>
+  <p
+    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
+  >
+    phase Test Phase 1: Description text
+  </p>
 </div>
 `;
