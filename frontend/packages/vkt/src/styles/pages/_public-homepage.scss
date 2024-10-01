@@ -38,12 +38,11 @@
 
   & &__cards {
     @include not-phone {
-      width: 100%;
+      width: 90%;
     }
   }
 
   & &__level-description-card {
-    background-color: $color-blue-200;
     padding: 2rem;
     @include not-phone {
       width: 50%;
