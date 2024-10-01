@@ -67,9 +67,9 @@ export const AppRouter: FC = () => {
         <Notifier />
         <ScrollToTop />
         <PersistGate persistor={persistor} />
-        <main className="content rows" id="main-content">
-          <div id="mobile-menu-placeholder" className="rows" />
-          <div className="content__container">
+        <main className="content" id="main-content">
+          <div className="content__container rows">
+            <div id="mobile-menu-placeholder" className="rows" />
             <Outlet />
           </div>
         </main>
