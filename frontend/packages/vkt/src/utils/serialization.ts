@@ -43,6 +43,17 @@ export class SerializationUtils {
     };
   }
 
+  static deserializePublicEnrollmentAppointment(
+    enrollment: PublicEnrollmentResponse,
+  ): PublicEnrollment {
+    return {
+      ...enrollment,
+      emailConfirmation: '',
+      hasPreviousEnrollment: !!enrollment.previousEnrollment,
+      privacyStatementConfirmation: false,
+    };
+  }
+
   static deserializePublicEnrollment(
     enrollment: PublicEnrollmentResponse,
   ): PublicEnrollment {

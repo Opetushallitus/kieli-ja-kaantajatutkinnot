@@ -7,7 +7,7 @@ import { TextField } from 'shared/interfaces';
 import { FieldErrors } from 'shared/utils';
 
 import { CertificateShipping } from 'components/publicEnrollment/steps/CertificateShipping';
-import { PersonDetails } from 'components/publicEnrollment/steps/PersonDetails';
+import { PersonDetails } from 'components/publicEnrollmentAppointment/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import {
@@ -61,9 +61,13 @@ const emailsMatch = (
 export const FillContactDetails = ({
   isLoading,
   enrollment,
+  setIsStepValid,
+  showValidation,
 }: {
   isLoading: boolean;
   enrollment: PublicEnrollmentAppointment;
+  setIsStepValid: (isValid: boolean) => void;
+  showValidation: boolean;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.fillContactDetails',
@@ -76,6 +80,10 @@ export const FillContactDetails = ({
 
   const dispatch = useAppDispatch();
   const errors = [];
+
+  useEffect(() => {
+    setIsStepValid(true);
+  });
 
   const handleChange =
     (fieldName: keyof PublicEnrollmentContactDetails) =>

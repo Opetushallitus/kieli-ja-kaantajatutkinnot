@@ -24,7 +24,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "enrollment")
+@Table(name = "enrollment_appointment")
 public class EnrollmentAppointment extends BaseEntity {
 
   @Id
@@ -52,6 +52,10 @@ public class EnrollmentAppointment extends BaseEntity {
 
   @Column(name = "partial_exam_reading_comprehension")
   private boolean readingComprehensionPartialExam;
+
+  @Column(name = "status", nullable = false)
+  @Enumerated(value = EnumType.STRING)
+  private EnrollmentStatus status;
 
   @Column(name = "digital_certificate_consent")
   private boolean digitalCertificateConsent;

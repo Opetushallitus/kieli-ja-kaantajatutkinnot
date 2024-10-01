@@ -4,6 +4,7 @@ import fi.oph.vkt.api.dto.FreeEnrollmentAttachmentDTO;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetailsDTO;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
+import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
@@ -12,6 +13,7 @@ import fi.oph.vkt.api.dto.PublicFreeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.model.FreeEnrollment;
@@ -21,6 +23,7 @@ import fi.oph.vkt.model.UploadedFileAttachment;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import fi.oph.vkt.model.type.FreeEnrollmentType;
+import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
@@ -34,7 +37,6 @@ import fi.oph.vkt.util.PersonUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +52,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PublicEnrollmentService extends AbstractEnrollmentService {
 
   private final EnrollmentRepository enrollmentRepository;
+  private final EnrollmentAppointmentRepository enrollmentAppointmentRepository;
   private final ExamEventRepository examEventRepository;
   private final PublicEnrollmentEmailService publicEnrollmentEmailService;
   private final PublicReservationService publicReservationService;
@@ -582,5 +585,45 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final String key = examEventId + "/" + person.getUuid() + "/" + millis + "." + extension;
 
     return s3Service.getPresignedPostRequest(key, extension);
+  }
+
+  private PublicEnrollmentAppointmentDTO createEnrollmentAppointmentDTO(
+    final EnrollmentAppointment enrollmentAppointment
+  ) {
+    return PublicEnrollmentAppointmentDTO
+      .builder()
+      .id(enrollmentAppointment.getId())
+      .oralSkill(enrollmentAppointment.isOralSkill())
+      .textualSkill(enrollmentAppointment.isTextualSkill())
+      .understandingSkill(enrollmentAppointment.isUnderstandingSkill())
+      .speakingPartialExam(enrollmentAppointment.isSpeakingPartialExam())
+      .speechComprehensionPartialExam(enrollmentAppointment.isSpeechComprehensionPartialExam())
+      .writingPartialExam(enrollmentAppointment.isWritingPartialExam())
+      .readingComprehensionPartialExam(enrollmentAppointment.isReadingComprehensionPartialExam())
+      .digitalCertificateConsent(enrollmentAppointment.isDigitalCertificateConsent())
+      .email(enrollmentAppointment.getEmail())
+      .phoneNumber(enrollmentAppointment.getPhoneNumber())
+      .street(enrollmentAppointment.getStreet())
+      .postalCode(enrollmentAppointment.getPostalCode())
+      .town(enrollmentAppointment.getTown())
+      .country(enrollmentAppointment.getCountry())
+      .status(enrollmentAppointment.getStatus())
+      .build();
+  }
+
+  @Transactional(readOnly = true)
+  public PublicEnrollmentAppointmentDTO getEnrollmentAppointment(
+    final long enrollmentAppointmentId,
+    final Person person
+  ) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
+      enrollmentAppointmentId
+    );
+
+    if (person.getId() != enrollmentAppointment.getPerson().getId()) {
+      throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
+    }
+
+    return createEnrollmentAppointmentDTO(enrollmentAppointment);
   }
 }

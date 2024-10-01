@@ -32,6 +32,6 @@ public class UIRouteUtil {
   }
 
   public String getEnrollmentAppointmentUrl(final long enrollmentAppointmentId) {
-    return String.format("%s/ota-yhteytta/%s/tunnistaudu", getPublicBaseUrl(), enrollmentAppointmentId);
+    return String.format("%s/markkinapaikka/%s/tiedot", getPublicBaseUrl(), enrollmentAppointmentId);
   }
 }

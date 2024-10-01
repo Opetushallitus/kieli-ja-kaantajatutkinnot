@@ -7,7 +7,11 @@ import { useAppDispatch } from 'configs/redux';
 import { cancelPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { RouteUtils } from 'utils/routes';
 
-export const Authenticate = () => {
+export const Authenticate = ({
+  enrollment,
+} : {
+  enrollment: PublicEnrollmentAppointment;
+}) => {
   const [isAuthRedirecting, setIsAuthRedirecting] = useState(false);
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.authenticate',
@@ -21,7 +25,7 @@ export const Authenticate = () => {
 
     const type = 'appointment';
 
-    window.location.href = RouteUtils.getAuthLoginApiRoute(examEvent.id, type);
+    window.location.href = RouteUtils.getAuthLoginApiRoute(enrollment.id, type);
   };
 
   const onCancel = () => {

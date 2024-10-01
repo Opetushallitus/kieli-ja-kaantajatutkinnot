@@ -1,16 +1,42 @@
 import { Grid } from '@mui/material';
 
+import { useParams } from 'react-router';
 import { PublicEnrollmentAppointmentDesktopGrid } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentDesktopGrid';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { useEffect, useState } from 'react';
+import { APIResponseStatus } from 'shared/enums';
 import { PublicEnrollmentAppointmentFormStep } from 'enums/publicEnrollment';
 import { publicEnrollmentAppointmentSelector } from 'redux/selectors/publicEnrollmentAppointment';
+import { loadPublicEnrollmentAppointment } from 'redux/reducers/publicEnrollmentAppointment';
 
 export const PublicEnrollmentAppointmentGrid = ({
   activeStep,
 }: {
   activeStep: PublicEnrollmentAppointmentFormStep;
 }) => {
-  const { enrollment } = useAppSelector(publicEnrollmentAppointmentSelector);
+  const params = useParams();
+  const dispatch = useAppDispatch();
+  const { enrollment, loadEnrollmentStatus } = useAppSelector(publicEnrollmentAppointmentSelector);
+  const [isStepValid, setIsStepValid] = useState(false);
+  const [showValidation, setShowValidation] = useState(false);
+
+  const isAuthenticatePassed =
+    activeStep > PublicEnrollmentAppointmentFormStep.Authenticate;
+
+  useEffect(() => {
+    console.log(
+      isAuthenticatePassed,
+      loadEnrollmentStatus === APIResponseStatus.NotStarted,
+      params.enrollmentId
+    );
+    if (
+      isAuthenticatePassed &&
+      loadEnrollmentStatus === APIResponseStatus.NotStarted &&
+      params.enrollmentId
+    ) {
+      dispatch(loadPublicEnrollmentAppointment(+params.enrollmentId));
+    }
+  }, [dispatch, loadEnrollmentStatus, isAuthenticatePassed, params.enrollmentId]);
 
   return (
     <Grid
@@ -22,6 +48,10 @@ export const PublicEnrollmentAppointmentGrid = ({
       <PublicEnrollmentAppointmentDesktopGrid
         enrollment={enrollment}
         activeStep={activeStep}
+        isStepValid={isStepValid}
+        setIsStepValid={setIsStepValid}
+        showValidation={showValidation}
+        setShowValidation={setShowValidation}
       />
     </Grid>
   );

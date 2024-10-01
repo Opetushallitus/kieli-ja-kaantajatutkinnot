@@ -7,15 +7,26 @@ import { PublicEnrollmentAppointment } from 'interfaces/publicEnrollment';
 export const PublicEnrollmentAppointmentStepContents = ({
   activeStep,
   enrollment,
+  setIsStepValid,
+  showValidation,
 }: {
   activeStep: PublicEnrollmentAppointmentFormStep;
   enrollment: PublicEnrollmentAppointment;
+  setIsStepValid: (isValid: boolean) => void;
+  showValidation: boolean;
 }) => {
   switch (activeStep) {
     case PublicEnrollmentAppointmentFormStep.Authenticate:
-      return <Authenticate />;
+      return <Authenticate enrollment={enrollment} />;
     case PublicEnrollmentAppointmentFormStep.FillContactDetails:
-      return <FillContactDetails enrollment={enrollment} isLoading={false} />;
+      return (
+        <FillContactDetails
+          enrollment={enrollment}
+          isLoading={false}
+          setIsStepValid={setIsStepValid}
+          showValidation={showValidation}
+        />
+      );
     case PublicEnrollmentAppointmentFormStep.Preview:
       return <Preview enrollment={enrollment} isLoading={false} />;
   }

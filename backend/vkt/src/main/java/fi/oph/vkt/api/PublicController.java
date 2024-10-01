@@ -2,6 +2,7 @@ package fi.oph.vkt.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
+import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
@@ -147,6 +148,16 @@ public class PublicController {
   @GetMapping(path = "/examEvent/{examEventId:\\d+}")
   public PublicExamEventDTO getExamEventInfo(@PathVariable final long examEventId) {
     return publicExamEventService.getExamEvent(examEventId);
+  }
+
+  @GetMapping(path = "/enrollment/appointment/{enrollmentAppointmentId:\\d+}")
+  public PublicEnrollmentAppointmentDTO getEnrollmentAppointment(
+    @PathVariable final long enrollmentAppointmentId,
+    final HttpSession session
+  ) {
+    final Person person = publicAuthService.getPersonFromSession(session);
+
+    return publicEnrollmentService.getEnrollmentAppointment(enrollmentAppointmentId, person);
   }
 
   @GetMapping(path = "/education")

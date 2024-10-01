@@ -13,9 +13,17 @@ import { PublicEnrollmentAppointment } from 'interfaces/publicEnrollment';
 export const PublicEnrollmentAppointmentDesktopGrid = ({
   activeStep,
   enrollment,
+  isStepValid,
+  showValidation,
+  setIsStepValid,
+  setShowValidation,
 }: {
   activeStep: PublicEnrollmentFormStep;
+  isStepValid: boolean;
   enrollment: PublicEnrollmentAppointment;
+  showValidation: boolean;
+  setIsStepValid: (isValid: boolean) => void;
+  setShowValidation: (showValidation: boolean) => void;
 }) => {
   const translateCommon = useCommonTranslation();
 
@@ -34,6 +42,8 @@ export const PublicEnrollmentAppointmentDesktopGrid = ({
               <PublicEnrollmentAppointmentStepContents
                 activeStep={activeStep}
                 enrollment={enrollment}
+                showValidation={showValidation}
+                setIsStepValid={setIsStepValid}
               />
               {activeStep > PublicEnrollmentFormStep.Authenticate && (
                 <PublicEnrollmentAppointmentPaymentSum />
@@ -41,6 +51,9 @@ export const PublicEnrollmentAppointmentDesktopGrid = ({
               {activeStep > PublicEnrollmentFormStep.Authenticate && (
                 <PublicEnrollmentAppointmentControlButtons
                   activeStep={activeStep}
+                  enrollment={enrollment}
+                  setShowValidation={setShowValidation}
+                  isStepValid={isStepValid}
                   enrollment={enrollment}
                 />
               )}

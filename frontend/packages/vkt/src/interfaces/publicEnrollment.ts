@@ -57,11 +57,24 @@ export interface PublicEnrollment
   isQueued?: boolean;
 }
 
-export interface PublicEnrollmentAppointment extends PublicEnrollment {}
-
 export interface PublicEnrollmentResponse
   extends Omit<
       PublicEnrollment,
+      | 'emailConfirmation'
+      | 'id'
+      | 'hasPreviousEnrollment'
+      | 'privacyStatementConfirmation'
+      | 'status'
+    >,
+    WithId {
+  status: EnrollmentStatus;
+}
+
+export interface PublicEnrollmentAppointment extends PublicEnrollment {}
+
+export interface PublicEnrollmentAppointmentResponse
+  extends Omit<
+      PublicEnrollmentAppointment,
       | 'emailConfirmation'
       | 'id'
       | 'hasPreviousEnrollment'

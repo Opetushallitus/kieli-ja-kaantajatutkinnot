@@ -3,13 +3,13 @@ import { AppLanguage } from 'shared/enums';
 import { getCurrentLang } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import { AppRoutes } from 'enums/app';
-import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { PublicEnrollmentFormStep, PublicEnrollmentAppointmentFormStep } from 'enums/publicEnrollment';
 
 export class RouteUtils {
-  static getAuthLoginApiRoute(examEventId: number, type: string) {
+  static getAuthLoginApiRoute(targetId: number, type: string) {
     return APIEndpoints.PublicAuthLogin.replace(
-      ':examEventId',
-      `${examEventId}`,
+      ':targetId',
+      `${targetId}`,
     )
       .replace(':type', type)
       .replace(':locale', RouteUtils.getApiRouteLocale());
@@ -89,4 +89,45 @@ export class RouteUtils {
   static replaceExamEventId(route: string, examEventId: number) {
     return route.replace(':examEventId', examEventId.toString());
   }
+
+  static appointmentStepToRoute(step: PublicEnrollmentAppointmentFormStep, enrollmentId: number) {
+    switch (step) {
+      case PublicEnrollmentAppointmentFormStep.Authenticate:
+        return RouteUtils.replaceEnrollmentId(AppRoutes.PublicAuthAppointment, enrollmentId);
+
+      case PublicEnrollmentAppointmentFormStep.FillContactDetails:
+        return RouteUtils.replaceEnrollmentId(
+          AppRoutes.PublicEnrollmentAppointmentContactDetails,
+          enrollmentId,
+        );
+
+      case PublicEnrollmentAppointmentFormStep.Preview:
+        return RouteUtils.replaceEnrollmentId(
+          AppRoutes.PublicEnrollmentAppointmentPreview,
+          enrollmentId,
+        );
+
+      case PublicEnrollmentAppointmentFormStep.Payment:
+        return RouteUtils.replaceEnrollmentId(
+          AppRoutes.PublicEnrollmentPaymentFail,
+          enrollmentId,
+        );
+
+      case PublicEnrollmentAppointmentFormStep.PaymentSuccess:
+        return RouteUtils.replaceEnrollmentId(
+          AppRoutes.PublicEnrollmentPaymentSuccess,
+          enrollmentId,
+        );
+
+      case PublicEnrollmentAppointmentFormStep.Done:
+        return RouteUtils.replaceEnrollmentId(
+          AppRoutes.PublicEnrollmentDone,
+          enrollmentId,
+        );
+    }
+  }
+  static replaceEnrollmentId(route: string, enrollmentId: number) {
+    return route.replace(':enrollmentId', enrollmentId.toString());
+  }
+
 }

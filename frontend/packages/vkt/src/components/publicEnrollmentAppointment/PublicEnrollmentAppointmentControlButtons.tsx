@@ -10,15 +10,19 @@ import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { PublicEnrollmentAppointmentFormStep } from 'enums/publicEnrollment';
 import { RouteUtils } from 'utils/routes';
 
 export const PublicEnrollmentAppointmentControlButtons = ({
   activeStep,
   enrollment,
+  isStepValid,
+  setShowValidation,
 }: {
-  activeStep: PublicEnrollmentFormStep;
+  activeStep: PublicEnrollmentAppointmentFormStep;
   enrollment: PublicEnrollmentAppointment;
+  isStepValid: boolean;
+  setShowValidation: (showValidation: boolean) => void;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.controlButtons',
@@ -54,15 +58,15 @@ export const PublicEnrollmentAppointmentControlButtons = ({
   }, [submitStatus, enrollment.id, dispatch]);
 
   const handleBackBtnClick = () => {
-    const nextStep: PublicEnrollmentFormStep = activeStep - 1;
-    navigate(RouteUtils.stepToRoute(nextStep, examEventId));
+    const nextStep: PublicEnrollmentAppointmentFormStep = activeStep - 1;
+    navigate(RouteUtils.appointmentStepToRoute(nextStep, enrollment.id));
   };
 
   const handleNextBtnClick = () => {
     if (isStepValid) {
       setShowValidation(false);
-      const nextStep: PublicEnrollmentFormStep = activeStep + 1;
-      navigate(RouteUtils.stepToRoute(nextStep, examEventId));
+      const nextStep: PublicEnrollmentAppointmentFormStep = activeStep + 1;
+      navigate(RouteUtils.appointmentStepToRoute(nextStep, enrollment.id));
     } else {
       setShowValidation(true);
     }
@@ -105,7 +109,7 @@ export const PublicEnrollmentAppointmentControlButtons = ({
       data-testid="public-enrollment__controlButtons__back"
       startIcon={<ArrowBackIcon />}
       disabled={
-        activeStep == PublicEnrollmentFormStep.FillContactDetails ||
+        activeStep == PublicEnrollmentAppointmentFormStep.FillContactDetails ||
         isPaymentLoading
       }
     >
@@ -129,7 +133,7 @@ export const PublicEnrollmentAppointmentControlButtons = ({
   const SubmitButton = () => (
     <LoadingProgressIndicator
       translateCommon={translateCommon}
-      isLoading={isEnrollmentSubmitLoading || isPaymentLoading}
+      isLoading={false}
     >
       <CustomButton
         variant={Variant.Contained}
@@ -144,14 +148,8 @@ export const PublicEnrollmentAppointmentControlButtons = ({
   );
 
   const renderBack = true;
-
-  const renderNext = [
-    PublicEnrollmentFormStep.FillContactDetails,
-    PublicEnrollmentFormStep.EducationDetails,
-    PublicEnrollmentFormStep.SelectExam,
-  ].includes(activeStep);
-
-  const renderSubmit = activeStep === PublicEnrollmentFormStep.Preview;
+  const renderNext = activeStep === PublicEnrollmentAppointmentFormStep.FillContactDetails;
+  const renderSubmit = activeStep === PublicEnrollmentAppointmentFormStep.Preview;
 
   return (
     <div className="columns flex-end gapped margin-top-lg">

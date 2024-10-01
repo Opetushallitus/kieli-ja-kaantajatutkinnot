@@ -35,7 +35,7 @@ export const initialState: PublicEnrollmentState = {
     postalCode: '',
     town: '',
     country: '',
-    id: undefined,
+    id: 1, // FIXME
     hasPreviousEnrollment: undefined,
     previousEnrollment: '',
     privacyStatementConfirmation: false,
@@ -44,7 +44,10 @@ export const initialState: PublicEnrollmentState = {
     hasPaymentLink: undefined,
     isQueued: undefined,
   },
-  person: undefined,
+  person: { // FIXME
+    firstName: 'foo',
+    lastName: 'bar',
+  },
 };
 
 const publicEnrollmentAppointmentSlice = createSlice({

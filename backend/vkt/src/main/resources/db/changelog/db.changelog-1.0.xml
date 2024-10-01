@@ -864,6 +864,9 @@
             <column autoIncrement="true" name="enrollment_appointment_id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="enrollment_appointment_pkey" />
             </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
             <column name="created_by" type="TEXT"/>
             <column name="modified_by" type="TEXT"/>
             <column name="deleted_by" type="TEXT"/>
@@ -874,9 +877,37 @@
                 <constraints nullable="false"/>
             </column>
             <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="skill_oral" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="skill_textual" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="skill_understanding" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="partial_exam_speaking" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="partial_exam_speech_comprehension" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="partial_exam_writing" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="partial_exam_reading_comprehension" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="previous_enrollment_date" type="DATE"/>
+            <column name="digital_certificate_consent" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
             <column name="auth_hash" type="TEXT" />
             <column name="email" type="TEXT" />
-            <column name="phone" type="TEXT" />
+            <column name="phone_number" type="TEXT" />
             <column name="street" type="TEXT"/>
             <column name="postal_code" type="TEXT"/>
             <column name="town" type="TEXT"/>
