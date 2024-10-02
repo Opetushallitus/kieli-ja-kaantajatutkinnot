@@ -22,6 +22,8 @@ import {
 } from 'interfaces/publicEducation';
 import {
   PublicEnrollment,
+  PublicEnrollmentAppointment,
+  PublicEnrollmentAppointmentResponse,
   PublicEnrollmentResponse,
   PublicReservation,
   PublicReservationResponse,
@@ -44,8 +46,8 @@ export class SerializationUtils {
   }
 
   static deserializePublicEnrollmentAppointment(
-    enrollment: PublicEnrollmentResponse,
-  ): PublicEnrollment {
+    enrollment: PublicEnrollmentAppointmentResponse,
+  ): PublicEnrollmentAppointment {
     return {
       ...enrollment,
       emailConfirmation: '',

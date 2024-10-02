@@ -3,23 +3,26 @@ import { AppLanguage } from 'shared/enums';
 import { getCurrentLang } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import { AppRoutes } from 'enums/app';
-import { PublicEnrollmentFormStep, PublicEnrollmentAppointmentFormStep } from 'enums/publicEnrollment';
+import {
+  PublicEnrollmentAppointmentFormStep,
+  PublicEnrollmentFormStep,
+} from 'enums/publicEnrollment';
 
 export class RouteUtils {
   static getAuthLoginApiRoute(targetId: number, type: string) {
-    return APIEndpoints.PublicAuthLogin.replace(
-      ':targetId',
-      `${targetId}`,
-    )
+    return APIEndpoints.PublicAuthLogin.replace(':targetId', `${targetId}`)
       .replace(':type', type)
       .replace(':locale', RouteUtils.getApiRouteLocale());
   }
 
-  static getPaymentCreateApiRoute(enrollmentId?: number) {
+  // FIXME add type definition
+  static getPaymentCreateApiRoute(enrollmentId?: number, type: string) {
     return APIEndpoints.PaymentCreate.replace(
       ':enrollmentId',
       `${enrollmentId}`,
-    ).replace(':locale', RouteUtils.getApiRouteLocale());
+    )
+      .replace(':locale', RouteUtils.getApiRouteLocale())
+      .replace(':type', type);
   }
 
   private static getApiRouteLocale() {
@@ -90,10 +93,16 @@ export class RouteUtils {
     return route.replace(':examEventId', examEventId.toString());
   }
 
-  static appointmentStepToRoute(step: PublicEnrollmentAppointmentFormStep, enrollmentId: number) {
+  static appointmentStepToRoute(
+    step: PublicEnrollmentAppointmentFormStep,
+    enrollmentId: number,
+  ) {
     switch (step) {
       case PublicEnrollmentAppointmentFormStep.Authenticate:
-        return RouteUtils.replaceEnrollmentId(AppRoutes.PublicAuthAppointment, enrollmentId);
+        return RouteUtils.replaceEnrollmentId(
+          AppRoutes.PublicAuthAppointment,
+          enrollmentId,
+        );
 
       case PublicEnrollmentAppointmentFormStep.FillContactDetails:
         return RouteUtils.replaceEnrollmentId(
@@ -129,5 +138,4 @@ export class RouteUtils {
   static replaceEnrollmentId(route: string, enrollmentId: number) {
     return route.replace(':enrollmentId', enrollmentId.toString());
   }
-
 }

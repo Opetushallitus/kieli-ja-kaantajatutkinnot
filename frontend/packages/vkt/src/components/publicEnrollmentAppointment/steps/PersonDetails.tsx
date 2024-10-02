@@ -14,9 +14,9 @@ export const PersonDetails = ({
     keyPrefix: 'vkt.component.publicEnrollment.steps.personDetails',
   });
 
-  const { person } = useAppSelector(publicEnrollmentAppointmentSelector);
+  const { enrollment } = useAppSelector(publicEnrollmentAppointmentSelector);
 
-  if (!person) {
+  if (!enrollment.person) {
     return null;
   }
 
@@ -26,7 +26,7 @@ export const PersonDetails = ({
         {t(field)}
         {':'}
       </Text>
-      <Text>{person[field]}</Text>
+      <Text>{enrollment.person[field]}</Text>
     </div>
   );
 
@@ -34,9 +34,7 @@ export const PersonDetails = ({
     <div className="rows gapped">
       <H2>{t('title')}</H2>
       <div
-        className={
-          'gapped grid-columns'
-        }
+        className={'gapped grid-columns'}
         data-testid="enrollment-person-details"
       >
         {displayField('lastName')}

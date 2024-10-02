@@ -3,6 +3,7 @@ package fi.oph.vkt.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentDTO;
+import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentUpdateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
@@ -29,6 +30,7 @@ import fi.oph.vkt.service.koski.KoskiService;
 import fi.oph.vkt.util.SessionUtil;
 import fi.oph.vkt.util.UIRouteUtil;
 import fi.oph.vkt.util.exception.APIException;
+import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
@@ -158,6 +160,21 @@ public class PublicController {
     final Person person = publicAuthService.getPersonFromSession(session);
 
     return publicEnrollmentService.getEnrollmentAppointment(enrollmentAppointmentId, person);
+  }
+
+  @PostMapping(path = "/enrollment/appointment/{enrollmentAppointmentId:\\d+}")
+  @ResponseStatus(HttpStatus.CREATED)
+  public PublicEnrollmentAppointmentDTO saveEnrollmentAppointment(
+          @RequestBody @Valid final PublicEnrollmentAppointmentUpdateDTO dto,
+          @PathVariable final long enrollmentAppointmentId,
+          final HttpSession session) {
+    final Person person = publicAuthService.getPersonFromSession(session);
+
+    if (enrollmentAppointmentId != dto.id()) {
+      throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
+    }
+
+    return publicEnrollmentService.saveEnrollmentAppointment(dto, person);
   }
 
   @GetMapping(path = "/education")
@@ -332,7 +349,7 @@ public class PublicController {
     httpResponse.sendRedirect(publicAuthService.createCasLogoutUrl());
   }
 
-  @GetMapping(path = "/payment/create/{targetId:\\d+}/{type:\\w}/redirect")
+  @GetMapping(path = "/payment/create/{targetId:\\d+}/{type:\\w+}/redirect")
   public void createPaymentAndRedirect(
     @PathVariable final Long targetId,
     @PathVariable final String type,

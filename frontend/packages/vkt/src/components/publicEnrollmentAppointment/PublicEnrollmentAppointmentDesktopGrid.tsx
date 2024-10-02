@@ -7,8 +7,10 @@ import { PublicEnrollmentAppointmentStepContents } from 'components/publicEnroll
 import { PublicEnrollmentAppointmentStepHeading } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentStepHeading';
 import { PublicEnrollmentAppointmentStepper } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentStepper';
 import { useCommonTranslation } from 'configs/i18n';
-import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { useAppSelector } from 'configs/redux';
+import { PublicEnrollmentAppointmentFormStep } from 'enums/publicEnrollment';
 import { PublicEnrollmentAppointment } from 'interfaces/publicEnrollment';
+import { publicEnrollmentAppointmentSelector } from 'redux/selectors/publicEnrollmentAppointment';
 
 export const PublicEnrollmentAppointmentDesktopGrid = ({
   activeStep,
@@ -26,6 +28,16 @@ export const PublicEnrollmentAppointmentDesktopGrid = ({
   setShowValidation: (showValidation: boolean) => void;
 }) => {
   const translateCommon = useCommonTranslation();
+
+  const { enrollmentSubmitStatus } = useAppSelector(
+    publicEnrollmentAppointmentSelector,
+  );
+
+  const showPaymentSum =
+    activeStep === PublicEnrollmentAppointmentFormStep.Preview;
+  const showControlButtons =
+    activeStep > PublicEnrollmentAppointmentFormStep.Authenticate &&
+    activeStep <= PublicEnrollmentAppointmentFormStep.Preview;
 
   return (
     <>
@@ -45,16 +57,14 @@ export const PublicEnrollmentAppointmentDesktopGrid = ({
                 showValidation={showValidation}
                 setIsStepValid={setIsStepValid}
               />
-              {activeStep > PublicEnrollmentFormStep.Authenticate && (
-                <PublicEnrollmentAppointmentPaymentSum />
-              )}
-              {activeStep > PublicEnrollmentFormStep.Authenticate && (
+              {showPaymentSum && <PublicEnrollmentAppointmentPaymentSum />}
+              {showControlButtons && (
                 <PublicEnrollmentAppointmentControlButtons
                   activeStep={activeStep}
                   enrollment={enrollment}
                   setShowValidation={setShowValidation}
                   isStepValid={isStepValid}
-                  enrollment={enrollment}
+                  submitStatus={enrollmentSubmitStatus}
                 />
               )}
             </div>

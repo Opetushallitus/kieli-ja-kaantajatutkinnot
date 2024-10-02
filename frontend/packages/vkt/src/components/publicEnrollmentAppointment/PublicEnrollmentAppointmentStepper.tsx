@@ -43,7 +43,7 @@ export const PublicEnrollmentAppointmentStepper = ({
 
   const hasError = (step: PublicEnrollmentAppointmentFormStep) => {
     return (
-      step === PublicEnrollmentAppointmentFormStep.Payment &&
+      step === PublicEnrollmentAppointmentFormStep.PaymentFail &&
       step === activeStep
     );
   };
@@ -66,7 +66,7 @@ export const PublicEnrollmentAppointmentStepper = ({
       ariaLabel={mobileAriaLabel}
       phaseText={mobilePhaseText}
       color={
-        activeStep === PublicEnrollmentAppointmentFormStep.Payment
+        activeStep === PublicEnrollmentAppointmentFormStep.PaymentFail
           ? Color.Error
           : Color.Secondary
       }

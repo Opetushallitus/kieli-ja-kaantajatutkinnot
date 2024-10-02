@@ -32,8 +32,8 @@ export class PublicEnrollmentUtils {
       PublicEnrollmentAppointmentFormStep.Authenticate,
       PublicEnrollmentAppointmentFormStep.FillContactDetails,
       PublicEnrollmentAppointmentFormStep.Preview,
-      PublicEnrollmentAppointmentFormStep.Payment,
-      PublicEnrollmentAppointmentFormStep.Done,
+      PublicEnrollmentAppointmentFormStep.PaymentFail,
+      PublicEnrollmentAppointmentFormStep.PaymentSuccess,
     ];
   }
 

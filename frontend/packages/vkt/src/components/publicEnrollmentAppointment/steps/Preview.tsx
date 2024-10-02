@@ -14,7 +14,7 @@ import { PersonDetails } from 'components/publicEnrollment/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicEnrollmentAppointment } from 'interfaces/publicEnrollment';
-import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
+import { updatePublicEnrollment } from 'redux/reducers/publicEnrollmentAppointment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
 const ContactDetails = ({

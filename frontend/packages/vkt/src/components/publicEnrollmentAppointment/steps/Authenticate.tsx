@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useParams } from 'react-router';
 import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
@@ -7,16 +8,14 @@ import { useAppDispatch } from 'configs/redux';
 import { cancelPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { RouteUtils } from 'utils/routes';
 
-export const Authenticate = ({
-  enrollment,
-} : {
-  enrollment: PublicEnrollmentAppointment;
-}) => {
+export const Authenticate = () => {
+  const params = useParams();
   const [isAuthRedirecting, setIsAuthRedirecting] = useState(false);
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.authenticate',
   });
   const translateCommon = useCommonTranslation();
+  const enrollmentId = +params.enrollmentId;
 
   const dispatch = useAppDispatch();
 
@@ -25,7 +24,7 @@ export const Authenticate = ({
 
     const type = 'appointment';
 
-    window.location.href = RouteUtils.getAuthLoginApiRoute(enrollment.id, type);
+    window.location.href = RouteUtils.getAuthLoginApiRoute(enrollmentId, type);
   };
 
   const onCancel = () => {

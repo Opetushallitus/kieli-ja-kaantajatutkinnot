@@ -6,7 +6,7 @@ export enum APIEndpoints {
   PublicEnrollment = '/vkt/api/v1/enrollment',
   PublicReservation = '/vkt/api/v1/reservation',
   PublicEducation = '/vkt/api/v1/education',
-  PaymentCreate = '/vkt/api/v1/payment/create/:enrollmentId/redirect?locale=:locale',
+  PaymentCreate = '/vkt/api/v1/payment/create/:enrollmentId/:type/redirect?locale=:locale',
   ClerkExamEvent = '/vkt/api/v1/clerk/examEvent',
   ClerkUser = '/vkt/api/v1/clerk/user',
   PublicUser = '/vkt/api/v1/auth/info',

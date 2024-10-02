@@ -100,6 +100,16 @@ public class PaymentService {
     return enrollment.enrollmentNeedsApproval() ? EnrollmentStatus.AWAITING_APPROVAL : EnrollmentStatus.COMPLETED;
   }
 
+  private void setEnrollmentStatus(final EnrollmentAppointment enrollmentAppointment, final PaymentStatus paymentStatus) {
+    switch (paymentStatus) {
+      case NEW, PENDING, DELAYED -> {}
+      case OK -> enrollmentAppointment.setStatus(EnrollmentStatus.COMPLETED);
+      case FAIL -> {
+        enrollmentAppointment.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
+      }
+    }
+  }
+
   private void setEnrollmentStatus(final Enrollment enrollment, final PaymentStatus paymentStatus) {
     switch (paymentStatus) {
       case NEW -> {
@@ -153,14 +163,27 @@ public class PaymentService {
       throw new APIException(APIExceptionType.PAYMENT_REFERENCE_MISMATCH);
     }
 
-    final Enrollment enrollment = payment.getEnrollment();
-    setEnrollmentStatus(enrollment, newStatus);
+    if (payment.getEnrollment() != null) {
+      final Enrollment enrollment = payment.getEnrollment();
+      setEnrollmentStatus(enrollment, newStatus);
 
-    payment.setPaymentStatus(newStatus);
-    paymentRepository.saveAndFlush(payment);
+      payment.setPaymentStatus(newStatus);
+      paymentRepository.saveAndFlush(payment);
 
-    if (newStatus == PaymentStatus.OK) {
-      publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment);
+      if (newStatus == PaymentStatus.OK) {
+        publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment);
+      }
+    } else {
+      final EnrollmentAppointment enrollmentAppointment = payment.getEnrollmentAppointment();
+      setEnrollmentStatus(enrollmentAppointment, newStatus);
+
+      payment.setPaymentStatus(newStatus);
+      paymentRepository.saveAndFlush(payment);
+
+      // FIXME
+      if (newStatus == PaymentStatus.OK) {
+        //publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollmentAppointment);
+      }
     }
 
     return payment;
@@ -181,9 +204,10 @@ public class PaymentService {
     final Payment payment = paymentRepository
       .findById(paymentId)
       .orElseThrow(() -> new NotFoundException("Payment not found"));
-    final ExamEvent examEvent = payment.getEnrollment().getExamEvent();
-
-    return String.format("%s/ilmoittaudu/%d/maksu/%s", baseUrl, examEvent.getId(), state);
+    
+    return payment.getEnrollment() != null
+      ? String.format("%s/ilmoittaudu/%d/maksu/%s", baseUrl, payment.getEnrollment().getExamEvent().getId(), state)
+      : String.format("%s/markkinapaikka/%d/maksu/%s", baseUrl, payment.getEnrollmentAppointment().getId(), state);
   }
 
   @Transactional

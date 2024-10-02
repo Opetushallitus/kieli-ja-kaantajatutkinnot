@@ -5,6 +5,7 @@ import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetailsDTO;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentDTO;
+import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentUpdateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
@@ -474,6 +475,13 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     enrollment.setCountry(null);
   }
 
+  private void clearAddress(final EnrollmentAppointment enrollmentAppointment) {
+    enrollmentAppointment.setStreet(null);
+    enrollmentAppointment.setPostalCode(null);
+    enrollmentAppointment.setTown(null);
+    enrollmentAppointment.setCountry(null);
+  }
+
   @Transactional
   public PublicEnrollmentDTO createEnrollmentToQueue(
     final PublicEnrollmentCreateDTO dto,
@@ -590,6 +598,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   private PublicEnrollmentAppointmentDTO createEnrollmentAppointmentDTO(
     final EnrollmentAppointment enrollmentAppointment
   ) {
+    final PublicPersonDTO personDTO = PersonUtil.createPublicPersonDTO(enrollmentAppointment.getPerson());
+
     return PublicEnrollmentAppointmentDTO
       .builder()
       .id(enrollmentAppointment.getId())
@@ -608,6 +618,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .town(enrollmentAppointment.getTown())
       .country(enrollmentAppointment.getCountry())
       .status(enrollmentAppointment.getStatus())
+      .person(personDTO)
       .build();
   }
 
@@ -623,6 +634,31 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     if (person.getId() != enrollmentAppointment.getPerson().getId()) {
       throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
     }
+
+    return createEnrollmentAppointmentDTO(enrollmentAppointment);
+  }
+
+  @Transactional
+  public PublicEnrollmentAppointmentDTO saveEnrollmentAppointment(final PublicEnrollmentAppointmentUpdateDTO dto, final Person person) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
+            dto.id()
+    );
+
+    if (person.getId() != enrollmentAppointment.getPerson().getId()) {
+      throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
+    }
+
+    enrollmentAppointment.setPerson(person);
+    enrollmentAppointment.setStreet(dto.street());
+    enrollmentAppointment.setPostalCode(dto.postalCode());
+    enrollmentAppointment.setTown(dto.town());
+    enrollmentAppointment.setCountry(dto.country());
+
+    if (dto.digitalCertificateConsent()) {
+      clearAddress(enrollmentAppointment);
+    }
+
+    enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
 
     return createEnrollmentAppointmentDTO(enrollmentAppointment);
   }

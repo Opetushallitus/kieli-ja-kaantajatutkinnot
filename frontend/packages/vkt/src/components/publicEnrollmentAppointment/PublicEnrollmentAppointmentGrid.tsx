@@ -1,13 +1,13 @@
 import { Grid } from '@mui/material';
-
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { APIResponseStatus } from 'shared/enums';
+
 import { PublicEnrollmentAppointmentDesktopGrid } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentDesktopGrid';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { useEffect, useState } from 'react';
-import { APIResponseStatus } from 'shared/enums';
 import { PublicEnrollmentAppointmentFormStep } from 'enums/publicEnrollment';
-import { publicEnrollmentAppointmentSelector } from 'redux/selectors/publicEnrollmentAppointment';
 import { loadPublicEnrollmentAppointment } from 'redux/reducers/publicEnrollmentAppointment';
+import { publicEnrollmentAppointmentSelector } from 'redux/selectors/publicEnrollmentAppointment';
 
 export const PublicEnrollmentAppointmentGrid = ({
   activeStep,
@@ -16,7 +16,9 @@ export const PublicEnrollmentAppointmentGrid = ({
 }) => {
   const params = useParams();
   const dispatch = useAppDispatch();
-  const { enrollment, loadEnrollmentStatus } = useAppSelector(publicEnrollmentAppointmentSelector);
+  const { enrollment, loadEnrollmentStatus } = useAppSelector(
+    publicEnrollmentAppointmentSelector,
+  );
   const [isStepValid, setIsStepValid] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
 
@@ -24,11 +26,6 @@ export const PublicEnrollmentAppointmentGrid = ({
     activeStep > PublicEnrollmentAppointmentFormStep.Authenticate;
 
   useEffect(() => {
-    console.log(
-      isAuthenticatePassed,
-      loadEnrollmentStatus === APIResponseStatus.NotStarted,
-      params.enrollmentId
-    );
     if (
       isAuthenticatePassed &&
       loadEnrollmentStatus === APIResponseStatus.NotStarted &&
@@ -36,7 +33,12 @@ export const PublicEnrollmentAppointmentGrid = ({
     ) {
       dispatch(loadPublicEnrollmentAppointment(+params.enrollmentId));
     }
-  }, [dispatch, loadEnrollmentStatus, isAuthenticatePassed, params.enrollmentId]);
+  }, [
+    dispatch,
+    loadEnrollmentStatus,
+    isAuthenticatePassed,
+    params.enrollmentId,
+  ]);
 
   return (
     <Grid

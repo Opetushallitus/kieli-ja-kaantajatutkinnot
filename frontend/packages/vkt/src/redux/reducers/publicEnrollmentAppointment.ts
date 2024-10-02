@@ -35,7 +35,7 @@ export const initialState: PublicEnrollmentState = {
     postalCode: '',
     town: '',
     country: '',
-    id: 1, // FIXME
+    id: undefined,
     hasPreviousEnrollment: undefined,
     previousEnrollment: '',
     privacyStatementConfirmation: false,
@@ -43,10 +43,7 @@ export const initialState: PublicEnrollmentState = {
     examEventId: undefined,
     hasPaymentLink: undefined,
     isQueued: undefined,
-  },
-  person: { // FIXME
-    firstName: 'foo',
-    lastName: 'bar',
+    person: undefined,
   },
 };
 
@@ -60,11 +57,31 @@ const publicEnrollmentAppointmentSlice = createSlice({
     rejectPublicEnrollmentAppointment(state) {
       state.loadEnrollmentStatus = APIResponseStatus.Error;
     },
-    storePublicEnrollmentAppointment(state) {
+    storePublicEnrollmentAppointmentSave(
+      state,
+      action: PayloadAction<PublicEnrollmentAppointment>,
+    ) {
+      state.enrollmentSubmitStatus = APIResponseStatus.Success;
+      state.enrollment = action.payload;
+    },
+    storePublicEnrollmentAppointment(
+      state,
+      action: PayloadAction<PublicEnrollmentAppointment>,
+    ) {
       state.loadEnrollmentStatus = APIResponseStatus.Success;
+      state.enrollment = action.payload;
+    },
+    updatePublicEnrollment(
+      state,
+      action: PayloadAction<Partial<PublicEnrollmentAppointment>>,
+    ) {
+      state.enrollment = { ...state.enrollment, ...action.payload };
     },
     setLoadingPayment(state) {
       state.paymentLoadingStatus = APIResponseStatus.InProgress;
+    },
+    loadPublicEnrollmentSave(state, _action: PayloadAction<PublicEnrollment>) {
+      state.enrollmentSubmitStatus = APIResponseStatus.InProgress;
     },
   },
 });
@@ -74,6 +91,9 @@ export const publicEnrollmentAppointmentReducer =
 export const {
   loadPublicEnrollmentAppointment,
   rejectPublicEnrollmentAppointment,
+  storePublicEnrollmentAppointmentSave,
   storePublicEnrollmentAppointment,
+  updatePublicEnrollment,
+  loadPublicEnrollmentSave,
   setLoadingPayment,
 } = publicEnrollmentAppointmentSlice.actions;

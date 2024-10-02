@@ -6,7 +6,7 @@ import { useWindowProperties } from 'shared/hooks';
 import { TextField } from 'shared/interfaces';
 import { FieldErrors } from 'shared/utils';
 
-import { CertificateShipping } from 'components/publicEnrollment/steps/CertificateShipping';
+import { CertificateShipping } from 'components/publicEnrollmentAppointment/steps/CertificateShipping';
 import { PersonDetails } from 'components/publicEnrollmentAppointment/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
@@ -136,7 +136,7 @@ export const FillContactDetails = ({
       <LabeledTextField
         {...getCustomTextFieldAttributes('phoneNumber')}
         className="phone-number"
-        value={''}
+        value={enrollment.phoneNumber}
         type={TextFieldTypes.PhoneNumber}
         autoComplete={InputAutoComplete.PhoneNumber}
       />
@@ -144,7 +144,7 @@ export const FillContactDetails = ({
       <CertificateShipping
         enrollment={enrollment}
         editingDisabled={isLoading}
-        setValid={(isValid) => console.log(isValid)}
+        setValid={setIsStepValid}
         showValidation={false}
       />
     </div>

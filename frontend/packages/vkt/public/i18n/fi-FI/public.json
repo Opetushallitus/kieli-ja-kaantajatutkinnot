@@ -88,6 +88,7 @@
             "EducationDetails": "Koulutustiedot",
             "FillContactDetails": "Täytä yhteystietosi",
             "Payment": "Maksu",
+            "PaymentFail": "Maksu",
             "PaymentSuccess": "Valmis",
             "Preview": "Esikatsele",
             "SelectExam": "Valitse tutkinto"

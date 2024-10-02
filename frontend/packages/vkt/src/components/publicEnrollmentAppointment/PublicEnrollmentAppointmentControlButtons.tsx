@@ -11,6 +11,10 @@ import { useDialog } from 'shared/hooks';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { PublicEnrollmentAppointmentFormStep } from 'enums/publicEnrollment';
+import {
+  loadPublicEnrollmentSave,
+  setLoadingPayment,
+} from 'redux/reducers/publicEnrollmentAppointment';
 import { RouteUtils } from 'utils/routes';
 
 export const PublicEnrollmentAppointmentControlButtons = ({
@@ -18,11 +22,13 @@ export const PublicEnrollmentAppointmentControlButtons = ({
   enrollment,
   isStepValid,
   setShowValidation,
+  submitStatus,
 }: {
   activeStep: PublicEnrollmentAppointmentFormStep;
   enrollment: PublicEnrollmentAppointment;
   isStepValid: boolean;
   setShowValidation: (showValidation: boolean) => void;
+  submitStatus: APIResponseStatus;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.controlButtons',
@@ -30,16 +36,10 @@ export const PublicEnrollmentAppointmentControlButtons = ({
   const translateCommon = useCommonTranslation();
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
 
-  // FIXME
-  const submitStatus = APIResponseStatus.NotStarted;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const { showDialog } = useDialog();
-
-  const submitButtonText = () => {
-    return t('pay');
-  };
 
   const handleCancelBtnClick = () => {
     // FIXME
@@ -51,6 +51,7 @@ export const PublicEnrollmentAppointmentControlButtons = ({
       setTimeout(() => {
         window.location.href = RouteUtils.getPaymentCreateApiRoute(
           enrollment.id,
+          'appointment',
         );
       }, 200);
       dispatch(setLoadingPayment());
@@ -76,12 +77,7 @@ export const PublicEnrollmentAppointmentControlButtons = ({
     if (isStepValid) {
       setIsPaymentLoading(true);
       setShowValidation(false);
-      dispatch(
-        loadPublicEnrollmentUpdate({
-          enrollment,
-          examEventId,
-        }),
-      );
+      dispatch(loadPublicEnrollmentSave(enrollment));
     } else {
       setShowValidation(true);
     }
@@ -142,14 +138,16 @@ export const PublicEnrollmentAppointmentControlButtons = ({
         data-testid="public-enrollment__controlButtons__submit"
         disabled={isPaymentLoading}
       >
-        {submitButtonText()}
+        {t('pay')}
       </CustomButton>
     </LoadingProgressIndicator>
   );
 
   const renderBack = true;
-  const renderNext = activeStep === PublicEnrollmentAppointmentFormStep.FillContactDetails;
-  const renderSubmit = activeStep === PublicEnrollmentAppointmentFormStep.Preview;
+  const renderNext =
+    activeStep === PublicEnrollmentAppointmentFormStep.FillContactDetails;
+  const renderSubmit =
+    activeStep === PublicEnrollmentAppointmentFormStep.Preview;
 
   return (
     <div className="columns flex-end gapped margin-top-lg">

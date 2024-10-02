@@ -215,6 +215,28 @@ export const AppRouter: FC = () => {
               </TitlePage>
             }
           />
+          <Route
+            path={AppRoutes.PublicEnrollmentAppointmentPaymentFail}
+            element={
+              <TitlePage title={createTitle('paymentFail')}>
+                <PublicEnrollmentAppointmentPage
+                  activeStep={PublicEnrollmentAppointmentFormStep.PaymentFail}
+                />
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.PublicEnrollmentAppointmentPaymentSuccess}
+            element={
+              <TitlePage title={createTitle('paymentSuccess')}>
+                <PublicEnrollmentAppointmentPage
+                  activeStep={
+                    PublicEnrollmentAppointmentFormStep.PaymentSuccess
+                  }
+                />
+              </TitlePage>
+            }
+          />
         </Route>
         <Route
           path={AppRoutes.AccessibilityStatementPage}

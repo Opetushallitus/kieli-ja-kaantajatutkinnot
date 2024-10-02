@@ -5,16 +5,16 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import {
-  PublicEnrollment,
-  PublicReservationDetailsResponse,
-  PublicReservationResponse,
+  PublicEnrollmentAppointment,
+  PublicEnrollmentAppointmentResponse,
 } from 'interfaces/publicEnrollment';
-import { PublicEnrollmentAppointmentResponse } from 'interfaces/publicEnrollment';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
   loadPublicEnrollmentAppointment,
-  storePublicEnrollmentAppointment,
+  loadPublicEnrollmentSave,
   rejectPublicEnrollmentAppointment,
+  storePublicEnrollmentAppointment,
+  storePublicEnrollmentAppointmentSave,
 } from 'redux/reducers/publicEnrollmentAppointment';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
@@ -24,14 +24,11 @@ function* loadPublicEnrollmentAppointmentSaga(action: PayloadAction<number>) {
     const enrollmentId = action.payload;
     const loadUrl = `${APIEndpoints.PublicEnrollmentAppointment}/${enrollmentId}`;
 
-    const response: AxiosResponse<PublicEnrollmentAppointmentResponse> = yield call(
-      axiosInstance.get,
-      loadUrl,
-    );
+    const response: AxiosResponse<PublicEnrollmentAppointmentResponse> =
+      yield call(axiosInstance.get, loadUrl);
 
-    const enrollmentAppointment = SerializationUtils.deserializePublicEnrollmentAppointment(
-      response.data,
-    );
+    const enrollmentAppointment =
+      SerializationUtils.deserializePublicEnrollmentAppointment(response.data);
 
     yield put(storePublicEnrollmentAppointment(enrollmentAppointment));
   } catch (error) {
@@ -41,6 +38,37 @@ function* loadPublicEnrollmentAppointmentSaga(action: PayloadAction<number>) {
   }
 }
 
+function* loadPublicEnrollmentSaveSaga(
+  action: PayloadAction<PublicEnrollmentAppointment>,
+) {
+  const enrollment = action.payload;
+
+  try {
+    const body = {
+      id: enrollment.id,
+      phoneNumber: enrollment.phoneNumber,
+      digitalCertificateConsent: enrollment.digitalCertificateConsent,
+      street: enrollment.street,
+      town: enrollment.town,
+      postalCode: enrollment.postalCode,
+      country: enrollment.country,
+    };
+
+    const saveUrl = `${APIEndpoints.PublicEnrollmentAppointment}/${enrollment.id}`;
+    const response: AxiosResponse<PublicEnrollmentAppointmentResponse> =
+      yield call(axiosInstance.post, saveUrl, body);
+    yield put(storePublicEnrollmentAppointmentSave(response.data));
+  } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    yield put(rejectPublicEnrollmentSave());
+  }
+}
+
 export function* watchPublicEnrollmentAppointments() {
-  yield takeLatest(loadPublicEnrollmentAppointment, loadPublicEnrollmentAppointmentSaga);
+  yield takeLatest(loadPublicEnrollmentSave, loadPublicEnrollmentSaveSaga);
+  yield takeLatest(
+    loadPublicEnrollmentAppointment,
+    loadPublicEnrollmentAppointmentSaga,
+  );
 }
