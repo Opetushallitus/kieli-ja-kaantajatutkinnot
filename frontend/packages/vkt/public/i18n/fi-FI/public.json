@@ -319,6 +319,13 @@
         },
         "title": "Tulevat tutkintotilaisuudet"
       },
+      "publicExaminerListing": {
+        "examLanguage": {
+          "ALL": "suomi & ruotsi",
+          "FI": "suomi",
+          "SV": "ruotsi"
+        }
+      },
       "logoutSuccessPage": {
         "heading": "Uloskirjautuminen onnnistui",
         "info": "Olet kirjautunut ulos. Suljethan vielä kaikki selainikkunat."
