@@ -639,10 +639,11 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional
-  public PublicEnrollmentAppointmentDTO saveEnrollmentAppointment(final PublicEnrollmentAppointmentUpdateDTO dto, final Person person) {
-    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
-            dto.id()
-    );
+  public PublicEnrollmentAppointmentDTO saveEnrollmentAppointment(
+    final PublicEnrollmentAppointmentUpdateDTO dto,
+    final Person person
+  ) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(dto.id());
 
     if (person.getId() != enrollmentAppointment.getPerson().getId()) {
       throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);

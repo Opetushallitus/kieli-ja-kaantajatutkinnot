@@ -5,8 +5,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { CustomButton, LoadingProgressIndicator } from 'shared/components';
-import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
-import { useDialog } from 'shared/hooks';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
@@ -38,8 +37,6 @@ export const PublicEnrollmentAppointmentControlButtons = ({
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const { showDialog } = useDialog();
 
   const handleCancelBtnClick = () => {
     // FIXME

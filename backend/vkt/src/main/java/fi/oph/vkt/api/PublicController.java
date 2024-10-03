@@ -165,9 +165,10 @@ public class PublicController {
   @PostMapping(path = "/enrollment/appointment/{enrollmentAppointmentId:\\d+}")
   @ResponseStatus(HttpStatus.CREATED)
   public PublicEnrollmentAppointmentDTO saveEnrollmentAppointment(
-          @RequestBody @Valid final PublicEnrollmentAppointmentUpdateDTO dto,
-          @PathVariable final long enrollmentAppointmentId,
-          final HttpSession session) {
+    @RequestBody @Valid final PublicEnrollmentAppointmentUpdateDTO dto,
+    @PathVariable final long enrollmentAppointmentId,
+    final HttpSession session
+  ) {
     final Person person = publicAuthService.getPersonFromSession(session);
 
     if (enrollmentAppointmentId != dto.id()) {

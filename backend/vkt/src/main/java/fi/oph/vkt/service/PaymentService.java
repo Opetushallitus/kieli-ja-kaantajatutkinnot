@@ -9,6 +9,7 @@ import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentSkill;
 import fi.oph.vkt.model.type.EnrollmentStatus;
+import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.payment.PaymentProvider;
 import fi.oph.vkt.payment.paytrail.Customer;
@@ -47,13 +48,13 @@ public class PaymentService {
   private final Environment environment;
   private final PublicEnrollmentEmailService publicEnrollmentEmailService;
 
-  private Item getItem(final EnrollmentSkill enrollmentSkill, final int unitPrice) {
+  private Item getItem(final EnrollmentSkill enrollmentSkill, final int unitPrice, final ExamLevel examLevel) {
     return Item
       .builder()
       .units(1)
       .unitPrice(unitPrice)
       .vatPercentage(PaytrailConfig.VAT)
-      .productCode(enrollmentSkill.toString())
+      .productCode(examLevel.toString() + "-" + enrollmentSkill.toString())
       .build();
   }
 
@@ -61,14 +62,22 @@ public class PaymentService {
     final List<Item> itemList = new ArrayList<>();
 
     if (enrollmentAppointment.isTextualSkill()) {
-      itemList.add(getItem(EnrollmentSkill.TEXTUAL, EnrollmentUtil.getTextualSkillFee(enrollmentAppointment)));
+      itemList.add(
+        getItem(EnrollmentSkill.TEXTUAL, EnrollmentUtil.getTextualSkillFee(enrollmentAppointment), ExamLevel.GOOD)
+      );
     }
     if (enrollmentAppointment.isOralSkill()) {
-      itemList.add(getItem(EnrollmentSkill.ORAL, EnrollmentUtil.getOralSkillFee(enrollmentAppointment)));
+      itemList.add(
+        getItem(EnrollmentSkill.ORAL, EnrollmentUtil.getOralSkillFee(enrollmentAppointment), ExamLevel.GOOD)
+      );
     }
     if (enrollmentAppointment.isUnderstandingSkill()) {
       itemList.add(
-        getItem(EnrollmentSkill.UNDERSTANDING, EnrollmentUtil.getUnderstandingSkillFee(enrollmentAppointment))
+        getItem(
+          EnrollmentSkill.UNDERSTANDING,
+          EnrollmentUtil.getUnderstandingSkillFee(enrollmentAppointment),
+          ExamLevel.GOOD
+        )
       );
     }
 
@@ -80,14 +89,26 @@ public class PaymentService {
 
     if (enrollment.isTextualSkill()) {
       itemList.add(
-        getItem(EnrollmentSkill.TEXTUAL, EnrollmentUtil.getTextualSkillFee(enrollment, freeEnrollmentDetails))
+        getItem(
+          EnrollmentSkill.TEXTUAL,
+          EnrollmentUtil.getTextualSkillFee(enrollment, freeEnrollmentDetails),
+          ExamLevel.EXCELLENT
+        )
       );
     }
     if (enrollment.isOralSkill()) {
-      itemList.add(getItem(EnrollmentSkill.ORAL, EnrollmentUtil.getOralSkillFee(enrollment, freeEnrollmentDetails)));
+      itemList.add(
+        getItem(
+          EnrollmentSkill.ORAL,
+          EnrollmentUtil.getOralSkillFee(enrollment, freeEnrollmentDetails),
+          ExamLevel.EXCELLENT
+        )
+      );
     }
     if (enrollment.isUnderstandingSkill()) {
-      itemList.add(getItem(EnrollmentSkill.UNDERSTANDING, EnrollmentUtil.getUnderstandingSkillFee(enrollment)));
+      itemList.add(
+        getItem(EnrollmentSkill.UNDERSTANDING, EnrollmentUtil.getUnderstandingSkillFee(enrollment), ExamLevel.EXCELLENT)
+      );
     }
 
     return itemList;
@@ -100,7 +121,10 @@ public class PaymentService {
     return enrollment.enrollmentNeedsApproval() ? EnrollmentStatus.AWAITING_APPROVAL : EnrollmentStatus.COMPLETED;
   }
 
-  private void setEnrollmentStatus(final EnrollmentAppointment enrollmentAppointment, final PaymentStatus paymentStatus) {
+  private void setEnrollmentStatus(
+    final EnrollmentAppointment enrollmentAppointment,
+    final PaymentStatus paymentStatus
+  ) {
     switch (paymentStatus) {
       case NEW, PENDING, DELAYED -> {}
       case OK -> enrollmentAppointment.setStatus(EnrollmentStatus.COMPLETED);
@@ -204,7 +228,7 @@ public class PaymentService {
     final Payment payment = paymentRepository
       .findById(paymentId)
       .orElseThrow(() -> new NotFoundException("Payment not found"));
-    
+
     return payment.getEnrollment() != null
       ? String.format("%s/ilmoittaudu/%d/maksu/%s", baseUrl, payment.getEnrollment().getExamEvent().getId(), state)
       : String.format("%s/markkinapaikka/%d/maksu/%s", baseUrl, payment.getEnrollmentAppointment().getId(), state);

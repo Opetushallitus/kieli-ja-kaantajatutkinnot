@@ -57,11 +57,15 @@ function* loadPublicEnrollmentSaveSaga(
     const saveUrl = `${APIEndpoints.PublicEnrollmentAppointment}/${enrollment.id}`;
     const response: AxiosResponse<PublicEnrollmentAppointmentResponse> =
       yield call(axiosInstance.post, saveUrl, body);
-    yield put(storePublicEnrollmentAppointmentSave(response.data));
+
+    const enrollmentAppointment =
+      SerializationUtils.deserializePublicEnrollmentAppointment(response.data);
+
+    yield put(storePublicEnrollmentAppointmentSave(enrollmentAppointment));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
-    yield put(rejectPublicEnrollmentSave());
+    yield put(rejectPublicEnrollmentAppointment());
   }
 }
 

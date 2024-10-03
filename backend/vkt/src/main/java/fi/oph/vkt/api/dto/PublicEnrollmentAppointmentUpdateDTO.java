@@ -15,5 +15,4 @@ public record PublicEnrollmentAppointmentUpdateDTO(
   String postalCode,
   String town,
   String country
-) {
-}
+) {}

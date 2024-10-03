@@ -5,11 +5,7 @@ import { useAppSelector } from 'configs/redux';
 import { PublicPerson } from 'interfaces/publicPerson';
 import { publicEnrollmentAppointmentSelector } from 'redux/selectors/publicEnrollmentAppointment';
 
-export const PersonDetails = ({
-  isPreviewStep,
-}: {
-  isPreviewStep: boolean;
-}) => {
+export const PersonDetails = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.personDetails',
   });

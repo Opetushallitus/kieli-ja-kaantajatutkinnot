@@ -70,7 +70,9 @@ export interface PublicEnrollmentResponse
   status: EnrollmentStatus;
 }
 
-export interface PublicEnrollmentAppointment extends PublicEnrollment {}
+export interface PublicEnrollmentAppointment extends PublicEnrollment {
+  person: PublicPerson;
+}
 
 export interface PublicEnrollmentAppointmentResponse
   extends Omit<

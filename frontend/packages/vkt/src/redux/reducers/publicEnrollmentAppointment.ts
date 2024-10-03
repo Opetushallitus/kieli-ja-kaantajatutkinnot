@@ -13,7 +13,7 @@ export interface PublicEnrollmentAppointmentState {
   person?: PublicPerson;
 }
 
-export const initialState: PublicEnrollmentState = {
+export const initialState: PublicEnrollmentAppointmentState = {
   loadEnrollmentStatus: APIResponseStatus.NotStarted,
   enrollmentSubmitStatus: APIResponseStatus.NotStarted,
   paymentLoadingStatus: APIResponseStatus.NotStarted,
@@ -43,7 +43,11 @@ export const initialState: PublicEnrollmentState = {
     examEventId: undefined,
     hasPaymentLink: undefined,
     isQueued: undefined,
-    person: undefined,
+    person: {
+      id: -1,
+      firstName: '',
+      lastName: '',
+    },
   },
 };
 
@@ -80,7 +84,10 @@ const publicEnrollmentAppointmentSlice = createSlice({
     setLoadingPayment(state) {
       state.paymentLoadingStatus = APIResponseStatus.InProgress;
     },
-    loadPublicEnrollmentSave(state, _action: PayloadAction<PublicEnrollment>) {
+    loadPublicEnrollmentSave(
+      state,
+      _action: PayloadAction<PublicEnrollmentAppointment>,
+    ) {
       state.enrollmentSubmitStatus = APIResponseStatus.InProgress;
     },
   },
