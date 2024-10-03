@@ -4,12 +4,24 @@ import { WithId } from 'shared/interfaces';
 import { ExamLanguage } from 'enums/app';
 import { APIResponseStatus } from 'shared/enums';
 
+interface PublicMunicipality {
+  fi: string;
+  sv: string;
+}
+
 export interface PublicExaminer extends WithId {
   name: string;
   language: ExamLanguage;
-  // TODO Municipality could instead be something like { fi: 'Helsinki', sv: 'Helsingfors' } ?
-  municipalities: Array<string>;
+  municipalities: Array<PublicMunicipality>;
   examDates: Array<Dayjs>;
+}
+
+export interface PublicExaminerResponse extends WithId {
+  lastName: string;
+  firstName: string;
+  languages: Array<ExamLanguage>;
+  municipalities: Array<PublicMunicipality>;
+  examDates: Array<string>;
 }
 
 export interface PublicExaminerState {
