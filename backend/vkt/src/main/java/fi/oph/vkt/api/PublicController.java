@@ -6,6 +6,7 @@ import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
+import fi.oph.vkt.api.dto.PublicExaminerDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Enrollment;
@@ -20,6 +21,7 @@ import fi.oph.vkt.service.PaymentService;
 import fi.oph.vkt.service.PublicAuthService;
 import fi.oph.vkt.service.PublicEnrollmentService;
 import fi.oph.vkt.service.PublicExamEventService;
+import fi.oph.vkt.service.PublicExaminerService;
 import fi.oph.vkt.service.PublicPersonService;
 import fi.oph.vkt.service.PublicReservationService;
 import fi.oph.vkt.service.koski.KoskiService;
@@ -87,9 +89,17 @@ public class PublicController {
   @Resource
   private FeatureFlagService featureFlagService;
 
+  @Resource
+  private PublicExaminerService publicExaminerService;
+
   @GetMapping(path = "/examEvent")
   public List<PublicExamEventDTO> list() {
     return publicExamEventService.listExamEvents(ExamLevel.EXCELLENT);
+  }
+
+  @GetMapping(path = "/examiner")
+  public List<PublicExaminerDTO> listExaminers() {
+    return publicExaminerService.listExaminers();
   }
 
   @PostMapping(path = "/enrollment/reservation/{reservationId:\\d+}")

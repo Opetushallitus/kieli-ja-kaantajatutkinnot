@@ -1,14 +1,20 @@
 import { Box, Grid } from '@mui/material';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { H1, HeaderSeparator, Text } from 'shared/components';
 
 import { PublicExaminerListing } from 'components/publicExaminerListing/PublicExaminerListing';
 import { usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch } from 'configs/redux';
+import { loadPublicExaminers } from 'redux/reducers/publicExaminer';
 
 export const PublicGoodAndSatisfactoryLevelLandingPage: FC = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.goodAndSatisfactoryLevel',
   });
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(loadPublicExaminers());
+  }, [dispatch]);
 
   return (
     <Box className="public-homepage">

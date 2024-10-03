@@ -1,4 +1,5 @@
 import {
+  Box,
   Paper,
   SelectChangeEvent,
   TableCell,
@@ -6,13 +7,23 @@ import {
   TableRow,
 } from '@mui/material';
 import { Fragment } from 'react';
-import { CustomButtonLink, CustomTable, H2, Text } from 'shared/components';
-import { Color, Variant } from 'shared/enums';
+import {
+  CustomButtonLink,
+  CustomCircularProgress,
+  CustomTable,
+  H2,
+  Text,
+} from 'shared/components';
+import { APIResponseStatus, AppLanguage, Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { LanguageFilter } from 'components/common/LanguageFilter';
-import { usePublicTranslation } from 'configs/i18n';
+import {
+  getCurrentLang,
+  useCommonTranslation,
+  usePublicTranslation,
+} from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamLanguage } from 'enums/app';
 import { PublicExaminer } from 'interfaces/publicExaminer';
@@ -50,6 +61,7 @@ const DesktopExaminerRow = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicExaminerListing',
   });
+  const appLanguage = getCurrentLang();
 
   return (
     <TableRow sx={{ verticalAlign: 'text-top' }}>
@@ -61,7 +73,13 @@ const DesktopExaminerRow = ({
       </TableCell>
       <TableCell>
         <Text>
-          {municipalities.length > 0 ? municipalities.join(', ') : ''}
+          {municipalities.length > 0
+            ? municipalities
+                .map(({ fi, sv }) =>
+                  appLanguage === AppLanguage.Swedish ? sv : fi,
+                )
+                .join(', ')
+            : ''}
         </Text>
       </TableCell>
       <TableCell>
@@ -106,8 +124,7 @@ const getRowDetails = ({
 };
 
 export const PublicExaminerListing = () => {
-  // TODO Kick off API request & display content based on request status
-  const { languageFilter } = useAppSelector(publicExaminerSelector);
+  const { languageFilter, status } = useAppSelector(publicExaminerSelector);
   const filteredExaminers = useAppSelector(selectFilteredPublicExaminers);
   const dispatch = useAppDispatch();
 
@@ -117,23 +134,43 @@ export const PublicExaminerListing = () => {
     );
   };
 
-  return (
-    <Paper elevation={3} className="public-examiner-listing">
-      <div className="columns">
-        <div className="grow">
-          <H2>Ota yhteyttä tutkinnon vastaanottajiin</H2>
-        </div>
-      </div>
-      <LanguageFilter
-        value={languageFilter}
-        onChange={handleLanguageFilterChange}
-      />
-      <CustomTable
-        className="table-layout-auto"
-        data={filteredExaminers}
-        getRowDetails={getRowDetails}
-        header={<PublicExaminerListingHeader />}
-      />
-    </Paper>
-  );
+  const translateCommon = useCommonTranslation();
+
+  switch (status) {
+    case APIResponseStatus.NotStarted:
+    case APIResponseStatus.InProgress:
+      return <CustomCircularProgress color={Color.Secondary} />;
+    case APIResponseStatus.Cancelled:
+    case APIResponseStatus.Error:
+      return (
+        <Box
+          minHeight="10vh"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <H2>{translateCommon('errors.loadingFailed')}</H2>
+        </Box>
+      );
+    case APIResponseStatus.Success:
+      return (
+        <Paper elevation={3} className="public-examiner-listing">
+          <div className="columns">
+            <div className="grow">
+              <H2>Ota yhteyttä tutkinnon vastaanottajiin</H2>
+            </div>
+          </div>
+          <LanguageFilter
+            value={languageFilter}
+            onChange={handleLanguageFilterChange}
+          />
+          <CustomTable
+            className="table-layout-auto"
+            data={filteredExaminers}
+            getRowDetails={getRowDetails}
+            header={<PublicExaminerListingHeader />}
+          />
+        </Paper>
+      );
+  }
 };
