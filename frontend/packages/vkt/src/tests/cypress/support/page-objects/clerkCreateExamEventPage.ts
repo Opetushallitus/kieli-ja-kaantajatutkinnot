@@ -4,9 +4,13 @@ class ClerkExamEventCreatePage {
       cy.findByTestId('clerk-exam__event-information__lang-and-level'),
     dateInput: () =>
       cy.findByTestId('clerk-exam__event-information__date').find('input'),
-    registrationInput: () =>
+    registrationClosesInput: () =>
       cy
-        .findByTestId('clerk-exam__event-information__registration')
+        .findByTestId('clerk-exam__event-information__registration-closes')
+        .find('input'),
+    registrationOpensInput: () =>
+      cy
+        .findByTestId('clerk-exam__event-information__registration-opens')
         .find('input'),
     maxParticipantsInput: () =>
       cy.findByTestId('clerk-exam__event-information__max-participants'),
@@ -30,8 +34,12 @@ class ClerkExamEventCreatePage {
     this.elements.dateInput().should('be.visible').type(date);
   }
 
+  inputRegistrationOpensDate(date: string) {
+    this.elements.registrationOpensInput().should('be.visible').type(date);
+  }
+
   inputRegistrationClosesDate(date: string) {
-    this.elements.registrationInput().should('be.visible').type(date);
+    this.elements.registrationClosesInput().should('be.visible').type(date);
   }
 
   inputMaxParticipants(max: number) {

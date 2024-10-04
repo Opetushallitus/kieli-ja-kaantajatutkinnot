@@ -837,4 +837,26 @@
                 referencedTableName="exam_event"
                 referencedColumnNames="exam_event_id" />
     </changeSet>
+    <changeSet id="2024-09-11-registration-open-and-close-times-psql" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="postgresql" />
+        </preConditions>
+        <sql>
+            ALTER TABLE exam_event DROP CONSTRAINT IF EXISTS ck_exam_event_registration_closes;
+            ALTER TABLE exam_event ALTER COLUMN registration_closes TYPE TIMESTAMP WITH TIME ZONE USING registration_closes + time '16:00:00';
+            ALTER TABLE exam_event ADD COLUMN registration_opens TIMESTAMP WITH TIME ZONE;
+            UPDATE exam_event SET registration_opens = created_at;
+            ALTER TABLE exam_event ALTER COLUMN registration_opens SET NOT NULL;
+        </sql>
+    </changeSet>
+    <changeSet id="2024-09-11-registration-open-and-close-times-hsqldb" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb" />
+        </preConditions>
+        <sql>
+            ALTER TABLE exam_event DROP CONSTRAINT CK_EXAM_EVENT_REGISTRATION_CLOSES;
+            ALTER TABLE exam_event ALTER COLUMN registration_closes TIMESTAMP WITH TIME ZONE;
+            ALTER TABLE exam_event ADD COLUMN registration_opens TIMESTAMP WITH TIME ZONE;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

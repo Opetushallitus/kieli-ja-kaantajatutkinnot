@@ -298,7 +298,8 @@
           "examDate": "Tutkintopäivä",
           "language": "Kieli ja taso",
           "openings": "Paikkoja vapaana",
-          "registrationCloses": "Ilmoittautuminen sulkeutuu"
+          "registrationCloses": "Ilmoittautuminen sulkeutuu",
+          "registrationDates": "Ilmoittautumisaika"
         },
         "openings": {
           "congestion": {
@@ -313,7 +314,8 @@
         "row": {
           "enroll": "Ilmoittaudu",
           "enrollLater": "Ilmoittaudu myöhemmin",
-          "enrollToQueue": "Ilmoittaudu jonoon"
+          "enrollToQueue": "Ilmoittaudu jonoon",
+          "registrationOpensAt": "Ilmoittautuminen alkaa {{registrationOpens}} "
         },
         "title": "Tulevat tutkintotilaisuudet"
       },

@@ -17,7 +17,7 @@ export const PublicExamEventListingHeader = () => {
         <TableRow>
           <TableCell>{t('language')}</TableCell>
           <TableCell>{t('examDate')}</TableCell>
-          <TableCell>{t('registrationCloses')}</TableCell>
+          <TableCell>{t('registrationDates')}</TableCell>
           <TableCell>{t('openings')}</TableCell>
           <TableCell>{t('actions')}</TableCell>
         </TableRow>

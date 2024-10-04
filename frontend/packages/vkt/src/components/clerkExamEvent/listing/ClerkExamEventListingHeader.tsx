@@ -12,9 +12,10 @@ export const ClerkExamEventListingHeader = () => {
       <TableRow>
         <TableCell>{t('language')}</TableCell>
         <TableCell>{t('examDate')}</TableCell>
-        <TableCell>{t('registrationCloses')}</TableCell>
+        <TableCell>{t('registrationDates')}</TableCell>
         <TableCell>{t('fillings')}</TableCell>
         <TableCell>{t('hidden')}</TableCell>
+        <TableCell />
       </TableRow>
     </TableHead>
   );

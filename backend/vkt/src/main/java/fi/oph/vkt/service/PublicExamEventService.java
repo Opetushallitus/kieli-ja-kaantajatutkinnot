@@ -9,6 +9,7 @@ import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.exception.NotFoundException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class PublicExamEventService {
   public PublicExamEventDTO getExamEvent(final long examEventId) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
 
-    if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
+    if (examEvent.getRegistrationCloses().isBefore(LocalDateTime.now())) {
       throw new NotFoundException(String.format("Exam event (%d) enrollment is closed", examEvent.getId()));
     }
 
@@ -37,9 +38,11 @@ public class PublicExamEventService {
       .id(examEvent.getId())
       .language(examEvent.getLanguage())
       .date(examEvent.getDate())
-      .registrationCloses(examEvent.getRegistrationCloses())
+      .registrationCloses(examEvent.getRegistrationCloses().toLocalDate())
+      .registrationOpens(examEvent.getRegistrationOpens().toLocalDate())
       .openings(ExamEventUtil.getOpenings(examEvent))
       .hasCongestion(ExamEventUtil.isCongested(examEvent))
+      .isOpen(ExamEventUtil.isOpen(examEvent.getRegistrationCloses(), examEvent.getRegistrationOpens()))
       .build();
   }
 
@@ -64,9 +67,11 @@ public class PublicExamEventService {
           .id(e.id())
           .language(e.language())
           .date(e.date())
-          .registrationCloses(e.registrationCloses())
+          .registrationCloses(e.registrationCloses().toLocalDate())
+          .registrationOpens(e.registrationOpens().toLocalDate())
           .openings(openings)
           .hasCongestion(hasCongestion)
+          .isOpen(ExamEventUtil.isOpen(e.registrationCloses(), e.registrationOpens()))
           .build();
       })
       .sorted(Comparator.comparing(PublicExamEventDTO::date).thenComparing(PublicExamEventDTO::language))

@@ -5,6 +5,7 @@ import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.type.EnrollmentStatus;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ExamEventUtil {
@@ -33,6 +34,14 @@ public class ExamEventUtil {
     return isCongested(openings, reservations);
   }
 
+  public static boolean isOpen(final ExamEvent examEvent) {
+    return ExamEventUtil.isOpen(examEvent.getRegistrationCloses(), examEvent.getRegistrationOpens());
+  }
+
+  public static boolean isOpen(final LocalDateTime closes, final LocalDateTime opens) {
+    return closes.isAfter(LocalDateTime.now()) && opens.isBefore(LocalDateTime.now());
+  }
+
   public static boolean isCongested(final long openings, final long reservations) {
     return openings > 0 && openings <= reservations;
   }
@@ -46,7 +55,7 @@ public class ExamEventUtil {
       .language(examEvent.getLanguage())
       .level(examEvent.getLevel())
       .date(DateUtil.formatOptionalDate(examEvent.getDate()))
-      .registrationCloses(DateUtil.formatOptionalDate(examEvent.getRegistrationCloses()))
+      .registrationCloses(DateUtil.formatOptionalDatetime(examEvent.getRegistrationCloses()))
       .isHidden(examEvent.isHidden())
       .maxParticipants(examEvent.getMaxParticipants())
       .build();

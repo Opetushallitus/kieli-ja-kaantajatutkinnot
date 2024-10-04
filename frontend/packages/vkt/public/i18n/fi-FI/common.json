@@ -46,7 +46,10 @@
       },
       "dates": {
         "dateTimeFormat": "l [klo] HH.mm",
-        "dateFormat": "l"
+        "timeFormat": "[klo] HH.mm",
+        "dateFormat": "l",
+        "registrationOpensAt": "klo 10.00",
+        "registrationClosesAt": "klo 16.00"
       },
       "errors": {
         "api": {

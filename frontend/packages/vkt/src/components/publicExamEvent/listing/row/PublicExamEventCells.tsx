@@ -1,4 +1,5 @@
 import { TableCell } from '@mui/material';
+import { Trans } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import {
   CustomButton,
@@ -6,7 +7,6 @@ import {
   Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
-import { DateUtils } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -14,6 +14,7 @@ import { AppRoutes, ExamLevel } from 'enums/app';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { storePublicExamEvent } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
+import { DateTimeUtils } from 'utils/dateTime';
 import { ExamEventUtils } from 'utils/examEvent';
 
 const getOpeningsText = (
@@ -74,7 +75,7 @@ export const PublicExamEventPhoneCells = ({
 }: {
   examEvent: PublicExamEvent;
 }) => {
-  const { language, date, registrationCloses } = examEvent;
+  const { language, date, registrationCloses, registrationOpens } = examEvent;
 
   // I18n
   const { t } = usePublicTranslation({
@@ -112,23 +113,39 @@ export const PublicExamEventPhoneCells = ({
         </div>
         <div className="rows">
           <b>{t('header.examDate')}</b>
-          <Text>{DateUtils.formatOptionalDate(date, 'l')}</Text>
+          <Text>{DateTimeUtils.renderDate(date)}</Text>
         </div>
         <div className="rows">
-          <b>{t('header.registrationCloses')}</b>
-          <Text>{DateUtils.formatOptionalDate(registrationCloses, 'l')}</Text>
+          <b>{t('header.registrationDates')}</b>
+          <Text>
+            {DateTimeUtils.renderOpenDateTime(registrationOpens)}
+            —
+            <br />
+            {DateTimeUtils.renderCloseDateTime(registrationCloses)}
+          </Text>
         </div>
         <div className="rows">
           <b>{t('header.openings')}</b>
           {getOpeningsText(examEvent, t)}
         </div>
-        {renderEnrollmentButton(
-          examEvent,
-          examEvent === selectedExamEvent,
-          examEvent.hasCongestion || isInitialisationInProgress,
-          handleOnClick,
-          t,
-          translateCommon,
+        {!examEvent.isOpen ? (
+          <Trans
+            t={t}
+            i18nKey="row.registrationOpensAt"
+            values={{
+              registrationOpens:
+                DateTimeUtils.renderDateTime(registrationOpens),
+            }}
+          />
+        ) : (
+          renderEnrollmentButton(
+            examEvent,
+            examEvent === selectedExamEvent,
+            examEvent.hasCongestion || isInitialisationInProgress,
+            handleOnClick,
+            t,
+            translateCommon,
+          )
         )}
       </div>
     </TableCell>
@@ -140,7 +157,7 @@ export const PublicExamEventDesktopCells = ({
 }: {
   examEvent: PublicExamEvent;
 }) => {
-  const { language, date, registrationCloses } = examEvent;
+  const { language, date, registrationCloses, registrationOpens } = examEvent;
 
   // I18n
   const { t } = usePublicTranslation({
@@ -175,20 +192,33 @@ export const PublicExamEventDesktopCells = ({
         </Text>
       </TableCell>
       <TableCell>
-        <Text>{DateUtils.formatOptionalDate(date, 'l')}</Text>
+        <Text>{DateTimeUtils.renderDate(date)}</Text>
       </TableCell>
       <TableCell>
-        <Text>{DateUtils.formatOptionalDate(registrationCloses, 'l')}</Text>
+        <Text>
+          {DateTimeUtils.renderOpenDateTime(registrationOpens)} — <br />
+          {DateTimeUtils.renderCloseDateTime(registrationCloses)}
+        </Text>
       </TableCell>
       <TableCell>{getOpeningsText(examEvent, t)}</TableCell>
       <TableCell>
-        {renderEnrollmentButton(
-          examEvent,
-          examEvent === selectedExamEvent,
-          examEvent.hasCongestion || isInitialisationInProgress,
-          handleOnClick,
-          t,
-          translateCommon,
+        {!examEvent.isOpen ? (
+          <Trans
+            t={t}
+            i18nKey="row.registrationOpensAt"
+            values={{
+              registrationOpens: DateTimeUtils.renderDate(registrationOpens),
+            }}
+          />
+        ) : (
+          renderEnrollmentButton(
+            examEvent,
+            examEvent === selectedExamEvent,
+            examEvent.hasCongestion || isInitialisationInProgress,
+            handleOnClick,
+            t,
+            translateCommon,
+          )
         )}
       </TableCell>
     </>

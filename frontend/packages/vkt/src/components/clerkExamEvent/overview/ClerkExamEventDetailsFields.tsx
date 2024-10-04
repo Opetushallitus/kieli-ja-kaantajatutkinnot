@@ -6,6 +6,7 @@ import {
   CustomSwitch,
   CustomTextField,
   H3,
+  Text,
 } from 'shared/components';
 import { TextFieldTypes, TextFieldVariant } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
@@ -16,6 +17,7 @@ import {
   ClerkExamEvent,
   ClerkExamEventBasicInformation,
 } from 'interfaces/clerkExamEvent';
+import { DateTimeUtils } from 'utils/dateTime';
 
 export const ClerkExamEventDetailsFields = ({
   examEvent,
@@ -33,7 +35,7 @@ export const ClerkExamEventDetailsFields = ({
   onDateChange: (
     field: keyof Pick<
       ClerkExamEventBasicInformation,
-      'date' | 'registrationCloses'
+      'date' | 'registrationCloses' | 'registrationOpens'
     >,
   ) => (date: Dayjs | null) => void;
   onCheckBoxChange: (
@@ -113,16 +115,46 @@ export const ClerkExamEventDetailsFields = ({
       <div className="margin-top-lg grid-columns gapped">
         <div
           className="rows gapped"
+          data-testid="clerk-exam-event__basic-information__registrationOpens"
+        >
+          <H3>{t('registrationOpens')}</H3>
+          <div className="columns gapped-xs">
+            <CustomDatePicker
+              value={dayjs(examEvent.registrationOpens)}
+              setValue={(value: Dayjs | null) =>
+                onDateChange('registrationOpens')(
+                  value?.hour(10).minute(0) ?? null,
+                )
+              }
+              maxDate={examEvent.registrationCloses}
+              disabled={editDisabled}
+            />
+            <Text>{DateTimeUtils.renderTime(examEvent.registrationOpens)}</Text>
+          </div>
+        </div>
+        <div
+          className="rows gapped"
           data-testid="clerk-exam-event__basic-information__registrationCloses"
         >
           <H3>{t('registrationCloses')}</H3>
-          <CustomDatePicker
-            value={dayjs(examEvent.registrationCloses)}
-            setValue={onDateChange('registrationCloses')}
-            maxDate={examEvent.date && examEvent.date.subtract(1, 'd')}
-            disabled={editDisabled}
-          />
+          <div className="columns gapped-xs">
+            <CustomDatePicker
+              value={dayjs(examEvent.registrationCloses)}
+              setValue={(value: Dayjs | null) =>
+                onDateChange('registrationCloses')(
+                  value?.hour(16).minute(0) ?? null,
+                )
+              }
+              maxDate={examEvent.date && examEvent.date.subtract(1, 'd')}
+              disabled={editDisabled}
+            />
+            <Text>
+              {DateTimeUtils.renderTime(examEvent.registrationCloses)}
+            </Text>
+          </div>
         </div>
+      </div>
+      <div className="margin-top-lg grid-columns gapped">
         <div className="rows gapped">
           <H3>{t('fillingsTotal')}</H3>
           <CustomTextField

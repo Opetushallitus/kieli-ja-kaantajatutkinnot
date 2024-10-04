@@ -8,6 +8,7 @@ export interface ClerkListExamEvent extends WithId {
   level: ExamLevel;
   date: Dayjs;
   registrationCloses: Dayjs;
+  registrationOpens: Dayjs;
   participants: number;
   maxParticipants: number;
   isUnusedSeats: boolean;
@@ -16,7 +17,11 @@ export interface ClerkListExamEvent extends WithId {
 }
 
 export interface ClerkListExamEventResponse
-  extends Omit<ClerkListExamEvent, 'date' | 'registrationCloses'> {
+  extends Omit<
+    ClerkListExamEvent,
+    'date' | 'registrationCloses' | 'registrationOpens'
+  > {
   date: string;
+  registrationOpens: string;
   registrationCloses: string;
 }

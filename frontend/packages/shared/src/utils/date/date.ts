@@ -29,6 +29,16 @@ export class DateUtils {
     }
   }
 
+  static formatOptionalTime(date?: Dayjs, format = 'HH:mm') {
+    if (!date) {
+      return '-';
+    }
+
+    // Locale information is baked into the Dayjs instances when they are constructed.
+    // We need to override the instance's locale with the locale used by the app when formating the date.
+    return date.locale(dayjs.locale()).format(format);
+  }
+
   static formatOptionalDate(date?: Dayjs, format = 'L') {
     if (!date) {
       return '-';
@@ -72,6 +82,10 @@ export class DateUtils {
 
   static serializeDate(date?: Dayjs) {
     return date?.format('YYYY-MM-DD');
+  }
+
+  static serializeDateTime(date?: Dayjs) {
+    return date?.format('YYYY-MM-DDTHH:mm:ss');
   }
 
   static isValidDate(date?: Dayjs) {

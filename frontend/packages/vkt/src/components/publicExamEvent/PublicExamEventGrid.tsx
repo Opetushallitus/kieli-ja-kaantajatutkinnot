@@ -4,14 +4,18 @@ import { TFunction } from 'i18next';
 import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import { H1, H2, HeaderSeparator, Text, WebLink } from 'shared/components';
-import { I18nNamespace } from 'shared/enums';
+import { APIResponseStatus, I18nNamespace } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { PublicExamEventListing } from 'components/publicExamEvent/listing/PublicExamEventListing';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { useInterval } from 'hooks/useInterval';
 import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
-import { loadPublicExamEvents } from 'redux/reducers/publicExamEvent';
+import {
+  loadPublicExamEvents,
+  refreshPublicExamEvents,
+} from 'redux/reducers/publicExamEvent';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 const BoldedTranslationString = ({
@@ -160,6 +164,16 @@ export const PublicExamEventGrid = () => {
     dispatch(resetPublicEnrollment());
     dispatch(loadPublicExamEvents());
   }, [dispatch]);
+
+  const listingRefresh = () => {
+    if (status === APIResponseStatus.Success) {
+      if (!document.hidden) {
+        dispatch(refreshPublicExamEvents());
+      }
+    }
+  };
+
+  useInterval(listingRefresh, 10000); // Every 10 seconds
 
   return (
     <>

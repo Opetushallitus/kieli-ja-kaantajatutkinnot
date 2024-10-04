@@ -6,21 +6,21 @@ import { useAppDispatch } from 'configs/redux';
 import { DraftClerkExamEvent } from 'interfaces/clerkExamEvent';
 import { updateClerkNewExamDate } from 'redux/reducers/clerkNewExamDate';
 
-export const ClerkExamRegistrationCloses = ({
+export const ClerkExamRegistrationOpens = ({
   examForm,
 }: {
   examForm: DraftClerkExamEvent;
 }) => {
   const { t } = useClerkTranslation({
-    keyPrefix: 'vkt.component.clerkExamEventOverview.examEventDetailsFields',
+    keyPrefix: 'vkt.component.clerkExamEventListing',
   });
   const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
 
-  const onRegistrationClosesChange = (value: Dayjs | null) => {
+  const onRegistrationOpensChange = (value: Dayjs | null) => {
     const examFormDetails: DraftClerkExamEvent = {
       ...examForm,
-      registrationCloses: value?.hour(16).minute(0) ?? undefined,
+      registrationOpens: value?.hour(10).minute(0) ?? undefined,
     };
     dispatch(updateClerkNewExamDate(examFormDetails));
   };
@@ -28,18 +28,18 @@ export const ClerkExamRegistrationCloses = ({
   return (
     <div
       className="rows gapped"
-      data-testid="clerk-exam__event-information__registration-closes"
+      data-testid="clerk-exam__event-information__registration-opens"
     >
-      <H3>{t('registrationCloses')}</H3>
+      <H3>{t('header.registrationOpens')}</H3>
       <div className="columns gapped-xs">
         <CustomDatePicker
-          minDate={examForm.registrationOpens ?? dayjs()}
-          maxDate={examForm.date?.subtract(1, 'd')}
-          setValue={onRegistrationClosesChange}
+          minDate={dayjs()}
+          maxDate={examForm.registrationCloses}
+          setValue={onRegistrationOpensChange}
           label={translateCommon('choose')}
-          value={examForm.registrationCloses ?? null}
+          value={examForm?.registrationOpens ?? null}
         />
-        <Text>{translateCommon('dates.registrationClosesAt')}</Text>
+        <Text>{translateCommon('dates.registrationOpensAt')}</Text>
       </div>
     </div>
   );

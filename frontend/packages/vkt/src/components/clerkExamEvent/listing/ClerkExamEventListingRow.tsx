@@ -53,7 +53,10 @@ export const ClerkExamEventListingRow = ({
           <Text>{DateTimeUtils.renderDate(examEvent.date)}</Text>
         </TableCell>
         <TableCell>
-          <Text>{DateTimeUtils.renderDate(examEvent.registrationCloses)}</Text>
+          <Text>
+            {DateTimeUtils.renderDateTime(examEvent.registrationOpens)} — <br />
+            {DateTimeUtils.renderDateTime(examEvent.registrationCloses)}
+          </Text>
         </TableCell>
         <TableCell className="clerk-exam-event-listing-seats-cell">
           <Text>{`${examEvent.participants} / ${examEvent.maxParticipants}`}</Text>

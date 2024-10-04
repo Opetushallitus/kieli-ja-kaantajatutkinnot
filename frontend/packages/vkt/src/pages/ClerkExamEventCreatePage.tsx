@@ -16,6 +16,7 @@ import { ClerkExamHideToggle } from 'components/clerkExamEvent/create/ClerkExamH
 import { ClerkExamLanguageLevel } from 'components/clerkExamEvent/create/ClerkExamLanguageLevel';
 import { ClerkExamMaxParticipants } from 'components/clerkExamEvent/create/ClerkExamMaxParticipants';
 import { ClerkExamRegistrationCloses } from 'components/clerkExamEvent/create/ClerkExamRegistrationCloses';
+import { ClerkExamRegistrationOpens } from 'components/clerkExamEvent/create/ClerkExamRegistrationOpens';
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
@@ -113,6 +114,9 @@ export const ClerkExamEventCreatePage: FC = () => {
             <div className="grid-columns gapped">
               <ClerkExamLanguageLevel examForm={examDate} />
               <ClerkExamDate examForm={examDate} />
+            </div>
+            <div className="grid-columns gapped">
+              <ClerkExamRegistrationOpens examForm={examDate} />
               <ClerkExamRegistrationCloses examForm={examDate} />
             </div>
             <div className="grid-columns gapped flex-stretch">

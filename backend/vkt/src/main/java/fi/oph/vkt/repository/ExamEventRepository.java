@@ -11,11 +11,11 @@ import org.springframework.stereotype.Repository;
 public interface ExamEventRepository extends BaseRepository<ExamEvent> {
   @Query(
     "SELECT new fi.oph.vkt.repository.PublicExamEventProjection(e.id, e.language, e.date, e.registrationCloses," +
-    " COUNT(en), e.maxParticipants)" +
+    " e.registrationOpens, COUNT(en), e.maxParticipants)" +
     " FROM ExamEvent e" +
     " LEFT JOIN e.enrollments en ON en.status = 'COMPLETED' OR en.status = 'AWAITING_PAYMENT' OR en.status = 'AWAITING_APPROVAL' OR en.status = 'EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT'" +
     " WHERE e.level = ?1" +
-    " AND e.registrationCloses >= CURRENT_DATE" +
+    " AND e.registrationCloses >= CURRENT_TIMESTAMP" +
     " AND e.isHidden = false" +
     " GROUP BY e.id"
   )
@@ -26,7 +26,7 @@ public interface ExamEventRepository extends BaseRepository<ExamEvent> {
     " FROM ExamEvent e" +
     " LEFT JOIN e.enrollments en ON en.status = 'QUEUED'" +
     " WHERE e.level = ?1" +
-    " AND e.registrationCloses >= CURRENT_DATE" +
+    " AND e.registrationCloses >= CURRENT_TIMESTAMP" +
     " AND e.isHidden = false" +
     " GROUP BY e.id" +
     " HAVING COUNT(en) > 0"
@@ -44,7 +44,7 @@ public interface ExamEventRepository extends BaseRepository<ExamEvent> {
 
   @Query(
     "SELECT new fi.oph.vkt.repository.ClerkExamEventProjection(e.id, e.language, e.level, e.date," +
-    " e.registrationCloses, COUNT(en), e.maxParticipants, e.isHidden, COUNT(en.id) filter (where en.status = 'AWAITING_APPROVAL'))" +
+    " e.registrationCloses, e.registrationOpens, COUNT(en), e.maxParticipants, e.isHidden, COUNT(en.id) filter (where en.status = 'AWAITING_APPROVAL'))" +
     " FROM ExamEvent e" +
     " LEFT JOIN e.enrollments en ON en.status = 'COMPLETED' OR en.status = 'AWAITING_PAYMENT' OR en.status = 'AWAITING_APPROVAL' OR en.status = 'EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT'" +
     " GROUP BY e.id"

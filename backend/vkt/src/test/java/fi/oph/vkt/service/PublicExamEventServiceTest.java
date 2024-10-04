@@ -16,7 +16,6 @@ import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import jakarta.annotation.Resource;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -50,40 +49,51 @@ public class PublicExamEventServiceTest {
 
   @Test
   public void testListExcellentLevelExamEvents() {
-    final LocalDate now = LocalDate.now();
+    final LocalDateTime now = LocalDateTime.now();
 
     final ExamEvent pastEvent = Factory.examEvent();
-    pastEvent.setDate(now.minusWeeks(3));
+    pastEvent.setDate(now.toLocalDate().minusWeeks(3));
     pastEvent.setRegistrationCloses(now.minusWeeks(4));
+    pastEvent.setRegistrationOpens(now.minusWeeks(6));
 
     final ExamEvent eventWithRegistrationClosed = Factory.examEvent();
-    eventWithRegistrationClosed.setDate(now.plusDays(3));
+    eventWithRegistrationClosed.setDate(now.toLocalDate().plusDays(3));
     eventWithRegistrationClosed.setRegistrationCloses(now.minusDays(1));
+    eventWithRegistrationClosed.setRegistrationOpens(now.minusDays(2));
 
     final ExamEvent hiddenEvent = Factory.examEvent();
     hiddenEvent.setHidden(true);
-    hiddenEvent.setDate(now.plusWeeks(1));
+    hiddenEvent.setDate(now.toLocalDate().plusWeeks(1));
+    hiddenEvent.setRegistrationOpens(now.plusDays(1));
 
     final ExamEvent eventToday = Factory.examEvent(ExamLanguage.FI);
-    eventToday.setDate(now);
+    eventToday.setDate(now.toLocalDate());
     eventToday.setMaxParticipants(6);
 
     final ExamEvent upcomingEventSv = Factory.examEvent(ExamLanguage.SV);
     final ExamEvent upcomingEventFi = Factory.examEvent(ExamLanguage.FI);
 
     final ExamEvent futureEvent1 = Factory.examEvent(ExamLanguage.SV);
-    futureEvent1.setDate(now.plusWeeks(4));
+    futureEvent1.setDate(now.toLocalDate().plusWeeks(4));
     futureEvent1.setRegistrationCloses(now.plusWeeks(3));
     futureEvent1.setMaxParticipants(3);
 
     final ExamEvent futureEvent2 = Factory.examEvent(ExamLanguage.FI);
-    futureEvent2.setDate(now.plusWeeks(5));
+    futureEvent2.setDate(now.toLocalDate().plusWeeks(5));
     futureEvent2.setRegistrationCloses(now.plusWeeks(3));
+    futureEvent2.setRegistrationOpens(now);
     futureEvent2.setMaxParticipants(4);
 
+    final ExamEvent futureEventNotOpen = Factory.examEvent(ExamLanguage.FI);
+    futureEventNotOpen.setDate(now.toLocalDate().plusDays(6));
+    futureEventNotOpen.setRegistrationCloses(now.plusWeeks(3));
+    futureEventNotOpen.setRegistrationOpens(now.plusDays(3));
+    futureEventNotOpen.setMaxParticipants(4);
+
     final ExamEvent futureEventWithoutRoom = Factory.examEvent();
-    futureEventWithoutRoom.setDate(now.plusWeeks(6));
+    futureEventWithoutRoom.setDate(now.toLocalDate().plusWeeks(6));
     futureEventWithoutRoom.setMaxParticipants(0);
+    futureEventWithoutRoom.setRegistrationOpens(now);
 
     entityManager.persist(pastEvent);
     entityManager.persist(eventWithRegistrationClosed);
@@ -94,6 +104,7 @@ public class PublicExamEventServiceTest {
     entityManager.persist(futureEvent1);
     entityManager.persist(futureEvent2);
     entityManager.persist(futureEventWithoutRoom);
+    entityManager.persist(futureEventNotOpen);
 
     createReservations(futureEvent1, 2, LocalDateTime.now().plusMinutes(1));
     createReservations(futureEvent1, 1, LocalDateTime.now());
@@ -104,10 +115,11 @@ public class PublicExamEventServiceTest {
     createReservations(futureEvent2, 2, LocalDateTime.now().plusMinutes(1));
 
     final List<PublicExamEventDTO> examEventDTOs = publicExamEventService.listExamEvents(ExamLevel.EXCELLENT);
-    assertEquals(6, examEventDTOs.size());
+    assertEquals(7, examEventDTOs.size());
 
     final List<ExamEvent> expectedExamEventsOrdered = List.of(
       eventToday,
+      futureEventNotOpen,
       upcomingEventFi,
       upcomingEventSv,
       futureEvent1,
@@ -127,12 +139,19 @@ public class PublicExamEventServiceTest {
         if (expected == futureEvent1) {
           assertEquals(3, dto.openings());
           assertFalse(dto.hasCongestion(), "futureEvent1 should not have congestion");
+          assertTrue(dto.isOpen());
         } else if (expected == futureEvent2) {
           assertEquals(2, dto.openings());
           assertTrue(dto.hasCongestion(), "futureEvent2 should have congestion");
+          assertTrue(dto.isOpen());
+        } else if (expected == futureEventNotOpen) {
+          assertEquals(expected.getMaxParticipants(), dto.openings());
+          assertFalse(dto.hasCongestion());
+          assertFalse(dto.isOpen(), "futureEventNotOpen should have isOpen = false");
         } else {
           assertEquals(expected.getMaxParticipants(), dto.openings());
           assertFalse(dto.hasCongestion());
+          assertTrue(dto.isOpen());
         }
       });
   }
@@ -192,10 +211,10 @@ public class PublicExamEventServiceTest {
     final int howManyReservations,
     final boolean expectedCongestion
   ) {
-    final LocalDate now = LocalDate.now();
+    final LocalDateTime now = LocalDateTime.now();
 
     final ExamEvent event = Factory.examEvent(ExamLanguage.FI);
-    event.setDate(now.plusWeeks(5));
+    event.setDate(now.toLocalDate().plusWeeks(5));
     event.setRegistrationCloses(now.plusWeeks(3));
     event.setMaxParticipants(2);
 
@@ -241,15 +260,16 @@ public class PublicExamEventServiceTest {
     assertEquals(expected.getId(), examEventDTO.id());
     assertEquals(expected.getLanguage(), examEventDTO.language());
     assertEquals(expected.getDate(), examEventDTO.date());
-    assertEquals(expected.getRegistrationCloses(), examEventDTO.registrationCloses());
+    assertEquals(expected.getRegistrationCloses().toLocalDate(), examEventDTO.registrationCloses());
+    assertEquals(expected.getRegistrationOpens().toLocalDate(), examEventDTO.registrationOpens());
   }
 
   @Test
   public void testExamEventHasNoOpeningsEvenIfOneInQueue() {
-    final LocalDate now = LocalDate.now();
+    final LocalDateTime now = LocalDateTime.now();
 
     final ExamEvent event = Factory.examEvent(ExamLanguage.FI);
-    event.setDate(now.plusWeeks(5));
+    event.setDate(now.toLocalDate().plusWeeks(5));
     event.setRegistrationCloses(now.plusWeeks(3));
     event.setMaxParticipants(100);
 

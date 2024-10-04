@@ -34,7 +34,6 @@ import fi.oph.vkt.util.PersonUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +73,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     if (ExamEventUtil.isCongested(examEvent)) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_HAS_CONGESTION);
     }
-    if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
+    if (examEvent.getRegistrationCloses().isBefore(LocalDateTime.now())) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_REGISTRATION_CLOSED);
     }
     if (isPersonEnrolled(examEvent, person, enrollmentRepository)) {
@@ -211,9 +210,11 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .id(examEvent.getId())
       .language(examEvent.getLanguage())
       .date(examEvent.getDate())
-      .registrationCloses(examEvent.getRegistrationCloses())
+      .registrationCloses(examEvent.getRegistrationCloses().toLocalDate())
+      .registrationOpens(examEvent.getRegistrationOpens().toLocalDate())
       .openings(openings)
       .hasCongestion(false)
+      .isOpen(ExamEventUtil.isOpen(examEvent))
       .build();
 
     final PublicPersonDTO personDTO = PersonUtil.createPublicPersonDTO(person);
@@ -255,7 +256,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     if (openings > 0) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_TO_QUEUE_HAS_ROOM);
     }
-    if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
+    if (examEvent.getRegistrationCloses().isBefore(LocalDateTime.now())) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_REGISTRATION_CLOSED);
     }
     if (isPersonEnrolled(examEvent, person, enrollmentRepository)) {
@@ -579,7 +580,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   ) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
 
-    if (person == null || examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
+    if (person == null || examEvent.getRegistrationCloses().isBefore(LocalDateTime.now())) {
       throw new NotFoundException("Uploading not allowed. Person is null or exam is closed");
     }
 
