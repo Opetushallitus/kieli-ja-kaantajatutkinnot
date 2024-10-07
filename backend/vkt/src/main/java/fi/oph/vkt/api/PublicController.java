@@ -214,7 +214,7 @@ public class PublicController {
     return publicReservationService.renewReservation(reservationId, person);
   }
 
-  @GetMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}/redirect/{authHash:[a-z0-9\\-]+}")
+  @GetMapping(path = "/enrollment/appointment/{enrollmentAppointmentId:\\d+}/redirect/{authHash:[a-z0-9\\-]+}")
   public void createSessionAndRedirectToEnrollmentAppointment(
     final HttpServletResponse httpResponse,
     @PathVariable final long enrollmentAppointmentId,
@@ -226,7 +226,7 @@ public class PublicController {
         enrollmentAppointmentId,
         authHash
       );
-      SessionUtil.setPersonId(session, enrollmentAppointment.getId());
+      SessionUtil.setAppointmentId(session, enrollmentAppointment.getId());
 
       httpResponse.sendRedirect(uiRouteUtil.getEnrollmentAppointmentUrl(enrollmentAppointment.getId()));
     } catch (final APIException e) {
@@ -274,18 +274,13 @@ public class PublicController {
     final HttpServletResponse httpResponse,
     @PathVariable final long targetId,
     @PathVariable final String type,
-    @RequestParam final Optional<String> locale,
-    final HttpSession session
+    @RequestParam final Optional<String> locale
   ) throws IOException {
     final String casLoginUrl = publicAuthService.createCasLoginUrl(
       targetId,
       EnrollmentType.fromString(type),
       locale.isPresent() ? AppLocale.fromString(locale.get()) : AppLocale.FI
     );
-
-    if (session != null) {
-      session.invalidate();
-    }
 
     httpResponse.sendRedirect(casLoginUrl);
   }
@@ -308,11 +303,12 @@ public class PublicController {
       } else if (enrollmentType.equals(EnrollmentType.RESERVATION)) {
         publicEnrollmentService.initialiseEnrollment(targetId, person);
       } else if (enrollmentType.equals(EnrollmentType.APPOINTMENT)) {
-        publicEnrollmentAppointmentService.savePersonInfo(targetId, person);
+        final Long appointmentId = SessionUtil.getAppointmentId(session);
+        publicEnrollmentAppointmentService.savePersonInfo(targetId, appointmentId, person);
       }
 
       if (enrollmentType.equals(EnrollmentType.APPOINTMENT)) {
-        httpResponse.sendRedirect(uiRouteUtil.getEnrollmentAppointmentUrl(targetId));
+        httpResponse.sendRedirect(uiRouteUtil.getEnrollmentAppointmentContactDetailsUrl(targetId));
       } else {
         httpResponse.sendRedirect(uiRouteUtil.getEnrollmentContactDetailsUrl(targetId));
       }
@@ -330,12 +326,9 @@ public class PublicController {
     if (session == null) {
       return Optional.empty();
     }
-
     try {
       return Optional.of(publicPersonService.getPersonDTO(publicAuthService.getPersonFromSession(session)));
     } catch (final NotFoundException e) {
-      session.invalidate();
-
       return Optional.empty();
     }
   }

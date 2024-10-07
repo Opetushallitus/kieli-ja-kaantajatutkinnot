@@ -10,12 +10,10 @@ export const PublicEnrollmentAppointmentStepContents = ({
   activeStep,
   enrollment,
   setIsStepValid,
-  showValidation,
 }: {
   activeStep: PublicEnrollmentAppointmentFormStep;
   enrollment: PublicEnrollmentAppointment;
   setIsStepValid: (isValid: boolean) => void;
-  showValidation: boolean;
 }) => {
   switch (activeStep) {
     case PublicEnrollmentAppointmentFormStep.Authenticate:

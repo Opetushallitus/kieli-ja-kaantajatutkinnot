@@ -190,24 +190,26 @@ public class PaymentService {
     if (payment.getEnrollment() != null) {
       final Enrollment enrollment = payment.getEnrollment();
       setEnrollmentStatus(enrollment, newStatus);
-      final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(enrollment.getPerson());
+      final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(
+        enrollment.getPerson()
+      );
 
       setEnrollmentStatus(enrollment, newStatus);
 
       payment.setPaymentStatus(newStatus);
       paymentRepository.saveAndFlush(payment);
 
-        if (newStatus == PaymentStatus.OK) {
-          if (enrollment.getFreeEnrollment() != null) {
-            publicEnrollmentEmailService.sendPartiallyFreeEnrollmentConfirmationEmail(
-                    enrollment,
-                    enrollment.getPerson(),
-                    freeEnrollmentDetails
-            );
-          } else {
-            publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment);
-          }
+      if (newStatus == PaymentStatus.OK) {
+        if (enrollment.getFreeEnrollment() != null) {
+          publicEnrollmentEmailService.sendPartiallyFreeEnrollmentConfirmationEmail(
+            enrollment,
+            enrollment.getPerson(),
+            freeEnrollmentDetails
+          );
+        } else {
+          publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment);
         }
+      }
     } else {
       final EnrollmentAppointment enrollmentAppointment = payment.getEnrollmentAppointment();
       setEnrollmentStatus(enrollmentAppointment, newStatus);
