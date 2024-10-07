@@ -252,8 +252,10 @@
         "stepper": {
           "active": "Aktiv",
           "completed": "Genomförd",
+          "label": "Anmälningens faser",
           "paymentAborted": "Betalningen kunde inte genomföras",
           "phase": "Skede",
+          "phaseNumber": "{{current}} av {{total}}",
           "step": {
             "Done": "Färdig",
             "Identify": "Identifiera dig",

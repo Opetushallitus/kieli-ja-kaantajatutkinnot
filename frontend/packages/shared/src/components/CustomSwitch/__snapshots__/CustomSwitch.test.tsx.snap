@@ -20,7 +20,7 @@ exports[`CustomSwitch should render correctly with an error label 1`] = `
       >
         <span
           aria-disabled={true}
-          className="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-checked Mui-disabled css-priqlz-MuiButtonBase-root-MuiSwitch-switchBase"
+          className="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-checked Mui-disabled css-ob1t9r-MuiButtonBase-root-MuiSwitch-switchBase"
           data-testid="just-a-test-id"
           onBlur={[Function]}
           onContextMenu={[Function]}
@@ -87,7 +87,7 @@ exports[`CustomSwitch should render correctly with just the minimal props 1`] = 
         className="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
       >
         <span
-          className="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary css-priqlz-MuiButtonBase-root-MuiSwitch-switchBase"
+          className="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary css-ob1t9r-MuiButtonBase-root-MuiSwitch-switchBase"
           onBlur={[Function]}
           onContextMenu={[Function]}
           onDragLeave={[Function]}

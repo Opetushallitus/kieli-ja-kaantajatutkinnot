@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.11.4] - 2024-10-07
+
+### Fixed
+- Fixed bug introduced in v.1.11.1: NativeSelect and NativeSelectWithLabel didn't display chosen value correctly
+
+## [1.11.3] - 2024-09-18
+
+### Added
+- New NavigationLinks component as a more accessible replacement for navigation tabs
+
+## [1.11.2] - 2024-09-16
+
+### Fixed
+- Improve CircularStepper accessibility
+
 ## [1.11.1] - 2024-09-13
 
 ### Fixed

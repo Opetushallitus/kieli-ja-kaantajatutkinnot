@@ -78,6 +78,7 @@
         "stepper": {
           "active": "Aktiv",
           "completed": "Utfört",
+          "label": "Anmälningens faser",
           "phase": "Fas",
           "phaseNumber": "{{current}} av {{total}}",
           "phases": "Anmälningens faser",
@@ -296,7 +297,8 @@
           "examDate": "Examensdag",
           "language": "Språk och nivå",
           "openings": "Lediga platser",
-          "registrationCloses": "Anmälan stängs"
+          "registrationCloses": "Anmälan stängs",
+          "registrationDates": "Anmälningstid"
         },
         "openings": {
           "congestion": {
@@ -311,7 +313,8 @@
         "row": {
           "enroll": "Anmäl dig",
           "enrollLater": "Anmäl dig senare",
-          "enrollToQueue": "Ställ dig i kön"
+          "enrollToQueue": "Ställ dig i kön",
+          "registrationOpensAt": "Anmälningstiden börjar {{registrationOpens}} "
         },
         "title": "Kommande examenstillfällen"
       },

@@ -6,7 +6,7 @@ exports[`LanguageSelect should render correctly 1`] = `
 >
   <div
     aria-owns={null}
-    className="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-1h51icj-MuiAutocomplete-root"
+    className="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-ka7ti6-MuiAutocomplete-root"
     onClick={[Function]}
     onKeyDown={[Function]}
     onMouseDown={[Function]}
@@ -41,7 +41,7 @@ exports[`LanguageSelect should render correctly 1`] = `
           value=""
         />
         <div
-          className="MuiAutocomplete-endAdornment css-1q60rmi-MuiAutocomplete-endAdornment"
+          className="MuiAutocomplete-endAdornment css-p1olib-MuiAutocomplete-endAdornment"
         >
           <button
             aria-label="Open"

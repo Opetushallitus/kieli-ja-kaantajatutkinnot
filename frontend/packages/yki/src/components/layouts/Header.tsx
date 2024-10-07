@@ -10,7 +10,7 @@ import {
 import { AppLanguage, Direction } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
-import { PublicNavTabs } from 'components/layouts/publicHeader/PublicNavTabs';
+import { PublicNavigationLinks } from 'components/layouts/publicHeader/PublicNavigationLinks';
 import { SessionStateHeader } from 'components/layouts/SessionStateHeader';
 import {
   changeLang,
@@ -70,7 +70,7 @@ export const Header = (): JSX.Element => {
             </Link>
           </div>
           <div className="header__tabs">
-            <PublicNavTabs />
+            <PublicNavigationLinks />
           </div>
           <div className="header__language-select">
             {!isPhone && (

@@ -40,15 +40,29 @@ public class PostalCodeService extends AbstractKoodistoService {
     fiToSv.forEach((key, value) -> svToFi.put(value, key));
   }
 
-  public Pair<String, String> translateTown(final String t) {
+  public Pair<String, String> translateTown(final String t, final boolean retainCase) {
     if (t == null || t.isBlank()) {
       return Pair.of("", "");
     }
-    final String town = capitalize(t.toLowerCase());
-    if (fiToSv.containsKey(town)) {
-      return Pair.of(town, fiToSv.getOrDefault(town, town));
+    final String normalizedCase = capitalize(t.toLowerCase());
+    if (fiToSv.containsKey(normalizedCase)) {
+      return Pair.of(normalizedCase, fiToSv.getOrDefault(normalizedCase, normalizedCase));
+    } else if (svToFi.containsKey(normalizedCase)) {
+      return Pair.of(svToFi.getOrDefault(normalizedCase, normalizedCase), normalizedCase);
     }
-    return Pair.of(svToFi.getOrDefault(town, town), town);
+
+    // If the normalized string wasn't found in translation maps,
+    // return the string itself, with either normalized or the original capitalization,
+    // depending on the source of the address.
+    if (retainCase) {
+      return Pair.of(t, t);
+    } else {
+      return Pair.of(normalizedCase, normalizedCase);
+    }
+  }
+
+  public Pair<String, String> translateTown(final String t) {
+    return translateTown(t, false);
   }
 
   private String capitalize(final String word) {

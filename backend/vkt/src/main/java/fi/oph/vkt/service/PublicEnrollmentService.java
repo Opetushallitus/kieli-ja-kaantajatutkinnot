@@ -505,11 +505,19 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     );
 
     if (freeEnrollmentDetails != null && freeEnrollment != null) {
-      publicEnrollmentEmailService.sendFreeEnrollmentToQueueConfirmationEmail(
-        enrollment,
-        person,
-        freeEnrollmentDetails
-      );
+      if (freeEnrollmentDetails.textualSkillCount() == 0 || freeEnrollmentDetails.oralSkillCount() == 0) {
+        publicEnrollmentEmailService.sendPartiallyFreeEnrollmentToQueueConfirmationEmail(
+          enrollment,
+          person,
+          freeEnrollmentDetails
+        );
+      } else {
+        publicEnrollmentEmailService.sendFreeEnrollmentToQueueConfirmationEmail(
+          enrollment,
+          person,
+          freeEnrollmentDetails
+        );
+      }
     } else {
       publicEnrollmentEmailService.sendEnrollmentToQueueConfirmationEmail(enrollment, person);
     }
