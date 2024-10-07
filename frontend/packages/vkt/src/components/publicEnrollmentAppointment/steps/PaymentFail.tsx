@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import {
   CustomButton,
   LoadingProgressIndicator,
@@ -9,16 +10,11 @@ import { useDialog, useToast } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { cancelPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { RouteUtils } from 'utils/routes';
 
-export const PaymentFail = ({
-  enrollment,
-}: {
-  enrollment: PublicEnrollment;
-}) => {
+export const PaymentFail = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment',
   });
@@ -29,17 +25,9 @@ export const PaymentFail = ({
   const { showDialog } = useDialog();
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
   const { cancelStatus } = useAppSelector(publicEnrollmentSelector);
+  const params = useParams();
   const isCancelLoading = cancelStatus === APIResponseStatus.InProgress;
   const isLoading = isPaymentLoading || isCancelLoading;
-
-  const handleTryAgainBtnClick = () => {
-    setIsPaymentLoading(true);
-
-    // Safari needs time to re-render loading indicator
-    setTimeout(() => {
-      window.location.href = RouteUtils.getPaymentCreateApiRoute(enrollment.id);
-    }, 200);
-  };
 
   const handleCancelBtnClick = () => {
     showDialog({
@@ -68,6 +56,24 @@ export const PaymentFail = ({
       description: t('steps.paymentFail.toast'),
     });
   }, [t, showToast]);
+
+  if (!params.enrollmentId) {
+    return <></>;
+  }
+
+  const enrollmentId = +params.enrollmentId;
+
+  const handleTryAgainBtnClick = () => {
+    setIsPaymentLoading(true);
+
+    // Safari needs time to re-render loading indicator
+    setTimeout(() => {
+      window.location.href = RouteUtils.getPaymentCreateApiRoute(
+        'appointment',
+        enrollmentId,
+      );
+    }, 200);
+  };
 
   return (
     <div className="margin-top-lg rows gapped">

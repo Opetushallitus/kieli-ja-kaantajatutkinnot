@@ -32,7 +32,6 @@ export const FillContactDetails = ({
   >([]);
 
   const dispatch = useAppDispatch();
-  const errors = [];
 
   useEffect(() => {
     setIsStepValid(true);
@@ -73,8 +72,7 @@ export const FillContactDetails = ({
     label: t(`${fieldName}.label`),
     onBlur: handleBlur(fieldName),
     onChange: handleChange(fieldName),
-    error: showCustomTextFieldError(fieldName),
-    helperText: errors[fieldName],
+    error: showCustomTextFieldError(),
     required: true,
     disabled: isLoading,
   });
@@ -83,7 +81,7 @@ export const FillContactDetails = ({
 
   return (
     <div className="margin-top-sm rows gapped public-enrollment__grid__contact-details">
-      <PersonDetails isPreviewStep={false} />
+      <PersonDetails />
       <LabeledTextField
         {...getCustomTextFieldAttributes('phoneNumber')}
         className="phone-number"

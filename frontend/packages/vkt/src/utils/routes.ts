@@ -16,7 +16,7 @@ export class RouteUtils {
   }
 
   // FIXME add type definition
-  static getPaymentCreateApiRoute(enrollmentId: number, type: string) {
+  static getPaymentCreateApiRoute(type: string, enrollmentId?: number) {
     return APIEndpoints.PaymentCreate.replace(
       ':enrollmentId',
       `${enrollmentId}`,
@@ -95,8 +95,12 @@ export class RouteUtils {
 
   static appointmentStepToRoute(
     step: PublicEnrollmentAppointmentFormStep,
-    enrollmentId: number,
+    enrollmentId?: number,
   ) {
+    if (!enrollmentId) {
+      return '';
+    }
+
     switch (step) {
       case PublicEnrollmentAppointmentFormStep.Authenticate:
         return RouteUtils.replaceEnrollmentId(

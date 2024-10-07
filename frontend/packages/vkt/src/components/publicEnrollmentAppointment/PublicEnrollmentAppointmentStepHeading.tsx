@@ -3,12 +3,12 @@ import { H1, HeaderSeparator } from 'shared/components';
 import { useFocus, useWindowProperties } from 'shared/hooks';
 
 import { usePublicTranslation } from 'configs/i18n';
-import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { PublicEnrollmentAppointmentFormStep } from 'enums/publicEnrollment';
 
 export const PublicEnrollmentAppointmentStepHeading = ({
   activeStep,
 }: {
-  activeStep: PublicEnrollmentFormStep;
+  activeStep: PublicEnrollmentAppointmentFormStep;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.stepHeading',
@@ -23,9 +23,9 @@ export const PublicEnrollmentAppointmentStepHeading = ({
   }, [setFocus, isPhone]);
 
   const headingText =
-    activeStep === PublicEnrollmentFormStep.Authenticate
-      ? t(`toExam.${PublicEnrollmentFormStep[activeStep]}`)
-      : t(`common.${PublicEnrollmentFormStep[activeStep]}`);
+    activeStep === PublicEnrollmentAppointmentFormStep.Authenticate
+      ? t(`toExam.${PublicEnrollmentAppointmentFormStep[activeStep]}`)
+      : t(`common.${PublicEnrollmentAppointmentFormStep[activeStep]}`);
 
   return (
     <div ref={ref} className="margin-top-xxl rows gapped-xs">

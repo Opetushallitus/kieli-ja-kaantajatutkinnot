@@ -10,6 +10,7 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { PublicEnrollmentAppointmentFormStep } from 'enums/publicEnrollment';
+import { PublicEnrollmentAppointment } from 'interfaces/publicEnrollment';
 import {
   loadPublicEnrollmentSave,
   setLoadingPayment,
@@ -47,8 +48,8 @@ export const PublicEnrollmentAppointmentControlButtons = ({
       // Safari needs time to re-render loading indicator
       setTimeout(() => {
         window.location.href = RouteUtils.getPaymentCreateApiRoute(
-          enrollment.id,
           'appointment',
+          enrollment.id,
         );
       }, 200);
       dispatch(setLoadingPayment());

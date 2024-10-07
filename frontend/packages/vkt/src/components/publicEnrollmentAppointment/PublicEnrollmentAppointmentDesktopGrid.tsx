@@ -20,7 +20,7 @@ export const PublicEnrollmentAppointmentDesktopGrid = ({
   setIsStepValid,
   setShowValidation,
 }: {
-  activeStep: PublicEnrollmentFormStep;
+  activeStep: PublicEnrollmentAppointmentFormStep;
   isStepValid: boolean;
   enrollment: PublicEnrollmentAppointment;
   showValidation: boolean;

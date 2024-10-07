@@ -15,9 +15,13 @@ export const Authenticate = () => {
     keyPrefix: 'vkt.component.publicEnrollment.steps.authenticate',
   });
   const translateCommon = useCommonTranslation();
-  const enrollmentId = +params.enrollmentId;
-
   const dispatch = useAppDispatch();
+
+  if (!params.enrollmentId) {
+    return <></>;
+  }
+
+  const enrollmentId = +params.enrollmentId;
 
   const onAuthenticate = () => {
     setIsAuthRedirecting(true);

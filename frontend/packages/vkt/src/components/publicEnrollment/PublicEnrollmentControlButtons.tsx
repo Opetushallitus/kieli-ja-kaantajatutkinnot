@@ -114,6 +114,7 @@ export const PublicEnrollmentControlButtons = ({
         // Safari needs time to re-render loading indicator
         setTimeout(() => {
           window.location.href = RouteUtils.getPaymentCreateApiRoute(
+            'reservation',
             enrollment.id,
           );
         }, 200);
@@ -158,6 +159,7 @@ export const PublicEnrollmentControlButtons = ({
         // Safari needs time to re-render loading indicator
         setTimeout(() => {
           window.location.href = RouteUtils.getPaymentCreateApiRoute(
+            'reservation',
             enrollment.id,
           );
         }, 200);

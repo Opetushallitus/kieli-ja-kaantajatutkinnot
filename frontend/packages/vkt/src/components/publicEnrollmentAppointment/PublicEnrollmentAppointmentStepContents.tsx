@@ -26,13 +26,12 @@ export const PublicEnrollmentAppointmentStepContents = ({
           enrollment={enrollment}
           isLoading={false}
           setIsStepValid={setIsStepValid}
-          showValidation={showValidation}
         />
       );
     case PublicEnrollmentAppointmentFormStep.Preview:
       return <Preview enrollment={enrollment} isLoading={false} />;
     case PublicEnrollmentAppointmentFormStep.PaymentFail:
-      return <PaymentFail enrollment={enrollment} />;
+      return <PaymentFail />;
     case PublicEnrollmentAppointmentFormStep.PaymentSuccess:
       return <PaymentSuccess enrollment={enrollment} />;
   }

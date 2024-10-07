@@ -13,7 +13,7 @@ export interface PublicEnrollmentAppointmentState {
   person?: PublicPerson;
 }
 
-export const initialState: PublicEnrollmentAppointmentState = {
+const initialState: PublicEnrollmentAppointmentState = {
   loadEnrollmentStatus: APIResponseStatus.NotStarted,
   enrollmentSubmitStatus: APIResponseStatus.NotStarted,
   paymentLoadingStatus: APIResponseStatus.NotStarted,
