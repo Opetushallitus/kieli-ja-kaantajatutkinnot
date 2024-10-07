@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.11.4] - 2024-10-07
+
+### Fixed
+- Fixed bug introduced in v.1.11.1: NativeSelect and NativeSelectWithLabel didn't display chosen value correctly
+
 ## [1.11.3] - 2024-09-18
 
 ### Added

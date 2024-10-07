@@ -11,12 +11,12 @@ import { ComboBoxOption } from '../../interfaces';
 import { Text } from '../Text/Text';
 
 export interface CustomNativeSelectProps
-  extends BaseSelectProps<ComboBoxOption> {
+  extends Omit<BaseSelectProps<string>, 'value'> {
   'data-testid'?: string;
   helperText?: string;
   showError?: boolean;
   placeholder: string;
-  value: '' | ComboBoxOption | undefined;
+  value: ComboBoxOption | undefined;
   values: Array<ComboBoxOption>;
 }
 
@@ -27,7 +27,7 @@ const CustomSelect = ({
   ...rest
 }: CustomNativeSelectProps) => {
   const options = [{ label: placeholder, value: '' }, ...values];
-  const inputValue = value && value.value ? value : '';
+  const inputValue = value && value.value ? value.value : '';
 
   return (
     <Select variant={Variant.Outlined} value={inputValue} {...rest} native>
