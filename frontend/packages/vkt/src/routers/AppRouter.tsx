@@ -20,7 +20,10 @@ import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import {
+  PublicEnrollmentAppointmentFormStep,
+  PublicEnrollmentFormStep,
+} from 'enums/publicEnrollment';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ClerkEnrollmentOverviewPage } from 'pages/ClerkEnrollmentOverviewPage';
@@ -29,6 +32,7 @@ import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
 import { LogoutSuccess } from 'pages/LogoutSuccess';
 import { NotFoundPage } from 'pages/NotFoundPage';
+import { PublicEnrollmentAppointmentPage } from 'pages/PublicEnrollmentAppointmentPage';
 import { PublicEnrollmentPage } from 'pages/PublicEnrollmentPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 import { loadFeatureFlags } from 'redux/reducers/featureFlags';
@@ -173,6 +177,62 @@ export const AppRouter: FC = () => {
               <TitlePage title={createTitle('done')}>
                 <PublicEnrollmentPage
                   activeStep={PublicEnrollmentFormStep.DoneQueued}
+                />
+              </TitlePage>
+            }
+          />
+        </Route>
+        <Route path={AppRoutes.PublicEnrollmentAppointment}>
+          <Route
+            path={AppRoutes.PublicAuthAppointment}
+            element={
+              <TitlePage title={createTitle('authenticate')}>
+                <PublicEnrollmentAppointmentPage
+                  activeStep={PublicEnrollmentAppointmentFormStep.Authenticate}
+                />
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.PublicEnrollmentAppointmentContactDetails}
+            element={
+              <TitlePage title={createTitle('contactDetails')}>
+                <PublicEnrollmentAppointmentPage
+                  activeStep={
+                    PublicEnrollmentAppointmentFormStep.FillContactDetails
+                  }
+                />
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.PublicEnrollmentAppointmentPreview}
+            element={
+              <TitlePage title={createTitle('preview')}>
+                <PublicEnrollmentAppointmentPage
+                  activeStep={PublicEnrollmentAppointmentFormStep.Preview}
+                />
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.PublicEnrollmentAppointmentPaymentFail}
+            element={
+              <TitlePage title={createTitle('paymentFail')}>
+                <PublicEnrollmentAppointmentPage
+                  activeStep={PublicEnrollmentAppointmentFormStep.PaymentFail}
+                />
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.PublicEnrollmentAppointmentPaymentSuccess}
+            element={
+              <TitlePage title={createTitle('paymentSuccess')}>
+                <PublicEnrollmentAppointmentPage
+                  activeStep={
+                    PublicEnrollmentAppointmentFormStep.PaymentSuccess
+                  }
                 />
               </TitlePage>
             }

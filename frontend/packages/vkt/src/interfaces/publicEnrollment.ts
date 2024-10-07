@@ -69,3 +69,20 @@ export interface PublicEnrollmentResponse
     WithId {
   status: EnrollmentStatus;
 }
+
+export interface PublicEnrollmentAppointment extends PublicEnrollment {
+  person: PublicPerson;
+}
+
+export interface PublicEnrollmentAppointmentResponse
+  extends Omit<
+      PublicEnrollmentAppointment,
+      | 'emailConfirmation'
+      | 'id'
+      | 'hasPreviousEnrollment'
+      | 'privacyStatementConfirmation'
+      | 'status'
+    >,
+    WithId {
+  status: EnrollmentStatus;
+}

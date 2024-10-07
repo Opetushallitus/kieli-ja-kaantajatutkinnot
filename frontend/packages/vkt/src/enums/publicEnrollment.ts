@@ -9,3 +9,11 @@ export enum PublicEnrollmentFormStep {
   DoneQueued,
   Done,
 }
+
+export enum PublicEnrollmentAppointmentFormStep {
+  Authenticate = 1,
+  FillContactDetails,
+  Preview,
+  PaymentFail,
+  PaymentSuccess,
+}

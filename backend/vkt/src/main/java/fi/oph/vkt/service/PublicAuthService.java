@@ -42,10 +42,10 @@ public class PublicAuthService {
   private final CasTicketRepository casTicketRepository;
   private final CasSessionMappingStorage sessionMappingStorage;
 
-  public String createCasLoginUrl(final long examEventId, final EnrollmentType type, final AppLocale appLocale) {
+  public String createCasLoginUrl(final long targetId, final EnrollmentType type, final AppLocale appLocale) {
     final String casLoginUrl = environment.getRequiredProperty("app.cas-oppija.login-url");
     final String casServiceUrl = URLEncoder.encode(
-      String.format(environment.getRequiredProperty("app.cas-oppija.service-url"), examEventId, type),
+      String.format(environment.getRequiredProperty("app.cas-oppija.service-url"), targetId, type),
       StandardCharsets.UTF_8
     );
     return casLoginUrl + "?service=" + casServiceUrl + "&locale=" + appLocale.name().toLowerCase();

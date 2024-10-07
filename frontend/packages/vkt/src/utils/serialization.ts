@@ -22,6 +22,8 @@ import {
 } from 'interfaces/publicEducation';
 import {
   PublicEnrollment,
+  PublicEnrollmentAppointment,
+  PublicEnrollmentAppointmentResponse,
   PublicEnrollmentResponse,
   PublicReservation,
   PublicReservationResponse,
@@ -40,6 +42,17 @@ export class SerializationUtils {
       date: dayjs(publicExamEvent.date),
       registrationCloses: dayjs(publicExamEvent.registrationCloses),
       registrationOpens: dayjs(publicExamEvent.registrationOpens),
+    };
+  }
+
+  static deserializePublicEnrollmentAppointment(
+    enrollment: PublicEnrollmentAppointmentResponse,
+  ): PublicEnrollmentAppointment {
+    return {
+      ...enrollment,
+      emailConfirmation: '',
+      hasPreviousEnrollment: !!enrollment.previousEnrollment,
+      privacyStatementConfirmation: false,
     };
   }
 
