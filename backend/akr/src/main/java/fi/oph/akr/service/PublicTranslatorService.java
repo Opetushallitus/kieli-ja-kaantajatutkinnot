@@ -10,6 +10,7 @@ import fi.oph.akr.config.CacheConfig;
 import fi.oph.akr.model.Translator;
 import fi.oph.akr.onr.ContactDetailsUtil;
 import fi.oph.akr.onr.OnrService;
+import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
 import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.TranslatorLanguagePairProjection;
@@ -161,8 +162,8 @@ public class PublicTranslatorService {
     if (primaryAddress == null) {
       return Pair.of("", "");
     }
-
-    return postalCodeService.translateTown(primaryAddress.town());
+    final boolean retainCase = primaryAddress.source() == ContactDetailsGroupSource.AKR;
+    return postalCodeService.translateTown(primaryAddress.town(), retainCase);
   }
 
   private String getNonFinlandCountryCode(final TranslatorAddressDTO address) {
