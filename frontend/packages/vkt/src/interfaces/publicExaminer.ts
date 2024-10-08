@@ -1,8 +1,8 @@
 import { Dayjs } from 'dayjs';
+import { APIResponseStatus } from 'shared/enums';
 import { WithId } from 'shared/interfaces';
 
 import { ExamLanguage } from 'enums/app';
-import { APIResponseStatus } from 'shared/enums';
 
 interface PublicMunicipality {
   fi: string;

@@ -36,7 +36,6 @@ import { PublicGoodAndSatisfactoryLevelLandingPage } from 'pages/goodAndSatisfac
 import { LogoutSuccess } from 'pages/LogoutSuccess';
 import { NotFoundPage } from 'pages/NotFoundPage';
 import { PublicEnrollmentAppointmentPage } from 'pages/PublicEnrollmentAppointmentPage';
-import { PublicEnrollmentPage } from 'pages/PublicEnrollmentPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 import { loadFeatureFlags } from 'redux/reducers/featureFlags';
 import { featureFlagsSelector } from 'redux/selectors/featureFlags';

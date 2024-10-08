@@ -32,6 +32,8 @@ export enum AppRoutes {
 
   // Routes for good and satisfactory level - TODO
   PublicGoodAndSatisfactoryLevelLanding = '/vkt/hyva-ja-tyydyttava-taito',
+  PublicEnrollmentAppointment = '/vkt/markkinapaikka',
+  PublicAuthAppointment = '/vkt/markkinapaikka/:enrollmentId/tunnistaudu',
   PublicEnrollmentAppointmentContactDetails = '/vkt/markkinapaikka/:enrollmentId/tiedot',
   PublicEnrollmentAppointmentPreview = '/vkt/markkinapaikka/:enrollmentId/esikatsele',
   PublicEnrollmentAppointmentPaymentFail = '/vkt/markkinapaikka/:enrollmentId/maksu/peruutettu',
