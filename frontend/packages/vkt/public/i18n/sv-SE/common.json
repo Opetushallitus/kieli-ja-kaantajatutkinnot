@@ -97,7 +97,13 @@
       "header": {
         "accessibility": {
           "continueToMain": "Fortsätt till innehållet",
-          "langSelectorAriaLabel": "Kieli / Språk"
+          "langSelectorAriaLabel": "Kieli / Språk",
+          "mainNavigation": "Huvudnavigering"
+        },
+        "publicNavigationLinks": {
+          "excellentLevel": "Examina som gäller utmärkta språkkunskaper",
+          "frontPage": "Framsida",
+          "goodAndSatisfactoryLevel": "Examina som gäller goda eller nöjaktiga språkkunskaper"
         },
         "sessionState": {
           "logOut": "Logga ut"

@@ -15,6 +15,7 @@ import { publicEducationReducer } from 'redux/reducers/publicEducation';
 import { publicEnrollmentReducer } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentAppointmentReducer } from 'redux/reducers/publicEnrollmentAppointment';
 import { publicExamEventReducer } from 'redux/reducers/publicExamEvent';
+import { publicExaminerReducer } from 'redux/reducers/publicExaminer';
 import { publicFileUploadReducer } from 'redux/reducers/publicFileUpload';
 import { publicUserReducer } from 'redux/reducers/publicUser';
 import rootSaga from 'redux/sagas/index';
@@ -40,6 +41,7 @@ const reducer = combineReducers({
   publicFileUpload: publicFileUploadReducer,
   publicEducation: publicEducationReducer,
   publicEnrollmentAppointment: publicEnrollmentAppointmentReducer,
+  publicExaminer: publicExaminerReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

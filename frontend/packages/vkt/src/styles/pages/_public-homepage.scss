@@ -35,4 +35,18 @@
       padding: 3rem 2rem;
     }
   }
+
+  & &__cards {
+    @include not-phone {
+      width: 90%;
+    }
+  }
+
+  & &__level-description-card {
+    padding: 2rem;
+    @include not-phone {
+      width: 50%;
+      height: 50rem;
+    }
+  }
 }

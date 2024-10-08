@@ -53,3 +53,4 @@ export {
   NativeSelectWithLabel,
 } from './NativeSelect/NativeSelect';
 export { NavigationLinks } from './NavigationLinks/NavigationLinks';
+export { MobileNavigationMenuWithPortal } from './MobileNavigationMenu/MobileNavigationMenu';
