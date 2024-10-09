@@ -99,3 +99,8 @@ app:
     goodAndSatisfactoryLevel: ${feature-flags.good-and-satisfactory-level:false}
   aws:
     s3-bucket: ${aws.s3-bucket:test}
+  onr:
+    service-url: ${onr.service-url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}
+    cas:
+      username: kukku
+      password: kokko

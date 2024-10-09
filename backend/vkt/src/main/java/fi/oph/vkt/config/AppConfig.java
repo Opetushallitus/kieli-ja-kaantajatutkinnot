@@ -9,7 +9,13 @@ import fi.oph.vkt.service.auth.ticketValidator.CasTicketValidator;
 import fi.oph.vkt.service.email.sender.EmailSender;
 import fi.oph.vkt.service.email.sender.EmailSenderNoOp;
 import fi.oph.vkt.service.email.sender.EmailSenderViestintapalvelu;
+import fi.oph.vkt.service.onr.OnrOperationApi;
+import fi.oph.vkt.service.onr.OnrOperationApiImpl;
+import fi.oph.vkt.service.onr.mock.MockOnrOperationApiImpl;
 import fi.oph.vkt.util.UUIDSource;
+import fi.vm.sade.javautils.nio.cas.CasClient;
+import fi.vm.sade.javautils.nio.cas.CasClientBuilder;
+import fi.vm.sade.javautils.nio.cas.CasConfig;
 import java.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -141,6 +147,34 @@ public class AppConfig {
   @Profile("!dev")
   public AwsCredentialsProvider defaultAwsCredentialsProvider() {
     return ContainerCredentialsProvider.builder().build();
+  }
+
+  @Bean
+  @Profile("dev")
+  public OnrOperationApi onrOperationApiMock() {
+    LOG.warn("OnrOperationApiMock in use");
+    return new MockOnrOperationApiImpl();
+  }
+
+  @Bean
+  @Profile("!dev")
+  public OnrOperationApi onrOperationApiImpl(
+    @Value("${app.onr.service-url}") final String onrServiceUrl,
+    @Value("${cas.url}") final String casUrl,
+    @Value("${app.onr.cas.username}") final String casUsername,
+    @Value("${app.onr.cas.password}") final String casPassword
+  ) {
+    LOG.info("onrServiceUrl: {}", onrServiceUrl);
+    final CasConfig casConfig = CasConfig.SpringSessionCasConfig(
+      casUsername,
+      casPassword,
+      casUrl,
+      onrServiceUrl,
+      Constants.CALLER_ID,
+      Constants.CALLER_ID
+    );
+    final CasClient casClient = CasClientBuilder.build(casConfig);
+    return new OnrOperationApiImpl(casClient, onrServiceUrl);
   }
 
   private static WebClient.Builder webClientBuilderWithCallerId(final String connectionProviderName) {
