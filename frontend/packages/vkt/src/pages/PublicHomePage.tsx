@@ -9,6 +9,12 @@ import { useWindowProperties } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
+import ExcellentLevelCardImageAvif from 'public/images/excellent_level_card_image.avif';
+import ExcellentLevelCardImageJpeg from 'public/images/excellent_level_card_image.jpg';
+import ExcellentLevelCardImageWebp from 'public/images/excellent_level_card_image.webp';
+import GoodAndSatisfactoryLevelCardImageAvif from 'public/images/good_satisfactory_level_card_image.avif';
+import GoodAndSatisfactoryLevelCardImageJpeg from 'public/images/good_satisfactory_level_card_image.jpg';
+import GoodAndSatisfactoryLevelCardImageWebp from 'public/images/good_satisfactory_level_card_image.webp';
 
 const LinkButton = ({ to, label }: { to: AppRoutes; label: string }) => {
   return (
@@ -26,11 +32,13 @@ const LinkButton = ({ to, label }: { to: AppRoutes; label: string }) => {
 
 const LevelCard = ({
   heading,
+  image,
   contents,
   linkLabel,
   linkTo,
 }: {
   heading: string;
+  image: React.JSX.Element;
   contents: React.JSX.Element;
   linkLabel: string;
   linkTo: AppRoutes;
@@ -41,7 +49,11 @@ const LevelCard = ({
       elevation={2}
     >
       <div className="rows gapped grow">
-        <div className="rows gapped grow">
+        <div className="card-image-wrapper">
+          <div className="image-overlay" />
+          {image}
+        </div>
+        <div className="card-contents rows gapped grow">
           <Typography component="h3" variant="h2">
             {heading}
           </Typography>
@@ -53,9 +65,20 @@ const LevelCard = ({
   );
 };
 
+const ExcellentLevelCardImage = () => {
+  return (
+    <picture>
+      <source srcSet={ExcellentLevelCardImageAvif} type="image/avif" />
+      <source srcSet={ExcellentLevelCardImageWebp} type="image/webp" />
+      <img src={ExcellentLevelCardImageJpeg} alt="" />
+    </picture>
+  );
+};
+
 const ExcellentLevelCard = () => {
   return (
     <LevelCard
+      image={<ExcellentLevelCardImage />}
       heading="Erinomaisen taidon tutkinnot"
       contents={
         <>
@@ -71,9 +94,26 @@ const ExcellentLevelCard = () => {
   );
 };
 
+const GoodAndSatisfactoryLevelCardImage = () => {
+  return (
+    <picture>
+      <source
+        srcSet={GoodAndSatisfactoryLevelCardImageAvif}
+        type="image/avif"
+      />
+      <source
+        srcSet={GoodAndSatisfactoryLevelCardImageWebp}
+        type="image/webp"
+      />
+      <img src={GoodAndSatisfactoryLevelCardImageJpeg} alt="" />
+    </picture>
+  );
+};
+
 const GoodAndSatisfactoryLevelCard = () => {
   return (
     <LevelCard
+      image={<GoodAndSatisfactoryLevelCardImage />}
       heading="Hyvän ja tyydyttävän taidon tutkinnot"
       contents={
         <Text>
