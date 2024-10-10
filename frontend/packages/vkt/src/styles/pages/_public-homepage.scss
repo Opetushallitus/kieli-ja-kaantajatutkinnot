@@ -35,4 +35,43 @@
       padding: 3rem 2rem;
     }
   }
+
+  & &__cards {
+    @include not-phone {
+      width: 90%;
+    }
+  }
+
+  & &__level-description-card {
+    @include phone {
+      width: 100%;
+    }
+    @include not-phone {
+      width: 48rem;
+      height: 49rem;
+    }
+
+    .card-contents {
+      padding: 2rem;
+    }
+
+    .card-image-wrapper {
+      position: relative;
+      // stylelint-disable-next-line selector-max-compound-selectors
+      .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $color-secondary;
+        opacity: 0.4;
+      }
+      // stylelint-disable-next-line selector-max-compound-selectors
+      img {
+        aspect-ratio: 480/231;
+        width: 100%;
+      }
+    }
+  }
 }

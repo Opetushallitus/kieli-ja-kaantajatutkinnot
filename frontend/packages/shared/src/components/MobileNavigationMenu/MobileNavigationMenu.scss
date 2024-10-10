@@ -1,0 +1,30 @@
+@use '../../styles/abstracts/colors';
+
+button.navigation-menu-toggle {
+  background-color: colors.$color-primary;
+  border: 0;
+}
+
+.navigation-menu-contents {
+  ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  li {
+    > a {
+      text-decoration: none;
+    }
+    padding: 1rem;
+  }
+
+  li.active {
+    p {
+      color: colors.$color-secondary;
+      font-weight: 700;
+    }
+    border-left: 2px solid colors.$color-secondary;
+  }
+}

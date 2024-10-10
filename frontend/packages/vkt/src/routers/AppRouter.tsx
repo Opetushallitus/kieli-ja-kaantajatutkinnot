@@ -27,9 +27,11 @@ import { ClerkEnrollmentOverviewPage } from 'pages/ClerkEnrollmentOverviewPage';
 import { ClerkExamEventCreatePage } from 'pages/ClerkExamEventCreatePage';
 import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
+import { PublicEnrollmentPage } from 'pages/excellentLevel/PublicEnrollmentPage';
+import { PublicExcellentLevelLandingPage } from 'pages/excellentLevel/PublicExcellentLevelLandingPage';
+import { PublicGoodAndSatisfactoryLevelLandingPage } from 'pages/goodAndSatisfactoryLevel/PublicGoodAndSatisfactoryLevelLandingPage';
 import { LogoutSuccess } from 'pages/LogoutSuccess';
 import { NotFoundPage } from 'pages/NotFoundPage';
-import { PublicEnrollmentPage } from 'pages/PublicEnrollmentPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 import { loadFeatureFlags } from 'redux/reducers/featureFlags';
 import { featureFlagsSelector } from 'redux/selectors/featureFlags';
@@ -66,7 +68,8 @@ export const AppRouter: FC = () => {
         <ScrollToTop />
         <PersistGate persistor={persistor} />
         <main className="content" id="main-content">
-          <div className="content__container">
+          <div className="content__container rows">
+            <div id="mobile-menu-placeholder" className="rows" />
             <Outlet />
           </div>
         </main>
@@ -75,17 +78,35 @@ export const AppRouter: FC = () => {
     </div>
   );
 
+  // TODO Consider serving different page as front page when feature flag for good and satisfactory levels is enabled?
   const FrontPage = (
     <TitlePage title={createTitle('frontPage')}>
       <PublicHomePage />
     </TitlePage>
   );
 
+  // TODO Enable / disable routes for good and satisfactory level based on feature flag?
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path={AppRoutes.PublicRoot} element={Root}>
         <Route index={true} element={FrontPage} />
         <Route path={AppRoutes.PublicHomePage} element={FrontPage} />
+        <Route
+          path={AppRoutes.PublicExcellentLevelLanding}
+          element={
+            <TitlePage title={createTitle('excellentLevelLanding')}>
+              <PublicExcellentLevelLandingPage />
+            </TitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.PublicGoodAndSatisfactoryLevelLanding}
+          element={
+            <TitlePage title={createTitle('goodAndSatisfactoryLevelLanding')}>
+              <PublicGoodAndSatisfactoryLevelLandingPage />
+            </TitlePage>
+          }
+        />
         <Route path={AppRoutes.PublicEnrollment}>
           <Route
             path={AppRoutes.PublicAuth}

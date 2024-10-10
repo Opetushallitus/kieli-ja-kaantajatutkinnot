@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { DateUtils } from 'shared/utils';
 
+import { ExamLanguage } from 'enums/app';
 import {
   ClerkEnrollment,
   ClerkEnrollmentResponse,
@@ -30,6 +31,10 @@ import {
   PublicExamEvent,
   PublicExamEventResponse,
 } from 'interfaces/publicExamEvent';
+import {
+  PublicExaminer,
+  PublicExaminerResponse,
+} from 'interfaces/publicExaminer';
 
 export class SerializationUtils {
   static deserializePublicExamEvent(
@@ -175,5 +180,27 @@ export class SerializationUtils {
       name: toEducationType(e.educationType, e.isActive),
       ongoing: e.isActive,
     }));
+  }
+
+  static deserializePublicExaminer(
+    publicExaminer: PublicExaminerResponse,
+  ): PublicExaminer {
+    let examinerLanguage;
+    if (publicExaminer.languages.includes(ExamLanguage.SV)) {
+      examinerLanguage = ExamLanguage.SV;
+      if (publicExaminer.languages.includes(ExamLanguage.FI)) {
+        examinerLanguage = ExamLanguage.ALL;
+      }
+    } else {
+      examinerLanguage = ExamLanguage.FI;
+    }
+
+    return {
+      id: publicExaminer.id,
+      name: `${publicExaminer.firstName} ${publicExaminer.lastName}`,
+      language: examinerLanguage,
+      municipalities: publicExaminer.municipalities,
+      examDates: publicExaminer.examDates.map(dayjs),
+    };
   }
 }
