@@ -36,6 +36,7 @@ import { PublicGoodAndSatisfactoryLevelLandingPage } from 'pages/goodAndSatisfac
 import { LogoutSuccess } from 'pages/LogoutSuccess';
 import { NotFoundPage } from 'pages/NotFoundPage';
 import { PublicEnrollmentAppointmentPage } from 'pages/PublicEnrollmentAppointmentPage';
+import { PublicEnrollmentContactPage } from 'pages/PublicEnrollmentContactPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 import { loadFeatureFlags } from 'redux/reducers/featureFlags';
 import { featureFlagsSelector } from 'redux/selectors/featureFlags';
@@ -254,6 +255,18 @@ export const AppRouter: FC = () => {
                   activeStep={
                     PublicEnrollmentAppointmentFormStep.PaymentSuccess
                   }
+                />
+              </TitlePage>
+            }
+          />
+        </Route>
+        <Route path={AppRoutes.PublicEnrollmentContact}>
+          <Route
+            path={AppRoutes.PublicEnrollmentContactContactDetails}
+            element={
+              <TitlePage title={createTitle('authenticate')}>
+                <PublicEnrollmentContactPage
+                  activeStep={PublicEnrollmentContactFormStep.FillContactDetails}
                 />
               </TitlePage>
             }
