@@ -18,7 +18,7 @@ import GoodAndSatisfactoryLevelCardImageWebp from 'public/images/good_satisfacto
 
 const LinkButton = ({ to, label }: { to: AppRoutes; label: string }) => {
   return (
-    <Link to={to} className="custom-button-link rows flex-end">
+    <Link to={to} className="card-contents custom-button-link rows flex-end">
       <Button
         variant={Variant.Contained}
         color={Color.Secondary}
@@ -48,7 +48,7 @@ const LevelCard = ({
       className="public-homepage__level-description-card rows"
       elevation={2}
     >
-      <div className="rows gapped grow">
+      <div className="rows grow">
         <div className="card-image-wrapper">
           <div className="image-overlay" />
           {image}
@@ -216,9 +216,9 @@ export const PublicHomePage: FC = () => {
               <br />
               {t('description.part2')}
             </Text>
+            <DescriptionBox />
             <H2>{t('selectExamination.heading')}</H2>
             <Text>{t('selectExamination.description')}</Text>
-            <DescriptionBox />
             <div
               className={`public-homepage__cards gapped-xxl ${
                 isPhone ? 'rows' : 'columns'
