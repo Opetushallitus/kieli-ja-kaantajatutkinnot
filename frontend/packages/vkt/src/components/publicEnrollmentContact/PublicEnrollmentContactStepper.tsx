@@ -18,7 +18,7 @@ export const PublicEnrollmentContactStepper = ({
     keyPrefix: 'vkt.component.publicEnrollment.stepper',
   });
 
-  const steps = PublicEnrollmentUtils.getEnrollmentAppointmentSteps();
+  const steps = PublicEnrollmentUtils.getEnrollmentContactSteps();
 
   const doneStepNumber = steps.length;
 

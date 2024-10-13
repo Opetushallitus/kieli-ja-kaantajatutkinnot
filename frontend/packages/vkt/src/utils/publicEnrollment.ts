@@ -1,5 +1,6 @@
 import {
   PublicEnrollmentAppointmentFormStep,
+  PublicEnrollmentContactFormStep,
   PublicEnrollmentFormStep,
 } from 'enums/publicEnrollment';
 import { PublicFreeEnrollmentDetails } from 'interfaces/publicEducation';
@@ -34,6 +35,14 @@ export class PublicEnrollmentUtils {
       PublicEnrollmentAppointmentFormStep.Preview,
       PublicEnrollmentAppointmentFormStep.PaymentFail,
       PublicEnrollmentAppointmentFormStep.PaymentSuccess,
+    ];
+  }
+
+  static getEnrollmentContactSteps() {
+    return [
+      PublicEnrollmentContactFormStep.FillContactDetails,
+      PublicEnrollmentContactFormStep.SelectExam,
+      PublicEnrollmentContactFormStep.Done,
     ];
   }
 

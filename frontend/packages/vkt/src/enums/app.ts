@@ -41,6 +41,8 @@ export enum AppRoutes {
 
   PublicEnrollmentContact = '/vkt/markkinapaikka/ota-yhteytta',
   PublicEnrollmentContactContactDetails = '/vkt/markkinapaikka/ota-yhteytta/:appointeeId/tiedot',
+  PublicEnrollmentContactSelectExam = '/vkt/markkinapaikka/ota-yhteytta/:appointeeId/tutkinto',
+  PublicEnrollmentContactDone = '/vkt/markkinapaikka/ota-yhteytta/:appointeeId/valmis',
 
   // Routes for clerk user
   ClerkHomePage = '/vkt/virkailija',

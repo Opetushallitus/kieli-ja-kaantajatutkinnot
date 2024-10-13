@@ -22,6 +22,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import {
   PublicEnrollmentAppointmentFormStep,
+  PublicEnrollmentContactFormStep,
   PublicEnrollmentFormStep,
 } from 'enums/publicEnrollment';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
@@ -266,7 +267,33 @@ export const AppRouter: FC = () => {
             element={
               <TitlePage title={createTitle('authenticate')}>
                 <PublicEnrollmentContactPage
-                  activeStep={PublicEnrollmentContactFormStep.FillContactDetails}
+                  activeStep={
+                    PublicEnrollmentContactFormStep.FillContactDetails
+                  }
+                />
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.PublicEnrollmentContactSelectExam}
+            element={
+              <TitlePage title={createTitle('authenticate')}>
+                <PublicEnrollmentContactPage
+                  activeStep={
+                    PublicEnrollmentContactFormStep.SelectExam
+                  }
+                />
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.PublicEnrollmentContactDone}
+            element={
+              <TitlePage title={createTitle('authenticate')}>
+                <PublicEnrollmentContactPage
+                  activeStep={
+                    PublicEnrollmentContactFormStep.Done
+                  }
                 />
               </TitlePage>
             }

@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
 
-import { PublicEnrollmentContactGrid } from 'components/publicEnrollmentAppointment/PublicEnrollmentContactGrid';
+import { PublicEnrollmentContactGrid } from 'components/publicEnrollmentContact/PublicEnrollmentContactGrid';
 import { PublicEnrollmentContactFormStep } from 'enums/publicEnrollment';
 
 export const PublicEnrollmentContactPage = ({

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { APIResponseStatus } from 'shared/enums';
 
-import { PublicEnrollmentContactDesktopGrid } from 'components/publicEnrollmentContact/PublicEnrollmentAppointmentDesktopGrid';
+import { PublicEnrollmentContactDesktopGrid } from 'components/publicEnrollmentContact/PublicEnrollmentContactDesktopGrid';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicEnrollmentContactFormStep } from 'enums/publicEnrollment';
 import { loadPublicEnrollmentContact } from 'redux/reducers/publicEnrollmentContact';
@@ -17,13 +17,13 @@ export const PublicEnrollmentContactGrid = ({
   const params = useParams();
   const dispatch = useAppDispatch();
   const { enrollment, loadEnrollmentStatus } = useAppSelector(
-    publicEnrollmentAppointmentSelector,
+    publicEnrollmentContactSelector,
   );
   const [isStepValid, setIsStepValid] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
 
   const isAuthenticatePassed =
-    activeStep > PublicEnrollmentAppointmentFormStep.Authenticate;
+    activeStep > PublicEnrollmentContactFormStep.Authenticate;
 
   useEffect(() => {
     if (

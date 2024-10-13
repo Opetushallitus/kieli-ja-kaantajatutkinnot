@@ -29,7 +29,7 @@ export const PublicEnrollmentContactDesktopGrid = ({
   const translateCommon = useCommonTranslation();
 
   const { enrollmentSubmitStatus } = useAppSelector(
-    publicEnrollmentAppointmentSelector,
+    publicEnrollmentContactSelector,
   );
 
   const showControlButtons = activeStep <= PublicEnrollmentContactFormStep.Done;

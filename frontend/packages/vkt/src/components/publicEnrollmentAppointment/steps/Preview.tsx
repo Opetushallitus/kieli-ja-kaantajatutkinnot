@@ -78,12 +78,7 @@ const PrivacyStatementCheckboxLabel = ({
   const translateCommon = useCommonTranslation();
 
   return (
-    <Trans
-      t={t}
-      i18nKey={
-        enrollment.isFree ? 'freeEnrollmentLabel' : 'paidEnrollmentLabel'
-      }
-    >
+    <Trans t={t} i18nKey={'paidEnrollmentLabel'}>
       <WebLink
         href={translateCommon('vktPrivacyPolicy.link')}
         label={t('linkLabel')}

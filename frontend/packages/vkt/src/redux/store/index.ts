@@ -14,6 +14,7 @@ import { featureFlagsReducer } from 'redux/reducers/featureFlags';
 import { publicEducationReducer } from 'redux/reducers/publicEducation';
 import { publicEnrollmentReducer } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentAppointmentReducer } from 'redux/reducers/publicEnrollmentAppointment';
+import { publicEnrollmentContactReducer } from 'redux/reducers/publicEnrollmentContact';
 import { publicExamEventReducer } from 'redux/reducers/publicExamEvent';
 import { publicExaminerReducer } from 'redux/reducers/publicExaminer';
 import { publicFileUploadReducer } from 'redux/reducers/publicFileUpload';
@@ -41,6 +42,7 @@ const reducer = combineReducers({
   publicFileUpload: publicFileUploadReducer,
   publicEducation: publicEducationReducer,
   publicEnrollmentAppointment: publicEnrollmentAppointmentReducer,
+  publicEnrollmentContact: publicEnrollmentContactReducer,
   publicExaminer: publicExaminerReducer,
 });
 

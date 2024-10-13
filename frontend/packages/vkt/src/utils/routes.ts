@@ -5,6 +5,7 @@ import { APIEndpoints } from 'enums/api';
 import { AppRoutes } from 'enums/app';
 import {
   PublicEnrollmentAppointmentFormStep,
+  PublicEnrollmentContactFormStep,
   PublicEnrollmentFormStep,
 } from 'enums/publicEnrollment';
 
@@ -133,7 +134,37 @@ export class RouteUtils {
         );
     }
   }
+
   static replaceEnrollmentId(route: string, enrollmentId: number) {
     return route.replace(':enrollmentId', enrollmentId.toString());
+  }
+
+  static contactStepToRoute(
+    step: PublicEnrollmentContactFormStep,
+    enrollmentId?: number,
+  ) {
+    if (!enrollmentId) {
+      return '';
+    }
+
+    switch (step) {
+      case PublicEnrollmentContactFormStep.FillContactDetails:
+        return RouteUtils.replaceEnrollmentId(
+          AppRoutes.PublicEnrollmentContactContactDetails,
+          enrollmentId,
+        );
+
+      case PublicEnrollmentContactFormStep.SelectExam:
+        return RouteUtils.replaceEnrollmentId(
+          AppRoutes.PublicEnrollmentContactSelectExam,
+          enrollmentId,
+        );
+
+      case PublicEnrollmentContactFormStep.Done:
+        return RouteUtils.replaceEnrollmentId(
+          AppRoutes.PublicEnrollmentContactDone,
+          enrollmentId,
+        );
+    }
   }
 }

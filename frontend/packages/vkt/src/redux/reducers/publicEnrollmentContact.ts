@@ -1,19 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { PublicEnrollmentAppointment } from 'interfaces/publicEnrollment';
-import { PublicPerson } from 'interfaces/publicPerson';
+import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
 
-export interface PublicEnrollmentAppointmentState {
+export interface PublicEnrollmentContactState {
   loadEnrollmentStatus: APIResponseStatus;
   enrollmentSubmitStatus: APIResponseStatus;
   paymentLoadingStatus: APIResponseStatus;
   cancelStatus: APIResponseStatus;
-  enrollment: PublicEnrollmentAppointment;
-  person?: PublicPerson;
+  enrollment: PublicEnrollmentContact;
 }
 
-const initialState: PublicEnrollmentAppointmentState = {
+const initialState: PublicEnrollmentContactState = {
   loadEnrollmentStatus: APIResponseStatus.NotStarted,
   enrollmentSubmitStatus: APIResponseStatus.NotStarted,
   paymentLoadingStatus: APIResponseStatus.NotStarted,
@@ -29,74 +27,60 @@ const initialState: PublicEnrollmentAppointmentState = {
     speechComprehensionPartialExam: false,
     writingPartialExam: false,
     readingComprehensionPartialExam: false,
-    digitalCertificateConsent: false,
-    street: '',
-    postalCode: '',
-    town: '',
-    country: '',
-    id: undefined,
+    id: 1,
     hasPreviousEnrollment: undefined,
     previousEnrollment: '',
     privacyStatementConfirmation: false,
     status: undefined,
-    person: {
-      id: -1,
-      firstName: '',
-      lastName: '',
-    },
   },
 };
 
-const publicEnrollmentAppointmentSlice = createSlice({
-  name: 'publicEnrollmentAppointment',
+const publicEnrollmentContactSlice = createSlice({
+  name: 'publicEnrollmentContact',
   initialState,
   reducers: {
-    loadPublicEnrollmentAppointment(state, _action: PayloadAction<number>) {
+    loadPublicEnrollmentContact(state, _action: PayloadAction<number>) {
       state.loadEnrollmentStatus = APIResponseStatus.InProgress;
     },
-    rejectPublicEnrollmentAppointment(state) {
+    rejectPublicEnrollmentContact(state) {
       state.loadEnrollmentStatus = APIResponseStatus.Error;
     },
-    storePublicEnrollmentAppointmentSave(
+    storePublicEnrollmentContactSave(
       state,
-      action: PayloadAction<PublicEnrollmentAppointment>,
+      action: PayloadAction<PublicEnrollmentContact>,
     ) {
       state.enrollmentSubmitStatus = APIResponseStatus.Success;
       state.enrollment = action.payload;
     },
-    storePublicEnrollmentAppointment(
+    storePublicEnrollmentContact(
       state,
-      action: PayloadAction<PublicEnrollmentAppointment>,
+      action: PayloadAction<PublicEnrollmentContact>,
     ) {
       state.loadEnrollmentStatus = APIResponseStatus.Success;
       state.enrollment = action.payload;
     },
     updatePublicEnrollment(
       state,
-      action: PayloadAction<Partial<PublicEnrollmentAppointment>>,
+      action: PayloadAction<Partial<PublicEnrollmentContact>>,
     ) {
       state.enrollment = { ...state.enrollment, ...action.payload };
     },
-    setLoadingPayment(state) {
-      state.paymentLoadingStatus = APIResponseStatus.InProgress;
-    },
     loadPublicEnrollmentSave(
       state,
-      _action: PayloadAction<PublicEnrollmentAppointment>,
+      _action: PayloadAction<PublicEnrollmentContact>,
     ) {
       state.enrollmentSubmitStatus = APIResponseStatus.InProgress;
     },
   },
 });
 
-export const publicEnrollmentAppointmentReducer =
-  publicEnrollmentAppointmentSlice.reducer;
+export const publicEnrollmentContactReducer =
+  publicEnrollmentContactSlice.reducer;
 export const {
-  loadPublicEnrollmentAppointment,
-  rejectPublicEnrollmentAppointment,
-  storePublicEnrollmentAppointmentSave,
-  storePublicEnrollmentAppointment,
+  loadPublicEnrollmentContact,
+  rejectPublicEnrollmentContact,
+  storePublicEnrollmentContactSave,
+  storePublicEnrollmentContact,
   updatePublicEnrollment,
   loadPublicEnrollmentSave,
-  setLoadingPayment,
-} = publicEnrollmentAppointmentSlice.actions;
+} = publicEnrollmentContactSlice.actions;

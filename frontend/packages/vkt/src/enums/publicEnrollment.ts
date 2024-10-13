@@ -20,6 +20,6 @@ export enum PublicEnrollmentAppointmentFormStep {
 
 export enum PublicEnrollmentContactFormStep {
   FillContactDetails = 1,
-  Preview,
+  SelectExam,
   Done,
 }
