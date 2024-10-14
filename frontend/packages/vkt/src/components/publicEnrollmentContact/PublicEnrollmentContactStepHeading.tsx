@@ -22,10 +22,9 @@ export const PublicEnrollmentContactStepHeading = ({
     }
   }, [setFocus, isPhone]);
 
-  const headingText =
-    activeStep === PublicEnrollmentContactFormStep.Authenticate
-      ? t(`toExam.${PublicEnrollmentContactFormStep[activeStep]}`)
-      : t(`common.${PublicEnrollmentContactFormStep[activeStep]}`);
+  const headingText = t(
+    `common.${PublicEnrollmentContactFormStep[activeStep]}`,
+  );
 
   return (
     <div ref={ref} className="margin-top-xxl rows gapped-xs">

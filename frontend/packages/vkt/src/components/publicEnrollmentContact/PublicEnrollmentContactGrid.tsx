@@ -22,23 +22,14 @@ export const PublicEnrollmentContactGrid = ({
   const [isStepValid, setIsStepValid] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
 
-  const isAuthenticatePassed =
-    activeStep > PublicEnrollmentContactFormStep.Authenticate;
-
   useEffect(() => {
     if (
-      isAuthenticatePassed &&
       loadEnrollmentStatus === APIResponseStatus.NotStarted &&
       params.enrollmentId
     ) {
       dispatch(loadPublicEnrollmentContact(+params.enrollmentId));
     }
-  }, [
-    dispatch,
-    loadEnrollmentStatus,
-    isAuthenticatePassed,
-    params.enrollmentId,
-  ]);
+  }, [dispatch, loadEnrollmentStatus, params.enrollmentId]);
 
   return (
     <Grid

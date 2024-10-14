@@ -1,21 +1,26 @@
 import { useEffect, useState } from 'react';
+import { AnyAction } from 'redux';
 import { H2, Text } from 'shared/components';
 
-import { PartialExamsSelection } from 'components/publicEnrollment/steps/selectExam/PartialExamsSelection';
-import { PreviousEnrollment } from 'components/publicEnrollment/steps/selectExam/PreviousEnrollment';
+import { PartialExamsSelection } from 'components/publicEnrollmentCommon/selectExam/PartialExamsSelection';
+import { PreviousEnrollment } from 'components/publicEnrollmentCommon/selectExam/PreviousEnrollment';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { PublicEnrollment } from 'interfaces/publicEnrollment';
+import { PublicEnrollmentCommon } from 'interfaces/publicEnrollment';
 
 export const SelectExam = ({
   enrollment,
   isLoading,
   setIsStepValid,
   showValidation,
+  updatePublicEnrollment,
 }: {
-  enrollment: PublicEnrollment;
+  enrollment: PublicEnrollmentCommon;
   isLoading: boolean;
   setIsStepValid: (isValid: boolean) => void;
   showValidation: boolean;
+  updatePublicEnrollment: (
+    enrollment: Partial<PublicEnrollmentCommon>,
+  ) => AnyAction;
 }) => {
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
@@ -50,12 +55,14 @@ export const SelectExam = ({
         editingDisabled={isLoading}
         setValid={setPartialExamsSelection}
         showValidation={showValidation}
+        updatePublicEnrollment={updatePublicEnrollment}
       />
       <PreviousEnrollment
         enrollment={enrollment}
         editingDisabled={isLoading}
         setValid={setPreviousEnrollment}
         showValidation={showValidation}
+        updatePublicEnrollment={updatePublicEnrollment}
       />
     </div>
   );

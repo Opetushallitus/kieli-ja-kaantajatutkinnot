@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 import { CustomButton, Text } from 'shared/components';
 
-import { useCommonTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
 
@@ -11,6 +11,9 @@ export const Done = ({
   enrollment: PublicEnrollmentContact;
 }) => {
   const translateCommon = useCommonTranslation();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicEnrollment.steps.done',
+  });
 
   const navigate = useNavigate();
 

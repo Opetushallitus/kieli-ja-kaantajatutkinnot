@@ -41,13 +41,6 @@ export const PublicEnrollmentContactStepper = ({
     return activeStep - 1;
   };
 
-  const hasError = (step: PublicEnrollmentContactFormStep) => {
-    return (
-      step === PublicEnrollmentContactFormStep.PaymentFail &&
-      step === activeStep
-    );
-  };
-
   const isStepCompleted = (step: PublicEnrollmentContactFormStep) => {
     return step < activeStep;
   };
@@ -65,11 +58,7 @@ export const PublicEnrollmentContactStepper = ({
       value={mobileStepValue}
       ariaLabel={mobileAriaLabel}
       phaseText={mobilePhaseText}
-      color={
-        activeStep === PublicEnrollmentContactFormStep.PaymentFail
-          ? Color.Error
-          : Color.Secondary
-      }
+      color={Color.Secondary}
       size={90}
     />
   ) : (
@@ -86,7 +75,6 @@ export const PublicEnrollmentContactStepper = ({
         >
           {/* eslint-disable jsx-a11y/aria-role */}
           <StepLabel
-            error={hasError(step)}
             aria-label={getStepAriaLabel(step, index)}
             role="text"
             className={

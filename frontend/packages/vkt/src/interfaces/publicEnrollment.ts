@@ -41,7 +41,7 @@ export interface PublicEnrollmentContactDetails {
   phoneNumber: string;
 }
 
-interface PublicEnrollmentCommon
+export interface PublicEnrollmentCommon
   extends PublicEnrollmentContactDetails,
     PartialExamsAndSkills {
   id?: number;

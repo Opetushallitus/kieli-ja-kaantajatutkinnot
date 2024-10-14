@@ -34,7 +34,8 @@
           },
           "enrollToQueue": "Ilmoittaudu jonoon",
           "pay": "Siirry maksamaan",
-          "enroll": "Ilmoittaudu"
+          "enroll": "Ilmoittaudu",
+          "submit": "Lähetä"
         },
         "examEventDetails": {
           "enrollmentToQueue": "ilmoittautuminen jonoon",

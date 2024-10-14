@@ -279,9 +279,7 @@ export const AppRouter: FC = () => {
             element={
               <TitlePage title={createTitle('authenticate')}>
                 <PublicEnrollmentContactPage
-                  activeStep={
-                    PublicEnrollmentContactFormStep.SelectExam
-                  }
+                  activeStep={PublicEnrollmentContactFormStep.SelectExam}
                 />
               </TitlePage>
             }
@@ -291,9 +289,7 @@ export const AppRouter: FC = () => {
             element={
               <TitlePage title={createTitle('authenticate')}>
                 <PublicEnrollmentContactPage
-                  activeStep={
-                    PublicEnrollmentContactFormStep.Done
-                  }
+                  activeStep={PublicEnrollmentContactFormStep.Done}
                 />
               </TitlePage>
             }

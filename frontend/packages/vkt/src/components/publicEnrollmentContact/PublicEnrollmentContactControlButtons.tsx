@@ -144,7 +144,8 @@ export const PublicEnrollmentContactControlButtons = ({
   const renderBack = true;
   const renderNext =
     activeStep === PublicEnrollmentContactFormStep.FillContactDetails;
-  const renderSubmit = activeStep === PublicEnrollmentContactFormStep.SelectExam;
+  const renderSubmit =
+    activeStep === PublicEnrollmentContactFormStep.SelectExam;
 
   return (
     <div className="columns flex-end gapped margin-top-lg">
