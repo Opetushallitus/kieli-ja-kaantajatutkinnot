@@ -128,7 +128,7 @@ public class ClerkExamEventService {
     try {
       examEventRepository.saveAndFlush(examEvent);
     } catch (final DataIntegrityViolationException ex) {
-      if (DataIntegrityViolationExceptionUtil.isExamEventLanguageLevelDateUniquenessException(ex)) {
+      if (DataIntegrityViolationExceptionUtil.isExamEventLanguageLevelDateExaminerUniquenessException(ex)) {
         throw new APIException(APIExceptionType.EXAM_EVENT_DUPLICATE);
       }
       throw ex;
@@ -151,7 +151,7 @@ public class ClerkExamEventService {
     try {
       examEventRepository.flush();
     } catch (final DataIntegrityViolationException ex) {
-      if (DataIntegrityViolationExceptionUtil.isExamEventLanguageLevelDateUniquenessException(ex)) {
+      if (DataIntegrityViolationExceptionUtil.isExamEventLanguageLevelDateExaminerUniquenessException(ex)) {
         throw new APIException(APIExceptionType.EXAM_EVENT_DUPLICATE);
       }
       throw ex;
