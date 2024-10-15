@@ -53,26 +53,4 @@ public class Examiner extends BaseEntity {
   // TODO Consider using a separate join table instead?
   @OneToMany(mappedBy = "examiner")
   private List<ExaminerMunicipality> municipalities = new ArrayList<>();
-  // TODO
-  // Tarvitaan julkiseen käyttöön
-  // - nimi (haetaan ONR:stä / jostain virkailijapalvelusta?)
-  // - tutkintokielet
-  // - paikkakunnat
-  // - tutkintopäivät
-
-  // Yhteydenottoja varten:
-  // - sähköposti
-
-  // Muuta virkailijakäyttöä varten
-  // - puhelinnumero?
-  // - OID
-
-  // Tutkintojen vastaanottajat voi muokata omia tietojaan
-  // -> Miten linkitetään kirjautunut käyttäjä tutkinnon vastaanottajaan?
-  // -> Auktorisointi (ja autentikointi)
-
-  // Käyttöoikeudet käyttöoikeuspalvelun kautta
-  // -> Lisätään tauluun käyttäjätunnus / id, joka "omistaa" TV-rivin
-  // -> OID, löytyy kirjautuneelle virkailijalle vastauksena esim. GET /kayttooikeus-service/cas/me
-
 }
