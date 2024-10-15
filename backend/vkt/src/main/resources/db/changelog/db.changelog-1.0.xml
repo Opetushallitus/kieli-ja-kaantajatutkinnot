@@ -925,7 +925,6 @@
         <addColumn tableName="exam_event">
             <column name="examiner_id" type="BIGINT" />
         </addColumn>
-        <addUniqueConstraint tableName="exam_event" columnNames="language, level, date, examiner_id" constraintName="uk_exam_event_language_level_date_examiner" />
         <addForeignKeyConstraint
                 baseTableName="exam_event"
                 baseColumnNames="examiner_id"
@@ -937,5 +936,26 @@
         <insert tableName="exam_level">
             <column name="name" value="GOOD_AND_SATISFACTORY" />
         </insert>
+    </changeSet>
+    <changeSet id="2024-10-15-unique-exam-event-language-level-date-examiner-on-psql" author="pkoivisto">
+        <preConditions onFail="CONTINUE">
+            <dbms type="postgresql" />
+        </preConditions>
+        <sql>
+            <![CDATA[
+            ALTER TABLE exam_event ADD CONSTRAINT uk_exam_event_language_level_date_examiner UNIQUE NULLS NOT DISTINCT (language, level, date, examiner_id)
+            ]]>
+        </sql>
+    </changeSet>
+    <changeSet id="2024-10-15-unique-exam-event-language-level-date-examiner-on-hsqldb" author="pkoivisto">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb" />
+        </preConditions>
+        <sql>
+            <![CDATA[
+            SET DATABASE SQL UNIQUE NULLS FALSE
+            ]]>
+        </sql>
+        <addUniqueConstraint tableName="exam_event" columnNames="language, level, date, examiner_id" constraintName="uk_exam_event_language_level_date_examiner" />
     </changeSet>
 </databaseChangeLog>
