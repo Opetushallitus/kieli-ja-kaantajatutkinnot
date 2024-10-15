@@ -12,6 +12,7 @@ import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.audit.dto.ClerkExamEventAuditDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.ClerkExamEventProjection;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
@@ -43,9 +44,11 @@ public class ClerkExamEventService {
   private final AuditService auditService;
 
   @Transactional(readOnly = true)
-  public List<ClerkExamEventListDTO> list() {
-    final List<ClerkExamEventProjection> examEventProjections = examEventRepository.listClerkExamEventProjections();
-    final Set<Long> examEventIdsHavingQueue = examEventRepository.listClertExamEventIdsWithQueue();
+  public List<ClerkExamEventListDTO> list(final ExamLevel level) {
+    final List<ClerkExamEventProjection> examEventProjections = examEventRepository.listClerkExamEventProjections(
+      level
+    );
+    final Set<Long> examEventIdsHavingQueue = examEventRepository.listClerkExamEventIdsWithQueue(level);
 
     final List<ClerkExamEventListDTO> examEventListDTOs = examEventProjections
       .stream()
