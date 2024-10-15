@@ -920,4 +920,22 @@
                 referencedTableName="examiner"
                 referencedColumnNames="examiner_id" />
     </changeSet>
+    <changeSet id="2024-10-15-exam_event-add-reference-to-examiner" author="pkoivisto">
+        <dropUniqueConstraint tableName="exam_event" constraintName="uk_exam_event_language_level_date" />
+        <addColumn tableName="exam_event">
+            <column name="examiner_id" type="BIGINT" />
+        </addColumn>
+        <addUniqueConstraint tableName="exam_event" columnNames="language, level, date, examiner_id" constraintName="uk_exam_event_language_level_date_examiner" />
+        <addForeignKeyConstraint
+                baseTableName="exam_event"
+                baseColumnNames="examiner_id"
+                constraintName="fk_exam_event_examiner_id"
+                referencedTableName="examiner"
+                referencedColumnNames="examiner_id" />
+    </changeSet>
+    <changeSet id="2024-10-15-exam_level-new-value" author="pkoivisto">
+        <insert tableName="exam_level">
+            <column name="name" value="GOOD_AND_SATISFACTORY" />
+        </insert>
+    </changeSet>
 </databaseChangeLog>

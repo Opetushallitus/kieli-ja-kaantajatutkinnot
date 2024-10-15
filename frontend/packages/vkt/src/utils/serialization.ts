@@ -200,7 +200,10 @@ export class SerializationUtils {
       name: `${publicExaminer.firstName} ${publicExaminer.lastName}`,
       language: examinerLanguage,
       municipalities: publicExaminer.municipalities,
-      examDates: publicExaminer.examDates.map(dayjs),
+      examDates: publicExaminer.examDates.map(({ examDate, isFull }) => ({
+        examDate: dayjs(examDate),
+        isFull,
+      })),
     };
   }
 }

@@ -1,7 +1,9 @@
 package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.PublicExaminerDTO;
+import fi.oph.vkt.api.dto.PublicExaminerExamDateDTO;
 import fi.oph.vkt.api.dto.PublicMunicipalityDTO;
+import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.ExaminerMunicipality;
 import fi.oph.vkt.model.type.ExamLanguage;
@@ -27,6 +29,14 @@ public class PublicExaminerService {
     return PublicMunicipalityDTO.builder().fi(municipality.getNameFi()).sv(municipality.getNameSv()).build();
   }
 
+  private static PublicExaminerExamDateDTO toPublicExaminerExamDateDTO(ExamEvent examEvent) {
+    return PublicExaminerExamDateDTO
+      .builder()
+      .examDate(examEvent.getDate())
+      .isFull(examEvent.getMaxParticipants() <= examEvent.getEnrollments().size())
+      .build();
+  }
+
   private static PublicExaminerDTO toPublicExaminerDTO(Examiner examiner) {
     List<ExamLanguage> languages = new ArrayList<>();
     if (examiner.isExamLanguageFinnish()) {
@@ -48,7 +58,13 @@ public class PublicExaminerService {
           .map(PublicExaminerService::toPublicMunicipalityDTO)
           .collect(Collectors.toList())
       )
-      .examDates(List.of())
+      .examDates(
+        examiner
+          .getExamEvents()
+          .stream()
+          .map(PublicExaminerService::toPublicExaminerExamDateDTO)
+          .collect(Collectors.toList())
+      )
       .build();
   }
 

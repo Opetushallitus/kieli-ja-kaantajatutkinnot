@@ -47,6 +47,9 @@ public class Examiner extends BaseEntity {
   @Column(name = "exam_language_swedish", nullable = false)
   private boolean examLanguageSwedish;
 
+  @OneToMany(mappedBy = "examiner")
+  private List<ExamEvent> examEvents = new ArrayList<>();
+
   // TODO Consider using a separate join table instead?
   @OneToMany(mappedBy = "examiner")
   private List<ExaminerMunicipality> municipalities = new ArrayList<>();
