@@ -375,3 +375,14 @@ SELECT exam_event_id, (SELECT max(person_id) FROM person),
        'CANCELED', true,
        'foo@bar.invalid', '0404040404', null, null, null, null
 FROM exam_event;
+
+-- Insert enrollment appointment
+INSERT INTO enrollment_appointment(person_id,
+                       skill_oral, skill_textual, skill_understanding,
+                       partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
+                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country)
+VALUES (SELECT max(person_id) FROM person),
+       true, true, true,
+       true, true, true, true,
+       'COMPLETED', true,
+       'foo@bar.invalid', '0404040404', null, null, null, null;

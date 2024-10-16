@@ -2,6 +2,7 @@ package fi.oph.vkt.model.type;
 
 public enum EnrollmentType {
   RESERVATION("reservation"),
+  APPOINTMENT("appointment"),
   QUEUE("queue");
 
   private final String text;

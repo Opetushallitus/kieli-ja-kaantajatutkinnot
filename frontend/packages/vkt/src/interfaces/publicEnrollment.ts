@@ -41,15 +41,19 @@ export interface PublicEnrollmentContactDetails {
   phoneNumber: string;
 }
 
-export interface PublicEnrollment
+export interface PublicEnrollmentCommon
   extends PublicEnrollmentContactDetails,
-    PartialExamsAndSkills,
-    CertificateShippingData {
+    PartialExamsAndSkills {
   id?: number;
   hasPreviousEnrollment?: boolean;
   previousEnrollment?: string;
   privacyStatementConfirmation: boolean;
   status?: EnrollmentStatus;
+}
+
+export interface PublicEnrollment
+  extends PublicEnrollmentCommon,
+    CertificateShippingData {
   examEventId?: number;
   hasPaymentLink?: boolean;
   isFree?: boolean;
@@ -60,6 +64,30 @@ export interface PublicEnrollment
 export interface PublicEnrollmentResponse
   extends Omit<
       PublicEnrollment,
+      | 'emailConfirmation'
+      | 'id'
+      | 'hasPreviousEnrollment'
+      | 'privacyStatementConfirmation'
+      | 'status'
+    >,
+    WithId {
+  status: EnrollmentStatus;
+}
+
+export interface PublicEnrollmentAppointment
+  extends PublicEnrollmentCommon,
+    CertificateShippingData {
+  person: PublicPerson;
+}
+
+export interface PublicEnrollmentContact extends PublicEnrollmentCommon {
+  firstName: string;
+  lastName: string;
+}
+
+export interface PublicEnrollmentAppointmentResponse
+  extends Omit<
+      PublicEnrollmentAppointment,
       | 'emailConfirmation'
       | 'id'
       | 'hasPreviousEnrollment'

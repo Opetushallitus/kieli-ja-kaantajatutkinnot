@@ -13,7 +13,7 @@ class PublicHomePage {
       cy
         .get('.public-homepage__grid-container__result-box')
         .find('table > tbody > tr'),
-    languageFilter: () => cy.findByTestId('exam-events__language-filter'),
+    languageFilter: () => cy.findByTestId('language-filter'),
     reservationTimerText: () =>
       cy.findByTestId('public-enrollment__reservation-timer-text'),
     reservationRenewButton: () =>

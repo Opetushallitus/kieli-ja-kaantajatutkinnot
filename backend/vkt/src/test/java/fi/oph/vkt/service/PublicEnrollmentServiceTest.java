@@ -20,11 +20,13 @@ import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.type.EnrollmentStatus;
+import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
@@ -58,6 +60,9 @@ public class PublicEnrollmentServiceTest {
 
   @Resource
   private EnrollmentRepository enrollmentRepository;
+
+  @Resource
+  private EnrollmentAppointmentRepository enrollmentAppointmentRepository;
 
   @Resource
   private ExamEventRepository examEventRepository;
@@ -102,6 +107,7 @@ public class PublicEnrollmentServiceTest {
     publicEnrollmentService =
       new PublicEnrollmentService(
         enrollmentRepository,
+        enrollmentAppointmentRepository,
         examEventRepository,
         publicEnrollmentEmailServiceMock,
         publicReservationService,

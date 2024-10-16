@@ -100,7 +100,13 @@
       "header": {
         "accessibility": {
           "continueToMain": "Jatka sisältöön",
-          "langSelectorAriaLabel": "Kieli / Språk"
+          "langSelectorAriaLabel": "Kieli / Språk",
+          "mainNavigation": "Päänavigaatio"
+        },
+        "publicNavigationLinks": {
+          "excellentLevel": "Erinomaisen taidon tutkinnot",
+          "frontPage": "Etusivu",
+          "goodAndSatisfactoryLevel": "Hyvän ja tyydyttävän taidon tutkinnot"
         },
         "sessionState": {
           "logOut": "Kirjaudu ulos"
@@ -148,8 +154,10 @@
         "clerkHomepage": "Virkailija",
         "contactDetails": "Ilmoittautuminen - täytä yhteystietosi",
         "educationDetails": "Ilmoittautuminen - koulutustiedot",
+        "excellentLevelLanding": "Erinomaisen taidon tutkinnot",
         "done": "Ilmoittautuminen - valmis",
         "frontPage": "Etusivu",
+        "goodAndSatisfactoryLevelLanding": "Hyvän ja tyydyttävän taidon tutkinnot",
         "logoutSuccess": "Uloskirjautuminen onnnistui",
         "notFound": "Etsimääsi sivua ei löytynyt",
         "paymentFail": "Ilmoittautuminen - maksua ei suoritettu",

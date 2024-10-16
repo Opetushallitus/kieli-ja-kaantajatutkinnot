@@ -321,6 +321,9 @@
       "logoutSuccessPage": {
         "heading": "Utloggning lyckades",
         "info": "Du har loggat ut. Stäng alla fönster i webbläsaren."
+      },
+      "goodAndSatisfactoryLevel": {
+        "title": "Examina som gäller goda eller nöjaktiga språkkunskaper"
       }
     }
   }

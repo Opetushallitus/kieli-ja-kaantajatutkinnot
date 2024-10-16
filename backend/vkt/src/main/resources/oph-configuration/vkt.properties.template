@@ -33,5 +33,6 @@ koski.user={{vkt_koski_user}}
 koski.password={{vkt_koski_password}}
 
 feature-flags.free-enrollment-allowed={{vkt_feature_free_enrollment_allowed}}
+feature-flags.good-and-satisfactory-level={{vkt_feature_good_and_satisfactory_level}}
 
 aws.s3-bucket={{vkt_aws_s3_bucket}}

@@ -23,11 +23,13 @@ import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentSkill;
 import fi.oph.vkt.model.type.EnrollmentStatus;
+import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.payment.paytrail.Customer;
 import fi.oph.vkt.payment.paytrail.Item;
 import fi.oph.vkt.payment.paytrail.PaytrailPaymentProvider;
 import fi.oph.vkt.payment.paytrail.PaytrailResponseDTO;
+import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.PaymentRepository;
 import fi.oph.vkt.util.exception.APIException;
@@ -55,6 +57,9 @@ public class PaymentServiceTest {
 
   @Resource
   private EnrollmentRepository enrollmentRepository;
+
+  @Resource
+  private EnrollmentAppointmentRepository enrollmentAppointmentRepository;
 
   @Resource
   private TestEntityManager entityManager;
@@ -94,19 +99,32 @@ public class PaymentServiceTest {
       paymentProvider,
       paymentRepository,
       enrollmentRepository,
+      enrollmentAppointmentRepository,
       environment,
       publicEnrollmentEmailService
     );
     final String redirectUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person, AppLocale.FI);
     final List<Item> items = List.of(
-      Item.builder().units(1).unitPrice(25700).vatPercentage(0).productCode(EnrollmentSkill.TEXTUAL.toString()).build(),
-      Item.builder().units(1).unitPrice(25700).vatPercentage(0).productCode(EnrollmentSkill.ORAL.toString()).build(),
+      Item
+        .builder()
+        .units(1)
+        .unitPrice(25700)
+        .vatPercentage(0)
+        .productCode(ExamLevel.EXCELLENT + "-" + EnrollmentSkill.TEXTUAL)
+        .build(),
+      Item
+        .builder()
+        .units(1)
+        .unitPrice(25700)
+        .vatPercentage(0)
+        .productCode(ExamLevel.EXCELLENT + "-" + EnrollmentSkill.ORAL)
+        .build(),
       Item
         .builder()
         .units(1)
         .unitPrice(0)
         .vatPercentage(0)
-        .productCode(EnrollmentSkill.UNDERSTANDING.toString())
+        .productCode(ExamLevel.EXCELLENT + "-" + EnrollmentSkill.UNDERSTANDING)
         .build()
     );
     final Customer customer = Customer
@@ -160,19 +178,26 @@ public class PaymentServiceTest {
       paymentProvider,
       paymentRepository,
       enrollmentRepository,
+      enrollmentAppointmentRepository,
       environment,
       publicEnrollmentEmailService
     );
     final String redirectUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person, AppLocale.FI);
 
     final List<Item> items = List.of(
-      Item.builder().units(1).unitPrice(25700).vatPercentage(0).productCode(EnrollmentSkill.TEXTUAL.toString()).build(),
+      Item
+        .builder()
+        .units(1)
+        .unitPrice(25700)
+        .vatPercentage(0)
+        .productCode(ExamLevel.EXCELLENT + "-" + EnrollmentSkill.TEXTUAL)
+        .build(),
       Item
         .builder()
         .units(1)
         .unitPrice(0)
         .vatPercentage(0)
-        .productCode(EnrollmentSkill.UNDERSTANDING.toString())
+        .productCode(ExamLevel.EXCELLENT + "-" + EnrollmentSkill.UNDERSTANDING)
         .build()
     );
 
@@ -203,6 +228,7 @@ public class PaymentServiceTest {
       paymentProvider,
       paymentRepository,
       enrollmentRepository,
+      enrollmentAppointmentRepository,
       environment,
       publicEnrollmentEmailService
     );
@@ -237,6 +263,7 @@ public class PaymentServiceTest {
       paymentProvider,
       paymentRepository,
       enrollmentRepository,
+      enrollmentAppointmentRepository,
       environment,
       publicEnrollmentEmailService
     );
@@ -259,6 +286,7 @@ public class PaymentServiceTest {
       paymentProvider,
       paymentRepository,
       enrollmentRepository,
+      enrollmentAppointmentRepository,
       environment,
       publicEnrollmentEmailService
     );
@@ -287,6 +315,7 @@ public class PaymentServiceTest {
       paymentProvider,
       paymentRepository,
       enrollmentRepository,
+      enrollmentAppointmentRepository,
       environment,
       publicEnrollmentEmailService
     );
@@ -315,6 +344,7 @@ public class PaymentServiceTest {
       paymentProvider,
       paymentRepository,
       enrollmentRepository,
+      enrollmentAppointmentRepository,
       environment,
       publicEnrollmentEmailService
     );
@@ -340,6 +370,7 @@ public class PaymentServiceTest {
       paymentProvider,
       paymentRepository,
       enrollmentRepository,
+      enrollmentAppointmentRepository,
       environment,
       publicEnrollmentEmailService
     );
@@ -368,6 +399,7 @@ public class PaymentServiceTest {
       paymentProvider,
       paymentRepository,
       enrollmentRepository,
+      enrollmentAppointmentRepository,
       environment,
       publicEnrollmentEmailService
     );
@@ -396,6 +428,7 @@ public class PaymentServiceTest {
       paymentProvider,
       paymentRepository,
       enrollmentRepository,
+      enrollmentAppointmentRepository,
       environment,
       publicEnrollmentEmailService
     );
@@ -420,6 +453,7 @@ public class PaymentServiceTest {
       paymentProvider,
       paymentRepository,
       enrollmentRepository,
+      enrollmentAppointmentRepository,
       environment,
       publicEnrollmentEmailService
     );
@@ -449,6 +483,7 @@ public class PaymentServiceTest {
       paymentProvider,
       paymentRepository,
       enrollmentRepository,
+      enrollmentAppointmentRepository,
       environment,
       publicEnrollmentEmailService
     );
@@ -471,6 +506,7 @@ public class PaymentServiceTest {
       paymentProvider,
       paymentRepository,
       enrollmentRepository,
+      enrollmentAppointmentRepository,
       environment,
       publicEnrollmentEmailService
     );

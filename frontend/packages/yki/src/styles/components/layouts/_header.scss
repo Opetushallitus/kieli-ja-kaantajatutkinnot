@@ -52,10 +52,6 @@
     }
     align-self: flex-end;
     justify-self: start;
-
-    [role='tablist'] {
-      gap: 3rem;
-    }
   }
 
   &__language-select {

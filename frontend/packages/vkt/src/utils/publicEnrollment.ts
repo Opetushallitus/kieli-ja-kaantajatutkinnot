@@ -1,4 +1,8 @@
-import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import {
+  PublicEnrollmentAppointmentFormStep,
+  PublicEnrollmentContactFormStep,
+  PublicEnrollmentFormStep,
+} from 'enums/publicEnrollment';
 import { PublicFreeEnrollmentDetails } from 'interfaces/publicEducation';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { EnrollmentUtils } from 'utils/enrollment';
@@ -24,6 +28,24 @@ export class PublicEnrollmentUtils {
       : [...commonSteps, PublicEnrollmentFormStep.Done];
   }
 
+  static getEnrollmentAppointmentSteps() {
+    return [
+      PublicEnrollmentAppointmentFormStep.Authenticate,
+      PublicEnrollmentAppointmentFormStep.FillContactDetails,
+      PublicEnrollmentAppointmentFormStep.Preview,
+      PublicEnrollmentAppointmentFormStep.PaymentFail,
+      PublicEnrollmentAppointmentFormStep.PaymentSuccess,
+    ];
+  }
+
+  static getEnrollmentContactSteps() {
+    return [
+      PublicEnrollmentContactFormStep.FillContactDetails,
+      PublicEnrollmentContactFormStep.SelectExam,
+      PublicEnrollmentContactFormStep.Done,
+    ];
+  }
+
   static getEnrollmentNextStep(
     activeStep: PublicEnrollmentFormStep,
     includePaymentStep: boolean,
@@ -32,6 +54,10 @@ export class PublicEnrollmentUtils {
     const currentIndex = steps.findIndex((step) => step === activeStep);
 
     return steps[currentIndex + 1];
+  }
+
+  static calculateAppointmentPaymentSum() {
+    return ENROLLMENT_SKILL_PRICE;
   }
 
   static calculateExaminationPaymentSum(

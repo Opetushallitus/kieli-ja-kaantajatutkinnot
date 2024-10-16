@@ -27,7 +27,7 @@ export const LanguageFilter = ({
         {translateCommon('languageFilter.label')}:
       </FormLabel>
       <RadioGroup
-        data-testid="exam-events__language-filter"
+        data-testid="language-filter"
         name="language-filter"
         value={value}
         onChange={onChange}

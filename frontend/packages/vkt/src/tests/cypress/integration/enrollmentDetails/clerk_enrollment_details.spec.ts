@@ -9,15 +9,6 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
   const nameFields = ['firstName', 'lastName'];
   const contactDetailsFields = ['email', 'phoneNumber'];
   const addressFields = ['street', 'postalCode', 'town', 'country'];
-  const partialsExamsAndSkillsFields = [
-    'oralSkill',
-    'textualSkill',
-    'understandingSkill',
-    'speakingPartialExam',
-    'speechComprehensionPartialExam',
-    'writingPartialExam',
-    'readingComprehensionPartialExam',
-  ];
 
   beforeEach(() => {
     cy.openClerkExamEventPage(clerkExamEvent.id);
