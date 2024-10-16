@@ -102,5 +102,5 @@ app:
   onr:
     service-url: ${onr.service-url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}
     cas:
-      username: kukku
-      password: kokko
+      username: ${onr.cas.username:vkt}
+      password: ${onr.cas.password:password}
