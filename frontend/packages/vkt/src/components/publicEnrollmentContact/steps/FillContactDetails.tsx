@@ -1,17 +1,11 @@
-import { Divider } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { LabeledTextField } from 'shared/components';
 import { InputAutoComplete, TextFieldTypes } from 'shared/enums';
-import { useWindowProperties } from 'shared/hooks';
 
-import { PersonDetails } from 'components/publicEnrollmentAppointment/steps/PersonDetails';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import {
-  PublicEnrollmentAppointment,
-  PublicEnrollmentContactDetails,
-} from 'interfaces/publicEnrollment';
-import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
+import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
+import { updatePublicEnrollment } from 'redux/reducers/publicEnrollmentContact';
 
 export const FillContactDetails = ({
   isLoading,
@@ -19,7 +13,7 @@ export const FillContactDetails = ({
   setIsStepValid,
 }: {
   isLoading: boolean;
-  enrollment: PublicEnrollmentAppointment;
+  enrollment: PublicEnrollmentContact;
   setIsStepValid: (isValid: boolean) => void;
 }) => {
   const { t } = usePublicTranslation({
@@ -27,7 +21,7 @@ export const FillContactDetails = ({
   });
 
   const [dirtyFields, setDirtyFields] = useState<
-    Array<keyof PublicEnrollmentContactDetails>
+    Array<keyof PublicEnrollmentContact>
   >([]);
 
   const dispatch = useAppDispatch();
@@ -37,7 +31,7 @@ export const FillContactDetails = ({
   });
 
   const handleChange =
-    (fieldName: keyof PublicEnrollmentContactDetails) =>
+    (fieldName: keyof PublicEnrollmentContact) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       dispatch(
         updatePublicEnrollment({
@@ -46,26 +40,18 @@ export const FillContactDetails = ({
       );
     };
 
-  const handleBlur =
-    (fieldName: keyof PublicEnrollmentContactDetails) => () => {
-      if (!dirtyFields.includes(fieldName)) {
-        setDirtyFields([...dirtyFields, fieldName]);
-      }
-      if (fieldName === 'phoneNumber') {
-        dispatch(
-          updatePublicEnrollment({
-            phoneNumber: enrollment.phoneNumber.replace(/\s/g, ''),
-          }),
-        );
-      }
-    };
+  const handleBlur = (fieldName: keyof PublicEnrollmentContact) => () => {
+    if (!dirtyFields.includes(fieldName)) {
+      setDirtyFields([...dirtyFields, fieldName]);
+    }
+  };
 
   const showCustomTextFieldError = () => {
     return false;
   };
 
   const getCustomTextFieldAttributes = (
-    fieldName: keyof PublicEnrollmentContactDetails,
+    fieldName: keyof PublicEnrollmentContact,
   ) => ({
     id: `public-enrollment__contact-details__${fieldName}-field`,
     label: t(`${fieldName}.label`),
@@ -76,11 +62,22 @@ export const FillContactDetails = ({
     disabled: isLoading,
   });
 
-  const { isPhone } = useWindowProperties();
-
   return (
     <div className="margin-top-sm rows gapped public-enrollment__grid__contact-details">
-      <PersonDetails />
+      <div className="grid-2-columns gapped">
+        <LabeledTextField
+          {...getCustomTextFieldAttributes('firstName')}
+          type={TextFieldTypes.Text}
+          autoComplete={InputAutoComplete.FirstName}
+          value={enrollment.firstName}
+        />
+        <LabeledTextField
+          {...getCustomTextFieldAttributes('lastName')}
+          type={TextFieldTypes.Text}
+          autoComplete={InputAutoComplete.LastName}
+          value={enrollment.lastName}
+        />
+      </div>
       <div className="grid-2-columns gapped">
         <LabeledTextField
           {...getCustomTextFieldAttributes('email')}

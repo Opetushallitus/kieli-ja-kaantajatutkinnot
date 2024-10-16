@@ -67,11 +67,7 @@ const ContactDetails = ({
   );
 };
 
-const PrivacyStatementCheckboxLabel = ({
-  enrollment,
-}: {
-  enrollment: PublicEnrollmentAppointment;
-}) => {
+const PrivacyStatementCheckboxLabel = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.preview.privacyStatement',
   });
@@ -133,7 +129,7 @@ export const Preview = ({
                 }
               />
             }
-            label={<PrivacyStatementCheckboxLabel enrollment={enrollment} />}
+            label={<PrivacyStatementCheckboxLabel />}
             className={`public-enrollment__grid__preview__privacy-statement-checkbox-label ${
               hasPrivacyStatementError && 'checkbox-error'
             }`}

@@ -20,7 +20,7 @@ export const PublicEnrollmentAppointmentGrid = ({
     publicEnrollmentAppointmentSelector,
   );
   const [isStepValid, setIsStepValid] = useState(false);
-  const [showValidation, setShowValidation] = useState(false);
+  const [_showValidation, setShowValidation] = useState(false);
 
   const isAuthenticatePassed =
     activeStep > PublicEnrollmentAppointmentFormStep.Authenticate;
@@ -52,7 +52,6 @@ export const PublicEnrollmentAppointmentGrid = ({
         activeStep={activeStep}
         isStepValid={isStepValid}
         setIsStepValid={setIsStepValid}
-        showValidation={showValidation}
         setShowValidation={setShowValidation}
       />
     </Grid>

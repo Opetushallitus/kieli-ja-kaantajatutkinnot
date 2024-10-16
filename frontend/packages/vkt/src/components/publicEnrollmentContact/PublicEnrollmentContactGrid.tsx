@@ -6,7 +6,7 @@ import { APIResponseStatus } from 'shared/enums';
 import { PublicEnrollmentContactDesktopGrid } from 'components/publicEnrollmentContact/PublicEnrollmentContactDesktopGrid';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicEnrollmentContactFormStep } from 'enums/publicEnrollment';
-import { loadPublicEnrollmentContact } from 'redux/reducers/publicEnrollmentContact';
+import { loadPublicExamEvent } from 'redux/reducers/publicEnrollmentContact';
 import { publicEnrollmentContactSelector } from 'redux/selectors/publicEnrollmentContact';
 
 export const PublicEnrollmentContactGrid = ({
@@ -16,7 +16,7 @@ export const PublicEnrollmentContactGrid = ({
 }) => {
   const params = useParams();
   const dispatch = useAppDispatch();
-  const { enrollment, loadEnrollmentStatus } = useAppSelector(
+  const { enrollment, loadExamEventStatus } = useAppSelector(
     publicEnrollmentContactSelector,
   );
   const [isStepValid, setIsStepValid] = useState(false);
@@ -24,12 +24,12 @@ export const PublicEnrollmentContactGrid = ({
 
   useEffect(() => {
     if (
-      loadEnrollmentStatus === APIResponseStatus.NotStarted &&
+      loadExamEventStatus === APIResponseStatus.NotStarted &&
       params.enrollmentId
     ) {
-      dispatch(loadPublicEnrollmentContact(+params.enrollmentId));
+      dispatch(loadPublicExamEvent(+params.enrollmentId));
     }
-  }, [dispatch, loadEnrollmentStatus, params.enrollmentId]);
+  }, [dispatch, loadExamEventStatus, params.enrollmentId]);
 
   return (
     <Grid

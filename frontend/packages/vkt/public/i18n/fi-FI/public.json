@@ -126,6 +126,12 @@
             "phoneNumber": {
               "label": "Puhelinnumero *"
             },
+            "firstName": {
+              "label": "Etunimi *"
+            },
+            "lastName": {
+              "label": "Sukunimi *"
+            },
             "title": "Yhteystietosi",
             "educationDetails": {
               "errorWaitEducations": "Odota koulutustietojen latautumista.",

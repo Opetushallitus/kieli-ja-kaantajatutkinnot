@@ -80,7 +80,10 @@ export interface PublicEnrollmentAppointment
   person: PublicPerson;
 }
 
-export interface PublicEnrollmentContact extends PublicEnrollmentCommon {}
+export interface PublicEnrollmentContact extends PublicEnrollmentCommon {
+  firstName: string;
+  lastName: string;
+}
 
 export interface PublicEnrollmentAppointmentResponse
   extends Omit<

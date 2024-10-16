@@ -11,10 +11,7 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { PublicEnrollmentContactFormStep } from 'enums/publicEnrollment';
 import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
-import {
-  loadPublicEnrollmentSave,
-  setLoadingPayment,
-} from 'redux/reducers/publicEnrollmentAppointment';
+import { setLoadingPayment } from 'redux/reducers/publicEnrollmentAppointment';
 import { RouteUtils } from 'utils/routes';
 
 export const PublicEnrollmentContactControlButtons = ({
@@ -75,7 +72,7 @@ export const PublicEnrollmentContactControlButtons = ({
     if (isStepValid) {
       setIsPaymentLoading(true);
       setShowValidation(false);
-      dispatch(loadPublicEnrollmentSave(enrollment));
+      //dispatch(loadPublicEnrollmentSave(enrollment));
     } else {
       setShowValidation(true);
     }

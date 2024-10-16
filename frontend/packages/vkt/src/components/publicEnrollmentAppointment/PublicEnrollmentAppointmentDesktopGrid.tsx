@@ -16,14 +16,12 @@ export const PublicEnrollmentAppointmentDesktopGrid = ({
   activeStep,
   enrollment,
   isStepValid,
-  showValidation,
   setIsStepValid,
   setShowValidation,
 }: {
   activeStep: PublicEnrollmentAppointmentFormStep;
   isStepValid: boolean;
   enrollment: PublicEnrollmentAppointment;
-  showValidation: boolean;
   setIsStepValid: (isValid: boolean) => void;
   setShowValidation: (showValidation: boolean) => void;
 }) => {
@@ -54,7 +52,6 @@ export const PublicEnrollmentAppointmentDesktopGrid = ({
               <PublicEnrollmentAppointmentStepContents
                 activeStep={activeStep}
                 enrollment={enrollment}
-                showValidation={showValidation}
                 setIsStepValid={setIsStepValid}
               />
               {showPaymentSum && <PublicEnrollmentAppointmentPaymentSum />}

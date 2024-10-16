@@ -9,6 +9,7 @@ import { watchFeatureFlags } from 'redux/sagas/featureFlags';
 import { watchPublicEducation } from 'redux/sagas/publicEducation';
 import { watchPublicEnrollments } from 'redux/sagas/publicEnrollment';
 import { watchPublicEnrollmentAppointments } from 'redux/sagas/publicEnrollmentAppointment';
+import { watchPublicEnrollmentContact } from 'redux/sagas/publicEnrollmentContact';
 import { watchPublicExamEvents } from 'redux/sagas/publicExamEvent';
 import { watchPublicExaminers } from 'redux/sagas/publicExaminer';
 import { watchFileUpload } from 'redux/sagas/publicFileUpload';
@@ -28,6 +29,7 @@ export default function* rootSaga() {
     watchFileUpload(),
     watchPublicEducation(),
     watchPublicEnrollmentAppointments(),
+    watchPublicEnrollmentContact(),
     watchPublicExaminers(),
   ]);
 }

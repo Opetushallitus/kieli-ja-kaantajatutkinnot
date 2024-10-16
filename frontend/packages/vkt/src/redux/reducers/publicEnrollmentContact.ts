@@ -2,17 +2,19 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
+import { PublicExamEvent } from 'interfaces/publicExamEvent';
 
 export interface PublicEnrollmentContactState {
-  loadEnrollmentStatus: APIResponseStatus;
+  loadExamEventStatus: APIResponseStatus;
   enrollmentSubmitStatus: APIResponseStatus;
   paymentLoadingStatus: APIResponseStatus;
   cancelStatus: APIResponseStatus;
   enrollment: PublicEnrollmentContact;
+  examEvent?: PublicExamEvent;
 }
 
 const initialState: PublicEnrollmentContactState = {
-  loadEnrollmentStatus: APIResponseStatus.NotStarted,
+  loadExamEventStatus: APIResponseStatus.NotStarted,
   enrollmentSubmitStatus: APIResponseStatus.NotStarted,
   paymentLoadingStatus: APIResponseStatus.NotStarted,
   cancelStatus: APIResponseStatus.NotStarted,
@@ -20,6 +22,8 @@ const initialState: PublicEnrollmentContactState = {
     email: '',
     emailConfirmation: '',
     phoneNumber: '',
+    firstName: '',
+    lastName: '',
     oralSkill: false,
     textualSkill: false,
     understandingSkill: false,
@@ -33,31 +37,22 @@ const initialState: PublicEnrollmentContactState = {
     privacyStatementConfirmation: false,
     status: undefined,
   },
+  examEvent: undefined,
 };
 
 const publicEnrollmentContactSlice = createSlice({
   name: 'publicEnrollmentContact',
   initialState,
   reducers: {
-    loadPublicEnrollmentContact(state, _action: PayloadAction<number>) {
-      state.loadEnrollmentStatus = APIResponseStatus.InProgress;
+    loadPublicExamEvent(state, _action: PayloadAction<number>) {
+      state.loadExamEventStatus = APIResponseStatus.InProgress;
     },
-    rejectPublicEnrollmentContact(state) {
-      state.loadEnrollmentStatus = APIResponseStatus.Error;
+    rejectPublicExamEvent(state) {
+      state.loadExamEventStatus = APIResponseStatus.Error;
     },
-    storePublicEnrollmentContactSave(
-      state,
-      action: PayloadAction<PublicEnrollmentContact>,
-    ) {
+    storePublicExamEvent(state, action: PayloadAction<PublicExamEvent>) {
       state.enrollmentSubmitStatus = APIResponseStatus.Success;
-      state.enrollment = action.payload;
-    },
-    storePublicEnrollmentContact(
-      state,
-      action: PayloadAction<PublicEnrollmentContact>,
-    ) {
-      state.loadEnrollmentStatus = APIResponseStatus.Success;
-      state.enrollment = action.payload;
+      state.examEvent = action.payload;
     },
     updatePublicEnrollment(
       state,
@@ -71,16 +66,23 @@ const publicEnrollmentContactSlice = createSlice({
     ) {
       state.enrollmentSubmitStatus = APIResponseStatus.InProgress;
     },
+    storePublicEnrollmentSave(state) {
+      state.enrollmentSubmitStatus = APIResponseStatus.Success;
+    },
+    rejectPublicEnrollmentSave(state) {
+      state.enrollmentSubmitStatus = APIResponseStatus.Error;
+    },
   },
 });
 
 export const publicEnrollmentContactReducer =
   publicEnrollmentContactSlice.reducer;
 export const {
-  loadPublicEnrollmentContact,
-  rejectPublicEnrollmentContact,
-  storePublicEnrollmentContactSave,
-  storePublicEnrollmentContact,
-  updatePublicEnrollment,
   loadPublicEnrollmentSave,
+  rejectPublicEnrollmentSave,
+  storePublicEnrollmentSave,
+  rejectPublicExamEvent,
+  storePublicExamEvent,
+  loadPublicExamEvent,
+  updatePublicEnrollment,
 } = publicEnrollmentContactSlice.actions;
