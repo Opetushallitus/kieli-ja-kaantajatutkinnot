@@ -20,8 +20,8 @@ import { SerializationUtils } from 'utils/serialization';
 
 function* loadPublicExamEventSaga(action: PayloadAction<number>) {
   try {
-    const inspectorId = action.payload;
-    const loadUrl = `${APIEndpoints.PublicEnrollmentAppointment}/${inspectorId}`;
+    const examinerId = action.payload;
+    const loadUrl = `${APIEndpoints.PublicEnrollmentAppointment}/${examinerId}`;
 
     const response: AxiosResponse<PublicExamEventResponse> = yield call(
       axiosInstance.get,

@@ -6,6 +6,12 @@ const excellentLevelRoutePrefix = '/vkt/erinomainen-taito';
 const excellentLevelEnrollmentRoute =
   excellentLevelRoutePrefix + '/ilmoittaudu';
 
+const goodAndSatisfactoryLevelRoutePrefix = '/vkt/hyva-ja-tyydyttava-taito';
+const goodAndSatisfactoryLevelEnrollmentRoute =
+  excellentLevelRoutePrefix + '/ilmoittaudu';
+const goodAndSatisfactoryLevelContactRoute =
+  goodAndSatisfactoryLevelRoutePrefix + '/ota-yhteytta';
+
 export enum AppRoutes {
   PublicRoot = '/vkt',
   PublicHomePage = '/vkt/etusivu',
@@ -31,18 +37,26 @@ export enum AppRoutes {
   PublicEnrollmentDone = excellentLevelEnrollmentRoute + '/:examEventId/valmis',
 
   // Routes for good and satisfactory level - TODO
-  PublicGoodAndSatisfactoryLevelLanding = '/vkt/hyva-ja-tyydyttava-taito',
-  PublicEnrollmentAppointment = '/vkt/markkinapaikka',
-  PublicAuthAppointment = '/vkt/markkinapaikka/:enrollmentId/tunnistaudu',
-  PublicEnrollmentAppointmentContactDetails = '/vkt/markkinapaikka/:enrollmentId/tiedot',
-  PublicEnrollmentAppointmentPreview = '/vkt/markkinapaikka/:enrollmentId/esikatsele',
-  PublicEnrollmentAppointmentPaymentFail = '/vkt/markkinapaikka/:enrollmentId/maksu/peruutettu',
-  PublicEnrollmentAppointmentPaymentSuccess = '/vkt/markkinapaikka/:enrollmentId/maksu/valmis',
+  PublicGoodAndSatisfactoryLevelLanding = goodAndSatisfactoryLevelRoutePrefix,
+  PublicEnrollmentAppointment = goodAndSatisfactoryLevelEnrollmentRoute,
+  PublicAuthAppointment = goodAndSatisfactoryLevelEnrollmentRoute +
+    '/:enrollmentId/tunnistaudu',
+  PublicEnrollmentAppointmentContactDetails = goodAndSatisfactoryLevelEnrollmentRoute +
+    '/:enrollmentId/tiedot',
+  PublicEnrollmentAppointmentPreview = goodAndSatisfactoryLevelEnrollmentRoute +
+    '/:enrollmentId/esikatsele',
+  PublicEnrollmentAppointmentPaymentFail = goodAndSatisfactoryLevelEnrollmentRoute +
+    '/:enrollmentId/maksu/peruutettu',
+  PublicEnrollmentAppointmentPaymentSuccess = goodAndSatisfactoryLevelEnrollmentRoute +
+    '/:enrollmentId/maksu/valmis',
 
-  PublicEnrollmentContact = '/vkt/markkinapaikka/ota-yhteytta',
-  PublicEnrollmentContactContactDetails = '/vkt/markkinapaikka/ota-yhteytta/:appointeeId/tiedot',
-  PublicEnrollmentContactSelectExam = '/vkt/markkinapaikka/ota-yhteytta/:appointeeId/tutkinto',
-  PublicEnrollmentContactDone = '/vkt/markkinapaikka/ota-yhteytta/:appointeeId/valmis',
+  PublicEnrollmentContact = goodAndSatisfactoryLevelContactRoute,
+  PublicEnrollmentContactContactDetails = goodAndSatisfactoryLevelContactRoute +
+    '/:examinerId/tiedot',
+  PublicEnrollmentContactSelectExam = goodAndSatisfactoryLevelContactRoute +
+    '/:examinerId/tutkinto',
+  PublicEnrollmentContactDone = goodAndSatisfactoryLevelContactRoute +
+    '/:examinerId/valmis',
 
   // Routes for clerk user
   ClerkHomePage = '/vkt/virkailija',

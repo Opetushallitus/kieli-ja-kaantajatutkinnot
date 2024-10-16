@@ -25,7 +25,7 @@ import {
   usePublicTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { ExamLanguage } from 'enums/app';
+import { AppRoutes, ExamLanguage } from 'enums/app';
 import { PublicExaminer } from 'interfaces/publicExaminer';
 import { setPublicExaminerLanguageFilter } from 'redux/reducers/publicExaminer';
 import {
@@ -98,7 +98,7 @@ const DesktopExaminerRow = ({
         <CustomButtonLink
           color={Color.Secondary}
           variant={Variant.Outlined}
-          to={''}
+          to={AppRoutes.PublicEnrollmentContactContactDetails}
         >
           Ota yhteyttä
         </CustomButtonLink>
