@@ -255,11 +255,8 @@
             "point2": "<0>examen som gäller förmåga att använda finska eller svenska i skrift</0> (med delproven läsförståelse och skriftlig färdighet)",
             "point3": "<0>examen som gäller förmåga att förstå finska eller svenska</0> (med delproven hörförståelse och läsförståelse)"
           },
-          "introduction": {
-            "line1": "Språkexamina för statsförvaltningen är avsedda för att visa sådana språkkunskaper i det andra inhemska språket som krävs av offentligt anställda.",
-            "line2": "Med examensintygen kan man visa förmåga att använda finska eller svenska i tal och i skrift samt förmåga att förstå språket."
-          },
-          "skills": "Examina som gäller utmärkta språkkunskaper är"
+          "skills": "Examina som gäller utmärkta språkkunskaper är",
+          "title": "Allmänt om språkexamina för statsförvaltningen"
         },
         "enrollment": {
           "link": {
@@ -288,6 +285,10 @@
             "partialExaminationPayment": "Examensavgiften är 257 euro om du avlägger antingen examen som gäller förmåga att använda språket i tal eller examen som gäller förmåga att använda språket i skrift eller ett av delproven."
           },
           "title": "Avgftsfri examen"
+        },
+        "introduction": {
+          "line1": "Språkexamina för statsförvaltningen är avsedda för att visa sådana språkkunskaper i det andra inhemska språket som krävs av offentligt anställda.",
+          "line2": "Med examensintygen kan man visa förmåga att använda finska eller svenska i tal och i skrift samt förmåga att förstå språket."
         },
         "title": "Språkexamina för statsförvaltningen (VKT) - anmälan till examina som gäller utmärkta språkkunskaper"
       },
