@@ -3,17 +3,22 @@ package fi.oph.vkt.config.security;
 import fi.oph.vkt.config.Constants;
 import fi.oph.vkt.util.OpintopolkuCasAuthenticationFilter;
 import fi.vm.sade.javautils.kayttooikeusclient.OphUserDetailsServiceImpl;
+import java.util.Map;
 import org.apereo.cas.client.session.HashMapBackedSessionMappingStorage;
 import org.apereo.cas.client.session.SessionMappingStorage;
 import org.apereo.cas.client.session.SingleSignOutFilter;
 import org.apereo.cas.client.validation.Cas20ProxyTicketValidator;
 import org.apereo.cas.client.validation.TicketValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authorization.AuthorizationDecision;
+import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.cas.ServiceProperties;
 import org.springframework.security.cas.authentication.CasAuthenticationProvider;
 import org.springframework.security.cas.web.CasAuthenticationEntryPoint;
@@ -21,7 +26,10 @@ import org.springframework.security.cas.web.CasAuthenticationFilter;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
+import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -150,12 +158,40 @@ public class WebSecurityConfig {
       .build();
   }
 
+  private static boolean hasRole(final Authentication authentication, final String role) {
+    return authentication
+      .getAuthorities()
+      .stream()
+      .anyMatch((grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_" + role)));
+  }
+
   public static HttpSecurity commonConfig(final HttpSecurity httpSecurity) throws Exception {
+    final AuthorizationManager<RequestAuthorizationContext> examinerApiAuthorizationManager =
+      (
+        (authenticationSupplier, object) -> {
+          Authentication authentication = authenticationSupplier.get();
+          if (hasRole(authentication, Constants.APP_ROLE)) {
+            return new AuthorizationDecision(true);
+          } else if (hasRole(authentication, Constants.APP_TV_ROLE)) {
+            final Map<String, String> requestVariables = object.getVariables();
+            final String expectedOid = requestVariables.get("oid");
+            if (expectedOid != null && expectedOid.equals(authentication.getName())) {
+              return new AuthorizationDecision(true);
+            }
+          }
+          return new AuthorizationDecision(false);
+        }
+      );
+
     return configCsrf(httpSecurity)
       .authorizeHttpRequests(registry ->
         registry
           .requestMatchers("/api/v1/clerk/**", "/virkailija/**", "/virkailija")
           .hasRole(Constants.APP_ROLE)
+          .requestMatchers("/api/v1/tv/{oid}/**")
+          .access(examinerApiAuthorizationManager)
+          .requestMatchers("/api/v1/tv/**", "/tv/**", "/tv")
+          .hasAnyRole(Constants.APP_ADMIN_ROLE, Constants.APP_TV_ROLE)
           .requestMatchers("/", "/**")
           .permitAll()
           .anyRequest()

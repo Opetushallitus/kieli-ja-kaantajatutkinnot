@@ -9,11 +9,20 @@ interface PublicMunicipality {
   sv: string;
 }
 
+interface PublicExaminerExamDate {
+  examDate: Dayjs;
+  isFull: boolean;
+}
+
+interface PublicExaminerExamDateResponse extends Omit<PublicExaminerExamDate, 'examDate'> {
+  examDate: string;
+}
+
 export interface PublicExaminer extends WithId {
   name: string;
   language: ExamLanguage;
   municipalities: Array<PublicMunicipality>;
-  examDates: Array<Dayjs>;
+  examDates: Array<PublicExaminerExamDate>;
 }
 
 export interface PublicExaminerResponse extends WithId {
@@ -21,7 +30,7 @@ export interface PublicExaminerResponse extends WithId {
   firstName: string;
   languages: Array<ExamLanguage>;
   municipalities: Array<PublicMunicipality>;
-  examDates: Array<string>;
+  examDates: Array<PublicExaminerExamDateResponse>;
 }
 
 export interface PublicExaminerState {

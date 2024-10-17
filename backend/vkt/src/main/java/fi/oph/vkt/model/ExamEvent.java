@@ -2,15 +2,7 @@ package fi.oph.vkt.model;
 
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -57,4 +49,8 @@ public class ExamEvent extends BaseEntity {
 
   @OneToMany(mappedBy = "examEvent")
   private List<Reservation> reservations = new ArrayList<>();
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "examiner_id", referencedColumnName = "examiner_id")
+  private Examiner examiner;
 }
