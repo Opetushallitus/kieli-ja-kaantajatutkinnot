@@ -1,6 +1,5 @@
 import { Step, StepLabel, Stepper, Typography } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import { useEffect } from 'react';
 import { CircularStepper } from 'shared/components';
 import { Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
