@@ -33,7 +33,8 @@
             "title": "Annullera anmälan"
           },
           "enrollToQueue": "Ställ dig i kön",
-          "pay": "Betala"
+          "pay": "Betala",
+          "enroll": "Anmäl dig"
         },
         "examEventDetails": {
           "enrollmentToQueue": "Ställ dig i kön",
