@@ -8,11 +8,8 @@ import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.ExaminerMunicipality;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.repository.ExaminerRepository;
-import fi.oph.vkt.service.onr.OnrService;
-import fi.oph.vkt.service.onr.PersonalData;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PublicExaminerService {
 
   private final ExaminerRepository examinerRepository;
-  private final OnrService onrService;
 
   private static PublicMunicipalityDTO toPublicMunicipalityDTO(ExaminerMunicipality municipality) {
     return PublicMunicipalityDTO.builder().fi(municipality.getNameFi()).sv(municipality.getNameSv()).build();
@@ -75,18 +71,5 @@ public class PublicExaminerService {
       .stream()
       .map(PublicExaminerService::toPublicExaminerDTO)
       .collect(Collectors.toList());
-  }
-
-  @Transactional
-  public void updateStoredPersonalData() {
-    final List<String> onrIds = examinerRepository.listExistingOnrIds();
-    final Map<String, PersonalData> oidToPersonalData = onrService.getOnrPersonalData(onrIds);
-    oidToPersonalData.forEach((k, v) -> {
-      Examiner examiner = examinerRepository.getByOid(k);
-      examiner.setLastName(v.getLastName());
-      examiner.setFirstName(v.getFirstName());
-      examiner.setNickname(v.getNickname());
-      examinerRepository.saveAndFlush(examiner);
-    });
   }
 }

@@ -34,7 +34,9 @@ public enum APIExceptionType {
   TOO_MANY_ATTACHMENTS,
   INVALID_ATTACHMENT,
   ATTACHMENT_PERSON_MISMATCH,
-  TICKET_VALIDATION_ERROR;
+  TICKET_VALIDATION_ERROR,
+  EXAMINER_ALREADY_INITIALIZED,
+  EXAMINER_ONR_NOT_FOUND;
 
   public String getCode() {
     final StringBuilder codeBuilder = new StringBuilder();

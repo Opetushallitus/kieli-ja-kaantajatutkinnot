@@ -1,6 +1,6 @@
 package fi.oph.vkt.scheduled;
 
-import fi.oph.vkt.service.PublicExaminerService;
+import fi.oph.vkt.service.ExaminerDetailsService;
 import fi.oph.vkt.util.SchedulingUtil;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
@@ -21,14 +21,14 @@ public class OnrPersonalDataUpdater {
   private static final String LOCK_AT_MOST = "PT3M";
 
   @Resource
-  private final PublicExaminerService publicExaminerService;
+  private final ExaminerDetailsService examinerDetailsService;
 
   @Scheduled(initialDelayString = INITIAL_DELAY, fixedDelayString = FIXED_DELAY)
   @SchedulerLock(name = "updatePersonalDataFromOnr", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
   public void updateOnrCache() {
     SchedulingUtil.runWithScheduledUser(() -> {
       LOG.debug("updatePersonalDataFromOnr");
-      publicExaminerService.updateStoredPersonalData();
+      examinerDetailsService.updateStoredPersonalData();
     });
   }
 }

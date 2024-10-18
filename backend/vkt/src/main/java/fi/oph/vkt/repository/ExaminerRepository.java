@@ -2,6 +2,7 @@ package fi.oph.vkt.repository;
 
 import fi.oph.vkt.model.Examiner;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface ExaminerRepository extends BaseRepository<Examiner> {
   List<Examiner> getAllByDeletedAtIsNull();
   Examiner getByOid(String oid);
+  Optional<Examiner> findByOid(String oid);
 
   @Query("SELECT e.oid FROM Examiner e WHERE e.deletedAt IS NULL")
   List<String> listExistingOnrIds();
