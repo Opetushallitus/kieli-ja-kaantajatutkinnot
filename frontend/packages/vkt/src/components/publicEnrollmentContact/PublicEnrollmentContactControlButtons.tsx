@@ -12,7 +12,9 @@ import { useAppDispatch } from 'configs/redux';
 import { PublicEnrollmentContactFormStep } from 'enums/publicEnrollment';
 import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
 import { setLoadingPayment } from 'redux/reducers/publicEnrollmentAppointment';
+import { loadPublicEnrollmentSave } from 'redux/reducers/publicEnrollmentContact';
 import { RouteUtils } from 'utils/routes';
+import { AppRoutes } from 'enums/app';
 
 export const PublicEnrollmentContactControlButtons = ({
   activeStep,
@@ -31,7 +33,7 @@ export const PublicEnrollmentContactControlButtons = ({
     keyPrefix: 'vkt.component.publicEnrollment.controlButtons',
   });
   const translateCommon = useCommonTranslation();
-  const [isPaymentLoading, setIsPaymentLoading] = useState(false);
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -42,14 +44,7 @@ export const PublicEnrollmentContactControlButtons = ({
 
   useEffect(() => {
     if (submitStatus === APIResponseStatus.Success) {
-      // Safari needs time to re-render loading indicator
-      setTimeout(() => {
-        window.location.href = RouteUtils.getPaymentCreateApiRoute(
-          'appointment',
-          enrollment.id,
-        );
-      }, 200);
-      dispatch(setLoadingPayment());
+      navigate(AppRoutes.PublicGoodAndSatisfactoryLevelLanding);
     }
   }, [submitStatus, enrollment.id, dispatch]);
 
@@ -70,9 +65,9 @@ export const PublicEnrollmentContactControlButtons = ({
 
   const handleSubmitBtnClick = () => {
     if (isStepValid) {
-      setIsPaymentLoading(true);
+      setIsSubmitLoading(true);
       setShowValidation(false);
-      //dispatch(loadPublicEnrollmentSave(enrollment));
+      dispatch(loadPublicEnrollmentSave(enrollment));
     } else {
       setShowValidation(true);
     }
@@ -85,7 +80,7 @@ export const PublicEnrollmentContactControlButtons = ({
         color={Color.Secondary}
         onClick={handleCancelBtnClick}
         data-testid="public-enrollment__controlButtons__cancel"
-        disabled={isPaymentLoading}
+        disabled={isSubmitLoading}
       >
         {translateCommon('cancel')}
       </CustomButton>
@@ -101,7 +96,7 @@ export const PublicEnrollmentContactControlButtons = ({
       startIcon={<ArrowBackIcon />}
       disabled={
         activeStep == PublicEnrollmentContactFormStep.FillContactDetails ||
-        isPaymentLoading
+        isSubmitLoading
       }
     >
       {translateCommon('back')}
@@ -115,7 +110,7 @@ export const PublicEnrollmentContactControlButtons = ({
       onClick={handleNextBtnClick}
       data-testid="public-enrollment__controlButtons__next"
       endIcon={<ArrowForwardIcon />}
-      disabled={isPaymentLoading}
+      disabled={isSubmitLoading}
     >
       {translateCommon('next')}
     </CustomButton>
@@ -131,7 +126,7 @@ export const PublicEnrollmentContactControlButtons = ({
         color={Color.Secondary}
         onClick={handleSubmitBtnClick}
         data-testid="public-enrollment__controlButtons__submit"
-        disabled={isPaymentLoading}
+        disabled={isSubmitLoading}
       >
         {t('submit')}
       </CustomButton>

@@ -48,7 +48,7 @@ function* loadPublicEnrollmentSaveSaga(
   try {
     const { id: _unused2, status: _unused5, ...body } = enrollment;
 
-    const saveUrl = `${APIEndpoints.PublicEnrollmentAppointment}/${enrollment.id}`;
+    const saveUrl = `${APIEndpoints.PublicEnrollmentContact}/${enrollment.id}`;
 
     yield call(axiosInstance.post, saveUrl, body);
 

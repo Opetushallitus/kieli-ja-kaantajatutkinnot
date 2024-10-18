@@ -52,16 +52,21 @@ const PublicExaminerListingHeader = () => {
 };
 
 const DesktopExaminerRow = ({
+  id,
   name,
   language,
   municipalities,
   examDates,
-}: Omit<PublicExaminer, 'id'>) => {
+}: PublicExaminer) => {
   // TODO Rendering for mobile users
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicExaminerListing',
   });
   const appLanguage = getCurrentLang();
+  const contactRoute = AppRoutes.PublicEnrollmentContactContactDetails.replace(
+    ':examinerId',
+    id.toString(),
+  );
 
   return (
     <TableRow sx={{ verticalAlign: 'text-top' }}>
@@ -98,7 +103,7 @@ const DesktopExaminerRow = ({
         <CustomButtonLink
           color={Color.Secondary}
           variant={Variant.Outlined}
-          to={AppRoutes.PublicEnrollmentContactContactDetails}
+          to={contactRoute}
         >
           Ota yhteyttä
         </CustomButtonLink>
@@ -108,6 +113,7 @@ const DesktopExaminerRow = ({
 };
 
 const getRowDetails = ({
+  id,
   name,
   language,
   municipalities,
@@ -119,6 +125,7 @@ const getRowDetails = ({
       language={language}
       municipalities={municipalities}
       examDates={examDates}
+      id={id}
     />
   );
 };
