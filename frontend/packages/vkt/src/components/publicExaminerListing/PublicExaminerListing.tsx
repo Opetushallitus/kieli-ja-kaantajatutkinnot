@@ -88,7 +88,7 @@ const DesktopExaminerRow = ({
             ? examDates.map((v, i) => (
                 <Fragment key={i}>
                   {i > 0 ? <br /> : undefined}
-                  {DateUtils.formatOptionalDate(v)}
+                  {DateUtils.formatOptionalDate(v.examDate)}
                 </Fragment>
               ))
             : 'Ei määritelty'}
