@@ -2,15 +2,13 @@ package fi.oph.vkt.service.onr.mock;
 
 import fi.oph.vkt.service.onr.PersonalData;
 import fi.oph.vkt.util.CyclicIterable;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PersonalDataFactory {
 
-  private final AtomicInteger counter = new AtomicInteger();
+  private final Random rng = new Random();
+  private final AtomicInteger counter = new AtomicInteger(rng.nextInt());
 
   public PersonalData create(final String onrId) {
     final int counterValue = counter.incrementAndGet();
