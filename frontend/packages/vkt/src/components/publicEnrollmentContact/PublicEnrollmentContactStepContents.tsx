@@ -23,6 +23,7 @@ export const PublicEnrollmentContactStepContents = ({
           enrollment={enrollment}
           isLoading={false}
           setIsStepValid={setIsStepValid}
+          updatePublicEnrollment={updatePublicEnrollment}
         />
       );
     case PublicEnrollmentContactFormStep.SelectExam:

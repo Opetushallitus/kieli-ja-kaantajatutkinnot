@@ -139,31 +139,31 @@ export class RouteUtils {
     return route.replace(':enrollmentId', enrollmentId.toString());
   }
 
+  static replaceExaminerId(route: string, examinerId: number) {
+    return route.replace(':examinerId', examinerId.toString());
+  }
+
   static contactStepToRoute(
     step: PublicEnrollmentContactFormStep,
-    enrollmentId?: number,
+    examinerId: number,
   ) {
-    if (!enrollmentId) {
-      return '';
-    }
-
     switch (step) {
       case PublicEnrollmentContactFormStep.FillContactDetails:
-        return RouteUtils.replaceEnrollmentId(
+        return RouteUtils.replaceExaminerId(
           AppRoutes.PublicEnrollmentContactContactDetails,
-          enrollmentId,
+          examinerId,
         );
 
       case PublicEnrollmentContactFormStep.SelectExam:
-        return RouteUtils.replaceEnrollmentId(
+        return RouteUtils.replaceExaminerId(
           AppRoutes.PublicEnrollmentContactSelectExam,
-          enrollmentId,
+          examinerId,
         );
 
       case PublicEnrollmentContactFormStep.Done:
-        return RouteUtils.replaceEnrollmentId(
+        return RouteUtils.replaceExaminerId(
           AppRoutes.PublicEnrollmentContactDone,
-          enrollmentId,
+          examinerId,
         );
     }
   }

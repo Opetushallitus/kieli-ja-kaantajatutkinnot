@@ -6,6 +6,7 @@ import fi.oph.vkt.api.dto.FreeEnrollmentDetailsDTO;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentUpdateDTO;
+import fi.oph.vkt.api.dto.PublicEnrollmentContactCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
@@ -670,5 +671,18 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
 
     return createEnrollmentAppointmentDTO(enrollmentAppointment);
+  }
+
+  public void createEnrollmentContact(final PublicEnrollmentContactCreateDTO dto) {
+    final EnrollmentAppointment enrollmentAppointment = new EnrollmentAppointment();
+
+    enrollmentAppointment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
+    copyDtoFieldsToEnrollment(enrollmentAppointment, dto);
+
+    // TODO: remove
+    enrollmentAppointment.setAuthHash("asd");
+
+
+    enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
   }
 }

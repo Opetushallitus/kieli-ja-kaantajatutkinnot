@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentUpdateDTO;
+import fi.oph.vkt.api.dto.PublicEnrollmentContactCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
@@ -108,6 +109,12 @@ public class PublicController {
   @GetMapping(path = "/examiner")
   public List<PublicExaminerDTO> listExaminers() {
     return publicExaminerService.listExaminers();
+  }
+
+  @PostMapping(path = "/enrollment/examiner/{examinerId:\\d+}")
+  @ResponseStatus(HttpStatus.CREATED)
+  public void createEnrollmentContact(@RequestBody @Valid final PublicEnrollmentContactCreateDTO dto) {
+    publicEnrollmentService.createEnrollmentContact(dto);
   }
 
   @PostMapping(path = "/enrollment/reservation/{reservationId:\\d+}")

@@ -62,7 +62,10 @@ const publicEnrollmentContactSlice = createSlice({
     },
     loadPublicEnrollmentSave(
       state,
-      _action: PayloadAction<PublicEnrollmentContact>,
+      _action: PayloadAction<{
+        enrollment: PublicEnrollmentContact;
+        examinerId: number;
+      }>,
     ) {
       state.enrollmentSubmitStatus = APIResponseStatus.InProgress;
     },

@@ -18,6 +18,7 @@ export const PublicEnrollmentContactDesktopGrid = ({
   showValidation,
   setIsStepValid,
   setShowValidation,
+  examinerId,
 }: {
   activeStep: PublicEnrollmentContactFormStep;
   isStepValid: boolean;
@@ -25,6 +26,7 @@ export const PublicEnrollmentContactDesktopGrid = ({
   showValidation: boolean;
   setIsStepValid: (isValid: boolean) => void;
   setShowValidation: (showValidation: boolean) => void;
+  examinerId: number;
 }) => {
   const translateCommon = useCommonTranslation();
 
@@ -59,6 +61,7 @@ export const PublicEnrollmentContactDesktopGrid = ({
                   setShowValidation={setShowValidation}
                   isStepValid={isStepValid}
                   submitStatus={enrollmentSubmitStatus}
+                  examinerId={examinerId}
                 />
               )}
             </div>

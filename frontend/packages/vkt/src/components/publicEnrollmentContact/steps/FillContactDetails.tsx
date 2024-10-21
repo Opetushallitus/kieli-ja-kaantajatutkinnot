@@ -5,16 +5,19 @@ import { InputAutoComplete, TextFieldTypes } from 'shared/enums';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
-import { updatePublicEnrollment } from 'redux/reducers/publicEnrollmentContact';
 
 export const FillContactDetails = ({
   isLoading,
   enrollment,
   setIsStepValid,
+  updatePublicEnrollment,
 }: {
   isLoading: boolean;
   enrollment: PublicEnrollmentContact;
   setIsStepValid: (isValid: boolean) => void;
+  updatePublicEnrollment: (
+    enrollment: Partial<PublicEnrollmentCommon>,
+  ) => AnyAction;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.fillContactDetails',

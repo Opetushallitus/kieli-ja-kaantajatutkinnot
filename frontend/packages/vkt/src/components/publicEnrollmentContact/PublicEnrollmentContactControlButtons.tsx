@@ -9,12 +9,11 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
+import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentContactFormStep } from 'enums/publicEnrollment';
 import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
-import { setLoadingPayment } from 'redux/reducers/publicEnrollmentAppointment';
 import { loadPublicEnrollmentSave } from 'redux/reducers/publicEnrollmentContact';
 import { RouteUtils } from 'utils/routes';
-import { AppRoutes } from 'enums/app';
 
 export const PublicEnrollmentContactControlButtons = ({
   activeStep,
@@ -22,12 +21,14 @@ export const PublicEnrollmentContactControlButtons = ({
   isStepValid,
   setShowValidation,
   submitStatus,
+  examinerId,
 }: {
   activeStep: PublicEnrollmentContactFormStep;
   enrollment: PublicEnrollmentContact;
   isStepValid: boolean;
   setShowValidation: (showValidation: boolean) => void;
   submitStatus: APIResponseStatus;
+  examinerId: number;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.controlButtons',
@@ -46,18 +47,18 @@ export const PublicEnrollmentContactControlButtons = ({
     if (submitStatus === APIResponseStatus.Success) {
       navigate(AppRoutes.PublicGoodAndSatisfactoryLevelLanding);
     }
-  }, [submitStatus, enrollment.id, dispatch]);
+  }, [submitStatus, navigate]);
 
   const handleBackBtnClick = () => {
     const nextStep: PublicEnrollmentContactFormStep = activeStep - 1;
-    navigate(RouteUtils.contactStepToRoute(nextStep, enrollment.id));
+    navigate(RouteUtils.contactStepToRoute(nextStep, examinerId));
   };
 
   const handleNextBtnClick = () => {
     if (isStepValid) {
       setShowValidation(false);
       const nextStep: PublicEnrollmentContactFormStep = activeStep + 1;
-      navigate(RouteUtils.contactStepToRoute(nextStep, enrollment.id));
+      navigate(RouteUtils.contactStepToRoute(nextStep, examinerId));
     } else {
       setShowValidation(true);
     }
@@ -67,7 +68,7 @@ export const PublicEnrollmentContactControlButtons = ({
     if (isStepValid) {
       setIsSubmitLoading(true);
       setShowValidation(false);
-      dispatch(loadPublicEnrollmentSave(enrollment));
+      dispatch(loadPublicEnrollmentSave({ enrollment, examinerId }));
     } else {
       setShowValidation(true);
     }

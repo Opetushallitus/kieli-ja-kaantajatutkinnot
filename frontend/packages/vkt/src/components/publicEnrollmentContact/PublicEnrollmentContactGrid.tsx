@@ -15,6 +15,8 @@ export const PublicEnrollmentContactGrid = ({
   activeStep: PublicEnrollmentContactFormStep;
 }) => {
   const params = useParams();
+  const examinerId =
+    params.examinerId !== undefined ? +params.examinerId : null;
   const dispatch = useAppDispatch();
   const { enrollment, loadExamEventStatus } = useAppSelector(
     publicEnrollmentContactSelector,
@@ -23,13 +25,14 @@ export const PublicEnrollmentContactGrid = ({
   const [showValidation, setShowValidation] = useState(false);
 
   useEffect(() => {
-    if (
-      loadExamEventStatus === APIResponseStatus.NotStarted &&
-      params.enrollmentId
-    ) {
-      dispatch(loadPublicExamEvent(+params.enrollmentId));
+    if (loadExamEventStatus === APIResponseStatus.NotStarted && examinerId) {
+      dispatch(loadPublicExamEvent(examinerId));
     }
-  }, [dispatch, loadExamEventStatus, params.enrollmentId]);
+  }, [dispatch, loadExamEventStatus, examinerId]);
+
+  if (!examinerId) {
+    return <></>;
+  }
 
   return (
     <Grid
@@ -45,6 +48,7 @@ export const PublicEnrollmentContactGrid = ({
         setIsStepValid={setIsStepValid}
         showValidation={showValidation}
         setShowValidation={setShowValidation}
+        examinerId={examinerId}
       />
     </Grid>
   );

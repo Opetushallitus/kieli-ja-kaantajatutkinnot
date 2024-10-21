@@ -41,14 +41,18 @@ function* loadPublicExamEventSaga(action: PayloadAction<number>) {
 }
 
 function* loadPublicEnrollmentSaveSaga(
-  action: PayloadAction<PublicEnrollmentContact>,
+  action: PayloadAction<{
+    enrollment: PublicEnrollmentContact;
+    examinerId: number;
+  }>,
 ) {
-  const enrollment = action.payload;
+  const enrollment = action.payload.enrollment;
+  const examinerId = action.payload.examinerId;
 
   try {
     const { id: _unused2, status: _unused5, ...body } = enrollment;
 
-    const saveUrl = `${APIEndpoints.PublicEnrollmentContact}/${enrollment.id}`;
+    const saveUrl = `${APIEndpoints.PublicEnrollmentContact}/${examinerId}`;
 
     yield call(axiosInstance.post, saveUrl, body);
 
