@@ -32,10 +32,18 @@ public class UIRouteUtil {
   }
 
   public String getEnrollmentAppointmentUrl(final long enrollmentAppointmentId) {
-    return String.format("%s/markkinapaikka/%s/tunnistaudu", getPublicBaseUrl(), enrollmentAppointmentId);
+    return String.format(
+      "%s/hyva-ja-tyydyttava-taito/ilmoittaudu/%s/tunnistaudu",
+      getPublicBaseUrl(),
+      enrollmentAppointmentId
+    );
   }
 
   public String getEnrollmentAppointmentContactDetailsUrl(final long enrollmentAppointmentId) {
-    return String.format("%s/markkinapaikka/%s/tiedot", getPublicBaseUrl(), enrollmentAppointmentId);
+    return String.format(
+      "%s/hyva-ja-tyydyttava-taito/ilmoittaudu/%s/tiedot",
+      getPublicBaseUrl(),
+      enrollmentAppointmentId
+    );
   }
 }

@@ -5,38 +5,38 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
-import { PublicExamEventResponse } from 'interfaces/publicExamEvent';
+import { PublicExaminerResponse } from 'interfaces/publicExaminer';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
   loadPublicEnrollmentSave,
-  loadPublicExamEvent,
+  loadPublicExaminer,
   rejectPublicEnrollmentSave,
-  rejectPublicExamEvent,
+  rejectPublicExaminer,
   storePublicEnrollmentSave,
-  storePublicExamEvent,
+  storePublicExaminer,
 } from 'redux/reducers/publicEnrollmentContact';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
-function* loadPublicExamEventSaga(action: PayloadAction<number>) {
+function* loadPublicExaminerSaga(action: PayloadAction<number>) {
   try {
     const examinerId = action.payload;
-    const loadUrl = `${APIEndpoints.PublicEnrollmentAppointment}/${examinerId}`;
+    const loadUrl = `${APIEndpoints.PublicEnrollmentContact}/${examinerId}`;
 
-    const response: AxiosResponse<PublicExamEventResponse> = yield call(
+    const response: AxiosResponse<PublicExaminerResponse> = yield call(
       axiosInstance.get,
       loadUrl,
     );
 
-    const enrollmentAppointment = SerializationUtils.deserializePublicExamEvent(
+    const examiner = SerializationUtils.deserializePublicExaminer(
       response.data,
     );
 
-    yield put(storePublicExamEvent(enrollmentAppointment));
+    yield put(storePublicExaminer(examiner));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
-    yield put(rejectPublicExamEvent());
+    yield put(rejectPublicExaminer());
   }
 }
 
@@ -66,5 +66,5 @@ function* loadPublicEnrollmentSaveSaga(
 
 export function* watchPublicEnrollmentContact() {
   yield takeLatest(loadPublicEnrollmentSave, loadPublicEnrollmentSaveSaga);
-  yield takeLatest(loadPublicExamEvent, loadPublicExamEventSaga);
+  yield takeLatest(loadPublicExaminer, loadPublicExaminerSaga);
 }

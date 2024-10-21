@@ -8,7 +8,7 @@ const excellentLevelEnrollmentRoute =
 
 const goodAndSatisfactoryLevelRoutePrefix = '/vkt/hyva-ja-tyydyttava-taito';
 const goodAndSatisfactoryLevelEnrollmentRoute =
-  excellentLevelRoutePrefix + '/ilmoittaudu';
+  goodAndSatisfactoryLevelRoutePrefix + '/ilmoittaudu';
 const goodAndSatisfactoryLevelContactRoute =
   goodAndSatisfactoryLevelRoutePrefix + '/ota-yhteytta';
 

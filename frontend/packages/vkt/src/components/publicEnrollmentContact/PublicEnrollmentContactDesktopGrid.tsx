@@ -2,6 +2,7 @@ import { Grid, Paper } from '@mui/material';
 import { LoadingProgressIndicator } from 'shared/components';
 
 import { PublicEnrollmentContactControlButtons } from 'components/publicEnrollmentContact/PublicEnrollmentContactControlButtons';
+import { PublicEnrollmentContactExaminer } from 'components/publicEnrollmentContact/PublicEnrollmentContactExaminer';
 import { PublicEnrollmentContactStepContents } from 'components/publicEnrollmentContact/PublicEnrollmentContactStepContents';
 import { PublicEnrollmentContactStepHeading } from 'components/publicEnrollmentContact/PublicEnrollmentContactStepHeading';
 import { PublicEnrollmentContactStepper } from 'components/publicEnrollmentContact/PublicEnrollmentContactStepper';
@@ -9,6 +10,7 @@ import { useCommonTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { PublicEnrollmentContactFormStep } from 'enums/publicEnrollment';
 import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
+import { PublicExaminer } from 'interfaces/publicExaminer';
 import { publicEnrollmentContactSelector } from 'redux/selectors/publicEnrollmentContact';
 
 export const PublicEnrollmentContactDesktopGrid = ({
@@ -18,7 +20,7 @@ export const PublicEnrollmentContactDesktopGrid = ({
   showValidation,
   setIsStepValid,
   setShowValidation,
-  examinerId,
+  examiner,
 }: {
   activeStep: PublicEnrollmentContactFormStep;
   isStepValid: boolean;
@@ -26,7 +28,7 @@ export const PublicEnrollmentContactDesktopGrid = ({
   showValidation: boolean;
   setIsStepValid: (isValid: boolean) => void;
   setShowValidation: (showValidation: boolean) => void;
-  examinerId: number;
+  examiner: PublicExaminer;
 }) => {
   const translateCommon = useCommonTranslation();
 
@@ -39,34 +41,37 @@ export const PublicEnrollmentContactDesktopGrid = ({
   return (
     <>
       <Grid className="public-enrollment__grid" item>
-        <Paper elevation={3}>
-          <LoadingProgressIndicator
-            isLoading={false}
-            translateCommon={translateCommon}
-            displayBlock={true}
-          >
-            <div className={'public-enrollment__grid__form-container'}>
-              <PublicEnrollmentContactStepper activeStep={activeStep} />
-              <PublicEnrollmentContactStepHeading activeStep={activeStep} />
-              <PublicEnrollmentContactStepContents
-                activeStep={activeStep}
-                enrollment={enrollment}
-                showValidation={showValidation}
-                setIsStepValid={setIsStepValid}
-              />
-              {showControlButtons && (
-                <PublicEnrollmentContactControlButtons
+        <LoadingProgressIndicator
+          isLoading={false}
+          translateCommon={translateCommon}
+          displayBlock={true}
+        >
+          <div className={'public-enrollment__grid__form-container'}>
+            <PublicEnrollmentContactStepper activeStep={activeStep} />
+            <PublicEnrollmentContactStepHeading activeStep={activeStep} />
+            <PublicEnrollmentContactExaminer examiner={examiner} />
+            <Paper elevation={3} sx={{ padding: '2rem', marginTop: '2rem' }}>
+              <Grid className="margin-top-lg">
+                <PublicEnrollmentContactStepContents
                   activeStep={activeStep}
                   enrollment={enrollment}
-                  setShowValidation={setShowValidation}
-                  isStepValid={isStepValid}
-                  submitStatus={enrollmentSubmitStatus}
-                  examinerId={examinerId}
+                  showValidation={showValidation}
+                  setIsStepValid={setIsStepValid}
                 />
-              )}
-            </div>
-          </LoadingProgressIndicator>
-        </Paper>
+                {showControlButtons && (
+                  <PublicEnrollmentContactControlButtons
+                    activeStep={activeStep}
+                    enrollment={enrollment}
+                    setShowValidation={setShowValidation}
+                    isStepValid={isStepValid}
+                    submitStatus={enrollmentSubmitStatus}
+                    examinerId={examiner.id}
+                  />
+                )}
+              </Grid>
+            </Paper>
+          </div>
+        </LoadingProgressIndicator>
       </Grid>
     </>
   );

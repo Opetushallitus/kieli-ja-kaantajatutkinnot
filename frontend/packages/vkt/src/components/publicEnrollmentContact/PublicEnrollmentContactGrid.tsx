@@ -6,7 +6,7 @@ import { APIResponseStatus } from 'shared/enums';
 import { PublicEnrollmentContactDesktopGrid } from 'components/publicEnrollmentContact/PublicEnrollmentContactDesktopGrid';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicEnrollmentContactFormStep } from 'enums/publicEnrollment';
-import { loadPublicExamEvent } from 'redux/reducers/publicEnrollmentContact';
+import { loadPublicExaminer } from 'redux/reducers/publicEnrollmentContact';
 import { publicEnrollmentContactSelector } from 'redux/selectors/publicEnrollmentContact';
 
 export const PublicEnrollmentContactGrid = ({
@@ -18,19 +18,19 @@ export const PublicEnrollmentContactGrid = ({
   const examinerId =
     params.examinerId !== undefined ? +params.examinerId : null;
   const dispatch = useAppDispatch();
-  const { enrollment, loadExamEventStatus } = useAppSelector(
+  const { enrollment, examiner, loadExaminerStatus } = useAppSelector(
     publicEnrollmentContactSelector,
   );
   const [isStepValid, setIsStepValid] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
 
   useEffect(() => {
-    if (loadExamEventStatus === APIResponseStatus.NotStarted && examinerId) {
-      dispatch(loadPublicExamEvent(examinerId));
+    if (loadExaminerStatus === APIResponseStatus.NotStarted && examinerId) {
+      dispatch(loadPublicExaminer(examinerId));
     }
-  }, [dispatch, loadExamEventStatus, examinerId]);
+  }, [dispatch, loadExaminerStatus, examinerId]);
 
-  if (!examinerId) {
+  if (!examiner) {
     return <></>;
   }
 
@@ -42,13 +42,13 @@ export const PublicEnrollmentContactGrid = ({
       className="public-enrollment"
     >
       <PublicEnrollmentContactDesktopGrid
+        examiner={examiner}
         enrollment={enrollment}
         activeStep={activeStep}
         isStepValid={isStepValid}
         setIsStepValid={setIsStepValid}
         showValidation={showValidation}
         setShowValidation={setShowValidation}
-        examinerId={examinerId}
       />
     </Grid>
   );

@@ -12,7 +12,7 @@ import {
   PublicEnrollmentAppointment,
   PublicEnrollmentContactDetails,
 } from 'interfaces/publicEnrollment';
-import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
+import { updatePublicEnrollment } from 'redux/reducers/publicEnrollmentAppointment';
 
 export const FillContactDetails = ({
   isLoading,

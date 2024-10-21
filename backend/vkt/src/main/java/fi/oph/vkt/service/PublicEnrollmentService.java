@@ -11,6 +11,7 @@ import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
+import fi.oph.vkt.api.dto.PublicExaminerDTO;
 import fi.oph.vkt.api.dto.PublicFreeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
@@ -39,6 +40,7 @@ import fi.oph.vkt.util.PersonUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -682,7 +684,18 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     // TODO: remove
     enrollmentAppointment.setAuthHash("asd");
 
-
     enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
+  }
+
+  public PublicExaminerDTO getExaminer(final long examinerId) {
+    return PublicExaminerDTO
+      .builder()
+      .id(examinerId)
+      .examDates(List.of(LocalDate.now()))
+      .languages(List.of())
+      .municipalities(List.of())
+      .firstName("Testi")
+      .lastName("Testilä")
+      .build();
   }
 }

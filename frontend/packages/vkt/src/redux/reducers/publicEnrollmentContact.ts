@@ -2,19 +2,19 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
-import { PublicExamEvent } from 'interfaces/publicExamEvent';
+import { PublicExaminer } from 'interfaces/publicExaminer';
 
 export interface PublicEnrollmentContactState {
-  loadExamEventStatus: APIResponseStatus;
+  loadExaminerStatus: APIResponseStatus;
   enrollmentSubmitStatus: APIResponseStatus;
   paymentLoadingStatus: APIResponseStatus;
   cancelStatus: APIResponseStatus;
   enrollment: PublicEnrollmentContact;
-  examEvent?: PublicExamEvent;
+  examiner?: PublicExaminer;
 }
 
 const initialState: PublicEnrollmentContactState = {
-  loadExamEventStatus: APIResponseStatus.NotStarted,
+  loadExaminerStatus: APIResponseStatus.NotStarted,
   enrollmentSubmitStatus: APIResponseStatus.NotStarted,
   paymentLoadingStatus: APIResponseStatus.NotStarted,
   cancelStatus: APIResponseStatus.NotStarted,
@@ -37,22 +37,22 @@ const initialState: PublicEnrollmentContactState = {
     privacyStatementConfirmation: false,
     status: undefined,
   },
-  examEvent: undefined,
+  examiner: undefined,
 };
 
 const publicEnrollmentContactSlice = createSlice({
   name: 'publicEnrollmentContact',
   initialState,
   reducers: {
-    loadPublicExamEvent(state, _action: PayloadAction<number>) {
-      state.loadExamEventStatus = APIResponseStatus.InProgress;
+    loadPublicExaminer(state, _action: PayloadAction<number>) {
+      state.loadExaminerStatus = APIResponseStatus.InProgress;
     },
-    rejectPublicExamEvent(state) {
-      state.loadExamEventStatus = APIResponseStatus.Error;
+    rejectPublicExaminer(state) {
+      state.loadExaminerStatus = APIResponseStatus.Error;
     },
-    storePublicExamEvent(state, action: PayloadAction<PublicExamEvent>) {
-      state.enrollmentSubmitStatus = APIResponseStatus.Success;
-      state.examEvent = action.payload;
+    storePublicExaminer(state, action: PayloadAction<PublicExaminer>) {
+      state.loadExaminerStatus = APIResponseStatus.Success;
+      state.examiner = action.payload;
     },
     updatePublicEnrollment(
       state,
@@ -84,8 +84,8 @@ export const {
   loadPublicEnrollmentSave,
   rejectPublicEnrollmentSave,
   storePublicEnrollmentSave,
-  rejectPublicExamEvent,
-  storePublicExamEvent,
-  loadPublicExamEvent,
+  rejectPublicExaminer,
+  storePublicExaminer,
+  loadPublicExaminer,
   updatePublicEnrollment,
 } = publicEnrollmentContactSlice.actions;

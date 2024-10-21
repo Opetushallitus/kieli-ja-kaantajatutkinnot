@@ -117,6 +117,11 @@ public class PublicController {
     publicEnrollmentService.createEnrollmentContact(dto);
   }
 
+  @GetMapping(path = "/enrollment/examiner/{examinerId:\\d+}")
+  public PublicExaminerDTO getExaminer(@PathVariable final long examinerId) {
+    return publicEnrollmentService.getExaminer(examinerId);
+  }
+
   @PostMapping(path = "/enrollment/reservation/{reservationId:\\d+}")
   @ResponseStatus(HttpStatus.CREATED)
   public PublicEnrollmentDTO createEnrollment(

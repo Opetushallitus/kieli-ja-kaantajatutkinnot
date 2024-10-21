@@ -20,7 +20,7 @@ public record PublicEnrollmentAppointmentDTO(
   String previousEnrollment,
   @NonNull @NotNull Boolean digitalCertificateConsent,
   @NonNull @NotBlank String email,
-  @NonNull @NotBlank String phoneNumber,
+  String phoneNumber,
   String street,
   String postalCode,
   String town,
