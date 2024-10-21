@@ -1,10 +1,14 @@
 import { ChangeEvent, useEffect, useState } from 'react';
+import { AnyAction } from 'redux';
 import { LabeledTextField } from 'shared/components';
 import { InputAutoComplete, TextFieldTypes } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
+import {
+  PublicEnrollmentCommon,
+  PublicEnrollmentContact,
+} from 'interfaces/publicEnrollment';
 
 export const FillContactDetails = ({
   isLoading,
