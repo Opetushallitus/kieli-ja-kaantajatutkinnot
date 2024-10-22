@@ -2,13 +2,18 @@ package fi.oph.vkt.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
+import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentDTO;
+import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentUpdateDTO;
+import fi.oph.vkt.api.dto.PublicEnrollmentContactCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
+import fi.oph.vkt.api.dto.PublicExaminerDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
@@ -18,14 +23,17 @@ import fi.oph.vkt.model.type.FreeEnrollmentType;
 import fi.oph.vkt.service.FeatureFlagService;
 import fi.oph.vkt.service.PaymentService;
 import fi.oph.vkt.service.PublicAuthService;
+import fi.oph.vkt.service.PublicEnrollmentAppointmentService;
 import fi.oph.vkt.service.PublicEnrollmentService;
 import fi.oph.vkt.service.PublicExamEventService;
+import fi.oph.vkt.service.PublicExaminerService;
 import fi.oph.vkt.service.PublicPersonService;
 import fi.oph.vkt.service.PublicReservationService;
 import fi.oph.vkt.service.koski.KoskiService;
 import fi.oph.vkt.util.SessionUtil;
 import fi.oph.vkt.util.UIRouteUtil;
 import fi.oph.vkt.util.exception.APIException;
+import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
@@ -67,6 +75,9 @@ public class PublicController {
   private PublicEnrollmentService publicEnrollmentService;
 
   @Resource
+  private PublicEnrollmentAppointmentService publicEnrollmentAppointmentService;
+
+  @Resource
   private PublicExamEventService publicExamEventService;
 
   @Resource
@@ -87,9 +98,28 @@ public class PublicController {
   @Resource
   private FeatureFlagService featureFlagService;
 
+  @Resource
+  private PublicExaminerService publicExaminerService;
+
   @GetMapping(path = "/examEvent")
   public List<PublicExamEventDTO> list() {
     return publicExamEventService.listExamEvents(ExamLevel.EXCELLENT);
+  }
+
+  @GetMapping(path = "/examiner")
+  public List<PublicExaminerDTO> listExaminers() {
+    return publicExaminerService.listExaminers();
+  }
+
+  @PostMapping(path = "/enrollment/examiner/{examinerId:\\d+}")
+  @ResponseStatus(HttpStatus.CREATED)
+  public void createEnrollmentContact(@RequestBody @Valid final PublicEnrollmentContactCreateDTO dto) {
+    publicEnrollmentService.createEnrollmentContact(dto);
+  }
+
+  @GetMapping(path = "/enrollment/examiner/{examinerId:\\d+}")
+  public PublicExaminerDTO getExaminer(@PathVariable final long examinerId) {
+    return publicEnrollmentService.getExaminer(examinerId);
   }
 
   @PostMapping(path = "/enrollment/reservation/{reservationId:\\d+}")
@@ -144,6 +174,32 @@ public class PublicController {
     return publicExamEventService.getExamEvent(examEventId);
   }
 
+  @GetMapping(path = "/enrollment/appointment/{enrollmentAppointmentId:\\d+}")
+  public PublicEnrollmentAppointmentDTO getEnrollmentAppointment(
+    @PathVariable final long enrollmentAppointmentId,
+    final HttpSession session
+  ) {
+    final Person person = publicAuthService.getPersonFromSession(session);
+
+    return publicEnrollmentService.getEnrollmentAppointment(enrollmentAppointmentId, person);
+  }
+
+  @PostMapping(path = "/enrollment/appointment/{enrollmentAppointmentId:\\d+}")
+  @ResponseStatus(HttpStatus.CREATED)
+  public PublicEnrollmentAppointmentDTO saveEnrollmentAppointment(
+    @RequestBody @Valid final PublicEnrollmentAppointmentUpdateDTO dto,
+    @PathVariable final long enrollmentAppointmentId,
+    final HttpSession session
+  ) {
+    final Person person = publicAuthService.getPersonFromSession(session);
+
+    if (enrollmentAppointmentId != dto.id()) {
+      throw new APIException(APIExceptionType.APPOINTMENT_ID_MISMATCH);
+    }
+
+    return publicEnrollmentService.saveEnrollmentAppointment(dto, person);
+  }
+
   @GetMapping(path = "/education")
   public List<PublicEducationDTO> getEducation(final HttpSession session) throws JsonProcessingException {
     final Person person = publicAuthService.getPersonFromSession(session);
@@ -180,6 +236,30 @@ public class PublicController {
     return publicReservationService.renewReservation(reservationId, person);
   }
 
+  @GetMapping(path = "/enrollment/appointment/{enrollmentAppointmentId:\\d+}/redirect/{authHash:[a-z0-9\\-]+}")
+  public void createSessionAndRedirectToEnrollmentAppointment(
+    final HttpServletResponse httpResponse,
+    @PathVariable final long enrollmentAppointmentId,
+    @PathVariable final String authHash,
+    final HttpSession session
+  ) throws IOException {
+    try {
+      final EnrollmentAppointment enrollmentAppointment = publicEnrollmentAppointmentService.getEnrollmentAppointmentByHash(
+        enrollmentAppointmentId,
+        authHash
+      );
+      SessionUtil.setAppointmentId(session, enrollmentAppointment.getId());
+
+      httpResponse.sendRedirect(uiRouteUtil.getEnrollmentAppointmentUrl(enrollmentAppointment.getId()));
+    } catch (final APIException e) {
+      LOG.warn("Encountered known error, redirecting to front page. Error:", e);
+      httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
+    } catch (final Exception e) {
+      LOG.error("Encountered unknown error, redirecting to front page. Error:", e);
+      httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
+    }
+  }
+
   @GetMapping(path = "/examEvent/{examEventId:\\d+}/redirect/{paymentLinkHash:[a-z0-9\\-]+}")
   public void createSessionAndRedirectToPreview(
     final HttpServletResponse httpResponse,
@@ -211,47 +291,49 @@ public class PublicController {
     publicReservationService.deleteReservation(reservationId, person);
   }
 
-  @GetMapping(path = "/auth/login/{examEventId:\\d+}/{type:\\w+}")
+  @GetMapping(path = "/auth/login/{targetId:\\d+}/{type:\\w+}")
   public void casLoginRedirect(
     final HttpServletResponse httpResponse,
-    @PathVariable final long examEventId,
+    @PathVariable final long targetId,
     @PathVariable final String type,
-    @RequestParam final Optional<String> locale,
-    final HttpSession session
+    @RequestParam final Optional<String> locale
   ) throws IOException {
     final String casLoginUrl = publicAuthService.createCasLoginUrl(
-      examEventId,
+      targetId,
       EnrollmentType.fromString(type),
       locale.isPresent() ? AppLocale.fromString(locale.get()) : AppLocale.FI
     );
 
-    if (session != null) {
-      session.invalidate();
-    }
-
     httpResponse.sendRedirect(casLoginUrl);
   }
 
-  @GetMapping(path = "/auth/validate/{examEventId:\\d+}/{type:\\w+}")
+  @GetMapping(path = "/auth/validate/{targetId:\\d+}/{type:\\w+}")
   public void validateTicket(
     @RequestParam final String ticket,
-    @PathVariable final long examEventId,
+    @PathVariable final long targetId,
     @PathVariable final String type,
     final HttpSession session,
     final HttpServletResponse httpResponse
   ) throws IOException {
     try {
       final EnrollmentType enrollmentType = EnrollmentType.fromString(type);
-      final Person person = publicAuthService.createPersonFromTicket(ticket, examEventId, enrollmentType);
+      final Person person = publicAuthService.createPersonFromTicket(ticket, targetId, enrollmentType);
       SessionUtil.setPersonId(session, person.getId());
 
       if (enrollmentType.equals(EnrollmentType.QUEUE)) {
-        publicEnrollmentService.initialiseEnrollmentToQueue(examEventId, person);
-      } else {
-        publicEnrollmentService.initialiseEnrollment(examEventId, person);
+        publicEnrollmentService.initialiseEnrollmentToQueue(targetId, person);
+      } else if (enrollmentType.equals(EnrollmentType.RESERVATION)) {
+        publicEnrollmentService.initialiseEnrollment(targetId, person);
+      } else if (enrollmentType.equals(EnrollmentType.APPOINTMENT)) {
+        final Long appointmentId = SessionUtil.getAppointmentId(session);
+        publicEnrollmentAppointmentService.savePersonInfo(targetId, appointmentId, person);
       }
 
-      httpResponse.sendRedirect(uiRouteUtil.getEnrollmentContactDetailsUrl(examEventId));
+      if (enrollmentType.equals(EnrollmentType.APPOINTMENT)) {
+        httpResponse.sendRedirect(uiRouteUtil.getEnrollmentAppointmentContactDetailsUrl(targetId));
+      } else {
+        httpResponse.sendRedirect(uiRouteUtil.getEnrollmentContactDetailsUrl(targetId));
+      }
     } catch (final APIException e) {
       LOG.warn("Encountered known error, redirecting to front page. Error:", e);
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
@@ -266,12 +348,9 @@ public class PublicController {
     if (session == null) {
       return Optional.empty();
     }
-
     try {
       return Optional.of(publicPersonService.getPersonDTO(publicAuthService.getPersonFromSession(session)));
     } catch (final NotFoundException e) {
-      session.invalidate();
-
       return Optional.empty();
     }
   }
@@ -286,20 +365,22 @@ public class PublicController {
     httpResponse.sendRedirect(publicAuthService.createCasLogoutUrl());
   }
 
-  @GetMapping(path = "/payment/create/{enrollmentId:\\d+}/redirect")
+  @GetMapping(path = "/payment/create/{targetId:\\d+}/{type:\\w+}/redirect")
   public void createPaymentAndRedirect(
-    @PathVariable final Long enrollmentId,
+    @PathVariable final Long targetId,
+    @PathVariable final String type,
     @RequestParam final Optional<String> locale,
     final HttpSession session,
     final HttpServletResponse httpResponse
   ) throws IOException {
     try {
+      final EnrollmentType enrollmentType = EnrollmentType.fromString(type);
       final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
-      final String redirectUrl = paymentService.createPaymentForEnrollment(
-        enrollmentId,
-        person,
-        locale.isPresent() ? AppLocale.fromString(locale.get()) : AppLocale.FI
-      );
+      final AppLocale localeOrDefault = locale.isPresent() ? AppLocale.fromString(locale.get()) : AppLocale.FI;
+
+      final String redirectUrl = enrollmentType.equals(EnrollmentType.APPOINTMENT)
+        ? paymentService.createPaymentForEnrollmentAppointment(targetId, person, localeOrDefault)
+        : paymentService.createPaymentForEnrollment(targetId, person, localeOrDefault);
 
       httpResponse.sendRedirect(redirectUrl);
     } catch (final APIException e) {

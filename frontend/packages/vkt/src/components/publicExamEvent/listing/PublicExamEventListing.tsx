@@ -5,7 +5,7 @@ import { CustomCircularProgress, CustomTable, H2 } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
-import { LanguageFilter } from 'components/publicExamEvent/LanguageFilter';
+import { LanguageFilter } from 'components/common/LanguageFilter';
 import { PublicExamEventListingHeader } from 'components/publicExamEvent/listing/PublicExamEventListingHeader';
 import { PublicExamEventListingRow } from 'components/publicExamEvent/listing/PublicExamEventListingRow';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';

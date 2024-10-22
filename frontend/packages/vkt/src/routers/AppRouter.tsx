@@ -20,16 +20,24 @@ import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import {
+  PublicEnrollmentAppointmentFormStep,
+  PublicEnrollmentContactFormStep,
+  PublicEnrollmentFormStep,
+} from 'enums/publicEnrollment';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ClerkEnrollmentOverviewPage } from 'pages/ClerkEnrollmentOverviewPage';
 import { ClerkExamEventCreatePage } from 'pages/ClerkExamEventCreatePage';
 import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
+import { PublicEnrollmentPage } from 'pages/excellentLevel/PublicEnrollmentPage';
+import { PublicExcellentLevelLandingPage } from 'pages/excellentLevel/PublicExcellentLevelLandingPage';
+import { PublicGoodAndSatisfactoryLevelLandingPage } from 'pages/goodAndSatisfactoryLevel/PublicGoodAndSatisfactoryLevelLandingPage';
 import { LogoutSuccess } from 'pages/LogoutSuccess';
 import { NotFoundPage } from 'pages/NotFoundPage';
-import { PublicEnrollmentPage } from 'pages/PublicEnrollmentPage';
+import { PublicEnrollmentAppointmentPage } from 'pages/PublicEnrollmentAppointmentPage';
+import { PublicEnrollmentContactPage } from 'pages/PublicEnrollmentContactPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 import { loadFeatureFlags } from 'redux/reducers/featureFlags';
 import { featureFlagsSelector } from 'redux/selectors/featureFlags';
@@ -66,7 +74,8 @@ export const AppRouter: FC = () => {
         <ScrollToTop />
         <PersistGate persistor={persistor} />
         <main className="content" id="main-content">
-          <div className="content__container">
+          <div className="content__container rows">
+            <div id="mobile-menu-placeholder" className="rows" />
             <Outlet />
           </div>
         </main>
@@ -75,17 +84,35 @@ export const AppRouter: FC = () => {
     </div>
   );
 
+  // TODO Consider serving different page as front page when feature flag for good and satisfactory levels is enabled?
   const FrontPage = (
     <TitlePage title={createTitle('frontPage')}>
       <PublicHomePage />
     </TitlePage>
   );
 
+  // TODO Enable / disable routes for good and satisfactory level based on feature flag?
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path={AppRoutes.PublicRoot} element={Root}>
         <Route index={true} element={FrontPage} />
         <Route path={AppRoutes.PublicHomePage} element={FrontPage} />
+        <Route
+          path={AppRoutes.PublicExcellentLevelLanding}
+          element={
+            <TitlePage title={createTitle('excellentLevelLanding')}>
+              <PublicExcellentLevelLandingPage />
+            </TitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.PublicGoodAndSatisfactoryLevelLanding}
+          element={
+            <TitlePage title={createTitle('goodAndSatisfactoryLevelLanding')}>
+              <PublicGoodAndSatisfactoryLevelLandingPage />
+            </TitlePage>
+          }
+        />
         <Route path={AppRoutes.PublicEnrollment}>
           <Route
             path={AppRoutes.PublicAuth}
@@ -173,6 +200,96 @@ export const AppRouter: FC = () => {
               <TitlePage title={createTitle('done')}>
                 <PublicEnrollmentPage
                   activeStep={PublicEnrollmentFormStep.DoneQueued}
+                />
+              </TitlePage>
+            }
+          />
+        </Route>
+        <Route path={AppRoutes.PublicEnrollmentAppointment}>
+          <Route
+            path={AppRoutes.PublicAuthAppointment}
+            element={
+              <TitlePage title={createTitle('authenticate')}>
+                <PublicEnrollmentAppointmentPage
+                  activeStep={PublicEnrollmentAppointmentFormStep.Authenticate}
+                />
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.PublicEnrollmentAppointmentContactDetails}
+            element={
+              <TitlePage title={createTitle('contactDetails')}>
+                <PublicEnrollmentAppointmentPage
+                  activeStep={
+                    PublicEnrollmentAppointmentFormStep.FillContactDetails
+                  }
+                />
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.PublicEnrollmentAppointmentPreview}
+            element={
+              <TitlePage title={createTitle('preview')}>
+                <PublicEnrollmentAppointmentPage
+                  activeStep={PublicEnrollmentAppointmentFormStep.Preview}
+                />
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.PublicEnrollmentAppointmentPaymentFail}
+            element={
+              <TitlePage title={createTitle('paymentFail')}>
+                <PublicEnrollmentAppointmentPage
+                  activeStep={PublicEnrollmentAppointmentFormStep.PaymentFail}
+                />
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.PublicEnrollmentAppointmentPaymentSuccess}
+            element={
+              <TitlePage title={createTitle('paymentSuccess')}>
+                <PublicEnrollmentAppointmentPage
+                  activeStep={
+                    PublicEnrollmentAppointmentFormStep.PaymentSuccess
+                  }
+                />
+              </TitlePage>
+            }
+          />
+        </Route>
+        <Route path={AppRoutes.PublicEnrollmentContact}>
+          <Route
+            path={AppRoutes.PublicEnrollmentContactContactDetails}
+            element={
+              <TitlePage title={createTitle('authenticate')}>
+                <PublicEnrollmentContactPage
+                  activeStep={
+                    PublicEnrollmentContactFormStep.FillContactDetails
+                  }
+                />
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.PublicEnrollmentContactSelectExam}
+            element={
+              <TitlePage title={createTitle('authenticate')}>
+                <PublicEnrollmentContactPage
+                  activeStep={PublicEnrollmentContactFormStep.SelectExam}
+                />
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.PublicEnrollmentContactDone}
+            element={
+              <TitlePage title={createTitle('authenticate')}>
+                <PublicEnrollmentContactPage
+                  activeStep={PublicEnrollmentContactFormStep.Done}
                 />
               </TitlePage>
             }

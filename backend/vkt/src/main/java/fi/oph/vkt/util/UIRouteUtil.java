@@ -30,4 +30,20 @@ public class UIRouteUtil {
   private String getPublicBaseUrl() {
     return environment.getRequiredProperty("app.base-url.public");
   }
+
+  public String getEnrollmentAppointmentUrl(final long enrollmentAppointmentId) {
+    return String.format(
+      "%s/hyva-ja-tyydyttava-taito/ilmoittaudu/%s/tunnistaudu",
+      getPublicBaseUrl(),
+      enrollmentAppointmentId
+    );
+  }
+
+  public String getEnrollmentAppointmentContactDetailsUrl(final long enrollmentAppointmentId) {
+    return String.format(
+      "%s/hyva-ja-tyydyttava-taito/ilmoittaudu/%s/tiedot",
+      getPublicBaseUrl(),
+      enrollmentAppointmentId
+    );
+  }
 }

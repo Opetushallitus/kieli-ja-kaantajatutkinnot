@@ -2,18 +2,21 @@ package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentSkill;
 import fi.oph.vkt.model.type.EnrollmentStatus;
+import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.payment.PaymentProvider;
 import fi.oph.vkt.payment.paytrail.Customer;
 import fi.oph.vkt.payment.paytrail.Item;
 import fi.oph.vkt.payment.paytrail.PaytrailConfig;
 import fi.oph.vkt.payment.paytrail.PaytrailResponseDTO;
+import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.PaymentRepository;
 import fi.oph.vkt.util.EnrollmentUtil;
@@ -24,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,17 +44,44 @@ public class PaymentService {
   private final PaymentProvider paymentProvider;
   private final PaymentRepository paymentRepository;
   private final EnrollmentRepository enrollmentRepository;
+  private final EnrollmentAppointmentRepository enrollmentAppointmentRepository;
   private final Environment environment;
   private final PublicEnrollmentEmailService publicEnrollmentEmailService;
 
-  private Item getItem(final EnrollmentSkill enrollmentSkill, final int unitPrice) {
+  private Item getItem(final EnrollmentSkill enrollmentSkill, final int unitPrice, final ExamLevel examLevel) {
     return Item
       .builder()
       .units(1)
       .unitPrice(unitPrice)
       .vatPercentage(PaytrailConfig.VAT)
-      .productCode(enrollmentSkill.toString())
+      .productCode(examLevel.toString() + "-" + enrollmentSkill.toString())
       .build();
+  }
+
+  private List<Item> getItems(final EnrollmentAppointment enrollmentAppointment) {
+    final List<Item> itemList = new ArrayList<>();
+
+    if (enrollmentAppointment.isTextualSkill()) {
+      itemList.add(
+        getItem(EnrollmentSkill.TEXTUAL, EnrollmentUtil.getTextualSkillFee(enrollmentAppointment), ExamLevel.GOOD)
+      );
+    }
+    if (enrollmentAppointment.isOralSkill()) {
+      itemList.add(
+        getItem(EnrollmentSkill.ORAL, EnrollmentUtil.getOralSkillFee(enrollmentAppointment), ExamLevel.GOOD)
+      );
+    }
+    if (enrollmentAppointment.isUnderstandingSkill()) {
+      itemList.add(
+        getItem(
+          EnrollmentSkill.UNDERSTANDING,
+          EnrollmentUtil.getUnderstandingSkillFee(enrollmentAppointment),
+          ExamLevel.GOOD
+        )
+      );
+    }
+
+    return itemList;
   }
 
   private List<Item> getItems(final Enrollment enrollment, final FreeEnrollmentDetails freeEnrollmentDetails) {
@@ -58,14 +89,26 @@ public class PaymentService {
 
     if (enrollment.isTextualSkill()) {
       itemList.add(
-        getItem(EnrollmentSkill.TEXTUAL, EnrollmentUtil.getTextualSkillFee(enrollment, freeEnrollmentDetails))
+        getItem(
+          EnrollmentSkill.TEXTUAL,
+          EnrollmentUtil.getTextualSkillFee(enrollment, freeEnrollmentDetails),
+          ExamLevel.EXCELLENT
+        )
       );
     }
     if (enrollment.isOralSkill()) {
-      itemList.add(getItem(EnrollmentSkill.ORAL, EnrollmentUtil.getOralSkillFee(enrollment, freeEnrollmentDetails)));
+      itemList.add(
+        getItem(
+          EnrollmentSkill.ORAL,
+          EnrollmentUtil.getOralSkillFee(enrollment, freeEnrollmentDetails),
+          ExamLevel.EXCELLENT
+        )
+      );
     }
     if (enrollment.isUnderstandingSkill()) {
-      itemList.add(getItem(EnrollmentSkill.UNDERSTANDING, EnrollmentUtil.getUnderstandingSkillFee(enrollment)));
+      itemList.add(
+        getItem(EnrollmentSkill.UNDERSTANDING, EnrollmentUtil.getUnderstandingSkillFee(enrollment), ExamLevel.EXCELLENT)
+      );
     }
 
     return itemList;
@@ -76,6 +119,19 @@ public class PaymentService {
     // This can happen if you have free enrollment for only one
     // skill but you apply for both
     return enrollment.enrollmentNeedsApproval() ? EnrollmentStatus.AWAITING_APPROVAL : EnrollmentStatus.COMPLETED;
+  }
+
+  private void setEnrollmentStatus(
+    final EnrollmentAppointment enrollmentAppointment,
+    final PaymentStatus paymentStatus
+  ) {
+    switch (paymentStatus) {
+      case NEW, PENDING, DELAYED -> {}
+      case OK -> enrollmentAppointment.setStatus(EnrollmentStatus.COMPLETED);
+      case FAIL -> {
+        enrollmentAppointment.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
+      }
+    }
   }
 
   private void setEnrollmentStatus(final Enrollment enrollment, final PaymentStatus paymentStatus) {
@@ -131,23 +187,39 @@ public class PaymentService {
       throw new APIException(APIExceptionType.PAYMENT_REFERENCE_MISMATCH);
     }
 
-    final Enrollment enrollment = payment.getEnrollment();
-    FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(enrollment.getPerson());
+    if (payment.getEnrollment() != null) {
+      final Enrollment enrollment = payment.getEnrollment();
+      setEnrollmentStatus(enrollment, newStatus);
+      final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(
+        enrollment.getPerson()
+      );
 
-    setEnrollmentStatus(enrollment, newStatus);
+      setEnrollmentStatus(enrollment, newStatus);
 
-    payment.setPaymentStatus(newStatus);
-    paymentRepository.saveAndFlush(payment);
+      payment.setPaymentStatus(newStatus);
+      paymentRepository.saveAndFlush(payment);
 
-    if (newStatus == PaymentStatus.OK) {
-      if (enrollment.getFreeEnrollment() != null) {
-        publicEnrollmentEmailService.sendPartiallyFreeEnrollmentConfirmationEmail(
-          enrollment,
-          enrollment.getPerson(),
-          freeEnrollmentDetails
-        );
-      } else {
-        publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment);
+      if (newStatus == PaymentStatus.OK) {
+        if (enrollment.getFreeEnrollment() != null) {
+          publicEnrollmentEmailService.sendPartiallyFreeEnrollmentConfirmationEmail(
+            enrollment,
+            enrollment.getPerson(),
+            freeEnrollmentDetails
+          );
+        } else {
+          publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment);
+        }
+      }
+    } else {
+      final EnrollmentAppointment enrollmentAppointment = payment.getEnrollmentAppointment();
+      setEnrollmentStatus(enrollmentAppointment, newStatus);
+
+      payment.setPaymentStatus(newStatus);
+      paymentRepository.saveAndFlush(payment);
+
+      // FIXME
+      if (newStatus == PaymentStatus.OK) {
+        //publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollmentAppointment);
       }
     }
 
@@ -169,9 +241,67 @@ public class PaymentService {
     final Payment payment = paymentRepository
       .findById(paymentId)
       .orElseThrow(() -> new NotFoundException("Payment not found"));
-    final ExamEvent examEvent = payment.getEnrollment().getExamEvent();
 
-    return String.format("%s/ilmoittaudu/%d/maksu/%s", baseUrl, examEvent.getId(), state);
+    return payment.getEnrollment() != null
+      ? String.format(
+        "%s/erinomainen-taito/ilmoittaudu/%d/maksu/%s",
+        baseUrl,
+        payment.getEnrollment().getExamEvent().getId(),
+        state
+      )
+      : String.format(
+        "%s/hyva-ja-tyydyttava-taito/ilmoittaudu/%d/maksu/%s",
+        baseUrl,
+        payment.getEnrollmentAppointment().getId(),
+        state
+      );
+  }
+
+  @Transactional
+  public String createPaymentForEnrollmentAppointment(
+    final Long enrollmentId,
+    final Person person,
+    final AppLocale appLocale
+  ) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository
+      .findById(enrollmentId)
+      .orElseThrow(() -> new NotFoundException("Enrollment not found"));
+
+    if (enrollmentAppointment.getPerson() == null || enrollmentAppointment.getPerson().getId() != person.getId()) {
+      throw new APIException(APIExceptionType.PAYMENT_PERSON_SESSION_MISMATCH);
+    }
+
+    final List<Item> itemList = getItems(enrollmentAppointment);
+    final Customer customer = Customer
+      .builder()
+      .email(getCustomerField(enrollmentAppointment.getEmail(), Customer.EMAIL_MAX_LENGTH))
+      .phone(getCustomerField(enrollmentAppointment.getPhoneNumber(), Customer.PHONE_MAX_LENGTH))
+      .firstName(getCustomerField(person.getFirstName(), Customer.FIRST_NAME_MAX_LENGTH))
+      .lastName(getCustomerField(person.getLastName(), Customer.LAST_NAME_MAX_LENGTH))
+      .build();
+
+    final int amount = EnrollmentUtil.getTotalFee(enrollmentAppointment);
+
+    final Payment payment = new Payment();
+    payment.setEnrollmentAppointment(enrollmentAppointment);
+    payment.setAmount(amount);
+    paymentRepository.saveAndFlush(payment);
+
+    final PaytrailResponseDTO response = paymentProvider.createPayment(
+      itemList,
+      payment.getId(),
+      customer,
+      amount,
+      appLocale
+    );
+
+    payment.setTransactionId(response.getTransactionId());
+    payment.setReference(response.getReference());
+    payment.setPaymentUrl(response.getHref());
+    payment.setPaymentStatus(PaymentStatus.NEW);
+    paymentRepository.saveAndFlush(payment);
+
+    return payment.getPaymentUrl();
   }
 
   @Transactional

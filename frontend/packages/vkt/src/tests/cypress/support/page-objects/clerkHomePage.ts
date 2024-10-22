@@ -5,7 +5,7 @@ const row = (id: number) => `clerk-exam-events__id-${id}-row`;
 class ClerkHomePage {
   elements = {
     examEventRow: (id: number) => cy.findByTestId(row(id)),
-    languageFilter: () => cy.findByTestId('exam-events__language-filter'),
+    languageFilter: () => cy.findByTestId('language-filter'),
     pagination: () => cy.get('.table__head-box__pagination'),
     toggleFilter: (toggleFilter: ExamEventToggleFilter) =>
       cy.findByTestId(`clerk-exam-event-toggle-filters__${toggleFilter}-btn`),

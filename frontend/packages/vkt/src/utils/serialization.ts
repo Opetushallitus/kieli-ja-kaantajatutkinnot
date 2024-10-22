@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { DateUtils } from 'shared/utils';
 
+import { ExamLanguage } from 'enums/app';
 import {
   ClerkEnrollment,
   ClerkEnrollmentResponse,
@@ -22,6 +23,8 @@ import {
 } from 'interfaces/publicEducation';
 import {
   PublicEnrollment,
+  PublicEnrollmentAppointment,
+  PublicEnrollmentAppointmentResponse,
   PublicEnrollmentResponse,
   PublicReservation,
   PublicReservationResponse,
@@ -30,6 +33,10 @@ import {
   PublicExamEvent,
   PublicExamEventResponse,
 } from 'interfaces/publicExamEvent';
+import {
+  PublicExaminer,
+  PublicExaminerResponse,
+} from 'interfaces/publicExaminer';
 
 export class SerializationUtils {
   static deserializePublicExamEvent(
@@ -40,6 +47,17 @@ export class SerializationUtils {
       date: dayjs(publicExamEvent.date),
       registrationCloses: dayjs(publicExamEvent.registrationCloses),
       registrationOpens: dayjs(publicExamEvent.registrationOpens),
+    };
+  }
+
+  static deserializePublicEnrollmentAppointment(
+    enrollment: PublicEnrollmentAppointmentResponse,
+  ): PublicEnrollmentAppointment {
+    return {
+      ...enrollment,
+      emailConfirmation: '',
+      hasPreviousEnrollment: !!enrollment.previousEnrollment,
+      privacyStatementConfirmation: false,
     };
   }
 
@@ -175,5 +193,27 @@ export class SerializationUtils {
       name: toEducationType(e.educationType, e.isActive),
       ongoing: e.isActive,
     }));
+  }
+
+  static deserializePublicExaminer(
+    publicExaminer: PublicExaminerResponse,
+  ): PublicExaminer {
+    let examinerLanguage;
+    if (publicExaminer.languages.includes(ExamLanguage.SV)) {
+      examinerLanguage = ExamLanguage.SV;
+      if (publicExaminer.languages.includes(ExamLanguage.FI)) {
+        examinerLanguage = ExamLanguage.ALL;
+      }
+    } else {
+      examinerLanguage = ExamLanguage.FI;
+    }
+
+    return {
+      id: publicExaminer.id,
+      name: `${publicExaminer.firstName} ${publicExaminer.lastName}`,
+      language: examinerLanguage,
+      municipalities: publicExaminer.municipalities,
+      examDates: publicExaminer.examDates.map(dayjs),
+    };
   }
 }
