@@ -665,6 +665,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     enrollmentAppointment.setPostalCode(dto.postalCode());
     enrollmentAppointment.setTown(dto.town());
     enrollmentAppointment.setCountry(dto.country());
+    enrollmentAppointment.setPhoneNumber(dto.phoneNumber());
 
     if (dto.digitalCertificateConsent()) {
       clearAddress(enrollmentAppointment);

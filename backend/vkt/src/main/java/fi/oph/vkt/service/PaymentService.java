@@ -243,8 +243,18 @@ public class PaymentService {
       .orElseThrow(() -> new NotFoundException("Payment not found"));
 
     return payment.getEnrollment() != null
-      ? String.format("%s/ilmoittaudu/%d/maksu/%s", baseUrl, payment.getEnrollment().getExamEvent().getId(), state)
-      : String.format("%s/markkinapaikka/%d/maksu/%s", baseUrl, payment.getEnrollmentAppointment().getId(), state);
+      ? String.format(
+        "%s/erinomainen-taito/ilmoittaudu/%d/maksu/%s",
+        baseUrl,
+        payment.getEnrollment().getExamEvent().getId(),
+        state
+      )
+      : String.format(
+        "%s/hyva-ja-tyydyttava-taito/ilmoittaudu/%d/maksu/%s",
+        baseUrl,
+        payment.getEnrollmentAppointment().getId(),
+        state
+      );
   }
 
   @Transactional

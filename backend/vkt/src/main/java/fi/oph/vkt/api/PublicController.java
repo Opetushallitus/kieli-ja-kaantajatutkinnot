@@ -194,7 +194,7 @@ public class PublicController {
     final Person person = publicAuthService.getPersonFromSession(session);
 
     if (enrollmentAppointmentId != dto.id()) {
-      throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
+      throw new APIException(APIExceptionType.APPOINTMENT_ID_MISMATCH);
     }
 
     return publicEnrollmentService.saveEnrollmentAppointment(dto, person);
