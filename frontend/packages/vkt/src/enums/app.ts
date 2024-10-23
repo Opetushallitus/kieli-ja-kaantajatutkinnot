@@ -63,6 +63,7 @@ export enum AppRoutes {
   ClerkExamEventCreatePage = '/vkt/virkailija/tutkintotilaisuus/luo',
   ClerkExamEventOverviewPage = '/vkt/virkailija/tutkintotilaisuus/:examEventId',
   ClerkEnrollmentOverviewPage = '/vkt/virkailija/tutkintotilaisuus/:examEventId/ilmoittautuminen',
+  ClerkEnrollmentContactRequestPage = '/vkt/virkailija/yhteydenottopyynto/:enrollmentContactRequestId',
   ClerkLocalLogoutPage = '/vkt/cas/localLogout',
 
   // Miscellaneous

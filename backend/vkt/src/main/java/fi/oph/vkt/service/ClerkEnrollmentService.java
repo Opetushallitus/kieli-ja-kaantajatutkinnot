@@ -2,6 +2,7 @@ package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
@@ -212,5 +213,24 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
       throw new RuntimeException("Koski returned empty education details");
     }
     koskiService.saveEducationsForEnrollment(freeEnrollment, enrollment.getExamEvent().getId(), educationDTOs);
+  }
+
+  public ClerkEnrollmentContactRequestDTO getEnrollmentContactRequest(final long enrollmentId) {
+    return ClerkEnrollmentContactRequestDTO.builder()
+            .id(enrollmentId)
+            .version(1)
+            .enrollmentTime(LocalDateTime.now())
+            .oralSkill(true)
+            .textualSkill(true)
+            .understandingSkill(true)
+            .speakingPartialExam(true)
+            .speechComprehensionPartialExam(true)
+            .writingPartialExam(true)
+            .readingComprehensionPartialExam(true)
+            .status(EnrollmentStatus.CANCELED)
+            .email("foo@bar")
+            .firstName("Testi")
+            .lastName("Tessilä")
+            .build();
   }
 }
