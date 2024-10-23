@@ -68,3 +68,14 @@ export interface ClerkEnrollmentStatusChange extends WithId, WithVersion {
 export interface ClerkEnrollmentMove extends WithId, WithVersion {
   toExamEventId: number;
 }
+
+export interface ClerkEnrollmentContact
+  extends Omit<ClerkEnrollment, 'payments'> {
+  firstName: string;
+  lastName: string;
+}
+
+export interface ClerkEnrollmentContactResponse
+  extends Omit<ClerkEnrollmentContact, 'enrollmentTime'> {
+  enrollmentTime: string;
+}

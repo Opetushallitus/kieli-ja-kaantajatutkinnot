@@ -1,5 +1,6 @@
 import { all } from 'redux-saga/effects';
 
+import { watchClerkEnrollmentContactRequest } from 'redux/sagas/clerkEnrollmentContactRequest';
 import { watchClerkEnrollmentDetails } from 'redux/sagas/clerkEnrollmentDetails';
 import { watchClerkExamEventOverview } from 'redux/sagas/clerkExamEventOverview';
 import { watchListExamEvents } from 'redux/sagas/clerkListExamEvent';
@@ -19,6 +20,7 @@ export default function* rootSaga() {
   yield all([
     watchListExamEvents(),
     watchClerkNewExamDate(),
+    watchClerkEnrollmentContactRequest(),
     watchClerkUser(),
     watchPublicUser(),
     watchPublicEnrollments(),

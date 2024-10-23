@@ -4,6 +4,7 @@ import { DateUtils } from 'shared/utils';
 import { ExamLanguage } from 'enums/app';
 import {
   ClerkEnrollment,
+  ClerkEnrollmentContactResponse,
   ClerkEnrollmentResponse,
   ClerkPaymentLinkResponse,
   ClerkPaymentResponse,
@@ -98,6 +99,15 @@ export class SerializationUtils {
     return {
       ...paymentLink,
       expiresAt: dayjs(paymentLink.expiresAt),
+    };
+  }
+
+  static deserializeClerkEnrollmentContactRequest(
+    enrollment: ClerkEnrollmentContactResponse,
+  ) {
+    return {
+      ...enrollment,
+      enrollmentTime: dayjs(enrollment.enrollmentTime),
     };
   }
 

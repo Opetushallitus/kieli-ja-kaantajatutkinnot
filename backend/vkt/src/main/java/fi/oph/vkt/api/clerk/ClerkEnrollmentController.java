@@ -4,6 +4,7 @@ import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_PDF_VALUE;
 
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
@@ -73,6 +74,12 @@ public class ClerkEnrollmentController {
   @Operation(tags = TAG_ENROLLMENT, summary = "Move enrollment to another exam event")
   public ClerkEnrollmentDTO move(@RequestBody @Valid final ClerkEnrollmentMoveDTO dto) {
     return clerkEnrollmentService.move(dto);
+  }
+
+  @GetMapping(path = "/contact/{enrollmentContactId:\\d+}", consumes = ALL_VALUE)
+  @Operation(tags = TAG_ENROLLMENT, summary = "Get enrollment contact request")
+  public ClerkEnrollmentContactRequestDTO enrollmentContactRequest(@PathVariable final long enrollmentContactId) {
+    return clerkEnrollmentService.getEnrollmentContactRequest(enrollmentContactId);
   }
 
   @GetMapping(path = "/attachment", consumes = ALL_VALUE)
