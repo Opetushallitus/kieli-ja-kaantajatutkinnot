@@ -24,5 +24,4 @@ public record ClerkEnrollmentContactRequestDTO(
   @NonNull @NotBlank String email,
   @NonNull @NotBlank String firstName,
   @NonNull @NotBlank String lastName
-) {
-}
+) {}

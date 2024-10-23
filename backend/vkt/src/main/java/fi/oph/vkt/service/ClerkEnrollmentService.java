@@ -216,21 +216,22 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   }
 
   public ClerkEnrollmentContactRequestDTO getEnrollmentContactRequest(final long enrollmentId) {
-    return ClerkEnrollmentContactRequestDTO.builder()
-            .id(enrollmentId)
-            .version(1)
-            .enrollmentTime(LocalDateTime.now())
-            .oralSkill(true)
-            .textualSkill(true)
-            .understandingSkill(true)
-            .speakingPartialExam(true)
-            .speechComprehensionPartialExam(true)
-            .writingPartialExam(true)
-            .readingComprehensionPartialExam(true)
-            .status(EnrollmentStatus.CANCELED)
-            .email("foo@bar")
-            .firstName("Testi")
-            .lastName("Tessilä")
-            .build();
+    return ClerkEnrollmentContactRequestDTO
+      .builder()
+      .id(enrollmentId)
+      .version(1)
+      .enrollmentTime(LocalDateTime.now())
+      .oralSkill(true)
+      .textualSkill(true)
+      .understandingSkill(true)
+      .speakingPartialExam(true)
+      .speechComprehensionPartialExam(true)
+      .writingPartialExam(true)
+      .readingComprehensionPartialExam(true)
+      .status(EnrollmentStatus.CANCELED)
+      .email("foo@bar")
+      .firstName("Testi")
+      .lastName("Tessilä")
+      .build();
   }
 }
