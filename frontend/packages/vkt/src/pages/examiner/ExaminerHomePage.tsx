@@ -7,7 +7,7 @@ import {
   Grid,
   Paper,
 } from '@mui/material';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   H1,
@@ -23,8 +23,10 @@ import {
   TextFieldVariant,
 } from 'shared/enums';
 
+import { useKoodistoMunicipalitiesTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { useMunicipalityOptions } from 'hooks/useKoodistoMunicipalities';
 import { loadExaminerDetails } from 'redux/reducers/examinerDetails';
 import { loadExaminerDetailsInit } from 'redux/reducers/examinerDetailsInit';
 import { clerkUserSelector } from 'redux/selectors/clerkUser';
@@ -32,7 +34,14 @@ import { examinerDetailsSelector } from 'redux/selectors/examinerDetails';
 import { examinerDetailsInitSelector } from 'redux/selectors/examinerDetailsInit';
 
 const InitializeExaminerDetails = () => {
+  const translateMunicipality = useKoodistoMunicipalitiesTranslation();
   const { initData } = useAppSelector(examinerDetailsInitSelector);
+  const municipalityOptions = useMunicipalityOptions();
+  const municipalityToOption = (municipality: string) => ({
+    value: municipality,
+    label: translateMunicipality(municipality),
+  });
+  const [municipalities, setMunicipalities] = useState<Array<string>>([]);
 
   return (
     <Paper elevation={3} className="examiner-details-page__details-view">
@@ -89,10 +98,11 @@ const InitializeExaminerDetails = () => {
             showInputLabel={false}
             showError={false}
             variant={TextFieldVariant.Outlined}
-            values={[
-              { label: 'Helsinki', value: 'Helsinki' },
-              { label: 'Espoo', value: 'Espoo' },
-            ]}
+            values={municipalityOptions}
+            value={municipalities.map(municipalityToOption)}
+            onChange={(_, options) => {
+              setMunicipalities(options.map((v) => v.value));
+            }}
           />
         </div>
       </div>

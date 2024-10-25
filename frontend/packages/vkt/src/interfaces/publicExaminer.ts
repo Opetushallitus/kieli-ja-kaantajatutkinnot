@@ -3,7 +3,7 @@ import { APIResponseStatus } from 'shared/enums';
 import { WithId } from 'shared/interfaces';
 
 import { ExamLanguage } from 'enums/app';
-import { Municipality } from './municipality';
+import { Municipality } from 'interfaces/municipality';
 
 
 interface PublicExaminerExamDate {

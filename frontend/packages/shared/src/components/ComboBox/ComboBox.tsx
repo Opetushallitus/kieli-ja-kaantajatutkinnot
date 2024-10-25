@@ -177,6 +177,7 @@ type AutoCompleteMultipleComboBox = AutocompleteProps<
   false,
   false
 >;
+
 export const LabeledMultipleCheckboxDropdown = ({
   id,
   label,
@@ -187,7 +188,7 @@ export const LabeledMultipleCheckboxDropdown = ({
   value,
   onChange,
   ...rest
-}: Omit<ComboBoxProps, 'value' | 'onChange'> &
+}: Omit<ComboBoxProps, 'value' | 'onChange' | 'showInputLabel'> &
   Omit<AutoCompleteMultipleComboBox, 'options' | 'renderInput'> & {
     id: string;
   }) => {
@@ -207,6 +208,7 @@ export const LabeledMultipleCheckboxDropdown = ({
         disableCloseOnSelect
         options={values}
         value={value}
+        isOptionEqualToValue={(option, value) => option.value === value.value}
         renderOption={(props, option, { selected }) => {
           const { key, ...optionProps } = props;
           return (
@@ -222,11 +224,7 @@ export const LabeledMultipleCheckboxDropdown = ({
           );
         }}
         renderInput={(params) => (
-          <TextField
-            {...params}
-            variant={variant}
-            error={showError}
-          />
+          <TextField {...params} variant={variant} error={showError} />
         )}
         onChange={onChange}
         {...rest}
