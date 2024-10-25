@@ -34,7 +34,7 @@ public class ExaminerDetailsController {
   }
 
   @GetMapping(path = "/init")
-  @Operation(tags = TAG_EXAMINER, summary = "Get examiner personal data needed for initializing examiner details")
+  @Operation(tags = TAG_EXAMINER, summary = "Get personal data needed for initializing examiner details")
   public ExaminerDetailsInitDTO getInitialExaminerDetails(@PathVariable("oid") String oid) {
     return examinerDetailsService.getInitialExaminerPersonalData(oid);
   }

@@ -36,7 +36,8 @@ public enum APIExceptionType {
   ATTACHMENT_PERSON_MISMATCH,
   TICKET_VALIDATION_ERROR,
   EXAMINER_ALREADY_INITIALIZED,
-  EXAMINER_ONR_NOT_FOUND;
+  EXAMINER_ONR_NOT_FOUND,
+  EXAMINER_NOT_FOUND;
 
   public String getCode() {
     final StringBuilder codeBuilder = new StringBuilder();

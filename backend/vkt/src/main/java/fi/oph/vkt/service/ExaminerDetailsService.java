@@ -88,6 +88,9 @@ public class ExaminerDetailsService {
   public ExaminerDetailsDTO getExaminer(final String oid) {
     // TODO Audit log entry
     Examiner examiner = examinerRepository.getByOid(oid);
+    if (examiner == null) {
+      throw new APIException(APIExceptionType.EXAMINER_NOT_FOUND);
+    }
     return toExaminerDetailsDTO(examiner);
   }
 
