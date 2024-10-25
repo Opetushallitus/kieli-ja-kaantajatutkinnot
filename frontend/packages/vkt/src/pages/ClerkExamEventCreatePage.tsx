@@ -32,7 +32,7 @@ const BackButton = () => {
 
   return (
     <CustomButtonLink
-      to={AppRoutes.ClerkHomePage}
+      to={AppRoutes.ClerkExcellentLevelPage}
       variant={Variant.Text}
       startIcon={<ArrowBackIosOutlinedIcon />}
       className="color-secondary-dark"

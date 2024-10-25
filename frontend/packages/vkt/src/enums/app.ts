@@ -5,6 +5,7 @@ export enum AppConstants {
 const excellentLevelRoutePrefix = '/vkt/erinomainen-taito';
 const excellentLevelEnrollmentRoute =
   excellentLevelRoutePrefix + '/ilmoittaudu';
+const clerkExcellentLevelRoutePrefix = '/vkt/virkailija/erinomainen-taito';
 
 export enum AppRoutes {
   PublicRoot = '/vkt',
@@ -30,11 +31,22 @@ export enum AppRoutes {
   PublicEnrollmentDone = excellentLevelEnrollmentRoute + '/:examEventId/valmis',
   // Routes for good and satisfactory level - TODO
   PublicGoodAndSatisfactoryLevelLanding = '/vkt/hyva-ja-tyydyttava-taito',
-  // Routes for clerk user
-  ClerkHomePage = '/vkt/virkailija',
-  ClerkExamEventCreatePage = '/vkt/virkailija/tutkintotilaisuus/luo',
-  ClerkExamEventOverviewPage = '/vkt/virkailija/tutkintotilaisuus/:examEventId',
-  ClerkEnrollmentOverviewPage = '/vkt/virkailija/tutkintotilaisuus/:examEventId/ilmoittautuminen',
+  ClerkRoot = '/vkt/virkailija/',
+  // Routes for clerk user / excellent level
+  ClerkExcellentLevelPage = clerkExcellentLevelRoutePrefix,
+  ClerkExamEventCreatePage = clerkExcellentLevelRoutePrefix +
+    '/tutkintotilaisuus/luo',
+  ClerkExamEventOverviewPage = clerkExcellentLevelRoutePrefix +
+    '/tutkintotilaisuus/:examEventId',
+  ClerkEnrollmentOverviewPage = clerkExcellentLevelRoutePrefix +
+    '/tutkintotilaisuus/:examEventId/ilmoittautuminen',
+  // Routes for clerk user / good and satisfactory level
+  ClerkGoodAndSatisfactoryLevelPage = '/vkt/virkailija/hyva-ja-tyydyttava-taito',
+  // Routes for examiner
+  ExaminerRoot = '/vkt/tv',
+  ExaminerHomePage = '/vkt/tv/:oid',
+  ExaminerDetailsPage = '/vkt/tv/:oid/omat-tiedot',
+  // Other clerk and examiner routes
   ClerkLocalLogoutPage = '/vkt/cas/localLogout',
   // Miscellaneous
   AccessibilityStatementPage = '/vkt/saavutettavuusseloste',
@@ -55,10 +67,6 @@ export enum ExamLevel {
 export enum ExamEventToggleFilter {
   Upcoming = 'upcoming',
   Passed = 'passed',
-}
-
-export enum HeaderNavTab {
-  ExamEvents = 'examEvents',
 }
 
 export enum UIMode {

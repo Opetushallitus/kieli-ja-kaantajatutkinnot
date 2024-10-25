@@ -1,0 +1,32 @@
+.examiner-details-page {
+  flex: 1;
+
+  & &__grid-container {
+    display: block;
+
+    &__heading {
+      margin: 2rem 0 1rem 1rem;
+    }
+  }
+
+  & &__details-view {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2.5rem;
+  }
+
+  & &__exam-languages {
+    fieldset {
+      border: 0;
+      margin-inline: unset;
+      padding: unset;
+    }
+  }
+
+  & &__municipalities {
+    label {
+      margin-bottom: 1rem;
+    }
+  }
+}

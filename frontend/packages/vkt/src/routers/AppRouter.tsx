@@ -26,7 +26,14 @@ import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ClerkEnrollmentOverviewPage } from 'pages/ClerkEnrollmentOverviewPage';
 import { ClerkExamEventCreatePage } from 'pages/ClerkExamEventCreatePage';
 import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
-import { ClerkHomePage } from 'pages/ClerkHomePage';
+import { ClerkExcellentLevelPage } from 'pages/ClerkExcellentLevelPage';
+import { ClerkGoodAndSatisfactoryLevelPage } from 'pages/ClerkGoodAndSatisfactoryLevelPage';
+import {
+  ExaminerDetailsPage,
+  ExaminerHomePage,
+} from 'pages/examiner/ExaminerHomePage';
+import { ExaminerRedirectPage } from 'pages/examiner/ExaminerRedirectPage';
+import { ExaminerRootPage } from 'pages/examiner/ExaminerRootPage';
 import { PublicEnrollmentPage } from 'pages/excellentLevel/PublicEnrollmentPage';
 import { PublicExcellentLevelLandingPage } from 'pages/excellentLevel/PublicExcellentLevelLandingPage';
 import { PublicGoodAndSatisfactoryLevelLandingPage } from 'pages/goodAndSatisfactoryLevel/PublicGoodAndSatisfactoryLevelLandingPage';
@@ -208,10 +215,18 @@ export const AppRouter: FC = () => {
           }
         />
         <Route
-          path={AppRoutes.ClerkHomePage}
+          path={AppRoutes.ClerkRoot}
           element={
-            <TitlePage title={createTitle('clerkHomepage')}>
-              <ClerkHomePage />
+            <TitlePage title={createTitle('clerkExcellentLevel')}>
+              <ClerkExcellentLevelPage />
+            </TitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ClerkExcellentLevelPage}
+          element={
+            <TitlePage title={createTitle('clerkExcellentLevel')}>
+              <ClerkExcellentLevelPage />
             </TitlePage>
           }
         />
@@ -239,6 +254,44 @@ export const AppRouter: FC = () => {
             </TitlePage>
           }
         />
+        <Route
+          path={AppRoutes.ClerkGoodAndSatisfactoryLevelPage}
+          element={
+            <TitlePage title={createTitle('clerkGoodAndSatisfactoryLevel')}>
+              <ClerkGoodAndSatisfactoryLevelPage />
+            </TitlePage>
+          }
+        />
+        <Route path={AppRoutes.ExaminerRoot}>
+          <Route
+            index={true}
+            element={
+              <TitlePage title={createTitle('examinerHomePage')}>
+                <ExaminerRedirectPage />
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ExaminerHomePage}
+            element={
+              <TitlePage title={createTitle('examinerHomePage')}>
+                <ExaminerRootPage>
+                  <ExaminerHomePage />
+                </ExaminerRootPage>
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ExaminerDetailsPage}
+            element={
+              <TitlePage title={createTitle('examinerDetails')}>
+                <ExaminerRootPage>
+                  <ExaminerDetailsPage />
+                </ExaminerRootPage>
+              </TitlePage>
+            }
+          />
+        </Route>
         <Route
           path={AppRoutes.LogoutSuccess}
           element={

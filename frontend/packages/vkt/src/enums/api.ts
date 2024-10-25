@@ -15,6 +15,9 @@ export enum APIEndpoints {
   FeatureFlags = '/vkt/api/v1/featureFlags',
   UploadPostPolicy = '/vkt/api/v1/uploadPostPolicy/:examEventId',
   ClerkRefreshKoskiEducationDetails = '/vkt/api/v1/clerk/enrollment/:enrollmentId/refreshKoskiEducationDetails',
+  // TODO Consider using prefix /examiner instead of /tv
+  ExaminerDetails = '/vkt/api/v1/tv/:oid',
+  ExaminerDetailsInit = '/vkt/api/v1/tv/:oid/init',
 }
 
 /**
@@ -46,4 +49,5 @@ export enum APIError {
   TicketValidationError = 'ticketValidationError',
   FileUploadError = 'fileUploadError',
   userAttachmentsMissing = 'userAttachmentsMissing',
+  ExaminerNotFound = 'examinerNotFound',
 }

@@ -5,6 +5,8 @@ import { watchClerkExamEventOverview } from 'redux/sagas/clerkExamEventOverview'
 import { watchListExamEvents } from 'redux/sagas/clerkListExamEvent';
 import { watchClerkNewExamDate } from 'redux/sagas/clerkNewExamDate';
 import { watchClerkUser } from 'redux/sagas/clerkUser';
+import { watchExaminerDetails } from 'redux/sagas/examinerDetails';
+import { watchExaminerDetailsInit } from 'redux/sagas/examinerDetailsInit';
 import { watchFeatureFlags } from 'redux/sagas/featureFlags';
 import { watchPublicEducation } from 'redux/sagas/publicEducation';
 import { watchPublicEnrollments } from 'redux/sagas/publicEnrollment';
@@ -27,5 +29,7 @@ export default function* rootSaga() {
     watchFileUpload(),
     watchPublicEducation(),
     watchPublicExaminers(),
+    watchExaminerDetails(),
+    watchExaminerDetailsInit(),
   ]);
 }

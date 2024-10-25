@@ -3,11 +3,8 @@ import { APIResponseStatus } from 'shared/enums';
 import { WithId } from 'shared/interfaces';
 
 import { ExamLanguage } from 'enums/app';
+import { Municipality } from './municipality';
 
-interface PublicMunicipality {
-  fi: string;
-  sv: string;
-}
 
 interface PublicExaminerExamDate {
   examDate: Dayjs;
@@ -21,7 +18,7 @@ interface PublicExaminerExamDateResponse extends Omit<PublicExaminerExamDate, 'e
 export interface PublicExaminer extends WithId {
   name: string;
   language: ExamLanguage;
-  municipalities: Array<PublicMunicipality>;
+  municipalities: Array<Municipality>;
   examDates: Array<PublicExaminerExamDate>;
 }
 
@@ -29,7 +26,7 @@ export interface PublicExaminerResponse extends WithId {
   lastName: string;
   firstName: string;
   languages: Array<ExamLanguage>;
-  municipalities: Array<PublicMunicipality>;
+  municipalities: Array<Municipality>;
   examDates: Array<PublicExaminerExamDateResponse>;
 }
 

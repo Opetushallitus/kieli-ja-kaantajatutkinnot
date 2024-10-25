@@ -6,6 +6,7 @@ export {
   valueAsOption,
   ComboBox,
   LabeledComboBox,
+  LabeledMultipleCheckboxDropdown,
 } from './ComboBox/ComboBox';
 export type { AutocompleteValue } from './ComboBox/ComboBox';
 export { CustomButton } from './CustomButton/CustomButton';

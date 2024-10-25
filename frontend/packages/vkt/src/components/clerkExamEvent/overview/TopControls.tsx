@@ -12,7 +12,7 @@ export const TopControls: FC = () => {
   return (
     <div className="columns">
       <CustomButtonLink
-        to={AppRoutes.ClerkHomePage}
+        to={AppRoutes.ClerkExcellentLevelPage}
         className="color-secondary-dark"
         variant={Variant.Text}
         startIcon={<ArrowBackIosOutlined />}

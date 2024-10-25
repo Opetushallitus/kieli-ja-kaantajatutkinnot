@@ -1,4 +1,4 @@
-//import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { NavigationLinks } from 'shared/components';
 
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
@@ -6,28 +6,45 @@ import { useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { clerkUserSelector } from 'redux/selectors/clerkUser';
 
-/*const getTabForPath = (path: string) => {
-  if (path === AppRoutes.ClerkHomePage) {
-    return HeaderNavTab.ExamEvents;
-  } else {
-    return false;
-  }
-};*/
+const ExaminerNavigationLinks = () => {
+  const { oid } = useAppSelector(clerkUserSelector);
+
+  const { t } = useClerkTranslation({
+    keyPrefix: 'vkt.component.header.navigationLinks',
+  });
+  const translateCommon = useCommonTranslation();
+  const goodAndSatisfactoryLevelLink = {
+    active: true,
+    href: AppRoutes.ExaminerDetailsPage.replace(/:oid/, oid),
+    label: t('goodAndSatisfactoryLevel'),
+  };
+
+  return (
+    <NavigationLinks
+      navigationAriaLabel={translateCommon(
+        'header.accessibility.mainNavigation',
+      )}
+      links={[goodAndSatisfactoryLevelLink]}
+    />
+  );
+};
 
 const AdminNavigationLinks = () => {
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.header.navigationLinks',
   });
   const translateCommon = useCommonTranslation();
-  //const navigate = useNavigate();
+  const { pathname } = useLocation();
   const excellentLevelLink = {
-    active: false,
+    active: pathname.startsWith(AppRoutes.ClerkExcellentLevelPage),
     href: AppRoutes.ClerkExcellentLevelPage,
     label: t('excellentLevel'),
   };
   const goodAndSatisfactoryLevelLink = {
-    active: true,
-    href: AppRoutes.ClerkExcellentLevelPage,
+    active:
+      pathname.startsWith(AppRoutes.ClerkGoodAndSatisfactoryLevelPage) ||
+      pathname.startsWith(AppRoutes.ExaminerRoot),
+    href: AppRoutes.ClerkGoodAndSatisfactoryLevelPage,
     label: t('goodAndSatisfactoryLevel'),
   };
 
@@ -42,38 +59,13 @@ const AdminNavigationLinks = () => {
 };
 
 export const ClerkNavigationLinks = (): JSX.Element => {
-  const { t } = useClerkTranslation({
-    keyPrefix: 'vkt.component.header.navigationLinks',
-  });
-  const translateCommon = useCommonTranslation();
-  //const navigate = useNavigate();
   const { isAdmin, isExaminer } = useAppSelector(clerkUserSelector);
-  const excellentLevelLink = {
-    active: false,
-    href: AppRoutes.ClerkExcellentLevelPage,
-    label: t('excellentLevel'),
-  };
-  // TODO Need to return different link for examiner and admin
-  // For examiner, the link should go to their own details
-  // For admin, the link should go to examiner listing
-  const goodAndSatisfactoryLevelLink = {
-    active: true,
-    href: AppRoutes.ClerkExcellentLevelPage,
-    label: t('goodAndSatisfactoryLevel'),
-  };
 
-  return (
-    <NavigationLinks
-      navigationAriaLabel={translateCommon(
-        'header.accessibility.mainNavigation',
-      )}
-      links={
-        isAdmin
-          ? [excellentLevelLink, goodAndSatisfactoryLevelLink]
-          : isExaminer
-          ? [goodAndSatisfactoryLevelLink]
-          : []
-      }
-    />
-  );
+  if (isAdmin) {
+    return <AdminNavigationLinks />;
+  } else if (isExaminer) {
+    return <ExaminerNavigationLinks />;
+  }
+
+  return <></>;
 };
