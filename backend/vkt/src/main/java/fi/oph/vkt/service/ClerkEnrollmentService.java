@@ -2,6 +2,7 @@ package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
@@ -219,6 +220,30 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     return ClerkEnrollmentContactRequestDTO
       .builder()
       .id(enrollmentId)
+      .version(1)
+      .enrollmentTime(LocalDateTime.now())
+      .oralSkill(true)
+      .textualSkill(true)
+      .understandingSkill(true)
+      .speakingPartialExam(true)
+      .speechComprehensionPartialExam(true)
+      .writingPartialExam(true)
+      .readingComprehensionPartialExam(true)
+      .status(EnrollmentStatus.CANCELED)
+      .email("foo@bar")
+      .firstName("Testi")
+      .lastName("Tessilä")
+      .build();
+  }
+
+  public long convertToAppointment(final long enrollmentContactId) {
+    return enrollmentContactId;
+  }
+
+  public ClerkEnrollmentAppointmentDTO getEnrollmentAppointment(final long enrollmentAppointmentId) {
+    return ClerkEnrollmentAppointmentDTO
+      .builder()
+      .id(enrollmentAppointmentId)
       .version(1)
       .enrollmentTime(LocalDateTime.now())
       .oralSkill(true)

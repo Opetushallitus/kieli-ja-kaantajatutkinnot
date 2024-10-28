@@ -27,6 +27,7 @@ import {
 } from 'enums/publicEnrollment';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
+import { ClerkEnrollmentAppointmentOverviewPage } from 'pages/ClerkEnrollmentAppointmentOverviewPage';
 import { ClerkEnrollmentContactRequestPage } from 'pages/ClerkEnrollmentContactRequestPage';
 import { ClerkEnrollmentOverviewPage } from 'pages/ClerkEnrollmentOverviewPage';
 import { ClerkExamEventCreatePage } from 'pages/ClerkExamEventCreatePage';
@@ -341,6 +342,14 @@ export const AppRouter: FC = () => {
           element={
             <TitlePage title={createTitle('clerkExamEventCreate')}>
               <ClerkEnrollmentContactRequestPage />
+            </TitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ClerkEnrollmentAppointmentPage}
+          element={
+            <TitlePage title={createTitle('clerkExamEventCreate')}>
+              <ClerkEnrollmentAppointmentOverviewPage />
             </TitlePage>
           }
         />

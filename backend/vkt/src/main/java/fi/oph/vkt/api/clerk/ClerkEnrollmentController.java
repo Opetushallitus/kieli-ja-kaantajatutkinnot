@@ -4,6 +4,7 @@ import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_PDF_VALUE;
 
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
@@ -78,8 +79,20 @@ public class ClerkEnrollmentController {
 
   @GetMapping(path = "/contact/{enrollmentContactId:\\d+}", consumes = ALL_VALUE)
   @Operation(tags = TAG_ENROLLMENT, summary = "Get enrollment contact request")
-  public ClerkEnrollmentContactRequestDTO enrollmentContactRequest(@PathVariable final long enrollmentContactId) {
+  public ClerkEnrollmentContactRequestDTO getEnrollmentContactRequest(@PathVariable final long enrollmentContactId) {
     return clerkEnrollmentService.getEnrollmentContactRequest(enrollmentContactId);
+  }
+
+  @PutMapping(path = "/contact/{enrollmentContactId:\\d+}/convertToAppointment")
+  @Operation(tags = TAG_ENROLLMENT, summary = "Get enrollment contact request")
+  public long enrollmentContactRequestToAppointment(@PathVariable final long enrollmentContactId) {
+    return clerkEnrollmentService.convertToAppointment(enrollmentContactId);
+  }
+
+  @GetMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}", consumes = ALL_VALUE)
+  @Operation(tags = TAG_ENROLLMENT, summary = "Get enrollment contact request")
+  public ClerkEnrollmentAppointmentDTO getEnrollmentAppointment(@PathVariable final long enrollmentAppointmentId) {
+    return clerkEnrollmentService.getEnrollmentAppointment(enrollmentAppointmentId);
   }
 
   @GetMapping(path = "/attachment", consumes = ALL_VALUE)
