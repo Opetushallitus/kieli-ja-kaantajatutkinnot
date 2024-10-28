@@ -1,6 +1,7 @@
 import { APIResponseStatus } from 'shared/enums';
 import { WithId } from 'shared/interfaces';
-import { Municipality } from 'interfaces/municipality';
+
+import { MunicipalityCode } from 'interfaces/municipality';
 
 export interface ExaminerDetailsState {
   status: APIResponseStatus;
@@ -17,7 +18,7 @@ export interface ExaminerDetails extends WithId {
   phoneNumber: string;
   examLanguageFinnish: boolean;
   examLanguageSwedish: boolean;
-  municipalities: Array<Municipality>;
+  municipalities: Array<MunicipalityCode>;
   isPublic: boolean;
 }
 
@@ -29,4 +30,10 @@ export type ExaminerDetailsInit = Pick<
 export interface ExaminerDetailsInitState {
   status: APIResponseStatus;
   initData?: ExaminerDetailsInit;
+}
+
+export function isExaminerDetails(
+  details: ExaminerDetailsInit,
+): details is ExaminerDetails {
+  return details.hasOwnProperty('id');
 }

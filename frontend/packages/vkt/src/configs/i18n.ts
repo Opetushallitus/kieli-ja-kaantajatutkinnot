@@ -11,11 +11,13 @@ import { DateUtils } from 'shared/utils';
 import accessibilityFI from 'public/i18n/fi-FI/accessibility.json';
 import clerkFI from 'public/i18n/fi-FI/clerk.json';
 import commonFI from 'public/i18n/fi-FI/common.json';
+import examinerFI from 'public/i18n/fi-FI/examiner.json';
 import koodistoMunicipalitiesFI from 'public/i18n/fi-FI/koodisto_municipalities.json';
 import publicFI from 'public/i18n/fi-FI/public.json';
 import accessibilitySV from 'public/i18n/sv-SE/accessibility.json';
 import clerkSV from 'public/i18n/sv-SE/clerk.json';
 import commonSV from 'public/i18n/sv-SE/common.json';
+import examinerSV from 'public/i18n/sv-SE/examiner.json';
 import koodistoMunicipalitiesSV from 'public/i18n/sv-SE/koodisto_municipalities.json';
 import publicSV from 'public/i18n/sv-SE/public.json';
 
@@ -25,6 +27,10 @@ const langSV = AppLanguage.Swedish;
 
 const supportedLangs = [langFI, langSV];
 
+enum VktI18nNamespace {
+  Examiner = 'examiner',
+}
+
 const resources = {
   [langFI]: {
     [I18nNamespace.Accessibility]: accessibilityFI,
@@ -32,6 +38,7 @@ const resources = {
     [I18nNamespace.Common]: commonFI,
     [I18nNamespace.Public]: publicFI,
     [I18nNamespace.KoodistoMunicipalities]: koodistoMunicipalitiesFI,
+    [VktI18nNamespace.Examiner]: examinerFI,
   },
   [langSV]: {
     [I18nNamespace.Accessibility]: accessibilitySV,
@@ -39,6 +46,7 @@ const resources = {
     [I18nNamespace.Common]: commonSV,
     [I18nNamespace.Public]: publicSV,
     [I18nNamespace.KoodistoMunicipalities]: koodistoMunicipalitiesSV,
+    [VktI18nNamespace.Examiner]: examinerSV,
   },
 };
 
@@ -76,7 +84,7 @@ export const initI18n = () => {
 
 const useAppTranslation = (
   options: UseTranslationOptions<string>,
-  ns: I18nNamespace,
+  ns: I18nNamespace | VktI18nNamespace,
 ) => {
   return useTranslation(ns, options);
 };
@@ -120,6 +128,12 @@ export const useKoodistoMunicipalitiesTranslation = () => {
   );
 
   return t;
+};
+
+export const useExaminerTranslation = (
+  options: UseTranslationOptions<string>,
+) => {
+  return useAppTranslation(options, VktI18nNamespace.Examiner);
 };
 
 export const translateOutsideComponent = () => {

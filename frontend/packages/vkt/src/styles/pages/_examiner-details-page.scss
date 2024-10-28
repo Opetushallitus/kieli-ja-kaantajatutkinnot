@@ -29,4 +29,12 @@
       margin-bottom: 1rem;
     }
   }
+
+  & &__is-public {
+    fieldset {
+      border: 0;
+      margin-inline: unset;
+      padding: unset;
+    }
+  }
 }

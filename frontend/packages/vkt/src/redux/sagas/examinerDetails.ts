@@ -22,8 +22,6 @@ function* loadExaminerDetailsSaga(action: PayloadAction<string>) {
     let initialized = true;
     if (isAxiosError(error)) {
       const errorCode = error.response?.data?.errorCode;
-      // eslint-disable-next-line no-console
-      console.log('moiccuuuuu! errorCode', errorCode);
       if (errorCode === APIError.ExaminerNotFound) {
         initialized = false;
       }

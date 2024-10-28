@@ -1,4 +1,4 @@
-import { APIResponseStatus } from "shared/enums";
+import { APIResponseStatus } from 'shared/enums';
 
 export interface ClerkUser {
   oid: string;

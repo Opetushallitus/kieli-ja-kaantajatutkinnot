@@ -28,10 +28,8 @@ import { ClerkExamEventCreatePage } from 'pages/ClerkExamEventCreatePage';
 import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
 import { ClerkExcellentLevelPage } from 'pages/ClerkExcellentLevelPage';
 import { ClerkGoodAndSatisfactoryLevelPage } from 'pages/ClerkGoodAndSatisfactoryLevelPage';
-import {
-  ExaminerDetailsPage,
-  ExaminerHomePage,
-} from 'pages/examiner/ExaminerHomePage';
+import { ExaminerDetailsPage } from 'pages/examiner/ExaminerDetailsPage';
+import { ExaminerHomePage } from 'pages/examiner/ExaminerHomePage';
 import { ExaminerRedirectPage } from 'pages/examiner/ExaminerRedirectPage';
 import { ExaminerRootPage } from 'pages/examiner/ExaminerRootPage';
 import { PublicEnrollmentPage } from 'pages/excellentLevel/PublicEnrollmentPage';

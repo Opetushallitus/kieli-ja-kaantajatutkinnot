@@ -25,7 +25,7 @@ const examinerDetailsSlice = createSlice({
     storeExaminerDetails(state, action: PayloadAction<ExaminerDetails>) {
       state.status = APIResponseStatus.Success;
       state.examiner = action.payload;
-      state.initialized = undefined;
+      state.initialized = true;
     },
     setExaminerOid(state, action: PayloadAction<string>) {
       state.oid = action.payload;

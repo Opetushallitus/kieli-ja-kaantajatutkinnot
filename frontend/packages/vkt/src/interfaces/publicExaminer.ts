@@ -5,13 +5,13 @@ import { WithId } from 'shared/interfaces';
 import { ExamLanguage } from 'enums/app';
 import { Municipality } from 'interfaces/municipality';
 
-
 interface PublicExaminerExamDate {
   examDate: Dayjs;
   isFull: boolean;
 }
 
-interface PublicExaminerExamDateResponse extends Omit<PublicExaminerExamDate, 'examDate'> {
+interface PublicExaminerExamDateResponse
+  extends Omit<PublicExaminerExamDate, 'examDate'> {
   examDate: string;
 }
 
