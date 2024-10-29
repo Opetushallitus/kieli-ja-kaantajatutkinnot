@@ -38,21 +38,24 @@ export interface ClerkPaymentResponse
   refundedAt?: string;
 }
 
-export interface ClerkEnrollment
+interface ClerkEnrollmentCommon
   extends WithId,
     WithVersion,
     PartialExamsAndSkills,
     CertificateShippingData {
   enrollmentTime: Dayjs;
-  person: ClerkPerson;
-  status: EnrollmentStatus;
   previousEnrollment?: string;
   email: string;
   phoneNumber: string;
+}
+
+export interface ClerkEnrollment extends ClerkEnrollmentCommon {
+  status: EnrollmentStatus;
   payments: Array<ClerkPayment>;
   isFree?: boolean;
   freeEnrollmentBasis?: ClerkFreeEnrollmentBasis;
   freeEnrollmentDetails?: PublicFreeEnrollmentDetails;
+  person: ClerkPerson;
 }
 
 export interface ClerkEnrollmentResponse
@@ -69,13 +72,23 @@ export interface ClerkEnrollmentMove extends WithId, WithVersion {
   toExamEventId: number;
 }
 
-export interface ClerkEnrollmentContact
-  extends Omit<ClerkEnrollment, 'payments'> {
+export interface ClerkEnrollmentContact extends ClerkEnrollmentCommon {
+  status: EnrollmentStatus;
   firstName: string;
   lastName: string;
 }
 
 export interface ClerkEnrollmentContactResponse
   extends Omit<ClerkEnrollmentContact, 'enrollmentTime'> {
+  enrollmentTime: string;
+}
+
+export interface ClerkEnrollmentAppointment extends ClerkEnrollmentContact {
+  payments: Array<ClerkPayment>;
+  person?: ClerkPerson;
+}
+
+export interface ClerkEnrollmentAppointmentResponse
+  extends Omit<ClerkEnrollmentAppointment, 'enrollmentTime'> {
   enrollmentTime: string;
 }

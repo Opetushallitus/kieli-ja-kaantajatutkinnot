@@ -4,6 +4,8 @@ import fi.oph.vkt.model.type.EnrollmentStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
+
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -23,5 +25,6 @@ public record ClerkEnrollmentAppointmentDTO(
   String previousEnrollment,
   @NonNull @NotBlank String email,
   @NonNull @NotBlank String firstName,
-  @NonNull @NotBlank String lastName
+  @NonNull @NotBlank String lastName,
+  @NonNull @NotNull List<ClerkPaymentDTO> payments
 ) {}

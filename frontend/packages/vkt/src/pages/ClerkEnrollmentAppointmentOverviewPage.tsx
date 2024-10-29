@@ -4,14 +4,16 @@ import { useParams } from 'react-router';
 import { H1 } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ClerkEnrollmentDetails } from 'components/clerkEnrollment/appointment/ClerkEnrollmentAppointmentDetails';
+import { ClerkEnrollmentAppointmentDetails } from 'components/clerkEnrollment/appointment/ClerkEnrollmentAppointmentDetails';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { loadClerkEnrollmentContactRequest } from 'redux/reducers/clerkEnrollmentContactRequest';
-import { clerkEnrollmentContactRequestSelector } from 'redux/selectors/clerkEnrollmentContactRequest';
+import { loadClerkEnrollmentAppointment } from 'redux/reducers/clerkEnrollmentAppointment';
+import { clerkEnrollmentAppointmentSelector } from 'redux/selectors/clerkEnrollmentAppointment';
 
 export const ClerkEnrollmentAppointmentOverviewPage: FC = () => {
   // Redux
-  const { status } = useAppSelector(clerkEnrollmentContactRequestSelector);
+  const { status, enrollment } = useAppSelector(
+    clerkEnrollmentAppointmentSelector,
+  );
 
   const dispatch = useAppDispatch();
   const params = useParams();
@@ -21,12 +23,11 @@ export const ClerkEnrollmentAppointmentOverviewPage: FC = () => {
       status === APIResponseStatus.NotStarted &&
       params.enrollmentAppointmentId
     ) {
-      dispatch(
-        loadClerkEnrollmentContactRequest(+params.enrollmentAppointmentId),
-      );
+      dispatch(loadClerkEnrollmentAppointment(+params.enrollmentAppointmentId));
     }
   }, [dispatch, status, params.enrollmentAppointmentId]);
 
+  console.log('enrollment', enrollment);
   return (
     <Box className="clerk-enrollment-overview-page">
       <H1 data-testid="clerk-enrollment-overview-page__header"></H1>
@@ -34,7 +35,9 @@ export const ClerkEnrollmentAppointmentOverviewPage: FC = () => {
         elevation={3}
         className="clerk-enrollment-overview-page__content-container rows"
       >
-        <ClerkEnrollmentDetails />
+        {enrollment && (
+          <ClerkEnrollmentAppointmentDetails enrollment={enrollment} />
+        )}
       </Paper>
     </Box>
   );

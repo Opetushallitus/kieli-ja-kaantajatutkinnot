@@ -1,14 +1,5 @@
-import DownloadIcon from '@mui/icons-material/Download';
-import {
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormHelperTextProps,
-  Radio,
-  RadioGroup,
-} from '@mui/material';
+import { Checkbox, FormControlLabel, FormHelperTextProps } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
 import {
   CustomButton,
   CustomModal,
@@ -35,34 +26,20 @@ import {
   useCommonTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { APIEndpoints } from 'enums/api';
 import { EnrollmentStatus, PaymentStatus } from 'enums/app';
+import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import {
-  ClerkEnrollmentFreeBasisFieldEnum,
-  ClerkEnrollmentTextFieldEnum,
-} from 'enums/clerkEnrollment';
-import { ClerkFreeEnrollmentBasis } from 'interfaces/clerkEducation';
-import { ClerkEnrollment, ClerkPayment } from 'interfaces/clerkEnrollment';
+  ClerkEnrollmentAppointment,
+  ClerkPayment,
+} from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import {
-  Attachment,
-  EducationType,
-  FreeBasisSource,
-} from 'interfaces/publicEducation';
-import {
   createClerkEnrollmentPaymentLink,
   setClerkPaymentRefunded,
-  startKoskiEducationDetailsRefresh,
 } from 'redux/reducers/clerkEnrollmentDetails';
 import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
 import { DateTimeUtils } from 'utils/dateTime';
-import { FileUtils } from 'utils/file';
-
-enum YESNO {
-  YES = 'yes',
-  NO = 'no',
-}
 
 const CheckboxField = ({
   enrollment,
@@ -70,7 +47,7 @@ const CheckboxField = ({
   onClick,
   disabled,
 }: {
-  enrollment: ClerkEnrollment;
+  enrollment: ClerkEnrollmentAppointment;
   fieldName: keyof PartialExamsAndSkills;
   onClick: (fieldName: keyof PartialExamsAndSkills) => void;
   disabled: boolean;
@@ -90,197 +67,6 @@ const CheckboxField = ({
       }
       label={translateCommon(`enrollment.partialExamsAndSkills.${fieldName}`)}
     />
-  );
-};
-
-const DownloadAttachment = ({ attachment }: { attachment: Attachment }) => {
-  const { t } = useClerkTranslation({
-    keyPrefix: 'vkt.component.clerkEnrollmentDetails.attachment',
-  });
-
-  return (
-    <div className="columns gapped">
-      <Text>{attachment.name}</Text>
-      <Text>({FileUtils.getReadableFileSize(attachment.size)})</Text>
-      <Link
-        to={`${APIEndpoints.ClerkEnrollment}/attachment?key=${attachment.id}`}
-        target="_blank"
-      >
-        <CustomButton
-          variant={Variant.Outlined}
-          color={Color.Secondary}
-          startIcon={<DownloadIcon />}
-        >
-          {t('download')}
-        </CustomButton>
-      </Link>
-    </div>
-  );
-};
-
-const KoskiEducationDetails = ({
-  enrollment,
-  basis,
-}: {
-  enrollment: ClerkEnrollment;
-  basis: ClerkFreeEnrollmentBasis;
-}) => {
-  const { t } = useClerkTranslation({
-    keyPrefix: 'vkt.component.clerkEnrollmentDetails.freeEnrollment',
-  });
-  const allKoskiEducations = [];
-  if (basis.koskiEducations) {
-    if (basis.koskiEducations.matriculationExam) {
-      allKoskiEducations.push(EducationType.MatriculationExam);
-    }
-    if (basis.koskiEducations.higherEducationConcluded) {
-      allKoskiEducations.push(EducationType.HigherEducationConcluded);
-    }
-    if (basis.koskiEducations.higherEducationEnrolled) {
-      allKoskiEducations.push(EducationType.HigherEducationEnrolled);
-    }
-    if (basis.koskiEducations.dia) {
-      allKoskiEducations.push(EducationType.DIA);
-    }
-    if (basis.koskiEducations.eb) {
-      allKoskiEducations.push(EducationType.EB);
-    }
-    if (basis.koskiEducations.other) {
-      allKoskiEducations.push(EducationType.Other);
-    }
-  }
-  const dispatch = useAppDispatch();
-
-  const refreshKoskiEducationDetails = () => {
-    dispatch(startKoskiEducationDetailsRefresh(enrollment.id));
-  };
-
-  return basis.koskiEducations ? (
-    <ul className="public-enrollment__grid__preview__bullet-list">
-      <Text>
-        {allKoskiEducations.map((type) => (
-          <li key={`education-type-${type}`}>{t(`type.${type}`)}</li>
-        ))}
-      </Text>
-    </ul>
-  ) : (
-    <>
-      <div style={{ maxWidth: '100%', width: '100%' }}>
-        <CustomButton
-          color={Color.Secondary}
-          variant={Variant.Contained}
-          onClick={() => refreshKoskiEducationDetails()}
-        >
-          {t('getAllKoskiEducations')}
-        </CustomButton>
-      </div>
-      <ul className="public-enrollment__grid__preview__bullet-list">
-        <Text>
-          <li key={`education-type-${basis.type}`}>
-            {t(`type.${basis.type}`)}
-          </li>
-        </Text>
-      </ul>
-    </>
-  );
-};
-
-const FreeEnrollmentBasis = ({
-  enrollment,
-  basis,
-  disabled,
-  onTextFieldChange,
-  onCheckboxFieldChange,
-}: {
-  enrollment: ClerkEnrollment;
-  basis: ClerkFreeEnrollmentBasis;
-  disabled: boolean;
-  onTextFieldChange: (
-    field: ClerkEnrollmentTextFieldEnum | ClerkEnrollmentFreeBasisFieldEnum,
-  ) => (event: ChangeEvent<HTMLTextAreaElement>) => void;
-  onCheckboxFieldChange: (
-    field:
-      | keyof PartialExamsAndSkills
-      | keyof Pick<ClerkEnrollment, 'digitalCertificateConsent'>
-      | keyof Pick<ClerkFreeEnrollmentBasis, 'comment' | 'approved'>,
-    fieldValue: boolean,
-  ) => void;
-}) => {
-  const { t } = useClerkTranslation({
-    keyPrefix: 'vkt.component.clerkEnrollmentDetails',
-  });
-
-  const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onCheckboxFieldChange(
-      ClerkEnrollmentFreeBasisFieldEnum.Approved,
-      event.target.value === YESNO.YES,
-    );
-  };
-
-  return (
-    <div className="rows gapped-xxl margin-top-lg">
-      <div className="rows gapped">
-        <H2>{t('freeEnrollment.title')}</H2>
-        <H3> {t(`freeEnrollment.source.${basis.source}`)}</H3>
-        {basis.source === FreeBasisSource.KOSKI && (
-          <KoskiEducationDetails enrollment={enrollment} basis={basis} />
-        )}
-        {basis.source === FreeBasisSource.User && (
-          <ul className="public-enrollment__grid__preview__bullet-list">
-            <Text>
-              <li key={`education-type-${basis.type}`}>
-                {t(`freeEnrollment.type.${basis.type}`)}
-              </li>
-            </Text>
-          </ul>
-        )}
-        {basis.attachments &&
-          basis.attachments.length > 0 &&
-          basis.attachments.map((attachment) => (
-            <DownloadAttachment key={attachment.id} attachment={attachment} />
-          ))}
-        {basis.source === FreeBasisSource.User && (
-          <fieldset className="clerk-enrollment-details-fields__approve">
-            <legend>
-              <Text>
-                <b>{t('freeEnrollment.inspect')}</b>
-              </Text>
-            </legend>
-            <FormControl error={false}>
-              <RadioGroup onChange={handleRadioChange}>
-                <FormControlLabel
-                  className="radio-group-label"
-                  value={YESNO.NO}
-                  checked={basis.approved === false}
-                  control={<Radio />}
-                  label={t('freeEnrollment.deny')}
-                  disabled={disabled}
-                />
-                <FormControlLabel
-                  className="radio-group-label"
-                  value={YESNO.YES}
-                  checked={basis.approved === true}
-                  control={<Radio />}
-                  label={t('freeEnrollment.approve')}
-                  disabled={disabled}
-                />
-              </RadioGroup>
-            </FormControl>
-            <Text className="bold">Kommentti</Text>
-            <CustomTextField
-              type={TextFieldTypes.Textarea}
-              data-testid={'clerk-enrollment__details-fields__approveComment'}
-              disabled={disabled}
-              value={basis.comment}
-              multiline
-              onChange={onTextFieldChange(
-                ClerkEnrollmentFreeBasisFieldEnum.Comment,
-              )}
-            />
-          </fieldset>
-        )}
-      </div>
-    </div>
   );
 };
 
@@ -362,17 +148,10 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
 };
 
 const getTextValue = (
-  enrollment: ClerkEnrollment,
+  enrollment: ClerkEnrollmentAppointment,
   field: ClerkEnrollmentTextFieldEnum,
 ) => {
-  if (
-    field === ClerkEnrollmentTextFieldEnum.FirstName ||
-    field === ClerkEnrollmentTextFieldEnum.LastName
-  ) {
-    return enrollment.person[field] || '';
-  } else {
-    return enrollment[field] || '';
-  }
+  return enrollment[field] || '';
 };
 
 const getTextFieldType = (field: ClerkEnrollmentTextFieldEnum) => {
@@ -387,7 +166,7 @@ const getTextFieldType = (field: ClerkEnrollmentTextFieldEnum) => {
 };
 
 const getFieldError = (
-  enrollment: ClerkEnrollment,
+  enrollment: ClerkEnrollmentAppointment,
   field: ClerkEnrollmentTextFieldEnum,
   required: boolean,
 ) => {
@@ -414,7 +193,7 @@ const ClerkEnrollmentDetailsTextField = ({
   showFieldError,
   onChange,
   ...rest
-}: ClerkEnrollmentTextFieldProps<ClerkEnrollment>) => {
+}: ClerkEnrollmentTextFieldProps<ClerkEnrollmentAppointment>) => {
   const translateCommon = useCommonTranslation();
 
   const required = field !== ClerkEnrollmentTextFieldEnum.PreviousEnrollment;
@@ -440,7 +219,7 @@ const ClerkEnrollmentDetailsTextField = ({
   );
 };
 
-export const ClerkEnrollmentDetailsFields = ({
+export const ClerkEnrollmentAppointmentDetailsFields = ({
   enrollment,
   editDisabled,
   topControlButtons,
@@ -448,18 +227,17 @@ export const ClerkEnrollmentDetailsFields = ({
   onCheckboxFieldChange,
   showFieldErrorBeforeChange,
 }: {
-  enrollment: ClerkEnrollment;
+  enrollment: ClerkEnrollmentAppointment;
   editDisabled: boolean;
   topControlButtons: JSX.Element;
   showFieldErrorBeforeChange: boolean;
   onTextFieldChange: (
-    field: ClerkEnrollmentTextFieldEnum | ClerkEnrollmentFreeBasisFieldEnum,
+    field: ClerkEnrollmentTextFieldEnum,
   ) => (event: ChangeEvent<HTMLTextAreaElement>) => void;
   onCheckboxFieldChange: (
     field:
       | keyof PartialExamsAndSkills
-      | keyof Pick<ClerkEnrollment, 'digitalCertificateConsent'>
-      | keyof Pick<ClerkFreeEnrollmentBasis, 'comment' | 'approved'>,
+      | keyof Pick<ClerkEnrollmentAppointment, 'digitalCertificateConsent'>,
     fieldValue: boolean,
   ) => void;
 }) => {
@@ -475,12 +253,11 @@ export const ClerkEnrollmentDetailsFields = ({
 
   const [paymentLinkModalOpen, setPaymentLinkModalOpen] = useState(false);
 
-  const initialFieldErrors = Object.values(ClerkEnrollmentDetailsFields).reduce(
-    (acc, val) => {
-      return { ...acc, [val]: showFieldErrorBeforeChange };
-    },
-    {},
-  ) as Record<ClerkEnrollmentTextFieldEnum, boolean>;
+  const initialFieldErrors = Object.values(
+    ClerkEnrollmentAppointmentDetailsFields,
+  ).reduce((acc, val) => {
+    return { ...acc, [val]: showFieldErrorBeforeChange };
+  }, {}) as Record<ClerkEnrollmentTextFieldEnum, boolean>;
 
   const [fieldErrors, setFieldErrors] = useState(initialFieldErrors);
 
@@ -689,15 +466,6 @@ export const ClerkEnrollmentDetailsFields = ({
           <H3>{t('status')}</H3>
           <Text>{t(`enrollmentStatus.${enrollment.status}`)}</Text>
         </div>
-        {enrollment.freeEnrollmentBasis && (
-          <FreeEnrollmentBasis
-            enrollment={enrollment}
-            basis={enrollment.freeEnrollmentBasis}
-            disabled={editDisabled}
-            onTextFieldChange={onTextFieldChange}
-            onCheckboxFieldChange={onCheckboxFieldChange}
-          />
-        )}
         {displayPaymentInformation && (
           <div className="rows gapped-xxl margin-top-lg">
             <div className="rows gapped">

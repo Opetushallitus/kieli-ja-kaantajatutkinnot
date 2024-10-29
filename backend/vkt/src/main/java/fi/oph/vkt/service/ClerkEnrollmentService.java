@@ -257,6 +257,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
       .email("foo@bar")
       .firstName("Testi")
       .lastName("Tessilä")
+      .payments(List.of())
       .build();
   }
 }

@@ -4,19 +4,15 @@ import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 import { StringUtils } from 'shared/utils';
 
-import { ClerkEnrollmentDetailsFields } from 'components/clerkEnrollment/overview/ClerkEnrollmentDetailsFields';
+import { ClerkEnrollmentAppointmentDetailsFields } from 'components/clerkEnrollment/appointment/ClerkEnrollmentAppointmentDetailsFields';
 import { ControlButtons } from 'components/clerkEnrollment/overview/ControlButtons';
 import { MoveModal } from 'components/clerkEnrollment/overview/MoveModal';
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { EnrollmentStatus, UIMode } from 'enums/app';
-import {
-  ClerkEnrollmentFreeBasisFieldEnum,
-  ClerkEnrollmentTextFieldEnum,
-} from 'enums/clerkEnrollment';
+import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
-import { ClerkFreeEnrollmentBasis } from 'interfaces/clerkEducation';
-import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
+import { ClerkEnrollmentAppointment } from 'interfaces/clerkEnrollment';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import {
   resetClerkEnrollmentDetailsUpdate,
@@ -30,10 +26,14 @@ import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentD
 import { clerkExamEventOverviewSelector } from 'redux/selectors/clerkExamEventOverview';
 import { EnrollmentUtils } from 'utils/enrollment';
 
-export const ClerkEnrollmentDetails = () => {
+export const ClerkEnrollmentAppointmentDetails = ({
+  enrollment,
+}: {
+  enrollment: ClerkEnrollmentAppointment;
+}) => {
   // Redux
   const dispatch = useAppDispatch();
-  const { status, enrollment, paymentRefundStatus } = useAppSelector(
+  const { status, paymentRefundStatus } = useAppSelector(
     clerkEnrollmentDetailsSelector,
   );
   const { examEvent, clerkEnrollmentChangeStatus } = useAppSelector(
@@ -45,7 +45,7 @@ export const ClerkEnrollmentDetails = () => {
 
   // Local state
   const [enrollmentDetails, setEnrollmentDetails] = useState<
-    ClerkEnrollment | undefined
+    ClerkEnrollmentAppointment | undefined
   >(enrollment);
   const [isMoveModalOpen, setIsOpenModalOpen] = useState(false);
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
@@ -102,7 +102,7 @@ export const ClerkEnrollmentDetails = () => {
     paymentRefundStatus,
   ]);
 
-  if (!enrollmentDetails || !examEvent) {
+  if (!enrollmentDetails) {
     return null;
   }
 
@@ -113,7 +113,7 @@ export const ClerkEnrollmentDetails = () => {
     EnrollmentUtils.isValidCertificateShipping(enrollmentDetails);
 
   const handleTextFieldChange =
-    (field: ClerkEnrollmentTextFieldEnum | ClerkEnrollmentFreeBasisFieldEnum) =>
+    (field: ClerkEnrollmentTextFieldEnum) =>
     (event: ChangeEvent<HTMLTextAreaElement>) => {
       handleFieldChange(field, event.target.value);
     };
@@ -121,8 +121,7 @@ export const ClerkEnrollmentDetails = () => {
   const handleCheckboxFieldChange = (
     field:
       | keyof PartialExamsAndSkills
-      | keyof Pick<ClerkEnrollment, 'digitalCertificateConsent'>
-      | keyof Pick<ClerkFreeEnrollmentBasis, 'comment' | 'approved'>,
+      | keyof Pick<ClerkEnrollmentAppointment, 'digitalCertificateConsent'>,
     fieldValue: boolean,
   ) => {
     handleFieldChange(field, fieldValue);
@@ -131,10 +130,8 @@ export const ClerkEnrollmentDetails = () => {
   const handleFieldChange = (
     field:
       | ClerkEnrollmentTextFieldEnum
-      | ClerkEnrollmentFreeBasisFieldEnum
       | keyof PartialExamsAndSkills
-      | keyof Pick<ClerkEnrollment, 'digitalCertificateConsent'>
-      | keyof Pick<ClerkFreeEnrollmentBasis, 'comment' | 'approved'>,
+      | keyof Pick<ClerkEnrollmentAppointment, 'digitalCertificateConsent'>,
     fieldValue: string | boolean,
   ) => {
     setHasLocalChanges(true);
@@ -155,24 +152,6 @@ export const ClerkEnrollmentDetails = () => {
             [field]: fieldValue,
           },
         };
-      } else if (
-        field === ClerkEnrollmentFreeBasisFieldEnum.Approved ||
-        field === ClerkEnrollmentFreeBasisFieldEnum.Comment
-      ) {
-        // It should not be possible to update freeEnrollmentBasis
-        // if it does not exists, but compiler is not smart
-        // enough to understand that so this if else is needed
-        if (prevState.freeEnrollmentBasis) {
-          updatedEnrollmentDetails = {
-            ...prevState,
-            freeEnrollmentBasis: {
-              ...prevState.freeEnrollmentBasis,
-              [field]: fieldValue,
-            },
-          };
-        } else {
-          updatedEnrollmentDetails = prevState;
-        }
       } else {
         updatedEnrollmentDetails = {
           ...prevState,
@@ -267,7 +246,7 @@ export const ClerkEnrollmentDetails = () => {
       >
         <MoveModal enrollment={enrollmentDetails} onCancel={closeMoveModal} />
       </CustomModal>
-      <ClerkEnrollmentDetailsFields
+      <ClerkEnrollmentAppointmentDetailsFields
         showFieldErrorBeforeChange={false}
         enrollment={enrollmentDetails}
         onTextFieldChange={handleTextFieldChange}

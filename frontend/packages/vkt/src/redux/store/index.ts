@@ -5,6 +5,7 @@ import storageSession from 'reduxjs-toolkit-persist/lib/storage/session';
 
 import { EnrollmentTransform } from 'redux/persist/transforms/EnrollmentTransform';
 import { APIErrorReducer } from 'redux/reducers/APIError';
+import { clerkEnrollmentAppointmentReducer } from 'redux/reducers/clerkEnrollmentAppointment';
 import { clerkEnrollmentContactRequestReducer } from 'redux/reducers/clerkEnrollmentContactRequest';
 import { clerkEnrollmentDetailsReducer } from 'redux/reducers/clerkEnrollmentDetails';
 import { clerkExamEventOverviewReducer } from 'redux/reducers/clerkExamEventOverview';
@@ -37,6 +38,7 @@ const reducer = combineReducers({
   publicEnrollment: publicEnrollmentReducer,
   clerkNewExamDate: clerkNewExamDateReducer,
   clerkEnrollmentContactRequest: clerkEnrollmentContactRequestReducer,
+  clerkEnrollmentAppointment: clerkEnrollmentAppointmentReducer,
   publicExamEvent: publicExamEventReducer,
   clerkExamEventOverview: clerkExamEventOverviewReducer,
   clerkEnrollmentDetails: clerkEnrollmentDetailsReducer,
