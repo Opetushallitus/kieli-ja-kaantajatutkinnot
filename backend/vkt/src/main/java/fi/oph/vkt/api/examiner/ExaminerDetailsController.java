@@ -1,8 +1,8 @@
 package fi.oph.vkt.api.examiner;
 
-import fi.oph.vkt.api.dto.examiner.ExaminerDetailsCreateDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerDetailsDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerDetailsInitDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerDetailsUpsertDTO;
 import fi.oph.vkt.service.ExaminerDetailsService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
@@ -25,12 +25,12 @@ public class ExaminerDetailsController {
   }
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-  @Operation(tags = TAG_EXAMINER, summary = "Create examiner")
-  public ExaminerDetailsDTO createExaminer(
+  @Operation(tags = TAG_EXAMINER, summary = "Create or update examiner")
+  public ExaminerDetailsDTO upsertExaminer(
     @PathVariable("oid") String oid,
-    @RequestBody ExaminerDetailsCreateDTO examinerDetailsCreateDTO
+    @RequestBody ExaminerDetailsUpsertDTO examinerDetailsUpsertDTO
   ) {
-    return examinerDetailsService.createExaminer(oid, examinerDetailsCreateDTO);
+    return examinerDetailsService.upsertExaminer(oid, examinerDetailsUpsertDTO);
   }
 
   @GetMapping(path = "/init")

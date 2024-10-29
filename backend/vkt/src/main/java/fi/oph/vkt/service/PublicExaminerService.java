@@ -5,7 +5,7 @@ import fi.oph.vkt.api.dto.PublicExaminerExamDateDTO;
 import fi.oph.vkt.api.dto.PublicMunicipalityDTO;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Examiner;
-import fi.oph.vkt.model.ExaminerMunicipality;
+import fi.oph.vkt.model.Municipality;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.repository.ExaminerRepository;
 import java.util.ArrayList;
@@ -21,8 +21,8 @@ public class PublicExaminerService {
 
   private final ExaminerRepository examinerRepository;
 
-  private static PublicMunicipalityDTO toPublicMunicipalityDTO(ExaminerMunicipality municipality) {
-    return PublicMunicipalityDTO.builder().fi(municipality.getNameFi()).sv(municipality.getNameSv()).build();
+  private static PublicMunicipalityDTO toPublicMunicipalityDTO(Municipality municipality) {
+    return PublicMunicipalityDTO.builder().fi(municipality.getNameFI()).sv(municipality.getNameSV()).build();
   }
 
   private static PublicExaminerExamDateDTO toPublicExaminerExamDateDTO(ExamEvent examEvent) {

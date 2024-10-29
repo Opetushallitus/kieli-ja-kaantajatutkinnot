@@ -1,12 +1,6 @@
 package fi.oph.vkt.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +26,10 @@ public class Examiner extends BaseEntity {
   @Column(name = "email", nullable = false)
   private String email;
 
+  @Size(max = 255)
+  @Column(name = "phone_number", nullable = false)
+  private String phoneNumber;
+
   @Column(name = "last_name", nullable = false)
   private String lastName;
 
@@ -50,7 +48,14 @@ public class Examiner extends BaseEntity {
   @OneToMany(mappedBy = "examiner")
   private List<ExamEvent> examEvents = new ArrayList<>();
 
-  // TODO Consider using a separate join table instead?
-  @OneToMany(mappedBy = "examiner")
-  private List<ExaminerMunicipality> municipalities = new ArrayList<>();
+  @Column(name = "is_public", nullable = false)
+  private boolean isPublic;
+
+  @ManyToMany
+  @JoinTable(
+    name = "examiner_municipality",
+    joinColumns = @JoinColumn(name = "examiner_id", referencedColumnName = "examiner_id"),
+    inverseJoinColumns = @JoinColumn(name = "municipality_id")
+  )
+  private List<Municipality> municipalities = new ArrayList<>();
 }

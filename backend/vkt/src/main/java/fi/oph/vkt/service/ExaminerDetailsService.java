@@ -1,17 +1,21 @@
 package fi.oph.vkt.service;
 
-import fi.oph.vkt.api.dto.examiner.ExaminerDetailsCreateDTO;
+import fi.oph.vkt.api.dto.MunicipalityDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerDetailsDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerDetailsInitDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerDetailsUpsertDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.model.Examiner;
+import fi.oph.vkt.model.Municipality;
 import fi.oph.vkt.repository.ExaminerRepository;
 import fi.oph.vkt.service.onr.OnrService;
 import fi.oph.vkt.service.onr.PersonalData;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,12 +25,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class ExaminerDetailsService {
 
   private final ExaminerRepository examinerRepository;
+  private final MunicipalityService municipalityService;
   private final OnrService onrService;
   private final AuditService auditService;
 
   private PersonalData getOnrPersonalData(final String oid) {
     Map<String, PersonalData> oidToData = onrService.getOnrPersonalData(List.of(oid));
     return oidToData.get(oid);
+  }
+
+  private static MunicipalityDTO toMunicipalityDTO(final Municipality municipality) {
+    return MunicipalityDTO.builder().code(municipality.getCode()).build();
   }
 
   private static ExaminerDetailsDTO toExaminerDetailsDTO(final Examiner examiner) {
@@ -38,6 +47,9 @@ public class ExaminerDetailsService {
       .lastName(examiner.getLastName())
       .firstName(examiner.getFirstName())
       .email(examiner.getEmail())
+      .phoneNumber(examiner.getPhoneNumber())
+      .municipalities(examiner.getMunicipalities().stream().map(ExaminerDetailsService::toMunicipalityDTO).toList())
+      .isPublic(examiner.isPublic())
       .examLanguageFinnish(examiner.isExamLanguageFinnish())
       .examLanguageSwedish(examiner.isExamLanguageSwedish())
       .build();
@@ -62,8 +74,9 @@ public class ExaminerDetailsService {
   }
 
   @Transactional
-  public ExaminerDetailsDTO createExaminer(final String oid, ExaminerDetailsCreateDTO examinerDetailsCreateDTO) {
+  public ExaminerDetailsDTO upsertExaminer(final String oid, ExaminerDetailsUpsertDTO examinerDetailsUpsertDTO) {
     // TODO Audit log entry
+    // TODO Throws when trying to update existing examiner - figure out if we want separate methods for updating vs. creating??
     if (examinerRepository.findByOid(oid).isPresent()) {
       throw new APIException(APIExceptionType.EXAMINER_ALREADY_INITIALIZED);
     }
@@ -76,9 +89,17 @@ public class ExaminerDetailsService {
     examiner.setLastName(personalData.getLastName());
     examiner.setFirstName(personalData.getFirstName());
     examiner.setNickname(personalData.getNickname());
-    examiner.setEmail(examinerDetailsCreateDTO.email());
-    examiner.setExamLanguageFinnish(examinerDetailsCreateDTO.examLanguageFinnish());
-    examiner.setExamLanguageSwedish(examinerDetailsCreateDTO.examLanguageSwedish());
+    examiner.setEmail(examinerDetailsUpsertDTO.email());
+    examiner.setPhoneNumber(examinerDetailsUpsertDTO.phoneNumber());
+    examiner.setMunicipalities(
+      examinerDetailsUpsertDTO
+        .municipalities()
+        .stream()
+        .map(municipality -> municipalityService.getOrCreateByCode(municipality.code()))
+        .toList()
+    );
+    examiner.setExamLanguageFinnish(examinerDetailsUpsertDTO.examLanguageFinnish());
+    examiner.setExamLanguageSwedish(examinerDetailsUpsertDTO.examLanguageSwedish());
     examinerRepository.saveAndFlush(examiner);
 
     return toExaminerDetailsDTO(examiner);

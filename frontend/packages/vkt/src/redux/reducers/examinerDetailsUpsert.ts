@@ -10,6 +10,9 @@ const initialState: ExaminerDetailsUpsertState = {
   status: APIResponseStatus.NotStarted,
   examinerDetails: {
     isPublic: true,
+    examLanguageFinnish: false,
+    examLanguageSwedish: false,
+    municipalities: [],
   },
 };
 

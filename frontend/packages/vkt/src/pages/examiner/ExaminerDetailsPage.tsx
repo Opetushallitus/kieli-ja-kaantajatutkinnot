@@ -507,7 +507,7 @@ export const ExaminerDetailsPage = () => {
   });
   const examinerDetails = useExaminerDetails();
 
-  // TODO Navigate away from page if details are saved successfully
+  // TODO Navigate away from page & show success toast if details are saved successfully
   // TODO Navigate away from page if cancel is pressed
   // TODO Perhaps navigation protection if dirty fields?
   return (
