@@ -95,6 +95,12 @@ public class ClerkEnrollmentController {
     return clerkEnrollmentService.getEnrollmentAppointment(enrollmentAppointmentId);
   }
 
+  @PutMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}")
+  @Operation(tags = TAG_ENROLLMENT, summary = "Update enrollment appointment")
+  public ClerkEnrollmentDTO updateEnrollmentAppointment(@RequestBody @Valid final ClerkEnrollmentUpdateDTO dto) {
+    return clerkEnrollmentService.update(dto);
+  }
+
   @GetMapping(path = "/attachment", consumes = ALL_VALUE)
   @Operation(tags = TAG_ENROLLMENT, summary = "Download enrollment attachment")
   public void attachmentRedirect(final HttpServletResponse response, @RequestParam final String key)

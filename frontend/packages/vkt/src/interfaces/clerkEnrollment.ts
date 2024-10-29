@@ -89,6 +89,7 @@ export interface ClerkEnrollmentAppointment extends ClerkEnrollmentContact {
 }
 
 export interface ClerkEnrollmentAppointmentResponse
-  extends Omit<ClerkEnrollmentAppointment, 'enrollmentTime'> {
+  extends Omit<ClerkEnrollmentAppointment, 'enrollmentTime' | 'payments'> {
   enrollmentTime: string;
+  payments: Array<ClerkPaymentResponse>;
 }

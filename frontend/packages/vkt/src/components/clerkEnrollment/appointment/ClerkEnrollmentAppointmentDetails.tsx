@@ -1,12 +1,11 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { CustomButton, CustomModal } from 'shared/components';
+import { CustomButton } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 import { StringUtils } from 'shared/utils';
 
 import { ClerkEnrollmentAppointmentDetailsFields } from 'components/clerkEnrollment/appointment/ClerkEnrollmentAppointmentDetailsFields';
 import { ControlButtons } from 'components/clerkEnrollment/overview/ControlButtons';
-import { MoveModal } from 'components/clerkEnrollment/overview/MoveModal';
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { EnrollmentStatus, UIMode } from 'enums/app';
@@ -16,8 +15,8 @@ import { ClerkEnrollmentAppointment } from 'interfaces/clerkEnrollment';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import {
   resetClerkEnrollmentDetailsUpdate,
-  updateClerkEnrollmentDetails,
-} from 'redux/reducers/clerkEnrollmentDetails';
+  updateClerkEnrollmentAppointment,
+} from 'redux/reducers/clerkEnrollmentAppointment';
 import {
   changeClerkEnrollmentStatus,
   resetClerkEnrollmentStatusChange,
@@ -47,13 +46,9 @@ export const ClerkEnrollmentAppointmentDetails = ({
   const [enrollmentDetails, setEnrollmentDetails] = useState<
     ClerkEnrollmentAppointment | undefined
   >(enrollment);
-  const [isMoveModalOpen, setIsOpenModalOpen] = useState(false);
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
   const [currentUIMode, setCurrentUIMode] = useState(UIMode.View);
   const isViewMode = currentUIMode === UIMode.View;
-
-  const handleMoveButtonCLick = () => setIsOpenModalOpen(true);
-  const closeMoveModal = () => setIsOpenModalOpen(false);
 
   const resetLocalEnrollmentDetails = useCallback(() => {
     setEnrollmentDetails(enrollment);
@@ -140,41 +135,28 @@ export const ClerkEnrollmentAppointmentDetails = ({
         return undefined;
       }
 
-      let updatedEnrollmentDetails;
-      if (
-        field === ClerkEnrollmentTextFieldEnum.FirstName ||
-        field === ClerkEnrollmentTextFieldEnum.LastName
-      ) {
-        updatedEnrollmentDetails = {
-          ...prevState,
-          person: {
-            ...prevState.person,
-            [field]: fieldValue,
-          },
-        };
-      } else {
-        updatedEnrollmentDetails = {
-          ...prevState,
-          [field]: fieldValue,
-        };
-      }
-
-      return updatedEnrollmentDetails;
+      return {
+        ...prevState,
+        [field]: fieldValue,
+      };
     });
   };
 
   const handleSaveButtonClick = () => {
     dispatch(
-      updateClerkEnrollmentDetails({
+      updateClerkEnrollmentAppointment({
         enrollment: {
           ...enrollmentDetails,
           understandingSkill:
             enrollmentDetails.speechComprehensionPartialExam &&
             enrollmentDetails.readingComprehensionPartialExam,
         },
-        examEvent,
       }),
     );
+  };
+
+  const handleMoveButtonClick = () => {
+    // TODO
   };
 
   const handleEditButtonClick = () => {
@@ -237,15 +219,6 @@ export const ClerkEnrollmentAppointmentDetails = ({
 
   return (
     <>
-      <CustomModal
-        data-testid="clerk-enrollment-details__move-modal"
-        open={isMoveModalOpen}
-        onCloseModal={closeMoveModal}
-        aria-labelledby="modal-title"
-        modalTitle={t('moveModal.title')}
-      >
-        <MoveModal enrollment={enrollmentDetails} onCancel={closeMoveModal} />
-      </CustomModal>
       <ClerkEnrollmentAppointmentDetailsFields
         showFieldErrorBeforeChange={false}
         enrollment={enrollmentDetails}
@@ -257,7 +230,7 @@ export const ClerkEnrollmentAppointmentDetails = ({
             onCancel={handleCancelButtonClick}
             onEdit={handleEditButtonClick}
             onSave={handleSaveButtonClick}
-            onMove={handleMoveButtonCLick}
+            onMove={handleMoveButtonClick}
             isViewMode={isViewMode}
             hasRequiredDetails={hasRequiredDetails}
           />

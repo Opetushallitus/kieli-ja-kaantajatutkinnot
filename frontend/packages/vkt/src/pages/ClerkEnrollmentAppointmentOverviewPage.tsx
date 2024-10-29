@@ -27,7 +27,6 @@ export const ClerkEnrollmentAppointmentOverviewPage: FC = () => {
     }
   }, [dispatch, status, params.enrollmentAppointmentId]);
 
-  console.log('enrollment', enrollment);
   return (
     <Box className="clerk-enrollment-overview-page">
       <H1 data-testid="clerk-enrollment-overview-page__header"></H1>

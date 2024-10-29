@@ -19,7 +19,6 @@ import {
 import { useDialog } from 'shared/hooks';
 import { InputFieldUtils } from 'shared/utils';
 
-import { ExamEventDetails } from 'components/publicEnrollment/steps/ExamEventDetails';
 import {
   translateOutsideComponent,
   useClerkTranslation,
@@ -330,8 +329,6 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
   const displayPaymentHistory = enrollment.payments.length > 1;
 
   // TODO Remove this flag once digital certificates are available
-  const isDigitalCertificateAvailable = false;
-
   return (
     <div className="clerk-enrollment-details-fields">
       <div className="columns margin-top-lg space-between">
@@ -375,6 +372,39 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
             )}
           />
         </div>
+        {!enrollment.digitalCertificateConsent && (
+          <div className="rows gapped margin-top-lg">
+            <H3>
+              {translateCommon('enrollment.certificateShipping.addressTitle')}
+            </H3>
+            <div className="grid-columns gapped">
+              <ClerkEnrollmentDetailsTextField
+                {...getCommonTextFieldProps(
+                  ClerkEnrollmentTextFieldEnum.Street,
+                  editDisabled,
+                )}
+              />
+              <ClerkEnrollmentDetailsTextField
+                {...getCommonTextFieldProps(
+                  ClerkEnrollmentTextFieldEnum.PostalCode,
+                  editDisabled,
+                )}
+              />
+              <ClerkEnrollmentDetailsTextField
+                {...getCommonTextFieldProps(
+                  ClerkEnrollmentTextFieldEnum.Town,
+                  editDisabled,
+                )}
+              />
+              <ClerkEnrollmentDetailsTextField
+                {...getCommonTextFieldProps(
+                  ClerkEnrollmentTextFieldEnum.Country,
+                  editDisabled,
+                )}
+              />
+            </div>
+          </div>
+        )}
         <div className="margin-top-sm">
           <H3>{t('header.previousEnrollment')}</H3>
         </div>
@@ -461,7 +491,6 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
             </div>
           </div>
         )}
-        <ExamEventDetails enrollment={enrollment} clerkView={true} />
         <div className="rows gapped-sm margin-top-lg">
           <H3>{t('status')}</H3>
           <Text>{t(`enrollmentStatus.${enrollment.status}`)}</Text>
@@ -499,63 +528,6 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
                 ))}
               </div>
             )}
-          </div>
-        )}
-        {isDigitalCertificateAvailable && (
-          <div className="rows gapped-sm margin-top-lg">
-            <H3>{t('header.digitalCertificateConsent')}</H3>
-            <FormControlLabel
-              className="clerk-enrollment-details-fields__certificate-shipping__consent"
-              control={
-                <Checkbox
-                  data-testid="clerk-enrollment__details-fields__digitalCertificateConsent"
-                  onClick={() =>
-                    onCheckboxFieldChange(
-                      'digitalCertificateConsent',
-                      !enrollment.digitalCertificateConsent,
-                    )
-                  }
-                  color={Color.Secondary}
-                  checked={enrollment.digitalCertificateConsent}
-                  disabled={editDisabled}
-                />
-              }
-              label={translateCommon('enrollment.certificateShipping.consent')}
-            />
-          </div>
-        )}
-
-        {!enrollment.digitalCertificateConsent && (
-          <div className="rows gapped margin-top-lg">
-            <H3>
-              {translateCommon('enrollment.certificateShipping.addressTitle')}
-            </H3>
-            <div className="grid-columns gapped">
-              <ClerkEnrollmentDetailsTextField
-                {...getCommonTextFieldProps(
-                  ClerkEnrollmentTextFieldEnum.Street,
-                  editDisabled,
-                )}
-              />
-              <ClerkEnrollmentDetailsTextField
-                {...getCommonTextFieldProps(
-                  ClerkEnrollmentTextFieldEnum.PostalCode,
-                  editDisabled,
-                )}
-              />
-              <ClerkEnrollmentDetailsTextField
-                {...getCommonTextFieldProps(
-                  ClerkEnrollmentTextFieldEnum.Town,
-                  editDisabled,
-                )}
-              />
-              <ClerkEnrollmentDetailsTextField
-                {...getCommonTextFieldProps(
-                  ClerkEnrollmentTextFieldEnum.Country,
-                  editDisabled,
-                )}
-              />
-            </div>
           </div>
         )}
       </div>
