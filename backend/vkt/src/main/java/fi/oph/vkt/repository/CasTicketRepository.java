@@ -1,7 +1,6 @@
 package fi.oph.vkt.repository;
 
 import fi.oph.vkt.model.CasTicket;
-import fi.oph.vkt.model.Person;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
