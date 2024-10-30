@@ -18,10 +18,6 @@ const getCodes: () => Array<string> = () => {
   );
 };
 
-export const useKoodistoMunicipalities = () => {
-  return getCodes();
-};
-
 export const useMunicipalityOptions = () => {
   const translate = useKoodistoMunicipalitiesTranslation();
 
@@ -30,9 +26,8 @@ export const useMunicipalityOptions = () => {
       value,
       label: translate(value),
     }));
-    const locale = new Intl.Locale('fi-FI');
 
-    return options.sort((a, b) => a.label.localeCompare(b.label, locale));
+    return options.sort((a, b) => a.label.localeCompare(b.label, 'fi-FI'));
   }, [translate]);
 
   return sortedOptions;

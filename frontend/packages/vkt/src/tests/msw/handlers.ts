@@ -22,6 +22,8 @@ export const handlers = [
   http.get(APIEndpoints.ClerkUser, ({ cookies }) => {
     const user: ClerkUser = {
       oid: '1.2.246.562.10.00000000001',
+      isAdmin: true,
+      isExaminer: false,
     };
 
     return new Response(cookies.noAuth ? 'null' : JSON.stringify(user));
