@@ -15,8 +15,10 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   CustomButton,
+  CustomButtonLink,
   CustomSwitch,
   H1,
   H2,
@@ -29,13 +31,14 @@ import {
   APIResponseStatus,
   Color,
   CustomTextFieldErrors,
+  Duration,
   InputAutoComplete,
   Severity,
   TextFieldTypes,
   TextFieldVariant,
   Variant,
 } from 'shared/enums';
-import { useDialog } from 'shared/hooks';
+import { useDialog, useToast } from 'shared/hooks';
 import { ComboBoxOption } from 'shared/interfaces';
 import { InputFieldUtils, StringUtils } from 'shared/utils';
 
@@ -45,7 +48,7 @@ import {
   useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { ExamLanguage } from 'enums/app';
+import { AppRoutes, ExamLanguage } from 'enums/app';
 import { useMunicipalityOptions } from 'hooks/useKoodistoMunicipalities';
 import {
   ExaminerDetails,
@@ -313,12 +316,16 @@ const ControlButtons = ({
   return (
     <div className="columns gapped-xl flex-end">
       {examinerDetailsInitialized && (
-        <CustomButton
+        <CustomButtonLink
           color={Color.Secondary}
           disabled={status === APIResponseStatus.InProgress}
+          to={AppRoutes.ExaminerHomePage.replace(
+            /:oid/,
+            knownExaminerDetails.oid,
+          )}
         >
           {translateCommon('cancel')}
-        </CustomButton>
+        </CustomButtonLink>
       )}
       <LoadingProgressIndicator isLoading={isLoading}>
         <CustomButton
@@ -483,6 +490,7 @@ export const ExaminerDetailsPage = () => {
   const { t } = useExaminerTranslation({
     keyPrefix: 'vkt.component.examinerDetails',
   });
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const {
     oid,
@@ -490,6 +498,9 @@ export const ExaminerDetailsPage = () => {
     initialized,
   } = useAppSelector(examinerDetailsSelector);
   const { status: initStatus } = useAppSelector(examinerDetailsInitSelector);
+  const { status: examinerDetailsUpsertStatus } = useAppSelector(
+    examinerDetailsUpsertSelector,
+  );
   useEffect(() => {
     if (examinerDetailsStatus === APIResponseStatus.NotStarted && oid) {
       dispatch(loadExaminerDetails(oid));
@@ -507,8 +518,18 @@ export const ExaminerDetailsPage = () => {
   });
   const examinerDetails = useExaminerDetails();
 
-  // TODO Navigate away from page & show success toast if details are saved successfully
-  // TODO Navigate away from page if cancel is pressed
+  const { showToast } = useToast();
+  useEffect(() => {
+    if (oid && examinerDetailsUpsertStatus === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: 'Tietojen päivittäminen onnistui!',
+        timeOut: Duration.MediumExtra,
+      });
+      navigate(AppRoutes.ExaminerHomePage.replace(/:oid/, oid));
+    }
+  }, [examinerDetailsUpsertStatus, navigate, oid, showToast]);
+
   // TODO Perhaps navigation protection if dirty fields?
   return (
     <Box className="examiner-details-page">
