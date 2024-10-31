@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ExaminerRepository extends BaseRepository<Examiner> {
-  List<Examiner> getAllByDeletedAtIsNull();
+  List<Examiner> getAllByDeletedAtIsNullAndIsPublicIsTrue();
   Examiner getByOid(String oid);
   Optional<Examiner> findByOid(String oid);
 

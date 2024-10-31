@@ -102,6 +102,7 @@ public class ExaminerDetailsService {
     );
     examiner.setExamLanguageFinnish(examinerDetailsUpsertDTO.examLanguageFinnish());
     examiner.setExamLanguageSwedish(examinerDetailsUpsertDTO.examLanguageSwedish());
+    examiner.setPublic(examinerDetailsUpsertDTO.isPublic());
     examinerRepository.saveAndFlush(examiner);
 
     return toExaminerDetailsDTO(examiner);

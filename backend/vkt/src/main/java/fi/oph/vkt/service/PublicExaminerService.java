@@ -67,7 +67,7 @@ public class PublicExaminerService {
   @Transactional(readOnly = true)
   public List<PublicExaminerDTO> listExaminers() {
     return examinerRepository
-      .getAllByDeletedAtIsNull()
+      .getAllByDeletedAtIsNullAndIsPublicIsTrue()
       .stream()
       .map(PublicExaminerService::toPublicExaminerDTO)
       .collect(Collectors.toList());
