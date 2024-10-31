@@ -3,6 +3,7 @@ package fi.oph.vkt.service;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAppointmentDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAppointmentUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
@@ -13,12 +14,15 @@ import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Payment;
+import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import fi.oph.vkt.model.type.PaymentStatus;
+import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
@@ -47,6 +51,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   private static final Logger LOG = LoggerFactory.getLogger(ClerkEnrollmentService.class);
 
   private final EnrollmentRepository enrollmentRepository;
+  private final EnrollmentAppointmentRepository enrollmentAppointmentRepository;
   private final ExamEventRepository examEventRepository;
   private final PaymentRepository paymentRepository;
   private final AuditService auditService;
@@ -92,7 +97,9 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final ClerkEnrollmentAuditDTO newAuditDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
     auditService.logUpdate(VktOperation.UPDATE_ENROLLMENT, enrollment.getId(), oldAuditDto, newAuditDto);
 
-    FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(enrollment.getPerson());
+    final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(
+      enrollment.getPerson()
+    );
     return ClerkEnrollmentUtil.createClerkEnrollmentDTO(
       enrollmentRepository.getReferenceById(enrollment.getId()),
       freeEnrollmentDetails
@@ -111,7 +118,9 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final ClerkEnrollmentAuditDTO newAuditDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
     auditService.logUpdate(VktOperation.UPDATE_ENROLLMENT_STATUS, enrollment.getId(), oldAuditDto, newAuditDto);
 
-    FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(enrollment.getPerson());
+    final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(
+      enrollment.getPerson()
+    );
     return ClerkEnrollmentUtil.createClerkEnrollmentDTO(
       enrollmentRepository.getReferenceById(enrollment.getId()),
       freeEnrollmentDetails
@@ -138,7 +147,9 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final ClerkEnrollmentAuditDTO newAuditDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
     auditService.logUpdate(VktOperation.MOVE_ENROLLMENT, enrollment.getId(), oldAuditDto, newAuditDto);
 
-    FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(enrollment.getPerson());
+    final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(
+      enrollment.getPerson()
+    );
     return ClerkEnrollmentUtil.createClerkEnrollmentDTO(
       enrollmentRepository.getReferenceById(enrollment.getId()),
       freeEnrollmentDetails
@@ -216,48 +227,41 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     koskiService.saveEducationsForEnrollment(freeEnrollment, enrollment.getExamEvent().getId(), educationDTOs);
   }
 
-  public ClerkEnrollmentContactRequestDTO getEnrollmentContactRequest(final long enrollmentId) {
-    return ClerkEnrollmentContactRequestDTO
-      .builder()
-      .id(enrollmentId)
-      .version(1)
-      .enrollmentTime(LocalDateTime.now())
-      .oralSkill(true)
-      .textualSkill(true)
-      .understandingSkill(true)
-      .speakingPartialExam(true)
-      .speechComprehensionPartialExam(true)
-      .writingPartialExam(true)
-      .readingComprehensionPartialExam(true)
-      .status(EnrollmentStatus.CANCELED)
-      .email("foo@bar")
-      .firstName("Testi")
-      .lastName("Tessilä")
-      .build();
+  public ClerkEnrollmentContactRequestDTO getEnrollmentContactRequest(final long enrollmentContactId) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
+      enrollmentContactId
+    );
+
+    return ClerkEnrollmentUtil.createClerkEnrollmentContactDTO(enrollmentAppointment);
   }
 
-  public long convertToAppointment(final long enrollmentContactId) {
-    return enrollmentContactId;
+  public ClerkEnrollmentAppointmentDTO convertToAppointment(final long enrollmentContactId) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
+      enrollmentContactId
+    );
+
+    enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.WAITING_AUTHENTICATION);
+    enrollmentAppointmentRepository.flush();
+
+    return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment);
   }
 
   public ClerkEnrollmentAppointmentDTO getEnrollmentAppointment(final long enrollmentAppointmentId) {
-    return ClerkEnrollmentAppointmentDTO
-      .builder()
-      .id(enrollmentAppointmentId)
-      .version(1)
-      .enrollmentTime(LocalDateTime.now())
-      .oralSkill(true)
-      .textualSkill(true)
-      .understandingSkill(true)
-      .speakingPartialExam(true)
-      .speechComprehensionPartialExam(true)
-      .writingPartialExam(true)
-      .readingComprehensionPartialExam(true)
-      .status(EnrollmentStatus.CANCELED)
-      .email("foo@bar")
-      .firstName("Testi")
-      .lastName("Tessilä")
-      .payments(List.of())
-      .build();
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
+      enrollmentAppointmentId
+    );
+
+    return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment);
+  }
+
+  public ClerkEnrollmentAppointmentDTO updateAppointment(final ClerkEnrollmentAppointmentUpdateDTO dto) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(dto.id());
+
+    enrollmentAppointment.assertVersion(dto.version());
+
+    copyDtoFieldsToEnrollment(enrollmentAppointment, dto);
+    enrollmentAppointmentRepository.flush();
+
+    return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment);
   }
 }

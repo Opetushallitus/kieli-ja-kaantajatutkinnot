@@ -20,7 +20,8 @@ public record PublicEnrollmentContactCreateDTO(
   @Size(max = 255) @NonNull @NotBlank String email,
   @Size(max = 255) @NonNull @NotBlank String firstName,
   @Size(max = 255) @NonNull @NotBlank String lastName
-) {
+)
+  implements EnrollmentDTOSkillFields {
   public PublicEnrollmentContactCreateDTO {
     previousEnrollment = StringUtil.sanitize(previousEnrollment);
     email = StringUtil.sanitize(email);

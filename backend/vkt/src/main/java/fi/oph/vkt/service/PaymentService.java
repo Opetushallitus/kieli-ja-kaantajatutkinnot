@@ -7,6 +7,7 @@ import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
+import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentSkill;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLevel;
@@ -127,9 +128,9 @@ public class PaymentService {
   ) {
     switch (paymentStatus) {
       case NEW, PENDING, DELAYED -> {}
-      case OK -> enrollmentAppointment.setStatus(EnrollmentStatus.COMPLETED);
+      case OK -> enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.COMPLETED);
       case FAIL -> {
-        enrollmentAppointment.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
+        enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.CANCELED_PAYMENT);
       }
     }
   }

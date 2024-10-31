@@ -4,12 +4,15 @@ import fi.oph.vkt.api.dto.FreeEnrollmentAttachmentDTO;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetailsDTO;
 import fi.oph.vkt.api.dto.KoskiEducationsDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAppointmentDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkFreeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.KoskiEducations;
 import fi.oph.vkt.model.Person;
@@ -142,6 +145,56 @@ public class ClerkEnrollmentUtil {
       .dia(koskiEducations.getDia())
       .eb(koskiEducations.getEb())
       .other(koskiEducations.getOther())
+      .build();
+  }
+
+  public static ClerkEnrollmentAppointmentDTO createClerkEnrollmentAppointmentDTO(
+    final EnrollmentAppointment enrollmentAppointment
+  ) {
+    final List<ClerkPaymentDTO> paymentDTOs = enrollmentAppointment
+      .getPayments()
+      .stream()
+      .map(ClerkPaymentUtil::createClerkPaymentDTO)
+      .sorted(Comparator.comparing(ClerkPaymentDTO::createdAt).reversed())
+      .toList();
+
+    return ClerkEnrollmentAppointmentDTO
+      .builder()
+      .id(enrollmentAppointment.getId())
+      .version(enrollmentAppointment.getVersion())
+      .enrollmentTime(enrollmentAppointment.getCreatedAt())
+      .oralSkill(enrollmentAppointment.isOralSkill())
+      .textualSkill(enrollmentAppointment.isTextualSkill())
+      .understandingSkill(enrollmentAppointment.isUnderstandingSkill())
+      .speakingPartialExam(enrollmentAppointment.isSpeakingPartialExam())
+      .speechComprehensionPartialExam(enrollmentAppointment.isSpeechComprehensionPartialExam())
+      .writingPartialExam(enrollmentAppointment.isWritingPartialExam())
+      .readingComprehensionPartialExam(enrollmentAppointment.isReadingComprehensionPartialExam())
+      .status(enrollmentAppointment.getStatus())
+      .email(enrollmentAppointment.getEmail())
+      .firstName(enrollmentAppointment.getPerson().getFirstName())
+      .lastName(enrollmentAppointment.getPerson().getLastName())
+      .payments(paymentDTOs)
+      .build();
+  }
+
+  public static ClerkEnrollmentContactRequestDTO createClerkEnrollmentContactDTO(
+    final EnrollmentAppointment enrollmentAppointment
+  ) {
+    return ClerkEnrollmentContactRequestDTO
+      .builder()
+      .id(enrollmentAppointment.getId())
+      .version(enrollmentAppointment.getVersion())
+      .enrollmentTime(enrollmentAppointment.getCreatedAt())
+      .oralSkill(enrollmentAppointment.isOralSkill())
+      .textualSkill(enrollmentAppointment.isTextualSkill())
+      .understandingSkill(enrollmentAppointment.isUnderstandingSkill())
+      .speakingPartialExam(enrollmentAppointment.isSpeakingPartialExam())
+      .speechComprehensionPartialExam(enrollmentAppointment.isSpeechComprehensionPartialExam())
+      .writingPartialExam(enrollmentAppointment.isWritingPartialExam())
+      .readingComprehensionPartialExam(enrollmentAppointment.isReadingComprehensionPartialExam())
+      .status(enrollmentAppointment.getStatus())
+      .email(enrollmentAppointment.getEmail())
       .build();
   }
 }

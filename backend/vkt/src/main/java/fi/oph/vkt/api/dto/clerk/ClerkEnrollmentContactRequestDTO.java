@@ -1,5 +1,6 @@
 package fi.oph.vkt.api.dto.clerk;
 
+import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,7 +20,7 @@ public record ClerkEnrollmentContactRequestDTO(
   @NonNull @NotNull Boolean speechComprehensionPartialExam,
   @NonNull @NotNull Boolean writingPartialExam,
   @NonNull @NotNull Boolean readingComprehensionPartialExam,
-  @NonNull @NotNull EnrollmentStatus status,
+  @NonNull @NotNull EnrollmentAppointmentStatus status,
   String previousEnrollment,
   @NonNull @NotBlank String email,
   @NonNull @NotBlank String firstName,

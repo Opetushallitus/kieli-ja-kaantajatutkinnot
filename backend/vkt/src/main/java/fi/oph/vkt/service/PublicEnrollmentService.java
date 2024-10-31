@@ -23,6 +23,7 @@ import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.UploadedFileAttachment;
+import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import fi.oph.vkt.model.type.FreeEnrollmentType;
@@ -679,7 +680,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   public void createEnrollmentContact(final PublicEnrollmentContactCreateDTO dto) {
     final EnrollmentAppointment enrollmentAppointment = new EnrollmentAppointment();
 
-    enrollmentAppointment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
+    enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.CONTACT_CREATED);
     copyDtoFieldsToEnrollment(enrollmentAppointment, dto);
 
     // TODO: remove

@@ -5,6 +5,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_PDF_VALUE;
 
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAppointmentDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAppointmentUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
@@ -85,7 +86,9 @@ public class ClerkEnrollmentController {
 
   @PutMapping(path = "/contact/{enrollmentContactId:\\d+}/convertToAppointment")
   @Operation(tags = TAG_ENROLLMENT, summary = "Get enrollment contact request")
-  public long enrollmentContactRequestToAppointment(@PathVariable final long enrollmentContactId) {
+  public ClerkEnrollmentAppointmentDTO enrollmentContactRequestToAppointment(
+    @PathVariable final long enrollmentContactId
+  ) {
     return clerkEnrollmentService.convertToAppointment(enrollmentContactId);
   }
 
@@ -97,8 +100,10 @@ public class ClerkEnrollmentController {
 
   @PutMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}")
   @Operation(tags = TAG_ENROLLMENT, summary = "Update enrollment appointment")
-  public ClerkEnrollmentDTO updateEnrollmentAppointment(@RequestBody @Valid final ClerkEnrollmentUpdateDTO dto) {
-    return clerkEnrollmentService.update(dto);
+  public ClerkEnrollmentAppointmentDTO updateEnrollmentAppointment(
+    @RequestBody @Valid final ClerkEnrollmentAppointmentUpdateDTO dto
+  ) {
+    return clerkEnrollmentService.updateAppointment(dto);
   }
 
   @GetMapping(path = "/attachment", consumes = ALL_VALUE)

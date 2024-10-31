@@ -1,5 +1,6 @@
 package fi.oph.vkt.model;
 
+import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,37 +26,16 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "enrollment_appointment")
-public class EnrollmentAppointment extends BaseEntity {
+public class EnrollmentAppointment extends EnrollmentCommon {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "enrollment_appointment_id", nullable = false)
   private long id;
 
-  @Column(name = "skill_oral")
-  private boolean oralSkill;
-
-  @Column(name = "skill_textual")
-  private boolean textualSkill;
-
-  @Column(name = "skill_understanding")
-  private boolean understandingSkill;
-
-  @Column(name = "partial_exam_speaking")
-  private boolean speakingPartialExam;
-
-  @Column(name = "partial_exam_speech_comprehension")
-  private boolean speechComprehensionPartialExam;
-
-  @Column(name = "partial_exam_writing")
-  private boolean writingPartialExam;
-
-  @Column(name = "partial_exam_reading_comprehension")
-  private boolean readingComprehensionPartialExam;
-
   @Column(name = "status", nullable = false)
   @Enumerated(value = EnumType.STRING)
-  private EnrollmentStatus status;
+  private EnrollmentAppointmentStatus status;
 
   @Column(name = "digital_certificate_consent")
   private boolean digitalCertificateConsent;

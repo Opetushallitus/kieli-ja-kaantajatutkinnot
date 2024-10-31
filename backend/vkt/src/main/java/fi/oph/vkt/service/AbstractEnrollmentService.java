@@ -1,9 +1,12 @@
 package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.EnrollmentDTOCommonFields;
+import fi.oph.vkt.api.dto.EnrollmentDTOSkillFields;
 import fi.oph.vkt.api.dto.PublicEnrollmentContactCreateDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAppointmentUpdateDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.EnrollmentAppointment;
+import fi.oph.vkt.model.EnrollmentCommon;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.repository.EnrollmentRepository;
@@ -11,28 +14,34 @@ import java.util.Optional;
 
 public abstract class AbstractEnrollmentService {
 
+  protected void copyDtoSkillFieldsToEnrollment(final EnrollmentCommon enrollment, final EnrollmentDTOSkillFields dto) {
+    enrollment.setOralSkill(dto.oralSkill());
+    enrollment.setTextualSkill(dto.textualSkill());
+    enrollment.setUnderstandingSkill(dto.understandingSkill());
+    enrollment.setSpeakingPartialExam(dto.speakingPartialExam());
+    enrollment.setSpeechComprehensionPartialExam(dto.speechComprehensionPartialExam());
+    enrollment.setWritingPartialExam(dto.writingPartialExam());
+    enrollment.setReadingComprehensionPartialExam(dto.readingComprehensionPartialExam());
+  }
+
+  protected void copyDtoFieldsToEnrollment(
+    final EnrollmentAppointment enrollment,
+    final ClerkEnrollmentAppointmentUpdateDTO dto
+  ) {
+    copyDtoSkillFieldsToEnrollment(enrollment, dto);
+    enrollment.setEmail(dto.email());
+  }
+
   protected void copyDtoFieldsToEnrollment(
     final EnrollmentAppointment enrollment,
     final PublicEnrollmentContactCreateDTO dto
   ) {
-    enrollment.setOralSkill(dto.oralSkill());
-    enrollment.setTextualSkill(dto.textualSkill());
-    enrollment.setUnderstandingSkill(dto.understandingSkill());
-    enrollment.setSpeakingPartialExam(dto.speakingPartialExam());
-    enrollment.setSpeechComprehensionPartialExam(dto.speechComprehensionPartialExam());
-    enrollment.setWritingPartialExam(dto.writingPartialExam());
-    enrollment.setReadingComprehensionPartialExam(dto.readingComprehensionPartialExam());
+    copyDtoSkillFieldsToEnrollment(enrollment, dto);
     enrollment.setEmail(dto.email());
   }
 
   protected void copyDtoFieldsToEnrollment(final Enrollment enrollment, final EnrollmentDTOCommonFields dto) {
-    enrollment.setOralSkill(dto.oralSkill());
-    enrollment.setTextualSkill(dto.textualSkill());
-    enrollment.setUnderstandingSkill(dto.understandingSkill());
-    enrollment.setSpeakingPartialExam(dto.speakingPartialExam());
-    enrollment.setSpeechComprehensionPartialExam(dto.speechComprehensionPartialExam());
-    enrollment.setWritingPartialExam(dto.writingPartialExam());
-    enrollment.setReadingComprehensionPartialExam(dto.readingComprehensionPartialExam());
+    copyDtoSkillFieldsToEnrollment(enrollment, dto);
     enrollment.setPreviousEnrollment(dto.previousEnrollment());
     enrollment.setDigitalCertificateConsent(dto.digitalCertificateConsent());
     enrollment.setEmail(dto.email());
