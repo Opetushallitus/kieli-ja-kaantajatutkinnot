@@ -12,9 +12,9 @@ import fi.oph.vkt.service.onr.OnrService;
 import fi.oph.vkt.service.onr.PersonalData;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -76,19 +76,21 @@ public class ExaminerDetailsService {
   @Transactional
   public ExaminerDetailsDTO upsertExaminer(final String oid, ExaminerDetailsUpsertDTO examinerDetailsUpsertDTO) {
     // TODO Audit log entry
-    // TODO Throws when trying to update existing examiner - figure out if we want separate methods for updating vs. creating??
-    if (examinerRepository.findByOid(oid).isPresent()) {
-      throw new APIException(APIExceptionType.EXAMINER_ALREADY_INITIALIZED);
+    Optional<Examiner> existing = examinerRepository.findByOid(oid);
+    Examiner examiner;
+    if (existing.isPresent()) {
+      examiner = existing.get();
+    } else {
+      examiner = new Examiner();
+      examiner.setOid(oid);
+      PersonalData personalData = this.getOnrPersonalData(oid);
+      if (personalData == null) {
+        throw new APIException(APIExceptionType.EXAMINER_ONR_NOT_FOUND);
+      }
+      examiner.setLastName(personalData.getLastName());
+      examiner.setFirstName(personalData.getFirstName());
+      examiner.setNickname(personalData.getNickname());
     }
-    PersonalData personalData = this.getOnrPersonalData(oid);
-    if (personalData == null) {
-      throw new APIException(APIExceptionType.EXAMINER_ONR_NOT_FOUND);
-    }
-    Examiner examiner = new Examiner();
-    examiner.setOid(oid);
-    examiner.setLastName(personalData.getLastName());
-    examiner.setFirstName(personalData.getFirstName());
-    examiner.setNickname(personalData.getNickname());
     examiner.setEmail(examinerDetailsUpsertDTO.email());
     examiner.setPhoneNumber(examinerDetailsUpsertDTO.phoneNumber());
     examiner.setMunicipalities(
@@ -96,7 +98,7 @@ public class ExaminerDetailsService {
         .municipalities()
         .stream()
         .map(municipality -> municipalityService.getOrCreateByCode(municipality.code()))
-        .toList()
+        .collect(Collectors.toList())
     );
     examiner.setExamLanguageFinnish(examinerDetailsUpsertDTO.examLanguageFinnish());
     examiner.setExamLanguageSwedish(examinerDetailsUpsertDTO.examLanguageSwedish());
