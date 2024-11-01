@@ -27,23 +27,6 @@ services:
       - SPRING_DATASOURCE_PASSWORD=postgres
       - SERVER_PORT=8081
       - OTR_UNSECURE=${OTR_UNSECURE}
-  otr-frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.otr
-      args:
-        - GITHUB_REGISTRY_TOKEN=${GITHUB_REGISTRY_TOKEN}
-    ports:
-      - "4001:4001"
-    working_dir: /app/reactjs
-    networks:
-      - otr-dev
-    volumes:
-      - ./frontend/packages/otr:/app/reactjs/packages/otr
-      - /app/reactjs/node_modules
-      - /app/reactjs/packages/otr/node_modules
-    environment:
-      - GITHUB_REGISTRY_TOKEN=${GITHUB_REGISTRY_TOKEN}
 
   otr-postgres:
     build: ./backend/otr/db
@@ -60,6 +43,3 @@ services:
 
 networks:
   otr-dev: {}
-
-volumes:
-  nodemodules: {}
