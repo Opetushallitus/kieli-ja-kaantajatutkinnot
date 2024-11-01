@@ -27,23 +27,6 @@ services:
       - SPRING_DATASOURCE_PASSWORD=postgres
       - SERVER_PORT=8080
       - AKR_UNSECURE=${AKR_UNSECURE}
-  akr-frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.akr
-      args:
-        - GITHUB_REGISTRY_TOKEN=${GITHUB_REGISTRY_TOKEN}
-    ports:
-      - "4000:4000"
-    working_dir: /app/reactjs
-    networks:
-      - akr-dev
-    volumes:
-      - ./frontend/packages/akr:/app/reactjs/packages/akr
-      - /app/reactjs/node_modules
-      - /app/reactjs/packages/akr/node_modules
-    environment:
-      - GITHUB_REGISTRY_TOKEN=${GITHUB_REGISTRY_TOKEN}
 
   akr-postgres:
     build: ./backend/akr/db
@@ -59,6 +42,3 @@ services:
 
 networks:
   akr-dev: {}
-
-volumes:
-  nodemodules: {}

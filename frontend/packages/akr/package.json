@@ -14,7 +14,6 @@
     "akr:qa": "yarn akr:lint && yarn akr:format && yarn akr:test:jest && yarn akr:start:ci",
     "akr:start": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8080",
     "akr:start:ci": "yarn g:webpack serve --env cypress --config webpack.config.js --no-open",
-    "akr:start:docker-compose": "yarn g:webpack serve --config webpack.config.js --env proxy=http://akr-backend:8080 --env docker",
     "akr:stylelint": "yarn g:stylelint --fix \"./src/**/*.scss\"",
     "akr:test:cypress": "TZ=Europe/Helsinki yarn g:cypress run",
     "akr:test:cypress:open": "TZ=Europe/Helsinki yarn g:cypress open",

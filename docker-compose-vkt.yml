@@ -29,24 +29,6 @@ services:
       - SERVER_PORT=8082
       - VKT_UNSECURE=${VKT_UNSECURE}
 
-  vkt-frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.vkt
-      args:
-        - GITHUB_REGISTRY_TOKEN=${GITHUB_REGISTRY_TOKEN}
-    ports:
-      - "4002:4002"
-    working_dir: /app/reactjs
-    networks:
-      - vkt-dev
-    volumes:
-      - ./frontend/packages/vkt:/app/reactjs/packages/vkt
-      - /app/reactjs/node_modules
-      - /app/reactjs/packages/vkt/node_modules
-    environment:
-      - GITHUB_REGISTRY_TOKEN=${GITHUB_REGISTRY_TOKEN}
-
   vkt-postgres:
     build: ./backend/vkt/db
     container_name: vkt-postgres
@@ -74,6 +56,3 @@ services:
 
 networks:
   vkt-dev: {}
-
-volumes:
-  nodemodules: {}
