@@ -45,7 +45,7 @@ public class PublicExaminerService {
       .builder()
       .id(examiner.getId())
       .lastName(examiner.getLastName())
-      .firstName(examiner.getFirstName())
+      .firstName(examiner.getNickname())
       .languages(languages)
       .municipalities(
         examiner
