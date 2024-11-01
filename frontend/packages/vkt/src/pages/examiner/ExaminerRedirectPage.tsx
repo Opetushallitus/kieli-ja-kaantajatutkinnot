@@ -14,11 +14,6 @@ export const ExaminerRedirectPage = () => {
   const { oid, status } = useAppSelector(clerkUserSelector);
   useEffect(() => {
     if (status === APIResponseStatus.Success) {
-      // eslint-disable-next-line no-console
-      console.log(
-        'Redirecting to .....',
-        AppRoutes.ExaminerHomePage.replace(/:oid/, oid),
-      );
       navigate(AppRoutes.ExaminerHomePage.replace(/:oid/, oid));
     }
   });
