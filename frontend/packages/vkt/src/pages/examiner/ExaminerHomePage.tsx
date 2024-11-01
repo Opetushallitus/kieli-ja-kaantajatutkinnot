@@ -1,16 +1,163 @@
-import { Box, Grid } from '@mui/material';
-import { FC, useEffect } from 'react';
+import { Box, Divider, Grid, Paper } from '@mui/material';
+import dayjs from 'dayjs';
+import { FC, Fragment, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { H1 } from 'shared/components';
-import { APIResponseStatus } from 'shared/enums';
+import { CustomButtonLink, H1, H2, Text } from 'shared/components';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import { DateUtils } from 'shared/utils';
 
+import {
+  useCommonTranslation,
+  useExaminerTranslation,
+  useKoodistoMunicipalitiesTranslation,
+} from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
+import { AppRoutes, ExamLanguage } from 'enums/app';
+import { PublicExaminerExamDate } from 'interfaces/publicExaminer';
 import { loadExaminerDetails } from 'redux/reducers/examinerDetails';
 import { clerkUserSelector } from 'redux/selectors/clerkUser';
 import { examinerDetailsSelector } from 'redux/selectors/examinerDetails';
 
+const PublicInformation = () => {
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.examinerOverview.publicInformation',
+  });
+  const translateCommon = useCommonTranslation();
+  const { examiner } = useAppSelector(examinerDetailsSelector);
+  const translateMunicipality = useKoodistoMunicipalitiesTranslation();
+  if (!examiner) {
+    return <></>;
+  }
+
+  const examLanguages: Array<ExamLanguage> = [
+    examiner.examLanguageFinnish ? ExamLanguage.FI : null,
+    examiner.examLanguageSwedish ? ExamLanguage.SV : null,
+  ].filter((v) => !!v);
+
+  const examDates: Array<PublicExaminerExamDate> = [
+    { examDate: dayjs('2024-10-10'), isFull: false },
+    { examDate: dayjs('2024-10-24'), isFull: true },
+    { examDate: dayjs('2024-10-15'), isFull: false },
+    { examDate: dayjs('2024-10-21'), isFull: false },
+  ];
+
+  return (
+    <div className="examiner-homepage__public-information rows gapped-xl">
+      <div className="columns gapped">
+        <H2 className="grow">{t('heading')}</H2>
+        <CustomButtonLink
+          variant={Variant.Contained}
+          color={Color.Secondary}
+          to={AppRoutes.ExaminerDetailsPage.replace(/:oid/, examiner.oid)}
+        >
+          {t('labels.modify')}
+        </CustomButtonLink>
+      </div>
+      <Divider />
+      <div className="examiner-homepage__public-information--details-row columns space-between align-items-start">
+        <Text>
+          <b>{t('labels.examiner')}</b>
+          <br />
+          {`${examiner.firstName} ${examiner.lastName}`}
+        </Text>
+        <Text>
+          <b>{t('labels.languages')}</b>
+          <br />
+          {examLanguages
+            .map((v) => translateCommon(`examLanguage.${v}`))
+            .join(' & ')}
+        </Text>
+        <Text>
+          <b>{t('labels.examPlaces')}</b>
+          <br />
+          {examiner.municipalities
+            .map(({ code }) => translateMunicipality(code))
+            .sort((a, b) => a.localeCompare(b, 'fi-FI'))
+            .join(', ')}
+        </Text>
+        <Text>
+          <b>{t('labels.examDates')}</b>
+          <br />
+          {examDates.length === 0 ? (
+            t('labels.undefined')
+          ) : (
+            <>
+              {examDates.map(({ examDate, isFull }, i) => {
+                const newline = examDates.length > 1 && i > 0;
+
+                return (
+                  <Fragment key={i}>
+                    {newline && <br />}
+                    {isFull && (
+                      <>
+                        <s>{DateUtils.formatOptionalDate(examDate)}</s>&nbsp;
+                        {t('labels.full')}
+                      </>
+                    )}
+                    {!isFull && DateUtils.formatOptionalDate(examDate)}
+                  </Fragment>
+                );
+              })}
+            </>
+          )}
+        </Text>
+      </div>
+    </div>
+  );
+};
+
+const ContactRequests = () => {
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.examinerOverview.contactRequests',
+  });
+  // TODO Get contact requests from redux state & render them
+  const contactRequests = [];
+
+  return (
+    <div className="examiner-homepage__contact-requests rows gapped-xl">
+      <H2>{t('heading')}</H2>
+      <Divider />
+      {contactRequests.length === 0 && (
+        <Text className="empty-results">{t('labels.noContactRequests')}</Text>
+      )}
+    </div>
+  );
+};
+
+const ExamEvents = () => {
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.examinerOverview.examEvents',
+  });
+  // TODO Get exam events from redux state & render them
+  const examEvents = [];
+
+  return (
+    <div className="examiner-homepage__exam-events rows gapped-xl">
+      <H2>{t('heading')}</H2>
+      <Divider />
+      {examEvents.length === 0 && (
+        <Text className="empty-results">{t('labels.noExamEvents')}</Text>
+      )}
+    </div>
+  );
+};
+
+const ExaminerOverview = () => {
+  return (
+    <Paper elevation={3} className="examiner-homepage__overview">
+      <div className="rows gapped-xl">
+        <PublicInformation />
+        <ContactRequests />
+        <ExamEvents />
+      </div>
+    </Paper>
+  );
+};
+
 export const ExaminerHomePage: FC = () => {
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.examinerHomepage',
+  });
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
@@ -36,16 +183,17 @@ export const ExaminerHomePage: FC = () => {
   }, [initialized, navigate, clerkUser.isExaminer, oid]);
 
   return (
-    <Box className="clerk-homepage">
+    <Box className="examiner-homepage">
       <Grid
         container
         rowSpacing={4}
         direction="column"
-        className="clerk-homepage__grid-container"
+        className="examiner-homepage__grid-container"
       >
         <Grid item>
-          <H1>Hyvän ja tyydyttävän taidon kielitutkinnot</H1>
+          <H1>{t('heading')}</H1>
         </Grid>
+        <Grid item>{examiner && <ExaminerOverview />}</Grid>
       </Grid>
     </Box>
   );

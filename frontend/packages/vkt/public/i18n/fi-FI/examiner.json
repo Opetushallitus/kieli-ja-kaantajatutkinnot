@@ -27,6 +27,35 @@
           "heading": "Henkilötiedot",
           "information": "Tiedoista vain nimet näkyvät julkisessa listauksessa."
         }
+      },
+      "examinerHomepage": {
+        "heading": "Hyvän ja tyydyttävän taidon kielitutkinnot"
+      },
+      "examinerOverview": {
+        "contactRequests": {
+          "heading": "Yhteydenottopyynnöt",
+          "labels": {
+            "noContactRequests": "Ei yhteydenottopyyntöjä"
+          }
+        },
+        "examEvents": {
+          "heading": "Tutkintotilaisuudet",
+          "labels": {
+            "noExamEvents": "Ei tutkintotilaisuuksia"
+          }
+        },
+        "publicInformation": {
+          "heading": "Julkisesti näkyvät tiedot",
+          "labels": {
+            "examiner": "Tutkinnon vastaanottaja",
+            "examDates": "Tutkintopäivät",
+            "examPlaces": "Tutkintopaikat",
+            "full": "Täynnä",
+            "languages": "Kielet",
+            "modify": "Muokkaa tietoja",
+            "undefined": "Ei määritelty"
+          }
+        }
       }
     }
   }
