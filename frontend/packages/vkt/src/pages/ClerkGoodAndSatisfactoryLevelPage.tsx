@@ -9,7 +9,9 @@ import { useClerkTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { resetClerkExamEventOverview } from 'redux/reducers/clerkExamEventOverview';
 import { loadExamEvents } from 'redux/reducers/clerkListExamEvent';
+import { loadExaminers } from 'redux/reducers/clerkListExaminer';
 import { clerkListExamEventsSelector } from 'redux/selectors/clerkListExamEvent';
+import { clerkListExaminerSelector } from 'redux/selectors/clerkListExaminer';
 
 export const ClerkGoodAndSatisfactoryLevelPage: FC = () => {
   // I18
@@ -19,14 +21,22 @@ export const ClerkGoodAndSatisfactoryLevelPage: FC = () => {
 
   const dispatch = useAppDispatch();
   const { status } = useAppSelector(clerkListExamEventsSelector);
+  const { status: examinerListStatus } = useAppSelector(
+    clerkListExaminerSelector,
+  );
 
-  const examinersLoading = false;
+  const examinersLoading = examinerListStatus === APIResponseStatus.InProgress;
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
       dispatch(loadExamEvents());
     }
   }, [dispatch, status]);
+  useEffect(() => {
+    if (examinerListStatus === APIResponseStatus.NotStarted) {
+      dispatch(loadExaminers());
+    }
+  }, [dispatch, examinerListStatus]);
 
   useEffect(() => {
     dispatch(resetClerkExamEventOverview());

@@ -39,7 +39,7 @@ const PublicInformation = () => {
 
   const examDates: Array<PublicExaminerExamDate> = [
     { examDate: dayjs('2024-10-10'), isFull: false },
-    { examDate: dayjs('2024-10-24'), isFull: true },
+    { examDate: dayjs('2024-10-12'), isFull: true },
     { examDate: dayjs('2024-10-15'), isFull: false },
     { examDate: dayjs('2024-10-21'), isFull: false },
   ];

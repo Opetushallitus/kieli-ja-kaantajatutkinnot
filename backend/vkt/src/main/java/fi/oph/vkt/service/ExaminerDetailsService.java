@@ -1,15 +1,14 @@
 package fi.oph.vkt.service;
 
-import fi.oph.vkt.api.dto.MunicipalityDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerDetailsDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerDetailsInitDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerDetailsUpsertDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.model.Examiner;
-import fi.oph.vkt.model.Municipality;
 import fi.oph.vkt.repository.ExaminerRepository;
 import fi.oph.vkt.service.onr.OnrService;
 import fi.oph.vkt.service.onr.PersonalData;
+import fi.oph.vkt.util.ExaminerUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.util.List;
@@ -32,27 +31,6 @@ public class ExaminerDetailsService {
   private PersonalData getOnrPersonalData(final String oid) {
     Map<String, PersonalData> oidToData = onrService.getOnrPersonalData(List.of(oid));
     return oidToData.get(oid);
-  }
-
-  private static MunicipalityDTO toMunicipalityDTO(final Municipality municipality) {
-    return MunicipalityDTO.builder().code(municipality.getCode()).build();
-  }
-
-  private static ExaminerDetailsDTO toExaminerDetailsDTO(final Examiner examiner) {
-    return ExaminerDetailsDTO
-      .builder()
-      .id(examiner.getId())
-      .version(examiner.getVersion())
-      .oid(examiner.getOid())
-      .lastName(examiner.getLastName())
-      .firstName(examiner.getFirstName())
-      .email(examiner.getEmail())
-      .phoneNumber(examiner.getPhoneNumber())
-      .municipalities(examiner.getMunicipalities().stream().map(ExaminerDetailsService::toMunicipalityDTO).toList())
-      .isPublic(examiner.isPublic())
-      .examLanguageFinnish(examiner.isExamLanguageFinnish())
-      .examLanguageSwedish(examiner.isExamLanguageSwedish())
-      .build();
   }
 
   @Transactional(readOnly = true)
@@ -105,7 +83,7 @@ public class ExaminerDetailsService {
     examiner.setPublic(examinerDetailsUpsertDTO.isPublic());
     examinerRepository.saveAndFlush(examiner);
 
-    return toExaminerDetailsDTO(examiner);
+    return ExaminerUtil.toExaminerDetailsDTO(examiner);
   }
 
   @Transactional(readOnly = true)
@@ -115,7 +93,7 @@ public class ExaminerDetailsService {
     if (examiner == null) {
       throw new APIException(APIExceptionType.EXAMINER_NOT_FOUND);
     }
-    return toExaminerDetailsDTO(examiner);
+    return ExaminerUtil.toExaminerDetailsDTO(examiner);
   }
 
   @Transactional

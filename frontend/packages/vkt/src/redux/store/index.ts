@@ -8,6 +8,7 @@ import { APIErrorReducer } from 'redux/reducers/APIError';
 import { clerkEnrollmentDetailsReducer } from 'redux/reducers/clerkEnrollmentDetails';
 import { clerkExamEventOverviewReducer } from 'redux/reducers/clerkExamEventOverview';
 import { clerkListExamEventReducer } from 'redux/reducers/clerkListExamEvent';
+import { clerkListExaminerReducer } from 'redux/reducers/clerkListExaminer';
 import { clerkNewExamDateReducer } from 'redux/reducers/clerkNewExamDate';
 import { clerkUserReducer } from 'redux/reducers/clerkUser';
 import { examinerDetailsReducer } from 'redux/reducers/examinerDetails';
@@ -46,6 +47,7 @@ const reducer = combineReducers({
   examinerDetails: examinerDetailsReducer,
   examinerDetailsInit: examinerDetailsInitReducer,
   examinerDetailsUpsert: examinerDetailsUpsertReducer,
+  clerkListExaminer: clerkListExaminerReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
