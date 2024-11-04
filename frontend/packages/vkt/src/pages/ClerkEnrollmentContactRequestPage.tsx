@@ -1,7 +1,7 @@
 import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-material';
 import { Box, Divider, Grid, Paper } from '@mui/material';
 import { FC, useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import {
   CustomButton,
   CustomButtonLink,
@@ -16,7 +16,10 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { loadClerkEnrollmentContactRequest } from 'redux/reducers/clerkEnrollmentContactRequest';
+import {
+  createClerkEnrollmentAppointment,
+  loadClerkEnrollmentContactRequest,
+} from 'redux/reducers/clerkEnrollmentContactRequest';
 import { clerkEnrollmentContactRequestSelector } from 'redux/selectors/clerkEnrollmentContactRequest';
 
 const BackButton = () => {
@@ -36,11 +39,12 @@ const BackButton = () => {
 };
 
 export const ClerkEnrollmentContactRequestPage: FC = () => {
-  const { status, enrollment } = useAppSelector(
+  const { status, createStatus, enrollment } = useAppSelector(
     clerkEnrollmentContactRequestSelector,
   );
   const translateCommon = useCommonTranslation();
   const params = useParams();
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
@@ -55,12 +59,30 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
     }
   }, [dispatch, status, params.enrollmentContactRequestId]);
 
+  useEffect(() => {
+    if (
+      createStatus === APIResponseStatus.Success &&
+      params.enrollmentContactRequestId
+    ) {
+      navigate(
+        AppRoutes.ClerkEnrollmentAppointmentPage.replace(
+          ':enrollmentAppointmentId',
+          params.enrollmentContactRequestId,
+        ),
+      );
+    }
+  }, [dispatch, navigate, params.enrollmentContactRequestId, createStatus]);
+
   const isLoading = status === APIResponseStatus.InProgress;
   const isSavingDisabled = isLoading;
 
   if (!enrollment) {
     return <></>;
   }
+
+  const onSubmit = () => {
+    dispatch(createClerkEnrollmentAppointment(enrollment.id));
+  };
 
   return (
     <Box className="clerk-homepage">
@@ -121,6 +143,7 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
                   variant={Variant.Contained}
                   color={Color.Secondary}
                   disabled={isSavingDisabled}
+                  onClick={onSubmit}
                 >
                   {translateCommon('save')}
                 </CustomButton>

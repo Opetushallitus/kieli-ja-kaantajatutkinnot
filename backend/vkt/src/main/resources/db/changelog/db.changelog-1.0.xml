@@ -918,4 +918,10 @@
             <column name="enrollment_appointment_id" type="BIGINT" />
         </addColumn>
     </changeSet>
+    <changeSet id="2024-11-04-add-enrollment_appointment-missing-fields" author="jrkkp">
+        <addColumn tableName="enrollment_appointment">
+            <column name="first_name" type="TEXT" />
+            <column name="last_name" type="TEXT" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

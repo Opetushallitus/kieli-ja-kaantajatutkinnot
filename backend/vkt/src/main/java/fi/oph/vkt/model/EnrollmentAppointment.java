@@ -58,6 +58,12 @@ public class EnrollmentAppointment extends EnrollmentCommon {
   @Column(name = "country")
   private String country;
 
+  @Column(name = "first_name")
+  private String firstName;
+
+  @Column(name = "last_name")
+  private String lastName;
+
   @Size(max = 255)
   @Column(name = "auth_hash", unique = true)
   private String authHash;

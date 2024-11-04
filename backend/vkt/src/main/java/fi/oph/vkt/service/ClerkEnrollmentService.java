@@ -227,6 +227,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     koskiService.saveEducationsForEnrollment(freeEnrollment, enrollment.getExamEvent().getId(), educationDTOs);
   }
 
+  @Transactional(readOnly = true)
   public ClerkEnrollmentContactRequestDTO getEnrollmentContactRequest(final long enrollmentContactId) {
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
       enrollmentContactId
@@ -235,6 +236,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     return ClerkEnrollmentUtil.createClerkEnrollmentContactDTO(enrollmentAppointment);
   }
 
+  @Transactional
   public ClerkEnrollmentAppointmentDTO convertToAppointment(final long enrollmentContactId) {
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
       enrollmentContactId
@@ -246,6 +248,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment);
   }
 
+  @Transactional(readOnly = true)
   public ClerkEnrollmentAppointmentDTO getEnrollmentAppointment(final long enrollmentAppointmentId) {
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
       enrollmentAppointmentId
@@ -254,6 +257,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment);
   }
 
+  @Transactional
   public ClerkEnrollmentAppointmentDTO updateAppointment(final ClerkEnrollmentAppointmentUpdateDTO dto) {
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(dto.id());
 

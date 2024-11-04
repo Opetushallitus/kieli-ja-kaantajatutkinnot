@@ -84,7 +84,7 @@ public class ClerkEnrollmentController {
     return clerkEnrollmentService.getEnrollmentContactRequest(enrollmentContactId);
   }
 
-  @PutMapping(path = "/contact/{enrollmentContactId:\\d+}/convertToAppointment")
+  @PostMapping(path = "/contact/{enrollmentContactId:\\d+}/convertToAppointment", consumes = ALL_VALUE)
   @Operation(tags = TAG_ENROLLMENT, summary = "Get enrollment contact request")
   public ClerkEnrollmentAppointmentDTO enrollmentContactRequestToAppointment(
     @PathVariable final long enrollmentContactId

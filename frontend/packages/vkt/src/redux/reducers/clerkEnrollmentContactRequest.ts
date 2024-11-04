@@ -34,6 +34,15 @@ const clerkEnrollmentContactRequestSlice = createSlice({
     createClerkEnrollmentAppointment(state, _action: PayloadAction<number>) {
       state.createStatus = APIResponseStatus.InProgress;
     },
+    storeCreateClerkEnrollmentAppointment(
+      state,
+      _action: PayloadAction<ClerkEnrollmentContact>,
+    ) {
+      state.createStatus = APIResponseStatus.Success;
+    },
+    rejectCreateClerkEnrollmentAppointment(state) {
+      state.createStatus = APIResponseStatus.Error;
+    },
   },
 });
 
@@ -43,4 +52,7 @@ export const {
   rejectClerkEnrollmentContactRequest,
   storeClerkEnrollmentContactRequest,
   loadClerkEnrollmentContactRequest,
+  createClerkEnrollmentAppointment,
+  storeCreateClerkEnrollmentAppointment,
+  rejectCreateClerkEnrollmentAppointment,
 } = clerkEnrollmentContactRequestSlice.actions;

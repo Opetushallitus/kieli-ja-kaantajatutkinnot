@@ -172,8 +172,8 @@ public class ClerkEnrollmentUtil {
       .readingComprehensionPartialExam(enrollmentAppointment.isReadingComprehensionPartialExam())
       .status(enrollmentAppointment.getStatus())
       .email(enrollmentAppointment.getEmail())
-      .firstName(enrollmentAppointment.getPerson().getFirstName())
-      .lastName(enrollmentAppointment.getPerson().getLastName())
+      .firstName(enrollmentAppointment.getFirstName())
+      .lastName(enrollmentAppointment.getLastName())
       .payments(paymentDTOs)
       .build();
   }
@@ -195,6 +195,8 @@ public class ClerkEnrollmentUtil {
       .readingComprehensionPartialExam(enrollmentAppointment.isReadingComprehensionPartialExam())
       .status(enrollmentAppointment.getStatus())
       .email(enrollmentAppointment.getEmail())
+      .firstName(enrollmentAppointment.getFirstName())
+      .lastName(enrollmentAppointment.getLastName())
       .build();
   }
 }
