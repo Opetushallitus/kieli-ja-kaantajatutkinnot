@@ -29,10 +29,13 @@ const PublicInformation = () => {
     return <></>;
   }
 
-  const examLanguages: Array<ExamLanguage> = [
-    examiner.examLanguageFinnish ? ExamLanguage.FI : null,
-    examiner.examLanguageSwedish ? ExamLanguage.SV : null,
-  ].filter((v) => !!v);
+  const examLanguages: Array<ExamLanguage> = examiner.examLanguageFinnish
+    ? examiner.examLanguageSwedish
+      ? [ExamLanguage.FI, ExamLanguage.SV]
+      : [ExamLanguage.FI]
+    : examiner.examLanguageSwedish
+    ? [ExamLanguage.SV]
+    : [];
 
   const examDates: Array<PublicExaminerExamDate> = [
     { examDate: dayjs('2024-10-10'), isFull: false },
