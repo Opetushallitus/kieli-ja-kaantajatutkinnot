@@ -86,6 +86,7 @@ export interface ClerkEnrollmentContactResponse
 export interface ClerkEnrollmentAppointment extends ClerkEnrollmentContact {
   payments: Array<ClerkPayment>;
   person?: ClerkPerson;
+  authLink: string;
 }
 
 export interface ClerkEnrollmentAppointmentResponse

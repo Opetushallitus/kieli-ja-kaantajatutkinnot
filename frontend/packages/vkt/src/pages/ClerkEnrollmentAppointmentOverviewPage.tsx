@@ -35,7 +35,10 @@ export const ClerkEnrollmentAppointmentOverviewPage: FC = () => {
         className="clerk-enrollment-overview-page__content-container rows"
       >
         {enrollment && (
-          <ClerkEnrollmentAppointmentDetails enrollment={enrollment} />
+          <ClerkEnrollmentAppointmentDetails
+            editMode={true}
+            enrollment={enrollment}
+          />
         )}
       </Paper>
     </Box>

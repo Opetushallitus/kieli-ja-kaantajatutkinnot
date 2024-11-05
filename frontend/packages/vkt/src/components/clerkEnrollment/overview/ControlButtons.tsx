@@ -1,11 +1,9 @@
 import EditIcon from '@mui/icons-material/Edit';
 import { FC } from 'react';
 import { CustomButton, LoadingProgressIndicator } from 'shared/components';
-import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import { Color, Variant } from 'shared/enums';
 
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
-import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
 
 interface ControlButtonsProps {
   onCancel: () => void;
@@ -14,6 +12,7 @@ interface ControlButtonsProps {
   onMove: () => void;
   isViewMode: boolean;
   hasRequiredDetails: boolean;
+  isLoading: boolean;
 }
 
 export const ControlButtons: FC<ControlButtonsProps> = ({
@@ -23,15 +22,12 @@ export const ControlButtons: FC<ControlButtonsProps> = ({
   onMove,
   isViewMode,
   hasRequiredDetails,
+  isLoading,
 }) => {
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkEnrollmentDetails.controlButtons',
   });
   const translateCommon = useCommonTranslation();
-
-  const { status } = useAppSelector(clerkEnrollmentDetailsSelector);
-
-  const isLoading = status === APIResponseStatus.InProgress;
 
   if (isViewMode) {
     return (

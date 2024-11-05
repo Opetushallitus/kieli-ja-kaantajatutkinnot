@@ -30,7 +30,7 @@ function* updateClerkEnrollmentAppointmentSaga(
     const apiResponse: AxiosResponse<ClerkEnrollmentAppointmentResponse> =
       yield call(
         axiosInstance.put,
-        APIEndpoints.ClerkEnrollment,
+        `${APIEndpoints.ClerkEnrollmentAppointment}/${enrollment.id}`,
         SerializationUtils.serializeClerkEnrollmentAppointment(enrollment),
       );
     const updatedEnrollment =

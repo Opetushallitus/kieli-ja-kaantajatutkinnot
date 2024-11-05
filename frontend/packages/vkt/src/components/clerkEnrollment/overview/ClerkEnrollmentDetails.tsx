@@ -51,6 +51,7 @@ export const ClerkEnrollmentDetails = () => {
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
   const [currentUIMode, setCurrentUIMode] = useState(UIMode.View);
   const isViewMode = currentUIMode === UIMode.View;
+  const isLoading = status === APIResponseStatus.InProgress;
 
   const handleMoveButtonCLick = () => setIsOpenModalOpen(true);
   const closeMoveModal = () => setIsOpenModalOpen(false);
@@ -281,6 +282,7 @@ export const ClerkEnrollmentDetails = () => {
             onMove={handleMoveButtonCLick}
             isViewMode={isViewMode}
             hasRequiredDetails={hasRequiredDetails}
+            isLoading={isLoading}
           />
         }
       />

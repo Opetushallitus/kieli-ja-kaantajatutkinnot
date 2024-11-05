@@ -241,11 +241,17 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
       enrollmentContactId
     );
+    final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
 
     enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.WAITING_AUTHENTICATION);
+
+    if (enrollmentAppointment.getAuthHash() == null) {
+      enrollmentAppointment.setAuthHash(uuidSource.getRandomNonce());
+    }
+
     enrollmentAppointmentRepository.flush();
 
-    return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment);
+    return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
   }
 
   @Transactional(readOnly = true)
@@ -253,19 +259,21 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
       enrollmentAppointmentId
     );
+    final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
 
-    return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment);
+    return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
   }
 
   @Transactional
   public ClerkEnrollmentAppointmentDTO updateAppointment(final ClerkEnrollmentAppointmentUpdateDTO dto) {
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(dto.id());
+    final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
 
     enrollmentAppointment.assertVersion(dto.version());
 
     copyDtoFieldsToEnrollment(enrollmentAppointment, dto);
     enrollmentAppointmentRepository.flush();
 
-    return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment);
+    return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
   }
 }

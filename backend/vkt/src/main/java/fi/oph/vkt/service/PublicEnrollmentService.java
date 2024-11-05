@@ -683,9 +683,6 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.CONTACT_CREATED);
     copyDtoFieldsToEnrollment(enrollmentAppointment, dto);
 
-    // TODO: remove
-    enrollmentAppointment.setAuthHash("asd");
-
     enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
   }
 

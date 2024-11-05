@@ -2,7 +2,6 @@ package fi.oph.vkt.api.dto.clerk;
 
 import fi.oph.vkt.api.dto.EnrollmentDTOSkillFields;
 import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
-import fi.oph.vkt.model.type.EnrollmentStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -32,6 +31,7 @@ public record ClerkEnrollmentAppointmentDTO(
   String country,
   @NonNull @NotBlank String firstName,
   @NonNull @NotBlank String lastName,
+  @NonNull @NotBlank String authLink,
   @NonNull @NotNull List<ClerkPaymentDTO> payments
 )
   implements EnrollmentDTOSkillFields {}

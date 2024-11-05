@@ -15,7 +15,6 @@ import lombok.NonNull;
 public record ClerkEnrollmentAppointmentUpdateDTO(
   @NonNull @NotNull Long id,
   @NonNull @NotNull Integer version,
-  @NonNull @NotNull LocalDateTime enrollmentTime,
   @NonNull @NotNull Boolean oralSkill,
   @NonNull @NotNull Boolean textualSkill,
   @NonNull @NotNull Boolean understandingSkill,

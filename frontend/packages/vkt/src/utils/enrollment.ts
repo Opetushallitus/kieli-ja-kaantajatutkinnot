@@ -14,6 +14,15 @@ import {
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 
 export class EnrollmentUtils {
+  static isFullExam(skills: PartialExamsAndSkills) {
+    return (
+      skills.writingPartialExam &&
+      skills.readingComprehensionPartialExam &&
+      skills.speakingPartialExam &&
+      skills.speechComprehensionPartialExam
+    );
+  }
+
   static isValidTextualSkillAndPartialExams(skills: PartialExamsAndSkills) {
     return skills.textualSkill
       ? skills.writingPartialExam || skills.readingComprehensionPartialExam

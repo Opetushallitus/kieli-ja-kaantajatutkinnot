@@ -30,6 +30,11 @@ public abstract class AbstractEnrollmentService {
   ) {
     copyDtoSkillFieldsToEnrollment(enrollment, dto);
     enrollment.setEmail(dto.email());
+    enrollment.setPhoneNumber(dto.phoneNumber());
+    enrollment.setStreet(dto.street());
+    enrollment.setPostalCode(dto.postalCode());
+    enrollment.setTown(dto.town());
+    enrollment.setCountry(dto.country());
   }
 
   protected void copyDtoFieldsToEnrollment(
@@ -38,6 +43,8 @@ public abstract class AbstractEnrollmentService {
   ) {
     copyDtoSkillFieldsToEnrollment(enrollment, dto);
     enrollment.setEmail(dto.email());
+    enrollment.setFirstName(dto.firstName());
+    enrollment.setLastName(dto.lastName());
   }
 
   protected void copyDtoFieldsToEnrollment(final Enrollment enrollment, final EnrollmentDTOCommonFields dto) {

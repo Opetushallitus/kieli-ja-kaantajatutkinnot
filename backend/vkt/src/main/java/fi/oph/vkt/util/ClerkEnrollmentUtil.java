@@ -149,7 +149,8 @@ public class ClerkEnrollmentUtil {
   }
 
   public static ClerkEnrollmentAppointmentDTO createClerkEnrollmentAppointmentDTO(
-    final EnrollmentAppointment enrollmentAppointment
+    final EnrollmentAppointment enrollmentAppointment,
+    final String baseUrlAPI
   ) {
     final List<ClerkPaymentDTO> paymentDTOs = enrollmentAppointment
       .getPayments()
@@ -170,10 +171,23 @@ public class ClerkEnrollmentUtil {
       .speechComprehensionPartialExam(enrollmentAppointment.isSpeechComprehensionPartialExam())
       .writingPartialExam(enrollmentAppointment.isWritingPartialExam())
       .readingComprehensionPartialExam(enrollmentAppointment.isReadingComprehensionPartialExam())
+      .street(enrollmentAppointment.getStreet())
+      .postalCode(enrollmentAppointment.getPostalCode())
+      .town(enrollmentAppointment.getTown())
+      .country(enrollmentAppointment.getCountry())
       .status(enrollmentAppointment.getStatus())
       .email(enrollmentAppointment.getEmail())
+      .phoneNumber(enrollmentAppointment.getPhoneNumber())
       .firstName(enrollmentAppointment.getFirstName())
       .lastName(enrollmentAppointment.getLastName())
+      .authLink(
+        String.format(
+          "%s/enrollment/appointment/%d/redirect/%s",
+          baseUrlAPI,
+          enrollmentAppointment.getId(),
+          enrollmentAppointment.getAuthHash()
+        )
+      )
       .payments(paymentDTOs)
       .build();
   }

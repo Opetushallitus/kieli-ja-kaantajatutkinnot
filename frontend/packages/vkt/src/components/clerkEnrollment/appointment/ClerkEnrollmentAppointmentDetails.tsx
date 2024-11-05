@@ -27,8 +27,10 @@ import { EnrollmentUtils } from 'utils/enrollment';
 
 export const ClerkEnrollmentAppointmentDetails = ({
   enrollment,
+  editMode,
 }: {
   enrollment: ClerkEnrollmentAppointment;
+  editMode: boolean;
 }) => {
   // Redux
   const dispatch = useAppDispatch();
@@ -47,7 +49,9 @@ export const ClerkEnrollmentAppointmentDetails = ({
     ClerkEnrollmentAppointment | undefined
   >(enrollment);
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
-  const [currentUIMode, setCurrentUIMode] = useState(UIMode.View);
+  const [currentUIMode, setCurrentUIMode] = useState(
+    editMode ? UIMode.Edit : UIMode.View,
+  );
   const isViewMode = currentUIMode === UIMode.View;
 
   const resetLocalEnrollmentDetails = useCallback(() => {
@@ -59,6 +63,7 @@ export const ClerkEnrollmentAppointmentDetails = ({
     keyPrefix: 'vkt.component.clerkEnrollmentDetails',
   });
   const translateCommon = useCommonTranslation();
+  const isLoading = status === APIResponseStatus.InProgress;
 
   const resetToInitialState = useCallback(() => {
     dispatch(resetClerkEnrollmentDetailsUpdate());
@@ -233,6 +238,7 @@ export const ClerkEnrollmentAppointmentDetails = ({
             onMove={handleMoveButtonClick}
             isViewMode={isViewMode}
             hasRequiredDetails={hasRequiredDetails}
+            isLoading={isLoading}
           />
         }
       />

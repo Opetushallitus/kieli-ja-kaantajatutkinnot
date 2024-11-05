@@ -16,11 +16,13 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import {
   createClerkEnrollmentAppointment,
   loadClerkEnrollmentContactRequest,
 } from 'redux/reducers/clerkEnrollmentContactRequest';
 import { clerkEnrollmentContactRequestSelector } from 'redux/selectors/clerkEnrollmentContactRequest';
+import { EnrollmentUtils } from 'utils/enrollment';
 
 const BackButton = () => {
   const translateCommon = useCommonTranslation();
@@ -80,6 +82,31 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
     return <></>;
   }
 
+  const partialExamsToText = (skills: PartialExamsAndSkills) => {
+    return [
+      skills.writingPartialExam
+        ? translateCommon('enrollment.partialExamsAndSkills.writingPartialExam')
+        : false,
+      skills.readingComprehensionPartialExam
+        ? translateCommon(
+            'enrollment.partialExamsAndSkills.readingComprehensionPartialExam',
+          )
+        : false,
+      skills.speakingPartialExam
+        ? translateCommon(
+            'enrollment.partialExamsAndSkills.speakingPartialExam',
+          )
+        : false,
+      skills.speechComprehensionPartialExam
+        ? translateCommon(
+            'enrollment.partialExamsAndSkills.speechComprehensionPartialExam',
+          )
+        : false,
+    ]
+      .filter((skill) => skill)
+      .join(', ');
+  };
+
   const onSubmit = () => {
     dispatch(createClerkEnrollmentAppointment(enrollment.id));
   };
@@ -122,15 +149,23 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
             <H2>Yhteydenoton tiedot</H2>
             <div className="rows gapped">
               <H3>Haluan suorittaa koko tutkinnon?</H3>
-              <Text>Ei</Text>
+              <Text>
+                {EnrollmentUtils.isFullExam(enrollment)
+                  ? translateCommon('yes')
+                  : translateCommon('no')}
+              </Text>
             </div>
             <div className="rows gapped">
               <H3>Osakokeet, jotka haluan suorittaa</H3>
-              <Text>Ei</Text>
+              <Text>{partialExamsToText(enrollment)}</Text>
             </div>
             <div className="rows gapped">
               <H3>Osallistunut aiempiin tutkintoihin?</H3>
-              <Text>Ei</Text>
+              <Text>
+                {enrollment.previousEnrollment
+                  ? translateCommon('yes')
+                  : translateCommon('no')}
+              </Text>
             </div>
             <div className="rows gapped">
               <H3>Viesti</H3>

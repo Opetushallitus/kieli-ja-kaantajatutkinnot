@@ -530,6 +530,9 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
             )}
           </div>
         )}
+        <div className="rows flex-start">
+          <Text>Ilmoittautumislinkki: {enrollment.authLink}</Text>
+        </div>
       </div>
       <CustomModal
         open={paymentLinkModalOpen}
