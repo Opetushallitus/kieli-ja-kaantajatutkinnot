@@ -4,143 +4,156 @@ TRUNCATE TABLE person CASCADE;
 -- Insert exam events
 
 INSERT INTO exam_event
-  (language, level, date, registration_closes, is_hidden, max_participants)
+  (language, level, date, registration_opens, registration_closes, is_hidden, max_participants)
 VALUES (
   'FI',
   'EXCELLENT',
   NOW() - INTERVAL '1 MONTHS',
+  NOW() - INTERVAL '2 WEEKS',
   NOW() - INTERVAL '2 MONTHS',
   false,
   10
 );
 
 INSERT INTO exam_event
-  (language, level, date, registration_closes, is_hidden, max_participants)
+  (language, level, date, registration_opens, registration_closes, is_hidden, max_participants)
 VALUES (
   'SV',
   'EXCELLENT',
   NOW() - INTERVAL '1 MONTHS',
+  NOW() - INTERVAL '2 WEEKS',
   NOW() - INTERVAL '2 MONTHS',
   false,
   10
 );
 
 INSERT INTO exam_event
-  (language, level, date, registration_closes, is_hidden, max_participants)
+  (language, level, date, registration_opens, registration_closes, is_hidden, max_participants)
 VALUES (
   'FI',
   'EXCELLENT',
   NOW(),
   NOW(),
+  NOW(),
   false,
   10
 );
 
 INSERT INTO exam_event
-  (language, level, date, registration_closes, is_hidden, max_participants)
+  (language, level, date, registration_opens, registration_closes, is_hidden, max_participants)
 VALUES (
   'SV',
   'EXCELLENT',
   NOW(),
   NOW(),
+  NOW(),
   false,
   10
 );
 
 INSERT INTO exam_event
-  (language, level, date, registration_closes, is_hidden, max_participants)
+  (language, level, date, registration_opens, registration_closes, is_hidden, max_participants)
 VALUES (
   'FI',
   'EXCELLENT',
   NOW() + INTERVAL '1 WEEK',
+  NOW() - INTERVAL '1 DAY',
   NOW(),
   false,
   10
 );
 
 INSERT INTO exam_event
-  (language, level, date, registration_closes, is_hidden, max_participants)
+  (language, level, date, registration_opens, registration_closes, is_hidden, max_participants)
 VALUES (
   'FI',
   'EXCELLENT',
  NOW() + INTERVAL '3 MONTHS',
+ NOW() + INTERVAL '1 DAY',
  NOW() + INTERVAL '2 MONTHS',
  false,
  10
 );
 
 INSERT INTO exam_event
-  (language, level, date, registration_closes, is_hidden, max_participants)
+  (language, level, date, registration_opens, registration_closes, is_hidden, max_participants)
 VALUES (
   'SV',
   'EXCELLENT',
   NOW() + INTERVAL '3 MONTHS',
+  NOW(),
   NOW() + INTERVAL '2 MONTHS',
   false,
   10
 );
 
 INSERT INTO exam_event
-  (language, level, date, registration_closes, is_hidden, max_participants)
+  (language, level, date, registration_opens, registration_closes, is_hidden, max_participants)
 VALUES (
   'FI',
   'EXCELLENT',
   NOW() + INTERVAL '5 MONTHS',
+  NOW(),
   NOW() + INTERVAL '4 MONTHS',
   false,
   10
 );
 
 INSERT INTO exam_event
-  (language, level, date, registration_closes, is_hidden, max_participants)
+  (language, level, date, registration_opens, registration_closes, is_hidden, max_participants)
 VALUES (
   'FI',
   'EXCELLENT',
   NOW() + INTERVAL '9 MONTHS',
+  NOW(),
   NOW() + INTERVAL '8 MONTHS',
   false,
   10
 );
 
 INSERT INTO exam_event
-  (language, level, date, registration_closes, is_hidden, max_participants)
+  (language, level, date, registration_opens, registration_closes, is_hidden, max_participants)
 VALUES (
   'FI',
   'EXCELLENT',
   NOW() + INTERVAL '12 MONTHS',
+  NOW(),
   NOW() + INTERVAL '11 MONTHS',
   false,
   10
 );
 
 INSERT INTO exam_event
-  (language, level, date, registration_closes, is_hidden, max_participants)
+  (language, level, date, registration_opens, registration_closes, is_hidden, max_participants)
 VALUES (
   'SV',
   'EXCELLENT',
   NOW() + INTERVAL '12 MONTHS',
+  NOW(),
   NOW() + INTERVAL '11 MONTHS',
   false,
   10
 );
 
 INSERT INTO exam_event
-  (language, level, date, registration_closes, is_hidden, max_participants)
+  (language, level, date, registration_opens, registration_closes, is_hidden, max_participants)
 VALUES (
   'FI',
   'EXCELLENT',
   NOW() + INTERVAL '24 MONTHS',
+  NOW(),
   NOW() + INTERVAL '22 MONTHS',
   false,
   10
 );
 
 INSERT INTO exam_event
-  (language, level, date, registration_closes, is_hidden, max_participants)
+  (language, level, date, registration_opens, registration_closes, is_hidden, max_participants)
 VALUES (
   'SV',
   'EXCELLENT',
   NOW() + INTERVAL '24 MONTHS',
+  NOW(),
   NOW() + INTERVAL '22 MONTHS',
   false,
   10
@@ -149,29 +162,31 @@ VALUES (
 -- Special exam events
 
 INSERT INTO exam_event
-  (language, level, date, registration_closes, is_hidden, max_participants)
+  (language, level, date, registration_opens, registration_closes, is_hidden, max_participants)
 VALUES (
   'SV',
   'EXCELLENT',
   NOW() + INTERVAL '5 WEEKS',
+  NOW(),
   NOW() + INTERVAL '4 WEEKS',
   false,
   8
 );
 
 INSERT INTO exam_event
-  (language, level, date, registration_closes, is_hidden, max_participants)
+  (language, level, date, registration_opens, registration_closes, is_hidden, max_participants)
 VALUES (
   'SV',
   'EXCELLENT',
   NOW() + INTERVAL '2 WEEKS',
+  NOW(),
   NOW() + INTERVAL '1 WEEK',
   true,
   10
 );
 
 -- Insert persons
-INSERT INTO person(last_name, first_name, oid, other_identifier, latest_identified_at)
+INSERT INTO person(last_name, first_name, oid, other_identifier, latest_identified_at, uuid)
 SELECT
   last_names[mod(i, array_length(last_names, 1)) + 1],
   first_names[mod(i, array_length(first_names, 1)) + 1],
@@ -179,7 +194,8 @@ SELECT
     WHEN 0 THEN NULL ELSE '1.2.246.init-' || i::text END,
   CASE mod(i, 7)
     WHEN 0 THEN 'FI/init-' || i::text END,
-  NOW()
+  NOW(),
+  gen_random_uuid()
 FROM generate_series(1, 22) i,
    (SELECT ('{Anneli, Ella, Hanna, Iiris, Liisa, Maria, Ninni, Viivi, Sointu, Jaakko, Lasse, Kyösti, ' ||
             'Markku, Kristian, Mikael, Nooa, Otto, Olli}')::text[] AS first_names) AS first_name_table,
@@ -195,7 +211,7 @@ INSERT INTO enrollment(exam_event_id, person_id,
 SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1 OFFSET 1), person_id,
        true, true, true,
        true, true, true, true,
-       'PAID', true,
+       'COMPLETED', true,
        'person' || person_id::text || '@example.invalid',
        '+35840' || (1000000 + person_id)::text,
        CASE mod(person_id, 5)
@@ -225,7 +241,7 @@ INSERT INTO enrollment(exam_event_id, person_id,
 SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1 OFFSET 2), person_id,
        true, true, true,
        true, true, true, true,
-       'PAID', true,
+       'COMPLETED', true,
        'person' || person_id::text || '@example.invalid',
        '+35840' || (1000000 + person_id)::text,
        CASE mod(person_id, 5)
@@ -285,7 +301,7 @@ INSERT INTO enrollment(exam_event_id, person_id,
 SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1 OFFSET 3), person_id,
        true, true, true,
        true, true, true, true,
-       'PAID', true,
+       'COMPLETED', true,
        'person' || person_id::text || '@example.invalid',
        '+35840' || (1000000 + person_id)::text,
        CASE mod(person_id, 5)
@@ -312,7 +328,7 @@ INSERT INTO enrollment(exam_event_id, person_id,
 SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1 OFFSET 3), person_id,
        true, true, true,
        true, true, true, true,
-       'SHIFTED_FROM_QUEUE', true,
+       'AWAITING_PAYMENT', true,
        'person' || person_id::text || '@example.invalid',
        '+35840' || (1000000 + person_id)::text,
        CASE mod(person_id, 5)
@@ -343,7 +359,7 @@ INSERT INTO enrollment(exam_event_id, person_id,
 SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1 OFFSET 4), person_id,
        true, true, true,
        true, true, true, true,
-       'PAID', true,
+       'COMPLETED', true,
        'person' || person_id::text || '@example.invalid',
        '+35840' || (1000000 + person_id)::text,
        CASE mod(person_id, 5)
@@ -377,12 +393,17 @@ SELECT exam_event_id, (SELECT max(person_id) FROM person),
 FROM exam_event;
 
 -- Insert enrollment appointment
-INSERT INTO enrollment_appointment(person_id,
-                       skill_oral, skill_textual, skill_understanding,
-                       partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
-                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country)
-VALUES (SELECT max(person_id) FROM person),
-       true, true, true,
-       true, true, true, true,
-       'COMPLETED', true,
-       'foo@bar.invalid', '0404040404', null, null, null, null;
+-- INSERT INTO enrollment_appointment(person_id,
+--                        skill_oral, skill_textual, skill_understanding,
+--                        partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
+--                        status, digital_certificate_consent, email, phone_number, street, postal_code, town, country)
+-- VALUES (SELECT max(person_id) FROM person),
+--        true, true, true,
+--        true, true, true, true,
+--        'COMPLETED', true,
+--        'foo@bar.invalid', '0404040404', null, null, null, null;
+
+
+-- Insert enrollment appointment
+INSERT INTO examiner(version, oid, email, phone_number, last_name, first_name, nickname, exam_language_finnish, exam_language_swedish, is_public)
+VALUES (1, '1.2.246.init-1', 'examiner@example.invalid', '04040404040', 'Tessilä', 'Testi', 'Tessa', true, true, true);
