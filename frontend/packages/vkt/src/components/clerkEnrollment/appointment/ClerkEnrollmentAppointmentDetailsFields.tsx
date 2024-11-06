@@ -1,6 +1,7 @@
 import { Checkbox, FormControlLabel, FormHelperTextProps } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import {
+  ComboBox,
   CustomButton,
   CustomModal,
   CustomTextField,
@@ -8,12 +9,14 @@ import {
   H3,
   InfoText,
   Text,
+  valueAsOption,
 } from 'shared/components';
 import {
   APIResponseStatus,
   Color,
   Severity,
   TextFieldTypes,
+  TextFieldVariant,
   Variant,
 } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
@@ -66,6 +69,66 @@ const CheckboxField = ({
       }
       label={translateCommon(`enrollment.partialExamsAndSkills.${fieldName}`)}
     />
+  );
+};
+
+const GradeModal = ({
+  open,
+  skills,
+  closeModal,
+}: {
+  open: boolean;
+  skills: PartialExamsAndSkills;
+  closeModal: () => void;
+}) => {
+  const translateCommon = useCommonTranslation();
+  const selectedSkills = [
+    'writingPartialExam',
+    'readingComprehensionPartialExam',
+    'speakingPartialExam',
+    'speechComprehensionPartialExam',
+  ].filter((skill: string) => skills[skill as keyof PartialExamsAndSkills]);
+
+  return (
+    <CustomModal
+      onCloseModal={closeModal}
+      open={open}
+      modalTitle={'Anna arvosanat'}
+    >
+      <>
+        <div style={{ width: '60vw' }} className="rows gapped-sm">
+          <div style={{ margin: '2em' }} className="grid-3-columns gapped">
+            <Text className="bold">Osakoe</Text>
+            <Text className="bold">Arvosana</Text>
+            <Text className="bold">Huomautuksia</Text>
+            {selectedSkills.map((skill) => (
+              <>
+                <Text>
+                  {translateCommon(`enrollment.partialExamsAndSkills.${skill}`)}
+                </Text>
+                <ComboBox
+                  autoHighlight
+                  values={['1', '2', '3'].map(valueAsOption)}
+                  variant={TextFieldVariant.Outlined}
+                  onChange={() => skill}
+                  value={null}
+                />
+                <CustomTextField />
+              </>
+            ))}
+          </div>
+          <div className="columns gapped flex-end">
+            <CustomButton
+              onClick={closeModal}
+              variant={Variant.Contained}
+              color={Color.Secondary}
+            >
+              {translateCommon('close')}
+            </CustomButton>
+          </div>
+        </div>
+      </>
+    </CustomModal>
   );
 };
 
@@ -251,6 +314,7 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
   ).paymentLink;
 
   const [paymentLinkModalOpen, setPaymentLinkModalOpen] = useState(false);
+  const [gradeModalOpen, setGradeModalOpen] = useState(false);
 
   const initialFieldErrors = Object.values(
     ClerkEnrollmentAppointmentDetailsFields,
@@ -491,6 +555,15 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
             </div>
           </div>
         )}
+        <div className="columns flex-start">
+          <CustomButton
+            onClick={setGradeModalOpen.bind(this, true)}
+            color={Color.Secondary}
+            variant={Variant.Outlined}
+          >
+            Anna arvosanat
+          </CustomButton>
+        </div>
         <div className="rows gapped-sm margin-top-lg">
           <H3>{t('status')}</H3>
           <Text>{t(`enrollmentStatus.${enrollment.status}`)}</Text>
@@ -534,6 +607,11 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
           <Text>Ilmoittautumislinkki: {enrollment.authLink}</Text>
         </div>
       </div>
+      <GradeModal
+        closeModal={setGradeModalOpen.bind(this, false)}
+        skills={enrollment}
+        open={gradeModalOpen}
+      />
       <CustomModal
         open={paymentLinkModalOpen}
         modalTitle={t('payment.modal.title')}
