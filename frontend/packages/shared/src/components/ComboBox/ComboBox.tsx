@@ -1,6 +1,9 @@
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import {
   Autocomplete,
   AutocompleteProps,
+  Checkbox,
   createFilterOptions,
   FilterOptionsState,
   FormControl,
@@ -163,6 +166,69 @@ export const LabeledComboBox = ({
         </Text>
       </label>
       <NativeSelectOrComboBox id={id} {...rest} />
+      {showError && <FormHelperText>{helperText}</FormHelperText>}
+    </FormControl>
+  );
+};
+
+type AutoCompleteMultipleComboBox = AutocompleteProps<
+  ComboBoxOption,
+  true,
+  false,
+  false
+>;
+
+export const LabeledMultipleCheckboxDropdown = ({
+  id,
+  label,
+  helperText,
+  showError,
+  values,
+  variant,
+  value,
+  onChange,
+  ...rest
+}: Omit<ComboBoxProps, 'value' | 'onChange' | 'showInputLabel'> &
+  Omit<AutoCompleteMultipleComboBox, 'options' | 'renderInput'> & {
+    id: string;
+  }) => {
+  const errorStyles = showError ? { color: 'error.main' } : {};
+  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+  const checkedIcon = <CheckBoxIcon fontSize="small" />;
+  return (
+    <FormControl fullWidth error={showError}>
+      <label htmlFor={id}>
+        <Text sx={errorStyles}>
+          <b>{label}</b>
+        </Text>
+      </label>
+      <Autocomplete
+        id={id}
+        multiple
+        disableCloseOnSelect
+        options={values}
+        value={value}
+        isOptionEqualToValue={(option, value) => option.value === value.value}
+        renderOption={(props, option, { selected }) => {
+          const { key, ...optionProps } = props;
+          return (
+            <li key={key} {...optionProps}>
+              <Checkbox
+                icon={icon}
+                checkedIcon={checkedIcon}
+                style={{ marginRight: 8 }}
+                checked={selected}
+              />
+              {option?.label}
+            </li>
+          );
+        }}
+        renderInput={(params) => (
+          <TextField {...params} variant={variant} error={showError} />
+        )}
+        onChange={onChange}
+        {...rest}
+      />
       {showError && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   );

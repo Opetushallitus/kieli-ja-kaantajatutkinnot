@@ -1,0 +1,62 @@
+{
+  "vkt": {
+    "component": {
+      "examinerDetails": {
+        "buttons": {
+          "saveAndClose": "Tallenna ja sulje"
+        },
+        "examinationDetails": {
+          "heading": "Tutkinnon perustiedot",
+          "information": "Nämä tiedot näkyvät julkisessa listauksessa."
+        },
+        "incorrectDetailsDialog": {
+          "description": "Korjaa puuttuvat tai virheelliset tiedot:",
+          "title": "Tiedoissa on korjattavaa!"
+        },
+        "heading": "Omat tiedot",
+        "labels": {
+          "email": "Sähköpostiosoite",
+          "examLanguages": "Tutkinnon kieli",
+          "firstName": "Etunimi:",
+          "lastName": "Sukunimi:",
+          "isPublic": "Julkaise",
+          "municipalities": "Tutkintopaikka/Tutkintopaikat",
+          "phoneNumber": "Puhelinnumero"
+        },
+        "personalDetails": {
+          "heading": "Henkilötiedot",
+          "information": "Tiedoista vain nimet näkyvät julkisessa listauksessa."
+        }
+      },
+      "examinerHomepage": {
+        "heading": "Hyvän ja tyydyttävän taidon kielitutkinnot"
+      },
+      "examinerOverview": {
+        "contactRequests": {
+          "heading": "Yhteydenottopyynnöt",
+          "labels": {
+            "noContactRequests": "Ei yhteydenottopyyntöjä"
+          }
+        },
+        "examEvents": {
+          "heading": "Tutkintotilaisuudet",
+          "labels": {
+            "noExamEvents": "Ei tutkintotilaisuuksia"
+          }
+        },
+        "publicInformation": {
+          "heading": "Julkisesti näkyvät tiedot",
+          "labels": {
+            "examiner": "Tutkinnon vastaanottaja",
+            "examDates": "Tutkintopäivät",
+            "examPlaces": "Tutkintopaikat",
+            "full": "Täynnä",
+            "languages": "Kielet",
+            "modify": "Muokkaa tietoja",
+            "undefined": "Ei määritelty"
+          }
+        }
+      }
+    }
+  }
+}

@@ -10,8 +10,12 @@ import { clerkEnrollmentContactRequestReducer } from 'redux/reducers/clerkEnroll
 import { clerkEnrollmentDetailsReducer } from 'redux/reducers/clerkEnrollmentDetails';
 import { clerkExamEventOverviewReducer } from 'redux/reducers/clerkExamEventOverview';
 import { clerkListExamEventReducer } from 'redux/reducers/clerkListExamEvent';
+import { clerkListExaminerReducer } from 'redux/reducers/clerkListExaminer';
 import { clerkNewExamDateReducer } from 'redux/reducers/clerkNewExamDate';
 import { clerkUserReducer } from 'redux/reducers/clerkUser';
+import { examinerDetailsReducer } from 'redux/reducers/examinerDetails';
+import { examinerDetailsInitReducer } from 'redux/reducers/examinerDetailsInit';
+import { examinerDetailsUpsertReducer } from 'redux/reducers/examinerDetailsUpsert';
 import { featureFlagsReducer } from 'redux/reducers/featureFlags';
 import { publicEducationReducer } from 'redux/reducers/publicEducation';
 import { publicEnrollmentReducer } from 'redux/reducers/publicEnrollment';
@@ -48,6 +52,11 @@ const reducer = combineReducers({
   publicEnrollmentAppointment: publicEnrollmentAppointmentReducer,
   publicEnrollmentContact: publicEnrollmentContactReducer,
   publicExaminer: publicExaminerReducer,
+  publicExaminer: publicExaminerReducer,
+  examinerDetails: examinerDetailsReducer,
+  examinerDetailsInit: examinerDetailsInitReducer,
+  examinerDetailsUpsert: examinerDetailsUpsertReducer,
+  clerkListExaminer: clerkListExaminerReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

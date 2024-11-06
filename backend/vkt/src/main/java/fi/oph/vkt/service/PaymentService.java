@@ -64,12 +64,20 @@ public class PaymentService {
 
     if (enrollmentAppointment.isTextualSkill()) {
       itemList.add(
-        getItem(EnrollmentSkill.TEXTUAL, EnrollmentUtil.getTextualSkillFee(enrollmentAppointment), ExamLevel.GOOD)
+        getItem(
+          EnrollmentSkill.TEXTUAL,
+          EnrollmentUtil.getTextualSkillFee(enrollmentAppointment),
+          ExamLevel.GOOD_AND_SATISFACTORY
+        )
       );
     }
     if (enrollmentAppointment.isOralSkill()) {
       itemList.add(
-        getItem(EnrollmentSkill.ORAL, EnrollmentUtil.getOralSkillFee(enrollmentAppointment), ExamLevel.GOOD)
+        getItem(
+          EnrollmentSkill.ORAL,
+          EnrollmentUtil.getOralSkillFee(enrollmentAppointment),
+          ExamLevel.GOOD_AND_SATISFACTORY
+        )
       );
     }
     if (enrollmentAppointment.isUnderstandingSkill()) {
@@ -77,7 +85,7 @@ public class PaymentService {
         getItem(
           EnrollmentSkill.UNDERSTANDING,
           EnrollmentUtil.getUnderstandingSkillFee(enrollmentAppointment),
-          ExamLevel.GOOD
+          ExamLevel.GOOD_AND_SATISFACTORY
         )
       );
     }

@@ -25,7 +25,7 @@ import {
   usePublicTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes, ExamLanguage } from 'enums/app';
+import { ExamLanguage } from 'enums/app';
 import { PublicExaminer } from 'interfaces/publicExaminer';
 import { setPublicExaminerLanguageFilter } from 'redux/reducers/publicExaminer';
 import {
@@ -93,7 +93,7 @@ const DesktopExaminerRow = ({
             ? examDates.map((v, i) => (
                 <Fragment key={i}>
                   {i > 0 ? <br /> : undefined}
-                  {DateUtils.formatOptionalDate(v)}
+                  {DateUtils.formatOptionalDate(v.examDate)}
                 </Fragment>
               ))
             : 'Ei määritelty'}

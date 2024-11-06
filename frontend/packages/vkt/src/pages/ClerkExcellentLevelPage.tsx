@@ -8,7 +8,7 @@ import { resetClerkExamEventOverview } from 'redux/reducers/clerkExamEventOvervi
 import { loadExamEvents } from 'redux/reducers/clerkListExamEvent';
 import { clerkListExamEventsSelector } from 'redux/selectors/clerkListExamEvent';
 
-export const ClerkHomePage: FC = () => {
+export const ClerkExcellentLevelPage: FC = () => {
   const dispatch = useAppDispatch();
   const { status } = useAppSelector(clerkListExamEventsSelector);
 

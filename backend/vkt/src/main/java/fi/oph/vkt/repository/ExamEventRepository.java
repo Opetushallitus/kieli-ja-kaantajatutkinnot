@@ -37,17 +37,19 @@ public interface ExamEventRepository extends BaseRepository<ExamEvent> {
     "SELECT e.id" +
     " FROM ExamEvent e" +
     " LEFT JOIN e.enrollments en ON en.status = 'QUEUED'" +
+    " WHERE e.level = ?1" +
     " GROUP BY e.id" +
     " HAVING COUNT(en) > 0"
   )
-  Set<Long> listClertExamEventIdsWithQueue();
+  Set<Long> listClerkExamEventIdsWithQueue(final ExamLevel level);
 
   @Query(
     "SELECT new fi.oph.vkt.repository.ClerkExamEventProjection(e.id, e.language, e.level, e.date," +
     " e.registrationCloses, e.registrationOpens, COUNT(en), e.maxParticipants, e.isHidden, COUNT(en.id) filter (where en.status = 'AWAITING_APPROVAL'))" +
     " FROM ExamEvent e" +
     " LEFT JOIN e.enrollments en ON en.status = 'COMPLETED' OR en.status = 'AWAITING_PAYMENT' OR en.status = 'AWAITING_APPROVAL' OR en.status = 'EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT'" +
+    " WHERE e.level = ?1" +
     " GROUP BY e.id"
   )
-  List<ClerkExamEventProjection> listClerkExamEventProjections();
+  List<ClerkExamEventProjection> listClerkExamEventProjections(final ExamLevel level);
 }

@@ -1,0 +1,61 @@
+package fi.oph.vkt.model;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "examiner")
+public class Examiner extends BaseEntity {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "examiner_id", nullable = false)
+  private long id;
+
+  @Size(max = 255)
+  @Column(name = "oid", unique = true, nullable = false)
+  private String oid;
+
+  @Size(max = 255)
+  @Column(name = "email", nullable = false)
+  private String email;
+
+  @Size(max = 255)
+  @Column(name = "phone_number", nullable = false)
+  private String phoneNumber;
+
+  @Column(name = "last_name", nullable = false)
+  private String lastName;
+
+  @Column(name = "first_name", nullable = false)
+  private String firstName;
+
+  @Column(name = "nickname", nullable = false)
+  private String nickname;
+
+  @Column(name = "exam_language_finnish", nullable = false)
+  private boolean examLanguageFinnish;
+
+  @Column(name = "exam_language_swedish", nullable = false)
+  private boolean examLanguageSwedish;
+
+  @OneToMany(mappedBy = "examiner")
+  private List<ExamEvent> examEvents = new ArrayList<>();
+
+  @Column(name = "is_public", nullable = false)
+  private boolean isPublic;
+
+  @ManyToMany
+  @JoinTable(
+    name = "examiner_municipality",
+    joinColumns = @JoinColumn(name = "examiner_id", referencedColumnName = "examiner_id"),
+    inverseJoinColumns = @JoinColumn(name = "municipality_id")
+  )
+  private List<Municipality> municipalities = new ArrayList<>();
+}

@@ -180,14 +180,18 @@
       "header": {
         "backToOph": "Takaisin Opintopolkuun",
         "logOut": "Kirjaudu ulos",
-        "navTabs": {
-          "examEvents": "Tutkintotilaisuudet"
+        "navigationLinks": {
+          "excellentLevel": "Erinomainen taito",
+          "goodAndSatisfactoryLevel": "Hyvä ja tyydyttävä taito"
         }
       }
     },
     "pages": {
-      "homepage": {
-        "title": "Valtionhallinnon kielitutkinnot"
+      "excellentLevel": {
+        "title": "Erinomaisen taidon kielitutkinnot"
+      },
+      "goodAndSatisfactoryLevel": {
+        "title": "Hyvän ja tyydyttävän taidon kielitutkinnot"
       }
     }
   }

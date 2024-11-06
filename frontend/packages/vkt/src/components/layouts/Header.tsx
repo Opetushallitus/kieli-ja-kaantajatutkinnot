@@ -20,7 +20,7 @@ import {
 import { useWindowProperties } from 'shared/hooks';
 
 import { ClerkHeaderButtons } from 'components/layouts/clerkHeader/ClerkHeaderButtons';
-import { ClerkNavTabs } from 'components/layouts/clerkHeader/ClerkNavTabs';
+import { ClerkNavigationLinks } from 'components/layouts/clerkHeader/ClerkNavigationLinks';
 import { SessionExpiredModal } from 'components/layouts/SessionExpiredModal';
 import { SessionStateHeader } from 'components/layouts/SessionStateHeader';
 import {
@@ -145,10 +145,13 @@ export const Header = (): JSX.Element => {
   const { isAuthenticated, isClerkUI, clerkUser, publicUser } =
     useAuthentication();
   const logoRedirectURL = isAuthenticated
-    ? AppRoutes.ClerkHomePage
+    ? AppRoutes.ClerkExcellentLevelPage
     : AppRoutes.PublicHomePage;
   const activeUrl = window.location.href;
-  const isPublicUrl = !activeUrl.includes(AppRoutes.ClerkHomePage);
+  const isPublicUrl =
+    !activeUrl.includes(AppRoutes.ClerkRoot) &&
+    !activeUrl.includes(AppRoutes.ExaminerRoot);
+
   const { isPhone } = useWindowProperties();
 
   const isClerkAuthenticationValid =
@@ -219,7 +222,7 @@ export const Header = (): JSX.Element => {
             </Link>
           </div>
           <div className="header__navigation">
-            {isAuthenticated && <ClerkNavTabs />}
+            {isAuthenticated && <ClerkNavigationLinks />}
             {isPublicUrl && !isPhone && <PublicNavigationLinks />}
             {isPublicUrl && isPhone && <PublicMobileNavigationMenu />}
           </div>

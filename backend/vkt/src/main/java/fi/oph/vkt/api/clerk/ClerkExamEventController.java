@@ -6,6 +6,7 @@ import fi.oph.vkt.api.dto.clerk.ClerkExamEventCreateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventListDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventUpdateDTO;
+import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.service.ClerkExamEventService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
@@ -33,7 +34,7 @@ public class ClerkExamEventController {
   @GetMapping
   @Operation(tags = TAG_EXAM_EVENT, summary = "List all exam events")
   public List<ClerkExamEventListDTO> list() {
-    return clerkExamEventService.list();
+    return clerkExamEventService.list(ExamLevel.EXCELLENT);
   }
 
   @GetMapping(path = "/{examEventId:\\d+}")

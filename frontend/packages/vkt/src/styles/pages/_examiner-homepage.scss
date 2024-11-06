@@ -1,0 +1,38 @@
+.examiner-homepage {
+  flex: 1;
+
+  & &__grid-container {
+    display: block;
+
+    &__heading {
+      margin: 2rem 0 1rem 1rem;
+    }
+  }
+
+  & &__overview {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2.5rem;
+  }
+
+  & &__public-information {
+    &__details-row {
+      padding-right: 4rem;
+    }
+  }
+
+  & &__contact-requests {
+    .empty-results {
+      align-self: center;
+      font-size: 2.8rem;
+    }
+  }
+
+  & &__exam-events {
+    .empty-results {
+      align-self: center;
+      font-size: 2.8rem;
+    }
+  }
+}

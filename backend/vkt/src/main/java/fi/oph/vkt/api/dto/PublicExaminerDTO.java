@@ -14,5 +14,5 @@ public record PublicExaminerDTO(
   @NonNull @NotNull String firstName,
   @NonNull @NotNull List<ExamLanguage> languages,
   @NonNull @NotNull List<PublicMunicipalityDTO> municipalities,
-  @NonNull @NotNull List<LocalDate> examDates
+  @NonNull @NotNull List<PublicExaminerExamDateDTO> examDates
 ) {}
