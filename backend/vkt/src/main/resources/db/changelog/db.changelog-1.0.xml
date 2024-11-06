@@ -923,6 +923,9 @@
             <column autoIncrement="true" name="examiner_id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="examiner_pkey"/>
             </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
             <column name="created_by" type="TEXT"/>
             <column name="modified_by" type="TEXT"/>
             <column name="deleted_by" type="TEXT"/>

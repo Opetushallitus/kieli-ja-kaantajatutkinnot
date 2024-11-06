@@ -85,8 +85,6 @@ export enum AppRoutes {
   ExaminerRoot = '/vkt/tv',
   ExaminerHomePage = '/vkt/tv/:oid',
   ExaminerDetailsPage = '/vkt/tv/:oid/omat-tiedot',
-  // Other clerk and examiner routes
-  ClerkLocalLogoutPage = '/vkt/cas/localLogout',
 
   // Miscellaneous
   AccessibilityStatementPage = '/vkt/saavutettavuusseloste',
