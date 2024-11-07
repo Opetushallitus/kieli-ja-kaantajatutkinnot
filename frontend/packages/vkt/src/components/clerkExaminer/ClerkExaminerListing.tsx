@@ -23,7 +23,7 @@ import { clerkListExamEventsSelector } from 'redux/selectors/clerkListExamEvent'
 import { clerkListExaminerSelector } from 'redux/selectors/clerkListExaminer';
 import { ExaminerUtils } from 'utils/examiner';
 
-export const ClerkExaminerListingHeader = () => {
+const ClerkExaminerListingHeader = () => {
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkExaminerListing.header',
   });
