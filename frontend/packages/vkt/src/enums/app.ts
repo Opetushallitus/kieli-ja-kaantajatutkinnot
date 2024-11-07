@@ -31,7 +31,7 @@ export enum AppRoutes {
   PublicEnrollmentDone = excellentLevelEnrollmentRoute + '/:examEventId/valmis',
   // Routes for good and satisfactory level - TODO
   PublicGoodAndSatisfactoryLevelLanding = '/vkt/hyva-ja-tyydyttava-taito',
-  ClerkRoot = '/vkt/virkailija/',
+  ClerkRoot = '/vkt/virkailija',
   // Routes for clerk user / excellent level
   ClerkExcellentLevelPage = clerkExcellentLevelRoutePrefix,
   ClerkExamEventCreatePage = clerkExcellentLevelRoutePrefix +

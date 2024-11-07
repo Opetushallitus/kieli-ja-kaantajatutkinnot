@@ -12,11 +12,12 @@ import {
   useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes, ExamLanguage } from 'enums/app';
+import { AppRoutes } from 'enums/app';
 import { PublicExaminerExamDate } from 'interfaces/publicExaminer';
 import { loadExaminerDetails } from 'redux/reducers/examinerDetails';
 import { clerkUserSelector } from 'redux/selectors/clerkUser';
 import { examinerDetailsSelector } from 'redux/selectors/examinerDetails';
+import { ExaminerUtils } from 'utils/examiner';
 
 const PublicInformation = () => {
   const { t } = useExaminerTranslation({
@@ -28,14 +29,6 @@ const PublicInformation = () => {
   if (!examiner) {
     return <></>;
   }
-
-  const examLanguages: Array<ExamLanguage> = examiner.examLanguageFinnish
-    ? examiner.examLanguageSwedish
-      ? [ExamLanguage.FI, ExamLanguage.SV]
-      : [ExamLanguage.FI]
-    : examiner.examLanguageSwedish
-    ? [ExamLanguage.SV]
-    : [];
 
   const examDates: Array<PublicExaminerExamDate> = [
     { examDate: dayjs('2024-10-10'), isFull: false },
@@ -66,17 +59,12 @@ const PublicInformation = () => {
         <Text>
           <b>{t('labels.languages')}</b>
           <br />
-          {examLanguages
-            .map((v) => translateCommon(`examLanguage.${v}`))
-            .join(' & ')}
+          {ExaminerUtils.renderExamLanguages(examiner, translateCommon)}
         </Text>
         <Text>
-          <b>{t('labels.examPlaces')}</b>
+          <b>{t('labels.examLocations')}</b>
           <br />
-          {examiner.municipalities
-            .map(({ code }) => translateMunicipality(code))
-            .sort((a, b) => a.localeCompare(b, 'fi-FI'))
-            .join(', ')}
+          {ExaminerUtils.renderExamLocations(examiner, translateMunicipality)}
         </Text>
         <Text>
           <b>{t('labels.examDates')}</b>

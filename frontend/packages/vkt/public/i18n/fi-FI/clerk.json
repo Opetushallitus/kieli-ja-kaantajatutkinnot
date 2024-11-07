@@ -177,6 +177,19 @@
           "copyToClipboardFailed": "Kopiointi leikepöydälle epäonnistui"
         }
       },
+      "clerkExaminerListing": {
+        "buttons": {
+          "viewDetails": "Katso tiedot"
+        },
+        "header": {
+          "actions": "Toiminnot",
+          "examDates": "Tutkintopäivät",
+          "examLocation": "Tutkintopaikka",
+          "examiner": "Tutkinnon vastaanottaja",
+          "language": "Kieli"
+        },
+        "title": "Tutkinnon vastaanottajan tiedot"
+      },
       "header": {
         "backToOph": "Takaisin Opintopolkuun",
         "logOut": "Kirjaudu ulos",

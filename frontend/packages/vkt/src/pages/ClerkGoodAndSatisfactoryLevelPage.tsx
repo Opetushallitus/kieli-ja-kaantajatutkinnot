@@ -4,6 +4,7 @@ import { H1 } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkExamEventListing } from 'components/clerkExamEvent/listing/ClerkExamEventListing';
+import { ClerkExaminerListing } from 'components/clerkExaminer/ClerkExaminerListing';
 import { PublicExamEventGridSkeleton } from 'components/skeletons/PublicExamEventGridSkeleton';
 import { useClerkTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -20,18 +21,21 @@ export const ClerkGoodAndSatisfactoryLevelPage: FC = () => {
   });
 
   const dispatch = useAppDispatch();
-  const { status } = useAppSelector(clerkListExamEventsSelector);
+  const { status: examEventsStatus } = useAppSelector(
+    clerkListExamEventsSelector,
+  );
   const { status: examinerListStatus } = useAppSelector(
     clerkListExaminerSelector,
   );
 
   const examinersLoading = examinerListStatus === APIResponseStatus.InProgress;
+  const examEventsLoading = examEventsStatus === APIResponseStatus.InProgress;
 
   useEffect(() => {
-    if (status === APIResponseStatus.NotStarted) {
+    if (examEventsStatus === APIResponseStatus.NotStarted) {
       dispatch(loadExamEvents());
     }
-  }, [dispatch, status]);
+  }, [dispatch, examEventsStatus]);
   useEffect(() => {
     if (examinerListStatus === APIResponseStatus.NotStarted) {
       dispatch(loadExaminers());
@@ -63,6 +67,11 @@ export const ClerkGoodAndSatisfactoryLevelPage: FC = () => {
         <Grid item>
           <Paper elevation={3} className="clerk-homepage__examiners">
             {examinersLoading ? (
+              <PublicExamEventGridSkeleton />
+            ) : (
+              <ClerkExaminerListing />
+            )}
+            {examEventsLoading ? (
               <PublicExamEventGridSkeleton />
             ) : (
               <ClerkExamEventListing examEvents={[]} />

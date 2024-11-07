@@ -18,7 +18,6 @@ import {
 import { useNavigate } from 'react-router-dom';
 import {
   CustomButton,
-  CustomButtonLink,
   CustomSwitch,
   H1,
   H2,
@@ -278,6 +277,7 @@ const ControlButtons = ({
   const dispatch = useAppDispatch();
   const { status } = useAppSelector(examinerDetailsUpsertSelector);
   const knownExaminerDetails = useExaminerDetails();
+  const navigate = useNavigate();
 
   const onSave = () => {
     if (hasErrors) {
@@ -309,6 +309,16 @@ const ControlButtons = ({
     }
   };
 
+  const onCancel = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else if (examinerDetailsInitialized) {
+      navigate(
+        AppRoutes.ExaminerHomePage.replace(/:oid/, knownExaminerDetails.oid),
+      );
+    }
+  };
+
   const isLoading = status === APIResponseStatus.InProgress;
   const examinerDetailsInitialized =
     knownExaminerDetails && isExaminerDetails(knownExaminerDetails);
@@ -316,16 +326,13 @@ const ControlButtons = ({
   return (
     <div className="columns gapped-xl flex-end">
       {examinerDetailsInitialized && (
-        <CustomButtonLink
+        <CustomButton
           color={Color.Secondary}
           disabled={status === APIResponseStatus.InProgress}
-          to={AppRoutes.ExaminerHomePage.replace(
-            /:oid/,
-            knownExaminerDetails.oid,
-          )}
+          onClick={onCancel}
         >
           {translateCommon('cancel')}
-        </CustomButtonLink>
+        </CustomButton>
       )}
       <LoadingProgressIndicator isLoading={isLoading}>
         <CustomButton
@@ -523,12 +530,12 @@ export const ExaminerDetailsPage = () => {
     if (oid && examinerDetailsUpsertStatus === APIResponseStatus.Success) {
       showToast({
         severity: Severity.Success,
-        description: 'Tietojen päivittäminen onnistui!',
+        description: t('successToast.description'),
         timeOut: Duration.MediumExtra,
       });
       navigate(AppRoutes.ExaminerHomePage.replace(/:oid/, oid));
     }
-  }, [examinerDetailsUpsertStatus, navigate, oid, showToast]);
+  }, [examinerDetailsUpsertStatus, navigate, oid, showToast, t]);
 
   // TODO Perhaps navigation protection if dirty fields?
   return (
