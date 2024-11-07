@@ -113,8 +113,11 @@ public class PublicController {
 
   @PostMapping(path = "/enrollment/examiner/{examinerId:\\d+}")
   @ResponseStatus(HttpStatus.CREATED)
-  public void createEnrollmentContact(@RequestBody @Valid final PublicEnrollmentContactCreateDTO dto) {
-    publicEnrollmentService.createEnrollmentContact(dto);
+  public void createEnrollmentContact(
+    @RequestBody @Valid final PublicEnrollmentContactCreateDTO dto,
+    @PathVariable final long examinerId
+  ) {
+    publicEnrollmentService.createEnrollmentContact(dto, examinerId);
   }
 
   @GetMapping(path = "/enrollment/examiner/{examinerId:\\d+}")

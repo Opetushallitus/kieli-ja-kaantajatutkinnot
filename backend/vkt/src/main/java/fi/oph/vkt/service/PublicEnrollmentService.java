@@ -19,6 +19,7 @@ import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Person;
@@ -31,6 +32,7 @@ import fi.oph.vkt.model.type.FreeEnrollmentType;
 import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.repository.ExaminerRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.repository.UploadedFileAttachmentRepository;
@@ -68,6 +70,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   private final FeatureFlagService featureFlagService;
   private final UploadedFileAttachmentRepository uploadedFileAttachmentRepository;
   private final KoskiService koskiService;
+  private final ExaminerRepository examinerRepository;
 
   @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollment(final long examEventId, final Person person) {
@@ -678,10 +681,12 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     return createEnrollmentAppointmentDTO(enrollmentAppointment);
   }
 
-  public void createEnrollmentContact(final PublicEnrollmentContactCreateDTO dto) {
+  public void createEnrollmentContact(final PublicEnrollmentContactCreateDTO dto, final long examinerId) {
     final EnrollmentAppointment enrollmentAppointment = new EnrollmentAppointment();
+    final Examiner examiner = examinerRepository.getReferenceById(examinerId);
 
     enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.CONTACT_CREATED);
+    enrollmentAppointment.setExaminer(examiner);
     copyDtoFieldsToEnrollment(enrollmentAppointment, dto);
 
     enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);

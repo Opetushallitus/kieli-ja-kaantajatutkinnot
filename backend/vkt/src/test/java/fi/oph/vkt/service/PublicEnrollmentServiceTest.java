@@ -29,6 +29,7 @@ import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.repository.ExaminerRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.repository.UploadedFileAttachmentRepository;
@@ -90,6 +91,9 @@ public class PublicEnrollmentServiceTest {
   @Resource
   private UploadedFileAttachmentRepository uploadedFileAttachmentRepository;
 
+  @Resource
+  private ExaminerRepository examinerRepository;
+
   @BeforeEach
   public void setup() throws IOException, InterruptedException {
     doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentToQueueConfirmationEmail(any(), any());
@@ -116,7 +120,8 @@ public class PublicEnrollmentServiceTest {
         s3Service,
         featureFlagService,
         uploadedFileAttachmentRepository,
-        koskiService
+        koskiService,
+        examinerRepository
       );
   }
 
