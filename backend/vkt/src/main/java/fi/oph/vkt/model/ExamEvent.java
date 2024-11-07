@@ -14,32 +14,22 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "exam_event")
-public class ExamEvent extends BaseEntity {
+public class ExamEvent extends ExamEventCommon {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "exam_event_id", nullable = false)
   private long id;
 
-  @Column(name = "language", nullable = false)
-  @Enumerated(value = EnumType.STRING)
-  private ExamLanguage language;
-
   @Column(name = "level", nullable = false)
   @Enumerated(value = EnumType.STRING)
   private ExamLevel level;
-
-  @Column(name = "date", nullable = false)
-  private LocalDate date;
 
   @Column(name = "registration_opens", nullable = false)
   private LocalDateTime registrationOpens;
 
   @Column(name = "registration_closes", nullable = false)
   private LocalDateTime registrationCloses;
-
-  @Column(name = "is_hidden", nullable = false)
-  private boolean isHidden;
 
   @Column(name = "max_participants", nullable = false)
   private long maxParticipants;
@@ -49,8 +39,4 @@ public class ExamEvent extends BaseEntity {
 
   @OneToMany(mappedBy = "examEvent")
   private List<Reservation> reservations = new ArrayList<>();
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "examiner_id", referencedColumnName = "examiner_id")
-  private Examiner examiner;
 }

@@ -46,7 +46,7 @@ public class Examiner extends BaseEntity {
   private boolean examLanguageSwedish;
 
   @OneToMany(mappedBy = "examiner")
-  private List<ExamEvent> examEvents = new ArrayList<>();
+  private List<ExaminerExamEvent> examEvents = new ArrayList<>();
 
   @Column(name = "is_public", nullable = false)
   private boolean isPublic;

@@ -5,6 +5,7 @@ import fi.oph.vkt.api.dto.PublicExaminerExamDateDTO;
 import fi.oph.vkt.api.dto.PublicMunicipalityDTO;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Examiner;
+import fi.oph.vkt.model.ExaminerExamEvent;
 import fi.oph.vkt.model.Municipality;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.repository.ExaminerRepository;
@@ -25,12 +26,10 @@ public class PublicExaminerService {
     return PublicMunicipalityDTO.builder().fi(municipality.getNameFI()).sv(municipality.getNameSV()).build();
   }
 
-  private static PublicExaminerExamDateDTO toPublicExaminerExamDateDTO(ExamEvent examEvent) {
-    return PublicExaminerExamDateDTO
-      .builder()
-      .examDate(examEvent.getDate())
-      .isFull(examEvent.getMaxParticipants() <= examEvent.getEnrollments().size())
-      .build();
+  private static PublicExaminerExamDateDTO toPublicExaminerExamDateDTO(ExaminerExamEvent examEvent) {
+    // TODO If maxParticipants is set, compare it against number of EnrollmentAppointments linked to examEvent
+    final boolean isFull = examEvent.getMaxParticipants() != null;
+    return PublicExaminerExamDateDTO.builder().examDate(examEvent.getDate()).isFull(isFull).build();
   }
 
   private static PublicExaminerDTO toPublicExaminerDTO(Examiner examiner) {
