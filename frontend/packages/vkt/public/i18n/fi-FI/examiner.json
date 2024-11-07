@@ -26,6 +26,9 @@
         "personalDetails": {
           "heading": "Henkilötiedot",
           "information": "Tiedoista vain nimet näkyvät julkisessa listauksessa."
+        },
+        "successToast": {
+          "description": "Tietojen päivittäminen onnistui!"
         }
       },
       "examinerHomepage": {
@@ -49,7 +52,7 @@
           "labels": {
             "examiner": "Tutkinnon vastaanottaja",
             "examDates": "Tutkintopäivät",
-            "examPlaces": "Tutkintopaikat",
+            "examLocations": "Tutkintopaikat",
             "full": "Täynnä",
             "languages": "Kielet",
             "modify": "Muokkaa tietoja",

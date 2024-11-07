@@ -63,9 +63,8 @@ export enum AppRoutes {
   ClerkEnrollmentContactRequestPage = '/vkt/virkailija/yhteydenottopyynto/:enrollmentContactRequestId',
   ClerkEnrollmentAppointmentPage = '/vkt/virkailija/ilmoittautuminen/:enrollmentAppointmentId',
   ClerkLocalLogoutPage = '/vkt/cas/localLogout',
+  ClerkRoot = '/vkt/virkailija',
 
-  // Routes for good and satisfactory level - TODO
-  ClerkRoot = '/vkt/virkailija/',
   // Routes for clerk user / excellent level
   ClerkExcellentLevelPage = clerkExcellentLevelRoutePrefix,
   ClerkExamEventCreatePage = clerkExcellentLevelRoutePrefix +
