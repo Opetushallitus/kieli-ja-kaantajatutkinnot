@@ -192,7 +192,8 @@ CREATE TABLE public.enrollment_appointment (
     country text,
     person_id bigint,
     first_name text,
-    last_name text
+    last_name text,
+    examiner_id bigint
 );
 
 
@@ -984,6 +985,14 @@ ALTER TABLE ONLY public.email_attachment
 
 ALTER TABLE ONLY public.email
     ADD CONSTRAINT fk_email_email_type FOREIGN KEY (email_type) REFERENCES public.email_type(name);
+
+
+--
+-- Name: enrollment_appointment fk_enrollment_appointment_examiner_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.enrollment_appointment
+    ADD CONSTRAINT fk_enrollment_appointment_examiner_id FOREIGN KEY (examiner_id) REFERENCES public.examiner(examiner_id);
 
 
 --

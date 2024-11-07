@@ -101,6 +101,7 @@ COPY public.databasechangelog (id, author, filename, dateexecuted, orderexecuted
 2024-10-15-exam_level-new-value	pkoivisto	migrations.xml	2024-11-06 13:14:31.909788	36	EXECUTED	9:8faf60b4438613d90a29a860678bf66e	insert tableName=exam_level		\N	4.29.1	\N	\N	0891671690
 2024-10-15-unique-exam-event-language-level-date-examiner-on-psql	pkoivisto	migrations.xml	2024-11-06 13:14:31.915393	37	EXECUTED	9:b69bb176a254f507ddeb877153d6b162	sql		\N	4.29.1	\N	\N	0891671690
 2024-11-04-add-enrollment_appointment-missing-fields	jrkkp	migrations.xml	2024-11-06 13:14:31.922772	38	EXECUTED	9:b982dffea40ebba3a547a1afd7a3ca6a	addColumn tableName=enrollment_appointment		\N	4.29.1	\N	\N	0891671690
+2024-11-07-add-enrollment_appointment-missing-fields-2	jrkkp	migrations.xml	2024-11-07 13:17:52.164316	39	EXECUTED	9:a5aa107cb7c4dce06ff0e2bff24ed2f8	addColumn tableName=enrollment_appointment; addForeignKeyConstraint baseTableName=enrollment_appointment, constraintName=fk_enrollment_appointment_examiner_id, referencedTableName=examiner		\N	4.29.1	\N	\N	0978272132
 \.
 
 

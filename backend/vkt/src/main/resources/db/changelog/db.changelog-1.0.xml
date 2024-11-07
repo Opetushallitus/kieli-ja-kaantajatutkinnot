@@ -1067,4 +1067,15 @@
             <column name="last_name" type="TEXT" />
         </addColumn>
     </changeSet>
+    <changeSet id="2024-11-07-add-enrollment_appointment-missing-fields-2" author="jrkkp">
+        <addColumn tableName="enrollment_appointment">
+            <column name="examiner_id" type="BIGINT" />
+        </addColumn>
+        <addForeignKeyConstraint
+                baseTableName="enrollment_appointment"
+                baseColumnNames="examiner_id"
+                constraintName="fk_enrollment_appointment_examiner_id"
+                referencedTableName="examiner"
+                referencedColumnNames="examiner_id"/>
+    </changeSet>
 </databaseChangeLog>

@@ -52,7 +52,6 @@ const reducer = combineReducers({
   publicEnrollmentAppointment: publicEnrollmentAppointmentReducer,
   publicEnrollmentContact: publicEnrollmentContactReducer,
   publicExaminer: publicExaminerReducer,
-  publicExaminer: publicExaminerReducer,
   examinerDetails: examinerDetailsReducer,
   examinerDetailsInit: examinerDetailsInitReducer,
   examinerDetailsUpsert: examinerDetailsUpsertReducer,

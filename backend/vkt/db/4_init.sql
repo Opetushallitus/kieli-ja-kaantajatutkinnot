@@ -393,17 +393,16 @@ SELECT exam_event_id, (SELECT max(person_id) FROM person),
 FROM exam_event;
 
 -- Insert enrollment appointment
--- INSERT INTO enrollment_appointment(person_id,
---                        skill_oral, skill_textual, skill_understanding,
---                        partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
---                        status, digital_certificate_consent, email, phone_number, street, postal_code, town, country)
--- VALUES (SELECT max(person_id) FROM person),
---        true, true, true,
---        true, true, true, true,
---        'COMPLETED', true,
---        'foo@bar.invalid', '0404040404', null, null, null, null;
-
-
--- Insert enrollment appointment
 INSERT INTO examiner(version, oid, email, phone_number, last_name, first_name, nickname, exam_language_finnish, exam_language_swedish, is_public)
 VALUES (1, '1.2.246.init-1', 'examiner@example.invalid', '04040404040', 'Tessilä', 'Testi', 'Tessa', true, true, true);
+
+-- Insert enrollment appointment
+INSERT INTO enrollment_appointment(person_id, examiner_id,
+                       skill_oral, skill_textual, skill_understanding,
+                       partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
+                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country)
+VALUES (null, 1,
+       true, true, true,
+       true, true, true, true,
+       'CONTACT_CREATED', true,
+       'foo@bar.invalid', '0404040404', null, null, null, null);

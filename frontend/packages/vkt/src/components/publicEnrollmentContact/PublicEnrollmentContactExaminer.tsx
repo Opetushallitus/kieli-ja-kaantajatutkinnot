@@ -48,8 +48,8 @@ export const PublicEnrollmentContactExaminer = ({
         {': '}
         <b>
           {examiner.examDates.map((date) => (
-            <b key={`examiner-date-${DateTimeUtils.renderDate(date)}`}>
-              {DateTimeUtils.renderDate(date)}
+            <b key={`examiner-date-${DateTimeUtils.renderDate(date.examDate)}`}>
+              {DateTimeUtils.renderDate(date.examDate)}
             </b>
           ))}
         </b>

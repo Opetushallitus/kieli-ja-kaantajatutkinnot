@@ -60,16 +60,11 @@ export enum AppRoutes {
     '/:examinerId/valmis',
 
   // Routes for clerk user
-  ClerkHomePage = '/vkt/virkailija',
-  ClerkExamEventCreatePage = '/vkt/virkailija/tutkintotilaisuus/luo',
-  ClerkExamEventOverviewPage = '/vkt/virkailija/tutkintotilaisuus/:examEventId',
-  ClerkEnrollmentOverviewPage = '/vkt/virkailija/tutkintotilaisuus/:examEventId/ilmoittautuminen',
   ClerkEnrollmentContactRequestPage = '/vkt/virkailija/yhteydenottopyynto/:enrollmentContactRequestId',
   ClerkEnrollmentAppointmentPage = '/vkt/virkailija/ilmoittautuminen/:enrollmentAppointmentId',
   ClerkLocalLogoutPage = '/vkt/cas/localLogout',
 
   // Routes for good and satisfactory level - TODO
-  PublicGoodAndSatisfactoryLevelLanding = goodAndSatisfactoryLevelRoutePrefix,
   ClerkRoot = '/vkt/virkailija/',
   // Routes for clerk user / excellent level
   ClerkExcellentLevelPage = clerkExcellentLevelRoutePrefix,
