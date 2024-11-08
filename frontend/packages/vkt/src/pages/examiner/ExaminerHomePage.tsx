@@ -1,26 +1,21 @@
-import { Box, Divider, Grid, Paper, SelectChangeEvent } from '@mui/material';
+import { Box, Divider, Grid, Paper } from '@mui/material';
 import { FC, Fragment, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomButtonLink, H1, H2, Text } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
-import { LanguageFilter } from 'components/common/LanguageFilter';
-import { ExaminerExamEventToggleFilters } from 'components/examinerExamEvent/listing/ExaminerExamEventToggleFilters';
+import { ExaminerExamEventListing } from 'components/examinerExamEvent/listing/ExaminerExamEventListing';
 import {
   useCommonTranslation,
   useExaminerTranslation,
   useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes, ExamLanguage } from 'enums/app';
-import {
-  loadExaminerDetails,
-  setExaminerExamEventLanguageFilter,
-} from 'redux/reducers/examinerDetails';
+import { AppRoutes } from 'enums/app';
+import { loadExaminerDetails } from 'redux/reducers/examinerDetails';
 import { clerkUserSelector } from 'redux/selectors/clerkUser';
 import { examinerDetailsSelector } from 'redux/selectors/examinerDetails';
-import { selectFilteredExaminerExamEvents } from 'redux/selectors/examinerListExamEvent';
 import { ExaminerUtils } from 'utils/examiner';
 
 const PublicInformation = () => {
@@ -116,47 +111,13 @@ const ContactRequests = () => {
   );
 };
 
-const ExamEvents = () => {
-  const { t } = useExaminerTranslation({
-    keyPrefix: 'vkt.component.examinerOverview.examEvents',
-  });
-
-  const filteredExamEvents = useAppSelector(selectFilteredExaminerExamEvents);
-  const { examEventFilters } = useAppSelector(examinerDetailsSelector);
-  const dispatch = useAppDispatch();
-
-  const handleLanguageFilterChange = (event: SelectChangeEvent) => {
-    dispatch(
-      setExaminerExamEventLanguageFilter(event.target.value as ExamLanguage),
-    );
-  };
-
-  return (
-    <div className="examiner-homepage__exam-events rows gapped-xl">
-      <H2>{t('heading')}</H2>
-      <Divider />
-      <ExaminerExamEventToggleFilters />
-      <LanguageFilter
-        value={examEventFilters.languageFilter}
-        onChange={handleLanguageFilterChange}
-      />
-      {filteredExamEvents.length === 0 && (
-        <Text className="empty-results">{t('labels.noExamEvents')}</Text>
-      )}
-      {filteredExamEvents.length > 0 && (
-        <Text>Tuloksia on, pitäis vissiin rendaa????</Text>
-      )}
-    </div>
-  );
-};
-
 const ExaminerOverview = () => {
   return (
     <Paper elevation={3} className="examiner-homepage__overview">
       <div className="rows gapped-xl">
         <PublicInformation />
         <ContactRequests />
-        <ExamEvents />
+        <ExaminerExamEventListing />
       </div>
     </Paper>
   );

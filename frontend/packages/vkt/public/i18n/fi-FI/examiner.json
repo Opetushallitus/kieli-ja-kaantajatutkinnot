@@ -32,6 +32,22 @@
         }
       },
       "examinerExamEventListing": {
+        "heading": "Tutkintotilaisuudet",
+        "labels": {
+          "noExamEvents": "Ei tutkintotilaisuuksia"
+        },
+        "table": {
+          "actions": {
+            "more": "Lisätiedot"
+          },
+          "header": {
+            "examDate": "Tutkintopäivä",
+            "isPublic": "Nähtävillä julkisesti",
+            "language": "Kieli",
+            "location": "Tutkintopaikka",
+            "participants": "Osallistujia"
+          }
+        },
         "toggleFilters": {
           "passed": "Menneet",
           "upcoming": "Tulevat"
@@ -45,12 +61,6 @@
           "heading": "Yhteydenottopyynnöt",
           "labels": {
             "noContactRequests": "Ei yhteydenottopyyntöjä"
-          }
-        },
-        "examEvents": {
-          "heading": "Tutkintotilaisuudet",
-          "labels": {
-            "noExamEvents": "Ei tutkintotilaisuuksia"
           }
         },
         "publicInformation": {

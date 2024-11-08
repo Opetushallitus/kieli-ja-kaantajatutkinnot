@@ -17,7 +17,7 @@ export const selectFilteredExaminerExamEvents = createSelector(
     languageFilter: ExamLanguage,
     toggleFilter: ExamEventToggleFilter,
     examiner?: ExaminerDetails,
-  ) => {
+  ): Array<ExaminerExamEvent> => {
     const examEvents = examiner?.examEvents || [];
     let filteredExamEvents = examEvents;
 
@@ -28,9 +28,13 @@ export const selectFilteredExaminerExamEvents = createSelector(
     }
 
     if (toggleFilter === ExamEventToggleFilter.Upcoming) {
-      return ExamEventUtils.getUpcomingExamEvents(filteredExamEvents);
+      return ExamEventUtils.getUpcomingExamEvents(
+        filteredExamEvents,
+      ) as Array<ExaminerExamEvent>;
     } else {
-      return ExamEventUtils.getPassedExamEvents(filteredExamEvents);
+      return ExamEventUtils.getPassedExamEvents(
+        filteredExamEvents,
+      ) as Array<ExaminerExamEvent>;
     }
   },
 );

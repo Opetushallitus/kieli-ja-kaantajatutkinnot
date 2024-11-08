@@ -1,6 +1,7 @@
 import { Dayjs } from "dayjs";
 import { ExamLanguage } from "enums/app";
 import { WithId, WithVersion } from "shared/interfaces";
+import { MunicipalityCode } from "./municipality";
 
 export interface ExaminerExamEventResponse
   extends Omit<
@@ -16,6 +17,8 @@ export interface ExaminerExamEvent
     WithVersion {
   date: Dayjs;
   language: Exclude<ExamLanguage, ExamLanguage.ALL>;
+  municipality: MunicipalityCode;
+  location: string;
   isHidden: boolean;
   maxParticipants?: number;
   registrationCloses?: Dayjs;

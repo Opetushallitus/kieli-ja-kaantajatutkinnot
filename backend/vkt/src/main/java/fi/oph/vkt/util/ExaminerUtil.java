@@ -21,6 +21,8 @@ public class ExaminerUtil {
       .date(examinerExamEvent.getDate())
       .language(examinerExamEvent.getLanguage())
       .isHidden(examinerExamEvent.isHidden())
+      .municipality(toMunicipalityDTO(examinerExamEvent.getMunicipality()))
+      .location(examinerExamEvent.getLocation())
       .registrationCloses(examinerExamEvent.getRegistrationCloses())
       .maxParticipants(examinerExamEvent.getMaxParticipants())
       .build();
