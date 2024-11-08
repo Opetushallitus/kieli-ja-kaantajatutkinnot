@@ -2,14 +2,16 @@ import { Dayjs } from "dayjs";
 import { ExamLanguage } from "enums/app";
 import { WithId, WithVersion } from "shared/interfaces";
 import { MunicipalityCode } from "./municipality";
+import { ClerkEnrollmentAppointment, ClerkEnrollmentAppointmentResponse } from "./clerkEnrollment";
 
 export interface ExaminerExamEventResponse
   extends Omit<
     ExaminerExamEvent,
-    'date' | 'registrationCloses'
+    'date' | 'registrationCloses' | 'enrollments'
   > {
   date: string;
   registrationCloses: string;
+  enrollments: Array<ClerkEnrollmentAppointmentResponse>;
 }
 
 export interface ExaminerExamEvent
@@ -22,4 +24,5 @@ export interface ExaminerExamEvent
   isHidden: boolean;
   maxParticipants?: number;
   registrationCloses?: Dayjs;
+  enrollments: Array<ClerkEnrollmentAppointment>;
 }

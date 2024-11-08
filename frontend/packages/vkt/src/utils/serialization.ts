@@ -268,8 +268,11 @@ export class SerializationUtils {
     const registrationCloses = !!examinerExamEvent.registrationCloses
       ? dayjs(examinerExamEvent.registrationCloses)
       : undefined;
+    const enrollments = examinerExamEvent.enrollments.map(
+      SerializationUtils.deserializeClerkEnrollmentAppointment,
+    );
 
-    return { ...examinerExamEvent, date, registrationCloses };
+    return { ...examinerExamEvent, date, registrationCloses, enrollments };
   }
 
   static deserializeExaminerDetails(

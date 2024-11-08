@@ -22,9 +22,13 @@ export const selectFilteredClerkExamEvents = createSelector(
     }
 
     if (toggleFilter === ExamEventToggleFilter.Upcoming) {
-      return ExamEventUtils.getUpcomingExamEvents(filteredExamEvents) as Array<ClerkListExamEvent>;
+      return ExamEventUtils.getUpcomingExamEvents(
+        filteredExamEvents,
+      ) as Array<ClerkListExamEvent>;
     } else {
-      return ExamEventUtils.getPassedExamEvents(filteredExamEvents) as Array<ClerkListExamEvent>;
+      return ExamEventUtils.getPassedExamEvents(
+        filteredExamEvents,
+      ) as Array<ClerkListExamEvent>;
     }
   },
 );

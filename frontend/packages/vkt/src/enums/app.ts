@@ -79,7 +79,8 @@ export enum AppRoutes {
   ExaminerRoot = '/vkt/tv',
   ExaminerHomePage = '/vkt/tv/:oid',
   ExaminerDetailsPage = '/vkt/tv/:oid/omat-tiedot',
-  ExaminerExamEventPage = '/vkt/tv/:oid/tutkinto/:examEventId',
+  ExaminerExamEventCreatePage = '/vkt/tv/:oid/tutkintotilaisuus/luo',
+  ExaminerExamEventPage = '/vkt/tv/:oid/tutkintotilaisuus/:examEventId',
 
   // Miscellaneous
   AccessibilityStatementPage = '/vkt/saavutettavuusseloste',

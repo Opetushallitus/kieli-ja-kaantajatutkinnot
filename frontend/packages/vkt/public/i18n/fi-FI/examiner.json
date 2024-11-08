@@ -32,6 +32,9 @@
         }
       },
       "examinerExamEventListing": {
+        "actions": {
+          "createExamEvent": "Lisää tutkintotilaisuus"
+        },
         "heading": "Tutkintotilaisuudet",
         "labels": {
           "noExamEvents": "Ei tutkintotilaisuuksia"
