@@ -34,7 +34,7 @@ public class ExaminerExamEvent extends ExamEventCommon {
 
   @Column(name = "location", nullable = false)
   private String location;
-  //@OneToMany(mappedBy = "examinerExamEvent")
-  //private List<EnrollmentAppointment> enrollments = new ArrayList<>();
 
+  @OneToMany(mappedBy = "examinerExamEvent")
+  private List<EnrollmentAppointment> enrollments = new ArrayList<>();
 }

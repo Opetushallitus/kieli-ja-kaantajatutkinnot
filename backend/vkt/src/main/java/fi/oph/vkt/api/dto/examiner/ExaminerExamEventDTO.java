@@ -1,10 +1,12 @@
 package fi.oph.vkt.api.dto.examiner;
 
 import fi.oph.vkt.api.dto.MunicipalityDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAppointmentDTO;
 import fi.oph.vkt.model.type.ExamLanguage;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -18,7 +20,6 @@ public record ExaminerExamEventDTO(
   @NonNull @NotNull MunicipalityDTO municipality,
   @NonNull @NotNull String location,
   LocalDateTime registrationCloses,
-  Long maxParticipants
-  // TODO Should be List<EnrollmentAppointmentDTO> or something after merge
-  //@NonNull @NotNull List<ClerkEnrollmentDTO> enrollments
+  Long maxParticipants,
+  @NonNull @NotNull List<ClerkEnrollmentAppointmentDTO> enrollments
 ) {}

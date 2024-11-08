@@ -13,7 +13,10 @@ public class ExaminerUtil {
     return MunicipalityDTO.builder().code(municipality.getCode()).build();
   }
 
-  public static ExaminerExamEventDTO examinerExamEventDTO(final ExaminerExamEvent examinerExamEvent) {
+  public static ExaminerExamEventDTO toExaminerExamEventDTO(
+    final ExaminerExamEvent examinerExamEvent,
+    final String baseUrlAPI
+  ) {
     return ExaminerExamEventDTO
       .builder()
       .id(examinerExamEvent.getId())
@@ -25,10 +28,17 @@ public class ExaminerUtil {
       .location(examinerExamEvent.getLocation())
       .registrationCloses(examinerExamEvent.getRegistrationCloses())
       .maxParticipants(examinerExamEvent.getMaxParticipants())
+      .enrollments(
+        examinerExamEvent
+          .getEnrollments()
+          .stream()
+          .map(e -> ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(e, baseUrlAPI))
+          .toList()
+      )
       .build();
   }
 
-  public static ExaminerDetailsDTO toExaminerDetailsDTO(final Examiner examiner) {
+  public static ExaminerDetailsDTO toExaminerDetailsDTO(final Examiner examiner, final String baseUrlAPI) {
     return ExaminerDetailsDTO
       .builder()
       .id(examiner.getId())
@@ -42,7 +52,7 @@ public class ExaminerUtil {
       .isPublic(examiner.isPublic())
       .examLanguageFinnish(examiner.isExamLanguageFinnish())
       .examLanguageSwedish(examiner.isExamLanguageSwedish())
-      .examEvents(examiner.getExamEvents().stream().map(ExaminerUtil::examinerExamEventDTO).toList())
+      .examEvents(examiner.getExamEvents().stream().map(e -> toExaminerExamEventDTO(e, baseUrlAPI)).toList())
       .build();
   }
 }

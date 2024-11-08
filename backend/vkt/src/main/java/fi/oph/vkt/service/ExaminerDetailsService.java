@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class ExaminerDetailsService {
   private final MunicipalityService municipalityService;
   private final OnrService onrService;
   private final AuditService auditService;
+  private final Environment environment;
 
   private PersonalData getOnrPersonalData(final String oid) {
     Map<String, PersonalData> oidToData = onrService.getOnrPersonalData(List.of(oid));
@@ -82,8 +84,9 @@ public class ExaminerDetailsService {
     examiner.setExamLanguageSwedish(examinerDetailsUpsertDTO.examLanguageSwedish());
     examiner.setPublic(examinerDetailsUpsertDTO.isPublic());
     examinerRepository.saveAndFlush(examiner);
+    final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
 
-    return ExaminerUtil.toExaminerDetailsDTO(examiner);
+    return ExaminerUtil.toExaminerDetailsDTO(examiner, baseUrlAPI);
   }
 
   @Transactional(readOnly = true)
@@ -93,7 +96,9 @@ public class ExaminerDetailsService {
     if (examiner == null) {
       throw new APIException(APIExceptionType.EXAMINER_NOT_FOUND);
     }
-    return ExaminerUtil.toExaminerDetailsDTO(examiner);
+    final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
+
+    return ExaminerUtil.toExaminerDetailsDTO(examiner, baseUrlAPI);
   }
 
   @Transactional

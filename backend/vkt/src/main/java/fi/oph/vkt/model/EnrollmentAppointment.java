@@ -78,4 +78,8 @@ public class EnrollmentAppointment extends EnrollmentCommon {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "examiner_id", referencedColumnName = "examiner_id")
   private Examiner examiner;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "examiner_exam_event_id", referencedColumnName = "examiner_exam_event_id")
+  private ExaminerExamEvent examinerExamEvent;
 }

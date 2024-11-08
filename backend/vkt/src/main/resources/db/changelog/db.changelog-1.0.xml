@@ -1100,4 +1100,15 @@
                                  constraintName="fk_examiner_exam_event_language"
                                  onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
+    <changeSet id="2024-11-08-add-enrollment-appointment-missing-fields-3" author="pkoivisto">
+        <addColumn tableName="enrollment_appointment">
+            <column name="examiner_exam_event_id" type="BIGINT" />
+        </addColumn>
+        <addForeignKeyConstraint
+                baseTableName="enrollment_appointment"
+                baseColumnNames="examiner_exam_event_id"
+                constraintName="fk_enrollment_appointment_examiner_exam_event_id"
+                referencedTableName="examiner_exam_event"
+                referencedColumnNames="examiner_exam_event_id"/>
+    </changeSet>
 </databaseChangeLog>
