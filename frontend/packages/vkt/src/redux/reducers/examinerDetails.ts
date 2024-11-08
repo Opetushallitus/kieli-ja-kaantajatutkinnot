@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
+import { ExamEventToggleFilter, ExamLanguage } from 'enums/app';
 import {
   ExaminerDetails,
   ExaminerDetailsState,
@@ -8,6 +9,10 @@ import {
 
 const initialState: ExaminerDetailsState = {
   status: APIResponseStatus.NotStarted,
+  examEventFilters: {
+    languageFilter: ExamLanguage.ALL,
+    toggleFilter: ExamEventToggleFilter.Upcoming,
+  },
 };
 
 const examinerDetailsSlice = createSlice({
@@ -30,6 +35,18 @@ const examinerDetailsSlice = createSlice({
     setExaminerOid(state, action: PayloadAction<string>) {
       state.oid = action.payload;
     },
+    setExaminerExamEventLanguageFilter(
+      state,
+      action: PayloadAction<ExamLanguage>,
+    ) {
+      state.examEventFilters.languageFilter = action.payload;
+    },
+    setExaminerExamEventToggleFilter(
+      state,
+      action: PayloadAction<ExamEventToggleFilter>,
+    ) {
+      state.examEventFilters.toggleFilter = action.payload;
+    },
   },
 });
 
@@ -39,4 +56,6 @@ export const {
   rejectExaminerDetails,
   storeExaminerDetails,
   setExaminerOid,
+  setExaminerExamEventLanguageFilter,
+  setExaminerExamEventToggleFilter,
 } = examinerDetailsSlice.actions;

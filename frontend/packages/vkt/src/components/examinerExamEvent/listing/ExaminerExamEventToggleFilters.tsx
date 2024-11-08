@@ -3,8 +3,8 @@ import { ToggleFilterGroup } from 'shared/components';
 import { useExaminerTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamEventToggleFilter } from 'enums/app';
-import { setExamEventToggleFilter } from 'redux/reducers/clerkListExamEvent';
-import { clerkListExamEventsSelector } from 'redux/selectors/clerkListExamEvent';
+import { setExaminerExamEventToggleFilter } from 'redux/reducers/examinerDetails';
+import { examinerDetailsSelector } from 'redux/selectors/examinerDetails';
 import { ExamEventUtils } from 'utils/examEvent';
 
 export const ExaminerExamEventToggleFilters = () => {
@@ -12,14 +12,16 @@ export const ExaminerExamEventToggleFilters = () => {
     keyPrefix: 'vkt.component.examinerExamEventListing.toggleFilters',
   });
 
-  const { examEvents, toggleFilter } = useAppSelector(
-    clerkListExamEventsSelector,
-  );
+  const { toggleFilter } = useAppSelector(
+    examinerDetailsSelector,
+  ).examEventFilters;
+  const { examiner } = useAppSelector(examinerDetailsSelector);
   const dispatch = useAppDispatch();
 
   const setToggleFilter = (status: ExamEventToggleFilter) => {
-    dispatch(setExamEventToggleFilter(status));
+    dispatch(setExaminerExamEventToggleFilter(status));
   };
+  const examEvents = examiner?.examEvents || [];
 
   const filterData = [
     {

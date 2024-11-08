@@ -1,10 +1,11 @@
-import { Box, Divider, Grid, Paper } from '@mui/material';
+import { Box, Divider, Grid, Paper, SelectChangeEvent } from '@mui/material';
 import { FC, Fragment, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomButtonLink, H1, H2, Text } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
+import { LanguageFilter } from 'components/common/LanguageFilter';
 import { ExaminerExamEventToggleFilters } from 'components/examinerExamEvent/listing/ExaminerExamEventToggleFilters';
 import {
   useCommonTranslation,
@@ -12,10 +13,14 @@ import {
   useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
-import { loadExaminerDetails } from 'redux/reducers/examinerDetails';
+import { AppRoutes, ExamLanguage } from 'enums/app';
+import {
+  loadExaminerDetails,
+  setExaminerExamEventLanguageFilter,
+} from 'redux/reducers/examinerDetails';
 import { clerkUserSelector } from 'redux/selectors/clerkUser';
 import { examinerDetailsSelector } from 'redux/selectors/examinerDetails';
+import { selectFilteredExaminerExamEvents } from 'redux/selectors/examinerListExamEvent';
 import { ExaminerUtils } from 'utils/examiner';
 
 const PublicInformation = () => {
@@ -115,16 +120,31 @@ const ExamEvents = () => {
   const { t } = useExaminerTranslation({
     keyPrefix: 'vkt.component.examinerOverview.examEvents',
   });
-  // TODO Get exam events from redux state & render them
-  const examEvents = [];
+
+  const filteredExamEvents = useAppSelector(selectFilteredExaminerExamEvents);
+  const { examEventFilters } = useAppSelector(examinerDetailsSelector);
+  const dispatch = useAppDispatch();
+
+  const handleLanguageFilterChange = (event: SelectChangeEvent) => {
+    dispatch(
+      setExaminerExamEventLanguageFilter(event.target.value as ExamLanguage),
+    );
+  };
 
   return (
     <div className="examiner-homepage__exam-events rows gapped-xl">
       <H2>{t('heading')}</H2>
       <Divider />
       <ExaminerExamEventToggleFilters />
-      {examEvents.length === 0 && (
+      <LanguageFilter
+        value={examEventFilters.languageFilter}
+        onChange={handleLanguageFilterChange}
+      />
+      {filteredExamEvents.length === 0 && (
         <Text className="empty-results">{t('labels.noExamEvents')}</Text>
+      )}
+      {filteredExamEvents.length > 0 && (
+        <Text>Tuloksia on, pitäis vissiin rendaa????</Text>
       )}
     </div>
   );

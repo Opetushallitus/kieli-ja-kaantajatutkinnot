@@ -1,6 +1,7 @@
 import { APIResponseStatus } from 'shared/enums';
 import { WithId } from 'shared/interfaces';
 
+import { ExamEventToggleFilter, ExamLanguage } from 'enums/app';
 import {
   ExaminerExamEvent,
   ExaminerExamEventResponse,
@@ -12,6 +13,10 @@ export interface ExaminerDetailsState {
   examiner?: ExaminerDetails;
   oid?: string;
   initialized?: boolean;
+  examEventFilters: {
+    languageFilter: ExamLanguage;
+    toggleFilter: ExamEventToggleFilter;
+  };
 }
 
 export interface ExaminerDetails extends WithId {
