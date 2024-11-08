@@ -20,6 +20,14 @@ import {
   ClerkListExamEventResponse,
 } from 'interfaces/clerkListExamEvent';
 import {
+  ExaminerDetails,
+  ExaminerDetailsResponse,
+} from 'interfaces/examinerDetails';
+import {
+  ExaminerExamEvent,
+  ExaminerExamEventResponse,
+} from 'interfaces/examinerExamEvent';
+import {
   Education,
   EducationType,
   PublicEducationResponse,
@@ -250,6 +258,28 @@ export class SerializationUtils {
         examDate: dayjs(examDate),
         isFull,
       })),
+    };
+  }
+
+  static deserializeExaminerExamEvent(
+    examinerExamEvent: ExaminerExamEventResponse,
+  ): ExaminerExamEvent {
+    const date = dayjs(examinerExamEvent.date);
+    const registrationCloses = !!examinerExamEvent.registrationCloses
+      ? dayjs(examinerExamEvent.registrationCloses)
+      : undefined;
+
+    return { ...examinerExamEvent, date, registrationCloses };
+  }
+
+  static deserializeExaminerDetails(
+    examinerDetails: ExaminerDetailsResponse,
+  ): ExaminerDetails {
+    return {
+      ...examinerDetails,
+      examEvents: examinerDetails.examEvents.map(
+        SerializationUtils.deserializeExaminerExamEvent,
+      ),
     };
   }
 }

@@ -4,20 +4,25 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints, APIError } from 'enums/api';
-import { ExaminerDetails } from 'interfaces/examinerDetails';
+import { ExaminerDetailsResponse } from 'interfaces/examinerDetails';
 import {
   loadExaminerDetails,
   rejectExaminerDetails,
   storeExaminerDetails,
 } from 'redux/reducers/examinerDetails';
+import { SerializationUtils } from 'utils/serialization';
 
 function* loadExaminerDetailsSaga(action: PayloadAction<string>) {
   try {
-    const response: AxiosResponse<ExaminerDetails> = yield call(
+    const response: AxiosResponse<ExaminerDetailsResponse> = yield call(
       axiosInstance.get,
       APIEndpoints.ExaminerDetails.replace(/:oid/, action.payload),
     );
-    yield put(storeExaminerDetails(response.data));
+    yield put(
+      storeExaminerDetails(
+        SerializationUtils.deserializeExaminerDetails(response.data),
+      ),
+    );
   } catch (error) {
     let initialized = true;
     if (isAxiosError(error)) {

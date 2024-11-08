@@ -31,6 +31,12 @@
           "description": "Tietojen päivittäminen onnistui!"
         }
       },
+      "examinerExamEventListing": {
+        "toggleFilters": {
+          "passed": "Menneet",
+          "upcoming": "Tulevat"
+        }
+      },
       "examinerHomepage": {
         "heading": "Hyvän ja tyydyttävän taidon kielitutkinnot"
       },

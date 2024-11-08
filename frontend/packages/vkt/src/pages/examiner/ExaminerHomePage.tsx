@@ -1,11 +1,11 @@
 import { Box, Divider, Grid, Paper } from '@mui/material';
-import dayjs from 'dayjs';
 import { FC, Fragment, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomButtonLink, H1, H2, Text } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
+import { ExaminerExamEventToggleFilters } from 'components/examinerExamEvent/listing/ExaminerExamEventToggleFilters';
 import {
   useCommonTranslation,
   useExaminerTranslation,
@@ -13,7 +13,6 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { PublicExaminerExamDate } from 'interfaces/publicExaminer';
 import { loadExaminerDetails } from 'redux/reducers/examinerDetails';
 import { clerkUserSelector } from 'redux/selectors/clerkUser';
 import { examinerDetailsSelector } from 'redux/selectors/examinerDetails';
@@ -30,12 +29,7 @@ const PublicInformation = () => {
     return <></>;
   }
 
-  const examDates: Array<PublicExaminerExamDate> = [
-    { examDate: dayjs('2024-10-10'), isFull: false },
-    { examDate: dayjs('2024-10-12'), isFull: true },
-    { examDate: dayjs('2024-10-15'), isFull: false },
-    { examDate: dayjs('2024-10-21'), isFull: false },
-  ];
+  const { examEvents } = examiner;
 
   return (
     <div className="examiner-homepage__public-information rows gapped-xl">
@@ -69,23 +63,25 @@ const PublicInformation = () => {
         <Text>
           <b>{t('labels.examDates')}</b>
           <br />
-          {examDates.length === 0 ? (
+          {examEvents.length === 0 ? (
             t('labels.undefined')
           ) : (
             <>
-              {examDates.map(({ examDate, isFull }, i) => {
-                const newline = examDates.length > 1 && i > 0;
+              {examEvents.map(({ date, maxParticipants }, i) => {
+                const newline = examEvents.length > 1 && i > 0;
+                // TODO Fix isFull calculation
+                const isFull = !!maxParticipants;
 
                 return (
                   <Fragment key={i}>
                     {newline && <br />}
                     {isFull && (
                       <>
-                        <s>{DateUtils.formatOptionalDate(examDate)}</s>&nbsp;
+                        <s>{DateUtils.formatOptionalDate(date)}</s>&nbsp;
                         {t('labels.full')}
                       </>
                     )}
-                    {!isFull && DateUtils.formatOptionalDate(examDate)}
+                    {!isFull && DateUtils.formatOptionalDate(date)}
                   </Fragment>
                 );
               })}
@@ -126,6 +122,7 @@ const ExamEvents = () => {
     <div className="examiner-homepage__exam-events rows gapped-xl">
       <H2>{t('heading')}</H2>
       <Divider />
+      <ExaminerExamEventToggleFilters />
       {examEvents.length === 0 && (
         <Text className="empty-results">{t('labels.noExamEvents')}</Text>
       )}

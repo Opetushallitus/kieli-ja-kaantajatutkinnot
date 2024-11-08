@@ -1,6 +1,10 @@
 import { APIResponseStatus } from 'shared/enums';
 import { WithId } from 'shared/interfaces';
 
+import {
+  ExaminerExamEvent,
+  ExaminerExamEventResponse,
+} from 'interfaces/examinerExamEvent';
 import { MunicipalityCode } from 'interfaces/municipality';
 
 export interface ExaminerDetailsState {
@@ -20,6 +24,12 @@ export interface ExaminerDetails extends WithId {
   examLanguageSwedish: boolean;
   municipalities: Array<MunicipalityCode>;
   isPublic: boolean;
+  examEvents: Array<ExaminerExamEvent>;
+}
+
+export interface ExaminerDetailsResponse
+  extends Omit<ExaminerDetails, 'examEvents'> {
+  examEvents: Array<ExaminerExamEventResponse>;
 }
 
 export type ExaminerDetailsInit = Pick<
