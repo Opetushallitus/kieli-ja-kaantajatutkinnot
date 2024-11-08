@@ -2640,7 +2640,7 @@ __metadata:
     git-revision-webpack-plugin: ^5.0.0
     history: ^5.3.0
     html-webpack-plugin: ^5.5.3
-    i18next: ^23.14.0
+    i18next: ^23.16.0
     i18next-browser-languagedetector: ^7.2.1
     jest: ^29.7.0
     jest-environment-jsdom: ^29.7.0
@@ -7770,12 +7770,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^23.14.0":
-  version: 23.15.1
-  resolution: "i18next@npm:23.15.1"
+"i18next@npm:^23.16.0":
+  version: 23.16.4
+  resolution: "i18next@npm:23.16.4"
   dependencies:
-    "@babel/runtime": "npm:^7.23.2"
-  checksum: bfd4935517ddd68bd12ccc0b7bd454f1a19403b627d79a2fe81c9059380674f085804f8d7475dd248a887f90d9e2da0f9be64179ddf32e9eebac47e4b9f92889
+    "@babel/runtime": ^7.23.2
+  checksum: 8/a753a23faf87b5028c9b136645b3d6287dd13c6e5ffadcc652edce8c321da2403f57c513aa7168f7ba664e85853aa83acbd291839d622addd701fc85bc991438
   languageName: node
   linkType: hard
 
