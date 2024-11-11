@@ -12,12 +12,31 @@ interface ClerkEnrollmentAppointmentState {
   enrollment?: ClerkEnrollmentAppointment;
   createStatus: APIResponseStatus;
   gradesStatus: APIResponseStatus;
+  grades?: ClerkEnrollmentAppointmentGrades;
 }
 
 const initialState: ClerkEnrollmentAppointmentState = {
   status: APIResponseStatus.NotStarted,
   createStatus: APIResponseStatus.NotStarted,
   gradesStatus: APIResponseStatus.NotStarted,
+  grades: {
+    speakingPartialExam: {
+      grade: '',
+      comment: '',
+    },
+    speechComprehensionPartialExam: {
+      grade: '',
+      comment: '',
+    },
+    writingPartialExam: {
+      grade: '',
+      comment: '',
+    },
+    readingComprehensionPartialExam: {
+      grade: '',
+      comment: '',
+    },
+  },
 };
 
 const clerkEnrollmentAppointmentSlice = createSlice({

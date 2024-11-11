@@ -1,8 +1,12 @@
-import { Dayjs } from "dayjs";
-import { ExamLanguage } from "enums/app";
-import { WithId, WithVersion } from "shared/interfaces";
-import { MunicipalityCode } from "./municipality";
-import { ClerkEnrollmentAppointment, ClerkEnrollmentAppointmentResponse } from "./clerkEnrollment";
+import { Dayjs } from 'dayjs';
+import { WithId, WithVersion } from 'shared/interfaces';
+
+import { ExamLanguage } from 'enums/app';
+import {
+  ClerkEnrollmentAppointment,
+  ClerkEnrollmentAppointmentResponse,
+} from 'interfaces/clerkEnrollment';
+import { MunicipalityCode } from 'interfaces/municipality';
 
 export interface ExaminerExamEventResponse
   extends Omit<

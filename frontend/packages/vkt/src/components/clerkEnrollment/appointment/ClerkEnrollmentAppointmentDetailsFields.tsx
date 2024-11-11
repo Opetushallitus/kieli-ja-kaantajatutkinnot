@@ -93,16 +93,20 @@ const GradeModal = ({
 }) => {
   const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
-  const selectedSkills = [
+  const exams: Array<keyof ClerkEnrollmentAppointmentGrades> = [
     'writingPartialExam',
     'readingComprehensionPartialExam',
     'speakingPartialExam',
     'speechComprehensionPartialExam',
-  ].filter(
-    (skill: string) => skills[skill as keyof ClerkEnrollmentAppointmentGrades],
+  ];
+  const selectedSkills = exams.filter(
+    (skill: keyof ClerkEnrollmentAppointmentGrades) => skills[skill],
   );
-  const [grades, setGrades] = useState<ClerkEnrollmentAppointmentGrades>({});
-  const { gradesStatus } = useAppSelector(clerkEnrollmentAppointmentSelector);
+  const { enrollmentGrades, gradesStatus } = useAppSelector(
+    clerkEnrollmentAppointmentSelector,
+  );
+  const [grades, setGrades] =
+    useState<ClerkEnrollmentAppointmentGrades>(enrollmentGrades);
   const isLoading = gradesStatus === APIResponseStatus.InProgress;
   const handleSaveGradesButtonClick = () => {
     dispatch(upsertClerkEnrollmentAppointmentGrades({ enrollment, grades }));
@@ -120,7 +124,7 @@ const GradeModal = ({
       }));
 
   const onSetGrade =
-    (exam: keyof ClerkEnrollmentAppointmentGrades) => (grade: string) =>
+    (exam: keyof ClerkEnrollmentAppointmentGrades) => (grade?: string) =>
       setGrades((prev) => ({
         ...prev,
         [exam]: {
@@ -142,8 +146,8 @@ const GradeModal = ({
             <Text className="bold">Arvosana</Text>
             <Text className="bold">Huomautuksia</Text>
             {selectedSkills.map(
-              (skill: keyof ClerkEnrollmentAppointmentGrades) => (
-                <Fragment key={`${skill.toString()}-grade`}>
+              (skill: keyof ClerkEnrollmentAppointmentGrades, index) => (
+                <Fragment key={index}>
                   <Text>
                     {translateCommon(
                       `enrollment.partialExamsAndSkills.${skill}`,

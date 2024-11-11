@@ -95,8 +95,8 @@ export interface ClerkEnrollmentAppointmentResponse
   payments: Array<ClerkPaymentResponse>;
 }
 
-export interface Grade {
-  grade: number;
+interface Grade {
+  grade: string;
   comment: string;
 }
 
