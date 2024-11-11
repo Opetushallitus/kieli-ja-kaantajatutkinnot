@@ -1,5 +1,5 @@
 import { Checkbox, FormControlLabel, FormHelperTextProps } from '@mui/material';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, Fragment, useState } from 'react';
 import {
   ComboBox,
   CustomButton,
@@ -32,14 +32,17 @@ import { EnrollmentStatus, PaymentStatus } from 'enums/app';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import {
   ClerkEnrollmentAppointment,
+  ClerkEnrollmentAppointmentGrades,
   ClerkPayment,
 } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
+import { upsertClerkEnrollmentAppointmentGrades } from 'redux/reducers/clerkEnrollmentAppointment';
 import {
   createClerkEnrollmentPaymentLink,
   setClerkPaymentRefunded,
 } from 'redux/reducers/clerkEnrollmentDetails';
+import { clerkEnrollmentAppointmentSelector } from 'redux/selectors/clerkEnrollmentAppointment';
 import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
 import { DateTimeUtils } from 'utils/dateTime';
 
@@ -72,22 +75,59 @@ const CheckboxField = ({
   );
 };
 
+const gradeToComboBoxOption = (grade: string) => ({
+  value: grade,
+  label: grade,
+});
+
 const GradeModal = ({
   open,
   skills,
   closeModal,
+  enrollment,
 }: {
   open: boolean;
   skills: PartialExamsAndSkills;
   closeModal: () => void;
+  enrollment: ClerkEnrollmentAppointment;
 }) => {
   const translateCommon = useCommonTranslation();
+  const dispatch = useAppDispatch();
   const selectedSkills = [
     'writingPartialExam',
     'readingComprehensionPartialExam',
     'speakingPartialExam',
     'speechComprehensionPartialExam',
-  ].filter((skill: string) => skills[skill as keyof PartialExamsAndSkills]);
+  ].filter(
+    (skill: string) => skills[skill as keyof ClerkEnrollmentAppointmentGrades],
+  );
+  const [grades, setGrades] = useState<ClerkEnrollmentAppointmentGrades>({});
+  const { gradesStatus } = useAppSelector(clerkEnrollmentAppointmentSelector);
+  const isLoading = gradesStatus === APIResponseStatus.InProgress;
+  const handleSaveGradesButtonClick = () => {
+    dispatch(upsertClerkEnrollmentAppointmentGrades({ enrollment, grades }));
+  };
+
+  const onSetComment =
+    (exam: keyof ClerkEnrollmentAppointmentGrades) =>
+    (event: ChangeEvent<HTMLTextAreaElement>) =>
+      setGrades((prev) => ({
+        ...prev,
+        [exam]: {
+          ...prev[exam],
+          comment: event.target.value,
+        },
+      }));
+
+  const onSetGrade =
+    (exam: keyof ClerkEnrollmentAppointmentGrades) => (grade: string) =>
+      setGrades((prev) => ({
+        ...prev,
+        [exam]: {
+          ...prev[exam],
+          grade,
+        },
+      }));
 
   return (
     <CustomModal
@@ -101,29 +141,51 @@ const GradeModal = ({
             <Text className="bold">Osakoe</Text>
             <Text className="bold">Arvosana</Text>
             <Text className="bold">Huomautuksia</Text>
-            {selectedSkills.map((skill) => (
-              <>
-                <Text>
-                  {translateCommon(`enrollment.partialExamsAndSkills.${skill}`)}
-                </Text>
-                <ComboBox
-                  autoHighlight
-                  values={['1', '2', '3'].map(valueAsOption)}
-                  variant={TextFieldVariant.Outlined}
-                  onChange={() => skill}
-                  value={null}
-                />
-                <CustomTextField />
-              </>
-            ))}
+            {selectedSkills.map(
+              (skill: keyof ClerkEnrollmentAppointmentGrades) => (
+                <Fragment key={`${skill.toString()}-grade`}>
+                  <Text>
+                    {translateCommon(
+                      `enrollment.partialExamsAndSkills.${skill}`,
+                    )}
+                  </Text>
+                  <ComboBox
+                    autoHighlight
+                    values={['ACCEPTED', 'FAILED'].map(valueAsOption)}
+                    variant={TextFieldVariant.Outlined}
+                    onChange={onSetGrade(skill)}
+                    value={
+                      grades[skill]?.grade
+                        ? gradeToComboBoxOption(grades[skill]?.grade)
+                        : null
+                    }
+                    disabled={isLoading}
+                  />
+                  <CustomTextField
+                    value={grades[skill]?.comment ?? ''}
+                    onChange={onSetComment(skill)}
+                    disabled={isLoading}
+                  />
+                </Fragment>
+              ),
+            )}
           </div>
           <div className="columns gapped flex-end">
             <CustomButton
               onClick={closeModal}
+              variant={Variant.Outlined}
+              color={Color.Secondary}
+              disabled={isLoading}
+            >
+              {translateCommon('cancel')}
+            </CustomButton>
+            <CustomButton
+              onClick={handleSaveGradesButtonClick}
               variant={Variant.Contained}
               color={Color.Secondary}
+              disabled={isLoading}
             >
-              {translateCommon('close')}
+              {translateCommon('save')}
             </CustomButton>
           </div>
         </div>
@@ -607,11 +669,14 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
           <Text>Ilmoittautumislinkki: {enrollment.authLink}</Text>
         </div>
       </div>
-      <GradeModal
-        closeModal={setGradeModalOpen.bind(this, false)}
-        skills={enrollment}
-        open={gradeModalOpen}
-      />
+      {gradeModalOpen && (
+        <GradeModal
+          closeModal={setGradeModalOpen.bind(this, false)}
+          skills={enrollment}
+          open={gradeModalOpen}
+          enrollment={enrollment}
+        />
+      )}
       <CustomModal
         open={paymentLinkModalOpen}
         modalTitle={t('payment.modal.title')}

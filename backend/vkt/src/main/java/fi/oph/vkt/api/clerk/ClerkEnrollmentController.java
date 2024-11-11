@@ -8,6 +8,7 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAppointmentUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentGradesDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
@@ -104,6 +105,15 @@ public class ClerkEnrollmentController {
     @RequestBody @Valid final ClerkEnrollmentAppointmentUpdateDTO dto
   ) {
     return clerkEnrollmentService.updateAppointment(dto);
+  }
+
+  @PutMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}/grades")
+  @Operation(tags = TAG_ENROLLMENT, summary = "Update enrollment appointment")
+  public ClerkEnrollmentGradesDTO upsertEnrollmentAppointmentGrades(
+    @RequestBody @Valid final ClerkEnrollmentGradesDTO dto,
+    @PathVariable final long enrollmentAppointmentId
+  ) {
+    return clerkEnrollmentService.upsertAppointmentGrades(enrollmentAppointmentId, dto);
   }
 
   @GetMapping(path = "/attachment", consumes = ALL_VALUE)

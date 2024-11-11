@@ -1,18 +1,23 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ClerkEnrollmentAppointment } from 'interfaces/clerkEnrollment';
+import {
+  ClerkEnrollmentAppointment,
+  ClerkEnrollmentAppointmentGrades,
+} from 'interfaces/clerkEnrollment';
 import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
 
 interface ClerkEnrollmentAppointmentState {
   status: APIResponseStatus;
   enrollment?: ClerkEnrollmentAppointment;
   createStatus: APIResponseStatus;
+  gradesStatus: APIResponseStatus;
 }
 
 const initialState: ClerkEnrollmentAppointmentState = {
   status: APIResponseStatus.NotStarted,
   createStatus: APIResponseStatus.NotStarted,
+  gradesStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkEnrollmentAppointmentSlice = createSlice({
@@ -51,6 +56,18 @@ const clerkEnrollmentAppointmentSlice = createSlice({
     resetClerkEnrollmentDetailsUpdate(state) {
       state.status = initialState.status;
     },
+    upsertClerkEnrollmentAppointmentGrades(
+      state,
+      _action: PayloadAction<{
+        enrollment: ClerkEnrollmentAppointment;
+        grades: ClerkEnrollmentAppointmentGrades;
+      }>,
+    ) {
+      state.gradesStatus = APIResponseStatus.InProgress;
+    },
+    resetClerkEnrollmentAppointmentGrades(state) {
+      state.gradesStatus = initialState.status;
+    },
   },
 });
 
@@ -63,4 +80,5 @@ export const {
   loadClerkEnrollmentAppointment,
   updateClerkEnrollmentAppointment,
   resetClerkEnrollmentDetailsUpdate,
+  upsertClerkEnrollmentAppointmentGrades,
 } = clerkEnrollmentAppointmentSlice.actions;

@@ -94,3 +94,15 @@ export interface ClerkEnrollmentAppointmentResponse
   enrollmentTime: string;
   payments: Array<ClerkPaymentResponse>;
 }
+
+export interface Grade {
+  grade: number;
+  comment: string;
+}
+
+export interface ClerkEnrollmentAppointmentGrades {
+  speakingPartialExam: Grade;
+  speechComprehensionPartialExam: Grade;
+  writingPartialExam: Grade;
+  readingComprehensionPartialExam: Grade;
+}

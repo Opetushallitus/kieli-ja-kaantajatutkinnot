@@ -14,9 +14,7 @@ export interface ExaminerExamEventResponse
   enrollments: Array<ClerkEnrollmentAppointmentResponse>;
 }
 
-export interface ExaminerExamEvent
-  extends WithId,
-    WithVersion {
+export interface ExaminerExamEvent extends WithId, WithVersion {
   date: Dayjs;
   language: Exclude<ExamLanguage, ExamLanguage.ALL>;
   municipality: MunicipalityCode;

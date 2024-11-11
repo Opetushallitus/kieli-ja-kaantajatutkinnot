@@ -6,6 +6,7 @@ import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import {
   ClerkEnrollmentAppointment,
+  ClerkEnrollmentAppointmentGrades,
   ClerkEnrollmentAppointmentResponse,
 } from 'interfaces/clerkEnrollment';
 import { setAPIError } from 'redux/reducers/APIError';
@@ -15,9 +16,38 @@ import {
   storeClerkEnrollmentAppointment,
   storeClerkEnrollmentAppointmentUpdate,
   updateClerkEnrollmentAppointment,
+  upsertClerkEnrollmentAppointmentGrades,
 } from 'redux/reducers/clerkEnrollmentAppointment';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
+
+function* upsertClerkEnrollmentAppointmentGradesSaga(
+  action: PayloadAction<{
+    enrollment: ClerkEnrollmentAppointment;
+    grades: ClerkEnrollmentAppointmentGrades;
+  }>,
+) {
+  const { enrollment, grades } = action.payload;
+
+  try {
+    const apiResponse: AxiosResponse<ClerkEnrollmentAppointmentResponse> =
+      yield call(
+        axiosInstance.put,
+        `${APIEndpoints.ClerkEnrollmentAppointment}/${enrollment.id}/grades`,
+        grades,
+      );
+    const updatedEnrollment =
+      SerializationUtils.deserializeClerkEnrollmentAppointment(
+        apiResponse.data,
+      );
+
+    yield put(storeClerkEnrollmentAppointmentUpdate(updatedEnrollment));
+  } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    //yield put(rejectClerkEnrollmentDetailsUpdate());
+  }
+}
 
 function* updateClerkEnrollmentAppointmentSaga(
   action: PayloadAction<{
@@ -39,7 +69,6 @@ function* updateClerkEnrollmentAppointmentSaga(
       );
 
     yield put(storeClerkEnrollmentAppointmentUpdate(updatedEnrollment));
-    //yield put(storeClerkExamEventOverview(updatedExamEvent));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
@@ -72,5 +101,9 @@ export function* watchClerkEnrollmentAppointment() {
   yield takeLatest(
     loadClerkEnrollmentAppointment.type,
     loadClerkEnrollmentAppointmentSaga,
+  );
+  yield takeLatest(
+    upsertClerkEnrollmentAppointmentGrades.type,
+    upsertClerkEnrollmentAppointmentGradesSaga,
   );
 }

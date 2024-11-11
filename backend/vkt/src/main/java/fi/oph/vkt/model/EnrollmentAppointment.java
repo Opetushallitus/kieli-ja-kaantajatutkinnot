@@ -1,6 +1,7 @@
 package fi.oph.vkt.model;
 
 import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
+import fi.oph.vkt.model.type.EnrollmentGradeType;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -71,6 +72,10 @@ public class EnrollmentAppointment extends EnrollmentCommon {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "person_id", referencedColumnName = "person_id")
   private Person person;
+
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "grade_id", referencedColumnName = "grade_id")
+  private EnrollmentGrade grade;
 
   @OneToMany(mappedBy = "enrollmentAppointment")
   private List<Payment> payments = new ArrayList<>();
