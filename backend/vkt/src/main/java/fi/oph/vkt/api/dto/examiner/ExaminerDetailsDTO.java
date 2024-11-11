@@ -19,5 +19,6 @@ public record ExaminerDetailsDTO(
   @NonNull Boolean examLanguageSwedish,
   @NonNull Boolean isPublic,
   @NonNull @NotEmpty List<MunicipalityDTO> municipalities,
-  @NonNull List<ExaminerExamEventDTO> examEvents
+  @NonNull List<ExaminerExamEventDTO> examEvents,
+  @NonNull List<ExaminerContactRequestDTO> contactRequests
 ) {}

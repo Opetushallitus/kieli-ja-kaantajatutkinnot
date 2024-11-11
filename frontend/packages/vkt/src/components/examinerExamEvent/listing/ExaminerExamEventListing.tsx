@@ -150,7 +150,7 @@ export const ExaminerExamEventListing = () => {
   };
 
   return (
-    <div className="examiner-homepage__exam-events rows gapped-xl">
+    <div className="examiner-homepage__exam-events rows gapped-xl margin-top-xxl">
       <div className="columns">
         <H2 className="grow">{t('heading')}</H2>
         <div className="flex-end">

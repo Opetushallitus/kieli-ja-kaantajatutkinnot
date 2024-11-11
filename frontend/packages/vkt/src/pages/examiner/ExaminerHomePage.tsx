@@ -5,6 +5,7 @@ import { CustomButtonLink, H1, H2, Text } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
+import { ExaminerContactRequestListing } from 'components/examinerExamEvent/listing/ExaminerContactRequestListing';
 import { ExaminerExamEventListing } from 'components/examinerExamEvent/listing/ExaminerExamEventListing';
 import {
   useCommonTranslation,
@@ -32,7 +33,7 @@ const PublicInformation = () => {
   const { examEvents } = examiner;
 
   return (
-    <div className="examiner-homepage__public-information rows gapped-xl">
+    <div className="examiner-homepage__public-information rows gapped-xl margin-bottom-xxl">
       <div className="columns gapped">
         <H2 className="grow">{t('heading')}</H2>
         <CustomButtonLink
@@ -98,14 +99,16 @@ const ContactRequests = () => {
     keyPrefix: 'vkt.component.examinerOverview.contactRequests',
   });
   // TODO Get contact requests from redux state & render them
-  const contactRequests = [];
+  const { examiner } = useAppSelector(examinerDetailsSelector);
 
   return (
-    <div className="examiner-homepage__contact-requests rows gapped-xl">
+    <div className="examiner-homepage__contact-requests rows gapped-xl margin-top-xxl margin-bottom-xxl">
       <H2>{t('heading')}</H2>
       <Divider />
-      {contactRequests.length === 0 && (
+      {examiner?.contactRequests?.length === 0 ? (
         <Text className="empty-results">{t('labels.noContactRequests')}</Text>
+      ) : (
+        <ExaminerContactRequestListing />
       )}
     </div>
   );

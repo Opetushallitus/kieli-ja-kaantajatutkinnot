@@ -27,7 +27,7 @@ public class ClerkExaminerService {
     return examinerRepository
       .getAllByDeletedAtIsNull()
       .stream()
-      .map(e -> ExaminerUtil.toExaminerDetailsDTO(e, baseUrlAPI))
+      .map(e -> ExaminerUtil.toExaminerDetailsDTO(e, List.of(), baseUrlAPI))
       .collect(Collectors.toList());
   }
 }

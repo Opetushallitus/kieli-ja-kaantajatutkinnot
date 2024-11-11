@@ -41,6 +41,12 @@
   }
 }
 
+.margin-bottom-xxl {
+  &#{&} {
+    margin-bottom: map.get($spacing, 'xxl');
+  }
+}
+
 .margin-top-lg {
   &#{&} {
     margin-top: map.get($spacing, 'lg');

@@ -4,7 +4,10 @@ import fi.oph.vkt.api.dto.examiner.ExaminerDetailsDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerDetailsInitDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerDetailsUpsertDTO;
 import fi.oph.vkt.audit.AuditService;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.Examiner;
+import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
+import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.ExaminerRepository;
 import fi.oph.vkt.service.onr.OnrService;
 import fi.oph.vkt.service.onr.PersonalData;
@@ -25,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ExaminerDetailsService {
 
   private final ExaminerRepository examinerRepository;
+  private final EnrollmentAppointmentRepository enrollmentAppointmentRepository;
   private final MunicipalityService municipalityService;
   private final OnrService onrService;
   private final AuditService auditService;
@@ -86,19 +90,23 @@ public class ExaminerDetailsService {
     examinerRepository.saveAndFlush(examiner);
     final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
 
-    return ExaminerUtil.toExaminerDetailsDTO(examiner, baseUrlAPI);
+    return ExaminerUtil.toExaminerDetailsDTO(examiner, List.of(), baseUrlAPI);
   }
 
   @Transactional(readOnly = true)
   public ExaminerDetailsDTO getExaminer(final String oid) {
     // TODO Audit log entry
-    Examiner examiner = examinerRepository.getByOid(oid);
+    final Examiner examiner = examinerRepository.getByOid(oid);
     if (examiner == null) {
       throw new APIException(APIExceptionType.EXAMINER_NOT_FOUND);
     }
     final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
+    final List<EnrollmentAppointment> enrollmentAppointments = enrollmentAppointmentRepository.findByExaminerAndStatus(
+      examiner,
+      EnrollmentAppointmentStatus.CONTACT_CREATED
+    );
 
-    return ExaminerUtil.toExaminerDetailsDTO(examiner, baseUrlAPI);
+    return ExaminerUtil.toExaminerDetailsDTO(examiner, enrollmentAppointments, baseUrlAPI);
   }
 
   @Transactional

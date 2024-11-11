@@ -4,9 +4,8 @@ import fi.oph.vkt.api.dto.clerk.ClerkExamEventListDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerExamEventDTO;
 import fi.oph.vkt.service.ExaminerExamEventService;
 import io.swagger.v3.oas.annotations.Operation;
-import java.util.List;
-
 import jakarta.annotation.Resource;
+import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

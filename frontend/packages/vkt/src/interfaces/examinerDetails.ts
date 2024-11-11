@@ -19,6 +19,12 @@ export interface ExaminerDetailsState {
   };
 }
 
+export interface ContactRequest extends WithId {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
+
 export interface ExaminerDetails extends WithId {
   oid: string;
   lastName: string;
@@ -30,6 +36,7 @@ export interface ExaminerDetails extends WithId {
   municipalities: Array<MunicipalityCode>;
   isPublic: boolean;
   examEvents: Array<ExaminerExamEvent>;
+  contactRequests: Array<ContactRequest>;
 }
 
 export interface ExaminerDetailsResponse

@@ -1,16 +1,28 @@
 package fi.oph.vkt.util;
 
 import fi.oph.vkt.api.dto.MunicipalityDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerContactRequestDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerDetailsDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerExamEventDTO;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.ExaminerExamEvent;
 import fi.oph.vkt.model.Municipality;
+import java.util.List;
 
 public class ExaminerUtil {
 
   public static MunicipalityDTO toMunicipalityDTO(final Municipality municipality) {
     return MunicipalityDTO.builder().code(municipality.getCode()).build();
+  }
+
+  public static ExaminerContactRequestDTO toContactRequestDTO(final EnrollmentAppointment enrollmentAppointment) {
+    return ExaminerContactRequestDTO
+      .builder()
+      .id(enrollmentAppointment.getId())
+      .firstName(enrollmentAppointment.getFirstName())
+      .lastName(enrollmentAppointment.getLastName())
+      .build();
   }
 
   public static ExaminerExamEventDTO toExaminerExamEventDTO(
@@ -38,7 +50,11 @@ public class ExaminerUtil {
       .build();
   }
 
-  public static ExaminerDetailsDTO toExaminerDetailsDTO(final Examiner examiner, final String baseUrlAPI) {
+  public static ExaminerDetailsDTO toExaminerDetailsDTO(
+    final Examiner examiner,
+    final List<EnrollmentAppointment> enrollmentAppointments,
+    final String baseUrlAPI
+  ) {
     return ExaminerDetailsDTO
       .builder()
       .id(examiner.getId())
@@ -53,6 +69,7 @@ public class ExaminerUtil {
       .examLanguageFinnish(examiner.isExamLanguageFinnish())
       .examLanguageSwedish(examiner.isExamLanguageSwedish())
       .examEvents(examiner.getExamEvents().stream().map(e -> toExaminerExamEventDTO(e, baseUrlAPI)).toList())
+      .contactRequests(enrollmentAppointments.stream().map(ExaminerUtil::toContactRequestDTO).toList())
       .build();
   }
 }
