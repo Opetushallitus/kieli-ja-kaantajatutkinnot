@@ -493,7 +493,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     );
 
     if (freeEnrollmentDetails != null && freeEnrollment != null) {
-      if (freeEnrollmentDetails.textualSkillCount() == 0 || freeEnrollmentDetails.oralSkillCount() == 0) {
+      if (EnrollmentUtil.getFreeExamsLeft(freeEnrollmentDetails.textualSkillCount()) == 0
+      || EnrollmentUtil.getFreeExamsLeft(freeEnrollmentDetails.oralSkillCount()) == 0) {
         publicEnrollmentEmailService.sendPartiallyFreeEnrollmentToQueueConfirmationEmail(
           enrollment,
           person,
