@@ -28,7 +28,7 @@ import {
   useCommonTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { EnrollmentStatus, PaymentStatus } from 'enums/app';
+import { EnrollmentAppointmentStatus, PaymentStatus } from 'enums/app';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import {
   ClerkEnrollmentAppointment,
@@ -463,9 +463,8 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
 
   const displayPaymentInformation =
     [
-      EnrollmentStatus.COMPLETED,
-      EnrollmentStatus.AWAITING_PAYMENT,
-      EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
+      EnrollmentAppointmentStatus.COMPLETED,
+      EnrollmentAppointmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
     ].includes(enrollment.status) || enrollment.payments.length > 0;
 
   const displayPaymentHistory = enrollment.payments.length > 1;
@@ -653,7 +652,8 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
               {enrollment.payments.length > 0 && (
                 <PaymentDetails payment={enrollment.payments[0]} />
               )}
-              {enrollment.status === EnrollmentStatus.AWAITING_PAYMENT && (
+              {enrollment.status ===
+                EnrollmentAppointmentStatus.AWAITING_PAYMENT && (
                 <div className="columns flex-start">
                   <CustomButton
                     color={Color.Secondary}

@@ -19,7 +19,11 @@ import {
   useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes, EnrollmentStatus, ExamLanguage } from 'enums/app';
+import {
+  AppRoutes,
+  EnrollmentAppointmentStatus,
+  ExamLanguage,
+} from 'enums/app';
 import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 import { setExaminerExamEventLanguageFilter } from 'redux/reducers/examinerDetails';
 import { examinerDetailsSelector } from 'redux/selectors/examinerDetails';
@@ -69,7 +73,7 @@ const ExaminerExamEventListingRow = ({
 
   // TODO Clarify which enrollments should be counted here
   const participantsCount = enrollments.filter(
-    (e) => e.status === EnrollmentStatus.COMPLETED,
+    (e) => e.status === EnrollmentAppointmentStatus.COMPLETED,
   ).length;
 
   return (

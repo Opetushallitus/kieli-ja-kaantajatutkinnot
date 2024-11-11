@@ -392,9 +392,27 @@ SELECT exam_event_id, (SELECT max(person_id) FROM person),
        'foo@bar.invalid', '0404040404', null, null, null, null
 FROM exam_event;
 
--- Insert enrollment appointment
+-- Insert examiner
 INSERT INTO examiner(version, oid, email, phone_number, last_name, first_name, nickname, exam_language_finnish, exam_language_swedish, is_public)
 VALUES (1, '1.2.246.init-1', 'examiner@example.invalid', '04040404040', 'Tessilä', 'Testi', 'Tessa', true, true, true);
+
+-- Insert municipality
+INSERT INTO municipality(version, code, name_fi, name_sv)
+VALUES (1, 'oul', 'Oulu', 'Oulu');
+
+-- insert examiner_exam_event
+INSERT INTO examiner_exam_event(version, date, language, examiner_id, is_hidden, registration_closes, max_participants, municipality_id, location)
+VALUES (
+  1,
+  now() + interval '5 weeks',
+  'FI',
+  1,
+  false,
+  now() + interval '2 weeks',
+  10,
+  1,
+  'tylypahka'
+);
 
 -- Insert enrollment appointment
 INSERT INTO enrollment_appointment(person_id, examiner_id,
@@ -406,3 +424,15 @@ VALUES (null, 1,
        true, true, true, true,
        'CONTACT_CREATED', true,
        'foo@bar.invalid', '0404040404', null, null, null, null);
+
+-- Insert enrollment appointment
+INSERT INTO enrollment_appointment(person_id, examiner_id, examiner_exam_event_id,
+                       skill_oral, skill_textual, skill_understanding,
+                       partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
+                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country, first_name, last_name)
+VALUES (1, 1, 2,
+       true, true, true,
+       true, true, true, true,
+       'WAITING_AUTHENTICATION', true,
+       'foo@bar.invalid', '0404040404', null, null, null, null,
+       'Teppo', 'Testinen');

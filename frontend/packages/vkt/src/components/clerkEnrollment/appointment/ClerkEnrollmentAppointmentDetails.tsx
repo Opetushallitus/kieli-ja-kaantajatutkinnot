@@ -8,7 +8,7 @@ import { ClerkEnrollmentAppointmentDetailsFields } from 'components/clerkEnrollm
 import { ControlButtons } from 'components/clerkEnrollment/overview/ControlButtons';
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { EnrollmentStatus, UIMode } from 'enums/app';
+import { EnrollmentAppointmentStatus, UIMode } from 'enums/app';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { ClerkEnrollmentAppointment } from 'interfaces/clerkEnrollment';
@@ -17,10 +17,7 @@ import {
   resetClerkEnrollmentDetailsUpdate,
   updateClerkEnrollmentAppointment,
 } from 'redux/reducers/clerkEnrollmentAppointment';
-import {
-  changeClerkEnrollmentStatus,
-  resetClerkEnrollmentStatusChange,
-} from 'redux/reducers/clerkExamEventOverview';
+import { resetClerkEnrollmentStatusChange } from 'redux/reducers/clerkExamEventOverview';
 import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
 import { clerkExamEventOverviewSelector } from 'redux/selectors/clerkExamEventOverview';
 import { EnrollmentUtils } from 'utils/enrollment';
@@ -37,7 +34,7 @@ export const ClerkEnrollmentAppointmentDetails = ({
   const { status, paymentRefundStatus } = useAppSelector(
     clerkEnrollmentDetailsSelector,
   );
-  const { examEvent, clerkEnrollmentChangeStatus } = useAppSelector(
+  const { clerkEnrollmentChangeStatus } = useAppSelector(
     clerkExamEventOverviewSelector,
   );
 
@@ -189,12 +186,6 @@ export const ClerkEnrollmentAppointmentDetails = ({
   };
 
   const handleCancelEnrollmentButtonClick = () => {
-    const statusChange = {
-      id: enrollmentDetails.id,
-      version: enrollmentDetails.version,
-      newStatus: EnrollmentStatus.CANCELED,
-    };
-
     showDialog({
       title: t('cancelEnrollmentDialog.header'),
       severity: Severity.Warning,
@@ -207,8 +198,7 @@ export const ClerkEnrollmentAppointmentDetails = ({
         {
           title: translateCommon('yes'),
           variant: Variant.Contained,
-          action: () =>
-            dispatch(changeClerkEnrollmentStatus({ statusChange, examEvent })),
+          action: () => '', // TODO
         },
       ],
     });
@@ -248,7 +238,9 @@ export const ClerkEnrollmentAppointmentDetails = ({
           variant={Variant.Contained}
           color={Color.Error}
           onClick={handleCancelEnrollmentButtonClick}
-          disabled={enrollmentDetails.status === EnrollmentStatus.CANCELED}
+          disabled={
+            enrollmentDetails.status === EnrollmentAppointmentStatus.CANCELED
+          }
         >
           {t('cancelEnrollment')}
         </CustomButton>

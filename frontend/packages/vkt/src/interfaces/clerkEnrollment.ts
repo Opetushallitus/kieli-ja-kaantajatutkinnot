@@ -1,7 +1,11 @@
 import { Dayjs } from 'dayjs';
 import { WithId, WithVersion } from 'shared/interfaces';
 
-import { EnrollmentStatus, PaymentStatus } from 'enums/app';
+import {
+  EnrollmentAppointmentStatus,
+  EnrollmentStatus,
+  PaymentStatus,
+} from 'enums/app';
 import { ClerkFreeEnrollmentBasis } from 'interfaces/clerkEducation';
 import {
   CertificateShippingData,
@@ -73,7 +77,7 @@ export interface ClerkEnrollmentMove extends WithId, WithVersion {
 }
 
 export interface ClerkEnrollmentContact extends ClerkEnrollmentCommon {
-  status: EnrollmentStatus;
+  status: EnrollmentAppointmentStatus;
   firstName: string;
   lastName: string;
 }

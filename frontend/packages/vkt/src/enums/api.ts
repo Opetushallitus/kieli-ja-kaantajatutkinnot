@@ -23,6 +23,7 @@ export enum APIEndpoints {
   // TODO Consider using prefix /examiner instead of /tv
   ExaminerDetails = '/vkt/api/v1/tv/:oid',
   ExaminerDetailsInit = '/vkt/api/v1/tv/:oid/init',
+  ExaminerExamEvent = '/vkt/api/v1/tv/:oid/examEvent',
 }
 
 /**
