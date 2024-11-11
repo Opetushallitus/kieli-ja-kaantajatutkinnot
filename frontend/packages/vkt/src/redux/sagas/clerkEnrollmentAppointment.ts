@@ -14,6 +14,7 @@ import {
   loadClerkEnrollmentAppointment,
   rejectClerkEnrollmentAppointment,
   storeClerkEnrollmentAppointment,
+  storeClerkEnrollmentAppointmentGrades,
   storeClerkEnrollmentAppointmentUpdate,
   updateClerkEnrollmentAppointment,
   upsertClerkEnrollmentAppointmentGrades,
@@ -30,18 +31,14 @@ function* upsertClerkEnrollmentAppointmentGradesSaga(
   const { enrollment, grades } = action.payload;
 
   try {
-    const apiResponse: AxiosResponse<ClerkEnrollmentAppointmentResponse> =
+    const apiResponse: AxiosResponse<ClerkEnrollmentAppointmentGrades> =
       yield call(
         axiosInstance.put,
         `${APIEndpoints.ClerkEnrollmentAppointment}/${enrollment.id}/grades`,
         grades,
       );
-    const updatedEnrollment =
-      SerializationUtils.deserializeClerkEnrollmentAppointment(
-        apiResponse.data,
-      );
 
-    yield put(storeClerkEnrollmentAppointmentUpdate(updatedEnrollment));
+    yield put(storeClerkEnrollmentAppointmentGrades(apiResponse.data));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));

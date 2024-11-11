@@ -1,5 +1,6 @@
 package fi.oph.vkt.service;
 
+import fi.oph.vkt.api.dto.EnrollmentGradeDTO;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAppointmentDTO;
@@ -21,6 +22,7 @@ import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
+import fi.oph.vkt.model.type.EnrollmentGradeType;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import fi.oph.vkt.model.type.PaymentStatus;
@@ -40,7 +42,6 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -283,6 +284,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
   }
 
+  @Transactional
   public ClerkEnrollmentGradesDTO upsertAppointmentGrades(
     final long enrollmentAppointmentId,
     final ClerkEnrollmentGradesDTO dto
@@ -290,10 +292,11 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
       enrollmentAppointmentId
     );
-    final Optional<EnrollmentGrade> enrollmentGradeOptional = enrollmentGradesRepository.findByEnrollmentAppointment(enrollmentAppointment);
+    final Optional<EnrollmentGrade> enrollmentGradeOptional = enrollmentGradesRepository.findByEnrollmentAppointment(
+      enrollmentAppointment
+    );
     final EnrollmentGrade enrollmentGrade = enrollmentGradeOptional.orElseGet(EnrollmentGrade::new);
 
-    enrollmentGrade.setEnrollmentAppointment(enrollmentAppointment);
     enrollmentGrade.setSpeakingPartialExamGrade(dto.speakingPartialExam().grade());
     enrollmentGrade.setWritingPartialExamGrade(dto.writingPartialExam().grade());
     enrollmentGrade.setSpeechComprehensionPartialExamGrade(dto.speechComprehensionPartialExam().grade());
@@ -306,6 +309,33 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
 
     enrollmentGradesRepository.saveAndFlush(enrollmentGrade);
 
-    return ClerkEnrollmentGradesDTO.builder().build();
+    enrollmentAppointment.setGrade(enrollmentGrade);
+    enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
+
+    return ClerkEnrollmentGradesDTO
+      .builder()
+      .writingPartialExam(
+        createGradeDTO(enrollmentGrade.getWritingPartialExamGrade(), enrollmentGrade.getWritingPartialExamComment())
+      )
+      .readingComprehensionPartialExam(
+        createGradeDTO(
+          enrollmentGrade.getReadingComprehensionPartialExamGrade(),
+          enrollmentGrade.getReadingComprehensionPartialExamComment()
+        )
+      )
+      .speakingPartialExam(
+        createGradeDTO(enrollmentGrade.getSpeakingPartialExamGrade(), enrollmentGrade.getSpeakingPartialExamComment())
+      )
+      .speechComprehensionPartialExam(
+        createGradeDTO(
+          enrollmentGrade.getSpeechComprehensionPartialExamGrade(),
+          enrollmentGrade.getSpeechComprehensionPartialExamComment()
+        )
+      )
+      .build();
+  }
+
+  private EnrollmentGradeDTO createGradeDTO(final EnrollmentGradeType grade, final String comment) {
+    return EnrollmentGradeDTO.builder().grade(grade).comment(comment).build();
   }
 }

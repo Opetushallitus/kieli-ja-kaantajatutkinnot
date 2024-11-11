@@ -84,6 +84,13 @@ const clerkEnrollmentAppointmentSlice = createSlice({
     ) {
       state.gradesStatus = APIResponseStatus.InProgress;
     },
+    storeClerkEnrollmentAppointmentGrades(
+      state,
+      action: PayloadAction<ClerkEnrollmentAppointmentGrades>,
+    ) {
+      state.gradesStatus = APIResponseStatus.Success;
+      state.grades = action.payload;
+    },
     resetClerkEnrollmentAppointmentGrades(state) {
       state.gradesStatus = initialState.status;
     },
@@ -100,4 +107,6 @@ export const {
   updateClerkEnrollmentAppointment,
   resetClerkEnrollmentDetailsUpdate,
   upsertClerkEnrollmentAppointmentGrades,
+  storeClerkEnrollmentAppointmentGrades,
+  resetClerkEnrollmentAppointmentGrades,
 } = clerkEnrollmentAppointmentSlice.actions;

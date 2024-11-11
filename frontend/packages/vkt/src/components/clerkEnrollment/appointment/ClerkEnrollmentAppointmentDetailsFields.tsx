@@ -1,5 +1,5 @@
 import { Checkbox, FormControlLabel, FormHelperTextProps } from '@mui/material';
-import { ChangeEvent, Fragment, useState } from 'react';
+import { ChangeEvent, Fragment, useEffect, useState } from 'react';
 import {
   ComboBox,
   CustomButton,
@@ -37,7 +37,10 @@ import {
 } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
-import { upsertClerkEnrollmentAppointmentGrades } from 'redux/reducers/clerkEnrollmentAppointment';
+import {
+  resetClerkEnrollmentAppointmentGrades,
+  upsertClerkEnrollmentAppointmentGrades,
+} from 'redux/reducers/clerkEnrollmentAppointment';
 import {
   createClerkEnrollmentPaymentLink,
   setClerkPaymentRefunded,
@@ -102,15 +105,24 @@ const GradeModal = ({
   const selectedSkills = exams.filter(
     (skill: keyof ClerkEnrollmentAppointmentGrades) => skills[skill],
   );
-  const { enrollmentGrades, gradesStatus } = useAppSelector(
+  const { grades, gradesStatus } = useAppSelector(
     clerkEnrollmentAppointmentSelector,
   );
-  const [grades, setGrades] =
-    useState<ClerkEnrollmentAppointmentGrades>(enrollmentGrades);
+  const [newGrades, setGrades] =
+    useState<ClerkEnrollmentAppointmentGrades>(grades);
   const isLoading = gradesStatus === APIResponseStatus.InProgress;
   const handleSaveGradesButtonClick = () => {
-    dispatch(upsertClerkEnrollmentAppointmentGrades({ enrollment, grades }));
+    dispatch(
+      upsertClerkEnrollmentAppointmentGrades({ enrollment, grades: newGrades }),
+    );
   };
+
+  useEffect(() => {
+    if (gradesStatus === APIResponseStatus.Success) {
+      closeModal();
+      dispatch(resetClerkEnrollmentAppointmentGrades());
+    }
+  }, [gradesStatus, dispatch, closeModal]);
 
   const onSetComment =
     (exam: keyof ClerkEnrollmentAppointmentGrades) =>
@@ -159,14 +171,14 @@ const GradeModal = ({
                     variant={TextFieldVariant.Outlined}
                     onChange={onSetGrade(skill)}
                     value={
-                      grades[skill]?.grade
-                        ? gradeToComboBoxOption(grades[skill]?.grade)
+                      newGrades[skill]?.grade
+                        ? gradeToComboBoxOption(newGrades[skill]?.grade)
                         : null
                     }
                     disabled={isLoading}
                   />
                   <CustomTextField
-                    value={grades[skill]?.comment ?? ''}
+                    value={newGrades[skill]?.comment ?? ''}
                     onChange={onSetComment(skill)}
                     disabled={isLoading}
                   />
