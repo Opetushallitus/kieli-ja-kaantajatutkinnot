@@ -15,7 +15,7 @@ const ExaminerNavigationLinks = () => {
   const translateCommon = useCommonTranslation();
   const goodAndSatisfactoryLevelLink = {
     active: true,
-    href: AppRoutes.ExaminerDetailsPage.replace(/:oid/, oid),
+    href: AppRoutes.ExaminerHomePage.replace(/:oid/, oid),
     label: t('goodAndSatisfactoryLevel'),
   };
 

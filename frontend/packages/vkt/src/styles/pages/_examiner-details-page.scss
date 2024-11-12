@@ -9,6 +9,13 @@
     }
   }
 
+  & &__exam-events {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2.5rem;
+  }
+
   & &__details-view {
     display: flex;
     flex-direction: column;

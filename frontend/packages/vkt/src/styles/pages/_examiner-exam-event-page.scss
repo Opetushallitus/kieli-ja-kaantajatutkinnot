@@ -1,0 +1,33 @@
+.examiner-exam-event-page {
+  flex: 1;
+
+  & &__grid-container {
+    display: block;
+
+    &__heading {
+      margin: 2rem 0 1rem 1rem;
+    }
+  }
+
+  & &__contents {
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
+    padding: 2.5rem;
+  }
+
+  & &__is-public {
+    fieldset {
+      border: 0;
+      margin-inline: unset;
+      padding: unset;
+    }
+  }
+
+  & &__select-municipality {
+    // stylelint-disable-next-line
+    > div.MuiFormControl-root {
+      gap: 0.5rem;
+    }
+  }
+}

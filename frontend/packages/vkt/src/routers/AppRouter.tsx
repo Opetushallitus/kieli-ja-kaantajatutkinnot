@@ -35,6 +35,7 @@ import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
 import { ClerkExcellentLevelPage } from 'pages/ClerkExcellentLevelPage';
 import { ClerkGoodAndSatisfactoryLevelPage } from 'pages/ClerkGoodAndSatisfactoryLevelPage';
 import { ExaminerDetailsPage } from 'pages/examiner/ExaminerDetailsPage';
+import { ExaminerExamEventCreatePage } from 'pages/examiner/ExaminerExamEventCreatePage';
 import { ExaminerExamEventOverviewPage } from 'pages/examiner/ExaminerExamEventOverviewPage';
 import { ExaminerHomePage } from 'pages/examiner/ExaminerHomePage';
 import { ExaminerRedirectPage } from 'pages/examiner/ExaminerRedirectPage';
@@ -409,6 +410,16 @@ export const AppRouter: FC = () => {
             element={
               <TitlePage title={createTitle('clerkExamOverview')}>
                 <ExaminerExamEventOverviewPage />
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ExaminerExamEventCreatePage}
+            element={
+              <TitlePage title={createTitle('examinerDetails')}>
+                <ExaminerRootPage>
+                  <ExaminerExamEventCreatePage />
+                </ExaminerRootPage>
               </TitlePage>
             }
           />
