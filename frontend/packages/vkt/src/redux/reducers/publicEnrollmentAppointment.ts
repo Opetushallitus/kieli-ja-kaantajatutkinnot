@@ -44,6 +44,9 @@ const initialState: PublicEnrollmentAppointmentState = {
       firstName: '',
       lastName: '',
     },
+    message: '',
+    firstName: '',
+    lastName: '',
   },
 };
 

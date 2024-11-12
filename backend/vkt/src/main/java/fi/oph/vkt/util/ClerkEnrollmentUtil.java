@@ -208,9 +208,12 @@ public class ClerkEnrollmentUtil {
       .writingPartialExam(enrollmentAppointment.isWritingPartialExam())
       .readingComprehensionPartialExam(enrollmentAppointment.isReadingComprehensionPartialExam())
       .status(enrollmentAppointment.getStatus())
+      .phoneNumber(enrollmentAppointment.getPhoneNumber())
       .email(enrollmentAppointment.getEmail())
       .firstName(enrollmentAppointment.getFirstName())
       .lastName(enrollmentAppointment.getLastName())
+      .previousEnrollment(enrollmentAppointment.getPreviousEnrollment())
+      .message(enrollmentAppointment.getMessage())
       .build();
   }
 }

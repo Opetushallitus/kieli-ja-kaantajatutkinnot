@@ -105,6 +105,7 @@ COPY public.databasechangelog (id, author, filename, dateexecuted, orderexecuted
 2024-11-07-new-examiner_exam_event-table	pkoivisto	migrations.xml	2024-11-07 23:04:47.179822	40	EXECUTED	9:cf0bb0d78f0f4adddd3d7147692d1eed	createTable tableName=examiner_exam_event; addForeignKeyConstraint baseTableName=examiner_exam_event, constraintName=fk_examiner_exam_event_examiner_id, referencedTableName=examiner; addForeignKeyConstraint baseTableName=examiner_exam_event, const...		\N	4.29.1	\N	\N	1013487153
 2024-11-11-grade-table	jrkkp	migrations.xml	2024-11-10 23:08:41.052724	41	EXECUTED	9:43366e2913881add0d3225014f755c64	createTable tableName=enrollment_grade; addColumn tableName=enrollment_appointment; addForeignKeyConstraint baseTableName=enrollment_appointment, constraintName=fk_enrollment_appointment_grade_id, referencedTableName=enrollment_grade		\N	4.29.1	\N	\N	1272921016
 2024-11-08-add-enrollment-appointment-missing-fields-3	pkoivisto	migrations.xml	2024-11-11 11:38:45.813381	42	EXECUTED	9:c8743f2a64a80316026c89ba43ef3c1c	addColumn tableName=enrollment_appointment; addForeignKeyConstraint baseTableName=enrollment_appointment, constraintName=fk_enrollment_appointment_examiner_exam_event_id, referencedTableName=examiner_exam_event		\N	4.29.1	\N	\N	1317925790
+2024-11-12-add-enrollment_appointment-missing-fields-4	jrkkp	migrations.xml	2024-11-12 15:46:50.287328	43	EXECUTED	9:1de91200b162138cede8440b9606fe83	addColumn tableName=enrollment_appointment		\N	4.29.1	\N	\N	1419210268
 \.
 
 

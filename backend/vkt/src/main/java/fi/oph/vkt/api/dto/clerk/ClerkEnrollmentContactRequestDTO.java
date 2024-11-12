@@ -22,7 +22,9 @@ public record ClerkEnrollmentContactRequestDTO(
   @NonNull @NotNull Boolean readingComprehensionPartialExam,
   @NonNull @NotNull EnrollmentAppointmentStatus status,
   String previousEnrollment,
+  @NonNull @NotBlank String phoneNumber,
   @NonNull @NotBlank String email,
   @NonNull @NotBlank String firstName,
-  @NonNull @NotBlank String lastName
+  @NonNull @NotBlank String lastName,
+  String message
 ) {}

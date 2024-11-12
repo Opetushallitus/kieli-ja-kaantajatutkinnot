@@ -1148,4 +1148,10 @@
                 referencedTableName="enrollment_grade"
                 referencedColumnNames="grade_id"/>
     </changeSet>
+    <changeSet id="2024-11-12-add-enrollment_appointment-missing-fields-4" author="jrkkp">
+        <addColumn tableName="enrollment_appointment">
+            <column name="previous_enrollment" type="TEXT" />
+            <column name="message" type="TEXT" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

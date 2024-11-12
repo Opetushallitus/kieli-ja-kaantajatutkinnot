@@ -38,7 +38,7 @@ export const PublicEnrollmentContactDesktopGrid = ({
     publicEnrollmentContactSelector,
   );
 
-  const showControlButtons = activeStep <= PublicEnrollmentContactFormStep.Done;
+  const showControlButtons = activeStep < PublicEnrollmentContactFormStep.Done;
 
   return (
     <>

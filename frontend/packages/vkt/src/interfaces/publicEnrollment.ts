@@ -82,15 +82,16 @@ export interface PublicEnrollmentResponse
   status: EnrollmentStatus;
 }
 
-export interface PublicEnrollmentAppointment
-  extends PublicEnrollmentCommon,
-    CertificateShippingData {
-  person: PublicPerson;
-}
-
 export interface PublicEnrollmentContact extends PublicEnrollmentCommon {
   firstName: string;
   lastName: string;
+  message: string;
+}
+
+export interface PublicEnrollmentAppointment
+  extends PublicEnrollmentContact,
+    CertificateShippingData {
+  person: PublicPerson;
 }
 
 export interface PublicEnrollmentAppointmentResponse

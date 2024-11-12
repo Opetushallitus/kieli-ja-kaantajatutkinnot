@@ -49,9 +49,14 @@ export const PublicEnrollmentContactControlButtons = ({
 
   useEffect(() => {
     if (submitStatus === APIResponseStatus.Success) {
-      navigate(AppRoutes.PublicGoodAndSatisfactoryLevelLanding);
+      navigate(
+        RouteUtils.contactStepToRoute(
+          PublicEnrollmentContactFormStep.Done,
+          examinerId,
+        ),
+      );
     }
-  }, [submitStatus, navigate]);
+  }, [submitStatus, examinerId, navigate]);
 
   const handleBackBtnClick = () => {
     const nextStep: PublicEnrollmentContactFormStep = activeStep - 1;

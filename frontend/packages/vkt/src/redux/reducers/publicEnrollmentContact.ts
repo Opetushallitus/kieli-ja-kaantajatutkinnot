@@ -36,6 +36,7 @@ const initialState: PublicEnrollmentContactState = {
     previousEnrollment: '',
     privacyStatementConfirmation: false,
     status: undefined,
+    message: '',
   },
   examiner: undefined,
 };

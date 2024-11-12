@@ -195,7 +195,9 @@ CREATE TABLE public.enrollment_appointment (
     last_name text,
     examiner_id bigint,
     grade_id bigint,
-    examiner_exam_event_id bigint
+    examiner_exam_event_id bigint,
+    previous_enrollment text,
+    message text
 );
 
 

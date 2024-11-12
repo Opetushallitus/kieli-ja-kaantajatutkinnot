@@ -423,13 +423,13 @@ INSERT INTO enrollment_appointment(person_id, examiner_id,
                        skill_oral, skill_textual, skill_understanding,
                        partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
                        status, digital_certificate_consent, email, phone_number, street, postal_code, town, country,
-                       first_name, last_name)
+                       first_name, last_name, message, previous_enrollment)
 VALUES (null, 1,
        true, true, true,
        true, true, true, true,
        'CONTACT_CREATED', true,
        'foo@bar.invalid', '0404040404', null, null, null, null,
-       'Teppo', 'Testaaja');
+       'Teppo', 'Testaaja', 'Tämä on viesti', 'Edellinen ilmoittautuminen vuonna 1999');
 
 -- Insert enrollment appointment
 INSERT INTO enrollment_appointment(person_id, examiner_id, examiner_exam_event_id,

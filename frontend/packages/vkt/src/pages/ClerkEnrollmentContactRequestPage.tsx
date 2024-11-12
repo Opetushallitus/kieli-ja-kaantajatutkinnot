@@ -144,6 +144,10 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
                 <H3>Sähköpostiosoite</H3>
                 <Text>{enrollment.email}</Text>
               </div>
+              <div className="rows gapped">
+                <H3>Puhelinnumero</H3>
+                <Text>{enrollment.phoneNumber}</Text>
+              </div>
             </div>
             <Divider />
             <H2>Yhteydenoton tiedot</H2>
@@ -169,7 +173,7 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
             </div>
             <div className="rows gapped">
               <H3>Viesti</H3>
-              <Text>Ei</Text>
+              <Text>{enrollment.message}</Text>
             </div>
             <div className="columns flex-end">
               <LoadingProgressIndicator isLoading={isLoading}>

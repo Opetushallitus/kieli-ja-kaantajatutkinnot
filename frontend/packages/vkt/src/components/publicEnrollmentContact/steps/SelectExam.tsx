@@ -1,11 +1,13 @@
+import { Divider } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { AnyAction } from 'redux';
 import { H2, Text } from 'shared/components';
 
+import { Message } from 'components/publicEnrollmentCommon/selectExam/Message';
 import { PartialExamsSelection } from 'components/publicEnrollmentCommon/selectExam/PartialExamsSelection';
 import { PreviousEnrollment } from 'components/publicEnrollmentCommon/selectExam/PreviousEnrollment';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { PublicEnrollmentCommon } from 'interfaces/publicEnrollment';
+import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
 
 export const SelectExam = ({
   enrollment,
@@ -14,12 +16,12 @@ export const SelectExam = ({
   showValidation,
   updatePublicEnrollment,
 }: {
-  enrollment: PublicEnrollmentCommon;
+  enrollment: PublicEnrollmentContact;
   isLoading: boolean;
   setIsStepValid: (isValid: boolean) => void;
   showValidation: boolean;
   updatePublicEnrollment: (
-    enrollment: Partial<PublicEnrollmentCommon>,
+    enrollment: Partial<PublicEnrollmentContact>,
   ) => AnyAction;
 }) => {
   const translateCommon = useCommonTranslation();
@@ -57,7 +59,16 @@ export const SelectExam = ({
         showValidation={showValidation}
         updatePublicEnrollment={updatePublicEnrollment}
       />
+      <Divider />
       <PreviousEnrollment
+        enrollment={enrollment}
+        editingDisabled={isLoading}
+        setValid={setPreviousEnrollment}
+        showValidation={showValidation}
+        updatePublicEnrollment={updatePublicEnrollment}
+      />
+      <Divider />
+      <Message
         enrollment={enrollment}
         editingDisabled={isLoading}
         setValid={setPreviousEnrollment}
