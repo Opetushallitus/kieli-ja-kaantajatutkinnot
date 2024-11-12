@@ -43,12 +43,13 @@ type AutoCompleteComboBox = Omit<
   | 'onChange'
 >;
 
-const compareOptionLabels = (a: ComboBoxOption, b: ComboBoxOption) => {
-  return a.label.localeCompare(b.label, undefined, { sensitivity: 'base' });
-};
+export const sortOptionsByLabels = (
+  options: Array<ComboBoxOption>,
+  locale: string = 'fi-FI',
+) => {
+  const collator = new Intl.Collator(locale, { sensitivity: 'base' });
 
-export const sortOptionsByLabels = (options: Array<ComboBoxOption>) => {
-  return options.sort(compareOptionLabels);
+  return options.sort((a, b) => collator.compare(a.label, b.label));
 };
 
 const isOptionEqualToValue = (

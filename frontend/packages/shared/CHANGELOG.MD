@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.11.6] - 2024-11-12
+
+### Changed
+- LabeledTextField accepts an optional className argument
+- sortOptionsByLabels accepts an optional locale argument; if not supplied, 'fi-FI' is used by default
+
 ## [1.11.5] - 2024-09-27
 
 ### Added
