@@ -6,8 +6,4 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record ExaminerContactRequestDTO(
-  @NonNull Long id,
-  @NonNull String lastName,
-  @NonNull String firstName
-) {}
+public record ExaminerContactRequestDTO(@NonNull Long id, @NonNull String lastName, @NonNull String firstName) {}

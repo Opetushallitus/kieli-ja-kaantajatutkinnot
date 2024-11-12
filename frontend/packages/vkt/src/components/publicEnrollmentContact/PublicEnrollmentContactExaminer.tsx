@@ -24,7 +24,7 @@ export const PublicEnrollmentContactExaminer = ({
         <b>
           {ExamEventUtils.languageAndLevelText(
             examiner.language,
-            ExamLevel.EXCELLENT,
+            ExamLevel.GOOD_AND_SATISFACTORY,
             translateCommon,
           )}
         </b>

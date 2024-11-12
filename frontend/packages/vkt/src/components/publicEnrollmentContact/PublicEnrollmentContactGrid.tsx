@@ -1,10 +1,11 @@
 import { Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { APIResponseStatus } from 'shared/enums';
 
 import { PublicEnrollmentContactDesktopGrid } from 'components/publicEnrollmentContact/PublicEnrollmentContactDesktopGrid';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentContactFormStep } from 'enums/publicEnrollment';
 import { loadPublicExaminer } from 'redux/reducers/publicEnrollmentContact';
 import { publicEnrollmentContactSelector } from 'redux/selectors/publicEnrollmentContact';
@@ -15,6 +16,7 @@ export const PublicEnrollmentContactGrid = ({
   activeStep: PublicEnrollmentContactFormStep;
 }) => {
   const params = useParams();
+  const navigate = useNavigate();
   const examinerId =
     params.examinerId !== undefined ? +params.examinerId : null;
   const dispatch = useAppDispatch();
@@ -23,6 +25,11 @@ export const PublicEnrollmentContactGrid = ({
   );
   const [isStepValid, setIsStepValid] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
+  const isLoading = loadExaminerStatus === APIResponseStatus.InProgress;
+
+  if (!examinerId) {
+    navigate(AppRoutes.PublicGoodAndSatisfactoryLevelLanding);
+  }
 
   useEffect(() => {
     if (loadExaminerStatus === APIResponseStatus.NotStarted && examinerId) {
@@ -47,6 +54,7 @@ export const PublicEnrollmentContactGrid = ({
         activeStep={activeStep}
         isStepValid={isStepValid}
         setIsStepValid={setIsStepValid}
+        isLoading={isLoading}
         showValidation={showValidation}
         setShowValidation={setShowValidation}
       />

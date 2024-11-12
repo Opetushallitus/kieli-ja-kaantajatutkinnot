@@ -92,10 +92,12 @@
       },
       "examLanguage": {
         "FI": "Suomi",
-        "SV": "Ruotsi"
+        "SV": "Ruotsi",
+        "ALL": "Suomi & ruotsi"
       },
       "examLevel": {
-        "EXCELLENT": "Erinomainen taito"
+        "EXCELLENT": "Erinomainen taito",
+        "GOOD_AND_SATISFACTORY": "Hyvä ja tyydyttävä taito"
       },
       "header": {
         "accessibility": {

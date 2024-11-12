@@ -41,6 +41,14 @@ export interface PublicEnrollmentContactDetails {
   phoneNumber: string;
 }
 
+export interface PublicEnrollmentContactRequestDetails {
+  firstName: string;
+  lastName: string;
+  email: string;
+  emailConfirmation: string;
+  phoneNumber: string;
+}
+
 export interface PublicEnrollmentCommon
   extends PublicEnrollmentContactDetails,
     PartialExamsAndSkills {

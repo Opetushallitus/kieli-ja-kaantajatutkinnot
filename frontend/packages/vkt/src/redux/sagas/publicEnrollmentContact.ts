@@ -21,7 +21,7 @@ import { SerializationUtils } from 'utils/serialization';
 function* loadPublicExaminerSaga(action: PayloadAction<number>) {
   try {
     const examinerId = action.payload;
-    const loadUrl = `${APIEndpoints.PublicEnrollmentContact}/${examinerId}`;
+    const loadUrl = `${APIEndpoints.PublicExaminer}/${examinerId}`;
 
     const response: AxiosResponse<PublicExaminerResponse> = yield call(
       axiosInstance.get,

@@ -33,7 +33,7 @@ public class PublicExaminerService {
   }
 
   private static PublicExaminerDTO toPublicExaminerDTO(Examiner examiner) {
-    List<ExamLanguage> languages = new ArrayList<>();
+    final List<ExamLanguage> languages = new ArrayList<>();
     if (examiner.isExamLanguageFinnish()) {
       languages.add(ExamLanguage.FI);
     }
@@ -70,5 +70,12 @@ public class PublicExaminerService {
       .stream()
       .map(PublicExaminerService::toPublicExaminerDTO)
       .collect(Collectors.toList());
+  }
+
+  @Transactional(readOnly = true)
+  public PublicExaminerDTO getExaminer(final long examinerId) {
+    final Examiner examiner = examinerRepository.getReferenceById(examinerId);
+
+    return toPublicExaminerDTO(examiner);
   }
 }

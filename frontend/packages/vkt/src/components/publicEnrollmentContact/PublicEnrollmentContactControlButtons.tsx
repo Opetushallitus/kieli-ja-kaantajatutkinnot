@@ -12,7 +12,10 @@ import { useAppDispatch } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentContactFormStep } from 'enums/publicEnrollment';
 import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
-import { loadPublicEnrollmentSave } from 'redux/reducers/publicEnrollmentContact';
+import {
+  loadPublicEnrollmentSave,
+  resetPublicEnrollmentContact,
+} from 'redux/reducers/publicEnrollmentContact';
 import { RouteUtils } from 'utils/routes';
 
 export const PublicEnrollmentContactControlButtons = ({
@@ -40,7 +43,8 @@ export const PublicEnrollmentContactControlButtons = ({
   const navigate = useNavigate();
 
   const handleCancelBtnClick = () => {
-    // FIXME
+    dispatch(resetPublicEnrollmentContact());
+    navigate(AppRoutes.PublicGoodAndSatisfactoryLevelLanding);
   };
 
   useEffect(() => {

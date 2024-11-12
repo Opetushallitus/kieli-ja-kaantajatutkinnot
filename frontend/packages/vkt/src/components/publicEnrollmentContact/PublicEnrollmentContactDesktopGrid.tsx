@@ -17,6 +17,7 @@ export const PublicEnrollmentContactDesktopGrid = ({
   activeStep,
   enrollment,
   isStepValid,
+  isLoading,
   showValidation,
   setIsStepValid,
   setShowValidation,
@@ -24,6 +25,7 @@ export const PublicEnrollmentContactDesktopGrid = ({
 }: {
   activeStep: PublicEnrollmentContactFormStep;
   isStepValid: boolean;
+  isLoading: boolean;
   enrollment: PublicEnrollmentContact;
   showValidation: boolean;
   setIsStepValid: (isValid: boolean) => void;
@@ -42,7 +44,7 @@ export const PublicEnrollmentContactDesktopGrid = ({
     <>
       <Grid className="public-enrollment__grid" item>
         <LoadingProgressIndicator
-          isLoading={false}
+          isLoading={isLoading}
           translateCommon={translateCommon}
           displayBlock={true}
         >

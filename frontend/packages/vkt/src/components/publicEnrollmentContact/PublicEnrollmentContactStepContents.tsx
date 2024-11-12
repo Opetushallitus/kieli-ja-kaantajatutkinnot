@@ -23,6 +23,7 @@ export const PublicEnrollmentContactStepContents = ({
           enrollment={enrollment}
           isLoading={false}
           setIsStepValid={setIsStepValid}
+          showValidation={showValidation}
           updatePublicEnrollment={updatePublicEnrollment}
         />
       );

@@ -96,6 +96,7 @@ export enum ExamLanguage {
 
 export enum ExamLevel {
   EXCELLENT = 'EXCELLENT',
+  GOOD_AND_SATISFACTORY = 'GOOD_AND_SATISFACTORY',
 }
 
 export enum ExamEventToggleFilter {

@@ -7,8 +7,9 @@ import {
   TableRow,
 } from '@mui/material';
 import { Fragment } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
-  CustomButtonLink,
+  CustomButton,
   CustomCircularProgress,
   CustomTable,
   H2,
@@ -27,6 +28,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, ExamLanguage } from 'enums/app';
 import { PublicExaminer } from 'interfaces/publicExaminer';
+import { resetPublicEnrollmentContact } from 'redux/reducers/publicEnrollmentContact';
 import { setPublicExaminerLanguageFilter } from 'redux/reducers/publicExaminer';
 import {
   publicExaminerSelector,
@@ -62,11 +64,19 @@ const DesktopExaminerRow = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicExaminerListing',
   });
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const appLanguage = getCurrentLang();
-  const contactRoute = AppRoutes.PublicEnrollmentContactContactDetails.replace(
-    ':examinerId',
-    id.toString(),
-  );
+
+  const handleOnClick = () => {
+    dispatch(resetPublicEnrollmentContact());
+    navigate(
+      AppRoutes.PublicEnrollmentContactContactDetails.replace(
+        ':examinerId',
+        id.toString(),
+      ),
+    );
+  };
 
   return (
     <TableRow sx={{ verticalAlign: 'text-top' }}>
@@ -100,13 +110,13 @@ const DesktopExaminerRow = ({
         </Text>
       </TableCell>
       <TableCell>
-        <CustomButtonLink
+        <CustomButton
           color={Color.Secondary}
           variant={Variant.Outlined}
-          to={contactRoute}
+          onClick={handleOnClick}
         >
           Ota yhteyttä
-        </CustomButtonLink>
+        </CustomButton>
       </TableCell>
     </TableRow>
   );
