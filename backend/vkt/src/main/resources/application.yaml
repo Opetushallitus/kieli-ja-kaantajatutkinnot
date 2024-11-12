@@ -87,8 +87,8 @@ app:
     service-url: ${email.service-url:null}
   koski:
     url: ${koski.url:null}
-    user: ${koski.user:null}
-    password: ${koski.password:null}
+    user: ${cas.username:null}
+    password: ${cas.password:null}
   payment:
     paytrail:
       url: https://services.paytrail.com
@@ -102,5 +102,5 @@ app:
   onr:
     service-url: ${onr.service-url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}
     cas:
-      username: ${onr.cas.username:vkt}
-      password: ${onr.cas.password:password}
+      username: ${cas.username:vkt}
+      password: ${cas.password:password}
