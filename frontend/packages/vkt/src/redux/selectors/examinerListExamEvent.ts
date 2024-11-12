@@ -6,9 +6,6 @@ import { ExaminerDetails } from 'interfaces/examinerDetails';
 import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 import { ExamEventUtils } from 'utils/examEvent';
 
-export const examinerListExamEventsSelector = (state: RootState) =>
-  state.clerkListExamEvent;
-
 export const selectFilteredExaminerExamEvents = createSelector(
   (state: RootState) => state.examinerDetails.examEventFilters.languageFilter,
   (state: RootState) => state.examinerDetails.examEventFilters.toggleFilter,
