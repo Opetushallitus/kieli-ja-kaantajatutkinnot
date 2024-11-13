@@ -36,15 +36,19 @@
           "part1": "Lisää tutkintotilaisuus tästä. Voit luoda joko yksityisen tutkintotilaisuuden tai VKT:n ilmoittautumissivulla julkisesti näkyvän tilaisuuden.",
           "part2": "Voit vaihtaa tutkintotilaisuuden julkisuusasetuksia myöhemmin."
         },
+        "incorrectDetailsDialog": {
+          "description": "Korjaa puuttuvat tai virheelliset tiedot:",
+          "title": "Tiedoissa on korjattavaa!"
+        },
         "heading": "Tutkintotilaisuuden lisääminen",
         "labels": {
           "addressDetails": "Osoitetiedot",
-          "examDate": "Tutkintopäivä *",
-          "examLanguage": "Tutkinnon kieli *",
-          "examLocation": "Tutkintopaikka *",
+          "date": "Tutkintopäivä",
           "examTime": "Kellonaika",
+          "language": "Tutkinnon kieli",
           "isPublic": "Näytä tutkintotilaisuus julkisesti",
           "maxParticipants": "Paikkojen lukumäärä",
+          "municipality": "Tutkintopaikka",
           "otherInformation": "Muut tiedot (esim. saapumisohjeet)",
           "registrationCloses": "Ilmoittautuminen sulkeutuu"
         },
@@ -52,6 +56,9 @@
           "confirmationEmail": "Osallistujalle lähtevässä vahvistussähköpostissa näkyvät tiedot",
           "other": "Muut tiedot",
           "publicInformation": "Julkisessa listauksessa näkyvät tiedot"
+        },
+        "toasts": {
+          "addingSucceeded": "Tutkintotilaisuuden lisäys onnistui"
         }
       },
       "examinerExamEventListing": {

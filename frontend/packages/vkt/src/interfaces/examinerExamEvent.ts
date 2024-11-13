@@ -1,4 +1,5 @@
 import { Dayjs } from 'dayjs';
+import { APIResponseStatus } from 'shared/enums';
 import { WithId, WithVersion } from 'shared/interfaces';
 
 import { ExamLanguage } from 'enums/app';
@@ -7,7 +8,6 @@ import {
   ClerkEnrollmentAppointmentResponse,
 } from 'interfaces/clerkEnrollment';
 import { MunicipalityCode } from 'interfaces/municipality';
-import { APIResponseStatus } from 'shared/enums';
 
 export interface ExaminerExamEventResponse
   extends Omit<
@@ -32,7 +32,8 @@ export interface ExaminerExamEvent extends WithId, WithVersion {
   enrollments: Array<ClerkEnrollmentAppointment>;
 }
 
-export interface ExaminerExamEventUpsert extends Omit<ExaminerExamEvent, 'id' | 'version' | 'enrollments'> {
+export interface ExaminerExamEventUpsert
+  extends Omit<ExaminerExamEvent, 'id' | 'version' | 'enrollments'> {
   id?: number;
 }
 

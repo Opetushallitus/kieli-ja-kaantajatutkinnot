@@ -12,6 +12,7 @@ import { watchExaminerDetails } from 'redux/sagas/examinerDetails';
 import { watchExaminerDetailsInit } from 'redux/sagas/examinerDetailsInit';
 import { watchExaminerDetailsUpsert } from 'redux/sagas/examinerDetailsUpsert';
 import { watchExaminerExamEventOverview } from 'redux/sagas/examinerExamEventOverview';
+import { watchExaminerExamEventUpsert } from 'redux/sagas/examinerExamEventUpsert';
 import { watchFeatureFlags } from 'redux/sagas/featureFlags';
 import { watchPublicEducation } from 'redux/sagas/publicEducation';
 import { watchPublicEnrollments } from 'redux/sagas/publicEnrollment';
@@ -46,5 +47,6 @@ export default function* rootSaga() {
     watchExaminerDetailsUpsert(),
     watchExaminerExamEventOverview(),
     watchListExaminers(),
+    watchExaminerExamEventUpsert(),
   ]);
 }

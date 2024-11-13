@@ -38,8 +38,8 @@ import {
   TextFieldVariant,
   Variant,
 } from 'shared/enums';
-import { useToast } from 'shared/hooks';
-import { DateUtils } from 'shared/utils';
+import { useDialog, useToast } from 'shared/hooks';
+import { DateUtils, StringUtils } from 'shared/utils';
 
 import {
   useCommonTranslation,
@@ -48,13 +48,12 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, ExamLanguage } from 'enums/app';
-import { resetClerkNewExamDate } from 'redux/reducers/clerkNewExamDate';
 import { loadExaminerDetails } from 'redux/reducers/examinerDetails';
 import {
   resetExaminerExamEventUpsert,
+  startExaminerExamEventUpsert,
   updateExaminerExamEventUpsert,
 } from 'redux/reducers/examinerExamEventUpsert';
-import { clerkNewExamDateSelector } from 'redux/selectors/clerkNewExamDate';
 import { examinerDetailsSelector } from 'redux/selectors/examinerDetails';
 import { examinerExamEventUpsertSelector } from 'redux/selectors/examinerExamEventUpsert';
 import { ExamCreateEventUtils } from 'utils/examCreateEvent';
@@ -76,22 +75,102 @@ const BackButton = () => {
   );
 };
 
+interface InputFieldValidation {
+  language: string;
+  municipality: string;
+  date: string;
+  maxParticipants: string;
+}
+
+const useExaminerExamEventUpsertErrors = (
+  showErrors: boolean,
+): InputFieldValidation => {
+  const { examEvent } = useAppSelector(examinerExamEventUpsertSelector);
+  if (showErrors) {
+    return {
+      language: examEvent.language ? '' : CustomTextFieldErrors.Required,
+      municipality: examEvent.municipality
+        ? ''
+        : CustomTextFieldErrors.Required,
+      date: examEvent.date ? '' : CustomTextFieldErrors.Required,
+      maxParticipants: ExamCreateEventUtils.maxParticipantsHasError(
+        examEvent.maxParticipants !== undefined,
+        examEvent.maxParticipants,
+      )
+        ? 'errors.customTextField.numberFormat'
+        : '',
+    };
+  } else {
+    return {
+      language: '',
+      municipality: '',
+      date: '',
+      maxParticipants: '',
+    };
+  }
+};
+
 type SaveButtonProps = {
   disabled: boolean;
-  onSave: () => void;
+  setShowErrors: (v: boolean) => void;
 };
-const SaveButton = ({ disabled, onSave }: SaveButtonProps) => {
+
+const SaveButton = ({ disabled, setShowErrors }: SaveButtonProps) => {
+  const errors = useExaminerExamEventUpsertErrors(true);
+  const hasErrors = !!Object.values(errors).find((errorMsg) =>
+    StringUtils.isNonBlankString(errorMsg),
+  );
+  const { status } = useAppSelector(examinerExamEventUpsertSelector);
   const translateCommon = useCommonTranslation();
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.examinerExamEventCreate',
+  });
+  const { showDialog } = useDialog();
+  const dispatch = useAppDispatch();
+
+  const onSave = () => {
+    if (hasErrors) {
+      const dialogContent = (
+        <div>
+          <Text>{t('incorrectDetailsDialog.description')}</Text>
+          <ul>
+            {Object.entries(errors)
+              .filter(([_, val]) => val)
+              .map(([field, _]) => (
+                <li key={field}>
+                  <Text>{t(`labels.${field}`)}</Text>
+                </li>
+              ))}
+          </ul>
+        </div>
+      );
+      setShowErrors(true);
+      showDialog({
+        title: t('incorrectDetailsDialog.title'),
+        severity: Severity.Error,
+        content: dialogContent,
+        actions: [
+          { title: translateCommon('back'), variant: Variant.Contained },
+        ],
+      });
+    } else {
+      dispatch(startExaminerExamEventUpsert());
+    }
+  };
+
+  const isLoading = status === APIResponseStatus.InProgress;
 
   return (
-    <CustomButton
-      variant={Variant.Contained}
-      color={Color.Secondary}
-      disabled={disabled}
-      onClick={onSave}
-    >
-      {translateCommon('save')}
-    </CustomButton>
+    <LoadingProgressIndicator isLoading={isLoading}>
+      <CustomButton
+        variant={Variant.Contained}
+        color={Color.Secondary}
+        disabled={disabled}
+        onClick={onSave}
+      >
+        {translateCommon('save')}
+      </CustomButton>
+    </LoadingProgressIndicator>
   );
 };
 
@@ -145,7 +224,7 @@ const SelectLanguage = ({ showErrors }: { showErrors: boolean }) => {
       <div className="rows gapped-sm">
         <FormLabel component="legend">
           <Text className={hasRadioButtonError ? 'error-label' : undefined}>
-            <b>{t('labels.examLanguage')}</b>
+            <b>{`${t('labels.language')} *`}</b>
           </Text>
         </FormLabel>
         <RadioGroup
@@ -215,8 +294,8 @@ const SelectMunicipality = ({ showErrors }: { showErrors: boolean }) => {
   return (
     <div className="examiner-exam-event-page__select-municipality">
       <LabeledComboBox
-        id="examiner-exam-event-create__exam-location"
-        label={t('labels.examLocation')}
+        id="examiner-exam-event-create__exam-municipality"
+        label={`${t('labels.municipality')} *`}
         helperText={translateCommon(CustomTextFieldErrors.Required)}
         showError={showErrors && !municipality}
         variant={TextFieldVariant.Outlined}
@@ -259,7 +338,7 @@ const SelectDate = ({ showErrors }: { showErrors: boolean }) => {
         className={error ? 'error-label' : ''}
         htmlFor="examiner-exam-event-create__exam-date"
       >
-        {t('labels.examDate')}
+        {`${t('labels.date')} *`}
       </Typography>
       <CustomDatePicker
         id="examiner-exam-event-create__exam-date"
@@ -457,20 +536,7 @@ export const ExaminerExamEventCreatePage: FC = () => {
 
   // TODO Support creating and editing exam event details on same page?
 
-  // TODO Listen to actual examiner exam event create status
-  const { status, id } = useAppSelector(clerkNewExamDateSelector);
-  useEffect(() => {
-    if (status === APIResponseStatus.Success) {
-      showToast({
-        severity: Severity.Success,
-        description: t('toasts.addingSucceeded'),
-      });
-      navigate(
-        AppRoutes.ClerkExamEventOverviewPage.replace(/:examEventId/, `${id}`),
-      );
-      dispatch(resetClerkNewExamDate());
-    }
-  }, [showToast, t, status, navigate, id, dispatch]);
+  const { status, examEvent } = useAppSelector(examinerExamEventUpsertSelector);
 
   const { oid, status: examinerStatus } = useAppSelector(
     examinerDetailsSelector,
@@ -480,6 +546,23 @@ export const ExaminerExamEventCreatePage: FC = () => {
       dispatch(loadExaminerDetails(oid));
     }
   });
+
+  useEffect(() => {
+    if (status === APIResponseStatus.Success && oid && examEvent.id) {
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.addingSucceeded'),
+      });
+      navigate(
+        AppRoutes.ExaminerExamEventPage.replace(/:oid/, oid).replace(
+          /:examEventId/,
+          `${examEvent.id}`,
+        ),
+      );
+      dispatch(resetExaminerExamEventUpsert());
+    }
+  }, [showToast, t, status, navigate, oid, examEvent.id, dispatch]);
+
   const [showErrors, setShowErrors] = useState(false);
   const isLoading = status === APIResponseStatus.InProgress;
   const isSavingDisabled = isLoading;
@@ -490,12 +573,6 @@ export const ExaminerExamEventCreatePage: FC = () => {
       dispatch(resetExaminerExamEventUpsert());
     };
   }, [dispatch]);
-
-  const onSave = () => {
-    // eslint-disable-next-line no-console
-    console.log('Tallennetaan...');
-    setShowErrors(true);
-  };
 
   return (
     <Box className="examiner-exam-event-page">
@@ -544,7 +621,10 @@ export const ExaminerExamEventCreatePage: FC = () => {
             </div>
             <div className="columns flex-end">
               <LoadingProgressIndicator isLoading={isLoading}>
-                <SaveButton disabled={isSavingDisabled} onSave={onSave} />
+                <SaveButton
+                  disabled={isSavingDisabled}
+                  setShowErrors={setShowErrors}
+                />
               </LoadingProgressIndicator>
             </div>
           </Paper>
