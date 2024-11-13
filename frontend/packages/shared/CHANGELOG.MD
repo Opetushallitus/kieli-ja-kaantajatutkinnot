@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - LabeledTextField accepts an optional className argument
 - sortOptionsByLabels accepts an optional locale argument; if not supplied, 'fi-FI' is used by default
+- Preliminary, minimal (validation) support for <input type="time" ../>
 
 ## [1.11.5] - 2024-09-27
 

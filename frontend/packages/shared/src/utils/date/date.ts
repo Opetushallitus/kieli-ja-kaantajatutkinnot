@@ -102,4 +102,11 @@ export class DateUtils {
       return date;
     }
   }
+
+  static parseTimeString(timeString: string) {
+    const date = dayjs(timeString, ['H:mm', 'HH:mm'], true);
+    if (date.isValid()) {
+      return date;
+    }
+  }
 }

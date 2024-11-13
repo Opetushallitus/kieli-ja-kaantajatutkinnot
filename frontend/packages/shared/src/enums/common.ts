@@ -113,6 +113,7 @@ export enum TextFieldTypes {
   Textarea = 'textarea',
   PersonalIdentityCode = 'personalIdentityCode',
   Date = 'date',
+  Time = 'time',
 }
 
 export enum TextFieldVariant {
