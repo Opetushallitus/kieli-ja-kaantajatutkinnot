@@ -11,7 +11,7 @@ import {
   RadioGroup,
   Typography,
 } from '@mui/material';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import {
@@ -32,13 +32,14 @@ import {
   APIResponseStatus,
   Color,
   CustomTextFieldErrors,
+  InputAutoComplete,
   Severity,
   TextFieldTypes,
   TextFieldVariant,
   Variant,
 } from 'shared/enums';
 import { useToast } from 'shared/hooks';
-import { ComboBoxOption } from 'shared/interfaces';
+import { DateUtils } from 'shared/utils';
 
 import {
   useCommonTranslation,
@@ -49,8 +50,13 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, ExamLanguage } from 'enums/app';
 import { resetClerkNewExamDate } from 'redux/reducers/clerkNewExamDate';
 import { loadExaminerDetails } from 'redux/reducers/examinerDetails';
+import {
+  resetExaminerExamEventUpsert,
+  updateExaminerExamEventUpsert,
+} from 'redux/reducers/examinerExamEventUpsert';
 import { clerkNewExamDateSelector } from 'redux/selectors/clerkNewExamDate';
 import { examinerDetailsSelector } from 'redux/selectors/examinerDetails';
+import { examinerExamEventUpsertSelector } from 'redux/selectors/examinerExamEventUpsert';
 import { ExamCreateEventUtils } from 'utils/examCreateEvent';
 import { municipalityToOption } from 'utils/municipality';
 
@@ -94,7 +100,10 @@ const SelectIsPublic = () => {
     keyPrefix: 'vkt.component.examinerExamEventCreate',
   });
   const translateCommon = useCommonTranslation();
-  const [isPublic, setIsPublic] = useState(false);
+  const { isHidden } = useAppSelector(
+    examinerExamEventUpsertSelector,
+  ).examEvent;
+  const dispatch = useAppDispatch();
 
   return (
     <div className="examiner-exam-event-page__is-public">
@@ -108,9 +117,9 @@ const SelectIsPublic = () => {
           <CustomSwitch
             leftLabel={translateCommon('no')}
             rightLabel={translateCommon('yes')}
-            value={isPublic}
+            value={!isHidden}
             onChange={(_, checked) => {
-              setIsPublic(checked);
+              dispatch(updateExaminerExamEventUpsert({ isHidden: !checked }));
             }}
           />
         </div>
@@ -124,20 +133,30 @@ const SelectLanguage = ({ showErrors }: { showErrors: boolean }) => {
     keyPrefix: 'vkt.component.examinerExamEventCreate',
   });
   const translateCommon = useCommonTranslation();
-  const [examLanguage, setExamLanguage] = useState<ExamLanguage | ''>('');
-  const hasRadioButtonError = showErrors && examLanguage === '';
+  const { language } = useAppSelector(
+    examinerExamEventUpsertSelector,
+  ).examEvent;
+  const dispatch = useAppDispatch();
+
+  const hasRadioButtonError = showErrors && !language;
 
   return (
     <FormControl component="fieldset">
       <div className="rows gapped-sm">
-        <FormLabel component="legend" className="heading-label">
-          {t('labels.examLanguage')}
+        <FormLabel component="legend">
+          <Text className={hasRadioButtonError ? 'error-label' : undefined}>
+            <b>{t('labels.examLanguage')}</b>
+          </Text>
         </FormLabel>
         <RadioGroup
           name="examiner-exam-event-create__exam-language--radio-group"
-          value={examLanguage}
+          value={language || ''}
           onChange={(_, v) => {
-            setExamLanguage(v as ExamLanguage);
+            dispatch(
+              updateExaminerExamEventUpsert({
+                language: v as Exclude<ExamLanguage, ExamLanguage.ALL>,
+              }),
+            );
           }}
         >
           <div className="columns gapped">
@@ -147,7 +166,7 @@ const SelectLanguage = ({ showErrors }: { showErrors: boolean }) => {
                 <Radio aria-describedby="examiner-exam-event-create__exam-language--error" />
               }
               label={translateCommon(`examLanguage.${ExamLanguage.FI}`)}
-              checked={examLanguage === ExamLanguage.FI}
+              checked={language === ExamLanguage.FI}
               className={`margin-left-sm ${
                 hasRadioButtonError && 'checkbox-error'
               }`}
@@ -158,7 +177,7 @@ const SelectLanguage = ({ showErrors }: { showErrors: boolean }) => {
                 <Radio aria-describedby="examiner-exam-event-create__exam-language--error" />
               }
               label={translateCommon(`examLanguage.${ExamLanguage.SV}`)}
-              checked={examLanguage === ExamLanguage.SV}
+              checked={language === ExamLanguage.SV}
               className={`margin-left-sm ${
                 hasRadioButtonError && 'checkbox-error'
               }`}
@@ -185,7 +204,10 @@ const SelectMunicipality = ({ showErrors }: { showErrors: boolean }) => {
   const translateCommon = useCommonTranslation();
   const translateMunicipality = useKoodistoMunicipalitiesTranslation();
   const { examiner } = useAppSelector(examinerDetailsSelector);
-  const [municipality, setMunicipality] = useState<ComboBoxOption | null>(null);
+  const { municipality } = useAppSelector(
+    examinerExamEventUpsertSelector,
+  ).examEvent;
+  const dispatch = useAppDispatch();
   if (!examiner) {
     return null;
   }
@@ -198,15 +220,21 @@ const SelectMunicipality = ({ showErrors }: { showErrors: boolean }) => {
         helperText={translateCommon(CustomTextFieldErrors.Required)}
         showError={showErrors && !municipality}
         variant={TextFieldVariant.Outlined}
-        value={municipality}
+        value={
+          municipality
+            ? municipalityToOption(municipality, translateMunicipality)
+            : null
+        }
         values={sortOptionsByLabels(
           examiner.municipalities.map((v) =>
             municipalityToOption(v, translateMunicipality),
           ),
         )}
         onChange={(v) => {
-          setMunicipality(
-            v ? municipalityToOption({ code: v }, translateMunicipality) : null,
+          dispatch(
+            updateExaminerExamEventUpsert({
+              municipality: v ? { code: v } : undefined,
+            }),
           );
         }}
       />
@@ -219,24 +247,31 @@ const SelectDate = ({ showErrors }: { showErrors: boolean }) => {
     keyPrefix: 'vkt.component.examinerExamEventCreate',
   });
   const translateCommon = useCommonTranslation();
-  const [examDate, setExamDate] = useState<Dayjs | null>(null);
+  const { date } = useAppSelector(examinerExamEventUpsertSelector).examEvent;
+  const dispatch = useAppDispatch();
+  const error = showErrors && !date;
 
   return (
-    <div className="rows gapped-sm">
+    <div className="rows gapped-sm examiner-exam-event-page__select-exam-date">
       <Typography
         component="label"
         variant="h3"
+        className={error ? 'error-label' : ''}
         htmlFor="examiner-exam-event-create__exam-date"
       >
         {t('labels.examDate')}
       </Typography>
       <CustomDatePicker
         id="examiner-exam-event-create__exam-date"
-        error={showErrors && !examDate}
+        error={error}
         minDate={dayjs()}
-        setValue={setExamDate}
+        setValue={(v) => {
+          dispatch(updateExaminerExamEventUpsert({ date: v || undefined }));
+        }}
         label={translateCommon('choose')}
-        value={examDate}
+        value={date || null}
+        showHelperText={error}
+        helperText={error && translateCommon(CustomTextFieldErrors.Required)}
       />
     </div>
   );
@@ -246,12 +281,26 @@ const ExamTime = () => {
   const { t } = useExaminerTranslation({
     keyPrefix: 'vkt.component.examinerExamEventCreate',
   });
+  const { examTime } = useAppSelector(
+    examinerExamEventUpsertSelector,
+  ).examEvent;
+  const dispatch = useAppDispatch();
 
   return (
     <LabeledTextField
       id="examiner-exam-event-create__exam-time"
       className="rows gapped-sm"
       label={t('labels.examTime')}
+      type="time"
+      value={examTime || ''}
+      onChange={(event) => {
+        const input = event.target.value;
+        if (DateUtils.parseTimeString(input)) {
+          dispatch(updateExaminerExamEventUpsert({ examTime: input }));
+        } else {
+          dispatch(updateExaminerExamEventUpsert({ examTime: undefined }));
+        }
+      }}
     />
   );
 };
@@ -260,12 +309,25 @@ const AddressDetails = () => {
   const { t } = useExaminerTranslation({
     keyPrefix: 'vkt.component.examinerExamEventCreate',
   });
+  const { addressDetails } = useAppSelector(
+    examinerExamEventUpsertSelector,
+  ).examEvent;
+  const dispatch = useAppDispatch();
 
   return (
     <LabeledTextField
       id="examiner-exam-event-create__address-details"
       className="rows gapped-sm"
       label={t('labels.addressDetails')}
+      value={addressDetails || ''}
+      autoComplete={`work ${InputAutoComplete.Street}`}
+      onChange={(event) => {
+        dispatch(
+          updateExaminerExamEventUpsert({
+            addressDetails: event.target.value,
+          }),
+        );
+      }}
     />
   );
 };
@@ -274,12 +336,24 @@ const OtherDetails = () => {
   const { t } = useExaminerTranslation({
     keyPrefix: 'vkt.component.examinerExamEventCreate',
   });
+  const { otherDetails } = useAppSelector(
+    examinerExamEventUpsertSelector,
+  ).examEvent;
+  const dispatch = useAppDispatch();
 
   return (
     <LabeledTextField
       id="examiner-exam-event-create__other-details"
       className="rows gapped-sm"
       label={t('labels.otherDetails')}
+      value={otherDetails || ''}
+      onChange={(event) => {
+        dispatch(
+          updateExaminerExamEventUpsert({
+            otherDetails: event.target.value,
+          }),
+        );
+      }}
     />
   );
 };
@@ -289,9 +363,10 @@ const SelectRegistrationClosingDate = () => {
     keyPrefix: 'vkt.component.examinerExamEventCreate',
   });
   const translateCommon = useCommonTranslation();
-  const [registrationCloses, setRegistrationCloses] = useState<Dayjs | null>(
-    null,
-  );
+  const { registrationCloses } = useAppSelector(
+    examinerExamEventUpsertSelector,
+  ).examEvent;
+  const dispatch = useAppDispatch();
 
   return (
     <div className="rows gapped-sm">
@@ -305,9 +380,15 @@ const SelectRegistrationClosingDate = () => {
       <CustomDatePicker
         id="examiner-exam-event-create__registration-closes"
         minDate={dayjs()}
-        setValue={setRegistrationCloses}
+        setValue={(v) => {
+          dispatch(
+            updateExaminerExamEventUpsert({
+              registrationCloses: v || undefined,
+            }),
+          );
+        }}
         label={translateCommon('choose')}
-        value={registrationCloses}
+        value={registrationCloses || null}
       />
     </div>
   );
@@ -318,17 +399,12 @@ const SelectMaxParticipants = ({ showErrors }: { showErrors: boolean }) => {
     keyPrefix: 'vkt.component.examinerExamEventCreate',
   });
   const translateCommon = useCommonTranslation();
-  const [maxParticipants, setMaxParticipants] = useState<number | undefined>(
-    undefined,
-  );
-
-  const getErrorText = (value: number | undefined): string => {
-    return value === undefined
-      ? translateCommon('errors.customTextField.required')
-      : translateCommon('errors.customTextField.numberFormat');
-  };
+  const { maxParticipants } = useAppSelector(
+    examinerExamEventUpsertSelector,
+  ).examEvent;
+  const dispatch = useAppDispatch();
   const maxParticipantsError = ExamCreateEventUtils.maxParticipantsHasError(
-    showErrors,
+    showErrors && maxParticipants !== undefined,
     maxParticipants,
   );
 
@@ -337,6 +413,7 @@ const SelectMaxParticipants = ({ showErrors }: { showErrors: boolean }) => {
       <Typography
         component="label"
         variant="h3"
+        className={maxParticipantsError ? 'error-label' : ''}
         htmlFor="examiner-exam-event-create__max-participants"
       >
         {t('labels.maxParticipants')}
@@ -349,12 +426,19 @@ const SelectMaxParticipants = ({ showErrors }: { showErrors: boolean }) => {
         value={maxParticipants ?? ''}
         error={maxParticipantsError}
         showHelperText={maxParticipantsError}
-        helperText={getErrorText(maxParticipants)}
+        helperText={
+          maxParticipantsError
+            ? translateCommon('errors.customTextField.numberFormat')
+            : ''
+        }
         variant={TextFieldVariant.Outlined}
         onChange={(event) => {
           const value = Number(event.target.value);
-          setMaxParticipants(
-            isNaN(value) || event.target.value === '' ? undefined : value,
+          dispatch(
+            updateExaminerExamEventUpsert({
+              maxParticipants:
+                isNaN(value) || event.target.value === '' ? undefined : value,
+            }),
           );
         }}
       />
@@ -370,6 +454,8 @@ export const ExaminerExamEventCreatePage: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { showToast } = useToast();
+
+  // TODO Support creating and editing exam event details on same page?
 
   // TODO Listen to actual examiner exam event create status
   const { status, id } = useAppSelector(clerkNewExamDateSelector);
@@ -398,13 +484,18 @@ export const ExaminerExamEventCreatePage: FC = () => {
   const isLoading = status === APIResponseStatus.InProgress;
   const isSavingDisabled = isLoading;
 
+  // Reset state on unmount
+  useEffect(() => {
+    return () => {
+      dispatch(resetExaminerExamEventUpsert());
+    };
+  }, [dispatch]);
+
   const onSave = () => {
     // eslint-disable-next-line no-console
     console.log('Tallennetaan...');
     setShowErrors(true);
   };
-
-  // TODO Toggle form error status on submit
 
   return (
     <Box className="examiner-exam-event-page">

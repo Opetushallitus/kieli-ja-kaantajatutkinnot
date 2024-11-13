@@ -7,6 +7,7 @@ import {
   ClerkEnrollmentAppointmentResponse,
 } from 'interfaces/clerkEnrollment';
 import { MunicipalityCode } from 'interfaces/municipality';
+import { APIResponseStatus } from 'shared/enums';
 
 export interface ExaminerExamEventResponse
   extends Omit<
@@ -27,4 +28,16 @@ export interface ExaminerExamEvent extends WithId, WithVersion {
   maxParticipants?: number;
   registrationCloses?: Dayjs;
   enrollments: Array<ClerkEnrollmentAppointment>;
+}
+
+export interface ExaminerExamEventUpsert extends Omit<ExaminerExamEvent, 'id' | 'version' | 'enrollments'> {
+  id?: number;
+  examTime?: string;
+  addressDetails?: string;
+  otherDetails?: string;
+}
+
+export interface ExaminerExamEventUpsertState {
+  status: APIResponseStatus;
+  examEvent: Partial<ExaminerExamEventUpsert>;
 }

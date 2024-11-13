@@ -24,10 +24,15 @@
     }
   }
 
-  & &__select-municipality {
+  & &__select-municipality,
+  & &__select-exam-date {
     // stylelint-disable-next-line
     > div.MuiFormControl-root {
       gap: 0.5rem;
     }
+  }
+
+  .error-label {
+    color: $color-red-500;
   }
 }
