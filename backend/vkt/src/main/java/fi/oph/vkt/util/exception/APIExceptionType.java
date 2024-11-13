@@ -41,7 +41,9 @@ public enum APIExceptionType {
   APPOINTMENT_ID_MISMATCH,
   EXAMINER_ALREADY_INITIALIZED,
   EXAMINER_ONR_NOT_FOUND,
-  EXAMINER_NOT_FOUND;
+  EXAMINER_NOT_FOUND,
+  EXAMINER_EXAM_EVENT_NOT_FOUND,
+  EXAMINER_MUNICIPALITY_MISMATCH;
 
   public String getCode() {
     final StringBuilder codeBuilder = new StringBuilder();

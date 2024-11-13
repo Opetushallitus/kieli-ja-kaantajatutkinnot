@@ -309,7 +309,7 @@ const AddressDetails = () => {
   const { t } = useExaminerTranslation({
     keyPrefix: 'vkt.component.examinerExamEventCreate',
   });
-  const { addressDetails } = useAppSelector(
+  const { location } = useAppSelector(
     examinerExamEventUpsertSelector,
   ).examEvent;
   const dispatch = useAppDispatch();
@@ -319,12 +319,12 @@ const AddressDetails = () => {
       id="examiner-exam-event-create__address-details"
       className="rows gapped-sm"
       label={t('labels.addressDetails')}
-      value={addressDetails || ''}
+      value={location || ''}
       autoComplete={`work ${InputAutoComplete.Street}`}
       onChange={(event) => {
         dispatch(
           updateExaminerExamEventUpsert({
-            addressDetails: event.target.value,
+            location: event.target.value,
           }),
         );
       }}
@@ -332,11 +332,11 @@ const AddressDetails = () => {
   );
 };
 
-const OtherDetails = () => {
+const OtherInformation = () => {
   const { t } = useExaminerTranslation({
     keyPrefix: 'vkt.component.examinerExamEventCreate',
   });
-  const { otherDetails } = useAppSelector(
+  const { otherInformation } = useAppSelector(
     examinerExamEventUpsertSelector,
   ).examEvent;
   const dispatch = useAppDispatch();
@@ -345,12 +345,12 @@ const OtherDetails = () => {
     <LabeledTextField
       id="examiner-exam-event-create__other-details"
       className="rows gapped-sm"
-      label={t('labels.otherDetails')}
-      value={otherDetails || ''}
+      label={t('labels.otherInformation')}
+      value={otherInformation || ''}
       onChange={(event) => {
         dispatch(
           updateExaminerExamEventUpsert({
-            otherDetails: event.target.value,
+            otherInformation: event.target.value,
           }),
         );
       }}
@@ -532,7 +532,7 @@ export const ExaminerExamEventCreatePage: FC = () => {
               <div className="grid-3-columns gapped">
                 <ExamTime />
                 <AddressDetails />
-                <OtherDetails />
+                <OtherInformation />
               </div>
             </div>
             <div className="rows gapped">

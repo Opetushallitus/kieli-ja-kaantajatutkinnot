@@ -45,7 +45,7 @@
           "examTime": "Kellonaika",
           "isPublic": "Näytä tutkintotilaisuus julkisesti",
           "maxParticipants": "Paikkojen lukumäärä",
-          "otherDetails": "Muut tiedot (esim. saapumisohjeet)",
+          "otherInformation": "Muut tiedot (esim. saapumisohjeet)",
           "registrationCloses": "Ilmoittautuminen sulkeutuu"
         },
         "sections": {

@@ -14,7 +14,6 @@ import lombok.Setter;
 @MappedSuperclass
 public class ExamEventCommon extends BaseEntity {
 
-  // TODO Is it ok to assume ExaminerExamEvents also have exactly one language?
   @Column(name = "language", nullable = false)
   @Enumerated(value = EnumType.STRING)
   private ExamLanguage language;

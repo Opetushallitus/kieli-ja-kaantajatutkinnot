@@ -1147,4 +1147,11 @@
                 referencedTableName="enrollment_appointment"
                 referencedColumnNames="enrollment_appointment_id"/>
     </changeSet>
+    <changeSet id="2024-11-13-examiner_exam_event-new-columns" author="pkoivisto">
+        <addColumn tableName="examiner_exam_event">
+            <column name="exam_time" type="text" />
+            <column name="other_information" type="text" />
+        </addColumn>
+        <dropNotNullConstraint tableName="examiner_exam_event" columnName="location" />
+    </changeSet>
 </databaseChangeLog>

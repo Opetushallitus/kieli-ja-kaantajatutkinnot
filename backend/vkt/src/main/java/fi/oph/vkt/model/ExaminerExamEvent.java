@@ -22,18 +22,24 @@ public class ExaminerExamEvent extends ExamEventCommon {
   @JoinColumn(name = "examiner_id", referencedColumnName = "examiner_id")
   private Examiner examiner;
 
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "municipality_id", referencedColumnName = "municipality_id", nullable = false)
+  private Municipality municipality;
+
   @Column(name = "registration_closes")
   private LocalDateTime registrationCloses;
 
   @Column(name = "max_participants")
   private Long maxParticipants;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "municipality_id", referencedColumnName = "municipality_id", nullable = false)
-  private Municipality municipality;
-
-  @Column(name = "location", nullable = false)
+  @Column(name = "location")
   private String location;
+
+  @Column(name = "other_information")
+  private String otherInformation;
+
+  @Column(name = "exam_time")
+  private String examTime;
 
   @OneToMany(mappedBy = "examinerExamEvent")
   private List<EnrollmentAppointment> enrollments = new ArrayList<>();

@@ -23,8 +23,10 @@ export interface ExaminerExamEvent extends WithId, WithVersion {
   date: Dayjs;
   language: Exclude<ExamLanguage, ExamLanguage.ALL>;
   municipality: MunicipalityCode;
-  location: string;
   isHidden: boolean;
+  location?: string;
+  examTime?: string;
+  otherInformation?: string;
   maxParticipants?: number;
   registrationCloses?: Dayjs;
   enrollments: Array<ClerkEnrollmentAppointment>;
@@ -32,9 +34,6 @@ export interface ExaminerExamEvent extends WithId, WithVersion {
 
 export interface ExaminerExamEventUpsert extends Omit<ExaminerExamEvent, 'id' | 'version' | 'enrollments'> {
   id?: number;
-  examTime?: string;
-  addressDetails?: string;
-  otherDetails?: string;
 }
 
 export interface ExaminerExamEventUpsertState {
