@@ -186,21 +186,21 @@ CREATE TABLE public.enrollment_appointment (
     auth_hash text,
     email text,
     phone_number text,
+    first_name text,
+    last_name text,
     street text,
     postal_code text,
     town text,
     country text,
     person_id bigint,
-    first_name text,
-    last_name text,
-    examiner_id bigint,
-    grade_id bigint,
-    examiner_exam_event_id bigint,
+    payment_link_hash text,
+    auth_hash_expires timestamp with time zone,
+    auth_hash_sent timestamp with time zone,
     previous_enrollment text,
     message text,
-    payment_link_hash text,
-    auth_hash_expires date,
-    auth_hash_sent date
+    grade_id bigint,
+    examiner_id bigint,
+    examiner_exam_event_id bigint
 );
 
 
@@ -305,7 +305,6 @@ CREATE TABLE public.exam_event (
     is_hidden boolean NOT NULL,
     max_participants integer NOT NULL,
     registration_opens timestamp with time zone NOT NULL,
-    examiner_id bigint,
     CONSTRAINT ck_exam_event_max_participants CHECK ((max_participants >= 0))
 );
 
@@ -575,7 +574,7 @@ CREATE TABLE public.payment (
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     modified_at timestamp with time zone DEFAULT now() NOT NULL,
     deleted_at timestamp with time zone,
-    enrollment_id bigint NOT NULL,
+    enrollment_id bigint,
     amount integer NOT NULL,
     transaction_id text,
     reference text,
@@ -1021,11 +1020,11 @@ ALTER TABLE ONLY public.enrollment
 
 
 --
--- Name: exam_event uk_exam_event_language_level_date_examiner; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: exam_event uk_exam_event_language_level_date; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.exam_event
-    ADD CONSTRAINT uk_exam_event_language_level_date_examiner UNIQUE NULLS NOT DISTINCT (language, level, date, examiner_id);
+    ADD CONSTRAINT uk_exam_event_language_level_date UNIQUE (language, level, date);
 
 
 --
@@ -1147,14 +1146,6 @@ ALTER TABLE ONLY public.enrollment
 
 
 --
--- Name: exam_event fk_exam_event_examiner_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.exam_event
-    ADD CONSTRAINT fk_exam_event_examiner_id FOREIGN KEY (examiner_id) REFERENCES public.examiner(examiner_id);
-
-
---
 -- Name: exam_event fk_exam_event_language; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1240,6 +1231,14 @@ ALTER TABLE ONLY public.koski_educations
 
 ALTER TABLE ONLY public.payment
     ADD CONSTRAINT fk_payment_enrollment FOREIGN KEY (enrollment_id) REFERENCES public.enrollment(enrollment_id);
+
+
+--
+-- Name: payment fk_payment_enrollment_appointment_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.payment
+    ADD CONSTRAINT fk_payment_enrollment_appointment_id FOREIGN KEY (enrollment_appointment_id) REFERENCES public.enrollment_appointment(enrollment_appointment_id);
 
 
 --

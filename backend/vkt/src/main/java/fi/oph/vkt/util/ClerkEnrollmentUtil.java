@@ -161,19 +161,21 @@ public class ClerkEnrollmentUtil {
       .sorted(Comparator.comparing(ClerkPaymentDTO::createdAt).reversed())
       .toList();
 
-    final ExaminerAuthLinkDTO examinerAuthLinkDTO = ExaminerAuthLinkDTO
-      .builder()
-      .url(
-        String.format(
-          "%s/enrollment/appointment/%d/redirect/%s",
-          baseUrlAPI,
-          enrollmentAppointment.getId(),
-          enrollmentAppointment.getAuthHash()
+    final ExaminerAuthLinkDTO examinerAuthLinkDTO = enrollmentAppointment.getAuthHash() != null
+      ? ExaminerAuthLinkDTO
+        .builder()
+        .url(
+          String.format(
+            "%s/enrollment/appointment/%d/redirect/%s",
+            baseUrlAPI,
+            enrollmentAppointment.getId(),
+            enrollmentAppointment.getAuthHash()
+          )
         )
-      )
-      .expiresAt(enrollmentAppointment.getExpiresAt())
-      .sentAt(enrollmentAppointment.getSentAt())
-      .build();
+        .expiresAt(enrollmentAppointment.getExpiresAt())
+        .sentAt(enrollmentAppointment.getSentAt())
+        .build()
+      : null;
 
     final ExaminerExamEventDTO examinerExamEventDTO = enrollmentAppointment.getExaminerExamEvent() != null
       ? ExaminerUtil.toExaminerExamEventWithoutEnrollmentsDTO(enrollmentAppointment.getExaminerExamEvent())

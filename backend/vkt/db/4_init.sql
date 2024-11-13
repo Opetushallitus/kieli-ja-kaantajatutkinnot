@@ -408,11 +408,11 @@ VALUES (1, 1);
 INSERT INTO examiner_exam_event(version, date, language, examiner_id, is_hidden, registration_closes, max_participants, municipality_id, location)
 VALUES (
   1,
-  now() + interval '5 weeks',
+  NOW() + INTERVAL '5 weeks',
   'FI',
   1,
   false,
-  now() + interval '2 weeks',
+  NOW() + INTERVAL '2 weeks',
   10,
   1,
   'tylypahka'
@@ -423,22 +423,26 @@ INSERT INTO enrollment_appointment(person_id, examiner_id,
                        skill_oral, skill_textual, skill_understanding,
                        partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
                        status, digital_certificate_consent, email, phone_number, street, postal_code, town, country,
-                       first_name, last_name, message, previous_enrollment)
+                       first_name, last_name, message, previous_enrollment,
+                       auth_hash, auth_hash_expires, auth_hash_sent)
 VALUES (null, 1,
        true, true, true,
        true, true, true, true,
        'CONTACT_CREATED', false,
        'foo@bar.invalid', '0404040404', null, null, null, null,
-       'Teppo', 'Testaaja', 'Tämä on viesti', 'Edellinen ilmoittautuminen vuonna 1999');
+       'Teppo', 'Testaaja', 'Tämä on viesti', 'Edellinen ilmoittautuminen vuonna 1999',
+       null, null, null);
 
 -- Insert enrollment appointment
 INSERT INTO enrollment_appointment(person_id, examiner_id, examiner_exam_event_id,
                        skill_oral, skill_textual, skill_understanding,
                        partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
-                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country, first_name, last_name)
+                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country, first_name, last_name,
+                       auth_hash, auth_hash_expires, auth_hash_sent)
 VALUES (1, 1, 1,
        true, true, true,
        true, true, true, true,
        'WAITING_AUTHENTICATION', false,
        'foo@bar.invalid', '0404040404', null, null, null, null,
-       'Teppo', 'Testinen');
+       'Teppo', 'Testinen',
+       '922c2089-83a8-4163-8180-d8b675ff5337', NOW() + INTERVAL '3 days', NOW());

@@ -33,8 +33,8 @@ public record ClerkEnrollmentAppointmentDTO(
   String country,
   @NonNull @NotBlank String firstName,
   @NonNull @NotBlank String lastName,
-  @NonNull @NotBlank ExaminerAuthLinkDTO authLink,
   @NonNull @NotNull List<ClerkPaymentDTO> payments,
-  ExaminerExamEventDTO examEvent
+  ExaminerExamEventDTO examEvent,
+  ExaminerAuthLinkDTO authLink
 )
   implements EnrollmentDTOSkillFields {}

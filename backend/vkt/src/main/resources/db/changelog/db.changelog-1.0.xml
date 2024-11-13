@@ -1104,8 +1104,8 @@
             <column name="country" type="TEXT"/>
             <column name="person_id" type="BIGINT" />
             <column name="payment_link_hash" type="TEXT" />
-            <column name="auth_hash_expires" type="DATE" />
-            <column name="auth_hash_sent" type="DATE" />
+            <column name="auth_hash_expires" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="auth_hash_sent" type="TIMESTAMP WITH TIME ZONE" />
             <column name="previous_enrollment" type="TEXT" />
             <column name="message" type="TEXT" />
             <column name="grade_id" type="BIGINT" />
@@ -1133,8 +1133,6 @@
         <addColumn tableName="payment">
             <column name="enrollment_appointment_id" type="BIGINT" />
         </addColumn>
-    </changeSet>
-    <changeSet id="2024-11-13-fix-payment-enrollment-id-constraints" author="jrkkp">
         <dropNotNullConstraint
                 columnDataType="bigint"
                 columnName="enrollment_id"

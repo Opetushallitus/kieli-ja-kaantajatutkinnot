@@ -57,7 +57,6 @@ SV
 
 COPY public.exam_level (name) FROM stdin;
 EXCELLENT
-GOOD_AND_SATISFACTORY
 \.
 
 
