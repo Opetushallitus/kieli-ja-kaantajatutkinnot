@@ -28,7 +28,6 @@ public class ExaminerExamEventService {
 
   private final AuditService auditService;
   private final ExaminerRepository examinerRepository;
-  private final MunicipalityService municipalityService;
 
   @Transactional(readOnly = true)
   public ExaminerExamEventDTO getExamEvent(final String oid, final long examEventId) {
@@ -39,14 +38,15 @@ public class ExaminerExamEventService {
   }
 
   private ExaminerExamEventDTO getExamEventWithoutAudit(final String oid, final long examEventId) {
-    final Optional<ExaminerExamEvent> result = examinerExamEventRepository.findByOidAndExaminerExamEventId(
-      oid,
-      examEventId
-    );
+    final Optional<ExaminerExamEvent> result = examinerExamEventRepository.findById(examEventId);
     if (result.isEmpty()) {
       throw new APIException(APIExceptionType.EXAMINER_EXAM_EVENT_NOT_FOUND);
     } else {
       final ExaminerExamEvent examEvent = result.get();
+      Examiner examiner = examEvent.getExaminer();
+      if (!examiner.getOid().equals(oid)) {
+        throw new APIException(APIExceptionType.EXAMINER_EXAM_EVENT_EXAMINER_MISMATCH);
+      }
       final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
 
       return ExaminerUtil.toExaminerExamEventDTO(examEvent, baseUrlAPI);

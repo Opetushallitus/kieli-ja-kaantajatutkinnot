@@ -43,7 +43,8 @@ public enum APIExceptionType {
   EXAMINER_ONR_NOT_FOUND,
   EXAMINER_NOT_FOUND,
   EXAMINER_EXAM_EVENT_NOT_FOUND,
-  EXAMINER_MUNICIPALITY_MISMATCH;
+  EXAMINER_MUNICIPALITY_MISMATCH,
+  EXAMINER_EXAM_EVENT_EXAMINER_MISMATCH;
 
   public String getCode() {
     final StringBuilder codeBuilder = new StringBuilder();

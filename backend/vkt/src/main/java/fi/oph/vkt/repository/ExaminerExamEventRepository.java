@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ExaminerExamEventRepository extends BaseRepository<ExaminerExamEvent> {
-  Optional<ExaminerExamEvent> findByOidAndExaminerExamEventId(String oid, long examinerExamEventId);
+  Optional<ExaminerExamEvent> findById(long id);
 }

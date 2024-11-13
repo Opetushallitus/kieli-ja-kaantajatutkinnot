@@ -50,6 +50,7 @@ public class MunicipalityService {
     if (existingMunicipality.isPresent()) {
       return existingMunicipality.get();
     } else {
+      // TODO Validate code?
       Municipality municipality = new Municipality();
       municipality.setCode(code);
       municipality.setNameFI(codeToFi.get(code));
