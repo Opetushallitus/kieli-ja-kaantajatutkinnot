@@ -182,9 +182,12 @@ public class PublicController {
     @PathVariable final long enrollmentAppointmentId,
     final HttpSession session
   ) {
-    final Person person = publicAuthService.getPersonFromSession(session);
+    final Long appointmentId = SessionUtil.getAppointmentId(session);
+    if (appointmentId != enrollmentAppointmentId) {
+      throw new APIException(APIExceptionType.APPOINTMENT_ID_MISMATCH);
+    }
 
-    return publicEnrollmentService.getEnrollmentAppointment(enrollmentAppointmentId, person);
+    return publicEnrollmentService.getEnrollmentAppointment(enrollmentAppointmentId);
   }
 
   @PostMapping(path = "/enrollment/appointment/{enrollmentAppointmentId:\\d+}")

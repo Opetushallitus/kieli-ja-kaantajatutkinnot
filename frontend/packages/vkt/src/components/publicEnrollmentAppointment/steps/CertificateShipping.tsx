@@ -48,6 +48,8 @@ export const CertificateShipping = ({
     keyPrefix: 'vkt.component.publicEnrollment.steps.addressDetails',
   });
   const translateCommon = useCommonTranslation();
+
+  // Enable this when digital consent is done
   const digitalConsentEnabled = false;
 
   const [dirtyFields, setDirtyFields] = useState<
@@ -57,7 +59,7 @@ export const CertificateShipping = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (enrollment.digitalCertificateConsent) {
+    if (digitalConsentEnabled && enrollment.digitalCertificateConsent) {
       setValid(true);
 
       return;
@@ -70,7 +72,7 @@ export const CertificateShipping = ({
         t: translateCommon,
       }),
     );
-  }, [setValid, enrollment, translateCommon]);
+  }, [setValid, enrollment, digitalConsentEnabled, translateCommon]);
 
   const dirty = showValidation ? undefined : dirtyFields;
   const errors = getErrors<CertificateShippingTextFields>({
@@ -143,7 +145,7 @@ export const CertificateShipping = ({
       )}
       <Collapse
         orientation="vertical"
-        in={!enrollment.digitalCertificateConsent}
+        in={!digitalConsentEnabled || !enrollment.digitalCertificateConsent}
       >
         <Text>
           {translateCommon('enrollment.certificateShipping.description')}

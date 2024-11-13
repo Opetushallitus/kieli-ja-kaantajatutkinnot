@@ -2,6 +2,7 @@ import { Grid, Paper } from '@mui/material';
 import { LoadingProgressIndicator } from 'shared/components';
 
 import { PublicEnrollmentAppointmentControlButtons } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentControlButtons';
+import { PublicEnrollmentAppointmentExamEvent } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentExamEvent';
 import { PublicEnrollmentAppointmentPaymentSum } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentPaymentSum';
 import { PublicEnrollmentAppointmentStepContents } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentStepContents';
 import { PublicEnrollmentAppointmentStepHeading } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentStepHeading';
@@ -18,12 +19,14 @@ export const PublicEnrollmentAppointmentDesktopGrid = ({
   isStepValid,
   setIsStepValid,
   setShowValidation,
+  showValidation,
 }: {
   activeStep: PublicEnrollmentAppointmentFormStep;
   isStepValid: boolean;
   enrollment: PublicEnrollmentAppointment;
   setIsStepValid: (isValid: boolean) => void;
   setShowValidation: (showValidation: boolean) => void;
+  showValidation: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
 
@@ -36,6 +39,9 @@ export const PublicEnrollmentAppointmentDesktopGrid = ({
   const showControlButtons =
     activeStep > PublicEnrollmentAppointmentFormStep.Authenticate &&
     activeStep <= PublicEnrollmentAppointmentFormStep.Preview;
+  const showExamEvent =
+    activeStep === PublicEnrollmentAppointmentFormStep.Authenticate ||
+    activeStep === PublicEnrollmentAppointmentFormStep.Preview;
 
   return (
     <>
@@ -49,10 +55,16 @@ export const PublicEnrollmentAppointmentDesktopGrid = ({
             <div className={'public-enrollment__grid__form-container'}>
               <PublicEnrollmentAppointmentStepper activeStep={activeStep} />
               <PublicEnrollmentAppointmentStepHeading activeStep={activeStep} />
+              {showExamEvent && enrollment.examEvent && (
+                <PublicEnrollmentAppointmentExamEvent
+                  examEvent={enrollment.examEvent}
+                />
+              )}
               <PublicEnrollmentAppointmentStepContents
                 activeStep={activeStep}
                 enrollment={enrollment}
                 setIsStepValid={setIsStepValid}
+                showValidation={showValidation}
               />
               {showPaymentSum && <PublicEnrollmentAppointmentPaymentSum />}
               {showControlButtons && (

@@ -10,10 +10,12 @@ export const PublicEnrollmentAppointmentStepContents = ({
   activeStep,
   enrollment,
   setIsStepValid,
+  showValidation,
 }: {
   activeStep: PublicEnrollmentAppointmentFormStep;
   enrollment: PublicEnrollmentAppointment;
   setIsStepValid: (isValid: boolean) => void;
+  showValidation: boolean;
 }) => {
   switch (activeStep) {
     case PublicEnrollmentAppointmentFormStep.Authenticate:
@@ -24,10 +26,17 @@ export const PublicEnrollmentAppointmentStepContents = ({
           enrollment={enrollment}
           isLoading={false}
           setIsStepValid={setIsStepValid}
+          showValidation={showValidation}
         />
       );
     case PublicEnrollmentAppointmentFormStep.Preview:
-      return <Preview enrollment={enrollment} isLoading={false} />;
+      return (
+        <Preview
+          enrollment={enrollment}
+          isLoading={false}
+          showValidation={showValidation}
+        />
+      );
     case PublicEnrollmentAppointmentFormStep.PaymentFail:
       return <PaymentFail />;
     case PublicEnrollmentAppointmentFormStep.PaymentSuccess:

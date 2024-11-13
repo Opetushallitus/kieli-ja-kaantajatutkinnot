@@ -20,25 +20,16 @@ export const PublicEnrollmentAppointmentGrid = ({
     publicEnrollmentAppointmentSelector,
   );
   const [isStepValid, setIsStepValid] = useState(false);
-  const [_showValidation, setShowValidation] = useState(false);
-
-  const isAuthenticatePassed =
-    activeStep > PublicEnrollmentAppointmentFormStep.Authenticate;
+  const [showValidation, setShowValidation] = useState(false);
 
   useEffect(() => {
     if (
-      isAuthenticatePassed &&
       loadEnrollmentStatus === APIResponseStatus.NotStarted &&
       params.enrollmentId
     ) {
       dispatch(loadPublicEnrollmentAppointment(+params.enrollmentId));
     }
-  }, [
-    dispatch,
-    loadEnrollmentStatus,
-    isAuthenticatePassed,
-    params.enrollmentId,
-  ]);
+  }, [dispatch, loadEnrollmentStatus, params.enrollmentId]);
 
   return (
     <Grid
@@ -53,6 +44,7 @@ export const PublicEnrollmentAppointmentGrid = ({
         isStepValid={isStepValid}
         setIsStepValid={setIsStepValid}
         setShowValidation={setShowValidation}
+        showValidation={showValidation}
       />
     </Grid>
   );

@@ -48,6 +48,10 @@ import {
   PublicExaminer,
   PublicExaminerResponse,
 } from 'interfaces/publicExaminer';
+import {
+  PublicExaminerExamEvent,
+  PublicExaminerExamEventResponse,
+} from 'interfaces/publicExaminerExamEvent';
 
 export class SerializationUtils {
   static deserializePublicExamEvent(
@@ -61,6 +65,16 @@ export class SerializationUtils {
     };
   }
 
+  static deserializePublicExaminerExamEvent(
+    publicExamEvent: PublicExaminerExamEventResponse,
+  ): PublicExaminerExamEvent {
+    return {
+      ...publicExamEvent,
+      date: dayjs(publicExamEvent.date),
+      registrationCloses: dayjs(publicExamEvent.registrationCloses),
+    };
+  }
+
   static deserializePublicEnrollmentAppointment(
     enrollment: PublicEnrollmentAppointmentResponse,
   ): PublicEnrollmentAppointment {
@@ -69,6 +83,9 @@ export class SerializationUtils {
       emailConfirmation: '',
       hasPreviousEnrollment: !!enrollment.previousEnrollment,
       privacyStatementConfirmation: false,
+      examEvent: SerializationUtils.deserializePublicExaminerExamEvent(
+        enrollment.examEvent,
+      ),
     };
   }
 

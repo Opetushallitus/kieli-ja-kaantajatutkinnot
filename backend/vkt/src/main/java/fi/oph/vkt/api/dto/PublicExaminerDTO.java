@@ -2,7 +2,6 @@ package fi.oph.vkt.api.dto;
 
 import fi.oph.vkt.model.type.ExamLanguage;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.util.List;
 import lombok.Builder;
 import lombok.NonNull;

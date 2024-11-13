@@ -10,6 +10,10 @@ import {
   PublicFreeEnrollmentDetails,
 } from 'interfaces/publicEducation';
 import { PublicExamEventResponse } from 'interfaces/publicExamEvent';
+import {
+  PublicExaminerExamEvent,
+  PublicExaminerExamEventResponse,
+} from 'interfaces/publicExaminerExamEvent';
 import { PublicPerson } from 'interfaces/publicPerson';
 import { WithId } from 'interfaces/with';
 
@@ -91,7 +95,8 @@ export interface PublicEnrollmentContact extends PublicEnrollmentCommon {
 export interface PublicEnrollmentAppointment
   extends PublicEnrollmentContact,
     CertificateShippingData {
-  person: PublicPerson;
+  person?: PublicPerson;
+  examEvent?: PublicExaminerExamEvent;
 }
 
 export interface PublicEnrollmentAppointmentResponse
@@ -102,7 +107,9 @@ export interface PublicEnrollmentAppointmentResponse
       | 'hasPreviousEnrollment'
       | 'privacyStatementConfirmation'
       | 'status'
+      | 'examEvent'
     >,
     WithId {
   status: EnrollmentStatus;
+  examEvent: PublicExaminerExamEventResponse;
 }

@@ -22,13 +22,14 @@ public class PublicExaminerService {
 
   private final ExaminerRepository examinerRepository;
 
-  private static PublicMunicipalityDTO toPublicMunicipalityDTO(Municipality municipality) {
+  private static PublicMunicipalityDTO toPublicMunicipalityDTO(final Municipality municipality) {
     return PublicMunicipalityDTO.builder().fi(municipality.getNameFI()).sv(municipality.getNameSV()).build();
   }
 
-  private static PublicExaminerExamDateDTO toPublicExaminerExamDateDTO(ExaminerExamEvent examEvent) {
+  private static PublicExaminerExamDateDTO toPublicExaminerExamDateDTO(final ExaminerExamEvent examEvent) {
     // TODO If maxParticipants is set, compare it against number of EnrollmentAppointments linked to examEvent
     final boolean isFull = examEvent.getMaxParticipants() != null;
+
     return PublicExaminerExamDateDTO.builder().examDate(examEvent.getDate()).isFull(isFull).build();
   }
 

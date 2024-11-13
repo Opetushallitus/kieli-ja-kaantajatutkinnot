@@ -26,5 +26,6 @@ public record PublicEnrollmentAppointmentDTO(
   String postalCode,
   String town,
   String country,
-  @NonNull @NotNull PublicPersonDTO person
+  PublicPersonDTO person,
+  @NonNull @NotNull PublicAppointmentExamDateDTO examEvent
 ) {}

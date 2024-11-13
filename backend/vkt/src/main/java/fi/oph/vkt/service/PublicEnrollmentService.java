@@ -3,6 +3,7 @@ package fi.oph.vkt.service;
 import fi.oph.vkt.api.dto.FreeEnrollmentAttachmentDTO;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetailsDTO;
+import fi.oph.vkt.api.dto.PublicAppointmentExamDateDTO;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentUpdateDTO;
@@ -13,6 +14,7 @@ import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.api.dto.PublicExaminerDTO;
 import fi.oph.vkt.api.dto.PublicExaminerExamDateDTO;
+import fi.oph.vkt.api.dto.PublicExaminerNameDTO;
 import fi.oph.vkt.api.dto.PublicFreeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
@@ -20,6 +22,7 @@ import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Examiner;
+import fi.oph.vkt.model.ExaminerExamEvent;
 import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Person;
@@ -44,7 +47,6 @@ import fi.oph.vkt.util.PersonUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -614,7 +616,22 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   private PublicEnrollmentAppointmentDTO createEnrollmentAppointmentDTO(
     final EnrollmentAppointment enrollmentAppointment
   ) {
-    final PublicPersonDTO personDTO = PersonUtil.createPublicPersonDTO(enrollmentAppointment.getPerson());
+    final ExaminerExamEvent examEvent = enrollmentAppointment.getExaminerExamEvent();
+    final Examiner examiner = enrollmentAppointment.getExaminer();
+    final Person person = enrollmentAppointment.getPerson();
+    final PublicPersonDTO personDTO = person == null ? null : PersonUtil.createPublicPersonDTO(person);
+    final PublicExaminerNameDTO examinerNameDTO = PublicExaminerNameDTO
+      .builder()
+      .firstName(examiner.getFirstName())
+      .lastName(examiner.getLastName())
+      .build();
+    final PublicAppointmentExamDateDTO examDateDTO = PublicAppointmentExamDateDTO
+      .builder()
+      .date(examEvent.getDate())
+      .location(examEvent.getLocation())
+      .examiner(examinerNameDTO)
+      .language(examEvent.getLanguage())
+      .build();
 
     return PublicEnrollmentAppointmentDTO
       .builder()
@@ -629,27 +646,21 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .digitalCertificateConsent(enrollmentAppointment.isDigitalCertificateConsent())
       .email(enrollmentAppointment.getEmail())
       .phoneNumber(enrollmentAppointment.getPhoneNumber())
-      .street(enrollmentAppointment.getStreet())
-      .postalCode(enrollmentAppointment.getPostalCode())
-      .town(enrollmentAppointment.getTown())
-      .country(enrollmentAppointment.getCountry())
+      .street(enrollmentAppointment.getStreet() == null ? "" : enrollmentAppointment.getStreet())
+      .postalCode(enrollmentAppointment.getPostalCode() == null ? "" : enrollmentAppointment.getPostalCode())
+      .town(enrollmentAppointment.getTown() == null ? "" : enrollmentAppointment.getTown())
+      .country(enrollmentAppointment.getCountry() == null ? "" : enrollmentAppointment.getCountry())
       .status(enrollmentAppointment.getStatus())
       .person(personDTO)
+      .examEvent(examDateDTO)
       .build();
   }
 
   @Transactional(readOnly = true)
-  public PublicEnrollmentAppointmentDTO getEnrollmentAppointment(
-    final long enrollmentAppointmentId,
-    final Person person
-  ) {
+  public PublicEnrollmentAppointmentDTO getEnrollmentAppointment(final long enrollmentAppointmentId) {
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
       enrollmentAppointmentId
     );
-
-    if (person.getId() != enrollmentAppointment.getPerson().getId()) {
-      throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
-    }
 
     return createEnrollmentAppointmentDTO(enrollmentAppointment);
   }

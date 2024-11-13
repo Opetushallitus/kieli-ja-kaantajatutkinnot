@@ -6,66 +6,16 @@ import {
   FormHelperText,
 } from '@mui/material';
 import { Trans } from 'react-i18next';
-import { H2, Text, WebLink } from 'shared/components';
+import { H2, WebLink } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 
 import { ExamEventDetails } from 'components/publicEnrollment/steps/ExamEventDetails';
-import { PersonDetails } from 'components/publicEnrollment/steps/PersonDetails';
+import { PersonDetails } from 'components/publicEnrollmentAppointment/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicEnrollmentAppointment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollmentAppointment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
-
-const ContactDetails = ({
-  enrollment,
-}: {
-  enrollment: PublicEnrollmentAppointment;
-}) => {
-  const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.steps.preview.contactDetails',
-  });
-  const translateCommon = useCommonTranslation();
-
-  return (
-    <div className="rows gapped">
-      <H2>{t('title')}</H2>
-      <div className="grid-3-columns gapped">
-        <div className="rows">
-          <Text className="bold">
-            {t('email')}
-            {':'}
-          </Text>
-          <Text data-testid="enrollment-preview-email">{enrollment.email}</Text>
-        </div>
-        <div className="rows">
-          <Text className="bold">
-            {t('phoneNumber')}
-            {':'}
-          </Text>
-          <Text data-testid="enrollment-preview-phoneNumber">
-            {enrollment.phoneNumber}
-          </Text>
-        </div>
-        <div className="rows">
-          <Text className="bold">
-            {translateCommon('enrollment.certificateShipping.addressTitle')}
-            {':'}
-          </Text>
-          <Text data-testid="enrollment-preview-certificate-shipping-details">
-            {enrollment.street}
-            {', '}
-            {enrollment.postalCode}
-            {', '}
-            {enrollment.town}
-            {', '}
-            {enrollment.country}
-          </Text>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const PrivacyStatementCheckboxLabel = () => {
   const { t } = usePublicTranslation({
@@ -87,9 +37,11 @@ const PrivacyStatementCheckboxLabel = () => {
 export const Preview = ({
   enrollment,
   isLoading,
+  showValidation,
 }: {
   enrollment: PublicEnrollmentAppointment;
   isLoading: boolean;
+  showValidation: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
 
@@ -105,12 +57,12 @@ export const Preview = ({
     );
   };
 
-  const hasPrivacyStatementError = !enrollment.privacyStatementConfirmation;
+  const hasPrivacyStatementError =
+    showValidation && !enrollment.privacyStatementConfirmation;
 
   return (
     <div className="margin-top-xxl rows gapped-xxl">
-      <PersonDetails isPreviewStep={true} />
-      <ContactDetails enrollment={enrollment} />
+      <PersonDetails showContactDetails={true} />
       <Divider />
       <ExamEventDetails enrollment={enrollment} />
       <Divider />

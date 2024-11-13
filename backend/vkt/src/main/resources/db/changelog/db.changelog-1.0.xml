@@ -1134,4 +1134,17 @@
             <column name="enrollment_appointment_id" type="BIGINT" />
         </addColumn>
     </changeSet>
+    <changeSet id="2024-11-13-fix-payment-enrollment-id-constraints" author="jrkkp">
+        <dropNotNullConstraint
+                columnDataType="bigint"
+                columnName="enrollment_id"
+                constraintName="enrollment_id"
+                tableName="payment"/>
+        <addForeignKeyConstraint
+                baseTableName="payment"
+                baseColumnNames="enrollment_appointment_id"
+                constraintName="fk_payment_enrollment_appointment_id"
+                referencedTableName="enrollment_appointment"
+                referencedColumnNames="enrollment_appointment_id"/>
+    </changeSet>
 </databaseChangeLog>
