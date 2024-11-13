@@ -691,16 +691,4 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
 
     enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
   }
-
-  public PublicExaminerDTO getExaminer(final long examinerId) {
-    return PublicExaminerDTO
-      .builder()
-      .id(examinerId)
-      .examDates(List.of(PublicExaminerExamDateDTO.builder().examDate(LocalDate.now()).isFull(false).build()))
-      .languages(List.of())
-      .municipalities(List.of())
-      .firstName("Testi")
-      .lastName("Testilä")
-      .build();
-  }
 }

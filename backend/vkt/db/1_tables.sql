@@ -197,7 +197,10 @@ CREATE TABLE public.enrollment_appointment (
     grade_id bigint,
     examiner_exam_event_id bigint,
     previous_enrollment text,
-    message text
+    message text,
+    payment_link_hash text,
+    auth_hash_expires date,
+    auth_hash_sent date
 );
 
 
