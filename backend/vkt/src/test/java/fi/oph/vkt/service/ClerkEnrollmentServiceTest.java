@@ -25,11 +25,7 @@ import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
-import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
-import fi.oph.vkt.repository.EnrollmentRepository;
-import fi.oph.vkt.repository.ExamEventRepository;
-import fi.oph.vkt.repository.FreeEnrollmentRepository;
-import fi.oph.vkt.repository.PaymentRepository;
+import fi.oph.vkt.repository.*;
 import fi.oph.vkt.service.koski.KoskiService;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.UUIDSource;
@@ -55,6 +51,9 @@ class ClerkEnrollmentServiceTest {
 
   @Resource
   private EnrollmentAppointmentRepository enrollmentAppointmentRepository;
+
+  @Resource
+  private EnrollmentGradesRepository enrollmentGradesRepository;
 
   @Resource
   private FreeEnrollmentRepository freeEnrollmentRepository;
@@ -88,6 +87,7 @@ class ClerkEnrollmentServiceTest {
       new ClerkEnrollmentService(
         enrollmentRepository,
         enrollmentAppointmentRepository,
+        enrollmentGradesRepository,
         examEventRepository,
         paymentRepository,
         auditService,
