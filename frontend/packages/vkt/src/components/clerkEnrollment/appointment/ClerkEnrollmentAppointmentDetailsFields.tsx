@@ -1,4 +1,9 @@
-import { Checkbox, FormControlLabel, FormHelperTextProps } from '@mui/material';
+import {
+  Checkbox,
+  Divider,
+  FormControlLabel,
+  FormHelperTextProps,
+} from '@mui/material';
 import { ChangeEvent, Fragment, useEffect, useState } from 'react';
 import {
   ComboBox,
@@ -26,6 +31,7 @@ import {
   translateOutsideComponent,
   useClerkTranslation,
   useCommonTranslation,
+  useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { EnrollmentAppointmentStatus, PaymentStatus } from 'enums/app';
@@ -385,6 +391,7 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkEnrollmentDetails',
   });
+  const translateMunicipality = useKoodistoMunicipalitiesTranslation();
   const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
   const paymentLink = useAppSelector(
@@ -546,16 +553,24 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
             </div>
           </div>
         )}
-        <div className="margin-top-sm">
-          <H3>{t('header.previousEnrollment')}</H3>
+        <Divider className="margin-top-lg" />
+        <div className="columns margin-top-lg space-between">
+          <H2>Tutkinnon tiedot</H2>
         </div>
-        <ClerkEnrollmentDetailsTextField
-          className="previous-enrollment"
-          {...getCommonTextFieldProps(
-            ClerkEnrollmentTextFieldEnum.PreviousEnrollment,
-            editDisabled,
-          )}
-        />
+        {enrollment.examEvent && (
+          <div className="rows">
+            <H3>Tutkinnon kieli, aika ja paikka</H3>
+            <Text>
+              {translateCommon(`examLanguage.${enrollment.examEvent.language}`)}
+              {', '}
+              {DateTimeUtils.renderDate(enrollment.examEvent.date)}
+              {', '}
+              {translateMunicipality(enrollment.examEvent.municipality.code)}
+              {', '}
+              {enrollment.examEvent.location}
+            </Text>
+          </div>
+        )}
         {!editDisabled && (
           <div className="rows align-items-start clerk-enrollment-details-fields__skills">
             <div className="rows gapped-sm">
@@ -632,6 +647,16 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
             </div>
           </div>
         )}
+        <div className="margin-top-sm">
+          <H3>{t('header.previousEnrollment')}</H3>
+        </div>
+        <ClerkEnrollmentDetailsTextField
+          className="previous-enrollment"
+          {...getCommonTextFieldProps(
+            ClerkEnrollmentTextFieldEnum.PreviousEnrollment,
+            editDisabled,
+          )}
+        />
         <div className="columns flex-start">
           <CustomButton
             onClick={setGradeModalOpen.bind(this, true)}
@@ -641,9 +666,9 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
             Anna arvosanat
           </CustomButton>
         </div>
-        <div className="rows gapped-sm margin-top-lg">
-          <H3>{t('status')}</H3>
-          <Text>{t(`enrollmentStatus.${enrollment.status}`)}</Text>
+        <Divider className="margin-top-lg" />
+        <div className="columns margin-top-lg space-between">
+          <H2>Maksutiedot</H2>
         </div>
         {displayPaymentInformation && (
           <div className="rows gapped-xxl margin-top-lg">
@@ -681,8 +706,33 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
             )}
           </div>
         )}
-        <div className="rows flex-start">
-          <Text>Ilmoittautumislinkki: {enrollment.authLink}</Text>
+        <div className="rows gapped-sm margin-top-lg">
+          <H3>{t('status')}</H3>
+          <Text>{t(`enrollmentStatus.${enrollment.status}`)}</Text>
+        </div>
+        <div className="rows gapped-sm margin-top-lg">
+          <H3>Ilmoittautumislinkki</H3>
+          {enrollment.authLink?.sentAt && (
+            <Text>
+              Lähetetty:{' '}
+              {DateTimeUtils.renderDateTime(enrollment.authLink.sentAt)}
+            </Text>
+          )}
+          {enrollment.authLink?.expiresAt && (
+            <Text>
+              Erääntyy:{' '}
+              {DateTimeUtils.renderDateTime(enrollment.authLink.expiresAt)}
+            </Text>
+          )}
+        </div>
+        <div className="columns flex-start">
+          <CustomButton
+            onClick={setGradeModalOpen.bind(this, true)}
+            color={Color.Secondary}
+            variant={Variant.Outlined}
+          >
+            Lähetä ilmoittautumislinkki
+          </CustomButton>
         </div>
       </div>
       {gradeModalOpen && (

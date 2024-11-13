@@ -11,6 +11,10 @@ import {
   CertificateShippingData,
   PartialExamsAndSkills,
 } from 'interfaces/common/enrollment';
+import {
+  ExaminerExamEvent,
+  ExaminerExamEventResponse,
+} from 'interfaces/examinerExamEvent';
 import { PublicFreeEnrollmentDetails } from 'interfaces/publicEducation';
 
 interface ClerkPerson extends WithId, WithVersion {
@@ -87,16 +91,34 @@ export interface ClerkEnrollmentContactResponse
   enrollmentTime: string;
 }
 
+export interface ClerkAuthLink {
+  url: string;
+  expiresAt: Dayjs;
+  sentAt: Dayjs;
+}
+
+export interface ClerkAuthLinkResponse
+  extends Omit<ClerkAuthLink, 'expiresAt' | 'sentAt'> {
+  url: string;
+  expiresAt: Dayjs;
+  sentAt: Dayjs;
+}
+
 export interface ClerkEnrollmentAppointment extends ClerkEnrollmentContact {
   payments: Array<ClerkPayment>;
   person?: ClerkPerson;
-  authLink: string;
+  authLink?: ClerkAuthLink;
+  examEvent?: ExaminerExamEvent;
 }
 
 export interface ClerkEnrollmentAppointmentResponse
-  extends Omit<ClerkEnrollmentAppointment, 'enrollmentTime' | 'payments'> {
+  extends Omit<
+    ClerkEnrollmentAppointment,
+    'enrollmentTime' | 'payments' | 'examEvent'
+  > {
   enrollmentTime: string;
   payments: Array<ClerkPaymentResponse>;
+  examEvent?: ExaminerExamEventResponse;
 }
 
 interface Grade {

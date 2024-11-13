@@ -25,6 +25,24 @@ public class ExaminerUtil {
       .build();
   }
 
+  public static ExaminerExamEventDTO toExaminerExamEventWithoutEnrollmentsDTO(
+    final ExaminerExamEvent examinerExamEvent
+  ) {
+    return ExaminerExamEventDTO
+      .builder()
+      .id(examinerExamEvent.getId())
+      .version(examinerExamEvent.getVersion())
+      .date(examinerExamEvent.getDate())
+      .language(examinerExamEvent.getLanguage())
+      .isHidden(examinerExamEvent.isHidden())
+      .municipality(toMunicipalityDTO(examinerExamEvent.getMunicipality()))
+      .location(examinerExamEvent.getLocation())
+      .registrationCloses(examinerExamEvent.getRegistrationCloses())
+      .maxParticipants(examinerExamEvent.getMaxParticipants())
+      .enrollments(List.of())
+      .build();
+  }
+
   public static ExaminerExamEventDTO toExaminerExamEventDTO(
     final ExaminerExamEvent examinerExamEvent,
     final String baseUrlAPI

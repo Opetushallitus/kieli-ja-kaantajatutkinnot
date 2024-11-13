@@ -427,7 +427,7 @@ INSERT INTO enrollment_appointment(person_id, examiner_id,
 VALUES (null, 1,
        true, true, true,
        true, true, true, true,
-       'CONTACT_CREATED', true,
+       'CONTACT_CREATED', false,
        'foo@bar.invalid', '0404040404', null, null, null, null,
        'Teppo', 'Testaaja', 'Tämä on viesti', 'Edellinen ilmoittautuminen vuonna 1999');
 
@@ -439,6 +439,6 @@ INSERT INTO enrollment_appointment(person_id, examiner_id, examiner_exam_event_i
 VALUES (1, 1, 1,
        true, true, true,
        true, true, true, true,
-       'WAITING_AUTHENTICATION', true,
+       'WAITING_AUTHENTICATION', false,
        'foo@bar.invalid', '0404040404', null, null, null, null,
        'Teppo', 'Testinen');

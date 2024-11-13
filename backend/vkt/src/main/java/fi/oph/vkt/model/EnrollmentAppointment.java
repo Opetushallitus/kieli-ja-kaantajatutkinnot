@@ -75,6 +75,12 @@ public class EnrollmentAppointment extends EnrollmentCommon {
   @Column(name = "auth_hash", unique = true)
   private String authHash;
 
+  @Column(name = "auth_hash_expires", nullable = false)
+  private LocalDateTime expiresAt;
+
+  @Column(name = "auth_hash_sent", nullable = false)
+  private LocalDateTime sentAt;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "person_id", referencedColumnName = "person_id")
   private Person person;

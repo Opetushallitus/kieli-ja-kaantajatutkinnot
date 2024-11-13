@@ -1,6 +1,8 @@
 package fi.oph.vkt.api.dto.clerk;
 
 import fi.oph.vkt.api.dto.EnrollmentDTOSkillFields;
+import fi.oph.vkt.api.dto.examiner.ExaminerAuthLinkDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerExamEventDTO;
 import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -31,7 +33,8 @@ public record ClerkEnrollmentAppointmentDTO(
   String country,
   @NonNull @NotBlank String firstName,
   @NonNull @NotBlank String lastName,
-  @NonNull @NotBlank String authLink,
-  @NonNull @NotNull List<ClerkPaymentDTO> payments
+  @NonNull @NotBlank ExaminerAuthLinkDTO authLink,
+  @NonNull @NotNull List<ClerkPaymentDTO> payments,
+  ExaminerExamEventDTO examEvent
 )
   implements EnrollmentDTOSkillFields {}

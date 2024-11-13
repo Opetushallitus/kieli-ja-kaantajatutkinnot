@@ -3,6 +3,8 @@ import { DateUtils } from 'shared/utils';
 
 import { ExamLanguage } from 'enums/app';
 import {
+  ClerkAuthLink,
+  ClerkAuthLinkResponse,
   ClerkEnrollment,
   ClerkEnrollmentAppointment,
   ClerkEnrollmentAppointmentResponse,
@@ -122,6 +124,16 @@ export class SerializationUtils {
     };
   }
 
+  static deserializeExaminerEnrollmentAuthLink(
+    authLink: ClerkAuthLinkResponse,
+  ): ClerkAuthLink {
+    return {
+      ...authLink,
+      expiresAt: dayjs(authLink.expiresAt),
+      sentAt: dayjs(authLink.sentAt),
+    };
+  }
+
   static deserializeClerkPaymentLink(paymentLink: ClerkPaymentLinkResponse) {
     return {
       ...paymentLink,
@@ -147,6 +159,14 @@ export class SerializationUtils {
       payments: enrollment.payments.map(
         SerializationUtils.deserializeClerkPayment,
       ),
+      authLink:
+        enrollment.authLink &&
+        SerializationUtils.deserializeExaminerEnrollmentAuthLink(
+          enrollment.authLink,
+        ),
+      examEvent:
+        enrollment.examEvent &&
+        SerializationUtils.deserializeExaminerExamEvent(enrollment.examEvent),
     };
   }
 
