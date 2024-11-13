@@ -7,7 +7,10 @@ public class DataIntegrityViolationExceptionUtil {
   public static boolean isExamEventLanguageLevelDateExaminerUniquenessException(
     final DataIntegrityViolationException ex
   ) {
-    return matchesConstraint(ex, "uk_exam_event_language_level_date_examiner");
+    return (
+      matchesConstraint(ex, "uk_exam_event_language_level_date_examiner") ||
+      matchesConstraint(ex, "uk_exam_event_language_level_date")
+    );
   }
 
   private static boolean matchesConstraint(final DataIntegrityViolationException ex, final String constraint) {
