@@ -6,17 +6,11 @@ import { ClerkEnrollmentAppointment } from 'interfaces/clerkEnrollment';
 
 interface ExaminerEnrollmentListingProps {
   enrollments: Array<ClerkEnrollmentAppointment>;
-  examEventId: number;
 }
 
-const getRowDetailsWithExamEventId = (examEventId: number) => {
+const getRowDetailsWithExamEventId = () => {
   const getRowDetails = (enrollment: ClerkEnrollmentAppointment) => {
-    return (
-      <ExaminerEnrollmentListingRow
-        enrollment={enrollment}
-        examEventId={examEventId}
-      />
-    );
+    return <ExaminerEnrollmentListingRow enrollment={enrollment} />;
   };
 
   return getRowDetails;
@@ -24,13 +18,12 @@ const getRowDetailsWithExamEventId = (examEventId: number) => {
 
 export const ExaminerEnrollmentListing = ({
   enrollments,
-  examEventId,
 }: ExaminerEnrollmentListingProps) => (
   <CustomTable
     className="table-layout-auto"
     data={enrollments}
     header={<ExaminerEnrollmentListingHeader />}
-    getRowDetails={getRowDetailsWithExamEventId(examEventId)}
+    getRowDetails={getRowDetailsWithExamEventId()}
     size="small"
     stickyHeader
   />

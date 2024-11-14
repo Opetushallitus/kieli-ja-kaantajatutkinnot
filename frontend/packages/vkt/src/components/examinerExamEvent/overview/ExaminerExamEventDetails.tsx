@@ -18,7 +18,6 @@ import { DateTimeUtils } from 'utils/dateTime';
 interface EnrollmentListProps {
   enrollments: Array<ClerkEnrollmentAppointment>;
   status: EnrollmentAppointmentStatus;
-  examEventId: number;
 }
 
 const enrollmentFilter = (
@@ -27,11 +26,7 @@ const enrollmentFilter = (
 ): Array<ClerkEnrollmentAppointment> =>
   enrollments.filter((e: ClerkEnrollmentAppointment) => e.status === status);
 
-const EnrollmentList: FC<EnrollmentListProps> = ({
-  enrollments,
-  status,
-  examEventId,
-}) => {
+const EnrollmentList: FC<EnrollmentListProps> = ({ enrollments, status }) => {
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkExamEventOverview.examEventListingHeader',
   });
@@ -46,10 +41,7 @@ const EnrollmentList: FC<EnrollmentListProps> = ({
             data-testid={`clerk-exam-event-overview-page__enrollment-list-${status}__header`}
           >{`${t(status)}: ${filteredEnrollments.length}`}</H2>
           <div className="margin-top-sm">
-            <ExaminerEnrollmentListing
-              enrollments={filteredEnrollments}
-              examEventId={examEventId}
-            />
+            <ExaminerEnrollmentListing enrollments={filteredEnrollments} />
           </div>
         </div>
       )}
@@ -119,34 +111,28 @@ export const ExaminerExamEventDetails = () => {
       <EnrollmentList
         enrollments={enrollments}
         status={EnrollmentAppointmentStatus.COMPLETED}
-        examEventId={examEvent.id}
       />
       <EnrollmentList
         enrollments={enrollments}
         status={EnrollmentAppointmentStatus.AWAITING_PAYMENT}
-        examEventId={examEvent.id}
       />
       <EnrollmentList
         enrollments={enrollments}
         status={
           EnrollmentAppointmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
         }
-        examEventId={examEvent.id}
       />
       <EnrollmentList
         enrollments={enrollments}
         status={EnrollmentAppointmentStatus.WAITING_AUTHENTICATION}
-        examEventId={examEvent.id}
       />
       <EnrollmentList
         enrollments={enrollments}
         status={EnrollmentAppointmentStatus.CANCELED}
-        examEventId={examEvent.id}
       />
       <EnrollmentList
         enrollments={enrollments}
         status={EnrollmentAppointmentStatus.CANCELED_UNFINISHED_ENROLLMENT}
-        examEventId={examEvent.id}
       />
     </>
   );

@@ -1,5 +1,6 @@
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { TableCell, TableHead, TableRow } from '@mui/material';
+import { useParams } from 'react-router';
 import { CustomButtonLink, CustomTable, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
@@ -25,6 +26,9 @@ const ExaminerContactRequestListingRow = ({
 }: {
   contactRequest: ContactRequest;
 }) => {
+  const params = useParams();
+  const oid = params.oid || '';
+
   return (
     <TableRow>
       <TableCell>
@@ -39,7 +43,10 @@ const ExaminerContactRequestListingRow = ({
           variant={Variant.Text}
           color={Color.Secondary}
           endIcon={<ChevronRightIcon />}
-          to={AppRoutes.ClerkEnrollmentContactRequestPage.replace(
+          to={AppRoutes.ExaminerEnrollmentContactRequestPage.replace(
+            ':oid',
+            oid,
+          ).replace(
             /:enrollmentContactRequestId/,
             contactRequest.id.toString(),
           )}

@@ -1,10 +1,8 @@
-import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-material';
 import { Box, Divider, Grid, Paper } from '@mui/material';
 import { FC, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import {
   CustomButton,
-  CustomButtonLink,
   H1,
   H2,
   H3,
@@ -13,6 +11,7 @@ import {
 } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
+import { TopControls } from 'components/clerkExamEvent/overview/TopControls';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
@@ -23,22 +22,6 @@ import {
 } from 'redux/reducers/clerkEnrollmentContactRequest';
 import { clerkEnrollmentContactRequestSelector } from 'redux/selectors/clerkEnrollmentContactRequest';
 import { EnrollmentUtils } from 'utils/enrollment';
-
-const BackButton = () => {
-  const translateCommon = useCommonTranslation();
-
-  return (
-    <CustomButtonLink
-      to={AppRoutes.ClerkRoot}
-      variant={Variant.Text}
-      startIcon={<ArrowBackIosOutlinedIcon />}
-      className="color-secondary-dark"
-      data-testid="clerk-create-exam__back-btn"
-    >
-      {translateCommon('back')}
-    </CustomButtonLink>
-  );
-};
 
 export const ClerkEnrollmentContactRequestPage: FC = () => {
   const { status, createStatus, enrollment } = useAppSelector(
@@ -64,16 +47,26 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
   useEffect(() => {
     if (
       createStatus === APIResponseStatus.Success &&
-      params.enrollmentContactRequestId
+      params.enrollmentContactRequestId &&
+      params.oid
     ) {
       navigate(
-        AppRoutes.ClerkEnrollmentAppointmentPage.replace(
+        AppRoutes.ExaminerEnrollmentAppointmentPage.replace(
+          ':oid',
+          params.oid,
+        ).replace(
           ':enrollmentAppointmentId',
           params.enrollmentContactRequestId,
         ),
       );
     }
-  }, [dispatch, navigate, params.enrollmentContactRequestId, createStatus]);
+  }, [
+    dispatch,
+    navigate,
+    params.oid,
+    params.enrollmentContactRequestId,
+    createStatus,
+  ]);
 
   const isLoading = status === APIResponseStatus.InProgress;
   const isSavingDisabled = isLoading;
@@ -110,6 +103,7 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
   const onSubmit = () => {
     dispatch(createClerkEnrollmentAppointment(enrollment.id));
   };
+  const backTo = AppRoutes.ExaminerHomePage.replace(':oid', params.oid || '');
 
   return (
     <Box className="clerk-homepage">
@@ -120,7 +114,7 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
         className="clerk-homepage__grid-container"
       >
         <div>
-          <BackButton />
+          <TopControls backTo={backTo} />
         </div>
         <Grid item>
           <H1>Yhteydenottopyyntö</H1>

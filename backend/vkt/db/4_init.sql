@@ -461,6 +461,12 @@ VALUES (2, 1, 1,
        'Anneli', 'Annikkinen',
        '123c2089-83a8-4163-8180-d8b675ff5337', NOW() - INTERVAL '3 days', NOW() - INTERVAL '6 days');
 
+INSERT INTO payment(version, enrollment_id, amount, transaction_id, reference, payment_url,
+       payment_status, refunded_at, enrollment_appointment_id)
+VALUES (2, null, 51400, '78b29334-a283-11ef-88a1-bf672bd574b1', '7676156682',
+       'https://pay.paytrail.com/pay/78b29334-a283-11ef-88a1-bf672bd574b1', 'OK',
+       null, 3);
+
 -- Insert enrollment appointment
 INSERT INTO enrollment_appointment(person_id, examiner_id, examiner_exam_event_id,
                        skill_oral, skill_textual, skill_understanding,

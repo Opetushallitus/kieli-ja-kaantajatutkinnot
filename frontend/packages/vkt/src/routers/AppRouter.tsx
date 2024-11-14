@@ -353,22 +353,6 @@ export const AppRouter: FC = () => {
           }
         />
         <Route
-          path={AppRoutes.ClerkEnrollmentContactRequestPage}
-          element={
-            <TitlePage title={createTitle('clerkExamEventCreate')}>
-              <ClerkEnrollmentContactRequestPage />
-            </TitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.ClerkEnrollmentAppointmentPage}
-          element={
-            <TitlePage title={createTitle('clerkExamEventCreate')}>
-              <ClerkEnrollmentAppointmentOverviewPage />
-            </TitlePage>
-          }
-        />
-        <Route
           path={AppRoutes.ClerkGoodAndSatisfactoryLevelPage}
           element={
             <TitlePage title={createTitle('clerkGoodAndSatisfactoryLevel')}>
@@ -402,6 +386,22 @@ export const AppRouter: FC = () => {
                 <ExaminerRootPage>
                   <ExaminerDetailsPage />
                 </ExaminerRootPage>
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ExaminerEnrollmentContactRequestPage}
+            element={
+              <TitlePage title={createTitle('clerkExamEventCreate')}>
+                <ClerkEnrollmentContactRequestPage />
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ExaminerEnrollmentAppointmentPage}
+            element={
+              <TitlePage title={createTitle('clerkExamEventCreate')}>
+                <ClerkEnrollmentAppointmentOverviewPage />
               </TitlePage>
             }
           />

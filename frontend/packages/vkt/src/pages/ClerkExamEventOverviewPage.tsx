@@ -86,7 +86,7 @@ export const ClerkExamEventOverviewPage: FC = () => {
           <ClerkExamEventOverviewPageSkeleton />
         ) : (
           <>
-            <TopControls />
+            <TopControls backTo={AppRoutes.ClerkExcellentLevelPage} />
             <ClerkExamEventDetails />
           </>
         )}

@@ -59,9 +59,6 @@ export enum AppRoutes {
   PublicEnrollmentContactDone = goodAndSatisfactoryLevelContactRoute +
     '/:examinerId/valmis',
 
-  // Routes for clerk user
-  ClerkEnrollmentContactRequestPage = '/vkt/virkailija/yhteydenottopyynto/:enrollmentContactRequestId',
-  ClerkEnrollmentAppointmentPage = '/vkt/virkailija/ilmoittautuminen/:enrollmentAppointmentId',
   ClerkLocalLogoutPage = '/vkt/cas/localLogout',
   ClerkRoot = '/vkt/virkailija',
 
@@ -81,6 +78,8 @@ export enum AppRoutes {
   ExaminerDetailsPage = '/vkt/tv/:oid/omat-tiedot',
   ExaminerExamEventCreatePage = '/vkt/tv/:oid/tutkintotilaisuus/luo',
   ExaminerExamEventPage = '/vkt/tv/:oid/tutkintotilaisuus/:examEventId',
+  ExaminerEnrollmentContactRequestPage = '/vkt/tv/:oid/yhteydenottopyynto/:enrollmentContactRequestId',
+  ExaminerEnrollmentAppointmentPage = '/vkt/tv/:oid/ilmoittautuminen/:enrollmentAppointmentId',
 
   // Miscellaneous
   AccessibilityStatementPage = '/vkt/saavutettavuusseloste',

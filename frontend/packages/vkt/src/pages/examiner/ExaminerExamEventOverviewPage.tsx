@@ -81,6 +81,7 @@ export const ExaminerExamEventOverviewPage: FC = () => {
         translateCommon,
       )} ${DateUtils.formatOptionalDate(examEvent.date)}`
     : '';
+  const backTo = AppRoutes.ExaminerHomePage.replace(':oid', params.oid || '');
 
   return (
     <Box className="clerk-exam-event-overview-page">
@@ -93,7 +94,7 @@ export const ExaminerExamEventOverviewPage: FC = () => {
           <ClerkExamEventOverviewPageSkeleton />
         ) : (
           <>
-            <TopControls />
+            <TopControls backTo={backTo} />
             <ExaminerExamEventDetails />
           </>
         )}

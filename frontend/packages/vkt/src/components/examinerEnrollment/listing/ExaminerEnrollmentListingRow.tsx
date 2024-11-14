@@ -1,5 +1,5 @@
 import { TableCell, TableRow } from '@mui/material';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { Text } from 'shared/components';
 
 import { useClerkTranslation } from 'configs/i18n';
@@ -26,16 +26,15 @@ function pick<T extends object, K extends keyof T>(object: T, keys: Array<K>) {
 
 export const ExaminerEnrollmentListingRow = ({
   enrollment,
-  examEventId,
 }: {
   enrollment: ClerkEnrollmentAppointment;
-  examEventId: number;
 }) => {
   // I18n
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkEnrollmentListing.row',
   });
   const navigate = useNavigate();
+  const params = useParams();
 
   const getSelectedPartialExamsText = () => {
     const partialExams = pick(enrollment, [
@@ -56,12 +55,14 @@ export const ExaminerEnrollmentListingRow = ({
   };
 
   const onClick = () => {
-    navigate(
-      AppRoutes.ClerkEnrollmentOverviewPage.replace(
-        /:examEventId/,
-        `${examEventId}`,
-      ),
-    );
+    if (params.oid && enrollment.id) {
+      navigate(
+        AppRoutes.ExaminerEnrollmentAppointmentPage.replace(
+          ':oid',
+          params.oid,
+        ).replace(/:enrollmentAppointmentId/, `${enrollment.id}`),
+      );
+    }
   };
 
   return (
