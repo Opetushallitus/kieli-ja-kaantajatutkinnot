@@ -158,6 +158,7 @@
           "CANCELED": "Peruutetut",
           "CANCELED_UNFINISHED_ENROLLMENT": "Keskeytetyt (keskeneräinen)",
           "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksua odottavat (keskeneräinen)",
+          "WAITING_AUTHENTICATION": "Odottaa tunnistautumista",
           "COMPLETED": "Ilmoittautuneet",
           "QUEUED": "Jonoon ilmoittautuneet",
           "AWAITING_APPROVAL": "Odottaa tarkastusta",

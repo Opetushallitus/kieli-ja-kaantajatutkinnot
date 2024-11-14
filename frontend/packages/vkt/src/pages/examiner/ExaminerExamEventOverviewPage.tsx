@@ -11,7 +11,7 @@ import { ExaminerExamEventDetails } from 'components/examinerExamEvent/overview/
 import { ClerkExamEventOverviewPageSkeleton } from 'components/skeletons/ClerkExamEventOverviewPageSkeleton';
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
+import { AppRoutes, ExamLevel } from 'enums/app';
 import { loadExaminerExamEventOverview } from 'redux/reducers/examinerExamEventOverview';
 import { examinerExamEventOverviewSelector } from 'redux/selectors/examinerExamEventOverview';
 import { ExamEventUtils } from 'utils/examEvent';
@@ -77,7 +77,7 @@ export const ExaminerExamEventOverviewPage: FC = () => {
   const pageHeader = examEvent
     ? `${ExamEventUtils.languageAndLevelText(
         examEvent.language,
-        examEvent.level,
+        ExamLevel.GOOD_AND_SATISFACTORY,
         translateCommon,
       )} ${DateUtils.formatOptionalDate(examEvent.date)}`
     : '';
