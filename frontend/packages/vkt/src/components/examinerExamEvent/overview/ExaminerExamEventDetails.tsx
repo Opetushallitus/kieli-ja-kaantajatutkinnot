@@ -1,6 +1,7 @@
 import EditIcon from '@mui/icons-material/Edit';
 import { FC } from 'react';
-import { CustomButton, H2, H3, Text } from 'shared/components';
+import { useParams } from 'react-router-dom';
+import { CustomButtonLink, H2, H3, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
 import { ExaminerEnrollmentListing } from 'components/examinerEnrollment/listing/ExaminerEnrollmentListing';
@@ -10,7 +11,7 @@ import {
   useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
-import { EnrollmentAppointmentStatus } from 'enums/app';
+import { AppRoutes, EnrollmentAppointmentStatus } from 'enums/app';
 import { ClerkEnrollmentAppointment } from 'interfaces/clerkEnrollment';
 import { examinerExamEventOverviewSelector } from 'redux/selectors/examinerExamEventOverview';
 import { DateTimeUtils } from 'utils/dateTime';
@@ -55,28 +56,29 @@ export const ExaminerExamEventDetails = () => {
   const translateCommon = useCommonTranslation();
   const translateMunicipality = useKoodistoMunicipalitiesTranslation();
 
-  if (!examEvent) {
+  const { oid } = useParams();
+
+  if (!examEvent || !oid) {
     return null;
   }
 
   const { enrollments } = examEvent;
 
-  const onEdit = () => {
-    // TODO navigate to edit view
-  };
-
   return (
     <>
       <div className="columns margin-top-lg flex-end">
-        <CustomButton
+        <CustomButtonLink
           data-testid="clerk-exam-event-overview__exam-event-details__edit-button"
           variant={Variant.Contained}
           color={Color.Secondary}
           startIcon={<EditIcon />}
-          onClick={onEdit}
+          to={AppRoutes.ExaminerExamEventUpdatePage.replace(
+            /:oid/,
+            oid,
+          ).replace(/:examEventId/, `${examEvent.id}`)}
         >
           {translateCommon('edit')}
-        </CustomButton>
+        </CustomButtonLink>
       </div>
       <div className="rows">
         <div className="grid-3-columns gapped">

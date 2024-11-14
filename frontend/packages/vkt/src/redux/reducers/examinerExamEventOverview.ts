@@ -3,7 +3,7 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 
-interface ExaminerExamEventOverviewState {
+export interface ExaminerExamEventOverviewState {
   overviewStatus: APIResponseStatus;
   examEvent?: ExaminerExamEvent;
 }

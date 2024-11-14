@@ -31,16 +31,21 @@
           "description": "Tietojen päivittäminen onnistui!"
         }
       },
-      "examinerExamEventCreate": {
+      "examinerExamEventUpsert": {
         "description": {
-          "part1": "Lisää tutkintotilaisuus tästä. Voit luoda joko yksityisen tutkintotilaisuuden tai VKT:n ilmoittautumissivulla julkisesti näkyvän tilaisuuden.",
-          "part2": "Voit vaihtaa tutkintotilaisuuden julkisuusasetuksia myöhemmin."
+          "create": {
+            "part1": "Lisää tutkintotilaisuus tästä. Voit luoda joko yksityisen tutkintotilaisuuden tai VKT:n ilmoittautumissivulla julkisesti näkyvän tilaisuuden.",
+            "part2": "Voit vaihtaa tutkintotilaisuuden julkisuusasetuksia myöhemmin."
+          }
         },
         "incorrectDetailsDialog": {
           "description": "Korjaa puuttuvat tai virheelliset tiedot:",
           "title": "Tiedoissa on korjattavaa!"
         },
-        "heading": "Tutkintotilaisuuden lisääminen",
+        "heading": {
+          "create": "Tutkintotilaisuuden lisääminen",
+          "update": "Tutkintotilaisuuden muokkaus"
+        },
         "labels": {
           "addressDetails": "Osoitetiedot",
           "date": "Tutkintopäivä",
@@ -58,7 +63,8 @@
           "publicInformation": "Julkisessa listauksessa näkyvät tiedot"
         },
         "toasts": {
-          "addingSucceeded": "Tutkintotilaisuuden lisäys onnistui"
+          "addingSucceeded": "Tutkintotilaisuuden lisäys onnistui",
+          "updatingSucceeded": "Tutkintotilaisuuden muokkaus onnistui"
         }
       },
       "examinerExamEventListing": {

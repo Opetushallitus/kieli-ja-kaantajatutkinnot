@@ -34,6 +34,16 @@ public class ExaminerExamEventController {
     return examinerExamEventService.createExamEvent(oid, examinerExamEventDTO);
   }
 
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "/{examEventId:\\d+}")
+  @Operation(tags = TAG_EXAMINER_EXAM_EVENT, summary = "Update exam event")
+  public ExaminerExamEventDTO updateExamEvent(
+    @PathVariable String oid,
+    @PathVariable Long examEventId,
+    @RequestBody ExaminerExamEventUpsertDTO examinerExamEventDTO
+  ) {
+    return examinerExamEventService.updateExamEvent(oid, examEventId, examinerExamEventDTO);
+  }
+
   @GetMapping(path = "/{examEventId:\\d+}")
   @Operation(tags = TAG_EXAMINER_EXAM_EVENT, summary = "Get exam event and enrollments")
   public ExaminerExamEventDTO getExamEvent(@PathVariable String oid, @PathVariable final long examEventId) {

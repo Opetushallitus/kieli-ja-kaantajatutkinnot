@@ -37,20 +37,26 @@ public class ExaminerExamEventService {
     return examEventDTO;
   }
 
-  private ExaminerExamEventDTO getExamEventWithoutAudit(final String oid, final long examEventId) {
-    final Optional<ExaminerExamEvent> result = examinerExamEventRepository.findById(examEventId);
-    if (result.isEmpty()) {
-      throw new APIException(APIExceptionType.EXAMINER_EXAM_EVENT_NOT_FOUND);
-    } else {
-      final ExaminerExamEvent examEvent = result.get();
-      Examiner examiner = examEvent.getExaminer();
-      if (!examiner.getOid().equals(oid)) {
-        throw new APIException(APIExceptionType.EXAMINER_EXAM_EVENT_EXAMINER_MISMATCH);
-      }
-      final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
-
-      return ExaminerUtil.toExaminerExamEventDTO(examEvent, baseUrlAPI);
+  private ExaminerExamEvent getExamEventForExaminer(final String oid, final long examEventId) {
+    ExaminerExamEvent examinerExamEvent = examinerExamEventRepository
+      .findById(examEventId)
+      .orElseThrow(() -> new APIException(APIExceptionType.EXAMINER_EXAM_EVENT_NOT_FOUND));
+    Examiner examiner = examinerExamEvent.getExaminer();
+    if (!examiner.getOid().equals(oid)) {
+      throw new APIException(APIExceptionType.EXAMINER_EXAM_EVENT_EXAMINER_MISMATCH);
     }
+    return examinerExamEvent;
+  }
+
+  private ExaminerExamEventDTO getExamEventWithoutAudit(final String oid, final long examEventId) {
+    ExaminerExamEvent examEvent = getExamEventForExaminer(oid, examEventId);
+    Examiner examiner = examEvent.getExaminer();
+    if (!examiner.getOid().equals(oid)) {
+      throw new APIException(APIExceptionType.EXAMINER_EXAM_EVENT_EXAMINER_MISMATCH);
+    }
+    final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
+
+    return ExaminerUtil.toExaminerExamEventDTO(examEvent, baseUrlAPI);
   }
 
   private Municipality getExaminerMunicipalityOrThrow(Examiner examiner, MunicipalityDTO municipalityDTO) {
@@ -62,13 +68,7 @@ public class ExaminerExamEventService {
       .orElseThrow(() -> new APIException(APIExceptionType.EXAMINER_MUNICIPALITY_MISMATCH));
   }
 
-  @Transactional
-  public ExaminerExamEventDTO createExamEvent(final String oid, final ExaminerExamEventUpsertDTO dto) {
-    Examiner examiner = examinerRepository
-      .findByOid(oid)
-      .orElseThrow(() -> new APIException(APIExceptionType.EXAMINER_NOT_FOUND));
-    ExaminerExamEvent examEvent = new ExaminerExamEvent();
-    examEvent.setExaminer(examiner);
+  private void updateExamEventDetails(Examiner examiner, ExaminerExamEvent examEvent, ExaminerExamEventUpsertDTO dto) {
     examEvent.setDate(dto.date());
     examEvent.setLanguage(dto.language());
     examEvent.setMunicipality(getExaminerMunicipalityOrThrow(examiner, dto.municipality()));
@@ -78,7 +78,30 @@ public class ExaminerExamEventService {
     examEvent.setOtherInformation(dto.otherInformation());
     examEvent.setMaxParticipants(dto.maxParticipants());
     examEvent.setRegistrationCloses(dto.registrationCloses());
+  }
 
+  @Transactional
+  public ExaminerExamEventDTO createExamEvent(final String oid, final ExaminerExamEventUpsertDTO dto) {
+    Examiner examiner = examinerRepository
+      .findByOid(oid)
+      .orElseThrow(() -> new APIException(APIExceptionType.EXAMINER_NOT_FOUND));
+    ExaminerExamEvent examEvent = new ExaminerExamEvent();
+    examEvent.setExaminer(examiner);
+    updateExamEventDetails(examiner, examEvent, dto);
+
+    ExaminerExamEvent examinerExamEvent = examinerExamEventRepository.saveAndFlush(examEvent);
+    final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
+    return ExaminerUtil.toExaminerExamEventDTO(examinerExamEvent, baseUrlAPI);
+  }
+
+  @Transactional
+  public ExaminerExamEventDTO updateExamEvent(
+    final String oid,
+    final Long examEventId,
+    final ExaminerExamEventUpsertDTO dto
+  ) {
+    ExaminerExamEvent examEvent = getExamEventForExaminer(oid, examEventId);
+    updateExamEventDetails(examEvent.getExaminer(), examEvent, dto);
     ExaminerExamEvent examinerExamEvent = examinerExamEventRepository.saveAndFlush(examEvent);
     final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
     return ExaminerUtil.toExaminerExamEventDTO(examinerExamEvent, baseUrlAPI);

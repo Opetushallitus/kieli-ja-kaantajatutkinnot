@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { FC, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import {
   CustomButton,
   CustomButtonLink,
@@ -49,12 +49,14 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, ExamLanguage } from 'enums/app';
 import { loadExaminerDetails } from 'redux/reducers/examinerDetails';
+import { loadExaminerExamEventOverview } from 'redux/reducers/examinerExamEventOverview';
 import {
   resetExaminerExamEventUpsert,
   startExaminerExamEventUpsert,
   updateExaminerExamEventUpsert,
 } from 'redux/reducers/examinerExamEventUpsert';
 import { examinerDetailsSelector } from 'redux/selectors/examinerDetails';
+import { examinerExamEventOverviewSelector } from 'redux/selectors/examinerExamEventOverview';
 import { examinerExamEventUpsertSelector } from 'redux/selectors/examinerExamEventUpsert';
 import { ExamCreateEventUtils } from 'utils/examCreateEvent';
 import { municipalityToOption } from 'utils/municipality';
@@ -123,7 +125,7 @@ const SaveButton = ({ disabled, setShowErrors }: SaveButtonProps) => {
   const { status } = useAppSelector(examinerExamEventUpsertSelector);
   const translateCommon = useCommonTranslation();
   const { t } = useExaminerTranslation({
-    keyPrefix: 'vkt.component.examinerExamEventCreate',
+    keyPrefix: 'vkt.component.examinerExamEventUpsert',
   });
   const { showDialog } = useDialog();
   const dispatch = useAppDispatch();
@@ -176,7 +178,7 @@ const SaveButton = ({ disabled, setShowErrors }: SaveButtonProps) => {
 
 const SelectIsPublic = () => {
   const { t } = useExaminerTranslation({
-    keyPrefix: 'vkt.component.examinerExamEventCreate',
+    keyPrefix: 'vkt.component.examinerExamEventUpsert',
   });
   const translateCommon = useCommonTranslation();
   const { isHidden } = useAppSelector(
@@ -209,7 +211,7 @@ const SelectIsPublic = () => {
 
 const SelectLanguage = ({ showErrors }: { showErrors: boolean }) => {
   const { t } = useExaminerTranslation({
-    keyPrefix: 'vkt.component.examinerExamEventCreate',
+    keyPrefix: 'vkt.component.examinerExamEventUpsert',
   });
   const translateCommon = useCommonTranslation();
   const { language } = useAppSelector(
@@ -228,7 +230,7 @@ const SelectLanguage = ({ showErrors }: { showErrors: boolean }) => {
           </Text>
         </FormLabel>
         <RadioGroup
-          name="examiner-exam-event-create__exam-language--radio-group"
+          name="examiner-exam-event-upsert__exam-language--radio-group"
           value={language || ''}
           onChange={(_, v) => {
             dispatch(
@@ -242,7 +244,7 @@ const SelectLanguage = ({ showErrors }: { showErrors: boolean }) => {
             <FormControlLabel
               value={ExamLanguage.FI}
               control={
-                <Radio aria-describedby="examiner-exam-event-create__exam-language--error" />
+                <Radio aria-describedby="examiner-exam-event-upsert__exam-language--error" />
               }
               label={translateCommon(`examLanguage.${ExamLanguage.FI}`)}
               checked={language === ExamLanguage.FI}
@@ -253,7 +255,7 @@ const SelectLanguage = ({ showErrors }: { showErrors: boolean }) => {
             <FormControlLabel
               value={ExamLanguage.SV}
               control={
-                <Radio aria-describedby="examiner-exam-event-create__exam-language--error" />
+                <Radio aria-describedby="examiner-exam-event-upsert__exam-language--error" />
               }
               label={translateCommon(`examLanguage.${ExamLanguage.SV}`)}
               checked={language === ExamLanguage.SV}
@@ -265,7 +267,7 @@ const SelectLanguage = ({ showErrors }: { showErrors: boolean }) => {
         </RadioGroup>
         {hasRadioButtonError && (
           <FormHelperText
-            id="examiner-exam-event-create__exam-language--error"
+            id="examiner-exam-event-upsert__exam-language--error"
             error={true}
           >
             {translateCommon('errors.customTextField.required')}
@@ -278,7 +280,7 @@ const SelectLanguage = ({ showErrors }: { showErrors: boolean }) => {
 
 const SelectMunicipality = ({ showErrors }: { showErrors: boolean }) => {
   const { t } = useExaminerTranslation({
-    keyPrefix: 'vkt.component.examinerExamEventCreate',
+    keyPrefix: 'vkt.component.examinerExamEventUpsert',
   });
   const translateCommon = useCommonTranslation();
   const translateMunicipality = useKoodistoMunicipalitiesTranslation();
@@ -294,7 +296,7 @@ const SelectMunicipality = ({ showErrors }: { showErrors: boolean }) => {
   return (
     <div className="examiner-exam-event-page__select-municipality">
       <LabeledComboBox
-        id="examiner-exam-event-create__exam-municipality"
+        id="examiner-exam-event-upsert__exam-municipality"
         label={`${t('labels.municipality')} *`}
         helperText={translateCommon(CustomTextFieldErrors.Required)}
         showError={showErrors && !municipality}
@@ -323,7 +325,7 @@ const SelectMunicipality = ({ showErrors }: { showErrors: boolean }) => {
 
 const SelectDate = ({ showErrors }: { showErrors: boolean }) => {
   const { t } = useExaminerTranslation({
-    keyPrefix: 'vkt.component.examinerExamEventCreate',
+    keyPrefix: 'vkt.component.examinerExamEventUpsert',
   });
   const translateCommon = useCommonTranslation();
   const { date } = useAppSelector(examinerExamEventUpsertSelector).examEvent;
@@ -336,12 +338,12 @@ const SelectDate = ({ showErrors }: { showErrors: boolean }) => {
         component="label"
         variant="h3"
         className={error ? 'error-label' : ''}
-        htmlFor="examiner-exam-event-create__exam-date"
+        htmlFor="examiner-exam-event-upsert__exam-date"
       >
         {`${t('labels.date')} *`}
       </Typography>
       <CustomDatePicker
-        id="examiner-exam-event-create__exam-date"
+        id="examiner-exam-event-upsert__exam-date"
         error={error}
         minDate={dayjs()}
         setValue={(v) => {
@@ -358,7 +360,7 @@ const SelectDate = ({ showErrors }: { showErrors: boolean }) => {
 
 const ExamTime = () => {
   const { t } = useExaminerTranslation({
-    keyPrefix: 'vkt.component.examinerExamEventCreate',
+    keyPrefix: 'vkt.component.examinerExamEventUpsert',
   });
   const { examTime } = useAppSelector(
     examinerExamEventUpsertSelector,
@@ -367,7 +369,7 @@ const ExamTime = () => {
 
   return (
     <LabeledTextField
-      id="examiner-exam-event-create__exam-time"
+      id="examiner-exam-event-upsert__exam-time"
       className="rows gapped-sm"
       label={t('labels.examTime')}
       type="time"
@@ -386,7 +388,7 @@ const ExamTime = () => {
 
 const AddressDetails = () => {
   const { t } = useExaminerTranslation({
-    keyPrefix: 'vkt.component.examinerExamEventCreate',
+    keyPrefix: 'vkt.component.examinerExamEventUpsert',
   });
   const { location } = useAppSelector(
     examinerExamEventUpsertSelector,
@@ -395,7 +397,7 @@ const AddressDetails = () => {
 
   return (
     <LabeledTextField
-      id="examiner-exam-event-create__address-details"
+      id="examiner-exam-event-upsert__address-details"
       className="rows gapped-sm"
       label={t('labels.addressDetails')}
       value={location || ''}
@@ -413,7 +415,7 @@ const AddressDetails = () => {
 
 const OtherInformation = () => {
   const { t } = useExaminerTranslation({
-    keyPrefix: 'vkt.component.examinerExamEventCreate',
+    keyPrefix: 'vkt.component.examinerExamEventUpsert',
   });
   const { otherInformation } = useAppSelector(
     examinerExamEventUpsertSelector,
@@ -422,7 +424,7 @@ const OtherInformation = () => {
 
   return (
     <LabeledTextField
-      id="examiner-exam-event-create__other-details"
+      id="examiner-exam-event-upsert__other-details"
       className="rows gapped-sm"
       label={t('labels.otherInformation')}
       value={otherInformation || ''}
@@ -439,7 +441,7 @@ const OtherInformation = () => {
 
 const SelectRegistrationClosingDate = () => {
   const { t } = useExaminerTranslation({
-    keyPrefix: 'vkt.component.examinerExamEventCreate',
+    keyPrefix: 'vkt.component.examinerExamEventUpsert',
   });
   const translateCommon = useCommonTranslation();
   const { registrationCloses } = useAppSelector(
@@ -452,12 +454,12 @@ const SelectRegistrationClosingDate = () => {
       <Typography
         component="label"
         variant="h3"
-        htmlFor="examiner-exam-event-create__registration-closes"
+        htmlFor="examiner-exam-event-upsert__registration-closes"
       >
         {t('labels.registrationCloses')}
       </Typography>
       <CustomDatePicker
-        id="examiner-exam-event-create__registration-closes"
+        id="examiner-exam-event-upsert__registration-closes"
         minDate={dayjs()}
         setValue={(v) => {
           dispatch(
@@ -475,7 +477,7 @@ const SelectRegistrationClosingDate = () => {
 
 const SelectMaxParticipants = ({ showErrors }: { showErrors: boolean }) => {
   const { t } = useExaminerTranslation({
-    keyPrefix: 'vkt.component.examinerExamEventCreate',
+    keyPrefix: 'vkt.component.examinerExamEventUpsert',
   });
   const translateCommon = useCommonTranslation();
   const { maxParticipants } = useAppSelector(
@@ -493,13 +495,13 @@ const SelectMaxParticipants = ({ showErrors }: { showErrors: boolean }) => {
         component="label"
         variant="h3"
         className={maxParticipantsError ? 'error-label' : ''}
-        htmlFor="examiner-exam-event-create__max-participants"
+        htmlFor="examiner-exam-event-upsert__max-participants"
       >
         {t('labels.maxParticipants')}
       </Typography>
       <CustomTextField
-        id="examiner-exam-event-create__max-participants"
-        className="clerk-exam-create-max-participants"
+        id="examiner-exam-event-upsert__max-participants"
+        className="clerk-exam-upsert-max-participants"
         label={translateCommon('choose')}
         type={TextFieldTypes.Number}
         value={maxParticipants ?? ''}
@@ -525,18 +527,25 @@ const SelectMaxParticipants = ({ showErrors }: { showErrors: boolean }) => {
   );
 };
 
-export const ExaminerExamEventCreatePage: FC = () => {
+interface PageProps {
+  isUpdatePage: boolean;
+}
+
+export const ExaminerExamEventUpsertPage: FC<PageProps> = ({
+  isUpdatePage,
+}) => {
   const { t } = useExaminerTranslation({
-    keyPrefix: 'vkt.component.examinerExamEventCreate',
+    keyPrefix: 'vkt.component.examinerExamEventUpsert',
   });
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { showToast } = useToast();
 
-  // TODO Support creating and editing exam event details on same page?
-
   const { status, examEvent } = useAppSelector(examinerExamEventUpsertSelector);
+  const { overviewStatus, examEvent: examEventOverview } = useAppSelector(
+    examinerExamEventOverviewSelector,
+  );
 
   const { oid, status: examinerStatus } = useAppSelector(
     examinerDetailsSelector,
@@ -547,11 +556,44 @@ export const ExaminerExamEventCreatePage: FC = () => {
     }
   });
 
+  const params = useParams();
+  useEffect(() => {
+    // If current route matches AppRoutes.ExaminerExamEventUpdatePage,
+    // populate upsert field data with pre-existing exam event data
+    if (isUpdatePage && params.oid && params.examEventId) {
+      const { oid } = params;
+      const examEventId = parseInt(params.examEventId);
+      if (
+        overviewStatus === APIResponseStatus.NotStarted ||
+        examEventOverview?.id !== examEventId
+      ) {
+        dispatch(
+          loadExaminerExamEventOverview({
+            oid,
+            examEventId,
+          }),
+        );
+      } else if (
+        overviewStatus === APIResponseStatus.Success &&
+        examEventOverview?.id === examEventId
+      ) {
+        const {
+          version: _version,
+          enrollments: _enrollments,
+          ...rest
+        } = examEventOverview;
+        dispatch(updateExaminerExamEventUpsert({ ...rest }));
+      }
+    }
+  }, [dispatch, isUpdatePage, examEventOverview, overviewStatus, params]);
+
   useEffect(() => {
     if (status === APIResponseStatus.Success && oid && examEvent.id) {
       showToast({
         severity: Severity.Success,
-        description: t('toasts.addingSucceeded'),
+        description: t(
+          isUpdatePage ? 'toasts.updatingSucceeded' : 'toasts.addingSucceeded',
+        ),
       });
       navigate(
         AppRoutes.ExaminerExamEventPage.replace(/:oid/, oid).replace(
@@ -561,7 +603,16 @@ export const ExaminerExamEventCreatePage: FC = () => {
       );
       dispatch(resetExaminerExamEventUpsert());
     }
-  }, [showToast, t, status, navigate, oid, examEvent.id, dispatch]);
+  }, [
+    showToast,
+    t,
+    status,
+    navigate,
+    oid,
+    examEvent.id,
+    dispatch,
+    isUpdatePage,
+  ]);
 
   const [showErrors, setShowErrors] = useState(false);
   const isLoading = status === APIResponseStatus.InProgress;
@@ -583,17 +634,19 @@ export const ExaminerExamEventCreatePage: FC = () => {
         className="examiner-exam-event-page__grid-container"
       >
         <Grid item>
-          <H1>{t('heading')}</H1>
+          <H1>{t(isUpdatePage ? 'heading.update' : 'heading.create')}</H1>
         </Grid>
         <Grid item>
           <Paper elevation={3} className="examiner-exam-event-page__contents">
             <div className="rows gapped">
               <BackButton />
-              <Text>
-                {t('description.part1')}
-                <br />
-                {t('description.part2')}
-              </Text>
+              {!isUpdatePage && (
+                <Text>
+                  {t('description.create.part1')}
+                  <br />
+                  {t('description.create.part2')}
+                </Text>
+              )}
               <SelectIsPublic />
             </div>
             <div className="rows gapped">

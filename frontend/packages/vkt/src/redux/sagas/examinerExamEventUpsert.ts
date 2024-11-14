@@ -30,17 +30,23 @@ function* startExaminerExamEventUpsertSaga() {
 
     const { id, ...detailsToSubmit } = examEvent;
     if (id) {
-      // TODO Update exam event
+      // examEvent already has id -> update existing details
+      yield call(
+        axiosInstance.post,
+        `${APIEndpoints.ExaminerExamEvent.replace(/:oid/, examiner.oid)}/${id}`,
+        detailsToSubmit,
+      );
     } else {
-      // TODO Transform and store created exam event details?
+      // examEvent doesn't have id -> create new exam event
       const response: AxiosResponse<ExaminerExamEventResponse> = yield call(
         axiosInstance.post,
         APIEndpoints.ExaminerExamEvent.replace(/:oid/, examiner.oid),
         detailsToSubmit,
       );
+      // Record id so we can transfer user to exam event details page
       yield put(updateExaminerExamEventUpsert({ id: response.data.id }));
-      yield put(acceptExaminerExamEventUpsert());
     }
+    yield put(acceptExaminerExamEventUpsert());
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));

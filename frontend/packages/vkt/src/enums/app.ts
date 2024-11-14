@@ -78,6 +78,7 @@ export enum AppRoutes {
   ExaminerDetailsPage = '/vkt/tv/:oid/omat-tiedot',
   ExaminerExamEventCreatePage = '/vkt/tv/:oid/tutkintotilaisuus/luo',
   ExaminerExamEventPage = '/vkt/tv/:oid/tutkintotilaisuus/:examEventId',
+  ExaminerExamEventUpdatePage = '/vkt/tv/:oid/tutkintotilaisuus/:examEventId/muokkaa',
   ExaminerEnrollmentContactRequestPage = '/vkt/tv/:oid/yhteydenottopyynto/:enrollmentContactRequestId',
   ExaminerEnrollmentAppointmentPage = '/vkt/tv/:oid/ilmoittautuminen/:enrollmentAppointmentId',
 
