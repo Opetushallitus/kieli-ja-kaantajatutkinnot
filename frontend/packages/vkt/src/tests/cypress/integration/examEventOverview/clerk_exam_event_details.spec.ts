@@ -126,7 +126,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
 
     // Ensure navigation protection is no longer enabled after saving.
     onClerkExamEventOverviewPage.navigateBackToRegister();
-    cy.isOnPage(AppRoutes.ClerkHomePage);
+    cy.isOnPage(AppRoutes.ClerkExcellentLevelPage);
   });
 
   it('should display a confirmation dialog if the back button is clicked and there are unsaved changes', () => {
@@ -140,7 +140,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
 
     onDialog.expectText('Haluatko varmasti poistua sivulta?');
     onDialog.clickButtonByText('Kyllä');
-    cy.isOnPage(AppRoutes.ClerkHomePage);
+    cy.isOnPage(AppRoutes.ClerkExcellentLevelPage);
   });
 
   it('should display headings for enrollment status lists', () => {

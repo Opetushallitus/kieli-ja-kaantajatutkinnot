@@ -24,9 +24,9 @@ Cypress.Commands.add(
   },
 );
 
-Cypress.Commands.add('openClerkHomePage', () => {
+Cypress.Commands.add('openClerkExcellentLevelPage', () => {
   cy.window().then((win) => win.sessionStorage.setItem('persist:root', '{}'));
-  cy.visit(AppRoutes.ClerkHomePage);
+  cy.visit(AppRoutes.ClerkExcellentLevelPage);
 });
 
 Cypress.Commands.add('openClerkExamEventPage', (examEventId: number) => {

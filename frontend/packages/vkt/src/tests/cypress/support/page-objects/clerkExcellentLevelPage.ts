@@ -2,7 +2,7 @@ import { ExamEventToggleFilter, ExamLanguage } from 'enums/app';
 
 const row = (id: number) => `clerk-exam-events__id-${id}-row`;
 
-class ClerkHomePage {
+class ClerkExcellentLevelPage {
   elements = {
     examEventRow: (id: number) => cy.findByTestId(row(id)),
     languageFilter: () => cy.findByTestId('language-filter'),
@@ -49,4 +49,4 @@ class ClerkHomePage {
   }
 }
 
-export const onClerkHomePage = new ClerkHomePage();
+export const onClerkExcellentLevelPage = new ClerkExcellentLevelPage();
