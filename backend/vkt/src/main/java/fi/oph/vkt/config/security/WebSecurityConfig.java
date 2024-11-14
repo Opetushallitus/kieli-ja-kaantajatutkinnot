@@ -160,7 +160,7 @@ public class WebSecurityConfig {
       (
         (authenticationSupplier, object) -> {
           Authentication authentication = authenticationSupplier.get();
-          if (AuthorizationUtil.hasRole(authentication, Constants.APP_ROLE)) {
+          if (AuthorizationUtil.hasRole(authentication, Constants.APP_ADMIN_ROLE)) {
             return new AuthorizationDecision(true);
           } else if (AuthorizationUtil.hasRole(authentication, Constants.APP_TV_ROLE)) {
             final Map<String, String> requestVariables = object.getVariables();
@@ -177,9 +177,9 @@ public class WebSecurityConfig {
       .authorizeHttpRequests(registry ->
         registry
           .requestMatchers("/api/v1/clerk/user")
-          .hasAnyRole(Constants.APP_ROLE, Constants.APP_TV_ROLE, Constants.APP_ADMIN_ROLE)
+          .hasAnyRole(Constants.APP_ADMIN_ROLE, Constants.APP_TV_ROLE)
           .requestMatchers("/api/v1/clerk/**", "/virkailija/**", "/virkailija")
-          .hasRole(Constants.APP_ROLE)
+          .hasRole(Constants.APP_ADMIN_ROLE)
           .requestMatchers("/api/v1/tv/{oid}/**")
           .access(examinerApiAuthorizationManager)
           .requestMatchers("/api/v1/tv/**", "/tv/**", "/tv")

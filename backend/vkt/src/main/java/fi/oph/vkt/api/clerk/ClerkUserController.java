@@ -18,7 +18,7 @@ public class ClerkUserController {
   @GetMapping(path = "")
   public ClerkUserDTO currentClerkUser() {
     final Authentication authn = SecurityContextHolder.getContext().getAuthentication();
-    final boolean isAdmin = AuthorizationUtil.hasRole(authn, Constants.APP_ROLE);
+    final boolean isAdmin = AuthorizationUtil.hasRole(authn, Constants.APP_ADMIN_ROLE);
     final boolean isExaminer = AuthorizationUtil.hasRole(authn, Constants.APP_TV_ROLE);
     final String oid = authn.getName();
     return ClerkUserDTO.builder().oid(oid).isAdmin(isAdmin).isExaminer(isExaminer).build();

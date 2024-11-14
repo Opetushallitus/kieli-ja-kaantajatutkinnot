@@ -84,7 +84,7 @@ public class WebSecurityConfigDev {
     }
     List<UserDetails> usersList = List.of(
       getUserWithRole("user", "USER"),
-      getUserWithRole("clerk", Constants.APP_ROLE),
+      getUserWithRole("clerk", Constants.APP_ADMIN_ROLE),
       getUserWithRole("tv1", Constants.APP_TV_ROLE),
       getUserWithRole("tv2", Constants.APP_TV_ROLE),
       getUserWithRole("tv3", Constants.APP_TV_ROLE),
