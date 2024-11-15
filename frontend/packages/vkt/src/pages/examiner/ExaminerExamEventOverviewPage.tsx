@@ -12,7 +12,10 @@ import { ClerkExamEventOverviewPageSkeleton } from 'components/skeletons/ClerkEx
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, ExamLevel } from 'enums/app';
-import { loadExaminerExamEventOverview } from 'redux/reducers/examinerExamEventOverview';
+import {
+  loadExaminerExamEventOverview,
+  resetExaminerExamEventOverview,
+} from 'redux/reducers/examinerExamEventOverview';
 import { examinerExamEventOverviewSelector } from 'redux/selectors/examinerExamEventOverview';
 import { ExamEventUtils } from 'utils/examEvent';
 
@@ -41,9 +44,9 @@ export const ExaminerExamEventOverviewPage: FC = () => {
   useEffect(() => {
     if (
       overviewStatus === APIResponseStatus.NotStarted &&
-      !examEventId &&
       params.examEventId &&
-      params.oid
+      params.oid &&
+      examEventId !== parseInt(params.examEventId)
     ) {
       // Fetch exam event overview
       dispatch(
@@ -73,6 +76,13 @@ export const ExaminerExamEventOverviewPage: FC = () => {
     examEventId,
     t,
   ]);
+
+  // Reset state on unmount
+  useEffect(() => {
+    return () => {
+      dispatch(resetExaminerExamEventOverview());
+    };
+  }, [dispatch]);
 
   const pageHeader = examEvent
     ? `${ExamEventUtils.languageAndLevelText(

@@ -26,6 +26,9 @@ const examinerExamEventOverviewSlice = createSlice({
     ) {
       state.overviewStatus = APIResponseStatus.InProgress;
     },
+    resetExaminerExamEventOverview(_) {
+      return initialState;
+    },
     storeExaminerExamEventOverview(
       state,
       action: PayloadAction<ExaminerExamEvent>,
@@ -45,4 +48,5 @@ export const {
   loadExaminerExamEventOverview,
   storeExaminerExamEventOverview,
   rejectExaminerExamEventOverview,
+  resetExaminerExamEventOverview,
 } = examinerExamEventOverviewSlice.actions;
