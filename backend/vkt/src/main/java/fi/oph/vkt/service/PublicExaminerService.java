@@ -7,6 +7,7 @@ import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.ExaminerExamEvent;
 import fi.oph.vkt.model.Municipality;
+import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.repository.ExaminerRepository;
 import java.util.ArrayList;
@@ -27,8 +28,10 @@ public class PublicExaminerService {
   }
 
   private static PublicExaminerExamDateDTO toPublicExaminerExamDateDTO(final ExaminerExamEvent examEvent) {
-    // TODO If maxParticipants is set, compare it against number of EnrollmentAppointments linked to examEvent
-    final boolean isFull = examEvent.getMaxParticipants() != null;
+    final boolean isFull =
+      examEvent.getMaxParticipants() != null &&
+      examEvent.getMaxParticipants() <=
+      examEvent.getEnrollments().stream().filter(e -> e.getStatus() == EnrollmentAppointmentStatus.COMPLETED).count();
 
     return PublicExaminerExamDateDTO.builder().examDate(examEvent.getDate()).isFull(isFull).build();
   }
@@ -58,6 +61,7 @@ public class PublicExaminerService {
         examiner
           .getExamEvents()
           .stream()
+          .filter(e -> !e.isHidden())
           .map(PublicExaminerService::toPublicExaminerExamDateDTO)
           .collect(Collectors.toList())
       )
