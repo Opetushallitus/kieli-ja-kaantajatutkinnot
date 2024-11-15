@@ -13,7 +13,7 @@ import {
   useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
+import { AppRoutes, EnrollmentAppointmentStatus } from 'enums/app';
 import { loadExaminerDetails } from 'redux/reducers/examinerDetails';
 import { clerkUserSelector } from 'redux/selectors/clerkUser';
 import { examinerDetailsSelector } from 'redux/selectors/examinerDetails';
@@ -68,10 +68,14 @@ const PublicInformation = () => {
             t('labels.undefined')
           ) : (
             <>
-              {examEvents.map(({ date, maxParticipants }, i) => {
+              {examEvents.map(({ date, maxParticipants, enrollments }, i) => {
                 const newline = examEvents.length > 1 && i > 0;
-                // TODO Fix isFull calculation
-                const isFull = !!maxParticipants;
+                const isFull =
+                  maxParticipants &&
+                  enrollments.filter(
+                    ({ status }) =>
+                      status === EnrollmentAppointmentStatus.COMPLETED,
+                  ).length >= maxParticipants;
 
                 return (
                   <Fragment key={i}>
