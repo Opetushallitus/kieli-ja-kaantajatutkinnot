@@ -1,6 +1,5 @@
 package fi.oph.vkt.api.examiner;
 
-import fi.oph.vkt.api.dto.clerk.ClerkExamEventListDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerExamEventDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerExamEventUpsertDTO;
 import fi.oph.vkt.service.ExaminerExamEventService;
@@ -21,8 +20,8 @@ public class ExaminerExamEventController {
 
   @GetMapping
   @Operation(tags = TAG_EXAMINER_EXAM_EVENT, summary = "List all exam events")
-  public List<ClerkExamEventListDTO> list(@PathVariable String oid) {
-    return List.of();
+  public List<ExaminerExamEventDTO> list(@PathVariable String oid) {
+    return examinerExamEventService.list(oid);
   }
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -1,7 +1,6 @@
 package fi.oph.vkt.api.dto.examiner;
 
 import fi.oph.vkt.api.dto.MunicipalityDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAppointmentDTO;
 import fi.oph.vkt.model.type.ExamLanguage;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -23,6 +22,6 @@ public record ExaminerExamEventDTO(
   String otherInformation,
   LocalDateTime registrationCloses,
   Long maxParticipants,
-  @NonNull @NotNull List<ClerkEnrollmentAppointmentDTO> enrollments
+  @NonNull @NotNull List<ExaminerEnrollmentAppointmentDTO> enrollments
 )
   implements ExaminerExamEventDTOCommonFields {}

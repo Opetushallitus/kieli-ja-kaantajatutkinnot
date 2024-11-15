@@ -3,8 +3,6 @@ package fi.oph.vkt.service;
 import fi.oph.vkt.api.dto.EnrollmentGradeDTO;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAppointmentDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAppointmentUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentGradesDTO;
@@ -12,6 +10,8 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
@@ -244,7 +244,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional
-  public ClerkEnrollmentAppointmentDTO convertToAppointment(final long enrollmentContactId) {
+  public ExaminerEnrollmentAppointmentDTO convertToAppointment(final long enrollmentContactId) {
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
       enrollmentContactId
     );
@@ -262,24 +262,11 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional(readOnly = true)
-  public ClerkEnrollmentAppointmentDTO getEnrollmentAppointment(final long enrollmentAppointmentId) {
+  public ExaminerEnrollmentAppointmentDTO getEnrollmentAppointment(final long enrollmentAppointmentId) {
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
       enrollmentAppointmentId
     );
     final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
-
-    return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
-  }
-
-  @Transactional
-  public ClerkEnrollmentAppointmentDTO updateAppointment(final ClerkEnrollmentAppointmentUpdateDTO dto) {
-    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(dto.id());
-    final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
-
-    enrollmentAppointment.assertVersion(dto.version());
-
-    copyDtoFieldsToEnrollment(enrollmentAppointment, dto);
-    enrollmentAppointmentRepository.flush();
 
     return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
   }

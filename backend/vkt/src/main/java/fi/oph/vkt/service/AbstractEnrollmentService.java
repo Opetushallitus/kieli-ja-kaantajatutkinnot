@@ -3,7 +3,7 @@ package fi.oph.vkt.service;
 import fi.oph.vkt.api.dto.EnrollmentDTOCommonFields;
 import fi.oph.vkt.api.dto.EnrollmentDTOSkillFields;
 import fi.oph.vkt.api.dto.PublicEnrollmentContactCreateDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAppointmentUpdateDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.EnrollmentCommon;
@@ -26,7 +26,7 @@ public abstract class AbstractEnrollmentService {
 
   protected void copyDtoFieldsToEnrollment(
     final EnrollmentAppointment enrollment,
-    final ClerkEnrollmentAppointmentUpdateDTO dto
+    final ExaminerEnrollmentAppointmentUpdateDTO dto
   ) {
     copyDtoSkillFieldsToEnrollment(enrollment, dto);
     enrollment.setEmail(dto.email());

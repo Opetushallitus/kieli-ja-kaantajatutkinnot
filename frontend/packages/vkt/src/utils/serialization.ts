@@ -129,8 +129,8 @@ export class SerializationUtils {
   ): ClerkAuthLink {
     return {
       ...authLink,
-      expiresAt: dayjs(authLink.expiresAt),
-      sentAt: dayjs(authLink.sentAt),
+      expiresAt: authLink.expiresAt && dayjs(authLink.expiresAt),
+      sentAt: authLink.sentAt && dayjs(authLink.sentAt),
     };
   }
 
@@ -147,6 +147,7 @@ export class SerializationUtils {
     return {
       ...enrollment,
       enrollmentTime: DateUtils.serializeDate(enrollment.enrollmentTime),
+      examEvent: enrollment.examEvent && enrollment.examEvent.id,
     };
   }
 
@@ -310,6 +311,14 @@ export class SerializationUtils {
     );
 
     return { ...examinerExamEvent, date, registrationCloses, enrollments };
+  }
+
+  static deserializeExaminerExamEvents(
+    examinerExamEvents: Array<ExaminerExamEventResponse>,
+  ): Array<ExaminerExamEvent> {
+    return examinerExamEvents.map(
+      SerializationUtils.deserializeExaminerExamEvent,
+    );
   }
 
   static deserializeExaminerDetails(

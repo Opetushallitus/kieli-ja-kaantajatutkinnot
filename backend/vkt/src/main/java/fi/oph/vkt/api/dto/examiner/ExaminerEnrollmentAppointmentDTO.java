@@ -1,8 +1,7 @@
-package fi.oph.vkt.api.dto.clerk;
+package fi.oph.vkt.api.dto.examiner;
 
 import fi.oph.vkt.api.dto.EnrollmentDTOSkillFields;
-import fi.oph.vkt.api.dto.examiner.ExaminerAuthLinkDTO;
-import fi.oph.vkt.api.dto.examiner.ExaminerExamEventDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +11,7 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record ClerkEnrollmentAppointmentDTO(
+public record ExaminerEnrollmentAppointmentDTO(
   @NonNull @NotNull Long id,
   @NonNull @NotNull Integer version,
   @NonNull @NotNull LocalDateTime enrollmentTime,

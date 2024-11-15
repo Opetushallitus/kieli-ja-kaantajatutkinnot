@@ -426,11 +426,11 @@ VALUES (
 INSERT INTO examiner_exam_event(version, date, language, examiner_id, is_hidden, registration_closes, max_participants, municipality_id, location)
 VALUES (
   1,
-  NOW() + INTERVAL '5 weeks',
+  NOW() + INTERVAL '2 weeks',
   'FI',
   1,
   false,
-  NOW() + INTERVAL '2 weeks',
+  NOW() + INTERVAL '1 weeks',
   10,
   2,
   'tammerkosken silta'

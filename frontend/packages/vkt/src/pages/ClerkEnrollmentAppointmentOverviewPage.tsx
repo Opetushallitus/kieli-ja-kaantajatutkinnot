@@ -8,12 +8,15 @@ import { ClerkEnrollmentAppointmentDetails } from 'components/clerkEnrollment/ap
 import { TopControls } from 'components/clerkExamEvent/overview/TopControls';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { loadClerkEnrollmentAppointment } from 'redux/reducers/clerkEnrollmentAppointment';
+import {
+  loadClerkEnrollmentAppointment,
+  loadExaminerExamEvents,
+} from 'redux/reducers/clerkEnrollmentAppointment';
 import { clerkEnrollmentAppointmentSelector } from 'redux/selectors/clerkEnrollmentAppointment';
 
 export const ClerkEnrollmentAppointmentOverviewPage: FC = () => {
   // Redux
-  const { status, enrollment } = useAppSelector(
+  const { status, examEventsStatus, examEvents, enrollment } = useAppSelector(
     clerkEnrollmentAppointmentSelector,
   );
 
@@ -35,6 +38,12 @@ export const ClerkEnrollmentAppointmentOverviewPage: FC = () => {
     }
   }, [dispatch, status, params.enrollmentAppointmentId]);
 
+  useEffect(() => {
+    if (examEventsStatus === APIResponseStatus.NotStarted && params.oid) {
+      dispatch(loadExaminerExamEvents(params.oid));
+    }
+  }, [dispatch, examEventsStatus, params.oid]);
+
   return (
     <Box className="clerk-enrollment-overview-page">
       <TopControls backTo={backTo} />
@@ -43,10 +52,12 @@ export const ClerkEnrollmentAppointmentOverviewPage: FC = () => {
         elevation={3}
         className="clerk-enrollment-overview-page__content-container rows"
       >
-        {enrollment && (
+        {enrollment && params.oid && (
           <ClerkEnrollmentAppointmentDetails
             editMode={true}
             enrollment={enrollment}
+            examEvents={examEvents}
+            oid={params.oid}
           />
         )}
       </Paper>

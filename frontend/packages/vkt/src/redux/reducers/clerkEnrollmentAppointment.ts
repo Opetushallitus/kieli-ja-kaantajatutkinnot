@@ -5,13 +5,15 @@ import {
   ClerkEnrollmentAppointment,
   ClerkEnrollmentAppointmentGrades,
 } from 'interfaces/clerkEnrollment';
-import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
+import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 
 interface ClerkEnrollmentAppointmentState {
   status: APIResponseStatus;
   enrollment?: ClerkEnrollmentAppointment;
   createStatus: APIResponseStatus;
   gradesStatus: APIResponseStatus;
+  examEventsStatus: APIResponseStatus;
+  examEvents: Array<ExaminerExamEvent>;
   grades?: ClerkEnrollmentAppointmentGrades;
 }
 
@@ -19,6 +21,8 @@ const initialState: ClerkEnrollmentAppointmentState = {
   status: APIResponseStatus.NotStarted,
   createStatus: APIResponseStatus.NotStarted,
   gradesStatus: APIResponseStatus.NotStarted,
+  examEventsStatus: APIResponseStatus.NotStarted,
+  examEvents: [],
   grades: {
     speakingPartialExam: {
       grade: '',
@@ -43,6 +47,16 @@ const clerkEnrollmentAppointmentSlice = createSlice({
   name: 'clerkEnrollmentAppointment',
   initialState,
   reducers: {
+    loadExaminerExamEvents(state, _action: PayloadAction<string>) {
+      state.examEventsStatus = APIResponseStatus.InProgress;
+    },
+    storeExaminerExamEvents(
+      state,
+      action: PayloadAction<Array<ExaminerExamEvent>>,
+    ) {
+      state.examEvents = action.payload;
+      state.examEventsStatus = APIResponseStatus.Success;
+    },
     loadClerkEnrollmentAppointment(state, _action: PayloadAction<number>) {
       state.status = APIResponseStatus.InProgress;
     },
@@ -67,7 +81,7 @@ const clerkEnrollmentAppointmentSlice = createSlice({
       state,
       _action: PayloadAction<{
         enrollment: ClerkEnrollmentAppointment;
-        examEvent?: ClerkExamEvent;
+        oid: string;
       }>,
     ) {
       state.status = APIResponseStatus.InProgress;
@@ -100,6 +114,8 @@ const clerkEnrollmentAppointmentSlice = createSlice({
 export const clerkEnrollmentAppointmentReducer =
   clerkEnrollmentAppointmentSlice.reducer;
 export const {
+  loadExaminerExamEvents,
+  storeExaminerExamEvents,
   storeClerkEnrollmentAppointmentUpdate,
   rejectClerkEnrollmentAppointment,
   storeClerkEnrollmentAppointment,

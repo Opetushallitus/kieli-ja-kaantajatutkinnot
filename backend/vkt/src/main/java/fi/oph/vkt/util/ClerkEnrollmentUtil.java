@@ -4,13 +4,13 @@ import fi.oph.vkt.api.dto.FreeEnrollmentAttachmentDTO;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetailsDTO;
 import fi.oph.vkt.api.dto.KoskiEducationsDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkFreeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerAuthLinkDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerExamEventDTO;
 import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.model.Enrollment;
@@ -150,7 +150,7 @@ public class ClerkEnrollmentUtil {
       .build();
   }
 
-  public static ClerkEnrollmentAppointmentDTO createClerkEnrollmentAppointmentDTO(
+  public static ExaminerEnrollmentAppointmentDTO createClerkEnrollmentAppointmentDTO(
     final EnrollmentAppointment enrollmentAppointment,
     final String baseUrlAPI
   ) {
@@ -181,7 +181,7 @@ public class ClerkEnrollmentUtil {
       ? ExaminerUtil.toExaminerExamEventWithoutEnrollmentsDTO(enrollmentAppointment.getExaminerExamEvent())
       : null;
 
-    return ClerkEnrollmentAppointmentDTO
+    return ExaminerEnrollmentAppointmentDTO
       .builder()
       .id(enrollmentAppointment.getId())
       .version(enrollmentAppointment.getVersion())

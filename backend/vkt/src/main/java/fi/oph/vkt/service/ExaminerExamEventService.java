@@ -13,6 +13,7 @@ import fi.oph.vkt.repository.ExaminerRepository;
 import fi.oph.vkt.util.ExaminerUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
@@ -105,5 +106,15 @@ public class ExaminerExamEventService {
     ExaminerExamEvent examinerExamEvent = examinerExamEventRepository.saveAndFlush(examEvent);
     final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
     return ExaminerUtil.toExaminerExamEventDTO(examinerExamEvent, baseUrlAPI);
+  }
+
+  @Transactional(readOnly = true)
+  public List<ExaminerExamEventDTO> list(final String oid) {
+    final Examiner examiner = examinerRepository
+      .findByOid(oid)
+      .orElseThrow(() -> new APIException(APIExceptionType.EXAMINER_NOT_FOUND));
+    final List<ExaminerExamEvent> examinerExamEvents = examinerExamEventRepository.findAllByExaminer(examiner);
+
+    return examinerExamEvents.stream().map(ExaminerUtil::toExaminerExamEventWithoutEnrollmentsDTO).toList();
   }
 }

@@ -43,6 +43,7 @@ import {
 } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
+import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 import {
   resetClerkEnrollmentAppointmentGrades,
   upsertClerkEnrollmentAppointmentGrades,
@@ -367,6 +368,9 @@ const ClerkEnrollmentDetailsTextField = ({
 
 export const ClerkEnrollmentAppointmentDetailsFields = ({
   enrollment,
+  examEvents,
+  newExamEvent,
+  onExamEventChange,
   editDisabled,
   topControlButtons,
   onTextFieldChange,
@@ -374,9 +378,12 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
   showFieldErrorBeforeChange,
 }: {
   enrollment: ClerkEnrollmentAppointment;
+  examEvents: Array<ExaminerExamEvent>;
+  newExamEvent: ExaminerExamEvent | undefined;
   editDisabled: boolean;
   topControlButtons: JSX.Element;
   showFieldErrorBeforeChange: boolean;
+  onExamEventChange: (value?: string) => void;
   onTextFieldChange: (
     field: ClerkEnrollmentTextFieldEnum,
   ) => (event: ChangeEvent<HTMLTextAreaElement>) => void;
@@ -476,6 +483,11 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
 
   const displayPaymentHistory = enrollment.payments.length > 1;
 
+  const examEventToOption = (examEvent: ExaminerExamEvent) => ({
+    value: examEvent.id.toString(),
+    label: examEvent.location ?? '',
+  });
+
   // TODO Remove this flag once digital certificates are available
   return (
     <div className="clerk-enrollment-details-fields">
@@ -557,7 +569,7 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
         <div className="columns margin-top-lg space-between">
           <H2>Tutkinnon tiedot</H2>
         </div>
-        {enrollment.examEvent && (
+        {enrollment.examEvent ? (
           <div className="rows">
             <H3>Tutkinnon kieli, aika ja paikka</H3>
             <Text>
@@ -569,6 +581,17 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
               {', '}
               {enrollment.examEvent.location}
             </Text>
+          </div>
+        ) : (
+          <div className="half-max-width">
+            <ComboBox
+              autoHighlight
+              label={'Tutkinto'}
+              values={examEvents.map(examEventToOption)}
+              value={newExamEvent ? examEventToOption(newExamEvent) : null}
+              variant={TextFieldVariant.Outlined}
+              onChange={onExamEventChange}
+            />
           </div>
         )}
         {!editDisabled && (

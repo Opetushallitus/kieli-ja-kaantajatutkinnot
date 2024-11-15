@@ -9,13 +9,16 @@ import {
   ClerkEnrollmentAppointmentGrades,
   ClerkEnrollmentAppointmentResponse,
 } from 'interfaces/clerkEnrollment';
+import { ExaminerExamEventResponse } from 'interfaces/examinerExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
   loadClerkEnrollmentAppointment,
+  loadExaminerExamEvents,
   rejectClerkEnrollmentAppointment,
   storeClerkEnrollmentAppointment,
   storeClerkEnrollmentAppointmentGrades,
   storeClerkEnrollmentAppointmentUpdate,
+  storeExaminerExamEvents,
   updateClerkEnrollmentAppointment,
   upsertClerkEnrollmentAppointmentGrades,
 } from 'redux/reducers/clerkEnrollmentAppointment';
@@ -49,15 +52,18 @@ function* upsertClerkEnrollmentAppointmentGradesSaga(
 function* updateClerkEnrollmentAppointmentSaga(
   action: PayloadAction<{
     enrollment: ClerkEnrollmentAppointment;
+    oid: string;
   }>,
 ) {
-  const { enrollment } = action.payload;
+  const { enrollment, oid } = action.payload;
 
   try {
     const apiResponse: AxiosResponse<ClerkEnrollmentAppointmentResponse> =
       yield call(
         axiosInstance.put,
-        `${APIEndpoints.ClerkEnrollmentAppointment}/${enrollment.id}`,
+        `${APIEndpoints.ExaminerEnrollmentAppointment.replace(':oid', oid)}/${
+          enrollment.id
+        }`,
         SerializationUtils.serializeClerkEnrollmentAppointment(enrollment),
       );
     const updatedEnrollment =
@@ -90,11 +96,29 @@ function* loadClerkEnrollmentAppointmentSaga(action: PayloadAction<number>) {
   }
 }
 
+function* loadExaminerExamEventsSaga(action: PayloadAction<string>) {
+  try {
+    const oid = action.payload;
+    const loadUrl = APIEndpoints.ExaminerExamEvent.replace(':oid', oid);
+
+    const response: AxiosResponse<Array<ExaminerExamEventResponse>> =
+      yield call(axiosInstance.get, loadUrl);
+    const examinerExamEvents = SerializationUtils.deserializeExaminerExamEvents(
+      response.data,
+    );
+
+    yield put(storeExaminerExamEvents(examinerExamEvents));
+  } catch (error) {
+    //yield put(rejectClerkEnrollmentAppointment());
+  }
+}
+
 export function* watchClerkEnrollmentAppointment() {
   yield takeLatest(
     updateClerkEnrollmentAppointment.type,
     updateClerkEnrollmentAppointmentSaga,
   );
+  yield takeLatest(loadExaminerExamEvents.type, loadExaminerExamEventsSaga);
   yield takeLatest(
     loadClerkEnrollmentAppointment.type,
     loadClerkEnrollmentAppointmentSaga,

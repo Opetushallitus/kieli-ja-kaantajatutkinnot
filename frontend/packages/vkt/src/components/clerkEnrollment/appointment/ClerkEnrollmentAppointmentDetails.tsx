@@ -13,6 +13,7 @@ import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { ClerkEnrollmentAppointment } from 'interfaces/clerkEnrollment';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
+import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 import {
   resetClerkEnrollmentDetailsUpdate,
   updateClerkEnrollmentAppointment,
@@ -24,10 +25,14 @@ import { EnrollmentUtils } from 'utils/enrollment';
 
 export const ClerkEnrollmentAppointmentDetails = ({
   enrollment,
+  examEvents,
   editMode,
+  oid,
 }: {
   enrollment: ClerkEnrollmentAppointment;
+  examEvents: Array<ExaminerExamEvent>;
   editMode: boolean;
+  oid: string;
 }) => {
   // Redux
   const dispatch = useAppDispatch();
@@ -45,6 +50,9 @@ export const ClerkEnrollmentAppointmentDetails = ({
   const [enrollmentDetails, setEnrollmentDetails] = useState<
     ClerkEnrollmentAppointment | undefined
   >(enrollment);
+  const [newExamEvent, setNewExamEvent] = useState<
+    ExaminerExamEvent | undefined
+  >(enrollment.examEvent);
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
   const [currentUIMode, setCurrentUIMode] = useState(
     editMode ? UIMode.Edit : UIMode.View,
@@ -144,14 +152,27 @@ export const ClerkEnrollmentAppointmentDetails = ({
     });
   };
 
+  const handleExamEventChange = (examEvent: string | undefined) => {
+    if (examEvent) {
+      const foundExamEvent = examEvents.find((e) => e.id === +examEvent);
+
+      if (foundExamEvent) {
+        setHasLocalChanges(true);
+        setNewExamEvent(foundExamEvent);
+      }
+    }
+  };
+
   const handleSaveButtonClick = () => {
     dispatch(
       updateClerkEnrollmentAppointment({
+        oid,
         enrollment: {
           ...enrollmentDetails,
           understandingSkill:
             enrollmentDetails.speechComprehensionPartialExam &&
             enrollmentDetails.readingComprehensionPartialExam,
+          examEvent: newExamEvent ?? enrollment.examEvent,
         },
       }),
     );
@@ -217,6 +238,9 @@ export const ClerkEnrollmentAppointmentDetails = ({
       <ClerkEnrollmentAppointmentDetailsFields
         showFieldErrorBeforeChange={false}
         enrollment={enrollmentDetails}
+        examEvents={examEvents}
+        newExamEvent={newExamEvent}
+        onExamEventChange={handleExamEventChange}
         onTextFieldChange={handleTextFieldChange}
         onCheckboxFieldChange={handleCheckboxFieldChange}
         editDisabled={isViewMode}
