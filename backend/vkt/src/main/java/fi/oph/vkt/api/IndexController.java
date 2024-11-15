@@ -59,9 +59,9 @@ public class IndexController {
     path = {
       // Examiner URLs may end with path segment containing dots (OIDs).
       // Pass through requests to /vkt/tv/*, as no static assets are served from that path.
-      "tv/",
+      "tv/*",
       // For local development
-      "vkt/tv/",
+      "vkt/tv/*",
       "{path:[^.]*}",
       "*/{path:[^.]*}",
       "*/*/{path:[^.]*}",
