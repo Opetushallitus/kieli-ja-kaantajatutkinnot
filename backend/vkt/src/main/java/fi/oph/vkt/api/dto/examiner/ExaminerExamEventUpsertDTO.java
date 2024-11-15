@@ -20,4 +20,5 @@ public record ExaminerExamEventUpsertDTO(
   String otherInformation,
   LocalDateTime registrationCloses,
   Long maxParticipants
-) {}
+)
+  implements ExaminerExamEventDTOCommonFields {}

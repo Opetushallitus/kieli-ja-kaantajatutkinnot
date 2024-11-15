@@ -19,7 +19,10 @@ public record ExaminerExamEventDTO(
   @NonNull @NotNull Boolean isHidden,
   @NonNull @NotNull MunicipalityDTO municipality,
   String location,
+  String examTime,
+  String otherInformation,
   LocalDateTime registrationCloses,
   Long maxParticipants,
   @NonNull @NotNull List<ClerkEnrollmentAppointmentDTO> enrollments
-) {}
+)
+  implements ExaminerExamEventDTOCommonFields {}

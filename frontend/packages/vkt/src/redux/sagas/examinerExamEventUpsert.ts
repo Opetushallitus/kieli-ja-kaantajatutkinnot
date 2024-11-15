@@ -9,6 +9,7 @@ import {
   ExaminerExamEventUpsert,
 } from 'interfaces/examinerExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
+import { storeExaminerExamEventOverview } from 'redux/reducers/examinerExamEventOverview';
 import {
   acceptExaminerExamEventUpsert,
   rejectExaminerExamEventUpsert,
@@ -18,6 +19,7 @@ import {
 import { examinerDetailsSelector } from 'redux/selectors/examinerDetails';
 import { examinerExamEventUpsertSelector } from 'redux/selectors/examinerExamEventUpsert';
 import { NotifierUtils } from 'utils/notifier';
+import { SerializationUtils } from 'utils/serialization';
 
 function* startExaminerExamEventUpsertSaga() {
   try {
@@ -29,23 +31,21 @@ function* startExaminerExamEventUpsertSaga() {
     );
 
     const { id, ...detailsToSubmit } = examEvent;
-    if (id) {
-      // examEvent already has id -> update existing details
-      yield call(
-        axiosInstance.post,
-        `${APIEndpoints.ExaminerExamEvent.replace(/:oid/, examiner.oid)}/${id}`,
-        detailsToSubmit,
-      );
-    } else {
-      // examEvent doesn't have id -> create new exam event
-      const response: AxiosResponse<ExaminerExamEventResponse> = yield call(
-        axiosInstance.post,
-        APIEndpoints.ExaminerExamEvent.replace(/:oid/, examiner.oid),
-        detailsToSubmit,
-      );
-      // Record id so we can transfer user to exam event details page
-      yield put(updateExaminerExamEventUpsert({ id: response.data.id }));
-    }
+    const upsertEndpoint = id
+      ? `${APIEndpoints.ExaminerExamEvent.replace(/:oid/, examiner.oid)}/${id}`
+      : APIEndpoints.ExaminerExamEvent.replace(/:oid/, examiner.oid);
+    const response: AxiosResponse<ExaminerExamEventResponse> = yield call(
+      axiosInstance.post,
+      upsertEndpoint,
+      detailsToSubmit,
+    );
+    // Record id so we can transfer user to exam event details page
+    yield put(updateExaminerExamEventUpsert({ id: response.data.id }));
+    // Update stored exam event details
+    const updatedExamEvent = SerializationUtils.deserializeExaminerExamEvent(
+      response.data,
+    );
+    yield put(storeExaminerExamEventOverview(updatedExamEvent));
     yield put(acceptExaminerExamEventUpsert());
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);

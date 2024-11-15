@@ -56,6 +56,8 @@ public class ExaminerUtil {
       .isHidden(examinerExamEvent.isHidden())
       .municipality(toMunicipalityDTO(examinerExamEvent.getMunicipality()))
       .location(examinerExamEvent.getLocation())
+      .examTime(examinerExamEvent.getExamTime())
+      .otherInformation(examinerExamEvent.getOtherInformation())
       .registrationCloses(examinerExamEvent.getRegistrationCloses())
       .maxParticipants(examinerExamEvent.getMaxParticipants())
       .enrollments(
