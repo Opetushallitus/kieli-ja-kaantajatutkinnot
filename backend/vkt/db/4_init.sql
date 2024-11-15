@@ -396,13 +396,17 @@ FROM exam_event;
 INSERT INTO municipality(version, code, name_fi, name_sv)
 VALUES (1, '564', 'Oulu', 'Uleåborg');
 
+-- Insert municipality
+INSERT INTO municipality(version, code, name_fi, name_sv)
+VALUES (1, '837', 'Tampere', 'Tammerfors');
+
 -- Insert examiner
 INSERT INTO examiner(version, oid, email, phone_number, last_name, first_name, nickname, exam_language_finnish, exam_language_swedish, is_public)
 VALUES (1, '1.2.246.562.10.10000000001', 'examiner@example.invalid', '04040404040', 'Tessilä', 'Testi', 'Tessa', true, true, true);
 
 -- Insert municipality
 INSERT INTO examiner_municipality(municipality_id, examiner_id)
-VALUES (1, 1);
+VALUES (1, 1), (2, 1);
 
 -- insert examiner_exam_event
 INSERT INTO examiner_exam_event(version, date, language, examiner_id, is_hidden, registration_closes, max_participants, municipality_id, location)
@@ -416,6 +420,20 @@ VALUES (
   10,
   1,
   'tylypahka'
+);
+
+-- insert examiner_exam_event
+INSERT INTO examiner_exam_event(version, date, language, examiner_id, is_hidden, registration_closes, max_participants, municipality_id, location)
+VALUES (
+  1,
+  NOW() + INTERVAL '5 weeks',
+  'FI',
+  1,
+  false,
+  NOW() + INTERVAL '2 weeks',
+  10,
+  2,
+  'tammerkosken silta'
 );
 
 -- Insert enrollment appointment
