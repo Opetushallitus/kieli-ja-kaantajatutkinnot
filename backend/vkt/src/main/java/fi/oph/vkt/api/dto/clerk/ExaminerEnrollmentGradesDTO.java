@@ -4,7 +4,7 @@ import fi.oph.vkt.api.dto.EnrollmentGradeDTO;
 import lombok.Builder;
 
 @Builder
-public record ClerkEnrollmentGradesDTO(
+public record ExaminerEnrollmentGradesDTO(
   EnrollmentGradeDTO speakingPartialExam,
   EnrollmentGradeDTO speechComprehensionPartialExam,
   EnrollmentGradeDTO writingPartialExam,

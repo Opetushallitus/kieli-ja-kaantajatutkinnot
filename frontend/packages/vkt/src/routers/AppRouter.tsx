@@ -401,7 +401,15 @@ export const AppRouter: FC = () => {
             path={AppRoutes.ExaminerEnrollmentAppointmentPage}
             element={
               <TitlePage title={createTitle('clerkExamEventCreate')}>
-                <ClerkEnrollmentAppointmentOverviewPage />
+                <ClerkEnrollmentAppointmentOverviewPage editMode={false} />
+              </TitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ExaminerEnrollmentAppointmentPageEdit}
+            element={
+              <TitlePage title={createTitle('clerkExamEventCreate')}>
+                <ClerkEnrollmentAppointmentOverviewPage editMode={true} />
               </TitlePage>
             }
           />

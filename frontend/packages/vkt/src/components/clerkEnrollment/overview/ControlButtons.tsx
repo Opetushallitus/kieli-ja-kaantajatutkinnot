@@ -9,7 +9,7 @@ interface ControlButtonsProps {
   onCancel: () => void;
   onEdit: () => void;
   onSave: () => void;
-  onMove: () => void;
+  onMove?: () => void;
   isViewMode: boolean;
   hasRequiredDetails: boolean;
   isLoading: boolean;
@@ -32,14 +32,16 @@ export const ControlButtons: FC<ControlButtonsProps> = ({
   if (isViewMode) {
     return (
       <div className="columns gapped">
-        <CustomButton
-          data-testid="clerk-enrollment-details__move-button"
-          variant={Variant.Contained}
-          color={Color.Secondary}
-          onClick={onMove}
-        >
-          {t('move')}
-        </CustomButton>
+        {onMove && (
+          <CustomButton
+            data-testid="clerk-enrollment-details__move-button"
+            variant={Variant.Contained}
+            color={Color.Secondary}
+            onClick={onMove}
+          >
+            {t('move')}
+          </CustomButton>
+        )}
         <CustomButton
           data-testid="clerk-enrollment-details__edit-button"
           variant={Variant.Contained}

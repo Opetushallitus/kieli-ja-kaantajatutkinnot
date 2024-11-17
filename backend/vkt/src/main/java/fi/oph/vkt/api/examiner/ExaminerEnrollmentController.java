@@ -1,5 +1,6 @@
 package fi.oph.vkt.api.examiner;
 
+import fi.oph.vkt.api.dto.clerk.ExaminerEnrollmentGradesDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
 import fi.oph.vkt.service.ExaminerEnrollmentService;
@@ -24,5 +25,20 @@ public class ExaminerEnrollmentController {
     @RequestBody @Valid final ExaminerEnrollmentAppointmentUpdateDTO dto
   ) {
     return examinerEnrollmentService.updateAppointment(dto);
+  }
+
+  @GetMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}/grades")
+  @Operation(tags = TAG_ENROLLMENT, summary = "Update enrollment appointment")
+  public ExaminerEnrollmentGradesDTO getEnrollmentAppointmentGrades(@PathVariable final long enrollmentAppointmentId) {
+    return examinerEnrollmentService.getAppointmentGrades(enrollmentAppointmentId);
+  }
+
+  @PutMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}/grades")
+  @Operation(tags = TAG_ENROLLMENT, summary = "Update enrollment appointment")
+  public ExaminerEnrollmentGradesDTO upsertEnrollmentAppointmentGrades(
+          @RequestBody @Valid final ExaminerEnrollmentGradesDTO dto,
+          @PathVariable final long enrollmentAppointmentId
+  ) {
+    return examinerEnrollmentService.upsertAppointmentGrades(enrollmentAppointmentId, dto);
   }
 }

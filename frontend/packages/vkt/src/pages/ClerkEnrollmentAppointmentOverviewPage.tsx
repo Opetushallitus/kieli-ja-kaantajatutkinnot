@@ -14,7 +14,13 @@ import {
 } from 'redux/reducers/clerkEnrollmentAppointment';
 import { clerkEnrollmentAppointmentSelector } from 'redux/selectors/clerkEnrollmentAppointment';
 
-export const ClerkEnrollmentAppointmentOverviewPage: FC = () => {
+interface ClerkEnrollmentAppointmentOverviewPageProps {
+  editMode: boolean;
+}
+
+export const ClerkEnrollmentAppointmentOverviewPage: FC<
+  ClerkEnrollmentAppointmentOverviewPageProps
+> = ({ editMode }) => {
   // Redux
   const { status, examEventsStatus, examEvents, enrollment } = useAppSelector(
     clerkEnrollmentAppointmentSelector,
@@ -54,7 +60,7 @@ export const ClerkEnrollmentAppointmentOverviewPage: FC = () => {
       >
         {enrollment && params.oid && (
           <ClerkEnrollmentAppointmentDetails
-            editMode={true}
+            editMode={editMode}
             enrollment={enrollment}
             examEvents={examEvents}
             oid={params.oid}

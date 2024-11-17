@@ -178,10 +178,6 @@ export const ClerkEnrollmentAppointmentDetails = ({
     );
   };
 
-  const handleMoveButtonClick = () => {
-    // TODO
-  };
-
   const handleEditButtonClick = () => {
     resetLocalEnrollmentDetails();
     setCurrentUIMode(UIMode.Edit);
@@ -244,12 +240,13 @@ export const ClerkEnrollmentAppointmentDetails = ({
         onTextFieldChange={handleTextFieldChange}
         onCheckboxFieldChange={handleCheckboxFieldChange}
         editDisabled={isViewMode}
+        isViewMode={isViewMode}
+        oid={oid}
         topControlButtons={
           <ControlButtons
             onCancel={handleCancelButtonClick}
             onEdit={handleEditButtonClick}
             onSave={handleSaveButtonClick}
-            onMove={handleMoveButtonClick}
             isViewMode={isViewMode}
             hasRequiredDetails={hasRequiredDetails}
             isLoading={isLoading}

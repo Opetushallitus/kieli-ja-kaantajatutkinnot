@@ -29,16 +29,37 @@ function* upsertClerkEnrollmentAppointmentGradesSaga(
   action: PayloadAction<{
     enrollment: ClerkEnrollmentAppointment;
     grades: ClerkEnrollmentAppointmentGrades;
+    oid: string;
   }>,
 ) {
-  const { enrollment, grades } = action.payload;
+  const { enrollment, grades, oid } = action.payload;
+  const nonEmptyGrades = {
+    speakingPartialExam:
+      grades.speakingPartialExam?.grade !== ''
+        ? grades.speakingPartialExam
+        : undefined,
+    speechComprehensionPartialExam:
+      grades.speechComprehensionPartialExam?.grade !== ''
+        ? grades.speechComprehensionPartialExam
+        : undefined,
+    writingPartialExam:
+      grades.writingPartialExam?.grade !== ''
+        ? grades.writingPartialExam
+        : undefined,
+    readingComprehensionPartialExam:
+      grades.readingComprehensionPartialExam?.grade !== ''
+        ? grades.readingComprehensionPartialExam
+        : undefined,
+  };
 
   try {
     const apiResponse: AxiosResponse<ClerkEnrollmentAppointmentGrades> =
       yield call(
         axiosInstance.put,
-        `${APIEndpoints.ClerkEnrollmentAppointment}/${enrollment.id}/grades`,
-        grades,
+        `${APIEndpoints.ExaminerEnrollmentAppointment.replace(':oid', oid)}/${
+          enrollment.id
+        }/grades`,
+        nonEmptyGrades,
       );
 
     yield put(storeClerkEnrollmentAppointmentGrades(apiResponse.data));

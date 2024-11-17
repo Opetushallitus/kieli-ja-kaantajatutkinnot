@@ -5,13 +5,12 @@ import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentGradesDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
+import fi.oph.vkt.api.dto.clerk.ExaminerEnrollmentGradesDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
-import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
@@ -269,60 +268,5 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
 
     return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
-  }
-
-  @Transactional
-  public ClerkEnrollmentGradesDTO upsertAppointmentGrades(
-    final long enrollmentAppointmentId,
-    final ClerkEnrollmentGradesDTO dto
-  ) {
-    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
-      enrollmentAppointmentId
-    );
-    final Optional<EnrollmentGrade> enrollmentGradeOptional = enrollmentGradesRepository.findByEnrollmentAppointment(
-      enrollmentAppointment
-    );
-    final EnrollmentGrade enrollmentGrade = enrollmentGradeOptional.orElseGet(EnrollmentGrade::new);
-
-    enrollmentGrade.setSpeakingPartialExamGrade(dto.speakingPartialExam().grade());
-    enrollmentGrade.setWritingPartialExamGrade(dto.writingPartialExam().grade());
-    enrollmentGrade.setSpeechComprehensionPartialExamGrade(dto.speechComprehensionPartialExam().grade());
-    enrollmentGrade.setReadingComprehensionPartialExamGrade(dto.readingComprehensionPartialExam().grade());
-
-    enrollmentGrade.setSpeakingPartialExamComment(dto.speakingPartialExam().comment());
-    enrollmentGrade.setWritingPartialExamComment(dto.writingPartialExam().comment());
-    enrollmentGrade.setSpeechComprehensionPartialExamComment(dto.speechComprehensionPartialExam().comment());
-    enrollmentGrade.setReadingComprehensionPartialExamComment(dto.readingComprehensionPartialExam().comment());
-
-    enrollmentGradesRepository.saveAndFlush(enrollmentGrade);
-
-    enrollmentAppointment.setGrade(enrollmentGrade);
-    enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
-
-    return ClerkEnrollmentGradesDTO
-      .builder()
-      .writingPartialExam(
-        createGradeDTO(enrollmentGrade.getWritingPartialExamGrade(), enrollmentGrade.getWritingPartialExamComment())
-      )
-      .readingComprehensionPartialExam(
-        createGradeDTO(
-          enrollmentGrade.getReadingComprehensionPartialExamGrade(),
-          enrollmentGrade.getReadingComprehensionPartialExamComment()
-        )
-      )
-      .speakingPartialExam(
-        createGradeDTO(enrollmentGrade.getSpeakingPartialExamGrade(), enrollmentGrade.getSpeakingPartialExamComment())
-      )
-      .speechComprehensionPartialExam(
-        createGradeDTO(
-          enrollmentGrade.getSpeechComprehensionPartialExamGrade(),
-          enrollmentGrade.getSpeechComprehensionPartialExamComment()
-        )
-      )
-      .build();
-  }
-
-  private EnrollmentGradeDTO createGradeDTO(final EnrollmentGradeType grade, final String comment) {
-    return EnrollmentGradeDTO.builder().grade(grade).comment(comment).build();
   }
 }

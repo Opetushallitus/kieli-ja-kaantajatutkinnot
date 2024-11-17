@@ -95,11 +95,13 @@ const GradeModal = ({
   skills,
   closeModal,
   enrollment,
+  oid,
 }: {
   open: boolean;
   skills: PartialExamsAndSkills;
   closeModal: () => void;
   enrollment: ClerkEnrollmentAppointment;
+  oid: string;
 }) => {
   const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
@@ -120,7 +122,11 @@ const GradeModal = ({
   const isLoading = gradesStatus === APIResponseStatus.InProgress;
   const handleSaveGradesButtonClick = () => {
     dispatch(
-      upsertClerkEnrollmentAppointmentGrades({ enrollment, grades: newGrades }),
+      upsertClerkEnrollmentAppointmentGrades({
+        enrollment,
+        grades: newGrades,
+        oid,
+      }),
     );
   };
 
@@ -338,6 +344,7 @@ const ClerkEnrollmentDetailsTextField = ({
   enrollment,
   field,
   showFieldError,
+  isViewMode,
   onChange,
   ...rest
 }: ClerkEnrollmentTextFieldProps<ClerkEnrollmentAppointment>) => {
@@ -350,7 +357,12 @@ const ClerkEnrollmentDetailsTextField = ({
   const showHelperText =
     (showFieldError || !required) && fieldError?.length > 0;
 
-  return (
+  return isViewMode ? (
+    <div className="rows">
+      <H3>{translateCommon(`enrollment.textFields.${field}`)}</H3>
+      <Text>{getTextValue(enrollment, field)}</Text>
+    </div>
+  ) : (
     <CustomTextField
       data-testid={`clerk-enrollment__details-fields__${field}`}
       value={getTextValue(enrollment, field)}
@@ -366,12 +378,211 @@ const ClerkEnrollmentDetailsTextField = ({
   );
 };
 
+const ClerkEnrollmentSkillsListTable = ({
+  enrollment,
+}: {
+  enrollment: ClerkEnrollmentAppointment;
+}) => {
+  const translateCommon = useCommonTranslation();
+  const { t } = useClerkTranslation({
+    keyPrefix: 'vkt.component.clerkEnrollmentDetails',
+  });
+
+  const partialTextualExams = [
+    'writingPartialExam',
+    'readingComprehensionPartialExam',
+  ].filter(
+    (exam) => !!enrollment[exam as keyof PartialExamsAndSkills],
+  ) as Array<keyof PartialExamsAndSkills>;
+
+  const partialOralExams = [
+    'speakingPartialExam',
+    'speechComprehensionPartialExam',
+  ].filter(
+    (exam) => !!enrollment[exam as keyof PartialExamsAndSkills],
+  ) as Array<keyof PartialExamsAndSkills>;
+
+  const { grades } = useAppSelector(clerkEnrollmentAppointmentSelector);
+
+  const renderGrade = (grade: string) => (grade && grade !== '' ? grade : '-');
+
+  const partialExamsRow = (exams: Array<keyof PartialExamsAndSkills>) => {
+    return exams.map((exam) => (
+      <Fragment key={exam}>
+        <div className="rows">
+          <Text>
+            {translateCommon(`enrollment.partialExamsAndSkills.${exam}`)}
+          </Text>
+        </div>
+        <Text>{renderGrade(grades[exam]?.grade)}</Text>
+        <Text>{renderGrade(grades[exam]?.comment)}</Text>
+      </Fragment>
+    ));
+  };
+
+  return (
+    <div className="grid-4-columns">
+      <H3 className="margin-bottom-lg">{t('header.selectedSkills')}</H3>
+      <H3 className="margin-bottom-lg">{t('header.selectedPartialExams')}</H3>
+      <H3 className="margin-bottom-lg">{t('header.grades')}</H3>
+      <H3 className="margin-bottom-lg">{t('header.gradeComments')}</H3>
+
+      {enrollment.textualSkill && (
+        <>
+          <Text>
+            {translateCommon('enrollment.partialExamsAndSkills.textualSkill')}
+          </Text>
+          {partialExamsRow(partialTextualExams)}
+        </>
+      )}
+
+      {enrollment.oralSkill && (
+        <>
+          <Text>
+            {translateCommon('enrollment.partialExamsAndSkills.oralSkill')}
+          </Text>
+          {partialExamsRow(partialOralExams)}
+        </>
+      )}
+    </div>
+  );
+};
+
+const ClerkEnrollmentSkillsListFields = ({
+  enrollment,
+  editDisabled,
+  onCheckboxFieldChange,
+}: {
+  enrollment: ClerkEnrollmentAppointment;
+  editDisabled: boolean;
+  onCheckboxFieldChange: (
+    field:
+      | keyof PartialExamsAndSkills
+      | keyof Pick<ClerkEnrollmentAppointment, 'digitalCertificateConsent'>,
+    fieldValue: boolean,
+  ) => void;
+}) => {
+  const { t } = useClerkTranslation({
+    keyPrefix: 'vkt.component.clerkEnrollmentDetails',
+  });
+  const translateCommon = useCommonTranslation();
+
+  const toggleSkill = (fieldName: keyof PartialExamsAndSkills) => {
+    const partialExamsToUncheck: Array<keyof PartialExamsAndSkills> = [];
+
+    if (fieldName === 'oralSkill' && enrollment.oralSkill) {
+      partialExamsToUncheck.push('speakingPartialExam');
+      !enrollment.understandingSkill &&
+        partialExamsToUncheck.push('speechComprehensionPartialExam');
+    } else if (fieldName === 'textualSkill' && enrollment.textualSkill) {
+      partialExamsToUncheck.push('writingPartialExam');
+      !enrollment.understandingSkill &&
+        partialExamsToUncheck.push('readingComprehensionPartialExam');
+    } else if (
+      fieldName === 'understandingSkill' &&
+      enrollment.understandingSkill
+    ) {
+      if (!enrollment.oralSkill) {
+        partialExamsToUncheck.push('speakingPartialExam');
+        partialExamsToUncheck.push('speechComprehensionPartialExam');
+      }
+      if (!enrollment.textualSkill) {
+        partialExamsToUncheck.push('writingPartialExam');
+        partialExamsToUncheck.push('readingComprehensionPartialExam');
+      }
+    }
+
+    togglePartialExam(fieldName);
+    partialExamsToUncheck.forEach(uncheckPartialExam);
+  };
+
+  const togglePartialExam = (fieldName: keyof PartialExamsAndSkills) => {
+    onCheckboxFieldChange(fieldName, !enrollment[fieldName]);
+  };
+
+  const uncheckPartialExam = (fieldName: keyof PartialExamsAndSkills) => {
+    onCheckboxFieldChange(fieldName, false);
+  };
+
+  return (
+    <div className="rows align-items-start clerk-enrollment-details-fields__skills">
+      <div className="rows gapped-sm">
+        <div className="margin-top-sm columns gapped">
+          <H3>{t('header.selectedSkills')}</H3>
+        </div>
+        <div className="rows clerk-enrollment-details-fields__skills__checkboxes">
+          <CheckboxField
+            enrollment={enrollment}
+            fieldName={'textualSkill'}
+            onClick={toggleSkill}
+            disabled={editDisabled}
+          />
+          <CheckboxField
+            enrollment={enrollment}
+            fieldName={'oralSkill'}
+            onClick={toggleSkill}
+            disabled={editDisabled}
+          />
+        </div>
+      </div>
+      <div className="rows gapped margin-top-sm">
+        <H3>{t('header.selectedPartialExams')}</H3>
+        <div className="columns gapped-xxl">
+          <div className="rows clerk-enrollment-details-fields__skills__checkboxes gapped-sm">
+            <H3>
+              {translateCommon('enrollment.partialExamsAndSkills.oralSkill')} *
+            </H3>
+            <CheckboxField
+              enrollment={enrollment}
+              fieldName={'speakingPartialExam'}
+              onClick={togglePartialExam}
+              disabled={!enrollment.oralSkill || editDisabled}
+            />
+            <CheckboxField
+              enrollment={enrollment}
+              fieldName={'speechComprehensionPartialExam'}
+              onClick={togglePartialExam}
+              disabled={
+                (!enrollment.oralSkill && !enrollment.understandingSkill) ||
+                editDisabled
+              }
+            />
+          </div>
+          <div className="rows clerk-enrollment-details-fields__skills__checkboxes gapped-sm">
+            <H3>
+              {translateCommon('enrollment.partialExamsAndSkills.textualSkill')}{' '}
+              *
+            </H3>
+            <CheckboxField
+              enrollment={enrollment}
+              fieldName={'writingPartialExam'}
+              onClick={togglePartialExam}
+              disabled={!enrollment.textualSkill || editDisabled}
+            />
+            <CheckboxField
+              enrollment={enrollment}
+              fieldName={'readingComprehensionPartialExam'}
+              onClick={togglePartialExam}
+              disabled={
+                (!enrollment.textualSkill && !enrollment.understandingSkill) ||
+                editDisabled
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const ClerkEnrollmentAppointmentDetailsFields = ({
   enrollment,
   examEvents,
   newExamEvent,
   onExamEventChange,
   editDisabled,
+  isViewMode,
+  oid,
   topControlButtons,
   onTextFieldChange,
   onCheckboxFieldChange,
@@ -381,6 +592,8 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
   examEvents: Array<ExaminerExamEvent>;
   newExamEvent: ExaminerExamEvent | undefined;
   editDisabled: boolean;
+  isViewMode: boolean;
+  oid: string;
   topControlButtons: JSX.Element;
   showFieldErrorBeforeChange: boolean;
   onExamEventChange: (value?: string) => void;
@@ -435,44 +648,8 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
       showFieldError: fieldErrors[field],
       onBlur: setFieldErrorOnBlur(field),
       fullWidth: true,
+      isViewMode,
     };
-  };
-
-  const toggleSkill = (fieldName: keyof PartialExamsAndSkills) => {
-    const partialExamsToUncheck: Array<keyof PartialExamsAndSkills> = [];
-
-    if (fieldName === 'oralSkill' && enrollment.oralSkill) {
-      partialExamsToUncheck.push('speakingPartialExam');
-      !enrollment.understandingSkill &&
-        partialExamsToUncheck.push('speechComprehensionPartialExam');
-    } else if (fieldName === 'textualSkill' && enrollment.textualSkill) {
-      partialExamsToUncheck.push('writingPartialExam');
-      !enrollment.understandingSkill &&
-        partialExamsToUncheck.push('readingComprehensionPartialExam');
-    } else if (
-      fieldName === 'understandingSkill' &&
-      enrollment.understandingSkill
-    ) {
-      if (!enrollment.oralSkill) {
-        partialExamsToUncheck.push('speakingPartialExam');
-        partialExamsToUncheck.push('speechComprehensionPartialExam');
-      }
-      if (!enrollment.textualSkill) {
-        partialExamsToUncheck.push('writingPartialExam');
-        partialExamsToUncheck.push('readingComprehensionPartialExam');
-      }
-    }
-
-    togglePartialExam(fieldName);
-    partialExamsToUncheck.forEach(uncheckPartialExam);
-  };
-
-  const togglePartialExam = (fieldName: keyof PartialExamsAndSkills) => {
-    onCheckboxFieldChange(fieldName, !enrollment[fieldName]);
-  };
-
-  const uncheckPartialExam = (fieldName: keyof PartialExamsAndSkills) => {
-    onCheckboxFieldChange(fieldName, false);
   };
 
   const displayPaymentInformation =
@@ -501,7 +678,7 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
             <H3>{t('header.personalInformation')}</H3>
           </div>
         </div>
-        <div className="columns align-items-start gapped">
+        <div className="grid-2-columns align-items-start gapped">
           <ClerkEnrollmentDetailsTextField
             {...getCommonTextFieldProps(
               ClerkEnrollmentTextFieldEnum.LastName,
@@ -518,7 +695,7 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
         <div className="margin-top-sm columns gapped">
           <H3>{t('header.contactDetails')}</H3>
         </div>
-        <div className="columns align-items-start gapped">
+        <div className="grid-2-columns align-items-start gapped">
           <ClerkEnrollmentDetailsTextField
             {...getCommonTextFieldProps(
               ClerkEnrollmentTextFieldEnum.Email,
@@ -569,19 +746,23 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
         <div className="columns margin-top-lg space-between">
           <H2>Tutkinnon tiedot</H2>
         </div>
-        {enrollment.examEvent ? (
-          <div className="rows">
-            <H3>Tutkinnon kieli, aika ja paikka</H3>
-            <Text>
-              {translateCommon(`examLanguage.${enrollment.examEvent.language}`)}
-              {', '}
-              {DateTimeUtils.renderDate(enrollment.examEvent.date)}
-              {', '}
-              {translateMunicipality(enrollment.examEvent.municipality.code)}
-              {', '}
-              {enrollment.examEvent.location}
-            </Text>
-          </div>
+        {isViewMode ? (
+          enrollment.examEvent && (
+            <div className="rows">
+              <H3>Tutkinnon kieli, aika ja paikka</H3>
+              <Text>
+                {translateCommon(
+                  `examLanguage.${enrollment.examEvent.language}`,
+                )}
+                {', '}
+                {DateTimeUtils.renderDate(enrollment.examEvent.date)}
+                {', '}
+                {translateMunicipality(enrollment.examEvent.municipality.code)}
+                {', '}
+                {enrollment.examEvent.location}
+              </Text>
+            </div>
+          )
         ) : (
           <div className="half-max-width">
             <ComboBox
@@ -594,82 +775,24 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
             />
           </div>
         )}
-        {!editDisabled && (
-          <div className="rows align-items-start clerk-enrollment-details-fields__skills">
-            <div className="rows gapped-sm">
-              <div className="margin-top-sm columns gapped">
-                <H3>{t('header.selectedSkills')}</H3>
-              </div>
-              <div className="rows clerk-enrollment-details-fields__skills__checkboxes">
-                <CheckboxField
-                  enrollment={enrollment}
-                  fieldName={'textualSkill'}
-                  onClick={toggleSkill}
-                  disabled={editDisabled}
-                />
-                <CheckboxField
-                  enrollment={enrollment}
-                  fieldName={'oralSkill'}
-                  onClick={toggleSkill}
-                  disabled={editDisabled}
-                />
-              </div>
-            </div>
-            <div className="rows gapped margin-top-sm">
-              <H3>{t('header.selectedPartialExams')}</H3>
-              <div className="columns gapped-xxl">
-                <div className="rows clerk-enrollment-details-fields__skills__checkboxes gapped-sm">
-                  <H3>
-                    {translateCommon(
-                      'enrollment.partialExamsAndSkills.oralSkill',
-                    )}{' '}
-                    *
-                  </H3>
-                  <CheckboxField
-                    enrollment={enrollment}
-                    fieldName={'speakingPartialExam'}
-                    onClick={togglePartialExam}
-                    disabled={!enrollment.oralSkill || editDisabled}
-                  />
-                  <CheckboxField
-                    enrollment={enrollment}
-                    fieldName={'speechComprehensionPartialExam'}
-                    onClick={togglePartialExam}
-                    disabled={
-                      (!enrollment.oralSkill &&
-                        !enrollment.understandingSkill) ||
-                      editDisabled
-                    }
-                  />
-                </div>
-                <div className="rows clerk-enrollment-details-fields__skills__checkboxes gapped-sm">
-                  <H3>
-                    {translateCommon(
-                      'enrollment.partialExamsAndSkills.textualSkill',
-                    )}{' '}
-                    *
-                  </H3>
-                  <CheckboxField
-                    enrollment={enrollment}
-                    fieldName={'writingPartialExam'}
-                    onClick={togglePartialExam}
-                    disabled={!enrollment.textualSkill || editDisabled}
-                  />
-                  <CheckboxField
-                    enrollment={enrollment}
-                    fieldName={'readingComprehensionPartialExam'}
-                    onClick={togglePartialExam}
-                    disabled={
-                      (!enrollment.textualSkill &&
-                        !enrollment.understandingSkill) ||
-                      editDisabled
-                    }
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+        {isViewMode ? (
+          <ClerkEnrollmentSkillsListTable enrollment={enrollment} />
+        ) : (
+          <ClerkEnrollmentSkillsListFields
+            enrollment={enrollment}
+            editDisabled={editDisabled}
+            onCheckboxFieldChange={onCheckboxFieldChange}
+          />
         )}
+        <div className="columns flex-start">
+          <CustomButton
+            onClick={setGradeModalOpen.bind(this, true)}
+            color={Color.Secondary}
+            variant={Variant.Outlined}
+          >
+            Anna arvosanat
+          </CustomButton>
+        </div>
         <div className="margin-top-sm">
           <H3>{t('header.previousEnrollment')}</H3>
         </div>
@@ -680,15 +803,6 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
             editDisabled,
           )}
         />
-        <div className="columns flex-start">
-          <CustomButton
-            onClick={setGradeModalOpen.bind(this, true)}
-            color={Color.Secondary}
-            variant={Variant.Outlined}
-          >
-            Anna arvosanat
-          </CustomButton>
-        </div>
         <Divider className="margin-top-lg" />
         <div className="columns margin-top-lg space-between">
           <H2>Maksutiedot</H2>
@@ -764,6 +878,7 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
           skills={enrollment}
           open={gradeModalOpen}
           enrollment={enrollment}
+          oid={oid}
         />
       )}
       <CustomModal

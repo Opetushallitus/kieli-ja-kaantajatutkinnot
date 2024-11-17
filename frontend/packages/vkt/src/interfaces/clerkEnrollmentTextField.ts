@@ -8,4 +8,5 @@ export type ClerkEnrollmentTextFieldProps<T> = {
   field: ClerkEnrollmentTextFieldEnum;
   showFieldError: boolean;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  isViewMode: boolean;
 } & CustomTextFieldProps;

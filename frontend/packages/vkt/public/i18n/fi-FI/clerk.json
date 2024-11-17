@@ -29,7 +29,9 @@
           "personalInformation": "Henkilötiedot",
           "previousEnrollment": "Aikaisempi osallistuminen valtionhallinnon kielitutkintoon",
           "selectedPartialExams": "Valitut osakokeet",
-          "selectedSkills": "Valitut tutkinnot"
+          "selectedSkills": "Valitut tutkinnot",
+          "grades": "Arvosanat",
+          "gradeComments": "Huomautuksia"
         },
         "moveModal": {
           "fillings": "Paikkoja täytetty",

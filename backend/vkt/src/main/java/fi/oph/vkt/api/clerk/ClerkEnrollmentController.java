@@ -6,11 +6,11 @@ import static org.springframework.http.MediaType.APPLICATION_PDF_VALUE;
 
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentGradesDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
+import fi.oph.vkt.api.dto.clerk.ExaminerEnrollmentGradesDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.service.ClerkEnrollmentService;
@@ -96,15 +96,6 @@ public class ClerkEnrollmentController {
   @Operation(tags = TAG_ENROLLMENT, summary = "Get enrollment contact request")
   public ExaminerEnrollmentAppointmentDTO getEnrollmentAppointment(@PathVariable final long enrollmentAppointmentId) {
     return clerkEnrollmentService.getEnrollmentAppointment(enrollmentAppointmentId);
-  }
-
-  @PutMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}/grades")
-  @Operation(tags = TAG_ENROLLMENT, summary = "Update enrollment appointment")
-  public ClerkEnrollmentGradesDTO upsertEnrollmentAppointmentGrades(
-    @RequestBody @Valid final ClerkEnrollmentGradesDTO dto,
-    @PathVariable final long enrollmentAppointmentId
-  ) {
-    return clerkEnrollmentService.upsertAppointmentGrades(enrollmentAppointmentId, dto);
   }
 
   @GetMapping(path = "/attachment", consumes = ALL_VALUE)

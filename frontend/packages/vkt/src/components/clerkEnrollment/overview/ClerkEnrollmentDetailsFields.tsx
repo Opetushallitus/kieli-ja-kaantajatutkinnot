@@ -503,6 +503,7 @@ export const ClerkEnrollmentDetailsFields = ({
       showFieldError: fieldErrors[field],
       onBlur: setFieldErrorOnBlur(field),
       fullWidth: true,
+      isViewMode: false,
     };
   };
 

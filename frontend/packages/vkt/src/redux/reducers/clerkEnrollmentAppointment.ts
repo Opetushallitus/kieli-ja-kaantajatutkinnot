@@ -94,6 +94,7 @@ const clerkEnrollmentAppointmentSlice = createSlice({
       _action: PayloadAction<{
         enrollment: ClerkEnrollmentAppointment;
         grades: ClerkEnrollmentAppointmentGrades;
+        oid: string;
       }>,
     ) {
       state.gradesStatus = APIResponseStatus.InProgress;
