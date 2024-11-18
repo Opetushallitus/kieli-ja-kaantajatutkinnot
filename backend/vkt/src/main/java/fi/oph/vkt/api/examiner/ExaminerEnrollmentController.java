@@ -36,8 +36,8 @@ public class ExaminerEnrollmentController {
   @PutMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}/grades")
   @Operation(tags = TAG_ENROLLMENT, summary = "Update enrollment appointment")
   public ExaminerEnrollmentGradesDTO upsertEnrollmentAppointmentGrades(
-          @RequestBody @Valid final ExaminerEnrollmentGradesDTO dto,
-          @PathVariable final long enrollmentAppointmentId
+    @RequestBody @Valid final ExaminerEnrollmentGradesDTO dto,
+    @PathVariable final long enrollmentAppointmentId
   ) {
     return examinerEnrollmentService.upsertAppointmentGrades(enrollmentAppointmentId, dto);
   }
