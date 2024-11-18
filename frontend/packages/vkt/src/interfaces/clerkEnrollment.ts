@@ -9,6 +9,7 @@ import {
 import { ClerkFreeEnrollmentBasis } from 'interfaces/clerkEducation';
 import {
   CertificateShippingData,
+  PartialExams,
   PartialExamsAndSkills,
 } from 'interfaces/common/enrollment';
 import {
@@ -126,7 +127,9 @@ interface Grade {
   comment: string;
 }
 
-export interface ClerkEnrollmentAppointmentGrades {
+export interface GradedExams extends Omit<PartialExams, 'understandingSkill'> {}
+
+export interface ClerkEnrollmentAppointmentGrades extends WithVersion {
   speakingPartialExam: Grade;
   speechComprehensionPartialExam: Grade;
   writingPartialExam: Grade;

@@ -32,6 +32,11 @@
           "understandingSkill": "Ymmärtämisen taito",
           "writingPartialExam": "Kirjoittaminen"
         },
+        "grades": {
+          "GOOD": "Hyvä",
+          "SATISFACTORY": "Tyydyttävä",
+          "FAILED": "Hylätty"
+        },
         "textFields": {
           "country": "Maa",
           "email": "Sähköpostiosoite",

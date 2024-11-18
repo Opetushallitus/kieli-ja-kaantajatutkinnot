@@ -137,6 +137,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
       enrollmentAppointmentId
     );
+
     checkExaminerOid(enrollmentAppointment, oid);
 
     final Optional<EnrollmentGrade> enrollmentGradeOptional = enrollmentGradesRepository.findByEnrollmentAppointment(
@@ -144,6 +145,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     );
     final EnrollmentGrade enrollmentGrade = enrollmentGradeOptional.orElseGet(EnrollmentGrade::new);
 
+    enrollmentGrade.assertVersion(dto.version());
     if (dto.speakingPartialExam() != null) {
       enrollmentGrade.setSpeakingPartialExamGrade(dto.speakingPartialExam().grade());
       enrollmentGrade.setSpeakingPartialExamComment(dto.speakingPartialExam().comment());
@@ -187,6 +189,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
   private ExaminerEnrollmentGradesDTO createGradesDTO(final EnrollmentGrade enrollmentGrade) {
     return ExaminerEnrollmentGradesDTO
       .builder()
+      .version(enrollmentGrade.getVersion())
       .writingPartialExam(
         createGradeDTO(enrollmentGrade.getWritingPartialExamGrade(), enrollmentGrade.getWritingPartialExamComment())
       )

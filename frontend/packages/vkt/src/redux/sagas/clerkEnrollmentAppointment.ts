@@ -36,6 +36,7 @@ function* upsertClerkEnrollmentAppointmentGradesSaga(
 ) {
   const { enrollment, grades, oid } = action.payload;
   const nonEmptyGrades = {
+    version: grades.version ?? 0,
     speakingPartialExam:
       grades.speakingPartialExam?.grade !== ''
         ? grades.speakingPartialExam

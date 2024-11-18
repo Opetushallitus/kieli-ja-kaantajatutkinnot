@@ -14,7 +14,6 @@ import {
   H3,
   InfoText,
   Text,
-  valueAsOption,
 } from 'shared/components';
 import {
   APIResponseStatus,
@@ -34,12 +33,17 @@ import {
   useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { EnrollmentAppointmentStatus, PaymentStatus } from 'enums/app';
+import {
+  EnrollmentAppointmentStatus,
+  ExamGrades,
+  PaymentStatus,
+} from 'enums/app';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import {
   ClerkEnrollmentAppointment,
   ClerkEnrollmentAppointmentGrades,
   ClerkPayment,
+  GradedExams,
 } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
@@ -105,14 +109,14 @@ const GradeModal = ({
 }) => {
   const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
-  const exams: Array<keyof ClerkEnrollmentAppointmentGrades> = [
+  const exams: Array<keyof GradedExams> = [
     'writingPartialExam',
     'readingComprehensionPartialExam',
     'speakingPartialExam',
     'speechComprehensionPartialExam',
   ];
   const selectedSkills = exams.filter(
-    (skill: keyof ClerkEnrollmentAppointmentGrades) => skills[skill],
+    (skill: keyof GradedExams) => skills[skill],
   );
   const { grades, gradesSaveStatus } = useAppSelector(
     clerkEnrollmentAppointmentSelector,
@@ -138,25 +142,38 @@ const GradeModal = ({
   }, [gradesSaveStatus, dispatch, closeModal]);
 
   const onSetComment =
-    (exam: keyof ClerkEnrollmentAppointmentGrades) =>
-    (event: ChangeEvent<HTMLTextAreaElement>) =>
+    (exam: keyof GradedExams) => (event: ChangeEvent<HTMLTextAreaElement>) =>
       setGrades((prev) => ({
         ...prev,
         [exam]: {
-          ...prev[exam],
+          grade: prev[exam]?.grade ?? '',
           comment: event.target.value,
         },
       }));
 
-  const onSetGrade =
-    (exam: keyof ClerkEnrollmentAppointmentGrades) => (grade?: string) =>
-      setGrades((prev) => ({
-        ...prev,
-        [exam]: {
-          ...prev[exam],
-          grade,
-        },
-      }));
+  const onSetGrade = (exam: keyof GradedExams) => (grade?: string) =>
+    setGrades((prev) => ({
+      ...prev,
+      [exam]: {
+        comment: prev[exam]?.comment ?? '',
+        grade,
+      },
+    }));
+
+  const gradeValues = [
+    {
+      label: translateCommon(`enrollment.grades.${ExamGrades.GOOD}`),
+      value: ExamGrades.GOOD,
+    },
+    {
+      label: translateCommon(`enrollment.grades.${ExamGrades.SATISFACTORY}`),
+      value: ExamGrades.SATISFACTORY,
+    },
+    {
+      label: translateCommon(`enrollment.grades.${ExamGrades.FAILED}`),
+      value: ExamGrades.FAILED,
+    },
+  ];
 
   return (
     <CustomModal
@@ -170,34 +187,30 @@ const GradeModal = ({
             <Text className="bold">Osakoe</Text>
             <Text className="bold">Arvosana</Text>
             <Text className="bold">Huomautuksia</Text>
-            {selectedSkills.map(
-              (skill: keyof ClerkEnrollmentAppointmentGrades, index) => (
-                <Fragment key={index}>
-                  <Text>
-                    {translateCommon(
-                      `enrollment.partialExamsAndSkills.${skill}`,
-                    )}
-                  </Text>
-                  <ComboBox
-                    autoHighlight
-                    values={['ACCEPTED', 'FAILED'].map(valueAsOption)}
-                    variant={TextFieldVariant.Outlined}
-                    onChange={onSetGrade(skill)}
-                    value={
-                      newGrades[skill]?.grade
-                        ? gradeToComboBoxOption(newGrades[skill]?.grade)
-                        : null
-                    }
-                    disabled={isLoading}
-                  />
-                  <CustomTextField
-                    value={newGrades[skill]?.comment ?? ''}
-                    onChange={onSetComment(skill)}
-                    disabled={isLoading}
-                  />
-                </Fragment>
-              ),
-            )}
+            {selectedSkills.map((skill: keyof GradedExams, index) => (
+              <Fragment key={index}>
+                <Text>
+                  {translateCommon(`enrollment.partialExamsAndSkills.${skill}`)}
+                </Text>
+                <ComboBox
+                  autoHighlight
+                  values={gradeValues}
+                  variant={TextFieldVariant.Outlined}
+                  onChange={onSetGrade(skill)}
+                  value={
+                    newGrades[skill]?.grade
+                      ? gradeToComboBoxOption(newGrades[skill]?.grade)
+                      : null
+                  }
+                  disabled={isLoading}
+                />
+                <CustomTextField
+                  value={newGrades[skill]?.comment ?? ''}
+                  onChange={onSetComment(skill)}
+                  disabled={isLoading}
+                />
+              </Fragment>
+            ))}
           </div>
           <div className="columns gapped flex-end">
             <CustomButton
@@ -404,7 +417,10 @@ const ClerkEnrollmentSkillsListTable = ({
 
   const { grades } = useAppSelector(clerkEnrollmentAppointmentSelector);
 
-  const renderGrade = (grade: string) => (grade && grade !== '' ? grade : '-');
+  const renderGrade = (grade: string) =>
+    grade && grade !== '' ? translateCommon(`enrollment.grades.${grade}`) : '-';
+  const renderComment = (comment: string) =>
+    comment && comment !== '' ? comment : '-';
 
   const partialExamsRow = (exams: Array<keyof PartialExamsAndSkills>) => {
     return exams.map((exam) => (
@@ -415,7 +431,7 @@ const ClerkEnrollmentSkillsListTable = ({
           </Text>
         </div>
         <Text>{renderGrade(grades[exam]?.grade)}</Text>
-        <Text>{renderGrade(grades[exam]?.comment)}</Text>
+        <Text>{renderComment(grades[exam]?.comment)}</Text>
       </Fragment>
     ));
   };

@@ -26,6 +26,7 @@ const initialState: ClerkEnrollmentAppointmentState = {
   examEventsStatus: APIResponseStatus.NotStarted,
   examEvents: [],
   grades: {
+    version: 0,
     speakingPartialExam: {
       grade: '',
       comment: '',

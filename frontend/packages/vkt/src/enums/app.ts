@@ -105,6 +105,12 @@ export enum ExamEventToggleFilter {
   Passed = 'passed',
 }
 
+export enum ExamGrades {
+  GOOD = 'GOOD',
+  SATISFACTORY = 'SATISFACTORY',
+  FAILED = 'FAILED',
+}
+
 export enum UIMode {
   Edit = 'edit',
   View = 'view',
