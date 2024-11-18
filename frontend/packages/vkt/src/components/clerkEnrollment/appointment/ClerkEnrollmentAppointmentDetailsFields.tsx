@@ -423,8 +423,9 @@ const ClerkEnrollmentSkillsListTable = ({
     comment && comment !== '' ? comment : '-';
 
   const partialExamsRow = (exams: Array<keyof PartialExamsAndSkills>) => {
-    return exams.map((exam) => (
+    return exams.map((exam, idx) => (
       <Fragment key={exam}>
+        {idx > 0 && <div />}
         <div className="rows">
           <Text>
             {translateCommon(`enrollment.partialExamsAndSkills.${exam}`)}
@@ -437,28 +438,30 @@ const ClerkEnrollmentSkillsListTable = ({
   };
 
   return (
-    <div className="grid-4-columns">
-      <H3 className="margin-bottom-lg">{t('header.selectedSkills')}</H3>
-      <H3 className="margin-bottom-lg">{t('header.selectedPartialExams')}</H3>
-      <H3 className="margin-bottom-lg">{t('header.grades')}</H3>
-      <H3 className="margin-bottom-lg">{t('header.gradeComments')}</H3>
+    <div className="rows">
+      <div className="grid-4-columns">
+        <H3 className="margin-bottom-lg">{t('header.selectedSkills')}</H3>
+        <H3 className="margin-bottom-lg">{t('header.selectedPartialExams')}</H3>
+        <H3 className="margin-bottom-lg">{t('header.grades')}</H3>
+        <H3 className="margin-bottom-lg">{t('header.gradeComments')}</H3>
+      </div>
 
       {enrollment.textualSkill && (
-        <>
+        <div className="grid-4-columns">
           <Text>
             {translateCommon('enrollment.partialExamsAndSkills.textualSkill')}
           </Text>
           {partialExamsRow(partialTextualExams)}
-        </>
+        </div>
       )}
 
       {enrollment.oralSkill && (
-        <>
+        <div className="grid-4-columns">
           <Text>
             {translateCommon('enrollment.partialExamsAndSkills.oralSkill')}
           </Text>
           {partialExamsRow(partialOralExams)}
-        </>
+        </div>
       )}
     </div>
   );
