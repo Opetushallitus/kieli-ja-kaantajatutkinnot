@@ -1,31 +1,51 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ClerkListExaminerState } from 'interfaces/clerkListExaminer';
+import { ExamLanguage } from 'enums/app';
+import {
+  ClerkListExaminerFilters,
+  ClerkListExaminerState,
+} from 'interfaces/clerkListExaminer';
 import { ExaminerDetails } from 'interfaces/examinerDetails';
 
 const initialState: ClerkListExaminerState = {
   status: APIResponseStatus.NotStarted,
   examiners: [],
+  filters: {
+    examLanguage: ExamLanguage.ALL,
+  },
 };
 
 const clerkListExaminerSlice = createSlice({
   name: 'clerkListExaminer',
   initialState,
   reducers: {
-    acceptExaminers(state, action: PayloadAction<Array<ExaminerDetails>>) {
+    acceptClerkListExaminers(
+      state,
+      action: PayloadAction<Array<ExaminerDetails>>,
+    ) {
       state.status = APIResponseStatus.Success;
       state.examiners = action.payload;
     },
-    loadExaminers(state) {
+    loadClerkListExaminers(state) {
       state.status = APIResponseStatus.InProgress;
     },
-    rejectExaminers(state) {
+    rejectClerkListExaminers(state) {
       state.status = APIResponseStatus.Error;
+    },
+    setClerkListExaminerFilters(
+      state,
+      action: PayloadAction<ClerkListExaminerFilters>,
+    ) {
+      state.filters = action.payload;
     },
   },
 });
 
-export const { acceptExaminers, loadExaminers, rejectExaminers } =
-  clerkListExaminerSlice.actions;
+export const {
+  acceptClerkListExaminers,
+  loadClerkListExaminers,
+  rejectClerkListExaminers,
+  setClerkListExaminerFilters,
+} = clerkListExaminerSlice.actions;
 export const clerkListExaminerReducer = clerkListExaminerSlice.reducer;

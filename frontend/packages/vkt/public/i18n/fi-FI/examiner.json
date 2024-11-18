@@ -92,6 +92,14 @@
           "upcoming": "Tulevat"
         }
       },
+      "examinerFilter": {
+        "label": "Näytä seuraavien kielten tutkintosuoritusten vastaanottajat",
+        "options": {
+          "ALL": "Molemmat kielet",
+          "FI": "Suomi",
+          "SV": "Ruotsi"
+        }
+      },
       "examinerHomepage": {
         "heading": "Hyvän ja tyydyttävän taidon kielitutkinnot"
       },

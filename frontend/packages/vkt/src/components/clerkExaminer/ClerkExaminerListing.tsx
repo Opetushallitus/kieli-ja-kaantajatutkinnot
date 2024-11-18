@@ -1,6 +1,10 @@
 import {
   Divider,
-  SelectChangeEvent,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
   TableCell,
   TableHead,
   TableRow,
@@ -9,18 +13,20 @@ import { Link } from 'react-router-dom';
 import { CustomButtonLink, CustomTable, H2, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
-import { LanguageFilter } from 'components/common/LanguageFilter';
 import {
   useClerkTranslation,
   useCommonTranslation,
+  useExaminerTranslation,
   useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, ExamLanguage } from 'enums/app';
 import { ExaminerDetails } from 'interfaces/examinerDetails';
-import { setExamEventLanguageFilter } from 'redux/reducers/clerkListExamEvent';
-import { clerkListExamEventsSelector } from 'redux/selectors/clerkListExamEvent';
-import { clerkListExaminerSelector } from 'redux/selectors/clerkListExaminer';
+import { setClerkListExaminerFilters } from 'redux/reducers/clerkListExaminer';
+import {
+  clerkListExaminerSelector,
+  selectFilteredExaminers,
+} from 'redux/selectors/clerkListExaminer';
 import { ExaminerUtils } from 'utils/examiner';
 
 const ClerkExaminerListingHeader = () => {
@@ -49,7 +55,7 @@ const ExaminerListingRow = ({ examiner }: { examiner: ExaminerDetails }) => {
   const translateCommon = useCommonTranslation();
   const translateMunicipality = useKoodistoMunicipalitiesTranslation();
 
-  const examinerUrl = AppRoutes.ExaminerDetailsPage.replace(
+  const examinerUrl = AppRoutes.ExaminerHomePage.replace(
     /:oid/,
     `${examiner.oid}`,
   );
@@ -99,19 +105,54 @@ const getRowDetails = (examiner: ExaminerDetails) => {
   return <ExaminerListingRow examiner={examiner} />;
 };
 
+const ExaminerFilter = () => {
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.examinerFilter',
+  });
+  const { examLanguage } = useAppSelector(clerkListExaminerSelector).filters;
+  const dispatch = useAppDispatch();
+
+  return (
+    <FormControl className="margin-top-lg" component="fieldset">
+      <FormLabel component="legend" className="heading-label">
+        {t('label')}:
+      </FormLabel>
+      <RadioGroup
+        data-testid="examiner-filter"
+        name="examiner-filter"
+        value={examLanguage}
+        onChange={(e) => {
+          dispatch(
+            setClerkListExaminerFilters({
+              examLanguage: e.target.value as ExamLanguage,
+            }),
+          );
+        }}
+      >
+        <div className="columns margin-left-sm">
+          {Object.entries(ExamLanguage).map(([key, language]) => {
+            return (
+              <FormControlLabel
+                key={key}
+                value={language}
+                checked={examLanguage === language}
+                label={t(`options.${key}`)}
+                control={<Radio />}
+              />
+            );
+          })}
+        </div>
+      </RadioGroup>
+    </FormControl>
+  );
+};
+
 export const ClerkExaminerListing = () => {
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkExaminerListing',
   });
-  const dispatch = useAppDispatch();
 
-  const { languageFilter } = useAppSelector(clerkListExamEventsSelector);
-
-  const handleLanguageFilterChange = (event: SelectChangeEvent) => {
-    dispatch(setExamEventLanguageFilter(event.target.value as ExamLanguage));
-  };
-
-  const { examiners } = useAppSelector(clerkListExaminerSelector);
+  const examiners = useAppSelector(selectFilteredExaminers);
 
   return (
     <>
@@ -119,10 +160,7 @@ export const ClerkExaminerListing = () => {
         <H2>{t('title')}</H2>
       </div>
       <Divider />
-      <LanguageFilter
-        value={languageFilter}
-        onChange={handleLanguageFilterChange}
-      />
+      <ExaminerFilter />
       <CustomTable
         className="table-layout-auto"
         data={examiners}

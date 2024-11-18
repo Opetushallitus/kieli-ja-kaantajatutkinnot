@@ -6,9 +6,9 @@ import { APIEndpoints } from 'enums/api';
 import { ExaminerDetails } from 'interfaces/examinerDetails';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
-  acceptExaminers,
-  loadExaminers,
-  rejectExaminers,
+  acceptClerkListExaminers,
+  loadClerkListExaminers,
+  rejectClerkListExaminers,
 } from 'redux/reducers/clerkListExaminer';
 import { NotifierUtils } from 'utils/notifier';
 
@@ -18,14 +18,14 @@ function* loadExaminersSaga() {
       axiosInstance.get,
       APIEndpoints.ClerkExaminer,
     );
-    yield put(acceptExaminers(response.data));
+    yield put(acceptClerkListExaminers(response.data));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
-    yield put(rejectExaminers());
+    yield put(rejectClerkListExaminers());
   }
 }
 
 export function* watchListExaminers() {
-  yield takeLatest(loadExaminers.type, loadExaminersSaga);
+  yield takeLatest(loadClerkListExaminers.type, loadExaminersSaga);
 }
