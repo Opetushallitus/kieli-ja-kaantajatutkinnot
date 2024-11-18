@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import {
   loadClerkEnrollmentAppointment,
+  loadClerkEnrollmentAppointmentGrades,
   loadExaminerExamEvents,
 } from 'redux/reducers/clerkEnrollmentAppointment';
 import { clerkEnrollmentAppointmentSelector } from 'redux/selectors/clerkEnrollmentAppointment';
@@ -22,9 +23,8 @@ export const ClerkEnrollmentAppointmentOverviewPage: FC<
   ClerkEnrollmentAppointmentOverviewPageProps
 > = ({ editMode }) => {
   // Redux
-  const { status, examEventsStatus, examEvents, enrollment } = useAppSelector(
-    clerkEnrollmentAppointmentSelector,
-  );
+  const { status, gradesStatus, examEventsStatus, examEvents, enrollment } =
+    useAppSelector(clerkEnrollmentAppointmentSelector);
 
   const dispatch = useAppDispatch();
   const params = useParams();
@@ -54,6 +54,21 @@ export const ClerkEnrollmentAppointmentOverviewPage: FC<
       dispatch(loadExaminerExamEvents(params.oid));
     }
   }, [dispatch, examEventsStatus, params.oid]);
+
+  useEffect(() => {
+    if (
+      gradesStatus === APIResponseStatus.NotStarted &&
+      enrollment?.id &&
+      params.oid
+    ) {
+      dispatch(
+        loadClerkEnrollmentAppointmentGrades({
+          enrollmentId: enrollment.id,
+          oid: params.oid,
+        }),
+      );
+    }
+  }, [dispatch, enrollment?.id, gradesStatus, params.oid]);
 
   return (
     <Box className="clerk-enrollment-overview-page">

@@ -114,12 +114,12 @@ const GradeModal = ({
   const selectedSkills = exams.filter(
     (skill: keyof ClerkEnrollmentAppointmentGrades) => skills[skill],
   );
-  const { grades, gradesStatus } = useAppSelector(
+  const { grades, gradesSaveStatus } = useAppSelector(
     clerkEnrollmentAppointmentSelector,
   );
   const [newGrades, setGrades] =
     useState<ClerkEnrollmentAppointmentGrades>(grades);
-  const isLoading = gradesStatus === APIResponseStatus.InProgress;
+  const isLoading = gradesSaveStatus === APIResponseStatus.InProgress;
   const handleSaveGradesButtonClick = () => {
     dispatch(
       upsertClerkEnrollmentAppointmentGrades({
@@ -131,11 +131,11 @@ const GradeModal = ({
   };
 
   useEffect(() => {
-    if (gradesStatus === APIResponseStatus.Success) {
+    if (gradesSaveStatus === APIResponseStatus.Success) {
       closeModal();
       dispatch(resetClerkEnrollmentAppointmentGrades());
     }
-  }, [gradesStatus, dispatch, closeModal]);
+  }, [gradesSaveStatus, dispatch, closeModal]);
 
   const onSetComment =
     (exam: keyof ClerkEnrollmentAppointmentGrades) =>

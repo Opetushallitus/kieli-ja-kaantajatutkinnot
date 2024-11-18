@@ -13,10 +13,12 @@ import { ExaminerExamEventResponse } from 'interfaces/examinerExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
   loadClerkEnrollmentAppointment,
+  loadClerkEnrollmentAppointmentGrades,
   loadExaminerExamEvents,
   rejectClerkEnrollmentAppointment,
   storeClerkEnrollmentAppointment,
   storeClerkEnrollmentAppointmentGrades,
+  storeClerkEnrollmentAppointmentGradesUpsert,
   storeClerkEnrollmentAppointmentUpdate,
   storeExaminerExamEvents,
   updateClerkEnrollmentAppointment,
@@ -62,7 +64,7 @@ function* upsertClerkEnrollmentAppointmentGradesSaga(
         nonEmptyGrades,
       );
 
-    yield put(storeClerkEnrollmentAppointmentGrades(apiResponse.data));
+    yield put(storeClerkEnrollmentAppointmentGradesUpsert(apiResponse.data));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
@@ -125,6 +127,28 @@ function* loadClerkEnrollmentAppointmentSaga(
   }
 }
 
+function* loadClerkEnrollmentAppointmentGradesSaga(
+  action: PayloadAction<{
+    enrollmentId: number;
+    oid: string;
+  }>,
+) {
+  try {
+    const { enrollmentId, oid } = action.payload;
+    const loadUrl = `${APIEndpoints.ExaminerEnrollmentAppointment.replace(
+      ':oid',
+      oid,
+    )}/${enrollmentId}/grades`;
+
+    const response: AxiosResponse<ClerkEnrollmentAppointmentGrades> =
+      yield call(axiosInstance.get, loadUrl);
+
+    yield put(storeClerkEnrollmentAppointmentGrades(response.data));
+  } catch (error) {
+    yield put(rejectClerkEnrollmentAppointment());
+  }
+}
+
 function* loadExaminerExamEventsSaga(action: PayloadAction<string>) {
   try {
     const oid = action.payload;
@@ -151,6 +175,10 @@ export function* watchClerkEnrollmentAppointment() {
   yield takeLatest(
     loadClerkEnrollmentAppointment.type,
     loadClerkEnrollmentAppointmentSaga,
+  );
+  yield takeLatest(
+    loadClerkEnrollmentAppointmentGrades.type,
+    loadClerkEnrollmentAppointmentGradesSaga,
   );
   yield takeLatest(
     upsertClerkEnrollmentAppointmentGrades.type,

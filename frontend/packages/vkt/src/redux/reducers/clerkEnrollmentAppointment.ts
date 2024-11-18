@@ -12,6 +12,7 @@ interface ClerkEnrollmentAppointmentState {
   enrollment?: ClerkEnrollmentAppointment;
   createStatus: APIResponseStatus;
   gradesStatus: APIResponseStatus;
+  gradesSaveStatus: APIResponseStatus;
   examEventsStatus: APIResponseStatus;
   examEvents: Array<ExaminerExamEvent>;
   grades?: ClerkEnrollmentAppointmentGrades;
@@ -21,6 +22,7 @@ const initialState: ClerkEnrollmentAppointmentState = {
   status: APIResponseStatus.NotStarted,
   createStatus: APIResponseStatus.NotStarted,
   gradesStatus: APIResponseStatus.NotStarted,
+  gradesSaveStatus: APIResponseStatus.NotStarted,
   examEventsStatus: APIResponseStatus.NotStarted,
   examEvents: [],
   grades: {
@@ -95,6 +97,15 @@ const clerkEnrollmentAppointmentSlice = createSlice({
     resetClerkEnrollmentDetailsUpdate(state) {
       state.status = initialState.status;
     },
+    loadClerkEnrollmentAppointmentGrades(
+      state,
+      _action: PayloadAction<{
+        enrollmentId: number;
+        oid: string;
+      }>,
+    ) {
+      state.gradesStatus = APIResponseStatus.Success;
+    },
     upsertClerkEnrollmentAppointmentGrades(
       state,
       _action: PayloadAction<{
@@ -103,7 +114,14 @@ const clerkEnrollmentAppointmentSlice = createSlice({
         oid: string;
       }>,
     ) {
-      state.gradesStatus = APIResponseStatus.InProgress;
+      state.gradesSaveStatus = APIResponseStatus.InProgress;
+    },
+    storeClerkEnrollmentAppointmentGradesUpsert(
+      state,
+      action: PayloadAction<ClerkEnrollmentAppointmentGrades>,
+    ) {
+      state.gradesSaveStatus = APIResponseStatus.Success;
+      state.grades = action.payload;
     },
     storeClerkEnrollmentAppointmentGrades(
       state,
@@ -113,7 +131,7 @@ const clerkEnrollmentAppointmentSlice = createSlice({
       state.grades = action.payload;
     },
     resetClerkEnrollmentAppointmentGrades(state) {
-      state.gradesStatus = initialState.status;
+      state.gradesSaveStatus = initialState.status;
     },
   },
 });
@@ -132,4 +150,6 @@ export const {
   upsertClerkEnrollmentAppointmentGrades,
   storeClerkEnrollmentAppointmentGrades,
   resetClerkEnrollmentAppointmentGrades,
+  loadClerkEnrollmentAppointmentGrades,
+  storeClerkEnrollmentAppointmentGradesUpsert,
 } = clerkEnrollmentAppointmentSlice.actions;
