@@ -1,18 +1,23 @@
 package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.EnrollmentGradeDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.clerk.ExaminerEnrollmentGradesDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
 import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.EnrollmentGrade;
 import fi.oph.vkt.model.ExaminerExamEvent;
+import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentGradeType;
 import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentGradesRepository;
 import fi.oph.vkt.repository.ExaminerExamEventRepository;
-import fi.oph.vkt.repository.ExaminerRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
+import fi.oph.vkt.util.UUIDSource;
+import fi.oph.vkt.util.exception.APIException;
+import fi.oph.vkt.util.exception.APIExceptionType;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
@@ -27,10 +32,25 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
   private final EnrollmentGradesRepository enrollmentGradesRepository;
   private final ExaminerExamEventRepository examinerExamEventRepository;
   private final Environment environment;
+  private final UUIDSource uuidSource;
+
+  private static void checkExaminerOid(EnrollmentAppointment enrollmentAppointment, String oid) {
+    if (!enrollmentAppointment.getExaminer().getOid().equals(oid)) {
+      throw new APIException(APIExceptionType.EXAMINER_ENROLLMENT_OID_MISMATCH);
+    }
+  }
 
   @Transactional
-  public ExaminerEnrollmentAppointmentDTO updateAppointment(final ExaminerEnrollmentAppointmentUpdateDTO dto) {
+  public ExaminerEnrollmentAppointmentDTO updateAppointment(
+    final String oid,
+    final Long id,
+    final ExaminerEnrollmentAppointmentUpdateDTO dto
+  ) {
+    if (!Objects.equals(id, dto.id())) {
+      throw new APIException(APIExceptionType.EXAMINER_APPOINTMENT_ID_MISMATCH);
+    }
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(dto.id());
+    checkExaminerOid(enrollmentAppointment, oid);
     final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
 
     enrollmentAppointment.assertVersion(dto.version());
@@ -47,10 +67,44 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional(readOnly = true)
-  public ExaminerEnrollmentGradesDTO getAppointmentGrades(final long enrollmentAppointmentId) {
+  public ClerkEnrollmentContactRequestDTO getEnrollmentContactRequest(
+    final String oid,
+    final long enrollmentContactId
+  ) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
+      enrollmentContactId
+    );
+    checkExaminerOid(enrollmentAppointment, oid);
+
+    return ClerkEnrollmentUtil.createClerkEnrollmentContactDTO(enrollmentAppointment);
+  }
+
+  @Transactional
+  public ExaminerEnrollmentAppointmentDTO convertToAppointment(final String oid, final long enrollmentContactId) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
+      enrollmentContactId
+    );
+    checkExaminerOid(enrollmentAppointment, oid);
+
+    final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
+
+    enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.WAITING_AUTHENTICATION);
+
+    if (enrollmentAppointment.getAuthHash() == null) {
+      enrollmentAppointment.setAuthHash(uuidSource.getRandomNonce());
+    }
+
+    enrollmentAppointmentRepository.flush();
+
+    return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
+  }
+
+  @Transactional(readOnly = true)
+  public ExaminerEnrollmentGradesDTO getAppointmentGrades(final String oid, final long enrollmentAppointmentId) {
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
       enrollmentAppointmentId
     );
+    checkExaminerOid(enrollmentAppointment, oid);
     final Optional<EnrollmentGrade> enrollmentGradeOptional = enrollmentGradesRepository.findByEnrollmentAppointment(
       enrollmentAppointment
     );
@@ -58,14 +112,33 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     return enrollmentGradeOptional.map(this::createGradesDTO).orElse(null);
   }
 
+  @Transactional(readOnly = true)
+  public ExaminerEnrollmentAppointmentDTO getEnrollmentAppointment(
+    final String oid,
+    final long enrollmentAppointmentId
+  ) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
+      enrollmentAppointmentId
+    );
+
+    checkExaminerOid(enrollmentAppointment, oid);
+
+    final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
+
+    return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
+  }
+
   @Transactional
   public ExaminerEnrollmentGradesDTO upsertAppointmentGrades(
+    final String oid,
     final long enrollmentAppointmentId,
     final ExaminerEnrollmentGradesDTO dto
   ) {
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
       enrollmentAppointmentId
     );
+    checkExaminerOid(enrollmentAppointment, oid);
+
     final Optional<EnrollmentGrade> enrollmentGradeOptional = enrollmentGradesRepository.findByEnrollmentAppointment(
       enrollmentAppointment
     );

@@ -13,9 +13,6 @@ export enum APIEndpoints {
   ClerkUser = '/vkt/api/v1/clerk/user',
   PublicUser = '/vkt/api/v1/auth/info',
   ClerkEnrollment = '/vkt/api/v1/clerk/enrollment',
-  ClerkEnrollmentContactRequest = '/vkt/api/v1/clerk/enrollment/contact',
-  ClerkEnrollmentAppointment = '/vkt/api/v1/clerk/enrollment/appointment',
-  ExaminerEnrollmentAppointment = '/vkt/api/v1/tv/:oid/enrollment/appointment',
   ClerkPayment = '/vkt/api/v1/clerk/payment',
   FeatureFlags = '/vkt/api/v1/featureFlags',
   UploadPostPolicy = '/vkt/api/v1/uploadPostPolicy/:examEventId',
@@ -25,6 +22,8 @@ export enum APIEndpoints {
   ExaminerDetails = '/vkt/api/v1/tv/:oid',
   ExaminerDetailsInit = '/vkt/api/v1/tv/:oid/init',
   ExaminerExamEvent = '/vkt/api/v1/tv/:oid/examEvent',
+  ExaminerEnrollmentAppointment = '/vkt/api/v1/tv/:oid/enrollment/appointment',
+  ExaminerEnrollmentContactRequest = '/vkt/api/v1/tv/:oid/enrollment/contact',
 }
 
 /**

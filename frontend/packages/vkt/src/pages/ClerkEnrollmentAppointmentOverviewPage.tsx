@@ -40,9 +40,14 @@ export const ClerkEnrollmentAppointmentOverviewPage: FC<
       status === APIResponseStatus.NotStarted &&
       params.enrollmentAppointmentId
     ) {
-      dispatch(loadClerkEnrollmentAppointment(+params.enrollmentAppointmentId));
+      dispatch(
+        loadClerkEnrollmentAppointment({
+          id: +params.enrollmentAppointmentId,
+          oid: params.oid || '',
+        }),
+      );
     }
-  }, [dispatch, status, params.enrollmentAppointmentId]);
+  }, [dispatch, status, params.enrollmentAppointmentId, params.oid]);
 
   useEffect(() => {
     if (examEventsStatus === APIResponseStatus.NotStarted && params.oid) {

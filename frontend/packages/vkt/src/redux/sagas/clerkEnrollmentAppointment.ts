@@ -56,7 +56,7 @@ function* upsertClerkEnrollmentAppointmentGradesSaga(
     const apiResponse: AxiosResponse<ClerkEnrollmentAppointmentGrades> =
       yield call(
         axiosInstance.put,
-        `${APIEndpoints.ExaminerEnrollmentAppointment.replace(':oid', oid)}/${
+        `${APIEndpoints.ExaminerEnrollmentAppointment.replace(/:oid/, oid)}/${
           enrollment.id
         }/grades`,
         nonEmptyGrades,
@@ -82,7 +82,7 @@ function* updateClerkEnrollmentAppointmentSaga(
     const apiResponse: AxiosResponse<ClerkEnrollmentAppointmentResponse> =
       yield call(
         axiosInstance.put,
-        `${APIEndpoints.ExaminerEnrollmentAppointment.replace(':oid', oid)}/${
+        `${APIEndpoints.ExaminerEnrollmentAppointment.replace(/:oid/, oid)}/${
           enrollment.id
         }`,
         SerializationUtils.serializeClerkEnrollmentAppointment(enrollment),
@@ -100,10 +100,18 @@ function* updateClerkEnrollmentAppointmentSaga(
   }
 }
 
-function* loadClerkEnrollmentAppointmentSaga(action: PayloadAction<number>) {
+function* loadClerkEnrollmentAppointmentSaga(
+  action: PayloadAction<{
+    id: number;
+    oid: string;
+  }>,
+) {
   try {
-    const appointmentId = action.payload;
-    const loadUrl = `${APIEndpoints.ClerkEnrollmentAppointment}/${appointmentId}`;
+    const { id, oid } = action.payload;
+    const loadUrl = `${APIEndpoints.ExaminerEnrollmentAppointment.replace(
+      /:oid/,
+      oid,
+    )}/${id}`;
 
     const response: AxiosResponse<ClerkEnrollmentAppointmentResponse> =
       yield call(axiosInstance.get, loadUrl);
@@ -120,7 +128,7 @@ function* loadClerkEnrollmentAppointmentSaga(action: PayloadAction<number>) {
 function* loadExaminerExamEventsSaga(action: PayloadAction<string>) {
   try {
     const oid = action.payload;
-    const loadUrl = APIEndpoints.ExaminerExamEvent.replace(':oid', oid);
+    const loadUrl = APIEndpoints.ExaminerExamEvent.replace(/:oid/, oid);
 
     const response: AxiosResponse<Array<ExaminerExamEventResponse>> =
       yield call(axiosInstance.get, loadUrl);

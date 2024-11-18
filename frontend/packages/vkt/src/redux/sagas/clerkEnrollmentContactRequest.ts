@@ -15,10 +15,18 @@ import {
 } from 'redux/reducers/clerkEnrollmentContactRequest';
 import { SerializationUtils } from 'utils/serialization';
 
-function* createClerkEnrollmentAppointmentSaga(action: PayloadAction<number>) {
+function* createClerkEnrollmentAppointmentSaga(
+  action: PayloadAction<{
+    id: number;
+    oid: string;
+  }>,
+) {
   try {
-    const contactId = action.payload;
-    const saveUrl = `${APIEndpoints.ClerkEnrollmentContactRequest}/${contactId}/convertToAppointment`;
+    const { id, oid } = action.payload;
+    const saveUrl = `${APIEndpoints.ExaminerEnrollmentContactRequest.replace(
+      /:oid/,
+      oid,
+    )}/${id}/convertToAppointment`;
 
     const response: AxiosResponse<ClerkEnrollmentContactResponse> = yield call(
       axiosInstance.post,
@@ -35,10 +43,18 @@ function* createClerkEnrollmentAppointmentSaga(action: PayloadAction<number>) {
   }
 }
 
-function* loadClerkEnrollmentContactRequestSaga(action: PayloadAction<number>) {
+function* loadClerkEnrollmentContactRequestSaga(
+  action: PayloadAction<{
+    id: number;
+    oid: string;
+  }>,
+) {
   try {
-    const contactId = action.payload;
-    const loadUrl = `${APIEndpoints.ClerkEnrollmentContactRequest}/${contactId}`;
+    const { id, oid } = action.payload;
+    const loadUrl = `${APIEndpoints.ExaminerEnrollmentContactRequest.replace(
+      /:oid/,
+      oid,
+    )}/${id}`;
 
     const response: AxiosResponse<ClerkEnrollmentContactResponse> = yield call(
       axiosInstance.get,

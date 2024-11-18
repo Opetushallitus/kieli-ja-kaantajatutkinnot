@@ -57,7 +57,13 @@ const clerkEnrollmentAppointmentSlice = createSlice({
       state.examEvents = action.payload;
       state.examEventsStatus = APIResponseStatus.Success;
     },
-    loadClerkEnrollmentAppointment(state, _action: PayloadAction<number>) {
+    loadClerkEnrollmentAppointment(
+      state,
+      _action: PayloadAction<{
+        id: number;
+        oid: string;
+      }>,
+    ) {
       state.status = APIResponseStatus.InProgress;
     },
     storeClerkEnrollmentAppointment(

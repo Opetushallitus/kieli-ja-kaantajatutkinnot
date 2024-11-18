@@ -18,7 +18,13 @@ const clerkEnrollmentContactRequestSlice = createSlice({
   name: 'clerkEnrollmentContactRequest',
   initialState,
   reducers: {
-    loadClerkEnrollmentContactRequest(state, _action: PayloadAction<number>) {
+    loadClerkEnrollmentContactRequest(
+      state,
+      _action: PayloadAction<{
+        id: number;
+        oid: string;
+      }>,
+    ) {
       state.status = APIResponseStatus.InProgress;
     },
     storeClerkEnrollmentContactRequest(
@@ -31,7 +37,13 @@ const clerkEnrollmentContactRequestSlice = createSlice({
     rejectClerkEnrollmentContactRequest(state) {
       state.status = APIResponseStatus.Error;
     },
-    createClerkEnrollmentAppointment(state, _action: PayloadAction<number>) {
+    createClerkEnrollmentAppointment(
+      state,
+      _action: PayloadAction<{
+        id: number;
+        oid: string;
+      }>,
+    ) {
       state.createStatus = APIResponseStatus.InProgress;
     },
     storeCreateClerkEnrollmentAppointment(

@@ -50,12 +50,6 @@ class ClerkEnrollmentServiceTest {
   private EnrollmentRepository enrollmentRepository;
 
   @Resource
-  private EnrollmentAppointmentRepository enrollmentAppointmentRepository;
-
-  @Resource
-  private EnrollmentGradesRepository enrollmentGradesRepository;
-
-  @Resource
   private FreeEnrollmentRepository freeEnrollmentRepository;
 
   @Resource
@@ -86,8 +80,6 @@ class ClerkEnrollmentServiceTest {
     clerkEnrollmentService =
       new ClerkEnrollmentService(
         enrollmentRepository,
-        enrollmentAppointmentRepository,
-        enrollmentGradesRepository,
         examEventRepository,
         paymentRepository,
         auditService,

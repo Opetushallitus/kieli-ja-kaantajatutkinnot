@@ -1,32 +1,22 @@
 package fi.oph.vkt.service;
 
-import fi.oph.vkt.api.dto.EnrollmentGradeDTO;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
-import fi.oph.vkt.api.dto.clerk.ExaminerEnrollmentGradesDTO;
-import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.model.Enrollment;
-import fi.oph.vkt.model.EnrollmentAppointment;
-import fi.oph.vkt.model.EnrollmentGrade;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Payment;
-import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
-import fi.oph.vkt.model.type.EnrollmentGradeType;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import fi.oph.vkt.model.type.PaymentStatus;
-import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
-import fi.oph.vkt.repository.EnrollmentGradesRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
@@ -40,7 +30,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,8 +45,6 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   private static final Logger LOG = LoggerFactory.getLogger(ClerkEnrollmentService.class);
 
   private final EnrollmentRepository enrollmentRepository;
-  private final EnrollmentAppointmentRepository enrollmentAppointmentRepository;
-  private final EnrollmentGradesRepository enrollmentGradesRepository;
   private final ExamEventRepository examEventRepository;
   private final PaymentRepository paymentRepository;
   private final AuditService auditService;
@@ -231,42 +218,5 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
       throw new RuntimeException("Koski returned empty education details");
     }
     koskiService.saveEducationsForEnrollment(freeEnrollment, enrollment.getExamEvent().getId(), educationDTOs);
-  }
-
-  @Transactional(readOnly = true)
-  public ClerkEnrollmentContactRequestDTO getEnrollmentContactRequest(final long enrollmentContactId) {
-    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
-      enrollmentContactId
-    );
-
-    return ClerkEnrollmentUtil.createClerkEnrollmentContactDTO(enrollmentAppointment);
-  }
-
-  @Transactional
-  public ExaminerEnrollmentAppointmentDTO convertToAppointment(final long enrollmentContactId) {
-    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
-      enrollmentContactId
-    );
-    final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
-
-    enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.WAITING_AUTHENTICATION);
-
-    if (enrollmentAppointment.getAuthHash() == null) {
-      enrollmentAppointment.setAuthHash(uuidSource.getRandomNonce());
-    }
-
-    enrollmentAppointmentRepository.flush();
-
-    return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
-  }
-
-  @Transactional(readOnly = true)
-  public ExaminerEnrollmentAppointmentDTO getEnrollmentAppointment(final long enrollmentAppointmentId) {
-    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
-      enrollmentAppointmentId
-    );
-    final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
-
-    return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
   }
 }

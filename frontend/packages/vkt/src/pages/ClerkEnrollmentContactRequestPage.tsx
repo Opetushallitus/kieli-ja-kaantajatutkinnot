@@ -36,13 +36,17 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
   useEffect(() => {
     if (
       status === APIResponseStatus.NotStarted &&
-      params.enrollmentContactRequestId
+      params.enrollmentContactRequestId &&
+      params.oid
     ) {
       dispatch(
-        loadClerkEnrollmentContactRequest(+params.enrollmentContactRequestId),
+        loadClerkEnrollmentContactRequest({
+          id: +params.enrollmentContactRequestId,
+          oid: params.oid,
+        }),
       );
     }
-  }, [dispatch, status, params.enrollmentContactRequestId]);
+  }, [dispatch, status, params.enrollmentContactRequestId, params.oid]);
 
   useEffect(() => {
     if (
@@ -101,7 +105,12 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
   };
 
   const onSubmit = () => {
-    dispatch(createClerkEnrollmentAppointment(enrollment.id));
+    dispatch(
+      createClerkEnrollmentAppointment({
+        id: enrollment.id,
+        oid: params.oid || '',
+      }),
+    );
   };
   const backTo = AppRoutes.ExaminerHomePage.replace(':oid', params.oid || '');
 
