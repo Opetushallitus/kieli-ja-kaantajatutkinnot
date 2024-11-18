@@ -3,7 +3,7 @@ import { FC, useEffect } from 'react';
 import { H1 } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ClerkExamEventListing } from 'components/clerkExamEvent/listing/ClerkExamEventListing';
+import { ClerkExaminerExamEventListing } from 'components/clerkExaminer/ClerkExaminerExamEventListing';
 import { ClerkExaminerListing } from 'components/clerkExaminer/ClerkExaminerListing';
 import { PublicExamEventGridSkeleton } from 'components/skeletons/PublicExamEventGridSkeleton';
 import { useClerkTranslation } from 'configs/i18n';
@@ -45,8 +45,6 @@ export const ClerkGoodAndSatisfactoryLevelPage: FC = () => {
   useEffect(() => {
     dispatch(resetClerkExamEventOverview());
   }, [dispatch]);
-  // TODO Listing of examiners
-  // TODO Listing of exam events of good and satisfactory level
 
   return (
     <Box className="clerk-homepage">
@@ -74,7 +72,7 @@ export const ClerkGoodAndSatisfactoryLevelPage: FC = () => {
             {examEventsLoading ? (
               <PublicExamEventGridSkeleton />
             ) : (
-              <ClerkExamEventListing examEvents={[]} />
+              <ClerkExaminerExamEventListing />
             )}
           </Paper>
         </Grid>{' '}

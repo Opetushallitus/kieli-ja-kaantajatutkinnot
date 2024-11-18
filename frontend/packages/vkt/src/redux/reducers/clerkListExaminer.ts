@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ExamLanguage } from 'enums/app';
+import { ExamEventToggleFilter, ExamLanguage } from 'enums/app';
 import {
+  ClerkListExaminerExamEventFilters,
   ClerkListExaminerFilters,
   ClerkListExaminerState,
 } from 'interfaces/clerkListExaminer';
@@ -12,7 +13,13 @@ const initialState: ClerkListExaminerState = {
   status: APIResponseStatus.NotStarted,
   examiners: [],
   filters: {
-    examLanguage: ExamLanguage.ALL,
+    examiners: {
+      examLanguage: ExamLanguage.ALL,
+    },
+    examEvents: {
+      examLanguage: ExamLanguage.ALL,
+      toggleFilters: ExamEventToggleFilter.Upcoming,
+    },
   },
 };
 
@@ -35,9 +42,21 @@ const clerkListExaminerSlice = createSlice({
     },
     setClerkListExaminerFilters(
       state,
-      action: PayloadAction<ClerkListExaminerFilters>,
+      action: PayloadAction<Partial<ClerkListExaminerFilters>>,
     ) {
-      state.filters = action.payload;
+      state.filters.examiners = {
+        ...state.filters.examiners,
+        ...action.payload,
+      };
+    },
+    setClerkListExaminerExamEventFilters(
+      state,
+      action: PayloadAction<Partial<ClerkListExaminerExamEventFilters>>,
+    ) {
+      state.filters.examEvents = {
+        ...state.filters.examEvents,
+        ...action.payload,
+      };
     },
   },
 });
@@ -47,5 +66,6 @@ export const {
   loadClerkListExaminers,
   rejectClerkListExaminers,
   setClerkListExaminerFilters,
+  setClerkListExaminerExamEventFilters,
 } = clerkListExaminerSlice.actions;
 export const clerkListExaminerReducer = clerkListExaminerSlice.reducer;

@@ -112,7 +112,8 @@ const ExaminerFilter = () => {
   const { t } = useExaminerTranslation({
     keyPrefix: 'vkt.component.examinerFilter',
   });
-  const { examLanguage } = useAppSelector(clerkListExaminerSelector).filters;
+  const { examLanguage } = useAppSelector(clerkListExaminerSelector).filters
+    .examiners;
   const dispatch = useAppDispatch();
 
   return (

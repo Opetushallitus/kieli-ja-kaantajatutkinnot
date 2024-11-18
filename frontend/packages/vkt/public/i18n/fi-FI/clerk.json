@@ -181,6 +181,17 @@
           "copyToClipboardFailed": "Kopiointi leikepöydälle epäonnistui"
         }
       },
+      "clerkExaminerExamEventListing": {
+        "header": {
+          "examDate": "Tutkintopäivä",
+          "examiner": "Tutkinnon vastaanottaja",
+          "municipality": "Paikkakunta",
+          "isPublic": "Nähtävillä julkisesti",
+          "language": "Tutkinnon kieli"
+        },
+        "more": "Lisätiedot",
+        "title": "Tutkintotilaisuudet"
+      },
       "clerkExaminerListing": {
         "buttons": {
           "viewDetails": "Katso tiedot"
