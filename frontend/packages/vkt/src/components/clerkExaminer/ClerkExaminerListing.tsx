@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { CustomButtonLink, CustomTable, H2, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
+import { ExaminerExamDatesSummary } from 'components/examiner/ExaminerExamDatesSummary';
 import {
   useClerkTranslation,
   useCommonTranslation,
@@ -85,7 +86,9 @@ const ExaminerListingRow = ({ examiner }: { examiner: ExaminerDetails }) => {
           </Text>
         </TableCell>
         <TableCell>
-          <Text>TODO Ei määritelty?</Text>
+          <Text>
+            <ExaminerExamDatesSummary examiner={examiner} />
+          </Text>
         </TableCell>
         <TableCell>
           <CustomButtonLink

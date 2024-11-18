@@ -1,10 +1,10 @@
 import { Box, Divider, Grid, Paper } from '@mui/material';
-import { FC, Fragment, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomButtonLink, H1, H2, Text } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
-import { DateUtils } from 'shared/utils';
 
+import { ExaminerExamDatesSummary } from 'components/examiner/ExaminerExamDatesSummary';
 import { ExaminerContactRequestListing } from 'components/examinerExamEvent/listing/ExaminerContactRequestListing';
 import { ExaminerExamEventListing } from 'components/examinerExamEvent/listing/ExaminerExamEventListing';
 import {
@@ -13,7 +13,7 @@ import {
   useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes, EnrollmentAppointmentStatus } from 'enums/app';
+import { AppRoutes } from 'enums/app';
 import { loadExaminerDetails } from 'redux/reducers/examinerDetails';
 import { clerkUserSelector } from 'redux/selectors/clerkUser';
 import { examinerDetailsSelector } from 'redux/selectors/examinerDetails';
@@ -29,8 +29,6 @@ const PublicInformation = () => {
   if (!examiner) {
     return <></>;
   }
-
-  const { examEvents } = examiner;
 
   return (
     <div className="examiner-homepage__public-information rows gapped-xl margin-bottom-xxl">
@@ -64,34 +62,7 @@ const PublicInformation = () => {
         <Text>
           <b>{t('labels.examDates')}</b>
           <br />
-          {examEvents.length === 0 ? (
-            t('labels.undefined')
-          ) : (
-            <>
-              {examEvents.map(({ date, maxParticipants, enrollments }, i) => {
-                const newline = examEvents.length > 1 && i > 0;
-                const isFull =
-                  maxParticipants &&
-                  enrollments.filter(
-                    ({ status }) =>
-                      status === EnrollmentAppointmentStatus.COMPLETED,
-                  ).length >= maxParticipants;
-
-                return (
-                  <Fragment key={i}>
-                    {newline && <br />}
-                    {isFull && (
-                      <>
-                        <s>{DateUtils.formatOptionalDate(date)}</s>&nbsp;
-                        {t('labels.full')}
-                      </>
-                    )}
-                    {!isFull && DateUtils.formatOptionalDate(date)}
-                  </Fragment>
-                );
-              })}
-            </>
-          )}
+          <ExaminerExamDatesSummary examiner={examiner} />
         </Text>
       </div>
     </div>
@@ -102,7 +73,6 @@ const ContactRequests = () => {
   const { t } = useExaminerTranslation({
     keyPrefix: 'vkt.component.examinerOverview.contactRequests',
   });
-  // TODO Get contact requests from redux state & render them
   const { examiner } = useAppSelector(examinerDetailsSelector);
 
   return (
