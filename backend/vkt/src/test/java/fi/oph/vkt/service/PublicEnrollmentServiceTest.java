@@ -94,12 +94,13 @@ public class PublicEnrollmentServiceTest {
   @Resource
   private ExaminerRepository examinerRepository;
 
-  @Resource
-  private ContactEmailService contactEmailService;
+  @MockBean
+  private ContactEmailService contactEmailServiceMock;
 
   @BeforeEach
   public void setup() throws IOException, InterruptedException {
     doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentToQueueConfirmationEmail(any(), any());
+    doNothing().when(contactEmailServiceMock).sendEnrollmentAppointmentAuthLink(any());
 
     final Environment environment = mock(Environment.class);
     when(environment.getRequiredProperty("app.reservation.duration")).thenReturn(ONE_MINUTE.toString());
@@ -125,7 +126,7 @@ public class PublicEnrollmentServiceTest {
         uploadedFileAttachmentRepository,
         koskiService,
         examinerRepository,
-        contactEmailService
+        contactEmailServiceMock
       );
   }
 
