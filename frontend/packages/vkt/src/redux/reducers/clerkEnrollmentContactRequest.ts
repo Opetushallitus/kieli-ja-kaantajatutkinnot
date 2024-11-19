@@ -55,6 +55,9 @@ const clerkEnrollmentContactRequestSlice = createSlice({
     rejectCreateClerkEnrollmentAppointment(state) {
       state.createStatus = APIResponseStatus.Error;
     },
+    resetClerkEnrollmentContactRequestToInitialState(_state) {
+      return initialState;
+    },
   },
 });
 
@@ -67,4 +70,5 @@ export const {
   createClerkEnrollmentAppointment,
   storeCreateClerkEnrollmentAppointment,
   rejectCreateClerkEnrollmentAppointment,
+  resetClerkEnrollmentContactRequestToInitialState,
 } = clerkEnrollmentContactRequestSlice.actions;

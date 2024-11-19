@@ -47,6 +47,7 @@ import fi.oph.vkt.util.PersonUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   private final UploadedFileAttachmentRepository uploadedFileAttachmentRepository;
   private final KoskiService koskiService;
   private final ExaminerRepository examinerRepository;
+  private final ContactEmailService contactEmailService;
 
   @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollment(final long examEventId, final Person person) {
@@ -622,8 +624,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final PublicPersonDTO personDTO = person == null ? null : PersonUtil.createPublicPersonDTO(person);
     final PublicExaminerNameDTO examinerNameDTO = PublicExaminerNameDTO
       .builder()
-      .firstName(examiner.getFirstName())
-      .lastName(examiner.getLastName())
+      .name(examiner.getNickname() + " " + examiner.getLastName())
       .build();
     final PublicAppointmentExamDateDTO examDateDTO = PublicAppointmentExamDateDTO
       .builder()
@@ -692,13 +693,17 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     return createEnrollmentAppointmentDTO(enrollmentAppointment);
   }
 
-  public void createEnrollmentContact(final PublicEnrollmentContactCreateDTO dto, final long examinerId) {
+  @Transactional
+  public void createEnrollmentContact(final PublicEnrollmentContactCreateDTO dto, final long examinerId)
+    throws IOException, InterruptedException {
     final EnrollmentAppointment enrollmentAppointment = new EnrollmentAppointment();
     final Examiner examiner = examinerRepository.getReferenceById(examinerId);
 
     enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.CONTACT_CREATED);
     enrollmentAppointment.setExaminer(examiner);
     copyDtoFieldsToEnrollment(enrollmentAppointment, dto);
+
+    contactEmailService.sendEnrollmentAppointmentAuthLink(enrollmentAppointment);
 
     enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
   }

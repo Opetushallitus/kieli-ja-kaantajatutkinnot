@@ -18,9 +18,9 @@ export interface ClerkListExaminerState {
   status: APIResponseStatus;
   examiners: Array<ExaminerDetails>;
   filters: {
-    examiners: ClerkListExaminerFilters
+    examiners: ClerkListExaminerFilters;
     examEvents: ClerkListExaminerExamEventFilters;
-  }
+  };
 }
 
 export interface ClerkExaminerExamEventListingEntry extends WithId {

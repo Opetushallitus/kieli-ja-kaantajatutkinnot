@@ -5,4 +5,4 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record PublicExaminerNameDTO(@NonNull @NotNull String lastName, @NonNull @NotNull String firstName) {}
+public record PublicExaminerNameDTO(@NonNull @NotNull String name) {}

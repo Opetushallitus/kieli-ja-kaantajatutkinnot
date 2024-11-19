@@ -19,6 +19,7 @@ import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import {
   createClerkEnrollmentAppointment,
   loadClerkEnrollmentContactRequest,
+  resetClerkEnrollmentContactRequestToInitialState,
 } from 'redux/reducers/clerkEnrollmentContactRequest';
 import { clerkEnrollmentContactRequestSelector } from 'redux/selectors/clerkEnrollmentContactRequest';
 import { EnrollmentUtils } from 'utils/enrollment';
@@ -32,6 +33,16 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (
+      enrollment?.id &&
+      params.enrollmentContactRequestId &&
+      +params.enrollmentContactRequestId !== enrollment?.id
+    ) {
+      dispatch(resetClerkEnrollmentContactRequestToInitialState());
+    }
+  }, [dispatch, params.enrollmentContactRequestId, enrollment?.id]);
 
   useEffect(() => {
     if (

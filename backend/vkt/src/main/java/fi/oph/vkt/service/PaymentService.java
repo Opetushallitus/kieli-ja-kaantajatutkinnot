@@ -228,7 +228,7 @@ public class PaymentService {
 
       // FIXME
       if (newStatus == PaymentStatus.OK) {
-        //publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollmentAppointment);
+        publicEnrollmentEmailService.sendEnrollmentAppointmentConfirmationEmail(enrollmentAppointment);
       }
     }
 

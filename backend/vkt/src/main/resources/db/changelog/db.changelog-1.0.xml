@@ -1157,4 +1157,12 @@
             <column name="name" value="ENROLLMENT_APPOINTMENT_AUTH_LINK"/>
         </insert>
     </changeSet>
+    <changeSet id="2024-11-20-add-enrollment-contact-request-email-type" author="jrkkp">
+        <insert tableName="email_type">
+            <column name="name" value="ENROLLMENT_CONTACT_REQUEST"/>
+        </insert>
+        <insert tableName="email_type">
+            <column name="name" value="ENROLLMENT_APPOINTMENT_CONFIRMATION"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

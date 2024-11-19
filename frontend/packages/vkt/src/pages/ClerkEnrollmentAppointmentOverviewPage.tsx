@@ -12,6 +12,7 @@ import {
   loadClerkEnrollmentAppointment,
   loadClerkEnrollmentAppointmentGrades,
   loadExaminerExamEvents,
+  resetClerkEnrollmentDetailsToInitialState,
 } from 'redux/reducers/clerkEnrollmentAppointment';
 import { clerkEnrollmentAppointmentSelector } from 'redux/selectors/clerkEnrollmentAppointment';
 
@@ -34,6 +35,16 @@ export const ClerkEnrollmentAppointmentOverviewPage: FC<
         enrollment?.examEvent?.id,
       )
     : AppRoutes.ExaminerHomePage.replace(':oid', params.oid || '');
+
+  useEffect(() => {
+    if (
+      enrollment?.id &&
+      params.enrollmentAppointmentId &&
+      +params.enrollmentAppointmentId !== enrollment?.id
+    ) {
+      dispatch(resetClerkEnrollmentDetailsToInitialState());
+    }
+  }, [dispatch, params.enrollmentAppointmentId, enrollment?.id]);
 
   useEffect(() => {
     if (

@@ -100,6 +100,9 @@ const clerkEnrollmentAppointmentSlice = createSlice({
     storeUpdateClerkEnrollmentAppointment(state) {
       state.updateStatus = APIResponseStatus.Success;
     },
+    resetClerkEnrollmentDetailsToInitialState(_state) {
+      return initialState;
+    },
     resetClerkEnrollmentDetails(state) {
       state.updateStatus = initialState.updateStatus;
       state.status = initialState.status;
@@ -177,4 +180,5 @@ export const {
   sendClerkEnrollmentAppointmentAuthLink,
   storeClerkEnrollmentAppointmentAuthLink,
   storeUpdateClerkEnrollmentAppointment,
+  resetClerkEnrollmentDetailsToInitialState,
 } = clerkEnrollmentAppointmentSlice.actions;

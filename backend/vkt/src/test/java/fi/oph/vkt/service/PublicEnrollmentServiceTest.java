@@ -94,6 +94,9 @@ public class PublicEnrollmentServiceTest {
   @Resource
   private ExaminerRepository examinerRepository;
 
+  @Resource
+  private ContactEmailService contactEmailService;
+
   @BeforeEach
   public void setup() throws IOException, InterruptedException {
     doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentToQueueConfirmationEmail(any(), any());
@@ -121,7 +124,8 @@ public class PublicEnrollmentServiceTest {
         featureFlagService,
         uploadedFileAttachmentRepository,
         koskiService,
-        examinerRepository
+        examinerRepository,
+        contactEmailService
       );
   }
 

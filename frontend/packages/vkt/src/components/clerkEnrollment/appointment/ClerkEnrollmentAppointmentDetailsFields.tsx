@@ -19,10 +19,12 @@ import {
 import {
   APIResponseStatus,
   Color,
+  Severity,
   TextFieldTypes,
   TextFieldVariant,
   Variant,
 } from 'shared/enums';
+import { useDialog } from 'shared/hooks';
 import { InputFieldUtils } from 'shared/utils';
 
 import {
@@ -294,6 +296,13 @@ const getFieldError = (
   return error ? t(`vkt.common.${error}`) : '';
 };
 
+const requiredFields = [
+  ClerkEnrollmentTextFieldEnum.FirstName,
+  ClerkEnrollmentTextFieldEnum.LastName,
+  ClerkEnrollmentTextFieldEnum.Email,
+  ClerkEnrollmentTextFieldEnum.PhoneNumber,
+];
+
 const getHelperText = (isRequiredFieldError: boolean, fieldError: string) =>
   isRequiredFieldError ? fieldError : <InfoText>{fieldError}</InfoText>;
 
@@ -307,7 +316,7 @@ const ClerkEnrollmentDetailsTextField = ({
 }: ClerkEnrollmentTextFieldProps<ClerkEnrollmentAppointment>) => {
   const translateCommon = useCommonTranslation();
 
-  const required = field !== ClerkEnrollmentTextFieldEnum.PreviousEnrollment;
+  const required = requiredFields.includes(field);
   const fieldError = getFieldError(enrollment, field, required);
   const showRequiredFieldError =
     showFieldError && fieldError?.length > 0 && required;
@@ -574,6 +583,7 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkEnrollmentDetails',
   });
+  const { showDialog } = useDialog();
   const translateMunicipality = useKoodistoMunicipalitiesTranslation();
   const translateCommon = useCommonTranslation();
   const paymentLink = enrollment.paymentLinkUrl;
@@ -627,12 +637,26 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
   });
 
   const onSendAuthLink = () => {
-    dispatch(
-      sendClerkEnrollmentAppointmentAuthLink({
-        enrollmentId: enrollment.id,
-        oid: oid,
-      }),
-    );
+    if (!enrollment.examEvent) {
+      showDialog({
+        title: t('authLinkErrorDialog.header'),
+        severity: Severity.Error,
+        description: t('authLinkErrorDialog.description'),
+        actions: [
+          {
+            title: translateCommon('back'),
+            variant: Variant.Outlined,
+          },
+        ],
+      });
+    } else {
+      dispatch(
+        sendClerkEnrollmentAppointmentAuthLink({
+          enrollmentId: enrollment.id,
+          oid: oid,
+        }),
+      );
+    }
   };
 
   // TODO Remove this flag once digital certificates are available

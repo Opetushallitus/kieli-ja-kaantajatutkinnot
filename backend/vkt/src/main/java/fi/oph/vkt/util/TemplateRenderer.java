@@ -23,6 +23,14 @@ public class TemplateRenderer {
     return renderTemplate("enrollment-appointment-auth-link", params, Optional.empty());
   }
 
+  public String renderEnrollmentAppointmentConfirmationEmailBody(final Map<String, Object> params) {
+    return renderTemplate("enrollment-appointment-confirmation", params, Optional.empty());
+  }
+
+  public String renderContactRequest(final Map<String, Object> params) {
+    return renderTemplate("examiner-contact-request.html", params, Optional.empty());
+  }
+
   public String renderReceipt(final Locale locale, final Map<String, Object> params) {
     return renderTemplate("receipt", params, Optional.of(locale));
   }

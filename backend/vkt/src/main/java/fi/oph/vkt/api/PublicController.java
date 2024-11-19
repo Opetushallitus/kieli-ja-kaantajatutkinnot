@@ -116,7 +116,7 @@ public class PublicController {
   public void createEnrollmentContact(
     @RequestBody @Valid final PublicEnrollmentContactCreateDTO dto,
     @PathVariable final long examinerId
-  ) {
+  ) throws IOException, InterruptedException {
     publicEnrollmentService.createEnrollmentContact(dto, examinerId);
   }
 

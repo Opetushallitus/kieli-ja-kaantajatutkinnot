@@ -6,6 +6,7 @@ import static fi.oph.vkt.util.LocalisationUtil.localeSV;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.model.EmailType;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import fi.oph.vkt.service.email.EmailAttachmentData;
@@ -281,5 +282,32 @@ public class PublicEnrollmentEmailService extends AbstractEnrollmentEmailService
     );
 
     return freeParams;
+  }
+
+  public void sendEnrollmentAppointmentConfirmationEmail(final EnrollmentAppointment enrollmentAppointment) {
+    final Map<String, Object> templateParams = getEmailParams(
+      enrollmentAppointment,
+      enrollmentAppointment.getExaminerExamEvent()
+    );
+    final Person person = enrollmentAppointment.getPerson();
+
+    final String recipientName = person.getFirstName() + " " + person.getLastName();
+    final String recipientAddress = enrollmentAppointment.getEmail();
+    final String subject = String.format(
+      "%s | %s",
+      LocalisationUtil.translate(localeFI, "subject.enrollment-appointment-confirmation"),
+      LocalisationUtil.translate(localeSV, "subject.enrollment-appointment-confirmation")
+    );
+    final String body = templateRenderer.renderEnrollmentAppointmentConfirmationEmailBody(templateParams);
+
+    createEmail(
+      emailService,
+      recipientName,
+      recipientAddress,
+      subject,
+      body,
+      List.of(),
+      EmailType.ENROLLMENT_APPOINTMENT_CONFIRMATION
+    );
   }
 }
