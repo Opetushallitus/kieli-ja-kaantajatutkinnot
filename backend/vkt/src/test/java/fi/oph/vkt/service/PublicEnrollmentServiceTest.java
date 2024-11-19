@@ -100,6 +100,8 @@ public class PublicEnrollmentServiceTest {
   @BeforeEach
   public void setup() throws IOException, InterruptedException {
     doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentToQueueConfirmationEmail(any(), any());
+    doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentConfirmationEmail(any());
+    doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentAppointmentConfirmationEmail(any());
     doNothing().when(contactEmailServiceMock).sendEnrollmentAppointmentAuthLink(any());
 
     final Environment environment = mock(Environment.class);
