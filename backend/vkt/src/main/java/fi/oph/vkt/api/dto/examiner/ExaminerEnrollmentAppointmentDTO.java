@@ -34,6 +34,7 @@ public record ExaminerEnrollmentAppointmentDTO(
   @NonNull @NotBlank String lastName,
   @NonNull @NotNull List<ClerkPaymentDTO> payments,
   ExaminerExamEventDTO examEvent,
-  ExaminerAuthLinkDTO authLink
+  ExaminerAuthLinkDTO authLink,
+  String paymentLinkUrl
 )
   implements EnrollmentDTOSkillFields {}

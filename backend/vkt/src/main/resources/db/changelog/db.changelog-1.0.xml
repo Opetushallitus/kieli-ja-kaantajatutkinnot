@@ -1152,4 +1152,9 @@
         </addColumn>
         <dropNotNullConstraint tableName="examiner_exam_event" columnName="location" />
     </changeSet>
+    <changeSet id="2024-11-19-add-enrollment-send-auth-link" author="jrkkp">
+        <insert tableName="email_type">
+            <column name="name" value="ENROLLMENT_APPOINTMENT_AUTH_LINK"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

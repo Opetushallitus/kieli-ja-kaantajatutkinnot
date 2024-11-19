@@ -9,21 +9,23 @@ import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 
 interface ClerkEnrollmentAppointmentState {
   status: APIResponseStatus;
+  updateStatus: APIResponseStatus;
   enrollment?: ClerkEnrollmentAppointment;
-  createStatus: APIResponseStatus;
   gradesStatus: APIResponseStatus;
   gradesSaveStatus: APIResponseStatus;
   examEventsStatus: APIResponseStatus;
+  sendLinkStatus: APIResponseStatus;
   examEvents: Array<ExaminerExamEvent>;
   grades?: ClerkEnrollmentAppointmentGrades;
 }
 
 const initialState: ClerkEnrollmentAppointmentState = {
   status: APIResponseStatus.NotStarted,
-  createStatus: APIResponseStatus.NotStarted,
+  updateStatus: APIResponseStatus.NotStarted,
   gradesStatus: APIResponseStatus.NotStarted,
   gradesSaveStatus: APIResponseStatus.NotStarted,
   examEventsStatus: APIResponseStatus.NotStarted,
+  sendLinkStatus: APIResponseStatus.NotStarted,
   examEvents: [],
   grades: {
     version: 0,
@@ -93,10 +95,29 @@ const clerkEnrollmentAppointmentSlice = createSlice({
         oid: string;
       }>,
     ) {
-      state.status = APIResponseStatus.InProgress;
+      state.updateStatus = APIResponseStatus.InProgress;
     },
-    resetClerkEnrollmentDetailsUpdate(state) {
+    storeUpdateClerkEnrollmentAppointment(state) {
+      state.updateStatus = APIResponseStatus.Success;
+    },
+    resetClerkEnrollmentDetails(state) {
+      state.updateStatus = initialState.updateStatus;
       state.status = initialState.status;
+      state.gradesSaveStatus = initialState.gradesSaveStatus;
+      state.examEventsStatus = initialState.examEventsStatus;
+      state.sendLinkStatus = initialState.sendLinkStatus;
+    },
+    sendClerkEnrollmentAppointmentAuthLink(
+      state,
+      _action: PayloadAction<{
+        enrollmentId: number;
+        oid: string;
+      }>,
+    ) {
+      state.sendLinkStatus = APIResponseStatus.InProgress;
+    },
+    storeClerkEnrollmentAppointmentAuthLink(state) {
+      state.sendLinkStatus = APIResponseStatus.Success;
     },
     loadClerkEnrollmentAppointmentGrades(
       state,
@@ -147,10 +168,13 @@ export const {
   storeClerkEnrollmentAppointment,
   loadClerkEnrollmentAppointment,
   updateClerkEnrollmentAppointment,
-  resetClerkEnrollmentDetailsUpdate,
+  resetClerkEnrollmentDetails,
   upsertClerkEnrollmentAppointmentGrades,
   storeClerkEnrollmentAppointmentGrades,
   resetClerkEnrollmentAppointmentGrades,
   loadClerkEnrollmentAppointmentGrades,
   storeClerkEnrollmentAppointmentGradesUpsert,
+  sendClerkEnrollmentAppointmentAuthLink,
+  storeClerkEnrollmentAppointmentAuthLink,
+  storeUpdateClerkEnrollmentAppointment,
 } = clerkEnrollmentAppointmentSlice.actions;

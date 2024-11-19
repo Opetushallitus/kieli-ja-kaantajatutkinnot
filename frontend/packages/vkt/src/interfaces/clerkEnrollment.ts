@@ -109,6 +109,7 @@ export interface ClerkEnrollmentAppointment extends ClerkEnrollmentContact {
   payments: Array<ClerkPayment>;
   person?: ClerkPerson;
   authLink?: ClerkAuthLink;
+  paymentLinkUrl?: string;
   examEvent?: ExaminerExamEvent;
 }
 

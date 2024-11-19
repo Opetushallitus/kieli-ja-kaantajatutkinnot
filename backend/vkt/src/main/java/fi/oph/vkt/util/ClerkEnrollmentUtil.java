@@ -150,6 +150,10 @@ public class ClerkEnrollmentUtil {
       .build();
   }
 
+  public static String getAuthUrl(final String baseUrlAPI, final long id, final String hash) {
+    return String.format("%s/enrollment/appointment/%d/redirect/%s", baseUrlAPI, id, hash);
+  }
+
   public static ExaminerEnrollmentAppointmentDTO createClerkEnrollmentAppointmentDTO(
     final EnrollmentAppointment enrollmentAppointment,
     final String baseUrlAPI
@@ -164,18 +168,18 @@ public class ClerkEnrollmentUtil {
     final ExaminerAuthLinkDTO examinerAuthLinkDTO = enrollmentAppointment.getAuthHash() != null
       ? ExaminerAuthLinkDTO
         .builder()
-        .url(
-          String.format(
-            "%s/enrollment/appointment/%d/redirect/%s",
-            baseUrlAPI,
-            enrollmentAppointment.getId(),
-            enrollmentAppointment.getAuthHash()
-          )
-        )
+        .url(getAuthUrl(baseUrlAPI, enrollmentAppointment.getId(), enrollmentAppointment.getAuthHash()))
         .expiresAt(enrollmentAppointment.getExpiresAt())
         .sentAt(enrollmentAppointment.getSentAt())
         .build()
       : null;
+
+    final String paymentLinkUrl = String.format(
+      "%s/enrollment/appointment/%d/redirectPayment/%s",
+      baseUrlAPI,
+      enrollmentAppointment.getId(),
+      enrollmentAppointment.getPaymentLinkHash()
+    );
 
     final ExaminerExamEventDTO examinerExamEventDTO = enrollmentAppointment.getExaminerExamEvent() != null
       ? ExaminerUtil.toExaminerExamEventWithoutEnrollmentsDTO(enrollmentAppointment.getExaminerExamEvent())
@@ -203,6 +207,7 @@ public class ClerkEnrollmentUtil {
       .firstName(enrollmentAppointment.getFirstName())
       .lastName(enrollmentAppointment.getLastName())
       .authLink(examinerAuthLinkDTO)
+      .paymentLinkUrl(paymentLinkUrl)
       .examEvent(examinerExamEventDTO)
       .payments(paymentDTOs)
       .build();

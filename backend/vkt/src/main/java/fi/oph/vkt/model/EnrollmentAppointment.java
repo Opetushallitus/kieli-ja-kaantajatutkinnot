@@ -72,6 +72,10 @@ public class EnrollmentAppointment extends EnrollmentCommon {
   private String message;
 
   @Size(max = 255)
+  @Column(name = "payment_link_hash", unique = true)
+  private String paymentLinkHash;
+
+  @Size(max = 255)
   @Column(name = "auth_hash", unique = true)
   private String authHash;
 

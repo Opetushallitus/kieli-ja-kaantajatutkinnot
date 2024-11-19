@@ -15,12 +15,10 @@ import { ClerkEnrollmentAppointment } from 'interfaces/clerkEnrollment';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 import {
-  resetClerkEnrollmentDetailsUpdate,
+  resetClerkEnrollmentDetails,
   updateClerkEnrollmentAppointment,
 } from 'redux/reducers/clerkEnrollmentAppointment';
-import { resetClerkEnrollmentStatusChange } from 'redux/reducers/clerkExamEventOverview';
-import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
-import { clerkExamEventOverviewSelector } from 'redux/selectors/clerkExamEventOverview';
+import { clerkEnrollmentAppointmentSelector } from 'redux/selectors/clerkEnrollmentAppointment';
 import { EnrollmentUtils } from 'utils/enrollment';
 
 export const ClerkEnrollmentAppointmentDetails = ({
@@ -36,11 +34,8 @@ export const ClerkEnrollmentAppointmentDetails = ({
 }) => {
   // Redux
   const dispatch = useAppDispatch();
-  const { status, paymentRefundStatus } = useAppSelector(
-    clerkEnrollmentDetailsSelector,
-  );
-  const { clerkEnrollmentChangeStatus } = useAppSelector(
-    clerkExamEventOverviewSelector,
+  const { status, updateStatus, sendLinkStatus } = useAppSelector(
+    clerkEnrollmentAppointmentSelector,
   );
 
   const { showToast } = useToast();
@@ -71,8 +66,7 @@ export const ClerkEnrollmentAppointmentDetails = ({
   const isLoading = status === APIResponseStatus.InProgress;
 
   const resetToInitialState = useCallback(() => {
-    dispatch(resetClerkEnrollmentDetailsUpdate());
-    dispatch(resetClerkEnrollmentStatusChange());
+    dispatch(resetClerkEnrollmentDetails());
     resetLocalEnrollmentDetails();
     setHasLocalChanges(false);
     setCurrentUIMode(UIMode.View);
@@ -82,14 +76,10 @@ export const ClerkEnrollmentAppointmentDetails = ({
 
   useEffect(() => {
     if (
-      (status === APIResponseStatus.Success && currentUIMode === UIMode.Edit) ||
-      clerkEnrollmentChangeStatus === APIResponseStatus.Success ||
-      paymentRefundStatus === APIResponseStatus.Success
+      updateStatus === APIResponseStatus.Success &&
+      currentUIMode === UIMode.Edit
     ) {
-      const description =
-        clerkEnrollmentChangeStatus === APIResponseStatus.Success
-          ? t('toasts.enrollmentCanceled')
-          : t('toasts.updated');
+      const description = t('toasts.updated');
 
       showToast({
         severity: Severity.Success,
@@ -97,15 +87,18 @@ export const ClerkEnrollmentAppointmentDetails = ({
       });
       resetToInitialState();
     }
-  }, [
-    currentUIMode,
-    showToast,
-    resetToInitialState,
-    t,
-    status,
-    clerkEnrollmentChangeStatus,
-    paymentRefundStatus,
-  ]);
+  }, [currentUIMode, showToast, resetToInitialState, t, updateStatus]);
+
+  useEffect(() => {
+    if (sendLinkStatus === APIResponseStatus.Success) {
+      const description = t('toasts.updated');
+
+      showToast({
+        severity: Severity.Success,
+        description,
+      });
+    }
+  }, [currentUIMode, showToast, t, sendLinkStatus]);
 
   if (!enrollmentDetails) {
     return null;

@@ -10,6 +10,7 @@ import fi.oph.vkt.service.ExaminerEnrollmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import java.io.IOException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,6 +58,15 @@ public class ExaminerEnrollmentController {
     @PathVariable final long enrollmentAppointmentId
   ) {
     return examinerEnrollmentService.getEnrollmentAppointment(oid, enrollmentAppointmentId);
+  }
+
+  @PostMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}/sendAuthLink", consumes = ALL_VALUE)
+  @Operation(tags = TAG_ENROLLMENT, summary = "Send enrollment appointment auth link")
+  public ExaminerEnrollmentAppointmentDTO sendEnrollmentAppointmentLink(
+    @PathVariable final String oid,
+    @PathVariable final long enrollmentAppointmentId
+  ) throws IOException, InterruptedException {
+    return examinerEnrollmentService.sendEnrollmentAppointmentLink(oid, enrollmentAppointmentId);
   }
 
   @PutMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}/grades")

@@ -16,11 +16,14 @@ import {
   loadClerkEnrollmentAppointmentGrades,
   loadExaminerExamEvents,
   rejectClerkEnrollmentAppointment,
+  sendClerkEnrollmentAppointmentAuthLink,
   storeClerkEnrollmentAppointment,
+  storeClerkEnrollmentAppointmentAuthLink,
   storeClerkEnrollmentAppointmentGrades,
   storeClerkEnrollmentAppointmentGradesUpsert,
   storeClerkEnrollmentAppointmentUpdate,
   storeExaminerExamEvents,
+  storeUpdateClerkEnrollmentAppointment,
   updateClerkEnrollmentAppointment,
   upsertClerkEnrollmentAppointmentGrades,
 } from 'redux/reducers/clerkEnrollmentAppointment';
@@ -95,6 +98,7 @@ function* updateClerkEnrollmentAppointmentSaga(
         apiResponse.data,
       );
 
+    yield put(storeUpdateClerkEnrollmentAppointment());
     yield put(storeClerkEnrollmentAppointmentUpdate(updatedEnrollment));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
@@ -150,6 +154,32 @@ function* loadClerkEnrollmentAppointmentGradesSaga(
   }
 }
 
+function* sendClerkEnrollmentAppointmentAuthLinkSaga(
+  action: PayloadAction<{
+    enrollmentId: number;
+    oid: string;
+  }>,
+) {
+  try {
+    const { enrollmentId, oid } = action.payload;
+    const sendUrl = `${APIEndpoints.ExaminerEnrollmentAppointment.replace(
+      /:oid/,
+      oid,
+    )}/${enrollmentId}/sendAuthLink`;
+
+    const response: AxiosResponse<ClerkEnrollmentAppointmentResponse> =
+      yield call(axiosInstance.post, sendUrl);
+    const enrollment = SerializationUtils.deserializeClerkEnrollmentAppointment(
+      response.data,
+    );
+
+    yield put(storeClerkEnrollmentAppointmentAuthLink());
+    yield put(storeClerkEnrollmentAppointment(enrollment));
+  } catch (error) {
+    //yield put(rejectClerkEnrollmentAppointment());
+  }
+}
+
 function* loadExaminerExamEventsSaga(action: PayloadAction<string>) {
   try {
     const oid = action.payload;
@@ -181,6 +211,11 @@ export function* watchClerkEnrollmentAppointment() {
     loadClerkEnrollmentAppointmentGrades.type,
     loadClerkEnrollmentAppointmentGradesSaga,
   );
+  yield takeLatest(
+    sendClerkEnrollmentAppointmentAuthLink.type,
+    sendClerkEnrollmentAppointmentAuthLinkSaga,
+  );
+
   yield takeLatest(
     upsertClerkEnrollmentAppointmentGrades.type,
     upsertClerkEnrollmentAppointmentGradesSaga,

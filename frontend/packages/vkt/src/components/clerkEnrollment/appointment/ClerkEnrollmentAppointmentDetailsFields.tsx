@@ -3,6 +3,7 @@ import {
   Divider,
   FormControlLabel,
   FormHelperTextProps,
+  Link,
 } from '@mui/material';
 import { ChangeEvent, Fragment, useEffect, useState } from 'react';
 import {
@@ -18,12 +19,10 @@ import {
 import {
   APIResponseStatus,
   Color,
-  Severity,
   TextFieldTypes,
   TextFieldVariant,
   Variant,
 } from 'shared/enums';
-import { useDialog } from 'shared/hooks';
 import { InputFieldUtils } from 'shared/utils';
 
 import {
@@ -33,11 +32,7 @@ import {
   useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import {
-  EnrollmentAppointmentStatus,
-  ExamGrades,
-  PaymentStatus,
-} from 'enums/app';
+import { EnrollmentAppointmentStatus, ExamGrades } from 'enums/app';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import {
   ClerkEnrollmentAppointment,
@@ -50,14 +45,10 @@ import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 import {
   resetClerkEnrollmentAppointmentGrades,
+  sendClerkEnrollmentAppointmentAuthLink,
   upsertClerkEnrollmentAppointmentGrades,
 } from 'redux/reducers/clerkEnrollmentAppointment';
-import {
-  createClerkEnrollmentPaymentLink,
-  setClerkPaymentRefunded,
-} from 'redux/reducers/clerkEnrollmentDetails';
 import { clerkEnrollmentAppointmentSelector } from 'redux/selectors/clerkEnrollmentAppointment';
-import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
 import { DateTimeUtils } from 'utils/dateTime';
 
 const CheckboxField = ({
@@ -240,35 +231,9 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkEnrollmentDetails',
   });
-  const translateCommon = useCommonTranslation();
-
-  const { showDialog } = useDialog();
-  const dispatch = useAppDispatch();
-  const refundLoadingStatus = useAppSelector(
-    clerkEnrollmentDetailsSelector,
-  ).paymentRefundStatus;
 
   const formatAmount = (amount: number) => {
     return (amount / 100).toFixed(2);
-  };
-
-  const handleSetRefundedButtonClick = (paymentId: number) => {
-    showDialog({
-      title: t('payment.refundDialog.header'),
-      severity: Severity.Info,
-      description: t('payment.refundDialog.description'),
-      actions: [
-        {
-          title: translateCommon('back'),
-          variant: Variant.Outlined,
-        },
-        {
-          title: translateCommon('yes'),
-          variant: Variant.Contained,
-          action: () => dispatch(setClerkPaymentRefunded(paymentId)),
-        },
-      ],
-    });
   };
 
   return (
@@ -276,7 +241,6 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
       <Text>
         {t('payment.details.status')}:{' '}
         <b>{t(`paymentStatus.${payment.status}`)}</b>
-        {payment.refundedAt && ` (${t('payment.details.refunded')})`}
       </Text>
       <Text>
         {t('payment.details.reference')}: <b>{payment.transactionId}</b>
@@ -289,26 +253,6 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
         {t('payment.details.amount')}:{' '}
         <b>{formatAmount(payment.amount)} &euro;</b>
       </Text>
-      {payment.refundedAt ? (
-        <Text data-testid={`clerk-payment-${payment.id}__refunded-at`}>
-          {t('payment.details.refunded')}:{' '}
-          <b>{DateTimeUtils.renderDate(payment.refundedAt)}</b>
-        </Text>
-      ) : (
-        payment.status === PaymentStatus.OK && (
-          <div className="margin-top-sm flex-start">
-            <CustomButton
-              data-testid={`clerk-payment-${payment.id}__set-refunded`}
-              variant={Variant.Outlined}
-              color={Color.Secondary}
-              onClick={handleSetRefundedButtonClick.bind(this, payment.id)}
-              disabled={refundLoadingStatus === APIResponseStatus.InProgress}
-            >
-              {t('payment.setRefunded')}
-            </CustomButton>
-          </div>
-        )
-      )}
     </div>
   );
 };
@@ -632,10 +576,8 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
   });
   const translateMunicipality = useKoodistoMunicipalitiesTranslation();
   const translateCommon = useCommonTranslation();
+  const paymentLink = enrollment.paymentLinkUrl;
   const dispatch = useAppDispatch();
-  const paymentLink = useAppSelector(
-    clerkEnrollmentDetailsSelector,
-  ).paymentLink;
 
   const [paymentLinkModalOpen, setPaymentLinkModalOpen] = useState(false);
   const [gradeModalOpen, setGradeModalOpen] = useState(false);
@@ -683,6 +625,15 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
     value: examEvent.id.toString(),
     label: examEvent.location ?? '',
   });
+
+  const onSendAuthLink = () => {
+    dispatch(
+      sendClerkEnrollmentAppointmentAuthLink({
+        enrollmentId: enrollment.id,
+        oid: oid,
+      }),
+    );
+  };
 
   // TODO Remove this flag once digital certificates are available
   return (
@@ -833,21 +784,6 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
               {enrollment.payments.length > 0 && (
                 <PaymentDetails payment={enrollment.payments[0]} />
               )}
-              {enrollment.status ===
-                EnrollmentAppointmentStatus.AWAITING_PAYMENT && (
-                <div className="columns flex-start">
-                  <CustomButton
-                    color={Color.Secondary}
-                    variant={Variant.Outlined}
-                    onClick={() => {
-                      setPaymentLinkModalOpen(true);
-                      dispatch(createClerkEnrollmentPaymentLink(enrollment.id));
-                    }}
-                  >
-                    {t('payment.create')}
-                  </CustomButton>
-                </div>
-              )}
             </div>
             {displayPaymentHistory && (
               <div className="rows gapped">
@@ -883,13 +819,23 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
         </div>
         <div className="columns flex-start">
           <CustomButton
-            onClick={setGradeModalOpen.bind(this, true)}
+            onClick={onSendAuthLink}
             color={Color.Secondary}
             variant={Variant.Outlined}
           >
             Lähetä ilmoittautumislinkki
           </CustomButton>
         </div>
+        <Text>
+          <Link
+            sx={{ fontWeight: 400, cursor: 'pointer' }}
+            onClick={() => {
+              setPaymentLinkModalOpen(true);
+            }}
+          >
+            Ei mahdollisuutta tunnistautua?
+          </Link>
+        </Text>
       </div>
       {gradeModalOpen && (
         <GradeModal
@@ -908,14 +854,14 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
         <>
           {paymentLink && (
             <div className="rows gapped">
+              <Text>
+                Jos asiakkaalla ei ole mahdollisuutta käyttää vahvaa
+                tunnistautumista, lähetä tämä suora maksulinkki.
+              </Text>
               <div className="rows gapped-xs">
                 <H3>{t('payment.modal.link')}</H3>
-                <Text>{paymentLink.url}</Text>
-              </div>
-              <div className="rows gapped-xs">
-                <H3>{t('payment.modal.expires')}</H3>
                 <Text>
-                  {DateTimeUtils.renderDateTime(paymentLink.expiresAt)}
+                  <pre>{paymentLink}</pre>
                 </Text>
               </div>
             </div>

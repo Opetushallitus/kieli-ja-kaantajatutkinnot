@@ -17,6 +17,8 @@ import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
   private final ExaminerExamEventRepository examinerExamEventRepository;
   private final Environment environment;
   private final UUIDSource uuidSource;
+  private final ExaminerEnrollmentEmailService examinerEnrollmentEmailService;
 
   private static void checkExaminerOid(EnrollmentAppointment enrollmentAppointment, String oid) {
     if (!enrollmentAppointment.getExaminer().getOid().equals(oid)) {
@@ -92,6 +95,10 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
 
     if (enrollmentAppointment.getAuthHash() == null) {
       enrollmentAppointment.setAuthHash(uuidSource.getRandomNonce());
+    }
+
+    if (enrollmentAppointment.getPaymentLinkHash() == null) {
+      enrollmentAppointment.setPaymentLinkHash(uuidSource.getRandomNonce());
     }
 
     enrollmentAppointmentRepository.flush();
@@ -213,5 +220,27 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
 
   private EnrollmentGradeDTO createGradeDTO(final EnrollmentGradeType grade, final String comment) {
     return grade == null ? null : EnrollmentGradeDTO.builder().grade(grade).comment(comment).build();
+  }
+
+  @Transactional
+  public ExaminerEnrollmentAppointmentDTO sendEnrollmentAppointmentLink(
+    final String oid,
+    final long enrollmentAppointmentId
+  ) throws IOException, InterruptedException {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
+      enrollmentAppointmentId
+    );
+    final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
+
+    checkExaminerOid(enrollmentAppointment, oid);
+
+    enrollmentAppointment.setExpiresAt(LocalDateTime.now().plusDays(3));
+    enrollmentAppointment.setSentAt(LocalDateTime.now());
+
+    examinerEnrollmentEmailService.sendEnrollmentAppointmentAuthLink(enrollmentAppointment);
+
+    enrollmentAppointmentRepository.flush();
+
+    return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
   }
 }

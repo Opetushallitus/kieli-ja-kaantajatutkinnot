@@ -19,6 +19,10 @@ public class TemplateRenderer {
     return renderTemplate("enrollment-confirmation", params, Optional.empty());
   }
 
+  public String renderEnrollmentAppointmentAuthLink(final Map<String, Object> params) {
+    return renderTemplate("enrollment-appointment-auth-link", params, Optional.empty());
+  }
+
   public String renderReceipt(final Locale locale, final Map<String, Object> params) {
     return renderTemplate("receipt", params, Optional.of(locale));
   }
