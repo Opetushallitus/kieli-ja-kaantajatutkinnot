@@ -51,6 +51,18 @@
       }
     }
 
+    &__previous-enrollment--good-and-satisfactory-level {
+      width: 70%;
+
+      @include phone {
+        width: 100%;
+      }
+
+      &__textField {
+        margin-bottom: 2rem;
+      }
+    }
+
     &__partial-exam-selection {
       float: left;
       margin-left: 3rem;

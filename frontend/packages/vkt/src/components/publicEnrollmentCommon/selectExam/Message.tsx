@@ -99,10 +99,10 @@ export const Message = ({
       <div className="margin-top-sm rows gapped">
         <H2>{t('title')}</H2>
       </div>
-      <div className="public-enrollment__grid__previous-enrollment rows gapped">
-        <div className="margin-top-sm">
+      <div className="public-enrollment__grid__previous-enrollment--good-and-satisfactory-level rows gapped">
+        <div className="margin-top-sm grow full-max-width">
           <LabeledTextField
-            className="public-enrollment__grid__previous-enrollment__textField"
+            className="public-enrollment__grid__previous-enrollment--good-and-satisfactory-level__textField"
             id="public-enrollment__previous-enrollment__textField"
             label={t('textField.label')}
             placeholder={t('textField.placeholder')}
@@ -112,6 +112,8 @@ export const Message = ({
             error={showCustomTextFieldError('message')}
             helperText={errors['message']}
             disabled={editingDisabled}
+            fullWidth
+            multiline
           />
         </div>
       </div>
