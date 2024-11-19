@@ -10,6 +10,7 @@ import fi.oph.vkt.model.Municipality;
 import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.repository.ExaminerRepository;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,7 +62,7 @@ public class PublicExaminerService {
         examiner
           .getExamEvents()
           .stream()
-          .filter(e -> !e.isHidden())
+          .filter(e -> !e.isHidden() && !e.getDate().isBefore(LocalDate.now()))
           .map(PublicExaminerService::toPublicExaminerExamDateDTO)
           .collect(Collectors.toList())
       )
