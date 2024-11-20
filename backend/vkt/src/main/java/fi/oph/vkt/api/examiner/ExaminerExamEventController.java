@@ -8,6 +8,7 @@ import jakarta.annotation.Resource;
 import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 @RestController
 @RequestMapping(value = "/api/v1/tv/{oid}/examEvent", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -45,7 +46,13 @@ public class ExaminerExamEventController {
 
   @GetMapping(path = "/{examEventId:\\d+}")
   @Operation(tags = TAG_EXAMINER_EXAM_EVENT, summary = "Get exam event and enrollments")
-  public ExaminerExamEventDTO getExamEvent(@PathVariable String oid, @PathVariable final long examEventId) {
+  public ExaminerExamEventDTO getExamEvent(@PathVariable final String oid, @PathVariable final long examEventId) {
     return examinerExamEventService.getExamEvent(oid, examEventId);
+  }
+
+  @GetMapping(value = "/{examEventId:\\d+}/excel")
+  @Operation(tags = TAG_EXAMINER_EXAM_EVENT, summary = "Download excel of enrollments to exam event")
+  public AbstractXlsxView getExamEventExcel(@PathVariable final String oid, @PathVariable final long examEventId) {
+    return examinerExamEventService.getExamEventExcel(oid, examEventId);
   }
 }

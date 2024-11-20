@@ -74,10 +74,6 @@ public class Enrollment extends EnrollmentCommon {
   @JoinColumn(name = "exam_event_id", referencedColumnName = "exam_event_id", nullable = false)
   private ExamEvent examEvent;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
-  private Person person;
-
   @OneToMany(mappedBy = "enrollment")
   private List<Payment> payments = new ArrayList<>();
 

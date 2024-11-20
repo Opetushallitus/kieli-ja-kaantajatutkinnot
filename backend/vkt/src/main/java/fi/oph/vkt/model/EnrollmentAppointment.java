@@ -85,10 +85,6 @@ public class EnrollmentAppointment extends EnrollmentCommon {
   @Column(name = "auth_hash_sent", nullable = false)
   private LocalDateTime sentAt;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "person_id", referencedColumnName = "person_id")
-  private Person person;
-
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "grade_id", referencedColumnName = "grade_id")
   private EnrollmentGrade grade;

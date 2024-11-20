@@ -1,7 +1,8 @@
+import DownloadIcon from '@mui/icons-material/DownloadOutlined';
 import EditIcon from '@mui/icons-material/Edit';
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
-import { CustomButtonLink, H2, H3, Text } from 'shared/components';
+import { CustomButtonLink, ExtLink, H2, H3, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
 import { ExaminerEnrollmentListing } from 'components/examinerEnrollment/listing/ExaminerEnrollmentListing';
@@ -11,6 +12,7 @@ import {
   useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
+import { APIEndpoints } from 'enums/api';
 import { AppRoutes, EnrollmentAppointmentStatus } from 'enums/app';
 import { ClerkEnrollmentAppointment } from 'interfaces/clerkEnrollment';
 import { examinerExamEventOverviewSelector } from 'redux/selectors/examinerExamEventOverview';
@@ -53,8 +55,13 @@ const EnrollmentList: FC<EnrollmentListProps> = ({ enrollments, status }) => {
 export const ExaminerExamEventDetails = () => {
   // Redux
   const { examEvent } = useAppSelector(examinerExamEventOverviewSelector);
+
+  // I18n
   const translateCommon = useCommonTranslation();
   const translateMunicipality = useKoodistoMunicipalitiesTranslation();
+  const { t } = useClerkTranslation({
+    keyPrefix: 'vkt.component.clerkExamEventOverview',
+  });
 
   const { oid } = useParams();
 
@@ -136,6 +143,18 @@ export const ExaminerExamEventDetails = () => {
         enrollments={enrollments}
         status={EnrollmentAppointmentStatus.CANCELED_UNFINISHED_ENROLLMENT}
       />
+      {enrollments.length > 0 && (
+        <div className="columns gapped margin-top-xxl flex-end">
+          <ExtLink
+            href={`${APIEndpoints.ExaminerExamEvent.replace(/:oid/, oid)}/${
+              examEvent.id
+            }/excel`}
+            text={t('examEventDetails.downloadExcel')}
+            startIcon={<DownloadIcon />}
+            data-testid="examiner-exam-event-overview-page__download-excel-button"
+          />
+        </div>
+      )}
     </>
   );
 };

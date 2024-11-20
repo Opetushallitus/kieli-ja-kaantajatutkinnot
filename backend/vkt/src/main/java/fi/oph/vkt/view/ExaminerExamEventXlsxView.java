@@ -1,6 +1,5 @@
 package fi.oph.vkt.view;
 
-import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -11,11 +10,11 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class ExamEventXlsxView extends ExamEventCommonXlsxView {
+public class ExaminerExamEventXlsxView extends ExamEventCommonXlsxView {
 
-  private final ExamEventXlsxData data;
+  private final ExaminerExamEventXlsxData data;
 
-  public ExamEventXlsxView(final ExamEventXlsxData data) {
+  public ExaminerExamEventXlsxView(final ExaminerExamEventXlsxData data) {
     this.data = data;
   }
 
@@ -28,7 +27,7 @@ public class ExamEventXlsxView extends ExamEventCommonXlsxView {
   ) {
     setFilenameHeader(
       response,
-      String.format("VKT_erinomainen_taito_tilaisuus_%s_%s.xlsx", data.date(), data.language())
+      String.format("VKT_hyva_ja_tyydyttava_taito_tilaisuus_%s_%s.xlsx", data.date(), data.language())
     );
     writeExcel(workbook);
   }
@@ -49,14 +48,6 @@ public class ExamEventXlsxView extends ExamEventCommonXlsxView {
       "TY", // Tekstin ymmärtäminen
       "PU", // Puhuminen
       "PY", // Puheen ymmärtäminen,
-      "Maksuton",
-      "Koulutustiedon lähde",
-      "Ylioppilastutkinto",
-      "DIA-tutkinto",
-      "EB-tutkinto",
-      "Korkeakoulututkinto",
-      "Korkeakouluopinnot käynnissä",
-      "Muu tutkinto",
       "Sähköposti",
       "Puhelin",
       "Sähk. Tod.",
@@ -71,7 +62,7 @@ public class ExamEventXlsxView extends ExamEventCommonXlsxView {
 
     for (int i = 0; i < data.rows().size(); i++) {
       final Row row = sheet.createRow(i + 1);
-      final ExamEventXlsxDataRow dataRow = data.rows().get(i);
+      final ExaminerExamEventXlsxDataRow dataRow = data.rows().get(i);
 
       int ci = 0;
       row.createCell(ci).setCellValue(data.date());
@@ -88,26 +79,6 @@ public class ExamEventXlsxView extends ExamEventCommonXlsxView {
       row.createCell(++ci).setCellValue(dataRow.readingComprehension());
       row.createCell(++ci).setCellValue(dataRow.speaking());
       row.createCell(++ci).setCellValue(dataRow.speechComprehension());
-
-      if (dataRow.isFree() != null) {
-        row.createCell(++ci).setCellValue(dataRow.isFree());
-      } else {
-        row.createCell(++ci);
-      }
-
-      row
-        .createCell(++ci)
-        .setCellValue(
-          dataRow.freeEnrollmentSource() == null
-            ? "-"
-            : dataRow.freeEnrollmentSource() == FreeEnrollmentSource.KOSKI ? "KOSKI" : "Käyttäjä"
-        );
-      row.createCell(++ci).setCellValue(dataRow.matriculationExam());
-      row.createCell(++ci).setCellValue(dataRow.dia());
-      row.createCell(++ci).setCellValue(dataRow.eb());
-      row.createCell(++ci).setCellValue(dataRow.higherEducationConcluded());
-      row.createCell(++ci).setCellValue(dataRow.higherEducationEnrolled());
-      row.createCell(++ci).setCellValue(dataRow.otherEducation());
 
       row.createCell(++ci).setCellValue(dataRow.email());
       row.createCell(++ci).setCellValue(dataRow.phoneNumber());

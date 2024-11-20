@@ -5,6 +5,7 @@ import fi.oph.vkt.api.dto.examiner.ExaminerExamEventDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerExamEventUpsertDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.ExaminerExamEvent;
 import fi.oph.vkt.model.Municipality;
@@ -13,12 +14,19 @@ import fi.oph.vkt.repository.ExaminerRepository;
 import fi.oph.vkt.util.ExaminerUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import fi.oph.vkt.view.ExamEventXlsxData;
+import fi.oph.vkt.view.ExamEventXlsxDataRowUtil;
+import fi.oph.vkt.view.ExamEventXlsxView;
+import fi.oph.vkt.view.ExaminerExamEventXlsxData;
+import fi.oph.vkt.view.ExaminerExamEventXlsxView;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 @Service
 @RequiredArgsConstructor
@@ -116,5 +124,32 @@ public class ExaminerExamEventService {
     final List<ExaminerExamEvent> examinerExamEvents = examinerExamEventRepository.findAllByExaminer(examiner);
 
     return examinerExamEvents.stream().map(ExaminerUtil::toExaminerExamEventWithoutEnrollmentsDTO).toList();
+  }
+
+  @Transactional(readOnly = true)
+  public AbstractXlsxView getExamEventExcel(final String oid, final long examEventId) {
+    final ExaminerExamEvent examEvent = examinerExamEventRepository.getReferenceById(examEventId);
+
+    if (!examEvent.getExaminer().getOid().equals(oid)) {
+      throw new APIException(APIExceptionType.EXAMINER_EXAM_EVENT_EXAMINER_MISMATCH);
+    }
+
+    final List<EnrollmentAppointment> enrollments = examEvent
+      .getEnrollments()
+      .stream()
+      .sorted(excelEnrollmentComparator())
+      .toList();
+
+    final ExaminerExamEventXlsxData excelData = ExamEventXlsxDataRowUtil.createExcelData(examEvent, enrollments);
+    final AbstractXlsxView excel = new ExaminerExamEventXlsxView(excelData);
+
+    auditService.logById(VktOperation.GET_EXAM_EVENT_EXCEL, examEventId);
+    return excel;
+  }
+
+  private static Comparator<EnrollmentAppointment> excelEnrollmentComparator() {
+    final Comparator<EnrollmentAppointment> byStatus = Comparator.comparing(EnrollmentAppointment::getStatus);
+    final Comparator<EnrollmentAppointment> byCreatedAt = Comparator.comparing(EnrollmentAppointment::getCreatedAt);
+    return byStatus.thenComparing(byCreatedAt);
   }
 }
