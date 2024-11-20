@@ -346,7 +346,44 @@
         "info": "Olet kirjautunut ulos. Suljethan vielä kaikki selainikkunat."
       },
       "goodAndSatisfactoryLevel": {
-        "title": "Hyvän ja tyydyttävän taidon tutkinnot"
+        "title": "Hyvän ja tyydyttävän taidon tutkinnot",
+        "description": {
+          "part1": "Hyvän ja tyydyttävän taidon tutkinnot suoritetaan tutkintosuorituksen vastaanottajalle.",
+          "part2": "Voit lähettää tutkintosuoritusten vastaanottajille viestin tämän sivun kautta ja sopia tutkinnon ajankohdasta.",
+          "part3": "Osa vastaanottajista on määritellyt suoritusajat etukäteen.",
+          "part4": "Huomioithan, että yleisinä loma-aikoina tutkintoa ei ole välttämättä mahdollista suorittaa."
+        },
+        "infoBox": {
+          "enrollment": {
+            "bulletPoints": {
+              "point1": "Etsi sopiva tutkintosuorituksen vastaanottaja taulukosta ja aloita yhteydenotto painamalla <0>Ota yhteyttä</0> -painiketta.",
+              "point2": "Sinua pyydetään täyttämään yhteystietosi ja vastaamaan muutamaan ennakkokysymykseen.",
+              "point3": "Viestin lähettämisen jälkeen voit palata etusivulle lähettämään uuden yhteydenoton aiemmin täyttämilläsi tiedoilla.",
+              "point4": "Tutkintosuorituksen vastaanottaja vastaa viestiisi sähköpostitse",
+              "point5": "Kun olette sopineet tutkinnon tarkan ajankohdan, tutkintosuorituksen vastaanottaja lähettää sinulle sähköpostitse linkin tunnistautumista varten.",
+              "point6": "Tunnistautumisen jälkeen tarkista tietosi ja siirry maksamaan tutkintomaksu.",
+              "point7": "Ilmoittautuminen vahvistuu, kun maksat tutkintomaksun.",
+              "point8": "Maksulinkki on voimassa 3 vuorokautta."
+            },
+            "title": "Ilmoittautumisprosessi"
+          },
+          "enrollmentFees": {
+            "bulletPoints": {
+              "point1": "Tutkintomaksu on <0>258 euroa,</0> jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kertaa.",
+              "point2": "Tutkintomaksu on <0>129 euroa,</0> jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
+            },
+            "title": "Tutkintomaksut"
+          },
+          "general": {
+            "bulletPoints": {
+              "point1": "<0>suullisen taidon tutkinto</0> (= puhumisen ja puheen ymmärtämisen osakokeet)",
+              "point2": "<0>kirjallisen taidon tutkinto</0> (= kirjoittamisen ja tekstin ymmärtämisen osakokeet)",
+              "point3": "<0>ymmärtämisen taidon tutkinto</0> (= tekstin ymmärtämisen ja puheen ymmärtämisen osakokeet)"
+            },
+            "skills": "Valtionhallinnon hyvän ja tyydyttävän taidon tutkintoja ovat",
+            "title": "Yleistä valtionhallinnon kielitutkinnoista"
+          }
+        }
       },
       "publicHomePage": {
         "description": {
