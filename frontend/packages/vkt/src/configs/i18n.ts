@@ -27,7 +27,7 @@ const langSV = AppLanguage.Swedish;
 
 const supportedLangs = [langFI, langSV];
 
-enum VktI18nNamespace {
+export enum VktI18nNamespace {
   Examiner = 'examiner',
 }
 

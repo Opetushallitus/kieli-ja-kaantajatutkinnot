@@ -1,12 +1,12 @@
 import { Box, Button, Container, Grid, Paper, Typography } from '@mui/material';
-import { TFunction } from 'i18next';
 import React, { FC } from 'react';
 import { Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { H1, H2, HeaderSeparator, Text } from 'shared/components';
-import { Color, I18nNamespace, Variant } from 'shared/enums';
+import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
+import { BulletList } from 'components/common/BulletList';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import ExcellentLevelCardImageAvif from 'public/images/excellent_level_card_image.avif';
@@ -127,38 +127,6 @@ const GoodAndSatisfactoryLevelCard = () => {
   );
 };
 
-const BoldedTranslationString = ({
-  i18nKey,
-  t,
-}: {
-  i18nKey: string;
-  t: TFunction<I18nNamespace, string>;
-}) => {
-  return <Trans i18nKey={i18nKey} t={t} components={[<b key={i18nKey} />]} />;
-};
-
-const BulletList = ({
-  keyPrefix,
-  points,
-}: {
-  keyPrefix: string;
-  points: Array<string>;
-}) => {
-  const { t } = usePublicTranslation({
-    keyPrefix,
-  });
-
-  return (
-    <Typography className="margin-top-sm" variant="body1" component="ul">
-      {points.map((point, i) => (
-        <li key={i}>
-          <BoldedTranslationString i18nKey={point} t={t} />
-        </li>
-      ))}
-    </Typography>
-  );
-};
-
 const DescriptionBox = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicExamEventGrid.description',
@@ -175,8 +143,12 @@ const DescriptionBox = () => {
         <div className="rows">
           <Text>{t('skills')}</Text>
           <BulletList
-            keyPrefix="vkt.component.publicExamEventGrid.description.bulletPoints"
-            points={['point1', 'point2', 'point3']}
+            t={t}
+            points={[
+              'bulletPoints.point1',
+              'bulletPoints.point2',
+              'bulletPoints.point3',
+            ]}
           />
         </div>
 
