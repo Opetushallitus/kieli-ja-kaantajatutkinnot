@@ -37,16 +37,19 @@ import {
 
 const PublicExaminerListingHeader = () => {
   const { isPhone } = useWindowProperties();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicExaminerListing.header',
+  });
 
   return (
     <TableHead className="heading-text">
       {!isPhone && (
         <TableRow>
-          <TableCell>Tutkinnon vastaanottaja</TableCell>
-          <TableCell>Kieli</TableCell>
-          <TableCell>Paikkakunta</TableCell>
-          <TableCell>Tutkintopäivät</TableCell>
-          <TableCell>Toiminnot</TableCell>
+          <TableCell>{t('examiner')}</TableCell>
+          <TableCell>{t('language')}</TableCell>
+          <TableCell>{t('municipality')}</TableCell>
+          <TableCell>{t('examDates')}</TableCell>
+          <TableCell>{t('actions')}</TableCell>
         </TableRow>
       )}
     </TableHead>
@@ -106,7 +109,7 @@ const DesktopExaminerRow = ({
                   {DateUtils.formatOptionalDate(v.examDate)}
                 </Fragment>
               ))
-            : 'Ei määritelty'}
+            : t('row.byRequest')}
         </Text>
       </TableCell>
       <TableCell>
@@ -115,7 +118,7 @@ const DesktopExaminerRow = ({
           variant={Variant.Outlined}
           onClick={handleOnClick}
         >
-          Ota yhteyttä
+          {t('row.contact')}
         </CustomButton>
       </TableCell>
     </TableRow>

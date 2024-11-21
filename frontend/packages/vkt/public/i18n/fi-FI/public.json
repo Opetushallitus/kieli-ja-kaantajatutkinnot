@@ -339,6 +339,17 @@
           "ALL": "suomi & ruotsi",
           "FI": "suomi",
           "SV": "ruotsi"
+        },
+        "header": {
+          "actions": "Toiminnot",
+          "examiner": "Tutkinnon vastaanottaja",
+          "language": "Kieli",
+          "municipality": "Paikkakunta",
+          "examDates": "Tutkintopäivät"
+        },
+        "row": {
+          "byRequest": "Sovittavissa",
+          "contact": "Ota yhteyttä"
         }
       },
       "logoutSuccessPage": {
