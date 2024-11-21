@@ -253,7 +253,7 @@
               "text2": "To participate in the YKI test, you must pay the fee on time."
             },
             "paymentLinkEmail": {
-              "text1": "Next, you will receive an email with a payment link.",
+              "text1": "You will receive an email within approximately 10 minutes. The email contains a link for paying the test fee.",
               "text2": "The email is sent from the address noreply@opintopolku.fi.",
               "text3": "Your registration will be confirmed only after you have paid the test fee."
             },

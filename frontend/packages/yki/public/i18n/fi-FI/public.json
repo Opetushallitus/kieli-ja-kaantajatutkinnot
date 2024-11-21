@@ -253,7 +253,7 @@
               "text2": "Maksa maksu ajoissa, jotta voit osallistua YKI-testiin."
             },
             "paymentLinkEmail": {
-              "text1": "Saat sähköpostiisi viestin, jossa on linkki tutkintomaksun maksamista varten.",
+              "text1": "Saat sähköpostiisi viestin noin 10 minuutin kuluessa. Viestissä on linkki tutkintomaksun maksamista varten.",
               "text2": "Viesti tulee osoitteesta noreply@opintopolku.fi.",
               "text3": "Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun."
             },
