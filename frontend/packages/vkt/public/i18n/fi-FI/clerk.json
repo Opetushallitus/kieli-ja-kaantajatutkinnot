@@ -102,6 +102,16 @@
           "getAllKoskiEducations": "Hae kaikki KOSKI-koulutustiedot"
         }
       },
+      "clerkcontactRequest": {
+        "createEnrollment": "Luo ilmoittautuminen",
+        "contactDetails": "Yhteydenoton tiedot",
+        "message": "Viesti",
+        "wantFullExam": "Haluan suorittaa koko tutkinnon?",
+        "deleteAreYouSure": "Haluatko varmasti poistaa yhteydenoton?",
+        "deleteDescription": "Toimintoa ei voida peruuttaa.",
+        "deleteContactRequest": "Poista yhteydenotto",
+        "deleteContactRequestSuccess": "Yhteydenotto poistettu"
+      },
       "clerkEnrollmentListing": {
         "header": {
           "examEventCoverage": "Tutkintokokonaisuus",

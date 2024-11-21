@@ -5,6 +5,7 @@ import { ClerkEnrollmentContact } from 'interfaces/clerkEnrollment';
 
 interface ClerkEnrollmentContactRequestState {
   status: APIResponseStatus;
+  deleteStatus: APIResponseStatus;
   enrollment?: ClerkEnrollmentContact;
   createStatus: APIResponseStatus;
 }
@@ -12,6 +13,7 @@ interface ClerkEnrollmentContactRequestState {
 const initialState: ClerkEnrollmentContactRequestState = {
   status: APIResponseStatus.NotStarted,
   createStatus: APIResponseStatus.NotStarted,
+  deleteStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkEnrollmentContactRequestSlice = createSlice({
@@ -58,6 +60,18 @@ const clerkEnrollmentContactRequestSlice = createSlice({
     resetClerkEnrollmentContactRequestToInitialState(_state) {
       return initialState;
     },
+    deleteClerkEnrollmentContactRequest(
+      state,
+      _action: PayloadAction<{
+        id: number;
+        oid: string;
+      }>,
+    ) {
+      state.deleteStatus = APIResponseStatus.InProgress;
+    },
+    storeDeleteClerkEnrollmentContactRequest(state) {
+      state.deleteStatus = APIResponseStatus.Success;
+    },
   },
 });
 
@@ -71,4 +85,6 @@ export const {
   storeCreateClerkEnrollmentAppointment,
   rejectCreateClerkEnrollmentAppointment,
   resetClerkEnrollmentContactRequestToInitialState,
+  deleteClerkEnrollmentContactRequest,
+  storeDeleteClerkEnrollmentContactRequest,
 } = clerkEnrollmentContactRequestSlice.actions;

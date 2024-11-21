@@ -9,30 +9,64 @@ import {
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
-import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import {
+  APIResponseStatus,
+  Color,
+  Duration,
+  Severity,
+  Variant,
+} from 'shared/enums';
+import { useDialog, useToast } from 'shared/hooks';
 
 import { TopControls } from 'components/clerkExamEvent/overview/TopControls';
-import { useCommonTranslation } from 'configs/i18n';
+import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import {
   createClerkEnrollmentAppointment,
+  deleteClerkEnrollmentContactRequest,
   loadClerkEnrollmentContactRequest,
   resetClerkEnrollmentContactRequestToInitialState,
 } from 'redux/reducers/clerkEnrollmentContactRequest';
+import { resetExaminerDetailsToInitialState } from 'redux/reducers/examinerDetails';
 import { clerkEnrollmentContactRequestSelector } from 'redux/selectors/clerkEnrollmentContactRequest';
 import { EnrollmentUtils } from 'utils/enrollment';
 
 export const ClerkEnrollmentContactRequestPage: FC = () => {
-  const { status, createStatus, enrollment } = useAppSelector(
+  const { status, deleteStatus, createStatus, enrollment } = useAppSelector(
     clerkEnrollmentContactRequestSelector,
   );
+  const { t } = useClerkTranslation({
+    keyPrefix: 'vkt.component.clerkcontactRequest',
+  });
   const translateCommon = useCommonTranslation();
   const params = useParams();
   const navigate = useNavigate();
+  const { showDialog } = useDialog();
+  const { showToast } = useToast();
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (deleteStatus === APIResponseStatus.Success && params.oid) {
+      dispatch(resetExaminerDetailsToInitialState());
+      navigate(AppRoutes.ExaminerHomePage.replace(':oid', params.oid));
+      showToast({
+        severity: Severity.Success,
+        description: t('deleteContactRequestSuccess'),
+        timeOut: Duration.Short,
+      });
+    }
+  }, [dispatch, params.oid, deleteStatus, navigate, t, showToast]);
+
+  // Cleanup on unmount
+  useEffect(
+    () => () => {
+      dispatch(resetClerkEnrollmentContactRequestToInitialState());
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
     if (
@@ -84,7 +118,8 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
   ]);
 
   const isLoading = status === APIResponseStatus.InProgress;
-  const isSavingDisabled = isLoading;
+  const isDeleteLoading = deleteStatus === APIResponseStatus.InProgress;
+  const isSavingDisabled = isDeleteLoading || isLoading;
 
   if (!enrollment) {
     return <></>;
@@ -123,6 +158,32 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
       }),
     );
   };
+
+  const openDeleteDialog = () => {
+    showDialog({
+      title: t('deleteAreYouSure'),
+      severity: Severity.Warning,
+      description: t('deleteDescription'),
+      actions: [
+        {
+          title: translateCommon('back'),
+          variant: Variant.Outlined,
+        },
+        {
+          title: translateCommon('yes'),
+          variant: Variant.Contained,
+          action: () =>
+            dispatch(
+              deleteClerkEnrollmentContactRequest({
+                id: enrollment.id,
+                oid: params.oid || '',
+              }),
+            ),
+        },
+      ],
+    });
+  };
+
   const backTo = AppRoutes.ExaminerHomePage.replace(':oid', params.oid || '');
 
   return (
@@ -164,9 +225,9 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
               </div>
             </div>
             <Divider />
-            <H2>Yhteydenoton tiedot</H2>
+            <H2>{t('contactDetails')}</H2>
             <div className="rows gapped">
-              <H3>Haluan suorittaa koko tutkinnon?</H3>
+              <H3>{t('wantFullExam')}</H3>
               <Text>
                 {EnrollmentUtils.isFullExam(enrollment)
                   ? translateCommon('yes')
@@ -186,10 +247,21 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
               </Text>
             </div>
             <div className="rows gapped">
-              <H3>Viesti</H3>
+              <H3>{t('message')}</H3>
               <Text>{enrollment.message}</Text>
             </div>
-            <div className="columns flex-end">
+            <div className="columns gapped-sm flex-end">
+              <LoadingProgressIndicator isLoading={isDeleteLoading}>
+                <CustomButton
+                  data-testid="clerk-translator-overview__translator-details__save-btn"
+                  variant={Variant.Outlined}
+                  color={Color.Secondary}
+                  disabled={isSavingDisabled}
+                  onClick={openDeleteDialog}
+                >
+                  {t('deleteContactRequest')}
+                </CustomButton>
+              </LoadingProgressIndicator>
               <LoadingProgressIndicator isLoading={isLoading}>
                 <CustomButton
                   data-testid="clerk-translator-overview__translator-details__save-btn"
@@ -198,7 +270,7 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
                   disabled={isSavingDisabled}
                   onClick={onSubmit}
                 >
-                  {translateCommon('save')}
+                  {t('createEnrollment')}
                 </CustomButton>
               </LoadingProgressIndicator>
             </div>

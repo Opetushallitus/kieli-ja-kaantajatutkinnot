@@ -101,7 +101,7 @@ public class ExaminerDetailsService {
       throw new APIException(APIExceptionType.EXAMINER_NOT_FOUND);
     }
     final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
-    final List<EnrollmentAppointment> enrollmentAppointments = enrollmentAppointmentRepository.findByExaminerAndStatus(
+    final List<EnrollmentAppointment> enrollmentAppointments = enrollmentAppointmentRepository.findByExaminerAndStatusAndDeletedAtIsNull(
       examiner,
       EnrollmentAppointmentStatus.CONTACT_CREATED
     );

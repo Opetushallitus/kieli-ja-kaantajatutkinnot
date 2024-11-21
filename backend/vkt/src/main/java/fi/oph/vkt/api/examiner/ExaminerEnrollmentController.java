@@ -36,10 +36,19 @@ public class ExaminerEnrollmentController {
   @GetMapping(path = "/contact/{enrollmentContactId:\\d+}", consumes = ALL_VALUE)
   @Operation(tags = TAG_ENROLLMENT, summary = "Get enrollment contact request")
   public ClerkEnrollmentContactRequestDTO getEnrollmentContactRequest(
-    @PathVariable String oid,
+    @PathVariable final String oid,
     @PathVariable final long enrollmentContactId
   ) {
     return examinerEnrollmentService.getEnrollmentContactRequest(oid, enrollmentContactId);
+  }
+
+  @DeleteMapping(path = "/contact/{enrollmentContactId:\\d+}", consumes = ALL_VALUE)
+  @Operation(tags = TAG_ENROLLMENT, summary = "Delete enrollment contact request")
+  public void deleteEnrollmentContactRequest(
+    @PathVariable final String oid,
+    @PathVariable final long enrollmentContactId
+  ) {
+    examinerEnrollmentService.deleteEnrollmentContactRequest(oid, enrollmentContactId);
   }
 
   @PostMapping(path = "/contact/{enrollmentContactId:\\d+}/convertToAppointment", consumes = ALL_VALUE)

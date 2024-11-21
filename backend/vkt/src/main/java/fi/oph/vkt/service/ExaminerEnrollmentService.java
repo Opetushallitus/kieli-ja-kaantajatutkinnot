@@ -243,4 +243,17 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
 
     return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
   }
+
+  @Transactional
+  public void deleteEnrollmentContactRequest(final String oid, final long enrollmentContactId) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
+      enrollmentContactId
+    );
+
+    checkExaminerOid(enrollmentAppointment, oid);
+
+    enrollmentAppointment.setDeletedAt(LocalDateTime.now());
+
+    enrollmentAppointmentRepository.flush();
+  }
 }

@@ -18,7 +18,9 @@ public class PublicEnrollmentAppointmentService extends AbstractEnrollmentServic
     final long enrollmentAppointmentId,
     final String authHash
   ) {
-    return enrollmentAppointmentRepository.findByIdAndAuthHash(enrollmentAppointmentId, authHash).orElseThrow();
+    return enrollmentAppointmentRepository
+      .findByIdAndAuthHashAndDeletedAtIsNull(enrollmentAppointmentId, authHash)
+      .orElseThrow();
   }
 
   public void savePersonInfo(final long targetId, final Long appointmentId, final Person person) {
