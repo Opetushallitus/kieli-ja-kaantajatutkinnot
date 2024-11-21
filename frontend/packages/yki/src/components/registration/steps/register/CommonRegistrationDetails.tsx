@@ -154,7 +154,25 @@ export const CommonRegistrationDetails = () => {
         <Text>
           {t('termsAndConditions.description1')}
           <br />
-          {t('termsAndConditions.description2')}
+          <ul>
+            <li>{t('termsAndConditions.item1')}</li>
+            <li>{t('termsAndConditions.item2')}</li>
+            <li>{t('termsAndConditions.item3')}</li>
+            <li>{t('termsAndConditions.item4')}</li>
+            <li>{t('termsAndConditions.item5')}</li>
+            <li>{t('termsAndConditions.item5')}</li>
+            <ul>
+              <li>{t('termsAndConditions.item51')}</li>
+              <li>{t('termsAndConditions.item52')}</li>
+            </ul>
+            <li>{t('termsAndConditions.item6')}</li>
+          </ul>
+          {t('termsAndConditions.description2')}:{' '}
+          <Link href={t('termsAndConditions.link')}>
+            {t('termsAndConditions.linkText')}
+          </Link>
+          <br />
+          {t('termsAndConditions.description3')}
         </Text>
         <FormControl error={!!registrationErrors['termsAndConditionsAgreed']}>
           <FormControlLabel
