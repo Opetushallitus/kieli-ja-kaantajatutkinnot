@@ -47,20 +47,21 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
   const { showToast } = useToast();
 
   const dispatch = useAppDispatch();
+  const backTo = AppRoutes.ExaminerHomePage.replace(':oid', params.oid || '');
 
   useEffect(() => {
     if (deleteStatus === APIResponseStatus.Success && params.oid) {
       dispatch(resetExaminerDetailsToInitialState());
-      navigate(AppRoutes.ExaminerHomePage.replace(':oid', params.oid));
+      navigate(backTo);
       showToast({
         severity: Severity.Success,
         description: t('deleteContactRequestSuccess'),
         timeOut: Duration.Short,
       });
     }
-  }, [dispatch, params.oid, deleteStatus, navigate, t, showToast]);
+  }, [dispatch, params.oid, deleteStatus, navigate, t, backTo, showToast]);
 
-  // Cleanup on unmount
+  // Clean up on unmount
   useEffect(
     () => () => {
       dispatch(resetClerkEnrollmentContactRequestToInitialState());
@@ -183,8 +184,6 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
       ],
     });
   };
-
-  const backTo = AppRoutes.ExaminerHomePage.replace(':oid', params.oid || '');
 
   return (
     <Box className="clerk-homepage">

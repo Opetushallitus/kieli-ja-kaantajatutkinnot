@@ -256,4 +256,17 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
 
     enrollmentAppointmentRepository.flush();
   }
+
+  @Transactional
+  public void cancelEnrollmentAppointment(final String oid, final long enrollmentAppointmentId) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
+      enrollmentAppointmentId
+    );
+
+    checkExaminerOid(enrollmentAppointment, oid);
+
+    enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.CANCELED);
+
+    enrollmentAppointmentRepository.flush();
+  }
 }

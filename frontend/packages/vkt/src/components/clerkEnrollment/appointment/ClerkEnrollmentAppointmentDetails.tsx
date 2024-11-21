@@ -1,6 +1,12 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { CustomButton } from 'shared/components';
-import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import {
+  APIResponseStatus,
+  Color,
+  Duration,
+  Severity,
+  Variant,
+} from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 import { StringUtils } from 'shared/utils';
 
@@ -15,7 +21,9 @@ import { ClerkEnrollmentAppointment } from 'interfaces/clerkEnrollment';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 import {
+  cancelClerkEnrollmentAppointment,
   resetClerkEnrollmentDetails,
+  resetClerkEnrollmentDetailsToInitialState,
   updateClerkEnrollmentAppointment,
 } from 'redux/reducers/clerkEnrollmentAppointment';
 import { clerkEnrollmentAppointmentSelector } from 'redux/selectors/clerkEnrollmentAppointment';
@@ -34,7 +42,7 @@ export const ClerkEnrollmentAppointmentDetails = ({
 }) => {
   // Redux
   const dispatch = useAppDispatch();
-  const { status, updateStatus, sendLinkStatus } = useAppSelector(
+  const { status, cancelStatus, updateStatus, sendLinkStatus } = useAppSelector(
     clerkEnrollmentAppointmentSelector,
   );
 
@@ -99,6 +107,19 @@ export const ClerkEnrollmentAppointmentDetails = ({
       });
     }
   }, [currentUIMode, showToast, t, sendLinkStatus]);
+
+  useEffect(() => {
+    if (cancelStatus === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.updated'),
+        timeOut: Duration.Short,
+      });
+
+      dispatch(resetClerkEnrollmentDetailsToInitialState());
+      resetToInitialState();
+    }
+  }, [dispatch, cancelStatus, t, showToast, resetToInitialState]);
 
   if (!enrollmentDetails) {
     return null;
@@ -207,7 +228,13 @@ export const ClerkEnrollmentAppointmentDetails = ({
         {
           title: translateCommon('yes'),
           variant: Variant.Contained,
-          action: () => '', // TODO
+          action: () =>
+            dispatch(
+              cancelClerkEnrollmentAppointment({
+                id: enrollment.id,
+                oid,
+              }),
+            ),
         },
       ],
     });

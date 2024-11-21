@@ -10,6 +10,7 @@ import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 interface ClerkEnrollmentAppointmentState {
   status: APIResponseStatus;
   updateStatus: APIResponseStatus;
+  cancelStatus: APIResponseStatus;
   enrollment?: ClerkEnrollmentAppointment;
   gradesStatus: APIResponseStatus;
   gradesSaveStatus: APIResponseStatus;
@@ -22,6 +23,7 @@ interface ClerkEnrollmentAppointmentState {
 const initialState: ClerkEnrollmentAppointmentState = {
   status: APIResponseStatus.NotStarted,
   updateStatus: APIResponseStatus.NotStarted,
+  cancelStatus: APIResponseStatus.NotStarted,
   gradesStatus: APIResponseStatus.NotStarted,
   gradesSaveStatus: APIResponseStatus.NotStarted,
   examEventsStatus: APIResponseStatus.NotStarted,
@@ -158,6 +160,18 @@ const clerkEnrollmentAppointmentSlice = createSlice({
     resetClerkEnrollmentAppointmentGrades(state) {
       state.gradesSaveStatus = initialState.status;
     },
+    cancelClerkEnrollmentAppointment(
+      state,
+      _action: PayloadAction<{
+        id: number;
+        oid: string;
+      }>,
+    ) {
+      state.cancelStatus = APIResponseStatus.InProgress;
+    },
+    storeCancelClerkEnrollmentAppointment(state) {
+      state.cancelStatus = APIResponseStatus.Success;
+    },
   },
 });
 
@@ -181,4 +195,6 @@ export const {
   storeClerkEnrollmentAppointmentAuthLink,
   storeUpdateClerkEnrollmentAppointment,
   resetClerkEnrollmentDetailsToInitialState,
+  cancelClerkEnrollmentAppointment,
+  storeCancelClerkEnrollmentAppointment,
 } = clerkEnrollmentAppointmentSlice.actions;

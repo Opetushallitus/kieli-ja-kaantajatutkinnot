@@ -12,11 +12,13 @@ import {
 import { ExaminerExamEventResponse } from 'interfaces/examinerExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
+  cancelClerkEnrollmentAppointment,
   loadClerkEnrollmentAppointment,
   loadClerkEnrollmentAppointmentGrades,
   loadExaminerExamEvents,
   rejectClerkEnrollmentAppointment,
   sendClerkEnrollmentAppointmentAuthLink,
+  storeCancelClerkEnrollmentAppointment,
   storeClerkEnrollmentAppointment,
   storeClerkEnrollmentAppointmentAuthLink,
   storeClerkEnrollmentAppointmentGrades,
@@ -180,6 +182,27 @@ function* sendClerkEnrollmentAppointmentAuthLinkSaga(
   }
 }
 
+function* cancelClerkEnrollmentAppointmentSaga(
+  action: PayloadAction<{
+    id: number;
+    oid: string;
+  }>,
+) {
+  try {
+    const { id, oid } = action.payload;
+    const deleteUrl = `${APIEndpoints.ExaminerEnrollmentAppointment.replace(
+      /:oid/,
+      oid,
+    )}/${id}`;
+
+    yield call(axiosInstance.delete, deleteUrl);
+
+    yield put(storeCancelClerkEnrollmentAppointment());
+  } catch (error) {
+    //yield put(rejectClerkEnrollmentContactRequest());
+  }
+}
+
 function* loadExaminerExamEventsSaga(action: PayloadAction<string>) {
   try {
     const oid = action.payload;
@@ -201,6 +224,10 @@ export function* watchClerkEnrollmentAppointment() {
   yield takeLatest(
     updateClerkEnrollmentAppointment.type,
     updateClerkEnrollmentAppointmentSaga,
+  );
+  yield takeLatest(
+    cancelClerkEnrollmentAppointment.type,
+    cancelClerkEnrollmentAppointmentSaga,
   );
   yield takeLatest(loadExaminerExamEvents.type, loadExaminerExamEventsSaga);
   yield takeLatest(

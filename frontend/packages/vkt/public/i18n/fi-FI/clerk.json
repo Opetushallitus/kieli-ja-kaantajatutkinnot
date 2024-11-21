@@ -108,7 +108,7 @@
         "message": "Viesti",
         "wantFullExam": "Haluan suorittaa koko tutkinnon?",
         "deleteAreYouSure": "Haluatko varmasti poistaa yhteydenoton?",
-        "deleteDescription": "Toimintoa ei voida peruuttaa.",
+        "deleteDescription": "Toimintoa ei voi peruuttaa!",
         "deleteContactRequest": "Poista yhteydenotto",
         "deleteContactRequestSuccess": "Yhteydenotto poistettu"
       },

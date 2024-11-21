@@ -29,6 +29,7 @@ export const ClerkEnrollmentAppointmentOverviewPage: FC<
 
   const dispatch = useAppDispatch();
   const params = useParams();
+
   const backTo = enrollment?.examEvent?.id
     ? AppRoutes.ExaminerExamEventPage.replace(':oid', params.oid || '').replace(
         ':examEventId',
@@ -45,6 +46,14 @@ export const ClerkEnrollmentAppointmentOverviewPage: FC<
       dispatch(resetClerkEnrollmentDetailsToInitialState());
     }
   }, [dispatch, params.enrollmentAppointmentId, enrollment?.id]);
+
+  // Clean up on unmount
+  useEffect(
+    () => () => {
+      dispatch(resetClerkEnrollmentDetailsToInitialState());
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
     if (
