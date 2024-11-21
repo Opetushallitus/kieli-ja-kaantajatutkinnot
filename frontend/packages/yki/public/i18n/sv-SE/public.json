@@ -253,7 +253,7 @@
               "text2": "Betala i tid så du kan delta i YKI-testet."
             },
             "paymentLinkEmail": {
-              "text1": "Du får ett e-postmeddelande med en betalningslänk.",
+              "text1": "Du får ett e-postmeddelande inom cirka 10 minuter. I meddelandet finns en länk för att betala examensavgiften.",
               "text2": "Meddelandet kommer från adressen noreply@opintopolku.fi.",
               "text3": "Anmälan är bekräftad först när du har betalat examensavgiften."
             },
