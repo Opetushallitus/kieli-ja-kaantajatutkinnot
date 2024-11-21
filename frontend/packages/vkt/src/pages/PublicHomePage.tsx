@@ -1,13 +1,13 @@
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Box, Button, Container, Grid, Paper, Typography } from '@mui/material';
 import React, { FC } from 'react';
-import { Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { H1, H2, HeaderSeparator, Text } from 'shared/components';
+import { H1, H2, HeaderSeparator, Text, WebLink } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
-import { BulletList } from 'components/common/BulletList';
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { BoldedTranslationString } from 'components/common/BoldedTranslationString';
+import { usePublicTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import ExcellentLevelCardImageAvif from 'public/images/excellent_level_card_image.avif';
 import ExcellentLevelCardImageJpeg from 'public/images/excellent_level_card_image.jpg';
@@ -76,19 +76,21 @@ const ExcellentLevelCardImage = () => {
 };
 
 const ExcellentLevelCard = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicHomePage.cards.excellentLevel',
+  });
+
   return (
     <LevelCard
       image={<ExcellentLevelCardImage />}
-      heading="Erinomaisen taidon tutkinnot"
+      heading={t('heading')}
       contents={
-        <>
-          <Text>Tekstiä.</Text>
-          <Text>
-            Toinen kappale. Hieman pituuttakin tälle paragraaaaaafffille.
-          </Text>
-        </>
+        <Text>
+          {t('description.part1')} {t('description.part2')}{' '}
+          {t('description.part3')}
+        </Text>
       }
-      linkLabel="Ilmoittaudu erinomaisen taidon tutkintoihin"
+      linkLabel={t('callToAction')}
       linkTo={AppRoutes.PublicExcellentLevelLanding}
     />
   );
@@ -111,54 +113,46 @@ const GoodAndSatisfactoryLevelCardImage = () => {
 };
 
 const GoodAndSatisfactoryLevelCard = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicHomePage.cards.goodAndSatisfactoryLevel',
+  });
+
   return (
     <LevelCard
       image={<GoodAndSatisfactoryLevelCardImage />}
-      heading="Hyvän ja tyydyttävän taidon tutkinnot"
+      heading={t('heading')}
       contents={
         <Text>
-          Yhdellä kokeella voit osoittaa tuloksesta riippuen hyvää tai
-          tyydyttävää taitoa.
+          {t('description.part1')} {t('description.part2')}{' '}
+          {t('description.part3')}
         </Text>
       }
-      linkLabel="Ota yhteyttä tutkinnon vastaanottajiin"
+      linkLabel={t('callToAction')}
       linkTo={AppRoutes.PublicGoodAndSatisfactoryLevelLanding}
     />
   );
 };
 
-const DescriptionBox = () => {
+const EnrollmentFees = () => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicExamEventGrid.description',
+    keyPrefix: 'vkt.component.publicHomePage.enrollmentFees',
   });
-  const translateCommon = useCommonTranslation();
 
   return (
-    <Container
-      style={{ maxWidth: '1000px', marginLeft: 0 }}
-      className="public-homepage__info-box"
-    >
+    <Container className="public-homepage__info-box">
       <div className="rows gapped">
         <H2>{t('title')}</H2>
-        <div className="rows">
-          <Text>{t('skills')}</Text>
-          <BulletList
-            t={t}
-            points={[
-              'bulletPoints.point1',
-              'bulletPoints.point2',
-              'bulletPoints.point3',
-            ]}
-          />
-        </div>
-
-        <Text>{translateCommon('info.selectExam')}</Text>
         <Text>
-          <Trans
-            t={translateCommon}
-            i18nKey="info.previousEnrollment"
-            components={[<b key="0" />, <b key="1" />]}
-          ></Trans>
+          <BoldedTranslationString i18nKey="excellentLevel.part1" t={t} />{' '}
+          {t('excellentLevel.part2')} {t('excellentLevel.part3')}{' '}
+          {t('excellentLevel.part4')}
+        </Text>
+        <Text>
+          <BoldedTranslationString
+            i18nKey="goodAndSatisfactoryLevel.part1"
+            t={t}
+          />{' '}
+          {t('goodAndSatisfactoryLevel.part2')}
         </Text>
       </div>
     </Container>
@@ -188,16 +182,25 @@ export const PublicHomePage: FC = () => {
               <br />
               {t('description.part2')}
             </Text>
-            <DescriptionBox />
-            <H2>{t('selectExamination.heading')}</H2>
-            <Text>{t('selectExamination.description')}</Text>
-            <div
-              className={`public-homepage__cards gapped-xxl ${
-                isPhone ? 'rows' : 'columns'
-              }`}
-            >
-              <ExcellentLevelCard />
-              <GoodAndSatisfactoryLevelCard />
+            <Text>
+              {t('description.part3')}
+              <br />
+              {t('description.part4')} {t('description.part5')}
+            </Text>
+            <Text>
+              <WebLink
+                href={t('description.readMore.url')}
+                label={t('description.readMore.label')}
+                endIcon={<OpenInNewIcon />}
+              />
+            </Text>
+            <div className="rows gapped public-homepage__main-content">
+              <EnrollmentFees />
+              <H2>{t('enrollment.heading')}</H2>
+              <div className={`gapped-xxl ${isPhone ? 'rows' : 'columns'}`}>
+                <ExcellentLevelCard />
+                <GoodAndSatisfactoryLevelCard />
+              </div>
             </div>
           </div>
         </Grid>

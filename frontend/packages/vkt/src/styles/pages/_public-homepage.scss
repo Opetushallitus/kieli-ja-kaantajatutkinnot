@@ -23,6 +23,12 @@
     }
   }
 
+  & &__main-content {
+    @include not-phone {
+      max-width: 100rem;
+    }
+  }
+
   & &__info-box {
     background-color: $color-blue-200;
     border-radius: 4px;
@@ -36,19 +42,14 @@
     }
   }
 
-  & &__cards {
-    @include not-phone {
-      width: 90%;
-    }
-  }
-
   & &__level-description-card {
     @include phone {
       width: 100%;
     }
+
     @include not-phone {
-      width: 48rem;
-      height: 49rem;
+      width: 50%;
+      height: 54rem;
     }
 
     .card-contents {

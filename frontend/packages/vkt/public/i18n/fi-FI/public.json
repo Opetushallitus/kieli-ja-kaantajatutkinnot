@@ -387,12 +387,51 @@
       },
       "publicHomePage": {
         "description": {
-          "part1": "Valtionhallinnon kielitutkinnot (VKT) on tarkoitettu julkishallinnon henkilöstön toisen kotimaisen kielen hallinnan osoittamiseen.",
-          "part2": "Tutkinnoilla osoitetaan suomen tai ruotsin kielen suullinen, kirjallinen ja ymmärtämisen taito."
+          "part1": "Valtionhallinnon kielitutkinnot (VKT) on Suomen valtion kielitutkintojärjestelmä julkishallinnon henkilöstön suomen ja ruotsin kielen hallinnan osoittamiseen.",
+          "part2": "Tutkintotodistuksia voi käyttää työ- tai opiskelupaikan hakemiseen sekä osoittamaan riittävää suomen tai ruotsin kielitaitoa Suomen kansalaisuuden hakemista varten.",
+          "part3": "VKT-tutkinnoissa on kolme taitotasoa: tyydyttävä, hyvä ja erinomainen.",
+          "part4": "Kaikilla taitotasoilla voi suorittaa suullisen, kirjallisen ja ymmärtämisen taidon tutkinnon.",
+          "part5": "Nämä tutkinnon osat on mahdollista suorittaa yhdessä tai erikseen.",
+          "readMore": {
+            "label": "Lue lisää valtionhallinnon kielitutkinnoista Opetushallituksen sivuilla.",
+            "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/yleiskuvaus-valtionhallinnon-kielitutkinnoista"
+          }
         },
-        "selectExamination": {
-          "description": "Valtionhallinnon kielitutkintoja on kahta eri tyyppiä: toisella voit osoittaa erinomaisen taidon hallintaa ja toisella joko hyvän tai tyydyttävän taidon hallintaa.",
-          "heading": "Valitse tutkintosi"
+        "cards": {
+          "excellentLevel": {
+            "callToAction": "Ilmoittaudu erinomaisen taidon tutkintoon",
+            "description": {
+              "part1": "Erinomaisen taidon tutkintojen järjestämisestä vastaavat suomen ja ruotsin kielen kielitutkintolautakunnat.",
+              "part2": "Tutkintotilaisuudet järjestetään Helsingissä ennalta määrättyinä ajankohtina.",
+              "part3": "Tutkintoihin ilmoittaudutaan sähköisellä ilmoittautumislomakkeella kunkin tutkinnon ilmoittautumisaikana."
+            },
+            "heading": "Erinomaisen taidon tutkinnot"
+          },
+          "goodAndSatisfactoryLevel": {
+            "callToAction": "Ota yhteyttä tutkinnon vastaanottajiin",
+            "description": {
+              "part1": "Hyvän ja tyydyttävän taidon tutkinnot suoritetaan tutkintosuoritusten vastaanottajille.",
+              "part2": "Tutkintoja voi suorittaa eri paikkakunnilla.",
+              "part3": "Tutkintoihin ilmoittaudutaan lähettämällä viesti tutkintosuorituksen vastaanottajalle ja sopimalla tutkinnon ajankohdasta."
+            },
+            "heading": "Hyvän ja tyydyttävän taidon tutkinnot"
+          }
+        },
+        "enrollment": {
+          "heading": "Ilmoittautuminen"
+        },
+        "enrollmentFees": {
+          "excellentLevel": {
+            "part1": "<0>Erinomaisen taidon</0> tutkinnot ovat maksuttomia tietyin ehdoin.",
+            "part2": "Henkilöt, jotka eivät ole oikeutettuja maksuttomaan erinomaisen taidon tutkintoon, maksavat tutkintomaksun.",
+            "part3": "Tutkintomaksu on 514 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kertaa.",
+            "part4": "Tutkintomaksu on 257 euroa, jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
+          },
+          "goodAndSatisfactoryLevel": {
+            "part1": "<0>Hyvän ja tyydyttävän taidon</0> tutkintomaksu on 258 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kertaa.",
+            "part2": "Tutkintomaksu on 129 euroa, jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
+          },
+          "title": "Tutkintomaksut"
         },
         "title": "Valtionhallinnon kielitutkinnot (VKT)"
       }
