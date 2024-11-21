@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { AnyAction } from 'redux';
-import { LabeledTextField } from 'shared/components';
+import { H2, LabeledTextField } from 'shared/components';
 import { InputAutoComplete, TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
 import { FieldErrors, getErrors, hasErrors } from 'shared/utils';
@@ -82,7 +82,7 @@ export const FillContactDetails = ({
   showValidation: boolean;
 }) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.steps.fillContactDetails',
+    keyPrefix: 'vkt.component.publicEnrollmentContact.steps.fillContactDetails',
   });
   const translateCommon = useCommonTranslation();
 
@@ -156,7 +156,8 @@ export const FillContactDetails = ({
   });
 
   return (
-    <div className="margin-top-sm rows gapped">
+    <div className="rows gapped">
+      <H2>{t('heading')}</H2>
       <div className="grid-3-columns gapped">
         <LabeledTextField
           {...getCustomTextFieldAttributes('firstName')}
@@ -174,7 +175,7 @@ export const FillContactDetails = ({
       <div className="grid-3-columns gapped">
         <LabeledTextField
           {...getCustomTextFieldAttributes('phoneNumber')}
-          placeholder={'Esim. 0401234567'}
+          placeholder={t('phoneNumber.placeholder')}
           type={TextFieldTypes.PhoneNumber}
           value={enrollment.phoneNumber}
           autoComplete={InputAutoComplete.PhoneNumber}

@@ -1,5 +1,5 @@
 import { Grid, Paper } from '@mui/material';
-import { LoadingProgressIndicator } from 'shared/components';
+import { LoadingProgressIndicator, Text } from 'shared/components';
 
 import { PublicEnrollmentContactControlButtons } from 'components/publicEnrollmentContact/PublicEnrollmentContactControlButtons';
 import { PublicEnrollmentContactExaminer } from 'components/publicEnrollmentContact/PublicEnrollmentContactExaminer';
@@ -52,8 +52,13 @@ export const PublicEnrollmentContactDesktopGrid = ({
             <PublicEnrollmentContactStepper activeStep={activeStep} />
             <PublicEnrollmentContactStepHeading activeStep={activeStep} />
             <PublicEnrollmentContactExaminer examiner={examiner} />
-            <Paper elevation={3} sx={{ padding: '2rem', marginTop: '2rem' }}>
-              <Grid className="margin-top-lg">
+            {activeStep !== PublicEnrollmentContactFormStep.Done && (
+              <Text sx={{ marginTop: '2rem' }}>
+                {translateCommon('requiredFieldsInfo')}
+              </Text>
+            )}
+            <Paper elevation={3} sx={{ padding: '3rem', marginTop: '2rem' }}>
+              <Grid>
                 <PublicEnrollmentContactStepContents
                   activeStep={activeStep}
                   enrollment={enrollment}

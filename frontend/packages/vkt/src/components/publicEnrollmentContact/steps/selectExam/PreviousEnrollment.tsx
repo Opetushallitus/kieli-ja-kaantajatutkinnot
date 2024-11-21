@@ -53,7 +53,8 @@ export const PreviousEnrollment = ({
 }) => {
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollmentContact.steps.previousEnrollment',
+    keyPrefix:
+      'vkt.component.publicEnrollmentContact.steps.selectExam.previousEnrollment',
   });
 
   const [dirtyFields, setDirtyFields] = useState<
@@ -133,13 +134,9 @@ export const PreviousEnrollment = ({
     <>
       <div className="margin-top-sm rows gapped">
         <H2>{t('title')}</H2>
-        <Text>
-          {t('part1')}
-          <br />
-          {t('part2')}
-        </Text>
+        <Text>{t('part1')}</Text>
       </div>
-      <div className="public-enrollment__grid__previous-enrollment rows gapped">
+      <div className="rows gapped">
         <FormControl component="fieldset">
           <FormLabel component="legend" className="heading-label">
             {t('radioButtons.label')}
@@ -155,27 +152,27 @@ export const PreviousEnrollment = ({
           >
             <FormControlLabel
               disabled={editingDisabled}
-              data-testid="enrollment-checkbox-previously-enrolled-yes"
-              value={PreviouslyEnrolled.Yes}
-              control={
-                <Radio aria-describedby="has-previous-enrollment-error" />
-              }
-              label={translateCommon('yes')}
-              checked={enrollment.hasPreviousEnrollment}
-              className={`margin-top-sm margin-left-sm ${
-                hasRadioButtonError && 'checkbox-error'
-              }`}
-            />
-            <FormControlLabel
-              disabled={editingDisabled}
               data-testid="enrollment-checkbox-previously-enrolled-no"
               value={PreviouslyEnrolled.No}
               control={
                 <Radio aria-describedby="has-previous-enrollment-error" />
               }
-              label={translateCommon('no')}
+              label={t('hasPreviousEnrollment.no')}
               checked={enrollment.hasPreviousEnrollment === false}
               className={`margin-left-sm ${
+                hasRadioButtonError && 'checkbox-error'
+              }`}
+            />
+            <FormControlLabel
+              disabled={editingDisabled}
+              data-testid="enrollment-checkbox-previously-enrolled-yes"
+              value={PreviouslyEnrolled.Yes}
+              control={
+                <Radio aria-describedby="has-previous-enrollment-error" />
+              }
+              label={t('hasPreviousEnrollment.yes')}
+              checked={enrollment.hasPreviousEnrollment}
+              className={`margin-top-sm margin-left-sm ${
                 hasRadioButtonError && 'checkbox-error'
               }`}
             />
@@ -199,6 +196,7 @@ export const PreviousEnrollment = ({
               error={showCustomTextFieldError('previousEnrollment')}
               helperText={errors['previousEnrollment']}
               disabled={editingDisabled}
+              fullWidth
             />
           </div>
         </Collapse>

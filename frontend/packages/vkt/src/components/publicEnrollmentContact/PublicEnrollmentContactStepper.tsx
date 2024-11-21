@@ -15,7 +15,7 @@ export const PublicEnrollmentContactStepper = ({
   const { isPhone } = useWindowProperties();
 
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.stepper',
+    keyPrefix: 'vkt.component.publicEnrollmentContact.stepper',
   });
 
   const steps = PublicEnrollmentUtils.getEnrollmentContactSteps();

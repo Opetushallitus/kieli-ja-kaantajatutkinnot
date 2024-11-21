@@ -150,9 +150,12 @@
             "partialExamsTitle": "Valitse osakokeet",
             "oralSkill": "Suullinen taito *",
             "textualSkill": "Kirjallinen taito *",
-            "doFullExam": "Haluatko suorittaa sekä suullisen että kirjallisen taidon tutkinnon? *",
-            "skillsTitle": "Valitse tutkinto *",
-            "noFullExam": "En, haluan suorittaa vain jommankumman tutkinnon tai yksittäisen osakokeen"
+            "fullExam": {
+              "no": "En, haluan suorittaa vain jommankumman tutkinnon tai yksittäisen osakokeen",
+              "yes": "Kyllä (sis. suullinen taito, kirjallinen taito ja ymmärtämisen taito)",
+              "question": "Haluatko suorittaa sekä suullisen että kirjallisen taidon tutkinnon? *"
+            },
+            "skillsTitle": "Valitse tutkinto *"
           },
           "selectExam": {
             "part1": "Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana.",
@@ -259,6 +262,105 @@
               "placeholder": "Kerro tarkemmin"
             },
             "title": "Kirjoita viestisi"
+          }
+        }
+      },
+      "publicEnrollmentContact": {
+        "examinerDetails": {
+          "byRequest": "Sovittavissa",
+          "examDate": "Tutkintopäivä",
+          "examEvent": "Tutkinto",
+          "examiner": "Tutkinnon vastaanottaja",
+          "municipality": "Tutkintopaikka"
+        },
+        "stepHeading": {
+          "Done": "Viesti lähetetty",
+          "FillContactDetails": "Yhteystietosi",
+          "SelectExam": "Valitse tutkinto ja lähetä viesti"
+        },
+        "stepper": {
+          "active": "Aktiivinen",
+          "completed": "Suoritettu",
+          "label": "Ilmoittautumisen vaiheet",
+          "phase": "Vaihe",
+          "phaseNumber": "{{current}} kautta {{total}}",
+          "phases": "Ilmoittautumisen vaiheet",
+          "step": {
+            "Done": "Viesti lähetetty",
+            "FillContactDetails": "Yhteystietosi",
+            "SelectExam": "Valitse tutkinto ja lähetä viesti"
+          }
+        },
+        "steps": {
+          "fillContactDetails": {
+            "heading": "Täytä yhteystietosi",
+            "email": {
+              "label": "Sähköposti *",
+              "placeholder": "Esim. testi@testi.fi"
+            },
+            "emailConfirmation": {
+              "label": "Vahvista sähköposti *",
+              "placeholder": "Kirjoita sähköpostisi uudelleen"
+            },
+            "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
+            "phoneNumber": {
+              "label": "Puhelinnumero *",
+              "placeholder": "Esim. 0401234567"
+            },
+            "firstName": {
+              "label": "Etunimi *"
+            },
+            "lastName": {
+              "label": "Sukunimi *"
+            }
+          },
+          "selectExam": {
+            "examFee": {
+              "part1": "Tutkintomaksu on <0>258 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kerralla.</0>",
+              "part2": "Suullisen ja kirjallisen taidon tutkintojen suorittaminen osoittaa myös vastaavan tasoista ymmärtämisen taitoa.",
+              "part3": "<0>Jos suoritat tutkinnot yksittäin, kukin tutkinto</0> (suullisen, kirjallisen tai ymmärtämisen taidon tutkinto) maksaa <0>129 euroa.</0>",
+              "part4": "Tutkintosuorituksen vastaanottaja lähettää sinulle linkin tutkintomaksun maksamista varten, kun olette sopineet tutkinnon tarkan ajankohdan.",
+              "title": "Tutkintomaksu"
+            },
+            "message": {
+              "textField": {
+                "label": "Viesti *",
+                "placeholder": "Kerro tarkemmin tilanteestasi. Jos olet suorittanut valtionhallinnon hyvän tai tyydyttävän taidon tutkinnon aikaisemmin, kerro kenelle suoritit tutkinnon ja milloin."
+              },
+              "title": "Kirjoita viestisi"
+            },
+            "examSelection": {
+              "fullExam": {
+                "no": "En, haluan suorittaa vain jommankumman tutkinnon tai yksittäisen osakokeen",
+                "yes": "Kyllä (sis. suullinen taito, kirjallinen taito ja ymmärtämisen taito)",
+                "question": "Haluatko suorittaa sekä suullisen että kirjallisen taidon tutkinnon? *"
+              },
+              "selectExams": {
+                "description": "Osakokeita ovat: Puhuminen, puheen ymmärtäminen, kirjoittaminen ja tekstin ymmärtäminen",
+                "heading": "Kerro, minkä osakokeen / mitkä osakokeet haluat suorittaa"
+              },
+              "part1": "Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana.",
+              "part2": "Kun olet suorittanut hyväksytysti suullisen ja kirjallisen taidon tutkinnot, saat todistukseen merkinnän myös ymmärtämisen taidon tutkinnon suorittamisesta.",
+              "partialExamsTitle": "Valitse osakokeet",
+              "oralSkill": "Suullinen taito *",
+              "textualSkill": "Kirjallinen taito *",
+              "title": "Tutkinnon valinta"
+            },
+            "previousEnrollment": {
+              "hasPreviousEnrollment": {
+                "no": "En",
+                "yes": "Kyllä"
+              },
+              "part1": "Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osan suorittamispäivästä alkaen.",
+              "radioButtons": {
+                "label": "Oletko osallistunut aiemmin hyvän ja tyydyttävän taidon kielitutkintoon? *"
+              },
+              "textField": {
+                "label": "Milloin olet viimeksi osallistunut? *",
+                "placeholder": "Kirjoita päivämäärä tai vapaa teksti"
+              },
+              "title": "Aikaisempiin tutkintoihin osallistuminen"
+            }
           }
         }
       },

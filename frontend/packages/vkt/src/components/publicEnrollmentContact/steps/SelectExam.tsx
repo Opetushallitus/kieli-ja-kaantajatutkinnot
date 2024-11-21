@@ -1,12 +1,11 @@
 import { Divider } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { AnyAction } from 'redux';
-import { H2, Text } from 'shared/components';
 
-import { Message } from 'components/publicEnrollmentCommon/selectExam/Message';
-import { PartialExamsSelection } from 'components/publicEnrollmentCommon/selectExam/PartialExamsSelection';
-import { PreviousEnrollment } from 'components/publicEnrollmentCommon/selectExam/PreviousEnrollment';
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { ExamFee } from 'components/publicEnrollmentContact/steps/selectExam/ExamFee';
+import { ExamSelection } from 'components/publicEnrollmentContact/steps/selectExam/ExamSelection';
+import { Message } from 'components/publicEnrollmentContact/steps/selectExam/Message';
+import { PreviousEnrollment } from 'components/publicEnrollmentContact/steps/selectExam/PreviousEnrollment';
 import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
 
 export const SelectExam = ({
@@ -24,11 +23,6 @@ export const SelectExam = ({
     enrollment: Partial<PublicEnrollmentContact>,
   ) => AnyAction;
 }) => {
-  const translateCommon = useCommonTranslation();
-  const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.steps.selectExam',
-  });
-
   const [isValidPreviousEnrollment, setIsValidPreviousEnrollment] =
     useState(false);
   const [isValidPartialExamsSelection, setIsValidPartialExamsSelection] =
@@ -44,15 +38,10 @@ export const SelectExam = ({
   }, [setIsStepValid, isValidPreviousEnrollment, isValidPartialExamsSelection]);
 
   return (
-    <div className="margin-top-xxl rows gapped">
-      <Text>{translateCommon('requiredFieldsInfo')}</Text>
-      <H2>{t('title')}</H2>
-      <Text>
-        {t('part1')}
-        <br />
-        {t('part2')}
-      </Text>
-      <PartialExamsSelection
+    <div className="rows gapped">
+      <ExamFee />
+      <Divider />
+      <ExamSelection
         enrollment={enrollment}
         editingDisabled={isLoading}
         setValid={setPartialExamsSelection}

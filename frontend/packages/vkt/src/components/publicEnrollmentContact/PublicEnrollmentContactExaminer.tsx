@@ -20,32 +20,34 @@ export const PublicEnrollmentContactExaminer = ({
   const translateCommon = useCommonTranslation();
   const appLanguage = getCurrentLang();
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.examEventDetails',
+    keyPrefix: 'vkt.component.publicEnrollmentContact.examinerDetails',
   });
 
+  const { language, name, municipalities, examDates } = examiner;
+
   return (
-    <div className="rows gapped-xxs">
+    <div className="rows">
       <Text>
         {t('examEvent')}
         {': '}
         <b>
           {ExamEventUtils.languageAndLevelText(
-            examiner.language,
+            language,
             ExamLevel.GOOD_AND_SATISFACTORY,
             translateCommon,
           )}
         </b>
       </Text>
       <Text>
-        Tutkinnon vastaanottaja
+        {t('examiner')}
         {': '}
-        <b>{examiner.name}</b>
+        <b>{name}</b>
       </Text>
       <Text>
-        Tutkintopaikka
+        {t('municipality')}
         {': '}
         <b>
-          {examiner.municipalities
+          {municipalities
             .map(({ fi, sv }) =>
               appLanguage === AppLanguage.Swedish ? sv : fi,
             )
@@ -53,15 +55,17 @@ export const PublicEnrollmentContactExaminer = ({
         </b>
       </Text>
       <Text>
-        Tutkintopäivä
+        {t('examDate')}
         {': '}
         <b>
-          {examiner.examDates.map((v, i) => (
-            <Fragment key={i}>
-              {i > 0 ? <br /> : undefined}
-              {DateTimeUtils.renderDate(v.examDate)}
-            </Fragment>
-          ))}
+          {examDates.length > 0
+            ? examDates.map((v, i) => (
+                <Fragment key={i}>
+                  {i > 0 ? <br /> : undefined}
+                  {DateTimeUtils.renderDate(v.examDate)}
+                </Fragment>
+              ))
+            : t('byRequest')}
         </b>
       </Text>
     </div>

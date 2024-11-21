@@ -11,7 +11,7 @@ export const PublicEnrollmentContactStepHeading = ({
   activeStep: PublicEnrollmentContactFormStep;
 }) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.stepHeading',
+    keyPrefix: 'vkt.component.publicEnrollmentContact.stepHeading',
   });
   const [ref, setFocus] = useFocus<HTMLDivElement>();
   const { isPhone } = useWindowProperties();
@@ -22,9 +22,7 @@ export const PublicEnrollmentContactStepHeading = ({
     }
   }, [setFocus, isPhone]);
 
-  const headingText = t(
-    `common.${PublicEnrollmentContactFormStep[activeStep]}`,
-  );
+  const headingText = t(PublicEnrollmentContactFormStep[activeStep]);
 
   return (
     <div ref={ref} className="margin-top-xxl rows gapped-xs">
