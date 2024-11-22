@@ -4,14 +4,14 @@ import { CustomButton, Text } from 'shared/components';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { PublicEnrollment } from 'interfaces/publicEnrollment';
+import { PublicEnrollmentAppointment } from 'interfaces/publicEnrollment';
 import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { resetPublicExamEventSelections } from 'redux/reducers/publicExamEvent';
 
 export const PaymentSuccess = ({
   enrollment,
 }: {
-  enrollment: PublicEnrollment;
+  enrollment: PublicEnrollmentAppointment;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.paymentSuccess',

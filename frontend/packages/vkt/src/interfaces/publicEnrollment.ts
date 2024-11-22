@@ -96,7 +96,7 @@ export interface PublicEnrollmentContact extends PublicEnrollmentCommon {
 export interface PublicEnrollmentAppointment
   extends PublicEnrollmentContact,
     CertificateShippingData,
-    Partial<PartialExamsAndSkills> {
+    PartialExamsAndSkills {
   person?: PublicPerson;
   examEvent?: PublicExaminerExamEvent;
 }

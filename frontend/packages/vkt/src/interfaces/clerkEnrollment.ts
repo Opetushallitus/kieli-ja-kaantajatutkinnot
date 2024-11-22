@@ -57,7 +57,9 @@ interface ClerkEnrollmentCommon
   phoneNumber: string;
 }
 
-export interface ClerkEnrollment extends ClerkEnrollmentCommon, PartialExamsAndSkills {
+export interface ClerkEnrollment
+  extends ClerkEnrollmentCommon,
+    PartialExamsAndSkills {
   status: EnrollmentStatus;
   payments: Array<ClerkPayment>;
   isFree?: boolean;
@@ -107,7 +109,9 @@ export interface ClerkAuthLinkResponse
   sentAt: Dayjs;
 }
 
-export interface ClerkEnrollmentAppointment extends ClerkEnrollmentContact {
+export interface ClerkEnrollmentAppointment
+  extends Omit<ClerkEnrollmentContact, 'isFullExam' | 'partialExamSelection'>,
+    PartialExamsAndSkills {
   payments: Array<ClerkPayment>;
   person?: ClerkPerson;
   authLink?: ClerkAuthLink;
