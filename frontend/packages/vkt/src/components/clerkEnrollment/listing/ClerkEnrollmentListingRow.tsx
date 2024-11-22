@@ -88,7 +88,9 @@ export const ClerkEnrollmentListingRow = ({
           <Text>{getSelectedPartialExamsText()}</Text>
         </TableCell>
         <TableCell>
-          <Text>{DateTimeUtils.renderDateTime(enrollment.enrollmentTime)}</Text>
+          <Text>
+            {DateTimeUtils.renderDateTimePrecise(enrollment.enrollmentTime)}
+          </Text>
         </TableCell>
         <TableCell sx={{ width: '20%' }} align="right">
           {[
