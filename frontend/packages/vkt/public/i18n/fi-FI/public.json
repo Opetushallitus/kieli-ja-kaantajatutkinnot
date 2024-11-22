@@ -337,7 +337,7 @@
               },
               "selectExams": {
                 "description": "Osakokeita ovat: Puhuminen, puheen ymmärtäminen, kirjoittaminen ja tekstin ymmärtäminen",
-                "heading": "Kerro, minkä osakokeen / mitkä osakokeet haluat suorittaa"
+                "heading": "Kerro, minkä osakokeen / mitkä osakokeet haluat suorittaa *"
               },
               "part1": "Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana.",
               "part2": "Kun olet suorittanut hyväksytysti suullisen ja kirjallisen taidon tutkinnot, saat todistukseen merkinnän myös ymmärtämisen taidon tutkinnon suorittamisesta.",

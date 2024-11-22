@@ -27,15 +27,26 @@ export const SelectExam = ({
     useState(false);
   const [isValidPartialExamsSelection, setIsValidPartialExamsSelection] =
     useState(false);
+  const [isValidMessage, setIsValidMessage] = useState(false);
 
   const setPreviousEnrollment = (isValid: boolean) =>
     setIsValidPreviousEnrollment(isValid);
   const setPartialExamsSelection = (isValid: boolean) =>
     setIsValidPartialExamsSelection(isValid);
+  const setMessage = (isValid: boolean) => setIsValidMessage(isValid);
 
   useEffect(() => {
-    setIsStepValid(isValidPreviousEnrollment && isValidPartialExamsSelection);
-  }, [setIsStepValid, isValidPreviousEnrollment, isValidPartialExamsSelection]);
+    setIsStepValid(
+      isValidPreviousEnrollment &&
+        isValidPartialExamsSelection &&
+        isValidMessage,
+    );
+  }, [
+    setIsStepValid,
+    isValidPreviousEnrollment,
+    isValidPartialExamsSelection,
+    isValidMessage,
+  ]);
 
   return (
     <div className="rows gapped">
@@ -60,7 +71,7 @@ export const SelectExam = ({
       <Message
         enrollment={enrollment}
         editingDisabled={isLoading}
-        setValid={setPreviousEnrollment}
+        setValid={setMessage}
         showValidation={showValidation}
         updatePublicEnrollment={updatePublicEnrollment}
       />

@@ -3,7 +3,7 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkEnrollmentContact } from 'interfaces/clerkEnrollment';
 
-interface ClerkEnrollmentContactRequestState {
+export interface ClerkEnrollmentContactRequestState {
   status: APIResponseStatus;
   deleteStatus: APIResponseStatus;
   enrollment?: ClerkEnrollmentContact;

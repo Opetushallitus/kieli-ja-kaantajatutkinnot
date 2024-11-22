@@ -24,13 +24,7 @@ const initialState: PublicEnrollmentContactState = {
     phoneNumber: '',
     firstName: '',
     lastName: '',
-    oralSkill: false,
-    textualSkill: false,
-    understandingSkill: false,
-    speakingPartialExam: false,
-    speechComprehensionPartialExam: false,
-    writingPartialExam: false,
-    readingComprehensionPartialExam: false,
+    isFullExam: undefined,
     id: 1,
     hasPreviousEnrollment: undefined,
     previousEnrollment: '',
@@ -55,7 +49,7 @@ const publicEnrollmentContactSlice = createSlice({
       state.loadExaminerStatus = APIResponseStatus.Success;
       state.examiner = action.payload;
     },
-    updatePublicEnrollment(
+    updatePublicEnrollmentContact(
       state,
       action: PayloadAction<Partial<PublicEnrollmentContact>>,
     ) {
@@ -91,6 +85,6 @@ export const {
   rejectPublicExaminer,
   storePublicExaminer,
   loadPublicExaminer,
-  updatePublicEnrollment,
+  updatePublicEnrollmentContact,
   resetPublicEnrollmentContact,
 } = publicEnrollmentContactSlice.actions;

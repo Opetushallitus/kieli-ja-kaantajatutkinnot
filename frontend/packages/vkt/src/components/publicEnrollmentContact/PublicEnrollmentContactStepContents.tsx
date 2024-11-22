@@ -3,7 +3,7 @@ import { FillContactDetails } from 'components/publicEnrollmentContact/steps/Fil
 import { SelectExam } from 'components/publicEnrollmentContact/steps/SelectExam';
 import { PublicEnrollmentContactFormStep } from 'enums/publicEnrollment';
 import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
-import { updatePublicEnrollment } from 'redux/reducers/publicEnrollmentContact';
+import { updatePublicEnrollmentContact } from 'redux/reducers/publicEnrollmentContact';
 
 export const PublicEnrollmentContactStepContents = ({
   activeStep,
@@ -24,7 +24,7 @@ export const PublicEnrollmentContactStepContents = ({
           isLoading={false}
           setIsStepValid={setIsStepValid}
           showValidation={showValidation}
-          updatePublicEnrollment={updatePublicEnrollment}
+          updatePublicEnrollment={updatePublicEnrollmentContact}
         />
       );
     case PublicEnrollmentContactFormStep.SelectExam:
@@ -34,7 +34,7 @@ export const PublicEnrollmentContactStepContents = ({
           isLoading={false}
           setIsStepValid={setIsStepValid}
           showValidation={showValidation}
-          updatePublicEnrollment={updatePublicEnrollment}
+          updatePublicEnrollment={updatePublicEnrollmentContact}
         />
       );
     case PublicEnrollmentContactFormStep.Done:

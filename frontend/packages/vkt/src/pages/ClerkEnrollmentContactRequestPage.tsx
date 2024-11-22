@@ -22,7 +22,6 @@ import { TopControls } from 'components/clerkExamEvent/overview/TopControls';
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import {
   createClerkEnrollmentAppointment,
   deleteClerkEnrollmentContactRequest,
@@ -31,7 +30,6 @@ import {
 } from 'redux/reducers/clerkEnrollmentContactRequest';
 import { resetExaminerDetailsToInitialState } from 'redux/reducers/examinerDetails';
 import { clerkEnrollmentContactRequestSelector } from 'redux/selectors/clerkEnrollmentContactRequest';
-import { EnrollmentUtils } from 'utils/enrollment';
 
 export const ClerkEnrollmentContactRequestPage: FC = () => {
   const { status, deleteStatus, createStatus, enrollment } = useAppSelector(
@@ -126,31 +124,6 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
     return <></>;
   }
 
-  const partialExamsToText = (skills: PartialExamsAndSkills) => {
-    return [
-      skills.writingPartialExam
-        ? translateCommon('enrollment.partialExamsAndSkills.writingPartialExam')
-        : false,
-      skills.readingComprehensionPartialExam
-        ? translateCommon(
-            'enrollment.partialExamsAndSkills.readingComprehensionPartialExam',
-          )
-        : false,
-      skills.speakingPartialExam
-        ? translateCommon(
-            'enrollment.partialExamsAndSkills.speakingPartialExam',
-          )
-        : false,
-      skills.speechComprehensionPartialExam
-        ? translateCommon(
-            'enrollment.partialExamsAndSkills.speechComprehensionPartialExam',
-          )
-        : false,
-    ]
-      .filter((skill) => skill)
-      .join(', ');
-  };
-
   const onSubmit = () => {
     dispatch(
       createClerkEnrollmentAppointment({
@@ -228,15 +201,17 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
             <div className="rows gapped">
               <H3>{t('wantFullExam')}</H3>
               <Text>
-                {EnrollmentUtils.isFullExam(enrollment)
+                {enrollment.isFullExam
                   ? translateCommon('yes')
                   : translateCommon('no')}
               </Text>
             </div>
-            <div className="rows gapped">
-              <H3>Osakokeet, jotka haluan suorittaa</H3>
-              <Text>{partialExamsToText(enrollment)}</Text>
-            </div>
+            {!enrollment.isFullExam && (
+              <div className="rows gapped">
+                <H3>Osakokeet, jotka haluan suorittaa</H3>
+                <Text>{enrollment.partialExamSelection}</Text>
+              </div>
+            )}
             <div className="rows gapped">
               <H3>Osallistunut aiempiin tutkintoihin?</H3>
               <Text>

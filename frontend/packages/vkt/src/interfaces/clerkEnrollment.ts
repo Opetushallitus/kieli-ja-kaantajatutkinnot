@@ -50,7 +50,6 @@ export interface ClerkPaymentResponse
 interface ClerkEnrollmentCommon
   extends WithId,
     WithVersion,
-    PartialExamsAndSkills,
     CertificateShippingData {
   enrollmentTime: Dayjs;
   previousEnrollment?: string;
@@ -58,7 +57,7 @@ interface ClerkEnrollmentCommon
   phoneNumber: string;
 }
 
-export interface ClerkEnrollment extends ClerkEnrollmentCommon {
+export interface ClerkEnrollment extends ClerkEnrollmentCommon, PartialExamsAndSkills {
   status: EnrollmentStatus;
   payments: Array<ClerkPayment>;
   isFree?: boolean;
@@ -85,6 +84,9 @@ export interface ClerkEnrollmentContact extends ClerkEnrollmentCommon {
   status: EnrollmentAppointmentStatus;
   firstName: string;
   lastName: string;
+  isFullExam: boolean;
+  partialExamSelection?: string;
+  message: string;
 }
 
 export interface ClerkEnrollmentContactResponse

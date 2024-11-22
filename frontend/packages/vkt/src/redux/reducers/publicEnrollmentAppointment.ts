@@ -29,6 +29,7 @@ const initialState: PublicEnrollmentAppointmentState = {
     speechComprehensionPartialExam: false,
     writingPartialExam: false,
     readingComprehensionPartialExam: false,
+    isFullExam: false,
     digitalCertificateConsent: false,
     street: '',
     postalCode: '',

@@ -23,15 +23,19 @@ export class EnrollmentUtils {
     );
   }
 
-  static isValidTextualSkillAndPartialExams(skills: PartialExamsAndSkills) {
+  static isValidTextualSkillAndPartialExams(
+    skills: Partial<PartialExamsAndSkills>,
+  ) {
     return skills.textualSkill
-      ? skills.writingPartialExam || skills.readingComprehensionPartialExam
+      ? !!(skills.writingPartialExam || skills.readingComprehensionPartialExam)
       : true;
   }
 
-  static isValidOralSkillAndPartialExams(skills: PartialExamsAndSkills) {
+  static isValidOralSkillAndPartialExams(
+    skills: Partial<PartialExamsAndSkills>,
+  ) {
     return skills.oralSkill
-      ? skills.speakingPartialExam || skills.speechComprehensionPartialExam
+      ? !!(skills.speakingPartialExam || skills.speechComprehensionPartialExam)
       : true;
   }
 

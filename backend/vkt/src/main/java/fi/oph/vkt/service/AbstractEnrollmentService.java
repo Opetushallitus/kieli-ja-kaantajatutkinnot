@@ -41,7 +41,7 @@ public abstract class AbstractEnrollmentService {
     final EnrollmentAppointment enrollment,
     final PublicEnrollmentContactCreateDTO dto
   ) {
-    copyDtoSkillFieldsToEnrollment(enrollment, dto);
+    enrollment.setPartialExamSelection(dto.partialExamSelection());
     enrollment.setPreviousEnrollment(dto.previousEnrollment());
     enrollment.setMessage(dto.message());
     enrollment.setPhoneNumber(dto.phoneNumber());

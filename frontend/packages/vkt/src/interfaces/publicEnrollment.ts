@@ -53,9 +53,7 @@ export interface PublicEnrollmentContactRequestDetails {
   phoneNumber: string;
 }
 
-export interface PublicEnrollmentCommon
-  extends PublicEnrollmentContactDetails,
-    PartialExamsAndSkills {
+export interface PublicEnrollmentCommon extends PublicEnrollmentContactDetails {
   id?: number;
   hasPreviousEnrollment?: boolean;
   previousEnrollment?: string;
@@ -65,7 +63,8 @@ export interface PublicEnrollmentCommon
 
 export interface PublicEnrollment
   extends PublicEnrollmentCommon,
-    CertificateShippingData {
+    CertificateShippingData,
+    PartialExamsAndSkills {
   examEventId?: number;
   hasPaymentLink?: boolean;
   isFree?: boolean;
@@ -90,11 +89,14 @@ export interface PublicEnrollmentContact extends PublicEnrollmentCommon {
   firstName: string;
   lastName: string;
   message: string;
+  isFullExam?: boolean;
+  partialExamSelection?: string;
 }
 
 export interface PublicEnrollmentAppointment
   extends PublicEnrollmentContact,
-    CertificateShippingData {
+    CertificateShippingData,
+    Partial<PartialExamsAndSkills> {
   person?: PublicPerson;
   examEvent?: PublicExaminerExamEvent;
 }

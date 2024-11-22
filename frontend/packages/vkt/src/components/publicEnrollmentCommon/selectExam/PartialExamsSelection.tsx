@@ -16,7 +16,10 @@ import { Color } from 'shared/enums';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
-import { PublicEnrollmentCommon } from 'interfaces/publicEnrollment';
+import {
+  PublicEnrollment,
+  PublicEnrollmentAppointment,
+} from 'interfaces/publicEnrollment';
 import { EnrollmentUtils } from 'utils/enrollment';
 
 enum YesNo {
@@ -32,7 +35,7 @@ const CheckboxField = ({
   error,
   describedBy,
 }: {
-  enrollment: PublicEnrollmentCommon;
+  enrollment: PublicEnrollment | PublicEnrollmentAppointment;
   fieldName: keyof PartialExamsAndSkills;
   onClick: (fieldName: keyof PartialExamsAndSkills) => void;
   disabled: boolean;
@@ -66,12 +69,12 @@ export const PartialExamsSelection = ({
   showValidation,
   updatePublicEnrollment,
 }: {
-  enrollment: PublicEnrollmentCommon;
+  enrollment: PublicEnrollment | PublicEnrollmentAppointment;
   editingDisabled: boolean;
   setValid: (isValid: boolean) => void;
   showValidation: boolean;
   updatePublicEnrollment: (
-    enrollment: Partial<PublicEnrollmentCommon>,
+    enrollment: Partial<PublicEnrollment | PublicEnrollmentAppointment>,
   ) => AnyAction;
 }) => {
   const translateCommon = useCommonTranslation();
@@ -82,7 +85,7 @@ export const PartialExamsSelection = ({
   const dispatch = useAppDispatch();
   const [dirtyFullExam, setDirtyFullExam] = useState(!!enrollment.id);
 
-  const isSkillsSelected = enrollment.textualSkill || enrollment.oralSkill;
+  const isSkillsSelected = !!(enrollment.textualSkill || enrollment.oralSkill);
 
   useEffect(() => {
     setValid(

@@ -9,22 +9,17 @@ import lombok.NonNull;
 
 @Builder
 public record PublicEnrollmentContactCreateDTO(
-  @NonNull @NotNull Boolean oralSkill,
-  @NonNull @NotNull Boolean textualSkill,
-  @NonNull @NotNull Boolean understandingSkill,
-  @NonNull @NotNull Boolean speakingPartialExam,
-  @NonNull @NotNull Boolean speechComprehensionPartialExam,
-  @NonNull @NotNull Boolean writingPartialExam,
-  @NonNull @NotNull Boolean readingComprehensionPartialExam,
+  @NonNull @NotNull Boolean isFullExam,
+  @Size(max = 1024) String partialExamSelection,
   @Size(max = 1024) String previousEnrollment,
   @Size(max = 10240) String message,
   @Size(max = 255) @NonNull @NotBlank String phoneNumber,
   @Size(max = 255) @NonNull @NotBlank String email,
   @Size(max = 255) @NonNull @NotBlank String firstName,
   @Size(max = 255) @NonNull @NotBlank String lastName
-)
-  implements EnrollmentDTOSkillFields {
+) {
   public PublicEnrollmentContactCreateDTO {
+    partialExamSelection = StringUtil.sanitize(partialExamSelection);
     previousEnrollment = StringUtil.sanitize(previousEnrollment);
     message = StringUtil.sanitize(message);
     phoneNumber = StringUtil.sanitize(phoneNumber);

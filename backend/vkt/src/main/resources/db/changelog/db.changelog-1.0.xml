@@ -1165,4 +1165,16 @@
             <column name="name" value="ENROLLMENT_APPOINTMENT_CONFIRMATION"/>
         </insert>
     </changeSet>
+    <changeSet id="2024-11-22-enrollment-contact-partial-exam-selection-changes" author="pkoivisto">
+        <addColumn tableName="enrollment_appointment">
+            <column name="partial_exam_selection" type="text" />
+        </addColumn>
+        <dropNotNullConstraint tableName="enrollment_appointment" columnName="skill_oral" />
+        <dropNotNullConstraint tableName="enrollment_appointment" columnName="skill_textual" />
+        <dropNotNullConstraint tableName="enrollment_appointment" columnName="skill_understanding" />
+        <dropNotNullConstraint tableName="enrollment_appointment" columnName="partial_exam_speaking" />
+        <dropNotNullConstraint tableName="enrollment_appointment" columnName="partial_exam_speech_comprehension" />
+        <dropNotNullConstraint tableName="enrollment_appointment" columnName="partial_exam_writing" />
+        <dropNotNullConstraint tableName="enrollment_appointment" columnName="partial_exam_reading_comprehension" />
+    </changeSet>
 </databaseChangeLog>

@@ -65,6 +65,9 @@ public class EnrollmentAppointment extends EnrollmentCommon {
   @Column(name = "last_name")
   private String lastName;
 
+  @Column(name = "partial_exam_selection")
+  private String partialExamSelection;
+
   @Column(name = "previous_enrollment")
   private String previousEnrollment;
 
