@@ -10,6 +10,7 @@ import { setAPIError } from 'redux/reducers/APIError';
 import {
   loadPublicEnrollmentSave,
   loadPublicExaminer,
+  markExaminerAsContacted,
   rejectPublicEnrollmentSave,
   rejectPublicExaminer,
   storePublicEnrollmentSave,
@@ -57,6 +58,7 @@ function* loadPublicEnrollmentSaveSaga(
     yield call(axiosInstance.post, saveUrl, body);
 
     yield put(storePublicEnrollmentSave());
+    yield put(markExaminerAsContacted({ id: examinerId }));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));

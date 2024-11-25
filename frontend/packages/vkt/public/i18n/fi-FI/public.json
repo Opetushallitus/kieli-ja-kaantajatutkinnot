@@ -450,6 +450,7 @@
           "examDates": "Tutkintopäivät"
         },
         "row": {
+          "alreadyContacted": "Yhteydenotto lähetetty",
           "byRequest": "Sovittavissa",
           "contact": "Ota yhteyttä"
         }

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
+import { WithId } from 'shared/interfaces';
 
 import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
 import { PublicExaminer } from 'interfaces/publicExaminer';
@@ -11,6 +12,7 @@ export interface PublicEnrollmentContactState {
   cancelStatus: APIResponseStatus;
   enrollment: PublicEnrollmentContact;
   examiner?: PublicExaminer;
+  contactedExaminers: Array<WithId>;
 }
 
 const initialState: PublicEnrollmentContactState = {
@@ -33,6 +35,7 @@ const initialState: PublicEnrollmentContactState = {
     message: '',
   },
   examiner: undefined,
+  contactedExaminers: [],
 };
 
 const publicEnrollmentContactSlice = createSlice({
@@ -54,6 +57,9 @@ const publicEnrollmentContactSlice = createSlice({
       action: PayloadAction<Partial<PublicEnrollmentContact>>,
     ) {
       state.enrollment = { ...state.enrollment, ...action.payload };
+    },
+    markExaminerAsContacted(state, action: PayloadAction<WithId>) {
+      state.contactedExaminers = [...state.contactedExaminers, action.payload];
     },
     loadPublicEnrollmentSave(
       state,
@@ -87,4 +93,5 @@ export const {
   loadPublicExaminer,
   updatePublicEnrollmentContact,
   resetPublicEnrollmentContact,
+  markExaminerAsContacted,
 } = publicEnrollmentContactSlice.actions;

@@ -30,6 +30,7 @@ import { AppRoutes, ExamLanguage } from 'enums/app';
 import { PublicExaminer } from 'interfaces/publicExaminer';
 import { resetPublicEnrollmentContact } from 'redux/reducers/publicEnrollmentContact';
 import { setPublicExaminerLanguageFilter } from 'redux/reducers/publicExaminer';
+import { publicEnrollmentContactSelector } from 'redux/selectors/publicEnrollmentContact';
 import {
   publicExaminerSelector,
   selectFilteredPublicExaminers,
@@ -81,6 +82,13 @@ const DesktopExaminerRow = ({
     );
   };
 
+  const { contactedExaminers } = useAppSelector(
+    publicEnrollmentContactSelector,
+  );
+  const alreadyContacted = contactedExaminers.find(
+    (contacted) => id === contacted.id,
+  );
+
   return (
     <TableRow sx={{ verticalAlign: 'text-top' }}>
       <TableCell>
@@ -113,13 +121,17 @@ const DesktopExaminerRow = ({
         </Text>
       </TableCell>
       <TableCell>
-        <CustomButton
-          color={Color.Secondary}
-          variant={Variant.Outlined}
-          onClick={handleOnClick}
-        >
-          {t('row.contact')}
-        </CustomButton>
+        {alreadyContacted ? (
+          <Text>{t('row.alreadyContacted')}</Text>
+        ) : (
+          <CustomButton
+            color={Color.Secondary}
+            variant={Variant.Outlined}
+            onClick={handleOnClick}
+          >
+            {t('row.contact')}
+          </CustomButton>
+        )}
       </TableCell>
     </TableRow>
   );
@@ -177,7 +189,7 @@ export const PublicExaminerListing = () => {
         <Paper elevation={3} className="public-examiner-listing">
           <div className="columns">
             <div className="grow">
-              <H2>Ota yhteyttä tutkinnon vastaanottajiin</H2>
+              <H2>Ota yhteyttä tutkintosuorituksen vastaanottajiin</H2>
             </div>
           </div>
           <LanguageFilter
