@@ -47,18 +47,6 @@ export const Message = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (enrollment.hasPreviousEnrollment === undefined) {
-      setValid(false);
-
-      return;
-    }
-
-    if (enrollment.hasPreviousEnrollment === false) {
-      setValid(true);
-
-      return;
-    }
-
     setValid(
       !hasErrors<MessageField>({
         fields,
