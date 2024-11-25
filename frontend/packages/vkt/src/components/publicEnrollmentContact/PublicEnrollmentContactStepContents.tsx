@@ -38,6 +38,6 @@ export const PublicEnrollmentContactStepContents = ({
         />
       );
     case PublicEnrollmentContactFormStep.Done:
-      return <Done enrollment={enrollment} />;
+      return <Done />;
   }
 };

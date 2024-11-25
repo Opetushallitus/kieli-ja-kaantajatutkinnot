@@ -20,7 +20,7 @@ export const BulletList = ({
   renderListItem?: (
     t: TFunction<I18nNamespace | VktI18nNamespace>,
     key: string,
-  ) => JSX.Element;
+  ) => JSX.Element | string;
 }) => {
   return (
     <Typography className="margin-top-sm" variant="body1" component="ul">

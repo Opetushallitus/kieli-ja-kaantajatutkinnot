@@ -292,6 +292,35 @@
           }
         },
         "steps": {
+          "done": {
+            "anotherMessage": {
+              "description": "Voit olla yhteydessä useampaan tutkinnon vastaanottajaan tällä samalla lomakkeella.",
+              "heading": "Haluatko lähettää toisen viestin?"
+            },
+            "infoBox": {
+              "continue": {
+                "callToAction": "Lähetä toinen viesti",
+                "description": "Täyttämäsi tiedot säilyvät lomakkeella. Voit lähettää toisen viestin samoilla tiedoilla.",
+                "heading": "Lähetä viesti toiselle tutkintosuorituksen vastaanottajalle"
+              },
+              "quit": {
+                "callToAction": "Lopeta ja palaa etusivulle",
+                "description": "Ilmoittautuminen päättyy ja täyttämäsi tiedot tyhjennetään lomakkeelta.",
+                "heading": "Lopeta ja palaa etusivulle"
+              }
+            },
+            "messageSent": {
+              "heading": "Viestisi tutkintosuorituksen vastaanottajalle on lähetetty.",
+              "whatNext": {
+                "prompt": "Mitä seuraavaksi?",
+                "step1": "Tutkintosuorituksen vastaanottaja vastaa viestiisi sähköpostitse ja voitte sopia tutkinnon ajankohdasta.",
+                "step2": "Kun olette sopineet tutkinnon tarkan ajankohdan, tutkintosuorituksen vastaanottaja lähettää sinulle sähköpostitse linkin tunnistautumista varten.",
+                "step3": "Tunnistautumisen jälkeen tarkista tietosi ja siirry maksamaan tutkintomaksu.",
+                "step4": "Ilmoittautuminen vahvistuu, kun maksat tutkintomaksun.",
+                "step5": "Ilmoittautumislinkki on voimassa 3 vuorokautta."
+              }
+            }
+          },
           "fillContactDetails": {
             "heading": "Täytä yhteystietosi",
             "email": {

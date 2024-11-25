@@ -28,7 +28,6 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, ExamLanguage } from 'enums/app';
 import { PublicExaminer } from 'interfaces/publicExaminer';
-import { resetPublicEnrollmentContact } from 'redux/reducers/publicEnrollmentContact';
 import { setPublicExaminerLanguageFilter } from 'redux/reducers/publicExaminer';
 import { publicEnrollmentContactSelector } from 'redux/selectors/publicEnrollmentContact';
 import {
@@ -69,11 +68,9 @@ const DesktopExaminerRow = ({
     keyPrefix: 'vkt.component.publicExaminerListing',
   });
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const appLanguage = getCurrentLang();
 
   const handleOnClick = () => {
-    dispatch(resetPublicEnrollmentContact());
     navigate(
       AppRoutes.PublicEnrollmentContactContactDetails.replace(
         ':examinerId',

@@ -76,6 +76,15 @@ const publicEnrollmentContactSlice = createSlice({
     rejectPublicEnrollmentSave(state) {
       state.enrollmentSubmitStatus = APIResponseStatus.Error;
     },
+    continueWithEnrollmentDetails({ contactedExaminers, enrollment }) {
+      const { id: _id, ...enrollmentDetails } = enrollment;
+
+      return {
+        ...initialState,
+        contactedExaminers,
+        enrollment: enrollmentDetails,
+      };
+    },
     resetPublicEnrollmentContact() {
       return initialState;
     },
@@ -94,4 +103,5 @@ export const {
   updatePublicEnrollmentContact,
   resetPublicEnrollmentContact,
   markExaminerAsContacted,
+  continueWithEnrollmentDetails,
 } = publicEnrollmentContactSlice.actions;

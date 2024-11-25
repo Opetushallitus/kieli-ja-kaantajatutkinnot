@@ -1,0 +1,17 @@
+.public-enrollment-contact {
+  & &__info-box {
+    background-color: $color-blue-200;
+    border-radius: 4px;
+    display: grid;
+
+    height: 24rem;
+
+    @include phone {
+      padding: 2rem 1rem;
+    }
+
+    @include not-phone {
+      padding: 2rem 1.5rem;
+    }
+  }
+}
