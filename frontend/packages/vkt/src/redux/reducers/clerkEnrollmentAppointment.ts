@@ -4,14 +4,17 @@ import { APIResponseStatus } from 'shared/enums';
 import {
   ClerkEnrollmentAppointment,
   ClerkEnrollmentAppointmentGrades,
+  ClerkEnrollmentAppointmentHistory,
 } from 'interfaces/clerkEnrollment';
 import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 
 interface ClerkEnrollmentAppointmentState {
   status: APIResponseStatus;
+  historyStatus: APIResponseStatus;
   updateStatus: APIResponseStatus;
   cancelStatus: APIResponseStatus;
   enrollment?: ClerkEnrollmentAppointment;
+  enrollmentHistory?: Array<ClerkEnrollmentAppointmentHistory>;
   gradesStatus: APIResponseStatus;
   gradesSaveStatus: APIResponseStatus;
   examEventsStatus: APIResponseStatus;
@@ -22,6 +25,7 @@ interface ClerkEnrollmentAppointmentState {
 
 const initialState: ClerkEnrollmentAppointmentState = {
   status: APIResponseStatus.NotStarted,
+  historyStatus: APIResponseStatus.NotStarted,
   updateStatus: APIResponseStatus.NotStarted,
   cancelStatus: APIResponseStatus.NotStarted,
   gradesStatus: APIResponseStatus.NotStarted,
@@ -172,6 +176,22 @@ const clerkEnrollmentAppointmentSlice = createSlice({
     storeCancelClerkEnrollmentAppointment(state) {
       state.cancelStatus = APIResponseStatus.Success;
     },
+    loadClerkEnrollmentAppointmentHistory(
+      state,
+      _action: PayloadAction<{
+        enrollmentId: number;
+        oid: string;
+      }>,
+    ) {
+      state.historyStatus = APIResponseStatus.InProgress;
+    },
+    storeLoadClerkEnrollmentAppointmentHistory(
+      state,
+      action: PayloadAction<Array<ClerkEnrollmentAppointmentHistory>>,
+    ) {
+      state.enrollmentHistory = action.payload;
+      state.historyStatus = APIResponseStatus.Success;
+    },
   },
 });
 
@@ -197,4 +217,6 @@ export const {
   resetClerkEnrollmentDetailsToInitialState,
   cancelClerkEnrollmentAppointment,
   storeCancelClerkEnrollmentAppointment,
+  loadClerkEnrollmentAppointmentHistory,
+  storeLoadClerkEnrollmentAppointmentHistory,
 } = clerkEnrollmentAppointmentSlice.actions;

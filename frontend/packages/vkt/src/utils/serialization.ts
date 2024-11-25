@@ -7,6 +7,8 @@ import {
   ClerkAuthLinkResponse,
   ClerkEnrollment,
   ClerkEnrollmentAppointment,
+  ClerkEnrollmentAppointmentHistory,
+  ClerkEnrollmentAppointmentHistoryResponse,
   ClerkEnrollmentAppointmentResponse,
   ClerkEnrollmentContactResponse,
   ClerkEnrollmentResponse,
@@ -165,6 +167,18 @@ export class SerializationUtils {
         SerializationUtils.deserializeExaminerEnrollmentAuthLink(
           enrollment.authLink,
         ),
+      examEvent:
+        enrollment.examEvent &&
+        SerializationUtils.deserializeExaminerExamEvent(enrollment.examEvent),
+    };
+  }
+
+  static deserializeClerkEnrollmentAppointmentHistory(
+    enrollment: ClerkEnrollmentAppointmentHistoryResponse,
+  ): ClerkEnrollmentAppointmentHistory {
+    return {
+      ...enrollment,
+      enrollmentTime: dayjs(enrollment.enrollmentTime),
       examEvent:
         enrollment.examEvent &&
         SerializationUtils.deserializeExaminerExamEvent(enrollment.examEvent),

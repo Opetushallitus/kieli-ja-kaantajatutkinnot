@@ -3,14 +3,16 @@ package fi.oph.vkt.api.examiner;
 import static org.springframework.http.MediaType.ALL_VALUE;
 
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
-import fi.oph.vkt.api.dto.clerk.ExaminerEnrollmentGradesDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentGradesDTO;
 import fi.oph.vkt.service.ExaminerEnrollmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,10 +74,19 @@ public class ExaminerEnrollmentController {
   @GetMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}", consumes = ALL_VALUE)
   @Operation(tags = TAG_ENROLLMENT, summary = "Get enrollment appointment")
   public ExaminerEnrollmentAppointmentDTO getEnrollmentAppointment(
-    @PathVariable String oid,
+    @PathVariable final String oid,
     @PathVariable final long enrollmentAppointmentId
   ) {
     return examinerEnrollmentService.getEnrollmentAppointment(oid, enrollmentAppointmentId);
+  }
+
+  @GetMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}/history", consumes = ALL_VALUE)
+  @Operation(tags = TAG_ENROLLMENT, summary = "Get enrollment history for enrolled person")
+  public List<ExaminerEnrollmentAppointmentHistoryDTO> getEnrollmentAppointmentHistory(
+    @PathVariable final String oid,
+    @PathVariable final long enrollmentAppointmentId
+  ) {
+    return examinerEnrollmentService.getEnrollmentAppointmentHistory(oid, enrollmentAppointmentId);
   }
 
   @PostMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}/sendAuthLink", consumes = ALL_VALUE)

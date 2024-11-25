@@ -2,12 +2,14 @@ package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.EnrollmentGradeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
-import fi.oph.vkt.api.dto.clerk.ExaminerEnrollmentGradesDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentGradesDTO;
 import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.EnrollmentGrade;
 import fi.oph.vkt.model.ExaminerExamEvent;
+import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentGradeType;
 import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
@@ -19,6 +21,7 @@ import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -268,5 +271,31 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.CANCELED);
 
     enrollmentAppointmentRepository.flush();
+  }
+
+  @Transactional(readOnly = true)
+  public List<ExaminerEnrollmentAppointmentHistoryDTO> getEnrollmentAppointmentHistory(
+    final String oid,
+    final long enrollmentAppointmentId
+  ) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
+      enrollmentAppointmentId
+    );
+
+    checkExaminerOid(enrollmentAppointment, oid);
+
+    final Person person = enrollmentAppointment.getPerson();
+    if (person == null) {
+      return List.of();
+    }
+
+    final List<EnrollmentAppointment> enrollmentAppointments = enrollmentAppointmentRepository.findByPersonAndDeletedAtIsNull(
+      person
+    );
+
+    return enrollmentAppointments
+      .stream()
+      .map(e -> ClerkEnrollmentUtil.createClerkEnrollmentAppointmentHistoryDTO(enrollmentAppointment))
+      .toList();
   }
 }

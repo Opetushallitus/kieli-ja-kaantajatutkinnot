@@ -129,6 +129,22 @@ export interface ClerkEnrollmentAppointmentResponse
   examEvent?: ExaminerExamEventResponse;
 }
 
+export interface ClerkEnrollmentAppointmentHistory
+  extends PartialExamsAndSkills {
+  enrollmentTime: Dayjs;
+  examEvent: ExaminerExamEvent;
+  examinerName: string;
+}
+
+export interface ClerkEnrollmentAppointmentHistoryResponse
+  extends Omit<
+    ClerkEnrollmentAppointmentHistory,
+    'enrollmentTime' | 'examEvent'
+  > {
+  enrollmentTime: string;
+  examEvent: ExaminerExamEventResponse;
+}
+
 interface Grade {
   grade: string;
   comment: string;

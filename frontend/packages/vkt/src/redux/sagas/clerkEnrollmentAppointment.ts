@@ -7,6 +7,7 @@ import { APIEndpoints } from 'enums/api';
 import {
   ClerkEnrollmentAppointment,
   ClerkEnrollmentAppointmentGrades,
+  ClerkEnrollmentAppointmentHistoryResponse,
   ClerkEnrollmentAppointmentResponse,
 } from 'interfaces/clerkEnrollment';
 import { ExaminerExamEventResponse } from 'interfaces/examinerExamEvent';
@@ -15,6 +16,7 @@ import {
   cancelClerkEnrollmentAppointment,
   loadClerkEnrollmentAppointment,
   loadClerkEnrollmentAppointmentGrades,
+  loadClerkEnrollmentAppointmentHistory,
   loadExaminerExamEvents,
   rejectClerkEnrollmentAppointment,
   sendClerkEnrollmentAppointmentAuthLink,
@@ -25,6 +27,7 @@ import {
   storeClerkEnrollmentAppointmentGradesUpsert,
   storeClerkEnrollmentAppointmentUpdate,
   storeExaminerExamEvents,
+  storeLoadClerkEnrollmentAppointmentHistory,
   storeUpdateClerkEnrollmentAppointment,
   updateClerkEnrollmentAppointment,
   upsertClerkEnrollmentAppointmentGrades,
@@ -220,6 +223,36 @@ function* loadExaminerExamEventsSaga(action: PayloadAction<string>) {
   }
 }
 
+function* loadClerkEnrollmentAppointmentHistorySaga(
+  action: PayloadAction<{
+    enrollmentId: number;
+    oid: string;
+  }>,
+) {
+  const { enrollmentId, oid } = action.payload;
+
+  try {
+    const apiResponse: AxiosResponse<
+      Array<ClerkEnrollmentAppointmentHistoryResponse>
+    > = yield call(
+      axiosInstance.get,
+      `${APIEndpoints.ExaminerEnrollmentAppointment.replace(
+        /:oid/,
+        oid,
+      )}/${enrollmentId}/history`,
+    );
+    const enrollmentHistory = apiResponse.data.map(
+      SerializationUtils.deserializeClerkEnrollmentAppointmentHistory,
+    );
+
+    yield put(storeLoadClerkEnrollmentAppointmentHistory(enrollmentHistory));
+  } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    //yield put(rejectClerkEnrollmentDetailsUpdate());
+  }
+}
+
 export function* watchClerkEnrollmentAppointment() {
   yield takeLatest(
     updateClerkEnrollmentAppointment.type,
@@ -242,7 +275,10 @@ export function* watchClerkEnrollmentAppointment() {
     sendClerkEnrollmentAppointmentAuthLink.type,
     sendClerkEnrollmentAppointmentAuthLinkSaga,
   );
-
+  yield takeLatest(
+    loadClerkEnrollmentAppointmentHistory.type,
+    loadClerkEnrollmentAppointmentHistorySaga,
+  );
   yield takeLatest(
     upsertClerkEnrollmentAppointmentGrades.type,
     upsertClerkEnrollmentAppointmentGradesSaga,

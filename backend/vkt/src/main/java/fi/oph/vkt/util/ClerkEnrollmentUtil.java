@@ -10,11 +10,14 @@ import fi.oph.vkt.api.dto.clerk.ClerkFreeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerAuthLinkDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerDetailsDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerExamEventDTO;
 import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.EnrollmentAppointment;
+import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.KoskiEducations;
 import fi.oph.vkt.model.Person;
@@ -230,6 +233,29 @@ public class ClerkEnrollmentUtil {
       .lastName(enrollmentAppointment.getLastName())
       .previousEnrollment(enrollmentAppointment.getPreviousEnrollment())
       .message(enrollmentAppointment.getMessage())
+      .build();
+  }
+
+  public static ExaminerEnrollmentAppointmentHistoryDTO createClerkEnrollmentAppointmentHistoryDTO(
+    final EnrollmentAppointment enrollmentAppointment
+  ) {
+    final Examiner examiner = enrollmentAppointment.getExaminer();
+    final ExaminerExamEventDTO examinerExamEventDTO = enrollmentAppointment.getExaminerExamEvent() != null
+      ? ExaminerUtil.toExaminerExamEventWithoutEnrollmentsDTO(enrollmentAppointment.getExaminerExamEvent())
+      : null;
+
+    return ExaminerEnrollmentAppointmentHistoryDTO
+      .builder()
+      .enrollmentTime(enrollmentAppointment.getCreatedAt())
+      .oralSkill(enrollmentAppointment.isOralSkill())
+      .textualSkill(enrollmentAppointment.isTextualSkill())
+      .understandingSkill(enrollmentAppointment.isUnderstandingSkill())
+      .speakingPartialExam(enrollmentAppointment.isSpeakingPartialExam())
+      .speechComprehensionPartialExam(enrollmentAppointment.isSpeechComprehensionPartialExam())
+      .writingPartialExam(enrollmentAppointment.isWritingPartialExam())
+      .readingComprehensionPartialExam(enrollmentAppointment.isReadingComprehensionPartialExam())
+      .examEvent(examinerExamEventDTO)
+      .examinerName(examiner.getNickname() + " " + examiner.getLastName())
       .build();
   }
 }
