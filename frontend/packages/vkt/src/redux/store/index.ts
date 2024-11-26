@@ -3,7 +3,8 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'reduxjs-toolkit-persist';
 import storageSession from 'reduxjs-toolkit-persist/lib/storage/session';
 
-import { EnrollmentTransform } from 'redux/persist/transforms/EnrollmentTransform';
+import { PublicEnrollmentContactTransform } from 'redux/persist/transforms/PublicEnrollmentContactTransform';
+import { PublicEnrollmentTransform } from 'redux/persist/transforms/PublicEnrollmentTransform';
 import { APIErrorReducer } from 'redux/reducers/APIError';
 import { clerkEnrollmentAppointmentReducer } from 'redux/reducers/clerkEnrollmentAppointment';
 import { clerkEnrollmentContactRequestReducer } from 'redux/reducers/clerkEnrollmentContactRequest';
@@ -32,8 +33,8 @@ import rootSaga from 'redux/sagas/index';
 const persistConfig = {
   key: 'root',
   storage: storageSession,
-  whitelist: ['publicEnrollment'],
-  transforms: [EnrollmentTransform],
+  whitelist: ['publicEnrollment', 'publicEnrollmentContact'],
+  transforms: [PublicEnrollmentTransform, PublicEnrollmentContactTransform],
 };
 
 const reducer = combineReducers({

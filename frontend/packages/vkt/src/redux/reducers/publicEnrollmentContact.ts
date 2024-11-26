@@ -15,7 +15,7 @@ export interface PublicEnrollmentContactState {
   contactedExaminers: Array<WithId>;
 }
 
-const initialState: PublicEnrollmentContactState = {
+export const initialState: PublicEnrollmentContactState = {
   loadExaminerStatus: APIResponseStatus.NotStarted,
   enrollmentSubmitStatus: APIResponseStatus.NotStarted,
   paymentLoadingStatus: APIResponseStatus.NotStarted,
