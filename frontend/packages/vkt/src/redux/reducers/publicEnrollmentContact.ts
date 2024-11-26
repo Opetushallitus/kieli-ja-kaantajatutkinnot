@@ -11,6 +11,7 @@ export interface PublicEnrollmentContactState {
   paymentLoadingStatus: APIResponseStatus;
   cancelStatus: APIResponseStatus;
   enrollment: PublicEnrollmentContact;
+  contactDetailsNeedConfirmation: boolean;
   examiner?: PublicExaminer;
   contactedExaminers: Array<WithId>;
 }
@@ -34,6 +35,7 @@ export const initialState: PublicEnrollmentContactState = {
     status: undefined,
     message: '',
   },
+  contactDetailsNeedConfirmation: false,
   examiner: undefined,
   contactedExaminers: [],
 };
@@ -83,7 +85,16 @@ const publicEnrollmentContactSlice = createSlice({
         ...initialState,
         contactedExaminers,
         enrollment: enrollmentDetails,
+        contactDetailsNeedConfirmation: true,
       };
+    },
+    confirmContactDetails(state) {
+      state.contactDetailsNeedConfirmation = false;
+    },
+    rejectPreviousContactDetails(state) {
+      state.contactDetailsNeedConfirmation = false;
+      state.contactedExaminers = initialState.contactedExaminers;
+      state.enrollment = initialState.enrollment;
     },
     resetPublicEnrollmentContact() {
       return initialState;
@@ -104,4 +115,6 @@ export const {
   resetPublicEnrollmentContact,
   markExaminerAsContacted,
   continueWithEnrollmentDetails,
+  confirmContactDetails,
+  rejectPreviousContactDetails,
 } = publicEnrollmentContactSlice.actions;

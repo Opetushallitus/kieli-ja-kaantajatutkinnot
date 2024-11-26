@@ -321,6 +321,21 @@
               }
             }
           },
+          "confirmContactDetails": {
+            "buttons": {
+              "no": "Ei, muokkaa tietoja",
+              "yes": "Kyllä, jatka"
+            },
+            "labels": {
+              "email": "Sähköpostiosoite:",
+              "firstName": "Etunimi:",
+              "lastName": "Sukunimi:",
+              "phoneNumber": "Puhelinnumero:"
+            },
+            "information": "Jotta voit jatkaa aiemmin täyttämilläsi tiedoilla, vahvista, että olet alla oleva henkilö.",
+            "heading": "Vahvista yhteystietosi",
+            "prompt": "Oletko tämä henkilö?"
+          },
           "fillContactDetails": {
             "heading": "Täytä yhteystietosi",
             "email": {

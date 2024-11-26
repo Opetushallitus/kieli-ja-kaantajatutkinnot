@@ -8,7 +8,7 @@ import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentContactFormStep } from 'enums/publicEnrollment';
 import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
@@ -16,6 +16,7 @@ import {
   loadPublicEnrollmentSave,
   resetPublicEnrollmentContact,
 } from 'redux/reducers/publicEnrollmentContact';
+import { publicEnrollmentContactSelector } from 'redux/selectors/publicEnrollmentContact';
 import { RouteUtils } from 'utils/routes';
 
 export const PublicEnrollmentContactControlButtons = ({
@@ -38,7 +39,9 @@ export const PublicEnrollmentContactControlButtons = ({
   });
   const translateCommon = useCommonTranslation();
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
-
+  const { contactDetailsNeedConfirmation } = useAppSelector(
+    publicEnrollmentContactSelector,
+  );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -143,18 +146,27 @@ export const PublicEnrollmentContactControlButtons = ({
     </LoadingProgressIndicator>
   );
 
-  const renderBack = true;
-  const renderNext =
-    activeStep === PublicEnrollmentContactFormStep.FillContactDetails;
-  const renderSubmit =
-    activeStep === PublicEnrollmentContactFormStep.SelectExam;
+  if (
+    activeStep === PublicEnrollmentContactFormStep.FillContactDetails &&
+    contactDetailsNeedConfirmation
+  ) {
+    return (
+      <div className="columns flex-start margin-top-lg">{CancelButton()}</div>
+    );
+  } else {
+    const renderBack = true;
+    const renderNext =
+      activeStep === PublicEnrollmentContactFormStep.FillContactDetails;
+    const renderSubmit =
+      activeStep === PublicEnrollmentContactFormStep.SelectExam;
 
-  return (
-    <div className="columns flex-end gapped margin-top-lg">
-      {CancelButton()}
-      {renderBack && BackButton()}
-      {renderNext && NextButton()}
-      {renderSubmit && SubmitButton()}
-    </div>
-  );
+    return (
+      <div className="columns flex-end gapped margin-top-lg">
+        {CancelButton()}
+        {renderBack && BackButton()}
+        {renderNext && NextButton()}
+        {renderSubmit && SubmitButton()}
+      </div>
+    );
+  }
 };

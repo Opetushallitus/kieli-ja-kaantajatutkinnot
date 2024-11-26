@@ -34,11 +34,14 @@ export const PublicEnrollmentContactDesktopGrid = ({
 }) => {
   const translateCommon = useCommonTranslation();
 
-  const { enrollmentSubmitStatus } = useAppSelector(
-    publicEnrollmentContactSelector,
-  );
+  const { enrollmentSubmitStatus, contactDetailsNeedConfirmation } =
+    useAppSelector(publicEnrollmentContactSelector);
 
   const showControlButtons = activeStep < PublicEnrollmentContactFormStep.Done;
+  const hideRequiredFieldsInfoText =
+    (activeStep === PublicEnrollmentContactFormStep.FillContactDetails &&
+      contactDetailsNeedConfirmation) ||
+    activeStep === PublicEnrollmentContactFormStep.Done;
 
   return (
     <>
@@ -52,7 +55,7 @@ export const PublicEnrollmentContactDesktopGrid = ({
             <PublicEnrollmentContactStepper activeStep={activeStep} />
             <PublicEnrollmentContactStepHeading activeStep={activeStep} />
             <PublicEnrollmentContactExaminer examiner={examiner} />
-            {activeStep !== PublicEnrollmentContactFormStep.Done && (
+            {!hideRequiredFieldsInfoText && (
               <Text sx={{ marginTop: '2rem' }}>
                 {translateCommon('requiredFieldsInfo')}
               </Text>
