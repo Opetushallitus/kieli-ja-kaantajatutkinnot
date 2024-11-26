@@ -58,7 +58,7 @@
           "registrationCloses": "Ilmoittautuminen sulkeutuu"
         },
         "sections": {
-          "confirmationEmail": "Osallistujalle lähtevässä vahvistussähköpostissa näkyvät tiedot",
+          "furtherInformation": "Tutkintotilaisuuden tarkemmat tiedot",
           "other": "Muut tiedot",
           "publicInformation": "Julkisessa listauksessa näkyvät tiedot"
         },
