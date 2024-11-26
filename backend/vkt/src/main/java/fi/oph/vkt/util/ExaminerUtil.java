@@ -12,7 +12,6 @@ import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.ExaminerExamEvent;
 import fi.oph.vkt.model.Municipality;
 import fi.oph.vkt.model.type.EnrollmentGradeType;
-
 import java.util.List;
 
 public class ExaminerUtil {
@@ -104,27 +103,26 @@ public class ExaminerUtil {
 
   public static ExaminerEnrollmentGradesDTO createGradesDTO(final EnrollmentGrade enrollmentGrade) {
     return ExaminerEnrollmentGradesDTO
-            .builder()
-            .version(enrollmentGrade.getVersion())
-            .writingPartialExam(
-                    createGradeDTO(enrollmentGrade.getWritingPartialExamGrade(), enrollmentGrade.getWritingPartialExamComment())
-            )
-            .readingComprehensionPartialExam(
-                    createGradeDTO(
-                            enrollmentGrade.getReadingComprehensionPartialExamGrade(),
-                            enrollmentGrade.getReadingComprehensionPartialExamComment()
-                    )
-            )
-            .speakingPartialExam(
-                    createGradeDTO(enrollmentGrade.getSpeakingPartialExamGrade(), enrollmentGrade.getSpeakingPartialExamComment())
-            )
-            .speechComprehensionPartialExam(
-                    createGradeDTO(
-                            enrollmentGrade.getSpeechComprehensionPartialExamGrade(),
-                            enrollmentGrade.getSpeechComprehensionPartialExamComment()
-                    )
-            )
-            .build();
+      .builder()
+      .version(enrollmentGrade.getVersion())
+      .writingPartialExam(
+        createGradeDTO(enrollmentGrade.getWritingPartialExamGrade(), enrollmentGrade.getWritingPartialExamComment())
+      )
+      .readingComprehensionPartialExam(
+        createGradeDTO(
+          enrollmentGrade.getReadingComprehensionPartialExamGrade(),
+          enrollmentGrade.getReadingComprehensionPartialExamComment()
+        )
+      )
+      .speakingPartialExam(
+        createGradeDTO(enrollmentGrade.getSpeakingPartialExamGrade(), enrollmentGrade.getSpeakingPartialExamComment())
+      )
+      .speechComprehensionPartialExam(
+        createGradeDTO(
+          enrollmentGrade.getSpeechComprehensionPartialExamGrade(),
+          enrollmentGrade.getSpeechComprehensionPartialExamComment()
+        )
+      )
+      .build();
   }
-
 }
