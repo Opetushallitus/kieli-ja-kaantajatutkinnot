@@ -35,7 +35,7 @@ import {
   useCommonTranslation,
   useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { EnrollmentAppointmentStatus } from 'enums/app';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import {
@@ -46,6 +46,7 @@ import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextFie
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 import { sendClerkEnrollmentAppointmentAuthLink } from 'redux/reducers/clerkEnrollmentAppointment';
+import { clerkEnrollmentAppointmentSelector } from 'redux/selectors/clerkEnrollmentAppointment';
 import { DateTimeUtils } from 'utils/dateTime';
 
 const CheckboxField = ({
@@ -365,6 +366,7 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
   const [enrollmentHistoryModalOpen, setEnrollmentHistoryModalOpen] =
     useState(false);
   const [gradeModalOpen, setGradeModalOpen] = useState(false);
+  const { grades } = useAppSelector(clerkEnrollmentAppointmentSelector);
 
   const initialFieldErrors = Object.values(
     ClerkEnrollmentAppointmentDetailsFields,
@@ -544,7 +546,7 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
           </div>
         )}
         {isViewMode ? (
-          <EnrollmentSkillsListTable enrollment={enrollment} />
+          <EnrollmentSkillsListTable grades={grades} enrollment={enrollment} />
         ) : (
           <ClerkEnrollmentSkillsListFields
             enrollment={enrollment}

@@ -1,4 +1,8 @@
-import { Fragment, useEffect } from 'react';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import { useEffect } from 'react';
 import {
   CustomButton,
   CustomModal,
@@ -52,20 +56,33 @@ export const EnrollmentHistoryModal = ({
           <LoadingProgressIndicator displayBlock={true} isLoading={isLoading}>
             {enrollmentHistory &&
               enrollmentHistory.map(
-                (enrollment: ClerkEnrollmentAppointmentHistory) => (
-                  <Fragment key={enrollment.enrollmentTime.toString()}>
-                    <Text className="bold">
-                      {ExamEventUtils.languageAndLevelText(
-                        enrollment.examEvent.language,
-                        ExamLevel.GOOD_AND_SATISFACTORY,
-                        translateCommon,
-                      )}
-                      {', '}
-                      {DateTimeUtils.renderDate(enrollment.examEvent.date)}
-                    </Text>
+                (
+                  enrollment: ClerkEnrollmentAppointmentHistory,
+                  idx: number,
+                ) => (
+                  <Accordion
+                    defaultExpanded={idx === 0}
+                    key={enrollment.enrollmentTime.toString()}
+                  >
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                      <Text className="bold">
+                        {ExamEventUtils.languageAndLevelText(
+                          enrollment.examEvent.language,
+                          ExamLevel.GOOD_AND_SATISFACTORY,
+                          translateCommon,
+                        )}
+                        {', '}
+                        {DateTimeUtils.renderDate(enrollment.examEvent.date)}
+                      </Text>
+                    </AccordionSummary>
                     <br />
-                    <EnrollmentSkillsListTable enrollment={enrollment} />
-                  </Fragment>
+                    <AccordionDetails>
+                      <EnrollmentSkillsListTable
+                        grades={enrollment.grades}
+                        enrollment={enrollment}
+                      />
+                    </AccordionDetails>
+                  </Accordion>
                 ),
               )}
           </LoadingProgressIndicator>

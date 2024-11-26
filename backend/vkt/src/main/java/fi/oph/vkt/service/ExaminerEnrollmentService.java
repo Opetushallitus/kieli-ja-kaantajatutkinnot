@@ -16,6 +16,7 @@ import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentGradesRepository;
 import fi.oph.vkt.repository.ExaminerExamEventRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
+import fi.oph.vkt.util.ExaminerUtil;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
@@ -119,7 +120,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
       enrollmentAppointment
     );
 
-    return enrollmentGradeOptional.map(this::createGradesDTO).orElse(null);
+    return enrollmentGradeOptional.map(ExaminerUtil::createGradesDTO).orElse(null);
   }
 
   @Transactional(readOnly = true)
@@ -193,36 +194,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     enrollmentAppointment.setGrade(enrollmentGrade);
     enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
 
-    return createGradesDTO(enrollmentGrade);
-  }
-
-  private ExaminerEnrollmentGradesDTO createGradesDTO(final EnrollmentGrade enrollmentGrade) {
-    return ExaminerEnrollmentGradesDTO
-      .builder()
-      .version(enrollmentGrade.getVersion())
-      .writingPartialExam(
-        createGradeDTO(enrollmentGrade.getWritingPartialExamGrade(), enrollmentGrade.getWritingPartialExamComment())
-      )
-      .readingComprehensionPartialExam(
-        createGradeDTO(
-          enrollmentGrade.getReadingComprehensionPartialExamGrade(),
-          enrollmentGrade.getReadingComprehensionPartialExamComment()
-        )
-      )
-      .speakingPartialExam(
-        createGradeDTO(enrollmentGrade.getSpeakingPartialExamGrade(), enrollmentGrade.getSpeakingPartialExamComment())
-      )
-      .speechComprehensionPartialExam(
-        createGradeDTO(
-          enrollmentGrade.getSpeechComprehensionPartialExamGrade(),
-          enrollmentGrade.getSpeechComprehensionPartialExamComment()
-        )
-      )
-      .build();
-  }
-
-  private EnrollmentGradeDTO createGradeDTO(final EnrollmentGradeType grade, final String comment) {
-    return grade == null ? null : EnrollmentGradeDTO.builder().grade(grade).comment(comment).build();
+    return ExaminerUtil.createGradesDTO(enrollmentGrade);
   }
 
   @Transactional
@@ -295,7 +267,8 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
 
     return enrollmentAppointments
       .stream()
-      .map(e -> ClerkEnrollmentUtil.createClerkEnrollmentAppointmentHistoryDTO(enrollmentAppointment))
+      .filter(e -> e.getId() != enrollmentAppointmentId)
+      .map(ClerkEnrollmentUtil::createClerkEnrollmentAppointmentHistoryDTO)
       .toList();
   }
 }

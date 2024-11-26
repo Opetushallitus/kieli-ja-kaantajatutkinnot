@@ -134,6 +134,7 @@ export interface ClerkEnrollmentAppointmentHistory
   enrollmentTime: Dayjs;
   examEvent: ExaminerExamEvent;
   examinerName: string;
+  grades: ClerkEnrollmentAppointmentGrades;
 }
 
 export interface ClerkEnrollmentAppointmentHistoryResponse

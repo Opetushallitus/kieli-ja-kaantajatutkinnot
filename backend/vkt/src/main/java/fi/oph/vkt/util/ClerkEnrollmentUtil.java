@@ -17,12 +17,14 @@ import fi.oph.vkt.api.dto.examiner.ExaminerExamEventDTO;
 import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.EnrollmentAppointment;
+import fi.oph.vkt.model.EnrollmentGrade;
 import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.KoskiEducations;
 import fi.oph.vkt.model.Person;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ClerkEnrollmentUtil {
@@ -243,6 +245,7 @@ public class ClerkEnrollmentUtil {
     final ExaminerExamEventDTO examinerExamEventDTO = enrollmentAppointment.getExaminerExamEvent() != null
       ? ExaminerUtil.toExaminerExamEventWithoutEnrollmentsDTO(enrollmentAppointment.getExaminerExamEvent())
       : null;
+    final EnrollmentGrade grade = enrollmentAppointment.getGrade();
 
     return ExaminerEnrollmentAppointmentHistoryDTO
       .builder()
@@ -256,6 +259,7 @@ public class ClerkEnrollmentUtil {
       .readingComprehensionPartialExam(enrollmentAppointment.isReadingComprehensionPartialExam())
       .examEvent(examinerExamEventDTO)
       .examinerName(examiner.getNickname() + " " + examiner.getLastName())
+      .grades(grade != null ? ExaminerUtil.createGradesDTO(grade) : null)
       .build();
   }
 }
