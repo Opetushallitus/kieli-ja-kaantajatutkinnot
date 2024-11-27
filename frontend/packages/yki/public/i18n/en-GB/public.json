@@ -237,7 +237,8 @@
             "link": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-terms-and-conditions-for-registration",
             "linkText": "Terms and conditions for registration",
             "label": "I accept the terms and conditions for registration *",
-            "title": "Terms and conditions for registration"
+            "title": "Accept terms",
+            "subTitle": "Terms and conditions for registration"
           },
           "title": "Fill in your personal information",
           "whatsNext": {
