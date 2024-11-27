@@ -237,7 +237,8 @@
             "link": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-villkoren-for-anmalan",
             "linkText": "Villkoren för anmälan",
             "label": "Jag godkänner villkoren för anmälan *",
-            "title": "Villkoren för anmälan"
+            "title": "Acceptera villkoren",
+            "subTitle": "Villkoren för anmälan"
           },
           "title": "Fyll i dina uppgifter",
           "whatsNext": {

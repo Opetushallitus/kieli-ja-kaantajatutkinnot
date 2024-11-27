@@ -153,7 +153,7 @@ export const SuomiFiRegistrationDetails = () => {
       <AddressDetails
         getLabeledTextFieldAttributes={getLabeledTextFieldAttributes}
       />
-      <div className="grid-columns gapped">
+      <div className="grid-2-columns gapped">
         <LabeledTextField
           {...getLabeledTextFieldAttributes('email')}
           type={TextFieldTypes.Email}
