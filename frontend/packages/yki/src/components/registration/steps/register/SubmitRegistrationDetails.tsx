@@ -58,7 +58,9 @@ const FillRegistrationDetails = () => {
         <SuomiFiRegistrationDetails />
       )}
       <CommonRegistrationDetails />
-      <H2>{t('whatsNext.title')}</H2>
+      <H2 className="public-registration__grid__form-container__whats-next">
+        {t('whatsNext.title')}
+      </H2>
       <Text>{t('whatsNext.description')}</Text>
     </div>
   );

@@ -37,7 +37,8 @@
         }
       }
 
-      &__terms-and-conditions {
+      &__terms-and-conditions,
+      &__whats-next {
         @include phone-divider-border-top;
         padding-top: 3rem;
       }
