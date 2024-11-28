@@ -31,6 +31,10 @@ public class AuditService {
     log(operation, new Target.Builder().setField("id", Long.toString(id)).build(), Changes.EMPTY);
   }
 
+  public void logById(final VktOperation operation, final String id) {
+    log(operation, new Target.Builder().setField("id", id).build(), Changes.EMPTY);
+  }
+
   public <T> void logUpdate(final VktOperation operation, final long id, final T dtoBefore, final T dtoAfter) {
     log(
       operation,

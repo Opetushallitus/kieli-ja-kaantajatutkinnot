@@ -127,21 +127,11 @@ export const ExaminerExamEventDetails = () => {
       />
       <EnrollmentList
         enrollments={enrollments}
-        status={
-          EnrollmentAppointmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
-        }
-      />
-      <EnrollmentList
-        enrollments={enrollments}
         status={EnrollmentAppointmentStatus.WAITING_AUTHENTICATION}
       />
       <EnrollmentList
         enrollments={enrollments}
         status={EnrollmentAppointmentStatus.CANCELED}
-      />
-      <EnrollmentList
-        enrollments={enrollments}
-        status={EnrollmentAppointmentStatus.CANCELED_UNFINISHED_ENROLLMENT}
       />
       {enrollments.length > 0 && (
         <div className="columns gapped margin-top-xxl flex-end">

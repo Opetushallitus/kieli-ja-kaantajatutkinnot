@@ -402,7 +402,7 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
   const displayPaymentInformation =
     [
       EnrollmentAppointmentStatus.COMPLETED,
-      EnrollmentAppointmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
+      EnrollmentAppointmentStatus.AWAITING_PAYMENT,
     ].includes(enrollment.status) || enrollment.payments.length > 0;
 
   const displayPaymentHistory = enrollment.payments.length > 1;

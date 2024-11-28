@@ -2,13 +2,11 @@ import { Fragment } from 'react';
 import { H3, Text } from 'shared/components';
 
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
-import { ClerkEnrollmentAppointmentGrades } from 'interfaces/clerkEnrollment';
 import {
-  PartialExams,
-  PartialExamsAndSkills,
-} from 'interfaces/common/enrollment';
-
-interface GradedPartialExams extends Omit<PartialExams, 'understandingSkill'> {}
+  ClerkEnrollmentAppointmentGrades,
+  GradedExams,
+} from 'interfaces/clerkEnrollment';
+import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 
 export const EnrollmentSkillsListTable = ({
   enrollment,
@@ -25,15 +23,15 @@ export const EnrollmentSkillsListTable = ({
   const partialTextualExams = [
     'writingPartialExam',
     'readingComprehensionPartialExam',
-  ].filter((exam) => !!enrollment[exam as keyof GradedPartialExams]) as Array<
-    keyof GradedPartialExams
+  ].filter((exam) => !!enrollment[exam as keyof GradedExams]) as Array<
+    keyof GradedExams
   >;
 
   const partialOralExams = [
     'speakingPartialExam',
     'speechComprehensionPartialExam',
-  ].filter((exam) => !!enrollment[exam as keyof GradedPartialExams]) as Array<
-    keyof GradedPartialExams
+  ].filter((exam) => !!enrollment[exam as keyof GradedExams]) as Array<
+    keyof GradedExams
   >;
 
   const renderGrade = (grade: string) =>
@@ -41,7 +39,7 @@ export const EnrollmentSkillsListTable = ({
   const renderComment = (comment: string) =>
     comment && comment !== '' ? comment : '-';
 
-  const partialExamsRow = (exams: Array<keyof GradedPartialExams>) => {
+  const partialExamsRow = (exams: Array<keyof GradedExams>) => {
     return exams.map((exam, idx) => (
       <Fragment key={exam}>
         {idx > 0 && <div />}

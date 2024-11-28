@@ -65,7 +65,7 @@ public class ExaminerEnrollmentController {
   @PostMapping(path = "/contact/{enrollmentContactId:\\d+}/convertToAppointment", consumes = ALL_VALUE)
   @Operation(tags = TAG_ENROLLMENT, summary = "Convert enrollment contact request to enrollment appointment")
   public ExaminerEnrollmentAppointmentDTO enrollmentContactRequestToAppointment(
-    @PathVariable String oid,
+    @PathVariable final String oid,
     @PathVariable final long enrollmentContactId
   ) {
     return examinerEnrollmentService.convertToAppointment(oid, enrollmentContactId);

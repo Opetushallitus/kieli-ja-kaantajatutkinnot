@@ -436,6 +436,34 @@ VALUES (
   'tammerkosken silta'
 );
 
+-- insert past examiner_exam_event
+INSERT INTO examiner_exam_event(version, date, language, examiner_id, is_hidden, registration_closes, max_participants, municipality_id, location)
+VALUES (
+  1,
+  NOW() - INTERVAL '2 weeks',
+  'FI',
+  1,
+  false,
+  NOW() - INTERVAL '1 weeks',
+  10,
+  2,
+  'Testimaa'
+);
+
+-- insert past examiner_exam_event
+INSERT INTO examiner_exam_event(version, date, language, examiner_id, is_hidden, registration_closes, max_participants, municipality_id, location)
+VALUES (
+  1,
+  NOW() - INTERVAL '3 weeks',
+  'FI',
+  1,
+  false,
+  NOW() - INTERVAL '2 weeks',
+  10,
+  2,
+  'Mordor'
+);
+
 -- Insert enrollment appointment
 INSERT INTO enrollment_appointment(person_id, examiner_id,
                        skill_oral, skill_textual, skill_understanding,
@@ -465,7 +493,7 @@ VALUES (1, 1, 1,
        'Teppo', 'Testinen',
        '922c2089-83a8-4163-8180-d8b675ff5337', NOW() + INTERVAL '3 days', NOW());
 
--- Insert enrollment appointment
+-- Insert multiple enrollment appointments for person 2
 INSERT INTO enrollment_appointment(person_id, examiner_id, examiner_exam_event_id,
                        skill_oral, skill_textual, skill_understanding,
                        partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
@@ -485,25 +513,47 @@ VALUES (2, null, 51400, '78b29334-a283-11ef-88a1-bf672bd574b1', '7676156682',
        'https://pay.paytrail.com/pay/78b29334-a283-11ef-88a1-bf672bd574b1', 'OK',
        null, 3);
 
+-- Insert multiple enrollment appointments for person 2
 INSERT INTO enrollment_appointment(person_id, examiner_id, examiner_exam_event_id,
                        skill_oral, skill_textual, skill_understanding,
                        partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
                        status, digital_certificate_consent, email, phone_number, street, postal_code, town, country, first_name, last_name,
                        auth_hash, auth_hash_expires, auth_hash_sent, created_at)
-VALUES (2, 1, 1,
-       false, true, false,
-       false, false, false, true,
+VALUES (2, 1, 3,
+       true, true, true,
+       true, true, true, true,
        'COMPLETED', false,
        'test@test.invalid', '0401234504', null, null, null, null,
        'Anneli', 'Annikkinen',
-       '22223089-83a8-4163-8180-d8b675ff5337', NOW() - INTERVAL '13 days', NOW() - INTERVAL '16 days',
+       '55523089-83a8-4163-8180-d8b675ff5337', NOW() - INTERVAL '13 days', NOW() - INTERVAL '16 days',
        NOW() - INTERVAL '17 days');
 
 INSERT INTO payment(version, enrollment_id, amount, transaction_id, reference, payment_url,
        payment_status, refunded_at, enrollment_appointment_id)
 VALUES (3, null, 51400, '12345634-a283-11ef-88a1-bf672bd574b1', '9676156682',
        'https://pay.paytrail.com/pay/12345634-a283-11ef-88a1-bf672bd574b1', 'OK',
-       null, 3);
+       null, 4);
+
+-- Insert multiple enrollment appointments for person 2
+INSERT INTO enrollment_appointment(person_id, examiner_id, examiner_exam_event_id,
+                       skill_oral, skill_textual, skill_understanding,
+                       partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
+                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country, first_name, last_name,
+                       auth_hash, auth_hash_expires, auth_hash_sent, created_at)
+VALUES (2, 1, 4,
+       false, true, false,
+       false, false, false, true,
+       'COMPLETED', false,
+       'test@test.invalid', '0401234504', null, null, null, null,
+       'Anneli', 'Annikkinen',
+       '44423089-83a8-4163-8180-d8b675ff5337', NOW() - INTERVAL '13 days', NOW() - INTERVAL '16 days',
+       NOW() - INTERVAL '23 days');
+
+INSERT INTO payment(version, enrollment_id, amount, transaction_id, reference, payment_url,
+       payment_status, refunded_at, enrollment_appointment_id)
+VALUES (3, null, 51400, '99995634-a283-11ef-88a1-bf672bd574b1', '0006156682',
+       'https://pay.paytrail.com/pay/99945634-a283-11ef-88a1-bf672bd574b1', 'OK',
+       null, 5);
 
 -- Insert enrollment appointment
 INSERT INTO enrollment_appointment(person_id, examiner_id, examiner_exam_event_id,

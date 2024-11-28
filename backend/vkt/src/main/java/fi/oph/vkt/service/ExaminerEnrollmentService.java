@@ -1,17 +1,17 @@
 package fi.oph.vkt.service;
 
-import fi.oph.vkt.api.dto.EnrollmentGradeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentGradesDTO;
+import fi.oph.vkt.audit.AuditService;
+import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.EnrollmentGrade;
 import fi.oph.vkt.model.ExaminerExamEvent;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
-import fi.oph.vkt.model.type.EnrollmentGradeType;
 import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentGradesRepository;
 import fi.oph.vkt.repository.ExaminerExamEventRepository;
@@ -40,6 +40,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
   private final Environment environment;
   private final UUIDSource uuidSource;
   private final ExaminerEnrollmentEmailService examinerEnrollmentEmailService;
+  private final AuditService auditService;
 
   private static void checkExaminerOid(EnrollmentAppointment enrollmentAppointment, String oid) {
     if (!enrollmentAppointment.getExaminer().getOid().equals(oid)) {
@@ -53,6 +54,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     final Long id,
     final ExaminerEnrollmentAppointmentUpdateDTO dto
   ) {
+    // TODO Audit log entry
     if (!Objects.equals(id, dto.id())) {
       throw new APIException(APIExceptionType.EXAMINER_APPOINTMENT_ID_MISMATCH);
     }
@@ -83,6 +85,8 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     );
     checkExaminerOid(enrollmentAppointment, oid);
 
+    auditService.logById(VktOperation.VIEW_EXAMINER_CONTACT_REQUEST, enrollmentContactId);
+
     return ClerkEnrollmentUtil.createClerkEnrollmentContactDTO(enrollmentAppointment);
   }
 
@@ -95,7 +99,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
 
     final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
 
-    enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.WAITING_AUTHENTICATION);
+    enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.ENROLLMENT_CREATED);
 
     if (enrollmentAppointment.getAuthHash() == null) {
       enrollmentAppointment.setAuthHash(uuidSource.getRandomNonce());
@@ -133,6 +137,8 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     );
 
     checkExaminerOid(enrollmentAppointment, oid);
+
+    auditService.logById(VktOperation.VIEW_EXAMINER_ENROLLMENT, enrollmentAppointmentId);
 
     final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
 
@@ -211,6 +217,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
 
     enrollmentAppointment.setExpiresAt(LocalDateTime.now().plusDays(3));
     enrollmentAppointment.setSentAt(LocalDateTime.now());
+    enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.WAITING_AUTHENTICATION);
 
     examinerEnrollmentEmailService.sendEnrollmentAppointmentAuthLink(enrollmentAppointment);
 
@@ -226,6 +233,8 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     );
 
     checkExaminerOid(enrollmentAppointment, oid);
+
+    auditService.logById(VktOperation.DELETE_EXAMINER_CONTACT_REQUEST, enrollmentContactId);
 
     enrollmentAppointment.setDeletedAt(LocalDateTime.now());
 
@@ -261,7 +270,9 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
       return List.of();
     }
 
-    final List<EnrollmentAppointment> enrollmentAppointments = enrollmentAppointmentRepository.findByPersonAndDeletedAtIsNull(
+    auditService.logById(VktOperation.VIEW_EXAMINER_ENROLLMENT_HISTORY, enrollmentAppointmentId);
+
+    final List<EnrollmentAppointment> enrollmentAppointments = enrollmentAppointmentRepository.findPersonEnrollmentHistory(
       person
     );
 
