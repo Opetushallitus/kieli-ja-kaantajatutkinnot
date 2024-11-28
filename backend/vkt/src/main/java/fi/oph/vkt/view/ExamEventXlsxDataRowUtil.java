@@ -172,11 +172,11 @@ public class ExamEventXlsxDataRowUtil {
   private static String statusToText(final EnrollmentAppointmentStatus status) {
     return switch (status) {
       case COMPLETED -> "Maksettu";
-      case AWAITING_PAYMENT -> "Siirretty jonosta tutkintoon tai maksuttomuus hylättiin";
       case CANCELED -> "Peruttu";
       case EXPECTING_PAYMENT -> "Odottaa maksua";
       case WAITING_AUTHENTICATION -> "Odottaa tunnistautumista";
       case CANCELED_PAYMENT -> "Maksu peruutettu";
+      case ENROLLMENT_CREATED -> "Ilmoittautuminen luotu (tunnistautumislinkkiä ei vielä lähetetty)";
       case CONTACT_CREATED -> "Yhteydenotto luotu";
     };
   }

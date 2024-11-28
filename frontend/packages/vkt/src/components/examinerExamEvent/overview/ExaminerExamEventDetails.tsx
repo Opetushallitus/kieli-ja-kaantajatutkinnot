@@ -123,7 +123,7 @@ export const ExaminerExamEventDetails = () => {
       />
       <EnrollmentList
         enrollments={enrollments}
-        status={EnrollmentAppointmentStatus.AWAITING_PAYMENT}
+        status={EnrollmentAppointmentStatus.EXPECTING_PAYMENT}
       />
       <EnrollmentList
         enrollments={enrollments}
