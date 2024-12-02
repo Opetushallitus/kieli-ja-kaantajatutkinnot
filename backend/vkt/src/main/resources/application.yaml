@@ -73,6 +73,7 @@ cas:
 app:
   base-url:
     public: ${public-base-url:http://localhost:4002}/vkt
+    clerk: ${clerk-base-url:http://localhost:4002/vkt}
     api: ${public-base-url:http://localhost:${server.port}}/vkt/api/v1
   cas-oppija:
     login-url: ${cas-oppija.login-url:https://testiopintopolku.fi/cas-oppija/login}

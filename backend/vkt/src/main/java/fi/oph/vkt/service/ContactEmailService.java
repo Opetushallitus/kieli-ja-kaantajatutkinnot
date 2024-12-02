@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ public class ContactEmailService extends AbstractEnrollmentEmailService {
 
   private final EmailService emailService;
   private final TemplateRenderer templateRenderer;
+  private final Environment environment;
 
   @Transactional
   public void sendReceiptNotificationForContactRequest(final EnrollmentAppointment enrollment)
@@ -59,11 +61,23 @@ public class ContactEmailService extends AbstractEnrollmentEmailService {
     throws IOException, InterruptedException {
     final Map<String, Object> templateParams = new HashMap<>(Map.of());
     final Examiner examiner = enrollment.getExaminer();
+    final String clerkBaseUrl = environment.getRequiredProperty("app.base-url.clerk");
+    final String contactRequestURL = String.format(
+      clerkBaseUrl + "/tv/%s/yhteydenottopyynto/%s",
+      examiner.getOid(),
+      enrollment.getId()
+    );
 
-    templateParams.put("type", "enrollment");
+    final String requesterName = enrollment.getFirstName() + " " + enrollment.getLastName();
+    final String requesterEmail = enrollment.getEmail();
+    templateParams.put("requesterName", requesterName);
+    templateParams.put("requesterEmail", requesterEmail);
+    templateParams.put("message", enrollment.getMessage());
+    templateParams.put("contactRequestURL", contactRequestURL);
 
     final String recipientName = examiner.getFirstName() + " " + examiner.getLastName();
     final String recipientAddress = examiner.getEmail();
+    // TODO Translate to Swedish
     final String subject = String.format(
       "%s | %s",
       LocalisationUtil.translate(localeFI, "subject.contact-request.notice-for-examiner"),

@@ -704,9 +704,12 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     enrollmentAppointment.setExaminer(examiner);
     copyDtoFieldsToEnrollment(enrollmentAppointment, dto);
 
+    // Save contact request first to ensure we have a persisted ID for the enrollment appointment.
+    // This is needed to create a correct link to the contact request in the examiner's UI.
+    enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
+
+    // Send emails to contact requester and the examiner.
     contactEmailService.sendReceiptNotificationForContactRequest(enrollmentAppointment);
     contactEmailService.sendExaminerNotificationOfContactRequest(enrollmentAppointment);
-
-    enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
   }
 }
