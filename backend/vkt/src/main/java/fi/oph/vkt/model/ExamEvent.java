@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -53,6 +54,7 @@ public class ExamEvent extends BaseEntity {
   private long maxParticipants;
 
   @OneToMany(mappedBy = "examEvent")
+  @OrderBy("createdAt")
   private List<Enrollment> enrollments = new ArrayList<>();
 
   @OneToMany(mappedBy = "examEvent")
