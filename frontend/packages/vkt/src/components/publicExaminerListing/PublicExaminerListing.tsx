@@ -92,7 +92,17 @@ const DesktopExaminerRow = ({
         <Text>{name}</Text>
       </TableCell>
       <TableCell>
-        <Text>{t('examLanguage.' + language)}</Text>
+        <Text>
+          {language === ExamLanguage.ALL ? (
+            <>
+              {t('examLanguage.FI')}
+              <br />
+              {t('examLanguage.SV')}
+            </>
+          ) : (
+            t('examLanguage.' + language)
+          )}
+        </Text>
       </TableCell>
       <TableCell>
         <Text>
@@ -153,6 +163,9 @@ const getRowDetails = ({
 };
 
 export const PublicExaminerListing = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicExaminerListing',
+  });
   const { languageFilter, status } = useAppSelector(publicExaminerSelector);
   const filteredExaminers = useAppSelector(selectFilteredPublicExaminers);
   const dispatch = useAppDispatch();
@@ -186,7 +199,7 @@ export const PublicExaminerListing = () => {
         <Paper elevation={3} className="public-examiner-listing">
           <div className="columns">
             <div className="grow">
-              <H2>Ota yhteyttä tutkintosuorituksen vastaanottajiin</H2>
+              <H2>{t('title')}</H2>
             </div>
           </div>
           <LanguageFilter

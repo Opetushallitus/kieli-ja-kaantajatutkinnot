@@ -481,7 +481,6 @@
       },
       "publicExaminerListing": {
         "examLanguage": {
-          "ALL": "suomi & ruotsi",
           "FI": "suomi",
           "SV": "ruotsi"
         },
@@ -492,6 +491,7 @@
           "municipality": "Paikkakunta",
           "examDates": "Tutkintopäivät"
         },
+        "title": "Ota yhteyttä tutkintosuorituksen vastaanottajiin",
         "row": {
           "alreadyContacted": "Yhteydenotto lähetetty",
           "byRequest": "Sovittavissa",
