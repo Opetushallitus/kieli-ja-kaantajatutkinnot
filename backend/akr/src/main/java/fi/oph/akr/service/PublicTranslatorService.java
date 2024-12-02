@@ -115,7 +115,7 @@ public class PublicTranslatorService {
     return PublicTranslatorDTO
       .builder()
       .id(translator.getId())
-      .firstName(personalData.getFirstName())
+      .firstName(personalData.getNickName().isBlank() ? personalData.getFirstName() : personalData.getNickName())
       .lastName(personalData.getLastName())
       .town(townTranslated.getLeft())
       .country(country)
