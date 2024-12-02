@@ -37,7 +37,6 @@ const initialState: PublicEnrollmentAppointmentState = {
     country: '',
     id: undefined,
     hasPreviousEnrollment: undefined,
-    previousEnrollment: '',
     privacyStatementConfirmation: false,
     status: undefined,
     person: undefined,

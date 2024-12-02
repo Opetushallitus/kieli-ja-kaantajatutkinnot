@@ -118,6 +118,7 @@ export interface ClerkEnrollmentAppointment
   authLink?: ClerkAuthLink;
   paymentLinkUrl?: string;
   examEvent?: ExaminerExamEvent;
+  previousEnrollment?: string;
 }
 
 export interface ClerkEnrollmentAppointmentResponse

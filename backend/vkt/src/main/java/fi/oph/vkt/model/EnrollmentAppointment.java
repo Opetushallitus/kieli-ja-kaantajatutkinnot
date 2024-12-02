@@ -69,6 +69,9 @@ public class EnrollmentAppointment extends EnrollmentCommon {
   @Column(name = "has_previous_enrollment", nullable = false)
   private boolean hasPreviousEnrollment;
 
+  @Column(name = "previous_enrollment")
+  private String previousEnrollment;
+
   @Column(name = "message")
   private String message;
 

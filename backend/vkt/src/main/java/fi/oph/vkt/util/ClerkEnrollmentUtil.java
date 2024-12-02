@@ -213,6 +213,8 @@ public class ClerkEnrollmentUtil {
       .paymentLinkUrl(paymentLinkUrl)
       .examEvent(examinerExamEventDTO)
       .payments(paymentDTOs)
+      .hasPreviousEnrollment(enrollmentAppointment.isHasPreviousEnrollment())
+      .previousEnrollment(enrollmentAppointment.getPreviousEnrollment())
       .build();
   }
 

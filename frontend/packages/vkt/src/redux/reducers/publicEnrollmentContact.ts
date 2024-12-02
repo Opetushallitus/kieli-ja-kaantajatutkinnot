@@ -30,7 +30,6 @@ export const initialState: PublicEnrollmentContactState = {
     isFullExam: undefined,
     id: 1,
     hasPreviousEnrollment: undefined,
-    previousEnrollment: '',
     privacyStatementConfirmation: false,
     status: undefined,
     message: '',

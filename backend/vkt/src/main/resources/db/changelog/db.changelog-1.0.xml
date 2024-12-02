@@ -1185,6 +1185,5 @@
             UPDATE enrollment_appointment SET has_previous_enrollment = (previous_enrollment IS NOT NULL);
         </sql>
         <addNotNullConstraint tableName="enrollment_appointment" columnName="has_previous_enrollment" />
-        <dropColumn tableName="enrollment_appointment" columnName="previous_enrollment" />
     </changeSet>
 </databaseChangeLog>

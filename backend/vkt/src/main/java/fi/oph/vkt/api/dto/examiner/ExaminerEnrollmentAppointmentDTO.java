@@ -23,6 +23,7 @@ public record ExaminerEnrollmentAppointmentDTO(
   @NonNull @NotNull Boolean writingPartialExam,
   @NonNull @NotNull Boolean readingComprehensionPartialExam,
   @NonNull @NotNull EnrollmentAppointmentStatus status,
+  @NonNull @NotNull Boolean hasPreviousEnrollment,
   String previousEnrollment,
   @NonNull @NotBlank String email,
   String phoneNumber,

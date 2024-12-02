@@ -85,7 +85,6 @@ export class SerializationUtils {
     return {
       ...enrollment,
       emailConfirmation: '',
-      hasPreviousEnrollment: !!enrollment.previousEnrollment,
       privacyStatementConfirmation: false,
       examEvent: SerializationUtils.deserializePublicExaminerExamEvent(
         enrollment.examEvent,
