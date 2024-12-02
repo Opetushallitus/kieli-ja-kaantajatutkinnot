@@ -14,6 +14,10 @@
           "description": "Ilmoittautuja täytyy liittää tutkintoon ennen ilmoittautumislinkin lähetystä.",
           "header": "Valitse tutkinto"
         },
+        "authLinkSuccessDialog": {
+          "description": "Asiakkaalle on lähetetty ilmoittautumislinkki sähköpostiin. Ilmoittautumislinkki on voimassa kolme (3) vuorokautta. Voit tarpeen vaatiessa lähettää ilmoittautumislinkin uudestaan.",
+          "header": "Ilmoittautumislinkki lähetetty"
+        },
         "controlButtons": {
           "move": "Siirrä"
         },

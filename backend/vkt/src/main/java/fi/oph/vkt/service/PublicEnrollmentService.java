@@ -712,4 +712,13 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     contactEmailService.sendReceiptNotificationForContactRequest(enrollmentAppointment);
     contactEmailService.sendExaminerNotificationOfContactRequest(enrollmentAppointment);
   }
+
+  public EnrollmentAppointment getEnrollmentAppointmentByIdAndPaymentLink(
+    final long enrollmentAppointmentId,
+    final String paymentLinkHash
+  ) {
+    return enrollmentAppointmentRepository
+      .findByIdAndPaymentLinkHashAndDeletedAtIsNull(enrollmentAppointmentId, paymentLinkHash)
+      .orElseThrow();
+  }
 }

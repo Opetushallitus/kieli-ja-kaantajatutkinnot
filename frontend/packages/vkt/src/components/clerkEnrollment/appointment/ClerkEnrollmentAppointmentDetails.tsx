@@ -99,14 +99,19 @@ export const ClerkEnrollmentAppointmentDetails = ({
 
   useEffect(() => {
     if (sendLinkStatus === APIResponseStatus.Success) {
-      const description = t('toasts.updated');
-
-      showToast({
+      showDialog({
+        title: t('authLinkSuccessDialog.header'),
         severity: Severity.Success,
-        description,
+        description: t('authLinkSuccessDialog.description'),
+        actions: [
+          {
+            title: translateCommon('close'),
+            variant: Variant.Outlined,
+          },
+        ],
       });
     }
-  }, [currentUIMode, showToast, t, sendLinkStatus]);
+  }, [currentUIMode, showDialog, translateCommon, t, sendLinkStatus]);
 
   useEffect(() => {
     if (cancelStatus === APIResponseStatus.Success) {

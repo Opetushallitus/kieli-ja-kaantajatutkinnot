@@ -56,4 +56,5 @@ export enum APIError {
   FileUploadError = 'fileUploadError',
   userAttachmentsMissing = 'userAttachmentsMissing',
   ExaminerNotFound = 'examinerNotFound',
+  AuthHashExpired = 'authHashExpired',
 }

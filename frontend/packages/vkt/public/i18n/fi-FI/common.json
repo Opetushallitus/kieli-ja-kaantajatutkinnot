@@ -83,7 +83,8 @@
           "sessionMissingPersonId": "Et ole tunnistautunut, ole hyvä ja tunnistaudu uudelleen",
           "ticketValidationError": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen",
           "fileUploadError": "Tiedoston lähetys epäonnistui, ole hyvä ja yritä uudelleen",
-          "userAttachmentsMissing": "Koulutusvalinnan vaadittavat liitteet puuttuu"
+          "userAttachmentsMissing": "Koulutusvalinnan vaadittavat liitteet puuttuu",
+          "authHashExpired": "Ilmoittautumislinkki on erääntynyt."
         },
         "customTextField": {
           "emailFormat": "Sähköpostiosoite on virheellinen",

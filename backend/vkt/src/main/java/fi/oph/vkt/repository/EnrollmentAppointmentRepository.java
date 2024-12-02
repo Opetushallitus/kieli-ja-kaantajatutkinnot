@@ -11,7 +11,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EnrollmentAppointmentRepository extends BaseRepository<EnrollmentAppointment> {
-  Optional<EnrollmentAppointment> findByIdAndAuthHashAndDeletedAtIsNull(final long id, final String paymentLinkHash);
+  Optional<EnrollmentAppointment> findByIdAndAuthHashAndDeletedAtIsNull(final long id, final String authHash);
+  Optional<EnrollmentAppointment> findByIdAndPaymentLinkHashAndDeletedAtIsNull(
+    final long id,
+    final String paymentLinkHash
+  );
 
   @Query(
     "SELECT e" +

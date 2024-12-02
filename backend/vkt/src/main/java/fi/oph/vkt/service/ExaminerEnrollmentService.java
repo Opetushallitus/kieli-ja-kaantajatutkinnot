@@ -111,6 +111,8 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
 
     enrollmentAppointmentRepository.flush();
 
+    auditService.logById(VktOperation.CONVERT_EXAMINER_CONTACT_REQUEST_TO_APPOINTMENT, enrollmentContactId);
+
     return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
   }
 
@@ -123,6 +125,8 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     final Optional<EnrollmentGrade> enrollmentGradeOptional = enrollmentGradesRepository.findByEnrollmentAppointment(
       enrollmentAppointment
     );
+
+    auditService.logById(VktOperation.VIEW_EXAMINER_ENROLLMENT_GRADES, enrollmentAppointmentId);
 
     return enrollmentGradeOptional.map(ExaminerUtil::createGradesDTO).orElse(null);
   }
@@ -250,6 +254,8 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     checkExaminerOid(enrollmentAppointment, oid);
 
     enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.CANCELED);
+
+    auditService.logById(VktOperation.CANCEL_ENROLLMENT_APPOINTMENT, enrollmentAppointmentId);
 
     enrollmentAppointmentRepository.flush();
   }

@@ -17,6 +17,7 @@ import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
+import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.model.type.FreeEnrollmentType;
@@ -257,6 +258,35 @@ public class PublicController {
       SessionUtil.setAppointmentId(session, enrollmentAppointment.getId());
 
       httpResponse.sendRedirect(uiRouteUtil.getEnrollmentAppointmentUrl(enrollmentAppointment.getId()));
+    } catch (final APIException e) {
+      LOG.warn("Encountered known error, redirecting to front page. Error:", e);
+      httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
+    } catch (final Exception e) {
+      LOG.error("Encountered unknown error, redirecting to front page. Error:", e);
+      httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
+    }
+  }
+
+  @GetMapping(
+    path = "/enrollment/appointment/{enrollmentAppointmentId:\\d+}/redirectPayment/{paymentLinkHash:[a-z0-9\\-]+}"
+  )
+  public void createPaymentHashRedirectToPaytrail(
+    final HttpServletResponse httpResponse,
+    @PathVariable final long enrollmentAppointmentId,
+    @PathVariable final String paymentLinkHash
+  ) throws IOException {
+    try {
+      final EnrollmentAppointment enrollment = publicEnrollmentService.getEnrollmentAppointmentByIdAndPaymentLink(
+        enrollmentAppointmentId,
+        paymentLinkHash
+      );
+      final String redirectUrl = paymentService.createPaymentForEnrollmentAppointment(
+        enrollment.getId(),
+        enrollment.getPerson(),
+        AppLocale.FI
+      );
+
+      httpResponse.sendRedirect(redirectUrl);
     } catch (final APIException e) {
       LOG.warn("Encountered known error, redirecting to front page. Error:", e);
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
