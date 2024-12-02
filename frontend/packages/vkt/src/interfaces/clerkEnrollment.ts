@@ -52,7 +52,6 @@ interface ClerkEnrollmentCommon
     WithVersion,
     CertificateShippingData {
   enrollmentTime: Dayjs;
-  previousEnrollment?: string;
   email: string;
   phoneNumber: string;
 }
@@ -66,6 +65,7 @@ export interface ClerkEnrollment
   freeEnrollmentBasis?: ClerkFreeEnrollmentBasis;
   freeEnrollmentDetails?: PublicFreeEnrollmentDetails;
   person: ClerkPerson;
+  previousEnrollment?: string;
 }
 
 export interface ClerkEnrollmentResponse
@@ -87,6 +87,7 @@ export interface ClerkEnrollmentContact extends ClerkEnrollmentCommon {
   firstName: string;
   lastName: string;
   isFullExam: boolean;
+  hasPreviousEnrollment: boolean;
   partialExamSelection?: string;
   message: string;
 }

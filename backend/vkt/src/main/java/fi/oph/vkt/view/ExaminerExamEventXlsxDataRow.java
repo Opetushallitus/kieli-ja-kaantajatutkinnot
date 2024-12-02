@@ -9,7 +9,7 @@ public record ExaminerExamEventXlsxDataRow(
   @NonNull String enrollmentTime,
   @NonNull String lastName,
   @NonNull String firstName,
-  String previousEnrollment,
+  @NonNull Integer previousEnrollment,
   @NonNull String status,
   @NonNull Integer textualSkill,
   @NonNull Integer oralSkill,

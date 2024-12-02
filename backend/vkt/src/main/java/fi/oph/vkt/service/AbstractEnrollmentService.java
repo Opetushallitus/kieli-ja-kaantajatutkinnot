@@ -42,7 +42,7 @@ public abstract class AbstractEnrollmentService {
     final PublicEnrollmentContactCreateDTO dto
   ) {
     enrollment.setPartialExamSelection(dto.partialExamSelection());
-    enrollment.setPreviousEnrollment(dto.previousEnrollment());
+    enrollment.setHasPreviousEnrollment(dto.hasPreviousEnrollment());
     enrollment.setMessage(dto.message());
     enrollment.setPhoneNumber(dto.phoneNumber());
     enrollment.setEmail(dto.email());

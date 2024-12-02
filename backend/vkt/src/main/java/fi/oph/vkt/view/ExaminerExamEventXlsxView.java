@@ -70,7 +70,7 @@ public class ExaminerExamEventXlsxView extends ExamEventCommonXlsxView {
       row.createCell(++ci).setCellValue(dataRow.enrollmentTime());
       row.createCell(++ci).setCellValue(dataRow.lastName());
       row.createCell(++ci).setCellValue(dataRow.firstName());
-      setNullableValue(row.createCell(++ci), dataRow.previousEnrollment());
+      row.createCell(++ci).setCellValue(dataRow.previousEnrollment());
       row.createCell(++ci).setCellValue(dataRow.status());
       row.createCell(++ci).setCellValue(dataRow.textualSkill());
       row.createCell(++ci).setCellValue(dataRow.oralSkill());

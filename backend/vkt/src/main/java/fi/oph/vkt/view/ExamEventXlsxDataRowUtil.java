@@ -3,7 +3,6 @@ package fi.oph.vkt.view;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.ExamEvent;
-import fi.oph.vkt.model.ExamEventCommon;
 import fi.oph.vkt.model.ExaminerExamEvent;
 import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.KoskiEducations;
@@ -74,7 +73,7 @@ public class ExamEventXlsxDataRowUtil {
       .enrollmentTime(DATETIME_FORMAT.format(enrollment.getCreatedAt()))
       .lastName(person.getLastName())
       .firstName(person.getFirstName())
-      .previousEnrollment(enrollment.getPreviousEnrollment())
+      .previousEnrollment(boolToInt(enrollment.isHasPreviousEnrollment()))
       .status(statusToText(enrollment.getStatus()))
       .textualSkill(boolToInt(enrollment.isTextualSkill()))
       .oralSkill(boolToInt(enrollment.isOralSkill()))

@@ -1,5 +1,4 @@
 import {
-  Collapse,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -7,34 +6,18 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { AnyAction } from 'redux';
-import { H2, LabeledTextField, Text } from 'shared/components';
-import { TextFieldTypes } from 'shared/enums';
-import { TextField } from 'shared/interfaces';
-import { getErrors, hasErrors } from 'shared/utils';
+import { H2, Text } from 'shared/components';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { PublicEnrollmentCommon } from 'interfaces/publicEnrollment';
 
-interface PreviousEnrollmentField {
-  previousEnrollment?: string;
-}
-
 enum PreviouslyEnrolled {
   Yes = 'yes',
   No = 'no',
 }
-
-const fields: TextField<PreviousEnrollmentField>[] = [
-  {
-    name: 'previousEnrollment',
-    required: true,
-    type: TextFieldTypes.Text,
-    maxLength: 1024,
-  },
-];
 
 export const PreviousEnrollment = ({
   enrollment,
@@ -57,78 +40,26 @@ export const PreviousEnrollment = ({
       'vkt.component.publicEnrollmentContact.steps.selectExam.previousEnrollment',
   });
 
-  const [dirtyFields, setDirtyFields] = useState<
-    Array<keyof PreviousEnrollmentField>
-  >([]);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (enrollment.hasPreviousEnrollment === undefined) {
-      setValid(false);
-
-      return;
-    }
-
-    if (enrollment.hasPreviousEnrollment === false) {
-      setValid(true);
-
-      return;
-    }
-
-    setValid(
-      !hasErrors<PreviousEnrollmentField>({
-        fields,
-        values: enrollment,
-        t: translateCommon,
-      }),
-    );
+    setValid(enrollment.hasPreviousEnrollment !== undefined);
   }, [setValid, enrollment, translateCommon]);
-
-  const dirty = showValidation ? undefined : dirtyFields;
-  const errors = getErrors<PreviousEnrollmentField>({
-    fields,
-    values: enrollment,
-    t: translateCommon,
-    dirtyFields: dirty,
-  });
 
   const handleRadioButtonChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const hasPreviousEnrollment = event.target.value === PreviouslyEnrolled.Yes;
-    const previousEnrollment = '';
 
     dispatch(
       updatePublicEnrollment({
         hasPreviousEnrollment,
-        previousEnrollment,
       }),
     );
   };
 
   const hasRadioButtonError =
     showValidation && enrollment.hasPreviousEnrollment === undefined;
-
-  const showCustomTextFieldError = (
-    fieldName: keyof PreviousEnrollmentField,
-  ) => {
-    return !!errors[fieldName];
-  };
-
-  const handleTextFieldBlur = () => {
-    if (!dirtyFields.includes('previousEnrollment')) {
-      setDirtyFields([...dirtyFields, 'previousEnrollment']);
-    }
-  };
-
-  const handleTextFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    dispatch(
-      updatePublicEnrollment({
-        previousEnrollment: event.target.value,
-      }),
-    );
-  };
 
   return (
     <>
@@ -183,23 +114,6 @@ export const PreviousEnrollment = ({
             </FormHelperText>
           )}
         </FormControl>
-        <Collapse orientation="vertical" in={enrollment.hasPreviousEnrollment}>
-          <div className="margin-top-sm">
-            <LabeledTextField
-              className="public-enrollment__grid__previous-enrollment__textField"
-              id="public-enrollment__previous-enrollment__textField"
-              label={t('textField.label')}
-              placeholder={t('textField.placeholder')}
-              value={enrollment.previousEnrollment}
-              onBlur={handleTextFieldBlur}
-              onChange={handleTextFieldChange}
-              error={showCustomTextFieldError('previousEnrollment')}
-              helperText={errors['previousEnrollment']}
-              disabled={editingDisabled}
-              fullWidth
-            />
-          </div>
-        </Collapse>
       </div>
     </>
   );

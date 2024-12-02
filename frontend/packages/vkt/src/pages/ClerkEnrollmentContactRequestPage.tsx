@@ -215,7 +215,7 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
             <div className="rows gapped">
               <H3>Osallistunut aiempiin tutkintoihin?</H3>
               <Text>
-                {enrollment.previousEnrollment
+                {enrollment.hasPreviousEnrollment
                   ? translateCommon('yes')
                   : translateCommon('no')}
               </Text>

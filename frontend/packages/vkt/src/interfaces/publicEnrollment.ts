@@ -56,7 +56,6 @@ export interface PublicEnrollmentContactRequestDetails {
 export interface PublicEnrollmentCommon extends PublicEnrollmentContactDetails {
   id?: number;
   hasPreviousEnrollment?: boolean;
-  previousEnrollment?: string;
   privacyStatementConfirmation: boolean;
   status?: EnrollmentStatus;
 }
@@ -70,6 +69,7 @@ export interface PublicEnrollment
   isFree?: boolean;
   freeEnrollmentBasis?: PublicFreeEnrollmentBasis;
   isQueued?: boolean;
+  previousEnrollment?: string;
 }
 
 export interface PublicEnrollmentResponse

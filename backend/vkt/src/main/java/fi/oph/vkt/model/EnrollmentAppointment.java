@@ -1,8 +1,6 @@
 package fi.oph.vkt.model;
 
 import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
-import fi.oph.vkt.model.type.EnrollmentGradeType;
-import fi.oph.vkt.model.type.EnrollmentStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -68,8 +66,8 @@ public class EnrollmentAppointment extends EnrollmentCommon {
   @Column(name = "partial_exam_selection")
   private String partialExamSelection;
 
-  @Column(name = "previous_enrollment")
-  private String previousEnrollment;
+  @Column(name = "has_previous_enrollment", nullable = false)
+  private boolean hasPreviousEnrollment;
 
   @Column(name = "message")
   private String message;

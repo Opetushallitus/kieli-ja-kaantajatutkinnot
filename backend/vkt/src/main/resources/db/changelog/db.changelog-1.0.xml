@@ -1177,4 +1177,14 @@
         <dropNotNullConstraint tableName="enrollment_appointment" columnName="partial_exam_writing" />
         <dropNotNullConstraint tableName="enrollment_appointment" columnName="partial_exam_reading_comprehension" />
     </changeSet>
+    <changeSet id="2024-12-02-enrollment-contact-previous-enrollment-as-boolean" author="pkoivisto">
+        <addColumn tableName="enrollment_appointment">
+            <column name="has_previous_enrollment" type="BOOLEAN" />
+        </addColumn>
+        <sql>
+            UPDATE enrollment_appointment SET has_previous_enrollment = (previous_enrollment IS NOT NULL);
+        </sql>
+        <addNotNullConstraint tableName="enrollment_appointment" columnName="has_previous_enrollment" />
+        <dropColumn tableName="enrollment_appointment" columnName="previous_enrollment" />
+    </changeSet>
 </databaseChangeLog>

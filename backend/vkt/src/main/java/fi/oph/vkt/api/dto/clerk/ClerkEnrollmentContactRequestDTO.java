@@ -1,7 +1,6 @@
 package fi.oph.vkt.api.dto.clerk;
 
 import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
-import fi.oph.vkt.model.type.EnrollmentStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -16,7 +15,7 @@ public record ClerkEnrollmentContactRequestDTO(
   Boolean isFullExam,
   String partialExamSelection,
   @NonNull @NotNull EnrollmentAppointmentStatus status,
-  String previousEnrollment,
+  @NonNull @NotNull Boolean hasPreviousEnrollment,
   @NonNull @NotBlank String phoneNumber,
   @NonNull @NotBlank String email,
   @NonNull @NotBlank String firstName,

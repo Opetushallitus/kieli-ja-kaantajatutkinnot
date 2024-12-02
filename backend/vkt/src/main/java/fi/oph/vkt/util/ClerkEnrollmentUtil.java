@@ -10,7 +10,6 @@ import fi.oph.vkt.api.dto.clerk.ClerkFreeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerAuthLinkDTO;
-import fi.oph.vkt.api.dto.examiner.ExaminerDetailsDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerExamEventDTO;
@@ -24,7 +23,6 @@ import fi.oph.vkt.model.KoskiEducations;
 import fi.oph.vkt.model.Person;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ClerkEnrollmentUtil {
@@ -233,7 +231,7 @@ public class ClerkEnrollmentUtil {
       .email(enrollmentAppointment.getEmail())
       .firstName(enrollmentAppointment.getFirstName())
       .lastName(enrollmentAppointment.getLastName())
-      .previousEnrollment(enrollmentAppointment.getPreviousEnrollment())
+      .hasPreviousEnrollment(enrollmentAppointment.isHasPreviousEnrollment())
       .message(enrollmentAppointment.getMessage())
       .build();
   }
