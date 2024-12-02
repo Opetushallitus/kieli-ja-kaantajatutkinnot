@@ -104,6 +104,19 @@
             "KOSKI": "Tieto KOSKI-integraatiosta"
           },
           "getAllKoskiEducations": "Hae kaikki KOSKI-koulutustiedot"
+        },
+        "appointment": {
+          "paymentInfoHeader": "Maksutiedot",
+          "showHistory": "Katso aiempien tutkintojen tiedot",
+          "giveGrades": "Anna arvosanat",
+          "linkSentAt": "Lähetetty",
+          "linkExpiresAt": "Erääntyy",
+          "sendAuthLink": "Lähetä ilmoittautumislinkki",
+          "noAuthPossible": "Ei mahdollisuutta tunnistautua?",
+          "paymentLinkModal": {
+            "title": "Suora maksulinkki",
+            "description": "Jos asiakkaalla ei ole mahdollisuutta käyttää vahvaa tunnistautumista, lähetä tämä suora maksulinkki."
+          }
         }
       },
       "clerkcontactRequest": {

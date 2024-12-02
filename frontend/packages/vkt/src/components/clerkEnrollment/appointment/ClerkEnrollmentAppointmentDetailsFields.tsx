@@ -407,6 +407,9 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
 
   const displayPaymentHistory = enrollment.payments.length > 1;
 
+  const isCompleted =
+    EnrollmentAppointmentStatus.COMPLETED === enrollment.status;
+
   const examEventToOption = (examEvent: ExaminerExamEvent) => ({
     value: examEvent.id.toString(),
     label: examEvent.location ?? '',
@@ -560,7 +563,7 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
             color={Color.Secondary}
             variant={Variant.Outlined}
           >
-            Anna arvosanat
+            {t('appointment.giveGrades')}
           </CustomButton>
         </div>
         <div className="columns flex-start">
@@ -569,7 +572,7 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
             color={Color.Secondary}
             variant={Variant.Outlined}
           >
-            Katso aiempien tutkintojen tiedot
+            {t('appointment.showHistory')}
           </CustomButton>
         </div>
         <div className="margin-top-sm">
@@ -584,7 +587,7 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
         />
         <Divider className="margin-top-lg" />
         <div className="columns margin-top-lg space-between">
-          <H2>Maksutiedot</H2>
+          <H2>{t('appointment.paymentInfoHeader')}</H2>
         </div>
         {displayPaymentInformation && (
           <div className="rows gapped-xxl margin-top-lg">
@@ -615,36 +618,40 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
           <H3>Ilmoittautumislinkki</H3>
           {enrollment.authLink?.sentAt && (
             <Text>
-              Lähetetty:{' '}
+              {t('appointment.linkSentAt')}:{' '}
               {DateTimeUtils.renderDateTime(enrollment.authLink.sentAt)}
             </Text>
           )}
           {enrollment.authLink?.expiresAt && (
             <Text>
-              Erääntyy:{' '}
+              {t('appointment.linkSentAt')}:{' '}
               {DateTimeUtils.renderDateTime(enrollment.authLink.expiresAt)}
             </Text>
           )}
         </div>
-        <div className="columns flex-start">
-          <CustomButton
-            onClick={onSendAuthLink}
-            color={Color.Secondary}
-            variant={Variant.Outlined}
-          >
-            Lähetä ilmoittautumislinkki
-          </CustomButton>
-        </div>
-        <Text>
-          <Link
-            sx={{ fontWeight: 400, cursor: 'pointer' }}
-            onClick={() => {
-              setPaymentLinkModalOpen(true);
-            }}
-          >
-            Ei mahdollisuutta tunnistautua?
-          </Link>
-        </Text>
+        {!isCompleted && (
+          <>
+            <div className="columns flex-start">
+              <CustomButton
+                onClick={onSendAuthLink}
+                color={Color.Secondary}
+                variant={Variant.Outlined}
+              >
+                {t('appointment.sendAuthLink')}
+              </CustomButton>
+            </div>
+            <Text>
+              <Link
+                sx={{ fontWeight: 400, cursor: 'pointer' }}
+                onClick={() => {
+                  setPaymentLinkModalOpen(true);
+                }}
+              >
+                {t('appointment.noAuthPossible')}
+              </Link>
+            </Text>
+          </>
+        )}
       </div>
       {gradeModalOpen && (
         <GradeModal
@@ -665,16 +672,13 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
       )}
       <CustomModal
         open={paymentLinkModalOpen}
-        modalTitle={t('payment.modal.title')}
+        modalTitle={t('appointment.paymentLinkModal.title')}
         onCloseModal={() => setPaymentLinkModalOpen(false)}
       >
         <>
           {paymentLink && (
             <div className="rows gapped">
-              <Text>
-                Jos asiakkaalla ei ole mahdollisuutta käyttää vahvaa
-                tunnistautumista, lähetä tämä suora maksulinkki.
-              </Text>
+              <Text>{t('appointment.paymentLinkModal.description')}</Text>
               <div className="rows gapped-xs">
                 <H3>{t('payment.modal.link')}</H3>
                 <Text>
