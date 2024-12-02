@@ -20,7 +20,6 @@ import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.model.Enrollment;
-import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.model.Person;
@@ -102,7 +101,8 @@ public class PublicEnrollmentServiceTest {
     doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentToQueueConfirmationEmail(any(), any());
     doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentConfirmationEmail(any());
     doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentAppointmentConfirmationEmail(any());
-    doNothing().when(contactEmailServiceMock).sendEnrollmentAppointmentAuthLink(any());
+    doNothing().when(contactEmailServiceMock).sendReceiptNotificationForContactRequest(any());
+    doNothing().when(contactEmailServiceMock).sendExaminerNotificationOfContactRequest(any());
 
     final Environment environment = mock(Environment.class);
     when(environment.getRequiredProperty("app.reservation.duration")).thenReturn(ONE_MINUTE.toString());

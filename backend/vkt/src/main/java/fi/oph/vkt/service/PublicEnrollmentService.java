@@ -12,8 +12,6 @@ import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
-import fi.oph.vkt.api.dto.PublicExaminerDTO;
-import fi.oph.vkt.api.dto.PublicExaminerExamDateDTO;
 import fi.oph.vkt.api.dto.PublicExaminerNameDTO;
 import fi.oph.vkt.api.dto.PublicFreeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
@@ -706,7 +704,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     enrollmentAppointment.setExaminer(examiner);
     copyDtoFieldsToEnrollment(enrollmentAppointment, dto);
 
-    contactEmailService.sendEnrollmentAppointmentAuthLink(enrollmentAppointment);
+    contactEmailService.sendReceiptNotificationForContactRequest(enrollmentAppointment);
+    contactEmailService.sendExaminerNotificationOfContactRequest(enrollmentAppointment);
 
     enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
   }

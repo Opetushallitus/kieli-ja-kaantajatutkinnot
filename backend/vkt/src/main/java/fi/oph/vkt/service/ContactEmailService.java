@@ -25,7 +25,37 @@ public class ContactEmailService extends AbstractEnrollmentEmailService {
   private final TemplateRenderer templateRenderer;
 
   @Transactional
-  public void sendEnrollmentAppointmentAuthLink(final EnrollmentAppointment enrollment)
+  public void sendReceiptNotificationForContactRequest(final EnrollmentAppointment enrollment)
+    throws IOException, InterruptedException {
+    final Map<String, Object> templateParams = new HashMap<>(Map.of());
+    final Examiner examiner = enrollment.getExaminer();
+    final String examinerName = examiner.getFirstName() + " " + examiner.getLastName();
+    templateParams.put("examinerName", examinerName);
+    templateParams.put("message", enrollment.getMessage());
+    final String recipientName = enrollment.getFirstName() + " " + enrollment.getLastName();
+    final String recipientAddress = enrollment.getEmail();
+    templateParams.put("name", recipientName);
+    templateParams.put("email", recipientAddress);
+
+    // TODO Translate to Swedish
+    final String subject = String.format(
+      "%s",
+      LocalisationUtil.translate(localeFI, "subject.contact-request.receipt-notification")
+    );
+    final String body = templateRenderer.renderContactRequestReceiptNotification(templateParams);
+    createEmail(
+      emailService,
+      recipientName,
+      recipientAddress,
+      subject,
+      body,
+      List.of(),
+      EmailType.ENROLLMENT_CONTACT_REQUEST
+    );
+  }
+
+  @Transactional
+  public void sendExaminerNotificationOfContactRequest(final EnrollmentAppointment enrollment)
     throws IOException, InterruptedException {
     final Map<String, Object> templateParams = new HashMap<>(Map.of());
     final Examiner examiner = enrollment.getExaminer();
@@ -36,10 +66,10 @@ public class ContactEmailService extends AbstractEnrollmentEmailService {
     final String recipientAddress = examiner.getEmail();
     final String subject = String.format(
       "%s | %s",
-      LocalisationUtil.translate(localeFI, "subject.contact-request"),
-      LocalisationUtil.translate(localeSV, "subject.contact-request")
+      LocalisationUtil.translate(localeFI, "subject.contact-request.notice-for-examiner"),
+      LocalisationUtil.translate(localeSV, "subject.contact-request.notice-for-examiner")
     );
-    final String body = templateRenderer.renderContactRequest(templateParams);
+    final String body = templateRenderer.renderContactRequestNoticeForExaminer(templateParams);
 
     createEmail(
       emailService,
