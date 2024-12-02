@@ -190,7 +190,7 @@ const getHtmlWebpackPlugin = (env, appName, dirName) => {
     },
   };
 
-  if ((!env.docker || !env.cypress) && isGitAvailable()) {
+  if (!env.cypress && isGitAvailable()) {
     const { GitRevisionPlugin } = require("git-revision-webpack-plugin");
     const gitRevisionPlugin = new GitRevisionPlugin({
       branch: true,

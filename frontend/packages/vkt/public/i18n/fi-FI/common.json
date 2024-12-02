@@ -51,6 +51,7 @@
       },
       "dates": {
         "dateTimeFormat": "l [klo] HH.mm",
+        "dateTimeFormatPrecise": "l [klo] HH.mm.ss",
         "timeFormat": "[klo] HH.mm",
         "dateFormat": "l",
         "registrationOpensAt": "klo 10.00",

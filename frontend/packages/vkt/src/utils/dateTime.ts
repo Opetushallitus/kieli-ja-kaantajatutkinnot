@@ -13,6 +13,15 @@ export class DateTimeUtils {
     );
   }
 
+  static renderDateTimePrecise(dateTime?: Dayjs) {
+    const t = translateOutsideComponent();
+
+    return DateUtils.formatOptionalDateTime(
+      dateTime,
+      t('vkt.common.dates.dateTimeFormatPrecise'),
+    );
+  }
+
   static renderOpenDateTime(dateTime?: Dayjs) {
     const t = translateOutsideComponent();
 

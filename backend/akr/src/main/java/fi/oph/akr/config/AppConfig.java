@@ -86,7 +86,7 @@ public class AppConfig {
   }
 
   private static WebClient.Builder webClientBuilderWithCallerId(final String connectionProviderName) {
-    ConnectionProvider connectionProvider = ConnectionProvider
+    final ConnectionProvider connectionProvider = ConnectionProvider
       .builder(connectionProviderName)
       .maxConnections(50)
       .maxIdleTime(Duration.ofSeconds(20))
@@ -94,7 +94,7 @@ public class AppConfig {
       .pendingAcquireTimeout(Duration.ofSeconds(60))
       .evictInBackground(Duration.ofSeconds(120))
       .build();
-    HttpClient httpClient = HttpClient.create(connectionProvider);
+    final HttpClient httpClient = HttpClient.create(connectionProvider);
     return WebClient
       .builder()
       .defaultHeader("Caller-Id", Constants.CALLER_ID)

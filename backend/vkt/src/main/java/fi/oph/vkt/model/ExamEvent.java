@@ -35,6 +35,7 @@ public class ExamEvent extends ExamEventCommon {
   private long maxParticipants;
 
   @OneToMany(mappedBy = "examEvent")
+  @OrderBy("createdAt")
   private List<Enrollment> enrollments = new ArrayList<>();
 
   @OneToMany(mappedBy = "examEvent")

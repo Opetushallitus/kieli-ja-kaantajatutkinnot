@@ -46,7 +46,11 @@
       },
       "dates": {
         "dateTimeFormat": "l [kl.] HH.mm",
-        "dateFormat": "l"
+        "dateTimeFormatPrecise": "l [kl.] HH.mm.ss",
+        "dateFormat": "l",
+        "timeFormat": "[kl.] HH.mm",
+        "registrationOpensAt": "kl. 10.00",
+        "registrationClosesAt": "kl. 16.00"
       },
       "errors": {
         "api": {
