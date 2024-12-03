@@ -499,6 +499,11 @@
             "required": "(pakollinen)"
           }
         },
+        "infoBox": {
+          "text": "Opetushallitus on päivittänyt yleisten kielitutkintojen (YKI) ilmoittautumisen ehdot. Lue lisää Opetushallituksen verkkosivuilta",
+          "link": "https://www.oph.fi/fi/uutiset/2024/yki-ilmoittautumisen-ehdot-muuttuvat-tammikuussa-2025",
+          "linkText": "YKI-ilmoittautumisen ehdot muuttuvat tammikuussa 2025"
+        },
         "labels": {
           "excludeFullSessions": "Näytä vain kielitutkinnot, joissa on tilaa",
           "excludeNonOpenSessions": "Näytä vain kielitutkinnot, joihin voi ilmoittautua nyt",
