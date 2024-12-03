@@ -67,4 +67,19 @@
       }
     }
   }
+
+  & &__info-box {
+    background-color: $color-blue-200;
+    border-radius: 4px;
+
+    @include phone {
+      padding: 2rem 1rem;
+      margin-bottom: 2rem;
+    }
+
+    @include not-phone {
+      padding: 3rem 2rem;
+      margin-bottom: 4rem;
+    }
+  }
 }
