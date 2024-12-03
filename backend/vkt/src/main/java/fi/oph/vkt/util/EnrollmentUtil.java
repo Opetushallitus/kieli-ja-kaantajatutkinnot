@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 public class EnrollmentUtil {
 
   private static final int SKILL_FEE = 25700;
+  private static final int SKILL_APPOINTMENT_FEE = 12900;
   public static final Integer FREE_ENROLLMENT_LIMIT = 3;
 
   public static int getTotalFee(final EnrollmentAppointment enrollmentAppointment) {
@@ -30,7 +31,7 @@ public class EnrollmentUtil {
   }
 
   public static int getTextualSkillFee(final EnrollmentAppointment enrollmentAppointment) {
-    return enrollmentAppointment.isTextualSkill() ? SKILL_FEE : 0;
+    return enrollmentAppointment.isTextualSkill() ? SKILL_APPOINTMENT_FEE : 0;
   }
 
   public static int getTextualSkillFee(final Enrollment enrollment, final FreeEnrollmentDetails freeEnrollmentDetails) {
@@ -44,7 +45,7 @@ public class EnrollmentUtil {
   }
 
   public static int getOralSkillFee(final EnrollmentAppointment enrollmentAppointment) {
-    return enrollmentAppointment.isOralSkill() ? SKILL_FEE : 0;
+    return enrollmentAppointment.isOralSkill() ? SKILL_APPOINTMENT_FEE : 0;
   }
 
   public static int getOralSkillFee(final Enrollment enrollment, final FreeEnrollmentDetails freeEnrollmentDetails) {
@@ -74,7 +75,7 @@ public class EnrollmentUtil {
       return 0;
     }
 
-    return SKILL_FEE;
+    return SKILL_APPOINTMENT_FEE;
   }
 
   public static int getUnderstandingSkillFee(final Enrollment enrollment) {

@@ -8,6 +8,7 @@ import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { EnrollmentUtils } from 'utils/enrollment';
 
 export const ENROLLMENT_SKILL_PRICE = 257;
+export const ENROLLMENT_APPOINTMENT_SKILL_PRICE = 129;
 
 export class PublicEnrollmentUtils {
   static getEnrollmentSteps(includePaymentStep: boolean) {

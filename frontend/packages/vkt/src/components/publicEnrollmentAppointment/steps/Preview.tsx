@@ -9,7 +9,7 @@ import { Trans } from 'react-i18next';
 import { H2, WebLink } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 
-import { ExamEventDetails } from 'components/publicEnrollment/steps/ExamEventDetails';
+import { ExamEventDetails } from 'components/publicEnrollmentAppointment/steps/ExamEventDetails';
 import { PersonDetails } from 'components/publicEnrollmentAppointment/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
