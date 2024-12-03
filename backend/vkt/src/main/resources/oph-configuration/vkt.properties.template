@@ -30,6 +30,7 @@ payment.paytrail.secret={{vkt_paytrail_secret}}
 payment.paytrail.account={{vkt_paytrail_account}}
 
 koski.url={{vkt_koski_url}}
+onr.service-url={{virkailija.cas.base-url}}/oppijanumerorekisteri-service
 
 cas.username={{vkt_koski_user}}
 cas.password={{vkt_koski_password}}
