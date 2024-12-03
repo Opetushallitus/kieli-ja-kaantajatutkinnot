@@ -31,7 +31,7 @@ public class ContactEmailService extends AbstractEnrollmentEmailService {
     throws IOException, InterruptedException {
     final Map<String, Object> templateParams = new HashMap<>(Map.of());
     final Examiner examiner = enrollment.getExaminer();
-    final String examinerName = examiner.getFirstName() + " " + examiner.getLastName();
+    final String examinerName = examiner.getNickname() + " " + examiner.getLastName();
     templateParams.put("examinerName", examinerName);
     templateParams.put("message", enrollment.getMessage());
     final String recipientName = enrollment.getFirstName() + " " + enrollment.getLastName();

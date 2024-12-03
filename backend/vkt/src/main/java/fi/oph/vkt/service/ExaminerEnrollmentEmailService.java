@@ -3,10 +3,7 @@ package fi.oph.vkt.service;
 import static fi.oph.vkt.util.LocalisationUtil.localeFI;
 import static fi.oph.vkt.util.LocalisationUtil.localeSV;
 
-import fi.oph.vkt.model.EmailType;
-import fi.oph.vkt.model.Enrollment;
-import fi.oph.vkt.model.EnrollmentAppointment;
-import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.*;
 import fi.oph.vkt.service.email.EmailAttachmentData;
 import fi.oph.vkt.service.email.EmailService;
 import fi.oph.vkt.service.receipt.ReceiptRenderer;
@@ -34,10 +31,16 @@ public class ExaminerEnrollmentEmailService extends AbstractEnrollmentEmailServi
     throws IOException, InterruptedException {
     final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
     final Map<String, Object> templateParams = getEmailParams(enrollment, enrollment.getExaminerExamEvent());
-    final String authUrl = ClerkEnrollmentUtil.getAuthUrl(baseUrlAPI, enrollment.getId(), enrollment.getAuthHash());
 
-    templateParams.put("type", "enrollment");
+    final String authUrl = ClerkEnrollmentUtil.getAuthUrl(baseUrlAPI, enrollment.getId(), enrollment.getAuthHash());
     templateParams.put("enrollmentAuthLink", authUrl);
+
+    final Examiner examiner = enrollment.getExaminer();
+    final String examinerName = examiner.getNickname() + " " + examiner.getLastName();
+    templateParams.put("examinerName", examinerName);
+
+    final ExaminerExamEvent examEvent = enrollment.getExaminerExamEvent();
+    templateParams.put("examLocation", examEvent.getLocation());
 
     final String recipientName = enrollment.getFirstName() + " " + enrollment.getLastName();
     final String recipientAddress = enrollment.getEmail();
