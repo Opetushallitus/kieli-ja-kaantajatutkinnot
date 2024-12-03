@@ -66,6 +66,7 @@
             "EducationDetails": "Koulutustiedot",
             "FillContactDetails": "Täytä yhteystietosi",
             "Payment": "Maksua ei suoritettu",
+            "PaymentFail": "Maksu epäonnistui",
             "PaymentSuccess": "Valmis - ilmoittautuminen onnistui",
             "Preview": "Esikatsele",
             "SelectExam": "Valitse tutkinto"

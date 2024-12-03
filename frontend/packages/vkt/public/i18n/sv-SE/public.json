@@ -65,6 +65,7 @@
             "EducationDetails": "Utbildningsuppgifter",
             "FillContactDetails": "Fyll i dina kontaktuppgifter",
             "Payment": "Avgiften har inte betalats",
+            "PaymentFail": "Betalningen avlyckades",
             "PaymentSuccess": "Färdigt - anmälan lyckades",
             "Preview": "Förhandsgranska",
             "SelectExam": "Välj examen"
