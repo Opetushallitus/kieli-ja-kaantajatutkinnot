@@ -4,7 +4,10 @@ import {
   PublicEnrollmentFormStep,
 } from 'enums/publicEnrollment';
 import { PublicFreeEnrollmentDetails } from 'interfaces/publicEducation';
-import { PublicEnrollment } from 'interfaces/publicEnrollment';
+import {
+  PublicEnrollment,
+  PublicEnrollmentAppointment,
+} from 'interfaces/publicEnrollment';
 import { EnrollmentUtils } from 'utils/enrollment';
 
 export const ENROLLMENT_SKILL_PRICE = 257;
@@ -57,8 +60,14 @@ export class PublicEnrollmentUtils {
     return steps[currentIndex + 1];
   }
 
-  static calculateAppointmentPaymentSum() {
-    return ENROLLMENT_SKILL_PRICE;
+  static calculateAppointmentPaymentSum(
+    enrollmentAppointment: PublicEnrollmentAppointment,
+  ) {
+    if (enrollmentAppointment.textualSkill && enrollmentAppointment.oralSkill) {
+      return 2 * ENROLLMENT_APPOINTMENT_SKILL_PRICE;
+    } else {
+      return ENROLLMENT_APPOINTMENT_SKILL_PRICE;
+    }
   }
 
   static calculateExaminationPaymentSum(

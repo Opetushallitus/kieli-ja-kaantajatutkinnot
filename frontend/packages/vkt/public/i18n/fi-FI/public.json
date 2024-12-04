@@ -266,6 +266,21 @@
           }
         }
       },
+      "publicEnrollmentAppointment": {
+        "examEventDetails": {
+          "examDate": "Tutkintopäivä",
+          "examLanguage": "Tutkinnon kieli",
+          "examLevel": "Tutkinnon taso",
+          "examLocation": "Tutkintopaikka",
+          "examiner": "Tutkinnon vastaanottaja"
+        },
+        "steps": {
+          "paymentSuccess": {
+            "description1": "Olet maksanut tutkintomaksun {{examFee}} €. Ilmoittautumisesi seuraavaan tutkintoon on vahvistettu:",
+            "description2": "Saat sähköpostitse vahvistuksen ja kuitin maksusta osoitteeseen {{email}}."
+          }
+        }
+      },
       "publicEnrollmentContact": {
         "examinerDetails": {
           "byRequest": "Sovittavissa",

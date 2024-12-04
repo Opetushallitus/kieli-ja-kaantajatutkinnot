@@ -1,14 +1,19 @@
 import { H1 } from 'shared/components';
 
 import { usePublicTranslation } from 'configs/i18n';
+import { PublicEnrollmentAppointment } from 'interfaces/publicEnrollment';
 import { PublicEnrollmentUtils } from 'utils/publicEnrollment';
 
-export const PublicEnrollmentAppointmentPaymentSum = () => {
+export const PublicEnrollmentAppointmentPaymentSum = ({
+  enrollment,
+}: {
+  enrollment: PublicEnrollmentAppointment;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.paymentSum',
   });
 
-  const sum = PublicEnrollmentUtils.calculateAppointmentPaymentSum();
+  const sum = PublicEnrollmentUtils.calculateAppointmentPaymentSum(enrollment);
 
   const content =
     sum === 0

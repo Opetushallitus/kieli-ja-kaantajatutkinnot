@@ -86,6 +86,9 @@ const publicEnrollmentAppointmentSlice = createSlice({
     ) {
       state.enrollmentSubmitStatus = APIResponseStatus.InProgress;
     },
+    resetPublicEnrollmentAppointment(_) {
+      return initialState;
+    },
   },
 });
 
@@ -99,4 +102,5 @@ export const {
   updatePublicEnrollment,
   loadPublicEnrollmentSave,
   setLoadingPayment,
+  resetPublicEnrollmentAppointment,
 } = publicEnrollmentAppointmentSlice.actions;

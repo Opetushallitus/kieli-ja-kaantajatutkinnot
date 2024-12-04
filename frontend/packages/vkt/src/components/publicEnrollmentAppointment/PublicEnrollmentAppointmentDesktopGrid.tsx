@@ -66,7 +66,11 @@ export const PublicEnrollmentAppointmentDesktopGrid = ({
                 setIsStepValid={setIsStepValid}
                 showValidation={showValidation}
               />
-              {showPaymentSum && <PublicEnrollmentAppointmentPaymentSum />}
+              {showPaymentSum && (
+                <PublicEnrollmentAppointmentPaymentSum
+                  enrollment={enrollment}
+                />
+              )}
               {showControlButtons && (
                 <PublicEnrollmentAppointmentControlButtons
                   activeStep={activeStep}

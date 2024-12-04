@@ -14,7 +14,7 @@ export const PublicEnrollmentAppointmentExamEvent = ({
   const examiner = examEvent.examiner;
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.examEventDetails',
+    keyPrefix: 'vkt.component.publicEnrollmentAppointment.examEventDetails',
   });
 
   return (
@@ -31,17 +31,17 @@ export const PublicEnrollmentAppointmentExamEvent = ({
         </b>
       </Text>
       <Text>
-        Tutkinnon vastaanottaja
+        {t('examiner')}
         {': '}
         <b>{examiner.name}</b>
       </Text>
       <Text>
-        Tutkintopaikka
+        {t('examLocation')}
         {': '}
         <b>{examEvent.location}</b>
       </Text>
       <Text>
-        Tutkintopäivä
+        {t('examDate')}
         {': '}
         <b>
           <b>{DateTimeUtils.renderDate(examEvent.date)}</b>
