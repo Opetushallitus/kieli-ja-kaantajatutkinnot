@@ -12,11 +12,11 @@ public class UIRouteUtil {
   private final Environment environment;
 
   public String getEnrollmentContactDetailsUrl(final long examEventId) {
-    return String.format("%s/ilmoittaudu/%s/tiedot", getPublicBaseUrl(), examEventId);
+    return String.format("%s/erinomainen-taito/ilmoittaudu/%s/tiedot", getPublicBaseUrl(), examEventId);
   }
 
   public String getEnrollmentPreviewUrl(final long examEventId) {
-    return String.format("%s/ilmoittaudu/%s/esikatsele", getPublicBaseUrl(), examEventId);
+    return String.format("%s/erinomainen-taito/ilmoittaudu/%s/esikatsele", getPublicBaseUrl(), examEventId);
   }
 
   public String getPublicFrontPageUrlWithGenericError() {
