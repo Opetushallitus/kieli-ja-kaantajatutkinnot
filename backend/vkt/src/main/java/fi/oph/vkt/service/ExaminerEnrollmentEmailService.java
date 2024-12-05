@@ -46,8 +46,8 @@ public class ExaminerEnrollmentEmailService extends AbstractEnrollmentEmailServi
     final String recipientAddress = enrollment.getEmail();
     final String subject = String.format(
       "%s | %s",
-      LocalisationUtil.translate(localeFI, "subject.enrollment-confirmation"),
-      LocalisationUtil.translate(localeSV, "subject.enrollment-confirmation")
+      LocalisationUtil.translate(localeFI, "subject.enrollment-appointment-authentication"),
+      LocalisationUtil.translate(localeSV, "subject.enrollment-appointment-authentication")
     );
     final String body = templateRenderer.renderEnrollmentAppointmentAuthLink(templateParams);
 
