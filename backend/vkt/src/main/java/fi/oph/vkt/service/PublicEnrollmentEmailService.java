@@ -91,9 +91,9 @@ public class PublicEnrollmentEmailService extends AbstractEnrollmentEmailService
     );
   }
 
-  private EmailAttachmentData createReceiptAttachment(final Enrollment enrollment, final Locale locale)
+  private EmailAttachmentData createReceiptAttachment(final EnrollmentCommon enrollment, final Locale locale)
     throws IOException, InterruptedException {
-    final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment.getId(), locale);
+    final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment, locale);
     final byte[] receiptBytes = receiptRenderer.getReceiptPdfBytes(receiptData, locale);
 
     final String attachmentNamePrefix = LocalisationUtil.translate(locale, "payment.receipt");
@@ -281,7 +281,9 @@ public class PublicEnrollmentEmailService extends AbstractEnrollmentEmailService
     return freeParams;
   }
 
-  public void sendEnrollmentAppointmentConfirmationEmail(final EnrollmentAppointment enrollmentAppointment) {
+  @Transactional
+  public void sendEnrollmentAppointmentConfirmationEmail(final EnrollmentAppointment enrollmentAppointment)
+    throws IOException, InterruptedException {
     final Map<String, Object> templateParams = getEmailParams(
       enrollmentAppointment,
       enrollmentAppointment.getExaminerExamEvent()
@@ -301,13 +303,23 @@ public class PublicEnrollmentEmailService extends AbstractEnrollmentEmailService
     );
     final String body = templateRenderer.renderEnrollmentAppointmentConfirmationEmailBody(templateParams);
 
+    final List<EmailAttachmentData> attachments = environment.getRequiredProperty(
+        "app.email.sending-enabled",
+        Boolean.class
+      )
+      ? List.of(
+        createReceiptAttachment(enrollmentAppointment, localeFI),
+        createReceiptAttachment(enrollmentAppointment, localeSV)
+      )
+      : List.of(); // for local development
+
     createEmail(
       emailService,
       recipientName,
       recipientAddress,
       subject,
       body,
-      List.of(),
+      attachments,
       EmailType.ENROLLMENT_APPOINTMENT_CONFIRMATION
     );
   }

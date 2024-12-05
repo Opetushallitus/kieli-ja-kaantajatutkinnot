@@ -2,7 +2,6 @@ package fi.oph.vkt.api.clerk;
 
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.APPLICATION_PDF_VALUE;
 
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
@@ -13,19 +12,12 @@ import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.service.ClerkEnrollmentService;
 import fi.oph.vkt.service.FeatureFlagService;
 import fi.oph.vkt.service.aws.S3Service;
-import fi.oph.vkt.service.receipt.ReceiptData;
-import fi.oph.vkt.service.receipt.ReceiptRenderer;
-import fi.oph.vkt.util.LocalisationUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Locale;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,9 +39,6 @@ public class ClerkEnrollmentController {
 
   @Resource
   private ClerkEnrollmentService clerkEnrollmentService;
-
-  @Resource
-  private ReceiptRenderer receiptRenderer;
 
   @Resource
   private FeatureFlagService featureFlagService;
@@ -92,6 +81,7 @@ public class ClerkEnrollmentController {
     return clerkEnrollmentService.createPaymentLink(enrollmentId);
   }
 
+  /*
   // TODO: this is currently an unused endpoint
   @GetMapping(path = "/{enrollmentId:\\d+}/receipt", consumes = ALL_VALUE, produces = APPLICATION_PDF_VALUE)
   @Operation(tags = TAG_ENROLLMENT, summary = "Download payment PDF")
@@ -109,6 +99,7 @@ public class ClerkEnrollmentController {
     final ByteArrayInputStream bis = new ByteArrayInputStream(receiptRenderer.getReceiptPdfBytes(receiptData, locale));
     return ResponseEntity.ok().body(new InputStreamResource(bis));
   }
+  */
 
   @PostMapping(path = "/{enrollmentId:\\d+}/refreshKoskiEducationDetails", consumes = ALL_VALUE, produces = ALL_VALUE)
   @Operation(tags = TAG_ENROLLMENT, summary = "Refresh education details from KOSKI")

@@ -64,6 +64,9 @@
 <p><span th:text="#{payment.reference}"></span>: [[${paymentReference}]]</p>
 <p><span th:text="#{common.exam}"></span>: [[${exam}]]</p>
 <p><span th:text="#{common.participant}"></span>: [[${participant}]]</p>
+<th:block th:if="${!#strings.isEmpty(examiner)}">
+    <p><span th:text="#{common.examiner}"></span>: [[${examiner}]]</p>
+</th:block>
 
 <table style="width: 100%;border-spacing: 0;">
     <tr>
