@@ -4,10 +4,7 @@ import static fi.oph.vkt.util.LocalisationUtil.localeFI;
 import static fi.oph.vkt.util.LocalisationUtil.localeSV;
 
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
-import fi.oph.vkt.model.EmailType;
-import fi.oph.vkt.model.Enrollment;
-import fi.oph.vkt.model.EnrollmentAppointment;
-import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.*;
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import fi.oph.vkt.service.email.EmailAttachmentData;
 import fi.oph.vkt.service.email.EmailService;
@@ -289,6 +286,10 @@ public class PublicEnrollmentEmailService extends AbstractEnrollmentEmailService
       enrollmentAppointment,
       enrollmentAppointment.getExaminerExamEvent()
     );
+    final ExaminerExamEvent examEvent = enrollmentAppointment.getExaminerExamEvent();
+    templateParams.put("examTime", examEvent.getExamTime());
+    templateParams.put("examLocation", examEvent.getLocation());
+    templateParams.put("otherInformation", examEvent.getOtherInformation());
     final Person person = enrollmentAppointment.getPerson();
 
     final String recipientName = person.getFirstName() + " " + person.getLastName();

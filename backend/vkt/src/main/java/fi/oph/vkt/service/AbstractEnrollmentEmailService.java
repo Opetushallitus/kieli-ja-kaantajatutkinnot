@@ -63,8 +63,20 @@ public class AbstractEnrollmentEmailService {
     params.put("partialExamsFI", getEmailParamPartialExams(enrollment, localeFI));
     params.put("partialExamsSV", getEmailParamPartialExams(enrollment, localeSV));
 
-    params.put("examLevelFI", LocalisationUtil.translate(localeFI, "examLevel.excellent"));
-    params.put("examLevelSV", LocalisationUtil.translate(localeSV, "examLevel.excellent"));
+    params.put(
+      "examLevelFI",
+      LocalisationUtil.translate(
+        localeFI,
+        enrollment instanceof EnrollmentAppointment ? "examLevel.goodAndSatisfactory" : "examLevel.excellent"
+      )
+    );
+    params.put(
+      "examLevelSV",
+      LocalisationUtil.translate(
+        localeSV,
+        enrollment instanceof EnrollmentAppointment ? "examLevel.goodAndSatisfactory" : "examLevel.excellent"
+      )
+    );
 
     params.put("examDate", examEvent.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
 
