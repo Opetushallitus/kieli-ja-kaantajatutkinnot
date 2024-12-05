@@ -269,6 +269,7 @@
       "publicEnrollmentAppointment": {
         "examEventDetails": {
           "examDate": "Tutkintopäivä",
+          "examEvent": "Tutkinto",
           "examLanguage": "Tutkinnon kieli",
           "examLevel": "Tutkinnon taso",
           "examLocation": "Tutkintopaikka",

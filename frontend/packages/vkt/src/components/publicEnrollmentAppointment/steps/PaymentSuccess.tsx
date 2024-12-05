@@ -19,25 +19,28 @@ const ExamEventDetails = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollmentAppointment.examEventDetails',
   });
+  const { date, examiner, language, location } = examEvent;
 
   return (
     <div className="rows gapped-xxs">
       <Text>
         {t('examLanguage')}:{' '}
-        <b>{translateCommon(`examLanguage.${examEvent.language}`)}</b>
+        <b>{translateCommon(`examLanguage.${language}`)}</b>
       </Text>
       <Text>
         {t('examLevel')}:{' '}
         <b>{translateCommon(`examLevel.${ExamLevel.GOOD_AND_SATISFACTORY}`)}</b>
       </Text>
       <Text>
-        {t('examiner')}: <b>{examEvent.examiner.name}</b>
+        {t('examiner')}: <b>{examiner.name}</b>
       </Text>
+      {location && (
+        <Text>
+          {t('examLocation')}: <b>{location}</b>
+        </Text>
+      )}
       <Text>
-        {t('examLocation')}: <b>{examEvent.location}</b>
-      </Text>
-      <Text>
-        {t('examDate')}: <b>{DateUtils.formatOptionalDate(examEvent.date)}</b>
+        {t('examDate')}: <b>{DateUtils.formatOptionalDate(date)}</b>
       </Text>
     </div>
   );
