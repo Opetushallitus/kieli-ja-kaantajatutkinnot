@@ -24,7 +24,7 @@ import {
   Variant,
 } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
-import { InputFieldUtils } from 'shared/utils';
+import { DateUtils, InputFieldUtils } from 'shared/utils';
 
 import { EnrollmentHistoryModal } from 'components/clerkEnrollment/appointment/EnrollmentHistoryModal';
 import { EnrollmentSkillsListTable } from 'components/clerkEnrollment/appointment/EnrollmentSkillsListTable';
@@ -410,9 +410,11 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
   const isCompleted =
     EnrollmentAppointmentStatus.COMPLETED === enrollment.status;
 
+  // TODO If examiner has multiple exams on a given date,
+  // label should also include examTime
   const examEventToOption = (examEvent: ExaminerExamEvent) => ({
     value: examEvent.id.toString(),
-    label: examEvent.location ?? '',
+    label: DateUtils.formatOptionalDate(examEvent.date),
   });
 
   const onSendAuthLink = () => {
