@@ -22,7 +22,7 @@ const ExamEventDetails = ({
   const { date, examiner, language, location } = examEvent;
 
   return (
-    <div className="rows gapped-xxs">
+    <div className="rows">
       <Text>
         {t('examLanguage')}:{' '}
         <b>{translateCommon(`examLanguage.${language}`)}</b>
