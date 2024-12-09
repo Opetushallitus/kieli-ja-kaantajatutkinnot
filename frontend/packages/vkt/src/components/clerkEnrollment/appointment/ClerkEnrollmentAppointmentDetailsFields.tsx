@@ -320,6 +320,27 @@ const ClerkEnrollmentSkillsListFields = ({
   );
 };
 
+const useExamEventDescription = () => {
+  const translateCommon = useCommonTranslation();
+  const translateMunicipality = useKoodistoMunicipalitiesTranslation();
+  const describeExamEvent = ({
+    language,
+    date,
+    examTime,
+    municipality,
+  }: ExaminerExamEvent) => {
+    const dateStr = DateUtils.formatOptionalDate(date);
+
+    return [
+      translateCommon(`examLanguage.${language}`),
+      examTime ? `${dateStr} ${examTime}` : dateStr,
+      translateMunicipality(municipality.code),
+    ].join(', ');
+  };
+
+  return describeExamEvent;
+};
+
 export const ClerkEnrollmentAppointmentDetailsFields = ({
   enrollment,
   examEvents,
@@ -410,11 +431,11 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
   const isCompleted =
     EnrollmentAppointmentStatus.COMPLETED === enrollment.status;
 
-  // TODO If examiner has multiple exams on a given date,
-  // label should also include examTime
+  const describeExamEvent = useExamEventDescription();
+
   const examEventToOption = (examEvent: ExaminerExamEvent) => ({
     value: examEvent.id.toString(),
-    label: DateUtils.formatOptionalDate(examEvent.date),
+    label: describeExamEvent(examEvent),
   });
 
   const onSendAuthLink = () => {
@@ -543,7 +564,9 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
             <ComboBox
               autoHighlight
               label={'Tutkinto'}
-              values={examEvents.map(examEventToOption)}
+              values={[...examEvents]
+                .map(examEventToOption)
+                .sort((a, b) => a.label.localeCompare(b.label))}
               value={newExamEvent ? examEventToOption(newExamEvent) : null}
               variant={TextFieldVariant.Outlined}
               onChange={onExamEventChange}
