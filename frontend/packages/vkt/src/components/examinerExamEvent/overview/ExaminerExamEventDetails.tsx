@@ -7,7 +7,6 @@ import { Color, Variant } from 'shared/enums';
 
 import { ExaminerEnrollmentListing } from 'components/examinerEnrollment/listing/ExaminerEnrollmentListing';
 import {
-  useClerkTranslation,
   useCommonTranslation,
   useExaminerTranslation,
   useKoodistoMunicipalitiesTranslation,
@@ -60,8 +59,8 @@ export const ExaminerExamEventDetails = () => {
   // I18n
   const translateCommon = useCommonTranslation();
   const translateMunicipality = useKoodistoMunicipalitiesTranslation();
-  const { t } = useClerkTranslation({
-    keyPrefix: 'vkt.component.clerkExamEventOverview',
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.examinerExamEventDetails',
   });
 
   const { oid } = useParams();
@@ -91,37 +90,37 @@ export const ExaminerExamEventDetails = () => {
       <div className="rows">
         <div className="grid-4-columns gapped">
           <div className="rows grow gapped-sm margin-top-lg">
-            <H3>Kieli ja taso:</H3>
+            <H3>{t('header.languageAndLevel')}:</H3>
             <Text>{translateCommon(`examLanguage.${examEvent.language}`)}</Text>
           </div>
           <div className="rows grow gapped-sm margin-top-lg">
-            <H3>Tutkintopäivä:</H3>
+            <H3>{t('header.examDate')}:</H3>
             <Text>{DateTimeUtils.renderDateTime(examEvent.date)}</Text>
           </div>
           <div className="rows grow gapped-sm margin-top-lg">
-            <H3>Tutkintopaikka:</H3>
+            <H3>{t('header.municipality')}:</H3>
             <Text>{translateMunicipality(examEvent.municipality.code)}</Text>
           </div>
           <div className="rows grow gapped-sm margin-top-lg">
-            <H3>Näytä tutkintopäivä julkisesti:</H3>
+            <H3>{t('header.isPublic')}:</H3>
             <Text>{translateCommon(examEvent.isHidden ? 'no' : 'yes')}</Text>
           </div>
           <div className="rows grow gapped-sm margin-top-lg">
-            <H3>Tutkinnon alkamisaika:</H3>
+            <H3>{t('header.examTime')}:</H3>
             <Text>{examEvent.examTime ?? '—'}</Text>
           </div>
           <div className="rows grow gapped-sm margin-top-lg">
-            <H3>Ilmoittautuminen päättyy:</H3>
+            <H3>{t('header.registrationCloses')}:</H3>
             <Text>
               {DateTimeUtils.renderDateTime(examEvent.registrationCloses)}
             </Text>
           </div>
           <div className="rows grow gapped-sm margin-top-lg">
-            <H3>Tutkintopaikan tarkka osoite:</H3>
+            <H3>{t('header.location')}:</H3>
             <Text>{examEvent.location ?? '—'}</Text>
           </div>
           <div className="rows grow gapped-sm margin-top-lg">
-            <H3>Paikkojen lukumäärä:</H3>
+            <H3>{t('header.maxParticipants')}:</H3>
             <Text>{examEvent.maxParticipants ?? '—'}</Text>
           </div>
         </div>
@@ -152,7 +151,7 @@ export const ExaminerExamEventDetails = () => {
             href={`${APIEndpoints.ExaminerExamEvent.replace(/:oid/, oid)}/${
               examEvent.id
             }/excel`}
-            text={t('examEventDetails.downloadExcel')}
+            text={t('downloadExcel')}
             startIcon={<DownloadIcon />}
             data-testid="examiner-exam-event-overview-page__download-excel-button"
           />

@@ -53,6 +53,7 @@
           "description": "Asiakkaalle on lähetetty ilmoittautumislinkki sähköpostiin. Ilmoittautumislinkki on voimassa kolme (3) vuorokautta. Voit tarpeen vaatiessa lähettää ilmoittautumislinkin uudestaan.",
           "header": "Ilmoittautumislinkki lähetetty"
         },
+        "downloadExcel": "Lataa Excel",
         "enrollmentStatus": {
           "COMPLETED": "Ilmoittautuneet",
           "CANCELED": "Peruutetut",
@@ -63,7 +64,17 @@
           "CONTACT_CREATED": "Yhteydenotto luotu"
         },
         "header": {
-          "previousEnrollment": "Aikaisempi osallistuminen valtionhallinnon kielitutkintoon"
+          "examDate": "Tutkintopäivä",
+          "examTime": "Tutkinnon alkamisaika",
+          "fillings": "Paikkoja täytetty",
+          "hidden": "Piilotettu",
+          "isPublic": "Näytä tutkintopäivä julkisesti",
+          "languageAndLevel": "Kieli ja taso",
+          "location": "Tutkintopaikan tarkka osoite",
+          "maxParticipants": "Paikkojen lukumäärä",
+          "municipality": "Tutkintopaikka",
+          "previousEnrollment": "Aikaisempi osallistuminen valtionhallinnon kielitutkintoon",
+          "registrationCloses": "Ilmoittautuminen päättyy"
         },
         "payment": {
           "create": "Luo maksulinkki",
