@@ -10,14 +10,6 @@
           "description": "Tätä toimintoa ei voi peruuttaa!",
           "header": "Haluatko varmasti peruuttaa ilmoittautumisen?"
         },
-        "authLinkErrorDialog": {
-          "description": "Ilmoittautuja täytyy liittää tutkintoon ennen ilmoittautumislinkin lähetystä.",
-          "header": "Valitse tutkinto"
-        },
-        "authLinkSuccessDialog": {
-          "description": "Asiakkaalle on lähetetty ilmoittautumislinkki sähköpostiin. Ilmoittautumislinkki on voimassa kolme (3) vuorokautta. Voit tarpeen vaatiessa lähettää ilmoittautumislinkin uudestaan.",
-          "header": "Ilmoittautumislinkki lähetetty"
-        },
         "controlButtons": {
           "move": "Siirrä"
         },
@@ -104,19 +96,6 @@
             "KOSKI": "Tieto KOSKI-integraatiosta"
           },
           "getAllKoskiEducations": "Hae kaikki KOSKI-koulutustiedot"
-        },
-        "appointment": {
-          "paymentInfoHeader": "Maksutiedot",
-          "showHistory": "Katso aiempien tutkintojen tiedot",
-          "giveGrades": "Anna arvosanat",
-          "linkSentAt": "Lähetetty",
-          "linkExpiresAt": "Erääntyy",
-          "sendAuthLink": "Lähetä ilmoittautumislinkki",
-          "noAuthPossible": "Ei mahdollisuutta tunnistautua?",
-          "paymentLinkModal": {
-            "title": "Suora maksulinkki",
-            "description": "Jos asiakkaalla ei ole mahdollisuutta käyttää vahvaa tunnistautumista, lähetä tämä suora maksulinkki."
-          }
         }
       },
       "clerkcontactRequest": {

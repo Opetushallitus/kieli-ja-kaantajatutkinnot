@@ -31,6 +31,64 @@
           "description": "Tietojen päivittäminen onnistui!"
         }
       },
+      "examinerExamEventDetails": {
+        "appointment": {
+          "paymentInfoHeader": "Maksutiedot",
+          "showHistory": "Katso aiempien tutkintojen tiedot",
+          "giveGrades": "Anna arvosanat",
+          "linkSentAt": "Lähetetty",
+          "linkExpiresAt": "Erääntyy",
+          "sendAuthLink": "Lähetä ilmoittautumislinkki",
+          "noAuthPossible": "Ei mahdollisuutta tunnistautua?",
+          "paymentLinkModal": {
+            "title": "Suora maksulinkki",
+            "description": "Jos asiakkaalla ei ole mahdollisuutta käyttää vahvaa tunnistautumista, lähetä tämä suora maksulinkki."
+          }
+        },
+        "authLinkErrorDialog": {
+          "description": "Ilmoittautuja täytyy liittää tutkintoon ennen ilmoittautumislinkin lähetystä.",
+          "header": "Valitse tutkinto"
+        },
+        "authLinkSuccessDialog": {
+          "description": "Asiakkaalle on lähetetty ilmoittautumislinkki sähköpostiin. Ilmoittautumislinkki on voimassa kolme (3) vuorokautta. Voit tarpeen vaatiessa lähettää ilmoittautumislinkin uudestaan.",
+          "header": "Ilmoittautumislinkki lähetetty"
+        },
+        "enrollmentStatus": {
+          "COMPLETED": "Ilmoittautuneet",
+          "CANCELED": "Peruutetut",
+          "EXPECTING_PAYMENT": "Maksua odottavat",
+          "WAITING_AUTHENTICATION": "Odottaa tunnistautumista",
+          "CANCELED_PAYMENT": "Maksu peruttu",
+          "ENROLLMENT_CREATED": "Ilmoittautumislinkki lähettämättä",
+          "CONTACT_CREATED": "Yhteydenotto luotu"
+        },
+        "header": {
+          "previousEnrollment": "Aikaisempi osallistuminen valtionhallinnon kielitutkintoon"
+        },
+        "payment": {
+          "create": "Luo maksulinkki",
+          "setRefunded": "Merkitse maksu palautetuksi",
+          "details": {
+            "amount": "Summa",
+            "date": "Aikaleima",
+            "reference": "Maksutunniste",
+            "status": "Tila",
+            "refunded": "Merkitty palautetuksi"
+          },
+          "modal": {
+            "expires": "Voimassaolo päättyy",
+            "link": "Linkki",
+            "title": "Maksulinkki"
+          },
+          "refundDialog": {
+            "description": "Tämä toiminto ei palauta maksua. Maksu ainoastaan merkitään palautetuksi.",
+            "header": "Haluatko varmasti merkitä maksun palautetuksi?"
+          },
+          "historyTitle": "Maksuhistoria",
+          "recentTitle": "Maksun tila"
+        },
+        "status": "Ilmoittautumisen tila"
+      },
       "examinerExamEventUpsert": {
         "description": {
           "create": {

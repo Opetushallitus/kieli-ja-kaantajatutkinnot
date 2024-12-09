@@ -5,7 +5,7 @@ import {
   FormHelperTextProps,
   Link,
 } from '@mui/material';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import {
   ComboBox,
   CustomButton,
@@ -17,6 +17,7 @@ import {
   Text,
 } from 'shared/components';
 import {
+  APIResponseStatus,
   Color,
   Severity,
   TextFieldTypes,
@@ -33,6 +34,7 @@ import {
   translateOutsideComponent,
   useClerkTranslation,
   useCommonTranslation,
+  useExaminerTranslation,
   useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -79,8 +81,8 @@ const CheckboxField = ({
 };
 
 const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
-  const { t } = useClerkTranslation({
-    keyPrefix: 'vkt.component.clerkEnrollmentDetails',
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.examinerExamEventDetails',
   });
 
   const formatAmount = (amount: number) => {
@@ -341,6 +343,324 @@ const useExamEventDescription = () => {
   return describeExamEvent;
 };
 
+const ExamAndEnrollmentDetailsSection = ({
+  enrollment,
+  isViewMode,
+  examEvents,
+  newExamEvent,
+  onExamEventChange,
+  onCheckboxFieldChange,
+  editDisabled,
+  openGradeModal,
+  openEnrollmentHistoryModal,
+  getCommonTextFieldProps,
+}: {
+  enrollment: ClerkEnrollmentAppointment;
+  isViewMode: boolean;
+  examEvents: Array<ExaminerExamEvent>;
+  newExamEvent: ExaminerExamEvent | undefined;
+  onExamEventChange: (value?: string) => void;
+  onCheckboxFieldChange: (
+    field:
+      | keyof PartialExamsAndSkills
+      | keyof Pick<ClerkEnrollmentAppointment, 'digitalCertificateConsent'>,
+    fieldValue: boolean,
+  ) => void;
+  editDisabled: boolean;
+  openGradeModal: () => void;
+  openEnrollmentHistoryModal: () => void;
+  getCommonTextFieldProps: (
+    field: ClerkEnrollmentTextFieldEnum,
+    disabled: boolean,
+  ) => ClerkEnrollmentTextFieldProps<ClerkEnrollmentAppointment>;
+}) => {
+  const { grades } = useAppSelector(clerkEnrollmentAppointmentSelector);
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.examinerExamEventDetails',
+  });
+  const translateMunicipality = useKoodistoMunicipalitiesTranslation();
+  const translateCommon = useCommonTranslation();
+
+  const describeExamEvent = useExamEventDescription();
+  const examEventToOption = (examEvent: ExaminerExamEvent) => ({
+    value: examEvent.id.toString(),
+    label: describeExamEvent(examEvent),
+  });
+
+  return (
+    <>
+      <div className="columns margin-top-lg space-between">
+        <H2>Tutkinnon tiedot</H2>
+      </div>
+      {isViewMode ? (
+        enrollment.examEvent && (
+          <div className="rows">
+            <H3>Tutkinnon kieli, aika ja paikka</H3>
+            <Text>
+              {translateCommon(`examLanguage.${enrollment.examEvent.language}`)}
+              {', '}
+              {DateTimeUtils.renderDate(enrollment.examEvent.date)}
+              {', '}
+              {translateMunicipality(enrollment.examEvent.municipality.code)}
+              {', '}
+              {enrollment.examEvent.location}
+            </Text>
+          </div>
+        )
+      ) : (
+        <div className="half-max-width">
+          <ComboBox
+            autoHighlight
+            label={'Tutkinto'}
+            values={[...examEvents]
+              .map(examEventToOption)
+              .sort((a, b) => a.label.localeCompare(b.label))}
+            value={newExamEvent ? examEventToOption(newExamEvent) : null}
+            variant={TextFieldVariant.Outlined}
+            onChange={onExamEventChange}
+          />
+        </div>
+      )}
+      {isViewMode ? (
+        <EnrollmentSkillsListTable grades={grades} enrollment={enrollment} />
+      ) : (
+        <ClerkEnrollmentSkillsListFields
+          enrollment={enrollment}
+          editDisabled={editDisabled}
+          onCheckboxFieldChange={onCheckboxFieldChange}
+        />
+      )}
+      <div className="columns flex-start">
+        <CustomButton
+          onClick={openGradeModal}
+          color={Color.Secondary}
+          variant={Variant.Outlined}
+        >
+          {t('appointment.giveGrades')}
+        </CustomButton>
+      </div>
+      <div className="columns flex-start">
+        <CustomButton
+          onClick={openEnrollmentHistoryModal}
+          color={Color.Secondary}
+          variant={Variant.Outlined}
+        >
+          {t('appointment.showHistory')}
+        </CustomButton>
+      </div>
+      <div className="margin-top-sm">
+        <H3>{t('header.previousEnrollment')}</H3>
+      </div>
+      <ClerkEnrollmentDetailsTextField
+        className="previous-enrollment"
+        {...getCommonTextFieldProps(
+          ClerkEnrollmentTextFieldEnum.PreviousEnrollment,
+          editDisabled,
+        )}
+      />
+    </>
+  );
+};
+
+const PaymentDetailsSection = ({
+  enrollment,
+}: {
+  enrollment: ClerkEnrollmentAppointment;
+}) => {
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.examinerExamEventDetails',
+  });
+  const displayPaymentInformation =
+    [
+      EnrollmentAppointmentStatus.COMPLETED,
+      EnrollmentAppointmentStatus.EXPECTING_PAYMENT,
+    ].includes(enrollment.status) || enrollment.payments.length > 0;
+
+  const displayPaymentHistory = enrollment.payments.length > 1;
+
+  return (
+    <>
+      <div className="columns margin-top-lg space-between">
+        <H2>{t('appointment.paymentInfoHeader')}</H2>
+      </div>
+      {displayPaymentInformation && (
+        <div className="rows gapped-xxl margin-top-lg">
+          <div className="rows gapped">
+            <H3>{t('payment.recentTitle')}</H3>
+            {enrollment.payments.length > 0 && (
+              <PaymentDetails payment={enrollment.payments[0]} />
+            )}
+          </div>
+          {displayPaymentHistory && (
+            <div className="rows gapped">
+              <H3>{t('payment.historyTitle')}</H3>
+              {enrollment.payments.slice(1).map((payment: ClerkPayment) => (
+                <PaymentDetails
+                  key={`payment-row-${payment.id}`}
+                  payment={payment}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </>
+  );
+};
+
+const EnrollmentStatus = ({
+  enrollment,
+  oid,
+  setPaymentLinkModalOpen,
+}: {
+  enrollment: ClerkEnrollmentAppointment;
+  oid: string;
+  setPaymentLinkModalOpen: (open: boolean) => void;
+}) => {
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.examinerExamEventDetails',
+  });
+  const translateCommon = useCommonTranslation();
+  const { showDialog } = useDialog();
+
+  const { sendLinkStatus } = useAppSelector(clerkEnrollmentAppointmentSelector);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (sendLinkStatus === APIResponseStatus.Success) {
+      showDialog({
+        title: t('authLinkSuccessDialog.header'),
+        severity: Severity.Success,
+        description: t('authLinkSuccessDialog.description'),
+        actions: [
+          {
+            title: translateCommon('close'),
+            variant: Variant.Outlined,
+          },
+        ],
+      });
+    }
+  }, [showDialog, translateCommon, t, sendLinkStatus]);
+
+  const onSendAuthLink = () => {
+    if (!enrollment.examEvent) {
+      showDialog({
+        title: t('authLinkErrorDialog.header'),
+        severity: Severity.Error,
+        description: t('authLinkErrorDialog.description'),
+        actions: [
+          {
+            title: translateCommon('back'),
+            variant: Variant.Outlined,
+          },
+        ],
+      });
+    } else {
+      dispatch(
+        sendClerkEnrollmentAppointmentAuthLink({
+          enrollmentId: enrollment.id,
+          oid: oid,
+        }),
+      );
+    }
+  };
+
+  const isCompleted =
+    EnrollmentAppointmentStatus.COMPLETED === enrollment.status;
+
+  return (
+    <>
+      <div className="rows gapped-sm margin-top-lg">
+        <H3>{t('status')}</H3>
+        <Text>{t(`enrollmentStatus.${enrollment.status}`)}</Text>
+      </div>
+      <div className="rows gapped-sm margin-top-lg">
+        <H3>Ilmoittautumislinkki</H3>
+        {enrollment.authLink?.sentAt && (
+          <Text>
+            {t('appointment.linkSentAt')}:{' '}
+            {DateTimeUtils.renderDateTime(enrollment.authLink.sentAt)}
+          </Text>
+        )}
+        {enrollment.authLink?.expiresAt && (
+          <Text>
+            {t('appointment.linkSentAt')}:{' '}
+            {DateTimeUtils.renderDateTime(enrollment.authLink.expiresAt)}
+          </Text>
+        )}
+      </div>
+      {!isCompleted && (
+        <>
+          <div className="columns flex-start">
+            <CustomButton
+              onClick={onSendAuthLink}
+              color={Color.Secondary}
+              variant={Variant.Outlined}
+            >
+              {t('appointment.sendAuthLink')}
+            </CustomButton>
+          </div>
+          <Text>
+            <Link
+              sx={{ fontWeight: 400, cursor: 'pointer' }}
+              onClick={() => {
+                setPaymentLinkModalOpen(true);
+              }}
+            >
+              {t('appointment.noAuthPossible')}
+            </Link>
+          </Text>
+        </>
+      )}
+    </>
+  );
+};
+
+const PaymentLinkModal = ({
+  paymentLinkModalOpen,
+  setPaymentLinkModalOpen,
+  paymentLink,
+}: {
+  paymentLinkModalOpen: boolean;
+  setPaymentLinkModalOpen: (open: boolean) => void;
+  paymentLink?: string;
+}) => {
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.examinerExamEventDetails',
+  });
+  const translateCommon = useCommonTranslation();
+
+  return (
+    <CustomModal
+      open={paymentLinkModalOpen}
+      modalTitle={t('appointment.paymentLinkModal.title')}
+      onCloseModal={() => setPaymentLinkModalOpen(false)}
+    >
+      <>
+        {paymentLink && (
+          <div className="rows gapped">
+            <Text>{t('appointment.paymentLinkModal.description')}</Text>
+            <div className="rows gapped-xs">
+              <H3>{t('payment.modal.link')}</H3>
+              <Text>
+                <pre>{paymentLink}</pre>
+              </Text>
+            </div>
+          </div>
+        )}
+        <div className="columns gapped flex-end">
+          <CustomButton
+            variant={Variant.Contained}
+            color={Color.Secondary}
+            onClick={() => setPaymentLinkModalOpen(false)}
+          >
+            {translateCommon('close')}
+          </CustomButton>
+        </div>
+      </>
+    </CustomModal>
+  );
+};
+
 export const ClerkEnrollmentAppointmentDetailsFields = ({
   enrollment,
   examEvents,
@@ -377,17 +697,13 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkEnrollmentDetails',
   });
-  const { showDialog } = useDialog();
-  const translateMunicipality = useKoodistoMunicipalitiesTranslation();
   const translateCommon = useCommonTranslation();
   const paymentLink = enrollment.paymentLinkUrl;
-  const dispatch = useAppDispatch();
 
   const [paymentLinkModalOpen, setPaymentLinkModalOpen] = useState(false);
   const [enrollmentHistoryModalOpen, setEnrollmentHistoryModalOpen] =
     useState(false);
   const [gradeModalOpen, setGradeModalOpen] = useState(false);
-  const { grades } = useAppSelector(clerkEnrollmentAppointmentSelector);
 
   const initialFieldErrors = Object.values(
     ClerkEnrollmentAppointmentDetailsFields,
@@ -418,47 +734,6 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
       fullWidth: true,
       isViewMode,
     };
-  };
-
-  const displayPaymentInformation =
-    [
-      EnrollmentAppointmentStatus.COMPLETED,
-      EnrollmentAppointmentStatus.EXPECTING_PAYMENT,
-    ].includes(enrollment.status) || enrollment.payments.length > 0;
-
-  const displayPaymentHistory = enrollment.payments.length > 1;
-
-  const isCompleted =
-    EnrollmentAppointmentStatus.COMPLETED === enrollment.status;
-
-  const describeExamEvent = useExamEventDescription();
-
-  const examEventToOption = (examEvent: ExaminerExamEvent) => ({
-    value: examEvent.id.toString(),
-    label: describeExamEvent(examEvent),
-  });
-
-  const onSendAuthLink = () => {
-    if (!enrollment.examEvent) {
-      showDialog({
-        title: t('authLinkErrorDialog.header'),
-        severity: Severity.Error,
-        description: t('authLinkErrorDialog.description'),
-        actions: [
-          {
-            title: translateCommon('back'),
-            variant: Variant.Outlined,
-          },
-        ],
-      });
-    } else {
-      dispatch(
-        sendClerkEnrollmentAppointmentAuthLink({
-          enrollmentId: enrollment.id,
-          oid: oid,
-        }),
-      );
-    }
   };
 
   // TODO Remove this flag once digital certificates are available
@@ -539,144 +814,25 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
           </div>
         )}
         <Divider className="margin-top-lg" />
-        <div className="columns margin-top-lg space-between">
-          <H2>Tutkinnon tiedot</H2>
-        </div>
-        {isViewMode ? (
-          enrollment.examEvent && (
-            <div className="rows">
-              <H3>Tutkinnon kieli, aika ja paikka</H3>
-              <Text>
-                {translateCommon(
-                  `examLanguage.${enrollment.examEvent.language}`,
-                )}
-                {', '}
-                {DateTimeUtils.renderDate(enrollment.examEvent.date)}
-                {', '}
-                {translateMunicipality(enrollment.examEvent.municipality.code)}
-                {', '}
-                {enrollment.examEvent.location}
-              </Text>
-            </div>
-          )
-        ) : (
-          <div className="half-max-width">
-            <ComboBox
-              autoHighlight
-              label={'Tutkinto'}
-              values={[...examEvents]
-                .map(examEventToOption)
-                .sort((a, b) => a.label.localeCompare(b.label))}
-              value={newExamEvent ? examEventToOption(newExamEvent) : null}
-              variant={TextFieldVariant.Outlined}
-              onChange={onExamEventChange}
-            />
-          </div>
-        )}
-        {isViewMode ? (
-          <EnrollmentSkillsListTable grades={grades} enrollment={enrollment} />
-        ) : (
-          <ClerkEnrollmentSkillsListFields
-            enrollment={enrollment}
-            editDisabled={editDisabled}
-            onCheckboxFieldChange={onCheckboxFieldChange}
-          />
-        )}
-        <div className="columns flex-start">
-          <CustomButton
-            onClick={setGradeModalOpen.bind(this, true)}
-            color={Color.Secondary}
-            variant={Variant.Outlined}
-          >
-            {t('appointment.giveGrades')}
-          </CustomButton>
-        </div>
-        <div className="columns flex-start">
-          <CustomButton
-            onClick={setEnrollmentHistoryModalOpen.bind(this, true)}
-            color={Color.Secondary}
-            variant={Variant.Outlined}
-          >
-            {t('appointment.showHistory')}
-          </CustomButton>
-        </div>
-        <div className="margin-top-sm">
-          <H3>{t('header.previousEnrollment')}</H3>
-        </div>
-        <ClerkEnrollmentDetailsTextField
-          className="previous-enrollment"
-          {...getCommonTextFieldProps(
-            ClerkEnrollmentTextFieldEnum.PreviousEnrollment,
-            editDisabled,
-          )}
+        <ExamAndEnrollmentDetailsSection
+          enrollment={enrollment}
+          examEvents={examEvents}
+          isViewMode={isViewMode}
+          newExamEvent={newExamEvent}
+          onExamEventChange={onExamEventChange}
+          onCheckboxFieldChange={onCheckboxFieldChange}
+          editDisabled={editDisabled}
+          openGradeModal={() => setGradeModalOpen(true)}
+          openEnrollmentHistoryModal={() => setEnrollmentHistoryModalOpen(true)}
+          getCommonTextFieldProps={getCommonTextFieldProps}
         />
         <Divider className="margin-top-lg" />
-        <div className="columns margin-top-lg space-between">
-          <H2>{t('appointment.paymentInfoHeader')}</H2>
-        </div>
-        {displayPaymentInformation && (
-          <div className="rows gapped-xxl margin-top-lg">
-            <div className="rows gapped">
-              <H3>{t('payment.recentTitle')}</H3>
-              {enrollment.payments.length > 0 && (
-                <PaymentDetails payment={enrollment.payments[0]} />
-              )}
-            </div>
-            {displayPaymentHistory && (
-              <div className="rows gapped">
-                <H3>{t('payment.historyTitle')}</H3>
-                {enrollment.payments.slice(1).map((payment: ClerkPayment) => (
-                  <PaymentDetails
-                    key={`payment-row-${payment.id}`}
-                    payment={payment}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-        <div className="rows gapped-sm margin-top-lg">
-          <H3>{t('status')}</H3>
-          <Text>{t(`enrollmentStatus.${enrollment.status}`)}</Text>
-        </div>
-        <div className="rows gapped-sm margin-top-lg">
-          <H3>Ilmoittautumislinkki</H3>
-          {enrollment.authLink?.sentAt && (
-            <Text>
-              {t('appointment.linkSentAt')}:{' '}
-              {DateTimeUtils.renderDateTime(enrollment.authLink.sentAt)}
-            </Text>
-          )}
-          {enrollment.authLink?.expiresAt && (
-            <Text>
-              {t('appointment.linkSentAt')}:{' '}
-              {DateTimeUtils.renderDateTime(enrollment.authLink.expiresAt)}
-            </Text>
-          )}
-        </div>
-        {!isCompleted && (
-          <>
-            <div className="columns flex-start">
-              <CustomButton
-                onClick={onSendAuthLink}
-                color={Color.Secondary}
-                variant={Variant.Outlined}
-              >
-                {t('appointment.sendAuthLink')}
-              </CustomButton>
-            </div>
-            <Text>
-              <Link
-                sx={{ fontWeight: 400, cursor: 'pointer' }}
-                onClick={() => {
-                  setPaymentLinkModalOpen(true);
-                }}
-              >
-                {t('appointment.noAuthPossible')}
-              </Link>
-            </Text>
-          </>
-        )}
+        <PaymentDetailsSection enrollment={enrollment} />
+        <EnrollmentStatus
+          enrollment={enrollment}
+          oid={oid}
+          setPaymentLinkModalOpen={setPaymentLinkModalOpen}
+        />
       </div>
       {gradeModalOpen && (
         <GradeModal
@@ -695,34 +851,11 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
           oid={oid}
         />
       )}
-      <CustomModal
-        open={paymentLinkModalOpen}
-        modalTitle={t('appointment.paymentLinkModal.title')}
-        onCloseModal={() => setPaymentLinkModalOpen(false)}
-      >
-        <>
-          {paymentLink && (
-            <div className="rows gapped">
-              <Text>{t('appointment.paymentLinkModal.description')}</Text>
-              <div className="rows gapped-xs">
-                <H3>{t('payment.modal.link')}</H3>
-                <Text>
-                  <pre>{paymentLink}</pre>
-                </Text>
-              </div>
-            </div>
-          )}
-          <div className="columns gapped flex-end">
-            <CustomButton
-              variant={Variant.Contained}
-              color={Color.Secondary}
-              onClick={() => setPaymentLinkModalOpen(false)}
-            >
-              {translateCommon('close')}
-            </CustomButton>
-          </div>
-        </>
-      </CustomModal>
+      <PaymentLinkModal
+        paymentLinkModalOpen={paymentLinkModalOpen}
+        setPaymentLinkModalOpen={setPaymentLinkModalOpen}
+        paymentLink={paymentLink}
+      />
     </div>
   );
 };

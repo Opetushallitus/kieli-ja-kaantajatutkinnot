@@ -42,7 +42,7 @@ export const ClerkEnrollmentAppointmentDetails = ({
 }) => {
   // Redux
   const dispatch = useAppDispatch();
-  const { status, cancelStatus, updateStatus, sendLinkStatus } = useAppSelector(
+  const { status, cancelStatus, updateStatus } = useAppSelector(
     clerkEnrollmentAppointmentSelector,
   );
 
@@ -96,22 +96,6 @@ export const ClerkEnrollmentAppointmentDetails = ({
       resetToInitialState();
     }
   }, [currentUIMode, showToast, resetToInitialState, t, updateStatus]);
-
-  useEffect(() => {
-    if (sendLinkStatus === APIResponseStatus.Success) {
-      showDialog({
-        title: t('authLinkSuccessDialog.header'),
-        severity: Severity.Success,
-        description: t('authLinkSuccessDialog.description'),
-        actions: [
-          {
-            title: translateCommon('close'),
-            variant: Variant.Outlined,
-          },
-        ],
-      });
-    }
-  }, [currentUIMode, showDialog, translateCommon, t, sendLinkStatus]);
 
   useEffect(() => {
     if (cancelStatus === APIResponseStatus.Success) {

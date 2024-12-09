@@ -9,6 +9,7 @@ import { ExaminerEnrollmentListing } from 'components/examinerEnrollment/listing
 import {
   useClerkTranslation,
   useCommonTranslation,
+  useExaminerTranslation,
   useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
@@ -30,8 +31,8 @@ const enrollmentFilter = (
   enrollments.filter((e: ClerkEnrollmentAppointment) => e.status === status);
 
 const EnrollmentList: FC<EnrollmentListProps> = ({ enrollments, status }) => {
-  const { t } = useClerkTranslation({
-    keyPrefix: 'vkt.component.clerkExamEventOverview.examEventListingHeader',
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.examinerExamEventDetails.enrollmentStatus',
   });
 
   const filteredEnrollments = enrollmentFilter(enrollments, status);
@@ -88,32 +89,40 @@ export const ExaminerExamEventDetails = () => {
         </CustomButtonLink>
       </div>
       <div className="rows">
-        <div className="grid-3-columns gapped">
+        <div className="grid-4-columns gapped">
           <div className="rows grow gapped-sm margin-top-lg">
-            <H3>Kieli ja taso</H3>
+            <H3>Kieli ja taso:</H3>
             <Text>{translateCommon(`examLanguage.${examEvent.language}`)}</Text>
           </div>
           <div className="rows grow gapped-sm margin-top-lg">
-            <H3>Tutkintopäivä</H3>
+            <H3>Tutkintopäivä:</H3>
             <Text>{DateTimeUtils.renderDateTime(examEvent.date)}</Text>
           </div>
           <div className="rows grow gapped-sm margin-top-lg">
-            <H3>Tutkintopaikka</H3>
+            <H3>Tutkintopaikka:</H3>
             <Text>{translateMunicipality(examEvent.municipality.code)}</Text>
           </div>
           <div className="rows grow gapped-sm margin-top-lg">
-            <H3>Osoitetiedot</H3>
-            <Text>{examEvent.location}</Text>
+            <H3>Näytä tutkintopäivä julkisesti:</H3>
+            <Text>{translateCommon(examEvent.isHidden ? 'no' : 'yes')}</Text>
           </div>
           <div className="rows grow gapped-sm margin-top-lg">
-            <H3>Paikkojen lukumäärä</H3>
-            <Text>{examEvent.maxParticipants}</Text>
+            <H3>Tutkinnon alkamisaika:</H3>
+            <Text>{examEvent.examTime ?? '—'}</Text>
           </div>
           <div className="rows grow gapped-sm margin-top-lg">
-            <H3>Ilmoittautuminen sulkeutuu</H3>
+            <H3>Ilmoittautuminen päättyy:</H3>
             <Text>
               {DateTimeUtils.renderDateTime(examEvent.registrationCloses)}
             </Text>
+          </div>
+          <div className="rows grow gapped-sm margin-top-lg">
+            <H3>Tutkintopaikan tarkka osoite:</H3>
+            <Text>{examEvent.location ?? '—'}</Text>
+          </div>
+          <div className="rows grow gapped-sm margin-top-lg">
+            <H3>Paikkojen lukumäärä:</H3>
+            <Text>{examEvent.maxParticipants ?? '—'}</Text>
           </div>
         </div>
       </div>
@@ -132,6 +141,10 @@ export const ExaminerExamEventDetails = () => {
       <EnrollmentList
         enrollments={enrollments}
         status={EnrollmentAppointmentStatus.CANCELED}
+      />
+      <EnrollmentList
+        enrollments={enrollments}
+        status={EnrollmentAppointmentStatus.ENROLLMENT_CREATED}
       />
       {enrollments.length > 0 && (
         <div className="columns gapped margin-top-xxl flex-end">
