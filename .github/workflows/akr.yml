@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - "backend/akr/**"
+      - "backend/pom.xml"
       - "frontend/packages/akr/**"
       - "frontend/yarn.lock"
       - "!**/*.md"
