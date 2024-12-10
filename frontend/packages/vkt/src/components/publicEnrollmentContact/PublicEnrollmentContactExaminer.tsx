@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import { Text } from 'shared/components';
 import { AppLanguage } from 'shared/enums';
 
@@ -54,20 +53,26 @@ export const PublicEnrollmentContactExaminer = ({
             .join(', ')}
         </b>
       </Text>
-      <Text>
-        {t('examDate')}
-        {': '}
-        <b>
-          {examDates.length > 0
-            ? examDates.map((v, i) => (
-                <Fragment key={i}>
-                  {i > 0 ? <br /> : undefined}
-                  {DateTimeUtils.renderDate(v.examDate)}
-                </Fragment>
-              ))
-            : t('byRequest')}
-        </b>
-      </Text>
+      <div className="columns gapped-xxs align-items-start">
+        <Text>{t('examDate')}:</Text>
+        <Text>
+          <ul className="public-enrollment-contact__exam-dates">
+            {examDates.length > 0
+              ? examDates.map(({ examDate, isFull }, i) => (
+                  <li key={i}>
+                    {isFull ? (
+                      <b>
+                        <s>{DateTimeUtils.renderDate(examDate)}</s> {t('full')}
+                      </b>
+                    ) : (
+                      <b>{DateTimeUtils.renderDate(examDate)}</b>
+                    )}
+                  </li>
+                ))
+              : t('byRequest')}
+          </ul>
+        </Text>
+      </div>
     </div>
   );
 };

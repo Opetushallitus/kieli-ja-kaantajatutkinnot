@@ -45,13 +45,13 @@ export const PublicEnrollmentContactDesktopGrid = ({
 
   return (
     <>
-      <Grid className="public-enrollment__grid" item>
+      <Grid className="public-enrollment-contact__grid" item>
         <LoadingProgressIndicator
           isLoading={isLoading}
           translateCommon={translateCommon}
           displayBlock={true}
         >
-          <div className={'public-enrollment__grid__form-container'}>
+          <div className={'public-enrollment-contact__grid__form-container'}>
             <PublicEnrollmentContactStepper activeStep={activeStep} />
             <PublicEnrollmentContactStepHeading activeStep={activeStep} />
             <PublicEnrollmentContactExaminer examiner={examiner} />

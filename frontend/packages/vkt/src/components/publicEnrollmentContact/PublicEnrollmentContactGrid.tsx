@@ -46,7 +46,7 @@ export const PublicEnrollmentContactGrid = ({
       container
       rowSpacing={4}
       direction="column"
-      className="public-enrollment"
+      className="public-enrollment-contact"
     >
       <PublicEnrollmentContactDesktopGrid
         examiner={examiner}

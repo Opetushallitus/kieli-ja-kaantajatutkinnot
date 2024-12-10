@@ -1,4 +1,51 @@
 .public-enrollment-contact {
+  & &__grid {
+    &__form-container {
+      padding: 3rem;
+
+      @include phone {
+        margin-bottom: 26rem;
+        padding: 2rem;
+      }
+
+      &__auth-button {
+        width: 18rem;
+      }
+    }
+
+    &__stepper {
+      margin-left: 13rem;
+      margin-right: 13rem;
+
+      &__step-disabled {
+        span,
+        svg {
+          color: $color-grey-700;
+        }
+      }
+    }
+
+    &__contact-details {
+      width: calc(80% - 1rem);
+
+      @include phone {
+        width: 100%;
+      }
+    }
+
+    &__previous-enrollment {
+      width: 70%;
+
+      @include phone {
+        width: 100%;
+      }
+
+      &__textField {
+        margin-bottom: 2rem;
+      }
+    }
+  }
+
   & &__info-box {
     background-color: $color-blue-200;
     border-radius: 4px;
@@ -13,5 +60,10 @@
     @include not-phone {
       padding: 2rem 1.5rem;
     }
+  }
+
+  & &__exam-dates {
+    margin: 0;
+    padding-left: 2rem;
   }
 }

@@ -288,6 +288,7 @@
           "examDate": "Tutkintopäivä",
           "examEvent": "Tutkinto",
           "examiner": "Tutkinnon vastaanottaja",
+          "full": "Täynnä",
           "municipality": "Tutkintopaikka"
         },
         "stepHeading": {
