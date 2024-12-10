@@ -1,9 +1,9 @@
-import { Step, StepLabel, Stepper } from '@mui/material';
-import { CircularStepper } from 'shared/components';
+import { Step, StepLabel, Stepper, Typography } from '@mui/material';
+import { CircularStepper, Text } from 'shared/components';
 import { Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { PublicEnrollmentContactFormStep } from 'enums/publicEnrollment';
 import { PublicEnrollmentUtils } from 'utils/publicEnrollment';
 
@@ -15,26 +15,29 @@ export const PublicEnrollmentContactStepper = ({
   const { isPhone } = useWindowProperties();
 
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollmentContact.stepper',
+    keyPrefix: 'vkt.component.publicEnrollmentContact',
   });
+  const translateCommon = useCommonTranslation();
 
   const steps = PublicEnrollmentUtils.getEnrollmentContactSteps();
 
   const doneStepNumber = steps.length;
 
   const getDescription = (step: PublicEnrollmentContactFormStep) => {
-    return t(`step.${PublicEnrollmentContactFormStep[step]}`);
+    return t(`stepper.step.${PublicEnrollmentContactFormStep[step]}`);
   };
 
   const getStepAriaLabel = (stepNumber: number, stepIndex: number) => {
-    const part = t('phaseNumber', {
+    const part = t('stepper.phaseNumber', {
       current: stepIndex + 1,
       total: steps.length,
     });
-    const statusText = isStepCompleted(stepNumber) ? t('completed') : '';
+    const statusText = isStepCompleted(stepNumber)
+      ? t('stepper.completed')
+      : '';
     const partStatus = statusText ? `${part}, ${statusText}` : part;
 
-    return `${t('phase')} ${partStatus}: ${getDescription(stepNumber)}`;
+    return `${t('stepper.phase')} ${partStatus}: ${getDescription(stepNumber)}`;
   };
 
   const getDesktopActiveStep = () => {
@@ -49,23 +52,60 @@ export const PublicEnrollmentContactStepper = ({
 
   const mobileStepValue = stepValue * (100 / doneStepNumber);
   const mobilePhaseText = `${stepValue}/${doneStepNumber}`;
-  const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${t(
-    `step.${PublicEnrollmentContactFormStep[activeStep]}`,
+  const mobileAriaLabel = `${t('stepper.phase')} ${mobilePhaseText}: ${t(
+    `stepper.step.${PublicEnrollmentContactFormStep[activeStep]}`,
   )}`;
 
+  const getMobileStepperHeading = () => {
+    const heading = (
+      <Typography component="p" variant="h2">
+        {t(`stepHeading.${PublicEnrollmentContactFormStep[activeStep]}`)}
+      </Typography>
+    );
+
+    if (activeStep === PublicEnrollmentContactFormStep.Done) {
+      return <>{heading}</>;
+    }
+
+    const nextStepIndex = Math.min(
+      PublicEnrollmentContactFormStep.Done,
+      activeStep + 1,
+    );
+
+    return (
+      <>
+        {heading}
+        <div>
+          <Text>
+            {translateCommon('next')}
+            {': '}
+            {t(
+              `stepper.step.${PublicEnrollmentContactFormStep[nextStepIndex]}`,
+            )}
+          </Text>
+        </div>
+      </>
+    );
+  };
+
   return isPhone ? (
-    <CircularStepper
-      value={mobileStepValue}
-      ariaLabel={mobileAriaLabel}
-      phaseText={mobilePhaseText}
-      color={Color.Secondary}
-      size={90}
-    />
+    <div className="columns gapped-xxl">
+      <div role="group" aria-label={t('phases')}>
+        <CircularStepper
+          value={mobileStepValue}
+          ariaLabel={mobileAriaLabel}
+          phaseText={mobilePhaseText}
+          color={Color.Secondary}
+          size={90}
+        />
+      </div>
+      <div className="rows gapped-xs grow">{getMobileStepperHeading()}</div>
+    </div>
   ) : (
     <Stepper
       className="public-enrollment__grid__stepper"
       activeStep={getDesktopActiveStep()}
-      aria-label={t('phases')}
+      aria-label={t('stepper.phases')}
     >
       {steps.map((step, index) => (
         <Step
