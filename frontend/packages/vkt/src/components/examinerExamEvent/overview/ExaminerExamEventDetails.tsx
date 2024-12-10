@@ -95,7 +95,7 @@ export const ExaminerExamEventDetails = () => {
           </div>
           <div className="rows grow gapped-sm margin-top-lg">
             <H3>{t('header.examDate')}:</H3>
-            <Text>{DateTimeUtils.renderDateTime(examEvent.date)}</Text>
+            <Text>{DateTimeUtils.renderDate(examEvent.date)}</Text>
           </div>
           <div className="rows grow gapped-sm margin-top-lg">
             <H3>{t('header.municipality')}:</H3>
@@ -112,7 +112,7 @@ export const ExaminerExamEventDetails = () => {
           <div className="rows grow gapped-sm margin-top-lg">
             <H3>{t('header.registrationCloses')}:</H3>
             <Text>
-              {DateTimeUtils.renderDateTime(examEvent.registrationCloses)}
+              {DateTimeUtils.renderDate(examEvent.registrationCloses)}
             </Text>
           </div>
           <div className="rows grow gapped-sm margin-top-lg">
