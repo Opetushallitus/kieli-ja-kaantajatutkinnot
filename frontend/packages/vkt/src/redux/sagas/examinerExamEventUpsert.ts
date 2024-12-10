@@ -37,7 +37,7 @@ function* startExaminerExamEventUpsertSaga() {
     const response: AxiosResponse<ExaminerExamEventResponse> = yield call(
       axiosInstance.post,
       upsertEndpoint,
-      detailsToSubmit,
+      SerializationUtils.serializeExaminerExamEventUpsert(detailsToSubmit),
     );
     // Record id so we can transfer user to exam event details page
     yield put(updateExaminerExamEventUpsert({ id: response.data.id }));

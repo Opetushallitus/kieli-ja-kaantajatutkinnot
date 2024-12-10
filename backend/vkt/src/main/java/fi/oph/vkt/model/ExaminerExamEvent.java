@@ -1,7 +1,7 @@
 package fi.oph.vkt.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -27,7 +27,7 @@ public class ExaminerExamEvent extends ExamEventCommon {
   private Municipality municipality;
 
   @Column(name = "registration_closes")
-  private LocalDateTime registrationCloses;
+  private LocalDate registrationCloses;
 
   @Column(name = "max_participants")
   private Long maxParticipants;

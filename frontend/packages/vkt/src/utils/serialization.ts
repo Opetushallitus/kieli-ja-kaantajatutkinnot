@@ -30,6 +30,7 @@ import {
 import {
   ExaminerExamEvent,
   ExaminerExamEventResponse,
+  ExaminerExamEventUpsert,
 } from 'interfaces/examinerExamEvent';
 import {
   Education,
@@ -332,6 +333,18 @@ export class SerializationUtils {
     return examinerExamEvents.map(
       SerializationUtils.deserializeExaminerExamEvent,
     );
+  }
+
+  static serializeExaminerExamEventUpsert(
+    examinerExamEvent: ExaminerExamEventUpsert,
+  ) {
+    return {
+      ...examinerExamEvent,
+      date: DateUtils.serializeDate(examinerExamEvent.date),
+      registrationCloses: DateUtils.serializeDate(
+        examinerExamEvent.registrationCloses,
+      ),
+    };
   }
 
   static deserializeExaminerDetails(
