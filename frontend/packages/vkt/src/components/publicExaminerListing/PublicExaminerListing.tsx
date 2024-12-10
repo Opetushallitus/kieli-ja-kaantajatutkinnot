@@ -1,10 +1,12 @@
 import {
   Box,
+  Divider,
   Paper,
   SelectChangeEvent,
   TableCell,
   TableHead,
   TableRow,
+  Typography,
 } from '@mui/material';
 import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -56,20 +58,47 @@ const PublicExaminerListingHeader = () => {
   );
 };
 
-const DesktopExaminerRow = ({
-  id,
-  name,
-  language,
-  municipalities,
+const ExaminerRowExamDates = ({
   examDates,
-}: PublicExaminer) => {
-  // TODO Rendering for mobile users
+}: Pick<PublicExaminer, 'examDates'>) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicExaminerListing',
+  });
+  // TODO Handle case where registration period for exam is closed
+
+  return (
+    <Text>
+      {examDates.length > 0
+        ? examDates.map(({ examDate, isFull }, i) => (
+            <Fragment key={i}>
+              {i > 0 ? <br /> : undefined}
+              {isFull ? (
+                <>
+                  <s>{DateUtils.formatOptionalDate(examDate)}</s>{' '}
+                  {t('row.full')}
+                </>
+              ) : (
+                DateUtils.formatOptionalDate(examDate)
+              )}
+            </Fragment>
+          ))
+        : t('row.byRequest')}
+    </Text>
+  );
+};
+
+const DesktopPublicExaminerRow = ({
+  examiner,
+}: {
+  examiner: PublicExaminer;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicExaminerListing',
   });
   const navigate = useNavigate();
   const appLanguage = getCurrentLang();
 
+  const { id, name, language, municipalities, examDates } = examiner;
   const handleOnClick = () => {
     navigate(
       AppRoutes.PublicEnrollmentContactContactDetails.replace(
@@ -116,16 +145,7 @@ const DesktopExaminerRow = ({
         </Text>
       </TableCell>
       <TableCell>
-        <Text>
-          {examDates.length > 0
-            ? examDates.map((v, i) => (
-                <Fragment key={i}>
-                  {i > 0 ? <br /> : undefined}
-                  {DateUtils.formatOptionalDate(v.examDate)}
-                </Fragment>
-              ))
-            : t('row.byRequest')}
-        </Text>
+        <ExaminerRowExamDates examDates={examDates} />
       </TableCell>
       <TableCell>
         {alreadyContacted ? (
@@ -144,29 +164,122 @@ const DesktopExaminerRow = ({
   );
 };
 
-const getRowDetails = ({
-  id,
-  name,
-  language,
-  municipalities,
-  examDates,
-}: PublicExaminer) => {
-  return (
-    <DesktopExaminerRow
-      name={name}
-      language={language}
-      municipalities={municipalities}
-      examDates={examDates}
-      id={id}
-    />
-  );
-};
-
-export const PublicExaminerListing = () => {
+const MobilePublicExaminerRow = ({
+  examiner,
+}: {
+  examiner: PublicExaminer;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicExaminerListing',
   });
-  const { languageFilter, status } = useAppSelector(publicExaminerSelector);
+  const navigate = useNavigate();
+  const appLanguage = getCurrentLang();
+
+  const { id, name, language, municipalities, examDates } = examiner;
+  const handleOnClick = () => {
+    navigate(
+      AppRoutes.PublicEnrollmentContactContactDetails.replace(
+        ':examinerId',
+        id.toString(),
+      ),
+    );
+  };
+
+  const { contactedExaminers } = useAppSelector(
+    publicEnrollmentContactSelector,
+  );
+  const alreadyContacted = contactedExaminers.find(
+    (contacted) => id === contacted.id,
+  );
+
+  return (
+    <TableRow sx={{ verticalAlign: 'text-top' }}>
+      <TableCell>
+        <div className="rows grow gapped-xs">
+          <div className="rows">
+            <Text>
+              <b>{t('header.examiner')}</b>
+            </Text>
+            <Typography component="p" variant="h2">
+              {name}
+            </Typography>
+          </div>
+          <div className="rows">
+            <Text>
+              <b>{t('header.language')}</b>
+            </Text>
+            <Text>
+              {language === ExamLanguage.ALL ? (
+                <>
+                  {t('examLanguage.FI')}
+                  <br />
+                  {t('examLanguage.SV')}
+                </>
+              ) : (
+                t('examLanguage.' + language)
+              )}
+            </Text>
+          </div>
+          <div className="rows">
+            <Text>
+              <b>{t('header.municipality')}</b>
+            </Text>
+            <Text>
+              {municipalities.map(({ fi, sv }, i) => {
+                const municipalityText =
+                  appLanguage === AppLanguage.Swedish ? sv : fi;
+
+                return (
+                  <Fragment key={`examiner-${id}-municipality-${i}`}>
+                    {i > 0 ? <br /> : undefined}
+                    {municipalityText}
+                  </Fragment>
+                );
+              })}
+            </Text>
+          </div>
+          <div className="rows">
+            <Text>
+              <b>{t('header.examDates')}</b>
+            </Text>
+            <ExaminerRowExamDates examDates={examDates} />
+          </div>
+          {alreadyContacted ? (
+            <Text>{t('row.alreadyContacted')}</Text>
+          ) : (
+            <CustomButton
+              color={Color.Secondary}
+              variant={Variant.Outlined}
+              onClick={handleOnClick}
+            >
+              {t('row.contact')}
+            </CustomButton>
+          )}
+        </div>
+      </TableCell>
+    </TableRow>
+  );
+};
+
+const PublicExaminerRow = ({ examiner }: { examiner: PublicExaminer }) => {
+  const { isPhone } = useWindowProperties();
+
+  if (isPhone) {
+    return <MobilePublicExaminerRow examiner={examiner} />;
+  } else {
+    return <DesktopPublicExaminerRow examiner={examiner} />;
+  }
+};
+
+const getRowDetails = (examiner: PublicExaminer) => {
+  return <PublicExaminerRow examiner={examiner} />;
+};
+
+const MobilePublicExaminerListing = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicExaminerListing',
+  });
+  const { languageFilter } = useAppSelector(publicExaminerSelector);
   const filteredExaminers = useAppSelector(selectFilteredPublicExaminers);
   const dispatch = useAppDispatch();
 
@@ -176,7 +289,59 @@ export const PublicExaminerListing = () => {
     );
   };
 
+  return (
+    <div className="public-examiner-listing">
+      <H2>{t('title')}</H2>
+      <LanguageFilter
+        value={languageFilter}
+        onChange={handleLanguageFilterChange}
+      />
+      <Divider />
+      <CustomTable
+        className="table-layout-auto"
+        data={filteredExaminers}
+        getRowDetails={getRowDetails}
+        header={<PublicExaminerListingHeader />}
+      />
+    </div>
+  );
+};
+
+const DesktopPublicExaminerListing = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicExaminerListing',
+  });
+  const { languageFilter } = useAppSelector(publicExaminerSelector);
+  const filteredExaminers = useAppSelector(selectFilteredPublicExaminers);
+  const dispatch = useAppDispatch();
+
+  const handleLanguageFilterChange = (event: SelectChangeEvent) => {
+    dispatch(
+      setPublicExaminerLanguageFilter(event.target.value as ExamLanguage),
+    );
+  };
+
+  return (
+    <Paper elevation={3} className="public-examiner-listing">
+      <H2>{t('title')}</H2>
+      <LanguageFilter
+        value={languageFilter}
+        onChange={handleLanguageFilterChange}
+      />
+      <CustomTable
+        className="table-layout-auto"
+        data={filteredExaminers}
+        getRowDetails={getRowDetails}
+        header={<PublicExaminerListingHeader />}
+      />
+    </Paper>
+  );
+};
+
+export const PublicExaminerListing = () => {
+  const { status } = useAppSelector(publicExaminerSelector);
   const translateCommon = useCommonTranslation();
+  const { isPhone } = useWindowProperties();
 
   switch (status) {
     case APIResponseStatus.NotStarted:
@@ -195,24 +360,10 @@ export const PublicExaminerListing = () => {
         </Box>
       );
     case APIResponseStatus.Success:
-      return (
-        <Paper elevation={3} className="public-examiner-listing">
-          <div className="columns">
-            <div className="grow">
-              <H2>{t('title')}</H2>
-            </div>
-          </div>
-          <LanguageFilter
-            value={languageFilter}
-            onChange={handleLanguageFilterChange}
-          />
-          <CustomTable
-            className="table-layout-auto"
-            data={filteredExaminers}
-            getRowDetails={getRowDetails}
-            header={<PublicExaminerListingHeader />}
-          />
-        </Paper>
-      );
+      if (isPhone) {
+        return <MobilePublicExaminerListing />;
+      } else {
+        return <DesktopPublicExaminerListing />;
+      }
   }
 };

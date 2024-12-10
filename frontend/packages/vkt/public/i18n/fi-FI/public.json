@@ -512,7 +512,8 @@
         "row": {
           "alreadyContacted": "Yhteydenotto lähetetty",
           "byRequest": "Sovittavissa",
-          "contact": "Ota yhteyttä"
+          "contact": "Ota yhteyttä",
+          "full": "Täynnä"
         }
       },
       "logoutSuccessPage": {
