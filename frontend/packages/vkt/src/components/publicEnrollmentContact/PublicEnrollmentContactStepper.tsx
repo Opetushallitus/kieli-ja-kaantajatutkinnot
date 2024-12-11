@@ -89,7 +89,7 @@ export const PublicEnrollmentContactStepper = ({
   };
 
   return isPhone ? (
-    <div className="columns gapped-xxl">
+    <div className="public-enrollment-contact__grid__stepper columns gapped-xxl">
       <div role="group" aria-label={t('phases')}>
         <CircularStepper
           value={mobileStepValue}
@@ -103,7 +103,7 @@ export const PublicEnrollmentContactStepper = ({
     </div>
   ) : (
     <Stepper
-      className="public-enrollment__grid__stepper"
+      className="public-enrollment-contact__grid__stepper"
       activeStep={getDesktopActiveStep()}
       aria-label={t('stepper.phases')}
     >
@@ -119,7 +119,7 @@ export const PublicEnrollmentContactStepper = ({
             role="text"
             className={
               activeStep < step
-                ? 'public-enrollment__grid__stepper__step-disabled'
+                ? 'public-enrollment-contact__grid__stepper__step-disabled'
                 : undefined
             }
           >

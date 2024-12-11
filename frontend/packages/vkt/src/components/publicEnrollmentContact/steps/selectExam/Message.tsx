@@ -84,10 +84,10 @@ export const Message = ({
 
   return (
     <>
-      <div className="margin-top-sm rows gapped">
+      <div className="public-enrollment-contact__grid__phone-extra-margin margin-top-sm rows gapped">
         <H2>{t('title')}</H2>
       </div>
-      <div className="public-enrollment-contact__grid__previous-enrollment rows gapped">
+      <div className="public-enrollment-contact__grid__phone-extra-margin public-enrollment-contact__grid__previous-enrollment rows gapped">
         <div className="margin-top-sm grow full-max-width">
           <LabeledTextField
             className="public-enrollment-contact__grid__previous-enrollment__textField"

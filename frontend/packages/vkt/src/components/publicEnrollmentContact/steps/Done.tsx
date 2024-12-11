@@ -1,7 +1,9 @@
+import { Divider } from '@mui/material';
 import { Container } from '@mui/system';
 import { Link } from 'react-router-dom';
 import { CustomButton, H2, H3, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import { BulletList } from 'components/common/BulletList';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -61,6 +63,7 @@ const ContinueBox = () => {
   const retainFilledEnrollmentDetails = () => {
     dispatch(continueWithEnrollmentDetails());
   };
+  const { isPhone } = useWindowProperties();
 
   return (
     <Container className="public-enrollment-contact__info-box">
@@ -75,6 +78,7 @@ const ContinueBox = () => {
             onClick={retainFilledEnrollmentDetails}
             color={Color.Secondary}
             variant={Variant.Contained}
+            fullWidth={isPhone}
           >
             {t('callToAction')}
           </CustomButton>
@@ -93,6 +97,7 @@ const QuitBox = () => {
   const resetContactRequestState = () => {
     dispatch(resetPublicEnrollmentContact());
   };
+  const { isPhone } = useWindowProperties();
 
   return (
     <Container className="public-enrollment-contact__info-box">
@@ -107,6 +112,7 @@ const QuitBox = () => {
             onClick={resetContactRequestState}
             color={Color.Secondary}
             variant={Variant.Contained}
+            fullWidth={isPhone}
           >
             {translateCommon('backToHomePage')}
           </CustomButton>
@@ -117,14 +123,25 @@ const QuitBox = () => {
 };
 
 export const Done = () => {
+  const { isPhone } = useWindowProperties();
+
   return (
     <div className="public-enrollment-contact margin-top-lg rows gapped">
       <MessageSent />
+      {isPhone && <Divider />}
       <AnotherMessage />
-      <div className="columns gapped">
-        <ContinueBox />
-        <QuitBox />
-      </div>
+      {isPhone && (
+        <div className="rows gapped">
+          <ContinueBox />
+          <QuitBox />
+        </div>
+      )}
+      {!isPhone && (
+        <div className="columns gapped">
+          <ContinueBox />
+          <QuitBox />
+        </div>
+      )}
     </div>
   );
 };

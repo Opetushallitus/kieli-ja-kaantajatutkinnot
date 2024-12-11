@@ -73,13 +73,13 @@ export const ExamSelection = ({
 
   return (
     <>
-      <div className="margin-top-sm rows gapped">
+      <div className="public-enrollment-contact__grid__phone-extra-margin margin-top-sm rows gapped">
         <H2>{t('title')}</H2>
         <Text>{t('part1')}</Text>
         <Text>{t('part2')}</Text>
       </div>
 
-      <div className="rows">
+      <div className="public-enrollment-contact__grid__phone-extra-margin rows">
         <FormControl component="fieldset">
           <FormLabel component="legend" className="heading-label">
             {t('fullExam.question')}

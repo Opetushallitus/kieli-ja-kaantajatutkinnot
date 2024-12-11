@@ -1,6 +1,7 @@
 import { ArrowForwardOutlined as ArrowForwardIcon } from '@mui/icons-material';
 import { CustomButton, H2, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
@@ -26,12 +27,13 @@ export const ConfirmContactDetails = ({
   const onReject = () => {
     dispatch(rejectPreviousContactDetails());
   };
+  const { isPhone } = useWindowProperties();
 
   return (
-    <div className="rows gapped">
+    <div className={(isPhone ? 'margin-top-xxl ' : '') + 'rows gapped'}>
       <H2>{t('heading')}</H2>
       <Text>{t('information')}</Text>
-      <div className="columns space-between">
+      <div className={isPhone ? 'rows gapped' : 'columns space-between'}>
         <Text>
           <b>{t('labels.firstName')}</b>
           <br />
@@ -56,7 +58,7 @@ export const ConfirmContactDetails = ({
       <Text>
         <b>{t('prompt')}</b>
       </Text>
-      <div className="columns gapped-xxl">
+      <div className={isPhone ? 'rows gapped' : 'columns gapped-xxl'}>
         <CustomButton
           variant={Variant.Contained}
           color={Color.Secondary}

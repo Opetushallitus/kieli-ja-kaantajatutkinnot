@@ -25,7 +25,10 @@ export const PublicEnrollmentContactStepHeading = ({
   const headingText = t(PublicEnrollmentContactFormStep[activeStep]);
 
   return (
-    <div ref={ref} className="margin-top-xxl rows gapped-xs">
+    <div
+      ref={ref}
+      className="public-enrollment-contact__grid__step-heading margin-top-xxl rows gapped-xs"
+    >
       <H1>{headingText}</H1>
       <HeaderSeparator />
     </div>

@@ -2,8 +2,10 @@ import { Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { APIResponseStatus } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import { PublicEnrollmentContactDesktopGrid } from 'components/publicEnrollmentContact/PublicEnrollmentContactDesktopGrid';
+import { PublicEnrollmentContactPhoneGrid } from 'components/publicEnrollmentContact/PublicEnrollmentContactPhoneGrid';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentContactFormStep } from 'enums/publicEnrollment';
@@ -37,6 +39,8 @@ export const PublicEnrollmentContactGrid = ({
     }
   }, [dispatch, loadExaminerStatus, examinerId]);
 
+  const { isPhone } = useWindowProperties();
+
   if (!examiner) {
     return <></>;
   }
@@ -48,16 +52,30 @@ export const PublicEnrollmentContactGrid = ({
       direction="column"
       className="public-enrollment-contact"
     >
-      <PublicEnrollmentContactDesktopGrid
-        examiner={examiner}
-        enrollment={enrollment}
-        activeStep={activeStep}
-        isStepValid={isStepValid}
-        setIsStepValid={setIsStepValid}
-        isLoading={isLoading}
-        showValidation={showValidation}
-        setShowValidation={setShowValidation}
-      />
+      {isPhone && (
+        <PublicEnrollmentContactPhoneGrid
+          examiner={examiner}
+          enrollment={enrollment}
+          activeStep={activeStep}
+          isStepValid={isStepValid}
+          setIsStepValid={setIsStepValid}
+          isLoading={isLoading}
+          showValidation={showValidation}
+          setShowValidation={setShowValidation}
+        />
+      )}
+      {!isPhone && (
+        <PublicEnrollmentContactDesktopGrid
+          examiner={examiner}
+          enrollment={enrollment}
+          activeStep={activeStep}
+          isStepValid={isStepValid}
+          setIsStepValid={setIsStepValid}
+          isLoading={isLoading}
+          showValidation={showValidation}
+          setShowValidation={setShowValidation}
+        />
+      )}
     </Grid>
   );
 };

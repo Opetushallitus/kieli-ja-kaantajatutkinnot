@@ -9,7 +9,7 @@ export const ExamFee = () => {
   });
 
   return (
-    <div className="rows gapped">
+    <div className="public-enrollment-contact__grid__phone-extra-margin rows gapped">
       <H2>{t('title')}</H2>
       <Text>
         <BoldedTranslationString t={t} i18nKey="part1" /> {t('part2')}{' '}

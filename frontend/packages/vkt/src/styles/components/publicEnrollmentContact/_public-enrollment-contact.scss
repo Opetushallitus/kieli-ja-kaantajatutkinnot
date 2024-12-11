@@ -5,7 +5,7 @@
 
       @include phone {
         margin-bottom: 26rem;
-        padding: 2rem;
+        padding: 0;
       }
 
       &__auth-button {
@@ -14,14 +14,53 @@
     }
 
     &__stepper {
-      margin-left: 13rem;
-      margin-right: 13rem;
+      @include not-phone {
+        margin-left: 13rem;
+        margin-right: 13rem;
+      }
+
+      @include phone {
+        margin: 2rem;
+      }
 
       &__step-disabled {
         span,
         svg {
           color: $color-grey-700;
         }
+      }
+    }
+
+    &__step-heading {
+      @include phone {
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
+    }
+
+    &__examiner-details {
+      @include phone {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        margin-top: 2rem;
+      }
+    }
+
+    &__step-contents {
+      @include phone {
+        margin: 1rem;
+        max-width: calc(100% - 2rem);
+
+        > div {
+          max-width: inherit;
+        }
+      }
+    }
+
+    &__phone-extra-margin {
+      @include phone {
+        margin-left: 1rem;
+        margin-right: 1rem;
       }
     }
 

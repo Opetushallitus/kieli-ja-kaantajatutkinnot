@@ -25,7 +25,7 @@ export const PublicEnrollmentContactExaminer = ({
   const { language, name, municipalities, examDates } = examiner;
 
   return (
-    <div className="rows">
+    <div className="public-enrollment-contact__grid__examiner-details rows">
       <Text>
         {t('examEvent')}
         {': '}
