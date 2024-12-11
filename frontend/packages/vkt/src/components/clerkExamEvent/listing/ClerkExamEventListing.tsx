@@ -6,7 +6,7 @@ import { Color, Severity, Variant } from 'shared/enums';
 import { ClerkExamEventListingHeader } from 'components/clerkExamEvent/listing/ClerkExamEventListingHeader';
 import { ClerkExamEventListingRow } from 'components/clerkExamEvent/listing/ClerkExamEventListingRow';
 import { ClerkExamEventToggleFilters } from 'components/clerkExamEvent/listing/ClerkExamEventToggleFilters';
-import { LanguageFilter } from 'components/publicExamEvent/LanguageFilter';
+import { LanguageFilter } from 'components/common/LanguageFilter';
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, ExamLanguage } from 'enums/app';

@@ -6,16 +6,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 import lombok.NonNull;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
-public class ExamEventXlsxView extends AbstractXlsxView {
+public class ExamEventXlsxView extends ExamEventCommonXlsxView {
 
   private final ExamEventXlsxData data;
 
@@ -30,12 +26,11 @@ public class ExamEventXlsxView extends AbstractXlsxView {
     final @NonNull HttpServletRequest request,
     final @NonNull HttpServletResponse response
   ) {
-    setFilenameHeader(response, String.format("VKT_tilaisuus_%s_%s.xlsx", data.date(), data.language()));
+    setFilenameHeader(
+      response,
+      String.format("VKT_erinomainen_taito_tilaisuus_%s_%s.xlsx", data.date(), data.language())
+    );
     writeExcel(workbook);
-  }
-
-  private static void setFilenameHeader(final HttpServletResponse response, final String filename) {
-    response.addHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", filename));
   }
 
   private void writeExcel(final Workbook workbook) {
@@ -124,32 +119,5 @@ public class ExamEventXlsxView extends AbstractXlsxView {
     }
 
     autoresizeExcelColumns(sheet, headers);
-  }
-
-  private static void setNullableValue(final Cell cell, final String string) {
-    if (string != null) {
-      cell.setCellValue(string);
-    } else {
-      cell.setBlank();
-    }
-  }
-
-  private static void createExcelHeader(final XSSFWorkbook workbook, final Sheet sheet, final List<String> headers) {
-    final Row header = sheet.createRow(0);
-    final CellStyle headerStyle = workbook.createCellStyle();
-    final XSSFFont font = workbook.createFont();
-    font.setBold(true);
-    headerStyle.setFont(font);
-    for (int i = 0; i < headers.size(); i++) {
-      final Cell cell = header.createCell(i);
-      cell.setCellStyle(headerStyle);
-      cell.setCellValue(headers.get(i));
-    }
-  }
-
-  private static void autoresizeExcelColumns(final Sheet sheet, final List<String> headers) {
-    for (int i = 0; i < headers.size(); i++) {
-      sheet.autoSizeColumn(i);
-    }
   }
 }

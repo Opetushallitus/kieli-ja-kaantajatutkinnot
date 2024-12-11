@@ -116,7 +116,7 @@ public class ClerkExamEventServiceTest {
     createEnrollment(futureEvent, EnrollmentStatus.AWAITING_PAYMENT);
     createEnrollment(futureEvent, EnrollmentStatus.CANCELED);
 
-    final List<ClerkExamEventListDTO> examEventListDTOs = clerkExamEventService.list();
+    final List<ClerkExamEventListDTO> examEventListDTOs = clerkExamEventService.list(ExamLevel.EXCELLENT);
     assertEquals(7, examEventListDTOs.size());
 
     final List<ExamEvent> expectedExamEventsOrdered = List.of(

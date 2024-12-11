@@ -87,6 +87,13 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu") => {
             filename: `${STATIC_PATH}/assets/svg/[name][ext]`,
           },
         },
+        {
+          test: /\.(avif|jpg|webp)$/,
+          type: "asset/resource",
+          generator: {
+            filename: `${STATIC_PATH}/assets/images/[name][ext]`
+          }
+        }
       ],
     },
   });

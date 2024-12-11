@@ -1,11 +1,14 @@
 export enum APIEndpoints {
-  PublicAuthLogin = '/vkt/api/v1/auth/login/:examEventId/:type?locale=:locale',
+  PublicAuthLogin = '/vkt/api/v1/auth/login/:targetId/:type?locale=:locale',
   PublicAuthLogout = '/vkt/api/v1/auth/logout',
   PublicExamEvent = '/vkt/api/v1/examEvent',
+  PublicEnrollmentAppointment = '/vkt/api/v1/enrollment/appointment',
+  PublicEnrollmentContact = '/vkt/api/v1/enrollment/examiner',
+  PublicExaminer = '/vkt/api/v1/examiner',
   PublicEnrollment = '/vkt/api/v1/enrollment',
   PublicReservation = '/vkt/api/v1/reservation',
   PublicEducation = '/vkt/api/v1/education',
-  PaymentCreate = '/vkt/api/v1/payment/create/:enrollmentId/redirect?locale=:locale',
+  PaymentCreate = '/vkt/api/v1/payment/create/:enrollmentId/:type/redirect?locale=:locale',
   ClerkExamEvent = '/vkt/api/v1/clerk/examEvent',
   ClerkUser = '/vkt/api/v1/clerk/user',
   PublicUser = '/vkt/api/v1/auth/info',
@@ -14,6 +17,13 @@ export enum APIEndpoints {
   FeatureFlags = '/vkt/api/v1/featureFlags',
   UploadPostPolicy = '/vkt/api/v1/uploadPostPolicy/:examEventId',
   ClerkRefreshKoskiEducationDetails = '/vkt/api/v1/clerk/enrollment/:enrollmentId/refreshKoskiEducationDetails',
+  ClerkExaminer = '/vkt/api/v1/clerk/examiner',
+  // TODO Consider using prefix /examiner instead of /tv
+  ExaminerDetails = '/vkt/api/v1/tv/:oid',
+  ExaminerDetailsInit = '/vkt/api/v1/tv/:oid/init',
+  ExaminerExamEvent = '/vkt/api/v1/tv/:oid/examEvent',
+  ExaminerEnrollmentAppointment = '/vkt/api/v1/tv/:oid/enrollment/appointment',
+  ExaminerEnrollmentContactRequest = '/vkt/api/v1/tv/:oid/enrollment/contact',
 }
 
 /**
@@ -45,4 +55,6 @@ export enum APIError {
   TicketValidationError = 'ticketValidationError',
   FileUploadError = 'fileUploadError',
   userAttachmentsMissing = 'userAttachmentsMissing',
+  ExaminerNotFound = 'examinerNotFound',
+  AuthHashExpired = 'authHashExpired',
 }

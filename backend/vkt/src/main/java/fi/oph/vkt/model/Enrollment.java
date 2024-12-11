@@ -25,33 +25,12 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "enrollment")
-public class Enrollment extends BaseEntity {
+public class Enrollment extends EnrollmentCommon {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "enrollment_id", nullable = false)
   private long id;
-
-  @Column(name = "skill_oral", nullable = false)
-  private boolean oralSkill;
-
-  @Column(name = "skill_textual", nullable = false)
-  private boolean textualSkill;
-
-  @Column(name = "skill_understanding", nullable = false)
-  private boolean understandingSkill;
-
-  @Column(name = "partial_exam_speaking", nullable = false)
-  private boolean speakingPartialExam;
-
-  @Column(name = "partial_exam_speech_comprehension", nullable = false)
-  private boolean speechComprehensionPartialExam;
-
-  @Column(name = "partial_exam_writing", nullable = false)
-  private boolean writingPartialExam;
-
-  @Column(name = "partial_exam_reading_comprehension", nullable = false)
-  private boolean readingComprehensionPartialExam;
 
   @Column(name = "status", nullable = false)
   @Enumerated(value = EnumType.STRING)
@@ -94,10 +73,6 @@ public class Enrollment extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "exam_event_id", referencedColumnName = "exam_event_id", nullable = false)
   private ExamEvent examEvent;
-
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
-  private Person person;
 
   @OneToMany(mappedBy = "enrollment")
   private List<Payment> payments = new ArrayList<>();

@@ -32,6 +32,11 @@
           "understandingSkill": "Ymmärtämisen taito",
           "writingPartialExam": "Kirjoittaminen"
         },
+        "grades": {
+          "GOOD": "Hyvä",
+          "SATISFACTORY": "Tyydyttävä",
+          "FAILED": "Hylätty"
+        },
         "textFields": {
           "country": "Maa",
           "email": "Sähköpostiosoite",
@@ -78,7 +83,8 @@
           "sessionMissingPersonId": "Et ole tunnistautunut, ole hyvä ja tunnistaudu uudelleen",
           "ticketValidationError": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen",
           "fileUploadError": "Tiedoston lähetys epäonnistui, ole hyvä ja yritä uudelleen",
-          "userAttachmentsMissing": "Koulutusvalinnan vaadittavat liitteet puuttuu"
+          "userAttachmentsMissing": "Koulutusvalinnan vaadittavat liitteet puuttuu",
+          "authHashExpired": "Ilmoittautumislinkki on erääntynyt."
         },
         "customTextField": {
           "emailFormat": "Sähköpostiosoite on virheellinen",
@@ -93,15 +99,23 @@
       },
       "examLanguage": {
         "FI": "Suomi",
-        "SV": "Ruotsi"
+        "SV": "Ruotsi",
+        "ALL": "Suomi & ruotsi"
       },
       "examLevel": {
-        "EXCELLENT": "Erinomainen taito"
+        "EXCELLENT": "Erinomainen taito",
+        "GOOD_AND_SATISFACTORY": "Hyvä ja tyydyttävä taito"
       },
       "header": {
         "accessibility": {
           "continueToMain": "Jatka sisältöön",
-          "langSelectorAriaLabel": "Kieli / Språk"
+          "langSelectorAriaLabel": "Kieli / Språk",
+          "mainNavigation": "Päänavigaatio"
+        },
+        "publicNavigationLinks": {
+          "excellentLevel": "Erinomaisen taidon tutkinnot",
+          "frontPage": "Etusivu",
+          "goodAndSatisfactoryLevel": "Hyvän ja tyydyttävän taidon tutkinnot"
         },
         "sessionState": {
           "logOut": "Kirjaudu ulos"
@@ -146,11 +160,16 @@
         "clerkEnrollmentOverview": "Virkailija ilmoittautuminen",
         "clerkExamEventCreate": "Virkailija lisää tutkintopäivä",
         "clerkExamOverview": "Virkailija tutkintosivu",
-        "clerkHomepage": "Virkailija",
+        "clerkExcellentLevel": "Virkailija - erinomaisen taidon tutkinnot",
+        "clerkGoodAndSatisfactoryLevel": "Virkailija - hyvän ja tyydyttävän taidon tutkinnot",
         "contactDetails": "Ilmoittautuminen - täytä yhteystietosi",
         "educationDetails": "Ilmoittautuminen - koulutustiedot",
+        "examinerHomePage": "Tutkinnon vastaanottaja - hyvän ja tyydyttävän taidon tutkinnot",
+        "examinerDetails": "Tutkinnon vastaanottaja - omat tiedot",
+        "excellentLevelLanding": "Erinomaisen taidon tutkinnot",
         "done": "Ilmoittautuminen - valmis",
         "frontPage": "Etusivu",
+        "goodAndSatisfactoryLevelLanding": "Hyvän ja tyydyttävän taidon tutkinnot",
         "logoutSuccess": "Uloskirjautuminen onnnistui",
         "notFound": "Etsimääsi sivua ei löytynyt",
         "paymentFail": "Ilmoittautuminen - maksua ei suoritettu",

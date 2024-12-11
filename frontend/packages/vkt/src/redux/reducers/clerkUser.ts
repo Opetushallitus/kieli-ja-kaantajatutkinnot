@@ -1,16 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ClerkUser } from 'interfaces/clerkUser';
-
-interface ClerkUserState extends ClerkUser {
-  status: APIResponseStatus;
-  isAuthenticated: boolean;
-}
+import { ClerkUser, ClerkUserState } from 'interfaces/clerkUser';
 
 const initialState: ClerkUserState = {
   status: APIResponseStatus.NotStarted,
   isAuthenticated: false,
+  isAdmin: false,
+  isExaminer: false,
   oid: '',
 };
 
@@ -21,15 +18,15 @@ const clerkUserSlice = createSlice({
     loadClerkUser(state) {
       state.status = APIResponseStatus.InProgress;
     },
-    rejectClerkUser(state) {
-      state.status = APIResponseStatus.Error;
-      state.isAuthenticated = initialState.isAuthenticated;
-      state.oid = initialState.oid;
+    rejectClerkUser(_) {
+      return { ...initialState, status: APIResponseStatus.Error };
     },
-    storeClerkUser(state, action: PayloadAction<ClerkUser>) {
-      state.status = APIResponseStatus.Success;
-      state.isAuthenticated = true;
-      state.oid = action.payload.oid;
+    storeClerkUser(_, action: PayloadAction<ClerkUser>) {
+      return {
+        ...action.payload,
+        status: APIResponseStatus.Success,
+        isAuthenticated: true,
+      };
     },
   },
 });

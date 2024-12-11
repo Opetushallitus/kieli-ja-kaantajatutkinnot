@@ -34,4 +34,5 @@ public record ExamEventXlsxDataRow(
   String postalCode,
   String town,
   String country
-) {}
+)
+  implements ExamEventCommonXlsxDataRow {}

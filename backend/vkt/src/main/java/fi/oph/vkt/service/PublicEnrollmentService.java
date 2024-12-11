@@ -3,26 +3,37 @@ package fi.oph.vkt.service;
 import fi.oph.vkt.api.dto.FreeEnrollmentAttachmentDTO;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetailsDTO;
+import fi.oph.vkt.api.dto.PublicAppointmentExamDateDTO;
 import fi.oph.vkt.api.dto.PublicEducationDTO;
+import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentDTO;
+import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentUpdateDTO;
+import fi.oph.vkt.api.dto.PublicEnrollmentContactCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
+import fi.oph.vkt.api.dto.PublicExaminerNameDTO;
 import fi.oph.vkt.api.dto.PublicFreeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Examiner;
+import fi.oph.vkt.model.ExaminerExamEvent;
 import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.UploadedFileAttachment;
+import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import fi.oph.vkt.model.type.FreeEnrollmentType;
+import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.repository.ExaminerRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.repository.UploadedFileAttachmentRepository;
@@ -34,6 +45,7 @@ import fi.oph.vkt.util.PersonUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +61,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PublicEnrollmentService extends AbstractEnrollmentService {
 
   private final EnrollmentRepository enrollmentRepository;
+  private final EnrollmentAppointmentRepository enrollmentAppointmentRepository;
   private final ExamEventRepository examEventRepository;
   private final PublicEnrollmentEmailService publicEnrollmentEmailService;
   private final PublicReservationService publicReservationService;
@@ -58,6 +71,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   private final FeatureFlagService featureFlagService;
   private final UploadedFileAttachmentRepository uploadedFileAttachmentRepository;
   private final KoskiService koskiService;
+  private final ExaminerRepository examinerRepository;
+  private final ContactEmailService contactEmailService;
 
   @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollment(final long examEventId, final Person person) {
@@ -470,6 +485,13 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     enrollment.setCountry(null);
   }
 
+  private void clearAddress(final EnrollmentAppointment enrollmentAppointment) {
+    enrollmentAppointment.setStreet(null);
+    enrollmentAppointment.setPostalCode(null);
+    enrollmentAppointment.setTown(null);
+    enrollmentAppointment.setCountry(null);
+  }
+
   @Transactional
   public PublicEnrollmentDTO createEnrollmentToQueue(
     final PublicEnrollmentCreateDTO dto,
@@ -592,5 +614,111 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final String key = examEventId + "/" + person.getUuid() + "/" + millis + "." + extension;
 
     return s3Service.getPresignedPostRequest(key, extension);
+  }
+
+  private PublicEnrollmentAppointmentDTO createEnrollmentAppointmentDTO(
+    final EnrollmentAppointment enrollmentAppointment
+  ) {
+    final ExaminerExamEvent examEvent = enrollmentAppointment.getExaminerExamEvent();
+    final Examiner examiner = enrollmentAppointment.getExaminer();
+    final Person person = enrollmentAppointment.getPerson();
+    final PublicPersonDTO personDTO = person == null ? null : PersonUtil.createPublicPersonDTO(person);
+    final PublicExaminerNameDTO examinerNameDTO = PublicExaminerNameDTO
+      .builder()
+      .name(examiner.getNickname() + " " + examiner.getLastName())
+      .build();
+    final PublicAppointmentExamDateDTO examDateDTO = PublicAppointmentExamDateDTO
+      .builder()
+      .date(examEvent.getDate())
+      .location(examEvent.getLocation())
+      .examiner(examinerNameDTO)
+      .language(examEvent.getLanguage())
+      .build();
+
+    return PublicEnrollmentAppointmentDTO
+      .builder()
+      .id(enrollmentAppointment.getId())
+      .oralSkill(enrollmentAppointment.isOralSkill())
+      .textualSkill(enrollmentAppointment.isTextualSkill())
+      .understandingSkill(enrollmentAppointment.isUnderstandingSkill())
+      .speakingPartialExam(enrollmentAppointment.isSpeakingPartialExam())
+      .speechComprehensionPartialExam(enrollmentAppointment.isSpeechComprehensionPartialExam())
+      .writingPartialExam(enrollmentAppointment.isWritingPartialExam())
+      .readingComprehensionPartialExam(enrollmentAppointment.isReadingComprehensionPartialExam())
+      .digitalCertificateConsent(enrollmentAppointment.isDigitalCertificateConsent())
+      .email(enrollmentAppointment.getEmail())
+      .phoneNumber(enrollmentAppointment.getPhoneNumber())
+      .street(enrollmentAppointment.getStreet() == null ? "" : enrollmentAppointment.getStreet())
+      .postalCode(enrollmentAppointment.getPostalCode() == null ? "" : enrollmentAppointment.getPostalCode())
+      .town(enrollmentAppointment.getTown() == null ? "" : enrollmentAppointment.getTown())
+      .country(enrollmentAppointment.getCountry() == null ? "" : enrollmentAppointment.getCountry())
+      .status(enrollmentAppointment.getStatus())
+      .person(personDTO)
+      .examEvent(examDateDTO)
+      .build();
+  }
+
+  @Transactional(readOnly = true)
+  public PublicEnrollmentAppointmentDTO getEnrollmentAppointment(final long enrollmentAppointmentId) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
+      enrollmentAppointmentId
+    );
+
+    return createEnrollmentAppointmentDTO(enrollmentAppointment);
+  }
+
+  @Transactional
+  public PublicEnrollmentAppointmentDTO saveEnrollmentAppointment(
+    final PublicEnrollmentAppointmentUpdateDTO dto,
+    final Person person
+  ) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(dto.id());
+
+    if (person.getId() != enrollmentAppointment.getPerson().getId()) {
+      throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
+    }
+
+    enrollmentAppointment.setPerson(person);
+    enrollmentAppointment.setStreet(dto.street());
+    enrollmentAppointment.setPostalCode(dto.postalCode());
+    enrollmentAppointment.setTown(dto.town());
+    enrollmentAppointment.setCountry(dto.country());
+    enrollmentAppointment.setPhoneNumber(dto.phoneNumber());
+
+    if (dto.digitalCertificateConsent()) {
+      clearAddress(enrollmentAppointment);
+    }
+
+    enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
+
+    return createEnrollmentAppointmentDTO(enrollmentAppointment);
+  }
+
+  @Transactional
+  public void createEnrollmentContact(final PublicEnrollmentContactCreateDTO dto, final long examinerId)
+    throws IOException, InterruptedException {
+    final EnrollmentAppointment enrollmentAppointment = new EnrollmentAppointment();
+    final Examiner examiner = examinerRepository.getReferenceById(examinerId);
+
+    enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.CONTACT_CREATED);
+    enrollmentAppointment.setExaminer(examiner);
+    copyDtoFieldsToEnrollment(enrollmentAppointment, dto);
+
+    // Save contact request first to ensure we have a persisted ID for the enrollment appointment.
+    // This is needed to create a correct link to the contact request in the examiner's UI.
+    enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
+
+    // Send emails to contact requester and the examiner.
+    contactEmailService.sendReceiptNotificationForContactRequest(enrollmentAppointment);
+    contactEmailService.sendExaminerNotificationOfContactRequest(enrollmentAppointment);
+  }
+
+  public EnrollmentAppointment getEnrollmentAppointmentByIdAndPaymentLink(
+    final long enrollmentAppointmentId,
+    final String paymentLinkHash
+  ) {
+    return enrollmentAppointmentRepository
+      .findByIdAndPaymentLinkHashAndDeletedAtIsNull(enrollmentAppointmentId, paymentLinkHash)
+      .orElseThrow();
   }
 }

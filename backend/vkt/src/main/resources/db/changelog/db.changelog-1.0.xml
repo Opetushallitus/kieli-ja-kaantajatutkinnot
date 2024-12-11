@@ -859,4 +859,331 @@
             ALTER TABLE exam_event ADD COLUMN registration_opens TIMESTAMP WITH TIME ZONE;
         </sql>
     </changeSet>
+    <changeSet id="2024-10-04-examiner-and-municipality-tables" author="pkoivisto">
+        <createTable tableName="examiner">
+            <column autoIncrement="true" name="examiner_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="examiner_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="oid" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="examiner_oid_uniq_idx"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nickname" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="exam_language_finnish" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="exam_language_swedish" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_public" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="municipality">
+            <column autoIncrement="true" name="municipality_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="municipality_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="code" type="VARCHAR(255)">
+                <constraints
+                        nullable="false"
+                        unique="true"
+                        uniqueConstraintName="municipality_code_uniq_idx"/>
+            </column>
+            <column name="name_fi" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name_sv" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="examiner_municipality">
+            <column autoIncrement="true" name="examiner_municipality_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="examiner_municipality_pkey"/>
+            </column>
+            <column name="municipality_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="examiner_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="examiner_municipality" columnNames="examiner_id,municipality_id"
+                             constraintName="uk_examiner_municipality_examiner_id_municipality_id"/>
+        <addForeignKeyConstraint
+                baseTableName="examiner_municipality"
+                baseColumnNames="examiner_id"
+                constraintName="fk_examiner_municipality_examiner"
+                referencedTableName="examiner"
+                referencedColumnNames="examiner_id"/>
+        <addForeignKeyConstraint
+                baseTableName="examiner_municipality"
+                baseColumnNames="municipality_id"
+                constraintName="fk_examiner_municipality_municipality"
+                referencedTableName="municipality"
+                referencedColumnNames="municipality_id"/>
+    </changeSet>
+    <changeSet id="2024-11-07-new-examiner_exam_event-table" author="pkoivisto">
+        <createTable tableName="examiner_exam_event">
+            <column autoIncrement="true" name="examiner_exam_event_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="examiner_exam_event_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="language" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="examiner_id" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_hidden" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="registration_closes" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="max_participants" type="INT"/>
+            <column name="municipality_id" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="location" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="examiner_exam_event"
+                baseColumnNames="examiner_id"
+                constraintName="fk_examiner_exam_event_examiner_id"
+                referencedTableName="examiner"
+                referencedColumnNames="examiner_id"
+        />
+        <addForeignKeyConstraint
+                baseTableName="examiner_exam_event"
+                baseColumnNames="municipality_id"
+                constraintName="fk_examiner_exam_event_municipality_id"
+                referencedTableName="municipality"
+                referencedColumnNames="municipality_id"
+        />
+        <addForeignKeyConstraint baseTableName="examiner_exam_event" baseColumnNames="language"
+                                 referencedTableName="exam_language" referencedColumnNames="name"
+                                 constraintName="fk_examiner_exam_event_language"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+    <changeSet id="2024-11-11-grade-table" author="jrkkp">
+        <createTable tableName="enrollment_grade">
+            <column autoIncrement="true" name="grade_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="grade_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="speaking_grade" type="TEXT" />
+            <column name="speech_comprehension_grade" type="TEXT" />
+            <column name="writing_grade" type="TEXT" />
+            <column name="comprehension_grade" type="TEXT" />
+            <column name="speaking_comment" type="TEXT" />
+            <column name="speech_comprehension_comment" type="TEXT" />
+            <column name="writing_comment" type="TEXT" />
+            <column name="comprehension_comment" type="TEXT" />
+        </createTable>
+    </changeSet>
+    <changeSet id="2024-11-13-enrollment_appointment" author="jrkkp">
+        <createTable tableName="enrollment_appointment">
+            <column autoIncrement="true" name="enrollment_appointment_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="enrollment_appointment_pkey" />
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="skill_oral" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="skill_textual" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="skill_understanding" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="partial_exam_speaking" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="partial_exam_speech_comprehension" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="partial_exam_writing" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="partial_exam_reading_comprehension" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="previous_enrollment_date" type="DATE"/>
+            <column name="digital_certificate_consent" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="auth_hash" type="TEXT" />
+            <column name="email" type="TEXT" />
+            <column name="phone_number" type="TEXT" />
+            <column name="first_name" type="TEXT" />
+            <column name="last_name" type="TEXT" />
+            <column name="street" type="TEXT"/>
+            <column name="postal_code" type="TEXT"/>
+            <column name="town" type="TEXT"/>
+            <column name="country" type="TEXT"/>
+            <column name="person_id" type="BIGINT" />
+            <column name="payment_link_hash" type="TEXT" />
+            <column name="auth_hash_expires" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="auth_hash_sent" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="previous_enrollment" type="TEXT" />
+            <column name="message" type="TEXT" />
+            <column name="grade_id" type="BIGINT" />
+            <column name="examiner_id" type="BIGINT" />
+            <column name="examiner_exam_event_id" type="BIGINT" />
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="enrollment_appointment"
+                baseColumnNames="grade_id"
+                constraintName="fk_enrollment_appointment_grade_id"
+                referencedTableName="enrollment_grade"
+                referencedColumnNames="grade_id"/>
+        <addForeignKeyConstraint
+                baseTableName="enrollment_appointment"
+                baseColumnNames="examiner_id"
+                constraintName="fk_enrollment_appointment_examiner_id"
+                referencedTableName="examiner"
+                referencedColumnNames="examiner_id"/>
+        <addForeignKeyConstraint
+                baseTableName="enrollment_appointment"
+                baseColumnNames="examiner_exam_event_id"
+                constraintName="fk_enrollment_appointment_examiner_exam_event_id"
+                referencedTableName="examiner_exam_event"
+                referencedColumnNames="examiner_exam_event_id"/>
+        <addColumn tableName="payment">
+            <column name="enrollment_appointment_id" type="BIGINT" />
+        </addColumn>
+        <dropNotNullConstraint
+                columnDataType="bigint"
+                columnName="enrollment_id"
+                constraintName="enrollment_id"
+                tableName="payment"/>
+        <addForeignKeyConstraint
+                baseTableName="payment"
+                baseColumnNames="enrollment_appointment_id"
+                constraintName="fk_payment_enrollment_appointment_id"
+                referencedTableName="enrollment_appointment"
+                referencedColumnNames="enrollment_appointment_id"/>
+    </changeSet>
+    <changeSet id="2024-11-13-examiner_exam_event-new-columns" author="pkoivisto">
+        <addColumn tableName="examiner_exam_event">
+            <column name="exam_time" type="text" />
+            <column name="other_information" type="text" />
+        </addColumn>
+        <dropNotNullConstraint tableName="examiner_exam_event" columnName="location" />
+    </changeSet>
+    <changeSet id="2024-11-19-add-enrollment-send-auth-link" author="jrkkp">
+        <insert tableName="email_type">
+            <column name="name" value="ENROLLMENT_APPOINTMENT_AUTH_LINK"/>
+        </insert>
+    </changeSet>
+    <changeSet id="2024-11-20-add-enrollment-contact-request-email-type" author="jrkkp">
+        <insert tableName="email_type">
+            <column name="name" value="ENROLLMENT_CONTACT_REQUEST"/>
+        </insert>
+        <insert tableName="email_type">
+            <column name="name" value="ENROLLMENT_APPOINTMENT_CONFIRMATION"/>
+        </insert>
+    </changeSet>
+    <changeSet id="2024-11-22-enrollment-contact-partial-exam-selection-changes" author="pkoivisto">
+        <addColumn tableName="enrollment_appointment">
+            <column name="partial_exam_selection" type="text" />
+        </addColumn>
+        <dropNotNullConstraint tableName="enrollment_appointment" columnName="skill_oral" />
+        <dropNotNullConstraint tableName="enrollment_appointment" columnName="skill_textual" />
+        <dropNotNullConstraint tableName="enrollment_appointment" columnName="skill_understanding" />
+        <dropNotNullConstraint tableName="enrollment_appointment" columnName="partial_exam_speaking" />
+        <dropNotNullConstraint tableName="enrollment_appointment" columnName="partial_exam_speech_comprehension" />
+        <dropNotNullConstraint tableName="enrollment_appointment" columnName="partial_exam_writing" />
+        <dropNotNullConstraint tableName="enrollment_appointment" columnName="partial_exam_reading_comprehension" />
+    </changeSet>
+    <changeSet id="2024-12-02-enrollment-contact-previous-enrollment-as-boolean" author="pkoivisto">
+        <addColumn tableName="enrollment_appointment">
+            <column name="has_previous_enrollment" type="BOOLEAN" />
+        </addColumn>
+        <sql>
+            UPDATE enrollment_appointment SET has_previous_enrollment = (previous_enrollment IS NOT NULL);
+        </sql>
+        <addNotNullConstraint tableName="enrollment_appointment" columnName="has_previous_enrollment" />
+    </changeSet>
 </databaseChangeLog>

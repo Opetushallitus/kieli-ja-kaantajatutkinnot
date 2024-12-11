@@ -1,11 +1,14 @@
-export interface PartialExamsAndSkills {
-  oralSkill: boolean;
-  textualSkill: boolean;
+export interface PartialExams {
   understandingSkill: boolean;
   speakingPartialExam: boolean;
   speechComprehensionPartialExam: boolean;
   writingPartialExam: boolean;
   readingComprehensionPartialExam: boolean;
+}
+
+export interface PartialExamsAndSkills extends PartialExams {
+  oralSkill: boolean;
+  textualSkill: boolean;
 }
 
 export interface CertificateShippingTextFields {

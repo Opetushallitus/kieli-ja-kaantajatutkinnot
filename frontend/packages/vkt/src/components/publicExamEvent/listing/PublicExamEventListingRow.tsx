@@ -15,14 +15,12 @@ export const PublicExamEventListingRow = ({
   const { isPhone } = useWindowProperties();
 
   return (
-    <>
-      <TableRow data-testid={`public-exam-events__id-${examEvent.id}-row`}>
-        {isPhone ? (
-          <PublicExamEventPhoneCells examEvent={examEvent} />
-        ) : (
-          <PublicExamEventDesktopCells examEvent={examEvent} />
-        )}
-      </TableRow>
-    </>
+    <TableRow data-testid={`public-exam-events__id-${examEvent.id}-row`}>
+      {isPhone ? (
+        <PublicExamEventPhoneCells examEvent={examEvent} />
+      ) : (
+        <PublicExamEventDesktopCells examEvent={examEvent} />
+      )}
+    </TableRow>
   );
 };

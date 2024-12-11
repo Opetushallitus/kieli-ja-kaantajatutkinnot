@@ -3,12 +3,13 @@ import { SkeletonVariant } from 'shared/enums';
 
 import { ClerkExamEventDetails } from 'components/clerkExamEvent/overview/ClerkExamEventDetails';
 import { TopControls } from 'components/clerkExamEvent/overview/TopControls';
+import { AppRoutes } from 'enums/app';
 
 export const ClerkExamEventOverviewPageSkeleton = () => {
   return (
     <>
       <Skeleton variant={SkeletonVariant.Rectangular}>
-        <TopControls />
+        <TopControls backTo={AppRoutes.ClerkExcellentLevelPage} />
       </Skeleton>
       <Skeleton
         className="full-max-width half-height margin-top-lg"

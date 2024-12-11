@@ -69,6 +69,7 @@ export enum I18nNamespace {
   Clerk = 'clerk',
   Common = 'common',
   KoodistoCountries = 'koodistoCountries',
+  KoodistoMunicipalities = 'koodistoMunicipalities',
   KoodistoLanguages = 'koodistoLanguages',
   KoodistoRegions = 'koodistoRegions',
   Privacy = 'privacy',
@@ -112,6 +113,7 @@ export enum TextFieldTypes {
   Textarea = 'textarea',
   PersonalIdentityCode = 'personalIdentityCode',
   Date = 'date',
+  Time = 'time',
 }
 
 export enum TextFieldVariant {

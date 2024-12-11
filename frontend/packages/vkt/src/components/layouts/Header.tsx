@@ -1,18 +1,26 @@
 import { AppBar, Toolbar } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { TFunction } from 'i18next';
+import { Link, matchPath, useLocation } from 'react-router-dom';
 import {
   CookieBanner,
   LangSelector,
+  MobileNavigationMenuWithPortal,
+  NavigationLinks,
   OPHClerkLogo,
   OPHLogoViewer,
   SkipLink,
   Text,
 } from 'shared/components';
-import { APIResponseStatus, AppLanguage, Direction } from 'shared/enums';
+import {
+  APIResponseStatus,
+  AppLanguage,
+  Direction,
+  I18nNamespace,
+} from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { ClerkHeaderButtons } from 'components/layouts/clerkHeader/ClerkHeaderButtons';
-import { ClerkNavTabs } from 'components/layouts/clerkHeader/ClerkNavTabs';
+import { ClerkNavigationLinks } from 'components/layouts/clerkHeader/ClerkNavigationLinks';
 import { SessionExpiredModal } from 'components/layouts/SessionExpiredModal';
 import { SessionStateHeader } from 'components/layouts/SessionStateHeader';
 import {
@@ -21,12 +29,108 @@ import {
   getSupportedLangs,
   useCommonTranslation,
 } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { AppRoutes, PublicNavigationLink } from 'enums/app';
 import { useAuthentication } from 'hooks/useAuthentication';
 import { useInterval } from 'hooks/useInterval';
 import { loadClerkUser } from 'redux/reducers/clerkUser';
 import { loadPublicUser } from 'redux/reducers/publicUser';
+import { featureFlagsSelector } from 'redux/selectors/featureFlags';
+
+const isPathActive = (currentPath: string, route: AppRoutes) =>
+  !!matchPath({ path: route, end: false }, currentPath);
+
+const getNavigationLinks = (
+  pathname: string,
+  goodAndSatisfactoryLevel: boolean,
+  translateCommon: TFunction<I18nNamespace, string>,
+) => {
+  const excellentLevelLink = {
+    active: isPathActive(pathname, AppRoutes.PublicExcellentLevelLanding),
+    label: translateCommon(
+      `header.publicNavigationLinks.${PublicNavigationLink.ExcellentLevel}`,
+    ),
+    href: AppRoutes.PublicExcellentLevelLanding,
+  };
+
+  const navigationLinks = goodAndSatisfactoryLevel
+    ? [
+        {
+          active: isPathActive(pathname, AppRoutes.PublicHomePage),
+          label: translateCommon(
+            `header.publicNavigationLinks.${PublicNavigationLink.FrontPage}`,
+          ),
+          href: AppRoutes.PublicHomePage,
+        },
+        excellentLevelLink,
+        {
+          active: isPathActive(
+            pathname,
+            AppRoutes.PublicGoodAndSatisfactoryLevelLanding,
+          ),
+          label: translateCommon(
+            `header.publicNavigationLinks.${PublicNavigationLink.GoodAndSatisfactoryLevel}`,
+          ),
+          href: AppRoutes.PublicGoodAndSatisfactoryLevelLanding,
+        },
+      ]
+    : [excellentLevelLink];
+
+  return navigationLinks;
+};
+
+const PublicNavigationLinks = () => {
+  const translateCommon = useCommonTranslation();
+  const { pathname } = useLocation();
+  const { goodAndSatisfactoryLevel } = useAppSelector(featureFlagsSelector);
+
+  const navigationLinks = getNavigationLinks(
+    pathname,
+    !!goodAndSatisfactoryLevel,
+    translateCommon,
+  );
+
+  return (
+    <NavigationLinks
+      navigationAriaLabel={translateCommon(
+        'header.accessibility.mainNavigation',
+      )}
+      links={navigationLinks}
+    />
+  );
+};
+
+const PublicMobileNavigationMenu = () => {
+  const translateCommon = useCommonTranslation();
+  const { pathname } = useLocation();
+  const { goodAndSatisfactoryLevel } = useAppSelector(featureFlagsSelector);
+
+  const navigationLinks = getNavigationLinks(
+    pathname,
+    !!goodAndSatisfactoryLevel,
+    translateCommon,
+  );
+
+  const portalContainer = document.getElementById('mobile-menu-placeholder');
+
+  if (!portalContainer) {
+    return null;
+  }
+
+  return (
+    <MobileNavigationMenuWithPortal
+      navigationAriaLabel={translateCommon(
+        'header.accessibility.mainNavigation',
+      )}
+      openStateLabel="Sulje"
+      openStateAriaLabel="Sulje valikko"
+      closedStateLabel="Valikko"
+      closedStateAriaLabel="Avaa valikko"
+      links={navigationLinks}
+      portalContainer={portalContainer}
+    />
+  );
+};
 
 export const Header = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -41,8 +145,13 @@ export const Header = (): JSX.Element => {
   const { isAuthenticated, isClerkUI, clerkUser, publicUser } =
     useAuthentication();
   const logoRedirectURL = isAuthenticated
-    ? AppRoutes.ClerkHomePage
+    ? AppRoutes.ClerkExcellentLevelPage
     : AppRoutes.PublicHomePage;
+  const activeUrl = window.location.href;
+  const isPublicUrl =
+    !activeUrl.includes(AppRoutes.ClerkRoot) &&
+    !activeUrl.includes(AppRoutes.ExaminerRoot);
+
   const { isPhone } = useWindowProperties();
 
   const isClerkAuthenticationValid =
@@ -89,7 +198,7 @@ export const Header = (): JSX.Element => {
           />
         )}
         <Toolbar className="header__toolbar">
-          <div className="header__left">
+          <div className="header__logo">
             <Link to={logoRedirectURL}>
               {isClerkUI ? (
                 <OPHClerkLogo
@@ -99,19 +208,25 @@ export const Header = (): JSX.Element => {
                 />
               ) : (
                 <OPHLogoViewer
-                  className="header__left__logo"
+                  className="header__logo__logo"
                   direction={Direction.Horizontal}
                   alt={translateCommon('ophLogoToFrontPageAlt')}
                   currentLang={getCurrentLang()}
-                  title={translateCommon('appNameAbbreviation')}
+                  title={
+                    !isPhone
+                      ? translateCommon('appNameAbbreviation')
+                      : undefined
+                  }
                 />
               )}
             </Link>
           </div>
-          <div className="header__center">
-            {isAuthenticated && <ClerkNavTabs />}
+          <div className="header__navigation">
+            {isAuthenticated && <ClerkNavigationLinks />}
+            {isPublicUrl && !isPhone && <PublicNavigationLinks />}
+            {isPublicUrl && isPhone && <PublicMobileNavigationMenu />}
           </div>
-          <div className="header__right">
+          <div className="header__language-select">
             {isAuthenticated && <ClerkHeaderButtons />}
             {!isPhone && (
               <LangSelector

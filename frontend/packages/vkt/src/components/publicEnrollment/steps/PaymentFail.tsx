@@ -37,7 +37,10 @@ export const PaymentFail = ({
 
     // Safari needs time to re-render loading indicator
     setTimeout(() => {
-      window.location.href = RouteUtils.getPaymentCreateApiRoute(enrollment.id);
+      window.location.href = RouteUtils.getPaymentCreateApiRoute(
+        'reservation',
+        enrollment.id,
+      );
     }, 200);
   };
 

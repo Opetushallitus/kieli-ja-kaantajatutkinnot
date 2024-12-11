@@ -30,8 +30,8 @@ describe('ClerkCreateExamEventPage', () => {
     onClerkExamEventCreatePage.saveButtonEnabledIs(true);
   });
 
-  it('should allow navigating back to clerk homepage', () => {
+  it('should allow navigating back to clerk excellent level page', () => {
     onClerkExamEventCreatePage.clickBackButton();
-    cy.isOnPage(AppRoutes.ClerkHomePage);
+    cy.isOnPage(AppRoutes.ClerkExcellentLevelPage);
   });
 });

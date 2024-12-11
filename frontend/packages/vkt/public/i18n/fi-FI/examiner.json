@@ -1,0 +1,197 @@
+{
+  "vkt": {
+    "component": {
+      "examinerDetails": {
+        "buttons": {
+          "saveAndClose": "Tallenna ja sulje"
+        },
+        "examinationDetails": {
+          "heading": "Tutkinnon perustiedot",
+          "information": "Nämä tiedot näkyvät julkisessa listauksessa."
+        },
+        "incorrectDetailsDialog": {
+          "description": "Korjaa puuttuvat tai virheelliset tiedot:",
+          "title": "Tiedoissa on korjattavaa!"
+        },
+        "heading": "Omat tiedot",
+        "labels": {
+          "email": "Sähköpostiosoite",
+          "examLanguages": "Tutkinnon kieli",
+          "firstName": "Etunimi:",
+          "lastName": "Sukunimi:",
+          "isPublic": "Julkaise",
+          "municipalities": "Tutkintopaikka/Tutkintopaikat",
+          "phoneNumber": "Puhelinnumero"
+        },
+        "personalDetails": {
+          "heading": "Henkilötiedot",
+          "information": "Tiedoista vain nimet näkyvät julkisessa listauksessa."
+        },
+        "successToast": {
+          "description": "Tietojen päivittäminen onnistui!"
+        }
+      },
+      "examinerExamEventDetails": {
+        "appointment": {
+          "paymentInfoHeader": "Maksutiedot",
+          "showHistory": "Katso aiempien tutkintojen tiedot",
+          "giveGrades": "Anna arvosanat",
+          "linkSentAt": "Lähetetty",
+          "linkExpiresAt": "Erääntyy",
+          "sendAuthLink": "Lähetä ilmoittautumislinkki",
+          "noAuthPossible": "Ei mahdollisuutta tunnistautua?",
+          "paymentLinkModal": {
+            "title": "Suora maksulinkki",
+            "description": "Jos asiakkaalla ei ole mahdollisuutta käyttää vahvaa tunnistautumista, lähetä tämä suora maksulinkki."
+          }
+        },
+        "authLinkErrorDialog": {
+          "description": "Ilmoittautuja täytyy liittää tutkintoon ennen ilmoittautumislinkin lähetystä.",
+          "header": "Valitse tutkinto"
+        },
+        "authLinkSuccessDialog": {
+          "description": "Asiakkaalle on lähetetty ilmoittautumislinkki sähköpostiin. Ilmoittautumislinkki on voimassa kolme (3) vuorokautta. Voit tarpeen vaatiessa lähettää ilmoittautumislinkin uudestaan.",
+          "header": "Ilmoittautumislinkki lähetetty"
+        },
+        "downloadExcel": "Lataa Excel",
+        "enrollmentStatus": {
+          "COMPLETED": "Ilmoittautuneet",
+          "CANCELED": "Peruutetut",
+          "EXPECTING_PAYMENT": "Maksua odottavat",
+          "WAITING_AUTHENTICATION": "Odottaa tunnistautumista",
+          "CANCELED_PAYMENT": "Maksu peruttu",
+          "ENROLLMENT_CREATED": "Ilmoittautumislinkki lähettämättä",
+          "CONTACT_CREATED": "Yhteydenotto luotu"
+        },
+        "header": {
+          "examDate": "Tutkintopäivä",
+          "examTime": "Tutkinnon alkamisaika",
+          "fillings": "Paikkoja täytetty",
+          "hidden": "Piilotettu",
+          "isPublic": "Näytä tutkintopäivä julkisesti",
+          "languageAndLevel": "Kieli ja taso",
+          "location": "Tutkintopaikan tarkka osoite",
+          "maxParticipants": "Paikkojen lukumäärä",
+          "municipality": "Tutkintopaikka",
+          "previousEnrollment": "Aikaisempi osallistuminen valtionhallinnon kielitutkintoon",
+          "registrationCloses": "Ilmoittautuminen päättyy"
+        },
+        "payment": {
+          "create": "Luo maksulinkki",
+          "setRefunded": "Merkitse maksu palautetuksi",
+          "details": {
+            "amount": "Summa",
+            "date": "Aikaleima",
+            "reference": "Maksutunniste",
+            "status": "Tila",
+            "refunded": "Merkitty palautetuksi"
+          },
+          "modal": {
+            "expires": "Voimassaolo päättyy",
+            "link": "Linkki",
+            "title": "Maksulinkki"
+          },
+          "refundDialog": {
+            "description": "Tämä toiminto ei palauta maksua. Maksu ainoastaan merkitään palautetuksi.",
+            "header": "Haluatko varmasti merkitä maksun palautetuksi?"
+          },
+          "historyTitle": "Maksuhistoria",
+          "recentTitle": "Maksun tila"
+        },
+        "status": "Ilmoittautumisen tila"
+      },
+      "examinerExamEventUpsert": {
+        "description": {
+          "create": {
+            "part1": "Lisää tutkintotilaisuus tästä. Voit luoda joko yksityisen tutkintotilaisuuden tai VKT:n ilmoittautumissivulla julkisesti näkyvän tilaisuuden.",
+            "part2": "Voit vaihtaa tutkintotilaisuuden julkisuusasetuksia myöhemmin."
+          }
+        },
+        "incorrectDetailsDialog": {
+          "description": "Korjaa puuttuvat tai virheelliset tiedot:",
+          "title": "Tiedoissa on korjattavaa!"
+        },
+        "heading": {
+          "create": "Tutkintotilaisuuden lisääminen",
+          "update": "Tutkintotilaisuuden muokkaus"
+        },
+        "labels": {
+          "addressDetails": "Osoitetiedot",
+          "date": "Tutkintopäivä",
+          "examTime": "Kellonaika",
+          "language": "Tutkinnon kieli",
+          "isPublic": "Näytä tutkintotilaisuus julkisesti",
+          "maxParticipants": "Paikkojen lukumäärä",
+          "municipality": "Tutkintopaikka",
+          "otherInformation": "Muut tiedot (esim. saapumisohjeet)",
+          "registrationCloses": "Ilmoittautuminen sulkeutuu"
+        },
+        "sections": {
+          "furtherInformation": "Tutkintotilaisuuden tarkemmat tiedot",
+          "other": "Muut tiedot",
+          "publicInformation": "Julkisessa listauksessa näkyvät tiedot"
+        },
+        "toasts": {
+          "addingSucceeded": "Tutkintotilaisuuden lisäys onnistui",
+          "updatingSucceeded": "Tutkintotilaisuuden muokkaus onnistui"
+        }
+      },
+      "examinerExamEventListing": {
+        "actions": {
+          "createExamEvent": "Lisää tutkintotilaisuus"
+        },
+        "heading": "Tutkintotilaisuudet",
+        "labels": {
+          "noExamEvents": "Ei tutkintotilaisuuksia"
+        },
+        "table": {
+          "actions": {
+            "more": "Lisätiedot"
+          },
+          "header": {
+            "examDate": "Tutkintopäivä",
+            "isPublic": "Nähtävillä julkisesti",
+            "language": "Kieli",
+            "location": "Tutkintopaikka",
+            "participants": "Osallistujia"
+          }
+        },
+        "toggleFilters": {
+          "passed": "Menneet",
+          "upcoming": "Tulevat"
+        }
+      },
+      "examinerFilter": {
+        "label": "Näytä seuraavien kielten tutkintosuoritusten vastaanottajat",
+        "options": {
+          "ALL": "Molemmat kielet",
+          "FI": "Suomi",
+          "SV": "Ruotsi"
+        }
+      },
+      "examinerHomepage": {
+        "heading": "Hyvän ja tyydyttävän taidon kielitutkinnot"
+      },
+      "examinerOverview": {
+        "contactRequests": {
+          "heading": "Yhteydenottopyynnöt",
+          "labels": {
+            "noContactRequests": "Ei yhteydenottopyyntöjä"
+          }
+        },
+        "publicInformation": {
+          "heading": "Julkisesti näkyvät tiedot",
+          "labels": {
+            "examiner": "Tutkinnon vastaanottaja",
+            "examDates": "Tutkintopäivät",
+            "examLocations": "Tutkintopaikat",
+            "full": "Täynnä",
+            "languages": "Kielet",
+            "modify": "Muokkaa tietoja",
+            "undefined": "Ei määritelty"
+          }
+        }
+      }
+    }
+  }
+}

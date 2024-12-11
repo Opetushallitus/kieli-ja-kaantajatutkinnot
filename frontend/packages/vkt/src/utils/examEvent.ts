@@ -5,6 +5,8 @@ import { EnrollmentStatus, ExamLanguage, ExamLevel } from 'enums/app';
 import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
 import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
 import { ClerkListExamEvent } from 'interfaces/clerkListExamEvent';
+import { ClerkExaminerExamEventListingEntry } from 'interfaces/clerkListExaminer';
+import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 
 export class ExamEventUtils {
@@ -30,15 +32,35 @@ export class ExamEventUtils {
     return isSeatsAvailable && isQueue;
   }
 
-  static getUpcomingExamEvents(examEvents: Array<ClerkListExamEvent>) {
+  static getUpcomingExamEvents(
+    examEvents: Array<ClerkListExamEvent | ExaminerExamEvent>,
+  ) {
     return examEvents.filter(
       (e) => !DateUtils.isDatePartBefore(e.date, dayjs()),
     );
   }
 
-  static getPassedExamEvents(examEvents: Array<ClerkListExamEvent>) {
+  static getPassedExamEvents(
+    examEvents: Array<ClerkListExamEvent | ExaminerExamEvent>,
+  ) {
     return examEvents.filter((e) =>
       DateUtils.isDatePartBefore(e.date, dayjs()),
+    );
+  }
+
+  static getUpcomingClerkExaminerExamEventEntries(
+    entries: Array<ClerkExaminerExamEventListingEntry>,
+  ) {
+    return entries.filter(
+      ({ examEvent }) => !DateUtils.isDatePartBefore(examEvent.date, dayjs()),
+    );
+  }
+
+  static getPassedClerkExaminerExamEventEntries(
+    entries: Array<ClerkExaminerExamEventListingEntry>,
+  ) {
+    return entries.filter(({ examEvent }) =>
+      DateUtils.isDatePartBefore(examEvent.date, dayjs()),
     );
   }
 

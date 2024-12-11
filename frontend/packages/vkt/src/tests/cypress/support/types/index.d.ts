@@ -10,7 +10,7 @@ declare global {
         examEventId: number,
         persistedState?: string,
       ): void;
-      openClerkHomePage(): void;
+      openClerkExcellentLevelPage(): void;
       openClerkExamEventPage(examEventId: number): void;
       openClerkCreateExamEventPage(): void;
       usePhoneViewport(): void;

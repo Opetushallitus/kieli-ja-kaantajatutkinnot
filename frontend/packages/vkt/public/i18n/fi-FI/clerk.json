@@ -17,6 +17,7 @@
           "CANCELED": "Peruutettu",
           "CANCELED_UNFINISHED_ENROLLMENT": "Peruuttanut",
           "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksu kesken",
+          "WAITING_AUTHENTICATION": "Odottaa tunnistautumista",
           "COMPLETED": "Valmis",
           "QUEUED": "Jonossa",
           "AWAITING_APPROVAL": "Odottaa tarkastusta",
@@ -28,7 +29,9 @@
           "personalInformation": "Henkilötiedot",
           "previousEnrollment": "Aikaisempi osallistuminen valtionhallinnon kielitutkintoon",
           "selectedPartialExams": "Valitut osakokeet",
-          "selectedSkills": "Valitut tutkinnot"
+          "selectedSkills": "Valitut tutkinnot",
+          "grades": "Arvosanat",
+          "gradeComments": "Huomautuksia"
         },
         "moveModal": {
           "fillings": "Paikkoja täytetty",
@@ -95,6 +98,16 @@
           "getAllKoskiEducations": "Hae kaikki KOSKI-koulutustiedot"
         }
       },
+      "clerkcontactRequest": {
+        "createEnrollment": "Luo ilmoittautuminen",
+        "contactDetails": "Yhteydenoton tiedot",
+        "message": "Viesti",
+        "wantFullExam": "Haluan suorittaa koko tutkinnon?",
+        "deleteAreYouSure": "Haluatko varmasti poistaa yhteydenoton?",
+        "deleteDescription": "Toimintoa ei voi peruuttaa!",
+        "deleteContactRequest": "Poista yhteydenotto",
+        "deleteContactRequestSuccess": "Yhteydenotto poistettu"
+      },
       "clerkEnrollmentListing": {
         "header": {
           "examEventCoverage": "Tutkintokokonaisuus",
@@ -158,6 +171,7 @@
           "CANCELED": "Peruutetut",
           "CANCELED_UNFINISHED_ENROLLMENT": "Keskeytetyt (keskeneräinen)",
           "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksua odottavat (keskeneräinen)",
+          "WAITING_AUTHENTICATION": "Odottaa tunnistautumista",
           "COMPLETED": "Ilmoittautuneet",
           "QUEUED": "Jonoon ilmoittautuneet",
           "AWAITING_APPROVAL": "Odottaa tarkastusta",
@@ -177,17 +191,45 @@
           "copyToClipboardFailed": "Kopiointi leikepöydälle epäonnistui"
         }
       },
+      "clerkExaminerExamEventListing": {
+        "header": {
+          "examDate": "Tutkintopäivä",
+          "examiner": "Tutkinnon vastaanottaja",
+          "municipality": "Paikkakunta",
+          "isPublic": "Nähtävillä julkisesti",
+          "language": "Tutkinnon kieli"
+        },
+        "more": "Lisätiedot",
+        "title": "Tutkintotilaisuudet"
+      },
+      "clerkExaminerListing": {
+        "buttons": {
+          "viewDetails": "Katso tiedot"
+        },
+        "header": {
+          "actions": "Toiminnot",
+          "examDates": "Tutkintopäivät",
+          "examLocation": "Tutkintopaikka",
+          "examiner": "Tutkinnon vastaanottaja",
+          "language": "Kieli"
+        },
+        "title": "Tutkinnon vastaanottajan tiedot"
+      },
       "header": {
         "backToOph": "Takaisin Opintopolkuun",
         "logOut": "Kirjaudu ulos",
-        "navTabs": {
-          "examEvents": "Tutkintotilaisuudet"
+        "navigationLinks": {
+          "excellentLevel": "Erinomainen taito",
+          "goodAndSatisfactoryLevel": "Hyvä ja tyydyttävä taito"
         }
       }
     },
     "pages": {
-      "homepage": {
-        "title": "Valtionhallinnon kielitutkinnot"
+      "excellentLevel": {
+        "title": "Erinomaisen taidon kielitutkinnot"
+      },
+      "goodAndSatisfactoryLevel": {
+        "title": "Hyvän ja tyydyttävän taidon kielitutkinnot"
       }
     }
   }

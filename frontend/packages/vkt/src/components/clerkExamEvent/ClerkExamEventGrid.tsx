@@ -13,7 +13,9 @@ import {
 
 export const ClerkExamEventGrid = () => {
   // I18
-  const { t } = useClerkTranslation({ keyPrefix: 'vkt.pages.homepage' });
+  const { t } = useClerkTranslation({
+    keyPrefix: 'vkt.pages.excellentLevel',
+  });
 
   // Redux
   const { status } = useAppSelector(clerkListExamEventsSelector);

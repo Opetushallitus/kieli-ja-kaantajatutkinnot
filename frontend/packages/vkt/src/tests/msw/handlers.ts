@@ -1,6 +1,7 @@
 import { http } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
+import { AppRoutes } from 'enums/app';
 import { ClerkEnrollmentStatusChange } from 'interfaces/clerkEnrollment';
 import { ClerkUser } from 'interfaces/clerkUser';
 import { PublicReservationDetailsResponse } from 'interfaces/publicEnrollment';
@@ -21,6 +22,8 @@ export const handlers = [
   http.get(APIEndpoints.ClerkUser, ({ cookies }) => {
     const user: ClerkUser = {
       oid: '1.2.246.562.10.00000000001',
+      isAdmin: true,
+      isExaminer: false,
     };
 
     return new Response(cookies.noAuth ? 'null' : JSON.stringify(user));
@@ -37,7 +40,10 @@ export const handlers = [
   http.get(APIEndpoints.PublicEducation, ({ request }) => {
     if (
       request.referrer.endsWith(
-        `/vkt/ilmoittaudu/${examEventIdWithKoskiEducationDetailsFound}/koulutus`,
+        AppRoutes.PublicEnrollmentEducationDetails.replace(
+          /:examEventId/,
+          `${examEventIdWithKoskiEducationDetailsFound}`,
+        ),
       )
     ) {
       return new Response(

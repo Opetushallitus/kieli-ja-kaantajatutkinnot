@@ -3,17 +3,29 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'reduxjs-toolkit-persist';
 import storageSession from 'reduxjs-toolkit-persist/lib/storage/session';
 
-import { EnrollmentTransform } from 'redux/persist/transforms/EnrollmentTransform';
+import { PublicEnrollmentContactTransform } from 'redux/persist/transforms/PublicEnrollmentContactTransform';
+import { PublicEnrollmentTransform } from 'redux/persist/transforms/PublicEnrollmentTransform';
 import { APIErrorReducer } from 'redux/reducers/APIError';
+import { clerkEnrollmentAppointmentReducer } from 'redux/reducers/clerkEnrollmentAppointment';
+import { clerkEnrollmentContactRequestReducer } from 'redux/reducers/clerkEnrollmentContactRequest';
 import { clerkEnrollmentDetailsReducer } from 'redux/reducers/clerkEnrollmentDetails';
 import { clerkExamEventOverviewReducer } from 'redux/reducers/clerkExamEventOverview';
 import { clerkListExamEventReducer } from 'redux/reducers/clerkListExamEvent';
+import { clerkListExaminerReducer } from 'redux/reducers/clerkListExaminer';
 import { clerkNewExamDateReducer } from 'redux/reducers/clerkNewExamDate';
 import { clerkUserReducer } from 'redux/reducers/clerkUser';
+import { examinerDetailsReducer } from 'redux/reducers/examinerDetails';
+import { examinerDetailsInitReducer } from 'redux/reducers/examinerDetailsInit';
+import { examinerDetailsUpsertReducer } from 'redux/reducers/examinerDetailsUpsert';
+import { examinerExamEventOverviewReducer } from 'redux/reducers/examinerExamEventOverview';
+import { examinerExamEventUpsertReducer } from 'redux/reducers/examinerExamEventUpsert';
 import { featureFlagsReducer } from 'redux/reducers/featureFlags';
 import { publicEducationReducer } from 'redux/reducers/publicEducation';
 import { publicEnrollmentReducer } from 'redux/reducers/publicEnrollment';
+import { publicEnrollmentAppointmentReducer } from 'redux/reducers/publicEnrollmentAppointment';
+import { publicEnrollmentContactReducer } from 'redux/reducers/publicEnrollmentContact';
 import { publicExamEventReducer } from 'redux/reducers/publicExamEvent';
+import { publicExaminerReducer } from 'redux/reducers/publicExaminer';
 import { publicFileUploadReducer } from 'redux/reducers/publicFileUpload';
 import { publicUserReducer } from 'redux/reducers/publicUser';
 import rootSaga from 'redux/sagas/index';
@@ -21,8 +33,8 @@ import rootSaga from 'redux/sagas/index';
 const persistConfig = {
   key: 'root',
   storage: storageSession,
-  whitelist: ['publicEnrollment'],
-  transforms: [EnrollmentTransform],
+  whitelist: ['publicEnrollment', 'publicEnrollmentContact'],
+  transforms: [PublicEnrollmentTransform, PublicEnrollmentContactTransform],
 };
 
 const reducer = combineReducers({
@@ -32,12 +44,23 @@ const reducer = combineReducers({
   publicUser: publicUserReducer,
   publicEnrollment: publicEnrollmentReducer,
   clerkNewExamDate: clerkNewExamDateReducer,
+  clerkEnrollmentContactRequest: clerkEnrollmentContactRequestReducer,
+  clerkEnrollmentAppointment: clerkEnrollmentAppointmentReducer,
   publicExamEvent: publicExamEventReducer,
   clerkExamEventOverview: clerkExamEventOverviewReducer,
   clerkEnrollmentDetails: clerkEnrollmentDetailsReducer,
   featureFlags: featureFlagsReducer,
   publicFileUpload: publicFileUploadReducer,
   publicEducation: publicEducationReducer,
+  publicEnrollmentAppointment: publicEnrollmentAppointmentReducer,
+  publicEnrollmentContact: publicEnrollmentContactReducer,
+  publicExaminer: publicExaminerReducer,
+  examinerDetails: examinerDetailsReducer,
+  examinerDetailsInit: examinerDetailsInitReducer,
+  examinerDetailsUpsert: examinerDetailsUpsertReducer,
+  examinerExamEventOverview: examinerExamEventOverviewReducer,
+  examinerExamEventUpsert: examinerExamEventUpsertReducer,
+  clerkListExaminer: clerkListExaminerReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

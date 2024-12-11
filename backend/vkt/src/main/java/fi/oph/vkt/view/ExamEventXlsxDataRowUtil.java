@@ -1,10 +1,13 @@
 package fi.oph.vkt.view;
 
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.ExaminerExamEvent;
 import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.KoskiEducations;
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import fi.oph.vkt.model.type.FreeEnrollmentType;
@@ -16,17 +19,76 @@ public class ExamEventXlsxDataRowUtil {
   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
   private static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+  private static ExamEventXlsxData createExamEventExcel(
+    final ExamEvent examEvent,
+    final List<ExamEventXlsxDataRow> excelDataRows
+  ) {
+    return ExamEventXlsxData
+      .builder()
+      .date(DATE_FORMAT.format(examEvent.getDate()))
+      .language(examEvent.getLanguage().name())
+      .rows(excelDataRows)
+      .build();
+  }
+
+  private static ExaminerExamEventXlsxData createExamEventExcel(
+    final ExaminerExamEvent examEvent,
+    final List<ExaminerExamEventXlsxDataRow> excelDataRows
+  ) {
+    return ExaminerExamEventXlsxData
+      .builder()
+      .date(DATE_FORMAT.format(examEvent.getDate()))
+      .language(examEvent.getLanguage().name())
+      .rows(excelDataRows)
+      .build();
+  }
+
   public static ExamEventXlsxData createExcelData(final ExamEvent examEvent, final List<Enrollment> enrollments) {
     final List<ExamEventXlsxDataRow> excelDataRows = enrollments
       .stream()
       .map(enrollment -> createDataRow(enrollment, enrollment.getPerson()))
       .toList();
 
-    return ExamEventXlsxData
+    return createExamEventExcel(examEvent, excelDataRows);
+  }
+
+  public static ExaminerExamEventXlsxData createExcelData(
+    final ExaminerExamEvent examEvent,
+    final List<EnrollmentAppointment> enrollments
+  ) {
+    final List<ExaminerExamEventXlsxDataRow> excelDataRows = enrollments
+      .stream()
+      .map(enrollment -> createDataRow(enrollment, enrollment.getPerson()))
+      .toList();
+
+    return createExamEventExcel(examEvent, excelDataRows);
+  }
+
+  private static ExaminerExamEventXlsxDataRow createDataRow(
+    final EnrollmentAppointment enrollment,
+    final Person person
+  ) {
+    return ExaminerExamEventXlsxDataRow
       .builder()
-      .date(DATE_FORMAT.format(examEvent.getDate()))
-      .language(examEvent.getLanguage().name())
-      .rows(excelDataRows)
+      .enrollmentTime(DATETIME_FORMAT.format(enrollment.getCreatedAt()))
+      .lastName(person.getLastName())
+      .firstName(person.getFirstName())
+      .previousEnrollment(boolToInt(enrollment.isHasPreviousEnrollment()))
+      .status(statusToText(enrollment.getStatus()))
+      .textualSkill(boolToInt(enrollment.isTextualSkill()))
+      .oralSkill(boolToInt(enrollment.isOralSkill()))
+      .understandingSkill(boolToInt(enrollment.isUnderstandingSkill()))
+      .writing(boolToInt(enrollment.isWritingPartialExam()))
+      .readingComprehension(boolToInt(enrollment.isReadingComprehensionPartialExam()))
+      .speaking(boolToInt(enrollment.isSpeakingPartialExam()))
+      .speechComprehension(boolToInt(enrollment.isSpeechComprehensionPartialExam()))
+      .email(enrollment.getEmail())
+      .phoneNumber(enrollment.getPhoneNumber())
+      .digitalCertificateConsent(boolToInt(enrollment.isDigitalCertificateConsent()))
+      .street(enrollment.getStreet())
+      .postalCode(enrollment.getPostalCode())
+      .town(enrollment.getTown())
+      .country(enrollment.getCountry())
       .build();
   }
 
@@ -104,6 +166,18 @@ public class ExamEventXlsxDataRowUtil {
           .otherEducation(boolToInt(false));
     }
     return builder.build();
+  }
+
+  private static String statusToText(final EnrollmentAppointmentStatus status) {
+    return switch (status) {
+      case COMPLETED -> "Maksettu";
+      case CANCELED -> "Peruttu";
+      case EXPECTING_PAYMENT -> "Odottaa maksua";
+      case WAITING_AUTHENTICATION -> "Odottaa tunnistautumista";
+      case CANCELED_PAYMENT -> "Maksu peruutettu";
+      case ENROLLMENT_CREATED -> "Ilmoittautuminen luotu (tunnistautumislinkkiä ei vielä lähetetty)";
+      case CONTACT_CREATED -> "Yhteydenotto luotu";
+    };
   }
 
   private static String statusToText(final EnrollmentStatus status) {

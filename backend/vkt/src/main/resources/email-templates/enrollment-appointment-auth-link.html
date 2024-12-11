@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fi" xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <p>
+            Olet ilmoittautumassa seuraavaan Valtionhallinnon kielitutkintojen hyvän ja tyydyttävän taidon tutkintoon:
+        </p>
+
+        <p>
+            <b>Tutkinnon kieli:</b> <span th:text="${examLanguageFI}"></span><br/>
+            <b>Tutkinnon taso:</b> <span th:text="${examLevelFI}"></span><br/>
+            <b>Tutkintosuorituksen vastaanottaja:</b> <span th:text="${examinerName}"></span><br/>
+            <b>Tutkintopäivä:</b> <span th:text="${examDate}"></span><br/>
+            <b>Tutkintopaikka:</b> <span th:text="${examLocation}"></span>
+        </p>
+
+        <p>
+            Vahvista ilmoittautumisesi tunnistautumalla vahvasti ja maksamalla tutkintomaksu:
+            <ul>
+                <li>Tunnistaudu Suomi.fi-palvelun kautta.</li>
+                <li>Sinut ohjataan automaattisesti ilmoittautumislomakkeelle.</li>
+                <li>Tarkista ilmoittautumisesi tiedot lomakkeella.</li>
+                <li>Siirry maksamaan tutkintomaksu. Ilmoittautumisesi vahvistuu, kun maksat tutkintomaksun.</li>
+            </ul>
+        </p>
+
+        <p>
+            Siirry tunnistautumiseen alla olevan linkin kautta:<br/>
+            <a th:href="${enrollmentAuthLink}">Tunnistaudu ja maksa ilmoittautuminen</a>
+        </p>
+
+        <p>
+            Älä vastaa tähän viestiin - viesti on lähetetty automaattisesti.
+        </p>
+        <p style="border-bottom: 1px solid black; padding-bottom: 15px;">
+            Ystävällisin terveisin<br/>
+            Opetushallitus
+        </p>
+    </body>
+</html>

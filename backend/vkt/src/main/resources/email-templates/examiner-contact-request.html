@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fi" xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <p>
+            Hei,
+        </p>
+
+        <p>
+            Sinuun on otettu yhteyttä Valtionhallinnon kielitutkinnon hyvän ja tyydyttävän taidon tutkinnon suorittamista varten.
+            <br />
+            Ohessa sinulle jätetty viesti ja tiedot sen lähettäjästä.
+            <br />
+            Siirry linkin kautta VKT-virkailijan käyttöliittymään lukemaan asiakkaan viesti:
+            <a th:href="${contactRequestURL}" th:text="${contactRequestURL}"></a>
+        </p>
+        <p>
+            <b>Viesti:</b>
+            <br />
+            <span th:text="${message}"></span>
+        </p>
+        <p>
+            <b>Lähettäjän tiedot:</b>
+            <br />
+            Nimi: <span th:text="${requesterName}"></span>
+            <br />
+            Sähköpostiosoite: <span th:text="${requesterEmail}"></span>
+        </p>
+        <p>
+            Älä vastaa tähän viestiin - viesti on lähetetty automaattisesti.
+        </p>
+        <p style="border-bottom: 1px solid black; padding-bottom: 15px;">
+            Ystävällisin terveisin<br/>
+            Opetushallitus
+        </p>
+    </body>
+</html>

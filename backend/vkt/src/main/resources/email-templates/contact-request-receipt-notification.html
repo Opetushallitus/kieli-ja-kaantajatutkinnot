@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fi" xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <p>
+            Hei,
+        </p>
+        <br/>
+        <p>
+            Olet lähettänyt viestin seuraavalle Valtionhallinnon kielitutkintojen hyvän ja tyydyttävän taidon tutkintojen tutkintosuoritusten vastaanottajalle:
+            <br />
+            <b th:text="${examinerName}"></b>
+        </p>
+        <p>
+            Lähettämäsi viesti ja yhteystietosi:
+        </p>
+        <p>
+            <b>Viesti:</b>
+            <br />
+            <span th:text="${message}"></span>
+        </p>
+        <p>
+            <b>Yhteystietosi:</b>
+            <br />
+            Nimi: <span th:text="${name}"></span>
+            <br />
+            Sähköpostiosoite: <span th:text="${email}"></span>
+        </p>
+        <p>
+            <b>Mitä seuraavaksi?</b>
+            <br />
+            Tutkintosuoritusten vastaanottaja ottaa sinuun yhteyttä sähköpostitse.
+        </p>
+        <p>
+            Älä vastaa tähän viestiin - viesti on lähetetty automaattisesti.
+        </p>
+        <p>
+            Ystävällisin terveisin<br />
+            Opetushallitus
+        </p>
+    </body>
+</html>

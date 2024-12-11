@@ -73,7 +73,7 @@ export const MoveModal: FC<MoveModalProps> = ({ enrollment, onCancel }) => {
       });
       dispatch(resetMoveEnrollment());
       dispatch(resetClerkListExamEvent());
-      navigate(AppRoutes.ClerkHomePage, { replace: true });
+      navigate(AppRoutes.ClerkExcellentLevelPage, { replace: true });
     }
   }, [dispatch, navigate, showToast, t, moveStatus]);
 

@@ -4,12 +4,20 @@ import fi.oph.vkt.api.dto.FreeEnrollmentAttachmentDTO;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetailsDTO;
 import fi.oph.vkt.api.dto.KoskiEducationsDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkFreeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerAuthLinkDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerExamEventDTO;
 import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentAppointment;
+import fi.oph.vkt.model.EnrollmentGrade;
+import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.KoskiEducations;
 import fi.oph.vkt.model.Person;
@@ -142,6 +150,116 @@ public class ClerkEnrollmentUtil {
       .dia(koskiEducations.getDia())
       .eb(koskiEducations.getEb())
       .other(koskiEducations.getOther())
+      .build();
+  }
+
+  public static String getAuthUrl(final String baseUrlAPI, final long id, final String hash) {
+    return String.format("%s/enrollment/appointment/%d/redirect/%s", baseUrlAPI, id, hash);
+  }
+
+  public static ExaminerEnrollmentAppointmentDTO createClerkEnrollmentAppointmentDTO(
+    final EnrollmentAppointment enrollmentAppointment,
+    final String baseUrlAPI
+  ) {
+    final List<ClerkPaymentDTO> paymentDTOs = enrollmentAppointment
+      .getPayments()
+      .stream()
+      .map(ClerkPaymentUtil::createClerkPaymentDTO)
+      .sorted(Comparator.comparing(ClerkPaymentDTO::createdAt).reversed())
+      .toList();
+
+    final ExaminerAuthLinkDTO examinerAuthLinkDTO = enrollmentAppointment.getAuthHash() != null
+      ? ExaminerAuthLinkDTO
+        .builder()
+        .url(getAuthUrl(baseUrlAPI, enrollmentAppointment.getId(), enrollmentAppointment.getAuthHash()))
+        .expiresAt(enrollmentAppointment.getExpiresAt())
+        .sentAt(enrollmentAppointment.getSentAt())
+        .build()
+      : null;
+
+    final String paymentLinkUrl = String.format(
+      "%s/enrollment/appointment/%d/redirectPayment/%s",
+      baseUrlAPI,
+      enrollmentAppointment.getId(),
+      enrollmentAppointment.getPaymentLinkHash()
+    );
+
+    final ExaminerExamEventDTO examinerExamEventDTO = enrollmentAppointment.getExaminerExamEvent() != null
+      ? ExaminerUtil.toExaminerExamEventWithoutEnrollmentsDTO(enrollmentAppointment.getExaminerExamEvent())
+      : null;
+
+    return ExaminerEnrollmentAppointmentDTO
+      .builder()
+      .id(enrollmentAppointment.getId())
+      .version(enrollmentAppointment.getVersion())
+      .enrollmentTime(enrollmentAppointment.getCreatedAt())
+      .oralSkill(enrollmentAppointment.isOralSkill())
+      .textualSkill(enrollmentAppointment.isTextualSkill())
+      .understandingSkill(enrollmentAppointment.isUnderstandingSkill())
+      .speakingPartialExam(enrollmentAppointment.isSpeakingPartialExam())
+      .speechComprehensionPartialExam(enrollmentAppointment.isSpeechComprehensionPartialExam())
+      .writingPartialExam(enrollmentAppointment.isWritingPartialExam())
+      .readingComprehensionPartialExam(enrollmentAppointment.isReadingComprehensionPartialExam())
+      .street(enrollmentAppointment.getStreet())
+      .postalCode(enrollmentAppointment.getPostalCode())
+      .town(enrollmentAppointment.getTown())
+      .country(enrollmentAppointment.getCountry())
+      .status(enrollmentAppointment.getStatus())
+      .email(enrollmentAppointment.getEmail())
+      .phoneNumber(enrollmentAppointment.getPhoneNumber())
+      .firstName(enrollmentAppointment.getFirstName())
+      .lastName(enrollmentAppointment.getLastName())
+      .authLink(examinerAuthLinkDTO)
+      .paymentLinkUrl(paymentLinkUrl)
+      .examEvent(examinerExamEventDTO)
+      .payments(paymentDTOs)
+      .hasPreviousEnrollment(enrollmentAppointment.isHasPreviousEnrollment())
+      .previousEnrollment(enrollmentAppointment.getPreviousEnrollment())
+      .build();
+  }
+
+  public static ClerkEnrollmentContactRequestDTO createClerkEnrollmentContactDTO(
+    final EnrollmentAppointment enrollmentAppointment
+  ) {
+    return ClerkEnrollmentContactRequestDTO
+      .builder()
+      .id(enrollmentAppointment.getId())
+      .version(enrollmentAppointment.getVersion())
+      .enrollmentTime(enrollmentAppointment.getCreatedAt())
+      .isFullExam(enrollmentAppointment.getPartialExamSelection() == null)
+      .partialExamSelection(enrollmentAppointment.getPartialExamSelection())
+      .status(enrollmentAppointment.getStatus())
+      .phoneNumber(enrollmentAppointment.getPhoneNumber())
+      .email(enrollmentAppointment.getEmail())
+      .firstName(enrollmentAppointment.getFirstName())
+      .lastName(enrollmentAppointment.getLastName())
+      .hasPreviousEnrollment(enrollmentAppointment.isHasPreviousEnrollment())
+      .message(enrollmentAppointment.getMessage())
+      .build();
+  }
+
+  public static ExaminerEnrollmentAppointmentHistoryDTO createClerkEnrollmentAppointmentHistoryDTO(
+    final EnrollmentAppointment enrollmentAppointment
+  ) {
+    final Examiner examiner = enrollmentAppointment.getExaminer();
+    final ExaminerExamEventDTO examinerExamEventDTO = enrollmentAppointment.getExaminerExamEvent() != null
+      ? ExaminerUtil.toExaminerExamEventWithoutEnrollmentsDTO(enrollmentAppointment.getExaminerExamEvent())
+      : null;
+    final EnrollmentGrade grade = enrollmentAppointment.getGrade();
+
+    return ExaminerEnrollmentAppointmentHistoryDTO
+      .builder()
+      .enrollmentTime(enrollmentAppointment.getCreatedAt())
+      .oralSkill(enrollmentAppointment.isOralSkill())
+      .textualSkill(enrollmentAppointment.isTextualSkill())
+      .understandingSkill(enrollmentAppointment.isUnderstandingSkill())
+      .speakingPartialExam(enrollmentAppointment.isSpeakingPartialExam())
+      .speechComprehensionPartialExam(enrollmentAppointment.isSpeechComprehensionPartialExam())
+      .writingPartialExam(enrollmentAppointment.isWritingPartialExam())
+      .readingComprehensionPartialExam(enrollmentAppointment.isReadingComprehensionPartialExam())
+      .examEvent(examinerExamEventDTO)
+      .examinerName(examiner.getNickname() + " " + examiner.getLastName())
+      .grades(grade != null ? ExaminerUtil.createGradesDTO(grade) : null)
       .build();
   }
 }

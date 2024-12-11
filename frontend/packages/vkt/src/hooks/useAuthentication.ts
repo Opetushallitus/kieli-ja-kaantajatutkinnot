@@ -14,12 +14,13 @@ export const useAuthentication = () => {
   const publicUser = useAppSelector(publicUserSelector);
 
   const activeURL = window.location.href;
-  const isClerkURL = activeURL.includes(AppRoutes.ClerkHomePage);
-  const isPublicURL = !isClerkURL;
+  const isClerkURL = activeURL.includes(AppRoutes.ClerkRoot);
+  const isExaminerURL = activeURL.includes(AppRoutes.ExaminerRoot);
+  const isPublicURL = !isClerkURL && !isExaminerURL;
 
   useEffect(() => {
     if (clerkUser.status === APIResponseStatus.NotStarted) {
-      if (isClerkURL) {
+      if (isClerkURL || isExaminerURL) {
         dispatch(loadClerkUser());
       }
     }
@@ -28,11 +29,18 @@ export const useAuthentication = () => {
         dispatch(loadPublicUser());
       }
     }
-  }, [clerkUser.status, publicUser.status, isClerkURL, isPublicURL, dispatch]);
+  }, [
+    clerkUser.status,
+    publicUser.status,
+    isClerkURL,
+    isExaminerURL,
+    isPublicURL,
+    dispatch,
+  ]);
 
   return {
     isAuthenticated: clerkUser.isAuthenticated,
-    isClerkUI: isClerkURL,
+    isClerkUI: isClerkURL || isExaminerURL,
     publicUser,
     clerkUser,
   };

@@ -12,5 +12,6 @@ public record ReceiptData(
   @NonNull String exam,
   @NonNull String participant,
   @NonNull String totalAmount,
-  @NonNull List<ReceiptItem> items
+  @NonNull List<ReceiptItem> items,
+  String examiner
 ) {}
