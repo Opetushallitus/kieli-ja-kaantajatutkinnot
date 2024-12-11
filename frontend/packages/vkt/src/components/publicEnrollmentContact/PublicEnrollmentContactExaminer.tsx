@@ -55,11 +55,11 @@ export const PublicEnrollmentContactExaminer = ({
       </Text>
       <div className="columns gapped-xxs align-items-start">
         <Text>{t('examDate')}:</Text>
-        <Text>
-          <ul className="public-enrollment-contact__exam-dates">
-            {examDates.length > 0
-              ? examDates.map(({ examDate, isFull }, i) => (
-                  <li key={i}>
+        <ul className="public-enrollment-contact__exam-dates">
+          {examDates.length > 0
+            ? examDates.map(({ examDate, isFull }, i) => (
+                <Text key={i}>
+                  <li>
                     {isFull ? (
                       <b>
                         <s>{DateTimeUtils.renderDate(examDate)}</s> {t('full')}
@@ -68,10 +68,10 @@ export const PublicEnrollmentContactExaminer = ({
                       <b>{DateTimeUtils.renderDate(examDate)}</b>
                     )}
                   </li>
-                ))
-              : t('byRequest')}
-          </ul>
-        </Text>
+                </Text>
+              ))
+            : t('byRequest')}
+        </ul>
       </div>
     </div>
   );
