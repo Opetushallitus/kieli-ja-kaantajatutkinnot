@@ -7,7 +7,6 @@ import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.Examiner;
-import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.ExaminerRepository;
 import fi.oph.vkt.service.onr.OnrService;
@@ -45,8 +44,8 @@ public class ExaminerDetailsService {
     if (examinerRepository.findByOid(oid).isPresent()) {
       throw new APIException(APIExceptionType.EXAMINER_ALREADY_INITIALIZED);
     }
-    final PersonalData personalData = this.getOnrPersonalData(oid);
-    if (personalData == null) {
+    final PersonalData examinerData = this.getOnrPersonalData(oid);
+    if (examinerData == null) {
       throw new APIException(APIExceptionType.EXAMINER_ONR_NOT_FOUND);
     }
 
@@ -55,8 +54,8 @@ public class ExaminerDetailsService {
     return ExaminerDetailsInitDTO
       .builder()
       .oid(oid)
-      .lastName(personalData.getLastName())
-      .firstName(personalData.getFirstName())
+      .lastName(examinerData.getLastName())
+      .firstName(examinerData.getFirstName())
       .build();
   }
 
@@ -68,14 +67,14 @@ public class ExaminerDetailsService {
 
     examiner.setOid(oid);
 
-    final PersonalData personalData = this.getOnrPersonalData(oid);
-    if (personalData == null) {
+    final PersonalData examinerData = this.getOnrPersonalData(oid);
+    if (examinerData == null) {
       throw new APIException(APIExceptionType.EXAMINER_ONR_NOT_FOUND);
     }
 
-    examiner.setLastName(personalData.getLastName());
-    examiner.setFirstName(personalData.getFirstName());
-    examiner.setNickname(personalData.getNickname());
+    examiner.setLastName(examinerData.getLastName());
+    examiner.setFirstName(examinerData.getFirstName());
+    examiner.setNickname(examinerData.getNickname());
     examiner.setEmail(examinerDetailsUpsertDTO.email());
     examiner.setPhoneNumber(examinerDetailsUpsertDTO.phoneNumber());
     examiner.setMunicipalities(

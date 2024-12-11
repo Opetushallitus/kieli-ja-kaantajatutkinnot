@@ -1186,4 +1186,18 @@
         </sql>
         <addNotNullConstraint tableName="enrollment_appointment" columnName="has_previous_enrollment" />
     </changeSet>
+    <changeSet id="2024-12-10-person-onr-sync" author="jrkkp">
+        <addColumn tableName="person">
+            <column name="latest_sync_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="tmp_first_name" type="text" />
+            <column name="tmp_last_name" type="text" />
+            <column name="tmp_nickname" type="text" />
+            <column name="partial_exam_selection" type="text" />
+        </addColumn>
+        <sql dbms="postgresql">
+            UPDATE person SET latest_sync_at = NOW()::date + created_at::time
+        </sql>
+
+        <addNotNullConstraint tableName="person" columnName="latest_sync_at" />
+    </changeSet>
 </databaseChangeLog>

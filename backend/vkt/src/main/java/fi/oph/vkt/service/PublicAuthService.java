@@ -92,6 +92,7 @@ public class PublicAuthService {
     person.setOid(oid);
     person.setOtherIdentifier(otherIdentifier);
     person.setLatestIdentifiedAt(LocalDateTime.now());
+    person.setLatestSyncAt(LocalDateTime.now());
     person.setUuid(UUID.randomUUID());
 
     return personRepository.saveAndFlush(person);

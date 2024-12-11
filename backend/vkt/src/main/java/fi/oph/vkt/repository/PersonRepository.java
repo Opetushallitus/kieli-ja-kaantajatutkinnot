@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 public interface PersonRepository extends BaseRepository<Person> {
   Optional<Person> findByOid(final String oid);
   Optional<Person> findByOtherIdentifier(final String otherIdentifier);
+  List<Person> findByOidIsNullAndDeletedAtIsNull();
+  Person getByOid(final String oid);
 
   @Query(
     "SELECT p" +
@@ -20,4 +22,14 @@ public interface PersonRepository extends BaseRepository<Person> {
     " AND NOT EXISTS (SELECT 1 FROM Reservation r WHERE r.person = p)"
   )
   List<Person> findObsoletePersons(final LocalDateTime latestIdentifiedBefore);
+
+  @Query(
+    "SELECT p.oid" +
+    " FROM Person p" +
+    " WHERE p.latestSyncAt < ?1" +
+    " AND p.deletedAt IS NULL" +
+    " AND p.oid IS NOT NULL" +
+    " ORDER BY p.latestSyncAt ASC"
+  )
+  List<String> findPersonsToSync(LocalDateTime latestSyncedBefore);
 }

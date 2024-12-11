@@ -21,4 +21,7 @@ public class PersonalDataDTO {
 
   @JsonProperty("kutsumanimi")
   private String nickname;
+
+  @JsonProperty("hetu")
+  private String identityNumber;
 }

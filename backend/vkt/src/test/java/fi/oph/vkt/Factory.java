@@ -40,6 +40,7 @@ public class Factory {
     person.setFirstName("Foo Bar");
     person.setOid(UUID.randomUUID().toString());
     person.setLatestIdentifiedAt(LocalDateTime.now());
+    person.setLatestSyncAt(LocalDateTime.now());
     person.setUuid(UUID.randomUUID());
 
     return person;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.vkt.config.Constants;
+import fi.oph.vkt.util.HetuUtils;
 import fi.vm.sade.javautils.nio.cas.CasClient;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.asynchttpclient.Request;
 import org.asynchttpclient.RequestBuilder;
 import org.asynchttpclient.Response;
 import org.asynchttpclient.util.HttpConstants;
+import org.asynchttpclient.util.HttpConstants.Methods;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -64,6 +66,41 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     }
   }
 
+  @Override
+  public String insertPersonalData(final PersonalData personalData) throws Exception {
+    final PersonalDataDTO personalDataDTO = createPersonalDataDTO(personalData);
+
+    final Request request = defaultRequestBuilder()
+      .setUrl(onrServiceUrl + "/henkilo")
+      .setMethod(Methods.POST)
+      .setBody(OBJECT_MAPPER.writeValueAsString(personalDataDTO))
+      .build();
+
+    final Response response = onrClient.executeBlocking(request);
+
+    if (response.getStatusCode() == HttpStatus.CREATED.value()) {
+      return response.getResponseBody();
+    } else {
+      throw new RuntimeException(
+        "ONR service called with POST /henkilo returned unexpected status code: " + response.getStatusCode()
+      );
+    }
+  }
+
+  static PersonalDataDTO createPersonalDataDTO(final PersonalData personalData) {
+    final PersonalDataDTO personalDataDTO = new PersonalDataDTO();
+    personalDataDTO.setOnrId(personalData.getOnrId());
+    personalDataDTO.setLastName(personalData.getLastName());
+    personalDataDTO.setFirstName(personalData.getFirstName());
+    personalDataDTO.setNickname(personalData.getNickname());
+
+    if (HetuUtils.hetuIsValid(personalData.getSsn())) {
+      personalDataDTO.setIdentityNumber(personalData.getSsn());
+    }
+
+    return personalDataDTO;
+  }
+
   private PersonalData createPersonalData(final PersonalDataDTO personalDataDTO) {
     return PersonalData
       .builder()
@@ -71,6 +108,7 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       .lastName(personalDataDTO.getLastName())
       .firstName(personalDataDTO.getFirstName())
       .nickname(personalDataDTO.getNickname())
+      .ssn(personalDataDTO.getIdentityNumber())
       .build();
   }
 

@@ -1,5 +1,8 @@
 package fi.oph.vkt.service.onr;
 
+import fi.oph.vkt.model.Person;
+import fi.oph.vkt.util.exception.APIException;
+import fi.oph.vkt.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +26,23 @@ public class OnrService {
     } catch (final Exception e) {
       LOG.error("Fetching personal data from ONR failed", e);
       return Map.of();
+    }
+  }
+
+  public String insertPersonalData(final Person person) {
+    final PersonalData personData = PersonalData
+      .builder()
+      .lastName(person.getLastName())
+      .firstName(person.getFirstName())
+      .nickname(person.getFirstName())
+      .ssn(person.getOtherIdentifier())
+      .build();
+
+    try {
+      return api.insertPersonalData(personData);
+    } catch (final Exception e) {
+      LOG.error("Error inserting personal data to onr", e);
+      throw new APIException(APIExceptionType.ONR_PERSON_INSERT_EXCEPTION);
     }
   }
 }

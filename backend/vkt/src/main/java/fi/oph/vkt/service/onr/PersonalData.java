@@ -21,4 +21,6 @@ public class PersonalData {
 
   @NonNull
   private String nickname;
+
+  private String ssn;
 }
