@@ -259,7 +259,7 @@ public class PublicController {
 
       httpResponse.sendRedirect(uiRouteUtil.getEnrollmentAppointmentUrl(enrollmentAppointment.getId()));
     } catch (final APIException e) {
-      LOG.warn("Encountered known error, redirecting to front page. Error:", e);
+      LOG.warn("Encountered known error, redirecting to front page. APIExceptionType: {}", e.getExceptionType(), e);
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
     } catch (final Exception e) {
       LOG.error("Encountered unknown error, redirecting to front page. Error:", e);
@@ -288,7 +288,7 @@ public class PublicController {
 
       httpResponse.sendRedirect(redirectUrl);
     } catch (final APIException e) {
-      LOG.warn("Encountered known error, redirecting to front page. Error:", e);
+      LOG.warn("Encountered known error, redirecting to front page. APIExceptionType: {}", e.getExceptionType(), e);
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
     } catch (final Exception e) {
       LOG.error("Encountered unknown error, redirecting to front page. Error:", e);
@@ -312,7 +312,7 @@ public class PublicController {
 
       httpResponse.sendRedirect(uiRouteUtil.getEnrollmentPreviewUrl(examEventId));
     } catch (final APIException e) {
-      LOG.warn("Encountered known error, redirecting to front page. Error:", e);
+      LOG.warn("Encountered known error, redirecting to front page. APIExceptionType: {}", e.getExceptionType(), e);
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
     } catch (final Exception e) {
       LOG.error("Encountered unknown error, redirecting to front page. Error:", e);
@@ -371,7 +371,7 @@ public class PublicController {
         httpResponse.sendRedirect(uiRouteUtil.getEnrollmentContactDetailsUrl(targetId));
       }
     } catch (final APIException e) {
-      LOG.warn("Encountered known error, redirecting to front page. Error:", e);
+      LOG.warn("Encountered known error, redirecting to front page. APIExceptionType: {}", e.getExceptionType(), e);
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
     } catch (final Exception e) {
       LOG.error("Encountered unknown error, redirecting to front page. Error message:", e);
@@ -420,7 +420,7 @@ public class PublicController {
 
       httpResponse.sendRedirect(redirectUrl);
     } catch (final APIException e) {
-      LOG.warn("Encountered known error, redirecting to front page. Error:", e);
+      LOG.warn("Encountered known error, redirecting to front page. APIExceptionType: {}", e.getExceptionType(), e);
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
     } catch (final Exception e) {
       LOG.error("Encountered unknown error, redirecting to front page. Error:", e);
@@ -480,7 +480,7 @@ public class PublicController {
       if (callback.isPresent() && callback.get()) {
         httpResponse.setStatus(HttpStatus.BAD_REQUEST.value());
       } else {
-        LOG.warn("Encountered known error, redirecting to front page. Error:", e);
+        LOG.warn("Encountered known error, redirecting to front page. APIExceptionType: {}", e.getExceptionType(), e);
         httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
       }
     } catch (final Exception e) {
