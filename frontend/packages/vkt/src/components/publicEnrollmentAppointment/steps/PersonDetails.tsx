@@ -1,4 +1,6 @@
+import { Divider } from '@mui/material';
 import { H2, Text } from 'shared/components';
+import { useWindowProperties } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
@@ -13,6 +15,7 @@ export const PersonDetails = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps',
   });
+  const { isPhone } = useWindowProperties();
 
   const { enrollment } = useAppSelector(publicEnrollmentAppointmentSelector);
 
@@ -42,6 +45,7 @@ export const PersonDetails = ({
           <Text>{enrollment.person.firstName}</Text>
         </div>
       </div>
+      {isPhone && <Divider />}
       <H2>{t('preview.contactDetails.title')}</H2>
       <div
         className={'gapped grid-columns'}

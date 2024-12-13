@@ -32,14 +32,22 @@ export class PublicEnrollmentUtils {
       : [...commonSteps, PublicEnrollmentFormStep.Done];
   }
 
-  static getEnrollmentAppointmentSteps() {
-    return [
+  static getEnrollmentAppointmentSteps(isPhone: boolean) {
+    // Enum value PaymentFail left out intentionally
+    const commonSteps = [
       PublicEnrollmentAppointmentFormStep.Authenticate,
       PublicEnrollmentAppointmentFormStep.FillContactDetails,
       PublicEnrollmentAppointmentFormStep.Preview,
-      PublicEnrollmentAppointmentFormStep.PaymentFail,
-      PublicEnrollmentAppointmentFormStep.PaymentSuccess,
     ];
+
+    if (isPhone) {
+      return [
+        ...commonSteps,
+        PublicEnrollmentAppointmentFormStep.PaymentSuccess,
+      ];
+    } else {
+      return commonSteps;
+    }
   }
 
   static getEnrollmentContactSteps() {

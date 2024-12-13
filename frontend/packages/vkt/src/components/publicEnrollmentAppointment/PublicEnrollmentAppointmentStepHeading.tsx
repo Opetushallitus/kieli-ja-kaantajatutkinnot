@@ -11,7 +11,7 @@ export const PublicEnrollmentAppointmentStepHeading = ({
   activeStep: PublicEnrollmentAppointmentFormStep;
 }) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.stepHeading',
+    keyPrefix: 'vkt.component.publicEnrollmentAppointment.stepHeading',
   });
   const [ref, setFocus] = useFocus<HTMLDivElement>();
   const { isPhone } = useWindowProperties();
@@ -22,10 +22,7 @@ export const PublicEnrollmentAppointmentStepHeading = ({
     }
   }, [setFocus, isPhone]);
 
-  const headingText =
-    activeStep === PublicEnrollmentAppointmentFormStep.Authenticate
-      ? t(`toExam.${PublicEnrollmentAppointmentFormStep[activeStep]}`)
-      : t(`common.${PublicEnrollmentAppointmentFormStep[activeStep]}`);
+  const headingText = t(PublicEnrollmentAppointmentFormStep[activeStep]);
 
   return (
     <div ref={ref} className="margin-top-xxl rows gapped-xs">

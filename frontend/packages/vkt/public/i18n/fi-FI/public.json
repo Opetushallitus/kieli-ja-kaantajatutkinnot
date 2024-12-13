@@ -275,10 +275,46 @@
           "examLocation": "Tutkintopaikka",
           "examiner": "Tutkinnon vastaanottaja"
         },
+        "stepHeading": {
+          "Authenticate": "Tunnistaudu ilmoittautumista varten",
+          "FillContactDetails": "Täytä yhteystietosi",
+          "PaymentFail": "Maksu epäonnistui",
+          "PaymentSuccess": "Maksu suoritettu",
+          "Preview": "Esikatsele ja maksa"
+        },
+        "stepper": {
+          "active": "Aktiivinen",
+          "completed": "Suoritettu",
+          "label": "Ilmoittautumisen vaiheet",
+          "phase": "Vaihe",
+          "phaseNumber": "{{current}} kautta {{total}}",
+          "phases": "Ilmoittautumisen vaiheet",
+          "step": {
+            "Authenticate": "Tunnistaudu ilmoittautumista varten",
+            "FillContactDetails": "Täytä yhteystietosi",
+            "PaymentFail": "Maksu epäonnistui",
+            "PaymentSuccess": "Valmis!",
+            "Preview": "Esikatsele ja maksa"
+          }
+        },
         "steps": {
           "paymentSuccess": {
             "description1": "Olet maksanut tutkintomaksun {{examFee}} €. Ilmoittautumisesi seuraavaan tutkintoon on vahvistettu:",
             "description2": "Saat sähköpostitse vahvistuksen ja kuitin maksusta osoitteeseen {{email}}."
+          },
+          "preview": {
+            "examEventDetails": {
+              "fullExam": "Koko tutkinto",
+              "previousEnrollmentLabel": "Olen osallistunut valtionhallinnon hyvän tai tyydyttävän taidon kielitutkintoon aikaisemmin",
+              "price": "Hinta",
+              "selectedSkillsLabel": "Valitut tutkinnot",
+              "selectedPartialExamsLabel": "Valitut osakokeet",
+              "title": "Tutkinnon tiedot"
+            },
+            "privacyStatement": {
+              "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen (pakollinen).",
+              "linkLabel": "tietosuojaselosteen"
+            }
           }
         }
       },

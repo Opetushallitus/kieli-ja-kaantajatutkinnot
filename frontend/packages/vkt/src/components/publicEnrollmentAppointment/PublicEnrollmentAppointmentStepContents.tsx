@@ -34,6 +34,7 @@ export const PublicEnrollmentAppointmentStepContents = ({
         <Preview
           enrollment={enrollment}
           isLoading={false}
+          setIsStepValid={setIsStepValid}
           showValidation={showValidation}
         />
       );

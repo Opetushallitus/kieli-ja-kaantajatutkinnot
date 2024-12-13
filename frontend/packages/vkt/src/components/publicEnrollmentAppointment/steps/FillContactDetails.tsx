@@ -1,5 +1,4 @@
 import { Divider } from '@mui/material';
-import { useWindowProperties } from 'shared/hooks';
 
 import { CertificateShipping } from 'components/publicEnrollmentAppointment/steps/CertificateShipping';
 import { PersonDetails } from 'components/publicEnrollmentAppointment/steps/PersonDetails';
@@ -16,12 +15,10 @@ export const FillContactDetails = ({
   setIsStepValid: (isValid: boolean) => void;
   showValidation: boolean;
 }) => {
-  const { isPhone } = useWindowProperties();
-
   return (
     <div className="margin-top-sm rows gapped public-enrollment__grid__contact-details">
       <PersonDetails showContactDetails={false} />
-      {!isPhone && <Divider />}
+      <Divider />
       <CertificateShipping
         enrollment={enrollment}
         editingDisabled={isLoading}

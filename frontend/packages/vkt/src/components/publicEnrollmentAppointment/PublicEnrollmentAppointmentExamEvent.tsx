@@ -18,7 +18,7 @@ export const PublicEnrollmentAppointmentExamEvent = ({
   });
 
   return (
-    <div className="rows gapped-xxs">
+    <div className="rows">
       <Text>
         {t('examEvent')}
         {': '}

@@ -8,44 +8,78 @@ import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { ENROLLMENT_APPOINTMENT_SKILL_PRICE } from 'utils/publicEnrollment';
 
+const allPartialExams = [
+  'writingPartialExam',
+  'readingComprehensionPartialExam',
+  'speakingPartialExam',
+  'speechComprehensionPartialExam',
+];
+
+const allSkills = ['textualSkill', 'oralSkill'];
+
+const getSelectedSkills = (enrollment: PublicEnrollment | ClerkEnrollment) => {
+  return allSkills.filter(
+    (skill) => !!enrollment[skill as keyof PartialExamsAndSkills],
+  );
+};
+
+const getSelectedPartialExams = (
+  enrollment: PublicEnrollment | ClerkEnrollment,
+) => {
+  return allPartialExams.filter(
+    (exam) => !!enrollment[exam as keyof PartialExamsAndSkills],
+  );
+};
+
+const isFullExamSelection = (
+  enrollment: PublicEnrollment | ClerkEnrollment,
+) => {
+  return allPartialExams.every(
+    (exam) => !!enrollment[exam as keyof PartialExamsAndSkills],
+  );
+};
+
 const DesktopSkillsList = ({
   enrollment,
-  clerkView,
 }: {
   enrollment: PublicEnrollment | ClerkEnrollment;
-  clerkView: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.steps.preview',
+    keyPrefix: 'vkt.component.publicEnrollmentAppointment.steps.preview',
   });
-  const skills = ['textualSkill', 'oralSkill'].filter(
-    (skill) => !!enrollment[skill as keyof PartialExamsAndSkills],
-  );
+  const skills = getSelectedSkills(enrollment);
+  const isFullExam = isFullExamSelection(enrollment);
 
   return (
     <div className="rows gapped-xxs">
       <div className="grid-3-columns gapped">
         <Text className="bold">
-          {t('examEventDetails.desktop.selectedSkillsLabel')}
+          {t('examEventDetails.selectedSkillsLabel')}
         </Text>
-        {!clerkView && (
-          <Text className="bold">{t('educationDetails.price')}</Text>
-        )}
+        <Text className="bold">{t('examEventDetails.price')}</Text>
       </div>
-      {skills.map((skill, i) => (
-        <div key={i} className="grid-3-columns gapped">
+      {isFullExam ? (
+        <div className="grid-3-columns gapped">
+          <Text>{t('examEventDetails.fullExam')}</Text>
           <Text>
-            {translateCommon(`enrollment.partialExamsAndSkills.${skill}`)}
+            {2 * ENROLLMENT_APPOINTMENT_SKILL_PRICE}
+            &euro;
           </Text>
-          {!clerkView && (
+        </div>
+      ) : (
+        skills.map((skill, i) => (
+          <div key={i} className="grid-3-columns gapped">
+            <Text>
+              {translateCommon(`enrollment.partialExamsAndSkills.${skill}`)}
+            </Text>
             <Text>
               {ENROLLMENT_APPOINTMENT_SKILL_PRICE}
               &euro;
             </Text>
-          )}
-        </div>
-      ))}
+          </div>
+        ))
+      )}
     </div>
   );
 };
@@ -56,16 +90,12 @@ const DesktopExamsList = ({
   enrollment: ClerkEnrollment | PublicEnrollment;
 }) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.steps.preview.examEventDetails',
+    keyPrefix:
+      'vkt.component.publicEnrollmentAppointment.steps.preview.examEventDetails',
   });
   const translateCommon = useCommonTranslation();
 
-  const partialExams = [
-    'writingPartialExam',
-    'readingComprehensionPartialExam',
-    'speakingPartialExam',
-    'speechComprehensionPartialExam',
-  ].filter((exam) => !!enrollment[exam as keyof PartialExamsAndSkills]);
+  const partialExams = getSelectedPartialExams(enrollment);
 
   return (
     <div className="rows gapped-xxs">
@@ -93,98 +123,132 @@ const PhoneSkillsAndExamsList = ({
 }) => {
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.steps.preview',
+    keyPrefix: 'vkt.component.publicEnrollmentAppointment.steps.preview',
   });
-  const skills = ['textualSkill', 'oralSkill'].filter(
-    (skill) => !!enrollment[skill as keyof PartialExamsAndSkills],
-  );
-  const partialExams = [
-    'writingPartialExam',
-    'readingComprehensionPartialExam',
-    'speakingPartialExam',
-    'speechComprehensionPartialExam',
-  ].filter((exam) => !!enrollment[exam as keyof PartialExamsAndSkills]);
+  const skills = getSelectedSkills(enrollment);
+  const selectedPartialExams = getSelectedPartialExams(enrollment);
+  const isFullExam = isFullExamSelection(enrollment);
 
-  return (
-    <>
-      {skills.map((skill) => (
-        <div key={skill} className="rows gapped">
-          <div className="rows gapped-xxs">
-            <Text>
-              <b>
-                {t('examEventDetails.phone.selectedSkillLabel')}:{' '}
-                {translateCommon(`enrollment.partialExamsAndSkills.${skill}`)}
-              </b>
-            </Text>
-            <Text>
-              <b>{t('educationDetails.freeEnrollmentsLeft')}</b>
-            </Text>
-            <Text>
-              <b>{t('educationDetails.price')}</b>
-            </Text>
-            <Text>
-              {ENROLLMENT_APPOINTMENT_SKILL_PRICE}
-              &nbsp;&euro;
-            </Text>
-          </div>
-          <Divider />
-        </div>
-      ))}
-      <div className="rows gapped-xxs">
+  if (isFullExam) {
+    return (
+      <div className="rows gapped">
         <Text>
-          <b>{t('examEventDetails.selectedPartialExamsLabel')}:</b>
+          <b>{t('examEventDetails.selectedSkillsLabel')}:</b>
+          <br />
+          {t('examEventDetails.fullExam')}
         </Text>
-        <ul>
-          {partialExams.map((exam) => (
-            <Text key={exam}>
-              <li>
-                {' '}
-                {translateCommon(`enrollment.partialExamsAndSkills.${exam}`)}
-              </li>
-            </Text>
-          ))}
-        </ul>
+        <Text>
+          <b>{t('examEventDetails.price')}</b>
+          <br />
+          {2 * ENROLLMENT_APPOINTMENT_SKILL_PRICE}
+          &nbsp;&euro;
+        </Text>
       </div>
-    </>
-  );
+    );
+  } else {
+    return (
+      <>
+        {skills.map((skill) => (
+          <div key={skill} className="rows gapped">
+            <div className="rows gapped-xxs">
+              <Text>
+                <b>
+                  {t('examEventDetails.selectedSkillsLabel')}:{' '}
+                  {translateCommon(`enrollment.partialExamsAndSkills.${skill}`)}
+                </b>
+              </Text>
+              <Text>
+                <b>{t('examEventDetails.price')}</b>
+              </Text>
+              <Text>
+                {ENROLLMENT_APPOINTMENT_SKILL_PRICE}
+                &nbsp;&euro;
+              </Text>
+            </div>
+            <Divider />{' '}
+          </div>
+        ))}
+        <div className="rows gapped-xxs">
+          <Text>
+            <b>{t('examEventDetails.selectedPartialExamsLabel')}:</b>
+          </Text>
+          <ul>
+            {selectedPartialExams.map((exam) => (
+              <Text key={exam}>
+                <li>
+                  {' '}
+                  {translateCommon(`enrollment.partialExamsAndSkills.${exam}`)}
+                </li>
+              </Text>
+            ))}
+          </ul>
+        </div>
+      </>
+    );
+  }
+};
+
+const PreviousEnrollment = ({
+  enrollment,
+}: {
+  enrollment: PublicEnrollment | ClerkEnrollment;
+}) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicEnrollmentAppointment.steps.preview',
+  });
+  const translateCommon = useCommonTranslation();
+  const { isPhone } = useWindowProperties();
+
+  if (isPhone) {
+    return (
+      <Text>
+        <b>{t('examEventDetails.previousEnrollmentLabel')}:</b>
+        <br />
+        {enrollment.previousEnrollment
+          ? `${translateCommon('yes')}: ${enrollment.previousEnrollment}`
+          : translateCommon('no')}
+      </Text>
+    );
+  } else {
+    return (
+      <div className="rows gapped-xxs">
+        <Text className="bold">
+          {t('examEventDetails.previousEnrollmentLabel')}
+          {':'}
+        </Text>
+        <Text>
+          {enrollment.previousEnrollment
+            ? `${translateCommon('yes')}: ${enrollment.previousEnrollment}`
+            : translateCommon('no')}
+        </Text>
+      </div>
+    );
+  }
 };
 
 export const ExamEventDetails = ({
   enrollment,
-  clerkView = false,
 }: {
   enrollment: PublicEnrollment | ClerkEnrollment;
-  clerkView?: boolean;
 }) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.steps.preview',
+    keyPrefix: 'vkt.component.publicEnrollmentAppointment.steps.preview',
   });
-  const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
+  const isFullExam = isFullExamSelection(enrollment);
 
   return (
     <div className="rows gapped">
       <H2>{t('examEventDetails.title')}</H2>
       {isPhone && <PhoneSkillsAndExamsList enrollment={enrollment} />}
-      {!isPhone && (
+      {!isPhone && isFullExam && <DesktopSkillsList enrollment={enrollment} />}
+      {!isPhone && !isFullExam && (
         <>
-          <DesktopSkillsList enrollment={enrollment} clerkView={!!clerkView} />
+          <DesktopSkillsList enrollment={enrollment} />
           <DesktopExamsList enrollment={enrollment} />
         </>
       )}
-      {!clerkView && (
-        <div className="rows gapped-xxs">
-          <Text className="bold">
-            {t('examEventDetails.previousEnrollmentLabel')}
-            {':'}
-          </Text>
-          <Text>
-            {enrollment.previousEnrollment
-              ? `${translateCommon('yes')}: ${enrollment.previousEnrollment}`
-              : translateCommon('no')}
-          </Text>
-        </div>
-      )}
+      <PreviousEnrollment enrollment={enrollment} />
     </div>
   );
 };

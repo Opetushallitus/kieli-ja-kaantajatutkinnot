@@ -1,9 +1,9 @@
-import { Step, StepLabel, Stepper } from '@mui/material';
-import { CircularStepper } from 'shared/components';
+import { Step, StepLabel, Stepper, Typography } from '@mui/material';
+import { CircularStepper, Text } from 'shared/components';
 import { Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { PublicEnrollmentAppointmentFormStep } from 'enums/publicEnrollment';
 import { PublicEnrollmentUtils } from 'utils/publicEnrollment';
 
@@ -15,26 +15,29 @@ export const PublicEnrollmentAppointmentStepper = ({
   const { isPhone } = useWindowProperties();
 
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.stepper',
+    keyPrefix: 'vkt.component.publicEnrollmentAppointment',
   });
+  const translateCommon = useCommonTranslation();
 
-  const steps = PublicEnrollmentUtils.getEnrollmentAppointmentSteps();
+  const steps = PublicEnrollmentUtils.getEnrollmentAppointmentSteps(isPhone);
 
   const doneStepNumber = steps.length;
 
   const getDescription = (step: PublicEnrollmentAppointmentFormStep) => {
-    return t(`step.${PublicEnrollmentAppointmentFormStep[step]}`);
+    return t(`stepHeading.${PublicEnrollmentAppointmentFormStep[step]}`);
   };
 
   const getStepAriaLabel = (stepNumber: number, stepIndex: number) => {
-    const part = t('phaseNumber', {
+    const part = t('stepper.phaseNumber', {
       current: stepIndex + 1,
       total: steps.length,
     });
-    const statusText = isStepCompleted(stepNumber) ? t('completed') : '';
+    const statusText = isStepCompleted(stepNumber)
+      ? t('stepper.completed')
+      : '';
     const partStatus = statusText ? `${part}, ${statusText}` : part;
 
-    return `${t('phase')} ${partStatus}: ${getDescription(stepNumber)}`;
+    return `${t('stepper.phase')} ${partStatus}: ${getDescription(stepNumber)}`;
   };
 
   const getDesktopActiveStep = () => {
@@ -56,27 +59,67 @@ export const PublicEnrollmentAppointmentStepper = ({
 
   const mobileStepValue = stepValue * (100 / doneStepNumber);
   const mobilePhaseText = `${stepValue}/${doneStepNumber}`;
-  const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${t(
-    `step.${PublicEnrollmentAppointmentFormStep[activeStep]}`,
+  const mobileAriaLabel = `${t('stepper.phase')} ${mobilePhaseText}: ${t(
+    `stepHeading.${PublicEnrollmentAppointmentFormStep[activeStep]}`,
   )}`;
 
+  const getMobileStepperHeading = () => {
+    const heading = (
+      <Typography component="p" variant="h2">
+        {t(`stepper.step.${PublicEnrollmentAppointmentFormStep[activeStep]}`)}
+      </Typography>
+    );
+
+    if (
+      activeStep === PublicEnrollmentAppointmentFormStep.PaymentSuccess ||
+      activeStep === PublicEnrollmentAppointmentFormStep.PaymentFail
+    ) {
+      return <>{heading}</>;
+    }
+
+    const nextStepIndex =
+      activeStep < PublicEnrollmentAppointmentFormStep.Preview
+        ? activeStep + 1
+        : PublicEnrollmentAppointmentFormStep.PaymentSuccess;
+
+    return (
+      <>
+        {heading}
+        <div>
+          <Text>
+            {translateCommon('next')}
+            {': '}
+            {t(
+              `stepper.step.${PublicEnrollmentAppointmentFormStep[nextStepIndex]}`,
+            )}
+          </Text>
+        </div>
+      </>
+    );
+  };
+
   return isPhone ? (
-    <CircularStepper
-      value={mobileStepValue}
-      ariaLabel={mobileAriaLabel}
-      phaseText={mobilePhaseText}
-      color={
-        activeStep === PublicEnrollmentAppointmentFormStep.PaymentFail
-          ? Color.Error
-          : Color.Secondary
-      }
-      size={90}
-    />
+    <div className="public-enrollment-contact__grid__stepper columns gapped-xxl">
+      <div role="group" aria-label={t('phases')}>
+        <CircularStepper
+          value={mobileStepValue}
+          ariaLabel={mobileAriaLabel}
+          phaseText={mobilePhaseText}
+          color={
+            activeStep === PublicEnrollmentAppointmentFormStep.PaymentFail
+              ? Color.Error
+              : Color.Secondary
+          }
+          size={90}
+        />
+      </div>
+      <div className="rows gapped-xs grow">{getMobileStepperHeading()}</div>
+    </div>
   ) : (
     <Stepper
       className="public-enrollment__grid__stepper"
       activeStep={getDesktopActiveStep()}
-      aria-label={t('phases')}
+      aria-label={t('stepper.phases')}
     >
       {steps.map((step, index) => (
         <Step

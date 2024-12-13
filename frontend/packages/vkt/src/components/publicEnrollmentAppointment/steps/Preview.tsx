@@ -5,6 +5,7 @@ import {
   FormControlLabel,
   FormHelperText,
 } from '@mui/material';
+import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import { H2, WebLink } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
@@ -19,12 +20,13 @@ import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
 const PrivacyStatementCheckboxLabel = () => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.steps.preview.privacyStatement',
+    keyPrefix:
+      'vkt.component.publicEnrollmentAppointment.steps.preview.privacyStatement',
   });
   const translateCommon = useCommonTranslation();
 
   return (
-    <Trans t={t} i18nKey={'paidEnrollmentLabel'}>
+    <Trans t={t} i18nKey={'label'}>
       <WebLink
         href={translateCommon('vktPrivacyPolicy.link')}
         label={t('linkLabel')}
@@ -38,16 +40,22 @@ export const Preview = ({
   enrollment,
   isLoading,
   showValidation,
+  setIsStepValid,
 }: {
   enrollment: PublicEnrollmentAppointment;
   isLoading: boolean;
   showValidation: boolean;
+  setIsStepValid: (isValid: boolean) => void;
 }) => {
   const translateCommon = useCommonTranslation();
 
   const { paymentLoadingStatus } = useAppSelector(publicEnrollmentSelector);
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    setIsStepValid(enrollment.privacyStatementConfirmation);
+  }, [setIsStepValid, enrollment.privacyStatementConfirmation]);
 
   const handleCheckboxClick = () => {
     dispatch(
@@ -82,9 +90,7 @@ export const Preview = ({
               />
             }
             label={<PrivacyStatementCheckboxLabel />}
-            className={`public-enrollment__grid__preview__privacy-statement-checkbox-label ${
-              hasPrivacyStatementError && 'checkbox-error'
-            }`}
+            className={hasPrivacyStatementError ? 'checkbox-error' : undefined}
           />
           {hasPrivacyStatementError && (
             <FormHelperText
