@@ -41,16 +41,17 @@ spring:
     templateResolverOrder: 1
 management:
   endpoints:
-    enabled-by-default: false
+    access:
+      default: none
     web:
       base-path: "/api/actuator"
       exposure:
         include: "health,info"
   endpoint:
     info:
-      enabled: true
+      access: read_only
     health:
-      enabled: true
+      access: read_only
 springdoc:
   swagger-ui:
     path: /api/swagger-ui.html
