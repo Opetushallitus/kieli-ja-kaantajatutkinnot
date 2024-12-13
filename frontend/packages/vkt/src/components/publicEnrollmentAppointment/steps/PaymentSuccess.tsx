@@ -54,7 +54,6 @@ export const PaymentSuccess = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollmentAppointment.steps.paymentSuccess',
   });
-  const translateCommon = useCommonTranslation();
   const { examEvent, email } = enrollment;
 
   const dispatch = useAppDispatch();
@@ -82,9 +81,9 @@ export const PaymentSuccess = ({
         className="align-self-start"
         color="secondary"
         variant="contained"
-        to={AppRoutes.PublicGoodAndSatisfactoryLevelLanding}
+        to={AppRoutes.PublicHomePage}
       >
-        {translateCommon('backToHomePage')}
+        {t('backToHomePage')}
       </CustomButtonLink>
     </div>
   );

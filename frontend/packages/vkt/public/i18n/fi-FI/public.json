@@ -299,6 +299,7 @@
         },
         "steps": {
           "paymentSuccess": {
+            "backToHomePage": "Lopeta ja palaa etusivulle",
             "description1": "Olet maksanut tutkintomaksun {{examFee}} €. Ilmoittautumisesi seuraavaan tutkintoon on vahvistettu:",
             "description2": "Saat sähköpostitse vahvistuksen ja kuitin maksusta osoitteeseen {{email}}."
           },
