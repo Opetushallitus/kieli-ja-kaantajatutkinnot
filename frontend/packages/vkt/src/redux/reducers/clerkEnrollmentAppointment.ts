@@ -6,7 +6,6 @@ import {
   ClerkEnrollmentAppointmentGrades,
   ClerkEnrollmentAppointmentHistory,
 } from 'interfaces/clerkEnrollment';
-import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 
 interface ClerkEnrollmentAppointmentState {
   status: APIResponseStatus;
@@ -17,9 +16,7 @@ interface ClerkEnrollmentAppointmentState {
   enrollmentHistory?: Array<ClerkEnrollmentAppointmentHistory>;
   gradesStatus: APIResponseStatus;
   gradesSaveStatus: APIResponseStatus;
-  examEventsStatus: APIResponseStatus;
   sendLinkStatus: APIResponseStatus;
-  examEvents: Array<ExaminerExamEvent>;
   grades?: ClerkEnrollmentAppointmentGrades;
 }
 
@@ -30,9 +27,7 @@ const initialState: ClerkEnrollmentAppointmentState = {
   cancelStatus: APIResponseStatus.NotStarted,
   gradesStatus: APIResponseStatus.NotStarted,
   gradesSaveStatus: APIResponseStatus.NotStarted,
-  examEventsStatus: APIResponseStatus.NotStarted,
   sendLinkStatus: APIResponseStatus.NotStarted,
-  examEvents: [],
   grades: {
     version: 0,
     speakingPartialExam: {
@@ -58,16 +53,6 @@ const clerkEnrollmentAppointmentSlice = createSlice({
   name: 'clerkEnrollmentAppointment',
   initialState,
   reducers: {
-    loadExaminerExamEvents(state, _action: PayloadAction<string>) {
-      state.examEventsStatus = APIResponseStatus.InProgress;
-    },
-    storeExaminerExamEvents(
-      state,
-      action: PayloadAction<Array<ExaminerExamEvent>>,
-    ) {
-      state.examEvents = action.payload;
-      state.examEventsStatus = APIResponseStatus.Success;
-    },
     loadClerkEnrollmentAppointment(
       state,
       _action: PayloadAction<{
@@ -113,7 +98,6 @@ const clerkEnrollmentAppointmentSlice = createSlice({
       state.updateStatus = initialState.updateStatus;
       state.status = initialState.status;
       state.gradesSaveStatus = initialState.gradesSaveStatus;
-      state.examEventsStatus = initialState.examEventsStatus;
       state.sendLinkStatus = initialState.sendLinkStatus;
     },
     sendClerkEnrollmentAppointmentAuthLink(
@@ -198,8 +182,6 @@ const clerkEnrollmentAppointmentSlice = createSlice({
 export const clerkEnrollmentAppointmentReducer =
   clerkEnrollmentAppointmentSlice.reducer;
 export const {
-  loadExaminerExamEvents,
-  storeExaminerExamEvents,
   storeClerkEnrollmentAppointmentUpdate,
   rejectClerkEnrollmentAppointment,
   storeClerkEnrollmentAppointment,

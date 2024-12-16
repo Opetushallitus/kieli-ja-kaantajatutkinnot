@@ -2,24 +2,39 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkEnrollmentContact } from 'interfaces/clerkEnrollment';
+import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 
 export interface ClerkEnrollmentContactRequestState {
   status: APIResponseStatus;
   deleteStatus: APIResponseStatus;
   enrollment?: ClerkEnrollmentContact;
   createStatus: APIResponseStatus;
+  examEventsStatus: APIResponseStatus;
+  examEvents: Array<ExaminerExamEvent>;
 }
 
 const initialState: ClerkEnrollmentContactRequestState = {
   status: APIResponseStatus.NotStarted,
   createStatus: APIResponseStatus.NotStarted,
   deleteStatus: APIResponseStatus.NotStarted,
+  examEventsStatus: APIResponseStatus.NotStarted,
+  examEvents: [],
 };
 
 const clerkEnrollmentContactRequestSlice = createSlice({
   name: 'clerkEnrollmentContactRequest',
   initialState,
   reducers: {
+    loadExaminerExamEvents(state, _action: PayloadAction<string>) {
+      state.examEventsStatus = APIResponseStatus.InProgress;
+    },
+    storeExaminerExamEvents(
+      state,
+      action: PayloadAction<Array<ExaminerExamEvent>>,
+    ) {
+      state.examEvents = action.payload;
+      state.examEventsStatus = APIResponseStatus.Success;
+    },
     loadClerkEnrollmentContactRequest(
       state,
       _action: PayloadAction<{
@@ -44,6 +59,7 @@ const clerkEnrollmentContactRequestSlice = createSlice({
       _action: PayloadAction<{
         id: number;
         oid: string;
+        examEvent: number;
       }>,
     ) {
       state.createStatus = APIResponseStatus.InProgress;
@@ -78,6 +94,8 @@ const clerkEnrollmentContactRequestSlice = createSlice({
 export const clerkEnrollmentContactRequestReducer =
   clerkEnrollmentContactRequestSlice.reducer;
 export const {
+  storeExaminerExamEvents,
+  loadExaminerExamEvents,
   rejectClerkEnrollmentContactRequest,
   storeClerkEnrollmentContactRequest,
   loadClerkEnrollmentContactRequest,

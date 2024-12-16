@@ -4,6 +4,7 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentExamEventDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentGradesDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
@@ -20,6 +21,7 @@ import fi.oph.vkt.util.ExaminerUtil;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import jakarta.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -91,15 +93,21 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional
-  public ExaminerEnrollmentAppointmentDTO convertToAppointment(final String oid, final long enrollmentContactId) {
+  public ExaminerEnrollmentAppointmentDTO convertToAppointment(
+    final String oid,
+    final long enrollmentContactId,
+    final ExaminerEnrollmentExamEventDTO examEvent
+  ) {
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
       enrollmentContactId
     );
+    final ExaminerExamEvent examinerExamEvent = examinerExamEventRepository.getReferenceById(examEvent.id());
     checkExaminerOid(enrollmentAppointment, oid);
 
     final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
 
     enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.ENROLLMENT_CREATED);
+    enrollmentAppointment.setExaminerExamEvent(examinerExamEvent);
 
     if (enrollmentAppointment.getAuthHash() == null) {
       enrollmentAppointment.setAuthHash(uuidSource.getRandomNonce());

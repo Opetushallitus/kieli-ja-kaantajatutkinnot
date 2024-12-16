@@ -6,6 +6,7 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentExamEventDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentGradesDTO;
 import fi.oph.vkt.service.ExaminerEnrollmentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -66,9 +67,10 @@ public class ExaminerEnrollmentController {
   @Operation(tags = TAG_ENROLLMENT, summary = "Convert enrollment contact request to enrollment appointment")
   public ExaminerEnrollmentAppointmentDTO enrollmentContactRequestToAppointment(
     @PathVariable final String oid,
-    @PathVariable final long enrollmentContactId
+    @PathVariable final long enrollmentContactId,
+    @RequestBody @Valid final ExaminerEnrollmentExamEventDTO examEvent
   ) {
-    return examinerEnrollmentService.convertToAppointment(oid, enrollmentContactId);
+    return examinerEnrollmentService.convertToAppointment(oid, enrollmentContactId, examEvent);
   }
 
   @GetMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}", consumes = ALL_VALUE)

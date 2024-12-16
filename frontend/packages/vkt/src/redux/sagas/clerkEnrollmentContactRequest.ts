@@ -5,15 +5,18 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkEnrollmentContactResponse } from 'interfaces/clerkEnrollment';
+import { ExaminerExamEventResponse } from 'interfaces/examinerExamEvent';
 import {
   createClerkEnrollmentAppointment,
   deleteClerkEnrollmentContactRequest,
   loadClerkEnrollmentContactRequest,
+  loadExaminerExamEvents,
   rejectClerkEnrollmentContactRequest,
   rejectCreateClerkEnrollmentAppointment,
   storeClerkEnrollmentContactRequest,
   storeCreateClerkEnrollmentAppointment,
   storeDeleteClerkEnrollmentContactRequest,
+  storeExaminerExamEvents,
 } from 'redux/reducers/clerkEnrollmentContactRequest';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -21,10 +24,11 @@ function* createClerkEnrollmentAppointmentSaga(
   action: PayloadAction<{
     id: number;
     oid: string;
+    examEvent: number;
   }>,
 ) {
   try {
-    const { id, oid } = action.payload;
+    const { id, oid, examEvent } = action.payload;
     const saveUrl = `${APIEndpoints.ExaminerEnrollmentContactRequest.replace(
       /:oid/,
       oid,
@@ -33,6 +37,7 @@ function* createClerkEnrollmentAppointmentSaga(
     const response: AxiosResponse<ClerkEnrollmentContactResponse> = yield call(
       axiosInstance.post,
       saveUrl,
+      { id: examEvent },
     );
     const enrollment =
       SerializationUtils.deserializeClerkEnrollmentContactRequest(
@@ -63,6 +68,23 @@ function* deleteClerkEnrollmentContactRequestSaga(
     yield put(storeDeleteClerkEnrollmentContactRequest());
   } catch (error) {
     yield put(rejectClerkEnrollmentContactRequest());
+  }
+}
+
+function* loadExaminerExamEventsSaga(action: PayloadAction<string>) {
+  try {
+    const oid = action.payload;
+    const loadUrl = APIEndpoints.ExaminerExamEvent.replace(/:oid/, oid);
+
+    const response: AxiosResponse<Array<ExaminerExamEventResponse>> =
+      yield call(axiosInstance.get, loadUrl);
+    const examinerExamEvents = SerializationUtils.deserializeExaminerExamEvents(
+      response.data,
+    );
+
+    yield put(storeExaminerExamEvents(examinerExamEvents));
+  } catch (error) {
+    //yield put(rejectClerkEnrollmentAppointment());
   }
 }
 
@@ -99,6 +121,7 @@ export function* watchClerkEnrollmentContactRequest() {
     loadClerkEnrollmentContactRequest.type,
     loadClerkEnrollmentContactRequestSaga,
   );
+  yield takeLatest(loadExaminerExamEvents.type, loadExaminerExamEventsSaga);
   yield takeLatest(
     deleteClerkEnrollmentContactRequest.type,
     deleteClerkEnrollmentContactRequestSaga,

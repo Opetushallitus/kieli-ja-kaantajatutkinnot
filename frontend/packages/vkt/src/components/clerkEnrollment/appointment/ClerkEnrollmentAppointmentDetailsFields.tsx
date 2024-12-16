@@ -7,7 +7,6 @@ import {
 } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
-  ComboBox,
   CustomButton,
   CustomModal,
   CustomTextField,
@@ -21,11 +20,10 @@ import {
   Color,
   Severity,
   TextFieldTypes,
-  TextFieldVariant,
   Variant,
 } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
-import { DateUtils, InputFieldUtils } from 'shared/utils';
+import { InputFieldUtils } from 'shared/utils';
 
 import { EnrollmentHistoryModal } from 'components/clerkEnrollment/appointment/EnrollmentHistoryModal';
 import { EnrollmentSkillsListTable } from 'components/clerkEnrollment/appointment/EnrollmentSkillsListTable';
@@ -46,7 +44,6 @@ import {
 } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
-import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 import { sendClerkEnrollmentAppointmentAuthLink } from 'redux/reducers/clerkEnrollmentAppointment';
 import { clerkEnrollmentAppointmentSelector } from 'redux/selectors/clerkEnrollmentAppointment';
 import { DateTimeUtils } from 'utils/dateTime';
@@ -322,33 +319,9 @@ const ClerkEnrollmentSkillsListFields = ({
   );
 };
 
-const useExamEventDescription = () => {
-  const translateCommon = useCommonTranslation();
-  const translateMunicipality = useKoodistoMunicipalitiesTranslation();
-  const describeExamEvent = ({
-    language,
-    date,
-    examTime,
-    municipality,
-  }: ExaminerExamEvent) => {
-    const dateStr = DateUtils.formatOptionalDate(date);
-
-    return [
-      translateCommon(`examLanguage.${language}`),
-      examTime ? `${dateStr} ${examTime}` : dateStr,
-      translateMunicipality(municipality.code),
-    ].join(', ');
-  };
-
-  return describeExamEvent;
-};
-
 const ExamAndEnrollmentDetailsSection = ({
   enrollment,
   isViewMode,
-  examEvents,
-  newExamEvent,
-  onExamEventChange,
   onCheckboxFieldChange,
   editDisabled,
   openGradeModal,
@@ -357,9 +330,6 @@ const ExamAndEnrollmentDetailsSection = ({
 }: {
   enrollment: ClerkEnrollmentAppointment;
   isViewMode: boolean;
-  examEvents: Array<ExaminerExamEvent>;
-  newExamEvent: ExaminerExamEvent | undefined;
-  onExamEventChange: (value?: string) => void;
   onCheckboxFieldChange: (
     field:
       | keyof PartialExamsAndSkills
@@ -381,44 +351,23 @@ const ExamAndEnrollmentDetailsSection = ({
   const translateMunicipality = useKoodistoMunicipalitiesTranslation();
   const translateCommon = useCommonTranslation();
 
-  const describeExamEvent = useExamEventDescription();
-  const examEventToOption = (examEvent: ExaminerExamEvent) => ({
-    value: examEvent.id.toString(),
-    label: describeExamEvent(examEvent),
-  });
-
   return (
     <>
       <div className="columns margin-top-lg space-between">
         <H2>Tutkinnon tiedot</H2>
       </div>
-      {isViewMode ? (
-        enrollment.examEvent && (
-          <div className="rows">
-            <H3>Tutkinnon kieli, aika ja paikka</H3>
-            <Text>
-              {translateCommon(`examLanguage.${enrollment.examEvent.language}`)}
-              {', '}
-              {DateTimeUtils.renderDate(enrollment.examEvent.date)}
-              {', '}
-              {translateMunicipality(enrollment.examEvent.municipality.code)}
-              {', '}
-              {enrollment.examEvent.location}
-            </Text>
-          </div>
-        )
-      ) : (
-        <div className="half-max-width">
-          <ComboBox
-            autoHighlight
-            label={'Tutkinto'}
-            values={[...examEvents]
-              .map(examEventToOption)
-              .sort((a, b) => a.label.localeCompare(b.label))}
-            value={newExamEvent ? examEventToOption(newExamEvent) : null}
-            variant={TextFieldVariant.Outlined}
-            onChange={onExamEventChange}
-          />
+      {enrollment.examEvent && (
+        <div className="rows">
+          <H3>Tutkinnon kieli, aika ja paikka</H3>
+          <Text>
+            {translateCommon(`examLanguage.${enrollment.examEvent.language}`)}
+            {', '}
+            {DateTimeUtils.renderDate(enrollment.examEvent.date)}
+            {', '}
+            {translateMunicipality(enrollment.examEvent.municipality.code)}
+            {', '}
+            {enrollment.examEvent.location}
+          </Text>
         </div>
       )}
       {isViewMode ? (
@@ -663,9 +612,6 @@ const PaymentLinkModal = ({
 
 export const ClerkEnrollmentAppointmentDetailsFields = ({
   enrollment,
-  examEvents,
-  newExamEvent,
-  onExamEventChange,
   editDisabled,
   isViewMode,
   oid,
@@ -675,14 +621,11 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
   showFieldErrorBeforeChange,
 }: {
   enrollment: ClerkEnrollmentAppointment;
-  examEvents: Array<ExaminerExamEvent>;
-  newExamEvent: ExaminerExamEvent | undefined;
   editDisabled: boolean;
   isViewMode: boolean;
   oid: string;
   topControlButtons: JSX.Element;
   showFieldErrorBeforeChange: boolean;
-  onExamEventChange: (value?: string) => void;
   onTextFieldChange: (
     field: ClerkEnrollmentTextFieldEnum,
   ) => (event: ChangeEvent<HTMLTextAreaElement>) => void;
@@ -816,10 +759,7 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
         <Divider className="margin-top-lg" />
         <ExamAndEnrollmentDetailsSection
           enrollment={enrollment}
-          examEvents={examEvents}
           isViewMode={isViewMode}
-          newExamEvent={newExamEvent}
-          onExamEventChange={onExamEventChange}
           onCheckboxFieldChange={onCheckboxFieldChange}
           editDisabled={editDisabled}
           openGradeModal={() => setGradeModalOpen(true)}

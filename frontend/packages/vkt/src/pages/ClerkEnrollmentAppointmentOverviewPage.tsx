@@ -11,7 +11,6 @@ import { AppRoutes } from 'enums/app';
 import {
   loadClerkEnrollmentAppointment,
   loadClerkEnrollmentAppointmentGrades,
-  loadExaminerExamEvents,
   resetClerkEnrollmentDetailsToInitialState,
 } from 'redux/reducers/clerkEnrollmentAppointment';
 import { clerkEnrollmentAppointmentSelector } from 'redux/selectors/clerkEnrollmentAppointment';
@@ -24,8 +23,9 @@ export const ClerkEnrollmentAppointmentOverviewPage: FC<
   ClerkEnrollmentAppointmentOverviewPageProps
 > = ({ editMode }) => {
   // Redux
-  const { status, gradesStatus, examEventsStatus, examEvents, enrollment } =
-    useAppSelector(clerkEnrollmentAppointmentSelector);
+  const { status, gradesStatus, enrollment } = useAppSelector(
+    clerkEnrollmentAppointmentSelector,
+  );
 
   const dispatch = useAppDispatch();
   const params = useParams();
@@ -70,12 +70,6 @@ export const ClerkEnrollmentAppointmentOverviewPage: FC<
   }, [dispatch, status, params.enrollmentAppointmentId, params.oid]);
 
   useEffect(() => {
-    if (examEventsStatus === APIResponseStatus.NotStarted && params.oid) {
-      dispatch(loadExaminerExamEvents(params.oid));
-    }
-  }, [dispatch, examEventsStatus, params.oid]);
-
-  useEffect(() => {
     if (
       gradesStatus === APIResponseStatus.NotStarted &&
       enrollment?.id &&
@@ -102,7 +96,6 @@ export const ClerkEnrollmentAppointmentOverviewPage: FC<
           <ClerkEnrollmentAppointmentDetails
             editMode={editMode}
             enrollment={enrollment}
-            examEvents={examEvents}
             oid={params.oid}
           />
         )}

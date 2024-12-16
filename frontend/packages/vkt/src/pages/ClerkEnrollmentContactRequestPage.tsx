@@ -1,7 +1,8 @@
 import { Box, Divider, Grid, Paper } from '@mui/material';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import {
+  ComboBox,
   CustomButton,
   H1,
   H2,
@@ -14,6 +15,7 @@ import {
   Color,
   Duration,
   Severity,
+  TextFieldVariant,
   Variant,
 } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
@@ -22,19 +24,27 @@ import { TopControls } from 'components/clerkExamEvent/overview/TopControls';
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { useExamEventDescription } from 'hooks/useExamEventDescription';
+import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
 import {
   createClerkEnrollmentAppointment,
   deleteClerkEnrollmentContactRequest,
   loadClerkEnrollmentContactRequest,
+  loadExaminerExamEvents,
   resetClerkEnrollmentContactRequestToInitialState,
 } from 'redux/reducers/clerkEnrollmentContactRequest';
 import { resetExaminerDetailsToInitialState } from 'redux/reducers/examinerDetails';
 import { clerkEnrollmentContactRequestSelector } from 'redux/selectors/clerkEnrollmentContactRequest';
 
 export const ClerkEnrollmentContactRequestPage: FC = () => {
-  const { status, deleteStatus, createStatus, enrollment } = useAppSelector(
-    clerkEnrollmentContactRequestSelector,
-  );
+  const {
+    status,
+    examEventsStatus,
+    examEvents,
+    deleteStatus,
+    createStatus,
+    enrollment,
+  } = useAppSelector(clerkEnrollmentContactRequestSelector);
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkcontactRequest',
   });
@@ -43,9 +53,20 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
   const navigate = useNavigate();
   const { showDialog } = useDialog();
   const { showToast } = useToast();
+  const describeExamEvent = useExamEventDescription();
+
+  const [newExamEvent, setNewExamEvent] = useState<
+    ExaminerExamEvent | undefined
+  >();
 
   const dispatch = useAppDispatch();
   const backTo = AppRoutes.ExaminerHomePage.replace(':oid', params.oid || '');
+
+  useEffect(() => {
+    if (examEventsStatus === APIResponseStatus.NotStarted && params.oid) {
+      dispatch(loadExaminerExamEvents(params.oid));
+    }
+  }, [dispatch, examEventsStatus, params.oid]);
 
   useEffect(() => {
     if (deleteStatus === APIResponseStatus.Success && params.oid) {
@@ -125,13 +146,31 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
   }
 
   const onSubmit = () => {
-    dispatch(
-      createClerkEnrollmentAppointment({
-        id: enrollment.id,
-        oid: params.oid || '',
-      }),
-    );
+    if (params.oid && newExamEvent?.id) {
+      dispatch(
+        createClerkEnrollmentAppointment({
+          id: enrollment.id,
+          oid: params.oid,
+          examEvent: newExamEvent.id,
+        }),
+      );
+    }
   };
+
+  const handleExamEventChange = (examEvent: string | undefined) => {
+    if (examEvent) {
+      const foundExamEvent = examEvents.find((e) => e.id === +examEvent);
+
+      if (foundExamEvent) {
+        setNewExamEvent(foundExamEvent);
+      }
+    }
+  };
+
+  const examEventToOption = (examEvent: ExaminerExamEvent) => ({
+    value: examEvent.id.toString(),
+    label: describeExamEvent(examEvent),
+  });
 
   const openDeleteDialog = () => {
     showDialog({
@@ -170,29 +209,29 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
           <TopControls backTo={backTo} />
         </div>
         <Grid item>
-          <H1>Yhteydenottopyyntö</H1>
+          <H1>{t('contactRequest')}</H1>
         </Grid>
         <Grid item>
           <Paper
             elevation={3}
             className="clerk-homepage__exam-events clerk-homepage-create-exam-events"
           >
-            <H2>Yhteystiedot</H2>
+            <H2>{t('contactFields')}</H2>
             <div className="grid-columns gapped">
               <div className="rows gapped">
-                <H3>Sukunimi</H3>
+                <H3>{t('lastName')}</H3>
                 <Text>{enrollment.lastName}</Text>
               </div>
               <div className="rows gapped">
-                <H3>Etunimi</H3>
+                <H3>{t('firstName')}</H3>
                 <Text>{enrollment.firstName}</Text>
               </div>
               <div className="rows gapped">
-                <H3>Sähköpostiosoite</H3>
+                <H3>{t('email')}</H3>
                 <Text>{enrollment.email}</Text>
               </div>
               <div className="rows gapped">
-                <H3>Puhelinnumero</H3>
+                <H3>{t('phoneNumber')}</H3>
                 <Text>{enrollment.phoneNumber}</Text>
               </div>
             </div>
@@ -208,12 +247,12 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
             </div>
             {!enrollment.isFullExam && (
               <div className="rows gapped">
-                <H3>Osakokeet, jotka haluan suorittaa</H3>
+                <H3>{t('partialExams')}</H3>
                 <Text>{enrollment.partialExamSelection}</Text>
               </div>
             )}
             <div className="rows gapped">
-              <H3>Osallistunut aiempiin tutkintoihin?</H3>
+              <H3>{t('previousExams')}</H3>
               <Text>
                 {enrollment.hasPreviousEnrollment
                   ? translateCommon('yes')
@@ -224,27 +263,43 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
               <H3>{t('message')}</H3>
               <Text>{enrollment.message}</Text>
             </div>
+            <Divider />
+            <div className="rows gapped-sm flex-end">
+              <H2 className="margin-bottom-lg">{t('chooseExamAndCreate')}</H2>
+              <H3>{t('chooseExam')}</H3>
+              <Text>{t('selectExamHelp')}</Text>
+              <div className="half-max-width">
+                <ComboBox
+                  autoHighlight
+                  label={'Tutkinto'}
+                  values={[...examEvents]
+                    .map(examEventToOption)
+                    .sort((a, b) => a.label.localeCompare(b.label))}
+                  value={newExamEvent ? examEventToOption(newExamEvent) : null}
+                  variant={TextFieldVariant.Outlined}
+                  onChange={handleExamEventChange}
+                />
+              </div>
+              <LoadingProgressIndicator isLoading={isLoading}>
+                <CustomButton
+                  variant={Variant.Contained}
+                  color={Color.Secondary}
+                  disabled={!newExamEvent || isSavingDisabled}
+                  onClick={onSubmit}
+                >
+                  {t('createEnrollment')}
+                </CustomButton>
+              </LoadingProgressIndicator>
+            </div>
             <div className="columns gapped-sm flex-end">
               <LoadingProgressIndicator isLoading={isDeleteLoading}>
                 <CustomButton
-                  data-testid="clerk-translator-overview__translator-details__save-btn"
                   variant={Variant.Outlined}
                   color={Color.Secondary}
                   disabled={isSavingDisabled}
                   onClick={openDeleteDialog}
                 >
                   {t('deleteContactRequest')}
-                </CustomButton>
-              </LoadingProgressIndicator>
-              <LoadingProgressIndicator isLoading={isLoading}>
-                <CustomButton
-                  data-testid="clerk-translator-overview__translator-details__save-btn"
-                  variant={Variant.Contained}
-                  color={Color.Secondary}
-                  disabled={isSavingDisabled}
-                  onClick={onSubmit}
-                >
-                  {t('createEnrollment')}
                 </CustomButton>
               </LoadingProgressIndicator>
             </div>

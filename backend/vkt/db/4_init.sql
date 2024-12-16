@@ -485,7 +485,7 @@ INSERT INTO enrollment_appointment(person_id, examiner_id, examiner_exam_event_i
                        partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
                        status, digital_certificate_consent, email, phone_number, street, postal_code, town, country, first_name, last_name,
                        auth_hash, auth_hash_expires, auth_hash_sent)
-VALUES (1, 1, 1,
+VALUES (null, 1, 1,
        true, true, true,
        true, true, true, true,
        'WAITING_AUTHENTICATION', false,
