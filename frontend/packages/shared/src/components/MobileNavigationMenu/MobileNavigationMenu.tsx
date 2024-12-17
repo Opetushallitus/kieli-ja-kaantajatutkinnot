@@ -1,8 +1,15 @@
-import { FocusTrap } from '@mui/base/FocusTrap';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import { ClickAwayListener, Divider, Paper } from '@mui/material';
-import { Fragment, useState } from 'react';
+import { FocusTrap } from 'focus-trap-react';
+import {
+  ForwardedRef,
+  forwardRef,
+  Fragment,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 
@@ -12,58 +19,70 @@ import { Text } from '../Text/Text';
 
 import './MobileNavigationMenu.scss';
 
-const MobileNavigationMenuToggle = ({
-  openStateLabel,
-  openStateAriaLabel,
-  closedStateLabel,
-  closedStateAriaLabel,
-  isOpen,
-  setIsOpen,
-}: {
-  openStateLabel: string;
-  openStateAriaLabel: string;
-  closedStateLabel: string;
-  closedStateAriaLabel: string;
-  isOpen: boolean;
-  setIsOpen: (state: boolean) => void;
-}) => {
-  const handleClick = () => {
-    setIsOpen(!isOpen);
-  };
-
-  return (
-    <button
-      tabIndex={0}
-      className="navigation-menu-toggle rows align-items-center"
-      onClick={handleClick}
-    >
-      {isOpen && (
-        <>
-          <CloseIcon
-            color={Color.Secondary}
-            fontSize="large"
-            aria-hidden={true}
-          />
-          <Text aria-label={openStateAriaLabel} fontSize={12}>
-            {openStateLabel}
-          </Text>
-        </>
-      )}
-      {!isOpen && (
-        <>
-          <MenuIcon
-            color={Color.Secondary}
-            fontSize="large"
-            aria-hidden={true}
-          />
-          <Text aria-label={closedStateAriaLabel} fontSize={12}>
-            {closedStateLabel}
-          </Text>
-        </>
-      )}
-    </button>
-  );
+const handleEsc = (e: React.KeyboardEvent, onMenuClose: () => void) => {
+  if (e.key === 'Escape') {
+    onMenuClose();
+  }
 };
+
+const MobileNavigationMenuToggleWrapper = forwardRef(
+  function MobileNavigationMenuToggle(
+    {
+      openStateLabel,
+      openStateAriaLabel,
+      closedStateLabel,
+      closedStateAriaLabel,
+      isOpen,
+      toggleMenu,
+      closeMenu,
+    }: {
+      openStateLabel: string;
+      openStateAriaLabel: string;
+      closedStateLabel: string;
+      closedStateAriaLabel: string;
+      isOpen: boolean;
+      toggleMenu: () => void;
+      closeMenu: () => void;
+    },
+    ref: ForwardedRef<HTMLDivElement>,
+  ) {
+    return (
+      <div ref={ref}>
+        <button
+          tabIndex={0}
+          className="navigation-menu-toggle rows align-items-center"
+          onClick={toggleMenu}
+          onKeyDown={(e) => handleEsc(e, closeMenu)}
+        >
+          {isOpen && (
+            <>
+              <CloseIcon
+                color={Color.Secondary}
+                fontSize="large"
+                aria-hidden={true}
+              />
+              <Text aria-label={openStateAriaLabel} fontSize={12}>
+                {openStateLabel}
+              </Text>
+            </>
+          )}
+          {!isOpen && (
+            <>
+              <MenuIcon
+                color={Color.Secondary}
+                fontSize="large"
+                aria-hidden={true}
+              />
+              <Text aria-label={closedStateAriaLabel} fontSize={12}>
+                {closedStateLabel}
+              </Text>
+            </>
+          )}
+        </button>
+      </div>
+    );
+  },
+);
 
 interface MobileNavigationMenuProps extends NavigationLinksProps {
   closeMenu: () => void;
@@ -81,45 +100,37 @@ export const MobileNavigationMenuContents = ({
     closeMenu();
   };
 
-  const handleEsc = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      closeMenu();
-    }
-  };
-
   return (
-    <FocusTrap open={true}>
-      <Paper
-        onKeyDown={handleEsc}
-        role="presentation"
-        tabIndex={-1}
-        elevation={3}
+    <Paper
+      onKeyDown={(e) => handleEsc(e, closeMenu)}
+      role="presentation"
+      tabIndex={-1}
+      elevation={3}
+    >
+      <nav
+        className="navigation-menu-contents"
+        aria-label={navigationAriaLabel}
       >
-        <nav
-          className="navigation-menu-contents"
-          aria-label={navigationAriaLabel}
-        >
-          <ClickAwayListener onClickAway={handleClickAway}>
-            <ul className="gapped-sm">
-              {links.map((l, i) => (
-                <Fragment key={i}>
-                  {i > 0 && <Divider />}
-                  <li key={i} className={l.active ? 'active' : undefined}>
-                    <Link
-                      to={l.href}
-                      aria-current={l.active && 'page'}
-                      onClick={closeMenu}
-                    >
-                      <Text>{l.label}</Text>
-                    </Link>
-                  </li>
-                </Fragment>
-              ))}
-            </ul>
-          </ClickAwayListener>
-        </nav>
-      </Paper>
-    </FocusTrap>
+        <ClickAwayListener onClickAway={handleClickAway}>
+          <ul className="gapped-sm">
+            {links.map((l, i) => (
+              <Fragment key={i}>
+                {i > 0 && <Divider aria-hidden={true} />}
+                <li key={i} className={l.active ? 'active' : undefined}>
+                  <Link
+                    to={l.href}
+                    aria-current={l.active && 'page'}
+                    onClick={closeMenu}
+                  >
+                    <Text>{l.label}</Text>
+                  </Link>
+                </li>
+              </Fragment>
+            ))}
+          </ul>
+        </ClickAwayListener>
+      </nav>
+    </Paper>
   );
 };
 
@@ -140,15 +151,43 @@ export const MobileNavigationMenuWithPortal = ({
 } & NavigationLinksProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const toggleRef = useRef<HTMLDivElement>(null);
+  const [containerElements, setContainerElements] = useState<
+    Array<HTMLElement>
+  >([]);
+  useEffect(() => {
+    const toggleElement = toggleRef.current;
+    if (toggleElement) {
+      if (!containerElements.includes(toggleElement)) {
+        setContainerElements([toggleElement, portalContainer]);
+      }
+    } else {
+      setContainerElements([portalContainer]);
+    }
+  }, [containerElements, portalContainer]);
+
   return (
     <>
-      <MobileNavigationMenuToggle
+      {isMenuOpen && (
+        <FocusTrap
+          containerElements={
+            toggleRef.current
+              ? [toggleRef.current, portalContainer]
+              : [portalContainer]
+          }
+        >
+          <div />
+        </FocusTrap>
+      )}
+      <MobileNavigationMenuToggleWrapper
         openStateAriaLabel={openStateAriaLabel}
         openStateLabel={openStateLabel}
         closedStateAriaLabel={closedStateAriaLabel}
         closedStateLabel={closedStateLabel}
         isOpen={isMenuOpen}
-        setIsOpen={() => setIsMenuOpen(true)}
+        closeMenu={() => setIsMenuOpen(false)}
+        toggleMenu={() => setIsMenuOpen(!isMenuOpen)}
+        ref={toggleRef}
       />
       {isMenuOpen &&
         createPortal(

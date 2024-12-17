@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.11.7] - 2024-12-17
+
+### Changed
+
+- MobileNavigationMenuWithPortal implementation changed to use FocusTrap from react-focus-trap package instead of from @mui/base
+- Some other accessibility fixes to mobile navigation menu as well
+
 ## [1.11.6] - 2024-11-12
 
 ### Changed

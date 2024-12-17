@@ -196,6 +196,7 @@ export const LabeledMultipleCheckboxDropdown = ({
   const errorStyles = showError ? { color: 'error.main' } : {};
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
   return (
     <FormControl fullWidth error={showError}>
       <label htmlFor={id}>
@@ -212,6 +213,7 @@ export const LabeledMultipleCheckboxDropdown = ({
         isOptionEqualToValue={(option, value) => option.value === value.value}
         renderOption={(props, option, { selected }) => {
           const { key, ...optionProps } = props;
+
           return (
             <li key={key} {...optionProps}>
               <Checkbox
