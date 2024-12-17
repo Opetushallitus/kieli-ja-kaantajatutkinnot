@@ -1,5 +1,5 @@
 import { CommonUtils } from './common/common';
-import { TitlePage } from './common/titlepage';
+import { TitlePage, TitlePageProps } from './common/titlepage';
 import { DateUtils } from './date/date';
 import type { FieldErrors } from './inputField/inputField';
 import { getErrors, hasErrors, InputFieldUtils } from './inputField/inputField';
@@ -14,4 +14,4 @@ export {
   getErrors,
   hasErrors,
 };
-export type { FieldErrors };
+export type { FieldErrors, TitlePageProps };

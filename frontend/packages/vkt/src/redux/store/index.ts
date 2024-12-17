@@ -20,6 +20,7 @@ import { examinerDetailsUpsertReducer } from 'redux/reducers/examinerDetailsUpse
 import { examinerExamEventOverviewReducer } from 'redux/reducers/examinerExamEventOverview';
 import { examinerExamEventUpsertReducer } from 'redux/reducers/examinerExamEventUpsert';
 import { featureFlagsReducer } from 'redux/reducers/featureFlags';
+import { mobileNavigationMenuReducer } from 'redux/reducers/mobileNavigationMenu';
 import { publicEducationReducer } from 'redux/reducers/publicEducation';
 import { publicEnrollmentReducer } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentAppointmentReducer } from 'redux/reducers/publicEnrollmentAppointment';
@@ -61,6 +62,7 @@ const reducer = combineReducers({
   examinerExamEventOverview: examinerExamEventOverviewReducer,
   examinerExamEventUpsert: examinerExamEventUpsertReducer,
   clerkListExaminer: clerkListExaminerReducer,
+  mobileNavigationMenu: mobileNavigationMenuReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

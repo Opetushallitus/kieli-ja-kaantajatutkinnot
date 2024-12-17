@@ -142,15 +142,17 @@ export const MobileNavigationMenuWithPortal = ({
   closedStateAriaLabel,
   links,
   portalContainer,
+  isMenuOpen,
+  setIsMenuOpen,
 }: {
   openStateLabel: string;
   openStateAriaLabel: string;
   closedStateLabel: string;
   closedStateAriaLabel: string;
   portalContainer: HTMLElement;
+  isMenuOpen: boolean;
+  setIsMenuOpen: (open: boolean) => void;
 } & NavigationLinksProps) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const toggleRef = useRef<HTMLDivElement>(null);
   const [containerElements, setContainerElements] = useState<
     Array<HTMLElement>

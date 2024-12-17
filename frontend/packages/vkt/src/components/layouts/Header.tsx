@@ -34,8 +34,10 @@ import { AppRoutes, PublicNavigationLink } from 'enums/app';
 import { useAuthentication } from 'hooks/useAuthentication';
 import { useInterval } from 'hooks/useInterval';
 import { loadClerkUser } from 'redux/reducers/clerkUser';
+import { setMobileNavigationMenuState } from 'redux/reducers/mobileNavigationMenu';
 import { loadPublicUser } from 'redux/reducers/publicUser';
 import { featureFlagsSelector } from 'redux/selectors/featureFlags';
+import { mobileNavigationMenuSelector } from 'redux/selectors/mobileNavigationMenu';
 
 const isPathActive = (currentPath: string, route: AppRoutes) =>
   !!matchPath({ path: route, end: false }, currentPath);
@@ -111,6 +113,12 @@ const PublicMobileNavigationMenu = () => {
     translateCommon,
   );
 
+  const { open } = useAppSelector(mobileNavigationMenuSelector);
+  const dispatch = useAppDispatch();
+  const setIsMenuOpen = (open: boolean) => {
+    dispatch(setMobileNavigationMenuState(open));
+  };
+
   const portalContainer = document.getElementById('mobile-menu-placeholder');
 
   if (!portalContainer) {
@@ -128,6 +136,8 @@ const PublicMobileNavigationMenu = () => {
       closedStateAriaLabel="Avaa valikko"
       links={navigationLinks}
       portalContainer={portalContainer}
+      isMenuOpen={open}
+      setIsMenuOpen={setIsMenuOpen}
     />
   );
 };

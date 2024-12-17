@@ -2,13 +2,14 @@ import { ReactNode } from 'react';
 
 import { useTitle } from '../..//hooks';
 
-interface TitleProps {
+export interface TitlePageProps {
   title: string;
   children: ReactNode;
+  className?: string;
 }
 
-export const TitlePage = ({ title, children }: TitleProps) => {
+export const TitlePage = ({ title, children, className }: TitlePageProps) => {
   useTitle(title);
 
-  return <>{children}</>;
+  return <div className={className}>{children}</div>;
 };

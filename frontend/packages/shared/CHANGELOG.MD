@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.11.8] - 2024-12-17
+
+### Changed
+
+- TitlePage to accept optional className in props
+- Make MobileNavigationMenuWithPortal a controlled component
+
 ## [1.11.7] - 2024-12-17
 
 ### Changed
