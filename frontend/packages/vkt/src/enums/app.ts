@@ -37,7 +37,7 @@ export enum AppRoutes {
     '/:examEventId/jono-valmis',
   PublicEnrollmentDone = excellentLevelEnrollmentRoute + '/:examEventId/valmis',
 
-  // Routes for good and satisfactory level - TODO
+  // Routes for good and satisfactory level
   PublicGoodAndSatisfactoryLevelLanding = goodAndSatisfactoryLevelRoutePrefix,
   PublicEnrollmentAppointment = goodAndSatisfactoryLevelEnrollmentRoute,
   PublicAuthAppointment = goodAndSatisfactoryLevelEnrollmentRoute +
