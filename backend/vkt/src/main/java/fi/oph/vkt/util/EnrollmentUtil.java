@@ -15,10 +15,11 @@ public class EnrollmentUtil {
   public static final Integer FREE_ENROLLMENT_LIMIT = 3;
 
   public static int getTotalFee(final EnrollmentAppointment enrollmentAppointment) {
-    return (
+    return Math.min(
       getTextualSkillFee(enrollmentAppointment) +
       getOralSkillFee(enrollmentAppointment) +
-      getUnderstandingSkillFee(enrollmentAppointment)
+      getUnderstandingSkillFee(enrollmentAppointment),
+      2 * SKILL_APPOINTMENT_FEE
     );
   }
 
@@ -71,11 +72,7 @@ public class EnrollmentUtil {
   }
 
   public static int getUnderstandingSkillFee(final EnrollmentAppointment enrollmentAppointment) {
-    if (enrollmentAppointment.isTextualSkill() && enrollmentAppointment.isOralSkill()) {
-      return 0;
-    }
-
-    return SKILL_APPOINTMENT_FEE;
+    return enrollmentAppointment.isUnderstandingSkill() ? SKILL_APPOINTMENT_FEE : 0;
   }
 
   public static int getUnderstandingSkillFee(final Enrollment enrollment) {
