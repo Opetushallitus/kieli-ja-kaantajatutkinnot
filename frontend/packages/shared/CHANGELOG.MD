@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.11.9] - 2024-12-17
+
+- Stylized divider to be a bit thicker and darker
+
 ## [1.11.8] - 2024-12-17
 
 ### Changed

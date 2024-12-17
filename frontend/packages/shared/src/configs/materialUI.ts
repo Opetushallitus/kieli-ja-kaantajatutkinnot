@@ -171,6 +171,14 @@ export const theme = createTheme({
         },
       },
     },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          borderBottomWidth: '0.2rem',
+          borderColor: colorGrey400
+        }
+      }
+    }
   },
   palette: {
     error: {
