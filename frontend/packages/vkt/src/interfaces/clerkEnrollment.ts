@@ -78,6 +78,10 @@ export interface ClerkEnrollmentStatusChange extends WithId, WithVersion {
   newStatus: EnrollmentStatus;
 }
 
+export interface ClerkEnrollmentAppointmentMove extends ClerkEnrollmentMove {
+  oid: string;
+}
+
 export interface ClerkEnrollmentMove extends WithId, WithVersion {
   toExamEventId: number;
 }

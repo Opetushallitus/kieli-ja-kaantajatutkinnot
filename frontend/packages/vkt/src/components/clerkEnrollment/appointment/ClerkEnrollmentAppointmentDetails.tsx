@@ -1,5 +1,5 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { CustomButton } from 'shared/components';
+import { CustomButton, CustomModal } from 'shared/components';
 import {
   APIResponseStatus,
   Color,
@@ -11,6 +11,7 @@ import { useDialog, useToast } from 'shared/hooks';
 import { StringUtils } from 'shared/utils';
 
 import { ClerkEnrollmentAppointmentDetailsFields } from 'components/clerkEnrollment/appointment/ClerkEnrollmentAppointmentDetailsFields';
+import { MoveModal } from 'components/clerkEnrollment/appointment/MoveModal';
 import { ControlButtons } from 'components/clerkEnrollment/overview/ControlButtons';
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -51,6 +52,7 @@ export const ClerkEnrollmentAppointmentDetails = ({
     ClerkEnrollmentAppointment | undefined
   >(enrollment);
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
+  const [isMoveModalOpen, setIsOpenModalOpen] = useState(false);
   const [currentUIMode, setCurrentUIMode] = useState(
     editMode ? UIMode.Edit : UIMode.View,
   );
@@ -168,6 +170,9 @@ export const ClerkEnrollmentAppointmentDetails = ({
     setCurrentUIMode(UIMode.Edit);
   };
 
+  const handleMoveButtonClick = () => setIsOpenModalOpen(true);
+  const closeMoveModal = () => setIsOpenModalOpen(false);
+
   const openCancelDialog = () => {
     showDialog({
       title: translateCommon('cancelUpdateDialog.header'),
@@ -222,6 +227,19 @@ export const ClerkEnrollmentAppointmentDetails = ({
 
   return (
     <>
+      <CustomModal
+        data-testid="clerk-enrollment-appointment-details__move-modal"
+        open={isMoveModalOpen}
+        onCloseModal={closeMoveModal}
+        aria-labelledby="modal-title"
+        modalTitle={t('moveModal.title')}
+      >
+        <MoveModal
+          oid={oid}
+          enrollment={enrollmentDetails}
+          onCancel={closeMoveModal}
+        />
+      </CustomModal>
       <ClerkEnrollmentAppointmentDetailsFields
         showFieldErrorBeforeChange={false}
         enrollment={enrollmentDetails}
@@ -234,6 +252,7 @@ export const ClerkEnrollmentAppointmentDetails = ({
           <ControlButtons
             onCancel={handleCancelButtonClick}
             onEdit={handleEditButtonClick}
+            onMove={handleMoveButtonClick}
             onSave={handleSaveButtonClick}
             isViewMode={isViewMode}
             hasRequiredDetails={hasRequiredDetails}

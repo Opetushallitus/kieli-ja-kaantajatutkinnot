@@ -8,6 +8,7 @@ import {
   ClerkEnrollmentAppointment,
   ClerkEnrollmentAppointmentGrades,
   ClerkEnrollmentAppointmentHistoryResponse,
+  ClerkEnrollmentAppointmentMove,
   ClerkEnrollmentAppointmentResponse,
 } from 'interfaces/clerkEnrollment';
 import { setAPIError } from 'redux/reducers/APIError';
@@ -16,7 +17,10 @@ import {
   loadClerkEnrollmentAppointment,
   loadClerkEnrollmentAppointmentGrades,
   loadClerkEnrollmentAppointmentHistory,
+  moveEnrollment,
+  moveEnrollmentSucceeded,
   rejectClerkEnrollmentAppointment,
+  rejectMoveEnrollment,
   sendClerkEnrollmentAppointmentAuthLink,
   storeCancelClerkEnrollmentAppointment,
   storeClerkEnrollmentAppointment,
@@ -233,6 +237,29 @@ function* loadClerkEnrollmentAppointmentHistorySaga(
   }
 }
 
+function* moveEnrollmentSaga(
+  action: PayloadAction<ClerkEnrollmentAppointmentMove>,
+) {
+  try {
+    const { id, oid } = action.payload;
+
+    yield call(
+      axiosInstance.put,
+      `${APIEndpoints.ExaminerEnrollmentAppointment.replace(
+        /:oid/,
+        oid,
+      )}/${id}/move`,
+      action.payload,
+    );
+
+    yield put(moveEnrollmentSucceeded());
+  } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    yield put(rejectMoveEnrollment());
+  }
+}
+
 export function* watchClerkEnrollmentAppointment() {
   yield takeLatest(
     updateClerkEnrollmentAppointment.type,
@@ -262,4 +289,5 @@ export function* watchClerkEnrollmentAppointment() {
     upsertClerkEnrollmentAppointmentGrades.type,
     upsertClerkEnrollmentAppointmentGradesSaga,
   );
+  yield takeLatest(moveEnrollment, moveEnrollmentSaga);
 }

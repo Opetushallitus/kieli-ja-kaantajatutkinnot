@@ -3,6 +3,7 @@ package fi.oph.vkt.api.examiner;
 import static org.springframework.http.MediaType.ALL_VALUE;
 
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
@@ -89,6 +90,15 @@ public class ExaminerEnrollmentController {
     @PathVariable final long enrollmentAppointmentId
   ) {
     return examinerEnrollmentService.getEnrollmentAppointmentHistory(oid, enrollmentAppointmentId);
+  }
+
+  @PutMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}/move")
+  @Operation(tags = TAG_ENROLLMENT, summary = "Move enrollment to another exam event")
+  public ExaminerEnrollmentAppointmentDTO move(
+    @PathVariable final String oid,
+    @RequestBody @Valid final ClerkEnrollmentMoveDTO dto
+  ) {
+    return examinerEnrollmentService.move(oid, dto);
   }
 
   @PostMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}/sendAuthLink", consumes = ALL_VALUE)

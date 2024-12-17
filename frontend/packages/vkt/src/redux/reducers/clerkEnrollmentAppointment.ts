@@ -5,6 +5,7 @@ import {
   ClerkEnrollmentAppointment,
   ClerkEnrollmentAppointmentGrades,
   ClerkEnrollmentAppointmentHistory,
+  ClerkEnrollmentAppointmentMove,
 } from 'interfaces/clerkEnrollment';
 
 interface ClerkEnrollmentAppointmentState {
@@ -18,6 +19,7 @@ interface ClerkEnrollmentAppointmentState {
   gradesSaveStatus: APIResponseStatus;
   sendLinkStatus: APIResponseStatus;
   grades?: ClerkEnrollmentAppointmentGrades;
+  moveStatus: APIResponseStatus;
 }
 
 const initialState: ClerkEnrollmentAppointmentState = {
@@ -28,6 +30,7 @@ const initialState: ClerkEnrollmentAppointmentState = {
   gradesStatus: APIResponseStatus.NotStarted,
   gradesSaveStatus: APIResponseStatus.NotStarted,
   sendLinkStatus: APIResponseStatus.NotStarted,
+  moveStatus: APIResponseStatus.NotStarted,
   grades: {
     version: 0,
     speakingPartialExam: {
@@ -176,12 +179,31 @@ const clerkEnrollmentAppointmentSlice = createSlice({
       state.enrollmentHistory = action.payload;
       state.historyStatus = APIResponseStatus.Success;
     },
+    moveEnrollment(
+      state,
+      _action: PayloadAction<ClerkEnrollmentAppointmentMove>,
+    ) {
+      state.moveStatus = APIResponseStatus.InProgress;
+    },
+    moveEnrollmentSucceeded(state) {
+      state.moveStatus = APIResponseStatus.Success;
+    },
+    rejectMoveEnrollment(state) {
+      state.moveStatus = APIResponseStatus.Error;
+    },
+    resetMoveEnrollment(state) {
+      state.moveStatus = initialState.moveStatus;
+    },
   },
 });
 
 export const clerkEnrollmentAppointmentReducer =
   clerkEnrollmentAppointmentSlice.reducer;
 export const {
+  moveEnrollment,
+  moveEnrollmentSucceeded,
+  rejectMoveEnrollment,
+  resetMoveEnrollment,
   storeClerkEnrollmentAppointmentUpdate,
   rejectClerkEnrollmentAppointment,
   storeClerkEnrollmentAppointment,

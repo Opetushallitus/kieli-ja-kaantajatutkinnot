@@ -1,6 +1,7 @@
 package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
@@ -295,5 +296,25 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
       .filter(e -> e.getId() != enrollmentAppointmentId)
       .map(ClerkEnrollmentUtil::createClerkEnrollmentAppointmentHistoryDTO)
       .toList();
+  }
+
+  @Transactional
+  public ExaminerEnrollmentAppointmentDTO move(final String oid, final ClerkEnrollmentMoveDTO dto) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(dto.id());
+    final ExaminerExamEvent newExaminerExamEvent = examinerExamEventRepository.getReferenceById(dto.toExamEventId());
+    final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
+
+    enrollmentAppointment.assertVersion(dto.version());
+    checkExaminerOid(enrollmentAppointment, oid);
+
+    if (enrollmentAppointment.getExaminer().getId() != newExaminerExamEvent.getExaminer().getId()) {
+      throw new APIException(APIExceptionType.EXAMINER_NEW_EXAM_EVENT_MISMATCH);
+    }
+
+    enrollmentAppointment.setExaminerExamEvent(newExaminerExamEvent);
+
+    enrollmentAppointmentRepository.flush();
+
+    return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
   }
 }

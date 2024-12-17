@@ -49,7 +49,8 @@ public enum APIExceptionType {
   EXAMINER_APPOINTMENT_ID_MISMATCH,
   AUTH_HASH_EXPIRED,
   ONR_SAVE_EXCEPTION,
-  ONR_PERSON_INSERT_EXCEPTION;
+  ONR_PERSON_INSERT_EXCEPTION,
+  EXAMINER_NEW_EXAM_EVENT_MISMATCH;
 
   public String getCode() {
     final StringBuilder codeBuilder = new StringBuilder();
