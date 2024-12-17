@@ -15,7 +15,7 @@ const allPartialExams = [
   'speechComprehensionPartialExam',
 ];
 
-const allSkills = ['textualSkill', 'oralSkill'];
+const allSkills = ['textualSkill', 'oralSkill', 'understandingSkill'];
 
 const getSelectedSkills = (enrollment: PublicEnrollment | ClerkEnrollment) => {
   return allSkills.filter(
@@ -68,17 +68,22 @@ const DesktopSkillsList = ({
           </Text>
         </div>
       ) : (
-        skills.map((skill, i) => (
-          <div key={i} className="grid-3-columns gapped">
-            <Text>
-              {translateCommon(`enrollment.partialExamsAndSkills.${skill}`)}
-            </Text>
-            <Text>
-              {ENROLLMENT_APPOINTMENT_SKILL_PRICE}
-              &euro;
-            </Text>
-          </div>
-        ))
+        <div className="grid-3-columns gapped">
+          <Text>
+            {skills
+              .map((skill) =>
+                translateCommon(`enrollment.partialExamsAndSkills.${skill}`),
+              )
+              .join(', ')}
+          </Text>
+          <Text>
+            {Math.min(
+              2 * ENROLLMENT_APPOINTMENT_SKILL_PRICE,
+              skills.length * ENROLLMENT_APPOINTMENT_SKILL_PRICE,
+            )}
+            &euro;
+          </Text>
+        </div>
       )}
     </div>
   );

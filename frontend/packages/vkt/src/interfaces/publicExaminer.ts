@@ -5,7 +5,7 @@ import { WithId } from 'shared/interfaces';
 import { ExamLanguage } from 'enums/app';
 import { Municipality } from 'interfaces/municipality';
 
-interface PublicExaminerExamDate {
+export interface PublicExaminerExamDate {
   examDate: Dayjs;
   isFull: boolean;
 }

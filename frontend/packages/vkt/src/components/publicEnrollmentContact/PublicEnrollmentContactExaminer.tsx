@@ -7,9 +7,27 @@ import {
   usePublicTranslation,
 } from 'configs/i18n';
 import { ExamLevel } from 'enums/app';
-import { PublicExaminer } from 'interfaces/publicExaminer';
+import {
+  PublicExaminer,
+  PublicExaminerExamDate,
+} from 'interfaces/publicExaminer';
 import { DateTimeUtils } from 'utils/dateTime';
 import { ExamEventUtils } from 'utils/examEvent';
+
+const getExamDateDescription = (
+  t: (k: string) => string,
+  examinerExamDate: PublicExaminerExamDate,
+) => {
+  const { isFull, examDate } = examinerExamDate;
+
+  return isFull ? (
+    <b>
+      <s>{DateTimeUtils.renderDate(examDate)}</s> {t('full')}
+    </b>
+  ) : (
+    <b>{DateTimeUtils.renderDate(examDate)}</b>
+  );
+};
 
 export const PublicEnrollmentContactExaminer = ({
   examiner,
@@ -55,22 +73,22 @@ export const PublicEnrollmentContactExaminer = ({
       </Text>
       <div className="columns gapped-xxs align-items-start">
         <Text>{t('examDate')}:</Text>
+        {examDates.length === 0 && (
+          <Text>
+            <b>{t('byRequest')}</b>
+          </Text>
+        )}
+        {examDates.length === 1 &&
+          examDates.map((date, i) => (
+            <Text key={i}>{getExamDateDescription(t, date)}</Text>
+          ))}
         <ul className="public-enrollment-contact__exam-dates">
-          {examDates.length > 0
-            ? examDates.map(({ examDate, isFull }, i) => (
-                <Text key={i}>
-                  <li>
-                    {isFull ? (
-                      <b>
-                        <s>{DateTimeUtils.renderDate(examDate)}</s> {t('full')}
-                      </b>
-                    ) : (
-                      <b>{DateTimeUtils.renderDate(examDate)}</b>
-                    )}
-                  </li>
-                </Text>
-              ))
-            : t('byRequest')}
+          {examDates.length > 0 &&
+            examDates.map((date, i) => (
+              <Text key={i}>
+                <li>{getExamDateDescription(t, date)}</li>
+              </Text>
+            ))}
         </ul>
       </div>
     </div>

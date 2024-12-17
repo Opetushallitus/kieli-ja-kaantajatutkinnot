@@ -71,7 +71,7 @@ const ExaminerRowExamDates = ({
       {examDates.length > 0
         ? examDates.map(({ examDate, isFull }, i) => (
             <Fragment key={i}>
-              {i > 0 ? <br /> : undefined}
+              {i > 0 ? <br aria-hidden={true} /> : undefined}
               {isFull ? (
                 <>
                   <s>{DateUtils.formatOptionalDate(examDate)}</s>{' '}
@@ -125,7 +125,7 @@ const DesktopPublicExaminerRow = ({
           {language === ExamLanguage.ALL ? (
             <>
               {t('examLanguage.FI')}
-              <br />
+              <br aria-hidden={true} />
               {t('examLanguage.SV')}
             </>
           ) : (
@@ -212,7 +212,7 @@ const MobilePublicExaminerRow = ({
               {language === ExamLanguage.ALL ? (
                 <>
                   {t('examLanguage.FI')}
-                  <br />
+                  <br aria-hidden={true} />
                   {t('examLanguage.SV')}
                 </>
               ) : (
@@ -231,7 +231,7 @@ const MobilePublicExaminerRow = ({
 
                 return (
                   <Fragment key={`examiner-${id}-municipality-${i}`}>
-                    {i > 0 ? <br /> : undefined}
+                    {i > 0 ? <br aria-hidden={true} /> : undefined}
                     {municipalityText}
                   </Fragment>
                 );
