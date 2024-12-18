@@ -20,7 +20,8 @@
       }
 
       @include phone {
-        margin: 2rem;
+        padding: 2rem;
+        border-bottom: 1px solid $color-divider;
       }
 
       &__step-disabled {

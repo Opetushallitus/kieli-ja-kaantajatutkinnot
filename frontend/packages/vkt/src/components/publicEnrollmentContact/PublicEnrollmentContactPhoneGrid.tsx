@@ -1,4 +1,4 @@
-import { Divider, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { LoadingProgressIndicator, Text } from 'shared/components';
 
 import { PublicEnrollmentContactControlButtons } from 'components/publicEnrollmentContact/PublicEnrollmentContactControlButtons';
@@ -53,7 +53,6 @@ export const PublicEnrollmentContactPhoneGrid = ({
         >
           <div className="public-enrollment-contact__grid__form-container">
             <PublicEnrollmentContactStepper activeStep={activeStep} />
-            <Divider />
             <PublicEnrollmentContactStepHeading activeStep={activeStep} />
             <PublicEnrollmentContactExaminer examiner={examiner} />
             {!hideRequiredFieldsInfoText && (
