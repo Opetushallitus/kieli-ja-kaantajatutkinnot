@@ -119,18 +119,19 @@ export const ExamSelection = ({
           )}
         </FormControl>
         <Collapse in={enrollment.isFullExam === false}>
-          <LabeledTextField
-            id="public-enrollment-contact__partial-exam-selection--textField"
-            label={t('selectExams.heading')}
-            placeholder={t('selectExams.description')}
-            value={enrollment.partialExamSelection || ''}
-            onBlur={handlePartialExamSelectionBlur}
-            onChange={handlePartialExamSelectionChange}
-            error={hasPartialExamSelectionError}
-            helperText={translateCommon('errors.customTextField.required')}
-            disabled={editingDisabled}
-            fullWidth
-          />
+          <div className="public-enrollment-contact__grid__textfield-container">
+            <LabeledTextField
+              id="public-enrollment-contact__partial-exam-selection--textField"
+              label={t('selectExams.heading')}
+              placeholder={t('selectExams.description')}
+              value={enrollment.partialExamSelection || ''}
+              onBlur={handlePartialExamSelectionBlur}
+              onChange={handlePartialExamSelectionChange}
+              error={hasPartialExamSelectionError}
+              helperText={translateCommon('errors.customTextField.required')}
+              disabled={editingDisabled}
+            />
+          </div>
         </Collapse>
       </div>
     </>

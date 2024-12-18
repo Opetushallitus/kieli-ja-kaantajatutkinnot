@@ -87,11 +87,11 @@ export const Message = ({
       <div className="public-enrollment-contact__grid__phone-extra-margin margin-top-sm rows gapped">
         <H2>{t('title')}</H2>
       </div>
-      <div className="public-enrollment-contact__grid__phone-extra-margin public-enrollment-contact__grid__previous-enrollment rows gapped">
+      <div className="public-enrollment-contact__grid__phone-extra-margin public-enrollment-contact__grid__textfield-container rows gapped">
         <div className="margin-top-sm grow full-max-width">
           <LabeledTextField
-            className="public-enrollment-contact__grid__previous-enrollment__textField"
-            id="public-enrollment__previous-enrollment__textField"
+            className="public-enrollment-contact__grid__textfield-container__textField"
+            id="public-enrollment__message__textField"
             label={t('textField.label')}
             placeholder={t('textField.placeholder')}
             value={enrollment.message}
