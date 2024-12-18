@@ -83,7 +83,7 @@ export const PublicEnrollmentContactExaminer = ({
             <Text key={i}>{getExamDateDescription(t, date)}</Text>
           ))}
         <ul className="public-enrollment-contact__exam-dates">
-          {examDates.length > 0 &&
+          {examDates.length > 1 &&
             examDates.map((date, i) => (
               <Text key={i}>
                 <li>{getExamDateDescription(t, date)}</li>
