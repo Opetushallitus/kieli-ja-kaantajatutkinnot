@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.11.10] - 2024-12-18
+
+### Changed
+
+- Input elements using OutlinedInput (text fields, dropdowns etc.) now have darker border outlines by default 
+
 ## [1.11.9] - 2024-12-17
 
 - Stylized divider to be a bit thicker and darker

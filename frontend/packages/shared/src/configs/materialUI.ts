@@ -25,6 +25,9 @@ export const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
+          'fieldset.MuiOutlinedInput-notchedOutline': {
+            borderColor: colorGrey700,
+          },
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
             borderColor: colorSecondaryDark,
           },
@@ -175,10 +178,10 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderBottomWidth: '0.2rem',
-          borderColor: colorGrey400
-        }
-      }
-    }
+          borderColor: colorGrey400,
+        },
+      },
+    },
   },
   palette: {
     error: {
