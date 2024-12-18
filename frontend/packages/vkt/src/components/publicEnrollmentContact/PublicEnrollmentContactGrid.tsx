@@ -34,10 +34,15 @@ export const PublicEnrollmentContactGrid = ({
   }
 
   useEffect(() => {
-    if (loadExaminerStatus === APIResponseStatus.NotStarted && examinerId) {
+    if (
+      examinerId &&
+      (loadExaminerStatus === APIResponseStatus.NotStarted ||
+        !examiner ||
+        examiner.id !== examinerId)
+    ) {
       dispatch(loadPublicExaminer(examinerId));
     }
-  }, [dispatch, loadExaminerStatus, examinerId]);
+  }, [dispatch, loadExaminerStatus, examinerId, examiner]);
 
   const { isPhone } = useWindowProperties();
 
