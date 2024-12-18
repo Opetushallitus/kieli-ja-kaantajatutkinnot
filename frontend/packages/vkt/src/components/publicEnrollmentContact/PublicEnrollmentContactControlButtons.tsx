@@ -4,14 +4,27 @@ import {
 } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { CustomButton, LoadingProgressIndicator } from 'shared/components';
-import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import {
+  CustomButton,
+  LoadingProgressIndicator,
+  Text,
+} from 'shared/components';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useDialog } from 'shared/hooks';
+import { getErrors, StringUtils } from 'shared/utils';
 
+import {
+  contactDetailsStepEmailsMatch,
+  contactDetailsStepFields,
+} from 'components/publicEnrollmentContact/steps/FillContactDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentContactFormStep } from 'enums/publicEnrollment';
-import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
+import {
+  PublicEnrollmentContact,
+  PublicEnrollmentContactRequestDetails,
+} from 'interfaces/publicEnrollment';
 import {
   loadPublicEnrollmentSave,
   resetPublicEnrollmentContact,
@@ -35,7 +48,7 @@ export const PublicEnrollmentContactControlButtons = ({
   examinerId: number;
 }) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.controlButtons',
+    keyPrefix: 'vkt.component.publicEnrollmentContact',
   });
   const translateCommon = useCommonTranslation();
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
@@ -49,6 +62,8 @@ export const PublicEnrollmentContactControlButtons = ({
     dispatch(resetPublicEnrollmentContact());
     navigate(AppRoutes.PublicGoodAndSatisfactoryLevelLanding);
   };
+
+  const { showDialog } = useDialog();
 
   useEffect(() => {
     if (submitStatus === APIResponseStatus.Success) {
@@ -73,6 +88,37 @@ export const PublicEnrollmentContactControlButtons = ({
       navigate(RouteUtils.contactStepToRoute(nextStep, examinerId));
     } else {
       setShowValidation(true);
+      const errors = getErrors<PublicEnrollmentContactRequestDetails>({
+        fields: contactDetailsStepFields,
+        values: enrollment,
+        t,
+        extraValidation: (errors, values, dirtyFields) =>
+          contactDetailsStepEmailsMatch(t, errors, values, dirtyFields),
+      });
+
+      const dialogContent = (
+        <div>
+          <Text>{t('errors.fixErrors')}</Text>
+          <ul>
+            {Object.entries(errors)
+              .filter(([_, val]) => val)
+              .map(([field, _]) => (
+                <Text key={field}>
+                  <li>{t(`errors.fields.${field}`)}</li>
+                </Text>
+              ))}
+          </ul>
+        </div>
+      );
+
+      showDialog({
+        title: t('errors.title'),
+        severity: Severity.Error,
+        content: dialogContent,
+        actions: [
+          { title: translateCommon('back'), variant: Variant.Contained },
+        ],
+      });
     }
   };
 
@@ -83,6 +129,39 @@ export const PublicEnrollmentContactControlButtons = ({
       dispatch(loadPublicEnrollmentSave({ enrollment, examinerId }));
     } else {
       setShowValidation(true);
+      const errors = {
+        isFullExam: enrollment.isFullExam === undefined,
+        partialExamSelection:
+          enrollment.isFullExam === false &&
+          (enrollment.partialExamSelection === undefined ||
+            StringUtils.isBlankString(enrollment.partialExamSelection)),
+        hasPreviousEnrollment: enrollment.hasPreviousEnrollment === undefined,
+        message: StringUtils.isBlankString(enrollment.message),
+      };
+
+      const dialogContent = (
+        <div>
+          <Text>{t('errors.fixErrors')}</Text>
+          <ul>
+            {Object.entries(errors)
+              .filter(([_, val]) => val)
+              .map(([field, _]) => (
+                <Text key={field}>
+                  <li>{t(`errors.fields.${field}`)}</li>
+                </Text>
+              ))}
+          </ul>
+        </div>
+      );
+
+      showDialog({
+        title: t('errors.title'),
+        severity: Severity.Error,
+        content: dialogContent,
+        actions: [
+          { title: translateCommon('back'), variant: Variant.Contained },
+        ],
+      });
     }
   };
 
@@ -141,7 +220,7 @@ export const PublicEnrollmentContactControlButtons = ({
         data-testid="public-enrollment__controlButtons__submit"
         disabled={isSubmitLoading}
       >
-        {t('submit')}
+        {t('controlButtons.submit')}
       </CustomButton>
     </LoadingProgressIndicator>
   );

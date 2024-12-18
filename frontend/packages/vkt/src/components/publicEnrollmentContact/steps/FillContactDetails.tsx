@@ -13,7 +13,9 @@ import {
   PublicEnrollmentContactRequestDetails,
 } from 'interfaces/publicEnrollment';
 
-const fields: Array<TextField<PublicEnrollmentContactRequestDetails>> = [
+export const contactDetailsStepFields: Array<
+  TextField<PublicEnrollmentContactRequestDetails>
+> = [
   {
     name: 'firstName',
     required: true,
@@ -46,7 +48,7 @@ const fields: Array<TextField<PublicEnrollmentContactRequestDetails>> = [
   },
 ];
 
-const emailsMatch = (
+export const contactDetailsStepEmailsMatch = (
   t: (key: string) => string,
   errors: FieldErrors<PublicEnrollmentContactRequestDetails>,
   values: PublicEnrollmentContactRequestDetails,
@@ -92,11 +94,11 @@ export const FillContactDetails = ({
 
   const dirty = showValidation ? undefined : dirtyFields;
   const errors = getErrors<PublicEnrollmentContactRequestDetails>({
-    fields,
+    fields: contactDetailsStepFields,
     values: enrollment,
     t: translateCommon,
     dirtyFields: dirty,
-    extraValidation: emailsMatch.bind(this, t),
+    extraValidation: contactDetailsStepEmailsMatch.bind(this, t),
   });
 
   const dispatch = useAppDispatch();
@@ -104,10 +106,10 @@ export const FillContactDetails = ({
   useEffect(() => {
     setIsStepValid(
       !hasErrors<PublicEnrollmentContactRequestDetails>({
-        fields,
+        fields: contactDetailsStepFields,
         values: enrollment,
         t: translateCommon,
-        extraValidation: emailsMatch.bind(this, t),
+        extraValidation: contactDetailsStepEmailsMatch.bind(this, t),
       }),
     );
   }, [setIsStepValid, enrollment, t, translateCommon]);

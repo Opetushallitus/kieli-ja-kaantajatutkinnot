@@ -320,6 +320,24 @@
         }
       },
       "publicEnrollmentContact": {
+        "controlButtons": {
+          "submit": "Lähetä"
+        },
+        "errors": {
+          "fields": {
+            "email": "Sähköpostiosoite",
+            "emailConfirmation": "Sähköpostiosoitteen vahvistus",
+            "firstName": "Etunimi",
+            "hasPreviousEnrollment": "Oletko osallistunut aiemmin hyvän ja tyydyttävän taidon tutkintoon?",
+            "isFullExam": "Haluatko suorittaa sekä suullisen että kirjallisen taidon tutkinnon?",
+            "message": "Viesti",
+            "lastName": "Sukunimi",
+            "partialExamSelection": "Kerro, minkä osakokeen / mitkä osakokeet haluat suorittaa",
+            "phoneNumber": "Puhelinnumero"
+          },
+          "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
+          "title": "Tiedoissa on korjattavaa!"
+        },
         "examinerDetails": {
           "byRequest": "Sovittavissa",
           "examDate": "Tutkintopäivä",
