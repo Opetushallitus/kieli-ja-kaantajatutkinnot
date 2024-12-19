@@ -3,7 +3,7 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { ExaminerDetails } from 'interfaces/examinerDetails';
+import { ExaminerDetailsResponse } from 'interfaces/examinerDetails';
 import { ExaminerDetailsUpsert } from 'interfaces/examinerDetailsUpsert';
 import { setAPIError } from 'redux/reducers/APIError';
 import { storeExaminerDetails } from 'redux/reducers/examinerDetails';
@@ -14,6 +14,7 @@ import {
 } from 'redux/reducers/examinerDetailsUpsert';
 import { examinerDetailsUpsertSelector } from 'redux/selectors/examinerDetailsUpsert';
 import { NotifierUtils } from 'utils/notifier';
+import { SerializationUtils } from 'utils/serialization';
 
 function* startExaminerDetailsUpsertSaga() {
   try {
@@ -21,13 +22,20 @@ function* startExaminerDetailsUpsertSaga() {
       yield select(examinerDetailsUpsertSelector);
 
     const { oid: _oid, id: _id, ...detailsToSubmit } = examinerDetails;
-    const updatedExaminerResponse: AxiosResponse<ExaminerDetails> = yield call(
-      axiosInstance.post,
-      APIEndpoints.ExaminerDetails.replace(/:oid/, examinerDetails.oid),
-      detailsToSubmit,
-    );
+    const updatedExaminerResponse: AxiosResponse<ExaminerDetailsResponse> =
+      yield call(
+        axiosInstance.post,
+        APIEndpoints.ExaminerDetails.replace(/:oid/, examinerDetails.oid),
+        detailsToSubmit,
+      );
     yield put(acceptExaminerDetailsUpsert());
-    yield put(storeExaminerDetails(updatedExaminerResponse.data));
+    yield put(
+      storeExaminerDetails(
+        SerializationUtils.deserializeExaminerDetails(
+          updatedExaminerResponse.data,
+        ),
+      ),
+    );
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
