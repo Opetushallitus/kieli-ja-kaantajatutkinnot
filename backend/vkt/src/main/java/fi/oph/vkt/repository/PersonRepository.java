@@ -19,6 +19,7 @@ public interface PersonRepository extends BaseRepository<Person> {
     " FROM Person p" +
     " WHERE p.latestIdentifiedAt < ?1" +
     " AND NOT EXISTS (SELECT 1 FROM Enrollment e WHERE e.person = p)" +
+    " AND NOT EXISTS (SELECT 1 FROM EnrollmentAppointment ea WHERE ea.person = p)" +
     " AND NOT EXISTS (SELECT 1 FROM Reservation r WHERE r.person = p)"
   )
   List<Person> findObsoletePersons(final LocalDateTime latestIdentifiedBefore);
