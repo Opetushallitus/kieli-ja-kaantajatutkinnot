@@ -17,7 +17,6 @@ public record ExaminerEnrollmentAppointmentHistoryDTO(
   @NonNull @NotNull Boolean speechComprehensionPartialExam,
   @NonNull @NotNull Boolean writingPartialExam,
   @NonNull @NotNull Boolean readingComprehensionPartialExam,
-  String previousEnrollment,
   ExaminerExamEventDTO examEvent,
   ExaminerEnrollmentGradesDTO grades,
   @NonNull @NotBlank String examinerName

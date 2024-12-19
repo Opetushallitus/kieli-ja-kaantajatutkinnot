@@ -4,6 +4,7 @@ import fi.oph.vkt.model.Email;
 import fi.oph.vkt.model.EmailType;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.EnrollmentAppointment;
+import fi.oph.vkt.model.EnrollmentGrade;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.ExaminerExamEvent;
@@ -12,6 +13,7 @@ import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
+import fi.oph.vkt.model.type.EnrollmentGradeType;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
@@ -178,5 +180,21 @@ public class Factory {
     municipality.setNameSV("Mårdår");
 
     return municipality;
+  }
+
+  public static EnrollmentGrade enrollmentGrades() {
+    final EnrollmentGrade enrollmentGrade = new EnrollmentGrade();
+
+    enrollmentGrade.setWritingPartialExamGrade(EnrollmentGradeType.FAILED);
+    enrollmentGrade.setSpeakingPartialExamGrade(EnrollmentGradeType.GOOD);
+    enrollmentGrade.setSpeechComprehensionPartialExamGrade(EnrollmentGradeType.SATISFACTORY);
+    enrollmentGrade.setReadingComprehensionPartialExamGrade(EnrollmentGradeType.FAILED);
+
+    enrollmentGrade.setWritingPartialExamComment("Writing comment");
+    enrollmentGrade.setSpeakingPartialExamComment("Speaking comment");
+    enrollmentGrade.setSpeechComprehensionPartialExamComment("Speech comment");
+    enrollmentGrade.setReadingComprehensionPartialExamComment("Reading comment");
+
+    return enrollmentGrade;
   }
 }
