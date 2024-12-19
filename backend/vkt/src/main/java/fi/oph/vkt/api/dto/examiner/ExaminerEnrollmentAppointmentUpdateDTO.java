@@ -31,7 +31,7 @@ public record ExaminerEnrollmentAppointmentUpdateDTO(
   @Size(max = 255) String postalCode,
   @Size(max = 255) String town,
   @Size(max = 255) String country,
-  @NonNull @NotNull List<ClerkPaymentDTO> payments,
+  List<ClerkPaymentDTO> payments,
   Long examEvent
 )
   implements EnrollmentDTOSkillFields {

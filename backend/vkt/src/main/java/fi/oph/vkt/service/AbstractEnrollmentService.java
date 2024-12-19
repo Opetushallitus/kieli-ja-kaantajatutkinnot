@@ -35,6 +35,7 @@ public abstract class AbstractEnrollmentService {
     enrollment.setPostalCode(dto.postalCode());
     enrollment.setTown(dto.town());
     enrollment.setCountry(dto.country());
+    enrollment.setPreviousEnrollment(dto.previousEnrollment());
   }
 
   protected void copyDtoFieldsToEnrollment(

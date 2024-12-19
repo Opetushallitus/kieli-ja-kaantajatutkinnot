@@ -3,10 +3,15 @@ package fi.oph.vkt;
 import fi.oph.vkt.model.Email;
 import fi.oph.vkt.model.EmailType;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Examiner;
+import fi.oph.vkt.model.ExaminerExamEvent;
+import fi.oph.vkt.model.Municipality;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
+import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
@@ -30,6 +35,23 @@ public class Factory {
     examEvent.setRegistrationOpens(LocalDateTime.now().minusDays(2));
     examEvent.setHidden(false);
     examEvent.setMaxParticipants(10);
+
+    return examEvent;
+  }
+
+  public static ExaminerExamEvent examinerExamEvent(final Examiner examiner, final Municipality municipality) {
+    return examinerExamEvent(examiner, municipality, ExamLanguage.FI);
+  }
+
+  public static ExaminerExamEvent examinerExamEvent(final Examiner examiner, final Municipality municipality, final ExamLanguage language) {
+    final ExaminerExamEvent examEvent = new ExaminerExamEvent();
+    examEvent.setLanguage(language);
+    examEvent.setExaminer(examiner);
+    examEvent.setMunicipality(municipality);
+    examEvent.setDate(LocalDate.now().plusDays(8));
+    examEvent.setRegistrationCloses(LocalDate.now().plusDays(4));
+    examEvent.setHidden(false);
+    examEvent.setMaxParticipants(10L);
 
     return examEvent;
   }
@@ -69,6 +91,30 @@ public class Factory {
     return enrollment;
   }
 
+  public static EnrollmentAppointment enrollmentAppointment(final Examiner examiner, final ExaminerExamEvent examEvent, final Person person) {
+    final EnrollmentAppointment enrollment = new EnrollmentAppointment();
+    enrollment.setExaminer(examiner);
+    enrollment.setOralSkill(true);
+    enrollment.setTextualSkill(false);
+    enrollment.setUnderstandingSkill(true);
+    enrollment.setSpeakingPartialExam(true);
+    enrollment.setSpeechComprehensionPartialExam(true);
+    enrollment.setWritingPartialExam(false);
+    enrollment.setReadingComprehensionPartialExam(false);
+    enrollment.setStatus(EnrollmentAppointmentStatus.COMPLETED);
+    enrollment.setPreviousEnrollment("1.11.2022");
+    enrollment.setDigitalCertificateConsent(true);
+    enrollment.setEmail("foo.tester@invalid");
+    enrollment.setPhoneNumber("+10001234567");
+    enrollment.setFirstName("Irma");
+    enrollment.setLastName("Ilmoittautuja");
+    enrollment.setExaminerExamEvent(examEvent);
+    enrollment.setPerson(person);
+    examEvent.getEnrollments().add(enrollment);
+
+    return enrollment;
+  }
+
   public static Payment payment(final Enrollment enrollment) {
     final Payment payment = new Payment();
     payment.setAmount(25700);
@@ -103,5 +149,26 @@ public class Factory {
     email.setBody("Sisältö on tässä");
 
     return email;
+  }
+
+  public static Examiner examiner() {
+    final Examiner examiner = new Examiner();
+    examiner.setEmail("foo@bar");
+    examiner.setOid("1.2.3.4");
+    examiner.setFirstName("Veeti");
+    examiner.setLastName("Vastaanottaja");
+    examiner.setPhoneNumber("12345678");
+    examiner.setNickname("Vepe");
+
+    return  examiner;
+  }
+
+  public static Municipality municipality() {
+    final Municipality municipality = new Municipality();
+    municipality.setCode("123");
+    municipality.setNameFI("Mordor");
+    municipality.setNameSV("Mårdår");
+
+    return municipality;
   }
 }
