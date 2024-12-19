@@ -1,51 +1,33 @@
 package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.api.dto.EnrollmentGradeDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentGradesDTO;
 import fi.oph.vkt.audit.AuditService;
-import fi.oph.vkt.audit.VktOperation;
-import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
-import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.EnrollmentGrade;
-import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.ExaminerExamEvent;
 import fi.oph.vkt.model.Municipality;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentGradeType;
-import fi.oph.vkt.model.type.EnrollmentStatus;
-import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.repository.*;
-import fi.oph.vkt.service.koski.KoskiService;
-import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -417,32 +399,93 @@ public class ExaminerEnrollmentServiceTest {
     entityManager.persist(person);
     entityManager.persist(enrollment);
 
-    final EnrollmentGradeDTO enrollmentGradeDTO1 = EnrollmentGradeDTO
-            .builder()
-            .grade(EnrollmentGradeType.SATISFACTORY)
-            .comment("Comment1")
-            .build();
+    final EnrollmentGradeDTO enrollmentGradeDTO1 = buildGrade(EnrollmentGradeType.SATISFACTORY, "Comment1");
+    final EnrollmentGradeDTO enrollmentGradeDTO2 = buildGrade(EnrollmentGradeType.GOOD, "Comment2");
+    final EnrollmentGradeDTO enrollmentGradeDTO3 = buildGrade(EnrollmentGradeType.FAILED, "Comment3");
+    final EnrollmentGradeDTO enrollmentGradeDTO4 = buildGrade(EnrollmentGradeType.GOOD, "Comment4");
+
     final ExaminerEnrollmentGradesDTO examinerEnrollmentGradesDTO = ExaminerEnrollmentGradesDTO
-            .builder()
-            .readingComprehensionPartialExam(enrollmentGradeDTO1)
-            .build();
+      .builder()
+      .readingComprehensionPartialExam(enrollmentGradeDTO1)
+      .speakingPartialExam(enrollmentGradeDTO2)
+      .writingPartialExam(enrollmentGradeDTO3)
+      .speechComprehensionPartialExam(enrollmentGradeDTO4)
+      .version(0)
+      .build();
 
     final ExaminerEnrollmentGradesDTO responseDTO = examinerEnrollmentService.upsertAppointmentGrades(
-            examiner.getOid(),
-            enrollment.getId(),
-            examinerEnrollmentGradesDTO
+      examiner.getOid(),
+      enrollment.getId(),
+      examinerEnrollmentGradesDTO
     );
 
-    assertEquals(EnrollmentGradeType.FAILED, responseDTO.writingPartialExam().grade());
-    assertEquals("Writing comment", responseDTO.writingPartialExam().comment());
+    assertEquals(EnrollmentGradeType.SATISFACTORY, responseDTO.readingComprehensionPartialExam().grade());
+    assertEquals("Comment1", responseDTO.readingComprehensionPartialExam().comment());
+    assertEquals(EnrollmentGradeType.SATISFACTORY, enrollment.getGrade().getReadingComprehensionPartialExamGrade());
+    assertEquals("Comment1", enrollment.getGrade().getReadingComprehensionPartialExamComment());
 
     assertEquals(EnrollmentGradeType.GOOD, responseDTO.speakingPartialExam().grade());
-    assertEquals("Speaking comment", responseDTO.speakingPartialExam().comment());
+    assertEquals("Comment2", responseDTO.speakingPartialExam().comment());
+    assertEquals(EnrollmentGradeType.GOOD, enrollment.getGrade().getSpeakingPartialExamGrade());
+    assertEquals("Comment2", enrollment.getGrade().getSpeakingPartialExamComment());
 
-    assertEquals(EnrollmentGradeType.SATISFACTORY, responseDTO.speechComprehensionPartialExam().grade());
-    assertEquals("Speech comment", responseDTO.speechComprehensionPartialExam().comment());
+    assertEquals(EnrollmentGradeType.FAILED, responseDTO.writingPartialExam().grade());
+    assertEquals("Comment3", responseDTO.writingPartialExam().comment());
+    assertEquals(EnrollmentGradeType.FAILED, enrollment.getGrade().getWritingPartialExamGrade());
+    assertEquals("Comment3", enrollment.getGrade().getWritingPartialExamComment());
 
-    assertEquals(EnrollmentGradeType.FAILED, responseDTO.readingComprehensionPartialExam().grade());
-    assertEquals("Reading comment", responseDTO.readingComprehensionPartialExam().comment());
+    assertEquals(EnrollmentGradeType.GOOD, responseDTO.speechComprehensionPartialExam().grade());
+    assertEquals("Comment4", responseDTO.speechComprehensionPartialExam().comment());
+    assertEquals(EnrollmentGradeType.GOOD, enrollment.getGrade().getSpeechComprehensionPartialExamGrade());
+    assertEquals("Comment4", enrollment.getGrade().getSpeechComprehensionPartialExamComment());
+  }
+
+  @Test
+  public void testUpsertOnlyOneAppointmentGrades() {
+    final Examiner examiner = Factory.examiner();
+    final Municipality municipality = Factory.municipality();
+    final ExaminerExamEvent examEvent = Factory.examinerExamEvent(examiner, municipality);
+    final Person person = Factory.person();
+    final EnrollmentAppointment enrollment = Factory.enrollmentAppointment(examiner, examEvent, person);
+
+    entityManager.persist(examiner);
+    entityManager.persist(municipality);
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final EnrollmentGradeDTO enrollmentGradeDTO1 = buildGrade(EnrollmentGradeType.SATISFACTORY, "Comment1");
+    final ExaminerEnrollmentGradesDTO examinerEnrollmentGradesDTO = ExaminerEnrollmentGradesDTO
+      .builder()
+      .readingComprehensionPartialExam(enrollmentGradeDTO1)
+      .version(0)
+      .build();
+
+    final ExaminerEnrollmentGradesDTO responseDTO = examinerEnrollmentService.upsertAppointmentGrades(
+      examiner.getOid(),
+      enrollment.getId(),
+      examinerEnrollmentGradesDTO
+    );
+
+    assertEquals(EnrollmentGradeType.SATISFACTORY, responseDTO.readingComprehensionPartialExam().grade());
+    assertEquals("Comment1", responseDTO.readingComprehensionPartialExam().comment());
+    assertEquals(EnrollmentGradeType.SATISFACTORY, enrollment.getGrade().getReadingComprehensionPartialExamGrade());
+    assertEquals("Comment1", enrollment.getGrade().getReadingComprehensionPartialExamComment());
+
+    assertNull(responseDTO.speakingPartialExam());
+    assertNull(enrollment.getGrade().getSpeakingPartialExamGrade());
+    assertNull(enrollment.getGrade().getSpeakingPartialExamComment());
+
+    assertNull(responseDTO.writingPartialExam());
+    assertNull(enrollment.getGrade().getWritingPartialExamGrade());
+    assertNull(enrollment.getGrade().getWritingPartialExamComment());
+
+    assertNull(responseDTO.speechComprehensionPartialExam());
+    assertNull(enrollment.getGrade().getSpeechComprehensionPartialExamGrade());
+    assertNull(enrollment.getGrade().getSpeechComprehensionPartialExamComment());
+  }
+
+  private static EnrollmentGradeDTO buildGrade(final EnrollmentGradeType enrollmentGradeType, final String comment) {
+    return EnrollmentGradeDTO.builder().grade(enrollmentGradeType).comment(comment).build();
   }
 }
