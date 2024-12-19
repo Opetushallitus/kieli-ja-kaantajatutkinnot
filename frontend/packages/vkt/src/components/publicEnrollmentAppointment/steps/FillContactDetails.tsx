@@ -16,7 +16,7 @@ export const FillContactDetails = ({
   showValidation: boolean;
 }) => {
   return (
-    <div className="margin-top-sm rows gapped public-enrollment__grid__contact-details">
+    <div className="margin-top-sm rows gapped-xxl public-enrollment__grid__contact-details">
       <PersonDetails showContactDetails={false} />
       <Divider />
       <CertificateShipping
