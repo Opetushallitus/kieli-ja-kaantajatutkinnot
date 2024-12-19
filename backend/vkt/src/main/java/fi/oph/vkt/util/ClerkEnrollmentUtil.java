@@ -4,11 +4,11 @@ import fi.oph.vkt.api.dto.FreeEnrollmentAttachmentDTO;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.api.dto.FreeEnrollmentDetailsDTO;
 import fi.oph.vkt.api.dto.KoskiEducationsDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkFreeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
+import fi.oph.vkt.api.dto.clerk.ExaminerEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerAuthLinkDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
@@ -218,10 +218,10 @@ public class ClerkEnrollmentUtil {
       .build();
   }
 
-  public static ClerkEnrollmentContactRequestDTO createClerkEnrollmentContactDTO(
+  public static ExaminerEnrollmentContactRequestDTO createClerkEnrollmentContactDTO(
     final EnrollmentAppointment enrollmentAppointment
   ) {
-    return ClerkEnrollmentContactRequestDTO
+    return ExaminerEnrollmentContactRequestDTO
       .builder()
       .id(enrollmentAppointment.getId())
       .version(enrollmentAppointment.getVersion())

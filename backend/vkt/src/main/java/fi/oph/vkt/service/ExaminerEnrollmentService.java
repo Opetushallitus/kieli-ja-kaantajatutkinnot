@@ -1,7 +1,7 @@
 package fi.oph.vkt.service;
 
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
+import fi.oph.vkt.api.dto.clerk.ExaminerEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
@@ -22,7 +22,6 @@ import fi.oph.vkt.util.ExaminerUtil;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
-import jakarta.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -79,7 +78,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional(readOnly = true)
-  public ClerkEnrollmentContactRequestDTO getEnrollmentContactRequest(
+  public ExaminerEnrollmentContactRequestDTO getEnrollmentContactRequest(
     final String oid,
     final long enrollmentContactId
   ) {

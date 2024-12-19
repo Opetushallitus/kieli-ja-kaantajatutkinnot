@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record ClerkEnrollmentContactRequestDTO(
+public record ExaminerEnrollmentContactRequestDTO(
   @NonNull @NotNull Long id,
   @NonNull @NotNull Integer version,
   @NonNull @NotNull LocalDateTime enrollmentTime,

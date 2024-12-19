@@ -197,4 +197,17 @@ public class Factory {
 
     return enrollmentGrade;
   }
+
+  public static EnrollmentAppointment enrollmentContact(final Examiner examiner) {
+    final EnrollmentAppointment enrollment = new EnrollmentAppointment();
+    enrollment.setExaminer(examiner);
+    enrollment.setStatus(EnrollmentAppointmentStatus.CONTACT_CREATED);
+    enrollment.setPreviousEnrollment("1.11.2022");
+    enrollment.setEmail("foo.tester@invalid");
+    enrollment.setPhoneNumber("+10001234567");
+    enrollment.setFirstName("Irma");
+    enrollment.setLastName("Ilmoittautuja");
+
+    return enrollment;
+  }
 }

@@ -1,6 +1,7 @@
 package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -9,9 +10,11 @@ import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.api.dto.EnrollmentGradeDTO;
+import fi.oph.vkt.api.dto.clerk.ExaminerEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentExamEventDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentGradesDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.model.EnrollmentAppointment;
@@ -487,5 +490,88 @@ public class ExaminerEnrollmentServiceTest {
 
   private static EnrollmentGradeDTO buildGrade(final EnrollmentGradeType enrollmentGradeType, final String comment) {
     return EnrollmentGradeDTO.builder().grade(enrollmentGradeType).comment(comment).build();
+  }
+
+  @Test
+  public void testGetContactRequest() {
+    final Examiner examiner = Factory.examiner();
+    final Municipality municipality = Factory.municipality();
+    final Person person = Factory.person();
+    final EnrollmentAppointment enrollment = Factory.enrollmentContact(examiner);
+
+    entityManager.persist(examiner);
+    entityManager.persist(municipality);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final ExaminerEnrollmentContactRequestDTO responseDTO = examinerEnrollmentService.getEnrollmentContactRequest(
+      examiner.getOid(),
+      enrollment.getId()
+    );
+
+    assertEquals(responseDTO.id(), enrollment.getId());
+    assertEquals(responseDTO.version(), enrollment.getVersion());
+    assertEquals(responseDTO.email(), enrollment.getEmail());
+    assertEquals(responseDTO.phoneNumber(), enrollment.getPhoneNumber());
+    assertEquals(responseDTO.firstName(), enrollment.getFirstName());
+    assertEquals(responseDTO.lastName(), enrollment.getLastName());
+  }
+
+  @Test
+  public void testGetContactRequestOidMismatchThrows() {
+    final Examiner examiner = Factory.examiner();
+    final Municipality municipality = Factory.municipality();
+    final Person person = Factory.person();
+    final EnrollmentAppointment enrollment = Factory.enrollmentContact(examiner);
+
+    entityManager.persist(examiner);
+    entityManager.persist(municipality);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> examinerEnrollmentService.getEnrollmentContactRequest("5.4.3.2.1", enrollment.getId())
+    );
+    assertEquals(APIExceptionType.EXAMINER_ENROLLMENT_OID_MISMATCH, ex.getExceptionType());
+
+    verifyNoInteractions(auditService);
+  }
+
+  @Test
+  public void testGetContactRequestConvert() {
+    final Examiner examiner = Factory.examiner();
+    final Municipality municipality = Factory.municipality();
+    final ExaminerExamEvent examEvent = Factory.examinerExamEvent(examiner, municipality);
+    final Person person = Factory.person();
+    final EnrollmentAppointment enrollment = Factory.enrollmentContact(examiner);
+
+    entityManager.persist(examiner);
+    entityManager.persist(municipality);
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final ExaminerEnrollmentAppointmentDTO responseDTO = examinerEnrollmentService.convertToAppointment(
+      examiner.getOid(),
+      enrollment.getId(),
+      new ExaminerEnrollmentExamEventDTO(examEvent.getId())
+    );
+
+    final EnrollmentAppointment enrollmentCreated = enrollmentAppointmentRepository.getReferenceById(
+      enrollment.getId()
+    );
+
+    assertEquals(EnrollmentAppointmentStatus.ENROLLMENT_CREATED, enrollmentCreated.getStatus());
+    assertEquals(examEvent.getId(), enrollmentCreated.getExaminerExamEvent().getId());
+    assertNotNull(enrollmentCreated.getAuthHash());
+    assertNotNull(enrollmentCreated.getPaymentLinkHash());
+
+    assertEquals(responseDTO.id(), enrollmentCreated.getId());
+    assertEquals(responseDTO.version(), enrollmentCreated.getVersion());
+    assertEquals(responseDTO.email(), enrollmentCreated.getEmail());
+    assertEquals(responseDTO.phoneNumber(), enrollmentCreated.getPhoneNumber());
+    assertEquals(responseDTO.firstName(), enrollmentCreated.getFirstName());
+    assertEquals(responseDTO.lastName(), enrollmentCreated.getLastName());
   }
 }
