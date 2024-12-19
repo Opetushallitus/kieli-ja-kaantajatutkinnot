@@ -62,17 +62,21 @@ export const PreviousEnrollment = ({
     showValidation && enrollment.hasPreviousEnrollment === undefined;
 
   return (
-    <>
+    <div className="rows gapped">
       <div className="public-enrollment-contact__grid__phone-extra-margin margin-top-sm rows gapped">
         <H2>{t('title')}</H2>
         <Text>{t('part1')}</Text>
       </div>
       <div className="public-enrollment-contact__grid__phone-extra-margin rows gapped">
         <FormControl component="fieldset">
-          <FormLabel component="legend" className="heading-label">
+          <FormLabel
+            component="legend"
+            className="heading-label margin-bottom-sm"
+          >
             {t('radioButtons.label')}
           </FormLabel>
           <RadioGroup
+            className="margin-top-sm"
             name="has-previous-enrollment-group"
             value={
               enrollment.hasPreviousEnrollment
@@ -103,7 +107,7 @@ export const PreviousEnrollment = ({
               }
               label={t('hasPreviousEnrollment.yes')}
               checked={enrollment.hasPreviousEnrollment}
-              className={`margin-top-sm margin-left-sm ${
+              className={`margin-left-sm ${
                 hasRadioButtonError && 'checkbox-error'
               }`}
             />
@@ -115,6 +119,6 @@ export const PreviousEnrollment = ({
           )}
         </FormControl>
       </div>
-    </>
+    </div>
   );
 };

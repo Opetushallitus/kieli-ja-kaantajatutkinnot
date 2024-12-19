@@ -83,8 +83,8 @@ export const Message = ({
   };
 
   return (
-    <>
-      <div className="public-enrollment-contact__grid__phone-extra-margin margin-top-sm rows gapped">
+    <div className="rows gapped">
+      <div className="public-enrollment-contact__grid__phone-extra-margin">
         <H2>{t('title')}</H2>
       </div>
       <div className="public-enrollment-contact__grid__phone-extra-margin public-enrollment-contact__grid__textfield-container rows gapped">
@@ -105,6 +105,6 @@ export const Message = ({
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };

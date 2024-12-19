@@ -49,7 +49,7 @@ export const SelectExam = ({
   ]);
 
   return (
-    <div className="rows gapped">
+    <div className="rows gapped-xxl">
       <ExamFee />
       <Divider />
       <ExamSelection

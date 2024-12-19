@@ -72,20 +72,23 @@ export const ExamSelection = ({
   });
 
   return (
-    <>
+    <div className="rows gapped">
       <div className="public-enrollment-contact__grid__phone-extra-margin margin-top-sm rows gapped">
         <H2>{t('title')}</H2>
         <Text>{t('part1')}</Text>
         <Text>{t('part2')}</Text>
       </div>
 
-      <div className="public-enrollment-contact__grid__phone-extra-margin rows">
+      <div className="public-enrollment-contact__grid__phone-extra-margin rows gapped">
         <FormControl component="fieldset">
-          <FormLabel component="legend" className="heading-label">
+          <FormLabel
+            component="legend"
+            className="heading-label margin-bottom-sm"
+          >
             {t('fullExam.question')}
           </FormLabel>
           <RadioGroup
-            className="rows gapped-xxs"
+            className="margin-top-sm rows gapped-xxs"
             name="full-exam-group"
             value={enrollment.isFullExam ? YesNo.Yes : YesNo.No}
             onChange={handleFullExamChange}
@@ -97,7 +100,7 @@ export const ExamSelection = ({
               control={<Radio aria-describedby="full-exam-error" />}
               label={t('fullExam.yes')}
               checked={enrollment.isFullExam === true}
-              className={`margin-top-sm margin-left-sm ${
+              className={`margin-left-sm ${
                 hasFullExamError && 'checkbox-error'
               }`}
             />
@@ -134,6 +137,6 @@ export const ExamSelection = ({
           </div>
         </Collapse>
       </div>
-    </>
+    </div>
   );
 };
