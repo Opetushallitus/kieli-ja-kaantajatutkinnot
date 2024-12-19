@@ -223,10 +223,22 @@
           "requiredFields": "Fält markerade med en asterisk (*) är obligatoriska.",
           "ssn": "Personbeteckning",
           "termsAndConditions": {
-            "description1": "Anmälan till YKI-testet är bindande. Du kan inte ändra din anmälan efter att du har bekräftat den.",
-            "description2": "Kontrollera att du anmäler dig till ett YKI-test på rätt språk och nivå.",
+            "description1": "För att anmäla dig måste du godkänna anmälningsvillkoren:",
+            "description2": "Läs mer på Utbildningsstyrelsen webbplats",
+            "description3": "Betald anmälan till YKI test är bindande. Kontrollera att du har valt det rätta YKI-testet och fyllt i dina uppgifter korrekt.",
+            "item1": "Du kan inte ändra nivån på YKI-testet.",
+            "item2": "Du kan inte ändra språket på YKI-testet.",
+            "item3": "Du kan inte ändra testplatsen.",
+            "item4": "Anmälan är personlig. Du kan inte ändra deltagarens personuppgifter. ",
+            "item5": "Om du inte kan delta i det YKI-test som du har anmält dig till, kan du flytta din anmälan en (1) gång till ett annat YKI-test i samma språk och på samma nivå vid samma testplats.",
+            "item51": "Den nya testdagen kan infalla högst ett år efter den ursprungliga testdagen.",
+            "item52": "Om nästa YKI-test i samma språk och på samma nivå ordnas mer än ett år efter den ursprungliga testdagen, kan du flytta din anmälan till nästa YKI-test i samma språk och på samma nivå.",
+            "item6": "Om du inte kan delta i det YKI-test som du har anmält dig till kan du ansöka om återbetalning av examensavgiften hos Utbildningsstyrelsen. Utbildningsstyrelsen återbetalar din examensavgift om din ansökan uppfyller alla villkor i lagen om allmänna språkexamina (YKI).",
+            "link": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-villkoren-for-anmalan",
+            "linkText": "Villkoren för anmälan",
             "label": "Jag godkänner villkoren för anmälan *",
-            "title": "Villkoren för anmälan"
+            "title": "Acceptera villkoren",
+            "subTitle": "Villkoren för anmälan"
           },
           "title": "Fyll i dina uppgifter",
           "whatsNext": {
@@ -242,7 +254,7 @@
               "text2": "Betala i tid så du kan delta i YKI-testet."
             },
             "paymentLinkEmail": {
-              "text1": "Du får ett e-postmeddelande med en betalningslänk.",
+              "text1": "Du får ett e-postmeddelande inom cirka 10 minuter. I meddelandet finns en länk för att betala examensavgiften.",
               "text2": "Meddelandet kommer från adressen noreply@opintopolku.fi.",
               "text3": "Anmälan är bekräftad först när du har betalat examensavgiften."
             },
@@ -486,6 +498,11 @@
             "prompt": "Välj examen",
             "required": "(obligatorisk)"
           }
+        },
+        "infoBox": {
+          "text": "Utbildningsstyrelsen har uppdaterat anmälningsvillkoren för allmänna språkexamina (YKI). Läs mer på Utbildningsstyrelsens webbplats",
+          "link": "https://www.oph.fi/sv/nyheter/2024/anmalningsvillkoren-allmanna-sprakexamina-forandras-i-januari-2025",
+          "linkText": "Anmälningsvillkoren för allmänna språkexamina förändras i januari 2025"
         },
         "labels": {
           "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",

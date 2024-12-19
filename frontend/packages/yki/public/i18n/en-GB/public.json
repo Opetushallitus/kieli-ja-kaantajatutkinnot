@@ -223,10 +223,22 @@
           "requiredFields": "Sections marked with an asterisk (*) are mandatory.",
           "ssn": "Personal identity code",
           "termsAndConditions": {
-            "description1": "The registration for an YKI test is binding. Once you have confirmed your registration, you can no longer change it.",
-            "description2": "Check that you are registering for a test of the correct language and level.",
+            "description1": "To register, you must agree to the terms and conditions of the registration:",
+            "description2": "Read more on the Finnish National Agency for Education’s website",
+            "description3": "Paid registration for YKI test is binding. Check that you are registering for the correct YKI test, and you have filled in your personal information correctly.",
+            "item1": "You cannot change the level of the YKI test.",
+            "item2": "You cannot change the language of the YKI test.",
+            "item3": "You cannot change the test centre.",
+            "item4": "Registration is personal. You cannot change the participant’s personal information.",
+            "item5": "If you cannot participate in the YKI test that you registered for, you may reschedule your registration once to another YKI test of the same language and level at the same test centre.",
+            "item51": "The new test day cannot be more than one year after the original test day.",
+            "item52": "If the next YKI test of the same language and level is held more than a year from the original test day, you may reschedule your registration to the next YKI test of the same language and level.",
+            "item6": "If you cannot participate in the YKI test that you registered for, you may apply for a test fee refund from the Finnish National Agency for Education. The Finnish National Agency for Education will refund your test fee if your application meets all the conditions laid down in the Act on National Certificates of Language Proficiency (YKI).",
+            "link": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-terms-and-conditions-for-registration",
+            "linkText": "Terms and conditions for registration",
             "label": "I accept the terms and conditions for registration *",
-            "title": "Terms and conditions for registration"
+            "title": "Accept terms",
+            "subTitle": "Terms and conditions for registration"
           },
           "title": "Fill in your personal information",
           "whatsNext": {
@@ -242,7 +254,7 @@
               "text2": "To participate in the YKI test, you must pay the fee on time."
             },
             "paymentLinkEmail": {
-              "text1": "Next, you will receive an email with a payment link.",
+              "text1": "You will receive an email within approximately 10 minutes. The email contains a link for paying the test fee.",
               "text2": "The email is sent from the address noreply@opintopolku.fi.",
               "text3": "Your registration will be confirmed only after you have paid the test fee."
             },
@@ -486,6 +498,11 @@
             "prompt": "Choose test",
             "required": "(required)"
           }
+        },
+        "infoBox": {
+          "text": "The Finnish National Agency for Education has updated the terms and conditions for registering for YKI tests. Read more on their website",
+          "link": "https://www.oph.fi/fi/uutiset/2024/yki-ilmoittautumisen-ehdot-muuttuvat-tammikuussa-2025",
+          "linkText": "Terms and conditions for registering for YKI tests changing in January 2025"
         },
         "labels": {
           "excludeFullSessions": "Show only the tests that have available seats",

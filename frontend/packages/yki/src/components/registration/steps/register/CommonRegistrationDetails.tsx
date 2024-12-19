@@ -8,7 +8,7 @@ import {
   RadioGroup,
 } from '@mui/material';
 import { ChangeEvent, useEffect } from 'react';
-import { H2, Text } from 'shared/components';
+import { H2, H3, Text } from 'shared/components';
 import { Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -150,11 +150,37 @@ export const CommonRegistrationDetails = () => {
       <H2 className="public-registration__grid__form-container__terms-and-conditions">
         {t('termsAndConditions.title')}
       </H2>
+      <H3>{t('termsAndConditions.subTitle')}</H3>
       <div>
         <Text>
           {t('termsAndConditions.description1')}
           <br />
-          {t('termsAndConditions.description2')}
+          <ul>
+            <li>{t('termsAndConditions.item1')}</li>
+            <li>{t('termsAndConditions.item2')}</li>
+            <li>{t('termsAndConditions.item3')}</li>
+            <li>{t('termsAndConditions.item4')}</li>
+            <li>{t('termsAndConditions.item5')}</li>
+            <ul>
+              <li>{t('termsAndConditions.item51')}</li>
+              <li>{t('termsAndConditions.item52')}</li>
+            </ul>
+            <li>{t('termsAndConditions.item6')}</li>
+          </ul>
+          {t('termsAndConditions.description2')}:{' '}
+          <div
+            className="columns gapped-xxs"
+            style={{ display: 'inline-flex' }}
+          >
+            <Link href={t('termsAndConditions.link')} target="_blank">
+              <Text>{t('termsAndConditions.linkText')}</Text>
+            </Link>
+            <OpenInNewIcon />
+          </div>
+          <br />
+          <p>
+            <b>{t('termsAndConditions.description3')}</b>
+          </p>
         </Text>
         <FormControl error={!!registrationErrors['termsAndConditionsAgreed']}>
           <FormControlLabel
@@ -170,7 +196,7 @@ export const CommonRegistrationDetails = () => {
           />
         </FormControl>
       </div>
-      <H2>{translateCommon('privacyStatement.title')}</H2>
+      <H3>{translateCommon('privacyStatement.title')}</H3>
       <div>
         <Text>
           {translateCommon('privacyStatement.description')}
