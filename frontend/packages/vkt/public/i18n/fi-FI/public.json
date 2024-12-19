@@ -267,6 +267,20 @@
         }
       },
       "publicEnrollmentAppointment": {
+        "controlButtons": {
+          "errors": {
+            "fields": {
+              "country": "Maa",
+              "postalCode": "Postinumero",
+              "privacyStatementConfirmation": "Hyväksy henkilötietojen käsittelyn ehdot",
+              "street": "Katuosoite",
+              "town": "Postitoimipaikka"
+            },
+            "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
+            "title": "Tiedoissa on korjattavaa!"
+          },
+          "pay": "Siirry maksamaan"
+        },
         "examEventDetails": {
           "examDate": "Tutkintopäivä",
           "examEvent": "Tutkinto",

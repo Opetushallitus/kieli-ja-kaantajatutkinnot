@@ -11,7 +11,9 @@ import { CertificateShippingTextFields } from 'interfaces/common/enrollment';
 import { PublicEnrollmentAppointment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollmentAppointment';
 
-const fields: Array<TextField<CertificateShippingTextFields>> = [
+export const certificateShippingFields: Array<
+  TextField<CertificateShippingTextFields>
+> = [
   {
     name: 'street',
     required: true,
@@ -67,7 +69,7 @@ export const CertificateShipping = ({
 
     setValid(
       !hasErrors<CertificateShippingTextFields>({
-        fields,
+        fields: certificateShippingFields,
         values: enrollment,
         t: translateCommon,
       }),
@@ -76,7 +78,7 @@ export const CertificateShipping = ({
 
   const dirty = showValidation ? undefined : dirtyFields;
   const errors = getErrors<CertificateShippingTextFields>({
-    fields,
+    fields: certificateShippingFields,
     values: enrollment,
     t: translateCommon,
     dirtyFields: dirty,

@@ -4,12 +4,20 @@ import {
 } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { CustomButton, LoadingProgressIndicator } from 'shared/components';
-import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import {
+  CustomButton,
+  LoadingProgressIndicator,
+  Text,
+} from 'shared/components';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useDialog } from 'shared/hooks';
+import { getErrors } from 'shared/utils';
 
+import { certificateShippingFields } from 'components/publicEnrollmentAppointment/steps/CertificateShipping';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { PublicEnrollmentAppointmentFormStep } from 'enums/publicEnrollment';
+import { CertificateShippingTextFields } from 'interfaces/common/enrollment';
 import { PublicEnrollmentAppointment } from 'interfaces/publicEnrollment';
 import {
   loadPublicEnrollmentSave,
@@ -31,13 +39,15 @@ export const PublicEnrollmentAppointmentControlButtons = ({
   submitStatus: APIResponseStatus;
 }) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.controlButtons',
+    keyPrefix: 'vkt.component.publicEnrollmentAppointment.controlButtons',
   });
   const translateCommon = useCommonTranslation();
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const { showDialog } = useDialog();
 
   const handleCancelBtnClick = () => {
     // FIXME
@@ -67,6 +77,35 @@ export const PublicEnrollmentAppointmentControlButtons = ({
       const nextStep: PublicEnrollmentAppointmentFormStep = activeStep + 1;
       navigate(RouteUtils.appointmentStepToRoute(nextStep, enrollment.id));
     } else {
+      const errors = getErrors<CertificateShippingTextFields>({
+        fields: certificateShippingFields,
+        values: enrollment,
+        t,
+      });
+
+      const dialogContent = (
+        <div>
+          <Text>{t('errors.fixErrors')}</Text>
+          <ul>
+            {Object.entries(errors)
+              .filter(([_, val]) => val)
+              .map(([field, _]) => (
+                <Text key={field}>
+                  <li>{t(`errors.fields.${field}`)}</li>
+                </Text>
+              ))}
+          </ul>
+        </div>
+      );
+
+      showDialog({
+        title: t('errors.title'),
+        severity: Severity.Error,
+        content: dialogContent,
+        actions: [
+          { title: translateCommon('back'), variant: Variant.Contained },
+        ],
+      });
       setShowValidation(true);
     }
   };
@@ -77,6 +116,33 @@ export const PublicEnrollmentAppointmentControlButtons = ({
       setShowValidation(false);
       dispatch(loadPublicEnrollmentSave(enrollment));
     } else {
+      const errors = {
+        privacyStatementConfirmation: !enrollment.privacyStatementConfirmation,
+      };
+
+      const dialogContent = (
+        <div>
+          <Text>{t('errors.fixErrors')}</Text>
+          <ul>
+            {Object.entries(errors)
+              .filter(([_, val]) => val)
+              .map(([field, _]) => (
+                <Text key={field}>
+                  <li>{t(`errors.fields.${field}`)}</li>
+                </Text>
+              ))}
+          </ul>
+        </div>
+      );
+
+      showDialog({
+        title: t('errors.title'),
+        severity: Severity.Error,
+        content: dialogContent,
+        actions: [
+          { title: translateCommon('back'), variant: Variant.Contained },
+        ],
+      });
       setShowValidation(true);
     }
   };
