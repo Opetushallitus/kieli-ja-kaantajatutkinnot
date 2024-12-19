@@ -1,4 +1,4 @@
-package fi.oph.vkt.api.dto.clerk;
+package fi.oph.vkt.api.dto.examiner;
 
 import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import jakarta.validation.constraints.NotBlank;

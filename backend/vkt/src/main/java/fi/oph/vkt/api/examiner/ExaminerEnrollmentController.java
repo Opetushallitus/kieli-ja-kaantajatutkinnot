@@ -3,10 +3,10 @@ package fi.oph.vkt.api.examiner;
 import static org.springframework.http.MediaType.ALL_VALUE;
 
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
-import fi.oph.vkt.api.dto.clerk.ExaminerEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentExamEventDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentGradesDTO;
 import fi.oph.vkt.service.ExaminerEnrollmentService;
