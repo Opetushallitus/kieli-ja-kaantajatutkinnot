@@ -48,7 +48,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.env.Environment;
 import org.springframework.security.test.context.support.WithMockUser;
 
-
 @WithMockUser
 @DataJpaTest
 public class ExaminerEnrollmentServiceTest {
@@ -81,15 +80,16 @@ public class ExaminerEnrollmentServiceTest {
     final UUIDSource uuidSource = mock(UUIDSource.class);
     when(uuidSource.getRandomNonce()).thenReturn("269a2da4-58bb-45eb-b125-522b77e9167c");
 
-    examinerEnrollmentService = new ExaminerEnrollmentService(
-            enrollmentAppointmentRepository,
-            enrollmentGradesRepository,
-            examinerExamEventRepository,
-            environment,
-            uuidSource,
-            examinerEnrollmentEmailService,
-            auditService
-    );
+    examinerEnrollmentService =
+      new ExaminerEnrollmentService(
+        enrollmentAppointmentRepository,
+        enrollmentGradesRepository,
+        examinerExamEventRepository,
+        environment,
+        uuidSource,
+        examinerEnrollmentEmailService,
+        auditService
+      );
   }
 
   @Test
@@ -107,7 +107,11 @@ public class ExaminerEnrollmentServiceTest {
     entityManager.persist(enrollment);
 
     final ExaminerEnrollmentAppointmentUpdateDTO dto = createUpdateDTOAddingOne(enrollment);
-    final ExaminerEnrollmentAppointmentDTO responseDTO = examinerEnrollmentService.updateAppointment(examiner.getOid(), enrollment.getId(), dto);
+    final ExaminerEnrollmentAppointmentDTO responseDTO = examinerEnrollmentService.updateAppointment(
+      examiner.getOid(),
+      enrollment.getId(),
+      dto
+    );
 
     assertEquals(responseDTO.id(), dto.id());
     assertEquals(responseDTO.version(), dto.version() + 1);
@@ -129,26 +133,26 @@ public class ExaminerEnrollmentServiceTest {
 
   private ExaminerEnrollmentAppointmentUpdateDTO createUpdateDTOAddingOne(final EnrollmentAppointment enrollment) {
     return ExaminerEnrollmentAppointmentUpdateDTO
-            .builder()
-            .id(enrollment.getId())
-            .firstName("Irma")
-            .lastName("Ilmoittautuja")
-            .version(enrollment.getVersion())
-            .oralSkill(!enrollment.isOralSkill())
-            .textualSkill(!enrollment.isTextualSkill())
-            .understandingSkill(!enrollment.isUnderstandingSkill())
-            .speakingPartialExam(!enrollment.isSpeakingPartialExam())
-            .speechComprehensionPartialExam(!enrollment.isSpeechComprehensionPartialExam())
-            .writingPartialExam(!enrollment.isWritingPartialExam())
-            .readingComprehensionPartialExam(!enrollment.isReadingComprehensionPartialExam())
-            .previousEnrollment(enrollment.getPreviousEnrollment() != null ? enrollment.getPreviousEnrollment() + "X" : null)
-            .email(enrollment.getEmail() + "x")
-            .phoneNumber(enrollment.getPhoneNumber() + "X")
-            .street(enrollment.getStreet() + "X")
-            .postalCode(enrollment.getPostalCode() + "X")
-            .town(enrollment.getTown() + "X")
-            .country(enrollment.getCountry() + "X")
-            .hasPreviousEnrollment(true)
-            .build();
+      .builder()
+      .id(enrollment.getId())
+      .firstName("Irma")
+      .lastName("Ilmoittautuja")
+      .version(enrollment.getVersion())
+      .oralSkill(!enrollment.isOralSkill())
+      .textualSkill(!enrollment.isTextualSkill())
+      .understandingSkill(!enrollment.isUnderstandingSkill())
+      .speakingPartialExam(!enrollment.isSpeakingPartialExam())
+      .speechComprehensionPartialExam(!enrollment.isSpeechComprehensionPartialExam())
+      .writingPartialExam(!enrollment.isWritingPartialExam())
+      .readingComprehensionPartialExam(!enrollment.isReadingComprehensionPartialExam())
+      .previousEnrollment(enrollment.getPreviousEnrollment() != null ? enrollment.getPreviousEnrollment() + "X" : null)
+      .email(enrollment.getEmail() + "x")
+      .phoneNumber(enrollment.getPhoneNumber() + "X")
+      .street(enrollment.getStreet() + "X")
+      .postalCode(enrollment.getPostalCode() + "X")
+      .town(enrollment.getTown() + "X")
+      .country(enrollment.getCountry() + "X")
+      .hasPreviousEnrollment(true)
+      .build();
   }
 }

@@ -43,7 +43,11 @@ public class Factory {
     return examinerExamEvent(examiner, municipality, ExamLanguage.FI);
   }
 
-  public static ExaminerExamEvent examinerExamEvent(final Examiner examiner, final Municipality municipality, final ExamLanguage language) {
+  public static ExaminerExamEvent examinerExamEvent(
+    final Examiner examiner,
+    final Municipality municipality,
+    final ExamLanguage language
+  ) {
     final ExaminerExamEvent examEvent = new ExaminerExamEvent();
     examEvent.setLanguage(language);
     examEvent.setExaminer(examiner);
@@ -91,7 +95,11 @@ public class Factory {
     return enrollment;
   }
 
-  public static EnrollmentAppointment enrollmentAppointment(final Examiner examiner, final ExaminerExamEvent examEvent, final Person person) {
+  public static EnrollmentAppointment enrollmentAppointment(
+    final Examiner examiner,
+    final ExaminerExamEvent examEvent,
+    final Person person
+  ) {
     final EnrollmentAppointment enrollment = new EnrollmentAppointment();
     enrollment.setExaminer(examiner);
     enrollment.setOralSkill(true);
@@ -160,7 +168,7 @@ public class Factory {
     examiner.setPhoneNumber("12345678");
     examiner.setNickname("Vepe");
 
-    return  examiner;
+    return examiner;
   }
 
   public static Municipality municipality() {
