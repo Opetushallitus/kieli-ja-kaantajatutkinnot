@@ -21,7 +21,7 @@ import {
 import { useDialog, useToast } from 'shared/hooks';
 
 import { TopControls } from 'components/clerkExamEvent/overview/TopControls';
-import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
+import { useCommonTranslation, useExaminerTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { useExamEventDescription } from 'hooks/useExamEventDescription';
@@ -45,8 +45,8 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
     createStatus,
     enrollment,
   } = useAppSelector(clerkEnrollmentContactRequestSelector);
-  const { t } = useClerkTranslation({
-    keyPrefix: 'vkt.component.clerkcontactRequest',
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.examinerContactRequest',
   });
   const translateCommon = useCommonTranslation();
   const params = useParams();

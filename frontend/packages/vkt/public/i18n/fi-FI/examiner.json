@@ -1,6 +1,27 @@
 {
   "vkt": {
     "component": {
+      "examinerContactRequest": {
+        "contactRequest": "Yhteydenottopyyntö",
+        "contactFields": "Yhteystiedot",
+        "lastName": "Sukunimi",
+        "firstName": "Etunimi",
+        "email": "Sähköpostiosoite",
+        "phoneNumber": "Puhelinnumero",
+        "partialExams": "Osakokeet, jotka haluan suorittaa",
+        "previousExams": "Osallistunut aiempiin tutkintoihin?",
+        "createEnrollment": "Luo ilmoittautuminen",
+        "contactDetails": "Yhteydenoton tiedot",
+        "message": "Viesti",
+        "wantFullExam": "Haluan suorittaa koko tutkinnon?",
+        "deleteAreYouSure": "Haluatko varmasti poistaa yhteydenoton?",
+        "deleteDescription": "Toimintoa ei voi peruuttaa!",
+        "deleteContactRequest": "Poista yhteydenotto",
+        "deleteContactRequestSuccess": "Yhteydenotto poistettu",
+        "selectExamHelp": "Huom. voit valita vain tutkintotilaisuuden, jolle on määritetty tarkka osoite ja alkamisaika",
+        "chooseExamAndCreate": "Valitse tutkintotilaisuus ja luo ilmoittautuminen",
+        "chooseExam": "Valitse tutkintotilaisuus"
+      },
       "examinerDetails": {
         "buttons": {
           "saveAndClose": "Tallenna ja sulje"
