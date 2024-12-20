@@ -194,7 +194,7 @@ export const PublicHomePage: FC = () => {
                 endIcon={<OpenInNewIcon />}
               />
             </Text>
-            <div className="rows gapped public-homepage__main-content">
+            <div className="rows gapped-xxl public-homepage__main-content">
               <EnrollmentFees />
               <H2>{t('enrollment.heading')}</H2>
               <div className={`gapped-xxl ${isPhone ? 'rows' : 'columns'}`}>
