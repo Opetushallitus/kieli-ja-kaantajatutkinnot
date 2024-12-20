@@ -21,7 +21,7 @@ public interface EnrollmentAppointmentRepository extends BaseRepository<Enrollme
     "SELECT e" +
     " FROM EnrollmentAppointment e" +
     " WHERE e.examiner = ?1" +
-    " AND e.status IN (fi.oph.vkt.model.type.EnrollmentAppointmentStatus.CONTACT_CREATED, fi.oph.vkt.model.type.EnrollmentAppointmentStatus.WAITING_AUTHENTICATION)" +
+    " AND e.status = fi.oph.vkt.model.type.EnrollmentAppointmentStatus.CONTACT_CREATED" +
     " AND e.deletedAt IS NULL" +
     " ORDER BY e.createdAt DESC"
   )

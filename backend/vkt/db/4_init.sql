@@ -472,8 +472,8 @@ INSERT INTO enrollment_appointment(person_id, examiner_id,
                        first_name, last_name, message, previous_enrollment,
                        auth_hash, auth_hash_expires, auth_hash_sent)
 VALUES (null, 1,
-       true, true, true,
-       true, true, true, true,
+       false, false, false,
+       false, false, false, false,
        'CONTACT_CREATED', false,
        'foo@bar.invalid', '0404040404', null, null, null, null,
        'Teppo', 'Testaaja', 'Tämä on viesti', 'Edellinen ilmoittautuminen vuonna 1999',
@@ -490,7 +490,7 @@ VALUES (null, 1, 1,
        true, true, true, true,
        'WAITING_AUTHENTICATION', false,
        'foo@bar.invalid', '0404040404', null, null, null, null,
-       'Teppo', 'Testinen',
+       'Ilpo', 'Ilmoittautuja',
        '922c2089-83a8-4163-8180-d8b675ff5337', NOW() + INTERVAL '3 days', NOW());
 
 -- Insert multiple enrollment appointments for person 2

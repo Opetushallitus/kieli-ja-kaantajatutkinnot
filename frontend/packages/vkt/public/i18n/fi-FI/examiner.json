@@ -67,8 +67,8 @@
           }
         },
         "authLinkErrorDialog": {
-          "description": "Ilmoittautuja täytyy liittää tutkintoon ennen ilmoittautumislinkin lähetystä.",
-          "header": "Valitse tutkinto"
+          "description": "Varmista, että ilmoittautuja on liitetty tutkintotilaisuuteen ja suoritettavat tutkinnot sekä osakokeet on valittu.",
+          "header": "Täytä tarvittavat tiedot"
         },
         "authLinkSuccessDialog": {
           "description": "Asiakkaalle on lähetetty ilmoittautumislinkki sähköpostiin. Ilmoittautumislinkki on voimassa kolme (3) vuorokautta. Voit tarpeen vaatiessa lähettää ilmoittautumislinkin uudestaan.",

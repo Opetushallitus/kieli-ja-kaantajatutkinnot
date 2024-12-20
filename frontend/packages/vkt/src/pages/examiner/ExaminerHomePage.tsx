@@ -14,7 +14,10 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { loadExaminerDetails } from 'redux/reducers/examinerDetails';
+import {
+  loadExaminerDetails,
+  resetExaminerDetailsToInitialState,
+} from 'redux/reducers/examinerDetails';
 import { clerkUserSelector } from 'redux/selectors/clerkUser';
 import { examinerDetailsSelector } from 'redux/selectors/examinerDetails';
 import { ExaminerUtils } from 'utils/examiner';
@@ -127,6 +130,14 @@ export const ExaminerHomePage: FC = () => {
       navigate(AppRoutes.ExaminerDetailsPage.replace(/:oid/, oid));
     }
   }, [initialized, navigate, clerkUser.isExaminer, oid]);
+
+  // Clean up on unmount
+  useEffect(
+    () => () => {
+      dispatch(resetExaminerDetailsToInitialState());
+    },
+    [dispatch],
+  );
 
   return (
     <Box className="examiner-homepage">

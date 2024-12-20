@@ -47,6 +47,7 @@ import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import { sendClerkEnrollmentAppointmentAuthLink } from 'redux/reducers/clerkEnrollmentAppointment';
 import { clerkEnrollmentAppointmentSelector } from 'redux/selectors/clerkEnrollmentAppointment';
 import { DateTimeUtils } from 'utils/dateTime';
+import { EnrollmentUtils } from 'utils/enrollment';
 
 const CheckboxField = ({
   enrollment,
@@ -491,7 +492,10 @@ const EnrollmentStatus = ({
   }, [showDialog, translateCommon, t, sendLinkStatus]);
 
   const onSendAuthLink = () => {
-    if (!enrollment.examEvent) {
+    if (
+      !enrollment.examEvent ||
+      !EnrollmentUtils.isValidPartialExamsAndSkills(enrollment)
+    ) {
       showDialog({
         title: t('authLinkErrorDialog.header'),
         severity: Severity.Error,
