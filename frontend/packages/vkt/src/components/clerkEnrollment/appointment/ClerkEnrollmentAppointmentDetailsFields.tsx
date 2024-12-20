@@ -355,11 +355,11 @@ const ExamAndEnrollmentDetailsSection = ({
   return (
     <>
       <div className="columns margin-top-lg space-between">
-        <H2>Tutkinnon tiedot</H2>
+        <H2>{t('heading')}</H2>
       </div>
       {enrollment.examEvent && (
         <div className="rows">
-          <H3>Tutkinnon kieli, aika ja paikka</H3>
+          <H3>{t('header.languagePlaceAndTime')}</H3>
           <Text>
             {translateCommon(`examLanguage.${enrollment.examEvent.language}`)}
             {', '}

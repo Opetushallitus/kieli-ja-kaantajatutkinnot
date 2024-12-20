@@ -12,7 +12,7 @@ import {
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { EnrollmentSkillsListTable } from 'components/clerkEnrollment/appointment/EnrollmentSkillsListTable';
-import { useCommonTranslation } from 'configs/i18n';
+import { useCommonTranslation, useExaminerTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamLevel } from 'enums/app';
 import { ClerkEnrollmentAppointmentHistory } from 'interfaces/clerkEnrollment';
@@ -34,6 +34,9 @@ export const EnrollmentHistoryModal = ({
 }) => {
   const dispatch = useAppDispatch();
   const translateCommon = useCommonTranslation();
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.enrollmentAppointment.historyModal',
+  });
   const { historyStatus, enrollmentHistory } = useAppSelector(
     clerkEnrollmentAppointmentSelector,
   );
@@ -46,11 +49,7 @@ export const EnrollmentHistoryModal = ({
   }, [dispatch, historyStatus, enrollmentId, oid]);
 
   return (
-    <CustomModal
-      onCloseModal={closeModal}
-      open={open}
-      modalTitle={'Aiempien tutkintojen tiedot'}
-    >
+    <CustomModal onCloseModal={closeModal} open={open} modalTitle={t('title')}>
       <>
         <div style={{ width: '60vw' }} className="rows gapped-sm">
           <LoadingProgressIndicator displayBlock={true} isLoading={isLoading}>

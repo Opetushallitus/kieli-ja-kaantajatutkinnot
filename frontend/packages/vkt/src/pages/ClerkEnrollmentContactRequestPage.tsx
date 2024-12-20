@@ -271,7 +271,7 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
               <div className="half-max-width">
                 <ComboBox
                   autoHighlight
-                  label={'Tutkinto'}
+                  label={t('examination')}
                   values={[...examEvents]
                     .map(examEventToOption)
                     .sort((a, b) => a.label.localeCompare(b.label))}

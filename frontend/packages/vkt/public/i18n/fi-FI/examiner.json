@@ -1,12 +1,24 @@
 {
   "vkt": {
     "component": {
+      "enrollmentAppointment": {
+        "gradeModal": {
+          "grade": "Arvosana",
+          "gradeComments": "Huomautuksia",
+          "partialExam": "Osakoe",
+          "title": "Anna arvosanat"
+        },
+        "historyModal": {
+          "title": "Aiempien tutkintojen tiedot"
+        }
+      },
       "examinerContactRequest": {
         "contactRequest": "Yhteydenottopyyntö",
         "contactFields": "Yhteystiedot",
         "lastName": "Sukunimi",
         "firstName": "Etunimi",
         "email": "Sähköpostiosoite",
+        "examination": "Tutkinto",
         "phoneNumber": "Puhelinnumero",
         "partialExams": "Osakokeet, jotka haluan suorittaa",
         "previousExams": "Osallistunut aiempiin tutkintoihin?",
@@ -90,6 +102,7 @@
           "fillings": "Paikkoja täytetty",
           "hidden": "Piilotettu",
           "isPublic": "Näytä tutkintopäivä julkisesti",
+          "languagePlaceAndTime": "Tutkinnon kieli, aika ja paikka",
           "languageAndLevel": "Kieli ja taso",
           "location": "Tutkintopaikan tarkka osoite",
           "maxParticipants": "Paikkojen lukumäärä",
@@ -97,6 +110,7 @@
           "previousEnrollment": "Aikaisempi osallistuminen valtionhallinnon kielitutkintoon",
           "registrationCloses": "Ilmoittautuminen päättyy"
         },
+        "heading": "Tutkinnon tiedot",
         "payment": {
           "create": "Luo maksulinkki",
           "setRefunded": "Merkitse maksu palautetuksi",
@@ -118,6 +132,13 @@
           },
           "historyTitle": "Maksuhistoria",
           "recentTitle": "Maksun tila"
+        },
+        "paymentStatus": {
+          "DELAYED": "Myöhässä",
+          "FAIL": "Peruttu",
+          "NEW": "Aloitettu",
+          "OK": "Maksettu",
+          "PENDING": "Odottaa"
         },
         "status": "Ilmoittautumisen tila"
       },

@@ -13,7 +13,7 @@ import {
   Variant,
 } from 'shared/enums';
 
-import { useCommonTranslation } from 'configs/i18n';
+import { useCommonTranslation, useExaminerTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamGrades } from 'enums/app';
 import {
@@ -47,6 +47,9 @@ export const GradeModal = ({
   oid: string;
 }) => {
   const translateCommon = useCommonTranslation();
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.enrollmentAppointment.gradeModal',
+  });
   const dispatch = useAppDispatch();
   const exams: Array<keyof GradedExams> = [
     'writingPartialExam',
@@ -115,17 +118,13 @@ export const GradeModal = ({
   ];
 
   return (
-    <CustomModal
-      onCloseModal={closeModal}
-      open={open}
-      modalTitle={'Anna arvosanat'}
-    >
+    <CustomModal onCloseModal={closeModal} open={open} modalTitle={t('title')}>
       <>
         <div style={{ width: '60vw' }} className="rows gapped-sm">
           <div style={{ margin: '2em' }} className="grid-3-columns gapped">
-            <Text className="bold">Osakoe</Text>
-            <Text className="bold">Arvosana</Text>
-            <Text className="bold">Huomautuksia</Text>
+            <Text className="bold">{t('partialExam')}</Text>
+            <Text className="bold">{t('grade')}</Text>
+            <Text className="bold">{t('gradeComments')}</Text>
             {selectedSkills.map((skill: keyof GradedExams, index) => (
               <Fragment key={index}>
                 <Text>
