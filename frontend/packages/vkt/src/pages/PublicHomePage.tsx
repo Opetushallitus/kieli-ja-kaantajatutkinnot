@@ -194,12 +194,18 @@ export const PublicHomePage: FC = () => {
                 endIcon={<OpenInNewIcon />}
               />
             </Text>
-            <div className="rows gapped-xxl public-homepage__main-content">
+            <div
+              className={`public-homepage__main-content rows ${
+                isPhone ? 'gapped-xl' : 'gapped-xxl'
+              }`}
+            >
               <EnrollmentFees />
-              <H2>{t('enrollment.heading')}</H2>
-              <div className={`gapped-xxl ${isPhone ? 'rows' : 'columns'}`}>
-                <ExcellentLevelCard />
-                <GoodAndSatisfactoryLevelCard />
+              <div className="rows gapped">
+                <H2>{t('enrollment.heading')}</H2>
+                <div className={`gapped-xxl ${isPhone ? 'rows' : 'columns'}`}>
+                  <ExcellentLevelCard />
+                  <GoodAndSatisfactoryLevelCard />
+                </div>
               </div>
             </div>
           </div>
