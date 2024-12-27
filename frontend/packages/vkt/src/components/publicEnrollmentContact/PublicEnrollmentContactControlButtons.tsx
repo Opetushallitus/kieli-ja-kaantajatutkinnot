@@ -25,10 +25,7 @@ import {
   PublicEnrollmentContact,
   PublicEnrollmentContactRequestDetails,
 } from 'interfaces/publicEnrollment';
-import {
-  loadPublicEnrollmentSave,
-  resetPublicEnrollmentContact,
-} from 'redux/reducers/publicEnrollmentContact';
+import { loadPublicEnrollmentSave } from 'redux/reducers/publicEnrollmentContact';
 import { publicEnrollmentContactSelector } from 'redux/selectors/publicEnrollmentContact';
 import { RouteUtils } from 'utils/routes';
 
@@ -57,13 +54,33 @@ export const PublicEnrollmentContactControlButtons = ({
   );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { showDialog } = useDialog();
 
   const handleCancelBtnClick = () => {
-    dispatch(resetPublicEnrollmentContact());
-    navigate(AppRoutes.PublicGoodAndSatisfactoryLevelLanding);
+    showDialog({
+      title: t('cancelDialog.title'),
+      content: (
+        <div className="rows gapped">
+          <Text>{t('cancelDialog.description.part1')}</Text>
+          <Text>{t('cancelDialog.description.part2')}</Text>
+        </div>
+      ),
+      severity: Severity.Info,
+      actions: [
+        {
+          title: t('cancelDialog.actions.cancelEnrollment'),
+          variant: Variant.Outlined,
+          action: () =>
+            navigate(AppRoutes.PublicGoodAndSatisfactoryLevelLanding),
+        },
+        {
+          title: t('cancelDialog.actions.continueEnrollment'),
+          variant: Variant.Contained,
+        },
+      ],
+      paperClassName: 'align-items-start',
+    });
   };
-
-  const { showDialog } = useDialog();
 
   useEffect(() => {
     if (submitStatus === APIResponseStatus.Success) {

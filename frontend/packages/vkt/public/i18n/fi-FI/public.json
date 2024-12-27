@@ -334,6 +334,17 @@
         }
       },
       "publicEnrollmentContact": {
+        "cancelDialog": {
+          "actions": {
+            "cancelEnrollment": "Peru ja valitse toinen vastaanottaja",
+            "continueEnrollment": "En halua perua"
+          },
+          "description": {
+            "part1": "Haluatko perua tämän yhteydenoton?",
+            "part2": "Jo täyttämäsi tiedot tallentuvat selaimen muistiin. Jos haluat että ne pyyhitään pois, sulje selainikkuna."
+          },
+          "title": "Peru yhteydenotto"
+        },
         "controlButtons": {
           "submit": "Lähetä"
         },
