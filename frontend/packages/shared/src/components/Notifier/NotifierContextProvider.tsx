@@ -11,7 +11,7 @@ interface NotifierContextProps {
   onToastShow: (toast: Toast) => void;
   onToastRemove: () => void;
   dialog: Dialog | undefined;
-  onDialogShow: (toast: Dialog) => void;
+  onDialogShow: (dialog: Dialog) => void;
   onDialogRemove: () => void;
 }
 
@@ -25,7 +25,7 @@ export const NotifierContextProvider = ({
   const [toast, setToast] = useState<Toast | undefined>(undefined);
   const [dialog, setDialog] = useState<Dialog | undefined>(undefined);
 
-  const handleDialogShow = useCallback((toast: Dialog) => setDialog(toast), []);
+  const handleDialogShow = useCallback((dialog: Dialog) => setDialog(dialog), []);
   const handleDialogRemove = useCallback(() => setDialog(undefined), []);
 
   const handleToastShow = useCallback((toast: Toast) => setToast(toast), []);

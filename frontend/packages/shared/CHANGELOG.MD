@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.11.11] - 2024-12-27
+
+### Changed
+
+- Improved DialogBox default styling
+- Introduced paperClassName prop to allow applying extra style classes to contents within the Paper component in a DialogBox
+
 ## [1.11.10] - 2024-12-18
 
 ### Changed
