@@ -4,18 +4,23 @@ import { useParams } from 'react-router';
 import { CustomButtonLink, CustomTable, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
+import { useExaminerTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { ContactRequest } from 'interfaces/examinerDetails';
 import { examinerDetailsSelector } from 'redux/selectors/examinerDetails';
 
 const ExaminerExamEventListingHeader = () => {
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.examinerContactRequest',
+  });
+
   return (
     <TableHead className="heading-text">
       <TableRow>
-        <TableCell>Etunimi</TableCell>
-        <TableCell>Sukunimi</TableCell>
-        <TableCell>Toiminnot</TableCell>
+        <TableCell>{t('firstName')}</TableCell>
+        <TableCell>{t('lastName')}</TableCell>
+        <TableCell>{t('actions')}</TableCell>
       </TableRow>
     </TableHead>
   );
@@ -26,6 +31,9 @@ const ExaminerContactRequestListingRow = ({
 }: {
   contactRequest: ContactRequest;
 }) => {
+  const { t } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.examinerContactRequest',
+  });
   const params = useParams();
   const oid = params.oid || '';
 
@@ -51,7 +59,7 @@ const ExaminerContactRequestListingRow = ({
             contactRequest.id.toString(),
           )}
         >
-          Katso tiedot
+          {t('viewDetails')}
         </CustomButtonLink>
       </TableCell>
     </TableRow>
