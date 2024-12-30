@@ -148,9 +148,10 @@ export const ExaminerExamEventListing = () => {
       setExaminerExamEventLanguageFilter(event.target.value as ExamLanguage),
     );
   };
+  const allExamEvents = examiner?.examEvents || [];
 
   return (
-    <div className="examiner-homepage__exam-events rows gapped-xl margin-top-xxl">
+    <div className="examiner-homepage__exam-events rows gapped-xl margin-top-sm margin-bottom-lg">
       <div className="columns">
         <H2 className="grow">{t('heading')}</H2>
         <div className="flex-end">
@@ -170,10 +171,12 @@ export const ExaminerExamEventListing = () => {
       </div>
       <Divider />
       <ExaminerExamEventToggleFilters />
-      <LanguageFilter
-        value={examEventFilters.languageFilter}
-        onChange={handleLanguageFilterChange}
-      />
+      {allExamEvents.length > 0 && (
+        <LanguageFilter
+          value={examEventFilters.languageFilter}
+          onChange={handleLanguageFilterChange}
+        />
+      )}
       {filteredExamEvents.length === 0 && (
         <Text className="empty-results">{t('labels.noExamEvents')}</Text>
       )}

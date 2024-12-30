@@ -65,12 +65,16 @@ export const ClerkGoodAndSatisfactoryLevelPage: FC = () => {
         <Grid item>
           <Paper elevation={3} className="clerk-homepage__examiners">
             {examinersLoading ? (
-              <PublicExamEventGridSkeleton />
+              <div className="rows gapped">
+                <PublicExamEventGridSkeleton />
+              </div>
             ) : (
               <ClerkExaminerListing />
             )}
             {examEventsLoading ? (
-              <PublicExamEventGridSkeleton />
+              <div className="rows gapped">
+                <PublicExamEventGridSkeleton />
+              </div>
             ) : (
               <ClerkExaminerExamEventListing />
             )}

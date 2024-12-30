@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.11.12] - 2024-12-30
+
+### Added
+
+- Class shorthand for larger gaps: gapped-xxxxl
+
 ## [1.11.11] - 2024-12-27
 
 ### Changed

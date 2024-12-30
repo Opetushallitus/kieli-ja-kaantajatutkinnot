@@ -42,7 +42,7 @@ export const ClerkExaminerExamEventListing = () => {
   // TODO Table sorting not implemented yet!
 
   return (
-    <>
+    <div className="rows gapped clerk-homepage__extra-padding-top">
       <div className="columns">
         <div className="clerk-homepage__grid-container__heading">
           <H2>{t('title')}</H2>
@@ -66,6 +66,6 @@ export const ClerkExaminerExamEventListing = () => {
         rowsPerPageLabel={translateCommon('rowsPerPageLabel')}
         stickyHeader
       />
-    </>
+    </div>
   );
 };

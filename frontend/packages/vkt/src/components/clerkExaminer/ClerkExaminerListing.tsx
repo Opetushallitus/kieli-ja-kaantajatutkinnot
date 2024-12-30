@@ -159,7 +159,7 @@ export const ClerkExaminerListing = () => {
   const examiners = useAppSelector(selectFilteredExaminers);
 
   return (
-    <>
+    <div className="rows gapped clerk-homepage__extra-padding-top">
       <div className="clerk-homepage__grid-container__heading columns grow">
         <H2>{t('title')}</H2>
       </div>
@@ -172,6 +172,6 @@ export const ClerkExaminerListing = () => {
         getRowDetails={getRowDetails}
         stickyHeader
       />
-    </>
+    </div>
   );
 };

@@ -34,7 +34,7 @@ const PublicInformation = () => {
   }
 
   return (
-    <div className="examiner-homepage__public-information rows gapped-xl margin-bottom-xxl">
+    <div className="examiner-homepage__public-information rows gapped-xl margin-top-lg margin-bottom-lg">
       <div className="columns gapped">
         <H2 className="grow">{t('heading')}</H2>
         <CustomButtonLink
@@ -79,7 +79,7 @@ const ContactRequests = () => {
   const { examiner } = useAppSelector(examinerDetailsSelector);
 
   return (
-    <div className="examiner-homepage__contact-requests rows gapped-xl margin-top-xxl margin-bottom-xxl">
+    <div className="examiner-homepage__contact-requests rows gapped-xl margin-top-sm margin-bottom-lg">
       <H2>{t('heading')}</H2>
       <Divider />
       {examiner?.contactRequests?.length === 0 ? (
@@ -94,7 +94,7 @@ const ContactRequests = () => {
 const ExaminerOverview = () => {
   return (
     <Paper elevation={3} className="examiner-homepage__overview">
-      <div className="rows gapped-xl">
+      <div className="rows gapped-xxxxl">
         <PublicInformation />
         <ContactRequests />
         <ExaminerExamEventListing />

@@ -90,6 +90,10 @@
   gap: map.get($spacing, 'xxl');
 }
 
+.gapped-xxxxl {
+  gap: map.get($spacing, 'xxxxl');
+}
+
 .gapped-sm {
   gap: map.get($spacing, 'sm');
 }
