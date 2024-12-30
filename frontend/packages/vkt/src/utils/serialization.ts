@@ -24,6 +24,8 @@ import {
   ClerkListExamEventResponse,
 } from 'interfaces/clerkListExamEvent';
 import {
+  ContactRequest,
+  ContactRequestResponse,
   ExaminerDetails,
   ExaminerDetailsResponse,
 } from 'interfaces/examinerDetails';
@@ -347,6 +349,15 @@ export class SerializationUtils {
     };
   }
 
+  static deserializeContactRequest(
+    contactRequest: ContactRequestResponse,
+  ): ContactRequest {
+    return {
+      ...contactRequest,
+      contactDate: dayjs(contactRequest.contactDate),
+    };
+  }
+
   static deserializeExaminerDetails(
     examinerDetails: ExaminerDetailsResponse,
   ): ExaminerDetails {
@@ -354,6 +365,9 @@ export class SerializationUtils {
       ...examinerDetails,
       examEvents: examinerDetails.examEvents.map(
         SerializationUtils.deserializeExaminerExamEvent,
+      ),
+      contactRequests: examinerDetails.contactRequests.map(
+        SerializationUtils.deserializeContactRequest,
       ),
     };
   }

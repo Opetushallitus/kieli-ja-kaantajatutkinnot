@@ -26,6 +26,8 @@ public class ExaminerUtil {
       .id(enrollmentAppointment.getId())
       .firstName(enrollmentAppointment.getFirstName())
       .lastName(enrollmentAppointment.getLastName())
+      .email(enrollmentAppointment.getEmail())
+      .contactDate(enrollmentAppointment.getCreatedAt().toLocalDate())
       .build();
   }
 

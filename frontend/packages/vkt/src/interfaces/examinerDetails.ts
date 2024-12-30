@@ -1,3 +1,4 @@
+import { Dayjs } from 'dayjs';
 import { APIResponseStatus } from 'shared/enums';
 import { WithId } from 'shared/interfaces';
 
@@ -23,6 +24,13 @@ export interface ContactRequest extends WithId {
   id: number;
   firstName: string;
   lastName: string;
+  email: string;
+  contactDate: Dayjs;
+}
+
+export interface ContactRequestResponse
+  extends Omit<ContactRequest, 'contactDate'> {
+  contactDate: string;
 }
 
 export interface ExaminerDetails extends WithId {
@@ -40,8 +48,9 @@ export interface ExaminerDetails extends WithId {
 }
 
 export interface ExaminerDetailsResponse
-  extends Omit<ExaminerDetails, 'examEvents'> {
+  extends Omit<ExaminerDetails, 'examEvents' | 'contactRequests'> {
   examEvents: Array<ExaminerExamEventResponse>;
+  contactRequests: Array<ContactRequestResponse>;
 }
 
 export type ExaminerDetailsInit = Pick<

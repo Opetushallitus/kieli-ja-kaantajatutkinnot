@@ -3,6 +3,7 @@ import { TableCell, TableHead, TableRow } from '@mui/material';
 import { useParams } from 'react-router';
 import { CustomButtonLink, CustomTable, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
+import { DateUtils } from 'shared/utils';
 
 import { useExaminerTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
@@ -18,8 +19,9 @@ const ExaminerExamEventListingHeader = () => {
   return (
     <TableHead className="heading-text">
       <TableRow>
-        <TableCell>{t('firstName')}</TableCell>
-        <TableCell>{t('lastName')}</TableCell>
+        <TableCell>{t('requesterName')}</TableCell>
+        <TableCell>{t('email')}</TableCell>
+        <TableCell>{t('contactDate')}</TableCell>
         <TableCell>{t('actions')}</TableCell>
       </TableRow>
     </TableHead>
@@ -40,10 +42,13 @@ const ExaminerContactRequestListingRow = ({
   return (
     <TableRow>
       <TableCell>
-        <Text>{contactRequest.firstName}</Text>
+        <Text>{`${contactRequest.firstName} ${contactRequest.lastName}`}</Text>
       </TableCell>
       <TableCell>
-        <Text>{contactRequest.lastName}</Text>
+        <Text>{contactRequest.email}</Text>
+      </TableCell>
+      <TableCell>
+        <Text>{DateUtils.formatOptionalDate(contactRequest.contactDate)}</Text>
       </TableCell>
       <TableCell>
         <CustomButtonLink
