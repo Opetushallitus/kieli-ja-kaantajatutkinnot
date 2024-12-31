@@ -198,12 +198,12 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
   };
 
   return (
-    <Box className="clerk-homepage">
+    <Box className="examiner-contact-request-page">
       <Grid
         container
         rowSpacing={4}
         direction="column"
-        className="clerk-homepage__grid-container"
+        className="examiner-contact-request-page__grid-container"
       >
         <div>
           <TopControls backTo={backTo} />
@@ -214,54 +214,58 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
         <Grid item>
           <Paper
             elevation={3}
-            className="clerk-homepage__exam-events clerk-homepage-create-exam-events"
+            className="examiner-contact-request-page__paper rows gapped-xxl"
           >
-            <H2>{t('contactFields')}</H2>
-            <div className="grid-columns gapped">
-              <div className="rows gapped">
-                <H3>{t('lastName')}</H3>
-                <Text>{enrollment.lastName}</Text>
-              </div>
-              <div className="rows gapped">
-                <H3>{t('firstName')}</H3>
-                <Text>{enrollment.firstName}</Text>
-              </div>
-              <div className="rows gapped">
-                <H3>{t('email')}</H3>
-                <Text>{enrollment.email}</Text>
-              </div>
-              <div className="rows gapped">
-                <H3>{t('phoneNumber')}</H3>
-                <Text>{enrollment.phoneNumber}</Text>
+            <div className="rows gapped">
+              <H2>{t('contactFields')}</H2>
+              <div className="grid-columns gapped">
+                <div className="rows gapped-xxs">
+                  <H3>{t('lastName')}:</H3>
+                  <Text>{enrollment.lastName}</Text>
+                </div>
+                <div className="rows gapped-xxs">
+                  <H3>{t('firstName')}:</H3>
+                  <Text>{enrollment.firstName}</Text>
+                </div>
+                <div className="rows gapped-xxs">
+                  <H3>{t('email')}:</H3>
+                  <Text>{enrollment.email}</Text>
+                </div>
+                <div className="rows gapped-xxs">
+                  <H3>{t('phoneNumber')}:</H3>
+                  <Text>{enrollment.phoneNumber}</Text>
+                </div>
               </div>
             </div>
             <Divider />
-            <H2>{t('contactDetails')}</H2>
             <div className="rows gapped">
-              <H3>{t('wantFullExam')}</H3>
-              <Text>
-                {enrollment.isFullExam
-                  ? translateCommon('yes')
-                  : translateCommon('no')}
-              </Text>
-            </div>
-            {!enrollment.isFullExam && (
-              <div className="rows gapped">
-                <H3>{t('partialExams')}</H3>
-                <Text>{enrollment.partialExamSelection}</Text>
+              <H2>{t('contactDetails')}</H2>
+              <div className="rows gapped-xxs">
+                <H3>{t('wantFullExam')}:</H3>
+                <Text>
+                  {enrollment.isFullExam
+                    ? translateCommon('yes')
+                    : translateCommon('no')}
+                </Text>
               </div>
-            )}
-            <div className="rows gapped">
-              <H3>{t('previousExams')}</H3>
-              <Text>
-                {enrollment.hasPreviousEnrollment
-                  ? translateCommon('yes')
-                  : translateCommon('no')}
-              </Text>
-            </div>
-            <div className="rows gapped">
-              <H3>{t('message')}</H3>
-              <Text>{enrollment.message}</Text>
+              {!enrollment.isFullExam && (
+                <div className="rows gapped-xxs">
+                  <H3>{t('partialExams')}:</H3>
+                  <Text>{enrollment.partialExamSelection}</Text>
+                </div>
+              )}
+              <div className="rows gapped-xxs">
+                <H3>{t('previousExams')}:</H3>
+                <Text>
+                  {enrollment.hasPreviousEnrollment
+                    ? translateCommon('yes')
+                    : translateCommon('no')}
+                </Text>
+              </div>
+              <div className="rows gapped-xxs">
+                <H3>{t('message')}:</H3>
+                <Text>{enrollment.message}</Text>
+              </div>
             </div>
             <Divider />
             <div className="rows gapped-sm flex-end">

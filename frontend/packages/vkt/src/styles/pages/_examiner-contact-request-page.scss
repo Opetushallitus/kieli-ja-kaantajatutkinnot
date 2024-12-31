@@ -1,0 +1,15 @@
+.examiner-contact-request-page {
+  flex: 1;
+
+  & &__grid-container {
+    display: block;
+
+    &__heading {
+      margin: 2rem 0 1rem 1rem;
+    }
+  }
+
+  & &__paper {
+    padding: 3rem;
+  }
+}
