@@ -3,7 +3,6 @@ import {
   Divider,
   FormControlLabel,
   FormHelperTextProps,
-  Link,
 } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
@@ -327,7 +326,6 @@ const ExamAndEnrollmentDetailsSection = ({
   editDisabled,
   openGradeModal,
   openEnrollmentHistoryModal,
-  getCommonTextFieldProps,
 }: {
   enrollment: ClerkEnrollmentAppointment;
   isViewMode: boolean;
@@ -340,10 +338,6 @@ const ExamAndEnrollmentDetailsSection = ({
   editDisabled: boolean;
   openGradeModal: () => void;
   openEnrollmentHistoryModal: () => void;
-  getCommonTextFieldProps: (
-    field: ClerkEnrollmentTextFieldEnum,
-    disabled: boolean,
-  ) => ClerkEnrollmentTextFieldProps<ClerkEnrollmentAppointment>;
 }) => {
   const { grades } = useAppSelector(clerkEnrollmentAppointmentSelector);
   const { t } = useExaminerTranslation({
@@ -398,16 +392,6 @@ const ExamAndEnrollmentDetailsSection = ({
           {t('appointment.showHistory')}
         </CustomButton>
       </div>
-      <div className="margin-top-sm">
-        <H3>{t('header.previousEnrollment')}</H3>
-      </div>
-      <ClerkEnrollmentDetailsTextField
-        className="previous-enrollment"
-        {...getCommonTextFieldProps(
-          ClerkEnrollmentTextFieldEnum.PreviousEnrollment,
-          editDisabled,
-        )}
-      />
     </>
   );
 };
@@ -552,16 +536,17 @@ const EnrollmentStatus = ({
               {t('appointment.sendAuthLink')}
             </CustomButton>
           </div>
-          <Text>
-            <Link
-              sx={{ fontWeight: 400, cursor: 'pointer' }}
+          <div className="columns flex-start">
+            <CustomButton
               onClick={() => {
                 setPaymentLinkModalOpen(true);
               }}
+              color={Color.Secondary}
+              variant={Variant.Text}
             >
               {t('appointment.noAuthPossible')}
-            </Link>
-          </Text>
+            </CustomButton>
+          </div>
         </>
       )}
     </>
@@ -768,7 +753,6 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
           editDisabled={editDisabled}
           openGradeModal={() => setGradeModalOpen(true)}
           openEnrollmentHistoryModal={() => setEnrollmentHistoryModalOpen(true)}
-          getCommonTextFieldProps={getCommonTextFieldProps}
         />
         <Divider className="margin-top-lg" />
         <PaymentDetailsSection enrollment={enrollment} />
