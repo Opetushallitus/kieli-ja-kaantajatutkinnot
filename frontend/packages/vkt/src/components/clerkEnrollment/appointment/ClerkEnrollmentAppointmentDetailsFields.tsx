@@ -35,7 +35,7 @@ import {
   useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { EnrollmentAppointmentStatus } from 'enums/app';
+import { EnrollmentAppointmentStatus, ExamLevel } from 'enums/app';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import {
   ClerkEnrollmentAppointment,
@@ -47,6 +47,7 @@ import { sendClerkEnrollmentAppointmentAuthLink } from 'redux/reducers/clerkEnro
 import { clerkEnrollmentAppointmentSelector } from 'redux/selectors/clerkEnrollmentAppointment';
 import { DateTimeUtils } from 'utils/dateTime';
 import { EnrollmentUtils } from 'utils/enrollment';
+import { ExamEventUtils } from 'utils/examEvent';
 
 const CheckboxField = ({
   enrollment,
@@ -345,6 +346,9 @@ const ExamAndEnrollmentDetailsSection = ({
   });
   const translateMunicipality = useKoodistoMunicipalitiesTranslation();
   const translateCommon = useCommonTranslation();
+  const examTime =
+    enrollment.examEvent?.examTime &&
+    DateTimeUtils.parseTime(enrollment.examEvent?.examTime);
 
   return (
     <>
@@ -353,15 +357,21 @@ const ExamAndEnrollmentDetailsSection = ({
       </div>
       {enrollment.examEvent && (
         <div className="rows">
-          <H3>{t('header.languagePlaceAndTime')}</H3>
+          <H3>{t('header.examEvent')}:</H3>
           <Text>
-            {translateCommon(`examLanguage.${enrollment.examEvent.language}`)}
-            {', '}
+            {ExamEventUtils.languageAndLevelText(
+              enrollment.examEvent.language,
+              ExamLevel.GOOD_AND_SATISFACTORY,
+              translateCommon,
+            )}
+            <br aria-hidden={true} />
             {DateTimeUtils.renderDate(enrollment.examEvent.date)}
-            {', '}
+            <br aria-hidden={true} />
             {translateMunicipality(enrollment.examEvent.municipality.code)}
             {', '}
             {enrollment.examEvent.location}
+            {examTime && <br aria-hidden={true} />}
+            {examTime && DateTimeUtils.renderTime(examTime)}
           </Text>
         </div>
       )}
@@ -511,7 +521,7 @@ const EnrollmentStatus = ({
         <Text>{t(`enrollmentStatus.${enrollment.status}`)}</Text>
       </div>
       <div className="rows gapped-sm margin-top-lg">
-        <H3>Ilmoittautumislinkki</H3>
+        <H3>{t('appointment.authLink')}</H3>
         {enrollment.authLink?.sentAt && (
           <Text>
             {t('appointment.linkSentAt')}:{' '}

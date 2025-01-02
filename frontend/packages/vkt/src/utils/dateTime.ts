@@ -1,4 +1,4 @@
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { DateUtils } from 'shared/utils';
 
 import { translateOutsideComponent } from 'configs/i18n';
@@ -58,5 +58,12 @@ export class DateTimeUtils {
       dateTime,
       t('vkt.common.dates.dateFormat'),
     );
+  }
+
+  static parseTime(time: string) {
+    const val = dayjs(time, 'HH:mm', true);
+    if (val.isValid()) {
+      return val;
+    }
   }
 }
