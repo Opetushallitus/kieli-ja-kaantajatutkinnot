@@ -356,7 +356,7 @@ const ExamAndEnrollmentDetailsSection = ({
         <H2>{t('heading')}</H2>
       </div>
       {enrollment.examEvent && (
-        <div className="rows">
+        <div className="rows gapped-xxs">
           <H3>{t('header.examEvent')}:</H3>
           <Text>
             {ExamEventUtils.languageAndLevelText(
