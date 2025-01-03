@@ -4,6 +4,7 @@ import { RouteUtils } from 'utils/routes';
 Cypress.Commands.add('openPublicHomePage', () => {
   cy.window().then((win) => {
     win.sessionStorage.setItem('persist:root', '{}');
+    cy.setCookie('cookie-consent-vkt', 'true');
   });
   cy.visit(AppRoutes.PublicHomePage);
 });
