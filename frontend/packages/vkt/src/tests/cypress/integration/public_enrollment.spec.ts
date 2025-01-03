@@ -3,7 +3,7 @@ import { HTTPStatusCode } from 'shared/enums';
 import { APIEndpoints } from 'enums/api';
 import { PublicReservationResponse } from 'interfaces/publicEnrollment';
 import { onPublicEnrollmentPage } from 'tests/cypress/support/page-objects/publicEnrollmentPage';
-import { onPublicHomePage } from 'tests/cypress/support/page-objects/publicHomePage';
+import { onPublicExcellentLevelPage } from 'tests/cypress/support/page-objects/publicExcellentLevelPage';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 import { fixedDateForTests } from 'tests/cypress/support/utils/date';
 
@@ -14,11 +14,11 @@ beforeEach(() => {
 describe('Public enrollment', () => {
   describe('to exam event with room', () => {
     it('reservation should have timer', () => {
-      onPublicHomePage.expectReservationTimeLeft('30', '00');
+      onPublicExcellentLevelPage.expectReservationTimeLeft('30', '00');
       cy.tick(3000);
-      onPublicHomePage.expectReservationTimeLeft('29', '57');
+      onPublicExcellentLevelPage.expectReservationTimeLeft('29', '57');
       cy.tick(30 * 60 * 1000);
-      onPublicHomePage.expectReservationTimeLeft('00', '00');
+      onPublicExcellentLevelPage.expectReservationTimeLeft('00', '00');
     });
 
     it('reservation should allow renewal', () => {
@@ -35,17 +35,17 @@ describe('Public enrollment', () => {
         body: response,
       }).as('renewReservation');
 
-      onPublicHomePage.expectReservationTimeLeft('30', '00');
+      onPublicExcellentLevelPage.expectReservationTimeLeft('30', '00');
       cy.tick(29 * 60 * 1000);
-      onPublicHomePage.clickReservationRenewButton();
+      onPublicExcellentLevelPage.clickReservationRenewButton();
       cy.wait('@renewReservation');
       cy.tick(30 * 1000);
-      onPublicHomePage.expectReservationTimeLeft('29', '30');
+      onPublicExcellentLevelPage.expectReservationTimeLeft('29', '30');
     });
 
     it('reservation expired should display info modal', () => {
       cy.tick(31 * 60 * 1000);
-      onPublicHomePage.expectReservationExpiredOkButtonEnabled();
+      onPublicExcellentLevelPage.expectReservationExpiredOkButtonEnabled();
     });
 
     it('should show session expired modal', () => {
@@ -54,7 +54,7 @@ describe('Public enrollment', () => {
       cy.setCookie('noAuth', 'true');
       cy.wait(10);
       cy.tick(6 * 1000);
-      onPublicHomePage.expectSessionExpiredModal();
+      onPublicExcellentLevelPage.expectSessionExpiredModal();
     });
 
     it('should be able to fill out enrollment info', () => {
@@ -233,13 +233,13 @@ describe('Public enrollment', () => {
   // TODO: Enable again once auth flow is complete.
   describe('errors when enroll button is clicked on the home page', () => {
     it.skip('exam event received congestion after the home page was opened', () => {
-      onPublicHomePage.clickEnrollButton(10);
+      onPublicExcellentLevelPage.clickEnrollButton(10);
 
       onToast.expectText('Tutkintotilaisuus on ruuhkautunut');
     });
 
     it.skip('registration to exam event closed after the home page was opened', () => {
-      onPublicHomePage.clickEnrollButton(11);
+      onPublicExcellentLevelPage.clickEnrollButton(11);
 
       onToast.expectText(
         'Tutkintotilaisuuteen ilmoittautuminen on sulkeutunut',

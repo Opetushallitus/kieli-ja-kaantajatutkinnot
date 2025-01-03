@@ -5,6 +5,13 @@ Cypress.Commands.add('openPublicHomePage', () => {
   cy.window().then((win) => {
     win.sessionStorage.setItem('persist:root', '{}');
   });
+  cy.visit(AppRoutes.PublicHomePage);
+});
+
+Cypress.Commands.add('openPublicExcellentLevelPage', () => {
+  cy.window().then((win) => {
+    win.sessionStorage.setItem('persist:root', '{}');
+  });
   cy.visit(AppRoutes.PublicExcellentLevelLanding);
 });
 
