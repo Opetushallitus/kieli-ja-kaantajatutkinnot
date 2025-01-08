@@ -58,6 +58,7 @@ public class Factory {
     examEvent.setRegistrationCloses(LocalDate.now().plusDays(4));
     examEvent.setHidden(false);
     examEvent.setMaxParticipants(10L);
+    examEvent.setLocation("Mordor");
 
     return examEvent;
   }
