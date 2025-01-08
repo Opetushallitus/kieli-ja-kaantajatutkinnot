@@ -11,6 +11,7 @@ declare global {
         examEventId: number,
         persistedState?: string,
       ): void;
+      openPublicGoodAndSatisfactoryLevelPage(): void;
       openClerkExcellentLevelPage(): void;
       openClerkExamEventPage(examEventId: number): void;
       openClerkCreateExamEventPage(): void;

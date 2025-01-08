@@ -32,6 +32,13 @@ Cypress.Commands.add(
   },
 );
 
+Cypress.Commands.add('openPublicGoodAndSatisfactoryLevelPage', () => {
+  cy.window().then((win) => {
+    win.sessionStorage.setItem('persist:root', '{}');
+  });
+  cy.visit(AppRoutes.PublicGoodAndSatisfactoryLevelLanding);
+});
+
 Cypress.Commands.add('openClerkExcellentLevelPage', () => {
   cy.window().then((win) => win.sessionStorage.setItem('persist:root', '{}'));
   cy.visit(AppRoutes.ClerkExcellentLevelPage);

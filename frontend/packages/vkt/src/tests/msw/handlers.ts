@@ -17,7 +17,7 @@ import {
   publicEnrollmentInitialisationWithFreeEnrollments,
 } from 'tests/msw/fixtures/publicEnrollmentInitialisation';
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
-import { publicExaminer } from 'tests/msw/fixtures/publicExaminer';
+import { publicExaminers } from 'tests/msw/fixtures/publicExaminer';
 
 export const handlers = [
   http.get(APIEndpoints.ClerkUser, ({ cookies }) => {
@@ -158,6 +158,16 @@ export const handlers = [
     });
   }),
   http.get(APIEndpoints.PublicExaminer, () => {
-    return new Response(JSON.stringify(publicExaminer), { status: 200 });
+    return new Response(JSON.stringify(publicExaminers), { status: 200 });
+  }),
+  http.get(`${APIEndpoints.PublicExaminer}/:id`, ({ params }) => {
+    const { id } = params;
+    // TODO Are the details from the listing response sufficient? Do we need more details?
+    const examiner = publicExaminers.findLast((v) => v.id === Number(id));
+    if (examiner) {
+      return new Response(JSON.stringify(examiner), { status: 200 });
+    } else {
+      return new Response(null, { status: 404 });
+    }
   }),
 ];
