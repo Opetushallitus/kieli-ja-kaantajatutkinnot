@@ -17,6 +17,7 @@ import {
   publicEnrollmentInitialisationWithFreeEnrollments,
 } from 'tests/msw/fixtures/publicEnrollmentInitialisation';
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
+import { publicExaminer } from 'tests/msw/fixtures/publicExaminer';
 
 export const handlers = [
   http.get(APIEndpoints.ClerkUser, ({ cookies }) => {
@@ -155,5 +156,8 @@ export const handlers = [
     return new Response(JSON.stringify({ freeEnrollmentAllowed: true }), {
       status: 200,
     });
+  }),
+  http.get(APIEndpoints.PublicExaminer, () => {
+    return new Response(JSON.stringify(publicExaminer), { status: 200 });
   }),
 ];
