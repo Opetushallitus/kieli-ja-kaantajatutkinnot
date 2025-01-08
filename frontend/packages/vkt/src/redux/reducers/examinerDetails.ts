@@ -47,8 +47,8 @@ const examinerDetailsSlice = createSlice({
     ) {
       state.examEventFilters.toggleFilter = action.payload;
     },
-    resetExaminerDetailsToInitialState(_state) {
-      return initialState;
+    resetExaminerDetailsToInitialState(state) {
+      return { ...initialState, oid: state.oid };
     },
   },
 });
