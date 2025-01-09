@@ -36,6 +36,12 @@ class PublicGoodAndSatisfactoryLevelPage {
       .should('have.length', count + 1);
   }
 
+  assertExaminerAlreadyContacted(examinerName: string) {
+    this.elements
+      .examinerRow(examinerName)
+      .should('contain.text', 'Yhteydenotto lähetetty');
+  }
+
   contactExaminer(examinerName: string) {
     this.elements
       .examinerRow(examinerName)

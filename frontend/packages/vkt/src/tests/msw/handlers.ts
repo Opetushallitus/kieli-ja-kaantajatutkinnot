@@ -170,4 +170,13 @@ export const handlers = [
       return new Response(null, { status: 404 });
     }
   }),
+  http.post(`${APIEndpoints.PublicEnrollmentContact}/:id`, ({ params }) => {
+    const { id } = params;
+    const examiner = publicExaminers.findLast((v) => v.id === Number(id));
+    if (examiner) {
+      return new Response(null, { status: 201 });
+    } else {
+      return new Response(null, { status: 404 });
+    }
+  })
 ];

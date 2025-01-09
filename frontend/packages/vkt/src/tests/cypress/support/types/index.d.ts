@@ -12,6 +12,11 @@ declare global {
         persistedState?: string,
       ): void;
       openPublicGoodAndSatisfactoryLevelPage(): void;
+      openPublicEnrollmentContactPage(
+        examinerId: number,
+        step?: string,
+        persistedState?: string,
+      );
       openClerkExcellentLevelPage(): void;
       openClerkExamEventPage(examEventId: number): void;
       openClerkCreateExamEventPage(): void;

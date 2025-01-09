@@ -39,6 +39,17 @@ Cypress.Commands.add('openPublicGoodAndSatisfactoryLevelPage', () => {
   cy.visit(AppRoutes.PublicGoodAndSatisfactoryLevelLanding);
 });
 
+Cypress.Commands.add(
+  'openPublicEnrollmentContactPage',
+  (examinerId: number, step = 'tiedot', persistedState = '{}') => {
+    cy.window().then((win) => {
+      win.sessionStorage.setItem('persist:root', persistedState);
+      cy.setCookie('cookie-consent-vkt', 'true');
+    });
+    cy.visit(`${AppRoutes.PublicEnrollmentContact}/${examinerId}/${step}`);
+  },
+);
+
 Cypress.Commands.add('openClerkExcellentLevelPage', () => {
   cy.window().then((win) => win.sessionStorage.setItem('persist:root', '{}'));
   cy.visit(AppRoutes.ClerkExcellentLevelPage);
