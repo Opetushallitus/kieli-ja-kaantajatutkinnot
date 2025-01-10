@@ -8,7 +8,8 @@ class PublicEnrollmentContactPage {
       cy.findByRole('button', { name: 'Lähetä toinen viesti' }),
     backToHomePageButton: () =>
       cy.findByRole('button', { name: 'Takaisin etusivulle' }),
-    continueWithExistingDetailsButton: () => cy.findByRole('button', { name: 'Kyllä, jatka'}),
+    continueWithExistingDetailsButton: () =>
+      cy.findByRole('button', { name: 'Kyllä, jatka' }),
     heading: (heading: string) => cy.findByRole('heading', { name: heading }),
     fullOrPartialExamRadioGroup: () =>
       cy.findByRole('group', {

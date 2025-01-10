@@ -1,11 +1,11 @@
 import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
 import { onPublicEnrollmentContactPage } from 'tests/cypress/support/page-objects/publicEnrollmentContactPage';
+import { onPublicGoodAndSatisfactoryLevelPage } from 'tests/cypress/support/page-objects/publicGoodAndSatisfactoryLevelPage';
 import {
   expectNoDialog,
   findDialogByText,
 } from 'tests/cypress/support/utils/dialog';
 import { publicExaminers } from 'tests/msw/fixtures/publicExaminer';
-import { onPublicGoodAndSatisfactoryLevelPage } from '../support/page-objects/publicGoodAndSatisfactoryLevelPage';
 
 interface ContactDetailsField {
   label: string;

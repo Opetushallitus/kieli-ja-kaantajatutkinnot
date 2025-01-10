@@ -1,6 +1,6 @@
+import { AppRoutes, ExamLanguage } from 'enums/app';
 import { onCookieBanner } from 'tests/cypress/support/page-objects/cookieBanner';
 import { onPublicGoodAndSatisfactoryLevelPage } from 'tests/cypress/support/page-objects/publicGoodAndSatisfactoryLevelPage';
-import { AppRoutes, ExamLanguage } from 'enums/app';
 import { publicExaminers } from 'tests/msw/fixtures/publicExaminer';
 
 describe('PublicGoodAndSatisfactoryLevelPage', () => {

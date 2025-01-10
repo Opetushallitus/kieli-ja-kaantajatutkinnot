@@ -178,5 +178,5 @@ export const handlers = [
     } else {
       return new Response(null, { status: 404 });
     }
-  })
+  }),
 ];
