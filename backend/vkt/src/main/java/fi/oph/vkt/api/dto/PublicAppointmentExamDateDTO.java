@@ -9,6 +9,8 @@ import lombok.NonNull;
 @Builder
 public record PublicAppointmentExamDateDTO(
   @NonNull @NotNull LocalDate date,
+  @NonNull @NotNull String examTime,
+  @NonNull @NotNull MunicipalityDTO municipality,
   @NonNull @NotNull String location,
   @NonNull @NotNull ExamLanguage language,
   @NonNull PublicExaminerNameDTO examiner

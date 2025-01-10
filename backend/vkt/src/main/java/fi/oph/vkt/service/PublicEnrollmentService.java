@@ -1,31 +1,7 @@
 package fi.oph.vkt.service;
 
-import fi.oph.vkt.api.dto.FreeEnrollmentAttachmentDTO;
-import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
-import fi.oph.vkt.api.dto.FreeEnrollmentDetailsDTO;
-import fi.oph.vkt.api.dto.PublicAppointmentExamDateDTO;
-import fi.oph.vkt.api.dto.PublicEducationDTO;
-import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentDTO;
-import fi.oph.vkt.api.dto.PublicEnrollmentAppointmentUpdateDTO;
-import fi.oph.vkt.api.dto.PublicEnrollmentContactCreateDTO;
-import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
-import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
-import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
-import fi.oph.vkt.api.dto.PublicExamEventDTO;
-import fi.oph.vkt.api.dto.PublicExaminerNameDTO;
-import fi.oph.vkt.api.dto.PublicFreeEnrollmentBasisDTO;
-import fi.oph.vkt.api.dto.PublicPersonDTO;
-import fi.oph.vkt.api.dto.PublicReservationDTO;
-import fi.oph.vkt.model.Enrollment;
-import fi.oph.vkt.model.EnrollmentAppointment;
-import fi.oph.vkt.model.ExamEvent;
-import fi.oph.vkt.model.Examiner;
-import fi.oph.vkt.model.ExaminerExamEvent;
-import fi.oph.vkt.model.FeatureFlag;
-import fi.oph.vkt.model.FreeEnrollment;
-import fi.oph.vkt.model.Person;
-import fi.oph.vkt.model.Reservation;
-import fi.oph.vkt.model.UploadedFileAttachment;
+import fi.oph.vkt.api.dto.*;
+import fi.oph.vkt.model.*;
 import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
@@ -627,9 +603,13 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .builder()
       .name(examiner.getNickname() + " " + examiner.getLastName())
       .build();
+    final Municipality municipality = examEvent.getMunicipality();
+    final MunicipalityDTO municipalityDTO = MunicipalityDTO.builder().code(municipality.getCode()).build();
     final PublicAppointmentExamDateDTO examDateDTO = PublicAppointmentExamDateDTO
       .builder()
       .date(examEvent.getDate())
+      .examTime(examEvent.getExamTime())
+      .municipality(municipalityDTO)
       .location(examEvent.getLocation())
       .examiner(examinerNameDTO)
       .language(examEvent.getLanguage())

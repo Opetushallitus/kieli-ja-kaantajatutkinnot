@@ -286,7 +286,9 @@
           "examEvent": "Tutkinto",
           "examLanguage": "Tutkinnon kieli",
           "examLevel": "Tutkinnon taso",
-          "examLocation": "Tutkintopaikka",
+          "examLocation": "Tarkemmat osoitetiedot",
+          "examTime": "Tutkinnon alkamisaika",
+          "municipality": "Tutkintopaikka",
           "examiner": "Tutkinnon vastaanottaja"
         },
         "stepHeading": {
