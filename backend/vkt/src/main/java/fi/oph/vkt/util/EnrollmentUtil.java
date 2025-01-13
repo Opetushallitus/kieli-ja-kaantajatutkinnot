@@ -72,6 +72,9 @@ public class EnrollmentUtil {
   }
 
   public static int getUnderstandingSkillFee(final EnrollmentAppointment enrollmentAppointment) {
+    if (enrollmentAppointment.isTextualSkill() && enrollmentAppointment.isOralSkill()) {
+      return 0;
+    }
     return enrollmentAppointment.isUnderstandingSkill() ? SKILL_APPOINTMENT_FEE : 0;
   }
 
