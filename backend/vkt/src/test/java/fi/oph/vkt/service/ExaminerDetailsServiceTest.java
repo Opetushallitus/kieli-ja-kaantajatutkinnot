@@ -2,6 +2,7 @@ package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -14,12 +15,15 @@ import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.ExaminerExamEvent;
 import fi.oph.vkt.model.Municipality;
-import fi.oph.vkt.repository.*;
+import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
+import fi.oph.vkt.repository.ExaminerRepository;
 import fi.oph.vkt.service.onr.OnrService;
+import fi.oph.vkt.service.onr.PersonalData;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -37,9 +41,6 @@ public class ExaminerDetailsServiceTest {
 
   @Resource
   private EnrollmentAppointmentRepository enrollmentAppointmentRepository;
-
-  @MockBean
-  private OnrService onrService;
 
   @Resource
   private ExaminerRepository examinerRepository;
@@ -59,6 +60,17 @@ public class ExaminerDetailsServiceTest {
 
     final UUIDSource uuidSource = mock(UUIDSource.class);
     when(uuidSource.getRandomNonce()).thenReturn("269a2da4-58bb-45eb-b125-522b77e9167c");
+
+    final PersonalData personalData = PersonalData
+      .builder()
+      .onrId("1.2.3.4")
+      .ssn("112233-XXX")
+      .nickname("Vepe")
+      .firstName("Veeti")
+      .lastName("Vastaanottaja")
+      .build();
+    final OnrService onrService = mock(OnrService.class);
+    when(onrService.getOnrPersonalData(anyList())).thenReturn(Map.ofEntries(Map.entry("1.2.3.4", personalData)));
 
     examinerDetailsService =
       new ExaminerDetailsService(
@@ -93,6 +105,29 @@ public class ExaminerDetailsServiceTest {
     assertEquals(examiner.isExamLanguageFinnish(), dto.examLanguageFinnish());
     assertEquals(examiner.isExamLanguageSwedish(), dto.examLanguageSwedish());
     assertEquals(examiner.isPublic(), dto.isPublic());
+  }
+
+  @Test
+  public void testUpsertExaminer() {
+    final Examiner examiner = Factory.examiner();
+    final Municipality municipality = Factory.municipality();
+    final ExaminerExamEvent examEvent = Factory.examinerExamEvent(examiner, municipality);
+
+    entityManager.persist(examiner);
+    entityManager.persist(municipality);
+    entityManager.persist(examEvent);
+
+    final ExaminerDetailsUpsertDTO dto = createExaminerDetailsUpsertDTO(examiner);
+    final ExaminerDetailsDTO responseDTO = examinerDetailsService.upsertExaminer(examiner.getOid(), dto);
+
+    assertEquals(responseDTO.email(), dto.email());
+    assertEquals(responseDTO.phoneNumber(), dto.phoneNumber());
+    assertEquals(responseDTO.examLanguageFinnish(), dto.examLanguageFinnish());
+    assertEquals(responseDTO.examLanguageSwedish(), dto.examLanguageSwedish());
+    assertEquals(responseDTO.isPublic(), dto.isPublic());
+    assertEquals(responseDTO.oid(), examiner.getOid());
+    assertEquals(responseDTO.lastName(), examiner.getLastName());
+    assertEquals(responseDTO.firstName(), examiner.getFirstName());
   }
 
   @Test
