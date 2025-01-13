@@ -9,5 +9,7 @@ module.exports = class CustomTestEnvironment extends JSDOMEnvironment {
         this.global.TextDecoder = TextDecoder;
         this.global.Response = Response;
         this.global.Request = Request;
+        this.global.TransformStream = TransformStream;
+        this.global.BroadcastChannel = BroadcastChannel;
     }
 };
