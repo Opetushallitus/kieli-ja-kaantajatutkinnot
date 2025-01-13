@@ -6,7 +6,7 @@ import { MunicipalityCode } from 'interfaces/municipality';
 import { PublicExaminer } from 'interfaces/publicExaminer';
 
 export interface PublicExaminerExamEvent extends WithId {
-  examiner: PublicExaminer;
+  examiner: Pick<PublicExaminer, 'name'>;
   language: Exclude<ExamLanguage, ExamLanguage.ALL>;
   date: Dayjs;
   examTime: string;

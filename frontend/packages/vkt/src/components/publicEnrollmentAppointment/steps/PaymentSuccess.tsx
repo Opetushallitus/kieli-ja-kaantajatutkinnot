@@ -13,7 +13,10 @@ import { PublicEnrollmentUtils } from 'utils/publicEnrollment';
 const ExamEventDetails = ({
   examEvent,
 }: {
-  examEvent: PublicExaminerExamEvent;
+  examEvent: Pick<
+    PublicExaminerExamEvent,
+    'date' | 'examiner' | 'language' | 'location'
+  >;
 }) => {
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({

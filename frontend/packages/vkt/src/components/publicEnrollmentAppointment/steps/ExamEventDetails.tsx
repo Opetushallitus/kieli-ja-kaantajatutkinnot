@@ -3,9 +3,9 @@ import { H2, Text } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
+import { ClerkEnrollmentAppointment } from 'interfaces/clerkEnrollment';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
-import { PublicEnrollment } from 'interfaces/publicEnrollment';
+import { PublicEnrollmentAppointment } from 'interfaces/publicEnrollment';
 import { ENROLLMENT_APPOINTMENT_SKILL_PRICE } from 'utils/publicEnrollment';
 
 const allPartialExams = [
@@ -17,14 +17,16 @@ const allPartialExams = [
 
 const allSkills = ['textualSkill', 'oralSkill', 'understandingSkill'];
 
-const getSelectedSkills = (enrollment: PublicEnrollment | ClerkEnrollment) => {
+const getSelectedSkills = (
+  enrollment: PublicEnrollmentAppointment | ClerkEnrollmentAppointment,
+) => {
   return allSkills.filter(
     (skill) => !!enrollment[skill as keyof PartialExamsAndSkills],
   );
 };
 
 const getSelectedPartialExams = (
-  enrollment: PublicEnrollment | ClerkEnrollment,
+  enrollment: PublicEnrollmentAppointment | ClerkEnrollmentAppointment,
 ) => {
   return allPartialExams.filter(
     (exam) => !!enrollment[exam as keyof PartialExamsAndSkills],
@@ -32,7 +34,7 @@ const getSelectedPartialExams = (
 };
 
 const isFullExamSelection = (
-  enrollment: PublicEnrollment | ClerkEnrollment,
+  enrollment: PublicEnrollmentAppointment | ClerkEnrollmentAppointment,
 ) => {
   return allPartialExams.every(
     (exam) => !!enrollment[exam as keyof PartialExamsAndSkills],
@@ -42,7 +44,7 @@ const isFullExamSelection = (
 const DesktopSkillsList = ({
   enrollment,
 }: {
-  enrollment: PublicEnrollment | ClerkEnrollment;
+  enrollment: PublicEnrollmentAppointment | ClerkEnrollmentAppointment;
 }) => {
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
@@ -92,7 +94,7 @@ const DesktopSkillsList = ({
 const DesktopExamsList = ({
   enrollment,
 }: {
-  enrollment: ClerkEnrollment | PublicEnrollment;
+  enrollment: PublicEnrollmentAppointment | ClerkEnrollmentAppointment;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix:
@@ -124,7 +126,7 @@ const DesktopExamsList = ({
 const PhoneSkillsAndExamsList = ({
   enrollment,
 }: {
-  enrollment: ClerkEnrollment | PublicEnrollment;
+  enrollment: PublicEnrollmentAppointment | ClerkEnrollmentAppointment;
 }) => {
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
@@ -196,7 +198,7 @@ const PhoneSkillsAndExamsList = ({
 const PreviousEnrollment = ({
   enrollment,
 }: {
-  enrollment: PublicEnrollment | ClerkEnrollment;
+  enrollment: PublicEnrollmentAppointment | ClerkEnrollmentAppointment;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollmentAppointment.steps.preview',
@@ -234,7 +236,7 @@ const PreviousEnrollment = ({
 export const ExamEventDetails = ({
   enrollment,
 }: {
-  enrollment: PublicEnrollment | ClerkEnrollment;
+  enrollment: PublicEnrollmentAppointment | ClerkEnrollmentAppointment;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollmentAppointment.steps.preview',

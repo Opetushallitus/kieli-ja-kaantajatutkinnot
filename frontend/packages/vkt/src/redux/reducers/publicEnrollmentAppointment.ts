@@ -40,9 +40,6 @@ const initialState: PublicEnrollmentAppointmentState = {
     privacyStatementConfirmation: false,
     status: undefined,
     person: undefined,
-    message: '',
-    firstName: '',
-    lastName: '',
     examEvent: undefined,
   },
 };

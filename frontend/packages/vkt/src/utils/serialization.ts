@@ -89,9 +89,10 @@ export class SerializationUtils {
       ...enrollment,
       emailConfirmation: '',
       privacyStatementConfirmation: false,
-      examEvent: SerializationUtils.deserializePublicExaminerExamEvent(
-        enrollment.examEvent,
-      ),
+      examEvent: {
+        ...enrollment.examEvent,
+        date: dayjs(enrollment.examEvent.date),
+      },
     };
   }
 

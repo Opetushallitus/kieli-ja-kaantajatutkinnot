@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 
-import { EnrollmentStatus } from 'enums/app';
+import { EnrollmentAppointmentStatus, EnrollmentStatus } from 'enums/app';
 import {
   CertificateShippingData,
   PartialExamsAndSkills,
@@ -94,11 +94,19 @@ export interface PublicEnrollmentContact extends PublicEnrollmentCommon {
 }
 
 export interface PublicEnrollmentAppointment
-  extends PublicEnrollmentContact,
+  extends Omit<
+      PublicEnrollmentContact,
+      'firstName' | 'lastName' | 'message' | 'status'
+    >,
     CertificateShippingData,
     PartialExamsAndSkills {
+  status?: EnrollmentAppointmentStatus;
   person?: PublicPerson;
-  examEvent?: PublicExaminerExamEvent;
+  previousEnrollment?: string;
+  examEvent?: Pick<
+    PublicExaminerExamEvent,
+    'date' | 'examTime' | 'municipality' | 'location' | 'language' | 'examiner'
+  >;
 }
 
 export interface PublicEnrollmentAppointmentResponse
@@ -108,10 +116,11 @@ export interface PublicEnrollmentAppointmentResponse
       | 'id'
       | 'hasPreviousEnrollment'
       | 'privacyStatementConfirmation'
-      | 'status'
       | 'examEvent'
     >,
     WithId {
-  status: EnrollmentStatus;
-  examEvent: PublicExaminerExamEventResponse;
+  examEvent: Pick<
+    PublicExaminerExamEventResponse,
+    'date' | 'examTime' | 'municipality' | 'location' | 'language' | 'examiner'
+  >;
 }
