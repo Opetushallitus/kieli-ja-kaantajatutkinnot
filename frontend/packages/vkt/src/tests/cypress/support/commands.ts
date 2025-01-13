@@ -50,6 +50,19 @@ Cypress.Commands.add(
   },
 );
 
+Cypress.Commands.add(
+  'openPublicEnrollmentAppointmentPage',
+  (enrollmentId: number, step = 'tunnistaudu') => {
+    cy.window().then((win) => {
+      win.sessionStorage.setItem('persist:root', '{}');
+      cy.setCookie('cookie-consent-vkt', 'true');
+    });
+    cy.visit(
+      `${AppRoutes.PublicEnrollmentAppointment}/${enrollmentId}/${step}`,
+    );
+  },
+);
+
 Cypress.Commands.add('openClerkExcellentLevelPage', () => {
   cy.window().then((win) => win.sessionStorage.setItem('persist:root', '{}'));
   cy.visit(AppRoutes.ClerkExcellentLevelPage);

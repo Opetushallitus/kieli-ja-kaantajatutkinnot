@@ -17,6 +17,7 @@ declare global {
         step?: string,
         persistedState?: string,
       );
+      openPublicEnrollmentAppointmentPage(enrollmentId: number, step?: string);
       openClerkExcellentLevelPage(): void;
       openClerkExamEventPage(examEventId: number): void;
       openClerkCreateExamEventPage(): void;

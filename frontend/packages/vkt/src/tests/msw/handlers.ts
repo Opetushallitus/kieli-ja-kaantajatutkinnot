@@ -1,7 +1,7 @@
 import { http } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
-import { AppRoutes } from 'enums/app';
+import { AppRoutes, EnrollmentAppointmentStatus } from 'enums/app';
 import { ClerkEnrollmentStatusChange } from 'interfaces/clerkEnrollment';
 import { ClerkUser } from 'interfaces/clerkUser';
 import { PublicReservationDetailsResponse } from 'interfaces/publicEnrollment';
@@ -11,6 +11,10 @@ import { clerkExamEvent } from 'tests/msw/fixtures/clerkExamEvent';
 import { clerkExamEvents9 } from 'tests/msw/fixtures/clerkExamEvents9';
 import { clerkPaymentRefunded } from 'tests/msw/fixtures/clerkPaymentRefunded';
 import { person } from 'tests/msw/fixtures/person';
+import {
+  publicEnrollmentAppointment,
+  publicEnrollmentAppointmentWithPerson,
+} from 'tests/msw/fixtures/publicEnrollmentAppointment';
 import {
   examEventIdWithKoskiEducationDetailsFound,
   publicEnrollmentInitialisation,
@@ -179,4 +183,77 @@ export const handlers = [
       return new Response(null, { status: 404 });
     }
   }),
+  http.get(
+    `${APIEndpoints.PublicEnrollmentAppointment}/:id`,
+    ({ params, request }) => {
+      const { id } = params;
+      const enrollmentAppointment =
+        publicEnrollmentAppointment.id === Number(id)
+          ? publicEnrollmentAppointment
+          : null;
+      if (enrollmentAppointment) {
+        if (
+          request.referrer.endsWith(
+            AppRoutes.PublicEnrollmentAppointmentContactDetails.replace(
+              /:enrollmentId/,
+              '' + id,
+            ),
+          )
+        ) {
+          return new Response(
+            JSON.stringify(publicEnrollmentAppointmentWithPerson),
+            {
+              status: 200,
+            },
+          );
+        } else {
+          return new Response(JSON.stringify(enrollmentAppointment), {
+            status: 200,
+          });
+        }
+      } else {
+        return new Response(null, { status: 400 });
+      }
+    },
+  ),
+  http.post(`${APIEndpoints.PublicEnrollmentAppointment}/:id`, ({ params }) => {
+    const { id } = params;
+    const enrollmentAppointment =
+      publicEnrollmentAppointment.id === Number(id)
+        ? publicEnrollmentAppointment
+        : null;
+    if (enrollmentAppointment) {
+      return new Response(
+        JSON.stringify({
+          ...publicEnrollmentAppointmentWithPerson,
+          status: EnrollmentAppointmentStatus.EXPECTING_PAYMENT,
+        }),
+        { status: 201 },
+      );
+    } else {
+      return new Response(null, { status: 400 });
+    }
+  }),
+  /* TODO Doesn't get called by application code
+  http.get(APIEndpoints.PaymentCreate, ({ params }) => {
+    const { enrollmentId, type } = params;
+    const enrollmentAppointment =
+      publicEnrollmentAppointment.id === Number(enrollmentId)
+        ? publicEnrollmentAppointment
+        : null;
+    if (enrollmentAppointment && type === 'appointment') {
+      return new Response(null, {
+        status: 302,
+        headers: {
+          Location: AppRoutes.PublicEnrollmentAppointmentPaymentSuccess.replace(
+            /:enrollmentId/,
+            `${enrollmentId}`,
+          ),
+        },
+      });
+    } else {
+      return new Response(null, { status: 400 });
+    }
+  }),
+  */
 ];
