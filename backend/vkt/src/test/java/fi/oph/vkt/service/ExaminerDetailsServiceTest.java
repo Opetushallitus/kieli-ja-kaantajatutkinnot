@@ -58,9 +58,6 @@ public class ExaminerDetailsServiceTest {
     final Environment environment = mock(Environment.class);
     when(environment.getRequiredProperty("app.base-url.api")).thenReturn("http://localhost");
 
-    final UUIDSource uuidSource = mock(UUIDSource.class);
-    when(uuidSource.getRandomNonce()).thenReturn("269a2da4-58bb-45eb-b125-522b77e9167c");
-
     final PersonalData personalData = PersonalData
       .builder()
       .onrId("1.2.3.4")
