@@ -1,13 +1,9 @@
 name: Trivy
 
 on:
-  push:
-    branches:
-      - 'trivy-gh-action'
-      - 'trivy-gh-action-v2'
   schedule:
-    # Schedule execution daily at 9:37 am.
-    - cron: "37 9 * * *"
+    # Schedule execution daily at 10:27 am (UTC).
+    - cron: "27 10 * * *"
 
 jobs:
   trivy-scan:
