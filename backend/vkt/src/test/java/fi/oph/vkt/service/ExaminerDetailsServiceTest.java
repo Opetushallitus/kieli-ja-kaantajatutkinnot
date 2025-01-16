@@ -24,7 +24,6 @@ import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
-
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
