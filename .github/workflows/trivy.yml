@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'trivy-gh-action'
+      - 'trivy-gh-action-v2'
   schedule:
     # Schedule execution for each Monday at 09:37 am.
     - cron: "37 9 * * 1"
