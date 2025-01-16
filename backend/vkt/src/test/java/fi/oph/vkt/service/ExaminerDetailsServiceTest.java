@@ -3,6 +3,7 @@ package fi.oph.vkt.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -23,6 +24,8 @@ import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
+
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -125,6 +128,32 @@ public class ExaminerDetailsServiceTest {
     assertEquals(responseDTO.oid(), examiner.getOid());
     assertEquals(responseDTO.lastName(), examiner.getLastName());
     assertEquals(responseDTO.firstName(), examiner.getFirstName());
+  }
+
+  @Test
+  public void testUpsertNewExaminer() {
+    final Examiner examiner = Factory.examiner();
+    final Municipality municipality = Factory.municipality();
+
+    entityManager.persist(municipality);
+
+    when(municipalityService.getOrCreateByCode(eq("123"))).thenReturn(municipality);
+
+    examiner.setMunicipalities(List.of(municipality));
+
+    final ExaminerDetailsUpsertDTO dto = createExaminerDetailsUpsertDTO(examiner);
+    final ExaminerDetailsDTO responseDTO = examinerDetailsService.upsertExaminer("1.2.3.4", dto);
+
+    final Examiner examiner1 = examinerRepository.findByOid("1.2.3.4").orElseThrow();
+
+    assertEquals(responseDTO.email(), dto.email());
+    assertEquals(responseDTO.phoneNumber(), dto.phoneNumber());
+    assertEquals(responseDTO.examLanguageFinnish(), dto.examLanguageFinnish());
+    assertEquals(responseDTO.examLanguageSwedish(), dto.examLanguageSwedish());
+    assertEquals(responseDTO.isPublic(), dto.isPublic());
+    assertEquals(responseDTO.oid(), examiner1.getOid());
+    assertEquals(responseDTO.lastName(), examiner1.getLastName());
+    assertEquals(responseDTO.firstName(), examiner1.getFirstName());
   }
 
   @Test

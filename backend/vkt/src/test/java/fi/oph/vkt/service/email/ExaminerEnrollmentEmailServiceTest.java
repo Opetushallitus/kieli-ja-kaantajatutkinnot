@@ -1,7 +1,7 @@
-package fi.oph.vkt.service;
+package fi.oph.vkt.service.email;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -14,7 +14,7 @@ import fi.oph.vkt.model.ExaminerExamEvent;
 import fi.oph.vkt.model.Municipality;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.repository.*;
-import fi.oph.vkt.service.email.EmailService;
+import fi.oph.vkt.service.ExaminerEnrollmentEmailService;
 import fi.oph.vkt.service.email.sender.EmailSender;
 import fi.oph.vkt.util.TemplateRenderer;
 import jakarta.annotation.Resource;
@@ -68,7 +68,7 @@ public class ExaminerEnrollmentEmailServiceTest {
     final Person person = Factory.person();
     final EnrollmentAppointment enrollment = Factory.enrollmentAppointment(examiner, examEvent, person);
 
-    when(templateRenderer.renderEnrollmentAppointmentAuthLink(any())).thenReturn("email body");
+    when(templateRenderer.renderEnrollmentAppointmentAuthLink(anyMap())).thenReturn("email body");
 
     entityManager.persist(examiner);
     entityManager.persist(municipality);
