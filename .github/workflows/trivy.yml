@@ -2,8 +2,8 @@ name: Trivy
 
 on:
   schedule:
-    # Schedule execution daily at 10:27 am (UTC).
-    - cron: "27 10 * * *"
+    # Schedule execution daily at 7:23 am (UTC).
+    - cron: "23 07 * * *"
 
 jobs:
   trivy-scan:
