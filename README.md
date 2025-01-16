@@ -280,3 +280,12 @@ and push the tag to remote repository
 ```sh
 git push origin AKR-ga-1234
 ```
+
+## Security
+
+### Vulnerabilities
+
+Vulnerabilities in dependencies used by the applications are scanned daily with [Trivy](https://trivy.dev/latest/ecosystem/cicd/#trivy-action-official). 
+The scan is performed only against the default branch of the repository.
+
+Results of the scan are uploaded to the GitHub Security tab and are found under the section [Code scanning](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/security/code-scanning). The results are only available to GitHub users belonging to the Opetushallitus organization.
