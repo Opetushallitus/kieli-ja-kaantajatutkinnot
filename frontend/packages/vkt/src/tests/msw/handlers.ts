@@ -23,15 +23,29 @@ import {
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
 import { publicExaminers } from 'tests/msw/fixtures/publicExaminer';
 
-export const handlers = [
-  http.get(APIEndpoints.ClerkUser, ({ cookies }) => {
-    const user: ClerkUser = {
-      oid: '1.2.246.562.10.00000000001',
-      isAdmin: true,
-      isExaminer: false,
-    };
+const clerkUser: ClerkUser = {
+  oid: '1.2.246.562.10.00000000001',
+  isAdmin: true,
+  isExaminer: false,
+};
 
-    return new Response(cookies.noAuth ? 'null' : JSON.stringify(user));
+export const examinerUser: ClerkUser = {
+  oid: '1.2.246.562.10.30000000003',
+  isAdmin: false,
+  isExaminer: true,
+};
+
+export const handlers = [
+  http.get(APIEndpoints.ClerkUser, ({ cookies, request }) => {
+    if (cookies.noAuth) {
+      return new Response('null');
+    }
+
+    if (request.referrer.endsWith(AppRoutes.ExaminerRoot)) {
+      return new Response(JSON.stringify(examinerUser));
+    }
+
+    return new Response(JSON.stringify(clerkUser));
   }),
   http.get(APIEndpoints.PublicUser, ({ cookies }) => {
     const person: PublicPerson = {

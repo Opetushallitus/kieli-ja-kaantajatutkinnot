@@ -21,6 +21,7 @@ declare global {
       openClerkExcellentLevelPage(): void;
       openClerkExamEventPage(examEventId: number): void;
       openClerkCreateExamEventPage(): void;
+      openExaminerPage(): void;
       usePhoneViewport(): void;
       goBack(): void;
       goForward(): void;
