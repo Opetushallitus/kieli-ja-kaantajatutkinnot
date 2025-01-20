@@ -60,7 +60,7 @@
           "examEventDuplicate": "Det finns redan ett examenstillfälle med samma språk, nivå och dag",
           "generic": "Funktionen misslyckades, försök på nytt senare",
           "initialiseEnrollmentDuplicatePerson": "Du har redan anmält dig till det här examenstillfället. Du kan inte anmäla dig på nytt.",
-          "initialiseEnrollmentHasCongestion": "Examenstillfället är fullbokat",
+          "initialiseEnrollmentHasCongestion": "Examenstillfället är fullbokat men alla anmälningar har ännu inte bekräftats. Försök på nytt om en stund.",
           "initialiseEnrollmentIsFull": "Det finns inga lediga platser till examenstillfället",
           "initialiseEnrollmentRegistrationClosed": "Anmälan till examenstillfället är stängd",
           "initialiseEnrollmentToQueueHasRoom": "Lediga platser har blivit tillgängliga för examenstillfället. Uppdatera sidan och försök på nytt vid behov.",

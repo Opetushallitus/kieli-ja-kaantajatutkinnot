@@ -60,7 +60,7 @@
           "examEventDuplicate": "Tutkintotilaisuus on jo olemassa jolla sama kieli, taso ja päivä",
           "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
           "initialiseEnrollmentDuplicatePerson": "Olet jo ilmoittautunut tähän tutkintotilaisuuteen. Et voi ilmoittautua uudelleen.",
-          "initialiseEnrollmentHasCongestion": "Tutkintotilaisuus on ruuhkautunut",
+          "initialiseEnrollmentHasCongestion": "Valitsemasi tutkinto on täynnä, mutta kaikkia ilmoittautumisia ei ole vielä vahvistettu. Yritä hetken kuluttua uudelleen.",
           "initialiseEnrollmentIsFull": "Tutkintotilaisuuteen ei ole enää paikkoja",
           "initialiseEnrollmentRegistrationClosed": "Tutkintotilaisuuteen ilmoittautuminen on sulkeutunut",
           "initialiseEnrollmentToQueueHasRoom": "Tutkintotilaisuuteen on vapautunut suoria paikkoja. Päivitä sivu ja yritä tarvittaessa uudelleen.",
