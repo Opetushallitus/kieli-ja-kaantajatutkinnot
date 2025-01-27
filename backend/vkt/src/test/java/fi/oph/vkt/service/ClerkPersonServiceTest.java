@@ -3,11 +3,13 @@ package fi.oph.vkt.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import fi.oph.vkt.Factory;
+import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.repository.PersonRepository;
+import fi.oph.vkt.service.onr.OnrService;
 import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 @DataJpaTest
 public class ClerkPersonServiceTest {
@@ -27,11 +30,17 @@ public class ClerkPersonServiceTest {
   @Resource
   private TestEntityManager entityManager;
 
+  @MockBean
+  private AuditService auditService;
+
+  @MockBean
+  private OnrService onrService;
+
   private ClerkPersonService clerkPersonService;
 
   @BeforeEach
   public void setup() {
-    clerkPersonService = new ClerkPersonService(personRepository);
+    clerkPersonService = new ClerkPersonService(personRepository, onrService, auditService);
   }
 
   @Test

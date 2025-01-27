@@ -41,7 +41,8 @@
           "postalCode": "Postinumero",
           "previousEnrollment": "Päivämäärä tai vapaa teksti",
           "street": "Katuosoite",
-          "town": "Postitoimipaikka"
+          "town": "Postitoimipaikka",
+          "ssn": "Henkilötunnus"
         }
       },
       "dates": {

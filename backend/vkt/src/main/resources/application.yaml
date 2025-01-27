@@ -99,3 +99,8 @@ app:
     freeEnrollmentAllowed: ${feature-flags.free-enrollment-allowed:false}
   aws:
     s3-bucket: ${aws.s3-bucket:test}
+  onr:
+    service-url: ${onr.service-url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}
+    cas:
+      username: ${cas.username:vkt}
+      password: ${cas.password:password}
