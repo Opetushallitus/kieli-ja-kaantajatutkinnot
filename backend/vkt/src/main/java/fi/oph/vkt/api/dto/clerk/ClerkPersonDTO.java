@@ -10,5 +10,6 @@ public record ClerkPersonDTO(
   @NonNull @NotNull Long id,
   @NonNull @NotNull Integer version,
   @NonNull @NotBlank String lastName,
-  @NonNull @NotBlank String firstName
+  @NonNull @NotBlank String firstName,
+  String oid
 ) {}

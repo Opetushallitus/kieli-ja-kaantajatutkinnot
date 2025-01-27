@@ -8,6 +8,7 @@ import {
   ClerkEnrollment,
   ClerkEnrollmentMove,
   ClerkEnrollmentResponse,
+  ClerkOnrSsn,
   ClerkPaymentLinkResponse,
   ClerkPaymentResponse,
 } from 'interfaces/clerkEnrollment';
@@ -16,6 +17,7 @@ import { setAPIError } from 'redux/reducers/APIError';
 import {
   acceptKoskiEducationDetailsRefresh,
   createClerkEnrollmentPaymentLink,
+  loadClerkEnrollmentOnrSsn,
   moveEnrollment,
   moveEnrollmentSucceeded,
   rejectClerkEnrollmentDetailsUpdate,
@@ -26,6 +28,7 @@ import {
   setClerkPaymentRefunded,
   startKoskiEducationDetailsRefresh,
   storeClerkEnrollmentDetailsUpdate,
+  storeClerkEnrollmentOnrSsn,
   storeClerkEnrollmentPaymentLink,
   storeClerkPaymentRefunded,
   updateClerkEnrollmentDetails,
@@ -141,6 +144,14 @@ function* startKoskiEducationDetailsRefreshSaga(action: PayloadAction<number>) {
   }
 }
 
+function* loadClerkEnrollmentOnrSsnSaga(action: PayloadAction<string>) {
+  const apiResponse: AxiosResponse<ClerkOnrSsn> = yield call(
+    axiosInstance.post,
+    `${APIEndpoints.ClerkEnrollment}/ssn?oid=${action.payload}`,
+  );
+  yield put(storeClerkEnrollmentOnrSsn(apiResponse.data));
+}
+
 export function* watchClerkEnrollmentDetails() {
   yield takeLatest(
     createClerkEnrollmentPaymentLink,
@@ -156,4 +167,5 @@ export function* watchClerkEnrollmentDetails() {
     startKoskiEducationDetailsRefresh,
     startKoskiEducationDetailsRefreshSaga,
   );
+  yield takeLatest(loadClerkEnrollmentOnrSsn, loadClerkEnrollmentOnrSsnSaga);
 }

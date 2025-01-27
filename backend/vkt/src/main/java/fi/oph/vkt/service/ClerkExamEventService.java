@@ -11,11 +11,15 @@ import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.audit.dto.ClerkExamEventAuditDTO;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentCommon;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.ClerkExamEventProjection;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.service.onr.OnrService;
+import fi.oph.vkt.service.onr.PersonalData;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.exception.APIException;
@@ -27,6 +31,7 @@ import fi.oph.vkt.view.ExamEventXlsxView;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +47,7 @@ public class ClerkExamEventService {
   private final ExamEventRepository examEventRepository;
   private final EnrollmentRepository enrollmentRepository;
   private final AuditService auditService;
+  private final OnrService onrService;
 
   @Transactional(readOnly = true)
   public List<ClerkExamEventListDTO> list(final ExamLevel level) {
@@ -182,11 +188,23 @@ public class ClerkExamEventService {
       .sorted(excelEnrollmentComparator())
       .toList();
 
-    final ExamEventXlsxData excelData = ExamEventXlsxDataRowUtil.createExcelData(examEvent, enrollments);
+    final List<String> onrIds = getOnrIds(enrollments);
+    final Map<String, PersonalData> personalDatas = onrService.getOnrPersonalData(onrIds);
+    final ExamEventXlsxData excelData = ExamEventXlsxDataRowUtil.createExcelData(examEvent, enrollments, personalDatas);
     final AbstractXlsxView excel = new ExamEventXlsxView(excelData);
 
     auditService.logById(VktOperation.GET_EXAM_EVENT_EXCEL, examEventId);
     return excel;
+  }
+
+  private List<String> getOnrIds(final List<Enrollment> enrollments) {
+    return enrollments
+      .stream()
+      .map(EnrollmentCommon::getPerson)
+      .filter(Objects::nonNull)
+      .map(Person::getOid)
+      .filter(Objects::nonNull)
+      .toList();
   }
 
   private static Comparator<Enrollment> excelEnrollmentComparator() {
