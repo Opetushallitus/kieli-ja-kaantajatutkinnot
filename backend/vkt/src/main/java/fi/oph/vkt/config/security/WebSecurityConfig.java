@@ -160,6 +160,11 @@ public class WebSecurityConfig {
           .permitAll()
           .anyRequest()
           .authenticated()
+      )
+      .headers(httpSecurityHeadersConfigurer ->
+        httpSecurityHeadersConfigurer.contentSecurityPolicy(contentSecurityPolicyConfig ->
+          contentSecurityPolicyConfig.policyDirectives("style-src 'self'; script-src 'self'; form-action 'self'")
+        )
       );
   }
 

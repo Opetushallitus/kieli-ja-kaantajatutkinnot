@@ -31,6 +31,7 @@ public class ExamEventXlsxView extends AbstractXlsxView {
     final @NonNull HttpServletResponse response
   ) {
     setFilenameHeader(response, String.format("VKT_tilaisuus_%s_%s.xlsx", data.date(), data.language()));
+    response.setHeader("Cache-Control", "no-cache, no-store, private, max-age=0, must-revalidate");
     writeExcel(workbook);
   }
 
