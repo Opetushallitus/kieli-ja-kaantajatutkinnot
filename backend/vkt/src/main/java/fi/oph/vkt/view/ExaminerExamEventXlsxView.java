@@ -29,6 +29,7 @@ public class ExaminerExamEventXlsxView extends ExamEventCommonXlsxView {
       response,
       String.format("VKT_hyva_ja_tyydyttava_taito_tilaisuus_%s_%s.xlsx", data.date(), data.language())
     );
+    response.setHeader("Cache-Control", "no-cache, no-store, private, max-age=0, must-revalidate");
     writeExcel(workbook);
   }
 
