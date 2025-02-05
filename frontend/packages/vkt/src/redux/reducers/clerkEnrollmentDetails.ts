@@ -4,6 +4,7 @@ import { APIResponseStatus } from 'shared/enums';
 import {
   ClerkEnrollment,
   ClerkEnrollmentMove,
+  ClerkOnrSsn,
   ClerkPayment,
   ClerkPaymentLink,
 } from 'interfaces/clerkEnrollment';
@@ -17,6 +18,8 @@ interface ClerkEnrollmentDetailsState {
   paymentLink?: ClerkPaymentLink;
   paymentRefundStatus: APIResponseStatus;
   koskiEducationDetailsRefresh: APIResponseStatus;
+  onrSsn?: ClerkOnrSsn;
+  ssnStatus: APIResponseStatus;
 }
 
 const initialState: ClerkEnrollmentDetailsState = {
@@ -25,6 +28,8 @@ const initialState: ClerkEnrollmentDetailsState = {
   paymentLinkStatus: APIResponseStatus.NotStarted,
   paymentRefundStatus: APIResponseStatus.NotStarted,
   koskiEducationDetailsRefresh: APIResponseStatus.NotStarted,
+  ssnStatus: APIResponseStatus.NotStarted,
+  onrSsn: undefined,
 };
 
 const clerkEnrollmentDetailsSlice = createSlice({
@@ -113,6 +118,17 @@ const clerkEnrollmentDetailsSlice = createSlice({
     rejectKoskiEducationDetailsRefresh(state) {
       state.koskiEducationDetailsRefresh = APIResponseStatus.Error;
     },
+    loadClerkEnrollmentOnrSsn(state, _action: PayloadAction<string>) {
+      state.ssnStatus = APIResponseStatus.InProgress;
+    },
+    storeClerkEnrollmentOnrSsn(state, action: PayloadAction<ClerkOnrSsn>) {
+      state.onrSsn = action.payload;
+      state.ssnStatus = APIResponseStatus.Success;
+    },
+    resetClerkEnrollmentOnrSsn(state) {
+      state.onrSsn = undefined;
+      state.ssnStatus = APIResponseStatus.NotStarted;
+    },
   },
 });
 
@@ -137,4 +153,7 @@ export const {
   startKoskiEducationDetailsRefresh,
   acceptKoskiEducationDetailsRefresh,
   rejectKoskiEducationDetailsRefresh,
+  loadClerkEnrollmentOnrSsn,
+  storeClerkEnrollmentOnrSsn,
+  resetClerkEnrollmentOnrSsn,
 } = clerkEnrollmentDetailsSlice.actions;

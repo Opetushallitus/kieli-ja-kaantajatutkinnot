@@ -21,11 +21,17 @@ import { PublicFreeEnrollmentDetails } from 'interfaces/publicEducation';
 interface ClerkPerson extends WithId, WithVersion {
   lastName: string;
   firstName: string;
+  oid: string;
 }
 
 export interface ClerkPaymentLink {
   url: string;
   expiresAt: Dayjs;
+}
+
+export interface ClerkOnrSsn {
+  ssn: string;
+  oid: string;
 }
 
 export interface ClerkPaymentLinkResponse

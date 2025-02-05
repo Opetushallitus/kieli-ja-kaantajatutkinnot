@@ -3,10 +3,12 @@ package fi.oph.vkt.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
@@ -26,6 +28,8 @@ import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.service.onr.OnrService;
+import fi.oph.vkt.service.onr.PersonalData;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
@@ -39,6 +43,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -63,6 +68,9 @@ public class ClerkExamEventServiceTest {
   @MockBean
   private AuditService auditService;
 
+  @MockBean
+  private OnrService onrService;
+
   @Resource
   private TestEntityManager entityManager;
 
@@ -73,7 +81,8 @@ public class ClerkExamEventServiceTest {
 
   @BeforeEach
   public void setup() {
-    clerkExamEventService = new ClerkExamEventService(examEventRepository, enrollmentRepository, auditService);
+    clerkExamEventService =
+      new ClerkExamEventService(examEventRepository, enrollmentRepository, auditService, onrService);
   }
 
   @Test
@@ -426,6 +435,9 @@ public class ClerkExamEventServiceTest {
     final ExamEvent examEvent = Factory.examEvent();
     final Person person = Factory.person();
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
+    final Map<String, PersonalData> personalData = Map.of(person.getOid(), Factory.personalData(person));
+
+    when(onrService.getOnrPersonalData(anyList())).thenReturn(personalData);
 
     entityManager.persist(examEvent);
     entityManager.persist(person);
@@ -447,7 +459,13 @@ public class ClerkExamEventServiceTest {
     entityManager.persist(person);
     entityManager.persist(enrollment);
 
-    final ExamEventXlsxData data = ExamEventXlsxDataRowUtil.createExcelData(examEvent, examEvent.getEnrollments());
+    final PersonalData personalData = Factory.personalData(person);
+    final Map<String, PersonalData> personalDatas = Map.of(person.getOid(), personalData);
+    final ExamEventXlsxData data = ExamEventXlsxDataRowUtil.createExcelData(
+      examEvent,
+      examEvent.getEnrollments(),
+      personalDatas
+    );
     final ExamEventXlsxView excelView = new ExamEventXlsxView(data);
 
     final MockHttpServletResponse response = new MockHttpServletResponse();

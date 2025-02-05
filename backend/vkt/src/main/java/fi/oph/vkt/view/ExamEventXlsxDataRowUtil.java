@@ -11,8 +11,10 @@ import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import fi.oph.vkt.model.type.FreeEnrollmentType;
+import fi.oph.vkt.service.onr.PersonalData;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 public class ExamEventXlsxDataRowUtil {
 
@@ -43,10 +45,14 @@ public class ExamEventXlsxDataRowUtil {
       .build();
   }
 
-  public static ExamEventXlsxData createExcelData(final ExamEvent examEvent, final List<Enrollment> enrollments) {
+  public static ExamEventXlsxData createExcelData(
+    final ExamEvent examEvent,
+    final List<Enrollment> enrollments,
+    final Map<String, PersonalData> personalDatas
+  ) {
     final List<ExamEventXlsxDataRow> excelDataRows = enrollments
       .stream()
-      .map(enrollment -> createDataRow(enrollment, enrollment.getPerson()))
+      .map(enrollment -> createDataRow(enrollment, enrollment.getPerson(), personalDatas))
       .toList();
 
     return createExamEventExcel(examEvent, excelDataRows);
@@ -92,7 +98,14 @@ public class ExamEventXlsxDataRowUtil {
       .build();
   }
 
-  private static ExamEventXlsxDataRow createDataRow(final Enrollment enrollment, final Person person) {
+  private static ExamEventXlsxDataRow createDataRow(
+    final Enrollment enrollment,
+    final Person person,
+    final Map<String, PersonalData> personalDatas
+  ) {
+    final String oid = person.getOid();
+    final String ssn = oid != null ? personalDatas.get(oid).getSsn() : null;
+
     ExamEventXlsxDataRow.ExamEventXlsxDataRowBuilder builder = ExamEventXlsxDataRow
       .builder()
       .enrollmentTime(DATETIME_FORMAT.format(enrollment.getCreatedAt()))
@@ -109,6 +122,7 @@ public class ExamEventXlsxDataRowUtil {
       .speechComprehension(boolToInt(enrollment.isSpeechComprehensionPartialExam()))
       .email(enrollment.getEmail())
       .phoneNumber(enrollment.getPhoneNumber())
+      .ssn(ssn != null ? ssn : "")
       .digitalCertificateConsent(boolToInt(enrollment.isDigitalCertificateConsent()))
       .street(enrollment.getStreet())
       .postalCode(enrollment.getPostalCode())
