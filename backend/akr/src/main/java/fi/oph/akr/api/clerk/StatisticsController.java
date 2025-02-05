@@ -127,6 +127,7 @@ public class StatisticsController {
   private static void writeHeaders(final HttpServletResponse response, final String filename) {
     response.setContentType(MEDIA_TYPE_XLSX);
     response.addHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", filename));
+    response.setHeader("Cache-Control", "no-cache, no-store, private, max-age=0, must-revalidate");
   }
 
   private void writeContactRequestStatisticsExcel(

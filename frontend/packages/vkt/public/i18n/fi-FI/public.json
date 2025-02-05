@@ -563,7 +563,7 @@
         },
         "openings": {
           "congestion": {
-            "part1": "Ilmoittautumisjärjestelmässä on juuri nyt ruuhkaa.",
+            "part1": "Kaikki paikat on varattu, mutta niitä ei ole vielä vahvistettu.",
             "part2": "Yritä hetken kuluttua uudelleen."
           },
           "none": {

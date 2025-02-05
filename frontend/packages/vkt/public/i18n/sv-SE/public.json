@@ -305,8 +305,8 @@
         },
         "openings": {
           "congestion": {
-            "part1": "Anmälningssystemet är överbelastat just nu.",
-            "part2": "Försök på nytt om en stund"
+            "part1": "Alla platser är reserverade, men de har ännu inte bekräftats.",
+            "part2": "Försök på nytt om en stund."
           },
           "none": {
             "part1": "Examenstillfället är fullbokat.",

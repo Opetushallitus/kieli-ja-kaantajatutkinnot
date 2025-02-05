@@ -4,7 +4,6 @@ import fi.oph.otr.api.dto.clerk.MeetingDateDTO;
 import fi.oph.otr.model.MeetingDate;
 import fi.oph.otr.util.DateUtil;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDate;
 import lombok.Builder;
 import lombok.NonNull;
 
