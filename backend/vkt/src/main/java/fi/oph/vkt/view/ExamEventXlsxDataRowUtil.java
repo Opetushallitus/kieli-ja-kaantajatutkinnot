@@ -104,7 +104,8 @@ public class ExamEventXlsxDataRowUtil {
     final Map<String, PersonalData> personalDatas
   ) {
     final String oid = person.getOid();
-    final String ssn = oid != null ? personalDatas.get(oid).getSsn() : null;
+    final PersonalData personalData = personalDatas.get(oid);
+    final String ssn = oid != null && personalData != null ? personalData.getSsn() : null;
 
     ExamEventXlsxDataRow.ExamEventXlsxDataRowBuilder builder = ExamEventXlsxDataRow
       .builder()
