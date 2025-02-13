@@ -28,6 +28,7 @@ import {
 import { useDialog } from 'shared/hooks';
 import { InputFieldUtils } from 'shared/utils';
 
+import { OnrSsnField } from 'components/clerkEnrollment/overview/OnrSsnField';
 import { ExamEventDetails } from 'components/publicEnrollment/steps/ExamEventDetails';
 import {
   translateOutsideComponent,
@@ -469,9 +470,7 @@ export const ClerkEnrollmentDetailsFields = ({
   });
   const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
-  const paymentLink = useAppSelector(
-    clerkEnrollmentDetailsSelector,
-  ).paymentLink;
+  const { paymentLink } = useAppSelector(clerkEnrollmentDetailsSelector);
 
   const [paymentLinkModalOpen, setPaymentLinkModalOpen] = useState(false);
 
@@ -567,7 +566,7 @@ export const ClerkEnrollmentDetailsFields = ({
             <H3>{t('header.personalInformation')}</H3>
           </div>
         </div>
-        <div className="columns align-items-start gapped">
+        <div className="grid-3-columns align-items-start gapped">
           <ClerkEnrollmentDetailsTextField
             {...getCommonTextFieldProps(
               ClerkEnrollmentTextFieldEnum.LastName,
@@ -580,6 +579,7 @@ export const ClerkEnrollmentDetailsFields = ({
               true,
             )}
           />
+          <OnrSsnField oid={enrollment.person.oid} />
         </div>
         <div className="margin-top-sm columns gapped">
           <H3>{t('header.contactDetails')}</H3>

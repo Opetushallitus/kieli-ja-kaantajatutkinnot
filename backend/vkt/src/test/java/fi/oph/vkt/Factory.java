@@ -11,6 +11,7 @@ import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.model.type.PaymentStatus;
+import fi.oph.vkt.service.onr.PersonalData;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -102,5 +103,15 @@ public class Factory {
     email.setBody("Sisältö on tässä");
 
     return email;
+  }
+
+  public static PersonalData personalData(final Person person) {
+    return PersonalData
+      .builder()
+      .firstName(person.getFirstName())
+      .lastName(person.getLastName())
+      .nickname(person.getFirstName())
+      .ssn("11223344-111X")
+      .build();
   }
 }

@@ -8,9 +8,11 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkOnrSsnDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
 import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.service.ClerkEnrollmentService;
+import fi.oph.vkt.service.ClerkPersonService;
 import fi.oph.vkt.service.FeatureFlagService;
 import fi.oph.vkt.service.aws.S3Service;
 import fi.oph.vkt.service.receipt.ReceiptData;
@@ -52,6 +54,9 @@ public class ClerkEnrollmentController {
   private ReceiptRenderer receiptRenderer;
 
   @Resource
+  private ClerkPersonService clerkPersonService;
+
+  @Resource
   private FeatureFlagService featureFlagService;
 
   @Resource
@@ -84,6 +89,12 @@ public class ClerkEnrollmentController {
     } else {
       throw new RuntimeException("Not allowed");
     }
+  }
+
+  @PostMapping(path = "/ssn", consumes = ALL_VALUE)
+  @Operation(tags = TAG_ENROLLMENT, summary = "Get SSN from ONR")
+  public ClerkOnrSsnDTO getOnrSsn(@RequestParam final String oid) {
+    return clerkPersonService.getOnrSsn(oid);
   }
 
   @PostMapping("/{enrollmentId:\\d+}/paymentLink")
