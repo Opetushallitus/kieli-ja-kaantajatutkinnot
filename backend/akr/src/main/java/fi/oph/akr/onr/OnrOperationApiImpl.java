@@ -10,6 +10,7 @@ import fi.oph.akr.onr.dto.PersonalDataDTO;
 import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.util.HetuUtils;
 import fi.vm.sade.javautils.nio.cas.CasClient;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -214,6 +215,6 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       .addHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
       .addHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
       .addHeader("Caller-Id", Constants.CALLER_ID)
-      .setRequestTimeout((int) TimeUnit.MINUTES.toMillis(2));
+      .setRequestTimeout(Duration.ofMinutes(2));
   }
 }
