@@ -86,6 +86,8 @@ app:
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}
+    user: ${koski.user:null}
+    password: ${koski.password:null}
   koski:
     url: ${koski.url:null}
     user: ${koski.user:null}

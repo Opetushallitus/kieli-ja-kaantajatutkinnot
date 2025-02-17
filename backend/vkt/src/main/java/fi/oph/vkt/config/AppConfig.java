@@ -8,7 +8,8 @@ import fi.oph.vkt.service.auth.CasSessionMappingStorage;
 import fi.oph.vkt.service.auth.ticketValidator.CasTicketValidator;
 import fi.oph.vkt.service.email.sender.EmailSender;
 import fi.oph.vkt.service.email.sender.EmailSenderNoOp;
-import fi.oph.vkt.service.email.sender.EmailSenderViestintapalvelu;
+//import fi.oph.vkt.service.email.sender.EmailSenderViestintapalvelu;
+import fi.oph.vkt.service.email.sender.EmailSenderViestintapalveluNew;
 import fi.oph.vkt.service.onr.OnrOperationApi;
 import fi.oph.vkt.service.onr.OnrOperationApiImpl;
 import fi.oph.vkt.service.onr.mock.MockOnrOperationApiImpl;
@@ -56,12 +57,17 @@ public class AppConfig {
 
   @Bean
   @ConditionalOnProperty(name = "app.email.sending-enabled", havingValue = "true")
-  public EmailSender emailSender(@Value("${app.email.service-url}") String emailServiceUrl) {
+  public EmailSender emailSender(@Value("${app.email.service-url}") String emailServiceUrl, final Environment environment) {
     LOG.info("emailServiceUrl: {}", emailServiceUrl);
+    /*
     final WebClient webClient = webClientBuilderWithCallerId("email-sender-connection-provider")
       .baseUrl(emailServiceUrl)
       .build();
     return new EmailSenderViestintapalvelu(webClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
+     */
+    final CasClient casClient = casClient(environment);
+
+    return new EmailSenderViestintapalveluNew(casClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
   }
 
   @Bean
@@ -94,6 +100,23 @@ public class AppConfig {
         headers.setContentType(MediaType.APPLICATION_JSON);
       })
       .build();
+  }
+
+  @Bean
+  public CasClient casClient(final Environment environment) {
+    final CasConfig casConfig = new CasConfig.CasConfigBuilder(
+      environment.getRequiredProperty("app.email.user"),
+      environment.getRequiredProperty("app.email.password"),
+      environment.getRequiredProperty("app.email.cas-url"),
+      environment.getRequiredProperty("app.email.service-url"),
+      "CSRF",
+      Constants.CALLER_ID,
+      ""
+    )
+      .setJsessionName("JSESSIONID")
+      .build();
+
+    return CasClientBuilder.build(casConfig);
   }
 
   @Bean

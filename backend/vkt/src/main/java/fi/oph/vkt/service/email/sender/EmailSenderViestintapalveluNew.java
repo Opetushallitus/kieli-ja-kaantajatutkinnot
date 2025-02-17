@@ -5,12 +5,17 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.vkt.service.email.EmailAttachmentData;
 import fi.oph.vkt.service.email.EmailData;
+import fi.vm.sade.javautils.nio.cas.CasClient;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.asynchttpclient.Request;
+import org.asynchttpclient.RequestBuilder;
+import org.asynchttpclient.Response;
+import org.asynchttpclient.util.HttpConstants;
 import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
@@ -18,26 +23,36 @@ public class EmailSenderViestintapalveluNew implements EmailSender {
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-  private final WebClient webClient;
+  private final CasClient casClient;
 
-  private final String callingProcess;
+  private final String callerId;
 
   private final String sender;
 
   @Override
   public String sendEmail(final EmailData emailData) throws JsonProcessingException {
+    final ObjectMapper objectMapper = new ObjectMapper();
     final Map<String, Object> postData = createPostData(emailData);
 
-    final Mono<String> response = webClient
-      .post()
-      .contentType(MediaType.APPLICATION_JSON)
-      .bodyValue(postData)
-      .retrieve()
-      .bodyToMono(String.class);
+    final Request request = new RequestBuilder()
+      .setUrl("url")
+      .setMethod("POST")
+      .setBody(objectMapper.writeValueAsString(postData))
+      .setRequestTimeout(10000)
+      .addHeader("Caller-Id", callerId)
+      .addHeader("Content-Type", "application/json")
+      .addHeader("Accept", "application/json")
+      .build();
 
-    final String result = response.block();
+    try {
+      final Response response = casClient.executeAndRetryWithCleanSessionOnStatusCodes(request, Set.of(401)).get();
 
-    return parseExternalId(result);
+      if (response.getStatusCode() == HttpConstants.ResponseStatusCodes.OK_200) {
+        return parseExternalId(response.getResponseBody());
+      }
+    } catch (Exception e) {}
+
+    return null;
   }
 
   private Map<String, Object> createPostData(final EmailData emailData) {
@@ -54,7 +69,7 @@ public class EmailSenderViestintapalveluNew implements EmailSender {
       "sisallonTyyppi",
       true,
       "lahettavaPalvelu",
-      callingProcess,
+      sender,
       "lahettaja",
       senderFields,
       "otsikko",
