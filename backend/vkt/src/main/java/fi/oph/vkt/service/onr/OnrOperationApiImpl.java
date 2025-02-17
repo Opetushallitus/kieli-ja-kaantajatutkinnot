@@ -6,11 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.vkt.config.Constants;
 import fi.oph.vkt.util.HetuUtils;
 import fi.vm.sade.javautils.nio.cas.CasClient;
+
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import net.minidev.json.JSONArray;
 import org.asynchttpclient.Request;
 import org.asynchttpclient.RequestBuilder;
@@ -118,6 +118,6 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       .addHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
       .addHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
       .addHeader("Caller-Id", Constants.CALLER_ID)
-      .setRequestTimeout(Duration.ofMinutes(2));
+      .setRequestTimeout((int) Duration.ofMinutes(2).toMillis());
   }
 }
