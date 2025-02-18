@@ -57,7 +57,7 @@ public class AppConfig {
 
   @Bean
   @ConditionalOnProperty(name = "app.email.sending-enabled", havingValue = "true")
-  public EmailSender emailSender(@Value("${app.email.service-url}") String emailServiceUrl, final Environment environment) {
+  public EmailSender emailSender(@Value("${app.email.service-url}") final String emailServiceUrl, final Environment environment) {
     LOG.info("emailServiceUrl: {}", emailServiceUrl);
     /*
     final WebClient webClient = webClientBuilderWithCallerId("email-sender-connection-provider")
@@ -105,10 +105,10 @@ public class AppConfig {
   @Bean
   public CasClient casClient(final Environment environment) {
     final CasConfig casConfig = new CasConfig.CasConfigBuilder(
-      environment.getRequiredProperty("app.email.user"),
-      environment.getRequiredProperty("app.email.password"),
-      environment.getRequiredProperty("app.email.cas-url"),
-      environment.getRequiredProperty("app.email.service-url"),
+      environment.getRequiredProperty("app.onr.cas.username"),
+      environment.getRequiredProperty("app.onr.cas.password"),
+      environment.getRequiredProperty("app.onr.cas.endpoint-url"),
+      environment.getRequiredProperty("app.email.viestinvalitys-url") + "/lahetys/login/j_spring_cas_security_check",
       "CSRF",
       Constants.CALLER_ID,
       ""

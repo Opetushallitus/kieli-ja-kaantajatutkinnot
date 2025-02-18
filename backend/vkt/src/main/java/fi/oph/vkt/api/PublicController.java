@@ -22,6 +22,8 @@ import fi.oph.vkt.service.PublicEnrollmentService;
 import fi.oph.vkt.service.PublicExamEventService;
 import fi.oph.vkt.service.PublicPersonService;
 import fi.oph.vkt.service.PublicReservationService;
+import fi.oph.vkt.service.email.EmailData;
+import fi.oph.vkt.service.email.sender.EmailSenderViestintapalveluNew;
 import fi.oph.vkt.service.koski.KoskiService;
 import fi.oph.vkt.util.SessionUtil;
 import fi.oph.vkt.util.UIRouteUtil;
@@ -37,6 +39,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -86,6 +89,9 @@ public class PublicController {
 
   @Resource
   private FeatureFlagService featureFlagService;
+
+  @Resource
+  private CasClient casClient;
 
   @GetMapping(path = "/examEvent")
   public List<PublicExamEventDTO> list() {
@@ -324,6 +330,23 @@ public class PublicController {
       callback,
       httpResponse,
       paymentService::getFinalizePaymentSuccessRedirectUrl
+    );
+  }
+
+  @GetMapping(path = "/debug/email")
+  public void email(
+  ) throws IOException, ExecutionException, InterruptedException {
+    final EmailSenderViestintapalveluNew emailSenderViestintapalveluNew = new EmailSenderViestintapalveluNew(casClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
+    emailSenderViestintapalveluNew.sendEmail(
+      EmailData
+        .builder()
+        .id(1L)
+        .subject("test")
+        .recipientAddress("test@test.invalid")
+        .recipientName("Test")
+        .body("This is a test")
+        .attachments(List.of())
+        .build()
     );
   }
 

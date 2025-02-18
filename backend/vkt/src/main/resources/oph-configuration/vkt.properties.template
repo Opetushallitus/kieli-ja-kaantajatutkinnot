@@ -33,6 +33,7 @@ koski.user={{vkt_koski_user}}
 koski.password={{vkt_koski_password}}
 onr.service-url=${virkailija.cas.base-url}/oppijanumerorekisteri-service
 
+cas.endpoint-url={{vkt_cas_endpoint}}
 cas.username={{vkt_koski_user}}
 cas.password={{vkt_koski_password}}
 
