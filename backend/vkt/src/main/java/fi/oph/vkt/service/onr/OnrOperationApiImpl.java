@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.vkt.config.Constants;
 import fi.oph.vkt.util.HetuUtils;
 import fi.vm.sade.javautils.nio.cas.CasClient;
-
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
