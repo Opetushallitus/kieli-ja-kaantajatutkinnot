@@ -17,9 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.asynchttpclient.Request;
 import org.asynchttpclient.RequestBuilder;
 import org.asynchttpclient.Response;
+import org.asynchttpclient.request.body.multipart.ByteArrayPart;
 import org.asynchttpclient.util.HttpConstants;
-import org.springframework.http.MediaType;
-import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 public class EmailSenderViestintapalveluNew implements EmailSender {
@@ -35,14 +34,15 @@ public class EmailSenderViestintapalveluNew implements EmailSender {
   @Override
   public String sendEmail(final EmailData emailData) throws JsonProcessingException, ExecutionException, InterruptedException {
     final ObjectMapper objectMapper = new ObjectMapper();
-    final Map<String, Object> postData = createPostData(emailData);
+    final List<String> attachments = createAndPostAttachments(emailData.attachments());
+    final Map<String, Object> postData = createPostData(emailData, attachments);
     final String body = objectMapper.writeValueAsString(postData);
 
     final Request request = new RequestBuilder()
       .setUrl("https://viestinvalitys.testiopintopolku.fi/lahetys/v1/viestit")
       .setMethod("POST")
       .setBody(body)
-      .setRequestTimeout(Duration.ofMillis(10000))
+      .setRequestTimeout(Duration.ofSeconds(10))
       .addHeader("Caller-Id", callerId)
       .addHeader("Content-Type", "application/json")
       .addHeader("Accept", "application/json")
@@ -52,7 +52,7 @@ public class EmailSenderViestintapalveluNew implements EmailSender {
       final Response response = casClient.executeAndRetryWithCleanSessionOnStatusCodes(request, Set.of(401)).get();
 
       if (response.getStatusCode() == HttpConstants.ResponseStatusCodes.OK_200) {
-        return parseExternalId(response.getResponseBody());
+        return parseExternalId(response.getResponseBody(), "lahetysTunniste");
       }
     } catch (Exception e) {
       throw e;
@@ -61,7 +61,7 @@ public class EmailSenderViestintapalveluNew implements EmailSender {
     return null;
   }
 
-  private Map<String, Object> createPostData(final EmailData emailData) {
+  private Map<String, Object> createPostData(final EmailData emailData, final List<String> attachments) {
     final Map<String, Object> senderFields = Map.of("nimi", sender, "sahkopostiOsoite", "noreply@opintopolku.fi");
     // Allowed characters: a-z, A-Z, 0-9 ja -_.
     final String emailKeyPrefix = "vkt-email-";
@@ -89,26 +89,62 @@ public class EmailSenderViestintapalveluNew implements EmailSender {
       "sailytysaika",
       expirationDays,
       "idempotencyKey",
-      emailKeyPrefix + emailData.id()
-      //"attachments",
-      //createAttachments(emailData.attachments())
+      emailKeyPrefix + emailData.id(),
+      "liitteidenTunnisteet",
+      attachments
     );
   }
 
-  private List<Map<String, Object>> createAttachments(final List<EmailAttachmentData> attachments) {
+  private String postAttachment(final EmailAttachmentData attachment) throws ExecutionException, InterruptedException, JsonProcessingException {
+    final Request request = new RequestBuilder()
+      .setUrl("https://viestinvalitys.testiopintopolku.fi/lahetys/v1/liitteet")
+      .setMethod("POST")
+      .addBodyPart(new ByteArrayPart("liite", attachment.data(), attachment.contentType(), null, attachment.name()))
+      .setRequestTimeout(Duration.ofSeconds(10))
+      .addHeader("Caller-Id", callerId)
+      .addHeader("Content-Type", "multipart/form-data")
+      .addHeader("Accept", "application/json")
+      .build();
+
+    try {
+      final Response response = casClient.executeAndRetryWithCleanSessionOnStatusCodes(request, Set.of(401)).get();
+
+      if (response.getStatusCode() == HttpConstants.ResponseStatusCodes.OK_200) {
+        final String id = parseExternalId(response.getResponseBody(), "liiteTunniste");
+
+        if (id == null) {
+          throw new RuntimeException("");
+        }
+
+        return id;
+      } else {
+        throw new RuntimeException("");
+      }
+    } catch (Exception e) {
+      throw e;
+    }
+  }
+
+  private List<String> createAndPostAttachments(final List<EmailAttachmentData> attachments) {
     return Optional
       .ofNullable(attachments)
       .map(nonNullAttachments ->
         nonNullAttachments
           .stream()
-          .map(a -> Map.<String, Object>of("data", a.data(), "name", a.name(), "contentType", a.contentType()))
+          .map(attachment -> {
+            try {
+              return postAttachment(attachment);
+            } catch (final Exception e) {
+              throw new RuntimeException(e);
+            }
+          })
           .toList()
       )
       .orElse(List.of());
   }
 
-  private String parseExternalId(final String result) throws JsonProcessingException {
+  private String parseExternalId(final String result, final String key) throws JsonProcessingException {
     final Map<String, String> map = OBJECT_MAPPER.readValue(result, new TypeReference<>() {});
-    return map.get("id");
+    return map.get(key);
   }
 }
