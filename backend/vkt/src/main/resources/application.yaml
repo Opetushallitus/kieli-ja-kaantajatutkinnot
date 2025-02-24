@@ -85,8 +85,8 @@ app:
     duration: ${reservation.duration:PT30M}
   email:
     sending-enabled: ${email.sending-enabled:false}
+    new-api: ${email.new-api:false}
     service-url: ${email.service-url:null}
-    viestinvalitys-url: ${email.service-url:null}
   koski:
     url: ${koski.url:null}
     user: ${koski.user:null}

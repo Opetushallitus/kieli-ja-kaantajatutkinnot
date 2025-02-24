@@ -57,17 +57,26 @@ public class AppConfig {
 
   @Bean
   @ConditionalOnProperty(name = "app.email.sending-enabled", havingValue = "true")
-  public EmailSender emailSender(@Value("${app.email.service-url}") final String emailServiceUrl, final Environment environment) {
-    LOG.info("emailServiceUrl: {}", emailServiceUrl);
-    /*
-    final WebClient webClient = webClientBuilderWithCallerId("email-sender-connection-provider")
-      .baseUrl(emailServiceUrl)
-      .build();
-    return new EmailSenderViestintapalvelu(webClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
-     */
-    final CasClient casClient = casClient(environment);
+  public EmailSender emailSender(
+    @Value("${app.email.service-url}") final String emailServiceUrl,
+    final Environment environment
+  ) {
+    final boolean newApi = "true".equals(environment.getRequiredProperty("app.email.new-api"));
+    LOG.info("emailServiceUrl: {}, new api: {}", emailServiceUrl, newApi);
 
-    return new EmailSenderViestintapalveluNew(casClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
+    if (newApi) {
+      final CasClient casClient = casClient(
+        environment,
+        emailServiceUrl + "/lahetys/login/j_spring_cas_security_check"
+      );
+
+      return new EmailSenderViestintapalveluNew(casClient, emailServiceUrl);
+    } else {
+      final WebClient webClient = webClientBuilderWithCallerId("email-sender-connection-provider")
+        .baseUrl(emailServiceUrl)
+        .build();
+      return new EmailSenderViestintapalvelu(webClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
+    }
   }
 
   @Bean
@@ -102,13 +111,12 @@ public class AppConfig {
       .build();
   }
 
-  @Bean
-  public CasClient casClient(final Environment environment) {
+  private CasClient casClient(final Environment environment, final String serviceUrl) {
     final CasConfig casConfig = new CasConfig.CasConfigBuilder(
       environment.getRequiredProperty("app.onr.cas.username"),
       environment.getRequiredProperty("app.onr.cas.password"),
       environment.getRequiredProperty("app.onr.cas.endpoint-url"),
-      environment.getRequiredProperty("app.email.viestinvalitys-url") + "/lahetys/login/j_spring_cas_security_check",
+      serviceUrl,
       "CSRF",
       Constants.CALLER_ID,
       ""

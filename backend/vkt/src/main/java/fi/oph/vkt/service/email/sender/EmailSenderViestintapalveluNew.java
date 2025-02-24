@@ -3,6 +3,7 @@ package fi.oph.vkt.service.email.sender;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fi.oph.vkt.config.Constants;
 import fi.oph.vkt.service.email.EmailAttachmentData;
 import fi.oph.vkt.service.email.EmailData;
 import fi.vm.sade.javautils.nio.cas.CasClient;
@@ -11,8 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
-
 import lombok.RequiredArgsConstructor;
 import org.asynchttpclient.Request;
 import org.asynchttpclient.RequestBuilder;
@@ -27,23 +26,21 @@ public class EmailSenderViestintapalveluNew implements EmailSender {
 
   private final CasClient casClient;
 
-  private final String callerId;
-
-  private final String sender;
+  private final String apiUrl;
 
   @Override
-  public String sendEmail(final EmailData emailData) throws JsonProcessingException, ExecutionException, InterruptedException {
+  public String sendEmail(final EmailData emailData) throws JsonProcessingException {
     final ObjectMapper objectMapper = new ObjectMapper();
     final List<String> attachments = createAndPostAttachments(emailData.attachments());
     final Map<String, Object> postData = createPostData(emailData, attachments);
     final String body = objectMapper.writeValueAsString(postData);
 
     final Request request = new RequestBuilder()
-      .setUrl("https://viestinvalitys.testiopintopolku.fi/lahetys/v1/viestit")
+      .setUrl(apiUrl + "/lahetys/v1/viestit")
       .setMethod("POST")
       .setBody(body)
       .setRequestTimeout(Duration.ofSeconds(10))
-      .addHeader("Caller-Id", callerId)
+      .addHeader("Caller-Id", Constants.CALLER_ID)
       .addHeader("Content-Type", "application/json")
       .addHeader("Accept", "application/json")
       .build();
@@ -53,19 +50,23 @@ public class EmailSenderViestintapalveluNew implements EmailSender {
 
       if (response.getStatusCode() == HttpConstants.ResponseStatusCodes.OK_200) {
         return parseExternalId(response.getResponseBody(), "lahetysTunniste");
+      } else {
+        throw new RuntimeException(
+          String.format("Failed to post send email with return status %s", response.getStatusCode())
+        );
       }
-    } catch (Exception e) {
-      throw e;
+    } catch (final Exception e) {
+      throw new RuntimeException(e);
     }
-
-    return null;
   }
 
   private Map<String, Object> createPostData(final EmailData emailData, final List<String> attachments) {
-    final Map<String, Object> senderFields = Map.of("nimi", sender, "sahkopostiOsoite", "noreply@opintopolku.fi");
-    // Allowed characters: a-z, A-Z, 0-9 ja -_.
-    final String emailKeyPrefix = "vkt-email-";
-    final Integer expirationDays = 180; // 6 months
+    final Map<String, Object> senderFields = Map.of(
+      "nimi",
+      Constants.EMAIL_SENDER_NAME,
+      "sahkopostiOsoite",
+      Constants.EMAIL_SENDER_ADDRESS
+    );
 
     final List<Map<String, String>> recipientFields = List.of(
       Map.of("nimi", emailData.recipientName(), "sahkopostiOsoite", emailData.recipientAddress())
@@ -87,21 +88,21 @@ public class EmailSenderViestintapalveluNew implements EmailSender {
       "prioriteetti",
       "normaali",
       "sailytysaika",
-      expirationDays,
+      Constants.EMAIL_EXPIRATION_DAYS,
       "idempotencyKey",
-      emailKeyPrefix + emailData.id(),
+      Constants.EMAIL_ID_PREFIX + emailData.id(),
       "liitteidenTunnisteet",
       attachments
     );
   }
 
-  private String postAttachment(final EmailAttachmentData attachment) throws ExecutionException, InterruptedException, JsonProcessingException {
+  private String postAttachment(final EmailAttachmentData attachment) {
     final Request request = new RequestBuilder()
-      .setUrl("https://viestinvalitys.testiopintopolku.fi/lahetys/v1/liitteet")
+      .setUrl(apiUrl + "/lahetys/v1/liitteet")
       .setMethod("POST")
       .addBodyPart(new ByteArrayPart("liite", attachment.data(), attachment.contentType(), null, attachment.name()))
       .setRequestTimeout(Duration.ofSeconds(10))
-      .addHeader("Caller-Id", callerId)
+      .addHeader("Caller-Id", Constants.CALLER_ID)
       .addHeader("Content-Type", "multipart/form-data")
       .addHeader("Accept", "application/json")
       .build();
@@ -113,15 +114,17 @@ public class EmailSenderViestintapalveluNew implements EmailSender {
         final String id = parseExternalId(response.getResponseBody(), "liiteTunniste");
 
         if (id == null) {
-          throw new RuntimeException("");
+          throw new RuntimeException(String.format("Failed to receive id for attachment %s", attachment.name()));
         }
 
         return id;
       } else {
-        throw new RuntimeException("");
+        throw new RuntimeException(
+          String.format("Failed to post email attachment with return status %s", response.getStatusCode())
+        );
       }
-    } catch (Exception e) {
-      throw e;
+    } catch (final Exception e) {
+      throw new RuntimeException(e);
     }
   }
 
