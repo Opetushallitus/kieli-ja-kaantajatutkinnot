@@ -103,6 +103,6 @@ app:
   onr:
     service-url: ${onr.service-url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}
     cas:
-      endpoint-url: ${onr.endpoint-url:https://virkailija.untuvaopintopolku.fi/cas}
+      endpoint-url: ${cas.endpoint-url:https://virkailija.untuvaopintopolku.fi/cas}
       username: ${cas.username:vkt}
       password: ${cas.password:password}
