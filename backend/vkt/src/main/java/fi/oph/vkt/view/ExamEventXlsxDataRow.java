@@ -29,6 +29,7 @@ public record ExamEventXlsxDataRow(
   @NonNull Integer otherEducation,
   @NonNull String email,
   @NonNull String phoneNumber,
+  @NonNull String birthdate,
   @NonNull String ssn,
   @NonNull Integer digitalCertificateConsent,
   String street,

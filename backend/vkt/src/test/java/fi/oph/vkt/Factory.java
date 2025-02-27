@@ -111,7 +111,7 @@ public class Factory {
       .firstName(person.getFirstName())
       .lastName(person.getLastName())
       .nickname(person.getFirstName())
-      .ssn("11223344-111X")
+      .ssn("210281-9988") // Nordea demo SSN
       .build();
   }
 }
