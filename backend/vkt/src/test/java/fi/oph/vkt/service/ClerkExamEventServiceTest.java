@@ -482,7 +482,7 @@ public class ClerkExamEventServiceTest {
       assertEquals("Tester", sheet.getRow(1).getCell(3).getStringCellValue());
 
       // Nordea demo SSN
-      assertEquals("21.02.1981", sheet.getRow(1).getCell(5).getStringCellValue());
+      assertEquals("21.2.1981", sheet.getRow(1).getCell(5).getStringCellValue());
       assertEquals("210281-9988", sheet.getRow(1).getCell(6).getStringCellValue());
     }
   }
