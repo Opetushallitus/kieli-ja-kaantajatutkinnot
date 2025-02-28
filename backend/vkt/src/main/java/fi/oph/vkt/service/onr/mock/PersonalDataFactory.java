@@ -24,7 +24,7 @@ public class PersonalDataFactory {
       .lastName(lastName)
       .firstName(nickname + " " + secondName)
       .nickname(nickname)
-      .ssn("112233-111X")
+      .ssn("210281-9988") // Nordea demo SSN
       .build();
   }
 
