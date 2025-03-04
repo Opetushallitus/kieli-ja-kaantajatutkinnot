@@ -2,6 +2,7 @@ package fi.oph.vkt.service;
 
 import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
@@ -25,6 +26,10 @@ public class PublicEnrollmentAppointmentService extends AbstractEnrollmentServic
 
     if (enrollmentAppointment.getExpiresAt().isBefore(LocalDateTime.now())) {
       throw new APIException(APIExceptionType.AUTH_HASH_EXPIRED);
+    }
+
+    if (EnrollmentAppointmentStatus.COMPLETED.equals(enrollmentAppointment.getStatus())) {
+      throw new APIException(APIExceptionType.ENROLLMENT_ALREADY_PAID);
     }
 
     return enrollmentAppointment;
