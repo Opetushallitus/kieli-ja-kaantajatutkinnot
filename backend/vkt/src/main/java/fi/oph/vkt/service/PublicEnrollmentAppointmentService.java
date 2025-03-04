@@ -28,7 +28,7 @@ public class PublicEnrollmentAppointmentService extends AbstractEnrollmentServic
       throw new APIException(APIExceptionType.AUTH_HASH_EXPIRED);
     }
 
-    if (EnrollmentAppointmentStatus.COMPLETED.equals(enrollmentAppointment.getStatus())) {
+    if (enrollmentAppointment.getStatus() == EnrollmentAppointmentStatus.COMPLETED) {
       throw new APIException(APIExceptionType.ENROLLMENT_ALREADY_PAID);
     }
 

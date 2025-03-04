@@ -280,6 +280,10 @@ public class PaymentService {
       throw new APIException(APIExceptionType.PAYMENT_PERSON_SESSION_MISMATCH);
     }
 
+    if (enrollmentAppointment.getStatus() == EnrollmentAppointmentStatus.COMPLETED) {
+      throw new APIException(APIExceptionType.ENROLLMENT_ALREADY_PAID);
+    }
+
     final List<Item> itemList = getItems(enrollmentAppointment);
     final Customer customer = Customer
       .builder()
