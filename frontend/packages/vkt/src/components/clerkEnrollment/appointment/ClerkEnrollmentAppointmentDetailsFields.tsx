@@ -530,7 +530,7 @@ const EnrollmentStatus = ({
         )}
         {enrollment.authLink?.expiresAt && (
           <Text>
-            {t('appointment.linkSentAt')}:{' '}
+            {t('appointment.linkExpiresAt')}:{' '}
             {DateTimeUtils.renderDateTime(enrollment.authLink.expiresAt)}
           </Text>
         )}
