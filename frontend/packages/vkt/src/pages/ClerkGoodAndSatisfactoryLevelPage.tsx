@@ -9,8 +9,14 @@ import { PublicExamEventGridSkeleton } from 'components/skeletons/PublicExamEven
 import { useClerkTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { resetClerkExamEventOverview } from 'redux/reducers/clerkExamEventOverview';
-import { loadExamEvents } from 'redux/reducers/clerkListExamEvent';
-import { loadClerkListExaminers } from 'redux/reducers/clerkListExaminer';
+import {
+  loadExamEvents,
+  resetClerkListExamEvent,
+} from 'redux/reducers/clerkListExamEvent';
+import {
+  loadClerkListExaminers,
+  resetClerkListExaminers,
+} from 'redux/reducers/clerkListExaminer';
 import { clerkListExamEventsSelector } from 'redux/selectors/clerkListExamEvent';
 import { clerkListExaminerSelector } from 'redux/selectors/clerkListExaminer';
 
@@ -42,8 +48,13 @@ export const ClerkGoodAndSatisfactoryLevelPage: FC = () => {
     }
   }, [dispatch, examinerListStatus]);
 
+  // Reset state on unmount
   useEffect(() => {
-    dispatch(resetClerkExamEventOverview());
+    return () => {
+      dispatch(resetClerkExamEventOverview());
+      dispatch(resetClerkListExamEvent());
+      dispatch(resetClerkListExaminers());
+    };
   }, [dispatch]);
 
   return (

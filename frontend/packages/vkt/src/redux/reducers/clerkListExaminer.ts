@@ -40,6 +40,11 @@ const clerkListExaminerSlice = createSlice({
     rejectClerkListExaminers(state) {
       state.status = APIResponseStatus.Error;
     },
+    resetClerkListExaminers(state) {
+      state.status = initialState.status;
+      state.examiners = initialState.examiners;
+      state.filters = initialState.filters;
+    },
     setClerkListExaminerFilters(
       state,
       action: PayloadAction<Partial<ClerkListExaminerFilters>>,
@@ -65,6 +70,7 @@ export const {
   acceptClerkListExaminers,
   loadClerkListExaminers,
   rejectClerkListExaminers,
+  resetClerkListExaminers,
   setClerkListExaminerFilters,
   setClerkListExaminerExamEventFilters,
 } = clerkListExaminerSlice.actions;
