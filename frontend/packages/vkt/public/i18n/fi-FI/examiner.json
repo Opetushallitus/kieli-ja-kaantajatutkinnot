@@ -77,6 +77,7 @@
           "linkSentAt": "Lähetetty",
           "linkExpiresAt": "Erääntyy",
           "sendAuthLink": "Lähetä ilmoittautumislinkki",
+          "sendAuthLinkAgain": "Lähetä ilmoittautumislinkki uudestaan",
           "noAuthPossible": "Ei mahdollisuutta tunnistautua",
           "paymentLinkModal": {
             "title": "Suora maksulinkki",
@@ -85,7 +86,9 @@
         },
         "authLinkErrorDialog": {
           "description": "Varmista, että ilmoittautuja on liitetty tutkintotilaisuuteen ja suoritettavat tutkinnot sekä osakokeet on valittu.",
-          "header": "Täytä tarvittavat tiedot"
+          "header": "Täytä tarvittavat tiedot",
+          "headerViewMode": "Tallenna muutokset",
+          "descriptionViewMode": "Tallenna muutokset ennen ilmoittautumislinkin lähetystä."
         },
         "authLinkSuccessDialog": {
           "description": "Asiakkaalle on lähetetty ilmoittautumislinkki sähköpostiin. Ilmoittautumislinkki on voimassa kolme (3) vuorokautta. Voit tarpeen vaatiessa lähettää ilmoittautumislinkin uudestaan.",

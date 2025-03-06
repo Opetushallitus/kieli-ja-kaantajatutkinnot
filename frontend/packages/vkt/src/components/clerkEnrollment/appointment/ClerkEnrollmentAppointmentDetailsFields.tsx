@@ -456,10 +456,12 @@ const EnrollmentStatus = ({
   enrollment,
   oid,
   setPaymentLinkModalOpen,
+  isViewMode,
 }: {
   enrollment: ClerkEnrollmentAppointment;
   oid: string;
   setPaymentLinkModalOpen: (open: boolean) => void;
+  isViewMode: boolean;
 }) => {
   const { t } = useExaminerTranslation({
     keyPrefix: 'vkt.component.examinerExamEventDetails',
@@ -494,6 +496,18 @@ const EnrollmentStatus = ({
         title: t('authLinkErrorDialog.header'),
         severity: Severity.Error,
         description: t('authLinkErrorDialog.description'),
+        actions: [
+          {
+            title: translateCommon('back'),
+            variant: Variant.Outlined,
+          },
+        ],
+      });
+    } else if (!isViewMode) {
+      showDialog({
+        title: t('authLinkErrorDialog.headerViewMode'),
+        severity: Severity.Error,
+        description: t('authLinkErrorDialog.descriptionViewMode'),
         actions: [
           {
             title: translateCommon('back'),
@@ -543,7 +557,9 @@ const EnrollmentStatus = ({
               color={Color.Secondary}
               variant={Variant.Outlined}
             >
-              {t('appointment.sendAuthLink')}
+              {enrollment.authLink?.sentAt
+                ? t('appointment.sendAuthLinkAgain')
+                : t('appointment.sendAuthLink')}
             </CustomButton>
           </div>
           <div className="columns flex-start">
@@ -770,6 +786,7 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
           enrollment={enrollment}
           oid={oid}
           setPaymentLinkModalOpen={setPaymentLinkModalOpen}
+          isViewMode={isViewMode}
         />
       </div>
       {gradeModalOpen && (
