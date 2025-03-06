@@ -65,6 +65,10 @@ export const ExaminerEnrollmentListingRow = ({
     }
   };
 
+  const getPersonName = (field: 'lastName' | 'firstName') => {
+    return enrollment.person ? enrollment.person[field] : enrollment[field];
+  };
+
   return (
     <>
       <TableRow
@@ -73,10 +77,10 @@ export const ExaminerEnrollmentListingRow = ({
         className="cursor-pointer"
       >
         <TableCell>
-          <Text>{enrollment.lastName}</Text>
+          <Text>{getPersonName('lastName')}</Text>
         </TableCell>
         <TableCell>
-          <Text>{enrollment.firstName}</Text>
+          <Text>{getPersonName('firstName')}</Text>
         </TableCell>
         <TableCell>
           <Text>{getSelectedPartialExamsText()}</Text>
