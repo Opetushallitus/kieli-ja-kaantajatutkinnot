@@ -162,6 +162,9 @@ public class ClerkEnrollmentUtil {
     final EnrollmentAppointment enrollmentAppointment,
     final String baseUrlAPI
   ) {
+    final ClerkPersonDTO personDTO = enrollmentAppointment.getPerson() != null
+      ? createClerkPersonDTO(enrollmentAppointment.getPerson())
+      : null;
     final List<ClerkPaymentDTO> paymentDTOs = enrollmentAppointment
       .getPayments()
       .stream()
@@ -194,6 +197,7 @@ public class ClerkEnrollmentUtil {
       .id(enrollmentAppointment.getId())
       .version(enrollmentAppointment.getVersion())
       .enrollmentTime(enrollmentAppointment.getCreatedAt())
+      .person(personDTO)
       .oralSkill(enrollmentAppointment.isOralSkill())
       .textualSkill(enrollmentAppointment.isTextualSkill())
       .understandingSkill(enrollmentAppointment.isUnderstandingSkill())

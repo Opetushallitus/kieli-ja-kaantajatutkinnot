@@ -112,7 +112,15 @@ const getTextValue = (
   enrollment: ClerkEnrollmentAppointment,
   field: ClerkEnrollmentTextFieldEnum,
 ) => {
-  return enrollment[field] || '';
+  if (
+    enrollment.person &&
+    (field === ClerkEnrollmentTextFieldEnum.FirstName ||
+      field === ClerkEnrollmentTextFieldEnum.LastName)
+  ) {
+    return enrollment.person[field] || enrollment[field] || '';
+  } else {
+    return enrollment[field] || '';
+  }
 };
 
 const getTextFieldType = (field: ClerkEnrollmentTextFieldEnum) => {

@@ -2,6 +2,7 @@ package fi.oph.vkt.api.dto.examiner;
 
 import fi.oph.vkt.api.dto.EnrollmentDTOSkillFields;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,6 +16,7 @@ public record ExaminerEnrollmentAppointmentDTO(
   @NonNull @NotNull Long id,
   @NonNull @NotNull Integer version,
   @NonNull @NotNull LocalDateTime enrollmentTime,
+  ClerkPersonDTO person,
   @NonNull @NotNull Boolean oralSkill,
   @NonNull @NotNull Boolean textualSkill,
   @NonNull @NotNull Boolean understandingSkill,

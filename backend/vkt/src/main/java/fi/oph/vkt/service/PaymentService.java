@@ -224,7 +224,6 @@ public class PaymentService {
       payment.setPaymentStatus(newStatus);
       paymentRepository.saveAndFlush(payment);
 
-      // FIXME
       if (newStatus == PaymentStatus.OK) {
         publicEnrollmentEmailService.sendEnrollmentAppointmentConfirmationEmail(enrollmentAppointment);
       }
