@@ -2,7 +2,9 @@ package fi.oph.vkt.service.onr.mock;
 
 import fi.oph.vkt.service.onr.PersonalData;
 import fi.oph.vkt.util.CyclicIterable;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PersonalDataFactory {
@@ -24,7 +26,7 @@ public class PersonalDataFactory {
       .lastName(lastName)
       .firstName(nickname + " " + secondName)
       .nickname(nickname)
-      .ssn("112233-111X")
+      .ssn("210281-9988") // Nordea demo SSN
       .build();
   }
 

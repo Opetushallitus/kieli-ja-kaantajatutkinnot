@@ -17,7 +17,6 @@ import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
-import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.model.type.FreeEnrollmentType;
