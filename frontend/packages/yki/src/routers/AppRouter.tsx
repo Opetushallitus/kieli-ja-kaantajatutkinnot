@@ -28,6 +28,7 @@ import { InitRegistrationPage } from 'pages/InitRegistrationPage';
 import { LogoutSuccess } from 'pages/LogoutSuccess';
 import { NotFoundPage } from 'pages/NotFoundPage';
 import { ReassessmentPage } from 'pages/ReassessmentPage';
+import { UserDetailsPage } from 'pages/UserDetailsPage';
 import { RegistrationPage } from 'pages/RegistrationPage';
 import { RegistrationPaymentStatusPage } from 'pages/RegistrationPaymentStatusPage';
 import { loadSession } from 'redux/reducers/session';
@@ -142,6 +143,14 @@ export const AppRouter: FC = () => {
             <YkiTitlePage title={createTitle('accessibilityStatement')}>
               <AccessibilityStatementPage />
             </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.UserDetails}
+          element={
+            <TitlePage title={createTitle('userDetails')}>
+              <UserDetailsPage />
+            </TitlePage>
           }
         />
         <Route
