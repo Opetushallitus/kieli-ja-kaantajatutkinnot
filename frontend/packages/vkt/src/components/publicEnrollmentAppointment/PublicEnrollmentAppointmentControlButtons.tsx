@@ -16,11 +16,13 @@ import { getErrors } from 'shared/utils';
 import { certificateShippingFields } from 'components/publicEnrollmentAppointment/steps/CertificateShipping';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
+import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentAppointmentFormStep } from 'enums/publicEnrollment';
 import { CertificateShippingTextFields } from 'interfaces/common/enrollment';
 import { PublicEnrollmentAppointment } from 'interfaces/publicEnrollment';
 import {
   loadPublicEnrollmentSave,
+  resetPublicEnrollmentAppointment,
   setLoadingPayment,
 } from 'redux/reducers/publicEnrollmentAppointment';
 import { RouteUtils } from 'utils/routes';
@@ -50,7 +52,25 @@ export const PublicEnrollmentAppointmentControlButtons = ({
   const { showDialog } = useDialog();
 
   const handleCancelBtnClick = () => {
-    // FIXME
+    showDialog({
+      title: t('cancelDialog.title'),
+      severity: Severity.Info,
+      description: t('cancelDialog.description'),
+      actions: [
+        {
+          title: translateCommon('back'),
+          variant: Variant.Outlined,
+        },
+        {
+          title: translateCommon('yes'),
+          variant: Variant.Contained,
+          action: () => {
+            dispatch(resetPublicEnrollmentAppointment());
+            navigate(AppRoutes.PublicGoodAndSatisfactoryLevelLanding);
+          },
+        },
+      ],
+    });
   };
 
   useEffect(() => {

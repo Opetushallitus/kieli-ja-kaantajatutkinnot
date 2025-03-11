@@ -279,7 +279,11 @@
             "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
             "title": "Tiedoissa on korjattavaa!"
           },
-          "pay": "Siirry maksamaan"
+          "pay": "Siirry maksamaan",
+          "cancelDialog": {
+            "description": "Haluatko perua ilmoittautumisen? Menetät täyttämäsi tiedot.",
+            "title": "Peru ilmoittautuminen"
+          }
         },
         "examEventDetails": {
           "examDate": "Tutkintopäivä",

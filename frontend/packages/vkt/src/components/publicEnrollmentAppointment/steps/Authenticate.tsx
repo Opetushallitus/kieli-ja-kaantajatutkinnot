@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import { cancelPublicEnrollment } from 'redux/reducers/publicEnrollment';
+import { AppRoutes } from 'enums/app';
+import { resetPublicEnrollmentAppointment } from 'redux/reducers/publicEnrollmentAppointment';
 import { RouteUtils } from 'utils/routes';
 
 export const Authenticate = () => {
@@ -16,6 +17,7 @@ export const Authenticate = () => {
   });
   const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   if (!params.enrollmentId) {
     return <></>;
@@ -32,7 +34,8 @@ export const Authenticate = () => {
   };
 
   const onCancel = () => {
-    dispatch(cancelPublicEnrollment());
+    dispatch(resetPublicEnrollmentAppointment());
+    navigate(AppRoutes.PublicGoodAndSatisfactoryLevelLanding);
   };
 
   return (
