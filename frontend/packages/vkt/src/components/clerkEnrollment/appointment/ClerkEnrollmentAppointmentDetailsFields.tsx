@@ -43,7 +43,10 @@ import {
 } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
-import { sendClerkEnrollmentAppointmentAuthLink } from 'redux/reducers/clerkEnrollmentAppointment';
+import {
+  loadClerkEnrollmentAppointment,
+  sendClerkEnrollmentAppointmentAuthLink,
+} from 'redux/reducers/clerkEnrollmentAppointment';
 import { clerkEnrollmentAppointmentSelector } from 'redux/selectors/clerkEnrollmentAppointment';
 import { DateTimeUtils } from 'utils/dateTime';
 import { EnrollmentUtils } from 'utils/enrollment';
@@ -461,12 +464,10 @@ const PaymentDetailsSection = ({
 };
 
 const EnrollmentStatus = ({
-  enrollment,
   oid,
   setPaymentLinkModalOpen,
   isViewMode,
 }: {
-  enrollment: ClerkEnrollmentAppointment;
   oid: string;
   setPaymentLinkModalOpen: (open: boolean) => void;
   isViewMode: boolean;
@@ -477,7 +478,9 @@ const EnrollmentStatus = ({
   const translateCommon = useCommonTranslation();
   const { showDialog } = useDialog();
 
-  const { sendLinkStatus } = useAppSelector(clerkEnrollmentAppointmentSelector);
+  const { sendLinkStatus, enrollment } = useAppSelector(
+    clerkEnrollmentAppointmentSelector,
+  );
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (sendLinkStatus === APIResponseStatus.Success) {
@@ -492,8 +495,17 @@ const EnrollmentStatus = ({
           },
         ],
       });
+      dispatch(loadClerkEnrollmentAppointment({ id: enrollment.id, oid }));
     }
-  }, [showDialog, translateCommon, t, sendLinkStatus]);
+  }, [
+    showDialog,
+    translateCommon,
+    t,
+    sendLinkStatus,
+    oid,
+    enrollment.id,
+    dispatch,
+  ]);
 
   const onSendAuthLink = () => {
     if (
@@ -791,7 +803,6 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
         <Divider className="margin-top-lg" />
         <PaymentDetailsSection enrollment={enrollment} />
         <EnrollmentStatus
-          enrollment={enrollment}
           oid={oid}
           setPaymentLinkModalOpen={setPaymentLinkModalOpen}
           isViewMode={isViewMode}

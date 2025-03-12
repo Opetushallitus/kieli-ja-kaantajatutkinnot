@@ -1,6 +1,5 @@
 package fi.oph.vkt.repository;
 
-import fi.oph.vkt.api.dto.clerk.ClerkExamEventListDTO;
 import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.ExaminerExamEvent;
 import java.util.List;
