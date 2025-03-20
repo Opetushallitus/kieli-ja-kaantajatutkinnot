@@ -477,6 +477,10 @@ const EnrollmentStatus = ({
   const { t } = useExaminerTranslation({
     keyPrefix: 'vkt.component.examinerExamEventDetails',
   });
+  const { t: t2 } = useExaminerTranslation({
+    keyPrefix: 'vkt.component.examinerExamEventUpsert',
+  });
+  const translateMunicipality = useKoodistoMunicipalitiesTranslation();
   const translateCommon = useCommonTranslation();
   const { showDialog } = useDialog();
 
@@ -509,6 +513,70 @@ const EnrollmentStatus = ({
     dispatch,
   ]);
 
+  const sendAuthLinkAction = () =>
+    dispatch(
+      sendClerkEnrollmentAppointmentAuthLink({
+        enrollmentId: enrollment.id,
+        oid: oid,
+      }),
+    );
+
+  const examTime =
+    enrollment.examEvent?.examTime &&
+    DateTimeUtils.parseTime(enrollment.examEvent?.examTime);
+
+  const sendAuthLinkConfirmContent = (
+    <>
+      <Text>{t('authLinkConfirmDialog.description.part1')}</Text>
+      <br />
+      <Text>
+        <b>{t2('labels.language')}</b>: {enrollment.examEvent.language}
+      </Text>
+      <Text>
+        <b>{t2('labels.level')}</b>:{' '}
+      </Text>
+      <Text>
+        <b>{t2('labels.date')}</b>:{' '}
+        {DateTimeUtils.renderDate(enrollment.examEvent.date)}
+      </Text>
+      <Text>
+        <b>{t2('labels.municipality')}</b>:{' '}
+        {translateMunicipality(enrollment.examEvent.municipality.code)}
+      </Text>
+      <Text>
+        <b>{t2('labels.location')}</b>: {enrollment.examEvent.location}
+      </Text>
+      <Text>
+        <b>{t2('labels.examTime')}</b>:{' '}
+        {examTime && DateTimeUtils.renderTime(examTime)}
+      </Text>
+      <br />
+      <Text>{t('authLinkConfirmDialog.description.part2')}</Text>
+      <ul>
+        <li>
+          <Text>{t('authLinkConfirmDialog.description.bullet1')}</Text>
+        </li>
+        <li>
+          <Text>{t('authLinkConfirmDialog.description.bullet2')}</Text>
+        </li>
+        <li>
+          <Text>{t('authLinkConfirmDialog.description.bullet3')}</Text>
+        </li>
+        <li>
+          <Text>{t('authLinkConfirmDialog.description.bullet4')}</Text>
+        </li>
+      </ul>
+      <br />
+      <Text>{t('authLinkConfirmDialog.description.part3')}</Text>
+      <Text>{t('authLinkConfirmDialog.description.part4')}</Text>
+      <br />
+      <Text>{t('authLinkConfirmDialog.description.part5')}</Text>
+      <br />
+      <Text>{t('authLinkConfirmDialog.description.part6')}</Text>
+      <Text>{t('authLinkConfirmDialog.description.part7')}</Text>
+    </>
+  );
+
   const onSendAuthLink = () => {
     if (
       !enrollment.examEvent ||
@@ -538,12 +606,24 @@ const EnrollmentStatus = ({
         ],
       });
     } else {
-      dispatch(
-        sendClerkEnrollmentAppointmentAuthLink({
-          enrollmentId: enrollment.id,
-          oid: oid,
-        }),
-      );
+      showDialog({
+        title: t('authLinkConfirmDialog.title'),
+        severity: Severity.Info,
+        content: sendAuthLinkConfirmContent,
+        actions: [
+          {
+            title: translateCommon('back'),
+            variant: Variant.Outlined,
+          },
+          {
+            title: 'Lähetä',
+            variant: Variant.Contained,
+            action: sendAuthLinkAction,
+          },
+        ],
+      });
+      /*
+      ;*/
     }
   };
 

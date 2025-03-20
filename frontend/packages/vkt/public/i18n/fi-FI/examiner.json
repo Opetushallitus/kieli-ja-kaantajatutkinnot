@@ -94,6 +94,22 @@
           "description": "Asiakkaalle on lähetetty ilmoittautumislinkki sähköpostiin. Ilmoittautumislinkki on voimassa kolme (3) vuorokautta. Voit tarpeen vaatiessa lähettää ilmoittautumislinkin uudestaan.",
           "header": "Ilmoittautumislinkki lähetetty"
         },
+        "authLinkConfirmDialog": {
+          "title": "Viestin esikatselu",
+          "description": {
+            "part1": "Olet ilmoittautumassa seuraavaan Valtionhallinnon kielitutkintojen hyvän ja tyydyttävän taidon tutkintoon:",
+            "part2": "Vahvista ilmoittautumisesi tunnistautumalla vahvasti ja maksamalla tutkintomaksu:",
+            "bullet1": "Tunnistaudu Suomi.fi-palvelun kautta.",
+            "bullet2": "Sinut ohjataan automaattisesti ilmoittautumislomakkeelle.",
+            "bullet3": "Tarkista ilmoittautumisesi tiedot lomakkeella.",
+            "bullet4": "Siirry maksamaan tutkintomaksu. Ilmoittautumisesi vahvistuu, kun maksat tutkintomaksun.",
+            "part3": "Siirry tunnistautumiseen alla olevan linkin kautta:",
+            "part4": "Tunnistaudu ja maksa ilmoittautuminen",
+            "part5": "Älä vastaa tähän viestiin - viesti on lähetetty automaattisesti.",
+            "part6": "Ystävällisin terveisin",
+            "part7": "Opetushallitus"
+          }
+        },
         "downloadExcel": "Lataa Excel",
         "enrollmentStatus": {
           "COMPLETED": "Ilmoittautuneet",
@@ -171,6 +187,8 @@
           "date": "Tutkintopäivä",
           "examTime": "Kellonaika",
           "language": "Tutkinnon kieli",
+          "level": "Tutkinnon taso",
+          "location": "Tarkka osoite",
           "isPublic": "Näytä tutkintotilaisuus julkisesti",
           "maxParticipants": "Paikkojen lukumäärä",
           "municipality": "Tutkintopaikka",
