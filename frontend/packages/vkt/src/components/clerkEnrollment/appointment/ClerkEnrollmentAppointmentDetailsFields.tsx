@@ -366,6 +366,7 @@ const ExamAndEnrollmentDetailsSection = ({
       <div className="columns margin-top-lg space-between">
         <H2>{t('heading')}</H2>
       </div>
+      <Text>{t('examinerHelpText')}</Text>
       {enrollment.examEvent && (
         <div className="rows gapped-xxs">
           <H3>{t('header.examEvent')}:</H3>
@@ -438,6 +439,7 @@ const PaymentDetailsSection = ({
       <div className="columns margin-top-lg space-between">
         <H2>{t('appointment.paymentInfoHeader')}</H2>
       </div>
+      <Text>{t('examinerPaymentHelpText')}</Text>
       {displayPaymentInformation && (
         <div className="rows gapped-xxl margin-top-lg">
           <div className="rows gapped">
@@ -714,13 +716,13 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
     };
   };
 
-  // TODO Remove this flag once digital certificates are available
   return (
     <div className="clerk-enrollment-details-fields">
       <div className="columns margin-top-lg space-between">
         <H2>{t('title')}</H2>
         {topControlButtons}
       </div>
+      <Text className="margin-top-lg">{t('examinerHelpText')}</Text>
       <div className="rows gapped">
         <div className="margin-top-lg columns gapped">
           <div className="columns margin-top-lg grow">

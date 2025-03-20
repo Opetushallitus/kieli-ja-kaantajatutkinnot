@@ -640,13 +640,7 @@ export const ExaminerExamEventUpsertPage: FC<PageProps> = ({
           <Paper elevation={3} className="examiner-exam-event-page__contents">
             <div className="rows gapped">
               <BackButton />
-              {!isUpdatePage && (
-                <Text>
-                  {t('description.create.part1')}
-                  <br />
-                  {t('description.create.part2')}
-                </Text>
-              )}
+              {!isUpdatePage && <Text>{t('description.create.part1')}</Text>}
               <SelectIsPublic />
             </div>
             <div className="rows gapped">

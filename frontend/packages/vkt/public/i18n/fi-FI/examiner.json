@@ -23,7 +23,7 @@
         "email": "Sähköpostiosoite",
         "examination": "Tutkinto",
         "phoneNumber": "Puhelinnumero",
-        "partialExams": "Osakokeet, jotka haluaa suorittaa",
+        "partialExams": "Tutkinnnot, jotka haluaa suorittaa",
         "previousExams": "Osallistunut aiempiin tutkintoihin",
         "createEnrollment": "Luo ilmoittautuminen",
         "contactDetails": "Yhteydenoton tiedot",
@@ -43,8 +43,8 @@
           "saveAndClose": "Tallenna ja sulje"
         },
         "examinationDetails": {
-          "heading": "Tutkinnon perustiedot",
-          "information": "Nämä tiedot näkyvät julkisessa listauksessa."
+          "heading": "Vastaanotettavat tutkinnot",
+          "information": "Tallenna tähän tieto, minkä kielen tai kielien tutkintoja vastaanotat ja millä paikkakunnilla. Nämä tiedot näkyvät asiakkaille julkisessa listauksessa."
         },
         "incorrectDetailsDialog": {
           "description": "Korjaa puuttuvat tai virheelliset tiedot:",
@@ -119,6 +119,8 @@
           "registrationCloses": "Ilmoittautuminen päättyy"
         },
         "heading": "Tutkinnon tiedot",
+        "examinerHelpText": "Täytä ilmoittautumisen tiedot. Varmista, että tiedot ovat oikein ennen kuin lähetät ilmoittautumislinkin asiakkaalle.",
+        "examinerPaymentHelpText": "Lähetä asiakkaalle ilmoittautumislinkki. Asiakas tunnistautuu vahvasti linkin kautta, täyttää puuttuvat tietonsa ja maksaa tutkintomaksun. Ilmoittautumislinkki on voimassa kolme vuorokautta. Voit tarpeen vaatiessa lähettää ilmoittautumislinkin uudestaan.",
         "payment": {
           "create": "Luo maksulinkki",
           "setRefunded": "Merkitse maksu palautetuksi",
@@ -153,8 +155,7 @@
       "examinerExamEventUpsert": {
         "description": {
           "create": {
-            "part1": "Lisää tutkintotilaisuus tästä. Voit luoda joko yksityisen tutkintotilaisuuden tai VKT:n ilmoittautumissivulla julkisesti näkyvän tilaisuuden.",
-            "part2": "Voit vaihtaa tutkintotilaisuuden julkisuusasetuksia myöhemmin."
+            "part1": "Lisää tutkintotilaisuus tästä. Voit luoda joko VKT:n ilmoittautumissivulla asiakkaille julkisesti näkyvän tilaisuuden tai yksityisen tutkintotilaisuuden. Voit vaihtaa tilaisuuden julkiseksi tai yksityiseksi myöhemmin."
           }
         },
         "incorrectDetailsDialog": {

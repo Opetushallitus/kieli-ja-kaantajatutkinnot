@@ -71,6 +71,7 @@
         },
         "status": "Ilmoittautumisen tila",
         "title": "Ilmoittautumisen tiedot",
+        "examinerHelpText": "Ilmoittautujan tiedot täydentyvät automaattisesti, kun hän tunnistautuu vahvasti. Täytä nämä itse vain, jos asiakas ei pysty tunnistautumaan vahvasti.",
         "toasts": {
           "enrollmentCanceled": "Ilmoittautuminen peruutettiin",
           "updated": "Tiedot tallennettiin"
