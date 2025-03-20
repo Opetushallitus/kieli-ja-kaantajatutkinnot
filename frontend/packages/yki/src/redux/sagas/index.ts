@@ -8,6 +8,7 @@ import { watchPublicIdentification } from 'redux/sagas/publicIdentification';
 import { watchRegistration } from 'redux/sagas/registration';
 import { watchReservationRequest } from 'redux/sagas/reservation';
 import { watchSession } from 'redux/sagas/session';
+import { watchUserDetails } from 'redux/sagas/userDetails';
 import { watchUserOpenRegistrations } from 'redux/sagas/userOpenRegistrations';
 
 export default function* rootSaga() {
@@ -20,6 +21,7 @@ export default function* rootSaga() {
     watchRegistration(),
     watchReservationRequest(),
     watchSession(),
+    watchUserDetails(),
     watchUserOpenRegistrations(),
   ]);
 }
