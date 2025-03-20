@@ -11,6 +11,7 @@ import { nationalitiesReducer } from 'redux/reducers/nationalities';
 import { publicIdentificationReducer } from 'redux/reducers/publicIdentification';
 import { registrationReducer } from 'redux/reducers/registration';
 import { sessionReducer } from 'redux/reducers/session';
+import { userDetailsReducer } from 'redux/reducers/userDetails';
 import { userOpenRegistrationsReducer } from 'redux/reducers/userOpenRegistrations';
 import rootSaga from 'redux/sagas/index';
 
@@ -27,6 +28,7 @@ export const rootReducer = combineReducers({
   registration: registrationReducer,
   session: sessionReducer,
   userOpenRegistrations: userOpenRegistrationsReducer,
+  userDetails: userDetailsReducer,
 });
 
 export const setupStore = (preloadedState?: Partial<RootState>) => {
