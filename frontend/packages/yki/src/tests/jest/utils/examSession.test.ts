@@ -42,13 +42,9 @@ describe('ExamSessionUtils', () => {
     queue: 0,
     queue_full: false,
     participants: 7,
-    pa_participants: 0,
-    post_admission_quota: 0,
-    post_admission_active: false,
     registration_start_date: dayjs('2020-01-01'),
     registration_end_date: dayjs('2090-06-15'),
     upcoming_admission: true,
-    upcoming_post_admission: false,
   };
 
   describe('compareExamSessions', () => {
@@ -204,48 +200,6 @@ describe('ExamSessionUtils', () => {
         ),
       ).toEqual(-1);
     });
-
-    it('should value availability of regular and post admission equally', () => {
-      const postAdmissionSession = {
-        ...baseExamSession,
-        registration_end_date: dayjs('2021-01-01'),
-        post_admission_active: true,
-        post_admission_start_date: dayjs('2021-02-02'),
-        post_admission_end_date: dayjs('2090-03-03'),
-        post_admission_quota: 5,
-        pa_participants: 3,
-        upcoming_post_admission: true,
-        upcoming_admission: false,
-      };
-
-      expect(
-        ExamSessionUtils.compareExamSessions(
-          postAdmissionSession,
-          baseExamSession,
-        ),
-      ).toEqual(0);
-
-      expect(
-        ExamSessionUtils.compareExamSessions(
-          {
-            ...postAdmissionSession,
-            pa_participants: postAdmissionSession.post_admission_quota,
-          },
-          baseExamSession,
-        ),
-      ).toEqual(1);
-
-      expect(
-        ExamSessionUtils.compareExamSessions(
-          {
-            ...postAdmissionSession,
-            post_admission_end_date: dayjs('2021-03-03'),
-            upcoming_post_admission: false,
-          },
-          baseExamSession,
-        ),
-      ).toEqual(1);
-    });
   });
 
   describe('getEffectiveRegistrationPeriodDetails', () => {
@@ -263,59 +217,12 @@ describe('ExamSessionUtils', () => {
       });
     });
 
-    it('should return regular admission after registration_end_date if post admission is not active', () => {
-      expectEffectiveRegistrationDetails(
-        {
-          ...baseExamSession,
-          open: false,
-          upcoming_admission: false,
-          upcoming_post_admission: false,
-        },
-        {
-          kind: RegistrationKind.Admission,
-          open: false,
-        },
-      );
-    });
-
-    it('should return post admission after registration_end_date if post admission is active', () => {
-      expectEffectiveRegistrationDetails(
-        {
-          ...baseExamSession,
-          upcoming_admission: false,
-          upcoming_post_admission: true,
-        },
-        {
-          kind: RegistrationKind.PostAdmission,
-          availableQueue: false,
-        },
-      );
-
-      expectEffectiveRegistrationDetails(
-        {
-          ...baseExamSession,
-          upcoming_admission: false,
-          upcoming_post_admission: true,
-          post_admission_active: true,
-          pa_participants: 3,
-          post_admission_quota: 10,
-        },
-        {
-          kind: RegistrationKind.PostAdmission,
-          open: true,
-          availableQueue: false,
-          availablePlaces: 7,
-        },
-      );
-    });
-
     it('should indicate session is full if registration period has ended', () => {
       expectEffectiveRegistrationDetails(
         {
           ...baseExamSession,
           open: false,
           upcoming_admission: false,
-          upcoming_post_admission: false,
         },
         {
           kind: RegistrationKind.Admission,
@@ -331,7 +238,6 @@ describe('ExamSessionUtils', () => {
           ...baseExamSession,
           open: true,
           upcoming_admission: true,
-          upcoming_post_admission: true,
           queue_full: false,
         },
         {
@@ -345,7 +251,6 @@ describe('ExamSessionUtils', () => {
           ...baseExamSession,
           open: true,
           upcoming_admission: true,
-          upcoming_post_admission: true,
           queue_full: true,
         },
         {
@@ -359,7 +264,6 @@ describe('ExamSessionUtils', () => {
           ...baseExamSession,
           open: true,
           upcoming_admission: false,
-          upcoming_post_admission: true,
           queue_full: true,
         },
         {
@@ -373,7 +277,6 @@ describe('ExamSessionUtils', () => {
           ...baseExamSession,
           open: false,
           upcoming_admission: true,
-          upcoming_post_admission: true,
           queue_full: true,
         },
         {
