@@ -213,7 +213,6 @@ describe('ExamSessionUtils', () => {
         kind: RegistrationKind.Admission,
         open: true,
         availablePlaces: 6,
-        availableQueue: true,
       });
     });
 
@@ -228,59 +227,6 @@ describe('ExamSessionUtils', () => {
           kind: RegistrationKind.Admission,
           open: false,
           availablePlaces: 0,
-        },
-      );
-    });
-
-    it('should allow subscribing for notifications only within regular admission period', () => {
-      expectEffectiveRegistrationDetails(
-        {
-          ...baseExamSession,
-          open: true,
-          upcoming_admission: true,
-          queue_full: false,
-        },
-        {
-          availableQueue: true,
-        },
-      );
-
-      // Queue full -> availableQueue: false
-      expectEffectiveRegistrationDetails(
-        {
-          ...baseExamSession,
-          open: true,
-          upcoming_admission: true,
-          queue_full: true,
-        },
-        {
-          availableQueue: false,
-        },
-      );
-
-      // Regular admission over -> availableQueue: false
-      expectEffectiveRegistrationDetails(
-        {
-          ...baseExamSession,
-          open: true,
-          upcoming_admission: false,
-          queue_full: true,
-        },
-        {
-          availableQueue: false,
-        },
-      );
-
-      // Admission not yet started -> availableQueue: false
-      expectEffectiveRegistrationDetails(
-        {
-          ...baseExamSession,
-          open: false,
-          upcoming_admission: true,
-          queue_full: true,
-        },
-        {
-          availableQueue: false,
         },
       );
     });

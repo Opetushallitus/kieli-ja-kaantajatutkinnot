@@ -14,7 +14,6 @@ import { examSessionsReducer } from 'redux/reducers/examSessions';
 import { nationalitiesReducer } from 'redux/reducers/nationalities';
 import { publicIdentificationReducer } from 'redux/reducers/publicIdentification';
 import { registrationReducer } from 'redux/reducers/registration';
-import { reservationReducer } from 'redux/reducers/reservation';
 import { sessionReducer } from 'redux/reducers/session';
 import { userOpenRegistrationsReducer } from 'redux/reducers/userOpenRegistrations';
 import rootSaga from 'redux/sagas/index';
@@ -30,7 +29,6 @@ export const rootReducer = combineReducers({
   nationalities: nationalitiesReducer,
   publicIdentification: publicIdentificationReducer,
   registration: registrationReducer,
-  reservation: reservationReducer,
   session: sessionReducer,
   userOpenRegistrations: userOpenRegistrationsReducer,
 });
