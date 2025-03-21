@@ -138,15 +138,15 @@ describe('ExamDetailsPage', () => {
       cy.wait('@initRegistration');
       onExamDetailsPage.isVisible();
       const email = 'teuvotesti@test.invalid';
-      onExamDetailsPage.fillFieldByLabel(
-        'Sähköpostiosoite *',
-        '   ' + email,
-      );
+      onExamDetailsPage.fillFieldByLabel('Sähköpostiosoite *', '   ' + email);
       onExamDetailsPage.fillFieldByLabel(
         'Vahvista sähköpostiosoite *',
         email + '   ',
       );
-      onExamDetailsPage.fillFieldByLabel('Puhelinnumero *', ' +358 50 123 4567  ');
+      onExamDetailsPage.fillFieldByLabel(
+        'Puhelinnumero *',
+        ' +358 50 123 4567  ',
+      );
 
       // Interact with other fields to force onBlur handler to run, which will perform the actual trimming of text inputs.
       onExamDetailsPage.selectNationality('Serbia');
@@ -162,6 +162,6 @@ describe('ExamDetailsPage', () => {
 
       onExamDetailsPage.submitForm();
       onExamDetailsPage.isFormSubmitted();
-    })
+    });
   });
 });
