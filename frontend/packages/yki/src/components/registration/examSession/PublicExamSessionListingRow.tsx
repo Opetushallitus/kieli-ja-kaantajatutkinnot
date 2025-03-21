@@ -31,9 +31,11 @@ const RegisterToExamButton = ({
   });
   const { isPhone } = useWindowProperties();
 
-  const { availablePlaces, availableQueue } =
+  const { availablePlaces } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-  const toQueue = !availablePlaces && availableQueue;
+  const toQueue = !availablePlaces;
+
+  // TODO Different text when registering to queue!
 
   return (
     <CustomButton
@@ -50,11 +52,7 @@ const RegisterToExamButton = ({
       }}
       fullWidth={isPhone}
     >
-      {availablePlaces
-        ? t('register')
-        : availableQueue
-        ? t('orderCancellationNotification')
-        : t('full')}
+      {availablePlaces ? t('register') : t('full')}
     </CustomButton>
   );
 };
@@ -237,12 +235,15 @@ export const PublicExamSessionListingRow = ({
     getCurrentLang(),
   );
 
-  const { open, availablePlaces, availableQueue } =
+  const { open, availablePlaces } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
+
+  // TODO Different text when registering to queue?
   const availablePlacesText =
     availablePlaces > 0 ? '' + availablePlaces : t('full');
 
-  const registerActionAvailable = open && (availablePlaces || availableQueue);
+  // TODO Going forward, allow registering to queue when places are filled
+  const registerActionAvailable = open && availablePlaces;
 
   if (isPhone) {
     return (
