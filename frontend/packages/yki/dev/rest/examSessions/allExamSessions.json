@@ -5,7 +5,6 @@
       "max_participants": 15,
       "language_code": "fin",
       "participants": 15,
-      "pa_participants": 4,
       "contact": [
         {
           "email": "contact.person@testi.invalid"
@@ -51,19 +50,13 @@
       "open": true,
       "queue_full": false,
       "queue": 0,
-      "post_admission_quota": 10,
-      "post_admission_start_date": "2023-06-01",
-      "post_admission_end_date": "2023-08-01",
-      "post_admission_active": true,
-      "upcoming_admission": false,
-      "upcoming_post_admission": false
+      "upcoming_admission": false
     },
     {
       "level_code": "YLIN",
       "max_participants": 15,
       "language_code": "fin",
       "participants": 15,
-      "pa_participants": 4,
       "contact": [
         {
           "email": "contact.person@testi.invalid"
@@ -106,22 +99,16 @@
       ],
       "exam_fee": 200,
       "registration_end_date": "2023-01-03",
-      "open": true,
+      "open": false,
       "queue_full": false,
       "queue": 0,
-      "post_admission_quota": 10,
-      "post_admission_start_date": "2023-08-01",
-      "post_admission_end_date": "2023-09-01",
-      "post_admission_active": true,
-      "upcoming_admission": false,
-      "upcoming_post_admission": true
+      "upcoming_admission": false
     },
     {
       "level_code": "YLIN",
       "max_participants": 15,
       "language_code": "fin",
       "participants": 15,
-      "pa_participants": 4,
       "contact": [
         {
           "email": "contact.person@testi.invalid"
@@ -166,11 +153,7 @@
       "registration_end_date": "2039-12-10",
       "open": true,
       "queue_full": false,
-      "queue": 0,
-      "post_admission_quota": 10,
-      "post_admission_start_date": "2020-12-11",
-      "post_admission_end_date": "2020-12-20",
-      "post_admission_active": true
+      "queue": 0
     },
     {
       "level_code": "PERUS",
@@ -182,7 +165,6 @@
           "email": "contact.person@testi.invalid"
         }
       ],
-      "pa_participants": 0,
       "office_oid": "1.2.246.562.10.29461948951",
       "published_at": "2019-01-15T11:16:37.959Z",
       "session_date": "2019-05-26",
@@ -222,8 +204,7 @@
       "registration_end_date": "2039-12-14",
       "open": false,
       "queue_full": false,
-      "queue": 0,
-      "post_admission": null
+      "queue": 0
     },
     {
       "level_code": "KESKI",
@@ -237,7 +218,6 @@
           "phone_number": "+3584678124"
         }
       ],
-      "pa_participants": 0,
       "office_oid": "1.2.246.562.10.29461948951",
       "published_at": "2019-01-15T11:20:41.776Z",
       "session_date": "2019-04-06",
@@ -278,9 +258,7 @@
       "open": true,
       "queue_full": false,
       "queue": 0,
-      "post_admission": null,
-      "upcoming_admission": true,
-      "upcoming_post_admission": false
+      "upcoming_admission": true
     },
     {
       "level_code": "PERUS",
@@ -294,7 +272,6 @@
           "phone_number": "+3584678124"
         }
       ],
-      "pa_participants": 0,
       "office_oid": "1.2.246.562.10.29461948951",
       "published_at": "2019-01-15T11:20:41.776Z",
       "session_date": "2019-04-06",
@@ -334,8 +311,7 @@
       "registration_end_date": "2039-02-28",
       "open": true,
       "queue_full": true,
-      "queue": 50,
-      "post_admission": null
+      "queue": 50
     },
     {
       "level_code": "KESKI",
@@ -347,7 +323,6 @@
           "email": "contact.person@testi.invalid"
         }
       ],
-      "pa_participants": 0,
       "office_oid": "1.2.246.562.5.22724043777",
       "published_at": "2019-01-17T12:30:00.000Z",
       "session_date": "2019-04-06",
@@ -388,9 +363,7 @@
       "open": true,
       "queue_full": false,
       "queue": 0,
-      "post_admission": null,
-      "upcoming_admission": true,
-      "upcoming_post_admission": false
+      "upcoming_admission": true
     },
     {
       "level_code": "YLIN",
@@ -402,7 +375,6 @@
           "email": "contact.person@testi.invalid"
         }
       ],
-      "pa_participants": 0,
       "office_oid": "1.2.246.562.5.22724043777",
       "published_at": "2019-01-17T12:30:00.000Z",
       "session_date": "2019-04-06",
@@ -442,9 +414,7 @@
       "registration_end_date": "2029-02-28",
       "open": true,
       "queue_full": false,
-      "post_admission": null,
-      "upcoming_admission": true,
-      "upcoming_post_admission": false
+      "upcoming_admission": true
     },
     {
       "level_code": "PERUS",
@@ -456,7 +426,6 @@
           "email": "contact.person@testi.invalid"
         }
       ],
-      "pa_participants": 0,
       "office_oid": "1.2.246.562.5.22724043777",
       "published_at": "2019-01-17T12:32:00.000Z",
       "session_date": "2019-04-06",
@@ -495,8 +464,7 @@
       "exam_fee": 153,
       "registration_end_date": "2039-02-28",
       "open": true,
-      "queue_full": false,
-      "post_admission": null
+      "queue_full": false
     },
     {
       "level_code": "PERUS",
@@ -508,7 +476,6 @@
           "email": "contact.person@testi.invalid"
         }
       ],
-      "pa_participants": 0,
       "office_oid": "1.2.246.562.5.22724043777",
       "published_at": "2019-01-17T12:32:00.001Z",
       "session_date": "2019-04-06",
@@ -547,8 +514,7 @@
       "exam_fee": 153,
       "registration_end_date": "2039-02-28",
       "open": true,
-      "queue_full": true,
-      "post_admission": null
+      "queue_full": true
     },
     {
       "level_code": "KESKI",
@@ -562,7 +528,6 @@
       ],
       "language_code": "fin",
       "participants": 10,
-      "pa_participants": 0,
       "office_oid": "1.2.246.562.5.22724043777",
       "published_at": "2019-01-17T12:32:00.001Z",
       "session_date": "2021-01-06",
@@ -601,8 +566,7 @@
       "exam_fee": 176,
       "registration_end_date": "2020-12-02",
       "open": true,
-      "queue_full": true,
-      "post_admission": null
+      "queue_full": true
     }
   ]
 }

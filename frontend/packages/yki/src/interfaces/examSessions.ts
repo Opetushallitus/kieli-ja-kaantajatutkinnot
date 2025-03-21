@@ -23,15 +23,9 @@ export interface ExamSessions {
 export interface ExamSessionResponse
   extends Omit<
     ExamSession,
-    | 'session_date'
-    | 'post_admission_start_date'
-    | 'post_admission_end_date'
-    | 'registration_start_date'
-    | 'registration_end_date'
+    'session_date' | 'registration_start_date' | 'registration_end_date'
   > {
   session_date: string;
-  post_admission_start_date?: string;
-  post_admission_end_date?: string;
   registration_start_date?: string;
   registration_end_date?: string;
 }
@@ -61,13 +55,7 @@ export interface ExamSession extends WithId {
   queue?: number;
   queue_full?: boolean;
   participants: number;
-  pa_participants: number;
-  post_admission_quota?: number;
-  post_admission_active: boolean;
-  post_admission_start_date?: Dayjs;
-  post_admission_end_date?: Dayjs;
   registration_start_date: Dayjs;
   registration_end_date: Dayjs;
   upcoming_admission?: boolean;
-  upcoming_post_admission?: boolean;
 }

@@ -48,12 +48,6 @@ export class SerializationUtils {
     return {
       ...examSessionResponse,
       session_date: dayjs(examSessionResponse.session_date),
-      post_admission_start_date: SerializationUtils.deserializeStartTime(
-        examSessionResponse.post_admission_start_date,
-      ),
-      post_admission_end_date: SerializationUtils.deserializeEndTime(
-        examSessionResponse.post_admission_end_date,
-      ),
       registration_start_date: SerializationUtils.deserializeStartTime(
         examSessionResponse.registration_start_date,
       ) as Dayjs,
