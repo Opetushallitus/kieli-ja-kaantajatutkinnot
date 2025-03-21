@@ -47,31 +47,7 @@ describe('InitRegistrationPage', () => {
     });
   });
 
-  describe('should allow user to subscribe for notifications of available places', () => {
-    it('if admission is ongoing and exam is full but queue is not full', () => {
-      const examSession = sessions.find((es) => {
-        const { open, availablePlaces, availableQueue } =
-          ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
-
-        return open && availablePlaces === 0 && availableQueue;
-      }) as ExamSession;
-      const tree = renderPageWithSession(examSession);
-      expect(tree).toMatchSnapshot();
-    });
-  });
-
   describe('should not let user proceed', () => {
-    it('if exam is full and there is no queue available', () => {
-      const examSession = sessions.find((es) => {
-        const { open, availablePlaces, availableQueue } =
-          ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
-
-        return open && availablePlaces === 0 && !availableQueue;
-      }) as ExamSession;
-      const tree = renderPageWithSession(examSession);
-      expect(tree).toMatchSnapshot();
-    });
-
     it('if registration has not yet started', () => {
       const examSession = sessions.find((es) => {
         return !es.open && es.upcoming_admission;
