@@ -70,7 +70,6 @@ export enum GenderEnum {
 
 export enum RegistrationKind {
   Admission = 'admission',
-  PostAdmission = 'postAdmission',
 }
 
 export enum YkiValidationErrors {

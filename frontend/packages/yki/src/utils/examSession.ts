@@ -1,4 +1,3 @@
-import { Dayjs } from 'dayjs';
 import { AppLanguage } from 'shared/enums';
 import { StringUtils } from 'shared/utils';
 
@@ -11,30 +10,11 @@ export class ExamSessionUtils {
     return Math.max(examSession.max_participants - examSession.participants, 0);
   }
 
-  private static getPostAdmissionAvailablePlaces(examSession: ExamSession) {
-    if (
-      examSession.upcoming_post_admission &&
-      examSession.post_admission_quota
-    ) {
-      return Math.max(
-        examSession.post_admission_quota - examSession.pa_participants,
-        0,
-      );
-    }
-
-    return 0;
-  }
-
   static getAvailablePlaces(examSession: ExamSession) {
-    if (
-      !examSession.upcoming_admission &&
-      !examSession.upcoming_post_admission
-    ) {
+    if (!examSession.upcoming_admission) {
       return 0;
-    } else if (examSession.upcoming_admission) {
-      return ExamSessionUtils.getRegistrationAvailablePlaces(examSession);
     } else {
-      return ExamSessionUtils.getPostAdmissionAvailablePlaces(examSession);
+      return ExamSessionUtils.getRegistrationAvailablePlaces(examSession);
     }
   }
 
@@ -151,36 +131,16 @@ export class ExamSessionUtils {
   }
 
   static getEffectiveRegistrationPeriodDetails(examSession: ExamSession) {
-    if (
-      examSession.upcoming_admission ||
-      !examSession.upcoming_post_admission
-    ) {
-      return {
-        kind: RegistrationKind.Admission,
-        start: examSession.registration_start_date,
-        end: examSession.registration_end_date,
-        participants: examSession.participants,
-        quota: examSession.max_participants,
-        availablePlaces: ExamSessionUtils.getAvailablePlaces(examSession),
-        availableQueue: examSession.open && !examSession.queue_full,
-        open: examSession.open,
-      };
-    } else {
-      const quota = examSession.post_admission_quota || 0;
-      const start = examSession.post_admission_start_date as Dayjs;
-      const end = examSession.post_admission_end_date as Dayjs;
-
-      return {
-        kind: RegistrationKind.PostAdmission,
-        start,
-        end,
-        participants: examSession.pa_participants,
-        quota,
-        availablePlaces: ExamSessionUtils.getAvailablePlaces(examSession),
-        availableQueue: false,
-        open: examSession.open,
-      };
-    }
+    return {
+      kind: RegistrationKind.Admission,
+      start: examSession.registration_start_date,
+      end: examSession.registration_end_date,
+      participants: examSession.participants,
+      quota: examSession.max_participants,
+      availablePlaces: ExamSessionUtils.getAvailablePlaces(examSession),
+      availableQueue: examSession.open && !examSession.queue_full,
+      open: examSession.open,
+    };
   }
 
   static getMunicipality(location: ExamSessionLocation) {

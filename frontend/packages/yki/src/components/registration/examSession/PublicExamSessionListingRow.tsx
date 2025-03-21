@@ -12,7 +12,6 @@ import {
   usePublicTranslation,
 } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import { RegistrationKind } from 'enums/app';
 import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
 import {
   initRegistration,
@@ -73,7 +72,7 @@ const RegistrationUnavailableText = ({
   if (examSession.open) {
     return <>{t('examSessionIsFull')}</>;
   } else {
-    if (examSession.upcoming_admission || examSession.upcoming_post_admission) {
+    if (examSession.upcoming_admission) {
       return (
         <>
           {t('admissionOpensOn', {
@@ -107,20 +106,10 @@ const renderAdmissionPeriod = ({
 };
 
 const AdmissionPeriodText = ({ examSession }: { examSession: ExamSession }) => {
-  const translateCommon = useCommonTranslation();
   const relevantPeriod =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-  if (relevantPeriod.kind === RegistrationKind.Admission) {
-    return <>{renderAdmissionPeriod(relevantPeriod)}</>;
-  } else {
-    return (
-      <>
-        {translateCommon('postAdmission')}:
-        <br aria-hidden={true} />
-        {renderAdmissionPeriod(relevantPeriod)}
-      </>
-    );
-  }
+
+  return <>{renderAdmissionPeriod(relevantPeriod)}</>;
 };
 
 const PublicExamSessionListingCellsForDesktop = ({

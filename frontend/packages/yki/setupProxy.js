@@ -716,52 +716,6 @@ module.exports = function (app) {
   });
 
   app.post(
-    '/yki/api/virkailija/organizer/:oid/exam-session/:id/post-admission',
-    (req, res) => {
-      try {
-        const postadmission = req.body;
-        const requestPostAdmissionId = req.params.id;
-        const examSessionIndex = examSessions.exam_sessions.findIndex(
-          (x) => x.id == requestPostAdmissionId,
-        );
-        const examsSession = examSessions.exam_sessions[examSessionIndex];
-
-        examsSession.post_admission_quota = postadmission.post_admission_quota;
-        examsSession.post_admission_start_date =
-          postadmission.post_admission_start_date;
-        examsSession.post_admission_active =
-          postadmission.post_admission_active;
-
-        res.send({ success: true });
-      } catch (err) {
-        printError(req, err);
-        res.status(404).send(err.message);
-      }
-    },
-  );
-
-  app.post(
-    '/yki/api/virkailija/organizer/:oid/exam-session/:id/post-admission/activation',
-    (req, res) => {
-      try {
-        const postadmissionstate = req.body.post_admission_active;
-        const requestPostAdmissionId = req.params.id;
-        const examSessionIndex = examSessions.exam_sessions.findIndex(
-          (x) => x.id == requestPostAdmissionId,
-        );
-        const examsSession = examSessions.exam_sessions[examSessionIndex];
-
-        examsSession.post_admission_active = postadmissionstate;
-
-        res.send({ success: true });
-      } catch (err) {
-        printError(req, err);
-        res.status(404).send(err.message);
-      }
-    },
-  );
-
-  app.post(
     '/yki/api/virkailija/organizer/:oid/exam-session/:examSessionId/registration/:id/resendConfirmation',
     (req, res) => {
       try {
@@ -847,49 +801,6 @@ module.exports = function (app) {
     },
   );
 
-  app.post(
-    '/yki/api/virkailija/organizer/:oid/exam-session/:id/post-admission/activate',
-    (req, res) => {
-      const mockCall = () => {
-        try {
-          const { id } = req.params;
-          const index = examSessions.exam_sessions.findIndex((x) => x.id == id);
-          examSessions.exam_sessions[index] = {
-            ...examSessions.exam_sessions[index],
-            ...req.body,
-            post_admission_active: true,
-          };
-          res.send({ success: true });
-        } catch (err) {
-          printError(req, err);
-          res.status(404).send(err.message);
-        }
-      };
-
-      useLocalProxy ? proxyPostCall(req, res) : mockCall();
-    },
-  );
-
-  app.post(
-    '/yki/api/virkailija/organizer/:oid/exam-session/:id/post-admission/deactivate',
-    (req, res) => {
-      const mockCall = () => {
-        try {
-          const { id } = req.params;
-          const index = examSessions.exam_sessions.findIndex((x) => x.id == id);
-          examSessions.exam_sessions[index] = {
-            ...examSessions.exam_sessions[index],
-            post_admission_active: false,
-          };
-          res.send({ success: true });
-        } catch (err) {
-          printError(req, err);
-          res.status(404).send(err.message);
-        }
-      };
-      useLocalProxy ? proxyPostCall(req, res) : mockCall();
-    },
-  );
 
   app.delete(
     '/yki/api/virkailija/organizer/:oid/exam-session/:examSessionId/registration/:id',
@@ -1225,37 +1136,15 @@ module.exports = function (app) {
         const twoMonthFromNow = dayjs().add(2, 'months').format('YYYY-MM-DD');
         const weekInPast = dayjs().subtract(1, 'weeks').format('YYYY-MM-DD');
         const weekFromNow = dayjs().add(1, 'weeks').format('YYYY-MM-DD');
-        const weekAndOneDayFromNow = dayjs()
-          .add(1, 'weeks')
-          .add(1, 'days')
-          .format('YYYY-MM-DD');
-        const monthMinusThreeDaysPast = dayjs()
-          .add(1, 'months')
-          .subtract(3, 'days')
-          .format('YYYY-MM-DD');
 
         allExamSessions.exam_sessions.forEach((es) => {
           if (es.session_date === '2019-04-06') {
             es.session_date = monthFromNow;
             es.registration_start_date = weekInPast;
             es.registration_end_date = weekFromNow;
-            es.post_admission_start_date = weekAndOneDayFromNow;
-            es.post_admission_end_date = monthMinusThreeDaysPast;
           }
           if (es.session_date === '2019-05-26') {
             es.session_date = twoMonthFromNow;
-          }
-
-          // postadmission active
-          if (es.session_date === '2039-12-29') {
-            const yesterday = dayjs().subtract(1, 'days').format('YYYY-MM-DD');
-            const today = dayjs().format('YYYY-MM-DD');
-
-            es.session_date = monthFromNow;
-            es.registration_start_date = monthMinusThreeDaysPast;
-            es.registration_end_date = yesterday;
-            es.post_admission_start_date = today;
-            es.post_admission_end_date = weekFromNow;
           }
         });
         res.send(allExamSessions);
