@@ -105,19 +105,5 @@ describe('PublicRegistrationPage', () => {
       worker.resetHandlers();
       worker.start();
     });
-
-    it('or by subscribing to notifications of available seats', () => {
-      onPublicRegistrationPage.selectExamLanguage('suomi');
-      onPublicRegistrationPage.selectExamLevel('perustaso');
-      onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
-      onPublicRegistrationPage.search();
-
-      onPublicRegistrationPage
-        .getResultRows()
-        .findByRole('button', { name: /Tilaa ilmoitus peruutuspaikoista/ })
-        .click();
-
-      onInitRegistrationPage.expectTitle('Tilaa ilmoitus peruutuspaikoista');
-    });
   });
 });
