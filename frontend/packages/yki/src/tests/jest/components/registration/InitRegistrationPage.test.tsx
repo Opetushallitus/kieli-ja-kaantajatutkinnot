@@ -3,7 +3,6 @@ import { create } from 'react-test-renderer';
 import { APIResponseStatus } from 'shared/enums';
 
 import { RootState } from 'configs/redux';
-import { RegistrationKind } from 'enums/app';
 import { ExamSession, ExamSessionsResponse } from 'interfaces/examSessions';
 import { ContentSelector } from 'pages/InitRegistrationPage';
 import { initialState as initialRegistrationState } from 'redux/reducers/registration';
@@ -38,25 +37,10 @@ describe('InitRegistrationPage', () => {
   describe('should prompt user to first identify', () => {
     it('if regular admission is ongoing and there is room', () => {
       const examSession = sessions.find((es) => {
-        const { open, kind, availablePlaces } =
+        const { open, availablePlaces } =
           ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
 
-        return (
-          open && kind === RegistrationKind.Admission && availablePlaces > 0
-        );
-      }) as ExamSession;
-      const tree = renderPageWithSession(examSession);
-      expect(tree).toMatchSnapshot();
-    });
-
-    it('if post-admission is ongoing and there is room', () => {
-      const examSession = sessions.find((es) => {
-        const { open, kind, availablePlaces } =
-          ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
-
-        return (
-          open && kind === RegistrationKind.PostAdmission && availablePlaces > 0
-        );
+        return open && availablePlaces > 0;
       }) as ExamSession;
       const tree = renderPageWithSession(examSession);
       expect(tree).toMatchSnapshot();
@@ -98,9 +82,7 @@ describe('InitRegistrationPage', () => {
 
     it('if registration period has already ended', () => {
       const examSession = sessions.find((es) => {
-        return (
-          !es.open && !es.upcoming_admission && !es.upcoming_post_admission
-        );
+        return !es.open && !es.upcoming_admission;
       }) as ExamSession;
       const tree = renderPageWithSession(examSession);
       expect(tree).toMatchSnapshot();

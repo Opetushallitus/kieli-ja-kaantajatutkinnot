@@ -31,11 +31,10 @@ const DescribeUnavailability = ({
 const getReasonForUnavailability = ({
   open,
   upcoming_admission,
-  upcoming_post_admission,
 }: ExamSession) => {
   if (open) {
     return 'full';
-  } else if (upcoming_admission || upcoming_post_admission) {
+  } else if (upcoming_admission) {
     return 'upcoming';
   } else return 'past';
 };
