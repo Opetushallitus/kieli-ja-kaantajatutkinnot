@@ -148,9 +148,6 @@ const clerkEnrollmentAppointmentSlice = createSlice({
       state.gradesStatus = APIResponseStatus.Success;
       state.grades = action.payload;
     },
-    resetClerkEnrollmentAppointmentGrades(state) {
-      state.gradesSaveStatus = initialState.status;
-    },
     cancelClerkEnrollmentAppointment(
       state,
       _action: PayloadAction<{
@@ -212,7 +209,6 @@ export const {
   resetClerkEnrollmentDetails,
   upsertClerkEnrollmentAppointmentGrades,
   storeClerkEnrollmentAppointmentGrades,
-  resetClerkEnrollmentAppointmentGrades,
   loadClerkEnrollmentAppointmentGrades,
   storeClerkEnrollmentAppointmentGradesUpsert,
   sendClerkEnrollmentAppointmentAuthLink,

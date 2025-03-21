@@ -96,6 +96,7 @@
         },
         "authLinkConfirmDialog": {
           "title": "Viestin esikatselu",
+          "send": "Lähetä",
           "description": {
             "part1": "Olet ilmoittautumassa seuraavaan Valtionhallinnon kielitutkintojen hyvän ja tyydyttävän taidon tutkintoon:",
             "part2": "Vahvista ilmoittautumisesi tunnistautumalla vahvasti ja maksamalla tutkintomaksu:",

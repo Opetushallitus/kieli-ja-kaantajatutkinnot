@@ -616,14 +616,12 @@ const EnrollmentStatus = ({
             variant: Variant.Outlined,
           },
           {
-            title: 'Lähetä',
+            title: t('authLinkConfirmDialog.send'),
             variant: Variant.Contained,
             action: sendAuthLinkAction,
           },
         ],
       });
-      /*
-      ;*/
     }
   };
 

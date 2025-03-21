@@ -23,7 +23,7 @@ import {
 } from 'interfaces/clerkEnrollment';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import {
-  resetClerkEnrollmentAppointmentGrades,
+  resetClerkEnrollmentDetailsToInitialState,
   upsertClerkEnrollmentAppointmentGrades,
 } from 'redux/reducers/clerkEnrollmentAppointment';
 import { clerkEnrollmentAppointmentSelector } from 'redux/selectors/clerkEnrollmentAppointment';
@@ -79,7 +79,7 @@ export const GradeModal = ({
   useEffect(() => {
     if (gradesSaveStatus === APIResponseStatus.Success) {
       closeModal();
-      dispatch(resetClerkEnrollmentAppointmentGrades());
+      dispatch(resetClerkEnrollmentDetailsToInitialState());
     }
   }, [gradesSaveStatus, dispatch, closeModal]);
 
