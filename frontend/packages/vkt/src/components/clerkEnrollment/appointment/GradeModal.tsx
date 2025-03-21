@@ -98,7 +98,7 @@ export const GradeModal = ({
       ...prev,
       [exam]: {
         comment: prev[exam]?.comment ?? '',
-        grade,
+        grade: grade ?? '',
       },
     }));
 
