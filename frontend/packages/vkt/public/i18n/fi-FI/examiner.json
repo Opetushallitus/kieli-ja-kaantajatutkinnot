@@ -186,19 +186,21 @@
         "labels": {
           "addressDetails": "Osoitetiedot",
           "date": "Tutkintopäivä",
-          "examTime": "Kellonaika",
+          "examTime": "Tutkinnon alkamisaika",
           "language": "Tutkinnon kieli",
           "level": "Tutkinnon taso",
-          "location": "Tarkka osoite",
+          "location": "Tutkintopaikan tarkka osoite",
           "isPublic": "Näytä tutkintotilaisuus julkisesti",
           "maxParticipants": "Paikkojen lukumäärä",
           "municipality": "Tutkintopaikka",
-          "otherInformation": "Muut tiedot (esim. saapumisohjeet)",
-          "registrationCloses": "Ilmoittautuminen sulkeutuu"
+          "otherInformation": "Muut lisätiedot, esimerkiksi saapumisohjeet",
+          "registrationCloses": "Ilmoittautuminen päättyy"
         },
         "sections": {
           "furtherInformation": "Tutkintotilaisuuden tarkemmat tiedot",
+          "furtherInformationDescription": "Täytä tähän tutkintotilaisuuden tarkemmat tiedot. Nämä tiedot näkyvät asiakkaille vain maksun jälkeen toimitettavassa vahvistussähköpostissa. Tiedot eivät näy julkisesti.",
           "other": "Muut tiedot",
+          "otherDescription": "Voit määrittää tässä tutkintotilaisuudelle maksimiosallistujamäärän ja ilmoittautumisen sulkeutumisajan. Jos maksimiosallistujamäärä on täynnä tai ilmoittautumisaika päättynyt, julkisella sivulla näkyy tutkintotilaisuuden kohdalla tieto \"Täynnä\" tai \"Ilmoittautuminen päättynyt\".",
           "publicInformation": "Julkisessa listauksessa näkyvät tiedot"
         },
         "toasts": {

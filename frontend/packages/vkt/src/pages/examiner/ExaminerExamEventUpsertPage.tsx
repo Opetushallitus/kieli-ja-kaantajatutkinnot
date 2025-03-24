@@ -653,6 +653,7 @@ export const ExaminerExamEventUpsertPage: FC<PageProps> = ({
             </div>
             <div className="rows gapped">
               <H2>{t('sections.other')}</H2>
+              <Text>{t('sections.otherDescription')}</Text>
               <div className="grid-3-columns gapped">
                 <SelectMaxParticipants showErrors={showErrors} />
                 <SelectRegistrationClosingDate />
@@ -660,6 +661,7 @@ export const ExaminerExamEventUpsertPage: FC<PageProps> = ({
             </div>
             <div className="rows gapped">
               <H2>{t('sections.furtherInformation')}</H2>
+              <Text>{t('sections.furtherInformationDescription')}</Text>
               <div className="grid-3-columns gapped">
                 <ExamTime />
                 <AddressDetails />
