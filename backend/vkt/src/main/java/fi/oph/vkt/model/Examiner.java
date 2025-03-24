@@ -27,7 +27,7 @@ public class Examiner extends BaseEntity {
   private String email;
 
   @Size(max = 255)
-  @Column(name = "phone_number", nullable = false)
+  @Column(name = "phone_number")
   private String phoneNumber;
 
   @Column(name = "last_name", nullable = false)

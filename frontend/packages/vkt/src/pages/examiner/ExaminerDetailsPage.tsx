@@ -92,7 +92,7 @@ const useExaminerDetailsUpsertErrors = (showErrors: boolean) => {
       phoneNumber: InputFieldUtils.validateCustomTextFieldErrors({
         type: TextFieldTypes.PhoneNumber,
         value: examinerDetails.phoneNumber,
-        required: true,
+        required: false,
       }),
       municipalities:
         examinerDetails.municipalities &&
@@ -429,7 +429,8 @@ const CreateOrUpdateExaminerDetails = () => {
   ): LabeledFieldProps => {
     return {
       id: `examiner-details__${fieldName}`,
-      label: t(`labels.${fieldName}`) + ' *',
+      label:
+        t(`labels.${fieldName}`) + (fieldName === 'phoneNumber' ? '' : ' *'),
       error: showErrors && !!errors[fieldName],
       helperText: errors[fieldName] ? translateCommon(errors[fieldName]) : '',
     };

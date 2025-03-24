@@ -12,7 +12,7 @@ public record ExaminerDetailsDTO(
   @NonNull Integer version,
   @NonNull String oid,
   @NonNull String email,
-  @NonNull String phoneNumber,
+  String phoneNumber,
   @NonNull String lastName,
   @NonNull String firstName,
   @NonNull Boolean examLanguageFinnish,

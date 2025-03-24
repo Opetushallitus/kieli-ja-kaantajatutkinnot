@@ -95,8 +95,8 @@ public class ExamEventXlsxDataRowUtil {
     return ExaminerExamEventXlsxDataRow
       .builder()
       .enrollmentTime(DATETIME_FORMAT.format(enrollment.getCreatedAt()))
-      .lastName(person.getLastName())
-      .firstName(person.getFirstName())
+      .lastName(person == null ? enrollment.getLastName() : person.getLastName())
+      .firstName(person == null ? enrollment.getFirstName() : person.getFirstName())
       .previousEnrollment(boolToInt(enrollment.isHasPreviousEnrollment()))
       .status(statusToText(enrollment.getStatus()))
       .textualSkill(boolToInt(enrollment.isTextualSkill()))

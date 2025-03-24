@@ -360,6 +360,9 @@ const ExamAndEnrollmentDetailsSection = ({
   const examTime =
     enrollment.examEvent?.examTime &&
     DateTimeUtils.parseTime(enrollment.examEvent?.examTime);
+  const isEnrollmentCompleted =
+    enrollment.status === EnrollmentAppointmentStatus.COMPLETED ||
+    enrollment.status === EnrollmentAppointmentStatus.EXPECTING_PAYMENT;
 
   return (
     <>
@@ -392,7 +395,7 @@ const ExamAndEnrollmentDetailsSection = ({
       ) : (
         <ClerkEnrollmentSkillsListFields
           enrollment={enrollment}
-          editDisabled={editDisabled}
+          editDisabled={editDisabled || isEnrollmentCompleted}
           onCheckboxFieldChange={onCheckboxFieldChange}
         />
       )}

@@ -38,7 +38,7 @@ export interface ExaminerDetails extends WithId {
   lastName: string;
   firstName: string;
   email: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   examLanguageFinnish: boolean;
   examLanguageSwedish: boolean;
   municipalities: Array<MunicipalityCode>;
