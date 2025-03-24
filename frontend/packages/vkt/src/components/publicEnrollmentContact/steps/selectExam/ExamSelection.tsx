@@ -59,10 +59,8 @@ export const ExamSelection = ({
       );
     }
   };
-  const hasFullExamError =
-    showValidation && enrollment.isFullExam === undefined;
+  const hasFullExamError = enrollment.isFullExam === undefined;
   const hasPartialExamSelectionError =
-    showValidation &&
     enrollment.isFullExam === false &&
     (enrollment.partialExamSelection === undefined ||
       StringUtils.isBlankString(enrollment.partialExamSelection));
@@ -101,7 +99,7 @@ export const ExamSelection = ({
               label={t('fullExam.yes')}
               checked={enrollment.isFullExam === true}
               className={`margin-left-sm ${
-                hasFullExamError && 'checkbox-error'
+                showValidation && hasFullExamError && 'checkbox-error'
               }`}
             />
             <FormControlLabel
@@ -111,11 +109,11 @@ export const ExamSelection = ({
               label={t('fullExam.no')}
               checked={enrollment.isFullExam === false}
               className={`margin-left-sm ${
-                hasFullExamError && 'checkbox-error'
+                showValidation && hasFullExamError && 'checkbox-error'
               }`}
             />
           </RadioGroup>
-          {hasFullExamError && (
+          {showValidation && hasFullExamError && (
             <FormHelperText id="full-exam-error" error={true}>
               {translateCommon('errors.customTextField.required')}
             </FormHelperText>
