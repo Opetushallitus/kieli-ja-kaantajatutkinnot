@@ -77,10 +77,10 @@ export const ExaminerEnrollmentListingRow = ({
         className="cursor-pointer"
       >
         <TableCell>
-          <Text>{getPersonName('lastName')}</Text>
+          <Text>{getPersonName('firstName')}</Text>
         </TableCell>
         <TableCell>
-          <Text>{getPersonName('firstName')}</Text>
+          <Text>{getPersonName('lastName')}</Text>
         </TableCell>
         <TableCell>
           <Text>{getSelectedPartialExamsText()}</Text>
