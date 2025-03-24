@@ -279,9 +279,10 @@ public class PublicController {
         enrollmentAppointmentId,
         paymentLinkHash
       );
+      final Person person = publicEnrollmentService.createPersonFromEnrollment(enrollment);
       final String redirectUrl = paymentService.createPaymentForEnrollmentAppointment(
         enrollment.getId(),
-        enrollment.getPerson(),
+        person,
         AppLocale.FI
       );
 
@@ -432,14 +433,18 @@ public class PublicController {
     @PathVariable final Long paymentId,
     @RequestParam final Map<String, String> paymentParams,
     @RequestParam final Optional<Boolean> callback,
+    final HttpSession session,
     final HttpServletResponse httpResponse
   ) throws IOException {
+    final boolean isAuthenticated = SessionUtil.hasPersonId(session);
     handleFinalizePayment(
       paymentId,
       paymentParams,
       callback,
       httpResponse,
-      paymentService::getFinalizePaymentSuccessRedirectUrl
+      isAuthenticated
+        ? paymentService::getFinalizePaymentSuccessRedirectUrl
+        : paymentService::getFinalizePaymentSuccessRedirectUrlNonAuth
     );
   }
 

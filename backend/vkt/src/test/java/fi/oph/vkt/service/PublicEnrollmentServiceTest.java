@@ -30,6 +30,7 @@ import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.ExaminerRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
+import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.repository.UploadedFileAttachmentRepository;
 import fi.oph.vkt.service.aws.S3Service;
@@ -72,6 +73,9 @@ public class PublicEnrollmentServiceTest {
 
   @Resource
   private ReservationRepository reservationRepository;
+
+  @Resource
+  private PersonRepository personRepository;
 
   @Resource
   private FreeEnrollmentRepository freeEnrollmentRepository;
@@ -128,7 +132,8 @@ public class PublicEnrollmentServiceTest {
         uploadedFileAttachmentRepository,
         koskiService,
         examinerRepository,
-        contactEmailServiceMock
+        contactEmailServiceMock,
+        personRepository
       );
   }
 

@@ -184,7 +184,7 @@
           "update": "Tutkintotilaisuuden muokkaus"
         },
         "labels": {
-          "addressDetails": "Osoitetiedot",
+          "addressDetails": "Tutkintopaikan tarkka osoite",
           "date": "Tutkintopäivä",
           "examTime": "Tutkinnon alkamisaika",
           "language": "Tutkinnon kieli",

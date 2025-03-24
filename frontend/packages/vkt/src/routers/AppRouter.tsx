@@ -291,6 +291,16 @@ export const AppRouter: FC = () => {
             }
           />
         </Route>
+        <Route
+          path={AppRoutes.PublicEnrollmentAppointmentPaymentNonAuthSuccess}
+          element={
+            <VktTitlePage title={createTitle('paymentSuccess')}>
+              <PublicEnrollmentAppointmentPage
+                activeStep={PublicEnrollmentAppointmentFormStep.PaymentSuccess}
+              />
+            </VktTitlePage>
+          }
+        />
         <Route path={AppRoutes.PublicEnrollmentContact}>
           <Route
             path={AppRoutes.PublicEnrollmentContactContactDetails}

@@ -68,17 +68,23 @@ export const PaymentSuccess = ({
     };
   }, [dispatch]);
 
+  const isAnon = !enrollment.id;
+
   return (
     <div className="rows gapped-xxl">
       <div className="margin-top-lg rows gapped">
         <Text>
-          {t('description1', {
-            examFee:
-              PublicEnrollmentUtils.calculateAppointmentPaymentSum(enrollment),
-          })}
+          {isAnon
+            ? t('description3')
+            : t('description1', {
+                examFee:
+                  PublicEnrollmentUtils.calculateAppointmentPaymentSum(
+                    enrollment,
+                  ),
+              })}
         </Text>
         {examEvent && <ExamEventDetails examEvent={examEvent} />}
-        <Text>{t('description2', { email })}</Text>
+        <Text>{isAnon ? t('description4') : t('description2', { email })}</Text>
       </div>
       <CustomButtonLink
         className="align-self-start"

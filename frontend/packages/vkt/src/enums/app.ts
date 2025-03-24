@@ -50,6 +50,8 @@ export enum AppRoutes {
     '/:enrollmentId/maksu/peruutettu',
   PublicEnrollmentAppointmentPaymentSuccess = goodAndSatisfactoryLevelEnrollmentRoute +
     '/:enrollmentId/maksu/valmis',
+  PublicEnrollmentAppointmentPaymentNonAuthSuccess = goodAndSatisfactoryLevelEnrollmentRoute +
+    '/maksu/valmis',
 
   PublicEnrollmentContact = goodAndSatisfactoryLevelContactRoute,
   PublicEnrollmentContactContactDetails = goodAndSatisfactoryLevelContactRoute +

@@ -233,34 +233,47 @@ public class PaymentService {
   }
 
   @Transactional(readOnly = true)
+  public String getFinalizePaymentSuccessRedirectUrlNonAuth(final Long paymentId) {
+    return getFinalizePaymentRedirectUrl(paymentId, "valmis", false);
+  }
+
+  @Transactional(readOnly = true)
   public String getFinalizePaymentSuccessRedirectUrl(final Long paymentId) {
-    return getFinalizePaymentRedirectUrl(paymentId, "valmis");
+    return getFinalizePaymentRedirectUrl(paymentId, "valmis", true);
   }
 
   @Transactional(readOnly = true)
   public String getFinalizePaymentCancelRedirectUrl(final Long paymentId) {
-    return getFinalizePaymentRedirectUrl(paymentId, "peruutettu");
+    return getFinalizePaymentRedirectUrl(paymentId, "peruutettu", true);
   }
 
-  private String getFinalizePaymentRedirectUrl(final Long paymentId, final String state) {
+  private String getFinalizePaymentRedirectUrl(
+    final Long paymentId,
+    final String state,
+    final boolean isAuthenticated
+  ) {
     final String baseUrl = environment.getRequiredProperty("app.base-url.public");
     final Payment payment = paymentRepository
       .findById(paymentId)
       .orElseThrow(() -> new NotFoundException("Payment not found"));
 
-    return payment.getEnrollment() != null
-      ? String.format(
+    if (payment.getEnrollment() != null) {
+      return String.format(
         "%s/erinomainen-taito/ilmoittaudu/%d/maksu/%s",
         baseUrl,
         payment.getEnrollment().getExamEvent().getId(),
         state
-      )
-      : String.format(
+      );
+    }
+
+    return isAuthenticated
+      ? String.format(
         "%s/hyva-ja-tyydyttava-taito/ilmoittaudu/%d/maksu/%s",
         baseUrl,
         payment.getEnrollmentAppointment().getId(),
         state
-      );
+      )
+      : String.format("%s/hyva-ja-tyydyttava-taito/ilmoittaudu/maksu/%s", baseUrl, state);
   }
 
   @Transactional

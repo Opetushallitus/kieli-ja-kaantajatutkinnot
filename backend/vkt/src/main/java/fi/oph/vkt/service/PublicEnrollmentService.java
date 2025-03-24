@@ -11,6 +11,7 @@ import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.ExaminerRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
+import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.repository.UploadedFileAttachmentRepository;
 import fi.oph.vkt.service.aws.S3Service;
@@ -26,6 +27,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
@@ -49,6 +51,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   private final KoskiService koskiService;
   private final ExaminerRepository examinerRepository;
   private final ContactEmailService contactEmailService;
+  private final PersonRepository personRepository;
 
   @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollment(final long examEventId, final Person person) {
@@ -700,5 +703,25 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     return enrollmentAppointmentRepository
       .findByIdAndPaymentLinkHashAndDeletedAtIsNull(enrollmentAppointmentId, paymentLinkHash)
       .orElseThrow();
+  }
+
+  public Person createPersonFromEnrollment(final EnrollmentAppointment enrollment) {
+    if (enrollment.getPerson() != null) {
+      return enrollment.getPerson();
+    }
+
+    Person person = new Person();
+    person.setFirstName(enrollment.getFirstName());
+    person.setLastName(enrollment.getLastName());
+    person.setLatestIdentifiedAt(LocalDateTime.now());
+    person.setLatestSyncAt(LocalDateTime.now());
+    person.setUuid(UUID.randomUUID());
+
+    person = personRepository.saveAndFlush(person);
+
+    enrollment.setPerson(person);
+    enrollmentAppointmentRepository.saveAndFlush(enrollment);
+
+    return person;
   }
 }

@@ -32,13 +32,13 @@ public class Person extends BaseEntity {
   @Column(name = "first_name", nullable = false)
   private String firstName;
 
-  @Column(name = "tmp_last_name", nullable = false)
+  @Column(name = "tmp_last_name")
   private String tmpLastName;
 
-  @Column(name = "tmp_first_name", nullable = false)
+  @Column(name = "tmp_first_name")
   private String tmpFirstName;
 
-  @Column(name = "tmp_nickname", nullable = false)
+  @Column(name = "tmp_nickname")
   private String tmpNickname;
 
   @Size(max = 255)

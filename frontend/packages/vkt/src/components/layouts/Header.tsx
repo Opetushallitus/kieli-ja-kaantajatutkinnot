@@ -1,5 +1,6 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { TFunction } from 'i18next';
+import { useParams } from 'react-router';
 import { Link, matchPath, useLocation } from 'react-router-dom';
 import {
   CookieBanner,
@@ -144,6 +145,7 @@ const PublicMobileNavigationMenu = () => {
 
 export const Header = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const params = useParams();
   const translateCommon = useCommonTranslation();
   const [finnish, swedish] = getSupportedLangs();
 
@@ -154,13 +156,16 @@ export const Header = (): JSX.Element => {
 
   const { isAuthenticated, isClerkUI, clerkUser, publicUser } =
     useAuthentication();
-  const logoRedirectURL = isAuthenticated
-    ? AppRoutes.ClerkExcellentLevelPage
-    : AppRoutes.PublicHomePage;
   const activeUrl = window.location.href;
   const isPublicUrl =
     !activeUrl.includes(AppRoutes.ClerkRoot) &&
     !activeUrl.includes(AppRoutes.ExaminerRoot);
+  const oid = params.oid || '';
+  const logoRedirectURL = isAuthenticated
+    ? oid
+      ? AppRoutes.ExaminerHomePage.replace(':oid', oid)
+      : AppRoutes.ClerkExcellentLevelPage
+    : AppRoutes.PublicHomePage;
 
   const { isPhone } = useWindowProperties();
 
