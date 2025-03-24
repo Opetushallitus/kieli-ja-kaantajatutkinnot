@@ -530,10 +530,12 @@ const EnrollmentStatus = ({
       <Text>{t('authLinkConfirmDialog.description.part1')}</Text>
       <br />
       <Text>
-        <b>{t2('labels.language')}</b>: {enrollment.examEvent.language}
+        <b>{t2('labels.language')}</b>:{' '}
+        {translateCommon(`examLanguage.${enrollment.examEvent.language}`)}
       </Text>
       <Text>
         <b>{t2('labels.level')}</b>:{' '}
+        {translateCommon(`examLevel.${ExamLevel.GOOD_AND_SATISFACTORY}`)}
       </Text>
       <Text>
         <b>{t2('labels.date')}</b>:{' '}
