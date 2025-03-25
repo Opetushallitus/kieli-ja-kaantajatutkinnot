@@ -23,7 +23,9 @@ import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -227,7 +229,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
 
     checkExaminerOid(enrollmentAppointment, oid);
 
-    enrollmentAppointment.setExpiresAt(LocalDateTime.now().plusDays(3));
+    enrollmentAppointment.setExpiresAt(LocalDate.now().atTime(LocalTime.MIDNIGHT).plusDays(4));
     enrollmentAppointment.setSentAt(LocalDateTime.now());
     enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.WAITING_AUTHENTICATION);
 

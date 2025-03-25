@@ -53,7 +53,9 @@ export const EnrollmentHistoryModal = ({
       <>
         <div style={{ width: '60vw' }} className="rows gapped-sm">
           <LoadingProgressIndicator displayBlock={true} isLoading={isLoading}>
-            {enrollmentHistory &&
+            {!enrollmentHistory || enrollmentHistory?.length <= 0 ? (
+              <Text>{t('noHistory')}</Text>
+            ) : (
               enrollmentHistory.map(
                 (
                   enrollment: ClerkEnrollmentAppointmentHistory,
@@ -76,6 +78,10 @@ export const EnrollmentHistoryModal = ({
                     </AccordionSummary>
                     <br />
                     <AccordionDetails>
+                      <div className="rows margin-bottom-lg">
+                        <Text className="bold">{t('examinerName')}</Text>
+                        <Text>{enrollment.examinerName}</Text>
+                      </div>
                       <EnrollmentSkillsListTable
                         grades={enrollment.grades}
                         enrollment={enrollment}
@@ -83,7 +89,8 @@ export const EnrollmentHistoryModal = ({
                     </AccordionDetails>
                   </Accordion>
                 ),
-              )}
+              )
+            )}
           </LoadingProgressIndicator>
           <div className="columns gapped flex-end">
             <CustomButton

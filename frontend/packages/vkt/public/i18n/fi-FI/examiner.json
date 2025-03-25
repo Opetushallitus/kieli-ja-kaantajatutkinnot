@@ -9,7 +9,9 @@
           "title": "Anna arvosanat"
         },
         "historyModal": {
-          "title": "Aiempien tutkintojen tiedot"
+          "title": "Aiempien tutkintojen tiedot",
+          "examinerName": "Tutkinnon vastaanottaja",
+          "noHistory": "Ei aiempia tutkintoja"
         }
       },
       "examinerContactRequest": {
@@ -131,6 +133,7 @@
           "languageAndLevel": "Kieli ja taso",
           "location": "Tutkintopaikan tarkka osoite",
           "maxParticipants": "Paikkojen lukumäärä",
+          "otherInformation": "Muut lisätiedot, esimerkiksi saapumisohjeet",
           "municipality": "Tutkintopaikka",
           "previousEnrollment": "Aikaisempi osallistuminen valtionhallinnon kielitutkintoon",
           "registrationCloses": "Ilmoittautuminen päättyy"

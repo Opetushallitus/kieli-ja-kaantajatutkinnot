@@ -124,6 +124,10 @@ export const ExaminerExamEventDetails = () => {
             <Text>{examEvent.maxParticipants ?? '—'}</Text>
           </div>
         </div>
+        <div className="rows grow gapped-sm margin-top-lg">
+          <H3>{t('header.otherInformation')}:</H3>
+          <Text>{examEvent.otherInformation ?? '—'}</Text>
+        </div>
       </div>
       <EnrollmentList
         enrollments={enrollments}
