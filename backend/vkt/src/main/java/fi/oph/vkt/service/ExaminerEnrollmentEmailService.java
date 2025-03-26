@@ -11,6 +11,7 @@ import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.LocalisationUtil;
 import fi.oph.vkt.util.TemplateRenderer;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +23,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ExaminerEnrollmentEmailService extends AbstractEnrollmentEmailService {
 
+  private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
   private final EmailService emailService;
   private final Environment environment;
   private final TemplateRenderer templateRenderer;
 
   @Transactional
-  public void sendEnrollmentAppointmentAuthLink(final EnrollmentAppointment enrollment)
-    throws IOException, InterruptedException {
+  public void sendEnrollmentAppointmentAuthLink(final EnrollmentAppointment enrollment) {
     final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
     final Map<String, Object> templateParams = getEmailParams(enrollment, enrollment.getExaminerExamEvent());
 
@@ -41,6 +43,9 @@ public class ExaminerEnrollmentEmailService extends AbstractEnrollmentEmailServi
 
     final ExaminerExamEvent examEvent = enrollment.getExaminerExamEvent();
     templateParams.put("examLocation", examEvent.getLocation());
+
+    final String expiresAt = DATE_FORMAT.format(enrollment.getExpiresAt());
+    templateParams.put("expiresAt", expiresAt);
 
     final String recipientName = enrollment.getFirstName() + " " + enrollment.getLastName();
     final String recipientAddress = enrollment.getEmail();

@@ -106,11 +106,12 @@
             "bullet2": "Sinut ohjataan automaattisesti ilmoittautumislomakkeelle.",
             "bullet3": "Tarkista ilmoittautumisesi tiedot lomakkeella.",
             "bullet4": "Siirry maksamaan tutkintomaksu. Ilmoittautumisesi vahvistuu, kun maksat tutkintomaksun.",
-            "part3": "Siirry tunnistautumiseen alla olevan linkin kautta:",
-            "part4": "Tunnistaudu ja maksa ilmoittautuminen",
-            "part5": "Älä vastaa tähän viestiin - viesti on lähetetty automaattisesti.",
-            "part6": "Ystävällisin terveisin",
-            "part7": "Opetushallitus"
+            "part3": "Huom! Linkin viimeinen voimassaolopäivä on {{expiresAt}}. Et voi osallistua tutkintoon, jos et ole maksanut tutkintomaksua linkin kautta.",
+            "part4": "Siirry tunnistautumiseen alla olevan linkin kautta:",
+            "part5": "Tunnistaudu ja maksa ilmoittautuminen",
+            "part6": "Älä vastaa tähän viestiin - viesti on lähetetty automaattisesti.",
+            "part7": "Ystävällisin terveisin",
+            "part8": "Opetushallitus"
           }
         },
         "downloadExcel": "Lataa Excel",

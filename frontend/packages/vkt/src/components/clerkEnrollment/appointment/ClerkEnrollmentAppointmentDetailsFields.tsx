@@ -4,6 +4,7 @@ import {
   FormControlLabel,
   FormHelperTextProps,
 } from '@mui/material';
+import dayjs from 'dayjs';
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
   CustomButton,
@@ -528,6 +529,8 @@ const EnrollmentStatus = ({
     enrollment.examEvent?.examTime &&
     DateTimeUtils.parseTime(enrollment.examEvent?.examTime);
 
+  const expiresAt = DateTimeUtils.renderDate(dayjs().add(3, 'day'));
+
   const sendAuthLinkConfirmContent = (
     <>
       <Text>{t('authLinkConfirmDialog.description.part1')}</Text>
@@ -572,13 +575,15 @@ const EnrollmentStatus = ({
         </li>
       </ul>
       <br />
-      <Text>{t('authLinkConfirmDialog.description.part3')}</Text>
-      <Text>{t('authLinkConfirmDialog.description.part4')}</Text>
+      <Text>{t('authLinkConfirmDialog.description.part3', { expiresAt })}</Text>
       <br />
+      <Text>{t('authLinkConfirmDialog.description.part4')}</Text>
       <Text>{t('authLinkConfirmDialog.description.part5')}</Text>
       <br />
       <Text>{t('authLinkConfirmDialog.description.part6')}</Text>
+      <br />
       <Text>{t('authLinkConfirmDialog.description.part7')}</Text>
+      <Text>{t('authLinkConfirmDialog.description.part8')}</Text>
     </>
   );
 

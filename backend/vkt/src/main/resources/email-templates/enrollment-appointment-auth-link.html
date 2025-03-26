@@ -24,6 +24,10 @@
         </p>
 
         <p>
+            Huom! Linkin viimeinen voimassaolopäivä on <span th:text="${expiresAt}"></span>. Et voi osallistua tutkintoon, jos et ole maksanut tutkintomaksua linkin kautta.
+        </p>
+
+        <p>
             Siirry tunnistautumiseen alla olevan linkin kautta:<br/>
             <a th:href="${enrollmentAuthLink}">Tunnistaudu ja maksa ilmoittautuminen</a>
         </p>

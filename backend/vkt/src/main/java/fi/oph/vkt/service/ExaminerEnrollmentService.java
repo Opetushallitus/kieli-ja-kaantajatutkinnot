@@ -221,7 +221,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
   public ExaminerEnrollmentAppointmentDTO sendEnrollmentAppointmentLink(
     final String oid,
     final long enrollmentAppointmentId
-  ) throws IOException, InterruptedException {
+  ) {
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
       enrollmentAppointmentId
     );
@@ -229,7 +229,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
 
     checkExaminerOid(enrollmentAppointment, oid);
 
-    enrollmentAppointment.setExpiresAt(LocalDate.now().atTime(LocalTime.MIDNIGHT).plusDays(4));
+    enrollmentAppointment.setExpiresAt(LocalDate.now().atTime(LocalTime.MAX).plusDays(3).minusMinutes(1));
     enrollmentAppointment.setSentAt(LocalDateTime.now());
     enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.WAITING_AUTHENTICATION);
 
