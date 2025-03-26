@@ -44,7 +44,7 @@ public class ExaminerEnrollmentEmailService extends AbstractEnrollmentEmailServi
     final ExaminerExamEvent examEvent = enrollment.getExaminerExamEvent();
     templateParams.put("examLocation", examEvent.getLocation());
 
-    final String expiresAt = DATE_FORMAT.format(enrollment.getExpiresAt());
+    final String expiresAt = enrollment.getExpiresAt() != null ? DATE_FORMAT.format(enrollment.getExpiresAt()) : "-";
     templateParams.put("expiresAt", expiresAt);
 
     final String recipientName = enrollment.getFirstName() + " " + enrollment.getLastName();
