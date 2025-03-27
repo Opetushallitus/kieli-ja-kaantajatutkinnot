@@ -5,12 +5,15 @@ import fi.oph.vkt.model.Person;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.onr.OnrService;
 import fi.oph.vkt.service.onr.PersonalData;
+import fi.oph.vkt.util.HetuUtils;
 import fi.oph.vkt.util.PersonUtil;
 import fi.oph.vkt.util.exception.NotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +24,8 @@ public class PublicPersonService {
 
   private final PersonRepository personRepository;
   private final OnrService onrService;
+
+  private static final Logger LOG = LoggerFactory.getLogger(PublicPersonService.class);
 
   @Transactional(readOnly = true)
   public Person getPerson(final Long personId) {
@@ -37,6 +42,12 @@ public class PublicPersonService {
     final List<Person> personsMissingOid = personRepository.findByOidIsNullAndDeletedAtIsNull();
     personsMissingOid.forEach(person -> {
       try {
+        if (!HetuUtils.hetuIsValid(person.getOtherIdentifier())) {
+          LOG.warn("Trying to insert personal data to ONR with invalid SSN for person {}", person.getId());
+
+          return;
+        }
+
         final String oid = onrService.insertPersonalData(person);
         if (oid != null && oid.length() > 0) {
           person.setOid(oid);
@@ -44,7 +55,7 @@ public class PublicPersonService {
           personRepository.saveAndFlush(person);
         }
       } catch (final Exception e) {
-        // TODO: log error
+        LOG.error("Inserting personal data to ONR failed for person {}", person.getId());
       }
     });
   }

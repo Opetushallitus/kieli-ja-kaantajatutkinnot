@@ -12,8 +12,7 @@ import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import fi.oph.vkt.model.type.FreeEnrollmentType;
 import fi.oph.vkt.service.onr.PersonalData;
-import fi.oph.vkt.util.HetuUtils;
-import java.time.LocalDate;
+import fi.oph.vkt.util.DateUtil;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
@@ -78,16 +77,6 @@ public class ExamEventXlsxDataRowUtil {
     return createExamEventExcel(examEvent, excelDataRows);
   }
 
-  private static String parseBirthdate(final String ssn) {
-    if (ssn.isEmpty() || !HetuUtils.hetuIsValid(ssn)) {
-      return "";
-    }
-
-    final LocalDate birthdate = HetuUtils.dateFromHetu(ssn);
-
-    return DATE_LOCAL_FORMAT.format(birthdate);
-  }
-
   private static ExaminerExamEventXlsxDataRow createDataRow(
     final EnrollmentAppointment enrollment,
     final Person person
@@ -141,7 +130,7 @@ public class ExamEventXlsxDataRowUtil {
       .speechComprehension(boolToInt(enrollment.isSpeechComprehensionPartialExam()))
       .email(enrollment.getEmail())
       .phoneNumber(enrollment.getPhoneNumber())
-      .birthdate(ssn != null ? parseBirthdate(ssn) : "")
+      .birthdate(ssn != null ? DateUtil.formatBirthdateFromSSN(ssn) : "")
       .ssn(ssn != null ? ssn : "")
       .digitalCertificateConsent(boolToInt(enrollment.isDigitalCertificateConsent()))
       .street(enrollment.getStreet())

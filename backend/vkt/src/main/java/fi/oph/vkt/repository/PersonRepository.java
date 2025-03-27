@@ -1,10 +1,13 @@
 package fi.oph.vkt.repository;
 
+import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.Person;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -33,4 +36,7 @@ public interface PersonRepository extends BaseRepository<Person> {
     " ORDER BY p.latestSyncAt ASC"
   )
   List<String> findPersonsToSync(LocalDateTime latestSyncedBefore);
+
+  @Query("SELECT true" + " FROM EnrollmentAppointment ea " + " WHERE ea.person = ?1 AND ea.examiner = ?2")
+  boolean existsForExaminer(final Person person, final Examiner examiner);
 }

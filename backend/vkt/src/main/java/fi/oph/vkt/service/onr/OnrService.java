@@ -4,6 +4,7 @@ import fi.oph.vkt.model.Person;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,21 @@ public class OnrService {
       LOG.error("Fetching personal data from ONR failed", e);
       return Map.of();
     }
+  }
+
+  public PersonalData getOnrPersonalData(@NotNull final String onrId) {
+    final Map<String, PersonalData> personalData = getOnrPersonalData(List.of(onrId));
+
+    final PersonalData onrData = personalData.get(onrId);
+    if (onrData == null) {
+      return null;
+    }
+
+    if (!onrData.getOnrId().equals(onrId)) {
+      LOG.error("ONR id mismatch {} != {}", onrId, onrData.getOnrId());
+    }
+
+    return onrData;
   }
 
   public String insertPersonalData(final Person person) {

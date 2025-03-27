@@ -10,6 +10,7 @@ import {
   ClerkEnrollmentAppointmentHistoryResponse,
   ClerkEnrollmentAppointmentMove,
   ClerkEnrollmentAppointmentResponse,
+  ClerkOnrBirthdate,
 } from 'interfaces/clerkEnrollment';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
@@ -17,6 +18,7 @@ import {
   loadClerkEnrollmentAppointment,
   loadClerkEnrollmentAppointmentGrades,
   loadClerkEnrollmentAppointmentHistory,
+  loadClerkEnrollmentOnrBirthdate,
   moveEnrollment,
   moveEnrollmentSucceeded,
   rejectClerkEnrollmentAppointment,
@@ -28,6 +30,7 @@ import {
   storeClerkEnrollmentAppointmentGrades,
   storeClerkEnrollmentAppointmentGradesUpsert,
   storeClerkEnrollmentAppointmentUpdate,
+  storeClerkEnrollmentOnrBirthdate,
   storeLoadClerkEnrollmentAppointmentHistory,
   storeUpdateClerkEnrollmentAppointment,
   updateClerkEnrollmentAppointment,
@@ -260,6 +263,24 @@ function* moveEnrollmentSaga(
   }
 }
 
+function* loadClerkEnrollmentOnrBirthdateSaga(
+  action: PayloadAction<{
+    personOid: string;
+    oid: string;
+  }>,
+) {
+  const { personOid, oid } = action.payload;
+
+  const apiResponse: AxiosResponse<ClerkOnrBirthdate> = yield call(
+    axiosInstance.post,
+    `${APIEndpoints.ExaminerDetails.replace(
+      /:oid/,
+      oid,
+    )}/enrollment/birthdate?personOid=${personOid}`,
+  );
+  yield put(storeClerkEnrollmentOnrBirthdate(apiResponse.data));
+}
+
 export function* watchClerkEnrollmentAppointment() {
   yield takeLatest(
     updateClerkEnrollmentAppointment.type,
@@ -290,4 +311,8 @@ export function* watchClerkEnrollmentAppointment() {
     upsertClerkEnrollmentAppointmentGradesSaga,
   );
   yield takeLatest(moveEnrollment, moveEnrollmentSaga);
+  yield takeLatest(
+    loadClerkEnrollmentOnrBirthdate,
+    loadClerkEnrollmentOnrBirthdateSaga,
+  );
 }

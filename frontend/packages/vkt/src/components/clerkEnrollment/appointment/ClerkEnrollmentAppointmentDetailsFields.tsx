@@ -28,6 +28,7 @@ import { InputFieldUtils } from 'shared/utils';
 import { EnrollmentHistoryModal } from 'components/clerkEnrollment/appointment/EnrollmentHistoryModal';
 import { EnrollmentSkillsListTable } from 'components/clerkEnrollment/appointment/EnrollmentSkillsListTable';
 import { GradeModal } from 'components/clerkEnrollment/appointment/GradeModal';
+import { OnrBirthdateField } from 'components/clerkEnrollment/appointment/OnrBirthdateField';
 import {
   translateOutsideComponent,
   useClerkTranslation,
@@ -817,7 +818,7 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
             <H3>{t('header.personalInformation')}</H3>
           </div>
         </div>
-        <div className="grid-2-columns align-items-start gapped">
+        <div className="grid-3-columns align-items-start gapped">
           <ClerkEnrollmentDetailsTextField
             {...getCommonTextFieldProps(
               ClerkEnrollmentTextFieldEnum.LastName,
@@ -830,11 +831,16 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
               true,
             )}
           />
+          <OnrBirthdateField
+            isViewMode={isViewMode}
+            examinerOid={oid}
+            personOid={enrollment.person?.oid}
+          />
         </div>
         <div className="margin-top-sm columns gapped">
           <H3>{t('header.contactDetails')}</H3>
         </div>
-        <div className="grid-2-columns align-items-start gapped">
+        <div className="grid-3-columns align-items-start gapped">
           <ClerkEnrollmentDetailsTextField
             {...getCommonTextFieldProps(
               ClerkEnrollmentTextFieldEnum.Email,

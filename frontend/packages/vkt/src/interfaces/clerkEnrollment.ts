@@ -29,6 +29,11 @@ export interface ClerkPaymentLink {
   expiresAt: Dayjs;
 }
 
+export interface ClerkOnrBirthdate {
+  birthdate: string;
+  oid: string;
+}
+
 export interface ClerkOnrSsn {
   ssn: string;
   oid: string;

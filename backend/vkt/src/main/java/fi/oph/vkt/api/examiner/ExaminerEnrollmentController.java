@@ -9,7 +9,9 @@ import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentExamEventDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentGradesDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerOnrBirthdateDTO;
 import fi.oph.vkt.service.ExaminerEnrollmentService;
+import fi.oph.vkt.service.ExaminerPersonService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
@@ -24,6 +26,9 @@ public class ExaminerEnrollmentController {
 
   @Resource
   private ExaminerEnrollmentService examinerEnrollmentService;
+
+  @Resource
+  private ExaminerPersonService examinerPersonService;
 
   private static final String TAG_ENROLLMENT = "Examiner enrollment API";
 
@@ -106,7 +111,7 @@ public class ExaminerEnrollmentController {
   public ExaminerEnrollmentAppointmentDTO sendEnrollmentAppointmentLink(
     @PathVariable final String oid,
     @PathVariable final long enrollmentAppointmentId
-  ) throws IOException, InterruptedException {
+  ) {
     return examinerEnrollmentService.sendEnrollmentAppointmentLink(oid, enrollmentAppointmentId);
   }
 
@@ -127,5 +132,11 @@ public class ExaminerEnrollmentController {
     @PathVariable final long enrollmentAppointmentId
   ) {
     return examinerEnrollmentService.getAppointmentGrades(oid, enrollmentAppointmentId);
+  }
+
+  @PostMapping(path = "/birthdate", consumes = ALL_VALUE)
+  @Operation(tags = TAG_ENROLLMENT, summary = "Get birthdate from ONR")
+  public ExaminerOnrBirthdateDTO getOnrBirthdate(@PathVariable String oid, @RequestParam final String personOid) {
+    return examinerPersonService.getOnrBirthdate(personOid, oid);
   }
 }

@@ -47,7 +47,8 @@
           "previousEnrollment": "Päivämäärä tai vapaa teksti",
           "street": "Katuosoite",
           "town": "Postitoimipaikka",
-          "ssn": "Henkilötunnus"
+          "ssn": "Henkilötunnus",
+          "birthdate": "Syntymäaika"
         }
       },
       "dates": {

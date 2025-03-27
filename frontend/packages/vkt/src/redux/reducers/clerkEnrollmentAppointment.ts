@@ -6,6 +6,7 @@ import {
   ClerkEnrollmentAppointmentGrades,
   ClerkEnrollmentAppointmentHistory,
   ClerkEnrollmentAppointmentMove,
+  ClerkOnrBirthdate,
 } from 'interfaces/clerkEnrollment';
 
 interface ClerkEnrollmentAppointmentState {
@@ -20,6 +21,8 @@ interface ClerkEnrollmentAppointmentState {
   sendLinkStatus: APIResponseStatus;
   grades?: ClerkEnrollmentAppointmentGrades;
   moveStatus: APIResponseStatus;
+  onrBirthdate?: ClerkOnrBirthdate;
+  birthdateStatus: APIResponseStatus;
 }
 
 const initialState: ClerkEnrollmentAppointmentState = {
@@ -50,6 +53,8 @@ const initialState: ClerkEnrollmentAppointmentState = {
       comment: '',
     },
   },
+  birthdateStatus: APIResponseStatus.NotStarted,
+  onrBirthdate: undefined,
 };
 
 const clerkEnrollmentAppointmentSlice = createSlice({
@@ -191,6 +196,26 @@ const clerkEnrollmentAppointmentSlice = createSlice({
     resetMoveEnrollment(state) {
       state.moveStatus = initialState.moveStatus;
     },
+    loadClerkEnrollmentOnrBirthdate(
+      state,
+      _action: PayloadAction<{
+        personOid: string;
+        oid: string;
+      }>,
+    ) {
+      state.birthdateStatus = APIResponseStatus.InProgress;
+    },
+    storeClerkEnrollmentOnrBirthdate(
+      state,
+      action: PayloadAction<ClerkOnrBirthdate>,
+    ) {
+      state.onrBirthdate = action.payload;
+      state.birthdateStatus = APIResponseStatus.Success;
+    },
+    resetClerkEnrollmentOnrBirthdate(state) {
+      state.onrBirthdate = undefined;
+      state.birthdateStatus = APIResponseStatus.NotStarted;
+    },
   },
 });
 
@@ -219,4 +244,7 @@ export const {
   storeCancelClerkEnrollmentAppointment,
   loadClerkEnrollmentAppointmentHistory,
   storeLoadClerkEnrollmentAppointmentHistory,
+  loadClerkEnrollmentOnrBirthdate,
+  storeClerkEnrollmentOnrBirthdate,
+  resetClerkEnrollmentOnrBirthdate,
 } = clerkEnrollmentAppointmentSlice.actions;
