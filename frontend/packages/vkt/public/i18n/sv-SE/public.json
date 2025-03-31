@@ -319,6 +319,7 @@
           }
         }
       },
+      "publicEnrollmentContact": {
         "errors": {
           "fields": {
             "email": "E-postadress",
@@ -550,3 +551,4 @@
       }
     }
   }
+}
