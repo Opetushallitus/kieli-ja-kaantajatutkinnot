@@ -11,21 +11,36 @@ import fi.oph.vkt.api.dto.MunicipalityDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerExamEventDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerExamEventUpsertDTO;
 import fi.oph.vkt.audit.AuditService;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.ExaminerExamEvent;
 import fi.oph.vkt.model.Municipality;
+import fi.oph.vkt.model.Person;
 import fi.oph.vkt.repository.*;
+import fi.oph.vkt.service.onr.OnrService;
+import fi.oph.vkt.service.onr.PersonalData;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import fi.oph.vkt.view.ExamEventXlsxDataRowUtil;
+import fi.oph.vkt.view.ExaminerExamEventXlsxData;
+import fi.oph.vkt.view.ExaminerExamEventXlsxView;
 import jakarta.annotation.Resource;
+import java.io.ByteArrayInputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.env.Environment;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
@@ -41,6 +56,9 @@ public class ExaminerExamEventServiceTest {
   @MockBean
   private AuditService auditService;
 
+  @MockBean
+  private OnrService onrService;
+
   @Resource
   private TestEntityManager entityManager;
 
@@ -55,7 +73,13 @@ public class ExaminerExamEventServiceTest {
     when(uuidSource.getRandomNonce()).thenReturn("269a2da4-58bb-45eb-b125-522b77e9167c");
 
     examinerExamEventService =
-      new ExaminerExamEventService(examinerExamEventRepository, environment, auditService, examinerRepository);
+      new ExaminerExamEventService(
+        examinerExamEventRepository,
+        environment,
+        onrService,
+        auditService,
+        examinerRepository
+      );
   }
 
   @Test
@@ -148,5 +172,46 @@ public class ExaminerExamEventServiceTest {
 
   private MunicipalityDTO createMunicipalityDTO(final Municipality municipality) {
     return MunicipalityDTO.builder().code(municipality.getCode()).build();
+  }
+
+  @Test
+  void testExcelRender() throws Exception {
+    final Examiner examiner = Factory.examiner();
+    final Municipality municipality = Factory.municipality();
+    final ExaminerExamEvent examEvent = Factory.examinerExamEvent(examiner, municipality);
+    final Person person = Factory.person();
+    final EnrollmentAppointment enrollment = Factory.enrollmentAppointment(examiner, examEvent, person);
+
+    entityManager.persist(examiner);
+    entityManager.persist(municipality);
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final PersonalData personalData = Factory.personalData(person);
+    final Map<String, PersonalData> personalDatas = Map.of(person.getOid(), personalData);
+    final ExaminerExamEventXlsxData data = ExamEventXlsxDataRowUtil.createExcelData(
+      examEvent,
+      examEvent.getEnrollments(),
+      personalDatas
+    );
+    final ExaminerExamEventXlsxView excelView = new ExaminerExamEventXlsxView(data);
+
+    final MockHttpServletResponse response = new MockHttpServletResponse();
+    final MockHttpServletRequest request = new MockHttpServletRequest();
+
+    excelView.render(new HashMap<>(), request, response);
+
+    try (final Workbook workbook = WorkbookFactory.create(new ByteArrayInputStream(response.getContentAsByteArray()))) {
+      assertEquals(1, workbook.getNumberOfSheets());
+
+      final Sheet sheet = workbook.getSheetAt(0);
+      assertEquals(2, sheet.getPhysicalNumberOfRows());
+      assertEquals(22, sheet.getRow(1).getPhysicalNumberOfCells());
+      assertEquals("Tester", sheet.getRow(1).getCell(3).getStringCellValue());
+
+      // Nordea demo SSN
+      assertEquals("21.2.1981", sheet.getRow(1).getCell(5).getStringCellValue());
+    }
   }
 }

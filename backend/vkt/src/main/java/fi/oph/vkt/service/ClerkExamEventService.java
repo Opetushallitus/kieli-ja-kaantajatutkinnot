@@ -188,23 +188,13 @@ public class ClerkExamEventService {
       .sorted(excelEnrollmentComparator())
       .toList();
 
-    final List<String> onrIds = getOnrIds(enrollments);
+    final List<String> onrIds = ExamEventUtil.getOnrIds(enrollments);
     final Map<String, PersonalData> personalDatas = onrService.getOnrPersonalData(onrIds);
     final ExamEventXlsxData excelData = ExamEventXlsxDataRowUtil.createExcelData(examEvent, enrollments, personalDatas);
     final AbstractXlsxView excel = new ExamEventXlsxView(excelData);
 
     auditService.logById(VktOperation.GET_EXAM_EVENT_EXCEL, examEventId);
     return excel;
-  }
-
-  private List<String> getOnrIds(final List<Enrollment> enrollments) {
-    return enrollments
-      .stream()
-      .map(EnrollmentCommon::getPerson)
-      .filter(Objects::nonNull)
-      .map(Person::getOid)
-      .filter(Objects::nonNull)
-      .toList();
   }
 
   private static Comparator<Enrollment> excelEnrollmentComparator() {

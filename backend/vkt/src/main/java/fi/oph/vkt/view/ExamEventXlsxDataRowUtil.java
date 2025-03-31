@@ -21,19 +21,6 @@ public class ExamEventXlsxDataRowUtil {
 
   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
   private static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-  private static final DateTimeFormatter DATE_LOCAL_FORMAT = DateTimeFormatter.ofPattern("d.M.yyyy");
-
-  private static ExamEventXlsxData createExamEventExcel(
-    final ExamEvent examEvent,
-    final List<ExamEventXlsxDataRow> excelDataRows
-  ) {
-    return ExamEventXlsxData
-      .builder()
-      .date(DATE_FORMAT.format(examEvent.getDate()))
-      .language(examEvent.getLanguage().name())
-      .rows(excelDataRows)
-      .build();
-  }
 
   private static ExaminerExamEventXlsxData createExamEventExcel(
     final ExaminerExamEvent examEvent,
@@ -67,11 +54,12 @@ public class ExamEventXlsxDataRowUtil {
 
   public static ExaminerExamEventXlsxData createExcelData(
     final ExaminerExamEvent examEvent,
-    final List<EnrollmentAppointment> enrollments
+    final List<EnrollmentAppointment> enrollments,
+    final Map<String, PersonalData> personalDatas
   ) {
     final List<ExaminerExamEventXlsxDataRow> excelDataRows = enrollments
       .stream()
-      .map(enrollment -> createDataRow(enrollment, enrollment.getPerson()))
+      .map(enrollment -> createDataRow(enrollment, enrollment.getPerson(), personalDatas))
       .toList();
 
     return createExamEventExcel(examEvent, excelDataRows);
@@ -79,8 +67,11 @@ public class ExamEventXlsxDataRowUtil {
 
   private static ExaminerExamEventXlsxDataRow createDataRow(
     final EnrollmentAppointment enrollment,
-    final Person person
+    final Person person,
+    final Map<String, PersonalData> personalDatas
   ) {
+    final String ssn = person != null ? getSsn(person, personalDatas) : "";
+
     return ExaminerExamEventXlsxDataRow
       .builder()
       .enrollmentTime(DATETIME_FORMAT.format(enrollment.getCreatedAt()))
@@ -97,6 +88,7 @@ public class ExamEventXlsxDataRowUtil {
       .speechComprehension(boolToInt(enrollment.isSpeechComprehensionPartialExam()))
       .email(enrollment.getEmail())
       .phoneNumber(enrollment.getPhoneNumber())
+      .birthdate(ssn != null ? DateUtil.formatBirthdateFromSSN(ssn) : "")
       .digitalCertificateConsent(boolToInt(enrollment.isDigitalCertificateConsent()))
       .street(enrollment.getStreet())
       .postalCode(enrollment.getPostalCode())
@@ -110,15 +102,13 @@ public class ExamEventXlsxDataRowUtil {
     final Person person,
     final Map<String, PersonalData> personalDatas
   ) {
-    final String oid = person.getOid();
-    final PersonalData personalData = personalDatas.get(oid);
-    final String ssn = oid != null && personalData != null ? personalData.getSsn() : null;
+    final String ssn = person != null ? getSsn(person, personalDatas) : null;
 
     ExamEventXlsxDataRow.ExamEventXlsxDataRowBuilder builder = ExamEventXlsxDataRow
       .builder()
       .enrollmentTime(DATETIME_FORMAT.format(enrollment.getCreatedAt()))
-      .lastName(person.getLastName())
-      .firstName(person.getFirstName())
+      .lastName(person != null ? person.getLastName() : "")
+      .firstName(person != null ? person.getFirstName() : "")
       .previousEnrollment(enrollment.getPreviousEnrollment())
       .status(statusToText(enrollment.getStatus()))
       .textualSkill(boolToInt(enrollment.isTextualSkill()))
@@ -217,5 +207,12 @@ public class ExamEventXlsxDataRowUtil {
 
   private static Integer boolToInt(final Boolean bool) {
     return bool ? 1 : 0;
+  }
+
+  private static String getSsn(final Person person, final Map<String, PersonalData> personalDatas) {
+    final String oid = person.getOid();
+    final PersonalData personalData = personalDatas.get(oid);
+
+    return oid != null && personalData != null ? personalData.getSsn() : null;
   }
 }

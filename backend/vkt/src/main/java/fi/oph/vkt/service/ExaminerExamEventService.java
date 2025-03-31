@@ -11,6 +11,9 @@ import fi.oph.vkt.model.ExaminerExamEvent;
 import fi.oph.vkt.model.Municipality;
 import fi.oph.vkt.repository.ExaminerExamEventRepository;
 import fi.oph.vkt.repository.ExaminerRepository;
+import fi.oph.vkt.service.onr.OnrService;
+import fi.oph.vkt.service.onr.PersonalData;
+import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.ExaminerUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
@@ -21,6 +24,7 @@ import fi.oph.vkt.view.ExaminerExamEventXlsxData;
 import fi.oph.vkt.view.ExaminerExamEventXlsxView;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
@@ -34,7 +38,7 @@ public class ExaminerExamEventService {
 
   private final ExaminerExamEventRepository examinerExamEventRepository;
   private final Environment environment;
-
+  private final OnrService onrService;
   private final AuditService auditService;
   private final ExaminerRepository examinerRepository;
 
@@ -91,14 +95,14 @@ public class ExaminerExamEventService {
 
   @Transactional
   public ExaminerExamEventDTO createExamEvent(final String oid, final ExaminerExamEventUpsertDTO dto) {
-    Examiner examiner = examinerRepository
+    final Examiner examiner = examinerRepository
       .findByOid(oid)
       .orElseThrow(() -> new APIException(APIExceptionType.EXAMINER_NOT_FOUND));
-    ExaminerExamEvent examEvent = new ExaminerExamEvent();
+    final ExaminerExamEvent examEvent = new ExaminerExamEvent();
     examEvent.setExaminer(examiner);
     updateExamEventDetails(examiner, examEvent, dto);
 
-    ExaminerExamEvent examinerExamEvent = examinerExamEventRepository.saveAndFlush(examEvent);
+    final ExaminerExamEvent examinerExamEvent = examinerExamEventRepository.saveAndFlush(examEvent);
     final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
     return ExaminerUtil.toExaminerExamEventDTO(examinerExamEvent, baseUrlAPI);
   }
@@ -140,7 +144,13 @@ public class ExaminerExamEventService {
       .sorted(excelEnrollmentComparator())
       .toList();
 
-    final ExaminerExamEventXlsxData excelData = ExamEventXlsxDataRowUtil.createExcelData(examEvent, enrollments);
+    final List<String> onrIds = ExamEventUtil.getOnrIds(enrollments);
+    final Map<String, PersonalData> personalDatas = onrService.getOnrPersonalData(onrIds);
+    final ExaminerExamEventXlsxData excelData = ExamEventXlsxDataRowUtil.createExcelData(
+      examEvent,
+      enrollments,
+      personalDatas
+    );
     final AbstractXlsxView excel = new ExaminerExamEventXlsxView(excelData);
 
     auditService.logById(VktOperation.GET_EXAM_EVENT_EXCEL, examEventId);

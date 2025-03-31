@@ -40,6 +40,7 @@ public class ExaminerExamEventXlsxView extends ExamEventCommonXlsxView {
       "Ilmoittautumisaika",
       "Sukunimi",
       "Etunimi",
+      "Syntymäaika",
       "Aiempi tutkintopäivä",
       "Tila",
       "KT", // Kirjallinen taito
@@ -71,6 +72,7 @@ public class ExaminerExamEventXlsxView extends ExamEventCommonXlsxView {
       row.createCell(++ci).setCellValue(dataRow.enrollmentTime());
       row.createCell(++ci).setCellValue(dataRow.lastName());
       row.createCell(++ci).setCellValue(dataRow.firstName());
+      row.createCell(++ci).setCellValue(dataRow.birthdate());
       row.createCell(++ci).setCellValue(dataRow.previousEnrollment());
       row.createCell(++ci).setCellValue(dataRow.status());
       row.createCell(++ci).setCellValue(dataRow.textualSkill());

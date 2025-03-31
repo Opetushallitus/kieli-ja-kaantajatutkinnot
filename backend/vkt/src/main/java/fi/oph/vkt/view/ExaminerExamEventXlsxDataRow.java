@@ -20,6 +20,7 @@ public record ExaminerExamEventXlsxDataRow(
   @NonNull Integer speechComprehension,
   @NonNull String email,
   @NonNull String phoneNumber,
+  @NonNull String birthdate,
   @NonNull Integer digitalCertificateConsent,
   String street,
   String postalCode,
