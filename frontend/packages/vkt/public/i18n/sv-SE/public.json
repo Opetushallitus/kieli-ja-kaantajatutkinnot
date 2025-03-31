@@ -34,7 +34,8 @@
           },
           "enrollToQueue": "Ställ dig i kön",
           "pay": "Betala",
-          "enroll": "Anmäl dig"
+          "enroll": "Anmäl dig",
+          "submit": "Skicka"
         },
         "examEventDetails": {
           "enrollmentToQueue": "Ställ dig i kön",
@@ -90,6 +91,7 @@
             "EducationDetails": "Utbildningsuppgifter",
             "FillContactDetails": "Fyll i dina kontaktuppgifter",
             "Payment": "Betalning",
+            "PaymentFail": "Betalning",
             "PaymentSuccess": "Färdig",
             "Preview": "Förhandsgranska",
             "SelectExam": "Välj examen"
@@ -125,6 +127,12 @@
             "phoneNumber": {
               "label": "Telefonnummer *"
             },
+            "firstName": {
+              "label": "Förnamn *"
+            },
+            "lastName": {
+              "label": "Efternamn *"
+            },
             "title": "Dina kontaktuppgifter",
             "educationDetails": {
               "errorWaitEducations": "Utbildningsuppgiter laddas ner. Var god och vänta.",
@@ -143,10 +151,11 @@
             "partialExamsTitle": "Välj delproven *",
             "oralSkill": "Muntlig färdighet",
             "textualSkill": "Skriftlig färdighet",
-            "doFullExam": "Vill du avlägga både examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift? *",
-            "skillsTitle": "Välj examen *",
-            "yesFullExam": "Ja",
-            "noFullExam": "Nej, jag vill endast avlägga någondera av examina eller ett delprov"
+            "fullExam": {
+              "no": "Nej, jag vill endast avlägga någondera av examina eller ett delprov",
+              "question": "Vill du avlägga både examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift? *"
+            },
+            "skillsTitle": "Välj examen *"
           },
           "selectExam": {
             "part1": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen.",
@@ -165,8 +174,6 @@
           },
           "personDetails": {
             "firstName": "Förnamn",
-            "identityNumber": "Personbeteckning",
-            "dateOfBirth": "Födelsedatum",
             "lastName": "Efternamn",
             "title": "Dina personuppgifter"
           },
@@ -193,7 +200,8 @@
                 "part2": "Dokumenten kan vara PDF- eller bildfiler av god kvalitet.",
                 "part3": "Bifoga en kopia av det ursprungliga examensintyget eller studieintyget.",
                 "part4": "Bifoga även en översättning av dokumentet till finska, svenska eller engelska ifall det ursprungliga dokumentet är på något annat språk.",
-                "part5": "Namnge bilagorna tydligt (t.ex. examensintyg.pdf, studieintyg.jpg, oversattning_examensintyg.pdf)."
+                "part5": "Namnge bilagorna tydligt (t.ex. examensintyg.pdf, studieintyg.jpg, oversattning_examensintyg.pdf).",
+                "title": "Anvisningar för att skicka bilagor"
               },
               "helpText1": "Med intyg kan du bevisa att du har rätt till en avgiftsfri examen.",
               "helpText2": "Dina dokument granskas på Utbildningsstyrelsen.",
@@ -233,7 +241,7 @@
             "privacyStatement": {
               "freeEnrollmentLabel": "Jag har läst <0></0> för tjänsten och godtar dem (obligatoriskt). Jag förstår att den här anmälan utgör en av de avgiftsfria examina. Om jag inte kan delta i examen, informerar jag Utbildningsstyrelsen om detta så fort som möjligt.",
               "linkLabel": "dataskyddsbeskrivningen",
-              "paidEnrollmentLabel": "Jag har läst <0></0> för tjänsten och godtar dem (obligatoriskt). Om jag inte kan delta i examen, informerar jag Utbildningsstyrelsen om detta så fort som möjligt. "
+              "paidEnrollmentLabel": "Jag har läst <0></0> för tjänsten och godtar dem (obligatoriskt). Om jag inte kan delta i examen, informerar jag Utbildningsstyrelsen om detta så fort som möjligt."
             }
           },
           "previousEnrollment": {
@@ -247,6 +255,184 @@
               "placeholder": "Datum eller fritext"
             },
             "title": "Deltagande i tidigare språkexamina för statsförvaltingen som gäller utmärkta språkkunskaper"
+          }
+        }
+      },
+      "publicEnrollmentAppointment": {
+        "controlButtons": {
+          "errors": {
+            "fields": {
+              "postalCode": "Postnummer",
+              "privacyStatementConfirmation": "Godkänn villkoren för behandlingen av personuppgifter",
+              "street": "Gatuadress",
+              "town": "Postanstalt"
+            },
+            "fixErrors": "Fyll i uppgifterna som saknas eller korrigera felaktiga uppgifter:",
+            "title": "Felaktiga uppgifter!"
+          },
+          "pay": "Betala"
+        },
+        "examEventDetails": {
+          "examDate": "Examensdag",
+          "examEvent": "Examen",
+          "examLanguage": "Examens språk",
+          "examLevel": "Examens nivå",
+          "examiner": "Examinator"
+        },
+        "stepHeading": {
+          "Authenticate": "Identifiera dig för anmälan",
+          "FillContactDetails": "Fyll i dina kontaktuppgifter",
+          "PaymentFail": "Betalningen misslyckades",
+          "PaymentSuccess": "Betalningen genomfördes",
+          "Preview": "Förhandsgranska och betala"
+        },
+        "stepper": {
+          "active": "Aktiv",
+          "completed": "Genomförd",
+          "label": "Anmälningens faser",
+          "phase": "Fas",
+          "phaseNumber": "av",
+          "phases": "Anmälningens faser",
+          "step": {
+            "Authenticate": "Identifiera dig för anmälan",
+            "FillContactDetails": "Fyll i dina kontaktuppgifter",
+            "PaymentFail": "Fel vid betalningen",
+            "PaymentSuccess": "Färdig",
+            "Preview": "Förhandsgranska och betala"
+          }
+        },
+        "steps": {
+          "paymentSuccess": {
+            "backToHomePage": "Avslut och gå tillbaka till startsidan"
+          },
+          "preview": {
+            "examEventDetails": {
+              "previousEnrollmentLabel": "Jag har deltagit examina som gäller goda eller nöjaktiga språkkunskaper tidigare",
+              "selectedSkillsLabel": "Valda examina",
+              "selectedPartialExamsLabel": "Valda delprov",
+              "title": "Uppgifter om examen"
+            },
+            "privacyStatement": {
+              "label": "Jag har läst <0></0> för den här tjänsten och accepterar den (obligatoriskt).",
+              "linkLabel": "dataskyddsbeskrivningen"
+            }
+          }
+        }
+      },
+        "errors": {
+          "fields": {
+            "email": "E-postadress",
+            "emailConfirmation": "Bekräfta din e-postadress",
+            "firstName": "Förnamn",
+            "lastName": "Efternamn",
+            "phoneNumber": "Telefonnummer"
+          },
+          "fixErrors": "Fyll i uppgifterna som saknas eller korrigera felaktiga uppgifter:",
+          "title": "Felaktiga uppgifter!"
+        },
+        "examinerDetails": {
+          "examDate": "Examensdag",
+          "examEvent": "Examen",
+          "examiner": "Examinator",
+          "full": "Fullbokat"
+        },
+        "stepHeading": {
+          "FillContactDetails": "Dina kontaktuppgifter"
+        },
+        "stepper": {
+          "active": "Aktiv",
+          "completed": "Genomförd",
+          "label": "Anmälningens faser",
+          "phase": "Skede",
+          "phaseNumber": "av",
+          "phases": "Anmälningens faser",
+          "step": {
+            "FillContactDetails": "Dina kontaktuppgifter"
+          }
+        },
+        "steps": {
+          "done": {
+            "infoBox": {
+              "quit": {
+                "callToAction": "Avslut och gå tillbaka till startsidan",
+                "heading": "Avslut och gå tillbaka till startsidan"
+              }
+            },
+            "messageSent": {
+              "whatNext": {
+                "step4": "Anmälning är bekräftad när du har betalat examensavgiften."
+              }
+            }
+          },
+          "confirmContactDetails": {
+            "buttons": {
+              "yes": "Ja, fortsätt"
+            },
+            "labels": {
+              "email": "E-postadress:",
+              "firstName": "Förnamn:",
+              "lastName": "Efternamn:",
+              "phoneNumber": "Telefonnummer:"
+            },
+            "heading": "Bekräfta dina kontaktuppgifter"
+          },
+          "fillContactDetails": {
+            "heading": "Fyll i dina kontaktuppgifter",
+            "email": {
+              "label": "E-postadress *",
+              "placeholder": "Till exempel namn@e-post.fi"
+            },
+            "emailConfirmation": {
+              "label": "Bekräfta din e-postadress *",
+              "placeholder": "Skriv din e-postadress på nytt"
+            },
+            "mismatchingEmailsError": "Innehållet i fälten för e-postadress motsvarar inte varandra",
+            "phoneNumber": {
+              "label": "Telefonnummer",
+              "placeholder": "Till exempel 0401234567"
+            },
+            "firstName": {
+              "label": "Förnamn *"
+            },
+            "lastName": {
+              "label": "Efternamn *"
+            }
+          },
+          "selectExam": {
+            "examFee": {
+              "part1": "Examensavgiften är <0>258 euro om du avlägger examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift samtidigt..</0>",
+              "title": "Examensavgift"
+            },
+            "examSelection": {
+              "fullExam": {
+                "no": "Nej, jag vill endast avlägga någondera av examina eller ett delprov",
+                "question": "Vill du avlägga både examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift? *"
+              },
+              "selectExams": {
+                "description": "Delproven är: muntlig färdighet, hörförståelse,  skriftlig färdighet och läsförståelse"
+              },
+              "part1": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen.",
+              "part2": "När du har blivit godkänd i examina som gäller förmåga att använda språket i tal och i skrift får du ett intyg även för förmågan att förstå språket.",
+              "partialExamsTitle": "Välj delproven *",
+              "oralSkill": "Muntlig färdighet",
+              "textualSkill": "Skriftlig färdighet",
+              "title": "Val av examen"
+            },
+            "previousEnrollment": {
+              "hasPreviousEnrollment": {
+                "no": "Nej",
+                "yes": "Ja"
+              },
+              "part1": "Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med den datum när du avlade den första examen.",
+              "radioButtons": {
+                "label": "Har du deltagit examina som gäller goda eller nöjaktiga språkkunskaper tidigare?"
+              },
+              "textField": {
+                "label": "När har du deltagit senast?",
+                "placeholder": "Datum eller fritext"
+              },
+              "title": "Deltagande i tidigare examina"
+            }
           }
         }
       },
@@ -305,8 +491,8 @@
         },
         "openings": {
           "congestion": {
-            "part1": "Alla platser är reserverade, men de har ännu inte bekräftats.",
-            "part2": "Försök på nytt om en stund."
+            "part1": "Anmälningssystemet är överbelastat just nu.",
+            "part2": "Försök på nytt om en stund"
           },
           "none": {
             "part1": "Examenstillfället är fullbokat.",
@@ -317,17 +503,50 @@
           "enroll": "Anmäl dig",
           "enrollLater": "Anmäl dig senare",
           "enrollToQueue": "Ställ dig i kön",
-          "registrationOpensAt": "Anmälningstiden börjar {{registrationOpens}} "
+          "registrationOpensAt": "Anmälningstiden börjar {{registrationOpens}}"
         },
         "title": "Kommande examenstillfällen"
+      },
+      "publicExaminerListing": {
+        "examLanguage": {
+          "FI": "finska",
+          "SV": "svenska"
+        },
+        "header": {
+          "actions": "Funktioner",
+          "examiner": "Examinator",
+          "language": "Språk",
+          "municipality": "Ort",
+          "examDates": "Examensdagar"
+        },
+        "row": {
+          "full": "Fullbokat"
+        }
       },
       "logoutSuccessPage": {
         "heading": "Utloggning lyckades",
         "info": "Du har loggat ut. Stäng alla fönster i webbläsaren."
       },
       "goodAndSatisfactoryLevel": {
-        "title": "Examina som gäller goda eller nöjaktiga språkkunskaper"
+        "title": "Examina som gäller goda eller nöjaktiga språkkunskaper",
+        "description": {
+          "part1": "Examina som gäller goda eller nöjaktiga språkkunskaper i finska eller svenska avläggs inför en examinator.",
+          "part4": "Under allmänna semesterperioder gäller det att beakta eventuella pauser i examinatorernas arbete."
+        },
+        "infoBox": {
+          "enrollment": {
+            "bulletPoints": {
+              "point7": "Anmälning är bekräftad när du har betalat examensavgiften."
+            }
+          },
+          "enrollmentFees": {
+            "title": "Examensavgifter"
+          },
+          "general": {
+            "skills": "Språkexamina för statsförvaltningen som gäller goda eller nöjaktiga språkkunskaper är",
+            "title": "Allmänt om språkexamina för statsförvaltningen"
+          }
+        }
       }
     }
   }
-}
