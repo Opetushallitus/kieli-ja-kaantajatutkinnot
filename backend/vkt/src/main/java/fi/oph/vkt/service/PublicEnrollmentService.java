@@ -704,24 +704,4 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .findByIdAndPaymentLinkHashAndDeletedAtIsNull(enrollmentAppointmentId, paymentLinkHash)
       .orElseThrow();
   }
-
-  public Person createPersonFromEnrollment(final EnrollmentAppointment enrollment) {
-    if (enrollment.getPerson() != null) {
-      return enrollment.getPerson();
-    }
-
-    Person person = new Person();
-    person.setFirstName(enrollment.getFirstName());
-    person.setLastName(enrollment.getLastName());
-    person.setLatestIdentifiedAt(LocalDateTime.now());
-    person.setLatestSyncAt(LocalDateTime.now());
-    person.setUuid(UUID.randomUUID());
-
-    person = personRepository.saveAndFlush(person);
-
-    enrollment.setPerson(person);
-    enrollmentAppointmentRepository.saveAndFlush(enrollment);
-
-    return person;
-  }
 }

@@ -256,13 +256,6 @@
               "placeholder": "Kirjoita päivämäärä tai vapaa teksti"
             },
             "title": "Aikaisempiin erinomaisen taidon tutkintoihin osallistuminen"
-          },
-          "message": {
-            "textField": {
-              "label": "Viesti *",
-              "placeholder": "Kerro tarkemmin"
-            },
-            "title": "Kirjoita viestisi"
           }
         }
       },

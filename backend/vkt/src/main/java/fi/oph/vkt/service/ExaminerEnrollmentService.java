@@ -4,6 +4,7 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentBirthdateOrSsnDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentExamEventDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentGradesDTO;
@@ -17,8 +18,11 @@ import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentGradesRepository;
 import fi.oph.vkt.repository.ExaminerExamEventRepository;
+import fi.oph.vkt.repository.PersonRepository;
+import fi.oph.vkt.service.onr.OnrService;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.ExaminerUtil;
+import fi.oph.vkt.util.HetuUtils;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
@@ -29,6 +33,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -45,6 +50,8 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
   private final UUIDSource uuidSource;
   private final ExaminerEnrollmentEmailService examinerEnrollmentEmailService;
   private final AuditService auditService;
+  private final OnrService onrService;
+  private final PersonRepository personRepository;
 
   private static void checkExaminerOid(EnrollmentAppointment enrollmentAppointment, String oid) {
     if (!enrollmentAppointment.getExaminer().getOid().equals(oid)) {
@@ -317,5 +324,52 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     enrollmentAppointmentRepository.flush();
 
     return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
+  }
+
+  @Transactional
+  public void createPersonForAppointment(
+    final String oid,
+    final long enrollmentAppointmentId,
+    final ExaminerEnrollmentBirthdateOrSsnDTO dto
+  ) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
+      enrollmentAppointmentId
+    );
+
+    checkExaminerOid(enrollmentAppointment, oid);
+
+    Person person;
+    if (enrollmentAppointment.getPerson() != null) {
+      person = enrollmentAppointment.getPerson();
+    } else {
+      person = new Person();
+      person.setFirstName(enrollmentAppointment.getFirstName());
+      person.setLastName(enrollmentAppointment.getLastName());
+      person.setLatestIdentifiedAt(LocalDateTime.now());
+      person.setLatestSyncAt(LocalDateTime.now());
+      person.setUuid(UUID.randomUUID());
+
+      person = personRepository.saveAndFlush(person);
+
+      enrollmentAppointment.setPerson(person);
+      enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
+    }
+
+    if (person.getOid() == null || person.getOid().isEmpty()) {
+      String personOid;
+      if (HetuUtils.hetuIsValid(dto.birthdateOrSsn())) {
+        person.setOtherIdentifier(dto.birthdateOrSsn());
+        personOid = onrService.insertPersonalData(person, null);
+      } else {
+        final String birthdate = dto.birthdateOrSsn();
+        personOid = onrService.insertPersonalData(person, birthdate);
+      }
+
+      if (personOid != null && personOid.length() > 0) {
+        person.setOid(personOid);
+        person.setLatestSyncAt(LocalDateTime.now());
+        personRepository.saveAndFlush(person);
+      }
+    }
   }
 }

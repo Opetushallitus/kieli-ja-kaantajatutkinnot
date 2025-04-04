@@ -26,6 +26,7 @@ import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentGradeType;
 import fi.oph.vkt.repository.*;
+import fi.oph.vkt.service.onr.OnrService;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
@@ -59,6 +60,12 @@ public class ExaminerEnrollmentServiceTest {
   @MockBean
   private AuditService auditService;
 
+  @MockBean
+  private OnrService onrService;
+
+  @Resource
+  private PersonRepository personRepository;
+
   @Resource
   private TestEntityManager entityManager;
 
@@ -80,7 +87,9 @@ public class ExaminerEnrollmentServiceTest {
         environment,
         uuidSource,
         examinerEnrollmentEmailService,
-        auditService
+        auditService,
+        onrService,
+        personRepository
       );
   }
 

@@ -48,7 +48,7 @@ public class PublicPersonService {
           return;
         }
 
-        final String oid = onrService.insertPersonalData(person);
+        final String oid = onrService.insertPersonalData(person, null);
         if (oid != null && oid.length() > 0) {
           person.setOid(oid);
           person.setLatestSyncAt(LocalDateTime.now());

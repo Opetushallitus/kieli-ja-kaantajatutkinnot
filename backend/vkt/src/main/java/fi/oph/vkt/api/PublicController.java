@@ -279,10 +279,9 @@ public class PublicController {
         enrollmentAppointmentId,
         paymentLinkHash
       );
-      final Person person = publicEnrollmentService.createPersonFromEnrollment(enrollment);
       final String redirectUrl = paymentService.createPaymentForEnrollmentAppointment(
         enrollment.getId(),
-        person,
+        enrollment.getPerson(),
         AppLocale.FI
       );
 

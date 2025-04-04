@@ -98,6 +98,10 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       personalDataDTO.setIdentityNumber(personalData.getSsn());
     }
 
+    if (personalData.getBirthdate() != null && !personalData.getBirthdate().isEmpty()) {
+      personalDataDTO.setBirthdate(personalData.getBirthdate());
+    }
+
     return personalDataDTO;
   }
 

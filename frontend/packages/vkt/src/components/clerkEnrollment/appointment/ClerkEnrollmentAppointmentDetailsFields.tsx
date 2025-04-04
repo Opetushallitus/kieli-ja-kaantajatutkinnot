@@ -13,6 +13,7 @@ import {
   H2,
   H3,
   InfoText,
+  LoadingProgressIndicator,
   Text,
 } from 'shared/components';
 import {
@@ -47,6 +48,7 @@ import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextFie
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import {
   loadClerkEnrollmentAppointment,
+  saveClerkEnrollmentBirthdateOrSsn,
   sendClerkEnrollmentAppointmentAuthLink,
 } from 'redux/reducers/clerkEnrollmentAppointment';
 import { clerkEnrollmentAppointmentSelector } from 'redux/selectors/clerkEnrollmentAppointment';
@@ -694,15 +696,34 @@ const PaymentLinkModal = ({
   paymentLinkModalOpen,
   setPaymentLinkModalOpen,
   paymentLink,
+  enrollmentId,
+  oid,
 }: {
   paymentLinkModalOpen: boolean;
   setPaymentLinkModalOpen: (open: boolean) => void;
   paymentLink?: string;
+  enrollmentId: number;
+  oid: string;
 }) => {
   const { t } = useExaminerTranslation({
     keyPrefix: 'vkt.component.examinerExamEventDetails',
   });
+  const dispatch = useAppDispatch();
+  const { onrBirthdate, birthdateStatus } = useAppSelector(
+    clerkEnrollmentAppointmentSelector,
+  );
+  const birthdate = onrBirthdate?.birthdate ?? '';
+  const [birthdateOrSsn, setbirthdateOrSsn] = useState(birthdate);
   const translateCommon = useCommonTranslation();
+  const isLoading = birthdateStatus === APIResponseStatus.InProgress;
+  const save = () =>
+    dispatch(
+      saveClerkEnrollmentBirthdateOrSsn({
+        enrollmentId,
+        oid,
+        birthdateOrSsn,
+      }),
+    );
 
   return (
     <CustomModal
@@ -714,6 +735,25 @@ const PaymentLinkModal = ({
         {paymentLink && (
           <div className="rows gapped">
             <Text>{t('appointment.paymentLinkModal.description')}</Text>
+            <div className="rows align-items-start">
+              <LoadingProgressIndicator isLoading={isLoading}>
+                <CustomTextField
+                  value={birthdate || birthdateOrSsn}
+                  label={translateCommon('enrollment.textFields.birthdate')}
+                  onChange={(event) => setbirthdateOrSsn(event.target.value)}
+                  disabled={!!birthdate}
+                />
+              </LoadingProgressIndicator>
+              <CustomButton
+                className="margin-top-sm"
+                variant={Variant.Contained}
+                color={Color.Secondary}
+                onClick={save}
+                disabled={!!birthdate}
+              >
+                {translateCommon('save')}
+              </CustomButton>
+            </div>
             <div className="rows gapped-xs">
               <H3>{t('payment.modal.link')}</H3>
               <Text>
@@ -925,6 +965,8 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
         paymentLinkModalOpen={paymentLinkModalOpen}
         setPaymentLinkModalOpen={setPaymentLinkModalOpen}
         paymentLink={paymentLink}
+        enrollmentId={enrollment.id}
+        oid={oid}
       />
     </div>
   );

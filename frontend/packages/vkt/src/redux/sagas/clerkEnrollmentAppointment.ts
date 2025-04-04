@@ -23,6 +23,7 @@ import {
   moveEnrollmentSucceeded,
   rejectClerkEnrollmentAppointment,
   rejectMoveEnrollment,
+  saveClerkEnrollmentBirthdateOrSsn,
   sendClerkEnrollmentAppointmentAuthLink,
   storeCancelClerkEnrollmentAppointment,
   storeClerkEnrollmentAppointment,
@@ -32,6 +33,7 @@ import {
   storeClerkEnrollmentAppointmentUpdate,
   storeClerkEnrollmentOnrBirthdate,
   storeLoadClerkEnrollmentAppointmentHistory,
+  storeSaveClerkEnrollmentBirthdateOrSsn,
   storeUpdateClerkEnrollmentAppointment,
   updateClerkEnrollmentAppointment,
   upsertClerkEnrollmentAppointmentGrades,
@@ -281,6 +283,26 @@ function* loadClerkEnrollmentOnrBirthdateSaga(
   yield put(storeClerkEnrollmentOnrBirthdate(apiResponse.data));
 }
 
+function* saveClerkEnrollmentBirthdateOrSsnSaga(
+  action: PayloadAction<{
+    enrollmentId: number;
+    oid: string;
+    birthdateOrSsn: string;
+  }>,
+) {
+  const { oid, enrollmentId, birthdateOrSsn } = action.payload;
+
+  yield call(
+    axiosInstance.post,
+    `${APIEndpoints.ExaminerEnrollmentAppointment.replace(
+      /:oid/,
+      oid,
+    )}/${enrollmentId}/createPerson`,
+    { birthdateOrSsn },
+  );
+  yield put(storeSaveClerkEnrollmentBirthdateOrSsn());
+}
+
 export function* watchClerkEnrollmentAppointment() {
   yield takeLatest(
     updateClerkEnrollmentAppointment.type,
@@ -314,5 +336,9 @@ export function* watchClerkEnrollmentAppointment() {
   yield takeLatest(
     loadClerkEnrollmentOnrBirthdate,
     loadClerkEnrollmentOnrBirthdateSaga,
+  );
+  yield takeLatest(
+    saveClerkEnrollmentBirthdateOrSsn,
+    saveClerkEnrollmentBirthdateOrSsnSaga,
   );
 }

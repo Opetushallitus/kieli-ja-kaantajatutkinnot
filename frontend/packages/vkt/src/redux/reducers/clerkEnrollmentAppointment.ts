@@ -23,6 +23,7 @@ interface ClerkEnrollmentAppointmentState {
   moveStatus: APIResponseStatus;
   onrBirthdate?: ClerkOnrBirthdate;
   birthdateStatus: APIResponseStatus;
+  saveBirthdateOrSsnStatus: APIResponseStatus;
 }
 
 const initialState: ClerkEnrollmentAppointmentState = {
@@ -54,6 +55,7 @@ const initialState: ClerkEnrollmentAppointmentState = {
     },
   },
   birthdateStatus: APIResponseStatus.NotStarted,
+  saveBirthdateOrSsnStatus: APIResponseStatus.NotStarted,
   onrBirthdate: undefined,
 };
 
@@ -216,6 +218,19 @@ const clerkEnrollmentAppointmentSlice = createSlice({
       state.onrBirthdate = undefined;
       state.birthdateStatus = APIResponseStatus.NotStarted;
     },
+    saveClerkEnrollmentBirthdateOrSsn(
+      state,
+      _action: PayloadAction<{
+        enrollmentId: number;
+        oid: string;
+        birthdateOrSsn: string;
+      }>,
+    ) {
+      state.saveBirthdateOrSsnStatus = APIResponseStatus.InProgress;
+    },
+    storeSaveClerkEnrollmentBirthdateOrSsn(state) {
+      state.saveBirthdateOrSsnStatus = APIResponseStatus.Success;
+    },
   },
 });
 
@@ -238,6 +253,7 @@ export const {
   storeClerkEnrollmentAppointmentGradesUpsert,
   sendClerkEnrollmentAppointmentAuthLink,
   storeClerkEnrollmentAppointmentAuthLink,
+  storeSaveClerkEnrollmentBirthdateOrSsn,
   storeUpdateClerkEnrollmentAppointment,
   resetClerkEnrollmentDetailsToInitialState,
   cancelClerkEnrollmentAppointment,
@@ -247,4 +263,5 @@ export const {
   loadClerkEnrollmentOnrBirthdate,
   storeClerkEnrollmentOnrBirthdate,
   resetClerkEnrollmentOnrBirthdate,
+  saveClerkEnrollmentBirthdateOrSsn,
 } = clerkEnrollmentAppointmentSlice.actions;

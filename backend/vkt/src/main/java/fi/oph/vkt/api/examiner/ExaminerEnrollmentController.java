@@ -6,6 +6,7 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentBirthdateOrSsnDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentExamEventDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentGradesDTO;
@@ -138,5 +139,15 @@ public class ExaminerEnrollmentController {
   @Operation(tags = TAG_ENROLLMENT, summary = "Get birthdate from ONR")
   public ExaminerOnrBirthdateDTO getOnrBirthdate(@PathVariable String oid, @RequestParam final String personOid) {
     return examinerPersonService.getOnrBirthdate(personOid, oid);
+  }
+
+  @PostMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}/createPerson")
+  @Operation(tags = TAG_ENROLLMENT, summary = "Get enrollment appointment grades")
+  public void createEnrollmentAppointmentPerson(
+    @PathVariable String oid,
+    @PathVariable final long enrollmentAppointmentId,
+    @RequestBody @Valid final ExaminerEnrollmentBirthdateOrSsnDTO dto
+  ) {
+    examinerEnrollmentService.createPersonForAppointment(oid, enrollmentAppointmentId, dto);
   }
 }

@@ -45,13 +45,14 @@ public class OnrService {
     return onrData;
   }
 
-  public String insertPersonalData(final Person person) {
+  public String insertPersonalData(final Person person, final String birthdate) {
     final PersonalData personData = PersonalData
       .builder()
       .lastName(person.getLastName())
       .firstName(person.getFirstName())
       .nickname(person.getFirstName())
       .ssn(person.getOtherIdentifier())
+      .birthdate(birthdate)
       .build();
 
     try {
