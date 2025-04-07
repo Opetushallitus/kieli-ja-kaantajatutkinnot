@@ -18,7 +18,8 @@ public class ExamEventUtil {
         e.getStatus() == EnrollmentStatus.COMPLETED ||
         e.getStatus() == EnrollmentStatus.AWAITING_APPROVAL ||
         e.getStatus() == EnrollmentStatus.AWAITING_PAYMENT ||
-        e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
+        e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT ||
+        e.getStatus() == EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT
       )
       .count();
 
