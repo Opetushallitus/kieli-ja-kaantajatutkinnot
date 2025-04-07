@@ -99,7 +99,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     findEnrollment(examEvent, person, enrollmentRepository)
       .filter(Enrollment::isUnfinished)
       .ifPresent(enrollment -> {
-        enrollment.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
+        enrollment.setStatus(EnrollmentStatus.CANCELED);
         enrollment.setIsQueued(isQueued);
         enrollmentRepository.saveAndFlush(enrollment);
       });

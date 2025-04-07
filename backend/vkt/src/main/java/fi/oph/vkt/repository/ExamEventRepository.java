@@ -13,7 +13,7 @@ public interface ExamEventRepository extends BaseRepository<ExamEvent> {
     "SELECT new fi.oph.vkt.repository.PublicExamEventProjection(e.id, e.language, e.date, e.registrationCloses," +
     " e.registrationOpens, COUNT(en), e.maxParticipants)" +
     " FROM ExamEvent e" +
-    " LEFT JOIN e.enrollments en ON en.status = 'COMPLETED' OR en.status = 'AWAITING_PAYMENT' OR en.status = 'AWAITING_APPROVAL' OR en.status = 'EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT'" +
+    " LEFT JOIN e.enrollments en ON en.status = 'COMPLETED' OR en.status = 'AWAITING_PAYMENT' OR en.status = 'AWAITING_APPROVAL' OR en.status = 'EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT' OR en.status = 'CANCELED_UNFINISHED_ENROLLMENT'" +
     " WHERE e.level = ?1" +
     " AND e.registrationCloses >= CURRENT_TIMESTAMP" +
     " AND e.isHidden = false" +
@@ -47,7 +47,7 @@ public interface ExamEventRepository extends BaseRepository<ExamEvent> {
     "SELECT new fi.oph.vkt.repository.ClerkExamEventProjection(e.id, e.language, e.level, e.date," +
     " e.registrationCloses, e.registrationOpens, COUNT(en), e.maxParticipants, e.isHidden, COUNT(en.id) filter (where en.status = 'AWAITING_APPROVAL'))" +
     " FROM ExamEvent e" +
-    " LEFT JOIN e.enrollments en ON en.status = 'COMPLETED' OR en.status = 'AWAITING_PAYMENT' OR en.status = 'AWAITING_APPROVAL' OR en.status = 'EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT'" +
+    " LEFT JOIN e.enrollments en ON en.status = 'COMPLETED' OR en.status = 'AWAITING_PAYMENT' OR en.status = 'AWAITING_APPROVAL' OR en.status = 'EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT' OR en.status = 'CANCELED_UNFINISHED_ENROLLMENT'" +
     " WHERE e.level = ?1" +
     " GROUP BY e.id"
   )

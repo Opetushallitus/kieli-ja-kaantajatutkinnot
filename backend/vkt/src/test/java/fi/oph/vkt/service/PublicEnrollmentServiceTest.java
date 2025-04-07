@@ -191,7 +191,7 @@ public class PublicEnrollmentServiceTest {
     final Person person = enrollment.getPerson();
 
     publicEnrollmentService.initialiseEnrollment(examEvent.getId(), person);
-    assertEquals(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT, enrollment.getStatus());
+    assertEquals(EnrollmentStatus.CANCELED, enrollment.getStatus());
 
     final PublicEnrollmentCreateDTO dto = createDTOBuilder().oralSkill(false).digitalCertificateConsent(false).build();
     publicEnrollmentService.updateEnrollmentForPayment(dto, examEvent.getId(), person);
@@ -213,7 +213,7 @@ public class PublicEnrollmentServiceTest {
     assertInitialisedEnrollmentDTO(examEvent, person, 2, true, dto);
 
     assertTrue(reservationRepository.findById(dto.reservation().id()).isPresent());
-    assertEquals(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT, enrollment.getStatus());
+    assertEquals(EnrollmentStatus.CANCELED, enrollment.getStatus());
   }
 
   @Test
@@ -229,7 +229,7 @@ public class PublicEnrollmentServiceTest {
     assertInitialisedEnrollmentDTO(examEvent, person, 1, true, dto);
 
     assertTrue(reservationRepository.findById(dto.reservation().id()).isPresent());
-    assertEquals(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT, enrollment.getStatus());
+    assertEquals(EnrollmentStatus.CANCELED, enrollment.getStatus());
   }
 
   @Test
