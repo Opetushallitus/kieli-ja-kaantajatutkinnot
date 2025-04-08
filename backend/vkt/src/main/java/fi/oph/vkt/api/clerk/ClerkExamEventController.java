@@ -1,6 +1,5 @@
 package fi.oph.vkt.api.clerk;
 
-import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventCreateDTO;
@@ -11,13 +10,9 @@ import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.service.ClerkExamEventService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.util.List;
-import org.springframework.http.CacheControl;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

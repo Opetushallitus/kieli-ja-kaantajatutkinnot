@@ -283,6 +283,12 @@ const ClerkEnrollmentSkillsListFields = ({
             onClick={toggleSkill}
             disabled={editDisabled}
           />
+          <CheckboxField
+            enrollment={enrollment}
+            fieldName={'understandingSkill'}
+            onClick={toggleSkill}
+            disabled={editDisabled}
+          />
         </div>
       </div>
       <div className="rows gapped margin-top-sm">
