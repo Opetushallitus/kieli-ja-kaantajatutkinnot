@@ -24,15 +24,15 @@ public class CancelUnfinishedEnrollments {
   @Resource
   private final ClerkEnrollmentService clerkEnrollmentService;
 
-  @Scheduled(cron = Constants.DELETE_CANCELED_UNFINISHED_ENROLLMENTS_CRON)
+  @Scheduled(cron = Constants.CANCEL_UNFINISHED_ENROLLMENTS_CRON)
   @SchedulerLock(
-    name = "deleteCanceledUnfinishedEnrollments",
+    name = "canceledUnfinishedEnrollments",
     lockAtLeastFor = LOCK_AT_LEAST,
     lockAtMostFor = LOCK_AT_MOST
   )
   public void action() {
     SchedulingUtil.runWithScheduledUser(() -> {
-      LOG.info("deleteCanceledUnfinishedEnrollments");
+      LOG.info("cancelUnfinishedEnrollments");
 
       clerkEnrollmentService.cancelUnfinishedEnrollments();
     });
