@@ -2,7 +2,7 @@ import { AppLanguage } from 'shared/enums';
 import { StringUtils } from 'shared/utils';
 
 import { translateOutsideComponent } from 'configs/i18n';
-import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
+import { ExamLanguage, ExamLevel } from 'enums/app';
 import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
 
 export class ExamSessionUtils {
@@ -61,19 +61,6 @@ export class ExamSessionUtils {
     return 0;
   }
 
-  private static compareExamSessionsByQueueFullness(
-    es1: ExamSession,
-    es2: ExamSession,
-  ) {
-    if (!es1.queue_full && es2.queue_full) {
-      return -1;
-    } else if (es1.queue_full && !es2.queue_full) {
-      return 1;
-    }
-
-    return 0;
-  }
-
   private static compareExamSessionsByDate(es1: ExamSession, es2: ExamSession) {
     if (es1.session_date.isBefore(es2.session_date)) {
       return -1;
@@ -89,7 +76,6 @@ export class ExamSessionUtils {
     const comparatorFns = [
       ExamSessionUtils.compareExamSessionsByAdmissionAvailability,
       ExamSessionUtils.compareExamSessionsByRoom,
-      ExamSessionUtils.compareExamSessionsByQueueFullness,
       ExamSessionUtils.compareExamSessionsByDate,
       ExamSessionUtils.compareExamSessionsByLang,
     ];
@@ -132,7 +118,7 @@ export class ExamSessionUtils {
 
   static getEffectiveRegistrationPeriodDetails(examSession: ExamSession) {
     return {
-      kind: RegistrationKind.Admission,
+      kind: examSession.available_registration_kind,
       start: examSession.registration_start_date,
       end: examSession.registration_end_date,
       participants: examSession.participants,
