@@ -50,7 +50,8 @@ public enum APIExceptionType {
   AUTH_HASH_EXPIRED,
   ONR_SAVE_EXCEPTION,
   ONR_PERSON_INSERT_EXCEPTION,
-  EXAMINER_NEW_EXAM_EVENT_MISMATCH;
+  EXAMINER_NEW_EXAM_EVENT_MISMATCH,
+  INVALID_BIRTHDATE_FORMAT;
 
   public String getCode() {
     final StringBuilder codeBuilder = new StringBuilder();

@@ -228,8 +228,15 @@ const clerkEnrollmentAppointmentSlice = createSlice({
     ) {
       state.saveBirthdateOrSsnStatus = APIResponseStatus.InProgress;
     },
-    storeSaveClerkEnrollmentBirthdateOrSsn(state) {
+    storeSaveClerkEnrollmentBirthdateOrSsn(
+      state,
+      action: PayloadAction<ClerkOnrBirthdate>,
+    ) {
       state.saveBirthdateOrSsnStatus = APIResponseStatus.Success;
+      state.onrBirthdate = action.payload;
+    },
+    rejectSaveClerkEnrollmentBirthdateOrSsn(state) {
+      state.saveBirthdateOrSsnStatus = APIResponseStatus.Error;
     },
   },
 });
@@ -264,4 +271,5 @@ export const {
   storeClerkEnrollmentOnrBirthdate,
   resetClerkEnrollmentOnrBirthdate,
   saveClerkEnrollmentBirthdateOrSsn,
+  rejectSaveClerkEnrollmentBirthdateOrSsn,
 } = clerkEnrollmentAppointmentSlice.actions;

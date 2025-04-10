@@ -23,6 +23,7 @@ import {
   moveEnrollmentSucceeded,
   rejectClerkEnrollmentAppointment,
   rejectMoveEnrollment,
+  rejectSaveClerkEnrollmentBirthdateOrSsn,
   saveClerkEnrollmentBirthdateOrSsn,
   sendClerkEnrollmentAppointmentAuthLink,
   storeCancelClerkEnrollmentAppointment,
@@ -290,17 +291,23 @@ function* saveClerkEnrollmentBirthdateOrSsnSaga(
     birthdateOrSsn: string;
   }>,
 ) {
-  const { oid, enrollmentId, birthdateOrSsn } = action.payload;
+  try {
+    const { oid, enrollmentId, birthdateOrSsn } = action.payload;
 
-  yield call(
-    axiosInstance.post,
-    `${APIEndpoints.ExaminerEnrollmentAppointment.replace(
-      /:oid/,
-      oid,
-    )}/${enrollmentId}/createPerson`,
-    { birthdateOrSsn },
-  );
-  yield put(storeSaveClerkEnrollmentBirthdateOrSsn());
+    const apiResponse: AxiosResponse<ClerkOnrBirthdate> = yield call(
+      axiosInstance.post,
+      `${APIEndpoints.ExaminerEnrollmentAppointment.replace(
+        /:oid/,
+        oid,
+      )}/${enrollmentId}/createPerson`,
+      { birthdateOrSsn },
+    );
+    yield put(storeSaveClerkEnrollmentBirthdateOrSsn(apiResponse.data));
+  } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    yield put(rejectSaveClerkEnrollmentBirthdateOrSsn());
+  }
 }
 
 export function* watchClerkEnrollmentAppointment() {

@@ -83,7 +83,8 @@
           "noAuthPossible": "Ei mahdollisuutta tunnistautua",
           "paymentLinkModal": {
             "title": "Suora maksulinkki",
-            "description": "Jos asiakkaalla ei ole mahdollisuutta käyttää vahvaa tunnistautumista, lähetä tämä suora maksulinkki."
+            "description": "Jos asiakkaalla ei ole mahdollisuutta käyttää vahvaa tunnistautumista, lähetä tämä suora maksulinkki.",
+            "success": "Tallennus onnistui"
           }
         },
         "authLinkErrorDialog": {

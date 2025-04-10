@@ -56,4 +56,5 @@ export enum APIError {
   userAttachmentsMissing = 'userAttachmentsMissing',
   ExaminerNotFound = 'examinerNotFound',
   AuthHashExpired = 'authHashExpired',
+  InvalidBirthdateFormat = 'invalidBirthdateFormat',
 }

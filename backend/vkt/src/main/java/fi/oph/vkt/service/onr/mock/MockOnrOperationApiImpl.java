@@ -29,6 +29,6 @@ public class MockOnrOperationApiImpl implements OnrOperationApi {
 
   @Override
   public String insertPersonalData(final PersonalData personalData) {
-    return "1.2.246.562.10.1000000000" + oidIncrement++;
+    return "1.2.246.562.10.1000000020" + oidIncrement++;
   }
 }

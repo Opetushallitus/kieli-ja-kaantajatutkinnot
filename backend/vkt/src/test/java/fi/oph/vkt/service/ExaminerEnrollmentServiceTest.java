@@ -574,7 +574,7 @@ public class ExaminerEnrollmentServiceTest {
     assertEquals(EnrollmentAppointmentStatus.ENROLLMENT_CREATED, enrollmentCreated.getStatus());
     assertEquals(examEvent.getId(), enrollmentCreated.getExaminerExamEvent().getId());
     assertNotNull(enrollmentCreated.getAuthHash());
-    assertNotNull(enrollmentCreated.getPaymentLinkHash());
+    assertNull(enrollmentCreated.getPaymentLinkHash());
 
     assertEquals(responseDTO.id(), enrollmentCreated.getId());
     assertEquals(responseDTO.version(), enrollmentCreated.getVersion());

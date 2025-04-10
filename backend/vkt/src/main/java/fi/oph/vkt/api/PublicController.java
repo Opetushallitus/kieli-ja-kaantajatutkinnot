@@ -275,14 +275,9 @@ public class PublicController {
     @PathVariable final String paymentLinkHash
   ) throws IOException {
     try {
-      final EnrollmentAppointment enrollment = publicEnrollmentService.getEnrollmentAppointmentByIdAndPaymentLink(
+      final String redirectUrl = paymentService.createPaymentForEnrollmentAppointment(
         enrollmentAppointmentId,
         paymentLinkHash
-      );
-      final String redirectUrl = paymentService.createPaymentForEnrollmentAppointment(
-        enrollment.getId(),
-        enrollment.getPerson(),
-        AppLocale.FI
       );
 
       httpResponse.sendRedirect(redirectUrl);

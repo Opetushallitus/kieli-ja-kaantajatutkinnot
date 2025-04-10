@@ -86,7 +86,8 @@
           "ticketValidationError": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen",
           "fileUploadError": "Tiedoston lähetys epäonnistui, ole hyvä ja yritä uudelleen",
           "userAttachmentsMissing": "Koulutusvalinnan vaadittavat liitteet puuttuu",
-          "authHashExpired": "Ilmoittautumislinkki on vanhentunut"
+          "authHashExpired": "Ilmoittautumislinkki on vanhentunut",
+          "invalidBirthdateFormat": "Syntymäajan muoto on virheellinen"
         },
         "customTextField": {
           "emailFormat": "Sähköpostiosoite on virheellinen",

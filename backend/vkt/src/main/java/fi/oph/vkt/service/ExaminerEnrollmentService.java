@@ -8,6 +8,7 @@ import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentBirthdateOrSsnDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentExamEventDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentGradesDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerOnrBirthdateDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.model.EnrollmentAppointment;
@@ -21,12 +22,12 @@ import fi.oph.vkt.repository.ExaminerExamEventRepository;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.onr.OnrService;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
+import fi.oph.vkt.util.DateUtil;
 import fi.oph.vkt.util.ExaminerUtil;
 import fi.oph.vkt.util.HetuUtils;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -34,6 +35,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -120,10 +123,6 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
 
     if (enrollmentAppointment.getAuthHash() == null) {
       enrollmentAppointment.setAuthHash(uuidSource.getRandomNonce());
-    }
-
-    if (enrollmentAppointment.getPaymentLinkHash() == null) {
-      enrollmentAppointment.setPaymentLinkHash(uuidSource.getRandomNonce());
     }
 
     enrollmentAppointmentRepository.flush();
@@ -327,7 +326,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional
-  public void createPersonForAppointment(
+  public ExaminerOnrBirthdateDTO createPersonForAppointment(
     final String oid,
     final long enrollmentAppointmentId,
     final ExaminerEnrollmentBirthdateOrSsnDTO dto
@@ -338,7 +337,12 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
 
     checkExaminerOid(enrollmentAppointment, oid);
 
+    if (enrollmentAppointment.getPaymentLinkHash() == null || enrollmentAppointment.getPaymentLinkHash().isEmpty()) {
+      enrollmentAppointment.setPaymentLinkHash(uuidSource.getRandomNonce());
+    }
+
     Person person;
+    String personOid;
     if (enrollmentAppointment.getPerson() != null) {
       person = enrollmentAppointment.getPerson();
     } else {
@@ -356,13 +360,21 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     }
 
     if (person.getOid() == null || person.getOid().isEmpty()) {
-      String personOid;
       if (HetuUtils.hetuIsValid(dto.birthdateOrSsn())) {
         person.setOtherIdentifier(dto.birthdateOrSsn());
         personOid = onrService.insertPersonalData(person, null);
       } else {
         final String birthdate = dto.birthdateOrSsn();
-        personOid = onrService.insertPersonalData(person, birthdate);
+        final Pattern pattern = Pattern.compile("^([0-9]{2})([0-9]{2})([0-9]{4})$");
+        final Matcher matcher = pattern.matcher(birthdate);
+        if (!matcher.find() && matcher.groupCount() != 3) {
+          throw new APIException(APIExceptionType.INVALID_BIRTHDATE_FORMAT);
+        }
+        personOid =
+          onrService.insertPersonalData(
+            person,
+            String.format("%s-%s-%s", matcher.group(1), matcher.group(2), matcher.group(3))
+          );
       }
 
       if (personOid != null && personOid.length() > 0) {
@@ -370,6 +382,14 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
         person.setLatestSyncAt(LocalDateTime.now());
         personRepository.saveAndFlush(person);
       }
+    } else {
+      personOid = person.getOid();
     }
+
+    final String birthdate = HetuUtils.hetuIsValid(dto.birthdateOrSsn())
+      ? DateUtil.formatBirthdateFromSSN(dto.birthdateOrSsn())
+      : dto.birthdateOrSsn();
+
+    return ExaminerOnrBirthdateDTO.builder().birthdate(birthdate).oid(personOid).build();
   }
 }

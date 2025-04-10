@@ -278,6 +278,22 @@ public class PaymentService {
 
   @Transactional
   public String createPaymentForEnrollmentAppointment(
+    final long enrollmentAppointmentId,
+    final String paymentLinkHash
+  ) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository
+      .findByIdAndPaymentLinkHashAndDeletedAtIsNull(enrollmentAppointmentId, paymentLinkHash)
+      .orElseThrow();
+
+    return createPaymentForEnrollmentAppointment(
+      enrollmentAppointment.getId(),
+      enrollmentAppointment.getPerson(),
+      AppLocale.FI
+    );
+  }
+
+  @Transactional
+  public String createPaymentForEnrollmentAppointment(
     final Long enrollmentId,
     final Person person,
     final AppLocale appLocale

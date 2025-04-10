@@ -695,12 +695,15 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     contactEmailService.sendExaminerNotificationOfContactRequest(enrollmentAppointment);
   }
 
-  public EnrollmentAppointment getEnrollmentAppointmentByIdAndPaymentLink(
+  @Transactional(readOnly = true)
+  public Person getEnrollmentAppointmentByIdAndPaymentLink(
     final long enrollmentAppointmentId,
     final String paymentLinkHash
   ) {
-    return enrollmentAppointmentRepository
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository
       .findByIdAndPaymentLinkHashAndDeletedAtIsNull(enrollmentAppointmentId, paymentLinkHash)
       .orElseThrow();
+
+    return enrollmentAppointment.getPerson();
   }
 }

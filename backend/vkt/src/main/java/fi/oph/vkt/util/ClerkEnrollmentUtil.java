@@ -181,12 +181,14 @@ public class ClerkEnrollmentUtil {
         .build()
       : null;
 
-    final String paymentLinkUrl = String.format(
-      "%s/enrollment/appointment/%d/redirectPayment/%s",
-      baseUrlAPI,
-      enrollmentAppointment.getId(),
-      enrollmentAppointment.getPaymentLinkHash()
-    );
+    final String paymentLinkUrl = enrollmentAppointment.getPaymentLinkHash() != null
+      ? String.format(
+        "%s/enrollment/appointment/%d/redirectPayment/%s",
+        baseUrlAPI,
+        enrollmentAppointment.getId(),
+        enrollmentAppointment.getPaymentLinkHash()
+      )
+      : "";
 
     final ExaminerExamEventDTO examinerExamEventDTO = enrollmentAppointment.getExaminerExamEvent() != null
       ? ExaminerUtil.toExaminerExamEventWithoutEnrollmentsDTO(enrollmentAppointment.getExaminerExamEvent())

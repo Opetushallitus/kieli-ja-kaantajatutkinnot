@@ -143,11 +143,11 @@ public class ExaminerEnrollmentController {
 
   @PostMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}/createPerson")
   @Operation(tags = TAG_ENROLLMENT, summary = "Get enrollment appointment grades")
-  public void createEnrollmentAppointmentPerson(
+  public ExaminerOnrBirthdateDTO createEnrollmentAppointmentPerson(
     @PathVariable String oid,
     @PathVariable final long enrollmentAppointmentId,
     @RequestBody @Valid final ExaminerEnrollmentBirthdateOrSsnDTO dto
   ) {
-    examinerEnrollmentService.createPersonForAppointment(oid, enrollmentAppointmentId, dto);
+    return examinerEnrollmentService.createPersonForAppointment(oid, enrollmentAppointmentId, dto);
   }
 }
