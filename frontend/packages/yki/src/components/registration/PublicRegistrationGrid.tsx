@@ -18,6 +18,7 @@ import { PublicRegistrationStepper } from 'components/registration/PublicRegistr
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints, PaymentStatus } from 'enums/api';
+import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
 import { loadExamSession } from 'redux/reducers/examSession';
@@ -142,7 +143,7 @@ const StepContentSelector = () => {
 
 const Heading = () => {
   const { activeStep } = useAppSelector(registrationSelector);
-  const { error: initRegistrationError } =
+  const { error: initRegistrationError, registrationKind } =
     useAppSelector(registrationSelector).initRegistration;
   const { status: submitFormStatus } =
     useAppSelector(registrationSelector).submitRegistration;
@@ -157,7 +158,11 @@ const Heading = () => {
     if (submitFormStatus === APIResponseStatus.Success) {
       return t('steps.register.success.heading');
     } else {
-      return t('steps.register.inProgress.heading');
+      if (registrationKind === RegistrationKind.Admission) {
+        return t('steps.register.inProgress.heading.admission');
+      } else {
+        return t('steps.register.inProgress.heading.queue');
+      }
     }
   } else if (
     activeStep === PublicRegistrationFormStep.Identify &&

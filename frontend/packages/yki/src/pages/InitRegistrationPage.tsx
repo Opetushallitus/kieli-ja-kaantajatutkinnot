@@ -23,9 +23,9 @@ export const ContentSelector = () => {
   if (!examSession) {
     return null;
   }
-  const { open, availablePlaces } =
+  const { open } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-  if (!open || !availablePlaces) {
+  if (!open) {
     return <RegistrationNotAvailable />;
   } else {
     return <PublicIdentificationGrid />;
