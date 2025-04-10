@@ -18,7 +18,7 @@ import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
+import { AppRoutes, RegistrationKind } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
@@ -94,7 +94,15 @@ export const AppRouter: FC = () => {
           path={AppRoutes.ExamSessionRegistration}
           element={
             <TitlePage title={createTitle('examDetails')}>
-              <ExamDetailsPage />
+              <ExamDetailsPage registrationKind={RegistrationKind.Admission} />
+            </TitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ExamSessionQueue}
+          element={
+            <TitlePage title={createTitle('examDetails')}>
+              <ExamDetailsPage registrationKind={RegistrationKind.Queue} />
             </TitlePage>
           }
         />
