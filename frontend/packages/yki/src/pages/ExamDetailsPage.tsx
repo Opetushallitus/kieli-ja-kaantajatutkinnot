@@ -8,6 +8,7 @@ import { PublicRegistrationGrid } from 'components/registration/PublicRegistrati
 import { PublicExamDetailsPageSkeleton } from 'components/skeletons/PublicExamDetailsPageSkeleton';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import {
@@ -18,7 +19,11 @@ import {
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 
-export const ExamDetailsPage = () => {
+export const ExamDetailsPage = ({
+  registrationKind,
+}: {
+  registrationKind: RegistrationKind;
+}) => {
   // i18n
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.examDetailsPage',
@@ -82,6 +87,7 @@ export const ExamDetailsPage = () => {
     examSession?.id,
     t,
     searchParams,
+    registrationKind,
   ]);
 
   return (

@@ -46,8 +46,16 @@ const initRegistration = JSON.parse(
   fs.readFileSync('./dev/rest/registration/registrationInit.json'),
 );
 
+const initRegistrationQueue = JSON.parse(
+  fs.readFileSync('./dev/rest/registration/registrationInitQueue.json')
+);
+
 const initRegistrationEmailAuth = JSON.parse(
   fs.readFileSync('./dev/rest/registration/registrationInitEmailAuth.json'),
+);
+
+const initRegistrationQueueEmailAuth = JSON.parse(
+  fs.readFileSync('./dev/rest/registration/registrationInitQueueEmailAuth.json')
 );
 
 const getExamSessions = () => {
@@ -1107,14 +1115,16 @@ module.exports = function (app) {
           case 11:
             res.status(409).send({ error: { registered: true } });
           case 12:
-            res.status(409).send({ error: { full: true } });
+            res.send(initRegistrationQueueEmailAuth);
           case 13:
             res.status(409).send({ error: { closed: true } });
           // This error case shouldn't ordinarily happen
           case 14:
             res.status(409).send({ error: { full: false, registered: false } });
           case 16:
-            res.status(401).send('Unauthorized');
+            res.status(401).send("Unauthorized");
+          case 17:
+            res.send(initRegistrationQueue);
           default:
             req.body.exam_session_id % 2 === 0
               ? res.send(initRegistrationEmailAuth)

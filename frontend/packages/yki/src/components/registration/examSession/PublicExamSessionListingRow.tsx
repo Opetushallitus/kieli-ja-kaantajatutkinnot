@@ -12,6 +12,7 @@ import {
   usePublicTranslation,
 } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
+import { RegistrationKind } from 'enums/app';
 import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
 import {
   initRegistration,
@@ -31,9 +32,7 @@ const RegisterToExamButton = ({
   });
   const { isPhone } = useWindowProperties();
 
-  const { availablePlaces } =
-    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-  const toQueue = !availablePlaces;
+  const { available_registration_kind } = examSession;
 
   // TODO Different text when registering to queue!
 
@@ -46,13 +45,15 @@ const RegisterToExamButton = ({
         dispatch(
           initRegistration({
             examSessionId: examSession.id,
-            toQueue: !!toQueue,
+            registrationKind: available_registration_kind,
           }),
         );
       }}
       fullWidth={isPhone}
     >
-      {availablePlaces ? t('register') : t('full')}
+      {available_registration_kind === RegistrationKind.Admission
+        ? t('register')
+        : t('enrollToQueue')}
     </CustomButton>
   );
 };
@@ -67,20 +68,16 @@ const RegistrationUnavailableText = ({
   });
   const { start } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-  if (examSession.open) {
-    return <>{t('examSessionIsFull')}</>;
+  if (examSession.upcoming_admission) {
+    return (
+      <>
+        {t('admissionOpensOn', {
+          startDate: DateUtils.formatOptionalDate(start),
+        })}
+      </>
+    );
   } else {
-    if (examSession.upcoming_admission) {
-      return (
-        <>
-          {t('admissionOpensOn', {
-            startDate: DateUtils.formatOptionalDate(start),
-          })}
-        </>
-      );
-    } else {
-      return <>{t('admissionPeriodIsClosed')}</>;
-    }
+    return <>{t('admissionPeriodIsClosed')}</>;
   }
 };
 
@@ -242,16 +239,13 @@ export const PublicExamSessionListingRow = ({
   const availablePlacesText =
     availablePlaces > 0 ? '' + availablePlaces : t('full');
 
-  // TODO Going forward, allow registering to queue when places are filled
-  const registerActionAvailable = open && availablePlaces;
-
   if (isPhone) {
     return (
       <TableRow className="rows gapped-xs">
         <PublicExamSessionListingCellsForPhone
           examSession={examSession}
           availablePlacesText={availablePlacesText}
-          registerActionAvailable={!!registerActionAvailable}
+          registerActionAvailable={!!open}
           locationInfo={locationInfo}
         />
       </TableRow>
@@ -262,7 +256,7 @@ export const PublicExamSessionListingRow = ({
         <PublicExamSessionListingCellsForDesktop
           examSession={examSession}
           availablePlacesText={availablePlacesText}
-          registerActionAvailable={!!registerActionAvailable}
+          registerActionAvailable={!!open}
           locationInfo={locationInfo}
         />
       </TableRow>
