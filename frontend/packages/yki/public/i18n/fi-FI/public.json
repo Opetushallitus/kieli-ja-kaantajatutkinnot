@@ -154,6 +154,7 @@
           "title": "Tutkintomaksu"
         },
         "registrationButtonLabels": {
+          "enrollToQueue": "Ilmoittaudu jonoon",
           "full": "Täynnä",
           "orderCancellationNotification": "Tilaa ilmoitus peruutuspaikoista",
           "periodNotOpen": "Ilmoittautuminen ei ole alkanut",
@@ -270,6 +271,7 @@
           "phaseNumber": "{{current}} kautta {{total}}",
           "step": {
             "Done": "Valmis",
+            "EnrollToQueue": "Ilmoittaudu jonoon",
             "Identify": "Tunnistaudu",
             "Payment": "Maksaminen",
             "Register": "Ilmoittaudu"
@@ -349,7 +351,10 @@
           },
           "register": {
             "inProgress": {
-              "heading": "Ilmoittaudu yleiseen kielitutkintoon (YKI)"
+              "heading": {
+                "admission": "Ilmoittaudu yleiseen kielitutkintoon (YKI)",
+                "queue": "Ilmoittaudu jonoon yleiseen kielitutkintoon (YKI)"
+              }
             },
             "success": {
               "heading": "Ilmoittautumislomake on lähetetty"
