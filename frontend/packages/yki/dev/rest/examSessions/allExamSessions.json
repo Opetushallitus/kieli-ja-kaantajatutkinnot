@@ -48,9 +48,9 @@
       "exam_fee": 200,
       "registration_end_date": "2023-01-03",
       "open": true,
-      "queue_full": false,
       "queue": 0,
-      "upcoming_admission": false
+      "upcoming_admission": false,
+      "available_registration_kind": "QUEUE"
     },
     {
       "level_code": "YLIN",
@@ -100,9 +100,9 @@
       "exam_fee": 200,
       "registration_end_date": "2023-01-03",
       "open": false,
-      "queue_full": false,
       "queue": 0,
-      "upcoming_admission": false
+      "upcoming_admission": false,
+      "available_registration_kind": "QUEUE"
     },
     {
       "level_code": "YLIN",
@@ -152,8 +152,8 @@
       "exam_fee": 200,
       "registration_end_date": "2039-12-10",
       "open": true,
-      "queue_full": false,
-      "queue": 0
+      "queue": 0,
+      "available_registration_kind": "QUEUE"
     },
     {
       "level_code": "PERUS",
@@ -203,8 +203,8 @@
       "exam_fee": 153,
       "registration_end_date": "2039-12-14",
       "open": false,
-      "queue_full": false,
-      "queue": 0
+      "queue": 0,
+      "available_registration_kind": "ADMISSION"
     },
     {
       "level_code": "KESKI",
@@ -256,9 +256,9 @@
       "exam_fee": 176,
       "registration_end_date": "2039-02-28",
       "open": true,
-      "queue_full": false,
       "queue": 0,
-      "upcoming_admission": true
+      "upcoming_admission": true,
+      "available_registration_kind": "ADMISSION"
     },
     {
       "level_code": "PERUS",
@@ -310,8 +310,8 @@
       "exam_fee": 153,
       "registration_end_date": "2039-02-28",
       "open": true,
-      "queue_full": true,
-      "queue": 50
+      "queue": 50,
+      "available_registration_kind": "QUEUE"
     },
     {
       "level_code": "KESKI",
@@ -361,9 +361,9 @@
       "exam_fee": 176,
       "registration_end_date": "2039-02-28",
       "open": true,
-      "queue_full": false,
       "queue": 0,
-      "upcoming_admission": true
+      "upcoming_admission": true,
+      "available_registration_kind": "ADMISSION"
     },
     {
       "level_code": "YLIN",
@@ -413,8 +413,8 @@
       "exam_fee": 200,
       "registration_end_date": "2029-02-28",
       "open": true,
-      "queue_full": false,
-      "upcoming_admission": true
+      "upcoming_admission": true,
+      "available_registration_kind": "QUEUE"
     },
     {
       "level_code": "PERUS",
@@ -464,7 +464,7 @@
       "exam_fee": 153,
       "registration_end_date": "2039-02-28",
       "open": true,
-      "queue_full": false
+      "available_registration_kind": "QUEUE"
     },
     {
       "level_code": "PERUS",
@@ -514,7 +514,7 @@
       "exam_fee": 153,
       "registration_end_date": "2039-02-28",
       "open": true,
-      "queue_full": true
+      "available_registration_kind": "QUEUE"
     },
     {
       "level_code": "KESKI",
@@ -566,7 +566,59 @@
       "exam_fee": 176,
       "registration_end_date": "2020-12-02",
       "open": true,
-      "queue_full": true
+      "available_registration_kind": "QUEUE"
+    },
+    {
+      "level_code": "YLIN",
+      "max_participants": 10,
+      "language_code": "fin",
+      "participants": 10,
+      "contact": [
+        {
+          "email": "contact.person@testi.invalid"
+        }
+      ],
+      "office_oid": "1.2.246.562.5.22724043777",
+      "published_at": "2019-01-17T12:30:00.000Z",
+      "session_date": "2019-04-06",
+      "organizer_oid": "1.2.246.562.10.39706139522",
+      "id": 17,
+      "registration_start_date": "2019-02-01",
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": "Sali toisessa kerroksessa.",
+          "name": "Maunulan yhteiskoulu - Helsingin matematiikkalukio",
+          "other_location_info": "Sali Kekkonen",
+          "street_address": "Mikälietie 4",
+          "post_office": "Jyväskylä",
+          "zip": "40100"
+        },
+        {
+          "lang": "sv",
+          "extra_information": null,
+          "name": "Jyväskylän kansalaisopisto",
+          "other_location_info": "Hall Kekkonen",
+          "street_address": "Mikälietie 4",
+          "post_office": "Jyväskylä",
+          "zip": "40100"
+        },
+        {
+          "lang": "en",
+          "extra_information": null,
+          "name": "Maunula Secondary School and Helsinki School of Mathematics",
+          "other_location_info": "Hall Kekkonen",
+          "street_address": "Mikälietie 4",
+          "post_office": "Jyväskylä",
+          "zip": "40100"
+        }
+      ],
+      "exam_fee": 176,
+      "registration_end_date": "2039-02-28",
+      "open": true,
+      "queue": 0,
+      "upcoming_admission": true,
+      "available_registration_kind": "QUEUE"
     }
   ]
 }
