@@ -40,11 +40,11 @@ describe('ExamSessionUtils', () => {
     exam_fee: 100.0,
     open: true,
     queue: 0,
-    queue_full: false,
     participants: 7,
     registration_start_date: dayjs('2020-01-01'),
     registration_end_date: dayjs('2090-06-15'),
     upcoming_admission: true,
+    available_registration_kind: RegistrationKind.Admission,
   };
 
   describe('compareExamSessions', () => {
@@ -103,25 +103,6 @@ describe('ExamSessionUtils', () => {
       ).toEqual(1);
     });
 
-    it('should prioritise exam sessions without full queue', () => {
-      expect(
-        ExamSessionUtils.compareExamSessions(baseExamSession, {
-          ...baseExamSession,
-          queue_full: true,
-        }),
-      ).toEqual(-1);
-
-      expect(
-        ExamSessionUtils.compareExamSessions(
-          {
-            ...baseExamSession,
-            queue_full: true,
-          },
-          baseExamSession,
-        ),
-      ).toEqual(1);
-    });
-
     it('should prioritise exam sessions with earlier session date', () => {
       expect(
         ExamSessionUtils.compareExamSessions(
@@ -142,7 +123,7 @@ describe('ExamSessionUtils', () => {
     });
 
     it('should prioritise comparators', () => {
-      // room > queue fullness
+      // room > earlier session date
       expect(
         ExamSessionUtils.compareExamSessions(
           {
@@ -151,20 +132,8 @@ describe('ExamSessionUtils', () => {
           },
           {
             ...baseExamSession,
-            queue_full: true,
-          },
-        ),
-      ).toEqual(1);
-
-      // queue fullness > earlier session date
-      expect(
-        ExamSessionUtils.compareExamSessions(
-          {
-            ...baseExamSession,
-            queue_full: true,
             session_date: dayjs('2098-12-31'),
           },
-          baseExamSession,
         ),
       ).toEqual(1);
 

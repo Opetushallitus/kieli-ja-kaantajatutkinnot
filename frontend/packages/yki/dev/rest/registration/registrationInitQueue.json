@@ -57,5 +57,5 @@
   },
   "registration_id": 1,
   "is_strongly_identified": true,
-  "registration_kind": "ADMISSION"
+  "registration_kind": "QUEUE"
 }
