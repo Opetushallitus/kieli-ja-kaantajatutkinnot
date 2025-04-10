@@ -8,6 +8,7 @@ export enum AppRoutes {
   Registration = '/yki/ilmoittautuminen',
   RegistrationPaymentStatus = '/yki/ilmoittautuminen/maksu/tila',
   ExamSessionRegistration = '/yki/ilmoittautuminen/tutkintotilaisuus/:examSessionId',
+  ExamSessionQueue = '/yki/ilmoittautuminen/tutkintotilaisuus/:examSessionId/jono',
   Reassessment = '/yki/tarkistusarviointi',
   ReassessmentOrder = '/yki/tarkistusarviointi/:evaluationId',
   ReassessmentOrderStatus = '/yki/tarkistusarviointi/maksu/tila',
@@ -65,7 +66,8 @@ export enum GenderEnum {
 }
 
 export enum RegistrationKind {
-  Admission = 'admission',
+  Admission = 'ADMISSION',
+  Queue = 'QUEUE',
 }
 
 export enum YkiValidationErrors {

@@ -5,6 +5,7 @@ import {
   CertificateLanguage,
   GenderEnum,
   InstructionLanguage,
+  RegistrationKind,
 } from 'enums/app';
 import { ExamSessionResponse } from 'interfaces/examSessions';
 
@@ -41,6 +42,11 @@ export interface PublicEmailRegistration
   ssn?: string;
 }
 
+export interface PublicRegistrationInitPayload {
+  examSessionId: number;
+  registrationKind: RegistrationKind;
+}
+
 export interface PublicRegistrationInitResponse {
   exam_session: ExamSessionResponse;
   registration_id: number;
@@ -56,6 +62,7 @@ export interface PublicRegistrationInitResponse {
     nationalities?: Array<string>;
   };
   is_strongly_identified: boolean;
+  registration_kind: RegistrationKind;
 }
 
 export interface PublicRegistrationInitErrorResponse {
