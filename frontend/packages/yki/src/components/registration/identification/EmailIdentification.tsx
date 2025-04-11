@@ -109,7 +109,13 @@ export const EmailIdentification = () => {
   const onSubmit = useCallback(() => {
     const error = validateEmail(email);
     if (!error) {
-      dispatch(sendEmailLinkOrder({ examSessionId: examSession.id, email }));
+      dispatch(
+        sendEmailLinkOrder({
+          examSessionId: examSession.id,
+          email,
+          registrationKind: examSession.available_registration_kind,
+        }),
+      );
     } else {
       showDialog({
         title: t('emailLink.incorrectEmailDialog.title'),
@@ -124,6 +130,7 @@ export const EmailIdentification = () => {
     dispatch,
     email,
     examSession.id,
+    examSession.available_registration_kind,
     showDialog,
     t,
     translateCommon,
