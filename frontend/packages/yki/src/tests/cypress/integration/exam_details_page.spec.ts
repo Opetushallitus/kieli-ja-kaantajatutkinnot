@@ -1,4 +1,5 @@
 import { APIEndpoints } from 'enums/api';
+import { RegistrationKind } from 'enums/app';
 import { onExamDetailsPage } from 'tests/cypress/support/page-objects/examDetailsPage';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 
@@ -24,6 +25,7 @@ const getInitRegistrationResponse = (is_strongly_identified: boolean) => {
       is_strongly_identified,
       exam_session: examSessionResponse,
       registration_id: 1337,
+      registration_kind: RegistrationKind.Admission,
       user: {
         first_name,
         last_name,
@@ -38,6 +40,7 @@ const getInitRegistrationResponse = (is_strongly_identified: boolean) => {
       is_strongly_identified,
       exam_session: examSessionResponse,
       registration_id: 1337,
+      registration_kind: RegistrationKind.Admission,
       user: {
         email: 'teuvotesti@test.invalid',
       },
