@@ -206,7 +206,18 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          examSessionIsFull
+          <a
+            class="custom-button-link"
+            href="/yki/tutkintotilaisuus/999"
+          >
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              enrollToQueue
+            </button>
+          </a>
         </td>
       </tr>
       <tr
@@ -423,7 +434,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
               tabindex="0"
               type="button"
             >
-              register
+              enrollToQueue
             </button>
           </a>
         </td>
@@ -486,7 +497,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
               tabindex="0"
               type="button"
             >
-              register
+              enrollToQueue
             </button>
           </a>
         </td>
@@ -540,7 +551,18 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          examSessionIsFull
+          <a
+            class="custom-button-link"
+            href="/yki/tutkintotilaisuus/13"
+          >
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              enrollToQueue
+            </button>
+          </a>
         </td>
       </tr>
       <tr
@@ -592,7 +614,18 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          examSessionIsFull
+          <a
+            class="custom-button-link"
+            href="/yki/tutkintotilaisuus/14"
+          >
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              enrollToQueue
+            </button>
+          </a>
         </td>
       </tr>
       <tr
@@ -644,7 +677,18 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          examSessionIsFull
+          <a
+            class="custom-button-link"
+            href="/yki/tutkintotilaisuus/15"
+          >
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              enrollToQueue
+            </button>
+          </a>
         </td>
       </tr>
       <tr
@@ -715,7 +759,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         />
         <p
           class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-          id=":r8:"
+          id=":rc:"
         >
           component.table.pagination.rowsPerPage
         </p>
@@ -725,9 +769,9 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           <div
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":r8: :r7:"
+            aria-labelledby=":rc: :rb:"
             class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
-            id=":r7:"
+            id=":rb:"
             role="combobox"
             tabindex="0"
           >
