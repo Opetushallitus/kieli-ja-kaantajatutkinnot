@@ -373,7 +373,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
         personOid =
           onrService.insertPersonalData(
             person,
-            String.format("%s-%s-%s", matcher.group(1), matcher.group(2), matcher.group(3))
+            String.format("%s-%s-%s", matcher.group(3), matcher.group(2), matcher.group(1))
           );
       }
 
