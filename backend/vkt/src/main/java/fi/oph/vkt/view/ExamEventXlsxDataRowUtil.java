@@ -13,6 +13,7 @@ import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import fi.oph.vkt.model.type.FreeEnrollmentType;
 import fi.oph.vkt.service.onr.PersonalData;
 import fi.oph.vkt.util.DateUtil;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +71,7 @@ public class ExamEventXlsxDataRowUtil {
     final Person person,
     final Map<String, PersonalData> personalDatas
   ) {
-    final String ssn = person != null ? getSsn(person, personalDatas) : "";
+    final String birthdate = person != null ? getBirthdate(person, personalDatas) : null;
 
     return ExaminerExamEventXlsxDataRow
       .builder()
@@ -88,7 +89,7 @@ public class ExamEventXlsxDataRowUtil {
       .speechComprehension(boolToInt(enrollment.isSpeechComprehensionPartialExam()))
       .email(enrollment.getEmail())
       .phoneNumber(enrollment.getPhoneNumber())
-      .birthdate(ssn != null ? DateUtil.formatBirthdateFromSSN(ssn) : "")
+      .birthdate(birthdate != null ? birthdate : "")
       .digitalCertificateConsent(boolToInt(enrollment.isDigitalCertificateConsent()))
       .street(enrollment.getStreet())
       .postalCode(enrollment.getPostalCode())
@@ -103,6 +104,7 @@ public class ExamEventXlsxDataRowUtil {
     final Map<String, PersonalData> personalDatas
   ) {
     final String ssn = person != null ? getSsn(person, personalDatas) : null;
+    final String birthdate = person != null ? getBirthdate(person, personalDatas) : null;
 
     ExamEventXlsxDataRow.ExamEventXlsxDataRowBuilder builder = ExamEventXlsxDataRow
       .builder()
@@ -120,7 +122,7 @@ public class ExamEventXlsxDataRowUtil {
       .speechComprehension(boolToInt(enrollment.isSpeechComprehensionPartialExam()))
       .email(enrollment.getEmail())
       .phoneNumber(enrollment.getPhoneNumber())
-      .birthdate(ssn != null ? DateUtil.formatBirthdateFromSSN(ssn) : "")
+      .birthdate(birthdate != null ? birthdate : "")
       .ssn(ssn != null ? ssn : "")
       .digitalCertificateConsent(boolToInt(enrollment.isDigitalCertificateConsent()))
       .street(enrollment.getStreet())
@@ -207,6 +209,27 @@ public class ExamEventXlsxDataRowUtil {
 
   private static Integer boolToInt(final Boolean bool) {
     return bool ? 1 : 0;
+  }
+
+  private static String getBirthdate(final Person person, final Map<String, PersonalData> personalDatas) {
+    final String oid = person.getOid();
+    if (oid == null) {
+      return null;
+    }
+
+    final PersonalData personalData = personalDatas.get(oid);
+    if (personalData == null) {
+      return null;
+    }
+
+    if (personalData.getBirthdate() != null && !personalData.getBirthdate().isEmpty()) {
+      final LocalDate birthdate = LocalDate.parse(personalData.getBirthdate());
+
+      return DateUtil.formatDate(birthdate);
+    }
+    return personalData.getSsn() != null && !personalData.getSsn().isEmpty()
+      ? DateUtil.formatBirthdateFromSSN(personalData.getSsn())
+      : null;
   }
 
   private static String getSsn(final Person person, final Map<String, PersonalData> personalDatas) {

@@ -30,6 +30,7 @@ public class MockOnrOperationApiImpl implements OnrOperationApi {
   @Override
   public String insertPersonalData(final PersonalData personalData) {
     final String oid = "1.2.246.562.10.1000000030" + oidIncrement++;
+    personalData.setOnrId(oid);
     personalDataCache.put(oid, personalData);
 
     return oid;
