@@ -18,13 +18,15 @@ public class DateUtil {
     return datetime == null ? null : datetime.format(DATETIME_FORMAT);
   }
 
+  public static String formatDate(final LocalDate date) {
+    return DATE_LOCAL_FORMAT.format(date);
+  }
+
   public static String formatBirthdateFromSSN(final String ssn) {
     if (ssn.isEmpty() || !HetuUtils.hetuIsValid(ssn)) {
       return "";
     }
 
-    final LocalDate birthdate = HetuUtils.dateFromHetu(ssn);
-
-    return DATE_LOCAL_FORMAT.format(birthdate);
+    return formatDate(HetuUtils.dateFromHetu(ssn));
   }
 }

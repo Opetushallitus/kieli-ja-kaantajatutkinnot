@@ -11,6 +11,7 @@ import fi.oph.vkt.service.onr.OnrService;
 import fi.oph.vkt.service.onr.PersonalData;
 import fi.oph.vkt.util.DateUtil;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,8 +52,17 @@ public class ExaminerPersonService {
     auditService.logById(VktOperation.GET_BIRTHDATE_BY_OID, oid);
 
     final PersonalData onrData = onrService.getOnrPersonalData(oid);
+    if (onrData == null) {
+      return null;
+    }
 
-    if (onrData == null || onrData.getSsn() == null || onrData.getSsn().isEmpty()) {
+    if (onrData.getBirthdate() != null && !onrData.getBirthdate().isEmpty()) {
+      final LocalDate birthdate = LocalDate.parse(onrData.getBirthdate());
+
+      return ExaminerOnrBirthdateDTO.builder().birthdate(DateUtil.formatDate(birthdate)).oid(oid).build();
+    }
+
+    if (onrData.getSsn() == null || onrData.getSsn().isEmpty()) {
       return null;
     }
 

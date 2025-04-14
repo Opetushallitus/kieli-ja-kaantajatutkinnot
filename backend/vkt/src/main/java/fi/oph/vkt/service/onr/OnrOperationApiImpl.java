@@ -113,6 +113,7 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       .firstName(personalDataDTO.getFirstName())
       .nickname(personalDataDTO.getNickname())
       .ssn(personalDataDTO.getIdentityNumber())
+      .birthdate(personalDataDTO.getBirthdate())
       .build();
   }
 

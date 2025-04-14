@@ -31,6 +31,9 @@ import fi.oph.vkt.util.exception.APIExceptionType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -364,17 +367,14 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
         person.setOtherIdentifier(dto.birthdateOrSsn());
         personOid = onrService.insertPersonalData(person, null);
       } else {
-        final String birthdate = dto.birthdateOrSsn();
-        final Pattern pattern = Pattern.compile("^([0-9]{2})([0-9]{2})([0-9]{4})$");
-        final Matcher matcher = pattern.matcher(birthdate);
-        if (!matcher.find() && matcher.groupCount() != 3) {
+        try {
+          final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.yyyy");
+          final LocalDate birthdate = LocalDate.parse(dto.birthdateOrSsn(), formatter);
+
+          personOid = onrService.insertPersonalData(person, DateUtil.formatOptionalDate(birthdate));
+        } catch (final DateTimeParseException e) {
           throw new APIException(APIExceptionType.INVALID_BIRTHDATE_FORMAT);
         }
-        personOid =
-          onrService.insertPersonalData(
-            person,
-            String.format("%s-%s-%s", matcher.group(3), matcher.group(2), matcher.group(1))
-          );
       }
 
       if (personOid != null && personOid.length() > 0) {
