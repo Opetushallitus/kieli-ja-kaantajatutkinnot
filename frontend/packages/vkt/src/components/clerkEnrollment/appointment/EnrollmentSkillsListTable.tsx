@@ -7,6 +7,7 @@ import {
   GradedExams,
 } from 'interfaces/clerkEnrollment';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
+import { EnrollmentUtils } from 'utils/enrollment';
 
 export const EnrollmentSkillsListTable = ({
   enrollment,
@@ -34,10 +35,18 @@ export const EnrollmentSkillsListTable = ({
     keyof GradedExams
   >;
 
+  const partialUnderstandingExams = [
+    'speechComprehensionPartialExam',
+    'readingComprehensionPartialExam',
+  ].filter((exam) => !!enrollment[exam as keyof GradedExams]) as Array<
+    keyof GradedExams
+  >;
+
   const renderGrade = (grade: string) =>
     grade && grade !== '' ? translateCommon(`enrollment.grades.${grade}`) : '-';
   const renderComment = (comment: string) =>
     comment && comment !== '' ? comment : '-';
+  const isFullExam = EnrollmentUtils.isFullExam(enrollment);
 
   const partialExamsRow = (exams: Array<keyof GradedExams>) => {
     return exams.map((exam, idx) => (
@@ -78,6 +87,17 @@ export const EnrollmentSkillsListTable = ({
             {translateCommon('enrollment.partialExamsAndSkills.oralSkill')}
           </Text>
           {partialExamsRow(partialOralExams)}
+        </div>
+      )}
+
+      {!isFullExam && enrollment.understandingSkill && (
+        <div className="grid-4-columns">
+          <Text>
+            {translateCommon(
+              'enrollment.partialExamsAndSkills.understandingSkill',
+            )}
+          </Text>
+          {partialExamsRow(partialUnderstandingExams)}
         </div>
       )}
     </div>
