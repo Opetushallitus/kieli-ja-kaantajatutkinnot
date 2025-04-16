@@ -168,21 +168,21 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
 
   @Transactional(isolation = Isolation.SERIALIZABLE)
   public void cancelPassiveEnrollmentsExpectingPayment() {
-    final Duration paymentTime = Duration.of(3, ChronoUnit.HOURS);
+    final Duration paymentTime = Duration.of(1, ChronoUnit.HOURS);
 
     enrollmentRepository
       .findAllByStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT)
       .stream()
       .filter(e -> e.getModifiedAt().plus(paymentTime).isBefore(LocalDateTime.now()))
       .forEach(enrollment -> {
-        enrollment.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
+        enrollment.setStatus(EnrollmentStatus.CANCELED);
         enrollmentRepository.saveAndFlush(enrollment);
       });
   }
 
   @Transactional(isolation = Isolation.SERIALIZABLE)
-  public void deleteCanceledUnfinishedEnrollments() {
-    final Duration ttl = Duration.of(24, ChronoUnit.HOURS);
+  public void cancelUnfinishedEnrollments() {
+    final Duration ttl = Duration.of(30, ChronoUnit.MINUTES);
 
     enrollmentRepository
       .findAllByStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT)
@@ -192,10 +192,10 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
         final List<Payment> payments = enrollment.getPayments();
 
         if (payments.stream().anyMatch(p -> p.getPaymentStatus() == PaymentStatus.OK)) {
-          LOG.warn(String.format("Tried to delete enrollment (%d) with paid payment", enrollment.getId()));
+          LOG.error(String.format("Tried to cancel enrollment (%d) with paid payment", enrollment.getId()));
         } else {
-          paymentRepository.deleteAllInBatch(payments);
-          enrollmentRepository.deleteById(enrollment.getId());
+          enrollment.setStatus(EnrollmentStatus.CANCELED);
+          enrollmentRepository.saveAndFlush(enrollment);
         }
       });
   }

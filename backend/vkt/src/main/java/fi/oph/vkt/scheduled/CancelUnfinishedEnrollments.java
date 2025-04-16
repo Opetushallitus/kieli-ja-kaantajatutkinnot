@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class DeleteCanceledUnfinishedEnrollments {
+public class CancelUnfinishedEnrollments {
 
-  private static final Logger LOG = LoggerFactory.getLogger(DeleteCanceledUnfinishedEnrollments.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CancelUnfinishedEnrollments.class);
 
   private static final String LOCK_AT_LEAST = "PT1S";
 
@@ -24,17 +24,13 @@ public class DeleteCanceledUnfinishedEnrollments {
   @Resource
   private final ClerkEnrollmentService clerkEnrollmentService;
 
-  @Scheduled(cron = Constants.DELETE_CANCELED_UNFINISHED_ENROLLMENTS_CRON)
-  @SchedulerLock(
-    name = "deleteCanceledUnfinishedEnrollments",
-    lockAtLeastFor = LOCK_AT_LEAST,
-    lockAtMostFor = LOCK_AT_MOST
-  )
+  @Scheduled(cron = Constants.CANCEL_UNFINISHED_ENROLLMENTS_CRON)
+  @SchedulerLock(name = "cancelUnfinishedEnrollments", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
   public void action() {
     SchedulingUtil.runWithScheduledUser(() -> {
-      LOG.info("deleteCanceledUnfinishedEnrollments");
+      LOG.info("cancelUnfinishedEnrollments");
 
-      clerkEnrollmentService.deleteCanceledUnfinishedEnrollments();
+      clerkEnrollmentService.cancelUnfinishedEnrollments();
     });
   }
 }

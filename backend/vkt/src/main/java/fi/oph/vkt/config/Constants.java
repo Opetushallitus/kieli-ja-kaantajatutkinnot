@@ -8,8 +8,8 @@ public class Constants {
   public static final String APP_ROLE = "APP_VKT";
 
   // For now, no containers are run in untuva during nighttime
-  // Daily at 9:00
-  public static final String DELETE_CANCELED_UNFINISHED_ENROLLMENTS_CRON = "0 0 9 * * *";
+  // Every minute
+  public static final String CANCEL_UNFINISHED_ENROLLMENTS_CRON = "0 * * * * *";
   // Daily at 9:30
   public static final String DELETE_EXPIRED_RESERVATIONS_CRON = "0 30 9 * * *";
   // Daily at 10:00
