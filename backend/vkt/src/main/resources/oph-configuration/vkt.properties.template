@@ -16,6 +16,7 @@ docs-enabled={{vkt_docs_enabled}}
 email.sending-enabled=true
 email.service-url=${virkailija.host.alb}/ryhmasahkoposti-service/email/firewall
 email.new-api={{vkt_email_new_api}}
+email.new-service-url=https://viestinvalitys.{{host_oppija}}
 
 reservation.duration=PT30M
 

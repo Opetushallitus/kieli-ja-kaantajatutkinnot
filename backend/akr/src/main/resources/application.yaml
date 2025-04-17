@@ -68,6 +68,7 @@ app:
   email:
     sending-enabled: ${email.sending-enabled:false}
     new-api: ${email.new-api:false}
+    new-service-url: ${email.new-service-url:null}
     service-url: ${email.service-url:null}
   onr:
     enabled: ${onr.enabled:false}

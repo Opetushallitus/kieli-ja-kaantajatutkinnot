@@ -66,8 +66,9 @@ cas:
 app:
   email:
     sending-enabled: ${email.sending-enabled:false}
-    new-api: ${email.new-api:false}
     service-url: ${email.service-url:null}
+    new-api: ${email.new-api:false}
+    new-service-url: ${email.new-service-url:null}
   onr:
     enabled: ${onr.enabled:false}
     service-url: ${onr.service-url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}

@@ -57,11 +57,11 @@ public class AppConfig {
 
   @Bean
   @ConditionalOnProperty(name = "app.email.sending-enabled", havingValue = "true")
-  public EmailSender emailSender(
-    @Value("${app.email.service-url}") final String emailServiceUrl,
-    final Environment environment
-  ) {
+  public EmailSender emailSender(final Environment environment) {
     final boolean newApi = "true".equals(environment.getRequiredProperty("app.email.new-api"));
+    final String emailServiceUrl = environment.getProperty(
+      newApi ? "app.email.new-service-url" : "app.email.service-url"
+    );
     LOG.info("emailServiceUrl: {}, new api: {}", emailServiceUrl, newApi);
 
     if (newApi) {

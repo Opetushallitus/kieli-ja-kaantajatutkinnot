@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
@@ -38,8 +39,12 @@ public class AppConfig {
 
   @Bean
   @ConditionalOnProperty(name = "app.email.sending-enabled", havingValue = "true")
-  public EmailSender emailSender(@Value("${app.email.service-url}") String emailServiceUrl) {
-    LOG.info("emailServiceUrl: {}", emailServiceUrl);
+  public EmailSender emailSender(final Environment environment) {
+    final boolean newApi = "true".equals(environment.getRequiredProperty("app.email.new-api"));
+    final String emailServiceUrl = environment.getRequiredProperty(
+      newApi ? "app.email.new-service-url" : "app.email.service-url"
+    );
+    LOG.info("emailServiceUrl: {}, new api: {}", emailServiceUrl, newApi);
     final WebClient webClient = webClientBuilderWithCallerId("email-sender-connection-provider")
       .baseUrl(emailServiceUrl)
       .build();
