@@ -8,7 +8,7 @@ import fi.oph.vkt.service.auth.CasSessionMappingStorage;
 import fi.oph.vkt.service.auth.ticketValidator.CasTicketValidator;
 import fi.oph.vkt.service.email.sender.EmailSender;
 import fi.oph.vkt.service.email.sender.EmailSenderNoOp;
-//import fi.oph.vkt.service.email.sender.EmailSenderViestintapalvelu;
+import fi.oph.vkt.service.email.sender.EmailSenderViestintapalvelu;
 import fi.oph.vkt.service.email.sender.EmailSenderViestintapalveluNew;
 import fi.oph.vkt.service.onr.OnrOperationApi;
 import fi.oph.vkt.service.onr.OnrOperationApiImpl;
