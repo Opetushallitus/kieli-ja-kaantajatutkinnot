@@ -117,6 +117,6 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       .addHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
       .addHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
       .addHeader("Caller-Id", Constants.CALLER_ID)
-      .setRequestTimeout((int) Duration.ofMinutes(2).toMillis());
+      .setRequestTimeout(Duration.ofMinutes(2));
   }
 }
