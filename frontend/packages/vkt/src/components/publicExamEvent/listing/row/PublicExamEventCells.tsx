@@ -133,8 +133,7 @@ export const PublicExamEventPhoneCells = ({
             t={t}
             i18nKey="row.registrationOpensAt"
             values={{
-              registrationOpens:
-                DateTimeUtils.renderDateTime(registrationOpens),
+              registrationOpens: DateTimeUtils.renderDate(registrationOpens),
             }}
           />
         ) : (
