@@ -50,7 +50,7 @@ class EmailSenderViestintapalveluNewTest {
           try {
             assertEquals(
               mapper.readTree(
-                "{\"vastaanottajat\":[{\"sahkopostiOsoite\":\"vastaanottaja@invalid\",\"nimi\":\"vastaanottaja\"}],\"idempotencyKey\":\"akr-1\",\"lahettavaPalvelu\":\"akr\",\"lahettaja\":{\"sahkopostiOsoite\":\"noreply@opintopolku.fi\",\"nimi\":\"AKR - Opetushallitus\"},\"sisalto\":\"testiviesti\",\"sailytysaika\":180,\"sisallonTyyppi\":\"html\",\"otsikko\":\"testiotsikko\",\"prioriteetti\":\"normaali\"}"
+                "{\"vastaanottajat\":[{\"sahkopostiOsoite\":\"vastaanottaja@invalid\",\"nimi\":\"vastaanottaja\"}],\"idempotencyKey\":\"akr-1\",\"lahettavaPalvelu\":\"akr\",\"lahettaja\":{\"sahkopostiOsoite\":\"noreply@opintopolku.fi\",\"nimi\":\"AKR - Opetushallitus\"},\"sisalto\":\"testiviesti\",\"sailytysaika\":180,\"sisallonTyyppi\":\"html\",\"otsikko\":\"testiotsikko\",\"prioriteetti\":\"normaali\",\"kayttooikeusRajoitukset\":[{\"organisaatio\":\"1.2.246.562.10.00000000001\",\"oikeus\":\"APP_AKT_PAAKAYTTAJA\"}]}"
               ),
               mapper.readTree(r.getStringData())
             );
