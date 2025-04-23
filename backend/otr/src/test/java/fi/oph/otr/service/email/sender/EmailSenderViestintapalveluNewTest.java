@@ -50,7 +50,7 @@ class EmailSenderViestintapalveluNewTest {
           try {
             assertEquals(
               mapper.readTree(
-                "{\"vastaanottajat\":[{\"sahkopostiOsoite\":\"vastaanottaja@invalid\",\"nimi\":\"vastaanottaja\"}],\"idempotencyKey\":\"otr-1\",\"lahettavaPalvelu\":\"otr\",\"lahettaja\":{\"sahkopostiOsoite\":\"noreply@opintopolku.fi\",\"nimi\":\"Oikeustulkkirekisteri - Opetushallitus\"},\"sisalto\":\"testiviesti\",\"sailytysaika\":180,\"sisallonTyyppi\":\"html\",\"otsikko\":\"testiotsikko\",\"prioriteetti\":\"normaali\"}"
+                "{\"vastaanottajat\":[{\"sahkopostiOsoite\":\"vastaanottaja@invalid\",\"nimi\":\"vastaanottaja\"}],\"idempotencyKey\":\"otr-1\",\"lahettavaPalvelu\":\"otr\",\"lahettaja\":{\"sahkopostiOsoite\":\"noreply@opintopolku.fi\",\"nimi\":\"Oikeustulkkirekisteri - Opetushallitus\"},\"sisalto\":\"testiviesti\",\"sailytysaika\":180,\"sisallonTyyppi\":\"html\",\"otsikko\":\"testiotsikko\",\"prioriteetti\":\"normaali\",\"kayttooikeusRajoitukset\":[{\"organisaatio\":\"1.2.246.562.10.00000000001\",\"oikeus\":\"APP_OIKEUSTULKKIREKISTERI_OIKEUSTULKKI_CRUD\"}]}"
               ),
               mapper.readTree(r.getStringData())
             );

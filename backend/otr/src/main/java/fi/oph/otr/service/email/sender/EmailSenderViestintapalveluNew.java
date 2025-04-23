@@ -68,6 +68,10 @@ public class EmailSenderViestintapalveluNew implements EmailSender {
       Map.of("nimi", emailData.recipientName(), "sahkopostiOsoite", emailData.recipientAddress())
     );
 
+    final List<Map<String, String>> permissionRestrictions = List.of(
+      Map.of("organisaatio", Constants.OPH_ORGANIZATION_OID, "oikeus", Constants.APP_ROLE)
+    );
+
     return Map.of(
       "sisallonTyyppi",
       "html",
@@ -86,7 +90,9 @@ public class EmailSenderViestintapalveluNew implements EmailSender {
       "sailytysaika",
       Constants.EMAIL_EXPIRATION_DAYS,
       "idempotencyKey",
-      Constants.EMAIL_ID_PREFIX + emailData.id()
+      Constants.EMAIL_ID_PREFIX + emailData.id(),
+      "kayttooikeusRajoitukset",
+      permissionRestrictions
     );
   }
 
