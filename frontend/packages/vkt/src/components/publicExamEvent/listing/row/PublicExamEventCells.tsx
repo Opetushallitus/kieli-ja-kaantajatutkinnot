@@ -129,14 +129,15 @@ export const PublicExamEventPhoneCells = ({
           {getOpeningsText(examEvent, t)}
         </div>
         {!examEvent.isOpen ? (
-          <Trans
-            t={t}
-            i18nKey="row.registrationOpensAt"
-            values={{
-              registrationOpens:
-                DateTimeUtils.renderDateTime(registrationOpens),
-            }}
-          />
+          <Text>
+            <Trans
+              t={t}
+              i18nKey="row.registrationOpensAt"
+              values={{
+                registrationOpens: DateTimeUtils.renderDate(registrationOpens),
+              }}
+            />
+          </Text>
         ) : (
           renderEnrollmentButton(
             examEvent,
