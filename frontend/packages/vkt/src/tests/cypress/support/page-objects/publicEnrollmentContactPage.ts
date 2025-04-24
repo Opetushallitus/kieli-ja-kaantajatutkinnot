@@ -21,7 +21,7 @@ class PublicEnrollmentContactPage {
       }),
     partialExamDescription: () =>
       cy.findByRole('textbox', {
-        name: 'Kerro, minkä osakokeen / mitkä osakokeet haluat suorittaa *',
+        name: 'Kerro, mitkä osakokeet haluat suorittaa *',
       }),
     message: () => cy.findByRole('textbox', { name: 'Viesti *' }),
   };

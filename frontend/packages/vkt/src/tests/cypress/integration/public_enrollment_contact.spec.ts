@@ -77,9 +77,7 @@ describe('PublicEnrollmentContactPage', () => {
     onPublicEnrollmentContactPage.writeMessage('Viestiä pukkaa!');
 
     onPublicEnrollmentContactPage.clickSubmit();
-    expectAndCloseErrorDialog(
-      'Kerro, minkä osakokeen / mitkä osakokeet haluat suorittaa',
-    );
+    expectAndCloseErrorDialog('Kerro, mitkä osakokeet haluat suorittaa');
 
     onPublicEnrollmentContactPage.writePartialExamDescription('kirjoittaminen');
     onPublicEnrollmentContactPage.clickSubmit();

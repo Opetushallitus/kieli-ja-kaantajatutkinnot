@@ -47,6 +47,7 @@
             "amount": "Summa",
             "date": "Aikaleima",
             "reference": "Maksutunniste",
+            "refunded": "Merkitty palautetuksi",
             "status": "Tila"
           },
           "modal": {

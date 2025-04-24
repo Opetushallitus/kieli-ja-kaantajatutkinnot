@@ -158,7 +158,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     );
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
       EnrollmentStatus.CANCELED,
-      'Peruutetut: 1',
+      'Perutut: 1',
     );
   });
 
