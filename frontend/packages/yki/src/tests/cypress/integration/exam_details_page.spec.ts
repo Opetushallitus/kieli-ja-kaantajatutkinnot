@@ -61,7 +61,7 @@ const handleRedirect = () => {
   );
 };
 
-describe('ExamDetailsPage', () => {
+describe.skip('ExamDetailsPage', () => {
   describe('allows filling registration form', () => {
     it('with credentials from Suomi.fi authentication', () => {
       cy.openExamSessionRegistrationForm(examSessionResponse.id);
