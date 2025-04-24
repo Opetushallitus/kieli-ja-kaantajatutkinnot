@@ -8,6 +8,7 @@ import { useWindowProperties } from 'shared/hooks';
 
 import { BoldedTranslationString } from 'components/common/BoldedTranslationString';
 import { usePublicTranslation } from 'configs/i18n';
+import { useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import ExcellentLevelCardImageAvif from 'public/images/excellent_level_card_image.avif';
 import ExcellentLevelCardImageJpeg from 'public/images/excellent_level_card_image.jpg';
@@ -15,6 +16,7 @@ import ExcellentLevelCardImageWebp from 'public/images/excellent_level_card_imag
 import GoodAndSatisfactoryLevelCardImageAvif from 'public/images/good_satisfactory_level_card_image.avif';
 import GoodAndSatisfactoryLevelCardImageJpeg from 'public/images/good_satisfactory_level_card_image.jpg';
 import GoodAndSatisfactoryLevelCardImageWebp from 'public/images/good_satisfactory_level_card_image.webp';
+import { featureFlagsSelector } from 'redux/selectors/featureFlags';
 
 const LinkButton = ({ to, label }: { to: AppRoutes; label: string }) => {
   return (
@@ -164,6 +166,7 @@ export const PublicHomePage: FC = () => {
     keyPrefix: 'vkt.component.publicHomePage',
   });
   const { isPhone } = useWindowProperties();
+  const { goodAndSatisfactoryLevel } = useAppSelector(featureFlagsSelector);
 
   return (
     <Box className="public-homepage">
@@ -204,7 +207,7 @@ export const PublicHomePage: FC = () => {
                 <H2>{t('enrollment.heading')}</H2>
                 <div className={`gapped-xxl ${isPhone ? 'rows' : 'columns'}`}>
                   <ExcellentLevelCard />
-                  <GoodAndSatisfactoryLevelCard />
+                  {goodAndSatisfactoryLevel && <GoodAndSatisfactoryLevelCard />}
                 </div>
               </div>
             </div>

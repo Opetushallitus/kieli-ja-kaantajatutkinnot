@@ -56,28 +56,28 @@ const getNavigationLinks = (
     href: AppRoutes.PublicExcellentLevelLanding,
   };
 
+  const homePageLink = {
+    active: isPathActive(pathname, AppRoutes.PublicHomePage),
+    label: translateCommon(
+      `header.publicNavigationLinks.${PublicNavigationLink.FrontPage}`,
+    ),
+    href: AppRoutes.PublicHomePage,
+  };
+
+  const goodAndSatisfactoryPageLink = {
+    active: isPathActive(
+      pathname,
+      AppRoutes.PublicGoodAndSatisfactoryLevelLanding,
+    ),
+    label: translateCommon(
+      `header.publicNavigationLinks.${PublicNavigationLink.GoodAndSatisfactoryLevel}`,
+    ),
+    href: AppRoutes.PublicGoodAndSatisfactoryLevelLanding,
+  };
+
   const navigationLinks = goodAndSatisfactoryLevel
-    ? [
-        {
-          active: isPathActive(pathname, AppRoutes.PublicHomePage),
-          label: translateCommon(
-            `header.publicNavigationLinks.${PublicNavigationLink.FrontPage}`,
-          ),
-          href: AppRoutes.PublicHomePage,
-        },
-        excellentLevelLink,
-        {
-          active: isPathActive(
-            pathname,
-            AppRoutes.PublicGoodAndSatisfactoryLevelLanding,
-          ),
-          label: translateCommon(
-            `header.publicNavigationLinks.${PublicNavigationLink.GoodAndSatisfactoryLevel}`,
-          ),
-          href: AppRoutes.PublicGoodAndSatisfactoryLevelLanding,
-        },
-      ]
-    : [excellentLevelLink];
+    ? [homePageLink, excellentLevelLink, goodAndSatisfactoryPageLink]
+    : [homePageLink, excellentLevelLink];
 
   return navigationLinks;
 };
