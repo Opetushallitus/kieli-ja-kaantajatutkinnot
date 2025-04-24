@@ -66,7 +66,7 @@
             "EducationDetails": "Utbildningsuppgifter",
             "FillContactDetails": "Fyll i dina kontaktuppgifter",
             "Payment": "Avgiften har inte betalats",
-            "PaymentFail": "Betalningen avlyckades",
+            "PaymentFail": "Betalningen lyckades",
             "PaymentSuccess": "Färdigt - anmälan lyckades",
             "Preview": "Förhandsgranska",
             "SelectExam": "Välj examen"
@@ -109,7 +109,7 @@
             "descriptionQueued": "Du har en plats i kön för examen! Du får en bekräftelse till adressen",
             "freePendingVerification": {
               "description": "Du har anmält dig till examen. Vi skickar information om anmälan till adressen",
-              "part1": "Dina dokument granskas vid Utbildningsstyrelsen so fort som möjligt.",
+              "part1": "Dina dokument granskas vid Utbildningsstyrelsen så fort som möjligt.",
               "part2": "Om du har rätt till avgiftsfri examen får du en bekräftelse på din anmälan per e-post.",
               "part3": "Om du inte har rätt till avgiftsfri examen får du en länk för att betala examensavgiften."
             }
@@ -153,18 +153,19 @@
             "textualSkill": "Skriftlig färdighet",
             "fullExam": {
               "no": "Nej, jag vill endast avlägga någondera av examina eller ett delprov",
+              "yes": "Ja (inkl. förmåga att använda språket i tal, förmåga att använda språket i skrift och förmåga att förstå)",
               "question": "Vill du avlägga både examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift? *"
             },
             "skillsTitle": "Välj examen *"
           },
           "selectExam": {
             "part1": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen.",
-            "part2": "När du har blivit godkänd i examina som gäller förmåga att använda språket i tal och i skrift får du ett intyg även för förmågan att förstå språket.",
+            "part2": "När du avlägger båda delproven som hör till examen med godkänt resultat får du ett intyg över examensprestationen för en viss färdighet. Om du avlägger examina i muntliga och skriftliga färdigheter behöver du inte avlägga examen i förståelse separat.",
             "title": "Val av examen"
           },
           "paymentFail": {
             "cancel": "Annullera anmälan",
-            "description": "Betalningen misslyckades eller annullerades. Du kan försöka betala på nytt eller annullera anmälan. Klicka på försök på nytt för att öppna betalningstjänsten.",
+            "description": "Betalningen misslyckades eller annullerades. Försök betala på nytt eller annullera anmälan. Klicka på försök på nytt för att öppna betalningstjänsten.",
             "toast": "Betalningen genomfördes inte.",
             "tryAgain": "Försök på nytt"
           },
@@ -180,7 +181,7 @@
           "educationDetails": {
             "college": "Högskoleexamen",
             "collegeEnrolled": "Jag studerar i syfte att avlägga högskoleexamen",
-            "education": "Jag har rätt till avgiftsfritt språkexamen *",
+            "education": "Jag har rätt till avgiftsfri språkexamen *",
             "highschool": "Studentexamen eller motsvarande utländsk examen",
             "educationSelectHelpText": "Vi hittade inga utbildningsuppgifter som skulle ge dig rätt till avgiftsfri examen i informationsresursen KOSKI. Du kan ändå ha rätt till avgiftsfri examen om du har avlagt högskoleexamen i Finland före 1995 eller om du har avlagt eller studerar i syfter att avlägga en högskoleexamen utomlands.",
             "educationSelectChooseOne": "Välj ett av följande alternativ:",
@@ -254,7 +255,7 @@
               "label": "När har du deltagit senast? *",
               "placeholder": "Datum eller fritext"
             },
-            "title": "Deltagande i tidigare språkexamina för statsförvaltingen som gäller utmärkta språkkunskaper"
+            "title": "Deltagande i tidigare språkexamina för statsförvaltningen som gäller utmärkta språkkunskaper"
           }
         }
       },
@@ -262,6 +263,7 @@
         "controlButtons": {
           "errors": {
             "fields": {
+              "country": "Land",
               "postalCode": "Postnummer",
               "privacyStatementConfirmation": "Godkänn villkoren för behandlingen av personuppgifter",
               "street": "Gatuadress",
@@ -270,13 +272,20 @@
             "fixErrors": "Fyll i uppgifterna som saknas eller korrigera felaktiga uppgifter:",
             "title": "Felaktiga uppgifter!"
           },
-          "pay": "Betala"
+          "pay": "Betala",
+          "cancelDialog": {
+            "description": "Vill du annullera din anmälan? Du förlorar de uppgifter du fyllt i.",
+            "title": "Annullera anmälan"
+          }
         },
         "examEventDetails": {
           "examDate": "Examensdag",
           "examEvent": "Examen",
           "examLanguage": "Examens språk",
           "examLevel": "Examens nivå",
+          "examLocation": "Närmare adressuppgifter",
+          "examTime": "Tidpunkt för inledande av examen",
+          "municipality": "Examensställe",
           "examiner": "Examinator"
         },
         "stepHeading": {
@@ -303,11 +312,17 @@
         },
         "steps": {
           "paymentSuccess": {
-            "backToHomePage": "Avslut och gå tillbaka till startsidan"
+            "backToHomePage": "Avsluta och gå tillbaka till startsidan",
+            "description1": "Du har betalat examensavgiften {{examFee}} €. Din anmälan till följande examen har bekräftats:",
+            "description2": "Du får en bekräftelse och ett kvitto över betalningen per e-post till adressen {{email}}.",
+            "description3": "Du har betalat examensavgiften. Din anmälan till examen har bekräftats.",
+            "description4": "Du får en bekräftelse och ett kvitto över betalningen per e-post."
           },
           "preview": {
             "examEventDetails": {
+              "fullExam": "Hel examen",
               "previousEnrollmentLabel": "Jag har deltagit examina som gäller goda eller nöjaktiga språkkunskaper tidigare",
+              "price": "Pris",
               "selectedSkillsLabel": "Valda examina",
               "selectedPartialExamsLabel": "Valda delprov",
               "title": "Uppgifter om examen"
@@ -320,25 +335,47 @@
         }
       },
       "publicEnrollmentContact": {
+        "cancelDialog": {
+          "actions": {
+            "cancelEnrollment": "Annullera och välj en annan mottagare",
+            "continueEnrollment": "Jag vill inte annullera"
+          },
+          "description": {
+            "part1": "Vill du annullera denna kontakt?",
+            "part2": "De uppgifter du redan fyllt i sparas i webbläsarens minne. Om du vill att de ska raderas, stäng webbläsarfönstret."
+          },
+          "title": "Annullera kontakt"
+        },
+        "controlButtons": {
+          "submit": "Sänd"
+        },
         "errors": {
           "fields": {
             "email": "E-postadress",
             "emailConfirmation": "Bekräfta din e-postadress",
             "firstName": "Förnamn",
+            "hasPreviousEnrollment": "Har du tidigare deltagit i examen som gäller goda eller nöjaktiga språkkunskaper?",
+            "isFullExam": "Vill du avlägga examen i både muntliga och skriftliga färdigheter?",
+            "message": "Meddelande",
             "lastName": "Efternamn",
+            "partialExamSelection": "Berätta vilka delprov du vill avlägga",
             "phoneNumber": "Telefonnummer"
           },
           "fixErrors": "Fyll i uppgifterna som saknas eller korrigera felaktiga uppgifter:",
           "title": "Felaktiga uppgifter!"
         },
         "examinerDetails": {
+          "byRequest": "Kan avtalas",
           "examDate": "Examensdag",
           "examEvent": "Examen",
           "examiner": "Examinator",
-          "full": "Fullbokat"
+          "full": "Fullbokat",
+          "municipality": "Examensställe"
         },
         "stepHeading": {
-          "FillContactDetails": "Dina kontaktuppgifter"
+          "Done": "Meddelandet har skickats",
+          "FillContactDetails": "Dina kontaktuppgifter",
+          "SelectExam": "Välj examen och skicka meddelande"
         },
         "stepper": {
           "active": "Aktiv",
@@ -348,25 +385,43 @@
           "phaseNumber": "av",
           "phases": "Anmälningens faser",
           "step": {
-            "FillContactDetails": "Dina kontaktuppgifter"
+            "Done": "Meddelandet har skickats",
+            "FillContactDetails": "Dina kontaktuppgifter",
+            "SelectExam": "Välj examen och skicka meddelande"
           }
         },
         "steps": {
           "done": {
+            "anotherMessage": {
+              "description": "Du kan kontakta flera examinatorer med samma blankett.",
+              "heading": "Vill du skicka ett annat meddelande?"
+            },
             "infoBox": {
+              "continue": {
+                "callToAction": "Skicka ett annat meddelande",
+                "description": "De uppgifter du fyllt i sparas på blanketten. Du kan skicka ett annat meddelande med samma uppgifter.",
+                "heading": "Skicka ett meddelande till en annan examinator."
+              },
               "quit": {
-                "callToAction": "Avslut och gå tillbaka till startsidan",
-                "heading": "Avslut och gå tillbaka till startsidan"
+                "description": "Anmälan upphör och du förlorar de uppgifter du fyllt i.",
+                "heading": "Avsluta och gå tillbaka till startsidan"
               }
             },
             "messageSent": {
+              "heading": "Ditt meddelande till examinatorn har skickats",
               "whatNext": {
-                "step4": "Anmälning är bekräftad när du har betalat examensavgiften."
+                "prompt": "Vad händer härnäst?",
+                "step1": "Examinatorn svarar på ditt meddelande per e-post.",
+                "step2": "När ni har kommit överens om den exakta tidpunkten för examen får du en länk per e-post för identifiering och betalning av examensavgiften. Länken är i kraft i 3 dygn.",
+                "step3": "Identifiera dig och kontrollera uppgifterna om anmälan.",
+                "step4": "Betala examensavgiften.",
+                "step5": "När du har betalat examensavgiften bekräftas anmälan och du får ett kvitto över betalningen per e-post."
               }
             }
           },
           "confirmContactDetails": {
             "buttons": {
+              "no": "Nej, redigera uppgifterna",
               "yes": "Ja, fortsätt"
             },
             "labels": {
@@ -375,7 +430,9 @@
               "lastName": "Efternamn:",
               "phoneNumber": "Telefonnummer:"
             },
-            "heading": "Bekräfta dina kontaktuppgifter"
+            "information": "Du håller på att skicka en ny kontaktbegäran med de uppgifter du fyllt i tidigare. Bekräfta att uppgifterna är dina egna person- och kontaktuppgifter.",
+            "heading": "Bekräfta dina kontaktuppgifter",
+            "prompt": "Är du den här personen?"
           },
           "fillContactDetails": {
             "heading": "Fyll i dina kontaktuppgifter",
@@ -402,18 +459,30 @@
           "selectExam": {
             "examFee": {
               "part1": "Examensavgiften är <0>258 euro om du avlägger examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift samtidigt..</0>",
+              "part2": "Avläggandet av examina i muntliga och skriftliga färdigheter visar också färdigheter i förståelse på motsvarande nivå.",
+              "part3": "Examensavgiften är <0>129 euro</0> om du avlägger antingen examen som gäller förmåga att använda språket i tal, examen som gäller förmåga att använda språket i skrift eller ett enskilt delprov.",
+              "part4": "När du har kommit överens om examensdagen med examinatorn får du en länk per e-post för betalning av examensavgiften. Länken är giltig i 3 dygn.",
               "title": "Examensavgift"
+            },
+            "message": {
+              "textField": {
+                "label": "Meddelande *",
+                "placeholder": "Ange i meddelandet när du vill avlägga examen. Om du tidigare har avlagt examen för statsförvaltningen som gäller goda eller nöjaktiga språkkunskaper, ange för vem du avlagt examen och när."
+              },
+              "title": "Skriv ett meddelande till examinatorn"
             },
             "examSelection": {
               "fullExam": {
                 "no": "Nej, jag vill endast avlägga någondera av examina eller ett delprov",
+                "yes": "Ja (inkl. förmåga att använda språket i tal, förmåga att använda språket i skrift och förmåga att förstå)",
                 "question": "Vill du avlägga både examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift? *"
               },
               "selectExams": {
-                "description": "Delproven är: muntlig färdighet, hörförståelse,  skriftlig färdighet och läsförståelse"
+                "description": "Delproven är: muntlig färdighet, hörförståelse,  skriftlig färdighet och läsförståelse",
+                "heading": "Berätta vilka delprov du vill avlägga *"
               },
               "part1": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen.",
-              "part2": "När du har blivit godkänd i examina som gäller förmåga att använda språket i tal och i skrift får du ett intyg även för förmågan att förstå språket.",
+              "part2": "När du avlägger båda delproven som hör till examen med godkänt resultat får du ett intyg över examensprestationen för en viss färdighet. Om du avlägger examina i muntliga och skriftliga färdigheter behöver du inte avlägga examen i förståelse separat.",
               "partialExamsTitle": "Välj delproven *",
               "oralSkill": "Muntlig färdighet",
               "textualSkill": "Skriftlig färdighet",
@@ -424,9 +493,9 @@
                 "no": "Nej",
                 "yes": "Ja"
               },
-              "part1": "Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med den datum när du avlade den första examen.",
+              "part1": "Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.",
               "radioButtons": {
-                "label": "Har du deltagit examina som gäller goda eller nöjaktiga språkkunskaper tidigare?"
+                "label": "Har du deltagit i examina som gäller goda eller nöjaktiga språkkunskaper tidigare?"
               },
               "textField": {
                 "label": "När har du deltagit senast?",
@@ -440,12 +509,12 @@
       "publicExamEventGrid": {
         "description": {
           "bulletPoints": {
-            "point1": "<0>examen som gäller förmåga att använda finska eller svenska i tal</0> (med delproven hörförståelse och muntlig färdighet)",
-            "point2": "<0>examen som gäller förmåga att använda finska eller svenska i skrift</0> (med delproven läsförståelse och skriftlig färdighet)",
-            "point3": "<0>examen som gäller förmåga att förstå finska eller svenska</0> (med delproven hörförståelse och läsförståelse)"
+            "point1": "<0>examen som gäller förmåga att använda språket i tal<0>, vilket omfattar ett muntligt delprov och ett delprov i hörförståelse",
+            "point2": "<0>examen som gäller förmåga att använda språket i skrift<0>, vilket omfattar ett skriftligt delprov och ett delprov i läsförståelse",
+            "point3": "<0>examen som gäller förmåga att förstå<0>, vilket omfattar ett delprov i läsförståelse och ett delprov i hörförståelse"
           },
           "skills": "Examina som gäller utmärkta språkkunskaper är",
-          "title": "Allmänt om språkexamina för statsförvaltningen"
+          "title": "Examensstruktur och avläggande av examen"
         },
         "enrollment": {
           "link": {
@@ -520,7 +589,11 @@
           "municipality": "Ort",
           "examDates": "Examensdagar"
         },
+        "title": "Kontakta examinatorerna",
         "row": {
+          "alreadyContacted": "Kontakten har skickats",
+          "byRequest": "Kan avtalas",
+          "contact": "Kontakta oss",
           "full": "Fullbokat"
         }
       },
@@ -532,22 +605,92 @@
         "title": "Examina som gäller goda eller nöjaktiga språkkunskaper",
         "description": {
           "part1": "Examina som gäller goda eller nöjaktiga språkkunskaper i finska eller svenska avläggs inför en examinator.",
-          "part4": "Under allmänna semesterperioder gäller det att beakta eventuella pauser i examinatorernas arbete."
+          "part2": "Du kan skicka ett meddelande till examinatorerna via denna sida och komma överens om tidpunkten för examen.",
+          "part3": "En del av examinatorerna har meddelat examensdagarna på förhand.",
+          "part4": "Observera att examen i allmänhet inte kan avläggas under allmänna semesterperioder."
         },
         "infoBox": {
           "enrollment": {
             "bulletPoints": {
-              "point7": "Anmälning är bekräftad när du har betalat examensavgiften."
-            }
+              "point1": "Sök en lämplig examinator i listan nedan och börja med att klicka på <0>Ta kontakt</0>.",
+              "point2": "Fyll i dina kontaktuppgifter och svara på förhandsfrågorna.",
+              "point3": "Skriv ett meddelande till examinatorn.",
+              "point4": "Efter att du skickat meddelandet kan du gå tillbaka till startsidan och skicka en ny kontakt med de uppgifter du fyllt i tidigare.",
+              "point5": "Examinatorn svarar på ditt meddelande per e-post.",
+              "point6": "När ni har kommit överens om den exakta tidpunkten för examen får du en länk per e-post för identifiering och betalning av examensavgiften. Länken är i kraft i 3 dygn.",
+              "point7": "Anmälning är bekräftad när du har betalat examensavgiften.",
+              "point8": "Betala examensavgiften.",
+              "point9": "När du har betalat examensavgiften bekräftas anmälan och du får ett kvitto över betalningen per e-post."
+            },
+            "title": "Anvisningar för anmälan"
           },
           "enrollmentFees": {
+            "bulletPoints": {
+              "point1": "Examensavgiften är <0>258 euroa</0> om du avlägger examen i både muntliga och skriftliga färdigheter samtidigt.",
+              "point2": "Examensavgiften är <0>129 euro</0> om du avlägger antingen examen i muntliga färdigheter, examen i skriftliga färdigheter eller ett enskilt delprov."
+            },
             "title": "Examensavgifter"
           },
           "general": {
+            "bulletPoints": {
+              "point1": "<0>examen som gäller förmåga att använda språket i tal<0>, vilket omfattar ett muntligt delprov och ett delprov i hörförståelse",
+              "point2": "<0>examen som gäller förmåga att använda språket i skrift<0>, vilket omfattar ett skriftligt delprov och ett delprov i läsförståelse",
+              "point3": "<0>examen som gäller förmåga att förstå<0>, vilket omfattar ett delprov i läsförståelse och ett delprov i hörförståelse."
+            },
             "skills": "Språkexamina för statsförvaltningen som gäller goda eller nöjaktiga språkkunskaper är",
-            "title": "Allmänt om språkexamina för statsförvaltningen"
+            "title": "Examensstruktur och avläggande av examen"
           }
         }
+      },
+      "publicHomePage": {
+        "description": {
+          "part1": "Språkexamina för statsförvaltningen (VKT) är det finländska statliga språkexamenssystemet för att påvisa sådana kunskaper i finska och svenska som krävs för uppgifter inom den offentliga förvaltningen.",
+          "part2": "Examensintygen kan användas för att söka en arbets- eller studieplats samt för att påvisa tillräckliga kunskaper i finska eller svenska för att ansöka om finländskt medborgarskap.",
+          "part3": "VKT-examina har tre nivåer: nöjaktig, god och utmärkt.",
+          "part4": "På varje nivå kan man avlägga examen som gäller förmåga att använda språket i tal och skrift samt förmåga att förstå språket.",
+          "part5": "Det är möjligt att avlägga examina tillsammans eller separat.",
+          "readMore": {
+            "label": "Läs mer om språkexamina för statsförvaltningen på Utbildningsstyrelsens webbplats.",
+            "url": "www.oph.fi/sv/vkt"
+          }
+        },
+        "cards": {
+          "excellentLevel": {
+            "callToAction": "Anmäl dig till examen som gäller utmärkta kunskaper",
+            "description": {
+              "part1": "Examen som gäller utmärkta kunskaper i finska och svenska avläggs inför examensnämnden i språket i fråga.",
+              "part2": "Examenstillfällena ordnas i Helsingfors vid på förhand bestämda tidpunkter.",
+              "part3": "Anmälan till examina görs med den elektroniska anmälningsblanketten under anmälningstiden för respektive examen."
+            },
+            "heading": "Examina som gäller utmärkta kunskaper"
+          },
+          "goodAndSatisfactoryLevel": {
+            "callToAction": "Kontakta examinatorerna",
+            "description": {
+              "part1": "Examina som gäller goda eller nöjaktiga kunskaper avläggs inför en examinator.",
+              "part2": "Examina kan avläggas på olika orter i Finland.",
+              "part3": "Du kan anmäla dig till examen genom att kontakta examinatorerna."
+            },
+            "heading": "Examina som gäller goda och nöjaktiga kunskaper"
+          }
+        },
+        "enrollment": {
+          "heading": "Anmälan"
+        },
+        "enrollmentFees": {
+          "excellentLevel": {
+            "part1": "Examina som gäller <0>utmärkta kunskaper</0> är avgiftsfria på vissa villkor.",
+            "part2": "Personer som inte är berättigade till avgiftsfri examen som gäller utmärkta kunskaper betalar en examensavgift.",
+            "part3": "Examensavgiften är 514 euro om du avlägger examen i både muntliga och skriftliga färdigheter samtidigt.",
+            "part4": "Examensavgiften är 257 euro om du avlägger antingen examen i muntliga färdigheter, examen i skriftliga färdigheter eller ett enskilt delprov."
+          },
+          "goodAndSatisfactoryLevel": {
+            "part1": "Examensavgiften för examen som gäller <0>goda och nöjaktiga kunskaper<0> är 258 euro om du avlägger examen i både muntliga och skriftliga färdigheter samtidigt.",
+            "part2": "Examensavgiften är 129 euro om du avlägger antingen examen i muntliga färdigheter, examen i skriftliga färdigheter eller ett enskilt delprov."
+          },
+          "title": "Examensavgifter"
+        },
+        "title": "Språkexamina för statsförvaltningen (VKT)"
       }
     }
   }

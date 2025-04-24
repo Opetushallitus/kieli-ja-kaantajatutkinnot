@@ -32,6 +32,11 @@
           "understandingSkill": "Förmåga att förstå språket",
           "writingPartialExam": "Skriftlig färdighet"
         },
+        "grades": {
+          "GOOD": "God",
+          "SATISFACTORY": "Nöjaktig",
+          "FAILED": "Underkänd"
+        },
         "textFields": {
           "country": "Land",
           "email": "E-postadress",
@@ -41,14 +46,16 @@
           "postalCode": "Postnummer",
           "previousEnrollment": "Datum eller fritext",
           "street": "Gatuadress",
-          "town": "Postanstalt"
+          "town": "Postanstalt",
+          "ssn": "Personbeteckning",
+          "birthdate": "Födelsedatum"
         }
       },
       "dates": {
         "dateTimeFormat": "l [kl.] HH.mm",
         "dateTimeFormatPrecise": "l [kl.] HH.mm.ss",
-        "dateFormat": "l",
         "timeFormat": "[kl.] HH.mm",
+        "dateFormat": "l",
         "registrationOpensAt": "kl. 10.00",
         "registrationClosesAt": "kl. 16.00"
       },
@@ -78,7 +85,8 @@
           "sessionMissingPersonId": "Du har inte identifierat dig. Vänligen identifiera dig på nytt.",
           "ticketValidationError": "Identifieringen misslyckades. Vänligen identifiera dig på nytt.",
           "fileUploadError": "Det gick inte att skicka filen, försök på nytt.",
-          "userAttachmentsMissing": "Bilagor som krävs för uppgiften om utbildning saknas"
+          "userAttachmentsMissing": "Bilagor som krävs för uppgiften om utbildning saknas",
+          "authHashExpired": "Länken är föråldrad"
         },
         "customTextField": {
           "emailFormat": "E-postadressen är felaktig",
@@ -93,10 +101,12 @@
       },
       "examLanguage": {
         "FI": "Finska",
-        "SV": "Svenska"
+        "SV": "Svenska",
+        "ALL": "Finska & svenska"
       },
       "examLevel": {
-        "EXCELLENT": "Utmärkta språkkunskaper"
+        "EXCELLENT": "Utmärkta språkkunskaper",
+        "GOOD_AND_SATISFACTORY": "Goda och nöjaktiga kunskaper"
       },
       "header": {
         "accessibility": {
@@ -118,8 +128,8 @@
         }
       },
       "info": {
-        "previousEnrollment": "<0>Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen.</0> Om du avlägger examen i delar, <1>ska du avlägga hela examen inom tre års tid</1> från och med det datum när du avlade den första examen.",
-        "selectExam": "När du har blivit godkänd i examina som gäller förmåga att använda språket i tal och i skrift får du ett intyg även för förmågan att förstå språket."
+        "previousEnrollment": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen. Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.",
+        "selectExam": "När du avlägger båda delproven som hör till examen med godkänt resultat får du ett intyg över examensprestationen för en viss färdighet. Om du avlägger examina i muntliga och skriftliga färdigheter behöver du inte avlägga examen i förståelse separat."
       },
       "languageFilter": {
         "label": "Visa examina i följande språk",
@@ -137,32 +147,43 @@
       },
       "next": "Följande",
       "no": "Nej",
+      "notFoundPage": {
+        "description": "Adressen kan vara fel eller föråldrad. Gå tillbaka till framsidan med knappen nedan.",
+        "title": "Tyvärr kan sidan du sökte efter inte hittas"
+      },
+      "notification": {
+        "seatsUnused": "Till ett tillfälle är det kö och lediga platser finns. Du kan fylla dem manuellt från kön."
+      },
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Till framsidan för anmälningssystemet för språkexamina för statsförvaltningen",
       "pageTitle": {
-        "frontPage": "Framsida",
-        "notFound": "Sidan hittades inte",
-        "authenticate": "Anmälan - identifiera dig",
-        "contactDetails": "Anmälan - fyll i dina kontaktuppgifter",
-        "educationDetails": "Anmälan - utbildningsuppgifter",
-        "selectExam": "Anmälan - välj examen",
-        "preview": "Anmälan - förhandsgranska",
-        "paymentFail": "Anmälan - avgiften har inte betalats",
-        "paymentSuccess": "Anmälan - betalningen är slutförd",
-        "done": "Anmälan - färdig",
         "accessibilityStatement": "Tillgänglighetsutlåtande",
-        "logoutSuccess": "Utloggning lyckades",
-        "privacyPolicy": "Dataskyddsbeskrivning",
+        "authenticate": "Anmälan - identifiera dig",
         "clerkEnrollmentOverview": "Administratör anmälning",
         "clerkExamEventCreate": "Administratör lägg till examensdag",
         "clerkExamOverview": "Administratör examenssida",
-        "clerkHomepage": "Administratör"
+        "clerkExcellentLevel": "Tjänsteman – examina som gäller utmärkta kunskaper",
+        "clerkGoodAndSatisfactoryLevel": "Tjänsteman – examina som gäller goda och nöjaktiga kunskaper",
+        "contactDetails": "Anmälan - fyll i dina kontaktuppgifter",
+        "educationDetails": "Anmälan - utbildningsuppgifter",
+        "examinerHomePage": "Examinator – examina som gäller goda och nöjaktiga kunskaper",
+        "examinerDetails": "Examinator – egna uppgifter",
+        "excellentLevelLanding": "Examina som gäller utmärkta kunskaper",
+        "done": "Anmälan - färdig",
+        "frontPage": "Framsida",
+        "goodAndSatisfactoryLevelLanding": "Examina som gäller goda och nöjaktiga kunskaper",
+        "logoutSuccess": "Utloggning lyckades",
+        "notFound": "Sidan hittades inte",
+        "paymentFail": "Anmälan - avgiften har inte betalats",
+        "paymentSuccess": "Anmälan - betalningen är slutförd",
+        "preview": "Anmälan - förhandsgranska",
+        "selectExam": "Anmälan - välj examen"
       },
       "requiredFieldsInfo": "Fält markerade med en stjärna (*) är obligatoriska.",
       "sessionExpired": {
-        "title": "Din session har gått ut",
+        "descriptionClerk": "Din session är föråldrad. Var god och logga in på nytt.",
         "descriptionPublic": "Din session har gått ut. Vänligen identifiera dig på nytt.",
-        "descriptionClerk": "Din session har gått ut. Vänligen identifiera dig på nytt."
+        "title": "Din session har gått ut"
       },
       "rowsPerPageLabel": "Resultat per sida",
       "save": "Spara",
@@ -172,7 +193,7 @@
       },
       "vktPrivacyPolicy": {
         "ariaLabel": "Information om behandlingen av personuppgifter (oph.fi), öppnas i en ny flik",
-        "link": "https://www.oph.fi/sv/utbildning-och-examina/examina-som-galler-utmarkta-sprakkunskaper#anchor-information-om-behandlingen-av-personuppgifter"
+        "link": "https://www.oph.fi/sv/utbildning-och-examina/information-om-behandlingen-av-personuppgifter-i-sprakexamina"
       },
       "cookieBanner": {
         "buttonAriaLabel": "Stäng informationrutan om kakor",

@@ -1,1 +1,218 @@
-{}
+{
+  "vkt": {
+    "component": {
+      "clerkEnrollmentDetails": {
+        "attachment": {
+          "download": "Ladda fil"
+        },
+        "cancelEnrollment": null,
+        "cancelEnrollmentDialog": {
+          "description": null,
+          "header": null
+        },
+        "controlButtons": {
+          "move": null
+        },
+        "enrollmentStatus": {
+          "CANCELED": null,
+          "CANCELED_UNFINISHED_ENROLLMENT": null,
+          "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": null,
+          "WAITING_AUTHENTICATION": "Väntar på identifiering",
+          "COMPLETED": "Färdig",
+          "QUEUED": null,
+          "AWAITING_APPROVAL": null,
+          "AWAITING_PAYMENT": null
+        },
+        "header": {
+          "contactDetails": null,
+          "digitalCertificateConsent": null,
+          "personalInformation": null,
+          "previousEnrollment": null,
+          "selectedPartialExams": null,
+          "selectedSkills": null,
+          "grades": "Vitsord",
+          "gradeComments": "Anmärkningar"
+        },
+        "moveModal": {
+          "fillings": null,
+          "move": null,
+          "newExamEvent": null,
+          "title": null,
+          "successToast": null
+        },
+        "payment": {
+          "details": {
+            "amount": null,
+            "date": null,
+            "reference": null,
+            "status": null
+          },
+          "modal": {
+            "link": null,
+            "title": null
+          },
+          "recentTitle": null
+        },
+        "paymentStatus": {
+          "DELAYED": null,
+          "FAIL": null,
+          "NEW": null,
+          "OK": null,
+          "PENDING": null
+        },
+        "status": null,
+        "title": null,
+        "examinerHelpText": "Anmälningens uppgifter kompletteras automatiskt när kunden identifierar sig i suomi.fi-tjänsten. Fyll i uppgifterna själv endast om kunden inte kan identifiera sig.",
+        "toasts": {
+          "enrollmentCanceled": "Anmälan annullerades",
+          "updated": null
+        },
+        "freeEnrollment": {
+          "title": null,
+          "description": null,
+          "approve": null,
+          "deny": null,
+          "inspect": null,
+          "type": {
+            "MatriculationExam": null,
+            "HigherEducationEnrolled": null,
+            "HigherEducationConcluded": null,
+            "DIA": null,
+            "EB": null,
+            "Other": null,
+            "Unknown": null,
+            "None": null
+          },
+          "source": {
+            "USER": null,
+            "KOSKI": null
+          },
+          "getAllKoskiEducations": null
+        }
+      },
+      "clerkEnrollmentListing": {
+        "header": {
+          "examEventCoverage": null,
+          "firstName": null,
+          "lastName": null,
+          "registrationTime": null
+        },
+        "row": {
+          "changeEnrollmentStatus": {
+            "backToQueue": null,
+            "toExamEvent": null,
+            "approveFreeExam": null
+          },
+          "fullExam": null
+        }
+      },
+      "clerkExamEventCreate": {
+        "addExamDate": null,
+        "fillingsTotal": null,
+        "toasts": {
+          "addingSucceeded": null
+        }
+      },
+      "clerkExamEventListing": {
+        "createExamEvent": null,
+        "header": {
+          "examDate": null,
+          "fillings": null,
+          "hidden": null,
+          "language": null,
+          "registrationCloses": null,
+          "registrationOpens": null,
+          "registrationDates": null
+        },
+        "more": null,
+        "title": null,
+        "toggleFilters": {
+          "passed": null,
+          "upcoming": null
+        }
+      },
+      "clerkExamEventOverview": {
+        "examEventDetails": {
+          "copyEmails": null,
+          "chooseCopyEmails": null,
+          "downloadExcel": null,
+          "enrollmentLink": null
+        },
+        "examEventDetailsFields": {
+          "date": null,
+          "fillingsTotal": null,
+          "isHidden": null,
+          "language": null,
+          "level": null,
+          "registrationCloses": null,
+          "registrationClosesTime": null,
+          "registrationOpensTime": null,
+          "registrationOpens": null
+        },
+        "examEventListingHeader": {
+          "CANCELED": null,
+          "CANCELED_UNFINISHED_ENROLLMENT": null,
+          "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": null,
+          "WAITING_AUTHENTICATION": "Väntar på identifiering",
+          "COMPLETED": "Anmälda",
+          "QUEUED": null,
+          "AWAITING_APPROVAL": null,
+          "AWAITING_PAYMENT": null
+        },
+        "copyClipboard": {
+          "copyAll": null,
+          "copyPaid": null,
+          "copyQueued": null
+        },
+        "toasts": {
+          "enrollmentStatusUpdated": null,
+          "notFound": null,
+          "updated": null,
+          "copiedToClipboard_one": null,
+          "copiedToClipboard_other": null,
+          "copyToClipboardFailed": null
+        }
+      },
+      "clerkExaminerExamEventListing": {
+        "header": {
+          "examDate": "Examensdag",
+          "examiner": "Examinator",
+          "municipality": "Ort",
+          "isPublic": "Till påseende offentligt",
+          "language": "Språket i examen"
+        },
+        "more": "Ytterligare information",
+        "title": "Examenstillfällen"
+      },
+      "clerkExaminerListing": {
+        "buttons": {
+          "viewDetails": "Se uppgifter"
+        },
+        "header": {
+          "actions": "Insats",
+          "examDates": "Examensdagar",
+          "examLocation": "Examensställe",
+          "examiner": "Examinator",
+          "language": "Språk"
+        },
+        "title": "Uppgifter om examinatorerna"
+      },
+      "header": {
+        "backToOph": "Tillbaka till Studieinfo",
+        "logOut": "Logga ut",
+        "navigationLinks": {
+          "excellentLevel": "Utmärkta kunskaper",
+          "goodAndSatisfactoryLevel": "Goda och nöjaktiga kunskaper"
+        }
+      }
+    },
+    "pages": {
+      "excellentLevel": {
+        "title": null
+      },
+      "goodAndSatisfactoryLevel": {
+        "title": "Språkexamina som gäller goda och nöjaktiga kunskaper"
+      }
+    }
+  }
+}

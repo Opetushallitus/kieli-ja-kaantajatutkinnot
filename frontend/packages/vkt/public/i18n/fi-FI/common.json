@@ -70,7 +70,7 @@
           "initialiseEnrollmentHasCongestion": "Valitsemasi tutkinto on täynnä, mutta kaikkia ilmoittautumisia ei ole vielä vahvistettu. Yritä hetken kuluttua uudelleen.",
           "initialiseEnrollmentIsFull": "Tutkintotilaisuuteen ei ole enää paikkoja",
           "initialiseEnrollmentRegistrationClosed": "Tutkintotilaisuuteen ilmoittautuminen on sulkeutunut",
-          "initialiseEnrollmentToQueueHasRoom": "Tutkintotilaisuuteen on vapautunut suoria paikkoja. Päivitä sivu ja yritä tarvittaessa uudelleen.",
+          "initialiseEnrollmentToQueueHasRoom": "Tutkintotilaisuuteen on vapautunut paikkoja. Päivitä sivu ja yritä tarvittaessa uudelleen.",
           "invalidTicket": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen",
           "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen.",
           "paymentAlreadyPaid": "Maksun käsittely epäonnistui",
@@ -86,8 +86,8 @@
           "ticketValidationError": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen",
           "fileUploadError": "Tiedoston lähetys epäonnistui, ole hyvä ja yritä uudelleen",
           "userAttachmentsMissing": "Koulutusvalinnan vaadittavat liitteet puuttuu",
-          "authHashExpired": "Ilmoittautumislinkki on vanhentunut",
-          "invalidBirthdateFormat": "Syntymäajan muoto on virheellinen"
+          "invalidBirthdateFormat": "Syntymäajan muoto on virheellinen",
+          "authHashExpired": "Linkki on vanhentunut"
         },
         "customTextField": {
           "emailFormat": "Sähköpostiosoite on virheellinen",
@@ -129,8 +129,8 @@
         }
       },
       "info": {
-        "previousEnrollment": "<0>Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana.</0> Jos suoritat tutkinnon osissa, <1>sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun.</1> Aika lasketaan ensimmäisen osan suorittamispäivästä alkaen.",
-        "selectExam": "Kun olet suorittanut hyväksytysti suullisen ja kirjallisen taidon tutkinnot, saat todistukseen merkinnän myös ymmärtämisen taidon tutkinnon suorittamisesta."
+        "previousEnrollment": "Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana. Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osan suorittamispäivästä alkaen.",
+        "selectExam": "Kun suoritat molemmat tutkintoon kuuluvat osakokeet hyväksytysti, saat todistuksen tietyn taidon tutkintosuorituksesta. Jos suoritat suullisen ja kirjallisen taidon tutkinnot, sinun ei tarvitse suorittaa erikseen ymmärtämisen taidon tutkintoa."
       },
       "languageFilter": {
         "label": "Näytä seuraavien kielten tutkinnot",
@@ -167,8 +167,8 @@
         "clerkGoodAndSatisfactoryLevel": "Virkailija - hyvän ja tyydyttävän taidon tutkinnot",
         "contactDetails": "Ilmoittautuminen - täytä yhteystietosi",
         "educationDetails": "Ilmoittautuminen - koulutustiedot",
-        "examinerHomePage": "Tutkinnon vastaanottaja - hyvän ja tyydyttävän taidon tutkinnot",
-        "examinerDetails": "Tutkinnon vastaanottaja - omat tiedot",
+        "examinerHomePage": "Tutkintosuorituksen vastaanottaja - hyvän ja tyydyttävän taidon tutkinnot",
+        "examinerDetails": "Tutkintosuorituksen vastaanottaja - omat tiedot",
         "excellentLevelLanding": "Erinomaisen taidon tutkinnot",
         "done": "Ilmoittautuminen - valmis",
         "frontPage": "Etusivu",
@@ -194,7 +194,7 @@
       },
       "vktPrivacyPolicy": {
         "ariaLabel": "Tietoa henkilötietojen käsittelystä (oph.fi), avaa uudessa välilehdessä",
-        "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/erinomaisen-taidon-tutkinnot#anchor-tietoa-henkilotietojen-kasittelysta-"
+        "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/tietoa-henkilotietojen-kasittelysta-valtionhallinnon-kielitutkinnoissa"
       },
       "cookieBanner": {
         "buttonAriaLabel": "Sulje evästetiedot",

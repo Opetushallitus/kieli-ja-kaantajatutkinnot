@@ -5,17 +5,17 @@
         "attachment": {
           "download": "Lataa tiedosto"
         },
-        "cancelEnrollment": "Peruuta ilmoittautuminen",
+        "cancelEnrollment": "Peru ilmoittautuminen",
         "cancelEnrollmentDialog": {
-          "description": "Tätä toimintoa ei voi peruuttaa!",
-          "header": "Haluatko varmasti peruuttaa ilmoittautumisen?"
+          "description": "Tätä toimintoa ei voi kumota!",
+          "header": "Haluatko varmasti perua ilmoittautumisen?"
         },
         "controlButtons": {
           "move": "Siirrä"
         },
         "enrollmentStatus": {
-          "CANCELED": "Peruutettu",
-          "CANCELED_UNFINISHED_ENROLLMENT": "Peruuttanut",
+          "CANCELED": "Peruttu",
+          "CANCELED_UNFINISHED_ENROLLMENT": "Perunut",
           "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksu kesken",
           "WAITING_AUTHENTICATION": "Odottaa tunnistautumista",
           "COMPLETED": "Valmis",
@@ -47,8 +47,7 @@
             "amount": "Summa",
             "date": "Aikaleima",
             "reference": "Maksutunniste",
-            "status": "Tila",
-            "refunded": "Merkitty palautetuksi"
+            "status": "Tila"
           },
           "modal": {
             "expires": "Voimassaolo päättyy",
@@ -71,9 +70,9 @@
         },
         "status": "Ilmoittautumisen tila",
         "title": "Ilmoittautumisen tiedot",
-        "examinerHelpText": "Ilmoittautujan tiedot täydentyvät automaattisesti, kun hän tunnistautuu vahvasti. Täytä nämä itse vain, jos asiakas ei pysty tunnistautumaan vahvasti.",
+        "examinerHelpText": "Ilmoittautumisen tiedot täydentyvät automaattisesti, kun asiakas tunnistautuu suomi.fi -palvelussa. Täytä tiedot itse vain, jos asiakas ei pysty tunnistautumaan.",
         "toasts": {
-          "enrollmentCanceled": "Ilmoittautuminen peruutettiin",
+          "enrollmentCanceled": "Ilmoittautuminen peruttiin",
           "updated": "Tiedot tallennettiin"
         },
         "freeEnrollment": {
@@ -145,7 +144,7 @@
           "copyEmails": "Kopioi sähköpostit",
           "chooseCopyEmails": "Valitse kopiointi",
           "downloadExcel": "Lataa Excel",
-          "enrollmentLink": "Ilmoittautumislinkki"
+          "enrollmentLink": "Linkki"
         },
         "examEventDetailsFields": {
           "date": "Tutkintopäivä",
@@ -159,7 +158,7 @@
           "registrationOpens": "Ilmoittautuminen avautuu"
         },
         "examEventListingHeader": {
-          "CANCELED": "Peruutetut",
+          "CANCELED": "Perutut",
           "CANCELED_UNFINISHED_ENROLLMENT": "Keskeytetyt (keskeneräinen)",
           "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksua odottavat (keskeneräinen)",
           "WAITING_AUTHENTICATION": "Odottaa tunnistautumista",
@@ -185,7 +184,7 @@
       "clerkExaminerExamEventListing": {
         "header": {
           "examDate": "Tutkintopäivä",
-          "examiner": "Tutkinnon vastaanottaja",
+          "examiner": "Tutkintosuorituksen vastaanottaja",
           "municipality": "Paikkakunta",
           "isPublic": "Nähtävillä julkisesti",
           "language": "Tutkinnon kieli"
@@ -201,10 +200,10 @@
           "actions": "Toiminnot",
           "examDates": "Tutkintopäivät",
           "examLocation": "Tutkintopaikka",
-          "examiner": "Tutkinnon vastaanottaja",
+          "examiner": "Tutkintosuorituksen vastaanottaja",
           "language": "Kieli"
         },
-        "title": "Tutkinnon vastaanottajien tiedot"
+        "title": "Tutkintosuorituksen vastaanottajien tiedot"
       },
       "header": {
         "backToOph": "Takaisin Opintopolkuun",
