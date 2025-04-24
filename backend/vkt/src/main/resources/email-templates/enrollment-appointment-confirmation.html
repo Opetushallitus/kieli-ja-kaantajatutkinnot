@@ -8,7 +8,6 @@
         <p>Olet ilmoittautunut Valtionhallinnon kielitutkintoon. Ohessa tiedot ilmoittautumisestasi. Liitteenä myös maksukuitti suomeksi ja ruotsiksi.</p>
 
         <p>
-            <b>Ilmoittautumisen tiedot:</b><br/>
             Tutkinnon kieli: <span th:text="${examLanguageFI}"></span><br/>
             Tutkinnon taso: <span th:text="${examLevelFI}"></span><br/>
             Tutkintopäivä: <span th:text="${examDate}"></span>
@@ -20,22 +19,22 @@
             </th:block>
         </p>
         <p>
-            Valitsemasi taidot: <span th:text="${skillsFI}"></span><br/>
-            Valitsemasi osakokeet: <span th:text="${partialExamsFI}"></span>
+            Valitut tutkinnot: <span th:text="${skillsFI}"></span><br/>
+            Valitut osakokeet: <span th:text="${partialExamsFI}"></span>
         </p>
 
         <th:block th:if="${!#strings.isEmpty(otherInformation)}">
             <p>
-                Tutkintosuorituksen vastaanottajan antamat tarkemmat saapumisohjeet: <span th:text="${otherInformation}"></span>
+                Tutkintosuorituksen vastaanottajan antamat lisätiedot: <span th:text="${otherInformation}"></span>
             </p>
         </th:block>
         <br/>
 
-        Ota tutkintoon mukaan virallinen voimassa oleva henkilöllisyystodistus.
+        <b>Ota tutkintoon mukaan virallinen voimassa oleva henkilöllisyystodistus.</b>
         <br />
         Huomaa, että esimerkiksi ajokortti tai oleskelulupakortti eivät ole virallisia henkilöllisyystodistuksia.
         <br />
-        Hyväksyttäviä henkilöllisyystodistuksia ovat:
+        Hyväksyttäviä henkilöllisyystodistuksia ovat
         <br />
         <ul>
             <li>passi</li>
@@ -55,5 +54,60 @@
             Ystävällisin terveisin<br/>
             Opetushallitus
         </p>
+
+        <p>
+            Hej,
+        </p>
+        <br/>
+        <p>Du har anmält dig till språkexamen för statsförvaltningen. Nedan finns uppgifter om din anmälan. Bifogat finns också ett kvitto över betalningen på finska och svenska.</p>
+
+        <p>
+            Språket i examen: <span th:text="${examLanguageSV}"></span><br/>
+            Nivån på examen: <span th:text="${examLevelSV}"></span><br/>
+            Examensdag: <span th:text="${examDate}"></span>
+            <th:block th:if="${!#strings.isEmpty(examTime)}">
+                Tidpunkt för inledande av examen: <span th:text="${examTime}"></span><br/>
+            </th:block>
+            <th:block th:if="${!#strings.isEmpty(examLocation)}">
+                Examensställe: <span th:text="${examLocation}"></span><br/>
+            </th:block>
+        </p>
+        <p>
+            Valda examina: <span th:text="${skillsSV}"></span><br/>
+            Valda delprov: <span th:text="${partialExamsSV}"></span>
+        </p>
+
+        <th:block th:if="${!#strings.isEmpty(otherInformation)}">
+            <p>
+                Tilläggsuppgifter av examinatorn: <span th:text="${otherInformation}"></span>
+            </p>
+        </th:block>
+        <br/>
+
+        <b>Ta med dig ett officiellt giltigt identitetsbevis till examen.</b>
+        <br />
+        Observera att till exempel körkort eller uppehållstillståndskort inte är officiella identitetsbevis
+        <br />
+        Godtagbara identitetsbevis är
+        <br />
+        <ul>
+            <li>pass</li>
+            <li>identitetskort</li>
+            <li>främlingspass</li>
+            <li>resedokument för flykting</li>
+            <li>Försvarsmaktens identitetskort med foto.</li>
+        </ul>
+        <br />
+        <p>
+            Om du inte kan delta i den examen som du har anmält dig till ska du meddela examinatorn om detta så snart som möjligt.
+        </p>
+        <p>
+            Svara inte på detta meddelande – meddelandet har skickats automatiskt.
+        </p>
+        <p style="border-bottom: 1px solid black; padding-bottom: 15px;">
+            Med vänlig hälsning<br/>
+            Utbildningsstyrelsen
+        </p>
+
     </body>
 </html>

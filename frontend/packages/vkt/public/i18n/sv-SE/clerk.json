@@ -5,13 +5,13 @@
         "attachment": {
           "download": "Ladda fil"
         },
-        "cancelEnrollment": null,
+        "cancelEnrollment": "Annullera anmälan",
         "cancelEnrollmentDialog": {
-          "description": null,
-          "header": null
+          "description": "Funktionen kan inte ångras!",
+          "header": "Är du säker på att du vill annullera anmälan?"
         },
         "controlButtons": {
-          "move": null
+          "move": "Överför"
         },
         "enrollmentStatus": {
           "CANCELED": null,
@@ -24,18 +24,18 @@
           "AWAITING_PAYMENT": null
         },
         "header": {
-          "contactDetails": null,
+          "contactDetails": "Kontaktuppgifter",
           "digitalCertificateConsent": null,
-          "personalInformation": null,
+          "personalInformation": "Personuppgifter",
           "previousEnrollment": null,
-          "selectedPartialExams": null,
-          "selectedSkills": null,
+          "selectedPartialExams": "Valda delprov",
+          "selectedSkills": "Valda examina",
           "grades": "Vitsord",
           "gradeComments": "Anmärkningar"
         },
         "moveModal": {
           "fillings": null,
-          "move": null,
+          "move": "Överför",
           "newExamEvent": null,
           "title": null,
           "successToast": null
@@ -61,7 +61,7 @@
           "PENDING": null
         },
         "status": null,
-        "title": null,
+        "title": "Anmälningens uppgifter",
         "examinerHelpText": "Anmälningens uppgifter kompletteras automatiskt när kunden identifierar sig i suomi.fi-tjänsten. Fyll i uppgifterna själv endast om kunden inte kan identifiera sig.",
         "toasts": {
           "enrollmentCanceled": "Anmälan annullerades",
@@ -92,10 +92,10 @@
       },
       "clerkEnrollmentListing": {
         "header": {
-          "examEventCoverage": null,
-          "firstName": null,
-          "lastName": null,
-          "registrationTime": null
+          "examEventCoverage": "Examenshelhet",
+          "firstName": "Förenamn",
+          "lastName": "Efternamn",
+          "registrationTime": "Anmälningstid"
         },
         "row": {
           "changeEnrollmentStatus": {

@@ -83,7 +83,7 @@ public class ExaminerEnrollmentEmailServiceTest {
 
     assertEquals(1, emails.size());
     assertEquals(
-      "Ilmoittautuminen Valtionhallinnon kielitutkintoon (VKT) | Ilmoittautuminen Valtionhallinnon kielitutkintoon (VKT)",
+      "Ilmoittautuminen Valtionhallinnon kielitutkintoon (VKT) | Anmälan till Språkexamen för statsförvaltningen (VKT)",
       email.getSubject()
     );
     assertEquals("foo.tester@invalid", email.getRecipientAddress());

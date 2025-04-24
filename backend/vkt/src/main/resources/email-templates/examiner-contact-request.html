@@ -6,11 +6,11 @@
         </p>
 
         <p>
-            Sinuun on otettu yhteyttä Valtionhallinnon kielitutkinnon hyvän ja tyydyttävän taidon tutkinnon suorittamista varten.
+            Sinuun on otettu yhteyttä valtionhallinnon kielitutkinnon hyvän ja tyydyttävän taidon tutkinnon suorittamista varten.
             <br />
-            Ohessa sinulle jätetty viesti ja tiedot sen lähettäjästä.
+            Ohessa sinulle lähetetty viesti ja tiedot sen lähettäjästä.
             <br />
-            Siirry linkin kautta VKT-virkailijan käyttöliittymään lukemaan asiakkaan viesti:
+            Siirry linkin kautta VKT-ilmoittautumisjärjestelmään lukemaan asiakkaan viesti:
             <a th:href="${contactRequestURL}" th:text="${contactRequestURL}"></a>
         </p>
         <p>
@@ -32,5 +32,37 @@
             Ystävällisin terveisin<br/>
             Opetushallitus
         </p>
+
+        <p>
+            Hej,
+        </p>
+
+        <p>
+            Du har kontaktats för avläggande av språkexamen för statsförvaltningen som gäller goda och nöjaktiga kunskaper.
+            <br />
+            Bifogat finns meddelandet till dig och uppgifter om avsändaren.
+            <br />
+            Gå via länken till VKT-anmälningssystemet för att läsa kundens meddelande:
+            <a th:href="${contactRequestURL}" th:text="${contactRequestURL}"></a>
+        </p>
+        <p>
+            <b>Meddelande:</b>
+            <br />
+            <span th:text="${message}"></span>
+        </p>
+        <p>
+            <b>Avsändarens uppgifter:</b>
+            <br />
+            Namn: <span th:text="${requesterName}"></span>
+            <br />
+            E-postadress: <span th:text="${requesterEmail}"></span>
+        </p>
+        <p>
+            Svara inte på detta meddelande – meddelandet har skickats automatiskt
+        </p>
+        <p style="border-bottom: 1px solid black; padding-bottom: 15px;">
+            Med vänlig hälsning<br/>
+            Utbildningsstyrelsen
+        </p
     </body>
 </html>

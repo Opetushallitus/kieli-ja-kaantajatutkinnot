@@ -623,7 +623,8 @@
               "point8": "Maksa tutkintomaksu.",
               "point9": "Kun olet maksanut tutkintomaksun, ilmoittautuminen vahvistuu ja saat kuitin maksusta sähköpostilla."
             },
-            "title": "Ilmoittautumisohjeet"
+            "title": "Ilmoittautumisohjeet",
+            "description": "Ilmoittautuminen on henkilökohtainen. Älä lähetä yhteydenottoa toisen henkilön puolesta."
           },
           "enrollmentFees": {
             "bulletPoints": {

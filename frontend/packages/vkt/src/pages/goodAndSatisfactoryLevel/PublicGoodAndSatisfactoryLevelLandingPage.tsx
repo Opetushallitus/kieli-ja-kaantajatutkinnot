@@ -70,6 +70,7 @@ const EnrollmentBox = () => {
     <Container className="public-homepage__info-box">
       <div className="rows gapped-sm">
         <H2>{t('title')}</H2>
+        <Text>{t('description')}</Text>
         <BulletList
           t={t}
           renderListItem={(
@@ -85,6 +86,7 @@ const EnrollmentBox = () => {
             'bulletPoints.point6',
             'bulletPoints.point7',
             'bulletPoints.point8',
+            'bulletPoints.point9',
           ]}
         />
       </div>
