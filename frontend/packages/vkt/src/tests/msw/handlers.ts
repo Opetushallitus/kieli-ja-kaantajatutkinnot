@@ -171,9 +171,15 @@ export const handlers = [
     return new Response(JSON.stringify(clerkPaymentRefunded), { status: 200 });
   }),
   http.get(APIEndpoints.FeatureFlags, () => {
-    return new Response(JSON.stringify({ freeEnrollmentAllowed: true }), {
-      status: 200,
-    });
+    return new Response(
+      JSON.stringify({
+        freeEnrollmentAllowed: true,
+        goodAndSatisfactoryLevel: true,
+      }),
+      {
+        status: 200,
+      },
+    );
   }),
   http.get(APIEndpoints.PublicExaminer, () => {
     return new Response(JSON.stringify(publicExaminers), { status: 200 });
