@@ -54,6 +54,19 @@ exports[`Header should render Header correctly 1`] = `
             <li>
               <a
                 aria-current={false}
+                href="/vkt/etusivu"
+                onClick={[Function]}
+              >
+                <p
+                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                >
+                  header.publicNavigationLinks.frontPage
+                </p>
+              </a>
+            </li>
+            <li>
+              <a
+                aria-current={false}
                 href="/vkt/erinomainen-taito"
                 onClick={[Function]}
               >
