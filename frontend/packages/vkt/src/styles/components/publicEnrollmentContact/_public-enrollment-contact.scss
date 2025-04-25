@@ -1,0 +1,109 @@
+.public-enrollment-contact {
+  & &__grid {
+    &__form-container {
+      padding: 3rem;
+
+      @include phone {
+        margin-bottom: 26rem;
+        padding: 0;
+      }
+
+      &__auth-button {
+        width: 18rem;
+      }
+    }
+
+    &__stepper {
+      @include not-phone {
+        margin-left: 13rem;
+        margin-right: 13rem;
+      }
+
+      @include phone {
+        padding: 2rem;
+        border-bottom: 1px solid $color-divider;
+      }
+
+      &__step-disabled {
+        span,
+        svg {
+          color: $color-grey-700;
+        }
+      }
+    }
+
+    &__step-heading {
+      @include phone {
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
+    }
+
+    &__examiner-details {
+      @include phone {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        margin-top: 2rem;
+      }
+    }
+
+    &__step-contents {
+      @include phone {
+        margin: 1rem;
+        max-width: calc(100% - 2rem);
+
+        > div {
+          max-width: inherit;
+        }
+      }
+    }
+
+    &__phone-extra-margin {
+      @include phone {
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
+    }
+
+    &__contact-details {
+      width: calc(80% - 1rem);
+
+      @include phone {
+        width: 100%;
+      }
+    }
+
+    &__textfield-container {
+      width: 70%;
+
+      @include phone {
+        width: 100%;
+      }
+
+      &__textField {
+        margin-bottom: 2rem;
+      }
+    }
+  }
+
+  & &__info-box {
+    background-color: $color-blue-200;
+    border-radius: 4px;
+    display: grid;
+
+    height: 24rem;
+
+    @include phone {
+      padding: 2rem 1rem;
+    }
+
+    @include not-phone {
+      padding: 2rem 1.5rem;
+    }
+  }
+
+  & &__exam-dates {
+    margin: 0;
+    padding-left: 2rem;
+  }
+}

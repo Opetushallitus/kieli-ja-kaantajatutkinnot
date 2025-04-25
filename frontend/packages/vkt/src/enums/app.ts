@@ -2,26 +2,91 @@ export enum AppConstants {
   CallerID = '1.2.246.562.10.00000000001.vkt',
 }
 
+const excellentLevelRoutePrefix = '/vkt/erinomainen-taito';
+const excellentLevelEnrollmentRoute =
+  excellentLevelRoutePrefix + '/ilmoittaudu';
+
+const goodAndSatisfactoryLevelRoutePrefix = '/vkt/hyva-ja-tyydyttava-taito';
+const goodAndSatisfactoryLevelEnrollmentRoute =
+  goodAndSatisfactoryLevelRoutePrefix + '/ilmoittaudu';
+const goodAndSatisfactoryLevelContactRoute =
+  goodAndSatisfactoryLevelRoutePrefix + '/ota-yhteytta';
+const clerkExcellentLevelRoutePrefix = '/vkt/virkailija/erinomainen-taito';
+
 export enum AppRoutes {
   PublicRoot = '/vkt',
   PublicHomePage = '/vkt/etusivu',
-  PublicEnrollment = '/vkt/ilmoittaudu',
-  PublicAuth = '/vkt/ilmoittaudu/:examEventId/tunnistaudu',
-  PublicEnrollmentContactDetails = '/vkt/ilmoittaudu/:examEventId/tiedot',
-  PublicEnrollmentEducationDetails = '/vkt/ilmoittaudu/:examEventId/koulutus',
-  PublicEnrollmentSelectExam = '/vkt/ilmoittaudu/:examEventId/tutkinto',
-  PublicEnrollmentPreview = '/vkt/ilmoittaudu/:examEventId/esikatsele',
-  PublicEnrollmentPaymentFail = '/vkt/ilmoittaudu/:examEventId/maksu/peruutettu',
-  PublicEnrollmentPaymentSuccess = '/vkt/ilmoittaudu/:examEventId/maksu/valmis',
-  PublicEnrollmentDoneQueued = '/vkt/ilmoittaudu/:examEventId/jono-valmis',
-  PublicEnrollmentDone = '/vkt/ilmoittaudu/:examEventId/valmis',
-  ClerkHomePage = '/vkt/virkailija',
-  ClerkExamEventCreatePage = '/vkt/virkailija/tutkintotilaisuus/luo',
-  ClerkExamEventOverviewPage = '/vkt/virkailija/tutkintotilaisuus/:examEventId',
-  ClerkEnrollmentOverviewPage = '/vkt/virkailija/tutkintotilaisuus/:examEventId/ilmoittautuminen',
+
+  // Routes for excellent level
+  PublicExcellentLevelLanding = excellentLevelRoutePrefix,
+  PublicEnrollment = excellentLevelEnrollmentRoute,
+  PublicAuth = excellentLevelEnrollmentRoute + '/:examEventId/tunnistaudu',
+  PublicEnrollmentContactDetails = excellentLevelEnrollmentRoute +
+    '/:examEventId/tiedot',
+  PublicEnrollmentEducationDetails = excellentLevelEnrollmentRoute +
+    '/:examEventId/koulutus',
+  PublicEnrollmentSelectExam = excellentLevelEnrollmentRoute +
+    '/:examEventId/tutkinto',
+  PublicEnrollmentPreview = excellentLevelEnrollmentRoute +
+    '/:examEventId/esikatsele',
+  PublicEnrollmentPaymentFail = excellentLevelEnrollmentRoute +
+    '/:examEventId/maksu/peruutettu',
+  PublicEnrollmentPaymentSuccess = excellentLevelEnrollmentRoute +
+    '/:examEventId/maksu/valmis',
+  PublicEnrollmentDoneQueued = excellentLevelEnrollmentRoute +
+    '/:examEventId/jono-valmis',
+  PublicEnrollmentDone = excellentLevelEnrollmentRoute + '/:examEventId/valmis',
+
+  // Routes for good and satisfactory level
+  PublicGoodAndSatisfactoryLevelLanding = goodAndSatisfactoryLevelRoutePrefix,
+  PublicEnrollmentAppointment = goodAndSatisfactoryLevelEnrollmentRoute,
+  PublicAuthAppointment = goodAndSatisfactoryLevelEnrollmentRoute +
+    '/:enrollmentId/tunnistaudu',
+  PublicEnrollmentAppointmentContactDetails = goodAndSatisfactoryLevelEnrollmentRoute +
+    '/:enrollmentId/tiedot',
+  PublicEnrollmentAppointmentPreview = goodAndSatisfactoryLevelEnrollmentRoute +
+    '/:enrollmentId/esikatsele',
+  PublicEnrollmentAppointmentPaymentFail = goodAndSatisfactoryLevelEnrollmentRoute +
+    '/:enrollmentId/maksu/peruutettu',
+  PublicEnrollmentAppointmentPaymentSuccess = goodAndSatisfactoryLevelEnrollmentRoute +
+    '/:enrollmentId/maksu/valmis',
+  PublicEnrollmentAppointmentPaymentNonAuthSuccess = goodAndSatisfactoryLevelEnrollmentRoute +
+    '/maksu/valmis',
+
+  PublicEnrollmentContact = goodAndSatisfactoryLevelContactRoute,
+  PublicEnrollmentContactContactDetails = goodAndSatisfactoryLevelContactRoute +
+    '/:examinerId/tiedot',
+  PublicEnrollmentContactSelectExam = goodAndSatisfactoryLevelContactRoute +
+    '/:examinerId/tutkinto',
+  PublicEnrollmentContactDone = goodAndSatisfactoryLevelContactRoute +
+    '/:examinerId/valmis',
+
   ClerkLocalLogoutPage = '/vkt/cas/localLogout',
+  ClerkRoot = '/vkt/virkailija',
+
+  // Routes for clerk user / excellent level
+  ClerkExcellentLevelPage = clerkExcellentLevelRoutePrefix,
+  ClerkExamEventCreatePage = clerkExcellentLevelRoutePrefix +
+    '/tutkintotilaisuus/luo',
+  ClerkExamEventOverviewPage = clerkExcellentLevelRoutePrefix +
+    '/tutkintotilaisuus/:examEventId',
+  ClerkEnrollmentOverviewPage = clerkExcellentLevelRoutePrefix +
+    '/tutkintotilaisuus/:examEventId/ilmoittautuminen',
+  // Routes for clerk user / good and satisfactory level
+  ClerkGoodAndSatisfactoryLevelPage = '/vkt/virkailija/hyva-ja-tyydyttava-taito',
+  // Routes for examiner
+  ExaminerRoot = '/vkt/tv',
+  ExaminerHomePage = '/vkt/tv/:oid',
+  ExaminerDetailsPage = '/vkt/tv/:oid/omat-tiedot',
+  ExaminerExamEventCreatePage = '/vkt/tv/:oid/tutkintotilaisuus/luo',
+  ExaminerExamEventPage = '/vkt/tv/:oid/tutkintotilaisuus/:examEventId',
+  ExaminerExamEventUpdatePage = '/vkt/tv/:oid/tutkintotilaisuus/:examEventId/muokkaa',
+  ExaminerEnrollmentContactRequestPage = '/vkt/tv/:oid/yhteydenottopyynto/:enrollmentContactRequestId',
+  ExaminerEnrollmentAppointmentPage = '/vkt/tv/:oid/ilmoittautuminen/:enrollmentAppointmentId',
+  ExaminerEnrollmentAppointmentPageEdit = '/vkt/tv/:oid/ilmoittautuminen/:enrollmentAppointmentId/muokkaa',
+
+  // Miscellaneous
   AccessibilityStatementPage = '/vkt/saavutettavuusseloste',
-  PrivacyPolicyPage = '/vkt/tietosuojaseloste',
   LogoutSuccess = '/vkt/uloskirjautuminen-onnistui',
   NotFoundPage = '*',
 }
@@ -34,6 +99,7 @@ export enum ExamLanguage {
 
 export enum ExamLevel {
   EXCELLENT = 'EXCELLENT',
+  GOOD_AND_SATISFACTORY = 'GOOD_AND_SATISFACTORY',
 }
 
 export enum ExamEventToggleFilter {
@@ -41,8 +107,10 @@ export enum ExamEventToggleFilter {
   Passed = 'passed',
 }
 
-export enum HeaderNavTab {
-  ExamEvents = 'examEvents',
+export enum ExamGrades {
+  GOOD = 'GOOD',
+  SATISFACTORY = 'SATISFACTORY',
+  FAILED = 'FAILED',
 }
 
 export enum UIMode {
@@ -60,10 +128,26 @@ export enum EnrollmentStatus {
   CANCELED_UNFINISHED_ENROLLMENT = 'CANCELED_UNFINISHED_ENROLLMENT',
 }
 
+export enum EnrollmentAppointmentStatus {
+  COMPLETED = 'COMPLETED',
+  CANCELED = 'CANCELED',
+  EXPECTING_PAYMENT = 'EXPECTING_PAYMENT',
+  WAITING_AUTHENTICATION = 'WAITING_AUTHENTICATION',
+  CANCELED_PAYMENT = 'CANCELED_PAYMENT',
+  ENROLLMENT_CREATED = 'ENROLLMENT_CREATED',
+  CONTACT_CREATED = 'CONTACT_CREATED',
+}
+
 export enum PaymentStatus {
   NEW = 'NEW',
   OK = 'OK',
   FAIL = 'FAIL',
   PENDING = 'PENDING',
   DELAYED = 'DELAYED',
+}
+
+export enum PublicNavigationLink {
+  FrontPage = 'frontPage',
+  ExcellentLevel = 'excellentLevel',
+  GoodAndSatisfactoryLevel = 'goodAndSatisfactoryLevel',
 }

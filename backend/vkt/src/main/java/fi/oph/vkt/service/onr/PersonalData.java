@@ -23,4 +23,5 @@ public class PersonalData {
   private String nickname;
 
   private String ssn;
+  private String birthdate;
 }

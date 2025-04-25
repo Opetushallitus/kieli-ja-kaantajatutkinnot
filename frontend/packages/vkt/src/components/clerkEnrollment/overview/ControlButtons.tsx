@@ -1,19 +1,18 @@
 import EditIcon from '@mui/icons-material/Edit';
 import { FC } from 'react';
 import { CustomButton, LoadingProgressIndicator } from 'shared/components';
-import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import { Color, Variant } from 'shared/enums';
 
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
-import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
 
 interface ControlButtonsProps {
   onCancel: () => void;
   onEdit: () => void;
   onSave: () => void;
-  onMove: () => void;
+  onMove?: () => void;
   isViewMode: boolean;
   hasRequiredDetails: boolean;
+  isLoading: boolean;
 }
 
 export const ControlButtons: FC<ControlButtonsProps> = ({
@@ -23,27 +22,26 @@ export const ControlButtons: FC<ControlButtonsProps> = ({
   onMove,
   isViewMode,
   hasRequiredDetails,
+  isLoading,
 }) => {
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkEnrollmentDetails.controlButtons',
   });
   const translateCommon = useCommonTranslation();
 
-  const { status } = useAppSelector(clerkEnrollmentDetailsSelector);
-
-  const isLoading = status === APIResponseStatus.InProgress;
-
   if (isViewMode) {
     return (
       <div className="columns gapped">
-        <CustomButton
-          data-testid="clerk-enrollment-details__move-button"
-          variant={Variant.Contained}
-          color={Color.Secondary}
-          onClick={onMove}
-        >
-          {t('move')}
-        </CustomButton>
+        {onMove && (
+          <CustomButton
+            data-testid="clerk-enrollment-details__move-button"
+            variant={Variant.Contained}
+            color={Color.Secondary}
+            onClick={onMove}
+          >
+            {t('move')}
+          </CustomButton>
+        )}
         <CustomButton
           data-testid="clerk-enrollment-details__edit-button"
           variant={Variant.Contained}

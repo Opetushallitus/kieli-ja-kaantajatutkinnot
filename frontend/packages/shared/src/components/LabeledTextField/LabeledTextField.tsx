@@ -7,6 +7,7 @@ import { Text } from '../Text/Text';
 export type LabeledTextFieldProps = {
   id: string;
   label: string;
+  className?: string;
 } & CustomTextFieldProps;
 
 export const LabeledTextField = ({
@@ -14,12 +15,13 @@ export const LabeledTextField = ({
   label,
   placeholder,
   error,
+  className,
   ...rest
 }: LabeledTextFieldProps) => {
   const errorStyles = error ? { color: 'error.main' } : {};
 
   return (
-    <div className="rows">
+    <div className={className ?? 'rows'}>
       <label htmlFor={id}>
         <Text sx={errorStyles}>
           <b>{label}</b>

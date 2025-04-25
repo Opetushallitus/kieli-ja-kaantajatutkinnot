@@ -16,6 +16,17 @@
     padding: 2.5rem;
   }
 
+  & &__examiners {
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
+    padding: 2.5rem;
+  }
+
+  & &__extra-padding-top {
+    padding-top: 3rem;
+  }
+
   & &__notification {
     background-color: $color-blue-200;
     color: $color-text-primary;

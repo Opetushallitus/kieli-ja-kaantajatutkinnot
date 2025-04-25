@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fi" xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <p>
+            Olet ilmoittautumassa seuraavaan valtionhallinnon kielitutkintojen hyvän ja tyydyttävän taidon tutkintoon:
+        </p>
+
+        <p>
+            <b>Tutkinnon kieli:</b> <span th:text="${examLanguageFI}"></span><br/>
+            <b>Tutkinnon taso:</b> <span th:text="${examLevelFI}"></span><br/>
+            <b>Tutkintosuorituksen vastaanottaja:</b> <span th:text="${examinerName}"></span><br/>
+            <b>Tutkintopäivä:</b> <span th:text="${examDate}"></span><br/>
+            <b>Tutkintopaikka:</b> <span th:text="${examLocation}"></span>
+        </p>
+
+        <p>
+            Vahvista ilmoittautumisesi tunnistautumalla vahvasti ja maksamalla tutkintomaksu:
+        <ul>
+                <li>Tunnistaudu Suomi.fi-palvelussa.</li>
+                <li>Sinut ohjataan automaattisesti ilmoittautumislomakkeelle.</li>
+                <li>Tarkista ilmoittautumisesi tiedot lomakkeella.</li>
+                <li>Siirry maksamaan tutkintomaksu.</li>
+                <li>Kun olet maksanut tutkintomaksun, ilmoittautuminen vahvistuu ja saat kuitin maksusta sähköpostilla.</li>
+            </ul>
+        </p>
+
+        <p>
+            <b>Huom! Linkin viimeinen voimassaolopäivä on <span th:text="${expiresAt}"></span>.</b> Et voi osallistua tutkintoon, jos et ole maksanut tutkintomaksua linkin kautta.
+        </p>
+
+        <p>
+            Tunnistaudu ja maksa tutkintomaksu alla olevan linkin kautta:<br/>
+            <a th:href="${enrollmentAuthLink}">Tunnistaudu ja maksa ilmoittautuminen</a>
+        </p>
+
+        <p>
+            Älä vastaa tähän viestiin - viesti on lähetetty automaattisesti.
+        </p>
+        <p style="border-bottom: 1px solid black; padding-bottom: 15px;">
+            Ystävällisin terveisin<br/>
+            Opetushallitus
+        </p>
+
+        <p>
+            Du håller på att anmäla dig till följande språkexamen för statsförvaltningen som gäller goda och nöjaktiga kunskaper:
+        </p>
+
+        <p>
+            <b>Språket i examen:</b> <span th:text="${examLanguageSV}"></span><br/>
+            <b>Nivån på examen:</b> <span th:text="${examLevelSV}"></span><br/>
+            <b>Examinator:</b> <span th:text="${examinerName}"></span><br/>
+            <b>Examensdag:</b> <span th:text="${examDate}"></span><br/>
+            <b>Examensställe:</b> <span th:text="${examLocation}"></span>
+        </p>
+
+        <p>
+            Bekräfta din anmälan genom att identifiera dig starkt och betala examensavgiften:
+        <ul>
+            <li>Identifiera dig i Suomi.fi-tjänsten.</li>
+            <li>Du styrs automatiskt till anmälningsblanketten.</li>
+            <li>Kontrollera uppgifterna om din anmälan på blanketten.</li>
+            <li>Gå till att betala examensavgiften.</li>
+            <li>När du har betalat examensavgiften bekräftas anmälan och du får ett kvitto över betalningen per e-post.</li>
+        </ul>
+        </p>
+
+        <p>
+            <b>Obs! Länkens sista giltighetsdag är  <span th:text="${expiresAt}"></span>.</b> Du kan inte delta i examen om du inte har betalat examensavgiften via länken.
+        </p>
+
+        <p>
+            Identifiera dig och betala examensavgiften via länken nedan:<br/>
+            <a th:href="${enrollmentAuthLink}">Identifiera dig och betala anmälan</a>
+        </p>
+
+        <p>
+            Svara inte på detta meddelande – meddelandet har skickats automatiskt.
+        </p>
+        <p style="border-bottom: 1px solid black; padding-bottom: 15px;">
+            Med vänlig hälsning<br/>
+            Utbildningsstyrelsen
+        </p>
+    </body>
+</html>

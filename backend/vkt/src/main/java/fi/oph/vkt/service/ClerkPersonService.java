@@ -10,9 +10,9 @@ import fi.oph.vkt.service.onr.PersonalData;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +24,8 @@ public class ClerkPersonService {
   private final PersonRepository personRepository;
   private final OnrService onrService;
   private final AuditService auditService;
+
+  private static final Logger LOG = LoggerFactory.getLogger(ClerkPersonService.class);
 
   @Transactional(isolation = Isolation.SERIALIZABLE)
   public void deleteObsoletePersons() {
@@ -37,20 +39,18 @@ public class ClerkPersonService {
 
   public ClerkOnrSsnDTO getOnrSsn(final String oid) {
     final Person person = personRepository.findByOid(oid).orElseThrow();
-    final String personOid = person.getOid();
-    auditService.logById(VktOperation.GET_SSN_BY_OID, oid);
-
-    if (personOid == null) {
-      return null;
+    if (person.getDeletedAt() != null) {
+      LOG.error("Trying to access deleted person with oid {}", oid);
     }
 
-    final Map<String, PersonalData> personalData = onrService.getOnrPersonalData(List.of(personOid));
-    final PersonalData onrData = personalData.get(personOid);
+    auditService.logById(VktOperation.GET_SSN_BY_OID, oid);
+
+    final PersonalData onrData = onrService.getOnrPersonalData(oid);
 
     if (onrData == null || onrData.getSsn() == null || onrData.getSsn().isEmpty()) {
       return null;
     }
 
-    return ClerkOnrSsnDTO.builder().ssn(onrData.getSsn()).oid(personOid).build();
+    return ClerkOnrSsnDTO.builder().ssn(onrData.getSsn()).oid(oid).build();
   }
 }

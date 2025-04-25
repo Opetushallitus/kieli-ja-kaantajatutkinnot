@@ -1,8 +1,16 @@
 import dayjs from 'dayjs';
 import { DateUtils } from 'shared/utils';
 
+import { ExamLanguage } from 'enums/app';
 import {
+  ClerkAuthLink,
+  ClerkAuthLinkResponse,
   ClerkEnrollment,
+  ClerkEnrollmentAppointment,
+  ClerkEnrollmentAppointmentHistory,
+  ClerkEnrollmentAppointmentHistoryResponse,
+  ClerkEnrollmentAppointmentResponse,
+  ClerkEnrollmentContactResponse,
   ClerkEnrollmentResponse,
   ClerkPaymentLinkResponse,
   ClerkPaymentResponse,
@@ -16,12 +24,25 @@ import {
   ClerkListExamEventResponse,
 } from 'interfaces/clerkListExamEvent';
 import {
+  ContactRequest,
+  ContactRequestResponse,
+  ExaminerDetails,
+  ExaminerDetailsResponse,
+} from 'interfaces/examinerDetails';
+import {
+  ExaminerExamEvent,
+  ExaminerExamEventResponse,
+  ExaminerExamEventUpsert,
+} from 'interfaces/examinerExamEvent';
+import {
   Education,
   EducationType,
   PublicEducationResponse,
 } from 'interfaces/publicEducation';
 import {
   PublicEnrollment,
+  PublicEnrollmentAppointment,
+  PublicEnrollmentAppointmentResponse,
   PublicEnrollmentResponse,
   PublicReservation,
   PublicReservationResponse,
@@ -30,6 +51,14 @@ import {
   PublicExamEvent,
   PublicExamEventResponse,
 } from 'interfaces/publicExamEvent';
+import {
+  PublicExaminer,
+  PublicExaminerResponse,
+} from 'interfaces/publicExaminer';
+import {
+  PublicExaminerExamEvent,
+  PublicExaminerExamEventResponse,
+} from 'interfaces/publicExaminerExamEvent';
 
 export class SerializationUtils {
   static deserializePublicExamEvent(
@@ -40,6 +69,30 @@ export class SerializationUtils {
       date: dayjs(publicExamEvent.date),
       registrationCloses: dayjs(publicExamEvent.registrationCloses),
       registrationOpens: dayjs(publicExamEvent.registrationOpens),
+    };
+  }
+
+  static deserializePublicExaminerExamEvent(
+    publicExamEvent: PublicExaminerExamEventResponse,
+  ): PublicExaminerExamEvent {
+    return {
+      ...publicExamEvent,
+      date: dayjs(publicExamEvent.date),
+      registrationCloses: dayjs(publicExamEvent.registrationCloses),
+    };
+  }
+
+  static deserializePublicEnrollmentAppointment(
+    enrollment: PublicEnrollmentAppointmentResponse,
+  ): PublicEnrollmentAppointment {
+    return {
+      ...enrollment,
+      emailConfirmation: '',
+      privacyStatementConfirmation: false,
+      examEvent: {
+        ...enrollment.examEvent,
+        date: dayjs(enrollment.examEvent.date),
+      },
     };
   }
 
@@ -76,10 +129,71 @@ export class SerializationUtils {
     };
   }
 
+  static deserializeExaminerEnrollmentAuthLink(
+    authLink: ClerkAuthLinkResponse,
+  ): ClerkAuthLink {
+    return {
+      ...authLink,
+      expiresAt: authLink.expiresAt && dayjs(authLink.expiresAt),
+      sentAt: authLink.sentAt && dayjs(authLink.sentAt),
+    };
+  }
+
   static deserializeClerkPaymentLink(paymentLink: ClerkPaymentLinkResponse) {
     return {
       ...paymentLink,
       expiresAt: dayjs(paymentLink.expiresAt),
+    };
+  }
+
+  static serializeClerkEnrollmentAppointment(
+    enrollment: ClerkEnrollmentAppointment,
+  ) {
+    return {
+      ...enrollment,
+      enrollmentTime: DateUtils.serializeDate(enrollment.enrollmentTime),
+      examEvent: enrollment.examEvent && enrollment.examEvent.id,
+    };
+  }
+
+  static deserializeClerkEnrollmentAppointment(
+    enrollment: ClerkEnrollmentAppointmentResponse,
+  ) {
+    return {
+      ...enrollment,
+      enrollmentTime: dayjs(enrollment.enrollmentTime),
+      payments: enrollment.payments.map(
+        SerializationUtils.deserializeClerkPayment,
+      ),
+      authLink:
+        enrollment.authLink &&
+        SerializationUtils.deserializeExaminerEnrollmentAuthLink(
+          enrollment.authLink,
+        ),
+      examEvent:
+        enrollment.examEvent &&
+        SerializationUtils.deserializeExaminerExamEvent(enrollment.examEvent),
+    };
+  }
+
+  static deserializeClerkEnrollmentAppointmentHistory(
+    enrollment: ClerkEnrollmentAppointmentHistoryResponse,
+  ): ClerkEnrollmentAppointmentHistory {
+    return {
+      ...enrollment,
+      enrollmentTime: dayjs(enrollment.enrollmentTime),
+      examEvent:
+        enrollment.examEvent &&
+        SerializationUtils.deserializeExaminerExamEvent(enrollment.examEvent),
+    };
+  }
+
+  static deserializeClerkEnrollmentContactRequest(
+    enrollment: ClerkEnrollmentContactResponse,
+  ) {
+    return {
+      ...enrollment,
+      enrollmentTime: dayjs(enrollment.enrollmentTime),
     };
   }
 
@@ -175,5 +289,87 @@ export class SerializationUtils {
       name: toEducationType(e.educationType, e.isActive),
       ongoing: e.isActive,
     }));
+  }
+
+  static deserializePublicExaminer(
+    publicExaminer: PublicExaminerResponse,
+  ): PublicExaminer {
+    let examinerLanguage;
+    if (publicExaminer.languages.includes(ExamLanguage.SV)) {
+      examinerLanguage = ExamLanguage.SV;
+      if (publicExaminer.languages.includes(ExamLanguage.FI)) {
+        examinerLanguage = ExamLanguage.ALL;
+      }
+    } else {
+      examinerLanguage = ExamLanguage.FI;
+    }
+
+    return {
+      id: publicExaminer.id,
+      name: `${publicExaminer.firstName} ${publicExaminer.lastName}`,
+      language: examinerLanguage,
+      municipalities: publicExaminer.municipalities,
+      examDates: publicExaminer.examDates.map(({ examDate, isFull }) => ({
+        examDate: dayjs(examDate),
+        isFull,
+      })),
+    };
+  }
+
+  static deserializeExaminerExamEvent(
+    examinerExamEvent: ExaminerExamEventResponse,
+  ): ExaminerExamEvent {
+    const date = dayjs(examinerExamEvent.date);
+    const registrationCloses = !!examinerExamEvent.registrationCloses
+      ? dayjs(examinerExamEvent.registrationCloses)
+      : undefined;
+    const enrollments = examinerExamEvent.enrollments.map(
+      SerializationUtils.deserializeClerkEnrollmentAppointment,
+    );
+
+    return { ...examinerExamEvent, date, registrationCloses, enrollments };
+  }
+
+  static deserializeExaminerExamEvents(
+    examinerExamEvents: Array<ExaminerExamEventResponse>,
+  ): Array<ExaminerExamEvent> {
+    return examinerExamEvents.map(
+      SerializationUtils.deserializeExaminerExamEvent,
+    );
+  }
+
+  static serializeExaminerExamEventUpsert(
+    examinerExamEvent: ExaminerExamEventUpsert,
+  ) {
+    return {
+      ...examinerExamEvent,
+      date: DateUtils.serializeDate(examinerExamEvent.date),
+      registrationCloses: DateUtils.serializeDate(
+        examinerExamEvent.registrationCloses,
+      ),
+    };
+  }
+
+  static deserializeContactRequest(
+    contactRequest: ContactRequestResponse,
+  ): ContactRequest {
+    return {
+      ...contactRequest,
+      contactDate: dayjs(contactRequest.contactDate),
+    };
+  }
+
+  static deserializeExaminerDetails(
+    examinerDetails: ExaminerDetailsResponse,
+  ): ExaminerDetails {
+    return {
+      ...examinerDetails,
+      examEvents: examinerDetails.examEvents.map(
+        SerializationUtils.deserializeExaminerExamEvent,
+      ),
+      contactRequests: examinerDetails.contactRequests.map(
+        SerializationUtils.deserializeContactRequest,
+      ),
+    };
   }
 }

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Text } from '../Text/Text';
 import './NavigationLinks.scss';
 
-interface NavigationLinksProps {
+export interface NavigationLinksProps {
   navigationAriaLabel: string;
   links: Array<NavigationLink>;
 }

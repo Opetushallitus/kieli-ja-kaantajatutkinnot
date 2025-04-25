@@ -25,9 +25,12 @@ import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.type.EnrollmentStatus;
+import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.repository.ExaminerRepository;
 import fi.oph.vkt.repository.FreeEnrollmentRepository;
+import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.repository.UploadedFileAttachmentRepository;
 import fi.oph.vkt.service.aws.S3Service;
@@ -60,6 +63,9 @@ public class PublicEnrollmentServiceTest {
   private EnrollmentRepository enrollmentRepository;
 
   @Resource
+  private EnrollmentAppointmentRepository enrollmentAppointmentRepository;
+
+  @Resource
   private ExamEventRepository examEventRepository;
 
   @MockBean
@@ -67,6 +73,9 @@ public class PublicEnrollmentServiceTest {
 
   @Resource
   private ReservationRepository reservationRepository;
+
+  @Resource
+  private PersonRepository personRepository;
 
   @Resource
   private FreeEnrollmentRepository freeEnrollmentRepository;
@@ -85,9 +94,19 @@ public class PublicEnrollmentServiceTest {
   @Resource
   private UploadedFileAttachmentRepository uploadedFileAttachmentRepository;
 
+  @Resource
+  private ExaminerRepository examinerRepository;
+
+  @MockBean
+  private ContactEmailService contactEmailServiceMock;
+
   @BeforeEach
   public void setup() throws IOException, InterruptedException {
     doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentToQueueConfirmationEmail(any(), any());
+    doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentConfirmationEmail(any());
+    doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentAppointmentConfirmationEmail(any());
+    doNothing().when(contactEmailServiceMock).sendReceiptNotificationForContactRequest(any());
+    doNothing().when(contactEmailServiceMock).sendExaminerNotificationOfContactRequest(any());
 
     final Environment environment = mock(Environment.class);
     when(environment.getRequiredProperty("app.reservation.duration")).thenReturn(ONE_MINUTE.toString());
@@ -102,6 +121,7 @@ public class PublicEnrollmentServiceTest {
     publicEnrollmentService =
       new PublicEnrollmentService(
         enrollmentRepository,
+        enrollmentAppointmentRepository,
         examEventRepository,
         publicEnrollmentEmailServiceMock,
         publicReservationService,
@@ -110,7 +130,10 @@ public class PublicEnrollmentServiceTest {
         s3Service,
         featureFlagService,
         uploadedFileAttachmentRepository,
-        koskiService
+        koskiService,
+        examinerRepository,
+        contactEmailServiceMock,
+        personRepository
       );
   }
 

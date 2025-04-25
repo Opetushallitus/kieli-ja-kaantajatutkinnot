@@ -7,6 +7,7 @@ import {
 import { useEffect, useRef } from 'react';
 
 import { Color } from '../../enums';
+import { useWindowProperties } from '../../hooks';
 import { useDialog } from '../../hooks/useDialog/useDialog';
 import { CustomButton } from '../CustomButton/CustomButton';
 import { Text } from '../Text/Text';
@@ -16,6 +17,7 @@ import './DialogBox.scss';
 export const DialogBox = () => {
   const { activeDialog, removeDialog } = useDialog();
   const dialogRef = useRef<HTMLDivElement>(null);
+  const { isPhone } = useWindowProperties();
 
   useEffect(() => {
     if (activeDialog) {
@@ -49,14 +51,22 @@ export const DialogBox = () => {
     <>
       {activeDialog && (
         <Dialog
-          className={`dialog-box--${activeDialog.severity}`}
+          className={`dialog-box--${activeDialog.severity} gapped`}
           open={!!activeDialog}
           onClose={handleClose}
-          PaperProps={{ 'aria-modal': true }}
+          PaperProps={{
+            'aria-modal': true,
+            className: `${activeDialog.paperClassName} gapped`,
+            style: {
+              padding: '30px',
+            },
+          }}
           ref={dialogRef}
         >
-          <DialogTitle>{activeDialog.title}</DialogTitle>
-          <DialogContent>
+          <DialogTitle className="padding-unset">
+            {activeDialog.title}
+          </DialogTitle>
+          <DialogContent className="padding-unset">
             <>
               {activeDialog.content}
               {activeDialog.description ? (
@@ -64,7 +74,13 @@ export const DialogBox = () => {
               ) : null}
             </>
           </DialogContent>
-          <DialogActions>
+          <DialogActions
+            className={[
+              isPhone ? 'rows' : 'columns',
+              'gapped',
+              'padding-unset',
+            ].join(' ')}
+          >
             {activeDialog.actions?.map((a, i) => (
               <CustomButton
                 data-testid={a.dataTestId}
@@ -72,6 +88,7 @@ export const DialogBox = () => {
                 variant={a.variant}
                 color={a.buttonColor ?? Color.Secondary}
                 onClick={() => handleBtnAction(a.action)}
+                fullWidth={isPhone}
               >
                 {a.title}
               </CustomButton>

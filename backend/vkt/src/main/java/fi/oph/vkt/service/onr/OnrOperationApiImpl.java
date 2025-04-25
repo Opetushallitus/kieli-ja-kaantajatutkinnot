@@ -10,7 +10,6 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import net.minidev.json.JSONArray;
 import org.asynchttpclient.Request;
 import org.asynchttpclient.RequestBuilder;
@@ -99,6 +98,10 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       personalDataDTO.setIdentityNumber(personalData.getSsn());
     }
 
+    if (personalData.getBirthdate() != null && !personalData.getBirthdate().isEmpty()) {
+      personalDataDTO.setBirthdate(personalData.getBirthdate());
+    }
+
     return personalDataDTO;
   }
 
@@ -110,6 +113,7 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       .firstName(personalDataDTO.getFirstName())
       .nickname(personalDataDTO.getNickname())
       .ssn(personalDataDTO.getIdentityNumber())
+      .birthdate(personalDataDTO.getBirthdate())
       .build();
   }
 

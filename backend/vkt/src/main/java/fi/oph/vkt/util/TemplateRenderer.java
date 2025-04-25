@@ -1,6 +1,5 @@
 package fi.oph.vkt.util;
 
-import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -17,6 +16,22 @@ public class TemplateRenderer {
 
   public String renderEnrollmentConfirmationEmailBody(final Map<String, Object> params) {
     return renderTemplate("enrollment-confirmation", params, Optional.empty());
+  }
+
+  public String renderEnrollmentAppointmentAuthLink(final Map<String, Object> params) {
+    return renderTemplate("enrollment-appointment-auth-link", params, Optional.empty());
+  }
+
+  public String renderEnrollmentAppointmentConfirmationEmailBody(final Map<String, Object> params) {
+    return renderTemplate("enrollment-appointment-confirmation", params, Optional.empty());
+  }
+
+  public String renderContactRequestReceiptNotification(final Map<String, Object> params) {
+    return renderTemplate("contact-request-receipt-notification.html", params, Optional.empty());
+  }
+
+  public String renderContactRequestNoticeForExaminer(final Map<String, Object> params) {
+    return renderTemplate("examiner-contact-request.html", params, Optional.empty());
   }
 
   public String renderReceipt(final Locale locale, final Map<String, Object> params) {

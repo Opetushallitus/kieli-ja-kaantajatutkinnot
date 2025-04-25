@@ -83,6 +83,15 @@
   }
 }
 
+.grid-4-columns {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(5rem, calc(25% - 1rem)));
+
+  @include phone {
+    grid-template-columns: auto;
+  }
+}
+
 /* TABLE */
 .table-layout-auto {
   &#{&} {

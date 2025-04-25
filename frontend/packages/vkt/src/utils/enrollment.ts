@@ -14,15 +14,28 @@ import {
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 
 export class EnrollmentUtils {
-  static isValidTextualSkillAndPartialExams(skills: PartialExamsAndSkills) {
+  static isFullExam(skills: PartialExamsAndSkills) {
+    return (
+      skills.writingPartialExam &&
+      skills.readingComprehensionPartialExam &&
+      skills.speakingPartialExam &&
+      skills.speechComprehensionPartialExam
+    );
+  }
+
+  static isValidTextualSkillAndPartialExams(
+    skills: Partial<PartialExamsAndSkills>,
+  ) {
     return skills.textualSkill
-      ? skills.writingPartialExam || skills.readingComprehensionPartialExam
+      ? !!(skills.writingPartialExam || skills.readingComprehensionPartialExam)
       : true;
   }
 
-  static isValidOralSkillAndPartialExams(skills: PartialExamsAndSkills) {
+  static isValidOralSkillAndPartialExams(
+    skills: Partial<PartialExamsAndSkills>,
+  ) {
     return skills.oralSkill
-      ? skills.speakingPartialExam || skills.speechComprehensionPartialExam
+      ? !!(skills.speakingPartialExam || skills.speechComprehensionPartialExam)
       : true;
   }
 

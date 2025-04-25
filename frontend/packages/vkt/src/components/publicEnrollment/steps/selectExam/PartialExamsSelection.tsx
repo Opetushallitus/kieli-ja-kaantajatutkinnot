@@ -162,7 +162,7 @@ export const PartialExamsSelection = ({
     <div className="rows">
       <FormControl component="fieldset">
         <FormLabel component="legend" className="heading-label">
-          {t('doFullExam')}
+          {t('fullExam.question')}
         </FormLabel>
         <RadioGroup
           className="rows gapped-xxs"
@@ -185,7 +185,7 @@ export const PartialExamsSelection = ({
             disabled={editingDisabled}
             value={YesNo.No}
             control={<Radio aria-describedby="full-exam-error" />}
-            label={t('noFullExam')}
+            label={t('fullExam.no')}
             checked={
               !allPartialExamsChecked &&
               (dirtyFullExam || somePartialExamsChecked)

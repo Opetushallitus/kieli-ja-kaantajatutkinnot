@@ -14,7 +14,7 @@
   "scripts": {
     "g:cypress": "cd $INIT_CWD && cypress",
     "g:eslint": "cd $INIT_CWD && eslint",
-    "g:exportlint": "cd $INIT_CWD && ts-unused-exports tsconfig.json",
+    "g:exportlint": "cd $INIT_CWD && ts-unused-exports tsconfig.json --ignoreTestFiles",
     "g:jest": "cd $INIT_CWD && jest",
     "g:prettier": "cd $INIT_CWD && prettier",
     "g:stylelint": "cd $INIT_CWD && stylelint",
@@ -37,6 +37,7 @@
     "axios": "^1.8.3",
     "dayjs": "^1.11.13",
     "finnish-personal-identity-code-validator": "kimmotaskinen/finnish-personal-identity-code-validator#support-new-delimiters",
+    "focus-trap-react": "^11.0.1",
     "history": "^5.3.0",
     "i18next": "^23.16.8",
     "i18next-browser-languagedetector": "^7.2.1",
@@ -92,7 +93,7 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "mini-css-extract-plugin": "^2.7.6",
-    "msw": "^2.0.4",
+    "msw": "^2.7.0",
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",
     "react-test-renderer": "^18.2.0",
@@ -109,8 +110,5 @@
     "webpack": "^5.94.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
-  },
-  "@comments": {
-    "react-router-dom": "Do not update past 6.13.0 until useBlocker is fixed, see https://github.com/remix-run/react-router/issues/11155"
   }
 }

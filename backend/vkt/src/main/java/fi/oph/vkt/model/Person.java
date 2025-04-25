@@ -32,6 +32,15 @@ public class Person extends BaseEntity {
   @Column(name = "first_name", nullable = false)
   private String firstName;
 
+  @Column(name = "tmp_last_name")
+  private String tmpLastName;
+
+  @Column(name = "tmp_first_name")
+  private String tmpFirstName;
+
+  @Column(name = "tmp_nickname")
+  private String tmpNickname;
+
   @Size(max = 255)
   @Column(name = "oid", unique = true)
   private String oid;
@@ -42,6 +51,9 @@ public class Person extends BaseEntity {
 
   @Column(name = "latest_identified_at", nullable = false)
   private LocalDateTime latestIdentifiedAt;
+
+  @Column(name = "latest_sync_at", nullable = false)
+  private LocalDateTime latestSyncAt;
 
   @OneToMany(mappedBy = "person")
   private List<Enrollment> enrollments = new ArrayList<>();

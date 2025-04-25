@@ -1,0 +1,5 @@
+.public-examiner-listing {
+  @include not-phone {
+    padding: 3rem;
+  }
+}

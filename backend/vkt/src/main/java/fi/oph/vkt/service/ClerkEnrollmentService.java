@@ -90,7 +90,9 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final ClerkEnrollmentAuditDTO newAuditDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
     auditService.logUpdate(VktOperation.UPDATE_ENROLLMENT, enrollment.getId(), oldAuditDto, newAuditDto);
 
-    FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(enrollment.getPerson());
+    final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(
+      enrollment.getPerson()
+    );
     return ClerkEnrollmentUtil.createClerkEnrollmentDTO(
       enrollmentRepository.getReferenceById(enrollment.getId()),
       freeEnrollmentDetails
@@ -109,7 +111,9 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final ClerkEnrollmentAuditDTO newAuditDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
     auditService.logUpdate(VktOperation.UPDATE_ENROLLMENT_STATUS, enrollment.getId(), oldAuditDto, newAuditDto);
 
-    FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(enrollment.getPerson());
+    final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(
+      enrollment.getPerson()
+    );
     return ClerkEnrollmentUtil.createClerkEnrollmentDTO(
       enrollmentRepository.getReferenceById(enrollment.getId()),
       freeEnrollmentDetails
@@ -136,7 +140,9 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final ClerkEnrollmentAuditDTO newAuditDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
     auditService.logUpdate(VktOperation.MOVE_ENROLLMENT, enrollment.getId(), oldAuditDto, newAuditDto);
 
-    FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(enrollment.getPerson());
+    final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(
+      enrollment.getPerson()
+    );
     return ClerkEnrollmentUtil.createClerkEnrollmentDTO(
       enrollmentRepository.getReferenceById(enrollment.getId()),
       freeEnrollmentDetails

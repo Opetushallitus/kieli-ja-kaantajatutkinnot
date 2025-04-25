@@ -1,12 +1,13 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Container, Grid, Typography } from '@mui/material';
-import { TFunction } from 'i18next';
+import { Container, Grid } from '@mui/material';
 import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import { H1, H2, HeaderSeparator, Text, WebLink } from 'shared/components';
-import { APIResponseStatus, I18nNamespace } from 'shared/enums';
+import { APIResponseStatus } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
+import { BoldedTranslationString } from 'components/common/BoldedTranslationString';
+import { BulletList } from 'components/common/BulletList';
 import { PublicExamEventListing } from 'components/publicExamEvent/listing/PublicExamEventListing';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -17,38 +18,6 @@ import {
   refreshPublicExamEvents,
 } from 'redux/reducers/publicExamEvent';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
-
-const BoldedTranslationString = ({
-  i18nKey,
-  t,
-}: {
-  i18nKey: string;
-  t: TFunction<I18nNamespace, string>;
-}) => {
-  return <Trans i18nKey={i18nKey} t={t} components={[<b key={i18nKey} />]} />;
-};
-
-const BulletList = ({
-  keyPrefix,
-  points,
-}: {
-  keyPrefix: string;
-  points: Array<string>;
-}) => {
-  const { t } = usePublicTranslation({
-    keyPrefix,
-  });
-
-  return (
-    <Typography className="margin-top-sm" variant="body1" component="ul">
-      {points.map((point, i) => (
-        <li key={i}>
-          <BoldedTranslationString i18nKey={point} t={t} />
-        </li>
-      ))}
-    </Typography>
-  );
-};
 
 const DescriptionBox = () => {
   const { t } = usePublicTranslation({
@@ -63,8 +32,12 @@ const DescriptionBox = () => {
         <div className="rows">
           <Text>{t('skills')}</Text>
           <BulletList
-            keyPrefix="vkt.component.publicExamEventGrid.description.bulletPoints"
-            points={['point1', 'point2', 'point3']}
+            t={t}
+            points={[
+              'bulletPoints.point1',
+              'bulletPoints.point2',
+              'bulletPoints.point3',
+            ]}
           />
         </div>
 
@@ -109,8 +82,11 @@ const FreeExaminationBox = () => {
             />{' '}
           </Text>
           <BulletList
-            keyPrefix="vkt.component.publicExamEventGrid.freeExamination.ineligibility"
-            points={['fullExaminationPayment', 'partialExaminationPayment']}
+            t={t}
+            points={[
+              'ineligibility.fullExaminationPayment',
+              'ineligibility.partialExaminationPayment',
+            ]}
           />
         </div>
       </div>

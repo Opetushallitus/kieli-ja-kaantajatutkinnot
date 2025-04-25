@@ -1,9 +1,17 @@
-import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import {
+  PublicEnrollmentAppointmentFormStep,
+  PublicEnrollmentContactFormStep,
+  PublicEnrollmentFormStep,
+} from 'enums/publicEnrollment';
 import { PublicFreeEnrollmentDetails } from 'interfaces/publicEducation';
-import { PublicEnrollment } from 'interfaces/publicEnrollment';
+import {
+  PublicEnrollment,
+  PublicEnrollmentAppointment,
+} from 'interfaces/publicEnrollment';
 import { EnrollmentUtils } from 'utils/enrollment';
 
 export const ENROLLMENT_SKILL_PRICE = 257;
+export const ENROLLMENT_APPOINTMENT_SKILL_PRICE = 129;
 
 export class PublicEnrollmentUtils {
   static getEnrollmentSteps(includePaymentStep: boolean) {
@@ -24,6 +32,32 @@ export class PublicEnrollmentUtils {
       : [...commonSteps, PublicEnrollmentFormStep.Done];
   }
 
+  static getEnrollmentAppointmentSteps(isPhone: boolean) {
+    // Enum value PaymentFail left out intentionally
+    const commonSteps = [
+      PublicEnrollmentAppointmentFormStep.Authenticate,
+      PublicEnrollmentAppointmentFormStep.FillContactDetails,
+      PublicEnrollmentAppointmentFormStep.Preview,
+    ];
+
+    if (isPhone) {
+      return [
+        ...commonSteps,
+        PublicEnrollmentAppointmentFormStep.PaymentSuccess,
+      ];
+    } else {
+      return commonSteps;
+    }
+  }
+
+  static getEnrollmentContactSteps() {
+    return [
+      PublicEnrollmentContactFormStep.FillContactDetails,
+      PublicEnrollmentContactFormStep.SelectExam,
+      PublicEnrollmentContactFormStep.Done,
+    ];
+  }
+
   static getEnrollmentNextStep(
     activeStep: PublicEnrollmentFormStep,
     includePaymentStep: boolean,
@@ -32,6 +66,16 @@ export class PublicEnrollmentUtils {
     const currentIndex = steps.findIndex((step) => step === activeStep);
 
     return steps[currentIndex + 1];
+  }
+
+  static calculateAppointmentPaymentSum(
+    enrollmentAppointment: PublicEnrollmentAppointment,
+  ) {
+    if (enrollmentAppointment.textualSkill && enrollmentAppointment.oralSkill) {
+      return 2 * ENROLLMENT_APPOINTMENT_SKILL_PRICE;
+    } else {
+      return ENROLLMENT_APPOINTMENT_SKILL_PRICE;
+    }
   }
 
   static calculateExaminationPaymentSum(

@@ -3,7 +3,7 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { FeatureFlags } from 'interfaces/featureFlags';
 
-interface FeatureFlagsState extends Partial<FeatureFlags> {
+export interface FeatureFlagsState extends Partial<FeatureFlags> {
   status: APIResponseStatus;
 }
 

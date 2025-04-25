@@ -1,0 +1,265 @@
+{
+  "vkt": {
+    "component": {
+      "enrollmentAppointment": {
+        "gradeModal": {
+          "grade": "Vitsord",
+          "gradeComments": "Anmärkningar",
+          "partialExam": "Delprov",
+          "title": "Ange vitsord"
+        },
+        "historyModal": {
+          "title": "Uppgifter om tidigare examina",
+          "examinerName": "Examinator",
+          "noHistory": "Inga tidigare examina"
+        }
+      },
+      "examinerContactRequest": {
+        "actions": "Insats",
+        "contactRequest": "Kontaktbegäran",
+        "contactFields": "Kontaktuppgifter",
+        "contactDate": "Datum för kontakt",
+        "lastName": "Efternamn",
+        "firstName": "Förnamn",
+        "requesterName": "Avsändarens namn",
+        "email": "E-postadress",
+        "examination": "Examen",
+        "phoneNumber": "Telefonnummer",
+        "partialExams": "Examina som personen vill avlägga",
+        "previousExams": "Har personen deltagit i examen tidigare:",
+        "createEnrollment": "Skapa anmälan",
+        "contactDetails": "Kontaktens uppgifter",
+        "message": "Meddelande",
+        "wantFullExam": "Vill personen avlägga hela examen:",
+        "deleteAreYouSure": "Är du säker på att du vill ta bort kontakten?",
+        "deleteDescription": "Funktionen kan inte ångras!",
+        "deleteContactRequest": "Ta bort kontakt",
+        "deleteContactRequestSuccess": "Kontakten har tagits bort",
+        "selectExamHelp": "Obs! Du kan endast välja ett examenstillfälle för vilket en exakt adress och starttidpunkt har angetts",
+        "chooseExamAndCreate": "Välj examenstillfälle och skapa anmälan",
+        "chooseExam": "Välj examenstillfälle",
+        "viewDetails": "Se uppgifter"
+      },
+      "examinerDetails": {
+        "buttons": {
+          "saveAndClose": "Spara och stäng"
+        },
+        "examinationDetails": {
+          "heading": "Uppgifter om examina",
+          "information": "Spara här information om vilket eller vilka språk du fungerar som examinator för och på vilka orter. Dessa uppgifter är synliga för kunderna i den offentliga förteckningen."
+        },
+        "incorrectDetailsDialog": {
+          "description": "Korrigera saknade eller felaktiga uppgifter:",
+          "title": "Det finns något att korrigera i uppgifterna!"
+        },
+        "heading": "Mina uppgifter",
+        "labels": {
+          "email": "E-postadress",
+          "examLanguages": "Språket i examen",
+          "firstName": "Förnamn:",
+          "lastName": "Efternamn:",
+          "isPublic": "Publicera dina egna uppgifter",
+          "municipalities": "Examensställe/Examensställen",
+          "phoneNumber": "Telefonnummer"
+        },
+        "personalDetails": {
+          "heading": "Personuppgifter",
+          "information": "Av personuppgifterna syns endast namnen offentligt på anmälningssidan."
+        },
+        "successToast": {
+          "description": "Uppgifterna har uppdaterats!"
+        }
+      },
+      "examinerExamEventDetails": {
+        "appointment": {
+          "paymentInfoHeader": "Betalningsuppgifter",
+          "showHistory": "Se uppgifter om tidigare examina",
+          "giveGrades": "Ange vitsord",
+          "authLink": "Länk för identifiering och betalning",
+          "linkSentAt": "Skickad",
+          "linkExpiresAt": "Förfaller",
+          "sendAuthLink": "Skicka länk",
+          "sendAuthLinkAgain": "Skicka länken på nytt",
+          "noAuthPossible": "Ingen möjlighet att identifiera sig",
+          "paymentLinkModal": {
+            "title": "Ingen möjlighet att identifiera sig",
+            "description": "Om kunden inte har möjlighet att använda suomi.fi-identifikation, lägg till kundens födelsedatum (använd formatet dd.mm.åååå) eller personnummer, för att skapa en betalningslänk för kunden. Skicka betalningslänken till kunden från din egen e-post.  Via länken kan kunden betala examensavgiften utan suomi.fi-identifikation."
+          }
+        },
+        "authLinkErrorDialog": {
+          "description": "Kontrollera att den som anmält sig har anslutits till examenstillfället och att de examina och delprov som ska avläggas har valts.",
+          "header": "Fyll i nödvändiga uppgifter",
+          "headerViewMode": "Spara ändringarna",
+          "descriptionViewMode": "Spara ändringarna innan du skickar länken."
+        },
+        "authLinkSuccessDialog": {
+          "description": "En länk för identifiering och betalning har skickats till kunden per e-post. Länken är giltig i tre (3) dygn. Vid behov kan du skicka länken på nytt.",
+          "header": "Länken har skickats"
+        },
+        "authLinkConfirmDialog": {
+          "title": "Förhandsgranska meddelandet",
+          "send": "Sänd",
+          "description": {
+            "part1": "Du håller på att anmäla dig till följande språkexamen för statsförvaltningen som gäller goda och nöjaktiga kunskaper:",
+            "part2": "Bekräfta din anmälan genom att identifiera dig starkt och betala examensavgiften:",
+            "bullet1": "Identifiera dig i Suomi.fi-tjänsten,",
+            "bullet2": "Du styrs automatiskt till anmälningsblanketten.",
+            "bullet3": "Kontrollera uppgifterna om din anmälan på blanketten.",
+            "bullet4": "Gå till att betala examensavgiften.",
+            "part3": "Obs! Länkens sista giltighetsdag är {{expiresAt}}. Du kan inte delta i examen om du inte har betalat examensavgiften via länken.",
+            "part4": "Identifiera dig och betala examensavgiften via länken nedan:",
+            "part5": "Identifiera dig och betala anmälan",
+            "part6": "Svara inte på detta meddelande – meddelandet har skickats automatiskt.",
+            "part7": "Med vänlig hälsning",
+            "part8": "Utbildningsstyrelsen"
+          }
+        },
+        "downloadExcel": "Ladda ner Excel",
+        "enrollmentStatus": {
+          "COMPLETED": "Anmälda",
+          "CANCELED": "Annullerade",
+          "EXPECTING_PAYMENT": "Väntar på betalning",
+          "WAITING_AUTHENTICATION": "Väntar på identifiering",
+          "CANCELED_PAYMENT": "Betalning annullerad",
+          "ENROLLMENT_CREATED": "Länken har inte skickats",
+          "CONTACT_CREATED": "Kontakt skapad"
+        },
+        "header": {
+          "examDate": "Examensdag",
+          "examEvent": "Examenstillfälle",
+          "examTime": "Tidpunkt för inledande av examen",
+          "fillings": "Platserna har fyllts",
+          "hidden": "Dold",
+          "isPublic": "Visa examensdagen offentligt",
+          "languageAndLevel": "Språk och nivå",
+          "location": "Examensställets exakta adress",
+          "maxParticipants": "Antal platser",
+          "otherInformation": "Övriga tilläggsuppgifter, till exempel ankomstanvisningar",
+          "municipality": "Examensställe",
+          "previousEnrollment": "Tidigare deltagande i språkexamen för statsförvaltningen",
+          "registrationCloses": "Anmälan upphör"
+        },
+        "heading": "Uppgifter om examen",
+        "examinerHelpText": "Fyll i uppgifterna om anmälan. Kontrollera att uppgifterna är korrekta innan du skickar länken till kunden för identifiering och betalning.",
+        "examinerPaymentHelpText": "Skicka en länk till kunden för identifiering och betalning. Via länken identifierar sig kunden i suomi.fi-tjänsten, fyller i de adressuppgifter som saknas och betalar examensavgiften. Länken är giltig i tre dygn. Vid behov kan du skicka länken på nytt.",
+        "payment": {
+          "details": {
+            "amount": "Belopp",
+            "date": "Tidsstämpel",
+            "reference": "Betalningskod",
+            "status": "Status"
+          },
+          "modal": {
+            "link": "Länk",
+            "title": "Betalningslänk"
+          },
+          "recentTitle": "Betalningens status"
+        },
+        "paymentStatus": {
+          "DELAYED": "Försenad",
+          "FAIL": "Annullerad",
+          "NEW": "Påbörjad",
+          "OK": "Betald",
+          "PENDING": "Väntar"
+        },
+        "status": "Anmälans status"
+      },
+      "examinerExamEventUpsert": {
+        "description": {
+          "create": {
+            "part1": "Du kan skapa ett examenstillfälle som visas för kunderna på VKT-anmälningssidan eller ett privat examenstillfälle. Du kan ändra tillfället till offentligt eller privat senare."
+          }
+        },
+        "incorrectDetailsDialog": {
+          "description": "Korrigera saknade eller felaktiga uppgifter:",
+          "title": "Det finns något att korrigera i uppgifterna!"
+        },
+        "heading": {
+          "create": "Lägg till examenstillfälle",
+          "update": "Redigera examenstillfälle"
+        },
+        "labels": {
+          "addressDetails": "Examensställets exakta adress",
+          "date": "Examensdag",
+          "examTime": "Tidpunkt för inledande av examen",
+          "language": "Språket i examen",
+          "level": "Nivån på examen",
+          "location": "Examensställets exakta adress",
+          "isPublic": "Visa examenstillfället offentligt",
+          "maxParticipants": "Antal platser",
+          "municipality": "Examensställe",
+          "otherInformation": "Övriga tilläggsuppgifter, till exempel ankomstanvisningar",
+          "registrationCloses": "Anmälan upphör"
+        },
+        "sections": {
+          "furtherInformation": "Närmare uppgifter om examenstillfället",
+          "furtherInformationDescription": "Fyll i närmare uppgifter om examenstillfället. De närmare uppgifterna syns i e-postmeddelandet som skickas till dem som anmält sig till examen. De närmare uppgifterna syns inte offentligt på anmälningssidan.",
+          "other": "Övriga uppgifter",
+          "otherDescription": "Du kan fastställa det maximala deltagarantalet för examenstillfället och tidpunkten då anmälan upphör. Om det maximala deltagarantalet har uppnåtts, uppdateras anmälningssidan med uppgiften ”Full”. Om anmälningstiden har gått ut, uppdateras anmälningssidan med uppgiften \"Anmälan har upphört\". Inställningarna hindrar dig inte från att lägga till extra deltagare i examen efter anmälningstiden, men med inställningarna styr man kunder som skickar kontaktbegäran via anmälningssidan.",
+          "publicInformation": "Uppgifter om examen"
+        },
+        "toasts": {
+          "addingSucceeded": "Examenstillfället har lagts till",
+          "updatingSucceeded": "Examenstillfället har redigerats"
+        }
+      },
+      "examinerExamEventListing": {
+        "actions": {
+          "createExamEvent": "Lägg till examenstillfälle"
+        },
+        "heading": "Examenstillfällen",
+        "labels": {
+          "noExamEvents": "Inga examenstillfällen"
+        },
+        "table": {
+          "actions": {
+            "more": "Ytterligare information"
+          },
+          "header": {
+            "examDate": "Examensdag",
+            "isPublic": "Till påseende offentligt",
+            "language": "Språk",
+            "location": "Examensställe",
+            "participants": "Deltagare"
+          }
+        },
+        "toggleFilters": {
+          "passed": "Tidigare",
+          "upcoming": "Kommande"
+        }
+      },
+      "examinerFilter": {
+        "label": "Visa examinatorer för följande språk",
+        "options": {
+          "ALL": "Båda språken",
+          "FI": "Finska",
+          "SV": "Svenska"
+        }
+      },
+      "examinerHomepage": {
+        "heading": "Språkexamina som gäller goda och nöjaktiga kunskaper"
+      },
+      "examinerOverview": {
+        "contactRequests": {
+          "heading": "Kontaktbegäranden",
+          "labels": {
+            "noContactRequests": "Inga kontaktbegäranden"
+          }
+        },
+        "publicInformation": {
+          "heading": "Uppgifter som syns på anmälningssidan",
+          "labels": {
+            "examiner": "Examinator",
+            "examDates": "Examensdagar",
+            "examLocations": "Examensställen",
+            "full": "Full",
+            "languages": "Språk",
+            "modify": "Redigera uppgifter",
+            "undefined": "Inte fastställd"
+          }
+        }
+      }
+    }
+  },
+  "bullet5": "När du har betalat examensavgiften bekräftas anmälan och du får ett kvitto över betalningen per e-post."
+}

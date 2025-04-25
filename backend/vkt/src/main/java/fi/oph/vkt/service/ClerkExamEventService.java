@@ -12,7 +12,7 @@ import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.audit.dto.ClerkExamEventAuditDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
-import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.ClerkExamEventProjection;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
@@ -29,7 +29,6 @@ import fi.oph.vkt.view.ExamEventXlsxView;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -48,9 +47,11 @@ public class ClerkExamEventService {
   private final OnrService onrService;
 
   @Transactional(readOnly = true)
-  public List<ClerkExamEventListDTO> list() {
-    final List<ClerkExamEventProjection> examEventProjections = examEventRepository.listClerkExamEventProjections();
-    final Set<Long> examEventIdsHavingQueue = examEventRepository.listClertExamEventIdsWithQueue();
+  public List<ClerkExamEventListDTO> list(final ExamLevel level) {
+    final List<ClerkExamEventProjection> examEventProjections = examEventRepository.listClerkExamEventProjections(
+      level
+    );
+    final Set<Long> examEventIdsHavingQueue = examEventRepository.listClerkExamEventIdsWithQueue(level);
 
     final List<ClerkExamEventListDTO> examEventListDTOs = examEventProjections
       .stream()
@@ -130,7 +131,7 @@ public class ClerkExamEventService {
     try {
       examEventRepository.saveAndFlush(examEvent);
     } catch (final DataIntegrityViolationException ex) {
-      if (DataIntegrityViolationExceptionUtil.isExamEventLanguageLevelDateUniquenessException(ex)) {
+      if (DataIntegrityViolationExceptionUtil.isExamEventLanguageLevelDateExaminerUniquenessException(ex)) {
         throw new APIException(APIExceptionType.EXAM_EVENT_DUPLICATE);
       }
       throw ex;
@@ -153,7 +154,7 @@ public class ClerkExamEventService {
     try {
       examEventRepository.flush();
     } catch (final DataIntegrityViolationException ex) {
-      if (DataIntegrityViolationExceptionUtil.isExamEventLanguageLevelDateUniquenessException(ex)) {
+      if (DataIntegrityViolationExceptionUtil.isExamEventLanguageLevelDateExaminerUniquenessException(ex)) {
         throw new APIException(APIExceptionType.EXAM_EVENT_DUPLICATE);
       }
       throw ex;
@@ -184,23 +185,13 @@ public class ClerkExamEventService {
       .sorted(excelEnrollmentComparator())
       .toList();
 
-    final List<String> onrIds = getOnrIds(enrollments);
+    final List<String> onrIds = ExamEventUtil.getOnrIds(enrollments);
     final Map<String, PersonalData> personalDatas = onrService.getOnrPersonalData(onrIds);
     final ExamEventXlsxData excelData = ExamEventXlsxDataRowUtil.createExcelData(examEvent, enrollments, personalDatas);
     final AbstractXlsxView excel = new ExamEventXlsxView(excelData);
 
     auditService.logById(VktOperation.GET_EXAM_EVENT_EXCEL, examEventId);
     return excel;
-  }
-
-  private List<String> getOnrIds(final List<Enrollment> enrollments) {
-    return enrollments
-      .stream()
-      .map(Enrollment::getPerson)
-      .filter(Objects::nonNull)
-      .map(Person::getOid)
-      .filter(Objects::nonNull)
-      .toList();
   }
 
   private static Comparator<Enrollment> excelEnrollmentComparator() {

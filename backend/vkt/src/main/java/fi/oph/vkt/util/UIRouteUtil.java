@@ -12,11 +12,11 @@ public class UIRouteUtil {
   private final Environment environment;
 
   public String getEnrollmentContactDetailsUrl(final long examEventId) {
-    return String.format("%s/ilmoittaudu/%s/tiedot", getPublicBaseUrl(), examEventId);
+    return String.format("%s/erinomainen-taito/ilmoittaudu/%s/tiedot", getPublicBaseUrl(), examEventId);
   }
 
   public String getEnrollmentPreviewUrl(final long examEventId) {
-    return String.format("%s/ilmoittaudu/%s/esikatsele", getPublicBaseUrl(), examEventId);
+    return String.format("%s/erinomainen-taito/ilmoittaudu/%s/esikatsele", getPublicBaseUrl(), examEventId);
   }
 
   public String getPublicFrontPageUrlWithGenericError() {
@@ -29,5 +29,21 @@ public class UIRouteUtil {
 
   private String getPublicBaseUrl() {
     return environment.getRequiredProperty("app.base-url.public");
+  }
+
+  public String getEnrollmentAppointmentUrl(final long enrollmentAppointmentId) {
+    return String.format(
+      "%s/hyva-ja-tyydyttava-taito/ilmoittaudu/%s/tunnistaudu",
+      getPublicBaseUrl(),
+      enrollmentAppointmentId
+    );
+  }
+
+  public String getEnrollmentAppointmentContactDetailsUrl(final long enrollmentAppointmentId) {
+    return String.format(
+      "%s/hyva-ja-tyydyttava-taito/ilmoittaudu/%s/tiedot",
+      getPublicBaseUrl(),
+      enrollmentAppointmentId
+    );
   }
 }

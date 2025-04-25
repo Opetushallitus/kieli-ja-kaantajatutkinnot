@@ -74,6 +74,7 @@ cas:
 app:
   base-url:
     public: ${public-base-url:http://localhost:4002}/vkt
+    clerk: ${clerk-base-url:http://localhost:4002/vkt}
     api: ${public-base-url:http://localhost:${server.port}}/vkt/api/v1
   cas-oppija:
     login-url: ${cas-oppija.login-url:https://testiopintopolku.fi/cas-oppija/login}
@@ -88,8 +89,8 @@ app:
     service-url: ${email.service-url:null}
   koski:
     url: ${koski.url:null}
-    user: ${koski.user:null}
-    password: ${koski.password:null}
+    user: ${cas.username:null}
+    password: ${cas.password:null}
   payment:
     paytrail:
       url: https://services.paytrail.com
@@ -97,6 +98,7 @@ app:
       account: ${payment.paytrail.account:null}
   featureFlags:
     freeEnrollmentAllowed: ${feature-flags.free-enrollment-allowed:false}
+    goodAndSatisfactoryLevel: ${feature-flags.good-and-satisfactory-level:false}
   aws:
     s3-bucket: ${aws.s3-bucket:test}
   onr:

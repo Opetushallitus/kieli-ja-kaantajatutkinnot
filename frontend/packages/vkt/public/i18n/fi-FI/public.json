@@ -34,7 +34,8 @@
           },
           "enrollToQueue": "Ilmoittaudu jonoon",
           "pay": "Siirry maksamaan",
-          "enroll": "Ilmoittaudu"
+          "enroll": "Ilmoittaudu",
+          "submit": "Lähetä"
         },
         "examEventDetails": {
           "enrollmentToQueue": "ilmoittautuminen jonoon",
@@ -65,6 +66,7 @@
             "EducationDetails": "Koulutustiedot",
             "FillContactDetails": "Täytä yhteystietosi",
             "Payment": "Maksua ei suoritettu",
+            "PaymentFail": "Maksu epäonnistui",
             "PaymentSuccess": "Valmis - ilmoittautuminen onnistui",
             "Preview": "Esikatsele",
             "SelectExam": "Valitse tutkinto"
@@ -89,6 +91,7 @@
             "EducationDetails": "Koulutustiedot",
             "FillContactDetails": "Täytä yhteystietosi",
             "Payment": "Maksu",
+            "PaymentFail": "Maksu",
             "PaymentSuccess": "Valmis",
             "Preview": "Esikatsele",
             "SelectExam": "Valitse tutkinto"
@@ -124,6 +127,12 @@
             "phoneNumber": {
               "label": "Puhelinnumero *"
             },
+            "firstName": {
+              "label": "Etunimi *"
+            },
+            "lastName": {
+              "label": "Sukunimi *"
+            },
             "title": "Yhteystietosi",
             "educationDetails": {
               "errorWaitEducations": "Odota koulutustietojen latautumista.",
@@ -142,18 +151,21 @@
             "partialExamsTitle": "Valitse osakokeet",
             "oralSkill": "Suullinen taito *",
             "textualSkill": "Kirjallinen taito *",
-            "doFullExam": "Haluatko suorittaa sekä suullisen että kirjallisen taidon tutkinnon? *",
-            "skillsTitle": "Valitse tutkinto *",
-            "noFullExam": "En, haluan suorittaa vain jommankumman tutkinnon tai yksittäisen osakokeen"
+            "fullExam": {
+              "no": "En, haluan suorittaa vain jommankumman tutkinnon tai yksittäisen osakokeen",
+              "yes": "Kyllä (sis. suullinen taito, kirjallinen taito ja ymmärtämisen taito)",
+              "question": "Haluatko suorittaa sekä suullisen että kirjallisen taidon tutkinnon? *"
+            },
+            "skillsTitle": "Valitse tutkinto *"
           },
           "selectExam": {
             "part1": "Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana.",
-            "part2": "Kun olet suorittanut hyväksytysti suullisen ja kirjallisen taidon tutkinnot, saat todistukseen merkinnän myös ymmärtämisen taidon tutkinnon suorittamisesta.",
+            "part2": "Kun suoritat molemmat tutkintoon kuuluvat osakokeet hyväksytysti, saat todistuksen tietyn taidon tutkintosuorituksesta. Jos suoritat suullisen ja kirjallisen taidon tutkinnot, sinun ei tarvitse suorittaa erikseen ymmärtämisen taidon tutkintoa.",
             "title": "Tutkinnon valinta"
           },
           "paymentFail": {
-            "cancel": "Peruuta ilmoittautuminen",
-            "description": "Maksu epäonnistui tai se peruttiin. Voit yrittää maksamista uudelleen tai peruuttaa ilmoittautumisen. Klikkaa yritä uudelleen siirtyäksesi maksupalveluun.",
+            "cancel": "Peru ilmoittautuminen",
+            "description": "Maksu epäonnistui tai se peruttiin. Yritä maksua heti uudelleen tai peru ilmoittautuminen. Klikkaa yritä uudelleen siirtyäksesi maksupalveluun.",
             "toast": "Maksua ei suoritettu.",
             "tryAgain": "Yritä uudelleen"
           },
@@ -247,15 +259,263 @@
           }
         }
       },
+      "publicEnrollmentAppointment": {
+        "controlButtons": {
+          "errors": {
+            "fields": {
+              "country": "Maa",
+              "postalCode": "Postinumero",
+              "privacyStatementConfirmation": "Hyväksy henkilötietojen käsittelyn ehdot",
+              "street": "Katuosoite",
+              "town": "Postitoimipaikka"
+            },
+            "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
+            "title": "Tiedoissa on korjattavaa!"
+          },
+          "pay": "Siirry maksamaan",
+          "cancelDialog": {
+            "description": "Haluatko perua ilmoittautumisen? Menetät täyttämäsi tiedot.",
+            "title": "Peru ilmoittautuminen"
+          }
+        },
+        "examEventDetails": {
+          "examDate": "Tutkintopäivä",
+          "examEvent": "Tutkinto",
+          "examLanguage": "Tutkinnon kieli",
+          "examLevel": "Tutkinnon taso",
+          "examLocation": "Tarkemmat osoitetiedot",
+          "examTime": "Tutkinnon alkamisaika",
+          "municipality": "Tutkintopaikka",
+          "examiner": "Tutkintosuorituksen vastaanottaja"
+        },
+        "stepHeading": {
+          "Authenticate": "Tunnistaudu ilmoittautumista varten",
+          "FillContactDetails": "Täytä yhteystietosi",
+          "PaymentFail": "Maksu epäonnistui",
+          "PaymentSuccess": "Maksu suoritettu",
+          "Preview": "Esikatsele ja maksa"
+        },
+        "stepper": {
+          "active": "Aktiivinen",
+          "completed": "Suoritettu",
+          "label": "Ilmoittautumisen vaiheet",
+          "phase": "Vaihe",
+          "phaseNumber": "{{current}} kautta {{total}}",
+          "phases": "Ilmoittautumisen vaiheet",
+          "step": {
+            "Authenticate": "Tunnistaudu ilmoittautumista varten",
+            "FillContactDetails": "Täytä yhteystietosi",
+            "PaymentFail": "Maksu epäonnistui",
+            "PaymentSuccess": "Valmis!",
+            "Preview": "Esikatsele ja maksa"
+          }
+        },
+        "steps": {
+          "paymentSuccess": {
+            "backToHomePage": "Lopeta ja palaa etusivulle",
+            "description1": "Olet maksanut tutkintomaksun {{examFee}} €. Ilmoittautumisesi seuraavaan tutkintoon on vahvistettu:",
+            "description2": "Saat sähköpostitse vahvistuksen ja kuitin maksusta osoitteeseen {{email}}.",
+            "description3": "Olet maksanut tutkintomaksun. Ilmoittautumisesi tutkintoon on vahvistettu.",
+            "description4": "Saat sähköpostitse vahvistuksen ja kuitin maksusta."
+          },
+          "preview": {
+            "examEventDetails": {
+              "fullExam": "Koko tutkinto",
+              "previousEnrollmentLabel": "Olen osallistunut valtionhallinnon hyvän ja tyydyttävän taidon kielitutkintoon aikaisemmin",
+              "price": "Hinta",
+              "selectedSkillsLabel": "Valitut tutkinnot",
+              "selectedPartialExamsLabel": "Valitut osakokeet",
+              "title": "Tutkinnon tiedot"
+            },
+            "privacyStatement": {
+              "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen (pakollinen).",
+              "linkLabel": "tietosuojaselosteen"
+            }
+          }
+        }
+      },
+      "publicEnrollmentContact": {
+        "cancelDialog": {
+          "actions": {
+            "cancelEnrollment": "Peru ja valitse toinen vastaanottaja",
+            "continueEnrollment": "En halua perua"
+          },
+          "description": {
+            "part1": "Haluatko perua tämän yhteydenoton?",
+            "part2": "Jo täyttämäsi tiedot tallentuvat selaimen muistiin. Jos haluat että ne pyyhitään pois, sulje selainikkuna."
+          },
+          "title": "Peru yhteydenotto"
+        },
+        "controlButtons": {
+          "submit": "Lähetä"
+        },
+        "errors": {
+          "fields": {
+            "email": "Sähköpostiosoite",
+            "emailConfirmation": "Sähköpostiosoitteen vahvistus",
+            "firstName": "Etunimi",
+            "hasPreviousEnrollment": "Oletko osallistunut aiemmin hyvän ja tyydyttävän taidon tutkintoon?",
+            "isFullExam": "Haluatko suorittaa sekä suullisen että kirjallisen taidon tutkinnon?",
+            "message": "Viesti",
+            "lastName": "Sukunimi",
+            "partialExamSelection": "Kerro, mitkä osakokeet haluat suorittaa",
+            "phoneNumber": "Puhelinnumero"
+          },
+          "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
+          "title": "Tiedoissa on korjattavaa!"
+        },
+        "examinerDetails": {
+          "byRequest": "Sovittavissa",
+          "examDate": "Tutkintopäivä",
+          "examEvent": "Tutkinto",
+          "examiner": "Tutkintosuorituksen vastaanottaja",
+          "full": "Täynnä",
+          "municipality": "Tutkintopaikka"
+        },
+        "stepHeading": {
+          "Done": "Viesti lähetetty",
+          "FillContactDetails": "Yhteystietosi",
+          "SelectExam": "Valitse tutkinto ja lähetä viesti"
+        },
+        "stepper": {
+          "active": "Aktiivinen",
+          "completed": "Suoritettu",
+          "label": "Ilmoittautumisen vaiheet",
+          "phase": "Vaihe",
+          "phaseNumber": "{{current}} kautta {{total}}",
+          "phases": "Ilmoittautumisen vaiheet",
+          "step": {
+            "Done": "Viesti lähetetty",
+            "FillContactDetails": "Yhteystietosi",
+            "SelectExam": "Valitse tutkinto ja lähetä viesti"
+          }
+        },
+        "steps": {
+          "done": {
+            "anotherMessage": {
+              "description": "Voit olla yhteydessä useampaan tutkintosuorituksen vastaanottajaan tällä samalla lomakkeella.",
+              "heading": "Haluatko lähettää toisen viestin?"
+            },
+            "infoBox": {
+              "continue": {
+                "callToAction": "Lähetä toinen viesti",
+                "description": "Täyttämäsi tiedot säilyvät lomakkeella. Voit lähettää toisen viestin samoilla tiedoilla.",
+                "heading": "Lähetä viesti toiselle tutkintosuorituksen vastaanottajalle"
+              },
+              "quit": {
+                "callToAction": "Lopeta ja palaa etusivulle",
+                "description": "Ilmoittautuminen päättyy ja menetät täyttämäsi tiedot.",
+                "heading": "Lopeta ja palaa etusivulle"
+              }
+            },
+            "messageSent": {
+              "heading": "Viestisi tutkintosuorituksen vastaanottajalle on lähetetty",
+              "whatNext": {
+                "prompt": "Mitä seuraavaksi?",
+                "step1": "Tutkintosuorituksen vastaanottaja vastaa viestiisi sähköpostilla.",
+                "step2": "Kun olette sopineet tutkinnon tarkan ajankohdan, saat sähköpostilla linkin tunnistautumista ja tutkintomaksun maksamista varten. Linkki on voimassa 3 vuorokautta.",
+                "step3": "Tunnistaudu ja tarkista ilmoittautumisen tiedot.",
+                "step4": "Maksa tutkintomaksu.",
+                "step5": "Kun olet maksanut tutkintomaksun, ilmoittautuminen vahvistuu ja saat kuitin maksusta sähköpostilla."
+              }
+            }
+          },
+          "confirmContactDetails": {
+            "buttons": {
+              "no": "Ei, muokkaa tietoja",
+              "yes": "Kyllä, jatka"
+            },
+            "labels": {
+              "email": "Sähköpostiosoite:",
+              "firstName": "Etunimi:",
+              "lastName": "Sukunimi:",
+              "phoneNumber": "Puhelinnumero:"
+            },
+            "information": "Olet lähettämässä uutta yhteydenottopyyntöä aiemmin täyttämilläsi tiedoilla. Vahvista, että tiedot ovat omia henkilö- ja yhteystietojasi.",
+            "heading": "Vahvista yhteystietosi",
+            "prompt": "Oletko tämä henkilö?"
+          },
+          "fillContactDetails": {
+            "heading": "Täytä yhteystietosi",
+            "email": {
+              "label": "Sähköposti *",
+              "placeholder": "Esim. testi@testi.fi"
+            },
+            "emailConfirmation": {
+              "label": "Vahvista sähköposti *",
+              "placeholder": "Kirjoita sähköpostisi uudelleen"
+            },
+            "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
+            "phoneNumber": {
+              "label": "Puhelinnumero *",
+              "placeholder": "Esim. 0401234567"
+            },
+            "firstName": {
+              "label": "Etunimi *"
+            },
+            "lastName": {
+              "label": "Sukunimi *"
+            }
+          },
+          "selectExam": {
+            "examFee": {
+              "part1": "Tutkintomaksu on <0>258 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kerralla.</0>",
+              "part2": "Suullisen ja kirjallisen taidon tutkintojen suorittaminen osoittaa myös vastaavan tasoista ymmärtämisen taitoa.",
+              "part3": "Tutkintomaksu on  <0>129 euroa</0>, jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen.",
+              "part4": "Kun olet sopinut tutkintopäivästä tutkintosuorituksen vastaanottajan kanssa, saat sähköpostilla linkin tutkintomaksun maksamista varten. Linkki on voimassa 3 vuorokautta.",
+              "title": "Tutkintomaksu"
+            },
+            "message": {
+              "textField": {
+                "label": "Viesti *",
+                "placeholder": "Kerro viestissä, milloin haluat suorittaa tutkinnon. Jos olet suorittanut valtionhallinnon hyvän tai tyydyttävän taidon tutkinnon aikaisemmin, kerro kenelle suoritit tutkinnon ja milloin."
+              },
+              "title": "Kirjoita viesti tutkintosuorituksen vastaanottajalle"
+            },
+            "examSelection": {
+              "fullExam": {
+                "no": "En, haluan suorittaa vain jommankumman tutkinnon tai yksittäisen osakokeen",
+                "yes": "Kyllä (sis. suullinen taito, kirjallinen taito ja ymmärtämisen taito)",
+                "question": "Haluatko suorittaa sekä suullisen että kirjallisen taidon tutkinnon? *"
+              },
+              "selectExams": {
+                "description": "Osakokeita ovat: puhuminen, puheen ymmärtäminen, kirjoittaminen ja tekstin ymmärtäminen",
+                "heading": "Kerro, mitkä osakokeet haluat suorittaa *"
+              },
+              "part1": "Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana.",
+              "part2": "Kun suoritat molemmat tutkintoon kuuluvat osakokeet hyväksytysti, saat todistuksen tietyn taidon tutkintosuorituksesta. Jos suoritat suullisen ja kirjallisen taidon tutkinnot, sinun ei tarvitse suorittaa erikseen ymmärtämisen taidon tutkintoa.",
+              "partialExamsTitle": "Valitse osakokeet",
+              "oralSkill": "Suullinen taito *",
+              "textualSkill": "Kirjallinen taito *",
+              "title": "Tutkinnon valinta"
+            },
+            "previousEnrollment": {
+              "hasPreviousEnrollment": {
+                "no": "En",
+                "yes": "Kyllä"
+              },
+              "part1": "Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osan suorittamispäivästä alkaen.",
+              "radioButtons": {
+                "label": "Oletko osallistunut aiemmin hyvän ja tyydyttävän taidon kielitutkintoon? *"
+              },
+              "textField": {
+                "label": "Milloin olet viimeksi osallistunut? *",
+                "placeholder": "Kirjoita päivämäärä tai vapaa teksti"
+              },
+              "title": "Aikaisempiin tutkintoihin osallistuminen"
+            }
+          }
+        }
+      },
       "publicExamEventGrid": {
         "description": {
           "bulletPoints": {
-            "point1": "<0>suullisen taidon tutkinto</0> (= puhumisen ja puheen ymmärtämisen osakokeet)",
-            "point2": "<0>kirjallisen taidon tutkinto</0> (= kirjoittamisen ja tekstin ymmärtämisen osakokeet)",
-            "point3": "<0>ymmärtämisen taidon tutkinto</0> (= tekstin ymmärtämisen ja puheen ymmärtämisen osakokeet)"
+            "point1": "<0>suullisen taidon tutkinto</0>, johon kuuluvat puhumisen osakoe ja puheen ymmärtämisen osakoe",
+            "point2": "<0>kirjallisen taidon tutkinto</0>, johon kuuluvat kirjoittamisen osakoe ja tekstin ymmärtämisen osakoe",
+            "point3": "<0>ymmärtämisen taidon tutkinto</0>, johon kuuluvat tekstin ymmärtämisen osakoe ja puheen ymmärtämisen osakoe."
           },
           "skills": "Valtionhallinnon erinomaisen taidon kielitutkintoja ovat",
-          "title": "Yleistä valtionhallinnon kielitutkinnoista"
+          "title": "Tutkinnon rakenne ja suorittaminen"
         },
         "enrollment": {
           "link": {
@@ -314,13 +574,125 @@
           "enroll": "Ilmoittaudu",
           "enrollLater": "Ilmoittaudu myöhemmin",
           "enrollToQueue": "Ilmoittaudu jonoon",
-          "registrationOpensAt": "Ilmoittautuminen alkaa {{registrationOpens}} "
+          "registrationOpensAt": "Ilmoittautuminen alkaa {{registrationOpens}}"
         },
         "title": "Tulevat tutkintotilaisuudet"
       },
+      "publicExaminerListing": {
+        "examLanguage": {
+          "FI": "suomi",
+          "SV": "ruotsi"
+        },
+        "header": {
+          "actions": "Toiminnot",
+          "examiner": "Tutkinnon vastaanottaja",
+          "language": "Kieli",
+          "municipality": "Paikkakunta",
+          "examDates": "Tutkintopäivät"
+        },
+        "title": "Ota yhteyttä tutkintosuorituksen vastaanottajiin",
+        "row": {
+          "alreadyContacted": "Yhteydenotto lähetetty",
+          "byRequest": "Sovittavissa",
+          "contact": "Ota yhteyttä",
+          "full": "Täynnä"
+        }
+      },
       "logoutSuccessPage": {
         "heading": "Uloskirjautuminen onnnistui",
-        "info": "Olet kirjautunut ulos. Suljethan vielä kaikki selainikkunat."
+        "info": "Olet kirjautunut ulos. Sulje vielä kaikki selainikkunat."
+      },
+      "goodAndSatisfactoryLevel": {
+        "title": "Hyvän ja tyydyttävän taidon tutkinnot",
+        "description": {
+          "part1": "Hyvän ja tyydyttävän taidon tutkinnot suoritetaan tutkintosuorituksen vastaanottajalle.",
+          "part2": "Voit lähettää tutkintosuoritusten vastaanottajille viestin tämän sivun kautta ja sopia tutkinnon ajankohdasta.",
+          "part3": "Osa tutkintisuoritusten vastaanottajista on ilmoittaunut tutkintopäivät etukäteen.",
+          "part4": "Huomioithan, että tutkintoa ei yleensä voi suorittaa yleisinä loma-aikoina."
+        },
+        "infoBox": {
+          "enrollment": {
+            "bulletPoints": {
+              "point1": "Etsi sopiva tutkintosuorituksen vastaanottaja alla olevasta listasta ja aloita yhteydenotto painamalla <0>Ota yhteyttä</0> -painiketta.",
+              "point2": "Täytä yhteystietosi ja vastaa ennakkokysymyksiin.",
+              "point3": "Kirjoita viesti tutkintosuorituksen vastaanottajalle.",
+              "point4": "Viestin lähettämisen jälkeen voit palata etusivulle ja lähettää uuden yhteydenoton aiemmin täyttämilläsi tiedoilla.",
+              "point5": "Tutkintosuorituksen vastaanottaja vastaa viestiisi sähköpostilla.",
+              "point6": "Kun olette sopineet tutkinnon tarkan ajankohdan, saat sähköpostilla linkin tunnistautumista ja tutkintomaksun maksamista varten. Linkki on voimassa 3 vuorokautta.",
+              "point7": "Tunnistaudu ja tarkista ilmoittautumisen tiedot.",
+              "point8": "Maksa tutkintomaksu.",
+              "point9": "Kun olet maksanut tutkintomaksun, ilmoittautuminen vahvistuu ja saat kuitin maksusta sähköpostilla."
+            },
+            "title": "Ilmoittautumisohjeet",
+            "description": "Ilmoittautuminen on henkilökohtainen. Älä lähetä yhteydenottoa toisen henkilön puolesta."
+          },
+          "enrollmentFees": {
+            "bulletPoints": {
+              "point1": "Tutkintomaksu on <0>258 euroa,</0> jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kertaa.",
+              "point2": "Tutkintomaksu on <0>129 euroa,</0> jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
+            },
+            "title": "Tutkintomaksut"
+          },
+          "general": {
+            "bulletPoints": {
+              "point1": "<0>suullisen taidon tutkinto</0>, johon kuuluvat puhumisen osakoe ja puheen ymmärtämisen osakoe",
+              "point2": "<0>kirjallisen taidon tutkinto</0>, johon kuuluvat kirjoittamisen osakoe ja tekstin ymmärtämisen osakoe",
+              "point3": "<0>ymmärtämisen taidon tutkinto</0>, johon kuuluvat tekstin ymmärtämisen ja puheen ymmärtämisen osakoe."
+            },
+            "skills": "Valtionhallinnon hyvän ja tyydyttävän taidon tutkintoja ovat",
+            "title": "Tutkinnon rakenne ja suorittaminen"
+          }
+        }
+      },
+      "publicHomePage": {
+        "description": {
+          "part1": "Valtionhallinnon kielitutkinnot (VKT) on Suomen valtion kielitutkintojärjestelmä julkishallinnon henkilöstön suomen ja ruotsin kielen hallinnan osoittamiseen.",
+          "part2": "Tutkintotodistuksia voi käyttää työ- tai opiskelupaikan hakemiseen sekä osoittamaan riittävää suomen tai ruotsin kielen taitoa Suomen kansalaisuuden hakemista varten.",
+          "part3": "VKT-tutkinnoissa on kolme tasoa: tyydyttävä, hyvä ja erinomainen.",
+          "part4": "Jokaisella tasolla voi suorittaa suullisen, kirjallisen ja ymmärtämisen taidon tutkinnon.",
+          "part5": "Tutkinnot on mahdollista suorittaa yhdessä tai erikseen.",
+          "readMore": {
+            "label": "Lue lisää valtionhallinnon kielitutkinnoista Opetushallituksen verkkosivuilla.",
+            "url": "www.oph.fi/vkt"
+          }
+        },
+        "cards": {
+          "excellentLevel": {
+            "callToAction": "Ilmoittaudu erinomaisen taidon tutkintoon",
+            "description": {
+              "part1": "Erinomaisen taidon tutkintoja vastaanottavat suomen ja ruotsin kielen tutkintolautakunnat.",
+              "part2": "Tutkintotilaisuudet järjestetään Helsingissä ennalta määrättyinä ajankohtina.",
+              "part3": "Tutkintoihin ilmoittaudutaan sähköisellä ilmoittautumislomakkeella kunkin tutkinnon ilmoittautumisaikana."
+            },
+            "heading": "Erinomaisen taidon tutkinnot"
+          },
+          "goodAndSatisfactoryLevel": {
+            "callToAction": "Ota yhteyttä tutkinnon vastaanottajiin",
+            "description": {
+              "part1": "Hyvän ja tyydyttävän taidon tutkinnot suoritetaan tutkintosuoritusten vastaanottajille.",
+              "part2": "Tutkintoja voi suorittaa eri paikkakunnilla Suomessa.",
+              "part3": "Voit ilmoittautua tutkintoon ottamalla yhteyttä tutkintosuoritusten vastaanottajiin."
+            },
+            "heading": "Hyvän ja tyydyttävän taidon tutkinnot"
+          }
+        },
+        "enrollment": {
+          "heading": "Ilmoittautuminen"
+        },
+        "enrollmentFees": {
+          "excellentLevel": {
+            "part1": "<0>Erinomaisen taidon</0> tutkinnot ovat maksuttomia tietyin ehdoin.",
+            "part2": "Henkilöt, jotka eivät ole oikeutettuja maksuttomaan erinomaisen taidon tutkintoon, maksavat tutkintomaksun.",
+            "part3": "Tutkintomaksu on 514 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kertaa.",
+            "part4": "Tutkintomaksu on 257 euroa, jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
+          },
+          "goodAndSatisfactoryLevel": {
+            "part1": "<0>Hyvän ja tyydyttävän taidon</0> tutkintomaksu on 258 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kertaa.",
+            "part2": "Tutkintomaksu on 129 euroa, jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
+          },
+          "title": "Tutkintomaksut"
+        },
+        "title": "Valtionhallinnon kielitutkinnot (VKT)"
       }
     }
   }

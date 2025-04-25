@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fi" xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <p>
+            Hei,
+        </p>
+        <br/>
+        <p>
+            Olet lähettänyt viestin seuraavalle valtionhallinnon kielitutkintojen hyvän ja tyydyttävän taidon tutkintojen tutkintosuoritusten vastaanottajalle:
+            <br />
+            <b th:text="${examinerName}"></b>
+        </p>
+        <p>
+            Lähettämäsi viesti ja yhteystietosi:
+        </p>
+        <p>
+            <b>Viesti:</b>
+            <br />
+            <span th:text="${message}"></span>
+        </p>
+        <p>
+            <b>Yhteystietosi:</b>
+            <br />
+            Nimi: <span th:text="${name}"></span>
+            <br />
+            Sähköpostiosoite: <span th:text="${email}"></span>
+        </p>
+        <p>
+            <b>Mitä seuraavaksi?</b>
+            <br />
+            Tutkintosuoritusten vastaanottaja vastaa yhteydenottopyyntöösi sähköpostilla. Seuraa sähköpostiasi aktiivisesti ja tarkista myös roskapostit.
+        </p>
+        <p>
+            Älä vastaa tähän viestiin - viesti on lähetetty automaattisesti.
+        </p>
+        <p>
+            Ystävällisin terveisin<br />
+            Opetushallitus
+        </p>
+
+        <p>
+            Hej,
+        </p>
+        <br/>
+        <p>
+            Du har skickat följande meddelande till examinatorn för språkexamina för statsförvaltningen som gäller goda och nöjaktiga kunskaper:
+            <br />
+            <b th:text="${examinerName}"></b>
+        </p>
+        <p>
+            Meddelandet du skickat och dina kontaktuppgifter:
+        </p>
+        <p>
+            <b>Meddelande:</b>
+            <br />
+            <span th:text="${message}"></span>
+        </p>
+        <p>
+            <b>Dina kontaktuppgifter:</b>
+            <br />
+            Namn: <span th:text="${name}"></span>
+            <br />
+            E-postadress: <span th:text="${email}"></span>
+        </p>
+        <p>
+            <b>Vad händer härnäst?</b>
+            <br />
+            Examinatorn svarar på din kontaktbegäran per e-post. Följ din e-post aktivt och kontrollera också skräpposten.
+        </p>
+        <p>
+            Svara inte på detta meddelande – meddelandet har skickats automatiskt.
+        </p>
+        <p>
+            Med vänlig hälsning<br />
+            Utbildningsstyrelsen
+        </p>
+    </body>
+</html>

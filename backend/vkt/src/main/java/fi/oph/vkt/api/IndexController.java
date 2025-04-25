@@ -1,20 +1,15 @@
 package fi.oph.vkt.api;
 
 import fi.oph.vkt.service.aws.S3Config;
-import fi.oph.vkt.util.exception.NotFoundException;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Map;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @Controller
 @RequestMapping(value = "/")
@@ -62,6 +57,11 @@ public class IndexController {
   // Map to everything which has no suffix, i.e. matches to "/foo/bar" but not to "/foo/bar.js"
   @GetMapping(
     path = {
+      // Examiner URLs may end with path segment containing dots (OIDs).
+      // Pass through requests to /vkt/tv/*, as no static assets are served from that path.
+      "tv/*",
+      // For local development
+      "vkt/tv/*",
       "{path:[^.]*}",
       "*/{path:[^.]*}",
       "*/*/{path:[^.]*}",

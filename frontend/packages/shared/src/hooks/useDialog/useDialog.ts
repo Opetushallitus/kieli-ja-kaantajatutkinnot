@@ -12,6 +12,7 @@ interface ShowDialogProps {
   actions: Array<DialogButtonAction>;
   timeOut?: number;
   onClose?: () => void;
+  paperClassName?: string;
 }
 
 export const useDialog = () => {
@@ -26,6 +27,7 @@ export const useDialog = () => {
       actions,
       timeOut,
       onClose,
+      paperClassName,
     }: ShowDialogProps) => {
       const dialog: Dialog = {
         type: NotifierTypes.Dialog,
@@ -36,6 +38,7 @@ export const useDialog = () => {
         actions,
         timeOut,
         onClose,
+        paperClassName,
       };
 
       onDialogShow(dialog);

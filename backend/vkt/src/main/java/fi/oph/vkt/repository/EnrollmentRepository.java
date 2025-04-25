@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EnrollmentRepository extends BaseRepository<Enrollment> {
   List<Enrollment> findAllByStatus(final EnrollmentStatus enrollmentStatus);
+  List<Enrollment> findAllByStatusInAndDeletedAtIsNull(final List<EnrollmentStatus> enrollmentStatus);
   Optional<Enrollment> findByExamEventAndPerson(final ExamEvent examEvent, final Person person);
   Optional<Enrollment> findByExamEventAndPaymentLinkHash(final ExamEvent examEvent, final String paymentLinkHash);
 

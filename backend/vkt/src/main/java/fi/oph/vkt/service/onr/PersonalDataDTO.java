@@ -24,4 +24,7 @@ public class PersonalDataDTO {
 
   @JsonProperty("hetu")
   private String identityNumber;
+
+  @JsonProperty("syntymaaika")
+  private String birthdate;
 }

@@ -1,6 +1,7 @@
 import { http } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
+import { AppRoutes, EnrollmentAppointmentStatus } from 'enums/app';
 import { ClerkEnrollmentStatusChange } from 'interfaces/clerkEnrollment';
 import { ClerkUser } from 'interfaces/clerkUser';
 import { PublicReservationDetailsResponse } from 'interfaces/publicEnrollment';
@@ -11,19 +12,40 @@ import { clerkExamEvents9 } from 'tests/msw/fixtures/clerkExamEvents9';
 import { clerkPaymentRefunded } from 'tests/msw/fixtures/clerkPaymentRefunded';
 import { person } from 'tests/msw/fixtures/person';
 import {
+  publicEnrollmentAppointment,
+  publicEnrollmentAppointmentWithPerson,
+} from 'tests/msw/fixtures/publicEnrollmentAppointment';
+import {
   examEventIdWithKoskiEducationDetailsFound,
   publicEnrollmentInitialisation,
   publicEnrollmentInitialisationWithFreeEnrollments,
 } from 'tests/msw/fixtures/publicEnrollmentInitialisation';
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
+import { publicExaminers } from 'tests/msw/fixtures/publicExaminer';
+
+const clerkUser: ClerkUser = {
+  oid: '1.2.246.562.10.00000000001',
+  isAdmin: true,
+  isExaminer: false,
+};
+
+export const examinerUser: ClerkUser = {
+  oid: '1.2.246.562.10.30000000003',
+  isAdmin: false,
+  isExaminer: true,
+};
 
 export const handlers = [
-  http.get(APIEndpoints.ClerkUser, ({ cookies }) => {
-    const user: ClerkUser = {
-      oid: '1.2.246.562.10.00000000001',
-    };
+  http.get(APIEndpoints.ClerkUser, ({ cookies, request }) => {
+    if (cookies.noAuth) {
+      return new Response('null');
+    }
 
-    return new Response(cookies.noAuth ? 'null' : JSON.stringify(user));
+    if (request.referrer.endsWith(AppRoutes.ExaminerRoot)) {
+      return new Response(JSON.stringify(examinerUser));
+    }
+
+    return new Response(JSON.stringify(clerkUser));
   }),
   http.get(APIEndpoints.PublicUser, ({ cookies }) => {
     const person: PublicPerson = {
@@ -37,7 +59,10 @@ export const handlers = [
   http.get(APIEndpoints.PublicEducation, ({ request }) => {
     if (
       request.referrer.endsWith(
-        `/vkt/ilmoittaudu/${examEventIdWithKoskiEducationDetailsFound}/koulutus`,
+        AppRoutes.PublicEnrollmentEducationDetails.replace(
+          /:examEventId/,
+          `${examEventIdWithKoskiEducationDetailsFound}`,
+        ),
       )
     ) {
       return new Response(
@@ -146,8 +171,109 @@ export const handlers = [
     return new Response(JSON.stringify(clerkPaymentRefunded), { status: 200 });
   }),
   http.get(APIEndpoints.FeatureFlags, () => {
-    return new Response(JSON.stringify({ freeEnrollmentAllowed: true }), {
-      status: 200,
-    });
+    return new Response(
+      JSON.stringify({
+        freeEnrollmentAllowed: true,
+        goodAndSatisfactoryLevel: true,
+      }),
+      {
+        status: 200,
+      },
+    );
   }),
+  http.get(APIEndpoints.PublicExaminer, () => {
+    return new Response(JSON.stringify(publicExaminers), { status: 200 });
+  }),
+  http.get(`${APIEndpoints.PublicExaminer}/:id`, ({ params }) => {
+    const { id } = params;
+    // TODO Are the details from the listing response sufficient? Do we need more details?
+    const examiner = publicExaminers.findLast((v) => v.id === Number(id));
+    if (examiner) {
+      return new Response(JSON.stringify(examiner), { status: 200 });
+    } else {
+      return new Response(null, { status: 404 });
+    }
+  }),
+  http.post(`${APIEndpoints.PublicEnrollmentContact}/:id`, ({ params }) => {
+    const { id } = params;
+    const examiner = publicExaminers.findLast((v) => v.id === Number(id));
+    if (examiner) {
+      return new Response(null, { status: 201 });
+    } else {
+      return new Response(null, { status: 404 });
+    }
+  }),
+  http.get(
+    `${APIEndpoints.PublicEnrollmentAppointment}/:id`,
+    ({ params, request }) => {
+      const { id } = params;
+      const enrollmentAppointment =
+        publicEnrollmentAppointment.id === Number(id)
+          ? publicEnrollmentAppointment
+          : null;
+      if (enrollmentAppointment) {
+        if (
+          request.referrer.endsWith(
+            AppRoutes.PublicEnrollmentAppointmentContactDetails.replace(
+              /:enrollmentId/,
+              '' + id,
+            ),
+          )
+        ) {
+          return new Response(
+            JSON.stringify(publicEnrollmentAppointmentWithPerson),
+            {
+              status: 200,
+            },
+          );
+        } else {
+          return new Response(JSON.stringify(enrollmentAppointment), {
+            status: 200,
+          });
+        }
+      } else {
+        return new Response(null, { status: 400 });
+      }
+    },
+  ),
+  http.post(`${APIEndpoints.PublicEnrollmentAppointment}/:id`, ({ params }) => {
+    const { id } = params;
+    const enrollmentAppointment =
+      publicEnrollmentAppointment.id === Number(id)
+        ? publicEnrollmentAppointment
+        : null;
+    if (enrollmentAppointment) {
+      return new Response(
+        JSON.stringify({
+          ...publicEnrollmentAppointmentWithPerson,
+          status: EnrollmentAppointmentStatus.EXPECTING_PAYMENT,
+        }),
+        { status: 201 },
+      );
+    } else {
+      return new Response(null, { status: 400 });
+    }
+  }),
+  /* TODO Doesn't get called by application code
+  http.get(APIEndpoints.PaymentCreate, ({ params }) => {
+    const { enrollmentId, type } = params;
+    const enrollmentAppointment =
+      publicEnrollmentAppointment.id === Number(enrollmentId)
+        ? publicEnrollmentAppointment
+        : null;
+    if (enrollmentAppointment && type === 'appointment') {
+      return new Response(null, {
+        status: 302,
+        headers: {
+          Location: AppRoutes.PublicEnrollmentAppointmentPaymentSuccess.replace(
+            /:enrollmentId/,
+            `${enrollmentId}`,
+          ),
+        },
+      });
+    } else {
+      return new Response(null, { status: 400 });
+    }
+  }),
+  */
 ];

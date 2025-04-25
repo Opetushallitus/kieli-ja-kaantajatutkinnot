@@ -93,19 +93,19 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
   it('should allow canceling enrollment', () => {
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
       EnrollmentStatus.CANCELED,
-      'Peruutetut: 1',
+      'Perutut: 1',
     );
     onClerkExamEventOverviewPage.clickEnrollmentRow(1);
     onClerkEnrollmentOverviewPage.clickCancelEnrollmentButton();
-    onDialog.expectText('Haluatko varmasti peruuttaa ilmoittautumisen?');
+    onDialog.expectText('Haluatko varmasti perua ilmoittautumisen?');
     onDialog.clickButtonByText('Kyllä');
-    onToast.expectText('Ilmoittautuminen peruutettiin');
+    onToast.expectText('Ilmoittautuminen peruttiin');
     onClerkEnrollmentOverviewPage.expectDisabledCancelEnrollmentButton();
     cy.go('back');
 
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
       EnrollmentStatus.CANCELED,
-      'Peruutetut: 2',
+      'Perutut: 2',
     );
   });
 

@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.9 (Debian 12.9-1.pgdg110+1)
--- Dumped by pg_dump version 14.7 (Homebrew)
+-- Dumped from database version 16.3
+-- Dumped by pg_dump version 16.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -31,12 +31,13 @@ ENROLLMENT_TO_QUEUE_CONFIRMATION
 --
 
 COPY public.enrollment_status (name) FROM stdin;
-PAID
 QUEUED
 CANCELED
 EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
 CANCELED_UNFINISHED_ENROLLMENT
-SHIFTED_FROM_QUEUE
+COMPLETED
+AWAITING_PAYMENT
+AWAITING_APPROVAL
 \.
 
 

@@ -1,7 +1,6 @@
 package fi.oph.vkt.view;
 
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
-import fi.oph.vkt.model.type.FreeEnrollmentType;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -36,4 +35,5 @@ public record ExamEventXlsxDataRow(
   String postalCode,
   String town,
   String country
-) {}
+)
+  implements ExamEventCommonXlsxDataRow {}

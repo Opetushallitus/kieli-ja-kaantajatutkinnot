@@ -67,7 +67,7 @@ public class PublicEnrollmentEmailServiceTest {
     final EmailService emailService = new EmailService(emailRepository, emailAttachmentRepository, emailSender);
     final ReceiptRenderer receiptRenderer = mock(ReceiptRenderer.class);
 
-    when(receiptRenderer.getReceiptData(anyLong(), any()))
+    when(receiptRenderer.getReceiptData(any(), any()))
       .thenReturn(
         ReceiptData
           .builder()

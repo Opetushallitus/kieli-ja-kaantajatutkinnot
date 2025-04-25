@@ -4,8 +4,16 @@ import { RouteUtils } from 'utils/routes';
 Cypress.Commands.add('openPublicHomePage', () => {
   cy.window().then((win) => {
     win.sessionStorage.setItem('persist:root', '{}');
+    cy.setCookie('cookie-consent-vkt', 'true');
   });
   cy.visit(AppRoutes.PublicHomePage);
+});
+
+Cypress.Commands.add('openPublicExcellentLevelPage', () => {
+  cy.window().then((win) => {
+    win.sessionStorage.setItem('persist:root', '{}');
+  });
+  cy.visit(AppRoutes.PublicExcellentLevelLanding);
 });
 
 Cypress.Commands.add(
@@ -24,9 +32,40 @@ Cypress.Commands.add(
   },
 );
 
-Cypress.Commands.add('openClerkHomePage', () => {
+Cypress.Commands.add('openPublicGoodAndSatisfactoryLevelPage', () => {
+  cy.window().then((win) => {
+    win.sessionStorage.setItem('persist:root', '{}');
+  });
+  cy.visit(AppRoutes.PublicGoodAndSatisfactoryLevelLanding);
+});
+
+Cypress.Commands.add(
+  'openPublicEnrollmentContactPage',
+  (examinerId: number, step = 'tiedot', persistedState = '{}') => {
+    cy.window().then((win) => {
+      win.sessionStorage.setItem('persist:root', persistedState);
+      cy.setCookie('cookie-consent-vkt', 'true');
+    });
+    cy.visit(`${AppRoutes.PublicEnrollmentContact}/${examinerId}/${step}`);
+  },
+);
+
+Cypress.Commands.add(
+  'openPublicEnrollmentAppointmentPage',
+  (enrollmentId: number, step = 'tunnistaudu') => {
+    cy.window().then((win) => {
+      win.sessionStorage.setItem('persist:root', '{}');
+      cy.setCookie('cookie-consent-vkt', 'true');
+    });
+    cy.visit(
+      `${AppRoutes.PublicEnrollmentAppointment}/${enrollmentId}/${step}`,
+    );
+  },
+);
+
+Cypress.Commands.add('openClerkExcellentLevelPage', () => {
   cy.window().then((win) => win.sessionStorage.setItem('persist:root', '{}'));
-  cy.visit(AppRoutes.ClerkHomePage);
+  cy.visit(AppRoutes.ClerkExcellentLevelPage);
 });
 
 Cypress.Commands.add('openClerkExamEventPage', (examEventId: number) => {
@@ -42,6 +81,14 @@ Cypress.Commands.add('openClerkExamEventPage', (examEventId: number) => {
 Cypress.Commands.add('openClerkCreateExamEventPage', () => {
   cy.window().then((win) => win.sessionStorage.setItem('persist:root', '{}'));
   cy.visit(AppRoutes.ClerkExamEventCreatePage);
+});
+
+Cypress.Commands.add('openExaminerPage', () => {
+  cy.window().then((win) => {
+    win.sessionStorage.setItem('persist:root', '{}');
+    cy.setCookie('cookie-consent-vkt', 'true');
+  });
+  cy.visit(AppRoutes.ExaminerRoot);
 });
 
 Cypress.Commands.add('usePhoneViewport', () => {

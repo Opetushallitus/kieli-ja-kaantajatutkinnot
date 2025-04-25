@@ -2,6 +2,7 @@ package fi.oph.vkt.util;
 
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.ExamLevel;
 import java.util.regex.Matcher;
@@ -10,7 +11,17 @@ import java.util.regex.Pattern;
 public class EnrollmentUtil {
 
   private static final int SKILL_FEE = 25700;
+  private static final int SKILL_APPOINTMENT_FEE = 12900;
   public static final Integer FREE_ENROLLMENT_LIMIT = 3;
+
+  public static int getTotalFee(final EnrollmentAppointment enrollmentAppointment) {
+    return Math.min(
+      getTextualSkillFee(enrollmentAppointment) +
+      getOralSkillFee(enrollmentAppointment) +
+      getUnderstandingSkillFee(enrollmentAppointment),
+      2 * SKILL_APPOINTMENT_FEE
+    );
+  }
 
   public static int getTotalFee(final Enrollment enrollment, final FreeEnrollmentDetails freeEnrollmentDetails) {
     return (
@@ -18,6 +29,10 @@ public class EnrollmentUtil {
       getOralSkillFee(enrollment, freeEnrollmentDetails) +
       getUnderstandingSkillFee(enrollment)
     );
+  }
+
+  public static int getTextualSkillFee(final EnrollmentAppointment enrollmentAppointment) {
+    return enrollmentAppointment.isTextualSkill() ? SKILL_APPOINTMENT_FEE : 0;
   }
 
   public static int getTextualSkillFee(final Enrollment enrollment, final FreeEnrollmentDetails freeEnrollmentDetails) {
@@ -28,6 +43,10 @@ public class EnrollmentUtil {
     return (enrollment.hasApplicableFreeBasis() && freeEnrollmentDetails.textualSkillCount() < FREE_ENROLLMENT_LIMIT)
       ? 0
       : SKILL_FEE;
+  }
+
+  public static int getOralSkillFee(final EnrollmentAppointment enrollmentAppointment) {
+    return enrollmentAppointment.isOralSkill() ? SKILL_APPOINTMENT_FEE : 0;
   }
 
   public static int getOralSkillFee(final Enrollment enrollment, final FreeEnrollmentDetails freeEnrollmentDetails) {
@@ -50,6 +69,13 @@ public class EnrollmentUtil {
     final Long parsedExamEventId = Long.valueOf(matcher.group(1));
 
     return parsedExamEventId.equals(examEventId) && matcher.group(2).equals(person.getUuid().toString());
+  }
+
+  public static int getUnderstandingSkillFee(final EnrollmentAppointment enrollmentAppointment) {
+    if (enrollmentAppointment.isTextualSkill() && enrollmentAppointment.isOralSkill()) {
+      return 0;
+    }
+    return enrollmentAppointment.isUnderstandingSkill() ? SKILL_APPOINTMENT_FEE : 0;
   }
 
   public static int getUnderstandingSkillFee(final Enrollment enrollment) {

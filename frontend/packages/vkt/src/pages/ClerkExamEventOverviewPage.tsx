@@ -55,7 +55,7 @@ export const ClerkExamEventOverviewPage: FC = () => {
         severity: Severity.Error,
         description: t('toasts.notFound'),
       });
-      navigate(AppRoutes.ClerkHomePage);
+      navigate(AppRoutes.ClerkExcellentLevelPage);
     }
   }, [
     overviewStatus,
@@ -86,7 +86,7 @@ export const ClerkExamEventOverviewPage: FC = () => {
           <ClerkExamEventOverviewPageSkeleton />
         ) : (
           <>
-            <TopControls />
+            <TopControls backTo={AppRoutes.ClerkExcellentLevelPage} />
             <ClerkExamEventDetails />
           </>
         )}

@@ -67,7 +67,7 @@ class ReceiptRendererTest {
     entityManager.persist(enrollment);
     entityManager.persist(payment);
 
-    final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment.getId(), LocalisationUtil.localeFI);
+    final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment, LocalisationUtil.localeFI);
     assertNotNull(receiptData);
     assertEquals("RF-123", receiptData.paymentReference());
     assertEquals("Ruotsi, erinomainen taito, 07.10.2024", receiptData.exam());
@@ -105,7 +105,7 @@ class ReceiptRendererTest {
     entityManager.persist(enrollment);
     entityManager.persist(payment);
 
-    final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment.getId(), LocalisationUtil.localeSV);
+    final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment, LocalisationUtil.localeSV);
     assertNotNull(receiptData);
     assertEquals("Svenska, utmärkta språkkunskaper, 07.10.2024", receiptData.exam());
 

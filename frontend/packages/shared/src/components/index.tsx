@@ -6,6 +6,7 @@ export {
   valueAsOption,
   ComboBox,
   LabeledComboBox,
+  LabeledMultipleCheckboxDropdown,
 } from './ComboBox/ComboBox';
 export type { AutocompleteValue } from './ComboBox/ComboBox';
 export { CustomButton } from './CustomButton/CustomButton';
@@ -53,3 +54,4 @@ export {
   NativeSelectWithLabel,
 } from './NativeSelect/NativeSelect';
 export { NavigationLinks } from './NavigationLinks/NavigationLinks';
+export { MobileNavigationMenuWithPortal } from './MobileNavigationMenu/MobileNavigationMenu';

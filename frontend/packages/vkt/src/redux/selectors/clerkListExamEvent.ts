@@ -12,7 +12,7 @@ export const selectFilteredClerkExamEvents = createSelector(
   (state: RootState) => state.clerkListExamEvent.examEvents,
   (state: RootState) => state.clerkListExamEvent.languageFilter,
   (state: RootState) => state.clerkListExamEvent.toggleFilter,
-  (examEvents, languageFilter, toggleFilter) => {
+  (examEvents, languageFilter, toggleFilter): Array<ClerkListExamEvent> => {
     let filteredExamEvents = examEvents;
 
     if (languageFilter !== ExamLanguage.ALL) {
@@ -22,9 +22,13 @@ export const selectFilteredClerkExamEvents = createSelector(
     }
 
     if (toggleFilter === ExamEventToggleFilter.Upcoming) {
-      return ExamEventUtils.getUpcomingExamEvents(filteredExamEvents);
+      return ExamEventUtils.getUpcomingExamEvents(
+        filteredExamEvents,
+      ) as Array<ClerkListExamEvent>;
     } else {
-      return ExamEventUtils.getPassedExamEvents(filteredExamEvents);
+      return ExamEventUtils.getPassedExamEvents(
+        filteredExamEvents,
+      ) as Array<ClerkListExamEvent>;
     }
   },
 );

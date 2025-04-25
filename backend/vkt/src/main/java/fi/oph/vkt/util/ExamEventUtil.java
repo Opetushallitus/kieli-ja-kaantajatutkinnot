@@ -2,11 +2,14 @@ package fi.oph.vkt.util;
 
 import fi.oph.vkt.audit.dto.ClerkExamEventAuditDTO;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentCommon;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 public class ExamEventUtil {
 
@@ -60,5 +63,15 @@ public class ExamEventUtil {
       .isHidden(examEvent.isHidden())
       .maxParticipants(examEvent.getMaxParticipants())
       .build();
+  }
+
+  public static List<String> getOnrIds(final List<? extends EnrollmentCommon> enrollments) {
+    return enrollments
+      .stream()
+      .map(EnrollmentCommon::getPerson)
+      .filter(Objects::nonNull)
+      .map(Person::getOid)
+      .filter(Objects::nonNull)
+      .toList();
   }
 }

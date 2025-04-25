@@ -415,7 +415,7 @@ const ClerkEnrollmentDetailsTextField = ({
   showFieldError,
   onChange,
   ...rest
-}: ClerkEnrollmentTextFieldProps) => {
+}: ClerkEnrollmentTextFieldProps<ClerkEnrollment>) => {
   const translateCommon = useCommonTranslation();
 
   const required = field !== ClerkEnrollmentTextFieldEnum.PreviousEnrollment;
@@ -502,6 +502,7 @@ export const ClerkEnrollmentDetailsFields = ({
       showFieldError: fieldErrors[field],
       onBlur: setFieldErrorOnBlur(field),
       fullWidth: true,
+      isViewMode: false,
     };
   };
 
