@@ -653,21 +653,25 @@ const EnrollmentStatus = ({
         <H3>{t('status')}</H3>
         <Text>{t(`enrollmentStatus.${enrollment.status}`)}</Text>
       </div>
-      <div className="rows gapped-sm margin-top-lg">
-        <H3>{t('appointment.authLink')}</H3>
-        {enrollment.authLink?.sentAt && (
-          <Text>
-            {t('appointment.linkSentAt')}:{' '}
-            {DateTimeUtils.renderDateTime(enrollment.authLink.sentAt)}
-          </Text>
-        )}
-        {enrollment.authLink?.expiresAt && (
-          <Text>
-            {t('appointment.linkExpiresAt')}:{' '}
-            {DateTimeUtils.renderDateTime(enrollment.authLink.expiresAt)}
-          </Text>
-        )}
-      </div>
+      {(enrollment.authLink?.sentAt ||
+        enrollment.authLink?.expiresAt ||
+        !isCompleted) && (
+        <div className="rows gapped-sm margin-top-lg">
+          <H3>{t('appointment.authLink')}</H3>
+          {enrollment.authLink?.sentAt && (
+            <Text>
+              {t('appointment.linkSentAt')}:{' '}
+              {DateTimeUtils.renderDateTime(enrollment.authLink.sentAt)}
+            </Text>
+          )}
+          {enrollment.authLink?.expiresAt && (
+            <Text>
+              {t('appointment.linkExpiresAt')}:{' '}
+              {DateTimeUtils.renderDateTime(enrollment.authLink.expiresAt)}
+            </Text>
+          )}
+        </div>
+      )}
       {!isCompleted && (
         <>
           <div className="columns flex-start">
