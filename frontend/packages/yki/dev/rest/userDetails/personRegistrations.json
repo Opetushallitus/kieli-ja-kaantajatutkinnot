@@ -2,12 +2,13 @@
     "first_name": "Susanna",
     "oid": "1.2.246.562.24.00123456789",
     "last_name": "Uusivälimerkki",
+    "email": "harry@invalid.invalid",
     "registrations": [
         {
             "exam_session_id": "1",
-            "street_address": null,
-            "post_office": null,
-            "zip": null,
+            "street_address": "School of wizardry",
+            "post_office": "Hogwarts",
+            "zip": "90100",
             "exam_date": "2023-05-10",
             "language_code": "fin",
             "level_code": "KESKI"
