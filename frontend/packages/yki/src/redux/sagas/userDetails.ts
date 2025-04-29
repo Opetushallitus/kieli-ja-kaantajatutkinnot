@@ -14,7 +14,7 @@ function* loadPersonDetailsSaga() {
   try {
     const response: AxiosResponse<PersonDetails> = yield call(
       axiosInstance.get,
-      APIEndpoints.OpenRegistrations,
+      APIEndpoints.PersonDetails,
     );
     yield put(storePersonDetails(response.data));
   } catch (error) {

@@ -28,6 +28,10 @@ import {
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
 import { EvaluationOrderState } from 'redux/reducers/evaluationOrder';
+import {
+  PersonDetailsResponse,
+  PersonDetails,
+} from 'interfaces/userDetails';
 
 export class SerializationUtils {
   static deserializeStartTime(date?: string) {
@@ -205,6 +209,22 @@ export class SerializationUtils {
       phone_number: registration.phoneNumber,
       email: registration.email,
       gender: SerializationUtils.serializeGender(registration.gender),
+    };
+  }
+
+  static deserializePersonDetails(
+    response: PersonDetailsResponse,
+  ): PersonDetails {
+    return {
+      firstNames: response.first_name,
+      lastName: response.last_name,
+      email: response.email,
+      registrations: response.registrations?.map((v) => ({
+        examLang: v.exam_lang,
+        zip: v.zip,
+        post_office: v.postOffice,
+        streetAddress: v.street_address,
+      }))
     };
   }
 }

@@ -1,0 +1,16 @@
+{
+    "first_name": "Susanna",
+    "oid": "1.2.246.562.24.00123456789",
+    "last_name": "Uusivälimerkki",
+    "registrations": [
+        {
+            "exam_session_id": "1",
+            "street_address": null,
+            "post_office": null,
+            "zip": null,
+            "exam_date": "2023-05-10",
+            "language_code": "fin",
+            "level_code": "KESKI"
+        }
+    ]
+}

@@ -6,7 +6,7 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { loadEvaluationPeriods } from 'redux/reducers/evaluationPeriods';
+import { loadPersonDetails } from 'redux/reducers/userDetails';
 import { userDetailsSelector } from 'redux/selectors/userDetails';
 
 export const UserDetailsPage: FC = () => {
@@ -19,7 +19,7 @@ export const UserDetailsPage: FC = () => {
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
-      dispatch(loadEvaluationPeriods());
+      dispatch(loadPersonDetails());
     }
   }, [dispatch, status]);
 
