@@ -107,6 +107,10 @@ const paymentsReport = JSON.parse(
   fs.readFileSync('./dev/rest/examPayments/paymentsReport.json')
 );
 
+const personRegistrations = JSON.parse(
+  fs.readFileSync('./dev/rest/userDetails/personRegistrations.json')
+);
+
 const evaluationOrder = {
   id: 1,
   language_code: 'fin',
@@ -1274,6 +1278,18 @@ module.exports = function (app) {
     const mockCall = () => {
       try {
         res.send({ success: true });
+      } catch (err) {
+        printError(req, err);
+        res.status(404).send(err.message);
+      }
+    };
+    useLocalProxy ? proxyPostCall(req, res) : mockCall();
+  });
+
+  app.get('/yki/api/user/person-registrations', (req, res) => {
+    const mockCall = () => {
+      try {
+        res.send(personRegistrations);
       } catch (err) {
         printError(req, err);
         res.status(404).send(err.message);
