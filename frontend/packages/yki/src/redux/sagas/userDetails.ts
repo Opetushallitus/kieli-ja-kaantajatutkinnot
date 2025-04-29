@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
+import { SerializationUtils } from 'utils/serialization';
 import { PersonDetails } from 'interfaces/userDetails';
 import {
   loadPersonDetails,
@@ -16,7 +17,7 @@ function* loadPersonDetailsSaga() {
       axiosInstance.get,
       APIEndpoints.PersonDetails,
     );
-    yield put(storePersonDetails(response.data));
+    yield put(storePersonDetails(SerializationUtils.deserializePersonDetails(response.data)));
   } catch (error) {
     yield put(rejectPersonDetails());
   }

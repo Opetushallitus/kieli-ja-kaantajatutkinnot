@@ -222,7 +222,8 @@ export class SerializationUtils {
       registrations: response.registrations?.map((v) => ({
         examLang: v.exam_lang,
         zip: v.zip,
-        post_office: v.postOffice,
+        postOffice: v.post_office,
+        examDate: v.exam_date,
         streetAddress: v.street_address,
       }))
     };

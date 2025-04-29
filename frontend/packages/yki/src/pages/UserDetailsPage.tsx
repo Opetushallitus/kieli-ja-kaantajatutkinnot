@@ -15,13 +15,17 @@ export const UserDetailsPage: FC = () => {
   });
 
   const dispatch = useAppDispatch();
-  const { status } = useAppSelector(userDetailsSelector);
+  const { status, personDetails } = useAppSelector(userDetailsSelector);
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
       dispatch(loadPersonDetails());
     }
   }, [dispatch, status]);
+
+  if (!personDetails) {
+    return <></>;
+  }
 
   return (
     <Box className="user-details-page">
@@ -48,20 +52,36 @@ export const UserDetailsPage: FC = () => {
                 <Text>
                   Yhteystietoja käytetään tutkintotodistuksen lähettämiseen
                 </Text>
+                <Text className="bold">
+                  {personDetails.first_name}
+                </Text>
+                <Text>
+                  <b>Email:</b> {personDetails.email}
+                </Text>
               </div>
             </Paper>
           </div>
-          <div className="margin-top-xxl">
-            <H2 className="user-details-page__info__section__heading-title">
-              Tulevat kielitutkintojen testisi
-            </H2>
-            <Paper elevation={3} className="user-details-page__event">
-              <div className="user-details-page__info__section">
-                <H3>suomi, keskitaso</H3>
-              </div>
-              <div className="user-details-page__pricing__section"></div>
-            </Paper>
-          </div>
+          {personDetails.registrations?.map((r) => (
+            <div className="margin-top-xxl">
+              <H2 className="user-details-page__info__section__heading-title">
+                Tulevat kielitutkintojen testisi
+              </H2>
+              <Paper elevation={3} className="user-details-page__event">
+                <div className="user-details-page__info__section">
+                  <H3>suomi, keskitaso</H3>
+                </div>
+                <div>
+                  <Text className="bold">Testipäivä</Text>
+                  <Text>{r.examDate}</Text>
+                </div>
+                <div>
+                  <Text className="bold">Testipaikka</Text>
+                  <Text>{r.streetAddress}, {r.postOffice}</Text>
+                </div>
+                <div className="user-details-page__pricing__section"></div>
+              </Paper>
+            </div>
+          ))}
         </Grid>
       </Grid>
     </Box>
