@@ -1,0 +1,10 @@
+.clerk-homepage {
+  flex: 1;
+
+  & &__grid-container {
+    display: grid;
+    gap: 2rem;
+    padding: 2.5rem;
+    padding-bottom: 4rem;
+  }
+}
