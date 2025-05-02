@@ -7,6 +7,7 @@
       "back": "Back",
       "backToHomePage": "Back to front page",
       "cancel": "Quit",
+      "clerk": "Clerk",
       "component": {
         "table": {
           "header": {
@@ -145,6 +146,7 @@
         "link": "https://www.oph.fi/en/national-certificates-language-proficiency-yki"
       },
       "pageTitle": {
+        "clerk": "Clerk",
         "registration": "Registration",
         "initRegistration": "Registration",
         "examDetails": "Test",
