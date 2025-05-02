@@ -153,6 +153,7 @@
         "evaluationOrderStatus": "Tarkistusarviointi",
         "accessibilityStatement": "Saavutettavuusseloste",
         "logoutSuccess": "Uloskirjautuminen onnnistui",
+        "userDetails": "Ilmoittautumisesi",
         "notFound": "Etsimääsi sivua ei löytynyt"
       }
     }
