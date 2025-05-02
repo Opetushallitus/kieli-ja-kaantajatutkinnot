@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { AppLanguage } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
-import { GenderEnum } from 'enums/app';
+import { ExamLanguage, GenderEnum } from 'enums/app';
 import {
   EvaluationOrderDetails,
   EvaluationOrderDetailsResponse,
@@ -218,10 +218,10 @@ export class SerializationUtils {
       email: response.email,
       registrations: response.registrations?.map((v) => ({
         examSessionId: v.exam_session_id,
-        examLang: v.exam_lang,
+        examLang: v.exam_lang as ExamLanguage,
         zip: v.zip,
         postOffice: v.post_office,
-        examDate: v.exam_date,
+        examDate: dayjs(v.exam_date),
         streetAddress: v.street_address,
       })),
     };
