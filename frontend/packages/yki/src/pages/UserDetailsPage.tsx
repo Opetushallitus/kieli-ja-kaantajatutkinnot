@@ -1,8 +1,15 @@
 import { Grid, Paper } from '@mui/material';
 import { Box } from '@mui/system';
 import { FC, useEffect } from 'react';
-import { H1, H2, H3, HeaderSeparator, Text } from 'shared/components';
-import { APIResponseStatus } from 'shared/enums';
+import {
+  CustomButton,
+  H1,
+  H2,
+  H3,
+  HeaderSeparator,
+  Text,
+} from 'shared/components';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -53,7 +60,7 @@ export const UserDetailsPage: FC = () => {
                   Yhteystietoja käytetään tutkintotodistuksen lähettämiseen
                 </Text>
                 <Text className="bold">
-                  {personDetails.first_name}
+                  {personDetails.firstName} {personDetails.lastName}
                 </Text>
                 <Text>
                   <b>Email:</b> {personDetails.email}
@@ -62,7 +69,10 @@ export const UserDetailsPage: FC = () => {
             </Paper>
           </div>
           {personDetails.registrations?.map((r) => (
-            <div className="margin-top-xxl">
+            <div
+              key={`registration-${r.examSessionId}`}
+              className="margin-top-xxl"
+            >
               <H2 className="user-details-page__info__section__heading-title">
                 Tulevat kielitutkintojen testisi
               </H2>
@@ -76,9 +86,26 @@ export const UserDetailsPage: FC = () => {
                 </div>
                 <div>
                   <Text className="bold">Testipaikka</Text>
-                  <Text>{r.streetAddress}, {r.postOffice}</Text>
+                  <Text>
+                    {r.streetAddress}, {r.postOffice}
+                  </Text>
                 </div>
-                <div className="user-details-page__pricing__section"></div>
+                <div className="columns gapped">
+                  <CustomButton
+                    className="fit-content-max-width"
+                    color={Color.Secondary}
+                    variant={Variant.Outlined}
+                  >
+                    Peru ilmoittautuminen
+                  </CustomButton>
+                  <CustomButton
+                    className="fit-content-max-width"
+                    color={Color.Secondary}
+                    variant={Variant.Outlined}
+                  >
+                    Siirrä ilmoittautuminen
+                  </CustomButton>
+                </div>
               </Paper>
             </div>
           ))}
