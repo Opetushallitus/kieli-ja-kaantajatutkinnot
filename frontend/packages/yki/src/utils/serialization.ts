@@ -27,11 +27,8 @@ import {
   PublicEmailRegistration,
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
+import { PersonDetails, PersonDetailsResponse } from 'interfaces/userDetails';
 import { EvaluationOrderState } from 'redux/reducers/evaluationOrder';
-import {
-  PersonDetailsResponse,
-  PersonDetails,
-} from 'interfaces/userDetails';
 
 export class SerializationUtils {
   static deserializeStartTime(date?: string) {
@@ -210,16 +207,17 @@ export class SerializationUtils {
     response: PersonDetailsResponse,
   ): PersonDetails {
     return {
-      firstNames: response.first_name,
+      firstName: response.first_name,
       lastName: response.last_name,
       email: response.email,
       registrations: response.registrations?.map((v) => ({
+        examSessionId: v.exam_session_id,
         examLang: v.exam_lang,
         zip: v.zip,
         postOffice: v.post_office,
         examDate: v.exam_date,
         streetAddress: v.street_address,
-      }))
+      })),
     };
   }
 }

@@ -1,15 +1,31 @@
 export interface PersonRegistrations {
+  examSessionId: string;
+  examLang: string;
+  zip: string;
+  postOffice: string;
+  examDate: string;
+  streetAddress: string;
+}
 
+export interface PersonRegistrationsResponse {
+  exam_session_id: string;
+  exam_lang: string;
+  zip: string;
+  post_office: string;
+  exam_date: string;
+  street_address: string;
 }
 
 export interface PersonDetails {
-  firstNames: string;
+  firstName: string;
   lastName: string;
+  email: string;
   registrations: Array<PersonRegistrations>;
 }
 
 export interface PersonDetailsResponse {
-  first_names: string;
+  first_name: string;
   last_name: string;
-  registrations: Array<PersonRegistrations>;
+  email: string;
+  registrations: Array<PersonRegistrationsResponse>;
 }

@@ -3,21 +3,25 @@ import { AxiosResponse } from 'axios';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { SerializationUtils } from 'utils/serialization';
-import { PersonDetails } from 'interfaces/userDetails';
+import { PersonDetailsResponse } from 'interfaces/userDetails';
 import {
   loadPersonDetails,
   rejectPersonDetails,
   storePersonDetails,
 } from 'redux/reducers/userDetails';
+import { SerializationUtils } from 'utils/serialization';
 
 function* loadPersonDetailsSaga() {
   try {
-    const response: AxiosResponse<PersonDetails> = yield call(
+    const response: AxiosResponse<PersonDetailsResponse> = yield call(
       axiosInstance.get,
       APIEndpoints.PersonDetails,
     );
-    yield put(storePersonDetails(SerializationUtils.deserializePersonDetails(response.data)));
+    yield put(
+      storePersonDetails(
+        SerializationUtils.deserializePersonDetails(response.data),
+      ),
+    );
   } catch (error) {
     yield put(rejectPersonDetails());
   }
