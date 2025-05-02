@@ -1,17 +1,30 @@
 {
-    "first_name": "Susanna",
-    "oid": "1.2.246.562.24.00123456789",
-    "last_name": "Uusivälimerkki",
-    "email": "harry@invalid.invalid",
-    "registrations": [
-        {
-            "exam_session_id": "1",
-            "street_address": "School of wizardry",
-            "post_office": "Hogwarts",
-            "zip": "90100",
-            "exam_date": "2023-05-10",
-            "language_code": "fin",
-            "level_code": "KESKI"
-        }
-    ]
+  "first_name": "Susanna",
+  "oid": "1.2.246.562.24.00123456789",
+  "last_name": "Uusivälimerkki",
+  "email": "harry@invalid.invalid",
+  "registrations": [
+    {
+      "id": 1337,
+      "exam_session_id": "1",
+      "street_address": "School of wizardry",
+      "post_office": "Hogwarts",
+      "zip": "90100",
+      "exam_date": "2026-02-12",
+      "language_code": "fin",
+      "level_code": "KESKI",
+      "is_transferable": true
+    },
+    {
+        "id": 31337,
+        "exam_session_id": "2",
+        "street_address": "Koulukuja 9",
+        "post_office": "Kihniö",
+        "zip": "22300",
+        "exam_date": "2026-01-20",
+        "language_code": "fin",
+        "level_code": "YLIN",
+        "is_transferable": false
+      }
+  ]
 }
