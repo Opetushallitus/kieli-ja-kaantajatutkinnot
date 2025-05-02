@@ -29,7 +29,7 @@ const clerkUser: ClerkUser = {
   isExaminer: false,
 };
 
-export const examinerUser: ClerkUser = {
+const examinerUser: ClerkUser = {
   oid: '1.2.246.562.10.30000000003',
   isAdmin: false,
   isExaminer: true,
