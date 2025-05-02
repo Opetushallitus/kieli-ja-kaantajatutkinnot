@@ -1,4 +1,4 @@
-export interface PersonRegistrations {
+interface PersonRegistrations {
   examSessionId: string;
   examLang: string;
   zip: string;
@@ -7,7 +7,7 @@ export interface PersonRegistrations {
   streetAddress: string;
 }
 
-export interface PersonRegistrationsResponse {
+interface PersonRegistrationsResponse {
   exam_session_id: string;
   exam_lang: string;
   zip: string;
