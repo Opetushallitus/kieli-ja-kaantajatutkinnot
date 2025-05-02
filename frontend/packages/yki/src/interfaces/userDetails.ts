@@ -1,9 +1,13 @@
+import { Dayjs } from "dayjs";
+
+import { ExamLanguage } from "enums/app";
+
 interface PersonRegistrations {
   examSessionId: string;
-  examLang: string;
+  examLang: ExamLanguage;
   zip: string;
   postOffice: string;
-  examDate: string;
+  examDate: Dayjs;
   streetAddress: string;
 }
 

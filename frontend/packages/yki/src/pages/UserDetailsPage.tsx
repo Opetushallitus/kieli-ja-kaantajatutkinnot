@@ -10,6 +10,7 @@ import {
   Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import { DateUtils } from 'shared/utils';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -82,7 +83,7 @@ export const UserDetailsPage: FC = () => {
                 </div>
                 <div>
                   <Text className="bold">Testipäivä</Text>
-                  <Text>{r.examDate}</Text>
+                  <Text>{DateUtils.formatOptionalDate(r.examDate, 'l')}</Text>
                 </div>
                 <div>
                   <Text className="bold">Testipaikka</Text>
