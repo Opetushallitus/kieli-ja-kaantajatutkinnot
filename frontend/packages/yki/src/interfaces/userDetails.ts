@@ -1,23 +1,28 @@
 import { Dayjs } from "dayjs";
+import { WithId } from "shared/interfaces";
 
-import { ExamLanguage } from "enums/app";
+import { ExamLanguage, ExamLevel } from "enums/app";
 
-interface PersonRegistrations {
+interface PersonRegistrations extends WithId {
   examSessionId: string;
   examLang: ExamLanguage;
+  examLevel: ExamLevel;
   zip: string;
   postOffice: string;
   examDate: Dayjs;
   streetAddress: string;
+  isTransferable: boolean;
 }
 
-interface PersonRegistrationsResponse {
+interface PersonRegistrationsResponse extends WithId {
   exam_session_id: string;
-  exam_lang: string;
+  language_code: string;
+  level_code: string;
   zip: string;
   post_office: string;
   exam_date: string;
   street_address: string;
+  is_transferable: boolean;
 }
 
 export interface PersonDetails {
