@@ -14,6 +14,7 @@ export enum AppRoutes {
   ExamSession = '/yki/tutkintotilaisuus/:examSessionId',
   LogoutSuccess = '/yki/uloskirjautuminen-onnistui',
   UserDetails = '/yki/kayttaja/tiedot',
+  TransferEnrollment = '/yki/kayttaja/siirra/:registrationId',
   NotFoundPage = '*',
 }
 
