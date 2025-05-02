@@ -9,6 +9,7 @@ import {
   RegistrationKind,
   RegistrationStates,
 } from 'enums/app';
+import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
 import {
   RegistrationToConfirmDetails,
   RegistrationToConfirmDetailsResponse,
@@ -331,6 +332,22 @@ export class SerializationUtils {
     return {
       exam_session_id: payload.examSessionId,
       to_queue: payload.registrationKind === RegistrationKind.Queue,
+    };
+  }
+
+  static deserializeClerkOrganizerResponse(
+    organizerResponse: ClerkOrganizerResponse,
+  ) {
+    return {
+      ...organizerResponse,
+      agreement_start_date: organizerResponse.agreement_start_date
+        ? dayjs(organizerResponse.agreement_start_date)
+        : undefined,
+      agreement_end_date: organizerResponse.agreement_end_date
+        ? dayjs(organizerResponse.agreement_end_date)
+        : undefined,
+      languages: organizerResponse.languages || null,
+      extra: organizerResponse.extra || '',
     };
   }
 }

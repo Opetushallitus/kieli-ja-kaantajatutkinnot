@@ -96,12 +96,12 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu") => {
             filename: `${STATIC_PATH}/assets/images/[name][ext]`
           }
         },
-        {
-          test: /\.m?js$/,
-          resolve: {
-              fullySpecified: false,
-          },
-      },
+        // {
+        //   test: /\.m?js$/,
+        //   resolve: {
+        //       fullySpecified: false,
+        //   },
+        // }
       ],
     },
   });
@@ -135,7 +135,7 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu") => {
       },
       compress: true,
       port,
-      proxy: {
+      proxy: env.proxy &&{
         [`/${CONTEXT_PATH}/api`]: env.proxy,
         [`/${CONTEXT_PATH}/auth`]: env.proxy,
       },

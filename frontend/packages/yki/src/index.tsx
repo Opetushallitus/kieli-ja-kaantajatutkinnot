@@ -29,7 +29,6 @@ async function enableMocking() {
 
 const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
-
 enableMocking().then(() => {
   root.render(
     <React.StrictMode>

@@ -20,6 +20,8 @@ export enum AppRoutes {
   ConfirmRegistration = '/yki/kayttaja/vahvista/:registrationId',
   ExpiredLoginLinkPage = '/yki/linkki-vanhentunut/:code',
   NotFoundPage = '*',
+  ClerkRoot = '/yki/v2/virkailija',
+  ClerkOrganizerRegister = '/yki/v2/virkailija/jarjestajarekisteri',
 }
 
 export enum HeaderTabNav {

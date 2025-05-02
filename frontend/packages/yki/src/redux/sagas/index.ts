@@ -1,5 +1,6 @@
 import { all } from 'redux-saga/effects';
 
+import { watchClerkOrganizers } from 'redux/sagas/clerkOrganizer';
 import { watchConfirmRegistration } from 'redux/sagas/confirmRegistration';
 import { watchEvaluationOrder } from 'redux/sagas/evaluationOrder';
 import { watchEvaluationPeriods } from 'redux/sagas/evaluationPeriod';
@@ -29,5 +30,6 @@ export default function* rootSaga() {
     watchConfirmRegistration(),
     watchLoginLink(),
     watchLoginLinkRenew(),
+    watchClerkOrganizers(),
   ]);
 }
