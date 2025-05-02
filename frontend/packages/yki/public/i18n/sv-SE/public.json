@@ -15,6 +15,14 @@
         "title": "Avbryt anmälan",
         "success": "Anmälan har avbrutits"
       },
+      "clerkRegisterListing": {
+        "header": {
+          "organizer": "Organizer",
+          "agreements": "Organizer agreements",
+          "munincipality": "Municipality",
+          "searchResults": "123 organizers"
+        }
+      },
       "cookieBanner": {
         "buttonAriaLabel": "Stäng informationrutan om kakor",
         "buttonText": "Stäng",

@@ -10,6 +10,7 @@ declare global {
       openEvaluationOrderPage(id: number): void;
       openExamSessionRegistrationForm(id: number): void;
       openPublicUserDetailsPage(): void;
+      openClerkRegistrationPage(): void;
     }
   }
 }

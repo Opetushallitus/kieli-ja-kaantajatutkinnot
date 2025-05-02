@@ -67,6 +67,8 @@ export const PublicRegistrationInitErrorView = () => {
     error === PublicRegistrationInitError.Past ||
     error === PublicRegistrationInitError.Upcoming;
 
+  console.log('init error', showExamSessionDetails);
+
   return (
     <div className="public-registration__grid__form-container">
       {showExamSessionDetails ? (

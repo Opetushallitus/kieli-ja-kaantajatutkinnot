@@ -8,6 +8,7 @@
       "back": "Tillbaka",
       "backToHomePage": "Tillbaka till startsidan",
       "cancel": "Avbryt",
+      "clerk": "Administratör",
       "component": {
         "table": {
           "header": {
@@ -149,6 +150,7 @@
         "link": "https://www.oph.fi/sv/allmanna-sprakexamina-yki"
       },
       "pageTitle": {
+        "clerk": "Administratör",
         "registration": "Anmälning",
         "initRegistration": "Anmälning",
         "examDetails": "Test",
@@ -163,7 +165,8 @@
         "confirmRegistration": "Bekräfta anmälan",
         "notFound": "Sidan hittades inte",
         "expiredLoginLink": "Länken gäller inte längre"
-      }
+      },
+      "previous": "Tidigare"
     }
   }
 }

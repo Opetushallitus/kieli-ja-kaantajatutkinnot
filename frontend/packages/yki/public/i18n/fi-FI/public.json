@@ -15,6 +15,14 @@
         "title": "Haluatko perua ilmoittautumisen?",
         "success": "Ilmoittautuminen peruttu onnistuneesti"
       },
+      "clerkRegisterListing": {
+        "header": {
+          "organizer": "Järjestäjä",
+          "agreements": "Kielitutkintosopimukset",
+          "munincipality": "Paikkakunta",
+          "searchResults": "123 järjestäjää"
+        }
+      },
       "cookieBanner": {
         "buttonAriaLabel": "Sulje evästetiedot",
         "buttonText": "Sulje",

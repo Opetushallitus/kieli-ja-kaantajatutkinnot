@@ -11,6 +11,7 @@ import {
   //SuomiFiAuthenticatedSessionResponse,
 } from 'tests/msw/fixtures/identity';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
+import { organizers } from 'tests/msw/fixtures/organizers';
 import { personDetails } from 'tests/msw/fixtures/personDetails';
 import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/registrationInit';
 
@@ -169,4 +170,7 @@ export const handlers = [
 
     return HttpResponse.redirect(redirect as string);
   }),
+  http.get('/yki/api/virkailija/organizer', () =>
+    HttpResponse.json(organizers),
+  ),
 ];

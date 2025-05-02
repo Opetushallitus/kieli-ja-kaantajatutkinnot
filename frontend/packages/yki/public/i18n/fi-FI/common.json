@@ -8,6 +8,7 @@
       "back": "Takaisin",
       "backToHomePage": "Takaisin aloitussivulle",
       "cancel": "Keskeytä",
+      "clerk": "Virkailija",
       "component": {
         "table": {
           "header": {
@@ -149,6 +150,7 @@
         "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki"
       },
       "pageTitle": {
+        "clerk": "Virkailija",
         "registration": "Ilmoittautuminen",
         "initRegistration": "Ilmoittautuminen",
         "examDetails": "Tutkinto",
@@ -163,7 +165,8 @@
         "confirmRegistration": "Vahvista ilmoittautuminen",
         "notFound": "Etsimääsi sivua ei löytynyt",
         "expiredLoginLink": "Linkki on vanhentunut"
-      }
+      },
+      "previous": "Edellinen"
     }
   }
 }

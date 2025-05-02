@@ -29,6 +29,7 @@ export const ContentSelector = () => {
   }
   const { open } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
+
   if (!open) {
     return <RegistrationNotAvailable />;
   } else {
@@ -93,6 +94,28 @@ export const InitRegistrationPage = () => {
       navigate(AppRoutes.Registration, { replace: true });
     }
   }, [status, dispatch, navigate, showToast, idFromParams, examSession?.id, t]);
+
+  useEffect(() => {
+    if (
+      examSession &&
+      (initRegistrationState.status === APIResponseStatus.NotStarted ||
+        initRegistrationState.examSessionId !== idFromParams)
+    ) {
+      // Ensure registration init endpoint gets called, even if navigating to the page directly by URL.
+      // This is necessary to accurately infer if user can enroll to exam proper or if they must enroll to queue instead.
+      dispatch(
+        initRegistration({
+          examSessionId: examSession.id,
+          registrationKind: examSession.available_registration_kind,
+        }),
+        [
+          examSession,
+          initRegistrationState.status,
+          initRegistrationState.examSessionId,
+        ],
+      );
+    }
+  });
 
   useEffect(() => {
     if (

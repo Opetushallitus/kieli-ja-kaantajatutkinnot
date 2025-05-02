@@ -15,6 +15,14 @@
         "title": "Do you wish to cancel your registration?",
         "success": "Your registration has been cancelled"
       },
+      "clerkRegisterListing": {
+        "header": {
+          "organizer": "Organizer",
+          "agreements": "Organizer agreements",
+          "munincipality": "Municipality",
+          "searchResults": "123 järjestäjää"
+        }
+      },
       "cookieBanner": {
         "buttonAriaLabel": "Close the notification about cookies",
         "buttonText": "Close",
