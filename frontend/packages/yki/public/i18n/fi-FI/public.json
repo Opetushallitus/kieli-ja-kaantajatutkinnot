@@ -514,6 +514,26 @@
         },
         "register": "Ilmoittaudu",
         "title": "Yleiset kielitutkinnot (YKI) - Ilmoittautuminen"
+      },
+      "transferEnrollmentPage": {
+        "currentEnrollmentDetails": {
+          "heading": "Olet siirtämässä"
+        },
+        "introduction": {
+          "criteria": {
+            "item1": "Uusi testipäivä saa olla enintään vuoden kuluttua alkuperäisestä testipäivästä.",
+            "item2": "Jos seuraavaan saman kielen ja tason YKI-testiin on yli vuosi alkuperäisestä testipäivästä, voit siirtää ilmoittautumisesi seuraavaan saman kielen ja tason YKI-testiin."
+          },
+          "info": "Voit siirtää ilmoittautumisesi yhden kerran saman kielen ja tason YKI-testiin samassa testipaikassa."
+        },
+        "selectNewExamDate": {
+          "actions": {
+            "select": "Valitse"
+          },
+          "noCandidatesFound": "Valitettavasti avoimia yleisen kielitaidon testejä ei löytynyt.",
+          "heading": "Valitse uusi testipäivä"
+        },
+        "title": "Siirrä ilmoittautuminen"
       }
     }
   }
