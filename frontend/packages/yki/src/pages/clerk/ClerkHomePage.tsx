@@ -14,7 +14,7 @@ export const ClerkHomePage: FC = () => {
         >
           <Grid item>
             <div className="columns gapped grow">
-              <Text>Uusi virkailijan UI</Text>
+              <Text>Todellakin uusi virkailijan UI</Text>
             </div>
           </Grid>
         </Grid>

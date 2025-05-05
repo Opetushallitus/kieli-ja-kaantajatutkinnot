@@ -14,7 +14,7 @@
   "scripts": {
     "g:cypress": "cd $INIT_CWD && cypress",
     "g:eslint": "cd $INIT_CWD && eslint",
-    "g:exportlint": "cd $INIT_CWD && ts-unused-exports tsconfig.json --ignoreTestFiles",
+    "g:exportlint": "cd $INIT_CWD && ts-unused-exports tsconfig.json",
     "g:jest": "cd $INIT_CWD && jest",
     "g:prettier": "cd $INIT_CWD && prettier",
     "g:stylelint": "cd $INIT_CWD && stylelint",
