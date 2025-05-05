@@ -215,6 +215,7 @@ export class SerializationUtils {
         examSessionId: v.exam_session_id,
         examLang: v.language_code as ExamLanguage,
         examLevel: v.level_code as ExamLevel,
+        state: v.state,
         zip: v.zip,
         postOffice: v.post_office,
         examDate: dayjs(v.exam_date),

@@ -1,9 +1,10 @@
-import { Dayjs } from "dayjs";
-import { WithId } from "shared/interfaces";
+import { Dayjs } from 'dayjs';
+import { WithId } from 'shared/interfaces';
 
-import { ExamLanguage, ExamLevel } from "enums/app";
+import { ExamLanguage, ExamLevel } from 'enums/app';
 
-interface PersonRegistrations extends WithId {
+export interface PersonRegistrations extends WithId {
+  state: string;
   examSessionId: string;
   examLang: ExamLanguage;
   examLevel: ExamLevel;
@@ -18,6 +19,7 @@ interface PersonRegistrationsResponse extends WithId {
   exam_session_id: string;
   language_code: string;
   level_code: string;
+  state: string;
   zip: string;
   post_office: string;
   exam_date: string;
