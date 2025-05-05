@@ -147,13 +147,13 @@ export const UserDetailsPage: FC = () => {
               </div>
             </Paper>
           </div>
-          <div className="margin-top-xxl">
+          <div className="margin-top-xxl rows gapped-xxl">
             <H2 className="user-details-page__info__section__heading-title">
               Tulevat kielitutkintojen testisi
             </H2>
             <Registrations filteredRegistrations={upcomingRegistrations} />
           </div>
-          <div className="margin-top-xxl">
+          <div className="margin-top-xxl rows gapped-xxl">
             <H2 className="user-details-page__info__section__heading-title">
               Menneet ja arvioidut
             </H2>
