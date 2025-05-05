@@ -16,9 +16,75 @@ import { DateUtils } from 'shared/utils';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { PersonRegistrations } from 'interfaces/userDetails';
 import { loadPersonDetails } from 'redux/reducers/userDetails';
 import { userDetailsSelector } from 'redux/selectors/userDetails';
 import { ExamSessionUtils } from 'utils/examSession';
+
+const filterByStatus = (
+  registrations: Array<PersonRegistrations>,
+  states: Array<string>,
+) => {
+  if (!registrations) {
+    return [];
+  }
+
+  return registrations.filter((r) => states.includes(r.state));
+};
+
+interface RegistrationsProps {
+  filteredRegistrations: Array<PersonRegistrations>;
+}
+
+const Registrations: FC<RegistrationsProps> = ({ filteredRegistrations }) => {
+  return filteredRegistrations.map((r) => (
+    <Paper
+      key={`registration-${r.examSessionId}`}
+      elevation={3}
+      className="user-details-page__event"
+    >
+      <div className="user-details-page__info__section">
+        <H3>
+          {ExamSessionUtils.languageAndLevelText({
+            language_code: r.examLang,
+            level_code: r.examLevel,
+          })}
+        </H3>
+      </div>
+      <div>
+        <Text className="bold">Testipäivä</Text>
+        <Text>{DateUtils.formatOptionalDate(r.examDate, 'l')}</Text>
+      </div>
+      <div>
+        <Text className="bold">Testipaikka</Text>
+        <Text>
+          {r.streetAddress}, {r.postOffice}
+        </Text>
+      </div>
+      <div className="columns gapped">
+        <CustomButton
+          className="fit-content-max-width"
+          color={Color.Secondary}
+          variant={Variant.Outlined}
+        >
+          Peru ilmoittautuminen
+        </CustomButton>
+        <CustomButtonLink
+          className="fit-content-max-width"
+          color={Color.Secondary}
+          variant={Variant.Outlined}
+          disabled={!r.isTransferable}
+          to={AppRoutes.TransferEnrollment.replace(
+            /:registrationId/,
+            `${r.id}`,
+          )}
+        >
+          Siirrä ilmoittautuminen
+        </CustomButtonLink>
+      </div>
+    </Paper>
+  ));
+};
 
 export const UserDetailsPage: FC = () => {
   const { t } = usePublicTranslation({
@@ -37,6 +103,15 @@ export const UserDetailsPage: FC = () => {
   if (!personDetails) {
     return <></>;
   }
+
+  const canceledRegistrations = filterByStatus(personDetails.registrations, [
+    'EXPIRED',
+    'CANCELED',
+  ]);
+
+  const upcomingRegistrations = filterByStatus(personDetails.registrations, [
+    'SUBMITTED',
+  ]);
 
   return (
     <Box className="user-details-page">
@@ -72,55 +147,17 @@ export const UserDetailsPage: FC = () => {
               </div>
             </Paper>
           </div>
-          <div className="margin-top-xxl rows gapped-xxl">
+          <div className="margin-top-xxl">
             <H2 className="user-details-page__info__section__heading-title">
               Tulevat kielitutkintojen testisi
             </H2>
-            {personDetails.registrations?.map((r) => (
-              <div key={`registration-${r.id}`}>
-                <Paper elevation={3} className="user-details-page__event">
-                  <div className="user-details-page__info__section">
-                    <H3>
-                      {ExamSessionUtils.languageAndLevelText({
-                        language_code: r.examLang,
-                        level_code: r.examLevel,
-                      })}
-                    </H3>
-                  </div>
-                  <div>
-                    <Text className="bold">Testipäivä</Text>
-                    <Text>{DateUtils.formatOptionalDate(r.examDate, 'l')}</Text>
-                  </div>
-                  <div>
-                    <Text className="bold">Testipaikka</Text>
-                    <Text>
-                      {r.streetAddress}, {r.postOffice}
-                    </Text>
-                  </div>
-                  <div className="columns gapped">
-                    <CustomButton
-                      className="fit-content-max-width"
-                      color={Color.Secondary}
-                      variant={Variant.Outlined}
-                    >
-                      Peru ilmoittautuminen
-                    </CustomButton>
-                    <CustomButtonLink
-                      className="fit-content-max-width"
-                      color={Color.Secondary}
-                      variant={Variant.Outlined}
-                      disabled={!r.isTransferable}
-                      to={AppRoutes.TransferEnrollment.replace(
-                        /:registrationId/,
-                        `${r.id}`,
-                      )}
-                    >
-                      Siirrä ilmoittautuminen
-                    </CustomButtonLink>
-                  </div>
-                </Paper>
-              </div>
-            ))}
+            <Registrations filteredRegistrations={upcomingRegistrations} />
+          </div>
+          <div className="margin-top-xxl">
+            <H2 className="user-details-page__info__section__heading-title">
+              Menneet ja arvioidut
+            </H2>
+            <Registrations filteredRegistrations={canceledRegistrations} />
           </div>
         </Grid>
       </Grid>

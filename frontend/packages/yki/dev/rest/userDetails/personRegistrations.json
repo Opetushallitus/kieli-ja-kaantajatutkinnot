@@ -9,6 +9,7 @@
       "exam_session_id": "1",
       "street_address": "School of wizardry",
       "post_office": "Hogwarts",
+      "state": "SUBMITTED",
       "zip": "90100",
       "exam_date": "2026-02-12",
       "language_code": "fin",
@@ -16,15 +17,16 @@
       "is_transferable": true
     },
     {
-        "id": 31337,
-        "exam_session_id": "2",
-        "street_address": "Koulukuja 9",
-        "post_office": "Kihniö",
-        "zip": "22300",
-        "exam_date": "2026-01-20",
-        "language_code": "fin",
-        "level_code": "YLIN",
-        "is_transferable": false
-      }
+      "id": 31337,
+      "exam_session_id": "2",
+      "street_address": "Koulukuja 9",
+      "post_office": "Kihniö",
+      "state": "COMPLETED",
+      "zip": "22300",
+      "exam_date": "2026-01-20",
+      "language_code": "fin",
+      "level_code": "YLIN",
+      "is_transferable": false
+    }
   ]
 }
