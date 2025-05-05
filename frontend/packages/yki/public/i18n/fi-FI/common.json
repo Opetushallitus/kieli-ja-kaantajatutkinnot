@@ -155,6 +155,7 @@
         "accessibilityStatement": "Saavutettavuusseloste",
         "logoutSuccess": "Uloskirjautuminen onnnistui",
         "userDetails": "Ilmoittautumisesi",
+        "transferEnrollment": "Siirrä ilmoittautuminen",
         "notFound": "Etsimääsi sivua ei löytynyt"
       }
     }
