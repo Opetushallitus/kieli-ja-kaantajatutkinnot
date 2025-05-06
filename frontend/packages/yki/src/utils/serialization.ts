@@ -2,7 +2,12 @@ import dayjs, { Dayjs } from 'dayjs';
 import { AppLanguage } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
-import { ExamLanguage, ExamLevel, GenderEnum } from 'enums/app';
+import {
+  ExamLanguage,
+  ExamLevel,
+  GenderEnum,
+  RegistrationStates,
+} from 'enums/app';
 import {
   EvaluationOrderDetails,
   EvaluationOrderDetailsResponse,
@@ -215,7 +220,7 @@ export class SerializationUtils {
         examSessionId: v.exam_session_id,
         examLang: v.language_code as ExamLanguage,
         examLevel: v.level_code as ExamLevel,
-        state: v.state,
+        state: RegistrationStates[v.state as keyof typeof RegistrationStates],
         zip: v.zip,
         postOffice: v.post_office,
         examDate: dayjs(v.exam_date),

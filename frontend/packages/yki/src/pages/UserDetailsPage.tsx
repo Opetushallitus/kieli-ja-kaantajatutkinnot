@@ -15,15 +15,15 @@ import { DateUtils } from 'shared/utils';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
+import { AppRoutes, RegistrationStates } from 'enums/app';
 import { PersonRegistrations } from 'interfaces/userDetails';
 import { loadPersonDetails } from 'redux/reducers/userDetails';
 import { userDetailsSelector } from 'redux/selectors/userDetails';
 import { ExamSessionUtils } from 'utils/examSession';
 
-const filterByStatus = (
+const filterByState = (
   registrations: Array<PersonRegistrations>,
-  states: Array<string>,
+  states: Array<RegistrationStates>,
 ) => {
   if (!registrations) {
     return [];
@@ -104,13 +104,13 @@ export const UserDetailsPage: FC = () => {
     return <></>;
   }
 
-  const canceledRegistrations = filterByStatus(personDetails.registrations, [
-    'EXPIRED',
-    'CANCELED',
+  const canceledRegistrations = filterByState(personDetails.registrations, [
+    RegistrationStates.Expired,
+    RegistrationStates.Cancelled,
   ]);
 
-  const upcomingRegistrations = filterByStatus(personDetails.registrations, [
-    'SUBMITTED',
+  const upcomingRegistrations = filterByState(personDetails.registrations, [
+    RegistrationStates.Submitted,
   ]);
 
   return (
