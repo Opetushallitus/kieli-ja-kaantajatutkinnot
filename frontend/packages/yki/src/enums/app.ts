@@ -74,3 +74,12 @@ export enum RegistrationKind {
 export enum YkiValidationErrors {
   MismatchingEmails = 'errors.mismatchingEmails',
 }
+
+export enum RegistrationStates {
+  Completed = 'COMPLETED',
+  Submitted = 'SUBMITTED',
+  Started = 'STARTED',
+  Expired = 'EXPIRED',
+  Cancelled = 'CANCELLED',
+  PaidAndCancelled = 'PAID_AND_CANCELLED',
+}
