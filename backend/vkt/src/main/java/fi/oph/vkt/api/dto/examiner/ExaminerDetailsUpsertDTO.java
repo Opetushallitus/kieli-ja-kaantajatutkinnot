@@ -9,7 +9,7 @@ import lombok.NonNull;
 @Builder
 public record ExaminerDetailsUpsertDTO(
   @NonNull String email,
-  @NonNull String phoneNumber,
+  String phoneNumber,
   @NonNull Boolean examLanguageFinnish,
   @NonNull Boolean examLanguageSwedish,
   @NonNull Boolean isPublic,
