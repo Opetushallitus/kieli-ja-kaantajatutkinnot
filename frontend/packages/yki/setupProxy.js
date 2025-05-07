@@ -281,6 +281,81 @@ const quarantines = {
 
 const initialOrganizers = [...organizers];
 
+const getRegistrationTransferDetails = () => {
+  const locations = ['fi', 'sv', 'en'].map((l) => ({
+    lang: l,
+    name: 'Kirkonkylän kuppila',
+    post_office: 'Lappajärvi',
+    zip: '62600',
+    street_address: 'Kirkönkylän Kyrönsaari 1',
+    other_location_info: 'Kierrä kaukaa!',
+  }));
+  const registrationTransferDetails = [
+    {
+      id: 1337,
+      language_code: 'fin',
+      level_code: 'PERUS',
+      session_date: '2025-06-10',
+      location: locations,
+      is_transferable: true,
+      targets: [
+        {
+          id: 689,
+          language_code: 'fin',
+          level_code: 'PERUS',
+          session_date: '2025-09-11',
+          location: locations,
+          participants: 5,
+          max_participants: 10,
+        },
+        {
+          id: 711,
+          language_code: 'fin',
+          level_code: 'PERUS',
+          session_date: '2026-01-05',
+          location: locations,
+          participants: 9,
+          max_participants: 10,
+        },
+      ],
+    },
+    {
+      id: 31337,
+      language_code: 'fin',
+      level_code: 'KESKI',
+      session_date: '2025-06-10',
+      location: ['fi', 'sv', 'en'].map((l) => ({
+        lang: l,
+        name: 'Kirkonkylän kuppila',
+        post_office: 'Lappajärvi',
+        zip: '62600',
+        street_address: 'Kirkönkylän Kyrönsaari 1',
+        other_location_info: 'Kierrä kaukaa!',
+      })),
+      is_transferable: false,
+      targets: [],
+    },
+    {
+      id: 1000,
+      language_code: 'fin',
+      level_code: 'KESKI',
+      session_date: '2025-06-10',
+      location: ['fi', 'sv', 'en'].map((l) => ({
+        lang: l,
+        name: 'Kirkonkylän kuppila',
+        post_office: 'Lappajärvi',
+        zip: '62600',
+        street_address: 'Kirkönkylän Kyrönsaari 1',
+        other_location_info: 'Kierrä kaukaa!',
+      })),
+      is_transferable: true,
+      targets: [],
+    }
+  ];
+
+  return registrationTransferDetails;
+};
+
 /*
 const adminUser = {
   identity: {
@@ -1293,6 +1368,32 @@ module.exports = function (app) {
       } catch (err) {
         printError(req, err);
         res.status(404).send(err.message);
+      }
+    };
+    useLocalProxy ? proxyPostCall(req, res) : mockCall();
+  });
+
+  app.get('/yki/api/person/registration/:id/relocate', (req, res) => {
+    const mockCall = () => {
+      try {
+        const registrationTransferDetails = getRegistrationTransferDetails();
+        const details = registrationTransferDetails.find(
+          (r) => r.id === Number(req.params.id),
+        );
+        res.set('Content-Type', 'application/json; charset=utf-8');
+        if (details) {
+          res.send(details);
+        } else {
+          res
+            .status(400)
+            .send(
+              'Registration transfer details not found for registration id ' +
+                req.params.id,
+            );
+        }
+      } catch (err) {
+        printError(req, err);
+        res.status(400).send(err.message);
       }
     };
     useLocalProxy ? proxyPostCall(req, res) : mockCall();

@@ -1,10 +1,37 @@
 import InfoOutlineIcon from '@mui/icons-material/InfoOutlined';
-import { Container, Grid } from '@mui/material';
+import {
+  Container,
+  Grid,
+  Paper,
+  TableCell,
+  TableHead,
+  TableRow,
+} from '@mui/material';
 import { Box } from '@mui/system';
-import { H1, H2, HeaderSeparator, Text } from 'shared/components';
-import { Color } from 'shared/enums';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import {
+  CustomButton,
+  CustomTable,
+  H1,
+  H2,
+  HeaderSeparator,
+  Text,
+} from 'shared/components';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
+import { DateUtils } from 'shared/utils';
 
-import { usePublicTranslation } from 'configs/i18n';
+import {
+  getCurrentLang,
+  useCommonTranslation,
+  usePublicTranslation,
+} from 'configs/i18n';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { TransferEnrollmentTarget } from 'interfaces/transferEnrollment';
+import { loadTransferEnrollmentDetails } from 'redux/reducers/transferEnrollment';
+import { transferEnrollmentSelector } from 'redux/selectors/transferEnrollment';
+import { ExamSessionUtils } from 'utils/examSession';
 
 const Header = () => {
   const { t } = usePublicTranslation({
@@ -30,24 +57,23 @@ const Header = () => {
 };
 
 const CurrentEnrollmentDetails = () => {
+  const { transferEnrollmentDetails } = useAppSelector(
+    transferEnrollmentSelector,
+  );
+
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.transferEnrollmentPage.currentEnrollmentDetails',
   });
+  const translateCommon = useCommonTranslation();
 
-  return (
-    <Grid
-      item
-      className="transfer-enrollment-page__grid-container__item-header"
-    >
-      <H2>{t('heading')}</H2>
-    </Grid>
+  if (!transferEnrollmentDetails) {
+    return null;
+  }
+
+  const location = ExamSessionUtils.getLocationInfo(
+    transferEnrollmentDetails,
+    getCurrentLang(),
   );
-};
-
-const SelectNewExamDate = () => {
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.pages.transferEnrollmentPage.selectNewExamDate',
-  });
 
   return (
     <Grid
@@ -56,18 +82,228 @@ const SelectNewExamDate = () => {
     >
       <div className="rows gapped">
         <H2>{t('heading')}</H2>
-        <Container className="transfer-enrollment-page__info-box">
-          <div className="columns gapped-sm">
-            <InfoOutlineIcon color={Color.Secondary} />
-            <Text>{t('noCandidatesFound')}</Text>
-          </div>
-        </Container>
+        <Paper
+          elevation={3}
+          className="transfer-enrollment-page__current-enrollment-details"
+        >
+          <Text>
+            <b>{`${translateCommon('examSession')}: `}</b>
+            {ExamSessionUtils.languageAndLevelText(transferEnrollmentDetails)}
+          </Text>
+          <Text>
+            <b>{`${translateCommon('examDate')}: `}</b>
+            {DateUtils.formatOptionalDate(
+              transferEnrollmentDetails.session_date,
+            )}
+          </Text>
+          <Text>
+            <b>{`${translateCommon('institution')}: `}</b>
+            {`${location.name}, ${
+              location.street_address
+            }, ${ExamSessionUtils.getMunicipality(location)}`}
+          </Text>
+        </Paper>
       </div>
     </Grid>
   );
 };
 
+const TransferTargetsTableHeading = () => {
+  const translateCommon = useCommonTranslation();
+
+  return (
+    <TableHead className="heading-text">
+      <TableRow>
+        <TableCell>{translateCommon('examination')}</TableCell>
+        <TableCell>{translateCommon('examDate')}</TableCell>
+        <TableCell>{translateCommon('institution')}</TableCell>
+        <TableCell>{translateCommon('placesAvailable')}</TableCell>
+        <TableCell>{translateCommon('actions')}</TableCell>
+      </TableRow>
+    </TableHead>
+  );
+};
+
+const TransferTargetPhoneCells = ({
+  target,
+}: {
+  target: TransferEnrollmentTarget;
+}) => {
+  const lang = getCurrentLang();
+  const locationInfo = ExamSessionUtils.getLocationInfo(target, lang);
+  const availablePlaces = Math.max(
+    target.max_participants - target.participants,
+    0,
+  );
+  const translateCommon = useCommonTranslation();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.transferEnrollment',
+  });
+
+  return (
+    <TableCell>
+      <Text>
+        <b>{translateCommon('examination')}:</b>{' '}
+        {ExamSessionUtils.languageAndLevelText(target)}
+        <br />
+        <b>{translateCommon('examDate')}:</b>{' '}
+        {DateUtils.formatOptionalDate(target.session_date, 'l')}
+        <br />
+        <b>{translateCommon('institution')}:</b> {locationInfo.name},{' '}
+        {locationInfo.street_address},{' '}
+        {ExamSessionUtils.getMunicipality(locationInfo)}
+        <br />
+        <b>{translateCommon('placesAvailable')}:</b> {availablePlaces}
+        <br />
+      </Text>
+      <CustomButton
+        color={Color.Secondary}
+        variant={Variant.Outlined}
+        fullWidth={true}
+      >
+        {t('actions.select')}
+      </CustomButton>
+    </TableCell>
+  );
+};
+
+const TransferTargetDesktopCells = ({
+  target,
+}: {
+  target: TransferEnrollmentTarget;
+}) => {
+  const lang = getCurrentLang();
+  const locationInfo = ExamSessionUtils.getLocationInfo(target, lang);
+  const availablePlaces = Math.max(
+    target.max_participants - target.participants,
+    0,
+  );
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.transferEnrollment',
+  });
+
+  return (
+    <>
+      <TableCell>
+        <Text>{ExamSessionUtils.languageAndLevelText(target)}</Text>
+      </TableCell>
+      <TableCell>
+        <Text>{DateUtils.formatOptionalDate(target.session_date, 'l')}</Text>
+      </TableCell>
+      <TableCell>
+        <Text>
+          {locationInfo.name}, {locationInfo.street_address}
+          <br />
+          {ExamSessionUtils.getMunicipality(locationInfo)}
+        </Text>
+      </TableCell>
+      <TableCell>{availablePlaces}</TableCell>
+      <TableCell>
+        <CustomButton color={Color.Secondary} variant={Variant.Outlined}>
+          {t('actions.select')}
+        </CustomButton>
+      </TableCell>
+    </>
+  );
+};
+
+const TransferTargetTableRow = ({
+  target,
+}: {
+  target: TransferEnrollmentTarget;
+}) => {
+  const { isPhone } = useWindowProperties();
+
+  return (
+    <TableRow>
+      {isPhone ? (
+        <TransferTargetPhoneCells target={target} />
+      ) : (
+        <TransferTargetDesktopCells target={target} />
+      )}
+    </TableRow>
+  );
+};
+
+const getTransferTargetDetails = (target: TransferEnrollmentTarget) => {
+  return <TransferTargetTableRow target={target} />;
+};
+
+const TransferTargetsTable = () => {
+  const { isPhone } = useWindowProperties();
+  const { transferEnrollmentDetails } = useAppSelector(
+    transferEnrollmentSelector,
+  );
+
+  if (!transferEnrollmentDetails) {
+    return null;
+  }
+
+  return (
+    <CustomTable
+      className=""
+      header={isPhone ? undefined : <TransferTargetsTableHeading />}
+      data={transferEnrollmentDetails.targets}
+      getRowDetails={getTransferTargetDetails}
+    ></CustomTable>
+  );
+};
+
+const SelectNewExamDate = () => {
+  const { transferEnrollmentDetails } = useAppSelector(
+    transferEnrollmentSelector,
+  );
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.transferEnrollmentPage.selectNewExamDate',
+  });
+
+  if (!transferEnrollmentDetails) {
+    return null;
+  }
+
+  const transferTargets = transferEnrollmentDetails.is_transferable
+    ? transferEnrollmentDetails.targets
+    : [];
+
+  return (
+    <Grid
+      item
+      className="transfer-enrollment-page__grid-container__item-header"
+    >
+      {transferTargets.length === 0 && (
+        <div className="rows gapped">
+          <H2>{t('heading')}</H2>{' '}
+          <Container className="transfer-enrollment-page__info-box">
+            <div className="columns gapped-sm">
+              <InfoOutlineIcon color={Color.Secondary} />
+              <Text>{t('noCandidatesFound')}</Text>
+            </div>
+          </Container>
+        </div>
+      )}
+      {transferTargets.length > 0 && (
+        <div className="rows gapped">
+          <H2>{`${t('heading')} (${transferTargets.length})`}</H2>{' '}
+          <TransferTargetsTable />
+        </div>
+      )}
+    </Grid>
+  );
+};
+
 export const TransferEnrollmentPage = () => {
+  const dispatch = useAppDispatch();
+  const { status } = useAppSelector(transferEnrollmentSelector);
+
+  // React Router
+  const params = useParams();
+
+  useEffect(() => {
+    if (status === APIResponseStatus.NotStarted && params.registrationId) {
+      dispatch(loadTransferEnrollmentDetails(+params.registrationId));
+    }
+  }, [dispatch, params.registrationId, status]);
+
   return (
     <Box className="transfer-enrollment-page">
       <Grid

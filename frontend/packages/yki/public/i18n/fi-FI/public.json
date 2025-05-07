@@ -388,6 +388,11 @@
             "title": "Ilmoittautumisaika ei ole alkanut"
           }
         }
+      },
+      "transferEnrollment": {
+        "actions": {
+          "select": "Valitse"
+        }
       }
     },
     "pages": {

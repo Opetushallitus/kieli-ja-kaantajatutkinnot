@@ -32,6 +32,12 @@ import {
   PublicEmailRegistration,
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
+import {
+  TransferEnrollmentDetails,
+  TransferEnrollmentDetailsResponse,
+  TransferEnrollmentTarget,
+  TransferEnrollmentTargetResponse,
+} from 'interfaces/transferEnrollment';
 import { PersonDetails, PersonDetailsResponse } from 'interfaces/userDetails';
 import { EvaluationOrderState } from 'redux/reducers/evaluationOrder';
 
@@ -227,6 +233,24 @@ export class SerializationUtils {
         streetAddress: v.street_address,
         isTransferable: v.is_transferable,
       })),
+    };
+  }
+
+  static deserializeTransferEnrollmentTarget(
+    response: TransferEnrollmentTargetResponse,
+  ): TransferEnrollmentTarget {
+    return { ...response, session_date: dayjs(response.session_date) };
+  }
+
+  static deserializeTransferEnrollmentDetails(
+    response: TransferEnrollmentDetailsResponse,
+  ): TransferEnrollmentDetails {
+    return {
+      ...response,
+      session_date: dayjs(response.session_date),
+      targets: response.targets.map(
+        SerializationUtils.deserializeTransferEnrollmentTarget,
+      ),
     };
   }
 }
