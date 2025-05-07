@@ -11,6 +11,10 @@ on:
         description: "Cypress base url"
         required: true
         type: string
+      clerk:
+        description: "New yki clerk ui"
+        required: false
+        type: string  
 env:
   FRONTEND_DIR: ./frontend
   BACKEND_DIR: ./backend
@@ -82,6 +86,10 @@ jobs:
       - name: Build
         working-directory: ${{ env.FRONTEND_DIR }}
         run: yarn ${{ inputs.app-name }}:build
+      - name: Build new yki clerk
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: yarn ${{ inputs.app-name }}:build:${{ inputs.clerk }}
+        if: ${{ inputs.clerk != '' || contains(github.ref, 'snyk-io') }}
       - name: Cache build
         uses: actions/cache@v3
         with:
