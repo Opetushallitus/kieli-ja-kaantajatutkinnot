@@ -5,7 +5,7 @@ export enum AppConstants {
 export enum AppRoutes {
   PublicRoot = '/yki',
   AccessibilityStatementPage = '/yki/saavutettavuus',
-  ClerkHomePage = '/yki/virkailija',
+  ClerkHomePage = '/yki/v2/virkailija',
   Registration = '/yki/ilmoittautuminen',
   RegistrationPaymentStatus = '/yki/ilmoittautuminen/maksu/tila',
   ExamSessionRegistration = '/yki/ilmoittautuminen/tutkintotilaisuus/:examSessionId',
