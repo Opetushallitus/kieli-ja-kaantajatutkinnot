@@ -12,9 +12,21 @@
     }
   }
 
+  & &__current-enrollment-details {
+    padding: 2rem;
+
+    @include not-phone {
+      width: 60%;
+    }
+  }
+
   & &__info-box {
     background-color: $color-blue-200;
     border-radius: 4px;
     padding: 2rem;
+
+    @include not-phone {
+      margin: 0;
+    }
   }
 }

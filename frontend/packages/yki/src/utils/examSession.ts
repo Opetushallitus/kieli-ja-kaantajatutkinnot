@@ -139,7 +139,7 @@ export class ExamSessionUtils {
     )}`;
   }
 
-  static getLocationInfo(es: ExamSession, lang: AppLanguage) {
+  static getLocationInfo(es: Pick<ExamSession, 'location'>, lang: AppLanguage) {
     const locationData = es.location.find(
       (esl) =>
         (lang === AppLanguage.Finnish && esl.lang === 'fi') ||

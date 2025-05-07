@@ -12,6 +12,7 @@ import { publicIdentificationReducer } from 'redux/reducers/publicIdentification
 import { registrationReducer } from 'redux/reducers/registration';
 import { reservationReducer } from 'redux/reducers/reservation';
 import { sessionReducer } from 'redux/reducers/session';
+import { transferEnrollmentReducer } from 'redux/reducers/transferEnrollment';
 import { userDetailsReducer } from 'redux/reducers/userDetails';
 import { userOpenRegistrationsReducer } from 'redux/reducers/userOpenRegistrations';
 import rootSaga from 'redux/sagas/index';
@@ -29,6 +30,7 @@ export const rootReducer = combineReducers({
   registration: registrationReducer,
   reservation: reservationReducer,
   session: sessionReducer,
+  transferEnrollment: transferEnrollmentReducer,
   userOpenRegistrations: userOpenRegistrationsReducer,
   userDetails: userDetailsReducer,
 });
