@@ -10,9 +10,9 @@
   "sortJSON.orderOverride": ["name", "version", "description"],
   "sortJSON.orderUnderride": ["dependencies", "devDependencies"],
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.fixAll.stylelint": true,
-    "source.fixAll.sortJSON": true
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit",
+    "source.fixAll.sortJSON": "explicit"
   },
   "eslint.validate": ["typescript", "typescriptreact", "javascript"]
 }
