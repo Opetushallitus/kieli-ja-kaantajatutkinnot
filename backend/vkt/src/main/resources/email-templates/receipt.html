@@ -70,19 +70,19 @@
 
 <table style="width: 100%;border-spacing: 0;">
     <tr>
-        <td th:text="#{receipt.title}" colspan="4" class="cell" style="font-weight: bold; border-width: 1px 1px 0 1px;"></td>
-        <td class="cell" style="border-width: 0 1px 0 0;"></td>
+        <td th:text="#{receipt.title}" class="cell" style="font-weight: bold; border-width: 1px 1px 0 1px;"></td>
+        <td class="cell" style="border-width: 1px 1px 0 0;"></td>
     </tr>
     <tr th:each="item : ${items}">
-        <td colspan="4" class="cell" style="border-width: 0 1px 0 1px;">
+        <td class="cell" style="border-width: 0 1px 0 1px;">
             [[${item.name}]]
         </td>
-        <td class="cell" style="border-width: 0 1px 0 1px;">
+        <td class="cell" style="border-width: 0 1px 0 0;">
             [[${item.amount}]]
         </td>
     </tr>
     <tr style="font-weight: bold">
-        <td th:text="#{common.total}" class="cell" colspan="4" style="font-weight: bold; border-width: 1px 1px 1px 1px;"></td>
+        <td th:text="#{common.total}" class="cell" style="font-weight: bold; border-width: 1px 1px 1px 1px;"></td>
         <td class="cell" style="border-width: 1px 1px 1px 0;">
             [[${totalAmount}]]
         </td>
