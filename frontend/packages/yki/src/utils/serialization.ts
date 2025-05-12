@@ -214,6 +214,25 @@ export class SerializationUtils {
     };
   }
 
+  static deserializeRegistrationState(state: string) {
+    switch (state) {
+      case 'COMPLETED':
+        return RegistrationStates.Completed;
+      case 'SUBMITTED':
+        return RegistrationStates.Submitted;
+      case 'STARTED':
+        return RegistrationStates.Started;
+      case 'EXPIRED':
+        return RegistrationStates.Expired;
+      case 'CANCELLED':
+        return RegistrationStates.Cancelled;
+      case 'PAID_AND_CANCELLED':
+        return RegistrationStates.PaidAndCancelled;
+      default:
+        return RegistrationStates.Unknown;
+    }
+  }
+
   static deserializePersonDetails(
     response: PersonDetailsResponse,
   ): PersonDetails {
@@ -226,7 +245,7 @@ export class SerializationUtils {
         examSessionId: v.exam_session_id,
         examLang: v.language_code as ExamLanguage,
         examLevel: v.level_code as ExamLevel,
-        state: RegistrationStates[v.state as keyof typeof RegistrationStates],
+        state: SerializationUtils.deserializeRegistrationState(v.state),
         zip: v.zip,
         postOffice: v.post_office,
         examDate: dayjs(v.exam_date),
