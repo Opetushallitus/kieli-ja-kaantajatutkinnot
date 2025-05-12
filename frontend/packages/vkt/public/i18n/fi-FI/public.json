@@ -653,7 +653,7 @@
           "part5": "Tutkinnot on mahdollista suorittaa yhdessä tai erikseen.",
           "readMore": {
             "label": "Lue lisää valtionhallinnon kielitutkinnoista Opetushallituksen verkkosivuilla.",
-            "url": "www.oph.fi/vkt"
+            "url": "https://www.oph.fi/vkt"
           }
         },
         "cards": {
