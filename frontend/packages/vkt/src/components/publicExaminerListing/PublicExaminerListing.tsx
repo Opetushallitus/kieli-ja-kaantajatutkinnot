@@ -324,7 +324,6 @@ const MobilePublicExaminerListing = () => {
       />
       <Divider />
       <CustomTable
-        className="table-layout-auto"
         data={sortedExaminers}
         getRowDetails={getRowDetails}
         header={<PublicExaminerListingHeader />}
@@ -356,7 +355,6 @@ const DesktopPublicExaminerListing = () => {
         onChange={handleLanguageFilterChange}
       />
       <CustomTable
-        className="table-layout-auto"
         data={sortedExaminers}
         getRowDetails={getRowDetails}
         header={<PublicExaminerListingHeader />}
