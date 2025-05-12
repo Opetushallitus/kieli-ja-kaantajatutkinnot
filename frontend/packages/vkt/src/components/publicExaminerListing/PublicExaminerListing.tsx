@@ -29,6 +29,7 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, ExamLanguage } from 'enums/app';
+import { Municipality } from 'interfaces/municipality';
 import { PublicExaminer } from 'interfaces/publicExaminer';
 import { setPublicExaminerLanguageFilter } from 'redux/reducers/publicExaminer';
 import { publicEnrollmentContactSelector } from 'redux/selectors/publicEnrollmentContact';
@@ -261,6 +262,30 @@ const MobilePublicExaminerRow = ({
   );
 };
 
+const sortExaminers = (examiners: Array<PublicExaminer>) => {
+  if (!examiners) {
+    return [];
+  }
+
+  const appLanguage = getCurrentLang();
+  const translatedMunicipality = (municipalities: Array<Municipality>) => {
+    if (!municipalities) {
+      return '';
+    }
+
+    return appLanguage === AppLanguage.Swedish
+      ? municipalities[0].sv
+      : municipalities[0].fi;
+  };
+
+  return examiners.toSorted((e1, e2) => {
+    const municipalityText1 = translatedMunicipality(e1.municipalities);
+    const municipalityText2 = translatedMunicipality(e2.municipalities);
+
+    return municipalityText1.localeCompare(municipalityText2);
+  });
+};
+
 const PublicExaminerRow = ({ examiner }: { examiner: PublicExaminer }) => {
   const { isPhone } = useWindowProperties();
 
@@ -281,6 +306,7 @@ const MobilePublicExaminerListing = () => {
   });
   const { languageFilter } = useAppSelector(publicExaminerSelector);
   const filteredExaminers = useAppSelector(selectFilteredPublicExaminers);
+  const sortedExaminers = sortExaminers(filteredExaminers);
   const dispatch = useAppDispatch();
 
   const handleLanguageFilterChange = (event: SelectChangeEvent) => {
@@ -299,7 +325,7 @@ const MobilePublicExaminerListing = () => {
       <Divider />
       <CustomTable
         className="table-layout-auto"
-        data={filteredExaminers}
+        data={sortedExaminers}
         getRowDetails={getRowDetails}
         header={<PublicExaminerListingHeader />}
       />
@@ -313,6 +339,7 @@ const DesktopPublicExaminerListing = () => {
   });
   const { languageFilter } = useAppSelector(publicExaminerSelector);
   const filteredExaminers = useAppSelector(selectFilteredPublicExaminers);
+  const sortedExaminers = sortExaminers(filteredExaminers);
   const dispatch = useAppDispatch();
 
   const handleLanguageFilterChange = (event: SelectChangeEvent) => {
@@ -330,7 +357,7 @@ const DesktopPublicExaminerListing = () => {
       />
       <CustomTable
         className="table-layout-auto"
-        data={filteredExaminers}
+        data={sortedExaminers}
         getRowDetails={getRowDetails}
         header={<PublicExaminerListingHeader />}
       />
