@@ -1,5 +1,6 @@
 import { Grid, Paper } from '@mui/material';
 import { Box } from '@mui/system';
+import dayjs from 'dayjs';
 import { FC, useEffect } from 'react';
 import {
   CustomButton,
@@ -21,6 +22,15 @@ import { loadPersonDetails } from 'redux/reducers/userDetails';
 import { userDetailsSelector } from 'redux/selectors/userDetails';
 import { ExamSessionUtils } from 'utils/examSession';
 
+const cancelledStates = [
+  RegistrationStates.Expired,
+  RegistrationStates.Cancelled,
+  RegistrationStates.PaidAndCancelled,
+];
+
+const isCancelled = (registration: PersonRegistrations) =>
+  cancelledStates.includes(registration.state);
+
 const filterByState = (
   registrations: Array<PersonRegistrations>,
   states: Array<RegistrationStates>,
@@ -32,58 +42,77 @@ const filterByState = (
   return registrations.filter((r) => states.includes(r.state));
 };
 
+const filterByDate = (
+  registrations: Array<PersonRegistrations>,
+  upcoming: boolean,
+) => {
+  if (!registrations) {
+    return [];
+  }
+
+  return registrations.filter((r) =>
+    upcoming ? dayjs().isBefore(r.examDate) : dayjs().isAfter(r.examDate),
+  );
+};
+
 interface RegistrationsProps {
   filteredRegistrations: Array<PersonRegistrations>;
 }
 
 const Registrations: FC<RegistrationsProps> = ({ filteredRegistrations }) => {
-  return filteredRegistrations.map((r) => (
-    <Paper
-      key={`registration-${r.examSessionId}`}
-      elevation={3}
-      className="user-details-page__event"
-    >
-      <div className="user-details-page__info__section">
-        <H3>
-          {ExamSessionUtils.languageAndLevelText({
-            language_code: r.examLang,
-            level_code: r.examLevel,
-          })}
-        </H3>
-      </div>
-      <div>
-        <Text className="bold">Testipäivä</Text>
-        <Text>{DateUtils.formatOptionalDate(r.examDate, 'l')}</Text>
-      </div>
-      <div>
-        <Text className="bold">Testipaikka</Text>
-        <Text>
-          {r.streetAddress}, {r.postOffice}
-        </Text>
-      </div>
-      <div className="columns gapped">
-        <CustomButton
-          className="fit-content-max-width"
-          color={Color.Secondary}
-          variant={Variant.Outlined}
-        >
-          Peru ilmoittautuminen
-        </CustomButton>
-        <CustomButtonLink
-          className="fit-content-max-width"
-          color={Color.Secondary}
-          variant={Variant.Outlined}
-          disabled={!r.isTransferable}
-          to={AppRoutes.TransferEnrollment.replace(
-            /:registrationId/,
-            `${r.id}`,
+  return filteredRegistrations.map((r) => {
+    const canCancel = !isCancelled(r);
+
+    return (
+      <Paper
+        key={`registration-${r.examSessionId}`}
+        elevation={3}
+        className="user-details-page__event"
+      >
+        <div className="user-details-page__info__section">
+          <H3>
+            {ExamSessionUtils.languageAndLevelText({
+              language_code: r.examLang,
+              level_code: r.examLevel,
+            })}
+          </H3>
+        </div>
+        <div>
+          <Text className="bold">Testipäivä</Text>
+          <Text>{DateUtils.formatOptionalDate(r.examDate, 'l')}</Text>
+        </div>
+        <div>
+          <Text className="bold">Testipaikka</Text>
+          <Text>
+            {r.streetAddress}, {r.postOffice}
+          </Text>
+        </div>
+        <div className="columns gapped">
+          {canCancel && (
+            <CustomButton
+              className="fit-content-max-width"
+              color={Color.Secondary}
+              variant={Variant.Outlined}
+            >
+              Peru ilmoittautuminen
+            </CustomButton>
           )}
-        >
-          Siirrä ilmoittautuminen
-        </CustomButtonLink>
-      </div>
-    </Paper>
-  ));
+          <CustomButtonLink
+            className="fit-content-max-width"
+            color={Color.Secondary}
+            variant={Variant.Outlined}
+            disabled={!r.isTransferable}
+            to={AppRoutes.TransferEnrollment.replace(
+              /:registrationId/,
+              `${r.id}`,
+            )}
+          >
+            Siirrä ilmoittautuminen
+          </CustomButtonLink>
+        </div>
+      </Paper>
+    );
+  });
 };
 
 export const UserDetailsPage: FC = () => {
@@ -104,14 +133,24 @@ export const UserDetailsPage: FC = () => {
     return <></>;
   }
 
-  const canceledRegistrations = filterByState(personDetails.registrations, [
-    RegistrationStates.Expired,
-    RegistrationStates.Cancelled,
-  ]);
+  const canceledRegistrations = filterByState(
+    personDetails.registrations,
+    cancelledStates,
+  );
+  const upcomingAndPastRegistrations = filterByState(
+    personDetails.registrations,
+    [
+      RegistrationStates.Submitted,
+      RegistrationStates.Completed,
+      RegistrationStates.Started,
+    ],
+  );
 
-  const upcomingRegistrations = filterByState(personDetails.registrations, [
-    RegistrationStates.Submitted,
-  ]);
+  const upcomingRegistrations = filterByDate(
+    upcomingAndPastRegistrations,
+    true,
+  );
+  const pastRegistrations = filterByDate(upcomingAndPastRegistrations, false);
 
   return (
     <Box className="user-details-page">
@@ -147,18 +186,30 @@ export const UserDetailsPage: FC = () => {
               </div>
             </Paper>
           </div>
-          <div className="margin-top-xxl rows gapped-xxl">
-            <H2 className="user-details-page__info__section__heading-title">
-              Tulevat kielitutkintojen testisi
-            </H2>
-            <Registrations filteredRegistrations={upcomingRegistrations} />
-          </div>
-          <div className="margin-top-xxl rows gapped-xxl">
-            <H2 className="user-details-page__info__section__heading-title">
-              Menneet ja arvioidut
-            </H2>
-            <Registrations filteredRegistrations={canceledRegistrations} />
-          </div>
+          {upcomingRegistrations.length > 0 && (
+            <div className="margin-top-xxl rows gapped-xxl">
+              <H2 className="user-details-page__info__section__heading-title">
+                Tulevat kielitutkintojen testisi
+              </H2>
+              <Registrations filteredRegistrations={upcomingRegistrations} />
+            </div>
+          )}
+          {pastRegistrations.length > 0 && (
+            <div className="margin-top-xxl rows gapped-xxl">
+              <H2 className="user-details-page__info__section__heading-title">
+                Menneet ja arvioidut
+              </H2>
+              <Registrations filteredRegistrations={pastRegistrations} />
+            </div>
+          )}
+          {canceledRegistrations.length > 0 && (
+            <div className="margin-top-xxl rows gapped-xxl">
+              <H2 className="user-details-page__info__section__heading-title">
+                Peruutetut
+              </H2>
+              <Registrations filteredRegistrations={canceledRegistrations} />
+            </div>
+          )}
         </Grid>
       </Grid>
     </Box>
