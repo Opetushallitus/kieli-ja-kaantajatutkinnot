@@ -29,7 +29,11 @@ const clerkUser: ClerkUser = {
   isExaminer: false,
 };
 
-export const examinerUser: ClerkUser = {
+// This definition should be kept in sync with the one found in tests/cypress/integration/examiner_redirect_page.spec.ts.
+// As long as the definition is only used in the handler and in Cypress tests,
+// we must *manually* keep the definitions in sync to avoid having to export the definition.
+// Otherwise, we'll get an error regarding unused export (as files under src/tests/cypress are excluded from linting as per packages/vkt/tsconfig.json).
+const examinerUser: ClerkUser = {
   oid: '1.2.246.562.10.30000000003',
   isAdmin: false,
   isExaminer: true,
