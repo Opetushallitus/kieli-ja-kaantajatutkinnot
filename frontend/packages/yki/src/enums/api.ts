@@ -15,7 +15,7 @@ export enum APIEndpoints {
   SubmitRegistration = '/yki/api/registration/:registrationId/submit',
   User = '/yki/api/user/identity',
   OpenRegistrations = '/yki/api/user/open-registrations',
-  PersonDetails = '/yki/api/user/person-registrations',
+  PersonDetails = '/yki/api/person',
   TransferEnrollment = '/yki/api/person/registration/:registrationId/relocate',
 }
 
