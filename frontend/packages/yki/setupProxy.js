@@ -1361,7 +1361,7 @@ module.exports = function (app) {
     useLocalProxy ? proxyPostCall(req, res) : mockCall();
   });
 
-  app.get('/yki/api/user/person-registrations', (req, res) => {
+  app.get('/yki/api/person', (req, res) => {
     const mockCall = () => {
       try {
         res.send(personRegistrations);

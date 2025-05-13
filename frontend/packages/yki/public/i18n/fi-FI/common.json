@@ -28,6 +28,7 @@
       "dates": {
         "dateTimeFormat": "l [klo] HH.mm"
       },
+      "email": "Sähköpostiosoite",
       "error": "Tapahtui odottamaton virhe.",
       "errors": {
         "customTextField": {

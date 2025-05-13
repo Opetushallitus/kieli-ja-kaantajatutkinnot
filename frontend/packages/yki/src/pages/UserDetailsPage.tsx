@@ -14,7 +14,7 @@ import {
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationStates } from 'enums/app';
 import { PersonRegistrations } from 'interfaces/userDetails';
@@ -119,6 +119,7 @@ export const UserDetailsPage: FC = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.reassessmentPage',
   });
+  const translateCommon = useCommonTranslation();
 
   const dispatch = useAppDispatch();
   const { status, personDetails } = useAppSelector(userDetailsSelector);
@@ -181,7 +182,7 @@ export const UserDetailsPage: FC = () => {
                   {personDetails.firstName} {personDetails.lastName}
                 </Text>
                 <Text>
-                  <b>Email:</b> {personDetails.email}
+                  <b>{translateCommon('email')}:</b> {personDetails.email}
                 </Text>
               </div>
             </Paper>
