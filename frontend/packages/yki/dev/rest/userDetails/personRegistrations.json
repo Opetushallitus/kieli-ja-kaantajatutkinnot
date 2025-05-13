@@ -7,10 +7,27 @@
     {
       "id": 1337,
       "exam_session_id": "1",
-      "street_address": "School of wizardry",
-      "post_office": "Hogwarts",
+      "location": [
+        {
+          "street_address": "School of wizardry",
+          "post_office": "Hogwarts",
+          "zip": "90100",
+          "lang": "fi"
+        },
+        {
+          "street_address": "School of wizardry",
+          "post_office": "Hogwarts",
+          "zip": "90100",
+          "lang": "sv"
+        },
+        {
+          "street_address": "School of wizardry",
+          "post_office": "Hogwarts",
+          "zip": "90100",
+          "lang": "en"
+        }
+      ],
       "state": "SUBMITTED",
-      "zip": "90100",
       "exam_date": "2026-02-12",
       "language_code": "fin",
       "level_code": "KESKI",
@@ -19,10 +36,27 @@
     {
       "id": 31337,
       "exam_session_id": "2",
-      "street_address": "Koulukuja 9",
-      "post_office": "Kihniö",
+      "location": [
+        {
+          "street_address": "Koulukuja 9",
+          "post_office": "Kihniö",
+          "zip": "22300",
+          "lang": "fi"
+        },
+        {
+          "street_address": "Koulukuja 9",
+          "post_office": "Kihniö",
+          "zip": "22300",
+          "lang": "sv"
+        },
+        {
+          "street_address": "Koulukuja 9",
+          "post_office": "Kihniö",
+          "zip": "22300",
+          "lang": "en"
+        }
+      ],
       "state": "EXPIRED",
-      "zip": "22300",
       "exam_date": "2026-01-20",
       "language_code": "fin",
       "level_code": "YLIN",

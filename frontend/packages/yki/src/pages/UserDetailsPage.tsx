@@ -14,7 +14,11 @@ import {
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import {
+  getCurrentLang,
+  useCommonTranslation,
+  usePublicTranslation,
+} from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationStates } from 'enums/app';
 import { PersonRegistrations } from 'interfaces/userDetails';
@@ -60,8 +64,11 @@ interface RegistrationsProps {
 }
 
 const Registrations: FC<RegistrationsProps> = ({ filteredRegistrations }) => {
+  const lang = getCurrentLang();
+
   return filteredRegistrations.map((r) => {
     const canCancel = !isCancelled(r);
+    const location = ExamSessionUtils.getLocationInfo(r, lang);
 
     return (
       <Paper
@@ -84,7 +91,7 @@ const Registrations: FC<RegistrationsProps> = ({ filteredRegistrations }) => {
         <div>
           <Text className="bold">Testipaikka</Text>
           <Text>
-            {r.streetAddress}, {r.postOffice}
+            {location.street_address}, {location.post_office}
           </Text>
         </div>
         <div className="columns gapped">

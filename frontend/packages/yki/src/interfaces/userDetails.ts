@@ -2,16 +2,15 @@ import { Dayjs } from 'dayjs';
 import { WithId } from 'shared/interfaces';
 
 import { ExamLanguage, ExamLevel, RegistrationStates } from 'enums/app';
+import { ExamSessionLocation } from 'interfaces/examSessions';
 
 export interface PersonRegistrations extends WithId {
   state: RegistrationStates;
   examSessionId: string;
   examLang: ExamLanguage;
   examLevel: ExamLevel;
-  zip: string;
-  postOffice: string;
   examDate: Dayjs;
-  streetAddress: string;
+  location: Array<ExamSessionLocation>;
   isTransferable: boolean;
 }
 
@@ -20,10 +19,8 @@ interface PersonRegistrationsResponse extends WithId {
   language_code: string;
   level_code: string;
   state: string;
-  zip: string;
-  post_office: string;
   exam_date: string;
-  street_address: string;
+  location: Array<ExamSessionLocation>;
   is_transferable: boolean;
 }
 
