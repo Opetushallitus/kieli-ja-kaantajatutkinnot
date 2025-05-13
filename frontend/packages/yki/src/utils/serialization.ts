@@ -252,10 +252,8 @@ export class SerializationUtils {
         examLang: v.language_code as ExamLanguage,
         examLevel: v.level_code as ExamLevel,
         state: SerializationUtils.deserializeRegistrationState(v.state),
-        zip: v.zip,
-        postOffice: v.post_office,
         examDate: dayjs(v.exam_date),
-        streetAddress: v.street_address,
+        location: v.location,
         isTransferable: v.is_transferable,
       })),
     };
