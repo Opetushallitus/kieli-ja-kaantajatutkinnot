@@ -18,8 +18,8 @@ import {
   HeaderSeparator,
   Text,
 } from 'shared/components';
-import { APIResponseStatus, Color, Variant } from 'shared/enums';
-import { useWindowProperties } from 'shared/hooks';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useDialog, useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import {
@@ -94,6 +94,7 @@ const CurrentEnrollmentDetails = () => {
             <b>{`${translateCommon('examDate')}: `}</b>
             {DateUtils.formatOptionalDate(
               transferEnrollmentDetails.session_date,
+              'l',
             )}
           </Text>
           <Text>
@@ -124,6 +125,66 @@ const TransferTargetsTableHeading = () => {
   );
 };
 
+const RelocateButton = ({ target }: { target: TransferEnrollmentTarget }) => {
+  const { isPhone } = useWindowProperties();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.transferEnrollment.actions',
+  });
+  const translateCommon = useCommonTranslation();
+  const { showDialog } = useDialog();
+  const displayConfirmationDialog = () => {
+    const lang = getCurrentLang();
+    const locationInfo = ExamSessionUtils.getLocationInfo(target, lang);
+    showDialog({
+      title: 'Vahvista siirto',
+      severity: Severity.Info,
+      content: (
+        <div className="rows gapped">
+          <Text>
+            Haluatko varmasti siirtää ilmoittautumisesi seuraavaan tutkintoon?
+          </Text>
+          <Text>
+            <b>{translateCommon('examination')}:</b>{' '}
+            {ExamSessionUtils.languageAndLevelText(target)}
+            <br />
+            <b>{translateCommon('examDate')}:</b>{' '}
+            {DateUtils.formatOptionalDate(target.session_date, 'l')}
+            <br />
+            <b>{translateCommon('institution')}:</b> {locationInfo.name},{' '}
+            {locationInfo.street_address},{' '}
+            {ExamSessionUtils.getMunicipality(locationInfo)}
+            <br />{' '}
+          </Text>
+          <Text>
+            <b>
+              Siirto on lopullinen. Voit siirtää ilmoittautumisesi ainoastaan
+              yhden kerran.
+            </b>
+          </Text>
+        </div>
+      ),
+      actions: [
+        { title: 'Kyllä, siirrän', variant: Variant.Outlined },
+        {
+          title: 'En siirrä',
+          variant: Variant.Contained,
+        },
+      ],
+    });
+  };
+
+  return (
+    <CustomButton
+      color={Color.Secondary}
+      variant={Variant.Outlined}
+      fullWidth={target && isPhone}
+      onClick={displayConfirmationDialog}
+    >
+      {t('select')}
+    </CustomButton>
+  );
+};
+
 const TransferTargetPhoneCells = ({
   target,
 }: {
@@ -136,9 +197,6 @@ const TransferTargetPhoneCells = ({
     0,
   );
   const translateCommon = useCommonTranslation();
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.transferEnrollment',
-  });
 
   return (
     <TableCell>
@@ -156,13 +214,7 @@ const TransferTargetPhoneCells = ({
         <b>{translateCommon('placesAvailable')}:</b> {availablePlaces}
         <br />
       </Text>
-      <CustomButton
-        color={Color.Secondary}
-        variant={Variant.Outlined}
-        fullWidth={true}
-      >
-        {t('actions.select')}
-      </CustomButton>
+      <RelocateButton target={target} />
     </TableCell>
   );
 };
@@ -178,9 +230,6 @@ const TransferTargetDesktopCells = ({
     target.max_participants - target.participants,
     0,
   );
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.transferEnrollment',
-  });
 
   return (
     <>
@@ -199,9 +248,7 @@ const TransferTargetDesktopCells = ({
       </TableCell>
       <TableCell>{availablePlaces}</TableCell>
       <TableCell>
-        <CustomButton color={Color.Secondary} variant={Variant.Outlined}>
-          {t('actions.select')}
-        </CustomButton>
+        <RelocateButton target={target} />
       </TableCell>
     </>
   );
