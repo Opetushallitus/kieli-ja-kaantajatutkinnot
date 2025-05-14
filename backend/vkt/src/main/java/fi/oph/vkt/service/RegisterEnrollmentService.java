@@ -1,12 +1,10 @@
 package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
-import fi.oph.vkt.api.dto.PublicPersonDTO;
-import fi.oph.vkt.api.dto.integration.RegisterEnrollmentDTO;
-import fi.oph.vkt.api.dto.integration.RegistryPersonDTO;
+import fi.oph.vkt.api.dto.integration.RegisterSyncDTO;
+import fi.oph.vkt.api.dto.integration.RegisterPersonDTO;
 import fi.oph.vkt.model.*;
 import fi.oph.vkt.model.type.EnrollmentStatus;
-import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.PersonUtil;
@@ -22,8 +20,8 @@ public class RegisterEnrollmentService {
   private final EnrollmentRepository enrollmentRepository;
 
   @Transactional(readOnly = true)
-  public List<RegisterEnrollmentDTO> list() {
-    final List<Enrollment> enrollments = enrollmentRepository.findAllByStatusInAndDeletedAtIsNull(
+  public List<RegisterSyncDTO> sync() {
+    final List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsForSyncToRegister(
       List.of(EnrollmentStatus.CANCELED, EnrollmentStatus.COMPLETED)
     );
 
@@ -32,7 +30,7 @@ public class RegisterEnrollmentService {
       .map(enrollment -> {
         final ExamEvent examEvent = enrollment.getExamEvent();
         final long openings = ExamEventUtil.getOpenings(examEvent);
-        final RegistryPersonDTO personDTO = PersonUtil.createRegistryPersonDTO(enrollment.getPerson());
+        final RegisterPersonDTO personDTO = PersonUtil.createRegistryPersonDTO(enrollment.getPerson());
         final PublicExamEventDTO examEventDTO = PublicExamEventDTO
           .builder()
           .id(examEvent.getId())
@@ -45,7 +43,7 @@ public class RegisterEnrollmentService {
           .isOpen(ExamEventUtil.isOpen(examEvent))
           .build();
 
-        return RegisterEnrollmentDTO
+        return RegisterSyncDTO
           .builder()
           .id(enrollment.getId())
           .oralSkill(enrollment.isOralSkill())

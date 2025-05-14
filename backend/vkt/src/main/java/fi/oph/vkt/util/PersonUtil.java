@@ -1,7 +1,7 @@
 package fi.oph.vkt.util;
 
 import fi.oph.vkt.api.dto.PublicPersonDTO;
-import fi.oph.vkt.api.dto.integration.RegistryPersonDTO;
+import fi.oph.vkt.api.dto.integration.RegisterPersonDTO;
 import fi.oph.vkt.model.Person;
 
 public class PersonUtil {
@@ -15,8 +15,8 @@ public class PersonUtil {
       .build();
   }
 
-  public static RegistryPersonDTO createRegistryPersonDTO(final Person person) {
-    return RegistryPersonDTO
+  public static RegisterPersonDTO createRegistryPersonDTO(final Person person) {
+    return RegisterPersonDTO
       .builder()
       .id(person.getId())
       .lastName(person.getLastName())
