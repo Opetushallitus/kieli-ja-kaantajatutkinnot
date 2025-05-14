@@ -1459,7 +1459,7 @@ module.exports = function (app) {
         res.status(404).send(err.message);
       }
     };
-    useLocalProxy ? proxyPostCall(req, res) : mockCall();
+    useLocalProxy ? proxyDeleteCall(req, res) : mockCall();
   });
 
   app.get('/yki/api/person', (req, res) => {
@@ -1471,7 +1471,7 @@ module.exports = function (app) {
         res.status(404).send(err.message);
       }
     };
-    useLocalProxy ? proxyPostCall(req, res) : mockCall();
+    useLocalProxy ? proxyGetCall(req, res) : mockCall();
   });
 
   app.get('/yki/api/person/registration/:id/relocate', (req, res) => {
@@ -1491,6 +1491,31 @@ module.exports = function (app) {
               'Registration transfer details not found for registration id ' +
                 req.params.id,
             );
+        }
+      } catch (err) {
+        printError(req, err);
+        res.status(400).send(err.message);
+      }
+    };
+    useLocalProxy ? proxyGetCall(req, res) : mockCall();
+  });
+
+  app.post('/yki/api/person/registration/:id/relocate', (req, res) => {
+    const mockCall = () => {
+      try {
+        const registrationTransferDetails = getRegistrationTransferDetails();
+        const details = registrationTransferDetails.find(
+          (r) => r.id === Number(req.params.id),
+        );
+        res.set('Content-Type', 'application/json; charset=utf-8');
+        if (details) {
+          if (details.is_transferable) {
+            res.send({ success: true });
+          } else {
+            res.send({ success: false });
+          }
+        } else {
+          res.send({ success: false });
         }
       } catch (err) {
         printError(req, err);
