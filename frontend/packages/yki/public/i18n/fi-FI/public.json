@@ -539,6 +539,12 @@
           "heading": "Valitse uusi testipäivä"
         },
         "title": "Siirrä ilmoittautuminen"
+      },
+      "transferEnrollmentSuccessPage": {
+        "information": {
+          "heading": "Tervetuloa YKI-testiin!"
+        },
+        "title": "Ilmoittautumisen siirto onnistui!"
       }
     }
   }
