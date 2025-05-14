@@ -23,3 +23,12 @@ export interface TransferEnrollmentDetailsResponse
   session_date: string;
   targets: Array<TransferEnrollmentTargetResponse>;
 }
+
+export interface RelocateRequest {
+  registration_id: number;
+  to_exam_session_id: number;
+}
+
+export interface RelocateResponse {
+  success: boolean;
+}

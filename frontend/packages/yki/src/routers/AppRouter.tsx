@@ -31,6 +31,7 @@ import { ReassessmentPage } from 'pages/ReassessmentPage';
 import { RegistrationPage } from 'pages/RegistrationPage';
 import { RegistrationPaymentStatusPage } from 'pages/RegistrationPaymentStatusPage';
 import { TransferEnrollmentPage } from 'pages/TransferEnrollmentPage';
+import { TransferEnrollmentSuccessPage } from 'pages/TransferEnrollmentSuccessPage';
 import { UserDetailsPage } from 'pages/UserDetailsPage';
 import { loadSession } from 'redux/reducers/session';
 import { sessionSelector } from 'redux/selectors/session';
@@ -167,6 +168,14 @@ export const AppRouter: FC = () => {
           element={
             <TitlePage title={createTitle('transferEnrollment')}>
               <TransferEnrollmentPage />
+            </TitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.TransferEnrollmentSuccess}
+          element={
+            <TitlePage title={createTitle('transferEnrollment')}>
+              <TransferEnrollmentSuccessPage />
             </TitlePage>
           }
         />

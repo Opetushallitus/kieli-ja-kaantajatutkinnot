@@ -9,13 +9,14 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   CustomButton,
   CustomTable,
   H1,
   H2,
   HeaderSeparator,
+  LoadingProgressIndicator,
   Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
@@ -28,8 +29,13 @@ import {
   usePublicTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { AppRoutes } from 'enums/app';
 import { TransferEnrollmentTarget } from 'interfaces/transferEnrollment';
-import { loadTransferEnrollmentDetails } from 'redux/reducers/transferEnrollment';
+import {
+  loadTransferEnrollmentDetails,
+  resetTransferEnrollmentState,
+  transferEnrollment,
+} from 'redux/reducers/transferEnrollment';
 import { transferEnrollmentSelector } from 'redux/selectors/transferEnrollment';
 import { ExamSessionUtils } from 'utils/examSession';
 
@@ -126,12 +132,29 @@ const TransferTargetsTableHeading = () => {
 };
 
 const RelocateButton = ({ target }: { target: TransferEnrollmentTarget }) => {
+  const { transferEnrollmentDetails } = useAppSelector(
+    transferEnrollmentSelector,
+  );
+  const dispatch = useAppDispatch();
   const { isPhone } = useWindowProperties();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.transferEnrollment.actions',
   });
   const translateCommon = useCommonTranslation();
   const { showDialog } = useDialog();
+
+  if (!transferEnrollmentDetails) {
+    return null;
+  }
+
+  const relocate = () => {
+    dispatch(
+      transferEnrollment({
+        registration_id: transferEnrollmentDetails.id,
+        to_exam_session_id: target.id,
+      }),
+    );
+  };
   const displayConfirmationDialog = () => {
     const lang = getCurrentLang();
     const locationInfo = ExamSessionUtils.getLocationInfo(target, lang);
@@ -164,7 +187,11 @@ const RelocateButton = ({ target }: { target: TransferEnrollmentTarget }) => {
         </div>
       ),
       actions: [
-        { title: 'Kyllä, siirrän', variant: Variant.Outlined },
+        {
+          title: 'Kyllä, siirrän',
+          variant: Variant.Outlined,
+          action: relocate,
+        },
         {
           title: 'En siirrä',
           variant: Variant.Contained,
@@ -340,29 +367,53 @@ const SelectNewExamDate = () => {
 
 export const TransferEnrollmentPage = () => {
   const dispatch = useAppDispatch();
-  const { status } = useAppSelector(transferEnrollmentSelector);
+  const { loadDetailsStatus, transferStatus } = useAppSelector(
+    transferEnrollmentSelector,
+  );
 
   // React Router
   const params = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (status === APIResponseStatus.NotStarted && params.registrationId) {
+    if (
+      loadDetailsStatus === APIResponseStatus.NotStarted &&
+      params.registrationId
+    ) {
       dispatch(loadTransferEnrollmentDetails(+params.registrationId));
     }
-  }, [dispatch, params.registrationId, status]);
+  }, [dispatch, params.registrationId, loadDetailsStatus]);
+
+  useEffect(() => {
+    if (transferStatus === APIResponseStatus.Success) {
+      navigate(
+        AppRoutes.TransferEnrollmentSuccess.replace(
+          /:registrationId/,
+          `${params.registrationId}`,
+        ),
+      );
+      dispatch(resetTransferEnrollmentState());
+    }
+  }, [transferStatus, navigate, dispatch, params.registrationId]);
+
+  const loading =
+    loadDetailsStatus === APIResponseStatus.InProgress ||
+    transferStatus === APIResponseStatus.InProgress;
 
   return (
     <Box className="transfer-enrollment-page">
-      <Grid
-        container
-        rowSpacing={4}
-        direction="column"
-        className="transfer-enrollment-page__grid-container"
-      >
-        <Header />
-        <CurrentEnrollmentDetails />
-        <SelectNewExamDate />
-      </Grid>
+      <LoadingProgressIndicator isLoading={loading}>
+        <Grid
+          container
+          rowSpacing={4}
+          direction="column"
+          className="transfer-enrollment-page__grid-container"
+        >
+          <Header />
+          <CurrentEnrollmentDetails />
+          <SelectNewExamDate />
+        </Grid>
+      </LoadingProgressIndicator>
     </Box>
   );
 };

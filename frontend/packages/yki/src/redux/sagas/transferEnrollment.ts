@@ -5,12 +5,19 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import axiosInstance from 'configs/axios';
 import { translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
-import { TransferEnrollmentDetailsResponse } from 'interfaces/transferEnrollment';
+import {
+  RelocateRequest,
+  RelocateResponse,
+  TransferEnrollmentDetailsResponse,
+} from 'interfaces/transferEnrollment';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
+  acceptTransferEnrollment,
   acceptTransferEnrollmentDetails,
   loadTransferEnrollmentDetails,
+  rejectTransferEnrollment,
   rejectTransferEnrollmentDetails,
+  transferEnrollment,
 } from 'redux/reducers/transferEnrollment';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -36,9 +43,35 @@ function* loadTransferEnrollmentDetailsSaga(action: PayloadAction<number>) {
   }
 }
 
-export function* watchTransferEnrollmentDetails() {
+function* transferEnrollmentSaga(action: PayloadAction<RelocateRequest>) {
+  const t = translateOutsideComponent();
+  try {
+    const { registration_id, to_exam_session_id } = action.payload;
+    const response: AxiosResponse<RelocateResponse> = yield call(
+      axiosInstance.post,
+      APIEndpoints.TransferEnrollment.replace(
+        /:registrationId/,
+        `${registration_id}`,
+      ),
+      JSON.stringify({ to_exam_session_id }),
+    );
+    const { success } = response.data;
+    if (success) {
+      yield put(acceptTransferEnrollment());
+    } else {
+      yield put(rejectTransferEnrollment());
+      yield put(setAPIError(t('yki.common.error')));
+    }
+  } catch (error) {
+    yield put(rejectTransferEnrollment());
+    yield put(setAPIError(t('yki.common.error')));
+  }
+}
+
+export function* watchTransferEnrollment() {
   yield takeLatest(
     loadTransferEnrollmentDetails.type,
     loadTransferEnrollmentDetailsSaga,
   );
+  yield takeLatest(transferEnrollment.type, transferEnrollmentSaga);
 }

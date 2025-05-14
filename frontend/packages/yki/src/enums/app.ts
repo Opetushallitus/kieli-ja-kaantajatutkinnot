@@ -16,6 +16,7 @@ export enum AppRoutes {
   LogoutSuccess = '/yki/uloskirjautuminen-onnistui',
   UserDetails = '/yki/kayttaja/tiedot',
   TransferEnrollment = '/yki/kayttaja/siirra/:registrationId',
+  TransferEnrollmentSuccess = '/yki/kayttaja/siirra/:registrationId/valmis',
   NotFoundPage = '*',
 }
 

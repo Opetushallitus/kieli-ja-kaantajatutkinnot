@@ -7,7 +7,7 @@ import { watchNationalities } from 'redux/sagas/nationalities';
 import { watchPublicIdentification } from 'redux/sagas/publicIdentification';
 import { watchRegistration } from 'redux/sagas/registration';
 import { watchSession } from 'redux/sagas/session';
-import { watchTransferEnrollmentDetails } from 'redux/sagas/transferEnrollment';
+import { watchTransferEnrollment } from 'redux/sagas/transferEnrollment';
 import { watchUserDetails } from 'redux/sagas/userDetails';
 import { watchUserOpenRegistrations } from 'redux/sagas/userOpenRegistrations';
 
@@ -22,6 +22,6 @@ export default function* rootSaga() {
     watchSession(),
     watchUserDetails(),
     watchUserOpenRegistrations(),
-    watchTransferEnrollmentDetails(),
+    watchTransferEnrollment(),
   ]);
 }

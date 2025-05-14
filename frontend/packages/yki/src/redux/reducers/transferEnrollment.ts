@@ -1,15 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { TransferEnrollmentDetails } from 'interfaces/transferEnrollment';
+import {
+  RelocateRequest,
+  TransferEnrollmentDetails,
+} from 'interfaces/transferEnrollment';
 
 export interface TransferEnrollmentState {
   transferEnrollmentDetails?: TransferEnrollmentDetails;
-  status: APIResponseStatus;
+  loadDetailsStatus: APIResponseStatus;
+  transferStatus: APIResponseStatus;
 }
 
 const initialState: TransferEnrollmentState = {
-  status: APIResponseStatus.NotStarted,
+  loadDetailsStatus: APIResponseStatus.NotStarted,
+  transferStatus: APIResponseStatus.NotStarted,
 };
 
 const transferEnrollmentSlice = createSlice({
@@ -17,17 +22,29 @@ const transferEnrollmentSlice = createSlice({
   initialState,
   reducers: {
     loadTransferEnrollmentDetails(state, _action: PayloadAction<number>) {
-      state.status = APIResponseStatus.InProgress;
+      state.loadDetailsStatus = APIResponseStatus.InProgress;
     },
     rejectTransferEnrollmentDetails(state) {
-      state.status = APIResponseStatus.Error;
+      state.loadDetailsStatus = APIResponseStatus.Error;
     },
     acceptTransferEnrollmentDetails(
       state,
       action: PayloadAction<TransferEnrollmentDetails>,
     ) {
-      state.status = APIResponseStatus.Success;
+      state.loadDetailsStatus = APIResponseStatus.Success;
       state.transferEnrollmentDetails = action.payload;
+    },
+    transferEnrollment(state, _action: PayloadAction<RelocateRequest>) {
+      state.transferStatus = APIResponseStatus.InProgress;
+    },
+    rejectTransferEnrollment(state) {
+      state.transferStatus = APIResponseStatus.Error;
+    },
+    acceptTransferEnrollment(state) {
+      state.transferStatus = APIResponseStatus.Success;
+    },
+    resetTransferEnrollmentState(_state) {
+      return initialState;
     },
   },
 });
@@ -37,4 +54,8 @@ export const {
   loadTransferEnrollmentDetails,
   rejectTransferEnrollmentDetails,
   acceptTransferEnrollmentDetails,
+  transferEnrollment,
+  rejectTransferEnrollment,
+  acceptTransferEnrollment,
+  resetTransferEnrollmentState,
 } = transferEnrollmentSlice.actions;
