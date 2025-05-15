@@ -1,9 +1,5 @@
 import createSagaMiddleware from '@redux-saga/core';
-import {
-  combineReducers,
-  configureStore,
-  PreloadedState,
-} from '@reduxjs/toolkit';
+import { combineReducers, configureStore, Tuple } from '@reduxjs/toolkit';
 
 import { RootState } from 'configs/redux';
 import { APIErrorReducer } from 'redux/reducers/APIError';
@@ -35,10 +31,12 @@ export const rootReducer = combineReducers({
   userOpenRegistrations: userOpenRegistrationsReducer,
 });
 
-export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
+export const setupStore = (preloadedState?: Partial<RootState>) => {
   const store = configureStore({
     reducer: rootReducer,
-    middleware: [saga],
+    middleware: () => {
+      return new Tuple(saga);
+    },
     preloadedState,
   });
   saga.run(rootSaga);
