@@ -4,12 +4,11 @@ import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import TextField from '@mui/material/TextField';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { ChangeEvent, useMemo, useState } from 'react';
 import {
   CustomSwitch,
   CustomTextField,
-  CustomTextFieldProps,
   H2,
   H3,
   InfoText,
@@ -41,7 +40,7 @@ type ClerkInterpreterTextFieldProps = {
   interpreterTextFields?: ClerkInterpreterTextFields;
   showFieldError: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-} & CustomTextFieldProps;
+} & TextFieldProps;
 
 const textFieldMaxLengths = {
   [ClerkInterpreterTextFieldEnum.IdentityNumber]: 255,
@@ -97,8 +96,20 @@ const getFieldError = (
   return error ? t(`otr.${error}`) : '';
 };
 
-const getHelperText = (isRequiredFieldError: boolean, fieldError: string) =>
-  isRequiredFieldError ? fieldError : <InfoText>{fieldError}</InfoText>;
+const getHelperText = (
+  isRequiredFieldError: boolean,
+  fieldError: string,
+  showFieldError: boolean,
+  required: boolean,
+) => {
+  if ((showFieldError || !required) && fieldError?.length > 0) {
+    return isRequiredFieldError ? (
+      fieldError
+    ) : (
+      <InfoText>{fieldError}</InfoText>
+    );
+  }
+};
 
 const ClerkInterpreterDetailsTextField = ({
   field,
@@ -123,8 +134,6 @@ const ClerkInterpreterDetailsTextField = ({
   const fieldError = getFieldError(field, required, interpreterTextFields);
   const showRequiredFieldError =
     showFieldError && fieldError?.length > 0 && required;
-  const showHelperText =
-    (showFieldError || !required) && fieldError?.length > 0;
 
   return (
     <CustomTextField
@@ -133,8 +142,12 @@ const ClerkInterpreterDetailsTextField = ({
       onChange={onChange}
       type={getTextFieldType(field)}
       error={showRequiredFieldError}
-      showHelperText={showHelperText}
-      helperText={getHelperText(showRequiredFieldError, fieldError)}
+      helperText={getHelperText(
+        showRequiredFieldError,
+        fieldError,
+        showFieldError,
+        required,
+      )}
       {...rest}
     />
   );

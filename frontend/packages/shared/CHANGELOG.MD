@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.11.13] - 2025-05-15
+
+### Changed
+
+- Refactored CustomTextField helperText prop. Correct helperText value is now calculated at the using end. 'showHelperText' no longer required.
+- Updated CustomDatePicker to work with '@mui/x-date-pickers: ^8.0.0',
+- Removed now unused CustomTextFieldProps type and updated LabeledTextField
+- Updated configs to match new naming in '@mui/material: ^7.0.0',
+
 ## [1.11.12] - 2024-12-30
 
 ### Added

@@ -32,7 +32,7 @@ export const ClerkHomePage: FC = () => {
 
   const renderClerkHomePageGrids = () => (
     <>
-      <Grid item>
+      <Grid>
         <div className="columns">
           <div
             className="columns gapped grow"
@@ -54,29 +54,29 @@ export const ClerkHomePage: FC = () => {
           </div>
         </div>
       </Grid>
-      <Grid item>
+      <Grid>
         <Divider />
       </Grid>
-      <Grid item>
+      <Grid>
         <div className="columns">
           <div className="clerk-homepage__grid-container__register-controls grow columns">
             <ClerkInterpreterToggleFilters setPage={setPage} />
           </div>
         </div>
       </Grid>
-      <Grid item>
+      <Grid>
         <ClerkInterpreterAutocompleteFilters setPage={setPage} />
       </Grid>
-      <Grid item>
+      <Grid>
         <div className="columns space-between">
           <ClerkHomePageControlButtons />
         </div>
       </Grid>
-      <Grid item>
+      <Grid>
         <Divider />
       </Grid>
       {missingInterpreters?.length > 0 && (
-        <Grid item>
+        <Grid>
           <Alert severity={Severity.Error}>
             {t('missingInterpreters', {
               interpreters: missingInterpreters.join(', '),
@@ -84,7 +84,7 @@ export const ClerkHomePage: FC = () => {
           </Alert>
         </Grid>
       )}
-      <Grid item>
+      <Grid>
         <ClerkInterpreterListing page={page} setPage={setPage} />
       </Grid>
     </>

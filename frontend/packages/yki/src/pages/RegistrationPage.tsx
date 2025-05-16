@@ -74,10 +74,7 @@ export const RegistrationPage: FC = () => {
         direction="column"
         className="public-registration-page__grid-container"
       >
-        <Grid
-          item
-          className="public-registration-page__grid-container__item-header"
-        >
+        <Grid className="public-registration-page__grid-container__item-header">
           <InformationBox />
           <H1 data-testid="public-registration-page__title-heading">
             {t('title')}
@@ -105,10 +102,7 @@ export const RegistrationPage: FC = () => {
             </div>
           </div>
         </Grid>
-        <Grid
-          item
-          className="public-registration-page__grid-container__item-filters"
-        >
+        <Grid className="public-registration-page__grid-container__item-filters">
           <Paper elevation={3} className="public-registration-page__filters">
             <H2 className="public-registration-page__filters__heading-title">
               {t('filters.heading')}
@@ -124,7 +118,6 @@ export const RegistrationPage: FC = () => {
         </Grid>
         {showResults && (
           <Grid
-            item
             className="public-registration-page__grid-container__result-box"
             data-testid="public-registration-page__grid-container__result-box"
           >

@@ -1,14 +1,13 @@
-import {
-  CustomTextField,
-  CustomTextFieldProps,
-} from '../CustomTextField/CustomTextField';
+import { TextFieldProps } from '@mui/material';
+
+import { CustomTextField } from '../CustomTextField/CustomTextField';
 import { Text } from '../Text/Text';
 
 export type LabeledTextFieldProps = {
   id: string;
   label: string;
   className?: string;
-} & CustomTextFieldProps;
+} & TextFieldProps;
 
 export const LabeledTextField = ({
   id,

@@ -65,7 +65,7 @@ export const ClerkGoodAndSatisfactoryLevelPage: FC = () => {
         direction="column"
         className="clerk-homepage__grid-container"
       >
-        <Grid item>
+        <Grid>
           <H1
             data-testid="clerk-homepage__title-heading"
             sx={{ marginBottom: 0 }}
@@ -73,7 +73,7 @@ export const ClerkGoodAndSatisfactoryLevelPage: FC = () => {
             {t('title')}
           </H1>
         </Grid>
-        <Grid item>
+        <Grid>
           <Paper elevation={3} className="clerk-homepage__examiners">
             {examinersLoading ? (
               <div className="rows gapped">

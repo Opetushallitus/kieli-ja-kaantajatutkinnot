@@ -68,11 +68,15 @@ export const WriteMessage = ({
   };
 
   const getHelperMessage = () => {
-    const value = request?.message;
-    const errorToShow = messageError ? `${messageError}.` : '';
-    const maxLength = InputFieldUtils.defaultMaxTextAreaLength;
+    if (messageError.length > 0) {
+      const value = request?.message;
+      const errorToShow = messageError ? `${messageError}.` : '';
+      const maxLength = InputFieldUtils.defaultMaxTextAreaLength;
 
-    return `${errorToShow} ${value?.length} / ${maxLength} ${t('characters')}`;
+      return `${errorToShow} ${value?.length} / ${maxLength} ${t(
+        'characters',
+      )}`;
+    }
   };
 
   return (
@@ -97,7 +101,6 @@ export const WriteMessage = ({
             type={TextFieldTypes.Textarea}
             onChange={handleMessageFieldChange}
             onBlur={handleMessageFieldErrors}
-            showHelperText
             helperText={getHelperMessage()}
             error={messageError.length > 0}
             multiline

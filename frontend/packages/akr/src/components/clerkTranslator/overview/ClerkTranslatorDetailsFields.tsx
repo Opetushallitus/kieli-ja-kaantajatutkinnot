@@ -91,8 +91,20 @@ const getFieldError = (
   return error ? t(`akr.${error}`) : '';
 };
 
-const getHelperText = (isRequiredFieldError: boolean, fieldError: string) =>
-  isRequiredFieldError ? fieldError : <InfoText>{fieldError}</InfoText>;
+const getHelperText = (
+  isRequiredFieldError: boolean,
+  fieldError: string,
+  showFieldError: boolean,
+  required: boolean,
+) => {
+  if ((showFieldError || !required) && fieldError?.length > 0) {
+    return isRequiredFieldError ? (
+      fieldError
+    ) : (
+      <InfoText>{fieldError}</InfoText>
+    );
+  }
+};
 
 const emptyAddress = {
   street: '',
@@ -132,8 +144,6 @@ const ClerkTranslatorDetailsTextField = ({
   const fieldError = getFieldError(translator, field, required);
   const showRequiredFieldError =
     showFieldError && fieldError?.length > 0 && required;
-  const showHelperText =
-    (showFieldError || !required) && fieldError?.length > 0;
 
   return (
     <CustomTextField
@@ -143,8 +153,12 @@ const ClerkTranslatorDetailsTextField = ({
       type={getTextFieldType(field)}
       FormHelperTextProps={{ component: 'div' } as FormHelperTextProps}
       error={showRequiredFieldError}
-      showHelperText={showHelperText}
-      helperText={getHelperText(showRequiredFieldError, fieldError)}
+      helperText={getHelperText(
+        showRequiredFieldError,
+        fieldError,
+        showFieldError,
+        required,
+      )}
       {...rest}
     />
   );

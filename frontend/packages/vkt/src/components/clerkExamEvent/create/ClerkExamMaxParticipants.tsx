@@ -33,16 +33,18 @@ export const ClerkExamMaxParticipants = ({
     dispatch(updateClerkNewExamDate(examFormDetails));
   };
 
-  const getErrorText = (value: number | undefined): string => {
-    return value === undefined
-      ? translateCommon('errors.customTextField.required')
-      : translateCommon('errors.customTextField.numberFormat');
-  };
-
   const showError = ExamCreateEventUtils.maxParticipantsHasError(
     isDirty,
     examForm.maxParticipants,
   );
+
+  const getErrorText = (value: number | undefined): string | undefined => {
+    if (showError) {
+      return value === undefined
+        ? translateCommon('errors.customTextField.required')
+        : translateCommon('errors.customTextField.numberFormat');
+    }
+  };
 
   return (
     <div className="rows gapped">
@@ -53,7 +55,6 @@ export const ClerkExamMaxParticipants = ({
         type={TextFieldTypes.Number}
         value={examForm.maxParticipants ?? ''}
         error={showError}
-        showHelperText={showError}
         helperText={getErrorText(examForm.maxParticipants)}
         variant={TextFieldVariant.Outlined}
         onChange={onParticipantsChange}

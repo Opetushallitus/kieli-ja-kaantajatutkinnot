@@ -122,7 +122,6 @@ export const EnrollToQueue = () => {
           autoComplete={InputAutoComplete.Email}
           error={inputEmailError !== ''}
           helperText={inputEmailError ? translateCommon(inputEmailError) : ' '}
-          showHelperText={true}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
@@ -137,7 +136,6 @@ export const EnrollToQueue = () => {
           helperText={
             confirmEmailError ? translateCommon(confirmEmailError) : ' '
           }
-          showHelperText={true}
           value={confirmEmail}
           onChange={(e) => setConfirmEmail(e.target.value)}
           onPaste={(e) => {

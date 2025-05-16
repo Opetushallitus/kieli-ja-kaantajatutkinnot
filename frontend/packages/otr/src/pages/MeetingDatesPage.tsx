@@ -72,7 +72,7 @@ export const MeetingDatesPage: FC = () => {
 
   const renderMeetingDatesPageGrids = () => (
     <>
-      <Grid item>
+      <Grid>
         <div
           className="columns gapped"
           data-testid="meeting-dates-page__heading"
@@ -81,19 +81,16 @@ export const MeetingDatesPage: FC = () => {
           <Text>{`(${meetingDates.length})`}</Text>
         </div>
       </Grid>
-      <Grid item>
+      <Grid>
         <Divider />
       </Grid>
-      <Grid
-        className="meeting-dates-page__grid-container__date-controls grow columns"
-        item
-      >
+      <Grid className="meeting-dates-page__grid-container__date-controls grow columns">
         <MeetingDatesToggleFilters />
       </Grid>
-      <Grid item>
+      <Grid>
         <AddMeetingDate />
       </Grid>
-      <Grid item>
+      <Grid>
         <MeetingDatesListing />
       </Grid>
     </>

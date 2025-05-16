@@ -99,7 +99,9 @@ describe('ExaminationDatesPage', () => {
 
   it('should open a confirmation dialog when row delete icon is clicked, and do no changes if user backs out', () => {
     onExaminationDatesPage.filterByStatus(ExaminationDateStatus.Passed);
-    onExaminationDatesPage.deleteExaminationDate(examinationDateToDelete.dateLabel);
+    onExaminationDatesPage.deleteExaminationDate(
+      examinationDateToDelete.dateLabel,
+    );
 
     onDialog.expectText('Haluatko varmasti poistaa tutkintopäivän?');
     onDialog.clickButtonByText('Takaisin');

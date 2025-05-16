@@ -68,15 +68,15 @@ export const PrivacyPolicyPage = () => {
       rowSpacing={4}
       direction="column"
     >
-      <Grid item className="privacy-policy-page__back-button">
+      <Grid className="privacy-policy-page__back-button">
         <BackButton />
       </Grid>
-      <Grid item className="privacy-policy-page__heading">
+      <Grid className="privacy-policy-page__heading">
         <H1>{translatePrivacy('heading')}</H1>
         <HeaderSeparator />
         <Text>{translatePrivacy('description')}</Text>
       </Grid>
-      <Grid item>
+      <Grid>
         <Paper
           className="privacy-policy-page__content rows gapped-xxl"
           elevation={3}
