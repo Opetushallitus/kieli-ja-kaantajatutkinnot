@@ -3,7 +3,7 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { PersonDetails } from 'interfaces/userDetails';
 
-interface UserDetailsState {
+export interface UserDetailsState {
   personDetails?: PersonDetails;
   registrations: Array<string>;
   status: APIResponseStatus;

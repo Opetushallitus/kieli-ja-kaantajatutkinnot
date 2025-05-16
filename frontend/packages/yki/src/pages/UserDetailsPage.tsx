@@ -1,4 +1,7 @@
-import { Grid, Paper } from '@mui/material';
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import NotInterestedIcon from '@mui/icons-material/NotInterested';
+import { Grid, Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import dayjs from 'dayjs';
 import { FC, useEffect } from 'react';
@@ -63,6 +66,46 @@ interface RegistrationsProps {
   filteredRegistrations: Array<PersonRegistrations>;
 }
 
+const RegistrationState = ({
+  registration,
+}: {
+  registration: PersonRegistrations;
+}) => {
+  const { state } = registration;
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.userDetailsPage.registrations.state',
+  });
+
+  // TODO Queued registrations should be handled as a sort of pseudo-state here as well!
+  // TODO Registrations that are STARTED should maybe not be listed at all?
+
+  return (
+    <div>
+      <Text className="bold">{t('label')}</Text>
+      <div className="columns gapped-xxs">
+        {[RegistrationStates.Completed, RegistrationStates.Submitted].includes(
+          state,
+        ) && (
+          <>
+            <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
+            <Text>{t('enrolled')}</Text>
+          </>
+        )}
+        {[
+          RegistrationStates.Cancelled,
+          RegistrationStates.Expired,
+          RegistrationStates.PaidAndCancelled,
+        ].includes(state) && (
+          <>
+            <NotInterestedIcon className="user-details-page__icon--cancel" />
+            <Text>{t('cancelled')}</Text>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const Registrations: FC<RegistrationsProps> = ({ filteredRegistrations }) => {
   const lang = getCurrentLang();
 
@@ -77,13 +120,14 @@ const Registrations: FC<RegistrationsProps> = ({ filteredRegistrations }) => {
         className="user-details-page__event"
       >
         <div className="user-details-page__info__section">
-          <H3>
+          <H3 sx={{ fontSize: '1.8rem', lineHeight: '2.6rem' }}>
             {ExamSessionUtils.languageAndLevelText({
               language_code: r.examLang,
               level_code: r.examLevel,
             })}
           </H3>
         </div>
+        <RegistrationState registration={r} />
         <div>
           <Text className="bold">Testipäivä</Text>
           <Text>{DateUtils.formatOptionalDate(r.examDate, 'l')}</Text>
@@ -122,11 +166,65 @@ const Registrations: FC<RegistrationsProps> = ({ filteredRegistrations }) => {
   });
 };
 
-export const UserDetailsPage: FC = () => {
+const ContactDetails = () => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.pages.reassessmentPage',
+    keyPrefix: 'yki.pages.userDetailsPage.contactDetails',
   });
   const translateCommon = useCommonTranslation();
+  const { personDetails } = useAppSelector(userDetailsSelector);
+
+  if (!personDetails) {
+    return <></>;
+  }
+
+  return (
+    <div className="margin-top-xxl">
+      <H2 className="user-details-page__info__section__heading-title">
+        {t('heading')}
+      </H2>
+      <Paper elevation={3} className="user-details-page__info">
+        <div className="user-details-page__info__section rows gapped">
+          <Text>
+            {t('description.part1')} {t('description.part2')}
+          </Text>
+          <div className="rows">
+            <Text className="bold">
+              {personDetails.firstName} {personDetails.lastName}
+            </Text>
+            <Text>
+              <b>{translateCommon('address')}:</b>{' '}
+              {`${personDetails.streetAddress}, ${personDetails.zip} ${personDetails.postOffice}`}
+            </Text>
+            <Text>
+              <b>{translateCommon('email')}:</b> {personDetails.email}
+            </Text>
+            <Text>
+              <b>{translateCommon('phoneNumber')}:</b>{' '}
+              {personDetails.phoneNumber}
+            </Text>
+          </div>
+          <div className="columns">
+            <CustomButtonLink
+              variant={Variant.Text}
+              color={Color.Secondary}
+              to={''}
+              fullWidth={false}
+              startIcon={<EditOutlinedIcon />}
+              className="text-transform-none"
+            >
+              {t('modify')}
+            </CustomButtonLink>
+          </div>
+        </div>
+      </Paper>
+    </div>
+  );
+};
+
+export const UserDetailsPage: FC = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.userDetailsPage',
+  });
 
   const dispatch = useAppDispatch();
   const { status, personDetails } = useAppSelector(userDetailsSelector);
@@ -172,28 +270,14 @@ export const UserDetailsPage: FC = () => {
           <H1 data-testid="user-details-page__title-heading">{t('title')}</H1>
           <HeaderSeparator />
           <Text>{t('introduction.info')}</Text>
-          <br />
-          <Text>{t('introduction.timeLimit')}</Text>
+          <Typography className="margin-top-sm" variant="body1" component="ul">
+            {['point1', 'point2', 'point3', 'point4'].map((point, i) => (
+              <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
+            ))}
+          </Typography>
         </Grid>
         <Grid item className="user-details-page__grid-container__item-info">
-          <div className="margin-top-xxl">
-            <H2 className="user-details-page__info__section__heading-title">
-              Yhteystietosi
-            </H2>
-            <Paper elevation={3} className="user-details-page__info">
-              <div className="user-details-page__info__section">
-                <Text>
-                  Yhteystietoja käytetään tutkintotodistuksen lähettämiseen
-                </Text>
-                <Text className="bold">
-                  {personDetails.firstName} {personDetails.lastName}
-                </Text>
-                <Text>
-                  <b>{translateCommon('email')}:</b> {personDetails.email}
-                </Text>
-              </div>
-            </Paper>
-          </div>
+          <ContactDetails />
           {upcomingRegistrations.length > 0 && (
             <div className="margin-top-xxl rows gapped-xxl">
               <H2 className="user-details-page__info__section__heading-title">

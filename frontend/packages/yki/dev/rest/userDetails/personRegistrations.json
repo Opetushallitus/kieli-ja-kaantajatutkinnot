@@ -3,6 +3,10 @@
   "oid": "1.2.246.562.24.00123456789",
   "last_name": "Uusivälimerkki",
   "email": "harry@invalid.invalid",
+  "phone_number": "+35850112233445",
+  "street_address": "Kuusamakuja 9",
+  "zip": "99100",
+  "post_office": "Kittilä",
   "registrations": [
     {
       "id": 1337,

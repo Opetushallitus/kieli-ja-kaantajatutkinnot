@@ -2,6 +2,7 @@
   "yki": {
     "common": {
       "actions": "Toiminnot",
+      "address": "Osoite",
       "appNameAbbreviation": "YKI",
       "appTitle": "Yleiset kielitutkinnot - Opetushallitus",
       "back": "Takaisin",
@@ -123,6 +124,7 @@
       "no": "Ei",
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Yleisten kielitutkintojen ilmoittautumissivulle.",
+      "phoneNumber": "Puhelinnumero",
       "placesAvailable": "Paikkoja vapaana",
       "postAdmission": "Jälki-ilmoittautuminen",
       "price": "Hinta",
@@ -155,7 +157,7 @@
         "evaluationOrderStatus": "Tarkistusarviointi",
         "accessibilityStatement": "Saavutettavuusseloste",
         "logoutSuccess": "Uloskirjautuminen onnnistui",
-        "userDetails": "Ilmoittautumisesi",
+        "userDetails": "Omat ilmoittautumiset",
         "transferEnrollment": "Siirrä ilmoittautuminen",
         "notFound": "Etsimääsi sivua ei löytynyt"
       }

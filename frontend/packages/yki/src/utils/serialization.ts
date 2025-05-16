@@ -246,6 +246,10 @@ export class SerializationUtils {
       firstName: response.first_name,
       lastName: response.last_name,
       email: response.email,
+      phoneNumber: response.phone_number,
+      streetAddress: response.street_address,
+      postOffice: response.post_office,
+      zip: response.zip,
       registrations: response.registrations?.map((v) => ({
         id: v.id,
         examSessionId: v.exam_session_id,
