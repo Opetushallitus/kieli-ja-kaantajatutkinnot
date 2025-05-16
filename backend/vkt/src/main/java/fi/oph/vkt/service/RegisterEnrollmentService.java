@@ -1,13 +1,15 @@
 package fi.oph.vkt.service;
 
-import fi.oph.vkt.api.dto.PublicExamEventDTO;
-import fi.oph.vkt.api.dto.integration.RegisterSyncDTO;
+import fi.oph.vkt.api.dto.integration.PartialExamsDTO;
+import fi.oph.vkt.api.dto.integration.RegisterEnrollmentDTO;
 import fi.oph.vkt.api.dto.integration.RegisterPersonDTO;
+import fi.oph.vkt.api.dto.integration.RegisterSyncDTO;
+import fi.oph.vkt.api.dto.integration.SourceDTO;
 import fi.oph.vkt.model.*;
-import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.repository.EnrollmentRepository;
-import fi.oph.vkt.util.ExamEventUtil;
+import fi.oph.vkt.util.DateUtil;
 import fi.oph.vkt.util.PersonUtil;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,44 +23,52 @@ public class RegisterEnrollmentService {
 
   @Transactional(readOnly = true)
   public List<RegisterSyncDTO> sync() {
-    final List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsForSyncToRegister(
-      List.of(EnrollmentStatus.CANCELED, EnrollmentStatus.COMPLETED)
-    );
+    final List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsForSyncToRegister();
 
     return enrollments
       .stream()
       .map(enrollment -> {
         final ExamEvent examEvent = enrollment.getExamEvent();
-        final long openings = ExamEventUtil.getOpenings(examEvent);
         final RegisterPersonDTO personDTO = PersonUtil.createRegistryPersonDTO(enrollment.getPerson());
-        final PublicExamEventDTO examEventDTO = PublicExamEventDTO
+        final SourceDTO sourceDTO = SourceDTO.builder().id(String.valueOf(enrollment.getId())).lahde("KIOS").build();
+        final List<PartialExamsDTO> partialExamsDTOS = new ArrayList<>();
+        final String examDate = DateUtil.formatOptionalDate(examEvent.getDate());
+
+        if (enrollment.isSpeakingPartialExam()) {
+          partialExamsDTOS.add(
+            PartialExamsDTO.builder().arviointi(null).tutkintopaiva(examDate).tyyppi("puhuminen").build()
+          );
+        }
+
+        if (enrollment.isWritingPartialExam()) {
+          partialExamsDTOS.add(
+            PartialExamsDTO.builder().arviointi(null).tutkintopaiva(examDate).tyyppi("kirjoittaminen").build()
+          );
+        }
+
+        if (enrollment.isReadingComprehensionPartialExam()) {
+          partialExamsDTOS.add(
+            PartialExamsDTO.builder().arviointi(null).tutkintopaiva(examDate).tyyppi("tekstinymmartaminen").build()
+          );
+        }
+
+        if (enrollment.isSpeechComprehensionPartialExam()) {
+          partialExamsDTOS.add(
+            PartialExamsDTO.builder().arviointi(null).tutkintopaiva(examDate).tyyppi("puheenymmartaminen").build()
+          );
+        }
+
+        final RegisterEnrollmentDTO enrollmentDTO = RegisterEnrollmentDTO
           .builder()
-          .id(examEvent.getId())
-          .language(examEvent.getLanguage())
-          .date(examEvent.getDate())
-          .registrationCloses(examEvent.getRegistrationCloses().toLocalDate())
-          .registrationOpens(examEvent.getRegistrationOpens().toLocalDate())
-          .openings(openings)
-          .hasCongestion(false)
-          .isOpen(ExamEventUtil.isOpen(examEvent))
+          .kieli(examEvent.getLanguage().toString())
+          .tyyppi("valtionhallinnonkielitutkinto")
+          .organisaatioOid(null)
+          .lahdejarjestelmanId(sourceDTO)
+          .taitotaso("erinomainen")
+          .osakokeet(partialExamsDTOS)
           .build();
 
-        return RegisterSyncDTO
-          .builder()
-          .id(enrollment.getId())
-          .oralSkill(enrollment.isOralSkill())
-          .textualSkill(enrollment.isTextualSkill())
-          .understandingSkill(enrollment.isUnderstandingSkill())
-          .speakingPartialExam(enrollment.isSpeakingPartialExam())
-          .speechComprehensionPartialExam(enrollment.isSpeechComprehensionPartialExam())
-          .writingPartialExam(enrollment.isWritingPartialExam())
-          .readingComprehensionPartialExam(enrollment.isReadingComprehensionPartialExam())
-          .status(enrollment.getStatus())
-          .email(enrollment.getEmail())
-          .phoneNumber(enrollment.getPhoneNumber())
-          .person(personDTO)
-          .examEvent(examEventDTO)
-          .build();
+        return RegisterSyncDTO.builder().henkilo(personDTO).suoritus(enrollmentDTO).build();
       })
       .toList();
   }

@@ -7,7 +7,6 @@ import lombok.NonNull;
 @Builder
 public record PartialExamsDTO(
   @NonNull @NotNull String tutkintopaiva,
-  @NonNull @NotNull String arviointi,
+  String arviointi,
   @NonNull @NotNull String tyyppi
-) {
-}
+) {}

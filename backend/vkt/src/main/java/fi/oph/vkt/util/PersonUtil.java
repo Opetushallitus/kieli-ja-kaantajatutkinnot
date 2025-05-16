@@ -18,9 +18,8 @@ public class PersonUtil {
   public static RegisterPersonDTO createRegistryPersonDTO(final Person person) {
     return RegisterPersonDTO
       .builder()
-      .id(person.getId())
-      .lastName(person.getLastName())
-      .firstName(person.getFirstName())
+      .sukunimi(person.getLastName())
+      .etunimet(person.getFirstName())
       .oid(person.getOid())
       .build();
   }

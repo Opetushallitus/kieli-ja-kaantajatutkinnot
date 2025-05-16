@@ -5,8 +5,4 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record SourceDTO(
-  @NonNull @NotNull String id,
-  @NonNull @NotNull String lahde
-) {
-}
+public record SourceDTO(@NonNull @NotNull String id, @NonNull @NotNull String lahde) {}
