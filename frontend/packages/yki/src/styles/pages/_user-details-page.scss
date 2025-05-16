@@ -66,4 +66,18 @@
     text-decoration: underline;
     text-transform: initial;
   }
+
+  & &__icon {
+    &--ok {
+      color: #378703;
+    }
+
+    &--alert {
+      color: #ffcc33;
+    }
+
+    &--cancel {
+      color: #cc3300;
+    }
+  }
 }

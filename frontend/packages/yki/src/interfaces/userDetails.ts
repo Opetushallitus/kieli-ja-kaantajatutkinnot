@@ -28,6 +28,10 @@ export interface PersonDetails {
   firstName: string;
   lastName: string;
   email: string;
+  phoneNumber: string;
+  streetAddress: string;
+  postOffice: string;
+  zip: string;
   registrations: Array<PersonRegistrations>;
 }
 
@@ -35,5 +39,9 @@ export interface PersonDetailsResponse {
   first_name: string;
   last_name: string;
   email: string;
+  phone_number: string;
+  street_address: string;
+  post_office: string;
+  zip: string;
   registrations: Array<PersonRegistrationsResponse>;
 }
