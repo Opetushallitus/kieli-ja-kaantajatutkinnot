@@ -5,6 +5,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,6 +34,9 @@ public class EnrollmentCommon extends BaseEntity {
 
   @Column(name = "partial_exam_reading_comprehension")
   private boolean readingComprehensionPartialExam;
+
+  @Column(name = "last_sync_at")
+  private LocalDateTime lastSyncAt;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
