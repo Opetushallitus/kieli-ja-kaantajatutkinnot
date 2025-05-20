@@ -11,6 +11,7 @@ public interface PaymentProvider {
   PaytrailResponseDTO createPayment(
     final List<Item> itemList,
     final Long paymentId,
+    final String paymentReference,
     final Customer customer,
     final int amount,
     final AppLocale appLocale

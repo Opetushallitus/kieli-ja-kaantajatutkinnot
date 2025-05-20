@@ -10,6 +10,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.model.type.AppLocale;
+import fi.oph.vkt.service.PaymentService;
 import fi.oph.vkt.util.UUIDSource;
 import java.io.IOException;
 import java.util.Arrays;
@@ -72,13 +73,14 @@ public class PaytrailPaymentProviderTest {
     final Item item2 = getItem("bar");
     final List<Item> itemList = Arrays.asList(item1, item2);
     final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(webClient, paytrailConfig, uuidSource);
-    assertNotNull(paymentProvider.createPayment(itemList, 1L, customer, 100, AppLocale.FI));
+    final String paymentReference = PaymentService.REFERENCE_PREFIX_EXCELLENT + "1-1";
+    assertNotNull(paymentProvider.createPayment(itemList, 1L, paymentReference, customer, 100, AppLocale.FI));
 
     final RecordedRequest request = mockWebServer.takeRequest();
 
     assertEquals(getMockJsonRequest().trim(), request.getBody().readUtf8().trim());
     assertEquals("POST", request.getMethod());
-    assertEquals("030c90e7982b363b16c4ca534fc335abd343e8832f7e7a8d5bbbcebbdc9f92f0", request.getHeader("signature"));
+    assertEquals("53d262c1fa37957917d939bdac2caab29a5122f12f2c1268e0f1714c80be1da6", request.getHeader("signature"));
     assertEquals("application/json; charset=utf-8", request.getHeader("content-type"));
     assertEquals("123456", request.getHeader("checkout-account"));
     assertEquals("sha256", request.getHeader("checkout-algorithm"));
@@ -119,9 +121,10 @@ public class PaytrailPaymentProviderTest {
     final Item item2 = getItem("bar");
     final List<Item> itemList = Arrays.asList(item1, item2);
     final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(webClient, paytrailConfig, uuidSource);
+    final String paymentReference = "ET-1-1";
     final RuntimeException ex = assertThrows(
       RuntimeException.class,
-      () -> paymentProvider.createPayment(itemList, 1L, customer, 100, AppLocale.FI)
+      () -> paymentProvider.createPayment(itemList, 1L, paymentReference, customer, 100, AppLocale.FI)
     );
 
     assertInstanceOf(WebClientResponseException.class, ex.getCause());

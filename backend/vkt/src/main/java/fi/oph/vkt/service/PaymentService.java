@@ -39,6 +39,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class PaymentService {
 
   private static final Logger LOG = LoggerFactory.getLogger(PaymentService.class);
+  public static final String REFERENCE_PREFIX_EXCELLENT = "VKTET-";
+  public static final String REFERENCE_PREFIX_GOOD_AND_SATISFACTORY = "VKTHTT-";
 
   private final PaymentProvider paymentProvider;
   private final PaymentRepository paymentRepository;
@@ -133,11 +135,14 @@ public class PaymentService {
     final PaymentStatus paymentStatus
   ) {
     switch (paymentStatus) {
-      case NEW, PENDING, DELAYED -> {}
+      case NEW -> {
+        enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.EXPECTING_PAYMENT);
+      }
       case OK -> enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.COMPLETED);
       case FAIL -> {
         enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.CANCELED_PAYMENT);
       }
+      case PENDING, DELAYED -> {}
     }
   }
 
@@ -326,13 +331,17 @@ public class PaymentService {
     payment.setAmount(amount);
     paymentRepository.saveAndFlush(payment);
 
+    final String paymentReference = REFERENCE_PREFIX_GOOD_AND_SATISFACTORY + payment.getId() + "-" + person.getId();
     final PaytrailResponseDTO response = paymentProvider.createPayment(
       itemList,
       payment.getId(),
+      paymentReference,
       customer,
       amount,
       appLocale
     );
+
+    setEnrollmentStatus(enrollmentAppointment, PaymentStatus.NEW);
 
     payment.setTransactionId(response.getTransactionId());
     payment.setReference(response.getReference());
@@ -374,9 +383,11 @@ public class PaymentService {
     payment.setAmount(amount);
     paymentRepository.saveAndFlush(payment);
 
+    final String paymentReference = REFERENCE_PREFIX_EXCELLENT + payment.getId() + "-" + person.getId();
     final PaytrailResponseDTO response = paymentProvider.createPayment(
       itemList,
       payment.getId(),
+      paymentReference,
       customer,
       amount,
       appLocale

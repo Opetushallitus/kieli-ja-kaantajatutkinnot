@@ -8,6 +8,8 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyMap;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -17,10 +19,15 @@ import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Examiner;
+import fi.oph.vkt.model.ExaminerExamEvent;
+import fi.oph.vkt.model.Municipality;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.AppLocale;
+import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentSkill;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLevel;
@@ -42,6 +49,7 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatcher;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.core.env.Environment;
@@ -65,6 +73,20 @@ public class PaymentServiceTest {
   private TestEntityManager entityManager;
 
   Environment environment;
+
+  private static class PrefixMatcher implements ArgumentMatcher<String> {
+
+    private final String expected;
+
+    public PrefixMatcher(final String expected) {
+      this.expected = expected;
+    }
+
+    @Override
+    public boolean matches(final String actual) {
+      return actual.startsWith(expected);
+    }
+  }
 
   @BeforeEach
   public void setup() {
@@ -92,7 +114,16 @@ public class PaymentServiceTest {
 
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    when(paymentProvider.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt(), any()))
+    when(
+      paymentProvider.createPayment(
+        anyList(),
+        anyLong(),
+        argThat(new PrefixMatcher("VKTET-")),
+        any(Customer.class),
+        anyInt(),
+        any()
+      )
+    )
       .thenReturn(response);
 
     final PaymentService paymentService = new PaymentService(
@@ -137,7 +168,14 @@ public class PaymentServiceTest {
 
     assertEquals(url, redirectUrl);
     verify(paymentProvider, times(1))
-      .createPayment(eq(items), any(Long.class), eq(customer), eq(51400), eq(AppLocale.FI));
+      .createPayment(
+        eq(items),
+        anyLong(),
+        argThat(new PrefixMatcher("VKTET-")),
+        eq(customer),
+        eq(51400),
+        eq(AppLocale.FI)
+      );
 
     final List<Payment> payments = paymentRepository.findAll();
     assertEquals(1, payments.size());
@@ -150,6 +188,104 @@ public class PaymentServiceTest {
     assertEquals(PaymentStatus.NEW, payment.getPaymentStatus());
 
     assertEquals(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, payment.getEnrollment().getStatus());
+  }
+
+  @Test
+  public void testCreatePaymentForEnrollmentAppointment() {
+    final String url = "http://localhost";
+    final PaytrailResponseDTO response = PaytrailResponseDTO
+      .builder()
+      .transactionId("test")
+      .reference("foo")
+      .href(url)
+      .build();
+
+    final Person person = createPerson();
+    final EnrollmentAppointment enrollment = createEnrollmentAppointment(person);
+    enrollment.setOralSkill(true);
+    enrollment.setTextualSkill(true);
+    enrollment.setUnderstandingSkill(true);
+
+    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
+    when(
+      paymentProvider.createPayment(
+        anyList(),
+        anyLong(),
+        argThat(new PrefixMatcher("VKTHTT-")),
+        any(Customer.class),
+        anyInt(),
+        any()
+      )
+    )
+      .thenReturn(response);
+
+    final PaymentService paymentService = new PaymentService(
+      paymentProvider,
+      paymentRepository,
+      enrollmentRepository,
+      enrollmentAppointmentRepository,
+      environment,
+      publicEnrollmentEmailService
+    );
+    final String redirectUrl = paymentService.createPaymentForEnrollmentAppointment(
+      enrollment.getId(),
+      person,
+      AppLocale.FI
+    );
+    final List<Item> items = List.of(
+      Item
+        .builder()
+        .units(1)
+        .unitPrice(12900)
+        .vatPercentage(0)
+        .productCode(ExamLevel.GOOD_AND_SATISFACTORY + "-" + EnrollmentSkill.TEXTUAL)
+        .build(),
+      Item
+        .builder()
+        .units(1)
+        .unitPrice(12900)
+        .vatPercentage(0)
+        .productCode(ExamLevel.GOOD_AND_SATISFACTORY + "-" + EnrollmentSkill.ORAL)
+        .build(),
+      Item
+        .builder()
+        .units(1)
+        .unitPrice(0)
+        .vatPercentage(0)
+        .productCode(ExamLevel.GOOD_AND_SATISFACTORY + "-" + EnrollmentSkill.UNDERSTANDING)
+        .build()
+    );
+    final Customer customer = Customer
+      .builder()
+      .email(enrollment.getEmail())
+      .phone(enrollment.getPhoneNumber())
+      .firstName(person.getFirstName())
+      .lastName(person.getLastName())
+      .build();
+
+    assertEquals(url, redirectUrl);
+    verify(paymentProvider, times(1))
+      .createPayment(
+        eq(items),
+        anyLong(),
+        argThat(new PrefixMatcher("VKTHTT-")),
+        eq(customer),
+        eq(25800),
+        eq(AppLocale.FI)
+      );
+
+    final List<Payment> payments = paymentRepository.findAll();
+    assertEquals(1, payments.size());
+
+    final Payment payment = payments.get(0);
+    assertEquals(25800, payment.getAmount());
+    assertEquals("test", payment.getTransactionId());
+    assertEquals("foo", payment.getReference());
+    assertEquals(url, payment.getPaymentUrl());
+    assertEquals(PaymentStatus.NEW, payment.getPaymentStatus());
+
+    assertEquals(EnrollmentAppointmentStatus.EXPECTING_PAYMENT, payment.getEnrollmentAppointment().getStatus());
   }
 
   @Test
@@ -171,7 +307,16 @@ public class PaymentServiceTest {
 
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    when(paymentProvider.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt(), any()))
+    when(
+      paymentProvider.createPayment(
+        anyList(),
+        anyLong(),
+        argThat(new PrefixMatcher("VKTET-")),
+        any(Customer.class),
+        anyInt(),
+        any()
+      )
+    )
       .thenReturn(response);
 
     final PaymentService paymentService = new PaymentService(
@@ -203,7 +348,14 @@ public class PaymentServiceTest {
 
     assertEquals(url, redirectUrl);
     verify(paymentProvider, times(1))
-      .createPayment(eq(items), any(Long.class), any(Customer.class), eq(25700), eq(AppLocale.FI));
+      .createPayment(
+        eq(items),
+        anyLong(),
+        argThat(new PrefixMatcher("VKTET-")),
+        any(Customer.class),
+        eq(25700),
+        eq(AppLocale.FI)
+      );
   }
 
   @Test
@@ -241,7 +393,16 @@ public class PaymentServiceTest {
       .lastName("a" + "b".repeat(48) + "c")
       .build();
 
-    when(paymentProvider.createPayment(anyList(), anyLong(), eq(expectedCustomerData), anyInt(), any()))
+    when(
+      paymentProvider.createPayment(
+        anyList(),
+        anyLong(),
+        argThat(new PrefixMatcher("VKTET-")),
+        eq(expectedCustomerData),
+        anyInt(),
+        any()
+      )
+    )
       .thenReturn(PaytrailResponseDTO.builder().transactionId("12345").reference("RF123").href("http").build());
 
     final String paymentUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person, AppLocale.FI);
@@ -256,7 +417,17 @@ public class PaymentServiceTest {
     final Enrollment enrollment = createEnrollment(person1);
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    when(paymentProvider.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt(), any()))
+    final String paymentReference = "ET-1-1";
+    when(
+      paymentProvider.createPayment(
+        anyList(),
+        any(Long.class),
+        eq(paymentReference),
+        any(Customer.class),
+        anyInt(),
+        any()
+      )
+    )
       .thenReturn(null);
 
     final PaymentService paymentService = new PaymentService(
@@ -542,6 +713,20 @@ public class PaymentServiceTest {
     final ExamEvent examEvent = Factory.examEvent();
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
     enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
+    entityManager.persist(examEvent);
+    entityManager.persist(enrollment);
+
+    return enrollment;
+  }
+
+  private EnrollmentAppointment createEnrollmentAppointment(final Person person) {
+    final Examiner examiner = Factory.examiner();
+    final Municipality municipality = Factory.municipality();
+    final ExaminerExamEvent examEvent = Factory.examinerExamEvent(examiner, municipality);
+    final EnrollmentAppointment enrollment = Factory.enrollmentAppointment(examiner, examEvent, person);
+    enrollment.setStatus(EnrollmentAppointmentStatus.WAITING_AUTHENTICATION);
+    entityManager.persist(examiner);
+    entityManager.persist(municipality);
     entityManager.persist(examEvent);
     entityManager.persist(enrollment);
 
