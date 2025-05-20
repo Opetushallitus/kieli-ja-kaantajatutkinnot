@@ -1,5 +1,7 @@
 package fi.oph.vkt.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.vkt.api.dto.integration.PartialExamsDTO;
 import fi.oph.vkt.api.dto.integration.RegisterEnrollmentDTO;
 import fi.oph.vkt.api.dto.integration.RegisterPersonDTO;
@@ -15,18 +17,21 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
 public class RegisterEnrollmentService {
 
+  private final WebClient registerClient;
   private final EnrollmentRepository enrollmentRepository;
 
   @Transactional(readOnly = true)
-  public List<RegisterSyncDTO> sync() {
+  public void sync() throws JsonProcessingException {
     final List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsForSyncToRegister();
 
-    return enrollments
+    final List<RegisterSyncDTO> registerSyncDTOS = enrollments
       .stream()
       .map(enrollment -> {
         final ExamEvent examEvent = enrollment.getExamEvent();
@@ -72,5 +77,20 @@ public class RegisterEnrollmentService {
         return RegisterSyncDTO.builder().henkilo(personDTO).suoritus(enrollmentDTO).build();
       })
       .toList();
+
+    final ObjectMapper objectMapper = new ObjectMapper();
+    final String bodyJson = objectMapper.writeValueAsString(registerSyncDTOS);
+
+    registerClient
+      .post()
+      .uri("/oid")
+      .bodyValue(bodyJson)
+      .exchangeToMono(clientResponse -> {
+        if (clientResponse.statusCode().isError()) {
+          return clientResponse.createException().flatMap(Mono::error);
+        }
+        return clientResponse.bodyToMono(String.class);
+      })
+      .block();
   }
 }

@@ -1,5 +1,6 @@
 package fi.oph.vkt.scheduled;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import fi.oph.vkt.service.RegisterEnrollmentService;
 import fi.oph.vkt.util.SchedulingUtil;
 import jakarta.annotation.Resource;
@@ -32,7 +33,11 @@ public class SyncRegisterEnrollments {
   public void action() {
     SchedulingUtil.runWithScheduledUser(() -> {
       LOG.debug("pollEmailsToSend");
-      registerEnrollmentService.sync();
+      try {
+        registerEnrollmentService.sync();
+      } catch (final JsonProcessingException e) {
+        throw new RuntimeException(e);
+      }
     });
   }
 }

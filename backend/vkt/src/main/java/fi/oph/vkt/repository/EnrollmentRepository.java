@@ -31,7 +31,7 @@ public interface EnrollmentRepository extends BaseRepository<Enrollment> {
   @Query(
     "SELECT e" +
     " FROM Enrollment e" +
-    " WHERE e.status IN (fi.oph.vkt.model.type.EnrollmentStatus.COMPLETED)" +
+    " WHERE e.status = fi.oph.vkt.model.type.EnrollmentStatus.COMPLETED" +
     " AND e.lastSyncAt IS NULL OR e.lastSyncAt < e.modifiedAt"
   )
   List<Enrollment> findEnrollmentsForSyncToRegister();
