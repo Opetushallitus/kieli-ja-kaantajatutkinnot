@@ -37,12 +37,12 @@ export const ClerkPaymentReportPage: FC = () => {
               <H2>{t('timespan')}</H2>
               <div className="columns gapped">
                 <CustomDatePicker
-                  value={''}
+                  value={null}
                   setValue={() => {}}
                   label={t('datePicker.begin')}
                 />
                 <CustomDatePicker
-                  value={''}
+                  value={null}
                   setValue={() => {}}
                   label={t('datePicker.end')}
                 />
