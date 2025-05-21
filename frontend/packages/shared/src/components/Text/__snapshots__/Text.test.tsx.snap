@@ -2,7 +2,8 @@
 
 exports[`Caption should render correctly 1`] = `
 <span
-  className="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
+  className="MuiTypography-root MuiTypography-caption css-mpaqru-MuiTypography-root"
+  style={{}}
 >
   This is a caption
 </span>
@@ -10,7 +11,8 @@ exports[`Caption should render correctly 1`] = `
 
 exports[`H1 should render correctly 1`] = `
 <h1
-  className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
+  className="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+  style={{}}
 >
   This is an H1
 </h1>
@@ -18,7 +20,8 @@ exports[`H1 should render correctly 1`] = `
 
 exports[`H2 should render correctly 1`] = `
 <h2
-  className="MuiTypography-root MuiTypography-h2 css-1sra7t5-MuiTypography-root"
+  className="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
+  style={{}}
 >
   This is an H2
 </h2>
@@ -26,7 +29,8 @@ exports[`H2 should render correctly 1`] = `
 
 exports[`H3 should render correctly 1`] = `
 <h3
-  className="MuiTypography-root MuiTypography-h3 css-gepadz-MuiTypography-root"
+  className="MuiTypography-root MuiTypography-h3 css-13msox4-MuiTypography-root"
+  style={{}}
 >
   This is an H3
 </h3>
@@ -34,7 +38,8 @@ exports[`H3 should render correctly 1`] = `
 
 exports[`H4 should render correctly 1`] = `
 <h4
-  className="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+  className="MuiTypography-root MuiTypography-h4 css-f84ov1-MuiTypography-root"
+  style={{}}
 >
   This is an H4
 </h4>
@@ -42,7 +47,8 @@ exports[`H4 should render correctly 1`] = `
 
 exports[`H5 should render correctly 1`] = `
 <h5
-  className="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
+  className="MuiTypography-root MuiTypography-h5 css-16xl4zq-MuiTypography-root"
+  style={{}}
 >
   This is an H5
 </h5>
@@ -50,7 +56,8 @@ exports[`H5 should render correctly 1`] = `
 
 exports[`H6 should render correctly 1`] = `
 <h6
-  className="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+  className="MuiTypography-root MuiTypography-h6 css-1miy0lu-MuiTypography-root"
+  style={{}}
 >
   This is an H6
 </h6>
@@ -58,7 +65,8 @@ exports[`H6 should render correctly 1`] = `
 
 exports[`Text should render correctly 1`] = `
 <p
-  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+  style={{}}
 >
   This is just text
 </p>

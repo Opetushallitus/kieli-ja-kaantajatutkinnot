@@ -8,7 +8,8 @@ exports[`LabeledTextField should render correctly with error 1`] = `
     htmlFor="test-with-error"
   >
     <p
-      className="MuiTypography-root MuiTypography-body1 css-1nkhxq8-MuiTypography-root"
+      className="MuiTypography-root MuiTypography-body1 css-4sq7ol-MuiTypography-root"
+      style={{}}
     >
       <b>
         test label
@@ -16,21 +17,22 @@ exports[`LabeledTextField should render correctly with error 1`] = `
     </p>
   </label>
   <p
-    className="MuiTypography-root MuiTypography-body1 css-1nkhxq8-MuiTypography-root"
+    className="MuiTypography-root MuiTypography-body1 css-4sq7ol-MuiTypography-root"
+    style={{}}
   >
     placeholder expected to appear between label and field
   </p>
   <div
-    className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+    className="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
   >
     <div
-      className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+      className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
       onClick={[Function]}
     >
       <input
         aria-invalid={true}
         autoFocus={false}
-        className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+        className="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
         disabled={false}
         id="test-with-error"
         onAnimationStart={[Function]}
@@ -43,12 +45,13 @@ exports[`LabeledTextField should render correctly with error 1`] = `
       />
       <fieldset
         aria-hidden={true}
-        className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+        className="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
       >
         <legend
-          className="css-ihdtdm"
+          className="css-w4cd9x"
         >
           <span
+            aria-hidden={true}
             className="notranslate"
           >
             ​
@@ -68,7 +71,8 @@ exports[`LabeledTextField should render correctly with text 1`] = `
     htmlFor="test-id"
   >
     <p
-      className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+      style={{}}
     >
       <b>
         test label
@@ -76,16 +80,16 @@ exports[`LabeledTextField should render correctly with text 1`] = `
     </p>
   </label>
   <div
-    className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+    className="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
   >
     <div
-      className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+      className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
       onClick={[Function]}
     >
       <input
         aria-invalid={false}
         autoFocus={false}
-        className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+        className="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
         disabled={false}
         id="test-id"
         onAnimationStart={[Function]}
@@ -98,12 +102,13 @@ exports[`LabeledTextField should render correctly with text 1`] = `
       />
       <fieldset
         aria-hidden={true}
-        className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+        className="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
       >
         <legend
-          className="css-ihdtdm"
+          className="css-w4cd9x"
         >
           <span
+            aria-hidden={true}
             className="notranslate"
           >
             ​
