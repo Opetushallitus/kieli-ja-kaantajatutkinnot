@@ -160,6 +160,7 @@
       "pageTitle": {
         "accessibilityStatement": "Saavutettavuusseloste",
         "authenticate": "Ilmoittautuminen - tunnistaudu",
+        "clerkPaymentReport": "Virkailija maksuraportti",
         "clerkEnrollmentOverview": "Virkailija ilmoittautuminen",
         "clerkExamEventCreate": "Virkailija lisää tutkintopäivä",
         "clerkExamOverview": "Virkailija tutkintosivu",

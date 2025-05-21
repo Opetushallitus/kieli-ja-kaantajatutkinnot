@@ -47,13 +47,22 @@ const AdminNavigationLinks = () => {
     href: AppRoutes.ClerkGoodAndSatisfactoryLevelPage,
     label: t('goodAndSatisfactoryLevel'),
   };
+  const paymentReportLink = {
+    active: pathname.startsWith(AppRoutes.ClerkPaymentReportPage),
+    href: AppRoutes.ClerkPaymentReportPage,
+    label: t('paymentReport'),
+  };
 
   return (
     <NavigationLinks
       navigationAriaLabel={translateCommon(
         'header.accessibility.mainNavigation',
       )}
-      links={[excellentLevelLink, goodAndSatisfactoryLevelLink]}
+      links={[
+        excellentLevelLink,
+        goodAndSatisfactoryLevelLink,
+        paymentReportLink,
+      ]}
     />
   );
 };

@@ -1,0 +1,10 @@
+.clerk-payment-report-page {
+  flex: 1;
+
+  & &__paper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2.5rem;
+  }
+}
