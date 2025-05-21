@@ -38,13 +38,10 @@ export const ClerkExamMaxParticipants = ({
     examForm.maxParticipants,
   );
 
-  const getErrorText = (value: number | undefined): string | undefined => {
-    if (showError) {
-      return value === undefined
-        ? translateCommon('errors.customTextField.required')
-        : translateCommon('errors.customTextField.numberFormat');
-    }
-  };
+  const getHelperText = (value: number | undefined): string | undefined =>
+    value === undefined
+      ? translateCommon('errors.customTextField.required')
+      : translateCommon('errors.customTextField.numberFormat');
 
   return (
     <div className="rows gapped">
@@ -55,7 +52,7 @@ export const ClerkExamMaxParticipants = ({
         type={TextFieldTypes.Number}
         value={examForm.maxParticipants ?? ''}
         error={showError}
-        helperText={getErrorText(examForm.maxParticipants)}
+        helperText={getHelperText(examForm.maxParticipants)}
         variant={TextFieldVariant.Outlined}
         onChange={onParticipantsChange}
         onBlur={() => setDirty(true)}

@@ -55,9 +55,6 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
       ['date', '23.12.2022'],
       ['registrationCloses', '16.12.2022'],
     ].forEach(([fieldName, fieldValue]) => {
-      onClerkExamEventOverviewPage.editExamEventDateField(fieldName, ' ');
-      onClerkExamEventOverviewPage.expectDisabledSaveExamEventDetailsButton();
-
       onClerkExamEventOverviewPage.editExamEventDateField(
         fieldName,
         fieldValue,

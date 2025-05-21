@@ -406,20 +406,8 @@ const getFieldError = (
   return error ? t(`vkt.common.${error}`) : '';
 };
 
-const getHelperText = (
-  isRequiredFieldError: boolean,
-  fieldError: string,
-  showFieldError: boolean,
-  required: boolean,
-) => {
-  if ((showFieldError || !required) && fieldError?.length > 0) {
-    return isRequiredFieldError ? (
-      fieldError
-    ) : (
-      <InfoText>{fieldError}</InfoText>
-    );
-  }
-};
+const getHelperText = (isRequiredFieldError: boolean, fieldError: string) =>
+  isRequiredFieldError ? fieldError : <InfoText>{fieldError}</InfoText>;
 
 const ClerkEnrollmentDetailsTextField = ({
   enrollment,
@@ -444,12 +432,11 @@ const ClerkEnrollmentDetailsTextField = ({
       type={getTextFieldType(field)}
       FormHelperTextProps={{ component: 'div' } as FormHelperTextProps}
       error={showRequiredFieldError}
-      helperText={getHelperText(
-        showRequiredFieldError,
-        fieldError,
-        showFieldError,
-        required,
-      )}
+      helperText={
+        fieldError?.length > 0
+          ? getHelperText(showRequiredFieldError, fieldError)
+          : ' '
+      }
       {...rest}
     />
   );

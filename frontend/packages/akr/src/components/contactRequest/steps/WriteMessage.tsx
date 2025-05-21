@@ -68,15 +68,11 @@ export const WriteMessage = ({
   };
 
   const getHelperMessage = () => {
-    if (messageError.length > 0) {
-      const value = request?.message;
-      const errorToShow = messageError ? `${messageError}.` : '';
-      const maxLength = InputFieldUtils.defaultMaxTextAreaLength;
+    const value = request?.message;
+    const errorToShow = messageError ? `${messageError}.` : '';
+    const maxLength = InputFieldUtils.defaultMaxTextAreaLength;
 
-      return `${errorToShow} ${value?.length} / ${maxLength} ${t(
-        'characters',
-      )}`;
-    }
+    return `${errorToShow} ${value?.length} / ${maxLength} ${t('characters')}`;
   };
 
   return (
