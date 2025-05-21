@@ -9,7 +9,7 @@ exports[`WebLink should render correctly with start and end icons 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
       data-testid="DownloadOutlinedIcon"
       focusable="false"
       viewBox="0 0 24 24"
@@ -20,10 +20,11 @@ exports[`WebLink should render correctly with start and end icons 1`] = `
     </svg>
   </span>
   <a
-    className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-ja4uiq-MuiTypography-root-MuiLink-root"
+    className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-mrmcv1-MuiTypography-root-MuiLink-root"
     href="http://localhost:4000"
     onBlur={[Function]}
     onFocus={[Function]}
+    style={{}}
     target=""
   >
     Localhost
@@ -33,7 +34,7 @@ exports[`WebLink should render correctly with start and end icons 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
       data-testid="OpenInNewIcon"
       focusable="false"
       viewBox="0 0 24 24"
@@ -48,10 +49,11 @@ exports[`WebLink should render correctly with start and end icons 1`] = `
 
 exports[`WebLink should render correctly without icons 1`] = `
 <a
-  className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-ja4uiq-MuiTypography-root-MuiLink-root"
+  className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-mrmcv1-MuiTypography-root-MuiLink-root"
   href="http://localhost:4000"
   onBlur={[Function]}
   onFocus={[Function]}
+  style={{}}
   target="_blank"
 >
   Localhost

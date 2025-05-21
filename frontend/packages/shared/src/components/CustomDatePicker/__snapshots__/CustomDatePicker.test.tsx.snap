@@ -2,10 +2,136 @@
 
 exports[`DatePicker should render correctly 1`] = `
 <div
-  className="MuiFormControl-root MuiTextField-root custom-date-picker css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+  areAllSectionsEmpty={false}
+  className="MuiFormControl-root MuiTextField-root custom-date-picker css-1xp5r68-MuiFormControl-root-MuiTextField-root"
+  contentEditable={false}
+  elements={
+    [
+      {
+        "after": {
+          "children": "/",
+          "data-range-position": undefined,
+        },
+        "before": {
+          "children": "",
+        },
+        "container": {
+          "data-sectionindex": 0,
+          "onClick": [Function],
+        },
+        "content": {
+          "aria-disabled": false,
+          "aria-label": "Month",
+          "aria-labelledby": ":r1:-month",
+          "aria-readonly": false,
+          "aria-valuemax": 12,
+          "aria-valuemin": 1,
+          "aria-valuenow": 4,
+          "aria-valuetext": "April",
+          "autoCapitalize": "off",
+          "autoCorrect": "off",
+          "children": "04",
+          "contentEditable": true,
+          "data-range-position": undefined,
+          "id": ":r1:-month",
+          "inputMode": "numeric",
+          "onDragOver": [Function],
+          "onFocus": [Function],
+          "onInput": [Function],
+          "onMouseUp": [Function],
+          "onPaste": [Function],
+          "role": "spinbutton",
+          "spellCheck": false,
+          "tabIndex": 0,
+        },
+      },
+      {
+        "after": {
+          "children": "/",
+          "data-range-position": undefined,
+        },
+        "before": {
+          "children": "",
+        },
+        "container": {
+          "data-sectionindex": 1,
+          "onClick": [Function],
+        },
+        "content": {
+          "aria-disabled": false,
+          "aria-label": "Day",
+          "aria-labelledby": ":r1:-day",
+          "aria-readonly": false,
+          "aria-valuemax": 30,
+          "aria-valuemin": 1,
+          "aria-valuenow": 21,
+          "aria-valuetext": "21st",
+          "autoCapitalize": "off",
+          "autoCorrect": "off",
+          "children": "21",
+          "contentEditable": true,
+          "data-range-position": undefined,
+          "id": ":r1:-day",
+          "inputMode": "numeric",
+          "onDragOver": [Function],
+          "onFocus": [Function],
+          "onInput": [Function],
+          "onMouseUp": [Function],
+          "onPaste": [Function],
+          "role": "spinbutton",
+          "spellCheck": false,
+          "tabIndex": -1,
+        },
+      },
+      {
+        "after": {
+          "children": "",
+          "data-range-position": undefined,
+        },
+        "before": {
+          "children": "",
+        },
+        "container": {
+          "data-sectionindex": 2,
+          "onClick": [Function],
+        },
+        "content": {
+          "aria-disabled": false,
+          "aria-label": "Year",
+          "aria-labelledby": ":r1:-year",
+          "aria-readonly": false,
+          "aria-valuemax": 9999,
+          "aria-valuemin": 0,
+          "aria-valuenow": 2022,
+          "aria-valuetext": undefined,
+          "autoCapitalize": "off",
+          "autoCorrect": "off",
+          "children": "2022",
+          "contentEditable": true,
+          "data-range-position": undefined,
+          "id": ":r1:-year",
+          "inputMode": "numeric",
+          "onDragOver": [Function],
+          "onFocus": [Function],
+          "onInput": [Function],
+          "onMouseUp": [Function],
+          "onPaste": [Function],
+          "role": "spinbutton",
+          "spellCheck": false,
+          "tabIndex": -1,
+        },
+      },
+    ]
+  }
+  onClick={[Function]}
+  onInput={[Function]}
+  onKeyDown={[Function]}
+  onPaste={[Function]}
+  sectionListRef={[Function]}
+  tabIndex={0}
 >
   <label
-    className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
+    className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"
     data-shrink={true}
     htmlFor=":r0:"
     id=":r0:-label"
@@ -13,31 +139,31 @@ exports[`DatePicker should render correctly 1`] = `
     test label
   </label>
   <div
-    className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root"
+    className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-jupps9-MuiInputBase-root-MuiOutlinedInput-root"
     onClick={[Function]}
   >
     <input
       aria-invalid={false}
       autoFocus={false}
-      className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
+      className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
       disabled={false}
       id=":r0:"
       onAnimationStart={[Function]}
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
-      placeholder="mm/dd/yyyy"
+      readOnly={false}
       required={false}
-      type="tel"
+      type="text"
       value="04/21/2022"
     />
     <div
-      className="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+      className="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-elo8k2-MuiInputAdornment-root"
     >
       <button
         aria-label="Choose date, selected date is Apr 21, 2022"
-        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-        disabled={false}
+        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1ysp02-MuiButtonBase-root-MuiIconButton-root"
+        disabled={null}
         onBlur={[Function]}
         onClick={[Function]}
         onContextMenu={[Function]}
@@ -56,7 +182,7 @@ exports[`DatePicker should render correctly 1`] = `
       >
         <svg
           aria-hidden={true}
-          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
           data-testid="CalendarIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -69,10 +195,10 @@ exports[`DatePicker should render correctly 1`] = `
     </div>
     <fieldset
       aria-hidden={true}
-      className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+      className="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
     >
       <legend
-        className="css-14lo706"
+        className="css-w1u3ce"
       >
         <span>
           test label
