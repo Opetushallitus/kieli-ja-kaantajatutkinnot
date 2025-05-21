@@ -55,6 +55,7 @@ export const CustomDatePicker = ({
             helperText,
           },
         }}
+        enableAccessibleFieldDOMStructure={false}
       />
     </LocalizationProvider>
   );

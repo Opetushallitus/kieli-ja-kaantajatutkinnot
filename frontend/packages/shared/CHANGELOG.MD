@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.11.14] - 2025-05-15
+
+### Changed
+
+- '@mui/x-date-pickers: ^8.0.0': keep using old input and mark as nonAccessibleDomStructure
+
 ## [1.11.13] - 2025-05-15
 
 ### Changed
