@@ -252,7 +252,12 @@ export class SerializationUtils {
         state: SerializationUtils.deserializeRegistrationState(v.state),
         examDate: dayjs(v.exam_date),
         location: v.location,
+        isCancellable: v.is_cancellable,
         isTransferable: v.is_transferable,
+        isTransfered: v.is_transfered,
+        expiresAt: v.expires_at ? dayjs(v.expires_at) : undefined,
+        paidAt: v.paid_at ? dayjs(v.paid_at) : undefined,
+        examFee: v.exam_fee,
       })),
     };
   }

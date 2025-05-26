@@ -1,6 +1,9 @@
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import InfoFilledIcon from '@mui/icons-material/Info';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
+import WarningOutlinedIcon from '@mui/icons-material/WarningOutlined';
 import { Grid, Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import dayjs from 'dayjs';
@@ -66,6 +69,15 @@ interface RegistrationsProps {
   filteredRegistrations: Array<PersonRegistrations>;
 }
 
+const InfoBox = ({ children }: { children: JSX.Element }) => {
+  return (
+    <div className="user-details-page__info-box columns gapped-xs">
+      <InfoFilledIcon className="user-details-page__icon--info align-self-start" />
+      {children}
+    </div>
+  );
+};
+
 const RegistrationState = ({
   registration,
 }: {
@@ -106,11 +118,54 @@ const RegistrationState = ({
   );
 };
 
+const ExamPayment = ({
+  registration,
+}: {
+  registration: PersonRegistrations;
+}) => {
+  const { paidAt, expiresAt, examFee } = registration;
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.userDetailsPage.registrations.examPayment',
+  });
+
+  return (
+    <div>
+      <Text className="bold">{t('label')}</Text>
+      <div className="columns gapped-xxs">
+        {paidAt && (
+          <>
+            <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
+            <Text>
+              {t('paidAt', {
+                date: DateUtils.formatOptionalDate(paidAt, 'l'),
+              })}
+            </Text>
+          </>
+        )}
+        {!paidAt && (
+          <>
+            <WarningOutlinedIcon className="user-details-page__icon--alert" />{' '}
+            <Text>
+              {t('expiresAt', {
+                examFee,
+                date: DateUtils.formatOptionalDate(expiresAt, 'l'),
+              })}
+            </Text>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const Registrations: FC<RegistrationsProps> = ({ filteredRegistrations }) => {
   const lang = getCurrentLang();
+  const translateCommon = useCommonTranslation();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.userDetailsPage.registrations',
+  });
 
   return filteredRegistrations.map((r) => {
-    const canCancel = !isCancelled(r);
     const location = ExamSessionUtils.getLocationInfo(r, lang);
 
     return (
@@ -127,40 +182,76 @@ const Registrations: FC<RegistrationsProps> = ({ filteredRegistrations }) => {
             })}
           </H3>
         </div>
+        {r.state === RegistrationStates.Submitted && (
+          <InfoBox>
+            <Text>
+              {t('notPaidNotification.part1')} {t('notPaidNotification.part2')}{' '}
+              {t('notPaidNotification.part3')}
+            </Text>
+          </InfoBox>
+        )}
         <RegistrationState registration={r} />
+        {(r.state === RegistrationStates.Completed ||
+          r.state === RegistrationStates.Submitted) && (
+          <ExamPayment registration={r} />
+        )}
         <div>
-          <Text className="bold">Testipäivä</Text>
+          <Text className="bold">{translateCommon('examDate')}</Text>
           <Text>{DateUtils.formatOptionalDate(r.examDate, 'l')}</Text>
         </div>
         <div>
-          <Text className="bold">Testipaikka</Text>
+          <Text className="bold">{translateCommon('institution')}</Text>
           <Text>
             {location.street_address}, {location.post_office}
           </Text>
         </div>
-        <div className="columns gapped">
-          {canCancel && (
-            <CustomButton
-              className="fit-content-max-width"
-              color={Color.Secondary}
-              variant={Variant.Outlined}
-            >
-              Peru ilmoittautuminen
-            </CustomButton>
-          )}
-          <CustomButtonLink
-            className="fit-content-max-width"
-            color={Color.Secondary}
-            variant={Variant.Outlined}
-            disabled={!r.isTransferable}
-            to={AppRoutes.TransferEnrollment.replace(
-              /:registrationId/,
-              `${r.id}`,
+        {!isCancelled(r) && (
+          <div className="rows gapped">
+            <div className="columns gapped">
+              {r.state === RegistrationStates.Submitted && (
+                <CustomButton
+                  className="fit-content-max-width"
+                  color={Color.Secondary}
+                  variant={Variant.Contained}
+                  disabled={!r.isCancellable}
+                >
+                  {t('actions.confirm')}
+                </CustomButton>
+              )}
+              <CustomButton
+                className="fit-content-max-width"
+                color={Color.Secondary}
+                variant={Variant.Outlined}
+                disabled={!r.isCancellable}
+              >
+                {t('actions.cancel')}
+              </CustomButton>
+              {r.state === RegistrationStates.Completed && (
+                <CustomButtonLink
+                  className="fit-content-max-width"
+                  color={Color.Secondary}
+                  variant={Variant.Outlined}
+                  disabled={!r.isTransferable}
+                  to={AppRoutes.TransferEnrollment.replace(
+                    /:registrationId/,
+                    `${r.id}`,
+                  )}
+                >
+                  {t('actions.relocate')}
+                </CustomButtonLink>
+              )}
+            </div>
+            {r.isTransfered && (
+              <div className="columns gapped-xs">
+                <InfoOutlinedIcon />
+                <Text>
+                  {t('alreadyTransferredNotification.part1')}{' '}
+                  {t('alreadyTransferredNotification.part2')}
+                </Text>
+              </div>
             )}
-          >
-            Siirrä ilmoittautuminen
-          </CustomButtonLink>
-        </div>
+          </div>
+        )}
       </Paper>
     );
   });
@@ -281,7 +372,7 @@ export const UserDetailsPage: FC = () => {
           {upcomingRegistrations.length > 0 && (
             <div className="margin-top-xxl rows gapped-xxl">
               <H2 className="user-details-page__info__section__heading-title">
-                Tulevat kielitutkintojen testisi
+                {t('registrations.header.upcoming')}
               </H2>
               <Registrations filteredRegistrations={upcomingRegistrations} />
             </div>
@@ -289,7 +380,7 @@ export const UserDetailsPage: FC = () => {
           {pastRegistrations.length > 0 && (
             <div className="margin-top-xxl rows gapped-xxl">
               <H2 className="user-details-page__info__section__heading-title">
-                Menneet ja arvioidut
+                {t('registrations.header.past')}
               </H2>
               <Registrations filteredRegistrations={pastRegistrations} />
             </div>
@@ -297,7 +388,7 @@ export const UserDetailsPage: FC = () => {
           {canceledRegistrations.length > 0 && (
             <div className="margin-top-xxl rows gapped-xxl">
               <H2 className="user-details-page__info__section__heading-title">
-                Peruutetut
+                {t('registrations.header.cancelled')}
               </H2>
               <Registrations filteredRegistrations={canceledRegistrations} />
             </div>

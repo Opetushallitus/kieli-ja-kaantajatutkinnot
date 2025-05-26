@@ -79,5 +79,19 @@
     &--cancel {
       color: #cc3300;
     }
+
+    &--info {
+      color: #0033cc;
+    }
+  }
+
+  & &__info-box {
+    background-color: $color-blue-200;
+    border-radius: 4px;
+    padding: 2rem;
+
+    @include not-phone {
+      margin: 0;
+    }
   }
 }
