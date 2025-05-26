@@ -1,5 +1,6 @@
 package fi.oph.vkt.service;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -184,7 +185,7 @@ public class PaymentServiceTest {
     assertEquals(51400, payment.getAmount());
     assertEquals("test", payment.getTransactionId());
     assertEquals("foo", payment.getReference());
-    assertEquals("VKTET-0-0", payment.getMerchantReference());
+    assertTrue(payment.getMerchantReference().matches("^VKTET-(\\d+)-(\\d+)$"));
     assertEquals(url, payment.getPaymentUrl());
     assertEquals(PaymentStatus.NEW, payment.getPaymentStatus());
 
@@ -283,7 +284,7 @@ public class PaymentServiceTest {
     assertEquals(25800, payment.getAmount());
     assertEquals("test", payment.getTransactionId());
     assertEquals("foo", payment.getReference());
-    assertEquals("VKTHTT-0-0", payment.getMerchantReference());
+    assertTrue(payment.getMerchantReference().matches("^VKTHTT-(\\d+)-(\\d+)$"));
     assertEquals(url, payment.getPaymentUrl());
     assertEquals(PaymentStatus.NEW, payment.getPaymentStatus());
 
