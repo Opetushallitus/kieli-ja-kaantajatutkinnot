@@ -565,6 +565,30 @@
           "info": "Katso ja muokkaa ilmoittautumisiasi YKI-testeihin."
         },
         "registrations": {
+          "actions": {
+            "cancel": "Peru ilmoittautuminen",
+            "confirm": "Vahvista ilmoittautuminen",
+            "relocate": "Siirrä ilmoittautuminen"
+          },
+          "alreadyTransferredNotification": {
+            "part1": "Olet siirtänyt ilmoittautumisen.",
+            "part2": "Et voi siirtää ilmoittautumista enää toista kertaa."
+          },
+          "examPayment": {
+            "expiresAt": "Maksamatta {{ examFee }}€, eräpäivä {{ date }}",
+            "label": "Tutkintomaksu",
+            "paidAt": "Maksettu {{ date }}"
+          },
+          "header": {
+            "cancelled": "Perutut ilmoittautumiset",
+            "past": "Suoritukset ja menneet ilmoittautumiset",
+            "upcoming": "Tulevat ilmoittautumiset"
+          },
+          "notPaidNotification": {
+            "part1": "Ilmoittautumista ei ole vielä vahvistettu.",
+            "part2": "Maksa tutkintomaksu niin ilmoittautuminen vahvistetaan.",
+            "part3": "Jos et maksa tutkintomaksua viimeistään eräpäivänä, ilmoittautuminen perutaan."
+          },
           "state": {
             "cancelled": "Peruttu",
             "enrolled": "Ilmoittautunut",
