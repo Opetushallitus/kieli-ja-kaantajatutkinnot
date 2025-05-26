@@ -30,6 +30,10 @@
         &-button {
           max-width: 30rem;
           padding: 15px 22px;
+
+          &:hover {
+            background-color: $color-secondary-dark;
+          }
         }
 
         &-text-field {

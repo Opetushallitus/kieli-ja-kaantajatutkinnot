@@ -369,7 +369,7 @@ const ExamTime = () => {
   return (
     <LabeledTextField
       id="examiner-exam-event-upsert__exam-time"
-      className="rows gapped-sm"
+      gap="gapped-sm"
       label={t('labels.examTime')}
       type="time"
       value={examTime || ''}
@@ -397,7 +397,7 @@ const AddressDetails = () => {
   return (
     <LabeledTextField
       id="examiner-exam-event-upsert__address-details"
-      className="rows gapped-sm"
+      gap="gapped-sm"
       label={t('labels.addressDetails')}
       value={location || ''}
       autoComplete={`work ${InputAutoComplete.Street}`}
@@ -424,7 +424,7 @@ const OtherInformation = () => {
   return (
     <LabeledTextField
       id="examiner-exam-event-upsert__other-details"
-      className="rows gapped-sm"
+      gap="gapped-sm"
       label={t('labels.otherInformation')}
       value={otherInformation || ''}
       onChange={(event) => {

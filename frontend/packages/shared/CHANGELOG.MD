@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.11.15] - 2025-05-15
+
+### Changed
+
+- Revert LabeledTextField accepts an optional className argument. Instead provide a 'gap' value.
+
 ## [1.11.14] - 2025-05-15
 
 ### Changed
