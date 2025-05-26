@@ -1,21 +1,29 @@
 import { Box, Grid, Paper } from '@mui/material';
-import { FC } from 'react';
-import {
-  CustomButton,
-  CustomDatePicker,
-  H1,
-  H2,
-  LoadingProgressIndicator,
-} from 'shared/components';
+import { Dayjs } from 'dayjs';
+import { FC, useState } from 'react';
+import { CustomButton, CustomDatePicker, H1, H2 } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
+import { DateUtils } from 'shared/utils';
 
 import { useClerkTranslation } from 'configs/i18n';
+import { RouteUtils } from 'utils/routes';
 
 export const ClerkPaymentReportPage: FC = () => {
+  const [from, setFrom] = useState<Dayjs | null>(null);
+  const [to, setTo] = useState<Dayjs | null>(null);
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.paymentReport',
   });
-  const isLoading = false;
+  const downloadPaymentReport = () => {
+    const fromSerialized = DateUtils.serializeDate(from ?? undefined);
+    const toSerialized = DateUtils.serializeDate(to ?? undefined);
+    if (fromSerialized && toSerialized) {
+      window.location.href = RouteUtils.downloadPaymentReportRoute(
+        fromSerialized,
+        toSerialized,
+      );
+    }
+  };
 
   return (
     <Box className="clerk-payment-report-page">
@@ -37,26 +45,25 @@ export const ClerkPaymentReportPage: FC = () => {
               <H2>{t('timespan')}</H2>
               <div className="columns gapped">
                 <CustomDatePicker
-                  value={null}
-                  setValue={() => {}}
+                  value={from}
+                  setValue={setFrom}
                   label={t('datePicker.begin')}
                 />
                 <CustomDatePicker
-                  value={null}
-                  setValue={() => {}}
+                  value={to}
+                  setValue={setTo}
                   label={t('datePicker.end')}
                 />
               </div>
-              <LoadingProgressIndicator isLoading={isLoading}>
+              <div className="flex-start">
                 <CustomButton
                   variant={Variant.Contained}
                   color={Color.Secondary}
-                  disabled={isLoading}
-                  onClick={() => {}}
+                  onClick={downloadPaymentReport}
                 >
                   {t('download')}
                 </CustomButton>
-              </LoadingProgressIndicator>
+              </div>
             </div>
           </Paper>
         </Grid>

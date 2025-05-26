@@ -10,7 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
-public abstract class ExamEventCommonXlsxView extends AbstractXlsxView {
+public abstract class CommonXlsxView extends AbstractXlsxView {
 
   protected static void setFilenameHeader(final HttpServletResponse response, final String filename) {
     response.addHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", filename));

@@ -184,6 +184,7 @@ public class PaymentServiceTest {
     assertEquals(51400, payment.getAmount());
     assertEquals("test", payment.getTransactionId());
     assertEquals("foo", payment.getReference());
+    assertEquals("VKTET-0-0", payment.getMerchantReference());
     assertEquals(url, payment.getPaymentUrl());
     assertEquals(PaymentStatus.NEW, payment.getPaymentStatus());
 
@@ -282,6 +283,7 @@ public class PaymentServiceTest {
     assertEquals(25800, payment.getAmount());
     assertEquals("test", payment.getTransactionId());
     assertEquals("foo", payment.getReference());
+    assertEquals("VKTHTT-0-0", payment.getMerchantReference());
     assertEquals(url, payment.getPaymentUrl());
     assertEquals(PaymentStatus.NEW, payment.getPaymentStatus());
 
@@ -477,7 +479,7 @@ public class PaymentServiceTest {
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.OK.toString());
     paymentParams.put("checkout-amount", "51400");
-    paymentParams.put("checkout-reference", String.valueOf(payment.getId()));
+    paymentParams.put("checkout-reference", payment.getMerchantReference());
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paymentProvider.validate(anyMap())).thenReturn(true);
@@ -506,7 +508,7 @@ public class PaymentServiceTest {
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.FAIL.toString());
     paymentParams.put("checkout-amount", "51400");
-    paymentParams.put("checkout-reference", String.valueOf(payment.getId()));
+    paymentParams.put("checkout-reference", payment.getMerchantReference());
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paymentProvider.validate(anyMap())).thenReturn(true);
@@ -615,7 +617,7 @@ public class PaymentServiceTest {
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.OK.toString());
     paymentParams.put("checkout-amount", "21400");
-    paymentParams.put("checkout-reference", String.valueOf(payment.getId()));
+    paymentParams.put("checkout-reference", payment.getMerchantReference());
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paymentProvider.validate(anyMap())).thenReturn(true);
@@ -645,7 +647,7 @@ public class PaymentServiceTest {
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.OK.toString());
     paymentParams.put("checkout-amount", "51400");
-    paymentParams.put("checkout-reference", "-1");
+    paymentParams.put("checkout-reference", "VKTET-123-321");
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paymentProvider.validate(anyMap())).thenReturn(true);
@@ -694,6 +696,7 @@ public class PaymentServiceTest {
     final Person person = createPerson();
     final Enrollment enrollment = createEnrollment(person);
 
+    payment.setMerchantReference("VKTET-1-1");
     payment.setAmount(51400);
     payment.setEnrollment(enrollment);
 

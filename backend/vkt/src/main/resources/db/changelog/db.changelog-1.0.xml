@@ -1203,4 +1203,9 @@
     <changeSet id="2025-03-24-examiner-phone-number-null" author="jrkkp">
         <dropNotNullConstraint tableName="examiner" columnName="phone_number" columnDataType="TEXT"/>
     </changeSet>
+    <changeSet id="2025-05-26-payment-merchant-reference" author="jrkkp">
+        <addColumn tableName="payment">
+            <column name="merchant_reference" type="text" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

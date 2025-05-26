@@ -193,9 +193,13 @@ public class PaymentService {
       throw new APIException(APIExceptionType.PAYMENT_AMOUNT_MISMATCH);
     }
 
-    final int checkoutId = Integer.parseInt(paymentParams.get("checkout-reference"));
-    if (checkoutId != payment.getId()) {
-      LOG.error("Checkout reference ({}) does not match expected payment id ({})", checkoutId, payment.getId());
+    final String checkoutReference = paymentParams.get("checkout-reference");
+    if (!checkoutReference.equals(payment.getMerchantReference())) {
+      LOG.error(
+        "Checkout reference ({}) does not match payment merchant reference ({})",
+        checkoutReference,
+        payment.getMerchantReference()
+      );
       throw new APIException(APIExceptionType.PAYMENT_REFERENCE_MISMATCH);
     }
 
@@ -344,6 +348,7 @@ public class PaymentService {
     setEnrollmentStatus(enrollmentAppointment, PaymentStatus.NEW);
 
     payment.setTransactionId(response.getTransactionId());
+    payment.setMerchantReference(paymentReference);
     payment.setReference(response.getReference());
     payment.setPaymentUrl(response.getHref());
     payment.setPaymentStatus(PaymentStatus.NEW);
@@ -399,6 +404,7 @@ public class PaymentService {
 
     payment.setTransactionId(response.getTransactionId());
     payment.setReference(response.getReference());
+    payment.setMerchantReference(paymentReference);
     payment.setPaymentUrl(response.getHref());
     payment.setPaymentStatus(PaymentStatus.NEW);
     paymentRepository.saveAndFlush(payment);
