@@ -2,10 +2,11 @@
 
 exports[`DatePicker should render correctly 1`] = `
 <div
-  className="MuiFormControl-root MuiTextField-root custom-date-picker css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+  className="MuiFormControl-root MuiTextField-root custom-date-picker css-1xp5r68-MuiFormControl-root-MuiTextField-root"
+  onClick={[Function]}
 >
   <label
-    className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
+    className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"
     data-shrink={true}
     htmlFor=":r0:"
     id=":r0:-label"
@@ -13,31 +14,36 @@ exports[`DatePicker should render correctly 1`] = `
     test label
   </label>
   <div
-    className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root"
+    className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-jupps9-MuiInputBase-root-MuiOutlinedInput-root"
     onClick={[Function]}
   >
     <input
       aria-invalid={false}
+      autoComplete="off"
       autoFocus={false}
-      className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
+      className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
       disabled={false}
       id=":r0:"
+      inputMode="text"
       onAnimationStart={[Function]}
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
-      placeholder="mm/dd/yyyy"
+      onKeyDown={[Function]}
+      onPaste={[Function]}
+      placeholder="MM/DD/YYYY"
+      readOnly={false}
       required={false}
-      type="tel"
+      type="text"
       value="04/21/2022"
     />
     <div
-      className="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+      className="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-elo8k2-MuiInputAdornment-root"
     >
       <button
         aria-label="Choose date, selected date is Apr 21, 2022"
-        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-        disabled={false}
+        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1ysp02-MuiButtonBase-root-MuiIconButton-root"
+        disabled={null}
         onBlur={[Function]}
         onClick={[Function]}
         onContextMenu={[Function]}
@@ -56,7 +62,7 @@ exports[`DatePicker should render correctly 1`] = `
       >
         <svg
           aria-hidden={true}
-          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
           data-testid="CalendarIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -69,10 +75,10 @@ exports[`DatePicker should render correctly 1`] = `
     </div>
     <fieldset
       aria-hidden={true}
-      className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+      className="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
     >
       <legend
-        className="css-14lo706"
+        className="css-w1u3ce"
       >
         <span>
           test label

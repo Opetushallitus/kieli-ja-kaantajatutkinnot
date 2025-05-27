@@ -6,7 +6,7 @@ exports[`InfoText should render correctly 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="MuiSvgIcon-root MuiSvgIcon-colorSecondary MuiSvgIcon-fontSizeMedium info-text__icon css-kw0y8f-MuiSvgIcon-root"
+    className="MuiSvgIcon-root MuiSvgIcon-colorSecondary MuiSvgIcon-fontSizeMedium info-text__icon css-25to7p-MuiSvgIcon-root"
     data-testid="InfoOutlinedIcon"
     focusable="false"
     viewBox="0 0 24 24"
@@ -16,7 +16,8 @@ exports[`InfoText should render correctly 1`] = `
     />
   </svg>
   <p
-    className="MuiTypography-root MuiTypography-body1 info-text__label css-ahj2mt-MuiTypography-root"
+    className="MuiTypography-root MuiTypography-body1 info-text__label css-rizt0-MuiTypography-root"
+    style={{}}
   >
     This is an info text
   </p>

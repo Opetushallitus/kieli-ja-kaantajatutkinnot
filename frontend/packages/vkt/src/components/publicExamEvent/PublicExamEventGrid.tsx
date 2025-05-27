@@ -153,7 +153,7 @@ export const PublicExamEventGrid = () => {
 
   return (
     <>
-      <Grid item className="public-homepage__grid-container__item-header">
+      <Grid className="public-homepage__grid-container__item-header">
         <H1 data-testid="public-homepage__title-heading">{t('title')}</H1>
         <HeaderSeparator />
         <div className="rows gapped">
@@ -173,7 +173,7 @@ export const PublicExamEventGrid = () => {
           </div>
         </div>
       </Grid>
-      <Grid item className="public-homepage__grid-container__result-box">
+      <Grid className="public-homepage__grid-container__result-box">
         <PublicExamEventListing status={status} />
       </Grid>
     </>

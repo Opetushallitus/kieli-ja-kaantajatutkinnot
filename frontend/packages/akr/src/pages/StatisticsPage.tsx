@@ -20,13 +20,13 @@ export const StatisticsPage: FC = () => {
           direction="column"
           className="statistics-page__grid-container"
         >
-          <Grid item>
+          <Grid>
             <H2>{t('statisticsPage.title')}</H2>
           </Grid>
-          <Grid item>
+          <Grid>
             <Divider />
           </Grid>
-          <Grid item>
+          <Grid>
             <H2>{t('statisticsPage.contactRequests')}</H2>
             <div className="rows gapped-s align-items-start">
               <ExtLink
@@ -46,7 +46,7 @@ export const StatisticsPage: FC = () => {
               />
             </div>
           </Grid>
-          <Grid item>
+          <Grid>
             <H2>{t('statisticsPage.emails')}</H2>
             <div className="rows gapped-s align-items-start">
               <ExtLink

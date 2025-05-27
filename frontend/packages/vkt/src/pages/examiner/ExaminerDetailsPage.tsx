@@ -547,10 +547,10 @@ export const ExaminerDetailsPage = () => {
         direction="column"
         className="examiner-details-page__grid-container"
       >
-        <Grid item>
+        <Grid>
           <H1>{t('heading')}</H1>
         </Grid>
-        <Grid item>{examinerDetails && <CreateOrUpdateExaminerDetails />}</Grid>
+        <Grid>{examinerDetails && <CreateOrUpdateExaminerDetails />}</Grid>
       </Grid>
     </Box>
   );

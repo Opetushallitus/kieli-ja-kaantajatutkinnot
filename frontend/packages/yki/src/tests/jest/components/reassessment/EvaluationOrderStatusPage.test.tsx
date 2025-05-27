@@ -1,4 +1,3 @@
-import { PreloadedState } from '@reduxjs/toolkit';
 import * as reactRouterDom from 'react-router-dom';
 import renderer from 'react-test-renderer';
 import { APIResponseStatus } from 'shared/enums';
@@ -25,7 +24,7 @@ const mockUseSearchParams = (params: URLSearchParams) => {
     .mockReturnValue([params, jest.fn()]);
 };
 
-const preloadedState: PreloadedState<RootState> = {
+const preloadedState: Partial<RootState> = {
   evaluationOrder: {
     ...initialEvaluationOrderState,
     loadEvaluationOrderDetailsState: APIResponseStatus.Success,

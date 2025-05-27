@@ -91,8 +91,8 @@ export const ContactRequestPage = () => {
   );
   const renderDesktopView = () => (
     <>
-      <Grid item>{renderHeaderGrid()}</Grid>
-      <Grid className="contact-request-page__grid" item>
+      <Grid>{renderHeaderGrid()}</Grid>
+      <Grid className="contact-request-page__grid">
         <Paper elevation={3}>
           <div className="contact-request-page__grid__form-container">
             <div className="contact-request-page__grid__inner-container">

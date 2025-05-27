@@ -1,5 +1,5 @@
+import { TextFieldProps } from '@mui/material';
 import { ChangeEvent } from 'react';
-import { CustomTextFieldProps } from 'shared/components';
 
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 
@@ -9,4 +9,4 @@ export type ClerkEnrollmentTextFieldProps<T> = {
   showFieldError: boolean;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   isViewMode: boolean;
-} & CustomTextFieldProps;
+} & TextFieldProps;

@@ -1,5 +1,5 @@
 import createSagaMiddleware from '@redux-saga/core';
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, Tuple } from '@reduxjs/toolkit';
 
 import { APIErrorReducer } from 'redux/reducers/APIError';
 import { authorisationReducer } from 'redux/reducers/authorisation';
@@ -33,7 +33,9 @@ const store = configureStore({
     authorisation: authorisationReducer,
     APIError: APIErrorReducer,
   },
-  middleware: [saga],
+  middleware: () => {
+    return new Tuple(saga);
+  },
 });
 saga.run(rootSaga);
 

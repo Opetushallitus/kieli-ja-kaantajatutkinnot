@@ -7,7 +7,7 @@ exports[`LangSelector should render LangSelector correctly 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall lang-selector__icon css-ptiqhd-MuiSvgIcon-root"
+    className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall lang-selector__icon css-120dh41-MuiSvgIcon-root"
     data-testid="LanguageOutlinedIcon"
     focusable="false"
     viewBox="0 0 24 24"
@@ -18,8 +18,8 @@ exports[`LangSelector should render LangSelector correctly 1`] = `
   </svg>
   <button
     aria-current="true"
-    className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1e6y48t-MuiButtonBase-root-MuiButton-root"
-    disabled={false}
+    className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
+    disabled={null}
     lang="fi-FI"
     onBlur={[Function]}
     onClick={[Function]}
@@ -38,21 +38,24 @@ exports[`LangSelector should render LangSelector correctly 1`] = `
     type="button"
   >
     <p
-      className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+      style={{}}
     >
       <b>
         lang.fi
       </b>
     </p>
   </button>
-  <hr
+  <div
     aria-hidden="true"
-    className="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-16bghm4-MuiDivider-root"
+    aria-orientation="vertical"
+    className="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-1ck4b9x-MuiDivider-root"
+    role="separator"
   />
   <button
     aria-current="false"
-    className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1e6y48t-MuiButtonBase-root-MuiButton-root"
-    disabled={false}
+    className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
+    disabled={null}
     lang="sv-SE"
     onBlur={[Function]}
     onClick={[Function]}
@@ -71,19 +74,22 @@ exports[`LangSelector should render LangSelector correctly 1`] = `
     type="button"
   >
     <p
-      className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+      style={{}}
     >
       lang.sv
     </p>
   </button>
-  <hr
+  <div
     aria-hidden="true"
-    className="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-16bghm4-MuiDivider-root"
+    aria-orientation="vertical"
+    className="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-1ck4b9x-MuiDivider-root"
+    role="separator"
   />
   <button
     aria-current="false"
-    className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1e6y48t-MuiButtonBase-root-MuiButton-root"
-    disabled={false}
+    className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
+    disabled={null}
     lang="en-GB"
     onBlur={[Function]}
     onClick={[Function]}
@@ -102,7 +108,8 @@ exports[`LangSelector should render LangSelector correctly 1`] = `
     type="button"
   >
     <p
-      className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+      style={{}}
     >
       lang.en
     </p>
