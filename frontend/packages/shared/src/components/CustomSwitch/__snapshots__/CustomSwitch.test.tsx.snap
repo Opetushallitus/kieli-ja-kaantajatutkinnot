@@ -2,25 +2,26 @@
 
 exports[`CustomSwitch should render correctly with an error label 1`] = `
 <div
-  className="MuiFormGroup-root rows css-dmmspl-MuiFormGroup-root"
+  className="MuiFormGroup-root rows css-1mac7pt-MuiFormGroup-root"
 >
   <div
     className="columns"
   >
     <p
-      className="MuiTypography-root MuiTypography-body1 color-disabled margin-right-xs css-ahj2mt-MuiTypography-root"
+      className="MuiTypography-root MuiTypography-body1 color-disabled margin-right-xs css-rizt0-MuiTypography-root"
+      style={{}}
     >
       leftLabel
     </p>
     <label
-      className="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd custom-switch__label css-j204z7-MuiFormControlLabel-root"
+      className="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd custom-switch__label css-19opgx6-MuiFormControlLabel-root"
     >
       <span
-        className="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+        className="MuiSwitch-root MuiSwitch-sizeMedium css-rehya9-MuiSwitch-root"
       >
         <span
           aria-disabled={true}
-          className="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-checked Mui-disabled css-ob1t9r-MuiButtonBase-root-MuiSwitch-switchBase"
+          className="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-checked Mui-disabled css-zp7cnf-MuiButtonBase-root-MuiSwitch-switchBase"
           data-testid="just-a-test-id"
           onBlur={[Function]}
           onContextMenu={[Function]}
@@ -38,30 +39,32 @@ exports[`CustomSwitch should render correctly with an error label 1`] = `
         >
           <input
             checked={true}
-            className="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+            className="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
             disabled={true}
             onChange={[Function]}
             required={false}
             type="checkbox"
           />
           <span
-            className="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+            className="MuiSwitch-thumb css-17jyosd-MuiSwitch-thumb"
           />
         </span>
         <span
-          className="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+          className="MuiSwitch-track css-tj8d99-MuiSwitch-track"
         />
       </span>
       <span
-        className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled css-ahj2mt-MuiTypography-root"
+        className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled css-rizt0-MuiTypography-root"
+        style={{}}
       >
         rightLabel
       </span>
     </label>
   </div>
   <span
-    className="MuiTypography-root MuiTypography-caption custom-switch__helper-text css-19m5e5t-MuiTypography-root"
+    className="MuiTypography-root MuiTypography-caption custom-switch__helper-text css-8gz0an-MuiTypography-root"
     data-testid="just-a-test-id__error-label"
+    style={{}}
   >
     test-error-label
   </span>
@@ -70,24 +73,25 @@ exports[`CustomSwitch should render correctly with an error label 1`] = `
 
 exports[`CustomSwitch should render correctly with just the minimal props 1`] = `
 <div
-  className="MuiFormGroup-root rows css-dmmspl-MuiFormGroup-root"
+  className="MuiFormGroup-root rows css-1mac7pt-MuiFormGroup-root"
 >
   <div
     className="columns"
   >
     <p
-      className="MuiTypography-root MuiTypography-body1 margin-right-xs css-ahj2mt-MuiTypography-root"
+      className="MuiTypography-root MuiTypography-body1 margin-right-xs css-rizt0-MuiTypography-root"
+      style={{}}
     >
       anotherLeftLabel
     </p>
     <label
-      className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd custom-switch__label css-j204z7-MuiFormControlLabel-root"
+      className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd custom-switch__label css-19opgx6-MuiFormControlLabel-root"
     >
       <span
-        className="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+        className="MuiSwitch-root MuiSwitch-sizeMedium css-rehya9-MuiSwitch-root"
       >
         <span
-          className="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary css-ob1t9r-MuiButtonBase-root-MuiSwitch-switchBase"
+          className="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary css-zp7cnf-MuiButtonBase-root-MuiSwitch-switchBase"
           onBlur={[Function]}
           onContextMenu={[Function]}
           onDragLeave={[Function]}
@@ -103,24 +107,22 @@ exports[`CustomSwitch should render correctly with just the minimal props 1`] = 
           tabIndex={null}
         >
           <input
-            className="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+            className="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
             onChange={[Function]}
             required={false}
             type="checkbox"
           />
           <span
-            className="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
-          />
-          <span
-            className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            className="MuiSwitch-thumb css-17jyosd-MuiSwitch-thumb"
           />
         </span>
         <span
-          className="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+          className="MuiSwitch-track css-tj8d99-MuiSwitch-track"
         />
       </span>
       <span
-        className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+        className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-rizt0-MuiTypography-root"
+        style={{}}
       >
         anotherRightLabel
       </span>

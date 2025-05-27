@@ -129,7 +129,7 @@ export const PublicEnrollmentPhoneGrid = ({
 
   return (
     <>
-      <Grid className="public-enrollment__grid" item>
+      <Grid className="public-enrollment__grid">
         {!isPreviewPassed && (
           <StackableMobileAppBar
             order={1}

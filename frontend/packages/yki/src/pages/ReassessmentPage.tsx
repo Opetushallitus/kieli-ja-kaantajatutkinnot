@@ -34,10 +34,7 @@ export const ReassessmentPage: FC = () => {
         direction="column"
         className="public-reassessment-page__grid-container"
       >
-        <Grid
-          item
-          className="public-reassessment-page__grid-container__item-header"
-        >
+        <Grid className="public-reassessment-page__grid-container__item-header">
           <H1 data-testid="public-reassessment-page__title-heading">
             {t('title')}
           </H1>
@@ -46,10 +43,7 @@ export const ReassessmentPage: FC = () => {
           <br />
           <Text>{t('introduction.timeLimit')}</Text>
         </Grid>
-        <Grid
-          item
-          className="public-reassessment-page__grid-container__item-info"
-        >
+        <Grid className="public-reassessment-page__grid-container__item-info">
           <Paper elevation={3} className="public-reassessment-page__info">
             <div className="public-reassessment-page__info__section">
               <H2 className="public-reassessment-page__info__section__heading-title">
@@ -86,10 +80,7 @@ export const ReassessmentPage: FC = () => {
             </div>
           </Paper>
         </Grid>
-        <Grid
-          item
-          className="public-reassessment-page__grid-container__result-box"
-        >
+        <Grid className="public-reassessment-page__grid-container__result-box">
           {status === APIResponseStatus.InProgress ? (
             <PublicEvaluationPeriodListingSkeleton />
           ) : (

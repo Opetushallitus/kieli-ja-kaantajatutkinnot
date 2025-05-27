@@ -1,16 +1,11 @@
 import { TextField, TextFieldProps } from '@mui/material';
 
-export type CustomTextFieldProps = {
-  showHelperText?: boolean;
-} & TextFieldProps;
-
 export const CustomTextField = ({
   error,
   helperText,
-  showHelperText,
   multiline,
   ...rest
-}: CustomTextFieldProps) => {
+}: TextFieldProps) => {
   const minRows = multiline ? 5 : undefined;
   const maxRows = multiline ? 15 : undefined;
 
@@ -20,7 +15,7 @@ export const CustomTextField = ({
       maxRows={maxRows}
       error={error}
       multiline={multiline}
-      helperText={(error || showHelperText) && helperText}
+      helperText={helperText}
       {...rest}
     />
   );

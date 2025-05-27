@@ -1,5 +1,5 @@
 import createSagaMiddleware from '@redux-saga/core';
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, Tuple } from '@reduxjs/toolkit';
 
 import { APIErrorReducer } from 'redux/reducers/APIError';
 import { clerkInterpreterReducer } from 'redux/reducers/clerkInterpreter';
@@ -26,7 +26,9 @@ const store = configureStore({
     qualification: qualificationReducer,
     APIError: APIErrorReducer,
   },
-  middleware: [saga],
+  middleware: () => {
+    return new Tuple(saga);
+  },
 });
 saga.run(rootSaga);
 

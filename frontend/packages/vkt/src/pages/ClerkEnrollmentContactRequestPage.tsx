@@ -208,10 +208,10 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
         <div>
           <TopControls backTo={backTo} />
         </div>
-        <Grid item>
+        <Grid>
           <H1>{t('contactRequest')}</H1>
         </Grid>
-        <Grid item>
+        <Grid>
           <Paper
             elevation={3}
             className="examiner-contact-request-page__paper rows gapped-xxl"

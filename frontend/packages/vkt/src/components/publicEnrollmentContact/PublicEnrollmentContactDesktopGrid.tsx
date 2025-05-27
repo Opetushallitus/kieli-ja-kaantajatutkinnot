@@ -45,7 +45,7 @@ export const PublicEnrollmentContactDesktopGrid = ({
 
   return (
     <>
-      <Grid className="public-enrollment-contact__grid" item>
+      <Grid className="public-enrollment-contact__grid">
         <LoadingProgressIndicator
           isLoading={isLoading}
           translateCommon={translateCommon}

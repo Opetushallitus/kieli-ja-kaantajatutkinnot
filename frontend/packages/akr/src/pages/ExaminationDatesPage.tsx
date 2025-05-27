@@ -78,7 +78,7 @@ export const ExaminationDatesPage: FC = () => {
 
   const renderExaminationDatesPageGrids = () => (
     <>
-      <Grid item>
+      <Grid>
         <div
           className="columns gapped"
           data-testid="examination-dates-page__heading"
@@ -87,19 +87,16 @@ export const ExaminationDatesPage: FC = () => {
           <Text>{`(${dates.length})`}</Text>
         </div>
       </Grid>
-      <Grid item>
+      <Grid>
         <Divider />
       </Grid>
-      <Grid
-        className="examination-dates-page__grid-container__date-controls grow columns"
-        item
-      >
+      <Grid className="examination-dates-page__grid-container__date-controls grow columns">
         <ExaminationDatesToggleFilters />
       </Grid>
-      <Grid item>
+      <Grid>
         <AddExaminationDate />
       </Grid>
-      <Grid item>
+      <Grid>
         <ExaminationDatesListing />
       </Grid>
     </>

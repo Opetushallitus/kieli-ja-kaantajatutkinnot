@@ -176,7 +176,7 @@ export const PublicHomePage: FC = () => {
         direction="column"
         className="public-homepage__grid-container"
       >
-        <Grid item className="public-homepage__grid-container__item-header">
+        <Grid className="public-homepage__grid-container__item-header">
           <H1 data-testid="public-homepage__title-heading">{t('title')}</H1>
           <HeaderSeparator />
           <div className="rows gapped">

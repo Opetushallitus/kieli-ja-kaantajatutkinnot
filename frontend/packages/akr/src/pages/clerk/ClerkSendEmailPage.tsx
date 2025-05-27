@@ -272,7 +272,6 @@ export const ClerkSendEmailPage = () => {
               onBlur={handleFieldError('message')}
               error={fieldErrors.message.length > 0}
               helperText={getHelperMessage(email, fieldErrors)}
-              showHelperText
               multiline
               required
             />

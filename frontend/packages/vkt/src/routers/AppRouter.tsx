@@ -64,7 +64,7 @@ const VktTitlePage = ({ title, children }: TitlePageProps) => {
     <TitlePage
       title={title}
       className={
-        isMobileMenuOpen ? 'mobile-navigation-menu__active' : undefined
+        isMobileMenuOpen ? 'mobile-navigation-menu__active' : 'title-page'
       }
     >
       {children}

@@ -100,10 +100,10 @@ export const ClerkExamEventCreatePage: FC = () => {
         direction="column"
         className="clerk-homepage__grid-container"
       >
-        <Grid item>
+        <Grid>
           <H1>{t('addExamDate')}</H1>
         </Grid>
-        <Grid item>
+        <Grid>
           <Paper
             elevation={3}
             className="clerk-homepage__exam-events clerk-homepage-create-exam-events"

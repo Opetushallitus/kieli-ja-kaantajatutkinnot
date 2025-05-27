@@ -11,7 +11,7 @@ import {
   NotifierContextProvider,
   ScrollToTop,
 } from 'shared/components';
-import { TitlePage } from 'shared/utils';
+import { TitlePage, TitlePageProps } from 'shared/utils';
 
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
@@ -61,6 +61,12 @@ export const AppRouter: FC = () => {
     </div>
   );
 
+  const AkrTitlePage = ({ title, children }: TitlePageProps) => (
+    <TitlePage title={createTitle(title)} className="title-page">
+      {children}
+    </TitlePage>
+  );
+
   const FrontPage = (
     <TitlePage title={createTitle('frontPage')}>
       <PublicHomePage />
@@ -75,89 +81,89 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ClerkHomePage}
           element={
-            <TitlePage title={createTitle('clerkHomepage')}>
+            <AkrTitlePage title={createTitle('clerkHomepage')}>
               <ClerkHomePage />
-            </TitlePage>
+            </AkrTitlePage>
           }
         />
         <Route
           path={AppRoutes.ExaminationDatesPage}
           element={
-            <TitlePage title={createTitle('clerkHomepage')}>
+            <AkrTitlePage title={createTitle('clerkHomepage')}>
               <ExaminationDatesPage />
-            </TitlePage>
+            </AkrTitlePage>
           }
         />
         <Route
           path={AppRoutes.MeetingDatesPage}
           element={
-            <TitlePage title={createTitle('clerkHomepage')}>
+            <AkrTitlePage title={createTitle('clerkHomepage')}>
               <MeetingDatesPage />
-            </TitlePage>
+            </AkrTitlePage>
           }
         />
         <Route
           path={AppRoutes.StatisticsPage}
           element={
-            <TitlePage title={createTitle('clerkHomepage')}>
+            <AkrTitlePage title={createTitle('clerkHomepage')}>
               <StatisticsPage />
-            </TitlePage>
+            </AkrTitlePage>
           }
         />
         <Route
           path={AppRoutes.ClerkSendEmailPage}
           element={
-            <TitlePage title={createTitle('clerkHomepage')}>
+            <AkrTitlePage title={createTitle('clerkHomepage')}>
               <ClerkSendEmailPage />
-            </TitlePage>
+            </AkrTitlePage>
           }
         />
         <Route
           path={AppRoutes.ClerkTranslatorOverviewPage}
           element={
-            <TitlePage title={createTitle('clerkHomepage')}>
+            <AkrTitlePage title={createTitle('clerkHomepage')}>
               <ClerkTranslatorOverviewPage />
-            </TitlePage>
+            </AkrTitlePage>
           }
         />
         <Route
           path={AppRoutes.ClerkPersonSearchPage}
           element={
-            <TitlePage title={createTitle('clerkHomepage')}>
+            <AkrTitlePage title={createTitle('clerkHomepage')}>
               <ClerkPersonSearchPage />
-            </TitlePage>
+            </AkrTitlePage>
           }
         />
         <Route
           path={AppRoutes.ClerkNewTranslatorPage}
           element={
-            <TitlePage title={createTitle('clerkHomepage')}>
+            <AkrTitlePage title={createTitle('clerkHomepage')}>
               <ClerkNewTranslatorPage />
-            </TitlePage>
+            </AkrTitlePage>
           }
         />
         <Route
           path={AppRoutes.AccessibilityStatementPage}
           element={
-            <TitlePage title={createTitle('accessibilityStatement')}>
+            <AkrTitlePage title={createTitle('accessibilityStatement')}>
               <AccessibilityStatementPage />
-            </TitlePage>
+            </AkrTitlePage>
           }
         />
         <Route
           path={AppRoutes.PrivacyPolicyPage}
           element={
-            <TitlePage title={createTitle('privacyPolicy')}>
+            <AkrTitlePage title={createTitle('privacyPolicy')}>
               <PrivacyPolicyPage />
-            </TitlePage>
+            </AkrTitlePage>
           }
         />
         <Route
           path={AppRoutes.NotFoundPage}
           element={
-            <TitlePage title={createTitle('notFound')}>
+            <AkrTitlePage title={createTitle('notFound')}>
               <NotFoundPage />
-            </TitlePage>
+            </AkrTitlePage>
           }
         />
       </Route>,

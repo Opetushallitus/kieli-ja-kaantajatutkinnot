@@ -130,7 +130,7 @@ export const PublicGoodAndSatisfactoryLevelLandingPage: FC = () => {
         direction="column"
         className="public-homepage__grid-container"
       >
-        <Grid item className="public-homepage__grid-container__item-header">
+        <Grid className="public-homepage__grid-container__item-header">
           <div className="rows gapped-xxl">
             <div>
               <H1 data-testid="public-homepage__title-heading">{t('title')}</H1>
@@ -151,7 +151,7 @@ export const PublicGoodAndSatisfactoryLevelLandingPage: FC = () => {
             </div>
           </div>
         </Grid>
-        <Grid item className="public-homepage__grid-container__result-box">
+        <Grid className="public-homepage__grid-container__result-box">
           <PublicExaminerListing />
         </Grid>
       </Grid>

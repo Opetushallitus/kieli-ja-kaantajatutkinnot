@@ -1,8 +1,9 @@
+import { TextFieldProps } from '@mui/material';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 
-import { CustomTextField, CustomTextFieldProps } from '../../components';
+import { CustomTextField } from '../../components';
 
 interface DatePickerProps {
   value: Dayjs | null;
@@ -13,7 +14,7 @@ interface DatePickerProps {
   maxDate?: Dayjs;
 }
 
-type CustomDatePickerProps = DatePickerProps & CustomTextFieldProps;
+type CustomDatePickerProps = DatePickerProps & TextFieldProps;
 
 export const CustomDatePicker = ({
   value,
@@ -24,7 +25,6 @@ export const CustomDatePicker = ({
   maxDate,
   error,
   helperText,
-  showHelperText,
 }: CustomDatePickerProps): JSX.Element => {
   const MIN_DATE = '1980-01-01';
   const MAX_DATE = '2050-01-01';
@@ -46,16 +46,16 @@ export const CustomDatePicker = ({
         disabled={disabled}
         minDate={minDate ?? dayjs(MIN_DATE)}
         maxDate={maxDate ?? dayjs(MAX_DATE)}
-        renderInput={(params) => {
-          const textFieldParams = {
-            ...params,
+        slots={{
+          textField: CustomTextField,
+        }}
+        slotProps={{
+          textField: {
             error,
             helperText,
-            showHelperText,
-          };
-
-          return <CustomTextField {...textFieldParams} />;
+          },
         }}
+        enableAccessibleFieldDOMStructure={false}
       />
     </LocalizationProvider>
   );
