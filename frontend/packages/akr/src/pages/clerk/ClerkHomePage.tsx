@@ -32,7 +32,7 @@ export const ClerkHomePage: FC = () => {
 
   const renderClerkHomePageGrids = () => (
     <>
-      <Grid item>
+      <Grid>
         <div className="columns">
           <div
             className="columns gapped grow"
@@ -54,10 +54,10 @@ export const ClerkHomePage: FC = () => {
           </div>
         </div>
       </Grid>
-      <Grid item>
+      <Grid>
         <Divider />
       </Grid>
-      <Grid item>
+      <Grid>
         <div className="columns">
           <div className="clerk-homepage__grid-container__register-controls grow columns">
             <ClerkTranslatorToggleFilters />
@@ -68,15 +68,15 @@ export const ClerkHomePage: FC = () => {
       <Grid>
         <ClerkTranslatorEmailFilter />
       </Grid>
-      <Grid item>
+      <Grid>
         <div className="columns space-between">
           <ClerkHomePageControlButtons />
         </div>
       </Grid>
-      <Grid item>
+      <Grid>
         <Divider />
       </Grid>
-      <Grid item>
+      <Grid>
         <ClerkTranslatorListing />
       </Grid>
     </>

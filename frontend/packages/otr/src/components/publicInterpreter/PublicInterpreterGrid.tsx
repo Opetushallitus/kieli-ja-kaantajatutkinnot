@@ -29,12 +29,12 @@ export const PublicInterpreterGrid = () => {
 
   return (
     <>
-      <Grid item className="public-homepage__grid-container__item-header">
+      <Grid className="public-homepage__grid-container__item-header">
         <H1 data-testid="public-homepage__title-heading">{t('title')}</H1>
         <HeaderSeparator />
         <Text>{t('description')}</Text>
       </Grid>
-      <Grid item className="public-homepage__grid-container__item-filters">
+      <Grid className="public-homepage__grid-container__item-filters">
         <Paper elevation={3} className="public-homepage__filters">
           {isLoading ? (
             <PublicInterpreterGridSkeleton
@@ -61,7 +61,7 @@ export const PublicInterpreterGrid = () => {
           )}
         </Paper>
       </Grid>
-      <Grid item className="public-homepage__grid-container__result-box">
+      <Grid className="public-homepage__grid-container__result-box">
         {hasResults && (
           <PublicInterpreterListing
             status={status}

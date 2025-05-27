@@ -68,7 +68,7 @@ export const RegistrationNotAvailable = () => {
   const reasonForUnavailability = getReasonForUnavailability(examSession);
 
   return (
-    <Grid className="public-registration" item>
+    <Grid className="public-registration">
       <div className="public-registration__grid">
         <div className="rows public-registration__grid__heading public-registration__grid__no-stepper">
           <RegistrationUnavailableHeader />

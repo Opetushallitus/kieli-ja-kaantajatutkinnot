@@ -11,7 +11,7 @@ import {
   NotifierContextProvider,
   ScrollToTop,
 } from 'shared/components';
-import { TitlePage } from 'shared/utils';
+import { TitlePage, TitlePageProps } from 'shared/utils';
 
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
@@ -58,10 +58,16 @@ export const AppRouter: FC = () => {
     </div>
   );
 
-  const FrontPage = (
-    <TitlePage title={createTitle('frontPage')}>
-      <PublicHomePage />
+  const OtrTitlePage = ({ title, children }: TitlePageProps) => (
+    <TitlePage title={createTitle(title)} className="title-page">
+      {children}
     </TitlePage>
+  );
+
+  const FrontPage = (
+    <OtrTitlePage title={createTitle('frontPage')}>
+      <PublicHomePage />
+    </OtrTitlePage>
   );
 
   const router = createBrowserRouter(
@@ -72,65 +78,65 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ClerkHomePage}
           element={
-            <TitlePage title={createTitle('clerkHomepage')}>
+            <OtrTitlePage title={createTitle('clerkHomepage')}>
               <ClerkHomePage />
-            </TitlePage>
+            </OtrTitlePage>
           }
         />
         <Route
           path={AppRoutes.MeetingDatesPage}
           element={
-            <TitlePage title={createTitle('clerkHomepage')}>
+            <OtrTitlePage title={createTitle('clerkHomepage')}>
               <MeetingDatesPage />
-            </TitlePage>
+            </OtrTitlePage>
           }
         />
         <Route
           path={AppRoutes.ClerkInterpreterOverviewPage}
           element={
-            <TitlePage title={createTitle('clerkHomepage')}>
+            <OtrTitlePage title={createTitle('clerkHomepage')}>
               <ClerkInterpreterOverviewPage />
-            </TitlePage>
+            </OtrTitlePage>
           }
         />
         <Route
           path={AppRoutes.ClerkPersonSearchPage}
           element={
-            <TitlePage title={createTitle('clerkHomepage')}>
+            <OtrTitlePage title={createTitle('clerkHomepage')}>
               <ClerkPersonSearchPage />
-            </TitlePage>
+            </OtrTitlePage>
           }
         />
         <Route
           path={AppRoutes.ClerkNewInterpreterPage}
           element={
-            <TitlePage title={createTitle('clerkHomepage')}>
+            <OtrTitlePage title={createTitle('clerkHomepage')}>
               <ClerkNewInterpreterPage />
-            </TitlePage>
+            </OtrTitlePage>
           }
         />
         <Route
           path={AppRoutes.AccessibilityStatementPage}
           element={
-            <TitlePage title={createTitle('accessibilityStatement')}>
+            <OtrTitlePage title={createTitle('accessibilityStatement')}>
               <AccessibilityStatementPage />
-            </TitlePage>
+            </OtrTitlePage>
           }
         />
         <Route
           path={AppRoutes.PrivacyPolicyPage}
           element={
-            <TitlePage title={createTitle('privacyPolicy')}>
+            <OtrTitlePage title={createTitle('privacyPolicy')}>
               <PrivacyPolicyPage />
-            </TitlePage>
+            </OtrTitlePage>
           }
         />
         <Route
           path={AppRoutes.NotFoundPage}
           element={
-            <TitlePage title={createTitle('notFound')}>
+            <OtrTitlePage title={createTitle('notFound')}>
               <NotFoundPage />
-            </TitlePage>
+            </OtrTitlePage>
           }
         />
       </Route>,

@@ -1,5 +1,5 @@
 import createSagaMiddleware from '@redux-saga/core';
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore, Tuple } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'reduxjs-toolkit-persist';
 import storageSession from 'reduxjs-toolkit-persist/lib/storage/session';
 
@@ -71,7 +71,9 @@ const saga = createSagaMiddleware();
 
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: [saga],
+  middleware: () => {
+    return new Tuple(saga);
+  },
 });
 saga.run(rootSaga);
 

@@ -60,4 +60,9 @@ body,
   .footer {
     grid-area: footer;
   }
+
+  .title-page {
+    display: flex;
+    flex: 1;
+  }
 }

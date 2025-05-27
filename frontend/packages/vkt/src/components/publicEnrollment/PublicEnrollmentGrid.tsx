@@ -121,7 +121,7 @@ export const PublicEnrollmentGrid = ({
 
   if (isViewLoading) {
     return (
-      <Grid className="public-enrollment__grid" item>
+      <Grid className="public-enrollment__grid">
         <LoadingProgressIndicator
           isLoading={true}
           translateCommon={translateCommon}

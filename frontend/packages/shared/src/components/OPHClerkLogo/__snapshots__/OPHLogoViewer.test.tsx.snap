@@ -13,12 +13,14 @@ exports[`OPHClerkLogo should render OPHClerkLogo correctly 1`] = `
     className="rows"
   >
     <p
-      className="MuiTypography-root MuiTypography-body1 oph-clerk-logo__label--bold css-ahj2mt-MuiTypography-root"
+      className="MuiTypography-root MuiTypography-body1 oph-clerk-logo__label--bold css-rizt0-MuiTypography-root"
+      style={{}}
     >
       MainLabel
     </p>
     <p
-      className="MuiTypography-root MuiTypography-body1 oph-clerk-logo__label css-ahj2mt-MuiTypography-root"
+      className="MuiTypography-root MuiTypography-body1 oph-clerk-logo__label css-rizt0-MuiTypography-root"
+      style={{}}
     >
       SubLabel
     </p>

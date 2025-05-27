@@ -1,4 +1,3 @@
-import { PreloadedState } from '@reduxjs/toolkit';
 import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import {
@@ -16,7 +15,7 @@ export const DefaultProviders = ({
   store = setupStore(preloadedState),
   children,
 }: {
-  preloadedState?: PreloadedState<RootState>;
+  preloadedState?: Partial<RootState>;
   store?: AppStore;
   children: ReactNode;
 }) => {

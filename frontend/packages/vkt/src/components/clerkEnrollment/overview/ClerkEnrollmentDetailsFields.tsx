@@ -422,8 +422,6 @@ const ClerkEnrollmentDetailsTextField = ({
   const fieldError = getFieldError(enrollment, field, required);
   const showRequiredFieldError =
     showFieldError && fieldError?.length > 0 && required;
-  const showHelperText =
-    (showFieldError || !required) && fieldError?.length > 0;
 
   return (
     <CustomTextField
@@ -434,8 +432,11 @@ const ClerkEnrollmentDetailsTextField = ({
       type={getTextFieldType(field)}
       FormHelperTextProps={{ component: 'div' } as FormHelperTextProps}
       error={showRequiredFieldError}
-      showHelperText={showHelperText}
-      helperText={getHelperText(showRequiredFieldError, fieldError)}
+      helperText={
+        fieldError?.length > 0
+          ? getHelperText(showRequiredFieldError, fieldError)
+          : ' '
+      }
       {...rest}
     />
   );

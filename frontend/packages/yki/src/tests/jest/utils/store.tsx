@@ -1,4 +1,3 @@
-import type { PreloadedState } from '@reduxjs/toolkit';
 import type { RenderOptions } from '@testing-library/react';
 import { render } from '@testing-library/react';
 import { PropsWithChildren } from 'react';
@@ -8,7 +7,7 @@ import { setupStore } from 'redux/store';
 import { DefaultProviders } from 'tests/jest/utils/DefaultProviders';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
-  preloadedState?: PreloadedState<RootState>;
+  preloadedState?: Partial<RootState>;
   store?: AppStore;
 }
 

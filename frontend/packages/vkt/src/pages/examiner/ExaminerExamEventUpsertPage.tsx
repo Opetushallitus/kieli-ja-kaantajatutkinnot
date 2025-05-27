@@ -351,7 +351,6 @@ const SelectDate = ({ showErrors }: { showErrors: boolean }) => {
         }}
         label={translateCommon('choose')}
         value={date || null}
-        showHelperText={error}
         helperText={error && translateCommon(CustomTextFieldErrors.Required)}
       />
     </div>
@@ -370,7 +369,7 @@ const ExamTime = () => {
   return (
     <LabeledTextField
       id="examiner-exam-event-upsert__exam-time"
-      className="rows gapped-sm"
+      gap="gapped-sm"
       label={t('labels.examTime')}
       type="time"
       value={examTime || ''}
@@ -398,7 +397,7 @@ const AddressDetails = () => {
   return (
     <LabeledTextField
       id="examiner-exam-event-upsert__address-details"
-      className="rows gapped-sm"
+      gap="gapped-sm"
       label={t('labels.addressDetails')}
       value={location || ''}
       autoComplete={`work ${InputAutoComplete.Street}`}
@@ -425,7 +424,7 @@ const OtherInformation = () => {
   return (
     <LabeledTextField
       id="examiner-exam-event-upsert__other-details"
-      className="rows gapped-sm"
+      gap="gapped-sm"
       label={t('labels.otherInformation')}
       value={otherInformation || ''}
       onChange={(event) => {
@@ -506,7 +505,6 @@ const SelectMaxParticipants = ({ showErrors }: { showErrors: boolean }) => {
         type={TextFieldTypes.Number}
         value={maxParticipants ?? ''}
         error={maxParticipantsError}
-        showHelperText={maxParticipantsError}
         helperText={
           maxParticipantsError
             ? translateCommon('errors.customTextField.numberFormat')
@@ -633,10 +631,10 @@ export const ExaminerExamEventUpsertPage: FC<PageProps> = ({
         direction="column"
         className="examiner-exam-event-page__grid-container"
       >
-        <Grid item>
+        <Grid>
           <H1>{t(isUpdatePage ? 'heading.update' : 'heading.create')}</H1>
         </Grid>
-        <Grid item>
+        <Grid>
           <Paper elevation={3} className="examiner-exam-event-page__contents">
             <div className="rows gapped">
               <BackButton />

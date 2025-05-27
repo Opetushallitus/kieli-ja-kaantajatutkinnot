@@ -113,7 +113,7 @@ export const PublicIdentificationGrid = () => {
       direction="column"
       className="public-registration"
     >
-      <Grid className="public-registration" item>
+      <Grid className="public-registration">
         <div className="public-registration__grid">
           <div className="rows gapped-xxl">
             <PublicRegistrationStepper />

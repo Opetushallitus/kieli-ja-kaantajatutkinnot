@@ -26,7 +26,7 @@ export const ClerkExamEventGrid = () => {
 
   return (
     <>
-      <Grid item>
+      <Grid>
         <H1
           data-testid="clerk-homepage__title-heading"
           sx={{ marginBottom: 0 }}
@@ -34,7 +34,7 @@ export const ClerkExamEventGrid = () => {
           {t('title')}
         </H1>
       </Grid>
-      <Grid item>
+      <Grid>
         <Paper elevation={3} className="clerk-homepage__exam-events">
           {isLoading ? (
             <PublicExamEventGridSkeleton />

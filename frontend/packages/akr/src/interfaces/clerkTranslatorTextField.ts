@@ -1,5 +1,5 @@
+import { TextFieldProps } from '@mui/material';
 import { ChangeEvent } from 'react';
-import { CustomTextFieldProps } from 'shared/components';
 
 import {
   ClerkTranslatorAddressFieldEnum,
@@ -15,11 +15,11 @@ export type ClerkTranslatorAddressFieldProps = {
   field: ClerkTranslatorAddressFieldEnum;
   showFieldError: boolean;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-} & CustomTextFieldProps;
+} & TextFieldProps;
 
 export type ClerkTranslatorTextFieldProps = {
   translator?: ClerkTranslatorBasicInformation;
   field: ClerkTranslatorTextFieldEnum;
   showFieldError: boolean;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-} & CustomTextFieldProps;
+} & TextFieldProps;

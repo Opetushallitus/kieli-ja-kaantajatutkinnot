@@ -98,10 +98,7 @@ export const EvaluationOrderPage = () => {
             direction="column"
             className="public-evaluation-order-page__grid-container"
           >
-            <Grid
-              item
-              className="public-evaluation-order-page__grid-container__item-header"
-            >
+            <Grid className="public-evaluation-order-page__grid-container__item-header">
               <H1 className="public-evaluation-order-page__title-heading">
                 {t('title')}
               </H1>
@@ -120,10 +117,7 @@ export const EvaluationOrderPage = () => {
             direction="column"
             className="public-evaluation-order-page__grid-container"
           >
-            <Grid
-              item
-              className="public-evaluation-order-page__grid-container__item-header"
-            >
+            <Grid className="public-evaluation-order-page__grid-container__item-header">
               <H1 className="public-evaluation-order-page__title-heading">
                 {t('title')}
               </H1>

@@ -147,10 +147,10 @@ export const ExaminerHomePage: FC = () => {
         direction="column"
         className="examiner-homepage__grid-container"
       >
-        <Grid item>
+        <Grid>
           <H1>{t('heading')}</H1>
         </Grid>
-        <Grid item>{examiner && <ExaminerOverview />}</Grid>
+        <Grid>{examiner && <ExaminerOverview />}</Grid>
       </Grid>
     </Box>
   );

@@ -2,17 +2,16 @@
 
 exports[`CustomSelect should render correctly 1`] = `
 <div
-  className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  className="MuiFormControl-root MuiFormControl-fullWidth css-ytlejw-MuiFormControl-root"
 >
   <div
-    className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+    className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiSelect-root css-sc8y68-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
     onClick={[Function]}
   >
     <div
-      aria-controls=":r0:"
       aria-expanded="false"
       aria-haspopup="listbox"
-      className="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+      className="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-w76bbz-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
       onBlur={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
@@ -21,6 +20,7 @@ exports[`CustomSelect should render correctly 1`] = `
       tabIndex={0}
     >
       <span
+        aria-hidden={true}
         className="notranslate"
       >
         ​
@@ -29,7 +29,7 @@ exports[`CustomSelect should render correctly 1`] = `
     <input
       aria-hidden={true}
       aria-invalid={false}
-      className="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+      className="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
       disabled={false}
       onAnimationStart={[Function]}
       onChange={[Function]}
@@ -39,7 +39,7 @@ exports[`CustomSelect should render correctly 1`] = `
     />
     <svg
       aria-hidden={true}
-      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-lohd6h-MuiSvgIcon-root-MuiSelect-icon"
       data-testid="ArrowDropDownIcon"
       focusable="false"
       viewBox="0 0 24 24"
@@ -50,12 +50,13 @@ exports[`CustomSelect should render correctly 1`] = `
     </svg>
     <fieldset
       aria-hidden={true}
-      className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+      className="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
     >
       <legend
-        className="css-ihdtdm"
+        className="css-w4cd9x"
       >
         <span
+          aria-hidden={true}
           className="notranslate"
         >
           ​

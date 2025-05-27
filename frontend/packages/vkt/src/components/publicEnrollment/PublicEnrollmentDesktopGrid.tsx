@@ -67,7 +67,7 @@ export const PublicEnrollmentDesktopGrid = ({
 
   return (
     <>
-      <Grid className="public-enrollment__grid" item>
+      <Grid className="public-enrollment__grid">
         <Paper elevation={3}>
           <LoadingProgressIndicator
             isLoading={isRenewOrCancelLoading}
