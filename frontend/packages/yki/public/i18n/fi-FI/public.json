@@ -248,15 +248,23 @@
         },
         "registrationFormSubmitted": {
           "proceedToPayment": {
-            "confirmation": "Olet lähettänyt ilmoittautumislomakkeen tutkintotilaisuuteen",
             "dueDateReminder": {
               "text1": "<strong>Tärkeää!</strong> Viestissä on myös tutkintomaksun viimeinen maksupäivä.",
               "text2": "Maksa maksu ajoissa, jotta voit osallistua YKI-testiin."
             },
             "paymentLinkEmail": {
-              "text1": "Saat sähköpostiisi viestin noin 10 minuutin kuluessa. Viestissä on linkki tutkintomaksun maksamista varten.",
+              "text1": "Olet saanut sähköpostiisi viestin, jossa on linkki tutkintomaksun maksamista varten.",
               "text2": "Viesti tulee osoitteesta noreply@opintopolku.fi.",
               "text3": "Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun."
+            },
+            "verifyRegistrationDetails": {
+              "termsAndConditions": {
+                "label": "Ilmoittautumisen ehdot",
+                "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-ilmoittautumisen-ehdot"
+              },
+              "text1": "Tarkista ennen maksamista, että olet valinnut oikean YKI-testin.",
+              "text2": "Et voi vaihtaa YKI-testin kieltä, tasoa tai testipaikkaa maksamisen jälkeen.",
+              "text3": "Lue ilmoittautumisen ehdot Opetushallituksen verkkosivuilta:"
             },
             "title": "Vahvista ilmoittautuminen maksamalla tutkintomaksu"
           }
@@ -352,7 +360,7 @@
               "heading": "Ilmoittaudu yleiseen kielitutkintoon (YKI)"
             },
             "success": {
-              "heading": "Ilmoittautumislomake on lähetetty"
+              "heading": "Vahvista ilmoittautuminen"
             }
           }
         },

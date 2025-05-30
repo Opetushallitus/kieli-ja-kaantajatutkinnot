@@ -21,6 +21,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
+import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
 import { ExamDetailsPage } from 'pages/ExamDetailsPage';
@@ -152,6 +153,14 @@ export const AppRouter: FC = () => {
           element={
             <TitlePage title={createTitle('userDetails')}>
               <UserDetailsPage />
+            </TitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ConfirmRegistration}
+          element={
+            <TitlePage title={createTitle('confirmRegistration')}>
+              <ConfirmRegistrationPage />
             </TitlePage>
           }
         />

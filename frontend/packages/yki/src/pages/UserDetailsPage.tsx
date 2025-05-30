@@ -209,14 +209,18 @@ const Registrations: FC<RegistrationsProps> = ({ filteredRegistrations }) => {
           <div className="rows gapped">
             <div className="columns gapped">
               {r.state === RegistrationStates.Submitted && (
-                <CustomButton
+                <CustomButtonLink
                   className="fit-content-max-width"
                   color={Color.Secondary}
                   variant={Variant.Contained}
                   disabled={!r.isCancellable}
+                  to={AppRoutes.ConfirmRegistration.replace(
+                    /:registrationId/,
+                    `${r.id}`,
+                  )}
                 >
                   {t('actions.confirm')}
-                </CustomButton>
+                </CustomButtonLink>
               )}
               <CustomButton
                 className="fit-content-max-width"
