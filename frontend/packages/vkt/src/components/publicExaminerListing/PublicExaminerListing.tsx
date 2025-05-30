@@ -31,6 +31,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, ExamLanguage } from 'enums/app';
 import { Municipality } from 'interfaces/municipality';
 import { PublicExaminer } from 'interfaces/publicExaminer';
+import { resetPublicEnrollmentContactStates } from 'redux/reducers/publicEnrollmentContact';
 import { setPublicExaminerLanguageFilter } from 'redux/reducers/publicExaminer';
 import { publicEnrollmentContactSelector } from 'redux/selectors/publicEnrollmentContact';
 import {
@@ -98,9 +99,11 @@ const DesktopPublicExaminerRow = ({
   });
   const navigate = useNavigate();
   const appLanguage = getCurrentLang();
+  const dispatch = useAppDispatch();
 
   const { id, name, language, municipalities, examDates } = examiner;
   const handleOnClick = () => {
+    dispatch(resetPublicEnrollmentContactStates());
     navigate(
       AppRoutes.PublicEnrollmentContactContactDetails.replace(
         ':examinerId',
