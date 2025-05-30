@@ -9,6 +9,10 @@ import {
   RegistrationStates,
 } from 'enums/app';
 import {
+  RegistrationToConfirmDetails,
+  RegistrationToConfirmDetailsResponse,
+} from 'interfaces/confirmRegistration';
+import {
   EvaluationOrderDetails,
   EvaluationOrderDetailsResponse,
   EvaluationOrderRequest,
@@ -277,6 +281,21 @@ export class SerializationUtils {
       targets: response.targets.map(
         SerializationUtils.deserializeTransferEnrollmentTarget,
       ),
+    };
+  }
+
+  static deserializeRegistrationToConfirmDetailsResponse(
+    response: RegistrationToConfirmDetailsResponse,
+  ): RegistrationToConfirmDetails {
+    return {
+      ...response,
+      session_date: dayjs(response.session_date),
+      registration_start_date: SerializationUtils.deserializeStartTime(
+        response.registration_start_date,
+      ) as Dayjs,
+      registration_end_date: SerializationUtils.deserializeEndTime(
+        response.registration_end_date,
+      ) as Dayjs,
     };
   }
 }

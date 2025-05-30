@@ -3,6 +3,7 @@ import { combineReducers, configureStore, Tuple } from '@reduxjs/toolkit';
 
 import { RootState } from 'configs/redux';
 import { APIErrorReducer } from 'redux/reducers/APIError';
+import { confirmRegistrationReducer } from 'redux/reducers/confirmRegistration';
 import { evaluationOrderReducer } from 'redux/reducers/evaluationOrder';
 import { evaluationPeriodsReducer } from 'redux/reducers/evaluationPeriods';
 import { examSessionReducer } from 'redux/reducers/examSession';
@@ -20,6 +21,7 @@ const saga = createSagaMiddleware();
 
 export const rootReducer = combineReducers({
   APIError: APIErrorReducer,
+  confirmRegistration: confirmRegistrationReducer,
   evaluationOrder: evaluationOrderReducer,
   evaluationPeriods: evaluationPeriodsReducer,
   examSessions: examSessionsReducer,

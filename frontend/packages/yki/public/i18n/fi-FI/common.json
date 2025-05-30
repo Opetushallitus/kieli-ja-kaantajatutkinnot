@@ -158,6 +158,7 @@
         "logoutSuccess": "Uloskirjautuminen onnnistui",
         "userDetails": "Omat ilmoittautumiset",
         "transferEnrollment": "Siirrä ilmoittautuminen",
+        "confirmRegistration": "Vahvista ilmoittautuminen",
         "notFound": "Etsimääsi sivua ei löytynyt"
       }
     }
