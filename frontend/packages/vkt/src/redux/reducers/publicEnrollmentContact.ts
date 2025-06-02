@@ -98,6 +98,15 @@ const publicEnrollmentContactSlice = createSlice({
     resetPublicEnrollmentContact() {
       return initialState;
     },
+    resetPublicEnrollmentContactStates(state) {
+      return {
+        ...state,
+        loadExaminerStatus: APIResponseStatus.NotStarted,
+        enrollmentSubmitStatus: APIResponseStatus.NotStarted,
+        paymentLoadingStatus: APIResponseStatus.NotStarted,
+        cancelStatus: APIResponseStatus.NotStarted,
+      };
+    },
   },
 });
 
@@ -116,4 +125,5 @@ export const {
   continueWithEnrollmentDetails,
   confirmContactDetails,
   rejectPreviousContactDetails,
+  resetPublicEnrollmentContactStates,
 } = publicEnrollmentContactSlice.actions;
