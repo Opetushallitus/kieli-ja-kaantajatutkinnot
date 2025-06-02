@@ -342,6 +342,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
 
     if (enrollmentAppointment.getPaymentLinkHash() == null || enrollmentAppointment.getPaymentLinkHash().isEmpty()) {
       enrollmentAppointment.setPaymentLinkHash(uuidSource.getRandomNonce());
+      enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
     }
 
     Person person;

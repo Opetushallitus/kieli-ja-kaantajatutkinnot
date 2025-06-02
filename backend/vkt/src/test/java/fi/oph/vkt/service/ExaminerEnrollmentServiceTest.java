@@ -4,7 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
@@ -13,9 +20,11 @@ import fi.oph.vkt.api.dto.EnrollmentGradeDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentHistoryDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentAppointmentUpdateDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentBirthdateOrSsnDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentContactRequestDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentExamEventDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentGradesDTO;
+import fi.oph.vkt.api.dto.examiner.ExaminerOnrBirthdateDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.EnrollmentGrade;
@@ -35,6 +44,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -570,6 +580,7 @@ public class ExaminerEnrollmentServiceTest {
     final EnrollmentAppointment enrollmentCreated = enrollmentAppointmentRepository.getReferenceById(
       enrollment.getId()
     );
+    entityManager.refresh(enrollmentCreated);
 
     assertEquals(EnrollmentAppointmentStatus.ENROLLMENT_CREATED, enrollmentCreated.getStatus());
     assertEquals(examEvent.getId(), enrollmentCreated.getExaminerExamEvent().getId());
@@ -582,5 +593,143 @@ public class ExaminerEnrollmentServiceTest {
     assertEquals(responseDTO.phoneNumber(), enrollmentCreated.getPhoneNumber());
     assertEquals(responseDTO.firstName(), enrollmentCreated.getFirstName());
     assertEquals(responseDTO.lastName(), enrollmentCreated.getLastName());
+  }
+
+  @Test
+  public void testCreatePersonForAppointmentWithBirthdate() {
+    final Examiner examiner = Factory.examiner();
+    final Municipality municipality = Factory.municipality();
+    final ExaminerExamEvent examEvent = Factory.examinerExamEvent(examiner, municipality);
+    final EnrollmentAppointment enrollment = Factory.enrollmentContact(examiner);
+    enrollment.setExaminerExamEvent(examEvent);
+
+    entityManager.persist(examiner);
+    entityManager.persist(municipality);
+    entityManager.persist(examEvent);
+    entityManager.persist(enrollment);
+
+    final String onrOid = "1.2.3.4.5";
+    final String birthdate = "12.2.2000";
+    when(onrService.insertPersonalData(isA(Person.class), eq("2000-02-12"))).thenReturn(onrOid);
+
+    final ExaminerEnrollmentBirthdateOrSsnDTO ssnDTO = ExaminerEnrollmentBirthdateOrSsnDTO
+      .builder()
+      .birthdateOrSsn(birthdate)
+      .build();
+
+    final ExaminerOnrBirthdateDTO onrBirthdateDTO = examinerEnrollmentService.createPersonForAppointment(
+      examiner.getOid(),
+      enrollment.getId(),
+      ssnDTO
+    );
+
+    verify(onrService, Mockito.times(1)).insertPersonalData(any(), any());
+
+    final EnrollmentAppointment enrollmentCreated = enrollmentAppointmentRepository.getReferenceById(
+      enrollment.getId()
+    );
+    entityManager.refresh(enrollmentCreated);
+
+    assertEquals(EnrollmentAppointmentStatus.CONTACT_CREATED, enrollmentCreated.getStatus());
+    assertEquals(examEvent.getId(), enrollmentCreated.getExaminerExamEvent().getId());
+    assertNull(enrollmentCreated.getAuthHash());
+    assertNotNull(enrollmentCreated.getPaymentLinkHash());
+    assertNotNull(enrollmentCreated.getPerson());
+    assertEquals(enrollmentCreated.getFirstName(), enrollmentCreated.getPerson().getFirstName());
+    assertEquals(enrollmentCreated.getLastName(), enrollmentCreated.getPerson().getLastName());
+    assertEquals(enrollmentCreated.getPerson().getOid(), onrOid);
+    assertEquals(onrOid, onrBirthdateDTO.oid());
+    assertEquals(birthdate, onrBirthdateDTO.birthdate());
+  }
+
+  @Test
+  public void testCreatePersonForAppointmentWithSSN() {
+    final Examiner examiner = Factory.examiner();
+    final Municipality municipality = Factory.municipality();
+    final ExaminerExamEvent examEvent = Factory.examinerExamEvent(examiner, municipality);
+    final EnrollmentAppointment enrollment = Factory.enrollmentContact(examiner);
+    enrollment.setExaminerExamEvent(examEvent);
+
+    entityManager.persist(examiner);
+    entityManager.persist(municipality);
+    entityManager.persist(examEvent);
+    entityManager.persist(enrollment);
+
+    final String onrOid = "1.2.3.4.5";
+    final String ssn = "210281-9988"; // Nordea demo SSN
+    when(onrService.insertPersonalData(argThat(p -> p.getOtherIdentifier().equals(ssn)), isNull())).thenReturn(onrOid);
+
+    final ExaminerEnrollmentBirthdateOrSsnDTO ssnDTO = ExaminerEnrollmentBirthdateOrSsnDTO
+      .builder()
+      .birthdateOrSsn(ssn)
+      .build();
+
+    final ExaminerOnrBirthdateDTO onrBirthdateDTO = examinerEnrollmentService.createPersonForAppointment(
+      examiner.getOid(),
+      enrollment.getId(),
+      ssnDTO
+    );
+
+    verify(onrService, Mockito.times(1)).insertPersonalData(any(), any());
+
+    final EnrollmentAppointment enrollmentCreated = enrollmentAppointmentRepository.getReferenceById(
+      enrollment.getId()
+    );
+    entityManager.refresh(enrollmentCreated);
+
+    assertEquals(EnrollmentAppointmentStatus.CONTACT_CREATED, enrollmentCreated.getStatus());
+    assertEquals(examEvent.getId(), enrollmentCreated.getExaminerExamEvent().getId());
+    assertNull(enrollmentCreated.getAuthHash());
+    assertNotNull(enrollmentCreated.getPaymentLinkHash());
+    assertNotNull(enrollmentCreated.getPerson());
+    assertEquals(enrollmentCreated.getFirstName(), enrollmentCreated.getPerson().getFirstName());
+    assertEquals(enrollmentCreated.getLastName(), enrollmentCreated.getPerson().getLastName());
+    assertEquals(enrollmentCreated.getPerson().getOid(), onrOid);
+    assertEquals(onrOid, onrBirthdateDTO.oid());
+    assertEquals("21.2.1981", onrBirthdateDTO.birthdate());
+  }
+
+  @Test
+  public void testCreatePersonForAppointmentWithExistingPerson() {
+    final Examiner examiner = Factory.examiner();
+    final Municipality municipality = Factory.municipality();
+    final ExaminerExamEvent examEvent = Factory.examinerExamEvent(examiner, municipality);
+    final EnrollmentAppointment enrollment = Factory.enrollmentContact(examiner);
+    final Person person = Factory.person();
+
+    enrollment.setExaminerExamEvent(examEvent);
+    enrollment.setPerson(person);
+
+    entityManager.persist(person);
+    entityManager.persist(examiner);
+    entityManager.persist(municipality);
+    entityManager.persist(examEvent);
+    entityManager.persist(enrollment);
+
+    final String birthdate = "12.2.2000";
+    final ExaminerEnrollmentBirthdateOrSsnDTO ssnDTO = ExaminerEnrollmentBirthdateOrSsnDTO
+      .builder()
+      .birthdateOrSsn(birthdate)
+      .build();
+
+    final ExaminerOnrBirthdateDTO onrBirthdateDTO = examinerEnrollmentService.createPersonForAppointment(
+      examiner.getOid(),
+      enrollment.getId(),
+      ssnDTO
+    );
+
+    verify(onrService, never()).insertPersonalData(any(), any());
+
+    final EnrollmentAppointment enrollmentCreated = enrollmentAppointmentRepository.getReferenceById(
+      enrollment.getId()
+    );
+    entityManager.refresh(enrollmentCreated);
+
+    assertEquals(EnrollmentAppointmentStatus.CONTACT_CREATED, enrollmentCreated.getStatus());
+    assertEquals(examEvent.getId(), enrollmentCreated.getExaminerExamEvent().getId());
+    assertNull(enrollmentCreated.getAuthHash());
+    assertNotNull(enrollmentCreated.getPaymentLinkHash());
+    assertEquals(person.getOid(), onrBirthdateDTO.oid());
+    assertEquals(birthdate, onrBirthdateDTO.birthdate());
   }
 }
