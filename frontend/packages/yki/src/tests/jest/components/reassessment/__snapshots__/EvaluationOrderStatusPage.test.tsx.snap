@@ -8,7 +8,8 @@ exports[`EvaluationOrderStatusPage should render view correctly on cancelled pay
     className="public-evaluation-order-status-page__heading"
   >
     <h1
-      className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
+      className="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+      style={{}}
     >
       Maksu keskeytyi
     </h1>
@@ -17,15 +18,21 @@ exports[`EvaluationOrderStatusPage should render view correctly on cancelled pay
     />
   </div>
   <div
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 public-evaluation-order-status-page__paper rows gapped css-3su884-MuiPaper-root"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 public-evaluation-order-status-page__paper rows gapped css-1gtchvp-MuiPaper-root"
+    style={
+      {
+        "--Paper-shadow": "0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)",
+      }
+    }
   >
     <p
-      className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+      style={{}}
     >
       Voit yrittää maksua uudestaan. Käsittelemme vain maksetut tarkistusarviointipyynnöt.
     </p>
     <a
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
       href="/yki/ilmoittautuminen"
       onBlur={[Function]}
       onContextMenu={[Function]}
@@ -42,9 +49,6 @@ exports[`EvaluationOrderStatusPage should render view correctly on cancelled pay
       tabIndex={0}
     >
       Takaisin aloitussivulle
-      <span
-        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
     </a>
   </div>
 </div>
@@ -58,7 +62,8 @@ exports[`EvaluationOrderStatusPage should render view correctly on payment error
     className="public-evaluation-order-status-page__heading"
   >
     <h1
-      className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
+      className="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+      style={{}}
     >
       Maksu epäonnistui
     </h1>
@@ -67,15 +72,21 @@ exports[`EvaluationOrderStatusPage should render view correctly on payment error
     />
   </div>
   <div
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 public-evaluation-order-status-page__paper rows gapped css-3su884-MuiPaper-root"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 public-evaluation-order-status-page__paper rows gapped css-1gtchvp-MuiPaper-root"
+    style={
+      {
+        "--Paper-shadow": "0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)",
+      }
+    }
   >
     <p
-      className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+      style={{}}
     >
       Tarkistusarviointimaksun maksaminen ei onnistunut. Yritä maksua uudestaan.
     </p>
     <a
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
       href="/yki/ilmoittautuminen"
       onBlur={[Function]}
       onContextMenu={[Function]}
@@ -105,7 +116,8 @@ exports[`EvaluationOrderStatusPage should render view correctly on successful pa
     className="public-evaluation-order-status-page__heading"
   >
     <h1
-      className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
+      className="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+      style={{}}
     >
       Olet pyytänyt tarkistusarviointia!
     </h1>
@@ -114,11 +126,17 @@ exports[`EvaluationOrderStatusPage should render view correctly on successful pa
     />
   </div>
   <div
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 public-evaluation-order-status-page__paper rows gapped css-3su884-MuiPaper-root"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 public-evaluation-order-status-page__paper rows gapped css-1gtchvp-MuiPaper-root"
+    style={
+      {
+        "--Paper-shadow": "0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)",
+      }
+    }
   >
     <div>
       <p
-        className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+        className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+        style={{}}
       >
         Tutkinto
         :
@@ -128,7 +146,8 @@ exports[`EvaluationOrderStatusPage should render view correctly on successful pa
         </b>
       </p>
       <p
-        className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+        className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+        style={{}}
       >
         Testipäivä
         :
@@ -139,12 +158,13 @@ exports[`EvaluationOrderStatusPage should render view correctly on successful pa
       </p>
     </div>
     <p
-      className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+      style={{}}
     >
       Sinulle on lähetetty vahvistus tarkistusarviointipyynnöstäsi sähköpostilla. Sähköpostissa on myös kuitti tarkistusarviointimaksustasi. Jos et ole saanut viestiä, tarkista roskapostikansiosi.
     </p>
     <a
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
       href="/yki/ilmoittautuminen"
       onBlur={[Function]}
       onContextMenu={[Function]}

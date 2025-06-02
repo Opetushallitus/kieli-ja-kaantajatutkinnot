@@ -3,19 +3,26 @@
 exports[`Header should render Header correctly 1`] = `
 [
   <a
-    className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways skip-link css-1vrl3mg-MuiTypography-root-MuiLink-root"
+    className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways skip-link css-moojkn-MuiTypography-root-MuiLink-root"
     href="#main-content"
     onBlur={[Function]}
     onFocus={[Function]}
+    style={{}}
   >
     <p
-      className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+      style={{}}
     >
       header.accessibility.continueToMain
     </p>
   </a>,
   <header
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic header css-hip9hq-MuiPaper-root-MuiAppBar-root"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic header css-ptdwpq-MuiPaper-root-MuiAppBar-root"
+    style={
+      {
+        "--Paper-shadow": "0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)",
+      }
+    }
   >
     <div
       className="session-header columns gapped"
@@ -24,7 +31,8 @@ exports[`Header should render Header correctly 1`] = `
         className="session-header__open-registrations columns gapped-xxs"
       >
         <p
-          className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+          style={{}}
         >
           header.sessionState.activeRegistrations
         </p>
@@ -36,11 +44,12 @@ exports[`Header should render Header correctly 1`] = `
         </a>
       </div>
       <p
-        className="MuiTypography-root MuiTypography-body1 columns gapped-xxs session-header__user-details css-ahj2mt-MuiTypography-root"
+        className="MuiTypography-root MuiTypography-body1 columns gapped-xxs session-header__user-details css-rizt0-MuiTypography-root"
+        style={{}}
       >
         <svg
           aria-hidden={true}
-          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium session-header__user-icon css-i4bv87-MuiSvgIcon-root"
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium session-header__user-icon css-1umw9bq-MuiSvgIcon-root"
           data-testid="PersonIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -52,8 +61,8 @@ exports[`Header should render Header correctly 1`] = `
         Susanna Uusivälimerkki
       </p>
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary session-header__logout-button css-1l9sosn-MuiButtonBase-root-MuiButton-root"
-        disabled={false}
+        className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary session-header__logout-button css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+        disabled={null}
         onBlur={[Function]}
         onClick={[Function]}
         onContextMenu={[Function]}
@@ -72,7 +81,7 @@ exports[`Header should render Header correctly 1`] = `
       >
         <svg
           aria-hidden={true}
-          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
           data-testid="LogoutOutlinedIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -85,7 +94,7 @@ exports[`Header should render Header correctly 1`] = `
       </button>
     </div>
     <div
-      className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular header__toolbar css-hyum1k-MuiToolbar-root"
+      className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular header__toolbar css-1ygil4i-MuiToolbar-root"
     >
       <div
         className="header__logo"
@@ -103,7 +112,8 @@ exports[`Header should render Header correctly 1`] = `
               src="test"
             />
             <p
-              className="MuiTypography-root MuiTypography-body1 oph-logo__label--bold css-ahj2mt-MuiTypography-root"
+              className="MuiTypography-root MuiTypography-body1 oph-logo__label--bold css-rizt0-MuiTypography-root"
+              style={{}}
             >
               appNameAbbreviation
             </p>
@@ -125,7 +135,8 @@ exports[`Header should render Header correctly 1`] = `
                 onClick={[Function]}
               >
                 <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  style={{}}
                 >
                   registration
                 </p>
@@ -138,7 +149,8 @@ exports[`Header should render Header correctly 1`] = `
                 onClick={[Function]}
               >
                 <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  style={{}}
                 >
                   reassessment
                 </p>
@@ -156,7 +168,7 @@ exports[`Header should render Header correctly 1`] = `
         >
           <svg
             aria-hidden={true}
-            className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall lang-selector__icon css-ptiqhd-MuiSvgIcon-root"
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall lang-selector__icon css-120dh41-MuiSvgIcon-root"
             data-testid="LanguageOutlinedIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -167,8 +179,8 @@ exports[`Header should render Header correctly 1`] = `
           </svg>
           <button
             aria-current="true"
-            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1e6y48t-MuiButtonBase-root-MuiButton-root"
-            disabled={false}
+            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
+            disabled={null}
             lang="fi-FI"
             onBlur={[Function]}
             onClick={[Function]}
@@ -187,21 +199,24 @@ exports[`Header should render Header correctly 1`] = `
             type="button"
           >
             <p
-              className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+              style={{}}
             >
               <b>
                 header.lang.fi
               </b>
             </p>
           </button>
-          <hr
+          <div
             aria-hidden="true"
-            className="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-16bghm4-MuiDivider-root"
+            aria-orientation="vertical"
+            className="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-1ck4b9x-MuiDivider-root"
+            role="separator"
           />
           <button
             aria-current="false"
-            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1e6y48t-MuiButtonBase-root-MuiButton-root"
-            disabled={false}
+            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
+            disabled={null}
             lang="sv-SE"
             onBlur={[Function]}
             onClick={[Function]}
@@ -220,19 +235,22 @@ exports[`Header should render Header correctly 1`] = `
             type="button"
           >
             <p
-              className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+              style={{}}
             >
               header.lang.sv
             </p>
           </button>
-          <hr
+          <div
             aria-hidden="true"
-            className="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-16bghm4-MuiDivider-root"
+            aria-orientation="vertical"
+            className="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-1ck4b9x-MuiDivider-root"
+            role="separator"
           />
           <button
             aria-current="false"
-            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1e6y48t-MuiButtonBase-root-MuiButton-root"
-            disabled={false}
+            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
+            disabled={null}
             lang="en-GB"
             onBlur={[Function]}
             onClick={[Function]}
@@ -251,7 +269,8 @@ exports[`Header should render Header correctly 1`] = `
             type="button"
           >
             <p
-              className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+              style={{}}
             >
               header.lang.en
             </p>

@@ -2,7 +2,7 @@
 
 exports[`InitRegistrationPage should allow user to subscribe for notifications of available places if admission is ongoing and exam is full but queue is not full 1`] = `
 <div
-  className="MuiGrid-root MuiGrid-item public-registration css-13i4rnv-MuiGrid-root"
+  className="MuiGrid-root MuiGrid-direction-xs-row public-registration css-17fpwt7-MuiGrid-root"
 >
   <div
     className="public-registration__grid"
@@ -11,7 +11,8 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
       className="rows public-registration__grid__heading public-registration__grid__no-stepper"
     >
       <h1
-        className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
+        className="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+        style={{}}
       >
         enrollToQueue.header
       </h1>
@@ -20,7 +21,12 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
       />
     </div>
     <div
-      className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+      className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-1gtchvp-MuiPaper-root"
+      style={
+        {
+          "--Paper-shadow": "0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)",
+        }
+      }
     >
       <div
         className="public-registration__grid__form-container"
@@ -35,7 +41,8 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
               className="rows-gapped-xxs"
             >
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 examSession: 
                 <b>
@@ -43,7 +50,8 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 examDate: 
                 <b>
@@ -51,7 +59,8 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 institution: 
                 <b>
@@ -59,7 +68,8 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 registrationTime: 
                 <b>
@@ -67,7 +77,8 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 examFee: 
                 <b>
@@ -75,7 +86,8 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 openings: 
                 <b>
@@ -85,7 +97,8 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
             </div>
           </div>
           <p
-            className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            style={{}}
           >
             info.part1
             <br />
@@ -101,7 +114,8 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
                 htmlFor="enroll-to-queue__input-email"
               >
                 <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  style={{}}
                 >
                   <b>
                     inputs.email.heading
@@ -109,15 +123,16 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
                 </p>
               </label>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 inputs.email.description
               </p>
               <div
-                className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+                className="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
               >
                 <div
-                  className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+                  className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
                   onClick={[Function]}
                 >
                   <input
@@ -125,7 +140,7 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
                     aria-invalid={false}
                     autoComplete="email"
                     autoFocus={false}
-                    className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                    className="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
                     disabled={false}
                     id="enroll-to-queue__input-email"
                     onAnimationStart={[Function]}
@@ -138,12 +153,13 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
                   />
                   <fieldset
                     aria-hidden={true}
-                    className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                    className="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
                   >
                     <legend
-                      className="css-ihdtdm"
+                      className="css-w4cd9x"
                     >
                       <span
+                        aria-hidden={true}
                         className="notranslate"
                       >
                         ​
@@ -152,10 +168,11 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
                   </fieldset>
                 </div>
                 <p
-                  className="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-1wc848c-MuiFormHelperText-root"
+                  className="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-er619e-MuiFormHelperText-root"
                   id="enroll-to-queue__input-email-helper-text"
                 >
                   <span
+                    aria-hidden={true}
                     className="notranslate"
                   >
                     ​
@@ -170,7 +187,8 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
                 htmlFor="enroll-to-queue__confirm-email"
               >
                 <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  style={{}}
                 >
                   <b>
                     inputs.confirmEmail.heading
@@ -178,16 +196,17 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
                 </p>
               </label>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 inputs.confirmEmail.description
               </p>
               <div
-                className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+                className="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
                 onPaste={[Function]}
               >
                 <div
-                  className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+                  className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
                   onClick={[Function]}
                 >
                   <input
@@ -195,7 +214,7 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
                     aria-invalid={false}
                     autoComplete="email"
                     autoFocus={false}
-                    className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                    className="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
                     disabled={false}
                     id="enroll-to-queue__confirm-email"
                     onAnimationStart={[Function]}
@@ -208,12 +227,13 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
                   />
                   <fieldset
                     aria-hidden={true}
-                    className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                    className="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
                   >
                     <legend
-                      className="css-ihdtdm"
+                      className="css-w4cd9x"
                     >
                       <span
+                        aria-hidden={true}
                         className="notranslate"
                       >
                         ​
@@ -222,10 +242,11 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
                   </fieldset>
                 </div>
                 <p
-                  className="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-1wc848c-MuiFormHelperText-root"
+                  className="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-er619e-MuiFormHelperText-root"
                   id="enroll-to-queue__confirm-email-helper-text"
                 >
                   <span
+                    aria-hidden={true}
                     className="notranslate"
                   >
                     ​
@@ -239,8 +260,8 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
           >
             <button
               aria-disabled={false}
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary full-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
-              disabled={false}
+              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary full-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+              disabled={null}
               onBlur={[Function]}
               onClick={[Function]}
               onContextMenu={[Function]}
@@ -269,7 +290,7 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
 
 exports[`InitRegistrationPage should not let user proceed if exam is full and there is no queue available 1`] = `
 <div
-  className="MuiGrid-root MuiGrid-item public-registration css-13i4rnv-MuiGrid-root"
+  className="MuiGrid-root MuiGrid-direction-xs-row public-registration css-17fpwt7-MuiGrid-root"
 >
   <div
     className="public-registration__grid"
@@ -278,7 +299,8 @@ exports[`InitRegistrationPage should not let user proceed if exam is full and th
       className="rows public-registration__grid__heading public-registration__grid__no-stepper"
     >
       <h1
-        className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
+        className="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+        style={{}}
       >
         unavailable.full.title
       </h1>
@@ -287,7 +309,12 @@ exports[`InitRegistrationPage should not let user proceed if exam is full and th
       />
     </div>
     <div
-      className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+      className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-1gtchvp-MuiPaper-root"
+      style={
+        {
+          "--Paper-shadow": "0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)",
+        }
+      }
     >
       <div
         className="public-registration__grid__form-container"
@@ -302,7 +329,8 @@ exports[`InitRegistrationPage should not let user proceed if exam is full and th
               className="rows-gapped-xxs"
             >
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 examSession: 
                 <b>
@@ -310,7 +338,8 @@ exports[`InitRegistrationPage should not let user proceed if exam is full and th
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 examDate: 
                 <b>
@@ -318,7 +347,8 @@ exports[`InitRegistrationPage should not let user proceed if exam is full and th
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 institution: 
                 <b>
@@ -326,7 +356,8 @@ exports[`InitRegistrationPage should not let user proceed if exam is full and th
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 registrationTime: 
                 <b>
@@ -334,7 +365,8 @@ exports[`InitRegistrationPage should not let user proceed if exam is full and th
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 examFee: 
                 <b>
@@ -342,7 +374,8 @@ exports[`InitRegistrationPage should not let user proceed if exam is full and th
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 openings: 
                 <b>
@@ -355,12 +388,13 @@ exports[`InitRegistrationPage should not let user proceed if exam is full and th
             className="rows gapped"
           >
             <p
-              className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+              style={{}}
             >
               full.description
             </p>
             <a
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
               href="/yki/ilmoittautuminen"
               onBlur={[Function]}
               onContextMenu={[Function]}
@@ -377,9 +411,6 @@ exports[`InitRegistrationPage should not let user proceed if exam is full and th
               tabIndex={0}
             >
               backToHomePage
-              <span
-                className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
             </a>
           </div>
         </div>
@@ -391,7 +422,7 @@ exports[`InitRegistrationPage should not let user proceed if exam is full and th
 
 exports[`InitRegistrationPage should not let user proceed if registration has not yet started 1`] = `
 <div
-  className="MuiGrid-root MuiGrid-item public-registration css-13i4rnv-MuiGrid-root"
+  className="MuiGrid-root MuiGrid-direction-xs-row public-registration css-17fpwt7-MuiGrid-root"
 >
   <div
     className="public-registration__grid"
@@ -400,7 +431,8 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
       className="rows public-registration__grid__heading public-registration__grid__no-stepper"
     >
       <h1
-        className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
+        className="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+        style={{}}
       >
         unavailable.upcoming.title
       </h1>
@@ -409,7 +441,12 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
       />
     </div>
     <div
-      className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+      className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-1gtchvp-MuiPaper-root"
+      style={
+        {
+          "--Paper-shadow": "0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)",
+        }
+      }
     >
       <div
         className="public-registration__grid__form-container"
@@ -424,7 +461,8 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
               className="rows-gapped-xxs"
             >
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 examSession: 
                 <b>
@@ -432,7 +470,8 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 examDate: 
                 <b>
@@ -440,7 +479,8 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 institution: 
                 <b>
@@ -448,7 +488,8 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 registrationTime: 
                 <b>
@@ -456,7 +497,8 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 examFee: 
                 <b>
@@ -464,7 +506,8 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 openings: 
                 <b>
@@ -477,12 +520,13 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
             className="rows gapped"
           >
             <p
-              className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+              style={{}}
             >
               upcoming.description
             </p>
             <a
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
               href="/yki/ilmoittautuminen"
               onBlur={[Function]}
               onContextMenu={[Function]}
@@ -510,7 +554,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
 
 exports[`InitRegistrationPage should not let user proceed if registration period has already ended 1`] = `
 <div
-  className="MuiGrid-root MuiGrid-item public-registration css-13i4rnv-MuiGrid-root"
+  className="MuiGrid-root MuiGrid-direction-xs-row public-registration css-17fpwt7-MuiGrid-root"
 >
   <div
     className="public-registration__grid"
@@ -519,7 +563,8 @@ exports[`InitRegistrationPage should not let user proceed if registration period
       className="rows public-registration__grid__heading public-registration__grid__no-stepper"
     >
       <h1
-        className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
+        className="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+        style={{}}
       >
         unavailable.past.title
       </h1>
@@ -528,7 +573,12 @@ exports[`InitRegistrationPage should not let user proceed if registration period
       />
     </div>
     <div
-      className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+      className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-1gtchvp-MuiPaper-root"
+      style={
+        {
+          "--Paper-shadow": "0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)",
+        }
+      }
     >
       <div
         className="public-registration__grid__form-container"
@@ -543,7 +593,8 @@ exports[`InitRegistrationPage should not let user proceed if registration period
               className="rows-gapped-xxs"
             >
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 examSession: 
                 <b>
@@ -551,7 +602,8 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 examDate: 
                 <b>
@@ -559,7 +611,8 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 institution: 
                 <b>
@@ -567,7 +620,8 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 registrationTime: 
                 <b>
@@ -575,7 +629,8 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 examFee: 
                 <b>
@@ -583,7 +638,8 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 </b>
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 openings: 
                 <b>
@@ -596,12 +652,13 @@ exports[`InitRegistrationPage should not let user proceed if registration period
             className="rows gapped"
           >
             <p
-              className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+              style={{}}
             >
               past.description
             </p>
             <a
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
+              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
               href="/yki/ilmoittautuminen"
               onBlur={[Function]}
               onContextMenu={[Function]}
@@ -618,9 +675,6 @@ exports[`InitRegistrationPage should not let user proceed if registration period
               tabIndex={0}
             >
               backToHomePage
-              <span
-                className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
             </a>
           </div>
         </div>
@@ -632,10 +686,10 @@ exports[`InitRegistrationPage should not let user proceed if registration period
 
 exports[`InitRegistrationPage should prompt user to first identify if post-admission is ongoing and there is room 1`] = `
 <div
-  className="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column public-registration css-1rwmv3x-MuiGrid-root"
+  className="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column public-registration css-1qf2j99-MuiGrid-root"
 >
   <div
-    className="MuiGrid-root MuiGrid-item public-registration css-13i4rnv-MuiGrid-root"
+    className="MuiGrid-root MuiGrid-direction-xs-row public-registration css-17fpwt7-MuiGrid-root"
   >
     <div
       className="public-registration__grid"
@@ -645,22 +699,22 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
       >
         <div
           aria-label="label"
-          className="MuiStepper-root MuiStepper-horizontal public-registration__grid__stepper css-m5vj9m-MuiStepper-root"
+          className="MuiStepper-root MuiStepper-horizontal public-registration__grid__stepper css-ibtndc-MuiStepper-root"
           role="group"
         >
           <div
-            className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
+            className="MuiStep-root MuiStep-horizontal css-mlh15c-MuiStep-root"
           >
             <span
               aria-current="step"
-              className="MuiStepLabel-root MuiStepLabel-horizontal css-ascpo7-MuiStepLabel-root"
+              className="MuiStepLabel-root MuiStepLabel-horizontal css-3yr9gi-MuiStepLabel-root"
             >
               <span
-                className="MuiStepLabel-iconContainer Mui-active css-vnkopk-MuiStepLabel-iconContainer"
+                className="MuiStepLabel-iconContainer Mui-active css-1b2ju2j-MuiStepLabel-iconContainer"
               >
                 <svg
                   aria-hidden={true}
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root Mui-active css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root Mui-active css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -670,7 +724,7 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                     r="12"
                   />
                   <text
-                    className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
+                    className="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
                     dominantBaseline="central"
                     textAnchor="middle"
                     x="12"
@@ -681,13 +735,14 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                 </svg>
               </span>
               <span
-                className="MuiStepLabel-labelContainer css-1vyamtt-MuiStepLabel-labelContainer"
+                className="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
               >
                 <span
-                  className="MuiStepLabel-label Mui-active css-1hv8oq8-MuiStepLabel-label"
+                  className="MuiStepLabel-label Mui-active css-12eb3rq-MuiStepLabel-label"
                 >
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                    style={{}}
                   >
                     phase phaseNumber: step.Identify
                   </p>
@@ -701,25 +756,25 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
             </span>
           </div>
           <div
-            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-j5w0w9-MuiStepConnector-root"
+            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-9ydz1a-MuiStepConnector-root"
           >
             <span
-              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-z7uhs0-MuiStepConnector-line"
+              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-14ncu80-MuiStepConnector-line"
             />
           </div>
           <div
-            className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
+            className="MuiStep-root MuiStep-horizontal css-mlh15c-MuiStep-root"
           >
             <span
               aria-current={false}
-              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
+              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-3yr9gi-MuiStepLabel-root"
             >
               <span
-                className="MuiStepLabel-iconContainer Mui-disabled css-vnkopk-MuiStepLabel-iconContainer"
+                className="MuiStepLabel-iconContainer Mui-disabled css-1b2ju2j-MuiStepLabel-iconContainer"
               >
                 <svg
                   aria-hidden={true}
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -729,7 +784,7 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                     r="12"
                   />
                   <text
-                    className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
+                    className="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
                     dominantBaseline="central"
                     textAnchor="middle"
                     x="12"
@@ -740,13 +795,14 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                 </svg>
               </span>
               <span
-                className="MuiStepLabel-labelContainer css-1vyamtt-MuiStepLabel-labelContainer"
+                className="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
               >
                 <span
-                  className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
+                  className="MuiStepLabel-label Mui-disabled css-12eb3rq-MuiStepLabel-label"
                 >
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                    style={{}}
                   >
                     phase phaseNumber: step.Register
                   </p>
@@ -760,25 +816,25 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
             </span>
           </div>
           <div
-            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-j5w0w9-MuiStepConnector-root"
+            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-9ydz1a-MuiStepConnector-root"
           >
             <span
-              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-z7uhs0-MuiStepConnector-line"
+              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-14ncu80-MuiStepConnector-line"
             />
           </div>
           <div
-            className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
+            className="MuiStep-root MuiStep-horizontal css-mlh15c-MuiStep-root"
           >
             <span
               aria-current={false}
-              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
+              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-3yr9gi-MuiStepLabel-root"
             >
               <span
-                className="MuiStepLabel-iconContainer Mui-disabled css-vnkopk-MuiStepLabel-iconContainer"
+                className="MuiStepLabel-iconContainer Mui-disabled css-1b2ju2j-MuiStepLabel-iconContainer"
               >
                 <svg
                   aria-hidden={true}
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -788,7 +844,7 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                     r="12"
                   />
                   <text
-                    className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
+                    className="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
                     dominantBaseline="central"
                     textAnchor="middle"
                     x="12"
@@ -799,13 +855,14 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                 </svg>
               </span>
               <span
-                className="MuiStepLabel-labelContainer css-1vyamtt-MuiStepLabel-labelContainer"
+                className="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
               >
                 <span
-                  className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
+                  className="MuiStepLabel-label Mui-disabled css-12eb3rq-MuiStepLabel-label"
                 >
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                    style={{}}
                   >
                     phase phaseNumber: step.Payment
                   </p>
@@ -819,25 +876,25 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
             </span>
           </div>
           <div
-            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-j5w0w9-MuiStepConnector-root"
+            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-9ydz1a-MuiStepConnector-root"
           >
             <span
-              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-z7uhs0-MuiStepConnector-line"
+              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-14ncu80-MuiStepConnector-line"
             />
           </div>
           <div
-            className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
+            className="MuiStep-root MuiStep-horizontal css-mlh15c-MuiStep-root"
           >
             <span
               aria-current={false}
-              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
+              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-3yr9gi-MuiStepLabel-root"
             >
               <span
-                className="MuiStepLabel-iconContainer Mui-disabled css-vnkopk-MuiStepLabel-iconContainer"
+                className="MuiStepLabel-iconContainer Mui-disabled css-1b2ju2j-MuiStepLabel-iconContainer"
               >
                 <svg
                   aria-hidden={true}
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -847,7 +904,7 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                     r="12"
                   />
                   <text
-                    className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
+                    className="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
                     dominantBaseline="central"
                     textAnchor="middle"
                     x="12"
@@ -858,13 +915,14 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                 </svg>
               </span>
               <span
-                className="MuiStepLabel-labelContainer css-1vyamtt-MuiStepLabel-labelContainer"
+                className="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
               >
                 <span
-                  className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
+                  className="MuiStepLabel-label Mui-disabled css-12eb3rq-MuiStepLabel-label"
                 >
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                    style={{}}
                   >
                     phase phaseNumber: step.Done
                   </p>
@@ -882,7 +940,8 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
           className="rows public-registration__grid__heading"
         >
           <h1
-            className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+            style={{}}
           >
             title
           </h1>
@@ -892,7 +951,12 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
         </div>
       </div>
       <div
-        className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+        className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-1gtchvp-MuiPaper-root"
+        style={
+          {
+            "--Paper-shadow": "0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)",
+          }
+        }
       >
         <div
           className="public-registration__grid__form-container"
@@ -907,7 +971,8 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                 className="rows-gapped-xxs"
               >
                 <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  style={{}}
                 >
                   examSession: 
                   <b>
@@ -915,7 +980,8 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                   </b>
                 </p>
                 <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  style={{}}
                 >
                   examDate: 
                   <b>
@@ -923,7 +989,8 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                   </b>
                 </p>
                 <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  style={{}}
                 >
                   institution: 
                   <b>
@@ -931,7 +998,8 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                   </b>
                 </p>
                 <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  style={{}}
                 >
                   registrationTime: 
                   <b>
@@ -939,7 +1007,8 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                   </b>
                 </p>
                 <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  style={{}}
                 >
                   examFee: 
                   <b>
@@ -947,7 +1016,8 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                   </b>
                 </p>
                 <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  style={{}}
                 >
                   openings: 
                   <b>
@@ -957,7 +1027,8 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
               </div>
             </div>
             <p
-              className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+              style={{}}
             >
               registrationIsBindingAdvisory
             </p>
@@ -965,23 +1036,26 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
               className="gapped rows"
             >
               <h2
-                className="MuiTypography-root MuiTypography-h2 css-1sra7t5-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
+                style={{}}
               >
                 selectIdentificationMethod
               </h2>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 caption
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 <br />
                 withFinnishSSN.info
               </p>
               <a
-                className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-1xnmwiw-MuiButtonBase-root-MuiButton-root"
+                className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-r1ewpe-MuiButtonBase-root-MuiButton-root"
                 href="/yki/auth/?examSessionId=888"
                 onBlur={[Function]}
                 onContextMenu={[Function]}
@@ -998,12 +1072,10 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                 tabIndex={0}
               >
                 suomiFiButtonText
-                <span
-                  className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </a>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 <br />
                 withoutFinnishSSN.info
@@ -1018,7 +1090,8 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                     htmlFor="email-identification__email-input"
                   >
                     <p
-                      className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                      className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                      style={{}}
                     >
                       <b>
                         label
@@ -1026,22 +1099,23 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                     </p>
                   </label>
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                    style={{}}
                   >
                     placeholder
                   </p>
                   <div
-                    className="MuiFormControl-root MuiTextField-root public-registration__grid__form-container__registration-text-field css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+                    className="MuiFormControl-root MuiTextField-root public-registration__grid__form-container__registration-text-field css-1xp5r68-MuiFormControl-root-MuiTextField-root"
                   >
                     <div
-                      className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+                      className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
                       onClick={[Function]}
                     >
                       <input
                         aria-invalid={false}
                         autoComplete="email"
                         autoFocus={false}
-                        className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                        className="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
                         disabled={false}
                         id="email-identification__email-input"
                         onAnimationStart={[Function]}
@@ -1054,12 +1128,13 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                       />
                       <fieldset
                         aria-hidden={true}
-                        className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                        className="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
                       >
                         <legend
-                          className="css-ihdtdm"
+                          className="css-w4cd9x"
                         >
                           <span
+                            aria-hidden={true}
                             className="notranslate"
                           >
                             ​
@@ -1073,8 +1148,8 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                   className="rows"
                 >
                   <button
-                    className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-zcbmsk-MuiButtonBase-root-MuiButton-root"
-                    disabled={false}
+                    className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+                    disabled={null}
                     onBlur={[Function]}
                     onClick={[Function]}
                     onContextMenu={[Function]}
@@ -1092,9 +1167,6 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                     type="button"
                   >
                     emailButtonText
-                    <span
-                      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </button>
                 </div>
                  
@@ -1111,9 +1183,9 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                     onClick={[Function]}
                   >
                     <button
-                      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1d3f8j8-MuiButtonBase-root-MuiButton-root"
+                      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1xj59sp-MuiButtonBase-root-MuiButton-root"
                       data-testid="public-registration__controlButtons__abort"
-                      disabled={false}
+                      disabled={null}
                       onBlur={[Function]}
                       onContextMenu={[Function]}
                       onDragLeave={[Function]}
@@ -1130,9 +1202,6 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
                       type="button"
                     >
                       abortRegistration
-                      <span
-                        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                      />
                     </button>
                   </a>
                 </div>
@@ -1149,10 +1218,10 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
 
 exports[`InitRegistrationPage should prompt user to first identify if regular admission is ongoing and there is room 1`] = `
 <div
-  className="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column public-registration css-1rwmv3x-MuiGrid-root"
+  className="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column public-registration css-1qf2j99-MuiGrid-root"
 >
   <div
-    className="MuiGrid-root MuiGrid-item public-registration css-13i4rnv-MuiGrid-root"
+    className="MuiGrid-root MuiGrid-direction-xs-row public-registration css-17fpwt7-MuiGrid-root"
   >
     <div
       className="public-registration__grid"
@@ -1162,22 +1231,22 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
       >
         <div
           aria-label="label"
-          className="MuiStepper-root MuiStepper-horizontal public-registration__grid__stepper css-m5vj9m-MuiStepper-root"
+          className="MuiStepper-root MuiStepper-horizontal public-registration__grid__stepper css-ibtndc-MuiStepper-root"
           role="group"
         >
           <div
-            className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
+            className="MuiStep-root MuiStep-horizontal css-mlh15c-MuiStep-root"
           >
             <span
               aria-current="step"
-              className="MuiStepLabel-root MuiStepLabel-horizontal css-ascpo7-MuiStepLabel-root"
+              className="MuiStepLabel-root MuiStepLabel-horizontal css-3yr9gi-MuiStepLabel-root"
             >
               <span
-                className="MuiStepLabel-iconContainer Mui-active css-vnkopk-MuiStepLabel-iconContainer"
+                className="MuiStepLabel-iconContainer Mui-active css-1b2ju2j-MuiStepLabel-iconContainer"
               >
                 <svg
                   aria-hidden={true}
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root Mui-active css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root Mui-active css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -1187,7 +1256,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     r="12"
                   />
                   <text
-                    className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
+                    className="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
                     dominantBaseline="central"
                     textAnchor="middle"
                     x="12"
@@ -1198,13 +1267,14 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 </svg>
               </span>
               <span
-                className="MuiStepLabel-labelContainer css-1vyamtt-MuiStepLabel-labelContainer"
+                className="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
               >
                 <span
-                  className="MuiStepLabel-label Mui-active css-1hv8oq8-MuiStepLabel-label"
+                  className="MuiStepLabel-label Mui-active css-12eb3rq-MuiStepLabel-label"
                 >
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                    style={{}}
                   >
                     phase phaseNumber: step.Identify
                   </p>
@@ -1218,25 +1288,25 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
             </span>
           </div>
           <div
-            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-j5w0w9-MuiStepConnector-root"
+            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-9ydz1a-MuiStepConnector-root"
           >
             <span
-              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-z7uhs0-MuiStepConnector-line"
+              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-14ncu80-MuiStepConnector-line"
             />
           </div>
           <div
-            className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
+            className="MuiStep-root MuiStep-horizontal css-mlh15c-MuiStep-root"
           >
             <span
               aria-current={false}
-              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
+              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-3yr9gi-MuiStepLabel-root"
             >
               <span
-                className="MuiStepLabel-iconContainer Mui-disabled css-vnkopk-MuiStepLabel-iconContainer"
+                className="MuiStepLabel-iconContainer Mui-disabled css-1b2ju2j-MuiStepLabel-iconContainer"
               >
                 <svg
                   aria-hidden={true}
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -1246,7 +1316,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     r="12"
                   />
                   <text
-                    className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
+                    className="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
                     dominantBaseline="central"
                     textAnchor="middle"
                     x="12"
@@ -1257,13 +1327,14 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 </svg>
               </span>
               <span
-                className="MuiStepLabel-labelContainer css-1vyamtt-MuiStepLabel-labelContainer"
+                className="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
               >
                 <span
-                  className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
+                  className="MuiStepLabel-label Mui-disabled css-12eb3rq-MuiStepLabel-label"
                 >
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                    style={{}}
                   >
                     phase phaseNumber: step.Register
                   </p>
@@ -1277,25 +1348,25 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
             </span>
           </div>
           <div
-            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-j5w0w9-MuiStepConnector-root"
+            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-9ydz1a-MuiStepConnector-root"
           >
             <span
-              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-z7uhs0-MuiStepConnector-line"
+              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-14ncu80-MuiStepConnector-line"
             />
           </div>
           <div
-            className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
+            className="MuiStep-root MuiStep-horizontal css-mlh15c-MuiStep-root"
           >
             <span
               aria-current={false}
-              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
+              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-3yr9gi-MuiStepLabel-root"
             >
               <span
-                className="MuiStepLabel-iconContainer Mui-disabled css-vnkopk-MuiStepLabel-iconContainer"
+                className="MuiStepLabel-iconContainer Mui-disabled css-1b2ju2j-MuiStepLabel-iconContainer"
               >
                 <svg
                   aria-hidden={true}
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -1305,7 +1376,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     r="12"
                   />
                   <text
-                    className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
+                    className="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
                     dominantBaseline="central"
                     textAnchor="middle"
                     x="12"
@@ -1316,13 +1387,14 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 </svg>
               </span>
               <span
-                className="MuiStepLabel-labelContainer css-1vyamtt-MuiStepLabel-labelContainer"
+                className="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
               >
                 <span
-                  className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
+                  className="MuiStepLabel-label Mui-disabled css-12eb3rq-MuiStepLabel-label"
                 >
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                    style={{}}
                   >
                     phase phaseNumber: step.Payment
                   </p>
@@ -1336,25 +1408,25 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
             </span>
           </div>
           <div
-            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-j5w0w9-MuiStepConnector-root"
+            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-9ydz1a-MuiStepConnector-root"
           >
             <span
-              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-z7uhs0-MuiStepConnector-line"
+              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-14ncu80-MuiStepConnector-line"
             />
           </div>
           <div
-            className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
+            className="MuiStep-root MuiStep-horizontal css-mlh15c-MuiStep-root"
           >
             <span
               aria-current={false}
-              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
+              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-3yr9gi-MuiStepLabel-root"
             >
               <span
-                className="MuiStepLabel-iconContainer Mui-disabled css-vnkopk-MuiStepLabel-iconContainer"
+                className="MuiStepLabel-iconContainer Mui-disabled css-1b2ju2j-MuiStepLabel-iconContainer"
               >
                 <svg
                   aria-hidden={true}
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -1364,7 +1436,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     r="12"
                   />
                   <text
-                    className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
+                    className="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
                     dominantBaseline="central"
                     textAnchor="middle"
                     x="12"
@@ -1375,13 +1447,14 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 </svg>
               </span>
               <span
-                className="MuiStepLabel-labelContainer css-1vyamtt-MuiStepLabel-labelContainer"
+                className="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
               >
                 <span
-                  className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
+                  className="MuiStepLabel-label Mui-disabled css-12eb3rq-MuiStepLabel-label"
                 >
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                    style={{}}
                   >
                     phase phaseNumber: step.Done
                   </p>
@@ -1399,7 +1472,8 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
           className="rows public-registration__grid__heading"
         >
           <h1
-            className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+            style={{}}
           >
             title
           </h1>
@@ -1409,7 +1483,12 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
         </div>
       </div>
       <div
-        className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+        className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-1gtchvp-MuiPaper-root"
+        style={
+          {
+            "--Paper-shadow": "0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)",
+          }
+        }
       >
         <div
           className="public-registration__grid__form-container"
@@ -1424,7 +1503,8 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 className="rows-gapped-xxs"
               >
                 <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  style={{}}
                 >
                   examSession: 
                   <b>
@@ -1432,7 +1512,8 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   </b>
                 </p>
                 <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  style={{}}
                 >
                   examDate: 
                   <b>
@@ -1440,7 +1521,8 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   </b>
                 </p>
                 <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  style={{}}
                 >
                   institution: 
                   <b>
@@ -1448,7 +1530,8 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   </b>
                 </p>
                 <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  style={{}}
                 >
                   registrationTime: 
                   <b>
@@ -1456,7 +1539,8 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   </b>
                 </p>
                 <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  style={{}}
                 >
                   examFee: 
                   <b>
@@ -1464,7 +1548,8 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   </b>
                 </p>
                 <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  style={{}}
                 >
                   openings: 
                   <b>
@@ -1474,7 +1559,8 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
               </div>
             </div>
             <p
-              className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+              style={{}}
             >
               registrationIsBindingAdvisory
             </p>
@@ -1482,23 +1568,26 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
               className="gapped rows"
             >
               <h2
-                className="MuiTypography-root MuiTypography-h2 css-1sra7t5-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
+                style={{}}
               >
                 selectIdentificationMethod
               </h2>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 caption
               </p>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 <br />
                 withFinnishSSN.info
               </p>
               <a
-                className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-1xnmwiw-MuiButtonBase-root-MuiButton-root"
+                className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-r1ewpe-MuiButtonBase-root-MuiButton-root"
                 href="/yki/auth/?examSessionId=11"
                 onBlur={[Function]}
                 onContextMenu={[Function]}
@@ -1517,7 +1606,8 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 suomiFiButtonText
               </a>
               <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                style={{}}
               >
                 <br />
                 withoutFinnishSSN.info
@@ -1532,7 +1622,8 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     htmlFor="email-identification__email-input"
                   >
                     <p
-                      className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                      className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                      style={{}}
                     >
                       <b>
                         label
@@ -1540,22 +1631,23 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     </p>
                   </label>
                   <p
-                    className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                    style={{}}
                   >
                     placeholder
                   </p>
                   <div
-                    className="MuiFormControl-root MuiTextField-root public-registration__grid__form-container__registration-text-field css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+                    className="MuiFormControl-root MuiTextField-root public-registration__grid__form-container__registration-text-field css-1xp5r68-MuiFormControl-root-MuiTextField-root"
                   >
                     <div
-                      className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+                      className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
                       onClick={[Function]}
                     >
                       <input
                         aria-invalid={false}
                         autoComplete="email"
                         autoFocus={false}
-                        className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                        className="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
                         disabled={false}
                         id="email-identification__email-input"
                         onAnimationStart={[Function]}
@@ -1568,12 +1660,13 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                       />
                       <fieldset
                         aria-hidden={true}
-                        className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                        className="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
                       >
                         <legend
-                          className="css-ihdtdm"
+                          className="css-w4cd9x"
                         >
                           <span
+                            aria-hidden={true}
                             className="notranslate"
                           >
                             ​
@@ -1587,8 +1680,8 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   className="rows"
                 >
                   <button
-                    className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-zcbmsk-MuiButtonBase-root-MuiButton-root"
-                    disabled={false}
+                    className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+                    disabled={null}
                     onBlur={[Function]}
                     onClick={[Function]}
                     onContextMenu={[Function]}
@@ -1622,9 +1715,9 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     onClick={[Function]}
                   >
                     <button
-                      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1d3f8j8-MuiButtonBase-root-MuiButton-root"
+                      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1xj59sp-MuiButtonBase-root-MuiButton-root"
                       data-testid="public-registration__controlButtons__abort"
-                      disabled={false}
+                      disabled={null}
                       onBlur={[Function]}
                       onContextMenu={[Function]}
                       onDragLeave={[Function]}

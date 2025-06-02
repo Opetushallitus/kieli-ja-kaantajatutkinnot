@@ -49,9 +49,9 @@ jobs:
       - name: Format
         working-directory: ${{ env.FRONTEND_DIR }}
         run: yarn ${{ inputs.app-name }}:format
-      #- name: Run Jest Tests
-      #  working-directory: ${{ env.FRONTEND_DIR }}
-      #  run: yarn ${{ inputs.app-name }}:test:jest
+      - name: Run Jest Tests
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: yarn ${{ inputs.app-name }}:test:jest
       - name: Cache Cypress
         uses: actions/cache@v3
         id: cypress-cache
