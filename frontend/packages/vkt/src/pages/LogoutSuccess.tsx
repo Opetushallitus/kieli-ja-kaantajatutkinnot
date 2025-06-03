@@ -19,7 +19,7 @@ export const LogoutSuccess: React.FC = () => {
       rowSpacing={4}
       direction="column"
     >
-      <Grid item className="logout-success-page__back-button">
+      <Grid className="logout-success-page__back-button">
         <CustomButtonLink
           to={AppRoutes.PublicHomePage}
           variant={Variant.Text}
@@ -29,11 +29,11 @@ export const LogoutSuccess: React.FC = () => {
           {translateCommon('backToHomePage')}
         </CustomButtonLink>
       </Grid>
-      <Grid item className="logout-success-page__heading">
+      <Grid className="logout-success-page__heading">
         <H1>{t('heading')}</H1>
         <HeaderSeparator />
       </Grid>
-      <Grid item>
+      <Grid>
         <Paper
           elevation={3}
           className="logout-success-page__content rows gapped-xl"

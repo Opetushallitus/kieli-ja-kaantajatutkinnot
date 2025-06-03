@@ -12,7 +12,7 @@ import {
   ScrollToTop,
 } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
-import { TitlePage } from 'shared/utils';
+import { TitlePage, TitlePageProps } from 'shared/utils';
 
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
@@ -71,10 +71,16 @@ export const AppRouter: FC = () => {
     </div>
   );
 
-  const FrontPage = (
-    <TitlePage title={createTitle('registration')}>
-      <RegistrationPage />
+  const YkiTitlePage = ({ title, children }: TitlePageProps) => (
+    <TitlePage title={createTitle(title)} className="title-page">
+      {children}
     </TitlePage>
+  );
+
+  const FrontPage = (
+    <YkiTitlePage title={createTitle('registration')}>
+      <RegistrationPage />
+    </YkiTitlePage>
   );
 
   const router = createBrowserRouter(
@@ -85,73 +91,73 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ExamSession}
           element={
-            <TitlePage title={createTitle('initRegistration')}>
+            <YkiTitlePage title={createTitle('initRegistration')}>
               <InitRegistrationPage />
-            </TitlePage>
+            </YkiTitlePage>
           }
         />
         <Route
           path={AppRoutes.ExamSessionRegistration}
           element={
-            <TitlePage title={createTitle('examDetails')}>
+            <YkiTitlePage title={createTitle('examDetails')}>
               <ExamDetailsPage />
-            </TitlePage>
+            </YkiTitlePage>
           }
         />
         <Route
           path={AppRoutes.RegistrationPaymentStatus}
           element={
-            <TitlePage title={createTitle('registrationPaymentStatus')}>
+            <YkiTitlePage title={createTitle('registrationPaymentStatus')}>
               <RegistrationPaymentStatusPage />
-            </TitlePage>
+            </YkiTitlePage>
           }
         />
         <Route
           path={AppRoutes.Reassessment}
           element={
-            <TitlePage title={createTitle('reassessment')}>
+            <YkiTitlePage title={createTitle('reassessment')}>
               <ReassessmentPage />
-            </TitlePage>
+            </YkiTitlePage>
           }
         />
         <Route
           path={AppRoutes.ReassessmentOrder}
           element={
-            <TitlePage title={createTitle('evaluationOrder')}>
+            <YkiTitlePage title={createTitle('evaluationOrder')}>
               <EvaluationOrderPage />
-            </TitlePage>
+            </YkiTitlePage>
           }
         />
         <Route
           path={AppRoutes.ReassessmentOrderStatus}
           element={
-            <TitlePage title={createTitle('evaluationOrderStatus')}>
+            <YkiTitlePage title={createTitle('evaluationOrderStatus')}>
               <EvaluationOrderStatusPage />
-            </TitlePage>
+            </YkiTitlePage>
           }
         />
         <Route
           path={AppRoutes.AccessibilityStatementPage}
           element={
-            <TitlePage title={createTitle('accessibilityStatement')}>
+            <YkiTitlePage title={createTitle('accessibilityStatement')}>
               <AccessibilityStatementPage />
-            </TitlePage>
+            </YkiTitlePage>
           }
         />
         <Route
           path={AppRoutes.LogoutSuccess}
           element={
-            <TitlePage title={createTitle('logoutSuccess')}>
+            <YkiTitlePage title={createTitle('logoutSuccess')}>
               <LogoutSuccess />
-            </TitlePage>
+            </YkiTitlePage>
           }
         />
         <Route
           path={AppRoutes.NotFoundPage}
           element={
-            <TitlePage title={createTitle('notFound')}>
+            <YkiTitlePage title={createTitle('notFound')}>
               <NotFoundPage />
-            </TitlePage>
+            </YkiTitlePage>
           }
         />
       </Route>,

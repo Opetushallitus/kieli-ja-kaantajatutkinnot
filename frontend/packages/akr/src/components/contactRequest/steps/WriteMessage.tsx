@@ -97,7 +97,6 @@ export const WriteMessage = ({
             type={TextFieldTypes.Textarea}
             onChange={handleMessageFieldChange}
             onBlur={handleMessageFieldErrors}
-            showHelperText
             helperText={getHelperMessage()}
             error={messageError.length > 0}
             multiline

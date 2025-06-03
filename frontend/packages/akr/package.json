@@ -17,10 +17,9 @@
     "akr:stylelint": "yarn g:stylelint --fix \"./src/**/*.scss\"",
     "akr:test:cypress": "TZ=Europe/Helsinki yarn g:cypress run",
     "akr:test:cypress:open": "TZ=Europe/Helsinki yarn g:cypress open",
-    "akr:test:jest": "yarn g:jest",
     "akr:tslint": "yarn g:tsc --pretty --noEmit"
   },
   "dependencies": {
-    "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.11.4"
+    "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.11.15"
   }
 }

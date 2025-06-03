@@ -127,7 +127,14 @@ public class ExaminerExamEventService {
       .orElseThrow(() -> new APIException(APIExceptionType.EXAMINER_NOT_FOUND));
     final List<ExaminerExamEvent> examinerExamEvents = examinerExamEventRepository.findAllByExaminer(examiner);
 
-    return examinerExamEvents.stream().map(ExaminerUtil::toExaminerExamEventWithoutEnrollmentsDTO).toList();
+    return examinerExamEvents
+      .stream()
+      .filter(e ->
+        (e.getLocation() != null && !e.getLocation().isBlank()) &&
+        (e.getExamTime() != null && !e.getExamTime().isBlank())
+      )
+      .map(ExaminerUtil::toExaminerExamEventWithoutEnrollmentsDTO)
+      .toList();
   }
 
   @Transactional(readOnly = true)

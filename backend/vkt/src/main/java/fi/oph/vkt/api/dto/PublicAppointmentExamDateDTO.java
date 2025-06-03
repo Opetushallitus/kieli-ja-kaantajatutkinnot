@@ -11,7 +11,7 @@ public record PublicAppointmentExamDateDTO(
   @NonNull @NotNull LocalDate date,
   String examTime,
   @NonNull @NotNull MunicipalityDTO municipality,
-  @NonNull @NotNull String location,
+  String location,
   @NonNull @NotNull ExamLanguage language,
   @NonNull PublicExaminerNameDTO examiner
 ) {}
