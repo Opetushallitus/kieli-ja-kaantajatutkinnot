@@ -1,5 +1,5 @@
+import { render } from '@testing-library/react';
 import dayjs from 'dayjs';
-import renderer from 'react-test-renderer';
 import { APIResponseStatus } from 'shared/enums';
 
 import { PublicEvaluationPeriodListing } from 'components/reassessment/PublicEvaluationPeriodListing';
@@ -25,13 +25,11 @@ describe('PublicEvaluationPeriodListing', () => {
   };
 
   it('should render correctly', () => {
-    const tree = renderer
-      .create(
-        <DefaultProviders preloadedState={preloadedState}>
-          <PublicEvaluationPeriodListing />
-        </DefaultProviders>,
-      )
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+    const { container } = render(
+      <DefaultProviders preloadedState={preloadedState}>
+        <PublicEvaluationPeriodListing />
+      </DefaultProviders>,
+    );
+    expect(container).toMatchSnapshot();
   });
 });
