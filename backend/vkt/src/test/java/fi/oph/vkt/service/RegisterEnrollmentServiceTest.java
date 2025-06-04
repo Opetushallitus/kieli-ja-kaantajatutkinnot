@@ -5,12 +5,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Examiner;
+import fi.oph.vkt.model.ExaminerExamEvent;
+import fi.oph.vkt.model.Municipality;
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentStatus;
+import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import jakarta.annotation.Resource;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Objects;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -30,14 +37,20 @@ import org.springframework.web.reactive.function.client.WebClient;
 @DataJpaTest
 public class RegisterEnrollmentServiceTest {
 
-  @Value("classpath:register/sync-request.json")
-  private org.springframework.core.io.Resource syncRequest;
+  @Value("classpath:register/sync-request1.json")
+  private org.springframework.core.io.Resource syncRequest1;
+
+  @Value("classpath:register/sync-request2.json")
+  private org.springframework.core.io.Resource syncRequest2;
 
   @Value("classpath:register/sync-response.json")
   private org.springframework.core.io.Resource syncResponse;
 
   @Resource
   private EnrollmentRepository enrollmentRepository;
+
+  @Resource
+  private EnrollmentAppointmentRepository enrollmentAppointmentRepository;
 
   @Resource
   private TestEntityManager entityManager;
@@ -60,35 +73,56 @@ public class RegisterEnrollmentServiceTest {
   @Test
   public void testSyncEnrollments() throws IOException, InterruptedException {
     final ExamEvent examEvent = createExamEvent(2);
-    createEnrollment(examEvent, EnrollmentStatus.COMPLETED);
+    final ExaminerExamEvent examinerExamEvent = createExaminerExamEvent();
+    final Enrollment enrollment = createEnrollment(examEvent, EnrollmentStatus.COMPLETED);
+    final EnrollmentAppointment enrollmentAppointment = createEnrollmentAppointment(
+      examinerExamEvent,
+      EnrollmentAppointmentStatus.COMPLETED
+    );
 
     doRequest(getMockSyncResponse(), 200);
 
-    final RecordedRequest request = mockWebServer.takeRequest();
-    assertEquals("POST", request.getMethod());
-    assertEquals(koskiUrl + "/oid", Objects.requireNonNull(request.getRequestUrl()).toString());
-    assertEquals(getMockSyncRequest().trim(), request.getBody().readUtf8().trim());
+    final RecordedRequest request1 = mockWebServer.takeRequest();
+    assertEquals("POST", request1.getMethod());
+    assertEquals(koskiUrl + "/oid", Objects.requireNonNull(request1.getRequestUrl()).toString());
+    assertEquals(
+      getMockSyncRequest1().replace("[id]", String.valueOf(enrollment.getId())).trim(),
+      request1.getBody().readUtf8().trim()
+    );
+
+    final RecordedRequest request2 = mockWebServer.takeRequest();
+    assertEquals("POST", request2.getMethod());
+    assertEquals(koskiUrl + "/oid", Objects.requireNonNull(request2.getRequestUrl()).toString());
+    assertEquals(
+      getMockSyncRequest2().replace("[id]", String.valueOf(enrollmentAppointment.getId())).trim(),
+      request2.getBody().readUtf8().trim()
+    );
   }
 
   private void doRequest(final String response, final int responseCode) throws JsonProcessingException {
     final WebClient webClient = WebClient.builder().baseUrl(koskiUrl).build();
+    final MockResponse mockResponse = new MockResponse()
+      .setResponseCode(responseCode)
+      .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+      .setBody(response);
 
-    mockWebServer.enqueue(
-      new MockResponse()
-        .setResponseCode(responseCode)
-        .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-        .setBody(response)
-    );
+    mockWebServer.enqueue(mockResponse);
+    mockWebServer.enqueue(mockResponse);
 
     final RegisterEnrollmentService registerEnrollmentService = new RegisterEnrollmentService(
       webClient,
-      enrollmentRepository
+      enrollmentRepository,
+      enrollmentAppointmentRepository
     );
     registerEnrollmentService.sync();
   }
 
-  private String getMockSyncRequest() throws IOException {
-    return new String(syncRequest.getInputStream().readAllBytes());
+  private String getMockSyncRequest1() throws IOException {
+    return new String(syncRequest1.getInputStream().readAllBytes());
+  }
+
+  private String getMockSyncRequest2() throws IOException {
+    return new String(syncRequest2.getInputStream().readAllBytes());
   }
 
   private String getMockSyncResponse() throws IOException {
@@ -98,13 +132,26 @@ public class RegisterEnrollmentServiceTest {
   private ExamEvent createExamEvent(final int maxParticipants) {
     final ExamEvent examEvent = Factory.examEvent();
     examEvent.setMaxParticipants(maxParticipants);
+    examEvent.setDate(LocalDate.of(2025, 5, 27));
+    entityManager.persist(examEvent);
+
+    return examEvent;
+  }
+
+  private ExaminerExamEvent createExaminerExamEvent() {
+    final Examiner examiner = Factory.examiner();
+    final Municipality municipality = Factory.municipality();
+    final ExaminerExamEvent examEvent = Factory.examinerExamEvent(examiner, municipality);
+    examEvent.setDate(LocalDate.of(2025, 5, 27));
+    entityManager.persist(examiner);
+    entityManager.persist(municipality);
     entityManager.persist(examEvent);
 
     return examEvent;
   }
 
   private Enrollment createEnrollment(final ExamEvent examEvent, final EnrollmentStatus status) {
-    final Person person = createPerson();
+    final Person person = createPerson("11111111-58eb-4cbb-b176-98113eed06f4");
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
     enrollment.setStatus(status);
     entityManager.persist(enrollment);
@@ -112,9 +159,22 @@ public class RegisterEnrollmentServiceTest {
     return enrollment;
   }
 
-  private Person createPerson() {
+  private EnrollmentAppointment createEnrollmentAppointment(
+    final ExaminerExamEvent examEvent,
+    final EnrollmentAppointmentStatus status
+  ) {
+    final Person person = createPerson("22222222-58eb-4cbb-b176-98113eed06f4");
+    final Examiner examiner = examEvent.getExaminer();
+    final EnrollmentAppointment enrollment = Factory.enrollmentAppointment(examiner, examEvent, person);
+    enrollment.setStatus(status);
+    entityManager.persist(enrollment);
+
+    return enrollment;
+  }
+
+  private Person createPerson(final String oid) {
     final Person person = Factory.person();
-    person.setOid("4ab2d4e4-58eb-4cbb-b176-98113eed06f4");
+    person.setOid(oid);
     entityManager.persist(person);
 
     return person;

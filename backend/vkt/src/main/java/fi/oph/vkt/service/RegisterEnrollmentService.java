@@ -8,7 +8,11 @@ import fi.oph.vkt.api.dto.integration.RegisterPersonDTO;
 import fi.oph.vkt.api.dto.integration.RegisterSyncDTO;
 import fi.oph.vkt.api.dto.integration.SourceDTO;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentAppointment;
+import fi.oph.vkt.model.EnrollmentCommon;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.ExaminerExamEvent;
+import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.util.DateUtil;
 import fi.oph.vkt.util.PersonUtil;
@@ -26,19 +30,38 @@ public class RegisterEnrollmentService {
 
   private final WebClient registerClient;
   private final EnrollmentRepository enrollmentRepository;
+  private final EnrollmentAppointmentRepository enrollmentAppointmentRepository;
 
   @Transactional(readOnly = true)
   public void sync() throws JsonProcessingException {
     final List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsForSyncToRegister();
+    final List<EnrollmentAppointment> enrollmentAppointments = enrollmentAppointmentRepository.findEnrollmentsForSyncToRegister();
+    final List<EnrollmentCommon> enrollmentsCombined = new ArrayList<>();
 
-    final List<RegisterSyncDTO> registerSyncDTOS = enrollments
+    enrollmentsCombined.addAll(enrollments);
+    enrollmentsCombined.addAll(enrollmentAppointments);
+
+    final List<RegisterSyncDTO> registerSyncDTOS = enrollmentsCombined
       .stream()
       .map(enrollment -> {
-        final ExamEvent examEvent = enrollment.getExamEvent();
+        String examDate;
+        String language;
+        String id;
+        if (enrollment instanceof Enrollment) {
+          final ExamEvent examEvent = ((Enrollment) enrollment).getExamEvent();
+          examDate = DateUtil.formatOptionalDate(examEvent.getDate());
+          language = examEvent.getLanguage().toString();
+          id = String.valueOf(((Enrollment) enrollment).getId());
+        } else {
+          final ExaminerExamEvent examEvent = ((EnrollmentAppointment) enrollment).getExaminerExamEvent();
+          id = String.valueOf(((EnrollmentAppointment) enrollment).getId());
+          examDate = DateUtil.formatOptionalDate(examEvent.getDate());
+          language = examEvent.getLanguage().toString();
+        }
+
         final RegisterPersonDTO personDTO = PersonUtil.createRegistryPersonDTO(enrollment.getPerson());
-        final SourceDTO sourceDTO = SourceDTO.builder().id(String.valueOf(enrollment.getId())).lahde("KIOS").build();
+        final SourceDTO sourceDTO = SourceDTO.builder().id(id).lahde("KIOS").build();
         final List<PartialExamsDTO> partialExamsDTOS = new ArrayList<>();
-        final String examDate = DateUtil.formatOptionalDate(examEvent.getDate());
 
         if (enrollment.isSpeakingPartialExam()) {
           partialExamsDTOS.add(
@@ -66,7 +89,7 @@ public class RegisterEnrollmentService {
 
         final RegisterEnrollmentDTO enrollmentDTO = RegisterEnrollmentDTO
           .builder()
-          .kieli(examEvent.getLanguage().toString())
+          .kieli(language)
           .tyyppi("valtionhallinnonkielitutkinto")
           .organisaatioOid(null)
           .lahdejarjestelmanId(sourceDTO)
@@ -78,19 +101,27 @@ public class RegisterEnrollmentService {
       })
       .toList();
 
-    final ObjectMapper objectMapper = new ObjectMapper();
-    final String bodyJson = objectMapper.writeValueAsString(registerSyncDTOS);
+    registerSyncDTOS.forEach(dto -> {
+      final ObjectMapper objectMapper = new ObjectMapper();
+      final String bodyJson;
 
-    registerClient
-      .post()
-      .uri("/oid")
-      .bodyValue(bodyJson)
-      .exchangeToMono(clientResponse -> {
-        if (clientResponse.statusCode().isError()) {
-          return clientResponse.createException().flatMap(Mono::error);
-        }
-        return clientResponse.bodyToMono(String.class);
-      })
-      .block();
+      try {
+        bodyJson = objectMapper.writeValueAsString(dto);
+      } catch (JsonProcessingException e) {
+        throw new RuntimeException(e);
+      }
+
+      registerClient
+        .post()
+        .uri("/oid")
+        .bodyValue(bodyJson)
+        .exchangeToMono(clientResponse -> {
+          if (clientResponse.statusCode().isError()) {
+            return clientResponse.createException().flatMap(Mono::error);
+          }
+          return clientResponse.bodyToMono(String.class);
+        })
+        .block();
+    });
   }
 }
