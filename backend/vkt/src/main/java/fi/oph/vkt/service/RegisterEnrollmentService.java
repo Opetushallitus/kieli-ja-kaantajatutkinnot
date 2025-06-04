@@ -35,6 +35,11 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class RegisterEnrollmentService {
 
+  public static final String SPEAKING_PARTIAL_EXAM = "puhuminen";
+  public static final String WRITING_PARTIAL_EXAM = "kirjoittaminen";
+  public static final String READING_COMPREHENSION_PARTIAL_EXAM = "tekstinymmartaminen";
+  public static final String SPEECH_COMPREHENSION_PARTIAL_EXAM = "puheenymmartaminen";
+
   private final WebClient registerClient;
   private final EnrollmentRepository enrollmentRepository;
   private final EnrollmentAppointmentRepository enrollmentAppointmentRepository;
@@ -82,9 +87,9 @@ public class RegisterEnrollmentService {
           partialExamsDTOS.add(
             PartialExamsDTO
               .builder()
-              .arviointi(grades.getOrDefault("puhuminen", null))
+              .arviointi(grades.getOrDefault(SPEAKING_PARTIAL_EXAM, null))
               .tutkintopaiva(examDate)
-              .tyyppi("puhuminen")
+              .tyyppi(SPEAKING_PARTIAL_EXAM)
               .build()
           );
         }
@@ -93,9 +98,9 @@ public class RegisterEnrollmentService {
           partialExamsDTOS.add(
             PartialExamsDTO
               .builder()
-              .arviointi(grades.getOrDefault("kirjoittaminen", null))
+              .arviointi(grades.getOrDefault(WRITING_PARTIAL_EXAM, null))
               .tutkintopaiva(examDate)
-              .tyyppi("kirjoittaminen")
+              .tyyppi(WRITING_PARTIAL_EXAM)
               .build()
           );
         }
@@ -104,9 +109,9 @@ public class RegisterEnrollmentService {
           partialExamsDTOS.add(
             PartialExamsDTO
               .builder()
-              .arviointi(grades.getOrDefault("tekstinymmartaminen", null))
+              .arviointi(grades.getOrDefault(READING_COMPREHENSION_PARTIAL_EXAM, null))
               .tutkintopaiva(examDate)
-              .tyyppi("tekstinymmartaminen")
+              .tyyppi(READING_COMPREHENSION_PARTIAL_EXAM)
               .build()
           );
         }
@@ -115,9 +120,9 @@ public class RegisterEnrollmentService {
           partialExamsDTOS.add(
             PartialExamsDTO
               .builder()
-              .arviointi(grades.getOrDefault("puheenymmartaminen", null))
+              .arviointi(grades.getOrDefault(SPEECH_COMPREHENSION_PARTIAL_EXAM, null))
               .tutkintopaiva(examDate)
-              .tyyppi("puheenymmartaminen")
+              .tyyppi(SPEECH_COMPREHENSION_PARTIAL_EXAM)
               .build()
           );
         }
@@ -165,19 +170,25 @@ public class RegisterEnrollmentService {
     final EnrollmentGrade enrollmentGrade = enrollment.getGrade();
 
     if (enrollmentGrade.getReadingComprehensionPartialExamGrade() != null) {
-      grades.put("tekstinymmartaminen", translateGrade(enrollmentGrade.getReadingComprehensionPartialExamGrade()));
+      grades.put(
+        READING_COMPREHENSION_PARTIAL_EXAM,
+        translateGrade(enrollmentGrade.getReadingComprehensionPartialExamGrade())
+      );
     }
 
     if (enrollmentGrade.getSpeechComprehensionPartialExamGrade() != null) {
-      grades.put("puheenymmartaminen", translateGrade(enrollmentGrade.getSpeechComprehensionPartialExamGrade()));
+      grades.put(
+        SPEECH_COMPREHENSION_PARTIAL_EXAM,
+        translateGrade(enrollmentGrade.getSpeechComprehensionPartialExamGrade())
+      );
     }
 
     if (enrollmentGrade.getSpeakingPartialExamGrade() != null) {
-      grades.put("puhuminen", translateGrade(enrollmentGrade.getSpeakingPartialExamGrade()));
+      grades.put(SPEAKING_PARTIAL_EXAM, translateGrade(enrollmentGrade.getSpeakingPartialExamGrade()));
     }
 
     if (enrollmentGrade.getWritingPartialExamGrade() != null) {
-      grades.put("kirjoittaminen", translateGrade(enrollmentGrade.getWritingPartialExamGrade()));
+      grades.put(WRITING_PARTIAL_EXAM, translateGrade(enrollmentGrade.getWritingPartialExamGrade()));
     }
 
     return grades;
