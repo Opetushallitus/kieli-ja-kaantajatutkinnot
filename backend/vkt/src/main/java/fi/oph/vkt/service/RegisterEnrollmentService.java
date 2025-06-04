@@ -1,5 +1,7 @@
 package fi.oph.vkt.service;
 
+import static fi.oph.vkt.util.LocalisationUtil.localeFI;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.vkt.api.dto.integration.PartialExamsDTO;
@@ -10,14 +12,19 @@ import fi.oph.vkt.api.dto.integration.SourceDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.EnrollmentCommon;
+import fi.oph.vkt.model.EnrollmentGrade;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.ExaminerExamEvent;
+import fi.oph.vkt.model.type.EnrollmentGradeType;
 import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.util.DateUtil;
+import fi.oph.vkt.util.LocalisationUtil;
 import fi.oph.vkt.util.PersonUtil;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,16 +54,24 @@ public class RegisterEnrollmentService {
         String examDate;
         String language;
         String id;
+        String level;
+        String examinerOid;
+        Map<String, String> grades = new HashMap<>();
         if (enrollment instanceof Enrollment) {
           final ExamEvent examEvent = ((Enrollment) enrollment).getExamEvent();
           examDate = DateUtil.formatOptionalDate(examEvent.getDate());
           language = examEvent.getLanguage().toString();
           id = String.valueOf(((Enrollment) enrollment).getId());
+          level = "erinomainen";
+          examinerOid = null;
         } else {
           final ExaminerExamEvent examEvent = ((EnrollmentAppointment) enrollment).getExaminerExamEvent();
           id = String.valueOf(((EnrollmentAppointment) enrollment).getId());
           examDate = DateUtil.formatOptionalDate(examEvent.getDate());
           language = examEvent.getLanguage().toString();
+          level = "hyva-ja-tyydyttava";
+          examinerOid = examEvent.getExaminer().getOid();
+          grades = getGrades((EnrollmentAppointment) enrollment);
         }
 
         final RegisterPersonDTO personDTO = PersonUtil.createRegistryPersonDTO(enrollment.getPerson());
@@ -65,25 +80,45 @@ public class RegisterEnrollmentService {
 
         if (enrollment.isSpeakingPartialExam()) {
           partialExamsDTOS.add(
-            PartialExamsDTO.builder().arviointi(null).tutkintopaiva(examDate).tyyppi("puhuminen").build()
+            PartialExamsDTO
+              .builder()
+              .arviointi(grades.getOrDefault("puhuminen", null))
+              .tutkintopaiva(examDate)
+              .tyyppi("puhuminen")
+              .build()
           );
         }
 
         if (enrollment.isWritingPartialExam()) {
           partialExamsDTOS.add(
-            PartialExamsDTO.builder().arviointi(null).tutkintopaiva(examDate).tyyppi("kirjoittaminen").build()
+            PartialExamsDTO
+              .builder()
+              .arviointi(grades.getOrDefault("kirjoittaminen", null))
+              .tutkintopaiva(examDate)
+              .tyyppi("kirjoittaminen")
+              .build()
           );
         }
 
         if (enrollment.isReadingComprehensionPartialExam()) {
           partialExamsDTOS.add(
-            PartialExamsDTO.builder().arviointi(null).tutkintopaiva(examDate).tyyppi("tekstinymmartaminen").build()
+            PartialExamsDTO
+              .builder()
+              .arviointi(grades.getOrDefault("tekstinymmartaminen", null))
+              .tutkintopaiva(examDate)
+              .tyyppi("tekstinymmartaminen")
+              .build()
           );
         }
 
         if (enrollment.isSpeechComprehensionPartialExam()) {
           partialExamsDTOS.add(
-            PartialExamsDTO.builder().arviointi(null).tutkintopaiva(examDate).tyyppi("puheenymmartaminen").build()
+            PartialExamsDTO
+              .builder()
+              .arviointi(grades.getOrDefault("puheenymmartaminen", null))
+              .tutkintopaiva(examDate)
+              .tyyppi("puheenymmartaminen")
+              .build()
           );
         }
 
@@ -91,9 +126,9 @@ public class RegisterEnrollmentService {
           .builder()
           .kieli(language)
           .tyyppi("valtionhallinnonkielitutkinto")
-          .organisaatioOid(null)
+          .organisaatioOid(examinerOid)
           .lahdejarjestelmanId(sourceDTO)
-          .taitotaso("erinomainen")
+          .taitotaso(level)
           .osakokeet(partialExamsDTOS)
           .build();
 
@@ -123,5 +158,32 @@ public class RegisterEnrollmentService {
         })
         .block();
     });
+  }
+
+  private Map<String, String> getGrades(final EnrollmentAppointment enrollment) {
+    final Map<String, String> grades = new HashMap<>();
+    final EnrollmentGrade enrollmentGrade = enrollment.getGrade();
+
+    if (enrollmentGrade.getReadingComprehensionPartialExamGrade() != null) {
+      grades.put("tekstinymmartaminen", translateGrade(enrollmentGrade.getReadingComprehensionPartialExamGrade()));
+    }
+
+    if (enrollmentGrade.getSpeechComprehensionPartialExamGrade() != null) {
+      grades.put("puheenymmartaminen", translateGrade(enrollmentGrade.getSpeechComprehensionPartialExamGrade()));
+    }
+
+    if (enrollmentGrade.getSpeakingPartialExamGrade() != null) {
+      grades.put("puhuminen", translateGrade(enrollmentGrade.getSpeakingPartialExamGrade()));
+    }
+
+    if (enrollmentGrade.getWritingPartialExamGrade() != null) {
+      grades.put("kirjoittaminen", translateGrade(enrollmentGrade.getWritingPartialExamGrade()));
+    }
+
+    return grades;
+  }
+
+  private String translateGrade(final EnrollmentGradeType grade) {
+    return LocalisationUtil.translate(localeFI, "grade." + grade.toString());
   }
 }

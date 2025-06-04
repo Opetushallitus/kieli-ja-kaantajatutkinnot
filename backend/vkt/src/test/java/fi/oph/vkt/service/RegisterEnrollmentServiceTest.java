@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.EnrollmentAppointment;
+import fi.oph.vkt.model.EnrollmentGrade;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.ExaminerExamEvent;
@@ -151,7 +152,7 @@ public class RegisterEnrollmentServiceTest {
   }
 
   private Enrollment createEnrollment(final ExamEvent examEvent, final EnrollmentStatus status) {
-    final Person person = createPerson("11111111-58eb-4cbb-b176-98113eed06f4");
+    final Person person = createPerson("1.2.246.562.10.1234567890");
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
     enrollment.setStatus(status);
     entityManager.persist(enrollment);
@@ -163,10 +164,13 @@ public class RegisterEnrollmentServiceTest {
     final ExaminerExamEvent examEvent,
     final EnrollmentAppointmentStatus status
   ) {
-    final Person person = createPerson("22222222-58eb-4cbb-b176-98113eed06f4");
+    final Person person = createPerson("2.2.246.562.10.1234567890");
     final Examiner examiner = examEvent.getExaminer();
+    final EnrollmentGrade enrollmentGrade = Factory.enrollmentGrades();
     final EnrollmentAppointment enrollment = Factory.enrollmentAppointment(examiner, examEvent, person);
     enrollment.setStatus(status);
+    enrollment.setGrade(enrollmentGrade);
+    entityManager.persist(enrollmentGrade);
     entityManager.persist(enrollment);
 
     return enrollment;
