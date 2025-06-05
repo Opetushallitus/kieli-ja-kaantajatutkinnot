@@ -24,6 +24,7 @@ import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -213,6 +214,9 @@ public class PaymentService {
       setEnrollmentStatus(enrollment, newStatus);
 
       payment.setPaymentStatus(newStatus);
+      if (newStatus == PaymentStatus.OK) {
+        payment.setPaidAt(LocalDateTime.now());
+      }
       paymentRepository.saveAndFlush(payment);
 
       if (newStatus == PaymentStatus.OK) {

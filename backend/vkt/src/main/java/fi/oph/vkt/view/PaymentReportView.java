@@ -49,7 +49,7 @@ public class PaymentReportView extends CommonXlsxView {
       "ST", // Suullinen taito
       "YT", // Ymmärtämisen taito
       "Summa",
-      "Maksu luotu"
+      "Maksettu"
     );
     final Sheet sheet = workbook.createSheet("Maksuraportti");
 
@@ -72,7 +72,7 @@ public class PaymentReportView extends CommonXlsxView {
       row.createCell(ci++).setCellValue(dataRow.oralSkill());
       row.createCell(ci++).setCellValue(dataRow.understandingSkill());
       row.createCell(ci++).setCellValue(dataRow.amount());
-      row.createCell(ci++).setCellValue(dataRow.paymentCreatedAt());
+      row.createCell(ci++).setCellValue(dataRow.paymentPaidAt());
     }
 
     autoresizeExcelColumns(sheet, headers);

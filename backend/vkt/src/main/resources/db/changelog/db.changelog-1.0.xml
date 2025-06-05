@@ -1208,4 +1208,9 @@
             <column name="merchant_reference" type="text" />
         </addColumn>
     </changeSet>
+    <changeSet id="2025-06-06-payment-merchant-reference" author="jrkkp">
+        <addColumn tableName="payment">
+            <column name="paid_at" type="TIMESTAMP WITH TIME ZONE" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

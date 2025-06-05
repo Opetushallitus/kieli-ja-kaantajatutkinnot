@@ -48,7 +48,7 @@ public class PaymentReportXlsxDataRowUtil {
           .oralSkill(boolToInt(enrollmentCommon.isOralSkill()))
           .understandingSkill(boolToInt(enrollmentCommon.isUnderstandingSkill()))
           .examiner(examiner)
-          .paymentCreatedAt(DateUtil.formatDatetime(p.getCreatedAt()))
+          .paymentPaidAt(p.getPaidAt() != null ? DateUtil.formatDatetime(p.getPaidAt()) : "")
           .build();
       })
       .toList();

@@ -17,5 +17,5 @@ public record PaymentReportXslxData(
   @NonNull Integer oralSkill,
   @NonNull Integer understandingSkill,
   @NonNull Double amount,
-  @NonNull String paymentCreatedAt
+  @NonNull String paymentPaidAt
 ) {}
