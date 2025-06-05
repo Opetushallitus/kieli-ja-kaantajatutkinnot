@@ -33,10 +33,10 @@ export const ClerkPaymentReportPage: FC = () => {
         direction="column"
         className="clerk-payment-report-page__grid-container"
       >
-        <Grid item>
+        <Grid>
           <H1 sx={{ marginBottom: 0 }}>{t('paymentReport')}</H1>
         </Grid>
-        <Grid item>
+        <Grid>
           <Paper
             elevation={3}
             className="clerk-payment-report-page__paper rows gapped-xxl"
