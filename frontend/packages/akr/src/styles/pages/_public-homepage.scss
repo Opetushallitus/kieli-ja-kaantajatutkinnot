@@ -2,8 +2,6 @@
   flex: 1;
 
   & &__grid-container {
-    display: block;
-
     &__item-header {
       @include phone {
         margin-top: 2rem;
@@ -18,8 +16,6 @@
     }
 
     div &__result-box {
-      padding: 3rem;
-
       @include phone {
         padding: 0.5rem;
       }

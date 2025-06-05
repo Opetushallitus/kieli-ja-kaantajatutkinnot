@@ -2,8 +2,6 @@
   flex: 1;
 
   & &__grid-container {
-    display: block;
-
     &__item-header {
       @include phone {
         margin-top: 2rem;
