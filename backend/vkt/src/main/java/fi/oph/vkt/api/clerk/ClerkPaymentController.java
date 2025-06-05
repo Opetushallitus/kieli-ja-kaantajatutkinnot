@@ -6,7 +6,6 @@ import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.service.ClerkPaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
-import java.text.DateFormat;
 import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
