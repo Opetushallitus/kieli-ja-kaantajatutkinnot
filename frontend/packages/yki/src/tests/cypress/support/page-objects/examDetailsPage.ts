@@ -6,7 +6,7 @@ class ExamDetailsPage {
       }),
     submittedFormTitle: () =>
       cy.findByRole('heading', {
-        name: 'Ilmoittautumislomake on lähetetty',
+        name: 'Vahvista ilmoittautuminen',
       }),
     textboxByLabel: (label: string) =>
       cy.findByRole('textbox', { name: label }),
