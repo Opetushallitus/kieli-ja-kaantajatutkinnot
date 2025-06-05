@@ -17,14 +17,52 @@ import { ExamSession } from 'interfaces/examSessions';
 import { loadRegistrationToConfirmDetails } from 'redux/reducers/confirmRegistration';
 import { confirmRegistrationSelector } from 'redux/selectors/confirmRegistration';
 
-export const ConfirmRegistrationPage = () => {
+const Header = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.register.success',
   });
-  const dispatch = useAppDispatch();
-  const { examSession, loadDetailsStatus } = useAppSelector(
-    confirmRegistrationSelector,
+
+  return (
+    <Grid
+      item
+      className="confirm-registration-page__grid-container__item-header"
+    >
+      <H1>{t('heading')}</H1>
+      <HeaderSeparator />
+    </Grid>
   );
+};
+
+const Contents = () => {
+  const { registrationDetails } = useAppSelector(confirmRegistrationSelector);
+  if (!registrationDetails) {
+    return null;
+  }
+
+  return (
+    <Grid item>
+      <Paper
+        elevation={3}
+        className="confirm-registration-page__paper-contents"
+      >
+        <PublicRegistrationExamSessionDetails
+          examSession={registrationDetails as unknown as ExamSession}
+          showOpenings={false}
+        />
+        <ConfirmRegistration
+          paymentDetails={{
+            due_date: registrationDetails.due_date,
+            payment_url: registrationDetails.payment_url,
+          }}
+        />
+      </Paper>
+    </Grid>
+  );
+};
+
+export const ConfirmRegistrationPage = () => {
+  const dispatch = useAppDispatch();
+  const { loadDetailsStatus } = useAppSelector(confirmRegistrationSelector);
 
   // React Router
   const params = useParams();
@@ -40,32 +78,19 @@ export const ConfirmRegistrationPage = () => {
 
   const loading = loadDetailsStatus === APIResponseStatus.InProgress;
 
-  // TODO Pass also loginLink to ConfirmRegistration component?
-
   return (
     <Box className="confirm-registration-page">
-      <Grid
-        container
-        rowSpacing={4}
-        direction="column"
-        className="confirm-registration-page__grid-container"
-      >
-        <H1>{t('heading')}</H1>
-        <HeaderSeparator />
-        <Paper
-          elevation={3}
-          className="confirm-registration-page__paper-contents"
+      <LoadingProgressIndicator isLoading={loading}>
+        <Grid
+          container
+          rowSpacing={4}
+          direction="column"
+          className="confirm-registration-page__grid-container"
         >
-          <LoadingProgressIndicator isLoading={loading}>
-            <PublicRegistrationExamSessionDetails
-              examSession={examSession as ExamSession}
-              showOpenings={false}
-            />
-          </LoadingProgressIndicator>
-
-          <ConfirmRegistration />
-        </Paper>
-      </Grid>
+          <Header />
+          <Contents />
+        </Grid>
+      </LoadingProgressIndicator>
     </Box>
   );
 };
