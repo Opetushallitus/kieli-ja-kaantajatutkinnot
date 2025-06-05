@@ -19,7 +19,6 @@ import fi.oph.vkt.util.ClerkPaymentUtil;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
