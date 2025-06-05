@@ -17,12 +17,16 @@ import fi.oph.vkt.model.Person;
 import fi.oph.vkt.repository.PaymentRepository;
 import fi.oph.vkt.util.ClerkPaymentUtil;
 import jakarta.annotation.Resource;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 @WithMockUser
 @DataJpaTest
@@ -67,5 +71,27 @@ public class ClerkPaymentServiceTest {
     assertNull(payment2.getRefundedAt());
 
     verify(auditService).logUpdate(VktOperation.REFUND_PAYMENT, payment1.getId(), oldAuditDto, newAuditDto);
+  }
+
+  @Test
+  public void testGetPaymentReportExcel() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+    final Payment payment = Factory.payment(enrollment);
+    enrollment.setPayments(List.of(payment));
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+    entityManager.persist(payment);
+
+    final AbstractXlsxView excel = clerkPaymentService.getPaymentReportExcel(
+      LocalDate.now().minusDays(5),
+      LocalDate.now()
+    );
+    assertNotNull(excel);
+
+    verify(auditService).logOperation(VktOperation.GET_PAYMENT_REPORT_EXCEL);
   }
 }
