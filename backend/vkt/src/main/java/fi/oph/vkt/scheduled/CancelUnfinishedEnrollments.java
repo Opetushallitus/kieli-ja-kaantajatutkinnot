@@ -28,7 +28,7 @@ public class CancelUnfinishedEnrollments {
   @SchedulerLock(name = "cancelUnfinishedEnrollments", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
   public void action() {
     SchedulingUtil.runWithScheduledUser(() -> {
-      LOG.info("cancelUnfinishedEnrollments");
+      LOG.debug("cancelUnfinishedEnrollments");
 
       clerkEnrollmentService.cancelUnfinishedEnrollments();
     });

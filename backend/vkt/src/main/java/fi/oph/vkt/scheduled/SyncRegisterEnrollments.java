@@ -17,13 +17,13 @@ public class SyncRegisterEnrollments {
 
   private static final Logger LOG = LoggerFactory.getLogger(SyncRegisterEnrollments.class);
 
-  private static final String INITIAL_DELAY = "PT10S";
+  private static final String INITIAL_DELAY = "PT5M";
 
-  private static final String FIXED_DELAY = "PT10S";
+  private static final String FIXED_DELAY = "PT60M";
 
-  private static final String LOCK_AT_LEAST = "PT1S";
+  private static final String LOCK_AT_LEAST = "PT20M";
 
-  private static final String LOCK_AT_MOST = "PT1M";
+  private static final String LOCK_AT_MOST = "PT40M";
 
   @Resource
   private RegisterEnrollmentService registerEnrollmentService;
@@ -32,7 +32,7 @@ public class SyncRegisterEnrollments {
   @SchedulerLock(name = "syncRegisterEnrollments", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
   public void action() {
     SchedulingUtil.runWithScheduledUser(() -> {
-      LOG.debug("pollEmailsToSend");
+      LOG.info("sync register enrollments");
       try {
         registerEnrollmentService.sync();
       } catch (final JsonProcessingException e) {
