@@ -7,6 +7,8 @@ import fi.oph.vkt.audit.dto.ClerkPaymentAuditDTO;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.repository.PaymentRepository;
 import fi.oph.vkt.util.ClerkPaymentUtil;
+import fi.oph.vkt.util.exception.APIException;
+import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.view.PaymentReportView;
 import fi.oph.vkt.view.PaymentReportXlsxDataRowUtil;
 import fi.oph.vkt.view.PaymentReportXslxData;
@@ -14,6 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,8 +44,12 @@ public class ClerkPaymentService {
   }
 
   @Transactional(readOnly = true)
-  public AbstractXlsxView getPaymentReportExcel(final LocalDate from, final LocalDate to) {
+  public AbstractXlsxView getPaymentReportExcel(@NonNull final LocalDate from, @NonNull final LocalDate to) {
     auditService.logOperation(VktOperation.GET_PAYMENT_REPORT_EXCEL);
+
+    if (from.isAfter(to)) {
+      throw new APIException(APIExceptionType.INVALID_FROM_TO_DATES);
+    }
 
     final List<Payment> paymentList = paymentRepository.findPaymentsReport(
       from.atStartOfDay(),
