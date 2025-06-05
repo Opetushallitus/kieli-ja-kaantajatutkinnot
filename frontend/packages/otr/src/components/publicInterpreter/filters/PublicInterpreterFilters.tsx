@@ -67,7 +67,7 @@ export const PublicInterpreterFilters = ({
   };
 
   const defaultValuesState: PublicInterpreterFilterValues = {
-    fromLang: '',
+    fromLang: QualificationUtils.defaultFromLang,
     toLang: '',
     name: '',
     region: '',

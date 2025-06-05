@@ -2,7 +2,7 @@
   flex: 1;
 
   & &__grid-container {
-    display: block;
+    display: grid;
 
     &__item-header {
       @include phone {
@@ -23,10 +23,6 @@
         padding-left: 1rem;
         padding-right: 1rem;
         padding-top: 3rem;
-      }
-
-      @include not-phone {
-        padding: 3rem;
       }
     }
   }
