@@ -4,7 +4,7 @@ import { APIResponseStatus } from 'shared/enums';
 import { RegistrationToConfirmDetails } from 'interfaces/confirmRegistration';
 
 export interface ConfirmRegistrationState {
-  examSession?: RegistrationToConfirmDetails;
+  registrationDetails?: RegistrationToConfirmDetails;
   loadDetailsStatus: APIResponseStatus;
   confirmRegistrationStatus: APIResponseStatus;
 }
@@ -25,7 +25,7 @@ const confirmRegistrationSlice = createSlice({
       state,
       action: PayloadAction<RegistrationToConfirmDetails>,
     ) {
-      state.examSession = action.payload;
+      state.registrationDetails = action.payload;
       state.loadDetailsStatus = APIResponseStatus.Success;
     },
     rejectRegistrationToConfirmDetails(state) {

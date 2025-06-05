@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { H2, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
@@ -79,7 +80,12 @@ const Error = () => {
 };
 
 const Success = () => {
-  return <ConfirmRegistration />;
+  // TODO Need payment link and due date as response from server!!!
+  return (
+    <ConfirmRegistration
+      paymentDetails={{ payment_url: 'http://FIXME', due_date: dayjs() }}
+    />
+  );
 };
 
 export const SubmitRegistrationDetails = () => {

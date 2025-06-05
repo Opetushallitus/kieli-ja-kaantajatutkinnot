@@ -1,4 +1,11 @@
+import { Dayjs } from 'dayjs';
+
 import { ExamSession } from 'interfaces/examSessions';
+
+export interface PaymentDetails {
+  due_date: Dayjs;
+  payment_url: string;
+}
 
 export type RegistrationToConfirmDetails = Pick<
   ExamSession,
@@ -10,7 +17,8 @@ export type RegistrationToConfirmDetails = Pick<
   | 'registration_start_date'
   | 'registration_end_date'
   | 'exam_fee'
->;
+> &
+  PaymentDetails;
 
 export interface RegistrationToConfirmDetailsResponse
   extends Omit<
