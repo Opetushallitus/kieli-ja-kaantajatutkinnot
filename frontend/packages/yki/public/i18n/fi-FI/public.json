@@ -249,13 +249,17 @@
         "registrationFormSubmitted": {
           "proceedToPayment": {
             "dueDateReminder": {
-              "text1": "<strong>Tärkeää!</strong> Viestissä on myös tutkintomaksun viimeinen maksupäivä.",
-              "text2": "Maksa maksu ajoissa, jotta voit osallistua YKI-testiin."
+              "text1": "<strong>Maksa tutkintomaksu viimeistään {{dueDate}}</strong>, jotta ilmoittautuminen vahvistuu.",
+              "text2": "Jos et maksa tutkintomaksua viimeistään eräpäivänä, ilmoittautuminen perutaan."
+            },
+            "payImmediately": {
+              "action": "Maksa tutkintomaksu",
+              "text1": "Voit myös maksaa tutkintomaksun heti.",
+              "text2": "Paina alla olevaa painiketta."
             },
             "paymentLinkEmail": {
               "text1": "Olet saanut sähköpostiisi viestin, jossa on linkki tutkintomaksun maksamista varten.",
-              "text2": "Viesti tulee osoitteesta noreply@opintopolku.fi.",
-              "text3": "Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun."
+              "text2": "Viesti tulee osoitteesta noreply@opintopolku.fi."
             },
             "verifyRegistrationDetails": {
               "termsAndConditions": {

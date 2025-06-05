@@ -14,7 +14,7 @@
 
   &__paper-contents {
     @include phone {
-      padding: 0 2rem 2rem;
+      padding: 3rem 2rem;
     }
 
     @include not-phone {
