@@ -6,6 +6,7 @@ import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 import { NoSessionResponse } from 'tests/msw/fixtures/identity';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
+import { personDetails } from 'tests/msw/fixtures/personDetails';
 
 const notFound = () => new HttpResponse(null, { status: 404 });
 
@@ -51,4 +52,13 @@ export const handlers = [
   http.post(APIEndpoints.SubmitRegistration, () =>
     HttpResponse.json({ success: true }),
   ),
+  http.get(APIEndpoints.PersonDetails, () => HttpResponse.json(personDetails)),
+  http.delete(APIEndpoints.CancelUserRegistration, ({ params }) => {
+    const { registrationId } = params;
+    if (registrationId === '1339') {
+      return HttpResponse.json({ success: false });
+    }
+
+    return HttpResponse.json({ success: true });
+  }),
 ];

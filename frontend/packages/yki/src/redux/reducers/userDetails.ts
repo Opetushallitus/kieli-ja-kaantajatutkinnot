@@ -1,18 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { PersonDetails } from 'interfaces/userDetails';
+import { PersonDetails, PersonRegistrations } from 'interfaces/userDetails';
 
 export interface UserDetailsState {
   personDetails?: PersonDetails;
-  registrations: Array<string>;
+  registrations: Array<PersonRegistrations>;
+  registrationToCancel?: PersonRegistrations;
   status: APIResponseStatus;
+  cancelUserRegistrationStatus: APIResponseStatus;
+  isCancelModalOpen: boolean;
 }
 
 const initialState: UserDetailsState = {
-  personDetails: undefined,
   registrations: [],
   status: APIResponseStatus.NotStarted,
+  cancelUserRegistrationStatus: APIResponseStatus.NotStarted,
+  isCancelModalOpen: false,
 };
 
 const userDetailsSlice = createSlice({
@@ -29,9 +33,35 @@ const userDetailsSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.personDetails = action.payload;
     },
+    cancelUserRegistration(state, _action: PayloadAction<number>) {
+      state.cancelUserRegistrationStatus = APIResponseStatus.InProgress;
+    },
+    acceptCancelUserRegistration(state) {
+      state.cancelUserRegistrationStatus = APIResponseStatus.Success;
+    },
+    rejectCancelUserRegistration(state) {
+      state.cancelUserRegistrationStatus = APIResponseStatus.Error;
+    },
+    setRegistrationToCancel(
+      state,
+      action: PayloadAction<PersonRegistrations | undefined>,
+    ) {
+      state.registrationToCancel = action.payload;
+    },
+    resetCancelRegistrationStatus(state) {
+      state.cancelUserRegistrationStatus = APIResponseStatus.NotStarted;
+    },
   },
 });
 
 export const userDetailsReducer = userDetailsSlice.reducer;
-export const { loadPersonDetails, rejectPersonDetails, storePersonDetails } =
-  userDetailsSlice.actions;
+export const {
+  loadPersonDetails,
+  rejectPersonDetails,
+  storePersonDetails,
+  cancelUserRegistration,
+  acceptCancelUserRegistration,
+  rejectCancelUserRegistration,
+  setRegistrationToCancel,
+  resetCancelRegistrationStatus,
+} = userDetailsSlice.actions;

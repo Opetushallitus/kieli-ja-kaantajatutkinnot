@@ -17,3 +17,7 @@ Cypress.Commands.add('openExamSessionRegistrationForm', (id: number) => {
     AppRoutes.ExamSessionRegistration.replace(/:examSessionId/, `${id}`),
   );
 });
+
+Cypress.Commands.add('openPublicUserDetailsPage', () => {
+  cy.visit(AppRoutes.UserDetails);
+});
