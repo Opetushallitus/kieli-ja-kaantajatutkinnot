@@ -169,6 +169,10 @@ public class RegisterEnrollmentService {
     final Map<String, String> grades = new HashMap<>();
     final EnrollmentGrade enrollmentGrade = enrollment.getGrade();
 
+    if (enrollmentGrade == null) {
+      return grades;
+    }
+
     if (enrollmentGrade.getReadingComprehensionPartialExamGrade() != null) {
       grades.put(
         READING_COMPREHENSION_PARTIAL_EXAM,
