@@ -13,6 +13,8 @@ const getCurrentTime = () => {
   return localISOTime;
 };
 
+const getRandomNetworkDelay = () => Math.random() * 1000 + 500;
+
 const printError = (req, err) => {
   // eslint-disable-next-line no-console
   console.log(
@@ -1412,6 +1414,22 @@ module.exports = function (app) {
       }
     };
     useLocalProxy ? proxyGetCall(req, res) : mockCall();
+  });
+
+  app.delete('/yki/api/person/registration/:id', (req, res) => {
+    const mockCall = () => {
+      try {
+
+        console.log(req.params.id)
+        setTimeout(() => {
+          res.send({ success: true });
+        }, getRandomNetworkDelay());
+      } catch (err) {
+        printError(req, err);
+        res.status(404).send(err.message);
+      }
+    };
+    useLocalProxy ? proxyDeleteCall(req, res) : mockCall();
   });
 
   app.get('/yki/api/person/registration/:id/confirm', (req, res) => {

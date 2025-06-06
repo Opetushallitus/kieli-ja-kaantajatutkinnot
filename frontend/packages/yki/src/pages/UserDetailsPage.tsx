@@ -7,7 +7,7 @@ import WarningOutlinedIcon from '@mui/icons-material/WarningOutlined';
 import { Grid, Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import dayjs from 'dayjs';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import {
   CustomButton,
   CustomButtonLink,
@@ -20,6 +20,7 @@ import {
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
+import { CancelRegistrationModal } from 'components/userDetails/CancelRegistrationModal';
 import {
   getCurrentLang,
   useCommonTranslation,
@@ -28,7 +29,10 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationStates } from 'enums/app';
 import { PersonRegistrations } from 'interfaces/userDetails';
-import { loadPersonDetails } from 'redux/reducers/userDetails';
+import {
+  loadPersonDetails,
+  setRegistrationToCancel,
+} from 'redux/reducers/userDetails';
 import { userDetailsSelector } from 'redux/selectors/userDetails';
 import { ExamSessionUtils } from 'utils/examSession';
 
@@ -67,6 +71,7 @@ const filterByDate = (
 
 interface RegistrationsProps {
   filteredRegistrations: Array<PersonRegistrations>;
+  setIsCancelModalOpen: (open: boolean) => void;
 }
 
 const InfoBox = ({ children }: { children: JSX.Element }) => {
@@ -158,19 +163,28 @@ const ExamPayment = ({
   );
 };
 
-const Registrations: FC<RegistrationsProps> = ({ filteredRegistrations }) => {
+const Registrations: FC<RegistrationsProps> = ({
+  filteredRegistrations,
+  setIsCancelModalOpen,
+}) => {
   const lang = getCurrentLang();
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage.registrations',
   });
+  const dispatch = useAppDispatch();
+
+  const handleCancelRegistration = (registration: PersonRegistrations) => {
+    dispatch(setRegistrationToCancel(registration));
+    setIsCancelModalOpen(true);
+  };
 
   return filteredRegistrations.map((r) => {
     const location = ExamSessionUtils.getLocationInfo(r, lang);
 
     return (
       <Paper
-        key={`registration-${r.examSessionId}`}
+        key={`registration-${r.examSessionId}-${r.id}`}
         elevation={3}
         className="user-details-page__event"
       >
@@ -227,6 +241,7 @@ const Registrations: FC<RegistrationsProps> = ({ filteredRegistrations }) => {
                 color={Color.Secondary}
                 variant={Variant.Outlined}
                 disabled={!r.isCancellable}
+                onClick={() => handleCancelRegistration(r)}
               >
                 {t('actions.cancel')}
               </CustomButton>
@@ -317,12 +332,14 @@ const ContactDetails = () => {
 };
 
 export const UserDetailsPage: FC = () => {
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage',
   });
 
   const dispatch = useAppDispatch();
-  const { status, personDetails } = useAppSelector(userDetailsSelector);
+  const { status, personDetails, registrationToCancel } =
+    useAppSelector(userDetailsSelector);
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
@@ -372,13 +389,23 @@ export const UserDetailsPage: FC = () => {
           </Typography>
         </Grid>
         <Grid item className="user-details-page__grid-container__item-info">
+          {registrationToCancel && (
+            <CancelRegistrationModal
+              registrationToCancel={registrationToCancel}
+              modalOpen={isCancelModalOpen}
+              setModalOpen={setIsCancelModalOpen}
+            />
+          )}
           <ContactDetails />
           {upcomingRegistrations.length > 0 && (
             <div className="margin-top-xxl rows gapped-xxl">
               <H2 className="user-details-page__info__section__heading-title">
                 {t('registrations.header.upcoming')}
               </H2>
-              <Registrations filteredRegistrations={upcomingRegistrations} />
+              <Registrations
+                filteredRegistrations={upcomingRegistrations}
+                setIsCancelModalOpen={setIsCancelModalOpen}
+              />
             </div>
           )}
           {pastRegistrations.length > 0 && (
@@ -386,7 +413,10 @@ export const UserDetailsPage: FC = () => {
               <H2 className="user-details-page__info__section__heading-title">
                 {t('registrations.header.past')}
               </H2>
-              <Registrations filteredRegistrations={pastRegistrations} />
+              <Registrations
+                filteredRegistrations={pastRegistrations}
+                setIsCancelModalOpen={setIsCancelModalOpen}
+              />
             </div>
           )}
           {canceledRegistrations.length > 0 && (
@@ -394,7 +424,10 @@ export const UserDetailsPage: FC = () => {
               <H2 className="user-details-page__info__section__heading-title">
                 {t('registrations.header.cancelled')}
               </H2>
-              <Registrations filteredRegistrations={canceledRegistrations} />
+              <Registrations
+                filteredRegistrations={canceledRegistrations}
+                setIsCancelModalOpen={setIsCancelModalOpen}
+              />
             </div>
           )}
         </Grid>

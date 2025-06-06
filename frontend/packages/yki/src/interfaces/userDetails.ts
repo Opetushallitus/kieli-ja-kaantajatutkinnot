@@ -55,3 +55,7 @@ export interface PersonDetailsResponse {
   zip: string;
   registrations: Array<PersonRegistrationsResponse>;
 }
+
+export interface CancelRegistrationResponse {
+  success: boolean;
+}
