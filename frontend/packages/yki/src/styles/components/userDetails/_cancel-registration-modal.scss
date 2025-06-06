@@ -1,0 +1,7 @@
+.cancel-registration-modal {
+  .custom-modal {
+    @include phone {
+      width: 75vw;
+    }
+  }
+}

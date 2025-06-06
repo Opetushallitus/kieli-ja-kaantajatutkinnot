@@ -1,6 +1,17 @@
 {
   "yki": {
     "component": {
+      "cancelRegistrationModal": {
+        "cancel": "Avbryt",
+        "confirm": "Skicka",
+        "descriptionNotPaid": "Jos perut ilmoittautumisen, et voi palauttaa sitä. Sinun täytyy ilmoittautua uudelleen, jos haluat osallistua YKI-testiin.",
+        "descriptionPaid1": "Jos perut ilmoittautumisen, tutkintomaksua ei palauteta automaattisesti.",
+        "descriptionPaid2": "Voit hakea tutkintomaksun palautusta Opetushallitukselta. Opetushallitus palauttaa tutkintomaksusi, jos hakemuksesi täyttää kaikki lain asettamat ehdot. Jos haluat hakea tutkintomaksun palautusta, lue ohjeet Opetushallituksen verkkosivuilta: Osallistumisen peruminen",
+        "descriptionPaid3": "Jos perut ilmoittautumisen, et voi palauttaa sitä. Sinun täytyy ilmoittautua uudelleen, jos haluat osallistua YKI-testiin.",
+        "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ennen-yki-testia#anchor-osallistumisen-peruminen",
+        "title": "Avbryt anmälan",
+        "success": "Anmälan har avbrutits"
+      },
       "cookieBanner": {
         "buttonAriaLabel": "Stäng informationrutan om kakor",
         "buttonText": "Stäng",
