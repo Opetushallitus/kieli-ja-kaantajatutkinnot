@@ -290,6 +290,7 @@ export class SerializationUtils {
     return {
       ...response,
       session_date: dayjs(response.session_date),
+      due_date: dayjs(response.expires_at).subtract(1, 'day'),
       registration_start_date: SerializationUtils.deserializeStartTime(
         response.registration_start_date,
       ) as Dayjs,
