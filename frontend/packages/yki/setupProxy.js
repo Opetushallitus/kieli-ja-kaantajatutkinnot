@@ -304,6 +304,7 @@ const getRegistrationToConfirmDetails = () => {
       ],
       session_date: '2026-02-12',
       expires_at: '2025-06-13T21:00:00.000Z',
+      payment_url: 'https://yki.untuvaopintopolku.fi/yki/api/payment/v3/1338/redirect',
       registration_start_date: '2025-04-01',
       registration_end_date: '2025-08-01',
       language_code: 'fin',

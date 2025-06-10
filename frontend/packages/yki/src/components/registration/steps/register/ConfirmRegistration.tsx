@@ -18,7 +18,6 @@ export const ConfirmRegistration = ({
       'yki.component.registration.registrationFormSubmitted.proceedToPayment',
   });
   const { isPhone } = useWindowProperties();
-  // TODO Capture window.location in sessionStorage so we can return user to correct URL in case they transition to Paytrail
 
   return (
     <div className="margin-top-xxl rows gapped">
@@ -52,13 +51,15 @@ export const ConfirmRegistration = ({
         {t('payImmediately.text1')} {t('payImmediately.text2')}
       </Text>
       <div className="columns">
-        <CustomButton
-          color={Color.Secondary}
-          variant={Variant.Contained}
-          fullWidth={isPhone}
-        >
-          {t('payImmediately.action')}
-        </CustomButton>
+        <a href={paymentDetails.payment_url}>
+          <CustomButton
+            color={Color.Secondary}
+            variant={Variant.Contained}
+            fullWidth={isPhone}
+          >
+            {t('payImmediately.action')}
+          </CustomButton>
+        </a>
       </div>
     </div>
   );
