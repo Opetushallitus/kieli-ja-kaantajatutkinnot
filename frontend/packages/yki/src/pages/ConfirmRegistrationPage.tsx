@@ -11,11 +11,13 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
 import { ConfirmRegistration } from 'components/registration/steps/register/ConfirmRegistration';
-import { usePublicTranslation } from 'configs/i18n';
+import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { APIEndpoints } from 'enums/api';
 import { ExamSession } from 'interfaces/examSessions';
 import { loadRegistrationToConfirmDetails } from 'redux/reducers/confirmRegistration';
 import { confirmRegistrationSelector } from 'redux/selectors/confirmRegistration';
+import { SerializationUtils } from 'utils/serialization';
 
 const Header = () => {
   const { t } = usePublicTranslation({
@@ -38,6 +40,7 @@ const Contents = () => {
   if (!registrationDetails) {
     return null;
   }
+  const appLanguage = getCurrentLang();
 
   return (
     <Grid item>
@@ -52,7 +55,13 @@ const Contents = () => {
         <ConfirmRegistration
           paymentDetails={{
             due_date: registrationDetails.due_date,
-            payment_url: registrationDetails.payment_url,
+            payment_url: APIEndpoints.RedirectToPayment.replace(
+              /:registrationId/,
+              `${registrationDetails.id}`,
+            ).replace(
+              /:lang/,
+              SerializationUtils.serializeAppLanguage(appLanguage),
+            ),
           }}
         />
       </Paper>
