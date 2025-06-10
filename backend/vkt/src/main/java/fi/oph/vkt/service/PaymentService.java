@@ -235,6 +235,9 @@ public class PaymentService {
       setEnrollmentStatus(enrollmentAppointment, newStatus);
 
       payment.setPaymentStatus(newStatus);
+      if (newStatus == PaymentStatus.OK) {
+        payment.setPaidAt(LocalDateTime.now());
+      }
       paymentRepository.saveAndFlush(payment);
 
       if (newStatus == PaymentStatus.OK) {

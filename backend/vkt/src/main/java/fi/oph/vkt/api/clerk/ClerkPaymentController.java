@@ -32,7 +32,7 @@ public class ClerkPaymentController {
   }
 
   @GetMapping("/downloadReport")
-  @Operation(tags = TAG_PAYMENT, summary = "Mark payment as refunded")
+  @Operation(tags = TAG_PAYMENT, summary = "Download payment report")
   public AbstractXlsxView downloadReport(
     @RequestParam("from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final LocalDate from,
     @RequestParam("to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final LocalDate to
