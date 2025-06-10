@@ -303,6 +303,7 @@ const getRegistrationToConfirmDetails = () => {
         },
       ],
       session_date: '2026-02-12',
+      expires_at: '2025-06-13T21:00:00.000Z',
       registration_start_date: '2025-04-01',
       registration_end_date: '2025-08-01',
       language_code: 'fin',
@@ -1519,8 +1520,7 @@ module.exports = function (app) {
   app.delete('/yki/api/person/registration/:id', (req, res) => {
     const mockCall = () => {
       try {
-
-        console.log(req.params.id)
+        console.log(req.params.id);
         setTimeout(() => {
           res.send({ success: true });
         }, getRandomNetworkDelay());
