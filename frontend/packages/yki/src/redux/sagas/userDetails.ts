@@ -3,6 +3,7 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 
 import axiosInstance from 'configs/axios';
+import { getCurrentLang } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import {
   CancelRegistrationResponse,
@@ -35,6 +36,7 @@ function* loadPersonDetailsSaga() {
 }
 
 function* cancelUserRegistrationSaga(action: PayloadAction<number>) {
+  const lang = getCurrentLang();
   try {
     const response: AxiosResponse<CancelRegistrationResponse> = yield call(
       axiosInstance.delete,
@@ -42,6 +44,11 @@ function* cancelUserRegistrationSaga(action: PayloadAction<number>) {
         /:registrationId/,
         `${action.payload}`,
       ),
+      {
+        params: {
+          lang: SerializationUtils.serializeAppLanguage(lang),
+        },
+      },
     );
 
     if (response.data.success) {
