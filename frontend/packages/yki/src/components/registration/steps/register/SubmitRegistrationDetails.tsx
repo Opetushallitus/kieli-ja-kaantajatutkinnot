@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import { Dayjs } from 'dayjs';
 import { useEffect } from 'react';
 import { H2, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
@@ -8,12 +8,20 @@ import { ConfirmRegistration } from 'components/registration/steps/register/Conf
 import { EmailRegistrationDetails } from 'components/registration/steps/register/EmailRegistrationDetails';
 import { DialogContents } from 'components/registration/steps/register/RegistrationNavigationProtectionDialog';
 import { SuomiFiRegistrationDetails } from 'components/registration/steps/register/SuomiFiRegistrationDetails';
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import {
+  getCurrentLang,
+  useCommonTranslation,
+  usePublicTranslation,
+} from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { APIEndpoints } from 'enums/api';
 import { useRegistrationNavigationProtection } from 'hooks/useNavigationProtection';
+import { loadLoginLink } from 'redux/reducers/loginLink';
 import { loadNationalities } from 'redux/reducers/nationalities';
+import { loginLinkSelector } from 'redux/selectors/loginLink';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
+import { SerializationUtils } from 'utils/serialization';
 
 const FillRegistrationDetails = () => {
   const dispatch = useAppDispatch();
@@ -80,10 +88,35 @@ const Error = () => {
 };
 
 const Success = () => {
-  // TODO Need payment link and due date as response from server!!!
+  const dispatch = useAppDispatch();
+  const { code } = useAppSelector(registrationSelector).submitRegistration;
+  const { expires_at, status } = useAppSelector(loginLinkSelector);
+  const lang = getCurrentLang();
+
+  useEffect(() => {
+    if (status === APIResponseStatus.NotStarted && code) {
+      dispatch(loadLoginLink(code));
+    }
+  }, [code, status, dispatch]);
+
+  if (!code || status !== APIResponseStatus.Success) {
+    return null;
+  }
+
+  const paymentUrl = new URL(
+    APIEndpoints.LoginWithCode,
+    window.location.origin,
+  );
+  const queryParams = paymentUrl.searchParams;
+  queryParams.append('code', code);
+  queryParams.append('lang', SerializationUtils.serializeAppLanguage(lang));
+
   return (
     <ConfirmRegistration
-      paymentDetails={{ payment_url: 'http://FIXME', due_date: dayjs() }}
+      paymentDetails={{
+        payment_url: paymentUrl.toString(),
+        due_date: expires_at as Dayjs,
+      }}
     />
   );
 };

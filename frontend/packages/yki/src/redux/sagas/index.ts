@@ -4,6 +4,7 @@ import { watchConfirmRegistration } from 'redux/sagas/confirmRegistration';
 import { watchEvaluationOrder } from 'redux/sagas/evaluationOrder';
 import { watchEvaluationPeriods } from 'redux/sagas/evaluationPeriod';
 import { watchExamSessions } from 'redux/sagas/examSession';
+import { watchLoginLink } from 'redux/sagas/loginLink';
 import { watchNationalities } from 'redux/sagas/nationalities';
 import { watchPublicIdentification } from 'redux/sagas/publicIdentification';
 import { watchRegistration } from 'redux/sagas/registration';
@@ -25,5 +26,6 @@ export default function* rootSaga() {
     watchUserOpenRegistrations(),
     watchTransferEnrollment(),
     watchConfirmRegistration(),
+    watchLoginLink(),
   ]);
 }

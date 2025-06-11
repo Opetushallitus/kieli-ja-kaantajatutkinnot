@@ -29,7 +29,7 @@ const RegistrationForm = () => {
   const dispatch = useAppDispatch();
   const { status: initRegistrationStatus } =
     useAppSelector(registrationSelector).initRegistration;
-  const { status: submitFormStatus } =
+  const { status: submitFormStatus, code } =
     useAppSelector(registrationSelector).submitRegistration;
   const { examSession, status: examSessionStatus } =
     useAppSelector(examSessionSelector);
@@ -41,7 +41,14 @@ const RegistrationForm = () => {
       submitFormStatus === APIResponseStatus.Success &&
       !searchParams.get('submitted')
     ) {
-      const redirectTo = `${window.location.href}?submitted=true`;
+      const params = new URLSearchParams();
+      params.append('submitted', 'true');
+      if (code) {
+        params.append('code', code);
+      }
+      const redirectTo = `${window.location.href}?${encodeURIComponent(
+        params.toString(),
+      )}`;
       window.location.href = `${APIEndpoints.Logout}?redirect=${redirectTo}`;
     }
   });

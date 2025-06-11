@@ -31,6 +31,10 @@ import {
   ExamSessions,
   ExamSessionsResponse,
 } from 'interfaces/examSessions';
+import {
+  LoginLinkDetails,
+  LoginLinkDetailsResponse,
+} from 'interfaces/loginLink';
 import { NationalitiesResponse, Nationality } from 'interfaces/nationality';
 import {
   PublicEmailRegistration,
@@ -297,6 +301,14 @@ export class SerializationUtils {
       registration_end_date: SerializationUtils.deserializeEndTime(
         response.registration_end_date,
       ) as Dayjs,
+    };
+  }
+
+  static deserializeLoginLinkDetailsResponse(
+    response: LoginLinkDetailsResponse,
+  ): LoginLinkDetails {
+    return {
+      expires_at: dayjs(response.expires_at).subtract(1, 'day'),
     };
   }
 }
