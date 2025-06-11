@@ -35,6 +35,7 @@ import { ClerkExamEventCreatePage } from 'pages/ClerkExamEventCreatePage';
 import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
 import { ClerkExcellentLevelPage } from 'pages/ClerkExcellentLevelPage';
 import { ClerkGoodAndSatisfactoryLevelPage } from 'pages/ClerkGoodAndSatisfactoryLevelPage';
+import { ClerkPaymentReportPage } from 'pages/ClerkPaymentReportPage';
 import { ExaminerDetailsPage } from 'pages/examiner/ExaminerDetailsPage';
 import { ExaminerExamEventOverviewPage } from 'pages/examiner/ExaminerExamEventOverviewPage';
 import { ExaminerExamEventUpsertPage } from 'pages/examiner/ExaminerExamEventUpsertPage';
@@ -348,6 +349,14 @@ export const AppRouter: FC = () => {
           element={
             <VktTitlePage title={createTitle('clerkExcellentLevel')}>
               <ClerkExcellentLevelPage />
+            </VktTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ClerkPaymentReportPage}
+          element={
+            <VktTitlePage title={createTitle('clerkExcellentLevel')}>
+              <ClerkPaymentReportPage />
             </VktTitlePage>
           }
         />

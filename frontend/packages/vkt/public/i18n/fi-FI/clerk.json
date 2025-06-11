@@ -1,6 +1,15 @@
 {
   "vkt": {
     "component": {
+      "paymentReport": {
+        "datePicker": {
+          "begin": "Alkaen",
+          "end": "Loppuen"
+        },
+        "download": "Lataa maksuraportti",
+        "timespan": "Aikaväli",
+        "paymentReport": "Maksuraportti"
+      },
       "clerkEnrollmentDetails": {
         "attachment": {
           "download": "Lataa tiedosto"
@@ -211,7 +220,8 @@
         "logOut": "Kirjaudu ulos",
         "navigationLinks": {
           "excellentLevel": "Erinomainen taito",
-          "goodAndSatisfactoryLevel": "Hyvä ja tyydyttävä taito"
+          "goodAndSatisfactoryLevel": "Hyvä ja tyydyttävä taito",
+          "paymentReport": "Maksuraportti"
         }
       }
     },

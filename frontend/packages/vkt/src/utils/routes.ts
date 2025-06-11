@@ -167,4 +167,11 @@ export class RouteUtils {
         );
     }
   }
+
+  static downloadPaymentReportRoute(from: string, to: string) {
+    return APIEndpoints.ClerkPaymentReportDownload.replace(
+      ':from',
+      from,
+    ).replace(':to', to);
+  }
 }
