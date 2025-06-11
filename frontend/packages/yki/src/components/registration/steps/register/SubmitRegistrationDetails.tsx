@@ -16,7 +16,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
 import { useRegistrationNavigationProtection } from 'hooks/useNavigationProtection';
-import { loadLoginLink } from 'redux/reducers/loginLink';
+import { loadLoginLink, resetLoginLink } from 'redux/reducers/loginLink';
 import { loadNationalities } from 'redux/reducers/nationalities';
 import { loginLinkSelector } from 'redux/selectors/loginLink';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
@@ -98,6 +98,12 @@ const Success = () => {
       dispatch(loadLoginLink(code));
     }
   }, [code, status, dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetLoginLink());
+    };
+  }, [dispatch]);
 
   if (!code || status !== APIResponseStatus.Success) {
     return null;
