@@ -48,6 +48,7 @@ public class PaytrailPaymentProvider implements PaymentProvider {
   private Body getBody(
     final List<Item> itemList,
     final Long paymentId,
+    final String paymentReference,
     final Customer customer,
     final int amount,
     final AppLocale appLocale
@@ -69,7 +70,7 @@ public class PaytrailPaymentProvider implements PaymentProvider {
       .builder()
       .items(itemList)
       .stamp(stamp)
-      .reference(paymentId.toString())
+      .reference(paymentReference)
       .amount(amount)
       .currency(PaytrailConfig.CURRENCY)
       .language(appLocale.name())
@@ -88,6 +89,7 @@ public class PaytrailPaymentProvider implements PaymentProvider {
   public PaytrailResponseDTO createPayment(
     @NonNull final List<Item> itemList,
     final Long paymentId,
+    final String paymentReference,
     final Customer customer,
     final int amount,
     final AppLocale appLocale
@@ -98,7 +100,7 @@ public class PaytrailPaymentProvider implements PaymentProvider {
 
     final ObjectMapper objectMapper = new ObjectMapper();
     final Map<String, String> headers = getHeaders();
-    final Body body = getBody(itemList, paymentId, customer, amount, appLocale);
+    final Body body = getBody(itemList, paymentId, paymentReference, customer, amount, appLocale);
     final String secret = paytrailConfig.getSecret();
 
     String bodyJson = null;
