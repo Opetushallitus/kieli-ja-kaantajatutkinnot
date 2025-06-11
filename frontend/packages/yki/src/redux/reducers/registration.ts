@@ -11,6 +11,7 @@ import {
   isRegistrationInitErrorResponse,
   PublicEmailRegistration,
   PublicRegistrationFormSubmitErrorResponse,
+  PublicRegistrationFormSubmitSuccessResponse,
   PublicRegistrationInitResponse,
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
@@ -27,6 +28,7 @@ export interface RegistrationState {
     examSessionId?: number;
   };
   submitRegistration: {
+    code?: string;
     status: APIResponseStatus;
     error?: PublicRegistrationFormSubmitError;
   };
@@ -147,8 +149,12 @@ const registrationSlice = createSlice({
     submitPublicRegistration(state) {
       state.submitRegistration.status = APIResponseStatus.InProgress;
     },
-    acceptPublicRegistrationSubmission(state) {
+    acceptPublicRegistrationSubmission(
+      state,
+      action: PayloadAction<PublicRegistrationFormSubmitSuccessResponse>,
+    ) {
       state.submitRegistration.status = APIResponseStatus.Success;
+      state.submitRegistration.code = action.payload.code;
     },
     rejectPublicRegistrationSubmission(
       state,

@@ -8,6 +8,7 @@ import { APIEndpoints } from 'enums/api';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import {
   PublicRegistrationFormSubmitErrorResponse,
+  PublicRegistrationFormSubmitSuccessResponse,
   PublicRegistrationInitErrorResponse,
   PublicRegistrationInitResponse,
 } from 'interfaces/publicRegistration';
@@ -109,25 +110,26 @@ function* submitRegistrationFormSaga() {
     const registrationState: RegistrationState =
       yield select(registrationSelector);
     const { nationalities } = yield select(nationalitiesSelector);
-    yield call(
-      axiosInstance.post,
-      APIEndpoints.SubmitRegistration.replace(
-        /:registrationId/,
-        `${registrationState.registration.id}`,
-      ),
-      JSON.stringify(
-        SerializationUtils.serializeRegistrationForm(
-          registrationState.registration,
-          nationalities,
+    const response: AxiosResponse<PublicRegistrationFormSubmitSuccessResponse> =
+      yield call(
+        axiosInstance.post,
+        APIEndpoints.SubmitRegistration.replace(
+          /:registrationId/,
+          `${registrationState.registration.id}`,
         ),
-      ),
-      {
-        params: {
-          lang: SerializationUtils.serializeAppLanguage(lang),
+        JSON.stringify(
+          SerializationUtils.serializeRegistrationForm(
+            registrationState.registration,
+            nationalities,
+          ),
+        ),
+        {
+          params: {
+            lang: SerializationUtils.serializeAppLanguage(lang),
+          },
         },
-      },
-    );
-    yield put(acceptPublicRegistrationSubmission());
+      );
+    yield put(acceptPublicRegistrationSubmission(response.data));
     yield put(resetUserOpenRegistrations());
   } catch (error) {
     // eslint-disable-next-line no-console
