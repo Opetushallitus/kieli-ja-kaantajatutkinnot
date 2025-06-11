@@ -47,8 +47,9 @@ export const ExamDetailsPage = () => {
       if (searchParams.get('submitted')) {
         // If form is already submitted, just reload exam session details
         // and manually set registration status to submitted.
+        const code = searchParams.get('code');
         dispatch(loadExamSession(+params.examSessionId));
-        dispatch(acceptPublicRegistrationSubmission());
+        dispatch(acceptPublicRegistrationSubmission({ code: code || '' }));
       } else {
         // Else attempt to initiate registration.
         dispatch(initRegistration(+params.examSessionId));

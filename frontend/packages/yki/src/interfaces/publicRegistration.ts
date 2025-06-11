@@ -77,6 +77,10 @@ export function isRegistrationInitErrorResponse(
   return 'closed' in error || 'full' in error || 'exists' in error;
 }
 
+export interface PublicRegistrationFormSubmitSuccessResponse {
+  code: string;
+}
+
 export interface PublicRegistrationFormSubmitErrorResponse {
   error: {
     closed?: boolean;

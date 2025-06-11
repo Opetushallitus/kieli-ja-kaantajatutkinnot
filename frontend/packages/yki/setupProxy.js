@@ -304,7 +304,6 @@ const getRegistrationToConfirmDetails = () => {
       ],
       session_date: '2026-02-12',
       expires_at: '2025-06-13T21:00:00.000Z',
-      payment_url: 'https://yki.untuvaopintopolku.fi/yki/api/payment/v3/1338/redirect',
       registration_start_date: '2025-04-01',
       registration_end_date: '2025-08-01',
       language_code: 'fin',
@@ -1175,6 +1174,20 @@ module.exports = function (app) {
     useLocalProxy ? proxyPostCall(req, res) : mockCall();
   });
 
+  app.get('/yki/auth/login-link-info', (req, res) => {
+    const mockCall = () => {
+      try {
+        res.send({
+          expires_at: '2025-06-13T21:00:00.000Z',
+        });
+      } catch (err) {
+        printError(req, err);
+        res.status(404).send(err.message);
+      }
+    };
+    useLocalProxy ? proxyGetCall(req, res) : mockCall();
+  });
+
   app.post('/yki/api/registration/init', (req, res) => {
     const mockCall = () => {
       try {
@@ -1289,7 +1302,10 @@ module.exports = function (app) {
   app.post('/yki/api/registration/:id/submit', (req, res) => {
     const mockCall = () => {
       try {
-        res.send({ success: true });
+        res.send({
+          success: true,
+          code: '58e2db44-529e-46ad-b80c-cb8454c8f773',
+        });
       } catch (err) {
         printError(req, err);
         res.status(404).send(err.message);
