@@ -570,7 +570,20 @@
       },
       "transferEnrollmentSuccessPage": {
         "information": {
-          "heading": "Tervetuloa YKI-testiin!"
+          "beforeYkiTest": {
+            "description": "Valmistaudu YKI-testiin lukemalla Opetushallituksen ohjeet:",
+            "label": "Ennen YKI-testia (oph.fi)",
+            "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ennen-testia"
+          },
+          "heading": "Tervetuloa YKI-testiin!",
+          "part1": "Ilmoittautuminen on siirretty. Saat vahvistuksen ilmoittautumisestasi sähköpostilla.",
+          "part2": "Testipaikkasi lähettää lähempänä testipäivää sähköpostiisi tarkemmat ohjeet testiin saapumista varten.",
+          "part3": "Ohjeissa kerrotaan muun muassa testipaikan tarkka sijainti ja kellonaika, jolloin testi alkaa.",
+          "specialArrangements": {
+            "description": "Jos tarvitset erityisjärjestelyjä, lähetä hakemus mahdollisimman pian Opetushallituksen ohjeiden mukaan:",
+            "label": "Tarvitsetko erityisjärjestelyjä? (oph.fi)",
+            "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tarvitsetko-erityisjarjestelyja"
+          }
         },
         "title": "Ilmoittautumisen siirto onnistui!"
       },

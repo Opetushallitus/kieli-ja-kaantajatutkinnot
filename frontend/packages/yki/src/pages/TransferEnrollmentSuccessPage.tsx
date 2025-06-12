@@ -1,4 +1,5 @@
-import { Grid, Paper } from '@mui/material';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { Grid, Link, Paper } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -83,10 +84,30 @@ const InformationBox = () => {
           </Text>
         </div>
         <H2>{t('heading')}</H2>
-        <Text>Tähän näkymään pitäisi varmaan päivittää tekstit.</Text>
+        <Text>{t('part1')}</Text>
         <Text>
-          Lähetetäänkö asiakkaalle vahvistussähköposti onnistuneesta siirrosta?
+          {t('part2')}
+          <br />
+          {t('part3')}
         </Text>
+        <div>
+          <Text>{t('beforeYkiTest.description')}</Text>
+          <div className="columns gapped-xxs">
+            <Link href={t('beforeYkiTest.url')} target="_blank">
+              <Text className="bold">{t('beforeYkiTest.label')}</Text>
+            </Link>
+            <OpenInNewIcon />
+          </div>
+        </div>
+        <div>
+          <Text>{t('specialArrangements.description')}</Text>
+          <div className="columns gapped-xxs">
+            <Link href={t('specialArrangements.url')} target="_blank">
+              <Text className="bold">{t('specialArrangements.label')}</Text>
+            </Link>
+            <OpenInNewIcon />
+          </div>
+        </div>
       </Paper>
     </Grid>
   );
