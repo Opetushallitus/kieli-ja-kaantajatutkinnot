@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
-import { translateOutsideComponent } from 'configs/i18n';
+import { getCurrentLang, translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import {
   RelocateRequest,
@@ -45,6 +45,7 @@ function* loadTransferEnrollmentDetailsSaga(action: PayloadAction<number>) {
 
 function* transferEnrollmentSaga(action: PayloadAction<RelocateRequest>) {
   const t = translateOutsideComponent();
+  const lang = getCurrentLang();
   try {
     const { registration_id, to_exam_session_id } = action.payload;
     const response: AxiosResponse<RelocateResponse> = yield call(
@@ -54,6 +55,11 @@ function* transferEnrollmentSaga(action: PayloadAction<RelocateRequest>) {
         `${registration_id}`,
       ),
       JSON.stringify({ to_exam_session_id }),
+      {
+        params: {
+          lang: SerializationUtils.serializeAppLanguage(lang),
+        },
+      },
     );
     const { success } = response.data;
     if (success) {
