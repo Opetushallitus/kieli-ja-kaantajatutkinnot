@@ -38,13 +38,12 @@ const RegistrationForm = () => {
   useEffect(() => {
     if (
       submitFormStatus === APIResponseStatus.Success &&
-      !searchParams.get('submitted')
+      !searchParams.get('submitted') &&
+      code
     ) {
       const params = new URLSearchParams();
       params.append('submitted', 'true');
-      if (code) {
-        params.append('code', code);
-      }
+      params.append('code', code);
       const redirectTo = `${window.location.href}?${encodeURIComponent(
         params.toString(),
       )}`;
