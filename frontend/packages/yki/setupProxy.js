@@ -34,6 +34,7 @@ const printError = (req, err) => {
 };
 
 const useLocalProxy = process.env.REACT_APP_USE_LOCAL_PROXY_BACKEND === 'true';
+useLocalProxy && console.info('using local backend!')
 
 const getExamDates = () => {
   return JSON.parse(fs.readFileSync('./dev/rest/examSessions/examDates.json'));
