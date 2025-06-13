@@ -1,12 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`OPHLogoViewer should render OPHLogoViewer correctly 1`] = `
-<div
-  className="oph-logo columns"
->
-  <img
-    alt="Opetushallituksen logo"
-    src="test"
-  />
+<div>
+  <div
+    class="oph-logo columns"
+  >
+    <img
+      alt="Opetushallituksen logo"
+      src="test"
+    />
+  </div>
 </div>
 `;

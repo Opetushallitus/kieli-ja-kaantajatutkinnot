@@ -1,4 +1,4 @@
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 
 import { ToggleFilterGroup } from './ToggleFilterGroup';
 
@@ -27,16 +27,14 @@ const filterData = [
 
 describe('ToggleFilterGroup', () => {
   it('should render correctly', () => {
-    const tree = renderer
-      .create(
-        <ToggleFilterGroup
-          filters={filterData}
-          activeStatus={FilterStatusEnum.Active}
-          onButtonClick={jest.fn}
-        />,
-      )
-      .toJSON();
+    const { container } = render(
+      <ToggleFilterGroup
+        filters={filterData}
+        activeStatus={FilterStatusEnum.Active}
+        onButtonClick={jest.fn}
+      />,
+    );
 
-    expect(tree).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });

@@ -1,29 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`OPHClerkLogo should render OPHClerkLogo correctly 1`] = `
-<div
-  className="oph-clerk-logo columns"
->
-  <img
-    alt="ImgAlt"
-    className="oph-clerk-logo__img"
-    src="test"
-  />
+<div>
   <div
-    className="rows"
+    class="oph-clerk-logo columns"
   >
-    <p
-      className="MuiTypography-root MuiTypography-body1 oph-clerk-logo__label--bold css-rizt0-MuiTypography-root"
-      style={{}}
+    <img
+      alt="ImgAlt"
+      class="oph-clerk-logo__img"
+      src="test"
+    />
+    <div
+      class="rows"
     >
-      MainLabel
-    </p>
-    <p
-      className="MuiTypography-root MuiTypography-body1 oph-clerk-logo__label css-rizt0-MuiTypography-root"
-      style={{}}
-    >
-      SubLabel
-    </p>
+      <p
+        class="MuiTypography-root MuiTypography-body1 oph-clerk-logo__label--bold css-rizt0-MuiTypography-root"
+      >
+        MainLabel
+      </p>
+      <p
+        class="MuiTypography-root MuiTypography-body1 oph-clerk-logo__label css-rizt0-MuiTypography-root"
+      >
+        SubLabel
+      </p>
+    </div>
   </div>
 </div>
 `;

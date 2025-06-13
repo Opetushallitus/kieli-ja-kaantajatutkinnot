@@ -1,4 +1,4 @@
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 
 import { ComboBox } from './ComboBox';
 import { TextFieldVariant } from '../../enums';
@@ -11,18 +11,16 @@ describe('ComboBox', () => {
       { value: 'SV', label: 'ruotsi' },
     ];
 
-    const tree = renderer
-      .create(
-        <ComboBox
-          autoHighlight
-          variant={TextFieldVariant.Outlined}
-          values={values}
-          value={null}
-          onChange={jest.fn()}
-        />,
-      )
-      .toJSON();
+    const { container } = render(
+      <ComboBox
+        autoHighlight
+        variant={TextFieldVariant.Outlined}
+        values={values}
+        value={null}
+        onChange={jest.fn()}
+      />,
+    );
 
-    expect(tree).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });
