@@ -33,7 +33,7 @@ describe('PublicUserDetailsPage', () => {
       onToast.expectText('Ilmoittautuminen peruttu onnistuneesti');
 
       // Canceling the second registration
-      onPublicUserDetailsPage.cancelPaidRegistration(1);
+      onPublicUserDetailsPage.cancelPaidRegistration();
       findAlertDialogByText(dialogHeading).should('be.visible');
       findAlertDialogByText(dialogHeading)
         .findByRole('button', { name: 'Peru ilmoittautuminen' })
@@ -44,7 +44,7 @@ describe('PublicUserDetailsPage', () => {
 
     it('shows error toast on failed cancellation request and do not close the modal', () => {
       // Handler returns error for 3rd registration (id 1339)
-      onPublicUserDetailsPage.cancelPaidRegistration(2);
+      onPublicUserDetailsPage.cancelPaidRegistration();
       findAlertDialogByText(dialogHeading).should('be.visible');
       findAlertDialogByText(dialogHeading)
         .findByRole('button', { name: 'Peru ilmoittautuminen' })
