@@ -4,7 +4,9 @@
   "license": "MIT",
   "main": "index.js",
   "msw": {
-    "workerDirectory": "public"
+    "workerDirectory": [
+      "public"
+    ]
   },
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
   "scripts": {

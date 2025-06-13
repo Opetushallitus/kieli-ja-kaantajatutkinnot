@@ -8,6 +8,12 @@ import { NoSessionResponse } from 'tests/msw/fixtures/identity';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { personDetails } from 'tests/msw/fixtures/personDetails';
 
+const data = {
+  evaluationPeriods,
+  examSessions,
+  personDetails,
+};
+
 const notFound = () => new HttpResponse(null, { status: 404 });
 
 export const handlers = [
@@ -52,11 +58,22 @@ export const handlers = [
   http.post(APIEndpoints.SubmitRegistration, () =>
     HttpResponse.json({ success: true }),
   ),
-  http.get(APIEndpoints.PersonDetails, () => HttpResponse.json(personDetails)),
+  http.get(APIEndpoints.PersonDetails, () =>
+    HttpResponse.json(data.personDetails),
+  ),
   http.delete(APIEndpoints.CancelUserRegistration, ({ params }) => {
     const { registrationId } = params;
-    if (registrationId === '1339') {
-      return HttpResponse.json({ success: false });
+    if (registrationId) {
+      if (registrationId === '1339') {
+        return HttpResponse.json({ success: false });
+      }
+
+      data.personDetails = {
+        ...data.personDetails,
+        registrations: data.personDetails.registrations.filter(
+          (r) => `${r.id}` !== registrationId,
+        ),
+      };
     }
 
     return HttpResponse.json({ success: true });
