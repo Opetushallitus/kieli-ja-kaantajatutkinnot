@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PersonRegistrations } from 'interfaces/userDetails';
 import {
   cancelUserRegistration,
+  loadPersonDetails,
   resetCancelRegistrationStatus,
   setRegistrationToCancel,
 } from 'redux/reducers/userDetails';
@@ -66,6 +67,7 @@ export const CancelRegistrationModal = ({
       setModalOpen(false);
       dispatch(resetCancelRegistrationStatus());
       dispatch(setRegistrationToCancel(undefined));
+      dispatch(loadPersonDetails());
     } else if (cancelUserRegistrationStatus === APIResponseStatus.Error) {
       onError();
       dispatch(resetCancelRegistrationStatus());
