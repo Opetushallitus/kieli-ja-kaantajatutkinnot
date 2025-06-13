@@ -21,7 +21,7 @@ export enum APIEndpoints {
   CancelUserRegistration = '/yki/api/person/registration/:registrationId',
   TransferEnrollment = '/yki/api/person/registration/:registrationId/relocate',
   ConfirmRegistration = '/yki/api/person/registration/:registrationId/confirm',
-  RedirectToPaymentFromUserPortal = '/yki/api/person/registration/:registrationId/payment-redirect',
+  RedirectToPaymentFromUserPortal = '/yki/api/person/registration/:registrationId/payment-redirect?lang=:lang',
 }
 
 export enum PaymentStatus {
