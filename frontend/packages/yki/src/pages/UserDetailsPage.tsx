@@ -287,6 +287,8 @@ const ContactDetails = () => {
     return <></>;
   }
 
+  const editingContactDetailsAllowed = false;
+
   return (
     <div className="margin-top-xxl">
       <H2 className="user-details-page__info__section__heading-title">
@@ -313,18 +315,20 @@ const ContactDetails = () => {
               {personDetails.phoneNumber}
             </Text>
           </div>
-          <div className="columns">
-            <CustomButtonLink
-              variant={Variant.Text}
-              color={Color.Secondary}
-              to={''}
-              fullWidth={false}
-              startIcon={<EditOutlinedIcon />}
-              className="text-transform-none"
-            >
-              {t('modify')}
-            </CustomButtonLink>
-          </div>
+          {editingContactDetailsAllowed && (
+            <div className="columns">
+              <CustomButtonLink
+                variant={Variant.Text}
+                color={Color.Secondary}
+                to={''}
+                fullWidth={false}
+                startIcon={<EditOutlinedIcon />}
+                className="text-transform-none"
+              >
+                {t('modify')}
+              </CustomButtonLink>
+            </div>
+          )}
         </div>
       </Paper>
     </div>
