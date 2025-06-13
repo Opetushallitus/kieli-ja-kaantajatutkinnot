@@ -1,4 +1,4 @@
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import { APIResponseStatus } from 'shared/enums';
 
 import { initI18nForTests } from 'configs/i18n';
@@ -29,13 +29,11 @@ describe('EvaluationOrderPage', () => {
   };
 
   it('should look as expected', () => {
-    const tree = renderer
-      .create(
-        <DefaultProviders preloadedState={preloadedState}>
-          <EvaluationOrderPage />
-        </DefaultProviders>,
-      )
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+    const { container } = render(
+      <DefaultProviders preloadedState={preloadedState}>
+        <EvaluationOrderPage />
+      </DefaultProviders>,
+    );
+    expect(container).toMatchSnapshot();
   });
 });

@@ -1,57 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PublicExamSessionsTable should render correctly 1`] = `
-[
+<div>
   <div
-    className="table__head-box"
+    class="table__head-box"
   >
     <div
-      className="MuiTablePagination-root table__head-box__pagination css-7mt0f-MuiTablePagination-root"
+      class="MuiTablePagination-root table__head-box__pagination css-7mt0f-MuiTablePagination-root"
     >
       <div
-        className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-1gak8h1-MuiToolbar-root-MuiTablePagination-toolbar"
+        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-1gak8h1-MuiToolbar-root-MuiTablePagination-toolbar"
       >
         <div
-          className="MuiTablePagination-spacer css-1wtxofq-MuiTablePagination-spacer"
+          class="MuiTablePagination-spacer css-1wtxofq-MuiTablePagination-spacer"
         />
         <p
-          className="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
+          class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
           id=":r1:"
         >
           component.table.pagination.rowsPerPage
         </p>
         <div
-          className="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-oegngy-MuiInputBase-root-MuiTablePagination-select"
-          onClick={[Function]}
+          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-oegngy-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-labelledby=":r1: :r0:"
-            className="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
             id=":r0:"
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onMouseDown={[Function]}
             role="combobox"
-            tabIndex={0}
+            tabindex="0"
           >
             20
           </div>
           <input
-            aria-hidden={true}
-            aria-invalid={false}
-            className="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
-            disabled={false}
-            onAnimationStart={[Function]}
-            onChange={[Function]}
-            tabIndex={-1}
-            value={20}
+            aria-hidden="true"
+            aria-invalid="false"
+            class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
+            tabindex="-1"
+            value="20"
           />
           <svg
-            aria-hidden={true}
-            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-1gpuzre-MuiSvgIcon-root-MuiSelect-icon"
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-1gpuzre-MuiSvgIcon-root-MuiSelect-icon"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -62,35 +54,22 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           </svg>
         </div>
         <p
-          className="MuiTablePagination-displayedRows css-11cfq65-MuiTablePagination-displayedRows"
+          class="MuiTablePagination-displayedRows css-11cfq65-MuiTablePagination-displayedRows"
         >
           component.table.pagination.displayedRowsAriaLabel
         </p>
         <div
-          className="MuiTablePagination-actions"
+          class="MuiTablePagination-actions"
         >
           <button
-            className="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-h7cjts-MuiButtonBase-root-MuiIconButton-root"
-            disabled={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onDragLeave={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onMouseDown={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            tabIndex={-1}
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-h7cjts-MuiButtonBase-root-MuiIconButton-root"
+            disabled=""
+            tabindex="-1"
             type="button"
           >
             <svg
-              aria-hidden={true}
-              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
               data-testid="KeyboardArrowLeftIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -101,27 +80,14 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             </svg>
           </button>
           <button
-            className="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-h7cjts-MuiButtonBase-root-MuiIconButton-root"
-            disabled={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onDragLeave={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onMouseDown={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            tabIndex={-1}
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-h7cjts-MuiButtonBase-root-MuiIconButton-root"
+            disabled=""
+            tabindex="-1"
             type="button"
           >
             <svg
-              aria-hidden={true}
-              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
               data-testid="KeyboardArrowRightIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -134,64 +100,54 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         </div>
       </div>
     </div>
-  </div>,
+  </div>
   <table
-    className="MuiTable-root MuiTable-stickyHeader public-exam-session-listing table-layout-auto table css-pvu7mv-MuiTable-root"
-    role={null}
+    class="MuiTable-root MuiTable-stickyHeader public-exam-session-listing table-layout-auto table css-pvu7mv-MuiTable-root"
   >
     <thead
-      className="MuiTableHead-root heading-text public-exam-session-listing__header css-1a7iywq-MuiTableHead-root"
-      role={null}
+      class="MuiTableHead-root heading-text public-exam-session-listing__header css-1a7iywq-MuiTableHead-root"
     >
       <tr
-        className="MuiTableRow-root MuiTableRow-head css-1xtozoh-MuiTableRow-root"
-        role={null}
+        class="MuiTableRow-root MuiTableRow-head css-1xtozoh-MuiTableRow-root"
       >
         <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
           scope="col"
         >
           examSession
         </th>
         <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
           scope="col"
         >
           examDate
         </th>
         <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
           scope="col"
         >
           institution
         </th>
         <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
           scope="col"
         >
           registrationPeriod
         </th>
         <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
           scope="col"
         >
           price
         </th>
         <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
           scope="col"
         >
           placesAvailable
         </th>
         <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
           scope="col"
         >
           actions
@@ -199,37 +155,31 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
       </tr>
     </thead>
     <tbody
-      className="MuiTableBody-root css-gmh7jj-MuiTableBody-root"
-      role={null}
+      class="MuiTableBody-root css-gmh7jj-MuiTableBody-root"
     >
       <tr
-        className="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
+        class="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
         data-testid="public-exam-session__id-999-row"
-        role={null}
       >
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           yki.common.languages.fin, yki.common.languageLevel.YLIN
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           1/1/2035
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           Jälkiedu
           <br />
           Tampere
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           <span
             aria-label="1/1/2023 klo 10.00 — 12/31/2030 klo 16.00"
@@ -237,50 +187,32 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             1/1/2023 klo 10.00
              —
             <br
-              aria-hidden={true}
+              aria-hidden="true"
             />
             12/31/2030 klo 16.00
           </span>
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           200
            €
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           full
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           <a
-            className="custom-button-link"
+            class="custom-button-link"
             href="/yki/tutkintotilaisuus/999"
-            onClick={[Function]}
           >
             <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
-              disabled={null}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onContextMenu={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
               type="button"
             >
               orderCancellationNotification
@@ -289,38 +221,33 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         </td>
       </tr>
       <tr
-        className="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
+        class="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
         data-testid="public-exam-session__id-888-row"
-        role={null}
       >
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           yki.common.languages.fin, yki.common.languageLevel.YLIN
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           1/1/2035
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           Amiedu
           <br />
           Tampere
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           postAdmission
           :
           <br
-            aria-hidden={true}
+            aria-hidden="true"
           />
           <span
             aria-label="8/1/2023 klo 10.00 — 9/1/2030 klo 16.00"
@@ -328,50 +255,32 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             8/1/2023 klo 10.00
              —
             <br
-              aria-hidden={true}
+              aria-hidden="true"
             />
             9/1/2030 klo 16.00
           </span>
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           200
            €
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           6
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           <a
-            className="custom-button-link"
+            class="custom-button-link"
             href="/yki/tutkintotilaisuus/888"
-            onClick={[Function]}
           >
             <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
-              disabled={null}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onContextMenu={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
               type="button"
             >
               register
@@ -380,33 +289,28 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         </td>
       </tr>
       <tr
-        className="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
+        class="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
         data-testid="public-exam-session__id-25-row"
-        role={null}
       >
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           yki.common.languages.fin, yki.common.languageLevel.YLIN
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           12/29/2039
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           Amiedu
           <br />
           Tampere
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           <span
             aria-label="12/1/2030 klo 10.00 — 12/10/2039 klo 16.00"
@@ -414,59 +318,51 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             12/1/2030 klo 10.00
              —
             <br
-              aria-hidden={true}
+              aria-hidden="true"
             />
             12/10/2039 klo 16.00
           </span>
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           200
            €
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           full
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           admissionOpensOn
         </td>
       </tr>
       <tr
-        className="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
+        class="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
         data-testid="public-exam-session__id-10-row"
-        role={null}
       >
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           yki.common.languages.fin, yki.common.languageLevel.PERUS
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           5/26/2019
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           Amiedu
           <br />
           Tampere
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           <span
             aria-label="12/3/2025 klo 10.00 — 12/14/2039 klo 16.00"
@@ -474,59 +370,51 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             12/3/2025 klo 10.00
              —
             <br
-              aria-hidden={true}
+              aria-hidden="true"
             />
             12/14/2039 klo 16.00
           </span>
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           153
            €
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           50
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           admissionOpensOn
         </td>
       </tr>
       <tr
-        className="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
+        class="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
         data-testid="public-exam-session__id-11-row"
-        role={null}
       >
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           yki.common.languages.fin, yki.common.languageLevel.KESKI
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           4/6/2019
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           Amiedu
           <br />
           Tampere
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           <span
             aria-label="2/1/2019 klo 10.00 — 2/28/2039 klo 16.00"
@@ -534,50 +422,32 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             2/1/2019 klo 10.00
              —
             <br
-              aria-hidden={true}
+              aria-hidden="true"
             />
             2/28/2039 klo 16.00
           </span>
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           176
            €
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           20
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           <a
-            className="custom-button-link"
+            class="custom-button-link"
             href="/yki/tutkintotilaisuus/11"
-            onClick={[Function]}
           >
             <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
-              disabled={null}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onContextMenu={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
               type="button"
             >
               register
@@ -586,33 +456,28 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         </td>
       </tr>
       <tr
-        className="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
+        class="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
         data-testid="public-exam-session__id-12-row"
-        role={null}
       >
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           yki.common.languages.fin, yki.common.languageLevel.KESKI
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           4/6/2019
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           Maunulan yhteiskoulu - Helsingin matematiikkalukio
           <br />
           Jyväskylä
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           <span
             aria-label="2/1/2019 klo 10.00 — 2/28/2039 klo 16.00"
@@ -620,50 +485,32 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             2/1/2019 klo 10.00
              —
             <br
-              aria-hidden={true}
+              aria-hidden="true"
             />
             2/28/2039 klo 16.00
           </span>
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           176
            €
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           1
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           <a
-            className="custom-button-link"
+            class="custom-button-link"
             href="/yki/tutkintotilaisuus/12"
-            onClick={[Function]}
           >
             <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
-              disabled={null}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onContextMenu={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
               type="button"
             >
               register
@@ -672,33 +519,28 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         </td>
       </tr>
       <tr
-        className="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
+        class="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
         data-testid="public-exam-session__id-13-row"
-        role={null}
       >
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           yki.common.languages.deu, yki.common.languageLevel.YLIN
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           4/6/2039
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           Jyväskylän kansalaisopisto
           <br />
           Jyväskylä
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           <span
             aria-label="2/1/2019 klo 10.00 — 2/28/2029 klo 16.00"
@@ -706,50 +548,32 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             2/1/2019 klo 10.00
              —
             <br
-              aria-hidden={true}
+              aria-hidden="true"
             />
             2/28/2029 klo 16.00
           </span>
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           200
            €
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           full
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           <a
-            className="custom-button-link"
+            class="custom-button-link"
             href="/yki/tutkintotilaisuus/13"
-            onClick={[Function]}
           >
             <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
-              disabled={null}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onContextMenu={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
               type="button"
             >
               orderCancellationNotification
@@ -758,33 +582,28 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         </td>
       </tr>
       <tr
-        className="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
+        class="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
         data-testid="public-exam-session__id-14-row"
-        role={null}
       >
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           yki.common.languages.fin, yki.common.languageLevel.PERUS
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           4/6/2019
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           Jyväskylän kansalaisopisto
           <br />
           Jyväskylä
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           <span
             aria-label="2/1/2019 klo 10.00 — 2/28/2039 klo 16.00"
@@ -792,50 +611,32 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             2/1/2019 klo 10.00
              —
             <br
-              aria-hidden={true}
+              aria-hidden="true"
             />
             2/28/2039 klo 16.00
           </span>
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           153
            €
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           full
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           <a
-            className="custom-button-link"
+            class="custom-button-link"
             href="/yki/tutkintotilaisuus/14"
-            onClick={[Function]}
           >
             <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
-              disabled={null}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onContextMenu={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
               type="button"
             >
               orderCancellationNotification
@@ -844,33 +645,28 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         </td>
       </tr>
       <tr
-        className="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
+        class="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
         data-testid="public-exam-session__id-15-row"
-        role={null}
       >
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           yki.common.languages.fin, yki.common.languageLevel.PERUS
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           4/6/2019
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           Helsingin aikuisopisto
           <br />
           Helsinki
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           <span
             aria-label="2/1/2019 klo 10.00 — 2/28/2039 klo 16.00"
@@ -878,59 +674,51 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             2/1/2019 klo 10.00
              —
             <br
-              aria-hidden={true}
+              aria-hidden="true"
             />
             2/28/2039 klo 16.00
           </span>
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           153
            €
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           full
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           examSessionIsFull
         </td>
       </tr>
       <tr
-        className="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
+        class="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
         data-testid="public-exam-session__id-16-row"
-        role={null}
       >
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           yki.common.languages.fin, yki.common.languageLevel.KESKI
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           1/6/2021
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           Helsingin aikuisopisto
           <br />
           Helsinki
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           <span
             aria-label="11/1/2020 klo 10.00 — 12/2/2020 klo 16.00"
@@ -938,83 +726,72 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             11/1/2020 klo 10.00
              —
             <br
-              aria-hidden={true}
+              aria-hidden="true"
             />
             12/2/2020 klo 16.00
           </span>
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           176
            €
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           full
         </td>
         <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
           admissionPeriodIsClosed
         </td>
       </tr>
     </tbody>
-  </table>,
+  </table>
   <div
-    className="table__head-box"
+    class="table__head-box"
   >
     <div
-      className="MuiTablePagination-root table__head-box__pagination css-7mt0f-MuiTablePagination-root"
+      class="MuiTablePagination-root table__head-box__pagination css-7mt0f-MuiTablePagination-root"
     >
       <div
-        className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-1gak8h1-MuiToolbar-root-MuiTablePagination-toolbar"
+        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-1gak8h1-MuiToolbar-root-MuiTablePagination-toolbar"
       >
         <div
-          className="MuiTablePagination-spacer css-1wtxofq-MuiTablePagination-spacer"
+          class="MuiTablePagination-spacer css-1wtxofq-MuiTablePagination-spacer"
         />
         <p
-          className="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
+          class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
           id=":rc:"
         >
           component.table.pagination.rowsPerPage
         </p>
         <div
-          className="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-oegngy-MuiInputBase-root-MuiTablePagination-select"
-          onClick={[Function]}
+          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-oegngy-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-labelledby=":rc: :rb:"
-            className="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
             id=":rb:"
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onMouseDown={[Function]}
             role="combobox"
-            tabIndex={0}
+            tabindex="0"
           >
             20
           </div>
           <input
-            aria-hidden={true}
-            aria-invalid={false}
-            className="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
-            disabled={false}
-            onAnimationStart={[Function]}
-            onChange={[Function]}
-            tabIndex={-1}
-            value={20}
+            aria-hidden="true"
+            aria-invalid="false"
+            class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
+            tabindex="-1"
+            value="20"
           />
           <svg
-            aria-hidden={true}
-            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-1gpuzre-MuiSvgIcon-root-MuiSelect-icon"
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-1gpuzre-MuiSvgIcon-root-MuiSelect-icon"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -1025,35 +802,22 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           </svg>
         </div>
         <p
-          className="MuiTablePagination-displayedRows css-11cfq65-MuiTablePagination-displayedRows"
+          class="MuiTablePagination-displayedRows css-11cfq65-MuiTablePagination-displayedRows"
         >
           component.table.pagination.displayedRowsAriaLabel
         </p>
         <div
-          className="MuiTablePagination-actions"
+          class="MuiTablePagination-actions"
         >
           <button
-            className="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-h7cjts-MuiButtonBase-root-MuiIconButton-root"
-            disabled={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onDragLeave={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onMouseDown={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            tabIndex={-1}
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-h7cjts-MuiButtonBase-root-MuiIconButton-root"
+            disabled=""
+            tabindex="-1"
             type="button"
           >
             <svg
-              aria-hidden={true}
-              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
               data-testid="KeyboardArrowLeftIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -1064,27 +828,14 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             </svg>
           </button>
           <button
-            className="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-h7cjts-MuiButtonBase-root-MuiIconButton-root"
-            disabled={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onDragLeave={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onMouseDown={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            tabIndex={-1}
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-h7cjts-MuiButtonBase-root-MuiIconButton-root"
+            disabled=""
+            tabindex="-1"
             type="button"
           >
             <svg
-              aria-hidden={true}
-              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
               data-testid="KeyboardArrowRightIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -1097,6 +848,6 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         </div>
       </div>
     </div>
-  </div>,
-]
+  </div>
+</div>
 `;

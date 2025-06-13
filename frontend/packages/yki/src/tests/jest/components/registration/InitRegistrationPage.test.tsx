@@ -1,4 +1,4 @@
-import { create } from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import { APIResponseStatus } from 'shared/enums';
 
 import { RootState } from 'configs/redux';
@@ -19,13 +19,14 @@ const renderPageWithSession = (examSession: ExamSession) => {
     },
     registration: initialRegistrationState,
   };
-  const tree = create(
+
+  const { container } = render(
     <DefaultProviders preloadedState={preloadedState}>
       <ContentSelector />
     </DefaultProviders>,
-  ).toJSON();
+  );
 
-  return tree;
+  return container;
 };
 
 describe('InitRegistrationPage', () => {
@@ -44,8 +45,8 @@ describe('InitRegistrationPage', () => {
           open && kind === RegistrationKind.Admission && availablePlaces > 0
         );
       }) as ExamSession;
-      const tree = renderPageWithSession(examSession);
-      expect(tree).toMatchSnapshot();
+      const container = renderPageWithSession(examSession);
+      expect(container).toMatchSnapshot();
     });
 
     it('if post-admission is ongoing and there is room', () => {
@@ -57,8 +58,8 @@ describe('InitRegistrationPage', () => {
           open && kind === RegistrationKind.PostAdmission && availablePlaces > 0
         );
       }) as ExamSession;
-      const tree = renderPageWithSession(examSession);
-      expect(tree).toMatchSnapshot();
+      const container = renderPageWithSession(examSession);
+      expect(container).toMatchSnapshot();
     });
   });
 
@@ -70,8 +71,8 @@ describe('InitRegistrationPage', () => {
 
         return open && availablePlaces === 0 && availableQueue;
       }) as ExamSession;
-      const tree = renderPageWithSession(examSession);
-      expect(tree).toMatchSnapshot();
+      const container = renderPageWithSession(examSession);
+      expect(container).toMatchSnapshot();
     });
   });
 
@@ -83,16 +84,16 @@ describe('InitRegistrationPage', () => {
 
         return open && availablePlaces === 0 && !availableQueue;
       }) as ExamSession;
-      const tree = renderPageWithSession(examSession);
-      expect(tree).toMatchSnapshot();
+      const container = renderPageWithSession(examSession);
+      expect(container).toMatchSnapshot();
     });
 
     it('if registration has not yet started', () => {
       const examSession = sessions.find((es) => {
         return !es.open && es.upcoming_admission;
       }) as ExamSession;
-      const tree = renderPageWithSession(examSession);
-      expect(tree).toMatchSnapshot();
+      const container = renderPageWithSession(examSession);
+      expect(container).toMatchSnapshot();
     });
 
     it('if registration period has already ended', () => {
@@ -101,8 +102,8 @@ describe('InitRegistrationPage', () => {
           !es.open && !es.upcoming_admission && !es.upcoming_post_admission
         );
       }) as ExamSession;
-      const tree = renderPageWithSession(examSession);
-      expect(tree).toMatchSnapshot();
+      const container = renderPageWithSession(examSession);
+      expect(container).toMatchSnapshot();
     });
   });
 });

@@ -1,12 +1,11 @@
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 
 import { Header } from 'components/layouts/Header';
 import { SuomiFiAuthenticatedSession } from 'interfaces/session';
 import { acceptSession } from 'redux/reducers/session';
 import { acceptUserOpenRegistrations } from 'redux/reducers/userOpenRegistrations';
 import { setupStore } from 'redux/store';
+import { DefaultProviders } from 'tests/jest/utils/DefaultProviders';
 
 describe('Header', () => {
   it('should render Header correctly', () => {
@@ -30,16 +29,11 @@ describe('Header', () => {
     const store = setupStore();
     store.dispatch(acceptSession(suomiFiAuthenticatedUser));
     store.dispatch(acceptUserOpenRegistrations(openRegistrationsResponse));
-    const tree = renderer
-      .create(
-        <Provider store={store}>
-          <BrowserRouter>
-            <Header />
-          </BrowserRouter>
-        </Provider>,
-      )
-      .toJSON();
-
-    expect(tree).toMatchSnapshot();
+    const { container } = render(
+      <DefaultProviders store={store}>
+        <Header />
+      </DefaultProviders>,
+    );
+    expect(container).toMatchSnapshot();
   });
 });
