@@ -1,68 +1,61 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CustomSelect should render correctly 1`] = `
-<div
-  className="MuiFormControl-root MuiFormControl-fullWidth css-ytlejw-MuiFormControl-root"
->
+<div>
   <div
-    className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiSelect-root css-sc8y68-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
-    onClick={[Function]}
+    class="MuiFormControl-root MuiFormControl-fullWidth css-ytlejw-MuiFormControl-root"
   >
     <div
-      aria-expanded="false"
-      aria-haspopup="listbox"
-      className="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-w76bbz-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onMouseDown={[Function]}
-      role="combobox"
-      tabIndex={0}
+      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiSelect-root css-sc8y68-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
     >
-      <span
-        aria-hidden={true}
-        className="notranslate"
-      >
-        ​
-      </span>
-    </div>
-    <input
-      aria-hidden={true}
-      aria-invalid={false}
-      className="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
-      disabled={false}
-      onAnimationStart={[Function]}
-      onChange={[Function]}
-      required={false}
-      tabIndex={-1}
-      value="Option B"
-    />
-    <svg
-      aria-hidden={true}
-      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-lohd6h-MuiSvgIcon-root-MuiSelect-icon"
-      data-testid="ArrowDropDownIcon"
-      focusable="false"
-      viewBox="0 0 24 24"
-    >
-      <path
-        d="M7 10l5 5 5-5z"
-      />
-    </svg>
-    <fieldset
-      aria-hidden={true}
-      className="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
-    >
-      <legend
-        className="css-w4cd9x"
+      <div
+        aria-expanded="false"
+        aria-haspopup="listbox"
+        class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-w76bbz-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+        role="combobox"
+        tabindex="0"
       >
         <span
-          aria-hidden={true}
-          className="notranslate"
+          aria-hidden="true"
+          class="notranslate"
         >
           ​
         </span>
-      </legend>
-    </fieldset>
+      </div>
+      <input
+        aria-hidden="true"
+        aria-invalid="false"
+        class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
+        tabindex="-1"
+        value="Option B"
+      />
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-lohd6h-MuiSvgIcon-root-MuiSelect-icon"
+        data-testid="ArrowDropDownIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M7 10l5 5 5-5z"
+        />
+      </svg>
+      <fieldset
+        aria-hidden="true"
+        class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+      >
+        <legend
+          class="css-w4cd9x"
+        >
+          <span
+            aria-hidden="true"
+            class="notranslate"
+          >
+            ​
+          </span>
+        </legend>
+      </fieldset>
+    </div>
   </div>
 </div>
 `;

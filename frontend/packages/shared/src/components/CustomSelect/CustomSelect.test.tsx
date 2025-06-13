@@ -1,4 +1,4 @@
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 
 import { CustomSelect } from './CustomSelect';
 
@@ -9,9 +9,9 @@ describe('CustomSelect', () => {
       ['Option B', 'B'],
       ['Option C', 'C'],
     ]);
-    const tree = renderer
-      .create(<CustomSelect values={values} value="Option B" />)
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+    const { container } = render(
+      <CustomSelect values={values} value="Option B" />,
+    );
+    expect(container).toMatchSnapshot();
   });
 });

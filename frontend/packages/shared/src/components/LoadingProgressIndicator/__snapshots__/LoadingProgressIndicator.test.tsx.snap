@@ -1,44 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LoadingProgressIndicator should render LoadingProgressIndicator correctly 1`] = `
-<div
-  className="loading-progress-indicator__inline-flex"
->
+<div>
   <div
-    className="loading-progress-indicator__container__inline-flex"
+    class="loading-progress-indicator__inline-flex"
   >
     <div
-      className="loading-progress-indicator__container__spinner-box"
+      class="loading-progress-indicator__container__inline-flex"
     >
       <div
-        className="custom-circular-progress"
+        class="loading-progress-indicator__container__spinner-box"
       >
-        <span
-          aria-live="assertive"
-          className="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorSecondary css-w58ak0-MuiCircularProgress-root"
-          role="progressbar"
-          style={
-            {
-              "height": "3rem",
-              "width": "3rem",
-            }
-          }
+        <div
+          class="custom-circular-progress"
         >
-          <svg
-            className="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
-            viewBox="22 22 44 44"
+          <span
+            aria-live="assertive"
+            class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorSecondary css-w58ak0-MuiCircularProgress-root"
+            role="progressbar"
+            style="width: 3rem; height: 3rem;"
           >
-            <circle
-              className="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-19t5dcl-MuiCircularProgress-circle"
-              cx={44}
-              cy={44}
-              fill="none"
-              r={20.2}
-              strokeWidth={3.6}
-              style={{}}
-            />
-          </svg>
-        </span>
+            <svg
+              class="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
+              viewBox="22 22 44 44"
+            >
+              <circle
+                class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-19t5dcl-MuiCircularProgress-circle"
+                cx="44"
+                cy="44"
+                fill="none"
+                r="20.2"
+                stroke-width="3.6"
+              />
+            </svg>
+          </span>
+        </div>
       </div>
     </div>
   </div>

@@ -1,93 +1,81 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CustomTextField should render correctly with error 1`] = `
-<div
-  className="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
->
-  <label
-    className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
-    data-shrink={false}
-    htmlFor=":r1:"
-    id=":r1:-label"
-  >
-    test label
-  </label>
+<div>
   <div
-    className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
-    onClick={[Function]}
+    class="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
   >
-    <input
-      aria-invalid={true}
-      autoFocus={false}
-      className="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
-      disabled={false}
-      id=":r1:"
-      onAnimationStart={[Function]}
-      onBlur={[Function]}
-      onChange={[Function]}
-      onFocus={[Function]}
-      required={false}
-      type="text"
-      value="wrong test value"
-    />
-    <fieldset
-      aria-hidden={true}
-      className="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+    <label
+      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"
+      data-shrink="true"
+      for=":r1:"
+      id=":r1:-label"
     >
-      <legend
-        className="css-81qg8w"
+      test label
+    </label>
+    <div
+      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
+    >
+      <input
+        aria-invalid="true"
+        class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+        id=":r1:"
+        type="text"
+        value="wrong test value"
+      />
+      <fieldset
+        aria-hidden="true"
+        class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
       >
-        <span>
-          test label
-        </span>
-      </legend>
-    </fieldset>
+        <legend
+          class="css-w1u3ce"
+        >
+          <span>
+            test label
+          </span>
+        </legend>
+      </fieldset>
+    </div>
   </div>
 </div>
 `;
 
 exports[`CustomTextField should render correctly with text 1`] = `
-<div
-  className="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
->
-  <label
-    className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"
-    data-shrink={true}
-    htmlFor=":r0:"
-    id=":r0:-label"
-  >
-    test label
-  </label>
+<div>
   <div
-    className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
-    onClick={[Function]}
+    class="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
   >
-    <input
-      aria-invalid={false}
-      autoFocus={false}
-      className="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
-      disabled={false}
-      id=":r0:"
-      onAnimationStart={[Function]}
-      onBlur={[Function]}
-      onChange={[Function]}
-      onFocus={[Function]}
-      required={false}
-      type="text"
-      value="test value"
-    />
-    <fieldset
-      aria-hidden={true}
-      className="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+    <label
+      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"
+      data-shrink="true"
+      for=":r0:"
+      id=":r0:-label"
     >
-      <legend
-        className="css-w1u3ce"
+      test label
+    </label>
+    <div
+      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
+    >
+      <input
+        aria-invalid="false"
+        class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+        id=":r0:"
+        type="text"
+        value="test value"
+      />
+      <fieldset
+        aria-hidden="true"
+        class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
       >
-        <span>
-          test label
-        </span>
-      </legend>
-    </fieldset>
+        <legend
+          class="css-w1u3ce"
+        >
+          <span>
+            test label
+          </span>
+        </legend>
+      </fieldset>
+    </div>
   </div>
 </div>
 `;

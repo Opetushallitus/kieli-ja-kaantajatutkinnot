@@ -1,102 +1,62 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ToggleFilterGroup should render correctly 1`] = `
-<div
-  className="columns"
->
-  <button
-    className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary border-radius-unset css-1mns5ui-MuiButtonBase-root-MuiButton-root"
-    data-testid="toggleFilter--active"
-    disabled={null}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onContextMenu={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
+<div>
+  <div
+    class="columns"
   >
-    <div
-      className="columns gapped"
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary border-radius-unset css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+      data-testid="toggleFilter--active"
+      tabindex="0"
+      type="button"
     >
       <div
-        className="grow"
+        class="columns gapped"
       >
-        Active
+        <div
+          class="grow"
+        >
+          Active
+        </div>
+        <div>
+          (10)
+        </div>
       </div>
-      <div>
-        (10)
-      </div>
-    </div>
-  </button>
-  <button
-    className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary border-radius-unset css-1ioaic5-MuiButtonBase-root-MuiButton-root"
-    disabled={null}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onContextMenu={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <div
-      className="columns gapped"
+    </button>
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary border-radius-unset css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+      tabindex="0"
+      type="button"
     >
       <div
-        className="grow"
+        class="columns gapped"
       >
-        Passive
+        <div
+          class="grow"
+        >
+          Passive
+        </div>
+        <div>
+          (0)
+        </div>
       </div>
-      <div>
-        (0)
-      </div>
-    </div>
-  </button>
-  <button
-    className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary border-radius-unset css-1ioaic5-MuiButtonBase-root-MuiButton-root"
-    disabled={null}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onContextMenu={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <div
-      className="columns gapped"
+    </button>
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary border-radius-unset css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+      tabindex="0"
+      type="button"
     >
       <div
-        className="grow"
+        class="columns gapped"
       >
-        Expired
+        <div
+          class="grow"
+        >
+          Expired
+        </div>
       </div>
-    </div>
-  </button>
+    </button>
+  </div>
 </div>
 `;

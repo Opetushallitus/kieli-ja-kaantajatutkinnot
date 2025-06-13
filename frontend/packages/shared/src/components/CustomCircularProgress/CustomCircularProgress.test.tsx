@@ -1,13 +1,13 @@
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 
 import { CustomCircularProgress } from './CustomCircularProgress';
 import { Color } from '../../enums/common';
 
 describe('CustomCircularProgress', () => {
   it('should render correctly', () => {
-    const tree = renderer
-      .create(<CustomCircularProgress size={'3rem'} color={Color.Secondary} />)
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+    const { container } = render(
+      <CustomCircularProgress size={'3rem'} color={Color.Secondary} />,
+    );
+    expect(container).toMatchSnapshot();
   });
 });

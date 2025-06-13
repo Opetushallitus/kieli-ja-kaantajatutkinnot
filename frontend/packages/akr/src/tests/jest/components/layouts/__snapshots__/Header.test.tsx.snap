@@ -1,42 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Header should render Header correctly 1`] = `
-[
+<div>
   <a
-    className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways skip-link css-1vrl3mg-MuiTypography-root-MuiLink-root"
+    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways skip-link css-moojkn-MuiTypography-root-MuiLink-root"
     href="#main-content"
-    onBlur={[Function]}
-    onFocus={[Function]}
   >
     <p
-      className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
     >
       accessibility.continueToMain
     </p>
-  </a>,
+  </a>
   <header
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic header css-hip9hq-MuiPaper-root-MuiAppBar-root"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic header css-ptdwpq-MuiPaper-root-MuiAppBar-root"
+    style="--Paper-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);"
   >
     <div
-      className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular header__toolbar css-hyum1k-MuiToolbar-root"
+      class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular header__toolbar css-1ygil4i-MuiToolbar-root"
     >
       <div
-        className="header__left"
+        class="header__left"
       >
         <a
           href="/akr/etusivu"
-          onClick={[Function]}
         >
           <div
-            className="oph-logo columns"
+            class="oph-logo columns"
           >
             <img
               alt="ophLogoToFrontPageAlt"
-              className="header__left__logo"
+              class="header__left__logo"
               src="test"
             />
             <p
-              className="MuiTypography-root MuiTypography-body1 oph-logo__label--bold css-ahj2mt-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 oph-logo__label--bold css-rizt0-MuiTypography-root"
             >
               appNameAbbreviation
             </p>
@@ -44,18 +42,18 @@ exports[`Header should render Header correctly 1`] = `
         </a>
       </div>
       <div
-        className="header__center"
+        class="header__center"
       />
       <div
-        className="header__right"
+        class="header__right"
       >
         <nav
           aria-label="accessibility.langSelectorAriaLabel"
-          className="lang-selector"
+          class="lang-selector"
         >
           <svg
-            aria-hidden={true}
-            className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall lang-selector__icon css-ptiqhd-MuiSvgIcon-root"
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall lang-selector__icon css-120dh41-MuiSvgIcon-root"
             data-testid="LanguageOutlinedIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -66,91 +64,53 @@ exports[`Header should render Header correctly 1`] = `
           </svg>
           <button
             aria-current="true"
-            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1e6y48t-MuiButtonBase-root-MuiButton-root"
-            disabled={false}
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
             lang="fi-FI"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onDragLeave={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onMouseDown={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            tabIndex={0}
+            tabindex="0"
             type="button"
           >
             <p
-              className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
             >
               <b>
                 lang.fi
               </b>
             </p>
           </button>
-          <hr
+          <div
             aria-hidden="true"
-            className="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-16bghm4-MuiDivider-root"
+            aria-orientation="vertical"
+            class="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-1ck4b9x-MuiDivider-root"
+            role="separator"
           />
           <button
             aria-current="false"
-            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1e6y48t-MuiButtonBase-root-MuiButton-root"
-            disabled={false}
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
             lang="sv-SE"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onDragLeave={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onMouseDown={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            tabIndex={0}
+            tabindex="0"
             type="button"
           >
             <p
-              className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
             >
               lang.sv
             </p>
           </button>
-          <hr
+          <div
             aria-hidden="true"
-            className="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-16bghm4-MuiDivider-root"
+            aria-orientation="vertical"
+            class="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-1ck4b9x-MuiDivider-root"
+            role="separator"
           />
           <button
             aria-current="false"
-            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1e6y48t-MuiButtonBase-root-MuiButton-root"
-            disabled={false}
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
             lang="en-GB"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onDragLeave={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onMouseDown={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            tabIndex={0}
+            tabindex="0"
             type="button"
           >
             <p
-              className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
             >
               lang.en
             </p>
@@ -158,6 +118,44 @@ exports[`Header should render Header correctly 1`] = `
         </nav>
       </div>
     </div>
-  </header>,
-]
+  </header>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation3 css-ihjp4c-MuiPaper-root"
+    style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12);"
+  >
+    <section
+      aria-labelledby="cookie-banner__title"
+      class="cookie-banner__content"
+    >
+      <h2
+        id="cookie-banner__title"
+      >
+        title
+      </h2>
+      <div
+        class="cookie-banner__content__dialog-container"
+      >
+        <div
+          class="cookie-banner__content__dialog-content gapped space-between columns"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            data-testid="cookie-banner-description"
+          >
+            description
+          </p>
+          <button
+            aria-label="buttonAriaLabel"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary cookie-banner__content__accept-button css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+            data-testid="cookie-banner-accept-button"
+            tabindex="0"
+            type="button"
+          >
+            buttonText
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
 `;
