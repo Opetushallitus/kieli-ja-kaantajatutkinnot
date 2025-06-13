@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
-import { getCurrentLang, translateOutsideComponent } from 'configs/i18n';
+import { translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import { RegistrationToConfirmDetailsResponse } from 'interfaces/confirmRegistration';
 import { setAPIError } from 'redux/reducers/APIError';
@@ -16,7 +16,6 @@ import { SerializationUtils } from 'utils/serialization';
 
 function* loadRegistrationToConfirmDetailsSaga(action: PayloadAction<number>) {
   const t = translateOutsideComponent();
-  const lang = getCurrentLang();
   try {
     const response: AxiosResponse<RegistrationToConfirmDetailsResponse> =
       yield call(
@@ -25,11 +24,6 @@ function* loadRegistrationToConfirmDetailsSaga(action: PayloadAction<number>) {
           /:registrationId/,
           `${action.payload}`,
         ),
-        {
-          params: {
-            lang: SerializationUtils.serializeAppLanguage(lang),
-          },
-        },
       );
     yield put(
       acceptRegistrationToConfirmDetails(
