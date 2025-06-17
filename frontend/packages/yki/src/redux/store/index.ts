@@ -12,7 +12,6 @@ import { loginLinkReducer } from 'redux/reducers/loginLink';
 import { nationalitiesReducer } from 'redux/reducers/nationalities';
 import { publicIdentificationReducer } from 'redux/reducers/publicIdentification';
 import { registrationReducer } from 'redux/reducers/registration';
-import { reservationReducer } from 'redux/reducers/reservation';
 import { sessionReducer } from 'redux/reducers/session';
 import { transferEnrollmentReducer } from 'redux/reducers/transferEnrollment';
 import { userDetailsReducer } from 'redux/reducers/userDetails';
@@ -32,7 +31,6 @@ export const rootReducer = combineReducers({
   nationalities: nationalitiesReducer,
   publicIdentification: publicIdentificationReducer,
   registration: registrationReducer,
-  reservation: reservationReducer,
   session: sessionReducer,
   transferEnrollment: transferEnrollmentReducer,
   userOpenRegistrations: userOpenRegistrationsReducer,

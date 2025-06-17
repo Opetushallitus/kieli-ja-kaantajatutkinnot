@@ -40,15 +40,11 @@ describe('ExamSessionUtils', () => {
     exam_fee: 100.0,
     open: true,
     queue: 0,
-    queue_full: false,
     participants: 7,
-    pa_participants: 0,
-    post_admission_quota: 0,
-    post_admission_active: false,
     registration_start_date: dayjs('2020-01-01'),
     registration_end_date: dayjs('2090-06-15'),
     upcoming_admission: true,
-    upcoming_post_admission: false,
+    available_registration_kind: RegistrationKind.Admission,
   };
 
   describe('compareExamSessions', () => {
@@ -107,25 +103,6 @@ describe('ExamSessionUtils', () => {
       ).toEqual(1);
     });
 
-    it('should prioritise exam sessions without full queue', () => {
-      expect(
-        ExamSessionUtils.compareExamSessions(baseExamSession, {
-          ...baseExamSession,
-          queue_full: true,
-        }),
-      ).toEqual(-1);
-
-      expect(
-        ExamSessionUtils.compareExamSessions(
-          {
-            ...baseExamSession,
-            queue_full: true,
-          },
-          baseExamSession,
-        ),
-      ).toEqual(1);
-    });
-
     it('should prioritise exam sessions with earlier session date', () => {
       expect(
         ExamSessionUtils.compareExamSessions(
@@ -146,7 +123,7 @@ describe('ExamSessionUtils', () => {
     });
 
     it('should prioritise comparators', () => {
-      // room > queue fullness
+      // room > earlier session date
       expect(
         ExamSessionUtils.compareExamSessions(
           {
@@ -155,20 +132,8 @@ describe('ExamSessionUtils', () => {
           },
           {
             ...baseExamSession,
-            queue_full: true,
-          },
-        ),
-      ).toEqual(1);
-
-      // queue fullness > earlier session date
-      expect(
-        ExamSessionUtils.compareExamSessions(
-          {
-            ...baseExamSession,
-            queue_full: true,
             session_date: dayjs('2098-12-31'),
           },
-          baseExamSession,
         ),
       ).toEqual(1);
 
@@ -204,48 +169,6 @@ describe('ExamSessionUtils', () => {
         ),
       ).toEqual(-1);
     });
-
-    it('should value availability of regular and post admission equally', () => {
-      const postAdmissionSession = {
-        ...baseExamSession,
-        registration_end_date: dayjs('2021-01-01'),
-        post_admission_active: true,
-        post_admission_start_date: dayjs('2021-02-02'),
-        post_admission_end_date: dayjs('2090-03-03'),
-        post_admission_quota: 5,
-        pa_participants: 3,
-        upcoming_post_admission: true,
-        upcoming_admission: false,
-      };
-
-      expect(
-        ExamSessionUtils.compareExamSessions(
-          postAdmissionSession,
-          baseExamSession,
-        ),
-      ).toEqual(0);
-
-      expect(
-        ExamSessionUtils.compareExamSessions(
-          {
-            ...postAdmissionSession,
-            pa_participants: postAdmissionSession.post_admission_quota,
-          },
-          baseExamSession,
-        ),
-      ).toEqual(1);
-
-      expect(
-        ExamSessionUtils.compareExamSessions(
-          {
-            ...postAdmissionSession,
-            post_admission_end_date: dayjs('2021-03-03'),
-            upcoming_post_admission: false,
-          },
-          baseExamSession,
-        ),
-      ).toEqual(1);
-    });
   });
 
   describe('getEffectiveRegistrationPeriodDetails', () => {
@@ -259,54 +182,7 @@ describe('ExamSessionUtils', () => {
         kind: RegistrationKind.Admission,
         open: true,
         availablePlaces: 6,
-        availableQueue: true,
       });
-    });
-
-    it('should return regular admission after registration_end_date if post admission is not active', () => {
-      expectEffectiveRegistrationDetails(
-        {
-          ...baseExamSession,
-          open: false,
-          upcoming_admission: false,
-          upcoming_post_admission: false,
-        },
-        {
-          kind: RegistrationKind.Admission,
-          open: false,
-        },
-      );
-    });
-
-    it('should return post admission after registration_end_date if post admission is active', () => {
-      expectEffectiveRegistrationDetails(
-        {
-          ...baseExamSession,
-          upcoming_admission: false,
-          upcoming_post_admission: true,
-        },
-        {
-          kind: RegistrationKind.PostAdmission,
-          availableQueue: false,
-        },
-      );
-
-      expectEffectiveRegistrationDetails(
-        {
-          ...baseExamSession,
-          upcoming_admission: false,
-          upcoming_post_admission: true,
-          post_admission_active: true,
-          pa_participants: 3,
-          post_admission_quota: 10,
-        },
-        {
-          kind: RegistrationKind.PostAdmission,
-          open: true,
-          availableQueue: false,
-          availablePlaces: 7,
-        },
-      );
     });
 
     it('should indicate session is full if registration period has ended', () => {
@@ -315,69 +191,11 @@ describe('ExamSessionUtils', () => {
           ...baseExamSession,
           open: false,
           upcoming_admission: false,
-          upcoming_post_admission: false,
         },
         {
           kind: RegistrationKind.Admission,
           open: false,
           availablePlaces: 0,
-        },
-      );
-    });
-
-    it('should allow subscribing for notifications only within regular admission period', () => {
-      expectEffectiveRegistrationDetails(
-        {
-          ...baseExamSession,
-          open: true,
-          upcoming_admission: true,
-          upcoming_post_admission: true,
-          queue_full: false,
-        },
-        {
-          availableQueue: true,
-        },
-      );
-
-      // Queue full -> availableQueue: false
-      expectEffectiveRegistrationDetails(
-        {
-          ...baseExamSession,
-          open: true,
-          upcoming_admission: true,
-          upcoming_post_admission: true,
-          queue_full: true,
-        },
-        {
-          availableQueue: false,
-        },
-      );
-
-      // Regular admission over -> availableQueue: false
-      expectEffectiveRegistrationDetails(
-        {
-          ...baseExamSession,
-          open: true,
-          upcoming_admission: false,
-          upcoming_post_admission: true,
-          queue_full: true,
-        },
-        {
-          availableQueue: false,
-        },
-      );
-
-      // Admission not yet started -> availableQueue: false
-      expectEffectiveRegistrationDetails(
-        {
-          ...baseExamSession,
-          open: false,
-          upcoming_admission: true,
-          upcoming_post_admission: true,
-          queue_full: true,
-        },
-        {
-          availableQueue: false,
         },
       );
     });

@@ -8,6 +8,7 @@ import { PublicRegistrationGrid } from 'components/registration/PublicRegistrati
 import { PublicExamDetailsPageSkeleton } from 'components/skeletons/PublicExamDetailsPageSkeleton';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import {
@@ -17,7 +18,11 @@ import {
 } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 
-export const ExamDetailsPage = () => {
+export const ExamDetailsPage = ({
+  registrationKind,
+}: {
+  registrationKind: RegistrationKind;
+}) => {
   // i18n
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.examDetailsPage',
@@ -52,7 +57,12 @@ export const ExamDetailsPage = () => {
         dispatch(acceptPublicRegistrationSubmission({ code: code || '' }));
       } else {
         // Else attempt to initiate registration.
-        dispatch(initRegistration(+params.examSessionId));
+        dispatch(
+          initRegistration({
+            examSessionId: +params.examSessionId,
+            registrationKind,
+          }),
+        );
       }
     } else if (
       status === APIResponseStatus.Error ||
@@ -72,6 +82,7 @@ export const ExamDetailsPage = () => {
     examSession?.id,
     t,
     searchParams,
+    registrationKind,
   ]);
 
   return (

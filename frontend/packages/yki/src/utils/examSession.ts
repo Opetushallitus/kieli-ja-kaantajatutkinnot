@@ -1,9 +1,8 @@
-import { Dayjs } from 'dayjs';
 import { AppLanguage } from 'shared/enums';
 import { StringUtils } from 'shared/utils';
 
 import { translateOutsideComponent } from 'configs/i18n';
-import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
+import { ExamLanguage, ExamLevel } from 'enums/app';
 import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
 
 export class ExamSessionUtils {
@@ -11,30 +10,11 @@ export class ExamSessionUtils {
     return Math.max(examSession.max_participants - examSession.participants, 0);
   }
 
-  private static getPostAdmissionAvailablePlaces(examSession: ExamSession) {
-    if (
-      examSession.upcoming_post_admission &&
-      examSession.post_admission_quota
-    ) {
-      return Math.max(
-        examSession.post_admission_quota - examSession.pa_participants,
-        0,
-      );
-    }
-
-    return 0;
-  }
-
   static getAvailablePlaces(examSession: ExamSession) {
-    if (
-      !examSession.upcoming_admission &&
-      !examSession.upcoming_post_admission
-    ) {
+    if (!examSession.upcoming_admission) {
       return 0;
-    } else if (examSession.upcoming_admission) {
-      return ExamSessionUtils.getRegistrationAvailablePlaces(examSession);
     } else {
-      return ExamSessionUtils.getPostAdmissionAvailablePlaces(examSession);
+      return ExamSessionUtils.getRegistrationAvailablePlaces(examSession);
     }
   }
 
@@ -81,19 +61,6 @@ export class ExamSessionUtils {
     return 0;
   }
 
-  private static compareExamSessionsByQueueFullness(
-    es1: ExamSession,
-    es2: ExamSession,
-  ) {
-    if (!es1.queue_full && es2.queue_full) {
-      return -1;
-    } else if (es1.queue_full && !es2.queue_full) {
-      return 1;
-    }
-
-    return 0;
-  }
-
   private static compareExamSessionsByDate(es1: ExamSession, es2: ExamSession) {
     if (es1.session_date.isBefore(es2.session_date)) {
       return -1;
@@ -109,7 +76,6 @@ export class ExamSessionUtils {
     const comparatorFns = [
       ExamSessionUtils.compareExamSessionsByAdmissionAvailability,
       ExamSessionUtils.compareExamSessionsByRoom,
-      ExamSessionUtils.compareExamSessionsByQueueFullness,
       ExamSessionUtils.compareExamSessionsByDate,
       ExamSessionUtils.compareExamSessionsByLang,
     ];
@@ -151,36 +117,15 @@ export class ExamSessionUtils {
   }
 
   static getEffectiveRegistrationPeriodDetails(examSession: ExamSession) {
-    if (
-      examSession.upcoming_admission ||
-      !examSession.upcoming_post_admission
-    ) {
-      return {
-        kind: RegistrationKind.Admission,
-        start: examSession.registration_start_date,
-        end: examSession.registration_end_date,
-        participants: examSession.participants,
-        quota: examSession.max_participants,
-        availablePlaces: ExamSessionUtils.getAvailablePlaces(examSession),
-        availableQueue: examSession.open && !examSession.queue_full,
-        open: examSession.open,
-      };
-    } else {
-      const quota = examSession.post_admission_quota || 0;
-      const start = examSession.post_admission_start_date as Dayjs;
-      const end = examSession.post_admission_end_date as Dayjs;
-
-      return {
-        kind: RegistrationKind.PostAdmission,
-        start,
-        end,
-        participants: examSession.pa_participants,
-        quota,
-        availablePlaces: ExamSessionUtils.getAvailablePlaces(examSession),
-        availableQueue: false,
-        open: examSession.open,
-      };
-    }
+    return {
+      kind: examSession.available_registration_kind,
+      start: examSession.registration_start_date,
+      end: examSession.registration_end_date,
+      participants: examSession.participants,
+      quota: examSession.max_participants,
+      availablePlaces: ExamSessionUtils.getAvailablePlaces(examSession),
+      open: examSession.open,
+    };
   }
 
   static getMunicipality(location: ExamSessionLocation) {

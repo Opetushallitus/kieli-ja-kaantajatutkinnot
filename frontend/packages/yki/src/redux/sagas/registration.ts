@@ -5,11 +5,13 @@ import { AxiosResponse, isAxiosError } from 'axios';
 import axiosInstance from 'configs/axios';
 import { getCurrentLang } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
+import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import {
   PublicRegistrationFormSubmitErrorResponse,
   PublicRegistrationFormSubmitSuccessResponse,
   PublicRegistrationInitErrorResponse,
+  PublicRegistrationInitPayload,
   PublicRegistrationInitResponse,
 } from 'interfaces/publicRegistration';
 import { resetExamSession, storeExamSession } from 'redux/reducers/examSession';
@@ -33,12 +35,18 @@ import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
 import { SerializationUtils } from 'utils/serialization';
 
-function* initRegistrationSaga(action: PayloadAction<number>) {
+function* initRegistrationSaga(
+  action: PayloadAction<PublicRegistrationInitPayload>,
+) {
   try {
+    const { examSessionId, registrationKind } = action.payload;
     const response: AxiosResponse<PublicRegistrationInitResponse> = yield call(
       axiosInstance.post,
       APIEndpoints.InitRegistration,
-      JSON.stringify({ exam_session_id: action.payload }),
+      JSON.stringify({
+        exam_session_id: examSessionId,
+        to_queue: registrationKind === RegistrationKind.Queue,
+      }),
     );
     const { data } = response;
     yield put(
