@@ -1,12 +1,14 @@
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse, PathParams } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
+import { PublicRegistrationInitRequest } from 'interfaces/publicRegistration';
 import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 import { NoSessionResponse } from 'tests/msw/fixtures/identity';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { personDetails } from 'tests/msw/fixtures/personDetails';
+import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/registrationInit';
 
 const data = {
   evaluationPeriods,
@@ -78,4 +80,47 @@ export const handlers = [
 
     return HttpResponse.json({ success: true });
   }),
+  http.post<PathParams, PublicRegistrationInitRequest>(
+    APIEndpoints.InitRegistration,
+    async ({ request }) => {
+      const { exam_session_id } = await request.json();
+      switch (exam_session_id) {
+        case 11:
+          return HttpResponse.json(
+            { error: { registered: true } },
+            { status: 409 },
+          );
+        case 12:
+          // TODO
+          // return HttpResponse.json(initRegistrationQueueEmailAuth);
+          return HttpResponse.json(registrationInitResponse);
+        case 13:
+          return HttpResponse.json(
+            { error: { closed: true } },
+            { status: 409 },
+          );
+        // This error case shouldn't ordinarily happen
+        case 14:
+          return HttpResponse.json(
+            { error: { full: false, registered: false } },
+            { status: 409 },
+          );
+        case 16:
+          return HttpResponse.json('Unauthorized', { status: 401 });
+        case 17:
+          // TODO
+          // return HttpResponse.json(initRegistrationQueue);
+          return HttpResponse.json(registrationInitResponse);
+        default:
+          // TODO
+          return HttpResponse.json(
+            registrationInitResponse,
+            /*exam_session_id % 2 === 0
+              ? initRegistrationEmailAuth
+              : registrationInitResponse,
+              */
+          );
+      }
+    },
+  ),
 ];
