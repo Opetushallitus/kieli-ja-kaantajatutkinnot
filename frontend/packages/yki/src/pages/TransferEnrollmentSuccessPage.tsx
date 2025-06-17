@@ -29,7 +29,7 @@ const Header = () => {
   });
 
   return (
-    <Grid item className="transfer-enrollment-success-page__item-header">
+    <Grid className="transfer-enrollment-success-page__item-header">
       <H1>{t('title')}</H1>
       <HeaderSeparator />
     </Grid>
@@ -55,7 +55,7 @@ const InformationBox = () => {
   );
 
   return (
-    <Grid item className="transfer-enrollment-success-page__item-header">
+    <Grid className="transfer-enrollment-success-page__item-header">
       <Paper
         elevation={3}
         className="transfer-enrollment-success-page__information"

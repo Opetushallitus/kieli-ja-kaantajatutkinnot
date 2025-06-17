@@ -25,10 +25,7 @@ const Header = () => {
   });
 
   return (
-    <Grid
-      item
-      className="confirm-registration-page__grid-container__item-header"
-    >
+    <Grid className="confirm-registration-page__grid-container__item-header">
       <H1>{t('heading')}</H1>
       <HeaderSeparator />
     </Grid>
@@ -43,7 +40,7 @@ const Contents = () => {
   const lang = getCurrentLang();
 
   return (
-    <Grid item>
+    <Grid>
       <Paper
         elevation={3}
         className="confirm-registration-page__paper-contents"

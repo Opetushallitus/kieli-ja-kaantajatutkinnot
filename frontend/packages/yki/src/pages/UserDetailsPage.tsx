@@ -382,7 +382,7 @@ export const UserDetailsPage: FC = () => {
         direction="column"
         className="user-details-page__grid-container"
       >
-        <Grid item className="user-details-page__grid-container__item-header">
+        <Grid className="user-details-page__grid-container__item-header">
           <H1 data-testid="user-details-page__title-heading">{t('title')}</H1>
           <HeaderSeparator />
           <Text>{t('introduction.info')}</Text>
@@ -392,7 +392,7 @@ export const UserDetailsPage: FC = () => {
             ))}
           </Typography>
         </Grid>
-        <Grid item className="user-details-page__grid-container__item-info">
+        <Grid className="user-details-page__grid-container__item-info">
           {registrationToCancel && (
             <CancelRegistrationModal
               registrationToCancel={registrationToCancel}
