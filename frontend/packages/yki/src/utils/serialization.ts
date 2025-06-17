@@ -6,6 +6,7 @@ import {
   ExamLanguage,
   ExamLevel,
   GenderEnum,
+  RegistrationKind,
   RegistrationStates,
 } from 'enums/app';
 import {
@@ -38,6 +39,8 @@ import {
 import { NationalitiesResponse, Nationality } from 'interfaces/nationality';
 import {
   PublicEmailRegistration,
+  PublicRegistrationInitPayload,
+  PublicRegistrationInitRequest,
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
 import {
@@ -309,6 +312,15 @@ export class SerializationUtils {
   ): LoginLinkDetails {
     return {
       expires_at: dayjs(response.expires_at).subtract(1, 'day'),
+    };
+  }
+
+  static serializePublicRegistrationInitRequest(
+    payload: PublicRegistrationInitPayload,
+  ): PublicRegistrationInitRequest {
+    return {
+      exam_session_id: payload.examSessionId,
+      to_queue: payload.registrationKind === RegistrationKind.Queue,
     };
   }
 }
