@@ -45,10 +45,7 @@ const Header = () => {
   });
 
   return (
-    <Grid
-      item
-      className="transfer-enrollment-page__grid-container__item-header"
-    >
+    <Grid className="transfer-enrollment-page__grid-container__item-header">
       <H1>{t('title')}</H1>
       <HeaderSeparator />
       <Text>{t('introduction.info')}</Text>
@@ -82,10 +79,7 @@ const CurrentEnrollmentDetails = () => {
   );
 
   return (
-    <Grid
-      item
-      className="transfer-enrollment-page__grid-container__item-header"
-    >
+    <Grid className="transfer-enrollment-page__grid-container__item-header">
       <div className="rows gapped">
         <H2>{t('heading')}</H2>
         <Paper
@@ -340,10 +334,7 @@ const SelectNewExamDate = () => {
     : [];
 
   return (
-    <Grid
-      item
-      className="transfer-enrollment-page__grid-container__item-header"
-    >
+    <Grid className="transfer-enrollment-page__grid-container__item-header">
       {transferTargets.length === 0 && (
         <div className="rows gapped">
           <H2>{t('heading')}</H2>{' '}
