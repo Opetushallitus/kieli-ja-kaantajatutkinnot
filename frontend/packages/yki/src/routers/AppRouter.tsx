@@ -82,7 +82,7 @@ export const AppRouter: FC = () => {
   );
 
   const FrontPage = (
-    <YkiTitlePage title={createTitle('registration')}>
+    <YkiTitlePage title="registration">
       <RegistrationPage />
     </YkiTitlePage>
   );
@@ -95,7 +95,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ExamSession}
           element={
-            <YkiTitlePage title={createTitle('initRegistration')}>
+            <YkiTitlePage title="registration">
               <InitRegistrationPage />
             </YkiTitlePage>
           }
@@ -103,7 +103,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ExamSessionRegistration}
           element={
-            <YkiTitlePage title={createTitle('examDetails')}>
+            <YkiTitlePage title="examDetails">
               <ExamDetailsPage registrationKind={RegistrationKind.Admission} />
             </YkiTitlePage>
           }
@@ -111,7 +111,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ExamSessionQueue}
           element={
-            <YkiTitlePage title={createTitle('examDetails')}>
+            <YkiTitlePage title="examDetails">
               <ExamDetailsPage registrationKind={RegistrationKind.Queue} />
             </YkiTitlePage>
           }
@@ -119,7 +119,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.RegistrationPaymentStatus}
           element={
-            <YkiTitlePage title={createTitle('registrationPaymentStatus')}>
+            <YkiTitlePage title="registrationPaymentStatus">
               <RegistrationPaymentStatusPage />
             </YkiTitlePage>
           }
@@ -127,7 +127,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.Reassessment}
           element={
-            <YkiTitlePage title={createTitle('reassessment')}>
+            <YkiTitlePage title="reassessment">
               <ReassessmentPage />
             </YkiTitlePage>
           }
@@ -135,7 +135,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ReassessmentOrder}
           element={
-            <YkiTitlePage title={createTitle('evaluationOrder')}>
+            <YkiTitlePage title="evaluationOrder">
               <EvaluationOrderPage />
             </YkiTitlePage>
           }
@@ -143,7 +143,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ReassessmentOrderStatus}
           element={
-            <YkiTitlePage title={createTitle('evaluationOrderStatus')}>
+            <YkiTitlePage title="evaluationOrderStatus">
               <EvaluationOrderStatusPage />
             </YkiTitlePage>
           }
@@ -151,7 +151,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.AccessibilityStatementPage}
           element={
-            <YkiTitlePage title={createTitle('accessibilityStatement')}>
+            <YkiTitlePage title="accessibilityStatement">
               <AccessibilityStatementPage />
             </YkiTitlePage>
           }
@@ -159,7 +159,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.UserDetails}
           element={
-            <TitlePage title={createTitle('userDetails')}>
+            <TitlePage title="userDetails">
               <UserDetailsPage />
             </TitlePage>
           }
@@ -167,7 +167,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ConfirmRegistration}
           element={
-            <TitlePage title={createTitle('confirmRegistration')}>
+            <TitlePage title="confirmRegistration">
               <ConfirmRegistrationPage />
             </TitlePage>
           }
@@ -175,7 +175,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.TransferEnrollment}
           element={
-            <TitlePage title={createTitle('transferEnrollment')}>
+            <TitlePage title="transferEnrollment">
               <TransferEnrollmentPage />
             </TitlePage>
           }
@@ -183,7 +183,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.TransferEnrollmentSuccess}
           element={
-            <TitlePage title={createTitle('transferEnrollment')}>
+            <TitlePage title="transferEnrollment">
               <TransferEnrollmentSuccessPage />
             </TitlePage>
           }
@@ -191,7 +191,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.LogoutSuccess}
           element={
-            <YkiTitlePage title={createTitle('logoutSuccess')}>
+            <YkiTitlePage title="logoutSuccess">
               <LogoutSuccess />
             </YkiTitlePage>
           }
@@ -199,7 +199,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.NotFoundPage}
           element={
-            <YkiTitlePage title={createTitle('notFound')}>
+            <YkiTitlePage title="notFound">
               <NotFoundPage />
             </YkiTitlePage>
           }
