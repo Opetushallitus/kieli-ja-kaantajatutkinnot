@@ -215,7 +215,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
               tabindex="0"
               type="button"
             >
-              enrollToQueue
+              register
             </button>
           </a>
         </td>
@@ -434,7 +434,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
               tabindex="0"
               type="button"
             >
-              enrollToQueue
+              register
             </button>
           </a>
         </td>
@@ -497,7 +497,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
               tabindex="0"
               type="button"
             >
-              enrollToQueue
+              register
             </button>
           </a>
         </td>
@@ -623,7 +623,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
               tabindex="0"
               type="button"
             >
-              enrollToQueue
+              register
             </button>
           </a>
         </td>
