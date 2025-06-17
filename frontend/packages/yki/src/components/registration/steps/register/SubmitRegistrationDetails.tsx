@@ -15,6 +15,7 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
+import { RegistrationKind } from 'enums/app';
 import { useRegistrationNavigationProtection } from 'hooks/useNavigationProtection';
 import { loadLoginLink, resetLoginLink } from 'redux/reducers/loginLink';
 import { loadNationalities } from 'redux/reducers/nationalities';
@@ -29,6 +30,8 @@ const FillRegistrationDetails = () => {
     keyPrefix: 'yki.component.registration.registrationDetails',
   });
   const { isEmailRegistration } = useAppSelector(registrationSelector);
+  const { registrationKind } =
+    useAppSelector(registrationSelector).initRegistration;
   const submitRegistrationStatus =
     useAppSelector(registrationSelector).submitRegistration.status;
   const nationalitiesStatus = useAppSelector(nationalitiesSelector).status;
@@ -67,7 +70,15 @@ const FillRegistrationDetails = () => {
       <H2 className="public-registration__grid__form-container__whats-next">
         {t('whatsNext.title')}
       </H2>
-      <Text>{t('whatsNext.description')}</Text>
+      {registrationKind === RegistrationKind.Admission && (
+        <Text>{t('whatsNext.description')}</Text>
+      )}
+      {registrationKind === RegistrationKind.Queue && (
+        <>
+          <Text>{t('whatsNext.queued.part1')}</Text>
+          <Text>{t('whatsNext.queued.part2')}</Text>
+        </>
+      )}
     </div>
   );
 };

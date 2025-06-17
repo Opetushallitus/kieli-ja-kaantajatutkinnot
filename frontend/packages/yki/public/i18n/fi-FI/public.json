@@ -242,10 +242,10 @@
             "item2": "Et voi vaihtaa YKI-testin kieltä.",
             "item3": "Et voi vaihtaa testipaikkaa.",
             "item4": "Ilmoittautuminen on henkilökohtainen. Et voi vaihtaa osallistujan henkilötietoja.",
-            "item5": "Jos et pääse osallistumaan YKI-testiin, johon olet ilmoittautunut, voit siirtää ilmoittautumisesi yhden kerran saman kielen ja tason YKI-testiin samassa testipaikassa.",
+            "item5": "Jos et pääse osallistumaan YKI-testiin, voit siirtää ilmoittautumista yhden kerran. Voit siirtää ilmoittautumisen seuraavaan saman kielen ja saman tason YKI-testiin samassa testipaikassa.",
             "item51": "Uusi testipäivä saa olla enintään vuoden kuluttua alkuperäisestä testipäivästä.",
             "item52": "Jos seuraavaan saman kielen ja tason YKI-testiin on yli vuosi alkuperäisestä testipäivästä, voit siirtää ilmoittautumisesi seuraavaan saman kielen ja tason YKI-testiin.",
-            "item6": "Jos et pääse osallistumaan YKI-testiin, johon olet ilmoittautunut, voit hakea tutkintomaksun palautusta Opetushallitukselta. Opetushallitus palauttaa tutkintomaksusi, jos hakemuksesi täyttää kaikki lain yleisistä kielitutkinnoista asettamat ehdot. ",
+            "item6": "Jos et pääse osallistumaan YKI-testiin, voit hakea tutkintomaksun palautusta Opetushallitukselta. Opetushallitus palauttaa tutkintomaksusi, jos hakemuksesi täyttää kaikki lain asettamat ehdot.",
             "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-ilmoittautumisen-ehdot",
             "linkText": "Ilmoittautumisen ehdot",
             "label": "Hyväksyn ilmoittautumisen ehdot *",
@@ -255,6 +255,10 @@
           "title": "Täytä tietosi",
           "whatsNext": {
             "description": "Kun olet lähettänyt ilmoittautumislomakkeen, saat sähköpostiisi linkin tutkintomaksun maksamista varten. Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun.",
+            "queued": {
+              "part1": "Kun olet lähettänyt ilmoittautumislomakkeen, saat sähköpostiisi vahvistuksen siitä, että olet ilmoittautunut jonoon.",
+              "part2": "Jos saat paikan YKI-testiin jonosta, saat siitä tiedon sähköpostilla. Seuraa sähköpostiasi aktiivisesti."
+            },
             "title": "Mitä tapahtuu seuraavaksi?"
           }
         },
@@ -315,7 +319,7 @@
               "reauthenticate": "Tarkista, että olet tunnistautunut sen henkilön tiedoilla, joka osallistuu YKI-testiin. Jos olet tunnistautunut väärän henkilön tiedoilla, paina Kirjaudu ulos -painiketta sivun yläosassa ja aloita ilmoittautuminen uudelleen.",
               "title": "Tunnistaudu ilmoittautumista varten"
             },
-            "caption": "Sinun täytyy tunnistautua YKI-testiin ilmoittautumista varten. Käytä tunnistautumiseen osallistujan henkilötietoja.",
+            "caption": "Sinun täytyy tunnistautua YKI-testiin ilmoittautumista varten. Käytä tunnistautumiseen sen henkilön tietoja, joka osallistuu YKI-testiin.",
             "emailButtonText": "tunnistaudu sähköpostilla",
             "emailError": "Virheellinen sähköpostiosoite",
             "emailInput": {
@@ -330,7 +334,7 @@
               },
               "success": "Ilmoittautumislinkki on lähetetty osoitteeseen:"
             },
-            "registrationIsBindingAdvisory": "Tarkista, että olet valinnut oikean kielen ja tason YKI-testin. Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen.",
+            "registrationIsBindingAdvisory": "<strong>Tarkista, että olet valinnut oikean YKI-testin!</strong> Et voi vaihtaa YKI-testin kieltä, tasoa tai testipaikkaa ilmoittautumisen jälkeen.",
             "selectIdentificationMethod": "Valitse tunnistautumistapasi",
             "suomiFiButtonText": "Tunnistaudu Suomi.fi:n kautta",
             "title": "Tunnistaudu ilmoittautumista varten",
@@ -340,7 +344,7 @@
             },
             "withoutFinnishSSN": {
               "description": "<strong>Jos et voi käyttää Suomi.fi-tunnistautumista</strong>, tunnistaudu sähköpostillasi.",
-              "info": "Saat tunnistautumisen jälkeen sähköpostiisi linkin, jonka kautta pääset jatkamaan ilmoittautumista."
+              "info": "Kun olet tunnistautunut, saat sähköpostiisi linkin. Linkistä pääset jatkamaan ilmoittautumista."
             }
           },
           "payment": {

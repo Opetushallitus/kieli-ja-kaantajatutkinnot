@@ -1,4 +1,5 @@
 import { Grid, Paper } from '@mui/material';
+import { Trans } from 'react-i18next';
 import { CustomButton, H1, H2, HeaderSeparator, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
@@ -84,7 +85,9 @@ const Identify = () => {
 
   return (
     <>
-      <Text>{t('registrationIsBindingAdvisory')}</Text>
+      <Text>
+        <Trans t={t} i18nKey="registrationIsBindingAdvisory" />
+      </Text>
       <div className="gapped rows">
         <SelectIdentificationMethod />
         <PublicRegistrationControlButtons />
