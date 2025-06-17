@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.11.16] - 2025-06-17
+
+### Changed
+
+- Updated Jest test render for all tests
+
 ## [1.11.15] - 2025-05-15
 
 ### Changed
