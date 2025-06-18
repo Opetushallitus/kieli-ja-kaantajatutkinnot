@@ -8,6 +8,7 @@ import { Grid, Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import dayjs from 'dayjs';
 import { FC, useEffect, useState } from 'react';
+import { Trans } from 'react-i18next';
 import {
   CustomButton,
   CustomButtonLink,
@@ -27,6 +28,7 @@ import {
   usePublicTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { APIEndpoints } from 'enums/api';
 import { AppRoutes, RegistrationStates } from 'enums/app';
 import { PersonRegistrations } from 'interfaces/userDetails';
 import {
@@ -323,7 +325,7 @@ const ContactDetails = () => {
                 to={''}
                 fullWidth={false}
                 startIcon={<EditOutlinedIcon />}
-                className="text-transform-none"
+                className="text-transform-none user-details-page__edit-btn"
               >
                 {t('modify')}
               </CustomButtonLink>
@@ -332,6 +334,52 @@ const ContactDetails = () => {
         </div>
       </Paper>
     </div>
+  );
+};
+
+const NotLoggedIn = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.userDetailsPage',
+  });
+
+  return (
+    <Box className="user-details-page">
+      <Grid
+        container
+        rowSpacing={4}
+        direction="column"
+        className="user-details-page__grid-container"
+      >
+        <Grid className="user-details-page__grid-container__item-header">
+          <H1 data-testid="user-details-page__title-heading">
+            {t('notLoggedIn.title')}
+          </H1>
+          <HeaderSeparator />
+          <div className="rows gapped">
+            <Text>
+              <Trans t={t} i18nKey="notLoggedIn.loginRequired" />
+            </Text>
+            <div className="columns">
+              <CustomButton
+                size="large"
+                variant={Variant.Contained}
+                color={Color.Secondary}
+                href={`${APIEndpoints.Authenticate}?toUserPortal=true`}
+                className="user-details-page__login-btn"
+              >
+                {t('notLoggedIn.loginThroughSuomiFi')}
+              </CustomButton>
+            </div>
+            <Text>{t('notLoggedIn.actionsAvailable')}</Text>
+          </div>
+          <Typography className="margin-top-sm" variant="body1" component="ul">
+            {['point1', 'point2', 'point3', 'point4'].map((point, i) => (
+              <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
+            ))}
+          </Typography>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 
@@ -350,6 +398,10 @@ export const UserDetailsPage: FC = () => {
       dispatch(loadPersonDetails());
     }
   }, [dispatch, status]);
+
+  if (status === APIResponseStatus.Error) {
+    return <NotLoggedIn />;
+  }
 
   if (!personDetails) {
     return <></>;
