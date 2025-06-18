@@ -159,33 +159,33 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.UserDetails}
           element={
-            <TitlePage title="userDetails">
+            <YkiTitlePage title="userDetails">
               <UserDetailsPage />
-            </TitlePage>
+            </YkiTitlePage>
           }
         />
         <Route
           path={AppRoutes.ConfirmRegistration}
           element={
-            <TitlePage title="confirmRegistration">
+            <YkiTitlePage title="confirmRegistration">
               <ConfirmRegistrationPage />
-            </TitlePage>
+            </YkiTitlePage>
           }
         />
         <Route
           path={AppRoutes.TransferEnrollment}
           element={
-            <TitlePage title="transferEnrollment">
+            <YkiTitlePage title="transferEnrollment">
               <TransferEnrollmentPage />
-            </TitlePage>
+            </YkiTitlePage>
           }
         />
         <Route
           path={AppRoutes.TransferEnrollmentSuccess}
           element={
-            <TitlePage title="transferEnrollment">
+            <YkiTitlePage title="transferEnrollment">
               <TransferEnrollmentSuccessPage />
-            </TitlePage>
+            </YkiTitlePage>
           }
         />
         <Route
