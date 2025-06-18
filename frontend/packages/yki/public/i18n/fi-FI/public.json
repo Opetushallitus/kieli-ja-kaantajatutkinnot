@@ -644,6 +644,11 @@
             "past": "Suoritukset ja menneet ilmoittautumiset",
             "upcoming": "Tulevat ilmoittautumiset"
           },
+          "liftedFromQueueNotification": {
+            "part1": "Olet saanut paikan YKI-testiin jonosta.",
+            "part2": "Vahvista ilmoittautuminen {{ date }} mennessä",
+            "part3": "tai menetät paikan"
+          },
           "notPaidNotification": {
             "part1": "Ilmoittautumista ei ole vielä vahvistettu.",
             "part2": "Maksa tutkintomaksu niin ilmoittautuminen vahvistetaan.",
