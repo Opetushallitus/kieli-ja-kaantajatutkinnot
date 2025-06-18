@@ -10,7 +10,7 @@ import { PublicRegistrationExamSessionDetails } from 'components/registration/Pu
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
+import { AppRoutes, RegistrationKind } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { sessionSelector } from 'redux/selectors/session';
@@ -111,6 +111,9 @@ export const PublicIdentificationGrid = () => {
     return null;
   }
 
+  const toQueue =
+    examSession.available_registration_kind === RegistrationKind.Queue;
+
   return (
     <Grid
       container
@@ -124,7 +127,11 @@ export const PublicIdentificationGrid = () => {
             <PublicRegistrationStepper />
             <div className="rows public-registration__grid__heading">
               <H1>
-                {loggedInSession ? t('alreadyLoggedIn.title') : t('title')}
+                {toQueue
+                  ? t('titleForQueueing')
+                  : loggedInSession
+                  ? t('alreadyLoggedIn.title')
+                  : t('title')}
               </H1>
               <HeaderSeparator />
             </div>

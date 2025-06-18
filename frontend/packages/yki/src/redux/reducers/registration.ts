@@ -29,6 +29,7 @@ export interface RegistrationState {
     code?: string;
     status: APIResponseStatus;
     error?: PublicRegistrationFormSubmitError;
+    registrationKind?: RegistrationKind;
   };
   cancelRegistration: {
     status: APIResponseStatus;
@@ -151,6 +152,8 @@ const registrationSlice = createSlice({
     ) {
       state.submitRegistration.status = APIResponseStatus.Success;
       state.submitRegistration.code = action.payload.code;
+      state.submitRegistration.registrationKind =
+        action.payload.registration_kind;
     },
     rejectPublicRegistrationSubmission(
       state,
