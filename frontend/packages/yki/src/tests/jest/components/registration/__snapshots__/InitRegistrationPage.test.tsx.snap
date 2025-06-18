@@ -550,9 +550,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
               </div>
               <p
                 class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-              >
-                registrationIsBindingAdvisory
-              </p>
+              />
               <div
                 class="gapped rows"
               >

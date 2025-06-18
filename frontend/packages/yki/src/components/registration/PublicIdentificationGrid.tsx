@@ -29,7 +29,9 @@ const AlreadyLoggedIn = () => {
 
   return (
     <>
-      <Text>{t('registrationIsBindingAdvisory')}</Text>
+      <Text>
+        <Trans t={t} i18nKey="registrationIsBindingAdvisory" />
+      </Text>
       <H2>{t('alreadyLoggedIn.caption')}</H2>
       <Text> {t('alreadyLoggedIn.currentLoginInformation')}</Text>
       <Text>
