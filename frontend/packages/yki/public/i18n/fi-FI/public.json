@@ -287,6 +287,11 @@
               "text3": "Lue ilmoittautumisen ehdot Opetushallituksen verkkosivuilta:"
             },
             "title": "Vahvista ilmoittautuminen maksamalla tutkintomaksu"
+          },
+          "queued": {
+            "text1": "Saat sähköpostiisi vahvistuksen siitä, että olet ilmoittautunut jonoon.",
+            "text2": "Jos saat paikan YKI-testiin jonosta, saat siitä tiedon sähköpostilla. Seuraa sähköpostiasi aktiivisesti.",
+            "title": "Olet ilmoittautunut jonoon"
           }
         },
         "stepper": {
@@ -319,7 +324,7 @@
               "reauthenticate": "Tarkista, että olet tunnistautunut sen henkilön tiedoilla, joka osallistuu YKI-testiin. Jos olet tunnistautunut väärän henkilön tiedoilla, paina Kirjaudu ulos -painiketta sivun yläosassa ja aloita ilmoittautuminen uudelleen.",
               "title": "Tunnistaudu ilmoittautumista varten"
             },
-            "caption": "Sinun täytyy tunnistautua YKI-testiin ilmoittautumista varten. Käytä tunnistautumiseen sen henkilön tietoja, joka osallistuu YKI-testiin.",
+            "caption": "Sinun täytyy tunnistautua ilmoittautumista varten. Käytä tunnistautumiseen sen henkilön tietoja, joka osallistuu YKI-testiin.",
             "emailButtonText": "tunnistaudu sähköpostilla",
             "emailError": "Virheellinen sähköpostiosoite",
             "emailInput": {
@@ -338,6 +343,7 @@
             "selectIdentificationMethod": "Valitse tunnistautumistapasi",
             "suomiFiButtonText": "Tunnistaudu Suomi.fi:n kautta",
             "title": "Tunnistaudu ilmoittautumista varten",
+            "titleForQueueing": "Tunnistaudu jonoon ilmoittautumista varten",
             "withFinnishSSN": {
               "description": "<strong>Tunnistaudu Suomi.fi:n kautta.</strong>",
               "info": "Tunnistautumisen jälkeen sinut ohjataan automaattisesti ilmoittautumislomakkeelle."
@@ -384,7 +390,7 @@
               }
             },
             "success": {
-              "heading": "Vahvista ilmoittautuminen"
+              "heading": "Ilmoittautumislomake on lähetetty"
             }
           }
         },
@@ -423,6 +429,9 @@
       }
     },
     "pages": {
+      "confirmEnrollmentPage": {
+        "heading": "Vahvista ilmoittautuminen"
+      },
       "evaluationOrderPage": {
         "notFound": "Tarkistusarvioinnin tietoja ei löytynyt!",
         "title": "Pyydä tarkistusarviointia",

@@ -98,8 +98,23 @@ const Error = () => {
   );
 };
 
-const Success = () => {
+const SuccessQueued = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.registrationFormSubmitted.queued',
+  });
+
+  return (
+    <div className="margin-top-xxl rows gapped">
+      <H2>{t('title')}</H2>
+      <Text>{t('text1')}</Text>
+      <Text>{t('text2')}</Text>
+    </div>
+  );
+};
+
+const SuccessRegistered = () => {
   const dispatch = useAppDispatch();
+
   const { code } = useAppSelector(registrationSelector).submitRegistration;
   const { expires_at, status } = useAppSelector(loginLinkSelector);
   const lang = getCurrentLang();
@@ -116,7 +131,7 @@ const Success = () => {
     };
   }, [dispatch]);
 
-  if (!code || status !== APIResponseStatus.Success) {
+  if (!code) {
     return null;
   }
 
@@ -126,6 +141,7 @@ const Success = () => {
   );
   const queryParams = paymentUrl.searchParams;
   queryParams.append('code', code);
+
   queryParams.append('lang', SerializationUtils.serializeAppLanguage(lang));
 
   return (
@@ -136,6 +152,17 @@ const Success = () => {
       }}
     />
   );
+};
+
+const Success = () => {
+  const { registrationKind } =
+    useAppSelector(registrationSelector).submitRegistration;
+
+  if (registrationKind === RegistrationKind.Admission) {
+    return <SuccessRegistered />;
+  } else {
+    return <SuccessQueued />;
+  }
 };
 
 export const SubmitRegistrationDetails = () => {
