@@ -93,6 +93,7 @@ export function isRegistrationInitErrorResponse(
 
 export interface PublicRegistrationFormSubmitSuccessResponse {
   code: string;
+  registration_kind: RegistrationKind;
 }
 
 export interface PublicRegistrationFormSubmitErrorResponse {
