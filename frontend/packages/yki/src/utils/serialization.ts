@@ -257,6 +257,7 @@ export class SerializationUtils {
       zip: response.zip,
       registrations: response.registrations?.map((v) => ({
         id: v.id,
+        kind: v.kind as RegistrationKind,
         examSessionId: v.exam_session_id,
         examLang: v.language_code as ExamLanguage,
         examLevel: v.level_code as ExamLevel,
@@ -269,6 +270,9 @@ export class SerializationUtils {
         expiresAt: v.expires_at ? dayjs(v.expires_at) : undefined,
         paidAt: v.paid_at ? dayjs(v.paid_at) : undefined,
         examFee: v.exam_fee,
+        liftedFromQueueAt: v.lifted_from_queue_at
+          ? dayjs(v.lifted_from_queue_at)
+          : undefined,
       })),
     };
   }
