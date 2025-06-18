@@ -60,8 +60,10 @@ export const handlers = [
   http.post(APIEndpoints.SubmitRegistration, () =>
     HttpResponse.json({ success: true }),
   ),
-  http.get(APIEndpoints.PersonDetails, () =>
-    HttpResponse.json(data.personDetails),
+  http.get(
+    APIEndpoints.PersonDetails,
+    () => HttpResponse.json(data.personDetails),
+    // () => HttpResponse.json('Unauthorized', { status: 401 }),
   ),
   http.delete(APIEndpoints.CancelUserRegistration, ({ params }) => {
     const { registrationId } = params;
