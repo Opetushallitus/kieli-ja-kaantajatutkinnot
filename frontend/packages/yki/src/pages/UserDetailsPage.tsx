@@ -1,3 +1,4 @@
+import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import InfoFilledIcon from '@mui/icons-material/Info';
@@ -29,7 +30,7 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
-import { AppRoutes, RegistrationStates } from 'enums/app';
+import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { PersonRegistrations } from 'interfaces/userDetails';
 import {
   loadPersonDetails,
@@ -90,7 +91,7 @@ const RegistrationState = ({
 }: {
   registration: PersonRegistrations;
 }) => {
-  const { state } = registration;
+  const { state, kind, liftedFromQueueAt } = registration;
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage.registrations.state',
   });
@@ -98,23 +99,39 @@ const RegistrationState = ({
   // TODO Queued registrations should be handled as a sort of pseudo-state here as well!
   // TODO Registrations that are STARTED should maybe not be listed at all?
 
+  const isEnrolled =
+    state === RegistrationStates.Completed ||
+    (state === RegistrationStates.Submitted &&
+      kind === RegistrationKind.Admission &&
+      !liftedFromQueueAt);
+
+  const isQueued =
+    state === RegistrationStates.Submitted &&
+    (kind === RegistrationKind.Queue || liftedFromQueueAt);
+
+  const isCancelled = [
+    RegistrationStates.Cancelled,
+    RegistrationStates.Expired,
+    RegistrationStates.PaidAndCancelled,
+  ].includes(state);
+
   return (
     <div>
       <Text className="bold">{t('label')}</Text>
       <div className="columns gapped-xxs">
-        {[RegistrationStates.Completed, RegistrationStates.Submitted].includes(
-          state,
-        ) && (
+        {isEnrolled && (
           <>
             <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
             <Text>{t('enrolled')}</Text>
           </>
         )}
-        {[
-          RegistrationStates.Cancelled,
-          RegistrationStates.Expired,
-          RegistrationStates.PaidAndCancelled,
-        ].includes(state) && (
+        {isQueued && (
+          <>
+            <AlarmOutlinedIcon className="user-details-page__icon--alert" />
+            <Text>{t('queued')}</Text>
+          </>
+        )}
+        {isCancelled && (
           <>
             <NotInterestedIcon className="user-details-page__icon--cancel" />
             <Text>{t('cancelled')}</Text>
@@ -183,6 +200,10 @@ const Registrations: FC<RegistrationsProps> = ({
 
   return filteredRegistrations.map((r) => {
     const location = ExamSessionUtils.getLocationInfo(r, lang);
+    const liftedFromQueue = !!r.liftedFromQueueAt;
+    const displayExpiryNotification =
+      r.state === RegistrationStates.Submitted &&
+      r.kind !== RegistrationKind.Queue;
 
     return (
       <Paper
@@ -198,7 +219,7 @@ const Registrations: FC<RegistrationsProps> = ({
             })}
           </H3>
         </div>
-        {r.state === RegistrationStates.Submitted && (
+        {displayExpiryNotification && !liftedFromQueue && (
           <InfoBox>
             <Text>
               {t('notPaidNotification.part1')} {t('notPaidNotification.part2')}{' '}
@@ -206,11 +227,25 @@ const Registrations: FC<RegistrationsProps> = ({
             </Text>
           </InfoBox>
         )}
+        {displayExpiryNotification && liftedFromQueue && (
+          <InfoBox>
+            <Text>
+              {t('liftedFromQueueNotification.part1')}{' '}
+              <b>
+                {t('liftedFromQueueNotification.part2', {
+                  date: DateUtils.formatOptionalDate(r.expiresAt, 'l'),
+                })}
+              </b>{' '}
+              {t('liftedFromQueueNotification.part3')}{' '}
+            </Text>
+          </InfoBox>
+        )}
         <RegistrationState registration={r} />
         {(r.state === RegistrationStates.Completed ||
-          r.state === RegistrationStates.Submitted) && (
-          <ExamPayment registration={r} />
-        )}
+          r.state === RegistrationStates.Submitted) &&
+          r.kind === RegistrationKind.Admission && (
+            <ExamPayment registration={r} />
+          )}
         <div>
           <Text className="bold">{translateCommon('examDate')}</Text>
           <Text>{DateUtils.formatOptionalDate(r.examDate, 'l')}</Text>
@@ -224,20 +259,21 @@ const Registrations: FC<RegistrationsProps> = ({
         {!isCancelled(r) && (
           <div className="rows gapped">
             <div className="columns gapped">
-              {r.state === RegistrationStates.Submitted && (
-                <CustomButtonLink
-                  className="fit-content-max-width"
-                  color={Color.Secondary}
-                  variant={Variant.Contained}
-                  disabled={!r.isCancellable}
-                  to={AppRoutes.ConfirmRegistration.replace(
-                    /:registrationId/,
-                    `${r.id}`,
-                  )}
-                >
-                  {t('actions.confirm')}
-                </CustomButtonLink>
-              )}
+              {r.state === RegistrationStates.Submitted &&
+                r.kind === RegistrationKind.Admission && (
+                  <CustomButtonLink
+                    className="fit-content-max-width"
+                    color={Color.Secondary}
+                    variant={Variant.Contained}
+                    disabled={!r.isCancellable}
+                    to={AppRoutes.ConfirmRegistration.replace(
+                      /:registrationId/,
+                      `${r.id}`,
+                    )}
+                  >
+                    {t('actions.confirm')}
+                  </CustomButtonLink>
+                )}
               <CustomButton
                 className="fit-content-max-width"
                 color={Color.Secondary}

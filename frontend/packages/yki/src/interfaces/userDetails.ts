@@ -1,11 +1,12 @@
 import { Dayjs } from 'dayjs';
 import { WithId } from 'shared/interfaces';
 
-import { ExamLanguage, ExamLevel, RegistrationStates } from 'enums/app';
+import { ExamLanguage, ExamLevel, RegistrationKind, RegistrationStates } from 'enums/app';
 import { ExamSessionLocation } from 'interfaces/examSessions';
 
 export interface PersonRegistrations extends WithId {
   state: RegistrationStates;
+  kind: RegistrationKind;
   examSessionId: string;
   examLang: ExamLanguage;
   examLevel: ExamLevel;
@@ -17,6 +18,7 @@ export interface PersonRegistrations extends WithId {
   paidAt?: Dayjs;
   expiresAt?: Dayjs;
   examFee?: number;
+  liftedFromQueueAt?: Dayjs;
 }
 
 interface PersonRegistrationsResponse extends WithId {
@@ -24,6 +26,7 @@ interface PersonRegistrationsResponse extends WithId {
   language_code: string;
   level_code: string;
   state: string;
+  kind: string;
   exam_date: string;
   location: Array<ExamSessionLocation>;
   is_transfered: boolean;
@@ -32,6 +35,7 @@ interface PersonRegistrationsResponse extends WithId {
   paid_at?: string;
   expires_at?: string;
   exam_fee?: number;
+  lifted_from_queue_at?: string;
 }
 
 export interface PersonDetails {
