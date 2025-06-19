@@ -1,3 +1,4 @@
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { FC, useEffect } from 'react';
 import {
   createBrowserRouter,
@@ -7,11 +8,12 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import {
+  CustomButtonLink,
   Notifier,
   NotifierContextProvider,
   ScrollToTop,
 } from 'shared/components';
-import { APIResponseStatus } from 'shared/enums';
+import { APIResponseStatus, Variant } from 'shared/enums';
 import { TitlePage, TitlePageProps } from 'shared/utils';
 
 import { Footer } from 'components/layouts/Footer';
@@ -86,6 +88,28 @@ export const AppRouter: FC = () => {
       <RegistrationPage />
     </YkiTitlePage>
   );
+
+  const UserPortalSubPage = ({ title, children }: TitlePageProps) => {
+    const translateCommon = useCommonTranslation();
+
+    return (
+      <YkiTitlePage title={title}>
+        <div className="rows gapped-xxl">
+          <div className="columns">
+            <CustomButtonLink
+              to={AppRoutes.UserDetails}
+              startIcon={<ArrowBackIcon />}
+              variant={Variant.Text}
+              className="color-secondary-dark"
+            >
+              {translateCommon('back')}
+            </CustomButtonLink>
+          </div>
+          {children}
+        </div>
+      </YkiTitlePage>
+    );
+  };
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -167,25 +191,25 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ConfirmRegistration}
           element={
-            <YkiTitlePage title="confirmRegistration">
+            <UserPortalSubPage title="transferEnrollment">
               <ConfirmRegistrationPage />
-            </YkiTitlePage>
+            </UserPortalSubPage>
           }
         />
         <Route
           path={AppRoutes.TransferEnrollment}
           element={
-            <YkiTitlePage title="transferEnrollment">
+            <UserPortalSubPage title="transferEnrollment">
               <TransferEnrollmentPage />
-            </YkiTitlePage>
+            </UserPortalSubPage>
           }
         />
         <Route
           path={AppRoutes.TransferEnrollmentSuccess}
           element={
-            <YkiTitlePage title="transferEnrollment">
+            <UserPortalSubPage title="transferEnrollment">
               <TransferEnrollmentSuccessPage />
-            </YkiTitlePage>
+            </UserPortalSubPage>
           }
         />
         <Route
