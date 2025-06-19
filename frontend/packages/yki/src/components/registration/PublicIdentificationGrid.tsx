@@ -26,6 +26,8 @@ const AlreadyLoggedIn = () => {
     loggedInSession?.['auth-method'] === 'SUOMIFI';
   const isEmailAuthenticatedSession =
     loggedInSession?.['auth-method'] === 'EMAIL';
+  const toQueue =
+    examSession.available_registration_kind === RegistrationKind.Queue;
 
   return (
     <>
@@ -58,10 +60,10 @@ const AlreadyLoggedIn = () => {
           color={Color.Secondary}
           className="fit-content-max-width"
           size="large"
-          href={AppRoutes.ExamSessionRegistration.replace(
-            /:examSessionId/,
-            `${examSession.id}`,
-          )}
+          href={(toQueue
+            ? AppRoutes.ExamSessionQueue
+            : AppRoutes.ExamSessionRegistration
+          ).replace(/:examSessionId/, `${examSession.id}`)}
         >
           {t('alreadyLoggedIn.labels.continueToRegistration')}
         </CustomButton>
