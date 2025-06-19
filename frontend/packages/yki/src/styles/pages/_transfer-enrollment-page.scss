@@ -5,8 +5,9 @@
     display: block;
 
     &__item-header {
+      margin-top: 2rem;
+
       @include phone {
-        margin-top: 2rem;
         padding: 2rem 2rem 0;
       }
     }
