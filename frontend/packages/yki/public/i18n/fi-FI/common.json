@@ -120,6 +120,7 @@
         "description": "Menetät tekemäsi muutokset.",
         "header": "Haluatko varmasti poistua sivulta?"
       },
+      "name": "Nimi",
       "next": "Seuraava",
       "no": "Ei",
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
@@ -141,6 +142,7 @@
       "registration": "Ilmoittautuminen",
       "registrationPeriod": "Ilmoittautumisaika",
       "specialArrangementsLink": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin",
+      "userRegistrations": "Omat ilmoittautumiset",
       "yes": "Kyllä",
       "ykiHomepage": {
         "ariaLabel": "Yleisten kielitutkintojen verkkosivu (oph.fi), avaa uudessa välilehdessä",

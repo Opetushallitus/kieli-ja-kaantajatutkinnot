@@ -604,7 +604,8 @@
         "contactDetails": {
           "description": {
             "part1": "Lähetämme todistuksen sinulle postitse.",
-            "part2": "Tarkista, että olet antanut oikean osoitteen."
+            "part2": "Tarkista, että olet antanut oikean osoitteen.",
+            "part3": "Jos yhteystiedoissasi on virhe, ilmoita asiasta Opetushallitukselle sähköpostitse osoitteeseen kielitutkinnot@oph.fi"
           },
           "heading": "Yhteystietosi",
           "modify": "Muokkaa yhteystietoja"
@@ -635,7 +636,8 @@
             "part2": "Et voi siirtää ilmoittautumista enää toista kertaa."
           },
           "examPayment": {
-            "expiresAt": "Maksamatta {{ examFee }}€, eräpäivä {{ date }}",
+            "expiresAt": "Eräpäivä {{ date }}",
+            "notPaid": "Maksamatta {{ examFee }}€",
             "label": "Tutkintomaksu",
             "paidAt": "Maksettu {{ date }}"
           },
