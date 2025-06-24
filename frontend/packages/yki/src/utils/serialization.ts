@@ -273,6 +273,10 @@ export class SerializationUtils {
         liftedFromQueueAt: v.lifted_from_queue_at
           ? dayjs(v.lifted_from_queue_at)
           : undefined,
+        positionInQueue:
+          v.kind === RegistrationKind.Queue
+            ? (v.position_in_queue || 0) + 1
+            : undefined,
       })),
     };
   }
