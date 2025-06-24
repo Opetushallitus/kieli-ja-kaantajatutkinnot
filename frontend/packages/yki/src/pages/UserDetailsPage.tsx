@@ -95,10 +95,6 @@ const RegistrationState = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage.registrations.state',
   });
-
-  // TODO Queued registrations should be handled as a sort of pseudo-state here as well!
-  // TODO Registrations that are STARTED should maybe not be listed at all?
-
   const isEnrolled =
     state === RegistrationStates.Completed ||
     (state === RegistrationStates.Submitted &&
@@ -108,6 +104,8 @@ const RegistrationState = ({
   const isQueued =
     state === RegistrationStates.Submitted &&
     (kind === RegistrationKind.Queue || liftedFromQueueAt);
+
+  const positionInQueue = registration.positionInQueue || 1;
 
   const isCancelled = [
     RegistrationStates.Cancelled,
@@ -128,7 +126,7 @@ const RegistrationState = ({
         {isQueued && (
           <>
             <AlarmOutlinedIcon className="user-details-page__icon--alert" />
-            <Text>{t('queued')}</Text>
+            <Text>{t('queued', { positionInQueue })}</Text>
           </>
         )}
         {isCancelled && (
