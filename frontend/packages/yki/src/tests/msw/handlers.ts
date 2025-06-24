@@ -6,7 +6,10 @@ import { PublicRegistrationInitRequest } from 'interfaces/publicRegistration';
 import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
-import { NoSessionResponse } from 'tests/msw/fixtures/identity';
+import {
+  NoSessionResponse,
+  //SuomiFiAuthenticatedSessionResponse,
+} from 'tests/msw/fixtures/identity';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { personDetails } from 'tests/msw/fixtures/personDetails';
 import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/registrationInit';
@@ -50,6 +53,7 @@ export const handlers = [
     }
   }),
   http.get(APIEndpoints.User, () => {
+    //return HttpResponse.json(SuomiFiAuthenticatedSessionResponse);
     return HttpResponse.json(NoSessionResponse);
   }),
   http.post(APIEndpoints.EvaluationOrder, () =>

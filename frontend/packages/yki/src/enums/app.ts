@@ -24,6 +24,7 @@ export enum AppRoutes {
 export enum HeaderTabNav {
   Registration = 'registration',
   Reassessment = 'reassessment',
+  UserRegistrations = 'userRegistrations',
 }
 
 export enum ExamLanguage {

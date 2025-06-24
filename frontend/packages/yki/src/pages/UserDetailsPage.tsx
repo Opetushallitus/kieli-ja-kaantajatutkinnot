@@ -153,29 +153,33 @@ const ExamPayment = ({
   return (
     <div>
       <Text className="bold">{t('label')}</Text>
-      <div className="columns gapped-xxs">
-        {paidAt && (
-          <>
-            <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
+      {paidAt && (
+        <div className="columns gapped-xxs">
+          <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
+          <Text>
+            {t('paidAt', {
+              date: DateUtils.formatOptionalDate(paidAt, 'l'),
+            })}
+          </Text>
+        </div>
+      )}
+      {!paidAt && (
+        <div className="columns gapped-xxs">
+          <WarningOutlinedIcon className="user-details-page__icon--alert align-self-start" />{' '}
+          <div className="rows">
             <Text>
-              {t('paidAt', {
-                date: DateUtils.formatOptionalDate(paidAt, 'l'),
+              {t('notPaid', {
+                examFee,
               })}
             </Text>
-          </>
-        )}
-        {!paidAt && (
-          <>
-            <WarningOutlinedIcon className="user-details-page__icon--alert" />{' '}
-            <Text>
+            <Text className="user-details-page__text--alert">
               {t('expiresAt', {
-                examFee,
                 date: DateUtils.formatOptionalDate(expiresAt, 'l'),
               })}
             </Text>
-          </>
-        )}
-      </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -334,10 +338,13 @@ const ContactDetails = () => {
         <div className="user-details-page__info__section rows gapped">
           <Text>
             {t('description.part1')} {t('description.part2')}
+            <br />
+            {t('description.part3')}
           </Text>
           <div className="rows">
-            <Text className="bold">
-              {personDetails.firstName} {personDetails.lastName}
+            <Text>
+              <b>{translateCommon('name')}:</b> {personDetails.firstName}{' '}
+              {personDetails.lastName}
             </Text>
             <Text>
               <b>{translateCommon('address')}:</b>{' '}
