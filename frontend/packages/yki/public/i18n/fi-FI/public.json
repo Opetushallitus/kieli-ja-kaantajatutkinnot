@@ -658,7 +658,7 @@
             "cancelled": "Peruttu",
             "enrolled": "Ilmoittautunut",
             "label": "Tila",
-            "queued": "Jonossa"
+            "queued": "Jonossa (sija {{ positionInQueue }})"
           }
         },
         "title": "Yleiset kielitutkinnot (YKI) - Omat ilmoittautumiset"
