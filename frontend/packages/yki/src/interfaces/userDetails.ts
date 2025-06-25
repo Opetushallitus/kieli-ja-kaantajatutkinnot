@@ -11,6 +11,8 @@ export interface PersonRegistrations extends WithId {
   examLang: ExamLanguage;
   examLevel: ExamLevel;
   examDate: Dayjs;
+  registrationStartDate: Dayjs;
+  registrationEndDate: Dayjs;
   location: Array<ExamSessionLocation>;
   isTransferable: boolean;
   isTransfered: boolean;
@@ -29,6 +31,8 @@ interface PersonRegistrationsResponse extends WithId {
   state: string;
   kind: string;
   exam_date: string;
+  registration_start_date: string;
+  registration_end_date: string;
   location: Array<ExamSessionLocation>;
   is_transfered: boolean;
   is_transferable: boolean;
