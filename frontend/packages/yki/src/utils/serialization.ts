@@ -263,6 +263,8 @@ export class SerializationUtils {
         examLevel: v.level_code as ExamLevel,
         state: SerializationUtils.deserializeRegistrationState(v.state),
         examDate: dayjs(v.exam_date),
+        registrationStartDate: dayjs(v.registration_start_date),
+        registrationEndDate: dayjs(v.registration_end_date),
         location: v.location,
         isCancellable: v.is_cancellable,
         isTransferable: v.is_transferable,
