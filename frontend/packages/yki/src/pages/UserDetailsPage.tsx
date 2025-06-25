@@ -252,6 +252,17 @@ const Registrations: FC<RegistrationsProps> = ({
           <Text className="bold">{translateCommon('examDate')}</Text>
           <Text>{DateUtils.formatOptionalDate(r.examDate, 'l')}</Text>
         </div>
+        {r.kind === RegistrationKind.Queue && (
+          <div>
+            <Text className="bold">
+              {translateCommon('registrationPeriod')}
+            </Text>
+            <Text>
+              {DateUtils.formatOptionalDate(r.registrationStartDate, 'l')} —{' '}
+              {DateUtils.formatOptionalDate(r.registrationEndDate, 'l')}
+            </Text>
+          </div>
+        )}
         <div>
           <Text className="bold">{translateCommon('institution')}</Text>
           <Text>
