@@ -1,8 +1,10 @@
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   CustomCircularProgress,
+  CustomModal,
   H3,
   ManagedPaginatedTable,
   Text,
@@ -14,8 +16,10 @@ import { PublicExamSessionListingHeader } from 'components/registration/examSess
 import { PublicExamSessionListingRow } from 'components/registration/examSession/PublicExamSessionListingRow';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
+import { AppRoutes } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
 import { examSessionsSelector } from 'redux/selectors/examSessions';
+import { registrationSelector } from 'redux/selectors/registration';
 import { TableUtils } from 'utils/table';
 
 const getRowDetails = (examSession: ExamSession) => {
@@ -120,7 +124,9 @@ export const PublicExamSessionListing = ({
     keyPrefix: 'yki.pages.registrationPage.examSessionListing',
   });
   const translateCommon = useCommonTranslation();
+  const navigate = useNavigate();
   const { status } = useAppSelector(examSessionsSelector);
+  const { initRegistration } = useAppSelector(registrationSelector);
 
   const listingHeaderRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -131,6 +137,23 @@ export const PublicExamSessionListing = ({
       });
     }
   }, [status]);
+
+  useEffect(() => {
+    if (
+      initRegistration.status === APIResponseStatus.Success &&
+      initRegistration.examSessionId
+    ) {
+      navigate(
+        AppRoutes.ExamSession.replace(
+          /:examSessionId$/,
+          `${initRegistration.examSessionId}`,
+        ),
+      );
+    }
+  }, [navigate, initRegistration.status, initRegistration.examSessionId]);
+
+  const isRegistrationLoading =
+    initRegistration.status === APIResponseStatus.InProgress;
 
   switch (status) {
     case APIResponseStatus.NotStarted:
@@ -151,6 +174,21 @@ export const PublicExamSessionListing = ({
     case APIResponseStatus.Success:
       return (
         <>
+          <CustomModal
+            data-testid="registration-loading-modal"
+            className="registration-loading-modal"
+            open={isRegistrationLoading}
+            aria-labelledby="registration-loading-modal-description"
+            aria-describedby="registration-loading-modal-description"
+            onCloseModal={() => {}}
+          >
+            <div className="columns">
+              <CustomCircularProgress color={Color.Secondary} />
+              <Text id="registration-loading-modal-description">
+                Varataan paikkaa
+              </Text>
+            </div>
+          </CustomModal>
           <div ref={listingHeaderRef}>
             <Typography
               variant="h2"
