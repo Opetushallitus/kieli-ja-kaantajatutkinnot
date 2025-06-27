@@ -1,24 +1,26 @@
-import { Grid, Paper } from '@mui/material';
+import { Box, Grid, Paper } from '@mui/material';
 import { FC } from 'react';
-import { H1, Text } from 'shared/components';
+import { H2 } from 'shared/components';
+
+import { ClerkRegister } from 'components/clerkRegister/ClerkRegister';
 
 export const ClerkHomePage: FC = () => {
   return (
-    <div className="clerk-homepage">
-      <H1>Hello</H1>
-      <Paper elevation={3}>
-        <Grid
-          container
-          direction="column"
-          className="clerk-homepage__grid-container"
+    <Box className="clerk-register-page">
+      <H2>Kielitutkintojen järjestäjärekisteri</H2>
+      <Grid
+        container
+        rowSpacing={4}
+        direction="column"
+        className="clerk-register-page__grid-container"
+      >
+        <Paper
+          elevation={3}
+          className="clerk-register-page__grid-container__results"
         >
-          <Grid item>
-            <div className="columns gapped grow">
-              <Text>Todellakin uusi virkailijan UI</Text>
-            </div>
-          </Grid>
-        </Grid>
-      </Paper>
-    </div>
+          <ClerkRegister />
+        </Paper>
+      </Grid>
+    </Box>
   );
 };

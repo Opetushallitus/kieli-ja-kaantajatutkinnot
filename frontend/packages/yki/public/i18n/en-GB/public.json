@@ -1,6 +1,14 @@
 {
   "yki": {
     "component": {
+      "clerkRegisterListing": {
+        "header": {
+          "organizer": "Organizer",
+          "agreements": "Organizer agreements",
+          "munincipality": "Municipality",
+          "searchResults": "123 järjestäjää"
+        }
+      },
       "cookieBanner": {
         "buttonAriaLabel": "Close the notification about cookies",
         "buttonText": "Close",

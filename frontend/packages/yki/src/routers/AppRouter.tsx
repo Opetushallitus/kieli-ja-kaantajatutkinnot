@@ -72,6 +72,22 @@ export const AppRouter: FC = () => {
     </div>
   );
 
+  const ClerkRoot = (
+    <div className="app">
+      <NotifierContextProvider>
+        <Header />
+        <ErrorToast />
+        <Notifier />
+        <ScrollToTop />
+        <main className="clerk-content" id="main-content">
+          <div className="clerk-content__container">
+            <Outlet />
+          </div>
+        </main>
+      </NotifierContextProvider>
+    </div>
+  );
+
   const YkiTitlePage = ({ title, children }: TitlePageProps) => (
     <TitlePage title={createTitle(title)} className="title-page">
       {children}
@@ -86,90 +102,95 @@ export const AppRouter: FC = () => {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path={AppRoutes.PublicRoot} element={Root}>
-        <Route index={true} element={FrontPage} />
-        <Route
-          path={AppRoutes.ClerkHomePage}
-          element={
-            <TitlePage title={createTitle('clerk')}>
-              <ClerkHomePage />
-            </TitlePage>
-          }
-        />
-        <Route path={AppRoutes.Registration} element={FrontPage} />
-        <Route
-          path={AppRoutes.ExamSession}
-          element={
-            <YkiTitlePage title={createTitle('initRegistration')}>
-              <InitRegistrationPage />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.ExamSessionRegistration}
-          element={
-            <YkiTitlePage title={createTitle('examDetails')}>
-              <ExamDetailsPage />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.RegistrationPaymentStatus}
-          element={
-            <YkiTitlePage title={createTitle('registrationPaymentStatus')}>
-              <RegistrationPaymentStatusPage />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.Reassessment}
-          element={
-            <YkiTitlePage title={createTitle('reassessment')}>
-              <ReassessmentPage />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.ReassessmentOrder}
-          element={
-            <YkiTitlePage title={createTitle('evaluationOrder')}>
-              <EvaluationOrderPage />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.ReassessmentOrderStatus}
-          element={
-            <YkiTitlePage title={createTitle('evaluationOrderStatus')}>
-              <EvaluationOrderStatusPage />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.AccessibilityStatementPage}
-          element={
-            <YkiTitlePage title={createTitle('accessibilityStatement')}>
-              <AccessibilityStatementPage />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.LogoutSuccess}
-          element={
-            <YkiTitlePage title={createTitle('logoutSuccess')}>
-              <LogoutSuccess />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.NotFoundPage}
-          element={
-            <YkiTitlePage title={createTitle('notFound')}>
-              <NotFoundPage />
-            </YkiTitlePage>
-          }
-        />
-      </Route>,
+      <>
+        <Route path={'/yki/v2/virkailija'} element={ClerkRoot}>
+          <Route
+            path={'/yki/v2/virkailija/jarjestajarekisteri'}
+            element={
+              <YkiTitlePage title={createTitle('clerk')}>
+                <ClerkHomePage />
+              </YkiTitlePage>
+            }
+          />
+        </Route>
+        <Route path={AppRoutes.PublicRoot} element={Root}>
+          <Route index={true} element={FrontPage} />
+          <Route path={AppRoutes.Registration} element={FrontPage} />
+          <Route
+            path={AppRoutes.ExamSession}
+            element={
+              <YkiTitlePage title={createTitle('initRegistration')}>
+                <InitRegistrationPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ExamSessionRegistration}
+            element={
+              <YkiTitlePage title={createTitle('examDetails')}>
+                <ExamDetailsPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.RegistrationPaymentStatus}
+            element={
+              <YkiTitlePage title={createTitle('registrationPaymentStatus')}>
+                <RegistrationPaymentStatusPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.Reassessment}
+            element={
+              <YkiTitlePage title={createTitle('reassessment')}>
+                <ReassessmentPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ReassessmentOrder}
+            element={
+              <YkiTitlePage title={createTitle('evaluationOrder')}>
+                <EvaluationOrderPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ReassessmentOrderStatus}
+            element={
+              <YkiTitlePage title={createTitle('evaluationOrderStatus')}>
+                <EvaluationOrderStatusPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.AccessibilityStatementPage}
+            element={
+              <YkiTitlePage title={createTitle('accessibilityStatement')}>
+                <AccessibilityStatementPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.LogoutSuccess}
+            element={
+              <YkiTitlePage title={createTitle('logoutSuccess')}>
+                <LogoutSuccess />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.NotFoundPage}
+            element={
+              <YkiTitlePage title={createTitle('notFound')}>
+                <NotFoundPage />
+              </YkiTitlePage>
+            }
+          />
+        </Route>
+        ,
+      </>,
     ),
   );
 

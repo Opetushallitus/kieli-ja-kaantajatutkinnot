@@ -3,6 +3,7 @@ import { AppLanguage } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import { GenderEnum } from 'enums/app';
+import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
 import {
   EvaluationOrderDetails,
   EvaluationOrderDetailsResponse,
@@ -205,6 +206,22 @@ export class SerializationUtils {
       phone_number: registration.phoneNumber,
       email: registration.email,
       gender: SerializationUtils.serializeGender(registration.gender),
+    };
+  }
+
+  static deserializeClerkOrganizerResponse(
+    organizerResponse: ClerkOrganizerResponse,
+  ) {
+    return {
+      ...organizerResponse,
+      agreement_start_date: organizerResponse.agreement_start_date
+        ? dayjs(organizerResponse.agreement_start_date)
+        : undefined,
+      agreement_end_date: organizerResponse.agreement_end_date
+        ? dayjs(organizerResponse.agreement_end_date)
+        : undefined,
+      languages: organizerResponse.languages || null,
+      extra: organizerResponse.extra || '',
     };
   }
 }

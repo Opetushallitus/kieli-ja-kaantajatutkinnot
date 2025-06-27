@@ -6,6 +6,7 @@ import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 import { NoSessionResponse } from 'tests/msw/fixtures/identity';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
+import { organizers } from 'tests/msw/fixtures/organizers';
 
 const notFound = () => new HttpResponse(null, { status: 404 });
 
@@ -50,5 +51,8 @@ export const handlers = [
   ),
   http.post(APIEndpoints.SubmitRegistration, () =>
     HttpResponse.json({ success: true }),
+  ),
+  http.get('/yki/api/virkailija/organizer', () =>
+    HttpResponse.json(organizers),
   ),
 ];

@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
+const Dotenv = require('dotenv-webpack')
 
 module.exports = (appName, env, dirName, port, entryPage = "etusivu") => {
   const STATIC_PATH = `${appName}/static`;
@@ -53,6 +54,7 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu") => {
       ...getStylelintPlugin(env),
       ...getHtmlWebpackPlugin(env, CONTEXT_PATH, dirName),
       new CSPNoncePlaceholderInjectorPlugin(),
+      new Dotenv()  
     ],
   });
 
@@ -133,7 +135,7 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu") => {
       },
       compress: true,
       port,
-      proxy: {
+      proxy: env.proxy &&{
         [`/${CONTEXT_PATH}/api`]: env.proxy,
         [`/${CONTEXT_PATH}/auth`]: env.proxy,
       },

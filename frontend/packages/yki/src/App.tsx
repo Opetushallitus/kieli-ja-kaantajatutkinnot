@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@mui/material/styles';
+import { OphThemeProvider } from '@opetushallitus/oph-design-system/theme';
 import { Provider } from 'react-redux';
 import { StyleCacheProvider } from 'shared/components';
 import { theme } from 'shared/configs';
@@ -15,9 +15,9 @@ initI18n();
 export const App = () => (
   <Provider store={setupStore()}>
     <StyleCacheProvider appName="yki">
-      <ThemeProvider theme={theme}>
+      <OphThemeProvider lang="fi" variant="oph" overrides={theme}>
         <AppRouter />
-      </ThemeProvider>
+      </OphThemeProvider>
     </StyleCacheProvider>
   </Provider>
 );

@@ -3,6 +3,7 @@ import { combineReducers, configureStore, Tuple } from '@reduxjs/toolkit';
 
 import { RootState } from 'configs/redux';
 import { APIErrorReducer } from 'redux/reducers/APIError';
+import { clerkOrganizersReducer } from 'redux/reducers/clerkOrganizer';
 import { evaluationOrderReducer } from 'redux/reducers/evaluationOrder';
 import { evaluationPeriodsReducer } from 'redux/reducers/evaluationPeriods';
 import { examSessionReducer } from 'redux/reducers/examSession';
@@ -29,6 +30,7 @@ export const rootReducer = combineReducers({
   reservation: reservationReducer,
   session: sessionReducer,
   userOpenRegistrations: userOpenRegistrationsReducer,
+  clerkOrganizer: clerkOrganizersReducer,
 });
 
 export const setupStore = (preloadedState?: Partial<RootState>) => {

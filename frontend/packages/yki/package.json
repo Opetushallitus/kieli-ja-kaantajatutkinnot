@@ -4,7 +4,9 @@
   "license": "MIT",
   "main": "index.js",
   "msw": {
-    "workerDirectory": "public"
+    "workerDirectory": [
+      "public"
+    ]
   },
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
   "scripts": {
@@ -17,6 +19,7 @@
     "yki:lint": "yarn yki:eslint && yarn yki:tslint && yarn yki:stylelint && yarn yki:exportlint",
     "yki:qa": "yarn yki:lint && yarn yki:format && yarn yki:test:jest && yarn yki:start:ci",
     "yki:start": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8080",
+    "yki:start:msw": "yarn g:webpack serve --config webpack.config.js",
     "yki:start:ci": "yarn g:webpack serve --env cypress --env prod --config webpack.config.js --no-open --no-client-overlay",
     "yki:start:dev-server": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8083",
     "yki:start:docker-compose": "yarn g:webpack serve --config webpack.config.js --env proxy=http://yki-backend:8080 --env docker",
