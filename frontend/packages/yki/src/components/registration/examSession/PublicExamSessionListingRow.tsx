@@ -1,7 +1,7 @@
 import { TableCell, TableRow, Typography } from '@mui/material';
 import { Dayjs } from 'dayjs';
 import { ReactNode } from 'react';
-import { CustomButtonLink, Text } from 'shared/components';
+import { CustomButton, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
@@ -12,10 +12,12 @@ import {
   usePublicTranslation,
 } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import { AppRoutes, RegistrationKind } from 'enums/app';
+import { RegistrationKind } from 'enums/app';
 import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
-import { storeExamSession } from 'redux/reducers/examSession';
-import { resetPublicRegistration } from 'redux/reducers/registration';
+import {
+  initRegistration,
+  resetPublicRegistration,
+} from 'redux/reducers/registration';
 import { DateTimeUtils } from 'utils/dateTime';
 import { ExamSessionUtils } from 'utils/examSession';
 
@@ -34,14 +36,13 @@ const RegisterToExamButton = ({
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
 
   return (
-    <CustomButtonLink
+    <CustomButton
       color={Color.Secondary}
       variant={Variant.Outlined}
       onClick={() => {
-        dispatch(storeExamSession(examSession));
         dispatch(resetPublicRegistration());
+        dispatch(initRegistration(examSession.id));
       }}
-      to={AppRoutes.ExamSession.replace(/:examSessionId$/, `${examSession.id}`)}
       fullWidth={isPhone}
     >
       {availablePlaces
@@ -49,7 +50,7 @@ const RegisterToExamButton = ({
         : availableQueue
         ? t('orderCancellationNotification')
         : t('full')}
-    </CustomButtonLink>
+    </CustomButton>
   );
 };
 
