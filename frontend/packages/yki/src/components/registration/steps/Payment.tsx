@@ -5,7 +5,7 @@ import { H2, Text } from 'shared/components';
 
 import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
 import { usePublicTranslation } from 'configs/i18n';
-import { PaymentStatus } from 'enums/api';
+import { APIEndpoints, PaymentStatus } from 'enums/api';
 
 const PaymentSuccess = () => {
   const { t } = usePublicTranslation({
@@ -38,6 +38,17 @@ const PaymentSuccess = () => {
           </Link>
           <OpenInNewIcon />
         </div>
+      </div>
+      <div>
+        <Text>
+          {t('toUserPortal.part1')} {t('toUserPortal.part2')}
+          <br />
+          {t('toUserPortal.part3')}
+          <br />
+          <Link href={`${APIEndpoints.Authenticate}?toUserPortal=true`}>
+            <b>{t('toUserPortal.link.label')}</b>
+          </Link>
+        </Text>
       </div>
     </>
   );
