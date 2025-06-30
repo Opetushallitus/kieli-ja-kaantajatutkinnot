@@ -377,7 +377,15 @@
                   "label": "Tarvitsetko erityisjärjestelyjä? (oph.fi)",
                   "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tarvitsetko-erityisjarjestelyja"
                 },
-                "title": "Tervetuloa YKI-testiin!"
+                "title": "Tervetuloa YKI-testiin!",
+                "toUserPortal": {
+                  "link": {
+                    "label": "Yleiset kielitutkinnot (YKI) - Omat ilmoittautumiset"
+                  },
+                  "part1": "Voit katsella omia ilmoittautumisiasi Oma Opintopolussa.",
+                  "part2": "Tietojen katselu vaatii Suomi.fi-tunnistautumisen.",
+                  "part3": "Linkki Oma Opintopolkuun:"
+                }
               },
               "heading": "Ilmoittautuminen onnistui!"
             }

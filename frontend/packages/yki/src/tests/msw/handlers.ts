@@ -68,7 +68,7 @@ export const handlers = [
 
     return HttpResponse.json({
       success: true,
-      code: queued && 'foobar-123-qwerty',
+      code: 'foobar-123-' + (queued ? 'queue' : 'admission'),
       registration_kind: queued ? 'QUEUE' : 'ADMISSION',
     });
   }),
