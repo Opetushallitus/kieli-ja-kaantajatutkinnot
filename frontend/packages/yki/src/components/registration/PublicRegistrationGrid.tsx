@@ -17,7 +17,7 @@ import { PublicRegistrationStepContents } from 'components/registration/PublicRe
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { APIEndpoints, PaymentStatus } from 'enums/api';
+import { PaymentStatus } from 'enums/api';
 import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
@@ -45,10 +45,7 @@ const RegistrationForm = () => {
       const params = new URLSearchParams();
       params.append('submitted', 'true');
       params.append('code', code);
-      const redirectTo = `${window.location.href}?${encodeURIComponent(
-        params.toString(),
-      )}`;
-      window.location.href = `${APIEndpoints.Logout}?redirect=${redirectTo}`;
+      window.location.href = `${window.location.href}?${params.toString()}`;
     }
   });
   useEffect(() => {

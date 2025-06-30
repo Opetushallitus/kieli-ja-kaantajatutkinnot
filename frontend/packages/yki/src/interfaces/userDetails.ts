@@ -1,7 +1,12 @@
 import { Dayjs } from 'dayjs';
 import { WithId } from 'shared/interfaces';
 
-import { ExamLanguage, ExamLevel, RegistrationKind, RegistrationStates } from 'enums/app';
+import {
+  ExamLanguage,
+  ExamLevel,
+  RegistrationKind,
+  RegistrationStates,
+} from 'enums/app';
 import { ExamSessionLocation } from 'interfaces/examSessions';
 
 export interface PersonRegistrations extends WithId {
