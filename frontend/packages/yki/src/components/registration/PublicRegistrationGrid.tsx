@@ -33,6 +33,8 @@ const RegistrationForm = () => {
     useAppSelector(registrationSelector).submitRegistration;
   const { examSession, status: examSessionStatus } =
     useAppSelector(examSessionSelector);
+  const { id: registrationId } =
+    useAppSelector(registrationSelector).registration;
   const [searchParams] = useSearchParams();
   const params = useParams();
 
@@ -40,11 +42,13 @@ const RegistrationForm = () => {
     if (
       submitFormStatus === APIResponseStatus.Success &&
       !searchParams.get('submitted') &&
-      code
+      code &&
+      registrationId
     ) {
       const params = new URLSearchParams();
       params.append('submitted', 'true');
       params.append('code', code);
+      params.append('registrationId', `${registrationId}`);
       window.location.href = `${window.location.href}?${params.toString()}`;
     }
   });
