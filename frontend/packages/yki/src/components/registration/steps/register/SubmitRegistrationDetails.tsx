@@ -1,5 +1,6 @@
 import { Dayjs } from 'dayjs';
 import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { H2, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
@@ -22,6 +23,7 @@ import { loadNationalities } from 'redux/reducers/nationalities';
 import { loginLinkSelector } from 'redux/selectors/loginLink';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
+import { sessionSelector } from 'redux/selectors/session';
 import { SerializationUtils } from 'utils/serialization';
 
 const FillRegistrationDetails = () => {
@@ -115,6 +117,10 @@ const SuccessQueued = () => {
 const SuccessRegistered = () => {
   const dispatch = useAppDispatch();
 
+  const [searchParams] = useSearchParams();
+  const registrationId = searchParams.get('registrationId');
+
+  const { loggedInSession } = useAppSelector(sessionSelector);
   const { code } = useAppSelector(registrationSelector).submitRegistration;
   const { expires_at, status } = useAppSelector(loginLinkSelector);
   const lang = getCurrentLang();
@@ -141,17 +147,22 @@ const SuccessRegistered = () => {
   );
   const queryParams = paymentUrl.searchParams;
   queryParams.append('code', code);
-
   queryParams.append('lang', SerializationUtils.serializeAppLanguage(lang));
 
-  return (
-    <ConfirmRegistration
-      paymentDetails={{
-        payment_url: paymentUrl.toString(),
-        due_date: expires_at as Dayjs,
-      }}
-    />
-  );
+  const paymentDetails = {
+    due_date: expires_at as Dayjs,
+    payment_url:
+      loggedInSession &&
+      loggedInSession['auth-method'] === 'SUOMIFI' &&
+      registrationId
+        ? APIEndpoints.RedirectToPayment.replace(
+            /:registrationId/,
+            registrationId,
+          ).replace(/:lang/, SerializationUtils.serializeAppLanguage(lang))
+        : paymentUrl.toString(),
+  };
+
+  return <ConfirmRegistration paymentDetails={paymentDetails} />;
 };
 
 const Success = () => {
