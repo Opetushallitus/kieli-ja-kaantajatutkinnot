@@ -1,73 +1,81 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Caption should render correctly 1`] = `
-<span
-  className="MuiTypography-root MuiTypography-caption css-mpaqru-MuiTypography-root"
-  style={{}}
->
-  This is a caption
-</span>
+<div>
+  <span
+    class="MuiTypography-root MuiTypography-caption css-mpaqru-MuiTypography-root"
+  >
+    This is a caption
+  </span>
+</div>
 `;
 
 exports[`H1 should render correctly 1`] = `
-<h1
-  className="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
-  style={{}}
->
-  This is an H1
-</h1>
+<div>
+  <h1
+    class="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+  >
+    This is an H1
+  </h1>
+</div>
 `;
 
 exports[`H2 should render correctly 1`] = `
-<h2
-  className="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
-  style={{}}
->
-  This is an H2
-</h2>
+<div>
+  <h2
+    class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
+  >
+    This is an H2
+  </h2>
+</div>
 `;
 
 exports[`H3 should render correctly 1`] = `
-<h3
-  className="MuiTypography-root MuiTypography-h3 css-13msox4-MuiTypography-root"
-  style={{}}
->
-  This is an H3
-</h3>
+<div>
+  <h3
+    class="MuiTypography-root MuiTypography-h3 css-13msox4-MuiTypography-root"
+  >
+    This is an H3
+  </h3>
+</div>
 `;
 
 exports[`H4 should render correctly 1`] = `
-<h4
-  className="MuiTypography-root MuiTypography-h4 css-f84ov1-MuiTypography-root"
-  style={{}}
->
-  This is an H4
-</h4>
+<div>
+  <h4
+    class="MuiTypography-root MuiTypography-h4 css-f84ov1-MuiTypography-root"
+  >
+    This is an H4
+  </h4>
+</div>
 `;
 
 exports[`H5 should render correctly 1`] = `
-<h5
-  className="MuiTypography-root MuiTypography-h5 css-16xl4zq-MuiTypography-root"
-  style={{}}
->
-  This is an H5
-</h5>
+<div>
+  <h5
+    class="MuiTypography-root MuiTypography-h5 css-16xl4zq-MuiTypography-root"
+  >
+    This is an H5
+  </h5>
+</div>
 `;
 
 exports[`H6 should render correctly 1`] = `
-<h6
-  className="MuiTypography-root MuiTypography-h6 css-1miy0lu-MuiTypography-root"
-  style={{}}
->
-  This is an H6
-</h6>
+<div>
+  <h6
+    class="MuiTypography-root MuiTypography-h6 css-1miy0lu-MuiTypography-root"
+  >
+    This is an H6
+  </h6>
+</div>
 `;
 
 exports[`Text should render correctly 1`] = `
-<p
-  className="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-  style={{}}
->
-  This is just text
-</p>
+<div>
+  <p
+    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+  >
+    This is just text
+  </p>
+</div>
 `;

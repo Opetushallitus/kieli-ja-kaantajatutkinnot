@@ -1,15 +1,13 @@
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 
 import { OPHClerkLogo } from './OPHClerkLogo';
 
 describe('OPHClerkLogo', () => {
   it('should render OPHClerkLogo correctly', () => {
-    const tree = renderer
-      .create(
-        <OPHClerkLogo mainLabel="MainLabel" subLabel="SubLabel" alt="ImgAlt" />,
-      )
-      .toJSON();
+    const { container } = render(
+      <OPHClerkLogo mainLabel="MainLabel" subLabel="SubLabel" alt="ImgAlt" />,
+    );
 
-    expect(tree).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });

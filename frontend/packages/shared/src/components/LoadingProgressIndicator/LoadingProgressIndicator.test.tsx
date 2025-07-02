@@ -1,15 +1,12 @@
 import { render } from '@testing-library/react';
-import renderer from 'react-test-renderer';
 
 import { LoadingProgressIndicator } from './LoadingProgressIndicator';
 
 describe('LoadingProgressIndicator', () => {
   it('should render LoadingProgressIndicator correctly', () => {
-    const tree = renderer
-      .create(<LoadingProgressIndicator isLoading={true} />)
-      .toJSON();
+    const { container } = render(<LoadingProgressIndicator isLoading={true} />);
 
-    expect(tree).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   it('should show a spinner when component is in loading state', () => {

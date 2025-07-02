@@ -1,67 +1,67 @@
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 
 import { Caption, H1, H2, H3, H4, H5, H6, Text } from './Text';
 
 describe('Caption', () => {
   it('should render correctly', () => {
-    const tree = renderer.create(<Caption>This is a caption</Caption>).toJSON();
+    const { container } = render(<Caption>This is a caption</Caption>);
 
-    expect(tree).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });
 
 describe('H1', () => {
   it('should render correctly', () => {
-    const tree = renderer.create(<H1>This is an H1</H1>).toJSON();
+    const { container } = render(<H1>This is an H1</H1>);
 
-    expect(tree).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });
 
 describe('H2', () => {
   it('should render correctly', () => {
-    const tree = renderer.create(<H2>This is an H2</H2>).toJSON();
+    const { container } = render(<H2>This is an H2</H2>);
 
-    expect(tree).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });
 
 describe('H3', () => {
   it('should render correctly', () => {
-    const tree = renderer.create(<H3>This is an H3</H3>).toJSON();
+    const { container } = render(<H3>This is an H3</H3>);
 
-    expect(tree).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });
 
 describe('H4', () => {
   it('should render correctly', () => {
-    const tree = renderer.create(<H4>This is an H4</H4>).toJSON();
+    const { container } = render(<H4>This is an H4</H4>);
 
-    expect(tree).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });
 
 describe('H5', () => {
   it('should render correctly', () => {
-    const tree = renderer.create(<H5>This is an H5</H5>).toJSON();
+    const { container } = render(<H5>This is an H5</H5>);
 
-    expect(tree).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });
 
 describe('H6', () => {
   it('should render correctly', () => {
-    const tree = renderer.create(<H6>This is an H6</H6>).toJSON();
+    const { container } = render(<H6>This is an H6</H6>);
 
-    expect(tree).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });
 
 describe('Text', () => {
   it('should render correctly', () => {
-    const tree = renderer.create(<Text>This is just text</Text>).toJSON();
+    const { container } = render(<Text>This is just text</Text>);
 
-    expect(tree).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });

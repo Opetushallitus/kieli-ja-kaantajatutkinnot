@@ -8,6 +8,7 @@ public class DateUtil {
 
   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
   private static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+  private static final DateTimeFormatter DATETIME_LOCAL_FORMAT = DateTimeFormatter.ofPattern("d.M.yyyy HH:mm:ss");
   private static final DateTimeFormatter DATE_LOCAL_FORMAT = DateTimeFormatter.ofPattern("d.M.yyyy");
 
   public static String formatOptionalDate(final LocalDate date) {
@@ -20,6 +21,10 @@ public class DateUtil {
 
   public static String formatDate(final LocalDate date) {
     return DATE_LOCAL_FORMAT.format(date);
+  }
+
+  public static String formatDatetime(final LocalDateTime date) {
+    return DATETIME_LOCAL_FORMAT.format(date);
   }
 
   public static String formatBirthdateFromSSN(final String ssn) {

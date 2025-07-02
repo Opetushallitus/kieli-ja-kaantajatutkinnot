@@ -63,6 +63,7 @@ export enum AppRoutes {
 
   ClerkLocalLogoutPage = '/vkt/cas/localLogout',
   ClerkRoot = '/vkt/virkailija',
+  ClerkPaymentReportPage = '/vkt/virkailija/maksuraportti',
 
   // Routes for clerk user / excellent level
   ClerkExcellentLevelPage = clerkExcellentLevelRoutePrefix,

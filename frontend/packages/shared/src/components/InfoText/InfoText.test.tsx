@@ -1,12 +1,10 @@
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 
 import { InfoText } from './InfoText';
 
 describe('InfoText', () => {
   it('should render correctly', () => {
-    const tree = renderer
-      .create(<InfoText>This is an info text</InfoText>)
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+    const { container } = render(<InfoText>This is an info text</InfoText>);
+    expect(container).toMatchSnapshot();
   });
 });

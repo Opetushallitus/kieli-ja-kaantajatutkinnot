@@ -18,6 +18,7 @@ export enum APIEndpoints {
   UploadPostPolicy = '/vkt/api/v1/uploadPostPolicy/:examEventId',
   ClerkRefreshKoskiEducationDetails = '/vkt/api/v1/clerk/enrollment/:enrollmentId/refreshKoskiEducationDetails',
   ClerkExaminer = '/vkt/api/v1/clerk/examiner',
+  ClerkPaymentReportDownload = '/vkt/api/v1/clerk/payment/downloadReport?from=:from&to=:to',
   ExaminerDetails = '/vkt/api/v1/tv/:oid',
   ExaminerDetailsInit = '/vkt/api/v1/tv/:oid/init',
   ExaminerExamEvent = '/vkt/api/v1/tv/:oid/examEvent',

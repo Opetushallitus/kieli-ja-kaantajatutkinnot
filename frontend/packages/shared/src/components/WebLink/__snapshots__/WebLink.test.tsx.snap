@@ -1,61 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WebLink should render correctly with start and end icons 1`] = `
-<span
-  className="weblink"
->
+<div>
   <span
-    className="icon start-icon"
+    class="weblink"
   >
-    <svg
-      aria-hidden={true}
-      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-      data-testid="DownloadOutlinedIcon"
-      focusable="false"
-      viewBox="0 0 24 24"
+    <span
+      class="icon start-icon"
     >
-      <path
-        d="M19 9h-4V3H9v6H5l7 7zm-8 2V5h2v6h1.17L12 13.17 9.83 11zm-6 7h14v2H5z"
-      />
-    </svg>
-  </span>
-  <a
-    className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-mrmcv1-MuiTypography-root-MuiLink-root"
-    href="http://localhost:4000"
-    onBlur={[Function]}
-    onFocus={[Function]}
-    style={{}}
-    target=""
-  >
-    Localhost
-  </a>
-  <span
-    className="icon end-icon"
-  >
-    <svg
-      aria-hidden={true}
-      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-      data-testid="OpenInNewIcon"
-      focusable="false"
-      viewBox="0 0 24 24"
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+        data-testid="DownloadOutlinedIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M19 9h-4V3H9v6H5l7 7zm-8 2V5h2v6h1.17L12 13.17 9.83 11zm-6 7h14v2H5z"
+        />
+      </svg>
+    </span>
+    <a
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-mrmcv1-MuiTypography-root-MuiLink-root"
+      href="http://localhost:4000"
+      target=""
     >
-      <path
-        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-      />
-    </svg>
+      Localhost
+    </a>
+    <span
+      class="icon end-icon"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+        data-testid="OpenInNewIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+        />
+      </svg>
+    </span>
   </span>
-</span>
+</div>
 `;
 
 exports[`WebLink should render correctly without icons 1`] = `
-<a
-  className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-mrmcv1-MuiTypography-root-MuiLink-root"
-  href="http://localhost:4000"
-  onBlur={[Function]}
-  onFocus={[Function]}
-  style={{}}
-  target="_blank"
->
-  Localhost
-</a>
+<div>
+  <a
+    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-mrmcv1-MuiTypography-root-MuiLink-root"
+    href="http://localhost:4000"
+    target="_blank"
+  >
+    Localhost
+  </a>
+</div>
 `;

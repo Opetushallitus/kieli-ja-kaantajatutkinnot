@@ -24,6 +24,7 @@ import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class PaymentService {
 
   private static final Logger LOG = LoggerFactory.getLogger(PaymentService.class);
+  public static final String REFERENCE_PREFIX_EXCELLENT = "VKTET-";
+  public static final String REFERENCE_PREFIX_GOOD_AND_SATISFACTORY = "VKTHTT-";
 
   private final PaymentProvider paymentProvider;
   private final PaymentRepository paymentRepository;
@@ -133,11 +136,14 @@ public class PaymentService {
     final PaymentStatus paymentStatus
   ) {
     switch (paymentStatus) {
-      case NEW, PENDING, DELAYED -> {}
+      case NEW -> {
+        enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.EXPECTING_PAYMENT);
+      }
       case OK -> enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.COMPLETED);
       case FAIL -> {
         enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.CANCELED_PAYMENT);
       }
+      case PENDING, DELAYED -> {}
     }
   }
 
@@ -188,9 +194,13 @@ public class PaymentService {
       throw new APIException(APIExceptionType.PAYMENT_AMOUNT_MISMATCH);
     }
 
-    final int checkoutId = Integer.parseInt(paymentParams.get("checkout-reference"));
-    if (checkoutId != payment.getId()) {
-      LOG.error("Checkout reference ({}) does not match expected payment id ({})", checkoutId, payment.getId());
+    final String checkoutReference = paymentParams.get("checkout-reference");
+    if (!checkoutReference.equals(payment.getMerchantReference())) {
+      LOG.error(
+        "Checkout reference ({}) does not match payment merchant reference ({})",
+        checkoutReference,
+        payment.getMerchantReference()
+      );
       throw new APIException(APIExceptionType.PAYMENT_REFERENCE_MISMATCH);
     }
 
@@ -204,6 +214,9 @@ public class PaymentService {
       setEnrollmentStatus(enrollment, newStatus);
 
       payment.setPaymentStatus(newStatus);
+      if (newStatus == PaymentStatus.OK) {
+        payment.setPaidAt(LocalDateTime.now());
+      }
       paymentRepository.saveAndFlush(payment);
 
       if (newStatus == PaymentStatus.OK) {
@@ -222,6 +235,9 @@ public class PaymentService {
       setEnrollmentStatus(enrollmentAppointment, newStatus);
 
       payment.setPaymentStatus(newStatus);
+      if (newStatus == PaymentStatus.OK) {
+        payment.setPaidAt(LocalDateTime.now());
+      }
       paymentRepository.saveAndFlush(payment);
 
       if (newStatus == PaymentStatus.OK) {
@@ -326,15 +342,20 @@ public class PaymentService {
     payment.setAmount(amount);
     paymentRepository.saveAndFlush(payment);
 
+    final String paymentReference = REFERENCE_PREFIX_GOOD_AND_SATISFACTORY + payment.getId() + "-" + person.getId();
     final PaytrailResponseDTO response = paymentProvider.createPayment(
       itemList,
       payment.getId(),
+      paymentReference,
       customer,
       amount,
       appLocale
     );
 
+    setEnrollmentStatus(enrollmentAppointment, PaymentStatus.NEW);
+
     payment.setTransactionId(response.getTransactionId());
+    payment.setMerchantReference(paymentReference);
     payment.setReference(response.getReference());
     payment.setPaymentUrl(response.getHref());
     payment.setPaymentStatus(PaymentStatus.NEW);
@@ -374,9 +395,11 @@ public class PaymentService {
     payment.setAmount(amount);
     paymentRepository.saveAndFlush(payment);
 
+    final String paymentReference = REFERENCE_PREFIX_EXCELLENT + payment.getId() + "-" + person.getId();
     final PaytrailResponseDTO response = paymentProvider.createPayment(
       itemList,
       payment.getId(),
+      paymentReference,
       customer,
       amount,
       appLocale
@@ -388,6 +411,7 @@ public class PaymentService {
 
     payment.setTransactionId(response.getTransactionId());
     payment.setReference(response.getReference());
+    payment.setMerchantReference(paymentReference);
     payment.setPaymentUrl(response.getHref());
     payment.setPaymentStatus(PaymentStatus.NEW);
     paymentRepository.saveAndFlush(payment);
