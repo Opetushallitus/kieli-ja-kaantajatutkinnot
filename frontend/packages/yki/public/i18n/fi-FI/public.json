@@ -380,7 +380,8 @@
                 "title": "Tervetuloa YKI-testiin!",
                 "toUserPortal": {
                   "link": {
-                    "label": "Yleiset kielitutkinnot (YKI) - Omat ilmoittautumiset"
+                    "label": "Yleiset kielitutkinnot (YKI) - Omat ilmoittautumiset",
+                    "omaOpintopolkuLabel": "Oma Opintopolku (opintopolku.fi)"
                   },
                   "part1": "Voit katsella omia ilmoittautumisiasi Oma Opintopolussa.",
                   "part2": "Tietojen katselu vaatii Suomi.fi-tunnistautumisen.",
