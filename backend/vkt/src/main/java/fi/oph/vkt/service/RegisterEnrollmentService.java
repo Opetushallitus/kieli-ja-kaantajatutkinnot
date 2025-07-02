@@ -9,6 +9,7 @@ import fi.oph.vkt.api.dto.integration.RegisterEnrollmentDTO;
 import fi.oph.vkt.api.dto.integration.RegisterPersonDTO;
 import fi.oph.vkt.api.dto.integration.RegisterSyncDTO;
 import fi.oph.vkt.api.dto.integration.SourceDTO;
+import fi.oph.vkt.config.Constants;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.EnrollmentCommon;
@@ -21,15 +22,26 @@ import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.util.DateUtil;
 import fi.oph.vkt.util.LocalisationUtil;
 import fi.oph.vkt.util.PersonUtil;
+import fi.vm.sade.javautils.nio.cas.CasClient;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import lombok.RequiredArgsConstructor;
+import org.asynchttpclient.Request;
+import org.asynchttpclient.RequestBuilder;
+import org.asynchttpclient.Response;
+import org.asynchttpclient.util.HttpConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
@@ -40,128 +52,142 @@ public class RegisterEnrollmentService {
   public static final String READING_COMPREHENSION_PARTIAL_EXAM = "tekstinymmartaminen";
   public static final String SPEECH_COMPREHENSION_PARTIAL_EXAM = "puheenymmartaminen";
 
-  private final WebClient registerClient;
+  private static final Logger LOG = LoggerFactory.getLogger(RegisterEnrollmentService.class);
+  private final CasClient registerClient;
   private final EnrollmentRepository enrollmentRepository;
   private final EnrollmentAppointmentRepository enrollmentAppointmentRepository;
+  private final Environment environment;
 
-  @Transactional(readOnly = true)
+  @Transactional
   public void sync() throws JsonProcessingException {
     final List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsForSyncToRegister();
     final List<EnrollmentAppointment> enrollmentAppointments = enrollmentAppointmentRepository.findEnrollmentsForSyncToRegister();
     final List<EnrollmentCommon> enrollmentsCombined = new ArrayList<>();
+    final String registerUrl = environment.getRequiredProperty("app.register.url");
 
     enrollmentsCombined.addAll(enrollments);
-    enrollmentsCombined.addAll(enrollmentAppointments);
+    //enrollmentsCombined.addAll(enrollmentAppointments);
 
-    final List<RegisterSyncDTO> registerSyncDTOS = enrollmentsCombined
-      .stream()
-      .map(enrollment -> {
-        String examDate;
-        String language;
-        String id;
-        String level;
-        String examinerOid;
-        Map<String, String> grades = new HashMap<>();
-        if (enrollment instanceof Enrollment) {
-          final ExamEvent examEvent = ((Enrollment) enrollment).getExamEvent();
-          examDate = DateUtil.formatOptionalDate(examEvent.getDate());
-          language = examEvent.getLanguage().toString();
-          id = String.valueOf(((Enrollment) enrollment).getId());
-          level = "erinomainen";
-          examinerOid = null;
-        } else {
-          final ExaminerExamEvent examEvent = ((EnrollmentAppointment) enrollment).getExaminerExamEvent();
-          id = String.valueOf(((EnrollmentAppointment) enrollment).getId());
-          examDate = DateUtil.formatOptionalDate(examEvent.getDate());
-          language = examEvent.getLanguage().toString();
-          level = "hyva-ja-tyydyttava";
-          examinerOid = examEvent.getExaminer().getOid();
-          grades = getGrades((EnrollmentAppointment) enrollment);
-        }
+    enrollmentsCombined.forEach(enrollment -> {
+      final String examDate;
+      final String language;
+      final String id;
+      final String level;
+      final String examinerOid;
+      Map<String, String> grades = new HashMap<>();
+      if (enrollment instanceof Enrollment) {
+        final ExamEvent examEvent = ((Enrollment) enrollment).getExamEvent();
+        examDate = DateUtil.formatOptionalDate(examEvent.getDate());
+        language = examEvent.getLanguage().toString();
+        id = "ET-" + ((Enrollment) enrollment).getId();
+        level = "erinomainen";
+        examinerOid = null;
+      } else {
+        final ExaminerExamEvent examEvent = ((EnrollmentAppointment) enrollment).getExaminerExamEvent();
+        id = "HTT-" + ((EnrollmentAppointment) enrollment).getId();
+        examDate = DateUtil.formatOptionalDate(examEvent.getDate());
+        language = examEvent.getLanguage().toString();
+        level = "hyva-ja-tyydyttava";
+        examinerOid = examEvent.getExaminer().getOid();
+        grades = getGrades((EnrollmentAppointment) enrollment);
+      }
 
-        final RegisterPersonDTO personDTO = PersonUtil.createRegistryPersonDTO(enrollment.getPerson());
-        final SourceDTO sourceDTO = SourceDTO.builder().id(id).lahde("KIOS").build();
-        final List<PartialExamsDTO> partialExamsDTOS = new ArrayList<>();
+      final RegisterPersonDTO personDTO = PersonUtil.createRegistryPersonDTO(enrollment.getPerson());
+      final SourceDTO sourceDTO = SourceDTO.builder().id(id).lahde("KIOS").build();
+      final List<PartialExamsDTO> partialExamsDTOS = new ArrayList<>();
 
-        if (enrollment.isSpeakingPartialExam()) {
-          partialExamsDTOS.add(
-            PartialExamsDTO
-              .builder()
-              .arviointi(grades.getOrDefault(SPEAKING_PARTIAL_EXAM, null))
-              .tutkintopaiva(examDate)
-              .tyyppi(SPEAKING_PARTIAL_EXAM)
-              .build()
-          );
-        }
+      if (enrollment.isSpeakingPartialExam()) {
+        partialExamsDTOS.add(
+          PartialExamsDTO
+            .builder()
+            .arviointi(grades.getOrDefault(SPEAKING_PARTIAL_EXAM, null))
+            .tutkintopaiva(examDate)
+            .tyyppi(SPEAKING_PARTIAL_EXAM)
+            .build()
+        );
+      }
 
-        if (enrollment.isWritingPartialExam()) {
-          partialExamsDTOS.add(
-            PartialExamsDTO
-              .builder()
-              .arviointi(grades.getOrDefault(WRITING_PARTIAL_EXAM, null))
-              .tutkintopaiva(examDate)
-              .tyyppi(WRITING_PARTIAL_EXAM)
-              .build()
-          );
-        }
+      if (enrollment.isWritingPartialExam()) {
+        partialExamsDTOS.add(
+          PartialExamsDTO
+            .builder()
+            .arviointi(grades.getOrDefault(WRITING_PARTIAL_EXAM, null))
+            .tutkintopaiva(examDate)
+            .tyyppi(WRITING_PARTIAL_EXAM)
+            .build()
+        );
+      }
 
-        if (enrollment.isReadingComprehensionPartialExam()) {
-          partialExamsDTOS.add(
-            PartialExamsDTO
-              .builder()
-              .arviointi(grades.getOrDefault(READING_COMPREHENSION_PARTIAL_EXAM, null))
-              .tutkintopaiva(examDate)
-              .tyyppi(READING_COMPREHENSION_PARTIAL_EXAM)
-              .build()
-          );
-        }
+      if (enrollment.isReadingComprehensionPartialExam()) {
+        partialExamsDTOS.add(
+          PartialExamsDTO
+            .builder()
+            .arviointi(grades.getOrDefault(READING_COMPREHENSION_PARTIAL_EXAM, null))
+            .tutkintopaiva(examDate)
+            .tyyppi(READING_COMPREHENSION_PARTIAL_EXAM)
+            .build()
+        );
+      }
 
-        if (enrollment.isSpeechComprehensionPartialExam()) {
-          partialExamsDTOS.add(
-            PartialExamsDTO
-              .builder()
-              .arviointi(grades.getOrDefault(SPEECH_COMPREHENSION_PARTIAL_EXAM, null))
-              .tutkintopaiva(examDate)
-              .tyyppi(SPEECH_COMPREHENSION_PARTIAL_EXAM)
-              .build()
-          );
-        }
+      if (enrollment.isSpeechComprehensionPartialExam()) {
+        partialExamsDTOS.add(
+          PartialExamsDTO
+            .builder()
+            .arviointi(grades.getOrDefault(SPEECH_COMPREHENSION_PARTIAL_EXAM, null))
+            .tutkintopaiva(examDate)
+            .tyyppi(SPEECH_COMPREHENSION_PARTIAL_EXAM)
+            .build()
+        );
+      }
 
-        final RegisterEnrollmentDTO enrollmentDTO = RegisterEnrollmentDTO
-          .builder()
-          .kieli(language)
-          .tyyppi("valtionhallinnonkielitutkinto")
-          .organisaatioOid(examinerOid)
-          .lahdejarjestelmanId(sourceDTO)
-          .taitotaso(level)
-          .osakokeet(partialExamsDTOS)
-          .build();
+      final RegisterEnrollmentDTO enrollmentDTO = RegisterEnrollmentDTO
+        .builder()
+        .kieli(language)
+        .tyyppi("valtionhallinnonkielitutkinto")
+        //.organisaatioOid(examinerOid)
+        .lahdejarjestelmanId(sourceDTO)
+        .taitotaso(level)
+        .osakokeet(partialExamsDTOS)
+        .build();
 
-        return RegisterSyncDTO.builder().henkilo(personDTO).suoritus(enrollmentDTO).build();
-      })
-      .toList();
-
-    registerSyncDTOS.forEach(dto -> {
+      final RegisterSyncDTO registerSyncDTO = RegisterSyncDTO
+        .builder()
+        .henkilo(personDTO)
+        .suoritus(enrollmentDTO)
+        .build();
       final ObjectMapper objectMapper = new ObjectMapper();
       final String bodyJson;
 
       try {
-        bodyJson = objectMapper.writeValueAsString(dto);
+        bodyJson = objectMapper.writeValueAsString(registerSyncDTO);
       } catch (JsonProcessingException e) {
         throw new RuntimeException(e);
       }
 
-      registerClient
-        .post()
-        .uri("/oid")
-        .bodyValue(bodyJson)
-        .exchangeToMono(clientResponse -> {
-          if (clientResponse.statusCode().isError()) {
-            return clientResponse.createException().flatMap(Mono::error);
-          }
-          return clientResponse.bodyToMono(String.class);
-        })
-        .block();
+      final Request request = defaultRequestBuilder()
+        .setUrl(registerUrl + "/kios")
+        .setMethod(HttpConstants.Methods.PUT)
+        .setBody(bodyJson)
+        .build();
+
+      final Response response;
+      try {
+        response = registerClient.executeBlocking(request);
+      } catch (ExecutionException | InterruptedException e) {
+        throw new RuntimeException(e);
+      }
+
+      if (response.getStatusCode() == HttpStatus.OK.value()) {
+        enrollment.setLastSyncAt(LocalDateTime.now());
+        if (enrollment instanceof EnrollmentAppointment) {
+          enrollmentAppointmentRepository.saveAndFlush((EnrollmentAppointment) enrollment);
+        } else {
+          enrollmentRepository.saveAndFlush((Enrollment) enrollment);
+        }
+      }
+      final String responseBody = response.getResponseBody();
+      // {"result":"OK"}
+      LOG.info("Response: " + responseBody);
     });
   }
 
@@ -196,6 +222,14 @@ public class RegisterEnrollmentService {
     }
 
     return grades;
+  }
+
+  private RequestBuilder defaultRequestBuilder() {
+    return new RequestBuilder()
+      .addHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
+      .addHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+      .addHeader("Caller-Id", Constants.CALLER_ID)
+      .setRequestTimeout(Duration.ofMinutes(2));
   }
 
   private String translateGrade(final EnrollmentGradeType grade) {

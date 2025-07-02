@@ -97,6 +97,24 @@ public class AppConfig {
   }
 
   @Bean
+  public CasClient registerClient(
+    @Value("${app.register.url}") final String onrServiceUrl,
+    @Value("${cas.url}") final String casUrl,
+    @Value("${app.onr.cas.username}") final String casUsername,
+    @Value("${app.onr.cas.password}") final String casPassword
+  ) {
+    final CasConfig casConfig = CasConfig.SpringSessionCasConfig(
+      casUsername,
+      casPassword,
+      casUrl,
+      onrServiceUrl,
+      Constants.CALLER_ID,
+      Constants.CALLER_ID
+    );
+    return CasClientBuilder.build(casConfig);
+  }
+
+  @Bean
   public CasTicketValidator casTicketValidator(final Environment environment) {
     final WebClient webClient = webClientBuilderWithCallerId("cas-ticket-validator-connection-provider")
       .baseUrl(environment.getRequiredProperty("app.cas-oppija.validate-ticket-url"))

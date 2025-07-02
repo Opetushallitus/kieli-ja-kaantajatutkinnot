@@ -1,6 +1,9 @@
 package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fi.oph.vkt.Factory;
@@ -16,19 +19,24 @@ import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
+import fi.vm.sade.javautils.nio.cas.CasClient;
 import jakarta.annotation.Resource;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
+import org.asynchttpclient.Response;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -58,12 +66,13 @@ public class RegisterEnrollmentServiceTest {
 
   private MockWebServer mockWebServer;
   private String koskiUrl;
+  Environment environment;
 
   @BeforeEach
-  public void setup() throws IOException {
-    mockWebServer = new MockWebServer();
-    mockWebServer.start();
-    koskiUrl = String.format("http://localhost:%s", mockWebServer.getPort());
+  public void setup() {
+    environment = mock(Environment.class);
+
+    when(environment.getRequiredProperty("app.base-url.public")).thenReturn("https://foo.bar");
   }
 
   @AfterEach
@@ -72,7 +81,7 @@ public class RegisterEnrollmentServiceTest {
   }
 
   @Test
-  public void testSyncEnrollments() throws IOException, InterruptedException {
+  public void testSyncEnrollments() throws IOException, InterruptedException, ExecutionException {
     final ExamEvent examEvent = createExamEvent(2);
     final ExaminerExamEvent examinerExamEvent = createExaminerExamEvent();
     final Enrollment enrollment = createEnrollment(examEvent, EnrollmentStatus.COMPLETED);
@@ -81,7 +90,18 @@ public class RegisterEnrollmentServiceTest {
       EnrollmentAppointmentStatus.COMPLETED
     );
 
-    doRequest(getMockSyncResponse(), 200);
+    final CasClient casClient = mock(CasClient.class);
+    final Response response = mock(Response.class);
+
+    when(casClient.executeBlocking(any())).thenReturn(response);
+
+    final RegisterEnrollmentService registerEnrollmentService = new RegisterEnrollmentService(
+            casClient,
+            enrollmentRepository,
+            enrollmentAppointmentRepository,
+            environment
+    );
+    registerEnrollmentService.sync();
 
     final RecordedRequest request1 = mockWebServer.takeRequest();
     assertEquals("POST", request1.getMethod());
@@ -110,12 +130,6 @@ public class RegisterEnrollmentServiceTest {
     mockWebServer.enqueue(mockResponse);
     mockWebServer.enqueue(mockResponse);
 
-    final RegisterEnrollmentService registerEnrollmentService = new RegisterEnrollmentService(
-      webClient,
-      enrollmentRepository,
-      enrollmentAppointmentRepository
-    );
-    registerEnrollmentService.sync();
   }
 
   private String getMockSyncRequest1() throws IOException {
