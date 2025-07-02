@@ -51,7 +51,12 @@ export const ExamDetailsPage = () => {
         dispatch(acceptPublicRegistrationSubmission());
       } else {
         // Else attempt to initiate registration.
-        dispatch(initRegistration(+params.examSessionId));
+        dispatch(
+          initRegistration({
+            examSessionId: +params.examSessionId,
+            toQueue: false,
+          }),
+        );
       }
     } else if (
       status === APIResponseStatus.Error ||

@@ -3,21 +3,26 @@ import { Box } from '@mui/system';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
+  CustomButton,
   CustomCircularProgress,
   CustomModal,
   H3,
   ManagedPaginatedTable,
   Text,
 } from 'shared/components';
-import { APIResponseStatus, Color } from 'shared/enums';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { PublicExamSessionListingHeader } from 'components/registration/examSession/PublicExamSessionListingHeader';
 import { PublicExamSessionListingRow } from 'components/registration/examSession/PublicExamSessionListingRow';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
+import {
+  initRegistration,
+  resetPublicRegistration,
+} from 'redux/reducers/registration';
 import { examSessionsSelector } from 'redux/selectors/examSessions';
 import { registrationSelector } from 'redux/selectors/registration';
 import { TableUtils } from 'utils/table';
@@ -62,6 +67,66 @@ const DisplayedRowsLabel = ({
   } else {
     return fullLabelText;
   }
+};
+
+const RegistrationInitLoadingModal = () => {
+  return (
+    <CustomModal
+      data-testid="registration-loading-modal"
+      className="registration-loading-modal"
+      open={true}
+      aria-labelledby="registration-loading-modal-description"
+      aria-describedby="registration-loading-modal-description"
+      onCloseModal={() => {}}
+    >
+      <div className="columns">
+        <CustomCircularProgress color={Color.Secondary} />
+        <Text id="registration-loading-modal-description">
+          Varataan paikkaa
+        </Text>
+      </div>
+    </CustomModal>
+  );
+};
+
+const RegistrationInitErrorModal = ({
+  examSessionId,
+}: {
+  examSessionId: number;
+}) => {
+  const dispatch = useAppDispatch();
+
+  return (
+    <CustomModal
+      data-testid="registration-error-modal"
+      className="registration-error-modal"
+      open={true}
+      aria-labelledby="registration-error-modal-description"
+      aria-describedby="registration-error-modal-description"
+      onCloseModal={() => {}}
+    >
+      <div className="columns">
+        <Text id="registration-error-modal-description">
+          Paikan varaus epäonnistui
+        </Text>
+        <CustomButton
+          color={Color.Secondary}
+          variant={Variant.Outlined}
+          onClick={() => {
+            dispatch(resetPublicRegistration());
+            dispatch(
+              initRegistration({
+                examSessionId: examSessionId,
+                toQueue: true,
+              }),
+            );
+          }}
+        >
+          Ilmoittaudu jonoon
+        </CustomButton>
+      </div>
+    </CustomModal>
+  );
 };
 
 export const PublicExamSessionsTable = ({
@@ -154,6 +219,8 @@ export const PublicExamSessionListing = ({
 
   const isRegistrationLoading =
     initRegistration.status === APIResponseStatus.InProgress;
+  const isRegistrationInitError =
+    initRegistration.status === APIResponseStatus.Error;
 
   switch (status) {
     case APIResponseStatus.NotStarted:
@@ -174,21 +241,12 @@ export const PublicExamSessionListing = ({
     case APIResponseStatus.Success:
       return (
         <>
-          <CustomModal
-            data-testid="registration-loading-modal"
-            className="registration-loading-modal"
-            open={isRegistrationLoading}
-            aria-labelledby="registration-loading-modal-description"
-            aria-describedby="registration-loading-modal-description"
-            onCloseModal={() => {}}
-          >
-            <div className="columns">
-              <CustomCircularProgress color={Color.Secondary} />
-              <Text id="registration-loading-modal-description">
-                Varataan paikkaa
-              </Text>
-            </div>
-          </CustomModal>
+          {isRegistrationLoading && <RegistrationInitLoadingModal />}
+          {isRegistrationInitError && initRegistration.examSessionId && (
+            <RegistrationInitErrorModal
+              examSessionId={initRegistration.examSessionId}
+            />
+          )}
           <div ref={listingHeaderRef}>
             <Typography
               variant="h2"
