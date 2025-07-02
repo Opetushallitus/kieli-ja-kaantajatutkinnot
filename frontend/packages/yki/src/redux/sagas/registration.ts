@@ -32,12 +32,18 @@ import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
 import { SerializationUtils } from 'utils/serialization';
 
-function* initRegistrationSaga(action: PayloadAction<number>) {
+function* initRegistrationSaga(
+  action: PayloadAction<{
+    examSessionId: number;
+    toQueue: boolean;
+  }>,
+) {
   try {
+    const { examSessionId, toQueue } = action.payload;
     const response: AxiosResponse<PublicRegistrationInitResponse> = yield call(
       axiosInstance.post,
       APIEndpoints.InitRegistration,
-      JSON.stringify({ exam_session_id: action.payload }),
+      JSON.stringify({ exam_session_id: examSessionId, to_queue: toQueue }),
     );
     const { data } = response;
     yield put(

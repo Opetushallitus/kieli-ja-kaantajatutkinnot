@@ -34,6 +34,7 @@ const RegisterToExamButton = ({
 
   const { availablePlaces, availableQueue } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
+  const toQueue = !availablePlaces && availableQueue;
 
   return (
     <CustomButton
@@ -41,7 +42,12 @@ const RegisterToExamButton = ({
       variant={Variant.Outlined}
       onClick={() => {
         dispatch(resetPublicRegistration());
-        dispatch(initRegistration(examSession.id));
+        dispatch(
+          initRegistration({
+            examSessionId: examSession.id,
+            toQueue: !!toQueue,
+          }),
+        );
       }}
       fullWidth={isPhone}
     >
