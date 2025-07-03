@@ -172,10 +172,12 @@ public class RegisterEnrollmentService {
         .setBody(bodyJson)
         .build();
 
+      LOG.info(String.format("Starting register sync for (%s)", id));
+
       final Response response;
       try {
         response = registerClient.executeBlocking(request);
-      } catch (ExecutionException | InterruptedException e) {
+      } catch (final ExecutionException | InterruptedException e) {
         throw new RuntimeException(e);
       }
 
@@ -189,6 +191,8 @@ public class RegisterEnrollmentService {
         } else {
           enrollmentRepository.saveAndFlush((Enrollment) enrollment);
         }
+
+        LOG.info(String.format("Register sync successful for (%s)", id));
       } else {
         LOG.error(
           String.format(
