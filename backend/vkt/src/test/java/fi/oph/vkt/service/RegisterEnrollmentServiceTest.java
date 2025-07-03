@@ -112,6 +112,8 @@ public class RegisterEnrollmentServiceTest {
           );
         })
       );
+    // TODO enabled HTT enrollments when supported by register
+    /*
     verify(casClient, atLeastOnce())
       .executeBlocking(
         argThat(r -> {
@@ -128,9 +130,11 @@ public class RegisterEnrollmentServiceTest {
         })
       );
     verify(casClient, times(2)).executeBlocking(any());
+    assertNotNull(enrollmentAppointment.getLastSyncAt());
+     */
+    verify(casClient, times(1)).executeBlocking(any());
 
     assertNotNull(enrollment.getLastSyncAt());
-    assertNotNull(enrollmentAppointment.getLastSyncAt());
   }
 
   private String getMockSyncRequest1() {

@@ -66,7 +66,9 @@ public class RegisterEnrollmentService {
     final String registerUrl = environment.getRequiredProperty("app.register.url");
 
     enrollmentsCombined.addAll(enrollments);
-    enrollmentsCombined.addAll(enrollmentAppointments);
+
+    // TODO enabled HTT enrollments when supported by register
+    //enrollmentsCombined.addAll(enrollmentAppointments);
 
     enrollmentsCombined.forEach(enrollment -> {
       final String examDate;

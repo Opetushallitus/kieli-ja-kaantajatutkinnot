@@ -19,7 +19,7 @@ public class SyncRegisterEnrollments {
 
   private static final Logger LOG = LoggerFactory.getLogger(SyncRegisterEnrollments.class);
 
-  private static final String INITIAL_DELAY = "PT5S";
+  private static final String INITIAL_DELAY = "PT5M";
 
   private static final String FIXED_DELAY = "PT60M";
 
