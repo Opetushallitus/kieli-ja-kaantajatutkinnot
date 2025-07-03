@@ -66,7 +66,7 @@ public class RegisterEnrollmentService {
     final String registerUrl = environment.getRequiredProperty("app.register.url");
 
     enrollmentsCombined.addAll(enrollments);
-    //enrollmentsCombined.addAll(enrollmentAppointments);
+    enrollmentsCombined.addAll(enrollmentAppointments);
 
     enrollmentsCombined.forEach(enrollment -> {
       final String examDate;
@@ -177,6 +177,9 @@ public class RegisterEnrollmentService {
         throw new RuntimeException(e);
       }
 
+      // {"result":"OK"}
+      final String responseBody = response.getResponseBody();
+
       if (response.getStatusCode() == HttpStatus.OK.value()) {
         enrollment.setLastSyncAt(LocalDateTime.now());
         if (enrollment instanceof EnrollmentAppointment) {
@@ -184,10 +187,16 @@ public class RegisterEnrollmentService {
         } else {
           enrollmentRepository.saveAndFlush((Enrollment) enrollment);
         }
+      } else {
+        LOG.error(
+          String.format(
+            "Register sync failed for (%s) with response (%s) and status (%d)",
+            id,
+            responseBody,
+            response.getStatusCode()
+          )
+        );
       }
-      final String responseBody = response.getResponseBody();
-      // {"result":"OK"}
-      LOG.info("Response: " + responseBody);
     });
   }
 

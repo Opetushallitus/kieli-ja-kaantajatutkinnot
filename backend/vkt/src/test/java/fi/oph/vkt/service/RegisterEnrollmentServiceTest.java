@@ -1,11 +1,15 @@
 package fi.oph.vkt.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.EnrollmentAppointment;
@@ -23,24 +27,16 @@ import fi.vm.sade.javautils.nio.cas.CasClient;
 import jakarta.annotation.Resource;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
-
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
-import okhttp3.mockwebserver.RecordedRequest;
 import org.asynchttpclient.Response;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.web.reactive.function.client.WebClient;
 
 @WithMockUser
 @DataJpaTest
@@ -64,20 +60,13 @@ public class RegisterEnrollmentServiceTest {
   @Resource
   private TestEntityManager entityManager;
 
-  private MockWebServer mockWebServer;
-  private String koskiUrl;
   Environment environment;
 
   @BeforeEach
   public void setup() {
     environment = mock(Environment.class);
 
-    when(environment.getRequiredProperty("app.base-url.public")).thenReturn("https://foo.bar");
-  }
-
-  @AfterEach
-  public void tearDown() throws IOException {
-    mockWebServer.shutdown();
+    when(environment.getRequiredProperty("app.register.url")).thenReturn("https://foo.bar");
   }
 
   @Test
@@ -93,51 +82,71 @@ public class RegisterEnrollmentServiceTest {
     final CasClient casClient = mock(CasClient.class);
     final Response response = mock(Response.class);
 
+    when(response.getStatusCode()).thenReturn(HttpStatus.OK.value());
+    when(response.getResponseBody()).thenReturn(getMockSyncResponse());
     when(casClient.executeBlocking(any())).thenReturn(response);
 
+    assertNull(enrollment.getLastSyncAt());
+    assertNull(enrollmentAppointment.getLastSyncAt());
+
     final RegisterEnrollmentService registerEnrollmentService = new RegisterEnrollmentService(
-            casClient,
-            enrollmentRepository,
-            enrollmentAppointmentRepository,
-            environment
+      casClient,
+      enrollmentRepository,
+      enrollmentAppointmentRepository,
+      environment
     );
     registerEnrollmentService.sync();
 
-    final RecordedRequest request1 = mockWebServer.takeRequest();
-    assertEquals("POST", request1.getMethod());
-    assertEquals(koskiUrl + "/oid", Objects.requireNonNull(request1.getRequestUrl()).toString());
-    assertEquals(
-      getMockSyncRequest1().replace("[id]", String.valueOf(enrollment.getId())).trim(),
-      request1.getBody().readUtf8().trim()
-    );
+    verify(casClient, atLeastOnce())
+      .executeBlocking(
+        argThat(r -> {
+          final String actual = r.getStringData();
+          final String expected = getMockSyncRequest1().replace("[id]", "ET-" + enrollment.getId()).trim();
 
-    final RecordedRequest request2 = mockWebServer.takeRequest();
-    assertEquals("POST", request2.getMethod());
-    assertEquals(koskiUrl + "/oid", Objects.requireNonNull(request2.getRequestUrl()).toString());
-    assertEquals(
-      getMockSyncRequest2().replace("[id]", String.valueOf(enrollmentAppointment.getId())).trim(),
-      request2.getBody().readUtf8().trim()
-    );
+          return (
+            actual != null &&
+            actual.trim().equals(expected) &&
+            r.getUrl().equals("https://foo.bar/kios") &&
+            r.getMethod().equals("PUT") &&
+            r.getHeaders().get("Content-Type").equals("application/json")
+          );
+        })
+      );
+    verify(casClient, atLeastOnce())
+      .executeBlocking(
+        argThat(r -> {
+          final String actual = r.getStringData();
+          final String expected = getMockSyncRequest2().replace("[id]", "HTT-" + enrollmentAppointment.getId()).trim();
+
+          return (
+            actual != null &&
+            actual.trim().equals(expected) &&
+            r.getUrl().equals("https://foo.bar/kios") &&
+            r.getMethod().equals("PUT") &&
+            r.getHeaders().get("Content-Type").equals("application/json")
+          );
+        })
+      );
+    verify(casClient, times(2)).executeBlocking(any());
+
+    assertNotNull(enrollment.getLastSyncAt());
+    assertNotNull(enrollmentAppointment.getLastSyncAt());
   }
 
-  private void doRequest(final String response, final int responseCode) throws JsonProcessingException {
-    final WebClient webClient = WebClient.builder().baseUrl(koskiUrl).build();
-    final MockResponse mockResponse = new MockResponse()
-      .setResponseCode(responseCode)
-      .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-      .setBody(response);
-
-    mockWebServer.enqueue(mockResponse);
-    mockWebServer.enqueue(mockResponse);
-
+  private String getMockSyncRequest1() {
+    try {
+      return new String(syncRequest1.getInputStream().readAllBytes());
+    } catch (final Exception e) {
+      return "";
+    }
   }
 
-  private String getMockSyncRequest1() throws IOException {
-    return new String(syncRequest1.getInputStream().readAllBytes());
-  }
-
-  private String getMockSyncRequest2() throws IOException {
-    return new String(syncRequest2.getInputStream().readAllBytes());
+  private String getMockSyncRequest2() {
+    try {
+      return new String(syncRequest2.getInputStream().readAllBytes());
+    } catch (final Exception e) {
+      return "";
+    }
   }
 
   private String getMockSyncResponse() throws IOException {
