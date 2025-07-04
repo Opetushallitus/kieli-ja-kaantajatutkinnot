@@ -98,7 +98,7 @@ public class AppConfig {
 
   @Bean
   public CasClient registerClient(
-    @Value("${app.register.url}") final String onrServiceUrl,
+    @Value("${app.register.url}") final String registerServiceUrl,
     @Value("${cas.url}") final String casUrl,
     @Value("${app.onr.cas.username}") final String casUsername,
     @Value("${app.onr.cas.password}") final String casPassword
@@ -107,7 +107,7 @@ public class AppConfig {
       casUsername,
       casPassword,
       casUrl,
-      onrServiceUrl,
+      registerServiceUrl,
       Constants.CALLER_ID,
       Constants.CALLER_ID
     );
