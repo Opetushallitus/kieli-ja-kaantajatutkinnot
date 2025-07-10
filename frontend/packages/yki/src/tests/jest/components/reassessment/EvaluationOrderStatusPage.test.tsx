@@ -1,5 +1,5 @@
+import { render } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
-import renderer from 'react-test-renderer';
 import { APIResponseStatus } from 'shared/enums';
 
 import { initI18nForTests } from 'configs/i18n';
@@ -40,39 +40,33 @@ describe('EvaluationOrderStatusPage', () => {
     mockUseSearchParams(
       new URLSearchParams({ id: '1', status: PaymentStatus.Success }),
     );
-    const tree = renderer
-      .create(
-        <DefaultProviders preloadedState={preloadedState}>
-          <EvaluationOrderStatusPage />
-        </DefaultProviders>,
-      )
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+    const { container } = render(
+      <DefaultProviders preloadedState={preloadedState}>
+        <EvaluationOrderStatusPage />
+      </DefaultProviders>,
+    );
+    expect(container).toMatchSnapshot();
   });
   it('should render view correctly on cancelled payment', () => {
     mockUseSearchParams(
       new URLSearchParams({ id: '1', status: PaymentStatus.Cancel }),
     );
-    const tree = renderer
-      .create(
-        <DefaultProviders preloadedState={preloadedState}>
-          <EvaluationOrderStatusPage />
-        </DefaultProviders>,
-      )
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+    const { container } = render(
+      <DefaultProviders preloadedState={preloadedState}>
+        <EvaluationOrderStatusPage />
+      </DefaultProviders>,
+    );
+    expect(container).toMatchSnapshot();
   });
   it('should render view correctly on payment error', () => {
     mockUseSearchParams(
       new URLSearchParams({ id: '1', status: PaymentStatus.Error }),
     );
-    const tree = renderer
-      .create(
-        <DefaultProviders preloadedState={preloadedState}>
-          <EvaluationOrderStatusPage />
-        </DefaultProviders>,
-      )
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+    const { container } = render(
+      <DefaultProviders preloadedState={preloadedState}>
+        <EvaluationOrderStatusPage />
+      </DefaultProviders>,
+    );
+    expect(container).toMatchSnapshot();
   });
 });

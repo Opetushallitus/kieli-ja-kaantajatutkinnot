@@ -1,12 +1,12 @@
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 
 import { ExtLink } from './ExtLink';
 
 describe('ExtLink', () => {
   it('should render correctly', () => {
-    const tree = renderer
-      .create(<ExtLink text="Test link" href="https://someothersite.com" />)
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+    const { container } = render(
+      <ExtLink text="Test link" href="https://someothersite.com" />,
+    );
+    expect(container).toMatchSnapshot();
   });
 });

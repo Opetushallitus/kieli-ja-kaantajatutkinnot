@@ -22,6 +22,8 @@ import fi.oph.vkt.view.ExamEventXlsxDataRowUtil;
 import fi.oph.vkt.view.ExamEventXlsxView;
 import fi.oph.vkt.view.ExaminerExamEventXlsxData;
 import fi.oph.vkt.view.ExaminerExamEventXlsxView;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -131,7 +133,8 @@ public class ExaminerExamEventService {
       .stream()
       .filter(e ->
         (e.getLocation() != null && !e.getLocation().isBlank()) &&
-        (e.getExamTime() != null && !e.getExamTime().isBlank())
+        (e.getExamTime() != null && !e.getExamTime().isBlank()) &&
+        e.getDate().atTime(LocalTime.MAX).isAfter(LocalDateTime.now())
       )
       .map(ExaminerUtil::toExaminerExamEventWithoutEnrollmentsDTO)
       .toList();

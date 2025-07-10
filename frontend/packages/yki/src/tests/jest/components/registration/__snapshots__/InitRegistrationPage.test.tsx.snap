@@ -1,264 +1,240 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`InitRegistrationPage should allow user to subscribe for notifications of available places if admission is ongoing and exam is full but queue is not full 1`] = `
-<div
-  className="MuiGrid-root MuiGrid-item public-registration css-13i4rnv-MuiGrid-root"
->
+<div>
   <div
-    className="public-registration__grid"
+    class="MuiGrid-root MuiGrid-direction-xs-row public-registration css-17fpwt7-MuiGrid-root"
   >
     <div
-      className="rows public-registration__grid__heading public-registration__grid__no-stepper"
+      class="public-registration__grid"
     >
-      <h1
-        className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
+      <div
+        class="rows public-registration__grid__heading public-registration__grid__no-stepper"
       >
-        enrollToQueue.header
-      </h1>
+        <h1
+          class="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+        >
+          enrollToQueue.header
+        </h1>
+        <div
+          class="header-separator MuiBox-root css-0"
+        />
+      </div>
       <div
-        className="header-separator MuiBox-root css-0"
-      />
-    </div>
-    <div
-      className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
-    >
-      <div
-        className="public-registration__grid__form-container"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-1gtchvp-MuiPaper-root"
+        style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12);"
       >
         <div
-          className="rows gapped"
+          class="public-registration__grid__form-container"
         >
           <div
-            className="rows"
+            class="rows gapped"
           >
             <div
-              className="rows-gapped-xxs"
+              class="rows"
             >
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                examSession: 
-                <b>
-                  yki.common.languages.fin, yki.common.languageLevel.YLIN
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                examDate: 
-                <b>
-                  01/01/2035
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                institution: 
-                <b>
-                  Jälkiedu, Jokukatu 4, Tampere
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                registrationTime: 
-                <b>
-                  01/01/2023 - 12/31/2030
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                examFee: 
-                <b>
-                  200 €
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                openings: 
-                <b>
-                  full
-                </b>
-              </p>
-            </div>
-          </div>
-          <p
-            className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-          >
-            info.part1
-            <br />
-            info.part2
-          </p>
-          <div
-            className="columns gapped-xxl"
-          >
-            <div
-              className="rows"
-            >
-              <label
-                htmlFor="enroll-to-queue__input-email"
+              <div
+                class="rows-gapped-xxs"
               >
                 <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                 >
+                  examSession: 
                   <b>
-                    inputs.email.heading
+                    yki.common.languages.fin, yki.common.languageLevel.YLIN
                   </b>
                 </p>
-              </label>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                inputs.email.description
-              </p>
-              <div
-                className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-              >
-                <div
-                  className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
-                  onClick={[Function]}
-                >
-                  <input
-                    aria-describedby="enroll-to-queue__input-email-helper-text"
-                    aria-invalid={false}
-                    autoComplete="email"
-                    autoFocus={false}
-                    className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                    disabled={false}
-                    id="enroll-to-queue__input-email"
-                    onAnimationStart={[Function]}
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    required={false}
-                    type="text"
-                    value=""
-                  />
-                  <fieldset
-                    aria-hidden={true}
-                    className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-                  >
-                    <legend
-                      className="css-ihdtdm"
-                    >
-                      <span
-                        className="notranslate"
-                      >
-                        ​
-                      </span>
-                    </legend>
-                  </fieldset>
-                </div>
                 <p
-                  className="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-1wc848c-MuiFormHelperText-root"
-                  id="enroll-to-queue__input-email-helper-text"
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                 >
-                  <span
-                    className="notranslate"
-                  >
-                    ​
-                  </span>
+                  examDate: 
+                  <b>
+                    01/01/2035
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  institution: 
+                  <b>
+                    Jälkiedu, Jokukatu 4, Tampere
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  registrationTime: 
+                  <b>
+                    01/01/2023 - 12/31/2030
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  examFee: 
+                  <b>
+                    200 €
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  openings: 
+                  <b>
+                    full
+                  </b>
                 </p>
               </div>
             </div>
-            <div
-              className="rows"
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
             >
-              <label
-                htmlFor="enroll-to-queue__confirm-email"
-              >
-                <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-                >
-                  <b>
-                    inputs.confirmEmail.heading
-                  </b>
-                </p>
-              </label>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                inputs.confirmEmail.description
-              </p>
+              info.part1
+              <br />
+              info.part2
+            </p>
+            <div
+              class="columns gapped-xxl"
+            >
               <div
-                className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-                onPaste={[Function]}
+                class="rows"
               >
-                <div
-                  className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
-                  onClick={[Function]}
+                <label
+                  for="enroll-to-queue__input-email"
                 >
-                  <input
-                    aria-describedby="enroll-to-queue__confirm-email-helper-text"
-                    aria-invalid={false}
-                    autoComplete="email"
-                    autoFocus={false}
-                    className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                    disabled={false}
-                    id="enroll-to-queue__confirm-email"
-                    onAnimationStart={[Function]}
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    required={false}
-                    type="text"
-                    value=""
-                  />
-                  <fieldset
-                    aria-hidden={true}
-                    className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                   >
-                    <legend
-                      className="css-ihdtdm"
-                    >
-                      <span
-                        className="notranslate"
-                      >
-                        ​
-                      </span>
-                    </legend>
-                  </fieldset>
-                </div>
+                    <b>
+                      inputs.email.heading
+                    </b>
+                  </p>
+                </label>
                 <p
-                  className="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-1wc848c-MuiFormHelperText-root"
-                  id="enroll-to-queue__confirm-email-helper-text"
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                 >
-                  <span
-                    className="notranslate"
-                  >
-                    ​
-                  </span>
+                  inputs.email.description
                 </p>
+                <div
+                  class="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
+                >
+                  <div
+                    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
+                  >
+                    <input
+                      aria-describedby="enroll-to-queue__input-email-helper-text"
+                      aria-invalid="false"
+                      autocomplete="email"
+                      class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                      id="enroll-to-queue__input-email"
+                      type="text"
+                      value=""
+                    />
+                    <fieldset
+                      aria-hidden="true"
+                      class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                    >
+                      <legend
+                        class="css-w4cd9x"
+                      >
+                        <span
+                          aria-hidden="true"
+                          class="notranslate"
+                        >
+                          ​
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                  <p
+                    class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-er619e-MuiFormHelperText-root"
+                    id="enroll-to-queue__input-email-helper-text"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="notranslate"
+                    >
+                      ​
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div
+                class="rows"
+              >
+                <label
+                  for="enroll-to-queue__confirm-email"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  >
+                    <b>
+                      inputs.confirmEmail.heading
+                    </b>
+                  </p>
+                </label>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  inputs.confirmEmail.description
+                </p>
+                <div
+                  class="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
+                >
+                  <div
+                    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
+                  >
+                    <input
+                      aria-describedby="enroll-to-queue__confirm-email-helper-text"
+                      aria-invalid="false"
+                      autocomplete="email"
+                      class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                      id="enroll-to-queue__confirm-email"
+                      type="text"
+                      value=""
+                    />
+                    <fieldset
+                      aria-hidden="true"
+                      class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                    >
+                      <legend
+                        class="css-w4cd9x"
+                      >
+                        <span
+                          aria-hidden="true"
+                          class="notranslate"
+                        >
+                          ​
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                  <p
+                    class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-er619e-MuiFormHelperText-root"
+                    id="enroll-to-queue__confirm-email-helper-text"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="notranslate"
+                    >
+                      ​
+                    </span>
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-          <div
-            className="columns"
-          >
-            <button
-              aria-disabled={false}
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary full-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
-              disabled={false}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onContextMenu={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-              type="button"
+            <div
+              class="columns"
             >
-              inputs.submit.label
-            </button>
+              <button
+                aria-disabled="false"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary full-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                inputs.submit.label
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -268,119 +244,107 @@ exports[`InitRegistrationPage should allow user to subscribe for notifications o
 `;
 
 exports[`InitRegistrationPage should not let user proceed if exam is full and there is no queue available 1`] = `
-<div
-  className="MuiGrid-root MuiGrid-item public-registration css-13i4rnv-MuiGrid-root"
->
+<div>
   <div
-    className="public-registration__grid"
+    class="MuiGrid-root MuiGrid-direction-xs-row public-registration css-17fpwt7-MuiGrid-root"
   >
     <div
-      className="rows public-registration__grid__heading public-registration__grid__no-stepper"
+      class="public-registration__grid"
     >
-      <h1
-        className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
+      <div
+        class="rows public-registration__grid__heading public-registration__grid__no-stepper"
       >
-        unavailable.full.title
-      </h1>
+        <h1
+          class="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+        >
+          unavailable.full.title
+        </h1>
+        <div
+          class="header-separator MuiBox-root css-0"
+        />
+      </div>
       <div
-        className="header-separator MuiBox-root css-0"
-      />
-    </div>
-    <div
-      className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
-    >
-      <div
-        className="public-registration__grid__form-container"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-1gtchvp-MuiPaper-root"
+        style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12);"
       >
         <div
-          className="rows gapped"
+          class="public-registration__grid__form-container"
         >
           <div
-            className="rows"
+            class="rows gapped"
           >
             <div
-              className="rows-gapped-xxs"
+              class="rows"
             >
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              <div
+                class="rows-gapped-xxs"
               >
-                examSession: 
-                <b>
-                  yki.common.languages.fin, yki.common.languageLevel.PERUS
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                examDate: 
-                <b>
-                  04/06/2019
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                institution: 
-                <b>
-                  Helsingin aikuisopisto, Töölöntullinkatu 8, Helsinki
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                registrationTime: 
-                <b>
-                  02/01/2019 - 02/28/2039
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                examFee: 
-                <b>
-                  153 €
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                openings: 
-                <b>
-                  full
-                </b>
-              </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  examSession: 
+                  <b>
+                    yki.common.languages.fin, yki.common.languageLevel.PERUS
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  examDate: 
+                  <b>
+                    04/06/2019
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  institution: 
+                  <b>
+                    Helsingin aikuisopisto, Töölöntullinkatu 8, Helsinki
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  registrationTime: 
+                  <b>
+                    02/01/2019 - 02/28/2039
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  examFee: 
+                  <b>
+                    153 €
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  openings: 
+                  <b>
+                    full
+                  </b>
+                </p>
+              </div>
             </div>
-          </div>
-          <div
-            className="rows gapped"
-          >
-            <p
-              className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+            <div
+              class="rows gapped"
             >
-              full.description
-            </p>
-            <a
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
-              href="/yki/ilmoittautuminen"
-              onBlur={[Function]}
-              onContextMenu={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-            >
-              backToHomePage
-              <span
-                className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
-            </a>
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+              >
+                full.description
+              </p>
+              <a
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+                href="/yki/ilmoittautuminen"
+                tabindex="0"
+              >
+                backToHomePage
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -390,116 +354,107 @@ exports[`InitRegistrationPage should not let user proceed if exam is full and th
 `;
 
 exports[`InitRegistrationPage should not let user proceed if registration has not yet started 1`] = `
-<div
-  className="MuiGrid-root MuiGrid-item public-registration css-13i4rnv-MuiGrid-root"
->
+<div>
   <div
-    className="public-registration__grid"
+    class="MuiGrid-root MuiGrid-direction-xs-row public-registration css-17fpwt7-MuiGrid-root"
   >
     <div
-      className="rows public-registration__grid__heading public-registration__grid__no-stepper"
+      class="public-registration__grid"
     >
-      <h1
-        className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
+      <div
+        class="rows public-registration__grid__heading public-registration__grid__no-stepper"
       >
-        unavailable.upcoming.title
-      </h1>
+        <h1
+          class="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+        >
+          unavailable.upcoming.title
+        </h1>
+        <div
+          class="header-separator MuiBox-root css-0"
+        />
+      </div>
       <div
-        className="header-separator MuiBox-root css-0"
-      />
-    </div>
-    <div
-      className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
-    >
-      <div
-        className="public-registration__grid__form-container"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-1gtchvp-MuiPaper-root"
+        style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12);"
       >
         <div
-          className="rows gapped"
+          class="public-registration__grid__form-container"
         >
           <div
-            className="rows"
+            class="rows gapped"
           >
             <div
-              className="rows-gapped-xxs"
+              class="rows"
             >
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              <div
+                class="rows-gapped-xxs"
               >
-                examSession: 
-                <b>
-                  yki.common.languages.fin, yki.common.languageLevel.YLIN
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                examDate: 
-                <b>
-                  12/29/2039
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                institution: 
-                <b>
-                  Amiedu, Jokukatu 4, Tampere
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                registrationTime: 
-                <b>
-                  12/01/2030 - 12/10/2039
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                examFee: 
-                <b>
-                  200 €
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                openings: 
-                <b>
-                  full
-                </b>
-              </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  examSession: 
+                  <b>
+                    yki.common.languages.fin, yki.common.languageLevel.YLIN
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  examDate: 
+                  <b>
+                    12/29/2039
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  institution: 
+                  <b>
+                    Amiedu, Jokukatu 4, Tampere
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  registrationTime: 
+                  <b>
+                    12/01/2030 - 12/10/2039
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  examFee: 
+                  <b>
+                    200 €
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  openings: 
+                  <b>
+                    full
+                  </b>
+                </p>
+              </div>
             </div>
-          </div>
-          <div
-            className="rows gapped"
-          >
-            <p
-              className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+            <div
+              class="rows gapped"
             >
-              upcoming.description
-            </p>
-            <a
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
-              href="/yki/ilmoittautuminen"
-              onBlur={[Function]}
-              onContextMenu={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-            >
-              backToHomePage
-            </a>
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+              >
+                upcoming.description
+              </p>
+              <a
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+                href="/yki/ilmoittautuminen"
+                tabindex="0"
+              >
+                backToHomePage
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -509,119 +464,107 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
 `;
 
 exports[`InitRegistrationPage should not let user proceed if registration period has already ended 1`] = `
-<div
-  className="MuiGrid-root MuiGrid-item public-registration css-13i4rnv-MuiGrid-root"
->
+<div>
   <div
-    className="public-registration__grid"
+    class="MuiGrid-root MuiGrid-direction-xs-row public-registration css-17fpwt7-MuiGrid-root"
   >
     <div
-      className="rows public-registration__grid__heading public-registration__grid__no-stepper"
+      class="public-registration__grid"
     >
-      <h1
-        className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
+      <div
+        class="rows public-registration__grid__heading public-registration__grid__no-stepper"
       >
-        unavailable.past.title
-      </h1>
+        <h1
+          class="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+        >
+          unavailable.past.title
+        </h1>
+        <div
+          class="header-separator MuiBox-root css-0"
+        />
+      </div>
       <div
-        className="header-separator MuiBox-root css-0"
-      />
-    </div>
-    <div
-      className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
-    >
-      <div
-        className="public-registration__grid__form-container"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-1gtchvp-MuiPaper-root"
+        style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12);"
       >
         <div
-          className="rows gapped"
+          class="public-registration__grid__form-container"
         >
           <div
-            className="rows"
+            class="rows gapped"
           >
             <div
-              className="rows-gapped-xxs"
+              class="rows"
             >
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              <div
+                class="rows-gapped-xxs"
               >
-                examSession: 
-                <b>
-                  yki.common.languages.fin, yki.common.languageLevel.KESKI
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                examDate: 
-                <b>
-                  01/06/2021
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                institution: 
-                <b>
-                  Helsingin aikuisopisto, Töölöntullinkatu 8, Helsinki
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                registrationTime: 
-                <b>
-                  11/01/2020 - 12/02/2020
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                examFee: 
-                <b>
-                  176 €
-                </b>
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                openings: 
-                <b>
-                  full
-                </b>
-              </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  examSession: 
+                  <b>
+                    yki.common.languages.fin, yki.common.languageLevel.KESKI
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  examDate: 
+                  <b>
+                    01/06/2021
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  institution: 
+                  <b>
+                    Helsingin aikuisopisto, Töölöntullinkatu 8, Helsinki
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  registrationTime: 
+                  <b>
+                    11/01/2020 - 12/02/2020
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  examFee: 
+                  <b>
+                    176 €
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  openings: 
+                  <b>
+                    full
+                  </b>
+                </p>
+              </div>
             </div>
-          </div>
-          <div
-            className="rows gapped"
-          >
-            <p
-              className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+            <div
+              class="rows gapped"
             >
-              past.description
-            </p>
-            <a
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-zcbmsk-MuiButtonBase-root-MuiButton-root"
-              href="/yki/ilmoittautuminen"
-              onBlur={[Function]}
-              onContextMenu={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-            >
-              backToHomePage
-              <span
-                className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
-            </a>
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+              >
+                past.description
+              </p>
+              <a
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+                href="/yki/ilmoittautuminen"
+                tabindex="0"
+              >
+                backToHomePage
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -631,510 +574,457 @@ exports[`InitRegistrationPage should not let user proceed if registration period
 `;
 
 exports[`InitRegistrationPage should prompt user to first identify if post-admission is ongoing and there is room 1`] = `
-<div
-  className="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column public-registration css-1rwmv3x-MuiGrid-root"
->
+<div>
   <div
-    className="MuiGrid-root MuiGrid-item public-registration css-13i4rnv-MuiGrid-root"
+    class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column public-registration css-1qf2j99-MuiGrid-root"
   >
     <div
-      className="public-registration__grid"
+      class="MuiGrid-root MuiGrid-direction-xs-row public-registration css-17fpwt7-MuiGrid-root"
     >
       <div
-        className="rows gapped-xxl"
+        class="public-registration__grid"
       >
         <div
-          aria-label="label"
-          className="MuiStepper-root MuiStepper-horizontal public-registration__grid__stepper css-m5vj9m-MuiStepper-root"
-          role="group"
+          class="rows gapped-xxl"
         >
           <div
-            className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
-          >
-            <span
-              aria-current="step"
-              className="MuiStepLabel-root MuiStepLabel-horizontal css-ascpo7-MuiStepLabel-root"
-            >
-              <span
-                className="MuiStepLabel-iconContainer Mui-active css-vnkopk-MuiStepLabel-iconContainer"
-              >
-                <svg
-                  aria-hidden={true}
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root Mui-active css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="12"
-                  />
-                  <text
-                    className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
-                    dominantBaseline="central"
-                    textAnchor="middle"
-                    x="12"
-                    y="12"
-                  >
-                    1
-                  </text>
-                </svg>
-              </span>
-              <span
-                className="MuiStepLabel-labelContainer css-1vyamtt-MuiStepLabel-labelContainer"
-              >
-                <span
-                  className="MuiStepLabel-label Mui-active css-1hv8oq8-MuiStepLabel-label"
-                >
-                  <p
-                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
-                  >
-                    phase phaseNumber: step.Identify
-                  </p>
-                  <span
-                    aria-hidden={true}
-                  >
-                    step.Identify
-                  </span>
-                </span>
-              </span>
-            </span>
-          </div>
-          <div
-            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-j5w0w9-MuiStepConnector-root"
-          >
-            <span
-              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-z7uhs0-MuiStepConnector-line"
-            />
-          </div>
-          <div
-            className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
-          >
-            <span
-              aria-current={false}
-              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
-            >
-              <span
-                className="MuiStepLabel-iconContainer Mui-disabled css-vnkopk-MuiStepLabel-iconContainer"
-              >
-                <svg
-                  aria-hidden={true}
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="12"
-                  />
-                  <text
-                    className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
-                    dominantBaseline="central"
-                    textAnchor="middle"
-                    x="12"
-                    y="12"
-                  >
-                    2
-                  </text>
-                </svg>
-              </span>
-              <span
-                className="MuiStepLabel-labelContainer css-1vyamtt-MuiStepLabel-labelContainer"
-              >
-                <span
-                  className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
-                >
-                  <p
-                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
-                  >
-                    phase phaseNumber: step.Register
-                  </p>
-                  <span
-                    aria-hidden={true}
-                  >
-                    step.Register
-                  </span>
-                </span>
-              </span>
-            </span>
-          </div>
-          <div
-            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-j5w0w9-MuiStepConnector-root"
-          >
-            <span
-              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-z7uhs0-MuiStepConnector-line"
-            />
-          </div>
-          <div
-            className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
-          >
-            <span
-              aria-current={false}
-              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
-            >
-              <span
-                className="MuiStepLabel-iconContainer Mui-disabled css-vnkopk-MuiStepLabel-iconContainer"
-              >
-                <svg
-                  aria-hidden={true}
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="12"
-                  />
-                  <text
-                    className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
-                    dominantBaseline="central"
-                    textAnchor="middle"
-                    x="12"
-                    y="12"
-                  >
-                    3
-                  </text>
-                </svg>
-              </span>
-              <span
-                className="MuiStepLabel-labelContainer css-1vyamtt-MuiStepLabel-labelContainer"
-              >
-                <span
-                  className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
-                >
-                  <p
-                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
-                  >
-                    phase phaseNumber: step.Payment
-                  </p>
-                  <span
-                    aria-hidden={true}
-                  >
-                    step.Payment
-                  </span>
-                </span>
-              </span>
-            </span>
-          </div>
-          <div
-            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-j5w0w9-MuiStepConnector-root"
-          >
-            <span
-              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-z7uhs0-MuiStepConnector-line"
-            />
-          </div>
-          <div
-            className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
-          >
-            <span
-              aria-current={false}
-              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
-            >
-              <span
-                className="MuiStepLabel-iconContainer Mui-disabled css-vnkopk-MuiStepLabel-iconContainer"
-              >
-                <svg
-                  aria-hidden={true}
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="12"
-                  />
-                  <text
-                    className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
-                    dominantBaseline="central"
-                    textAnchor="middle"
-                    x="12"
-                    y="12"
-                  >
-                    4
-                  </text>
-                </svg>
-              </span>
-              <span
-                className="MuiStepLabel-labelContainer css-1vyamtt-MuiStepLabel-labelContainer"
-              >
-                <span
-                  className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
-                >
-                  <p
-                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
-                  >
-                    phase phaseNumber: step.Done
-                  </p>
-                  <span
-                    aria-hidden={true}
-                  >
-                    step.Done
-                  </span>
-                </span>
-              </span>
-            </span>
-          </div>
-        </div>
-        <div
-          className="rows public-registration__grid__heading"
-        >
-          <h1
-            className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
-          >
-            title
-          </h1>
-          <div
-            className="header-separator MuiBox-root css-0"
-          />
-        </div>
-      </div>
-      <div
-        className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
-      >
-        <div
-          className="public-registration__grid__form-container"
-        >
-          <div
-            className="rows gapped"
+            aria-label="label"
+            class="MuiStepper-root MuiStepper-horizontal public-registration__grid__stepper css-ibtndc-MuiStepper-root"
+            role="group"
           >
             <div
-              className="rows"
+              class="MuiStep-root MuiStep-horizontal css-mlh15c-MuiStep-root"
             >
-              <div
-                className="rows-gapped-xxs"
+              <span
+                aria-current="step"
+                class="MuiStepLabel-root MuiStepLabel-horizontal css-3yr9gi-MuiStepLabel-root"
               >
-                <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-                >
-                  examSession: 
-                  <b>
-                    yki.common.languages.fin, yki.common.languageLevel.YLIN
-                  </b>
-                </p>
-                <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-                >
-                  examDate: 
-                  <b>
-                    01/01/2035
-                  </b>
-                </p>
-                <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-                >
-                  institution: 
-                  <b>
-                    Amiedu, Jokukatu 4, Tampere
-                  </b>
-                </p>
-                <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-                >
-                  registrationTime: 
-                  <b>
-                    08/01/2023 - 09/01/2030
-                  </b>
-                </p>
-                <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-                >
-                  examFee: 
-                  <b>
-                    200 €
-                  </b>
-                </p>
-                <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-                >
-                  openings: 
-                  <b>
-                    6
-                  </b>
-                </p>
-              </div>
-            </div>
-            <p
-              className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-            >
-              registrationIsBindingAdvisory
-            </p>
-            <div
-              className="gapped rows"
-            >
-              <h2
-                className="MuiTypography-root MuiTypography-h2 css-1sra7t5-MuiTypography-root"
-              >
-                selectIdentificationMethod
-              </h2>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                caption
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                <br />
-                withFinnishSSN.info
-              </p>
-              <a
-                className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-1xnmwiw-MuiButtonBase-root-MuiButton-root"
-                href="/yki/auth/?examSessionId=888"
-                onBlur={[Function]}
-                onContextMenu={[Function]}
-                onDragLeave={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onMouseDown={[Function]}
-                onMouseLeave={[Function]}
-                onMouseUp={[Function]}
-                onTouchEnd={[Function]}
-                onTouchMove={[Function]}
-                onTouchStart={[Function]}
-                tabIndex={0}
-              >
-                suomiFiButtonText
                 <span
-                  className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
-              </a>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                <br />
-                withoutFinnishSSN.info
-              </p>
-              <div
-                className="columns gapped align-items-end"
-              >
-                <div
-                  className="rows"
+                  class="MuiStepLabel-iconContainer Mui-active css-1b2ju2j-MuiStepLabel-iconContainer"
                 >
-                  <label
-                    htmlFor="email-identification__email-input"
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root Mui-active css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="12"
+                    />
+                    <text
+                      class="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
+                      dominant-baseline="central"
+                      text-anchor="middle"
+                      x="12"
+                      y="12"
+                    >
+                      1
+                    </text>
+                  </svg>
+                </span>
+                <span
+                  class="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
+                >
+                  <span
+                    class="MuiStepLabel-label Mui-active css-12eb3rq-MuiStepLabel-label"
                   >
                     <p
-                      className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
                     >
-                      <b>
-                        label
-                      </b>
+                      phase phaseNumber: step.Identify
                     </p>
-                  </label>
-                  <p
-                    className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-                  >
-                    placeholder
-                  </p>
-                  <div
-                    className="MuiFormControl-root MuiTextField-root public-registration__grid__form-container__registration-text-field css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-                  >
-                    <div
-                      className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
-                      onClick={[Function]}
-                    >
-                      <input
-                        aria-invalid={false}
-                        autoComplete="email"
-                        autoFocus={false}
-                        className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                        disabled={false}
-                        id="email-identification__email-input"
-                        onAnimationStart={[Function]}
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        required={false}
-                        type="email"
-                        value=""
-                      />
-                      <fieldset
-                        aria-hidden={true}
-                        className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-                      >
-                        <legend
-                          className="css-ihdtdm"
-                        >
-                          <span
-                            className="notranslate"
-                          >
-                            ​
-                          </span>
-                        </legend>
-                      </fieldset>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="rows"
-                >
-                  <button
-                    className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-zcbmsk-MuiButtonBase-root-MuiButton-root"
-                    disabled={false}
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onContextMenu={[Function]}
-                    onDragLeave={[Function]}
-                    onFocus={[Function]}
-                    onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseLeave={[Function]}
-                    onMouseUp={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchMove={[Function]}
-                    onTouchStart={[Function]}
-                    tabIndex={0}
-                    type="button"
-                  >
-                    emailButtonText
                     <span
-                      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      aria-hidden="true"
+                    >
+                      step.Identify
+                    </span>
+                  </span>
+                </span>
+              </span>
+            </div>
+            <div
+              class="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-9ydz1a-MuiStepConnector-root"
+            >
+              <span
+                class="MuiStepConnector-line MuiStepConnector-lineHorizontal css-14ncu80-MuiStepConnector-line"
+              />
+            </div>
+            <div
+              class="MuiStep-root MuiStep-horizontal css-mlh15c-MuiStep-root"
+            >
+              <span
+                aria-current="false"
+                class="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-3yr9gi-MuiStepLabel-root"
+              >
+                <span
+                  class="MuiStepLabel-iconContainer Mui-disabled css-1b2ju2j-MuiStepLabel-iconContainer"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="12"
                     />
-                  </button>
-                </div>
-                 
-              </div>
+                    <text
+                      class="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
+                      dominant-baseline="central"
+                      text-anchor="middle"
+                      x="12"
+                      y="12"
+                    >
+                      2
+                    </text>
+                  </svg>
+                </span>
+                <span
+                  class="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
+                >
+                  <span
+                    class="MuiStepLabel-label Mui-disabled css-12eb3rq-MuiStepLabel-label"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                    >
+                      phase phaseNumber: step.Register
+                    </p>
+                    <span
+                      aria-hidden="true"
+                    >
+                      step.Register
+                    </span>
+                  </span>
+                </span>
+              </span>
+            </div>
+            <div
+              class="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-9ydz1a-MuiStepConnector-root"
+            >
+              <span
+                class="MuiStepConnector-line MuiStepConnector-lineHorizontal css-14ncu80-MuiStepConnector-line"
+              />
+            </div>
+            <div
+              class="MuiStep-root MuiStep-horizontal css-mlh15c-MuiStep-root"
+            >
+              <span
+                aria-current="false"
+                class="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-3yr9gi-MuiStepLabel-root"
+              >
+                <span
+                  class="MuiStepLabel-iconContainer Mui-disabled css-1b2ju2j-MuiStepLabel-iconContainer"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="12"
+                    />
+                    <text
+                      class="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
+                      dominant-baseline="central"
+                      text-anchor="middle"
+                      x="12"
+                      y="12"
+                    >
+                      3
+                    </text>
+                  </svg>
+                </span>
+                <span
+                  class="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
+                >
+                  <span
+                    class="MuiStepLabel-label Mui-disabled css-12eb3rq-MuiStepLabel-label"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                    >
+                      phase phaseNumber: step.Payment
+                    </p>
+                    <span
+                      aria-hidden="true"
+                    >
+                      step.Payment
+                    </span>
+                  </span>
+                </span>
+              </span>
+            </div>
+            <div
+              class="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-9ydz1a-MuiStepConnector-root"
+            >
+              <span
+                class="MuiStepConnector-line MuiStepConnector-lineHorizontal css-14ncu80-MuiStepConnector-line"
+              />
+            </div>
+            <div
+              class="MuiStep-root MuiStep-horizontal css-mlh15c-MuiStep-root"
+            >
+              <span
+                aria-current="false"
+                class="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-3yr9gi-MuiStepLabel-root"
+              >
+                <span
+                  class="MuiStepLabel-iconContainer Mui-disabled css-1b2ju2j-MuiStepLabel-iconContainer"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="12"
+                    />
+                    <text
+                      class="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
+                      dominant-baseline="central"
+                      text-anchor="middle"
+                      x="12"
+                      y="12"
+                    >
+                      4
+                    </text>
+                  </svg>
+                </span>
+                <span
+                  class="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
+                >
+                  <span
+                    class="MuiStepLabel-label Mui-disabled css-12eb3rq-MuiStepLabel-label"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                    >
+                      phase phaseNumber: step.Done
+                    </p>
+                    <span
+                      aria-hidden="true"
+                    >
+                      step.Done
+                    </span>
+                  </span>
+                </span>
+              </span>
+            </div>
+          </div>
+          <div
+            class="rows public-registration__grid__heading"
+          >
+            <h1
+              class="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+            >
+              title
+            </h1>
+            <div
+              class="header-separator MuiBox-root css-0"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-1gtchvp-MuiPaper-root"
+          style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12);"
+        >
+          <div
+            class="public-registration__grid__form-container"
+          >
+            <div
+              class="rows gapped"
+            >
               <div
-                className="columns margin-top-lg justify-content-center"
+                class="rows"
               >
                 <div
-                  className="rows flex-end gapped margin-top-lg align-items-center"
+                  class="rows-gapped-xxs"
                 >
-                  <a
-                    className="custom-button-link"
-                    href="/yki/ilmoittautuminen"
-                    onClick={[Function]}
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  >
+                    examSession: 
+                    <b>
+                      yki.common.languages.fin, yki.common.languageLevel.YLIN
+                    </b>
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  >
+                    examDate: 
+                    <b>
+                      01/01/2035
+                    </b>
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  >
+                    institution: 
+                    <b>
+                      Amiedu, Jokukatu 4, Tampere
+                    </b>
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  >
+                    registrationTime: 
+                    <b>
+                      08/01/2023 - 09/01/2030
+                    </b>
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  >
+                    examFee: 
+                    <b>
+                      200 €
+                    </b>
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  >
+                    openings: 
+                    <b>
+                      6
+                    </b>
+                  </p>
+                </div>
+              </div>
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+              >
+                registrationIsBindingAdvisory
+              </p>
+              <div
+                class="gapped rows"
+              >
+                <h2
+                  class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
+                >
+                  selectIdentificationMethod
+                </h2>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  caption
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  <br />
+                  withFinnishSSN.info
+                </p>
+                <a
+                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-r1ewpe-MuiButtonBase-root-MuiButton-root"
+                  href="/yki/auth/?examSessionId=888"
+                  tabindex="0"
+                >
+                  suomiFiButtonText
+                </a>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  <br />
+                  withoutFinnishSSN.info
+                </p>
+                <div
+                  class="columns gapped align-items-end"
+                >
+                  <div
+                    class="rows"
+                  >
+                    <label
+                      for="email-identification__email-input"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                      >
+                        <b>
+                          label
+                        </b>
+                      </p>
+                    </label>
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                    >
+                      placeholder
+                    </p>
+                    <div
+                      class="MuiFormControl-root MuiTextField-root public-registration__grid__form-container__registration-text-field css-1xp5r68-MuiFormControl-root-MuiTextField-root"
+                    >
+                      <div
+                        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
+                      >
+                        <input
+                          aria-invalid="false"
+                          autocomplete="email"
+                          class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                          id="email-identification__email-input"
+                          type="email"
+                          value=""
+                        />
+                        <fieldset
+                          aria-hidden="true"
+                          class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                        >
+                          <legend
+                            class="css-w4cd9x"
+                          >
+                            <span
+                              aria-hidden="true"
+                              class="notranslate"
+                            >
+                              ​
+                            </span>
+                          </legend>
+                        </fieldset>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="rows"
                   >
                     <button
-                      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1d3f8j8-MuiButtonBase-root-MuiButton-root"
-                      data-testid="public-registration__controlButtons__abort"
-                      disabled={false}
-                      onBlur={[Function]}
-                      onContextMenu={[Function]}
-                      onDragLeave={[Function]}
-                      onFocus={[Function]}
-                      onKeyDown={[Function]}
-                      onKeyUp={[Function]}
-                      onMouseDown={[Function]}
-                      onMouseLeave={[Function]}
-                      onMouseUp={[Function]}
-                      onTouchEnd={[Function]}
-                      onTouchMove={[Function]}
-                      onTouchStart={[Function]}
-                      tabIndex={0}
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+                      tabindex="0"
                       type="button"
                     >
-                      abortRegistration
-                      <span
-                        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                      />
+                      emailButtonText
                     </button>
-                  </a>
+                  </div>
+                   
+                </div>
+                <div
+                  class="columns margin-top-lg justify-content-center"
+                >
+                  <div
+                    class="rows flex-end gapped margin-top-lg align-items-center"
+                  >
+                    <a
+                      class="custom-button-link"
+                      href="/yki/ilmoittautuminen"
+                    >
+                      <button
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1xj59sp-MuiButtonBase-root-MuiButton-root"
+                        data-testid="public-registration__controlButtons__abort"
+                        tabindex="0"
+                        type="button"
+                      >
+                        abortRegistration
+                      </button>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1142,507 +1032,463 @@ exports[`InitRegistrationPage should prompt user to first identify if post-admis
         </div>
       </div>
     </div>
+     
   </div>
-   
 </div>
 `;
 
 exports[`InitRegistrationPage should prompt user to first identify if regular admission is ongoing and there is room 1`] = `
-<div
-  className="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column public-registration css-1rwmv3x-MuiGrid-root"
->
+<div>
   <div
-    className="MuiGrid-root MuiGrid-item public-registration css-13i4rnv-MuiGrid-root"
+    class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column public-registration css-1qf2j99-MuiGrid-root"
   >
     <div
-      className="public-registration__grid"
+      class="MuiGrid-root MuiGrid-direction-xs-row public-registration css-17fpwt7-MuiGrid-root"
     >
       <div
-        className="rows gapped-xxl"
+        class="public-registration__grid"
       >
         <div
-          aria-label="label"
-          className="MuiStepper-root MuiStepper-horizontal public-registration__grid__stepper css-m5vj9m-MuiStepper-root"
-          role="group"
+          class="rows gapped-xxl"
         >
           <div
-            className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
-          >
-            <span
-              aria-current="step"
-              className="MuiStepLabel-root MuiStepLabel-horizontal css-ascpo7-MuiStepLabel-root"
-            >
-              <span
-                className="MuiStepLabel-iconContainer Mui-active css-vnkopk-MuiStepLabel-iconContainer"
-              >
-                <svg
-                  aria-hidden={true}
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root Mui-active css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="12"
-                  />
-                  <text
-                    className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
-                    dominantBaseline="central"
-                    textAnchor="middle"
-                    x="12"
-                    y="12"
-                  >
-                    1
-                  </text>
-                </svg>
-              </span>
-              <span
-                className="MuiStepLabel-labelContainer css-1vyamtt-MuiStepLabel-labelContainer"
-              >
-                <span
-                  className="MuiStepLabel-label Mui-active css-1hv8oq8-MuiStepLabel-label"
-                >
-                  <p
-                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
-                  >
-                    phase phaseNumber: step.Identify
-                  </p>
-                  <span
-                    aria-hidden={true}
-                  >
-                    step.Identify
-                  </span>
-                </span>
-              </span>
-            </span>
-          </div>
-          <div
-            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-j5w0w9-MuiStepConnector-root"
-          >
-            <span
-              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-z7uhs0-MuiStepConnector-line"
-            />
-          </div>
-          <div
-            className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
-          >
-            <span
-              aria-current={false}
-              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
-            >
-              <span
-                className="MuiStepLabel-iconContainer Mui-disabled css-vnkopk-MuiStepLabel-iconContainer"
-              >
-                <svg
-                  aria-hidden={true}
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="12"
-                  />
-                  <text
-                    className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
-                    dominantBaseline="central"
-                    textAnchor="middle"
-                    x="12"
-                    y="12"
-                  >
-                    2
-                  </text>
-                </svg>
-              </span>
-              <span
-                className="MuiStepLabel-labelContainer css-1vyamtt-MuiStepLabel-labelContainer"
-              >
-                <span
-                  className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
-                >
-                  <p
-                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
-                  >
-                    phase phaseNumber: step.Register
-                  </p>
-                  <span
-                    aria-hidden={true}
-                  >
-                    step.Register
-                  </span>
-                </span>
-              </span>
-            </span>
-          </div>
-          <div
-            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-j5w0w9-MuiStepConnector-root"
-          >
-            <span
-              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-z7uhs0-MuiStepConnector-line"
-            />
-          </div>
-          <div
-            className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
-          >
-            <span
-              aria-current={false}
-              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
-            >
-              <span
-                className="MuiStepLabel-iconContainer Mui-disabled css-vnkopk-MuiStepLabel-iconContainer"
-              >
-                <svg
-                  aria-hidden={true}
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="12"
-                  />
-                  <text
-                    className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
-                    dominantBaseline="central"
-                    textAnchor="middle"
-                    x="12"
-                    y="12"
-                  >
-                    3
-                  </text>
-                </svg>
-              </span>
-              <span
-                className="MuiStepLabel-labelContainer css-1vyamtt-MuiStepLabel-labelContainer"
-              >
-                <span
-                  className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
-                >
-                  <p
-                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
-                  >
-                    phase phaseNumber: step.Payment
-                  </p>
-                  <span
-                    aria-hidden={true}
-                  >
-                    step.Payment
-                  </span>
-                </span>
-              </span>
-            </span>
-          </div>
-          <div
-            className="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-j5w0w9-MuiStepConnector-root"
-          >
-            <span
-              className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-z7uhs0-MuiStepConnector-line"
-            />
-          </div>
-          <div
-            className="MuiStep-root MuiStep-horizontal css-1bw0nnu-MuiStep-root"
-          >
-            <span
-              aria-current={false}
-              className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-ascpo7-MuiStepLabel-root"
-            >
-              <span
-                className="MuiStepLabel-iconContainer Mui-disabled css-vnkopk-MuiStepLabel-iconContainer"
-              >
-                <svg
-                  aria-hidden={true}
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="12"
-                  />
-                  <text
-                    className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
-                    dominantBaseline="central"
-                    textAnchor="middle"
-                    x="12"
-                    y="12"
-                  >
-                    4
-                  </text>
-                </svg>
-              </span>
-              <span
-                className="MuiStepLabel-labelContainer css-1vyamtt-MuiStepLabel-labelContainer"
-              >
-                <span
-                  className="MuiStepLabel-label Mui-disabled css-1hv8oq8-MuiStepLabel-label"
-                >
-                  <p
-                    className="MuiTypography-root MuiTypography-body1 css-33u759-MuiTypography-root"
-                  >
-                    phase phaseNumber: step.Done
-                  </p>
-                  <span
-                    aria-hidden={true}
-                  >
-                    step.Done
-                  </span>
-                </span>
-              </span>
-            </span>
-          </div>
-        </div>
-        <div
-          className="rows public-registration__grid__heading"
-        >
-          <h1
-            className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
-          >
-            title
-          </h1>
-          <div
-            className="header-separator MuiBox-root css-0"
-          />
-        </div>
-      </div>
-      <div
-        className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
-      >
-        <div
-          className="public-registration__grid__form-container"
-        >
-          <div
-            className="rows gapped"
+            aria-label="label"
+            class="MuiStepper-root MuiStepper-horizontal public-registration__grid__stepper css-ibtndc-MuiStepper-root"
+            role="group"
           >
             <div
-              className="rows"
+              class="MuiStep-root MuiStep-horizontal css-mlh15c-MuiStep-root"
             >
-              <div
-                className="rows-gapped-xxs"
+              <span
+                aria-current="step"
+                class="MuiStepLabel-root MuiStepLabel-horizontal css-3yr9gi-MuiStepLabel-root"
               >
-                <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                <span
+                  class="MuiStepLabel-iconContainer Mui-active css-1b2ju2j-MuiStepLabel-iconContainer"
                 >
-                  examSession: 
-                  <b>
-                    yki.common.languages.fin, yki.common.languageLevel.KESKI
-                  </b>
-                </p>
-                <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root Mui-active css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="12"
+                    />
+                    <text
+                      class="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
+                      dominant-baseline="central"
+                      text-anchor="middle"
+                      x="12"
+                      y="12"
+                    >
+                      1
+                    </text>
+                  </svg>
+                </span>
+                <span
+                  class="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
                 >
-                  examDate: 
-                  <b>
-                    04/06/2019
-                  </b>
-                </p>
-                <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-                >
-                  institution: 
-                  <b>
-                    Amiedu, Jokukatu 4, Tampere
-                  </b>
-                </p>
-                <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-                >
-                  registrationTime: 
-                  <b>
-                    02/01/2019 - 02/28/2039
-                  </b>
-                </p>
-                <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-                >
-                  examFee: 
-                  <b>
-                    176 €
-                  </b>
-                </p>
-                <p
-                  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-                >
-                  openings: 
-                  <b>
-                    20
-                  </b>
-                </p>
-              </div>
-            </div>
-            <p
-              className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-            >
-              registrationIsBindingAdvisory
-            </p>
-            <div
-              className="gapped rows"
-            >
-              <h2
-                className="MuiTypography-root MuiTypography-h2 css-1sra7t5-MuiTypography-root"
-              >
-                selectIdentificationMethod
-              </h2>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                caption
-              </p>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                <br />
-                withFinnishSSN.info
-              </p>
-              <a
-                className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-1xnmwiw-MuiButtonBase-root-MuiButton-root"
-                href="/yki/auth/?examSessionId=11"
-                onBlur={[Function]}
-                onContextMenu={[Function]}
-                onDragLeave={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onMouseDown={[Function]}
-                onMouseLeave={[Function]}
-                onMouseUp={[Function]}
-                onTouchEnd={[Function]}
-                onTouchMove={[Function]}
-                onTouchStart={[Function]}
-                tabIndex={0}
-              >
-                suomiFiButtonText
-              </a>
-              <p
-                className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-              >
-                <br />
-                withoutFinnishSSN.info
-              </p>
-              <div
-                className="columns gapped align-items-end"
-              >
-                <div
-                  className="rows"
-                >
-                  <label
-                    htmlFor="email-identification__email-input"
+                  <span
+                    class="MuiStepLabel-label Mui-active css-12eb3rq-MuiStepLabel-label"
                   >
                     <p
-                      className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
                     >
-                      <b>
-                        label
-                      </b>
+                      phase phaseNumber: step.Identify
                     </p>
-                  </label>
-                  <p
-                    className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-                  >
-                    placeholder
-                  </p>
-                  <div
-                    className="MuiFormControl-root MuiTextField-root public-registration__grid__form-container__registration-text-field css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-                  >
-                    <div
-                      className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
-                      onClick={[Function]}
+                    <span
+                      aria-hidden="true"
                     >
-                      <input
-                        aria-invalid={false}
-                        autoComplete="email"
-                        autoFocus={false}
-                        className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                        disabled={false}
-                        id="email-identification__email-input"
-                        onAnimationStart={[Function]}
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        required={false}
-                        type="email"
-                        value=""
-                      />
-                      <fieldset
-                        aria-hidden={true}
-                        className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-                      >
-                        <legend
-                          className="css-ihdtdm"
-                        >
-                          <span
-                            className="notranslate"
-                          >
-                            ​
-                          </span>
-                        </legend>
-                      </fieldset>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="rows"
+                      step.Identify
+                    </span>
+                  </span>
+                </span>
+              </span>
+            </div>
+            <div
+              class="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-9ydz1a-MuiStepConnector-root"
+            >
+              <span
+                class="MuiStepConnector-line MuiStepConnector-lineHorizontal css-14ncu80-MuiStepConnector-line"
+              />
+            </div>
+            <div
+              class="MuiStep-root MuiStep-horizontal css-mlh15c-MuiStep-root"
+            >
+              <span
+                aria-current="false"
+                class="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-3yr9gi-MuiStepLabel-root"
+              >
+                <span
+                  class="MuiStepLabel-iconContainer Mui-disabled css-1b2ju2j-MuiStepLabel-iconContainer"
                 >
-                  <button
-                    className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-zcbmsk-MuiButtonBase-root-MuiButton-root"
-                    disabled={false}
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onContextMenu={[Function]}
-                    onDragLeave={[Function]}
-                    onFocus={[Function]}
-                    onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseLeave={[Function]}
-                    onMouseUp={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchMove={[Function]}
-                    onTouchStart={[Function]}
-                    tabIndex={0}
-                    type="button"
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
+                    focusable="false"
+                    viewBox="0 0 24 24"
                   >
-                    emailButtonText
-                  </button>
-                </div>
-                 
-              </div>
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="12"
+                    />
+                    <text
+                      class="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
+                      dominant-baseline="central"
+                      text-anchor="middle"
+                      x="12"
+                      y="12"
+                    >
+                      2
+                    </text>
+                  </svg>
+                </span>
+                <span
+                  class="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
+                >
+                  <span
+                    class="MuiStepLabel-label Mui-disabled css-12eb3rq-MuiStepLabel-label"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                    >
+                      phase phaseNumber: step.Register
+                    </p>
+                    <span
+                      aria-hidden="true"
+                    >
+                      step.Register
+                    </span>
+                  </span>
+                </span>
+              </span>
+            </div>
+            <div
+              class="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-9ydz1a-MuiStepConnector-root"
+            >
+              <span
+                class="MuiStepConnector-line MuiStepConnector-lineHorizontal css-14ncu80-MuiStepConnector-line"
+              />
+            </div>
+            <div
+              class="MuiStep-root MuiStep-horizontal css-mlh15c-MuiStep-root"
+            >
+              <span
+                aria-current="false"
+                class="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-3yr9gi-MuiStepLabel-root"
+              >
+                <span
+                  class="MuiStepLabel-iconContainer Mui-disabled css-1b2ju2j-MuiStepLabel-iconContainer"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="12"
+                    />
+                    <text
+                      class="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
+                      dominant-baseline="central"
+                      text-anchor="middle"
+                      x="12"
+                      y="12"
+                    >
+                      3
+                    </text>
+                  </svg>
+                </span>
+                <span
+                  class="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
+                >
+                  <span
+                    class="MuiStepLabel-label Mui-disabled css-12eb3rq-MuiStepLabel-label"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                    >
+                      phase phaseNumber: step.Payment
+                    </p>
+                    <span
+                      aria-hidden="true"
+                    >
+                      step.Payment
+                    </span>
+                  </span>
+                </span>
+              </span>
+            </div>
+            <div
+              class="MuiStepConnector-root MuiStepConnector-horizontal Mui-disabled css-9ydz1a-MuiStepConnector-root"
+            >
+              <span
+                class="MuiStepConnector-line MuiStepConnector-lineHorizontal css-14ncu80-MuiStepConnector-line"
+              />
+            </div>
+            <div
+              class="MuiStep-root MuiStep-horizontal css-mlh15c-MuiStep-root"
+            >
+              <span
+                aria-current="false"
+                class="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled public-registration__grid__stepper__step-disabled css-3yr9gi-MuiStepLabel-root"
+              >
+                <span
+                  class="MuiStepLabel-iconContainer Mui-disabled css-1b2ju2j-MuiStepLabel-iconContainer"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="12"
+                    />
+                    <text
+                      class="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
+                      dominant-baseline="central"
+                      text-anchor="middle"
+                      x="12"
+                      y="12"
+                    >
+                      4
+                    </text>
+                  </svg>
+                </span>
+                <span
+                  class="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
+                >
+                  <span
+                    class="MuiStepLabel-label Mui-disabled css-12eb3rq-MuiStepLabel-label"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                    >
+                      phase phaseNumber: step.Done
+                    </p>
+                    <span
+                      aria-hidden="true"
+                    >
+                      step.Done
+                    </span>
+                  </span>
+                </span>
+              </span>
+            </div>
+          </div>
+          <div
+            class="rows public-registration__grid__heading"
+          >
+            <h1
+              class="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+            >
+              title
+            </h1>
+            <div
+              class="header-separator MuiBox-root css-0"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-1gtchvp-MuiPaper-root"
+          style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12);"
+        >
+          <div
+            class="public-registration__grid__form-container"
+          >
+            <div
+              class="rows gapped"
+            >
               <div
-                className="columns margin-top-lg justify-content-center"
+                class="rows"
               >
                 <div
-                  className="rows flex-end gapped margin-top-lg align-items-center"
+                  class="rows-gapped-xxs"
                 >
-                  <a
-                    className="custom-button-link"
-                    href="/yki/ilmoittautuminen"
-                    onClick={[Function]}
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  >
+                    examSession: 
+                    <b>
+                      yki.common.languages.fin, yki.common.languageLevel.KESKI
+                    </b>
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  >
+                    examDate: 
+                    <b>
+                      04/06/2019
+                    </b>
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  >
+                    institution: 
+                    <b>
+                      Amiedu, Jokukatu 4, Tampere
+                    </b>
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  >
+                    registrationTime: 
+                    <b>
+                      02/01/2019 - 02/28/2039
+                    </b>
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  >
+                    examFee: 
+                    <b>
+                      176 €
+                    </b>
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  >
+                    openings: 
+                    <b>
+                      20
+                    </b>
+                  </p>
+                </div>
+              </div>
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+              >
+                registrationIsBindingAdvisory
+              </p>
+              <div
+                class="gapped rows"
+              >
+                <h2
+                  class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
+                >
+                  selectIdentificationMethod
+                </h2>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  caption
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  <br />
+                  withFinnishSSN.info
+                </p>
+                <a
+                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-r1ewpe-MuiButtonBase-root-MuiButton-root"
+                  href="/yki/auth/?examSessionId=11"
+                  tabindex="0"
+                >
+                  suomiFiButtonText
+                </a>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  <br />
+                  withoutFinnishSSN.info
+                </p>
+                <div
+                  class="columns gapped align-items-end"
+                >
+                  <div
+                    class="rows"
+                  >
+                    <label
+                      for="email-identification__email-input"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                      >
+                        <b>
+                          label
+                        </b>
+                      </p>
+                    </label>
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                    >
+                      placeholder
+                    </p>
+                    <div
+                      class="MuiFormControl-root MuiTextField-root public-registration__grid__form-container__registration-text-field css-1xp5r68-MuiFormControl-root-MuiTextField-root"
+                    >
+                      <div
+                        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
+                      >
+                        <input
+                          aria-invalid="false"
+                          autocomplete="email"
+                          class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                          id="email-identification__email-input"
+                          type="email"
+                          value=""
+                        />
+                        <fieldset
+                          aria-hidden="true"
+                          class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                        >
+                          <legend
+                            class="css-w4cd9x"
+                          >
+                            <span
+                              aria-hidden="true"
+                              class="notranslate"
+                            >
+                              ​
+                            </span>
+                          </legend>
+                        </fieldset>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="rows"
                   >
                     <button
-                      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1d3f8j8-MuiButtonBase-root-MuiButton-root"
-                      data-testid="public-registration__controlButtons__abort"
-                      disabled={false}
-                      onBlur={[Function]}
-                      onContextMenu={[Function]}
-                      onDragLeave={[Function]}
-                      onFocus={[Function]}
-                      onKeyDown={[Function]}
-                      onKeyUp={[Function]}
-                      onMouseDown={[Function]}
-                      onMouseLeave={[Function]}
-                      onMouseUp={[Function]}
-                      onTouchEnd={[Function]}
-                      onTouchMove={[Function]}
-                      onTouchStart={[Function]}
-                      tabIndex={0}
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+                      tabindex="0"
                       type="button"
                     >
-                      abortRegistration
+                      emailButtonText
                     </button>
-                  </a>
+                  </div>
+                   
+                </div>
+                <div
+                  class="columns margin-top-lg justify-content-center"
+                >
+                  <div
+                    class="rows flex-end gapped margin-top-lg align-items-center"
+                  >
+                    <a
+                      class="custom-button-link"
+                      href="/yki/ilmoittautuminen"
+                    >
+                      <button
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1xj59sp-MuiButtonBase-root-MuiButton-root"
+                        data-testid="public-registration__controlButtons__abort"
+                        tabindex="0"
+                        type="button"
+                      >
+                        abortRegistration
+                      </button>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1650,7 +1496,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
         </div>
       </div>
     </div>
+     
   </div>
-   
 </div>
 `;

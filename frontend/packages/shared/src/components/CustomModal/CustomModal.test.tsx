@@ -2,12 +2,9 @@ import { render } from '@testing-library/react';
 
 import { CustomModal } from './CustomModal';
 
-// TODO The snapshots created look sensible, but rendering directly into document.body
-// is discouraged. Figure out a better way to render the modals.
-
 describe('CustomModal', () => {
   it('should render correctly when not open', () => {
-    const { baseElement } = render(
+    const { container } = render(
       <CustomModal
         open={false}
         onCloseModal={() => {
@@ -18,11 +15,11 @@ describe('CustomModal', () => {
         <div>Sisältöä tarvitaan</div>
       </CustomModal>,
     );
-    expect(baseElement).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   it('should render correctly when it is opened', () => {
-    const { baseElement } = render(
+    const { container } = render(
       <CustomModal
         open={true}
         onCloseModal={() => {
@@ -34,6 +31,6 @@ describe('CustomModal', () => {
         <div>Lisää tekstiä</div>
       </CustomModal>,
     );
-    expect(baseElement).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });

@@ -6,7 +6,8 @@
   "moduleNameMapper": {
     "\\.scss": "<rootDir>/src/tests/jest/__mocks__/fileMocks.ts",
     "\\.svg": "<rootDir>/src/tests/jest/__mocks__/fileMocks.ts",
-    "^shared/(.*)$": "<rootDir>/node_modules/shared/src/$1"
+    "^shared/(.*)$": "<rootDir>/node_modules/shared/src/$1",
+    "^redux/(.*)$": "<rootDir>/src/redux/$1"
   },
   "setupFiles": [
     "./src/tests/jest/__mocks__/globalMocks.ts"

@@ -1,59 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CircularStepper should render correctly 1`] = `
-<div
-  className="circular-stepper"
->
-  <span
-    aria-hidden={true}
-    aria-label="phase Test Phase 1: Description text"
-    aria-valuenow={33}
-    className="MuiCircularProgress-root MuiCircularProgress-determinate MuiCircularProgress-colorSecondary circular-stepper__progress css-ov20ns-MuiCircularProgress-root"
-    role="progressbar"
-    style={
-      {
-        "height": 40,
-        "transform": "rotate(-90deg)",
-        "width": 40,
-      }
-    }
-  >
-    <svg
-      className="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
-      viewBox="22 22 44 44"
-    >
-      <circle
-        className="MuiCircularProgress-circle MuiCircularProgress-circleDeterminate css-eorpq6-MuiCircularProgress-circle"
-        cx={44}
-        cy={44}
-        fill="none"
-        r={20.2}
-        strokeWidth={3.6}
-        style={
-          {
-            "strokeDasharray": "126.920",
-            "strokeDashoffset": "85.037px",
-          }
-        }
-      />
-    </svg>
-  </span>
+<div>
   <div
-    aria-hidden={true}
-    className="circular-stepper__heading"
+    class="circular-stepper"
   >
-    <h3
-      className="MuiTypography-root MuiTypography-h3 css-13msox4-MuiTypography-root"
-      style={{}}
+    <span
+      aria-hidden="true"
+      aria-label="phase Test Phase 1: Description text"
+      aria-valuenow="33"
+      class="MuiCircularProgress-root MuiCircularProgress-determinate MuiCircularProgress-colorSecondary circular-stepper__progress css-ov20ns-MuiCircularProgress-root"
+      role="progressbar"
+      style="width: 40px; height: 40px; transform: rotate(-90deg);"
     >
-      Test Phase 1
-    </h3>
+      <svg
+        class="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
+        viewBox="22 22 44 44"
+      >
+        <circle
+          class="MuiCircularProgress-circle MuiCircularProgress-circleDeterminate css-eorpq6-MuiCircularProgress-circle"
+          cx="44"
+          cy="44"
+          fill="none"
+          r="20.2"
+          stroke-width="3.6"
+          style="stroke-dasharray: 126.920; stroke-dashoffset: 85.037px;"
+        />
+      </svg>
+    </span>
+    <div
+      aria-hidden="true"
+      class="circular-stepper__heading"
+    >
+      <h3
+        class="MuiTypography-root MuiTypography-h3 css-13msox4-MuiTypography-root"
+      >
+        Test Phase 1
+      </h3>
+    </div>
+    <p
+      class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+    >
+      phase Test Phase 1: Description text
+    </p>
   </div>
-  <p
-    className="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
-    style={{}}
-  >
-    phase Test Phase 1: Description text
-  </p>
 </div>
 `;

@@ -1,10 +1,10 @@
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 
 import { CustomButton } from './CustomButton';
 
 describe('CustomButton', () => {
   it('should render correctly', () => {
-    const tree = renderer.create(<CustomButton />).toJSON();
-    expect(tree).toMatchSnapshot();
+    const { container } = render(<CustomButton />);
+    expect(container).toMatchSnapshot();
   });
 });

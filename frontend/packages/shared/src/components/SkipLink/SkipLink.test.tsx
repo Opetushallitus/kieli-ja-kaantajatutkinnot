@@ -1,18 +1,16 @@
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 
 import { SkipLink } from './SkipLink';
 
 describe('SkipLink', () => {
   it('should render correctly', () => {
-    const tree = renderer
-      .create(
-        <SkipLink
-          text="Link that looks like text"
-          href="http://example.invalid"
-        />,
-      )
-      .toJSON();
+    const { container } = render(
+      <SkipLink
+        text="Link that looks like text"
+        href="http://example.invalid"
+      />,
+    );
 
-    expect(tree).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });
