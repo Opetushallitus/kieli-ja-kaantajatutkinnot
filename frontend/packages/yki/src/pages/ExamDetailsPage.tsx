@@ -12,10 +12,11 @@ import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import {
   acceptPublicRegistrationSubmission,
-  initRegistration,
+  identifyRegistration,
   setActiveStep,
 } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
+import { registrationSelector } from 'redux/selectors/registration';
 
 export const ExamDetailsPage = () => {
   // i18n
@@ -28,11 +29,15 @@ export const ExamDetailsPage = () => {
   // Redux
   const dispatch = useAppDispatch();
   const { status, examSession } = useAppSelector(examSessionSelector);
+  const { identifyRegistration: identifyRegistrationState } =
+    useAppSelector(registrationSelector);
   // React Router
   const params = useParams();
   const [searchParams] = useSearchParams();
 
-  const isLoading = status === APIResponseStatus.InProgress;
+  const isLoading =
+    status === APIResponseStatus.InProgress ||
+    identifyRegistrationState.status === APIResponseStatus.InProgress;
 
   useEffect(() => {
     dispatch(setActiveStep(PublicRegistrationFormStep.Register));
@@ -52,7 +57,7 @@ export const ExamDetailsPage = () => {
       } else {
         // Else attempt to initiate registration.
         dispatch(
-          initRegistration({
+          identifyRegistration({
             examSessionId: +params.examSessionId,
             toQueue: false,
           }),

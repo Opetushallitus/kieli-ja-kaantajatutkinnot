@@ -9,6 +9,7 @@ export enum APIEndpoints {
   EvaluationOrder = '/yki/api/evaluation/:evaluationId/order',
   EvaluationOrderDetails = '/yki/api/evaluation/order/:evaluationOrderId',
   InitRegistration = '/yki/api/registration/init',
+  IdentifyRegistration = '/yki/api/registration/identify',
   LoginLink = '/yki/api/login-link',
   Logout = '/yki/auth/logout',
   Registration = '/yki/api/registration/:registrationId',

@@ -21,6 +21,11 @@ export interface RegistrationState {
     error?: PublicRegistrationInitError;
     examSessionId?: number;
   };
+  identifyRegistration: {
+    status: APIResponseStatus;
+    error?: PublicRegistrationInitError;
+    examSessionId?: number;
+  };
   submitRegistration: {
     status: APIResponseStatus;
     error?: PublicRegistrationFormSubmitError;
@@ -38,6 +43,9 @@ export interface RegistrationState {
 export const initialState: RegistrationState = {
   activeStep: PublicRegistrationFormStep.Identify,
   initRegistration: {
+    status: APIResponseStatus.NotStarted,
+  },
+  identifyRegistration: {
     status: APIResponseStatus.NotStarted,
   },
   cancelRegistration: {
@@ -130,6 +138,9 @@ const registrationSlice = createSlice({
         };
       }
     },
+    acceptPublicRegistrationIdentify(state) {
+      state.identifyRegistration.status = APIResponseStatus.Success;
+    },
     setShowErrors(state, action: PayloadAction<boolean>) {
       state.showErrors = action.payload;
     },
@@ -183,6 +194,16 @@ const registrationSlice = createSlice({
     rejectCancelRegistration(state) {
       state.cancelRegistration.status = APIResponseStatus.Error;
     },
+    identifyRegistration(
+      state,
+      action: PayloadAction<{
+        examSessionId: number;
+        toQueue: boolean;
+      }>,
+    ) {
+      state.identifyRegistration.status = APIResponseStatus.InProgress;
+      state.identifyRegistration.examSessionId = action.payload.examSessionId;
+    },
   },
 });
 
@@ -202,4 +223,6 @@ export const {
   cancelRegistration,
   acceptCancelRegistration,
   rejectCancelRegistration,
+  identifyRegistration,
+  acceptPublicRegistrationIdentify,
 } = registrationSlice.actions;
