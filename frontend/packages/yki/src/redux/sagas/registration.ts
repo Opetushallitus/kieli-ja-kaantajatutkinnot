@@ -14,9 +14,11 @@ import {
 import { resetExamSession, storeExamSession } from 'redux/reducers/examSession';
 import {
   acceptCancelRegistration,
+  acceptPublicRegistrationIdentify,
   acceptPublicRegistrationInit,
   acceptPublicRegistrationSubmission,
   cancelRegistration,
+  identifyRegistration,
   initRegistration,
   RegistrationState,
   rejectCancelRegistration,
@@ -51,6 +53,41 @@ function* initRegistrationSaga(
         SerializationUtils.deserializeExamSessionResponse(data.exam_session),
       ),
     );
+    yield put(acceptPublicRegistrationInit(data));
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      const response =
+        error.response as AxiosResponse<PublicRegistrationInitErrorResponse>;
+      yield put(rejectPublicRegistrationInit(response));
+      if (response.status === 401) {
+        yield put(resetSession());
+      }
+    } else {
+      yield put(rejectPublicRegistrationInit());
+    }
+  }
+}
+
+function* identifyRegistrationSaga(
+  action: PayloadAction<{
+    examSessionId: number;
+    toQueue: boolean;
+  }>,
+) {
+  try {
+    const { examSessionId, toQueue } = action.payload;
+    const response: AxiosResponse<PublicRegistrationInitResponse> = yield call(
+      axiosInstance.post,
+      APIEndpoints.IdentifyRegistration,
+      JSON.stringify({ exam_session_id: examSessionId, to_queue: toQueue }),
+    );
+    const { data } = response;
+    yield put(
+      storeExamSession(
+        SerializationUtils.deserializeExamSessionResponse(data.exam_session),
+      ),
+    );
+    yield put(acceptPublicRegistrationIdentify(data));
     yield put(acceptPublicRegistrationInit(data));
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -141,6 +178,7 @@ function* cancelRegistrationSaga() {
 
 export function* watchRegistration() {
   yield takeLatest(initRegistration.type, initRegistrationSaga);
+  yield takeLatest(identifyRegistration.type, identifyRegistrationSaga);
   yield takeLatest(submitPublicRegistration.type, submitRegistrationFormSaga);
   yield takeLatest(cancelRegistration.type, cancelRegistrationSaga);
 }
