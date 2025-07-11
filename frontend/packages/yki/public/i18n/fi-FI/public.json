@@ -645,10 +645,10 @@
             "part2": "Et voi siirtää ilmoittautumista enää toista kertaa."
           },
           "examPayment": {
-            "expiresAt": "Eräpäivä {{ date }}",
+            "expiresAt": "Eräpäivä {{- date }}",
             "notPaid": "Maksamatta {{ examFee }}€",
             "label": "Tutkintomaksu",
-            "paidAt": "Maksettu {{ date }}"
+            "paidAt": "Maksettu {{- date }}"
           },
           "header": {
             "cancelled": "Perutut ilmoittautumiset",
@@ -657,7 +657,7 @@
           },
           "liftedFromQueueNotification": {
             "part1": "Olet saanut paikan YKI-testiin jonosta.",
-            "part2": "Vahvista ilmoittautuminen {{ date }} mennessä",
+            "part2": "Vahvista ilmoittautuminen {{- date }} mennessä",
             "part3": "tai menetät paikan"
           },
           "notPaidNotification": {
