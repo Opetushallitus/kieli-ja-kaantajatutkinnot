@@ -116,6 +116,18 @@ exports[`Header should render Header correctly 1`] = `
             <li>
               <a
                 aria-current="false"
+                href="/yki/kayttaja/tiedot"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  userRegistrations
+                </p>
+              </a>
+            </li>
+            <li>
+              <a
+                aria-current="false"
                 href="/yki/tarkistusarviointi"
               >
                 <p

@@ -1,4 +1,5 @@
 import { Grid, Paper } from '@mui/material';
+import { Trans } from 'react-i18next';
 import { CustomButton, H1, H2, HeaderSeparator, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
@@ -9,7 +10,7 @@ import { PublicRegistrationExamSessionDetails } from 'components/registration/Pu
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
+import { AppRoutes, RegistrationKind } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { sessionSelector } from 'redux/selectors/session';
@@ -25,10 +26,14 @@ const AlreadyLoggedIn = () => {
     loggedInSession?.['auth-method'] === 'SUOMIFI';
   const isEmailAuthenticatedSession =
     loggedInSession?.['auth-method'] === 'EMAIL';
+  const toQueue =
+    examSession.available_registration_kind === RegistrationKind.Queue;
 
   return (
     <>
-      <Text>{t('registrationIsBindingAdvisory')}</Text>
+      <Text>
+        <Trans t={t} i18nKey="registrationIsBindingAdvisory" />
+      </Text>
       <H2>{t('alreadyLoggedIn.caption')}</H2>
       <Text> {t('alreadyLoggedIn.currentLoginInformation')}</Text>
       <Text>
@@ -55,10 +60,10 @@ const AlreadyLoggedIn = () => {
           color={Color.Secondary}
           className="fit-content-max-width"
           size="large"
-          href={AppRoutes.ExamSessionRegistration.replace(
-            /:examSessionId/,
-            `${examSession.id}`,
-          )}
+          href={(toQueue
+            ? AppRoutes.ExamSessionQueue
+            : AppRoutes.ExamSessionRegistration
+          ).replace(/:examSessionId/, `${examSession.id}`)}
         >
           {t('alreadyLoggedIn.labels.continueToRegistration')}
         </CustomButton>
@@ -84,7 +89,9 @@ const Identify = () => {
 
   return (
     <>
-      <Text>{t('registrationIsBindingAdvisory')}</Text>
+      <Text>
+        <Trans t={t} i18nKey="registrationIsBindingAdvisory" />
+      </Text>
       <div className="gapped rows">
         <SelectIdentificationMethod />
         <PublicRegistrationControlButtons />
@@ -106,6 +113,9 @@ export const PublicIdentificationGrid = () => {
     return null;
   }
 
+  const toQueue =
+    examSession.available_registration_kind === RegistrationKind.Queue;
+
   return (
     <Grid
       container
@@ -119,7 +129,11 @@ export const PublicIdentificationGrid = () => {
             <PublicRegistrationStepper />
             <div className="rows public-registration__grid__heading">
               <H1>
-                {loggedInSession ? t('alreadyLoggedIn.title') : t('title')}
+                {toQueue
+                  ? t('titleForQueueing')
+                  : loggedInSession
+                  ? t('alreadyLoggedIn.title')
+                  : t('title')}
               </H1>
               <HeaderSeparator />
             </div>

@@ -91,7 +91,8 @@ export const SessionStateHeader: FC = () => {
   const dispatch = useAppDispatch();
   const isAuthenticated = session && session.identity !== null;
   const notOnRegistrationPage =
-    matchPath(AppRoutes.ExamSessionRegistration, location.pathname) === null;
+    matchPath(AppRoutes.ExamSessionRegistration, location.pathname) === null &&
+    matchPath(AppRoutes.ExamSessionQueue, location.pathname) === null;
   const { isPhone } = useWindowProperties();
   const openRegistrationsCount =
     (notOnRegistrationPage && openRegistrations && openRegistrations.length) ||

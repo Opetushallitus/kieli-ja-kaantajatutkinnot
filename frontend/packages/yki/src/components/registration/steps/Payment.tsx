@@ -5,12 +5,20 @@ import { H2, Text } from 'shared/components';
 
 import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
 import { usePublicTranslation } from 'configs/i18n';
-import { PaymentStatus } from 'enums/api';
+import { useAppSelector } from 'configs/redux';
+import { APIEndpoints, PaymentStatus } from 'enums/api';
+import { sessionSelector } from 'redux/selectors/session';
 
 const PaymentSuccess = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.payment.success.whatsNext',
   });
+
+  const { loggedInSession } = useAppSelector(sessionSelector);
+  const isSuomiFiSession =
+    loggedInSession && loggedInSession['auth-method'] === 'SUOMIFI';
+  const omaOpintopolkuUrl =
+    window.location.origin.replace(/yki\./, '') + '/oma-opintopolku/';
 
   return (
     <>
@@ -38,6 +46,29 @@ const PaymentSuccess = () => {
           </Link>
           <OpenInNewIcon />
         </div>
+      </div>
+      <div>
+        <Text>
+          {t('toUserPortal.part1')} {t('toUserPortal.part2')}
+          <br />
+          {t('toUserPortal.part3')}
+          <br />
+          {isSuomiFiSession && (
+            <Link href={`${APIEndpoints.Authenticate}?toUserPortal=true`}>
+              <b>{t('toUserPortal.link.label')}</b>
+            </Link>
+          )}
+          {!isSuomiFiSession && (
+            <div className="columns gapped-xxs">
+              <Link href={omaOpintopolkuUrl} target="_blank">
+                <Text className="bold">
+                  {t('toUserPortal.link.omaOpintopolkuLabel')}
+                </Text>
+              </Link>
+              <OpenInNewIcon />
+            </div>
+          )}
+        </Text>
       </div>
     </>
   );

@@ -8,6 +8,7 @@ import { PublicRegistrationGrid } from 'components/registration/PublicRegistrati
 import { PublicExamDetailsPageSkeleton } from 'components/skeletons/PublicExamDetailsPageSkeleton';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import {
@@ -18,7 +19,11 @@ import {
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 
-export const ExamDetailsPage = () => {
+export const ExamDetailsPage = ({
+  registrationKind,
+}: {
+  registrationKind: RegistrationKind;
+}) => {
   // i18n
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.examDetailsPage',
@@ -52,14 +57,25 @@ export const ExamDetailsPage = () => {
       if (searchParams.get('submitted')) {
         // If form is already submitted, just reload exam session details
         // and manually set registration status to submitted.
+        const code = searchParams.get('code');
+        const queue = searchParams.get('queue');
+        const registration_kind =
+          queue === 'true'
+            ? RegistrationKind.Queue
+            : RegistrationKind.Admission;
         dispatch(loadExamSession(+params.examSessionId));
-        dispatch(acceptPublicRegistrationSubmission());
+        dispatch(
+          acceptPublicRegistrationSubmission({
+            code: code || '',
+            registration_kind,
+          }),
+        );
       } else {
         // Else attempt to initiate registration.
         dispatch(
           identifyRegistration({
             examSessionId: +params.examSessionId,
-            toQueue: false,
+            registrationKind,
           }),
         );
       }
@@ -81,6 +97,7 @@ export const ExamDetailsPage = () => {
     examSession?.id,
     t,
     searchParams,
+    registrationKind,
   ]);
 
   return (

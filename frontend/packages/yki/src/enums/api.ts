@@ -11,11 +11,19 @@ export enum APIEndpoints {
   InitRegistration = '/yki/api/registration/init',
   IdentifyRegistration = '/yki/api/registration/identify',
   LoginLink = '/yki/api/login-link',
+  LoginLinkInfo = '/yki/auth/login-link-info',
+  LoginWithCode = '/yki/auth/login',
   Logout = '/yki/auth/logout',
   Registration = '/yki/api/registration/:registrationId',
   SubmitRegistration = '/yki/api/registration/:registrationId/submit',
   User = '/yki/api/user/identity',
   OpenRegistrations = '/yki/api/user/open-registrations',
+  PersonDetails = '/yki/api/person',
+  CancelUserRegistration = '/yki/api/person/registration/:registrationId',
+  TransferEnrollment = '/yki/api/person/registration/:registrationId/relocate',
+  ConfirmRegistration = '/yki/api/person/registration/:registrationId/confirm',
+  RedirectToPayment = '/yki/api/payment/v3/:registrationId/redirect?lang=:lang',
+  RedirectToPaymentFromUserPortal = '/yki/api/person/registration/:registrationId/payment-redirect?lang=:lang',
 }
 
 export enum PaymentStatus {

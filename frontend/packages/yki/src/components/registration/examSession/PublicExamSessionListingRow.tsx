@@ -32,9 +32,9 @@ const RegisterToExamButton = ({
   });
   const { isPhone } = useWindowProperties();
 
-  const { availablePlaces, availableQueue } =
-    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-  const toQueue = !availablePlaces && availableQueue;
+  const { available_registration_kind } = examSession;
+
+  // TODO Different text when registering to queue!
 
   return (
     <CustomButton
@@ -51,11 +51,9 @@ const RegisterToExamButton = ({
       }}
       fullWidth={isPhone}
     >
-      {availablePlaces
+      {available_registration_kind === RegistrationKind.Admission
         ? t('register')
-        : availableQueue
-        ? t('orderCancellationNotification')
-        : t('full')}
+        : t('enrollToQueue')}
     </CustomButton>
   );
 };
@@ -70,20 +68,16 @@ const RegistrationUnavailableText = ({
   });
   const { start } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-  if (examSession.open) {
-    return <>{t('examSessionIsFull')}</>;
+  if (examSession.upcoming_admission) {
+    return (
+      <>
+        {t('admissionOpensOn', {
+          startDate: DateUtils.formatOptionalDate(start),
+        })}
+      </>
+    );
   } else {
-    if (examSession.upcoming_admission || examSession.upcoming_post_admission) {
-      return (
-        <>
-          {t('admissionOpensOn', {
-            startDate: DateUtils.formatOptionalDate(start),
-          })}
-        </>
-      );
-    } else {
-      return <>{t('admissionPeriodIsClosed')}</>;
-    }
+    return <>{t('admissionPeriodIsClosed')}</>;
   }
 };
 
@@ -107,20 +101,10 @@ const renderAdmissionPeriod = ({
 };
 
 const AdmissionPeriodText = ({ examSession }: { examSession: ExamSession }) => {
-  const translateCommon = useCommonTranslation();
   const relevantPeriod =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-  if (relevantPeriod.kind === RegistrationKind.Admission) {
-    return <>{renderAdmissionPeriod(relevantPeriod)}</>;
-  } else {
-    return (
-      <>
-        {translateCommon('postAdmission')}:
-        <br aria-hidden={true} />
-        {renderAdmissionPeriod(relevantPeriod)}
-      </>
-    );
-  }
+
+  return <>{renderAdmissionPeriod(relevantPeriod)}</>;
 };
 
 const PublicExamSessionListingCellsForDesktop = ({
@@ -248,12 +232,12 @@ export const PublicExamSessionListingRow = ({
     getCurrentLang(),
   );
 
-  const { open, availablePlaces, availableQueue } =
+  const { open, availablePlaces } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
+
+  // TODO Different text when registering to queue?
   const availablePlacesText =
     availablePlaces > 0 ? '' + availablePlaces : t('full');
-
-  const registerActionAvailable = open && (availablePlaces || availableQueue);
 
   if (isPhone) {
     return (
@@ -261,7 +245,7 @@ export const PublicExamSessionListingRow = ({
         <PublicExamSessionListingCellsForPhone
           examSession={examSession}
           availablePlacesText={availablePlacesText}
-          registerActionAvailable={!!registerActionAvailable}
+          registerActionAvailable={!!open}
           locationInfo={locationInfo}
         />
       </TableRow>
@@ -272,7 +256,7 @@ export const PublicExamSessionListingRow = ({
         <PublicExamSessionListingCellsForDesktop
           examSession={examSession}
           availablePlacesText={availablePlacesText}
-          registerActionAvailable={!!registerActionAvailable}
+          registerActionAvailable={!!open}
           locationInfo={locationInfo}
         />
       </TableRow>

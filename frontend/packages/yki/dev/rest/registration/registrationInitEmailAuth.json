@@ -46,5 +46,6 @@
     "email": "test@test.com"
   },
   "registration_id": 2,
-  "is_strongly_identified": false
+  "is_strongly_identified": false,
+  "registration_kind": "ADMISSION"
 }

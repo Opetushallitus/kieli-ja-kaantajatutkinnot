@@ -5,6 +5,7 @@ import {
   CertificateLanguage,
   GenderEnum,
   InstructionLanguage,
+  RegistrationKind,
 } from 'enums/app';
 import { ExamSessionResponse } from 'interfaces/examSessions';
 
@@ -41,6 +42,16 @@ export interface PublicEmailRegistration
   ssn?: string;
 }
 
+export interface PublicRegistrationInitPayload {
+  examSessionId: number;
+  registrationKind: RegistrationKind;
+}
+
+export interface PublicRegistrationInitRequest {
+  exam_session_id: number;
+  to_queue: boolean;
+}
+
 export interface PublicRegistrationInitResponse {
   exam_session: ExamSessionResponse;
   registration_id: number;
@@ -54,8 +65,11 @@ export interface PublicRegistrationInitResponse {
     street_address?: string;
     email?: string;
     nationalities?: Array<string>;
+    oid?: string;
+    'external-user-id'?: string;
   };
   is_strongly_identified: boolean;
+  registration_kind: RegistrationKind;
 }
 
 export interface PublicRegistrationInitErrorResponse {
@@ -75,6 +89,11 @@ export function isRegistrationInitErrorResponse(
   }
 
   return 'closed' in error || 'full' in error || 'exists' in error;
+}
+
+export interface PublicRegistrationFormSubmitSuccessResponse {
+  code: string;
+  registration_kind: RegistrationKind;
 }
 
 export interface PublicRegistrationFormSubmitErrorResponse {

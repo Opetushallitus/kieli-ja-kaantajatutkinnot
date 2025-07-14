@@ -1,0 +1,107 @@
+.user-details-page {
+  flex: 1;
+
+  & &__grid-container {
+    display: block;
+
+    &__item-header {
+      @include phone {
+        margin-top: 2rem;
+        padding: 2rem 2rem 0;
+      }
+    }
+
+    div &__item-info {
+      @include phone {
+        padding-top: 1rem;
+      }
+    }
+
+    div &__result-box {
+      @include not-phone {
+        padding: 3rem;
+      }
+
+      @include phone {
+        padding: 2rem;
+      }
+    }
+  }
+
+  & &__info,
+  & &__event {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2.5rem;
+
+    @include phone {
+      @include phone-divider-border-top;
+      @include phone-divider-border-bottom;
+      gap: 1.5rem;
+      padding: 1rem 2rem;
+    }
+
+    &__section {
+      &__heading-title {
+        margin-bottom: 1rem;
+      }
+    }
+
+    &__accordions {
+      padding-bottom: 2rem;
+    }
+  }
+
+  & &__event {
+    border-top: 0.5rem solid $color-secondary;
+  }
+
+  & &__edit-btn {
+    color: $color-secondary-dark;
+    font-weight: normal;
+    letter-spacing: 0;
+    line-height: 1.9rem;
+    margin: 0;
+    text-decoration: underline;
+    text-transform: initial;
+  }
+
+  & &__login-btn {
+    &:hover {
+      background-color: $color-secondary-dark;
+    }
+  }
+
+  & &__icon {
+    &--ok {
+      color: #378703;
+    }
+
+    &--alert {
+      color: #ffcc33;
+    }
+
+    &--cancel {
+      color: #cc3300;
+    }
+
+    &--info {
+      color: #0033cc;
+    }
+  }
+
+  & &__info-box {
+    background-color: $color-blue-200;
+    border-radius: 4px;
+    padding: 2rem;
+
+    @include not-phone {
+      margin: 0;
+    }
+  }
+
+  & &__text--alert {
+    color: #cc3300;
+  }
+}
