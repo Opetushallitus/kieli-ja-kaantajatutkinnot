@@ -34,15 +34,14 @@ export const ExamDetailsPage = ({
   // Redux
   const dispatch = useAppDispatch();
   const { status, examSession } = useAppSelector(examSessionSelector);
-  const { identifyRegistration: identifyRegistrationState } =
-    useAppSelector(registrationSelector);
+  const { initRegistration } = useAppSelector(registrationSelector);
   // React Router
   const params = useParams();
   const [searchParams] = useSearchParams();
 
   const isLoading =
     status === APIResponseStatus.InProgress ||
-    identifyRegistrationState.status === APIResponseStatus.InProgress;
+    initRegistration.status === APIResponseStatus.InProgress;
 
   useEffect(() => {
     dispatch(setActiveStep(PublicRegistrationFormStep.Register));

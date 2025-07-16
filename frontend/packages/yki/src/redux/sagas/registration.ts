@@ -70,17 +70,17 @@ function* initRegistrationSaga(
 }
 
 function* identifyRegistrationSaga(
-  action: PayloadAction<{
-    examSessionId: number;
-    toQueue: boolean;
-  }>,
+  action: PayloadAction<PublicRegistrationInitPayload>,
 ) {
   try {
-    const { examSessionId, toQueue } = action.payload;
     const response: AxiosResponse<PublicRegistrationInitResponse> = yield call(
       axiosInstance.post,
       APIEndpoints.IdentifyRegistration,
-      JSON.stringify({ exam_session_id: examSessionId, to_queue: toQueue }),
+      JSON.stringify(
+        SerializationUtils.serializePublicRegistrationInitRequest(
+          action.payload,
+        ),
+      ),
     );
     const { data } = response;
     yield put(
