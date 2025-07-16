@@ -45,7 +45,7 @@ const RegisterToExamButton = ({
         dispatch(
           initRegistration({
             examSessionId: examSession.id,
-            toQueue: !!toQueue,
+            registrationKind: available_registration_kind,
           }),
         );
       }}

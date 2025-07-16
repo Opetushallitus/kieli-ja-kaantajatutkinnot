@@ -6,6 +6,7 @@ import {
   CustomButton,
   CustomCircularProgress,
   CustomModal,
+  H2,
   H3,
   ManagedPaginatedTable,
   Text,
@@ -17,7 +18,8 @@ import { PublicExamSessionListingHeader } from 'components/registration/examSess
 import { PublicExamSessionListingRow } from 'components/registration/examSession/PublicExamSessionListingRow';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
+import { AppRoutes, RegistrationKind } from 'enums/app';
+import { PublicRegistrationInitError } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
 import {
   initRegistration,
@@ -70,6 +72,8 @@ const DisplayedRowsLabel = ({
 };
 
 const RegistrationInitLoadingModal = () => {
+  const { initRegistration } = useAppSelector(registrationSelector);
+
   return (
     <CustomModal
       data-testid="registration-loading-modal"
@@ -79,10 +83,12 @@ const RegistrationInitLoadingModal = () => {
       aria-describedby="registration-loading-modal-description"
       onCloseModal={() => {}}
     >
-      <div className="columns">
+      <div className="registration-loading-modal__content columns">
         <CustomCircularProgress color={Color.Secondary} />
         <Text id="registration-loading-modal-description">
-          Varataan paikkaa
+          {initRegistration.registrationKind === RegistrationKind.Admission
+            ? 'Tarkistetaan vapaita paikkoja...'
+            : 'Varataan jonopaikkaa...'}
         </Text>
       </div>
     </CustomModal>
@@ -95,6 +101,8 @@ const RegistrationInitErrorModal = ({
   examSessionId: number;
 }) => {
   const dispatch = useAppDispatch();
+  const { initRegistration: initRegistrationState } =
+    useAppSelector(registrationSelector);
 
   return (
     <CustomModal
@@ -105,26 +113,52 @@ const RegistrationInitErrorModal = ({
       aria-describedby="registration-error-modal-description"
       onCloseModal={() => {}}
     >
-      <div className="columns">
-        <Text id="registration-error-modal-description">
-          Paikan varaus epäonnistui
-        </Text>
-        <CustomButton
-          color={Color.Secondary}
-          variant={Variant.Outlined}
-          onClick={() => {
-            dispatch(resetPublicRegistration());
-            dispatch(
-              initRegistration({
-                examSessionId: examSessionId,
-                toQueue: true,
-              }),
-            );
-          }}
-        >
-          Ilmoittaudu jonoon
-        </CustomButton>
-      </div>
+      <>
+        <div className="rows gapped">
+          <H2>Paikan varaus epäonnistui</H2>
+          <Text id="registration-error-modal-description">
+            {initRegistrationState.error ===
+              PublicRegistrationInitError.ExamSessionFull &&
+              'Tilaisuus on täynnä. Voit ilmoittautua jonoon.'}
+            {initRegistrationState.error ===
+              PublicRegistrationInitError.AlreadyRegistered &&
+              'Olet jo ilmoittaunut tutkintoon'}
+            {initRegistrationState.error === PublicRegistrationInitError.Past &&
+              'Ilmoittautuminen on sulkeutunut'}
+            {initRegistrationState.error ===
+              PublicRegistrationInitError.Generic && 'Tuntematon virhe'}
+          </Text>
+        </div>
+        <div className="columns gapped flex-end">
+          <CustomButton
+            color={Color.Secondary}
+            variant={Variant.Outlined}
+            onClick={() => {
+              dispatch(resetPublicRegistration());
+            }}
+          >
+            Sulje
+          </CustomButton>
+          {initRegistrationState.error ===
+            PublicRegistrationInitError.ExamSessionFull && (
+            <CustomButton
+              color={Color.Secondary}
+              variant={Variant.Contained}
+              onClick={() => {
+                dispatch(resetPublicRegistration());
+                dispatch(
+                  initRegistration({
+                    examSessionId: examSessionId,
+                    registrationKind: RegistrationKind.Queue,
+                  }),
+                );
+              }}
+            >
+              Ilmoittaudu jonoon
+            </CustomButton>
+          )}
+        </div>
+      </>
     </CustomModal>
   );
 };

@@ -16,7 +16,6 @@ import {
 import { resetExamSession, storeExamSession } from 'redux/reducers/examSession';
 import {
   acceptCancelRegistration,
-  acceptPublicRegistrationIdentify,
   acceptPublicRegistrationInit,
   acceptPublicRegistrationSubmission,
   cancelRegistration,
@@ -40,7 +39,6 @@ function* initRegistrationSaga(
   action: PayloadAction<PublicRegistrationInitPayload>,
 ) {
   try {
-    const { examSessionId, toQueue } = action.payload;
     const response: AxiosResponse<PublicRegistrationInitResponse> = yield call(
       axiosInstance.post,
       APIEndpoints.InitRegistration,
@@ -72,17 +70,17 @@ function* initRegistrationSaga(
 }
 
 function* identifyRegistrationSaga(
-  action: PayloadAction<{
-    examSessionId: number;
-    toQueue: boolean;
-  }>,
+  action: PayloadAction<PublicRegistrationInitPayload>,
 ) {
   try {
-    const { examSessionId, toQueue } = action.payload;
     const response: AxiosResponse<PublicRegistrationInitResponse> = yield call(
       axiosInstance.post,
       APIEndpoints.IdentifyRegistration,
-      JSON.stringify({ exam_session_id: examSessionId, to_queue: toQueue }),
+      JSON.stringify(
+        SerializationUtils.serializePublicRegistrationInitRequest(
+          action.payload,
+        ),
+      ),
     );
     const { data } = response;
     yield put(
@@ -90,7 +88,6 @@ function* identifyRegistrationSaga(
         SerializationUtils.deserializeExamSessionResponse(data.exam_session),
       ),
     );
-    yield put(acceptPublicRegistrationIdentify(data));
     yield put(acceptPublicRegistrationInit(data));
   } catch (error) {
     if (isAxiosError(error) && error.response) {
