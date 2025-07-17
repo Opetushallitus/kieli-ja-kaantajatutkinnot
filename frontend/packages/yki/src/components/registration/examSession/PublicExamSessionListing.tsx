@@ -73,6 +73,9 @@ const DisplayedRowsLabel = ({
 
 const RegistrationInitLoadingModal = () => {
   const { initRegistration } = useAppSelector(registrationSelector);
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.enrollModal',
+  });
 
   return (
     <CustomModal
@@ -87,8 +90,8 @@ const RegistrationInitLoadingModal = () => {
         <CustomCircularProgress color={Color.Secondary} />
         <Text id="registration-loading-modal-description">
           {initRegistration.registrationKind === RegistrationKind.Admission
-            ? 'Tarkistetaan vapaita paikkoja...'
-            : 'Varataan jonopaikkaa...'}
+            ? t('checkingOpenSeats')
+            : t('reservingQueueSeat')}
         </Text>
       </div>
     </CustomModal>
@@ -103,6 +106,9 @@ const RegistrationInitErrorModal = ({
   const dispatch = useAppDispatch();
   const { initRegistration: initRegistrationState } =
     useAppSelector(registrationSelector);
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.enrollModal',
+  });
 
   return (
     <CustomModal
@@ -118,13 +124,12 @@ const RegistrationInitErrorModal = ({
           <H2>Paikan varaus epäonnistui</H2>
           <Text id="registration-error-modal-description">
             {initRegistrationState.error ===
-              PublicRegistrationInitError.ExamSessionFull &&
-              'Tilaisuus on täynnä. Voit ilmoittautua jonoon.'}
+              PublicRegistrationInitError.ExamSessionFull && t('examIsFull')}
             {initRegistrationState.error ===
               PublicRegistrationInitError.AlreadyRegistered &&
-              'Olet jo ilmoittaunut tutkintoon'}
+              t('alreadyEnrolled')}
             {initRegistrationState.error === PublicRegistrationInitError.Past &&
-              'Ilmoittautuminen on sulkeutunut'}
+              t('examClosed')}
             {initRegistrationState.error ===
               PublicRegistrationInitError.Generic && 'Tuntematon virhe'}
           </Text>
@@ -154,7 +159,7 @@ const RegistrationInitErrorModal = ({
                 );
               }}
             >
-              Ilmoittaudu jonoon
+              {t('enrollToQueue')}
             </CustomButton>
           )}
         </div>
