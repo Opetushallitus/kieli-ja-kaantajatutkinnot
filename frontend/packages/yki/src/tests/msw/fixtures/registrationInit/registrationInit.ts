@@ -9,9 +9,10 @@ export const registrationInitResponse: PublicRegistrationInitResponse = {
     participants: 2,
     office_oid: '1.2.3.4.5',
     registration_start_date: '2023-01-01',
-    registration_end_date: '2024-05-01',
-    session_date: '2024-06-01',
+    registration_end_date: '2026-05-01',
+    session_date: '2026-06-01',
     organizer_oid: '1.2.3.4',
+    open: true,
     id: 1,
     location: [
       {
