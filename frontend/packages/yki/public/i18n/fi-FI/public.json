@@ -109,6 +109,14 @@
         "requestReassessment": "Pyydä tarkistusarviointia"
       },
       "registration": {
+        "enrollModal": {
+          "examIsFull": "Tilaisuus on täynnä. Voit ilmoittautua jonoon.",
+          "alreadyEnrolled": "Olet jo ilmoittaunut tutkintoon",
+          "examClosed": "Ilmoittautuminen on sulkeutunut",
+          "enrollToQueue": "Ilmoittaudu jonoon",
+          "checkingOpenSeats": "Tarkistetaan vapaita paikkoja...",
+          "reservingQueueSeat": "Varataan jonopaikkaa..."
+        },
         "controlButtons": {
           "abortRegistration": "Keskeytä ilmoittautuminen",
           "confirm": "Lähetä"
