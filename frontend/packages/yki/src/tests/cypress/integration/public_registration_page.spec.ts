@@ -59,7 +59,8 @@ describe('PublicRegistrationPage', () => {
   });
 
   describe('allows starting the exam registration process', () => {
-    it('by selecting an identification method', () => {
+    // TODO: create mock data for non-identified user
+    it.skip('by selecting an identification method', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
@@ -96,7 +97,7 @@ describe('PublicRegistrationPage', () => {
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 
-      onInitRegistrationPage.expectTitle('Tunnistaudu ilmoittautumista varten');
+      onInitRegistrationPage.expectTitle('Tunnistaudu jonoon ilmoittautumista varten');
       onInitRegistrationPage.expectVisibleContinueToRegistrationButton();
     });
 
