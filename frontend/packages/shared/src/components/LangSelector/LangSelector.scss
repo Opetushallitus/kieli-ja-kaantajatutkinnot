@@ -5,11 +5,11 @@
   align-items: center;
   display: flex;
 
-  @include mixins.not-phone {
+  @include mixins.desktop-xs-and-up {
     margin-left: 1.5rem;
   }
 
-  @include mixins.phone {
+  @include mixins.mobile {
     background-color: colors.$color-secondary-dark;
     flex-grow: 1;
     justify-content: center;

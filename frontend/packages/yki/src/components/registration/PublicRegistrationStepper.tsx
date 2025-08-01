@@ -22,7 +22,7 @@ export const PublicRegistrationStepper = () => {
     keyPrefix: 'yki.component.registration.stepper',
   });
   const translateCommon = useCommonTranslation();
-  const { isPhone } = useWindowProperties();
+  const { isDesktopXS } = useWindowProperties();
 
   const [params] = useSearchParams();
   const paymentStatus = params.get('status');
@@ -89,7 +89,7 @@ export const PublicRegistrationStepper = () => {
   const phaseText = `${stepValue}/${doneStepNumber}`;
   const mobileAriaLabel = `${getPhaseDescription(stepValue)}`;
 
-  if (isPhone) {
+  if (!isDesktopXS) {
     return (
       <div
         className="columns gapped-xxl public-registration__grid__circular-stepper-container"
