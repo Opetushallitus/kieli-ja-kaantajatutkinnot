@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.12.1] - 2025-08-01
+
+### Changed
+
+- Stack nav links in both Phone and Tablet sizes (aka 'mobile')
+
 ## [1.12.0] - 2025-08-01
 
 ### Changed

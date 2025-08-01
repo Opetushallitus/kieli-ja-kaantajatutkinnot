@@ -3,7 +3,7 @@
 
 .navigation-links {
   ul {
-    @include mixins.phone {
+    @include mixins.mobile {
       flex-direction: column;
       padding: 0;
     }
@@ -16,7 +16,7 @@
     column-gap: 3rem;
     row-gap: 1rem;
 
-    @include mixins.phone {
+    @include mixins.mobile {
       gap: 2rem;
     }
 
@@ -29,7 +29,7 @@
   li {
     padding-bottom: 2rem;
 
-    @include mixins.phone {
+    @include mixins.mobile {
       padding-bottom: 0;
       padding-left: 1rem;
     }
@@ -44,11 +44,11 @@
       color: colors.$color-secondary;
       font-weight: 700;
     }
-    @include mixins.not-phone {
+    @include mixins.desktop-xs-and-up {
       border-bottom: 2px solid colors.$color-secondary;
     }
 
-    @include mixins.phone {
+    @include mixins.mobile {
       border-left: 3px solid colors.$color-secondary;
     }
   }
