@@ -18,9 +18,22 @@ const DescribeUnavailability = ({
     keyPrefix: 'yki.component.registration.unavailable',
   });
 
+  const getUnavailabilityDescription = (descriptionPrefix: string) => {
+    if (descriptionPrefix === 'full') {
+      return (
+        <>
+          <Text>{t(descriptionPrefix + '.description1')}</Text>;
+          <Text>{t(descriptionPrefix + '.description2')}</Text>;
+        </>
+      );
+    }
+
+    return <Text>{t(descriptionPrefix + '.description')}</Text>;
+  };
+
   return (
     <div className="rows gapped">
-      <Text>{t(descriptionPrefix + '.description')}</Text>
+      {getUnavailabilityDescription(descriptionPrefix)}
       <BackToFrontPageButton />
     </div>
   );

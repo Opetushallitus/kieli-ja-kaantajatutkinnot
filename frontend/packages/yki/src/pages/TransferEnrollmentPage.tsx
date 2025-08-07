@@ -157,9 +157,7 @@ const RelocateButton = ({ target }: { target: TransferEnrollmentTarget }) => {
       severity: Severity.Info,
       content: (
         <div className="rows gapped">
-          <Text>
-            Haluatko varmasti siirtää ilmoittautumisesi seuraavaan tutkintoon?
-          </Text>
+          <Text>{t('confirmEnrollment')}</Text>
           <Text>
             <b>{translateCommon('examination')}:</b>{' '}
             {ExamSessionUtils.languageAndLevelText(target)}
@@ -173,10 +171,7 @@ const RelocateButton = ({ target }: { target: TransferEnrollmentTarget }) => {
             <br />{' '}
           </Text>
           <Text>
-            <b>
-              Siirto on lopullinen. Voit siirtää ilmoittautumisesi ainoastaan
-              yhden kerran.
-            </b>
+            <b>{t('description')}</b>
           </Text>
         </div>
       ),
@@ -333,6 +328,9 @@ const SelectNewExamDate = () => {
     ? transferEnrollmentDetails.targets
     : [];
 
+  // TODO: noCandidatesFound: testipaikan sähköpostiosoite tarvitaan
+  // katso käännös
+
   return (
     <Grid className="transfer-enrollment-page__grid-container__item-header">
       {transferTargets.length === 0 && (
@@ -341,6 +339,7 @@ const SelectNewExamDate = () => {
           <Container className="transfer-enrollment-page__info-box">
             <div className="columns gapped-sm">
               <InfoOutlineIcon color={Color.Secondary} />
+
               <Text>{t('noCandidatesFound')}</Text>
             </div>
           </Container>

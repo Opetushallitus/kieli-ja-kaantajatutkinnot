@@ -100,7 +100,11 @@ const InformationBox = () => {
           </div>
         </div>
         <div>
-          <Text>{t('specialArrangements.description')}</Text>
+          <Text>
+            {t('specialArrangements.description1')}{' '}
+            <b>{t('specialArrangements.description2')}</b>{' '}
+            {t('specialArrangements.description3')}
+          </Text>
           <div className="columns gapped-xxs">
             <Link href={t('specialArrangements.url')} target="_blank">
               <Text className="bold">{t('specialArrangements.label')}</Text>

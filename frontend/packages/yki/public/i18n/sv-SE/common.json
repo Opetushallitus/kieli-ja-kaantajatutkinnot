@@ -2,6 +2,7 @@
   "yki": {
     "common": {
       "actions": "Funktioner",
+      "address": "",  
       "appNameAbbreviation": "YKI",
       "appTitle": "Allmänna språkexamina - Utbildningsstyrelsen",
       "back": "Tillbaka",
@@ -28,6 +29,7 @@
       "dates": {
         "dateTimeFormat": "l [kl.] HH:mm"
       },
+      "email": "",
       "error": "Ett oväntat fel uppstod.",
       "errors": {
         "customTextField": {
@@ -118,10 +120,12 @@
         "description": "Du kommer att förlora dina ändringar.",
         "header": "Är du säker på att du vill lämna den här sidan?"
       },
+      "name": "",
       "next": "Följande",
       "no": "Nej",
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen - Till anmälningssidan för YKI-testet",
+      "phoneNumber": "",
       "placesAvailable": "Lediga platser",
       "price": "Pris",
       "privacyStatement": {
@@ -138,6 +142,7 @@
       "registration": "Anmälan",
       "registrationPeriod": "Anmälningstid",
       "specialArrangementsLink": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-behover-du-specialarrangemang",
+      "userRegistrations": "",
       "yes": "Ja",
       "ykiHomepage": {
         "ariaLabel": "Webbplatsen för allmänna språkexamina (oph.fi), öppnas i en ny flik",
@@ -153,6 +158,9 @@
         "evaluationOrderStatus": "Kontrollbedömning",
         "accessibilityStatement": "Tillgänglighetsutlåtande",
         "logoutSuccess": "Utloggning lyckades",
+        "userDetails": "",
+        "transferEnrollment": "",
+        "confirmRegistration": "",
         "notFound": "Sidan hittades inte"
       }
     }

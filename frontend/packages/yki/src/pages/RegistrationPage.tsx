@@ -1,5 +1,5 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Alert, Box, Container, Grid, Link, Paper } from '@mui/material';
+import { Alert, Box, Grid, Link, Paper } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { H1, H2, HeaderSeparator, Text } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
@@ -15,25 +15,6 @@ import {
   selectFilteredPublicExamSessions,
 } from 'redux/selectors/examSessions';
 
-const InformationBox = () => {
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.pages.registrationPage.infoBox',
-  });
-
-  return (
-    <Container className="public-registration-page__info-box">
-      <div>
-        <Text>{t('text')}:</Text>
-        <span className="columns gapped-xxs" style={{ display: 'inline-flex' }}>
-          <Link href={t('link')} target="_blank">
-            <Text>{t('linkText')}</Text>
-          </Link>
-          <OpenInNewIcon />
-        </span>
-      </div>
-    </Container>
-  );
-};
 export const RegistrationPage: FC = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.registrationPage',
@@ -75,7 +56,6 @@ export const RegistrationPage: FC = () => {
         className="public-registration-page__grid-container"
       >
         <Grid className="public-registration-page__grid-container__item-header">
-          <InformationBox />
           <H1 data-testid="public-registration-page__title-heading">
             {t('title')}
           </H1>

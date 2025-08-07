@@ -49,9 +49,7 @@ const PaymentSuccess = () => {
       </div>
       <div>
         <Text>
-          {t('toUserPortal.part1')} {t('toUserPortal.part2')}
-          <br />
-          {t('toUserPortal.part3')}
+          {t('toUserPortal.description')}
           <br />
           {isSuomiFiSession && (
             <Link href={`${APIEndpoints.Authenticate}?toUserPortal=true`}>

@@ -4,11 +4,14 @@
       "cancelRegistrationModal": {
         "cancel": "Avbryt",
         "confirm": "Skicka",
-        "descriptionNotPaid": "Jos perut ilmoittautumisen, et voi palauttaa sitä. Sinun täytyy ilmoittautua uudelleen, jos haluat osallistua YKI-testiin.",
-        "descriptionPaid1": "Jos perut ilmoittautumisen, tutkintomaksua ei palauteta automaattisesti.",
-        "descriptionPaid2": "Voit hakea tutkintomaksun palautusta Opetushallitukselta. Opetushallitus palauttaa tutkintomaksusi, jos hakemuksesi täyttää kaikki lain asettamat ehdot. Jos haluat hakea tutkintomaksun palautusta, lue ohjeet Opetushallituksen verkkosivuilta: Osallistumisen peruminen",
-        "descriptionPaid3": "Jos perut ilmoittautumisen, et voi palauttaa sitä. Sinun täytyy ilmoittautua uudelleen, jos haluat osallistua YKI-testiin.",
-        "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ennen-yki-testia#anchor-osallistumisen-peruminen",
+        "descriptionNotPaid": "",
+        "descriptionPaid1": "",
+        "descriptionPaid2": "",
+        "descriptionPaid3": "",
+        "link": {
+          "label": "",
+          "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ennen-yki-testia#anchor-osallistumisen-peruminen"
+        },
         "title": "Avbryt anmälan",
         "success": "Anmälan har avbrutits"
       },
@@ -109,6 +112,14 @@
         "requestReassessment": "Gör en begäran om kontrollbedömning"
       },
       "registration": {
+        "enrollModal": {
+          "examIsFull": "",
+          "alreadyEnrolled": "",
+          "examClosed": "",
+          "enrollToQueue": "",
+          "checkingOpenSeats": "",
+          "reservingQueueSeat": ""
+        },
         "controlButtons": {
           "abortRegistration": "Avbryt anmälan",
           "confirm": "Skicka"
@@ -165,6 +176,7 @@
           "title": "Examensavgift"
         },
         "registrationButtonLabels": {
+          "enrollToQueue": "",
           "full": "Fullbokat",
           "orderCancellationNotification": "Beställ en notifiering om lediga platser",
           "periodNotOpen": "Anmälningstiden har inte börjat",
@@ -254,22 +266,43 @@
           "title": "Fyll i dina uppgifter",
           "whatsNext": {
             "description": "Efter att du skickat din anmälningsblankett får du ett e-postmeddelande med en länk till betalningen av examensavgiften. Anmälning är bekräftad först när du har betalat examensavgiften.",
+            "queued": {
+              "part1": "",
+              "part2": ""
+            },
             "title": "Vad händer sen?"
           }
         },
         "registrationFormSubmitted": {
           "proceedToPayment": {
-            "confirmation": "Du har skickat anmälningsblanketten för allmän språkexamen (YKI)",
             "dueDateReminder": {
               "text1": "<strong>Viktigt!</strong> E-postmeddelandet innehåller även den sista dagen som du kan betala examensavgiften.",
               "text2": "Betala i tid så du kan delta i YKI-testet."
             },
+            "payImmediately": {
+              "action": "",
+              "text1": "",
+              "text2": ""
+            },
             "paymentLinkEmail": {
-              "text1": "Du får ett e-postmeddelande inom cirka 10 minuter. I meddelandet finns en länk för att betala examensavgiften.",
-              "text2": "Meddelandet kommer från adressen noreply@opintopolku.fi.",
-              "text3": "Anmälan är bekräftad först när du har betalat examensavgiften."
+              "text1": "",
+              "text2": ""
+            },
+            "verifyRegistrationDetails": {
+              "termsAndConditions": {
+                "label": "",
+                "url": ""
+              },
+              "text1": "",
+              "text2": "",
+              "text3": ""
             },
             "title": "Bekräfta anmälan genom att betala examensavgiften"
+          },
+          "queued": {
+            "text1": "",
+            "text2": "",
+            "title": ""
           }
         },
         "stepper": {
@@ -281,6 +314,7 @@
           "phaseNumber": "{{current}} av {{total}}",
           "step": {
             "Done": "Färdig",
+            "EnrollToQueue": "",
             "Identify": "Identifiera dig",
             "Payment": "Betalning",
             "Register": "Anmäl dig"
@@ -320,6 +354,7 @@
             "selectIdentificationMethod": "Välj din identifieringsmetod",
             "suomiFiButtonText": "Identifiera dig via Suomi.fi-tjänsten",
             "title": "Identifiera dig för anmälan",
+            "titleForQueueing": "",
             "withFinnishSSN": {
               "description": "<strong>Identifiera dig via Suomi.fi-tjänsten</strong>",
               "info": "Efter identifieringen tas du automatiskt vidare till anmälningsblanketten."
@@ -341,7 +376,7 @@
             "success": {
               "whatsNext": {
                 "beforeYkiTest": {
-                  "description": "Förbered dig inför examenstillfället genom att läsa anvisningarna för deltagare på Utbildningsstyrelsens webbplats:",
+                  "description": "",
                   "label": "Före YKI-testdagen (oph.fi)",
                   "url": "https://www.oph.fi/sv/utbildning-och-examina/fore-yki-testdagen"
                 },
@@ -353,14 +388,24 @@
                   "label": "Behöver du specialarrangemang? (oph.fi)",
                   "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-behover-du-specialarrangemang"
                 },
-                "title": "Välkommen till allmän språkexamen (YKI)!"
+                "title": "Välkommen till allmän språkexamen (YKI)!",
+                "toUserPortal": {
+                  "link": {
+                    "label": "",
+                    "omaOpintopolkuLabel": ""
+                  },
+                  "description": ""
+                }
               },
               "heading": "Anmälan lyckades!"
             }
           },
           "register": {
             "inProgress": {
-              "heading": "Anmäl dig till allmän språkexamen (YKI)"
+              "heading": {
+                "admission": "",
+                "queue": ""
+              }
             },
             "success": {
               "heading": "Anmälningsblanketten har skickats"
@@ -373,7 +418,8 @@
             "title": "Du har redan anmält dig till ett annat YKI-test på samma testdag"
           },
           "full": {
-            "description": "Det är inte möjligt att anmäla sig just nu. Det finns inga lediga platser.",
+            "description1": "",
+            "description2": "",
             "title": "Testet är fullbokat"
           },
           "generic": {
@@ -394,9 +440,19 @@
             "title": "Anmälningstiden har inte börjat"
           }
         }
+      },
+      "transferEnrollment": {
+        "actions": {
+          "select": ""
+        },
+        "confirmEnrollment": "",
+        "description": ""
       }
     },
     "pages": {
+      "confirmEnrollmentPage": {
+        "heading": ""
+      },
       "evaluationOrderPage": {
         "notFound": "Uppgifterna om kontrollbedömning hittades inte!",
         "title": "Begär kontrollbedömning",
@@ -510,11 +566,6 @@
             "required": "(obligatorisk)"
           }
         },
-        "infoBox": {
-          "text": "Utbildningsstyrelsen har uppdaterat anmälningsvillkoren för allmänna språkexamina (YKI). Läs mer på Utbildningsstyrelsens webbplats",
-          "link": "https://www.oph.fi/sv/nyheter/2024/anmalningsvillkoren-allmanna-sprakexamina-forandras-i-januari-2025",
-          "linkText": "Anmälningsvillkoren för allmänna språkexamina förändras i januari 2025"
-        },
         "labels": {
           "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",
           "excludeNonOpenSessions": "Visa endast examenstillfällen vars anmälan har börjat",
@@ -525,6 +576,118 @@
         },
         "register": "Anmäl dig",
         "title": "Allmänna språkexamina (YKI) - Anmälan"
+      },
+      "transferEnrollmentPage": {
+        "currentEnrollmentDetails": {
+          "heading": "Olet siirtämässä"
+        },
+        "introduction": {
+          "criteria": {
+            "item1": "Uusi testipäivä saa olla enintään vuoden kuluttua alkuperäisestä testipäivästä.",
+            "item2": "Jos seuraavaan saman kielen ja tason YKI-testiin on yli vuosi alkuperäisestä testipäivästä, voit siirtää ilmoittautumisesi seuraavaan saman kielen ja tason YKI-testiin."
+          },
+          "info": "Voit siirtää ilmoittautumisesi yhden kerran saman kielen ja tason YKI-testiin samassa testipaikassa."
+        },
+        "selectNewExamDate": {
+          "actions": {
+            "select": ""
+          },
+          "noCandidatesFound": "",
+          "heading": "Valitse uusi testipäivä"
+        },
+        "title": "Siirrä ilmoittautuminen"
+      },
+      "transferEnrollmentSuccessPage": {
+        "information": {
+          "beforeYkiTest": {
+            "description": "",
+            "label": "Ennen YKI-testia (oph.fi)",
+            "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ennen-testia"
+          },
+          "heading": "Tervetuloa YKI-testiin!",
+          "part1": "Ilmoittautuminen on siirretty. Saat vahvistuksen ilmoittautumisestasi sähköpostilla.",
+          "part2": "Testipaikkasi lähettää lähempänä testipäivää sähköpostiisi tarkemmat ohjeet testiin saapumista varten.",
+          "part3": "Ohjeissa kerrotaan muun muassa testipaikan tarkka sijainti ja kellonaika, jolloin testi alkaa.",
+          "specialArrangements": {
+            "description1": "",
+            "description2": "",
+            "description3": "",
+            "label": "Tarvitsetko erityisjärjestelyjä? (oph.fi)",
+            "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tarvitsetko-erityisjarjestelyja"
+          }
+        },
+        "title": "Ilmoittautumisen siirto onnistui!"
+      },
+      "userDetailsPage": {
+        "expiredLoginLink": {
+          "part1": "Turvallisuussyistä ilmoittautumisen katselun linkit ovat voimassa 14 vuorokautta.",
+          "buttonText": "Tilaa uusi linkki sähköpostiisi",
+          "part2": "Jos linkin tilaus ei onnistu, ota yhteyttä asiakaspalveluumme",
+          "title": "Linkki on vanhentunut"
+        },
+        "contactDetails": {
+          "description": {
+            "part1": "Lähetämme todistuksen sinulle postitse.",
+            "part2": "Tarkista, että olet antanut oikean osoitteen.",
+            "part3": "Jos yhteystiedoissasi on virhe, ilmoita asiasta Opetushallitukselle sähköpostitse osoitteeseen kielitutkinnot@oph.fi"
+          },
+          "heading": "Yhteystietosi",
+          "modify": "Muokkaa yhteystietoja"
+        },
+        "introduction": {
+          "bulletPoints": {
+            "point1": "Voit katsoa omia ilmoittautumisia viimeisen 12 kuukauden ajalta.",
+            "point2": "Voit siirtää ilmoittautumista yhden kerran.",
+            "point3": "Voit perua ilmoittautumisen.",
+            "point4": "Voit katsoa ne tutkinnot, joihin olet jonossa, ja ottaa paikan vastaan jonosta."
+          },
+          "info": "Katso ja muokkaa ilmoittautumisiasi YKI-testeihin."
+        },
+        "notLoggedIn": {
+          "actionsAvailable": "Kun olet kirjautunut, voit katsoa ja muokata ilmoittautumisiasi YKI-testeihin.",
+          "loginRequired": "Et ole kirjautunut palveluun. <strong>Kirjaudu Suomi.fi-tunnistautumisen kautta tai sähköpostistasi löytyvällä kirjautumislinkillä.</strong>",
+          "loginThroughSuomiFi": "Tunnistaudu Suomi.fi:n kautta",
+          "title": "Yleiset kielitutkinnont (YKI) - Kirjautuminen vaaditaan"
+        },
+        "registrations": {
+          "actions": {
+            "cancel": "Peru ilmoittautuminen",
+            "confirm": "Vahvista ilmoittautuminen",
+            "relocate": "Siirrä ilmoittautuminen"
+          },
+          "alreadyTransferredNotification": {
+            "part1": "Olet siirtänyt ilmoittautumisen.",
+            "part2": "Et voi siirtää ilmoittautumista enää toista kertaa."
+          },
+          "examPayment": {
+            "expiresAt": "Eräpäivä {{- date }}",
+            "notPaid": "Maksamatta {{ examFee }}€",
+            "label": "Tutkintomaksu",
+            "paidAt": "Maksettu {{- date }}"
+          },
+          "header": {
+            "cancelled": "Perutut ilmoittautumiset",
+            "past": "Suoritukset ja menneet ilmoittautumiset",
+            "upcoming": "Tulevat ilmoittautumiset"
+          },
+          "liftedFromQueueNotification": {
+            "part1": "Olet saanut paikan YKI-testiin jonosta.",
+            "part2": "Vahvista ilmoittautuminen {{- date }} mennessä",
+            "part3": "tai menetät paikan"
+          },
+          "notPaidNotification": {
+            "part1": "Ilmoittautumista ei ole vielä vahvistettu.",
+            "part2": "Maksa tutkintomaksu niin ilmoittautuminen vahvistetaan.",
+            "part3": "Jos et maksa tutkintomaksua viimeistään eräpäivänä, ilmoittautuminen perutaan."
+          },
+          "state": {
+            "cancelled": "Peruttu",
+            "enrolled": "Ilmoittautunut",
+            "label": "Tila",
+            "queued": "Jonossa (sija {{ positionInQueue }})"
+          }
+        },
+        "title": "Yleiset kielitutkinnot (YKI) - Omat ilmoittautumiset"
       }
     }
   }
