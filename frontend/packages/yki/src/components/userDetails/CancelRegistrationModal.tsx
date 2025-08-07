@@ -1,3 +1,4 @@
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Link } from '@mui/material';
 import { useCallback, useEffect } from 'react';
 import {
@@ -99,12 +100,13 @@ export const CancelRegistrationModal = ({
           {registrationToCancel?.paidAt ? (
             <div className="rows gapped">
               <Text>{t('descriptionPaid1')}</Text>
-              <div>
-                <Text>{t('descriptionPaid2')}</Text>
-                <Link href={t('url')}>
-                  <Text>{t('url')}</Text>
-                </Link>
-              </div>
+              <Text>
+                {t('descriptionPaid2')}{' '}
+                <div className="columns gapped-xs">
+                  <Link href={t('link.url')}>{t('link.label')}</Link>
+                  <OpenInNewIcon />
+                </div>
+              </Text>
               <Text>{t('descriptionPaid3')}</Text>
             </div>
           ) : (
