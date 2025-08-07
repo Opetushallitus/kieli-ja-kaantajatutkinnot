@@ -413,7 +413,7 @@
         },
         "unavailable": {
           "alreadyRegistered": {
-            "description": "Voit ilmoittautua vain yhteen YKI-testiin samana testipäivänä",
+            "description": "Voit ilmoittautua vain yhteen YKI-testiin samana testipäivänä.",
             "title": "Olet jo ilmoittautunut toiseen YKI-testiin samana testipäivänä"
           },
           "generic": {
