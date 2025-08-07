@@ -8,7 +8,7 @@ import { Color, Variant } from 'shared/enums';
 import { usePublicTranslation } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 
-export const ExpiredLoginLinkPage: FC = () => {
+const _ExpiredLoginLinkPage: FC = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage.expiredLoginLink',
   });
