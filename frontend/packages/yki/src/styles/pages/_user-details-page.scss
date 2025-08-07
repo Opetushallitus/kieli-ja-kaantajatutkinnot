@@ -26,6 +26,13 @@
         padding: 2rem;
       }
     }
+
+    &__expired-login-link {
+      @include phone {
+        margin: 2rem 0;
+        padding: 2rem 2rem 0;
+      }
+    }
   }
 
   & &__info,
@@ -68,6 +75,14 @@
   }
 
   & &__login-btn {
+    &:hover {
+      background-color: $color-secondary-dark;
+    }
+  }
+
+  & &__expired-link-btn {
+    max-width: fit-content;
+
     &:hover {
       background-color: $color-secondary-dark;
     }

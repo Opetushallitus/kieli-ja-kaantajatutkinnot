@@ -618,6 +618,12 @@
         "title": "Ilmoittautumisen siirto onnistui!"
       },
       "userDetailsPage": {
+        "expiredLoginLink": {
+          "part1": "Turvallisuussyistä ilmoittautumisen katselun linkit ovat voimassa 14 vuorokautta.",
+          "buttonText": "Tilaa uusi linkki sähköpostiisi",
+          "part2": "Jos linkin tilaus ei onnistu, ota yhteyttä asiakaspalveluumme",
+          "title": "Linkki on vanhentunut"
+        },
         "contactDetails": {
           "description": {
             "part1": "Lähetämme todistuksen sinulle postitse.",

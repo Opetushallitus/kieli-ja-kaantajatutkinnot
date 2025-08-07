@@ -32,6 +32,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
 import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { PersonRegistrations } from 'interfaces/userDetails';
+import { ExpiredLoginLinkPage } from 'pages/ExpiredLoginLinkPage';
 import {
   loadPersonDetails,
   setRegistrationToCancel,
