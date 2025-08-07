@@ -88,7 +88,12 @@ export function isRegistrationInitErrorResponse(
     return false;
   }
 
-  return 'closed' in error || 'full' in error || 'exists' in error;
+  return (
+    'closed' in error ||
+    'full' in error ||
+    'exists' in error ||
+    'registered' in error
+  );
 }
 
 export interface PublicRegistrationFormSubmitSuccessResponse {
