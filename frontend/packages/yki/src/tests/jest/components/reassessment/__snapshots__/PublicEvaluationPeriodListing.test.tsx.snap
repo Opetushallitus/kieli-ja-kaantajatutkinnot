@@ -8,7 +8,7 @@ exports[`PublicEvaluationPeriodListing should render correctly 1`] = `
     heading
   </h2>
   <table
-    class="MuiTable-root MuiTable-stickyHeader  table css-pvu7mv-MuiTable-root"
+    class="MuiTable-root MuiTable-stickyHeader table css-pvu7mv-MuiTable-root"
   >
     <thead
       class="MuiTableHead-root heading-text css-1a7iywq-MuiTableHead-root"
