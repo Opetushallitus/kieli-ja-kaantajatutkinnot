@@ -74,7 +74,8 @@ export const ExamDetailsPage = ({
         dispatch(
           identifyRegistration({
             examSessionId: +params.examSessionId,
-            toQueue: false,
+            // TODO registrationKind not needed when calling /identify, refactor away!
+            registrationKind: RegistrationKind.Admission,
           }),
         );
       }
