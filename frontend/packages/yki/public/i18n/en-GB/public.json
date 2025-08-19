@@ -680,11 +680,17 @@
             "part2": "Maksa tutkintomaksu niin ilmoittautuminen vahvistetaan.",
             "part3": "Jos et maksa tutkintomaksua viimeistään eräpäivänä, ilmoittautuminen perutaan."
           },
+          "past": {
+            "notFound": "Sinulla ei ole suorituksia tai menneitä ilmoittautumisia."
+          },
           "state": {
             "cancelled": "Peruttu",
             "enrolled": "Ilmoittautunut",
             "label": "Tila",
             "queued": "Jonossa (sija {{ positionInQueue }})"
+          },
+          "upcoming": {
+            "notFound": "Sinulla ei ole tulevia ilmoittautumisia."
           }
         },
         "title": "Yleiset kielitutkinnot (YKI) - Omat ilmoittautumiset"

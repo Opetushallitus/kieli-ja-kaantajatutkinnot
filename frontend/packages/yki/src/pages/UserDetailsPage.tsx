@@ -456,22 +456,14 @@ export const UserDetailsPage: FC = () => {
     return <NotLoggedIn />;
   }
 
-  if (!personDetails) {
-    return <></>;
-  }
+  const registrations = personDetails?.registrations || [];
 
-  const canceledRegistrations = filterByState(
-    personDetails.registrations,
-    cancelledStates,
-  );
-  const upcomingAndPastRegistrations = filterByState(
-    personDetails.registrations,
-    [
-      RegistrationStates.Submitted,
-      RegistrationStates.Completed,
-      RegistrationStates.Started,
-    ],
-  );
+  const canceledRegistrations = filterByState(registrations, cancelledStates);
+  const upcomingAndPastRegistrations = filterByState(registrations, [
+    RegistrationStates.Submitted,
+    RegistrationStates.Completed,
+    RegistrationStates.Started,
+  ]);
 
   const upcomingRegistrations = filterByDate(
     upcomingAndPastRegistrations,
@@ -506,28 +498,47 @@ export const UserDetailsPage: FC = () => {
             />
           )}
           <ContactDetails />
-          {upcomingRegistrations.length > 0 && (
-            <div className="margin-top-xxl rows gapped-xxl">
-              <H2 className="user-details-page__info__section__heading-title">
-                {t('registrations.header.upcoming')}
-              </H2>
+          <div
+            className={`margin-top-xxl rows ${
+              upcomingRegistrations.length > 0 ? 'gapped-xxl' : 'gapped'
+            }`}
+          >
+            <H2 className="user-details-page__info__section__heading-title">
+              {t('registrations.header.upcoming')}
+            </H2>
+            {upcomingRegistrations.length > 0 && (
               <Registrations
                 filteredRegistrations={upcomingRegistrations}
                 setIsCancelModalOpen={setIsCancelModalOpen}
               />
-            </div>
-          )}
-          {pastRegistrations.length > 0 && (
-            <div className="margin-top-xxl rows gapped-xxl">
-              <H2 className="user-details-page__info__section__heading-title">
-                {t('registrations.header.past')}
-              </H2>
+            )}
+            {upcomingRegistrations.length == 0 && (
+              <InfoBox>
+                <Text>{t('registrations.upcoming.notFound')}</Text>
+              </InfoBox>
+            )}
+          </div>
+          <div
+            className={`margin-top-xxl rows ${
+              pastRegistrations.length > 0 ? 'gapped-xxl' : 'gapped'
+            }`}
+          >
+            <H2 className="user-details-page__info__section__heading-title">
+              {t('registrations.header.past')}
+            </H2>
+            {pastRegistrations.length > 0 && (
               <Registrations
                 filteredRegistrations={pastRegistrations}
                 setIsCancelModalOpen={setIsCancelModalOpen}
               />
-            </div>
-          )}
+            )}
+            {pastRegistrations.length == 0 && (
+              <InfoBox>
+                <Text>{t('registrations.past.notFound')}</Text>
+              </InfoBox>
+            )}
+          </div>
+
           {canceledRegistrations.length > 0 && (
             <div className="margin-top-xxl rows gapped-xxl">
               <H2 className="user-details-page__info__section__heading-title">

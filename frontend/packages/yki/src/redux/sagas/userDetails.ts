@@ -1,6 +1,6 @@
 import { call, put, takeLatest, takeLeading } from '@redux-saga/core/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, isAxiosError } from 'axios';
 
 import axiosInstance from 'configs/axios';
 import { getCurrentLang } from 'configs/i18n';
@@ -31,7 +31,12 @@ function* loadPersonDetailsSaga() {
       ),
     );
   } catch (error) {
-    yield put(rejectPersonDetails());
+    if (isAxiosError(error) && error.response?.status === 404) {
+      // 404 is a legitimate API response, indicating that logged in user has no registrations in YKI as of yet
+      yield put(storePersonDetails());
+    } else {
+      yield put(rejectPersonDetails());
+    }
   }
 }
 

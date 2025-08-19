@@ -29,7 +29,10 @@ const userDetailsSlice = createSlice({
     rejectPersonDetails(state) {
       state.status = APIResponseStatus.Error;
     },
-    storePersonDetails(state, action: PayloadAction<PersonDetails>) {
+    storePersonDetails(
+      state,
+      action: PayloadAction<PersonDetails | undefined>,
+    ) {
       state.status = APIResponseStatus.Success;
       state.personDetails = action.payload;
     },
