@@ -2,6 +2,7 @@ package fi.oph.vkt.service;
 
 import static fi.oph.vkt.util.LocalisationUtil.localeFI;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.vkt.api.dto.integration.PartialExamsDTO;
@@ -66,9 +67,7 @@ public class RegisterEnrollmentService {
     final String registerUrl = environment.getRequiredProperty("app.register.url");
 
     enrollmentsCombined.addAll(enrollments);
-
-    // TODO enabled HTT enrollments when supported by register
-    //enrollmentsCombined.addAll(enrollmentAppointments);
+    enrollmentsCombined.addAll(enrollmentAppointments);
 
     enrollmentsCombined.forEach(enrollment -> {
       final String examDate;
@@ -146,7 +145,7 @@ public class RegisterEnrollmentService {
         .builder()
         .kieli(language)
         .tyyppi("valtionhallinnonkielitutkinto")
-        //.organisaatioOid(examinerOid)
+        .organisaatioOid(examinerOid)
         .lahdejarjestelmanId(sourceDTO)
         .taitotaso(level)
         .osakokeet(partialExamsDTOS)
@@ -158,6 +157,7 @@ public class RegisterEnrollmentService {
         .suoritus(enrollmentDTO)
         .build();
       final ObjectMapper objectMapper = new ObjectMapper();
+      objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
       final String bodyJson;
 
       try {
