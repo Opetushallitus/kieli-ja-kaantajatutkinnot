@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -97,32 +98,30 @@ public class RegisterEnrollmentServiceTest {
     );
     registerEnrollmentService.sync();
 
-    verify(casClient, atLeastOnce())
+    verify(casClient, times(1))
       .executeBlocking(
         argThat(r -> {
           final String actual = r.getStringData();
-          final String expected = getMockSyncRequest1().replace("[id]", "ET-" + enrollment.getId()).trim();
+          final String expected1 = getMockSyncRequest1().replace("[id]", "ET-" + enrollment.getId()).trim();
 
           return (
             actual != null &&
-            actual.trim().equals(expected) &&
+            actual.trim().equals(expected1) &&
             r.getUrl().equals("https://foo.bar/kios") &&
             r.getMethod().equals("PUT") &&
             r.getHeaders().get("Content-Type").equals("application/json")
           );
         })
       );
-    // TODO enabled HTT enrollments when supported by register
-    /*
-    verify(casClient, atLeastOnce())
+    verify(casClient, times(1))
       .executeBlocking(
         argThat(r -> {
           final String actual = r.getStringData();
-          final String expected = getMockSyncRequest2().replace("[id]", "HTT-" + enrollmentAppointment.getId()).trim();
+          final String expected2 = getMockSyncRequest2().replace("[id]", "HTT-" + enrollmentAppointment.getId()).trim();
 
           return (
             actual != null &&
-            actual.trim().equals(expected) &&
+            actual.trim().equals(expected2) &&
             r.getUrl().equals("https://foo.bar/kios") &&
             r.getMethod().equals("PUT") &&
             r.getHeaders().get("Content-Type").equals("application/json")
@@ -131,9 +130,6 @@ public class RegisterEnrollmentServiceTest {
       );
     verify(casClient, times(2)).executeBlocking(any());
     assertNotNull(enrollmentAppointment.getLastSyncAt());
-     */
-    verify(casClient, times(1)).executeBlocking(any());
-
     assertNotNull(enrollment.getLastSyncAt());
   }
 

@@ -157,7 +157,6 @@ public class RegisterEnrollmentService {
         .suoritus(enrollmentDTO)
         .build();
       final ObjectMapper objectMapper = new ObjectMapper();
-      objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
       final String bodyJson;
 
       try {
