@@ -5,6 +5,8 @@ import static fi.oph.vkt.util.LocalisationUtil.localeFI;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fi.oph.vkt.api.dto.integration.GradeCodeDTO;
+import fi.oph.vkt.api.dto.integration.GradeDTO;
 import fi.oph.vkt.api.dto.integration.PartialExamsDTO;
 import fi.oph.vkt.api.dto.integration.RegisterEnrollmentDTO;
 import fi.oph.vkt.api.dto.integration.RegisterPersonDTO;
@@ -25,8 +27,10 @@ import fi.oph.vkt.util.LocalisationUtil;
 import fi.oph.vkt.util.PersonUtil;
 import fi.vm.sade.javautils.nio.cas.CasClient;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +56,8 @@ public class RegisterEnrollmentService {
   public static final String WRITING_PARTIAL_EXAM = "kirjoittaminen";
   public static final String READING_COMPREHENSION_PARTIAL_EXAM = "tekstinymmartaminen";
   public static final String SPEECH_COMPREHENSION_PARTIAL_EXAM = "puheenymmartaminen";
+  public static final String LEVEL_EXCELLENT = "erinomainen";
+  public static final String LEVEL_GOOD_AND_SATISFACTORY = "hyvajatyydyttava";
 
   private static final Logger LOG = LoggerFactory.getLogger(RegisterEnrollmentService.class);
   private final CasClient registerClient;
@@ -75,20 +81,20 @@ public class RegisterEnrollmentService {
       final String id;
       final String level;
       final String examinerOid;
-      Map<String, String> grades = new HashMap<>();
+      Map<String, GradeDTO> grades = new HashMap<>();
       if (enrollment instanceof Enrollment) {
         final ExamEvent examEvent = ((Enrollment) enrollment).getExamEvent();
         examDate = DateUtil.formatOptionalDate(examEvent.getDate());
         language = examEvent.getLanguage().toString();
         id = "ET-" + ((Enrollment) enrollment).getId();
-        level = "erinomainen";
+        level = LEVEL_EXCELLENT;
         examinerOid = null;
       } else {
         final ExaminerExamEvent examEvent = ((EnrollmentAppointment) enrollment).getExaminerExamEvent();
         id = "HTT-" + ((EnrollmentAppointment) enrollment).getId();
         examDate = DateUtil.formatOptionalDate(examEvent.getDate());
         language = examEvent.getLanguage().toString();
-        level = "hyva-ja-tyydyttava";
+        level = LEVEL_GOOD_AND_SATISFACTORY;
         examinerOid = examEvent.getExaminer().getOid();
         grades = getGrades((EnrollmentAppointment) enrollment);
       }
@@ -145,7 +151,7 @@ public class RegisterEnrollmentService {
         .builder()
         .kieli(language)
         .tyyppi("valtionhallinnonkielitutkinto")
-        .organisaatioOid(examinerOid)
+        .suorituksenVastaanottaja(examinerOid)
         .lahdejarjestelmanId(sourceDTO)
         .taitotaso(level)
         .osakokeet(partialExamsDTOS)
@@ -157,6 +163,7 @@ public class RegisterEnrollmentService {
         .suoritus(enrollmentDTO)
         .build();
       final ObjectMapper objectMapper = new ObjectMapper();
+      objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
       final String bodyJson;
 
       try {
@@ -184,7 +191,9 @@ public class RegisterEnrollmentService {
       final String responseBody = response.getResponseBody();
 
       if (response.getStatusCode() == HttpStatus.OK.value()) {
-        enrollment.setLastSyncAt(LocalDateTime.now());
+        // Must add 10 seconds to make sure last_sync is greater than modified_at
+        enrollment.setLastSyncAt(LocalDateTime.now().plusSeconds(10));
+
         if (enrollment instanceof EnrollmentAppointment) {
           enrollmentAppointmentRepository.saveAndFlush((EnrollmentAppointment) enrollment);
         } else {
@@ -205,8 +214,8 @@ public class RegisterEnrollmentService {
     });
   }
 
-  private Map<String, String> getGrades(final EnrollmentAppointment enrollment) {
-    final Map<String, String> grades = new HashMap<>();
+  private Map<String, GradeDTO> getGrades(final EnrollmentAppointment enrollment) {
+    final Map<String, GradeDTO> grades = new HashMap<>();
     final EnrollmentGrade enrollmentGrade = enrollment.getGrade();
 
     if (enrollmentGrade == null) {
@@ -216,23 +225,35 @@ public class RegisterEnrollmentService {
     if (enrollmentGrade.getReadingComprehensionPartialExamGrade() != null) {
       grades.put(
         READING_COMPREHENSION_PARTIAL_EXAM,
-        translateGrade(enrollmentGrade.getReadingComprehensionPartialExamGrade())
+        getGradeDto(
+          enrollmentGrade.getReadingComprehensionPartialExamGrade(),
+          enrollmentGrade.getModifiedAt().toLocalDate()
+        )
       );
     }
 
     if (enrollmentGrade.getSpeechComprehensionPartialExamGrade() != null) {
       grades.put(
         SPEECH_COMPREHENSION_PARTIAL_EXAM,
-        translateGrade(enrollmentGrade.getSpeechComprehensionPartialExamGrade())
+        getGradeDto(
+          enrollmentGrade.getSpeechComprehensionPartialExamGrade(),
+          enrollmentGrade.getModifiedAt().toLocalDate()
+        )
       );
     }
 
     if (enrollmentGrade.getSpeakingPartialExamGrade() != null) {
-      grades.put(SPEAKING_PARTIAL_EXAM, translateGrade(enrollmentGrade.getSpeakingPartialExamGrade()));
+      grades.put(
+        SPEAKING_PARTIAL_EXAM,
+        getGradeDto(enrollmentGrade.getSpeakingPartialExamGrade(), enrollmentGrade.getModifiedAt().toLocalDate())
+      );
     }
 
     if (enrollmentGrade.getWritingPartialExamGrade() != null) {
-      grades.put(WRITING_PARTIAL_EXAM, translateGrade(enrollmentGrade.getWritingPartialExamGrade()));
+      grades.put(
+        WRITING_PARTIAL_EXAM,
+        getGradeDto(enrollmentGrade.getWritingPartialExamGrade(), enrollmentGrade.getModifiedAt().toLocalDate())
+      );
     }
 
     return grades;
@@ -246,7 +267,14 @@ public class RegisterEnrollmentService {
       .setRequestTimeout(Duration.ofMinutes(2));
   }
 
-  private String translateGrade(final EnrollmentGradeType grade) {
-    return LocalisationUtil.translate(localeFI, "grade." + grade.toString());
+  private GradeDTO getGradeDto(final EnrollmentGradeType grade, final LocalDate date) {
+    final String koodiarvo =
+      switch (grade) {
+        case GOOD -> "hyva";
+        case FAILED -> "hylatty";
+        case SATISFACTORY -> "tyydyttava";
+      };
+
+    return GradeDTO.builder().arvosana(koodiarvo).paivamaara(DateUtil.formatOptionalDate(date)).build();
   }
 }

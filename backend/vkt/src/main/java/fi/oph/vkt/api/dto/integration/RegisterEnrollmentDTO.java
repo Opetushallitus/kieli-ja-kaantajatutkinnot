@@ -9,7 +9,7 @@ import lombok.NonNull;
 public record RegisterEnrollmentDTO(
   @NonNull @NotNull String taitotaso,
   @NonNull @NotNull String kieli,
-  String organisaatioOid,
+  String suorituksenVastaanottaja,
   @NonNull @NotNull List<PartialExamsDTO> osakokeet,
   @NonNull @NotNull SourceDTO lahdejarjestelmanId,
   @NonNull @NotNull String tyyppi
