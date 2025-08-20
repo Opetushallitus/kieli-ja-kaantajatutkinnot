@@ -1,11 +1,8 @@
 package fi.oph.vkt.service;
 
-import static fi.oph.vkt.util.LocalisationUtil.localeFI;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fi.oph.vkt.api.dto.integration.GradeCodeDTO;
 import fi.oph.vkt.api.dto.integration.GradeDTO;
 import fi.oph.vkt.api.dto.integration.PartialExamsDTO;
 import fi.oph.vkt.api.dto.integration.RegisterEnrollmentDTO;
