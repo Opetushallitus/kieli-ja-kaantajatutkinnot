@@ -20,7 +20,6 @@ import fi.oph.vkt.model.type.EnrollmentGradeType;
 import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.util.DateUtil;
-import fi.oph.vkt.util.LocalisationUtil;
 import fi.oph.vkt.util.PersonUtil;
 import fi.vm.sade.javautils.nio.cas.CasClient;
 import java.time.Duration;
