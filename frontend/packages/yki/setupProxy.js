@@ -341,6 +341,7 @@ const getRegistrationTransferDetails = () => {
       session_date: '2025-06-10',
       location: locations,
       is_transferable: true,
+      contact_email: 'ykitesti@foobar.invalid',
       targets: [
         {
           id: 689,

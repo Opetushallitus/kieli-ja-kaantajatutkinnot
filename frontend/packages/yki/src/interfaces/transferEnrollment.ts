@@ -15,6 +15,7 @@ export interface TransferEnrollmentTargetResponse
 
 export interface TransferEnrollmentDetails extends TransferEnrollmentCommon {
   is_transferable: boolean;
+  contact_email: string;
   targets: Array<TransferEnrollmentTarget>;
 }
 

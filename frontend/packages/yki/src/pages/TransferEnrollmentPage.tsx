@@ -328,9 +328,6 @@ const SelectNewExamDate = () => {
     ? transferEnrollmentDetails.targets
     : [];
 
-  // TODO: noCandidatesFound: testipaikan sähköpostiosoite tarvitaan
-  // katso käännös
-
   return (
     <Grid className="transfer-enrollment-page__grid-container__item-header">
       {transferTargets.length === 0 && (
@@ -340,7 +337,11 @@ const SelectNewExamDate = () => {
             <div className="columns gapped-sm">
               <InfoOutlineIcon color={Color.Secondary} />
 
-              <Text>{t('noCandidatesFound')}</Text>
+              <Text>
+                {t('noCandidatesFound', {
+                  email: transferEnrollmentDetails.contact_email,
+                })}
+              </Text>
             </div>
           </Container>
         </div>
