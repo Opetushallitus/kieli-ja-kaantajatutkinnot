@@ -443,10 +443,13 @@
       },
       "transferEnrollment": {
         "actions": {
-          "select": ""
+          "cancel": "",
+          "confirm": ""
         },
-        "confirmEnrollment": "",
-        "description": ""
+        "confirmTransfer": "",
+        "description": "",
+        "select": "",
+        "title": ""
       }
     },
     "pages": {

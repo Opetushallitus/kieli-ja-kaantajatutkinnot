@@ -132,7 +132,7 @@ const RelocateButton = ({ target }: { target: TransferEnrollmentTarget }) => {
   const dispatch = useAppDispatch();
   const { isPhone } = useWindowProperties();
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.transferEnrollment.actions',
+    keyPrefix: 'yki.component.transferEnrollment',
   });
   const translateCommon = useCommonTranslation();
   const { showDialog } = useDialog();
@@ -153,11 +153,11 @@ const RelocateButton = ({ target }: { target: TransferEnrollmentTarget }) => {
     const lang = getCurrentLang();
     const locationInfo = ExamSessionUtils.getLocationInfo(target, lang);
     showDialog({
-      title: 'Vahvista siirto',
+      title: t('title'),
       severity: Severity.Info,
       content: (
         <div className="rows gapped">
-          <Text>{t('confirmEnrollment')}</Text>
+          <Text>{t('confirmTransfer')}</Text>
           <Text>
             <b>{translateCommon('examination')}:</b>{' '}
             {ExamSessionUtils.languageAndLevelText(target)}
@@ -177,12 +177,12 @@ const RelocateButton = ({ target }: { target: TransferEnrollmentTarget }) => {
       ),
       actions: [
         {
-          title: 'Kyllä, siirrän',
+          title: t('actions.confirm'),
           variant: Variant.Outlined,
           action: relocate,
         },
         {
-          title: 'En siirrä',
+          title: t('actions.cancel'),
           variant: Variant.Contained,
         },
       ],

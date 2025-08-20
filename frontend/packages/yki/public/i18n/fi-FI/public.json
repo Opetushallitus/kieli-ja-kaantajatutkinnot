@@ -443,10 +443,13 @@
       },
       "transferEnrollment": {
         "actions": {
-          "select": "Valitse"
+          "cancel": "En siirrä",
+          "confirm": "Kyllä, siirrän"
         },
-        "confirmEnrollment": "Haluatko varmasti siirtää ilmoittautumisesi seuraavaan YKI-testiin?",
-        "description": "Siirto on lopullinen. Voit siirtää ilmoittautumisen vain yhden kerran."
+        "confirmTransfer": "Haluatko varmasti siirtää ilmoittautumisesi seuraavaan YKI-testiin?",
+        "description": "Siirto on lopullinen. Voit siirtää ilmoittautumisen vain yhden kerran.",
+        "select": "Valitse",
+        "title": "Siirrä ilmoittautuminen"
       }
     },
     "pages": {
