@@ -76,6 +76,7 @@ public class RegisterEnrollmentService {
       final String id;
       final String level;
       final String examinerOid;
+      final String examMunicipality;
       Map<String, GradeDTO> grades = new HashMap<>();
       if (enrollment instanceof Enrollment) {
         final ExamEvent examEvent = ((Enrollment) enrollment).getExamEvent();
@@ -84,6 +85,7 @@ public class RegisterEnrollmentService {
         id = "ET-" + ((Enrollment) enrollment).getId();
         level = LEVEL_EXCELLENT;
         examinerOid = null;
+        examMunicipality = null;
       } else {
         final ExaminerExamEvent examEvent = ((EnrollmentAppointment) enrollment).getExaminerExamEvent();
         id = "HTT-" + ((EnrollmentAppointment) enrollment).getId();
@@ -92,6 +94,7 @@ public class RegisterEnrollmentService {
         level = LEVEL_GOOD_AND_SATISFACTORY;
         examinerOid = examEvent.getExaminer().getOid();
         grades = getGrades((EnrollmentAppointment) enrollment);
+        examMunicipality = examEvent.getMunicipality() != null ? examEvent.getMunicipality().getCode() : null;
       }
 
       final RegisterPersonDTO personDTO = PersonUtil.createRegistryPersonDTO(enrollment.getPerson());
@@ -147,6 +150,7 @@ public class RegisterEnrollmentService {
         .kieli(language)
         .tyyppi("valtionhallinnonkielitutkinto")
         .suorituksenVastaanottaja(examinerOid)
+        .suorituspaikkakunta(examMunicipality)
         .lahdejarjestelmanId(sourceDTO)
         .taitotaso(level)
         .osakokeet(partialExamsDTOS)

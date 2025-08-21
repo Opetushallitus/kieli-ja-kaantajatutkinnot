@@ -24,6 +24,7 @@ import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
+import fi.oph.vkt.util.DateUtil;
 import fi.vm.sade.javautils.nio.cas.CasClient;
 import jakarta.annotation.Resource;
 import java.io.IOException;
@@ -117,7 +118,11 @@ public class RegisterEnrollmentServiceTest {
       .executeBlocking(
         argThat(r -> {
           final String actual = r.getStringData();
-          final String expected2 = getMockSyncRequest2().replace("[id]", "HTT-" + enrollmentAppointment.getId()).trim();
+          final String today = DateUtil.formatOptionalDate(LocalDate.now());
+          final String expected2 = getMockSyncRequest2()
+            .replace("[id]", "HTT-" + enrollmentAppointment.getId())
+            .replace("[date]", today)
+            .trim();
 
           return (
             actual != null &&
