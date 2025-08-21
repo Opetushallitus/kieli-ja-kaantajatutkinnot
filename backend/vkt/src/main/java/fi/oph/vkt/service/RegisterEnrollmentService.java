@@ -97,6 +97,14 @@ public class RegisterEnrollmentService {
         examMunicipality = examEvent.getMunicipality() != null ? examEvent.getMunicipality().getCode() : null;
       }
 
+      // Sanity check. In production there should always
+      // be person associated with enrollment but not
+      // in test due to faulty demo data
+      if (enrollment.getPerson() == null) {
+        LOG.error(String.format("Sync failed. No person for enrollment (%s)", id));
+        return;
+      }
+
       final RegisterPersonDTO personDTO = PersonUtil.createRegistryPersonDTO(enrollment.getPerson());
       final SourceDTO sourceDTO = SourceDTO.builder().id(id).lahde("KIOS").build();
       final List<PartialExamsDTO> partialExamsDTOS = new ArrayList<>();

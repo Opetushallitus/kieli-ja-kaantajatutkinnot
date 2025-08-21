@@ -32,8 +32,7 @@ public interface EnrollmentRepository extends BaseRepository<Enrollment> {
     "SELECT e" +
     " FROM Enrollment e" +
     " WHERE e.status = fi.oph.vkt.model.type.EnrollmentStatus.COMPLETED" +
-    " AND e.lastSyncAt IS NULL OR e.lastSyncAt < e.modifiedAt " +
-    " AND e.id = 63"
+    " AND e.lastSyncAt IS NULL OR e.lastSyncAt < e.modifiedAt "
   )
   List<Enrollment> findEnrollmentsForSyncToRegister();
 }
