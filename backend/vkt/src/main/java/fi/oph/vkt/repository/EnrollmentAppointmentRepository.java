@@ -41,7 +41,7 @@ public interface EnrollmentAppointmentRepository extends BaseRepository<Enrollme
     "SELECT e" +
     " FROM EnrollmentAppointment e" +
     " WHERE e.status = fi.oph.vkt.model.type.EnrollmentAppointmentStatus.COMPLETED" +
-    " AND e.lastSyncAt IS NULL OR e.lastSyncAt < e.modifiedAt"
+    " AND (e.lastSyncAt IS NULL OR e.lastSyncAt < e.modifiedAt)"
   )
   List<EnrollmentAppointment> findEnrollmentsForSyncToRegister();
 }
