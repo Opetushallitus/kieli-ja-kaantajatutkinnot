@@ -13,7 +13,7 @@
 
     div &__item-info {
       @include phone {
-        padding-top: 1rem;
+        padding: 1rem;
       }
     }
 
@@ -52,6 +52,9 @@
     &__section {
       &__heading-title {
         margin-bottom: 1rem;
+        @include phone {
+          margin: 1rem;
+        }
       }
     }
 
