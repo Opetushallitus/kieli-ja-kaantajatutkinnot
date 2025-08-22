@@ -82,12 +82,12 @@ const registrationSlice = createSlice({
           const { closed, full, registered } = action.payload.data.error;
           if (closed) {
             state.initRegistration.error = PublicRegistrationInitError.Past;
-          } else if (full) {
-            state.initRegistration.error =
-              PublicRegistrationInitError.ExamSessionFull;
           } else if (registered) {
             state.initRegistration.error =
               PublicRegistrationInitError.AlreadyRegistered;
+          } else if (full) {
+            state.initRegistration.error =
+              PublicRegistrationInitError.ExamSessionFull;
           } else {
             state.initRegistration.error = PublicRegistrationInitError.Generic;
           }
