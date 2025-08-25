@@ -37,6 +37,7 @@ import {
   loadPersonDetails,
   setRegistrationToCancel,
 } from 'redux/reducers/userDetails';
+import { sessionSelector } from 'redux/selectors/session';
 import { userDetailsSelector } from 'redux/selectors/userDetails';
 import { ExamSessionUtils } from 'utils/examSession';
 
@@ -443,6 +444,7 @@ export const UserDetailsPage: FC = () => {
   });
 
   const dispatch = useAppDispatch();
+  const { loggedInSession } = useAppSelector(sessionSelector);
   const { status, personDetails, registrationToCancel } =
     useAppSelector(userDetailsSelector);
 
@@ -469,7 +471,29 @@ export const UserDetailsPage: FC = () => {
     upcomingAndPastRegistrations,
     true,
   );
+
   const pastRegistrations = filterByDate(upcomingAndPastRegistrations, false);
+
+  const renderBulletpoints = () => {
+    if (loggedInSession?.['auth-method'] === 'EMAIL') {
+      if (
+        upcomingRegistrations[0]?.positionInQueue ||
+        upcomingRegistrations[0]?.liftedFromQueueAt
+      ) {
+        return ['point5', 'point6'].map((point, i) => (
+          <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
+        ));
+      } else {
+        return ['point2', 'point4'].map((point, i) => (
+          <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
+        ));
+      }
+    }
+
+    return ['point1', 'point2', 'point3', 'point4'].map((point, i) => (
+      <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
+    ));
+  };
 
   return (
     <Box className="user-details-page">
@@ -484,9 +508,7 @@ export const UserDetailsPage: FC = () => {
           <HeaderSeparator />
           <Text>{t('introduction.info')}</Text>
           <Typography className="margin-top-sm" variant="body1" component="ul">
-            {['point1', 'point2', 'point3', 'point4'].map((point, i) => (
-              <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
-            ))}
+            {renderBulletpoints()}
           </Typography>
         </Grid>
         <Grid className="user-details-page__grid-container__item-info">

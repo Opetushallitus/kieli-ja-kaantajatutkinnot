@@ -643,7 +643,9 @@
             "point1": "Voit katsoa omia ilmoittautumisia viimeisen 12 kuukauden ajalta.",
             "point2": "Voit siirtää ilmoittautumista yhden kerran.",
             "point3": "Voit perua ilmoittautumisen.",
-            "point4": "Voit katsoa ne tutkinnot, joihin olet jonossa, ja ottaa paikan vastaan jonosta."
+            "point4": "Voit katsoa ne tutkinnot, joihin olet jonossa, ja ottaa paikan vastaan jonosta.",
+            "point5": "If a place in the YKI test opens up, you can accept it.",
+            "point6": "You can cancel your waiting list registration."
           },
           "info": "Katso ja muokkaa ilmoittautumisiasi YKI-testeihin."
         },
