@@ -500,9 +500,7 @@
           }
         },
         "infoBox": {
-          "text": "The Finnish National Agency for Education has updated the terms and conditions for registering for YKI tests. Read more on their website",
-          "link": "https://www.oph.fi/fi/uutiset/2024/yki-ilmoittautumisen-ehdot-muuttuvat-tammikuussa-2025",
-          "linkText": "Terms and conditions for registering for YKI tests changing in January 2025"
+          "text": "The registration period for the YKI test on 3 October 2025 will end early, on Tuesday 2 September 2025 at 16:00, due to an update to the registration system. We apologize for the inconvenience."
         },
         "labels": {
           "excludeFullSessions": "Show only the tests that have available seats",
