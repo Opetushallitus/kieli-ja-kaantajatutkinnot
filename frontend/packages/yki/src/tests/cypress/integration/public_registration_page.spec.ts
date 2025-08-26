@@ -142,7 +142,7 @@ describe('PublicRegistrationPage', () => {
         .click();
 
       onPublicRegistrationPage.alertModalContains(
-        'Tilaisuus on täynnä. Voit ilmoittautua jonoon.',
+        'YKI-testi on täynnä. Voit ilmoittautua jonoon.'
       );
     });
 
