@@ -31,7 +31,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.search();
-      onPublicRegistrationPage.expectResultsCount(10);
+      onPublicRegistrationPage.expectResultsCount(13);
     });
 
     it('can filter by current availability', () => {
@@ -39,17 +39,17 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
       onPublicRegistrationPage.search();
-      onPublicRegistrationPage.expectResultsCount(3);
+      onPublicRegistrationPage.expectResultsCount(6);
       onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
       onPublicRegistrationPage.search();
-      onPublicRegistrationPage.expectResultsCount(2);
+      onPublicRegistrationPage.expectResultsCount(5);
     });
 
     it('can filter by exam language and level', () => {
       onPublicRegistrationPage.selectExamLanguage('suomi');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.search();
-      onPublicRegistrationPage.expectResultsCount(9);
+      onPublicRegistrationPage.expectResultsCount(12);
 
       onPublicRegistrationPage.selectExamLevel('ylin taso');
       onPublicRegistrationPage.search();
@@ -59,8 +59,7 @@ describe('PublicRegistrationPage', () => {
   });
 
   describe('allows starting the exam registration process', () => {
-    // TODO: create mock data for non-identified user
-    it.skip('by selecting an identification method', () => {
+    it('by selecting an identification method', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
@@ -72,7 +71,9 @@ describe('PublicRegistrationPage', () => {
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 
-      onInitRegistrationPage.expectTitle('Tunnistaudu ilmoittautumista varten');
+      onInitRegistrationPage.expectTitle(
+        'Tunnistaudu jonoon ilmoittautumista varten',
+      );
     });
 
     before(() => {
@@ -101,6 +102,65 @@ describe('PublicRegistrationPage', () => {
         'Tunnistaudu jonoon ilmoittautumista varten',
       );
       onInitRegistrationPage.expectVisibleContinueToRegistrationButton();
+    });
+
+    after(() => {
+      worker.stop();
+      worker.resetHandlers();
+      worker.start();
+    });
+  });
+
+  describe('does not allow starting the exam registration process', () => {
+    it('when already registered', () => {
+      onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
+      onPublicRegistrationPage.selectExamLevel('kaikki tasot');
+      onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
+      onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
+      onPublicRegistrationPage.search();
+
+      onPublicRegistrationPage
+        .getResultRowsNth(2)
+        .findByRole('button', { name: /Ilmoittaudu/ })
+        .click();
+
+      onPublicRegistrationPage.alertModalContains(
+        'Olet jo ilmoittaunut tutkintoon',
+      );
+    });
+
+    it('when full', () => {
+      onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
+      onPublicRegistrationPage.selectExamLevel('kaikki tasot');
+      onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
+      onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
+      onPublicRegistrationPage.search();
+
+      onPublicRegistrationPage
+        .getResultRowsNth(3)
+        .findByRole('button', { name: /Ilmoittaudu/ })
+        .click();
+
+      onPublicRegistrationPage.alertModalContains(
+        'Tilaisuus on täynnä. Voit ilmoittautua jonoon.',
+      );
+    });
+
+    it('when closed', () => {
+      onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
+      onPublicRegistrationPage.selectExamLevel('kaikki tasot');
+      onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
+      onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
+      onPublicRegistrationPage.search();
+
+      onPublicRegistrationPage
+        .getResultRowsNth(4)
+        .findByRole('button', { name: /Ilmoittaudu/ })
+        .click();
+
+      onPublicRegistrationPage.alertModalContains(
+        'Ilmoittautuminen on sulkeutunut',
+      );
     });
 
     after(() => {

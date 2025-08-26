@@ -122,7 +122,10 @@ const RegistrationInitErrorModal = ({
       <>
         <div className="rows gapped">
           <H2>{t('title')}</H2>
-          <Text id="registration-error-modal-description">
+          <Text
+            id="registration-error-modal-description"
+            data-testid="registration-error-modal-description"
+          >
             {initRegistrationState.error ===
               PublicRegistrationInitError.ExamSessionFull && t('examIsFull')}
             {initRegistrationState.error ===

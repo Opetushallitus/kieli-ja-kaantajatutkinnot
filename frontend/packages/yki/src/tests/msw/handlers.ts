@@ -99,7 +99,7 @@ export const handlers = [
     async ({ request }) => {
       const { exam_session_id } = await request.json();
       switch (exam_session_id) {
-        // exam sessions with ids 2 through 5 are for simulating different error conditions
+        // exam sessions with ids 2 through 7 are for simulating different error conditions
         case 2:
           return HttpResponse.json(
             { error: { registered: true } },
@@ -118,6 +118,8 @@ export const handlers = [
           );
         case 5:
           return HttpResponse.json('Unauthorized', { status: 401 });
+        case 6:
+          return HttpResponse.json({ error: { full: true } }, { status: 409 });
         default:
           // For odd values, simulate a full exam session, ie. user is enrolling to queue
           // For even values, allow registering to exam session proper
