@@ -500,9 +500,7 @@
           }
         },
         "infoBox": {
-          "text": "Utbildningsstyrelsen har uppdaterat anmälningsvillkoren för allmänna språkexamina (YKI). Läs mer på Utbildningsstyrelsens webbplats",
-          "link": "https://www.oph.fi/sv/nyheter/2024/anmalningsvillkoren-allmanna-sprakexamina-forandras-i-januari-2025",
-          "linkText": "Anmälningsvillkoren för allmänna språkexamina förändras i januari 2025"
+          "text": "Anmälningstiden för YKI-provet den 3 oktober 2025 avslutas undantagsvis redan tisdagen den 2 september 2025 kl. 16.00 på grund av en uppdatering av anmälningssystemet. Vi beklagar olägenheten."
         },
         "labels": {
           "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",

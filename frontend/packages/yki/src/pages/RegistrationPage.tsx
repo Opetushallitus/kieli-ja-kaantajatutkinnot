@@ -22,15 +22,7 @@ const InformationBox = () => {
 
   return (
     <Container className="public-registration-page__info-box">
-      <div>
-        <Text>{t('text')}:</Text>
-        <span className="columns gapped-xxs" style={{ display: 'inline-flex' }}>
-          <Link href={t('link')} target="_blank">
-            <Text>{t('linkText')}</Text>
-          </Link>
-          <OpenInNewIcon />
-        </span>
-      </div>
+      <Text>{t('text')}</Text>
     </Container>
   );
 };
