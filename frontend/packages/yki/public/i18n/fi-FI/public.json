@@ -113,8 +113,8 @@
       },
       "registration": {
         "enrollModal": {
-          "title": "Paikan varaus epäonnistui",
-          "examIsFull": "Tilaisuus on täynnä. Voit ilmoittautua jonoon.",
+          "title": "Ilmoittautuminen epäonnistui",
+          "examIsFull": "YKI-testi on täynnä. Voit ilmoittautua jonoon.",
           "alreadyEnrolled": "Olet jo ilmoittaunut tutkintoon",
           "examClosed": "Ilmoittautuminen on sulkeutunut",
           "enrollToQueue": "Ilmoittaudu jonoon",
@@ -367,11 +367,11 @@
           },
           "payment": {
             "cancel": {
-              "description": "Tutkintomaksun maksaminen ei onnistunut. Yritä maksua uudelleen.",
+              "description": "Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun.",
               "heading": "Maksu epäonnistui"
             },
             "error": {
-              "description": "Tutkintomaksun maksaminen ei onnistunut. Yritä maksua uudelleen.",
+              "description": "Tutkintomaksun maksaminen ei onnistunut. Yritä maksua uudelleen. Olet saanut sähköpostiisi viestin, jossa on linkki tutkintomaksun maksamista varten. Viesti tulee osoitteesta noreply@opintopolku.fi.",
               "heading": "Maksu epäonnistui"
             },
             "success": {
@@ -415,7 +415,7 @@
         },
         "unavailable": {
           "alreadyRegistered": {
-            "description": "Voit ilmoittautua vain yhteen YKI-testiin samana testipäivänä.",
+            "description": "Voit ilmoittautua vain yhteen YKI-testiin samana testipäivänä",
             "title": "Olet jo ilmoittautunut toiseen YKI-testiin samana testipäivänä"
           },
           "generic": {
@@ -445,7 +445,8 @@
       "transferEnrollment": {
         "actions": {
           "cancel": "En siirrä",
-          "confirm": "Kyllä, siirrän"
+          "confirm": "Kyllä, siirrän",
+          "select": "Valitse"
         },
         "confirmTransfer": "Haluatko varmasti siirtää ilmoittautumisesi seuraavaan YKI-testiin?",
         "description": "Siirto on lopullinen. Voit siirtää ilmoittautumisen vain yhden kerran.",
@@ -500,7 +501,7 @@
         "info": {
           "general": {
             "body1": "Tarkistusarvioinnissa testivastauksesi arvioidaan uudelleen. Tarkistusarvioinnin tekevät eri arvioijat kuin ne, jotka ovat arvioineet testisi ensimmäisellä kerralla.",
-            "body2": "Tarkistusarviointi muuttaa osakokeen taitotasoarviota vain harvoin. Katso tarkistusarviointitilastot Opetushallituksen verkkosivuilta: ",
+            "body2": "Tarkistusarviointi muuttaa osakokeen taitotasoarviota vain harvoin. Katso tarkistusarviointitilastot Opetushallituksen verkkosivuilta:",
             "body3": "Tarkistusarvioinnissa arvioidaan vain testivastauksiasi. Siinä ei oteta huomioon mitään muita asioita, jotka ovat voineet vaikuttaa testin tulokseen. Et voi valittaa tarkistusarvioinnin päätöksestä.",
             "heading": "Mitä tarkistusarvioinnissa tehdään?",
             "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/yki-testin-jalkeen#anchor-tarkistusarviointi",
