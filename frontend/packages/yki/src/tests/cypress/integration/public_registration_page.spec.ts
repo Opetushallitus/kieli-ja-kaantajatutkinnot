@@ -114,9 +114,7 @@ describe('PublicRegistrationPage', () => {
   describe('does not allow starting the exam registration process', () => {
     it('when already registered', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
-      onPublicRegistrationPage.selectExamLevel('kaikki tasot');
-      onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
-      onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
+      onPublicRegistrationPage.selectExamLevel('keskitaso');
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
@@ -131,9 +129,7 @@ describe('PublicRegistrationPage', () => {
 
     it('when full', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
-      onPublicRegistrationPage.selectExamLevel('kaikki tasot');
-      onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
-      onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
+      onPublicRegistrationPage.selectExamLevel('keskitaso');
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
@@ -148,9 +144,7 @@ describe('PublicRegistrationPage', () => {
 
     it('when closed', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
-      onPublicRegistrationPage.selectExamLevel('kaikki tasot');
-      onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
-      onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
+      onPublicRegistrationPage.selectExamLevel('keskitaso');
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
