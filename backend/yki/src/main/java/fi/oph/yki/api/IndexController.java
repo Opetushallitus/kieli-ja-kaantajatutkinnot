@@ -19,13 +19,14 @@ public class IndexController {
   private static void addCSPHeaders(final HttpServletResponse response, final String nonce) {
     final String csp =
       "default-src 'none'; " +
-      "script-src 'self' cai-static.efectecloud.com 'nonce-" +
+      "script-src 'self' 'nonce-" +
       nonce +
       "' 'strict-dynamic' https: http: 'unsafe-inline'; " +
-      "style-src 'self' " +
-      "'unsafe-inline'; " +
-      "connect-src 'self' cai-static.efectecloud.com cai-rail.efectecloud.com;" +
-      "img-src 'self' cai-static.efectecloud.com; " +
+      "style-src 'self' 'nonce-" +
+      nonce +
+      "' 'unsafe-inline'; " +
+      "connect-src 'self'; " +
+      "img-src 'self'; " +
       "font-src 'self'; " +
       "base-uri 'self'; " +
       "form-action 'self';";
