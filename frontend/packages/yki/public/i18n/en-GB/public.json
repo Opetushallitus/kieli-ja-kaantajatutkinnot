@@ -597,7 +597,7 @@
           "actions": {
             "select": "Select"
           },
-          "noCandidatesFound": "The email address is {{email}}.",
+          "noCandidatesFound": "No YKI tests were found. Please contact your own test centre directly to ask about rescheduling your registration. Your test centre's email address is {{email}}.",
           "heading": "Choose a new test date"
         },
         "title": "Reschedule registration"
@@ -644,7 +644,9 @@
             "point1": "You can view your own registrations for the last 12 months.",
             "point2": "You can reschedule your registration only once.",
             "point3": "You can cancel your registration.",
-            "point4": "You can view the tests for which you are on the waiting list and accept a place in a test from the waiting list."
+            "point4": "You can view the tests for which you are on the waiting list and accept a place in a test from the waiting list.",
+            "point5": "If a place in the YKI test opens up, you can accept it.",
+            "point6": "You can cancel your waiting list registration."
           },
           "info": "View and edit your registrations for YKI tests."
         },
@@ -693,6 +695,9 @@
             "enrolled": "Registered",
             "label": "Status",
             "queued": "On the waiting list (position {{ positionInQueue }})"
+          },
+          "upcoming": {
+            "notFound": "You have no upcoming registrations."
           }
         },
         "title": "National Certificates of Language Proficiency (YKI) - My registrations"

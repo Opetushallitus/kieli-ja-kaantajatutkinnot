@@ -597,7 +597,7 @@
           "actions": {
             "select": "Välj"
           },
-          "noCandidatesFound": "E-postadressen är {{email}}.",
+          "noCandidatesFound": "Inga YKI-test hittades. Kontakta din testplats direkt för att fråga om att flytta din anmälan. Testplatsens e-postadress är {{email}}.",
           "heading": "Välj ett nytt testdatum"
         },
         "title": "Flytta anmälan"
@@ -644,7 +644,9 @@
             "point1": "Du kan se dina anmälningar från de senaste 12 månaderna.",
             "point2": "Du kan flytta din anmälan en gång.",
             "point3": "Du kan annullera din anmälan.",
-            "point4": "Du kan se de examina som du köar för och ta emot en plats som du köat till."
+            "point4": "Du kan se de examina som du köar för och ta emot en plats som du köat till.",
+            "point5": "Om en plats på YKI-testet blir ledig kan du ta emot den.",
+            "point6": "Du kan annullera din anmälan till en köplats."
           },
           "info": "Se och ändra dina anmälningar till YKI-testet."
         },
@@ -693,6 +695,9 @@
             "enrolled": "Anmäld",
             "label": "Status",
             "queued": "I kö (på plats {{ positionInQueue }})"
+          },
+          "upcoming": {
+            "notFound": "Du har inga kommande anmälningar."
           }
         },
         "title": "Allmänna språkexamina (YKI) - Mina anmälningar"
