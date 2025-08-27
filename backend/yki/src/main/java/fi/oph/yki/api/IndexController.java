@@ -22,12 +22,11 @@ public class IndexController {
       "script-src 'self' cai-static.efectecloud.com 'nonce-" +
       nonce +
       "' 'strict-dynamic' https: http: 'unsafe-inline'; " +
-      "style-src 'self' cai-static.efectecloud.com " +
+      "style-src 'self' " +
       "'unsafe-inline'; " +
-      "connect-src 'self' cai-static.efectecloud.com cai-rail.efectecloud.com cai-preview.efectecloud.com;" +
+      "connect-src 'self' cai-static.efectecloud.com cai-rail.efectecloud.com;" +
       "img-src 'self' cai-static.efectecloud.com; " +
       "font-src 'self'; " +
-      "frame-src cai-static.efectecloud.com; " +
       "base-uri 'self'; " +
       "form-action 'self';";
 
