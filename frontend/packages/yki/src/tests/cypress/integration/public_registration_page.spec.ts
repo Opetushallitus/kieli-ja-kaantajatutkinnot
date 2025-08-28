@@ -119,5 +119,6 @@ describe('PublicRegistrationPage', () => {
 
       onInitRegistrationPage.expectTitle('Tilaa ilmoitus peruutuspaikoista');
     });
+
   });
 });
