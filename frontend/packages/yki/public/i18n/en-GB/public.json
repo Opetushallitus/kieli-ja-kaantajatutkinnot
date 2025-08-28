@@ -355,7 +355,7 @@
             "selectIdentificationMethod": "Select your identification method",
             "suomiFiButtonText": "Identify via Suomi.fi",
             "title": "Identify yourself for registration",
-            "titleForQueueing": "Log in to the service using Suomi.fi e-identification to register for the waiting list",
+            "titleForQueueing": "Identify yourself to register for the waiting list",
             "withFinnishSSN": {
               "description": "<strong>Identify yourself through Suomi.fi e-identification.</strong>",
               "info": "After the identification you will be directed automatically to the registration form."
