@@ -162,6 +162,5 @@ describe('PublicRegistrationPage', () => {
       worker.resetHandlers();
       worker.start();
     });
-
   });
 });
