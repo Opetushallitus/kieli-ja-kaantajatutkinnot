@@ -571,6 +571,9 @@
             "required": "(pakollinen)"
           }
         },
+        "infoBox": {
+          "text": "Testipäivän 3.10.2025 ilmoittautumisaika päättyy poikkeuksellisesti jo tiistaina 2.9.2025 klo 16.00 järjestelmäpäivityksen vuoksi. Pahoittelemme asiasta aiheutuvaa haittaa."
+        },
         "labels": {
           "excludeFullSessions": "Näytä vain kielitutkinnot, joissa on tilaa",
           "excludeNonOpenSessions": "Näytä vain kielitutkinnot, joihin voi ilmoittautua nyt",

@@ -571,6 +571,9 @@
             "required": "(required)"
           }
         },
+        "infoBox": {
+          "text": "The registration period for the YKI test on 3 October 2025 will end early, on Tuesday 2 September 2025 at 16:00, due to an update to the registration system. We apologize for the inconvenience."
+        },
         "labels": {
           "excludeFullSessions": "Show only the tests that have available seats",
           "excludeNonOpenSessions": "Show only the tests that are open for registration at the moment",

@@ -571,6 +571,9 @@
             "required": "(obligatorisk)"
           }
         },
+        "infoBox": {
+          "text": "Anmälningstiden för YKI-provet den 3 oktober 2025 avslutas undantagsvis redan tisdagen den 2 september 2025 kl. 16.00 på grund av en uppdatering av anmälningssystemet. Vi beklagar olägenheten."
+        },
         "labels": {
           "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",
           "excludeNonOpenSessions": "Visa endast examenstillfällen vars anmälan har börjat",
