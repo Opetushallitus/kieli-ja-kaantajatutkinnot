@@ -138,7 +138,7 @@ describe('PublicRegistrationPage', () => {
         .click();
 
       onPublicRegistrationPage.alertModalContains(
-        'YKI-testi on täynnä. Voit ilmoittautua jonoon.'
+        'YKI-testi on täynnä. Voit ilmoittautua jonoon.',
       );
     });
 
@@ -162,6 +162,5 @@ describe('PublicRegistrationPage', () => {
       worker.resetHandlers();
       worker.start();
     });
-
   });
 });

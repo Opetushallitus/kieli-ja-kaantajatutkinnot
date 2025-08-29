@@ -572,7 +572,10 @@
           }
         },
         "infoBox": {
-          "text": "Anmälningstiden för YKI-provet den 3 oktober 2025 avslutas undantagsvis redan tisdagen den 2 september 2025 kl. 16.00 på grund av en uppdatering av anmälningssystemet. Vi beklagar olägenheten."
+          "heading": "Nu kan du anmäla dig till kön till YKI-test!",
+          "text": "Du kan också se dina anmälningar i Min Studieinfo. Läs mer på Utbildningsstyrelsens webbsidor: ",
+          "link": "Ändringar i anmälan till YKI-testet",
+          "url": "https://www.oph.fi/sv/nyheter/2025/andringar-i-anmalan-till-yki-testet"
         },
         "labels": {
           "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",

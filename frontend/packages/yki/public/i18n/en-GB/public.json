@@ -572,7 +572,10 @@
           }
         },
         "infoBox": {
-          "text": "The registration period for the YKI test on 3 October 2025 will end early, on Tuesday 2 September 2025 at 16:00, due to an update to the registration system. We apologize for the inconvenience."
+          "heading": "You can now join the waiting list for YKI tests!",
+          "text": "ou can also view your registrations in the My Studyinfo service. Read more on the website of the Finnish National Agency for Education: ",
+          "link": "Changes in registration for YKI tests",
+          "url": "https://www.oph.fi/en/news/2025/changes-registration-yki-tests"
         },
         "labels": {
           "excludeFullSessions": "Show only the tests that have available seats",
