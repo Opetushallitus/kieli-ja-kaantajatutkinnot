@@ -395,7 +395,7 @@
                     "label": "Mina anmälningar",
                     "omaOpintopolkuLabel": "Min Studieinfo (opintopolku.fi)"
                   },
-                  "description": "Du kan se uppgifter om anmälan på YKI-anmälningssidan"
+                  "description": "Du kan se uppgifter om anmälan på YKI-anmälningssidan:"
                 }
               },
               "heading": "Anmälan lyckades!"
@@ -624,7 +624,7 @@
             "description2": "ska du ansöka om det även för den nya testdagen.",
             "description3": "Skicka in din ansökan så snart som möjligt. Anvisningar för hur du ansöker om specialarrangemang finns på Utbildningsstyrelsens webbplats",
             "label": "Behöver du specialarrangemang",
-            "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tarvitsetko-erityisjarjestelyja"
+            "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-behover-du-specialarrangemang"
           }
         },
         "title": "Anmälan har flyttats!"
