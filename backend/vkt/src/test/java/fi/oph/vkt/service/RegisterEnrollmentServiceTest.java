@@ -76,9 +76,15 @@ public class RegisterEnrollmentServiceTest {
     final ExamEvent examEvent = createExamEvent(2);
     final ExaminerExamEvent examinerExamEvent = createExaminerExamEvent();
     final Enrollment enrollment = createEnrollment(examEvent, EnrollmentStatus.COMPLETED);
-    final EnrollmentAppointment enrollmentAppointment = createEnrollmentAppointment(
+    final EnrollmentAppointment enrollmentAppointment1 = createEnrollmentAppointment(
       examinerExamEvent,
-      EnrollmentAppointmentStatus.COMPLETED
+      EnrollmentAppointmentStatus.COMPLETED,
+      true
+    );
+    final EnrollmentAppointment enrollmentAppointment2 = createEnrollmentAppointment(
+      examinerExamEvent,
+      EnrollmentAppointmentStatus.COMPLETED,
+      false
     );
 
     final CasClient casClient = mock(CasClient.class);
@@ -89,7 +95,8 @@ public class RegisterEnrollmentServiceTest {
     when(casClient.executeBlocking(any())).thenReturn(response);
 
     assertNull(enrollment.getLastSyncAt());
-    assertNull(enrollmentAppointment.getLastSyncAt());
+    assertNull(enrollmentAppointment1.getLastSyncAt());
+    assertNull(enrollmentAppointment2.getLastSyncAt());
 
     final RegisterEnrollmentService registerEnrollmentService = new RegisterEnrollmentService(
       casClient,
@@ -120,7 +127,7 @@ public class RegisterEnrollmentServiceTest {
           final String actual = r.getStringData();
           final String today = DateUtil.formatOptionalDate(LocalDate.now());
           final String expected2 = getMockSyncRequest2()
-            .replace("[id]", "HTT-" + enrollmentAppointment.getId())
+            .replace("[id]", "HTT-" + enrollmentAppointment1.getId())
             .replace("[date]", today)
             .trim();
 
@@ -134,7 +141,8 @@ public class RegisterEnrollmentServiceTest {
         })
       );
     verify(casClient, times(2)).executeBlocking(any());
-    assertNotNull(enrollmentAppointment.getLastSyncAt());
+    assertNotNull(enrollmentAppointment1.getLastSyncAt());
+    assertNull(enrollmentAppointment2.getLastSyncAt());
     assertNotNull(enrollment.getLastSyncAt());
   }
 
@@ -190,14 +198,19 @@ public class RegisterEnrollmentServiceTest {
 
   private EnrollmentAppointment createEnrollmentAppointment(
     final ExaminerExamEvent examEvent,
-    final EnrollmentAppointmentStatus status
+    final EnrollmentAppointmentStatus status,
+    final boolean hasGrades
   ) {
-    final Person person = createPerson("2.2.246.562.10.1234567890");
+    final Person person = createPerson("2.2.246.562.10.123456789" + (hasGrades ? '0' : '1'));
     final Examiner examiner = examEvent.getExaminer();
     final EnrollmentGrade enrollmentGrade = Factory.enrollmentGrades();
     final EnrollmentAppointment enrollment = Factory.enrollmentAppointment(examiner, examEvent, person);
     enrollment.setStatus(status);
-    enrollment.setGrade(enrollmentGrade);
+
+    if (hasGrades) {
+      enrollment.setGrade(enrollmentGrade);
+    }
+
     entityManager.persist(enrollmentGrade);
     entityManager.persist(enrollment);
 

@@ -95,6 +95,10 @@ public class RegisterEnrollmentService {
         examinerOid = examEvent.getExaminer().getOid();
         grades = getGrades((EnrollmentAppointment) enrollment);
         examMunicipality = examEvent.getMunicipality() != null ? examEvent.getMunicipality().getCode() : null;
+
+        if (grades.isEmpty()) {
+          return;
+        }
       }
 
       // Sanity check. In production there should always
