@@ -615,7 +615,7 @@
             "label": "Före YKI-testet (oph.fi)",
             "url": "https://www.oph.fi/sv/utbildning-och-examina/fore-yki-testdagen"
           },
-          "heading": "Välkommen YKI-testet!",
+          "heading": "Välkommen till YKI-testet!",
           "part1": "Din anmälan har flyttats. Du får en bekräftelse av din anmälan per e-post.",
           "part2": "Testplatsen skickar instruktioner för YKI-testet till dig före testdagen. I anvisningarna står det var testplatsen är och när testet börjar.",
           "part3": "I anvisningarna står det bland annat var testet ordnas och vilket klockslag det börjar.",
@@ -660,7 +660,7 @@
           "actionsAvailable": "När du är inloggad kan du se och ändra dina anmälningar till YKI-tester.",
           "loginRequired": "Du är inte inloggad i tjänsten. <strong>Logga in med Suomi.fi-identifiering eller via inloggningslänken som du fått per e-post.</strong>",
           "loginThroughSuomiFi": "Identifiera dig via Suomi.fi",
-          "title": "Allmänna språkexamina (YKI) – Inloggning krävs"
+          "title": "Allmänna språkexamina (YKI) - Inloggning krävs"
         },
         "registrations": {
           "actions": {
