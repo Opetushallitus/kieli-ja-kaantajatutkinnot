@@ -17,7 +17,8 @@ import { PublicRegistrationStepContents } from 'components/registration/PublicRe
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { APIEndpoints, PaymentStatus } from 'enums/api';
+import { PaymentStatus } from 'enums/api';
+import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
 import { loadExamSession } from 'redux/reducers/examSession';
@@ -28,20 +29,27 @@ const RegistrationForm = () => {
   const dispatch = useAppDispatch();
   const { status: initRegistrationStatus } =
     useAppSelector(registrationSelector).initRegistration;
-  const { status: submitFormStatus } =
+  const { status: submitFormStatus, code } =
     useAppSelector(registrationSelector).submitRegistration;
   const { examSession, status: examSessionStatus } =
     useAppSelector(examSessionSelector);
+  const { id: registrationId } =
+    useAppSelector(registrationSelector).registration;
   const [searchParams] = useSearchParams();
   const params = useParams();
 
   useEffect(() => {
     if (
       submitFormStatus === APIResponseStatus.Success &&
-      !searchParams.get('submitted')
+      !searchParams.get('submitted') &&
+      code &&
+      registrationId
     ) {
-      const redirectTo = `${window.location.href}?submitted=true`;
-      window.location.href = `${APIEndpoints.Logout}?redirect=${redirectTo}`;
+      const params = new URLSearchParams();
+      params.append('submitted', 'true');
+      params.append('code', code);
+      params.append('registrationId', `${registrationId}`);
+      window.location.href = `${window.location.href}?${params.toString()}`;
     }
   });
   useEffect(() => {
@@ -142,7 +150,7 @@ const StepContentSelector = () => {
 
 const Heading = () => {
   const { activeStep } = useAppSelector(registrationSelector);
-  const { error: initRegistrationError } =
+  const { error: initRegistrationError, registrationKind } =
     useAppSelector(registrationSelector).initRegistration;
   const { status: submitFormStatus } =
     useAppSelector(registrationSelector).submitRegistration;
@@ -157,7 +165,11 @@ const Heading = () => {
     if (submitFormStatus === APIResponseStatus.Success) {
       return t('steps.register.success.heading');
     } else {
-      return t('steps.register.inProgress.heading');
+      if (registrationKind === RegistrationKind.Admission) {
+        return t('steps.register.inProgress.heading.admission');
+      } else {
+        return t('steps.register.inProgress.heading.queue');
+      }
     }
   } else if (
     activeStep === PublicRegistrationFormStep.Identify &&

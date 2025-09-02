@@ -8,21 +8,25 @@ import { useWindowProperties } from 'shared/hooks';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { PaymentStatus } from 'enums/api';
+import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 
 export const PublicRegistrationStepper = () => {
   const { activeStep } = useAppSelector(registrationSelector);
+  const { examSession } = useAppSelector(examSessionSelector);
   const { status: initRegistrationStatus, error: initRegistrationError } =
     useAppSelector(registrationSelector).initRegistration;
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.stepper',
   });
   const translateCommon = useCommonTranslation();
-  const { isPhone } = useWindowProperties();
+  const { isDesktopXS } = useWindowProperties();
 
   const [params] = useSearchParams();
   const paymentStatus = params.get('status');
+  const queue = params.get('queue');
 
   const isError =
     (activeStep === PublicRegistrationFormStep.Done &&
@@ -40,7 +44,15 @@ export const PublicRegistrationStepper = () => {
     .filter((i) => i <= doneStepNumber);
 
   const getDescription = (stepNumber: number) => {
-    return t(`step.${PublicRegistrationFormStep[stepNumber]}`);
+    if (
+      (examSession?.available_registration_kind === RegistrationKind.Queue ||
+        queue === 'true') &&
+      stepNumber === PublicRegistrationFormStep.Register
+    ) {
+      return t('step.EnrollToQueue');
+    } else {
+      return t(`step.${PublicRegistrationFormStep[stepNumber]}`);
+    }
   };
 
   const getNextInformation = (stepNumber: number) => {
@@ -77,7 +89,7 @@ export const PublicRegistrationStepper = () => {
   const phaseText = `${stepValue}/${doneStepNumber}`;
   const mobileAriaLabel = `${getPhaseDescription(stepValue)}`;
 
-  if (isPhone) {
+  if (!isDesktopXS) {
     return (
       <div
         className="columns gapped-xxl public-registration__grid__circular-stepper-container"

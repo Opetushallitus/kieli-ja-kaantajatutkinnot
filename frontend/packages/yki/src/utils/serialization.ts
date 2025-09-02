@@ -2,7 +2,17 @@ import dayjs, { Dayjs } from 'dayjs';
 import { AppLanguage } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
-import { GenderEnum } from 'enums/app';
+import {
+  ExamLanguage,
+  ExamLevel,
+  GenderEnum,
+  RegistrationKind,
+  RegistrationStates,
+} from 'enums/app';
+import {
+  RegistrationToConfirmDetails,
+  RegistrationToConfirmDetailsResponse,
+} from 'interfaces/confirmRegistration';
 import {
   EvaluationOrderDetails,
   EvaluationOrderDetailsResponse,
@@ -22,11 +32,24 @@ import {
   ExamSessions,
   ExamSessionsResponse,
 } from 'interfaces/examSessions';
+import {
+  LoginLinkDetails,
+  LoginLinkDetailsResponse,
+} from 'interfaces/loginLink';
 import { NationalitiesResponse, Nationality } from 'interfaces/nationality';
 import {
   PublicEmailRegistration,
+  PublicRegistrationInitPayload,
+  PublicRegistrationInitRequest,
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
+import {
+  TransferEnrollmentDetails,
+  TransferEnrollmentDetailsResponse,
+  TransferEnrollmentTarget,
+  TransferEnrollmentTargetResponse,
+} from 'interfaces/transferEnrollment';
+import { PersonDetails, PersonDetailsResponse } from 'interfaces/userDetails';
 import { EvaluationOrderState } from 'redux/reducers/evaluationOrder';
 
 export class SerializationUtils {
@@ -48,12 +71,6 @@ export class SerializationUtils {
     return {
       ...examSessionResponse,
       session_date: dayjs(examSessionResponse.session_date),
-      post_admission_start_date: SerializationUtils.deserializeStartTime(
-        examSessionResponse.post_admission_start_date,
-      ),
-      post_admission_end_date: SerializationUtils.deserializeEndTime(
-        examSessionResponse.post_admission_end_date,
-      ),
       registration_start_date: SerializationUtils.deserializeStartTime(
         examSessionResponse.registration_start_date,
       ) as Dayjs,
@@ -205,6 +222,115 @@ export class SerializationUtils {
       phone_number: registration.phoneNumber,
       email: registration.email,
       gender: SerializationUtils.serializeGender(registration.gender),
+    };
+  }
+
+  static deserializeRegistrationState(state: string) {
+    switch (state) {
+      case 'COMPLETED':
+        return RegistrationStates.Completed;
+      case 'SUBMITTED':
+        return RegistrationStates.Submitted;
+      case 'STARTED':
+        return RegistrationStates.Started;
+      case 'EXPIRED':
+        return RegistrationStates.Expired;
+      case 'CANCELLED':
+        return RegistrationStates.Cancelled;
+      case 'PAID_AND_CANCELLED':
+        return RegistrationStates.PaidAndCancelled;
+      default:
+        return RegistrationStates.Unknown;
+    }
+  }
+
+  static deserializePersonDetails(
+    response: PersonDetailsResponse,
+  ): PersonDetails {
+    return {
+      firstName: response.first_name,
+      lastName: response.last_name,
+      email: response.email,
+      phoneNumber: response.phone_number,
+      streetAddress: response.street_address,
+      postOffice: response.post_office,
+      zip: response.zip,
+      registrations: response.registrations?.map((v) => ({
+        id: v.id,
+        kind: v.kind as RegistrationKind,
+        examSessionId: v.exam_session_id,
+        examLang: v.language_code as ExamLanguage,
+        examLevel: v.level_code as ExamLevel,
+        state: SerializationUtils.deserializeRegistrationState(v.state),
+        examDate: dayjs(v.exam_date),
+        registrationStartDate: dayjs(v.registration_start_date),
+        registrationEndDate: dayjs(v.registration_end_date),
+        location: v.location,
+        isCancellable: v.is_cancellable,
+        isTransferable: v.is_transferable,
+        isTransfered: v.is_transfered,
+        expiresAt: v.expires_at ? dayjs(v.expires_at) : undefined,
+        paidAt: v.paid_at ? dayjs(v.paid_at) : undefined,
+        examFee: v.exam_fee,
+        liftedFromQueueAt: v.lifted_from_queue_at
+          ? dayjs(v.lifted_from_queue_at)
+          : undefined,
+        positionInQueue:
+          v.kind === RegistrationKind.Queue
+            ? (v.position_in_queue || 0) + 1
+            : undefined,
+      })),
+    };
+  }
+
+  static deserializeTransferEnrollmentTarget(
+    response: TransferEnrollmentTargetResponse,
+  ): TransferEnrollmentTarget {
+    return { ...response, session_date: dayjs(response.session_date) };
+  }
+
+  static deserializeTransferEnrollmentDetails(
+    response: TransferEnrollmentDetailsResponse,
+  ): TransferEnrollmentDetails {
+    return {
+      ...response,
+      session_date: dayjs(response.session_date),
+      targets: response.targets.map(
+        SerializationUtils.deserializeTransferEnrollmentTarget,
+      ),
+    };
+  }
+
+  static deserializeRegistrationToConfirmDetailsResponse(
+    response: RegistrationToConfirmDetailsResponse,
+  ): RegistrationToConfirmDetails {
+    return {
+      ...response,
+      session_date: dayjs(response.session_date),
+      due_date: dayjs(response.expires_at).subtract(1, 'day'),
+      registration_start_date: SerializationUtils.deserializeStartTime(
+        response.registration_start_date,
+      ) as Dayjs,
+      registration_end_date: SerializationUtils.deserializeEndTime(
+        response.registration_end_date,
+      ) as Dayjs,
+    };
+  }
+
+  static deserializeLoginLinkDetailsResponse(
+    response: LoginLinkDetailsResponse,
+  ): LoginLinkDetails {
+    return {
+      expires_at: dayjs(response.expires_at).subtract(1, 'day'),
+    };
+  }
+
+  static serializePublicRegistrationInitRequest(
+    payload: PublicRegistrationInitPayload,
+  ): PublicRegistrationInitRequest {
+    return {
+      exam_session_id: payload.examSessionId,
+      to_queue: payload.registrationKind === RegistrationKind.Queue,
     };
   }
 }

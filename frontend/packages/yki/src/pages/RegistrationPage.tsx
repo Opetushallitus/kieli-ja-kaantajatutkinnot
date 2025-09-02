@@ -1,7 +1,7 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Alert, Box, Container, Grid, Link, Paper } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
-import { H1, H2, HeaderSeparator, Text } from 'shared/components';
+import { H1, H2, H3, HeaderSeparator, Text } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 
 import { PublicExamSessionListing } from 'components/registration/examSession/PublicExamSessionListing';
@@ -22,10 +22,17 @@ const InformationBox = () => {
 
   return (
     <Container className="public-registration-page__info-box">
-      <Text>{t('text')}</Text>
+      <H3>{t('heading')}</H3>
+      <Text>
+        {t('text')}
+        <Link href={t('url')} className="bold" target="_blank">
+          {t('link')}
+        </Link>
+      </Text>
     </Container>
   );
 };
+
 export const RegistrationPage: FC = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.registrationPage',

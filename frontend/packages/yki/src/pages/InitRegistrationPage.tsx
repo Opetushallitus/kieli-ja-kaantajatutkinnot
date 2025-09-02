@@ -13,7 +13,10 @@ import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import { resetPublicIdentificationState } from 'redux/reducers/publicIdentification';
-import { setActiveStep } from 'redux/reducers/registration';
+import {
+  resetPublicRegistration,
+  setActiveStep,
+} from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 import { ExamSessionUtils } from 'utils/examSession';
@@ -23,9 +26,9 @@ export const ContentSelector = () => {
   if (!examSession) {
     return null;
   }
-  const { open, availablePlaces } =
+  const { open } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-  if (!open || !availablePlaces) {
+  if (!open) {
     return <RegistrationNotAvailable />;
   } else {
     return <PublicIdentificationGrid />;
@@ -57,6 +60,7 @@ export const InitRegistrationPage = () => {
 
     return () => {
       dispatch(resetPublicIdentificationState());
+      dispatch(resetPublicRegistration());
     };
   }, [dispatch, activeStep]);
 

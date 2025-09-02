@@ -58,6 +58,18 @@
   }
 }
 
+@mixin mobile {
+  @media (max-width: calc(map-get(maps.$breakpoints, 'desktop-xs') - 1px)) {
+    @content;
+  }
+}
+
+@mixin desktop-xs-and-up {
+  @media (min-width: map-get(maps.$breakpoints, 'desktop-xs')) {
+    @content;
+  }
+}
+
 @mixin desktop-and-up {
   @media (min-width: map-get(maps.$breakpoints, 'desktop')) {
     @content;

@@ -1,9 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
+import { RegistrationKind } from 'enums/app';
+
 export interface EmailLinkOrder {
   email: string;
   examSessionId: number;
+  registrationKind: RegistrationKind;
 }
 
 interface EmailLinkOrderState extends Partial<EmailLinkOrder> {
@@ -37,6 +40,7 @@ const publicIdentificationSlice = createSlice({
       state.emailLinkOrder.status = APIResponseStatus.InProgress;
       state.emailLinkOrder.email = action.payload.email;
       state.emailLinkOrder.examSessionId = action.payload.examSessionId;
+      state.emailLinkOrder.registrationKind = action.payload.registrationKind;
     },
   },
 });

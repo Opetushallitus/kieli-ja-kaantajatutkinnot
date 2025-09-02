@@ -69,7 +69,7 @@ exports[`Header should render Header correctly 1`] = `
       </button>
     </div>
     <div
-      class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular header__toolbar css-1ygil4i-MuiToolbar-root"
+      class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular header__toolbar header__toolbar__logo-and-tabs css-1ygil4i-MuiToolbar-root"
     >
       <div
         class="header__logo"
@@ -110,6 +110,18 @@ exports[`Header should render Header correctly 1`] = `
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                 >
                   registration
+                </p>
+              </a>
+            </li>
+            <li>
+              <a
+                aria-current="false"
+                href="/yki/kayttaja/tiedot"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  userRegistrations
                 </p>
               </a>
             </li>

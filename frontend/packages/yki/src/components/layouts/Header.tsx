@@ -35,7 +35,7 @@ export const Header = (): JSX.Element => {
   ]);
 
   const logoRedirectURL = AppRoutes.Registration;
-  const { isPhone } = useWindowProperties();
+  const { isDesktopXS } = useWindowProperties();
 
   return (
     <>
@@ -44,7 +44,7 @@ export const Header = (): JSX.Element => {
         text={translateCommon('header.accessibility.continueToMain')}
       />
       <AppBar className="header" position="static">
-        {isPhone && (
+        {!isDesktopXS && (
           <Toolbar className="header__toolbar header__toolbar__mobile-lang-select">
             <LangSelector
               changeLang={changeLang}
@@ -57,7 +57,7 @@ export const Header = (): JSX.Element => {
           </Toolbar>
         )}
         <SessionStateHeader />
-        <Toolbar className="header__toolbar">
+        <Toolbar className="header__toolbar header__toolbar__logo-and-tabs">
           <div className="header__logo">
             <Link to={logoRedirectURL}>
               <OPHLogoViewer
@@ -73,7 +73,7 @@ export const Header = (): JSX.Element => {
             <PublicNavigationLinks />
           </div>
           <div className="header__language-select">
-            {!isPhone && (
+            {isDesktopXS && (
               <LangSelector
                 changeLang={changeLang}
                 getCurrentLang={getCurrentLang}

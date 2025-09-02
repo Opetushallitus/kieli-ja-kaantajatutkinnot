@@ -3,13 +3,11 @@ import { H1, HeaderSeparator, Text } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
 import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
-import { EnrollToQueue } from 'components/registration/EnrollToQueue';
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { ExamSession } from 'interfaces/examSessions';
 import { examSessionSelector } from 'redux/selectors/examSession';
-import { ExamSessionUtils } from 'utils/examSession';
 
 const DescribeUnavailability = ({
   descriptionPrefix,
@@ -20,9 +18,22 @@ const DescribeUnavailability = ({
     keyPrefix: 'yki.component.registration.unavailable',
   });
 
+  const getUnavailabilityDescription = (descriptionPrefix: string) => {
+    if (descriptionPrefix === 'full') {
+      return (
+        <>
+          <Text>{t(descriptionPrefix + '.description1')}</Text>;
+          <Text>{t(descriptionPrefix + '.description2')}</Text>;
+        </>
+      );
+    }
+
+    return <Text>{t(descriptionPrefix + '.description')}</Text>;
+  };
+
   return (
     <div className="rows gapped">
-      <Text>{t(descriptionPrefix + '.description')}</Text>
+      {getUnavailabilityDescription(descriptionPrefix)}
       <BackToFrontPageButton />
     </div>
   );
@@ -31,11 +42,10 @@ const DescribeUnavailability = ({
 const getReasonForUnavailability = ({
   open,
   upcoming_admission,
-  upcoming_post_admission,
 }: ExamSession) => {
   if (open) {
     return 'full';
-  } else if (upcoming_admission || upcoming_post_admission) {
+  } else if (upcoming_admission) {
     return 'upcoming';
   } else return 'past';
 };
@@ -46,25 +56,15 @@ const RegistrationUnavailableHeader = () => {
   });
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
-  const { availableQueue } =
-    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
   const reasonForUnavailability = getReasonForUnavailability(examSession);
 
-  return (
-    <H1>
-      {availableQueue
-        ? t('enrollToQueue.header')
-        : t(`unavailable.${reasonForUnavailability}.title`)}
-    </H1>
-  );
+  return <H1>{t(`unavailable.${reasonForUnavailability}.title`)}</H1>;
 };
 
 export const RegistrationNotAvailable = () => {
   const { isPhone } = useWindowProperties();
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
-  const { availableQueue } =
-    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
   const reasonForUnavailability = getReasonForUnavailability(examSession);
 
   return (
@@ -81,13 +81,9 @@ export const RegistrationNotAvailable = () => {
                 examSession={examSession}
                 showOpenings={true}
               />
-              {availableQueue ? (
-                <EnrollToQueue />
-              ) : (
-                <DescribeUnavailability
-                  descriptionPrefix={reasonForUnavailability}
-                />
-              )}
+              <DescribeUnavailability
+                descriptionPrefix={reasonForUnavailability}
+              />
             </div>
           </div>
         </Paper>

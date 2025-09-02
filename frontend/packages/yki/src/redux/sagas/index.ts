@@ -1,13 +1,16 @@
 import { all } from 'redux-saga/effects';
 
+import { watchConfirmRegistration } from 'redux/sagas/confirmRegistration';
 import { watchEvaluationOrder } from 'redux/sagas/evaluationOrder';
 import { watchEvaluationPeriods } from 'redux/sagas/evaluationPeriod';
 import { watchExamSessions } from 'redux/sagas/examSession';
+import { watchLoginLink } from 'redux/sagas/loginLink';
 import { watchNationalities } from 'redux/sagas/nationalities';
 import { watchPublicIdentification } from 'redux/sagas/publicIdentification';
 import { watchRegistration } from 'redux/sagas/registration';
-import { watchReservationRequest } from 'redux/sagas/reservation';
 import { watchSession } from 'redux/sagas/session';
+import { watchTransferEnrollment } from 'redux/sagas/transferEnrollment';
+import { watchUserDetails } from 'redux/sagas/userDetails';
 import { watchUserOpenRegistrations } from 'redux/sagas/userOpenRegistrations';
 
 export default function* rootSaga() {
@@ -18,8 +21,11 @@ export default function* rootSaga() {
     watchNationalities(),
     watchPublicIdentification(),
     watchRegistration(),
-    watchReservationRequest(),
     watchSession(),
+    watchUserDetails(),
     watchUserOpenRegistrations(),
+    watchTransferEnrollment(),
+    watchConfirmRegistration(),
+    watchLoginLink(),
   ]);
 }

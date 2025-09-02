@@ -2,19 +2,29 @@
   &__toolbar {
     // stylelint-disable-next-line selector-class-pattern
     &.MuiToolbar-root {
-      @include not-phone {
+      flex-wrap: wrap;
+
+      @include desktop-xs-and-up {
         display: grid;
         grid-template-areas:
           'logo language-select'
           'logo tabs';
         grid-auto-columns: min-content auto;
       }
-      flex-wrap: wrap;
     }
 
     div &__mobile-lang-select {
       min-height: fit-content;
       padding: 0;
+    }
+
+    div &__logo-and-tabs {
+      flex-direction: column;
+      align-items: flex-start;
+
+      @include mobile {
+        padding-bottom: 1rem;
+      }
     }
   }
 
@@ -25,14 +35,13 @@
   }
 
   &__logo {
-    @include not-phone {
+    margin-right: 0;
+
+    @include desktop-xs-and-up {
       grid-area: logo;
+      margin-right: 5rem;
     }
-    margin-right: 5rem;
     padding: 2rem 0;
-    @include phone {
-      margin-right: 0;
-    }
 
     & > a {
       text-decoration: none;
@@ -47,15 +56,18 @@
   }
 
   &__tabs {
-    @include not-phone {
+    @include desktop-xs-and-up {
       grid-area: tabs;
     }
-    align-self: flex-end;
-    justify-self: start;
+
+    @include desktop-xs-and-up {
+      align-self: flex-end;
+      justify-self: start;
+    }
   }
 
   &__language-select {
-    @include not-phone {
+    @include desktop-xs-and-up {
       grid-area: language-select;
     }
     align-self: center;
