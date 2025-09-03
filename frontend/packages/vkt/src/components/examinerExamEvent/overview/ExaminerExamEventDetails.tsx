@@ -147,6 +147,10 @@ export const ExaminerExamEventDetails = () => {
       />
       <EnrollmentList
         enrollments={enrollments}
+        status={EnrollmentAppointmentStatus.CANCELED_PAYMENT}
+      />
+      <EnrollmentList
+        enrollments={enrollments}
         status={EnrollmentAppointmentStatus.ENROLLMENT_CREATED}
       />
       {enrollments.length > 0 && (
