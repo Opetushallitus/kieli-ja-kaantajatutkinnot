@@ -14,6 +14,7 @@ import { AppRoutes, RegistrationKind } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { sessionSelector } from 'redux/selectors/session';
+import { registrationSelector } from 'redux/selectors/registration';
 
 const AlreadyLoggedIn = () => {
   const { t } = usePublicTranslation({
@@ -106,6 +107,7 @@ export const PublicIdentificationGrid = () => {
   });
   const { isPhone } = useWindowProperties();
 
+  const { initRegistration } = useAppSelector(registrationSelector);
   const { examSession } = useAppSelector(examSessionSelector);
   const { loggedInSession } = useAppSelector(sessionSelector);
 
@@ -113,8 +115,8 @@ export const PublicIdentificationGrid = () => {
     return null;
   }
 
-  const toQueue =
-    examSession.available_registration_kind === RegistrationKind.Queue;
+  const availableRegistrationKind = initRegistration ? initRegistration.registrationKind : examSession.available_registration_kind;
+  const toQueue = availableRegistrationKind === RegistrationKind.Queue;
 
   return (
     <Grid

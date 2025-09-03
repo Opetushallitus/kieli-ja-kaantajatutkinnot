@@ -14,6 +14,7 @@ import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import { resetPublicIdentificationState } from 'redux/reducers/publicIdentification';
 import {
+  initRegistration,
   resetPublicRegistration,
   setActiveStep,
 } from 'redux/reducers/registration';
@@ -45,8 +46,10 @@ export const InitRegistrationPage = () => {
 
   // Redux
   const dispatch = useAppDispatch();
+
   const { status, examSession } = useAppSelector(examSessionSelector);
-  const { activeStep } = useAppSelector(registrationSelector);
+  const { activeStep, initRegistration: initRegistrationState } =
+    useAppSelector(registrationSelector);
   // React Router
   const navigate = useNavigate();
   const params = useParams();
@@ -92,6 +95,22 @@ export const InitRegistrationPage = () => {
     examSession?.id,
     t,
   ]);
+
+  useEffect(() => {
+    if (
+      initRegistrationState.status === APIResponseStatus.NotStarted &&
+      examSession
+    ) {
+      // Ensure registration init endpoint gets called, even if navigating to the page directly by URL.
+      // This is necessary to accurately infer if user can enroll to exam proper or if they must enroll to queue instead.
+      dispatch(
+        initRegistration({
+          examSessionId: examSession.id,
+          registrationKind: examSession.available_registration_kind,
+        }),
+      );
+    }
+  });
 
   return (
     <Box className="public-exam-details-page">
