@@ -98,8 +98,9 @@ export const InitRegistrationPage = () => {
 
   useEffect(() => {
     if (
-      initRegistrationState.status === APIResponseStatus.NotStarted &&
-      examSession
+      examSession &&
+      (initRegistrationState.status === APIResponseStatus.NotStarted ||
+        initRegistrationState.examSessionId !== examSession.id)
     ) {
       // Ensure registration init endpoint gets called, even if navigating to the page directly by URL.
       // This is necessary to accurately infer if user can enroll to exam proper or if they must enroll to queue instead.
@@ -108,6 +109,11 @@ export const InitRegistrationPage = () => {
           examSessionId: examSession.id,
           registrationKind: examSession.available_registration_kind,
         }),
+        [
+          examSession,
+          initRegistrationState.status,
+          initRegistrationState.examSessionId,
+        ],
       );
     }
   });

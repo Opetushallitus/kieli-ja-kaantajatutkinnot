@@ -51,7 +51,7 @@ function* initRegistrationSaga(
     const { data } = response;
     yield put(
       storeExamSession(
-        SerializationUtils.deserializeExamSessionResponse(data.exam_session),
+        SerializationUtils.deserializeExamSessionResponse({ ...data.exam_session, available_registration_kind: data.registration_kind }),
       ),
     );
     yield put(acceptPublicRegistrationInit(data));

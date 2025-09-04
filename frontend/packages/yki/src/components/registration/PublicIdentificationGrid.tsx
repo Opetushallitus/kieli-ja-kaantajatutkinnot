@@ -107,16 +107,14 @@ export const PublicIdentificationGrid = () => {
   });
   const { isPhone } = useWindowProperties();
 
-  const { initRegistration } = useAppSelector(registrationSelector);
+  const { registrationKind } = useAppSelector(registrationSelector).initRegistration;
   const { examSession } = useAppSelector(examSessionSelector);
   const { loggedInSession } = useAppSelector(sessionSelector);
 
-  if (!examSession) {
+  if (!registrationKind) {
     return null;
   }
-
-  const availableRegistrationKind = initRegistration ? initRegistration.registrationKind : examSession.available_registration_kind;
-  const toQueue = availableRegistrationKind === RegistrationKind.Queue;
+  const toQueue = registrationKind === RegistrationKind.Queue;
 
   return (
     <Grid
