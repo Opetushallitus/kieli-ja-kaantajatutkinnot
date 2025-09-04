@@ -9,6 +9,8 @@ import { AppRouter } from 'routers/AppRouter';
 
 import 'styles/styles.scss';
 
+// TODO: remove me, trigger CI
+
 // Initialize I18next
 initI18n();
 
