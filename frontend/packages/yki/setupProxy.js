@@ -1138,6 +1138,36 @@ module.exports = function (app) {
     useLocalProxy ? proxyPostCall(req, res) : mockCall();
   });
 
+
+  app.post('/yki/api/registration/identify', (req, res) => {
+    const mockCall = () => {
+      try {
+        switch (req.body.exam_session_id) {
+          case 11:
+            res.status(409).send({ error: { registered: true } });
+          case 12:
+            res.send(initRegistrationQueueEmailAuth);
+          case 13:
+            res.status(409).send({ error: { closed: true } });
+          // This error case shouldn't ordinarily happen
+          case 14:
+            res.status(409).send({ error: { full: false, registered: false } });
+          case 16:
+            res.status(401).send("Unauthorized");
+          case 17:
+            res.send(initRegistrationQueue);
+          default:
+            req.body.exam_session_id % 2 === 0
+              ? res.send(initRegistrationEmailAuth)
+              : res.send(initRegistration);
+        }
+      } catch (err) {
+        res.status(404).send(err.message);
+      }
+    };
+    useLocalProxy ? proxyPostCall(req, res) : mockCall();
+  });
+
   app.get('/yki/api/exam-session', (req, res) => {
     const mockCall = () => {
       console.log('mocking exam-session');
