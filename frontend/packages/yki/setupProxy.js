@@ -1114,7 +1114,14 @@ module.exports = function (app) {
       try {
         switch (req.body.exam_session_id) {
           case 11:
-            res.status(409).send({ error: { registered: true } });
+            res.status(409).send({
+              error: {
+                'other-exam-session-registration': {
+                  id: 999,
+                  state: 'STARTED',
+                },
+              },
+            });
           case 12:
             res.send(initRegistrationQueueEmailAuth);
           case 13:

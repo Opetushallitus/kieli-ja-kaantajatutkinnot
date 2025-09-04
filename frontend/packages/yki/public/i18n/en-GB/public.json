@@ -119,7 +119,15 @@
           "examClosed": "Registration has closed",
           "enrollToQueue": "Register for the waiting list",
           "checkingOpenSeats": "Checking available places...",
-          "reservingQueueSeat": "Reserving a place on the waiting list..."
+          "reservingQueueSeat": "Reserving a place on the waiting list...",
+          "close": "Close",
+          "otherStartedRegistration": {
+            "title": "Registration in progress",
+            "part1": "You can only register for one YKI test or its waiting list on the same test day.",
+            "part2": "You must continue with a previous registration or cancel it.",
+            "part3": "If you want to cancel the registration, first proceed to the registration form and then click QUIT REGISTRATION.",
+            "backToRegistrationButton": "Proceed to the registration form"
+          }
         },
         "controlButtons": {
           "abortRegistration": "Quit registration",

@@ -119,7 +119,15 @@
           "examClosed": "Anmälan är stängd",
           "enrollToQueue": "Anmäl dig till en köplats",
           "checkingOpenSeats": "Kontrollerar lediga platser...",
-          "reservingQueueSeat": "Reserverar en köplats..."
+          "reservingQueueSeat": "Reserverar en köplats...",
+          "close": "Stäng",
+          "otherStartedRegistration": {
+            "title": "Pågående anmälan",
+            "part1": "Du kan bara anmäla dig eller köa till ett YKI-test per testdag.",
+            "part2": "Du måste fortsätta med en tidigare anmälan eller avbryta den.",
+            "part3": "Om du vill avbryta anmälan, fortsätt först till anmälningsblanketten och klicka sedan på AVBRYT ANMÄLAN.",
+            "backToRegistrationButton": "Fortsätt till anmälningsblanketten"
+          }
         },
         "controlButtons": {
           "abortRegistration": "Avbryt anmälan",
