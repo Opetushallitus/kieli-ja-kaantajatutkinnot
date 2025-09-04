@@ -13,8 +13,8 @@ import { useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
 import { examSessionSelector } from 'redux/selectors/examSession';
-import { sessionSelector } from 'redux/selectors/session';
 import { registrationSelector } from 'redux/selectors/registration';
+import { sessionSelector } from 'redux/selectors/session';
 
 const AlreadyLoggedIn = () => {
   const { t } = usePublicTranslation({
@@ -107,7 +107,8 @@ export const PublicIdentificationGrid = () => {
   });
   const { isPhone } = useWindowProperties();
 
-  const { registrationKind } = useAppSelector(registrationSelector).initRegistration;
+  const { registrationKind } =
+    useAppSelector(registrationSelector).initRegistration;
   const { examSession } = useAppSelector(examSessionSelector);
   const { loggedInSession } = useAppSelector(sessionSelector);
 
