@@ -9,9 +9,10 @@ import { PublicRegistrationControlButtons } from 'components/registration/Public
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
 import { usePublicTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
+import { cancelRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 import { sessionSelector } from 'redux/selectors/session';
@@ -20,6 +21,7 @@ const AlreadyLoggedIn = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.identify',
   });
+  const dispatch = useAppDispatch();
   const { loggedInSession } = useAppSelector(sessionSelector);
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
@@ -29,6 +31,9 @@ const AlreadyLoggedIn = () => {
     loggedInSession?.['auth-method'] === 'EMAIL';
   const toQueue =
     examSession.available_registration_kind === RegistrationKind.Queue;
+  const onAbort = () => {
+    dispatch(cancelRegistration());
+  };
 
   return (
     <>
@@ -75,6 +80,7 @@ const AlreadyLoggedIn = () => {
           className="fit-content-max-width"
           size="large"
           href={AppRoutes.Registration}
+          onClick={onAbort}
         >
           {t('alreadyLoggedIn.labels.abort')}
         </CustomButton>
