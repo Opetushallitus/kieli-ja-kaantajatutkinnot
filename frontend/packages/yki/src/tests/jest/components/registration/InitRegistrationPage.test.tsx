@@ -16,7 +16,14 @@ const renderPageWithSession = (examSession: ExamSession) => {
       status: APIResponseStatus.Success,
       examSession,
     },
-    registration: initialRegistrationState,
+    registration: {
+      ...initialRegistrationState,
+      initRegistration: {
+        status: APIResponseStatus.Success,
+        examSessionId: examSession.id,
+        registrationKind: examSession.available_registration_kind,
+      },
+    },
   };
 
   const { container } = render(
