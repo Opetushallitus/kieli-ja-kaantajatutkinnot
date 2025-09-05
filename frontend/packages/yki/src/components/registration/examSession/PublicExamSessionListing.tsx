@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   CustomButton,
+  CustomButtonLink,
   CustomCircularProgress,
   CustomModal,
   H2,
@@ -18,9 +19,10 @@ import { PublicExamSessionListingHeader } from 'components/registration/examSess
 import { PublicExamSessionListingRow } from 'components/registration/examSession/PublicExamSessionListingRow';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes, RegistrationKind } from 'enums/app';
+import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { PublicRegistrationInitError } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
+import { PublicRegistrationInitErrorState } from 'interfaces/publicRegistration';
 import {
   initRegistration,
   resetPublicRegistration,
@@ -98,6 +100,22 @@ const RegistrationInitLoadingModal = () => {
   );
 };
 
+const OtherStartedRegistrationErrorModal = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix:
+      'yki.component.registration.enrollModal.otherStartedRegistration',
+  });
+
+  return (
+    <>
+      <H2>{t('title')}</H2>
+      <Text>{t('part1')}</Text>
+      <Text>{t('part2')}</Text>
+      <Text>{t('part3')}</Text>
+    </>
+  );
+};
+
 const RegistrationInitErrorModal = ({
   examSessionId,
 }: {
@@ -109,6 +127,12 @@ const RegistrationInitErrorModal = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.enrollModal',
   });
+  const { error, otherExamSessionRegistration } =
+    initRegistrationState.error as PublicRegistrationInitErrorState;
+
+  const otherStartedRegistration =
+    otherExamSessionRegistration &&
+    otherExamSessionRegistration.state === RegistrationStates.Started;
 
   return (
     <CustomModal
@@ -121,21 +145,25 @@ const RegistrationInitErrorModal = ({
     >
       <>
         <div className="rows gapped">
-          <H2>{t('title')}</H2>
-          <Text
-            id="registration-error-modal-description"
-            data-testid="registration-error-modal-description"
-          >
-            {initRegistrationState.error ===
-              PublicRegistrationInitError.ExamSessionFull && t('examIsFull')}
-            {initRegistrationState.error ===
-              PublicRegistrationInitError.AlreadyRegistered &&
-              t('alreadyEnrolled')}
-            {initRegistrationState.error === PublicRegistrationInitError.Past &&
-              t('examClosed')}
-            {initRegistrationState.error ===
-              PublicRegistrationInitError.Generic && 'Tuntematon virhe'}
-          </Text>
+          {otherStartedRegistration && <OtherStartedRegistrationErrorModal />}
+          {!otherStartedRegistration && (
+            <>
+              <H2>{t('title')}</H2>
+              <Text
+                id="registration-error-modal-description"
+                data-testid="registration-error-modal-description"
+              >
+                {error === PublicRegistrationInitError.ExamSessionFull &&
+                  t('examIsFull')}
+                {error === PublicRegistrationInitError.AlreadyRegistered &&
+                  otherExamSessionRegistration &&
+                  t('alreadyEnrolled')}
+                {error === PublicRegistrationInitError.Past && t('examClosed')}
+                {error === PublicRegistrationInitError.Generic &&
+                  'Tuntematon virhe'}
+              </Text>
+            </>
+          )}
         </div>
         <div className="columns gapped flex-end">
           <CustomButton
@@ -145,10 +173,21 @@ const RegistrationInitErrorModal = ({
               dispatch(resetPublicRegistration());
             }}
           >
-            Sulje
+            {t('close')}
           </CustomButton>
-          {initRegistrationState.error ===
-            PublicRegistrationInitError.ExamSessionFull && (
+          {otherStartedRegistration && (
+            <CustomButtonLink
+              color={Color.Secondary}
+              variant={Variant.Contained}
+              to={`${AppRoutes.ExamSession.replace(
+                /:examSessionId/,
+                `${otherExamSessionRegistration?.id}`,
+              )}`}
+            >
+              {t('otherStartedRegistration.backToRegistrationButton')}
+            </CustomButtonLink>
+          )}
+          {error === PublicRegistrationInitError.ExamSessionFull && (
             <CustomButton
               color={Color.Secondary}
               variant={Variant.Contained}

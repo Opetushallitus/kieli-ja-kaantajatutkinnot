@@ -810,7 +810,6 @@ module.exports = function (app) {
     },
   );
 
-
   app.delete(
     '/yki/api/virkailija/organizer/:oid/exam-session/:examSessionId/registration/:id',
     (req, res) => {
@@ -1114,22 +1113,67 @@ module.exports = function (app) {
       try {
         switch (req.body.exam_session_id) {
           case 11:
-            res.status(409).send({ error: { registered: true } });
+            res.status(409).send({
+              error: {
+                'other-exam-session-registration': {
+                  id: 999,
+                  state: 'STARTED',
+                },
+              },
+            });
           case 12:
-            res.send(initRegistrationQueueEmailAuth);
+            res.send({ ...initRegistrationQueueEmailAuth, id: 12 });
           case 13:
             res.status(409).send({ error: { closed: true } });
           // This error case shouldn't ordinarily happen
           case 14:
             res.status(409).send({ error: { full: false, registered: false } });
           case 16:
-            res.status(401).send("Unauthorized");
+            res.status(401).send('Unauthorized');
           case 17:
-            res.send(initRegistrationQueue);
+            res.send({ ...initRegistrationQueue, id: 17 });
           default:
-            req.body.exam_session_id % 2 === 0
-              ? res.send(initRegistrationEmailAuth)
-              : res.send(initRegistration);
+            const id = req.body.exam_session_id;
+            id % 2 === 0
+              ? res.send({ ...initRegistrationEmailAuth, id })
+              : res.send({ ...initRegistration, id });
+        }
+      } catch (err) {
+        res.status(404).send(err.message);
+      }
+    };
+    useLocalProxy ? proxyPostCall(req, res) : mockCall();
+  });
+
+  app.post('/yki/api/registration/identify', (req, res) => {
+    const mockCall = () => {
+      try {
+        switch (req.body.exam_session_id) {
+          case 11:
+            res.status(409).send({
+              error: {
+                'other-exam-session-registration': {
+                  id: 999,
+                  state: 'STARTED',
+                },
+              },
+            });
+          case 12:
+            res.send({ ...initRegistrationQueueEmailAuth, id: 12 });
+          case 13:
+            res.status(409).send({ error: { closed: true } });
+          // This error case shouldn't ordinarily happen
+          case 14:
+            res.status(409).send({ error: { full: false, registered: false } });
+          case 16:
+            res.status(401).send('Unauthorized');
+          case 17:
+            res.send({ ...initRegistrationQueue, id: 17 });
+          default:
+            const id = req.body.exam_session_id;
+            id % 2 === 0
+              ? res.send({ ...initRegistrationEmailAuth, id })
+              : res.send({ ...initRegistration, id });
         }
       } catch (err) {
         res.status(404).send(err.message);

@@ -13,6 +13,7 @@ import {
   PublicEmailRegistration,
   PublicRegistrationFormSubmitErrorResponse,
   PublicRegistrationFormSubmitSuccessResponse,
+  PublicRegistrationInitErrorState,
   PublicRegistrationInitPayload,
   PublicRegistrationInitResponse,
   PublicSuomiFiRegistration,
@@ -21,7 +22,7 @@ import {
 export interface RegistrationState {
   initRegistration: {
     status: APIResponseStatus;
-    error?: PublicRegistrationInitError;
+    error?: PublicRegistrationInitErrorState;
     examSessionId?: number;
     registrationKind?: RegistrationKind;
   };
@@ -76,27 +77,41 @@ const registrationSlice = createSlice({
     ) {
       state.initRegistration.status = APIResponseStatus.Error;
       if (!action.payload) {
-        state.initRegistration.error = PublicRegistrationInitError.Generic;
+        state.initRegistration.error = {
+          error: PublicRegistrationInitError.Generic,
+        };
       } else {
         if (isRegistrationInitErrorResponse(action.payload)) {
-          const { closed, full, registered } = action.payload.data.error;
+          const error = action.payload.data.error;
+          const { closed, full } = error;
           if (closed) {
-            state.initRegistration.error = PublicRegistrationInitError.Past;
-          } else if (registered) {
-            state.initRegistration.error =
-              PublicRegistrationInitError.AlreadyRegistered;
+            state.initRegistration.error = {
+              error: PublicRegistrationInitError.Past,
+            };
+          } else if (error['other-exam-session-registration']) {
+            state.initRegistration.error = {
+              error: PublicRegistrationInitError.AlreadyRegistered,
+              otherExamSessionRegistration:
+                error['other-exam-session-registration'],
+            };
           } else if (full) {
-            state.initRegistration.error =
-              PublicRegistrationInitError.ExamSessionFull;
+            state.initRegistration.error = {
+              error: PublicRegistrationInitError.ExamSessionFull,
+            };
           } else {
-            state.initRegistration.error = PublicRegistrationInitError.Generic;
+            state.initRegistration.error = {
+              error: PublicRegistrationInitError.Generic,
+            };
           }
         } else if (action.payload.status === 401) {
-          state.initRegistration.error =
-            PublicRegistrationInitError.Unauthorized;
+          state.initRegistration.error = {
+            error: PublicRegistrationInitError.Unauthorized,
+          };
           state.activeStep = PublicRegistrationFormStep.Identify;
         } else {
-          state.initRegistration.error = PublicRegistrationInitError.Generic;
+          state.initRegistration.error = {
+            error: PublicRegistrationInitError.Generic,
+          };
         }
       }
     },

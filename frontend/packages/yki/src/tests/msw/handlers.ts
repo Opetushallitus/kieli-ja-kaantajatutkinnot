@@ -102,7 +102,14 @@ export const handlers = [
         // exam sessions with ids 2 through 7 are for simulating different error conditions
         case 2:
           return HttpResponse.json(
-            { error: { registered: true } },
+            {
+              error: {
+                'other-exam-session-registration': {
+                  id: 99,
+                  state: 'SUBMITTED',
+                },
+              },
+            },
             { status: 409 },
           );
         case 3:
