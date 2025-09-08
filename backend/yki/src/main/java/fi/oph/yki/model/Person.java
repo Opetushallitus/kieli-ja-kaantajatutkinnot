@@ -8,13 +8,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
