@@ -17,6 +17,6 @@
       "public/*": ["public/*"]
     }
   },
-  "include": ["src/**/*", "jest-setup.ts", "webpack/custom.d.ts"],
+  "include": ["src/**/*", "jest-setup.ts", "webpack/custom.d.ts", "public/i18n/typeCheck.ts"],
   "exclude": ["src/tests/cypress/*"]
 }

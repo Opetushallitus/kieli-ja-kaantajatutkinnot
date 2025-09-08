@@ -79,3 +79,21 @@
     }
   }
 }
+
+.registration-loading-modal,
+.registration-error-modal {
+  .custom-modal {
+    min-width: 30vw;
+    border-radius: 0;
+    border-top: 1rem $color-secondary solid;
+  }
+
+  .custom-circular-progress {
+    margin-left: -2rem;
+  }
+
+  & &__content {
+    justify-content: center;
+    margin-bottom: 1.8rem;
+  }
+}

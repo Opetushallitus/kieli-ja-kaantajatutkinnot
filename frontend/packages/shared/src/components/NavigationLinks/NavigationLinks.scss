@@ -1,16 +1,38 @@
 @use '../../styles/abstracts/colors';
+@use '../../styles/abstracts/mixins';
 
 .navigation-links {
   ul {
+    @include mixins.mobile {
+      flex-direction: column;
+      padding: 0;
+    }
+
     list-style-type: none;
     display: flex;
     flex-direction: row;
-    gap: 6rem;
+    flex-wrap: wrap;
     margin: 0;
+    column-gap: 3rem;
+    row-gap: 1rem;
+
+    @include mixins.mobile {
+      gap: 2rem;
+    }
+
+    @include mixins.desktop-xs-and-up {
+      column-gap: 6rem;
+      row-gap: 1rem;
+    }
   }
 
   li {
     padding-bottom: 2rem;
+
+    @include mixins.mobile {
+      padding-bottom: 0;
+      padding-left: 1rem;
+    }
 
     > a {
       text-decoration: none;
@@ -22,6 +44,12 @@
       color: colors.$color-secondary;
       font-weight: 700;
     }
-    border-bottom: 2px solid colors.$color-secondary;
+    @include mixins.desktop-xs-and-up {
+      border-bottom: 2px solid colors.$color-secondary;
+    }
+
+    @include mixins.mobile {
+      border-left: 3px solid colors.$color-secondary;
+    }
   }
 }

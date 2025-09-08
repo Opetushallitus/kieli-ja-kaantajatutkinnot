@@ -56,5 +56,6 @@
     "email": null
   },
   "registration_id": 1,
-  "is_strongly_identified": true
+  "is_strongly_identified": true,
+  "registration_kind": "ADMISSION"
 }

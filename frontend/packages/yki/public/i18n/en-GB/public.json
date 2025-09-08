@@ -1,6 +1,20 @@
 {
   "yki": {
     "component": {
+      "cancelRegistrationModal": {
+        "cancel": "Do not cancel",
+        "confirm": "Cancel registration",
+        "descriptionNotPaid": "If you cancel your registration, you cannot restore it. You will need to register again if you want to take the YKI test.",
+        "descriptionPaid1": "If you cancel your registration, the test fee will not be automatically refunded.",
+        "descriptionPaid2": "You can apply for a test fee refund from the Finnish National Agency for Education. The Finnish National Agency for Education will refund your test fee if your application meets all the conditions laid down by law. If you want to apply for a refund of the test fee, please read the instructions on the Finnish National Agency for Education's website:",
+        "descriptionPaid3": "If you cancel your registration, you cannot restore it. You will need to register again if you want to take the YKI test.",
+        "link": {
+          "label": "Cancelling your test registration",
+          "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ennen-yki-testia#anchor-osallistumisen-peruminen"
+        },
+        "title": "Do you wish to cancel your registration?",
+        "success": "Your registration has been cancelled"
+      },
       "cookieBanner": {
         "buttonAriaLabel": "Close the notification about cookies",
         "buttonText": "Close",
@@ -98,6 +112,15 @@
         "requestReassessment": "Request a reassessment"
       },
       "registration": {
+        "enrollModal": {
+          "title": "Registration failed",
+          "examIsFull": "The YKI-test is full. However, you can register for the waiting list.",
+          "alreadyEnrolled": "You have already registered for the test",
+          "examClosed": "Registration has closed",
+          "enrollToQueue": "Register for the waiting list",
+          "checkingOpenSeats": "Checking available places...",
+          "reservingQueueSeat": "Reserving a place on the waiting list..."
+        },
         "controlButtons": {
           "abortRegistration": "Quit registration",
           "confirm": "Submit"
@@ -154,6 +177,7 @@
           "title": "Test fee"
         },
         "registrationButtonLabels": {
+          "enrollToQueue": "Register for the waiting list",
           "full": "Full",
           "orderCancellationNotification": "Subscribe to notifications of available seats",
           "periodNotOpen": "Registration has not started",
@@ -230,10 +254,10 @@
             "item2": "You cannot change the language of the YKI test.",
             "item3": "You cannot change the test centre.",
             "item4": "Registration is personal. You cannot change the participant’s personal information.",
-            "item5": "If you cannot participate in the YKI test that you registered for, you may reschedule your registration once to another YKI test of the same language and level at the same test centre.",
+            "item5": "If you cannot participate in the YKI test, you may reschedule your registration once to another YKI test of the same language and level at the same test centre.",
             "item51": "The new test day cannot be more than one year after the original test day.",
             "item52": "If the next YKI test of the same language and level is held more than a year from the original test day, you may reschedule your registration to the next YKI test of the same language and level.",
-            "item6": "If you cannot participate in the YKI test that you registered for, you may apply for a test fee refund from the Finnish National Agency for Education. The Finnish National Agency for Education will refund your test fee if your application meets all the conditions laid down in the Act on National Certificates of Language Proficiency (YKI).",
+            "item6": "If you cannot participate in the YKI test, you may apply for a test fee refund from the Finnish National Agency for Education. The Finnish National Agency for Education will refund your test fee if your application meets all the conditions laid down in the Act on National Certificates of Language Proficiency (YKI).",
             "link": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-terms-and-conditions-for-registration",
             "linkText": "Terms and conditions for registration",
             "label": "I accept the terms and conditions for registration *",
@@ -242,23 +266,44 @@
           },
           "title": "Fill in your personal information",
           "whatsNext": {
-            "description": "After you have sent the registration form, you will receive a payment link by email to pay your test fee. The registration will be confirmed after you have paid the test fee.",
+            "description": "Once you have submitted your registration form, you must pay the test fee. Your registration will only be confirmed once you have paid the test fee.",
+            "queued": {
+              "part1": "Once you have submitted your registration form, you will receive an email confirming that you have been added to the waiting list.",
+              "part2": "If you receive a place in the YKI test from the waiting list, you will be notified of this by email. Please keep an active eye on your email."
+            },
             "title": "What happens next?"
           }
         },
         "registrationFormSubmitted": {
           "proceedToPayment": {
-            "confirmation": "You have sent the registration form for the YKI test",
             "dueDateReminder": {
               "text1": "<strong>Important!</strong> The message will also contain the due date for paying the test fee.",
               "text2": "To participate in the YKI test, you must pay the fee on time."
             },
+            "payImmediately": {
+              "action": "Pay the test fee",
+              "text1": "You can also pay the test fee immediately.",
+              "text2": "Press the button below."
+            },
             "paymentLinkEmail": {
-              "text1": "You will receive an email within approximately 10 minutes. The email contains a link for paying the test fee.",
-              "text2": "The email is sent from the address noreply@opintopolku.fi.",
-              "text3": "Your registration will be confirmed only after you have paid the test fee."
+              "text1": "You have received an email with a link for paying the test fee.",
+              "text2": "The message will come from the address noreply@opintopolku.fi."
+            },
+            "verifyRegistrationDetails": {
+              "termsAndConditions": {
+                "label": "Terms and conditions for registration",
+                "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-terms-and-conditions-for-registration"
+              },
+              "text1": "Before paying, please check that you have selected the correct YKI test.",
+              "text2": "You cannot change the language, level or test centre of the YKI test after paying the fee.",
+              "text3": "Please read the terms and conditions for registration on the Finnish National Agency for Education's website:"
             },
             "title": "Confirm the registration by paying the test fee"
+          },
+          "queued": {
+            "text1": "You will receive an email confirming that you have been added to the waiting list.",
+            "text2": "If you receive a place in the YKI test from the waiting list, you will be notified of this by email. Please keep an active eye on your email.",
+            "title": "You have registered for the waiting list"
           }
         },
         "stepper": {
@@ -270,6 +315,7 @@
           "phaseNumber": "{{current}} of {{total}}",
           "step": {
             "Done": "Done",
+            "EnrollToQueue": "Register for the waiting list",
             "Identify": "Identify",
             "Payment": "Payment",
             "Register": "Register"
@@ -309,6 +355,7 @@
             "selectIdentificationMethod": "Select your identification method",
             "suomiFiButtonText": "Identify via Suomi.fi",
             "title": "Identify yourself for registration",
+            "titleForQueueing": "Identify yourself to register for the waiting list",
             "withFinnishSSN": {
               "description": "<strong>Identify yourself through Suomi.fi e-identification.</strong>",
               "info": "After the identification you will be directed automatically to the registration form."
@@ -324,32 +371,42 @@
               "heading": "Payment was cancelled"
             },
             "error": {
-              "description": "You may try to pay again. You registration will be confirmed only after you have paid the test fee.",
+              "description": "You may try to pay again. You registration will be confirmed only after you have paid the test fee. You have received an email with a link for paying the test fee. The message will come from the address noreply@opintopolku.fi.",
               "heading": "Payment error"
             },
             "success": {
               "whatsNext": {
                 "beforeYkiTest": {
-                  "description": "To prepare for the YKI test, you can read the instructions provided by the Finnish National Agency for Education on their website:",
+                  "description": "Please also read the Finnish National Agency for Education's instructions for the YKI test:",
                   "label": "Before the YKI test (oph.fi)",
                   "url": "https://www.oph.fi/en/education-and-qualifications/yki-test"
                 },
                 "part1": "Your registration has been confirmed! You will receive a confirmation email shortly.",
                 "part2": "Closer to the test date, your test centre will send you an email with detailed instructions on arriving at the test, including the exact location and start time.",
-                "part3": "",
+                "part3": "The instructions include the exact location of the test centre and the time at which the test will start.",
                 "specialArrangements": {
                   "description": "If you need special arrangements, send your application as soon as possible according to the instructions provided by the Finnish National Agency for Education. The instructions can be found on their website:",
                   "label": "Do you need special arrangements? (oph.fi)",
                   "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-do-you-need-special-arrangements"
                 },
-                "title": "Welcome to the YKI test!"
+                "title": "Welcome to the YKI test!",
+                "toUserPortal": {
+                  "link": {
+                    "label": "My registrations",
+                    "omaOpintopolkuLabel": "My Studyinfo service (opintopolku.fi)"
+                  },
+                  "description": "You can view the details of your registration on the YKI registration page:"
+                }
               },
               "heading": "Registration confirmed!"
             }
           },
           "register": {
             "inProgress": {
-              "heading": "Register for YKI test"
+              "heading": {
+                "admission": "Register for a National Certificate of Language Proficiency (YKI) test",
+                "queue": "Register for the waiting list for the National Certificate of Language Proficiency (YKI) test"
+              }
             },
             "success": {
               "heading": "Registration form sent"
@@ -361,12 +418,13 @@
             "description": "You can register for only one YKI test on the same test day.",
             "title": "You have already registered for another YKI test on the same test day"
           },
-          "full": {
-            "description": "Registration is not possible at the moment. There are no available seats for this test.",
-            "title": "The test is full"
-          },
           "generic": {
-            "description": "Submitting the registration form failed. You can return to the registration form and try again.",
+            "description": "The registration form could not be submitted. You can go back to the registration form and try again.",
+            "title": "The registration form could not be submitted"
+          },
+          "full": {
+            "description1": "The test is full",
+            "description2": "Submitting the registration form failed. You can return to the registration form and try again.",
             "title": "Submitting the registration form failed"
           },
           "past": {
@@ -383,9 +441,23 @@
             "title": "Registration has not started"
           }
         }
+      },
+      "transferEnrollment": {
+        "actions": {
+          "cancel": "Don't reschedule",
+          "confirm": "Yes, reschedule",
+          "select": "Select"
+        },
+        "confirmTransfer": "Are you sure you want to reschedule your registration for the following YKI test?",
+        "description": "The rescheduling is final. You can reschedule your registration only once.",
+        "select": "Select",
+        "title": "Reschedule registration"
       }
     },
     "pages": {
+      "confirmEnrollmentPage": {
+        "heading": "Confirm registration"
+      },
       "evaluationOrderPage": {
         "notFound": "Information about the reassessment was not found!",
         "title": "Request a reassessment",
@@ -429,7 +501,7 @@
         "info": {
           "general": {
             "body1": "In the reassessment, your test answers will be evaluated again. The reassessment will be conducted by different assessors than those who assessed your YKI test the first time.",
-            "body2": "The reassessment rarely changes the proficiency level assessment of a subtest. See previous statistics on the website of the Finnish National Agency for Education: ",
+            "body2": "The reassessment rarely changes the proficiency level assessment of a subtest. See previous statistics on the website of the Finnish National Agency for Education:",
             "body3": "The reassessment only concerns your YKI test answers. It will not take into account any other factors that may have affected the test results. The decision on a reassessment may not be appealed.",
             "heading": "What is a reassessment?",
             "link": "https://www.oph.fi/en/education-and-qualifications/after-yki-test#anchor-reassessment",
@@ -461,7 +533,7 @@
         },
         "description": {
           "part1": {
-            "text": "The National Certificates of Language Proficiency (YKI) test measures functional language proficiency in everyday situations. You can officially prove your language skills in different languages with a National Certificate of Language Proficiency. "
+            "text": "The National Certificates of Language Proficiency (YKI) test measures functional language proficiency in everyday situations. You can officially prove your language skills in different languages with a National Certificate of Language Proficiency."
           },
           "part2": {
             "link": {
@@ -500,7 +572,10 @@
           }
         },
         "infoBox": {
-          "text": "The registration period for the YKI test on 3 October 2025 will end early, on Tuesday 2 September 2025 at 16:00, due to an update to the registration system. We apologize for the inconvenience."
+          "heading": "You can now join the waiting list for YKI tests!",
+          "text": "You can also view your registrations in the My Studyinfo service. Read more on the website of the Finnish National Agency for Education: ",
+          "link": "Changes in registration for YKI tests",
+          "url": "https://www.oph.fi/en/news/2025/changes-registration-yki-tests"
         },
         "labels": {
           "excludeFullSessions": "Show only the tests that have available seats",
@@ -512,6 +587,126 @@
         },
         "register": "Register",
         "title": "National Certificates of Language Proficiency (YKI) - Registration"
+      },
+      "transferEnrollmentPage": {
+        "currentEnrollmentDetails": {
+          "heading": "You are about to reschedule"
+        },
+        "introduction": {
+          "criteria": {
+            "item1": "The new test date cannot be more than one year after the original test date.",
+            "item2": "If the next YKI test of the same language and level is held more than a year from the original test date, you may reschedule your registration to the next YKI test of the same language and level."
+          },
+          "info": "You can reschedule your registration once for another YKI test of the same language and level at the same test centre."
+        },
+        "selectNewExamDate": {
+          "actions": {
+            "select": "Select"
+          },
+          "noCandidatesFound": "No YKI tests were found. Please contact your own test centre directly to ask about rescheduling your registration. Your test centre's email address is {{email}}.",
+          "heading": "Choose a new test date"
+        },
+        "title": "Reschedule registration"
+      },
+      "transferEnrollmentSuccessPage": {
+        "information": {
+          "beforeYkiTest": {
+            "description": "Please also read the Finnish National Agency for Education's instructions for the YKI test:",
+            "label": "Before the YKI test (oph.fi)",
+            "url": "https://www.oph.fi/en/education-and-qualifications/yki-test"
+          },
+          "heading": "Welcome to the YKI test!",
+          "part1": "Registration rescheduled. You will receive a confirmation of your registration by email.",
+          "part2": "The test centre will send you instructions for the YKI test before the test date. The instructions will tell you where the test centre is and when the test starts.",
+          "part3": "The instructions include the exact location of the test centre and the time at which the test will start.",
+          "specialArrangements": {
+            "description1": "If you need special arrangements,",
+            "description2": "you must also apply for special arrangements for the new test date.",
+            "description3": "Please submit your application as soon as possible. Instructions for applying for special arrangements are available on the Finnish National Agency for Education's website",
+            "label": "Do you need special arrangements? (oph.fi)",
+            "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-do-you-need-special-arrangements"
+          }
+        },
+        "title": "Registration successfully rescheduled!"
+      },
+      "userDetailsPage": {
+        "expiredLoginLink": {
+          "part1": "The link has expired. For security reasons, the link only works for 14 days. You will need to order a new link.",
+          "buttonText": "Order a new link to your email",
+          "part2": "If you do not receive a new link, please send us an email at kielitutkinnot@oph.fi.",
+          "title": "The link has expired"
+        },
+        "contactDetails": {
+          "description": {
+            "part1": "We will send you the certificate by post.",
+            "part2": "Please check that you have provided the correct address.",
+            "part3": "If there is a mistake in your contact information, please notify the Finnish National Agency for Education by email at kielitutkinnot@oph.fi."
+          },
+          "heading": "Your contact information",
+          "modify": "Edit contact information"
+        },
+        "introduction": {
+          "bulletPoints": {
+            "point1": "You can view your own registrations for the last 12 months.",
+            "point2": "You can reschedule your registration only once.",
+            "point3": "You can cancel your registration.",
+            "point4": "You can view the tests for which you are on the waiting list and accept a place in a test from the waiting list.",
+            "point5": "If a place in the YKI test opens up, you can accept it.",
+            "point6": "You can cancel your waiting list registration."
+          },
+          "info": "View and edit your registrations for YKI tests."
+        },
+        "notLoggedIn": {
+          "actionsAvailable": "Once you are logged in, you can view and edit your registrations for YKI tests.",
+          "loginRequired": "You are not logged in. <strong>Please log in using Suomi.fi e-identification or the login link sent to you by email.</strong>",
+          "loginThroughSuomiFi": "Log in using Suomi.fi e-identification",
+          "title": "National Certificates of Language Proficiency (YKI) - Login required"
+        },
+        "registrations": {
+          "actions": {
+            "cancel": "Cancel registration",
+            "confirm": "Confirm registration",
+            "relocate": "Reschedule registration"
+          },
+          "alreadyTransferredNotification": {
+            "part1": "You have rescheduled your registration.",
+            "part2": "You can reschedule your registration only once. You cannot reschedule again."
+          },
+          "examPayment": {
+            "expiresAt": "Due date {{- date }}",
+            "notPaid": "Overdue €{{ examFee }}",
+            "label": "Test fee",
+            "paidAt": "Paid {{- date }}"
+          },
+          "header": {
+            "cancelled": "Cancelled registrations",
+            "past": "Completed tests and past registrations",
+            "upcoming": "Upcoming registrations"
+          },
+          "liftedFromQueueNotification": {
+            "part1": "You have received a place in the YKI test from the waiting list.",
+            "part2": "Please confirm your registration by {{- date }}",
+            "part3": "or you will lose your place"
+          },
+          "notPaidNotification": {
+            "part1": "Your registration has not been confirmed yet.",
+            "part2": "Please pay the test fee to confirm your registration.",
+            "part3": "If you do not pay the test fee by the due date, your registration will be cancelled."
+          },
+          "past": {
+            "notFound": "You have no completed tests or past registrations"
+          },
+          "state": {
+            "cancelled": "Cancelled",
+            "enrolled": "Registered",
+            "label": "Status",
+            "queued": "On the waiting list (position {{ positionInQueue }})"
+          },
+          "upcoming": {
+            "notFound": "You have no upcoming registrations."
+          }
+        },
+        "title": "National Certificates of Language Proficiency (YKI) - My registrations"
       }
     }
   }

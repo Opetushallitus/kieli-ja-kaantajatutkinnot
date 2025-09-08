@@ -2,6 +2,7 @@
   "yki": {
     "common": {
       "actions": "Toiminnot",
+      "address": "Osoite",
       "appNameAbbreviation": "YKI",
       "appTitle": "Yleiset kielitutkinnot - Opetushallitus",
       "back": "Takaisin",
@@ -28,6 +29,7 @@
       "dates": {
         "dateTimeFormat": "l [klo] HH.mm"
       },
+      "email": "Sähköpostiosoite",
       "error": "Tapahtui odottamaton virhe.",
       "errors": {
         "customTextField": {
@@ -118,12 +120,13 @@
         "description": "Menetät tekemäsi muutokset.",
         "header": "Haluatko varmasti poistua sivulta?"
       },
+      "name": "Nimi",
       "next": "Seuraava",
       "no": "Ei",
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Yleisten kielitutkintojen ilmoittautumissivulle.",
+      "phoneNumber": "Puhelinnumero",
       "placesAvailable": "Paikkoja vapaana",
-      "postAdmission": "Jälki-ilmoittautuminen",
       "price": "Hinta",
       "privacyStatement": {
         "description": "Noudatamme henkilötietojen käsittelyssä EU:n yleistä tietosuoja-asetusta.",
@@ -139,6 +142,7 @@
       "registration": "Ilmoittautuminen",
       "registrationPeriod": "Ilmoittautumisaika",
       "specialArrangementsLink": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin",
+      "userRegistrations": "Omat ilmoittautumiset",
       "yes": "Kyllä",
       "ykiHomepage": {
         "ariaLabel": "Yleisten kielitutkintojen verkkosivu (oph.fi), avaa uudessa välilehdessä",
@@ -154,6 +158,9 @@
         "evaluationOrderStatus": "Tarkistusarviointi",
         "accessibilityStatement": "Saavutettavuusseloste",
         "logoutSuccess": "Uloskirjautuminen onnnistui",
+        "userDetails": "Omat ilmoittautumiset",
+        "transferEnrollment": "Siirrä ilmoittautuminen",
+        "confirmRegistration": "Vahvista ilmoittautuminen",
         "notFound": "Etsimääsi sivua ei löytynyt"
       }
     }

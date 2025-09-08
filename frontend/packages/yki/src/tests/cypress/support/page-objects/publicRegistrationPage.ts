@@ -38,6 +38,17 @@ class PublicRegistrationPage {
     return this.elements.resultBox().find('tbody').findAllByRole('row');
   }
 
+  getResultRowsNth(nth: number) {
+    return this.elements.resultBox().find('tbody').findAllByRole('row').eq(nth);
+  }
+
+  alertModalContains(text: string) {
+    return cy
+      .findAllByRole('alertdialog')
+      .findByTestId('registration-error-modal-description')
+      .contains(text);
+  }
+
   isVisible() {
     this.elements.title().should('be.visible');
   }

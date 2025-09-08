@@ -8,17 +8,23 @@ export enum AppRoutes {
   Registration = '/yki/ilmoittautuminen',
   RegistrationPaymentStatus = '/yki/ilmoittautuminen/maksu/tila',
   ExamSessionRegistration = '/yki/ilmoittautuminen/tutkintotilaisuus/:examSessionId',
+  ExamSessionQueue = '/yki/ilmoittautuminen/tutkintotilaisuus/:examSessionId/jono',
   Reassessment = '/yki/tarkistusarviointi',
   ReassessmentOrder = '/yki/tarkistusarviointi/:evaluationId',
   ReassessmentOrderStatus = '/yki/tarkistusarviointi/maksu/tila',
   ExamSession = '/yki/tutkintotilaisuus/:examSessionId',
   LogoutSuccess = '/yki/uloskirjautuminen-onnistui',
+  UserDetails = '/yki/kayttaja/tiedot',
+  TransferEnrollment = '/yki/kayttaja/siirra/:registrationId',
+  TransferEnrollmentSuccess = '/yki/kayttaja/siirra/:registrationId/valmis',
+  ConfirmRegistration = '/yki/kayttaja/vahvista/:registrationId',
   NotFoundPage = '*',
 }
 
 export enum HeaderTabNav {
   Registration = 'registration',
   Reassessment = 'reassessment',
+  UserRegistrations = 'userRegistrations',
 }
 
 export enum ExamLanguage {
@@ -65,10 +71,20 @@ export enum GenderEnum {
 }
 
 export enum RegistrationKind {
-  Admission = 'admission',
-  PostAdmission = 'postAdmission',
+  Admission = 'ADMISSION',
+  Queue = 'QUEUE',
 }
 
 export enum YkiValidationErrors {
   MismatchingEmails = 'errors.mismatchingEmails',
+}
+
+export enum RegistrationStates {
+  Completed = 'COMPLETED',
+  Submitted = 'SUBMITTED',
+  Started = 'STARTED',
+  Expired = 'EXPIRED',
+  Cancelled = 'CANCELLED',
+  PaidAndCancelled = 'PAID_AND_CANCELLED',
+  Unknown = 'UNKNOWN',
 }

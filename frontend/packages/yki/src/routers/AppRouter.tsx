@@ -1,3 +1,4 @@
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { FC, useEffect } from 'react';
 import {
   createBrowserRouter,
@@ -7,20 +8,22 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import {
+  CustomButtonLink,
   Notifier,
   NotifierContextProvider,
   ScrollToTop,
 } from 'shared/components';
-import { APIResponseStatus } from 'shared/enums';
+import { APIResponseStatus, Variant } from 'shared/enums';
 import { TitlePage, TitlePageProps } from 'shared/utils';
 
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
+import { AppRoutes, RegistrationKind } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
+import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
 import { ExamDetailsPage } from 'pages/ExamDetailsPage';
@@ -30,6 +33,9 @@ import { NotFoundPage } from 'pages/NotFoundPage';
 import { ReassessmentPage } from 'pages/ReassessmentPage';
 import { RegistrationPage } from 'pages/RegistrationPage';
 import { RegistrationPaymentStatusPage } from 'pages/RegistrationPaymentStatusPage';
+import { TransferEnrollmentPage } from 'pages/TransferEnrollmentPage';
+import { TransferEnrollmentSuccessPage } from 'pages/TransferEnrollmentSuccessPage';
+import { UserDetailsPage } from 'pages/UserDetailsPage';
 import { loadSession } from 'redux/reducers/session';
 import { sessionSelector } from 'redux/selectors/session';
 
@@ -78,10 +84,32 @@ export const AppRouter: FC = () => {
   );
 
   const FrontPage = (
-    <YkiTitlePage title={createTitle('registration')}>
+    <YkiTitlePage title="registration">
       <RegistrationPage />
     </YkiTitlePage>
   );
+
+  const UserPortalSubPage = ({ title, children }: TitlePageProps) => {
+    const translateCommon = useCommonTranslation();
+
+    return (
+      <YkiTitlePage title={title}>
+        <div className="rows gapped-xxl">
+          <div className="columns">
+            <CustomButtonLink
+              to={AppRoutes.UserDetails}
+              startIcon={<ArrowBackIcon />}
+              variant={Variant.Text}
+              className="color-secondary-dark"
+            >
+              {translateCommon('back')}
+            </CustomButtonLink>
+          </div>
+          {children}
+        </div>
+      </YkiTitlePage>
+    );
+  };
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -91,7 +119,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ExamSession}
           element={
-            <YkiTitlePage title={createTitle('initRegistration')}>
+            <YkiTitlePage title="registration">
               <InitRegistrationPage />
             </YkiTitlePage>
           }
@@ -99,15 +127,23 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ExamSessionRegistration}
           element={
-            <YkiTitlePage title={createTitle('examDetails')}>
-              <ExamDetailsPage />
+            <YkiTitlePage title="examDetails">
+              <ExamDetailsPage registrationKind={RegistrationKind.Admission} />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ExamSessionQueue}
+          element={
+            <YkiTitlePage title="examDetails">
+              <ExamDetailsPage registrationKind={RegistrationKind.Queue} />
             </YkiTitlePage>
           }
         />
         <Route
           path={AppRoutes.RegistrationPaymentStatus}
           element={
-            <YkiTitlePage title={createTitle('registrationPaymentStatus')}>
+            <YkiTitlePage title="registrationPaymentStatus">
               <RegistrationPaymentStatusPage />
             </YkiTitlePage>
           }
@@ -115,7 +151,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.Reassessment}
           element={
-            <YkiTitlePage title={createTitle('reassessment')}>
+            <YkiTitlePage title="reassessment">
               <ReassessmentPage />
             </YkiTitlePage>
           }
@@ -123,7 +159,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ReassessmentOrder}
           element={
-            <YkiTitlePage title={createTitle('evaluationOrder')}>
+            <YkiTitlePage title="evaluationOrder">
               <EvaluationOrderPage />
             </YkiTitlePage>
           }
@@ -131,7 +167,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ReassessmentOrderStatus}
           element={
-            <YkiTitlePage title={createTitle('evaluationOrderStatus')}>
+            <YkiTitlePage title="evaluationOrderStatus">
               <EvaluationOrderStatusPage />
             </YkiTitlePage>
           }
@@ -139,15 +175,47 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.AccessibilityStatementPage}
           element={
-            <YkiTitlePage title={createTitle('accessibilityStatement')}>
+            <YkiTitlePage title="accessibilityStatement">
               <AccessibilityStatementPage />
             </YkiTitlePage>
           }
         />
         <Route
+          path={AppRoutes.UserDetails}
+          element={
+            <YkiTitlePage title="userDetails">
+              <UserDetailsPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ConfirmRegistration}
+          element={
+            <UserPortalSubPage title="transferEnrollment">
+              <ConfirmRegistrationPage />
+            </UserPortalSubPage>
+          }
+        />
+        <Route
+          path={AppRoutes.TransferEnrollment}
+          element={
+            <UserPortalSubPage title="transferEnrollment">
+              <TransferEnrollmentPage />
+            </UserPortalSubPage>
+          }
+        />
+        <Route
+          path={AppRoutes.TransferEnrollmentSuccess}
+          element={
+            <UserPortalSubPage title="transferEnrollment">
+              <TransferEnrollmentSuccessPage />
+            </UserPortalSubPage>
+          }
+        />
+        <Route
           path={AppRoutes.LogoutSuccess}
           element={
-            <YkiTitlePage title={createTitle('logoutSuccess')}>
+            <YkiTitlePage title="logoutSuccess">
               <LogoutSuccess />
             </YkiTitlePage>
           }
@@ -155,7 +223,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.NotFoundPage}
           element={
-            <YkiTitlePage title={createTitle('notFound')}>
+            <YkiTitlePage title="notFound">
               <NotFoundPage />
             </YkiTitlePage>
           }

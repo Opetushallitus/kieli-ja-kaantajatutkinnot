@@ -11,6 +11,7 @@
 @import 'components/registration/exam-session-filters';
 @import 'components/registration/exam-session-listing';
 @import 'components/registration/public-registration';
+@import 'components/userDetails/cancel-registration-modal';
 
 // Pages
 @import 'pages/accessibility-statement-page';
@@ -20,5 +21,9 @@
 @import 'pages/not-found-page';
 @import 'pages/public-exam-details-page';
 @import 'pages/reassessment-page';
+@import 'pages/user-details-page';
 @import 'pages/registration-page';
 @import 'pages/registration-payment-status-page';
+@import 'pages/transfer-enrollment-page';
+@import 'pages/transfer-enrollment-success-page';
+@import 'pages/confirm-registration-page';

@@ -2,6 +2,7 @@
   "yki": {
     "common": {
       "actions": "Funktioner",
+      "address": "Adress",
       "appNameAbbreviation": "YKI",
       "appTitle": "Allmänna språkexamina - Utbildningsstyrelsen",
       "back": "Tillbaka",
@@ -28,6 +29,7 @@
       "dates": {
         "dateTimeFormat": "l [kl.] HH:mm"
       },
+      "email": "E-postadress",
       "error": "Ett oväntat fel uppstod.",
       "errors": {
         "customTextField": {
@@ -79,7 +81,7 @@
           "logOutDialog": {
             "cancelButton": "Jag vill inte logga ut",
             "confirmButton": "Ja, jag loggar ut",
-            "description1": "Är du säker på att du vill logga ut? ",
+            "description1": "Är du säker på att du vill logga ut?",
             "description2": "Du förlorar uppgifterna som du har fyllt i och din anmälan kommer att avbrytas.",
             "title": "Logga ut"
           }
@@ -118,12 +120,13 @@
         "description": "Du kommer att förlora dina ändringar.",
         "header": "Är du säker på att du vill lämna den här sidan?"
       },
+      "name": "Namn",
       "next": "Följande",
       "no": "Nej",
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen - Till anmälningssidan för YKI-testet",
+      "phoneNumber": "Telefonnummer",
       "placesAvailable": "Lediga platser",
-      "postAdmission": "Efterhandsanmälan",
       "price": "Pris",
       "privacyStatement": {
         "description": "Vi följer EU:s allmänna dataskyddsförordning vid behandlingen av personuppgifter.",
@@ -139,6 +142,7 @@
       "registration": "Anmälan",
       "registrationPeriod": "Anmälningstid",
       "specialArrangementsLink": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-behover-du-specialarrangemang",
+      "userRegistrations": "Mina anmälningar",
       "yes": "Ja",
       "ykiHomepage": {
         "ariaLabel": "Webbplatsen för allmänna språkexamina (oph.fi), öppnas i en ny flik",
@@ -154,6 +158,9 @@
         "evaluationOrderStatus": "Kontrollbedömning",
         "accessibilityStatement": "Tillgänglighetsutlåtande",
         "logoutSuccess": "Utloggning lyckades",
+        "userDetails": "Mina anmälningar",
+        "transferEnrollment": "Flytta anmälan",
+        "confirmRegistration": "Bekräfta anmälan",
         "notFound": "Sidan hittades inte"
       }
     }

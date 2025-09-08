@@ -1,21 +1,30 @@
+import { Dayjs } from 'dayjs';
 import { useEffect } from 'react';
-import { Trans } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 import { H2, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
 import { CommonRegistrationDetails } from 'components/registration/steps/register/CommonRegistrationDetails';
+import { ConfirmRegistration } from 'components/registration/steps/register/ConfirmRegistration';
 import { EmailRegistrationDetails } from 'components/registration/steps/register/EmailRegistrationDetails';
 import { DialogContents } from 'components/registration/steps/register/RegistrationNavigationProtectionDialog';
 import { SuomiFiRegistrationDetails } from 'components/registration/steps/register/SuomiFiRegistrationDetails';
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import {
+  getCurrentLang,
+  useCommonTranslation,
+  usePublicTranslation,
+} from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { APIEndpoints } from 'enums/api';
+import { RegistrationKind } from 'enums/app';
 import { useRegistrationNavigationProtection } from 'hooks/useNavigationProtection';
-import { ExamSession } from 'interfaces/examSessions';
+import { loadLoginLink, resetLoginLink } from 'redux/reducers/loginLink';
 import { loadNationalities } from 'redux/reducers/nationalities';
-import { examSessionSelector } from 'redux/selectors/examSession';
+import { loginLinkSelector } from 'redux/selectors/loginLink';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
-import { ExamSessionUtils } from 'utils/examSession';
+import { sessionSelector } from 'redux/selectors/session';
+import { SerializationUtils } from 'utils/serialization';
 
 const FillRegistrationDetails = () => {
   const dispatch = useAppDispatch();
@@ -23,6 +32,8 @@ const FillRegistrationDetails = () => {
     keyPrefix: 'yki.component.registration.registrationDetails',
   });
   const { isEmailRegistration } = useAppSelector(registrationSelector);
+  const { registrationKind } =
+    useAppSelector(registrationSelector).initRegistration;
   const submitRegistrationStatus =
     useAppSelector(registrationSelector).submitRegistration.status;
   const nationalitiesStatus = useAppSelector(nationalitiesSelector).status;
@@ -61,7 +72,15 @@ const FillRegistrationDetails = () => {
       <H2 className="public-registration__grid__form-container__whats-next">
         {t('whatsNext.title')}
       </H2>
-      <Text>{t('whatsNext.description')}</Text>
+      {registrationKind === RegistrationKind.Admission && (
+        <Text>{t('whatsNext.description')}</Text>
+      )}
+      {registrationKind === RegistrationKind.Queue && (
+        <>
+          <Text>{t('whatsNext.queued.part1')}</Text>
+          <Text>{t('whatsNext.queued.part2')}</Text>
+        </>
+      )}
     </div>
   );
 };
@@ -81,34 +100,80 @@ const Error = () => {
   );
 };
 
-const Success = () => {
-  const { examSession } = useAppSelector(examSessionSelector);
+const SuccessQueued = () => {
   const { t } = usePublicTranslation({
-    keyPrefix:
-      'yki.component.registration.registrationFormSubmitted.proceedToPayment',
+    keyPrefix: 'yki.component.registration.registrationFormSubmitted.queued',
   });
 
   return (
     <div className="margin-top-xxl rows gapped">
       <H2>{t('title')}</H2>
-      <Text>
-        {t('confirmation')}:{' '}
-        {ExamSessionUtils.languageAndLevelText(examSession as ExamSession)}
-      </Text>
-      <Text>
-        {t('paymentLinkEmail.text1')}
-        <br />
-        {t('paymentLinkEmail.text2')}
-        <br />
-        {t('paymentLinkEmail.text3')}
-      </Text>
-      <Text>
-        <Trans t={t} i18nKey={'dueDateReminder.text1'} />
-        <br />
-        {t('dueDateReminder.text2')}
-      </Text>
+      <Text>{t('text1')}</Text>
+      <Text>{t('text2')}</Text>
     </div>
   );
+};
+
+const SuccessRegistered = () => {
+  const dispatch = useAppDispatch();
+
+  const [searchParams] = useSearchParams();
+  const registrationId = searchParams.get('registrationId');
+
+  const { loggedInSession } = useAppSelector(sessionSelector);
+  const { code } = useAppSelector(registrationSelector).submitRegistration;
+  const { expires_at, status } = useAppSelector(loginLinkSelector);
+  const lang = getCurrentLang();
+
+  useEffect(() => {
+    if (status === APIResponseStatus.NotStarted && code) {
+      dispatch(loadLoginLink(code));
+    }
+  }, [code, status, dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetLoginLink());
+    };
+  }, [dispatch]);
+
+  if (!code) {
+    return null;
+  }
+
+  const paymentUrl = new URL(
+    APIEndpoints.LoginWithCode,
+    window.location.origin,
+  );
+  const queryParams = paymentUrl.searchParams;
+  queryParams.append('code', code);
+  queryParams.append('lang', SerializationUtils.serializeAppLanguage(lang));
+
+  const paymentDetails = {
+    due_date: expires_at as Dayjs,
+    payment_url:
+      loggedInSession &&
+      loggedInSession['auth-method'] === 'SUOMIFI' &&
+      registrationId
+        ? APIEndpoints.RedirectToPayment.replace(
+            /:registrationId/,
+            registrationId,
+          ).replace(/:lang/, SerializationUtils.serializeAppLanguage(lang))
+        : paymentUrl.toString(),
+  };
+
+  return <ConfirmRegistration paymentDetails={paymentDetails} />;
+};
+
+const Success = () => {
+  const { registrationKind } =
+    useAppSelector(registrationSelector).submitRegistration;
+
+  if (registrationKind === RegistrationKind.Admission) {
+    return <SuccessRegistered />;
+  } else {
+    return <SuccessQueued />;
+  }
 };
 
 export const SubmitRegistrationDetails = () => {

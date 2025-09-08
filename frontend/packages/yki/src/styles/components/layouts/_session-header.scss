@@ -7,7 +7,7 @@
     align-items: flex-end;
     flex-direction: column;
     justify-content: center;
-    padding: 1rem 0 0;
+    padding: 1rem;
   }
 
   & &__logout-button {
@@ -16,7 +16,7 @@
 
   & &__user-details {
     @include phone {
-      padding: 0 2rem;
+      align-items: flex-end;
     }
   }
 
