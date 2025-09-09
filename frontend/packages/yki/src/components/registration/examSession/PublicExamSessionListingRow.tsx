@@ -1,6 +1,6 @@
 import { TableCell, TableRow, Typography } from '@mui/material';
 import { Dayjs } from 'dayjs';
-import { ReactNode } from 'react';
+import { ReactNode, useCallback } from 'react';
 import { CustomButton, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
@@ -232,19 +232,23 @@ export const PublicExamSessionListingRow = ({
     getCurrentLang(),
   );
 
-  const { open, availablePlaces } =
+  const { open, availablePlaces, queue } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
 
-  // TODO Different text when registering to queue?
-  const availablePlacesText =
-    availablePlaces > 0 ? '' + availablePlaces : t('full');
+  const getAvailablePlacesText = useCallback(() => {
+    if (queue || availablePlaces === 0) {
+      return t('full');
+    }
+
+    return `${availablePlaces}`;
+  }, [availablePlaces, queue, t]);
 
   if (isPhone) {
     return (
       <TableRow className="rows gapped-xs">
         <PublicExamSessionListingCellsForPhone
           examSession={examSession}
-          availablePlacesText={availablePlacesText}
+          availablePlacesText={getAvailablePlacesText()}
           registerActionAvailable={!!open}
           locationInfo={locationInfo}
         />
@@ -255,7 +259,7 @@ export const PublicExamSessionListingRow = ({
       <TableRow data-testid={`public-exam-session__id-${examSession.id}-row`}>
         <PublicExamSessionListingCellsForDesktop
           examSession={examSession}
-          availablePlacesText={availablePlacesText}
+          availablePlacesText={getAvailablePlacesText()}
           registerActionAvailable={!!open}
           locationInfo={locationInfo}
         />

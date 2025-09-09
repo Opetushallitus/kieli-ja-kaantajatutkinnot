@@ -125,6 +125,7 @@ export class ExamSessionUtils {
       quota: examSession.max_participants,
       availablePlaces: ExamSessionUtils.getAvailablePlaces(examSession),
       open: examSession.open,
+      queue: examSession.queue,
     };
   }
 
