@@ -119,13 +119,14 @@ const RegistrationState = ({
     <div>
       <Text className="bold">{t('label')}</Text>
       <div className="columns gapped-xxs">
-        {isEnrolled && (
-          <>
-            <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
-            <Text>{t('enrolled')}</Text>
-          </>
-        )}
-        {isQueued && (
+        {isEnrolled ||
+          (isQueued && registration.liftedFromQueueAt && (
+            <>
+              <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
+              <Text>{t('enrolled')}</Text>
+            </>
+          ))}
+        {isQueued && !registration.liftedFromQueueAt && (
           <>
             <AlarmOutlinedIcon className="user-details-page__icon--alert" />
             <Text>{t('queued', { positionInQueue })}</Text>
