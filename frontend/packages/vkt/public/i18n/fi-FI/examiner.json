@@ -155,6 +155,7 @@
             "link": "Linkki",
             "title": "Maksulinkki"
           },
+          "historyTitle": "Maksuhistoria",
           "recentTitle": "Maksun tila"
         },
         "paymentStatus": {

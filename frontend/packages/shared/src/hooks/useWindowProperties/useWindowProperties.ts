@@ -6,11 +6,13 @@ const getProperties = () => {
   const { innerWidth: width, innerHeight: height } = window;
   const isPhone = width <= Screenwidth.Phone;
   const isTablet = width >= Screenwidth.Tablet && width < Screenwidth.Desktop;
+  const isDesktopXS = width >= Screenwidth.DesktopXS;
   const isDesktop = width >= Screenwidth.Desktop;
 
   return {
     isPhone,
     isTablet,
+    isDesktopXS,
     isDesktop,
     width,
     height,

@@ -89,6 +89,7 @@ export enum NotifierTypes {
 export enum Screenwidth {
   Phone = 480,
   Tablet = 800,
+  DesktopXS = 920,
   Desktop = 1024,
 }
 

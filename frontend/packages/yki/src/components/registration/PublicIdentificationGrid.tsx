@@ -1,4 +1,5 @@
 import { Grid, Paper } from '@mui/material';
+import { Trans } from 'react-i18next';
 import { CustomButton, H1, H2, HeaderSeparator, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
@@ -8,16 +9,19 @@ import { PublicRegistrationControlButtons } from 'components/registration/Public
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
 import { usePublicTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { AppRoutes, RegistrationKind } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
+import { cancelRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
+import { registrationSelector } from 'redux/selectors/registration';
 import { sessionSelector } from 'redux/selectors/session';
 
 const AlreadyLoggedIn = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.identify',
   });
+  const dispatch = useAppDispatch();
   const { loggedInSession } = useAppSelector(sessionSelector);
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
@@ -25,10 +29,17 @@ const AlreadyLoggedIn = () => {
     loggedInSession?.['auth-method'] === 'SUOMIFI';
   const isEmailAuthenticatedSession =
     loggedInSession?.['auth-method'] === 'EMAIL';
+  const toQueue =
+    examSession.available_registration_kind === RegistrationKind.Queue;
+  const onAbort = () => {
+    dispatch(cancelRegistration());
+  };
 
   return (
     <>
-      <Text>{t('registrationIsBindingAdvisory')}</Text>
+      <Text>
+        <Trans t={t} i18nKey="registrationIsBindingAdvisory" />
+      </Text>
       <H2>{t('alreadyLoggedIn.caption')}</H2>
       <Text> {t('alreadyLoggedIn.currentLoginInformation')}</Text>
       <Text>
@@ -55,10 +66,10 @@ const AlreadyLoggedIn = () => {
           color={Color.Secondary}
           className="fit-content-max-width"
           size="large"
-          href={AppRoutes.ExamSessionRegistration.replace(
-            /:examSessionId/,
-            `${examSession.id}`,
-          )}
+          href={(toQueue
+            ? AppRoutes.ExamSessionQueue
+            : AppRoutes.ExamSessionRegistration
+          ).replace(/:examSessionId/, `${examSession.id}`)}
         >
           {t('alreadyLoggedIn.labels.continueToRegistration')}
         </CustomButton>
@@ -69,6 +80,7 @@ const AlreadyLoggedIn = () => {
           className="fit-content-max-width"
           size="large"
           href={AppRoutes.Registration}
+          onClick={onAbort}
         >
           {t('alreadyLoggedIn.labels.abort')}
         </CustomButton>
@@ -84,7 +96,9 @@ const Identify = () => {
 
   return (
     <>
-      <Text>{t('registrationIsBindingAdvisory')}</Text>
+      <Text>
+        <Trans t={t} i18nKey="registrationIsBindingAdvisory" />
+      </Text>
       <div className="gapped rows">
         <SelectIdentificationMethod />
         <PublicRegistrationControlButtons />
@@ -99,12 +113,15 @@ export const PublicIdentificationGrid = () => {
   });
   const { isPhone } = useWindowProperties();
 
+  const { registrationKind } =
+    useAppSelector(registrationSelector).initRegistration;
   const { examSession } = useAppSelector(examSessionSelector);
   const { loggedInSession } = useAppSelector(sessionSelector);
 
-  if (!examSession) {
+  if (!registrationKind) {
     return null;
   }
+  const toQueue = registrationKind === RegistrationKind.Queue;
 
   return (
     <Grid
@@ -119,7 +136,11 @@ export const PublicIdentificationGrid = () => {
             <PublicRegistrationStepper />
             <div className="rows public-registration__grid__heading">
               <H1>
-                {loggedInSession ? t('alreadyLoggedIn.title') : t('title')}
+                {toQueue
+                  ? t('titleForQueueing')
+                  : loggedInSession
+                  ? t('alreadyLoggedIn.title')
+                  : t('title')}
               </H1>
               <HeaderSeparator />
             </div>

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { APIResponseStatus } from 'shared/enums';
 
+import { RegistrationKind } from 'enums/app';
 import {
   PublicRegistrationFormStep,
   PublicRegistrationFormSubmitError,
@@ -11,6 +12,9 @@ import {
   isRegistrationInitErrorResponse,
   PublicEmailRegistration,
   PublicRegistrationFormSubmitErrorResponse,
+  PublicRegistrationFormSubmitSuccessResponse,
+  PublicRegistrationInitErrorState,
+  PublicRegistrationInitPayload,
   PublicRegistrationInitResponse,
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
@@ -18,12 +22,15 @@ import {
 export interface RegistrationState {
   initRegistration: {
     status: APIResponseStatus;
-    error?: PublicRegistrationInitError;
+    error?: PublicRegistrationInitErrorState;
     examSessionId?: number;
+    registrationKind?: RegistrationKind;
   };
   submitRegistration: {
+    code?: string;
     status: APIResponseStatus;
     error?: PublicRegistrationFormSubmitError;
+    registrationKind?: RegistrationKind;
   };
   cancelRegistration: {
     status: APIResponseStatus;
@@ -56,9 +63,13 @@ const registrationSlice = createSlice({
   name: 'registration',
   initialState,
   reducers: {
-    initRegistration(state, action: PayloadAction<number>) {
+    initRegistration(
+      state,
+      action: PayloadAction<PublicRegistrationInitPayload>,
+    ) {
       state.initRegistration.status = APIResponseStatus.InProgress;
-      state.initRegistration.examSessionId = action.payload;
+      state.initRegistration.examSessionId = action.payload.examSessionId;
+      state.initRegistration.registrationKind = action.payload.registrationKind;
     },
     rejectPublicRegistrationInit(
       state,
@@ -66,27 +77,41 @@ const registrationSlice = createSlice({
     ) {
       state.initRegistration.status = APIResponseStatus.Error;
       if (!action.payload) {
-        state.initRegistration.error = PublicRegistrationInitError.Generic;
+        state.initRegistration.error = {
+          error: PublicRegistrationInitError.Generic,
+        };
       } else {
         if (isRegistrationInitErrorResponse(action.payload)) {
-          const { closed, full, registered } = action.payload.data.error;
+          const error = action.payload.data.error;
+          const { closed, full } = error;
           if (closed) {
-            state.initRegistration.error = PublicRegistrationInitError.Past;
+            state.initRegistration.error = {
+              error: PublicRegistrationInitError.Past,
+            };
+          } else if (error['other-exam-session-registration']) {
+            state.initRegistration.error = {
+              error: PublicRegistrationInitError.AlreadyRegistered,
+              otherExamSessionRegistration:
+                error['other-exam-session-registration'],
+            };
           } else if (full) {
-            state.initRegistration.error =
-              PublicRegistrationInitError.ExamSessionFull;
-          } else if (registered) {
-            state.initRegistration.error =
-              PublicRegistrationInitError.AlreadyRegistered;
+            state.initRegistration.error = {
+              error: PublicRegistrationInitError.ExamSessionFull,
+            };
           } else {
-            state.initRegistration.error = PublicRegistrationInitError.Generic;
+            state.initRegistration.error = {
+              error: PublicRegistrationInitError.Generic,
+            };
           }
         } else if (action.payload.status === 401) {
-          state.initRegistration.error =
-            PublicRegistrationInitError.Unauthorized;
+          state.initRegistration.error = {
+            error: PublicRegistrationInitError.Unauthorized,
+          };
           state.activeStep = PublicRegistrationFormStep.Identify;
         } else {
-          state.initRegistration.error = PublicRegistrationInitError.Generic;
+          state.initRegistration.error = {
+            error: PublicRegistrationInitError.Generic,
+          };
         }
       }
     },
@@ -98,8 +123,14 @@ const registrationSlice = createSlice({
       action: PayloadAction<PublicRegistrationInitResponse>,
     ) {
       state.initRegistration.status = APIResponseStatus.Success;
-      const { registration_id, is_strongly_identified, user } = action.payload;
+      const {
+        registration_id,
+        is_strongly_identified,
+        user,
+        registration_kind,
+      } = action.payload;
       const nationality = user.nationalities && user.nationalities[0];
+      state.initRegistration.registrationKind = registration_kind;
       if (is_strongly_identified) {
         state.isEmailRegistration = false;
         state.hasSuomiFiNationalityData = !!nationality;
@@ -130,8 +161,14 @@ const registrationSlice = createSlice({
     submitPublicRegistration(state) {
       state.submitRegistration.status = APIResponseStatus.InProgress;
     },
-    acceptPublicRegistrationSubmission(state) {
+    acceptPublicRegistrationSubmission(
+      state,
+      action: PayloadAction<PublicRegistrationFormSubmitSuccessResponse>,
+    ) {
       state.submitRegistration.status = APIResponseStatus.Success;
+      state.submitRegistration.code = action.payload.code;
+      state.submitRegistration.registrationKind =
+        action.payload.registration_kind;
     },
     rejectPublicRegistrationSubmission(
       state,
@@ -177,6 +214,14 @@ const registrationSlice = createSlice({
     rejectCancelRegistration(state) {
       state.cancelRegistration.status = APIResponseStatus.Error;
     },
+    identifyRegistration(
+      state,
+      action: PayloadAction<PublicRegistrationInitPayload>,
+    ) {
+      state.initRegistration.status = APIResponseStatus.InProgress;
+      state.initRegistration.examSessionId = action.payload.examSessionId;
+      state.initRegistration.registrationKind = action.payload.registrationKind;
+    },
   },
 });
 
@@ -196,4 +241,5 @@ export const {
   cancelRegistration,
   acceptCancelRegistration,
   rejectCancelRegistration,
+  identifyRegistration,
 } = registrationSlice.actions;

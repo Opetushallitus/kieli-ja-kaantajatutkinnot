@@ -8,7 +8,9 @@ import { APIEndpoints } from 'enums/api';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import {
   PublicRegistrationFormSubmitErrorResponse,
+  PublicRegistrationFormSubmitSuccessResponse,
   PublicRegistrationInitErrorResponse,
+  PublicRegistrationInitPayload,
   PublicRegistrationInitResponse,
 } from 'interfaces/publicRegistration';
 import { resetExamSession, storeExamSession } from 'redux/reducers/examSession';
@@ -17,6 +19,7 @@ import {
   acceptPublicRegistrationInit,
   acceptPublicRegistrationSubmission,
   cancelRegistration,
+  identifyRegistration,
   initRegistration,
   RegistrationState,
   rejectCancelRegistration,
@@ -32,12 +35,55 @@ import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
 import { SerializationUtils } from 'utils/serialization';
 
-function* initRegistrationSaga(action: PayloadAction<number>) {
+function* initRegistrationSaga(
+  action: PayloadAction<PublicRegistrationInitPayload>,
+) {
   try {
     const response: AxiosResponse<PublicRegistrationInitResponse> = yield call(
       axiosInstance.post,
       APIEndpoints.InitRegistration,
-      JSON.stringify({ exam_session_id: action.payload }),
+      JSON.stringify(
+        SerializationUtils.serializePublicRegistrationInitRequest(
+          action.payload,
+        ),
+      ),
+    );
+    const { data } = response;
+    yield put(
+      storeExamSession(
+        SerializationUtils.deserializeExamSessionResponse({
+          ...data.exam_session,
+          available_registration_kind: data.registration_kind,
+        }),
+      ),
+    );
+    yield put(acceptPublicRegistrationInit(data));
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      const response =
+        error.response as AxiosResponse<PublicRegistrationInitErrorResponse>;
+      yield put(rejectPublicRegistrationInit(response));
+      if (response.status === 401) {
+        yield put(resetSession());
+      }
+    } else {
+      yield put(rejectPublicRegistrationInit());
+    }
+  }
+}
+
+function* identifyRegistrationSaga(
+  action: PayloadAction<PublicRegistrationInitPayload>,
+) {
+  try {
+    const response: AxiosResponse<PublicRegistrationInitResponse> = yield call(
+      axiosInstance.post,
+      APIEndpoints.IdentifyRegistration,
+      JSON.stringify(
+        SerializationUtils.serializePublicRegistrationInitRequest(
+          action.payload,
+        ),
+      ),
     );
     const { data } = response;
     yield put(
@@ -66,25 +112,26 @@ function* submitRegistrationFormSaga() {
     const registrationState: RegistrationState =
       yield select(registrationSelector);
     const { nationalities } = yield select(nationalitiesSelector);
-    yield call(
-      axiosInstance.post,
-      APIEndpoints.SubmitRegistration.replace(
-        /:registrationId/,
-        `${registrationState.registration.id}`,
-      ),
-      JSON.stringify(
-        SerializationUtils.serializeRegistrationForm(
-          registrationState.registration,
-          nationalities,
+    const response: AxiosResponse<PublicRegistrationFormSubmitSuccessResponse> =
+      yield call(
+        axiosInstance.post,
+        APIEndpoints.SubmitRegistration.replace(
+          /:registrationId/,
+          `${registrationState.registration.id}`,
         ),
-      ),
-      {
-        params: {
-          lang: SerializationUtils.serializeAppLanguage(lang),
+        JSON.stringify(
+          SerializationUtils.serializeRegistrationForm(
+            registrationState.registration,
+            nationalities,
+          ),
+        ),
+        {
+          params: {
+            lang: SerializationUtils.serializeAppLanguage(lang),
+          },
         },
-      },
-    );
-    yield put(acceptPublicRegistrationSubmission());
+      );
+    yield put(acceptPublicRegistrationSubmission(response.data));
     yield put(resetUserOpenRegistrations());
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -135,6 +182,7 @@ function* cancelRegistrationSaga() {
 
 export function* watchRegistration() {
   yield takeLatest(initRegistration.type, initRegistrationSaga);
+  yield takeLatest(identifyRegistration.type, identifyRegistrationSaga);
   yield takeLatest(submitPublicRegistration.type, submitRegistrationFormSaga);
   yield takeLatest(cancelRegistration.type, cancelRegistrationSaga);
 }

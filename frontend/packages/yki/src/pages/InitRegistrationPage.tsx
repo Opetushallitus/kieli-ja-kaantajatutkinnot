@@ -13,7 +13,11 @@ import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import { resetPublicIdentificationState } from 'redux/reducers/publicIdentification';
-import { setActiveStep } from 'redux/reducers/registration';
+import {
+  initRegistration,
+  resetPublicRegistration,
+  setActiveStep,
+} from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 import { ExamSessionUtils } from 'utils/examSession';
@@ -23,9 +27,9 @@ export const ContentSelector = () => {
   if (!examSession) {
     return null;
   }
-  const { open, availablePlaces } =
+  const { open } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-  if (!open || !availablePlaces) {
+  if (!open) {
     return <RegistrationNotAvailable />;
   } else {
     return <PublicIdentificationGrid />;
@@ -42,8 +46,10 @@ export const InitRegistrationPage = () => {
 
   // Redux
   const dispatch = useAppDispatch();
+
   const { status, examSession } = useAppSelector(examSessionSelector);
-  const { activeStep } = useAppSelector(registrationSelector);
+  const { activeStep, initRegistration: initRegistrationState } =
+    useAppSelector(registrationSelector);
   // React Router
   const navigate = useNavigate();
   const params = useParams();
@@ -57,20 +63,27 @@ export const InitRegistrationPage = () => {
 
     return () => {
       dispatch(resetPublicIdentificationState());
+      dispatch(resetPublicRegistration());
     };
   }, [dispatch, activeStep]);
 
+  const idFromParams = params.examSessionId
+    ? Number(params.examSessionId)
+    : undefined;
+
   useEffect(() => {
     if (
-      status === APIResponseStatus.NotStarted &&
-      !examSession?.id &&
-      params.examSessionId
+      (status === APIResponseStatus.NotStarted ||
+        status === APIResponseStatus.Success) &&
+      idFromParams &&
+      examSession?.id !== idFromParams
     ) {
       // Fetch exam details
-      dispatch(loadExamSession(+params.examSessionId));
+      dispatch(loadExamSession(idFromParams));
     } else if (
       status === APIResponseStatus.Error ||
-      isNaN(Number(params.examSessionId))
+      idFromParams === undefined ||
+      isNaN(idFromParams)
     ) {
       showToast({
         severity: Severity.Error,
@@ -79,15 +92,29 @@ export const InitRegistrationPage = () => {
 
       navigate(AppRoutes.Registration, { replace: true });
     }
-  }, [
-    status,
-    dispatch,
-    navigate,
-    params.examSessionId,
-    showToast,
-    examSession?.id,
-    t,
-  ]);
+  }, [status, dispatch, navigate, showToast, idFromParams, examSession?.id, t]);
+
+  useEffect(() => {
+    if (
+      examSession &&
+      (initRegistrationState.status === APIResponseStatus.NotStarted ||
+        initRegistrationState.examSessionId !== idFromParams)
+    ) {
+      // Ensure registration init endpoint gets called, even if navigating to the page directly by URL.
+      // This is necessary to accurately infer if user can enroll to exam proper or if they must enroll to queue instead.
+      dispatch(
+        initRegistration({
+          examSessionId: examSession.id,
+          registrationKind: examSession.available_registration_kind,
+        }),
+        [
+          examSession,
+          initRegistrationState.status,
+          initRegistrationState.examSessionId,
+        ],
+      );
+    }
+  });
 
   return (
     <Box className="public-exam-details-page">

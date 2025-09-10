@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.12.1] - 2025-08-01
+
+### Changed
+
+- Stack nav links in both Phone and Tablet sizes (aka 'mobile')
+
+## [1.12.0] - 2025-08-01
+
+### Changed
+
+- New header styles for phone and mobile in general. Possibly breaking so check app header on all screen sizes when updating shared package 
+
+### Added
+
+- DesktopXS breakpoint and a couple of helper mixins
+
 ## [1.11.15] - 2025-05-15
 
 ### Changed

@@ -1,7 +1,7 @@
 import { TableCell, TableRow, Typography } from '@mui/material';
 import { Dayjs } from 'dayjs';
 import { ReactNode } from 'react';
-import { CustomButtonLink, Text } from 'shared/components';
+import { CustomButton, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
@@ -12,10 +12,12 @@ import {
   usePublicTranslation,
 } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import { AppRoutes, RegistrationKind } from 'enums/app';
+import { RegistrationKind } from 'enums/app';
 import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
-import { storeExamSession } from 'redux/reducers/examSession';
-import { resetPublicRegistration } from 'redux/reducers/registration';
+import {
+  initRegistration,
+  resetPublicRegistration,
+} from 'redux/reducers/registration';
 import { DateTimeUtils } from 'utils/dateTime';
 import { ExamSessionUtils } from 'utils/examSession';
 
@@ -30,26 +32,29 @@ const RegisterToExamButton = ({
   });
   const { isPhone } = useWindowProperties();
 
-  const { availablePlaces, availableQueue } =
-    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
+  const { available_registration_kind } = examSession;
+
+  // TODO Different text when registering to queue!
 
   return (
-    <CustomButtonLink
+    <CustomButton
       color={Color.Secondary}
       variant={Variant.Outlined}
       onClick={() => {
-        dispatch(storeExamSession(examSession));
         dispatch(resetPublicRegistration());
+        dispatch(
+          initRegistration({
+            examSessionId: examSession.id,
+            registrationKind: available_registration_kind,
+          }),
+        );
       }}
-      to={AppRoutes.ExamSession.replace(/:examSessionId$/, `${examSession.id}`)}
       fullWidth={isPhone}
     >
-      {availablePlaces
+      {available_registration_kind === RegistrationKind.Admission
         ? t('register')
-        : availableQueue
-        ? t('orderCancellationNotification')
-        : t('full')}
-    </CustomButtonLink>
+        : t('enrollToQueue')}
+    </CustomButton>
   );
 };
 
@@ -63,20 +68,16 @@ const RegistrationUnavailableText = ({
   });
   const { start } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-  if (examSession.open) {
-    return <>{t('examSessionIsFull')}</>;
+  if (examSession.upcoming_admission) {
+    return (
+      <>
+        {t('admissionOpensOn', {
+          startDate: DateUtils.formatOptionalDate(start),
+        })}
+      </>
+    );
   } else {
-    if (examSession.upcoming_admission || examSession.upcoming_post_admission) {
-      return (
-        <>
-          {t('admissionOpensOn', {
-            startDate: DateUtils.formatOptionalDate(start),
-          })}
-        </>
-      );
-    } else {
-      return <>{t('admissionPeriodIsClosed')}</>;
-    }
+    return <>{t('admissionPeriodIsClosed')}</>;
   }
 };
 
@@ -100,20 +101,10 @@ const renderAdmissionPeriod = ({
 };
 
 const AdmissionPeriodText = ({ examSession }: { examSession: ExamSession }) => {
-  const translateCommon = useCommonTranslation();
   const relevantPeriod =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-  if (relevantPeriod.kind === RegistrationKind.Admission) {
-    return <>{renderAdmissionPeriod(relevantPeriod)}</>;
-  } else {
-    return (
-      <>
-        {translateCommon('postAdmission')}:
-        <br aria-hidden={true} />
-        {renderAdmissionPeriod(relevantPeriod)}
-      </>
-    );
-  }
+
+  return <>{renderAdmissionPeriod(relevantPeriod)}</>;
 };
 
 const PublicExamSessionListingCellsForDesktop = ({
@@ -241,12 +232,11 @@ export const PublicExamSessionListingRow = ({
     getCurrentLang(),
   );
 
-  const { open, availablePlaces, availableQueue } =
+  const { open, availablePlaces } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
+
   const availablePlacesText =
     availablePlaces > 0 ? '' + availablePlaces : t('full');
-
-  const registerActionAvailable = open && (availablePlaces || availableQueue);
 
   if (isPhone) {
     return (
@@ -254,7 +244,7 @@ export const PublicExamSessionListingRow = ({
         <PublicExamSessionListingCellsForPhone
           examSession={examSession}
           availablePlacesText={availablePlacesText}
-          registerActionAvailable={!!registerActionAvailable}
+          registerActionAvailable={!!open}
           locationInfo={locationInfo}
         />
       </TableRow>
@@ -265,7 +255,7 @@ export const PublicExamSessionListingRow = ({
         <PublicExamSessionListingCellsForDesktop
           examSession={examSession}
           availablePlacesText={availablePlacesText}
-          registerActionAvailable={!!registerActionAvailable}
+          registerActionAvailable={!!open}
           locationInfo={locationInfo}
         />
       </TableRow>

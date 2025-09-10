@@ -206,18 +206,13 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          <a
-            class="custom-button-link"
-            href="/yki/tutkintotilaisuus/999"
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
-              type="button"
-            >
-              orderCancellationNotification
-            </button>
-          </a>
+            register
+          </button>
         </td>
       </tr>
       <tr
@@ -244,20 +239,15 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          postAdmission
-          :
-          <br
-            aria-hidden="true"
-          />
           <span
-            aria-label="8/1/2023 klo 10.00 — 9/1/2030 klo 16.00"
+            aria-label="1/1/2023 klo 10.00 — 1/3/2023 klo 16.00"
           >
-            8/1/2023 klo 10.00
+            1/1/2023 klo 10.00
              —
             <br
               aria-hidden="true"
             />
-            9/1/2030 klo 16.00
+            1/3/2023 klo 16.00
           </span>
         </td>
         <td
@@ -269,23 +259,12 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          6
+          full
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          <a
-            class="custom-button-link"
-            href="/yki/tutkintotilaisuus/888"
-          >
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
-              type="button"
-            >
-              register
-            </button>
-          </a>
+          admissionPeriodIsClosed
         </td>
       </tr>
       <tr
@@ -441,18 +420,13 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          <a
-            class="custom-button-link"
-            href="/yki/tutkintotilaisuus/11"
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
-              type="button"
-            >
-              register
-            </button>
-          </a>
+            register
+          </button>
         </td>
       </tr>
       <tr
@@ -504,18 +478,13 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          <a
-            class="custom-button-link"
-            href="/yki/tutkintotilaisuus/12"
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
-              type="button"
-            >
-              register
-            </button>
-          </a>
+            register
+          </button>
         </td>
       </tr>
       <tr
@@ -567,18 +536,13 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          <a
-            class="custom-button-link"
-            href="/yki/tutkintotilaisuus/13"
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
-              type="button"
-            >
-              orderCancellationNotification
-            </button>
-          </a>
+            enrollToQueue
+          </button>
         </td>
       </tr>
       <tr
@@ -630,18 +594,13 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          <a
-            class="custom-button-link"
-            href="/yki/tutkintotilaisuus/14"
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
-              type="button"
-            >
-              orderCancellationNotification
-            </button>
-          </a>
+            register
+          </button>
         </td>
       </tr>
       <tr
@@ -693,7 +652,13 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          examSessionIsFull
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            enrollToQueue
+          </button>
         </td>
       </tr>
       <tr
@@ -748,6 +713,180 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           admissionPeriodIsClosed
         </td>
       </tr>
+      <tr
+        class="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
+        data-testid="public-exam-session__id-2-row"
+      >
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          yki.common.languages.fin, yki.common.languageLevel.KESKI
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          1/6/2021
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          Helsingin aikuisopisto
+          <br />
+          Helsinki
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          <span
+            aria-label="11/1/2020 klo 10.00 — 12/2/2020 klo 16.00"
+          >
+            11/1/2020 klo 10.00
+             —
+            <br
+              aria-hidden="true"
+            />
+            12/2/2020 klo 16.00
+          </span>
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          176
+           €
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          10
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            register
+          </button>
+        </td>
+      </tr>
+      <tr
+        class="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
+        data-testid="public-exam-session__id-6-row"
+      >
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          yki.common.languages.fin, yki.common.languageLevel.KESKI
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          1/6/2021
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          Helsingin aikuisopisto
+          <br />
+          Helsinki
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          <span
+            aria-label="11/1/2020 klo 10.00 — 12/2/2020 klo 16.00"
+          >
+            11/1/2020 klo 10.00
+             —
+            <br
+              aria-hidden="true"
+            />
+            12/2/2020 klo 16.00
+          </span>
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          176
+           €
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          17
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            register
+          </button>
+        </td>
+      </tr>
+      <tr
+        class="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
+        data-testid="public-exam-session__id-3-row"
+      >
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          yki.common.languages.fin, yki.common.languageLevel.KESKI
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          1/6/2021
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          Helsingin aikuisopisto
+          <br />
+          Helsinki
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          <span
+            aria-label="11/1/2020 klo 10.00 — 12/2/2020 klo 16.00"
+          >
+            11/1/2020 klo 10.00
+             —
+            <br
+              aria-hidden="true"
+            />
+            12/2/2020 klo 16.00
+          </span>
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          176
+           €
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          19
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            register
+          </button>
+        </td>
+      </tr>
     </tbody>
   </table>
   <div
@@ -764,7 +903,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         />
         <p
           class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-          id=":rc:"
+          id=":rf:"
         >
           component.table.pagination.rowsPerPage
         </p>
@@ -774,9 +913,9 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           <div
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":rc: :rb:"
+            aria-labelledby=":rf: :re:"
             class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
-            id=":rb:"
+            id=":re:"
             role="combobox"
             tabindex="0"
           >

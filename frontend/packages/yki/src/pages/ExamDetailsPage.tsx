@@ -8,16 +8,22 @@ import { PublicRegistrationGrid } from 'components/registration/PublicRegistrati
 import { PublicExamDetailsPageSkeleton } from 'components/skeletons/PublicExamDetailsPageSkeleton';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import {
   acceptPublicRegistrationSubmission,
-  initRegistration,
+  identifyRegistration,
   setActiveStep,
 } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
+import { registrationSelector } from 'redux/selectors/registration';
 
-export const ExamDetailsPage = () => {
+export const ExamDetailsPage = ({
+  registrationKind,
+}: {
+  registrationKind: RegistrationKind;
+}) => {
   // i18n
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.examDetailsPage',
@@ -28,11 +34,14 @@ export const ExamDetailsPage = () => {
   // Redux
   const dispatch = useAppDispatch();
   const { status, examSession } = useAppSelector(examSessionSelector);
+  const { initRegistration } = useAppSelector(registrationSelector);
   // React Router
   const params = useParams();
   const [searchParams] = useSearchParams();
 
-  const isLoading = status === APIResponseStatus.InProgress;
+  const isLoading =
+    status === APIResponseStatus.InProgress ||
+    initRegistration.status === APIResponseStatus.InProgress;
 
   useEffect(() => {
     dispatch(setActiveStep(PublicRegistrationFormStep.Register));
@@ -47,11 +56,28 @@ export const ExamDetailsPage = () => {
       if (searchParams.get('submitted')) {
         // If form is already submitted, just reload exam session details
         // and manually set registration status to submitted.
+        const code = searchParams.get('code');
+        const queue = searchParams.get('queue');
+        const registration_kind =
+          queue === 'true'
+            ? RegistrationKind.Queue
+            : RegistrationKind.Admission;
         dispatch(loadExamSession(+params.examSessionId));
-        dispatch(acceptPublicRegistrationSubmission());
+        dispatch(
+          acceptPublicRegistrationSubmission({
+            code: code || '',
+            registration_kind,
+          }),
+        );
       } else {
         // Else attempt to initiate registration.
-        dispatch(initRegistration(+params.examSessionId));
+        dispatch(
+          identifyRegistration({
+            examSessionId: +params.examSessionId,
+            // TODO registrationKind not needed when calling /identify, refactor away!
+            registrationKind: RegistrationKind.Admission,
+          }),
+        );
       }
     } else if (
       status === APIResponseStatus.Error ||
@@ -71,6 +97,7 @@ export const ExamDetailsPage = () => {
     examSession?.id,
     t,
     searchParams,
+    registrationKind,
   ]);
 
   return (

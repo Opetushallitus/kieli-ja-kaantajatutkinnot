@@ -5,7 +5,10 @@ import {
   CertificateLanguage,
   GenderEnum,
   InstructionLanguage,
+  RegistrationKind,
+  RegistrationStates,
 } from 'enums/app';
+import { PublicRegistrationInitError } from 'enums/publicRegistration';
 import { ExamSessionResponse } from 'interfaces/examSessions';
 
 export interface PersonFillOutDetails {
@@ -41,6 +44,16 @@ export interface PublicEmailRegistration
   ssn?: string;
 }
 
+export interface PublicRegistrationInitPayload {
+  examSessionId: number;
+  registrationKind: RegistrationKind;
+}
+
+export interface PublicRegistrationInitRequest {
+  exam_session_id: number;
+  to_queue: boolean;
+}
+
 export interface PublicRegistrationInitResponse {
   exam_session: ExamSessionResponse;
   registration_id: number;
@@ -54,16 +67,29 @@ export interface PublicRegistrationInitResponse {
     street_address?: string;
     email?: string;
     nationalities?: Array<string>;
+    oid?: string;
+    'external-user-id'?: string;
   };
   is_strongly_identified: boolean;
+  registration_kind: RegistrationKind;
+}
+
+interface OtherExamSessionRegistration {
+  id: number;
+  state: RegistrationStates;
 }
 
 export interface PublicRegistrationInitErrorResponse {
   error: {
     closed?: boolean;
     full?: boolean;
-    registered?: boolean;
+    'other-exam-session-registration': OtherExamSessionRegistration;
   };
+}
+
+export interface PublicRegistrationInitErrorState {
+  error: PublicRegistrationInitError;
+  otherExamSessionRegistration?: OtherExamSessionRegistration;
 }
 
 export function isRegistrationInitErrorResponse(
@@ -74,7 +100,17 @@ export function isRegistrationInitErrorResponse(
     return false;
   }
 
-  return 'closed' in error || 'full' in error || 'exists' in error;
+  return (
+    'closed' in error ||
+    'full' in error ||
+    'exists' in error ||
+    'other-exam-session-registration' in error
+  );
+}
+
+export interface PublicRegistrationFormSubmitSuccessResponse {
+  code: string;
+  registration_kind: RegistrationKind;
 }
 
 export interface PublicRegistrationFormSubmitErrorResponse {
