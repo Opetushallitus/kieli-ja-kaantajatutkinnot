@@ -36,3 +36,8 @@ springdoc:
     path: /swagger-ui.html
   api-docs:
     path: /api-docs
+app:
+  koski:
+    url: ${koski.url:null}
+    user: ${cas.username:null}
+    password: ${cas.password:null}
