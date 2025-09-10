@@ -3,7 +3,6 @@ package fi.oph.vkt.repository;
 import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.Person;
-import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
