@@ -11,7 +11,7 @@ export class ExamSessionUtils {
   }
 
   static getAvailablePlaces(examSession: ExamSession) {
-    if (!examSession.upcoming_admission) {
+    if (!examSession.upcoming_admission || examSession.queue) {
       return 0;
     } else {
       return ExamSessionUtils.getRegistrationAvailablePlaces(examSession);
