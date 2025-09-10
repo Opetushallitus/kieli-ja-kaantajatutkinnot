@@ -93,19 +93,17 @@ const RegistrationState = ({
 }: {
   registration: PersonRegistrations;
 }) => {
-  const { state, kind, liftedFromQueueAt } = registration;
+  const { state, kind } = registration;
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage.registrations.state',
   });
   const isEnrolled =
     state === RegistrationStates.Completed ||
     (state === RegistrationStates.Submitted &&
-      kind === RegistrationKind.Admission &&
-      !liftedFromQueueAt);
+      kind === RegistrationKind.Admission);
 
   const isQueued =
-    state === RegistrationStates.Submitted &&
-    (kind === RegistrationKind.Queue || liftedFromQueueAt);
+    state === RegistrationStates.Submitted && kind === RegistrationKind.Queue;
 
   const positionInQueue = registration.positionInQueue || 1;
 
@@ -119,14 +117,13 @@ const RegistrationState = ({
     <div>
       <Text className="bold">{t('label')}</Text>
       <div className="columns gapped-xxs">
-        {isEnrolled ||
-          (isQueued && registration.liftedFromQueueAt && (
-            <>
-              <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
-              <Text>{t('enrolled')}</Text>
-            </>
-          ))}
-        {isQueued && !registration.liftedFromQueueAt && (
+        {isEnrolled && (
+          <>
+            <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
+            <Text>{t('enrolled')}</Text>
+          </>
+        )}
+        {isQueued && (
           <>
             <AlarmOutlinedIcon className="user-details-page__icon--alert" />
             <Text>{t('queued', { positionInQueue })}</Text>
