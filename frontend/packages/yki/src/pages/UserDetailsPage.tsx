@@ -93,19 +93,17 @@ const RegistrationState = ({
 }: {
   registration: PersonRegistrations;
 }) => {
-  const { state, kind, liftedFromQueueAt } = registration;
+  const { state, kind } = registration;
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage.registrations.state',
   });
   const isEnrolled =
     state === RegistrationStates.Completed ||
     (state === RegistrationStates.Submitted &&
-      kind === RegistrationKind.Admission &&
-      !liftedFromQueueAt);
+      kind === RegistrationKind.Admission);
 
   const isQueued =
-    state === RegistrationStates.Submitted &&
-    (kind === RegistrationKind.Queue || liftedFromQueueAt);
+    state === RegistrationStates.Submitted && kind === RegistrationKind.Queue;
 
   const positionInQueue = registration.positionInQueue || 1;
 
