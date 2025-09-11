@@ -175,11 +175,14 @@ const registrationSlice = createSlice({
       action: PayloadAction<PublicRegistrationFormSubmitErrorResponse>,
     ) {
       state.submitRegistration.status = APIResponseStatus.Error;
-      const { closed, create_payment, expired, person_creation } =
+      const { closed, create_payment, expired, person_creation, registered } =
         action.payload.error;
       if (closed) {
         state.submitRegistration.error =
           PublicRegistrationFormSubmitError.RegistrationPeriodClosed;
+      } else if (registered) {
+        state.submitRegistration.error =
+          PublicRegistrationFormSubmitError.AlreadyRegistered;
       } else if (create_payment) {
         state.submitRegistration.error =
           PublicRegistrationFormSubmitError.PaymentCreationFailed;
