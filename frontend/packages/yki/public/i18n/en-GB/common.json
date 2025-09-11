@@ -161,7 +161,8 @@
         "userDetails": "My registrations",
         "transferEnrollment": "Reschedule registration",
         "confirmRegistration": "Confirm registration",
-        "notFound": "Page not found"
+        "notFound": "Page not found",
+        "expiredLoginLink": "The link has expired"
       }
     }
   }

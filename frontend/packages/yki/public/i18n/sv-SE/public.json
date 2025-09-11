@@ -642,7 +642,8 @@
           "part1": "Länken gäller inte längre. Av datasäkerhetsskäl fungerar länken bara i 14 dagar. Du måste beställa en ny länk.",
           "buttonText": "Beställ en ny länk till din e-post",
           "part2": "Om du inte får den nya länken, skicka e-post till oss på kielitutkinnot@oph.fi.",
-          "title": "Länken gäller inte längre"
+          "title": "Länken gäller inte längre",
+          "reply": "Du har fått en ny länk per e-post. Om du inte har fått meddelandet, kolla din skräppostmapp."
         },
         "contactDetails": {
           "description": {

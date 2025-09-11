@@ -1,17 +1,42 @@
 import { LockOutlined } from '@mui/icons-material';
 import { Grid, Paper } from '@mui/material';
 import { Box } from '@mui/system';
-import { FC } from 'react';
-import { CustomButton, H1, HeaderSeparator, Text } from 'shared/components';
-import { Color, Variant } from 'shared/enums';
+import { FC, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import {
+  CustomButton,
+  H1,
+  HeaderSeparator,
+  LoadingProgressIndicator,
+  Text,
+} from 'shared/components';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
-import { usePublicTranslation } from 'configs/i18n';
-import { APIEndpoints } from 'enums/api';
+import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import {
+  loadLoginLinkRenew,
+  resetLoginLinkRenew,
+} from 'redux/reducers/loginLinkRenew';
+import { loginLinkRenewSelector } from 'redux/selectors/loginLink';
 
-const _ExpiredLoginLinkPage: FC = () => {
+export const ExpiredLoginLinkPage: FC = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage.expiredLoginLink',
   });
+
+  const dispatch = useAppDispatch();
+  const params = useParams();
+  const lang = getCurrentLang();
+  const loginLinkRenew = useAppSelector(loginLinkRenewSelector);
+  const status = loginLinkRenew.status;
+  const isLoading = status === APIResponseStatus.InProgress;
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetLoginLinkRenew());
+    };
+  }, [dispatch]);
 
   return (
     <Box className="user-details-page">
@@ -32,14 +57,29 @@ const _ExpiredLoginLinkPage: FC = () => {
           <Paper elevation={3}>
             <Box padding={3} gap={2} display={'flex'} flexDirection="column">
               <Text>{t('part1')}</Text>
-              <CustomButton
-                className="user-details-page__expired-link-btn"
-                variant={Variant.Contained}
-                color={Color.Secondary}
-                href={`${APIEndpoints.Authenticate}?toUserPortal=true`}
-              >
-                {t('buttonText')}
-              </CustomButton>
+              {status !== APIResponseStatus.Success && (
+                <LoadingProgressIndicator isLoading={isLoading}>
+                  <CustomButton
+                    className="user-details-page__expired-link-btn"
+                    disabled={isLoading}
+                    variant={Variant.Contained}
+                    color={Color.Secondary}
+                    onClick={() => {
+                      dispatch(
+                        loadLoginLinkRenew({
+                          code: params.code || '',
+                          lang: lang,
+                        }),
+                      );
+                    }}
+                  >
+                    {t('buttonText')}
+                  </CustomButton>
+                </LoadingProgressIndicator>
+              )}
+              {status == APIResponseStatus.Success && (
+                <Text className="bold">{t('reply')}</Text>
+              )}
               <Text>{t('part2')}</Text>
             </Box>
           </Paper>
