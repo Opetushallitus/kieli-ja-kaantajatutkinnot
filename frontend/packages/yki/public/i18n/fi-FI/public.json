@@ -115,7 +115,10 @@
         "enrollModal": {
           "title": "Ilmoittautuminen epäonnistui",
           "examIsFull": "YKI-testi on täynnä. Voit ilmoittautua jonoon.",
-          "alreadyEnrolled": "Olet jo ilmoittaunut tutkintoon",
+          "alreadyRegistered": {
+            "part1": "Olet jo ilmoittautunut YKI-testiin.",
+            "part2": "Voit ilmoittautua tai jonottaa vain yhteen YKI-testiin samana testipäivänä."
+          },
           "examClosed": "Ilmoittautuminen on sulkeutunut",
           "enrollToQueue": "Ilmoittaudu jonoon",
           "checkingOpenSeats": "Tarkistetaan vapaita paikkoja...",
@@ -432,6 +435,8 @@
         "unavailable": {
           "alreadyRegistered": {
             "description": "Voit ilmoittautua vain yhteen YKI-testiin samana testipäivänä",
+            "description1": "Olet jo ilmoittautunut YKI-testiin.",
+            "description2": "Voit ilmoittautua tai jonottaa vain yhteen YKI-testiin samana testipäivänä.",
             "title": "Olet jo ilmoittautunut toiseen YKI-testiin samana testipäivänä"
           },
           "generic": {

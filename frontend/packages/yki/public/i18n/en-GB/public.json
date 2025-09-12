@@ -115,7 +115,10 @@
         "enrollModal": {
           "title": "Registration failed",
           "examIsFull": "The YKI-test is full. However, you can register for the waiting list.",
-          "alreadyEnrolled": "You have already registered for the test",
+          "alreadyRegistered": {
+            "part1": "You have already registered for the YKI test.",
+            "part2": "You can only register for one YKI test or its waiting list on the same test day."
+          },
           "examClosed": "Registration has closed",
           "enrollToQueue": "Register for the waiting list",
           "checkingOpenSeats": "Checking available places...",
@@ -432,6 +435,8 @@
         "unavailable": {
           "alreadyRegistered": {
             "description": "You can register for only one YKI test on the same test day.",
+            "description1": "You have already registered for the YKI test.",
+            "description2": "You can only register for one YKI test or its waiting list on the same test day.",
             "title": "You have already registered for another YKI test on the same test day"
           },
           "generic": {
