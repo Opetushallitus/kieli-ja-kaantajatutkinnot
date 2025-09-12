@@ -6,7 +6,9 @@ import {
   GenderEnum,
   InstructionLanguage,
   RegistrationKind,
+  RegistrationStates,
 } from 'enums/app';
+import { PublicRegistrationInitError } from 'enums/publicRegistration';
 import { ExamSessionResponse } from 'interfaces/examSessions';
 
 export interface PersonFillOutDetails {
@@ -72,12 +74,22 @@ export interface PublicRegistrationInitResponse {
   registration_kind: RegistrationKind;
 }
 
+interface OtherExamSessionRegistration {
+  id: number;
+  state: RegistrationStates;
+}
+
 export interface PublicRegistrationInitErrorResponse {
   error: {
     closed?: boolean;
     full?: boolean;
-    registered?: boolean;
+    'other-exam-session-registration': OtherExamSessionRegistration;
   };
+}
+
+export interface PublicRegistrationInitErrorState {
+  error: PublicRegistrationInitError;
+  otherExamSessionRegistration?: OtherExamSessionRegistration;
 }
 
 export function isRegistrationInitErrorResponse(
@@ -92,7 +104,7 @@ export function isRegistrationInitErrorResponse(
     'closed' in error ||
     'full' in error ||
     'exists' in error ||
-    'registered' in error
+    'other-exam-session-registration' in error
   );
 }
 

@@ -13,6 +13,7 @@ import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
 import {
+  cancelRegistration,
   increaseActiveStep,
   setShowErrors,
   submitPublicRegistration,
@@ -21,9 +22,18 @@ import { publicIdentificationSelector } from 'redux/selectors/publicIdentifactio
 import { registrationSelector } from 'redux/selectors/registration';
 
 const AbortButton = () => {
+  const dispatch = useAppDispatch();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.controlButtons',
   });
+  const { activeStep } = useAppSelector(registrationSelector);
+  const onAbort = () => {
+    if (activeStep === PublicRegistrationFormStep.Identify) {
+      // If user is on registration form, aborting registration will be handled by navigation protection.
+      // If user is however on the identification step, we must abort the reservation ourselves.
+      dispatch(cancelRegistration());
+    }
+  };
 
   return (
     <>
@@ -31,6 +41,7 @@ const AbortButton = () => {
         variant={Variant.Text}
         color={Color.Secondary}
         to={AppRoutes.Registration}
+        onClick={onAbort}
         data-testid="public-registration__controlButtons__abort"
       >
         {t('abortRegistration')}

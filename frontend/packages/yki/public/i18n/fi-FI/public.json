@@ -119,7 +119,15 @@
           "examClosed": "Ilmoittautuminen on sulkeutunut",
           "enrollToQueue": "Ilmoittaudu jonoon",
           "checkingOpenSeats": "Tarkistetaan vapaita paikkoja...",
-          "reservingQueueSeat": "Varataan jonopaikkaa..."
+          "reservingQueueSeat": "Varataan jonopaikkaa...",
+          "close": "Sulje",
+          "otherStartedRegistration": {
+            "title": "Ilmoittautuminen on kesken",
+            "part1": "Voit ilmoittautua tai jonottaa vain yhteen YKI-testiin samana testipäivänä.",
+            "part2": "Sinun täytyy jatkaa aikaisempaa ilmoittautumista tai keskeyttää se.",
+            "part3": "Jos haluat keskeyttää ilmoittautumisen, siirry ensin ilmoittautumislomakkeelle ja paina sitten KESKEYTÄ ILMOITTAUTUMINEN.",
+            "backToRegistrationButton": "Siirry ilmoittautumislomakkeelle"
+          }
         },
         "controlButtons": {
           "abortRegistration": "Keskeytä ilmoittautuminen",

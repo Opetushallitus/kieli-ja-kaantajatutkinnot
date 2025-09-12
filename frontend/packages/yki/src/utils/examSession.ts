@@ -11,7 +11,7 @@ export class ExamSessionUtils {
   }
 
   static getAvailablePlaces(examSession: ExamSession) {
-    if (!examSession.upcoming_admission) {
+    if (!examSession.upcoming_admission || examSession.queue) {
       return 0;
     } else {
       return ExamSessionUtils.getRegistrationAvailablePlaces(examSession);
@@ -125,6 +125,7 @@ export class ExamSessionUtils {
       quota: examSession.max_participants,
       availablePlaces: ExamSessionUtils.getAvailablePlaces(examSession),
       open: examSession.open,
+      queue: examSession.queue,
     };
   }
 

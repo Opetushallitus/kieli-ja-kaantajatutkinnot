@@ -235,7 +235,6 @@ export const PublicExamSessionListingRow = ({
   const { open, availablePlaces } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
 
-  // TODO Different text when registering to queue?
   const availablePlacesText =
     availablePlaces > 0 ? '' + availablePlaces : t('full');
 
