@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.yki.api.dto.PublicEducationDTO;
+import fi.oph.yki.model.Registration;
 import fi.oph.yki.service.koski.dto.KoskiResponseDTO;
 import fi.oph.yki.service.koski.dto.KoulutusTyyppi;
 import fi.oph.yki.service.koski.dto.OpiskeluoikeusDTO;
@@ -123,9 +124,10 @@ public class KoskiService {
     return (latestState != null && latestState.equals(OpiskeluoikeusjaksoTila.ACTIVE));
   }
 
-  public List<PublicEducationDTO> findEducations(final String oid) {
+  public List<PublicEducationDTO> updateEducations(final Registration registration) {
     try {
       final ObjectMapper objectMapper = new ObjectMapper();
+      final String oid = registration.getPersonOid();
       objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
 
       final String response = requestWithRetries(oid, REQUEST_ATTEMPTS);
