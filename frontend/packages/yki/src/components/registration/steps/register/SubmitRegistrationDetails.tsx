@@ -17,6 +17,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
 import { RegistrationKind } from 'enums/app';
+import { PublicRegistrationFormSubmitError } from 'enums/publicRegistration';
 import { useRegistrationNavigationProtection } from 'hooks/useNavigationProtection';
 import { loadLoginLink, resetLoginLink } from 'redux/reducers/loginLink';
 import { loadNationalities } from 'redux/reducers/nationalities';
@@ -25,7 +26,6 @@ import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
 import { sessionSelector } from 'redux/selectors/session';
 import { SerializationUtils } from 'utils/serialization';
-import { PublicRegistrationFormSubmitError } from 'enums/publicRegistration';
 
 const FillRegistrationDetails = () => {
   const dispatch = useAppDispatch();
@@ -86,21 +86,28 @@ const FillRegistrationDetails = () => {
   );
 };
 
+const AlreadyRegisteredError = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix:
+      'yki.component.registration.registrationFormSubmitted.error.alreadyRegistered',
+  });
+
+  return (
+    <div className="margin-top-xxl rows gapped">
+      <H2>{t('title')}</H2>
+      <Text>{t('part1')}</Text>
+      <Text>{t('part2')}</Text>
+      <Text>{t('part3')}</Text>
+    </div>
+  );
+};
+
 const Error = () => {
   const translateCommon = useCommonTranslation();
   const { error } = useAppSelector(registrationSelector).submitRegistration;
 
   if (error === PublicRegistrationFormSubmitError.AlreadyRegistered) {
-    return (
-      <div className="margin-top-xxl rows gapped">
-        <H2>{translateCommon(`errors.registration.${error}`)}</H2>
-        <Text>
-          Olet jo ilmoittautunut YKI-testiin tutkintopäivänä. Voit ilmoittautua
-          vain yhteen YKI-testiin samana tutkintopäivänä. Jos haluat
-          ilmoittautua tähän testiin, peru aiempi ilmoittautumisesi.
-        </Text>
-      </div>
-    );
+    return <AlreadyRegisteredError />;
   }
 
   return (

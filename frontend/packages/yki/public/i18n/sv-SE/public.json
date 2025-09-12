@@ -283,6 +283,14 @@
           }
         },
         "registrationFormSubmitted": {
+          "error": {
+            "alreadyRegistered": {
+              "part1": "Du kan endast anmäla dig eller köa till ett YKI-test per testdag.",
+              "part2": "Du kan inte anmäla dig till detta YKI-test förrän du har annullerat din tidigare anmälan för samma testdag.",
+              "part3": "Om du vill annullera din tidigare anmälan, läs instruktionerna i e-postmeddelandet med anmälningsbekräftelsen. E-postmeddelandet skickades från adressen noreply@opintopolku.fi när du anmälde dig till YKI-testet.",
+              "title": "Anmälan misslyckades"
+            }
+          },
           "proceedToPayment": {
             "dueDateReminder": {
               "text1": "<strong>Viktigt!</strong> E-postmeddelandet innehåller även den sista dagen som du kan betala examensavgiften.",

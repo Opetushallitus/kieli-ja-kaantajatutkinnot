@@ -283,6 +283,14 @@
           }
         },
         "registrationFormSubmitted": {
+          "error": {
+            "alreadyRegistered": {
+              "part1": "You can only register for one YKI test or its waiting list on the same test day.",
+              "part2": "You cannot register for this YKI test until you have cancelled your previous registration for the same test day.",
+              "part3": "If you wish to cancel your previous registration, please read the instructions in the registration confirmation email. The email was sent from noreply@opintopolku.fi when you registered for the YKI test.",
+              "title": "Registration failed"
+            }
+          },
           "proceedToPayment": {
             "dueDateReminder": {
               "text1": "<strong>Important!</strong> The message will also contain the due date for paying the test fee.",

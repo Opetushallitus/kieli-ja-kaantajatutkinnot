@@ -283,6 +283,14 @@
           }
         },
         "registrationFormSubmitted": {
+          "error": {
+            "alreadyRegistered": {
+              "part1": "Voit ilmoittautua tai jonottaa vain yhteen YKI-testiin samana testipäivänä.",
+              "part2": "Et voi ilmoittautua tähän YKI-testiin ennen kuin olet perunut aikaisemman ilmoittautumisen samalle testipäivälle.",
+              "part3": "Jos haluat perua aikaisemman ilmoittautumisen, lue ohjeet ilmoittautumisen vahvistussähköpostista. Sähköposti on lähetetty osoitteesta noreply@opintopolku.fi, kun ilmoittauduit YKI-testiin.",
+              "title": "Ilmoittautuminen epäonnistui"
+            }
+          },
           "proceedToPayment": {
             "dueDateReminder": {
               "text1": "<strong>Maksa tutkintomaksu viimeistään {{dueDate}}</strong>, jotta ilmoittautuminen vahvistuu.",
