@@ -64,6 +64,8 @@ public class RegisterEnrollmentServiceTest {
 
   Environment environment;
 
+  private int personOidCounter = 0;
+
   @BeforeEach
   public void setup() {
     environment = mock(Environment.class);
@@ -73,9 +75,11 @@ public class RegisterEnrollmentServiceTest {
 
   @Test
   public void testSyncEnrollments() throws IOException, InterruptedException, ExecutionException {
-    final ExamEvent examEvent = createExamEvent(2);
+    final ExamEvent examEvent1 = createExamEvent(2, LocalDate.of(2025, 5, 27));
+    final ExamEvent examEvent2 = createExamEvent(2, LocalDate.of(2045, 5, 27));
     final ExaminerExamEvent examinerExamEvent = createExaminerExamEvent();
-    final Enrollment enrollment = createEnrollment(examEvent, EnrollmentStatus.COMPLETED);
+    final Enrollment enrollment1 = createEnrollment(examEvent1, EnrollmentStatus.COMPLETED);
+    final Enrollment enrollment2 = createEnrollment(examEvent2, EnrollmentStatus.COMPLETED);
     final EnrollmentAppointment enrollmentAppointment1 = createEnrollmentAppointment(
       examinerExamEvent,
       EnrollmentAppointmentStatus.COMPLETED,
@@ -94,7 +98,8 @@ public class RegisterEnrollmentServiceTest {
     when(response.getResponseBody()).thenReturn(getMockSyncResponse());
     when(casClient.executeBlocking(any())).thenReturn(response);
 
-    assertNull(enrollment.getLastSyncAt());
+    assertNull(enrollment1.getLastSyncAt());
+    assertNull(enrollment2.getLastSyncAt());
     assertNull(enrollmentAppointment1.getLastSyncAt());
     assertNull(enrollmentAppointment2.getLastSyncAt());
 
@@ -110,7 +115,7 @@ public class RegisterEnrollmentServiceTest {
       .executeBlocking(
         argThat(r -> {
           final String actual = r.getStringData();
-          final String expected1 = getMockSyncRequest1().replace("[id]", "ET-" + enrollment.getId()).trim();
+          final String expected1 = getMockSyncRequest1().replace("[id]", "ET-" + enrollment1.getId()).trim();
 
           return (
             actual != null &&
@@ -143,7 +148,8 @@ public class RegisterEnrollmentServiceTest {
     verify(casClient, times(2)).executeBlocking(any());
     assertNotNull(enrollmentAppointment1.getLastSyncAt());
     assertNull(enrollmentAppointment2.getLastSyncAt());
-    assertNotNull(enrollment.getLastSyncAt());
+    assertNotNull(enrollment1.getLastSyncAt());
+    assertNull(enrollment2.getLastSyncAt());
   }
 
   private String getMockSyncRequest1() {
@@ -166,10 +172,10 @@ public class RegisterEnrollmentServiceTest {
     return new String(syncResponse.getInputStream().readAllBytes());
   }
 
-  private ExamEvent createExamEvent(final int maxParticipants) {
+  private ExamEvent createExamEvent(final int maxParticipants, final LocalDate examDate) {
     final ExamEvent examEvent = Factory.examEvent();
     examEvent.setMaxParticipants(maxParticipants);
-    examEvent.setDate(LocalDate.of(2025, 5, 27));
+    examEvent.setDate(examDate);
     entityManager.persist(examEvent);
 
     return examEvent;
@@ -188,7 +194,7 @@ public class RegisterEnrollmentServiceTest {
   }
 
   private Enrollment createEnrollment(final ExamEvent examEvent, final EnrollmentStatus status) {
-    final Person person = createPerson("1.2.246.562.10.1234567890");
+    final Person person = createPerson("1.2.246.562.10.123456789" + personOidCounter++);
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
     enrollment.setStatus(status);
     entityManager.persist(enrollment);
@@ -201,7 +207,7 @@ public class RegisterEnrollmentServiceTest {
     final EnrollmentAppointmentStatus status,
     final boolean hasGrades
   ) {
-    final Person person = createPerson("2.2.246.562.10.123456789" + (hasGrades ? '0' : '1'));
+    final Person person = createPerson("2.2.246.562.10.123456789" + personOidCounter++);
     final Examiner examiner = examEvent.getExaminer();
     final EnrollmentGrade enrollmentGrade = Factory.enrollmentGrades();
     final EnrollmentAppointment enrollment = Factory.enrollmentAppointment(examiner, examEvent, person);
