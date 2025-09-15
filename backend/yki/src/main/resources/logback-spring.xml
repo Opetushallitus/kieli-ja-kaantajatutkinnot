@@ -25,6 +25,13 @@
         </encoder>
     </appender>
 
+    <springProfile name="dev">
+        <root level="INFO">
+            <appender-ref ref="STDOUT" />
+        </root>
+        <logger name="fi.oph.yki" level="DEBUG" />
+    </springProfile>
+
     <root level="WARN">
         <appender-ref ref="APP" />
     </root>

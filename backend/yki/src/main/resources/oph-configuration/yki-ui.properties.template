@@ -1,4 +1,9 @@
 application.port=8080
+
+postgresql.url={{host_postgresql_yki}}
+postgresql.username={{postgres_app_user}}
+postgresql.password={{host_postgresql_yki_app_password}}
+
 koski.url=http://localhost
 cas.username=user
 cas.password=pass

@@ -5,8 +5,12 @@ server:
   servlet:
     context-path: "/yki"
 spring:
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  datasource:
+    url: ${postgresql.url:jdbc:postgresql://localhost:5432/yki}
+    username: ${postgresql.username:admin}
+    password: ${postgresql.password:admin}
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
   web:
     resources:
       static-locations: classpath:static/
