@@ -695,7 +695,7 @@
           },
           "examPayment": {
             "expiresAt": "Due date {{- date }}",
-            "notPaid": "Overdue €{{ examFee }}",
+            "notPaid": "Unpaid €{{ examFee }}",
             "label": "Test fee",
             "paidAt": "Paid {{- date }}"
           },
