@@ -25,9 +25,6 @@ const loginLinkRenewSlice = createSlice({
       state.status = APIResponseStatus.Error;
     },
     resetLoginLinkRenew(_) {
-      // eslint-disable-next-line no-console
-      console.log('!!! RESET !!!');
-
       return initialState;
     },
   },

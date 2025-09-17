@@ -214,7 +214,7 @@ export const AppRouter: FC = () => {
           }
         />
         <Route
-          path={AppRoutes.ExpiredLoginLingPage}
+          path={AppRoutes.ExpiredLoginLinkPage}
           element={
             <UserPortalSubPage title="expiredLoginLink">
               <ExpiredLoginLinkPage />
