@@ -1,10 +1,8 @@
 package fi.oph.yki.repository;
 
-import fi.oph.yki.model.Person;
+import fi.oph.yki.model.Registration;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PersonRepository extends JpaRepository<Person, Long> {
-  Person getByOid(final String oid);
-}
+public interface RegistrationRepository extends JpaRepository<Registration, Long> {}
