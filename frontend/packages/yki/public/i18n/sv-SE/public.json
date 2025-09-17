@@ -636,6 +636,13 @@
         "heading": "Utloggningen lyckades",
         "info": "Du har loggat ut. Stäng alla fönster i webbläsaren."
       },
+      "modifyContactDetailsPage": {
+        "description": {
+          "part1": "Lähetämme todistuksen sinulle postitse.",
+          "part2": "Tarkista, että olet antanut oikean osoitteen."
+        },
+        "title": "Muokkaa yhteystietoja"
+      },
       "notFoundPage": {
         "description": "Kontrollera webbadressen eller gå tillbaka till startsidan.",
         "title": "Sidan hittades inte"

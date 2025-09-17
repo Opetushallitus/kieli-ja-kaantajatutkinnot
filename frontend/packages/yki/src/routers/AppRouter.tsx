@@ -40,6 +40,7 @@ import { ExamDetailsPage } from 'pages/ExamDetailsPage';
 import { ExpiredLoginLinkPage } from 'pages/ExpiredLoginLinkPage';
 import { InitRegistrationPage } from 'pages/InitRegistrationPage';
 import { LogoutSuccess } from 'pages/LogoutSuccess';
+import { ModifyContactDetailsPage } from 'pages/ModifyContactDetailsPage';
 import { NotFoundPage } from 'pages/NotFoundPage';
 import { ReassessmentPage } from 'pages/ReassessmentPage';
 import { RegistrationPage } from 'pages/RegistrationPage';
@@ -262,6 +263,14 @@ export const AppRouter: FC = () => {
             }
           />
           <Route
+            path={AppRoutes.ModifyContactDetails}
+            element={
+              <UserPortalSubPage title="modifyContactDetails">
+                <ModifyContactDetailsPage />
+              </UserPortalSubPage>
+            }
+          />
+          <Route
             path={AppRoutes.ConfirmRegistration}
             element={
               <UserPortalSubPage title="transferRegistration">
@@ -310,7 +319,6 @@ export const AppRouter: FC = () => {
             }
           />
         </Route>
-        ,
       </>,
     ),
   );

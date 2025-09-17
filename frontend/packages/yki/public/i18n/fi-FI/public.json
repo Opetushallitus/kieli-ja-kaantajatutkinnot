@@ -636,6 +636,13 @@
         "heading": "Uloskirjautuminen onnnistui",
         "info": "Olet kirjautunut ulos. Sulje kaikki selainikkunat."
       },
+      "modifyContactDetailsPage": {
+        "description": {
+          "part1": "Lähetämme todistuksen sinulle postitse.",
+          "part2": "Tarkista, että olet antanut oikean osoitteen."
+        },
+        "title": "Muokkaa yhteystietoja"
+      },
       "notFoundPage": {
         "description": "Tarkista verkkosivun osoite tai palaa aloitussivulle.",
         "title": "Sivua ei löytynyt"

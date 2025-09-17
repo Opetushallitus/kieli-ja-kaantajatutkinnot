@@ -640,6 +640,13 @@
         "description": "Please check the website address or return to the front page.",
         "title": "Page not found"
       },
+      "modifyContactDetailsPage": {
+        "description": {
+          "part1": "Lähetämme todistuksen sinulle postitse.",
+          "part2": "Tarkista, että olet antanut oikean osoitteen."
+        },
+        "title": "Muokkaa yhteystietoja"
+      },
       "reassessmentPage": {
         "info": {
           "general": {

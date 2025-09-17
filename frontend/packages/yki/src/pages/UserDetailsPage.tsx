@@ -338,7 +338,8 @@ const ContactDetails = () => {
     return <></>;
   }
 
-  const editingContactDetailsAllowed = false;
+  // TODO This might need to be false if weakly authenticated
+  const editingContactDetailsAllowed = true;
 
   return (
     <div className="margin-top-xxl">
@@ -374,7 +375,7 @@ const ContactDetails = () => {
               <CustomButtonLink
                 variant={Variant.Text}
                 color={Color.Secondary}
-                to={''}
+                to={AppRoutes.ModifyContactDetails}
                 fullWidth={false}
                 startIcon={<EditOutlinedIcon />}
                 className="text-transform-none user-details-page__edit-btn"
