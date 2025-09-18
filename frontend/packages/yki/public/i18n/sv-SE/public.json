@@ -115,7 +115,10 @@
         "enrollModal": {
           "title": "Anmälning misslyckades",
           "examIsFull": "Det finns inga lediga platser. Du kan anmäla dig till en köplats.",
-          "alreadyEnrolled": "Du har redan anmält dig till examen.",
+          "alreadyRegistered": {
+            "part1": "Du har redan anmält dig till YKI test.",
+            "part2": "Du kan endast anmäla dig eller köa till ett YKI-test per testdag."
+          },
           "examClosed": "Anmälan är stängd",
           "enrollToQueue": "Anmäl dig till en köplats",
           "checkingOpenSeats": "Kontrollerar lediga platser...",
@@ -283,6 +286,14 @@
           }
         },
         "registrationFormSubmitted": {
+          "error": {
+            "alreadyRegistered": {
+              "part1": "Du kan endast anmäla dig eller köa till ett YKI-test per testdag.",
+              "part2": "Du kan inte anmäla dig till detta YKI-test förrän du har annullerat din tidigare anmälan för samma testdag.",
+              "part3": "Om du vill annullera din tidigare anmälan, läs instruktionerna i e-postmeddelandet med anmälningsbekräftelsen. E-postmeddelandet skickades från adressen noreply@opintopolku.fi när du anmälde dig till YKI-testet.",
+              "title": "Anmälan misslyckades"
+            }
+          },
           "proceedToPayment": {
             "dueDateReminder": {
               "text1": "<strong>Viktigt!</strong> E-postmeddelandet innehåller även den sista dagen som du kan betala examensavgiften.",
@@ -424,6 +435,8 @@
         "unavailable": {
           "alreadyRegistered": {
             "description": "Du kan endast anmäla dig till ett YKI-test per testdag",
+            "description1": "Du har redan anmält dig till YKI test.",
+            "description2": "Du kan endast anmäla dig eller köa till ett YKI-test per testdag.",
             "title": "Du har redan anmält dig till ett annat YKI-test på samma testdag"
           },
           "generic": {

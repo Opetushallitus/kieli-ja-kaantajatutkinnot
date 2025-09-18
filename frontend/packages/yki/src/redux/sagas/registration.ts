@@ -134,8 +134,6 @@ function* submitRegistrationFormSaga() {
     yield put(acceptPublicRegistrationSubmission(response.data));
     yield put(resetUserOpenRegistrations());
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('caught error!', error);
     if (isAxiosError(error) && error.response) {
       const response =
         error.response as AxiosResponse<PublicRegistrationFormSubmitErrorResponse>;

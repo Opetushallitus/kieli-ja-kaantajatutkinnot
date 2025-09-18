@@ -119,6 +119,7 @@ export interface PublicRegistrationFormSubmitErrorResponse {
     create_payment?: boolean;
     expired?: boolean;
     person_creation?: boolean;
+    registered?: boolean;
   };
 }
 
