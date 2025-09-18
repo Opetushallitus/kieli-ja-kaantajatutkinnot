@@ -637,9 +637,28 @@
         "info": "Olet kirjautunut ulos. Sulje kaikki selainikkunat."
       },
       "modifyContactDetailsPage": {
+        "buttons": {
+          "cancel": "Peruuta",
+          "save": "Tallenna yhteystiedot"
+        },
         "description": {
           "part1": "Lähetämme todistuksen sinulle postitse.",
           "part2": "Tarkista, että olet antanut oikean osoitteen."
+        },
+        "errorDialog": {
+          "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
+          "title": "Tiedoissa on korjattavaa!"
+        },
+        "labels": {
+          "confirmEmail": "Vahvista sähköpostiosoite",
+          "email": "Sähköpostiosoite",
+          "phoneNumber": "Puhelinnumero",
+          "postOffice": "Postitoimipaikka",
+          "streetAddress": "Katuosoite",
+          "zip": "Postinumero"
+        },
+        "toast": {
+          "success": "Yhteystiedot tallennettu onnistuneesti"
         },
         "title": "Muokkaa yhteystietoja"
       },

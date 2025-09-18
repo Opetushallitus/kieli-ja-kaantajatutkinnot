@@ -1479,6 +1479,18 @@ module.exports = function (app) {
     useLocalProxy ? proxyGetCall(req, res) : mockCall();
   });
 
+  app.post('/yki/api/person', (req, res) => {
+    const mockCall = () => {
+      try {
+        res.send({ success: true });
+      } catch (err) {
+        printError(req, err);
+        res.status(404).send(err.message);
+      }
+    };
+    useLocalProxy ? proxyPostCall(req, res) : mockCall();
+  });
+
   app.delete('/yki/api/person/registration/:id', (req, res) => {
     const mockCall = () => {
       try {

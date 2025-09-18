@@ -637,9 +637,28 @@
         "info": "Du har loggat ut. Stäng alla fönster i webbläsaren."
       },
       "modifyContactDetailsPage": {
+        "buttons": {
+          "cancel": "Avbryt",
+          "save": "Tallenna yhteystiedot"
+        },
         "description": {
           "part1": "Lähetämme todistuksen sinulle postitse.",
           "part2": "Tarkista, että olet antanut oikean osoitteen."
+        },
+        "errorDialog": {
+          "fixErrors": "Fyll i uppgifterna som saknas eller korrigera felaktiga uppgifter:",
+          "title": "Felaktiga uppgifter!"
+        },
+        "labels": {
+          "confirmEmail": "Bekräfta din e-postadress",
+          "email": "E-postadress",
+          "phoneNumber": "Telefonnummer",
+          "postOffice": "Postanstalt",
+          "streetAddress": "Gatuadress",
+          "zip": "Postnummer"
+        },
+        "toast": {
+          "success": "Yhteystiedot tallennettu onnistuneesti"
         },
         "title": "Muokkaa yhteystietoja"
       },

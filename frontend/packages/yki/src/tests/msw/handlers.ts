@@ -80,6 +80,9 @@ export const handlers = [
     () => HttpResponse.json(data.personDetails),
     // () => HttpResponse.json('Unauthorized', { status: 401 }),
   ),
+  http.post(APIEndpoints.PersonDetails, () =>
+    HttpResponse.json({ success: true }),
+  ),
   http.delete(APIEndpoints.CancelUserRegistration, ({ params }) => {
     const { registrationId } = params;
     if (registrationId) {

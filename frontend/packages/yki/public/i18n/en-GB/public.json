@@ -636,16 +636,36 @@
         "heading": "Log out complete",
         "info": "You have logged out successfully. Close all browser windows."
       },
-      "notFoundPage": {
-        "description": "Please check the website address or return to the front page.",
-        "title": "Page not found"
-      },
+
       "modifyContactDetailsPage": {
+        "buttons": {
+          "cancel": "Cancel",
+          "save": "Tallenna yhteystiedot"
+        },
         "description": {
           "part1": "Lähetämme todistuksen sinulle postitse.",
           "part2": "Tarkista, että olet antanut oikean osoitteen."
         },
+        "errorDialog": {
+          "fixErrors": "Check and correct the following information:",
+          "title": "Invalid information!"
+        },
+        "labels": {
+          "confirmEmail": "Confirm email address",
+          "email": "Email address",
+          "phoneNumber": "Telephone number",
+          "postOffice": "Municipality",
+          "streetAddress": "Street address",
+          "zip": "Postal code"
+        },
+        "toast": {
+          "success": "Yhteystiedot tallennettu onnistuneesti"
+        },
         "title": "Muokkaa yhteystietoja"
+      },
+      "notFoundPage": {
+        "description": "Please check the website address or return to the front page.",
+        "title": "Page not found"
       },
       "reassessmentPage": {
         "info": {

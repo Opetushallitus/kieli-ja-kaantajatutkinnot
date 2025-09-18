@@ -1,6 +1,9 @@
 import { Box, Grid, Paper } from '@mui/material';
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
+  CustomButton,
+  CustomButtonLink,
   H1,
   H2,
   HeaderSeparator,
@@ -10,14 +13,26 @@ import {
 } from 'shared/components';
 import {
   APIResponseStatus,
+  Color,
+  Duration,
   InputAutoComplete,
+  Severity,
   TextFieldTypes,
+  Variant,
 } from 'shared/enums';
-import { useWindowProperties } from 'shared/hooks';
+import { useDialog, useToast, useWindowProperties } from 'shared/hooks';
 
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { loadPersonDetails } from 'redux/reducers/userDetails';
+import { AppRoutes } from 'enums/app';
+import { useModifyContactDetailsErrors } from 'hooks/useModifyContactDetailsErrors';
+import { ModifyContactDetails } from 'interfaces/userDetails';
+import {
+  doModifyContactDetails,
+  loadPersonDetails,
+  resetModifyContactDetails,
+  updateModifyContactDetails,
+} from 'redux/reducers/userDetails';
 import { userDetailsSelector } from 'redux/selectors/userDetails';
 
 const Header = () => {
@@ -33,48 +48,80 @@ const Header = () => {
   );
 };
 
-const ContactDetailInputFields = () => {
+const ContactDetailInputFields = ({ showErrors }: { showErrors: boolean }) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration.registrationDetails',
+    keyPrefix: 'yki.pages.modifyContactDetailsPage',
   });
+  const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
+  const { modifyContactDetails } = useAppSelector(userDetailsSelector);
+  const dispatch = useAppDispatch();
+
+  const getErrors = useModifyContactDetailsErrors(showErrors);
+  const fieldErrors = getErrors();
+
+  const updateModifyContactDetailsField = (
+    fieldName: keyof ModifyContactDetails,
+    value: string,
+  ) => {
+    dispatch(updateModifyContactDetails({ [fieldName]: value }));
+  };
+
+  const handleChange =
+    (fieldName: keyof ModifyContactDetails) =>
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      updateModifyContactDetailsField(fieldName, event.target.value);
+    };
+
+  const handleBlur =
+    (fieldName: keyof ModifyContactDetails) =>
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const trimmedValue = event.target.value ? event.target.value.trim() : '';
+      updateModifyContactDetailsField(fieldName, trimmedValue);
+    };
+
+  const getLabeledTextFieldAttributes = (
+    fieldName: keyof ModifyContactDetails,
+  ) => {
+    return {
+      id: `modify-contact-details__${fieldName}`,
+      label: t('labels.' + fieldName) + ' *',
+      onChange: handleChange(fieldName),
+      onBlur: handleBlur(fieldName),
+      value: modifyContactDetails[fieldName] || '',
+      error: showErrors && !!fieldErrors[fieldName],
+      helperText: fieldErrors[fieldName]
+        ? translateCommon(fieldErrors[fieldName] as string)
+        : '',
+
+      required: true,
+      disabled: false,
+      fullWidth: isPhone,
+    };
+  };
 
   if (isPhone) {
     return (
       <>
         <LabeledTextField
-          id="modify-contact-details__input-field__address"
-          label={`${t('labels.address')} *`}
-          placeholder={t('placeholders.address')}
+          {...getLabeledTextFieldAttributes('streetAddress')}
           autoComplete={InputAutoComplete.Street}
-          fullWidth
         />
         <LabeledTextField
-          id="modify-contact-details__input-field__postNumber"
-          label={`${t('labels.postNumber')} *`}
-          placeholder={t('placeholders.postNumber')}
+          {...getLabeledTextFieldAttributes('zip')}
           autoComplete={InputAutoComplete.PostalCode}
-          fullWidth
         />
         <LabeledTextField
-          id="modify-contact-details__input-field__postOffice"
-          label={`${t('labels.postOffice')} *`}
-          placeholder={t('placeholders.postOffice')}
+          {...getLabeledTextFieldAttributes('postOffice')}
           autoComplete={InputAutoComplete.Town}
-          fullWidth
         />
         <LabeledTextField
-          id="modify-contact-details__input-field__email"
-          label={`${t('labels.email')} *`}
-          placeholder={t('placeholders.email')}
+          {...getLabeledTextFieldAttributes('email')}
           type={TextFieldTypes.Email}
           autoComplete={InputAutoComplete.Email}
-          fullWidth
         />
         <LabeledTextField
-          id="modify-contact-details__input-field__emailConfirmation"
-          label={`${t('labels.emailConfirmation')} *`}
-          placeholder={t('placeholders.emailConfirmation')}
+          {...getLabeledTextFieldAttributes('confirmEmail')}
           type={TextFieldTypes.Email}
           autoComplete={InputAutoComplete.Email}
           onPaste={(e) => {
@@ -82,15 +129,11 @@ const ContactDetailInputFields = () => {
 
             return false;
           }}
-          fullWidth
         />
         <LabeledTextField
-          id="modify-contact-details__input-field__phoneNumber"
-          label={`${t('labels.phoneNumber')} *`}
-          placeholder={t('placeholders.phoneNumber')}
+          {...getLabeledTextFieldAttributes('phoneNumber')}
           type={TextFieldTypes.PhoneNumber}
           autoComplete={InputAutoComplete.PhoneNumber}
-          fullWidth
         />
       </>
     );
@@ -99,36 +142,26 @@ const ContactDetailInputFields = () => {
   return (
     <div className="grid-2-columns gapped">
       <LabeledTextField
-        id="modify-contact-details__input-field__address"
-        label={`${t('labels.address')} *`}
-        placeholder={t('placeholders.address')}
+        {...getLabeledTextFieldAttributes('streetAddress')}
         autoComplete={InputAutoComplete.Street}
       />
       <div className="grid-2-columns gapped">
         <LabeledTextField
-          id="modify-contact-details__input-field__postNumber"
-          label={`${t('labels.postNumber')} *`}
-          placeholder={t('placeholders.postNumber')}
+          {...getLabeledTextFieldAttributes('zip')}
           autoComplete={InputAutoComplete.PostalCode}
         />
         <LabeledTextField
-          id="modify-contact-details__input-field__postOffice"
-          label={`${t('labels.postOffice')} *`}
-          placeholder={t('placeholders.postOffice')}
+          {...getLabeledTextFieldAttributes('postOffice')}
           autoComplete={InputAutoComplete.Town}
         />
       </div>
       <LabeledTextField
-        id="modify-contact-details__input-field__email"
-        label={`${t('labels.email')} *`}
-        placeholder={t('placeholders.email')}
+        {...getLabeledTextFieldAttributes('email')}
         type={TextFieldTypes.Email}
         autoComplete={InputAutoComplete.Email}
       />
       <LabeledTextField
-        id="modify-contact-details__input-field__emailConfirmation"
-        label={`${t('labels.emailConfirmation')} *`}
-        placeholder={t('placeholders.emailConfirmation')}
+        {...getLabeledTextFieldAttributes('confirmEmail')}
         type={TextFieldTypes.Email}
         autoComplete={InputAutoComplete.Email}
         onPaste={(e) => {
@@ -138,9 +171,7 @@ const ContactDetailInputFields = () => {
         }}
       />
       <LabeledTextField
-        id="modify-contact-details__input-field__phoneNumber"
-        label={`${t('labels.phoneNumber')} *`}
-        placeholder={t('placeholders.phoneNumber')}
+        {...getLabeledTextFieldAttributes('phoneNumber')}
         type={TextFieldTypes.PhoneNumber}
         autoComplete={InputAutoComplete.PhoneNumber}
       />
@@ -148,11 +179,104 @@ const ContactDetailInputFields = () => {
   );
 };
 
+const ControlButtons = ({
+  setShowErrors,
+}: {
+  setShowErrors: (show: boolean) => void;
+}) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.modifyContactDetailsPage',
+  });
+  const translateCommon = useCommonTranslation();
+  const { isPhone } = useWindowProperties();
+  const { showDialog } = useDialog();
+  const getErrors = useModifyContactDetailsErrors(true);
+  const { modifyContactDetailsStatus, modifyContactDetails } =
+    useAppSelector(userDetailsSelector);
+  const dispatch = useAppDispatch();
+  const modifyRequestInProgress =
+    modifyContactDetailsStatus === APIResponseStatus.InProgress;
+
+  const onSave = () => {
+    setShowErrors(true);
+    const errors = getErrors();
+    if (Object.values(errors).some((v) => v)) {
+      const dialogContent = (
+        <div>
+          <Text>{t('errorDialog.fixErrors')}</Text>
+          <ul>
+            {Object.entries(errors)
+              .filter(([_, val]) => val)
+              .map(([field, _]) => (
+                <li key={field}>
+                  <Text>{t(`labels.${field}`)}</Text>
+                </li>
+              ))}
+          </ul>
+        </div>
+      );
+      showDialog({
+        title: t('errorDialog.title'),
+        severity: Severity.Error,
+        content: dialogContent,
+        actions: [
+          { title: translateCommon('back'), variant: Variant.Contained },
+        ],
+      });
+    } else {
+      const payload = modifyContactDetails as ModifyContactDetails;
+      dispatch(doModifyContactDetails(payload));
+    }
+  };
+
+  const SaveButton = () => (
+    <LoadingProgressIndicator isLoading={modifyRequestInProgress}>
+      <CustomButton
+        color={Color.Secondary}
+        variant={Variant.Contained}
+        fullWidth={isPhone}
+        onClick={onSave}
+        disabled={modifyRequestInProgress}
+      >
+        {t('buttons.save')}
+      </CustomButton>
+    </LoadingProgressIndicator>
+  );
+  const CancelButton = () => (
+    <CustomButtonLink
+      color={Color.Secondary}
+      variant={Variant.Outlined}
+      fullWidth={isPhone}
+      to={AppRoutes.UserDetails}
+      disabled={modifyRequestInProgress}
+    >
+      {t('buttons.cancel')}
+    </CustomButtonLink>
+  );
+
+  if (isPhone) {
+    return (
+      <>
+        <SaveButton />
+        <CancelButton />
+      </>
+    );
+  } else {
+    return (
+      <div className="columns gapped margin-top-lg">
+        <SaveButton />
+        <CancelButton />
+      </div>
+    );
+  }
+};
+
 const EditContactDetails = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.modifyContactDetailsPage',
   });
   const { personDetails } = useAppSelector(userDetailsSelector);
+  const [showErrors, setShowErrors] = useState(false);
 
   if (!personDetails) {
     return null;
@@ -168,7 +292,8 @@ const EditContactDetails = () => {
           <H2>
             {personDetails.firstName} {personDetails.lastName}
           </H2>
-          <ContactDetailInputFields />
+          <ContactDetailInputFields showErrors={showErrors} />
+          <ControlButtons setShowErrors={setShowErrors} />
         </div>
       </Paper>
     </Grid>
@@ -177,13 +302,51 @@ const EditContactDetails = () => {
 
 export const ModifyContactDetailsPage = () => {
   const dispatch = useAppDispatch();
-  const { status } = useAppSelector(userDetailsSelector);
+  const { status, personDetails, modifyContactDetailsStatus } =
+    useAppSelector(userDetailsSelector);
+  const { showToast } = useToast();
+  const navigate = useNavigate();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.modifyContactDetailsPage',
+  });
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
       dispatch(loadPersonDetails());
+    } else if (status === APIResponseStatus.Success && personDetails) {
+      const { email, phoneNumber, streetAddress, postOffice, zip } =
+        personDetails;
+      dispatch(
+        updateModifyContactDetails({
+          email,
+          confirmEmail: email,
+          phoneNumber,
+          streetAddress,
+          postOffice,
+          zip,
+        }),
+      );
     }
-  }, [dispatch, status]);
+  }, [dispatch, status, personDetails]);
+
+  useEffect(() => {
+    if (modifyContactDetailsStatus === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: t('toast.success'),
+        timeOut: Duration.MediumExtra,
+      });
+      navigate(AppRoutes.UserDetails);
+      dispatch(loadPersonDetails());
+    }
+  });
+
+  // Clean-up
+  useEffect(() => {
+    return () => {
+      dispatch(resetModifyContactDetails());
+    };
+  }, [dispatch]);
 
   const loading = status === APIResponseStatus.InProgress;
 
