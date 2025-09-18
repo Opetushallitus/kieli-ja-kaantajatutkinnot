@@ -3,7 +3,7 @@ package fi.oph.yki.model.type;
 import fi.oph.yki.api.dto.PublicEducationDTO;
 import fi.oph.yki.service.koski.dto.KoulutusTyyppi;
 
-public enum FreeEnrollmentType {
+public enum FreeRegistrationType {
   MatriculationExam,
   HigherEducationEnrolled,
   HigherEducationConcluded,
@@ -12,8 +12,8 @@ public enum FreeEnrollmentType {
   Other,
   None;
 
-  public static FreeEnrollmentType fromEducationDTO(PublicEducationDTO dto) {
-    String educationType = dto.educationType();
+  public static FreeRegistrationType fromEducationDTO(PublicEducationDTO dto) {
+    final String educationType = dto.educationType();
     if (educationType.equals(KoulutusTyyppi.HigherEducation.toString())) {
       if (dto.isActive()) {
         return HigherEducationEnrolled;

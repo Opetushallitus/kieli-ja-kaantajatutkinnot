@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.yki.api.dto.PublicEducationDTO;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Registration;
-import fi.oph.yki.model.type.FreeEnrollmentType;
+import fi.oph.yki.model.type.FreeRegistrationType;
 import fi.oph.yki.service.koski.dto.KoskiResponseDTO;
 import fi.oph.yki.service.koski.dto.KoulutusTyyppi;
 import fi.oph.yki.service.koski.dto.OpiskeluoikeusDTO;
@@ -125,29 +125,6 @@ public class KoskiService {
     final OpiskeluoikeusjaksoTila latestState = findLatestState(opiskeluoikeus);
 
     return (latestState != null && latestState.equals(OpiskeluoikeusjaksoTila.ACTIVE));
-  }
-
-  public List<PublicEducationDTO> updateEducations(final Registration registration) {
-    final List<PublicEducationDTO> educationDTOs = getEducations(registration);
-    final FreeRegistration freeRegistration = new FreeRegistration();
-
-    final Set<FreeEnrollmentType> freeEnrollmentTypes = educationDTOs
-      .stream()
-      .map(FreeEnrollmentType::fromEducationDTO)
-      .collect(Collectors.toSet());
-
-    freeRegistration.setMatriculationExam(freeEnrollmentTypes.contains(FreeEnrollmentType.MatriculationExam));
-    freeRegistration.setHigherEducationConcluded(
-      freeEnrollmentTypes.contains(FreeEnrollmentType.HigherEducationConcluded)
-    );
-    freeRegistration.setHigherEducationEnrolled(
-      freeEnrollmentTypes.contains(FreeEnrollmentType.HigherEducationEnrolled)
-    );
-    freeRegistration.setDia(freeEnrollmentTypes.contains(FreeEnrollmentType.DIA));
-    freeRegistration.setEb(freeEnrollmentTypes.contains(FreeEnrollmentType.EB));
-    freeRegistration.setOther(freeEnrollmentTypes.contains(FreeEnrollmentType.Other));
-
-    return educationDTOs;
   }
 
   public List<PublicEducationDTO> getEducations(final Registration registration) {

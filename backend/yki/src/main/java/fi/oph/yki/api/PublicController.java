@@ -18,9 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class PublicController {
 
   @Resource
-  private KoskiService koskiService;
-
-  @Resource
   private RegistrationService registrationService;
 
   @PostMapping(path = "/education/{registrationId:\\d+}")
@@ -32,7 +29,7 @@ public class PublicController {
     final Registration registration = registrationService.findRegistration(registrationId, oid);
 
     try {
-      return koskiService.updateEducations(registration);
+      return registrationService.updateEducations(registration);
     } catch (final Exception e) {
       return Collections.emptyList();
     }

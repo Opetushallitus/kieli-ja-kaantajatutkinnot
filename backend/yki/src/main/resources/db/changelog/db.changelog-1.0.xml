@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<databaseChangeLog logicalFilePath="migrations.xml"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <property name="blob_type" value="bytea" dbms="postgresql"/>
+    <property name="blob_type" value="blob" dbms="hsqldb"/>
+
+    <changeSet id="2025-09-17-add-registration-hsqldb" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <createTable tableName="registration">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="registration_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2025-09-18-add-free-registration" author="jrkkp">
+        <createTable tableName="free_registration">
+            <column autoIncrement="true" name="free_registration_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="free_registration_pkey"/>
+            </column>
+            <column name="source" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="approved" type="BOOLEAN"/>
+            <column name="comment" type="TEXT"/>
+            <column name="matriculation_exam" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="higher_education_concluded" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="higher_education_enrolled" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="eb" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dia" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="other" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addColumn tableName="registration">
+            <column name="free_registration_id" type="BIGSERIAL"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>
