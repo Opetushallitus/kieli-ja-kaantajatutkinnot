@@ -39,7 +39,9 @@ export const Header = (): JSX.Element => {
   const logoRedirectURL = AppRoutes.Registration;
   const { isDesktopXS } = useWindowProperties();
 
-  const shouldRenderClerkHeader = pathname.includes('jarjestajarekisteri');
+  const shouldRenderClerkHeader =
+    pathname.includes('jarjestajarekisteri') ||
+    pathname.includes('maksuttomuus');
 
   if (shouldRenderClerkHeader) {
     return (
