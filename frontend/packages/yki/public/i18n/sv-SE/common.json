@@ -161,7 +161,8 @@
         "userDetails": "Mina anmälningar",
         "transferEnrollment": "Flytta anmälan",
         "confirmRegistration": "Bekräfta anmälan",
-        "notFound": "Sidan hittades inte"
+        "notFound": "Sidan hittades inte",
+        "expiredLoginLink": "Länken gäller inte längre"
       }
     }
   }

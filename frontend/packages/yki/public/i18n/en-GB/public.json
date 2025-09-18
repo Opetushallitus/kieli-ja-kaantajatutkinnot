@@ -655,7 +655,8 @@
           "part1": "The link has expired. For security reasons, the link only works for 14 days. You will need to order a new link.",
           "buttonText": "Order a new link to your email",
           "part2": "If you do not receive a new link, please send us an email at kielitutkinnot@oph.fi.",
-          "title": "The link has expired"
+          "title": "The link has expired",
+          "reply": "You have received a new link by email. If you have not received the message, please check your spam folder."
         },
         "contactDetails": {
           "description": {

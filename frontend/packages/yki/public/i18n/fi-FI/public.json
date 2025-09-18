@@ -655,7 +655,8 @@
           "part1": "Linkki on vanhentunut. Tietoturvan takia linkki toimii vain 14 päivän ajan. Sinun täytyy tilata uusi linkki.",
           "buttonText": "Tilaa uusi linkki sähköpostiin",
           "part2": "Jos et saa uutta linkkiä, lähetä meille sähköpostia osoitteeseen kielitutkinnot@oph.fi.",
-          "title": "Linkki on vanhentunut"
+          "title": "Linkki on vanhentunut",
+          "reply": "Sinulle on lähetetty uusi linkki sähköpostilla. Jos et ole saanut viestiä, tarkista roskapostikansiosi."
         },
         "contactDetails": {
           "description": {
