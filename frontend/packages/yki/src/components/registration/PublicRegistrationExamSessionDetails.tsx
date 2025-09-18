@@ -28,8 +28,6 @@ export const PublicRegistrationExamSessionDetails = ({
   const { availablePlaces, start, end } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
 
-  console.log('availablePlaces', availablePlaces, examSession);
-
   const header = ExamSessionUtils.languageAndLevelText(examSession);
   const location = ExamSessionUtils.getLocationInfo(
     examSession,

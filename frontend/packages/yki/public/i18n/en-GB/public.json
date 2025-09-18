@@ -23,6 +23,22 @@
           "searchResults": "123 järjestäjää"
         }
       },
+      "clerkFreeEnrollmentListing": {
+        "header": {
+          "person": "Name",
+          "status": "Assessment status",
+          "dueDate": "Assessment due date ",
+          "examDate": "Exam date",
+          "registration": "Registration",
+          "actions": "Actions"
+        },
+        "status": {
+          "PENDING": "Maksuttomuus tarkistamatta",
+          "APPROVED": "Maksuttomuus hyväksytty",
+          "REJECTED": "Maksuttomuus hylätty",
+          "INFORMATION_REQUESTED": "Täydennyspyyntö lähetetty"
+        }
+      },
       "cookieBanner": {
         "buttonAriaLabel": "Close the notification about cookies",
         "buttonText": "Close",

@@ -6,6 +6,7 @@ import { PublicRegistrationInitRequest } from 'interfaces/publicRegistration';
 import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
+import { freeEnrollments } from 'tests/msw/fixtures/freeEnrollment';
 import {
   NoSessionResponse,
   //SuomiFiAuthenticatedSessionResponse,
@@ -172,5 +173,8 @@ export const handlers = [
   }),
   http.get('/yki/api/virkailija/organizer', () =>
     HttpResponse.json(organizers),
+  ),
+  http.get('/yki/api/virkailija/free-enrollments', () =>
+    HttpResponse.json(freeEnrollments),
   ),
 ];
