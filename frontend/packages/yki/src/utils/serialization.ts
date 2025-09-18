@@ -9,6 +9,7 @@ import {
   RegistrationKind,
   RegistrationStates,
 } from 'enums/app';
+import { ClerkFreeEnrollmentResponse } from 'interfaces/clerkFreeEnrollment';
 import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
 import {
   RegistrationToConfirmDetails,
@@ -348,6 +349,21 @@ export class SerializationUtils {
         : undefined,
       languages: organizerResponse.languages || null,
       extra: organizerResponse.extra || '',
+    };
+  }
+
+  static deserializeClerkFreeEnrollmentResponse(
+    freeEnrollmentResponse: ClerkFreeEnrollmentResponse,
+  ) {
+    return {
+      ...freeEnrollmentResponse,
+      dueDate: freeEnrollmentResponse.dueDate
+        ? dayjs(freeEnrollmentResponse.dueDate)
+        : undefined,
+      assessmentDate: freeEnrollmentResponse.assessmentDate
+        ? dayjs(freeEnrollmentResponse.assessmentDate)
+        : undefined,
+      examDate: dayjs(freeEnrollmentResponse.examDate),
     };
   }
 }

@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs';
-import { WithId } from 'shared/src/interfaces/with';
+import { WithId } from 'shared/interfaces';
 
 import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
 import { OrganizerContact } from 'interfaces/organizer';

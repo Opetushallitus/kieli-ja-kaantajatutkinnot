@@ -23,6 +23,22 @@
           "searchResults": "123 organizers"
         }
       },
+      "clerkFreeEnrollmentListing": {
+        "header": {
+          "person": "Name",
+          "status": "Assessment status",
+          "dueDate": "Assessment due date ",
+          "examDate": "Exam date",
+          "registration": "Ilmoittautuminen",
+          "actions": "Toiminnot"
+        },
+        "status": {
+          "PENDING": "Maksuttomuus tarkistamatta",
+          "APPROVED": "Maksuttomuus hyväksytty",
+          "REJECTED": "Maksuttomuus hylätty",
+          "INFORMATION_REQUESTED": "Täydennyspyyntö lähetetty"
+        }
+      },
       "cookieBanner": {
         "buttonAriaLabel": "Stäng informationrutan om kakor",
         "buttonText": "Stäng",

@@ -23,6 +23,22 @@
           "searchResults": "123 järjestäjää"
         }
       },
+      "clerkFreeEnrollmentListing": {
+        "header": {
+          "person": "Nimi",
+          "status": "Tarkastuksen tila",
+          "dueDate": "Täydennyspyynnön eräpäivä",
+          "examDate": "Tutkinnon pvm",
+          "registration": "Ilmoittautuminen",
+          "actions": "Toiminnot"
+        },
+        "status": {
+          "PENDING": "Maksuttomuus tarkistamatta",
+          "APPROVED": "Maksuttomuus hyväksytty",
+          "REJECTED": "Maksuttomuus hylätty",
+          "INFORMATION_REQUESTED": "Täydennyspyyntö lähetetty"
+        }
+      },
       "cookieBanner": {
         "buttonAriaLabel": "Sulje evästetiedot",
         "buttonText": "Sulje",
