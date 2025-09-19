@@ -1,7 +1,10 @@
 package fi.oph.yki.model;
 
+import fi.oph.yki.model.type.FreeRegisterSource;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +27,10 @@ public class FreeRegistration {
 
   @OneToOne(mappedBy = "freeRegistration", fetch = FetchType.LAZY, optional = false)
   private Registration registration;
+
+  @Column(name = "source", nullable = false)
+  @Enumerated(value = EnumType.STRING)
+  private FreeRegisterSource source;
 
   @Column(name = "matriculation_exam", nullable = false)
   private Boolean matriculationExam;
