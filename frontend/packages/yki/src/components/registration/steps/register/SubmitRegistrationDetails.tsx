@@ -46,8 +46,7 @@ const FillRegistrationDetails = () => {
   }, [dispatch, nationalitiesStatus]);
 
   useRegistrationNavigationProtection(
-    submitRegistrationStatus === APIResponseStatus.NotStarted ||
-      submitRegistrationStatus === APIResponseStatus.InProgress,
+    submitRegistrationStatus !== APIResponseStatus.Success,
     <DialogContents />,
   );
 
