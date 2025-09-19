@@ -7,7 +7,7 @@ export const freeEnrollments = [
       oid: '1.2.246.562.10.39706139511',
     },
     status: 'PENDING',
-    dueDate: '2025-11-11T00:00:00.000Z',
+    supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
     examDate: '2025-11-22T00:00:00.000Z',
     registration: {
       kind: 'ADMISSION',
@@ -21,7 +21,7 @@ export const freeEnrollments = [
       oid: '1.2.246.562.10.39706139522',
     },
     status: 'PENDING',
-    dueDate: '2025-11-11T00:00:00.000Z',
+    supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
     examDate: '2025-11-22T00:00:00.000Z',
     registration: {
       kind: 'ADMISSION',
@@ -66,7 +66,7 @@ export const freeEnrollments = [
       oid: '1.2.246.562.10.39706139555',
     },
     status: 'INFORMATION_REQUESTED',
-    dueDate: '2025-11-11T00:00:00.000Z',
+    supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
     examDate: '2025-11-22T00:00:00.000Z',
     registration: {
       kind: 'ADMISSION',

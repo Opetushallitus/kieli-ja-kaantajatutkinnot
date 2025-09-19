@@ -1,6 +1,7 @@
 import { all } from 'redux-saga/effects';
 
 import { watchClerkFreeEnrollments } from 'redux/sagas/clerkFreeEnrollment';
+import { watchClerkFreeEnrollmentDetails } from 'redux/sagas/clerkFreeEnrollmentDetails';
 import { watchClerkOrganizers } from 'redux/sagas/clerkOrganizer';
 import { watchConfirmRegistration } from 'redux/sagas/confirmRegistration';
 import { watchEvaluationOrder } from 'redux/sagas/evaluationOrder';
@@ -33,5 +34,6 @@ export default function* rootSaga() {
     watchLoginLinkRenew(),
     watchClerkOrganizers(),
     watchClerkFreeEnrollments(),
+    watchClerkFreeEnrollmentDetails(),
   ]);
 }

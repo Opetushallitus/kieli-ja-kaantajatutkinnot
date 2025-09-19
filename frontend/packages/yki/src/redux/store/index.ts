@@ -4,6 +4,7 @@ import { combineReducers, configureStore, Tuple } from '@reduxjs/toolkit';
 import { RootState } from 'configs/redux';
 import { APIErrorReducer } from 'redux/reducers/APIError';
 import { clerkFreeEnrollmentReducer } from 'redux/reducers/clerkFreeEnrollment';
+import { clerkFreeEnrollmentDetailsReducer } from 'redux/reducers/clerkFreeEnrollmentDetails';
 import { clerkOrganizersReducer } from 'redux/reducers/clerkOrganizer';
 import { confirmRegistrationReducer } from 'redux/reducers/confirmRegistration';
 import { evaluationOrderReducer } from 'redux/reducers/evaluationOrder';
@@ -41,6 +42,7 @@ export const rootReducer = combineReducers({
   userDetails: userDetailsReducer,
   clerkOrganizer: clerkOrganizersReducer,
   clerkFreeEnrollmment: clerkFreeEnrollmentReducer,
+  clerkFreeEnrollmentDetails: clerkFreeEnrollmentDetailsReducer,
 });
 
 export const setupStore = (preloadedState?: Partial<RootState>) => {

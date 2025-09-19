@@ -9,7 +9,10 @@ import {
   RegistrationKind,
   RegistrationStates,
 } from 'enums/app';
-import { ClerkFreeEnrollmentResponse } from 'interfaces/clerkFreeEnrollment';
+import {
+  ClerkFreeEnrollmentDetailsResponse,
+  ClerkFreeEnrollmentResponse,
+} from 'interfaces/clerkFreeEnrollment';
 import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
 import {
   RegistrationToConfirmDetails,
@@ -357,13 +360,50 @@ export class SerializationUtils {
   ) {
     return {
       ...freeEnrollmentResponse,
-      dueDate: freeEnrollmentResponse.dueDate
-        ? dayjs(freeEnrollmentResponse.dueDate)
+      supplementRequestDueDate: freeEnrollmentResponse.supplementRequestDueDate
+        ? dayjs(freeEnrollmentResponse.supplementRequestDueDate)
         : undefined,
       assessmentDate: freeEnrollmentResponse.assessmentDate
         ? dayjs(freeEnrollmentResponse.assessmentDate)
         : undefined,
       examDate: dayjs(freeEnrollmentResponse.examDate),
+    };
+  }
+
+  static deserializeClerkFreeEnrollmentDetailsResponse(
+    freeEnrollmentDetailsResponse: ClerkFreeEnrollmentDetailsResponse,
+  ) {
+    return {
+      ...freeEnrollmentDetailsResponse,
+      supplementRequestDueDate:
+        freeEnrollmentDetailsResponse.supplementRequestDueDate
+          ? dayjs(freeEnrollmentDetailsResponse.supplementRequestDueDate)
+          : undefined,
+      supplementRequest: freeEnrollmentDetailsResponse.supplementRequest
+        ? {
+            ...freeEnrollmentDetailsResponse.supplementRequest,
+            timestamp: dayjs(
+              freeEnrollmentDetailsResponse.supplementRequest.timestamp,
+            ),
+          }
+        : undefined,
+      assessmentDate: freeEnrollmentDetailsResponse.assessmentDate
+        ? dayjs(freeEnrollmentDetailsResponse.assessmentDate)
+        : undefined,
+      examSession: {
+        ...freeEnrollmentDetailsResponse.examSession,
+        examDate: dayjs(freeEnrollmentDetailsResponse.examSession.examDate),
+      },
+      attachments: freeEnrollmentDetailsResponse.attachments.map(
+        (attachment) => ({
+          ...attachment,
+          submittedAt: dayjs(attachment.submittedAt),
+        }),
+      ),
+      comments: freeEnrollmentDetailsResponse.comments.map((comment) => ({
+        ...comment,
+        timestamp: dayjs(comment.timestamp),
+      })),
     };
   }
 }

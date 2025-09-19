@@ -7,6 +7,7 @@ import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder'
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 import { freeEnrollments } from 'tests/msw/fixtures/freeEnrollment';
+import { freeEnrollmentDetails } from 'tests/msw/fixtures/freeEnrollmentDetails';
 import {
   NoSessionResponse,
   //SuomiFiAuthenticatedSessionResponse,
@@ -177,4 +178,20 @@ export const handlers = [
   http.get('/yki/api/virkailija/free-enrollments', () =>
     HttpResponse.json(freeEnrollments),
   ),
+  http.get('/yki/api/virkailija/free-enrollments/:id', ({ params }) => {
+    switch (params.id) {
+      case '1':
+        return HttpResponse.json(freeEnrollmentDetails[0]);
+      case '2':
+        return HttpResponse.json(freeEnrollmentDetails[1]);
+      case '3':
+        return HttpResponse.json(freeEnrollmentDetails[2]);
+      case '4':
+        return HttpResponse.json(freeEnrollmentDetails[3]);
+      case '5':
+        return HttpResponse.json(freeEnrollmentDetails[4]);
+      default:
+        return notFound();
+    }
+  }),
 ];
