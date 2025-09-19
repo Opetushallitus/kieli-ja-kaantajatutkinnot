@@ -658,6 +658,14 @@
           "streetAddress": "Street address",
           "zip": "Postal code"
         },
+        "placeholders": {
+          "confirmEmail": "Fill in your email address again",
+          "email": "For example, name@email.fi",
+          "phoneNumber": "Use the format +358 50 123 4567",
+          "postOffice": "",
+          "streetAddress": "",
+          "zip": ""
+        },
         "toast": {
           "success": "Yhteystiedot tallennettu onnistuneesti"
         },

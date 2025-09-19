@@ -657,6 +657,14 @@
           "streetAddress": "Katuosoite",
           "zip": "Postinumero"
         },
+        "placeholders": {
+          "confirmEmail": "Kirjoita sähköpostiosoite uudelleen",
+          "email": "Esim. nimi@sahkoposti.fi",
+          "phoneNumber": "Kirjoita muodossa +358 50 123 4567",
+          "postOffice": "",
+          "streetAddress": "",
+          "zip": ""
+        },
         "toast": {
           "success": "Yhteystiedot tallennettu onnistuneesti"
         },

@@ -93,7 +93,7 @@ const ContactDetailInputFields = ({ showErrors }: { showErrors: boolean }) => {
       helperText: fieldErrors[fieldName]
         ? translateCommon(fieldErrors[fieldName] as string)
         : '',
-
+      placeholder: t('placeholders.' + fieldName),
       required: true,
       disabled: false,
       fullWidth: isPhone,

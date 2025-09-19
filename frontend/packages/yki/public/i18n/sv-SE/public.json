@@ -657,6 +657,14 @@
           "streetAddress": "Gatuadress",
           "zip": "Postnummer"
         },
+        "placeholders": {
+          "confirmEmail": "Skriv din e-postadress på nytt",
+          "email": "Till exempel namn@e-post.fi",
+          "phoneNumber": "Skriv i formatet +358 50 123 4567",
+          "postOffice": "",
+          "streetAddress": "",
+          "zip": ""
+        },
         "toast": {
           "success": "Yhteystiedot tallennettu onnistuneesti"
         },
