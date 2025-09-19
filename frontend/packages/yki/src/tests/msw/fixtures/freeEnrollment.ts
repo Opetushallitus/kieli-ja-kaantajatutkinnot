@@ -40,6 +40,7 @@ export const freeEnrollments = [
     registration: {
       kind: 'QUEUE',
       positionInQueue: 5,
+      queue: 20,
     },
   },
   {
@@ -54,6 +55,7 @@ export const freeEnrollments = [
     registration: {
       kind: 'QUEUE',
       positionInQueue: 1,
+      queue: 5,
     },
   },
   {

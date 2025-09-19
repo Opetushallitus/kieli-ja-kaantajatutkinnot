@@ -37,7 +37,12 @@
           "APPROVED": "Maksuttomuus hyväksytty",
           "REJECTED": "Maksuttomuus hylätty",
           "INFORMATION_REQUESTED": "Täydennyspyyntö lähetetty"
-        }
+        },
+        "registrationStatus": {
+          "enrolled": "Ilmoittautunut",
+          "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
+        },
+        "assessCertificate": "Tarkasta todistus"
       },
       "cookieBanner": {
         "buttonAriaLabel": "Stäng informationrutan om kakor",
