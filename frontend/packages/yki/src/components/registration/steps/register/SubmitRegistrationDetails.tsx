@@ -35,8 +35,6 @@ const FillRegistrationDetails = () => {
   const { isEmailRegistration } = useAppSelector(registrationSelector);
   const { registrationKind } =
     useAppSelector(registrationSelector).initRegistration;
-  const submitRegistrationStatus =
-    useAppSelector(registrationSelector).submitRegistration.status;
   const nationalitiesStatus = useAppSelector(nationalitiesSelector).status;
 
   useEffect(() => {
@@ -44,11 +42,6 @@ const FillRegistrationDetails = () => {
       dispatch(loadNationalities());
     }
   }, [dispatch, nationalitiesStatus]);
-
-  useRegistrationNavigationProtection(
-    submitRegistrationStatus !== APIResponseStatus.Success,
-    <DialogContents />,
-  );
 
   return (
     <div className="margin-top-xxl rows gapped">
@@ -198,6 +191,10 @@ const Success = () => {
 
 export const SubmitRegistrationDetails = () => {
   const { status } = useAppSelector(registrationSelector).submitRegistration;
+  useRegistrationNavigationProtection(
+    status !== APIResponseStatus.Success,
+    <DialogContents />,
+  );
 
   switch (status) {
     case APIResponseStatus.NotStarted:
