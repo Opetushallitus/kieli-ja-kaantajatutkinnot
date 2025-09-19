@@ -7,7 +7,7 @@ import { AppRoutes } from 'enums/app';
 const getTabForPath = (path: string) => {
   if (path === AppRoutes.ClerkOrganizerRegister) {
     return 'registration';
-  } else if (path === AppRoutes.ClerkFreeEnrollment) {
+  } else if (path.includes(AppRoutes.ClerkFreeEnrollment)) {
     return 'freeEnrollment';
   } else {
     return false;

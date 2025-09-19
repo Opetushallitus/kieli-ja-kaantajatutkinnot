@@ -19,6 +19,7 @@ type Registration =
   | {
       kind: 'QUEUE';
       positionInQueue: number;
+      queue: number;
     };
 
 export type ClerkFreeEnrollment = {

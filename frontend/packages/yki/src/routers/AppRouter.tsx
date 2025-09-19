@@ -25,6 +25,7 @@ import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ClerkHomePage } from 'pages/clerk/ClerkHomePage';
 import { FreeEnrollmentPage } from 'pages/clerk/FreeEnrollmentPage';
+import { FreeEnrollmentDetailsPage } from 'pages/clerk/FreenEnrollmentDetailsPage';
 import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
@@ -147,6 +148,14 @@ export const AppRouter: FC = () => {
             element={
               <YkiTitlePage title={createTitle('clerk')}>
                 <FreeEnrollmentPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ClerkFreeEnrollmentDetails}
+            element={
+              <YkiTitlePage title={createTitle('clerk')}>
+                <FreeEnrollmentDetailsPage />
               </YkiTitlePage>
             }
           />

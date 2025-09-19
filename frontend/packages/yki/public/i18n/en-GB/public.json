@@ -37,7 +37,13 @@
           "APPROVED": "Maksuttomuus hyväksytty",
           "REJECTED": "Maksuttomuus hylätty",
           "INFORMATION_REQUESTED": "Täydennyspyyntö lähetetty"
-        }
+        },
+        "registrationStatus": {
+          "enrolled": "Ilmoittautunut",
+          "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
+        },
+        "assessCertificate": "Tarkasta todistus",
+        "showDetails": "Näytä tiedot"
       },
       "cookieBanner": {
         "buttonAriaLabel": "Close the notification about cookies",

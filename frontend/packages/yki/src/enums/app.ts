@@ -23,6 +23,7 @@ export enum AppRoutes {
   ClerkRoot = '/yki/v2/virkailija',
   ClerkOrganizerRegister = '/yki/v2/virkailija/jarjestajarekisteri',
   ClerkFreeEnrollment = '/yki/v2/virkailija/maksuttomuus',
+  ClerkFreeEnrollmentDetails = '/yki/v2/virkailija/maksuttomuus/:id',
 }
 
 export enum HeaderTabNav {

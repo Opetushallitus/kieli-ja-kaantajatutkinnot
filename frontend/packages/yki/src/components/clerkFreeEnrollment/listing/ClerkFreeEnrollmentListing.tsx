@@ -1,13 +1,16 @@
 import { Box } from '@mui/system';
 import i18next from 'i18next';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { CustomCircularProgress, H2 } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
+import { DateUtils } from 'shared/utils';
 
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { AppRoutes } from 'enums/app';
 import { ClerkFreeEnrollment } from 'interfaces/clerkFreeEnrollment';
 import { loadClerkFreeEnrollments } from 'redux/reducers/clerkFreeEnrollment';
 import {
@@ -45,7 +48,13 @@ export const ClerkFreeEnrollmentListing = ({
   ): ListTableColumn<ClerkFreeEnrollment> => ({
     key: 'person',
     title: t('header.person'),
-    render: (rowProps) => <span>{rowProps.person.oid}</span>,
+    render: (rowProps) => (
+      <div className="rows">
+        <span>{rowProps.person.fullName}</span>
+        <span>{rowProps.person.socialSecurityNumber}</span>
+        <span>{rowProps.person.oid}</span>
+      </div>
+    ),
   });
 
   const createStatusColumn = (
@@ -63,7 +72,13 @@ export const ClerkFreeEnrollmentListing = ({
   ): ListTableColumn<ClerkFreeEnrollment> => ({
     key: 'dueDate',
     title: t('header.dueDate'),
-    render: (rowProps) => <span>{`${rowProps.dueDate}`}</span>,
+    render: (rowProps) => (
+      <span>
+        {rowProps.dueDate
+          ? DateUtils.formatOptionalDate(rowProps.dueDate, 'l')
+          : ''}
+      </span>
+    ),
   });
 
   const createExamDateColumn = (
@@ -71,7 +86,9 @@ export const ClerkFreeEnrollmentListing = ({
   ): ListTableColumn<ClerkFreeEnrollment> => ({
     key: 'examDate',
     title: t('header.examDate'),
-    render: (rowProps) => <span>{`${rowProps.examDate}`}</span>,
+    render: (rowProps) => (
+      <span>{DateUtils.formatOptionalDate(rowProps.examDate, 'l')}</span>
+    ),
   });
 
   const createRegistrationColumn = (
@@ -79,7 +96,16 @@ export const ClerkFreeEnrollmentListing = ({
   ): ListTableColumn<ClerkFreeEnrollment> => ({
     key: 'registration',
     title: t('header.registration'),
-    render: (rowProps) => <span>{`${rowProps.registration.kind}`}</span>,
+    render: (rowProps) => (
+      <span>
+        {rowProps.registration.kind === 'ADMISSION'
+          ? t('registrationStatus.enrolled')
+          : t('registrationStatus.queued', {
+              positionInQueue: rowProps.registration.positionInQueue,
+              queue: rowProps.registration.queue,
+            })}
+      </span>
+    ),
   });
 
   const createActionColumn = (
@@ -87,7 +113,20 @@ export const ClerkFreeEnrollmentListing = ({
   ): ListTableColumn<ClerkFreeEnrollment> => ({
     key: 'actions',
     title: t('header.actions'),
-    render: () => <span>Tarkasta Todistus</span>,
+    render: (rowProps) => {
+      const to = AppRoutes.ClerkFreeEnrollmentDetails.replace(
+        /:id$/,
+        `${rowProps.id}`,
+      );
+
+      return (
+        <Link to={to}>
+          {rowProps.status !== 'PENDING'
+            ? t('showDetails')
+            : t('assessCertificate')}
+        </Link>
+      );
+    },
   });
 
   const columns = [
