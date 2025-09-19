@@ -74,8 +74,8 @@ export const ClerkFreeEnrollmentListing = ({
     title: t('header.dueDate'),
     render: (rowProps) => (
       <span>
-        {rowProps.dueDate
-          ? DateUtils.formatOptionalDate(rowProps.dueDate, 'l')
+        {rowProps.supplementRequestDueDate
+          ? DateUtils.formatOptionalDate(rowProps.supplementRequestDueDate, 'l')
           : ''}
       </span>
     ),

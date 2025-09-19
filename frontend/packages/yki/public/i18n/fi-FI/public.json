@@ -45,6 +45,29 @@
         "assessCertificate": "Tarkasta todistus",
         "showDetails": "Näytä tiedot"
       },
+      "clerkFreeEnrollmentDetails": {
+        "status": {
+          "PENDING": "Maksuttomuus tarkistamatta",
+          "APPROVED": "Maksuttomuus hyväksytty",
+          "REJECTED": "Maksuttomuus hylätty",
+          "INFORMATION_REQUESTED": "Täydennyspyyntö lähetetty"
+        },
+        "freeEnrollmentBasis": {
+          "MATRICULATION_EXAMINATION": "Opiskellut Suomessa: ylioppilastutkinto",
+          "HIGHER_EDUCATION_DEGREE": "Opiskellut Suomessa: korkeakoulututkinto",
+          "HIGHER_EDUCATION_STUDIES": "Opiskellut Suomessa: suorittamassa korkeakouluopintoja",
+          "COMPARABLE_MATRICULATION_EXAMINATION": "Opiskellut ulkomailla: ylioppilastutkinto",
+          "COMPARABLE_HIGHER_EDUCATION_DEGREE": "Opiskellut ulkomailla: korkeakoulututkinto",
+          "COMPARABLE_HIGHER_EDUCATION_STUDIES": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja"
+        },
+        "freeEnrollmentsLeft": "{{amount}} kpl",
+        "registrationStatus": {
+          "enrolled": "Ilmoittautunut",
+          "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
+        },
+        "examView": "Tutkintotilaisuuden näkymä",
+        "customerView": "Asiakkaan näkymä"
+      },
       "cookieBanner": {
         "buttonAriaLabel": "Sulje evästetiedot",
         "buttonText": "Sulje",
