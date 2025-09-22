@@ -1,7 +1,5 @@
-import { OphThemeProvider } from '@opetushallitus/oph-design-system/theme';
 import { Provider } from 'react-redux';
 import { StyleCacheProvider } from 'shared/components';
-import { theme } from 'shared/configs';
 
 import { initI18n } from 'configs/i18n';
 import { setupStore } from 'redux/store';
@@ -15,9 +13,7 @@ initI18n();
 export const App = () => (
   <Provider store={setupStore()}>
     <StyleCacheProvider appName="yki">
-      <OphThemeProvider lang="fi" variant="oph" overrides={theme}>
-        <AppRouter />
-      </OphThemeProvider>
+      <AppRouter />
     </StyleCacheProvider>
   </Provider>
 );

@@ -1,4 +1,6 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { ThemeProvider } from '@mui/material';
+import { OphThemeProvider } from '@opetushallitus/oph-design-system/theme';
 import { FC, useEffect } from 'react';
 import {
   createBrowserRouter,
@@ -13,9 +15,11 @@ import {
   NotifierContextProvider,
   ScrollToTop,
 } from 'shared/components';
+import { theme } from 'shared/configs';
 import { APIResponseStatus, Variant } from 'shared/enums';
 import { TitlePage, TitlePageProps } from 'shared/utils';
 
+import { ClerkHeader } from 'components/layouts/ClerkHeader';
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
@@ -24,8 +28,8 @@ import { AppRoutes, RegistrationKind } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ClerkHomePage } from 'pages/clerk/ClerkHomePage';
+import { FreeEnrollmentDetailsPage } from 'pages/clerk/FreeEnrollmentDetailsPage';
 import { FreeEnrollmentPage } from 'pages/clerk/FreeEnrollmentPage';
-import { FreeEnrollmentDetailsPage } from 'pages/clerk/FreenEnrollmentDetailsPage';
 import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
@@ -67,16 +71,18 @@ export const AppRouter: FC = () => {
   const Root = (
     <div className="app">
       <NotifierContextProvider>
-        <Header />
-        <ErrorToast />
-        <Notifier />
-        <ScrollToTop />
-        <main className="content" id="main-content">
-          <div className="content__container">
-            <Outlet />
-          </div>
-        </main>
-        <Footer />
+        <ThemeProvider theme={theme}>
+          <Header />
+          <ErrorToast />
+          <Notifier />
+          <ScrollToTop />
+          <main className="content" id="main-content">
+            <div className="content__container">
+              <Outlet />
+            </div>
+          </main>
+          <Footer />
+        </ThemeProvider>
       </NotifierContextProvider>
     </div>
   );
@@ -84,15 +90,17 @@ export const AppRouter: FC = () => {
   const ClerkRoot = (
     <div className="app">
       <NotifierContextProvider>
-        <Header />
-        <ErrorToast />
-        <Notifier />
-        <ScrollToTop />
-        <main className="clerk-content" id="main-content">
-          <div className="clerk-content__container">
-            <Outlet />
-          </div>
-        </main>
+        <OphThemeProvider lang="fi" variant="oph">
+          <ClerkHeader />
+          <ErrorToast />
+          <Notifier />
+          <ScrollToTop />
+          <main className="clerk-content" id="main-content">
+            <div className="clerk-content__container">
+              <Outlet />
+            </div>
+          </main>
+        </OphThemeProvider>
       </NotifierContextProvider>
     </div>
   );

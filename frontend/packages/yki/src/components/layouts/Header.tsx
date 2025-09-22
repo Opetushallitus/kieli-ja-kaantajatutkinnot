@@ -1,5 +1,5 @@
 import { AppBar, Toolbar } from '@mui/material';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   CookieBanner,
   LangSelector,
@@ -10,7 +10,6 @@ import {
 import { AppLanguage, Direction } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
-import { ClerkNavigationLinks } from 'components/layouts/clerkHeader/ClerkNavigationLinks';
 import { PublicNavigationLinks } from 'components/layouts/publicHeader/PublicNavigationLinks';
 import { SessionStateHeader } from 'components/layouts/SessionStateHeader';
 import {
@@ -28,7 +27,6 @@ export const Header = (): JSX.Element => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.cookieBanner',
   });
-  const { pathname } = useLocation();
 
   const langDict = new Map<string, AppLanguage>([
     [translateCommon('header.lang.fi'), finnish],
@@ -38,24 +36,6 @@ export const Header = (): JSX.Element => {
 
   const logoRedirectURL = AppRoutes.Registration;
   const { isDesktopXS } = useWindowProperties();
-
-  const shouldRenderClerkHeader =
-    pathname.includes('jarjestajarekisteri') ||
-    pathname.includes('maksuttomuus');
-
-  if (shouldRenderClerkHeader) {
-    return (
-      <>
-        <AppBar className="header" position="static">
-          <Toolbar className="header__toolbar">
-            <div className="header__tabs">
-              <ClerkNavigationLinks />
-            </div>
-          </Toolbar>
-        </AppBar>
-      </>
-    );
-  }
 
   return (
     <>
