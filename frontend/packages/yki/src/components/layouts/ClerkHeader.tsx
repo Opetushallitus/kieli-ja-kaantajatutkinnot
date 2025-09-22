@@ -5,7 +5,14 @@ import { ClerkNavigationLinks } from 'components/layouts/clerkHeader/ClerkNaviga
 export const ClerkHeader = (): JSX.Element => {
   return (
     <>
-      <AppBar className="header" position="static">
+      <AppBar
+        className="header"
+        position="static"
+        sx={{
+          backgroundColor: 'white',
+          color: 'black',
+        }}
+      >
         <Toolbar className="header__toolbar">
           <div className="header__tabs">
             <ClerkNavigationLinks />

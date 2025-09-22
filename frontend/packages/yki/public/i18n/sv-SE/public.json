@@ -42,7 +42,8 @@
           "enrolled": "Ilmoittautunut",
           "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
         },
-        "assessCertificate": "Tarkasta todistus"
+        "assessCertificate": "Tarkasta todistus",
+        "showDetails": "Näytä tiedot"
       },
       "cookieBanner": {
         "buttonAriaLabel": "Stäng informationrutan om kakor",

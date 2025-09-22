@@ -529,6 +529,12 @@
       }
     },
     "pages": {
+      "clerkFreeEnrollmentPage": {
+        "heading": "Maksuttomuuden tarkastukset"
+      },
+      "clerkFreeEnrollmentDetailsPage": {
+        "heading": "Maksuttomuuden tarkastukset"
+      },
       "confirmEnrollmentPage": {
         "heading": "Vahvista ilmoittautuminen"
       },
