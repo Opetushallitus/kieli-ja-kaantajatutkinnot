@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,7 +21,7 @@ public class WebSecurityConfig {
 
   @Bean
   public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
-    final AuthorizationManager<RequestAuthorizationContext> examinerApiAuthorizationManager =
+    final AuthorizationManager<RequestAuthorizationContext> proxyApiAuthorizationManager =
       (
         (authenticationSupplier, object) -> {
           final HttpServletRequest request = object.getRequest();
@@ -30,11 +31,13 @@ public class WebSecurityConfig {
         }
       );
 
-    return configCsrf(http)
+    return http
+      .csrf()
+      .disable()
       .authorizeHttpRequests(registry ->
         registry
-          .requestMatchers("/api/v1/proxy/**")
-          .access(examinerApiAuthorizationManager)
+          .requestMatchers("/api/v1/user/**")
+          .access(proxyApiAuthorizationManager)
           .requestMatchers("/", "/**")
           .permitAll()
           .anyRequest()
@@ -57,9 +60,8 @@ public class WebSecurityConfig {
   }
 
   @Bean
-  public AuthenticationManager noopAuthenticationManager() {
-    return authentication -> {
-      throw new AuthenticationServiceException("Authentication is disabled");
-    };
+  public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration)
+    throws Exception {
+    return authenticationConfiguration.getAuthenticationManager();
   }
 }

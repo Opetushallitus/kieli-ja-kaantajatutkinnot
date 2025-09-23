@@ -7,10 +7,12 @@ import fi.oph.yki.service.koski.KoskiService;
 import jakarta.annotation.Resource;
 import java.util.Collections;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,7 +23,9 @@ public class PublicController {
   private RegistrationService registrationService;
 
   @PostMapping(path = "/education/{registrationId:\\d+}")
-  public List<PublicEducationDTO> updateEducation(@PathVariable final long registrationId, final String oid) {
+  @ResponseStatus(HttpStatus.CREATED)
+  public List<PublicEducationDTO> updateEducation(@PathVariable final long registrationId) {
+    final String oid = ""; // TODO: figure out how to obtain person oid from authentication
     if (oid == null || oid.isEmpty()) {
       return Collections.emptyList();
     }

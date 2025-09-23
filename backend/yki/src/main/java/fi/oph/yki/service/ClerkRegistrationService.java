@@ -1,6 +1,7 @@
 package fi.oph.yki.service;
 
 import fi.oph.yki.api.dto.clerk.ClerkApprovalDTO;
+import fi.oph.yki.api.dto.clerk.ClerkApprovalUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
 import fi.oph.yki.model.FreeRegistration;
@@ -17,23 +18,33 @@ public class ClerkRegistrationService {
 
   private final FreeRegistrationRepository freeRegistrationRepository;
 
-  @Transactional
+  @Transactional(readOnly = true)
   public List<ClerkApprovalDTO> listApprovals() {
     final List<FreeRegistration> freeRegistrationList = freeRegistrationRepository.findApprovals();
 
-    return freeRegistrationList
-      .stream()
-      .map(r -> {
-        final Registration registration = r.getRegistration();
-        final ClerkRegistrationDTO clerkRegistrationDTO = ClerkRegistrationDTO.builder().build();
-        final ClerkPersonDTO clerkPersonDTO = ClerkPersonDTO.builder().build();
+    return freeRegistrationList.stream().map(this::createClerkApprovalDTO).toList();
+  }
 
-        return ClerkApprovalDTO
-          .builder()
-          .clerkPersonDTO(clerkPersonDTO)
-          .clerkRegistrationDTO(clerkRegistrationDTO)
-          .build();
-      })
-      .toList();
+  @Transactional
+  public ClerkApprovalDTO updateApproval(final ClerkApprovalUpdateDTO dto) {
+    final FreeRegistration freeRegistration = freeRegistrationRepository.getReferenceById(dto.id());
+
+    freeRegistration.setApproved(dto.approved());
+    freeRegistration.setComment(dto.comment());
+
+    freeRegistrationRepository.saveAndFlush(freeRegistration);
+
+    return createClerkApprovalDTO(freeRegistration);
+  }
+
+  private ClerkApprovalDTO createClerkApprovalDTO(final FreeRegistration freeRegistration) {
+    final ClerkRegistrationDTO clerkRegistrationDTO = createClerkRegistrationDTO(freeRegistration.getRegistration());
+    final ClerkPersonDTO clerkPersonDTO = ClerkPersonDTO.builder().build();
+
+    return ClerkApprovalDTO.builder().clerkPersonDTO(clerkPersonDTO).clerkRegistrationDTO(clerkRegistrationDTO).build();
+  }
+
+  private ClerkRegistrationDTO createClerkRegistrationDTO(final Registration registration) {
+    return ClerkRegistrationDTO.builder().build();
   }
 }

@@ -32,6 +32,12 @@ public class FreeRegistration {
   @Enumerated(value = EnumType.STRING)
   private FreeRegisterSource source;
 
+  @Column(name = "approved")
+  Boolean approved;
+
+  @Column(name = "comment")
+  String comment;
+
   @Column(name = "matriculation_exam", nullable = false)
   private Boolean matriculationExam;
 
