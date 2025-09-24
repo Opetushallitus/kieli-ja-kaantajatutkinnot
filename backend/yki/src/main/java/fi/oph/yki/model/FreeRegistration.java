@@ -1,6 +1,6 @@
 package fi.oph.yki.model;
 
-import fi.oph.yki.model.type.FreeRegisterSource;
+import fi.oph.yki.model.type.FreeRegistrationSource;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -30,7 +30,7 @@ public class FreeRegistration {
 
   @Column(name = "source", nullable = false)
   @Enumerated(value = EnumType.STRING)
-  private FreeRegisterSource source;
+  private FreeRegistrationSource source;
 
   @Column(name = "approved")
   Boolean approved;

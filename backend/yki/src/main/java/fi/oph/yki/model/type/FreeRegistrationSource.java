@@ -1,6 +1,6 @@
 package fi.oph.yki.model.type;
 
-public enum FreeRegisterSource {
+public enum FreeRegistrationSource {
   KOSKI,
   USER,
 }

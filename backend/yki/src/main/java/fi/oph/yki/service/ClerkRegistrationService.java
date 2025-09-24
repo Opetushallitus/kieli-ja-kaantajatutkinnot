@@ -1,6 +1,7 @@
 package fi.oph.yki.service;
 
 import fi.oph.yki.api.dto.clerk.ClerkApprovalDTO;
+import fi.oph.yki.api.dto.clerk.ClerkApprovalDetailsDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
@@ -25,6 +26,13 @@ public class ClerkRegistrationService {
     return freeRegistrationList.stream().map(this::createClerkApprovalDTO).toList();
   }
 
+  @Transactional(readOnly = true)
+  public ClerkApprovalDetailsDTO getApproval(final Long freeRegistrationId) {
+    final FreeRegistration freeRegistration = freeRegistrationRepository.getReferenceById(freeRegistrationId);
+
+    return createClerkApprovalDetailsDTO(freeRegistration);
+  }
+
   @Transactional
   public ClerkApprovalDTO updateApproval(final ClerkApprovalUpdateDTO dto) {
     final FreeRegistration freeRegistration = freeRegistrationRepository.getReferenceById(dto.id());
@@ -41,10 +49,17 @@ public class ClerkRegistrationService {
     final ClerkRegistrationDTO clerkRegistrationDTO = createClerkRegistrationDTO(freeRegistration.getRegistration());
     final ClerkPersonDTO clerkPersonDTO = ClerkPersonDTO.builder().build();
 
-    return ClerkApprovalDTO.builder().clerkPersonDTO(clerkPersonDTO).clerkRegistrationDTO(clerkRegistrationDTO).build();
+    return ClerkApprovalDTO.builder().person(clerkPersonDTO).registration(clerkRegistrationDTO).build();
   }
 
   private ClerkRegistrationDTO createClerkRegistrationDTO(final Registration registration) {
     return ClerkRegistrationDTO.builder().build();
+  }
+
+  private ClerkApprovalDetailsDTO createClerkApprovalDetailsDTO(final FreeRegistration freeRegistration) {
+    final ClerkRegistrationDTO clerkRegistrationDTO = createClerkRegistrationDTO(freeRegistration.getRegistration());
+    final ClerkPersonDTO clerkPersonDTO = ClerkPersonDTO.builder().build();
+
+    return ClerkApprovalDetailsDTO.builder().person(clerkPersonDTO).registration(clerkRegistrationDTO).build();
   }
 }

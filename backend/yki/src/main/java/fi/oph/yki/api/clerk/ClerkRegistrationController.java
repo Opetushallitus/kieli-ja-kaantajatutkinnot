@@ -4,6 +4,7 @@ import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import fi.oph.yki.api.dto.clerk.ClerkApprovalDTO;
+import fi.oph.yki.api.dto.clerk.ClerkApprovalDetailsDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalUpdateDTO;
 import fi.oph.yki.service.ClerkRegistrationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +12,7 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,12 @@ public class ClerkRegistrationController {
   @Operation(tags = TAG_ENROLLMENT, summary = "List approvals")
   public List<ClerkApprovalDTO> listApprovalAssesments() {
     return clerkRegistrationService.listApprovals();
+  }
+
+  @GetMapping(path = "/approval/{freeRegistrationId:\\d+}", consumes = ALL_VALUE)
+  @Operation(tags = TAG_ENROLLMENT, summary = "Get approval details")
+  public ClerkApprovalDetailsDTO listApprovalAssesments(@PathVariable final long freeRegistrationId) {
+    return clerkRegistrationService.getApproval(freeRegistrationId);
   }
 
   @PutMapping
