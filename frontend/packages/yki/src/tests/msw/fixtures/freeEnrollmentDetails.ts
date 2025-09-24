@@ -5,7 +5,7 @@ export const freeEnrollmentDetails: ClerkFreeEnrollmentDetailsResponse[] = [
   {
     id: 1,
     person: {
-      fullName: 'Testi Testaaja 1',
+      fullName: 'Testi1 Testaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139511',
     },
@@ -35,7 +35,7 @@ export const freeEnrollmentDetails: ClerkFreeEnrollmentDetailsResponse[] = [
   {
     id: 2,
     person: {
-      fullName: 'Testi Testaaja 2',
+      fullName: 'Testi2 Testaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139522',
     },
@@ -65,7 +65,7 @@ export const freeEnrollmentDetails: ClerkFreeEnrollmentDetailsResponse[] = [
   {
     id: 3,
     person: {
-      fullName: 'Testi Testaaja 3',
+      fullName: 'Testi3 Testaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139533',
     },
@@ -98,7 +98,7 @@ export const freeEnrollmentDetails: ClerkFreeEnrollmentDetailsResponse[] = [
   {
     id: 4,
     person: {
-      fullName: 'Testi Testaaja 4',
+      fullName: 'Testi4 Testaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139544',
     },
@@ -131,7 +131,7 @@ export const freeEnrollmentDetails: ClerkFreeEnrollmentDetailsResponse[] = [
   {
     id: 5,
     person: {
-      fullName: 'Testi Testaaja 5',
+      fullName: 'Testi5 Testaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139555',
     },
@@ -146,6 +146,157 @@ export const freeEnrollmentDetails: ClerkFreeEnrollmentDetailsResponse[] = [
       examDate: '2025-11-22T00:00:00.000Z',
     },
     languageOfCommunication: 'en',
+    registration: {
+      kind: 'ADMISSION',
+    },
+    attachments: [
+      {
+        id: 1,
+        filename: 'testi.pdf',
+        url: 'http://localhost/testi.pdf',
+        submittedAt: '2024-10-10T00:00:00.000Z',
+      },
+    ],
+    comments: [],
+  },
+  {
+    id: 6,
+    person: {
+      fullName: 'Testi6 Testaaja',
+      socialSecurityNumber: '112233-9999',
+      oid: '1.2.246.562.10.39706139555',
+    },
+    status: 'INFORMATION_REQUEST_ANSWERED',
+    freeEnrollmentBasis: 'COMPARABLE_HIGHER_EDUCATION_STUDIES',
+    freeEnrollmentsLeft: 0,
+    supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
+    examSession: {
+      id: 1,
+      language: ExamLanguage.SWE,
+      level: ExamLevel.KESKI,
+      examDate: '2025-11-22T00:00:00.000Z',
+    },
+    languageOfCommunication: 'en',
+    registration: {
+      kind: 'ADMISSION',
+    },
+    attachments: [
+      {
+        id: 1,
+        filename: 'testi.pdf',
+        url: 'http://localhost/testi.pdf',
+        submittedAt: '2024-10-10T00:00:00.000Z',
+      },
+    ],
+    comments: [],
+  },
+  {
+    id: 7,
+    person: {
+      fullName: 'Testi7 Testaaja',
+      socialSecurityNumber: '112233-9999',
+      oid: '1.2.246.562.10.39706139511',
+    },
+    status: 'PENDING',
+    freeEnrollmentBasis: 'HIGHER_EDUCATION_DEGREE',
+    freeEnrollmentsLeft: 0,
+    examSession: {
+      id: 1,
+      language: ExamLanguage.FIN,
+      level: ExamLevel.KESKI,
+      examDate: '2025-11-22T00:00:00.000Z',
+    },
+    languageOfCommunication: 'fi',
+    registration: {
+      kind: 'ADMISSION',
+    },
+    attachments: [
+      {
+        id: 1,
+        filename: 'testi.pdf',
+        url: 'http://localhost/testi.pdf',
+        submittedAt: '2024-10-10T00:00:00.000Z',
+      },
+    ],
+    comments: [],
+  },
+  {
+    id: 8,
+    person: {
+      fullName: 'Testi8 Testaaja',
+      socialSecurityNumber: '112233-9999',
+      oid: '1.2.246.562.10.39706139511',
+    },
+    status: 'PENDING',
+    freeEnrollmentBasis: 'HIGHER_EDUCATION_DEGREE',
+    freeEnrollmentsLeft: 0,
+    examSession: {
+      id: 1,
+      language: ExamLanguage.FIN,
+      level: ExamLevel.KESKI,
+      examDate: '2025-11-22T00:00:00.000Z',
+    },
+    languageOfCommunication: 'fi',
+    registration: {
+      kind: 'ADMISSION',
+    },
+    attachments: [
+      {
+        id: 1,
+        filename: 'testi.pdf',
+        url: 'http://localhost/testi.pdf',
+        submittedAt: '2024-10-10T00:00:00.000Z',
+      },
+    ],
+    comments: [],
+  },
+  {
+    id: 9,
+    person: {
+      fullName: 'Testi9 Testaaja',
+      socialSecurityNumber: '112233-9999',
+      oid: '1.2.246.562.10.39706139511',
+    },
+    status: 'PENDING',
+    freeEnrollmentBasis: 'HIGHER_EDUCATION_DEGREE',
+    freeEnrollmentsLeft: 0,
+    examSession: {
+      id: 1,
+      language: ExamLanguage.FIN,
+      level: ExamLevel.KESKI,
+      examDate: '2025-11-22T00:00:00.000Z',
+    },
+    languageOfCommunication: 'fi',
+    registration: {
+      kind: 'ADMISSION',
+    },
+    attachments: [
+      {
+        id: 1,
+        filename: 'testi.pdf',
+        url: 'http://localhost/testi.pdf',
+        submittedAt: '2024-10-10T00:00:00.000Z',
+      },
+    ],
+    comments: [],
+  },
+  {
+    id: 10,
+    person: {
+      fullName: 'Testi10 Testaaja',
+      socialSecurityNumber: '112233-9999',
+      oid: '1.2.246.562.10.39706139511',
+    },
+    status: 'PENDING',
+    freeEnrollmentBasis: 'HIGHER_EDUCATION_DEGREE',
+    freeEnrollmentsLeft: 0,
+    examSession: {
+      id: 1,
+      language: ExamLanguage.FIN,
+      level: ExamLevel.KESKI,
+      examDate: '2025-11-22T00:00:00.000Z',
+    },
+    languageOfCommunication: 'fi',
     registration: {
       kind: 'ADMISSION',
     },

@@ -23,27 +23,67 @@
           "searchResults": "123 organizers"
         }
       },
-      "clerkFreeEnrollmentListing": {
-        "header": {
-          "person": "Name",
-          "status": "Assessment status",
-          "dueDate": "Assessment due date ",
-          "examDate": "Exam date",
-          "registration": "Ilmoittautuminen",
-          "actions": "Toiminnot"
-        },
+      "clerkFreeEnrollment": {
         "status": {
-          "PENDING": "Maksuttomuus tarkistamatta",
-          "APPROVED": "Maksuttomuus hyväksytty",
-          "REJECTED": "Maksuttomuus hylätty",
-          "INFORMATION_REQUESTED": "Täydennyspyyntö lähetetty"
+          "PENDING": {
+            "part1": "Maksuttomuus tarkistamatta"
+          },
+          "APPROVED": {
+            "part1": "Maksuttomuus hyväksytty"
+          },
+          "REJECTED": {
+            "part1": "Maksuttomuus hylätty"
+          },
+          "INFORMATION_REQUESTED": {  
+            "part1": "Täydennyspyyntö lähetetty,",
+            "part2": "odottaa vastausta"
+          },
+          "INFORMATION_REQUEST_ANSWERED": {
+            "part1": "Maksuttomuus tarkistamatta,",
+            "part2": "täydennyspyyntöön vastattu"
+          },
+          "INFORMATION_REQUEST_EXPIRED": {
+            "part1": "Maksuttomuus tarkistamatta,",
+            "part2": "täydennyspyyntöön ei vastattu"
+          }
         },
-        "registrationStatus": {
-          "enrolled": "Ilmoittautunut",
-          "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
+        "listing": {
+          "header": {
+            "person": "Nimi",
+            "status": "Tarkastuksen tila",
+            "dueDate": "Täydennyspyynnön eräpäivä",
+            "assessmentDate": "Tarkastuksen päivämäärä",
+            "examDate": "Tutkinnon pvm",
+            "registration": "Ilmoittautuminen",
+            "actions": "Toiminnot"
+          },
+          "registrationStatus": {
+            "enrolled": "Ilmoittautunut",
+            "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
+          },
+          "assessCertificate": "Tarkasta todistus",
+          "showDetails": "Näytä tiedot",
+          "toasts": {
+            "notFound": "Maksuttoman ilmoittautumisen tietoja ei löydy"
+          }
         },
-        "assessCertificate": "Tarkasta todistus",
-        "showDetails": "Näytä tiedot"
+        "details": {
+          "freeEnrollmentBasis": {
+            "MATRICULATION_EXAMINATION": "Opiskellut Suomessa: ylioppilastutkinto",
+            "HIGHER_EDUCATION_DEGREE": "Opiskellut Suomessa: korkeakoulututkinto",
+            "HIGHER_EDUCATION_STUDIES": "Opiskellut Suomessa: suorittamassa korkeakouluopintoja",
+            "COMPARABLE_MATRICULATION_EXAMINATION": "Opiskellut ulkomailla: ylioppilastutkinto",
+            "COMPARABLE_HIGHER_EDUCATION_DEGREE": "Opiskellut ulkomailla: korkeakoulututkinto",
+            "COMPARABLE_HIGHER_EDUCATION_STUDIES": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja"
+          },
+          "freeEnrollmentsLeft": "{{amount}} kpl",
+          "registrationStatus": {
+            "enrolled": "Ilmoittautunut",
+            "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
+          },
+          "examView": "Tutkintotilaisuuden näkymä",
+          "customerView": "Asiakkaan näkymä"
+        }
       },
       "cookieBanner": {
         "buttonAriaLabel": "Stäng informationrutan om kakor",

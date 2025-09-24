@@ -3,16 +3,11 @@
   "less.validate": false,
   "scss.validate": false,
   "stylelint.validate": ["css", "scss"],
-  "sortJSON.contextMenu": {
-    "sortJSON": true,
-    "sortJSONAlphaNum": true
-  },
-  "sortJSON.orderOverride": ["name", "version", "description"],
-  "sortJSON.orderUnderride": ["dependencies", "devDependencies"],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.fixAll.stylelint": "explicit",
     "source.fixAll.sortJSON": "explicit"
   },
-  "eslint.validate": ["typescript", "typescriptreact", "javascript"]
+  "eslint.validate": ["typescript", "typescriptreact", "javascript"],
+  "typescript.preferences.importModuleSpecifier": "non-relative",
 }

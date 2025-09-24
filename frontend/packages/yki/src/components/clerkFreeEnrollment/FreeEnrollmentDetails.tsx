@@ -1,3 +1,4 @@
+import { HourglassBottom } from '@mui/icons-material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider } from '@mui/material';
 import { ClockIcon } from '@mui/x-date-pickers';
@@ -12,7 +13,11 @@ import { DateUtils } from 'shared/utils';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { loadClerkFreeEnrollmentDetails } from 'redux/reducers/clerkFreeEnrollmentDetails';
+import { FreeEnrollmentStatus } from 'interfaces/clerkFreeEnrollment';
+import {
+  loadClerkFreeEnrollmentDetails,
+  resetClerkFreeEnrollmentDetails,
+} from 'redux/reducers/clerkFreeEnrollmentDetails';
 import { clerkFreeEnrollmentDetailsSelector } from 'redux/selectors/clerkFreeEnrollmentDetails';
 
 export const ClerkFreeEnrollmentDetails = () => {
@@ -23,7 +28,7 @@ export const ClerkFreeEnrollmentDetails = () => {
   };
 
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.clerkFreeEnrollmentDetails',
+    keyPrefix: 'yki.component.clerkFreeEnrollment',
   });
 
   const { showToast } = useToast();
@@ -52,15 +57,100 @@ export const ClerkFreeEnrollmentDetails = () => {
     } else if (status === APIResponseStatus.Error || isNaN(Number(params.id))) {
       showToast({
         severity: Severity.Error,
-        description: t('component.clerkFreeExamDetails.toasts.notFound'),
+        description: t('details.toasts.notFound'),
       });
       navigate(AppRoutes.ClerkFreeEnrollment);
     }
   }, [dispatch, navigate, params.id, showToast, status, t]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(resetClerkFreeEnrollmentDetails());
+    };
+  }, [dispatch]);
+
   if (!enrollmentDetails) {
     return null;
   }
+
+  const renderButtons = () => {
+    if (enrollmentDetails.status === 'PENDING') {
+      return (
+        <>
+          <OphButton
+            aria-label="Button"
+            variant="contained"
+            style={{ backgroundColor: '#0033CC', color: 'white' }}
+          >
+            Lähetä täydennyspyyntö
+          </OphButton>
+          <OphButton
+            aria-label="Button"
+            variant="contained"
+            style={{ backgroundColor: '#0033CC', color: 'white' }}
+          >
+            Hyväksy maksuttomuus
+          </OphButton>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <OphButton
+          aria-label="Button"
+          variant="contained"
+          style={{ backgroundColor: 'white', color: '0033CC' }}
+        >
+          Lähetä täydennyspyyntö
+        </OphButton>
+        <OphButton
+          aria-label="Button"
+          variant="contained"
+          style={{ backgroundColor: '#0033CC', color: 'white' }}
+        >
+          Hyväksy maksuttomuus
+        </OphButton>
+        <OphButton
+          aria-label="Button"
+          variant="contained"
+          style={{ backgroundColor: '#0033CC', color: 'white' }}
+        >
+          Hylkää maksuttomuus
+        </OphButton>
+      </>
+    );
+  };
+
+  const getStatusIcon = (status: FreeEnrollmentStatus) => {
+    switch (status) {
+      case 'PENDING':
+        return <ClockIcon color="error" style={{ fontSize: '2rem' }} />;
+      case 'APPROVED':
+        return (
+          <ClockIcon
+            color="success"
+            style={{ fontSize: '2rem', color: 'green' }}
+          />
+        );
+      case 'INFORMATION_REQUESTED':
+        return (
+          <HourglassBottom
+            color="success"
+            style={{ fontSize: '2rem', color: 'green' }}
+          />
+        );
+      case 'REJECTED':
+        return (
+          <ClockIcon
+            color="disabled"
+            style={{ fontSize: '2rem', color: 'grey' }}
+          />
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="rows gapped free-enrollment-details">
@@ -92,23 +182,25 @@ export const ClerkFreeEnrollmentDetails = () => {
         <div className="rows gapped-xs">
           <div>
             <div className="columns gapped-xxs align-items-center">
-              <ClockIcon color="error" style={{ fontSize: '2rem' }} />
-              <Text>{t(`status.${enrollmentDetails.status}`)}</Text>
+              {getStatusIcon(enrollmentDetails.status)}
+              <Text>{t(`status.${enrollmentDetails.status}.part1`)}</Text>
             </div>
           </div>
           <Text>
-            {t(`freeEnrollmentBasis.${enrollmentDetails.freeEnrollmentBasis}`)}
+            {t(
+              `details.freeEnrollmentBasis.${enrollmentDetails.freeEnrollmentBasis}`,
+            )}
           </Text>
           <Text>
-            {t('freeEnrollmentsLeft', {
+            {t('details.freeEnrollmentsLeft', {
               amount: enrollmentDetails.freeEnrollmentsLeft,
             })}
           </Text>
           <Text>{enrollmentDetails.languageOfCommunication}</Text>
           <Text>
             {enrollmentDetails.registration.kind === 'ADMISSION'
-              ? t('registrationStatus.enrolled')
-              : t('registrationStatus.queued', {
+              ? t('details.registrationStatus.enrolled')
+              : t('details.registrationStatus.queued', {
                   positionInQueue:
                     enrollmentDetails.registration.positionInQueue,
                   queue: enrollmentDetails.registration.queue,
@@ -125,9 +217,9 @@ export const ClerkFreeEnrollmentDetails = () => {
             </Text>
           </Text>
           <Text>
-            {t('examView')}
+            {t('details.examView')}
             <br />
-            {t('customerView')}
+            {t('details.customerView')}
           </Text>
         </div>
       </div>
@@ -155,22 +247,7 @@ export const ClerkFreeEnrollmentDetails = () => {
             </div>
           ))}
         </div>
-        <div className="columns gapped flex-end">
-          <OphButton
-            aria-label="Button"
-            variant="contained"
-            style={{ backgroundColor: '#0033CC', color: 'white' }}
-          >
-            Hyväksy maksuttomuus
-          </OphButton>
-          <OphButton
-            aria-label="Button"
-            variant="contained"
-            style={{ backgroundColor: '#0033CC', color: 'white' }}
-          >
-            Lähetä täydennyspyyntö
-          </OphButton>
-        </div>
+        <div className="columns gapped flex-end">{renderButtons()}</div>
         <Divider />
         <div className="rows gapped">
           <Text>

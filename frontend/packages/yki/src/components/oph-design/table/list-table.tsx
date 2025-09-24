@@ -39,10 +39,16 @@ export const styled: typeof muiStyled = (
 };
 
 const EMPTY_ARRAY = Object.freeze([]) as Array<never>;
-// const EMPTY_STRING_SET = Object.freeze(new Set<string>());
 
 const StyledTable = styled(Table)({
   width: '100%',
+  tableLayout: 'fixed',
+
+  '& .MuiTableCell-root': {
+    padding: '8px 8px 8px 16px',
+    textAlign: 'left',
+    whiteSpace: 'pre-wrap',
+  },
 });
 
 const StyledTableBody = styled(TableBody)(({ theme }) => ({
@@ -139,10 +145,6 @@ export const ListTable = <T extends Row>({
   rowKeyProp,
   translateHeader = true,
   pagination,
-  // checkboxSelection,
-  // selection = EMPTY_STRING_SET,
-  // setSelection,
-  // getRowCheckboxLabel,
   ...props
 }: ListTableProps<T>) => {
   const translateCommon = useCommonTranslation();
@@ -157,31 +159,12 @@ export const ListTable = <T extends Row>({
     return rows;
   }, [rows, pagination]);
 
-  // Not using checkbox selection for now
-  // const allSelected = selection.size > 0 && pageRows.every((row) => selection.has(row[rowKeyProp] as string));
-  // const someSelected = selection.size > 0 && pageRows.some((row) => selection.has(row[rowKeyProp] as string)) && !allSelected;
-
   return (
     <Stack spacing={1} sx={{ alignItems: 'center', width: '100%' }}>
       <TableWrapper tabIndex={0}>
         <StyledTable {...props}>
           <TableHead>
             <TableRow sx={{ borderBottom: DEFAULT_BOX_BORDER }}>
-              {/* 
-              Not using table header checkbox for now
-              {checkboxSelection && (
-                <TableHeaderCell
-                  key="select-all"
-                  title={
-                    <TableHeaderCheckbox
-                      selection={selection}
-                      setSelection={setSelection}
-                      rows={rows}
-                      rowKeyProp={rowKeyProp}
-                    />
-                  }
-                />
-              )} */}
               {columns.map((columnProps) => {
                 const { key, title, style, sortable } = columnProps;
 
@@ -195,7 +178,7 @@ export const ListTable = <T extends Row>({
                     style={style}
                     sort={sort}
                     setSort={setSort}
-                    sortable={sortable != false}
+                    sortable={sortable}
                   />
                 );
               })}
@@ -207,18 +190,6 @@ export const ListTable = <T extends Row>({
 
               return (
                 <TableRow key={rowId}>
-                  {/* 
-                  Not using checkbox selection for now
-                  {checkboxSelection && (
-                    <TableCell>
-                      <TableRowCheckbox
-                        checked={selection.has(rowId)}
-                        setSelection={setSelection}
-                        rowId={rowId}
-                        label={getRowCheckboxLabel?.(rowProps)}
-                      />
-                    </TableCell>
-                  )} */}
                   {columns.map(({ key: columnKey, render, style }) => {
                     return (
                       <TableCell key={columnKey.toString()} sx={style}>

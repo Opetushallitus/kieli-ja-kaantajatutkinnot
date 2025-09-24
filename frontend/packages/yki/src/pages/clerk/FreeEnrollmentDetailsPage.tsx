@@ -1,4 +1,4 @@
-import { HomeOutlined } from '@mui/icons-material';
+import { ChevronRight, HomeOutlined } from '@mui/icons-material';
 import { Box, Grid, IconButton, Paper } from '@mui/material';
 import { FC } from 'react';
 import { H2 } from 'shared/components';
@@ -14,11 +14,26 @@ export const FreeEnrollmentDetailsPage: FC = () => {
   return (
     <Box className="clerk-free-enrollment-details-page">
       <H2>
-        <IconButton style={{ backgroundColor: 'white', borderRadius: '4px' }}>
-          <HomeOutlined />
-        </IconButton>
-        {' > '}
-        {t('heading')}
+        <div className="columns gapped-xs">
+          <IconButton
+            style={{
+              backgroundColor: 'white',
+              borderRadius: '4px',
+              borderColor: 'blue',
+              borderWidth: '2px',
+              borderStyle: 'solid',
+            }}
+          >
+            <HomeOutlined
+              style={{
+                fontSize: '2rem',
+                color: 'blue',
+              }}
+            />
+          </IconButton>
+          <ChevronRight style={{ color: 'grey', fontSize: '2rem' }} />
+          {t('heading')}
+        </div>
       </H2>
 
       <Grid
