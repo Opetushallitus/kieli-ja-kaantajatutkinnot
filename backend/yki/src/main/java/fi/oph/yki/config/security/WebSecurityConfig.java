@@ -1,8 +1,12 @@
 package fi.oph.yki.config.security;
 
+import fi.oph.yki.util.StringUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authorization.AuthorizationDecision;
@@ -19,15 +23,30 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
+  private final Environment environment;
+
+  @Autowired
+  public WebSecurityConfig(final Environment environment) {
+    this.environment = environment;
+  }
+
   @Bean
   public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
+    final String token = environment.getRequiredProperty("app.proxy-token");
     final AuthorizationManager<RequestAuthorizationContext> proxyApiAuthorizationManager =
       (
         (authenticationSupplier, object) -> {
           final HttpServletRequest request = object.getRequest();
           final String authorization = request.getHeader("Authorization");
 
-          return new AuthorizationDecision(authorization != null && !authorization.isEmpty());
+          if (authorization == null || authorization.isEmpty()) {
+            return new AuthorizationDecision(false);
+          }
+
+          final Map<String, String> auth = StringUtil.splitAuth(authorization);
+          final String hash = StringUtil.sha256hex(auth.get("user") + token);
+
+          return new AuthorizationDecision(hash.equals(auth.get("password")));
         }
       );
 
