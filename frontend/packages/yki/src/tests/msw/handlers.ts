@@ -190,6 +190,22 @@ export const handlers = [
         return HttpResponse.json(freeEnrollmentDetails[3]);
       case '5':
         return HttpResponse.json(freeEnrollmentDetails[4]);
+      case '6':
+        return HttpResponse.json(freeEnrollmentDetails[5]);
+      case '7':
+        return HttpResponse.json(freeEnrollmentDetails[6]);
+      case '8':
+        return HttpResponse.json(freeEnrollmentDetails[7]);
+      case '9':
+        return HttpResponse.json(freeEnrollmentDetails[8]);
+      case '10':
+        return HttpResponse.json(freeEnrollmentDetails[9]);
+      case '11':
+        return HttpResponse.json(freeEnrollmentDetails[10]);
+      case '12':
+        return HttpResponse.json(freeEnrollmentDetails[11]);
+      case '13':
+        return HttpResponse.json(freeEnrollmentDetails[12]);
       default:
         return notFound();
     }

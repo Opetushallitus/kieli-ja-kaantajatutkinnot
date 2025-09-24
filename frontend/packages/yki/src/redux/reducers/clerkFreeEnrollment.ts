@@ -1,33 +1,34 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import {
-  ClerkFreeEnrollment,
-  ClerkFreeEnrollmentFilters,
-} from 'interfaces/clerkFreeEnrollment';
+import { ClerkFreeEnrollment } from 'interfaces/clerkFreeEnrollment';
+
+type FreeEnrollmentColumnIds =
+  | 'person'
+  | 'status'
+  | 'dueDate'
+  | 'examDate'
+  | 'registration';
+export type FreeEnrollmentSort =
+  | `${FreeEnrollmentColumnIds}:${'asc' | 'desc'}`
+  | '';
 
 interface ClerkFreeEnrollmentState {
   freeEnrollments: Array<ClerkFreeEnrollment>;
   status: APIResponseStatus;
-  filters: ClerkFreeEnrollmentFilters;
+  sort: FreeEnrollmentSort;
 }
 
 const initialState: ClerkFreeEnrollmentState = {
   freeEnrollments: [],
   status: APIResponseStatus.NotStarted,
-  filters: {},
+  sort: '',
 };
 
 const clerkFreeEnrollmentSlice = createSlice({
   name: 'clerkFreeEnrollment',
   initialState,
   reducers: {
-    addClerkFreeEnrollmentFilter(
-      state,
-      action: PayloadAction<Partial<ClerkFreeEnrollmentFilters>>,
-    ) {
-      state.filters = { ...state.filters, ...action.payload };
-    },
     loadClerkFreeEnrollments(state) {
       state.status = APIResponseStatus.InProgress;
     },
@@ -41,12 +42,14 @@ const clerkFreeEnrollmentSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.freeEnrollments = action.payload;
     },
+    setSort(state, action: PayloadAction<FreeEnrollmentSort>) {
+      state.sort = action.payload;
+    },
   },
 });
 
 export const clerkFreeEnrollmentReducer = clerkFreeEnrollmentSlice.reducer;
 export const {
-  addClerkFreeEnrollmentFilter,
   loadClerkFreeEnrollments,
   rejectClerkFreeEnrollments,
   storeClerkFreeEnrollments,

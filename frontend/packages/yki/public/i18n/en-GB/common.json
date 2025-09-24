@@ -22,7 +22,7 @@
             "displayedRowsAriaLabel": "Showing {{from}}-{{to}} / {{count}} results",
             "displayedRowsLabel": "{{from}}-{{to}} / {{count}}",
             "nextButtonLabel": "Next search results",
-            "rowsPerPage": "Results per page"
+            "rowsPerPage": "Show per page"
           }
         }
       },

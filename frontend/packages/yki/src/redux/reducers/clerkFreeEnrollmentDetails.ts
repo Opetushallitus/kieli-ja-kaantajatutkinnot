@@ -30,6 +30,10 @@ const clerkFreeEnrollmentDetailsSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.enrollmentDetails = action.payload;
     },
+    resetClerkFreeEnrollmentDetails(state) {
+      state.status = APIResponseStatus.NotStarted;
+      state.enrollmentDetails = null;
+    },
   },
 });
 
@@ -39,4 +43,5 @@ export const {
   loadClerkFreeEnrollmentDetails,
   rejectClerkFreeEnrollmentDetails,
   storeClerkFreeEnrollmentDetails,
+  resetClerkFreeEnrollmentDetails,
 } = clerkFreeEnrollmentDetailsSlice.actions;

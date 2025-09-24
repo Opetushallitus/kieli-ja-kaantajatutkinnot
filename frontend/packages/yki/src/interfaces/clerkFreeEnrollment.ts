@@ -8,11 +8,12 @@ interface FreeEnrollmentPerson {
   oid: string;
 }
 
-type FreeEnrollmentStatus =
+export type FreeEnrollmentStatus =
   | 'PENDING'
   | 'APPROVED'
   | 'REJECTED'
-  | 'INFORMATION_REQUESTED';
+  | 'INFORMATION_REQUESTED'
+  | 'INFORMATION_REQUEST_ANSWERED';
 
 type Registration =
   | {
