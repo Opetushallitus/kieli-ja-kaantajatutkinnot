@@ -62,10 +62,7 @@
             "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
           },
           "assessCertificate": "Tarkasta todistus",
-          "showDetails": "Näytä tiedot",
-          "toasts": {
-            "notFound": "Maksuttoman ilmoittautumisen tietoja ei löydy"
-          }
+          "showDetails": "Näytä tiedot"
         },
         "details": {
           "freeEnrollmentBasis": {
@@ -82,7 +79,10 @@
             "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
           },
           "examView": "Tutkintotilaisuuden näkymä",
-          "customerView": "Asiakkaan näkymä"
+          "customerView": "Asiakkaan näkymä",
+          "toasts": {
+            "notFound": "Maksuttoman ilmoittautumisen tietoja ei löydy"
+          }
         }
       },
       "cookieBanner": {
@@ -546,6 +546,12 @@
       }
     },
     "pages": {
+      "clerkFreeEnrollmentPage": {
+        "heading": "Maksuttomuuden tarkastukset"
+      },
+      "clerkFreeEnrollmentDetailsPage": {
+        "heading": "Maksuttomuuden tarkastukset"
+      },
       "confirmEnrollmentPage": {
         "heading": "Bekräfta anmälan"
       },
