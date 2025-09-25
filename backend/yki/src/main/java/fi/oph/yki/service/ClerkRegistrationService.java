@@ -1,11 +1,13 @@
 package fi.oph.yki.service;
 
+import fi.oph.yki.api.dto.clerk.ClerkApprovalAttachmentsDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalDetailsDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
 import fi.oph.yki.model.FreeRegistration;
+import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.repository.FreeRegistrationRepository;
 import java.util.List;
@@ -46,20 +48,38 @@ public class ClerkRegistrationService {
   }
 
   private ClerkApprovalDTO createClerkApprovalDTO(final FreeRegistration freeRegistration) {
-    final ClerkRegistrationDTO clerkRegistrationDTO = createClerkRegistrationDTO(freeRegistration.getRegistration());
-    final ClerkPersonDTO clerkPersonDTO = ClerkPersonDTO.builder().build();
+    final Registration registration = freeRegistration.getRegistration();
+    final ClerkRegistrationDTO clerkRegistrationDTO = createClerkRegistrationDTO(registration);
+    final ClerkPersonDTO clerkPersonDTO = createClerkPersonDTO(registration.getPerson());
 
     return ClerkApprovalDTO.builder().person(clerkPersonDTO).registration(clerkRegistrationDTO).build();
   }
 
+  private ClerkPersonDTO createClerkPersonDTO(final Person person) {
+    return ClerkPersonDTO
+      .builder()
+      .oid(person.getOid())
+      .fullName(person.getFirstName() + " " + person.getLastName())
+      .build();
+  }
+
   private ClerkRegistrationDTO createClerkRegistrationDTO(final Registration registration) {
-    return ClerkRegistrationDTO.builder().build();
+    return ClerkRegistrationDTO.builder().kind(registration.getKind()).build();
   }
 
   private ClerkApprovalDetailsDTO createClerkApprovalDetailsDTO(final FreeRegistration freeRegistration) {
     final ClerkRegistrationDTO clerkRegistrationDTO = createClerkRegistrationDTO(freeRegistration.getRegistration());
     final ClerkPersonDTO clerkPersonDTO = ClerkPersonDTO.builder().build();
 
-    return ClerkApprovalDetailsDTO.builder().person(clerkPersonDTO).registration(clerkRegistrationDTO).build();
+    return ClerkApprovalDetailsDTO
+      .builder()
+      .person(clerkPersonDTO)
+      .registration(clerkRegistrationDTO)
+      .attachments(createClerkApprovalAttachmentsDTO(freeRegistration))
+      .build();
+  }
+
+  private List<ClerkApprovalAttachmentsDTO> createClerkApprovalAttachmentsDTO(final FreeRegistration freeRegistration) {
+    return List.of(ClerkApprovalAttachmentsDTO.builder().build());
   }
 }

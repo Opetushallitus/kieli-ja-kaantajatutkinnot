@@ -130,7 +130,7 @@ public class KoskiService {
   public List<PublicEducationDTO> getEducations(final Registration registration) {
     try {
       final ObjectMapper objectMapper = new ObjectMapper();
-      final String oid = registration.getPersonOid();
+      final String oid = registration.getPerson().getOid();
       objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
 
       final String response = requestWithRetries(oid, REQUEST_ATTEMPTS);

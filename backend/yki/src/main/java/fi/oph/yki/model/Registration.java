@@ -1,5 +1,6 @@
 package fi.oph.yki.model;
 
+import fi.oph.yki.model.type.RegistrationKind;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -29,8 +30,13 @@ public class Registration {
   @Column(name = "id", nullable = false)
   private long id;
 
-  @Column(name = "person_oid")
-  private String personOid;
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "person_oid", referencedColumnName = "oid")
+  private Person person;
+
+  @Column(name = "kind")
+  @Enumerated(value = EnumType.STRING)
+  private RegistrationKind kind;
 
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "free_registration", referencedColumnName = "free_registration_id")

@@ -22,11 +22,15 @@ import lombok.Setter;
 public class Person {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "person_id", nullable = false)
-  private long id;
-
   @Size(max = 255)
   @Column(name = "oid", unique = true)
   private String oid;
+
+  @Size(max = 255)
+  @Column(name = "first_name")
+  private String firstName;
+
+  @Size(max = 255)
+  @Column(name = "last_name")
+  private String lastName;
 }
