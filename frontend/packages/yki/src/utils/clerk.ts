@@ -2,13 +2,13 @@ import { t } from 'i18next';
 
 import { OrganizerLanguage } from 'interfaces/clerkOrganizer';
 
-export const LEVEL_TRANSLATIONS = {
+const LEVEL_TRANSLATIONS = {
   PERUS: 'common.level.basic',
   KESKI: 'common.level.middle',
   YLIN: 'common.level.high',
 };
 
-export const LANGUAGES = [
+const LANGUAGES = [
   {
     code: 'fin',
     name: 'Suomi',
@@ -56,13 +56,13 @@ export const LANGUAGES = [
   },
 ];
 
-export const capitalize = (s: string) => {
+const capitalize = (s: string) => {
   if (typeof s !== 'string') return '';
 
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
-export const levelDescription = (level: keyof typeof LEVEL_TRANSLATIONS) => {
+const levelDescription = (level: keyof typeof LEVEL_TRANSLATIONS) => {
   return t(LEVEL_TRANSLATIONS[level]);
 };
 
@@ -71,10 +71,7 @@ export const languagesToString = (array: OrganizerLanguage[]) => {
 
   return list.map((lang) => lang.split(' ')[0].toLowerCase()).join(', ');
 };
-
-export const getLanguagesWithLevelDescriptions = (
-  array: OrganizerLanguage[],
-) => {
+const getLanguagesWithLevelDescriptions = (array: OrganizerLanguage[]) => {
   const list = [];
   for (const lang in LANGUAGES) {
     const language = LANGUAGES[lang];
