@@ -120,5 +120,3 @@ export interface ClerkFreeEnrollmentDetailsResponse
   attachments: FreeEnrollmentAttachmentResponse[];
   comments: CommentResponse[];
 }
-
-export interface ClerkFreeEnrollmentFilters {}

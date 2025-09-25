@@ -19,7 +19,7 @@ import { theme } from 'shared/configs';
 import { APIResponseStatus, Variant } from 'shared/enums';
 import { TitlePage, TitlePageProps } from 'shared/utils';
 
-import { ClerkHeader } from 'components/layouts/ClerkHeader';
+import { ClerkHeader } from 'components/layouts/clerkHeader/ClerkHeader';
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';

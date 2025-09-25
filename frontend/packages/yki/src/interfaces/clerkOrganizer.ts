@@ -24,5 +24,3 @@ export interface ClerkOrganizerResponse
   agreement_start_date: string;
   agreement_end_date: string;
 }
-
-export interface ClerkOrganizerFilters {}
