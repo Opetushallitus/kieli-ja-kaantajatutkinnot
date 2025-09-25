@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.13.0] - 2025-08-01
+
+### Changed
+
+- Updated to work with oph-design-system used in YKI (clerk). Removed unused H6 Text variant added a matching types definition for mui styles. 
+
 ## [1.12.1] - 2025-08-01
 
 ### Changed
