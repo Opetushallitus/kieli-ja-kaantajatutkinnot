@@ -28,8 +28,8 @@ import { AppRoutes, RegistrationKind } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ClerkHomePage } from 'pages/clerk/ClerkHomePage';
-import { FreeEnrollmentDetailsPage } from 'pages/clerk/FreeEnrollmentDetailsPage';
-import { FreeEnrollmentPage } from 'pages/clerk/FreeEnrollmentPage';
+import { FreeRegistrationDetailsPage } from 'pages/clerk/FreeRegistrationDetailsPage';
+import { FreeRegistrationPage } from 'pages/clerk/FreeRegistrationPage';
 import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
@@ -41,8 +41,8 @@ import { NotFoundPage } from 'pages/NotFoundPage';
 import { ReassessmentPage } from 'pages/ReassessmentPage';
 import { RegistrationPage } from 'pages/RegistrationPage';
 import { RegistrationPaymentStatusPage } from 'pages/RegistrationPaymentStatusPage';
-import { TransferEnrollmentPage } from 'pages/TransferEnrollmentPage';
-import { TransferEnrollmentSuccessPage } from 'pages/TransferEnrollmentSuccessPage';
+import { TransferRegistrationPage } from 'pages/TransferRegistrationPage';
+import { TransferRegistrationSuccessPage } from 'pages/TransferRegistrationSuccessPage';
 import { UserDetailsPage } from 'pages/UserDetailsPage';
 import { loadSession } from 'redux/reducers/session';
 import { sessionSelector } from 'redux/selectors/session';
@@ -152,18 +152,18 @@ export const AppRouter: FC = () => {
             }
           />
           <Route
-            path={AppRoutes.ClerkFreeEnrollment}
+            path={AppRoutes.ClerkFreeRegistration}
             element={
               <YkiTitlePage title={createTitle('clerk')}>
-                <FreeEnrollmentPage />
+                <FreeRegistrationPage />
               </YkiTitlePage>
             }
           />
           <Route
-            path={AppRoutes.ClerkFreeEnrollmentDetails}
+            path={AppRoutes.ClerkFreeRegistrationDetails}
             element={
               <YkiTitlePage title={createTitle('clerk')}>
-                <FreeEnrollmentDetailsPage />
+                <FreeRegistrationDetailsPage />
               </YkiTitlePage>
             }
           />
@@ -248,24 +248,24 @@ export const AppRouter: FC = () => {
           <Route
             path={AppRoutes.ConfirmRegistration}
             element={
-              <UserPortalSubPage title="transferEnrollment">
+              <UserPortalSubPage title="transferRegistration">
                 <ConfirmRegistrationPage />
               </UserPortalSubPage>
             }
           />
           <Route
-            path={AppRoutes.TransferEnrollment}
+            path={AppRoutes.TransferRegistration}
             element={
-              <UserPortalSubPage title="transferEnrollment">
-                <TransferEnrollmentPage />
+              <UserPortalSubPage title="transferRegistration">
+                <TransferRegistrationPage />
               </UserPortalSubPage>
             }
           />
           <Route
-            path={AppRoutes.TransferEnrollmentSuccess}
+            path={AppRoutes.TransferRegistrationSuccess}
             element={
-              <UserPortalSubPage title="transferEnrollment">
-                <TransferEnrollmentSuccessPage />
+              <UserPortalSubPage title="transferRegistration">
+                <TransferRegistrationSuccessPage />
               </UserPortalSubPage>
             }
           />

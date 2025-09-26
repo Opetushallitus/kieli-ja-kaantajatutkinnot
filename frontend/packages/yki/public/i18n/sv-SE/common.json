@@ -141,7 +141,7 @@
       },
       "reassessment": "Kontrollbedömning",
       "registration": "Anmälan",
-      "freeEnrollment": "Maksuttomuus",
+      "freeRegistration": "Maksuttomuus",
       "registrationPeriod": "Anmälningstid",
       "specialArrangementsLink": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-behover-du-specialarrangemang",
       "userRegistrations": "Mina anmälningar",
@@ -162,7 +162,7 @@
         "accessibilityStatement": "Tillgänglighetsutlåtande",
         "logoutSuccess": "Utloggning lyckades",
         "userDetails": "Mina anmälningar",
-        "transferEnrollment": "Flytta anmälan",
+        "transferRegistration": "Flytta anmälan",
         "confirmRegistration": "Bekräfta anmälan",
         "notFound": "Sidan hittades inte",
         "expiredLoginLink": "Länken gäller inte längre"

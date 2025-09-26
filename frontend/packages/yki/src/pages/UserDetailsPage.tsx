@@ -302,7 +302,7 @@ const Registrations: FC<RegistrationsProps> = ({
                   color={Color.Secondary}
                   variant={Variant.Outlined}
                   disabled={!r.isTransferable}
-                  to={AppRoutes.TransferEnrollment.replace(
+                  to={AppRoutes.TransferRegistration.replace(
                     /:registrationId/,
                     `${r.id}`,
                   )}

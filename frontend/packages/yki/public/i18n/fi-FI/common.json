@@ -141,7 +141,7 @@
       },
       "reassessment": "Tarkistusarviointi",
       "registration": "Ilmoittautuminen",
-      "freeEnrollment": "Maksuttomuus",
+      "freeRegistration": "Maksuttomuus",
       "registrationPeriod": "Ilmoittautumisaika",
       "specialArrangementsLink": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin",
       "userRegistrations": "Omat ilmoittautumiset",
@@ -162,7 +162,7 @@
         "accessibilityStatement": "Saavutettavuusseloste",
         "logoutSuccess": "Uloskirjautuminen onnnistui",
         "userDetails": "Omat ilmoittautumiset",
-        "transferEnrollment": "Siirrä ilmoittautuminen",
+        "transferRegistration": "Siirrä ilmoittautuminen",
         "confirmRegistration": "Vahvista ilmoittautuminen",
         "notFound": "Etsimääsi sivua ei löytynyt",
         "expiredLoginLink": "Linkki on vanhentunut"

@@ -3,8 +3,8 @@ import { combineReducers, configureStore, Tuple } from '@reduxjs/toolkit';
 
 import { RootState } from 'configs/redux';
 import { APIErrorReducer } from 'redux/reducers/APIError';
-import { clerkFreeEnrollmentReducer } from 'redux/reducers/clerkFreeEnrollment';
-import { clerkFreeEnrollmentDetailsReducer } from 'redux/reducers/clerkFreeEnrollmentDetails';
+import { clerkFreeRegistrationReducer } from 'redux/reducers/clerkFreeRegistration';
+import { clerkFreeRegistrationDetailsReducer } from 'redux/reducers/clerkFreeRegistrationDetails';
 import { clerkOrganizersReducer } from 'redux/reducers/clerkOrganizer';
 import { confirmRegistrationReducer } from 'redux/reducers/confirmRegistration';
 import { evaluationOrderReducer } from 'redux/reducers/evaluationOrder';
@@ -17,7 +17,7 @@ import { nationalitiesReducer } from 'redux/reducers/nationalities';
 import { publicIdentificationReducer } from 'redux/reducers/publicIdentification';
 import { registrationReducer } from 'redux/reducers/registration';
 import { sessionReducer } from 'redux/reducers/session';
-import { transferEnrollmentReducer } from 'redux/reducers/transferEnrollment';
+import { transferRegistrationReducer } from 'redux/reducers/transferRegistration';
 import { userDetailsReducer } from 'redux/reducers/userDetails';
 import { userOpenRegistrationsReducer } from 'redux/reducers/userOpenRegistrations';
 import rootSaga from 'redux/sagas/index';
@@ -37,12 +37,12 @@ export const rootReducer = combineReducers({
   publicIdentification: publicIdentificationReducer,
   registration: registrationReducer,
   session: sessionReducer,
-  transferEnrollment: transferEnrollmentReducer,
+  transferRegistration: transferRegistrationReducer,
   userOpenRegistrations: userOpenRegistrationsReducer,
   userDetails: userDetailsReducer,
   clerkOrganizer: clerkOrganizersReducer,
-  clerkFreeEnrollmment: clerkFreeEnrollmentReducer,
-  clerkFreeEnrollmentDetails: clerkFreeEnrollmentDetailsReducer,
+  clerkFreeEnrollmment: clerkFreeRegistrationReducer,
+  clerkFreeRegistrationDetails: clerkFreeRegistrationDetailsReducer,
 });
 
 export const setupStore = (preloadedState?: Partial<RootState>) => {
