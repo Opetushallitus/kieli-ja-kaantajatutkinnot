@@ -818,8 +818,7 @@
         "contactDetails": {
           "description": {
             "part1": "We will send you the certificate by post.",
-            "part2": "Please check that you have provided the correct address.",
-            "part3": "If there is a mistake in your contact information, please notify the Finnish National Agency for Education by email at kielitutkinnot@oph.fi."
+            "part2": "Please check that you have provided the correct address."
           },
           "heading": "Your contact information",
           "modify": "Edit contact information"

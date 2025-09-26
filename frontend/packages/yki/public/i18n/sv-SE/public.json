@@ -817,8 +817,7 @@
         "contactDetails": {
           "description": {
             "part1": "Vi skickar intyget till dig per post.",
-            "part2": "Kontrollera att du har uppgett rätt adress.",
-            "part3": "Om det finns ett fel i dina kontaktuppgifter, meddela Utbildningsstyrelsen om det per e-post på kielitutkinnot@oph.fi"
+            "part2": "Kontrollera att du har uppgett rätt adress."
           },
           "heading": "Dina kontaktuppgifter",
           "modify": "Redigera kontaktuppgifterna"

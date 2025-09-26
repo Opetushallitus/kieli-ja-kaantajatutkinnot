@@ -817,8 +817,7 @@
         "contactDetails": {
           "description": {
             "part1": "Lähetämme todistuksen sinulle postitse.",
-            "part2": "Tarkista, että olet antanut oikean osoitteen.",
-            "part3": "Jos yhteystiedoissasi on virhe, ilmoita asiasta Opetushallitukselle sähköpostitse osoitteeseen kielitutkinnot@oph.fi"
+            "part2": "Tarkista, että olet antanut oikean osoitteen."
           },
           "heading": "Yhteystietosi",
           "modify": "Muokkaa yhteystietoja"
