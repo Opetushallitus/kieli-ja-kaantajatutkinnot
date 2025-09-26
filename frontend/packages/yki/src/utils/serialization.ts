@@ -10,9 +10,9 @@ import {
   RegistrationStates,
 } from 'enums/app';
 import {
-  ClerkFreeEnrollmentDetailsResponse,
-  ClerkFreeEnrollmentResponse,
-} from 'interfaces/clerkFreeEnrollment';
+  ClerkFreeRegistrationDetailsResponse,
+  ClerkFreeRegistrationResponse,
+} from 'interfaces/clerkFreeRegistration';
 import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
 import {
   RegistrationToConfirmDetails,
@@ -49,11 +49,11 @@ import {
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
 import {
-  TransferEnrollmentDetails,
-  TransferEnrollmentDetailsResponse,
-  TransferEnrollmentTarget,
-  TransferEnrollmentTargetResponse,
-} from 'interfaces/transferEnrollment';
+  TransferRegistrationDetails,
+  TransferRegistrationDetailsResponse,
+  TransferRegistrationTarget,
+  TransferRegistrationTargetResponse,
+} from 'interfaces/transferRegistration';
 import { PersonDetails, PersonDetailsResponse } from 'interfaces/userDetails';
 import { EvaluationOrderState } from 'redux/reducers/evaluationOrder';
 
@@ -288,20 +288,20 @@ export class SerializationUtils {
     };
   }
 
-  static deserializeTransferEnrollmentTarget(
-    response: TransferEnrollmentTargetResponse,
-  ): TransferEnrollmentTarget {
+  static deserializeTransferRegistrationTarget(
+    response: TransferRegistrationTargetResponse,
+  ): TransferRegistrationTarget {
     return { ...response, session_date: dayjs(response.session_date) };
   }
 
-  static deserializeTransferEnrollmentDetails(
-    response: TransferEnrollmentDetailsResponse,
-  ): TransferEnrollmentDetails {
+  static deserializeTransferRegistrationDetails(
+    response: TransferRegistrationDetailsResponse,
+  ): TransferRegistrationDetails {
     return {
       ...response,
       session_date: dayjs(response.session_date),
       targets: response.targets.map(
-        SerializationUtils.deserializeTransferEnrollmentTarget,
+        SerializationUtils.deserializeTransferRegistrationTarget,
       ),
     };
   }
@@ -355,52 +355,53 @@ export class SerializationUtils {
     };
   }
 
-  static deserializeClerkFreeEnrollmentResponse(
-    freeEnrollmentResponse: ClerkFreeEnrollmentResponse,
+  static deserializeClerkFreeRegistrationResponse(
+    freeRegistrationResponse: ClerkFreeRegistrationResponse,
   ) {
     return {
-      ...freeEnrollmentResponse,
-      supplementRequestDueDate: freeEnrollmentResponse.supplementRequestDueDate
-        ? dayjs(freeEnrollmentResponse.supplementRequestDueDate)
+      ...freeRegistrationResponse,
+      supplementRequestDueDate:
+        freeRegistrationResponse.supplementRequestDueDate
+          ? dayjs(freeRegistrationResponse.supplementRequestDueDate)
+          : undefined,
+      assessmentDate: freeRegistrationResponse.assessmentDate
+        ? dayjs(freeRegistrationResponse.assessmentDate)
         : undefined,
-      assessmentDate: freeEnrollmentResponse.assessmentDate
-        ? dayjs(freeEnrollmentResponse.assessmentDate)
-        : undefined,
-      examDate: dayjs(freeEnrollmentResponse.examDate),
+      examDate: dayjs(freeRegistrationResponse.examDate),
     };
   }
 
-  static deserializeClerkFreeEnrollmentDetailsResponse(
-    freeEnrollmentDetailsResponse: ClerkFreeEnrollmentDetailsResponse,
+  static deserializeClerkFreeRegistrationDetailsResponse(
+    freeRegistrationDetailsResponse: ClerkFreeRegistrationDetailsResponse,
   ) {
     return {
-      ...freeEnrollmentDetailsResponse,
+      ...freeRegistrationDetailsResponse,
       supplementRequestDueDate:
-        freeEnrollmentDetailsResponse.supplementRequestDueDate
-          ? dayjs(freeEnrollmentDetailsResponse.supplementRequestDueDate)
+        freeRegistrationDetailsResponse.supplementRequestDueDate
+          ? dayjs(freeRegistrationDetailsResponse.supplementRequestDueDate)
           : undefined,
-      supplementRequest: freeEnrollmentDetailsResponse.supplementRequest
+      supplementRequest: freeRegistrationDetailsResponse.supplementRequest
         ? {
-            ...freeEnrollmentDetailsResponse.supplementRequest,
+            ...freeRegistrationDetailsResponse.supplementRequest,
             timestamp: dayjs(
-              freeEnrollmentDetailsResponse.supplementRequest.timestamp,
+              freeRegistrationDetailsResponse.supplementRequest.timestamp,
             ),
           }
         : undefined,
-      assessmentDate: freeEnrollmentDetailsResponse.assessmentDate
-        ? dayjs(freeEnrollmentDetailsResponse.assessmentDate)
+      assessmentDate: freeRegistrationDetailsResponse.assessmentDate
+        ? dayjs(freeRegistrationDetailsResponse.assessmentDate)
         : undefined,
       examSession: {
-        ...freeEnrollmentDetailsResponse.examSession,
-        examDate: dayjs(freeEnrollmentDetailsResponse.examSession.examDate),
+        ...freeRegistrationDetailsResponse.examSession,
+        examDate: dayjs(freeRegistrationDetailsResponse.examSession.examDate),
       },
-      attachments: freeEnrollmentDetailsResponse.attachments.map(
+      attachments: freeRegistrationDetailsResponse.attachments.map(
         (attachment) => ({
           ...attachment,
           submittedAt: dayjs(attachment.submittedAt),
         }),
       ),
-      comments: freeEnrollmentDetailsResponse.comments.map((comment) => ({
+      comments: freeRegistrationDetailsResponse.comments.map((comment) => ({
         ...comment,
         timestamp: dayjs(comment.timestamp),
       })),

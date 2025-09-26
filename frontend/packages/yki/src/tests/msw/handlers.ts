@@ -6,8 +6,8 @@ import { PublicRegistrationInitRequest } from 'interfaces/publicRegistration';
 import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
-import { freeEnrollments } from 'tests/msw/fixtures/freeEnrollment';
-import { freeEnrollmentDetails } from 'tests/msw/fixtures/freeEnrollmentDetails';
+import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
+import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import {
   NoSessionResponse,
   //SuomiFiAuthenticatedSessionResponse,
@@ -175,37 +175,37 @@ export const handlers = [
   http.get('/yki/api/virkailija/organizer', () =>
     HttpResponse.json(organizers),
   ),
-  http.get('/yki/api/virkailija/free-enrollments', () =>
-    HttpResponse.json(freeEnrollments),
+  http.get('/yki/api/virkailija/free-registrations', () =>
+    HttpResponse.json(freeRegistrations),
   ),
-  http.get('/yki/api/virkailija/free-enrollments/:id', ({ params }) => {
+  http.get('/yki/api/virkailija/free-registrations/:id', ({ params }) => {
     switch (params.id) {
       case '1':
-        return HttpResponse.json(freeEnrollmentDetails[0]);
+        return HttpResponse.json(freeRegistrationDetails[0]);
       case '2':
-        return HttpResponse.json(freeEnrollmentDetails[1]);
+        return HttpResponse.json(freeRegistrationDetails[1]);
       case '3':
-        return HttpResponse.json(freeEnrollmentDetails[2]);
+        return HttpResponse.json(freeRegistrationDetails[2]);
       case '4':
-        return HttpResponse.json(freeEnrollmentDetails[3]);
+        return HttpResponse.json(freeRegistrationDetails[3]);
       case '5':
-        return HttpResponse.json(freeEnrollmentDetails[4]);
+        return HttpResponse.json(freeRegistrationDetails[4]);
       case '6':
-        return HttpResponse.json(freeEnrollmentDetails[5]);
+        return HttpResponse.json(freeRegistrationDetails[5]);
       case '7':
-        return HttpResponse.json(freeEnrollmentDetails[6]);
+        return HttpResponse.json(freeRegistrationDetails[6]);
       case '8':
-        return HttpResponse.json(freeEnrollmentDetails[7]);
+        return HttpResponse.json(freeRegistrationDetails[7]);
       case '9':
-        return HttpResponse.json(freeEnrollmentDetails[8]);
+        return HttpResponse.json(freeRegistrationDetails[8]);
       case '10':
-        return HttpResponse.json(freeEnrollmentDetails[9]);
+        return HttpResponse.json(freeRegistrationDetails[9]);
       case '11':
-        return HttpResponse.json(freeEnrollmentDetails[10]);
+        return HttpResponse.json(freeRegistrationDetails[10]);
       case '12':
-        return HttpResponse.json(freeEnrollmentDetails[11]);
+        return HttpResponse.json(freeRegistrationDetails[11]);
       case '13':
-        return HttpResponse.json(freeEnrollmentDetails[12]);
+        return HttpResponse.json(freeRegistrationDetails[12]);
       default:
         return notFound();
     }

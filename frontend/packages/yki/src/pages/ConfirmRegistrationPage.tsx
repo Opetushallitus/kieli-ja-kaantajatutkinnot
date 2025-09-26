@@ -21,7 +21,7 @@ import { SerializationUtils } from 'utils/serialization';
 
 const Header = () => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.pages.confirmEnrollmentPage',
+    keyPrefix: 'yki.pages.confirmRegistrationPage',
   });
 
   return (

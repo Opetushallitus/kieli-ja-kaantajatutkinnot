@@ -141,7 +141,7 @@
       },
       "reassessment": "Reassessment",
       "registration": "Registration",
-      "freeEnrollment": "Maksuttomuus",
+      "freeRegistration": "Maksuttomuus",
       "registrationPeriod": "Registration period",
       "specialArrangementsLink": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-do-you-need-special-arrangements",
       "userRegistrations": "My registrations",
@@ -162,7 +162,7 @@
         "accessibilityStatement": "Accessibility statement",
         "logoutSuccess": "Log out complete",
         "userDetails": "My registrations",
-        "transferEnrollment": "Reschedule registration",
+        "transferRegistration": "Reschedule registration",
         "confirmRegistration": "Confirm registration",
         "notFound": "Page not found",
         "expiredLoginLink": "The link has expired"

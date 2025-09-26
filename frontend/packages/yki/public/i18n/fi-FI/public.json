@@ -23,7 +23,7 @@
           "searchResults": "123 järjestäjää"
         }
       },
-      "clerkFreeEnrollment": {
+      "clerkFreeRegistration": {
         "status": {
           "PENDING": {
             "part1": "Maksuttomuus tarkistamatta"
@@ -65,7 +65,7 @@
           "showDetails": "Näytä tiedot"
         },
         "details": {
-          "freeEnrollmentBasis": {
+          "freeRegistrationBasis": {
             "MATRICULATION_EXAMINATION": "Opiskellut Suomessa: ylioppilastutkinto",
             "HIGHER_EDUCATION_DEGREE": "Opiskellut Suomessa: korkeakoulututkinto",
             "HIGHER_EDUCATION_STUDIES": "Opiskellut Suomessa: suorittamassa korkeakouluopintoja",
@@ -73,7 +73,7 @@
             "COMPARABLE_HIGHER_EDUCATION_DEGREE": "Opiskellut ulkomailla: korkeakoulututkinto",
             "COMPARABLE_HIGHER_EDUCATION_STUDIES": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja"
           },
-          "freeEnrollmentsLeft": "{{amount}} kpl",
+          "freeRegistrationsLeft": "{{amount}} kpl",
           "registrationStatus": {
             "enrolled": "Ilmoittautunut",
             "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
@@ -533,7 +533,7 @@
           }
         }
       },
-      "transferEnrollment": {
+      "transferRegistration": {
         "actions": {
           "cancel": "En siirrä",
           "confirm": "Kyllä, siirrän",
@@ -546,13 +546,13 @@
       }
     },
     "pages": {
-      "clerkFreeEnrollmentPage": {
+      "clerkFreeRegistrationPage": {
         "heading": "Maksuttomuuden tarkastukset"
       },
-      "clerkFreeEnrollmentDetailsPage": {
+      "clerkFreeRegistrationDetailsPage": {
         "heading": "Maksuttomuuden tarkastukset"
       },
-      "confirmEnrollmentPage": {
+      "confirmRegistrationPage": {
         "heading": "Vahvista ilmoittautuminen"
       },
       "evaluationOrderPage": {
@@ -685,8 +685,8 @@
         "register": "Ilmoittaudu",
         "title": "Yleiset kielitutkinnot (YKI) - Ilmoittautuminen"
       },
-      "transferEnrollmentPage": {
-        "currentEnrollmentDetails": {
+      "transferRegistrationPage": {
+        "currentRegistrationDetails": {
           "heading": "Olet siirtämässä"
         },
         "introduction": {
@@ -705,7 +705,7 @@
         },
         "title": "Siirrä ilmoittautuminen"
       },
-      "transferEnrollmentSuccessPage": {
+      "transferRegistrationSuccessPage": {
         "information": {
           "beforeYkiTest": {
             "description": "Lue myös Opetushallituksen ohjeet YKI-testistä:",

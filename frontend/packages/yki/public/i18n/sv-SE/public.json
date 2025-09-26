@@ -23,7 +23,7 @@
           "searchResults": "123 organizers"
         }
       },
-      "clerkFreeEnrollment": {
+      "clerkFreeRegistration": {
         "status": {
           "PENDING": {
             "part1": "Maksuttomuus tarkistamatta"
@@ -65,7 +65,7 @@
           "showDetails": "Näytä tiedot"
         },
         "details": {
-          "freeEnrollmentBasis": {
+          "freeRegistrationBasis": {
             "MATRICULATION_EXAMINATION": "Opiskellut Suomessa: ylioppilastutkinto",
             "HIGHER_EDUCATION_DEGREE": "Opiskellut Suomessa: korkeakoulututkinto",
             "HIGHER_EDUCATION_STUDIES": "Opiskellut Suomessa: suorittamassa korkeakouluopintoja",
@@ -73,7 +73,7 @@
             "COMPARABLE_HIGHER_EDUCATION_DEGREE": "Opiskellut ulkomailla: korkeakoulututkinto",
             "COMPARABLE_HIGHER_EDUCATION_STUDIES": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja"
           },
-          "freeEnrollmentsLeft": "{{amount}} kpl",
+          "freeRegistrationsLeft": "{{amount}} kpl",
           "registrationStatus": {
             "enrolled": "Ilmoittautunut",
             "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
@@ -533,7 +533,7 @@
           }
         }
       },
-      "transferEnrollment": {
+      "transferRegistration": {
         "actions": {
           "cancel": "Flytta inte",
           "confirm": "Ja, flytta",
@@ -546,13 +546,13 @@
       }
     },
     "pages": {
-      "clerkFreeEnrollmentPage": {
+      "clerkFreeRegistrationPage": {
         "heading": "Maksuttomuuden tarkastukset"
       },
-      "clerkFreeEnrollmentDetailsPage": {
+      "clerkFreeRegistrationDetailsPage": {
         "heading": "Maksuttomuuden tarkastukset"
       },
-      "confirmEnrollmentPage": {
+      "confirmRegistrationPage": {
         "heading": "Bekräfta anmälan"
       },
       "evaluationOrderPage": {
@@ -685,8 +685,8 @@
         "register": "Anmäl dig",
         "title": "Allmänna språkexamina (YKI) - Anmälan"
       },
-      "transferEnrollmentPage": {
-        "currentEnrollmentDetails": {
+      "transferRegistrationPage": {
+        "currentRegistrationDetails": {
           "heading": "Du håller på att flytta anmälan"
         },
         "introduction": {
@@ -705,7 +705,7 @@
         },
         "title": "Flytta anmälan"
       },
-      "transferEnrollmentSuccessPage": {
+      "transferRegistrationSuccessPage": {
         "information": {
           "beforeYkiTest": {
             "description": "Läs också Utbildningsstyrelsens anvisningar för YKI-testet:",
