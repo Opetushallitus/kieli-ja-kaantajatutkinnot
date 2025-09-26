@@ -115,7 +115,10 @@
         "enrollModal": {
           "title": "Registration failed",
           "examIsFull": "The YKI-test is full. However, you can register for the waiting list.",
-          "alreadyEnrolled": "You have already registered for the test",
+          "alreadyRegistered": {
+            "part1": "You have already registered for the YKI test.",
+            "part2": "You can only register for one YKI test or its waiting list on the same test day."
+          },
           "examClosed": "Registration has closed",
           "enrollToQueue": "Register for the waiting list",
           "checkingOpenSeats": "Checking available places...",
@@ -283,6 +286,14 @@
           }
         },
         "registrationFormSubmitted": {
+          "error": {
+            "alreadyRegistered": {
+              "part1": "You can only register for one YKI test or its waiting list on the same test day.",
+              "part2": "You cannot register for this YKI test until you have cancelled your previous registration for the same test day.",
+              "part3": "If you wish to cancel your previous registration, please read the instructions in the registration confirmation email. The email was sent from noreply@opintopolku.fi when you registered for the YKI test.",
+              "title": "Registration failed"
+            }
+          },
           "proceedToPayment": {
             "dueDateReminder": {
               "text1": "<strong>Important!</strong> The message will also contain the due date for paying the test fee.",
@@ -424,6 +435,8 @@
         "unavailable": {
           "alreadyRegistered": {
             "description": "You can register for only one YKI test on the same test day.",
+            "description1": "You have already registered for the YKI test.",
+            "description2": "You can only register for one YKI test or its waiting list on the same test day.",
             "title": "You have already registered for another YKI test on the same test day"
           },
           "generic": {
@@ -642,7 +655,8 @@
           "part1": "The link has expired. For security reasons, the link only works for 14 days. You will need to order a new link.",
           "buttonText": "Order a new link to your email",
           "part2": "If you do not receive a new link, please send us an email at kielitutkinnot@oph.fi.",
-          "title": "The link has expired"
+          "title": "The link has expired",
+          "reply": "You have received a new link by email. If you have not received the message, please check your spam folder."
         },
         "contactDetails": {
           "description": {
@@ -682,7 +696,7 @@
           },
           "examPayment": {
             "expiresAt": "Due date {{- date }}",
-            "notPaid": "Overdue €{{ examFee }}",
+            "notPaid": "Unpaid €{{ examFee }}",
             "label": "Test fee",
             "paidAt": "Paid {{- date }}"
           },

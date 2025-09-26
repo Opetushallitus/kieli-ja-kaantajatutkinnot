@@ -9,6 +9,7 @@ import { evaluationPeriodsReducer } from 'redux/reducers/evaluationPeriods';
 import { examSessionReducer } from 'redux/reducers/examSession';
 import { examSessionsReducer } from 'redux/reducers/examSessions';
 import { loginLinkReducer } from 'redux/reducers/loginLink';
+import { loginLinkRenewReducer } from 'redux/reducers/loginLinkRenew';
 import { nationalitiesReducer } from 'redux/reducers/nationalities';
 import { publicIdentificationReducer } from 'redux/reducers/publicIdentification';
 import { registrationReducer } from 'redux/reducers/registration';
@@ -28,6 +29,7 @@ export const rootReducer = combineReducers({
   examSessions: examSessionsReducer,
   examSession: examSessionReducer,
   loginLink: loginLinkReducer,
+  loginLinkRenew: loginLinkRenewReducer,
   nationalities: nationalitiesReducer,
   publicIdentification: publicIdentificationReducer,
   registration: registrationReducer,

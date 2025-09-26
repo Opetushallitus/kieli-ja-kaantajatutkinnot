@@ -27,6 +27,7 @@ import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
 import { ExamDetailsPage } from 'pages/ExamDetailsPage';
+import { ExpiredLoginLinkPage } from 'pages/ExpiredLoginLinkPage';
 import { InitRegistrationPage } from 'pages/InitRegistrationPage';
 import { LogoutSuccess } from 'pages/LogoutSuccess';
 import { NotFoundPage } from 'pages/NotFoundPage';
@@ -209,6 +210,14 @@ export const AppRouter: FC = () => {
           element={
             <UserPortalSubPage title="transferEnrollment">
               <TransferEnrollmentSuccessPage />
+            </UserPortalSubPage>
+          }
+        />
+        <Route
+          path={AppRoutes.ExpiredLoginLinkPage}
+          element={
+            <UserPortalSubPage title="expiredLoginLink">
+              <ExpiredLoginLinkPage />
             </UserPortalSubPage>
           }
         />

@@ -15,6 +15,7 @@ export enum PublicRegistrationInitError {
 }
 
 export enum PublicRegistrationFormSubmitError {
+  AlreadyRegistered = 'alreadyRegistered',
   FormExpired = 'formExpired',
   PaymentCreationFailed = 'paymentCreationFailed',
   PersonCreationFailed = 'personCreationFailed',

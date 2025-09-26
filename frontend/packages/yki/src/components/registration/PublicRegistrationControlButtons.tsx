@@ -10,7 +10,10 @@ import { useDialog } from 'shared/hooks';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+import {
+  PublicRegistrationFormStep,
+  PublicRegistrationFormSubmitError,
+} from 'enums/publicRegistration';
 import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
 import {
   cancelRegistration,
@@ -128,8 +131,19 @@ export const PublicRegistrationControlButtons = () => {
     .emailLinkOrder.status;
   const {
     activeStep,
-    submitRegistration: { status: submitRegistrationStatus },
+    submitRegistration: {
+      status: submitRegistrationStatus,
+      error: submitRegistrationError,
+    },
   } = useAppSelector(registrationSelector);
+
+  const unrecoverableError =
+    submitRegistrationError &&
+    [
+      PublicRegistrationFormSubmitError.AlreadyRegistered,
+      PublicRegistrationFormSubmitError.FormExpired,
+      PublicRegistrationFormSubmitError.RegistrationPeriodClosed,
+    ].includes(submitRegistrationError);
 
   const renderAbort =
     (activeStep === PublicRegistrationFormStep.Identify &&
@@ -138,7 +152,8 @@ export const PublicRegistrationControlButtons = () => {
       submitRegistrationStatus !== APIResponseStatus.Success);
   const renderSubmit =
     activeStep === PublicRegistrationFormStep.Register &&
-    submitRegistrationStatus !== APIResponseStatus.Success;
+    submitRegistrationStatus !== APIResponseStatus.Success &&
+    !unrecoverableError;
 
   if (renderAbort || renderSubmit) {
     return (

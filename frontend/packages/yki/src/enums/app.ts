@@ -18,6 +18,7 @@ export enum AppRoutes {
   TransferEnrollment = '/yki/kayttaja/siirra/:registrationId',
   TransferEnrollmentSuccess = '/yki/kayttaja/siirra/:registrationId/valmis',
   ConfirmRegistration = '/yki/kayttaja/vahvista/:registrationId',
+  ExpiredLoginLinkPage = '/yki/linkki-vanhentunut/:code',
   NotFoundPage = '*',
 }
 

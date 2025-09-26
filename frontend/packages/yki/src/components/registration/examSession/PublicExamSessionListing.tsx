@@ -108,7 +108,12 @@ const OtherStartedRegistrationErrorModal = () => {
 
   return (
     <>
-      <H2>{t('title')}</H2>
+      <H2
+        id="registration-error-modal-description"
+        data-testid="registration-error-modal-description"
+      >
+        {t('title')}
+      </H2>
       <Text>{t('part1')}</Text>
       <Text>{t('part2')}</Text>
       <Text>{t('part3')}</Text>
@@ -133,6 +138,8 @@ const RegistrationInitErrorModal = ({
   const otherStartedRegistration =
     otherExamSessionRegistration &&
     otherExamSessionRegistration.state === RegistrationStates.Started;
+  const alreadyRegistered =
+    error === PublicRegistrationInitError.AlreadyRegistered;
 
   return (
     <CustomModal
@@ -146,7 +153,19 @@ const RegistrationInitErrorModal = ({
       <>
         <div className="rows gapped">
           {otherStartedRegistration && <OtherStartedRegistrationErrorModal />}
-          {!otherStartedRegistration && (
+          {!otherStartedRegistration && alreadyRegistered && (
+            <>
+              <H2>{t('title')}</H2>
+              <Text
+                id="registration-error-modal-description"
+                data-testid="registration-error-modal-description"
+              >
+                {t('alreadyRegistered.part1')}
+              </Text>
+              <Text>{t('alreadyRegistered.part2')}</Text>
+            </>
+          )}
+          {!otherStartedRegistration && !alreadyRegistered && (
             <>
               <H2>{t('title')}</H2>
               <Text
@@ -155,12 +174,7 @@ const RegistrationInitErrorModal = ({
               >
                 {error === PublicRegistrationInitError.ExamSessionFull &&
                   t('examIsFull')}
-                {error === PublicRegistrationInitError.AlreadyRegistered &&
-                  otherExamSessionRegistration &&
-                  t('alreadyEnrolled')}
                 {error === PublicRegistrationInitError.Past && t('examClosed')}
-                {error === PublicRegistrationInitError.Generic &&
-                  'Tuntematon virhe'}
               </Text>
             </>
           )}

@@ -206,12 +206,13 @@ public class PaymentService {
 
     if (payment.getEnrollment() != null) {
       final Enrollment enrollment = payment.getEnrollment();
-      setEnrollmentStatus(enrollment, newStatus);
       final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(
         enrollment.getPerson()
       );
 
-      setEnrollmentStatus(enrollment, newStatus);
+      if (enrollment.getStatus() != EnrollmentStatus.COMPLETED) {
+        setEnrollmentStatus(enrollment, newStatus);
+      }
 
       payment.setPaymentStatus(newStatus);
       if (newStatus == PaymentStatus.OK) {
@@ -232,7 +233,9 @@ public class PaymentService {
       }
     } else {
       final EnrollmentAppointment enrollmentAppointment = payment.getEnrollmentAppointment();
-      setEnrollmentStatus(enrollmentAppointment, newStatus);
+      if (enrollmentAppointment.getStatus() != EnrollmentAppointmentStatus.COMPLETED) {
+        setEnrollmentStatus(enrollmentAppointment, newStatus);
+      }
 
       payment.setPaymentStatus(newStatus);
       if (newStatus == PaymentStatus.OK) {

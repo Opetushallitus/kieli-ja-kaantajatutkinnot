@@ -123,7 +123,7 @@ describe('PublicRegistrationPage', () => {
         .click();
 
       onPublicRegistrationPage.alertModalContains(
-        'Olet jo ilmoittaunut tutkintoon',
+        'Olet jo ilmoittautunut YKI-testiin.',
       );
     });
 

@@ -11,6 +11,7 @@ export enum APIEndpoints {
   InitRegistration = '/yki/api/registration/init',
   IdentifyRegistration = '/yki/api/registration/identify',
   LoginLink = '/yki/api/login-link',
+  LoginLinkRenew = '/yki/api/login-link/renew',
   LoginLinkInfo = '/yki/auth/login-link-info',
   LoginWithCode = '/yki/auth/login',
   Logout = '/yki/auth/logout',

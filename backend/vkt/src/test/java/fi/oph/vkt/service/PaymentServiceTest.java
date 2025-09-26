@@ -612,6 +612,42 @@ public class PaymentServiceTest {
   }
 
   @Test
+  public void testFinalizePaymentFailWhenEnrollmentAlreadyCompleted() throws IOException, InterruptedException {
+    final Pair<Payment, Enrollment> pair = createPayment();
+    final Payment payment = pair.getFirst();
+    final Enrollment enrollment = pair.getSecond();
+    final EnrollmentAppointment enrollmentAppointment = createEnrollmentAppointment(enrollment.getPerson());
+
+    enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.COMPLETED);
+
+    payment.setPaymentStatus(PaymentStatus.NEW);
+    payment.setEnrollment(null);
+    payment.setEnrollmentAppointment(enrollmentAppointment);
+
+    final Map<String, String> paymentParams = new LinkedHashMap<>();
+    paymentParams.put("checkout-status", PaymentStatus.FAIL.toString());
+    paymentParams.put("checkout-amount", "51400");
+    paymentParams.put("checkout-reference", payment.getMerchantReference());
+    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
+    when(paymentProvider.validate(anyMap())).thenReturn(true);
+
+    final PaymentService paymentService = new PaymentService(
+      paymentProvider,
+      paymentRepository,
+      enrollmentRepository,
+      enrollmentAppointmentRepository,
+      environment,
+      publicEnrollmentEmailService
+    );
+
+    paymentService.finalizePayment(payment.getId(), paymentParams);
+    verifyNoInteractions(publicEnrollmentEmailService);
+    assertEquals(PaymentStatus.FAIL, payment.getPaymentStatus());
+    assertEquals(EnrollmentAppointmentStatus.COMPLETED, enrollmentAppointment.getStatus());
+  }
+
+  @Test
   public void testFinalizePaymentAmountMustMatch() {
     final Pair<Payment, Enrollment> pair = createPayment();
     final Payment payment = pair.getFirst();

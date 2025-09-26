@@ -21,7 +21,12 @@ const DescribeInitError = () => {
 
   switch (error) {
     case PublicRegistrationInitError.AlreadyRegistered:
-      return <Text>{t('alreadyRegistered.description')}</Text>;
+      return (
+        <>
+          <Text>{t('alreadyRegistered.description1')}</Text>
+          <Text>{t('alreadyRegistered.description2')}</Text>
+        </>
+      );
     case PublicRegistrationInitError.ExamSessionFull:
     case PublicRegistrationInitError.Past:
     case PublicRegistrationInitError.Unauthorized:

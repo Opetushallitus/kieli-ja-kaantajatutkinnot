@@ -46,7 +46,7 @@ class PublicRegistrationPage {
     return cy
       .findAllByRole('alertdialog')
       .findByTestId('registration-error-modal-description')
-      .contains(text);
+      .should('include.text', text);
   }
 
   isVisible() {

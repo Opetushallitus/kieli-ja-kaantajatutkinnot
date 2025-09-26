@@ -17,6 +17,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
 import { RegistrationKind } from 'enums/app';
+import { PublicRegistrationFormSubmitError } from 'enums/publicRegistration';
 import { useRegistrationNavigationProtection } from 'hooks/useNavigationProtection';
 import { loadLoginLink, resetLoginLink } from 'redux/reducers/loginLink';
 import { loadNationalities } from 'redux/reducers/nationalities';
@@ -34,8 +35,6 @@ const FillRegistrationDetails = () => {
   const { isEmailRegistration } = useAppSelector(registrationSelector);
   const { registrationKind } =
     useAppSelector(registrationSelector).initRegistration;
-  const submitRegistrationStatus =
-    useAppSelector(registrationSelector).submitRegistration.status;
   const nationalitiesStatus = useAppSelector(nationalitiesSelector).status;
 
   useEffect(() => {
@@ -43,12 +42,6 @@ const FillRegistrationDetails = () => {
       dispatch(loadNationalities());
     }
   }, [dispatch, nationalitiesStatus]);
-
-  useRegistrationNavigationProtection(
-    submitRegistrationStatus === APIResponseStatus.NotStarted ||
-      submitRegistrationStatus === APIResponseStatus.InProgress,
-    <DialogContents />,
-  );
 
   return (
     <div className="margin-top-xxl rows gapped">
@@ -85,9 +78,29 @@ const FillRegistrationDetails = () => {
   );
 };
 
+const AlreadyRegisteredError = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix:
+      'yki.component.registration.registrationFormSubmitted.error.alreadyRegistered',
+  });
+
+  return (
+    <div className="margin-top-xxl rows gapped">
+      <H2>{t('title')}</H2>
+      <Text>{t('part1')}</Text>
+      <Text>{t('part2')}</Text>
+      <Text>{t('part3')}</Text>
+    </div>
+  );
+};
+
 const Error = () => {
   const translateCommon = useCommonTranslation();
   const { error } = useAppSelector(registrationSelector).submitRegistration;
+
+  if (error === PublicRegistrationFormSubmitError.AlreadyRegistered) {
+    return <AlreadyRegisteredError />;
+  }
 
   return (
     <div className="margin-top-xxl rows gapped">
@@ -178,6 +191,10 @@ const Success = () => {
 
 export const SubmitRegistrationDetails = () => {
   const { status } = useAppSelector(registrationSelector).submitRegistration;
+  useRegistrationNavigationProtection(
+    status !== APIResponseStatus.Success,
+    <DialogContents />,
+  );
 
   switch (status) {
     case APIResponseStatus.NotStarted:
