@@ -80,6 +80,6 @@ public class ClerkRegistrationService {
   }
 
   private List<ClerkApprovalAttachmentsDTO> createClerkApprovalAttachmentsDTO(final FreeRegistration freeRegistration) {
-    return List.of(ClerkApprovalAttachmentsDTO.builder().build());
+    return freeRegistration.getAttachments().stream().map(a -> ClerkApprovalAttachmentsDTO.builder().build()).toList();
   }
 }

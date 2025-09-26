@@ -26,25 +26,25 @@ import org.springframework.web.bind.annotation.RestController;
 )
 public class ClerkRegistrationController {
 
-  private static final String TAG_ENROLLMENT = "Registration API";
+  private static final String TAG_REGISTRATION = "Clerk registration API";
 
   @Resource
   private ClerkRegistrationService clerkRegistrationService;
 
   @GetMapping(path = "/approvals", consumes = ALL_VALUE)
-  @Operation(tags = TAG_ENROLLMENT, summary = "List approvals")
+  @Operation(tags = TAG_REGISTRATION, summary = "List approvals")
   public List<ClerkApprovalDTO> listApprovalAssesments() {
     return clerkRegistrationService.listApprovals();
   }
 
   @GetMapping(path = "/approval/{freeRegistrationId:\\d+}", consumes = ALL_VALUE)
-  @Operation(tags = TAG_ENROLLMENT, summary = "Get approval details")
+  @Operation(tags = TAG_REGISTRATION, summary = "Get approval details")
   public ClerkApprovalDetailsDTO listApprovalAssesments(@PathVariable final long freeRegistrationId) {
     return clerkRegistrationService.getApproval(freeRegistrationId);
   }
 
   @PutMapping
-  @Operation(tags = TAG_ENROLLMENT, summary = "Update approval")
+  @Operation(tags = TAG_REGISTRATION, summary = "Update approval")
   public ClerkApprovalDTO updateEnrollment(@RequestBody @Valid final ClerkApprovalUpdateDTO dto) {
     return clerkRegistrationService.updateApproval(dto);
   }
