@@ -1,4 +1,8 @@
-import { HourglassBottom } from '@mui/icons-material';
+import {
+  BlockFlipped,
+  CheckCircle,
+  HourglassBottom,
+} from '@mui/icons-material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider } from '@mui/material';
 import { ClockIcon } from '@mui/x-date-pickers';
@@ -65,6 +69,7 @@ export const ClerkFreeRegistrationDetails = () => {
 
   useEffect(() => {
     return () => {
+      setComment('');
       dispatch(resetClerkFreeRegistrationDetails());
     };
   }, [dispatch]);
@@ -82,14 +87,14 @@ export const ClerkFreeRegistrationDetails = () => {
             variant="contained"
             style={{ backgroundColor: '#0033CC', color: 'white' }}
           >
-            Lähetä täydennyspyyntö
+            {t('details.buttons.sendInformationRequest')}
           </OphButton>
           <OphButton
             aria-label="Button"
             variant="contained"
             style={{ backgroundColor: '#0033CC', color: 'white' }}
           >
-            Hyväksy maksuttomuus
+            {t('details.buttons.approveFreeRegistration')}
           </OphButton>
         </>
       );
@@ -102,50 +107,60 @@ export const ClerkFreeRegistrationDetails = () => {
           variant="contained"
           style={{ backgroundColor: 'white', color: '0033CC' }}
         >
-          Lähetä täydennyspyyntö
+          {t('details.buttons.sendInformationRequest')}
         </OphButton>
         <OphButton
-          aria-label="Button"
           variant="contained"
           style={{ backgroundColor: '#0033CC', color: 'white' }}
         >
-          Hyväksy maksuttomuus
+          {t('details.buttons.approveFreeRegistration')}
         </OphButton>
         <OphButton
-          aria-label="Button"
           variant="contained"
           style={{ backgroundColor: '#0033CC', color: 'white' }}
         >
-          Hylkää maksuttomuus
+          {t('details.buttons.rejectFreeRegistration')}
         </OphButton>
       </>
     );
   };
 
-  const getStatusIcon = (status: FreeRegistrationStatus) => {
+  const getStatusContent = (status: FreeRegistrationStatus) => {
     switch (status) {
       case 'PENDING':
-        return <ClockIcon color="error" style={{ fontSize: '2rem' }} />;
+        return (
+          <>
+            <ClockIcon color="error" style={{ fontSize: '2rem' }} />
+            <Text>{t(`status.${registrationDetails.status}.part1`)}</Text>
+          </>
+        );
       case 'APPROVED':
         return (
-          <ClockIcon
-            color="success"
-            style={{ fontSize: '2rem', color: 'green' }}
-          />
+          <>
+            <CheckCircle color="success" style={{ fontSize: '2rem' }} />
+            <Text>{t(`status.${registrationDetails.status}.part1`)}</Text>
+          </>
         );
       case 'INFORMATION_REQUESTED':
         return (
-          <HourglassBottom
-            color="success"
-            style={{ fontSize: '2rem', color: 'green' }}
-          />
+          <>
+            <HourglassBottom color="success" style={{ fontSize: '2rem' }} />
+            <Text>{t(`status.${registrationDetails.status}.part1`)}</Text>
+          </>
+        );
+      case 'INFORMATION_REQUEST_ANSWERED':
+        return (
+          <>
+            <ClockIcon color="error" style={{ fontSize: '2rem' }} />
+            <Text>{t(`status.${registrationDetails.status}.part1`)}</Text>
+          </>
         );
       case 'REJECTED':
         return (
-          <ClockIcon
-            color="disabled"
-            style={{ fontSize: '2rem', color: 'grey' }}
-          />
+          <>
+            <BlockFlipped color="error" style={{ fontSize: '2rem' }} />
+            <Text>{t(`status.${registrationDetails.status}.part1`)}</Text>
+          </>
         );
       default:
         return null;
@@ -171,19 +186,18 @@ export const ClerkFreeRegistrationDetails = () => {
       </div>
       <div className="columns gapped-xs align-items-start">
         <div className="rows gapped-xs">
-          <Text>Tarkastuksen tila</Text>
-          <Text>Maksuttomuuden peruste</Text>
-          <Text>Maksuttomia kertoja jäljellä</Text>
-          <Text>Asiointikieli</Text>
-          <Text>Ilmoittautunut vai jono</Text>
-          <Text>Täydennyspyynnön eräpäivä</Text>
-          <Text>Lisätiedot</Text>
+          <Text>{t('details.fields.status')}</Text>
+          <Text>{t('details.fields.freeRegistrationBasis')}</Text>
+          <Text>{t('details.fields.freeRegistrationsLeft')}</Text>
+          <Text>{t('details.fields.languageOfService')}</Text>
+          <Text>{t('details.fields.registrationType')}</Text>
+          <Text>{t('details.fields.dueDate')}</Text>
+          <Text>{t('details.fields.extraInformation')}</Text>
         </div>
         <div className="rows gapped-xs">
           <div>
             <div className="columns gapped-xxs align-items-center">
-              {getStatusIcon(registrationDetails.status)}
-              <Text>{t(`status.${registrationDetails.status}.part1`)}</Text>
+              {getStatusContent(registrationDetails.status)}
             </div>
           </div>
           <Text>
@@ -226,8 +240,8 @@ export const ClerkFreeRegistrationDetails = () => {
       <div style={{ maxWidth: '700px' }} className="rows gapped-xxl">
         <div className="rows gapped-xs">
           <div className="columns space-between">
-            <Text>Liite</Text>
-            <Text>Liite saapunut</Text>
+            <Text>{t('details.attachments.attachment')}</Text>
+            <Text>{t('details.attachments.arrivedAt')}</Text>
           </div>
           <Divider />
           {registrationDetails.attachments.map((attachment, index) => (
@@ -251,9 +265,10 @@ export const ClerkFreeRegistrationDetails = () => {
         <Divider />
         <div className="rows gapped">
           <Text>
-            <b>Tarkastajan kommentit</b> (ei näy ilmoittautujalle)
+            <b>{t('details.comments.clerkComments.part1')}</b>{' '}
+            {`(${t('details.comments.clerkComments.part2')})`}
           </Text>
-          <Text>Lisää uusi kommentti</Text>
+          <Text>{t('details.comments.addNewComment')}</Text>
           <CustomTextField
             value={comment}
             onChange={onCommentChange}
@@ -263,8 +278,8 @@ export const ClerkFreeRegistrationDetails = () => {
             fullWidth
           />
           <div className="columns flex-end">
-            <OphButton aria-label="Button" variant="outlined">
-              <span>Tallenna kommentti</span>
+            <OphButton variant="outlined">
+              <span>{t('details.comments.save')}</span>
             </OphButton>
           </div>
         </div>

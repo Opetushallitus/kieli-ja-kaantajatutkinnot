@@ -39,7 +39,7 @@ export const ClerkRegisterListing = ({
   };
 
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.clerkRegisterListing.header',
+    keyPrefix: 'yki.component.clerkRegister.listing.header',
   });
 
   type ClerkOrganizerType = {

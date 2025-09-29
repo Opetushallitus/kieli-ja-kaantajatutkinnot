@@ -1,4 +1,10 @@
+import {
+  BlockFlipped,
+  CheckCircle,
+  HourglassBottom,
+} from '@mui/icons-material';
 import { Box } from '@mui/system';
+import { ClockIcon } from '@mui/x-date-pickers';
 import i18next from 'i18next';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -41,19 +47,15 @@ export const ClerkFreeRegistrationListing = ({
   const filteredFreeRegistrations = useAppSelector(
     selectFilteredFreeRegistrations,
   );
-  const rows = filteredFreeRegistrations
-    .filter((registration) =>
-      activeTab === 'pending'
-        ? [
-            'PENDING',
-            'INFORMATION_REQUESTED',
-            'INFORMATION_REQUEST_ANSWERED',
-          ].includes(registration.status)
-        : ['APPROVED', 'REJECTED'].includes(registration.status),
-    )
-    .map((registration) => ({
-      ...registration,
-    }));
+  const rows = filteredFreeRegistrations.filter((registration) =>
+    activeTab === 'pending'
+      ? [
+          'PENDING',
+          'INFORMATION_REQUESTED',
+          'INFORMATION_REQUEST_ANSWERED',
+        ].includes(registration.status)
+      : ['APPROVED', 'REJECTED'].includes(registration.status),
+  );
 
   const pagination = {
     page,
@@ -65,19 +67,62 @@ export const ClerkFreeRegistrationListing = ({
     keyPrefix: 'yki.component.clerkFreeRegistration',
   });
 
-  const getStatusColumnText = (status: FreeRegistrationStatus) => {
-    if (['PENDING', 'APPROVED', 'REJECTED'].includes(status)) {
-      return (
-        <span style={{ fontWeight: '600' }}>{t(`status.${status}.part1`)}</span>
-      );
+  const renderStatusColumn = (status: FreeRegistrationStatus) => {
+    switch (status) {
+      case 'PENDING':
+        return (
+          <div className="columns gapped-xxs align-items-center">
+            <ClockIcon color="warning" style={{ fontSize: '2rem' }} />
+            <span style={{ fontWeight: '600' }}>
+              {t(`status.${status}.part1`)}
+            </span>
+          </div>
+        );
+      case 'APPROVED':
+        return (
+          <div className="columns gapped-xxs align-items-center">
+            <CheckCircle color="success" style={{ fontSize: '2rem' }} />
+            <span style={{ fontWeight: '600' }}>
+              {t(`status.${status}.part1`)}
+            </span>
+          </div>
+        );
+      case 'INFORMATION_REQUESTED':
+        return (
+          <div className="columns gapped-xxs align-items-start">
+            <HourglassBottom color="success" style={{ fontSize: '2rem' }} />
+            <div className="rows gapped-xxs">
+              <span style={{ fontWeight: '600' }}>
+                {t(`status.${status}.part1`)}
+              </span>
+              <span>{t(`status.${status}.part2`)}</span>
+            </div>
+          </div>
+        );
+      case 'INFORMATION_REQUEST_ANSWERED':
+        return (
+          <div className="columns gapped-xxs align-items-start">
+            <ClockIcon color="error" style={{ fontSize: '2rem' }} />
+            <div className="rows gapped-xxs">
+              <span style={{ fontWeight: '600' }}>
+                {t(`status.${status}.part1`)}
+              </span>
+              <span>{t(`status.${status}.part2`)}</span>
+            </div>
+          </div>
+        );
+      case 'REJECTED':
+        return (
+          <div className="columns gapped-xxs align-items-center">
+            <BlockFlipped color="error" style={{ fontSize: '2rem' }} />
+            <span style={{ fontWeight: '600' }}>
+              {t(`status.${status}.part1`)}
+            </span>
+          </div>
+        );
+      default:
+        return null;
     }
-
-    return (
-      <>
-        <span style={{ fontWeight: '600' }}>{t(`status.${status}.part1`)}</span>
-        <span>{t(`status.${status}.part2`)}</span>
-      </>
-    );
   };
 
   const commonTranslation = useCommonTranslation();
@@ -87,7 +132,6 @@ export const ClerkFreeRegistrationListing = ({
   ): ListTableColumn<ClerkFreeRegistration> => ({
     key: 'person',
     title: t('listing.header.person'),
-    sortable: true,
     render: (rowProps) => (
       <div className="rows gapped-xs">
         <span>{rowProps.person.fullName}</span>
@@ -102,13 +146,9 @@ export const ClerkFreeRegistrationListing = ({
   ): ListTableColumn<ClerkFreeRegistration> => ({
     key: 'status',
     title: t('listing.header.status'),
-    render: (rowProps) => (
-      <div className="rows">{getStatusColumnText(rowProps.status)}</div>
-    ),
+    render: (rowProps) => renderStatusColumn(rowProps.status),
   });
 
-  // freeExam dueDate exists if more information has been requested
-  // likely adding assessmentDate column and then render either one based on data
   const createDueDateColumn = (
     t: typeof i18next.t,
   ): ListTableColumn<ClerkFreeRegistration> => ({

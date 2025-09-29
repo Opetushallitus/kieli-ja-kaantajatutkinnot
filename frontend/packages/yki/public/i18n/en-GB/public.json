@@ -15,15 +15,25 @@
         "title": "Do you wish to cancel your registration?",
         "success": "Your registration has been cancelled"
       },
-      "clerkRegisterListing": {
-        "header": {
-          "organizer": "Järjestäjä",
-          "agreements": "Kielitutkintosopimukset",
-          "munincipality": "Paikkakunta",
-          "searchResults": "123 järjestäjää"
+      "clerkRegister": {
+        "listing": {
+          "header": {
+            "organizer": "Järjestäjä",
+            "agreements": "Kielitutkintosopimukset",
+            "munincipality": "Paikkakunta",
+            "searchResults": "123 järjestäjää"
+          },
+          "errors": {
+            "loadingFailed": "Järjestäjien hakeminen epäonnistui"
+          }
         }
       },
       "clerkFreeRegistration": {
+        "description": "Tarkasta oikeuttavatko ilmoittautujan toimittamat liitteet tutkinnon maksuttomuuteen ja hyväksy maksuttomuus tai lähetä täydennyspyyntö.",
+        "tabs": {
+          "pending": "Odottavat tarkastukset",
+          "previous": "Aiemmat tarkastukset"
+        },
         "status": {
           "PENDING": {
             "part1": "Maksuttomuus tarkistamatta"
@@ -65,6 +75,32 @@
           "showDetails": "Näytä tiedot"
         },
         "details": {
+          "attachments": {
+            "attachment": "Liite",
+            "arrivedAt": "Saapunut"
+          },
+          "buttons": {
+            "sendInformationRequest": "Lähetä täydennyspyyntö",
+            "approveFreeRegistration": "Hyväksy maksuttomuus",
+            "rejectFreeRegistration": "Hylkää maksuttomuus"
+          },
+          "comments": {
+            "clerkComments": {
+              "part1": "Tarkastajan kommentit",
+              "part2": "ei näy ilmoittautujalle"
+            },
+            "addNewComment": "Lisää uusi kommentti",
+            "save": "Tallenna kommentti"
+          },
+          "fields": {
+            "status": "Tarkastuksen tila",
+            "freeRegistrationBasis": "Syntymäaika",
+            "freeRegistrationsLeft": "Sähköposti",
+            "languageOfService": "Asiointikieli",
+            "registrationType": "Ilmoittautunut vai jono",
+            "dueDate": "Täydennyspyynnön eräpäivä",
+            "extraInformation": "Lisätiedot"
+          },
           "freeRegistrationBasis": {
             "MATRICULATION_EXAMINATION": "Opiskellut Suomessa: ylioppilastutkinto",
             "HIGHER_EDUCATION_DEGREE": "Opiskellut Suomessa: korkeakoulututkinto",
@@ -546,6 +582,9 @@
       }
     },
     "pages": {
+      "clerkRegisterPage": {
+        "heading": "Kielitutkintojen järjestäjärekisteri"
+      },
       "clerkFreeRegistrationPage": {
         "heading": "Maksuttomuuden tarkastukset"
       },
