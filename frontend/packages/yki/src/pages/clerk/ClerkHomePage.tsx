@@ -3,11 +3,16 @@ import { FC } from 'react';
 import { H2 } from 'shared/components';
 
 import { ClerkRegister } from 'components/clerkRegister/ClerkRegister';
+import { usePublicTranslation } from 'configs/i18n';
 
 export const ClerkHomePage: FC = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.clerkRegisterPage',
+  });
+
   return (
     <Box className="clerk-register-page">
-      <H2>Kielitutkintojen järjestäjärekisteri</H2>
+      <H2>{t('heading')}</H2>
       <Grid
         container
         rowSpacing={4}

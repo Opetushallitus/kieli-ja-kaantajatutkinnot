@@ -2,18 +2,31 @@ import { Divider } from '@mui/material';
 import { Dispatch, SetStateAction, useState } from 'react';
 
 import { ClerkFreeRegistrationListing } from 'components/clerkFreeRegistration/listing/ClerkFreeRegistrationListing';
+import { usePublicTranslation } from 'configs/i18n';
 
 const TABS = ['pending', 'previous'] as const;
+type Tab = (typeof TABS)[number];
 
 type FreeRegistrationTabProps = {
-  activeTab: 'pending' | 'previous';
-  setActiveTab: Dispatch<SetStateAction<'pending' | 'previous'>>;
+  activeTab: Tab;
+  setActiveTab: Dispatch<SetStateAction<Tab>>;
+  setPage: Dispatch<SetStateAction<number>>;
 };
 
 const FreeRegistrationTabs = ({
   activeTab,
   setActiveTab,
+  setPage,
 }: FreeRegistrationTabProps) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.clerkFreeRegistration.tabs',
+  });
+
+  const handleTabChange = (tab: Tab) => {
+    setActiveTab(tab);
+    setPage(1);
+  };
+
   return (
     <div className="clerk-free-registration__filter-tabs">
       <div className="columns gapped">
@@ -23,14 +36,12 @@ const FreeRegistrationTabs = ({
             className={`clerk-free-registration__filter-tabs__tab ${
               activeTab === tab ? 'active' : ''
             }`}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => handleTabChange(tab)}
             role="button"
             tabIndex={0}
-            onKeyDown={() => setActiveTab(tab)}
+            onKeyDown={() => handleTabChange(tab)}
           >
-            {tab === 'pending'
-              ? 'Odottavat tarkastukset'
-              : 'Aiemmat tarkastukset'}
+            {tab === 'pending' ? t('pending') : t('previous')}
           </div>
         ))}
       </div>
@@ -40,17 +51,22 @@ const FreeRegistrationTabs = ({
 };
 
 export const ClerkFreeRegistration = () => {
-  const [activeTab, setActiveTab] = useState<'pending' | 'previous'>('pending');
+  const [activeTab, setActiveTab] = useState<Tab>('pending');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.clerkFreeRegistration',
+  });
+
   return (
     <div className="rows gapped">
-      <FreeRegistrationTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-      <div>
-        Tarkasta oikeuttavatko ilmoittautujan toimittamat liitteet tutkinnon
-        maksuttomuuteen ja hyväksy maksuttomuus tai lähetä täydennyspyyntö.
-      </div>
+      <FreeRegistrationTabs
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        setPage={setPage}
+      />
+      <div>{t('description')}</div>
       <ClerkFreeRegistrationListing
         page={page}
         setPage={setPage}
