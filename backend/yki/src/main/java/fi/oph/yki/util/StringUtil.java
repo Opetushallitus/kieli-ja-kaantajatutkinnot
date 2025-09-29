@@ -1,8 +1,7 @@
 package fi.oph.yki.util;
 
-import java.util.Map;
-
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Map;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class StringUtil {

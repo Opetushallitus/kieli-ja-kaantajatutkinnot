@@ -6,11 +6,10 @@ import fi.oph.yki.service.RegistrationService;
 import fi.oph.yki.service.koski.KoskiService;
 import fi.oph.yki.util.StringUtil;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
