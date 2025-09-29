@@ -33,6 +33,10 @@ public class RegistrationService {
     final Person person = personRepository.getByOid(oid);
     final Registration registration = registrationRepository.getReferenceById(registrationId);
 
+    if (person == null || registration.getPerson() == null || !oid.equals(registration.getPerson().getOid())) {
+      throw new APIException(APIExceptionType.PERSON_REGISTRATION_OID_MISMATCH);
+    }
+
     return registration;
   }
 
