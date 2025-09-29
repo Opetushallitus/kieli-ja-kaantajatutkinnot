@@ -4,12 +4,11 @@ import {
   HourglassBottom,
 } from '@mui/icons-material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Divider } from '@mui/material';
+import { Divider, TextField, Typography } from '@mui/material';
 import { ClockIcon } from '@mui/x-date-pickers';
 import { OphButton } from '@opetushallitus/oph-design-system';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { CustomTextField, Text } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
@@ -131,35 +130,35 @@ export const ClerkFreeRegistrationDetails = () => {
         return (
           <>
             <ClockIcon color="error" style={{ fontSize: '2rem' }} />
-            <Text>{t(`status.${registrationDetails.status}.part1`)}</Text>
+            {t(`status.${registrationDetails.status}.part1`)}
           </>
         );
       case 'APPROVED':
         return (
           <>
             <CheckCircle color="success" style={{ fontSize: '2rem' }} />
-            <Text>{t(`status.${registrationDetails.status}.part1`)}</Text>
+            {t(`status.${registrationDetails.status}.part1`)}
           </>
         );
       case 'INFORMATION_REQUESTED':
         return (
           <>
             <HourglassBottom color="success" style={{ fontSize: '2rem' }} />
-            <Text>{t(`status.${registrationDetails.status}.part1`)}</Text>
+            t(`status.${registrationDetails.status}.part1`)
           </>
         );
       case 'INFORMATION_REQUEST_ANSWERED':
         return (
           <>
             <ClockIcon color="error" style={{ fontSize: '2rem' }} />
-            <Text>{t(`status.${registrationDetails.status}.part1`)}</Text>
+            {t(`status.${registrationDetails.status}.part1`)}
           </>
         );
       case 'REJECTED':
         return (
           <>
             <BlockFlipped color="error" style={{ fontSize: '2rem' }} />
-            <Text>{t(`status.${registrationDetails.status}.part1`)}</Text>
+            {t(`status.${registrationDetails.status}.part1`)}
           </>
         );
       default:
@@ -170,11 +169,9 @@ export const ClerkFreeRegistrationDetails = () => {
   return (
     <div className="rows gapped free-registration-details">
       <div>
-        <Text>
-          <b>{registrationDetails.person.fullName}</b>
-          {`(${registrationDetails.person.socialSecurityNumber})`}
-        </Text>
-        <Text>
+        <b>{registrationDetails.person.fullName}</b>{' '}
+        {`(${registrationDetails.person.socialSecurityNumber})`}
+        <div>
           {translateLanguage(registrationDetails.examSession.language)}
           {' - '}
           {translateLevel(registrationDetails.examSession.level)}{' '}
@@ -182,36 +179,48 @@ export const ClerkFreeRegistrationDetails = () => {
             registrationDetails.examSession.examDate,
             'l',
           )}
-        </Text>
+        </div>
       </div>
       <div className="columns gapped-xs align-items-start">
         <div className="rows gapped-xs">
-          <Text>{t('details.fields.status')}</Text>
-          <Text>{t('details.fields.freeRegistrationBasis')}</Text>
-          <Text>{t('details.fields.freeRegistrationsLeft')}</Text>
-          <Text>{t('details.fields.languageOfService')}</Text>
-          <Text>{t('details.fields.registrationType')}</Text>
-          <Text>{t('details.fields.dueDate')}</Text>
-          <Text>{t('details.fields.extraInformation')}</Text>
+          <Typography fontWeight={500}>{t('details.fields.status')}</Typography>
+          <Typography fontWeight={500}>
+            {t('details.fields.freeRegistrationBasis')}
+          </Typography>
+          <Typography fontWeight={500}>
+            {t('details.fields.freeRegistrationsLeft')}
+          </Typography>
+          <Typography fontWeight={500}>
+            {t('details.fields.languageOfService')}
+          </Typography>
+          <Typography fontWeight={500}>
+            {t('details.fields.registrationType')}
+          </Typography>
+          <Typography fontWeight={500}>
+            {t('details.fields.dueDate')}
+          </Typography>
+          <Typography fontWeight={500}>
+            {t('details.fields.extraInformation')}
+          </Typography>
         </div>
         <div className="rows gapped-xs">
           <div>
-            <div className="columns gapped-xxs align-items-center">
+            <div className="columns gapped-xxs">
               {getStatusContent(registrationDetails.status)}
             </div>
           </div>
-          <Text>
+          <div>
             {t(
               `details.freeRegistrationBasis.${registrationDetails.freeRegistrationBasis}`,
             )}
-          </Text>
-          <Text>
+          </div>
+          <div>
             {t('details.freeRegistrationsLeft', {
               amount: registrationDetails.freeRegistrationsLeft,
             })}
-          </Text>
-          <Text>{registrationDetails.languageOfCommunication}</Text>
-          <Text>
+          </div>
+          <div>{registrationDetails.languageOfCommunication}</div>
+          <div>
             {registrationDetails.registration.kind === 'ADMISSION'
               ? t('details.registrationStatus.enrolled')
               : t('details.registrationStatus.queued', {
@@ -219,29 +228,29 @@ export const ClerkFreeRegistrationDetails = () => {
                     registrationDetails.registration.positionInQueue,
                   queue: registrationDetails.registration.queue,
                 })}
-          </Text>
-          <Text>
-            <Text>
+          </div>
+          <div>
+            <div>
               {registrationDetails.supplementRequestDueDate
                 ? DateUtils.formatOptionalDate(
                     registrationDetails.supplementRequestDueDate,
                     'l',
                   )
                 : '-'}
-            </Text>
-          </Text>
-          <Text>
+            </div>
+          </div>
+          <div>
             {t('details.examView')}
             <br />
             {t('details.customerView')}
-          </Text>
+          </div>
         </div>
       </div>
       <div style={{ maxWidth: '700px' }} className="rows gapped-xxl">
         <div className="rows gapped-xs">
           <div className="columns space-between">
-            <Text>{t('details.attachments.attachment')}</Text>
-            <Text>{t('details.attachments.arrivedAt')}</Text>
+            <span>{t('details.attachments.attachment')}</span>
+            <span>{t('details.attachments.arrivedAt')}</span>
           </div>
           <Divider />
           {registrationDetails.attachments.map((attachment, index) => (
@@ -252,24 +261,24 @@ export const ClerkFreeRegistrationDetails = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                <Text>{attachment.filename}</Text>
+                {attachment.filename}
                 <OpenInNewIcon style={{ fontSize: '2rem' }} />
               </a>
-              <Text>
-                {DateUtils.formatOptionalDate(attachment.submittedAt)}
-              </Text>
+              {DateUtils.formatOptionalDate(attachment.submittedAt)}
             </div>
           ))}
         </div>
         <div className="columns gapped flex-end">{renderButtons()}</div>
         <Divider />
         <div className="rows gapped">
-          <Text>
+          <div>
             <b>{t('details.comments.clerkComments.part1')}</b>{' '}
             {`(${t('details.comments.clerkComments.part2')})`}
-          </Text>
-          <Text>{t('details.comments.addNewComment')}</Text>
-          <CustomTextField
+          </div>
+          {t('details.comments.addNewComment')}
+          <TextField
+            minRows={5}
+            maxRows={15}
             value={comment}
             onChange={onCommentChange}
             type={'textarea'}
@@ -279,7 +288,7 @@ export const ClerkFreeRegistrationDetails = () => {
           />
           <div className="columns flex-end">
             <OphButton variant="outlined">
-              <span>{t('details.comments.save')}</span>
+              {t('details.comments.save')}
             </OphButton>
           </div>
         </div>

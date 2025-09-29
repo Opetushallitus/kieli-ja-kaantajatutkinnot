@@ -1,5 +1,5 @@
 import { ExpandLess, ExpandMore, UnfoldMore } from '@mui/icons-material';
-import { Button, TableCell } from '@mui/material';
+import { Button, TableCell, Typography } from '@mui/material';
 import { ophColors } from '@opetushallitus/oph-design-system';
 import { memo } from 'react';
 
@@ -98,7 +98,7 @@ export const TableHeaderCell = memo(function TableHeaderCell({
           {title}
         </Button>
       ) : (
-        <span style={{ fontWeight: 600 }}>{title}</span>
+        <Typography style={{ fontWeight: 600 }}>{title}</Typography>
       )}
     </StyledHeaderCell>
   );

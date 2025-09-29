@@ -3,6 +3,7 @@ import {
   CheckCircle,
   HourglassBottom,
 } from '@mui/icons-material';
+import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { ClockIcon } from '@mui/x-date-pickers';
 import i18next from 'i18next';
@@ -73,18 +74,18 @@ export const ClerkFreeRegistrationListing = ({
         return (
           <div className="columns gapped-xxs align-items-center">
             <ClockIcon color="warning" style={{ fontSize: '2rem' }} />
-            <span style={{ fontWeight: '600' }}>
+            <Typography style={{ fontWeight: '600' }}>
               {t(`status.${status}.part1`)}
-            </span>
+            </Typography>
           </div>
         );
       case 'APPROVED':
         return (
           <div className="columns gapped-xxs align-items-center">
             <CheckCircle color="success" style={{ fontSize: '2rem' }} />
-            <span style={{ fontWeight: '600' }}>
+            <Typography style={{ fontWeight: '600' }}>
               {t(`status.${status}.part1`)}
-            </span>
+            </Typography>
           </div>
         );
       case 'INFORMATION_REQUESTED':
@@ -92,10 +93,10 @@ export const ClerkFreeRegistrationListing = ({
           <div className="columns gapped-xxs align-items-start">
             <HourglassBottom color="success" style={{ fontSize: '2rem' }} />
             <div className="rows gapped-xxs">
-              <span style={{ fontWeight: '600' }}>
+              <Typography style={{ fontWeight: '600' }}>
                 {t(`status.${status}.part1`)}
-              </span>
-              <span>{t(`status.${status}.part2`)}</span>
+              </Typography>
+              <Typography>{t(`status.${status}.part2`)}</Typography>
             </div>
           </div>
         );
@@ -104,10 +105,10 @@ export const ClerkFreeRegistrationListing = ({
           <div className="columns gapped-xxs align-items-start">
             <ClockIcon color="error" style={{ fontSize: '2rem' }} />
             <div className="rows gapped-xxs">
-              <span style={{ fontWeight: '600' }}>
+              <Typography style={{ fontWeight: '600' }}>
                 {t(`status.${status}.part1`)}
-              </span>
-              <span>{t(`status.${status}.part2`)}</span>
+              </Typography>
+              <Typography>{t(`status.${status}.part2`)}</Typography>
             </div>
           </div>
         );
@@ -115,9 +116,9 @@ export const ClerkFreeRegistrationListing = ({
         return (
           <div className="columns gapped-xxs align-items-center">
             <BlockFlipped color="error" style={{ fontSize: '2rem' }} />
-            <span style={{ fontWeight: '600' }}>
+            <Typography style={{ fontWeight: '600' }}>
               {t(`status.${status}.part1`)}
-            </span>
+            </Typography>
           </div>
         );
       default:
@@ -134,9 +135,9 @@ export const ClerkFreeRegistrationListing = ({
     title: t('listing.header.person'),
     render: (rowProps) => (
       <div className="rows gapped-xs">
-        <span>{rowProps.person.fullName}</span>
-        <span>{rowProps.person.socialSecurityNumber}</span>
-        <span>{rowProps.person.oid}</span>
+        <Typography>{rowProps.person.fullName}</Typography>
+        <Typography>{rowProps.person.socialSecurityNumber}</Typography>
+        <Typography>{rowProps.person.oid}</Typography>
       </div>
     ),
   });
@@ -155,11 +156,11 @@ export const ClerkFreeRegistrationListing = ({
     key: 'dueDate',
     title: t('listing.header.dueDate'),
     render: (rowProps) => (
-      <span>
+      <Typography>
         {rowProps.supplementRequestDueDate
           ? DateUtils.formatOptionalDate(rowProps.supplementRequestDueDate, 'l')
           : ''}
-      </span>
+      </Typography>
     ),
   });
 
@@ -169,11 +170,11 @@ export const ClerkFreeRegistrationListing = ({
     key: 'assessmentDate',
     title: t('listing.header.assessmentDate'),
     render: (rowProps) => (
-      <span>
+      <Typography>
         {rowProps.assessmentDate
           ? DateUtils.formatOptionalDate(rowProps.assessmentDate, 'l')
           : ''}
-      </span>
+      </Typography>
     ),
   });
 
@@ -183,7 +184,9 @@ export const ClerkFreeRegistrationListing = ({
     key: 'examDate',
     title: t('listing.header.examDate'),
     render: (rowProps) => (
-      <span>{DateUtils.formatOptionalDate(rowProps.examDate, 'l')}</span>
+      <Typography>
+        {DateUtils.formatOptionalDate(rowProps.examDate, 'l')}
+      </Typography>
     ),
   });
 
@@ -193,14 +196,14 @@ export const ClerkFreeRegistrationListing = ({
     key: 'registration',
     title: t('listing.header.registration'),
     render: (rowProps) => (
-      <span>
+      <Typography>
         {rowProps.registration.kind === 'ADMISSION'
           ? t('listing.registrationStatus.enrolled')
           : t('listing.registrationStatus.queued', {
               positionInQueue: rowProps.registration.positionInQueue,
               queue: rowProps.registration.queue,
             })}
-      </span>
+      </Typography>
     ),
   });
 
@@ -263,7 +266,7 @@ export const ClerkFreeRegistrationListing = ({
       return (
         <>
           <div className="columns space-between">
-            <span>{rows.length} ilmoittautujaa</span>
+            {t('listing.amountOfRegistrations', { amount: rows.length })}
             <PageSizeSelector pageSize={pageSize} setPageSize={setPageSize} />
           </div>
           <ListTable

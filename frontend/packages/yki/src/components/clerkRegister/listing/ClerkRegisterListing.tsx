@@ -1,8 +1,9 @@
+import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Dayjs } from 'dayjs';
 import i18next from 'i18next';
 import { useEffect } from 'react';
-import { CustomCircularProgress, H2 } from 'shared/components';
+import { CustomCircularProgress } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 
 import { ListTable } from 'components/oph-design/table/list-table';
@@ -39,7 +40,7 @@ export const ClerkRegisterListing = ({
   };
 
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.clerkRegister.listing.header',
+    keyPrefix: 'yki.component.clerkRegister.listing',
   });
 
   type ClerkOrganizerType = {
@@ -58,7 +59,7 @@ export const ClerkRegisterListing = ({
     t: typeof i18next.t,
   ): ListTableColumn<ClerkOrganizerType> => ({
     key: 'organizer',
-    title: t('organizer'),
+    title: t('header.organizer'),
     render: (rowProps) => <span>{rowProps.oid}</span>,
   });
 
@@ -66,12 +67,12 @@ export const ClerkRegisterListing = ({
     t: typeof i18next.t,
   ): ListTableColumn<ClerkOrganizerType> => ({
     key: 'agreements',
-    title: t('agreements'),
+    title: t('header.agreements'),
     render: (rowProps) => (
       <span>
         {rowProps.languages
           ? languagesToString(rowProps.languages)
-          : 'Sopimus vanhentunut'}
+          : t('agreementExpired')}
       </span>
     ),
   });
@@ -80,7 +81,7 @@ export const ClerkRegisterListing = ({
     t: typeof i18next.t,
   ): ListTableColumn<ClerkOrganizerType> => ({
     key: 'munincipality',
-    title: t('munincipality'),
+    title: t('header.munincipality'),
     render: (rowProps) => <span>{rowProps.contact_name}</span>,
   });
 
@@ -110,7 +111,7 @@ export const ClerkRegisterListing = ({
           justifyContent="center"
           alignItems="center"
         >
-          <H2>{t('errors.loadingFailed')}</H2>
+          <Typography variant="h2">{t('errors.loadingFailed')}</Typography>
         </Box>
       );
     case APIResponseStatus.Success:
