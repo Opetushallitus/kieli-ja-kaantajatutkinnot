@@ -27,9 +27,9 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
+import { ClerkFreeRegistrationDetailsPage } from 'pages/clerk/ClerkFreeRegistrationDetailsPage';
+import { ClerkFreeRegistrationPage } from 'pages/clerk/ClerkFreeRegistrationPage';
 import { ClerkHomePage } from 'pages/clerk/ClerkHomePage';
-import { FreeRegistrationDetailsPage } from 'pages/clerk/FreeRegistrationDetailsPage';
-import { FreeRegistrationPage } from 'pages/clerk/FreeRegistrationPage';
 import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
@@ -155,7 +155,7 @@ export const AppRouter: FC = () => {
             path={AppRoutes.ClerkFreeRegistration}
             element={
               <YkiTitlePage title={createTitle('clerk')}>
-                <FreeRegistrationPage />
+                <ClerkFreeRegistrationPage />
               </YkiTitlePage>
             }
           />
@@ -163,7 +163,7 @@ export const AppRouter: FC = () => {
             path={AppRoutes.ClerkFreeRegistrationDetails}
             element={
               <YkiTitlePage title={createTitle('clerk')}>
-                <FreeRegistrationDetailsPage />
+                <ClerkFreeRegistrationDetailsPage />
               </YkiTitlePage>
             }
           />

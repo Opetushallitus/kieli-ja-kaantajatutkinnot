@@ -1,21 +1,24 @@
 import { ChevronRight, HomeOutlined } from '@mui/icons-material';
-import { Box, Grid, IconButton, Paper } from '@mui/material';
+import { Box, Grid, IconButton, Paper, Typography } from '@mui/material';
 import { FC } from 'react';
-import { H2 } from 'shared/components';
+import { useNavigate } from 'react-router-dom';
 
 import { ClerkFreeRegistrationDetails } from 'components/clerkFreeRegistration/FreeRegistrationDetails';
 import { usePublicTranslation } from 'configs/i18n';
 
-export const FreeRegistrationDetailsPage: FC = () => {
+export const ClerkFreeRegistrationDetailsPage: FC = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.clerkFreeRegistrationDetailsPage',
   });
 
+  const navigate = useNavigate();
+
   return (
     <Box className="clerk-free-registration-details-page">
-      <H2>
+      <Typography variant="h2" component={'div'}>
         <div className="columns gapped-xs">
           <IconButton
+            onClick={() => navigate(-1)}
             style={{
               backgroundColor: 'white',
               borderRadius: '4px',
@@ -34,7 +37,7 @@ export const FreeRegistrationDetailsPage: FC = () => {
           <ChevronRight style={{ color: 'grey', fontSize: '2rem' }} />
           {t('heading')}
         </div>
-      </H2>
+      </Typography>
 
       <Grid
         container

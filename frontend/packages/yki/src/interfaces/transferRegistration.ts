@@ -13,7 +13,8 @@ export interface TransferRegistrationTargetResponse
   session_date: string;
 }
 
-export interface TransferRegistrationDetails extends TransferRegistrationCommon {
+export interface TransferRegistrationDetails
+  extends TransferRegistrationCommon {
   is_transferable: boolean;
   contact_email: string;
   targets: Array<TransferRegistrationTarget>;

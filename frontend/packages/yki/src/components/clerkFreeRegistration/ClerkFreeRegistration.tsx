@@ -19,7 +19,7 @@ const FreeRegistrationTabs = ({
   setPage,
 }: FreeRegistrationTabProps) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.pages.clerkFreeRegistration.tabs',
+    keyPrefix: 'yki.component.clerkFreeRegistration.tabs',
   });
 
   const handleTabChange = (tab: Tab) => {
@@ -56,7 +56,7 @@ export const ClerkFreeRegistration = () => {
   const [pageSize, setPageSize] = useState(10);
 
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.pages.clerkFreeRegistration',
+    keyPrefix: 'yki.component.clerkFreeRegistration',
   });
 
   return (

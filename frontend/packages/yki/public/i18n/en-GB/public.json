@@ -23,6 +23,7 @@
             "munincipality": "Paikkakunta",
             "searchResults": "123 järjestäjää"
           },
+          "agreementExpired": "Sopimus vanhentunut",
           "errors": {
             "loadingFailed": "Järjestäjien hakeminen epäonnistui"
           }
@@ -58,6 +59,7 @@
           }
         },
         "listing": {
+          "amountOfRegistrations": "{{amount}} ilmoittautujaa",
           "header": {
             "person": "Nimi",
             "status": "Tarkastuksen tila",
