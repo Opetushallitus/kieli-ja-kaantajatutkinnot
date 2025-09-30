@@ -338,9 +338,6 @@ const ContactDetails = () => {
     return <></>;
   }
 
-  // TODO This might need to be false if weakly authenticated
-  const editingContactDetailsAllowed = true;
-
   return (
     <div className="margin-top-xxl">
       <H2 className="user-details-page__info__section__heading-title">
@@ -350,8 +347,6 @@ const ContactDetails = () => {
         <div className="user-details-page__info__section rows gapped">
           <Text>
             {t('description.part1')} {t('description.part2')}
-            <br />
-            {t('description.part3')}
           </Text>
           <div className="rows">
             <Text>
@@ -370,20 +365,18 @@ const ContactDetails = () => {
               {personDetails.phoneNumber}
             </Text>
           </div>
-          {editingContactDetailsAllowed && (
-            <div className="columns">
-              <CustomButtonLink
-                variant={Variant.Text}
-                color={Color.Secondary}
-                to={AppRoutes.ModifyContactDetails}
-                fullWidth={false}
-                startIcon={<EditOutlinedIcon />}
-                className="text-transform-none user-details-page__edit-btn"
-              >
-                {t('modify')}
-              </CustomButtonLink>
-            </div>
-          )}
+          <div className="columns">
+            <CustomButtonLink
+              variant={Variant.Text}
+              color={Color.Secondary}
+              to={AppRoutes.ModifyContactDetails}
+              fullWidth={false}
+              startIcon={<EditOutlinedIcon />}
+              className="text-transform-none user-details-page__edit-btn"
+            >
+              {t('modify')}
+            </CustomButtonLink>
+          </div>
         </div>
       </Paper>
     </div>
