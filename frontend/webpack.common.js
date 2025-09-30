@@ -7,8 +7,9 @@ const CopyPlugin = require("copy-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const Dotenv = require('dotenv-webpack')
 
-module.exports = (appName, env, dirName, port, entryPage = "etusivu") => {
-  const STATIC_PATH = `${appName}/static`;
+module.exports = (appName, env, dirName, port, entryPage = "etusivu", revision = ''
+) => {
+  const STATIC_PATH = `${appName}${revision}/static`;
   const CONTEXT_PATH = appName;
 
   const getMode = () => ({ mode: env.prod ? "production" : "development" });

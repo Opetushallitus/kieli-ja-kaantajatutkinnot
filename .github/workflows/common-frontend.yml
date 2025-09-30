@@ -11,7 +11,7 @@ on:
         description: "Cypress base url"
         required: true
         type: string
-      clerk:
+      yki-clerk:
         description: "New yki clerk ui"
         required: false
         type: string  
@@ -86,7 +86,7 @@ jobs:
           wait-on: ${{ inputs.cypress-base-url }}
           command: yarn ${{ inputs.app-name }}:clerk:test:cypress
         timeout-minutes: 10
-        if: ${{ inputs.clerk != '' }}
+        if: ${{ inputs.yki-clerk != '' }}
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
         if: failure()
@@ -98,8 +98,8 @@ jobs:
         run: yarn ${{ inputs.app-name }}:build
       - name: Build Clerk
         working-directory: ${{ env.FRONTEND_DIR }}
-        run: yarn ${{ inputs.app-name }}:build:${{ inputs.clerk }}
-        if: ${{ inputs.clerk != '' || contains(github.ref, 'snyk-io') }}
+        run: yarn ${{ inputs.app-name }}:build:${{ inputs.yki-clerk }}
+        if: ${{ inputs.yki-clerk != '' || contains(github.ref, 'snyk-io') }}
       - name: Cache build
         uses: actions/cache@v3
         with:
