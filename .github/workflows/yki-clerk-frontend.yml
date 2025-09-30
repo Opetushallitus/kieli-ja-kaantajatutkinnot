@@ -17,7 +17,7 @@ env:
   GITHUB_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  common-frontend:
+  yki-clerk-frontend:
     if: ${{ contains(github.event.head_commit.message, inputs.app-name) || contains(github.ref, 'snyk-io') }}
     runs-on: ubuntu-latest
     strategy:
@@ -63,15 +63,15 @@ jobs:
         with:
           working-directory: ${{ env.FRONTEND_DIR }}
           runTests: false
-        if: steps.cypress-cache.outputs.cache-hit != 'true'
+        if: steps.cypress-cache.outputs.cache-hit != 'true'        
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v4
         with:
           working-directory: ${{ env.FRONTEND_DIR }}
           install: false
-          start: yarn ${{ inputs.app-name }}:start:ci
+          start: yarn ${{ inputs.app-name }}:clerk:start:ci
           wait-on: ${{ inputs.cypress-base-url }}
-          command: yarn ${{ inputs.app-name }}:test:cypress
+          command: yarn ${{ inputs.app-name }}:clerk:test:cypress
         timeout-minutes: 10
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
@@ -81,7 +81,7 @@ jobs:
           path: ${{ env.FRONTEND_DIR }}/packages/${{ inputs.app-name }}/src/tests/cypress/screenshots
       - name: Build
         working-directory: ${{ env.FRONTEND_DIR }}
-        run: yarn ${{ inputs.app-name }}:build
+        run: yarn ${{ inputs.app-name }}:build:clerk
       - name: Cache build
         uses: actions/cache@v3
         with:
