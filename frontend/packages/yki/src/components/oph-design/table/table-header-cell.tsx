@@ -7,7 +7,7 @@ import { styled } from 'components/oph-design/theme';
 
 type SortDirection = 'asc' | 'desc';
 
-export const getSortParts = (sortStr?: string, colId?: string) => {
+const getSortParts = (sortStr?: string, colId?: string) => {
   const [orderBy, direction] = sortStr?.split(':') ?? [];
 
   if (

@@ -1,7 +1,3 @@
-export type KeysMatching<O, T> = {
-  [K in keyof O]: O[K] extends T ? K : never;
-}[keyof O & string];
-
 export type ListTableColumn<R extends Row> = {
   // Sarakkeen otsikko
   title?: string;
