@@ -3,9 +3,9 @@ import { OphFormFieldWrapper } from '@opetushallitus/oph-design-system';
 import { LocalizedSelect } from 'components/oph-design/localized-select';
 import { useCommonTranslation } from 'configs/i18n';
 
-export const PAGE_SIZES = [10, 20, 30, 50, 100];
+const PAGE_SIZES = [10, 20, 30, 50, 100];
 
-export const DEFAULT_PAGE_SIZE = 30;
+const DEFAULT_PAGE_SIZE = 30;
 
 const PAGE_SIZE_OPTIONS = PAGE_SIZES.map((size: number) => ({
   value: size.toString(),

@@ -20,13 +20,13 @@ import { TableHeaderCell } from './table-header-cell';
 import { ListTableColumn, Row } from './table-types';
 import { useCommonTranslation } from 'configs/i18n';
 
-export const DEFAULT_BOX_BORDER = `2px solid ${ophColors.grey100}`;
+const DEFAULT_BOX_BORDER = `2px solid ${ophColors.grey100}`;
 
 const withTransientProps = (propName: string) =>
   // Emotion doesn't support transient props by default so add support manually
   shouldForwardProp(propName) && !propName.startsWith('$');
 
-export const styled: typeof muiStyled = (
+const styled: typeof muiStyled = (
   tag: Parameters<typeof muiStyled>[0],
   options: Parameters<typeof muiStyled>[1] = {},
 ) => {
@@ -77,7 +77,7 @@ const StyledTableBody = styled(TableBody)(({ theme }) => ({
     },
   },
 }));
-export type ListTablePaginationProps = {
+type ListTablePaginationProps = {
   page: number;
   setPage: (page: number) => void;
   pageSize: number;
