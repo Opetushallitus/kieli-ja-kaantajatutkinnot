@@ -23,11 +23,8 @@ jobs:
     with:
       app-name: "yki"
       cypress-base-url: "http://localhost:4003"
-  clerk-frontend:
-    uses: ./.github/workflows/yki-clerk-frontend.yml
-    with:
-      app-name: "yki"
-      cypress-base-url: "http://localhost:4003"
+      clerk-cypress-base-url: "http://localhost:4004"
+      clerk: "clerk"
   backend:
     needs: frontend
     uses: ./.github/workflows/common-backend.yml
