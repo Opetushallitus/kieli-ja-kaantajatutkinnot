@@ -1,4 +1,4 @@
-name: Reusable frontend workflow
+name: Yki clerk frontend workflow
 
 on:
   workflow_call:
