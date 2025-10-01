@@ -25,3 +25,6 @@ export const selectFilteredFreeRegistrations = createSelector(
     });
   },
 );
+
+export const freeRegistrationsStatusSelector = (state: RootState) =>
+  state.clerkFreeRegistration.registrationStatus;

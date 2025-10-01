@@ -125,7 +125,15 @@
           "customerView": "Asiakkaan näkymä",
           "toasts": {
             "notFound": "Maksuttoman ilmoittautumisen tietoja ei löydy"
+          },
+          "modal": {
+            "title": "Vahvista maksuttomuuden hyväksyminen",
+            "subTitle": "Olet hyväksymässä ilmoittautumisen maksuttomuuden."
           }
+        },
+        "toasts": {
+          "approvalConfirmed": "Maksuttomuuden hyväksyminen onnistui",
+          "approvalFailed": "Maksuttomuuden hyväksyminen epäonnistui"
         }
       },
       "cookieBanner": {

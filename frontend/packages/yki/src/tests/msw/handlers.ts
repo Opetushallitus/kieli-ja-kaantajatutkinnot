@@ -188,4 +188,7 @@ export const handlers = [
       return notFound();
     }
   }),
+  http.put('/api/v1/clerk/registration/approval', () => {
+    return HttpResponse.json({ success: true });
+  }),
 ];

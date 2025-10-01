@@ -5,8 +5,11 @@ import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkFreeRegistrationResponse } from 'interfaces/clerkFreeRegistration';
 import {
+  acceptFreeRegistrationApproval,
+  approveFreeRegistration,
   loadClerkFreeRegistrations,
   rejectClerkFreeRegistrations,
+  rejectFreeRegistrationApproval,
   storeClerkFreeRegistrations,
 } from 'redux/reducers/clerkFreeRegistration';
 import { SerializationUtils } from 'utils/serialization';
@@ -24,9 +27,20 @@ function* loadClerkFreeRegistrationsSaga() {
   }
 }
 
+function* approveFreeRegistrationSaga() {
+  try {
+    yield call(axiosInstance.put, '/api/v1/clerk/registration/approval');
+    yield put(acceptFreeRegistrationApproval());
+  } catch (error) {
+    yield put(rejectFreeRegistrationApproval());
+  }
+}
+
 export function* watchClerkFreeRegistrations() {
   yield takeLatest(
     loadClerkFreeRegistrations.type,
     loadClerkFreeRegistrationsSaga,
   );
+
+  yield takeLatest(approveFreeRegistration.type, approveFreeRegistrationSaga);
 }
