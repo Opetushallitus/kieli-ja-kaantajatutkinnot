@@ -46,3 +46,15 @@ app:
     url: ${koski.url:null}
     user: ${cas.username:null}
     password: ${cas.password:null}
+host:
+  alb: ${virkailija.host.alb:localhost:${server.port}}
+cas:
+  key: yki
+  send-renew: false
+  login-path: /login/cas
+  logout-path: /cas/localLogout
+  logout-success-path: /etusivu
+  cookie-name: JSESSIONID
+  service-url: ${virkailija.cas.service-url:http://localhost:${server.port}/yki}
+  url: ${virkailija.cas.url:http://localhost:${server.port}/yki}
+  login-url: ${virkailija.cas.login-url:http://localhost:${server.port}/login}
