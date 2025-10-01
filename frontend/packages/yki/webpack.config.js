@@ -1,14 +1,14 @@
 const { merge } = require('webpack-merge');
 const common = require('../../webpack.common');
 module.exports = (env) => {
-  if (env.goal === 'clerk') {
+  if (env.goal === 'yki-clerk') {
     const { getDefaults } = common(
       'yki',
       env,
       __dirname,
       4004,
       'ilmoittautuminen',
-      '/v2'
+      true
     );
     return merge([getDefaults()]);
   } else {
