@@ -189,7 +189,7 @@ public class RegisterEnrollmentService {
         .setBody(bodyJson)
         .build();
 
-      LOG.info(String.format("Starting register sync for (%s)", id));
+      LOG.info(String.format("Starting register sync for (%s) with json (%s)", id, bodyJson));
 
       final Response response;
       try {
