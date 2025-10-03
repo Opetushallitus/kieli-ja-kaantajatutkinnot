@@ -275,7 +275,8 @@ public class RegisterEnrollmentService {
       .addHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
       .addHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
       .addHeader("Caller-Id", Constants.CALLER_ID)
-      .setRequestTimeout(Duration.ofMinutes(2));
+      .setRequestTimeout(Duration.ofMinutes(2))
+      .setFollowRedirect(true);
   }
 
   private GradeDTO getGradeDto(final EnrollmentGradeType grade, final LocalDate date) {
