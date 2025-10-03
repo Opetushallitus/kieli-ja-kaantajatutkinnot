@@ -13,7 +13,8 @@ export type FreeRegistrationStatus =
   | 'APPROVED'
   | 'REJECTED'
   | 'INFORMATION_REQUESTED'
-  | 'INFORMATION_REQUEST_ANSWERED';
+  | 'INFORMATION_REQUEST_ANSWERED'
+  | 'INFORMATION_REQUEST_EXPIRED';
 
 type Registration =
   | {

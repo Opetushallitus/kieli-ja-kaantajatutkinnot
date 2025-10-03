@@ -82,14 +82,12 @@ export const ClerkFreeRegistrationDetails = () => {
       return (
         <>
           <OphButton
-            aria-label="Button"
             variant="contained"
             style={{ backgroundColor: '#0033CC', color: 'white' }}
           >
             {t('details.buttons.sendInformationRequest')}
           </OphButton>
           <OphButton
-            aria-label="Button"
             variant="contained"
             style={{ backgroundColor: '#0033CC', color: 'white' }}
           >
@@ -102,7 +100,6 @@ export const ClerkFreeRegistrationDetails = () => {
     return (
       <>
         <OphButton
-          aria-label="Button"
           variant="contained"
           style={{ backgroundColor: 'white', color: '0033CC' }}
         >
@@ -130,35 +127,51 @@ export const ClerkFreeRegistrationDetails = () => {
         return (
           <>
             <ClockIcon color="error" style={{ fontSize: '2rem' }} />
-            {t(`status.${registrationDetails.status}.part1`)}
+            <span>{t(`status.${registrationDetails.status}.part1`)}</span>
           </>
         );
       case 'APPROVED':
         return (
           <>
             <CheckCircle color="success" style={{ fontSize: '2rem' }} />
-            {t(`status.${registrationDetails.status}.part1`)}
+            <span>{t(`status.${registrationDetails.status}.part1`)}</span>
           </>
         );
       case 'INFORMATION_REQUESTED':
         return (
           <>
             <HourglassBottom color="success" style={{ fontSize: '2rem' }} />
-            t(`status.${registrationDetails.status}.part1`)
+            <span>
+              {t(`status.${registrationDetails.status}.part1`)}{' '}
+              {t(`status.${registrationDetails.status}.part2`)}
+            </span>
           </>
         );
       case 'INFORMATION_REQUEST_ANSWERED':
         return (
           <>
             <ClockIcon color="error" style={{ fontSize: '2rem' }} />
-            {t(`status.${registrationDetails.status}.part1`)}
+            <span>
+              {t(`status.${registrationDetails.status}.part1`)}{' '}
+              {t(`status.${registrationDetails.status}.part2`)}
+            </span>
+          </>
+        );
+      case 'INFORMATION_REQUEST_EXPIRED':
+        return (
+          <>
+            <ClockIcon color="error" style={{ fontSize: '2rem' }} />
+            <span>
+              {t(`status.${registrationDetails.status}.part1`)}{' '}
+              {t(`status.${registrationDetails.status}.part2`)}
+            </span>
           </>
         );
       case 'REJECTED':
         return (
           <>
             <BlockFlipped color="error" style={{ fontSize: '2rem' }} />
-            {t(`status.${registrationDetails.status}.part1`)}
+            <span>{t(`status.${registrationDetails.status}.part1`)}</span>
           </>
         );
       default:
@@ -170,7 +183,7 @@ export const ClerkFreeRegistrationDetails = () => {
     <div className="rows gapped free-registration-details">
       <div>
         <b>{registrationDetails.person.fullName}</b>{' '}
-        {`(${registrationDetails.person.socialSecurityNumber})`}
+        <span>{`(${registrationDetails.person.socialSecurityNumber})`}</span>
         <div>
           {translateLanguage(registrationDetails.examSession.language)}
           {' - '}
