@@ -184,7 +184,7 @@ public class RegisterEnrollmentService {
       }
 
       final Request request = defaultRequestBuilder()
-        .setUrl(registerUrl + "/api/vkt/kios")
+        .setUrl(registerUrl + "/kios")
         .setMethod(HttpConstants.Methods.PUT)
         .setBody(bodyJson)
         .build();

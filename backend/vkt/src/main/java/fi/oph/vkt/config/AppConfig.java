@@ -107,7 +107,7 @@ public class AppConfig {
       casUsername,
       casPassword,
       casUrl,
-      registerServiceUrl,
+      registerServiceUrl + "/kios",
       Constants.CALLER_ID,
       Constants.CALLER_ID
     );
