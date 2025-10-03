@@ -175,9 +175,13 @@ export const handlers = [
   http.get('/yki/api/virkailija/organizer', () =>
     HttpResponse.json(organizers),
   ),
-  http.get('/yki/api/virkailija/free-registrations', () =>
-    HttpResponse.json(freeRegistrations),
-  ),
+  http.get('/yki/api/virkailija/free-registrations', ({ cookies }) => {
+    if (cookies['free-registration-error-500'] === '1') {
+      return HttpResponse.json({ error: 'forced error' }, { status: 500 });
+    }
+
+    return HttpResponse.json(freeRegistrations);
+  }),
   http.get('/yki/api/virkailija/free-registrations/:id', ({ params }) => {
     switch (params.id) {
       case '1':

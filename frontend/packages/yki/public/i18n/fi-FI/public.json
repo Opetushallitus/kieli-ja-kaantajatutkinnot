@@ -96,8 +96,8 @@
           },
           "fields": {
             "status": "Tarkastuksen tila",
-            "freeRegistrationBasis": "Syntymäaika",
-            "freeRegistrationsLeft": "Sähköposti",
+            "freeRegistrationBasis": "Maksuttomuuden peruste",
+            "freeRegistrationsLeft": "Maksuttomia kertoja jäljellä",
             "languageOfService": "Asiointikieli",
             "registrationType": "Ilmoittautunut vai jono",
             "dueDate": "Täydennyspyynnön eräpäivä",

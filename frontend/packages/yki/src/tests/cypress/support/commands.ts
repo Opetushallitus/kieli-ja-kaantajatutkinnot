@@ -37,3 +37,16 @@ Cypress.Commands.add('openPublicUserDetailsPage', () => {
 Cypress.Commands.add('openClerkRegistrationPage', () => {
   cy.visit(AppRoutes.ClerkOrganizerRegister);
 });
+
+Cypress.Commands.add('openClerkFreeRegistrationPage', (cookies) => {
+  if (cookies) {
+    Object.keys(cookies).forEach((key) => {
+      cy.setCookie(key, cookies[key]);
+    });
+  }
+  cy.visit(AppRoutes.ClerkFreeRegistration);
+});
+
+Cypress.Commands.add('openClerkFreeRegistrationDetailsPage', (id: number) => {
+  cy.visit(AppRoutes.ClerkFreeRegistrationDetails.replace(/:id/, `${id}`));
+});
