@@ -120,7 +120,7 @@ public class RegisterEnrollmentServiceTest {
           return (
             actual != null &&
             actual.trim().equals(expected1) &&
-            r.getUrl().equals("https://foo.bar/api/vkt/kios") &&
+            r.getUrl().equals("https://foo.bar/kios") &&
             r.getMethod().equals("PUT") &&
             r.getHeaders().get("Content-Type").equals("application/json")
           );
@@ -139,7 +139,7 @@ public class RegisterEnrollmentServiceTest {
           return (
             actual != null &&
             actual.trim().equals(expected2) &&
-            r.getUrl().equals("https://foo.bar/api/vkt/kios") &&
+            r.getUrl().equals("https://foo.bar/kios") &&
             r.getMethod().equals("PUT") &&
             r.getHeaders().get("Content-Type").equals("application/json")
           );
