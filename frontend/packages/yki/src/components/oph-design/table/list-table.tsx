@@ -125,7 +125,7 @@ const TablePagination = ({
   return (
     <OphPagination
       aria-label={
-        label ?? translateCommon('component.table.pagination.rowsPerPage')
+        label ?? translateCommon('component.table.pagination.clerkRowsPerPage')
       }
       totalCount={totalCount}
       pageSize={pageSize}

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
+import { QualificationStatus } from 'enums/clerkInterpreter';
 import {
   ClerkInterpreter,
   ClerkInterpreterFilters,
@@ -12,7 +13,7 @@ interface ClerkInterpreterState {
   status: APIResponseStatus;
   missingStatus: APIResponseStatus;
   missingInterpreters: Array<string>;
-  filters: object;
+  filters: ClerkInterpreterFilters;
   distinctToLangs: Array<string>;
 }
 
@@ -21,7 +22,10 @@ const initialState: ClerkInterpreterState = {
   status: APIResponseStatus.NotStarted,
   missingStatus: APIResponseStatus.NotStarted,
   missingInterpreters: [],
-  filters: {},
+  filters: {
+    qualificationStatus: QualificationStatus.Effective,
+    fromLang: QualificationUtils.defaultFromLang,
+  },
   distinctToLangs: [],
 };
 

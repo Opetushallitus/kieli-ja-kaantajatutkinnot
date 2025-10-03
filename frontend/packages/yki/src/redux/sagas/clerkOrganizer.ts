@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
+import { APIEndpoints } from 'enums/api';
 import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
 import {
   loadClerkOrganizers,
@@ -14,7 +15,7 @@ function* loadClerkOrganizersSaga() {
   try {
     const response: AxiosResponse<Array<ClerkOrganizerResponse>> = yield call(
       axiosInstance.get,
-      '/yki/api/virkailija/organizer',
+      APIEndpoints.ClerkOrganizer,
     );
     const organizers = response.data.map(
       SerializationUtils.deserializeClerkOrganizerResponse,
