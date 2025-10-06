@@ -184,12 +184,12 @@ public class RegisterEnrollmentService {
       }
 
       final Request request = defaultRequestBuilder()
-        .setUrl(registerUrl + "/kios")
+        .setUrl(registerUrl)
         .setMethod(HttpConstants.Methods.PUT)
         .setBody(bodyJson)
         .build();
 
-      LOG.info(String.format("Starting register sync for (%s) with json (%s)", id, bodyJson));
+      LOG.info(String.format("Starting register sync for (%s)", id));
 
       final Response response;
       try {
