@@ -106,7 +106,7 @@ export const AppRouter: FC = () => {
   );
 
   const YkiTitlePage = ({ title, children }: TitlePageProps) => (
-    <TitlePage title={title} className="title-page">
+    <TitlePage title={createTitle(title)} className="title-page">
       {children}
     </TitlePage>
   );
@@ -146,7 +146,7 @@ export const AppRouter: FC = () => {
           <Route
             path={AppRoutes.ClerkOrganizerRegister}
             element={
-              <YkiTitlePage title={createTitle('clerk')}>
+              <YkiTitlePage title="clerk">
                 <ClerkHomePage />
               </YkiTitlePage>
             }
@@ -154,7 +154,7 @@ export const AppRouter: FC = () => {
           <Route
             path={AppRoutes.ClerkFreeRegistration}
             element={
-              <YkiTitlePage title={createTitle('clerk')}>
+              <YkiTitlePage title="clerk">
                 <ClerkFreeRegistrationPage />
               </YkiTitlePage>
             }
@@ -162,7 +162,7 @@ export const AppRouter: FC = () => {
           <Route
             path={AppRoutes.ClerkFreeRegistrationDetails}
             element={
-              <YkiTitlePage title={createTitle('clerk')}>
+              <YkiTitlePage title="clerk">
                 <ClerkFreeRegistrationDetailsPage />
               </YkiTitlePage>
             }
