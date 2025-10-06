@@ -95,29 +95,51 @@ export const ClerkFreeRegistrationDetails = () => {
           </OphButton>
         </>
       );
-    }
-
-    return (
-      <>
-        <OphButton
-          variant="contained"
-          style={{ backgroundColor: 'white', color: '0033CC' }}
-        >
-          {t('details.buttons.sendInformationRequest')}
-        </OphButton>
+    } else if (
+      registrationDetails.status === 'INFORMATION_REQUESTED' ||
+      registrationDetails.status === 'INFORMATION_REQUEST_ANSWERED' ||
+      registrationDetails.status === 'INFORMATION_REQUEST_EXPIRED'
+    ) {
+      return (
+        <>
+          <OphButton
+            variant="contained"
+            style={{ backgroundColor: 'white', color: '0033CC' }}
+          >
+            {t('details.buttons.sendInformationRequest')}
+          </OphButton>
+          <OphButton
+            variant="contained"
+            style={{ backgroundColor: '#0033CC', color: 'white' }}
+          >
+            {t('details.buttons.approveFreeRegistration')}
+          </OphButton>
+          <OphButton
+            variant="contained"
+            style={{ backgroundColor: '#0033CC', color: 'white' }}
+          >
+            {t('details.buttons.rejectFreeRegistration')}
+          </OphButton>
+        </>
+      );
+    } else if (registrationDetails.status === 'REJECTED') {
+      return (
         <OphButton
           variant="contained"
           style={{ backgroundColor: '#0033CC', color: 'white' }}
         >
           {t('details.buttons.approveFreeRegistration')}
         </OphButton>
-        <OphButton
-          variant="contained"
-          style={{ backgroundColor: '#0033CC', color: 'white' }}
-        >
-          {t('details.buttons.rejectFreeRegistration')}
-        </OphButton>
-      </>
+      );
+    }
+
+    return (
+      <OphButton
+        variant="contained"
+        style={{ backgroundColor: '#0033CC', color: 'white' }}
+      >
+        {t('details.buttons.rejectFreeRegistration')}
+      </OphButton>
     );
   };
 
@@ -204,7 +226,7 @@ export const ClerkFreeRegistrationDetails = () => {
             {t('details.fields.freeRegistrationsLeft')}
           </Typography>
           <Typography fontWeight={500}>
-            {t('details.fields.languageOfService')}
+            {t('details.fields.languageOfCommunication')}
           </Typography>
           <Typography fontWeight={500}>
             {t('details.fields.registrationType')}

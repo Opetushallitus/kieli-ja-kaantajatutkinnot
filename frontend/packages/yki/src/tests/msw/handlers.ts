@@ -172,46 +172,20 @@ export const handlers = [
 
     return HttpResponse.redirect(redirect as string);
   }),
-  http.get('/yki/api/virkailija/organizer', () =>
-    HttpResponse.json(organizers),
-  ),
-  http.get('/yki/api/virkailija/free-registrations', ({ cookies }) => {
+  http.get('/yki/api/clerk/organizer', () => HttpResponse.json(organizers)),
+  http.get('/yki/api/clerk/free-registrations', ({ cookies }) => {
     if (cookies['free-registration-error-500'] === '1') {
       return HttpResponse.json({ error: 'forced error' }, { status: 500 });
     }
 
     return HttpResponse.json(freeRegistrations);
   }),
-  http.get('/yki/api/virkailija/free-registrations/:id', ({ params }) => {
-    switch (params.id) {
-      case '1':
-        return HttpResponse.json(freeRegistrationDetails[0]);
-      case '2':
-        return HttpResponse.json(freeRegistrationDetails[1]);
-      case '3':
-        return HttpResponse.json(freeRegistrationDetails[2]);
-      case '4':
-        return HttpResponse.json(freeRegistrationDetails[3]);
-      case '5':
-        return HttpResponse.json(freeRegistrationDetails[4]);
-      case '6':
-        return HttpResponse.json(freeRegistrationDetails[5]);
-      case '7':
-        return HttpResponse.json(freeRegistrationDetails[6]);
-      case '8':
-        return HttpResponse.json(freeRegistrationDetails[7]);
-      case '9':
-        return HttpResponse.json(freeRegistrationDetails[8]);
-      case '10':
-        return HttpResponse.json(freeRegistrationDetails[9]);
-      case '11':
-        return HttpResponse.json(freeRegistrationDetails[10]);
-      case '12':
-        return HttpResponse.json(freeRegistrationDetails[11]);
-      case '13':
-        return HttpResponse.json(freeRegistrationDetails[12]);
-      default:
-        return notFound();
+  http.get('/yki/api/clerk/free-registrations/:id', ({ params }) => {
+    const index = params?.id ? Number(params.id) - 1 : NaN;
+    if (index && freeRegistrationDetails[index]) {
+      return HttpResponse.json(freeRegistrationDetails[index]);
+    } else {
+      return notFound();
     }
   }),
 ];

@@ -16,7 +16,7 @@ export type FreeRegistrationStatus =
   | 'INFORMATION_REQUEST_ANSWERED'
   | 'INFORMATION_REQUEST_EXPIRED';
 
-type Registration =
+export type Registration =
   | {
       kind: 'ADMISSION';
     }

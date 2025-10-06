@@ -18,7 +18,7 @@ describe('ClerkFreeRegistrationDetailsPage', () => {
     cy.openClerkFreeRegistrationDetailsPage(id);
     onClerkFreeRegistrationDetailsPage.expectDetailsVisible(id);
     onClerkFreeRegistrationDetailsPage.expectAttachmentsVisible(id);
-    onClerkFreeRegistrationDetailsPage.expectActionButtonsVisible(id);
+    onClerkFreeRegistrationDetailsPage.expectCorrectActionButtonsVisible(id);
   });
 
   it('shows details correctly for APPROVED free registration ', () => {
@@ -26,7 +26,7 @@ describe('ClerkFreeRegistrationDetailsPage', () => {
     cy.openClerkFreeRegistrationDetailsPage(id);
     onClerkFreeRegistrationDetailsPage.expectDetailsVisible(id);
     onClerkFreeRegistrationDetailsPage.expectAttachmentsVisible(id);
-    onClerkFreeRegistrationDetailsPage.expectActionButtonsVisible(id);
+    onClerkFreeRegistrationDetailsPage.expectCorrectActionButtonsVisible(id);
   });
 
   it('shows details correctly for REJECTED free registration ', () => {
@@ -34,7 +34,7 @@ describe('ClerkFreeRegistrationDetailsPage', () => {
     cy.openClerkFreeRegistrationDetailsPage(id);
     onClerkFreeRegistrationDetailsPage.expectDetailsVisible(id);
     onClerkFreeRegistrationDetailsPage.expectAttachmentsVisible(id);
-    onClerkFreeRegistrationDetailsPage.expectActionButtonsVisible(id);
+    onClerkFreeRegistrationDetailsPage.expectCorrectActionButtonsVisible(id);
   });
 
   it('shows details correctly for INFORMATION_REQUESTED free registration ', () => {
@@ -42,7 +42,7 @@ describe('ClerkFreeRegistrationDetailsPage', () => {
     cy.openClerkFreeRegistrationDetailsPage(id);
     onClerkFreeRegistrationDetailsPage.expectDetailsVisible(id);
     onClerkFreeRegistrationDetailsPage.expectAttachmentsVisible(id);
-    onClerkFreeRegistrationDetailsPage.expectActionButtonsVisible(id);
+    onClerkFreeRegistrationDetailsPage.expectCorrectActionButtonsVisible(id);
   });
 
   it('shows details correctly for INFORMATION_REQUEST_ANSWERED free registration ', () => {
@@ -50,6 +50,6 @@ describe('ClerkFreeRegistrationDetailsPage', () => {
     cy.openClerkFreeRegistrationDetailsPage(id);
     onClerkFreeRegistrationDetailsPage.expectDetailsVisible(id);
     onClerkFreeRegistrationDetailsPage.expectAttachmentsVisible(id);
-    onClerkFreeRegistrationDetailsPage.expectActionButtonsVisible(id);
+    onClerkFreeRegistrationDetailsPage.expectCorrectActionButtonsVisible(id);
   });
 });

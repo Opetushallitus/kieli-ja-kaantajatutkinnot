@@ -12,11 +12,11 @@ export const getFreeRegistrationStatusText = (status: string) => {
     case 'REJECTED':
       return 'Maksuttomuus hylätty';
     case 'INFORMATION_REQUESTED':
-      return 'Täydennyspyyntö lähetetty, odottaa vastausta';
+      return 'Lisätietopyyntö lähetetty, odottaa vastausta';
     case 'INFORMATION_REQUEST_ANSWERED':
-      return 'Maksuttomuus tarkastamatta, täydennyspyyntöön vastattu';
+      return 'Maksuttomuus tarkastamatta, lisätietopyyntöön vastattu';
     case 'INFORMATION_REQUEST_EXPIRED':
-      return 'Maksuttomuus tarkastamatta, täydennyspyyntöön ei vastattu';
+      return 'Maksuttomuus tarkastamatta, lisätietopyyntöön ei vastattu';
     default:
       return '';
   }

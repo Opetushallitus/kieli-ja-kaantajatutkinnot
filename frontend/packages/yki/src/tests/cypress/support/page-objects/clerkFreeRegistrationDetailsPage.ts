@@ -53,17 +53,57 @@ class ClerkFreeRegistrationDetailsPage {
     });
   }
 
-  expectActionButtonsVisible(id: number) {
+  expectCorrectActionButtonsVisible(id: number) {
     const details = freeRegistrationDetails[id - 1];
     if (!details) {
       throw new Error(`No free registration details found for id ${id}`);
     }
-    cy.findByRole('button', { name: 'Hyväksy maksuttomuus' }).should(
-      'be.visible',
-    );
-    cy.findByRole('button', {
-      name: 'Lähetä täydennyspyyntö',
-    }).should('be.visible');
+
+    if (details.status === 'PENDING') {
+      cy.findByRole('button', { name: 'Hyväksy maksuttomuus' }).should(
+        'be.visible',
+      );
+      cy.findByRole('button', {
+        name: 'Lähetä lisätietopyyntö',
+      }).should('be.visible');
+      cy.findByRole('button', {
+        name: 'Hyväksy maksuttomuus',
+      }).should('not.be.visible');
+    } else if (details.status === 'APPROVED') {
+      cy.findByRole('button', { name: 'Hylkää maksuttomuus' }).should(
+        'be.visible',
+      );
+      cy.findByRole('button', {
+        name: 'Hyväksy maksuttomuus',
+      }).should('not.be.visible');
+      cy.findByRole('button', {
+        name: 'Lähetä lisätietopyyntö',
+      }).should('not.be.visible');
+    } else if (details.status === 'REJECTED') {
+      cy.findByRole('button', { name: 'Hyväksy maksuttomuus' }).should(
+        'be.visible',
+      );
+      cy.findByRole('button', {
+        name: 'Hylkää maksuttomuus',
+      }).should('not.be.visible');
+      cy.findByRole('button', {
+        name: 'Lähetä lisätietopyyntö',
+      }).should('not.be.visible');
+    } else if (
+      details.status === 'INFORMATION_REQUESTED' ||
+      details.status === 'INFORMATION_REQUEST_ANSWERED' ||
+      details.status === 'INFORMATION_REQUEST_EXPIRED'
+    ) {
+      cy.findByRole('button', { name: 'Lähetä lisätietopyyntö' }).should(
+        'be.visible',
+      );
+      cy.findByRole('button', { name: 'Hyväksy maksuttomuus' }).should(
+        'be.visible',
+      );
+      cy.findByRole('button', {
+        name: 'Hylkää maksuttomuus',
+      }).should('be.visible');
+    }
   }
 }
 
