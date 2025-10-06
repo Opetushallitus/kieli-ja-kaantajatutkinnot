@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  localstack:
+    image: localstack/localstack:3.7.0
+    ports:
+      - "4566:4566"
+    networks:
+      - yki-dev
+    environment:
+      - EXTRA_CORS_ALLOWED_ORIGINS="'*'"
+      - HOSTNAME=localhost.localstack.cloud
+      - LOCALSTACK_HOST=localhost.localstack.cloud
+
+networks:
+  yki-dev: {}
