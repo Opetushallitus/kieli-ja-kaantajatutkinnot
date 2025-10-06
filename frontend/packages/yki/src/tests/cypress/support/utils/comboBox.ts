@@ -5,5 +5,5 @@ export const selectComboBoxOptionByName = (
   cy.wait(50);
   comboBox.click();
   cy.findByRole('option', { name }).scrollIntoView();
-  cy.findByRole('option', { name }).should('be.visible').click();
+  cy.findByRole('option', { name }).should('be.visible').trigger('click');
 };

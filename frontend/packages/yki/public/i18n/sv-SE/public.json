@@ -15,6 +15,114 @@
         "title": "Avbryt anmälan",
         "success": "Anmälan har avbrutits"
       },
+      "clerkRegister": {
+        "listing": {
+          "header": {
+            "organizer": "Järjestäjä",
+            "agreements": "Kielitutkintosopimukset",
+            "munincipality": "Paikkakunta",
+            "searchResults": "123 järjestäjää"
+          },
+          "agreementExpired": "Sopimus vanhentunut",
+          "errors": {
+            "loadingFailed": "Järjestäjien hakeminen epäonnistui"
+          }
+        }
+      },
+      "clerkFreeRegistration": {
+        "description": "Tarkasta oikeuttavatko ilmoittautujan toimittamat liitteet tutkinnon maksuttomuuteen ja hyväksy maksuttomuus tai lähetä täydennyspyyntö.",
+        "tabs": {
+          "pending": "Odottavat tarkastukset",
+          "previous": "Aiemmat tarkastukset"
+        },
+        "status": {
+          "PENDING": {
+            "part1": "Maksuttomuus tarkistamatta"
+          },
+          "APPROVED": {
+            "part1": "Maksuttomuus hyväksytty"
+          },
+          "REJECTED": {
+            "part1": "Maksuttomuus hylätty"
+          },
+          "INFORMATION_REQUESTED": {  
+            "part1": "Täydennyspyyntö lähetetty,",
+            "part2": "odottaa vastausta"
+          },
+          "INFORMATION_REQUEST_ANSWERED": {
+            "part1": "Maksuttomuus tarkistamatta,",
+            "part2": "täydennyspyyntöön vastattu"
+          },
+          "INFORMATION_REQUEST_EXPIRED": {
+            "part1": "Maksuttomuus tarkistamatta,",
+            "part2": "täydennyspyyntöön ei vastattu"
+          }
+        },
+        "listing": {
+          "amountOfRegistrations": "{{ amount }} ilmoittautujaa",
+          "header": {
+            "person": "Nimi",
+            "status": "Tarkastuksen tila",
+            "dueDate": "Täydennyspyynnön eräpäivä",
+            "assessmentDate": "Tarkastuksen päivämäärä",
+            "examDate": "Tutkinnon pvm",
+            "registration": "Ilmoittautuminen",
+            "actions": "Toiminnot"
+          },
+          "registrationStatus": {
+            "enrolled": "Ilmoittautunut",
+            "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
+          },
+          "assessCertificate": "Tarkasta todistus",
+          "showDetails": "Näytä tiedot"
+        },
+        "details": {
+          "attachments": {
+            "attachment": "Liite",
+            "arrivedAt": "Saapunut"
+          },
+          "buttons": {
+            "sendInformationRequest": "Lähetä täydennyspyyntö",
+            "approveFreeRegistration": "Hyväksy maksuttomuus",
+            "rejectFreeRegistration": "Hylkää maksuttomuus"
+          },
+          "comments": {
+            "clerkComments": {
+              "part1": "Tarkastajan kommentit",
+              "part2": "ei näy ilmoittautujalle"
+            },
+            "addNewComment": "Lisää uusi kommentti",
+            "save": "Tallenna kommentti"
+          },
+          "fields": {
+            "status": "Tarkastuksen tila",
+            "freeRegistrationBasis": "Maksuttomuuden peruste",
+            "freeRegistrationsLeft": "Maksuttomia kertoja jäljellä",
+            "languageOfService": "Asiointikieli",
+            "registrationType": "Ilmoittautunut vai jono",
+            "dueDate": "Täydennyspyynnön eräpäivä",
+            "extraInformation": "Lisätiedot"
+          },
+          "freeRegistrationBasis": {
+            "MATRICULATION_EXAMINATION": "Opiskellut Suomessa: ylioppilastutkinto",
+            "HIGHER_EDUCATION_DEGREE": "Opiskellut Suomessa: korkeakoulututkinto",
+            "HIGHER_EDUCATION_STUDIES": "Opiskellut Suomessa: suorittamassa korkeakouluopintoja",
+            "COMPARABLE_MATRICULATION_EXAMINATION": "Opiskellut ulkomailla: ylioppilastutkinto",
+            "COMPARABLE_HIGHER_EDUCATION_DEGREE": "Opiskellut ulkomailla: korkeakoulututkinto",
+            "COMPARABLE_HIGHER_EDUCATION_STUDIES": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja"
+          },
+          "freeRegistrationsLeft": "{{amount}} kpl",
+          "registrationStatus": {
+            "enrolled": "Ilmoittautunut",
+            "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
+          },
+          "examView": "Tutkintotilaisuuden näkymä",
+          "customerView": "Asiakkaan näkymä",
+          "toasts": {
+            "notFound": "Maksuttoman ilmoittautumisen tietoja ei löydy"
+          }
+        }
+      },
       "cookieBanner": {
         "buttonAriaLabel": "Stäng informationrutan om kakor",
         "buttonText": "Stäng",
@@ -115,7 +223,10 @@
         "enrollModal": {
           "title": "Anmälning misslyckades",
           "examIsFull": "Det finns inga lediga platser. Du kan anmäla dig till en köplats.",
-          "alreadyEnrolled": "Du har redan anmält dig till examen.",
+          "alreadyRegistered": {
+            "part1": "Du har redan anmält dig till YKI test.",
+            "part2": "Du kan endast anmäla dig eller köa till ett YKI-test per testdag."
+          },
           "examClosed": "Anmälan är stängd",
           "enrollToQueue": "Anmäl dig till en köplats",
           "checkingOpenSeats": "Kontrollerar lediga platser...",
@@ -283,6 +394,14 @@
           }
         },
         "registrationFormSubmitted": {
+          "error": {
+            "alreadyRegistered": {
+              "part1": "Du kan endast anmäla dig eller köa till ett YKI-test per testdag.",
+              "part2": "Du kan inte anmäla dig till detta YKI-test förrän du har annullerat din tidigare anmälan för samma testdag.",
+              "part3": "Om du vill annullera din tidigare anmälan, läs instruktionerna i e-postmeddelandet med anmälningsbekräftelsen. E-postmeddelandet skickades från adressen noreply@opintopolku.fi när du anmälde dig till YKI-testet.",
+              "title": "Anmälan misslyckades"
+            }
+          },
           "proceedToPayment": {
             "dueDateReminder": {
               "text1": "<strong>Viktigt!</strong> E-postmeddelandet innehåller även den sista dagen som du kan betala examensavgiften.",
@@ -424,6 +543,8 @@
         "unavailable": {
           "alreadyRegistered": {
             "description": "Du kan endast anmäla dig till ett YKI-test per testdag",
+            "description1": "Du har redan anmält dig till YKI test.",
+            "description2": "Du kan endast anmäla dig eller köa till ett YKI-test per testdag.",
             "title": "Du har redan anmält dig till ett annat YKI-test på samma testdag"
           },
           "generic": {
@@ -450,7 +571,7 @@
           }
         }
       },
-      "transferEnrollment": {
+      "transferRegistration": {
         "actions": {
           "cancel": "Flytta inte",
           "confirm": "Ja, flytta",
@@ -463,7 +584,16 @@
       }
     },
     "pages": {
-      "confirmEnrollmentPage": {
+      "clerkRegisterPage": {
+        "heading": "Kielitutkintojen järjestäjärekisteri"
+      },
+      "clerkFreeRegistrationPage": {
+        "heading": "Maksuttomuuden tarkastukset"
+      },
+      "clerkFreeRegistrationDetailsPage": {
+        "heading": "Maksuttomuuden tarkastukset"
+      },
+      "confirmRegistrationPage": {
         "heading": "Bekräfta anmälan"
       },
       "evaluationOrderPage": {
@@ -596,8 +726,8 @@
         "register": "Anmäl dig",
         "title": "Allmänna språkexamina (YKI) - Anmälan"
       },
-      "transferEnrollmentPage": {
-        "currentEnrollmentDetails": {
+      "transferRegistrationPage": {
+        "currentRegistrationDetails": {
           "heading": "Du håller på att flytta anmälan"
         },
         "introduction": {
@@ -616,7 +746,7 @@
         },
         "title": "Flytta anmälan"
       },
-      "transferEnrollmentSuccessPage": {
+      "transferRegistrationSuccessPage": {
         "information": {
           "beforeYkiTest": {
             "description": "Läs också Utbildningsstyrelsens anvisningar för YKI-testet:",
@@ -642,7 +772,8 @@
           "part1": "Länken gäller inte längre. Av datasäkerhetsskäl fungerar länken bara i 14 dagar. Du måste beställa en ny länk.",
           "buttonText": "Beställ en ny länk till din e-post",
           "part2": "Om du inte får den nya länken, skicka e-post till oss på kielitutkinnot@oph.fi.",
-          "title": "Länken gäller inte längre"
+          "title": "Länken gäller inte längre",
+          "reply": "Du har fått en ny länk per e-post. Om du inte har fått meddelandet, kolla din skräppostmapp."
         },
         "contactDetails": {
           "description": {

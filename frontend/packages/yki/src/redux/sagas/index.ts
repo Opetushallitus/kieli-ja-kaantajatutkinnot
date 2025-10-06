@@ -1,15 +1,19 @@
 import { all } from 'redux-saga/effects';
 
+import { watchClerkFreeRegistrations } from 'redux/sagas/clerkFreeRegistration';
+import { watchClerkFreeRegistrationDetails } from 'redux/sagas/clerkFreeRegistrationDetails';
+import { watchClerkOrganizers } from 'redux/sagas/clerkOrganizer';
 import { watchConfirmRegistration } from 'redux/sagas/confirmRegistration';
 import { watchEvaluationOrder } from 'redux/sagas/evaluationOrder';
 import { watchEvaluationPeriods } from 'redux/sagas/evaluationPeriod';
 import { watchExamSessions } from 'redux/sagas/examSession';
 import { watchLoginLink } from 'redux/sagas/loginLink';
+import { watchLoginLinkRenew } from 'redux/sagas/loginLinkRenew';
 import { watchNationalities } from 'redux/sagas/nationalities';
 import { watchPublicIdentification } from 'redux/sagas/publicIdentification';
 import { watchRegistration } from 'redux/sagas/registration';
 import { watchSession } from 'redux/sagas/session';
-import { watchTransferEnrollment } from 'redux/sagas/transferEnrollment';
+import { watchTransferRegistration } from 'redux/sagas/transferRegistration';
 import { watchUserDetails } from 'redux/sagas/userDetails';
 import { watchUserOpenRegistrations } from 'redux/sagas/userOpenRegistrations';
 
@@ -24,8 +28,12 @@ export default function* rootSaga() {
     watchSession(),
     watchUserDetails(),
     watchUserOpenRegistrations(),
-    watchTransferEnrollment(),
+    watchTransferRegistration(),
     watchConfirmRegistration(),
     watchLoginLink(),
+    watchLoginLinkRenew(),
+    watchClerkOrganizers(),
+    watchClerkFreeRegistrations(),
+    watchClerkFreeRegistrationDetails(),
   ]);
 }

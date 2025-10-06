@@ -8,6 +8,7 @@
       "back": "Takaisin",
       "backToHomePage": "Takaisin aloitussivulle",
       "cancel": "Keskeytä",
+      "clerk": "Virkailija",
       "component": {
         "table": {
           "header": {
@@ -21,7 +22,7 @@
             "displayedRowsAriaLabel": "Näytetään {{from}}-{{to}} / {{count}} tulosta",
             "displayedRowsLabel": "{{from}}-{{to}} / {{count}}",
             "nextButtonLabel": "Seuraavat hakutulokset",
-            "rowsPerPage": "Tulokset per sivu"
+            "rowsPerPage": "Näytä per sivu"
           }
         }
       },
@@ -140,6 +141,7 @@
       },
       "reassessment": "Tarkistusarviointi",
       "registration": "Ilmoittautuminen",
+      "freeRegistration": "Maksuttomuus",
       "registrationPeriod": "Ilmoittautumisaika",
       "specialArrangementsLink": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin",
       "userRegistrations": "Omat ilmoittautumiset",
@@ -149,6 +151,7 @@
         "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki"
       },
       "pageTitle": {
+        "clerk": "Virkailija",
         "registration": "Ilmoittautuminen",
         "initRegistration": "Ilmoittautuminen",
         "examDetails": "Tutkinto",
@@ -159,10 +162,12 @@
         "accessibilityStatement": "Saavutettavuusseloste",
         "logoutSuccess": "Uloskirjautuminen onnnistui",
         "userDetails": "Omat ilmoittautumiset",
-        "transferEnrollment": "Siirrä ilmoittautuminen",
+        "transferRegistration": "Siirrä ilmoittautuminen",
         "confirmRegistration": "Vahvista ilmoittautuminen",
-        "notFound": "Etsimääsi sivua ei löytynyt"
-      }
+        "notFound": "Etsimääsi sivua ei löytynyt",
+        "expiredLoginLink": "Linkki on vanhentunut"
+      },
+      "previous": "Edellinen"
     }
   }
 }

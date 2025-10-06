@@ -1,0 +1,16 @@
+.clerk-free-registration {
+  &__filter-tabs {
+    &__tab {
+      padding: 0.5rem 1rem;
+
+      &.active {
+        color: #0033cc;
+        border-bottom: 2px solid #0033cc;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

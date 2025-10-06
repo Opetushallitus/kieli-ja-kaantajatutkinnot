@@ -25,5 +25,5 @@ export interface Dialog extends Notifier {
   description?: string;
   content?: React.ReactNode;
   actions?: Array<DialogButtonAction>;
-  paperClassName?: string
+  paperClassName?: string;
 }

@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import { Caption, H1, H2, H3, H4, H5, H6, Text } from './Text';
+import { Caption, H1, H2, H3, H4, H5, Text } from './Text';
 
 describe('Caption', () => {
   it('should render correctly', () => {
@@ -45,14 +45,6 @@ describe('H4', () => {
 describe('H5', () => {
   it('should render correctly', () => {
     const { container } = render(<H5>This is an H5</H5>);
-
-    expect(container).toMatchSnapshot();
-  });
-});
-
-describe('H6', () => {
-  it('should render correctly', () => {
-    const { container } = render(<H6>This is an H6</H6>);
 
     expect(container).toMatchSnapshot();
   });

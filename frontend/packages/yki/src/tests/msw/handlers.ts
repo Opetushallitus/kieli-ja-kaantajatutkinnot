@@ -6,11 +6,14 @@ import { PublicRegistrationInitRequest } from 'interfaces/publicRegistration';
 import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
+import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
+import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import {
   NoSessionResponse,
   //SuomiFiAuthenticatedSessionResponse,
 } from 'tests/msw/fixtures/identity';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
+import { organizers } from 'tests/msw/fixtures/organizers';
 import { personDetails } from 'tests/msw/fixtures/personDetails';
 import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/registrationInit';
 
@@ -168,5 +171,47 @@ export const handlers = [
     const redirect = url.searchParams.get('redirect');
 
     return HttpResponse.redirect(redirect as string);
+  }),
+  http.get('/yki/api/virkailija/organizer', () =>
+    HttpResponse.json(organizers),
+  ),
+  http.get('/yki/api/virkailija/free-registrations', ({ cookies }) => {
+    if (cookies['free-registration-error-500'] === '1') {
+      return HttpResponse.json({ error: 'forced error' }, { status: 500 });
+    }
+
+    return HttpResponse.json(freeRegistrations);
+  }),
+  http.get('/yki/api/virkailija/free-registrations/:id', ({ params }) => {
+    switch (params.id) {
+      case '1':
+        return HttpResponse.json(freeRegistrationDetails[0]);
+      case '2':
+        return HttpResponse.json(freeRegistrationDetails[1]);
+      case '3':
+        return HttpResponse.json(freeRegistrationDetails[2]);
+      case '4':
+        return HttpResponse.json(freeRegistrationDetails[3]);
+      case '5':
+        return HttpResponse.json(freeRegistrationDetails[4]);
+      case '6':
+        return HttpResponse.json(freeRegistrationDetails[5]);
+      case '7':
+        return HttpResponse.json(freeRegistrationDetails[6]);
+      case '8':
+        return HttpResponse.json(freeRegistrationDetails[7]);
+      case '9':
+        return HttpResponse.json(freeRegistrationDetails[8]);
+      case '10':
+        return HttpResponse.json(freeRegistrationDetails[9]);
+      case '11':
+        return HttpResponse.json(freeRegistrationDetails[10]);
+      case '12':
+        return HttpResponse.json(freeRegistrationDetails[11]);
+      case '13':
+        return HttpResponse.json(freeRegistrationDetails[12]);
+      default:
+        return notFound();
+    }
   }),
 ];

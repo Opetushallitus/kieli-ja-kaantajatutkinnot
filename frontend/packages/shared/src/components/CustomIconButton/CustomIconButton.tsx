@@ -1,8 +1,8 @@
 import { QuestionMark } from '@mui/icons-material';
 import { IconButton, IconButtonProps } from '@mui/material';
-import { FC, forwardRef } from 'react';
+import { forwardRef } from 'react';
 
-const CustomIconButton: FC<IconButtonProps> = forwardRef(
+const CustomIconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   (props: IconButtonProps, ref) => {
     return (
       <IconButton ref={ref} {...props} aria-disabled={props.disabled}>

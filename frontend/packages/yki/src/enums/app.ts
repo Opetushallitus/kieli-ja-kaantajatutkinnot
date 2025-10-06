@@ -15,10 +15,15 @@ export enum AppRoutes {
   ExamSession = '/yki/tutkintotilaisuus/:examSessionId',
   LogoutSuccess = '/yki/uloskirjautuminen-onnistui',
   UserDetails = '/yki/kayttaja/tiedot',
-  TransferEnrollment = '/yki/kayttaja/siirra/:registrationId',
-  TransferEnrollmentSuccess = '/yki/kayttaja/siirra/:registrationId/valmis',
+  TransferRegistration = '/yki/kayttaja/siirra/:registrationId',
+  TransferRegistrationSuccess = '/yki/kayttaja/siirra/:registrationId/valmis',
   ConfirmRegistration = '/yki/kayttaja/vahvista/:registrationId',
+  ExpiredLoginLinkPage = '/yki/linkki-vanhentunut/:code',
   NotFoundPage = '*',
+  ClerkRoot = '/yki/v2/virkailija',
+  ClerkOrganizerRegister = '/yki/v2/virkailija/jarjestajarekisteri',
+  ClerkFreeRegistration = '/yki/v2/virkailija/maksuttomuus',
+  ClerkFreeRegistrationDetails = '/yki/v2/virkailija/maksuttomuus/:id',
 }
 
 export enum HeaderTabNav {

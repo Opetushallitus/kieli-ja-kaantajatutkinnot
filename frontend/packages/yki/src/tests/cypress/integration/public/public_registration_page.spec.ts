@@ -10,6 +10,7 @@ import { SuomiFiAuthenticatedSessionResponse } from 'tests/msw/fixtures/identity
 describe('PublicRegistrationPage', () => {
   beforeEach(() => {
     cy.openPublicRegistrationPage();
+    cy.findByRole('button', { name: 'Hae' }).should('not.be.disabled');
   });
 
   it('is visible', () => {
@@ -123,7 +124,7 @@ describe('PublicRegistrationPage', () => {
         .click();
 
       onPublicRegistrationPage.alertModalContains(
-        'Olet jo ilmoittaunut tutkintoon',
+        'Olet jo ilmoittautunut YKI-testiin.',
       );
     });
 

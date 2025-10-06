@@ -8,6 +8,7 @@
       "back": "Tillbaka",
       "backToHomePage": "Tillbaka till startsidan",
       "cancel": "Avbryt",
+      "clerk": "Administratör",
       "component": {
         "table": {
           "header": {
@@ -21,7 +22,7 @@
             "displayedRowsAriaLabel": "Visar {{from}}-{{to}} / {{count}} resultat",
             "displayedRowsLabel": "{{from}}-{{to}} / {{count}}",
             "nextButtonLabel": "Följande sökresultat",
-            "rowsPerPage": "Resultat per sida"
+            "rowsPerPage": "Visar per sida"
           }
         }
       },
@@ -140,6 +141,7 @@
       },
       "reassessment": "Kontrollbedömning",
       "registration": "Anmälan",
+      "freeRegistration": "Maksuttomuus",
       "registrationPeriod": "Anmälningstid",
       "specialArrangementsLink": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-behover-du-specialarrangemang",
       "userRegistrations": "Mina anmälningar",
@@ -149,6 +151,7 @@
         "link": "https://www.oph.fi/sv/allmanna-sprakexamina-yki"
       },
       "pageTitle": {
+        "clerk": "Administratör",
         "registration": "Anmälning",
         "initRegistration": "Anmälning",
         "examDetails": "Test",
@@ -159,10 +162,12 @@
         "accessibilityStatement": "Tillgänglighetsutlåtande",
         "logoutSuccess": "Utloggning lyckades",
         "userDetails": "Mina anmälningar",
-        "transferEnrollment": "Flytta anmälan",
+        "transferRegistration": "Flytta anmälan",
         "confirmRegistration": "Bekräfta anmälan",
-        "notFound": "Sidan hittades inte"
-      }
+        "notFound": "Sidan hittades inte",
+        "expiredLoginLink": "Länken gäller inte längre"
+      },
+      "previous": "Tidigare"
     }
   }
 }
