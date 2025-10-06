@@ -103,15 +103,19 @@ public class AppConfig {
     @Value("${app.onr.cas.username}") final String casUsername,
     @Value("${app.onr.cas.password}") final String casPassword
   ) {
-    final CasConfig casConfig = CasConfig.SpringSessionCasConfig(
-      casUsername,
-      casPassword,
-      casUrl,
-      registerServiceUrl + "/kios",
-      Constants.CALLER_ID,
-      Constants.CALLER_ID
+    return CasClientBuilder.build(
+      new CasConfig.CasConfigBuilder(
+        casUsername,
+        casPassword,
+        casUrl,
+        registerServiceUrl,
+        Constants.CALLER_ID,
+        Constants.CALLER_ID,
+        "/j_spring_cas_security_check"
+      )
+        .setJsessionName("SESSION")
+        .build()
     );
-    return CasClientBuilder.build(casConfig);
   }
 
   @Bean
