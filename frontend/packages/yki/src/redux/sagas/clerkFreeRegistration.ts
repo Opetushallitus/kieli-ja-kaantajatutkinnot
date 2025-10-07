@@ -13,7 +13,7 @@ import { SerializationUtils } from 'utils/serialization';
 function* loadClerkFreeRegistrationsSaga() {
   try {
     const response: AxiosResponse<Array<ClerkFreeRegistrationResponse>> =
-      yield call(axiosInstance.get, '/yki/api/virkailija/free-registrations');
+      yield call(axiosInstance.get, '/yki/api/v1/clerk/registration/approvals');
     const freeRegistrations = response.data.map(
       SerializationUtils.deserializeClerkFreeRegistrationResponse,
     );

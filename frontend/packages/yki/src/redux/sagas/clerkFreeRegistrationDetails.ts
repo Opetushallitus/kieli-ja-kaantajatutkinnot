@@ -16,7 +16,7 @@ function* loadClerkFreeRegistrationDetailsSaga(action: PayloadAction<number>) {
     const response: AxiosResponse<ClerkFreeRegistrationDetailsResponse> =
       yield call(
         axiosInstance.get,
-        '/yki/api/virkailija/free-registrations/:id'.replace(
+        '/yki/api/v1/clerk/registration/approval/:id'.replace(
           /:id$/,
           `${action.payload}`,
         ),
