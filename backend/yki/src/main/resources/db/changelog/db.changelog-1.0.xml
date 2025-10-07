@@ -50,11 +50,30 @@
             <column name="other" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
+            <column name="registration_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
+    </changeSet>
 
-        <addColumn tableName="registration">
-            <column name="free_registration_id" type="BIGSERIAL"/>
-        </addColumn>
+    <changeSet id="2025-10-07-add-free-registration-attachments" author="jrkkp">
+        <createTable tableName="free_attachment">
+            <column autoIncrement="true" name="free_attachment_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="free_attachment_pkey"/>
+            </column>
+            <column name="free_registration_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="key" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="uploaded_file_attachment_key_uniq_idx"/>
+            </column>
+            <column name="filename" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+            <column name="size" type="INT">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
     </changeSet>
 
 </databaseChangeLog>

@@ -1,7 +1,6 @@
 package fi.oph.yki.model;
 
 import fi.oph.yki.model.type.RegistrationKind;
-import fi.oph.yki.model.type.RegistrationState;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,8 +20,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "registration")
-public class Registration {
+@Table(name = "exam_session")
+public class ExamSession {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,21 +29,6 @@ public class Registration {
   private long id;
 
   @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "person_oid", referencedColumnName = "oid")
-  private Person person;
-
-  @Column(name = "kind")
-  @Enumerated(value = EnumType.STRING)
-  private RegistrationKind kind;
-
-  @Column(name = "state")
-  @Enumerated(value = EnumType.STRING)
-  private RegistrationState state;
-
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "exam_session_id", referencedColumnName = "id")
-  private ExamSession examSession;
-
-  @OneToMany(fetch = FetchType.LAZY)
-  private List<FreeRegistration> freeRegistrations;
+  @JoinColumn(name = "exam_date_id", referencedColumnName = "id")
+  private ExamDate examDate;
 }

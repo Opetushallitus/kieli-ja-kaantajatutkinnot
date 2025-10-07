@@ -1,8 +1,8 @@
 package fi.oph.yki.api.dto.clerk;
 
-import fi.oph.yki.model.type.FreeRegistrationStatus;
 import fi.oph.yki.model.type.FreeRegistrationType;
 import fi.oph.yki.model.type.RegistrationLangOfCommunication;
+import fi.oph.yki.model.type.RegistrationState;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
@@ -13,13 +13,13 @@ import lombok.NonNull;
 public record ClerkApprovalDetailsDTO(
   @NonNull @NotNull ClerkRegistrationDTO registration,
   @NonNull @NotNull ClerkPersonDTO person,
-  @NonNull @NotNull FreeRegistrationStatus status,
-  @NonNull @NotNull FreeRegistrationType freeEnrollmentBasis,
+  @NonNull @NotNull RegistrationState status,
+  //@NonNull @NotNull FreeRegistrationType freeEnrollmentBasis,
   @NonNull @NotNull RegistrationLangOfCommunication languageOfCommunication,
   int freeEnrollmentsLeft,
-  LocalDate supplementRequestDueDate,
-  LocalDate assessmentDate,
-  LocalDate examDate,
+  String supplementRequestDueDate,
+  String assessmentDate,
+  String examDate,
   List<ClerkApprovalCommentDTO> comment,
   List<ClerkApprovalAttachmentsDTO> attachments
 ) {}

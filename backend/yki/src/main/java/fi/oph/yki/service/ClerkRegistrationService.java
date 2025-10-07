@@ -9,7 +9,10 @@ import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.type.RegistrationLangOfCommunication;
+import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.FreeRegistrationRepository;
+import fi.oph.yki.util.DateUtil;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -51,8 +54,15 @@ public class ClerkRegistrationService {
     final Registration registration = freeRegistration.getRegistration();
     final ClerkRegistrationDTO clerkRegistrationDTO = createClerkRegistrationDTO(registration);
     final ClerkPersonDTO clerkPersonDTO = createClerkPersonDTO(registration.getPerson());
+    final String examDate = DateUtil.formatOptionalLocalDate(registration.getExamSession().getExamDate().getExamDate());
 
-    return ClerkApprovalDTO.builder().person(clerkPersonDTO).registration(clerkRegistrationDTO).build();
+    return ClerkApprovalDTO
+      .builder()
+      .person(clerkPersonDTO)
+      .examDate(examDate)
+      .registration(clerkRegistrationDTO)
+      .status(registration.getState())
+      .build();
   }
 
   private ClerkPersonDTO createClerkPersonDTO(final Person person) {
@@ -68,13 +78,18 @@ public class ClerkRegistrationService {
   }
 
   private ClerkApprovalDetailsDTO createClerkApprovalDetailsDTO(final FreeRegistration freeRegistration) {
+    final Registration registration = freeRegistration.getRegistration();
     final ClerkRegistrationDTO clerkRegistrationDTO = createClerkRegistrationDTO(freeRegistration.getRegistration());
-    final ClerkPersonDTO clerkPersonDTO = ClerkPersonDTO.builder().build();
+    final ClerkPersonDTO clerkPersonDTO = createClerkPersonDTO(registration.getPerson());
+    final String examDate = DateUtil.formatOptionalLocalDate(registration.getExamSession().getExamDate().getExamDate());
 
     return ClerkApprovalDetailsDTO
       .builder()
       .person(clerkPersonDTO)
       .registration(clerkRegistrationDTO)
+      .examDate(examDate)
+      .status(registration.getState())
+      .languageOfCommunication(RegistrationLangOfCommunication.FI)
       .attachments(createClerkApprovalAttachmentsDTO(freeRegistration))
       .build();
   }

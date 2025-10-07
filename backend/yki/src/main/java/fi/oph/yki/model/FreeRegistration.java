@@ -10,8 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.List;
 import lombok.Getter;
@@ -28,7 +28,7 @@ public class FreeRegistration {
   @Column(name = "free_registration_id", nullable = false)
   private long id;
 
-  @OneToOne(mappedBy = "freeRegistration", fetch = FetchType.LAZY, optional = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
   private Registration registration;
 
   @Column(name = "source", nullable = false)
@@ -60,6 +60,6 @@ public class FreeRegistration {
   private Boolean other;
 
   @OneToMany(fetch = FetchType.LAZY)
-  @JoinColumn(name = "free_registration_id", referencedColumnName = "free_registration_id")
-  List<FreeRegistrationAttachment> attachments;
+  @JoinColumn(name = "free_attachment_id")
+  private List<FreeAttachment> attachments;
 }
