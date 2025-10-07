@@ -829,7 +829,8 @@
             "point3": "Voit perua ilmoittautumisen.",
             "point4": "Voit katsoa ne tutkinnot, joihin olet jonossa, ja ottaa paikan vastaan jonosta.",
             "point5": "Jos YKI-testiin vapautuu paikka, voit ottaa sen vastaan.",
-            "point6": "Voit perua ilmoittautumisen jonoon."
+            "point6": "Voit perua ilmoittautumisen jonoon.",
+            "point7": "Voit muokata yhteystietojasi."
           },
           "info": "Katso ja muokkaa ilmoittautumisiasi YKI-testeihin."
         },

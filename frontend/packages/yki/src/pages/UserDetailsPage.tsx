@@ -472,17 +472,17 @@ export const UserDetailsPage: FC = () => {
         upcomingRegistrations[0]?.positionInQueue ||
         upcomingRegistrations[0]?.liftedFromQueueAt
       ) {
-        return ['point5', 'point6'].map((point, i) => (
+        return ['point5', 'point6', 'point7'].map((point, i) => (
           <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
         ));
       } else {
-        return ['point2', 'point4'].map((point, i) => (
+        return ['point2', 'point4', 'point7'].map((point, i) => (
           <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
         ));
       }
     }
 
-    return ['point1', 'point2', 'point3', 'point4'].map((point, i) => (
+    return ['point1', 'point2', 'point3', 'point4', 'point7'].map((point, i) => (
       <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
     ));
   };

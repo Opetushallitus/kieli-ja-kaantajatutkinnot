@@ -640,11 +640,11 @@
       "modifyContactDetailsPage": {
         "buttons": {
           "cancel": "Cancel",
-          "save": "Tallenna yhteystiedot"
+          "save": "Save contact information"
         },
         "description": {
-          "part1": "Lähetämme todistuksen sinulle postitse.",
-          "part2": "Tarkista, että olet antanut oikean osoitteen."
+          "part1": "We will send you the certificate by post.",
+          "part2": "Please check that you have provided the correct address."
         },
         "errorDialog": {
           "fixErrors": "Check and correct the following information:",
@@ -667,9 +667,9 @@
           "zip": ""
         },
         "toast": {
-          "success": "Yhteystiedot tallennettu onnistuneesti"
+          "success": "The contact information has been saved"
         },
-        "title": "Muokkaa yhteystietoja"
+        "title": "Edit contact information"
       },
       "notFoundPage": {
         "description": "Please check the website address or return to the front page.",
@@ -830,7 +830,8 @@
             "point3": "You can cancel your registration.",
             "point4": "You can view the tests for which you are on the waiting list and accept a place in a test from the waiting list.",
             "point5": "If a place in the YKI test opens up, you can accept it.",
-            "point6": "You can cancel your waiting list registration."
+            "point6": "You can cancel your waiting list registration.",
+            "point7": "You can edit your contact information."
           },
           "info": "View and edit your registrations for YKI tests."
         },

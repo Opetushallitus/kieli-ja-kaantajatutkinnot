@@ -639,11 +639,11 @@
       "modifyContactDetailsPage": {
         "buttons": {
           "cancel": "Avbryt",
-          "save": "Tallenna yhteystiedot"
+          "save": "Spara kontaktuppgifterna"
         },
         "description": {
-          "part1": "Lähetämme todistuksen sinulle postitse.",
-          "part2": "Tarkista, että olet antanut oikean osoitteen."
+          "part1": "Vi skickar intyget till dig per post.",
+          "part2": "Kontrollera att du har uppgett rätt adress."
         },
         "errorDialog": {
           "fixErrors": "Fyll i uppgifterna som saknas eller korrigera felaktiga uppgifter:",
@@ -666,9 +666,9 @@
           "zip": ""
         },
         "toast": {
-          "success": "Yhteystiedot tallennettu onnistuneesti"
+          "success": "Kontaktuppgifterna har sparats"
         },
-        "title": "Muokkaa yhteystietoja"
+        "title": "Redigera kontaktuppgifterna"
       },
       "notFoundPage": {
         "description": "Kontrollera webbadressen eller gå tillbaka till startsidan.",
@@ -829,7 +829,8 @@
             "point3": "Du kan annullera din anmälan.",
             "point4": "Du kan se de examina som du köar för och ta emot en plats som du köat till.",
             "point5": "Om en plats på YKI-testet blir ledig kan du ta emot den.",
-            "point6": "Du kan annullera din anmälan till en köplats."
+            "point6": "Du kan annullera din anmälan till en köplats.",
+            "point7": "Du kan redigera dina kontaktuppgifter."
           },
           "info": "Se och ändra dina anmälningar till YKI-testet."
         },
