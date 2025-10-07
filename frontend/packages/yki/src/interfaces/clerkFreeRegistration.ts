@@ -16,6 +16,9 @@ export type FreeRegistrationStatus =
   | 'INFORMATION_REQUEST_ANSWERED'
   | 'INFORMATION_REQUEST_EXPIRED';
 
+// exported in cypress which is excluded from root tsconfig.json
+// so would give error otherwise
+// ts-unused-exports:disable-next-line
 export type Registration =
   | {
       kind: 'ADMISSION';
@@ -80,7 +83,10 @@ interface ExamSessionResponse extends Omit<ExamSession, 'examDate'> {
   examDate: string;
 }
 
-type FreeRegistrationBasis =
+// exported in cypress which is excluded from root tsconfig.json
+// so would give error otherwise
+// ts-unused-exports:disable-next-line
+export type FreeRegistrationBasis =
   | 'MATRICULATION_EXAMINATION'
   | 'HIGHER_EDUCATION_DEGREE'
   | 'HIGHER_EDUCATION_STUDIES'

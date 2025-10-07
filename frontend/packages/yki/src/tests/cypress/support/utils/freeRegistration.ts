@@ -1,9 +1,15 @@
 import dayjs from 'dayjs';
 import { DateUtils } from 'shared/utils';
 
-import { Registration } from 'interfaces/clerkFreeRegistration';
+import {
+  FreeRegistrationBasis,
+  FreeRegistrationStatus,
+  Registration,
+} from 'interfaces/clerkFreeRegistration';
 
-export const getFreeRegistrationStatusText = (status: string) => {
+export const getFreeRegistrationStatusText = (
+  status: FreeRegistrationStatus,
+) => {
   switch (status) {
     case 'PENDING':
       return 'Maksuttomuus tarkastamatta';
@@ -22,7 +28,7 @@ export const getFreeRegistrationStatusText = (status: string) => {
   }
 };
 
-export const getFreeRegistrationBasisText = (basis: string) => {
+export const getFreeRegistrationBasisText = (basis: FreeRegistrationBasis) => {
   switch (basis) {
     case 'MATRICULATION_EXAMINATION':
       return 'Opiskellut Suomessa: ylioppilastutkinto';
