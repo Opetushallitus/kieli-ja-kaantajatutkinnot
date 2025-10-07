@@ -2,16 +2,26 @@ import { createSelector } from 'reselect';
 
 import { RootState } from 'configs/redux';
 import { ClerkFreeRegistration } from 'interfaces/clerkFreeRegistration';
-import { FreeRegistrationSort } from 'redux/reducers/clerkFreeRegistration';
 
 export const clerkFreeRegistrationSelector = (state: RootState) =>
-  state.clerkFreeEnrollmment;
+  state.clerkFreeRegistration;
 
 export const selectFilteredFreeRegistrations = createSelector(
-  (state: RootState) => state.clerkFreeEnrollmment.freeRegistrations,
-  (state: RootState) => state.clerkFreeEnrollmment.sort,
-  (freeRegistrations: ClerkFreeRegistration[], _sort: FreeRegistrationSort) => {
-    // TODO: Implement sorting
-    return freeRegistrations;
+  (state: RootState) => state.clerkFreeRegistration.freeRegistrations,
+  (freeRegistrations: ClerkFreeRegistration[]) => {
+    // Default sort exam date laskeva
+    return [...freeRegistrations].sort((a, b) => {
+      const aValue = a['examDate']?.valueOf();
+      const bValue = b['examDate']?.valueOf();
+
+      switch (true) {
+        case aValue > bValue:
+          return 1;
+        case aValue < bValue:
+          return -1;
+        default:
+          return 0;
+      }
+    });
   },
 );

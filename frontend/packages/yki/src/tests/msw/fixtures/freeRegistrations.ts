@@ -8,7 +8,7 @@ export const freeRegistrations = [
     },
     status: 'PENDING',
     supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
-    examDate: '2025-11-22T00:00:00.000Z',
+    examDate: '2025-11-21T00:00:00.000Z',
     registration: {
       kind: 'ADMISSION',
     },
@@ -36,7 +36,7 @@ export const freeRegistrations = [
     },
     status: 'APPROVED',
     assessmentDate: '2025-11-10T00:00:00.000Z',
-    examDate: '2025-11-22T00:00:00.000Z',
+    examDate: '2025-11-23T00:00:00.000Z',
     registration: {
       kind: 'QUEUE',
       positionInQueue: 5,
@@ -81,7 +81,7 @@ export const freeRegistrations = [
     },
     status: 'INFORMATION_REQUEST_ANSWERED',
     supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
-    examDate: '2025-11-22T00:00:00.000Z',
+    examDate: '2025-11-24T00:00:00.000Z',
     registration: {
       kind: 'ADMISSION',
     },
@@ -95,7 +95,7 @@ export const freeRegistrations = [
     },
     status: 'PENDING',
     supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
-    examDate: '2025-11-22T00:00:00.000Z',
+    examDate: '2025-11-25T00:00:00.000Z',
     registration: {
       kind: 'ADMISSION',
     },
@@ -109,7 +109,7 @@ export const freeRegistrations = [
     },
     status: 'PENDING',
     supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
-    examDate: '2025-11-22T00:00:00.000Z',
+    examDate: '2025-11-26T00:00:00.000Z',
     registration: {
       kind: 'ADMISSION',
     },
@@ -123,7 +123,7 @@ export const freeRegistrations = [
     },
     status: 'PENDING',
     supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
-    examDate: '2025-11-22T00:00:00.000Z',
+    examDate: '2025-11-27T00:00:00.000Z',
     registration: {
       kind: 'ADMISSION',
     },
@@ -151,7 +151,7 @@ export const freeRegistrations = [
     },
     status: 'PENDING',
     supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
-    examDate: '2025-11-22T00:00:00.000Z',
+    examDate: '2025-11-23T00:00:00.000Z',
     registration: {
       kind: 'ADMISSION',
     },
@@ -165,7 +165,7 @@ export const freeRegistrations = [
     },
     status: 'PENDING',
     supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
-    examDate: '2025-11-22T00:00:00.000Z',
+    examDate: '2025-11-24T00:00:00.000Z',
     registration: {
       kind: 'ADMISSION',
     },
@@ -179,7 +179,7 @@ export const freeRegistrations = [
     },
     status: 'PENDING',
     supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
-    examDate: '2025-11-22T00:00:00.000Z',
+    examDate: '2025-11-25T00:00:00.000Z',
     registration: {
       kind: 'ADMISSION',
     },

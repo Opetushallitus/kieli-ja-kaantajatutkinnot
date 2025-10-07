@@ -182,7 +182,7 @@ export const handlers = [
   }),
   http.get('/yki/api/clerk/free-registrations/:id', ({ params }) => {
     const index = params?.id ? Number(params.id) - 1 : NaN;
-    if (index && freeRegistrationDetails[index]) {
+    if (index >= 0) {
       return HttpResponse.json(freeRegistrationDetails[index]);
     } else {
       return notFound();

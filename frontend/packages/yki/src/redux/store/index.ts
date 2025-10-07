@@ -41,7 +41,7 @@ export const rootReducer = combineReducers({
   userOpenRegistrations: userOpenRegistrationsReducer,
   userDetails: userDetailsReducer,
   clerkOrganizer: clerkOrganizersReducer,
-  clerkFreeEnrollmment: clerkFreeRegistrationReducer,
+  clerkFreeRegistration: clerkFreeRegistrationReducer,
   clerkFreeRegistrationDetails: clerkFreeRegistrationDetailsReducer,
 });
 

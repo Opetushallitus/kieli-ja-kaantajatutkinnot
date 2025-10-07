@@ -67,28 +67,28 @@ class ClerkFreeRegistrationDetailsPage {
         name: 'Lähetä lisätietopyyntö',
       }).should('be.visible');
       cy.findByRole('button', {
-        name: 'Hyväksy maksuttomuus',
-      }).should('not.be.visible');
+        name: 'Hylkää maksuttomuus',
+      }).should('not.exist');
     } else if (details.status === 'APPROVED') {
       cy.findByRole('button', { name: 'Hylkää maksuttomuus' }).should(
         'be.visible',
       );
       cy.findByRole('button', {
         name: 'Hyväksy maksuttomuus',
-      }).should('not.be.visible');
+      }).should('not.exist');
       cy.findByRole('button', {
         name: 'Lähetä lisätietopyyntö',
-      }).should('not.be.visible');
+      }).should('not.exist');
     } else if (details.status === 'REJECTED') {
       cy.findByRole('button', { name: 'Hyväksy maksuttomuus' }).should(
         'be.visible',
       );
       cy.findByRole('button', {
         name: 'Hylkää maksuttomuus',
-      }).should('not.be.visible');
+      }).should('not.exist');
       cy.findByRole('button', {
         name: 'Lähetä lisätietopyyntö',
-      }).should('not.be.visible');
+      }).should('not.exist');
     } else if (
       details.status === 'INFORMATION_REQUESTED' ||
       details.status === 'INFORMATION_REQUEST_ANSWERED' ||

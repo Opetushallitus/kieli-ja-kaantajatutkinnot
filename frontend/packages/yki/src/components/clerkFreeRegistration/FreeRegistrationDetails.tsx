@@ -103,8 +103,8 @@ export const ClerkFreeRegistrationDetails = () => {
       return (
         <>
           <OphButton
-            variant="contained"
-            style={{ backgroundColor: 'white', color: '0033CC' }}
+            variant="outlined"
+            style={{ backgroundColor: 'white', color: '#0033CC' }}
           >
             {t('details.buttons.sendInformationRequest')}
           </OphButton>
@@ -232,7 +232,7 @@ export const ClerkFreeRegistrationDetails = () => {
             {t('details.fields.registrationType')}
           </Typography>
           <Typography fontWeight={500}>
-            {t('details.fields.dueDate')}
+            {t('details.fields.supplementRequestDueDate')}
           </Typography>
           <Typography fontWeight={500}>
             {t('details.fields.extraInformation')}

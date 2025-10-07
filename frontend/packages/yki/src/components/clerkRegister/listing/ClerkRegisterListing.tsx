@@ -77,7 +77,7 @@ export const ClerkRegisterListing = ({
     ),
   });
 
-  const createMunincipalityColumn = (
+  const createMunicipalityColumn = (
     t: typeof i18next.t,
   ): ListTableColumn<ClerkOrganizerType> => ({
     key: 'munincipality',
@@ -88,7 +88,7 @@ export const ClerkRegisterListing = ({
   const columns = [
     createOrganizerColumn(t),
     createAgreementsColumn(t),
-    createMunincipalityColumn(t),
+    createMunicipalityColumn(t),
   ];
 
   const dispatch = useAppDispatch();

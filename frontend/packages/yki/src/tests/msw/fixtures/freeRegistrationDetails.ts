@@ -16,7 +16,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       id: 1,
       language: ExamLanguage.FIN,
       level: ExamLevel.KESKI,
-      examDate: '2025-11-22T00:00:00.000Z',
+      examDate: '2025-11-21T00:00:00.000Z',
     },
     languageOfCommunication: 'fi',
     registration: {
@@ -77,7 +77,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       id: 1,
       language: ExamLanguage.SWE,
       level: ExamLevel.KESKI,
-      examDate: '2025-11-22T00:00:00.000Z',
+      examDate: '2025-11-23T00:00:00.000Z',
     },
     languageOfCommunication: 'en',
     registration: {
@@ -174,7 +174,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       id: 1,
       language: ExamLanguage.SWE,
       level: ExamLevel.KESKI,
-      examDate: '2025-11-22T00:00:00.000Z',
+      examDate: '2025-11-24T00:00:00.000Z',
     },
     languageOfCommunication: 'en',
     registration: {
@@ -204,7 +204,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       id: 1,
       language: ExamLanguage.FIN,
       level: ExamLevel.KESKI,
-      examDate: '2025-11-22T00:00:00.000Z',
+      examDate: '2025-11-25T00:00:00.000Z',
     },
     languageOfCommunication: 'fi',
     registration: {
@@ -234,7 +234,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       id: 1,
       language: ExamLanguage.FIN,
       level: ExamLevel.KESKI,
-      examDate: '2025-11-22T00:00:00.000Z',
+      examDate: '2025-11-26T00:00:00.000Z',
     },
     languageOfCommunication: 'fi',
     registration: {
@@ -264,7 +264,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       id: 1,
       language: ExamLanguage.FIN,
       level: ExamLevel.KESKI,
-      examDate: '2025-11-22T00:00:00.000Z',
+      examDate: '2025-11-27T00:00:00.000Z',
     },
     languageOfCommunication: 'fi',
     registration: {

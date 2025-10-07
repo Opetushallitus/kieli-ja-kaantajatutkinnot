@@ -45,9 +45,11 @@ export const ClerkFreeRegistrationListing = ({
   activeTab,
 }: ClerkRegisterListingProps) => {
   const { status } = useAppSelector(clerkFreeRegistrationSelector);
+  const dispatch = useAppDispatch();
   const filteredFreeRegistrations = useAppSelector(
     selectFilteredFreeRegistrations,
   );
+
   const rows = filteredFreeRegistrations.filter((registration) =>
     activeTab === 'pending'
       ? [
@@ -153,8 +155,8 @@ export const ClerkFreeRegistrationListing = ({
   const createDueDateColumn = (
     t: typeof i18next.t,
   ): ListTableColumn<ClerkFreeRegistration> => ({
-    key: 'dueDate',
-    title: t('listing.header.dueDate'),
+    key: 'supplementRequestDueDate',
+    title: t('listing.header.supplementRequestDueDate'),
     render: (rowProps) => (
       <Typography>
         {rowProps.supplementRequestDueDate
@@ -239,7 +241,6 @@ export const ClerkFreeRegistrationListing = ({
     createActionColumn(t),
   ];
 
-  const dispatch = useAppDispatch();
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
       dispatch(loadClerkFreeRegistrations());
@@ -276,7 +277,6 @@ export const ClerkFreeRegistrationListing = ({
             columns={columns}
             translateHeader={false}
             pagination={pagination}
-            setSort={() => {}}
           />
         </>
       );

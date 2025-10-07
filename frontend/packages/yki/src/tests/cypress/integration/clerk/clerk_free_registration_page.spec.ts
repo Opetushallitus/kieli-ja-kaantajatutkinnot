@@ -36,7 +36,7 @@ describe('ClerkFreeRegistrationPage', () => {
       'Testi1 Testaaja112233-99991.2.246.562.10.39706139511',
       'Maksuttomuus tarkastamatta',
       '11.11.2025',
-      '22.11.2025',
+      '21.11.2025',
     ]);
   });
 

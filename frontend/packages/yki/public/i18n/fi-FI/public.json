@@ -63,7 +63,7 @@
           "header": {
             "person": "Nimi",
             "status": "Tarkastuksen tila",
-            "dueDate": "Lisätietopyynnön eräpäivä",
+            "supplementRequestDueDate": "Lisätietopyynnön eräpäivä",
             "assessmentDate": "Tarkastuksen päivämäärä",
             "examDate": "Tutkinnon pvm",
             "registration": "Ilmoittautuminen",
@@ -100,7 +100,7 @@
             "freeRegistrationsLeft": "Maksuttomia kertoja jäljellä",
             "languageOfCommunication": "Asiointikieli",
             "registrationType": "Ilmoittautunut vai jono",
-            "dueDate": "Lisätietopyynnön eräpäivä",
+            "supplementRequestDueDate": "Lisätietopyynnön eräpäivä",
             "extraInformation": "Lisätiedot"
           },
           "freeRegistrationBasis": {
