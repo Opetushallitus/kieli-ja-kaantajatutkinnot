@@ -31,4 +31,10 @@ public class ExamSession {
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "exam_date_id", referencedColumnName = "id")
   private ExamDate examDate;
+
+  @Column(name = "language_code")
+  private String language;
+
+  @Column(name = "level_code")
+  private String level;
 }

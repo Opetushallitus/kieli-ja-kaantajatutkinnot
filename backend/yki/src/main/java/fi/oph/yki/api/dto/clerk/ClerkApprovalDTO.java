@@ -7,10 +7,11 @@ import lombok.NonNull;
 
 @Builder
 public record ClerkApprovalDTO(
+  @NonNull @NotNull Long id,
   @NonNull @NotNull ClerkRegistrationDTO registration,
   @NonNull @NotNull ClerkPersonDTO person,
   @NonNull @NotNull RegistrationState status,
   String supplementRequestDueDate,
   String assessmentDate,
-  String examDate
+  @NonNull @NotNull String examDate
 ) {}

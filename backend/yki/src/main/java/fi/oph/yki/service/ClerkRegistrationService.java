@@ -3,9 +3,11 @@ package fi.oph.yki.service;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalAttachmentsDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalDetailsDTO;
+import fi.oph.yki.api.dto.clerk.ClerkApprovalExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
+import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
@@ -54,10 +56,11 @@ public class ClerkRegistrationService {
     final Registration registration = freeRegistration.getRegistration();
     final ClerkRegistrationDTO clerkRegistrationDTO = createClerkRegistrationDTO(registration);
     final ClerkPersonDTO clerkPersonDTO = createClerkPersonDTO(registration.getPerson());
-    final String examDate = DateUtil.formatOptionalLocalDate(registration.getExamSession().getExamDate().getExamDate());
+    final String examDate = DateUtil.formatOptionalDate(registration.getExamSession().getExamDate().getExamDate());
 
     return ClerkApprovalDTO
       .builder()
+      .id(freeRegistration.getId())
       .person(clerkPersonDTO)
       .examDate(examDate)
       .registration(clerkRegistrationDTO)
@@ -70,6 +73,7 @@ public class ClerkRegistrationService {
       .builder()
       .oid(person.getOid())
       .fullName(person.getFirstName() + " " + person.getLastName())
+      .socialSecurityNumber("-") // TODO
       .build();
   }
 
@@ -81,16 +85,28 @@ public class ClerkRegistrationService {
     final Registration registration = freeRegistration.getRegistration();
     final ClerkRegistrationDTO clerkRegistrationDTO = createClerkRegistrationDTO(freeRegistration.getRegistration());
     final ClerkPersonDTO clerkPersonDTO = createClerkPersonDTO(registration.getPerson());
-    final String examDate = DateUtil.formatOptionalLocalDate(registration.getExamSession().getExamDate().getExamDate());
+    final ExamSession examSession = registration.getExamSession();
+    final String examDate = DateUtil.formatOptionalDate(examSession.getExamDate().getExamDate());
+    final ClerkApprovalExamSessionDTO examSessionDTO = ClerkApprovalExamSessionDTO
+      .builder()
+      .id(examSession.getId())
+      .examDate(examDate)
+      .language(examSession.getLanguage())
+      .level(examSession.getLevel())
+      .build();
 
     return ClerkApprovalDetailsDTO
       .builder()
+      .id(freeRegistration.getId())
       .person(clerkPersonDTO)
       .registration(clerkRegistrationDTO)
-      .examDate(examDate)
+      .examSession(examSessionDTO)
       .status(registration.getState())
-      .languageOfCommunication(RegistrationLangOfCommunication.FI)
+      .languageOfCommunication(RegistrationLangOfCommunication.FI) // TODO
       .attachments(createClerkApprovalAttachmentsDTO(freeRegistration))
+      .freeRegistrationBasis("MATRICULATION_EXAMINATION") // TODO
+      .freeRegistrationsLeft(2) // TODO
+      .comments(List.of()) // TODO
       .build();
   }
 

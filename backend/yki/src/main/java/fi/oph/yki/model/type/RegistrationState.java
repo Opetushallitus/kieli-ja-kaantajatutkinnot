@@ -2,6 +2,7 @@ package fi.oph.yki.model.type;
 
 public enum RegistrationState {
   EXPIRED,
+  PENDING,
   COMPLETED,
   STARTED,
   SUBMITTED,

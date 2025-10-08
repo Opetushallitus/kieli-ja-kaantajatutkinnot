@@ -6,4 +6,8 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record ClerkPersonDTO(@NonNull @NotBlank String oid, @NonNull @NotBlank String fullName) {}
+public record ClerkPersonDTO(
+  @NonNull @NotBlank String oid,
+  @NonNull @NotBlank String fullName,
+  @NonNull @NotBlank String socialSecurityNumber
+) {}
