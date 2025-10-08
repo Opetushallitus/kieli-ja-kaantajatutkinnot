@@ -80,8 +80,8 @@ export const ClerkRegisterListing = ({
   const createMunicipalityColumn = (
     t: typeof i18next.t,
   ): ListTableColumn<ClerkOrganizerType> => ({
-    key: 'munincipality',
-    title: t('header.munincipality'),
+    key: 'municipality',
+    title: t('header.municipality'),
     render: (rowProps) => <span>{rowProps.contact_name}</span>,
   });
 

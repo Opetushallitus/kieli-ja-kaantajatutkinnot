@@ -4,8 +4,12 @@
 // Base
 @import 'base/base';
 
+// yki clerk colors
+@import 'colors/yki-clerk';
+
 // Components
 @import 'components/layouts/header';
+@import 'components/layouts/clerk-header';
 @import 'components/layouts/footer';
 @import 'components/layouts/session-header';
 @import 'components/registration/exam-session-filters';

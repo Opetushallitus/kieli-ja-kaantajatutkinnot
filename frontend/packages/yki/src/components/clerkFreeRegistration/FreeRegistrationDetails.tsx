@@ -148,21 +148,21 @@ export const ClerkFreeRegistrationDetails = () => {
       case 'PENDING':
         return (
           <>
-            <ClockIcon color="error" style={{ fontSize: '2rem' }} />
+            <ClockIcon color="error" fontSize="large" />
             <span>{t(`status.${registrationDetails.status}.part1`)}</span>
           </>
         );
       case 'APPROVED':
         return (
           <>
-            <CheckCircle color="success" style={{ fontSize: '2rem' }} />
+            <CheckCircle color="success" fontSize="large" />
             <span>{t(`status.${registrationDetails.status}.part1`)}</span>
           </>
         );
       case 'INFORMATION_REQUESTED':
         return (
           <>
-            <HourglassBottom color="success" style={{ fontSize: '2rem' }} />
+            <HourglassBottom color="success" fontSize="large" />
             <span>
               {t(`status.${registrationDetails.status}.part1`)}{' '}
               {t(`status.${registrationDetails.status}.part2`)}
@@ -172,7 +172,7 @@ export const ClerkFreeRegistrationDetails = () => {
       case 'INFORMATION_REQUEST_ANSWERED':
         return (
           <>
-            <ClockIcon color="error" style={{ fontSize: '2rem' }} />
+            <ClockIcon color="error" fontSize="large" />
             <span>
               {t(`status.${registrationDetails.status}.part1`)}{' '}
               {t(`status.${registrationDetails.status}.part2`)}
@@ -182,7 +182,7 @@ export const ClerkFreeRegistrationDetails = () => {
       case 'INFORMATION_REQUEST_EXPIRED':
         return (
           <>
-            <ClockIcon color="error" style={{ fontSize: '2rem' }} />
+            <ClockIcon color="error" fontSize="large" />
             <span>
               {t(`status.${registrationDetails.status}.part1`)}{' '}
               {t(`status.${registrationDetails.status}.part2`)}
@@ -192,7 +192,7 @@ export const ClerkFreeRegistrationDetails = () => {
       case 'REJECTED':
         return (
           <>
-            <BlockFlipped color="error" style={{ fontSize: '2rem' }} />
+            <BlockFlipped color="error" fontSize="large" />
             <span>{t(`status.${registrationDetails.status}.part1`)}</span>
           </>
         );

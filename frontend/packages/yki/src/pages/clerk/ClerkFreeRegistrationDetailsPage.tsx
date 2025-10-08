@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ClerkFreeRegistrationDetails } from 'components/clerkFreeRegistration/FreeRegistrationDetails';
 import { usePublicTranslation } from 'configs/i18n';
+import { AppRoutes } from 'enums/app';
 
 export const ClerkFreeRegistrationDetailsPage: FC = () => {
   const { t } = usePublicTranslation({
@@ -18,23 +19,13 @@ export const ClerkFreeRegistrationDetailsPage: FC = () => {
       <Typography variant="h2" component={'div'}>
         <div className="columns gapped-xs">
           <IconButton
-            onClick={() => navigate(-1)}
-            style={{
-              backgroundColor: 'white',
-              borderRadius: '4px',
-              borderColor: 'blue',
-              borderWidth: '2px',
-              borderStyle: 'solid',
-            }}
+            color="secondary"
+            className="clerk-free-registration-details-page__home-button"
+            onClick={() => navigate(AppRoutes.ClerkFreeRegistration)}
           >
-            <HomeOutlined
-              style={{
-                fontSize: '2rem',
-                color: 'blue',
-              }}
-            />
+            <HomeOutlined color="secondary" fontSize="large" />
           </IconButton>
-          <ChevronRight style={{ color: 'grey', fontSize: '2rem' }} />
+          <ChevronRight color="disabled" fontSize="large" />
           {t('heading')}
         </div>
       </Typography>

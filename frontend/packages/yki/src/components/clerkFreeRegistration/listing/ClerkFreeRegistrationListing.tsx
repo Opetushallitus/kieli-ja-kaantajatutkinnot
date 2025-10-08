@@ -75,7 +75,7 @@ export const ClerkFreeRegistrationListing = ({
       case 'PENDING':
         return (
           <div className="columns gapped-xxs align-items-center">
-            <ClockIcon color="warning" style={{ fontSize: '2rem' }} />
+            <ClockIcon color="warning" fontSize="large" />
             <Typography style={{ fontWeight: '600' }}>
               {t(`status.${status}.part1`)}
             </Typography>
@@ -84,7 +84,7 @@ export const ClerkFreeRegistrationListing = ({
       case 'APPROVED':
         return (
           <div className="columns gapped-xxs align-items-center">
-            <CheckCircle color="success" style={{ fontSize: '2rem' }} />
+            <CheckCircle color="success" fontSize="large" />
             <Typography style={{ fontWeight: '600' }}>
               {t(`status.${status}.part1`)}
             </Typography>
@@ -93,7 +93,7 @@ export const ClerkFreeRegistrationListing = ({
       case 'INFORMATION_REQUESTED':
         return (
           <div className="columns gapped-xxs align-items-start">
-            <HourglassBottom color="success" style={{ fontSize: '2rem' }} />
+            <HourglassBottom color="success" fontSize="large" />
             <div className="rows gapped-xxs">
               <Typography style={{ fontWeight: '600' }}>
                 {t(`status.${status}.part1`)}
@@ -105,7 +105,7 @@ export const ClerkFreeRegistrationListing = ({
       case 'INFORMATION_REQUEST_ANSWERED':
         return (
           <div className="columns gapped-xxs align-items-start">
-            <ClockIcon color="error" style={{ fontSize: '2rem' }} />
+            <ClockIcon color="error" fontSize="large" />
             <div className="rows gapped-xxs">
               <Typography style={{ fontWeight: '600' }}>
                 {t(`status.${status}.part1`)}
@@ -117,7 +117,7 @@ export const ClerkFreeRegistrationListing = ({
       case 'REJECTED':
         return (
           <div className="columns gapped-xxs align-items-center">
-            <BlockFlipped color="error" style={{ fontSize: '2rem' }} />
+            <BlockFlipped color="error" fontSize="large" />
             <Typography style={{ fontWeight: '600' }}>
               {t(`status.${status}.part1`)}
             </Typography>

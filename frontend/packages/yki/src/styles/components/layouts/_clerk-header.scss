@@ -1,0 +1,10 @@
+.clerk-header {
+  background-color: #ffffff;
+  color: $text-color-primary;
+
+  &__tabs {
+    grid-area: tabs;
+    align-self: flex-end;
+    justify-self: start;
+  }
+}
