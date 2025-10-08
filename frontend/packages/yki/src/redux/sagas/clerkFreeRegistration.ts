@@ -29,7 +29,7 @@ function* loadClerkFreeRegistrationsSaga() {
 
 function* approveFreeRegistrationSaga() {
   try {
-    yield call(axiosInstance.put, '/api/v1/clerk/registration/approval');
+    yield call(axiosInstance.put, APIEndpoints.ApproveClerkFreeRegistration);
     yield put(acceptFreeRegistrationApproval());
   } catch (error) {
     yield put(rejectFreeRegistrationApproval());

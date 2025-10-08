@@ -3,28 +3,22 @@ import {
   CheckCircle,
   HourglassBottom,
 } from '@mui/icons-material';
-import CloseIcon from '@mui/icons-material/Close';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Box, Divider, TextField } from '@mui/material';
+import { Divider, TextField } from '@mui/material';
 import { ClockIcon } from '@mui/x-date-pickers';
 import { OphButton, ophColors } from '@opetushallitus/oph-design-system';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  CustomButton,
-  CustomModal,
-  Text as TextComponent,
-} from 'shared/components';
-import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { APIResponseStatus, Severity, Variant } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
+import { FreeRegistrationModal } from 'components/clerkFreeRegistration/FreeRegistrationModal';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { FreeRegistrationStatus } from 'interfaces/clerkFreeRegistration';
 import { Label, Text } from 'ophTheme/Text';
-import { approveFreeRegistration } from 'redux/reducers/clerkFreeRegistration';
 import {
   loadClerkFreeRegistrationDetails,
   resetClerkFreeRegistrationDetails,
@@ -58,6 +52,8 @@ export const ClerkFreeRegistrationDetails = () => {
 
   const translateLevel = (level: string) =>
     translateCommon('languageLevel.' + level);
+
+  const [isAproveModalOpen, setIsApproveModal] = useState(false);
 
   useEffect(() => {
     if (
@@ -98,8 +94,6 @@ export const ClerkFreeRegistrationDetails = () => {
     }
   }, [registrationDetails, approvalStatus, showToast, t]);
 
-  const [modalOpen, handleModal] = React.useState(false);
-
   if (!registrationDetails) {
     return null;
   }
@@ -117,63 +111,10 @@ export const ClerkFreeRegistrationDetails = () => {
           <OphButton
             variant={Variant.Contained}
             style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
-            onClick={() => handleModal(true)}
+            onClick={() => setIsApproveModal(true)}
           >
             {t('details.buttons.approveFreeRegistration')}
           </OphButton>
-          <CustomModal
-            open={modalOpen}
-            onCloseModal={() => handleModal(false)}
-            aria-labelledby="modal-title"
-            modalTitle={
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="flex-start"
-                gap={1}
-              >
-                {t('details.modal.title')}
-                <CloseIcon
-                  color={Color.Primary}
-                  aria-hidden={true}
-                  onClick={() => handleModal(false)}
-                />
-              </Box>
-            }
-          >
-            <div className="rows gapped">
-              <TextComponent
-                className="margin-top"
-                style={{ fontSize: '0.8em' }}
-              >
-                {t('details.modal.subTitle')}
-              </TextComponent>
-
-              <div className="columns gapped flex-end">
-                <CustomButton
-                  data-testid="freeregistration-modal__cancel"
-                  variant={Variant.Outlined}
-                  color={Color.Primary}
-                  style={{ fontSize: '0.8em' }}
-                  onClick={() => handleModal(false)}
-                >
-                  {translateCommon('cancel')}
-                </CustomButton>
-                <CustomButton
-                  data-testid="freeregistration-modal__approve"
-                  variant={Variant.Contained}
-                  color={Color.Primary}
-                  style={{ fontSize: '0.8em' }}
-                  onClick={() => {
-                    dispatch(approveFreeRegistration());
-                    handleModal(false);
-                  }}
-                >
-                  {t('details.buttons.approveFreeRegistration')}
-                </CustomButton>
-              </div>
-            </div>
-          </CustomModal>
         </>
       );
     } else if (
@@ -284,6 +225,10 @@ export const ClerkFreeRegistrationDetails = () => {
 
   return (
     <div className="rows gapped free-registration-details">
+      <FreeRegistrationModal
+        isAproveModalOpen={isAproveModalOpen}
+        setIsApproveModal={setIsApproveModal}
+      />
       <div>
         <b>{`${registrationDetails.person.firstName} ${registrationDetails.person.lastName}`}</b>{' '}
         <Text>{`(${registrationDetails.person.socialSecurityNumber})`}</Text>
