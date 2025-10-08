@@ -19,11 +19,12 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { FreeRegistrationStatus } from 'interfaces/clerkFreeRegistration';
 import { Label, Text } from 'ophTheme/Text';
+import { FreeRegistrationApprovalStatus } from 'redux/reducers/clerkFreeRegistration';
 import {
   loadClerkFreeRegistrationDetails,
   resetClerkFreeRegistrationDetails,
 } from 'redux/reducers/clerkFreeRegistrationDetails';
-import { freeRegistrationsStatusSelector } from 'redux/selectors/clerkFreeRegistration';
+import { freeRegistrationApprovalStatusSelector } from 'redux/selectors/clerkFreeRegistration';
 import { clerkFreeRegistrationDetailsSelector } from 'redux/selectors/clerkFreeRegistrationDetails';
 
 export const ClerkFreeRegistrationDetails = () => {
@@ -45,6 +46,8 @@ export const ClerkFreeRegistrationDetails = () => {
     clerkFreeRegistrationDetailsSelector,
   );
 
+  const approvalStatus = useAppSelector(freeRegistrationApprovalStatusSelector);
+
   const translateCommon = useCommonTranslation();
 
   const translateLanguage = (language: string) =>
@@ -53,7 +56,8 @@ export const ClerkFreeRegistrationDetails = () => {
   const translateLevel = (level: string) =>
     translateCommon('languageLevel.' + level);
 
-  const [isAproveModalOpen, setIsApproveModal] = useState(false);
+  const [isApproveModalOpen, setIsApproveModal] = useState(false);
+  const [isRejectModalOpen, setIsRejectModal] = useState(false);
 
   useEffect(() => {
     if (
@@ -78,21 +82,33 @@ export const ClerkFreeRegistrationDetails = () => {
     };
   }, [dispatch]);
 
-  const approvalStatus = useAppSelector(freeRegistrationsStatusSelector);
-
   useEffect(() => {
-    if (approvalStatus === APIResponseStatus.Success) {
+    if (approvalStatus === FreeRegistrationApprovalStatus.ApprovalSuccess) {
       showToast({
         severity: Severity.Success,
-        description: t('toasts.approvalConfirmed'),
+        description: t('details.toasts.approvalConfirmed'),
       });
-    } else if (approvalStatus === APIResponseStatus.Error) {
+    } else if (
+      approvalStatus === FreeRegistrationApprovalStatus.ApprovalError
+    ) {
       showToast({
         severity: Severity.Error,
-        description: t('toasts.approvalFailed'),
+        description: t('details.toasts.approvalFailed'),
+      });
+    } else if (
+      approvalStatus === FreeRegistrationApprovalStatus.RejectSuccess
+    ) {
+      showToast({
+        severity: Severity.Success,
+        description: t('details.toasts.rejectConfirmed'),
+      });
+    } else if (approvalStatus === FreeRegistrationApprovalStatus.RejectError) {
+      showToast({
+        severity: Severity.Error,
+        description: t('details.toasts.rejectFailed'),
       });
     }
-  }, [registrationDetails, approvalStatus, showToast, t]);
+  }, [approvalStatus, showToast, t]);
 
   if (!registrationDetails) {
     return null;
@@ -112,8 +128,21 @@ export const ClerkFreeRegistrationDetails = () => {
             variant={Variant.Contained}
             style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
             onClick={() => setIsApproveModal(true)}
+            disabled={
+              approvalStatus === FreeRegistrationApprovalStatus.RejectSuccess
+            }
           >
             {t('details.buttons.approveFreeRegistration')}
+          </OphButton>
+          <OphButton
+            variant="contained"
+            style={{ backgroundColor: '#0033CC', color: 'white' }}
+            onClick={() => setIsRejectModal(true)}
+            disabled={
+              approvalStatus === FreeRegistrationApprovalStatus.ApprovalSuccess
+            }
+          >
+            {t('details.buttons.rejectFreeRegistration')}
           </OphButton>
         </>
       );
@@ -226,8 +255,10 @@ export const ClerkFreeRegistrationDetails = () => {
   return (
     <div className="rows gapped free-registration-details">
       <FreeRegistrationModal
-        isAproveModalOpen={isAproveModalOpen}
+        isApproveModalOpen={isApproveModalOpen}
         setIsApproveModal={setIsApproveModal}
+        isRejectModalOpen={isRejectModalOpen}
+        setIsRejectModal={setIsRejectModal}
       />
       <div>
         <b>{`${registrationDetails.person.firstName} ${registrationDetails.person.lastName}`}</b>{' '}

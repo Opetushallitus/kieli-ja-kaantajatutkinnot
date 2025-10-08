@@ -69,4 +69,20 @@ describe('ClerkFreeRegistrationDetailsPage', () => {
 
     onToast.expectText('Maksuttomuuden hyväksyminen onnistui');
   });
+
+  it('rejects a free registration from details page', () => {
+    const id = 1;
+    cy.openClerkFreeRegistrationDetailsPage(id);
+
+    // Click approve modal
+    cy.findByRole('button', { name: 'Hylkää maksuttomuus' }).click();
+
+    // Exepect the modal to be visible
+    cy.findByText('Vahvista maksuttomuuden hylkääminen').should('be.visible');
+
+    // Click confirm button in modal
+    cy.findByRole('button', { name: 'Hylkää maksuttomuus' }).click();
+
+    onToast.expectText('Maksuttomuuden hylkääminen onnistui');
+  });
 });

@@ -3,16 +3,26 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkFreeRegistration } from 'interfaces/clerkFreeRegistration';
 
+export enum FreeRegistrationApprovalStatus {
+  NotStarted,
+  ApprovalInProgress,
+  ApprovalSuccess,
+  ApprovalError,
+  RejectInProgress,
+  RejectSuccess,
+  RejectError,
+}
+
 interface ClerkFreeRegistrationState {
   freeRegistrations: Array<ClerkFreeRegistration>;
   status: APIResponseStatus;
-  registrationStatus: APIResponseStatus;
+  registrationApprovalStatus: FreeRegistrationApprovalStatus;
 }
 
 const initialState: ClerkFreeRegistrationState = {
   freeRegistrations: [],
   status: APIResponseStatus.NotStarted,
-  registrationStatus: APIResponseStatus.NotStarted,
+  registrationApprovalStatus: FreeRegistrationApprovalStatus.NotStarted,
 };
 
 const clerkFreeRegistrationSlice = createSlice({
@@ -32,14 +42,20 @@ const clerkFreeRegistrationSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.freeRegistrations = action.payload;
     },
+
+    setFreeRegistrationStatus(
+      state,
+      action: PayloadAction<FreeRegistrationApprovalStatus>,
+    ) {
+      state.registrationApprovalStatus = action.payload;
+    },
     approveFreeRegistration(state) {
-      state.registrationStatus = APIResponseStatus.InProgress;
+      state.registrationApprovalStatus =
+        FreeRegistrationApprovalStatus.ApprovalInProgress;
     },
-    acceptFreeRegistrationApproval(state) {
-      state.registrationStatus = APIResponseStatus.Success;
-    },
-    rejectFreeRegistrationApproval(state) {
-      state.registrationStatus = APIResponseStatus.Error;
+    rejectFreeRegistration(state) {
+      state.registrationApprovalStatus =
+        FreeRegistrationApprovalStatus.RejectInProgress;
     },
   },
 });
@@ -49,7 +65,7 @@ export const {
   loadClerkFreeRegistrations,
   rejectClerkFreeRegistrations,
   storeClerkFreeRegistrations,
+  setFreeRegistrationStatus,
   approveFreeRegistration,
-  acceptFreeRegistrationApproval,
-  rejectFreeRegistrationApproval,
+  rejectFreeRegistration,
 } = clerkFreeRegistrationSlice.actions;

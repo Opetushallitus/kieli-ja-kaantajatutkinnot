@@ -26,5 +26,5 @@ export const selectFilteredFreeRegistrations = createSelector(
   },
 );
 
-export const freeRegistrationsStatusSelector = (state: RootState) =>
-  state.clerkFreeRegistration.registrationStatus;
+export const freeRegistrationApprovalStatusSelector = (state: RootState) =>
+  state.clerkFreeRegistration.registrationApprovalStatus;
