@@ -7,6 +7,8 @@ import fi.oph.yki.api.dto.clerk.ClerkApprovalExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
+import fi.oph.yki.audit.AuditService;
+import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
@@ -25,9 +27,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClerkRegistrationService {
 
   private final FreeRegistrationRepository freeRegistrationRepository;
+  private final AuditService auditService;
 
   @Transactional(readOnly = true)
   public List<ClerkApprovalDTO> listApprovals() {
+    auditService.logOperation(YkiOperation.LIST_APPROVALS);
+
     final List<FreeRegistration> freeRegistrationList = freeRegistrationRepository.findApprovals();
 
     return freeRegistrationList.stream().map(this::createClerkApprovalDTO).toList();
@@ -35,6 +40,8 @@ public class ClerkRegistrationService {
 
   @Transactional(readOnly = true)
   public ClerkApprovalDetailsDTO getApproval(final Long freeRegistrationId) {
+    auditService.logOperation(YkiOperation.GET_APPROVAL);
+
     final FreeRegistration freeRegistration = freeRegistrationRepository.getReferenceById(freeRegistrationId);
 
     return createClerkApprovalDetailsDTO(freeRegistration);
@@ -42,6 +49,8 @@ public class ClerkRegistrationService {
 
   @Transactional
   public ClerkApprovalDTO updateApproval(final ClerkApprovalUpdateDTO dto) {
+    auditService.logOperation(YkiOperation.UPDATE_APPROVAL);
+
     final FreeRegistration freeRegistration = freeRegistrationRepository.getReferenceById(dto.id());
 
     freeRegistration.setApproved(dto.approved());

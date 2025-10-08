@@ -10,5 +10,4 @@ public record ClerkApprovalExamSessionDTO(
   @NonNull @NotNull String examDate,
   @NonNull @NotNull String language,
   @NonNull @NotNull String level
-) {
-}
+) {}

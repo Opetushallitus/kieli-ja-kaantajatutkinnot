@@ -3,7 +3,6 @@ package fi.oph.yki.api.dto.clerk;
 import fi.oph.yki.model.type.RegistrationLangOfCommunication;
 import fi.oph.yki.model.type.RegistrationState;
 import jakarta.validation.constraints.NotNull;
-
 import java.util.List;
 import lombok.Builder;
 import lombok.NonNull;
