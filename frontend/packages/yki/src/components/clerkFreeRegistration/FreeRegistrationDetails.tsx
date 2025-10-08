@@ -4,12 +4,12 @@ import {
   HourglassBottom,
 } from '@mui/icons-material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Divider, TextField, Typography } from '@mui/material';
+import { Divider, TextField } from '@mui/material';
 import { ClockIcon } from '@mui/x-date-pickers';
 import { OphButton } from '@opetushallitus/oph-design-system';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { APIResponseStatus, Severity } from 'shared/enums';
+import { APIResponseStatus, Severity, Variant } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
@@ -17,6 +17,7 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { FreeRegistrationStatus } from 'interfaces/clerkFreeRegistration';
+import { Label, Text } from 'ophTheme/Text';
 import {
   loadClerkFreeRegistrationDetails,
   resetClerkFreeRegistrationDetails,
@@ -82,13 +83,13 @@ export const ClerkFreeRegistrationDetails = () => {
       return (
         <>
           <OphButton
-            variant="contained"
+            variant={Variant.Outlined}
             style={{ backgroundColor: '#0033CC', color: 'white' }}
           >
             {t('details.buttons.sendInformationRequest')}
           </OphButton>
           <OphButton
-            variant="contained"
+            variant={Variant.Contained}
             style={{ backgroundColor: '#0033CC', color: 'white' }}
           >
             {t('details.buttons.approveFreeRegistration')}
@@ -103,19 +104,19 @@ export const ClerkFreeRegistrationDetails = () => {
       return (
         <>
           <OphButton
-            variant="outlined"
+            variant={Variant.Outlined}
             style={{ backgroundColor: 'white', color: '#0033CC' }}
           >
             {t('details.buttons.sendInformationRequest')}
           </OphButton>
           <OphButton
-            variant="contained"
+            variant={Variant.Contained}
             style={{ backgroundColor: '#0033CC', color: 'white' }}
           >
             {t('details.buttons.approveFreeRegistration')}
           </OphButton>
           <OphButton
-            variant="contained"
+            variant={Variant.Contained}
             style={{ backgroundColor: '#0033CC', color: 'white' }}
           >
             {t('details.buttons.rejectFreeRegistration')}
@@ -125,7 +126,7 @@ export const ClerkFreeRegistrationDetails = () => {
     } else if (registrationDetails.status === 'REJECTED') {
       return (
         <OphButton
-          variant="contained"
+          variant={Variant.Contained}
           style={{ backgroundColor: '#0033CC', color: 'white' }}
         >
           {t('details.buttons.approveFreeRegistration')}
@@ -135,7 +136,7 @@ export const ClerkFreeRegistrationDetails = () => {
 
     return (
       <OphButton
-        variant="contained"
+        variant={Variant.Contained}
         style={{ backgroundColor: '#0033CC', color: 'white' }}
       >
         {t('details.buttons.rejectFreeRegistration')}
@@ -149,51 +150,51 @@ export const ClerkFreeRegistrationDetails = () => {
         return (
           <>
             <ClockIcon color="error" fontSize="large" />
-            <span>{t(`status.${registrationDetails.status}.part1`)}</span>
+            <Text>{t(`status.${registrationDetails.status}.part1`)}</Text>
           </>
         );
       case 'APPROVED':
         return (
           <>
             <CheckCircle color="success" fontSize="large" />
-            <span>{t(`status.${registrationDetails.status}.part1`)}</span>
+            <Text>{t(`status.${registrationDetails.status}.part1`)}</Text>
           </>
         );
       case 'INFORMATION_REQUESTED':
         return (
           <>
             <HourglassBottom color="success" fontSize="large" />
-            <span>
+            <Text>
               {t(`status.${registrationDetails.status}.part1`)}{' '}
               {t(`status.${registrationDetails.status}.part2`)}
-            </span>
+            </Text>
           </>
         );
       case 'INFORMATION_REQUEST_ANSWERED':
         return (
           <>
             <ClockIcon color="error" fontSize="large" />
-            <span>
+            <Text>
               {t(`status.${registrationDetails.status}.part1`)}{' '}
               {t(`status.${registrationDetails.status}.part2`)}
-            </span>
+            </Text>
           </>
         );
       case 'INFORMATION_REQUEST_EXPIRED':
         return (
           <>
             <ClockIcon color="error" fontSize="large" />
-            <span>
+            <Text>
               {t(`status.${registrationDetails.status}.part1`)}{' '}
               {t(`status.${registrationDetails.status}.part2`)}
-            </span>
+            </Text>
           </>
         );
       case 'REJECTED':
         return (
           <>
             <BlockFlipped color="error" fontSize="large" />
-            <span>{t(`status.${registrationDetails.status}.part1`)}</span>
+            <Text>{t(`status.${registrationDetails.status}.part1`)}</Text>
           </>
         );
       default:
@@ -205,7 +206,7 @@ export const ClerkFreeRegistrationDetails = () => {
     <div className="rows gapped free-registration-details">
       <div>
         <b>{registrationDetails.person.fullName}</b>{' '}
-        <span>{`(${registrationDetails.person.socialSecurityNumber})`}</span>
+        <Text>{`(${registrationDetails.person.socialSecurityNumber})`}</Text>
         <div>
           {translateLanguage(registrationDetails.examSession.language)}
           {' - '}
@@ -216,27 +217,15 @@ export const ClerkFreeRegistrationDetails = () => {
           )}
         </div>
       </div>
-      <div className="columns gapped-xs align-items-start">
+      <div className="columns gapped-xxl align-items-start">
         <div className="rows gapped-xs">
-          <Typography fontWeight={500}>{t('details.fields.status')}</Typography>
-          <Typography fontWeight={500}>
-            {t('details.fields.freeRegistrationBasis')}
-          </Typography>
-          <Typography fontWeight={500}>
-            {t('details.fields.freeRegistrationsLeft')}
-          </Typography>
-          <Typography fontWeight={500}>
-            {t('details.fields.languageOfCommunication')}
-          </Typography>
-          <Typography fontWeight={500}>
-            {t('details.fields.registrationType')}
-          </Typography>
-          <Typography fontWeight={500}>
-            {t('details.fields.supplementRequestDueDate')}
-          </Typography>
-          <Typography fontWeight={500}>
-            {t('details.fields.extraInformation')}
-          </Typography>
+          <Label>{t('details.fields.status')}</Label>
+          <Label>{t('details.fields.freeRegistrationBasis')}</Label>
+          <Label>{t('details.fields.freeRegistrationsLeft')}</Label>
+          <Label>{t('details.fields.languageOfCommunication')}</Label>
+          <Label>{t('details.fields.registrationType')}</Label>
+          <Label>{t('details.fields.supplementRequestDueDate')}</Label>
+          <Label>{t('details.fields.extraInformation')}</Label>
         </div>
         <div className="rows gapped-xs">
           <div>
@@ -254,7 +243,11 @@ export const ClerkFreeRegistrationDetails = () => {
               amount: registrationDetails.freeRegistrationsLeft,
             })}
           </div>
-          <div>{registrationDetails.languageOfCommunication}</div>
+          <div>
+            {t(
+              `details.languageOfCommunication.${registrationDetails.languageOfCommunication}`,
+            )}
+          </div>
           <div>
             {registrationDetails.registration.kind === 'ADMISSION'
               ? t('details.registrationStatus.enrolled')
@@ -284,8 +277,8 @@ export const ClerkFreeRegistrationDetails = () => {
       <div style={{ maxWidth: '700px' }} className="rows gapped-xxl">
         <div className="rows gapped-xs">
           <div className="columns space-between">
-            <span>{t('details.attachments.attachment')}</span>
-            <span>{t('details.attachments.arrivedAt')}</span>
+            <Text>{t('details.attachments.attachment')}</Text>
+            <Text>{t('details.attachments.arrivedAt')}</Text>
           </div>
           <Divider />
           {registrationDetails.attachments.map((attachment, index) => (
@@ -322,7 +315,7 @@ export const ClerkFreeRegistrationDetails = () => {
             fullWidth
           />
           <div className="columns flex-end">
-            <OphButton variant="outlined">
+            <OphButton variant={Variant.Outlined}>
               {t('details.comments.save')}
             </OphButton>
           </div>

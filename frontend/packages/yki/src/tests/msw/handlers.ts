@@ -172,15 +172,15 @@ export const handlers = [
 
     return HttpResponse.redirect(redirect as string);
   }),
-  http.get('/yki/api/clerk/organizer', () => HttpResponse.json(organizers)),
-  http.get('/yki/api/clerk/free-registrations', ({ cookies }) => {
+  http.get(APIEndpoints.ClerkOrganizer, () => HttpResponse.json(organizers)),
+  http.get(APIEndpoints.ClerkFreeRegistration, ({ cookies }) => {
     if (cookies['free-registration-error-500'] === '1') {
       return HttpResponse.json({ error: 'forced error' }, { status: 500 });
     }
 
     return HttpResponse.json(freeRegistrations);
   }),
-  http.get('/yki/api/clerk/free-registrations/:id', ({ params }) => {
+  http.get(APIEndpoints.ClerkFreeRegistrationDetails, ({ params }) => {
     const index = params?.id ? Number(params.id) - 1 : NaN;
     if (index >= 0) {
       return HttpResponse.json(freeRegistrationDetails[index]);

@@ -21,7 +21,7 @@
             "organizer": "Järjestäjä",
             "agreements": "Kielitutkintosopimukset",
             "municipality": "Paikkakunta",
-            "searchResults": "123 järjestäjää"
+            "searchResults": "({{count}}) järjestäjää"
           },
           "agreementExpired": "Sopimus vanhentunut",
           "errors": {

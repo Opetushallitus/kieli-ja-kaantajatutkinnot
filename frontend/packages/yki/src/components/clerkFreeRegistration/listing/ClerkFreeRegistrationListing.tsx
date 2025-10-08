@@ -3,7 +3,6 @@ import {
   CheckCircle,
   HourglassBottom,
 } from '@mui/icons-material';
-import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { ClockIcon } from '@mui/x-date-pickers';
 import i18next from 'i18next';
@@ -23,6 +22,7 @@ import {
   ClerkFreeRegistration,
   FreeRegistrationStatus,
 } from 'interfaces/clerkFreeRegistration';
+import { Text } from 'ophTheme/Text';
 import { loadClerkFreeRegistrations } from 'redux/reducers/clerkFreeRegistration';
 import {
   clerkFreeRegistrationSelector,
@@ -76,18 +76,14 @@ export const ClerkFreeRegistrationListing = ({
         return (
           <div className="columns gapped-xxs align-items-center">
             <ClockIcon color="warning" fontSize="large" />
-            <Typography style={{ fontWeight: '600' }}>
-              {t(`status.${status}.part1`)}
-            </Typography>
+            <Text className="bold">{t(`status.${status}.part1`)}</Text>
           </div>
         );
       case 'APPROVED':
         return (
           <div className="columns gapped-xxs align-items-center">
             <CheckCircle color="success" fontSize="large" />
-            <Typography style={{ fontWeight: '600' }}>
-              {t(`status.${status}.part1`)}
-            </Typography>
+            <Text className="bold">{t(`status.${status}.part1`)}</Text>
           </div>
         );
       case 'INFORMATION_REQUESTED':
@@ -95,10 +91,8 @@ export const ClerkFreeRegistrationListing = ({
           <div className="columns gapped-xxs align-items-start">
             <HourglassBottom color="success" fontSize="large" />
             <div className="rows gapped-xxs">
-              <Typography style={{ fontWeight: '600' }}>
-                {t(`status.${status}.part1`)}
-              </Typography>
-              <Typography>{t(`status.${status}.part2`)}</Typography>
+              <Text className="bold">{t(`status.${status}.part1`)}</Text>
+              <Text>{t(`status.${status}.part2`)}</Text>
             </div>
           </div>
         );
@@ -107,10 +101,8 @@ export const ClerkFreeRegistrationListing = ({
           <div className="columns gapped-xxs align-items-start">
             <ClockIcon color="error" fontSize="large" />
             <div className="rows gapped-xxs">
-              <Typography style={{ fontWeight: '600' }}>
-                {t(`status.${status}.part1`)}
-              </Typography>
-              <Typography>{t(`status.${status}.part2`)}</Typography>
+              <Text className="bold">{t(`status.${status}.part1`)}</Text>
+              <Text>{t(`status.${status}.part2`)}</Text>
             </div>
           </div>
         );
@@ -118,9 +110,7 @@ export const ClerkFreeRegistrationListing = ({
         return (
           <div className="columns gapped-xxs align-items-center">
             <BlockFlipped color="error" fontSize="large" />
-            <Typography style={{ fontWeight: '600' }}>
-              {t(`status.${status}.part1`)}
-            </Typography>
+            <Text className="bold">{t(`status.${status}.part1`)}</Text>
           </div>
         );
       default:
@@ -137,9 +127,9 @@ export const ClerkFreeRegistrationListing = ({
     title: t('listing.header.person'),
     render: (rowProps) => (
       <div className="rows gapped-xs">
-        <Typography>{rowProps.person.fullName}</Typography>
-        <Typography>{rowProps.person.socialSecurityNumber}</Typography>
-        <Typography>{rowProps.person.oid}</Typography>
+        <Text>{rowProps.person.fullName}</Text>
+        <Text>{rowProps.person.socialSecurityNumber}</Text>
+        <Text>{rowProps.person.oid}</Text>
       </div>
     ),
   });
@@ -158,11 +148,11 @@ export const ClerkFreeRegistrationListing = ({
     key: 'supplementRequestDueDate',
     title: t('listing.header.supplementRequestDueDate'),
     render: (rowProps) => (
-      <Typography>
+      <Text>
         {rowProps.supplementRequestDueDate
           ? DateUtils.formatOptionalDate(rowProps.supplementRequestDueDate, 'l')
           : ''}
-      </Typography>
+      </Text>
     ),
   });
 
@@ -172,11 +162,11 @@ export const ClerkFreeRegistrationListing = ({
     key: 'assessmentDate',
     title: t('listing.header.assessmentDate'),
     render: (rowProps) => (
-      <Typography>
+      <Text>
         {rowProps.assessmentDate
           ? DateUtils.formatOptionalDate(rowProps.assessmentDate, 'l')
           : ''}
-      </Typography>
+      </Text>
     ),
   });
 
@@ -186,9 +176,7 @@ export const ClerkFreeRegistrationListing = ({
     key: 'examDate',
     title: t('listing.header.examDate'),
     render: (rowProps) => (
-      <Typography>
-        {DateUtils.formatOptionalDate(rowProps.examDate, 'l')}
-      </Typography>
+      <Text>{DateUtils.formatOptionalDate(rowProps.examDate, 'l')}</Text>
     ),
   });
 
@@ -198,14 +186,14 @@ export const ClerkFreeRegistrationListing = ({
     key: 'registration',
     title: t('listing.header.registration'),
     render: (rowProps) => (
-      <Typography>
+      <Text>
         {rowProps.registration.kind === 'ADMISSION'
           ? t('listing.registrationStatus.enrolled')
           : t('listing.registrationStatus.queued', {
               positionInQueue: rowProps.registration.positionInQueue,
               queue: rowProps.registration.queue,
             })}
-      </Typography>
+      </Text>
     ),
   });
 
