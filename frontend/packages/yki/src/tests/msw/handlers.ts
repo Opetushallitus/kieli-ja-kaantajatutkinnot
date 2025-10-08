@@ -175,14 +175,14 @@ export const handlers = [
   http.get('/yki/api/virkailija/organizer', () =>
     HttpResponse.json(organizers),
   ),
-  http.get('/yki/api/virkailija/free-registrations', ({ cookies }) => {
+  http.get('/yki/api/v1/clerk/registration/approvals', ({ cookies }) => {
     if (cookies['free-registration-error-500'] === '1') {
       return HttpResponse.json({ error: 'forced error' }, { status: 500 });
     }
 
     return HttpResponse.json(freeRegistrations);
   }),
-  http.get('/yki/api/virkailija/free-registrations/:id', ({ params }) => {
+  http.get('/yki/api/v1/clerk/registration/approval/:id', ({ params }) => {
     switch (params.id) {
       case '1':
         return HttpResponse.json(freeRegistrationDetails[0]);
