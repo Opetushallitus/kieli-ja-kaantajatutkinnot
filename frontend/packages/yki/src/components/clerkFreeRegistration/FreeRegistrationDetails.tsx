@@ -56,8 +56,8 @@ export const ClerkFreeRegistrationDetails = () => {
   const translateLevel = (level: string) =>
     translateCommon('languageLevel.' + level);
 
-  const [isApproveModalOpen, setIsApproveModal] = useState(false);
-  const [isRejectModalOpen, setIsRejectModal] = useState(false);
+  const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
+  const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
   useEffect(() => {
     if (
@@ -127,7 +127,7 @@ export const ClerkFreeRegistrationDetails = () => {
           <OphButton
             variant={Variant.Contained}
             style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
-            onClick={() => setIsApproveModal(true)}
+            onClick={() => setIsApproveModalOpen(true)}
             disabled={
               approvalStatus === FreeRegistrationApprovalStatus.RejectSuccess
             }
@@ -137,7 +137,7 @@ export const ClerkFreeRegistrationDetails = () => {
           <OphButton
             variant="contained"
             style={{ backgroundColor: '#0033CC', color: 'white' }}
-            onClick={() => setIsRejectModal(true)}
+            onClick={() => setIsRejectModalOpen(true)}
             disabled={
               approvalStatus === FreeRegistrationApprovalStatus.ApprovalSuccess
             }
@@ -256,9 +256,9 @@ export const ClerkFreeRegistrationDetails = () => {
     <div className="rows gapped free-registration-details">
       <FreeRegistrationModal
         isApproveModalOpen={isApproveModalOpen}
-        setIsApproveModal={setIsApproveModal}
+        setIsApproveModal={setIsApproveModalOpen}
         isRejectModalOpen={isRejectModalOpen}
-        setIsRejectModal={setIsRejectModal}
+        setIsRejectModal={setIsRejectModalOpen}
       />
       <div>
         <b>{`${registrationDetails.person.firstName} ${registrationDetails.person.lastName}`}</b>{' '}

@@ -1,18 +1,15 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { Box } from '@mui/material';
-import { useEffect } from 'react';
 import { CustomButton, CustomModal, Text } from 'shared/components';
-import { Color, Severity, Variant } from 'shared/enums';
-import { useToast } from 'shared/hooks';
+import { Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { useAppDispatch } from 'configs/redux';
+import { H1 } from 'ophTheme/Text';
 import {
   approveFreeRegistration,
-  FreeRegistrationApprovalStatus,
   rejectFreeRegistration,
 } from 'redux/reducers/clerkFreeRegistration';
-import { freeRegistrationApprovalStatusSelector } from 'redux/selectors/clerkFreeRegistration';
 
 type FreeRegistrationModalProps = {
   isApproveModalOpen: boolean;
@@ -46,10 +43,11 @@ export const FreeRegistrationModal = ({
             alignItems="flex-start"
             gap={1}
           >
-            {t('details.modals.approve.title')}
+            <H1>{t('details.modals.approve.title')}</H1>
             <CloseIcon
               color={Color.Primary}
               aria-hidden={true}
+              fontSize="large"
               onClick={() => setIsApproveModal(false)}
             />
           </Box>
@@ -62,7 +60,6 @@ export const FreeRegistrationModal = ({
 
           <div className="columns gapped flex-end">
             <CustomButton
-              data-testid="freeregistration-modal__cancel"
               variant={Variant.Outlined}
               color={Color.Primary}
               onClick={() => setIsApproveModal(false)}
@@ -70,7 +67,6 @@ export const FreeRegistrationModal = ({
               {translateCommon('cancel')}
             </CustomButton>
             <CustomButton
-              data-testid="freeregistration-modal__approve"
               variant={Variant.Contained}
               color={Color.Primary}
               onClick={() => {
@@ -95,10 +91,11 @@ export const FreeRegistrationModal = ({
             alignItems="flex-start"
             gap={1}
           >
-            {t('details.modals.reject.title')}
+            <H1>{t('details.modals.reject.title')}</H1>
             <CloseIcon
               color={Color.Primary}
               aria-hidden={true}
+              fontSize="large"
               onClick={() => setIsRejectModal(false)}
             />
           </Box>
@@ -111,7 +108,6 @@ export const FreeRegistrationModal = ({
 
           <div className="columns gapped flex-end">
             <CustomButton
-              data-testid="freeregistration-modal__cancel"
               variant={Variant.Outlined}
               color={Color.Primary}
               onClick={() => setIsRejectModal(false)}
@@ -119,7 +115,6 @@ export const FreeRegistrationModal = ({
               {translateCommon('cancel')}
             </CustomButton>
             <CustomButton
-              data-testid="freeregistration-modal__approve"
               variant={Variant.Contained}
               color={Color.Primary}
               onClick={() => {
