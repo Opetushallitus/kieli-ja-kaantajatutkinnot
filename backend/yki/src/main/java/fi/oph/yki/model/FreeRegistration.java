@@ -1,6 +1,7 @@
 package fi.oph.yki.model;
 
 import fi.oph.yki.model.type.FreeRegistrationSource;
+import fi.oph.yki.model.type.FreeRegistrationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -35,11 +36,12 @@ public class FreeRegistration {
   @Enumerated(value = EnumType.STRING)
   private FreeRegistrationSource source;
 
-  @Column(name = "approved")
-  Boolean approved;
+  @Column(name = "type", nullable = false)
+  @Enumerated(value = EnumType.STRING)
+  private FreeRegistrationType type;
 
-  @Column(name = "comment")
-  String comment;
+  @Column(name = "approved")
+  private Boolean approved;
 
   @Column(name = "matriculation_exam", nullable = false)
   private Boolean matriculationExam;
@@ -62,4 +64,8 @@ public class FreeRegistration {
   @OneToMany(fetch = FetchType.LAZY)
   @JoinColumn(name = "free_attachment_id")
   private List<FreeAttachment> attachments;
+
+  @OneToMany(fetch = FetchType.LAZY)
+  @JoinColumn(name = "free_comment_id")
+  private List<FreeComment> comments;
 }

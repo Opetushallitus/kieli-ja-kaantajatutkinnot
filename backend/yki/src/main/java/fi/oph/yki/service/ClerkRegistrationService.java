@@ -1,6 +1,7 @@
 package fi.oph.yki.service;
 
 import fi.oph.yki.api.dto.clerk.ClerkApprovalAttachmentsDTO;
+import fi.oph.yki.api.dto.clerk.ClerkApprovalCommentDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalDetailsDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalExamSessionDTO;
@@ -14,7 +15,6 @@ import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.RegistrationLangOfCommunication;
-import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.util.DateUtil;
 import java.util.List;
@@ -53,12 +53,19 @@ public class ClerkRegistrationService {
 
     final FreeRegistration freeRegistration = freeRegistrationRepository.getReferenceById(dto.id());
 
-    freeRegistration.setApproved(dto.approved());
-    freeRegistration.setComment(dto.comment());
-
     freeRegistrationRepository.saveAndFlush(freeRegistration);
 
     return createClerkApprovalDTO(freeRegistration);
+  }
+
+  @Transactional(readOnly = true)
+  public int countFreeRegistrationsLeft(final FreeRegistration freeRegistration) {
+    final Registration registration = freeRegistration.getRegistration();
+    final Person person = registration.getPerson();
+
+    final int freeRegistrationUsed = freeRegistrationRepository.countFreeRegistrationsUsed(person.getOid());
+
+    return 3 - freeRegistrationUsed;
   }
 
   private ClerkApprovalDTO createClerkApprovalDTO(final FreeRegistration freeRegistration) {
@@ -113,13 +120,17 @@ public class ClerkRegistrationService {
       .status(registration.getState())
       .languageOfCommunication(RegistrationLangOfCommunication.FI) // TODO
       .attachments(createClerkApprovalAttachmentsDTO(freeRegistration))
-      .freeRegistrationBasis("MATRICULATION_EXAMINATION") // TODO
-      .freeRegistrationsLeft(2) // TODO
-      .comments(List.of()) // TODO
+      .freeRegistrationBasis(freeRegistration.getType())
+      .freeRegistrationsLeft(countFreeRegistrationsLeft(freeRegistration))
+      .comments(createClerkApprovalCommentsDTO(freeRegistration)) // TODO
       .build();
   }
 
   private List<ClerkApprovalAttachmentsDTO> createClerkApprovalAttachmentsDTO(final FreeRegistration freeRegistration) {
     return freeRegistration.getAttachments().stream().map(a -> ClerkApprovalAttachmentsDTO.builder().build()).toList();
+  }
+
+  private List<ClerkApprovalCommentDTO> createClerkApprovalCommentsDTO(final FreeRegistration freeRegistration) {
+    return freeRegistration.getComments().stream().map(a -> ClerkApprovalCommentDTO.builder().build()).toList();
   }
 }

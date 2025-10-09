@@ -10,4 +10,15 @@ import org.springframework.stereotype.Repository;
 public interface FreeRegistrationRepository extends JpaRepository<FreeRegistration, Long> {
   @Query("SELECT fr" + " FROM FreeRegistration fr" + " WHERE fr.source = 'USER'")
   List<FreeRegistration> findApprovals();
+
+  @Query(
+    "SELECT count(f)" +
+    " FROM FreeRegistration f" +
+    " JOIN f.registration r" +
+    " WHERE r.person.oid = ?1" +
+    " AND f.approved <> false" +
+    " AND (r.state = fi.oph.yki.model.type.RegistrationState.COMPLETED" +
+    " OR r.state = fi.oph.yki.model.type.RegistrationState.PENDING)"
+  )
+  int countFreeRegistrationsUsed(final String personOid);
 }

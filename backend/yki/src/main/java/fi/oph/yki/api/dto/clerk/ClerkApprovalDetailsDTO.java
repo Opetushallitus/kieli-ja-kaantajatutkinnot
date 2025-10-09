@@ -1,5 +1,6 @@
 package fi.oph.yki.api.dto.clerk;
 
+import fi.oph.yki.model.type.FreeRegistrationType;
 import fi.oph.yki.model.type.RegistrationLangOfCommunication;
 import fi.oph.yki.model.type.RegistrationState;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +17,7 @@ public record ClerkApprovalDetailsDTO(
   //@NonNull @NotNull FreeRegistrationType freeEnrollmentBasis,
   @NonNull @NotNull RegistrationLangOfCommunication languageOfCommunication,
   @NonNull @NotNull ClerkApprovalExamSessionDTO examSession,
-  @NonNull @NotNull String freeRegistrationBasis,
+  @NonNull @NotNull FreeRegistrationType freeRegistrationBasis,
   int freeRegistrationsLeft,
   String supplementRequestDueDate,
   String assessmentDate,
