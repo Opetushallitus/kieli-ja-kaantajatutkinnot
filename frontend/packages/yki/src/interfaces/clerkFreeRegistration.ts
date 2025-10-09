@@ -3,7 +3,8 @@ import { Dayjs } from 'dayjs';
 import { ExamLanguage, ExamLevel } from 'enums/app';
 
 interface FreeRegistrationPerson {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   socialSecurityNumber: string;
   oid: string;
 }

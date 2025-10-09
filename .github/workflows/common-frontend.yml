@@ -13,7 +13,7 @@ on:
         type: string
       clerk-cypress-base-url:
         description: "Temporary YKI Clerk Cypress base url"
-        required: true
+        required: false
         type: string
       clerk:
         description: "Used temporarily for new YKI clerk"

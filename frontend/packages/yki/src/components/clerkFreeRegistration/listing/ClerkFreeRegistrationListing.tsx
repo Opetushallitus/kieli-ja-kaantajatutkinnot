@@ -8,7 +8,7 @@ import { ClockIcon } from '@mui/x-date-pickers';
 import i18next from 'i18next';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CustomCircularProgress, H2 } from 'shared/components';
+import { CustomCircularProgress } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
@@ -22,7 +22,7 @@ import {
   ClerkFreeRegistration,
   FreeRegistrationStatus,
 } from 'interfaces/clerkFreeRegistration';
-import { Text } from 'ophTheme/Text';
+import { H2, Text } from 'ophTheme/Text';
 import { loadClerkFreeRegistrations } from 'redux/reducers/clerkFreeRegistration';
 import {
   clerkFreeRegistrationSelector,
@@ -74,14 +74,14 @@ export const ClerkFreeRegistrationListing = ({
     switch (status) {
       case 'PENDING':
         return (
-          <div className="columns gapped-xxs align-items-center">
+          <div className="columns gapped-xxs align-items-start">
             <ClockIcon color="warning" fontSize="large" />
             <Text className="bold">{t(`status.${status}.part1`)}</Text>
           </div>
         );
       case 'APPROVED':
         return (
-          <div className="columns gapped-xxs align-items-center">
+          <div className="columns gapped-xxs align-items-start">
             <CheckCircle color="success" fontSize="large" />
             <Text className="bold">{t(`status.${status}.part1`)}</Text>
           </div>
@@ -108,7 +108,7 @@ export const ClerkFreeRegistrationListing = ({
         );
       case 'REJECTED':
         return (
-          <div className="columns gapped-xxs align-items-center">
+          <div className="columns gapped-xxs align-items-start">
             <BlockFlipped color="error" fontSize="large" />
             <Text className="bold">{t(`status.${status}.part1`)}</Text>
           </div>
@@ -127,7 +127,7 @@ export const ClerkFreeRegistrationListing = ({
     title: t('listing.header.person'),
     render: (rowProps) => (
       <div className="rows gapped-xs">
-        <Text>{rowProps.person.fullName}</Text>
+        <Text>{`${rowProps.person.firstName} ${rowProps.person.lastName}`}</Text>
         <Text>{rowProps.person.socialSecurityNumber}</Text>
         <Text>{rowProps.person.oid}</Text>
       </div>

@@ -1,11 +1,12 @@
 import { ChevronRight, HomeOutlined } from '@mui/icons-material';
-import { Box, Grid, IconButton, Paper, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Paper } from '@mui/material';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ClerkFreeRegistrationDetails } from 'components/clerkFreeRegistration/FreeRegistrationDetails';
 import { usePublicTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
+import { H2 } from 'ophTheme/Text';
 
 export const ClerkFreeRegistrationDetailsPage: FC = () => {
   const { t } = usePublicTranslation({
@@ -16,19 +17,17 @@ export const ClerkFreeRegistrationDetailsPage: FC = () => {
 
   return (
     <Box className="clerk-free-registration-details-page">
-      <Typography variant="h2" component={'div'}>
-        <div className="columns gapped-xs">
-          <IconButton
-            color="secondary"
-            className="clerk-free-registration-details-page__home-button"
-            onClick={() => navigate(AppRoutes.ClerkFreeRegistration)}
-          >
-            <HomeOutlined color="secondary" fontSize="large" />
-          </IconButton>
-          <ChevronRight color="disabled" fontSize="large" />
-          {t('heading')}
-        </div>
-      </Typography>
+      <div className="columns gapped-xs">
+        <IconButton
+          color="secondary"
+          className="clerk-free-registration-details-page__home-button"
+          onClick={() => navigate(AppRoutes.ClerkFreeRegistration)}
+        >
+          <HomeOutlined color="secondary" fontSize="large" />
+        </IconButton>
+        <ChevronRight color="disabled" fontSize="large" />
+        <H2>{t('heading')}</H2>
+      </div>
 
       <Grid
         container

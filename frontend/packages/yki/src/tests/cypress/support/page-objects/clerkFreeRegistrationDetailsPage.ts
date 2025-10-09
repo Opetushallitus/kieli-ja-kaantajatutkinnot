@@ -21,7 +21,9 @@ class ClerkFreeRegistrationDetailsPage {
     if (!details) {
       throw new Error(`No free registration details found for id ${id}`);
     }
-    cy.findByText(details.person.fullName).should('be.visible');
+    cy.findByText(
+      `${details.person.firstName} ${details.person.lastName}`,
+    ).should('be.visible');
     cy.findByText(`(${details.person.socialSecurityNumber})`).should(
       'be.visible',
     );

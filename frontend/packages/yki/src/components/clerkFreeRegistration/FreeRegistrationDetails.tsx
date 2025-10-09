@@ -6,7 +6,7 @@ import {
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider, TextField } from '@mui/material';
 import { ClockIcon } from '@mui/x-date-pickers';
-import { OphButton } from '@opetushallitus/oph-design-system';
+import { OphButton, ophColors } from '@opetushallitus/oph-design-system';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { APIResponseStatus, Severity, Variant } from 'shared/enums';
@@ -84,13 +84,13 @@ export const ClerkFreeRegistrationDetails = () => {
         <>
           <OphButton
             variant={Variant.Outlined}
-            style={{ backgroundColor: '#0033CC', color: 'white' }}
+            style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
           >
             {t('details.buttons.sendInformationRequest')}
           </OphButton>
           <OphButton
             variant={Variant.Contained}
-            style={{ backgroundColor: '#0033CC', color: 'white' }}
+            style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
           >
             {t('details.buttons.approveFreeRegistration')}
           </OphButton>
@@ -105,19 +105,19 @@ export const ClerkFreeRegistrationDetails = () => {
         <>
           <OphButton
             variant={Variant.Outlined}
-            style={{ backgroundColor: 'white', color: '#0033CC' }}
+            style={{ backgroundColor: ophColors.white, color: ophColors.blue2 }}
           >
             {t('details.buttons.sendInformationRequest')}
           </OphButton>
           <OphButton
             variant={Variant.Contained}
-            style={{ backgroundColor: '#0033CC', color: 'white' }}
+            style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
           >
             {t('details.buttons.approveFreeRegistration')}
           </OphButton>
           <OphButton
             variant={Variant.Contained}
-            style={{ backgroundColor: '#0033CC', color: 'white' }}
+            style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
           >
             {t('details.buttons.rejectFreeRegistration')}
           </OphButton>
@@ -127,7 +127,7 @@ export const ClerkFreeRegistrationDetails = () => {
       return (
         <OphButton
           variant={Variant.Contained}
-          style={{ backgroundColor: '#0033CC', color: 'white' }}
+          style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
         >
           {t('details.buttons.approveFreeRegistration')}
         </OphButton>
@@ -137,7 +137,7 @@ export const ClerkFreeRegistrationDetails = () => {
     return (
       <OphButton
         variant={Variant.Contained}
-        style={{ backgroundColor: '#0033CC', color: 'white' }}
+        style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
       >
         {t('details.buttons.rejectFreeRegistration')}
       </OphButton>
@@ -149,7 +149,7 @@ export const ClerkFreeRegistrationDetails = () => {
       case 'PENDING':
         return (
           <>
-            <ClockIcon color="error" fontSize="large" />
+            <ClockIcon color="warning" fontSize="large" />
             <Text>{t(`status.${registrationDetails.status}.part1`)}</Text>
           </>
         );
@@ -205,7 +205,7 @@ export const ClerkFreeRegistrationDetails = () => {
   return (
     <div className="rows gapped free-registration-details">
       <div>
-        <b>{registrationDetails.person.fullName}</b>{' '}
+        <b>{`${registrationDetails.person.firstName} ${registrationDetails.person.lastName}`}</b>{' '}
         <Text>{`(${registrationDetails.person.socialSecurityNumber})`}</Text>
         <div>
           {translateLanguage(registrationDetails.examSession.language)}
