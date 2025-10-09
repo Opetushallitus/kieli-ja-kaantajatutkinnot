@@ -1,6 +1,13 @@
 package fi.oph.yki.config;
 
+import fi.oph.yki.service.email.sender.EmailSender;
+import fi.oph.yki.service.email.sender.EmailSenderNoOp;
+import fi.oph.yki.service.email.sender.EmailSenderViestintapalvelu;
 import java.time.Duration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -12,6 +19,8 @@ import reactor.netty.resources.ConnectionProvider;
 
 @Configuration
 public class AppConfig {
+
+  private static final Logger LOG = LoggerFactory.getLogger(AppConfig.class);
 
   @Bean
   public WebClient koskiClient(final Environment environment) {
@@ -41,5 +50,22 @@ public class AppConfig {
       .builder()
       .defaultHeader("Caller-Id", Constants.CALLER_ID)
       .clientConnector(new ReactorClientHttpConnector(httpClient));
+  }
+
+  @Bean
+  @ConditionalOnProperty(name = "app.email.sending-enabled", havingValue = "false")
+  public EmailSender emailSenderNoOp() {
+    LOG.warn("EmailSenderNoOp in use");
+    return new EmailSenderNoOp();
+  }
+
+  @Bean
+  @ConditionalOnProperty(name = "app.email.sending-enabled", havingValue = "true")
+  public EmailSender emailSender(@Value("${app.email.service-url}") String emailServiceUrl) {
+    LOG.info("emailServiceUrl: {}", emailServiceUrl);
+    final WebClient webClient = webClientBuilderWithCallerId("email-sender-connection-provider")
+      .baseUrl(emailServiceUrl)
+      .build();
+    return new EmailSenderViestintapalvelu(webClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
   }
 }
