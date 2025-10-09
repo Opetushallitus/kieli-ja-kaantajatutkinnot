@@ -14,6 +14,7 @@ import { useToast } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { FreeRegistrationModal } from 'components/clerkFreeRegistration/FreeRegistrationModal';
+import { FreeRegistrationRequestInformationModal } from 'components/clerkFreeRegistration/FreeRegistrationRequestInformationModal';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
@@ -29,7 +30,8 @@ import { clerkFreeRegistrationDetailsSelector } from 'redux/selectors/clerkFreeR
 
 export const ClerkFreeRegistrationDetails = () => {
   const [comment, setComment] = useState('');
-
+  const [isRequestInformationModalOpen, setIsRequestInformationModalOpen] =
+    useState(false);
   const onCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
   };
@@ -121,6 +123,7 @@ export const ClerkFreeRegistrationDetails = () => {
           <OphButton
             variant={Variant.Outlined}
             style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
+            onClick={() => setIsRequestInformationModalOpen(true)}
           >
             {t('details.buttons.sendInformationRequest')}
           </OphButton>
@@ -156,6 +159,7 @@ export const ClerkFreeRegistrationDetails = () => {
           <OphButton
             variant={Variant.Outlined}
             style={{ backgroundColor: ophColors.white, color: ophColors.blue2 }}
+            onClick={() => setIsRequestInformationModalOpen(true)}
           >
             {t('details.buttons.sendInformationRequest')}
           </OphButton>
@@ -377,6 +381,10 @@ export const ClerkFreeRegistrationDetails = () => {
           </div>
         </div>
       </div>
+      <FreeRegistrationRequestInformationModal
+        isModalOpen={isRequestInformationModalOpen}
+        setIsModalOpen={setIsRequestInformationModalOpen}
+      />
     </div>
   );
 };

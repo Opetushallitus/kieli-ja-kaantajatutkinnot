@@ -138,7 +138,11 @@
             "reject": {
               "title": "Vahvista maksuttomuuden hylkääminen",
               "subTitle": "Olet hylkäämässä ilmoittautumisen maksuttomuuden."
+            },
+            "informationRequest": {
+              "title": "Lähetä lisätietopyyntö"
             }
+
           }
         }
       },

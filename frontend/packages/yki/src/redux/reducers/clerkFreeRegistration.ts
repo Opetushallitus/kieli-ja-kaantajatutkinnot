@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Dayjs } from 'dayjs';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkFreeRegistration } from 'interfaces/clerkFreeRegistration';
@@ -17,12 +18,14 @@ interface ClerkFreeRegistrationState {
   freeRegistrations: Array<ClerkFreeRegistration>;
   status: APIResponseStatus;
   registrationApprovalStatus: FreeRegistrationApprovalStatus;
+  informationRequestStatus: APIResponseStatus;
 }
 
 const initialState: ClerkFreeRegistrationState = {
   freeRegistrations: [],
   status: APIResponseStatus.NotStarted,
   registrationApprovalStatus: FreeRegistrationApprovalStatus.NotStarted,
+  informationRequestStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkFreeRegistrationSlice = createSlice({
@@ -57,6 +60,18 @@ const clerkFreeRegistrationSlice = createSlice({
       state.registrationApprovalStatus =
         FreeRegistrationApprovalStatus.RejectInProgress;
     },
+    submitClerkFreeRegistrationInformationRequest(
+      state,
+      _action: PayloadAction<{ message: string; dueDate: Dayjs }>,
+    ) {
+      state.status = APIResponseStatus.InProgress;
+    },
+    rejectClerkFreeRegistrationInformationRequest(state) {
+      state.status = APIResponseStatus.Error;
+    },
+    acceptClerkFreeRegistrationInformationRequest(state) {
+      state.status = APIResponseStatus.Success;
+    },
   },
 });
 
@@ -68,4 +83,7 @@ export const {
   setFreeRegistrationStatus,
   approveFreeRegistration,
   rejectFreeRegistration,
+  submitClerkFreeRegistrationInformationRequest,
+  rejectClerkFreeRegistrationInformationRequest,
+  acceptClerkFreeRegistrationInformationRequest,
 } = clerkFreeRegistrationSlice.actions;
