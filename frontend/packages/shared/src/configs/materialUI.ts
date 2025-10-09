@@ -234,5 +234,10 @@ export const theme = createTheme({
       fontWeight: fontWeightRegular,
       color: colorGrey700,
     },
+    label: {
+      fontSize: '1.6rem',
+      fontWeight: fontWeightMedium,
+      color: colorTextPrimary,
+    },
   },
 });

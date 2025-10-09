@@ -1,4 +1,9 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { ThemeProvider } from '@mui/material';
+import {
+  createOphTheme,
+  OphThemeProvider,
+} from '@opetushallitus/oph-design-system/theme';
 import { FC, useEffect } from 'react';
 import {
   createBrowserRouter,
@@ -13,9 +18,11 @@ import {
   NotifierContextProvider,
   ScrollToTop,
 } from 'shared/components';
+import { theme } from 'shared/configs';
 import { APIResponseStatus, Variant } from 'shared/enums';
 import { TitlePage, TitlePageProps } from 'shared/utils';
 
+import { ClerkHeader } from 'components/layouts/clerkHeader/ClerkHeader';
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
@@ -23,6 +30,9 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
+import { ClerkFreeRegistrationDetailsPage } from 'pages/clerk/ClerkFreeRegistrationDetailsPage';
+import { ClerkFreeRegistrationPage } from 'pages/clerk/ClerkFreeRegistrationPage';
+import { ClerkHomePage } from 'pages/clerk/ClerkHomePage';
 import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
@@ -34,8 +44,8 @@ import { NotFoundPage } from 'pages/NotFoundPage';
 import { ReassessmentPage } from 'pages/ReassessmentPage';
 import { RegistrationPage } from 'pages/RegistrationPage';
 import { RegistrationPaymentStatusPage } from 'pages/RegistrationPaymentStatusPage';
-import { TransferEnrollmentPage } from 'pages/TransferEnrollmentPage';
-import { TransferEnrollmentSuccessPage } from 'pages/TransferEnrollmentSuccessPage';
+import { TransferRegistrationPage } from 'pages/TransferRegistrationPage';
+import { TransferRegistrationSuccessPage } from 'pages/TransferRegistrationSuccessPage';
 import { UserDetailsPage } from 'pages/UserDetailsPage';
 import { loadSession } from 'redux/reducers/session';
 import { sessionSelector } from 'redux/selectors/session';
@@ -64,16 +74,49 @@ export const AppRouter: FC = () => {
   const Root = (
     <div className="app">
       <NotifierContextProvider>
-        <Header />
-        <ErrorToast />
-        <Notifier />
-        <ScrollToTop />
-        <main className="content" id="main-content">
-          <div className="content__container">
-            <Outlet />
-          </div>
-        </main>
-        <Footer />
+        <ThemeProvider theme={theme}>
+          <Header />
+          <ErrorToast />
+          <Notifier />
+          <ScrollToTop />
+          <main className="content" id="main-content">
+            <div className="content__container">
+              <Outlet />
+            </div>
+          </main>
+          <Footer />
+        </ThemeProvider>
+      </NotifierContextProvider>
+    </div>
+  );
+
+  const clerkTheme = createOphTheme({
+    variant: 'oph',
+    overrides: {
+      components: {
+        MuiAppBar: {
+          defaultProps: {
+            color: 'default',
+          },
+        },
+      },
+    },
+  });
+
+  const ClerkRoot = (
+    <div className="app">
+      <NotifierContextProvider>
+        <OphThemeProvider lang="fi" variant="oph" overrides={clerkTheme}>
+          <ClerkHeader />
+          <ErrorToast />
+          <Notifier />
+          <ScrollToTop />
+          <main className="clerk-content" id="main-content">
+            <div className="clerk-content__container">
+              <Outlet />
+            </div>
+          </main>
+        </OphThemeProvider>
       </NotifierContextProvider>
     </div>
   );
@@ -114,130 +157,161 @@ export const AppRouter: FC = () => {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path={AppRoutes.PublicRoot} element={Root}>
-        <Route index={true} element={FrontPage} />
-        <Route path={AppRoutes.Registration} element={FrontPage} />
-        <Route
-          path={AppRoutes.ExamSession}
-          element={
-            <YkiTitlePage title="registration">
-              <InitRegistrationPage />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.ExamSessionRegistration}
-          element={
-            <YkiTitlePage title="examDetails">
-              <ExamDetailsPage registrationKind={RegistrationKind.Admission} />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.ExamSessionQueue}
-          element={
-            <YkiTitlePage title="examDetails">
-              <ExamDetailsPage registrationKind={RegistrationKind.Queue} />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.RegistrationPaymentStatus}
-          element={
-            <YkiTitlePage title="registrationPaymentStatus">
-              <RegistrationPaymentStatusPage />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.Reassessment}
-          element={
-            <YkiTitlePage title="reassessment">
-              <ReassessmentPage />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.ReassessmentOrder}
-          element={
-            <YkiTitlePage title="evaluationOrder">
-              <EvaluationOrderPage />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.ReassessmentOrderStatus}
-          element={
-            <YkiTitlePage title="evaluationOrderStatus">
-              <EvaluationOrderStatusPage />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.AccessibilityStatementPage}
-          element={
-            <YkiTitlePage title="accessibilityStatement">
-              <AccessibilityStatementPage />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.UserDetails}
-          element={
-            <YkiTitlePage title="userDetails">
-              <UserDetailsPage />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.ConfirmRegistration}
-          element={
-            <UserPortalSubPage title="transferEnrollment">
-              <ConfirmRegistrationPage />
-            </UserPortalSubPage>
-          }
-        />
-        <Route
-          path={AppRoutes.TransferEnrollment}
-          element={
-            <UserPortalSubPage title="transferEnrollment">
-              <TransferEnrollmentPage />
-            </UserPortalSubPage>
-          }
-        />
-        <Route
-          path={AppRoutes.TransferEnrollmentSuccess}
-          element={
-            <UserPortalSubPage title="transferEnrollment">
-              <TransferEnrollmentSuccessPage />
-            </UserPortalSubPage>
-          }
-        />
-        <Route
-          path={AppRoutes.ExpiredLoginLinkPage}
-          element={
-            <UserPortalSubPage title="expiredLoginLink">
-              <ExpiredLoginLinkPage />
-            </UserPortalSubPage>
-          }
-        />
-        <Route
-          path={AppRoutes.LogoutSuccess}
-          element={
-            <YkiTitlePage title="logoutSuccess">
-              <LogoutSuccess />
-            </YkiTitlePage>
-          }
-        />
-        <Route
-          path={AppRoutes.NotFoundPage}
-          element={
-            <YkiTitlePage title="notFound">
-              <NotFoundPage />
-            </YkiTitlePage>
-          }
-        />
-      </Route>,
+      <>
+        <Route path={AppRoutes.ClerkRoot} element={ClerkRoot}>
+          <Route
+            path={AppRoutes.ClerkOrganizerRegister}
+            element={
+              <YkiTitlePage title="clerk">
+                <ClerkHomePage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ClerkFreeRegistration}
+            element={
+              <YkiTitlePage title="clerk">
+                <ClerkFreeRegistrationPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ClerkFreeRegistrationDetails}
+            element={
+              <YkiTitlePage title="clerk">
+                <ClerkFreeRegistrationDetailsPage />
+              </YkiTitlePage>
+            }
+          />
+        </Route>
+        <Route path={AppRoutes.PublicRoot} element={Root}>
+          <Route index={true} element={FrontPage} />
+          <Route path={AppRoutes.Registration} element={FrontPage} />
+          <Route
+            path={AppRoutes.ExamSession}
+            element={
+              <YkiTitlePage title="registration">
+                <InitRegistrationPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ExamSessionRegistration}
+            element={
+              <YkiTitlePage title="examDetails">
+                <ExamDetailsPage
+                  registrationKind={RegistrationKind.Admission}
+                />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ExamSessionQueue}
+            element={
+              <YkiTitlePage title="examDetails">
+                <ExamDetailsPage registrationKind={RegistrationKind.Queue} />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.RegistrationPaymentStatus}
+            element={
+              <YkiTitlePage title="registrationPaymentStatus">
+                <RegistrationPaymentStatusPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.Reassessment}
+            element={
+              <YkiTitlePage title="reassessment">
+                <ReassessmentPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ReassessmentOrder}
+            element={
+              <YkiTitlePage title="evaluationOrder">
+                <EvaluationOrderPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ReassessmentOrderStatus}
+            element={
+              <YkiTitlePage title="evaluationOrderStatus">
+                <EvaluationOrderStatusPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.AccessibilityStatementPage}
+            element={
+              <YkiTitlePage title="accessibilityStatement">
+                <AccessibilityStatementPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.UserDetails}
+            element={
+              <YkiTitlePage title="userDetails">
+                <UserDetailsPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ConfirmRegistration}
+            element={
+              <UserPortalSubPage title="transferRegistration">
+                <ConfirmRegistrationPage />
+              </UserPortalSubPage>
+            }
+          />
+          <Route
+            path={AppRoutes.TransferRegistration}
+            element={
+              <UserPortalSubPage title="transferRegistration">
+                <TransferRegistrationPage />
+              </UserPortalSubPage>
+            }
+          />
+          <Route
+            path={AppRoutes.TransferRegistrationSuccess}
+            element={
+              <UserPortalSubPage title="transferRegistration">
+                <TransferRegistrationSuccessPage />
+              </UserPortalSubPage>
+            }
+          />
+          <Route
+            path={AppRoutes.ExpiredLoginLinkPage}
+            element={
+              <UserPortalSubPage title="expiredLoginLink">
+                <ExpiredLoginLinkPage />
+              </UserPortalSubPage>
+            }
+          />
+          <Route
+            path={AppRoutes.LogoutSuccess}
+            element={
+              <YkiTitlePage title="logoutSuccess">
+                <LogoutSuccess />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.NotFoundPage}
+            element={
+              <YkiTitlePage title="notFound">
+                <NotFoundPage />
+              </YkiTitlePage>
+            }
+          />
+        </Route>
+        ,
+      </>,
     ),
   );
 

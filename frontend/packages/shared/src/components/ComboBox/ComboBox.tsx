@@ -31,6 +31,7 @@ interface ComboBoxProps {
   values: Array<ComboBoxOption>;
   value: AutocompleteValue;
   onChange: (value?: string) => void;
+  placeholder?: string;
 }
 
 type AutoCompleteComboBox = Omit<
@@ -85,6 +86,7 @@ const NativeSelectOrComboBox = ({
   helperText,
   showError,
   onChange,
+  placeholder,
   ...rest
 }: ComboBoxProps & AutoCompleteComboBox) => {
   const { isPhone } = useWindowProperties();
@@ -127,6 +129,7 @@ const NativeSelectOrComboBox = ({
             label={label}
             variant={variant}
             error={showError}
+            placeholder={placeholder}
           />
         )}
         onChange={(_, v: AutocompleteValue) => {

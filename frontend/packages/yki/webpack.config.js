@@ -1,14 +1,24 @@
 const { merge } = require('webpack-merge');
 const common = require('../../webpack.common');
-
 module.exports = (env) => {
-  const { getDefaults } = common(
-    'yki',
-    env,
-    __dirname,
-    4003,
-    'ilmoittautuminen'
-  );
-
-  return merge([getDefaults()]);
+  if (env.goal === 'yki-clerk') {
+    const { getDefaults } = common(
+      'yki',
+      env,
+      __dirname,
+      4004,
+      'v2/virkailija/jarjestajarekisteri',
+      true
+    );
+    return merge([getDefaults()]);
+  } else {
+    const { getDefaults } = common(
+      'yki',
+      env,
+      __dirname,
+      4003,
+      'ilmoittautuminen'
+    );
+    return merge([getDefaults()]);
+  }
 };

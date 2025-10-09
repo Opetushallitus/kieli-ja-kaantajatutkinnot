@@ -15,6 +15,119 @@
         "title": "Avbryt anmälan",
         "success": "Anmälan har avbrutits"
       },
+      "clerkRegister": {
+        "listing": {
+          "header": {
+            "organizer": "Järjestäjä",
+            "agreements": "Kielitutkintosopimukset",
+            "municipality": "Paikkakunta",
+            "searchResults": "({{count}}) järjestäjää"
+          },
+          "agreementExpired": "Sopimus vanhentunut",
+          "errors": {
+            "loadingFailed": "Järjestäjien hakeminen epäonnistui"
+          }
+        }
+      },
+      "clerkFreeRegistration": {
+        "description": "Tarkasta oikeuttavatko ilmoittautujan toimittamat liitteet tutkinnon maksuttomuuteen ja hyväksy maksuttomuus tai lähetä lisätietopyyntö.",
+        "tabs": {
+          "pending": "Odottavat tarkastukset",
+          "previous": "Aiemmat tarkastukset"
+        },
+        "status": {
+          "PENDING": {
+            "part1": "Maksuttomuus tarkistamatta"
+          },
+          "APPROVED": {
+            "part1": "Maksuttomuus hyväksytty"
+          },
+          "REJECTED": {
+            "part1": "Maksuttomuus hylätty"
+          },
+          "INFORMATION_REQUESTED": {  
+            "part1": "Lisätietopyyntö lähetetty,",
+            "part2": "odottaa vastausta"
+          },
+          "INFORMATION_REQUEST_ANSWERED": {
+            "part1": "Maksuttomuus tarkistamatta,",
+            "part2": "lisätietopyyntöön vastattu"
+          },
+          "INFORMATION_REQUEST_EXPIRED": {
+            "part1": "Maksuttomuus tarkistamatta,",
+            "part2": "lisätietopyyntöön ei vastattu"
+          }
+        },
+        "listing": {
+          "amountOfRegistrations": "{{ amount }} ilmoittautujaa",
+          "header": {
+            "person": "Nimi",
+            "status": "Tarkastuksen tila",
+            "supplementRequestDueDate": "Lisätietopyynnön eräpäivä",
+            "assessmentDate": "Tarkastuksen päivämäärä",
+            "examDate": "Tutkinnon pvm",
+            "registration": "Ilmoittautuminen",
+            "actions": "Toiminnot"
+          },
+          "registrationStatus": {
+            "enrolled": "Ilmoittautunut",
+            "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
+          },
+          "assessCertificate": "Tarkasta todistus",
+          "showDetails": "Näytä tiedot"
+        },
+        "details": {
+          "attachments": {
+            "attachment": "Liite",
+            "arrivedAt": "Saapunut"
+          },
+          "buttons": {
+            "sendInformationRequest": "Lähetä lisätietopyyntö",
+            "approveFreeRegistration": "Hyväksy maksuttomuus",
+            "rejectFreeRegistration": "Hylkää maksuttomuus"
+          },
+          "comments": {
+            "clerkComments": {
+              "part1": "Tarkastajan kommentit",
+              "part2": "ei näy ilmoittautujalle"
+            },
+            "addNewComment": "Lisää uusi kommentti",
+            "save": "Tallenna kommentti"
+          },
+          "fields": {
+            "status": "Tarkastuksen tila",
+            "freeRegistrationBasis": "Maksuttomuuden peruste",
+            "freeRegistrationsLeft": "Maksuttomia kertoja jäljellä",
+            "languageOfCommunication": "Asiointikieli",
+            "registrationType": "Ilmoittautunut vai jono",
+            "supplementRequestDueDate": "Lisätietopyynnön eräpäivä",
+            "extraInformation": "Lisätiedot"
+          },
+          "freeRegistrationBasis": {
+            "MATRICULATION_EXAMINATION": "Opiskellut Suomessa: ylioppilastutkinto",
+            "HIGHER_EDUCATION_DEGREE": "Opiskellut Suomessa: korkeakoulututkinto",
+            "HIGHER_EDUCATION_STUDIES": "Opiskellut Suomessa: suorittamassa korkeakouluopintoja",
+            "COMPARABLE_MATRICULATION_EXAMINATION": "Opiskellut ulkomailla: ylioppilastutkinto",
+            "COMPARABLE_HIGHER_EDUCATION_DEGREE": "Opiskellut ulkomailla: korkeakoulututkinto",
+            "COMPARABLE_HIGHER_EDUCATION_STUDIES": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja"
+          },
+          "freeRegistrationsLeft": "{{amount}} kpl",
+          "languageOfCommunication": {
+            "fi": "suomi",
+            "sv": "ruotsi",
+            "en": "englanti"
+          },
+          "registrationStatus": {
+            "enrolled": "Ilmoittautunut",
+            "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
+          },
+          "examView": "Tutkintotilaisuuden näkymä",
+          "customerView": "Asiakkaan näkymä",
+          "toasts": {
+            "notFound": "Maksuttoman ilmoittautumisen tietoja ei löydy"
+          }
+        }
+      },
       "cookieBanner": {
         "buttonAriaLabel": "Stäng informationrutan om kakor",
         "buttonText": "Stäng",
@@ -463,7 +576,7 @@
           }
         }
       },
-      "transferEnrollment": {
+      "transferRegistration": {
         "actions": {
           "cancel": "Flytta inte",
           "confirm": "Ja, flytta",
@@ -476,7 +589,16 @@
       }
     },
     "pages": {
-      "confirmEnrollmentPage": {
+      "clerkRegisterPage": {
+        "heading": "Kielitutkintojen järjestäjärekisteri"
+      },
+      "clerkFreeRegistrationPage": {
+        "heading": "Maksuttomuuden tarkastukset"
+      },
+      "clerkFreeRegistrationDetailsPage": {
+        "heading": "Maksuttomuuden tarkastukset"
+      },
+      "confirmRegistrationPage": {
         "heading": "Bekräfta anmälan"
       },
       "evaluationOrderPage": {
@@ -609,8 +731,8 @@
         "register": "Anmäl dig",
         "title": "Allmänna språkexamina (YKI) - Anmälan"
       },
-      "transferEnrollmentPage": {
-        "currentEnrollmentDetails": {
+      "transferRegistrationPage": {
+        "currentRegistrationDetails": {
           "heading": "Du håller på att flytta anmälan"
         },
         "introduction": {
@@ -629,7 +751,7 @@
         },
         "title": "Flytta anmälan"
       },
-      "transferEnrollmentSuccessPage": {
+      "transferRegistrationSuccessPage": {
         "information": {
           "beforeYkiTest": {
             "description": "Läs också Utbildningsstyrelsens anvisningar för YKI-testet:",

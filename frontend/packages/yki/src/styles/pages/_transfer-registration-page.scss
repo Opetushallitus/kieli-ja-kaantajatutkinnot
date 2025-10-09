@@ -1,4 +1,4 @@
-.transfer-enrollment-page {
+.transfer-registration-page {
   flex: 1;
 
   & &__grid-container {
@@ -13,7 +13,7 @@
     }
   }
 
-  & &__current-enrollment-details {
+  & &__current-registration-details {
     padding: 2rem;
 
     @include not-phone {
