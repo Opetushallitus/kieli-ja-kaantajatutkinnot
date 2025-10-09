@@ -28,6 +28,19 @@ export const getFreeRegistrationStatusText = (
   }
 };
 
+export const getLanguageOfCommunicationText = (
+  language: 'fi' | 'sv' | 'en',
+) => {
+  switch (language) {
+    case 'fi':
+      return 'suomi';
+    case 'sv':
+      return 'ruotsi';
+    case 'en':
+      return 'englanti';
+  }
+};
+
 export const getFreeRegistrationBasisText = (basis: FreeRegistrationBasis) => {
   switch (basis) {
     case 'MATRICULATION_EXAMINATION':

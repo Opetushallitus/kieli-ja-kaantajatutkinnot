@@ -3,6 +3,7 @@ import {
   getFreeRegistrationBasisText,
   getFreeRegistrationKindText,
   getFreeRegistrationStatusText,
+  getLanguageOfCommunicationText,
 } from 'tests/cypress/support/utils/freeRegistration';
 import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
 
@@ -31,7 +32,9 @@ class ClerkFreeRegistrationDetailsPage {
       getFreeRegistrationBasisText(details.freeRegistrationBasis),
     ).should('be.visible');
     cy.findByText(`${details.freeRegistrationsLeft} kpl`).should('be.visible');
-    cy.findByText(`${details.languageOfCommunication}`).should('be.visible');
+    cy.findByText(
+      getLanguageOfCommunicationText(details.languageOfCommunication),
+    ).should('be.visible');
     cy.findByText(getFreeRegistrationKindText(details.registration)).should(
       'be.visible',
     );
