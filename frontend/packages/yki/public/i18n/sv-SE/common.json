@@ -22,7 +22,8 @@
             "displayedRowsAriaLabel": "Visar {{from}}-{{to}} / {{count}} resultat",
             "displayedRowsLabel": "{{from}}-{{to}} / {{count}}",
             "nextButtonLabel": "Följande sökresultat",
-            "rowsPerPage": "Visar per sida"
+            "rowsPerPage": "Resultat per sida",
+            "clerkRowsPerPage": "Visar per sida"
           }
         }
       },

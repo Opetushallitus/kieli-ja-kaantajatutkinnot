@@ -20,8 +20,8 @@
           "header": {
             "organizer": "Järjestäjä",
             "agreements": "Kielitutkintosopimukset",
-            "munincipality": "Paikkakunta",
-            "searchResults": "123 järjestäjää"
+            "municipality": "Paikkakunta",
+            "searchResults": "({{count}}) järjestäjää"
           },
           "agreementExpired": "Sopimus vanhentunut",
           "errors": {
@@ -30,7 +30,7 @@
         }
       },
       "clerkFreeRegistration": {
-        "description": "Tarkasta oikeuttavatko ilmoittautujan toimittamat liitteet tutkinnon maksuttomuuteen ja hyväksy maksuttomuus tai lähetä täydennyspyyntö.",
+        "description": "Tarkasta oikeuttavatko ilmoittautujan toimittamat liitteet tutkinnon maksuttomuuteen ja hyväksy maksuttomuus tai lähetä lisätietopyyntö.",
         "tabs": {
           "pending": "Odottavat tarkastukset",
           "previous": "Aiemmat tarkastukset"
@@ -46,16 +46,16 @@
             "part1": "Maksuttomuus hylätty"
           },
           "INFORMATION_REQUESTED": {  
-            "part1": "Täydennyspyyntö lähetetty,",
+            "part1": "Lisätietopyyntö lähetetty,",
             "part2": "odottaa vastausta"
           },
           "INFORMATION_REQUEST_ANSWERED": {
             "part1": "Maksuttomuus tarkistamatta,",
-            "part2": "täydennyspyyntöön vastattu"
+            "part2": "lisätietopyyntöön vastattu"
           },
           "INFORMATION_REQUEST_EXPIRED": {
             "part1": "Maksuttomuus tarkistamatta,",
-            "part2": "täydennyspyyntöön ei vastattu"
+            "part2": "lisätietopyyntöön ei vastattu"
           }
         },
         "listing": {
@@ -63,7 +63,7 @@
           "header": {
             "person": "Nimi",
             "status": "Tarkastuksen tila",
-            "dueDate": "Täydennyspyynnön eräpäivä",
+            "supplementRequestDueDate": "Lisätietopyynnön eräpäivä",
             "assessmentDate": "Tarkastuksen päivämäärä",
             "examDate": "Tutkinnon pvm",
             "registration": "Ilmoittautuminen",
@@ -82,7 +82,7 @@
             "arrivedAt": "Saapunut"
           },
           "buttons": {
-            "sendInformationRequest": "Lähetä täydennyspyyntö",
+            "sendInformationRequest": "Lähetä lisätietopyyntö",
             "approveFreeRegistration": "Hyväksy maksuttomuus",
             "rejectFreeRegistration": "Hylkää maksuttomuus"
           },
@@ -98,9 +98,9 @@
             "status": "Tarkastuksen tila",
             "freeRegistrationBasis": "Maksuttomuuden peruste",
             "freeRegistrationsLeft": "Maksuttomia kertoja jäljellä",
-            "languageOfService": "Asiointikieli",
+            "languageOfCommunication": "Asiointikieli",
             "registrationType": "Ilmoittautunut vai jono",
-            "dueDate": "Täydennyspyynnön eräpäivä",
+            "supplementRequestDueDate": "Lisätietopyynnön eräpäivä",
             "extraInformation": "Lisätiedot"
           },
           "freeRegistrationBasis": {
@@ -112,6 +112,11 @@
             "COMPARABLE_HIGHER_EDUCATION_STUDIES": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja"
           },
           "freeRegistrationsLeft": "{{amount}} kpl",
+          "languageOfCommunication": {
+            "fi": "suomi",
+            "sv": "ruotsi",
+            "en": "englanti"
+          },
           "registrationStatus": {
             "enrolled": "Ilmoittautunut",
             "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"

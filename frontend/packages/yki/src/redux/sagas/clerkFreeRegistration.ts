@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
+import { APIEndpoints } from 'enums/api';
 import { ClerkFreeRegistrationResponse } from 'interfaces/clerkFreeRegistration';
 import {
   loadClerkFreeRegistrations,
@@ -13,7 +14,7 @@ import { SerializationUtils } from 'utils/serialization';
 function* loadClerkFreeRegistrationsSaga() {
   try {
     const response: AxiosResponse<Array<ClerkFreeRegistrationResponse>> =
-      yield call(axiosInstance.get, '/yki/api/v1/clerk/registration/approvals');
+      yield call(axiosInstance.get, APIEndpoints.ClerkFreeRegistration);
     const freeRegistrations = response.data.map(
       SerializationUtils.deserializeClerkFreeRegistrationResponse,
     );

@@ -3,6 +3,7 @@ import {
   getFreeRegistrationBasisText,
   getFreeRegistrationKindText,
   getFreeRegistrationStatusText,
+  getLanguageOfCommunicationText,
 } from 'tests/cypress/support/utils/freeRegistration';
 import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
 
@@ -20,7 +21,9 @@ class ClerkFreeRegistrationDetailsPage {
     if (!details) {
       throw new Error(`No free registration details found for id ${id}`);
     }
-    cy.findByText(details.person.fullName).should('be.visible');
+    cy.findByText(
+      `${details.person.firstName} ${details.person.lastName}`,
+    ).should('be.visible');
     cy.findByText(`(${details.person.socialSecurityNumber})`).should(
       'be.visible',
     );
@@ -31,7 +34,9 @@ class ClerkFreeRegistrationDetailsPage {
       getFreeRegistrationBasisText(details.freeRegistrationBasis),
     ).should('be.visible');
     cy.findByText(`${details.freeRegistrationsLeft} kpl`).should('be.visible');
-    cy.findByText(`${details.languageOfCommunication}`).should('be.visible');
+    cy.findByText(
+      getLanguageOfCommunicationText(details.languageOfCommunication),
+    ).should('be.visible');
     cy.findByText(getFreeRegistrationKindText(details.registration)).should(
       'be.visible',
     );
@@ -53,17 +58,57 @@ class ClerkFreeRegistrationDetailsPage {
     });
   }
 
-  expectActionButtonsVisible(id: number) {
+  expectCorrectActionButtonsVisible(id: number) {
     const details = freeRegistrationDetails[id - 1];
     if (!details) {
       throw new Error(`No free registration details found for id ${id}`);
     }
-    cy.findByRole('button', { name: 'Hyväksy maksuttomuus' }).should(
-      'be.visible',
-    );
-    cy.findByRole('button', {
-      name: 'Lähetä täydennyspyyntö',
-    }).should('be.visible');
+
+    if (details.status === 'PENDING') {
+      cy.findByRole('button', { name: 'Hyväksy maksuttomuus' }).should(
+        'be.visible',
+      );
+      cy.findByRole('button', {
+        name: 'Lähetä lisätietopyyntö',
+      }).should('be.visible');
+      cy.findByRole('button', {
+        name: 'Hylkää maksuttomuus',
+      }).should('not.exist');
+    } else if (details.status === 'APPROVED') {
+      cy.findByRole('button', { name: 'Hylkää maksuttomuus' }).should(
+        'be.visible',
+      );
+      cy.findByRole('button', {
+        name: 'Hyväksy maksuttomuus',
+      }).should('not.exist');
+      cy.findByRole('button', {
+        name: 'Lähetä lisätietopyyntö',
+      }).should('not.exist');
+    } else if (details.status === 'REJECTED') {
+      cy.findByRole('button', { name: 'Hyväksy maksuttomuus' }).should(
+        'be.visible',
+      );
+      cy.findByRole('button', {
+        name: 'Hylkää maksuttomuus',
+      }).should('not.exist');
+      cy.findByRole('button', {
+        name: 'Lähetä lisätietopyyntö',
+      }).should('not.exist');
+    } else if (
+      details.status === 'INFORMATION_REQUESTED' ||
+      details.status === 'INFORMATION_REQUEST_ANSWERED' ||
+      details.status === 'INFORMATION_REQUEST_EXPIRED'
+    ) {
+      cy.findByRole('button', { name: 'Lähetä lisätietopyyntö' }).should(
+        'be.visible',
+      );
+      cy.findByRole('button', { name: 'Hyväksy maksuttomuus' }).should(
+        'be.visible',
+      );
+      cy.findByRole('button', {
+        name: 'Hylkää maksuttomuus',
+      }).should('be.visible');
+    }
   }
 }
 

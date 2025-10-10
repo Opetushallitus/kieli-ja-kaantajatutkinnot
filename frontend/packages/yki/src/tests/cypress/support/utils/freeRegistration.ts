@@ -1,9 +1,15 @@
 import dayjs from 'dayjs';
 import { DateUtils } from 'shared/utils';
 
-import { Registration } from 'interfaces/clerkFreeRegistration';
+import {
+  FreeRegistrationBasis,
+  FreeRegistrationStatus,
+  Registration,
+} from 'interfaces/clerkFreeRegistration';
 
-export const getFreeRegistrationStatusText = (status: string) => {
+export const getFreeRegistrationStatusText = (
+  status: FreeRegistrationStatus,
+) => {
   switch (status) {
     case 'PENDING':
       return 'Maksuttomuus tarkastamatta';
@@ -12,17 +18,30 @@ export const getFreeRegistrationStatusText = (status: string) => {
     case 'REJECTED':
       return 'Maksuttomuus hylätty';
     case 'INFORMATION_REQUESTED':
-      return 'Täydennyspyyntö lähetetty, odottaa vastausta';
+      return 'Lisätietopyyntö lähetetty, odottaa vastausta';
     case 'INFORMATION_REQUEST_ANSWERED':
-      return 'Maksuttomuus tarkastamatta, täydennyspyyntöön vastattu';
+      return 'Maksuttomuus tarkastamatta, lisätietopyyntöön vastattu';
     case 'INFORMATION_REQUEST_EXPIRED':
-      return 'Maksuttomuus tarkastamatta, täydennyspyyntöön ei vastattu';
+      return 'Maksuttomuus tarkastamatta, lisätietopyyntöön ei vastattu';
     default:
       return '';
   }
 };
 
-export const getFreeRegistrationBasisText = (basis: string) => {
+export const getLanguageOfCommunicationText = (
+  language: 'fi' | 'sv' | 'en',
+) => {
+  switch (language) {
+    case 'fi':
+      return 'suomi';
+    case 'sv':
+      return 'ruotsi';
+    case 'en':
+      return 'englanti';
+  }
+};
+
+export const getFreeRegistrationBasisText = (basis: FreeRegistrationBasis) => {
   switch (basis) {
     case 'MATRICULATION_EXAMINATION':
       return 'Opiskellut Suomessa: ylioppilastutkinto';

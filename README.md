@@ -12,7 +12,7 @@ This mono-repo contains the language and translator services of the Finnish Nati
 
 - Maven 3.1+
 - JDK 17
-- PostgreSQL 14.7
+- PostgreSQL 14.7 (For example with OSX with Homebrew: `brew install postgresql@14`)
 - node v20.9.0
 - yarn 4.0.1 (to enable it, run the following command: `corepack enable`)
 
@@ -31,62 +31,21 @@ In addition, the shared frontend content can be found [here](./docs/shared_front
 
 &nbsp;
 
-## Development setup initialisation with Docker
+## Development setup initialisation
 
-1. Download Docker Desktop
-2. Build containers for a specific app
-```sh
-docker-compose -f docker-compose-<app>.yml build
-```
-3. Run mvn install for the backend: `cd backend/<app>; ./mwnw install`
-4. Run the app with docker-compose
-```sh
-docker-compose -f docker-compose-<app>.yml up
-```
+Make sure you have listed technologies installed on your machine. 
 
-In order to connect the database from terminal, download a PostgreSQL client (14.x). For example with OSX with Homebrew:
-```sh
-brew install postgresql@14
-```
+### database
+* This project is still dependent on https://github.com/Opetushallitus/yki
+1. git clone https://github.com/Opetushallitus/yki
+2. Follow it's `README.md` to setup it's environment
 
-Or use PostgresSQL client inside docker:
-```sh
-docker exec -ti <app>-postgres psql -U postgres -d <app>-postgres
-```
+### backend with IntelliJ IDEA
+1. Open the repository with Idea
+2. To run a service, open a service folder under `backend` - folder, that you want to run
+3. Right-click `pom.xml` -> `Add as maven project`
 
-## Development
-
-Create and start database, backend, and frontend containers for a specific application:
-
-```sh
-docker-compose -f docker-compose-<app>.yml up
-```
-
-Or
-
-Start up a certain service of an application:
-
-```sh
-docker-compose up frontend | backend | postgres
-```
-
-To disable default Spring Security configurations, create the following environment variable and restart the containers:
-
-```sh
-export AKR_UNSECURE=true
-docker-compose -f docker-compose-<app>.yml up
-```
-
-In case of errors, clean cache and recreate volumes:
-
-```sh
-docker-compose -f docker-compose-<app>.yml down
-docker-compose -f docker-compose-<app>.yml up --build --force-recreate --renew-anon-volumes
-```
-
-After starting the services, the frontend runs on > <http://localhost:4000>
-
-### Github maven authentication
+#### Github maven authentication
 
 To read packages from github maven repository you need to enable token authentication from maven settings file:
 
@@ -130,6 +89,73 @@ To read packages from github maven repository you need to enable token authentic
 ```
 
 &nbsp;
+
+
+### Frontend
+Add your `ghp_TOKEN_CLASSIC` to your .bashrc/.zshrc - file:
+```sh
+# Change your token to the actual token
+echo "export GITHUB_REGISTRY_TOKEN=ghp_TOKEN_CLASSIC" >> ~/.zshrc
+```
+
+To run the frontend
+```sh
+cd frontend
+yarn 
+yarn run yki:start:dev-server
+```
+ 
+## Development setup initialisation with Docker
+
+1. Download Docker Desktop
+2. Build containers for a specific app
+```sh
+docker-compose -f docker-compose-<app>.yml build
+```
+3. Run mvn install for the backend: `cd backend/<app>; ./mwnw install`
+4. Run the app with docker-compose
+```sh
+docker-compose -f docker-compose-<app>.yml up
+```
+
+Or use PostgresSQL client inside docker:
+```sh
+docker exec -ti <app>-postgres psql -U postgres -d <app>-postgres
+```
+
+## Development
+
+Create and start database, backend, and frontend containers for a specific application:
+
+```sh
+docker-compose -f docker-compose-<app>.yml up
+```
+
+Or
+
+Start up a certain service of an application:
+
+```sh
+docker-compose up frontend | backend | postgres
+```
+
+To disable default Spring Security configurations, create the following environment variable and restart the containers:
+
+```sh
+export AKR_UNSECURE=true
+docker-compose -f docker-compose-<app>.yml up
+```
+
+In case of errors, clean cache and recreate volumes:
+
+```sh
+docker-compose -f docker-compose-<app>.yml down
+docker-compose -f docker-compose-<app>.yml up --build --force-recreate --renew-anon-volumes
+```
+
+After starting the services, the frontend runs on > <http://localhost:4000>
+
+
 
 ## Deployment
 

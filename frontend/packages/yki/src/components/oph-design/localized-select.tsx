@@ -14,10 +14,12 @@ export const LocalizedSelect = ({
       inputProps={{
         'aria-label':
           ariaLabel ??
-          translateConmon('component.table.pagination.rowsPerPage'),
+          translateConmon('component.table.pagination.clerkRowsPerPage'),
       }}
       MenuProps={{ id: 'select-menu' }}
-      placeholder={translateConmon('component.table.pagination.rowsPerPage')}
+      placeholder={translateConmon(
+        'component.table.pagination.clerkRowsPerPage',
+      )}
       value={props.value ?? ''}
       {...props}
     />

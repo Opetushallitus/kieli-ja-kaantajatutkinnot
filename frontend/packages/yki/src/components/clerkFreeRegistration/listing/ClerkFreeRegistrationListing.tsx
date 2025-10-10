@@ -3,13 +3,12 @@ import {
   CheckCircle,
   HourglassBottom,
 } from '@mui/icons-material';
-import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { ClockIcon } from '@mui/x-date-pickers';
 import i18next from 'i18next';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CustomCircularProgress, H2 } from 'shared/components';
+import { CustomCircularProgress } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
@@ -45,9 +44,11 @@ export const ClerkFreeRegistrationListing = ({
   activeTab,
 }: ClerkRegisterListingProps) => {
   const { status } = useAppSelector(clerkFreeRegistrationSelector);
+  const dispatch = useAppDispatch();
   const filteredFreeRegistrations = useAppSelector(
     selectFilteredFreeRegistrations,
   );
+
   const rows = filteredFreeRegistrations.filter((registration) =>
     activeTab === 'pending'
       ? [
@@ -72,53 +73,43 @@ export const ClerkFreeRegistrationListing = ({
     switch (status) {
       case 'PENDING':
         return (
-          <div className="columns gapped-xxs align-items-center">
-            <ClockIcon color="warning" style={{ fontSize: '2rem' }} />
-            <Typography style={{ fontWeight: '600' }}>
-              {t(`status.${status}.part1`)}
-            </Typography>
+          <div className="columns gapped-xxs align-items-start">
+            <ClockIcon color="warning" fontSize="large" />
+            <Text className="bold">{t(`status.${status}.part1`)}</Text>
           </div>
         );
       case 'APPROVED':
         return (
-          <div className="columns gapped-xxs align-items-center">
-            <CheckCircle color="success" style={{ fontSize: '2rem' }} />
-            <Typography style={{ fontWeight: '600' }}>
-              {t(`status.${status}.part1`)}
-            </Typography>
+          <div className="columns gapped-xxs align-items-start">
+            <CheckCircle color="success" fontSize="large" />
+            <Text className="bold">{t(`status.${status}.part1`)}</Text>
           </div>
         );
       case 'INFORMATION_REQUESTED':
         return (
           <div className="columns gapped-xxs align-items-start">
-            <HourglassBottom color="success" style={{ fontSize: '2rem' }} />
+            <HourglassBottom color="success" fontSize="large" />
             <div className="rows gapped-xxs">
-              <Typography style={{ fontWeight: '600' }}>
-                {t(`status.${status}.part1`)}
-              </Typography>
-              <Typography>{t(`status.${status}.part2`)}</Typography>
+              <Text className="bold">{t(`status.${status}.part1`)}</Text>
+              <Text>{t(`status.${status}.part2`)}</Text>
             </div>
           </div>
         );
       case 'INFORMATION_REQUEST_ANSWERED':
         return (
           <div className="columns gapped-xxs align-items-start">
-            <ClockIcon color="error" style={{ fontSize: '2rem' }} />
+            <ClockIcon color="error" fontSize="large" />
             <div className="rows gapped-xxs">
-              <Typography style={{ fontWeight: '600' }}>
-                {t(`status.${status}.part1`)}
-              </Typography>
-              <Typography>{t(`status.${status}.part2`)}</Typography>
+              <Text className="bold">{t(`status.${status}.part1`)}</Text>
+              <Text>{t(`status.${status}.part2`)}</Text>
             </div>
           </div>
         );
       case 'REJECTED':
         return (
-          <div className="columns gapped-xxs align-items-center">
-            <BlockFlipped color="error" style={{ fontSize: '2rem' }} />
-            <Typography style={{ fontWeight: '600' }}>
-              {t(`status.${status}.part1`)}
-            </Typography>
+          <div className="columns gapped-xxs align-items-start">
+            <BlockFlipped color="error" fontSize="large" />
+            <Text className="bold">{t(`status.${status}.part1`)}</Text>
           </div>
         );
       default:
@@ -135,9 +126,9 @@ export const ClerkFreeRegistrationListing = ({
     title: t('listing.header.person'),
     render: (rowProps) => (
       <div className="rows gapped-xs">
-        <Typography>{rowProps.person.fullName}</Typography>
-        <Typography>{rowProps.person.socialSecurityNumber}</Typography>
-        <Typography>{rowProps.person.oid}</Typography>
+        <Text>{`${rowProps.person.firstName} ${rowProps.person.lastName}`}</Text>
+        <Text>{rowProps.person.socialSecurityNumber}</Text>
+        <Text>{rowProps.person.oid}</Text>
       </div>
     ),
   });
@@ -153,14 +144,14 @@ export const ClerkFreeRegistrationListing = ({
   const createDueDateColumn = (
     t: typeof i18next.t,
   ): ListTableColumn<ClerkFreeRegistration> => ({
-    key: 'dueDate',
-    title: t('listing.header.dueDate'),
+    key: 'supplementRequestDueDate',
+    title: t('listing.header.supplementRequestDueDate'),
     render: (rowProps) => (
-      <Typography>
+      <Text>
         {rowProps.supplementRequestDueDate
           ? DateUtils.formatOptionalDate(rowProps.supplementRequestDueDate, 'l')
           : ''}
-      </Typography>
+      </Text>
     ),
   });
 
@@ -170,11 +161,11 @@ export const ClerkFreeRegistrationListing = ({
     key: 'assessmentDate',
     title: t('listing.header.assessmentDate'),
     render: (rowProps) => (
-      <Typography>
+      <Text>
         {rowProps.assessmentDate
           ? DateUtils.formatOptionalDate(rowProps.assessmentDate, 'l')
           : ''}
-      </Typography>
+      </Text>
     ),
   });
 
@@ -184,9 +175,7 @@ export const ClerkFreeRegistrationListing = ({
     key: 'examDate',
     title: t('listing.header.examDate'),
     render: (rowProps) => (
-      <Typography>
-        {DateUtils.formatOptionalDate(rowProps.examDate, 'l')}
-      </Typography>
+      <Text>{DateUtils.formatOptionalDate(rowProps.examDate, 'l')}</Text>
     ),
   });
 
@@ -196,14 +185,14 @@ export const ClerkFreeRegistrationListing = ({
     key: 'registration',
     title: t('listing.header.registration'),
     render: (rowProps) => (
-      <Typography>
+      <Text>
         {rowProps.registration.kind === 'ADMISSION'
           ? t('listing.registrationStatus.enrolled')
           : t('listing.registrationStatus.queued', {
               positionInQueue: rowProps.registration.positionInQueue,
               queue: rowProps.registration.queue,
             })}
-      </Typography>
+      </Text>
     ),
   });
 
@@ -239,7 +228,6 @@ export const ClerkFreeRegistrationListing = ({
     createActionColumn(t),
   ];
 
-  const dispatch = useAppDispatch();
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
       dispatch(loadClerkFreeRegistrations());
@@ -276,7 +264,6 @@ export const ClerkFreeRegistrationListing = ({
             columns={columns}
             translateHeader={false}
             pagination={pagination}
-            setSort={() => {}}
           />
         </>
       );

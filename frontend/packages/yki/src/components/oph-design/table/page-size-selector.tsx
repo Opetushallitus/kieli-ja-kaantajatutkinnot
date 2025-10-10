@@ -24,7 +24,7 @@ export const PageSizeSelector = ({
   return (
     <OphFormFieldWrapper
       id="page-size-select"
-      label={translateCommon('component.table.pagination.rowsPerPage')}
+      label={translateCommon('component.table.pagination.clerkRowsPerPage')}
       renderInput={({ labelId }) => (
         <LocalizedSelect
           labelId={labelId}

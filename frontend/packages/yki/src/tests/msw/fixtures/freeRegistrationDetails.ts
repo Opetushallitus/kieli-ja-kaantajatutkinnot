@@ -5,7 +5,8 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
   {
     id: 1,
     person: {
-      fullName: 'Testi1 Testaaja',
+      firstName: 'Testi1',
+      lastName: 'Testaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139511',
     },
@@ -16,7 +17,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       id: 1,
       language: ExamLanguage.FIN,
       level: ExamLevel.KESKI,
-      examDate: '2025-11-22T00:00:00.000Z',
+      examDate: '2025-11-21T00:00:00.000Z',
     },
     languageOfCommunication: 'fi',
     registration: {
@@ -35,7 +36,8 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
   {
     id: 2,
     person: {
-      fullName: 'Testi2 Testaaja',
+      firstName: 'Testi2',
+      lastName: 'Testaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139522',
     },
@@ -65,7 +67,8 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
   {
     id: 3,
     person: {
-      fullName: 'Testi3 Testaaja',
+      firstName: 'Testi3',
+      lastName: 'Testaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139533',
     },
@@ -77,7 +80,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       id: 1,
       language: ExamLanguage.SWE,
       level: ExamLevel.KESKI,
-      examDate: '2025-11-22T00:00:00.000Z',
+      examDate: '2025-11-23T00:00:00.000Z',
     },
     languageOfCommunication: 'en',
     registration: {
@@ -98,7 +101,8 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
   {
     id: 4,
     person: {
-      fullName: 'Testi4 Testaaja',
+      firstName: 'Testi4',
+      lastName: 'Testaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139544',
     },
@@ -131,7 +135,8 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
   {
     id: 5,
     person: {
-      fullName: 'Testi5 Testaaja',
+      firstName: 'Testi5',
+      lastName: 'Testaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139555',
     },
@@ -162,7 +167,8 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
   {
     id: 6,
     person: {
-      fullName: 'Testi6 Testaaja',
+      firstName: 'Testi6',
+      lastName: 'Testaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139555',
     },
@@ -174,7 +180,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       id: 1,
       language: ExamLanguage.SWE,
       level: ExamLevel.KESKI,
-      examDate: '2025-11-22T00:00:00.000Z',
+      examDate: '2025-11-24T00:00:00.000Z',
     },
     languageOfCommunication: 'en',
     registration: {
@@ -193,7 +199,8 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
   {
     id: 7,
     person: {
-      fullName: 'Testi7 Testaaja',
+      firstName: 'Testi7',
+      lastName: 'Testaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139511',
     },
@@ -204,7 +211,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       id: 1,
       language: ExamLanguage.FIN,
       level: ExamLevel.KESKI,
-      examDate: '2025-11-22T00:00:00.000Z',
+      examDate: '2025-11-25T00:00:00.000Z',
     },
     languageOfCommunication: 'fi',
     registration: {
@@ -223,7 +230,8 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
   {
     id: 8,
     person: {
-      fullName: 'Testi8 Testaaja',
+      firstName: 'Testi8',
+      lastName: 'Testaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139511',
     },
@@ -234,7 +242,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       id: 1,
       language: ExamLanguage.FIN,
       level: ExamLevel.KESKI,
-      examDate: '2025-11-22T00:00:00.000Z',
+      examDate: '2025-11-26T00:00:00.000Z',
     },
     languageOfCommunication: 'fi',
     registration: {
@@ -253,7 +261,8 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
   {
     id: 9,
     person: {
-      fullName: 'Testi9 Testaaja',
+      firstName: 'Testi9',
+      lastName: 'Testaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139511',
     },
@@ -264,7 +273,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       id: 1,
       language: ExamLanguage.FIN,
       level: ExamLevel.KESKI,
-      examDate: '2025-11-22T00:00:00.000Z',
+      examDate: '2025-11-27T00:00:00.000Z',
     },
     languageOfCommunication: 'fi',
     registration: {
@@ -283,7 +292,8 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
   {
     id: 10,
     person: {
-      fullName: 'Testi10 Testaaja',
+      firstName: 'Testi10',
+      lastName: 'Testaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139511',
     },

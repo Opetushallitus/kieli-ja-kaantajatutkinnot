@@ -22,7 +22,8 @@
             "displayedRowsAriaLabel": "Näytetään {{from}}-{{to}} / {{count}} tulosta",
             "displayedRowsLabel": "{{from}}-{{to}} / {{count}}",
             "nextButtonLabel": "Seuraavat hakutulokset",
-            "rowsPerPage": "Näytä per sivu"
+            "rowsPerPage": "Tulokset per sivu",
+            "clerkRowsPerPage": "Näytä per sivu"
           }
         }
       },

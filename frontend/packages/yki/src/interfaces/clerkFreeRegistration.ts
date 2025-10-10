@@ -3,7 +3,8 @@ import { Dayjs } from 'dayjs';
 import { ExamLanguage, ExamLevel } from 'enums/app';
 
 interface FreeRegistrationPerson {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   socialSecurityNumber: string;
   oid: string;
 }
@@ -16,7 +17,10 @@ export type FreeRegistrationStatus =
   | 'INFORMATION_REQUEST_ANSWERED'
   | 'INFORMATION_REQUEST_EXPIRED';
 
-type Registration =
+// exported in cypress which is excluded from root tsconfig.json
+// so would give error otherwise
+// ts-unused-exports:disable-next-line
+export type Registration =
   | {
       kind: 'ADMISSION';
     }
@@ -80,7 +84,14 @@ interface ExamSessionResponse extends Omit<ExamSession, 'examDate'> {
   examDate: string;
 }
 
+<<<<<<< HEAD
 type FreeRegistrationBasis =
+=======
+// exported in cypress which is excluded from root tsconfig.json
+// so would give error otherwise
+// ts-unused-exports:disable-next-line
+export type FreeRegistrationBasis =
+>>>>>>> dev
   | 'MATRICULATION_EXAMINATION'
   | 'HIGHER_EDUCATION_DEGREE'
   | 'HIGHER_EDUCATION_STUDIES'

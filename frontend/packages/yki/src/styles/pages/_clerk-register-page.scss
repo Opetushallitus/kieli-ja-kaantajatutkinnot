@@ -1,6 +1,6 @@
 .clerk-register-page {
   flex: 1;
-  background-color: #f6f4f0; // oph-bg-color
+  background-color: $page-background-color;
 
   & &__grid-container {
     margin-top: 2rem;

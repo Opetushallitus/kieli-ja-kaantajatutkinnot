@@ -7,7 +7,7 @@ module.exports = (env) => {
       env,
       __dirname,
       4004,
-      'ilmoittautuminen',
+      'v2/virkailija/jarjestajarekisteri',
       true
     );
     return merge([getDefaults()]);

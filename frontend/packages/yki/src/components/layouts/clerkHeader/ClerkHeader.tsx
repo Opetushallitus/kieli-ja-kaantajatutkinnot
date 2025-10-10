@@ -5,16 +5,9 @@ import { ClerkNavigationLinks } from 'components/layouts/clerkHeader/ClerkNaviga
 export const ClerkHeader = (): JSX.Element => {
   return (
     <>
-      <AppBar
-        className="header"
-        position="static"
-        sx={{
-          backgroundColor: 'white',
-          color: 'black',
-        }}
-      >
-        <Toolbar className="header__toolbar">
-          <div className="header__tabs">
+      <AppBar className="clerk-header" position="static">
+        <Toolbar className="clerk-header__toolbar">
+          <div className="clerk-header__tabs">
             <ClerkNavigationLinks />
           </div>
         </Toolbar>

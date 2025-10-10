@@ -1,6 +1,9 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ThemeProvider } from '@mui/material';
-import { OphThemeProvider } from '@opetushallitus/oph-design-system/theme';
+import {
+  createOphTheme,
+  OphThemeProvider,
+} from '@opetushallitus/oph-design-system/theme';
 import { FC, useEffect } from 'react';
 import {
   createBrowserRouter,
@@ -87,10 +90,23 @@ export const AppRouter: FC = () => {
     </div>
   );
 
+  const clerkTheme = createOphTheme({
+    variant: 'oph',
+    overrides: {
+      components: {
+        MuiAppBar: {
+          defaultProps: {
+            color: 'default',
+          },
+        },
+      },
+    },
+  });
+
   const ClerkRoot = (
     <div className="app">
       <NotifierContextProvider>
-        <OphThemeProvider lang="fi" variant="oph">
+        <OphThemeProvider lang="fi" variant="oph" overrides={clerkTheme}>
           <ClerkHeader />
           <ErrorToast />
           <Notifier />
@@ -146,7 +162,7 @@ export const AppRouter: FC = () => {
           <Route
             path={AppRoutes.ClerkOrganizerRegister}
             element={
-              <YkiTitlePage title={createTitle('clerk')}>
+              <YkiTitlePage title="clerk">
                 <ClerkHomePage />
               </YkiTitlePage>
             }
@@ -154,7 +170,7 @@ export const AppRouter: FC = () => {
           <Route
             path={AppRoutes.ClerkFreeRegistration}
             element={
-              <YkiTitlePage title={createTitle('clerk')}>
+              <YkiTitlePage title="clerk">
                 <ClerkFreeRegistrationPage />
               </YkiTitlePage>
             }
@@ -162,7 +178,7 @@ export const AppRouter: FC = () => {
           <Route
             path={AppRoutes.ClerkFreeRegistrationDetails}
             element={
-              <YkiTitlePage title={createTitle('clerk')}>
+              <YkiTitlePage title="clerk">
                 <ClerkFreeRegistrationDetailsPage />
               </YkiTitlePage>
             }
