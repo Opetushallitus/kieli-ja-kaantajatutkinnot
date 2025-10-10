@@ -107,7 +107,7 @@
             "MatriculationExam": "Opiskellut Suomessa: ylioppilastutkinto",
             "HigherEducationDegree": "Opiskellut Suomessa: korkeakoulututkinto",
             "HigherEducationStudies": "Opiskellut Suomessa: suorittamassa korkeakouluopintoja",
-            "ComparableMatriculation_examination": "Opiskellut ulkomailla: ylioppilastutkinto",
+            "ComparableMatriculation": "Opiskellut ulkomailla: ylioppilastutkinto",
             "ComparableHigherEducationDegree": "Opiskellut ulkomailla: korkeakoulututkinto",
             "ComparableHigherEducationStudies": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja"
           },
