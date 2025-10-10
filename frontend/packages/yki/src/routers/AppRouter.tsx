@@ -122,7 +122,7 @@ export const AppRouter: FC = () => {
   );
 
   const YkiTitlePage = ({ title, children }: TitlePageProps) => (
-    <TitlePage title={title} className="title-page">
+    <TitlePage title={createTitle(title)} className="title-page">
       {children}
     </TitlePage>
   );

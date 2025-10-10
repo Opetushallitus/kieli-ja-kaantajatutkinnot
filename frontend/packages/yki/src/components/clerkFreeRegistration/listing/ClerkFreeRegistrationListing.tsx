@@ -22,6 +22,7 @@ import {
   ClerkFreeRegistration,
   FreeRegistrationStatus,
 } from 'interfaces/clerkFreeRegistration';
+import { H2, Text } from 'ophTheme/Text';
 import { loadClerkFreeRegistrations } from 'redux/reducers/clerkFreeRegistration';
 import {
   clerkFreeRegistrationSelector,

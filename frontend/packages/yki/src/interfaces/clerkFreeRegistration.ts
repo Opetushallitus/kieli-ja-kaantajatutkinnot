@@ -84,14 +84,10 @@ interface ExamSessionResponse extends Omit<ExamSession, 'examDate'> {
   examDate: string;
 }
 
-<<<<<<< HEAD
-type FreeRegistrationBasis =
-=======
 // exported in cypress which is excluded from root tsconfig.json
 // so would give error otherwise
 // ts-unused-exports:disable-next-line
 export type FreeRegistrationBasis =
->>>>>>> dev
   | 'MATRICULATION_EXAMINATION'
   | 'HIGHER_EDUCATION_DEGREE'
   | 'HIGHER_EDUCATION_STUDIES'
