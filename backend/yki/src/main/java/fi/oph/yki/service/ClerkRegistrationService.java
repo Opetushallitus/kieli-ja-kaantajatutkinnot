@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ClerkRegistrationService {
 
+  public static final int NUM_FREE_REGISTRATIONS = 3;
   private final FreeRegistrationRepository freeRegistrationRepository;
   private final AuditService auditService;
 
@@ -65,7 +66,7 @@ public class ClerkRegistrationService {
 
     final int freeRegistrationUsed = freeRegistrationRepository.countFreeRegistrationsUsed(person.getOid());
 
-    return 3 - freeRegistrationUsed;
+    return NUM_FREE_REGISTRATIONS - freeRegistrationUsed;
   }
 
   private ClerkApprovalDTO createClerkApprovalDTO(final FreeRegistration freeRegistration) {
@@ -120,9 +121,9 @@ public class ClerkRegistrationService {
       .examSession(examSessionDTO)
       .status(registration.getState())
       .languageOfCommunication(RegistrationLangOfCommunication.FI) // TODO
-      .attachments(createClerkApprovalAttachmentsDTO(freeRegistration))
       .freeRegistrationBasis(freeRegistration.getType())
       .freeRegistrationsLeft(countFreeRegistrationsLeft(freeRegistration))
+      .attachments(createClerkApprovalAttachmentsDTO(freeRegistration)) // TODO
       .comments(createClerkApprovalCommentsDTO(freeRegistration)) // TODO
       .build();
   }
@@ -132,6 +133,10 @@ public class ClerkRegistrationService {
   }
 
   private List<ClerkApprovalCommentDTO> createClerkApprovalCommentsDTO(final FreeRegistration freeRegistration) {
-    return freeRegistration.getComments().stream().map(a -> ClerkApprovalCommentDTO.builder().build()).toList();
+    return freeRegistration
+      .getComments()
+      .stream()
+      .map(a -> ClerkApprovalCommentDTO.builder().comment(a.getComment()).timestamp(a.getCreatedAt()).build())
+      .toList();
   }
 }
