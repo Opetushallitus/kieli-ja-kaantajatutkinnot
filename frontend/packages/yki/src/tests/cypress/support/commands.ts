@@ -50,3 +50,7 @@ Cypress.Commands.add('openClerkFreeRegistrationPage', (cookies) => {
 Cypress.Commands.add('openClerkFreeRegistrationDetailsPage', (id: number) => {
   cy.visit(AppRoutes.ClerkFreeRegistrationDetails.replace(/:id/, `${id}`));
 });
+
+Cypress.Commands.add('openCustomerSearchPage', () => {
+  cy.visit(AppRoutes.CustomerSearch);
+});
