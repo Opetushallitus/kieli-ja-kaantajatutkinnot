@@ -88,7 +88,8 @@ public class ClerkRegistrationService {
     return ClerkPersonDTO
       .builder()
       .oid(person.getOid())
-      .fullName(person.getFirstName() + " " + person.getLastName())
+      .firstName(person.getFirstName())
+      .lastName(person.getLastName())
       .socialSecurityNumber("-") // TODO
       .build();
   }
