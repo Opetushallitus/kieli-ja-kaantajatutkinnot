@@ -30,6 +30,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
+import { ClerkCustomerSearchPage } from 'pages/clerk/ClerkCustomerSearchPage';
 import { ClerkFreeRegistrationDetailsPage } from 'pages/clerk/ClerkFreeRegistrationDetailsPage';
 import { ClerkFreeRegistrationPage } from 'pages/clerk/ClerkFreeRegistrationPage';
 import { ClerkHomePage } from 'pages/clerk/ClerkHomePage';
@@ -180,6 +181,14 @@ export const AppRouter: FC = () => {
             element={
               <YkiTitlePage title="clerk">
                 <ClerkFreeRegistrationDetailsPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.CustomerSearch}
+            element={
+              <YkiTitlePage title="customerSearch">
+                <ClerkCustomerSearchPage />
               </YkiTitlePage>
             }
           />
