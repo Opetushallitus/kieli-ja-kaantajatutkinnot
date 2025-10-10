@@ -245,7 +245,7 @@ export const ClerkFreeRegistrationDetails = () => {
           </div>
           <div>
             {t(
-              `details.languageOfCommunication.${registrationDetails.languageOfCommunication}`,
+              `details.languageOfCommunication.${registrationDetails.languageOfCommunication.toLowerCase()}`,
             )}
           </div>
           <div>
