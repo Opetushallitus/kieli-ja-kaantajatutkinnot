@@ -30,6 +30,10 @@ class ClerkFreeRegistrationDetailsPage {
     cy.findByText(getFreeRegistrationStatusText(details.status)).should(
       'be.visible',
     );
+    cy.log(
+      getFreeRegistrationBasisText(details.freeRegistrationBasis),
+      details.freeRegistrationBasis,
+    );
     cy.findByText(
       getFreeRegistrationBasisText(details.freeRegistrationBasis),
     ).should('be.visible');

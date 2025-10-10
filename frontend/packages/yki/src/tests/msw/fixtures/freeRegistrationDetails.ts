@@ -11,7 +11,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       oid: '1.2.246.562.10.39706139511',
     },
     status: 'PENDING',
-    freeRegistrationBasis: 'HIGHER_EDUCATION_DEGREE',
+    freeRegistrationBasis: 'HigherEducationDegree',
     freeRegistrationsLeft: 0,
     examSession: {
       id: 1,
@@ -42,7 +42,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       oid: '1.2.246.562.10.39706139522',
     },
     status: 'PENDING',
-    freeRegistrationBasis: 'HIGHER_EDUCATION_STUDIES',
+    freeRegistrationBasis: 'HigherEducationStudies',
     freeRegistrationsLeft: 0,
     examSession: {
       id: 1,
@@ -73,7 +73,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       oid: '1.2.246.562.10.39706139533',
     },
     status: 'APPROVED',
-    freeRegistrationBasis: 'MATRICULATION_EXAMINATION',
+    freeRegistrationBasis: 'MatriculationExam',
     freeRegistrationsLeft: 0,
     assessmentDate: '2025-11-10T00:00:00.000Z',
     examSession: {
@@ -107,7 +107,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       oid: '1.2.246.562.10.39706139544',
     },
     status: 'REJECTED',
-    freeRegistrationBasis: 'COMPARABLE_MATRICULATION_EXAMINATION',
+    freeRegistrationBasis: 'ComparableMatriculation',
     freeRegistrationsLeft: 0,
     assessmentDate: '2025-11-10T00:00:00.000Z',
     examSession: {
@@ -141,7 +141,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       oid: '1.2.246.562.10.39706139555',
     },
     status: 'INFORMATION_REQUESTED',
-    freeRegistrationBasis: 'COMPARABLE_HIGHER_EDUCATION_STUDIES',
+    freeRegistrationBasis: 'ComparableHigherEducationStudies',
     freeRegistrationsLeft: 0,
     supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
     examSession: {
@@ -173,7 +173,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       oid: '1.2.246.562.10.39706139555',
     },
     status: 'INFORMATION_REQUEST_ANSWERED',
-    freeRegistrationBasis: 'COMPARABLE_HIGHER_EDUCATION_STUDIES',
+    freeRegistrationBasis: 'ComparableHigherEducationStudies',
     freeRegistrationsLeft: 0,
     supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
     examSession: {
@@ -205,7 +205,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       oid: '1.2.246.562.10.39706139511',
     },
     status: 'PENDING',
-    freeRegistrationBasis: 'HIGHER_EDUCATION_DEGREE',
+    freeRegistrationBasis: 'HigherEducationDegree',
     freeRegistrationsLeft: 0,
     examSession: {
       id: 1,
@@ -236,7 +236,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       oid: '1.2.246.562.10.39706139511',
     },
     status: 'PENDING',
-    freeRegistrationBasis: 'HIGHER_EDUCATION_DEGREE',
+    freeRegistrationBasis: 'HigherEducationDegree',
     freeRegistrationsLeft: 0,
     examSession: {
       id: 1,
@@ -267,7 +267,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       oid: '1.2.246.562.10.39706139511',
     },
     status: 'PENDING',
-    freeRegistrationBasis: 'HIGHER_EDUCATION_DEGREE',
+    freeRegistrationBasis: 'HigherEducationDegree',
     freeRegistrationsLeft: 0,
     examSession: {
       id: 1,
@@ -298,7 +298,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       oid: '1.2.246.562.10.39706139511',
     },
     status: 'PENDING',
-    freeRegistrationBasis: 'HIGHER_EDUCATION_DEGREE',
+    freeRegistrationBasis: 'HigherEducationDegree',
     freeRegistrationsLeft: 0,
     examSession: {
       id: 1,
