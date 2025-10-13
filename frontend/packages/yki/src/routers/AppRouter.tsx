@@ -28,6 +28,7 @@ import { AppRoutes, RegistrationKind } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { clerkTheme } from 'ophTheme/OphTheme';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
+import { ClerkCustomerDetailsPage } from 'pages/clerk/ClerkCustomerDetailsPage';
 import { ClerkCustomerSearchPage } from 'pages/clerk/ClerkCustomerSearchPage';
 import { ClerkFreeRegistrationDetailsPage } from 'pages/clerk/ClerkFreeRegistrationDetailsPage';
 import { ClerkFreeRegistrationPage } from 'pages/clerk/ClerkFreeRegistrationPage';
@@ -174,6 +175,14 @@ export const AppRouter: FC = () => {
             element={
               <YkiTitlePage title="customerSearch">
                 <ClerkCustomerSearchPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ClerkCustomerDetails}
+            element={
+              <YkiTitlePage title="customerDetails">
+                <ClerkCustomerDetailsPage />
               </YkiTitlePage>
             }
           />
