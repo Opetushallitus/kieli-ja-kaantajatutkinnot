@@ -3,14 +3,26 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkFreeRegistrationDetails } from 'interfaces/clerkFreeRegistration';
 
+export enum FreeRegistrationApprovalStatus {
+  NotStarted,
+  ApprovalInProgress,
+  ApprovalSuccess,
+  ApprovalError,
+  RejectInProgress,
+  RejectSuccess,
+  RejectError,
+}
+
 interface ClerkFreeRegistrationState {
   registrationDetails: ClerkFreeRegistrationDetails | null;
   status: APIResponseStatus;
+  registrationApprovalStatus: FreeRegistrationApprovalStatus;
 }
 
 const initialState: ClerkFreeRegistrationState = {
   registrationDetails: null,
   status: APIResponseStatus.NotStarted,
+  registrationApprovalStatus: FreeRegistrationApprovalStatus.NotStarted,
 };
 
 const clerkFreeRegistrationDetailsSlice = createSlice({
@@ -34,6 +46,20 @@ const clerkFreeRegistrationDetailsSlice = createSlice({
       state.status = APIResponseStatus.NotStarted;
       state.registrationDetails = null;
     },
+    setFreeRegistrationStatus(
+      state,
+      action: PayloadAction<FreeRegistrationApprovalStatus>,
+    ) {
+      state.registrationApprovalStatus = action.payload;
+    },
+    approveFreeRegistration(state) {
+      state.registrationApprovalStatus =
+        FreeRegistrationApprovalStatus.ApprovalInProgress;
+    },
+    rejectFreeRegistration(state) {
+      state.registrationApprovalStatus =
+        FreeRegistrationApprovalStatus.RejectInProgress;
+    },
   },
 });
 
@@ -44,4 +70,7 @@ export const {
   rejectClerkFreeRegistrationDetails,
   storeClerkFreeRegistrationDetails,
   resetClerkFreeRegistrationDetails,
+  setFreeRegistrationStatus,
+  approveFreeRegistration,
+  rejectFreeRegistration,
 } = clerkFreeRegistrationDetailsSlice.actions;

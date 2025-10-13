@@ -32,9 +32,38 @@ function* loadClerkFreeRegistrationDetailsSaga(action: PayloadAction<number>) {
   }
 }
 
+function* approveFreeRegistrationSaga() {
+  try {
+    yield call(axiosInstance.put, APIEndpoints.ApproveClerkFreeRegistration);
+    yield put(
+      setFreeRegistrationStatus(FreeRegistrationApprovalStatus.ApprovalSuccess),
+    );
+  } catch (error) {
+    yield put(
+      setFreeRegistrationStatus(FreeRegistrationApprovalStatus.ApprovalError),
+    );
+  }
+}
+
+function* rejectFreeRegistrationSaga() {
+  try {
+    yield call(axiosInstance.put, APIEndpoints.RejectClerkFreeRegistration);
+    yield put(
+      setFreeRegistrationStatus(FreeRegistrationApprovalStatus.RejectSuccess),
+    );
+  } catch (error) {
+    yield put(
+      setFreeRegistrationStatus(FreeRegistrationApprovalStatus.RejectError),
+    );
+  }
+}
+
 export function* watchClerkFreeRegistrationDetails() {
   yield takeLatest(
     loadClerkFreeRegistrationDetails.type,
     loadClerkFreeRegistrationDetailsSaga,
   );
+
+  yield takeLatest(approveFreeRegistration.type, approveFreeRegistrationSaga);
+  yield takeLatest(rejectFreeRegistration.type, rejectFreeRegistrationSaga);
 }

@@ -77,7 +77,7 @@ class ClerkFreeRegistrationDetailsPage {
       }).should('be.visible');
       cy.findByRole('button', {
         name: 'Hylkää maksuttomuus',
-      }).should('not.exist');
+      }).should('exist');
     } else if (details.status === 'APPROVED') {
       cy.findByRole('button', { name: 'Hylkää maksuttomuus' }).should(
         'be.visible',

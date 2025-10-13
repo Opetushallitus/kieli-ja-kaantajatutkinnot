@@ -143,6 +143,7 @@
       "reassessment": "Reassessment",
       "registration": "Registration",
       "freeRegistration": "Maksuttomuus",
+      "customerSearch": "Asiakashaku",
       "registrationPeriod": "Registration period",
       "specialArrangementsLink": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-do-you-need-special-arrangements",
       "userRegistrations": "My registrations",
@@ -166,7 +167,8 @@
         "transferRegistration": "Reschedule registration",
         "confirmRegistration": "Confirm registration",
         "notFound": "Page not found",
-        "expiredLoginLink": "The link has expired"
+        "expiredLoginLink": "The link has expired",
+        "customerSearch": "Asiakashaku"
       },
       "previous": "Previous"
     }

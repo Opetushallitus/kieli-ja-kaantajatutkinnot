@@ -1,5 +1,5 @@
 import Modal, { ModalProps } from '@mui/material/Modal';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 
 import { H2 } from '../Text/Text';
 import './CustomModal.scss';
@@ -7,7 +7,7 @@ import './CustomModal.scss';
 type Role = 'dialog' | 'alertdialog';
 
 type CustomModalProps = ModalProps & {
-  modalTitle?: string;
+  modalTitle?: ReactNode | string;
   onCloseModal: () => void;
   role?: Role;
 };

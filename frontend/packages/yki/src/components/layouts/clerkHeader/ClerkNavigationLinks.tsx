@@ -9,6 +9,8 @@ const getTabForPath = (path: string) => {
     return 'registration';
   } else if (path.includes(AppRoutes.ClerkFreeRegistration)) {
     return 'freeRegistration';
+  } else if (path.includes(AppRoutes.CustomerSearch)) {
+    return 'customerSearch';
   } else {
     return false;
   }
@@ -33,6 +35,11 @@ export const ClerkNavigationLinks = () => {
           active: getTabForPath(pathname) === 'freeRegistration',
           href: AppRoutes.ClerkFreeRegistration,
           label: translateCommon('freeRegistration'),
+        },
+        {
+          active: getTabForPath(pathname) === 'customerSearch',
+          href: AppRoutes.CustomerSearch,
+          label: translateCommon('customerSearch'),
         },
       ]}
     />

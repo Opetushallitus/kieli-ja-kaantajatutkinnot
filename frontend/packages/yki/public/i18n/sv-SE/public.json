@@ -124,7 +124,21 @@
           "examView": "Tutkintotilaisuuden näkymä",
           "customerView": "Asiakkaan näkymä",
           "toasts": {
-            "notFound": "Maksuttoman ilmoittautumisen tietoja ei löydy"
+            "notFound": "Maksuttoman ilmoittautumisen tietoja ei löydy",
+            "approvalConfirmed": "Maksuttomuuden hyväksyminen onnistui",
+            "approvalFailed": "Maksuttomuuden hyväksyminen epäonnistui",
+            "rejectConfirmed": "Maksuttomuuden hylkääminen onnistui",
+            "rejectFailed": "Maksuttomuuden hylkääminen epäonnistui"
+          },
+          "modals": {
+            "approve": {
+              "title": "Vahvista maksuttomuuden hyväksyminen",
+              "subTitle": "Olet hyväksymässä ilmoittautumisen maksuttomuuden."
+            },
+            "reject": {
+              "title": "Vahvista maksuttomuuden hylkääminen",
+              "subTitle": "Olet hylkäämässä ilmoittautumisen maksuttomuuden."
+            }
           }
         }
       },
