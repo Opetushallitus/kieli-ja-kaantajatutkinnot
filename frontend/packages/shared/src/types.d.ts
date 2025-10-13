@@ -13,6 +13,12 @@ declare module '@mui/material/styles' {
   interface TypographyVariantsOptions extends CustomTypographyVariants {}
 }
 
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    label: true;
+  }
+}
+
 export default function createTheme(
   options?: Omit<ThemeOptions, 'components'> &
     Pick<
