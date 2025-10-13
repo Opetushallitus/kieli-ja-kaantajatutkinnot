@@ -7,4 +7,4 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record ClerkApprovalUpdateDTO(@NonNull @NotNull Long id, @Size(max = 10240) String comment, Boolean approved) {}
+public record ClerkApprovalUpdateDTO(Boolean approved) {}

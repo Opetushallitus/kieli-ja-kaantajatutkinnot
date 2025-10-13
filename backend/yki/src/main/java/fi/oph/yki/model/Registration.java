@@ -17,6 +17,8 @@ import jakarta.persistence.Table;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 @Getter
 @Setter
@@ -34,11 +36,13 @@ public class Registration {
   private Person person;
 
   @Column(name = "kind")
-  @Enumerated(value = EnumType.STRING)
+  @Enumerated
+  @JdbcType(PostgreSQLEnumJdbcType.class)
   private RegistrationKind kind;
 
-  @Column(name = "state")
-  @Enumerated(value = EnumType.STRING)
+  @Column(name = "state", columnDefinition = "registration_state")
+  @Enumerated
+  @JdbcType(PostgreSQLEnumJdbcType.class)
   private RegistrationState state;
 
   @OneToOne(fetch = FetchType.LAZY)

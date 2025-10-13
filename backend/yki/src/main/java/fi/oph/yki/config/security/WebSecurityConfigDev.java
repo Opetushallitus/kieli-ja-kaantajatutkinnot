@@ -50,7 +50,8 @@ public class WebSecurityConfigDev {
         )
         .build();
     }
-    return httpSecurity
+    return WebSecurityConfig
+      .configCsrf(httpSecurity)
       // formLogin and httpBasic enabled for development, testing APIs manually is easier.
       .formLogin(formLoginConfigurer -> {
         try {

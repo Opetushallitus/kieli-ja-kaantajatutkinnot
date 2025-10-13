@@ -38,13 +38,20 @@ function* loadClerkFreeRegistrationDetailsSaga(action: PayloadAction<number>) {
 
 function* approveFreeRegistrationSaga(action: PayloadAction<number>) {
   try {
-    yield call(
-      axiosInstance.put,
-      APIEndpoints.ClerkFreeRegistrationDetails.replace(
-        /:id$/,
-        `${action.payload}`,
-      ),
-    );
+    const response: AxiosResponse<ClerkFreeRegistrationDetailsResponse> =
+      yield call(
+        axiosInstance.put,
+        APIEndpoints.ClerkFreeRegistrationDetails.replace(
+          /:id$/,
+          `${action.payload}`,
+        ),
+        { approved: true },
+      );
+    const freeRegistrationDetails =
+      SerializationUtils.deserializeClerkFreeRegistrationDetailsResponse(
+        response.data,
+      );
+    yield put(storeClerkFreeRegistrationDetails(freeRegistrationDetails));
     yield put(
       setFreeRegistrationStatus(FreeRegistrationApprovalStatus.ApprovalSuccess),
     );
@@ -57,13 +64,20 @@ function* approveFreeRegistrationSaga(action: PayloadAction<number>) {
 
 function* rejectFreeRegistrationSaga(action: PayloadAction<number>) {
   try {
-    yield call(
-      axiosInstance.put,
-      APIEndpoints.ClerkFreeRegistrationDetails.replace(
-        /:id$/,
-        `${action.payload}`,
-      ),
-    );
+    const response: AxiosResponse<ClerkFreeRegistrationDetailsResponse> =
+      yield call(
+        axiosInstance.put,
+        APIEndpoints.ClerkFreeRegistrationDetails.replace(
+          /:id$/,
+          `${action.payload}`,
+        ),
+        { approved: false },
+      );
+    const freeRegistrationDetails =
+      SerializationUtils.deserializeClerkFreeRegistrationDetailsResponse(
+        response.data,
+      );
+    yield put(storeClerkFreeRegistrationDetails(freeRegistrationDetails));
     yield put(
       setFreeRegistrationStatus(FreeRegistrationApprovalStatus.RejectSuccess),
     );

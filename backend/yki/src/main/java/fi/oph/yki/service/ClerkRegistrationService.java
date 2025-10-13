@@ -15,6 +15,7 @@ import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.RegistrationLangOfCommunication;
+import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.util.DateUtil;
 import java.util.List;
@@ -49,14 +50,23 @@ public class ClerkRegistrationService {
   }
 
   @Transactional
-  public ClerkApprovalDTO updateApproval(final ClerkApprovalUpdateDTO dto) {
+  public ClerkApprovalDetailsDTO updateApproval(final Long freeRegistrationId, final ClerkApprovalUpdateDTO dto) {
     auditService.logOperation(YkiOperation.UPDATE_APPROVAL);
 
-    final FreeRegistration freeRegistration = freeRegistrationRepository.getReferenceById(dto.id());
+    final Boolean approved = dto.approved();
+    final FreeRegistration freeRegistration = freeRegistrationRepository.getReferenceById(freeRegistrationId);
 
-    freeRegistrationRepository.saveAndFlush(freeRegistration);
+    freeRegistration.setApproved(approved);
 
-    return createClerkApprovalDTO(freeRegistration);
+    if (approved) {
+      freeRegistration.getRegistration().setState(RegistrationState.COMPLETED);
+    } else {
+      freeRegistration.getRegistration().setState(RegistrationState.SUBMITTED);
+    }
+
+    final FreeRegistration freeRegistrationUpdated = freeRegistrationRepository.saveAndFlush(freeRegistration);
+
+    return createClerkApprovalDetailsDTO(freeRegistrationUpdated);
   }
 
   @Transactional(readOnly = true)
