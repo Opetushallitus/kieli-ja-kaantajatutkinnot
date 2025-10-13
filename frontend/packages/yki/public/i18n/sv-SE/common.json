@@ -168,7 +168,8 @@
         "confirmRegistration": "Bekräfta anmälan",
         "notFound": "Sidan hittades inte",
         "expiredLoginLink": "Länken gäller inte längre",
-        "customerSearch": "Asiakashaku"
+        "customerSearch": "Asiakashaku",
+        "customerDetails": "Asiakkaan tiedot"
       },
       "previous": "Tidigare"
     }

@@ -631,6 +631,9 @@
       "clerkFreeRegistrationDetailsPage": {
         "heading": "Maksuttomuuden tarkastukset"
       },
+      "clerkCustomerDetailsPage": {
+        "heading": "Asiakkaan tiedot"
+      },
       "confirmRegistrationPage": {
         "heading": "Vahvista ilmoittautuminen"
       },
