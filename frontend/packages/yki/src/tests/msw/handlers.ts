@@ -3,6 +3,7 @@ import { http, HttpResponse, PathParams } from 'msw';
 import { APIEndpoints } from 'enums/api';
 import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationInitRequest } from 'interfaces/publicRegistration';
+import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
@@ -207,4 +208,12 @@ export const handlers = [
       return HttpResponse.json({ success: true });
     },
   ),
+  http.get(APIEndpoints.ClerkCustomerDetails, ({ params }) => {
+    const index = params?.id ? Number(params.id) - 1 : NaN;
+    if (index >= 0) {
+      return HttpResponse.json(customerDetails[index]);
+    } else {
+      return notFound();
+    }
+  }),
 ];

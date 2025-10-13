@@ -62,3 +62,7 @@ Cypress.Commands.add(
 Cypress.Commands.add('openCustomerSearchPage', () => {
   cy.visit(AppRoutes.CustomerSearch);
 });
+
+Cypress.Commands.add('openClerkCustomerDetailsPage', (id: number) => {
+  cy.visit(AppRoutes.ClerkCustomerDetails.replace(/:id/, `${id}`));
+});

@@ -1,5 +1,6 @@
 import { all } from 'redux-saga/effects';
 
+import { watchClerkCustomerDetails } from 'redux/sagas/clerkCustomerDetails';
 import { watchClerkFreeRegistrations } from 'redux/sagas/clerkFreeRegistration';
 import { watchClerkFreeRegistrationDetails } from 'redux/sagas/clerkFreeRegistrationDetails';
 import { watchClerkOrganizers } from 'redux/sagas/clerkOrganizer';
@@ -35,5 +36,6 @@ export default function* rootSaga() {
     watchClerkOrganizers(),
     watchClerkFreeRegistrations(),
     watchClerkFreeRegistrationDetails(),
+    watchClerkCustomerDetails(),
   ]);
 }

@@ -1,17 +1,48 @@
 import { ChevronRight, HomeOutlined } from '@mui/icons-material';
 import { Box, Grid, IconButton, Paper } from '@mui/material';
-import { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { FC, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { APIResponseStatus, Severity } from 'shared/enums';
+import { useToast } from 'shared/hooks';
 
 import { ClerkCustomerDetails } from 'components/customer/ClerkCustomerDetails';
-import { useCommonTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { H2 } from 'ophTheme/Text';
+import { loadClerkCustomerDetails } from 'redux/reducers/clerkCustomerDetails';
+import { clerkCustomerDetailsSelector } from 'redux/selectors/clerkCustomerDetailsSelector';
 
 export const ClerkCustomerDetailsPage: FC = () => {
   const translateCommon = useCommonTranslation();
+  const { customerDetails, status } = useAppSelector(
+    clerkCustomerDetailsSelector,
+  );
 
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.clerkCustomer',
+  });
+
+  const { showToast } = useToast();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const params = useParams();
+
+  useEffect(() => {
+    if (
+      status === APIResponseStatus.NotStarted &&
+      params.id &&
+      !isNaN(+params.id)
+    ) {
+      dispatch(loadClerkCustomerDetails(+params.id));
+    } else if (status === APIResponseStatus.Error || isNaN(Number(params.id))) {
+      showToast({
+        severity: Severity.Error,
+        description: t('details.toasts.notFound'),
+      });
+      navigate(AppRoutes.ClerkCustomerDetails);
+    }
+  }, [dispatch, navigate, params.id, showToast, status, t]);
 
   return (
     <Box className="clerk-customer-details-page">
@@ -24,7 +55,11 @@ export const ClerkCustomerDetailsPage: FC = () => {
           <HomeOutlined color="secondary" fontSize="large" />
         </IconButton>
         <ChevronRight color="disabled" fontSize="large" />
-        <H2>{translateCommon('loadingContent')}</H2>
+        <H2>
+          {customerDetails
+            ? customerDetails.person.name
+            : translateCommon('loadingContent')}
+        </H2>
       </div>
 
       <Grid
