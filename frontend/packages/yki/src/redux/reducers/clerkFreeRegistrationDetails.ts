@@ -52,11 +52,11 @@ const clerkFreeRegistrationDetailsSlice = createSlice({
     ) {
       state.registrationApprovalStatus = action.payload;
     },
-    approveFreeRegistration(state) {
+    approveFreeRegistration(state, _action: PayloadAction<number>) {
       state.registrationApprovalStatus =
         FreeRegistrationApprovalStatus.ApprovalInProgress;
     },
-    rejectFreeRegistration(state) {
+    rejectFreeRegistration(state, _action: PayloadAction<number>) {
       state.registrationApprovalStatus =
         FreeRegistrationApprovalStatus.RejectInProgress;
     },

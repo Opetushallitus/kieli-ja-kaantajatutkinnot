@@ -43,7 +43,7 @@ public class ClerkRegistrationController {
     return clerkRegistrationService.getApproval(freeRegistrationId);
   }
 
-  @PutMapping
+  @PutMapping(path = "/approval/{freeRegistrationId:\\d+}", consumes = ALL_VALUE)
   @Operation(tags = TAG_REGISTRATION, summary = "Update approval")
   public ClerkApprovalDTO updateEnrollment(@RequestBody @Valid final ClerkApprovalUpdateDTO dto) {
     return clerkRegistrationService.updateApproval(dto);

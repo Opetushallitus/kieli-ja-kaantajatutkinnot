@@ -136,9 +136,7 @@ public class WebSecurityConfig {
         }
       );
 
-    return http
-      .csrf()
-      .disable()
+    return configCsrf(http)
       .authorizeHttpRequests(registry ->
         registry
           .requestMatchers("/api/v1/user/**")

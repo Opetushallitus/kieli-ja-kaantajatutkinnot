@@ -188,10 +188,10 @@ export const handlers = [
       return notFound();
     }
   }),
-  http.put(APIEndpoints.ApproveClerkFreeRegistration, () => {
+  http.put(APIEndpoints.ClerkFreeRegistrationDetails, () => {
     return HttpResponse.json({ success: true });
   }),
-  http.put(APIEndpoints.RejectClerkFreeRegistration, () => {
+  http.put(APIEndpoints.ClerkFreeRegistrationDetails, () => {
     return HttpResponse.json({ success: true });
   }),
 ];

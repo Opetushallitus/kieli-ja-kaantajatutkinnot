@@ -24,7 +24,6 @@ import {
   loadClerkFreeRegistrationDetails,
   resetClerkFreeRegistrationDetails,
 } from 'redux/reducers/clerkFreeRegistrationDetails';
-import { freeRegistrationApprovalStatusSelector } from 'redux/selectors/clerkFreeRegistration';
 import { clerkFreeRegistrationDetailsSelector } from 'redux/selectors/clerkFreeRegistrationDetails';
 
 export const ClerkFreeRegistrationDetails = () => {
@@ -46,7 +45,9 @@ export const ClerkFreeRegistrationDetails = () => {
     clerkFreeRegistrationDetailsSelector,
   );
 
-  const approvalStatus = useAppSelector(freeRegistrationApprovalStatusSelector);
+  const { registrationApprovalStatus } = useAppSelector(
+    clerkFreeRegistrationDetailsSelector,
+  );
 
   const translateCommon = useCommonTranslation();
 
@@ -59,21 +60,26 @@ export const ClerkFreeRegistrationDetails = () => {
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
+  const freeRegistrationId = params.id ? +params.id : null;
+
   useEffect(() => {
     if (
       status === APIResponseStatus.NotStarted &&
-      params.id &&
-      !isNaN(+params.id)
+      freeRegistrationId &&
+      !isNaN(freeRegistrationId)
     ) {
-      dispatch(loadClerkFreeRegistrationDetails(+params.id));
-    } else if (status === APIResponseStatus.Error || isNaN(Number(params.id))) {
+      dispatch(loadClerkFreeRegistrationDetails(freeRegistrationId));
+    } else if (
+      status === APIResponseStatus.Error ||
+      isNaN(Number(freeRegistrationId))
+    ) {
       showToast({
         severity: Severity.Error,
         description: t('details.toasts.notFound'),
       });
       navigate(AppRoutes.ClerkFreeRegistration);
     }
-  }, [dispatch, navigate, params.id, showToast, status, t]);
+  }, [dispatch, navigate, freeRegistrationId, showToast, status, t]);
 
   useEffect(() => {
     return () => {
@@ -83,34 +89,41 @@ export const ClerkFreeRegistrationDetails = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (approvalStatus === FreeRegistrationApprovalStatus.ApprovalSuccess) {
+    if (
+      registrationApprovalStatus ===
+      FreeRegistrationApprovalStatus.ApprovalSuccess
+    ) {
       showToast({
         severity: Severity.Success,
         description: t('details.toasts.approvalConfirmed'),
       });
     } else if (
-      approvalStatus === FreeRegistrationApprovalStatus.ApprovalError
+      registrationApprovalStatus ===
+      FreeRegistrationApprovalStatus.ApprovalError
     ) {
       showToast({
         severity: Severity.Error,
         description: t('details.toasts.approvalFailed'),
       });
     } else if (
-      approvalStatus === FreeRegistrationApprovalStatus.RejectSuccess
+      registrationApprovalStatus ===
+      FreeRegistrationApprovalStatus.RejectSuccess
     ) {
       showToast({
         severity: Severity.Success,
         description: t('details.toasts.rejectConfirmed'),
       });
-    } else if (approvalStatus === FreeRegistrationApprovalStatus.RejectError) {
+    } else if (
+      registrationApprovalStatus === FreeRegistrationApprovalStatus.RejectError
+    ) {
       showToast({
         severity: Severity.Error,
         description: t('details.toasts.rejectFailed'),
       });
     }
-  }, [approvalStatus, showToast, t]);
+  }, [registrationApprovalStatus, showToast, t]);
 
-  if (!registrationDetails) {
+  if (!registrationDetails || !freeRegistrationId) {
     return null;
   }
 
@@ -129,7 +142,8 @@ export const ClerkFreeRegistrationDetails = () => {
             style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
             onClick={() => setIsApproveModalOpen(true)}
             disabled={
-              approvalStatus === FreeRegistrationApprovalStatus.RejectSuccess
+              registrationApprovalStatus ===
+              FreeRegistrationApprovalStatus.RejectSuccess
             }
           >
             {t('details.buttons.approveFreeRegistration')}
@@ -139,7 +153,8 @@ export const ClerkFreeRegistrationDetails = () => {
             style={{ backgroundColor: '#0033CC', color: 'white' }}
             onClick={() => setIsRejectModalOpen(true)}
             disabled={
-              approvalStatus === FreeRegistrationApprovalStatus.ApprovalSuccess
+              registrationApprovalStatus ===
+              FreeRegistrationApprovalStatus.ApprovalSuccess
             }
           >
             {t('details.buttons.rejectFreeRegistration')}
@@ -255,6 +270,7 @@ export const ClerkFreeRegistrationDetails = () => {
   return (
     <div className="rows gapped free-registration-details">
       <FreeRegistrationModal
+        freeRegistrationId={freeRegistrationId}
         isApproveModalOpen={isApproveModalOpen}
         setIsApproveModal={setIsApproveModalOpen}
         isRejectModalOpen={isRejectModalOpen}

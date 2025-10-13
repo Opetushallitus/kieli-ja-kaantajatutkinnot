@@ -6,8 +6,12 @@ import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkFreeRegistrationDetailsResponse } from 'interfaces/clerkFreeRegistration';
 import {
+  approveFreeRegistration,
+  FreeRegistrationApprovalStatus,
   loadClerkFreeRegistrationDetails,
   rejectClerkFreeRegistrationDetails,
+  rejectFreeRegistration,
+  setFreeRegistrationStatus,
   storeClerkFreeRegistrationDetails,
 } from 'redux/reducers/clerkFreeRegistrationDetails';
 import { SerializationUtils } from 'utils/serialization';
@@ -32,9 +36,15 @@ function* loadClerkFreeRegistrationDetailsSaga(action: PayloadAction<number>) {
   }
 }
 
-function* approveFreeRegistrationSaga() {
+function* approveFreeRegistrationSaga(action: PayloadAction<number>) {
   try {
-    yield call(axiosInstance.put, APIEndpoints.ApproveClerkFreeRegistration);
+    yield call(
+      axiosInstance.put,
+      APIEndpoints.ClerkFreeRegistrationDetails.replace(
+        /:id$/,
+        `${action.payload}`,
+      ),
+    );
     yield put(
       setFreeRegistrationStatus(FreeRegistrationApprovalStatus.ApprovalSuccess),
     );
@@ -45,9 +55,15 @@ function* approveFreeRegistrationSaga() {
   }
 }
 
-function* rejectFreeRegistrationSaga() {
+function* rejectFreeRegistrationSaga(action: PayloadAction<number>) {
   try {
-    yield call(axiosInstance.put, APIEndpoints.RejectClerkFreeRegistration);
+    yield call(
+      axiosInstance.put,
+      APIEndpoints.ClerkFreeRegistrationDetails.replace(
+        /:id$/,
+        `${action.payload}`,
+      ),
+    );
     yield put(
       setFreeRegistrationStatus(FreeRegistrationApprovalStatus.RejectSuccess),
     );
