@@ -40,6 +40,11 @@ export type ClerkFreeRegistration = {
   registration: Registration;
 };
 
+export type SortOrder = 'asc' | 'desc' | '';
+type ClerkFreeRegistrationSortKeys = Omit<ClerkFreeRegistration, 'id'>;
+export type ClerkFreeRegistrationSort =
+  `${keyof ClerkFreeRegistrationSortKeys}:${SortOrder}`;
+
 export interface ClerkFreeRegistrationResponse
   extends Omit<
     ClerkFreeRegistration,

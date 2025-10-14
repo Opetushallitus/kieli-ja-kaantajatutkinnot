@@ -2,7 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Dayjs } from 'dayjs';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ClerkFreeRegistration } from 'interfaces/clerkFreeRegistration';
+import {
+  ClerkFreeRegistration,
+  ClerkFreeRegistrationSort,
+} from 'interfaces/clerkFreeRegistration';
 
 export enum FreeRegistrationModalStatus {
   NotStarted,
@@ -19,12 +22,14 @@ export enum FreeRegistrationModalStatus {
 
 interface ClerkFreeRegistrationState {
   freeRegistrations: Array<ClerkFreeRegistration>;
+  freeRegistrationsSort: ClerkFreeRegistrationSort;
   status: APIResponseStatus;
   modalSubmitStatus: FreeRegistrationModalStatus;
 }
 
 const initialState: ClerkFreeRegistrationState = {
   freeRegistrations: [],
+  freeRegistrationsSort: 'examDate:asc',
   status: APIResponseStatus.NotStarted,
   modalSubmitStatus: FreeRegistrationModalStatus.NotStarted,
 };
@@ -80,6 +85,12 @@ const clerkFreeRegistrationSlice = createSlice({
     resetInformationRequestStatus(state) {
       state.modalSubmitStatus = FreeRegistrationModalStatus.NotStarted;
     },
+    setFreeRegistrationsSort(
+      state,
+      action: PayloadAction<ClerkFreeRegistrationSort>,
+    ) {
+      state.freeRegistrationsSort = action.payload;
+    },
   },
 });
 
@@ -95,4 +106,5 @@ export const {
   rejectClerkFreeRegistrationInformationRequest,
   acceptClerkFreeRegistrationInformationRequest,
   resetInformationRequestStatus,
+  setFreeRegistrationsSort,
 } = clerkFreeRegistrationSlice.actions;

@@ -1,11 +1,12 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { Box } from '@mui/material';
-import { CustomButton, CustomModal, Text } from 'shared/components';
+import { OphButton } from '@opetushallitus/oph-design-system';
+import { CustomModal } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import { H1 } from 'ophTheme/Text';
+import { H2, Text } from 'ophTheme/Text';
 import {
   approveFreeRegistration,
   rejectFreeRegistration,
@@ -43,7 +44,7 @@ export const FreeRegistrationModal = ({
             alignItems="flex-start"
             gap={1}
           >
-            <H1>{t('details.modals.approve.title')}</H1>
+            <H2>{t('details.modals.approve.title')}</H2>
             <CloseIcon
               color={Color.Primary}
               aria-hidden={true}
@@ -59,23 +60,21 @@ export const FreeRegistrationModal = ({
           </Text>
 
           <div className="columns gapped flex-end">
-            <CustomButton
+            <OphButton
               variant={Variant.Outlined}
-              color={Color.Primary}
               onClick={() => setIsApproveModal(false)}
             >
               {translateCommon('cancel')}
-            </CustomButton>
-            <CustomButton
+            </OphButton>
+            <OphButton
               variant={Variant.Contained}
-              color={Color.Primary}
               onClick={() => {
                 dispatch(approveFreeRegistration());
                 setIsApproveModal(false);
               }}
             >
               {t('details.buttons.approveFreeRegistration')}
-            </CustomButton>
+            </OphButton>
           </div>
         </div>
       </CustomModal>
@@ -91,7 +90,7 @@ export const FreeRegistrationModal = ({
             alignItems="flex-start"
             gap={1}
           >
-            <H1>{t('details.modals.reject.title')}</H1>
+            <H2>{t('details.modals.reject.title')}</H2>
             <CloseIcon
               color={Color.Primary}
               aria-hidden={true}
@@ -107,23 +106,21 @@ export const FreeRegistrationModal = ({
           </Text>
 
           <div className="columns gapped flex-end">
-            <CustomButton
+            <OphButton
               variant={Variant.Outlined}
-              color={Color.Primary}
               onClick={() => setIsRejectModal(false)}
             >
               {translateCommon('cancel')}
-            </CustomButton>
-            <CustomButton
+            </OphButton>
+            <OphButton
               variant={Variant.Contained}
-              color={Color.Primary}
               onClick={() => {
                 dispatch(rejectFreeRegistration());
                 setIsRejectModal(false);
               }}
             >
               {t('details.buttons.rejectFreeRegistration')}
-            </CustomButton>
+            </OphButton>
           </div>
         </div>
       </CustomModal>

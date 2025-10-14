@@ -1,18 +1,14 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, TextField } from '@mui/material';
+import { OphButton } from '@opetushallitus/oph-design-system';
 import dayjs, { Dayjs } from 'dayjs';
 import { useEffect, useState } from 'react';
-import {
-  CustomButton,
-  CustomDatePicker,
-  CustomModal,
-  Text,
-} from 'shared/components';
+import { CustomDatePicker, CustomModal, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { H1, Label } from 'ophTheme/Text';
+import { H2, Label } from 'ophTheme/Text';
 import {
   FreeRegistrationModalStatus,
   resetInformationRequestStatus,
@@ -74,7 +70,7 @@ export const FreeRegistrationRequestInformationModal = ({
           alignItems="flex-start"
           gap={1}
         >
-          <H1>{t('details.modals.informationRequest.title')}</H1>
+          <H2>{t('details.modals.informationRequest.title')}</H2>
           <CloseIcon
             color={Color.Primary}
             aria-hidden={true}
@@ -92,8 +88,9 @@ export const FreeRegistrationRequestInformationModal = ({
         <div>
           <Label>{t('details.modals.informationRequest.subTitleLabel')}</Label>
           <Text>{t('details.modals.informationRequest.subTitle')}</Text>
+
           <TextField
-            label={t('details.modals.informationRequest.subTitleLabel')}
+            id="information-request-message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onBlur={() => setTouched(true)}
@@ -106,6 +103,7 @@ export const FreeRegistrationRequestInformationModal = ({
             minRows={4}
             multiline
             fullWidth
+            hiddenLabel
           />
         </div>
         <div>
@@ -125,14 +123,10 @@ export const FreeRegistrationRequestInformationModal = ({
           />
         </div>
         <div className="columns gapped flex-end">
-          <CustomButton
-            variant={Variant.Outlined}
-            color={Color.Primary}
-            onClick={handleCloseModal}
-          >
+          <OphButton variant={Variant.Outlined} onClick={handleCloseModal}>
             {translateCommon('cancel')}
-          </CustomButton>
-          <CustomButton
+          </OphButton>
+          <OphButton
             variant={Variant.Contained}
             disabled={
               modalSubmitStatus ===
@@ -153,7 +147,7 @@ export const FreeRegistrationRequestInformationModal = ({
             }}
           >
             {t('details.modals.informationRequest.submitButton')}
-          </CustomButton>
+          </OphButton>
         </div>
       </div>
     </CustomModal>

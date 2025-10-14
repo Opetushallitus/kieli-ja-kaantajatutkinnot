@@ -161,14 +161,12 @@ export const ClerkFreeRegistrationDetails = () => {
         <>
           <OphButton
             variant={Variant.Outlined}
-            style={{ backgroundColor: ophColors.white, color: ophColors.blue2 }}
             onClick={() => setIsRequestInformationModalOpen(true)}
           >
             {t('details.buttons.sendSupplementRequest')}
           </OphButton>
           <OphButton
             variant={Variant.Contained}
-            style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
             onClick={() => setIsApproveModalOpen(true)}
             disabled={
               modalSubmitStatus === FreeRegistrationModalStatus.RejectSuccess
@@ -177,8 +175,7 @@ export const ClerkFreeRegistrationDetails = () => {
             {t('details.buttons.approveFreeRegistration')}
           </OphButton>
           <OphButton
-            variant="contained"
-            style={{ backgroundColor: '#0033CC', color: 'white' }}
+            variant={Variant.Contained}
             onClick={() => setIsRejectModalOpen(true)}
             disabled={
               modalSubmitStatus === FreeRegistrationModalStatus.ApprovalSuccess
@@ -197,7 +194,6 @@ export const ClerkFreeRegistrationDetails = () => {
         <>
           <OphButton
             variant={Variant.Outlined}
-            style={{ backgroundColor: ophColors.white, color: ophColors.blue2 }}
             onClick={() => setIsRequestInformationModalOpen(true)}
           >
             {t('details.buttons.sendSupplementRequest')}

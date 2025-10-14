@@ -10,8 +10,7 @@ import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDeta
 class ClerkFreeRegistrationDetailsPage {
   elements = {
     title: () => cy.findByText('Maksuttomuuden tarkastukset'),
-    textboxByLabel: (label: string) =>
-      cy.findByRole('textbox', { name: label }),
+    informationRequestTextbox: () => cy.get('#information-request-message'),
     commentField: () => cy.get('#comment'),
     addCommentButton: () =>
       cy.findByRole('button', { name: 'Tallenna kommentti' }),
@@ -69,7 +68,7 @@ class ClerkFreeRegistrationDetailsPage {
   }
 
   FillOutInformationRequest({ message }) {
-    this.elements.textboxByLabel('Lisätietopyyntö').type(message);
+    this.elements.informationRequestTextbox().type(message);
   }
 
   expectCorrectActionButtonsVisible(id: number) {
