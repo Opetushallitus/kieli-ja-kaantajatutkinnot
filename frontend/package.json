@@ -36,7 +36,7 @@
     "@opetushallitus/oph-design-system": "^1.0.0",
     "@reduxjs/toolkit": "^2.0.0",
     "@types/js-cookie": "^3.0.6",
-    "axios": "^1.8.3",
+    "axios": "^1.12.0",
     "dayjs": "^1.11.13",
     "finnish-personal-identity-code-validator": "kimmotaskinen/finnish-personal-identity-code-validator#support-new-delimiters",
     "focus-trap-react": "^11.0.1",
@@ -110,6 +110,6 @@
     "typescript": "^5.2.2",
     "webpack": "^5.94.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-dev-server": "^5.2.1"
   }
 }

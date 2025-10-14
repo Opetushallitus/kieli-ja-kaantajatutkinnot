@@ -14,6 +14,7 @@ export interface ComboBoxProps {
   getOptionLabel?: (option: AutocompleteValue) => string;
   values: Array<ComboBoxOption>;
   value: AutocompleteValue;
+  placeholder?: string;
 }
 
 export type AutoCompleteComboBox = Omit<
