@@ -11,7 +11,7 @@ interface CustomerPerson {
   email: string;
 }
 
-export type RegistrationStatus =
+type RegistrationStatus =
   | 'PAID'
   | 'PAID_CANCELLED'
   | 'CANCELLED'
