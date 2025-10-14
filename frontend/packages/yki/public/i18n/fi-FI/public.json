@@ -128,7 +128,9 @@
             "approvalConfirmed": "Maksuttomuuden hyväksyminen onnistui",
             "approvalFailed": "Maksuttomuuden hyväksyminen epäonnistui",
             "rejectConfirmed": "Maksuttomuuden hylkääminen onnistui",
-            "rejectFailed": "Maksuttomuuden hylkääminen epäonnistui"
+            "rejectFailed": "Maksuttomuuden hylkääminen epäonnistui",
+            "informationRequestSuccess": "Lisätietopyyntö lähetetty",
+            "informationRequestFailed": "Lisätietopyynnön lähetys epäonnistui"
           },
           "modals": {
             "approve": {
@@ -140,9 +142,15 @@
               "subTitle": "Olet hylkäämässä ilmoittautumisen maksuttomuuden."
             },
             "informationRequest": {
-              "title": "Lähetä lisätietopyyntö"
+              "title": "Lähetä lisätietopyyntö",
+              "subTitle": "Kuvaile lyhyesti, miksi todistukset eivät kelpaa ja/tai mitä tietoa tarvitaan, jotta maksuttomuus voidaan hyväksyä. Linkki lisätietopyyntöön vastaamiseen lähetetään ilmoittautujalle lisätietopyynnön mukana.",
+              "subTitleLabel": "Lisätietopyyntö",
+              "messageError": "Kirjoita viesti",
+              "dueDateLabel": "Lisätietopyynnön eräpäivä *",
+              "dueDateDescription": "Eräpäivä asetetaan oletuksena 7 päivän päähän. Voit tarvittaessa muokata eräpäivää",
+              "dueDateError": "Tarkista tietopyynnön eräpäivä",
+              "submitButton": "Lähetä lisätietopyyntö"
             }
-
           }
         }
       },

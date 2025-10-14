@@ -194,4 +194,7 @@ export const handlers = [
   http.put(APIEndpoints.RejectClerkFreeRegistration, () => {
     return HttpResponse.json({ success: true });
   }),
+  http.post(APIEndpoints.ClerkFreeRegistrationInformationRequest, () => {
+    return HttpResponse.json({ success: true });
+  }),
 ];

@@ -25,7 +25,10 @@ import {
   loadClerkFreeRegistrationDetails,
   resetClerkFreeRegistrationDetails,
 } from 'redux/reducers/clerkFreeRegistrationDetails';
-import { freeRegistrationApprovalStatusSelector } from 'redux/selectors/clerkFreeRegistration';
+import {
+  freeRegistrationApprovalStatusSelector,
+  informationRequestStatusSelector,
+} from 'redux/selectors/clerkFreeRegistration';
 import { clerkFreeRegistrationDetailsSelector } from 'redux/selectors/clerkFreeRegistrationDetails';
 
 export const ClerkFreeRegistrationDetails = () => {
@@ -49,6 +52,9 @@ export const ClerkFreeRegistrationDetails = () => {
   );
 
   const approvalStatus = useAppSelector(freeRegistrationApprovalStatusSelector);
+  const informationRequestStatus = useAppSelector(
+    informationRequestStatusSelector,
+  );
 
   const translateCommon = useCommonTranslation();
 
@@ -112,6 +118,20 @@ export const ClerkFreeRegistrationDetails = () => {
     }
   }, [approvalStatus, showToast, t]);
 
+  useEffect(() => {
+    if (informationRequestStatus === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: t('details.toasts.informationRequestSuccess'),
+      });
+    } else if (informationRequestStatus === APIResponseStatus.Error) {
+      showToast({
+        severity: Severity.Error,
+        description: t('details.toasts.informationRequestFailed'),
+      });
+    }
+  }, [informationRequestStatus, showToast, t]);
+
   if (!registrationDetails) {
     return null;
   }
@@ -122,7 +142,7 @@ export const ClerkFreeRegistrationDetails = () => {
         <>
           <OphButton
             variant={Variant.Outlined}
-            style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
+            style={{ backgroundColor: ophColors.white, color: ophColors.blue2 }}
             onClick={() => setIsRequestInformationModalOpen(true)}
           >
             {t('details.buttons.sendInformationRequest')}
@@ -256,6 +276,26 @@ export const ClerkFreeRegistrationDetails = () => {
     }
   };
 
+  const renderExamSessionDetails = () => (
+    <Text>
+      {`${translateLanguage(
+        registrationDetails.examSession.language,
+      )} - ${translateLevel(
+        registrationDetails.examSession.level,
+      )} ${DateUtils.formatOptionalDate(
+        registrationDetails.examSession.examDate,
+        'l',
+      )}`}
+    </Text>
+  );
+
+  const renderPersonDetails = () => (
+    <Text>
+      <b>{`${registrationDetails.person.firstName} ${registrationDetails.person.lastName}`}</b>{' '}
+      {`(${registrationDetails.person.socialSecurityNumber})`}
+    </Text>
+  );
+
   return (
     <div className="rows gapped free-registration-details">
       <FreeRegistrationModal
@@ -265,17 +305,8 @@ export const ClerkFreeRegistrationDetails = () => {
         setIsRejectModal={setIsRejectModalOpen}
       />
       <div>
-        <b>{`${registrationDetails.person.firstName} ${registrationDetails.person.lastName}`}</b>{' '}
-        <Text>{`(${registrationDetails.person.socialSecurityNumber})`}</Text>
-        <div>
-          {translateLanguage(registrationDetails.examSession.language)}
-          {' - '}
-          {translateLevel(registrationDetails.examSession.level)}{' '}
-          {DateUtils.formatOptionalDate(
-            registrationDetails.examSession.examDate,
-            'l',
-          )}
-        </div>
+        {renderPersonDetails()}
+        {renderExamSessionDetails()}
       </div>
       <div className="columns gapped-xxl align-items-start">
         <div className="rows gapped-xs">
@@ -384,6 +415,9 @@ export const ClerkFreeRegistrationDetails = () => {
       <FreeRegistrationRequestInformationModal
         isModalOpen={isRequestInformationModalOpen}
         setIsModalOpen={setIsRequestInformationModalOpen}
+        registrationId={registrationDetails.id}
+        renderPersonDetails={renderPersonDetails}
+        renderExamSessionDetails={renderExamSessionDetails}
       />
     </div>
   );

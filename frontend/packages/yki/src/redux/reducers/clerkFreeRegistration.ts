@@ -16,9 +16,9 @@ export enum FreeRegistrationApprovalStatus {
 
 interface ClerkFreeRegistrationState {
   freeRegistrations: Array<ClerkFreeRegistration>;
-  status: APIResponseStatus;
+  status: APIResponseStatus; // loading list
   registrationApprovalStatus: FreeRegistrationApprovalStatus;
-  informationRequestStatus: APIResponseStatus;
+  informationRequestStatus: APIResponseStatus; // creating information request
 }
 
 const initialState: ClerkFreeRegistrationState = {
@@ -45,7 +45,6 @@ const clerkFreeRegistrationSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.freeRegistrations = action.payload;
     },
-
     setFreeRegistrationStatus(
       state,
       action: PayloadAction<FreeRegistrationApprovalStatus>,
@@ -62,15 +61,22 @@ const clerkFreeRegistrationSlice = createSlice({
     },
     submitClerkFreeRegistrationInformationRequest(
       state,
-      _action: PayloadAction<{ message: string; dueDate: Dayjs }>,
+      _action: PayloadAction<{
+        registrationId: number;
+        message: string;
+        dueDate: Dayjs;
+      }>,
     ) {
-      state.status = APIResponseStatus.InProgress;
+      state.informationRequestStatus = APIResponseStatus.InProgress;
     },
     rejectClerkFreeRegistrationInformationRequest(state) {
-      state.status = APIResponseStatus.Error;
+      state.informationRequestStatus = APIResponseStatus.Error;
     },
     acceptClerkFreeRegistrationInformationRequest(state) {
-      state.status = APIResponseStatus.Success;
+      state.informationRequestStatus = APIResponseStatus.Success;
+    },
+    resetInformationRequestStatus(state) {
+      state.informationRequestStatus = APIResponseStatus.NotStarted;
     },
   },
 });
@@ -86,4 +92,5 @@ export const {
   submitClerkFreeRegistrationInformationRequest,
   rejectClerkFreeRegistrationInformationRequest,
   acceptClerkFreeRegistrationInformationRequest,
+  resetInformationRequestStatus,
 } = clerkFreeRegistrationSlice.actions;

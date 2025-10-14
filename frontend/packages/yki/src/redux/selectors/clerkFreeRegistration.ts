@@ -28,3 +28,6 @@ export const selectFilteredFreeRegistrations = createSelector(
 
 export const freeRegistrationApprovalStatusSelector = (state: RootState) =>
   state.clerkFreeRegistration.registrationApprovalStatus;
+
+export const informationRequestStatusSelector = (state: RootState) =>
+  state.clerkFreeRegistration.informationRequestStatus;

@@ -18,6 +18,7 @@ import {
   storeClerkFreeRegistrations,
   submitClerkFreeRegistrationInformationRequest,
 } from 'redux/reducers/clerkFreeRegistration';
+import { loadClerkFreeRegistrationDetails } from 'redux/reducers/clerkFreeRegistrationDetails';
 import { SerializationUtils } from 'utils/serialization';
 
 function* loadClerkFreeRegistrationsSaga() {
@@ -60,19 +61,26 @@ function* rejectFreeRegistrationSaga() {
 }
 
 function* submitClerkFreeRegistrationInformationRequestSaga(
-  action: PayloadAction<{ message: string; dueDate: Dayjs }>,
+  action: PayloadAction<{
+    registrationId: number;
+    message: string;
+    dueDate: Dayjs;
+  }>,
 ) {
   try {
-    const { message, dueDate } = action.payload;
-    yield call(
-      axiosInstance.post,
-      APIEndpoints.ClerkFreeRegistrationInformationRequest,
-      {
-        message,
-        dueDate: dueDate.toISOString(),
-      },
-    );
+    const { registrationId, message, dueDate } = action.payload;
+    const endpoint =
+      APIEndpoints.ClerkFreeRegistrationInformationRequest.replace(
+        ':id',
+        `${registrationId}`,
+      );
+    yield call(axiosInstance.post, endpoint, {
+      message,
+      dueDate: dueDate.toISOString(),
+    });
     yield put(acceptClerkFreeRegistrationInformationRequest());
+    yield put(loadClerkFreeRegistrationDetails(registrationId));
+    yield put(loadClerkFreeRegistrations());
   } catch (error) {
     yield put(rejectClerkFreeRegistrationInformationRequest());
   }
