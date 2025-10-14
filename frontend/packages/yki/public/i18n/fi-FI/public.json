@@ -838,7 +838,7 @@
           "actionsAvailable": "Kun olet kirjautunut, voit katsoa ja muokata ilmoittautumisiasi YKI-testeihin.",
           "loginRequired": "Et ole kirjautunut palveluun. <strong>Kirjaudu Suomi.fi-tunnistautumisen kautta tai sähköpostistasi löytyvällä kirjautumislinkillä.</strong>",
           "loginThroughSuomiFi": "Tunnistaudu Suomi.fi:n kautta",
-          "title": "Yleiset kielitutkinnont (YKI) - Kirjautuminen vaaditaan"
+          "title": "Yleiset kielitutkinnot (YKI) - Kirjautuminen vaaditaan"
         },
         "registrations": {
           "actions": {
