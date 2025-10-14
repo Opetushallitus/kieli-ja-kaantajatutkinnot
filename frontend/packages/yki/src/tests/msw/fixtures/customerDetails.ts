@@ -4,7 +4,10 @@ import {
   ExamLevel,
   ServiceLanguage,
 } from 'enums/app';
-import { ClerkCustomerDetails } from 'interfaces/clerkCustomer';
+import {
+  ClerkCustomerDetails,
+  QueueOfferStatus,
+} from 'interfaces/clerkCustomer';
 
 export const customerDetails: ClerkCustomerDetails[] = [
   {
@@ -26,7 +29,10 @@ export const customerDetails: ClerkCustomerDetails[] = [
           language: ExamLanguage.FIN,
           level: ExamLevel.KESKI,
         },
-        examLocation: 'Testipaikan nimi\nKajaani',
+        examLocation: {
+          schoolName: 'Testipaikan nimi',
+          municipality: 'Kajaani',
+        },
         registrationStatus: 'PAID',
         registrationDate: '2025-05-06',
       },
@@ -38,11 +44,14 @@ export const customerDetails: ClerkCustomerDetails[] = [
           language: ExamLanguage.FIN,
           level: ExamLevel.KESKI,
         },
-        examLocation: 'Testipaikan nimi\nKajaani',
+        examLocation: {
+          schoolName: 'Testipaikan nimi',
+          municipality: 'Kajaani',
+        },
         registrationStatus: 'NOT_PAID',
         registrationDate: '2025-05-06',
         queueSpotOffered: {
-          offered: true,
+          offered: QueueOfferStatus.Offered,
           dueDate: '2025-09-20',
         },
       },
@@ -54,7 +63,10 @@ export const customerDetails: ClerkCustomerDetails[] = [
           language: ExamLanguage.FIN,
           level: ExamLevel.KESKI,
         },
-        examLocation: 'Testipaikan nimi\nKajaani',
+        examLocation: {
+          schoolName: 'Testipaikan nimi',
+          municipality: 'Kajaani',
+        },
         state: 'REVIEWED',
       },
     ],

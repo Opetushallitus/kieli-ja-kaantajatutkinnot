@@ -30,14 +30,17 @@ interface Exam {
     language: ExamLanguage;
     level: ExamLevel;
   };
-  examLocation: string;
+  examLocation: {
+    schoolName: string;
+    municipality: string;
+  };
   registrationStatus: RegistrationStatus;
   registrationDate: string;
 }
 
 interface QueuedRegistration extends Exam {
   queueSpotOffered: {
-    offered: boolean;
+    offered: QueueOfferStatus;
     dueDate: string;
   };
 }
@@ -47,6 +50,12 @@ type ExamState = 'REVIEWED' | 'CANCELLED' | 'REGISTRADED';
 interface PastExam
   extends Omit<Exam, 'registrationStatus' | 'registrationDate'> {
   state: ExamState;
+}
+
+export enum QueueOfferStatus {
+  Offered = 'OFFERED',
+  NotOffered = 'NOT_OFFERED',
+  NotAccepted = 'NOT_ACCEPTED',
 }
 
 export interface ClerkCustomerDetails {
