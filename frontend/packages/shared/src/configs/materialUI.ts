@@ -20,6 +20,23 @@ const fontWeightBold = 700;
 const fontWeightMedium = 500;
 const fontWeightRegular = 400;
 
+declare module '@mui/material/styles' {
+  interface CustomTypographyVariants {
+    label: React.CSSProperties;
+  }
+  interface CustomTypographyVariantsOptions {
+    label?: React.CSSProperties;
+  }
+  interface TypographyVariants extends CustomTypographyVariants {}
+  interface TypographyVariantsOptions extends CustomTypographyVariants {}
+}
+
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    label: true;
+  }
+}
+
 export const theme = createTheme({
   components: {
     MuiOutlinedInput: {
