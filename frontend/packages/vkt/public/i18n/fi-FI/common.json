@@ -87,7 +87,8 @@
           "fileUploadError": "Tiedoston lähetys epäonnistui, ole hyvä ja yritä uudelleen",
           "userAttachmentsMissing": "Koulutusvalinnan vaadittavat liitteet puuttuu",
           "invalidBirthdateFormat": "Syntymäajan muoto on virheellinen",
-          "authHashExpired": "Linkki on vanhentunut"
+          "authHashExpired": "Linkki on vanhentunut",
+          "examinerConvertEnrollmentAlreadyCompleted": "Ilmoittautuminen on jo valmis"
         },
         "customTextField": {
           "emailFormat": "Sähköpostiosoite on virheellinen",

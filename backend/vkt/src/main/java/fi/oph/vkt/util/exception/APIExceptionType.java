@@ -52,7 +52,8 @@ public enum APIExceptionType {
   ONR_PERSON_INSERT_EXCEPTION,
   EXAMINER_NEW_EXAM_EVENT_MISMATCH,
   INVALID_BIRTHDATE_FORMAT,
-  INVALID_FROM_TO_DATES;
+  INVALID_FROM_TO_DATES,
+  EXAMINER_CONVERT_ENROLLMENT_ALREADY_COMPLETED;
 
   public String getCode() {
     final StringBuilder codeBuilder = new StringBuilder();

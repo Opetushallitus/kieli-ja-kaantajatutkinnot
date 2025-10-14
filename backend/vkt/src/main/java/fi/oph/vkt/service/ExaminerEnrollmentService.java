@@ -113,6 +113,8 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     final long enrollmentContactId,
     final ExaminerEnrollmentExamEventDTO examEvent
   ) {
+    auditService.logById(VktOperation.CONVERT_EXAMINER_CONTACT_REQUEST, enrollmentContactId);
+
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
       enrollmentContactId
     );
@@ -120,6 +122,10 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     checkExaminerOid(enrollmentAppointment, oid);
 
     final String baseUrlAPI = environment.getRequiredProperty("app.base-url.api");
+
+    if (EnrollmentAppointmentStatus.COMPLETED.equals(enrollmentAppointment.getStatus())) {
+      throw new APIException(APIExceptionType.EXAMINER_CONVERT_ENROLLMENT_ALREADY_COMPLETED);
+    }
 
     enrollmentAppointment.setStatus(EnrollmentAppointmentStatus.ENROLLMENT_CREATED);
     enrollmentAppointment.setExaminerExamEvent(examinerExamEvent);
