@@ -1,4 +1,9 @@
-import { ExamLanguage, ExamLevel } from 'enums/app';
+import {
+  CertificateLanguage,
+  ExamLanguage,
+  ExamLevel,
+  ServiceLanguage,
+} from 'enums/app';
 import { ClerkCustomerDetails } from 'interfaces/clerkCustomer';
 
 export const customerDetails: ClerkCustomerDetails[] = [
@@ -8,8 +13,8 @@ export const customerDetails: ClerkCustomerDetails[] = [
       name: 'Osallistuja Aino',
       oid: '1.2.246.562.24.82364099322',
       nationality: 'Suomi',
-      languageOfService: 'suomi',
-      languageOfCertificate: 'suomi',
+      languageOfService: ServiceLanguage.FI,
+      languageOfCertificate: CertificateLanguage.FI,
       phoneNumber: '+358 401234567',
       streetAddress: 'Katuosoite 123, 33100 Tampere',
       email: 'aino.osallistuja@loremipsum.fi',

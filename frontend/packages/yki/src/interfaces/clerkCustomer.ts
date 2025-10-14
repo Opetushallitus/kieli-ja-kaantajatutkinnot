@@ -1,11 +1,16 @@
-import { ExamLanguage, ExamLevel } from 'enums/app';
+import {
+  CertificateLanguage,
+  ExamLanguage,
+  ExamLevel,
+  ServiceLanguage,
+} from 'enums/app';
 
 interface CustomerPerson {
   name: string;
   oid: string;
   nationality: string;
-  languageOfService: string;
-  languageOfCertificate: string;
+  languageOfService: ServiceLanguage;
+  languageOfCertificate: CertificateLanguage;
   phoneNumber: string;
   streetAddress: string;
   email: string;
