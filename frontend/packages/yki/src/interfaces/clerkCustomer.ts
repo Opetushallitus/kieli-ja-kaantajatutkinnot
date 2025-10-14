@@ -38,11 +38,15 @@ interface Exam {
   registrationDate: string;
 }
 
+type QueueSpotOffered =
+  | { offered: QueueOfferStatus.NotOffered }
+  | {
+      offered: QueueOfferStatus.Offered | QueueOfferStatus.NotAccepted;
+      dueDate: string;
+    };
+
 interface QueuedRegistration extends Exam {
-  queueSpotOffered: {
-    offered: QueueOfferStatus;
-    dueDate: string;
-  };
+  queueSpotOffered: QueueSpotOffered;
 }
 
 type ExamState = 'REVIEWED' | 'CANCELLED' | 'REGISTRADED';
