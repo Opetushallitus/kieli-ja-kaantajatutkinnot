@@ -34,9 +34,9 @@
     "yki:tslint": "yarn g:tsc --pretty --noEmit"
   },
   "dependencies": {
-    "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.14.0"
+    "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.14.1"
   },
   "devDependencies": {
-    "multer": "^1.4.5-lts.1"
+    "multer": "^2.0.2"
   }
 }
