@@ -73,13 +73,6 @@ const ContactDetailInputFields = ({ showErrors }: { showErrors: boolean }) => {
       updateModifyContactDetailsField(fieldName, event.target.value);
     };
 
-  const handleBlur =
-    (fieldName: keyof ModifyContactDetails) =>
-    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const trimmedValue = event.target.value ? event.target.value.trim() : '';
-      updateModifyContactDetailsField(fieldName, trimmedValue);
-    };
-
   const getLabeledTextFieldAttributes = (
     fieldName: keyof ModifyContactDetails,
   ) => {
@@ -87,7 +80,6 @@ const ContactDetailInputFields = ({ showErrors }: { showErrors: boolean }) => {
       id: `modify-contact-details__${fieldName}`,
       label: t('labels.' + fieldName) + ' *',
       onChange: handleChange(fieldName),
-      onBlur: handleBlur(fieldName),
       value: modifyContactDetails[fieldName] || '',
       error: showErrors && !!fieldErrors[fieldName],
       helperText: fieldErrors[fieldName]
@@ -197,7 +189,20 @@ const ControlButtons = ({
   const modifyRequestInProgress =
     modifyContactDetailsStatus === APIResponseStatus.InProgress;
 
+  const trimmedValue = (value?: string) => (value ? value.trim() : '');
+
   const onSave = () => {
+    dispatch(
+      updateModifyContactDetails({
+        email: trimmedValue(modifyContactDetails.email),
+        confirmEmail: trimmedValue(modifyContactDetails.confirmEmail),
+        phoneNumber: trimmedValue(modifyContactDetails.postOffice),
+        streetAddress: trimmedValue(modifyContactDetails.streetAddress),
+        postOffice: trimmedValue(modifyContactDetails.postOffice),
+        zip: trimmedValue(modifyContactDetails.zip),
+      }),
+    );
+
     setShowErrors(true);
     const errors = getErrors();
     if (Object.values(errors).some((v) => v)) {
