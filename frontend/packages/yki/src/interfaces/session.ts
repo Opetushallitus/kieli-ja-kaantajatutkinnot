@@ -2,6 +2,7 @@ export interface EmailAuthenticatedSession {
   'auth-method': 'EMAIL';
   identity: {
     'external-user-id': string;
+    email: string;
   };
 }
 
