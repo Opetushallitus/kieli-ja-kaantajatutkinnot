@@ -81,7 +81,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ClerkHomePage}
           element={
-            <AkrTitlePage title={createTitle('clerkHomepage')}>
+            <AkrTitlePage title="clerkHomepage">
               <ClerkHomePage />
             </AkrTitlePage>
           }
@@ -89,7 +89,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ExaminationDatesPage}
           element={
-            <AkrTitlePage title={createTitle('clerkHomepage')}>
+            <AkrTitlePage title="clerkHomepage">
               <ExaminationDatesPage />
             </AkrTitlePage>
           }
@@ -97,7 +97,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.MeetingDatesPage}
           element={
-            <AkrTitlePage title={createTitle('clerkHomepage')}>
+            <AkrTitlePage title="clerkHomepage">
               <MeetingDatesPage />
             </AkrTitlePage>
           }
@@ -105,7 +105,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.StatisticsPage}
           element={
-            <AkrTitlePage title={createTitle('clerkHomepage')}>
+            <AkrTitlePage title="clerkHomepage">
               <StatisticsPage />
             </AkrTitlePage>
           }
@@ -113,7 +113,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ClerkSendEmailPage}
           element={
-            <AkrTitlePage title={createTitle('clerkHomepage')}>
+            <AkrTitlePage title="clerkHomepage">
               <ClerkSendEmailPage />
             </AkrTitlePage>
           }
@@ -121,7 +121,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ClerkTranslatorOverviewPage}
           element={
-            <AkrTitlePage title={createTitle('clerkHomepage')}>
+            <AkrTitlePage title="clerkHomepage">
               <ClerkTranslatorOverviewPage />
             </AkrTitlePage>
           }
@@ -129,7 +129,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ClerkPersonSearchPage}
           element={
-            <AkrTitlePage title={createTitle('clerkHomepage')}>
+            <AkrTitlePage title="clerkHomepage">
               <ClerkPersonSearchPage />
             </AkrTitlePage>
           }
@@ -137,7 +137,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ClerkNewTranslatorPage}
           element={
-            <AkrTitlePage title={createTitle('clerkHomepage')}>
+            <AkrTitlePage title="clerkHomepage">
               <ClerkNewTranslatorPage />
             </AkrTitlePage>
           }
@@ -145,7 +145,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.AccessibilityStatementPage}
           element={
-            <AkrTitlePage title={createTitle('accessibilityStatement')}>
+            <AkrTitlePage title="accessibilityStatement">
               <AccessibilityStatementPage />
             </AkrTitlePage>
           }
@@ -153,7 +153,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.PrivacyPolicyPage}
           element={
-            <AkrTitlePage title={createTitle('privacyPolicy')}>
+            <AkrTitlePage title="privacyPolicy">
               <PrivacyPolicyPage />
             </AkrTitlePage>
           }
@@ -161,7 +161,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.NotFoundPage}
           element={
-            <AkrTitlePage title={createTitle('notFound')}>
+            <AkrTitlePage title="notFound">
               <NotFoundPage />
             </AkrTitlePage>
           }
