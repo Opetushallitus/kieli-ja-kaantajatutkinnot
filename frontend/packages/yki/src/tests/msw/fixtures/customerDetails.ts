@@ -36,6 +36,36 @@ export const customerDetails: ClerkCustomerDetails[] = [
         registrationStatus: 'PAID',
         registrationDate: '2025-05-06',
       },
+      {
+        examinationDate: '2025-10-23',
+        exam: {
+          language: ExamLanguage.DEU,
+          level: ExamLevel.YLIN,
+        },
+        examLocation: 'Lassilan koulu\nLassila',
+        registrationStatus: 'PAID_CANCELLED',
+        registrationDate: '2025-05-06',
+      },
+      {
+        examinationDate: '2025-011-30',
+        exam: {
+          language: ExamLanguage.SME,
+          level: ExamLevel.PERUS,
+        },
+        examLocation: 'Lorem ipsum oppilaitos\nHelsinki',
+        registrationStatus: 'CANCELLED',
+        registrationDate: '2025-05-06',
+      },
+      {
+        examinationDate: '2025-12-30',
+        exam: {
+          language: ExamLanguage.SME,
+          level: ExamLevel.YLIN,
+        },
+        examLocation: 'Lorem ipsum oppilaitos\nHelsinki',
+        registrationStatus: 'CHECK_IN_PROGRESS',
+        registrationDate: '2025-05-06',
+      },
     ],
     queuedExams: [
       {
@@ -52,6 +82,20 @@ export const customerDetails: ClerkCustomerDetails[] = [
         registrationDate: '2025-05-06',
         queueSpotOffered: {
           offered: QueueOfferStatus.Offered,
+          dueDate: '2025-09-20',
+        },
+      },
+      {
+        examinationDate: '2025-10-18',
+        exam: {
+          language: ExamLanguage.DEU,
+          level: ExamLevel.KESKI,
+        },
+        examLocation: 'Lassilan koulu\nLassila',
+        registrationStatus: 'OVERDUE',
+        registrationDate: '2025-05-06',
+        queueSpotOffered: {
+          offered: false,
           dueDate: '2025-09-20',
         },
       },
