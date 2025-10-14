@@ -196,16 +196,16 @@ const ControlButtons = ({
       updateModifyContactDetails({
         email: trimmedValue(modifyContactDetails.email),
         confirmEmail: trimmedValue(modifyContactDetails.confirmEmail),
-        phoneNumber: trimmedValue(modifyContactDetails.postOffice),
+        phoneNumber: trimmedValue(modifyContactDetails.phoneNumber),
         streetAddress: trimmedValue(modifyContactDetails.streetAddress),
         postOffice: trimmedValue(modifyContactDetails.postOffice),
         zip: trimmedValue(modifyContactDetails.zip),
       }),
     );
 
-    setShowErrors(true);
     const errors = getErrors();
     if (Object.values(errors).some((v) => v)) {
+      setShowErrors(true);
       const dialogContent = (
         <div>
           <Text>{t('errorDialog.fixErrors')}</Text>
