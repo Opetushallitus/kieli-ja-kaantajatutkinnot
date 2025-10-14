@@ -8,16 +8,17 @@ import {
   CustomModal,
   Text,
 } from 'shared/components';
-import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import { Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { H1, Label } from 'ophTheme/Text';
 import {
+  FreeRegistrationModalStatus,
   resetInformationRequestStatus,
   submitClerkFreeRegistrationInformationRequest,
 } from 'redux/reducers/clerkFreeRegistration';
-import { informationRequestStatusSelector } from 'redux/selectors/clerkFreeRegistration';
+import { clerkFreeRegistrationSelector } from 'redux/selectors/clerkFreeRegistration';
 
 type FreeRegistrationRequestInformationModalProps = {
   isModalOpen: boolean;
@@ -43,9 +44,7 @@ export const FreeRegistrationRequestInformationModal = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkFreeRegistration',
   });
-  const informationRequestStatus = useAppSelector(
-    informationRequestStatusSelector,
-  );
+  const { modalSubmitStatus } = useAppSelector(clerkFreeRegistrationSelector);
   const dispatch = useAppDispatch();
   const translateCommon = useCommonTranslation();
 
@@ -135,8 +134,10 @@ export const FreeRegistrationRequestInformationModal = ({
           </CustomButton>
           <CustomButton
             variant={Variant.Contained}
-            color={Color.Primary}
-            disabled={informationRequestStatus === APIResponseStatus.InProgress}
+            disabled={
+              modalSubmitStatus ===
+              FreeRegistrationModalStatus.InformationRequestInProgress
+            }
             onClick={() => {
               setTouched(true);
               if (!message || !dueDate) return;

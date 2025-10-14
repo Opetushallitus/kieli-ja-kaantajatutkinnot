@@ -4,7 +4,7 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkFreeRegistration } from 'interfaces/clerkFreeRegistration';
 
-export enum FreeRegistrationApprovalStatus {
+export enum FreeRegistrationModalStatus {
   NotStarted,
   ApprovalInProgress,
   ApprovalSuccess,
@@ -12,20 +12,21 @@ export enum FreeRegistrationApprovalStatus {
   RejectInProgress,
   RejectSuccess,
   RejectError,
+  InformationRequestInProgress,
+  InformationRequestSuccess,
+  InformationRequestError,
 }
 
 interface ClerkFreeRegistrationState {
   freeRegistrations: Array<ClerkFreeRegistration>;
-  status: APIResponseStatus; // loading list
-  registrationApprovalStatus: FreeRegistrationApprovalStatus;
-  informationRequestStatus: APIResponseStatus; // creating information request
+  status: APIResponseStatus;
+  modalSubmitStatus: FreeRegistrationModalStatus;
 }
 
 const initialState: ClerkFreeRegistrationState = {
   freeRegistrations: [],
   status: APIResponseStatus.NotStarted,
-  registrationApprovalStatus: FreeRegistrationApprovalStatus.NotStarted,
-  informationRequestStatus: APIResponseStatus.NotStarted,
+  modalSubmitStatus: FreeRegistrationModalStatus.NotStarted,
 };
 
 const clerkFreeRegistrationSlice = createSlice({
@@ -47,17 +48,15 @@ const clerkFreeRegistrationSlice = createSlice({
     },
     setFreeRegistrationStatus(
       state,
-      action: PayloadAction<FreeRegistrationApprovalStatus>,
+      action: PayloadAction<FreeRegistrationModalStatus>,
     ) {
-      state.registrationApprovalStatus = action.payload;
+      state.modalSubmitStatus = action.payload;
     },
     approveFreeRegistration(state) {
-      state.registrationApprovalStatus =
-        FreeRegistrationApprovalStatus.ApprovalInProgress;
+      state.modalSubmitStatus = FreeRegistrationModalStatus.ApprovalInProgress;
     },
     rejectFreeRegistration(state) {
-      state.registrationApprovalStatus =
-        FreeRegistrationApprovalStatus.RejectInProgress;
+      state.modalSubmitStatus = FreeRegistrationModalStatus.RejectInProgress;
     },
     submitClerkFreeRegistrationInformationRequest(
       state,
@@ -67,16 +66,19 @@ const clerkFreeRegistrationSlice = createSlice({
         dueDate: Dayjs;
       }>,
     ) {
-      state.informationRequestStatus = APIResponseStatus.InProgress;
+      state.modalSubmitStatus =
+        FreeRegistrationModalStatus.InformationRequestInProgress;
     },
     rejectClerkFreeRegistrationInformationRequest(state) {
-      state.informationRequestStatus = APIResponseStatus.Error;
+      state.modalSubmitStatus =
+        FreeRegistrationModalStatus.InformationRequestError;
     },
     acceptClerkFreeRegistrationInformationRequest(state) {
-      state.informationRequestStatus = APIResponseStatus.Success;
+      state.modalSubmitStatus =
+        FreeRegistrationModalStatus.InformationRequestSuccess;
     },
     resetInformationRequestStatus(state) {
-      state.informationRequestStatus = APIResponseStatus.NotStarted;
+      state.modalSubmitStatus = FreeRegistrationModalStatus.NotStarted;
     },
   },
 });

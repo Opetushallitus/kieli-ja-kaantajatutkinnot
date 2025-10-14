@@ -9,7 +9,7 @@ import { ClerkFreeRegistrationResponse } from 'interfaces/clerkFreeRegistration'
 import {
   acceptClerkFreeRegistrationInformationRequest,
   approveFreeRegistration,
-  FreeRegistrationApprovalStatus,
+  FreeRegistrationModalStatus,
   loadClerkFreeRegistrations,
   rejectClerkFreeRegistrationInformationRequest,
   rejectClerkFreeRegistrations,
@@ -38,11 +38,11 @@ function* approveFreeRegistrationSaga() {
   try {
     yield call(axiosInstance.put, APIEndpoints.ApproveClerkFreeRegistration);
     yield put(
-      setFreeRegistrationStatus(FreeRegistrationApprovalStatus.ApprovalSuccess),
+      setFreeRegistrationStatus(FreeRegistrationModalStatus.ApprovalSuccess),
     );
   } catch (error) {
     yield put(
-      setFreeRegistrationStatus(FreeRegistrationApprovalStatus.ApprovalError),
+      setFreeRegistrationStatus(FreeRegistrationModalStatus.ApprovalError),
     );
   }
 }
@@ -51,11 +51,11 @@ function* rejectFreeRegistrationSaga() {
   try {
     yield call(axiosInstance.put, APIEndpoints.RejectClerkFreeRegistration);
     yield put(
-      setFreeRegistrationStatus(FreeRegistrationApprovalStatus.RejectSuccess),
+      setFreeRegistrationStatus(FreeRegistrationModalStatus.RejectSuccess),
     );
   } catch (error) {
     yield put(
-      setFreeRegistrationStatus(FreeRegistrationApprovalStatus.RejectError),
+      setFreeRegistrationStatus(FreeRegistrationModalStatus.RejectError),
     );
   }
 }
