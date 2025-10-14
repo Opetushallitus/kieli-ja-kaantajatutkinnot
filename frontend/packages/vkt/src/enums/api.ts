@@ -58,4 +58,5 @@ export enum APIError {
   ExaminerNotFound = 'examinerNotFound',
   AuthHashExpired = 'authHashExpired',
   InvalidBirthdateFormat = 'invalidBirthdateFormat',
+  ExaminerConvertEnrollmentAlreadyCompleted = 'examinerConvertEnrollmentAlreadyCompleted',
 }
