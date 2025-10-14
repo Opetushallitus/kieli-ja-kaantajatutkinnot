@@ -27,6 +27,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { useModifyContactDetailsErrors } from 'hooks/useModifyContactDetailsErrors';
 import { ModifyContactDetails } from 'interfaces/userDetails';
+import { loadSession } from 'redux/reducers/session';
 import {
   doModifyContactDetails,
   loadPersonDetails,
@@ -343,6 +344,7 @@ export const ModifyContactDetailsPage = () => {
       });
       navigate(AppRoutes.UserDetails);
       dispatch(loadPersonDetails());
+      dispatch(loadSession());
     }
   });
 
