@@ -8,6 +8,7 @@
       "back": "Back",
       "backToHomePage": "Back to front page",
       "cancel": "Quit",
+      "clerk": "Clerk",
       "component": {
         "table": {
           "header": {
@@ -21,7 +22,8 @@
             "displayedRowsAriaLabel": "Showing {{from}}-{{to}} / {{count}} results",
             "displayedRowsLabel": "{{from}}-{{to}} / {{count}}",
             "nextButtonLabel": "Next search results",
-            "rowsPerPage": "Results per page"
+            "rowsPerPage": "Results per page",
+            "clerkRowsPerPage": "Show per page"
           }
         }
       },
@@ -140,6 +142,8 @@
       },
       "reassessment": "Reassessment",
       "registration": "Registration",
+      "freeRegistration": "Maksuttomuus",
+      "customerSearch": "Asiakashaku",
       "registrationPeriod": "Registration period",
       "specialArrangementsLink": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-do-you-need-special-arrangements",
       "userRegistrations": "My registrations",
@@ -149,6 +153,7 @@
         "link": "https://www.oph.fi/en/national-certificates-language-proficiency-yki"
       },
       "pageTitle": {
+        "clerk": "Clerk",
         "registration": "Registration",
         "initRegistration": "Registration",
         "examDetails": "Test",
@@ -159,11 +164,13 @@
         "accessibilityStatement": "Accessibility statement",
         "logoutSuccess": "Log out complete",
         "userDetails": "My registrations",
-        "transferEnrollment": "Reschedule registration",
+        "transferRegistration": "Reschedule registration",
         "confirmRegistration": "Confirm registration",
         "notFound": "Page not found",
-        "expiredLoginLink": "The link has expired"
-      }
+        "expiredLoginLink": "The link has expired",
+        "customerSearch": "Asiakashaku"
+      },
+      "previous": "Previous"
     }
   }
 }

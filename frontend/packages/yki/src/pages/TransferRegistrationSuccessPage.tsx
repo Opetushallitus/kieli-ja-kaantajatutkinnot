@@ -19,17 +19,17 @@ import {
   usePublicTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { loadTransferEnrollmentDetails } from 'redux/reducers/transferEnrollment';
-import { transferEnrollmentSelector } from 'redux/selectors/transferEnrollment';
+import { loadTransferRegistrationDetails } from 'redux/reducers/transferRegistration';
+import { transferRegistrationSelector } from 'redux/selectors/transferRegistration';
 import { ExamSessionUtils } from 'utils/examSession';
 
 const Header = () => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.pages.transferEnrollmentSuccessPage',
+    keyPrefix: 'yki.pages.transferRegistrationSuccessPage',
   });
 
   return (
-    <Grid className="transfer-enrollment-success-page__item-header">
+    <Grid className="transfer-registration-success-page__item-header">
       <H1>{t('title')}</H1>
       <HeaderSeparator />
     </Grid>
@@ -37,41 +37,43 @@ const Header = () => {
 };
 
 const InformationBox = () => {
-  const { transferEnrollmentDetails } = useAppSelector(
-    transferEnrollmentSelector,
+  const { transferRegistrationDetails } = useAppSelector(
+    transferRegistrationSelector,
   );
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.pages.transferEnrollmentSuccessPage.information',
+    keyPrefix: 'yki.pages.transferRegistrationSuccessPage.information',
   });
   const translateCommon = useCommonTranslation();
 
-  if (!transferEnrollmentDetails) {
+  if (!transferRegistrationDetails) {
     return null;
   }
   const lang = getCurrentLang();
   const location = ExamSessionUtils.getLocationInfo(
-    transferEnrollmentDetails,
+    transferRegistrationDetails,
     lang,
   );
 
   return (
-    <Grid className="transfer-enrollment-success-page__item-header">
+    <Grid className="transfer-registration-success-page__item-header">
       <Paper
         elevation={3}
-        className="transfer-enrollment-success-page__information"
+        className="transfer-registration-success-page__information"
       >
         <div className="rows">
           <Text>
             {translateCommon('examination')}:{' '}
             <b>
-              {ExamSessionUtils.languageAndLevelText(transferEnrollmentDetails)}
+              {ExamSessionUtils.languageAndLevelText(
+                transferRegistrationDetails,
+              )}
             </b>
           </Text>
           <Text>
             {translateCommon('examDate')}:{' '}
             <b>
               {DateUtils.formatOptionalDate(
-                transferEnrollmentDetails.session_date,
+                transferRegistrationDetails.session_date,
                 'l',
               )}
             </b>
@@ -117,8 +119,8 @@ const InformationBox = () => {
   );
 };
 
-export const TransferEnrollmentSuccessPage = () => {
-  const { loadDetailsStatus } = useAppSelector(transferEnrollmentSelector);
+export const TransferRegistrationSuccessPage = () => {
+  const { loadDetailsStatus } = useAppSelector(transferRegistrationSelector);
   const dispatch = useAppDispatch();
   const params = useParams();
 
@@ -127,19 +129,19 @@ export const TransferEnrollmentSuccessPage = () => {
       loadDetailsStatus === APIResponseStatus.NotStarted &&
       params.registrationId
     ) {
-      dispatch(loadTransferEnrollmentDetails(+params.registrationId));
+      dispatch(loadTransferRegistrationDetails(+params.registrationId));
     }
   }, [dispatch, params.registrationId, loadDetailsStatus]);
 
   const loading = loadDetailsStatus === APIResponseStatus.InProgress;
 
   return (
-    <Box className="transfer-enrollment-success-page">
+    <Box className="transfer-registration-success-page">
       <LoadingProgressIndicator isLoading={loading}>
         <Grid
           container
           direction="column"
-          className="transfer-enrollment-success-page__grid-container"
+          className="transfer-registration-success-page__grid-container"
         >
           <Header />
           <InformationBox />

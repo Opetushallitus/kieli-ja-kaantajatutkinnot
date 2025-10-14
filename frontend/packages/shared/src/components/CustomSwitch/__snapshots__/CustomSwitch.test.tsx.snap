@@ -21,13 +21,13 @@ exports[`CustomSwitch should render correctly with an error label 1`] = `
         >
           <span
             aria-disabled="true"
-            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-checked Mui-disabled css-zp7cnf-MuiButtonBase-root-MuiSwitch-switchBase"
+            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-checked Mui-disabled css-1wwrlr5-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
             data-testid="just-a-test-id"
             tabindex="-1"
           >
             <input
               checked=""
-              class="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
+              class="PrivateSwitchBase-input MuiSwitch-input css-12xagqm-MuiSwitchBase-root"
               disabled=""
               type="checkbox"
             />
@@ -76,10 +76,10 @@ exports[`CustomSwitch should render correctly with just the minimal props 1`] = 
           class="MuiSwitch-root MuiSwitch-sizeMedium css-rehya9-MuiSwitch-root"
         >
           <span
-            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary css-zp7cnf-MuiButtonBase-root-MuiSwitch-switchBase"
+            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary css-1wwrlr5-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
           >
             <input
-              class="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
+              class="PrivateSwitchBase-input MuiSwitch-input css-12xagqm-MuiSwitchBase-root"
               type="checkbox"
             />
             <span

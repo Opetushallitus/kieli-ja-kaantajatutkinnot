@@ -30,22 +30,22 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { TransferEnrollmentTarget } from 'interfaces/transferEnrollment';
+import { TransferRegistrationTarget } from 'interfaces/transferRegistration';
 import {
-  loadTransferEnrollmentDetails,
-  resetTransferEnrollmentState,
-  transferEnrollment,
-} from 'redux/reducers/transferEnrollment';
-import { transferEnrollmentSelector } from 'redux/selectors/transferEnrollment';
+  loadTransferRegistrationDetails,
+  resetTransferRegistrationState,
+  transferRegistration,
+} from 'redux/reducers/transferRegistration';
+import { transferRegistrationSelector } from 'redux/selectors/transferRegistration';
 import { ExamSessionUtils } from 'utils/examSession';
 
 const Header = () => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.pages.transferEnrollmentPage',
+    keyPrefix: 'yki.pages.transferRegistrationPage',
   });
 
   return (
-    <Grid className="transfer-enrollment-page__grid-container__item-header">
+    <Grid className="transfer-registration-page__grid-container__item-header">
       <H1>{t('title')}</H1>
       <HeaderSeparator />
       <Text>{t('introduction.info')}</Text>
@@ -59,41 +59,41 @@ const Header = () => {
   );
 };
 
-const CurrentEnrollmentDetails = () => {
-  const { transferEnrollmentDetails } = useAppSelector(
-    transferEnrollmentSelector,
+const CurrentRegistrationDetails = () => {
+  const { transferRegistrationDetails } = useAppSelector(
+    transferRegistrationSelector,
   );
 
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.pages.transferEnrollmentPage.currentEnrollmentDetails',
+    keyPrefix: 'yki.pages.transferRegistrationPage.currentRegistrationDetails',
   });
   const translateCommon = useCommonTranslation();
 
-  if (!transferEnrollmentDetails) {
+  if (!transferRegistrationDetails) {
     return null;
   }
 
   const location = ExamSessionUtils.getLocationInfo(
-    transferEnrollmentDetails,
+    transferRegistrationDetails,
     getCurrentLang(),
   );
 
   return (
-    <Grid className="transfer-enrollment-page__grid-container__item-header">
+    <Grid className="transfer-registration-page__grid-container__item-header">
       <div className="rows gapped">
         <H2>{t('heading')}</H2>
         <Paper
           elevation={3}
-          className="transfer-enrollment-page__current-enrollment-details"
+          className="transfer-registration-page__current-registration-details"
         >
           <Text>
             <b>{`${translateCommon('examSession')}: `}</b>
-            {ExamSessionUtils.languageAndLevelText(transferEnrollmentDetails)}
+            {ExamSessionUtils.languageAndLevelText(transferRegistrationDetails)}
           </Text>
           <Text>
             <b>{`${translateCommon('examDate')}: `}</b>
             {DateUtils.formatOptionalDate(
-              transferEnrollmentDetails.session_date,
+              transferRegistrationDetails.session_date,
               'l',
             )}
           </Text>
@@ -125,26 +125,26 @@ const TransferTargetsTableHeading = () => {
   );
 };
 
-const RelocateButton = ({ target }: { target: TransferEnrollmentTarget }) => {
-  const { transferEnrollmentDetails } = useAppSelector(
-    transferEnrollmentSelector,
+const RelocateButton = ({ target }: { target: TransferRegistrationTarget }) => {
+  const { transferRegistrationDetails } = useAppSelector(
+    transferRegistrationSelector,
   );
   const dispatch = useAppDispatch();
   const { isPhone } = useWindowProperties();
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.transferEnrollment',
+    keyPrefix: 'yki.component.transferRegistration',
   });
   const translateCommon = useCommonTranslation();
   const { showDialog } = useDialog();
 
-  if (!transferEnrollmentDetails) {
+  if (!transferRegistrationDetails) {
     return null;
   }
 
   const relocate = () => {
     dispatch(
-      transferEnrollment({
-        registration_id: transferEnrollmentDetails.id,
+      transferRegistration({
+        registration_id: transferRegistrationDetails.id,
         to_exam_session_id: target.id,
       }),
     );
@@ -204,7 +204,7 @@ const RelocateButton = ({ target }: { target: TransferEnrollmentTarget }) => {
 const TransferTargetPhoneCells = ({
   target,
 }: {
-  target: TransferEnrollmentTarget;
+  target: TransferRegistrationTarget;
 }) => {
   const lang = getCurrentLang();
   const locationInfo = ExamSessionUtils.getLocationInfo(target, lang);
@@ -238,7 +238,7 @@ const TransferTargetPhoneCells = ({
 const TransferTargetDesktopCells = ({
   target,
 }: {
-  target: TransferEnrollmentTarget;
+  target: TransferRegistrationTarget;
 }) => {
   const lang = getCurrentLang();
   const locationInfo = ExamSessionUtils.getLocationInfo(target, lang);
@@ -273,7 +273,7 @@ const TransferTargetDesktopCells = ({
 const TransferTargetTableRow = ({
   target,
 }: {
-  target: TransferEnrollmentTarget;
+  target: TransferRegistrationTarget;
 }) => {
   const { isPhone } = useWindowProperties();
 
@@ -288,17 +288,17 @@ const TransferTargetTableRow = ({
   );
 };
 
-const getTransferTargetDetails = (target: TransferEnrollmentTarget) => {
+const getTransferTargetDetails = (target: TransferRegistrationTarget) => {
   return <TransferTargetTableRow target={target} />;
 };
 
 const TransferTargetsTable = () => {
   const { isPhone } = useWindowProperties();
-  const { transferEnrollmentDetails } = useAppSelector(
-    transferEnrollmentSelector,
+  const { transferRegistrationDetails } = useAppSelector(
+    transferRegistrationSelector,
   );
 
-  if (!transferEnrollmentDetails) {
+  if (!transferRegistrationDetails) {
     return null;
   }
 
@@ -306,40 +306,40 @@ const TransferTargetsTable = () => {
     <CustomTable
       className=""
       header={isPhone ? undefined : <TransferTargetsTableHeading />}
-      data={transferEnrollmentDetails.targets}
+      data={transferRegistrationDetails.targets}
       getRowDetails={getTransferTargetDetails}
     ></CustomTable>
   );
 };
 
 const SelectNewExamDate = () => {
-  const { transferEnrollmentDetails } = useAppSelector(
-    transferEnrollmentSelector,
+  const { transferRegistrationDetails } = useAppSelector(
+    transferRegistrationSelector,
   );
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.pages.transferEnrollmentPage.selectNewExamDate',
+    keyPrefix: 'yki.pages.transferRegistrationPage.selectNewExamDate',
   });
 
-  if (!transferEnrollmentDetails) {
+  if (!transferRegistrationDetails) {
     return null;
   }
 
-  const transferTargets = transferEnrollmentDetails.is_transferable
-    ? transferEnrollmentDetails.targets
+  const transferTargets = transferRegistrationDetails.is_transferable
+    ? transferRegistrationDetails.targets
     : [];
 
   return (
-    <Grid className="transfer-enrollment-page__grid-container__item-header">
+    <Grid className="transfer-registration-page__grid-container__item-header">
       {transferTargets.length === 0 && (
         <div className="rows gapped">
           <H2>{t('heading')}</H2>{' '}
-          <Container className="transfer-enrollment-page__info-box">
+          <Container className="transfer-registration-page__info-box">
             <div className="columns gapped-sm">
               <InfoOutlineIcon color={Color.Secondary} />
 
               <Text>
                 {t('noCandidatesFound', {
-                  email: transferEnrollmentDetails.contact_email,
+                  email: transferRegistrationDetails.contact_email,
                 })}
               </Text>
             </div>
@@ -356,10 +356,10 @@ const SelectNewExamDate = () => {
   );
 };
 
-export const TransferEnrollmentPage = () => {
+export const TransferRegistrationPage = () => {
   const dispatch = useAppDispatch();
   const { loadDetailsStatus, transferStatus } = useAppSelector(
-    transferEnrollmentSelector,
+    transferRegistrationSelector,
   );
 
   // React Router
@@ -371,19 +371,19 @@ export const TransferEnrollmentPage = () => {
       loadDetailsStatus === APIResponseStatus.NotStarted &&
       params.registrationId
     ) {
-      dispatch(loadTransferEnrollmentDetails(+params.registrationId));
+      dispatch(loadTransferRegistrationDetails(+params.registrationId));
     }
   }, [dispatch, params.registrationId, loadDetailsStatus]);
 
   useEffect(() => {
     if (transferStatus === APIResponseStatus.Success) {
       navigate(
-        AppRoutes.TransferEnrollmentSuccess.replace(
+        AppRoutes.TransferRegistrationSuccess.replace(
           /:registrationId/,
           `${params.registrationId}`,
         ),
       );
-      dispatch(resetTransferEnrollmentState());
+      dispatch(resetTransferRegistrationState());
     }
   }, [transferStatus, navigate, dispatch, params.registrationId]);
 
@@ -392,16 +392,16 @@ export const TransferEnrollmentPage = () => {
     transferStatus === APIResponseStatus.InProgress;
 
   return (
-    <Box className="transfer-enrollment-page">
+    <Box className="transfer-registration-page">
       <LoadingProgressIndicator isLoading={loading}>
         <Grid
           container
           rowSpacing={4}
           direction="column"
-          className="transfer-enrollment-page__grid-container"
+          className="transfer-registration-page__grid-container"
         >
           <Header />
-          <CurrentEnrollmentDetails />
+          <CurrentRegistrationDetails />
           <SelectNewExamDate />
         </Grid>
       </LoadingProgressIndicator>

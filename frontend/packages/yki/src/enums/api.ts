@@ -21,10 +21,15 @@ export enum APIEndpoints {
   OpenRegistrations = '/yki/api/user/open-registrations',
   PersonDetails = '/yki/api/person',
   CancelUserRegistration = '/yki/api/person/registration/:registrationId',
-  TransferEnrollment = '/yki/api/person/registration/:registrationId/relocate',
+  TransferRegistration = '/yki/api/person/registration/:registrationId/relocate',
   ConfirmRegistration = '/yki/api/person/registration/:registrationId/confirm',
   RedirectToPayment = '/yki/api/payment/v3/:registrationId/redirect?lang=:lang',
   RedirectToPaymentFromUserPortal = '/yki/api/person/registration/:registrationId/payment-redirect?lang=:lang',
+  ClerkOrganizer = '/yki/api/clerk/organizer',
+  ClerkFreeRegistration = '/yki/api/clerk/free-registrations',
+  ClerkFreeRegistrationDetails = '/yki/api/clerk/free-registrations/:id',
+  ApproveClerkFreeRegistration = '/api/v1/clerk/registration/approval',
+  RejectClerkFreeRegistration = '/api/v1/clerk/registration/rejection',
 }
 
 export enum PaymentStatus {

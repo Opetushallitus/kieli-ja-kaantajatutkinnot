@@ -6,11 +6,14 @@ import { PublicRegistrationInitRequest } from 'interfaces/publicRegistration';
 import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
+import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
+import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import {
   NoSessionResponse,
   //SuomiFiAuthenticatedSessionResponse,
 } from 'tests/msw/fixtures/identity';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
+import { organizers } from 'tests/msw/fixtures/organizers';
 import { personDetails } from 'tests/msw/fixtures/personDetails';
 import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/registrationInit';
 
@@ -168,5 +171,27 @@ export const handlers = [
     const redirect = url.searchParams.get('redirect');
 
     return HttpResponse.redirect(redirect as string);
+  }),
+  http.get(APIEndpoints.ClerkOrganizer, () => HttpResponse.json(organizers)),
+  http.get(APIEndpoints.ClerkFreeRegistration, ({ cookies }) => {
+    if (cookies['free-registration-error-500'] === '1') {
+      return HttpResponse.json({ error: 'forced error' }, { status: 500 });
+    }
+
+    return HttpResponse.json(freeRegistrations);
+  }),
+  http.get(APIEndpoints.ClerkFreeRegistrationDetails, ({ params }) => {
+    const index = params?.id ? Number(params.id) - 1 : NaN;
+    if (index >= 0) {
+      return HttpResponse.json(freeRegistrationDetails[index]);
+    } else {
+      return notFound();
+    }
+  }),
+  http.put(APIEndpoints.ApproveClerkFreeRegistration, () => {
+    return HttpResponse.json({ success: true });
+  }),
+  http.put(APIEndpoints.RejectClerkFreeRegistration, () => {
+    return HttpResponse.json({ success: true });
   }),
 ];
