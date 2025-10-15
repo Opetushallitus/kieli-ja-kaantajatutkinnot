@@ -1,6 +1,6 @@
 application.port=8080
 
-postgresql.url=jdbc:postgresql://{{host_postgresql_vkt}}:{{host_postgresql_yki_port}}/yki
+postgresql.url=jdbc:postgresql://{{host_postgresql_yki}}:{{host_postgresql_yki_port}}/yki
 postgresql.username={{postgres_app_user}}
 postgresql.password={{host_postgresql_yki_app_password}}
 
