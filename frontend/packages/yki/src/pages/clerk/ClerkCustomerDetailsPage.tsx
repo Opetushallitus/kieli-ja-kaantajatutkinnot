@@ -70,7 +70,7 @@ export const ClerkCustomerDetailsPage: FC = () => {
       >
         <Paper
           elevation={3}
-          className="customer-details-page__grid-container__results"
+          className="clerk-customer-details-page__grid-container__results"
         >
           <ClerkCustomerDetails />
         </Paper>

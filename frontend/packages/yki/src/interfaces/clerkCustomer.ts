@@ -6,7 +6,7 @@ import {
   ServiceLanguage,
 } from 'enums/app';
 
-interface CustomerPerson {
+export interface CustomerPerson {
   firstName: string;
   lastName: string;
   ssn: string;
