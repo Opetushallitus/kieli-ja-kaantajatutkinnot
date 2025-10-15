@@ -56,8 +56,8 @@ export const ClerkCustomerDetailsPage: FC = () => {
         </IconButton>
         <ChevronRight color="disabled" fontSize="large" />
         <H2>
-          {customerDetails
-            ? customerDetails.person.name
+          {customerDetails?.person
+            ? `${customerDetails.person.lastName} ${customerDetails.person.firstName}`
             : translateCommon('loadingContent')}
         </H2>
       </div>

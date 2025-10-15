@@ -7,7 +7,8 @@ import {
 } from 'enums/app';
 
 interface CustomerPerson {
-  name: string;
+  firstName: string;
+  lastName: string;
   oid: string;
   nationality: string;
   languageOfService: ServiceLanguage;
