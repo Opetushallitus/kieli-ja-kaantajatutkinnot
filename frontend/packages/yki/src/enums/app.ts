@@ -99,5 +99,6 @@ export enum RegistrationStates {
   Expired = 'EXPIRED',
   Cancelled = 'CANCELLED',
   PaidAndCancelled = 'PAID_AND_CANCELLED',
+  AwaitingApproval = 'AWAITING_APPROVAL',
   Unknown = 'UNKNOWN',
 }

@@ -2,6 +2,7 @@ import {
   CertificateLanguage,
   ExamLanguage,
   ExamLevel,
+  RegistrationStates,
   ServiceLanguage,
 } from 'enums/app';
 
@@ -16,14 +17,6 @@ interface CustomerPerson {
   email: string;
 }
 
-type RegistrationStatus =
-  | 'PAID'
-  | 'PAID_CANCELLED'
-  | 'CANCELLED'
-  | 'CHECK_IN_PROGRESS'
-  | 'NOT_PAID'
-  | 'OVERDUE';
-
 interface Exam {
   examinationDate: string;
   exam: {
@@ -34,7 +27,7 @@ interface Exam {
     schoolName: string;
     municipality: string;
   };
-  registrationStatus: RegistrationStatus;
+  registrationStatus: RegistrationStates;
   registrationDate: string;
 }
 

@@ -2,6 +2,7 @@ import {
   CertificateLanguage,
   ExamLanguage,
   ExamLevel,
+  RegistrationStates,
   ServiceLanguage,
 } from 'enums/app';
 import {
@@ -33,7 +34,9 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Testipaikan nimi',
           municipality: 'Kajaani',
         },
-        registrationStatus: 'PAID',
+
+        // user have paid
+        registrationStatus: RegistrationStates.Completed,
         registrationDate: '2025-05-06',
       },
       {
@@ -46,7 +49,7 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lassilan koulu',
           municipality: 'Lassila',
         },
-        registrationStatus: 'PAID_CANCELLED',
+        registrationStatus: RegistrationStates.PaidAndCancelled,
         registrationDate: '2025-05-06',
       },
       {
@@ -59,7 +62,7 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lorem ipsum oppilaitos',
           municipality: 'Helsinki',
         },
-        registrationStatus: 'CANCELLED',
+        registrationStatus: RegistrationStates.Cancelled,
         registrationDate: '2025-05-06',
       },
       {
@@ -72,7 +75,7 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lorem ipsum oppilaitos',
           municipality: 'Helsinki',
         },
-        registrationStatus: 'CHECK_IN_PROGRESS',
+        registrationStatus: RegistrationStates.AwaitingApproval,
         registrationDate: '2025-05-06',
       },
     ],
@@ -87,7 +90,9 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Testipaikan nimi',
           municipality: 'Kajaani',
         },
-        registrationStatus: 'NOT_PAID',
+
+        // User not paid
+        registrationStatus: RegistrationStates.Submitted,
         registrationDate: '2025-05-06',
         queueSpotOffered: {
           offered: QueueOfferStatus.Offered,
@@ -104,7 +109,8 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lassilan koulu',
           municipality: 'Lassila',
         },
-        registrationStatus: 'NOT_PAID',
+        // User not paid
+        registrationStatus: RegistrationStates.Submitted,
         registrationDate: '2025-05-06',
         queueSpotOffered: {
           offered: QueueOfferStatus.NotAccepted,
@@ -121,7 +127,7 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lorem ipsum oppilaitos',
           municipality: 'Helsinki',
         },
-        registrationStatus: 'CANCELLED',
+        registrationStatus: RegistrationStates.Cancelled,
         registrationDate: '2025-05-06',
         queueSpotOffered: {
           offered: QueueOfferStatus.NotOffered,
@@ -137,7 +143,7 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lorem ipsum oppilaitos',
           municipality: 'Helsinki',
         },
-        registrationStatus: 'CHECK_IN_PROGRESS',
+        registrationStatus: RegistrationStates.AwaitingApproval,
         registrationDate: '2025-05-06',
         queueSpotOffered: {
           offered: QueueOfferStatus.NotOffered,
