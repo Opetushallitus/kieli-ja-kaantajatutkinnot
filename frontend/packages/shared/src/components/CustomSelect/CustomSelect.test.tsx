@@ -9,9 +9,7 @@ describe('CustomSelect', () => {
       ['Option B', 'B'],
       ['Option C', 'C'],
     ]);
-    const { container } = render(
-      <CustomSelect values={values} value="Option B" />,
-    );
+    const { container } = render(<CustomSelect values={values} value="B" />);
     expect(container).toMatchSnapshot();
   });
 });
