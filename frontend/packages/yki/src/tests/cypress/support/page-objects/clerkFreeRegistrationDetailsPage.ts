@@ -12,7 +12,15 @@ class ClerkFreeRegistrationDetailsPage {
     title: () => cy.findByText('Maksuttomuuden tarkastukset'),
     textboxByLabel: (label: string) =>
       cy.findByRole('textbox', { name: label }),
+    commentField: () => cy.get('#comment'),
+    addCommentButton: () =>
+      cy.findByRole('button', { name: 'Tallenna kommentti' }),
   };
+
+  addComment(comment: string) {
+    comment && this.elements.commentField().clear().type(comment);
+    this.elements.addCommentButton().click();
+  }
 
   isVisible() {
     this.elements.title().should('be.visible');

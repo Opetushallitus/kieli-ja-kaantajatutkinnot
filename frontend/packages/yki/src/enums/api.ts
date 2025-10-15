@@ -31,6 +31,7 @@ export enum APIEndpoints {
   ApproveClerkFreeRegistration = '/api/v1/clerk/registration/approval',
   RejectClerkFreeRegistration = '/api/v1/clerk/registration/rejection',
   ClerkFreeRegistrationInformationRequest = '/yki/api/clerk/free-registrations/:id/information-request',
+  ClerkFreeRegistrationDetailsMessages = '/yki/api/clerk/free-registrations/:id/messages',
 }
 
 export enum PaymentStatus {

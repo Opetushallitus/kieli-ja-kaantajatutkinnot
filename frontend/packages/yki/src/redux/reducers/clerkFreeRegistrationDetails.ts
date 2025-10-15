@@ -1,16 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ClerkFreeRegistrationDetails } from 'interfaces/clerkFreeRegistration';
+import {
+  ClerkFreeRegistrationDetails,
+  Message,
+} from 'interfaces/clerkFreeRegistration';
 
 interface ClerkFreeRegistrationState {
   registrationDetails: ClerkFreeRegistrationDetails | null;
   status: APIResponseStatus;
+  commentStatus: APIResponseStatus;
 }
 
 const initialState: ClerkFreeRegistrationState = {
   registrationDetails: null,
   status: APIResponseStatus.NotStarted,
+  commentStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkFreeRegistrationDetailsSlice = createSlice({
@@ -34,6 +39,18 @@ const clerkFreeRegistrationDetailsSlice = createSlice({
       state.status = APIResponseStatus.NotStarted;
       state.registrationDetails = null;
     },
+    addComment(
+      state,
+      _action: PayloadAction<Omit<Message, 'id' | 'createdAt'>>,
+    ) {
+      state.commentStatus = APIResponseStatus.InProgress;
+    },
+    rejectAddComment(state) {
+      state.commentStatus = APIResponseStatus.Error;
+    },
+    acceptAddComment(state) {
+      state.commentStatus = APIResponseStatus.Success;
+    },
   },
 });
 
@@ -44,4 +61,7 @@ export const {
   rejectClerkFreeRegistrationDetails,
   storeClerkFreeRegistrationDetails,
   resetClerkFreeRegistrationDetails,
+  addComment,
+  rejectAddComment,
+  acceptAddComment,
 } = clerkFreeRegistrationDetailsSlice.actions;

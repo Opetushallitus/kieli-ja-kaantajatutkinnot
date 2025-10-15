@@ -4,7 +4,7 @@ import {
   HourglassBottom,
 } from '@mui/icons-material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Divider, TextField } from '@mui/material';
+import { Divider, TextField, Typography } from '@mui/material';
 import { ClockIcon } from '@mui/x-date-pickers';
 import { OphButton, ophColors } from '@opetushallitus/oph-design-system';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -26,6 +26,7 @@ import {
   setFreeRegistrationStatus,
 } from 'redux/reducers/clerkFreeRegistration';
 import {
+  addComment,
   loadClerkFreeRegistrationDetails,
   resetClerkFreeRegistrationDetails,
 } from 'redux/reducers/clerkFreeRegistrationDetails';
@@ -48,7 +49,7 @@ export const ClerkFreeRegistrationDetails = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const params = useParams();
-  const { status, registrationDetails } = useAppSelector(
+  const { status, registrationDetails, commentStatus } = useAppSelector(
     clerkFreeRegistrationDetailsSelector,
   );
 
@@ -80,17 +81,6 @@ export const ClerkFreeRegistrationDetails = () => {
       navigate(AppRoutes.ClerkFreeRegistration);
     }
   }, [dispatch, navigate, params.id, showToast, status, t]);
-
-  useEffect(() => {
-    return () => {
-      setComment('');
-      dispatch(resetClerkFreeRegistrationDetails());
-      dispatch(
-        setFreeRegistrationStatus(FreeRegistrationModalStatus.NotStarted),
-      );
-      dispatch(resetInformationRequestStatus());
-    };
-  }, [dispatch]);
 
   useEffect(() => {
     if (modalSubmitStatus === FreeRegistrationModalStatus.ApprovalSuccess) {
@@ -135,6 +125,32 @@ export const ClerkFreeRegistrationDetails = () => {
     }
   }, [modalSubmitStatus, showToast, t]);
 
+  useEffect(() => {
+    if (commentStatus === APIResponseStatus.Success) {
+      setComment('');
+      showToast({
+        severity: Severity.Success,
+        description: t('details.toasts.addCommentConfirmed'),
+      });
+    } else if (commentStatus === APIResponseStatus.Error) {
+      showToast({
+        severity: Severity.Error,
+        description: t('details.toasts.addCommentFailed'),
+      });
+    }
+  }, [dispatch, commentStatus, showToast, t]);
+
+  useEffect(() => {
+    return () => {
+      setComment('');
+      dispatch(resetClerkFreeRegistrationDetails());
+      dispatch(
+        setFreeRegistrationStatus(FreeRegistrationModalStatus.NotStarted),
+      );
+      dispatch(resetInformationRequestStatus());
+    };
+  }, [dispatch]);
+
   if (!registrationDetails) {
     return null;
   }
@@ -148,7 +164,7 @@ export const ClerkFreeRegistrationDetails = () => {
             style={{ backgroundColor: ophColors.white, color: ophColors.blue2 }}
             onClick={() => setIsRequestInformationModalOpen(true)}
           >
-            {t('details.buttons.sendInformationRequest')}
+            {t('details.buttons.sendSupplementRequest')}
           </OphButton>
           <OphButton
             variant={Variant.Contained}
@@ -184,7 +200,7 @@ export const ClerkFreeRegistrationDetails = () => {
             style={{ backgroundColor: ophColors.white, color: ophColors.blue2 }}
             onClick={() => setIsRequestInformationModalOpen(true)}
           >
-            {t('details.buttons.sendInformationRequest')}
+            {t('details.buttons.sendSupplementRequest')}
           </OphButton>
           <OphButton
             variant={Variant.Contained}
@@ -384,7 +400,7 @@ export const ClerkFreeRegistrationDetails = () => {
           </div>
         </div>
       </div>
-      <div style={{ maxWidth: '700px' }} className="rows gapped-xxl">
+      <div style={{ maxWidth: '900px' }} className="rows gapped-xl">
         <div className="rows gapped-xs">
           <div className="columns space-between">
             <Text>{t('details.attachments.attachment')}</Text>
@@ -409,24 +425,59 @@ export const ClerkFreeRegistrationDetails = () => {
         <div className="columns gapped flex-end">{renderButtons()}</div>
         <Divider />
         <div className="rows gapped">
+          <Label>{t('details.messages.title')}</Label>
+          {registrationDetails.messages.map((message) => (
+            <div key={message.id} className="rows">
+              <div className="columns space-between">
+                <Typography
+                  variant="body1"
+                  fontSize={'13px'}
+                  lineHeight={'19px'}
+                >
+                  {t(`details.messages.message.type.${message.type}`)}{' '}
+                  {DateUtils.formatOptionalDate(message.createdAt, 'l LTS')}
+                  {', '}
+                  {message.createdBy}
+                </Typography>
+              </div>
+
+              <Text>{message.text}</Text>
+            </div>
+          ))}
+        </div>
+        <div className="rows gapped">
           <div>
-            <strong>{t('details.comments.clerkComments.part1')}</strong>{' '}
-            {`(${t('details.comments.clerkComments.part2')})`}
+            <Label>{t('details.messages.newCommentPart1')}</Label>{' '}
+            {`(${t('details.messages.newCommentPart2')})`}
+            <TextField
+              id="comment"
+              minRows={5}
+              maxRows={15}
+              value={comment}
+              onChange={onCommentChange}
+              type={'textarea'}
+              slotProps={{ formHelperText: { component: 'div' } }}
+              disabled={commentStatus === APIResponseStatus.InProgress}
+              multiline
+              fullWidth
+            />
           </div>
-          {t('details.comments.addNewComment')}
-          <TextField
-            minRows={5}
-            maxRows={15}
-            value={comment}
-            onChange={onCommentChange}
-            type={'textarea'}
-            slotProps={{ formHelperText: { component: 'div' } }}
-            multiline
-            fullWidth
-          />
           <div className="columns flex-end">
-            <OphButton variant={Variant.Outlined}>
-              {t('details.comments.save')}
+            <OphButton
+              variant={Variant.Outlined}
+              disabled={commentStatus === APIResponseStatus.InProgress}
+              onClick={() =>
+                comment.length &&
+                dispatch(
+                  addComment({
+                    text: comment,
+                    createdBy: 'Virkailija Ville',
+                    type: 'COMMENT',
+                  }),
+                )
+              }
+            >
+              {t('details.messages.save')}
             </OphButton>
           </div>
         </div>
