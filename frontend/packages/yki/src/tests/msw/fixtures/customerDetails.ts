@@ -16,6 +16,7 @@ export const customerDetails: ClerkCustomerDetails[] = [
     person: {
       firstName: 'Aino',
       lastName: 'Osallistuja',
+      ssn: '010170-960F',
       oid: '1.2.246.562.24.82364099322',
       nationalityCode: '246',
       languageOfService: ServiceLanguage.FI,

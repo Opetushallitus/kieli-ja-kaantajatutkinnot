@@ -9,6 +9,7 @@ import {
 interface CustomerPerson {
   firstName: string;
   lastName: string;
+  ssn: string;
   oid: string;
   nationalityCode: string;
   languageOfService: ServiceLanguage;
