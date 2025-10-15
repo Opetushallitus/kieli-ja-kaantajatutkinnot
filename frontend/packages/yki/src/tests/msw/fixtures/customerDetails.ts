@@ -17,7 +17,7 @@ export const customerDetails: ClerkCustomerDetails[] = [
       firstName: 'Aino',
       lastName: 'Osallistuja',
       oid: '1.2.246.562.24.82364099322',
-      nationality: 'Suomi',
+      nationalityCode: '246',
       languageOfService: ServiceLanguage.FI,
       languageOfCertificate: CertificateLanguage.FI,
       phoneNumber: '+358 401234567',

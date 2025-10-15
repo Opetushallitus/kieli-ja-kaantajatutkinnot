@@ -10,7 +10,7 @@ interface CustomerPerson {
   firstName: string;
   lastName: string;
   oid: string;
-  nationality: string;
+  nationalityCode: string;
   languageOfService: ServiceLanguage;
   languageOfCertificate: CertificateLanguage;
   phoneNumber: string;
