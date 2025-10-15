@@ -85,4 +85,15 @@ describe('ClerkFreeRegistrationDetailsPage', () => {
 
     onToast.expectText('Maksuttomuuden hylkääminen onnistui');
   });
+
+  it('sends information request via modal from details page', () => {
+    const id = 1;
+    cy.openClerkFreeRegistrationDetailsPage(id);
+    cy.findByRole('button', { name: 'Lähetä lisätietopyyntö' }).click();
+    onClerkFreeRegistrationDetailsPage.FillOutInformationRequest({
+      message: 'Where info?',
+    });
+    cy.findByRole('button', { name: 'Lähetä lisätietopyyntö' }).click();
+    onToast.expectText('Lisätietopyyntö lähetetty');
+  });
 });

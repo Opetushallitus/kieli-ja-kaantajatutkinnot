@@ -1,9 +1,6 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ThemeProvider } from '@mui/material';
-import {
-  createOphTheme,
-  OphThemeProvider,
-} from '@opetushallitus/oph-design-system/theme';
+import { OphThemeProvider } from '@opetushallitus/oph-design-system/theme';
 import { FC, useEffect } from 'react';
 import {
   createBrowserRouter,
@@ -29,6 +26,7 @@ import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
+import { clerkTheme } from 'ophTheme/OphTheme';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ClerkCustomerSearchPage } from 'pages/clerk/ClerkCustomerSearchPage';
 import { ClerkFreeRegistrationDetailsPage } from 'pages/clerk/ClerkFreeRegistrationDetailsPage';
@@ -90,19 +88,6 @@ export const AppRouter: FC = () => {
       </NotifierContextProvider>
     </div>
   );
-
-  const clerkTheme = createOphTheme({
-    variant: 'oph',
-    overrides: {
-      components: {
-        MuiAppBar: {
-          defaultProps: {
-            color: 'default',
-          },
-        },
-      },
-    },
-  });
 
   const ClerkRoot = (
     <div className="app">
