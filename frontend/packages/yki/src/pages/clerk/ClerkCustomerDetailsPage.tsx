@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
-import { ClerkCustomerDetails } from 'components/customer/ClerkCustomerDetails';
+import { ClerkCustomerDetails } from 'components/clerkCustomer/ClerkCustomerDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
