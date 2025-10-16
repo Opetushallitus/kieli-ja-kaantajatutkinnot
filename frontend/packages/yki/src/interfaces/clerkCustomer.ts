@@ -44,7 +44,7 @@ interface QueuedRegistration extends Exam {
   queueSpotOffered: QueueSpotOffered;
 }
 
-type ExamState = 'REVIEWED' | 'CANCELLED' | 'REGISTRADED';
+type ExamState = 'REVIEWED' | 'CANCELLED' | 'REGISTERED';
 
 interface PastExam
   extends Omit<Exam, 'registrationStatus' | 'registrationDate'> {

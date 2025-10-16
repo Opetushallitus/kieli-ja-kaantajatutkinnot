@@ -187,7 +187,7 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lorem ipsum oppilaitos',
           municipality: 'Helsinki',
         },
-        state: 'REGISTRADED',
+        state: 'REGISTERED',
       },
     ],
   },
