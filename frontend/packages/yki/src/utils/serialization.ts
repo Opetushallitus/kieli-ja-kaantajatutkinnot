@@ -54,7 +54,11 @@ import {
   TransferRegistrationTarget,
   TransferRegistrationTargetResponse,
 } from 'interfaces/transferRegistration';
-import { PersonDetails, PersonDetailsResponse } from 'interfaces/userDetails';
+import {
+  ModifyContactDetails,
+  PersonDetails,
+  PersonDetailsResponse,
+} from 'interfaces/userDetails';
 import { EvaluationOrderState } from 'redux/reducers/evaluationOrder';
 
 export class SerializationUtils {
@@ -405,6 +409,17 @@ export class SerializationUtils {
         ...message,
         createdAt: dayjs(message.createdAt),
       })),
+    };
+  }
+  static serializeModifyContactDetailsRequest(payload: ModifyContactDetails) {
+    const { email, phoneNumber, streetAddress, zip, postOffice } = payload;
+
+    return {
+      email,
+      phone_number: phoneNumber,
+      street_address: streetAddress,
+      zip,
+      post_office: postOffice,
     };
   }
 }

@@ -338,8 +338,6 @@ const ContactDetails = () => {
     return <></>;
   }
 
-  const editingContactDetailsAllowed = false;
-
   return (
     <div className="margin-top-xxl">
       <H2 className="user-details-page__info__section__heading-title">
@@ -349,8 +347,6 @@ const ContactDetails = () => {
         <div className="user-details-page__info__section rows gapped">
           <Text>
             {t('description.part1')} {t('description.part2')}
-            <br />
-            {t('description.part3')}
           </Text>
           <div className="rows">
             <Text>
@@ -369,20 +365,18 @@ const ContactDetails = () => {
               {personDetails.phoneNumber}
             </Text>
           </div>
-          {editingContactDetailsAllowed && (
-            <div className="columns">
-              <CustomButtonLink
-                variant={Variant.Text}
-                color={Color.Secondary}
-                to={''}
-                fullWidth={false}
-                startIcon={<EditOutlinedIcon />}
-                className="text-transform-none user-details-page__edit-btn"
-              >
-                {t('modify')}
-              </CustomButtonLink>
-            </div>
-          )}
+          <div className="columns">
+            <CustomButtonLink
+              variant={Variant.Text}
+              color={Color.Secondary}
+              to={AppRoutes.ModifyContactDetails}
+              fullWidth={false}
+              startIcon={<EditOutlinedIcon />}
+              className="text-transform-none user-details-page__edit-btn"
+            >
+              {t('modify')}
+            </CustomButtonLink>
+          </div>
         </div>
       </Paper>
     </div>
@@ -425,9 +419,11 @@ const NotLoggedIn = () => {
             <Text>{t('notLoggedIn.actionsAvailable')}</Text>
           </div>
           <Typography className="margin-top-sm" variant="body1" component="ul">
-            {['point1', 'point2', 'point3', 'point4'].map((point, i) => (
-              <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
-            ))}
+            {['point1', 'point2', 'point3', 'point4', 'point7'].map(
+              (point, i) => (
+                <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
+              ),
+            )}
           </Typography>
         </Grid>
       </Grid>
@@ -478,19 +474,19 @@ export const UserDetailsPage: FC = () => {
         upcomingRegistrations[0]?.positionInQueue ||
         upcomingRegistrations[0]?.liftedFromQueueAt
       ) {
-        return ['point5', 'point6'].map((point, i) => (
+        return ['point5', 'point6', 'point7'].map((point, i) => (
           <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
         ));
       } else {
-        return ['point2', 'point4'].map((point, i) => (
+        return ['point2', 'point4', 'point7'].map((point, i) => (
           <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
         ));
       }
     }
 
-    return ['point1', 'point2', 'point3', 'point4'].map((point, i) => (
-      <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
-    ));
+    return ['point1', 'point2', 'point3', 'point4', 'point7'].map(
+      (point, i) => <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>,
+    );
   };
 
   return (

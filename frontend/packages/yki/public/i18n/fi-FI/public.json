@@ -672,6 +672,40 @@
         "heading": "Uloskirjautuminen onnnistui",
         "info": "Olet kirjautunut ulos. Sulje kaikki selainikkunat."
       },
+      "modifyContactDetailsPage": {
+        "buttons": {
+          "cancel": "Peruuta",
+          "save": "Tallenna yhteystiedot"
+        },
+        "description": {
+          "part1": "Lähetämme todistuksen sinulle postitse.",
+          "part2": "Tarkista, että olet antanut oikean osoitteen."
+        },
+        "errorDialog": {
+          "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
+          "title": "Tiedoissa on korjattavaa!"
+        },
+        "labels": {
+          "confirmEmail": "Vahvista sähköpostiosoite",
+          "email": "Sähköpostiosoite",
+          "phoneNumber": "Puhelinnumero",
+          "postOffice": "Postitoimipaikka",
+          "streetAddress": "Katuosoite",
+          "zip": "Postinumero"
+        },
+        "placeholders": {
+          "confirmEmail": "Kirjoita sähköpostiosoite uudelleen",
+          "email": "Esim. nimi@sahkoposti.fi",
+          "phoneNumber": "Kirjoita muodossa +358 50 123 4567",
+          "postOffice": "",
+          "streetAddress": "",
+          "zip": ""
+        },
+        "toast": {
+          "success": "Yhteystiedot tallennettu onnistuneesti"
+        },
+        "title": "Muokkaa yhteystietoja"
+      },
       "notFoundPage": {
         "description": "Tarkista verkkosivun osoite tai palaa aloitussivulle.",
         "title": "Sivua ei löytynyt"
@@ -819,8 +853,7 @@
         "contactDetails": {
           "description": {
             "part1": "Lähetämme todistuksen sinulle postitse.",
-            "part2": "Tarkista, että olet antanut oikean osoitteen.",
-            "part3": "Jos yhteystiedoissasi on virhe, ilmoita asiasta Opetushallitukselle sähköpostitse osoitteeseen kielitutkinnot@oph.fi"
+            "part2": "Tarkista, että olet antanut oikean osoitteen."
           },
           "heading": "Yhteystietosi",
           "modify": "Muokkaa yhteystietoja"
@@ -832,7 +865,8 @@
             "point3": "Voit perua ilmoittautumisen.",
             "point4": "Voit katsoa ne tutkinnot, joihin olet jonossa, ja ottaa paikan vastaan jonosta.",
             "point5": "Jos YKI-testiin vapautuu paikka, voit ottaa sen vastaan.",
-            "point6": "Voit perua ilmoittautumisen jonoon."
+            "point6": "Voit perua ilmoittautumisen jonoon.",
+            "point7": "Voit muokata yhteystietojasi."
           },
           "info": "Katso ja muokkaa ilmoittautumisiasi YKI-testeihin."
         },
@@ -840,7 +874,7 @@
           "actionsAvailable": "Kun olet kirjautunut, voit katsoa ja muokata ilmoittautumisiasi YKI-testeihin.",
           "loginRequired": "Et ole kirjautunut palveluun. <strong>Kirjaudu Suomi.fi-tunnistautumisen kautta tai sähköpostistasi löytyvällä kirjautumislinkillä.</strong>",
           "loginThroughSuomiFi": "Tunnistaudu Suomi.fi:n kautta",
-          "title": "Yleiset kielitutkinnont (YKI) - Kirjautuminen vaaditaan"
+          "title": "Yleiset kielitutkinnot (YKI) - Kirjautuminen vaaditaan"
         },
         "registrations": {
           "actions": {

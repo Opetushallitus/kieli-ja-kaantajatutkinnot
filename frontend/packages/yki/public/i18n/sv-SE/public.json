@@ -672,6 +672,40 @@
         "heading": "Utloggningen lyckades",
         "info": "Du har loggat ut. Stäng alla fönster i webbläsaren."
       },
+      "modifyContactDetailsPage": {
+        "buttons": {
+          "cancel": "Avbryt",
+          "save": "Spara kontaktuppgifterna"
+        },
+        "description": {
+          "part1": "Vi skickar intyget till dig per post.",
+          "part2": "Kontrollera att du har uppgett rätt adress."
+        },
+        "errorDialog": {
+          "fixErrors": "Fyll i uppgifterna som saknas eller korrigera felaktiga uppgifter:",
+          "title": "Felaktiga uppgifter!"
+        },
+        "labels": {
+          "confirmEmail": "Bekräfta din e-postadress",
+          "email": "E-postadress",
+          "phoneNumber": "Telefonnummer",
+          "postOffice": "Postanstalt",
+          "streetAddress": "Gatuadress",
+          "zip": "Postnummer"
+        },
+        "placeholders": {
+          "confirmEmail": "Skriv din e-postadress på nytt",
+          "email": "Till exempel namn@e-post.fi",
+          "phoneNumber": "Skriv i formatet +358 50 123 4567",
+          "postOffice": "",
+          "streetAddress": "",
+          "zip": ""
+        },
+        "toast": {
+          "success": "Kontaktuppgifterna har sparats"
+        },
+        "title": "Redigera kontaktuppgifterna"
+      },
       "notFoundPage": {
         "description": "Kontrollera webbadressen eller gå tillbaka till startsidan.",
         "title": "Sidan hittades inte"
@@ -819,8 +853,7 @@
         "contactDetails": {
           "description": {
             "part1": "Vi skickar intyget till dig per post.",
-            "part2": "Kontrollera att du har uppgett rätt adress.",
-            "part3": "Om det finns ett fel i dina kontaktuppgifter, meddela Utbildningsstyrelsen om det per e-post på kielitutkinnot@oph.fi"
+            "part2": "Kontrollera att du har uppgett rätt adress."
           },
           "heading": "Dina kontaktuppgifter",
           "modify": "Redigera kontaktuppgifterna"
@@ -832,7 +865,8 @@
             "point3": "Du kan annullera din anmälan.",
             "point4": "Du kan se de examina som du köar för och ta emot en plats som du köat till.",
             "point5": "Om en plats på YKI-testet blir ledig kan du ta emot den.",
-            "point6": "Du kan annullera din anmälan till en köplats."
+            "point6": "Du kan annullera din anmälan till en köplats.",
+            "point7": "Du kan redigera dina kontaktuppgifter."
           },
           "info": "Se och ändra dina anmälningar till YKI-testet."
         },
