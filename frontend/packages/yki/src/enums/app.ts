@@ -19,6 +19,7 @@ export enum AppRoutes {
   TransferRegistrationSuccess = '/yki/kayttaja/siirra/:registrationId/valmis',
   ModifyContactDetails = '/yki/kayttaja/tiedot/muokkaa',
   ConfirmRegistration = '/yki/kayttaja/vahvista/:registrationId',
+  ModifyRegistration = '/yki/kayttaja/muokkaa/:registrationId',
   ExpiredLoginLinkPage = '/yki/linkki-vanhentunut/:code',
   NotFoundPage = '*',
   ClerkRoot = '/yki/v2/virkailija',

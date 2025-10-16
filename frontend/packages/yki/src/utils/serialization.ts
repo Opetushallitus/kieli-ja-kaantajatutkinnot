@@ -288,6 +288,10 @@ export class SerializationUtils {
         expiresAt: v.expires_at ? dayjs(v.expires_at) : undefined,
         paidAt: v.paid_at ? dayjs(v.paid_at) : undefined,
         examFee: v.exam_fee,
+        supplementRequestDueDate: v.supplementRequestDueDate
+          ? dayjs(v.supplementRequestDueDate)
+          : undefined,
+        supplementRequest: v.supplementRequest,
         liftedFromQueueAt: v.lifted_from_queue_at
           ? dayjs(v.lifted_from_queue_at)
           : undefined,

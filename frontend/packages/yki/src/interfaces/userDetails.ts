@@ -7,7 +7,6 @@ import {
   RegistrationKind,
   RegistrationStates,
 } from 'enums/app';
-import { Message, MessageResponse } from 'interfaces/clerkFreeRegistration';
 import { ExamSessionLocation } from 'interfaces/examSessions';
 
 export interface PersonRegistrations extends WithId {
@@ -29,7 +28,7 @@ export interface PersonRegistrations extends WithId {
   liftedFromQueueAt?: Dayjs;
   positionInQueue?: number;
   supplementRequestDueDate?: Dayjs;
-  supplementRequest?: Message;
+  supplementRequest?: string;
 }
 
 interface PersonRegistrationsResponse extends WithId {
@@ -51,7 +50,7 @@ interface PersonRegistrationsResponse extends WithId {
   lifted_from_queue_at?: string;
   position_in_queue?: number;
   supplementRequestDueDate?: string;
-  supplementRequest?: MessageResponse;
+  supplementRequest?: string;
 }
 
 export interface PersonDetails {

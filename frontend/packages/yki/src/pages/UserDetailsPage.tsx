@@ -164,10 +164,29 @@ const ExamPayment = ({
 }: {
   registration: PersonRegistrations;
 }) => {
-  const { paidAt, expiresAt, examFee } = registration;
+  const { paidAt, expiresAt, examFee, state } = registration;
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage.registrations.examPayment',
   });
+
+  const isFreeRegistrationPending = [
+    RegistrationStates.FreeRegistrationPending,
+    RegistrationStates.FreeRegistrationSupplementRequested,
+    RegistrationStates.FreeRequestSupplementRequestAnswered,
+  ].includes(state);
+
+  if (isFreeRegistrationPending) {
+    return (
+      <div>
+        <Text className="bold">{t('label')}</Text>
+        <Text>
+          {t('freeRegistrationPending', {
+            examFee,
+          })}
+        </Text>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -226,7 +245,7 @@ const Registrations: FC<RegistrationsProps> = ({
       r.state === RegistrationStates.Submitted &&
       r.kind !== RegistrationKind.Queue;
 
-    const displayFreeRegistrationNotification =
+    const isFreeRegistrationPending =
       [
         RegistrationStates.FreeRegistrationPending,
         RegistrationStates.FreeRegistrationSupplementRequested,
@@ -268,17 +287,39 @@ const Registrations: FC<RegistrationsProps> = ({
             </Text>
           </InfoBox>
         )}
-        {displayFreeRegistrationNotification && (
+        {isFreeRegistrationPending && (
           <InfoBox>
-            <Text>{t('freeRegistrationNotification.pending')} </Text>
+            <Text>
+              {[
+                RegistrationStates.FreeRegistrationPending,
+                RegistrationStates.FreeRequestSupplementRequestAnswered,
+              ].includes(r.state) && t('freeRegistrationNotification.pending')}
+
+              {r.state ===
+                RegistrationStates.FreeRegistrationSupplementRequested &&
+                t('freeRegistrationNotification.answered', {
+                  dueDate: DateUtils.formatOptionalDate(
+                    r.supplementRequestDueDate,
+                    'l',
+                  ),
+                })}
+            </Text>
           </InfoBox>
         )}
         <RegistrationState registration={r} />
-        {(r.state === RegistrationStates.Completed ||
+        {r.supplementRequest && (
+          <div>
+            <Text className="bold">{t('supplementRequestLabel')}</Text>
+            <Text>{r.supplementRequest}</Text>
+          </div>
+        )}
+        {((r.state === RegistrationStates.Completed ||
           r.state === RegistrationStates.Submitted) &&
-          r.kind === RegistrationKind.Admission && (
-            <ExamPayment registration={r} />
-          )}
+          r.kind === RegistrationKind.Admission) ||
+          (isFreeRegistrationPending &&
+            r.kind === RegistrationKind.Admission && (
+              <ExamPayment registration={r} />
+            ))}
         <div>
           <Text className="bold">{translateCommon('examDate')}</Text>
           <Text>{DateUtils.formatOptionalDate(r.examDate, 'l')}</Text>
@@ -304,7 +345,8 @@ const Registrations: FC<RegistrationsProps> = ({
           <div className="rows gapped">
             <div className="columns gapped">
               {r.state === RegistrationStates.Submitted &&
-                r.kind === RegistrationKind.Admission && (
+                r.kind === RegistrationKind.Admission &&
+                !isFreeRegistrationPending && (
                   <CustomButtonLink
                     className="fit-content-max-width"
                     color={Color.Secondary}
@@ -318,6 +360,20 @@ const Registrations: FC<RegistrationsProps> = ({
                     {t('actions.confirm')}
                   </CustomButtonLink>
                 )}
+              {r.state ===
+                RegistrationStates.FreeRegistrationSupplementRequested && (
+                <CustomButtonLink
+                  className="fit-content-max-width"
+                  color={Color.Secondary}
+                  variant={Variant.Contained}
+                  to={AppRoutes.ModifyRegistration.replace(
+                    /:registrationId/,
+                    `${r.id}`,
+                  )}
+                >
+                  {t('actions.modify')}
+                </CustomButtonLink>
+              )}
               <CustomButton
                 className="fit-content-max-width"
                 color={Color.Secondary}
@@ -327,20 +383,21 @@ const Registrations: FC<RegistrationsProps> = ({
               >
                 {t('actions.cancel')}
               </CustomButton>
-              {r.state === RegistrationStates.Completed && (
-                <CustomButtonLink
-                  className="fit-content-max-width"
-                  color={Color.Secondary}
-                  variant={Variant.Outlined}
-                  disabled={!r.isTransferable}
-                  to={AppRoutes.TransferRegistration.replace(
-                    /:registrationId/,
-                    `${r.id}`,
-                  )}
-                >
-                  {t('actions.relocate')}
-                </CustomButtonLink>
-              )}
+              {r.state === RegistrationStates.Completed &&
+                !isFreeRegistrationPending && (
+                  <CustomButtonLink
+                    className="fit-content-max-width"
+                    color={Color.Secondary}
+                    variant={Variant.Outlined}
+                    disabled={!r.isTransferable}
+                    to={AppRoutes.TransferRegistration.replace(
+                      /:registrationId/,
+                      `${r.id}`,
+                    )}
+                  >
+                    {t('actions.relocate')}
+                  </CustomButtonLink>
+                )}
             </div>
             {r.isTransfered && (
               <div className="columns gapped-xs">
