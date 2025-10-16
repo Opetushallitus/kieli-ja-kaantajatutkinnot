@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api/v1/user", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v2/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PublicController {
 
   @Resource

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(
-  value = "/api/v2/clerk/registration",
+  value = "/v2/api/clerk/registration",
   consumes = APPLICATION_JSON_VALUE,
   produces = APPLICATION_JSON_VALUE
 )
