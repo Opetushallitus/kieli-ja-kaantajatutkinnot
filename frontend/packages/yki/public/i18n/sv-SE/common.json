@@ -165,6 +165,7 @@
         "logoutSuccess": "Utloggning lyckades",
         "userDetails": "Mina anmälningar",
         "transferRegistration": "Flytta anmälan",
+        "modifyContactDetails": "Redigera kontaktuppgifterna",
         "confirmRegistration": "Bekräfta anmälan",
         "notFound": "Sidan hittades inte",
         "expiredLoginLink": "Länken gäller inte längre",

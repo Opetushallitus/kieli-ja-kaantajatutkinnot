@@ -672,6 +672,41 @@
         "heading": "Log out complete",
         "info": "You have logged out successfully. Close all browser windows."
       },
+
+      "modifyContactDetailsPage": {
+        "buttons": {
+          "cancel": "Cancel",
+          "save": "Save contact information"
+        },
+        "description": {
+          "part1": "We will send you the certificate by post.",
+          "part2": "Please check that you have provided the correct address."
+        },
+        "errorDialog": {
+          "fixErrors": "Check and correct the following information:",
+          "title": "Invalid information!"
+        },
+        "labels": {
+          "confirmEmail": "Confirm email address",
+          "email": "Email address",
+          "phoneNumber": "Telephone number",
+          "postOffice": "Municipality",
+          "streetAddress": "Street address",
+          "zip": "Postal code"
+        },
+        "placeholders": {
+          "confirmEmail": "Fill in your email address again",
+          "email": "For example, name@email.fi",
+          "phoneNumber": "Use the format +358 50 123 4567",
+          "postOffice": "",
+          "streetAddress": "",
+          "zip": ""
+        },
+        "toast": {
+          "success": "The contact information has been saved"
+        },
+        "title": "Edit contact information"
+      },
       "notFoundPage": {
         "description": "Please check the website address or return to the front page.",
         "title": "Page not found"
@@ -819,8 +854,7 @@
         "contactDetails": {
           "description": {
             "part1": "We will send you the certificate by post.",
-            "part2": "Please check that you have provided the correct address.",
-            "part3": "If there is a mistake in your contact information, please notify the Finnish National Agency for Education by email at kielitutkinnot@oph.fi."
+            "part2": "Please check that you have provided the correct address."
           },
           "heading": "Your contact information",
           "modify": "Edit contact information"
@@ -832,7 +866,8 @@
             "point3": "You can cancel your registration.",
             "point4": "You can view the tests for which you are on the waiting list and accept a place in a test from the waiting list.",
             "point5": "If a place in the YKI test opens up, you can accept it.",
-            "point6": "You can cancel your waiting list registration."
+            "point6": "You can cancel your waiting list registration.",
+            "point7": "You can edit your contact information."
           },
           "info": "View and edit your registrations for YKI tests."
         },

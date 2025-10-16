@@ -165,6 +165,7 @@
         "logoutSuccess": "Uloskirjautuminen onnnistui",
         "userDetails": "Omat ilmoittautumiset",
         "transferRegistration": "Siirrä ilmoittautuminen",
+        "modifyContactDetails": "Muokkaa yhteystietoja",
         "confirmRegistration": "Vahvista ilmoittautuminen",
         "notFound": "Etsimääsi sivua ei löytynyt",
         "expiredLoginLink": "Linkki on vanhentunut",
