@@ -926,6 +926,9 @@
             "part2": "Bekräfta anmälan senast {{- date }},",
             "part3": "annars förlorar du din plats"
           },
+          "freeRegistrationNotification": {
+            "pending": "Opetushallitus tarkistaa toimittamasi tutkintotodistuksen. Saat päätöksen tutkintomaksun maksuttomuudesta sähköpostiisi ja YKI-verkkopalveluun asian käsittelyn jälkeen."
+          },
           "notPaidNotification": {
             "part1": "Din anmälan har inte ännu bekräftats.",
             "part2": "Betala examensavgiften för att bekräfta anmälan.",
@@ -938,7 +941,9 @@
             "cancelled": "Annullerad",
             "enrolled": "Anmäld",
             "label": "Status",
-            "queued": "I kö (på plats {{ positionInQueue }})"
+            "queued": "I kö (på plats {{ positionInQueue }})",
+            "freeRegistrationPending": "Odottaa opetushallituksen tarkastusta",
+            "freeRegistrationSupplementRequested": "Odottaa vastaustasi"
           },
           "upcoming": {
             "notFound": "Du har inga kommande anmälningar."

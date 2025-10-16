@@ -248,6 +248,13 @@ export class SerializationUtils {
         return RegistrationStates.Cancelled;
       case 'PAID_AND_CANCELLED':
         return RegistrationStates.PaidAndCancelled;
+      case 'FREE_REGISTRATION_PENDING':
+        return RegistrationStates.FreeRegistrationPending;
+      case 'FREE_REGISTRATION_SUPPLEMENT_REQUESTED':
+        return RegistrationStates.FreeRegistrationSupplementRequested;
+      case 'FREE_REGISTRATION_SUPPLEMENT_REQUEST_ANSWERED':
+        return RegistrationStates.FreeRequestSupplementRequestAnswered;
+
       default:
         return RegistrationStates.Unknown;
     }

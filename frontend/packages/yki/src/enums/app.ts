@@ -93,6 +93,10 @@ export enum YkiValidationErrors {
   MismatchingEmails = 'errors.mismatchingEmails',
 }
 
+// Katso FreeRegistrationStatus
+// Hyväksytty maksuttomuus -> COMPLETED
+// Hylätty Maksuttomuus -> SUBMITTED
+// Expiroitunut lisätietopyyntö -> SUBMITTED
 export enum RegistrationStates {
   Completed = 'COMPLETED',
   Submitted = 'SUBMITTED',
@@ -100,6 +104,8 @@ export enum RegistrationStates {
   Expired = 'EXPIRED',
   Cancelled = 'CANCELLED',
   PaidAndCancelled = 'PAID_AND_CANCELLED',
-  AwaitingApproval = 'AWAITING_APPROVAL',
+  FreeRegistrationPending = 'FREE_REGISTRATION_PENDING',
+  FreeRegistrationSupplementRequested = 'FREE_REGISTRATION_SUPPLEMENT_REQUESTED',
+  FreeRequestSupplementRequestAnswered = 'FREE_REGISTRATION_SUPPLEMENT_REQUEST_ANSWERED',
   Unknown = 'UNKNOWN',
 }

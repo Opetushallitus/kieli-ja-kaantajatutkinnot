@@ -32,7 +32,7 @@ export const personDetails = {
         },
       ],
       kind: 'ADMISSION',
-      state: 'COMPLETED',
+      state: 'FREE_REGISTRATION_PENDING',
       exam_date: '2026-02-12',
       registration_start_date: '2025-01-01',
       registration_end_date: '2025-12-31',
@@ -42,6 +42,9 @@ export const personDetails = {
       is_transferable: true,
       is_transfered: false,
       paid_at: '2025-04-15',
+      supplementRequestDueDate: '2025-05-01',
+      supplementRequest:
+        'Olet toimittanut tutkintotodistuksen, mutta se on swahilin kielellä. Toimittaisitko tutkintotodistuksen käännöksen joko suomeksi, ruotsiksi tai englanniksi.',
     },
     {
       id: 1338,

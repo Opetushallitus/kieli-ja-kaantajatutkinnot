@@ -927,6 +927,9 @@
             "part2": "Please confirm your registration by {{- date }}",
             "part3": "or you will lose your place"
           },
+          "freeRegistrationNotification": {
+            "pending": "Opetushallitus tarkistaa toimittamasi tutkintotodistuksen. Saat päätöksen tutkintomaksun maksuttomuudesta sähköpostiisi ja YKI-verkkopalveluun asian käsittelyn jälkeen."
+          },
           "notPaidNotification": {
             "part1": "Your registration has not been confirmed yet.",
             "part2": "Please pay the test fee to confirm your registration.",
@@ -939,7 +942,9 @@
             "cancelled": "Cancelled",
             "enrolled": "Registered",
             "label": "Status",
-            "queued": "On the waiting list (position {{ positionInQueue }})"
+            "queued": "On the waiting list (position {{ positionInQueue }})",
+            "freeRegistrationPending": "Odottaa opetushallituksen tarkastusta",
+            "freeRegistrationSupplementRequested": "Odottaa vastaustasi"
           },
           "upcoming": {
             "notFound": "You have no upcoming registrations."

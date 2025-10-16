@@ -926,6 +926,9 @@
             "part2": "Vahvista ilmoittautuminen {{- date }} mennessä",
             "part3": "tai menetät paikan"
           },
+          "freeRegistrationNotification": {
+            "pending": "Opetushallitus tarkistaa toimittamasi tutkintotodistuksen. Saat päätöksen tutkintomaksun maksuttomuudesta sähköpostiisi ja YKI-verkkopalveluun asian käsittelyn jälkeen."
+          },
           "notPaidNotification": {
             "part1": "Ilmoittautumista ei ole vielä vahvistettu.",
             "part2": "Maksa tutkintomaksu niin ilmoittautuminen vahvistetaan.",
@@ -938,7 +941,9 @@
             "cancelled": "Peruttu",
             "enrolled": "Ilmoittautunut",
             "label": "Tila",
-            "queued": "Jonossa (sija {{ positionInQueue }})"
+            "queued": "Jonossa (sija {{ positionInQueue }})",
+            "freeRegistrationPending": "Odottaa opetushallituksen tarkastusta",
+            "freeRegistrationSupplementRequested": "Odottaa vastaustasi"
           },
           "upcoming": {
             "notFound": "Sinulla ei ole tulevia ilmoittautumisia."

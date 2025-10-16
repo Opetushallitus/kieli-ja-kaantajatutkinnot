@@ -75,7 +75,7 @@ export type Message = {
   type: 'COMMENT' | 'SUPPLEMENT_REQUEST';
 };
 
-type MessageResponse = Omit<Message, 'createdAt'> & {
+export type MessageResponse = Omit<Message, 'createdAt'> & {
   createdAt: string;
 };
 

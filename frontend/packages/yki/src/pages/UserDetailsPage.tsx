@@ -102,6 +102,13 @@ const RegistrationState = ({
     (state === RegistrationStates.Submitted &&
       kind === RegistrationKind.Admission);
 
+  const isFreeRegistrationPending =
+    state === RegistrationStates.FreeRegistrationPending ||
+    state === RegistrationStates.FreeRequestSupplementRequestAnswered;
+
+  const isFreeRegistrationSupplementRequested =
+    state === RegistrationStates.FreeRegistrationSupplementRequested;
+
   const isQueued =
     state === RegistrationStates.Submitted && kind === RegistrationKind.Queue;
 
@@ -133,6 +140,18 @@ const RegistrationState = ({
           <>
             <NotInterestedIcon className="user-details-page__icon--cancel" />
             <Text>{t('cancelled')}</Text>
+          </>
+        )}
+        {isFreeRegistrationPending && (
+          <>
+            <AlarmOutlinedIcon className="user-details-page__icon--alert" />
+            <Text>{t('freeRegistrationPending')}</Text>
+          </>
+        )}
+        {isFreeRegistrationSupplementRequested && (
+          <>
+            <AlarmOutlinedIcon className="user-details-page__icon--alert" />
+            <Text>{t('freeRegistrationSupplementRequested')}</Text>
           </>
         )}
       </div>
@@ -207,6 +226,13 @@ const Registrations: FC<RegistrationsProps> = ({
       r.state === RegistrationStates.Submitted &&
       r.kind !== RegistrationKind.Queue;
 
+    const displayFreeRegistrationNotification =
+      [
+        RegistrationStates.FreeRegistrationPending,
+        RegistrationStates.FreeRegistrationSupplementRequested,
+        RegistrationStates.FreeRequestSupplementRequestAnswered,
+      ].includes(r.state) && r.kind === RegistrationKind.Admission;
+
     return (
       <Paper
         key={`registration-${r.examSessionId}-${r.id}`}
@@ -240,6 +266,11 @@ const Registrations: FC<RegistrationsProps> = ({
               </b>{' '}
               {t('liftedFromQueueNotification.part3')}{' '}
             </Text>
+          </InfoBox>
+        )}
+        {displayFreeRegistrationNotification && (
+          <InfoBox>
+            <Text>{t('freeRegistrationNotification.pending')} </Text>
           </InfoBox>
         )}
         <RegistrationState registration={r} />
@@ -459,13 +490,15 @@ export const UserDetailsPage: FC = () => {
     RegistrationStates.Submitted,
     RegistrationStates.Completed,
     RegistrationStates.Started,
+    RegistrationStates.FreeRegistrationPending,
+    RegistrationStates.FreeRegistrationSupplementRequested,
+    RegistrationStates.FreeRequestSupplementRequestAnswered,
   ]);
 
   const upcomingRegistrations = filterByDate(
     upcomingAndPastRegistrations,
     true,
   );
-
   const pastRegistrations = filterByDate(upcomingAndPastRegistrations, false);
 
   const renderBulletpoints = () => {
