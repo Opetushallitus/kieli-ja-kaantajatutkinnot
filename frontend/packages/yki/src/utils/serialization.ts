@@ -383,8 +383,8 @@ export class SerializationUtils {
       supplementRequest: freeRegistrationDetailsResponse.supplementRequest
         ? {
             ...freeRegistrationDetailsResponse.supplementRequest,
-            timestamp: dayjs(
-              freeRegistrationDetailsResponse.supplementRequest.timestamp,
+            createdAt: dayjs(
+              freeRegistrationDetailsResponse.supplementRequest.createdAt,
             ),
           }
         : undefined,
@@ -401,9 +401,9 @@ export class SerializationUtils {
           submittedAt: dayjs(attachment.submittedAt),
         }),
       ),
-      comments: freeRegistrationDetailsResponse.comments.map((comment) => ({
-        ...comment,
-        timestamp: dayjs(comment.timestamp),
+      messages: freeRegistrationDetailsResponse.messages.map((message) => ({
+        ...message,
+        createdAt: dayjs(message.createdAt),
       })),
     };
   }

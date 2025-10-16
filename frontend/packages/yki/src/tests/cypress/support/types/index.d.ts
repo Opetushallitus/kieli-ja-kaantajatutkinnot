@@ -12,7 +12,10 @@ declare global {
       openPublicUserDetailsPage(): void;
       openClerkRegistrationPage(): void;
       openClerkFreeRegistrationPage(cookie?: Record<string, string>): void;
-      openClerkFreeRegistrationDetailsPage(id: number): void;
+      openClerkFreeRegistrationDetailsPage(
+        id: number,
+        cookie?: Record<string, string>,
+      ): void;
       openCustomerSearchPage(): void;
     }
   }

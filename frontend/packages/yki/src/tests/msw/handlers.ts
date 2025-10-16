@@ -197,4 +197,14 @@ export const handlers = [
   http.post(APIEndpoints.ClerkFreeRegistrationInformationRequest, () => {
     return HttpResponse.json({ success: true });
   }),
+  http.post(
+    APIEndpoints.ClerkFreeRegistrationDetailsMessages,
+    ({ cookies }) => {
+      if (cookies['error'] === '1') {
+        return HttpResponse.json({ error: 'forced error' }, { status: 500 });
+      }
+
+      return HttpResponse.json({ success: true });
+    },
+  ),
 ];

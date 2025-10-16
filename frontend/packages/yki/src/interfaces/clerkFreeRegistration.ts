@@ -62,16 +62,17 @@ interface FreeRegistrationAttachmentResponse
   submittedAt: string;
 }
 
-type Comment = {
+export type Message = {
   id: number;
-  timestamp: Dayjs;
-  commentor: string;
-  comment: string;
+  createdAt: Dayjs;
+  createdBy: string;
+  text: string;
+  type: 'COMMENT' | 'SUPPLEMENT_REQUEST';
 };
 
-interface CommentResponse extends Omit<Comment, 'timestamp'> {
-  timestamp: string;
-}
+type MessageResponse = Omit<Message, 'createdAt'> & {
+  createdAt: string;
+};
 
 type ExamSession = {
   id: number;
@@ -102,13 +103,13 @@ export type ClerkFreeRegistrationDetails = {
   freeRegistrationBasis: FreeRegistrationBasis;
   freeRegistrationsLeft: number;
   supplementRequestDueDate?: Dayjs;
-  supplementRequest?: Comment;
+  supplementRequest?: Message;
   assessmentDate?: Dayjs;
   examSession: ExamSession;
   languageOfCommunication: 'fi' | 'sv' | 'en';
   registration: Registration;
   attachments: FreeRegistrationAttachment[];
-  comments: Comment[];
+  messages: Message[];
 };
 
 export interface ClerkFreeRegistrationDetailsResponse
@@ -119,12 +120,12 @@ export interface ClerkFreeRegistrationDetailsResponse
     | 'assessmentDate'
     | 'examSession'
     | 'attachments'
-    | 'comments'
+    | 'messages'
   > {
   supplementRequestDueDate?: string;
-  supplementRequest?: CommentResponse;
+  supplementRequest?: MessageResponse;
   assessmentDate?: string;
   examSession: ExamSessionResponse;
   attachments: FreeRegistrationAttachmentResponse[];
-  comments: CommentResponse[];
+  messages: MessageResponse[];
 }
