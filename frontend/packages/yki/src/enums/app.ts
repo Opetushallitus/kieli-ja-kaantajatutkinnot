@@ -22,6 +22,7 @@ export enum AppRoutes {
   NotFoundPage = '*',
   ClerkRoot = '/yki/v2/virkailija',
   CustomerSearch = '/yki/v2/virkailija/asiakashaku',
+  ClerkCustomerDetails = '/yki/v2/virkailija/asiakashaku/:id',
   ClerkOrganizerRegister = '/yki/v2/virkailija/jarjestajarekisteri',
   ClerkFreeRegistration = '/yki/v2/virkailija/maksuttomuus',
   ClerkFreeRegistrationDetails = '/yki/v2/virkailija/maksuttomuus/:id',
@@ -64,6 +65,12 @@ export enum InstructionLanguage {
   SV = 'sv',
 }
 
+export enum ServiceLanguage {
+  FI = 'fi',
+  SV = 'sv',
+  EN = 'en',
+}
+
 export enum RadioButtonValue {
   YES = 'radioButtonYes',
   NO = 'radioButtonNo',
@@ -92,5 +99,6 @@ export enum RegistrationStates {
   Expired = 'EXPIRED',
   Cancelled = 'CANCELLED',
   PaidAndCancelled = 'PAID_AND_CANCELLED',
+  AwaitingApproval = 'AWAITING_APPROVAL',
   Unknown = 'UNKNOWN',
 }

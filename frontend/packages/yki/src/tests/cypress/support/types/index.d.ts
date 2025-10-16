@@ -17,6 +17,7 @@ declare global {
         cookie?: Record<string, string>,
       ): void;
       openCustomerSearchPage(): void;
+      openClerkCustomerDetailsPage(id: number): void;
     }
   }
 }

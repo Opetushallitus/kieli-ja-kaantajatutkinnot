@@ -168,7 +168,8 @@
         "confirmRegistration": "Confirm registration",
         "notFound": "Page not found",
         "expiredLoginLink": "The link has expired",
-        "customerSearch": "Asiakashaku"
+        "customerSearch": "Asiakashaku",
+        "customerDetails": "Asiakkaan tiedot"
       },
       "previous": "Previous"
     }
