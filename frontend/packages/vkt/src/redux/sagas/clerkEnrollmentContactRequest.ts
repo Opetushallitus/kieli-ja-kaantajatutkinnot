@@ -1,11 +1,12 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkEnrollmentContactResponse } from 'interfaces/clerkEnrollment';
 import { ExaminerExamEventResponse } from 'interfaces/examinerExamEvent';
+import { setAPIError } from 'redux/reducers/APIError';
 import {
   createClerkEnrollmentAppointment,
   deleteClerkEnrollmentContactRequest,
@@ -18,6 +19,7 @@ import {
   storeDeleteClerkEnrollmentContactRequest,
   storeExaminerExamEvents,
 } from 'redux/reducers/clerkEnrollmentContactRequest';
+import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 function* createClerkEnrollmentAppointmentSaga(
@@ -46,6 +48,8 @@ function* createClerkEnrollmentAppointmentSaga(
 
     yield put(storeCreateClerkEnrollmentAppointment(enrollment));
   } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
     yield put(rejectCreateClerkEnrollmentAppointment());
   }
 }
@@ -67,6 +71,8 @@ function* deleteClerkEnrollmentContactRequestSaga(
 
     yield put(storeDeleteClerkEnrollmentContactRequest());
   } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
     yield put(rejectClerkEnrollmentContactRequest());
   }
 }
@@ -112,6 +118,8 @@ function* loadClerkEnrollmentContactRequestSaga(
 
     yield put(storeClerkEnrollmentContactRequest(enrollment));
   } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
     yield put(rejectClerkEnrollmentContactRequest());
   }
 }

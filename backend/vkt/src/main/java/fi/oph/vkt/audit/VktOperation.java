@@ -25,4 +25,5 @@ public enum VktOperation implements Operation {
   GET_SSN_BY_OID,
   GET_BIRTHDATE_BY_OID,
   GET_PAYMENT_REPORT_EXCEL,
+  CONVERT_EXAMINER_CONTACT_REQUEST,
 }
