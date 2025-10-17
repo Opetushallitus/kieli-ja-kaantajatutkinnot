@@ -3,6 +3,7 @@ import { combineReducers, configureStore, Tuple } from '@reduxjs/toolkit';
 
 import { RootState } from 'configs/redux';
 import { APIErrorReducer } from 'redux/reducers/APIError';
+import { clerkCustomerDetailsReducer } from 'redux/reducers/clerkCustomerDetails';
 import { clerkFreeRegistrationReducer } from 'redux/reducers/clerkFreeRegistration';
 import { clerkFreeRegistrationDetailsReducer } from 'redux/reducers/clerkFreeRegistrationDetails';
 import { clerkOrganizersReducer } from 'redux/reducers/clerkOrganizer';
@@ -43,6 +44,7 @@ export const rootReducer = combineReducers({
   clerkOrganizer: clerkOrganizersReducer,
   clerkFreeRegistration: clerkFreeRegistrationReducer,
   clerkFreeRegistrationDetails: clerkFreeRegistrationDetailsReducer,
+  clerkCustomerDetails: clerkCustomerDetailsReducer,
 });
 
 export const setupStore = (preloadedState?: Partial<RootState>) => {

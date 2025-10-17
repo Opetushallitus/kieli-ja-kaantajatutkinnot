@@ -10,7 +10,17 @@ import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDeta
 class ClerkFreeRegistrationDetailsPage {
   elements = {
     title: () => cy.findByText('Maksuttomuuden tarkastukset'),
+    textboxByLabel: (label: string) =>
+      cy.findByRole('textbox', { name: label }),
+    commentField: () => cy.get('#comment'),
+    addCommentButton: () =>
+      cy.findByRole('button', { name: 'Tallenna kommentti' }),
   };
+
+  addComment(comment: string) {
+    comment && this.elements.commentField().clear().type(comment);
+    this.elements.addCommentButton().click();
+  }
 
   isVisible() {
     this.elements.title().should('be.visible');
@@ -60,6 +70,10 @@ class ClerkFreeRegistrationDetailsPage {
         'be.visible',
       );
     });
+  }
+
+  FillOutInformationRequest({ message }) {
+    this.elements.textboxByLabel('Lisätietopyyntö').type(message);
   }
 
   expectCorrectActionButtonsVisible(id: number) {

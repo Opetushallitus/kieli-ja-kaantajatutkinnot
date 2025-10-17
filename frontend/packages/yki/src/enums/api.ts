@@ -25,9 +25,14 @@ export enum APIEndpoints {
   ConfirmRegistration = '/yki/api/person/registration/:registrationId/confirm',
   RedirectToPayment = '/yki/api/payment/v3/:registrationId/redirect?lang=:lang',
   RedirectToPaymentFromUserPortal = '/yki/api/person/registration/:registrationId/payment-redirect?lang=:lang',
-  ClerkOrganizer = '/yki/api/clerk/organizer',
+  ClerkOrganizer = '/yki/v2/api/clerk/organizer',
   ClerkFreeRegistration = '/yki/v2/api/clerk/registration/approvals',
   ClerkFreeRegistrationDetails = '/yki/v2/api/clerk/registration/approval/:id',
+  ApproveClerkFreeRegistration = '/yki/v2/api/clerk/registration/approval',
+  RejectClerkFreeRegistration = '/yki/v2/api/clerk/registration/rejection',
+  ClerkFreeRegistrationInformationRequest = '/yki/v2/api/clerk/registration/:id/information-request',
+  ClerkFreeRegistrationDetailsMessages = '/yki/v2/api/clerk/registration/:id/messages',
+  ClerkCustomerDetails = '/yki/v2/api/clerk/customer/:id',
 }
 
 export enum PaymentStatus {

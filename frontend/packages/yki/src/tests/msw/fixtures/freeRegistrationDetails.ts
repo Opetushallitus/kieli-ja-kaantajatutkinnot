@@ -31,7 +31,29 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [
+      {
+        id: 1,
+        text: 'Olet toimittanut tutkintotodistuksen, mutta se on swahilin kielellä. Toimittaisitko tutkintotodistuksen käännöksen joko suomeksi, ruotsiksi tai englanniksi.',
+        createdAt: '2024-10-10T00:00:00.000Z',
+        createdBy: 'Ville Virkailija',
+        type: 'SUPPLEMENT_REQUEST',
+      },
+      {
+        id: 2,
+        text: 'Pyydetään ilmoittautujalta käännöstä todistukseen.',
+        createdAt: '2024-10-10T00:00:00.000Z',
+        createdBy: 'Kalle Virkailija',
+        type: 'COMMENT',
+      },
+      {
+        id: 3,
+        text: 'Tarkistettu että ei ole oikeaa käännöstä tässä.',
+        createdAt: '2024-10-10T00:00:00.000Z',
+        createdBy: 'Ville Virkailija',
+        type: 'COMMENT',
+      },
+    ],
   },
   {
     id: 2,
@@ -62,7 +84,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
   {
     id: 3,
@@ -96,7 +118,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
   {
     id: 4,
@@ -130,7 +152,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
   {
     id: 5,
@@ -162,7 +184,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
   {
     id: 6,
@@ -194,7 +216,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
   {
     id: 7,
@@ -225,7 +247,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
   {
     id: 8,
@@ -256,7 +278,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
   {
     id: 9,
@@ -287,7 +309,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
   {
     id: 10,
@@ -318,6 +340,6 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
 ];

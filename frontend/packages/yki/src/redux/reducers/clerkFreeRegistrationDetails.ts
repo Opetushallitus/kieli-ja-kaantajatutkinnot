@@ -1,7 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ClerkFreeRegistrationDetails } from 'interfaces/clerkFreeRegistration';
+import {
+  ClerkFreeRegistrationDetails,
+  Message,
+} from 'interfaces/clerkFreeRegistration';
 
 export enum FreeRegistrationApprovalStatus {
   NotStarted,
@@ -17,12 +20,14 @@ interface ClerkFreeRegistrationState {
   registrationDetails: ClerkFreeRegistrationDetails | null;
   status: APIResponseStatus;
   registrationApprovalStatus: FreeRegistrationApprovalStatus;
+  commentStatus: APIResponseStatus;
 }
 
 const initialState: ClerkFreeRegistrationState = {
   registrationDetails: null,
   status: APIResponseStatus.NotStarted,
   registrationApprovalStatus: FreeRegistrationApprovalStatus.NotStarted,
+  commentStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkFreeRegistrationDetailsSlice = createSlice({
@@ -52,13 +57,17 @@ const clerkFreeRegistrationDetailsSlice = createSlice({
     ) {
       state.registrationApprovalStatus = action.payload;
     },
-    approveFreeRegistration(state, _action: PayloadAction<number>) {
-      state.registrationApprovalStatus =
-        FreeRegistrationApprovalStatus.ApprovalInProgress;
+    addComment(
+      state,
+      _action: PayloadAction<Omit<Message, 'id' | 'createdAt'>>,
+    ) {
+      state.commentStatus = APIResponseStatus.InProgress;
     },
-    rejectFreeRegistration(state, _action: PayloadAction<number>) {
-      state.registrationApprovalStatus =
-        FreeRegistrationApprovalStatus.RejectInProgress;
+    rejectAddComment(state) {
+      state.commentStatus = APIResponseStatus.Error;
+    },
+    acceptAddComment(state) {
+      state.commentStatus = APIResponseStatus.Success;
     },
   },
 });
@@ -71,6 +80,7 @@ export const {
   storeClerkFreeRegistrationDetails,
   resetClerkFreeRegistrationDetails,
   setFreeRegistrationStatus,
-  approveFreeRegistration,
-  rejectFreeRegistration,
+  addComment,
+  rejectAddComment,
+  acceptAddComment,
 } = clerkFreeRegistrationDetailsSlice.actions;

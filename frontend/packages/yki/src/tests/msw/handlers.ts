@@ -3,6 +3,7 @@ import { http, HttpResponse, PathParams } from 'msw';
 import { APIEndpoints } from 'enums/api';
 import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationInitRequest } from 'interfaces/publicRegistration';
+import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
@@ -79,6 +80,9 @@ export const handlers = [
     APIEndpoints.PersonDetails,
     () => HttpResponse.json(data.personDetails),
     // () => HttpResponse.json('Unauthorized', { status: 401 }),
+  ),
+  http.post(APIEndpoints.PersonDetails, () =>
+    HttpResponse.json({ success: true }),
   ),
   http.delete(APIEndpoints.CancelUserRegistration, ({ params }) => {
     const { registrationId } = params;
@@ -195,6 +199,27 @@ export const handlers = [
       return HttpResponse.json(freeRegistrationDetails[2]);
     } else {
       return HttpResponse.json(freeRegistrationDetails[3]);
+    }
+  }),
+  http.post(APIEndpoints.ClerkFreeRegistrationInformationRequest, () => {
+    return HttpResponse.json({ success: true });
+  }),
+  http.post(
+    APIEndpoints.ClerkFreeRegistrationDetailsMessages,
+    ({ cookies }) => {
+      if (cookies['error'] === '1') {
+        return HttpResponse.json({ error: 'forced error' }, { status: 500 });
+      }
+
+      return HttpResponse.json({ success: true });
+    },
+  ),
+  http.get(APIEndpoints.ClerkCustomerDetails, ({ params }) => {
+    const index = params?.id ? Number(params.id) - 1 : NaN;
+    if (index >= 0) {
+      return HttpResponse.json(customerDetails[index]);
+    } else {
+      return notFound();
     }
   }),
 ];

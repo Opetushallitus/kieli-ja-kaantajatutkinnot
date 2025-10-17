@@ -9,10 +9,9 @@ import { H1 } from 'ophTheme/Text';
 import {
   approveFreeRegistration,
   rejectFreeRegistration,
-} from 'redux/reducers/clerkFreeRegistrationDetails';
+} from 'redux/reducers/clerkFreeRegistration';
 
 type FreeRegistrationModalProps = {
-  freeRegistrationId: number;
   isApproveModalOpen: boolean;
   setIsApproveModal: (isOpen: boolean) => void;
   isRejectModalOpen: boolean;
@@ -20,7 +19,6 @@ type FreeRegistrationModalProps = {
 };
 
 export const FreeRegistrationModal = ({
-  freeRegistrationId,
   isApproveModalOpen,
   setIsApproveModal,
   isRejectModalOpen,
@@ -72,7 +70,7 @@ export const FreeRegistrationModal = ({
               variant={Variant.Contained}
               color={Color.Primary}
               onClick={() => {
-                dispatch(approveFreeRegistration(freeRegistrationId));
+                dispatch(approveFreeRegistration());
                 setIsApproveModal(false);
               }}
             >
@@ -120,7 +118,7 @@ export const FreeRegistrationModal = ({
               variant={Variant.Contained}
               color={Color.Primary}
               onClick={() => {
-                dispatch(rejectFreeRegistration(freeRegistrationId));
+                dispatch(rejectFreeRegistration());
                 setIsRejectModal(false);
               }}
             >

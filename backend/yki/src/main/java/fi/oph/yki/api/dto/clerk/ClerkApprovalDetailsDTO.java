@@ -14,7 +14,6 @@ public record ClerkApprovalDetailsDTO(
   @NonNull @NotNull ClerkRegistrationDTO registration,
   @NonNull @NotNull ClerkPersonDTO person,
   @NonNull @NotNull RegistrationState status,
-  //@NonNull @NotNull FreeRegistrationType freeEnrollmentBasis,
   @NonNull @NotNull RegistrationLangOfCommunication languageOfCommunication,
   @NonNull @NotNull ClerkApprovalExamSessionDTO examSession,
   @NonNull @NotNull FreeRegistrationType freeRegistrationBasis,

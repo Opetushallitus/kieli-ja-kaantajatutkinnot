@@ -1,9 +1,6 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ThemeProvider } from '@mui/material';
-import {
-  createOphTheme,
-  OphThemeProvider,
-} from '@opetushallitus/oph-design-system/theme';
+import { OphThemeProvider } from '@opetushallitus/oph-design-system/theme';
 import { FC, useEffect } from 'react';
 import {
   createBrowserRouter,
@@ -29,7 +26,9 @@ import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
+import { clerkTheme } from 'ophTheme/OphTheme';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
+import { ClerkCustomerDetailsPage } from 'pages/clerk/ClerkCustomerDetailsPage';
 import { ClerkCustomerSearchPage } from 'pages/clerk/ClerkCustomerSearchPage';
 import { ClerkFreeRegistrationDetailsPage } from 'pages/clerk/ClerkFreeRegistrationDetailsPage';
 import { ClerkFreeRegistrationPage } from 'pages/clerk/ClerkFreeRegistrationPage';
@@ -41,6 +40,7 @@ import { ExamDetailsPage } from 'pages/ExamDetailsPage';
 import { ExpiredLoginLinkPage } from 'pages/ExpiredLoginLinkPage';
 import { InitRegistrationPage } from 'pages/InitRegistrationPage';
 import { LogoutSuccess } from 'pages/LogoutSuccess';
+import { ModifyContactDetailsPage } from 'pages/ModifyContactDetailsPage';
 import { NotFoundPage } from 'pages/NotFoundPage';
 import { ReassessmentPage } from 'pages/ReassessmentPage';
 import { RegistrationPage } from 'pages/RegistrationPage';
@@ -90,19 +90,6 @@ export const AppRouter: FC = () => {
       </NotifierContextProvider>
     </div>
   );
-
-  const clerkTheme = createOphTheme({
-    variant: 'oph',
-    overrides: {
-      components: {
-        MuiAppBar: {
-          defaultProps: {
-            color: 'default',
-          },
-        },
-      },
-    },
-  });
 
   const ClerkRoot = (
     <div className="app">
@@ -192,6 +179,14 @@ export const AppRouter: FC = () => {
               </YkiTitlePage>
             }
           />
+          <Route
+            path={AppRoutes.ClerkCustomerDetails}
+            element={
+              <YkiTitlePage title="customerDetails">
+                <ClerkCustomerDetailsPage />
+              </YkiTitlePage>
+            }
+          />
         </Route>
         <Route path={AppRoutes.PublicRoot} element={Root}>
           <Route index={true} element={FrontPage} />
@@ -271,6 +266,14 @@ export const AppRouter: FC = () => {
             }
           />
           <Route
+            path={AppRoutes.ModifyContactDetails}
+            element={
+              <UserPortalSubPage title="modifyContactDetails">
+                <ModifyContactDetailsPage />
+              </UserPortalSubPage>
+            }
+          />
+          <Route
             path={AppRoutes.ConfirmRegistration}
             element={
               <UserPortalSubPage title="transferRegistration">
@@ -319,7 +322,6 @@ export const AppRouter: FC = () => {
             }
           />
         </Route>
-        ,
       </>,
     ),
   );

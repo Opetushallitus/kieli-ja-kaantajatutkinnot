@@ -6,12 +6,11 @@ import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkFreeRegistrationDetailsResponse } from 'interfaces/clerkFreeRegistration';
 import {
-  approveFreeRegistration,
-  FreeRegistrationApprovalStatus,
+  acceptAddComment,
+  addComment,
   loadClerkFreeRegistrationDetails,
+  rejectAddComment,
   rejectClerkFreeRegistrationDetails,
-  rejectFreeRegistration,
-  setFreeRegistrationStatus,
   storeClerkFreeRegistrationDetails,
 } from 'redux/reducers/clerkFreeRegistrationDetails';
 import { SerializationUtils } from 'utils/serialization';
@@ -36,55 +35,29 @@ function* loadClerkFreeRegistrationDetailsSaga(action: PayloadAction<number>) {
   }
 }
 
-function* approveFreeRegistrationSaga(action: PayloadAction<number>) {
+function* addCommentSaga(
+  action: PayloadAction<{
+    freeRegistrationId: number;
+    text: string;
+    createdBy: string;
+    type: 'SUPPLEMENT_REQUEST';
+  }>,
+) {
+  const { freeRegistrationId, ...requestBody } = action.payload;
   try {
-    const response: AxiosResponse<ClerkFreeRegistrationDetailsResponse> =
-      yield call(
-        axiosInstance.put,
-        APIEndpoints.ClerkFreeRegistrationDetails.replace(
-          /:id$/,
-          `${action.payload}`,
-        ),
-        { approved: true },
-      );
-    const freeRegistrationDetails =
-      SerializationUtils.deserializeClerkFreeRegistrationDetailsResponse(
-        response.data,
-      );
-    yield put(storeClerkFreeRegistrationDetails(freeRegistrationDetails));
-    yield put(
-      setFreeRegistrationStatus(FreeRegistrationApprovalStatus.ApprovalSuccess),
+    yield call(
+      axiosInstance.post,
+      APIEndpoints.ClerkFreeRegistrationDetailsMessages.replace(
+        /:id$/,
+        `${freeRegistrationId}`,
+      ),
+      {
+        ...requestBody,
+      },
     );
+    yield put(acceptAddComment());
   } catch (error) {
-    yield put(
-      setFreeRegistrationStatus(FreeRegistrationApprovalStatus.ApprovalError),
-    );
-  }
-}
-
-function* rejectFreeRegistrationSaga(action: PayloadAction<number>) {
-  try {
-    const response: AxiosResponse<ClerkFreeRegistrationDetailsResponse> =
-      yield call(
-        axiosInstance.put,
-        APIEndpoints.ClerkFreeRegistrationDetails.replace(
-          /:id$/,
-          `${action.payload}`,
-        ),
-        { approved: false },
-      );
-    const freeRegistrationDetails =
-      SerializationUtils.deserializeClerkFreeRegistrationDetailsResponse(
-        response.data,
-      );
-    yield put(storeClerkFreeRegistrationDetails(freeRegistrationDetails));
-    yield put(
-      setFreeRegistrationStatus(FreeRegistrationApprovalStatus.RejectSuccess),
-    );
-  } catch (error) {
-    yield put(
-      setFreeRegistrationStatus(FreeRegistrationApprovalStatus.RejectError),
-    );
+    yield put(rejectAddComment());
   }
 }
 
@@ -93,7 +66,5 @@ export function* watchClerkFreeRegistrationDetails() {
     loadClerkFreeRegistrationDetails.type,
     loadClerkFreeRegistrationDetailsSaga,
   );
-
-  yield takeLatest(approveFreeRegistration.type, approveFreeRegistrationSaga);
-  yield takeLatest(rejectFreeRegistration.type, rejectFreeRegistrationSaga);
+  yield takeLatest(addComment.type, addCommentSaga);
 }
