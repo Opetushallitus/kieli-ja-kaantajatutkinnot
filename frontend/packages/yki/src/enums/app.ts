@@ -94,10 +94,6 @@ export enum YkiValidationErrors {
   MismatchingEmails = 'errors.mismatchingEmails',
 }
 
-// Katso FreeRegistrationStatus
-// Hyväksytty maksuttomuus -> COMPLETED
-// Hylätty Maksuttomuus -> SUBMITTED
-// Expiroitunut lisätietopyyntö -> SUBMITTED
 export enum RegistrationStates {
   Completed = 'COMPLETED',
   Submitted = 'SUBMITTED',
