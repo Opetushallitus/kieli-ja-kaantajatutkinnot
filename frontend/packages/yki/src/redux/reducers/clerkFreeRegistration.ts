@@ -2,7 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Dayjs } from 'dayjs';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ClerkFreeRegistration } from 'interfaces/clerkFreeRegistration';
+import {
+  ClerkFreeRegistration,
+  ClerkFreeRegistrationSort,
+} from 'interfaces/clerkFreeRegistration';
 
 export enum FreeRegistrationModalStatus {
   NotStarted,
@@ -12,19 +15,21 @@ export enum FreeRegistrationModalStatus {
   RejectInProgress,
   RejectSuccess,
   RejectError,
-  InformationRequestInProgress,
-  InformationRequestSuccess,
-  InformationRequestError,
+  SupplementRequestInProgress,
+  SupplementRequestSuccess,
+  SupplementRequestError,
 }
 
 interface ClerkFreeRegistrationState {
   freeRegistrations: Array<ClerkFreeRegistration>;
+  freeRegistrationsSort: ClerkFreeRegistrationSort;
   status: APIResponseStatus;
   modalSubmitStatus: FreeRegistrationModalStatus;
 }
 
 const initialState: ClerkFreeRegistrationState = {
   freeRegistrations: [],
+  freeRegistrationsSort: 'examDate:asc',
   status: APIResponseStatus.NotStarted,
   modalSubmitStatus: FreeRegistrationModalStatus.NotStarted,
 };
@@ -58,7 +63,7 @@ const clerkFreeRegistrationSlice = createSlice({
     rejectFreeRegistration(state) {
       state.modalSubmitStatus = FreeRegistrationModalStatus.RejectInProgress;
     },
-    submitClerkFreeRegistrationInformationRequest(
+    submitClerkFreeRegistrationSupplementRequest(
       state,
       _action: PayloadAction<{
         registrationId: number;
@@ -67,18 +72,24 @@ const clerkFreeRegistrationSlice = createSlice({
       }>,
     ) {
       state.modalSubmitStatus =
-        FreeRegistrationModalStatus.InformationRequestInProgress;
+        FreeRegistrationModalStatus.SupplementRequestInProgress;
     },
-    rejectClerkFreeRegistrationInformationRequest(state) {
+    rejectClerkFreeRegistrationSupplementRequest(state) {
       state.modalSubmitStatus =
-        FreeRegistrationModalStatus.InformationRequestError;
+        FreeRegistrationModalStatus.SupplementRequestError;
     },
-    acceptClerkFreeRegistrationInformationRequest(state) {
+    acceptClerkFreeRegistrationSupplementRequest(state) {
       state.modalSubmitStatus =
-        FreeRegistrationModalStatus.InformationRequestSuccess;
+        FreeRegistrationModalStatus.SupplementRequestSuccess;
     },
-    resetInformationRequestStatus(state) {
+    resetSupplementRequestStatus(state) {
       state.modalSubmitStatus = FreeRegistrationModalStatus.NotStarted;
+    },
+    setFreeRegistrationsSort(
+      state,
+      action: PayloadAction<ClerkFreeRegistrationSort>,
+    ) {
+      state.freeRegistrationsSort = action.payload;
     },
   },
 });
@@ -91,8 +102,9 @@ export const {
   setFreeRegistrationStatus,
   approveFreeRegistration,
   rejectFreeRegistration,
-  submitClerkFreeRegistrationInformationRequest,
-  rejectClerkFreeRegistrationInformationRequest,
-  acceptClerkFreeRegistrationInformationRequest,
-  resetInformationRequestStatus,
+  submitClerkFreeRegistrationSupplementRequest,
+  rejectClerkFreeRegistrationSupplementRequest,
+  acceptClerkFreeRegistrationSupplementRequest,
+  resetSupplementRequestStatus,
+  setFreeRegistrationsSort,
 } = clerkFreeRegistrationSlice.actions;

@@ -13,9 +13,9 @@ export type FreeRegistrationStatus =
   | 'PENDING'
   | 'APPROVED'
   | 'REJECTED'
-  | 'INFORMATION_REQUESTED'
-  | 'INFORMATION_REQUEST_ANSWERED'
-  | 'INFORMATION_REQUEST_EXPIRED';
+  | 'SUPPLEMENT_REQUESTED'
+  | 'SUPPLEMENT_REQUEST_ANSWERED'
+  | 'SUPPLEMENT_REQUEST_EXPIRED';
 
 // exported in cypress which is excluded from root tsconfig.json
 // so would give error otherwise
@@ -40,13 +40,18 @@ export type ClerkFreeRegistration = {
   registration: Registration;
 };
 
+export type SortOrder = 'asc' | 'desc' | '';
+type ClerkFreeRegistrationSortKeys = Omit<ClerkFreeRegistration, 'id'>;
+export type ClerkFreeRegistrationSort =
+  `${keyof ClerkFreeRegistrationSortKeys}:${SortOrder}`;
+
 export interface ClerkFreeRegistrationResponse
   extends Omit<
     ClerkFreeRegistration,
     'supplementRequestDueDate' | 'assessmentDate' | 'examDate'
   > {
-  supplementRequestDueDate: string;
-  assessmentDate: string;
+  supplementRequestDueDate?: string;
+  assessmentDate?: string;
   examDate: string;
 }
 
@@ -106,7 +111,7 @@ export type ClerkFreeRegistrationDetails = {
   supplementRequest?: Message;
   assessmentDate?: Dayjs;
   examSession: ExamSession;
-  languageOfCommunication: 'fi' | 'sv' | 'en';
+  languageOfService: 'fi' | 'sv' | 'en';
   registration: Registration;
   attachments: FreeRegistrationAttachment[];
   messages: Message[];

@@ -1,4 +1,6 @@
-export const freeRegistrations = [
+import { ClerkFreeRegistrationResponse } from 'interfaces/clerkFreeRegistration';
+
+export const freeRegistrations: ClerkFreeRegistrationResponse[] = [
   {
     id: 1,
     person: {
@@ -8,7 +10,7 @@ export const freeRegistrations = [
       oid: '1.2.246.562.10.39706139511',
     },
     status: 'PENDING',
-    supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
+    supplementRequestDueDate: '2025-11-12T00:00:00.000Z',
     examDate: '2025-11-21T00:00:00.000Z',
     registration: {
       kind: 'ADMISSION',
@@ -22,7 +24,7 @@ export const freeRegistrations = [
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139522',
     },
-    status: 'PENDING',
+    status: 'SUPPLEMENT_REQUEST_EXPIRED',
     supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
     examDate: '2025-11-22T00:00:00.000Z',
     registration: {
@@ -56,6 +58,7 @@ export const freeRegistrations = [
     },
     status: 'REJECTED',
     assessmentDate: '2025-11-10T00:00:00.000Z',
+    examDate: '2025-11-23T00:00:00.000Z',
     registration: {
       kind: 'QUEUE',
       positionInQueue: 1,
@@ -70,7 +73,7 @@ export const freeRegistrations = [
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139555',
     },
-    status: 'INFORMATION_REQUESTED',
+    status: 'SUPPLEMENT_REQUESTED',
     supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
     examDate: '2025-11-22T00:00:00.000Z',
     registration: {
@@ -85,7 +88,7 @@ export const freeRegistrations = [
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139555',
     },
-    status: 'INFORMATION_REQUEST_ANSWERED',
+    status: 'SUPPLEMENT_REQUEST_ANSWERED',
     supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
     examDate: '2025-11-24T00:00:00.000Z',
     registration: {
@@ -96,22 +99,24 @@ export const freeRegistrations = [
     id: 7,
     person: {
       firstName: 'Testi7',
-      lastName: 'Testaaja',
+      lastName: 'Mestaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139511',
     },
     status: 'PENDING',
     supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
-    examDate: '2025-11-25T00:00:00.000Z',
+    examDate: '2025-11-27T00:00:00.000Z',
     registration: {
-      kind: 'ADMISSION',
+      kind: 'QUEUE',
+      positionInQueue: 3,
+      queue: 15,
     },
   },
   {
     id: 8,
     person: {
       firstName: 'Testi8',
-      lastName: 'Testaaja',
+      lastName: 'Mestaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139511',
     },
@@ -119,14 +124,16 @@ export const freeRegistrations = [
     supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
     examDate: '2025-11-26T00:00:00.000Z',
     registration: {
-      kind: 'ADMISSION',
+      kind: 'QUEUE',
+      positionInQueue: 5,
+      queue: 8,
     },
   },
   {
     id: 9,
     person: {
       firstName: 'Testi9',
-      lastName: 'Testaaja',
+      lastName: 'Mestaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139511',
     },
@@ -141,7 +148,7 @@ export const freeRegistrations = [
     id: 10,
     person: {
       firstName: 'Testi10',
-      lastName: 'Testaaja',
+      lastName: 'Mestaaja',
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139511',
     },

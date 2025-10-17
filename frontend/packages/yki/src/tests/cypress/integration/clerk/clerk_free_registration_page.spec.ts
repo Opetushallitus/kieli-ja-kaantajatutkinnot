@@ -35,7 +35,7 @@ describe('ClerkFreeRegistrationPage', () => {
     onClerkFreeRegistrationPage.expectCorrectRowData(0, [
       'Testi1 Testaaja112233-99991.2.246.562.10.39706139511',
       'Maksuttomuus tarkastamatta',
-      '11.11.2025',
+      '12.11.2025',
       '21.11.2025',
     ]);
   });
