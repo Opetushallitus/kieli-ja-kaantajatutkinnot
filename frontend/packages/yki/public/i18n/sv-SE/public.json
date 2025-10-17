@@ -161,6 +161,30 @@
           }
         }
       },
+      "clerkCustomer": {
+        "details": {
+          "fields": {
+            "ssn": "Hetu",
+            "oid": "Oppijanumero",
+            "nationality":"Kansalaisuus",
+            "languageOfService": "Asiointikieli",
+            "languageOfCertificate": "Todistuksen kieli",
+            "phoneNumber": "Puhelinnumero",
+            "streetAddress": "Osoite",
+            "email": "Sähköposti"
+          },
+          "languageOfService": {
+            "fi": "suomi",
+            "sv": "ruotsi",
+            "en": "englanti"
+          },
+          "languageOfCertificate": {
+            "fi": "suomi",
+            "sv": "ruotsi",
+            "en": "englanti"
+          }
+        }
+      },
       "cookieBanner": {
         "buttonAriaLabel": "Stäng informationrutan om kakor",
         "buttonText": "Stäng",
