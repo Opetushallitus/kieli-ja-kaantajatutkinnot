@@ -28,15 +28,15 @@
     "yki:stylelint": "yarn g:stylelint --fix \"./src/**/*.scss\"",
     "yki:test:cypress": "TZ=Europe/Helsinki yarn g:cypress run --spec=\"./src/tests/cypress/integration/public/*.ts\"",
     "yki:test:cypress:open": "TZ=Europe/Helsinki yarn g:cypress open",
-    "yki:clerk:test:cypress": "TZ=Europe/Helsinki yarn g:cypress run --config baseUrl=http://localhost:4004 --spec=\"./src/tests/cypress/integration/clerk/*.ts\"",
+    "yki:clerk:test:cypress": "TZ=Europe/Helsinki yarn g:cypress run --config baseUrl=http://localhost:4004 --spec=\"./src/tests/cypress/integration/clerk/**/*.ts\"",
     "yki:clerk:test:cypress:open": "TZ=Europe/Helsinki yarn g:cypress open --config baseUrl=http://localhost:4004",
     "yki:test:jest": "yarn g:jest",
     "yki:tslint": "yarn g:tsc --pretty --noEmit"
   },
   "dependencies": {
-    "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.14.0"
+    "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.14.1"
   },
   "devDependencies": {
-    "multer": "^1.4.5-lts.1"
+    "multer": "^2.0.2"
   }
 }

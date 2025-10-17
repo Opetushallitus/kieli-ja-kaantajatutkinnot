@@ -60,6 +60,14 @@ export interface PersonDetails {
   registrations: Array<PersonRegistrations>;
 }
 
+export interface ModifyContactDetails
+  extends Pick<
+    PersonDetails,
+    'email' | 'phoneNumber' | 'postOffice' | 'streetAddress' | 'zip'
+  > {
+  confirmEmail: string;
+}
+
 export interface PersonDetailsResponse {
   first_name: string;
   last_name: string;
@@ -72,5 +80,9 @@ export interface PersonDetailsResponse {
 }
 
 export interface CancelRegistrationResponse {
+  success: boolean;
+}
+
+export interface ModifyContactDetailsResponse {
   success: boolean;
 }

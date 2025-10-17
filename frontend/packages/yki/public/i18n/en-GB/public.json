@@ -82,15 +82,20 @@
             "arrivedAt": "Saapunut"
           },
           "buttons": {
-            "sendInformationRequest": "Lähetä lisätietopyyntö",
+            "sendSupplementRequest": "Lähetä lisätietopyyntö",
             "approveFreeRegistration": "Hyväksy maksuttomuus",
             "rejectFreeRegistration": "Hylkää maksuttomuus"
           },
-          "comments": {
-            "clerkComments": {
-              "part1": "Tarkastajan kommentit",
-              "part2": "ei näy ilmoittautujalle"
+          "messages": {
+            "title": "Tarkastajan kommentit ja lisätietopyynnöt",
+            "message": {
+              "type": {
+                "COMMENT": "Kommentti",
+                "SUPPLEMENT_REQUEST": "Lisätietopyyntö"
+              }
             },
+            "newCommentPart1": "Lisää uusi kommentti",
+            "newCommentPart2": "ei näy ilmoittautujalle",
             "addNewComment": "Lisää uusi kommentti",
             "save": "Tallenna kommentti"
           },
@@ -128,7 +133,11 @@
             "approvalConfirmed": "Maksuttomuuden hyväksyminen onnistui",
             "approvalFailed": "Maksuttomuuden hyväksyminen epäonnistui",
             "rejectConfirmed": "Maksuttomuuden hylkääminen onnistui",
-            "rejectFailed": "Maksuttomuuden hylkääminen epäonnistui"
+            "rejectFailed": "Maksuttomuuden hylkääminen epäonnistui",
+            "informationRequestSuccess": "Lisätietopyyntö lähetetty",
+            "informationRequestFailed": "Lisätietopyynnön lähetys epäonnistui",
+            "addCommentConfirmed": "Kommentin lisääminen onnistui",
+            "addCommentFailed": "Kommentin lisääminen epäonnistui"
           },
           "modals": {
             "approve": {
@@ -138,7 +147,41 @@
             "reject": {
               "title": "Vahvista maksuttomuuden hylkääminen",
               "subTitle": "Olet hylkäämässä ilmoittautumisen maksuttomuuden."
+            },
+            "informationRequest": {
+              "title": "Lähetä lisätietopyyntö",
+              "subTitle": "Kuvaile lyhyesti, miksi todistukset eivät kelpaa ja/tai mitä tietoa tarvitaan, jotta maksuttomuus voidaan hyväksyä. Linkki lisätietopyyntöön vastaamiseen lähetetään ilmoittautujalle lisätietopyynnön mukana.",
+              "subTitleLabel": "Lisätietopyyntö",
+              "messageError": "Kirjoita viesti",
+              "dueDateLabel": "Lisätietopyynnön eräpäivä *",
+              "dueDateDescription": "Eräpäivä asetetaan oletuksena 7 päivän päähän. Voit tarvittaessa muokata eräpäivää",
+              "dueDateError": "Tarkista tietopyynnön eräpäivä",
+              "submitButton": "Lähetä lisätietopyyntö"
             }
+          }
+        }
+      },
+      "clerkCustomer": {
+        "details": {
+          "fields": {
+            "ssn": "Hetu",
+            "oid": "Oppijanumero",
+            "nationality":"Kansalaisuus",
+            "languageOfService": "Asiointikieli",
+            "languageOfCertificate": "Todistuksen kieli",
+            "phoneNumber": "Puhelinnumero",
+            "streetAddress": "Osoite",
+            "email": "Sähköposti"
+          },
+          "languageOfService": {
+            "fi": "suomi",
+            "sv": "ruotsi",
+            "en": "englanti"
+          },
+          "languageOfCertificate": {
+            "fi": "suomi",
+            "sv": "ruotsi",
+            "en": "englanti"
           }
         }
       },
@@ -612,6 +655,9 @@
       "clerkFreeRegistrationDetailsPage": {
         "heading": "Maksuttomuuden tarkastukset"
       },
+      "clerkCustomerDetailsPage": {
+        "heading": "Asiakkaan tiedot"
+      },
       "confirmRegistrationPage": {
         "heading": "Confirm registration"
       },
@@ -649,6 +695,41 @@
       "logoutSuccessPage": {
         "heading": "Log out complete",
         "info": "You have logged out successfully. Close all browser windows."
+      },
+
+      "modifyContactDetailsPage": {
+        "buttons": {
+          "cancel": "Cancel",
+          "save": "Save contact information"
+        },
+        "description": {
+          "part1": "We will send you the certificate by post.",
+          "part2": "Please check that you have provided the correct address."
+        },
+        "errorDialog": {
+          "fixErrors": "Check and correct the following information:",
+          "title": "Invalid information!"
+        },
+        "labels": {
+          "confirmEmail": "Confirm email address",
+          "email": "Email address",
+          "phoneNumber": "Telephone number",
+          "postOffice": "Municipality",
+          "streetAddress": "Street address",
+          "zip": "Postal code"
+        },
+        "placeholders": {
+          "confirmEmail": "Fill in your email address again",
+          "email": "For example, name@email.fi",
+          "phoneNumber": "Use the format +358 50 123 4567",
+          "postOffice": "",
+          "streetAddress": "",
+          "zip": ""
+        },
+        "toast": {
+          "success": "The contact information has been saved"
+        },
+        "title": "Edit contact information"
       },
       "notFoundPage": {
         "description": "Please check the website address or return to the front page.",
@@ -797,8 +878,7 @@
         "contactDetails": {
           "description": {
             "part1": "We will send you the certificate by post.",
-            "part2": "Please check that you have provided the correct address.",
-            "part3": "If there is a mistake in your contact information, please notify the Finnish National Agency for Education by email at kielitutkinnot@oph.fi."
+            "part2": "Please check that you have provided the correct address."
           },
           "heading": "Your contact information",
           "modify": "Edit contact information"
@@ -810,7 +890,8 @@
             "point3": "You can cancel your registration.",
             "point4": "You can view the tests for which you are on the waiting list and accept a place in a test from the waiting list.",
             "point5": "If a place in the YKI test opens up, you can accept it.",
-            "point6": "You can cancel your waiting list registration."
+            "point6": "You can cancel your waiting list registration.",
+            "point7": "You can edit your contact information."
           },
           "info": "View and edit your registrations for YKI tests."
         },

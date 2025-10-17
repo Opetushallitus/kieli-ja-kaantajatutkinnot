@@ -6,7 +6,10 @@ import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkFreeRegistrationDetailsResponse } from 'interfaces/clerkFreeRegistration';
 import {
+  acceptAddComment,
+  addComment,
   loadClerkFreeRegistrationDetails,
+  rejectAddComment,
   rejectClerkFreeRegistrationDetails,
   storeClerkFreeRegistrationDetails,
 } from 'redux/reducers/clerkFreeRegistrationDetails';
@@ -32,9 +35,36 @@ function* loadClerkFreeRegistrationDetailsSaga(action: PayloadAction<number>) {
   }
 }
 
+function* addCommentSaga(
+  action: PayloadAction<{
+    freeRegistrationId: number;
+    text: string;
+    createdBy: string;
+    type: 'SUPPLEMENT_REQUEST';
+  }>,
+) {
+  const { freeRegistrationId, ...requestBody } = action.payload;
+  try {
+    yield call(
+      axiosInstance.post,
+      APIEndpoints.ClerkFreeRegistrationDetailsMessages.replace(
+        /:id$/,
+        `${freeRegistrationId}`,
+      ),
+      {
+        ...requestBody,
+      },
+    );
+    yield put(acceptAddComment());
+  } catch (error) {
+    yield put(rejectAddComment());
+  }
+}
+
 export function* watchClerkFreeRegistrationDetails() {
   yield takeLatest(
     loadClerkFreeRegistrationDetails.type,
     loadClerkFreeRegistrationDetailsSaga,
   );
+  yield takeLatest(addComment.type, addCommentSaga);
 }

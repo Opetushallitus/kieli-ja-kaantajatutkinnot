@@ -25,7 +25,10 @@ export const NotifierContextProvider = ({
   const [toast, setToast] = useState<Toast | undefined>(undefined);
   const [dialog, setDialog] = useState<Dialog | undefined>(undefined);
 
-  const handleDialogShow = useCallback((dialog: Dialog) => setDialog(dialog), []);
+  const handleDialogShow = useCallback(
+    (dialog: Dialog) => setDialog(dialog),
+    [],
+  );
   const handleDialogRemove = useCallback(() => setDialog(undefined), []);
 
   const handleToastShow = useCallback((toast: Toast) => setToast(toast), []);
