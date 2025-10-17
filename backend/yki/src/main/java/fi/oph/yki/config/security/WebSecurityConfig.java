@@ -122,7 +122,8 @@ public class WebSecurityConfig {
     final HttpSecurity httpSecurity,
     final CasAuthenticationFilter casAuthenticationFilter
   ) throws Exception {
-    return commonConfig(httpSecurity)
+    final String token = environment.getRequiredProperty("app.proxy-token");
+    return commonConfig(httpSecurity, token)
       .addFilter(casAuthenticationFilter)
       .authenticationProvider(casAuthenticationProvider())
       .exceptionHandling(exceptionHandlingConfigurer -> {
@@ -147,9 +148,7 @@ public class WebSecurityConfig {
       .build();
   }
 
-  @Bean
-  public HttpSecurity commonConfig(final HttpSecurity http) throws Exception {
-    final String token = environment.getRequiredProperty("app.proxy-token");
+  public static HttpSecurity commonConfig(final HttpSecurity http, final String token) throws Exception {
     final AuthorizationManager<RequestAuthorizationContext> proxyApiAuthorizationManager =
       (
         (authenticationSupplier, object) -> {
@@ -170,6 +169,8 @@ public class WebSecurityConfig {
     return configCsrf(http)
       .authorizeHttpRequests(registry ->
         registry
+          .requestMatchers("/v2/api/user/**")
+          .access(proxyApiAuthorizationManager)
           .requestMatchers("/v2/api/clerk/**", "/v2/virkailija/**", "/v2/virkailija")
           .hasRole(Constants.APP_ADMIN_ROLE)
           .requestMatchers("/", "/**")
