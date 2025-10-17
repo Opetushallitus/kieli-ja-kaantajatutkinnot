@@ -30,6 +30,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Profile("!dev")
 @Configuration
@@ -117,7 +118,37 @@ public class WebSecurityConfig {
   }
 
   @Bean
-  public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
+  public SecurityFilterChain filterChain(
+    final HttpSecurity httpSecurity,
+    final CasAuthenticationFilter casAuthenticationFilter
+  ) throws Exception {
+    return commonConfig(httpSecurity)
+      .addFilter(casAuthenticationFilter)
+      .authenticationProvider(casAuthenticationProvider())
+      .exceptionHandling(exceptionHandlingConfigurer -> {
+        try {
+          exceptionHandlingConfigurer
+            .accessDeniedHandler(CustomAccessDeniedHandler.create())
+            .authenticationEntryPoint(casAuthenticationEntryPoint())
+            .init(httpSecurity);
+        } catch (final Exception e) {
+          throw new RuntimeException(e);
+        }
+      })
+      .logout(logoutConfigurer ->
+        logoutConfigurer
+          .logoutRequestMatcher(new AntPathRequestMatcher(environment.getRequiredProperty("cas.logout-path")))
+          .logoutSuccessUrl(environment.getRequiredProperty("cas.logout-success-path"))
+          .deleteCookies(environment.getRequiredProperty("cas.cookie-name"))
+          .invalidateHttpSession(true)
+          .init(httpSecurity)
+      )
+      .addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class)
+      .build();
+  }
+
+  @Bean
+  public HttpSecurity commonConfig(final HttpSecurity http) throws Exception {
     final String token = environment.getRequiredProperty("app.proxy-token");
     final AuthorizationManager<RequestAuthorizationContext> proxyApiAuthorizationManager =
       (
@@ -145,8 +176,7 @@ public class WebSecurityConfig {
           .permitAll()
           .anyRequest()
           .authenticated()
-      )
-      .build();
+      );
   }
 
   public static HttpSecurity configCsrf(final HttpSecurity httpSecurity) throws Exception {
