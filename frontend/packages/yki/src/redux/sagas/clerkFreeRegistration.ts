@@ -7,16 +7,16 @@ import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkFreeRegistrationResponse } from 'interfaces/clerkFreeRegistration';
 import {
-  acceptClerkFreeRegistrationInformationRequest,
+  acceptClerkFreeRegistrationSupplementRequest,
   approveFreeRegistration,
   FreeRegistrationModalStatus,
   loadClerkFreeRegistrations,
-  rejectClerkFreeRegistrationInformationRequest,
   rejectClerkFreeRegistrations,
+  rejectClerkFreeRegistrationSupplementRequest,
   rejectFreeRegistration,
   setFreeRegistrationStatus,
   storeClerkFreeRegistrations,
-  submitClerkFreeRegistrationInformationRequest,
+  submitClerkFreeRegistrationSupplementRequest,
 } from 'redux/reducers/clerkFreeRegistration';
 import { loadClerkFreeRegistrationDetails } from 'redux/reducers/clerkFreeRegistrationDetails';
 import { SerializationUtils } from 'utils/serialization';
@@ -60,7 +60,7 @@ function* rejectFreeRegistrationSaga() {
   }
 }
 
-function* submitClerkFreeRegistrationInformationRequestSaga(
+function* submitClerkFreeRegistrationSupplementRequestSaga(
   action: PayloadAction<{
     registrationId: number;
     message: string;
@@ -70,7 +70,7 @@ function* submitClerkFreeRegistrationInformationRequestSaga(
   try {
     const { registrationId, message, dueDate } = action.payload;
     const endpoint =
-      APIEndpoints.ClerkFreeRegistrationInformationRequest.replace(
+      APIEndpoints.ClerkFreeRegistrationSupplementRequest.replace(
         ':id',
         `${registrationId}`,
       );
@@ -78,11 +78,11 @@ function* submitClerkFreeRegistrationInformationRequestSaga(
       message,
       dueDate: dueDate.toISOString(),
     });
-    yield put(acceptClerkFreeRegistrationInformationRequest());
+    yield put(acceptClerkFreeRegistrationSupplementRequest());
     yield put(loadClerkFreeRegistrationDetails(registrationId));
     yield put(loadClerkFreeRegistrations());
   } catch (error) {
-    yield put(rejectClerkFreeRegistrationInformationRequest());
+    yield put(rejectClerkFreeRegistrationSupplementRequest());
   }
 }
 
@@ -94,7 +94,7 @@ export function* watchClerkFreeRegistrations() {
   yield takeLatest(approveFreeRegistration.type, approveFreeRegistrationSaga);
   yield takeLatest(rejectFreeRegistration.type, rejectFreeRegistrationSaga);
   yield takeLatest(
-    submitClerkFreeRegistrationInformationRequest.type,
-    submitClerkFreeRegistrationInformationRequestSaga,
+    submitClerkFreeRegistrationSupplementRequest.type,
+    submitClerkFreeRegistrationSupplementRequestSaga,
   );
 }

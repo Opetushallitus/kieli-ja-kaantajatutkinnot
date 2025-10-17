@@ -37,7 +37,7 @@
         },
         "status": {
           "PENDING": {
-            "part1": "Maksuttomuus tarkistamatta"
+            "part1": "Maksuttomuus tarkastamatta"
           },
           "APPROVED": {
             "part1": "Maksuttomuus hyväksytty"
@@ -45,16 +45,16 @@
           "REJECTED": {
             "part1": "Maksuttomuus hylätty"
           },
-          "INFORMATION_REQUESTED": {  
+          "SUPPLEMENT_REQUESTED": {  
             "part1": "Lisätietopyyntö lähetetty,",
             "part2": "odottaa vastausta"
           },
-          "INFORMATION_REQUEST_ANSWERED": {
-            "part1": "Maksuttomuus tarkistamatta,",
+          "SUPPLEMENT_REQUEST_ANSWERED": {
+            "part1": "Maksuttomuus tarkastamatta,",
             "part2": "lisätietopyyntöön vastattu"
           },
-          "INFORMATION_REQUEST_EXPIRED": {
-            "part1": "Maksuttomuus tarkistamatta,",
+          "SUPPLEMENT_REQUEST_EXPIRED": {
+            "part1": "Maksuttomuus tarkastamatta,",
             "part2": "lisätietopyyntöön ei vastattu"
           }
         },
@@ -103,7 +103,7 @@
             "status": "Tarkastuksen tila",
             "freeRegistrationBasis": "Maksuttomuuden peruste",
             "freeRegistrationsLeft": "Maksuttomia kertoja jäljellä",
-            "languageOfCommunication": "Asiointikieli",
+            "languageOfService": "Asiointikieli",
             "registrationType": "Ilmoittautunut vai jono",
             "supplementRequestDueDate": "Lisätietopyynnön eräpäivä",
             "extraInformation": "Lisätiedot"
@@ -117,7 +117,7 @@
             "ComparableHigherEducationStudies": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja"
           },
           "freeRegistrationsLeft": "{{amount}} kpl",
-          "languageOfCommunication": {
+          "languageOfService": {
             "fi": "suomi",
             "sv": "ruotsi",
             "en": "englanti"
@@ -129,13 +129,13 @@
           "examView": "Tutkintotilaisuuden näkymä",
           "customerView": "Asiakkaan näkymä",
           "toasts": {
-       "notFound": "Maksuttoman ilmoittautumisen tietoja ei löydy",
+            "notFound": "Maksuttoman ilmoittautumisen tietoja ei löydy",
             "approvalConfirmed": "Maksuttomuuden hyväksyminen onnistui",
             "approvalFailed": "Maksuttomuuden hyväksyminen epäonnistui",
             "rejectConfirmed": "Maksuttomuuden hylkääminen onnistui",
             "rejectFailed": "Maksuttomuuden hylkääminen epäonnistui",
-            "informationRequestSuccess": "Lisätietopyyntö lähetetty",
-            "informationRequestFailed": "Lisätietopyynnön lähetys epäonnistui",
+            "supplementRequestSuccess": "Lisätietopyyntö lähetetty",
+            "supplementRequestFailed": "Lisätietopyynnön lähetys epäonnistui",
             "addCommentConfirmed": "Kommentin lisääminen onnistui",
             "addCommentFailed": "Kommentin lisääminen epäonnistui"
           },
@@ -148,7 +148,7 @@
               "title": "Vahvista maksuttomuuden hylkääminen",
               "subTitle": "Olet hylkäämässä ilmoittautumisen maksuttomuuden."
             },
-            "informationRequest": {
+            "supplementRequest": {
               "title": "Lähetä lisätietopyyntö",
               "subTitle": "Kuvaile lyhyesti, miksi todistukset eivät kelpaa ja/tai mitä tietoa tarvitaan, jotta maksuttomuus voidaan hyväksyä. Linkki lisätietopyyntöön vastaamiseen lähetetään ilmoittautujalle lisätietopyynnön mukana.",
               "subTitleLabel": "Lisätietopyyntö",

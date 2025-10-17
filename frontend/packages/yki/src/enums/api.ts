@@ -30,7 +30,7 @@ export enum APIEndpoints {
   ClerkFreeRegistrationDetails = '/yki/v2/api/clerk/registration/approval/:id',
   ApproveClerkFreeRegistration = '/yki/v2/api/clerk/registration/approval',
   RejectClerkFreeRegistration = '/yki/v2/api/clerk/registration/rejection',
-  ClerkFreeRegistrationInformationRequest = '/yki/v2/api/clerk/registration/:id/information-request',
+  ClerkFreeRegistrationSupplementRequest = '/yki/v2/api/clerk/registration/:id/supplement-request',
   ClerkFreeRegistrationDetailsMessages = '/yki/v2/api/clerk/registration/:id/messages',
   ClerkCustomerDetails = '/yki/v2/api/clerk/customer/:id',
 }

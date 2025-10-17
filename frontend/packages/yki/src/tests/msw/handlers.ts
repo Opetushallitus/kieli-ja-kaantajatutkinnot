@@ -201,7 +201,7 @@ export const handlers = [
       return HttpResponse.json(freeRegistrationDetails[3]);
     }
   }),
-  http.post(APIEndpoints.ClerkFreeRegistrationInformationRequest, () => {
+  http.post(APIEndpoints.ClerkFreeRegistrationSupplementRequest, () => {
     return HttpResponse.json({ success: true });
   }),
   http.post(

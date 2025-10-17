@@ -13,9 +13,9 @@ export type FreeRegistrationStatus =
   | 'PENDING'
   | 'APPROVED'
   | 'REJECTED'
-  | 'INFORMATION_REQUESTED'
-  | 'INFORMATION_REQUEST_ANSWERED'
-  | 'INFORMATION_REQUEST_EXPIRED';
+  | 'SUPPLEMENT_REQUESTED'
+  | 'SUPPLEMENT_REQUEST_ANSWERED'
+  | 'SUPPLEMENT_REQUEST_EXPIRED';
 
 // exported in cypress which is excluded from root tsconfig.json
 // so would give error otherwise
@@ -40,13 +40,18 @@ export type ClerkFreeRegistration = {
   registration: Registration;
 };
 
+export type SortOrder = 'asc' | 'desc' | '';
+type ClerkFreeRegistrationSortKeys = Omit<ClerkFreeRegistration, 'id'>;
+export type ClerkFreeRegistrationSort =
+  `${keyof ClerkFreeRegistrationSortKeys}:${SortOrder}`;
+
 export interface ClerkFreeRegistrationResponse
   extends Omit<
     ClerkFreeRegistration,
     'supplementRequestDueDate' | 'assessmentDate' | 'examDate'
   > {
-  supplementRequestDueDate: string;
-  assessmentDate: string;
+  supplementRequestDueDate?: string;
+  assessmentDate?: string;
   examDate: string;
 }
 
@@ -89,12 +94,12 @@ interface ExamSessionResponse extends Omit<ExamSession, 'examDate'> {
 // so would give error otherwise
 // ts-unused-exports:disable-next-line
 export type FreeRegistrationBasis =
-  | 'MatriculationExam'
-  | 'HigherEducationDegree'
-  | 'HigherEducationStudies'
-  | 'ComparableMatriculation'
-  | 'ComparableHigherEducationDegree'
-  | 'ComparableHigherEducationStudies';
+  | 'MATRICULATION_EXAMINATION'
+  | 'HIGHER_EDUCATION_DEGREE'
+  | 'HIGHER_EDUCATION_STUDIES'
+  | 'COMPARABLE_MATRICULATION_EXAMINATION'
+  | 'COMPARABLE_HIGHER_EDUCATION_DEGREE'
+  | 'COMPARABLE_HIGHER_EDUCATION_STUDIES';
 
 export type ClerkFreeRegistrationDetails = {
   id: number;
@@ -106,7 +111,7 @@ export type ClerkFreeRegistrationDetails = {
   supplementRequest?: Message;
   assessmentDate?: Dayjs;
   examSession: ExamSession;
-  languageOfCommunication: 'fi' | 'sv' | 'en';
+  languageOfService: 'fi' | 'sv' | 'en';
   registration: Registration;
   attachments: FreeRegistrationAttachment[];
   messages: Message[];
