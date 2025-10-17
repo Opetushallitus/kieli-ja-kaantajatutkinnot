@@ -38,7 +38,7 @@ describe('ClerkFreeRegistrationDetailsPage', () => {
     onClerkFreeRegistrationDetailsPage.expectCorrectActionButtonsVisible(id);
   });
 
-  it('shows details correctly for INFORMATION_REQUESTED free registration ', () => {
+  it('shows details correctly for SUPPLEMENT_REQUESTED free registration ', () => {
     const id = 5;
     cy.openClerkFreeRegistrationDetailsPage(id);
     onClerkFreeRegistrationDetailsPage.expectDetailsVisible(id);
@@ -46,8 +46,16 @@ describe('ClerkFreeRegistrationDetailsPage', () => {
     onClerkFreeRegistrationDetailsPage.expectCorrectActionButtonsVisible(id);
   });
 
-  it('shows details correctly for INFORMATION_REQUEST_ANSWERED free registration ', () => {
+  it('shows details correctly for SUPPLEMENT_REQUEST_ANSWERED free registration ', () => {
     const id = 6;
+    cy.openClerkFreeRegistrationDetailsPage(id);
+    onClerkFreeRegistrationDetailsPage.expectDetailsVisible(id);
+    onClerkFreeRegistrationDetailsPage.expectAttachmentsVisible(id);
+    onClerkFreeRegistrationDetailsPage.expectCorrectActionButtonsVisible(id);
+  });
+
+  it('shows details correctly for SUPPLEMENT_REQUEST_EXPIRED free registration ', () => {
+    const id = 7;
     cy.openClerkFreeRegistrationDetailsPage(id);
     onClerkFreeRegistrationDetailsPage.expectDetailsVisible(id);
     onClerkFreeRegistrationDetailsPage.expectAttachmentsVisible(id);
@@ -86,11 +94,11 @@ describe('ClerkFreeRegistrationDetailsPage', () => {
     onToast.expectText('Maksuttomuuden hylkääminen onnistui');
   });
 
-  it('sends information request via modal from details page', () => {
+  it('sends supplement request via modal from details page', () => {
     const id = 1;
     cy.openClerkFreeRegistrationDetailsPage(id);
     cy.findByRole('button', { name: 'Lähetä lisätietopyyntö' }).click();
-    onClerkFreeRegistrationDetailsPage.FillOutInformationRequest({
+    onClerkFreeRegistrationDetailsPage.FillOutSupplementRequest({
       message: 'Where info?',
     });
     cy.findByRole('button', { name: 'Lähetä lisätietopyyntö' }).click();

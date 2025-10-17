@@ -45,12 +45,14 @@ export const FreeRegistrationModal = ({
             gap={1}
           >
             <H2>{t('details.modals.approve.title')}</H2>
-            <CloseIcon
-              color={Color.Primary}
-              aria-hidden={true}
-              fontSize="large"
-              onClick={() => setIsApproveModal(false)}
-            />
+            <div className="free-registration-details__modal-close-icon">
+              <CloseIcon
+                color={Color.Inherit}
+                aria-hidden={true}
+                fontSize="large"
+                onClick={() => setIsApproveModal(false)}
+              />
+            </div>
           </Box>
         }
       >
@@ -91,12 +93,14 @@ export const FreeRegistrationModal = ({
             gap={1}
           >
             <H2>{t('details.modals.reject.title')}</H2>
-            <CloseIcon
-              color={Color.Primary}
-              aria-hidden={true}
-              fontSize="large"
-              onClick={() => setIsRejectModal(false)}
-            />
+            <div className="free-registration-details__modal-close-icon">
+              <CloseIcon
+                color={Color.Inherit}
+                aria-hidden={true}
+                fontSize="large"
+                onClick={() => setIsRejectModal(false)}
+              />
+            </div>
           </Box>
         }
       >

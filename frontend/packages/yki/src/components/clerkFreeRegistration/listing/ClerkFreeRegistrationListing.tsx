@@ -1,6 +1,7 @@
 import {
   BlockFlipped,
   CheckCircle,
+  ErrorOutline,
   HourglassBottom,
 } from '@mui/icons-material';
 import { Box } from '@mui/system';
@@ -55,26 +56,24 @@ export const ClerkFreeRegistrationListing = ({
   const filteredFreeRegistrations = useAppSelector(
     selectFilteredFreeRegistrations,
   );
-
-  const rows = filteredFreeRegistrations.filter((registration) =>
-    activeTab === 'pending'
-      ? [
-          'PENDING',
-          'INFORMATION_REQUESTED',
-          'INFORMATION_REQUEST_ANSWERED',
-        ].includes(registration.status)
-      : ['APPROVED', 'REJECTED'].includes(registration.status),
-  );
-
-  const pagination = {
-    page,
-    setPage,
-    pageSize,
-  };
-
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkFreeRegistration',
   });
+  const commonTranslation = useCommonTranslation();
+
+  const isPendingReqistation = (status: FreeRegistrationStatus) =>
+    [
+      'PENDING',
+      'SUPPLEMENT_REQUESTED',
+      'SUPPLEMENT_REQUEST_ANSWERED',
+      'SUPPLEMENT_REQUEST_EXPIRED',
+    ].includes(status);
+
+  const rows = filteredFreeRegistrations.filter((registration) =>
+    activeTab === 'pending'
+      ? isPendingReqistation(registration.status)
+      : !isPendingReqistation(registration.status),
+  );
 
   const renderStatusColumn = (status: FreeRegistrationStatus) => {
     switch (status) {
@@ -92,7 +91,7 @@ export const ClerkFreeRegistrationListing = ({
             <Text className="bold">{t(`status.${status}.part1`)}</Text>
           </div>
         );
-      case 'INFORMATION_REQUESTED':
+      case 'SUPPLEMENT_REQUESTED':
         return (
           <div className="columns gapped-xxs align-items-start">
             <HourglassBottom color="success" fontSize="large" />
@@ -102,10 +101,20 @@ export const ClerkFreeRegistrationListing = ({
             </div>
           </div>
         );
-      case 'INFORMATION_REQUEST_ANSWERED':
+      case 'SUPPLEMENT_REQUEST_ANSWERED':
         return (
           <div className="columns gapped-xxs align-items-start">
             <ClockIcon color="error" fontSize="large" />
+            <div className="rows gapped-xxs">
+              <Text className="bold">{t(`status.${status}.part1`)}</Text>
+              <Text>{t(`status.${status}.part2`)}</Text>
+            </div>
+          </div>
+        );
+      case 'SUPPLEMENT_REQUEST_EXPIRED':
+        return (
+          <div className="columns gapped-xxs align-items-start">
+            <ErrorOutline color="error" fontSize="large" />
             <div className="rows gapped-xxs">
               <Text className="bold">{t(`status.${status}.part1`)}</Text>
               <Text>{t(`status.${status}.part2`)}</Text>
@@ -123,8 +132,6 @@ export const ClerkFreeRegistrationListing = ({
         return null;
     }
   };
-
-  const commonTranslation = useCommonTranslation();
 
   const createPersonColumn = (
     t: typeof i18next.t,
@@ -276,7 +283,7 @@ export const ClerkFreeRegistrationListing = ({
             rowKeyProp="id"
             columns={columns}
             translateHeader={false}
-            pagination={pagination}
+            pagination={{ page, setPage, pageSize }}
             sort={freeRegistrationsSort}
             setSort={(sort: string) =>
               dispatch(

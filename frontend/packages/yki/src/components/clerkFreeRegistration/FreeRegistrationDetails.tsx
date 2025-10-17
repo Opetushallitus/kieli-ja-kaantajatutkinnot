@@ -1,12 +1,13 @@
 import {
   BlockFlipped,
   CheckCircle,
+  ErrorOutline,
   HourglassBottom,
 } from '@mui/icons-material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider, TextField, Typography } from '@mui/material';
 import { ClockIcon } from '@mui/x-date-pickers';
-import { OphButton, ophColors } from '@opetushallitus/oph-design-system';
+import { OphButton } from '@opetushallitus/oph-design-system';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { APIResponseStatus, Severity, Variant } from 'shared/enums';
@@ -14,7 +15,7 @@ import { useToast } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { FreeRegistrationModal } from 'components/clerkFreeRegistration/FreeRegistrationModal';
-import { FreeRegistrationRequestInformationModal } from 'components/clerkFreeRegistration/FreeRegistrationRequestInformationModal';
+import { FreeRegistrationSupplementRequestModal } from 'components/clerkFreeRegistration/FreeRegistrationSuppmentRequestModal';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
@@ -22,7 +23,7 @@ import { FreeRegistrationStatus } from 'interfaces/clerkFreeRegistration';
 import { Label, Text } from 'ophTheme/Text';
 import {
   FreeRegistrationModalStatus,
-  resetInformationRequestStatus,
+  resetSupplementRequestStatus,
   setFreeRegistrationStatus,
 } from 'redux/reducers/clerkFreeRegistration';
 import {
@@ -35,7 +36,7 @@ import { clerkFreeRegistrationDetailsSelector } from 'redux/selectors/clerkFreeR
 
 export const ClerkFreeRegistrationDetails = () => {
   const [comment, setComment] = useState('');
-  const [isRequestInformationModalOpen, setIsRequestInformationModalOpen] =
+  const [isRequestSupplementModalOpen, setIsRequestSupplementModalOpen] =
     useState(false);
   const onCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
@@ -108,19 +109,18 @@ export const ClerkFreeRegistrationDetails = () => {
         description: t('details.toasts.rejectFailed'),
       });
     } else if (
-      modalSubmitStatus ===
-      FreeRegistrationModalStatus.InformationRequestSuccess
+      modalSubmitStatus === FreeRegistrationModalStatus.SupplementRequestSuccess
     ) {
       showToast({
         severity: Severity.Success,
-        description: t('details.toasts.informationRequestSuccess'),
+        description: t('details.toasts.supplementRequestSuccess'),
       });
     } else if (
-      modalSubmitStatus === FreeRegistrationModalStatus.InformationRequestError
+      modalSubmitStatus === FreeRegistrationModalStatus.SupplementRequestError
     ) {
       showToast({
         severity: Severity.Error,
-        description: t('details.toasts.informationRequestFailed'),
+        description: t('details.toasts.supplementRequestFailed'),
       });
     }
   }, [modalSubmitStatus, showToast, t]);
@@ -147,7 +147,7 @@ export const ClerkFreeRegistrationDetails = () => {
       dispatch(
         setFreeRegistrationStatus(FreeRegistrationModalStatus.NotStarted),
       );
-      dispatch(resetInformationRequestStatus());
+      dispatch(resetSupplementRequestStatus());
     };
   }, [dispatch]);
 
@@ -161,7 +161,7 @@ export const ClerkFreeRegistrationDetails = () => {
         <>
           <OphButton
             variant={Variant.Outlined}
-            onClick={() => setIsRequestInformationModalOpen(true)}
+            onClick={() => setIsRequestSupplementModalOpen(true)}
           >
             {t('details.buttons.sendSupplementRequest')}
           </OphButton>
@@ -186,21 +186,20 @@ export const ClerkFreeRegistrationDetails = () => {
         </>
       );
     } else if (
-      registrationDetails.status === 'INFORMATION_REQUESTED' ||
-      registrationDetails.status === 'INFORMATION_REQUEST_ANSWERED' ||
-      registrationDetails.status === 'INFORMATION_REQUEST_EXPIRED'
+      registrationDetails.status === 'SUPPLEMENT_REQUESTED' ||
+      registrationDetails.status === 'SUPPLEMENT_REQUEST_ANSWERED' ||
+      registrationDetails.status === 'SUPPLEMENT_REQUEST_EXPIRED'
     ) {
       return (
         <>
           <OphButton
             variant={Variant.Outlined}
-            onClick={() => setIsRequestInformationModalOpen(true)}
+            onClick={() => setIsRequestSupplementModalOpen(true)}
           >
             {t('details.buttons.sendSupplementRequest')}
           </OphButton>
           <OphButton
             variant={Variant.Contained}
-            style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
             onClick={() => setIsApproveModalOpen(true)}
             disabled={
               modalSubmitStatus === FreeRegistrationModalStatus.RejectSuccess
@@ -210,7 +209,6 @@ export const ClerkFreeRegistrationDetails = () => {
           </OphButton>
           <OphButton
             variant={Variant.Contained}
-            style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
             onClick={() => setIsRejectModalOpen(true)}
             disabled={
               modalSubmitStatus === FreeRegistrationModalStatus.ApprovalSuccess
@@ -224,7 +222,6 @@ export const ClerkFreeRegistrationDetails = () => {
       return (
         <OphButton
           variant={Variant.Contained}
-          style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
           onClick={() => setIsApproveModalOpen(true)}
           disabled={
             modalSubmitStatus === FreeRegistrationModalStatus.RejectSuccess
@@ -238,7 +235,6 @@ export const ClerkFreeRegistrationDetails = () => {
     return (
       <OphButton
         variant={Variant.Contained}
-        style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
         onClick={() => setIsRejectModalOpen(true)}
         disabled={
           modalSubmitStatus === FreeRegistrationModalStatus.ApprovalSuccess
@@ -265,7 +261,7 @@ export const ClerkFreeRegistrationDetails = () => {
             <Text>{t(`status.${registrationDetails.status}.part1`)}</Text>
           </>
         );
-      case 'INFORMATION_REQUESTED':
+      case 'SUPPLEMENT_REQUESTED':
         return (
           <>
             <HourglassBottom color="success" fontSize="large" />
@@ -275,7 +271,7 @@ export const ClerkFreeRegistrationDetails = () => {
             </Text>
           </>
         );
-      case 'INFORMATION_REQUEST_ANSWERED':
+      case 'SUPPLEMENT_REQUEST_ANSWERED':
         return (
           <>
             <ClockIcon color="error" fontSize="large" />
@@ -285,10 +281,10 @@ export const ClerkFreeRegistrationDetails = () => {
             </Text>
           </>
         );
-      case 'INFORMATION_REQUEST_EXPIRED':
+      case 'SUPPLEMENT_REQUEST_EXPIRED':
         return (
           <>
-            <ClockIcon color="error" fontSize="large" />
+            <ErrorOutline color="error" fontSize="large" />
             <Text>
               {t(`status.${registrationDetails.status}.part1`)}{' '}
               {t(`status.${registrationDetails.status}.part2`)}
@@ -344,7 +340,7 @@ export const ClerkFreeRegistrationDetails = () => {
           <Label>{t('details.fields.status')}</Label>
           <Label>{t('details.fields.freeRegistrationBasis')}</Label>
           <Label>{t('details.fields.freeRegistrationsLeft')}</Label>
-          <Label>{t('details.fields.languageOfCommunication')}</Label>
+          <Label>{t('details.fields.languageOfService')}</Label>
           <Label>{t('details.fields.registrationType')}</Label>
           <Label>{t('details.fields.supplementRequestDueDate')}</Label>
           <Label>{t('details.fields.extraInformation')}</Label>
@@ -367,7 +363,7 @@ export const ClerkFreeRegistrationDetails = () => {
           </div>
           <div>
             {t(
-              `details.languageOfCommunication.${registrationDetails.languageOfCommunication}`,
+              `details.languageOfService.${registrationDetails.languageOfService}`,
             )}
           </div>
           <div>
@@ -451,8 +447,6 @@ export const ClerkFreeRegistrationDetails = () => {
               maxRows={15}
               value={comment}
               onChange={onCommentChange}
-              type={'textarea'}
-              slotProps={{ formHelperText: { component: 'div' } }}
               disabled={commentStatus === APIResponseStatus.InProgress}
               multiline
               fullWidth
@@ -467,6 +461,7 @@ export const ClerkFreeRegistrationDetails = () => {
                 dispatch(
                   addComment({
                     text: comment,
+                    // TODO: käytä virkailijan tietoja
                     createdBy: 'Virkailija Ville',
                     type: 'COMMENT',
                   }),
@@ -478,9 +473,9 @@ export const ClerkFreeRegistrationDetails = () => {
           </div>
         </div>
       </div>
-      <FreeRegistrationRequestInformationModal
-        isModalOpen={isRequestInformationModalOpen}
-        setIsModalOpen={setIsRequestInformationModalOpen}
+      <FreeRegistrationSupplementRequestModal
+        isModalOpen={isRequestSupplementModalOpen}
+        setIsModalOpen={setIsRequestSupplementModalOpen}
         registrationId={registrationDetails.id}
         renderPersonDetails={renderPersonDetails}
         renderExamSessionDetails={renderExamSessionDetails}

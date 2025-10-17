@@ -15,9 +15,9 @@ export enum FreeRegistrationModalStatus {
   RejectInProgress,
   RejectSuccess,
   RejectError,
-  InformationRequestInProgress,
-  InformationRequestSuccess,
-  InformationRequestError,
+  SupplementRequestInProgress,
+  SupplementRequestSuccess,
+  SupplementRequestError,
 }
 
 interface ClerkFreeRegistrationState {
@@ -63,7 +63,7 @@ const clerkFreeRegistrationSlice = createSlice({
     rejectFreeRegistration(state) {
       state.modalSubmitStatus = FreeRegistrationModalStatus.RejectInProgress;
     },
-    submitClerkFreeRegistrationInformationRequest(
+    submitClerkFreeRegistrationSupplementRequest(
       state,
       _action: PayloadAction<{
         registrationId: number;
@@ -72,17 +72,17 @@ const clerkFreeRegistrationSlice = createSlice({
       }>,
     ) {
       state.modalSubmitStatus =
-        FreeRegistrationModalStatus.InformationRequestInProgress;
+        FreeRegistrationModalStatus.SupplementRequestInProgress;
     },
-    rejectClerkFreeRegistrationInformationRequest(state) {
+    rejectClerkFreeRegistrationSupplementRequest(state) {
       state.modalSubmitStatus =
-        FreeRegistrationModalStatus.InformationRequestError;
+        FreeRegistrationModalStatus.SupplementRequestError;
     },
-    acceptClerkFreeRegistrationInformationRequest(state) {
+    acceptClerkFreeRegistrationSupplementRequest(state) {
       state.modalSubmitStatus =
-        FreeRegistrationModalStatus.InformationRequestSuccess;
+        FreeRegistrationModalStatus.SupplementRequestSuccess;
     },
-    resetInformationRequestStatus(state) {
+    resetSupplementRequestStatus(state) {
       state.modalSubmitStatus = FreeRegistrationModalStatus.NotStarted;
     },
     setFreeRegistrationsSort(
@@ -102,9 +102,9 @@ export const {
   setFreeRegistrationStatus,
   approveFreeRegistration,
   rejectFreeRegistration,
-  submitClerkFreeRegistrationInformationRequest,
-  rejectClerkFreeRegistrationInformationRequest,
-  acceptClerkFreeRegistrationInformationRequest,
-  resetInformationRequestStatus,
+  submitClerkFreeRegistrationSupplementRequest,
+  rejectClerkFreeRegistrationSupplementRequest,
+  acceptClerkFreeRegistrationSupplementRequest,
+  resetSupplementRequestStatus,
   setFreeRegistrationsSort,
 } = clerkFreeRegistrationSlice.actions;

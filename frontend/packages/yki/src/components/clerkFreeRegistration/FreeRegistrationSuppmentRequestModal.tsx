@@ -3,20 +3,20 @@ import { Box, TextField } from '@mui/material';
 import { OphButton } from '@opetushallitus/oph-design-system';
 import dayjs, { Dayjs } from 'dayjs';
 import { useEffect, useState } from 'react';
-import { CustomDatePicker, CustomModal, Text } from 'shared/components';
+import { CustomDatePicker, CustomModal } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { H2, Label } from 'ophTheme/Text';
+import { H2, Label, Text } from 'ophTheme/Text';
 import {
   FreeRegistrationModalStatus,
-  resetInformationRequestStatus,
-  submitClerkFreeRegistrationInformationRequest,
+  resetSupplementRequestStatus,
+  submitClerkFreeRegistrationSupplementRequest,
 } from 'redux/reducers/clerkFreeRegistration';
 import { clerkFreeRegistrationSelector } from 'redux/selectors/clerkFreeRegistration';
 
-type FreeRegistrationRequestInformationModalProps = {
+type FreeRegistrationSupplementRequestModalProps = {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
   registrationId: number;
@@ -24,13 +24,13 @@ type FreeRegistrationRequestInformationModalProps = {
   renderExamSessionDetails: () => React.JSX.Element;
 };
 
-export const FreeRegistrationRequestInformationModal = ({
+export const FreeRegistrationSupplementRequestModal = ({
   isModalOpen,
   setIsModalOpen,
   registrationId,
   renderPersonDetails,
   renderExamSessionDetails,
-}: FreeRegistrationRequestInformationModalProps) => {
+}: FreeRegistrationSupplementRequestModalProps) => {
   const [message, setMessage] = useState('');
   const [dueDate, setDueDate] = useState<Dayjs | null>(() =>
     dayjs().add(7, 'day'),
@@ -45,7 +45,7 @@ export const FreeRegistrationRequestInformationModal = ({
   const translateCommon = useCommonTranslation();
 
   useEffect(() => {
-    () => dispatch(resetInformationRequestStatus());
+    () => dispatch(resetSupplementRequestStatus());
   });
 
   const handleCloseModal = () => {
@@ -70,13 +70,15 @@ export const FreeRegistrationRequestInformationModal = ({
           alignItems="flex-start"
           gap={1}
         >
-          <H2>{t('details.modals.informationRequest.title')}</H2>
-          <CloseIcon
-            color={Color.Primary}
-            aria-hidden={true}
-            fontSize="large"
-            onClick={() => setIsModalOpen(false)}
-          />
+          <H2>{t('details.modals.supplementRequest.title')}</H2>
+          <div className="free-registration-details__modal-close-icon">
+            <CloseIcon
+              color={Color.Inherit}
+              aria-hidden={true}
+              fontSize="large"
+              onClick={handleCloseModal}
+            />
+          </div>
         </Box>
       }
     >
@@ -86,30 +88,28 @@ export const FreeRegistrationRequestInformationModal = ({
           {renderExamSessionDetails()}
         </div>
         <div>
-          <Label>{t('details.modals.informationRequest.subTitleLabel')}</Label>
-          <Text>{t('details.modals.informationRequest.subTitle')}</Text>
-
+          <Label>{t('details.modals.supplementRequest.subTitleLabel')}</Label>
+          <Text>{t('details.modals.supplementRequest.subTitle')}</Text>
           <TextField
-            id="information-request-message"
+            id="supplement-request-message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onBlur={() => setTouched(true)}
             error={messageError}
             helperText={
               messageError
-                ? t('details.modals.informationRequest.messageError')
+                ? t('details.modals.supplementRequest.messageError')
                 : ' '
             }
             minRows={4}
             multiline
             fullWidth
-            hiddenLabel
           />
         </div>
         <div>
-          <Label>{t('details.modals.informationRequest.dueDateLabel')}</Label>
+          <Label>{t('details.modals.supplementRequest.dueDateLabel')}</Label>
           <Text>
-            {t('details.modals.informationRequest.dueDateDescription')}
+            {t('details.modals.supplementRequest.dueDateDescription')}
           </Text>
           <CustomDatePicker
             value={dueDate}
@@ -117,27 +117,31 @@ export const FreeRegistrationRequestInformationModal = ({
             onError={() => setTouched(true)}
             helperText={
               dateError
-                ? t('details.modals.informationRequest.dueDateError')
+                ? t('details.modals.supplementRequest.dueDateError')
                 : ''
             }
           />
         </div>
         <div className="columns gapped flex-end">
-          <OphButton variant={Variant.Outlined} onClick={handleCloseModal}>
+          <OphButton
+            variant={Variant.Outlined}
+            color={Color.Primary}
+            onClick={handleCloseModal}
+          >
             {translateCommon('cancel')}
           </OphButton>
           <OphButton
             variant={Variant.Contained}
             disabled={
               modalSubmitStatus ===
-              FreeRegistrationModalStatus.InformationRequestInProgress
+              FreeRegistrationModalStatus.SupplementRequestInProgress
             }
             onClick={() => {
               setTouched(true);
               if (!message || !dueDate) return;
 
               dispatch(
-                submitClerkFreeRegistrationInformationRequest({
+                submitClerkFreeRegistrationSupplementRequest({
                   registrationId,
                   message: message.trim(),
                   dueDate,
@@ -146,7 +150,7 @@ export const FreeRegistrationRequestInformationModal = ({
               handleCloseModal();
             }}
           >
-            {t('details.modals.informationRequest.submitButton')}
+            {t('details.modals.supplementRequest.submitButton')}
           </OphButton>
         </div>
       </div>

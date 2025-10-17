@@ -17,20 +17,18 @@ export const getFreeRegistrationStatusText = (
       return 'Maksuttomuus hyväksytty';
     case 'REJECTED':
       return 'Maksuttomuus hylätty';
-    case 'INFORMATION_REQUESTED':
+    case 'SUPPLEMENT_REQUESTED':
       return 'Lisätietopyyntö lähetetty, odottaa vastausta';
-    case 'INFORMATION_REQUEST_ANSWERED':
+    case 'SUPPLEMENT_REQUEST_ANSWERED':
       return 'Maksuttomuus tarkastamatta, lisätietopyyntöön vastattu';
-    case 'INFORMATION_REQUEST_EXPIRED':
+    case 'SUPPLEMENT_REQUEST_EXPIRED':
       return 'Maksuttomuus tarkastamatta, lisätietopyyntöön ei vastattu';
     default:
       return '';
   }
 };
 
-export const getLanguageOfCommunicationText = (
-  language: 'fi' | 'sv' | 'en',
-) => {
+export const getLanguageOfServiceText = (language: 'fi' | 'sv' | 'en') => {
   switch (language) {
     case 'fi':
       return 'suomi';

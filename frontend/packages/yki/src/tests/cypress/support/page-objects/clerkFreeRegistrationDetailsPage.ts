@@ -3,14 +3,14 @@ import {
   getFreeRegistrationBasisText,
   getFreeRegistrationKindText,
   getFreeRegistrationStatusText,
-  getLanguageOfCommunicationText,
+  getLanguageOfServiceText,
 } from 'tests/cypress/support/utils/freeRegistration';
 import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
 
 class ClerkFreeRegistrationDetailsPage {
   elements = {
     title: () => cy.findByText('Maksuttomuuden tarkastukset'),
-    informationRequestTextbox: () => cy.get('#information-request-message'),
+    getSupplementRequestTextBox: () => cy.get('#supplement-request-message'),
     commentField: () => cy.get('#comment'),
     addCommentButton: () =>
       cy.findByRole('button', { name: 'Tallenna kommentti' }),
@@ -43,9 +43,9 @@ class ClerkFreeRegistrationDetailsPage {
       getFreeRegistrationBasisText(details.freeRegistrationBasis),
     ).should('be.visible');
     cy.findByText(`${details.freeRegistrationsLeft} kpl`).should('be.visible');
-    cy.findByText(
-      getLanguageOfCommunicationText(details.languageOfCommunication),
-    ).should('be.visible');
+    cy.findByText(getLanguageOfServiceText(details.languageOfService)).should(
+      'be.visible',
+    );
     cy.findByText(getFreeRegistrationKindText(details.registration)).should(
       'be.visible',
     );
@@ -67,8 +67,8 @@ class ClerkFreeRegistrationDetailsPage {
     });
   }
 
-  FillOutInformationRequest({ message }) {
-    this.elements.informationRequestTextbox().type(message);
+  FillOutSupplementRequest({ message }) {
+    this.elements.getSupplementRequestTextBox().type(message);
   }
 
   expectCorrectActionButtonsVisible(id: number) {
@@ -108,9 +108,9 @@ class ClerkFreeRegistrationDetailsPage {
         name: 'Lähetä lisätietopyyntö',
       }).should('not.exist');
     } else if (
-      details.status === 'INFORMATION_REQUESTED' ||
-      details.status === 'INFORMATION_REQUEST_ANSWERED' ||
-      details.status === 'INFORMATION_REQUEST_EXPIRED'
+      details.status === 'SUPPLEMENT_REQUESTED' ||
+      details.status === 'SUPPLEMENT_REQUEST_ANSWERED' ||
+      details.status === 'SUPPLEMENT_REQUEST_EXPIRED'
     ) {
       cy.findByRole('button', { name: 'Lähetä lisätietopyyntö' }).should(
         'be.visible',
