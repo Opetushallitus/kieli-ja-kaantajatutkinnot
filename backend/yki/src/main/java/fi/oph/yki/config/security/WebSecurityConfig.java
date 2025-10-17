@@ -141,8 +141,6 @@ public class WebSecurityConfig {
         registry
           .requestMatchers("/v2/api/user/**")
           .access(proxyApiAuthorizationManager)
-          .requestMatchers("/v2/api/clerk/**", "/v2/virkailija/**", "/v2/virkailija")
-          .hasRole(Constants.APP_ADMIN_ROLE)
           .requestMatchers("/", "/**")
           .permitAll()
           .anyRequest()

@@ -30,9 +30,10 @@ public class AuditUtil {
     final InetAddress inetAddress = getInetAddress(request);
     final String session = request.getSession().getId();
     final String userAgent = request.getHeader("User-Agent");
-    return getOptionalOid()
-      .map(oid -> new User(oid, inetAddress, session, userAgent))
-      .orElseGet(() -> new User(inetAddress, session, userAgent));
+    return new User(inetAddress, session, userAgent);
+    // return getOptionalOid()
+    //   .map(oid -> new User(oid, inetAddress, session, userAgent))
+    //   .orElseGet(() -> new User(inetAddress, session, userAgent));
   }
 
   private static InetAddress getInetAddress(final HttpServletRequest request) {
