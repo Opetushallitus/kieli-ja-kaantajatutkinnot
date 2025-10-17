@@ -52,7 +52,7 @@ app:
 host:
   alb: ${virkailija.host.alb:localhost:${server.port}}
 cas:
-  key: yki
+  key: yki-ui
   send-renew: false
   login-path: /login/cas
   logout-path: /cas/localLogout

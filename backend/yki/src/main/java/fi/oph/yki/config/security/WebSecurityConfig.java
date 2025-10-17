@@ -139,8 +139,6 @@ public class WebSecurityConfig {
     return configCsrf(http)
       .authorizeHttpRequests(registry ->
         registry
-          .requestMatchers("/v2/api/user/**")
-          .access(proxyApiAuthorizationManager)
           .requestMatchers("/v2/api/clerk/**", "/v2/virkailija/**", "/v2/virkailija")
           .hasRole(Constants.APP_ADMIN_ROLE)
           .requestMatchers("/", "/**")
