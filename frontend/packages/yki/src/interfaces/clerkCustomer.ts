@@ -19,7 +19,7 @@ export interface CustomerPerson {
   email: string;
 }
 
-interface Exam {
+export type Exam = {
   examinationDate: string;
   exam: {
     language: ExamLanguage;
@@ -31,7 +31,7 @@ interface Exam {
   };
   registrationStatus: RegistrationStates;
   registrationDate: string;
-}
+};
 
 type QueueSpotOffered =
   | { offered: QueueOfferStatus.NotOffered }
@@ -40,16 +40,15 @@ type QueueSpotOffered =
       dueDate: string;
     };
 
-interface QueuedRegistration extends Exam {
+export type QueuedRegistration = Exam & {
   queueSpotOffered: QueueSpotOffered;
-}
+};
 
 type ExamState = 'REVIEWED' | 'CANCELLED' | 'REGISTERED';
 
-interface PastExam
-  extends Omit<Exam, 'registrationStatus' | 'registrationDate'> {
+export type PastExam = Omit<Exam, 'registrationStatus' | 'registrationDate'> & {
   state: ExamState;
-}
+};
 
 export enum QueueOfferStatus {
   Offered = 'OFFERED',
