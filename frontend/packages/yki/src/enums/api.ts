@@ -28,7 +28,7 @@ export enum APIEndpoints {
   ClerkOrganizer = '/yki/v2/api/clerk/organizer',
   ClerkFreeRegistration = '/yki/v2/api/clerk/registration/approvals',
   ClerkFreeRegistrationDetails = '/yki/v2/api/clerk/registration/approval/:id',
-  ClerkFreeRegistrationSupplementRequest = '/yki/v2/api/clerk/registration/:id/supplement-request',
+  ClerkFreeRegistrationSupplementRequest = '/yki/v2/api/clerk/registration/approval/:id/supplement-request',
   ClerkFreeRegistrationDetailsMessages = '/yki/v2/api/clerk/registration/:id/messages',
   ClerkCustomerDetails = '/yki/v2/api/clerk/customer/:id',
 }

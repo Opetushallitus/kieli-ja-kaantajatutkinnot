@@ -94,17 +94,17 @@ function* rejectFreeRegistrationSaga(action: PayloadAction<number>) {
 
 function* submitClerkFreeRegistrationSupplementRequestSaga(
   action: PayloadAction<{
-    registrationId: number;
+    freeRegistrationId: number;
     message: string;
     dueDate: Dayjs;
   }>,
 ) {
   try {
-    const { registrationId, message, dueDate } = action.payload;
+    const { freeRegistrationId, message, dueDate } = action.payload;
     const endpoint =
       APIEndpoints.ClerkFreeRegistrationSupplementRequest.replace(
         ':id',
-        `${registrationId}`,
+        `${freeRegistrationId}`,
       );
     yield call(axiosInstance.post, endpoint, {
       message,

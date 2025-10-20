@@ -6,6 +6,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalDetailsDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalUpdateDTO;
+import fi.oph.yki.api.dto.clerk.ClerkSendSupplementRequestDTO;
 import fi.oph.yki.service.ClerkRegistrationService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
@@ -45,10 +46,19 @@ public class ClerkRegistrationController {
 
   @PutMapping(path = "/approval/{freeRegistrationId:\\d+}", consumes = ALL_VALUE)
   @Operation(tags = TAG_REGISTRATION, summary = "Update approval")
-  public ClerkApprovalDetailsDTO updateEnrollment(
+  public ClerkApprovalDetailsDTO updateFreeRegistrationApproval(
     @PathVariable final long freeRegistrationId,
     @RequestBody @Valid final ClerkApprovalUpdateDTO dto
   ) {
     return clerkRegistrationService.updateApproval(freeRegistrationId, dto);
+  }
+
+  @PutMapping(path = "/approval/{freeRegistrationId:\\d+}/supplement-request", consumes = ALL_VALUE)
+  @Operation(tags = TAG_REGISTRATION, summary = "Update approval")
+  public ClerkApprovalDetailsDTO sendSupplementRequest(
+    @PathVariable final long freeRegistrationId,
+    @RequestBody @Valid final ClerkSendSupplementRequestDTO dto
+  ) {
+    return clerkRegistrationService.sendSupplementRequest(freeRegistrationId, dto);
   }
 }

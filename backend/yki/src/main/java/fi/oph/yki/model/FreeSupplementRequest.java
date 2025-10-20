@@ -9,24 +9,28 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "free_comment")
-public class FreeComment extends BaseEntity {
+@Table(name = "free_supplement_req")
+public class FreeSupplementRequest extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "free_comment_id", nullable = false)
+  @Column(name = "free_supplement_req_id", nullable = false)
   private long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "free_registration_id", referencedColumnName = "free_registration_id")
-  private FreeRegistration freeEnrollment;
+  private FreeRegistration freeRegistration;
 
-  @Column(name = "comment", nullable = false)
-  private String comment;
+  @Column(name = "message", nullable = false)
+  private String message;
+
+  @Column(name = "due_date", nullable = false)
+  private LocalDate dueDate;
 }

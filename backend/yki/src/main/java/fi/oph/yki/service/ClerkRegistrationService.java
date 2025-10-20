@@ -8,10 +8,12 @@ import fi.oph.yki.api.dto.clerk.ClerkApprovalExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
+import fi.oph.yki.api.dto.clerk.ClerkSendSupplementRequestDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.FreeRegistration;
+import fi.oph.yki.model.FreeSupplementRequest;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.RegistrationLangOfCommunication;
@@ -42,7 +44,7 @@ public class ClerkRegistrationService {
 
   @Transactional(readOnly = true)
   public ClerkApprovalDetailsDTO getApproval(final Long freeRegistrationId) {
-    auditService.logOperation(YkiOperation.GET_APPROVAL);
+    auditService.logById(YkiOperation.GET_APPROVAL, freeRegistrationId);
 
     final FreeRegistration freeRegistration = freeRegistrationRepository.getReferenceById(freeRegistrationId);
 
@@ -51,7 +53,7 @@ public class ClerkRegistrationService {
 
   @Transactional
   public ClerkApprovalDetailsDTO updateApproval(final Long freeRegistrationId, final ClerkApprovalUpdateDTO dto) {
-    auditService.logOperation(YkiOperation.UPDATE_APPROVAL);
+    auditService.logById(YkiOperation.UPDATE_APPROVAL, freeRegistrationId);
 
     final Boolean approved = dto.approved();
     final FreeRegistration freeRegistration = freeRegistrationRepository.getReferenceById(freeRegistrationId);
@@ -148,5 +150,22 @@ public class ClerkRegistrationService {
       .stream()
       .map(a -> ClerkApprovalCommentDTO.builder().comment(a.getComment()).timestamp(a.getCreatedAt()).build())
       .toList();
+  }
+
+  @Transactional
+  public ClerkApprovalDetailsDTO sendSupplementRequest(
+    final long freeRegistrationId,
+    final ClerkSendSupplementRequestDTO dto
+  ) {
+    auditService.logById(YkiOperation.SEND_SUPPLEMENT_REQUEST, freeRegistrationId);
+
+    final FreeRegistration freeRegistration = freeRegistrationRepository.getReferenceById(freeRegistrationId);
+    final FreeSupplementRequest freeSupplementRequest = new FreeSupplementRequest();
+
+    freeSupplementRequest.setMessage(dto.message());
+    freeSupplementRequest.setDueDate(dto.dueDate());
+    freeSupplementRequest.setFreeRegistration(freeRegistration);
+
+    return createClerkApprovalDetailsDTO(freeRegistration);
   }
 }

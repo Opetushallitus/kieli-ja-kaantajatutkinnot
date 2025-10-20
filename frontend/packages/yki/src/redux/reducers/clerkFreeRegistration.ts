@@ -66,7 +66,7 @@ const clerkFreeRegistrationSlice = createSlice({
     submitClerkFreeRegistrationSupplementRequest(
       state,
       _action: PayloadAction<{
-        registrationId: number;
+        freeRegistrationId: number;
         message: string;
         dueDate: Dayjs;
       }>,

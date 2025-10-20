@@ -479,9 +479,9 @@ export const ClerkFreeRegistrationDetails = () => {
         </div>
       </div>
       <FreeRegistrationSupplementRequestModal
+        freeRegistrationId={freeRegistrationId}
         isModalOpen={isRequestSupplementModalOpen}
         setIsModalOpen={setIsRequestSupplementModalOpen}
-        registrationId={registrationDetails.id}
         renderPersonDetails={renderPersonDetails}
         renderExamSessionDetails={renderExamSessionDetails}
       />
