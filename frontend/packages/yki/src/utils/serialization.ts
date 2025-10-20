@@ -248,6 +248,13 @@ export class SerializationUtils {
         return RegistrationStates.Cancelled;
       case 'PAID_AND_CANCELLED':
         return RegistrationStates.PaidAndCancelled;
+      case 'FREE_REGISTRATION_PENDING':
+        return RegistrationStates.FreeRegistrationPending;
+      case 'FREE_REGISTRATION_SUPPLEMENT_REQUESTED':
+        return RegistrationStates.FreeRegistrationSupplementRequested;
+      case 'FREE_REGISTRATION_SUPPLEMENT_REQUEST_ANSWERED':
+        return RegistrationStates.FreeRequestSupplementRequestAnswered;
+
       default:
         return RegistrationStates.Unknown;
     }
@@ -281,6 +288,10 @@ export class SerializationUtils {
         expiresAt: v.expires_at ? dayjs(v.expires_at) : undefined,
         paidAt: v.paid_at ? dayjs(v.paid_at) : undefined,
         examFee: v.exam_fee,
+        supplementRequestDueDate: v.supplementRequestDueDate
+          ? dayjs(v.supplementRequestDueDate)
+          : undefined,
+        supplementRequest: v.supplementRequest,
         liftedFromQueueAt: v.lifted_from_queue_at
           ? dayjs(v.lifted_from_queue_at)
           : undefined,

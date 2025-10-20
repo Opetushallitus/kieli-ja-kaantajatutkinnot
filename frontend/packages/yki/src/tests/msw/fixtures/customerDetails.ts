@@ -77,7 +77,7 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lorem ipsum oppilaitos',
           municipality: 'Helsinki',
         },
-        registrationStatus: RegistrationStates.AwaitingApproval,
+        registrationStatus: RegistrationStates.FreeRegistrationPending,
         registrationDate: '2025-05-06',
       },
     ],
@@ -145,7 +145,7 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lorem ipsum oppilaitos',
           municipality: 'Helsinki',
         },
-        registrationStatus: RegistrationStates.AwaitingApproval,
+        registrationStatus: RegistrationStates.FreeRegistrationPending,
         registrationDate: '2025-05-06',
         queueSpotOffered: {
           offered: QueueOfferStatus.NotOffered,

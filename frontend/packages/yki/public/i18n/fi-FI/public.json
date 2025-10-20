@@ -904,7 +904,8 @@
           "actions": {
             "cancel": "Peru ilmoittautuminen",
             "confirm": "Vahvista ilmoittautuminen",
-            "relocate": "Siirrä ilmoittautuminen"
+            "relocate": "Siirrä ilmoittautuminen",
+            "modify": "Muokkaa ilmoittautumista"
           },
           "alreadyTransferredNotification": {
             "part1": "Olet siirtänyt ilmoittautumisen.",
@@ -914,7 +915,8 @@
             "expiresAt": "Eräpäivä {{- date }}",
             "notPaid": "Maksamatta {{ examFee }}€",
             "label": "Tutkintomaksu",
-            "paidAt": "Maksettu {{- date }}"
+            "paidAt": "Maksettu {{- date }}",
+            "freeRegistrationPending": "0 tai {{ examFee }}€"
           },
           "header": {
             "cancelled": "Perutut ilmoittautumiset",
@@ -925,6 +927,11 @@
             "part1": "Olet saanut paikan YKI-testiin jonosta.",
             "part2": "Vahvista ilmoittautuminen {{- date }} mennessä",
             "part3": "tai menetät paikan"
+          },
+          "supplementRequestLabel": "Täydennyspyyntö",
+          "freeRegistrationNotification": {
+            "pending": "Opetushallitus tarkistaa toimittamasi tutkintotodistuksen. Saat päätöksen tutkintomaksun maksuttomuudesta sähköpostiisi ja YKI-verkkopalveluun asian käsittelyn jälkeen.",
+            "answered": "Olet saanut täydennyspyynnön koskien toimittamaasi tutkintotodistusta. Vastaa täydennyspyyntöön muokkaamalla ilmoittautumistasi {{ dueDate }} mennessä."
           },
           "notPaidNotification": {
             "part1": "Ilmoittautumista ei ole vielä vahvistettu.",
@@ -938,7 +945,9 @@
             "cancelled": "Peruttu",
             "enrolled": "Ilmoittautunut",
             "label": "Tila",
-            "queued": "Jonossa (sija {{ positionInQueue }})"
+            "queued": "Jonossa (sija {{ positionInQueue }})",
+            "freeRegistrationPending": "Odottaa opetushallituksen tarkastusta",
+            "freeRegistrationSupplementRequested": "Odottaa vastaustasi"
           },
           "upcoming": {
             "notFound": "Sinulla ei ole tulevia ilmoittautumisia."

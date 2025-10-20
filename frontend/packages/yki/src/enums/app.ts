@@ -19,6 +19,7 @@ export enum AppRoutes {
   TransferRegistrationSuccess = '/yki/kayttaja/siirra/:registrationId/valmis',
   ModifyContactDetails = '/yki/kayttaja/tiedot/muokkaa',
   ConfirmRegistration = '/yki/kayttaja/vahvista/:registrationId',
+  ModifyRegistration = '/yki/kayttaja/muokkaa/:registrationId',
   ExpiredLoginLinkPage = '/yki/linkki-vanhentunut/:code',
   NotFoundPage = '*',
   ClerkRoot = '/yki/v2/virkailija',
@@ -100,6 +101,8 @@ export enum RegistrationStates {
   Expired = 'EXPIRED',
   Cancelled = 'CANCELLED',
   PaidAndCancelled = 'PAID_AND_CANCELLED',
-  AwaitingApproval = 'AWAITING_APPROVAL',
+  FreeRegistrationPending = 'FREE_REGISTRATION_PENDING',
+  FreeRegistrationSupplementRequested = 'FREE_REGISTRATION_SUPPLEMENT_REQUESTED',
+  FreeRequestSupplementRequestAnswered = 'FREE_REGISTRATION_SUPPLEMENT_REQUEST_ANSWERED',
   Unknown = 'UNKNOWN',
 }
