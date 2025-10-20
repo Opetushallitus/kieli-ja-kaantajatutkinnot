@@ -330,6 +330,7 @@ export const ClerkFreeRegistrationDetails = () => {
   return (
     <div className="rows gapped free-registration-details">
       <FreeRegistrationModal
+        freeRegistrationId={freeRegistrationId}
         isApproveModalOpen={isApproveModalOpen}
         setIsApproveModal={setIsApproveModalOpen}
         isRejectModalOpen={isRejectModalOpen}

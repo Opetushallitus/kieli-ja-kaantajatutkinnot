@@ -18,7 +18,10 @@ import {
   storeClerkFreeRegistrations,
   submitClerkFreeRegistrationSupplementRequest,
 } from 'redux/reducers/clerkFreeRegistration';
-import { loadClerkFreeRegistrationDetails } from 'redux/reducers/clerkFreeRegistrationDetails';
+import {
+  loadClerkFreeRegistrationDetails,
+  storeClerkFreeRegistrationDetails,
+} from 'redux/reducers/clerkFreeRegistrationDetails';
 import { SerializationUtils } from 'utils/serialization';
 
 function* loadClerkFreeRegistrationsSaga() {
@@ -34,9 +37,22 @@ function* loadClerkFreeRegistrationsSaga() {
   }
 }
 
-function* approveFreeRegistrationSaga() {
+function* approveFreeRegistrationSaga(action: PayloadAction<number>) {
   try {
-    yield call(axiosInstance.put, APIEndpoints.ApproveClerkFreeRegistration);
+    const response: AxiosResponse<ClerkFreeRegistrationDetailsResponse> =
+      yield call(
+        axiosInstance.put,
+        APIEndpoints.ClerkFreeRegistrationDetails.replace(
+          /:id$/,
+          `${action.payload}`,
+        ),
+        { approved: true },
+      );
+    const freeRegistrationDetails =
+      SerializationUtils.deserializeClerkFreeRegistrationDetailsResponse(
+        response.data,
+      );
+    yield put(storeClerkFreeRegistrationDetails(freeRegistrationDetails));
     yield put(
       setFreeRegistrationStatus(FreeRegistrationModalStatus.ApprovalSuccess),
     );
@@ -47,9 +63,22 @@ function* approveFreeRegistrationSaga() {
   }
 }
 
-function* rejectFreeRegistrationSaga() {
+function* rejectFreeRegistrationSaga(action: PayloadAction<number>) {
   try {
-    yield call(axiosInstance.put, APIEndpoints.RejectClerkFreeRegistration);
+    const response: AxiosResponse<ClerkFreeRegistrationDetailsResponse> =
+      yield call(
+        axiosInstance.put,
+        APIEndpoints.ClerkFreeRegistrationDetails.replace(
+          /:id$/,
+          `${action.payload}`,
+        ),
+        { approved: false },
+      );
+    const freeRegistrationDetails =
+      SerializationUtils.deserializeClerkFreeRegistrationDetailsResponse(
+        response.data,
+      );
+    yield put(storeClerkFreeRegistrationDetails(freeRegistrationDetails));
     yield put(
       setFreeRegistrationStatus(FreeRegistrationModalStatus.RejectSuccess),
     );

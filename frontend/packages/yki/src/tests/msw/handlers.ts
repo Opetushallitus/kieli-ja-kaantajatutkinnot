@@ -192,15 +192,23 @@ export const handlers = [
       return notFound();
     }
   }),
-  http.put(APIEndpoints.ClerkFreeRegistrationDetails, ({ params }) => {
-    const { approved } = params;
+  http.put(
+    APIEndpoints.ClerkFreeRegistrationDetails,
+    async ({ params, request }) => {
+      const index = params?.id ? Number(params.id) - 1 : NaN;
+      const { approved } = await request.json();
+      const response = freeRegistrationDetails[index];
 
-    if (approved) {
-      return HttpResponse.json(freeRegistrationDetails[2]);
-    } else {
-      return HttpResponse.json(freeRegistrationDetails[3]);
-    }
-  }),
+      if (index >= 0) {
+        return HttpResponse.json({
+          ...response,
+          status: approved ? 'APPROVED' : 'REJECTED',
+        });
+      } else {
+        return notFound();
+      }
+    },
+  ),
   http.post(APIEndpoints.ClerkFreeRegistrationSupplementRequest, () => {
     return HttpResponse.json({ success: true });
   }),
