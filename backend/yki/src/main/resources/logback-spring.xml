@@ -33,14 +33,12 @@
     </springProfile>
 
     <springProfile name="!dev">
-        <root level="DEBUG">
+        <root level="INFO">
             <appender-ref ref="APP" />
         </root>
         <logger name="fi.oph.yki.audit.LoggerImpl" level="INFO" additivity="false">
             <appender-ref ref="AUDIT" />
         </logger>
-        <logger name="fi.oph.yki" level="INFO" />
-        <logger name="liquibase" level="INFO" />
     </springProfile>
 
 </configuration>
