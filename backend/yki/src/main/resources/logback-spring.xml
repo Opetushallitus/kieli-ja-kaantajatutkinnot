@@ -33,7 +33,7 @@
     </springProfile>
 
     <springProfile name="!dev">
-        <root level="WARN">
+        <root level="DEBUG">
             <appender-ref ref="APP" />
         </root>
         <logger name="fi.oph.yki.audit.LoggerImpl" level="INFO" additivity="false">
