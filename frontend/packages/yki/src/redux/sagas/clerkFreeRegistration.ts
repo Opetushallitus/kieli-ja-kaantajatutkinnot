@@ -111,7 +111,7 @@ function* submitClerkFreeRegistrationSupplementRequestSaga(
       dueDate: dueDate.toISOString(),
     });
     yield put(acceptClerkFreeRegistrationSupplementRequest());
-    yield put(loadClerkFreeRegistrationDetails(registrationId));
+    yield put(loadClerkFreeRegistrationDetails(freeRegistrationId));
     yield put(loadClerkFreeRegistrations());
   } catch (error) {
     yield put(rejectClerkFreeRegistrationSupplementRequest());
