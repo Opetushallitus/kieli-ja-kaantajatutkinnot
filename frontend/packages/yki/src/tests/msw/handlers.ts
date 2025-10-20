@@ -18,6 +18,10 @@ import { organizers } from 'tests/msw/fixtures/organizers';
 import { personDetails } from 'tests/msw/fixtures/personDetails';
 import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/registrationInit';
 
+interface FreeRegistrationRequest {
+  approved: boolean;
+}
+
 const data = {
   evaluationPeriods,
   examSessions,
@@ -196,7 +200,7 @@ export const handlers = [
     APIEndpoints.ClerkFreeRegistrationDetails,
     async ({ params, request }) => {
       const index = params?.id ? Number(params.id) - 1 : NaN;
-      const { approved } = await request.json();
+      const { approved } = (await request.json()) as FreeRegistrationRequest;
       const response = freeRegistrationDetails[index];
 
       if (index >= 0) {
