@@ -45,7 +45,7 @@
           "REJECTED": {
             "part1": "Maksuttomuus hylätty"
           },
-          "SUPPLEMENT_REQUESTED": {
+          "SUPPLEMENT_REQUESTED": {  
             "part1": "Lisätietopyyntö lähetetty,",
             "part2": "odottaa vastausta"
           },
@@ -109,12 +109,12 @@
             "extraInformation": "Lisätiedot"
           },
           "freeRegistrationBasis": {
-            "COMPARABLE_MATRICULATION_EXAMINATION": "Opiskellut ulkomailla: ylioppilastutkinto",
-            "COMPARABLE_HIGHER_EDUCATION_DEGEE": "Opiskellut ulkomailla: korkeakoulututkinto",
-            "COMPARABLE_HIGHER_EDUCATION_STUDIES": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja",
-            "HIGHER_EDUCATION_DEGREE": "Opiskellut Suomessa: korkeakoulututkinto",
-            "HIGHER_EDUCATION_STUDIES": "Opiskellut Suomessa: suorittamassa korkeakouluopintoja",
-            "MATRICULATION_EXAMINATION": "Opiskellut Suomessa: ylioppilastutkinto"
+            "MatriculationExam": "Opiskellut Suomessa: ylioppilastutkinto",
+            "HigherEducationDegree": "Opiskellut Suomessa: korkeakoulututkinto",
+            "HigherEducationStudies": "Opiskellut Suomessa: suorittamassa korkeakouluopintoja",
+            "ComparableMatriculation": "Opiskellut ulkomailla: ylioppilastutkinto",
+            "ComparableHigherEducationDegree": "Opiskellut ulkomailla: korkeakoulututkinto",
+            "ComparableHigherEducationStudies": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja"
           },
           "freeRegistrationsLeft": "{{amount}} kpl",
           "languageOfService": {
@@ -166,7 +166,7 @@
           "fields": {
             "ssn": "Hetu",
             "oid": "Oppijanumero",
-            "nationality": "Kansalaisuus",
+            "nationality":"Kansalaisuus",
             "languageOfService": "Asiointikieli",
             "languageOfCertificate": "Todistuksen kieli",
             "phoneNumber": "Puhelinnumero",
