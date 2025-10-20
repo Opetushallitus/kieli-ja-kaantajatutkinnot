@@ -3,11 +3,11 @@ import i18next from 'i18next';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
+import { RegistrationStates } from 'enums/app';
 import {
   ClerkCustomerDetails,
-  Exam,
-  PastExam,
-  QueuedRegistration,
+  QueueOfferStatus,
+  QueueSpotOffered,
 } from 'interfaces/clerkCustomer';
 import { Text } from 'ophTheme/Text';
 
@@ -50,9 +50,9 @@ export const CustomerExamListings = ({
   });
 
   // Tutkintopäivä (Ilmoittautumiset, Jonossa, Menneet)
-  const createExamDateColumn = (
+  const createExamDateColumn = <T extends { examinationDate: string }>(
     t: typeof i18next.t,
-  ): ListTableColumn<Exam | QueuedRegistration | PastExam> => ({
+  ): ListTableColumn<T> => ({
     key: 'examDate',
     title: t('columns.date'),
     render: ({ examinationDate }) => (
@@ -64,9 +64,11 @@ export const CustomerExamListings = ({
   });
 
   // Tutkinto (Ilmoittautumiset, Jonossa, Menneet)
-  const createExamNameColumn = (
+  const createExamNameColumn = <
+    T extends { exam: { language: string; level: string } },
+  >(
     t: typeof i18next.t,
-  ): ListTableColumn<Exam | QueuedRegistration | PastExam> => ({
+  ): ListTableColumn<T> => ({
     key: 'examName',
     title: t('columns.name'),
     render: ({ exam: { language, level } }) => (
@@ -77,18 +79,99 @@ export const CustomerExamListings = ({
   });
 
   // Testipaikka (Ilmoittautumiset, Jonossa, Menneet)
-  // Ilmoittautumisen tila (Ilmoittautumiset)
-  // Ilmoittautumispvm (Ilmoittautumiset)
-  // Jonopaikkaa tarjottu (Jonossa)
-  // Tila (Menneet)
+  const createExamLocationColumn = <
+    T extends { examLocation: { schoolName: string; municipality: string } },
+  >(
+    t: typeof i18next.t,
+  ): ListTableColumn<T> => ({
+    key: 'examLocation',
+    title: t('columns.location'),
+    render: ({ examLocation: { schoolName, municipality } }) => (
+      <div className="rows gapped-xs">
+        <Text>{`${schoolName}, ${municipality}`}</Text>
+      </div>
+    ),
+  });
+
+  // Ilmoittautumisen tila (Ilmoittautumiset, Jonossa)
+  const createRegistrationStateColumn = <
+    T extends { registrationStatus: RegistrationStates },
+  >(
+    t: typeof i18next.t,
+  ): ListTableColumn<T> => ({
+    key: 'registrationState',
+    title: t('columns.registrationState'),
+    render: ({ registrationStatus }) => (
+      <div className="rows gapped-xs">
+        <Text>{t(`values.registrationState.${registrationStatus}`)}</Text>
+      </div>
+    ),
+  });
+
+  // Ilmoittautumispvm (Ilmoittautumiset, Jonossa)
+  const createRegistrationDateColumn = <T extends { registrationDate: string }>(
+    t: typeof i18next.t,
+  ): ListTableColumn<T> => ({
+    key: 'registrationDate',
+    title: t('columns.registrationDate'),
+    render: ({ registrationDate }) => (
+      <div className="rows gapped-xs">
+        <Text>{registrationDate}</Text>
+      </div>
+    ),
+  });
+
+  // TODO:
   // Toiminnot (kaikissa, mutta jokaisessa eri vaihtoehdot)
+
+  // Jonopaikkaa tarjottu (Jonossa)
+  const createQueueSpotOfferedColumn = <
+    T extends { queueSpotOffered: QueueSpotOffered },
+  >(
+    t: typeof i18next.t,
+  ): ListTableColumn<T> => ({
+    key: 'queueSpotOffered',
+    title: t('columns.queueSpotOffered'),
+    render: ({ queueSpotOffered }) => {
+      return (
+        <div className="rows gapped-xs">
+          <Text>
+            {t(`values.queueSpotOffered.${queueSpotOffered.offered}`)}
+          </Text>
+          {queueSpotOffered.offered !== QueueOfferStatus.NotOffered && (
+            <Text>
+              {t('values.queueSpotOffered.dueDate', {
+                dueDate: queueSpotOffered.dueDate,
+              })}
+            </Text>
+          )}
+        </div>
+      );
+    },
+  });
+
+  // Tila (Menneet)
 
   const registratedExamsColumns = [
     createExamDateColumn(t),
     createExamNameColumn(t),
+    createExamLocationColumn(t),
+    createRegistrationStateColumn(t),
+    createRegistrationDateColumn(t),
   ];
-  const queuedExamsColumns = [createExamDateColumn(t), createExamNameColumn(t)];
-  const pastExamsColumns = [createExamDateColumn(t), createExamNameColumn(t)];
+  const queuedExamsColumns = [
+    createExamDateColumn(t),
+    createExamNameColumn(t),
+    createExamLocationColumn(t),
+    createRegistrationStateColumn(t),
+    createRegistrationDateColumn(t),
+    createQueueSpotOfferedColumn(t),
+  ];
+  const pastExamsColumns = [
+    createExamDateColumn(t),
+    createExamNameColumn(t),
+    createExamLocationColumn(t),
+  ];
 
   return (
     <>

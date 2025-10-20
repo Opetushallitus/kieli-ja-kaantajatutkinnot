@@ -33,7 +33,7 @@ export type Exam = {
   registrationDate: string;
 };
 
-type QueueSpotOffered =
+export type QueueSpotOffered =
   | { offered: QueueOfferStatus.NotOffered }
   | {
       offered: QueueOfferStatus.Offered | QueueOfferStatus.NotAccepted;
