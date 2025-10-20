@@ -31,6 +31,10 @@ Cypress.Commands.add('openExamSessionRegistrationForm', (id: number) => {
 });
 
 Cypress.Commands.add('openPublicUserDetailsPage', () => {
+  cy.window().then((win) => {
+    win.sessionStorage.setItem('persist:root', '{}');
+    cy.setCookie('cookie-consent-yki', 'true');
+  });
   cy.visit(AppRoutes.UserDetails);
 });
 

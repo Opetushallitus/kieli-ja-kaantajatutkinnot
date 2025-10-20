@@ -121,7 +121,7 @@ const RegistrationState = ({
   ].includes(state);
 
   return (
-    <div>
+    <div data-testid={`registration-state-${registration.id}`}>
       <Text className="bold">{t('label')}</Text>
       <div className="columns gapped-xxs">
         {isEnrolled && (
@@ -177,7 +177,7 @@ const ExamPayment = ({
 
   if (isFreeRegistrationPending) {
     return (
-      <div>
+      <div data-testid={`exam-payment-${registration.id}`}>
         <Text className="bold">{t('label')}</Text>
         <Text>
           {t('freeRegistrationPending', {
@@ -189,7 +189,7 @@ const ExamPayment = ({
   }
 
   return (
-    <div>
+    <div data-testid={`exam-payment-${registration.id}`}>
       <Text className="bold">{t('label')}</Text>
       {paidAt && (
         <div className="columns gapped-xxs">
@@ -257,6 +257,7 @@ const Registrations: FC<RegistrationsProps> = ({
         key={`registration-${r.examSessionId}-${r.id}`}
         elevation={3}
         className="user-details-page__event"
+        data-testid={`registration-card-${r.id}`}
       >
         <div className="user-details-page__info__section">
           <H3 sx={{ fontSize: '1.8rem', lineHeight: '2.6rem' }}>
@@ -289,7 +290,7 @@ const Registrations: FC<RegistrationsProps> = ({
         )}
         {isFreeRegistrationPending && (
           <InfoBox>
-            <Text>
+            <Text data-testid={`free-registration-info-${r.id}`}>
               {[
                 RegistrationStates.FreeRegistrationPending,
                 RegistrationStates.FreeRequestSupplementRequestAnswered,
