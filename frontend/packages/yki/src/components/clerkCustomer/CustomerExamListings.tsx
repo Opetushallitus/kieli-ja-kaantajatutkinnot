@@ -3,31 +3,32 @@ import i18next from 'i18next';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
-import { ClerkCustomerDetails } from 'interfaces/clerkCustomer';
+import {
+  ClerkCustomerDetails,
+  Exam,
+  PastExam,
+  QueuedRegistration,
+} from 'interfaces/clerkCustomer';
 import { Text } from 'ophTheme/Text';
 
 const ExamsListing = <T extends Row>({
   columns,
   rows,
+  header,
   noRowsText,
 }: {
   columns: ListTableColumn<T>[];
   rows: T[] | undefined;
+  header: string;
   noRowsText: string;
 }) => {
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.clerkCustomer',
-  });
-
   if (!rows || rows.length == 0) {
     return noRowsText;
   }
 
   return (
     <>
-      <div className="columns space-between">
-        {t('listing.registratedExams', { amount: rows?.length ?? 0 })}
-      </div>
+      <div className="columns space-between">{header}</div>
       <ListTable
         className="customer-details-listing__table"
         rows={rows}
@@ -45,19 +46,19 @@ export const CustomerExamListings = ({
   customerDetails: ClerkCustomerDetails | null;
 }) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.clerkCustomer',
+    keyPrefix: 'yki.component.clerkCustomer.details.listing',
   });
 
   // Tutkintopäivä (Ilmoittautumiset, Jonossa, Menneet)
   const createExamDateColumn = (
     t: typeof i18next.t,
-  ): ListTableColumn<{ examinationDate: string }> => ({
+  ): ListTableColumn<Exam | QueuedRegistration | PastExam> => ({
     key: 'examDate',
-    title: t('listing.header.examinationDate'),
-    render: (rowProps) => (
+    title: t('columns.date'),
+    render: ({ examinationDate }) => (
       <div className="rows gapped-xs">
         {/* TODO: Convert registrationDate to DayJs */}
-        <Text>{rowProps.examinationDate}</Text>
+        <Text>{examinationDate}</Text>
       </div>
     ),
   });
@@ -79,17 +80,26 @@ export const CustomerExamListings = ({
       <ExamsListing
         columns={registratedExamsColumns}
         rows={customerDetails?.registrations}
-        noRowsText={t('')} // TODO:
+        header={t('headers.registratedExams', {
+          amount: customerDetails?.registrations?.length ?? 0,
+        })}
+        noRowsText={t('noRowsTexts.registratedExams')}
       />
       <ExamsListing
         columns={queuedExamsColumns}
         rows={customerDetails?.queuedExams}
-        noRowsText={t('')} // TODO:
+        header={t('headers.queuedExams', {
+          amount: customerDetails?.queuedExams?.length ?? 0,
+        })}
+        noRowsText={t('noRowsTexts.queuedExams')}
       />
       <ExamsListing
         columns={pastExamsColumns}
         rows={customerDetails?.pastExams}
-        noRowsText={t('')} // TODO:
+        header={t('headers.pastExams', {
+          amount: customerDetails?.pastExams?.length ?? 0,
+        })}
+        noRowsText={t('noRowsTexts.pastExams')}
       />
     </>
   );
