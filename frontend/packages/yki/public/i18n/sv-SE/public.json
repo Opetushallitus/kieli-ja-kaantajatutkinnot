@@ -182,6 +182,54 @@
             "fi": "suomi",
             "sv": "ruotsi",
             "en": "englanti"
+          },
+          "listing": {
+            "headers": {
+              "registratedExams": "Ilmoittautumiset ({{ amount }})",
+              "queuedExams": "Jonossa ({{ amount }})",
+              "pastExams": "Menneet tutkintotilaisuudet (edeltävät 365pv)"
+            },
+            "noRowsTexts": {
+              "registratedExams": "Ei tulevia ilmoittautumisia",
+              "queuedExams": "Ei jonotuspaikkoja",
+              "pastExams": "Ei menneitä tutkintorilaisuuksia viimeisen 365 päivän ajalta"
+            },
+            "columns": {
+              "date": "Tutkintopäivä",
+              "name": "Tutkinto",
+              "location": "Testipaikka",
+              "registrationState": "Ilmoittautumisen tila",
+              "registrationDate": "Ilmoittautumispvm",
+              "actions": "Toiminnot",
+              "queueSpotOffered": "Jonopaikkaa tarjottu",
+              "examState": "Tila"
+            },
+            "values": {
+              "registrationState": {
+                "COMPLETED": "Maksanut {{ paidAt }}",
+                "SUBMITTED": "Ei Maksanut",
+                "EXPIRED": "Erääntynyt",
+                "CANCELLED": "Peruttu",
+                "PAID_AND_CANCELLED": "Maksanut ja peruttu",
+                "FREE_REGISTRATION_PENDING": "Maksuttomuuden tarkistus kesken"
+              },
+              "actions": {
+                "relocate": "Siirrä tilaisuuteen",
+                "cancel": "Peru osallistuminen",
+                "showResults": "Tutkintojen tulokset (Koski)"
+              },
+              "queueSpotOffered": {
+                "OFFERED": "Kyllä",
+                "NOT_OFFERED": "Ei",
+                "NOT_ACCEPTED": "Ei otettu vastaan",
+                "dueDate": "Eräpäivä {{ dueDate }}"
+              },
+              "examState": {
+                "REVIEWED": "Arvioitu",
+                "CANCELLED": "Peruttu",
+                "REGISTERED": "Ilmoittautunut"
+              }
+            }
           }
         }
       },
