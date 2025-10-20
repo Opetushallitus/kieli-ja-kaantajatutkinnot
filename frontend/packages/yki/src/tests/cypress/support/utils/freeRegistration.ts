@@ -41,17 +41,17 @@ export const getLanguageOfServiceText = (language: 'fi' | 'sv' | 'en') => {
 
 export const getFreeRegistrationBasisText = (basis: FreeRegistrationBasis) => {
   switch (basis) {
-    case 'MatriculationExam':
+    case 'MATRICULATION_EXAMINATION':
       return 'Opiskellut Suomessa: ylioppilastutkinto';
-    case 'HigherEducationDegree':
+    case 'HIGHER_EDUCATION_DEGREE':
       return 'Opiskellut Suomessa: korkeakoulututkinto';
-    case 'HigherSducationStudies':
+    case 'HIGHER_EDUCATION_STUDIES':
       return 'Opiskellut Suomessa: suorittamassa korkeakouluopintoja';
-    case 'ComparableMatriculation':
+    case 'COMPARABLE_MATRICULATION_EXAMINATION':
       return 'Opiskellut ulkomailla: ylioppilastutkinto';
-    case 'ComparableHigherEducationDegree':
+    case 'COMPARABLE_HIGHER_EDUCATION_DEGREE':
       return 'Opiskellut ulkomailla: korkeakoulututkinto';
-    case 'ComparableHigherEducationStudies':
+    case 'COMPARABLE_HIGHER_EDUCATION_STUDIES':
       return 'Opiskellut ulkomailla: suorittamassa korkeakouluopintoja';
     default:
       return '';
