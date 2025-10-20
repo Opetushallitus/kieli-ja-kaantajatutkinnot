@@ -6,7 +6,7 @@ import {
   Message,
 } from 'interfaces/clerkFreeRegistration';
 
-export enum FreeRegistrationApprovalStatus {
+enum FreeRegistrationApprovalStatus {
   NotStarted,
   ApprovalInProgress,
   ApprovalSuccess,
@@ -79,7 +79,6 @@ export const {
   rejectClerkFreeRegistrationDetails,
   storeClerkFreeRegistrationDetails,
   resetClerkFreeRegistrationDetails,
-  setFreeRegistrationStatus,
   addComment,
   rejectAddComment,
   acceptAddComment,
