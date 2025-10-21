@@ -15,3 +15,6 @@ koski.url=http://localhost
 cas.username={{yki_cas_username}}
 cas.password={{yki_cas_password}}
 proxy-token={{yki_proxy_token}}
+
+feature-flags.free-enrollment-allowed={{yki_feature_free_enrollment_allowed}}
+aws.s3-bucket={{yki_aws_s3_bucket}}

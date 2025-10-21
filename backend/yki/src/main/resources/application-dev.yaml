@@ -4,3 +4,5 @@ app:
       access-key-id: test
       secret-access-key: test
     s3-bucket: opintopolku-dev-yki
+  featureFlags:
+    freeEnrollmentAllowed: true

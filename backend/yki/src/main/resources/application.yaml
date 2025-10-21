@@ -51,6 +51,8 @@ app:
     service-url: ${email.service-url:null}
   aws:
     s3-bucket: ${aws.s3-bucket:test}
+  featureFlags:
+    freeEnrollmentAllowed: ${feature-flags.free-enrollment-allowed:false}
 host:
   alb: ${virkailija.host.alb:localhost:${server.port}}
 cas:
