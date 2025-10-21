@@ -6,6 +6,7 @@ import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutli
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import WarningIcon from '@mui/icons-material/Warning';
 import { Stack } from '@mui/material';
+import { Box } from '@mui/system';
 import i18next from 'i18next';
 
 import { ListTable } from 'components/oph-design/table/list-table';
@@ -34,9 +35,7 @@ const ExamsListing = <T extends Row>({
   subHeader: string;
   noRowsText: string;
 }) => {
-  if (!rows || rows.length == 0) {
-    return noRowsText;
-  }
+  const hasNoRows = !rows || rows.length == 0;
 
   return (
     <div>
@@ -44,13 +43,17 @@ const ExamsListing = <T extends Row>({
         <H3 style={{ marginRight: '0.25em' }}>{header}</H3>
         <span>{subHeader}</span>
       </div>
-      <ListTable
-        className="customer-details-listing__table"
-        rows={rows}
-        rowKeyProp="id"
-        columns={columns}
-        translateHeader={false}
-      />
+      {hasNoRows ? (
+        <Box sx={{ margin: '1em 0' }}>{noRowsText}</Box>
+      ) : (
+        <ListTable
+          className="customer-details-listing__table"
+          rows={rows}
+          rowKeyProp="id"
+          columns={columns}
+          translateHeader={false}
+        />
+      )}
     </div>
   );
 };
