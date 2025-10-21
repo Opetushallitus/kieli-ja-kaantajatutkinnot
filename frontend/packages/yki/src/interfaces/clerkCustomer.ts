@@ -51,7 +51,7 @@ export type QueuedRegistration = Exam & {
   queueSpotOffered: QueueSpotOffered;
 };
 
-type ExamState = 'REVIEWED' | 'CANCELLED' | 'REGISTERED';
+export type ExamState = 'REVIEWED' | 'CANCELLED' | 'REGISTERED';
 
 export type PastExam = Omit<Exam, 'registrationStatus' | 'registrationDate'> & {
   state: ExamState;

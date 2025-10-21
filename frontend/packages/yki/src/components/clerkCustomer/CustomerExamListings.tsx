@@ -1,6 +1,9 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import BlockIcon from '@mui/icons-material/Block';
+import BlockOutlinedIcon from '@mui/icons-material/BlockOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import WarningIcon from '@mui/icons-material/Warning';
 import i18next from 'i18next';
 
@@ -10,6 +13,7 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { RegistrationStates } from 'enums/app';
 import {
   ClerkCustomerDetails,
+  ExamState,
   QueueOfferStatus,
   QueueSpotOffered,
   RegistrationStatus,
@@ -195,6 +199,35 @@ export const CustomerExamListings = ({
   });
 
   // Tila (Menneet)
+  const examStateIconMapping: Partial<Record<ExamState, JSX.Element>> = {
+    ['REVIEWED']: (
+      <SchoolOutlinedIcon sx={{ color: 'green', fontSize: '1.2em' }} />
+    ),
+    ['CANCELLED']: (
+      <BlockOutlinedIcon sx={{ color: 'red', fontSize: '1.2em' }} />
+    ),
+    ['REGISTERED']: (
+      <CheckCircleOutlineOutlinedIcon
+        sx={{ color: 'green', fontSize: '1.2em' }}
+      />
+    ),
+  };
+  const createExamStateColumn = <T extends { state: ExamState }>(
+    t: typeof i18next.t,
+  ): ListTableColumn<T> => ({
+    key: 'examState',
+    title: t('columns.examState'),
+    render: ({ state }) => (
+      <div className="rows gapped-xs">
+        <Text style={{ display: 'flex' }}>
+          {examStateIconMapping[state]}
+          <span style={{ margin: '0 0.25em' }}>
+            {t(`values.examState.${state}`)}
+          </span>
+        </Text>
+      </div>
+    ),
+  });
 
   const registratedExamsColumns = [
     createExamDateColumn(t),
@@ -215,6 +248,7 @@ export const CustomerExamListings = ({
     createExamDateColumn(t),
     createExamNameColumn(t),
     createExamLocationColumn(t),
+    createExamStateColumn(t),
   ];
 
   return (
