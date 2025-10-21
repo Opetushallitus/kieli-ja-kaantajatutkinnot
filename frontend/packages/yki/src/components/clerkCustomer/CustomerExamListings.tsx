@@ -2,7 +2,7 @@ import i18next from 'i18next';
 
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { RegistrationStates } from 'enums/app';
 import {
   ClerkCustomerDetails,
@@ -45,6 +45,7 @@ export const CustomerExamListings = ({
 }: {
   customerDetails: ClerkCustomerDetails | null;
 }) => {
+  const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkCustomer.details.listing',
   });
@@ -73,7 +74,11 @@ export const CustomerExamListings = ({
     title: t('columns.name'),
     render: ({ exam: { language, level } }) => (
       <div className="rows gapped-xs">
-        <Text>{`${language}, ${level}`}</Text>
+        <Text>
+          {translateCommon(`languages.${language}`) +
+            ', ' +
+            translateCommon(`languageLevel.${level}`)}
+        </Text>
       </div>
     ),
   });
