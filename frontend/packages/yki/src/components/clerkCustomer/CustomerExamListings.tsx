@@ -1,3 +1,7 @@
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import BlockIcon from '@mui/icons-material/Block';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import WarningIcon from '@mui/icons-material/Warning';
 import i18next from 'i18next';
 
 import { ListTable } from 'components/oph-design/table/list-table';
@@ -100,6 +104,29 @@ export const CustomerExamListings = ({
     ),
   });
 
+  const registrationStateIconMapping: Partial<
+    Record<RegistrationStates, JSX.Element>
+  > = {
+    [RegistrationStates.Completed]: (
+      <CheckCircleIcon sx={{ color: 'green', fontSize: '1.2em' }} />
+    ),
+    [RegistrationStates.PaidAndCancelled]: (
+      <BlockIcon sx={{ color: 'red', fontSize: '1.2em' }} />
+    ),
+    [RegistrationStates.Cancelled]: (
+      <BlockIcon sx={{ color: 'red', fontSize: '1.2em' }} />
+    ),
+    [RegistrationStates.Expired]: (
+      <BlockIcon sx={{ color: 'red', fontSize: '1.2em' }} />
+    ),
+    [RegistrationStates.Submitted]: (
+      <WarningIcon sx={{ color: 'orange', fontSize: '1.2em' }} />
+    ),
+    [RegistrationStates.FreeRegistrationPending]: (
+      <AccessTimeIcon sx={{ color: 'orange', fontSize: '1.2em' }} />
+    ),
+  };
+
   // Ilmoittautumisen tila (Ilmoittautumiset, Jonossa)
   const createRegistrationStateColumn = <
     T extends { registrationStatus: RegistrationStatus },
@@ -111,10 +138,13 @@ export const CustomerExamListings = ({
     render: ({ registrationStatus }) => {
       return (
         <div className="rows gapped-xs">
-          <Text>
-            {t(`values.registrationState.${registrationStatus.state}`)}
+          <Text style={{ display: 'flex' }}>
+            {registrationStateIconMapping[registrationStatus.state]}
+            <strong style={{ margin: '0 0.25em' }}>
+              {t(`values.registrationState.${registrationStatus.state}`)}
+            </strong>
             {registrationStatus.state === RegistrationStates.Completed && (
-              <> {registrationStatus.paidAt}</>
+              <span>{registrationStatus.paidAt}</span>
             )}
           </Text>
         </div>
