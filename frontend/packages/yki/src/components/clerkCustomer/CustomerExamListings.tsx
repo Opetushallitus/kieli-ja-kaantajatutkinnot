@@ -5,6 +5,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import WarningIcon from '@mui/icons-material/Warning';
+import { Stack } from '@mui/material';
 import i18next from 'i18next';
 
 import { ListTable } from 'components/oph-design/table/list-table';
@@ -18,17 +19,19 @@ import {
   QueueSpotOffered,
   RegistrationStatus,
 } from 'interfaces/clerkCustomer';
-import { Text } from 'ophTheme/Text';
+import { H3, Text } from 'ophTheme/Text';
 
 const ExamsListing = <T extends Row>({
   columns,
   rows,
   header,
+  subHeader,
   noRowsText,
 }: {
   columns: ListTableColumn<T>[];
   rows: T[] | undefined;
   header: string;
+  subHeader: string;
   noRowsText: string;
 }) => {
   if (!rows || rows.length == 0) {
@@ -36,8 +39,11 @@ const ExamsListing = <T extends Row>({
   }
 
   return (
-    <>
-      <div className="columns space-between">{header}</div>
+    <div>
+      <div className="columns flex-start">
+        <H3 style={{ marginRight: '0.25em' }}>{header}</H3>
+        <span>{subHeader}</span>
+      </div>
       <ListTable
         className="customer-details-listing__table"
         rows={rows}
@@ -45,7 +51,7 @@ const ExamsListing = <T extends Row>({
         columns={columns}
         translateHeader={false}
       />
-    </>
+    </div>
   );
 };
 
@@ -259,31 +265,28 @@ export const CustomerExamListings = ({
   ];
 
   return (
-    <>
+    <Stack spacing={4}>
       <ExamsListing
         columns={registratedExamsColumns}
         rows={customerDetails?.registrations}
-        header={t('headers.registratedExams', {
-          amount: customerDetails?.registrations?.length ?? 0,
-        })}
+        header={t('headers.registratedExams')}
+        subHeader={`(${customerDetails?.registrations?.length ?? 0})`}
         noRowsText={t('noRowsTexts.registratedExams')}
       />
       <ExamsListing
         columns={queuedExamsColumns}
         rows={customerDetails?.queuedExams}
-        header={t('headers.queuedExams', {
-          amount: customerDetails?.queuedExams?.length ?? 0,
-        })}
+        header={t('headers.queuedExams')}
+        subHeader={`(${customerDetails?.queuedExams?.length ?? 0})`}
         noRowsText={t('noRowsTexts.queuedExams')}
       />
       <ExamsListing
         columns={pastExamsColumns}
         rows={customerDetails?.pastExams}
-        header={t('headers.pastExams', {
-          amount: customerDetails?.pastExams?.length ?? 0,
-        })}
+        header={t('headers.pastExams')}
+        subHeader={`(${t('subHeaders.pastExams')})`}
         noRowsText={t('noRowsTexts.pastExams')}
       />
-    </>
+    </Stack>
   );
 };
