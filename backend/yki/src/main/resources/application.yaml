@@ -49,6 +49,8 @@ app:
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}
+  aws:
+    s3-bucket: ${aws.s3-bucket:test}
 host:
   alb: ${virkailija.host.alb:localhost:${server.port}}
 cas:
