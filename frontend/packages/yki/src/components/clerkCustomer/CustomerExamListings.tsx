@@ -64,6 +64,18 @@ export const CustomerExamListings = ({
   });
 
   // Tutkinto (Ilmoittautumiset, Jonossa, Menneet)
+  const createExamNameColumn = (
+    t: typeof i18next.t,
+  ): ListTableColumn<Exam | QueuedRegistration | PastExam> => ({
+    key: 'examName',
+    title: t('columns.name'),
+    render: ({ exam: { language, level } }) => (
+      <div className="rows gapped-xs">
+        <Text>{`${language}, ${level}`}</Text>
+      </div>
+    ),
+  });
+
   // Testipaikka (Ilmoittautumiset, Jonossa, Menneet)
   // Ilmoittautumisen tila (Ilmoittautumiset)
   // Ilmoittautumispvm (Ilmoittautumiset)
@@ -71,9 +83,12 @@ export const CustomerExamListings = ({
   // Tila (Menneet)
   // Toiminnot (kaikissa, mutta jokaisessa eri vaihtoehdot)
 
-  const registratedExamsColumns = [createExamDateColumn(t)];
-  const queuedExamsColumns = [createExamDateColumn(t)];
-  const pastExamsColumns = [createExamDateColumn(t)];
+  const registratedExamsColumns = [
+    createExamDateColumn(t),
+    createExamNameColumn(t),
+  ];
+  const queuedExamsColumns = [createExamDateColumn(t), createExamNameColumn(t)];
+  const pastExamsColumns = [createExamDateColumn(t), createExamNameColumn(t)];
 
   return (
     <>
