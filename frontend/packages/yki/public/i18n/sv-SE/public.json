@@ -206,7 +206,7 @@
             },
             "values": {
               "registrationState": {
-                "COMPLETED": "Maksanut {{ paidAt }}",
+                "COMPLETED": "Maksanut",
                 "SUBMITTED": "Ei Maksanut",
                 "EXPIRED": "Erääntynyt",
                 "CANCELLED": "Peruttu",

@@ -8,6 +8,7 @@ import {
   ClerkCustomerDetails,
   QueueOfferStatus,
   QueueSpotOffered,
+  RegistrationStatus,
 } from 'interfaces/clerkCustomer';
 import { Text } from 'ophTheme/Text';
 
@@ -101,17 +102,24 @@ export const CustomerExamListings = ({
 
   // Ilmoittautumisen tila (Ilmoittautumiset, Jonossa)
   const createRegistrationStateColumn = <
-    T extends { registrationStatus: RegistrationStates },
+    T extends { registrationStatus: RegistrationStatus },
   >(
     t: typeof i18next.t,
   ): ListTableColumn<T> => ({
     key: 'registrationState',
     title: t('columns.registrationState'),
-    render: ({ registrationStatus }) => (
-      <div className="rows gapped-xs">
-        <Text>{t(`values.registrationState.${registrationStatus}`)}</Text>
-      </div>
-    ),
+    render: ({ registrationStatus }) => {
+      return (
+        <div className="rows gapped-xs">
+          <Text>
+            {t(`values.registrationState.${registrationStatus.state}`)}
+            {registrationStatus.state === RegistrationStates.Completed && (
+              <> {registrationStatus.paidAt}</>
+            )}
+          </Text>
+        </div>
+      );
+    },
   });
 
   // Ilmoittautumispvm (Ilmoittautumiset, Jonossa)

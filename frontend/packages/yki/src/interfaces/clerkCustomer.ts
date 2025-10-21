@@ -29,9 +29,16 @@ export type Exam = {
     schoolName: string;
     municipality: string;
   };
-  registrationStatus: RegistrationStates;
+  registrationStatus: RegistrationStatus;
   registrationDate: string;
 };
+
+export type RegistrationStatus =
+  | {
+      state: RegistrationStates.Completed;
+      paidAt: string;
+    }
+  | { state: Exclude<RegistrationStates, RegistrationStates.Completed> };
 
 export type QueueSpotOffered =
   | { offered: QueueOfferStatus.NotOffered }

@@ -38,7 +38,10 @@ export const customerDetails: ClerkCustomerDetails[] = [
         },
 
         // user have paid
-        registrationStatus: RegistrationStates.Completed,
+        registrationStatus: {
+          state: RegistrationStates.Completed,
+          paidAt: '2025-05-01',
+        },
         registrationDate: '2025-05-06',
       },
       {
@@ -51,7 +54,9 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lassilan koulu',
           municipality: 'Lassila',
         },
-        registrationStatus: RegistrationStates.PaidAndCancelled,
+        registrationStatus: {
+          state: RegistrationStates.PaidAndCancelled,
+        },
         registrationDate: '2025-05-06',
       },
       {
@@ -64,7 +69,9 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lorem ipsum oppilaitos',
           municipality: 'Helsinki',
         },
-        registrationStatus: RegistrationStates.Cancelled,
+        registrationStatus: {
+          state: RegistrationStates.Cancelled,
+        },
         registrationDate: '2025-05-06',
       },
       {
@@ -77,7 +84,9 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lorem ipsum oppilaitos',
           municipality: 'Helsinki',
         },
-        registrationStatus: RegistrationStates.FreeRegistrationPending,
+        registrationStatus: {
+          state: RegistrationStates.FreeRegistrationPending,
+        },
         registrationDate: '2025-05-06',
       },
     ],
@@ -94,7 +103,9 @@ export const customerDetails: ClerkCustomerDetails[] = [
         },
 
         // User not paid
-        registrationStatus: RegistrationStates.Submitted,
+        registrationStatus: {
+          state: RegistrationStates.Submitted,
+        },
         registrationDate: '2025-05-06',
         queueSpotOffered: {
           offered: QueueOfferStatus.Offered,
@@ -112,7 +123,9 @@ export const customerDetails: ClerkCustomerDetails[] = [
           municipality: 'Lassila',
         },
         // User not paid
-        registrationStatus: RegistrationStates.Submitted,
+        registrationStatus: {
+          state: RegistrationStates.Submitted,
+        },
         registrationDate: '2025-05-06',
         queueSpotOffered: {
           offered: QueueOfferStatus.NotAccepted,
@@ -129,7 +142,9 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lorem ipsum oppilaitos',
           municipality: 'Helsinki',
         },
-        registrationStatus: RegistrationStates.Cancelled,
+        registrationStatus: {
+          state: RegistrationStates.Cancelled,
+        },
         registrationDate: '2025-05-06',
         queueSpotOffered: {
           offered: QueueOfferStatus.NotOffered,
@@ -145,7 +160,9 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lorem ipsum oppilaitos',
           municipality: 'Helsinki',
         },
-        registrationStatus: RegistrationStates.FreeRegistrationPending,
+        registrationStatus: {
+          state: RegistrationStates.FreeRegistrationPending,
+        },
         registrationDate: '2025-05-06',
         queueSpotOffered: {
           offered: QueueOfferStatus.NotOffered,
