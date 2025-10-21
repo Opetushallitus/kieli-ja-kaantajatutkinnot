@@ -183,7 +183,14 @@ export const CustomerExamListings = ({
     render: ({ queueSpotOffered }) => {
       return (
         <div className="rows gapped-xs">
-          <Text>
+          <Text
+            style={{
+              color:
+                queueSpotOffered.offered == QueueOfferStatus.NotAccepted
+                  ? 'red'
+                  : undefined,
+            }}
+          >
             {t(`values.queueSpotOffered.${queueSpotOffered.offered}`)}
           </Text>
           {queueSpotOffered.offered !== QueueOfferStatus.NotOffered && (
