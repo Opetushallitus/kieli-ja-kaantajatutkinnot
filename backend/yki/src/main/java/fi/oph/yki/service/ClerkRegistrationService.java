@@ -1,7 +1,6 @@
 package fi.oph.yki.service;
 
 import fi.oph.yki.api.dto.clerk.ClerkApprovalAttachmentsDTO;
-import fi.oph.yki.api.dto.clerk.ClerkApprovalCommentDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalDetailsDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalExamSessionDTO;
@@ -19,7 +18,8 @@ import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.FreeSupplementRequest;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
-import fi.oph.yki.model.type.RegistrationLangOfCommunication;
+import fi.oph.yki.model.type.FreeRegistrationStatus;
+import fi.oph.yki.model.type.RegistrationLangOfService;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.FreeCommentRepository;
 import fi.oph.yki.repository.FreeRegistrationRepository;
@@ -104,7 +104,7 @@ public class ClerkRegistrationService {
       .person(clerkPersonDTO)
       .examDate(examDate)
       .registration(clerkRegistrationDTO)
-      .status(registration.getState())
+      .status(getStatus(freeRegistration))
       .build();
   }
 
@@ -142,13 +142,23 @@ public class ClerkRegistrationService {
       .person(clerkPersonDTO)
       .registration(clerkRegistrationDTO)
       .examSession(examSessionDTO)
-      .status(registration.getState())
-      .languageOfCommunication(RegistrationLangOfCommunication.FI) // TODO, deploy
+      .status(getStatus(freeRegistration))
+      .languageOfService(RegistrationLangOfService.FI) // TODO
       .freeRegistrationBasis(freeRegistration.getType())
       .freeRegistrationsLeft(countFreeRegistrationsLeft(freeRegistration))
       .attachments(createClerkApprovalAttachmentsDTO(freeRegistration)) // TODO
-      .messages(createClerkMessageDTO(freeRegistration)) // TODO
+      .messages(createClerkMessageDTO(freeRegistration))
       .build();
+  }
+
+  private FreeRegistrationStatus getStatus(final FreeRegistration freeRegistration) {
+    if (freeRegistration.getApproved() == null) {
+      return FreeRegistrationStatus.PENDING;
+    } else if (freeRegistration.getApproved()) {
+      return FreeRegistrationStatus.APPROVED;
+    } else {
+      return FreeRegistrationStatus.REJECTED;
+    }
   }
 
   private List<ClerkApprovalAttachmentsDTO> createClerkApprovalAttachmentsDTO(final FreeRegistration freeRegistration) {
