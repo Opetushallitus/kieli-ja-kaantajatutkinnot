@@ -48,7 +48,7 @@ function* addCommentSaga(
     yield call(
       axiosInstance.post,
       APIEndpoints.ClerkFreeRegistrationDetailsMessages.replace(
-        /:id$/,
+        ':id',
         `${freeRegistrationId}`,
       ),
       {

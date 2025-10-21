@@ -7,4 +7,5 @@ public enum YkiOperation implements Operation {
   UPDATE_APPROVAL,
   LIST_APPROVALS,
   SEND_SUPPLEMENT_REQUEST,
+  ADD_COMMENT,
 }

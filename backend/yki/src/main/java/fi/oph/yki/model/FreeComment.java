@@ -25,7 +25,7 @@ public class FreeComment extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "free_registration_id", referencedColumnName = "free_registration_id")
-  private FreeRegistration freeEnrollment;
+  private FreeRegistration freeRegistration;
 
   @Column(name = "comment", nullable = false)
   private String comment;

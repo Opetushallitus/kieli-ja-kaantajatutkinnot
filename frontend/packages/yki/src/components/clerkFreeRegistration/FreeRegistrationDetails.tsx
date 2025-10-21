@@ -465,10 +465,8 @@ export const ClerkFreeRegistrationDetails = () => {
                 comment.length &&
                 dispatch(
                   addComment({
-                    text: comment,
-                    // TODO: käytä virkailijan tietoja
-                    createdBy: 'Virkailija Ville',
-                    type: 'COMMENT',
+                    freeRegistrationId,
+                    comment,
                   }),
                 )
               }

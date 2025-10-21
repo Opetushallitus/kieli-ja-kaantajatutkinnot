@@ -3,6 +3,9 @@ package fi.oph.yki.util;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.safety.Safelist;
 
 public class StringUtil {
 
@@ -21,5 +24,14 @@ public class StringUtil {
     final Map<String, String> auth = StringUtil.splitAuth(authorization);
 
     return auth.get("user");
+  }
+
+  public static String sanitize(final String nullable) {
+    return nullable == null
+      ? null
+      : Jsoup
+        .clean(nullable, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false))
+        .trim()
+        .replaceAll("^=*", "");
   }
 }

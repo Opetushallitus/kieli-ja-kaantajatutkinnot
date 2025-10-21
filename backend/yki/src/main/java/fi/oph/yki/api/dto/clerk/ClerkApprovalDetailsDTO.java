@@ -20,6 +20,6 @@ public record ClerkApprovalDetailsDTO(
   int freeRegistrationsLeft,
   String supplementRequestDueDate,
   String assessmentDate,
-  List<ClerkApprovalCommentDTO> comments,
+  List<ClerkMessageDTO> messages,
   List<ClerkApprovalAttachmentsDTO> attachments
 ) {}

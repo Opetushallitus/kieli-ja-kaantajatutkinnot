@@ -62,10 +62,14 @@ public class FreeRegistration {
   private Boolean other;
 
   @OneToMany(fetch = FetchType.LAZY)
-  @JoinColumn(name = "free_attachment_id")
+  @JoinColumn(name = "free_registration_id")
   private List<FreeAttachment> attachments;
 
   @OneToMany(fetch = FetchType.LAZY)
-  @JoinColumn(name = "free_comment_id")
+  @JoinColumn(name = "free_registration_id")
   private List<FreeComment> comments;
+
+  @OneToMany(fetch = FetchType.LAZY)
+  @JoinColumn(name = "free_registration_id")
+  private List<FreeSupplementRequest> supplementRequests;
 }
