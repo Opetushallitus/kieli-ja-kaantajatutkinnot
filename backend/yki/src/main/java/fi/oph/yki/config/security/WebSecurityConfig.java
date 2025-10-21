@@ -10,6 +10,8 @@ import org.apereo.cas.client.session.SessionMappingStorage;
 import org.apereo.cas.client.session.SingleSignOutFilter;
 import org.apereo.cas.client.validation.Cas20ProxyTicketValidator;
 import org.apereo.cas.client.validation.TicketValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,6 +40,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurityConfig {
 
   private final Environment environment;
+  private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
 
   @Autowired
   public WebSecurityConfig(final Environment environment) {
@@ -156,11 +159,13 @@ public class WebSecurityConfig {
           final String authorization = request.getHeader("Authorization");
 
           if (authorization == null || authorization.isEmpty()) {
+            LOG.warn("auth empty");
             return new AuthorizationDecision(false);
           }
 
           final Map<String, String> auth = StringUtil.splitAuth(authorization);
           final String hash = StringUtil.sha256hex(auth.get("user") + token);
+          LOG.warn("auth things:", hash, auth.get("user"), auth.get("password"), token);
 
           return new AuthorizationDecision(hash.equals(auth.get("password")));
         }
