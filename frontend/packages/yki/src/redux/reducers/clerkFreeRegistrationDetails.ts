@@ -1,10 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import {
-  ClerkFreeRegistrationDetails,
-  Message,
-} from 'interfaces/clerkFreeRegistration';
+import { ClerkFreeRegistrationDetails } from 'interfaces/clerkFreeRegistration';
 
 enum FreeRegistrationApprovalStatus {
   NotStarted,
@@ -59,7 +56,7 @@ const clerkFreeRegistrationDetailsSlice = createSlice({
     },
     addComment(
       state,
-      _action: PayloadAction<Omit<Message, 'id' | 'createdAt'>>,
+      _action: PayloadAction<{ freeRegistrationId: number; comment: string }>,
     ) {
       state.commentStatus = APIResponseStatus.InProgress;
     },

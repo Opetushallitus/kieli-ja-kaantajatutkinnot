@@ -67,7 +67,7 @@ interface FreeRegistrationAttachmentResponse
   submittedAt: string;
 }
 
-export type Message = {
+type Message = {
   id: number;
   createdAt: Dayjs;
   createdBy: string;

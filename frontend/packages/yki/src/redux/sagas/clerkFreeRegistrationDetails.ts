@@ -38,9 +38,7 @@ function* loadClerkFreeRegistrationDetailsSaga(action: PayloadAction<number>) {
 function* addCommentSaga(
   action: PayloadAction<{
     freeRegistrationId: number;
-    text: string;
-    createdBy: string;
-    type: 'SUPPLEMENT_REQUEST';
+    comment: string;
   }>,
 ) {
   const { freeRegistrationId, ...requestBody } = action.payload;
