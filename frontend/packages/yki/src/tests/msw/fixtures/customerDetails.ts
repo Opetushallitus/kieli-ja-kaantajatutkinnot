@@ -208,4 +208,22 @@ export const customerDetails: ClerkCustomerDetails[] = [
       },
     ],
   },
+  {
+    id: 1,
+    person: {
+      firstName: 'Aino',
+      lastName: 'Osallistuja',
+      ssn: '010170-960F',
+      oid: '1.2.246.562.24.82364099322',
+      nationalityCode: '246',
+      languageOfService: ServiceLanguage.FI,
+      languageOfCertificate: CertificateLanguage.FI,
+      phoneNumber: '+358 401234567',
+      streetAddress: 'Katuosoite 123, 33100 Tampere',
+      email: 'aino.osallistuja@loremipsum.fi',
+    },
+    registrations: [],
+    queuedExams: [],
+    pastExams: [],
+  },
 ];

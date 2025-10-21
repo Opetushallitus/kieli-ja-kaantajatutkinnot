@@ -8,9 +8,23 @@ describe('ClerkCustomerDetailsPage', () => {
     DateUtils.setDayjsLocale(AppLanguage.Finnish);
   });
 
-  it('is visible', () => {
-    cy.openClerkCustomerDetailsPage(1);
-    onClerkCustomerDetailsPage.isVisible(1);
-    onClerkCustomerDetailsPage.expectDetailsVisible(1);
+  it('shows user details correctly', () => {
+    const id = 1;
+    cy.openClerkCustomerDetailsPage(id);
+    onClerkCustomerDetailsPage.isVisible(id);
+    onClerkCustomerDetailsPage.expectDetailsVisible(id);
+
+    // expect exam data is visible
+    cy.findAllByText('Ilmoittautumiset').should('be.visible');
+  });
+
+  it('shows user details correctly, when user has no exams', () => {
+    const id = 2;
+    cy.openClerkCustomerDetailsPage(id);
+    onClerkCustomerDetailsPage.isVisible(id);
+    onClerkCustomerDetailsPage.expectDetailsVisible(id);
+
+    // expect exam data is empty
+    cy.findAllByText('Ilmoittautumiset').should('be.visible');
   });
 });
