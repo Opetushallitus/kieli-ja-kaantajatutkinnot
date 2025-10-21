@@ -88,7 +88,8 @@ export const CustomerExamListings = ({
     title: t('columns.location'),
     render: ({ examLocation: { schoolName, municipality } }) => (
       <div className="rows gapped-xs">
-        <Text>{`${schoolName}, ${municipality}`}</Text>
+        <Text>{schoolName}</Text>
+        <Text>{municipality}</Text>
       </div>
     ),
   });
