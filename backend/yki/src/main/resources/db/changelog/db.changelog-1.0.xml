@@ -132,5 +132,15 @@
             <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
         </createTable>
     </changeSet>
+    <changeSet id="2025-10-22-create-awaiting-approval-registration-state" author="jrkkp" runInTransaction="false">
+        <sql dbms="postgresql"><![CDATA[
+            ALTER TYPE registration_state ADD VALUE 'AWAITING_APPROVAL';
+        ]]></sql>
+    </changeSet>
+    <changeSet id="2025-10-22-add-assessment-date" author="jrkkp">
+        <addColumn tableName="free_registration">
+            <column name="assessment_date" type="TIMESTAMP WITH TIME ZONE"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

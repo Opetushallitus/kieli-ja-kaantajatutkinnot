@@ -4,6 +4,8 @@ import fi.oph.yki.model.type.FreeRegistrationStatus;
 import fi.oph.yki.model.type.FreeRegistrationType;
 import fi.oph.yki.model.type.RegistrationLangOfService;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Builder;
 import lombok.NonNull;
@@ -18,8 +20,8 @@ public record ClerkApprovalDetailsDTO(
   @NonNull @NotNull ClerkApprovalExamSessionDTO examSession,
   @NonNull @NotNull FreeRegistrationType freeRegistrationBasis,
   int freeRegistrationsLeft,
-  String supplementRequestDueDate,
-  String assessmentDate,
+  LocalDate supplementRequestDueDate,
+  LocalDateTime assessmentDate,
   List<ClerkMessageDTO> messages,
   List<ClerkApprovalAttachmentsDTO> attachments
 ) {}

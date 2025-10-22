@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,6 +43,9 @@ public class FreeRegistration {
 
   @Column(name = "approved")
   private Boolean approved;
+
+  @Column(name = "assessment_date", nullable = false)
+  private LocalDateTime assessmentDate;
 
   @Column(name = "matriculation_exam", nullable = false)
   private Boolean matriculationExam;

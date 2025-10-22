@@ -26,8 +26,11 @@ import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.repository.FreeSupplementRequestRepository;
 import fi.oph.yki.util.DateUtil;
 import jakarta.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -70,6 +73,7 @@ public class ClerkRegistrationService {
     final FreeRegistration freeRegistration = freeRegistrationRepository.getReferenceById(freeRegistrationId);
 
     freeRegistration.setApproved(approved);
+    freeRegistration.setAssessmentDate(LocalDateTime.now());
 
     if (approved) {
       freeRegistration.getRegistration().setState(RegistrationState.COMPLETED);
@@ -104,6 +108,8 @@ public class ClerkRegistrationService {
       .person(clerkPersonDTO)
       .examDate(examDate)
       .registration(clerkRegistrationDTO)
+      .supplementRequestDueDate(getSupplementRequestDueDate(freeRegistration))
+      .assessmentDate(freeRegistration.getAssessmentDate())
       .status(getStatus(freeRegistration))
       .build();
   }
@@ -143,6 +149,8 @@ public class ClerkRegistrationService {
       .registration(clerkRegistrationDTO)
       .examSession(examSessionDTO)
       .status(getStatus(freeRegistration))
+      .supplementRequestDueDate(getSupplementRequestDueDate(freeRegistration))
+      .assessmentDate(freeRegistration.getAssessmentDate())
       .languageOfService(RegistrationLangOfService.FI) // TODO, get from where?
       .freeRegistrationBasis(freeRegistration.getType())
       .freeRegistrationsLeft(countFreeRegistrationsLeft(freeRegistration))
@@ -159,6 +167,15 @@ public class ClerkRegistrationService {
     } else {
       return FreeRegistrationStatus.REJECTED;
     }
+  }
+
+  private LocalDate getSupplementRequestDueDate(final FreeRegistration freeRegistration) {
+    final List<FreeSupplementRequest> freeSupplementRequest = freeRegistration.getSupplementRequests();
+    final Optional<FreeSupplementRequest> latest = freeSupplementRequest
+      .stream()
+      .max(Comparator.comparing(FreeSupplementRequest::getCreatedAt));
+
+    return latest.map(FreeSupplementRequest::getDueDate).orElse(null);
   }
 
   private List<ClerkApprovalAttachmentsDTO> createClerkApprovalAttachmentsDTO(final FreeRegistration freeRegistration) {
