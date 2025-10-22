@@ -143,7 +143,7 @@ public class ClerkRegistrationService {
       .registration(clerkRegistrationDTO)
       .examSession(examSessionDTO)
       .status(getStatus(freeRegistration))
-      .languageOfService(RegistrationLangOfService.FI) // TODO
+      .languageOfService(RegistrationLangOfService.FI) // TODO, get from where?
       .freeRegistrationBasis(freeRegistration.getType())
       .freeRegistrationsLeft(countFreeRegistrationsLeft(freeRegistration))
       .attachments(createClerkApprovalAttachmentsDTO(freeRegistration)) // TODO
