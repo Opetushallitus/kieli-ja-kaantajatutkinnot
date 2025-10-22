@@ -14,8 +14,14 @@ describe('ClerkCustomerDetailsPage', () => {
     onClerkCustomerDetailsPage.isVisible(id);
     onClerkCustomerDetailsPage.expectDetailsVisible(id);
 
-    // expect exam data is visible
+    // Ilmoittautumiset
     cy.findAllByText('Ilmoittautumiset').should('be.visible');
+
+    // Jonossa
+    cy.findAllByText('Jonossa').should('be.visible');
+
+    // Menneet tutkintotilaisuudet
+    cy.findAllByText('Menneet tutkintotilaisuudet').should('be.visible');
   });
 
   it('shows user details correctly, when user has no exams', () => {
@@ -25,6 +31,19 @@ describe('ClerkCustomerDetailsPage', () => {
     onClerkCustomerDetailsPage.expectDetailsVisible(id);
 
     // expect exam data is empty
+
+    // Ilmoittautumiset
     cy.findAllByText('Ilmoittautumiset').should('be.visible');
+    cy.findAllByText('Ei tulevia ilmoittautumisia').should('be.visible');
+
+    // Jonossa
+    cy.findAllByText('Jonossa').should('be.visible');
+    cy.findAllByText('Ei jonotuspaikkoja').should('be.visible');
+
+    // Menneet tutkintotilaisuudet
+    cy.findAllByText('Menneet tutkintotilaisuudet').should('be.visible');
+    cy.findAllByText(
+      'Ei menneitä tutkintorilaisuuksia viimeisen 365 päivän ajalta',
+    ).should('be.visible');
   });
 });
