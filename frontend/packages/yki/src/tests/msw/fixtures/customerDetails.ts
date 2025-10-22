@@ -124,7 +124,7 @@ export const customerDetails: ClerkCustomerDetails[] = [
         },
         // User not paid
         registrationStatus: {
-          state: RegistrationStates.Submitted,
+          state: RegistrationStates.Expired,
         },
         registrationDate: '2025-05-06',
         queueSpotOffered: {
