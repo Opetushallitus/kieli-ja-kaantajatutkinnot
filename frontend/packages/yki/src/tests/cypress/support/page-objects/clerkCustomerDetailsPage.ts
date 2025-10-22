@@ -7,6 +7,18 @@ class ClerkCustomerDetailsPage {
 
       return cy.findByText(`${person.lastName} ${person.firstName}`);
     },
+
+    // Ilmoitttautumiset
+    registeredTableHeader: () => cy.get('table').eq(0).find('thead tr th'),
+    registeredTableBody: () => cy.get('table').eq(0).find('tbody tr'),
+
+    // Jonossa
+    queuedTableHeader: () => cy.get('table').eq(1).find('thead tr th'),
+    queuedTableBody: () => cy.get('table').eq(1).find('tbody tr'),
+
+    // Menneet
+    pastTableHeader: () => cy.get('table').eq(2).find('thead tr th'),
+    pastTableBody: () => cy.get('table').eq(2).find('tbody tr'),
   };
   isVisible(id: number) {
     this.elements.title(id).should('be.visible');
