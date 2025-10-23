@@ -134,7 +134,7 @@
     </changeSet>
     <changeSet id="2025-10-22-create-awaiting-approval-registration-state" author="jrkkp" runInTransaction="false">
         <sql dbms="postgresql"><![CDATA[
-            ALTER TYPE registration_state ADD VALUE 'AWAITING_APPROVAL';
+            ALTER TYPE registration_state ADD VALUE IF NOT EXISTS 'AWAITING_APPROVAL';
         ]]></sql>
     </changeSet>
     <changeSet id="2025-10-22-add-assessment-date" author="jrkkp">
