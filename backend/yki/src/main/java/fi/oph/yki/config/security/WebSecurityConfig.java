@@ -159,13 +159,11 @@ public class WebSecurityConfig {
           final String authorization = request.getHeader("Authorization");
 
           if (authorization == null || authorization.isEmpty()) {
-            LOG.warn("auth empty");
             return new AuthorizationDecision(false);
           }
 
           final Map<String, String> auth = StringUtil.splitAuth(authorization);
           final String hash = StringUtil.sha256hex(auth.get("user") + token);
-          LOG.warn("auth things:", hash, auth.get("user"), auth.get("password"), token);
 
           return new AuthorizationDecision(hash.equals(auth.get("password")));
         }
