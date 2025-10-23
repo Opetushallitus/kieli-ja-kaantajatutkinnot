@@ -27,7 +27,7 @@ export const customerDetails: ClerkCustomerDetails[] = [
     },
     registrations: [
       {
-        examinationDate: '2025-09-01',
+        examinationDate: '2025-09-01T00:00:00.000Z',
         exam: {
           language: ExamLanguage.FIN,
           level: ExamLevel.KESKI,

@@ -19,7 +19,7 @@ export interface CustomerPerson {
   email: string;
 }
 
-export type Exam = {
+type Exam = {
   examinationDate: string;
   exam: {
     language: ExamLanguage;
@@ -47,13 +47,13 @@ export type QueueSpotOffered =
       dueDate: string;
     };
 
-export type QueuedRegistration = Exam & {
+type QueuedRegistration = Exam & {
   queueSpotOffered: QueueSpotOffered;
 };
 
 export type ExamState = 'REVIEWED' | 'CANCELLED' | 'REGISTERED';
 
-export type PastExam = Omit<Exam, 'registrationStatus' | 'registrationDate'> & {
+type PastExam = Omit<Exam, 'registrationStatus' | 'registrationDate'> & {
   state: ExamState;
 };
 

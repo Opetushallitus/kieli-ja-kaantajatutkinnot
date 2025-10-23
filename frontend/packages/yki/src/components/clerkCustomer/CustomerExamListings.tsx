@@ -34,29 +34,26 @@ const ExamsListing = <T extends Row>({
   header: string;
   subHeader: string;
   noRowsText: string;
-}) => {
-  const hasNoRows = !rows || rows.length == 0;
-
-  return (
-    <div>
-      <div className="columns flex-start">
-        <H3 style={{ marginRight: '0.25em' }}>{header}</H3>
-        <span>{subHeader}</span>
-      </div>
-      {hasNoRows ? (
-        <Box sx={{ margin: '1em 0' }}>{noRowsText}</Box>
-      ) : (
-        <ListTable
-          className="customer-details-listing__table"
-          rows={rows}
-          rowKeyProp="id"
-          columns={columns}
-          translateHeader={false}
-        />
-      )}
+}) => (
+  <div>
+    <div className="columns flex-start">
+      <H3>{header}</H3>
+      <span>&nbsp;</span>
+      <span>{subHeader}</span>
     </div>
-  );
-};
+    {!rows?.length ? (
+      <Box sx={{ margin: '1em 0' }}>{noRowsText}</Box>
+    ) : (
+      <ListTable
+        className="customer-details-listing__table"
+        rows={rows}
+        rowKeyProp="id"
+        columns={columns}
+        translateHeader={false}
+      />
+    )}
+  </div>
+);
 
 export const CustomerExamListings = ({
   customerDetails,
@@ -121,22 +118,20 @@ export const CustomerExamListings = ({
     Record<RegistrationStates, JSX.Element>
   > = {
     [RegistrationStates.Completed]: (
-      <CheckCircleIcon sx={{ color: 'green', fontSize: '1.2em' }} />
+      <CheckCircleIcon fontSize="large" color="success" />
     ),
     [RegistrationStates.PaidAndCancelled]: (
-      <BlockIcon sx={{ color: 'red', fontSize: '1.2em' }} />
+      <BlockIcon fontSize="large" color="error" />
     ),
     [RegistrationStates.Cancelled]: (
-      <BlockIcon sx={{ color: 'red', fontSize: '1.2em' }} />
+      <BlockIcon fontSize="large" color="error" />
     ),
-    [RegistrationStates.Expired]: (
-      <BlockIcon sx={{ color: 'red', fontSize: '1.2em' }} />
-    ),
+    [RegistrationStates.Expired]: <BlockIcon fontSize="large" color="error" />,
     [RegistrationStates.Submitted]: (
-      <WarningIcon sx={{ color: 'orange', fontSize: '1.2em' }} />
+      <WarningIcon fontSize="large" color="warning" />
     ),
     [RegistrationStates.FreeRegistrationPending]: (
-      <AccessTimeIcon sx={{ color: 'orange', fontSize: '1.2em' }} />
+      <AccessTimeIcon fontSize="large" color="warning" />
     ),
   };
 
@@ -153,7 +148,8 @@ export const CustomerExamListings = ({
         <div className="rows gapped-xs">
           <Text style={{ display: 'flex' }}>
             {registrationStateIconMapping[registrationStatus.state]}
-            <strong style={{ margin: '0 0.25em' }}>
+            <strong>
+              &nbsp;
               {t(`values.registrationState.${registrationStatus.state}`)}
             </strong>
             {registrationStatus.state === RegistrationStates.Completed && (
@@ -193,12 +189,11 @@ export const CustomerExamListings = ({
       return (
         <div className="rows gapped-xs">
           <Text
-            style={{
-              color:
-                queueSpotOffered.offered == QueueOfferStatus.NotAccepted
-                  ? 'red'
-                  : undefined,
-            }}
+            color={
+              queueSpotOffered.offered == QueueOfferStatus.NotAccepted
+                ? 'error'
+                : 'textPrimary'
+            }
           >
             {t(`values.queueSpotOffered.${queueSpotOffered.offered}`)}
           </Text>
@@ -216,16 +211,10 @@ export const CustomerExamListings = ({
 
   // Tila (Menneet)
   const examStateIconMapping: Partial<Record<ExamState, JSX.Element>> = {
-    ['REVIEWED']: (
-      <SchoolOutlinedIcon sx={{ color: 'green', fontSize: '1.2em' }} />
-    ),
-    ['CANCELLED']: (
-      <BlockOutlinedIcon sx={{ color: 'red', fontSize: '1.2em' }} />
-    ),
+    ['REVIEWED']: <SchoolOutlinedIcon fontSize="large" color="success" />,
+    ['CANCELLED']: <BlockOutlinedIcon fontSize="large" color="error" />,
     ['REGISTERED']: (
-      <CheckCircleOutlineOutlinedIcon
-        sx={{ color: 'green', fontSize: '1.2em' }}
-      />
+      <CheckCircleOutlineOutlinedIcon fontSize="large" color="success" />
     ),
   };
   const createExamStateColumn = <T extends { state: ExamState }>(
@@ -237,15 +226,13 @@ export const CustomerExamListings = ({
       <div className="rows gapped-xs">
         <Text style={{ display: 'flex' }}>
           {examStateIconMapping[state]}
-          <span style={{ margin: '0 0.25em' }}>
-            {t(`values.examState.${state}`)}
-          </span>
+          <span>&nbsp;{t(`values.examState.${state}`)}</span>
         </Text>
       </div>
     ),
   });
 
-  const registratedExamsColumns = [
+  const registrationsColumns = [
     createExamDateColumn(t),
     createExamNameColumn(t),
     createExamLocationColumn(t),
@@ -270,11 +257,11 @@ export const CustomerExamListings = ({
   return (
     <Stack spacing={4}>
       <ExamsListing
-        columns={registratedExamsColumns}
+        columns={registrationsColumns}
         rows={customerDetails?.registrations}
-        header={t('headers.registratedExams')}
+        header={t('headers.registrations')}
         subHeader={`(${customerDetails?.registrations?.length ?? 0})`}
-        noRowsText={t('noRowsTexts.registratedExams')}
+        noRowsText={t('noRowsTexts.registrations')}
       />
       <ExamsListing
         columns={queuedExamsColumns}
