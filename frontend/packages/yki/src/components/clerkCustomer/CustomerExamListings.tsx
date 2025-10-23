@@ -7,7 +7,9 @@ import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import WarningIcon from '@mui/icons-material/Warning';
 import { Stack } from '@mui/material';
 import { Box } from '@mui/system';
+import { Dayjs } from 'dayjs';
 import i18next from 'i18next';
+import { DateUtils } from 'shared/utils';
 
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
@@ -66,15 +68,14 @@ export const CustomerExamListings = ({
   });
 
   // Tutkintopäivä (Ilmoittautumiset, Jonossa, Menneet)
-  const createExamDateColumn = <T extends { examinationDate: string }>(
+  const createExamDateColumn = <T extends { examinationDate: Dayjs }>(
     t: typeof i18next.t,
   ): ListTableColumn<T> => ({
     key: 'examDate',
     title: t('columns.date'),
     render: ({ examinationDate }) => (
       <div className="rows gapped-xs">
-        {/* TODO: Convert registrationDate to DayJs */}
-        <Text>{examinationDate}</Text>
+        <Text>{DateUtils.formatOptionalDate(examinationDate, 'l')}</Text>
       </div>
     ),
   });
@@ -153,7 +154,9 @@ export const CustomerExamListings = ({
               {t(`values.registrationState.${registrationStatus.state}`)}
             </strong>
             {registrationStatus.state === RegistrationStates.Completed && (
-              <span>{registrationStatus.paidAt}</span>
+              <span>
+                {DateUtils.formatOptionalDate(registrationStatus.paidAt, 'l')}
+              </span>
             )}
           </Text>
         </div>
@@ -162,14 +165,14 @@ export const CustomerExamListings = ({
   });
 
   // Ilmoittautumispvm (Ilmoittautumiset, Jonossa)
-  const createRegistrationDateColumn = <T extends { registrationDate: string }>(
+  const createRegistrationDateColumn = <T extends { registrationDate: Dayjs }>(
     t: typeof i18next.t,
   ): ListTableColumn<T> => ({
     key: 'registrationDate',
     title: t('columns.registrationDate'),
     render: ({ registrationDate }) => (
       <div className="rows gapped-xs">
-        <Text>{registrationDate}</Text>
+        <Text>{DateUtils.formatOptionalDate(registrationDate, 'l')}</Text>
       </div>
     ),
   });
@@ -200,7 +203,10 @@ export const CustomerExamListings = ({
           {queueSpotOffered.offered !== QueueOfferStatus.NotOffered && (
             <Text>
               {t('values.queueSpotOffered.dueDate', {
-                dueDate: queueSpotOffered.dueDate,
+                dueDate: DateUtils.formatOptionalDate(
+                  queueSpotOffered.dueDate,
+                  'l',
+                ),
               })}
             </Text>
           )}

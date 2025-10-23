@@ -6,11 +6,11 @@ import {
   ServiceLanguage,
 } from 'enums/app';
 import {
-  ClerkCustomerDetails,
+  ClerkCustomerDetailsResponse,
   QueueOfferStatus,
 } from 'interfaces/clerkCustomer';
 
-export const customerDetails: ClerkCustomerDetails[] = [
+export const customerDetails: ClerkCustomerDetailsResponse[] = [
   {
     id: 0,
     person: {

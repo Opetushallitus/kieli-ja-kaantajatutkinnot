@@ -1,3 +1,5 @@
+import { Dayjs } from 'dayjs';
+
 import {
   CertificateLanguage,
   ExamLanguage,
@@ -20,7 +22,7 @@ export interface CustomerPerson {
 }
 
 type Exam = {
-  examinationDate: string;
+  examinationDate: Dayjs;
   exam: {
     language: ExamLanguage;
     level: ExamLevel;
@@ -30,13 +32,13 @@ type Exam = {
     municipality: string;
   };
   registrationStatus: RegistrationStatus;
-  registrationDate: string;
+  registrationDate: Dayjs;
 };
 
 export type RegistrationStatus =
   | {
       state: RegistrationStates.Completed;
-      paidAt: string;
+      paidAt: Dayjs;
     }
   | { state: Exclude<RegistrationStates, RegistrationStates.Completed> };
 
@@ -44,7 +46,7 @@ export type QueueSpotOffered =
   | { offered: QueueOfferStatus.NotOffered }
   | {
       offered: QueueOfferStatus.Offered | QueueOfferStatus.NotAccepted;
-      dueDate: string;
+      dueDate: Dayjs;
     };
 
 type QueuedRegistration = Exam & {
@@ -69,4 +71,64 @@ export interface ClerkCustomerDetails {
   registrations: Exam[];
   queuedExams: QueuedRegistration[];
   pastExams: PastExam[];
+}
+
+// Response
+
+interface RegistrationResponse {
+  examinationDate: string;
+  exam: {
+    language: ExamLanguage;
+    level: ExamLevel;
+  };
+  examLocation: {
+    schoolName: string;
+    municipality: string;
+  };
+  registrationStatus: {
+    state: RegistrationStates;
+    paidAt?: string;
+  };
+  registrationDate: string;
+}
+interface QueuedExamResponse {
+  examinationDate: string;
+  exam: {
+    language: ExamLanguage;
+    level: ExamLevel;
+  };
+  examLocation: {
+    schoolName: string;
+    municipality: string;
+  };
+  registrationStatus: {
+    state: RegistrationStates;
+    paidAt?: string;
+  };
+  registrationDate: string;
+  queueSpotOffered: {
+    offered: QueueOfferStatus;
+    dueDate?: string;
+  };
+}
+
+interface PastExamResponse {
+  examinationDate: string;
+  exam: {
+    language: ExamLanguage;
+    level: ExamLevel;
+  };
+  examLocation: {
+    schoolName: string;
+    municipality: string;
+  };
+  state: ExamState;
+}
+
+export interface ClerkCustomerDetailsResponse {
+  id: number;
+  person: CustomerPerson;
+  registrations: RegistrationResponse[];
+  queuedExams: QueuedExamResponse[];
+  pastExams: PastExamResponse[];
 }
