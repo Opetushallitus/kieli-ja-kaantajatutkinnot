@@ -67,7 +67,7 @@ interface FreeRegistrationAttachmentResponse
   submittedAt: string;
 }
 
-export type Message = {
+type Message = {
   id: number;
   createdAt: Dayjs;
   createdBy: string;
@@ -94,12 +94,12 @@ interface ExamSessionResponse extends Omit<ExamSession, 'examDate'> {
 // so would give error otherwise
 // ts-unused-exports:disable-next-line
 export type FreeRegistrationBasis =
-  | 'MATRICULATION_EXAMINATION'
-  | 'HIGHER_EDUCATION_DEGREE'
-  | 'HIGHER_EDUCATION_STUDIES'
-  | 'COMPARABLE_MATRICULATION_EXAMINATION'
-  | 'COMPARABLE_HIGHER_EDUCATION_DEGREE'
-  | 'COMPARABLE_HIGHER_EDUCATION_STUDIES';
+  | 'MatriculationExam'
+  | 'HigherEducationDegree'
+  | 'HigherEducationStudies'
+  | 'ComparableMatriculation'
+  | 'ComparableHigherEducationDegree'
+  | 'ComparableHigherEducationStudies';
 
 export type ClerkFreeRegistrationDetails = {
   id: number;

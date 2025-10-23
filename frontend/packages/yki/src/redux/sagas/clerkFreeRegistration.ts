@@ -5,7 +5,10 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { ClerkFreeRegistrationResponse } from 'interfaces/clerkFreeRegistration';
+import {
+  ClerkFreeRegistrationDetailsResponse,
+  ClerkFreeRegistrationResponse,
+} from 'interfaces/clerkFreeRegistration';
 import {
   acceptClerkFreeRegistrationSupplementRequest,
   approveFreeRegistration,
@@ -18,7 +21,10 @@ import {
   storeClerkFreeRegistrations,
   submitClerkFreeRegistrationSupplementRequest,
 } from 'redux/reducers/clerkFreeRegistration';
-import { loadClerkFreeRegistrationDetails } from 'redux/reducers/clerkFreeRegistrationDetails';
+import {
+  loadClerkFreeRegistrationDetails,
+  storeClerkFreeRegistrationDetails,
+} from 'redux/reducers/clerkFreeRegistrationDetails';
 import { SerializationUtils } from 'utils/serialization';
 
 function* loadClerkFreeRegistrationsSaga() {
@@ -34,9 +40,22 @@ function* loadClerkFreeRegistrationsSaga() {
   }
 }
 
-function* approveFreeRegistrationSaga() {
+function* approveFreeRegistrationSaga(action: PayloadAction<number>) {
   try {
-    yield call(axiosInstance.put, APIEndpoints.ApproveClerkFreeRegistration);
+    const response: AxiosResponse<ClerkFreeRegistrationDetailsResponse> =
+      yield call(
+        axiosInstance.put,
+        APIEndpoints.ClerkFreeRegistrationDetails.replace(
+          /:id$/,
+          `${action.payload}`,
+        ),
+        { approved: true },
+      );
+    const freeRegistrationDetails =
+      SerializationUtils.deserializeClerkFreeRegistrationDetailsResponse(
+        response.data,
+      );
+    yield put(storeClerkFreeRegistrationDetails(freeRegistrationDetails));
     yield put(
       setFreeRegistrationStatus(FreeRegistrationModalStatus.ApprovalSuccess),
     );
@@ -47,9 +66,22 @@ function* approveFreeRegistrationSaga() {
   }
 }
 
-function* rejectFreeRegistrationSaga() {
+function* rejectFreeRegistrationSaga(action: PayloadAction<number>) {
   try {
-    yield call(axiosInstance.put, APIEndpoints.RejectClerkFreeRegistration);
+    const response: AxiosResponse<ClerkFreeRegistrationDetailsResponse> =
+      yield call(
+        axiosInstance.put,
+        APIEndpoints.ClerkFreeRegistrationDetails.replace(
+          /:id$/,
+          `${action.payload}`,
+        ),
+        { approved: false },
+      );
+    const freeRegistrationDetails =
+      SerializationUtils.deserializeClerkFreeRegistrationDetailsResponse(
+        response.data,
+      );
+    yield put(storeClerkFreeRegistrationDetails(freeRegistrationDetails));
     yield put(
       setFreeRegistrationStatus(FreeRegistrationModalStatus.RejectSuccess),
     );
@@ -62,24 +94,24 @@ function* rejectFreeRegistrationSaga() {
 
 function* submitClerkFreeRegistrationSupplementRequestSaga(
   action: PayloadAction<{
-    registrationId: number;
+    freeRegistrationId: number;
     message: string;
     dueDate: Dayjs;
   }>,
 ) {
   try {
-    const { registrationId, message, dueDate } = action.payload;
+    const { freeRegistrationId, message, dueDate } = action.payload;
     const endpoint =
       APIEndpoints.ClerkFreeRegistrationSupplementRequest.replace(
         ':id',
-        `${registrationId}`,
+        `${freeRegistrationId}`,
       );
     yield call(axiosInstance.post, endpoint, {
       message,
       dueDate: dueDate.toISOString(),
     });
     yield put(acceptClerkFreeRegistrationSupplementRequest());
-    yield put(loadClerkFreeRegistrationDetails(registrationId));
+    yield put(loadClerkFreeRegistrationDetails(freeRegistrationId));
     yield put(loadClerkFreeRegistrations());
   } catch (error) {
     yield put(rejectClerkFreeRegistrationSupplementRequest());

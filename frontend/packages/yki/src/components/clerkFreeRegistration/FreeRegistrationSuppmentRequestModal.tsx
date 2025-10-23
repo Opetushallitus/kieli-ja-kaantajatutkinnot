@@ -19,7 +19,7 @@ import { clerkFreeRegistrationSelector } from 'redux/selectors/clerkFreeRegistra
 type FreeRegistrationSupplementRequestModalProps = {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
-  registrationId: number;
+  freeRegistrationId: number;
   renderPersonDetails: () => React.JSX.Element;
   renderExamSessionDetails: () => React.JSX.Element;
 };
@@ -27,7 +27,7 @@ type FreeRegistrationSupplementRequestModalProps = {
 export const FreeRegistrationSupplementRequestModal = ({
   isModalOpen,
   setIsModalOpen,
-  registrationId,
+  freeRegistrationId,
   renderPersonDetails,
   renderExamSessionDetails,
 }: FreeRegistrationSupplementRequestModalProps) => {
@@ -142,7 +142,7 @@ export const FreeRegistrationSupplementRequestModal = ({
 
               dispatch(
                 submitClerkFreeRegistrationSupplementRequest({
-                  registrationId,
+                  freeRegistrationId,
                   message: message.trim(),
                   dueDate,
                 }),

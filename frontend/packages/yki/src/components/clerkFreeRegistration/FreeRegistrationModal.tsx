@@ -13,6 +13,7 @@ import {
 } from 'redux/reducers/clerkFreeRegistration';
 
 type FreeRegistrationModalProps = {
+  freeRegistrationId: number;
   isApproveModalOpen: boolean;
   setIsApproveModal: (isOpen: boolean) => void;
   isRejectModalOpen: boolean;
@@ -20,6 +21,7 @@ type FreeRegistrationModalProps = {
 };
 
 export const FreeRegistrationModal = ({
+  freeRegistrationId,
   isApproveModalOpen,
   setIsApproveModal,
   isRejectModalOpen,
@@ -71,7 +73,7 @@ export const FreeRegistrationModal = ({
             <OphButton
               variant={Variant.Contained}
               onClick={() => {
-                dispatch(approveFreeRegistration());
+                dispatch(approveFreeRegistration(freeRegistrationId));
                 setIsApproveModal(false);
               }}
             >
@@ -119,7 +121,7 @@ export const FreeRegistrationModal = ({
             <OphButton
               variant={Variant.Contained}
               onClick={() => {
-                dispatch(rejectFreeRegistration());
+                dispatch(rejectFreeRegistration(freeRegistrationId));
                 setIsRejectModal(false);
               }}
             >

@@ -53,7 +53,6 @@ export const ClerkFreeRegistrationDetails = () => {
   const { status, registrationDetails, commentStatus } = useAppSelector(
     clerkFreeRegistrationDetailsSelector,
   );
-
   const { modalSubmitStatus } = useAppSelector(clerkFreeRegistrationSelector);
 
   const translateCommon = useCommonTranslation();
@@ -67,21 +66,26 @@ export const ClerkFreeRegistrationDetails = () => {
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
+  const freeRegistrationId = params.id ? +params.id : null;
+
   useEffect(() => {
     if (
       status === APIResponseStatus.NotStarted &&
-      params.id &&
-      !isNaN(+params.id)
+      freeRegistrationId &&
+      !isNaN(freeRegistrationId)
     ) {
-      dispatch(loadClerkFreeRegistrationDetails(+params.id));
-    } else if (status === APIResponseStatus.Error || isNaN(Number(params.id))) {
+      dispatch(loadClerkFreeRegistrationDetails(freeRegistrationId));
+    } else if (
+      status === APIResponseStatus.Error ||
+      isNaN(Number(freeRegistrationId))
+    ) {
       showToast({
         severity: Severity.Error,
         description: t('details.toasts.notFound'),
       });
       navigate(AppRoutes.ClerkFreeRegistration);
     }
-  }, [dispatch, navigate, params.id, showToast, status, t]);
+  }, [dispatch, navigate, freeRegistrationId, showToast, status, t]);
 
   useEffect(() => {
     if (modalSubmitStatus === FreeRegistrationModalStatus.ApprovalSuccess) {
@@ -151,7 +155,7 @@ export const ClerkFreeRegistrationDetails = () => {
     };
   }, [dispatch]);
 
-  if (!registrationDetails) {
+  if (!registrationDetails || !freeRegistrationId) {
     return null;
   }
 
@@ -326,6 +330,7 @@ export const ClerkFreeRegistrationDetails = () => {
   return (
     <div className="rows gapped free-registration-details">
       <FreeRegistrationModal
+        freeRegistrationId={freeRegistrationId}
         isApproveModalOpen={isApproveModalOpen}
         setIsApproveModal={setIsApproveModalOpen}
         isRejectModalOpen={isRejectModalOpen}
@@ -460,10 +465,8 @@ export const ClerkFreeRegistrationDetails = () => {
                 comment.length &&
                 dispatch(
                   addComment({
-                    text: comment,
-                    // TODO: käytä virkailijan tietoja
-                    createdBy: 'Virkailija Ville',
-                    type: 'COMMENT',
+                    freeRegistrationId,
+                    comment,
                   }),
                 )
               }
@@ -474,9 +477,9 @@ export const ClerkFreeRegistrationDetails = () => {
         </div>
       </div>
       <FreeRegistrationSupplementRequestModal
+        freeRegistrationId={freeRegistrationId}
         isModalOpen={isRequestSupplementModalOpen}
         setIsModalOpen={setIsRequestSupplementModalOpen}
-        registrationId={registrationDetails.id}
         renderPersonDetails={renderPersonDetails}
         renderExamSessionDetails={renderExamSessionDetails}
       />

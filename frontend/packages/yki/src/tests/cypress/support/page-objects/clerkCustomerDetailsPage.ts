@@ -1,5 +1,5 @@
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
-import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
+//import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 
 class ClerkCustomerDetailsPage {
   elements = {

@@ -57,16 +57,16 @@ const clerkFreeRegistrationSlice = createSlice({
     ) {
       state.modalSubmitStatus = action.payload;
     },
-    approveFreeRegistration(state) {
+    approveFreeRegistration(state, _action: PayloadAction<number>) {
       state.modalSubmitStatus = FreeRegistrationModalStatus.ApprovalInProgress;
     },
-    rejectFreeRegistration(state) {
+    rejectFreeRegistration(state, _action: PayloadAction<number>) {
       state.modalSubmitStatus = FreeRegistrationModalStatus.RejectInProgress;
     },
     submitClerkFreeRegistrationSupplementRequest(
       state,
       _action: PayloadAction<{
-        registrationId: number;
+        freeRegistrationId: number;
         message: string;
         dueDate: Dayjs;
       }>,

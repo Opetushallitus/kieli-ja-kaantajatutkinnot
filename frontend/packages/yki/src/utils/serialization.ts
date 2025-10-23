@@ -391,6 +391,11 @@ export class SerializationUtils {
   ) {
     return {
       ...freeRegistrationDetailsResponse,
+      languageOfService:
+        freeRegistrationDetailsResponse.languageOfService.toLowerCase() as
+          | 'fi'
+          | 'sv'
+          | 'en',
       supplementRequestDueDate:
         freeRegistrationDetailsResponse.supplementRequestDueDate
           ? dayjs(freeRegistrationDetailsResponse.supplementRequestDueDate)

@@ -18,6 +18,10 @@ import { organizers } from 'tests/msw/fixtures/organizers';
 import { personDetails } from 'tests/msw/fixtures/personDetails';
 import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/registrationInit';
 
+interface FreeRegistrationRequest {
+  approved: boolean;
+}
+
 const data = {
   evaluationPeriods,
   examSessions,
@@ -192,12 +196,23 @@ export const handlers = [
       return notFound();
     }
   }),
-  http.put(APIEndpoints.ApproveClerkFreeRegistration, () => {
-    return HttpResponse.json({ success: true });
-  }),
-  http.put(APIEndpoints.RejectClerkFreeRegistration, () => {
-    return HttpResponse.json({ success: true });
-  }),
+  http.put(
+    APIEndpoints.ClerkFreeRegistrationDetails,
+    async ({ params, request }) => {
+      const index = params?.id ? Number(params.id) - 1 : NaN;
+      const { approved } = (await request.json()) as FreeRegistrationRequest;
+      const response = freeRegistrationDetails[index];
+
+      if (index >= 0) {
+        return HttpResponse.json({
+          ...response,
+          status: approved ? 'APPROVED' : 'REJECTED',
+        });
+      } else {
+        return notFound();
+      }
+    },
+  ),
   http.post(APIEndpoints.ClerkFreeRegistrationSupplementRequest, () => {
     return HttpResponse.json({ success: true });
   }),
