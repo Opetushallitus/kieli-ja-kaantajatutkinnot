@@ -41,11 +41,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClerkRegistrationService {
 
   public static final int NUM_FREE_REGISTRATIONS = 3;
+
   private final FreeRegistrationRepository freeRegistrationRepository;
   private final FreeCommentRepository freeCommentRepository;
   private final FreeSupplementRequestRepository freeSupplementRequestRepository;
   private final AuditService auditService;
   private final EntityManager entityManager;
+  private final ClerkRegistrationEmailService clerkRegistrationEmailService;
 
   @Transactional(readOnly = true)
   public List<ClerkApprovalDTO> listApprovals() {
@@ -231,6 +233,8 @@ public class ClerkRegistrationService {
     freeSupplementRequestRepository.saveAndFlush(freeSupplementRequest);
 
     entityManager.refresh(freeRegistration);
+
+    clerkRegistrationEmailService.sendSupplementRequestEmail(freeRegistration);
 
     return createClerkApprovalDetailsDTO(freeRegistration);
   }

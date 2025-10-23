@@ -33,4 +33,8 @@ public class Person {
   @Size(max = 255)
   @Column(name = "last_name")
   private String lastName;
+
+  @Size(max = 255)
+  @Column(name = "email")
+  private String email;
 }
