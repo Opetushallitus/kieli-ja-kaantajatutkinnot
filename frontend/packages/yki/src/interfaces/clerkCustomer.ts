@@ -125,10 +125,23 @@ interface PastExamResponse {
   state: ExamState;
 }
 
+type RegistrationStatusResponse = Omit<RegistrationStatus, 'paidAt'> & {
+  paidAt?: string;
+};
+
+type ExamResponse = Omit<
+  Exam,
+  'registrationStatus' | 'registrationDate' | 'examinationDate'
+> & {
+  registrationStatus: RegistrationStatusResponse;
+  examinationDate: string;
+  registrationDate: string;
+};
+
 export interface ClerkCustomerDetailsResponse {
   id: number;
   person: CustomerPerson;
-  registrations: RegistrationResponse[];
+  registrations: ExamResponse[];
   queuedExams: QueuedExamResponse[];
   pastExams: PastExamResponse[];
 }
