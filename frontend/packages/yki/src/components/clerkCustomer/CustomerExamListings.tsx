@@ -47,7 +47,7 @@ const ExamsListing = <T extends Row>({
       <Box sx={{ margin: '1em 0' }}>{noRowsText}</Box>
     ) : (
       <ListTable
-        className="customer-details-listing__table"
+        className="clerk-customer-exams-listing__table"
         rows={rows}
         rowKeyProp="id"
         columns={columns}
