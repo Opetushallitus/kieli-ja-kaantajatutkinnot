@@ -89,12 +89,9 @@ export const CustomerExamListings = ({
     key: 'examName',
     title: t('columns.name'),
     render: ({ exam: { language, level } }) => (
-      <div className="rows gapped-xs">
-        <Text>
-          {translateCommon(`languages.${language}`) +
-            ', ' +
-            translateCommon(`languageLevel.${level}`)}
-        </Text>
+      <div className="columns gapped-xs">
+        <Text>{translateCommon(`languages.${language}`)},</Text>
+        <Text>{translateCommon(`languageLevel.${level}`)}</Text>
       </div>
     ),
   });
@@ -146,13 +143,14 @@ export const CustomerExamListings = ({
     title: t('columns.registrationState'),
     render: ({ registrationStatus }) => {
       return (
-        <div className="rows gapped-xs">
-          <Text style={{ display: 'flex' }}>
-            {registrationStateIconMapping[registrationStatus.state]}
+        <div className="columns gapped-xs">
+          {registrationStateIconMapping[registrationStatus.state]}
+          <Text>
             <strong>
-              &nbsp;
               {t(`values.registrationState.${registrationStatus.state}`)}
             </strong>
+          </Text>
+          <Text>
             {registrationStatus.state === RegistrationStates.Completed && (
               <span>
                 {DateUtils.formatOptionalDate(registrationStatus.paidAt, 'l')}
@@ -229,9 +227,9 @@ export const CustomerExamListings = ({
     key: 'examState',
     title: t('columns.examState'),
     render: ({ state }) => (
-      <div className="rows gapped-xs">
-        <Text style={{ display: 'flex' }}>
-          {examStateIconMapping[state]}
+      <div className="columns gapped-xxs">
+        {examStateIconMapping[state]}
+        <Text>
           <span>&nbsp;{t(`values.examState.${state}`)}</span>
         </Text>
       </div>
