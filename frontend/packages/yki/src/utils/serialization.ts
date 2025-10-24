@@ -10,6 +10,10 @@ import {
   RegistrationStates,
 } from 'enums/app';
 import {
+  ClerkCustomerDetails,
+  ClerkCustomerDetailsResponse,
+} from 'interfaces/clerkCustomer';
+import {
   ClerkFreeRegistrationDetailsResponse,
   ClerkFreeRegistrationResponse,
 } from 'interfaces/clerkFreeRegistration';
@@ -436,6 +440,43 @@ export class SerializationUtils {
       street_address: streetAddress,
       zip,
       post_office: postOffice,
+    };
+  }
+  static deserializeClerkCustomerDetailsResponse(
+    clerkCustomerDetailsResponse: ClerkCustomerDetailsResponse,
+  ): ClerkCustomerDetails {
+    return {
+      ...clerkCustomerDetailsResponse,
+      registrations: clerkCustomerDetailsResponse.registrations.map(
+        (registration) => ({
+          ...registration,
+          registrationStatus: {
+            ...registration.registrationStatus,
+            paidAt: dayjs(registration.registrationStatus.paidAt),
+          },
+          registrationDate: dayjs(registration.registrationDate),
+          examinationDate: dayjs(registration.examinationDate),
+        }),
+      ),
+      queuedExams: clerkCustomerDetailsResponse.queuedExams.map(
+        (queuedExam) => ({
+          ...queuedExam,
+          registrationStatus: {
+            ...queuedExam.registrationStatus,
+            paidAt: dayjs(queuedExam.registrationStatus.paidAt),
+          },
+          queueSpotOffered: {
+            ...queuedExam.queueSpotOffered,
+            dueDate: dayjs(queuedExam.queueSpotOffered.dueDate),
+          },
+          examinationDate: dayjs(queuedExam.examinationDate),
+          registrationDate: dayjs(queuedExam.registrationDate),
+        }),
+      ),
+      pastExams: clerkCustomerDetailsResponse.pastExams.map((pastExam) => ({
+        ...pastExam,
+        examinationDate: dayjs(pastExam.examinationDate),
+      })),
     };
   }
 }

@@ -6,11 +6,11 @@ import {
   ServiceLanguage,
 } from 'enums/app';
 import {
-  ClerkCustomerDetails,
+  ClerkCustomerDetailsResponse,
   QueueOfferStatus,
 } from 'interfaces/clerkCustomer';
 
-export const customerDetails: ClerkCustomerDetails[] = [
+export const customerDetails: ClerkCustomerDetailsResponse[] = [
   {
     id: 0,
     person: {
@@ -27,7 +27,7 @@ export const customerDetails: ClerkCustomerDetails[] = [
     },
     registrations: [
       {
-        examinationDate: '2025-09-01',
+        examinationDate: '2025-09-01T00:00:00.000Z',
         exam: {
           language: ExamLanguage.FIN,
           level: ExamLevel.KESKI,
@@ -38,7 +38,10 @@ export const customerDetails: ClerkCustomerDetails[] = [
         },
 
         // user have paid
-        registrationStatus: RegistrationStates.Completed,
+        registrationStatus: {
+          state: RegistrationStates.Completed,
+          paidAt: '2025-05-01',
+        },
         registrationDate: '2025-05-06',
       },
       {
@@ -51,7 +54,9 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lassilan koulu',
           municipality: 'Lassila',
         },
-        registrationStatus: RegistrationStates.PaidAndCancelled,
+        registrationStatus: {
+          state: RegistrationStates.PaidAndCancelled,
+        },
         registrationDate: '2025-05-06',
       },
       {
@@ -64,7 +69,9 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lorem ipsum oppilaitos',
           municipality: 'Helsinki',
         },
-        registrationStatus: RegistrationStates.Cancelled,
+        registrationStatus: {
+          state: RegistrationStates.Cancelled,
+        },
         registrationDate: '2025-05-06',
       },
       {
@@ -77,7 +84,9 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lorem ipsum oppilaitos',
           municipality: 'Helsinki',
         },
-        registrationStatus: RegistrationStates.FreeRegistrationPending,
+        registrationStatus: {
+          state: RegistrationStates.FreeRegistrationPending,
+        },
         registrationDate: '2025-05-06',
       },
     ],
@@ -94,7 +103,9 @@ export const customerDetails: ClerkCustomerDetails[] = [
         },
 
         // User not paid
-        registrationStatus: RegistrationStates.Submitted,
+        registrationStatus: {
+          state: RegistrationStates.Submitted,
+        },
         registrationDate: '2025-05-06',
         queueSpotOffered: {
           offered: QueueOfferStatus.Offered,
@@ -112,7 +123,9 @@ export const customerDetails: ClerkCustomerDetails[] = [
           municipality: 'Lassila',
         },
         // User not paid
-        registrationStatus: RegistrationStates.Submitted,
+        registrationStatus: {
+          state: RegistrationStates.Expired,
+        },
         registrationDate: '2025-05-06',
         queueSpotOffered: {
           offered: QueueOfferStatus.NotAccepted,
@@ -129,7 +142,9 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lorem ipsum oppilaitos',
           municipality: 'Helsinki',
         },
-        registrationStatus: RegistrationStates.Cancelled,
+        registrationStatus: {
+          state: RegistrationStates.Cancelled,
+        },
         registrationDate: '2025-05-06',
         queueSpotOffered: {
           offered: QueueOfferStatus.NotOffered,
@@ -145,7 +160,9 @@ export const customerDetails: ClerkCustomerDetails[] = [
           schoolName: 'Lorem ipsum oppilaitos',
           municipality: 'Helsinki',
         },
-        registrationStatus: RegistrationStates.FreeRegistrationPending,
+        registrationStatus: {
+          state: RegistrationStates.FreeRegistrationPending,
+        },
         registrationDate: '2025-05-06',
         queueSpotOffered: {
           offered: QueueOfferStatus.NotOffered,
@@ -190,5 +207,23 @@ export const customerDetails: ClerkCustomerDetails[] = [
         state: 'REGISTERED',
       },
     ],
+  },
+  {
+    id: 1,
+    person: {
+      firstName: 'Aino',
+      lastName: 'Osallistuja',
+      ssn: '010170-960F',
+      oid: '1.2.246.562.24.82364099322',
+      nationalityCode: '246',
+      languageOfService: ServiceLanguage.FI,
+      languageOfCertificate: CertificateLanguage.FI,
+      phoneNumber: '+358 401234567',
+      streetAddress: 'Katuosoite 123, 33100 Tampere',
+      email: 'aino.osallistuja@loremipsum.fi',
+    },
+    registrations: [],
+    queuedExams: [],
+    pastExams: [],
   },
 ];

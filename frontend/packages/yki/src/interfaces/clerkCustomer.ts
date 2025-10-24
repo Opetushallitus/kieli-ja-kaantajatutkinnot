@@ -1,3 +1,5 @@
+import { Dayjs } from 'dayjs';
+
 import {
   CertificateLanguage,
   ExamLanguage,
@@ -19,8 +21,8 @@ export interface CustomerPerson {
   email: string;
 }
 
-interface Exam {
-  examinationDate: string;
+type Exam = {
+  examinationDate: Dayjs;
   exam: {
     language: ExamLanguage;
     level: ExamLevel;
@@ -29,27 +31,33 @@ interface Exam {
     schoolName: string;
     municipality: string;
   };
-  registrationStatus: RegistrationStates;
-  registrationDate: string;
-}
+  registrationStatus: RegistrationStatus;
+  registrationDate: Dayjs;
+};
 
-type QueueSpotOffered =
+export type RegistrationStatus =
+  | {
+      state: RegistrationStates.Completed;
+      paidAt: Dayjs;
+    }
+  | { state: Exclude<RegistrationStates, RegistrationStates.Completed> };
+
+export type QueueSpotOffered =
   | { offered: QueueOfferStatus.NotOffered }
   | {
       offered: QueueOfferStatus.Offered | QueueOfferStatus.NotAccepted;
-      dueDate: string;
+      dueDate: Dayjs;
     };
 
-interface QueuedRegistration extends Exam {
+type QueuedRegistration = Exam & {
   queueSpotOffered: QueueSpotOffered;
-}
+};
 
-type ExamState = 'REVIEWED' | 'CANCELLED' | 'REGISTERED';
+export type ExamState = 'REVIEWED' | 'CANCELLED' | 'REGISTERED';
 
-interface PastExam
-  extends Omit<Exam, 'registrationStatus' | 'registrationDate'> {
+type PastExam = Omit<Exam, 'registrationStatus' | 'registrationDate'> & {
   state: ExamState;
-}
+};
 
 export enum QueueOfferStatus {
   Offered = 'OFFERED',
@@ -63,4 +71,47 @@ export interface ClerkCustomerDetails {
   registrations: Exam[];
   queuedExams: QueuedRegistration[];
   pastExams: PastExam[];
+}
+
+type RegistrationStatusResponse = Omit<RegistrationStatus, 'paidAt'> & {
+  paidAt?: string;
+};
+
+type ExamResponse = Omit<
+  Exam,
+  'registrationStatus' | 'registrationDate' | 'examinationDate'
+> & {
+  registrationStatus: RegistrationStatusResponse;
+
+  examinationDate: string;
+  registrationDate: string;
+};
+
+type QueueSpotOfferedResponse = Omit<QueueSpotOffered, 'dueDate'> & {
+  dueDate?: string;
+};
+
+type QueuedExamResponse = Omit<
+  QueuedRegistration,
+  | 'registrationStatus'
+  | 'queueSpotOffered'
+  | 'registrationDate'
+  | 'examinationDate'
+> & {
+  registrationStatus: RegistrationStatusResponse;
+  queueSpotOffered: QueueSpotOfferedResponse;
+  examinationDate: string;
+  registrationDate: string;
+};
+
+type PastExamResponse = Omit<PastExam, 'examinationDate'> & {
+  examinationDate: string;
+};
+
+export interface ClerkCustomerDetailsResponse {
+  id: number;
+  person: CustomerPerson;
+  registrations: ExamResponse[];
+  queuedExams: QueuedExamResponse[];
+  pastExams: PastExamResponse[];
 }
