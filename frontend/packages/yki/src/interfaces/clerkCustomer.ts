@@ -73,42 +73,6 @@ export interface ClerkCustomerDetails {
   pastExams: PastExam[];
 }
 
-// Response
-
-interface QueuedExamResponse {
-  examinationDate: string;
-  exam: {
-    language: ExamLanguage;
-    level: ExamLevel;
-  };
-  examLocation: {
-    schoolName: string;
-    municipality: string;
-  };
-  registrationStatus: {
-    state: RegistrationStates;
-    paidAt?: string;
-  };
-  registrationDate: string;
-  queueSpotOffered: {
-    offered: QueueOfferStatus;
-    dueDate?: string;
-  };
-}
-
-interface PastExamResponse {
-  examinationDate: string;
-  exam: {
-    language: ExamLanguage;
-    level: ExamLevel;
-  };
-  examLocation: {
-    schoolName: string;
-    municipality: string;
-  };
-  state: ExamState;
-}
-
 type RegistrationStatusResponse = Omit<RegistrationStatus, 'paidAt'> & {
   paidAt?: string;
 };
@@ -118,8 +82,30 @@ type ExamResponse = Omit<
   'registrationStatus' | 'registrationDate' | 'examinationDate'
 > & {
   registrationStatus: RegistrationStatusResponse;
+
   examinationDate: string;
   registrationDate: string;
+};
+
+type QueueSpotOfferedResponse = Omit<QueueSpotOffered, 'dueDate'> & {
+  dueDate?: string;
+};
+
+type QueuedExamResponse = Omit<
+  QueuedRegistration,
+  | 'registrationStatus'
+  | 'queueSpotOffered'
+  | 'registrationDate'
+  | 'examinationDate'
+> & {
+  registrationStatus: RegistrationStatusResponse;
+  queueSpotOffered: QueueSpotOfferedResponse;
+  examinationDate: string;
+  registrationDate: string;
+};
+
+type PastExamResponse = Omit<PastExam, 'examinationDate'> & {
+  examinationDate: string;
 };
 
 export interface ClerkCustomerDetailsResponse {
