@@ -99,6 +99,13 @@
       color: $color-green-600;
     }
   }
+
+  & &__info-box {
+    background-color: $color-blue-200;
+    border-radius: 4px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
 }
 
 a.text-embed-link {

@@ -45,7 +45,7 @@
           "REJECTED": {
             "part1": "Maksuttomuus hylätty"
           },
-          "SUPPLEMENT_REQUESTED": {  
+          "SUPPLEMENT_REQUESTED": {
             "part1": "Lisätietopyyntö lähetetty,",
             "part2": "odottaa vastausta"
           },
@@ -166,7 +166,7 @@
           "fields": {
             "ssn": "Hetu",
             "oid": "Oppijanumero",
-            "nationality":"Kansalaisuus",
+            "nationality": "Kansalaisuus",
             "languageOfService": "Asiointikieli",
             "languageOfCertificate": "Todistuksen kieli",
             "phoneNumber": "Puhelinnumero",
@@ -590,6 +590,19 @@
                 "description": "Kontrollera e-postadressen."
               },
               "success": "Anmälningslänken har skickats till adressen:"
+            },
+            "freeRegistration": {
+              "conditions": {
+                "general": "YKI-testi on sinulle maksuton, jos täytät jonkun seuraavista ehdoista",
+                "point1": "Olet suorittanut suomalaisen ylioppilastutkinnon tai vastaavan ulkomaisen tutkinnon.",
+                "point2": "Olet suorittanut korkeakoulututkinnon Suomessa tai ulkomailla.",
+                "point3": "Olet suorittamassa korkeakoulututkintoa Suomessa tai ulkomailla."
+              },
+              "educationDetailsAreChecked": "Tunnistautumisen jälkeen järjestelmä tarkistaa koulutustietosi automaattisesti.",
+              "heading": "Tutkintomaksu suomen ja ruotsin kielen ylimmän tason YKI-testeissä",
+              "ifSuitableEducationIsNotFound": "Jos koulutustietoja ei löydy, sinun täytyy lisätä ilmoittautumislomakkeelle todistus opinnoistasi.",
+              "suomiFiAuthenticationRequired": "Sinun täytyy tunnistautua Suomi.fi-palvelussa, jotta voimme tarkistaa, täytätkö ehdot.",
+              "threeAttemptsAvailable": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa."
             },
             "registrationIsBindingAdvisory": "Kontrollera att du anmäler dig till ett YKI-test på rätt språk och nivå. Anmälan till allmän språkexamen är bindande. Du kan inte ändra din anmälan efter att du har bekräftat den.",
             "selectIdentificationMethod": "Välj din identifieringsmetod",

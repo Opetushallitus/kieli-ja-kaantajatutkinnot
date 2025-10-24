@@ -59,7 +59,11 @@ export const PublicRegistrationExamSessionDetails = ({
         </Text>
         <Text>
           {`${t('examFee')}: `}
-          <b>{`${examSession.exam_fee} €`}</b>
+          <b>
+            {ExamSessionUtils.freeRegistrationPossible(examSession)
+              ? `0 ${translateCommon('or')} ${examSession.exam_fee} €`
+              : `${examSession.exam_fee} €`}
+          </b>
         </Text>
 
         {showOpenings && (

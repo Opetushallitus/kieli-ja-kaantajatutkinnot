@@ -1,4 +1,4 @@
-import { Grid, Paper } from '@mui/material';
+import { Container, Grid, Paper } from '@mui/material';
 import { Trans } from 'react-i18next';
 import { CustomButton, H1, H2, HeaderSeparator, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
@@ -16,6 +16,7 @@ import { cancelRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 import { sessionSelector } from 'redux/selectors/session';
+import { ExamSessionUtils } from 'utils/examSession';
 
 const AlreadyLoggedIn = () => {
   const { t } = usePublicTranslation({
@@ -89,16 +90,50 @@ const AlreadyLoggedIn = () => {
   );
 };
 
+const FreeRegistrationInfoBox = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.steps.identify.freeRegistration',
+  });
+
+  return (
+    <Container className="public-registration__info-box rows gapped-sm">
+      <H2>{t('heading')}</H2>
+      <div className="rows">
+        <Text>{t('conditions.general')}:</Text>
+        <ul>
+          {['point1', 'point2', 'point3'].map((v) => (
+            <Text key={v}>
+              <li>{t('conditions.' + v)}</li>
+            </Text>
+          ))}
+        </ul>
+      </div>
+      <Text>{t('threeAttemptsAvailable')}</Text>
+      <Text>
+        <b>{t('suomiFiAuthenticationRequired')}</b>{' '}
+        {t('educationDetailsAreChecked')} {t('ifSuitableEducationIsNotFound')}
+      </Text>
+    </Container>
+  );
+};
+
 const Identify = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.identify',
   });
+
+  const { examSession } = useAppSelector(examSessionSelector);
 
   return (
     <>
       <Text>
         <Trans t={t} i18nKey="registrationIsBindingAdvisory" />
       </Text>
+      {}
+      {examSession &&
+        ExamSessionUtils.freeRegistrationPossible(examSession) && (
+          <FreeRegistrationInfoBox />
+        )}
       <div className="gapped rows">
         <SelectIdentificationMethod />
         <PublicRegistrationControlButtons />
