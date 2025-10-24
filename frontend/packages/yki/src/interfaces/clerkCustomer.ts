@@ -75,22 +75,6 @@ export interface ClerkCustomerDetails {
 
 // Response
 
-interface RegistrationResponse {
-  examinationDate: string;
-  exam: {
-    language: ExamLanguage;
-    level: ExamLevel;
-  };
-  examLocation: {
-    schoolName: string;
-    municipality: string;
-  };
-  registrationStatus: {
-    state: RegistrationStates;
-    paidAt?: string;
-  };
-  registrationDate: string;
-}
 interface QueuedExamResponse {
   examinationDate: string;
   exam: {
