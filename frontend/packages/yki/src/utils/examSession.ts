@@ -134,4 +134,12 @@ export class ExamSessionUtils {
       StringUtils.trimAndLowerCase(location.post_office),
     );
   }
+
+  static freeRegistrationPossible(examSession: ExamSession) {
+    return (
+      examSession.level_code === ExamLevel.YLIN &&
+      (examSession.language_code === ExamLanguage.FIN ||
+        examSession.language_code === ExamLanguage.SWE)
+    );
+  }
 }

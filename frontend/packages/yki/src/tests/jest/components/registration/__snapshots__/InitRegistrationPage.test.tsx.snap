@@ -73,7 +73,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 >
                   examFee: 
                   <b>
-                    200 €
+                    0 or 200 €
                   </b>
                 </p>
                 <p
@@ -183,7 +183,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 >
                   examFee: 
                   <b>
-                    200 €
+                    0 or 200 €
                   </b>
                 </p>
                 <p
