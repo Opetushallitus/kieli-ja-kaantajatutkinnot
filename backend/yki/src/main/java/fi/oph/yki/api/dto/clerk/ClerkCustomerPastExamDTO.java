@@ -1,9 +1,10 @@
 package fi.oph.yki.api.dto.clerk;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 public record ClerkCustomerPastExamDTO(
-        String examinationDate,
+        LocalDate examinationDate,
         ClerkCustomerPastExamDTO.Exam exam,
         ClerkCustomerPastExamDTO.Location examLocation,
         String state

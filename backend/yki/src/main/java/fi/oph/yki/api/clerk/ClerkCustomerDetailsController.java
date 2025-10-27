@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -47,96 +48,96 @@ public class ClerkCustomerDetailsController {
                         List.of(
                             // first
                             new ClerkCustomerRegistrationDTO(
-                                "2025-09-01T00:00:00.000Z",
+                                LocalDate.of(2025, 9, 1),
                                 // ExamLanguage.FIN &  ExamLevel.KESKI,
                                 new ClerkCustomerRegistrationDTO.Exam("FIN", "KESKI"),
                                 new ClerkCustomerRegistrationDTO.Location("Testipaikan nimi", "Kajaani"),
                                 //  RegistrationStates.Completed,
-                                new ClerkCustomerRegistrationDTO.Status("COMPLETED", Optional.of("2025-05-01")),
-                                "2025-05-06"
+                                new ClerkCustomerRegistrationDTO.Status("COMPLETED", Optional.of(LocalDate.of(2025, 5, 1))),
+                                LocalDate.of(2025, 5, 6)
                             ),
                             // second
                             new ClerkCustomerRegistrationDTO(
-                                "2025-10-23Z",
+                                LocalDate.of(2025, 10, 23),
                                 // ExamLanguage.DEU & ExamLevel.YLIN,
                                 new ClerkCustomerRegistrationDTO.Exam("DEU", "YLIN"),
                                 new ClerkCustomerRegistrationDTO.Location("Lassilan koulu", "Lassila"),
                                 //  RegistrationStates.PaidAndCancelled,
-                                new ClerkCustomerRegistrationDTO.Status("PAID_AND_CANCELLED", Optional.of("2025-05-01")),
-                                "2025-05-06"
+                                new ClerkCustomerRegistrationDTO.Status("PAID_AND_CANCELLED", Optional.of(LocalDate.of(2025, 5, 1))),
+                                LocalDate.of(2025,5, 6)
                             ),
                             // third
                             new ClerkCustomerRegistrationDTO(
-                                "2025-11-30",
+                                LocalDate.of(2025, 11, 30),
                                 // ExamLanguage.SWE &  ExamLevel.PERUS,
                                 new ClerkCustomerRegistrationDTO.Exam("SWE", "PERUS"),
                                 new ClerkCustomerRegistrationDTO.Location("Lorem ipsum oppilaitos", "Helsinki"),
                                 //  RegistrationStates.Cancelled,
                                 new ClerkCustomerRegistrationDTO.Status("CANCELLED", Optional.empty()),
-                                "2025-05-06"
+                                LocalDate.of(2025, 5, 6)
                             ),
                             // fourth
                             new ClerkCustomerRegistrationDTO(
-                                "2025-12-30",
+                                LocalDate.of(2025, 12, 30),
                                 // ExamLanguage.SWE & ExamLevel.YLIN,
                                 new ClerkCustomerRegistrationDTO.Exam("SWE", "YLIN"),
                                 new ClerkCustomerRegistrationDTO.Location("Lorem ipsum oppilaitos", "Helsinki"),
                                 //  RegistrationStates.FreeRegistrationPending,
                                 new ClerkCustomerRegistrationDTO.Status("FREE_REGISTRATION_PENDING", Optional.empty()),
-                                "2025-05-06"
+                                LocalDate.of(2025, 5, 6)
                             )
                         ),
                         // queuedExams
                         List.of(
                             new ClerkCustomerQueuedExamDTO(
-                                "2025-09-05",
+                                LocalDate.of(2025, 9, 5),
                                 new ClerkCustomerQueuedExamDTO.Exam("FIN", "KESKI"),
                                 new ClerkCustomerQueuedExamDTO.Location("Testipaikan nimi", "Kajaani"),
                                 new ClerkCustomerQueuedExamDTO.Status("SUBMITTED", Optional.empty()),
-                                "2025-05-06",
-                                new ClerkCustomerQueuedExamDTO.QueueSpotOffered("OFFERED", Optional.of("2025-09-20"))
+                                LocalDate.of(2025, 5, 6),
+                                new ClerkCustomerQueuedExamDTO.QueueSpotOffered("OFFERED", Optional.of(LocalDate.of(2025,9,20)))
                             ),
                             new ClerkCustomerQueuedExamDTO(
-                                "2025-10-18",
+                                LocalDate.of(2025, 10, 18),
                                 new ClerkCustomerQueuedExamDTO.Exam("DEU", "YLIN"),
                                 new ClerkCustomerQueuedExamDTO.Location("Lassilan koulu", "Lassila"),
                                 new ClerkCustomerQueuedExamDTO.Status("EXPIRED", Optional.empty()),
-                                "2025-05-06",
-                                new ClerkCustomerQueuedExamDTO.QueueSpotOffered("NOT_ACCEPTED", Optional.of("2025-08-04"))
+                                LocalDate.of(2025, 5, 6),
+                                new ClerkCustomerQueuedExamDTO.QueueSpotOffered("NOT_ACCEPTED", Optional.of(LocalDate.of(2025,8,4)))
                             ),
                             new ClerkCustomerQueuedExamDTO(
-                                "2025-11-22",
+                                LocalDate.of(2025, 11, 22),
                                 new ClerkCustomerQueuedExamDTO.Exam("SWE", "PERUS"),
                                 new ClerkCustomerQueuedExamDTO.Location("Lorem ipsum oppilaitos", "Helsinki"),
                                 new ClerkCustomerQueuedExamDTO.Status("CANCELLED", Optional.empty()),
-                                "2025-05-06",
+                                LocalDate.of(2025, 5, 6),
                                 new ClerkCustomerQueuedExamDTO.QueueSpotOffered("NOT_OFFERED", Optional.empty())
                             ),
                             new ClerkCustomerQueuedExamDTO(
-                                "2025-11-22",
+                                LocalDate.of(2025, 11, 22),
                                 new ClerkCustomerQueuedExamDTO.Exam("SWE", "PERUS"),
                                 new ClerkCustomerQueuedExamDTO.Location("Lorem ipsum oppilaitos", "Helsinki"),
                                 new ClerkCustomerQueuedExamDTO.Status("FREE_REGISTRATION_PENDING", Optional.empty()),
-                                "2025-05-06",
+                                LocalDate.of(2025, 5, 6),
                                 new ClerkCustomerQueuedExamDTO.QueueSpotOffered("NOT_OFFERED", Optional.empty())
                             )
                         ),
                         // pastExams
                         List.of(
                             new ClerkCustomerPastExamDTO(
-                                "2025-07-20",
+                                LocalDate.of(2025, 7, 20),
                                 new ClerkCustomerPastExamDTO.Exam("FIN", "PERUS"),
                                 new ClerkCustomerPastExamDTO.Location("Testipaikan nimi", "Kajaani"),
                                 "REVIEWED"
                             ),
                             new ClerkCustomerPastExamDTO(
-                                "2025-03-25",
+                                LocalDate.of(2025, 3, 25),
                                 new ClerkCustomerPastExamDTO.Exam("SWE", "KESKI"),
                                 new ClerkCustomerPastExamDTO.Location("Lassilan koulu", "Lassila"),
                                 "CANCELLED"
                             ),
                             new ClerkCustomerPastExamDTO(
-                                "2025-03-25",
+                                LocalDate.of(2025, 3, 25),
                                 new ClerkCustomerPastExamDTO.Exam("SWE", "KESKI"),
                                 new ClerkCustomerPastExamDTO.Location("Lorem ipsum oppilaitos", "Helsinki"),
                                 "REGISTERED"

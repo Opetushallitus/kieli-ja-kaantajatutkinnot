@@ -1,14 +1,15 @@
 package fi.oph.yki.api.dto.clerk;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 public record ClerkCustomerQueuedExamDTO(
 
-        String examinationDate,
+        LocalDate examinationDate,
         ClerkCustomerQueuedExamDTO.Exam exam,
         ClerkCustomerQueuedExamDTO.Location examLocation,
         ClerkCustomerQueuedExamDTO.Status registrationStatus,
-        String registrationDate,
+        LocalDate registrationDate,
         QueueSpotOffered queueSpotOffered
 ) {
     public record Exam(
@@ -25,13 +26,13 @@ public record ClerkCustomerQueuedExamDTO(
 
     public record Status(
             String state, // RegistrationStates.Completed,
-            Optional<String> paidAt
+            Optional<LocalDate> paidAt
     ) {
     }
 
     public record QueueSpotOffered(
             String offered,
-            Optional<String> dueDate
+            Optional<LocalDate> dueDate
     ) {
     }
 }

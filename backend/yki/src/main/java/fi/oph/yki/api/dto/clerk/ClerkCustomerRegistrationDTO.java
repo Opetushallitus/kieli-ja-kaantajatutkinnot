@@ -1,13 +1,14 @@
 package fi.oph.yki.api.dto.clerk;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 public record ClerkCustomerRegistrationDTO(
-        String examinationDate,
+        LocalDate examinationDate,
         Exam exam,
         Location examLocation,
         Status registrationStatus,
-        String registrationDate
+        LocalDate registrationDate
 ) {
     public record Exam(
             String language, // ExamLanguage.FIN
@@ -21,7 +22,7 @@ public record ClerkCustomerRegistrationDTO(
 
     public record Status(
             String state, // RegistrationStates.Completed,
-            Optional<String> paidAt
+            Optional<LocalDate> paidAt
     ) {}
 }
 
