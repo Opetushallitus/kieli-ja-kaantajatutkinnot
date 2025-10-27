@@ -71,6 +71,9 @@ const initRegistration = async ({
         registration_id: _registration_id,
         ...rest
       } = registrationInitResponse;
+      const examSession =
+        examSessions.exam_sessions.find((v) => v.id === exam_session_id) ||
+        exam_session;
       const kind =
         exam_session_id % 2 === 0
           ? RegistrationKind.Admission
@@ -79,7 +82,7 @@ const initRegistration = async ({
       return HttpResponse.json(
         {
           exam_session: {
-            ...exam_session,
+            ...examSession,
             available_registration_kind: kind,
           },
           registration_kind: kind,
