@@ -49,6 +49,7 @@ public class Registration {
   @JoinColumn(name = "exam_session_id", referencedColumnName = "id")
   private ExamSession examSession;
 
-  @OneToMany(fetch = FetchType.LAZY)
-  private List<FreeRegistration> freeRegistrations;
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "free_registration_id", referencedColumnName = "free_registration_id")
+  private FreeRegistration freeRegistration;
 }

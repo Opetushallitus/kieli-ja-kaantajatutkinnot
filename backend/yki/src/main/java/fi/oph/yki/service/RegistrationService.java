@@ -4,7 +4,9 @@ import fi.oph.yki.api.dto.PublicEducationDTO;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.type.FreeRegistrationSource;
 import fi.oph.yki.model.type.FreeRegistrationType;
+import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.service.koski.KoskiService;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class RegistrationService {
 
   private final RegistrationRepository registrationRepository;
+  private final FreeRegistrationRepository freeRegistrationRepository;
   private final PersonRepository personRepository;
 
   @Resource
@@ -43,13 +46,18 @@ public class RegistrationService {
   @Transactional
   public List<PublicEducationDTO> updateEducations(final Registration registration) {
     final List<PublicEducationDTO> educationDTOs = koskiService.getEducations(registration);
-    final FreeRegistration freeRegistration = new FreeRegistration();
+    final FreeRegistration freeRegistration = registration.getFreeRegistration() == null
+      ? new FreeRegistration()
+      : registration.getFreeRegistration();
 
     final Set<FreeRegistrationType> freeEnrollmentTypes = educationDTOs
       .stream()
       .map(FreeRegistrationType::fromEducationDTO)
       .collect(Collectors.toSet());
 
+    freeRegistration.setRegistration(registration);
+    freeRegistration.setSource(FreeRegistrationSource.KOSKI);
+    freeRegistration.setType(FreeRegistrationType.HigherEducationEnrolled);
     freeRegistration.setMatriculationExam(freeEnrollmentTypes.contains(FreeRegistrationType.MatriculationExam));
     freeRegistration.setHigherEducationConcluded(
       freeEnrollmentTypes.contains(FreeRegistrationType.HigherEducationConcluded)
@@ -60,6 +68,9 @@ public class RegistrationService {
     freeRegistration.setDia(freeEnrollmentTypes.contains(FreeRegistrationType.DIA));
     freeRegistration.setEb(freeEnrollmentTypes.contains(FreeRegistrationType.EB));
     freeRegistration.setOther(freeEnrollmentTypes.contains(FreeRegistrationType.Other));
+
+    final FreeRegistration freeRegistrationUpdated = freeRegistrationRepository.saveAndFlush(freeRegistration);
+    registration.setFreeRegistration(freeRegistrationUpdated);
 
     return educationDTOs;
   }
