@@ -9,6 +9,8 @@ import java.util.Optional;
 
 @Service
 public class ClerkCustomerService {
+    private final ClerkCustomerRepository clerkCustomerRepository;
+
     public List<ClerkCustomerDetailsDTO> getClerkCustomerDetails(int customerId) {
         List<ClerkCustomerDetailsDTO> resp = List.of(
                 new ClerkCustomerDetailsDTO(
