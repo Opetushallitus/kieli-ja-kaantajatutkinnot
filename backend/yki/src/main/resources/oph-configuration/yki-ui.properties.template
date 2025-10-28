@@ -11,7 +11,7 @@ virkailija.cas.service-url=${virkailija.cas.base-url}/yki/v2/virkailija
 virkailija.cas.url=${virkailija.cas.base-url}/cas
 virkailija.cas.login-url=${virkailija.cas.base-url}/cas/login
 
-koski.url=http://localhost
+koski.url={{yki_koski_url}}
 cas.username={{yki_cas_username}}
 cas.password={{yki_cas_password}}
 proxy-token={{yki_proxy_token}}
