@@ -45,7 +45,7 @@ public class RegistrationService {
 
   @Transactional
   public List<PublicEducationDTO> updateEducations(final Registration registration) {
-    final List<PublicEducationDTO> educationDTOs = koskiService.getEducations(registration);
+    final List<PublicEducationDTO> educationDTOs = koskiService.getEducations(registration.getPerson().getOid());
     final FreeRegistration freeRegistration = registration.getFreeRegistration() == null
       ? new FreeRegistration()
       : registration.getFreeRegistration();
