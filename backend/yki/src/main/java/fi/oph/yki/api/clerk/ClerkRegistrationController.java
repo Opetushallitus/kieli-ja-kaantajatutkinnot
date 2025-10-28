@@ -56,22 +56,4 @@ public class ClerkRegistrationController {
   ) {
     return clerkRegistrationService.updateApproval(freeRegistrationId, dto);
   }
-
-  @PostMapping(path = "/approval/{freeRegistrationId:\\d+}/supplement-request", consumes = ALL_VALUE)
-  @Operation(tags = TAG_REGISTRATION, summary = "Update approval")
-  public ClerkApprovalDetailsDTO sendSupplementRequest(
-    @PathVariable final long freeRegistrationId,
-    @RequestBody @Valid final ClerkSendSupplementRequestDTO dto
-  ) {
-    return clerkRegistrationService.sendSupplementRequest(freeRegistrationId, dto);
-  }
-
-  @PostMapping(path = "/approval/{freeRegistrationId:\\d+}/comment", consumes = ALL_VALUE)
-  @Operation(tags = TAG_REGISTRATION, summary = "Update approval")
-  public ClerkApprovalDetailsDTO addComment(
-    @PathVariable final long freeRegistrationId,
-    @RequestBody @Valid final ClerkNewCommentDTO dto
-  ) {
-    return clerkRegistrationService.addComment(freeRegistrationId, dto);
-  }
 }
