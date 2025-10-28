@@ -1,6 +1,10 @@
 package fi.oph.yki.service;
 
 import fi.oph.yki.api.dto.clerk.*;
+import fi.oph.yki.model.Person;
+import fi.oph.yki.repository.CustomerRepository;
+import fi.oph.yki.repository.PersonRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -8,25 +12,35 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ClerkCustomerService {
-    private final ClerkCustomerRepository clerkCustomerRepository;
+    // private final CustomerRepository clerkCustomerRepository;
+    private final PersonRepository personRepository;
 
-    public List<ClerkCustomerDetailsDTO> getClerkCustomerDetails(int customerId) {
+
+    private ClerkCustomerPersonDTO getClerkCustomerPersonDTO(String oid) {
+        Person person = personRepository.getByOid(oid);
+        return new ClerkCustomerPersonDTO(
+                person.getFirstName(),
+                person.getLastName(),
+                "010170-960F",
+                person.getOid(),
+                "246",
+                "FI", // ServiceLanguage.FI,
+                "FI", // CertificateLanguage.FI,
+                person.getPhoneNumber(),
+                person.getAddress(),
+                person.getEmail()
+            );
+    }
+
+    public List<ClerkCustomerDetailsDTO> getClerkCustomerDetails(String oid) {
+
+        ClerkCustomerPersonDTO person = getClerkCustomerPersonDTO(oid);
+
         List<ClerkCustomerDetailsDTO> resp = List.of(
                 new ClerkCustomerDetailsDTO(
-                        "1",
-                        new ClerkCustomerPersonDTO(
-                                "Aino",
-                                "Osallistuja",
-                                "010170-960F",
-                                "1.2.246.562.24.82364099322",
-                                "246",
-                                "FI", // ServiceLanguage.FI,
-                                "FI", // CertificateLanguage.FI,
-                                "+358 401234567",
-                                "Katuosoite 123, 33100 Tampere",
-                                "aino.osallistuja@loremipsum.fi"
-                        ),
+                        person,
                         // registrations
                         List.of(
                                 // first

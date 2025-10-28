@@ -20,7 +20,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "person")
 public class Person {
-
   @Id
   @Size(max = 255)
   @Column(name = "oid", unique = true)
@@ -33,4 +32,28 @@ public class Person {
   @Size(max = 255)
   @Column(name = "last_name")
   private String lastName;
+
+  @Size(max = 255)
+  @Column(name = "email")
+  private String email;
+
+  @Size(max = 255)
+  @Column(name = "phone_number")
+  private String phoneNumber;
+
+  @Size(max = 255)
+  @Column(name = "street_address")
+  private String steetAddress;
+
+  @Size(max = 255)
+  @Column(name = "post_office")
+  private String postOffice;
+
+  @Size(max = 255)
+  @Column(name = "zip")
+  private String zip;
+  
+  public String getAddress() {
+      return String.format("%s, %s, %s", steetAddress, zip, postOffice );
+  }
 }

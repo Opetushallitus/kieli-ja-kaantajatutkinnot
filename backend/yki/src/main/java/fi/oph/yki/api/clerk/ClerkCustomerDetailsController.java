@@ -27,9 +27,9 @@ public class ClerkCustomerDetailsController {
 
     private static final String TAG_CUSTOMER = "Clerk customer API";
 
-    @GetMapping(path = "/{customerId:\\d+}", consumes = ALL_VALUE)
+    @GetMapping(path = "/{oid}", consumes = ALL_VALUE)
     @Operation(tags = TAG_CUSTOMER, summary = "Get customer details")
-    public List<ClerkCustomerDetailsDTO> getCustomerDetails(@PathVariable int customerId) {
-         return service.getClerkCustomerDetails(customerId);
+    public List<ClerkCustomerDetailsDTO> getCustomerDetails(@PathVariable String oid) {
+         return service.getClerkCustomerDetails(oid);
     }
 }

@@ -5,7 +5,6 @@ import java.util.List;
 
 @Builder
 public record ClerkCustomerDetailsDTO(
-        String id,
         ClerkCustomerPersonDTO person,
         List<ClerkCustomerRegistrationDTO> registrations,
         List<ClerkCustomerQueuedExamDTO> queuedExams,
