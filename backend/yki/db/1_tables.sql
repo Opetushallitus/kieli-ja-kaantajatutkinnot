@@ -2,8 +2,6 @@
 -- PostgreSQL database dump
 --
 
-\restrict uXlYdnlKtfq0HMuF2ObkwJj8Dvj8q8QrUz57C3Ytrm3k7C5Gx2qWWzm9zlyuvuh
-
 -- Dumped from database version 10.4 (Debian 10.4-2.pgdg90+1)
 -- Dumped by pg_dump version 14.19 (Homebrew)
 
@@ -3112,6 +3110,4 @@ ALTER TABLE ONLY public.registration
 --
 -- PostgreSQL database dump complete
 --
-
-\unrestrict uXlYdnlKtfq0HMuF2ObkwJj8Dvj8q8QrUz57C3Ytrm3k7C5Gx2qWWzm9zlyuvuh
 
