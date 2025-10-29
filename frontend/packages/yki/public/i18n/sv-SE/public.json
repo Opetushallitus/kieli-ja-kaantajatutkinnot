@@ -953,7 +953,8 @@
             "expiresAt": "Förfallodatum {{- date }}",
             "notPaid": "Obetalt {{ examFee }}€",
             "label": "Examensavgift",
-            "paidAt": "Betald {{- date }}"
+            "paidAt": "Betald {{- date }}",
+            "free": "Maksuton"
           },
           "header": {
             "cancelled": "Annullerade anmälningar",

@@ -145,10 +145,22 @@ const ExamPayment = ({
 }: {
   registration: PersonRegistrations;
 }) => {
-  const { paidAt, expiresAt, examFee } = registration;
+  const { paidAt, expiresAt, examFee, isFreeRegistration } = registration;
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage.registrations.examPayment',
   });
+
+  if (isFreeRegistration) {
+    return (
+      <div>
+        <Text className="bold">{t('label')}</Text>
+        <div className="columns gapped-xxs">
+          <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
+          <Text>{t('free')}</Text>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>

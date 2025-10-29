@@ -953,7 +953,8 @@
             "expiresAt": "Eräpäivä {{- date }}",
             "notPaid": "Maksamatta {{ examFee }}€",
             "label": "Tutkintomaksu",
-            "paidAt": "Maksettu {{- date }}"
+            "paidAt": "Maksettu {{- date }}",
+            "free": "Maksuton"
           },
           "header": {
             "cancelled": "Perutut ilmoittautumiset",

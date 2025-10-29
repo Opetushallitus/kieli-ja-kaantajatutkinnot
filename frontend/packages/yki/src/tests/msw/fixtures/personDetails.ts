@@ -50,6 +50,7 @@ export const personDetails: PersonDetailsResponse = {
       is_transferable: false,
       is_transfered: false,
       exam_fee: 100,
+      is_free_registration: true,
     },
     {
       id: 1337,

@@ -292,6 +292,7 @@ export class SerializationUtils {
           v.kind === RegistrationKind.Queue
             ? (v.position_in_queue || 0) + 1
             : undefined,
+        isFreeRegistration: v.is_free_registration,
       })),
     };
   }

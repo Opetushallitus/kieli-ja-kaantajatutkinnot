@@ -954,7 +954,8 @@
             "expiresAt": "Due date {{- date }}",
             "notPaid": "Unpaid €{{ examFee }}",
             "label": "Test fee",
-            "paidAt": "Paid {{- date }}"
+            "paidAt": "Paid {{- date }}",
+            "free": "Maksuton"
           },
           "header": {
             "cancelled": "Cancelled registrations",
