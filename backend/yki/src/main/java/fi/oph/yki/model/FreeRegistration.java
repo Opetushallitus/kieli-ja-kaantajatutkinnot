@@ -41,12 +41,6 @@ public class FreeRegistration {
   @Enumerated(value = EnumType.STRING)
   private FreeRegistrationType type;
 
-  @Column(name = "approved")
-  private Boolean approved;
-
-  @Column(name = "assessment_date", nullable = false)
-  private LocalDateTime assessmentDate;
-
   @Column(name = "matriculation_exam", nullable = false)
   private Boolean matriculationExam;
 
@@ -64,16 +58,4 @@ public class FreeRegistration {
 
   @Column(name = "other", nullable = false)
   private Boolean other;
-
-  @OneToMany(fetch = FetchType.LAZY)
-  @JoinColumn(name = "free_registration_id")
-  private List<FreeAttachment> attachments;
-
-  @OneToMany(fetch = FetchType.LAZY)
-  @JoinColumn(name = "free_registration_id")
-  private List<FreeComment> comments;
-
-  @OneToMany(fetch = FetchType.LAZY)
-  @JoinColumn(name = "free_registration_id")
-  private List<FreeSupplementRequest> supplementRequests;
 }

@@ -6,16 +6,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalDetailsDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalUpdateDTO;
-import fi.oph.yki.api.dto.clerk.ClerkNewCommentDTO;
-import fi.oph.yki.api.dto.clerk.ClerkSendSupplementRequestDTO;
 import fi.oph.yki.service.ClerkRegistrationService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
   consumes = APPLICATION_JSON_VALUE,
   produces = APPLICATION_JSON_VALUE
 )
+@Profile("dev")
 public class ClerkRegistrationController {
 
   private static final String TAG_REGISTRATION = "Clerk registration API";
@@ -53,23 +52,5 @@ public class ClerkRegistrationController {
     @RequestBody @Valid final ClerkApprovalUpdateDTO dto
   ) {
     return clerkRegistrationService.updateApproval(freeRegistrationId, dto);
-  }
-
-  @PostMapping(path = "/approval/{freeRegistrationId:\\d+}/supplement-request", consumes = ALL_VALUE)
-  @Operation(tags = TAG_REGISTRATION, summary = "Update approval")
-  public ClerkApprovalDetailsDTO sendSupplementRequest(
-    @PathVariable final long freeRegistrationId,
-    @RequestBody @Valid final ClerkSendSupplementRequestDTO dto
-  ) {
-    return clerkRegistrationService.sendSupplementRequest(freeRegistrationId, dto);
-  }
-
-  @PostMapping(path = "/approval/{freeRegistrationId:\\d+}/comment", consumes = ALL_VALUE)
-  @Operation(tags = TAG_REGISTRATION, summary = "Update approval")
-  public ClerkApprovalDetailsDTO addComment(
-    @PathVariable final long freeRegistrationId,
-    @RequestBody @Valid final ClerkNewCommentDTO dto
-  ) {
-    return clerkRegistrationService.addComment(freeRegistrationId, dto);
   }
 }

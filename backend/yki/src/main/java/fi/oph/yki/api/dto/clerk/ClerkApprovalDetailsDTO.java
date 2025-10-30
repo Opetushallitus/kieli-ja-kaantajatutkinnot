@@ -19,9 +19,5 @@ public record ClerkApprovalDetailsDTO(
   @NonNull @NotNull RegistrationLangOfService languageOfService,
   @NonNull @NotNull ClerkApprovalExamSessionDTO examSession,
   @NonNull @NotNull FreeRegistrationType freeRegistrationBasis,
-  int freeRegistrationsLeft,
-  LocalDate supplementRequestDueDate,
-  LocalDateTime assessmentDate,
-  List<ClerkMessageDTO> messages,
-  List<ClerkApprovalAttachmentsDTO> attachments
+  int freeRegistrationsLeft
 ) {}

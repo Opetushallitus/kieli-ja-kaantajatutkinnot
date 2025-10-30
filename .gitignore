@@ -65,3 +65,4 @@ dist
 !**/.yarn/versions
 
 backend/vkt/src/main/resources/application-dev.yaml
+backend/yki/src/main/resources/application-dev.yaml

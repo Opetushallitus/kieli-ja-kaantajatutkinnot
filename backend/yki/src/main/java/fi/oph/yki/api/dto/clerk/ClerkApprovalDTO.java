@@ -14,7 +14,5 @@ public record ClerkApprovalDTO(
   @NonNull @NotNull ClerkRegistrationDTO registration,
   @NonNull @NotNull ClerkPersonDTO person,
   @NonNull @NotNull FreeRegistrationStatus status,
-  LocalDate supplementRequestDueDate,
-  LocalDateTime assessmentDate,
   @NonNull @NotNull String examDate
 ) {}

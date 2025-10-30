@@ -16,9 +16,7 @@ public interface FreeRegistrationRepository extends JpaRepository<FreeRegistrati
     " FROM FreeRegistration f" +
     " JOIN f.registration r" +
     " WHERE r.person.oid = ?1" +
-    " AND f.approved <> false" +
-    " AND (r.state = 'COMPLETED'" +
-    " OR r.state = 'AWAITING_APPROVAL')"
+    " AND r.state = 'COMPLETED'"
   )
   int countFreeRegistrationsUsed(final String personOid);
 }

@@ -1,37 +1,22 @@
 package fi.oph.yki.service;
 
-import fi.oph.yki.api.dto.clerk.ClerkApprovalAttachmentsDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalDetailsDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkApprovalUpdateDTO;
-import fi.oph.yki.api.dto.clerk.ClerkMessageDTO;
-import fi.oph.yki.api.dto.clerk.ClerkNewCommentDTO;
 import fi.oph.yki.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
-import fi.oph.yki.api.dto.clerk.ClerkSendSupplementRequestDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.ExamSession;
-import fi.oph.yki.model.FreeComment;
 import fi.oph.yki.model.FreeRegistration;
-import fi.oph.yki.model.FreeSupplementRequest;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
-import fi.oph.yki.model.type.FreeRegistrationStatus;
 import fi.oph.yki.model.type.RegistrationLangOfService;
 import fi.oph.yki.model.type.RegistrationState;
-import fi.oph.yki.repository.FreeCommentRepository;
 import fi.oph.yki.repository.FreeRegistrationRepository;
-import fi.oph.yki.repository.FreeSupplementRequestRepository;
 import fi.oph.yki.util.DateUtil;
-import jakarta.persistence.EntityManager;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,10 +27,7 @@ public class ClerkRegistrationService {
 
   public static final int NUM_FREE_REGISTRATIONS = 3;
   private final FreeRegistrationRepository freeRegistrationRepository;
-  private final FreeCommentRepository freeCommentRepository;
-  private final FreeSupplementRequestRepository freeSupplementRequestRepository;
   private final AuditService auditService;
-  private final EntityManager entityManager;
 
   @Transactional(readOnly = true)
   public List<ClerkApprovalDTO> listApprovals() {
@@ -71,9 +53,6 @@ public class ClerkRegistrationService {
 
     final Boolean approved = dto.approved();
     final FreeRegistration freeRegistration = freeRegistrationRepository.getReferenceById(freeRegistrationId);
-
-    freeRegistration.setApproved(approved);
-    freeRegistration.setAssessmentDate(LocalDateTime.now());
 
     if (approved) {
       freeRegistration.getRegistration().setState(RegistrationState.COMPLETED);
@@ -108,9 +87,6 @@ public class ClerkRegistrationService {
       .person(clerkPersonDTO)
       .examDate(examDate)
       .registration(clerkRegistrationDTO)
-      .supplementRequestDueDate(getSupplementRequestDueDate(freeRegistration))
-      .assessmentDate(freeRegistration.getAssessmentDate())
-      .status(getStatus(freeRegistration))
       .build();
   }
 
@@ -148,106 +124,9 @@ public class ClerkRegistrationService {
       .person(clerkPersonDTO)
       .registration(clerkRegistrationDTO)
       .examSession(examSessionDTO)
-      .status(getStatus(freeRegistration))
-      .supplementRequestDueDate(getSupplementRequestDueDate(freeRegistration))
-      .assessmentDate(freeRegistration.getAssessmentDate())
       .languageOfService(RegistrationLangOfService.FI) // TODO, get from where?
       .freeRegistrationBasis(freeRegistration.getType())
       .freeRegistrationsLeft(countFreeRegistrationsLeft(freeRegistration))
-      .attachments(createClerkApprovalAttachmentsDTO(freeRegistration)) // TODO
-      .messages(createClerkMessageDTO(freeRegistration))
       .build();
-  }
-
-  private FreeRegistrationStatus getStatus(final FreeRegistration freeRegistration) {
-    if (freeRegistration.getApproved() == null) {
-      return FreeRegistrationStatus.PENDING;
-    } else if (freeRegistration.getApproved()) {
-      return FreeRegistrationStatus.APPROVED;
-    } else {
-      return FreeRegistrationStatus.REJECTED;
-    }
-  }
-
-  private LocalDate getSupplementRequestDueDate(final FreeRegistration freeRegistration) {
-    final List<FreeSupplementRequest> freeSupplementRequest = freeRegistration.getSupplementRequests();
-    final Optional<FreeSupplementRequest> latest = freeSupplementRequest
-      .stream()
-      .max(Comparator.comparing(FreeSupplementRequest::getCreatedAt));
-
-    return latest.map(FreeSupplementRequest::getDueDate).orElse(null);
-  }
-
-  private List<ClerkApprovalAttachmentsDTO> createClerkApprovalAttachmentsDTO(final FreeRegistration freeRegistration) {
-    return freeRegistration.getAttachments().stream().map(a -> ClerkApprovalAttachmentsDTO.builder().build()).toList();
-  }
-
-  private List<ClerkMessageDTO> createClerkMessageDTO(final FreeRegistration freeRegistration) {
-    final Stream<ClerkMessageDTO> comments = freeRegistration
-      .getComments()
-      .stream()
-      .map(a ->
-        ClerkMessageDTO
-          .builder()
-          .text(a.getComment())
-          .createdAt(a.getCreatedAt())
-          .createdBy(a.getCreatedBy())
-          .type("COMMENT")
-          .build()
-      );
-    final Stream<ClerkMessageDTO> supplementRequests = freeRegistration
-      .getSupplementRequests()
-      .stream()
-      .map(a ->
-        ClerkMessageDTO
-          .builder()
-          .text(a.getMessage())
-          .createdAt(a.getCreatedAt())
-          .createdBy(a.getCreatedBy())
-          .type("SUPPLEMENT_REQUEST")
-          .build()
-      );
-
-    return Stream
-      .concat(comments, supplementRequests)
-      .sorted(Comparator.comparing(ClerkMessageDTO::createdAt))
-      .toList();
-  }
-
-  @Transactional
-  public ClerkApprovalDetailsDTO sendSupplementRequest(
-    final long freeRegistrationId,
-    final ClerkSendSupplementRequestDTO dto
-  ) {
-    auditService.logById(YkiOperation.SEND_SUPPLEMENT_REQUEST, freeRegistrationId);
-
-    final FreeRegistration freeRegistration = freeRegistrationRepository.getReferenceById(freeRegistrationId);
-    final FreeSupplementRequest freeSupplementRequest = new FreeSupplementRequest();
-
-    freeSupplementRequest.setMessage(dto.message());
-    freeSupplementRequest.setDueDate(dto.dueDate());
-    freeSupplementRequest.setFreeRegistration(freeRegistration);
-
-    freeSupplementRequestRepository.saveAndFlush(freeSupplementRequest);
-
-    entityManager.refresh(freeRegistration);
-
-    return createClerkApprovalDetailsDTO(freeRegistration);
-  }
-
-  public ClerkApprovalDetailsDTO addComment(final long freeRegistrationId, final ClerkNewCommentDTO dto) {
-    auditService.logById(YkiOperation.ADD_COMMENT, freeRegistrationId);
-
-    final FreeRegistration freeRegistration = freeRegistrationRepository.getReferenceById(freeRegistrationId);
-    final FreeComment freeComment = new FreeComment();
-
-    freeComment.setComment(dto.comment());
-    freeComment.setFreeRegistration(freeRegistration);
-
-    freeCommentRepository.saveAndFlush(freeComment);
-
-    entityManager.refresh(freeRegistration);
-
-    return createClerkApprovalDetailsDTO(freeRegistration);
   }
 }
