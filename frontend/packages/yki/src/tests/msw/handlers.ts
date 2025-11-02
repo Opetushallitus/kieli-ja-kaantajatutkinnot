@@ -10,8 +10,8 @@ import { examSessions } from 'tests/msw/fixtures/examSession';
 import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
 import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import {
-  NoSessionResponse,
-  //SuomiFiAuthenticatedSessionResponse,
+  //NoSessionResponse,
+  SuomiFiAuthenticatedSessionResponse,
 } from 'tests/msw/fixtures/identity';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { organizers } from 'tests/msw/fixtures/organizers';
@@ -132,8 +132,8 @@ export const handlers = [
     }
   }),
   http.get(APIEndpoints.User, () => {
-    //return HttpResponse.json(SuomiFiAuthenticatedSessionResponse);
-    return HttpResponse.json(NoSessionResponse);
+    return HttpResponse.json(SuomiFiAuthenticatedSessionResponse);
+    //return HttpResponse.json(NoSessionResponse);
   }),
   http.post(APIEndpoints.EvaluationOrder, () =>
     HttpResponse.json(evaluationOrderPostResponse),

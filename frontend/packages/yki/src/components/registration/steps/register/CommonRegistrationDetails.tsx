@@ -12,6 +12,7 @@ import { H2, H3, Text } from 'shared/components';
 import { Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
+import { ExamFee } from 'components/registration/steps/register/ExamFee';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {
@@ -29,6 +30,8 @@ import {
 import { updatePublicRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
+import { sessionSelector } from 'redux/selectors/session';
+import { ExamSessionUtils } from 'utils/examSession';
 
 const ErrorLabelStyles = {
   '&.Mui-error .MuiFormControlLabel-label': {
@@ -43,9 +46,12 @@ export const CommonRegistrationDetails = () => {
   const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
 
+  const { loggedInSession } = useAppSelector(sessionSelector);
   const { registration, showErrors } = useAppSelector(registrationSelector);
-  const { language_code, level_code } = useAppSelector(examSessionSelector)
+  const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
+  const { language_code, level_code } = examSession;
+
   const dispatch = useAppDispatch();
   const handleCheckboxClick = (
     fieldName: keyof RegistrationCheckboxDetails,
@@ -66,6 +72,11 @@ export const CommonRegistrationDetails = () => {
     language_code === ExamLanguage.FIN ||
     language_code === ExamLanguage.SWE ||
     (language_code === ExamLanguage.ENG && level_code !== ExamLevel.PERUS);
+
+  const showExamFeeSection =
+    ExamSessionUtils.freeRegistrationPossible(examSession) &&
+    loggedInSession &&
+    loggedInSession['auth-method'] === 'SUOMIFI';
 
   useEffect(() => {
     if (hideInstructionLanguageSelection) {
@@ -147,6 +158,7 @@ export const CommonRegistrationDetails = () => {
           </FormControl>
         </fieldset>
       )}
+      {showExamFeeSection && <ExamFee />}
       <H2 className="public-registration__grid__form-container__terms-and-conditions">
         {t('termsAndConditions.title')}
       </H2>

@@ -42,7 +42,8 @@
       }
 
       &__terms-and-conditions,
-      &__whats-next {
+      &__whats-next,
+      &__exam-fee {
         @include phone-divider-border-top;
         padding-top: 3rem;
       }
