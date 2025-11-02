@@ -1,6 +1,7 @@
 import { Dayjs } from 'dayjs';
 
 import { ExamLanguage, ExamLevel } from 'enums/app';
+import { FreeRegistrationBasis } from 'interfaces/freeRegistration';
 
 interface FreeRegistrationPerson {
   firstName: string;
@@ -90,16 +91,6 @@ interface ExamSessionResponse extends Omit<ExamSession, 'examDate'> {
   examDate: string;
 }
 
-// exported in cypress which is excluded from root tsconfig.json
-// so would give error otherwise
-// ts-unused-exports:disable-next-line
-export type FreeRegistrationBasis =
-  | 'MatriculationExam'
-  | 'HigherEducationDegree'
-  | 'HigherEducationStudies'
-  | 'ComparableMatriculation'
-  | 'ComparableHigherEducationDegree'
-  | 'ComparableHigherEducationStudies';
 
 export type ClerkFreeRegistrationDetails = {
   id: number;
