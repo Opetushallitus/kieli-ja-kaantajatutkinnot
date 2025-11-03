@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 //@Repository
-public interface CustomerRepository //extends JpaRepository<Long, Long>
-{
+public interface CustomerRepository { //extends JpaRepository<Long, Long>
   int getCustomerById(int customerId);
 }

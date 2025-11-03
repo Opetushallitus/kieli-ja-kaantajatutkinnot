@@ -33,14 +33,17 @@ public class OnrService {
   }
 
   public PersonalDataDTO getPersonalData(final String oidNumber) throws Exception {
-      final Request request = defaultRequestBuilder.setUrl(onrServiceUrl + "/henkilo/" + oidNumber).setMethod(Methods.GET).build();
+    final Request request = defaultRequestBuilder
+      .setUrl(onrServiceUrl + "/henkilo/" + oidNumber)
+      .setMethod(Methods.GET)
+      .build();
 
-      final Response response = casClient.executeBlocking(request);
-      if (response.getStatusCode() != HttpStatus.OK.value()) {
-        throw new RuntimeException(("Wrong status code: " + response.getStatusCode()));
-      }
+    final Response response = casClient.executeBlocking(request);
+    if (response.getStatusCode() != HttpStatus.OK.value()) {
+      throw new RuntimeException(("Wrong status code: " + response.getStatusCode()));
+    }
 
-      final String json = response.getResponseBody();
-      return OBJECT_MAPPER.readValue(json, new TypeReference<PersonalDataDTO>() {});
+    final String json = response.getResponseBody();
+    return OBJECT_MAPPER.readValue(json, new TypeReference<PersonalDataDTO>() {});
   }
 }

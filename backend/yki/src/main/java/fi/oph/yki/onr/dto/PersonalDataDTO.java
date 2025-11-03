@@ -2,9 +2,7 @@ package fi.oph.yki.onr.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +10,7 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PersonalDataDTO {
-    @JsonProperty("hetu")
-    private String identityNumber;
+
+  @JsonProperty("hetu")
+  private String identityNumber;
 }

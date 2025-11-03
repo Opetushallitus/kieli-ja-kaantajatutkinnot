@@ -24,7 +24,7 @@ public class ClerkCustomerDetailsController {
 
   @GetMapping(path = "/{oid}", consumes = ALL_VALUE)
   @Operation(tags = TAG_CUSTOMER, summary = "Get customer details")
-  public List<ClerkCustomerDetailsDTO> getCustomerDetails(@PathVariable String oid) throws Exception {
+  public ClerkCustomerDetailsDTO getCustomerDetails(@PathVariable String oid) throws Exception {
     return service.getClerkCustomerDetails(oid);
   }
 }
