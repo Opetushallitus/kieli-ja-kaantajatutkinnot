@@ -1,15 +1,26 @@
 import { ExamLanguage } from 'enums/app';
 import { FreeRegistrationBasis } from 'interfaces/freeRegistration';
 
-interface KoskiEducation {
+export interface KoskiEducation {
   educationType: FreeRegistrationBasis;
   source: 'KOSKI';
 }
 
-interface UserDeclaredEducation {
+export type CountryOfEducation = 'finland' | 'abroad';
+
+export interface UserDeclaredEducation {
   educationType: FreeRegistrationBasis;
-  countryOfStudies: 'finland' | 'abroad';
+  countryOfEducation: CountryOfEducation;
   source: 'USER';
+}
+
+export interface UserDeclaredEducationDetails {
+  countryOfEducation?: 'finland' | 'abroad' | 'uneligible';
+  educationDetails?:
+    | 'matriculationExam'
+    | 'higherEducationDegree'
+    | 'higherEducationStudies'
+    | 'uneligible';
 }
 
 export interface PublicFreeRegistrationDetails {

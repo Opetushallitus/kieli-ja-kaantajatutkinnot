@@ -416,7 +416,9 @@
             "fields": {
               "address": "Street address",
               "certificateLanguage": "Select the language of the certificate",
+              "countryOfEducation": "Valitse, missä olet opiskellut",
               "dateOfBirth": "Date of birth",
+              "educationType": "Valitse maksuttomuuteen oikeuttavien opintojen tyyppi",
               "email": "Email address",
               "emailConfirmation": "Confirm email address",
               "firstNames": "First names",
@@ -467,7 +469,7 @@
                 "heading": "Opetushallitus tekee satunnaistarkistuksia",
                 "part1": "Opetushallitus voi pyytää sinulta todistuksen opinnoistasi jälkikäteen.",
                 "part2": "Jos sinulla ei ole todistusta maksuttomaan YKI-testiin oikeuttavista opinnoista, Opetushallitus lähettää sinulle laskun tutkintomaksusta.",
-                "part3": "Satunnaisia tarkistuksia tehdään korkeintaan x kuukautta tutkintopäivän jälkeen.",
+                "part3": "Satunnaisia tarkistuksia tehdään korkeintaan X kuukautta tutkintopäivän jälkeen.",
                 "part4": "Väärien tietojen ilmoittaminen on petos.",
                 "part5": "Opetushallitus ilmoittaa väärinkäytöksistä poliisille."
               },
@@ -526,6 +528,13 @@
           "title": "Fill in your personal information",
           "whatsNext": {
             "description": "Once you have submitted your registration form, you must pay the test fee. Your registration will only be confirmed once you have paid the test fee.",
+            "freeRegistration": {
+              "description": "Kun olet lähettänyt ilmoittautumislomakkeen, ilmoittautumisesi vahvistetaan. Vahvistettu ilmoittautuminen kuluttaa yhden maksuttoman ilmoittautumisen.",
+              "queued": {
+                "part1": "Kun olet lähettänyt ilmoittautumislomakkeen, saat sähköpostiisi vahvistuksen siitä, että olet ilmoittautunut jonoon.",
+                "part2": "Jos saat paikan jonosta, ilmoittautumisesi vahvistetaan. Vahvistettu ilmoittautuminen kuluttaa yhden maksuttoman ilmoittautumisen."
+              }
+            },
             "queued": {
               "part1": "Once you have submitted your registration form, you will receive an email confirming that you have been added to the waiting list.",
               "part2": "If you receive a place in the YKI test from the waiting list, you will be notified of this by email. Please keep an active eye on your email."

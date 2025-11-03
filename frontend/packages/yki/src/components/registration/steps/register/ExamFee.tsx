@@ -12,7 +12,7 @@ import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamLanguage } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
-import { setPublicFreeRegistration } from 'redux/reducers/publicFreeRegistration';
+import { setUserDeclaredFreeRegistration } from 'redux/reducers/publicFreeRegistration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
@@ -36,68 +36,23 @@ const UserEducationSelection = () => {
   });
   const dispatch = useAppDispatch();
   const { showErrors } = useAppSelector(registrationSelector);
-  const [countryOfStudies, setCountryOfStudies] = useState<
+  const { isFree } = useAppSelector(publicFreeRegistrationSelector);
+
+  const [countryOfEducation, setCountryOfEducation] = useState<
     CountryOfStudies | undefined
   >(undefined);
   const [educationDetails, setEducationDetails] = useState<
     EducationDetails | undefined
   >(undefined);
 
-  const isError = showErrors && countryOfStudies === undefined;
-  const isEligibleForFreeRegistration =
-    (countryOfStudies === 'finland' || countryOfStudies === 'abroad') &&
-    (educationDetails === 'matriculationExam' ||
-      educationDetails === 'higherEducationDegree' ||
-      educationDetails === 'higherEducationStudies');
   useEffect(() => {
-    if (isEligibleForFreeRegistration) {
-      const educationType =
-        educationDetails === 'matriculationExam'
-          ? 'MatriculationExam'
-          : educationDetails === 'higherEducationDegree'
-          ? 'HigherEducationDegree'
-          : 'HigherEducationStudies';
-      dispatch(
-        setPublicFreeRegistration({
-          isFree: 'YES',
-          basis: {
-            source: 'USER',
-            countryOfStudies,
-            educationType,
-          },
-        }),
-      );
-    } else {
-      const isFeeRequired =
-        countryOfStudies === 'uneligible' || educationDetails === 'uneligible';
-      dispatch(
-        setPublicFreeRegistration({
-          isFree: isFeeRequired ? 'NO' : 'UNDECIDED',
-          basis: undefined,
-        }),
-      );
-    }
-    if (countryOfStudies === 'finland')
-      switch (educationDetails) {
-        case 'matriculationExam':
-        case 'higherEducationDegree':
-        case 'higherEducationStudies':
-          dispatch(setPublicFreeRegistration({ isFree: 'YES' }));
-          break;
-        case 'uneligible':
-          dispatch(setPublicFreeRegistration({ isFree: 'NO' }));
-          break;
-      }
-    switch (countryOfStudies) {
-      case 'uneligible':
-        dispatch(setPublicFreeRegistration({ isFree: 'NO' }));
-    }
-  }, [
-    dispatch,
-    isEligibleForFreeRegistration,
-    educationDetails,
-    countryOfStudies,
-  ]);
+    dispatch(
+      setUserDeclaredFreeRegistration({
+        countryOfEducation,
+        educationDetails,
+      }),
+    );
+  }, [dispatch, countryOfEducation, educationDetails]);
 
   return (
     <>
@@ -112,10 +67,10 @@ const UserEducationSelection = () => {
             <b>{t('userSelection.countryOfStudies.prompt')} *</b>
           </Text>
         </legend>
-        <FormControl error={isError}>
+        <FormControl error={showErrors && !countryOfEducation}>
           <RadioGroup
             onChange={(event) =>
-              setCountryOfStudies(event.target.value as CountryOfStudies)
+              setCountryOfEducation(event.target.value as CountryOfStudies)
             }
           >
             <FormControlLabel
@@ -142,14 +97,15 @@ const UserEducationSelection = () => {
           </RadioGroup>
         </FormControl>
       </fieldset>
-      {(countryOfStudies === 'abroad' || countryOfStudies === 'finland') && (
+      {(countryOfEducation === 'abroad' ||
+        countryOfEducation === 'finland') && (
         <fieldset className="registration-details__radio-group">
           <legend>
             <Text>
               <b>{t('userSelection.educationDetails.prompt')} *</b>
             </Text>
           </legend>
-          <FormControl error={isError}>
+          <FormControl error={showErrors && !educationDetails}>
             <RadioGroup
               onChange={(event) =>
                 setEducationDetails(event.target.value as EducationDetails)
@@ -191,16 +147,16 @@ const UserEducationSelection = () => {
           </FormControl>
         </fieldset>
       )}
-      {isEligibleForFreeRegistration && (
+      {isFree === 'YES' && (
         <>
           <H3>{t('userSelection.randomChecksPerformed.heading')}</H3>
           <Text>
-            {t('userSelection.randomChecksPerformed.part1')}
+            {t('userSelection.randomChecksPerformed.part1')}{' '}
             {t('userSelection.randomChecksPerformed.part2')}
           </Text>
           <Text>
-            {t('userSelection.randomChecksPerformed.part3')}
-            {t('userSelection.randomChecksPerformed.part4')}
+            {t('userSelection.randomChecksPerformed.part3')}{' '}
+            {t('userSelection.randomChecksPerformed.part4')}{' '}
             {t('userSelection.randomChecksPerformed.part5')}
           </Text>
         </>

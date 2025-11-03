@@ -4,14 +4,23 @@ import { InputFieldUtils } from 'shared/utils';
 import { useAppSelector } from 'configs/redux';
 import { YkiValidationErrors } from 'enums/app';
 import {
+  KoskiEducation,
+  UserDeclaredEducation,
+} from 'interfaces/publicFreeRegistration';
+import {
   PublicEmailRegistration,
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
+import { examSessionSelector } from 'redux/selectors/examSession';
+import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
+import { ExamSessionUtils } from 'utils/examSession';
 
 type PublicRegistrationErrors = {
   [field in keyof Partial<
-    PublicEmailRegistration & PublicSuomiFiRegistration
+    PublicEmailRegistration &
+      PublicSuomiFiRegistration &
+      Omit<UserDeclaredEducation, 'source'>
   >]: string;
 };
 
@@ -19,6 +28,8 @@ const getErrors = (
   showErrors: boolean,
   isEmailRegistration: boolean,
   registration: Partial<PublicEmailRegistration & PublicSuomiFiRegistration>,
+  isEligibleForFreeRegistration: boolean,
+  freeRegistrationBasis?: KoskiEducation | UserDeclaredEducation,
 ) => {
   if (!showErrors) {
     return {};
@@ -97,6 +108,15 @@ const getErrors = (
   if (!registration.certificateLanguage) {
     errors['certificateLanguage'] = CustomTextFieldErrors.Required;
   }
+  if (isEligibleForFreeRegistration) {
+    if (!freeRegistrationBasis || freeRegistrationBasis.source === 'USER') {
+      if (!freeRegistrationBasis?.countryOfEducation) {
+        errors['countryOfEducation'] = CustomTextFieldErrors.Required;
+      } else if (!freeRegistrationBasis?.educationType) {
+        errors['educationType'] = CustomTextFieldErrors.Required;
+      }
+    }
+  }
   if (!registration.termsAndConditionsAgreed) {
     errors['termsAndConditionsAgreed'] = CustomTextFieldErrors.Required;
   }
@@ -110,7 +130,17 @@ const getErrors = (
 export const usePublicRegistrationErrors = (showErrors: boolean) => {
   const { isEmailRegistration, registration } =
     useAppSelector(registrationSelector);
+  const { examSession } = useAppSelector(examSessionSelector);
+  const { basis } = useAppSelector(publicFreeRegistrationSelector);
+  const isEligibleForFreeRegistration =
+    examSession && ExamSessionUtils.freeRegistrationPossible(examSession);
 
   return () =>
-    getErrors(showErrors, isEmailRegistration as boolean, registration);
+    getErrors(
+      showErrors,
+      isEmailRegistration as boolean,
+      registration,
+      !!isEligibleForFreeRegistration,
+      basis,
+    );
 };

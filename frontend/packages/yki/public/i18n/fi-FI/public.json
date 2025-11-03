@@ -416,7 +416,9 @@
             "fields": {
               "address": "Katuosoite",
               "certificateLanguage": "Valitse todistuksen kieli",
+              "countryOfEducation": "Valitse, missä olet opiskellut",
               "dateOfBirth": "Syntymäaika",
+              "educationType": "Valitse maksuttomuuteen oikeuttavien opintojen tyyppi",
               "email": "Sähköpostiosoite",
               "emailConfirmation": "Sähköpostiosoitteen vahvistus",
               "firstNames": "Etunimet",
@@ -467,7 +469,7 @@
                 "heading": "Opetushallitus tekee satunnaistarkistuksia",
                 "part1": "Opetushallitus voi pyytää sinulta todistuksen opinnoistasi jälkikäteen.",
                 "part2": "Jos sinulla ei ole todistusta maksuttomaan YKI-testiin oikeuttavista opinnoista, Opetushallitus lähettää sinulle laskun tutkintomaksusta.",
-                "part3": "Satunnaisia tarkistuksia tehdään korkeintaan x kuukautta tutkintopäivän jälkeen.",
+                "part3": "Satunnaisia tarkistuksia tehdään korkeintaan X kuukautta tutkintopäivän jälkeen.",
                 "part4": "Väärien tietojen ilmoittaminen on petos.",
                 "part5": "Opetushallitus ilmoittaa väärinkäytöksistä poliisille."
               },
@@ -525,6 +527,13 @@
           },
           "title": "Täytä tietosi",
           "whatsNext": {
+            "freeRegistration": {
+              "description": "Kun olet lähettänyt ilmoittautumislomakkeen, ilmoittautumisesi vahvistetaan. Vahvistettu ilmoittautuminen kuluttaa yhden maksuttoman ilmoittautumisen.",
+              "queued": {
+                "part1": "Kun olet lähettänyt ilmoittautumislomakkeen, saat sähköpostiisi vahvistuksen siitä, että olet ilmoittautunut jonoon.",
+                "part2": "Jos saat paikan jonosta, ilmoittautumisesi vahvistetaan. Vahvistettu ilmoittautuminen kuluttaa yhden maksuttoman ilmoittautumisen."
+              }
+            },
             "description": "Kun olet lähettänyt ilmoittautumislomakkeen, sinun täytyy maksaa tutkintomaksu. Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun.",
             "queued": {
               "part1": "Kun olet lähettänyt ilmoittautumislomakkeen, saat sähköpostiisi vahvistuksen siitä, että olet ilmoittautunut jonoon.",
