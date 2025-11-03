@@ -1,6 +1,8 @@
 package fi.oph.yki.api;
 
+import fi.oph.yki.api.dto.PublicEducationAndFreeRegistrationsCountDTO;
 import fi.oph.yki.api.dto.PublicEducationDTO;
+import fi.oph.yki.api.dto.PublicUsedFreeRegistrationsCountsDTO;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.service.RegistrationService;
 import fi.oph.yki.service.koski.KoskiService;
@@ -46,13 +48,22 @@ public class PublicController {
 
   @GetMapping(path = "/education")
   @ResponseStatus(HttpStatus.OK)
-  public List<PublicEducationDTO> getEducations(final HttpServletRequest request) {
+  public PublicEducationAndFreeRegistrationsCountDTO getEducations(final HttpServletRequest request) {
     final String oid = StringUtil.getOidFromRequest(request);
 
     if (oid == null || oid.isEmpty()) {
-      return Collections.emptyList();
+      throw new RuntimeException("OID null or empty");
     }
 
-    return koskiService.getEducations(oid);
+    List<PublicEducationDTO> educations = koskiService.getEducations(oid);
+    PublicUsedFreeRegistrationsCountsDTO usedFreeRegistrationsCounts = registrationService.getUsedFreeRegistrationsCounts(
+      oid
+    );
+
+    return PublicEducationAndFreeRegistrationsCountDTO
+      .builder()
+      .educations(educations)
+      .usedFreeRegistrations(usedFreeRegistrationsCounts)
+      .build();
   }
 }

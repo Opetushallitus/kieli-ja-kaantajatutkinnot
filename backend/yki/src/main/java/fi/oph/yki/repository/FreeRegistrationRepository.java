@@ -19,4 +19,16 @@ public interface FreeRegistrationRepository extends JpaRepository<FreeRegistrati
     " AND r.state = 'COMPLETED'"
   )
   int countFreeRegistrationsUsed(final String personOid);
+
+  // TODO FreeRegistration plays currently little role in query - does this work?
+  @Query(
+    "SELECT count(distinct r.id)" +
+    " FROM FreeRegistration f" +
+    " INNER JOIN Registration r" +
+    " INNER JOIN ExamSession es" +
+    " WHERE r.person.oid = ?1" +
+    " AND (r.state = 'COMPLETED' OR r.state = 'SUBMITTED')" +
+    " AND es.language = ?2"
+  )
+  int countUsedFreeRegistrationsForLanguage(final String personOid, final String language);
 }

@@ -1,6 +1,8 @@
 package fi.oph.yki.service;
 
+import fi.oph.yki.api.dto.PublicEducationAndFreeRegistrationsCountDTO;
 import fi.oph.yki.api.dto.PublicEducationDTO;
+import fi.oph.yki.api.dto.PublicUsedFreeRegistrationsCountsDTO;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
@@ -73,5 +75,13 @@ public class RegistrationService {
     registration.setFreeRegistration(freeRegistrationUpdated);
 
     return educationDTOs;
+  }
+
+  @Transactional(readOnly = true)
+  public PublicUsedFreeRegistrationsCountsDTO getUsedFreeRegistrationsCounts(String oid) {
+    final int fin = freeRegistrationRepository.countUsedFreeRegistrationsForLanguage(oid, "fin");
+    final int swe = freeRegistrationRepository.countUsedFreeRegistrationsForLanguage(oid, "swe");
+
+    return PublicUsedFreeRegistrationsCountsDTO.builder().fin(fin).swe(swe).build();
   }
 }
