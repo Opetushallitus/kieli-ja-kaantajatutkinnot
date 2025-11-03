@@ -7,17 +7,6 @@ import {
 } from 'interfaces/publicFreeRegistration';
 
 const initialState: PublicFreeRegistrationDetails = {
-  attemptsUsed: {
-    fin: 2,
-    swe: 2,
-  },
-  /*isFree: 'YES',
-  basis: {
-    source: 'KOSKI',
-    educationType: 'ComparableHigherEducationStudies',
-    isActive: false,
-  },
-  */
   isFree: 'UNDECIDED',
 };
 

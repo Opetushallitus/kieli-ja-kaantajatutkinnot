@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { ChangeEvent, useEffect } from 'react';
 import { H2, H3, Text } from 'shared/components';
-import { Color } from 'shared/enums';
+import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { ExamFee } from 'components/registration/steps/register/ExamFee';
@@ -27,8 +27,12 @@ import {
   PersonFillOutDetails,
   RegistrationCheckboxDetails,
 } from 'interfaces/publicRegistration';
+import { getKoskiEducations } from 'redux/reducers/publicEducation';
+import { setPublicFreeRegistration } from 'redux/reducers/publicFreeRegistration';
 import { updatePublicRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
+import { publicEducationSelector } from 'redux/selectors/publicEducation';
+import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
@@ -47,6 +51,12 @@ export const CommonRegistrationDetails = () => {
   const { isPhone } = useWindowProperties();
 
   const { loggedInSession } = useAppSelector(sessionSelector);
+  const { status: publicEducationStatus } = useAppSelector(
+    publicEducationSelector,
+  );
+  const { basis, attemptsUsed } = useAppSelector(
+    publicFreeRegistrationSelector,
+  );
   const { registration, showErrors } = useAppSelector(registrationSelector);
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
@@ -73,10 +83,14 @@ export const CommonRegistrationDetails = () => {
     language_code === ExamLanguage.SWE ||
     (language_code === ExamLanguage.ENG && level_code !== ExamLevel.PERUS);
 
-  const showExamFeeSection =
+  const shouldGetKoskiEducations =
     ExamSessionUtils.freeRegistrationPossible(examSession) &&
     loggedInSession &&
     loggedInSession['auth-method'] === 'SUOMIFI';
+
+  const showExamFeeSection =
+    shouldGetKoskiEducations &&
+    publicEducationStatus !== APIResponseStatus.InProgress;
 
   useEffect(() => {
     if (hideInstructionLanguageSelection) {
@@ -87,6 +101,36 @@ export const CommonRegistrationDetails = () => {
       dispatch(updatePublicRegistration({ instructionLanguage }));
     }
   }, [dispatch, hideInstructionLanguageSelection, language_code]);
+
+  useEffect(() => {
+    if (shouldGetKoskiEducations) {
+      if (publicEducationStatus === APIResponseStatus.NotStarted) {
+        dispatch(getKoskiEducations());
+      } else if (
+        publicEducationStatus === APIResponseStatus.Success &&
+        attemptsUsed
+      ) {
+        const examLanguage = examSession.language_code as
+          | ExamLanguage.FIN
+          | ExamLanguage.SWE;
+        const freeAttemptsLeft = 3 - attemptsUsed[examLanguage];
+        if (freeAttemptsLeft > 0) {
+          if (basis?.source === 'KOSKI') {
+            dispatch(setPublicFreeRegistration({ isFree: 'YES' }));
+          }
+        } else {
+          dispatch(setPublicFreeRegistration({ isFree: 'NO' }));
+        }
+      }
+    }
+  }, [
+    dispatch,
+    shouldGetKoskiEducations,
+    publicEducationStatus,
+    basis?.source,
+    attemptsUsed,
+    examSession.language_code,
+  ]);
 
   const getRegistrationErrors = usePublicRegistrationErrors(showErrors);
   const registrationErrors = getRegistrationErrors();

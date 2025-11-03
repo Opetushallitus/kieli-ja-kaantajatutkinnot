@@ -91,7 +91,6 @@ interface ExamSessionResponse extends Omit<ExamSession, 'examDate'> {
   examDate: string;
 }
 
-
 export type ClerkFreeRegistrationDetails = {
   id: number;
   person: FreeRegistrationPerson;

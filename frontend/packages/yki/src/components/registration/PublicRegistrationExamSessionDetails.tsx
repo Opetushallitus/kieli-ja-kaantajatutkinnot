@@ -38,12 +38,13 @@ export const PublicRegistrationExamSessionDetails = ({
     getCurrentLang(),
   );
 
-  const examFeeText =
-    isFree === 'YES'
+  const examFeeText = ExamSessionUtils.freeRegistrationPossible(examSession)
+    ? isFree === 'YES'
       ? `0 €`
       : isFree === 'NO'
       ? `${examSession.exam_fee} €`
-      : `0 ${translateCommon('or')} ${examSession.exam_fee} €`;
+      : `0 ${translateCommon('or')} ${examSession.exam_fee} €`
+    : `${examSession.exam_fee} €`;
 
   return (
     <div className="rows">

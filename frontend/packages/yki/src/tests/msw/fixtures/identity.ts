@@ -12,4 +12,5 @@ export const SuomiFiAuthenticatedSessionResponse: SuomiFiAuthenticatedSession =
     },
   };
 
+// ts-unused-exports:disable-next-line
 export const NoSessionResponse = { identity: null };
