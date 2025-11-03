@@ -2,7 +2,6 @@ import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import InfoFilledIcon from '@mui/icons-material/Info';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
 import WarningOutlinedIcon from '@mui/icons-material/WarningOutlined';
 import { Grid, Paper, Typography } from '@mui/material';
@@ -384,31 +383,7 @@ const Registrations: FC<RegistrationsProps> = ({
               >
                 {t('actions.cancel')}
               </CustomButton>
-              {r.state === RegistrationStates.Completed &&
-                !isFreeRegistrationPending && (
-                  <CustomButtonLink
-                    className="fit-content-max-width"
-                    color={Color.Secondary}
-                    variant={Variant.Outlined}
-                    disabled={!r.isTransferable}
-                    to={AppRoutes.TransferRegistration.replace(
-                      /:registrationId/,
-                      `${r.id}`,
-                    )}
-                  >
-                    {t('actions.relocate')}
-                  </CustomButtonLink>
-                )}
             </div>
-            {r.isTransfered && (
-              <div className="columns gapped-xs">
-                <InfoOutlinedIcon />
-                <Text>
-                  {t('alreadyTransferredNotification.part1')}{' '}
-                  {t('alreadyTransferredNotification.part2')}
-                </Text>
-              </div>
-            )}
           </div>
         )}
       </Paper>

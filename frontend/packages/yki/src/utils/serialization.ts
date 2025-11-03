@@ -53,12 +53,6 @@ import {
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
 import {
-  TransferRegistrationDetails,
-  TransferRegistrationDetailsResponse,
-  TransferRegistrationTarget,
-  TransferRegistrationTargetResponse,
-} from 'interfaces/transferRegistration';
-import {
   ModifyContactDetails,
   PersonDetails,
   PersonDetailsResponse,
@@ -304,24 +298,6 @@ export class SerializationUtils {
             ? (v.position_in_queue || 0) + 1
             : undefined,
       })),
-    };
-  }
-
-  static deserializeTransferRegistrationTarget(
-    response: TransferRegistrationTargetResponse,
-  ): TransferRegistrationTarget {
-    return { ...response, session_date: dayjs(response.session_date) };
-  }
-
-  static deserializeTransferRegistrationDetails(
-    response: TransferRegistrationDetailsResponse,
-  ): TransferRegistrationDetails {
-    return {
-      ...response,
-      session_date: dayjs(response.session_date),
-      targets: response.targets.map(
-        SerializationUtils.deserializeTransferRegistrationTarget,
-      ),
     };
   }
 
