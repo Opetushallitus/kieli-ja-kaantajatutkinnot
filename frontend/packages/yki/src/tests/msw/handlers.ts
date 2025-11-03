@@ -227,9 +227,10 @@ export const handlers = [
     },
   ),
   http.get(APIEndpoints.ClerkCustomerDetails, ({ params }) => {
-    const index = params?.id ? Number(params.id) - 1 : NaN;
-    if (index >= 0) {
-      return HttpResponse.json(customerDetails[index]);
+    const oid = params?.oid as string | undefined;
+    const details = customerDetails.find((cd) => cd.person.oid === oid);
+    if (details) {
+      return HttpResponse.json(details);
     } else {
       return notFound();
     }

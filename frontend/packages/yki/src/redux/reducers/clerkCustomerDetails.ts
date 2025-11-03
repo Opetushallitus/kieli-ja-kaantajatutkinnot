@@ -17,7 +17,7 @@ const clerkCustomerDetailsSlice = createSlice({
   name: 'customerDetails',
   initialState,
   reducers: {
-    loadClerkCustomerDetails(state, _action: PayloadAction<number>) {
+    loadClerkCustomerDetails(state, _action: PayloadAction<string>) {
       state.status = APIResponseStatus.InProgress;
     },
     rejectCustomerDetails(state) {

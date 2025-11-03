@@ -9,10 +9,10 @@ describe('ClerkCustomerDetailsPage', () => {
   });
 
   it('shows user details correctly', () => {
-    const id = 1;
-    cy.openClerkCustomerDetailsPage(id);
-    onClerkCustomerDetailsPage.isVisible(id);
-    onClerkCustomerDetailsPage.expectDetailsVisible(id);
+    const oid = '1.2.246.562.24.82364099322';
+    cy.openClerkCustomerDetailsPage(oid);
+    onClerkCustomerDetailsPage.isVisible(oid);
+    onClerkCustomerDetailsPage.expectDetailsVisible(oid);
 
     // headers
     onClerkCustomerDetailsPage.expectRegisteredTableHeadersVisible();
@@ -37,10 +37,10 @@ describe('ClerkCustomerDetailsPage', () => {
   });
 
   it('shows user details correctly, when user has no exams', () => {
-    const id = 2;
-    cy.openClerkCustomerDetailsPage(id);
-    onClerkCustomerDetailsPage.isVisible(id);
-    onClerkCustomerDetailsPage.expectDetailsVisible(id);
+    const oid = '1.2.246.562.24.82364099323';
+    cy.openClerkCustomerDetailsPage(oid);
+    onClerkCustomerDetailsPage.isVisible(oid);
+    onClerkCustomerDetailsPage.expectDetailsVisible(oid);
 
     // expect exam data is empty
 

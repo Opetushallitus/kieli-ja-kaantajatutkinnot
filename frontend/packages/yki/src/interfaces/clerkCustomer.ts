@@ -66,7 +66,6 @@ export enum QueueOfferStatus {
 }
 
 export interface ClerkCustomerDetails {
-  id: number;
   person: CustomerPerson;
   registrations: Exam[];
   queuedExams: QueuedRegistration[];
@@ -109,7 +108,6 @@ type PastExamResponse = Omit<PastExam, 'examinationDate'> & {
 };
 
 export interface ClerkCustomerDetailsResponse {
-  id: number;
   person: CustomerPerson;
   registrations: ExamResponse[];
   queuedExams: QueuedExamResponse[];
