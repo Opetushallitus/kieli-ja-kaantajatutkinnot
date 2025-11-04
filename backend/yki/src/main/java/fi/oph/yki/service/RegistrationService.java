@@ -70,6 +70,7 @@ public class RegistrationService {
     freeRegistration.setDia(freeEnrollmentTypes.contains(FreeRegistrationType.DIA));
     freeRegistration.setEb(freeEnrollmentTypes.contains(FreeRegistrationType.EB));
     freeRegistration.setOther(freeEnrollmentTypes.contains(FreeRegistrationType.Other));
+    freeRegistration.setIsForeignEducation(false);
 
     final FreeRegistration freeRegistrationUpdated = freeRegistrationRepository.saveAndFlush(freeRegistration);
     registration.setFreeRegistration(freeRegistrationUpdated);
