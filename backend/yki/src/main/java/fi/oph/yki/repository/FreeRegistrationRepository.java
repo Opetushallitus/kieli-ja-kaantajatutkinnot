@@ -24,10 +24,10 @@ public interface FreeRegistrationRepository extends JpaRepository<FreeRegistrati
   @Query(
     "SELECT count(distinct r.id)" +
     " FROM FreeRegistration f" +
-    " INNER JOIN Registration r" +
-    " INNER JOIN ExamSession es" +
+    " JOIN Registration r" +
+    " JOIN ExamSession es" +
     " WHERE r.person.oid = ?1" +
-    " AND (r.state = 'COMPLETED' OR r.state = 'SUBMITTED')" +
+    " AND r.state = 'COMPLETED'" +
     " AND es.language = ?2"
   )
   int countUsedFreeRegistrationsForLanguage(final String personOid, final String language);
