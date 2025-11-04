@@ -480,7 +480,7 @@ export class SerializationUtils {
       case 'dia':
       case 'eb':
         return 'ComparableMatriculation';
-      case 'korkeakoulututkinto':
+      case 'korkeakoulutus':
         return koskiEducation.isActive
           ? 'HigherEducationStudies'
           : 'HigherEducationDegree';

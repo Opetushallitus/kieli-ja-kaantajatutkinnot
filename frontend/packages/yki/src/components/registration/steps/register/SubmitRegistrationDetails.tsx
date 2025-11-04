@@ -68,7 +68,7 @@ const FillRegistrationDetails = () => {
         {t('whatsNext.title')}
       </H2>
       {registrationKind === RegistrationKind.Admission && isFree !== 'YES' && (
-        <Text>{t('whatsNextdescription')}</Text>
+        <Text>{t('whatsNext.description')}</Text>
       )}
       {registrationKind === RegistrationKind.Admission && isFree === 'YES' && (
         <Text>{t('whatsNext.freeRegistration.description')}</Text>

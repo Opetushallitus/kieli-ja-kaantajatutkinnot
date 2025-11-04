@@ -9,7 +9,7 @@ export interface PublicEducationState {
 
 // TODO Clarify naming! Now similar to KoskiEducation from within ./publicFreeRegistration.ts
 export interface KoskiEducationDTO {
-  educationType: 'ylioppilastutkinto' | 'korkeakoulututkinto' | 'dia' | 'eb';
+  educationType: 'ylioppilastutkinto' | 'korkeakoulutus' | 'dia' | 'eb';
   isActive: boolean;
 }
 
