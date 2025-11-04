@@ -439,7 +439,7 @@
           },
           "examFee": {
             "education": {
-              "higherEducation": "Korkeakoulutukinto",
+              "higherEducation": "Korkeakoulututkinto",
               "matriculationExam": "Ylioppilastutkinto"
             },
             "freeAttemptsExhausted": "Olet käyttänyt kaikki ilmaiset kerrat.",
