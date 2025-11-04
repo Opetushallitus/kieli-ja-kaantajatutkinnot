@@ -254,4 +254,7 @@ export const handlers = [
       },
     });
   }),
+  http.post(APIEndpoints.PublicFreeRegistrationEducation, () => {
+    return HttpResponse.json({}, { status: 201 });
+  }),
 ];

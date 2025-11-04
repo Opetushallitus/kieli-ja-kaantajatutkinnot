@@ -6,6 +6,7 @@ import axiosInstance from 'configs/axios';
 import { getCurrentLang } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+import { PublicFreeRegistrationDetails } from 'interfaces/publicFreeRegistration';
 import {
   PublicRegistrationFormSubmitErrorResponse,
   PublicRegistrationFormSubmitSuccessResponse,
@@ -32,6 +33,7 @@ import {
 import { resetSession } from 'redux/reducers/session';
 import { resetUserOpenRegistrations } from 'redux/reducers/userOpenRegistrations';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
+import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -112,6 +114,21 @@ function* submitRegistrationFormSaga() {
     const registrationState: RegistrationState =
       yield select(registrationSelector);
     const { nationalities } = yield select(nationalitiesSelector);
+    const { basis, isFree }: PublicFreeRegistrationDetails = yield select(
+      publicFreeRegistrationSelector,
+    );
+    if (isFree === 'YES' && basis) {
+      const registrationEducationEndpoint =
+        APIEndpoints.PublicFreeRegistrationEducation.replace(
+          /:registrationId/,
+          `${registrationState.registration.id}`,
+        );
+      // TODO Use free registration also if education supplied by user selection
+      // TODO Unify usage: POST similar payload to backend, let backend infer actions based on payload source
+      if (basis.source === 'KOSKI') {
+        yield call(axiosInstance.post, registrationEducationEndpoint);
+      }
+    }
     const response: AxiosResponse<PublicRegistrationFormSubmitSuccessResponse> =
       yield call(
         axiosInstance.post,

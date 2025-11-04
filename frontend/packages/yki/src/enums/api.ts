@@ -32,6 +32,7 @@ export enum APIEndpoints {
   ClerkFreeRegistrationDetailsMessages = '/yki/v2/api/clerk/registration/approval/:id/comment',
   ClerkCustomerDetails = '/yki/v2/api/clerk/customer/:oid',
   PublicKoskiEducations = '/yki/api/public/education',
+  PublicFreeRegistrationEducation = '/yki/api/public/education/:registrationId',
 }
 
 export enum PaymentStatus {
