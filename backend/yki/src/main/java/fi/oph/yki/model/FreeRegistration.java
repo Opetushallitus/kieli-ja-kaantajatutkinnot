@@ -58,4 +58,7 @@ public class FreeRegistration {
 
   @Column(name = "other", nullable = false)
   private Boolean other;
+
+  @Column(name = "is_foreign")
+  private Boolean isForeignEducation;
 }
