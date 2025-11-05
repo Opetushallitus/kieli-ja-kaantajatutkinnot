@@ -27,7 +27,7 @@ public class ClerkCustomerService {
       person.getLastName(),
       onrPerson.getIdentityNumber(),
       person.getOid(),
-      "246",
+      person.getNationalityCode(),
       person.getPhoneNumber(),
       person.getAddress(),
       person.getEmail()

@@ -54,6 +54,10 @@ public class Person {
   @Column(name = "zip")
   private String zip;
 
+  @Size(max = 255)
+  @Column(name = "nationality_code")
+  private String nationalityCode;
+
   public String getAddress() {
     return String.format("%s, %s, %s", steetAddress, zip, postOffice);
   }
