@@ -221,4 +221,16 @@ export const customerDetails: ClerkCustomerDetailsResponse[] = [
     queuedExams: [],
     pastExams: [],
   },
+  {
+    person: {
+      firstName: 'Aino',
+      lastName: 'Osallistuja',
+      ssn: '010170-960F',
+      oid: '1.2.246.562.24.82364099324',
+      nationalityCode: '246',
+    },
+    registrations: defaultRegistrations,
+    queuedExams: defaultQueuedExams,
+    pastExams: defaultPastExams,
+  },
 ];

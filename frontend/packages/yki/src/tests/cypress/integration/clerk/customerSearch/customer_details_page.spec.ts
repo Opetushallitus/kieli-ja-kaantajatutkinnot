@@ -70,17 +70,39 @@ describe('ClerkCustomerDetailsPage', () => {
     cy.openClerkCustomerDetailsPage(oid);
     onClerkCustomerDetailsPage.isVisible(oid);
 
-    cy.findByText(details.person.ssn).should('be.empty');
-    cy.findByText(details.person.oid).should('be.empty');
+    cy.findByText(details.person.ssn).should('be.visible');
+    cy.findByText(details.person.oid).should('be.visible');
 
-    cy.findByText('Suomi').should('be.empty');
+    cy.findByText('Suomi').should('be.visible');
 
-    // Asiointikieli ja Todistuksen kieli
-    cy.findAllByText('suomi').eq(1).should('be.empty');
+    // find the whole details, by person's ssn
+    // then get it's ancestor divs
+    // The nearest div (same where the ssn exists) is first
+    // save it as 'personDetailsContainer'
+    cy.findByText(details.person.ssn)
+      .parents('div')
+      .first()
+      .as('personDetailsContainer');
 
-    cy.findByText(details.person.phoneNumber).should('be.empty');
-    cy.findByText(details.person.streetAddress).should('be.empty');
+    // get 'person_details', the assert if it has 6 divs.
+    cy.get('@personDetailsContainer').find('> div').should('have.length', 6);
 
-    cy.contains('a', details.person.email).should('not.exist');
+    // ensure puhelinnumero is empty
+    cy.get('@personDetailsContainer')
+      .find('> div')
+      .eq(3)
+      .should('have.text', '');
+
+    // ensure osoite is empty
+    cy.get('@personDetailsContainer')
+      .find('> div')
+      .eq(4)
+      .should('have.text', '');
+
+    // ensure sähköposti is empty
+    cy.get('@personDetailsContainer')
+      .find('> div')
+      .eq(5)
+      .should('have.text', '');
   });
 });

@@ -8,9 +8,9 @@ export interface CustomerPerson {
   ssn: string;
   oid: string;
   nationalityCode: string;
-  phoneNumber: string;
-  streetAddress: string;
-  email: string;
+  phoneNumber?: string;
+  streetAddress?: string;
+  email?: string;
 }
 
 type Exam = {
