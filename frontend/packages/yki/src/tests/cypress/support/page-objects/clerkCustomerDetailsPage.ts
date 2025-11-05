@@ -28,6 +28,9 @@ class ClerkCustomerDetailsPage {
 
   expectDetailsVisible(oid: string) {
     const details = customerDetails.find((cd) => cd.person.oid === oid);
+    if (!details) {
+      throw new Error(`Could not find customer with oid '${oid}'.`);
+    }
 
     cy.findByText(details.person.ssn).should('be.visible');
     cy.findByText(details.person.oid).should('be.visible');
