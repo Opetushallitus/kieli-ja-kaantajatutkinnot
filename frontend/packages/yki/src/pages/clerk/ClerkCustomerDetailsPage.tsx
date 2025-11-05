@@ -29,20 +29,16 @@ export const ClerkCustomerDetailsPage: FC = () => {
   const params = useParams();
 
   useEffect(() => {
-    if (
-      status === APIResponseStatus.NotStarted &&
-      params.id &&
-      !isNaN(+params.id)
-    ) {
-      dispatch(loadClerkCustomerDetails(+params.id));
-    } else if (status === APIResponseStatus.Error || isNaN(Number(params.id))) {
+    if (status === APIResponseStatus.NotStarted && params.oid) {
+      dispatch(loadClerkCustomerDetails(params.oid));
+    } else if (status === APIResponseStatus.Error) {
       showToast({
         severity: Severity.Error,
         description: t('details.toasts.notFound'),
       });
       navigate(AppRoutes.ClerkCustomerDetails);
     }
-  }, [dispatch, navigate, params.id, showToast, status, t]);
+  }, [dispatch, navigate, params.oid, showToast, status, t]);
 
   return (
     <Box className="clerk-customer-details-page">

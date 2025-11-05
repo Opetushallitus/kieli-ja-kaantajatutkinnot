@@ -1,10 +1,4 @@
-import {
-  CertificateLanguage,
-  ExamLanguage,
-  ExamLevel,
-  RegistrationStates,
-  ServiceLanguage,
-} from 'enums/app';
+import { ExamLanguage, ExamLevel, RegistrationStates } from 'enums/app';
 import {
   ClerkCustomerDetailsResponse,
   QueueOfferStatus,
@@ -12,15 +6,12 @@ import {
 
 export const customerDetails: ClerkCustomerDetailsResponse[] = [
   {
-    id: 0,
     person: {
-      firstName: 'Aino',
-      lastName: 'Osallistuja',
-      ssn: '010170-960F',
+      firstName: 'Jori Testi',
+      lastName: 'Häkkinen-Testi',
+      ssn: '280105A911J',
       oid: '1.2.246.562.24.82364099322',
       nationalityCode: '246',
-      languageOfService: ServiceLanguage.FI,
-      languageOfCertificate: CertificateLanguage.FI,
       phoneNumber: '+358 401234567',
       streetAddress: 'Katuosoite 123, 33100 Tampere',
       email: 'aino.osallistuja@loremipsum.fi',
@@ -209,15 +200,12 @@ export const customerDetails: ClerkCustomerDetailsResponse[] = [
     ],
   },
   {
-    id: 1,
     person: {
       firstName: 'Aino',
       lastName: 'Osallistuja',
       ssn: '010170-960F',
-      oid: '1.2.246.562.24.82364099322',
+      oid: '1.2.246.562.24.82364099323',
       nationalityCode: '246',
-      languageOfService: ServiceLanguage.FI,
-      languageOfCertificate: CertificateLanguage.FI,
       phoneNumber: '+358 401234567',
       streetAddress: 'Katuosoite 123, 33100 Tampere',
       email: 'aino.osallistuja@loremipsum.fi',
