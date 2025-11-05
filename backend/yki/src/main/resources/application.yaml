@@ -63,3 +63,6 @@ cas:
   url: ${virkailija.cas.url:http://localhost:${server.port}/yki}
   cas-url: ${virkailija.cas.url:https://virkailija.untuvaopintopolku.fi/cas}
   login-url: ${virkailija.cas.login-url:http://localhost:${server.port}/login}
+  onr:
+    username: ${cas.username:null}
+    password: ${cas.password:null}

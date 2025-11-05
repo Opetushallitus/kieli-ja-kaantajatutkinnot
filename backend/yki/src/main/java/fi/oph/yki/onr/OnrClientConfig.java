@@ -18,8 +18,8 @@ public class OnrClientConfig {
   public CasClient casClient(
     @Value("${cas.onr-url}") final String onrServiceUrl,
     @Value("${cas.cas-url}") final String casUrl,
-    @Value("${cas.username}") final String casUsername,
-    @Value("${cas.password}") final String casPassword
+    @Value("${cas.onr.username}") final String casUsername,
+    @Value("${cas.onr.password}") final String casPassword
   ) {
     return CasClientBuilder.build(
       CasConfig.SpringSessionCasConfig(
