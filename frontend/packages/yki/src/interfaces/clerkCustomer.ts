@@ -1,11 +1,6 @@
 import { Dayjs } from 'dayjs';
 
-import {
-  CertificateLanguage,
-  ExamLanguage,
-  ExamLevel,
-  RegistrationStates,
-} from 'enums/app';
+import { ExamLanguage, ExamLevel, RegistrationStates } from 'enums/app';
 
 export interface CustomerPerson {
   firstName: string;
@@ -13,7 +8,6 @@ export interface CustomerPerson {
   ssn: string;
   oid: string;
   nationalityCode: string;
-  languageOfCertificate: CertificateLanguage;
   phoneNumber: string;
   streetAddress: string;
   email: string;

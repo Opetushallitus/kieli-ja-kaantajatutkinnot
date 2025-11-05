@@ -37,9 +37,6 @@ class ClerkCustomerDetailsPage {
 
     cy.findByText('Suomi').should('be.visible');
 
-    // Todistuksen kieli
-    cy.findAllByText('suomi').eq(0).should('be.visible');
-
     cy.findByText(details.person.phoneNumber).should('be.visible');
     cy.findByText(details.person.streetAddress).should('be.visible');
 

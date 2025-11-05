@@ -167,15 +167,9 @@
             "ssn": "Hetu",
             "oid": "Oppijanumero",
             "nationality":"Kansalaisuus",
-            "languageOfCertificate": "Todistuksen kieli",
             "phoneNumber": "Puhelinnumero",
             "streetAddress": "Osoite",
             "email": "Sähköposti"
-          },
-          "languageOfCertificate": {
-            "fi": "suomi",
-            "sv": "ruotsi",
-            "en": "englanti"
           },
           "listing": {
             "headers": {
