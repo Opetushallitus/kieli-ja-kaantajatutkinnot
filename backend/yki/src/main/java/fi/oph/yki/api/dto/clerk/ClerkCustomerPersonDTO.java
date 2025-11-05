@@ -6,8 +6,6 @@ public record ClerkCustomerPersonDTO(
   String ssn,
   String oid,
   String nationalityCode,
-  String languageOfService,
-  String languageOfCertificate,
   String phoneNumber,
   String streetAddress,
   String email

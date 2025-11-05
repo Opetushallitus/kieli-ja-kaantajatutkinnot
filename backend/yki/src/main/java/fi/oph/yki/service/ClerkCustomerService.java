@@ -28,8 +28,6 @@ public class ClerkCustomerService {
       onrPerson.getIdentityNumber(),
       person.getOid(),
       "246",
-      "FI", // ServiceLanguage.FI,
-      "FI", // CertificateLanguage.FI,
       person.getPhoneNumber(),
       person.getAddress(),
       person.getEmail()
