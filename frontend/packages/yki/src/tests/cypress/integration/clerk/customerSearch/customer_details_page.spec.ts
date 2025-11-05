@@ -2,6 +2,7 @@ import { AppLanguage } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import { onClerkCustomerDetailsPage } from 'tests/cypress/support/page-objects/clerkCustomerDetailsPage';
+import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 
 describe('ClerkCustomerDetailsPage', () => {
   before(() => {
@@ -57,5 +58,29 @@ describe('ClerkCustomerDetailsPage', () => {
     cy.findAllByText(
       'Ei menneitä tutkintorilaisuuksia viimeisen 365 päivän ajalta',
     ).should('be.visible');
+  });
+
+  it('shows user details correctly, when user has no contact information', () => {
+    const oid = '1.2.246.562.24.82364099324';
+    const details = customerDetails.find((cd) => cd.person.oid === oid);
+    if (!details) {
+      throw new Error(`Could not find customerDetails with oid '${oid}'.`);
+    }
+
+    cy.openClerkCustomerDetailsPage(oid);
+    onClerkCustomerDetailsPage.isVisible(oid);
+
+    cy.findByText(details.person.ssn).should('be.empty');
+    cy.findByText(details.person.oid).should('be.empty');
+
+    cy.findByText('Suomi').should('be.empty');
+
+    // Asiointikieli ja Todistuksen kieli
+    cy.findAllByText('suomi').eq(1).should('be.empty');
+
+    cy.findByText(details.person.phoneNumber).should('be.empty');
+    cy.findByText(details.person.streetAddress).should('be.empty');
+
+    cy.contains('a', details.person.email).should('not.exist');
   });
 });
