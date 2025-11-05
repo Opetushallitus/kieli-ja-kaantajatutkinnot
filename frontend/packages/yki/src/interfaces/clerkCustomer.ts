@@ -5,7 +5,6 @@ import {
   ExamLanguage,
   ExamLevel,
   RegistrationStates,
-  ServiceLanguage,
 } from 'enums/app';
 
 export interface CustomerPerson {
@@ -14,7 +13,6 @@ export interface CustomerPerson {
   ssn: string;
   oid: string;
   nationalityCode: string;
-  languageOfService: ServiceLanguage;
   languageOfCertificate: CertificateLanguage;
   phoneNumber: string;
   streetAddress: string;

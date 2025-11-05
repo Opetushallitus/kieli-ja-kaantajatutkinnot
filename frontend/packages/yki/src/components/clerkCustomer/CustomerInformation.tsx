@@ -36,7 +36,6 @@ export const CustomerInformation = ({
           <Label>{t('details.fields.ssn')}</Label>
           <Label>{t('details.fields.oid')}</Label>
           <Label>{t('details.fields.nationality')}</Label>
-          <Label>{t('details.fields.languageOfService')}</Label>
           <Label>{t('details.fields.languageOfCertificate')}</Label>
           <Label>{t('details.fields.phoneNumber')}</Label>
           <Label>{t('details.fields.streetAddress')}</Label>
@@ -52,9 +51,6 @@ export const CustomerInformation = ({
                   code == person.nationalityCode && language == appLanguage,
               )?.name
             }
-          </div>
-          <div>
-            {t(`details.languageOfService.${person.languageOfService}`)}
           </div>
           <div>
             {t(`details.languageOfCertificate.${person.languageOfCertificate}`)}
