@@ -95,7 +95,7 @@ type QueuedExamResponse = Omit<
   registrationDate: string;
 };
 
-type PastExamResponse = Omit<PastExam, 'examinationDate'> & {
+export type PastExamResponse = Omit<PastExam, 'examinationDate'> & {
   examinationDate: string;
 };
 
