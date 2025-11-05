@@ -41,6 +41,9 @@ public class FreeRegistration {
   @Enumerated(value = EnumType.STRING)
   private FreeRegistrationType type;
 
+  @Column(name = "is_finnish", nullable = false)
+  private Boolean isFinnish;
+
   @Column(name = "matriculation_exam", nullable = false)
   private Boolean matriculationExam;
 

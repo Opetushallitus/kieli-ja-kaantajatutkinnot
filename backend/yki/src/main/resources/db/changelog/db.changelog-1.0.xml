@@ -53,5 +53,13 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="2025-11-05-add-is-finnish-and-free-registration-id-column" author="jrkkp">
+        <addColumn tableName="free_registration">
+            <column name="is_finnish" type="BOOLEAN" defaultValueBoolean="true" />
+        </addColumn>
+        <addColumn tableName="registration">
+            <column name="free_registration_id" type="BIGINT" />
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

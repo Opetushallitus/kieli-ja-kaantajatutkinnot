@@ -46,15 +46,14 @@ public class RegistrationService {
   @Transactional
   public List<PublicEducationDTO> updateEducations(final Registration registration) {
     final List<PublicEducationDTO> educationDTOs = koskiService.getEducations(registration);
-    final FreeRegistration freeRegistration = registration.getFreeRegistration() == null
-      ? new FreeRegistration()
-      : registration.getFreeRegistration();
+    final FreeRegistration freeRegistration = new FreeRegistration();
 
     final Set<FreeRegistrationType> freeEnrollmentTypes = educationDTOs
       .stream()
       .map(FreeRegistrationType::fromEducationDTO)
       .collect(Collectors.toSet());
 
+    freeRegistration.setIsFinnish(true);
     freeRegistration.setRegistration(registration);
     freeRegistration.setSource(FreeRegistrationSource.KOSKI);
     freeRegistration.setType(FreeRegistrationType.HigherEducationEnrolled);
@@ -69,8 +68,8 @@ public class RegistrationService {
     freeRegistration.setEb(freeEnrollmentTypes.contains(FreeRegistrationType.EB));
     freeRegistration.setOther(freeEnrollmentTypes.contains(FreeRegistrationType.Other));
 
-    final FreeRegistration freeRegistrationUpdated = freeRegistrationRepository.saveAndFlush(freeRegistration);
-    registration.setFreeRegistration(freeRegistrationUpdated);
+    final FreeRegistration freeRegistrationCreated = freeRegistrationRepository.saveAndFlush(freeRegistration);
+    registration.setFreeRegistration(freeRegistrationCreated);
 
     return educationDTOs;
   }
