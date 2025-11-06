@@ -1,8 +1,6 @@
 package fi.oph.yki.service;
 
-import fi.oph.yki.api.dto.PublicEducationDTO;
-import fi.oph.yki.api.dto.PublicFreeRegistrationDTO;
-import fi.oph.yki.api.dto.PublicUsedFreeRegistrationsCountsDTO;
+import fi.oph.yki.api.dto.*;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
@@ -35,6 +33,7 @@ public class RegistrationService {
 
   @Transactional(readOnly = true)
   public Registration findRegistration(final Long registrationId, final String oid) {
+    // TODO Person may not exist at this point?
     final Person person = personRepository.getByOid(oid);
     final Registration registration = registrationRepository.getReferenceById(registrationId);
 
@@ -45,34 +44,71 @@ public class RegistrationService {
     return registration;
   }
 
+  private static FreeRegistrationType getFreeRegistrationType(final FreeRegistration freeRegistration) {
+    if (freeRegistration.getMatriculationExam()) {
+      return FreeRegistrationType.MatriculationExam;
+    } else if (freeRegistration.getDia()) {
+      return FreeRegistrationType.DIA;
+    } else if (freeRegistration.getEb()) {
+      return FreeRegistrationType.EB;
+    } else if (freeRegistration.getHigherEducationConcluded()) {
+      return FreeRegistrationType.HigherEducationConcluded;
+    } else if (freeRegistration.getHigherEducationEnrolled()) {
+      return FreeRegistrationType.HigherEducationEnrolled;
+    } else {
+      return FreeRegistrationType.Other;
+    }
+  }
+
   @Transactional
-  public PublicFreeRegistrationDTO updateFreeRegistration(final Registration registration) {
-    final List<PublicEducationDTO> educationDTOs = koskiService.getEducations(registration.getPerson().getOid());
+  public PublicFreeRegistrationDTO updateFreeRegistration(
+    final Registration registration,
+    final PublicEducationUpdateDTO educationUpdateDTO
+  ) {
+    PublicEducationBasisDTO basis = educationUpdateDTO.basis();
+    FreeRegistrationSource source = basis.source();
     final FreeRegistration freeRegistration = registration.getFreeRegistration() == null
       ? new FreeRegistration()
       : registration.getFreeRegistration();
+    if (source == FreeRegistrationSource.USER) {
+      freeRegistration.setIsForeignEducation("abroad".equals(basis.countryOfEducation()));
+      FreeRegistrationType educationType = basis.educationType();
+      freeRegistration.setType(educationType);
+      // Choices available in UI are matriculation examination, higher education degree and higher education studies
+      freeRegistration.setMatriculationExam(educationType == FreeRegistrationType.MatriculationExam);
+      freeRegistration.setHigherEducationConcluded(educationType == FreeRegistrationType.HigherEducationConcluded);
+      freeRegistration.setHigherEducationEnrolled(educationType == FreeRegistrationType.HigherEducationEnrolled);
+      freeRegistration.setDia(false);
+      freeRegistration.setEb(false);
+      freeRegistration.setOther(false);
+    } else {
+      final List<PublicEducationDTO> educationDTOs = koskiService.getEducations(registration.getPerson().getOid());
 
-    final Set<FreeRegistrationType> freeEnrollmentTypes = educationDTOs
-      .stream()
-      .map(FreeRegistrationType::fromEducationDTO)
-      .collect(Collectors.toSet());
+      final Set<FreeRegistrationType> freeEnrollmentTypes = educationDTOs
+        .stream()
+        .map(FreeRegistrationType::fromEducationDTO)
+        .collect(Collectors.toSet());
 
-    freeRegistration.setRegistration(registration);
-    freeRegistration.setSource(FreeRegistrationSource.KOSKI);
-    // TODO Implement proper calculation of chosen type!
-    freeRegistration.setType(FreeRegistrationType.HigherEducationEnrolled);
-    freeRegistration.setMatriculationExam(freeEnrollmentTypes.contains(FreeRegistrationType.MatriculationExam));
-    freeRegistration.setHigherEducationConcluded(
-      freeEnrollmentTypes.contains(FreeRegistrationType.HigherEducationConcluded)
-    );
-    freeRegistration.setHigherEducationEnrolled(
-      freeEnrollmentTypes.contains(FreeRegistrationType.HigherEducationEnrolled)
-    );
-    freeRegistration.setDia(freeEnrollmentTypes.contains(FreeRegistrationType.DIA));
-    freeRegistration.setEb(freeEnrollmentTypes.contains(FreeRegistrationType.EB));
-    freeRegistration.setOther(freeEnrollmentTypes.contains(FreeRegistrationType.Other));
-    freeRegistration.setIsForeignEducation(false);
+      if (freeEnrollmentTypes.isEmpty()) {
+        throw new APIException(APIExceptionType.KOSKI_EDUCATIONS_NOT_FOUND);
+      }
 
+      freeRegistration.setRegistration(registration);
+      freeRegistration.setSource(FreeRegistrationSource.KOSKI);
+
+      freeRegistration.setMatriculationExam(freeEnrollmentTypes.contains(FreeRegistrationType.MatriculationExam));
+      freeRegistration.setHigherEducationConcluded(
+        freeEnrollmentTypes.contains(FreeRegistrationType.HigherEducationConcluded)
+      );
+      freeRegistration.setHigherEducationEnrolled(
+        freeEnrollmentTypes.contains(FreeRegistrationType.HigherEducationEnrolled)
+      );
+      freeRegistration.setDia(freeEnrollmentTypes.contains(FreeRegistrationType.DIA));
+      freeRegistration.setEb(freeEnrollmentTypes.contains(FreeRegistrationType.EB));
+      freeRegistration.setOther(freeEnrollmentTypes.contains(FreeRegistrationType.Other));
+      freeRegistration.setType(getFreeRegistrationType(freeRegistration));
+      freeRegistration.setIsForeignEducation(false);
+    }
     freeRegistrationRepository.saveAndFlush(freeRegistration);
 
     return PublicFreeRegistrationDTO.builder().id(freeRegistration.getId()).build();

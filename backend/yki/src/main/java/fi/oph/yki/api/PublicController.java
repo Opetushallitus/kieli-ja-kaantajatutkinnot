@@ -1,9 +1,6 @@
 package fi.oph.yki.api;
 
-import fi.oph.yki.api.dto.PublicEducationAndFreeRegistrationsCountDTO;
-import fi.oph.yki.api.dto.PublicEducationDTO;
-import fi.oph.yki.api.dto.PublicFreeRegistrationDTO;
-import fi.oph.yki.api.dto.PublicUsedFreeRegistrationsCountsDTO;
+import fi.oph.yki.api.dto.*;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.service.RegistrationService;
 import fi.oph.yki.service.koski.KoskiService;
@@ -12,6 +9,7 @@ import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,13 +25,17 @@ public class PublicController {
   @Resource
   private KoskiService koskiService;
 
-  @PostMapping(path = "/education/{registrationId:\\d+}")
+  @PostMapping(
+    path = "/education/{registrationId:\\d+}",
+    consumes = MediaType.APPLICATION_JSON_VALUE,
+    produces = MediaType.APPLICATION_JSON_VALUE
+  )
   @ResponseStatus(HttpStatus.CREATED)
   public PublicFreeRegistrationDTO updateEducation(
     @PathVariable final long registrationId,
-    final HttpServletRequest request
+    final HttpServletRequest request,
+    @RequestBody @Valid final PublicEducationUpdateDTO educationUpdateDTO
   ) {
-    // TODO Accept KoskiEducation | UserDeclaredEducation in request body
     final String oid = StringUtil.getOidFromRequest(request);
 
     if (oid == null || oid.isEmpty()) {
@@ -42,7 +44,7 @@ public class PublicController {
 
     final Registration registration = registrationService.findRegistration(registrationId, oid);
     // TODO Enforce max 3 FreeRegistrations per language per user
-    return registrationService.updateFreeRegistration(registration);
+    return registrationService.updateFreeRegistration(registration, educationUpdateDTO);
   }
 
   @GetMapping(path = "/education")

@@ -124,11 +124,10 @@ function* submitRegistrationFormSaga() {
           /:registrationId/,
           `${registrationState.registration.id}`,
         );
-      // TODO Use free registration also if education supplied by user selection
-      // TODO Unify usage: POST similar payload to backend, let backend infer actions based on payload source
       const freeRegistrationResponse: AxiosResponse<WithId> = yield call(
         axiosInstance.post,
         registrationEducationEndpoint,
+        JSON.stringify({ basis }),
       );
       const response: AxiosResponse<PublicRegistrationFormSubmitSuccessResponse> =
         yield call(
