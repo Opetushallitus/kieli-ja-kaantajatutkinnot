@@ -20,7 +20,7 @@ public class FreeRegistration {
   private long id;
 
   @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "free_registration_id", referencedColumnName = "id")
+  @JoinColumn(name = "registration_id", referencedColumnName = "id")
   private Registration registration;
 
   @Column(name = "source", nullable = false)
