@@ -43,7 +43,12 @@ public class PublicController {
     }
 
     final Registration registration = registrationService.findRegistration(registrationId, oid);
-    // TODO Enforce max 3 FreeRegistrations per language per user
+
+    // Enforce max 3 free registrations per language for user
+    if (!registrationService.hasFreeRegistrationsLeft(oid, registration.getExamSession().getLanguage())) {
+      throw new APIException(APIExceptionType.FREE_REGISTRATIONS_EXHAUSTED);
+    }
+
     return registrationService.updateFreeRegistration(registration, educationUpdateDTO);
   }
 

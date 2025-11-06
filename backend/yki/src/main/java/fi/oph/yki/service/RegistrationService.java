@@ -121,4 +121,12 @@ public class RegistrationService {
 
     return PublicUsedFreeRegistrationsCountsDTO.builder().fin(fin).swe(swe).build();
   }
+
+  @Transactional(readOnly = true)
+  public boolean hasFreeRegistrationsLeft(String oid, String examLanguage) {
+    return switch (examLanguage) {
+      case "fin", "swe" -> freeRegistrationRepository.countUsedFreeRegistrationsForLanguage(oid, examLanguage) < 3;
+      default -> false;
+    };
+  }
 }
