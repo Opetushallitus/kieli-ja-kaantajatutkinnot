@@ -1,6 +1,8 @@
 package fi.oph.yki.service;
 
 import fi.oph.yki.api.dto.PublicEducationDTO;
+import fi.oph.yki.audit.AuditService;
+import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
@@ -27,6 +29,7 @@ public class RegistrationService {
   private final RegistrationRepository registrationRepository;
   private final FreeRegistrationRepository freeRegistrationRepository;
   private final PersonRepository personRepository;
+  private final AuditService auditService;
 
   @Resource
   private KoskiService koskiService;
@@ -49,7 +52,6 @@ public class RegistrationService {
     final FreeRegistration freeRegistration = registration.getFreeRegistration() == null
       ? new FreeRegistration()
       : registration.getFreeRegistration();
-
     final Set<FreeRegistrationType> freeEnrollmentTypes = educationDTOs
       .stream()
       .map(FreeRegistrationType::fromEducationDTO)
@@ -70,8 +72,24 @@ public class RegistrationService {
     freeRegistration.setEb(freeEnrollmentTypes.contains(FreeRegistrationType.EB));
     freeRegistration.setOther(freeEnrollmentTypes.contains(FreeRegistrationType.Other));
 
-    freeRegistrationRepository.saveAndFlush(freeRegistration);
+    final FreeRegistration freeRegistrationSaved = freeRegistrationRepository.saveAndFlush(freeRegistration);
+
+    if (registration.getFreeRegistration() == null) {
+      auditService.logCreate(
+              YkiOperation.CREATE_FREE_REGISTRATION,
+              freeRegistrationSaved.getId()
+      );
+    } else {
+      auditService.logUpdate(
+              YkiOperation.UPDATE_FREE_REGISTRATION,
+              freeRegistrationSaved.getId()
+      );
+    }
 
     return educationDTOs;
+  }
+
+  private FreeRegistrationDTO createFreeRegistrationDTO(final FreeRegistration freeRegistration) {
+
   }
 }
