@@ -46,7 +46,9 @@ public class RegistrationService {
   @Transactional
   public List<PublicEducationDTO> updateEducations(final Registration registration) {
     final List<PublicEducationDTO> educationDTOs = koskiService.getEducations(registration);
-    final FreeRegistration freeRegistration = new FreeRegistration();
+    final FreeRegistration freeRegistration = registration.getFreeRegistration() == null
+      ? new FreeRegistration()
+      : registration.getFreeRegistration();
 
     final Set<FreeRegistrationType> freeEnrollmentTypes = educationDTOs
       .stream()
@@ -68,8 +70,7 @@ public class RegistrationService {
     freeRegistration.setEb(freeEnrollmentTypes.contains(FreeRegistrationType.EB));
     freeRegistration.setOther(freeEnrollmentTypes.contains(FreeRegistrationType.Other));
 
-    final FreeRegistration freeRegistrationCreated = freeRegistrationRepository.saveAndFlush(freeRegistration);
-    registration.setFreeRegistration(freeRegistrationCreated);
+    freeRegistrationRepository.saveAndFlush(freeRegistration);
 
     return educationDTOs;
   }
