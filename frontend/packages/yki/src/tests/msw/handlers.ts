@@ -255,6 +255,6 @@ export const handlers = [
     });
   }),
   http.post(APIEndpoints.PublicFreeRegistrationEducation, () => {
-    return HttpResponse.json({}, { status: 201 });
+    return HttpResponse.json({ id: 1337 }, { status: 201 });
   }),
 ];
