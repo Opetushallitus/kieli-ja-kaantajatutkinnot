@@ -38,6 +38,6 @@ public class Registration {
   @JoinColumn(name = "exam_session_id", referencedColumnName = "id")
   private ExamSession examSession;
 
-  @OneToOne(fetch = FetchType.LAZY, mappedBy = "registration", cascade = CascadeType.ALL)
+  @OneToOne(fetch = FetchType.LAZY, mappedBy = "registration", optional = false)
   private FreeRegistration freeRegistration;
 }

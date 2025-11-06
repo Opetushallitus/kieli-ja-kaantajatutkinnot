@@ -59,6 +59,7 @@ public class RegistrationService {
 
     freeRegistration.setRegistration(registration);
     freeRegistration.setSource(FreeRegistrationSource.KOSKI);
+    // TODO Implement proper calculation of chosen type!
     freeRegistration.setType(FreeRegistrationType.HigherEducationEnrolled);
     freeRegistration.setMatriculationExam(freeEnrollmentTypes.contains(FreeRegistrationType.MatriculationExam));
     freeRegistration.setHigherEducationConcluded(
