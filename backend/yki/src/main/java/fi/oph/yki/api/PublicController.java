@@ -2,11 +2,14 @@ package fi.oph.yki.api;
 
 import fi.oph.yki.api.dto.PublicEducationAndFreeRegistrationsCountDTO;
 import fi.oph.yki.api.dto.PublicEducationDTO;
+import fi.oph.yki.api.dto.PublicFreeRegistrationDTO;
 import fi.oph.yki.api.dto.PublicUsedFreeRegistrationsCountsDTO;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.service.RegistrationService;
 import fi.oph.yki.service.koski.KoskiService;
 import fi.oph.yki.util.StringUtil;
+import fi.oph.yki.util.exception.APIException;
+import fi.oph.yki.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Collections;
@@ -31,7 +34,7 @@ public class PublicController {
 
   @PostMapping(path = "/education/{registrationId:\\d+}")
   @ResponseStatus(HttpStatus.CREATED)
-  public List<PublicEducationDTO> updateEducation(
+  public PublicFreeRegistrationDTO updateEducation(
     @PathVariable final long registrationId,
     final HttpServletRequest request
   ) {
@@ -39,17 +42,12 @@ public class PublicController {
     final String oid = StringUtil.getOidFromRequest(request);
 
     if (oid == null || oid.isEmpty()) {
-      return Collections.emptyList();
+      throw new APIException(APIExceptionType.SESSION_OID_NOT_FOUND);
     }
 
     final Registration registration = registrationService.findRegistration(registrationId, oid);
-
-    try {
-      return registrationService.updateEducations(registration);
-    } catch (final Exception e) {
-      LOG.warn("Exception!", e);
-      return Collections.emptyList();
-    }
+    // TODO Enforce max 3 FreeRegistrations per language per user
+    return registrationService.updateFreeRegistration(registration);
   }
 
   @GetMapping(path = "/education")

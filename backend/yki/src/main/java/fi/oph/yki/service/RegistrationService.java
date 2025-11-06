@@ -1,7 +1,7 @@
 package fi.oph.yki.service;
 
-import fi.oph.yki.api.dto.PublicEducationAndFreeRegistrationsCountDTO;
 import fi.oph.yki.api.dto.PublicEducationDTO;
+import fi.oph.yki.api.dto.PublicFreeRegistrationDTO;
 import fi.oph.yki.api.dto.PublicUsedFreeRegistrationsCountsDTO;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
@@ -73,10 +73,9 @@ public class RegistrationService {
     freeRegistration.setOther(freeEnrollmentTypes.contains(FreeRegistrationType.Other));
     freeRegistration.setIsForeignEducation(false);
 
-    final FreeRegistration freeRegistrationUpdated = freeRegistrationRepository.saveAndFlush(freeRegistration);
-    registration.setFreeRegistration(freeRegistrationUpdated);
+    freeRegistrationRepository.saveAndFlush(freeRegistration);
 
-    return educationDTOs;
+    return PublicFreeRegistrationDTO.builder().id(freeRegistration.getId()).build();
   }
 
   @Transactional(readOnly = true)
