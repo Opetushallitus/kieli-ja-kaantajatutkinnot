@@ -12,10 +12,7 @@ import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Collections;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +26,6 @@ public class PublicController {
 
   @Resource
   private KoskiService koskiService;
-
-  private static final Logger LOG = LoggerFactory.getLogger(PublicController.class);
 
   @PostMapping(path = "/education/{registrationId:\\d+}")
   @ResponseStatus(HttpStatus.CREATED)
