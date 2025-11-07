@@ -199,7 +199,7 @@ const Success = () => {
     if (finalState === RegistrationStates.Completed) {
       window.location.href = `${AppRoutes.RegistrationPaymentStatus}?status=${PaymentStatus.Success}&id=${examSessionId}`;
     }
-  });
+  }, [finalState, examSessionId]);
 
   if (registrationKind === RegistrationKind.Admission) {
     return <SuccessRegistered />;
