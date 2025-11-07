@@ -6,6 +6,9 @@ import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.PersonRepository;
 import java.util.List;
+import java.util.Optional;
+
+import fi.oph.yki.repository.RegistrationRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.NotImplementedException;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class ClerkCustomerService {
 
   private final PersonRepository personRepository;
+  private final RegistrationRepository registrationRepository;
   private final OnrService onrService;
 
   private ClerkCustomerPersonDTO getClerkCustomerPersonDTO(String oid) throws Exception {
@@ -33,8 +37,16 @@ public class ClerkCustomerService {
     );
   }
 
-  private List<ClerkCustomerRegistrationDTO> getClerkCustomerRegistrationDTOs() {
-    throw new NotImplementedException("Get registrations from the database is not implemented yet.");
+  private List<ClerkCustomerRegistrationDTO> getClerkCustomerRegistrationDTOs(String oid) throws Exception {
+    return registrationRepository
+            .getAdmissionsByPerson(oid)
+            .stream()
+            .map(r -> {
+
+                return new  ClerkCustomerRegistrationDTO(
+                        
+                )
+            })
   }
 
   private List<ClerkCustomerQueuedExamDTO> getClerkCustomerQueuedExamDTOs() {
@@ -48,7 +60,7 @@ public class ClerkCustomerService {
   public ClerkCustomerDetailsDTO getClerkCustomerDetails(String oid) throws Exception {
     return new ClerkCustomerDetailsDTO(
       getClerkCustomerPersonDTO(oid),
-      getClerkCustomerRegistrationDTOs(),
+      getClerkCustomerRegistrationDTOs(oid),
       getClerkCustomerQueuedExamDTOs(),
       getClerkCustomerPastExamDTOs()
     );
