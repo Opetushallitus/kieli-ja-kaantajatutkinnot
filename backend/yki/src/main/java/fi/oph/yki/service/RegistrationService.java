@@ -70,6 +70,8 @@ public class RegistrationService {
     final FreeRegistration freeRegistration = registration.getFreeRegistration() == null
       ? new FreeRegistration()
       : registration.getFreeRegistration();
+    freeRegistration.setRegistration(registration);
+    freeRegistration.setSource(source);
     if (source == FreeRegistrationSource.USER) {
       freeRegistration.setIsForeignEducation("abroad".equals(basis.countryOfEducation()));
       FreeRegistrationType educationType = basis.educationType();
@@ -92,9 +94,6 @@ public class RegistrationService {
       if (freeEnrollmentTypes.isEmpty()) {
         throw new APIException(APIExceptionType.KOSKI_EDUCATIONS_NOT_FOUND);
       }
-
-      freeRegistration.setRegistration(registration);
-      freeRegistration.setSource(FreeRegistrationSource.KOSKI);
 
       freeRegistration.setMatriculationExam(freeEnrollmentTypes.contains(FreeRegistrationType.MatriculationExam));
       freeRegistration.setHigherEducationConcluded(
