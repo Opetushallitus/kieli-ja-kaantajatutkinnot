@@ -6,6 +6,7 @@ import { WithId } from 'shared/interfaces';
 import axiosInstance from 'configs/axios';
 import { getCurrentLang } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
+import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { PublicFreeRegistrationDetails } from 'interfaces/publicFreeRegistration';
 import {
@@ -129,27 +130,29 @@ function* submitRegistrationFormSaga() {
         registrationEducationEndpoint,
         JSON.stringify({ basis }),
       );
-      const response: AxiosResponse<PublicRegistrationFormSubmitSuccessResponse> =
-        yield call(
-          axiosInstance.post,
-          APIEndpoints.SubmitRegistration.replace(
-            /:registrationId/,
-            `${registrationState.registration.id}`,
+      yield call(
+        axiosInstance.post,
+        APIEndpoints.SubmitRegistration.replace(
+          /:registrationId/,
+          `${registrationState.registration.id}`,
+        ),
+        JSON.stringify({
+          ...SerializationUtils.serializeRegistrationForm(
+            registrationState.registration,
+            nationalities,
           ),
-          JSON.stringify({
-            ...SerializationUtils.serializeRegistrationForm(
-              registrationState.registration,
-              nationalities,
-            ),
-            free_registration_id: freeRegistrationResponse.data.id,
-          }),
-          {
-            params: {
-              lang: SerializationUtils.serializeAppLanguage(lang),
-            },
+          free_registration_id: freeRegistrationResponse.data.id,
+        }),
+        {
+          params: {
+            lang: SerializationUtils.serializeAppLanguage(lang),
           },
-        );
-      yield put(acceptPublicRegistrationSubmission(response.data));
+        },
+      );
+      window.location.href = AppRoutes.FreeRegistrationSuccess.replace(
+        /:examSessionId/,
+        `${registrationState.initRegistration.examSessionId}`,
+      );
       yield put(resetUserOpenRegistrations());
     } else {
       const response: AxiosResponse<PublicRegistrationFormSubmitSuccessResponse> =
