@@ -482,8 +482,8 @@ export class SerializationUtils {
         return 'ComparableMatriculation';
       case 'korkeakoulutus':
         return koskiEducation.isActive
-          ? 'HigherEducationStudies'
-          : 'HigherEducationDegree';
+          ? 'HigherEducationEnrolled'
+          : 'HigherEducationConcluded';
     }
   }
 }

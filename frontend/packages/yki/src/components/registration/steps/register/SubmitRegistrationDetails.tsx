@@ -15,8 +15,8 @@ import {
   usePublicTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { APIEndpoints } from 'enums/api';
-import { RegistrationKind } from 'enums/app';
+import { APIEndpoints, PaymentStatus } from 'enums/api';
+import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { PublicRegistrationFormSubmitError } from 'enums/publicRegistration';
 import { useRegistrationNavigationProtection } from 'hooks/useNavigationProtection';
 import { loadLoginLink, resetLoginLink } from 'redux/reducers/loginLink';
@@ -190,8 +190,16 @@ const SuccessRegistered = () => {
 };
 
 const Success = () => {
-  const { registrationKind } =
+  const { registrationKind, finalState } =
     useAppSelector(registrationSelector).submitRegistration;
+  const { examSessionId } =
+    useAppSelector(registrationSelector).initRegistration;
+
+  useEffect(() => {
+    if (finalState === RegistrationStates.Completed) {
+      window.location.href = `${AppRoutes.RegistrationPaymentStatus}?status=${PaymentStatus.Success}&id=${examSessionId}`;
+    }
+  });
 
   if (registrationKind === RegistrationKind.Admission) {
     return <SuccessRegistered />;

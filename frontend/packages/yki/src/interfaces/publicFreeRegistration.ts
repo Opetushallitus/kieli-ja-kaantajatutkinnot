@@ -18,8 +18,8 @@ export interface UserDeclaredEducationDetails {
   countryOfEducation?: 'finland' | 'abroad' | 'uneligible';
   educationDetails?:
     | 'matriculationExam'
-    | 'higherEducationDegree'
-    | 'higherEducationStudies'
+    | 'higherEducationConcluded'
+    | 'higherEducationEnrolled'
     | 'uneligible';
 }
 

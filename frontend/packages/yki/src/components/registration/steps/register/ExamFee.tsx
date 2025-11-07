@@ -26,8 +26,8 @@ const ErrorLabelStyles = {
 type CountryOfStudies = 'finland' | 'abroad' | 'uneligible';
 type EducationDetails =
   | 'matriculationExam'
-  | 'higherEducationDegree'
-  | 'higherEducationStudies'
+  | 'higherEducationConcluded'
+  | 'higherEducationEnrolled'
   | 'uneligible';
 
 const UserEducationSelection = () => {
@@ -120,19 +120,19 @@ const UserEducationSelection = () => {
               />
               <FormControlLabel
                 className="radio-group-label"
-                value="higherEducationDegree"
+                value="higherEducationConcluded"
                 control={<Radio />}
                 label={t(
-                  'userSelection.educationDetails.higherEducationDegree',
+                  'userSelection.educationDetails.higherEducationConcluded',
                 )}
                 sx={ErrorLabelStyles}
               />
               <FormControlLabel
                 className="radio-group-label"
-                value="higherEducationStudies"
+                value="higherEducationEnrolled"
                 control={<Radio />}
                 label={t(
-                  'userSelection.educationDetails.higherEducationStudies',
+                  'userSelection.educationDetails.higherEducationEnrolled',
                 )}
                 sx={ErrorLabelStyles}
               />

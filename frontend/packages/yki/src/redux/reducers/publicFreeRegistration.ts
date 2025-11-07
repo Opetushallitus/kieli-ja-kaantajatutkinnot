@@ -41,9 +41,9 @@ const publicFreeRegistrationSlice = createSlice({
           const educationType =
             educationDetails === 'matriculationExam'
               ? 'MatriculationExam'
-              : educationDetails === 'higherEducationDegree'
-              ? 'HigherEducationDegree'
-              : 'HigherEducationStudies';
+              : educationDetails === 'higherEducationConcluded'
+              ? 'HigherEducationConcluded'
+              : 'HigherEducationEnrolled';
           state.basis = {
             countryOfEducation: country,
             educationType,

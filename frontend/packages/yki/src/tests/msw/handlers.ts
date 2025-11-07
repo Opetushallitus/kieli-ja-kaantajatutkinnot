@@ -141,14 +141,18 @@ export const handlers = [
   http.get(APIEndpoints.CountryCodes, () =>
     HttpResponse.json(maatJaValtiot2Response),
   ),
-  http.post(APIEndpoints.SubmitRegistration, ({ params }) => {
+  http.post(APIEndpoints.SubmitRegistration, async ({ params, request }) => {
     const { registrationId } = params;
     const queued = Number(registrationId) % 2 === 1;
+    const body = await request.clone().json();
+    const state =
+      !queued && !!body.free_registration_id ? 'COMPLETED' : 'SUBMITTED';
 
     return HttpResponse.json({
       success: true,
       code: 'foobar-123-' + (queued ? 'queue' : 'admission'),
       registration_kind: queued ? 'QUEUE' : 'ADMISSION',
+      state,
     });
   }),
   http.get(

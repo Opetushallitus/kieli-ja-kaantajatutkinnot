@@ -459,8 +459,8 @@
               },
               "declareEducationOrPay": "Sinun täytyy ilmoittaa tiedot opinnoistasi tai maksaa tutkintomaksu.",
               "educationDetails": {
-                "higherEducationDegree": "Olen suorittanut korkeakoulututkinnon.",
-                "higherEducationStudies": "Olen suorittamassa korkeakoulututkintoa.",
+                "higherEducationConcluded": "Olen suorittanut korkeakoulututkinnon.",
+                "higherEducationEnrolled": "Olen suorittamassa korkeakoulututkintoa.",
                 "matriculationExam": "Olen suorittanut ylioppilastutkinnon.",
                 "prompt": "Onko sinulla opintoja, jotka oikeuttavat maksuttomaan YKI-testiin?",
                 "uneligible": "Minulla ei ole maksuttomaan YKI-testiin oikeuttavia opintoja. Maksan tutkintomaksun."

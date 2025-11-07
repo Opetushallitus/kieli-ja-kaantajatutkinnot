@@ -3,8 +3,8 @@
 // ts-unused-exports:disable-next-line
 export type FreeRegistrationBasis =
   | 'MatriculationExam'
-  | 'HigherEducationDegree'
-  | 'HigherEducationStudies'
+  | 'HigherEducationConcluded'
+  | 'HigherEducationEnrolled'
   | 'ComparableMatriculation'
-  | 'ComparableHigherEducationDegree'
-  | 'ComparableHigherEducationStudies';
+  | 'ComparableHigherEducatioConcluded'
+  | 'ComparableHigherEducationEnrolled';
