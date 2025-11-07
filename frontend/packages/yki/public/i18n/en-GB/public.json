@@ -110,11 +110,11 @@
           },
           "freeRegistrationBasis": {
             "MatriculationExam": "Opiskellut Suomessa: ylioppilastutkinto",
-            "HigherEducationDegree": "Opiskellut Suomessa: korkeakoulututkinto",
-            "HigherEducationStudies": "Opiskellut Suomessa: suorittamassa korkeakouluopintoja",
+            "HigherEducationConcluded": "Opiskellut Suomessa: korkeakoulututkinto",
+            "HigherEducationEnrolled": "Opiskellut Suomessa: suorittamassa korkeakouluopintoja",
             "ComparableMatriculation": "Opiskellut ulkomailla: ylioppilastutkinto",
-            "ComparableHigherEducationDegree": "Opiskellut ulkomailla: korkeakoulututkinto",
-            "ComparableHigherEducationStudies": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja"
+            "ComparableHigherEducationConcluded": "Opiskellut ulkomailla: korkeakoulututkinto",
+            "ComparableHigherEducationEnrolled": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja"
           },
           "freeRegistrationsLeft": "{{amount}} kpl",
           "languageOfService": {

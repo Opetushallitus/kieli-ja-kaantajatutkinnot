@@ -6,5 +6,5 @@ export type FreeRegistrationBasis =
   | 'HigherEducationConcluded'
   | 'HigherEducationEnrolled'
   | 'ComparableMatriculation'
-  | 'ComparableHigherEducatioConcluded'
+  | 'ComparableHigherEducationConcluded'
   | 'ComparableHigherEducationEnrolled';
