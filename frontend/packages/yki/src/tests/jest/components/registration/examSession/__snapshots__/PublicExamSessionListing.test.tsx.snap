@@ -431,7 +431,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          yki.common.languages.fin, yki.common.languageLevel.KESKI
+          yki.common.languages.fin, yki.common.languageLevel.YLIN
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
@@ -462,7 +462,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          176 €
+          0 / 200 €
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
