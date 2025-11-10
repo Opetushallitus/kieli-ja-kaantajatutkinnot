@@ -944,8 +944,7 @@
           "actions": {
             "cancel": "Cancel registration",
             "confirm": "Confirm registration",
-            "relocate": "Reschedule registration",
-            "modify": "Muokkaa ilmoittautumista"
+            "relocate": "Reschedule registration"
           },
           "alreadyTransferredNotification": {
             "part1": "You have rescheduled your registration.",
@@ -956,7 +955,7 @@
             "notPaid": "Unpaid €{{ examFee }}",
             "label": "Test fee",
             "paidAt": "Paid {{- date }}",
-            "freeRegistrationPending": "0 or {{ examFee }}€"
+            "free": "Maksuton"
           },
           "header": {
             "cancelled": "Cancelled registrations",
@@ -967,11 +966,6 @@
             "part1": "You have received a place in the YKI test from the waiting list.",
             "part2": "Please confirm your registration by {{- date }}",
             "part3": "or you will lose your place"
-          },
-          "supplementRequestLabel": "Täydennyspyyntö",
-          "freeRegistrationNotification": {
-            "pending": "Opetushallitus tarkistaa toimittamasi tutkintotodistuksen. Saat päätöksen tutkintomaksun maksuttomuudesta sähköpostiisi ja YKI-verkkopalveluun asian käsittelyn jälkeen.",
-            "answered": "Olet saanut täydennyspyynnön koskien toimittamaasi tutkintotodistusta. Vastaa täydennyspyyntöön muokkaamalla ilmoittautumistasi {{ dueDate }} mennessä."
           },
           "notPaidNotification": {
             "part1": "Your registration has not been confirmed yet.",

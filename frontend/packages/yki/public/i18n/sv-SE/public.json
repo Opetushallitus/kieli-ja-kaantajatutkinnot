@@ -943,8 +943,7 @@
           "actions": {
             "cancel": "Annullera anmälan",
             "confirm": "Bekräfta anmälan",
-            "relocate": "Flytta anmälan",
-            "modify": "Muokkaa ilmoittautumista"
+            "relocate": "Flytta anmälan"
           },
           "alreadyTransferredNotification": {
             "part1": "Du har flyttat din anmälan.",
@@ -955,7 +954,7 @@
             "notPaid": "Obetalt {{ examFee }}€",
             "label": "Examensavgift",
             "paidAt": "Betald {{- date }}",
-            "freeRegistrationPending": "0 eller {{ examFee }}€"
+            "free": "Maksuton"
           },
           "header": {
             "cancelled": "Annullerade anmälningar",
@@ -966,11 +965,6 @@
             "part1": "Du har fått en plats på YKI-testet som du köat för.",
             "part2": "Bekräfta anmälan senast {{- date }},",
             "part3": "annars förlorar du din plats"
-          },
-          "supplementRequestLabel": "Täydennyspyyntö",
-          "freeRegistrationNotification": {
-            "pending": "Opetushallitus tarkistaa toimittamasi tutkintotodistuksen. Saat päätöksen tutkintomaksun maksuttomuudesta sähköpostiisi ja YKI-verkkopalveluun asian käsittelyn jälkeen.",
-            "answered": "Olet saanut täydennyspyynnön koskien toimittamaasi tutkintotodistusta. Vastaa täydennyspyyntöön muokkaamalla ilmoittautumistasi {{ dueDate }} mennessä."
           },
           "notPaidNotification": {
             "part1": "Din anmälan har inte ännu bekräftats.",

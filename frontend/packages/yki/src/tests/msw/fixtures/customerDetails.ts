@@ -65,7 +65,7 @@ const defaultRegistrations = [
       municipality: 'Helsinki',
     },
     registrationStatus: {
-      state: RegistrationStates.FreeRegistrationPending,
+      state: RegistrationStates.Submitted,
     },
     registrationDate: '2025-05-06',
   },
@@ -142,7 +142,7 @@ const defaultQueuedExams = [
       municipality: 'Helsinki',
     },
     registrationStatus: {
-      state: RegistrationStates.FreeRegistrationPending,
+      state: RegistrationStates.Submitted,
     },
     registrationDate: '2025-05-06',
     queueSpotOffered: {
