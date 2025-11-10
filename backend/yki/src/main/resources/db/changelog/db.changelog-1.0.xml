@@ -53,9 +53,35 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="2025-11-05-add-is-finnish-column" author="jrkkp">
+
+    <changeSet id="2025-11-10-add-person-hsqldb" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <createTable tableName="person">
+            <column name="oid" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="person_pkey"/>
+            </column>
+            <column name="first_name" type="TEXT" />
+            <column name="last_name" type="TEXT" />
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2025-11-10-add-registration-columns-hsqldb" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <addColumn tableName="registration">
+            <column name="exam_session_id" type="BIGINT"/>
+            <column name="kind" type="TEXT"/>
+            <column name="person_oid" type="TEXT"/>
+            <column name="state" type="TEXT"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="2025-11-05-add-is-foreign-column" author="jrkkp">
         <addColumn tableName="free_registration">
-            <column name="is_finnish" type="BOOLEAN" defaultValueBoolean="true" />
+            <column name="is_foreign" type="BOOLEAN" defaultValueBoolean="false" />
         </addColumn>
     </changeSet>
 

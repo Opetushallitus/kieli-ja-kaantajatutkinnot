@@ -11,7 +11,9 @@ import fi.oph.yki.model.type.FreeRegistrationType;
 import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationRepository;
+import fi.oph.yki.service.dto.FreeRegistrationDTO;
 import fi.oph.yki.service.koski.KoskiService;
+import fi.oph.yki.util.RegistrationUtil;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
@@ -30,9 +32,7 @@ public class RegistrationService {
   private final FreeRegistrationRepository freeRegistrationRepository;
   private final PersonRepository personRepository;
   private final AuditService auditService;
-
-  @Resource
-  private KoskiService koskiService;
+  private final KoskiService koskiService;
 
   @Transactional(readOnly = true)
   public Registration findRegistration(final Long registrationId, final String oid) {
@@ -57,7 +57,7 @@ public class RegistrationService {
       .map(FreeRegistrationType::fromEducationDTO)
       .collect(Collectors.toSet());
 
-    freeRegistration.setIsFinnish(true);
+    freeRegistration.setIsForeignEducation(false);
     freeRegistration.setRegistration(registration);
     freeRegistration.setSource(FreeRegistrationSource.KOSKI);
     freeRegistration.setType(FreeRegistrationType.HigherEducationEnrolled);
@@ -76,20 +76,19 @@ public class RegistrationService {
 
     if (registration.getFreeRegistration() == null) {
       auditService.logCreate(
-              YkiOperation.CREATE_FREE_REGISTRATION,
-              freeRegistrationSaved.getId()
+        YkiOperation.CREATE_FREE_REGISTRATION,
+        freeRegistrationSaved.getId(),
+        RegistrationUtil.createFreeRegistrationDTO(freeRegistrationSaved)
       );
     } else {
       auditService.logUpdate(
-              YkiOperation.UPDATE_FREE_REGISTRATION,
-              freeRegistrationSaved.getId()
+        YkiOperation.UPDATE_FREE_REGISTRATION,
+        freeRegistrationSaved.getId(),
+        RegistrationUtil.createFreeRegistrationDTO(freeRegistration),
+        RegistrationUtil.createFreeRegistrationDTO(freeRegistrationSaved)
       );
     }
 
     return educationDTOs;
-  }
-
-  private FreeRegistrationDTO createFreeRegistrationDTO(final FreeRegistration freeRegistration) {
-
   }
 }
