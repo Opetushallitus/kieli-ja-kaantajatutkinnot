@@ -15,7 +15,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "exam_date")
 public class ExamDate {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false)

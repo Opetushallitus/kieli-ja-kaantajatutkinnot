@@ -13,6 +13,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
+
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,4 +40,8 @@ public class ExamSession {
 
   @Column(name = "level_code")
   private String level;
+
+  // TODO: Should i actually cascade all?
+  @OneToMany(mappedBy = "examSession", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<ExamSessionLocation> locations = new ArrayList<>();
 }
