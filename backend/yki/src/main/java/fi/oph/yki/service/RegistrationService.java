@@ -52,6 +52,10 @@ public class RegistrationService {
     final FreeRegistration freeRegistration = registration.getFreeRegistration() == null
       ? new FreeRegistration()
       : registration.getFreeRegistration();
+
+    final FreeRegistrationDTO freeRegistrationBeforeDTO = registration.getFreeRegistration() == null
+      ? null
+      : RegistrationUtil.createFreeRegistrationDTO(freeRegistration);
     final Set<FreeRegistrationType> freeEnrollmentTypes = educationDTOs
       .stream()
       .map(FreeRegistrationType::fromEducationDTO)
@@ -84,7 +88,7 @@ public class RegistrationService {
       auditService.logUpdate(
         YkiOperation.UPDATE_FREE_REGISTRATION,
         freeRegistrationSaved.getId(),
-        RegistrationUtil.createFreeRegistrationDTO(freeRegistration),
+        freeRegistrationBeforeDTO,
         RegistrationUtil.createFreeRegistrationDTO(freeRegistrationSaved)
       );
     }

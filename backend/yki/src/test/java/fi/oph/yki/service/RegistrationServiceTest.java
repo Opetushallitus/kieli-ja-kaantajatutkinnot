@@ -8,11 +8,13 @@ import fi.oph.yki.Factory;
 import fi.oph.yki.api.dto.PublicEducationDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
+import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationRepository;
+import fi.oph.yki.service.dto.FreeRegistrationDTO;
 import fi.oph.yki.service.koski.KoskiService;
 import fi.oph.yki.service.koski.dto.KoulutusTyyppi;
 import fi.oph.yki.util.RegistrationUtil;
@@ -79,6 +81,34 @@ public class RegistrationServiceTest {
       .logCreate(
         YkiOperation.CREATE_FREE_REGISTRATION,
         registration.getId(),
+        RegistrationUtil.createFreeRegistrationDTO(registration.getFreeRegistration())
+      );
+  }
+
+  @Test
+  public void testUpdateEducations() {
+    final Person person = Factory.person();
+    final Registration registration = Factory.registration(person);
+    final FreeRegistration freeRegistration = Factory.freeRegistration(registration);
+    final List<PublicEducationDTO> educationDTOs = List.of(
+      PublicEducationDTO.builder().educationType(KoulutusTyyppi.HigherEducation.toString()).isActive(true).build()
+    );
+    when(koskiService.getEducations(registration)).thenReturn(educationDTOs);
+
+    registration.setFreeRegistration(freeRegistration);
+    entityManager.persist(person);
+    entityManager.persist(registration);
+    entityManager.persist(freeRegistration);
+
+    final FreeRegistrationDTO freeRegistrationBeforeDTO = RegistrationUtil.createFreeRegistrationDTO(freeRegistration);
+    registrationService.updateEducations(registration);
+
+    entityManager.refresh(registration);
+    verify(auditService)
+      .logUpdate(
+        YkiOperation.UPDATE_FREE_REGISTRATION,
+        registration.getId(),
+        freeRegistrationBeforeDTO,
         RegistrationUtil.createFreeRegistrationDTO(registration.getFreeRegistration())
       );
   }
