@@ -11,10 +11,7 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { ExamLanguage } from 'enums/app';
-import { ExamSession } from 'interfaces/examSessions';
 import { setUserDeclaredFreeRegistration } from 'redux/reducers/publicFreeRegistration';
-import { examSessionSelector } from 'redux/selectors/examSession';
 import { publicEducationSelector } from 'redux/selectors/publicEducation';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
@@ -171,11 +168,7 @@ export const ExamFee = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationDetails.examFee',
   });
-  const examSession = useAppSelector(examSessionSelector)
-    .examSession as ExamSession;
-  const examLanguage = examSession.language_code as
-    | ExamLanguage.FIN
-    | ExamLanguage.SWE;
+
   const { status } = useAppSelector(publicEducationSelector);
   const { basis, attemptsUsed } = useAppSelector(
     publicFreeRegistrationSelector,
@@ -192,9 +185,7 @@ export const ExamFee = () => {
       ? 'matriculationExam'
       : 'higherEducation';
   const attemptsOffered = 3;
-  const usedAttemptsForLanguage =
-    (attemptsUsed && attemptsUsed[examLanguage]) || 0;
-  const attemptsLeft = attemptsOffered - usedAttemptsForLanguage;
+  const attemptsLeft = attemptsOffered - (attemptsUsed || 0);
 
   if (isLoading) {
     return (

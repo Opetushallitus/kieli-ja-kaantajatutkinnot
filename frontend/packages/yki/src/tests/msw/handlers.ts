@@ -249,13 +249,10 @@ export const handlers = [
       return notFound();
     }
   }),
-  http.get(APIEndpoints.PublicKoskiEducations, () => {
+  http.get(APIEndpoints.PublicKoskiEducations, async () => {
     return HttpResponse.json({
       educations: [{ educationType: 'ylioppilastutkinto', isActive: true }],
-      usedFreeRegistrations: {
-        fin: 2,
-        swe: 3,
-      },
+      usedFreeRegistrations: 2,
     });
   }),
   http.post(APIEndpoints.PublicFreeRegistrationEducation, () => {

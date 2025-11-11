@@ -44,8 +44,8 @@ public class PublicController {
 
     final Registration registration = registrationService.findRegistration(registrationId, oid);
 
-    // Enforce max 3 free registrations per language for user
-    if (!registrationService.hasFreeRegistrationsLeft(oid, registration.getExamSession().getLanguage())) {
+    // Enforce max 3 free registrations for user
+    if (!registrationService.hasFreeRegistrationsLeft(oid)) {
       throw new APIException(APIExceptionType.FREE_REGISTRATIONS_EXHAUSTED);
     }
 
@@ -62,14 +62,12 @@ public class PublicController {
     }
 
     List<PublicEducationDTO> educations = koskiService.getEducations(oid);
-    PublicUsedFreeRegistrationsCountsDTO usedFreeRegistrationsCounts = registrationService.getUsedFreeRegistrationsCounts(
-      oid
-    );
+    int usedFreeRegistrations = registrationService.getUsedFreeRegistrations(oid);
 
     return PublicEducationAndFreeRegistrationsCountDTO
       .builder()
       .educations(educations)
-      .usedFreeRegistrations(usedFreeRegistrationsCounts)
+      .usedFreeRegistrations(usedFreeRegistrations)
       .build();
   }
 }

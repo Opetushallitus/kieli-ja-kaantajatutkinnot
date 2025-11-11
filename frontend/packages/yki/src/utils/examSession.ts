@@ -4,7 +4,6 @@ import { StringUtils } from 'shared/utils';
 import { translateOutsideComponent } from 'configs/i18n';
 import { ExamLanguage, ExamLevel } from 'enums/app';
 import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
-import { UsedFreeRegistrations } from 'interfaces/publicEducation';
 import { AuthenticatedSession } from 'interfaces/session';
 
 export class ExamSessionUtils {
@@ -140,7 +139,7 @@ export class ExamSessionUtils {
   static freeRegistrationPossible(
     { level_code, language_code }: ExamSession,
     authenticatedSession?: AuthenticatedSession,
-    usedFreeRegistrations?: UsedFreeRegistrations,
+    usedFreeRegistrations?: number,
   ) {
     if (
       authenticatedSession &&
@@ -160,7 +159,7 @@ export class ExamSessionUtils {
       return false;
     }
 
-    if (usedFreeRegistrations && usedFreeRegistrations[language_code] >= 3) {
+    if (usedFreeRegistrations !== undefined && usedFreeRegistrations >= 3) {
       return false;
     }
 

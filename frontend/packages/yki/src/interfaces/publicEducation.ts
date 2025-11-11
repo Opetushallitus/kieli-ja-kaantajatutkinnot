@@ -1,6 +1,5 @@
 import { APIResponseStatus } from 'shared/enums';
 
-import { ExamLanguage } from 'enums/app';
 import { FreeRegistrationBasis } from 'interfaces/freeRegistration';
 
 export interface PublicEducationState {
@@ -14,12 +13,7 @@ export interface KoskiEducationDTO {
   isActive: boolean;
 }
 
-export interface UsedFreeRegistrations {
-  [ExamLanguage.FIN]: number;
-  [ExamLanguage.SWE]: number;
-}
-
 export interface PublicEducationResponse {
   educations: Array<KoskiEducationDTO>;
-  usedFreeRegistrations: UsedFreeRegistrations;
+  usedFreeRegistrations: number;
 }

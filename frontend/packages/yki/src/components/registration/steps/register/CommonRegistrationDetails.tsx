@@ -104,12 +104,9 @@ export const CommonRegistrationDetails = () => {
         dispatch(getKoskiEducations());
       } else if (
         publicEducationStatus === APIResponseStatus.Success &&
-        attemptsUsed
+        attemptsUsed !== undefined
       ) {
-        const examLanguage = examSession.language_code as
-          | ExamLanguage.FIN
-          | ExamLanguage.SWE;
-        const freeAttemptsLeft = 3 - attemptsUsed[examLanguage];
+        const freeAttemptsLeft = 3 - attemptsUsed;
         if (freeAttemptsLeft > 0) {
           if (basis?.source === 'KOSKI') {
             dispatch(setPublicFreeRegistration({ isFree: 'YES' }));
@@ -125,7 +122,6 @@ export const CommonRegistrationDetails = () => {
     publicEducationStatus,
     basis?.source,
     attemptsUsed,
-    examSession.language_code,
   ]);
 
   const getRegistrationErrors = usePublicRegistrationErrors(showErrors);

@@ -1,5 +1,4 @@
 import { FreeRegistrationBasis } from 'interfaces/freeRegistration';
-import { UsedFreeRegistrations } from 'interfaces/publicEducation';
 
 export interface KoskiEducation {
   educationType: FreeRegistrationBasis;
@@ -25,7 +24,7 @@ export interface UserDeclaredEducationDetails {
 
 export interface PublicFreeRegistrationDetails {
   basis?: KoskiEducation | UserDeclaredEducation;
-  attemptsUsed?: UsedFreeRegistrations;
+  attemptsUsed?: number;
   isFree: IsFreeRegistration;
 }
 

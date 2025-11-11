@@ -114,18 +114,12 @@ public class RegistrationService {
   }
 
   @Transactional(readOnly = true)
-  public PublicUsedFreeRegistrationsCountsDTO getUsedFreeRegistrationsCounts(String oid) {
-    final int fin = freeRegistrationRepository.countUsedFreeRegistrationsForLanguage(oid, "fin");
-    final int swe = freeRegistrationRepository.countUsedFreeRegistrationsForLanguage(oid, "swe");
-
-    return PublicUsedFreeRegistrationsCountsDTO.builder().fin(fin).swe(swe).build();
+  public int getUsedFreeRegistrations(String oid) {
+    return freeRegistrationRepository.countFreeRegistrationsUsed(oid);
   }
 
   @Transactional(readOnly = true)
-  public boolean hasFreeRegistrationsLeft(String oid, String examLanguage) {
-    return switch (examLanguage) {
-      case "fin", "swe" -> freeRegistrationRepository.countUsedFreeRegistrationsForLanguage(oid, examLanguage) < 3;
-      default -> false;
-    };
+  public boolean hasFreeRegistrationsLeft(String oid) {
+    return freeRegistrationRepository.countFreeRegistrationsUsed(oid) < 3;
   }
 }
