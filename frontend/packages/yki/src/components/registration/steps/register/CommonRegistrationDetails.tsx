@@ -83,11 +83,10 @@ export const CommonRegistrationDetails = () => {
     language_code === ExamLanguage.SWE ||
     (language_code === ExamLanguage.ENG && level_code !== ExamLevel.PERUS);
 
-  const shouldGetKoskiEducations =
-    ExamSessionUtils.freeRegistrationPossible(examSession) &&
-    loggedInSession &&
-    loggedInSession['auth-method'] === 'SUOMIFI';
-
+  const shouldGetKoskiEducations = ExamSessionUtils.freeRegistrationPossible(
+    examSession,
+    loggedInSession,
+  );
   const showExamFeeSection =
     shouldGetKoskiEducations &&
     publicEducationStatus !== APIResponseStatus.InProgress;

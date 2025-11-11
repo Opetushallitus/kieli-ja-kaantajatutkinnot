@@ -14,6 +14,7 @@ import {
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
+import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
 
 type PublicRegistrationErrors = {
@@ -130,10 +131,12 @@ const getErrors = (
 export const usePublicRegistrationErrors = (showErrors: boolean) => {
   const { isEmailRegistration, registration } =
     useAppSelector(registrationSelector);
+  const { loggedInSession } = useAppSelector(sessionSelector);
   const { examSession } = useAppSelector(examSessionSelector);
   const { basis } = useAppSelector(publicFreeRegistrationSelector);
   const isEligibleForFreeRegistration =
-    examSession && ExamSessionUtils.freeRegistrationPossible(examSession);
+    examSession &&
+    ExamSessionUtils.freeRegistrationPossible(examSession, loggedInSession);
 
   return () =>
     getErrors(

@@ -9,6 +9,7 @@ import {
 import { useAppSelector } from 'configs/redux';
 import { ExamSession } from 'interfaces/examSessions';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
+import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
 
 export const PublicRegistrationExamSessionDetails = ({
@@ -24,6 +25,7 @@ export const PublicRegistrationExamSessionDetails = ({
   const translateCommon = useCommonTranslation();
 
   const { isFree } = useAppSelector(publicFreeRegistrationSelector);
+  const { loggedInSession } = useAppSelector(sessionSelector);
 
   if (!examSession) {
     return null;
@@ -38,7 +40,10 @@ export const PublicRegistrationExamSessionDetails = ({
     getCurrentLang(),
   );
 
-  const examFeeText = ExamSessionUtils.freeRegistrationPossible(examSession)
+  const examFeeText = ExamSessionUtils.freeRegistrationPossible(
+    examSession,
+    loggedInSession,
+  )
     ? isFree === 'YES'
       ? `0 €`
       : isFree === 'NO'

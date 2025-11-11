@@ -4,6 +4,7 @@ import { StringUtils } from 'shared/utils';
 import { translateOutsideComponent } from 'configs/i18n';
 import { ExamLanguage, ExamLevel } from 'enums/app';
 import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
+import { AuthenticatedSession } from 'interfaces/session';
 
 export class ExamSessionUtils {
   private static getRegistrationAvailablePlaces(examSession: ExamSession) {
@@ -135,7 +136,17 @@ export class ExamSessionUtils {
     );
   }
 
-  static freeRegistrationPossible(examSession: ExamSession) {
+  static freeRegistrationPossible(
+    examSession: ExamSession,
+    authenticatedSession?: AuthenticatedSession,
+  ) {
+    if (
+      authenticatedSession &&
+      authenticatedSession['auth-method'] !== 'SUOMIFI'
+    ) {
+      return false;
+    }
+
     return (
       examSession.level_code === ExamLevel.YLIN &&
       (examSession.language_code === ExamLanguage.FIN ||
