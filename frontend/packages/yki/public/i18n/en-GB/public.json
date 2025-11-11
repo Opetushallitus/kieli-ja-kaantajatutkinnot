@@ -166,7 +166,7 @@
           "fields": {
             "ssn": "Hetu",
             "oid": "Oppijanumero",
-            "nationality":"Kansalaisuus",
+            "nationality": "Kansalaisuus",
             "phoneNumber": "Puhelinnumero",
             "streetAddress": "Osoite",
             "email": "Sähköposti"
@@ -445,6 +445,10 @@
             "freeAttemptsExhausted": "Olet käyttänyt kaikki ilmaiset kerrat.",
             "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä: <strong>{{amount}}</strong>.",
             "freeAttemptsOffered": "Voit ilmoittautua maksuttomasti kolme (3) kertaa.",
+            "loading": {
+              "checkingEligibility": "Tarkastamme täyttyvätkö maksuttomuuden ehdot kohdallasi.",
+              "pleaseWait": "Tietoja ladataan, ole hyvä ja odota hetki."
+            },
             "noFeeRequired": "YKI-testi on sinulle maksuton.",
             "paymentRequired": "Kun lähetät ilmoittautumislomakkeen, sinun täytyy maksaa tutkintomaksu.",
             "noSuitableEducationFound": "Emme löytäneet maksuttomuuteen oikeuttavia tutkintoja.",

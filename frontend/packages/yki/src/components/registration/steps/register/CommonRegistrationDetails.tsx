@@ -87,10 +87,7 @@ export const CommonRegistrationDetails = () => {
     examSession,
     loggedInSession,
   );
-  const showExamFeeSection =
-    shouldGetKoskiEducations &&
-    publicEducationStatus !== APIResponseStatus.InProgress;
-
+  const showExamFeeSection = shouldGetKoskiEducations;
   useEffect(() => {
     if (hideInstructionLanguageSelection) {
       const instructionLanguage =

@@ -7,6 +7,7 @@ import {
 import { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import { H2, H3, Text } from 'shared/components';
+import { APIResponseStatus } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -14,6 +15,7 @@ import { ExamLanguage } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
 import { setUserDeclaredFreeRegistration } from 'redux/reducers/publicFreeRegistration';
 import { examSessionSelector } from 'redux/selectors/examSession';
+import { publicEducationSelector } from 'redux/selectors/publicEducation';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 
@@ -174,10 +176,12 @@ export const ExamFee = () => {
   const examLanguage = examSession.language_code as
     | ExamLanguage.FIN
     | ExamLanguage.SWE;
+  const { status } = useAppSelector(publicEducationSelector);
   const { basis, attemptsUsed } = useAppSelector(
     publicFreeRegistrationSelector,
   );
 
+  const isLoading = status === APIResponseStatus.InProgress;
   const hasKoskiEducation = basis && basis.source === 'KOSKI';
   // TODO More accurate translations for found education? Should translate active and concluded university degrees differently?
   const koskiEducationTranslationKey =
@@ -191,6 +195,19 @@ export const ExamFee = () => {
   const usedAttemptsForLanguage =
     (attemptsUsed && attemptsUsed[examLanguage]) || 0;
   const attemptsLeft = attemptsOffered - usedAttemptsForLanguage;
+
+  if (isLoading) {
+    return (
+      <>
+        <H2 className="public-registration__grid__form-container__exam-fee">
+          {t('title')}
+        </H2>
+        <Text>
+          {t('loading.checkingEligibility')} {t('loading.pleaseWait')}
+        </Text>
+      </>
+    );
+  }
 
   return (
     <>
