@@ -133,10 +133,16 @@ export const usePublicRegistrationErrors = (showErrors: boolean) => {
     useAppSelector(registrationSelector);
   const { loggedInSession } = useAppSelector(sessionSelector);
   const { examSession } = useAppSelector(examSessionSelector);
-  const { basis } = useAppSelector(publicFreeRegistrationSelector);
+  const { basis, attemptsUsed } = useAppSelector(
+    publicFreeRegistrationSelector,
+  );
   const isEligibleForFreeRegistration =
     examSession &&
-    ExamSessionUtils.freeRegistrationPossible(examSession, loggedInSession);
+    ExamSessionUtils.freeRegistrationPossible(
+      examSession,
+      loggedInSession,
+      attemptsUsed,
+    );
 
   return () =>
     getErrors(

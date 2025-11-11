@@ -24,7 +24,9 @@ export const PublicRegistrationExamSessionDetails = ({
   });
   const translateCommon = useCommonTranslation();
 
-  const { isFree } = useAppSelector(publicFreeRegistrationSelector);
+  const { isFree, attemptsUsed } = useAppSelector(
+    publicFreeRegistrationSelector,
+  );
   const { loggedInSession } = useAppSelector(sessionSelector);
 
   if (!examSession) {
@@ -43,6 +45,7 @@ export const PublicRegistrationExamSessionDetails = ({
   const examFeeText = ExamSessionUtils.freeRegistrationPossible(
     examSession,
     loggedInSession,
+    attemptsUsed,
   )
     ? isFree === 'YES'
       ? `0 €`

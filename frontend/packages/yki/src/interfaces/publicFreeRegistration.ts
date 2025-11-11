@@ -1,5 +1,5 @@
-import { ExamLanguage } from 'enums/app';
 import { FreeRegistrationBasis } from 'interfaces/freeRegistration';
+import { UsedFreeRegistrations } from 'interfaces/publicEducation';
 
 export interface KoskiEducation {
   educationType: FreeRegistrationBasis;
@@ -25,10 +25,7 @@ export interface UserDeclaredEducationDetails {
 
 export interface PublicFreeRegistrationDetails {
   basis?: KoskiEducation | UserDeclaredEducation;
-  attemptsUsed?: {
-    [ExamLanguage.FIN]: number;
-    [ExamLanguage.SWE]: number;
-  };
+  attemptsUsed?: UsedFreeRegistrations;
   isFree: IsFreeRegistration;
 }
 
