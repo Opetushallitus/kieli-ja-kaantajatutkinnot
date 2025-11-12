@@ -1,5 +1,6 @@
 package fi.oph.yki.model;
 
+import jakarta.persistence.CascadeType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import jakarta.persistence.*;
