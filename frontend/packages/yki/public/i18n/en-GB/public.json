@@ -1044,9 +1044,7 @@
             "cancelled": "Cancelled",
             "enrolled": "Registered",
             "label": "Status",
-            "queued": "On the waiting list (position {{ positionInQueue }})",
-            "freeRegistrationPending": "Odottaa opetushallituksen tarkastusta",
-            "freeRegistrationSupplementRequested": "Odottaa vastaustasi"
+            "queued": "On the waiting list (position {{ positionInQueue }})"
           },
           "upcoming": {
             "notFound": "You have no upcoming registrations."

@@ -1043,9 +1043,7 @@
             "cancelled": "Peruttu",
             "enrolled": "Ilmoittautunut",
             "label": "Tila",
-            "queued": "Jonossa (sija {{ positionInQueue }})",
-            "freeRegistrationPending": "Odottaa opetushallituksen tarkastusta",
-            "freeRegistrationSupplementRequested": "Odottaa vastaustasi"
+            "queued": "Jonossa (sija {{ positionInQueue }})"
           },
           "upcoming": {
             "notFound": "Sinulla ei ole tulevia ilmoittautumisia."

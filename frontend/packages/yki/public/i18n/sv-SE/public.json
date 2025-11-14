@@ -1043,9 +1043,7 @@
             "cancelled": "Annullerad",
             "enrolled": "Anmäld",
             "label": "Status",
-            "queued": "I kö (på plats {{ positionInQueue }})",
-            "freeRegistrationPending": "Odottaa opetushallituksen tarkastusta",
-            "freeRegistrationSupplementRequested": "Odottaa vastaustasi"
+            "queued": "I kö (på plats {{ positionInQueue }})"
           },
           "upcoming": {
             "notFound": "Du har inga kommande anmälningar."
