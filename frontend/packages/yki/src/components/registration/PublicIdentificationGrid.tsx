@@ -1,6 +1,14 @@
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Container, Grid, Paper } from '@mui/material';
 import { Trans } from 'react-i18next';
-import { CustomButton, H1, H2, HeaderSeparator, Text } from 'shared/components';
+import {
+  CustomButton,
+  H1,
+  H2,
+  HeaderSeparator,
+  Text,
+  WebLink,
+} from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -38,9 +46,6 @@ const AlreadyLoggedIn = () => {
 
   return (
     <>
-      <Text>
-        <Trans t={t} i18nKey="registrationIsBindingAdvisory" />
-      </Text>
       <H2>{t('alreadyLoggedIn.caption')}</H2>
       <Text> {t('alreadyLoggedIn.currentLoginInformation')}</Text>
       <Text>
@@ -113,32 +118,24 @@ const FreeRegistrationInfoBox = () => {
         <b>{t('suomiFiAuthenticationRequired')}</b>{' '}
         {t('educationDetailsAreChecked')} {t('ifSuitableEducationIsNotFound')}
       </Text>
+      <Text>
+        {t('readMore.text')}:{' '}
+        <WebLink
+          label={t('readMore.link.label')}
+          href={t('readMore.link.url')}
+          endIcon={<OpenInNewIcon />}
+        />
+      </Text>
     </Container>
   );
 };
 
 const Identify = () => {
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration.steps.identify',
-  });
-
-  const { examSession } = useAppSelector(examSessionSelector);
-
   return (
-    <>
-      <Text>
-        <Trans t={t} i18nKey="registrationIsBindingAdvisory" />
-      </Text>
-      {}
-      {examSession &&
-        ExamSessionUtils.freeRegistrationPossible(examSession) && (
-          <FreeRegistrationInfoBox />
-        )}
-      <div className="gapped rows">
-        <SelectIdentificationMethod />
-        <PublicRegistrationControlButtons />
-      </div>
-    </>
+    <div className="gapped rows">
+      <SelectIdentificationMethod />
+      <PublicRegistrationControlButtons />
+    </div>
   );
 };
 
@@ -187,6 +184,13 @@ export const PublicIdentificationGrid = () => {
                   examSession={examSession}
                   showOpenings={true}
                 />
+                <Text>
+                  <Trans t={t} i18nKey="registrationIsBindingAdvisory" />
+                </Text>
+                {examSession &&
+                  ExamSessionUtils.freeRegistrationPossible(examSession) && (
+                    <FreeRegistrationInfoBox />
+                  )}
                 {loggedInSession ? <AlreadyLoggedIn /> : <Identify />}
               </div>
             </div>

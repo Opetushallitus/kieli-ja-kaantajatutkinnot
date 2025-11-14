@@ -95,6 +95,16 @@
     }
   }
 
+  &--email-link-order__reveal-btn {
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    display: inline;
+    margin: 0;
+    padding: 0;
+  }
+
   &--email-link-order__success {
     svg {
       color: $color-green-600;

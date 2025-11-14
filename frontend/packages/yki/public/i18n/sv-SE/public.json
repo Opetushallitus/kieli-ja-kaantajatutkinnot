@@ -418,8 +418,8 @@
               "certificateLanguage": "Välj språket på intyget",
               "countryOfEducation": "Valitse, missä olet opiskellut",
               "dateOfBirth": "Födelsedatum",
-              "email": "E-postadress",
               "educationType": "Valitse maksuttomuuteen oikeuttavien opintojen tyyppi",
+              "email": "E-postadress",
               "emailConfirmation": "Bekräfta din e-postadress",
               "firstNames": "Förnamn",
               "gender": "Kön",
@@ -641,6 +641,13 @@
               "educationDetailsAreChecked": "Tunnistautumisen jälkeen järjestelmä tarkistaa koulutustietosi automaattisesti.",
               "heading": "Tutkintomaksu suomen ja ruotsin kielen ylimmän tason YKI-testeissä",
               "ifSuitableEducationIsNotFound": "Jos koulutustietoja ei löydy, sinun täytyy kertoa opinnoistasi ilmoittautumislomakkeella.",
+              "readMore": {
+                "link": {
+                  "label": "Examensavgifter",
+                  "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-examensavgifter"
+                },
+                "text": "Lue maksuttoman YKI-testin ehdot Opetushallituksen verkkosivuilta"
+              },
               "suomiFiAuthenticationRequired": "Sinun täytyy tunnistautua Suomi.fi-palvelussa, jotta voimme tarkistaa, täytätkö ehdot.",
               "threeAttemptsAvailable": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa."
             },
@@ -650,11 +657,12 @@
             "title": "Identifiera dig för anmälan",
             "titleForQueueing": "Identifiera dig för att anmäla dig till en köplats",
             "withFinnishSSN": {
-              "description": "<strong>Identifiera dig via Suomi.fi-tjänsten</strong>",
+              "description": "Identifiera dig via Suomi.fi-tjänsten",
               "info": "Efter identifieringen tas du automatiskt vidare till anmälningsblanketten."
             },
             "withoutFinnishSSN": {
-              "description": "<strong>Om du inte kan använda Suomi.fi-identifikation</strong>, identifiera dig med din e-postadress.",
+              "description": "Identifiera dig med din e-postadress",
+              "examFeeRequired": "Jos tunnistaudut sähköpostilla, sinun täytyy maksaa tutkintomaksu.",
               "info": "Efter att du har identifierat dig får du en länk per e-post för att fortsätta till anmälan."
             }
           },

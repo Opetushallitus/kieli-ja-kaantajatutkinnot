@@ -641,6 +641,13 @@
               "educationDetailsAreChecked": "Tunnistautumisen jälkeen järjestelmä tarkistaa koulutustietosi automaattisesti.",
               "heading": "Tutkintomaksu suomen ja ruotsin kielen ylimmän tason YKI-testeissä",
               "ifSuitableEducationIsNotFound": "Jos koulutustietoja ei löydy, sinun täytyy kertoa opinnoistasi ilmoittautumislomakkeella.",
+              "readMore": {
+                "link": {
+                  "label": "Test fees",
+                  "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-test-fees"
+                },
+                "text": "Lue maksuttoman YKI-testin ehdot Opetushallituksen verkkosivuilta"
+              },
               "suomiFiAuthenticationRequired": "Sinun täytyy tunnistautua Suomi.fi-palvelussa, jotta voimme tarkistaa, täytätkö ehdot.",
               "threeAttemptsAvailable": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa."
             },
@@ -650,11 +657,12 @@
             "title": "Identify yourself for registration",
             "titleForQueueing": "Identify yourself to register for the waiting list",
             "withFinnishSSN": {
-              "description": "<strong>Identify yourself through Suomi.fi e-identification.</strong>",
+              "description": "Identify yourself through Suomi.fi e-identification",
               "info": "After the identification you will be directed automatically to the registration form."
             },
             "withoutFinnishSSN": {
-              "description": "<strong>If you cannot use Suomi.fi e-identification</strong>, identify yourself with your email.",
+              "description": "Identify yourself with your email",
+              "examFeeRequired": "Jos tunnistaudut sähköpostilla, sinun täytyy maksaa tutkintomaksu.",
               "info": "After the identification, you will receive an email with a link to the registration form."
             }
           },
