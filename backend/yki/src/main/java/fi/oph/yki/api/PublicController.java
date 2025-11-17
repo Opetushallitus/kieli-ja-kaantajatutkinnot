@@ -58,7 +58,7 @@ public class PublicController {
     final String oid = StringUtil.getOidFromRequest(request);
 
     if (oid == null || oid.isEmpty()) {
-      throw new RuntimeException("OID null or empty");
+      throw new APIException(APIExceptionType.SESSION_OID_NOT_FOUND);
     }
 
     List<PublicEducationDTO> educations = koskiService.getEducations(oid);
