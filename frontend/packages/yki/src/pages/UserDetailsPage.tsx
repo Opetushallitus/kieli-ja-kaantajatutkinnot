@@ -69,9 +69,43 @@ const filterByDate = (
     return [];
   }
 
+  const now = dayjs();
+
   return registrations.filter((r) =>
-    upcoming ? dayjs().isBefore(r.examDate) : dayjs().isAfter(r.examDate),
+    upcoming
+      ? now.isBefore(r.examDate, 'day') || now.isSame(r.examDate, 'day')
+      : now.isAfter(r.examDate, 'day'),
   );
+};
+
+const earliestExamDateFirstComparator = (
+  a: PersonRegistrations,
+  b: PersonRegistrations,
+) => {
+  const ed1 = a.examDate,
+    ed2 = b.examDate;
+  if (ed1.isBefore(ed2)) {
+    return -1;
+  } else if (ed2.isBefore(ed1)) {
+    return 1;
+  } else {
+    return 0;
+  }
+};
+
+const latestExamDateFirstComparator = (
+  a: PersonRegistrations,
+  b: PersonRegistrations,
+) => {
+  const ed1 = a.examDate,
+    ed2 = b.examDate;
+  if (ed1.isBefore(ed2)) {
+    return -1;
+  } else if (ed2.isBefore(ed1)) {
+    return 1;
+  } else {
+    return 0;
+  }
 };
 
 interface RegistrationsProps {
@@ -466,19 +500,22 @@ export const UserDetailsPage: FC = () => {
 
   const registrations = personDetails?.registrations || [];
 
-  const canceledRegistrations = filterByState(registrations, cancelledStates);
+  const canceledRegistrations = [
+    ...filterByState(registrations, cancelledStates),
+  ].sort(earliestExamDateFirstComparator);
   const upcomingAndPastRegistrations = filterByState(registrations, [
     RegistrationStates.Submitted,
     RegistrationStates.Completed,
     RegistrationStates.Started,
   ]);
 
-  const upcomingRegistrations = filterByDate(
-    upcomingAndPastRegistrations,
-    true,
-  );
+  const upcomingRegistrations = [
+    ...filterByDate(upcomingAndPastRegistrations, true),
+  ].sort(latestExamDateFirstComparator);
 
-  const pastRegistrations = filterByDate(upcomingAndPastRegistrations, false);
+  const pastRegistrations = [
+    ...filterByDate(upcomingAndPastRegistrations, false),
+  ].sort(earliestExamDateFirstComparator);
 
   const renderBulletpoints = () => {
     if (loggedInSession?.['auth-method'] === 'EMAIL') {

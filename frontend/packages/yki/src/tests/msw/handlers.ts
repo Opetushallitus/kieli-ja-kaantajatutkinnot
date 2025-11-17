@@ -1,4 +1,4 @@
-import { http, HttpResponse, PathParams } from 'msw';
+import { http, HttpResponse, PathParams, StrictRequest } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
 import { RegistrationKind } from 'enums/app';
@@ -10,8 +10,8 @@ import { examSessions } from 'tests/msw/fixtures/examSession';
 import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
 import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import {
-  NoSessionResponse,
-  //SuomiFiAuthenticatedSessionResponse,
+  //NoSessionResponse,
+  SuomiFiAuthenticatedSessionResponse,
 } from 'tests/msw/fixtures/identity';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { organizers } from 'tests/msw/fixtures/organizers';
@@ -29,6 +29,77 @@ const data = {
 };
 
 const notFound = () => new HttpResponse(null, { status: 404 });
+
+const initRegistration = async ({
+  request,
+}: {
+  request: StrictRequest<PublicRegistrationInitRequest>;
+}) => {
+  const { exam_session_id } = await request.json();
+  switch (exam_session_id) {
+    // exam sessions with ids 2 through 7 are for simulating different error conditions
+    case 2:
+      return HttpResponse.json(
+        {
+          error: {
+            'other-exam-session-registration': {
+              id: 99,
+              state: 'SUBMITTED',
+            },
+          },
+        },
+        { status: 409 },
+      );
+    case 3:
+      return HttpResponse.json({ error: { closed: true } }, { status: 409 });
+    // This error case shouldn't ordinarily happen
+    case 4:
+      return HttpResponse.json(
+        { error: { full: false, registered: false } },
+        { status: 409 },
+      );
+    case 5:
+      return HttpResponse.json('Unauthorized', { status: 401 });
+    case 6:
+      return HttpResponse.json({ error: { full: true } }, { status: 409 });
+    default:
+      // For odd values, simulate a full exam session, ie. user is enrolling to queue
+      // For even values, allow registering to exam session proper
+      const {
+        exam_session,
+        registration_kind: _registration_kind,
+        registration_id: _registration_id,
+        ...rest
+      } = registrationInitResponse;
+      const examSession =
+        examSessions.exam_sessions.find((v) => v.id === exam_session_id) ||
+        exam_session;
+      const kind =
+        exam_session_id % 2 === 0
+          ? RegistrationKind.Admission
+          : RegistrationKind.Queue;
+
+      return HttpResponse.json(
+        {
+          exam_session: {
+            ...examSession,
+            available_registration_kind: kind,
+          },
+          registration_kind: kind,
+          // Mock registration id to match exam session id.
+          // This is so that we can in the registration submit endpoint
+          // return different registration kind (admission vs. queue)
+          // based on the parity of registration id.
+          registration_id: exam_session_id,
+          ...rest,
+        },
+        /*exam_session_id % 2 === 0
+              ? initRegistrationEmailAuth
+              : registrationInitResponse,
+              */
+      );
+  }
+};
 
 export const handlers = [
   http.get(APIEndpoints.Evaluations, () =>
@@ -61,8 +132,8 @@ export const handlers = [
     }
   }),
   http.get(APIEndpoints.User, () => {
-    //return HttpResponse.json(SuomiFiAuthenticatedSessionResponse);
-    return HttpResponse.json(NoSessionResponse);
+    return HttpResponse.json(SuomiFiAuthenticatedSessionResponse);
+    //return HttpResponse.json(NoSessionResponse);
   }),
   http.post(APIEndpoints.EvaluationOrder, () =>
     HttpResponse.json(evaluationOrderPostResponse),
@@ -70,14 +141,18 @@ export const handlers = [
   http.get(APIEndpoints.CountryCodes, () =>
     HttpResponse.json(maatJaValtiot2Response),
   ),
-  http.post(APIEndpoints.SubmitRegistration, ({ params }) => {
+  http.post(APIEndpoints.SubmitRegistration, async ({ params, request }) => {
     const { registrationId } = params;
     const queued = Number(registrationId) % 2 === 1;
+    const body = await request.clone().json();
+    const state =
+      !queued && !!body.free_registration_id ? 'COMPLETED' : 'SUBMITTED';
 
     return HttpResponse.json({
       success: true,
       code: 'foobar-123-' + (queued ? 'queue' : 'admission'),
       registration_kind: queued ? 'QUEUE' : 'ADMISSION',
+      state,
     });
   }),
   http.get(
@@ -107,72 +182,11 @@ export const handlers = [
   }),
   http.post<PathParams, PublicRegistrationInitRequest>(
     APIEndpoints.InitRegistration,
-    async ({ request }) => {
-      const { exam_session_id } = await request.json();
-      switch (exam_session_id) {
-        // exam sessions with ids 2 through 7 are for simulating different error conditions
-        case 2:
-          return HttpResponse.json(
-            {
-              error: {
-                'other-exam-session-registration': {
-                  id: 99,
-                  state: 'SUBMITTED',
-                },
-              },
-            },
-            { status: 409 },
-          );
-        case 3:
-          return HttpResponse.json(
-            { error: { closed: true } },
-            { status: 409 },
-          );
-        // This error case shouldn't ordinarily happen
-        case 4:
-          return HttpResponse.json(
-            { error: { full: false, registered: false } },
-            { status: 409 },
-          );
-        case 5:
-          return HttpResponse.json('Unauthorized', { status: 401 });
-        case 6:
-          return HttpResponse.json({ error: { full: true } }, { status: 409 });
-        default:
-          // For odd values, simulate a full exam session, ie. user is enrolling to queue
-          // For even values, allow registering to exam session proper
-          const {
-            exam_session,
-            registration_kind: _registration_kind,
-            registration_id: _registration_id,
-            ...rest
-          } = registrationInitResponse;
-          const kind =
-            exam_session_id % 2 === 0
-              ? RegistrationKind.Admission
-              : RegistrationKind.Queue;
-
-          return HttpResponse.json(
-            {
-              exam_session: {
-                ...exam_session,
-                available_registration_kind: kind,
-              },
-              registration_kind: kind,
-              // Mock registration id to match exam session id.
-              // This is so that we can in the registration submit endpoint
-              // return different registration kind (admission vs. queue)
-              // based on the parity of registration id.
-              registration_id: exam_session_id,
-              ...rest,
-            },
-            /*exam_session_id % 2 === 0
-              ? initRegistrationEmailAuth
-              : registrationInitResponse,
-              */
-          );
-      }
-    },
+    initRegistration,
+  ),
+  http.post<PathParams, PublicRegistrationInitRequest>(
+    APIEndpoints.IdentifyRegistration,
+    initRegistration,
   ),
   http.get(APIEndpoints.Logout, ({ request }) => {
     const url = new URL(request.url);
@@ -234,5 +248,14 @@ export const handlers = [
     } else {
       return notFound();
     }
+  }),
+  http.get(APIEndpoints.PublicKoskiEducations, async () => {
+    return HttpResponse.json({
+      educations: [{ educationType: 'ylioppilastutkinto', isActive: true }],
+      usedFreeRegistrations: 2,
+    });
+  }),
+  http.post(APIEndpoints.PublicFreeRegistrationEducation, () => {
+    return HttpResponse.json({ id: 1337 }, { status: 201 });
   }),
 ];
