@@ -15,6 +15,8 @@ import { examSessionsReducer } from 'redux/reducers/examSessions';
 import { loginLinkReducer } from 'redux/reducers/loginLink';
 import { loginLinkRenewReducer } from 'redux/reducers/loginLinkRenew';
 import { nationalitiesReducer } from 'redux/reducers/nationalities';
+import { publicEducationReducer } from 'redux/reducers/publicEducation';
+import { publicFreeRegistrationReducer } from 'redux/reducers/publicFreeRegistration';
 import { publicIdentificationReducer } from 'redux/reducers/publicIdentification';
 import { registrationReducer } from 'redux/reducers/registration';
 import { sessionReducer } from 'redux/reducers/session';
@@ -45,6 +47,8 @@ export const rootReducer = combineReducers({
   clerkFreeRegistration: clerkFreeRegistrationReducer,
   clerkFreeRegistrationDetails: clerkFreeRegistrationDetailsReducer,
   clerkCustomerDetails: clerkCustomerDetailsReducer,
+  publicEducation: publicEducationReducer,
+  publicFreeRegistration: publicFreeRegistrationReducer,
 });
 
 export const setupStore = (preloadedState?: Partial<RootState>) => {

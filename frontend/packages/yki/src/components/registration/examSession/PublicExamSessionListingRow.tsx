@@ -34,8 +34,6 @@ const RegisterToExamButton = ({
 
   const { available_registration_kind } = examSession;
 
-  // TODO Different text when registering to queue!
-
   return (
     <CustomButton
       color={Color.Secondary}
@@ -118,6 +116,10 @@ const PublicExamSessionListingCellsForDesktop = ({
   availablePlacesText: string;
   registerActionAvailable: boolean;
 }) => {
+  const examSessionFee = ExamSessionUtils.freeRegistrationPossible(examSession)
+    ? `0 / ${examSession.exam_fee} €`
+    : `${examSession.exam_fee} €`;
+
   return (
     <>
       <TableCell>
@@ -134,7 +136,7 @@ const PublicExamSessionListingCellsForDesktop = ({
       <TableCell>
         <AdmissionPeriodText examSession={examSession} />
       </TableCell>
-      <TableCell>{examSession.exam_fee} €</TableCell>
+      <TableCell>{examSessionFee}</TableCell>
       <TableCell>{availablePlacesText}</TableCell>
       <TableCell>
         {registerActionAvailable ? (
@@ -174,6 +176,9 @@ const PublicExamSessionListingCellsForPhone = ({
   registerActionAvailable: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
+  const examSessionFee = ExamSessionUtils.freeRegistrationPossible(examSession)
+    ? `0 / ${examSession.exam_fee} €`
+    : `${examSession.exam_fee} €`;
 
   return (
     <>
@@ -194,7 +199,7 @@ const PublicExamSessionListingCellsForPhone = ({
         <AdmissionPeriodText examSession={examSession} />
       </TableCellForPhone>
       <TableCellForPhone columnName={translateCommon('price')}>
-        {examSession.exam_fee} €
+        {examSessionFee}
       </TableCellForPhone>
       <TableCellForPhone columnName={translateCommon('placesAvailable')}>
         {availablePlacesText}
