@@ -127,10 +127,9 @@ public class KoskiService {
     return (latestState != null && latestState.equals(OpiskeluoikeusjaksoTila.ACTIVE));
   }
 
-  public List<PublicEducationDTO> getEducations(final Registration registration) {
+  public List<PublicEducationDTO> getEducations(final String oid) {
     try {
       final ObjectMapper objectMapper = new ObjectMapper();
-      final String oid = registration.getPerson().getOid();
       objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
 
       final String response = requestWithRetries(oid, REQUEST_ATTEMPTS);

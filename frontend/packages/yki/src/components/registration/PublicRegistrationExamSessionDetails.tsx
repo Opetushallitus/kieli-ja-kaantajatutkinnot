@@ -6,7 +6,10 @@ import {
   useCommonTranslation,
   usePublicTranslation,
 } from 'configs/i18n';
+import { useAppSelector } from 'configs/redux';
 import { ExamSession } from 'interfaces/examSessions';
+import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
+import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
 
 export const PublicRegistrationExamSessionDetails = ({
@@ -21,6 +24,11 @@ export const PublicRegistrationExamSessionDetails = ({
   });
   const translateCommon = useCommonTranslation();
 
+  const { isFree, attemptsUsed } = useAppSelector(
+    publicFreeRegistrationSelector,
+  );
+  const { loggedInSession } = useAppSelector(sessionSelector);
+
   if (!examSession) {
     return null;
   }
@@ -33,6 +41,18 @@ export const PublicRegistrationExamSessionDetails = ({
     examSession,
     getCurrentLang(),
   );
+
+  const examFeeText = ExamSessionUtils.freeRegistrationPossible(
+    examSession,
+    loggedInSession,
+    attemptsUsed,
+  )
+    ? isFree === 'YES'
+      ? `0 €`
+      : isFree === 'NO'
+      ? `${examSession.exam_fee} €`
+      : `0 ${translateCommon('or')} ${examSession.exam_fee} €`
+    : `${examSession.exam_fee} €`;
 
   return (
     <div className="rows">
@@ -59,7 +79,7 @@ export const PublicRegistrationExamSessionDetails = ({
         </Text>
         <Text>
           {`${t('examFee')}: `}
-          <b>{`${examSession.exam_fee} €`}</b>
+          <b>{examFeeText}</b>
         </Text>
 
         {showOpenings && (

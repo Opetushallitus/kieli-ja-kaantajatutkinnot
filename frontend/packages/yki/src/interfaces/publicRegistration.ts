@@ -111,6 +111,7 @@ export function isRegistrationInitErrorResponse(
 export interface PublicRegistrationFormSubmitSuccessResponse {
   code: string;
   registration_kind: RegistrationKind;
+  state: RegistrationStates;
 }
 
 export interface PublicRegistrationFormSubmitErrorResponse {

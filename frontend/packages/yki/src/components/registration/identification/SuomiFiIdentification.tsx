@@ -1,5 +1,4 @@
-import { Trans } from 'react-i18next';
-import { CustomButton, Text } from 'shared/components';
+import { CustomButton, H3, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
@@ -19,11 +18,10 @@ export const SuomiFiIdentification = () => {
 
   return (
     <>
-      <Text>
-        <Trans t={t} i18nKey={'withFinnishSSN.description'} />
-        <br />
-        {t('withFinnishSSN.info')}
-      </Text>
+      <div className="rows">
+        <H3>{t('withFinnishSSN.description')}</H3>
+        <Text>{t('withFinnishSSN.info')}</Text>
+      </div>
       <CustomButton
         className="public-registration__grid__form-container__registration-button"
         size="large"

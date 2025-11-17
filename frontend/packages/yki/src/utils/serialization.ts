@@ -41,11 +41,13 @@ import {
   ExamSessions,
   ExamSessionsResponse,
 } from 'interfaces/examSessions';
+import { FreeRegistrationBasis } from 'interfaces/freeRegistration';
 import {
   LoginLinkDetails,
   LoginLinkDetailsResponse,
 } from 'interfaces/loginLink';
 import { NationalitiesResponse, Nationality } from 'interfaces/nationality';
+import { KoskiEducationDTO } from 'interfaces/publicEducation';
 import {
   PublicEmailRegistration,
   PublicRegistrationInitPayload,
@@ -468,5 +470,20 @@ export class SerializationUtils {
         examinationDate: dayjs(pastExam.examinationDate),
       })),
     };
+  }
+  static mapKoskiEducationToFreeRegistrationBasis(
+    koskiEducation: KoskiEducationDTO,
+  ): FreeRegistrationBasis {
+    switch (koskiEducation.educationType) {
+      case 'ylioppilastutkinto':
+        return 'MatriculationExam';
+      case 'dia':
+      case 'eb':
+        return 'ComparableMatriculation';
+      case 'korkeakoulutus':
+        return koskiEducation.isActive
+          ? 'HigherEducationEnrolled'
+          : 'HigherEducationConcluded';
+    }
   }
 }

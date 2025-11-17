@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { APIResponseStatus } from 'shared/enums';
 
-import { RegistrationKind } from 'enums/app';
+import { RegistrationKind, RegistrationStates } from 'enums/app';
 import {
   PublicRegistrationFormStep,
   PublicRegistrationFormSubmitError,
@@ -31,6 +31,7 @@ export interface RegistrationState {
     status: APIResponseStatus;
     error?: PublicRegistrationFormSubmitError;
     registrationKind?: RegistrationKind;
+    finalState?: RegistrationStates;
   };
   cancelRegistration: {
     status: APIResponseStatus;
@@ -169,6 +170,7 @@ const registrationSlice = createSlice({
       state.submitRegistration.code = action.payload.code;
       state.submitRegistration.registrationKind =
         action.payload.registration_kind;
+      state.submitRegistration.finalState = action.payload.state;
     },
     rejectPublicRegistrationSubmission(
       state,
