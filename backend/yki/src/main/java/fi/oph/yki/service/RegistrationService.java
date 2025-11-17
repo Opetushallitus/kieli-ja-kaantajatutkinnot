@@ -131,7 +131,7 @@ public class RegistrationService {
       );
     }
 
-    return PublicFreeRegistrationDTO.builder().id(freeRegistration.getId()).build();
+    return PublicFreeRegistrationDTO.builder().id(freeRegistrationSaved.getId()).build();
   }
 
   @Transactional(readOnly = true)
