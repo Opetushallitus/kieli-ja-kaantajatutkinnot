@@ -2,10 +2,12 @@ import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 
 class ClerkCustomerDetailsPage {
   elements = {
-    title: (id: number) => {
-      const person = customerDetails[id - 1].person;
+    title: (oid: string) => {
+      const details = customerDetails.find((cd) => cd.person.oid === oid);
 
-      return cy.findByText(`${person.lastName} ${person.firstName}`);
+      return cy.findByText(
+        `${details.person.lastName} ${details.person.firstName}`,
+      );
     },
 
     // Ilmoitttautumiset
@@ -20,20 +22,20 @@ class ClerkCustomerDetailsPage {
     pastTableHeader: () => cy.get('table').eq(2).find('thead tr th'),
     pastTableBody: () => cy.get('table').eq(2).find('tbody tr'),
   };
-  isVisible(id: number) {
-    this.elements.title(id).should('be.visible');
+  isVisible(oid: string) {
+    this.elements.title(oid).should('be.visible');
   }
 
-  expectDetailsVisible(id: number) {
-    const details = customerDetails[id - 1];
+  expectDetailsVisible(oid: string) {
+    const details = customerDetails.find((cd) => cd.person.oid === oid);
+    if (!details) {
+      throw new Error(`Could not find customerDetails with oid '${oid}'.`);
+    }
 
     cy.findByText(details.person.ssn).should('be.visible');
     cy.findByText(details.person.oid).should('be.visible');
 
     cy.findByText('Suomi').should('be.visible');
-
-    // Asiointikieli ja Todistuksen kieli
-    cy.findAllByText('suomi').eq(1).should('be.visible');
 
     cy.findByText(details.person.phoneNumber).should('be.visible');
     cy.findByText(details.person.streetAddress).should('be.visible');

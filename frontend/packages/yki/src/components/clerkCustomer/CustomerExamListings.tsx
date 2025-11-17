@@ -1,4 +1,3 @@
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import BlockIcon from '@mui/icons-material/Block';
 import BlockOutlinedIcon from '@mui/icons-material/BlockOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -127,9 +126,6 @@ export const CustomerExamListings = ({
     [RegistrationStates.Expired]: <BlockIcon fontSize="large" color="error" />,
     [RegistrationStates.Submitted]: (
       <WarningIcon fontSize="large" color="warning" />
-    ),
-    [RegistrationStates.FreeRegistrationPending]: (
-      <AccessTimeIcon fontSize="large" color="warning" />
     ),
   };
 

@@ -7,6 +7,7 @@ export enum AppRoutes {
   AccessibilityStatementPage = '/yki/saavutettavuus',
   Registration = '/yki/ilmoittautuminen',
   RegistrationPaymentStatus = '/yki/ilmoittautuminen/maksu/tila',
+  FreeRegistrationSuccess = '/yki/ilmoittautuminen/maksuton/:examSessionId/valmis',
   ExamSessionRegistration = '/yki/ilmoittautuminen/tutkintotilaisuus/:examSessionId',
   ExamSessionQueue = '/yki/ilmoittautuminen/tutkintotilaisuus/:examSessionId/jono',
   Reassessment = '/yki/tarkistusarviointi',
@@ -19,12 +20,11 @@ export enum AppRoutes {
   TransferRegistrationSuccess = '/yki/kayttaja/siirra/:registrationId/valmis',
   ModifyContactDetails = '/yki/kayttaja/tiedot/muokkaa',
   ConfirmRegistration = '/yki/kayttaja/vahvista/:registrationId',
-  ModifyRegistration = '/yki/kayttaja/muokkaa/:registrationId',
   ExpiredLoginLinkPage = '/yki/linkki-vanhentunut/:code',
   NotFoundPage = '*',
   ClerkRoot = '/yki/v2/virkailija',
   CustomerSearch = '/yki/v2/virkailija/asiakashaku',
-  ClerkCustomerDetails = '/yki/v2/virkailija/asiakashaku/:id',
+  ClerkCustomerDetails = '/yki/v2/virkailija/asiakashaku/:oid',
   ClerkOrganizerRegister = '/yki/v2/virkailija/jarjestajarekisteri',
   ClerkFreeRegistration = '/yki/v2/virkailija/maksuttomuus',
   ClerkFreeRegistrationDetails = '/yki/v2/virkailija/maksuttomuus/:id',
@@ -67,12 +67,6 @@ export enum InstructionLanguage {
   SV = 'sv',
 }
 
-export enum ServiceLanguage {
-  FI = 'fi',
-  SV = 'sv',
-  EN = 'en',
-}
-
 export enum RadioButtonValue {
   YES = 'radioButtonYes',
   NO = 'radioButtonNo',
@@ -101,8 +95,5 @@ export enum RegistrationStates {
   Expired = 'EXPIRED',
   Cancelled = 'CANCELLED',
   PaidAndCancelled = 'PAID_AND_CANCELLED',
-  FreeRegistrationPending = 'FREE_REGISTRATION_PENDING',
-  FreeRegistrationSupplementRequested = 'FREE_REGISTRATION_SUPPLEMENT_REQUESTED',
-  FreeRequestSupplementRequestAnswered = 'FREE_REGISTRATION_SUPPLEMENT_REQUEST_ANSWERED',
   Unknown = 'UNKNOWN',
 }
