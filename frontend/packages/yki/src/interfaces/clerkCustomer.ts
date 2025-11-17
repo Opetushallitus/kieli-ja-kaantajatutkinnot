@@ -1,12 +1,6 @@
 import { Dayjs } from 'dayjs';
 
-import {
-  CertificateLanguage,
-  ExamLanguage,
-  ExamLevel,
-  RegistrationStates,
-  ServiceLanguage,
-} from 'enums/app';
+import { ExamLanguage, ExamLevel, RegistrationStates } from 'enums/app';
 
 export interface CustomerPerson {
   firstName: string;
@@ -14,11 +8,9 @@ export interface CustomerPerson {
   ssn: string;
   oid: string;
   nationalityCode: string;
-  languageOfService: ServiceLanguage;
-  languageOfCertificate: CertificateLanguage;
-  phoneNumber: string;
-  streetAddress: string;
-  email: string;
+  phoneNumber?: string;
+  streetAddress?: string;
+  email?: string;
 }
 
 type Exam = {
@@ -66,7 +58,6 @@ export enum QueueOfferStatus {
 }
 
 export interface ClerkCustomerDetails {
-  id: number;
   person: CustomerPerson;
   registrations: Exam[];
   queuedExams: QueuedRegistration[];
@@ -104,12 +95,11 @@ type QueuedExamResponse = Omit<
   registrationDate: string;
 };
 
-type PastExamResponse = Omit<PastExam, 'examinationDate'> & {
+export type PastExamResponse = Omit<PastExam, 'examinationDate'> & {
   examinationDate: string;
 };
 
 export interface ClerkCustomerDetailsResponse {
-  id: number;
   person: CustomerPerson;
   registrations: ExamResponse[];
   queuedExams: QueuedExamResponse[];

@@ -27,8 +27,7 @@ export interface PersonRegistrations extends WithId {
   examFee?: number;
   liftedFromQueueAt?: Dayjs;
   positionInQueue?: number;
-  supplementRequestDueDate?: Dayjs;
-  supplementRequest?: string;
+  isFreeRegistration?: boolean;
 }
 
 interface PersonRegistrationsResponse extends WithId {
@@ -49,8 +48,7 @@ interface PersonRegistrationsResponse extends WithId {
   exam_fee?: number;
   lifted_from_queue_at?: string;
   position_in_queue?: number;
-  supplementRequestDueDate?: string;
-  supplementRequest?: string;
+  is_free_registration?: boolean;
 }
 
 export interface PersonDetails {

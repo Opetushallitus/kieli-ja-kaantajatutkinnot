@@ -12,11 +12,11 @@ import {
 } from 'redux/reducers/clerkCustomerDetails';
 import { SerializationUtils } from 'utils/serialization';
 
-function* loadClerkCustomerDetailsSaga(action: PayloadAction<number>) {
+function* loadClerkCustomerDetailsSaga(action: PayloadAction<string>) {
   try {
     const response: AxiosResponse<ClerkCustomerDetailsResponse> = yield call(
       axiosInstance.get,
-      APIEndpoints.ClerkCustomerDetails.replace(/:id$/, `${action.payload}`),
+      APIEndpoints.ClerkCustomerDetails.replace(/:oid$/, action.payload),
     );
     const clerkCustomerDetails =
       SerializationUtils.deserializeClerkCustomerDetailsResponse(response.data);

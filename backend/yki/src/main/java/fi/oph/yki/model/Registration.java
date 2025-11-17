@@ -2,18 +2,7 @@ package fi.oph.yki.model;
 
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -49,7 +38,6 @@ public class Registration {
   @JoinColumn(name = "exam_session_id", referencedColumnName = "id")
   private ExamSession examSession;
 
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "free_registration_id", referencedColumnName = "free_registration_id")
+  @OneToOne(fetch = FetchType.LAZY, mappedBy = "registration", optional = false)
   private FreeRegistration freeRegistration;
 }

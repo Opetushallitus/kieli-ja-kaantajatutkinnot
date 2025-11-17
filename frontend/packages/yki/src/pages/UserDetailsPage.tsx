@@ -69,9 +69,43 @@ const filterByDate = (
     return [];
   }
 
+  const now = dayjs();
+
   return registrations.filter((r) =>
-    upcoming ? dayjs().isBefore(r.examDate) : dayjs().isAfter(r.examDate),
+    upcoming
+      ? now.isBefore(r.examDate, 'day') || now.isSame(r.examDate, 'day')
+      : now.isAfter(r.examDate, 'day'),
   );
+};
+
+const earliestExamDateFirstComparator = (
+  a: PersonRegistrations,
+  b: PersonRegistrations,
+) => {
+  const ed1 = a.examDate,
+    ed2 = b.examDate;
+  if (ed1.isBefore(ed2)) {
+    return -1;
+  } else if (ed2.isBefore(ed1)) {
+    return 1;
+  } else {
+    return 0;
+  }
+};
+
+const latestExamDateFirstComparator = (
+  a: PersonRegistrations,
+  b: PersonRegistrations,
+) => {
+  const ed1 = a.examDate,
+    ed2 = b.examDate;
+  if (ed1.isBefore(ed2)) {
+    return -1;
+  } else if (ed2.isBefore(ed1)) {
+    return 1;
+  } else {
+    return 0;
+  }
 };
 
 interface RegistrationsProps {
@@ -102,13 +136,6 @@ const RegistrationState = ({
     (state === RegistrationStates.Submitted &&
       kind === RegistrationKind.Admission);
 
-  const isFreeRegistrationPending =
-    state === RegistrationStates.FreeRegistrationPending ||
-    state === RegistrationStates.FreeRequestSupplementRequestAnswered;
-
-  const isFreeRegistrationSupplementRequested =
-    state === RegistrationStates.FreeRegistrationSupplementRequested;
-
   const isQueued =
     state === RegistrationStates.Submitted && kind === RegistrationKind.Queue;
 
@@ -121,7 +148,7 @@ const RegistrationState = ({
   ].includes(state);
 
   return (
-    <div data-testid={`registration-state-${registration.id}`}>
+    <div>
       <Text className="bold">{t('label')}</Text>
       <div className="columns gapped-xxs">
         {isEnrolled && (
@@ -142,18 +169,6 @@ const RegistrationState = ({
             <Text>{t('cancelled')}</Text>
           </>
         )}
-        {isFreeRegistrationPending && (
-          <>
-            <AlarmOutlinedIcon className="user-details-page__icon--alert" />
-            <Text>{t('freeRegistrationPending')}</Text>
-          </>
-        )}
-        {isFreeRegistrationSupplementRequested && (
-          <>
-            <AlarmOutlinedIcon className="user-details-page__icon--alert" />
-            <Text>{t('freeRegistrationSupplementRequested')}</Text>
-          </>
-        )}
       </div>
     </div>
   );
@@ -164,32 +179,25 @@ const ExamPayment = ({
 }: {
   registration: PersonRegistrations;
 }) => {
-  const { paidAt, expiresAt, examFee, state } = registration;
+  const { paidAt, expiresAt, examFee, isFreeRegistration } = registration;
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage.registrations.examPayment',
   });
 
-  const isFreeRegistrationPending = [
-    RegistrationStates.FreeRegistrationPending,
-    RegistrationStates.FreeRegistrationSupplementRequested,
-    RegistrationStates.FreeRequestSupplementRequestAnswered,
-  ].includes(state);
-
-  if (isFreeRegistrationPending) {
+  if (isFreeRegistration) {
     return (
-      <div data-testid={`exam-payment-${registration.id}`}>
+      <div>
         <Text className="bold">{t('label')}</Text>
-        <Text>
-          {t('freeRegistrationPending', {
-            examFee,
-          })}
-        </Text>
+        <div className="columns gapped-xxs">
+          <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
+          <Text>{t('free')}</Text>
+        </div>
       </div>
     );
   }
 
   return (
-    <div data-testid={`exam-payment-${registration.id}`}>
+    <div>
       <Text className="bold">{t('label')}</Text>
       {paidAt && (
         <div className="columns gapped-xxs">
@@ -245,19 +253,11 @@ const Registrations: FC<RegistrationsProps> = ({
       r.state === RegistrationStates.Submitted &&
       r.kind !== RegistrationKind.Queue;
 
-    const isFreeRegistrationPending =
-      [
-        RegistrationStates.FreeRegistrationPending,
-        RegistrationStates.FreeRegistrationSupplementRequested,
-        RegistrationStates.FreeRequestSupplementRequestAnswered,
-      ].includes(r.state) && r.kind === RegistrationKind.Admission;
-
     return (
       <Paper
         key={`registration-${r.examSessionId}-${r.id}`}
         elevation={3}
         className="user-details-page__event"
-        data-testid={`registration-card-${r.id}`}
       >
         <div className="user-details-page__info__section">
           <H3 sx={{ fontSize: '1.8rem', lineHeight: '2.6rem' }}>
@@ -288,39 +288,12 @@ const Registrations: FC<RegistrationsProps> = ({
             </Text>
           </InfoBox>
         )}
-        {isFreeRegistrationPending && (
-          <InfoBox>
-            <Text data-testid={`free-registration-info-${r.id}`}>
-              {[
-                RegistrationStates.FreeRegistrationPending,
-                RegistrationStates.FreeRequestSupplementRequestAnswered,
-              ].includes(r.state) && t('freeRegistrationNotification.pending')}
-
-              {r.state ===
-                RegistrationStates.FreeRegistrationSupplementRequested &&
-                t('freeRegistrationNotification.answered', {
-                  dueDate: DateUtils.formatOptionalDate(
-                    r.supplementRequestDueDate,
-                    'l',
-                  ),
-                })}
-            </Text>
-          </InfoBox>
-        )}
         <RegistrationState registration={r} />
-        {r.supplementRequest && (
-          <div>
-            <Text className="bold">{t('supplementRequestLabel')}</Text>
-            <Text>{r.supplementRequest}</Text>
-          </div>
-        )}
-        {((r.state === RegistrationStates.Completed ||
+        {(r.state === RegistrationStates.Completed ||
           r.state === RegistrationStates.Submitted) &&
-          r.kind === RegistrationKind.Admission) ||
-          (isFreeRegistrationPending &&
-            r.kind === RegistrationKind.Admission && (
-              <ExamPayment registration={r} />
-            ))}
+          r.kind === RegistrationKind.Admission && (
+            <ExamPayment registration={r} />
+          )}
         <div>
           <Text className="bold">{translateCommon('examDate')}</Text>
           <Text>{DateUtils.formatOptionalDate(r.examDate, 'l')}</Text>
@@ -346,8 +319,7 @@ const Registrations: FC<RegistrationsProps> = ({
           <div className="rows gapped">
             <div className="columns gapped">
               {r.state === RegistrationStates.Submitted &&
-                r.kind === RegistrationKind.Admission &&
-                !isFreeRegistrationPending && (
+                r.kind === RegistrationKind.Admission && (
                   <CustomButtonLink
                     className="fit-content-max-width"
                     color={Color.Secondary}
@@ -361,20 +333,6 @@ const Registrations: FC<RegistrationsProps> = ({
                     {t('actions.confirm')}
                   </CustomButtonLink>
                 )}
-              {r.state ===
-                RegistrationStates.FreeRegistrationSupplementRequested && (
-                <CustomButtonLink
-                  className="fit-content-max-width"
-                  color={Color.Secondary}
-                  variant={Variant.Contained}
-                  to={AppRoutes.ModifyRegistration.replace(
-                    /:registrationId/,
-                    `${r.id}`,
-                  )}
-                >
-                  {t('actions.modify')}
-                </CustomButtonLink>
-              )}
               <CustomButton
                 className="fit-content-max-width"
                 color={Color.Secondary}
@@ -384,21 +342,20 @@ const Registrations: FC<RegistrationsProps> = ({
               >
                 {t('actions.cancel')}
               </CustomButton>
-              {r.state === RegistrationStates.Completed &&
-                !isFreeRegistrationPending && (
-                  <CustomButtonLink
-                    className="fit-content-max-width"
-                    color={Color.Secondary}
-                    variant={Variant.Outlined}
-                    disabled={!r.isTransferable}
-                    to={AppRoutes.TransferRegistration.replace(
-                      /:registrationId/,
-                      `${r.id}`,
-                    )}
-                  >
-                    {t('actions.relocate')}
-                  </CustomButtonLink>
-                )}
+              {r.state === RegistrationStates.Completed && (
+                <CustomButtonLink
+                  className="fit-content-max-width"
+                  color={Color.Secondary}
+                  variant={Variant.Outlined}
+                  disabled={!r.isTransferable}
+                  to={AppRoutes.TransferRegistration.replace(
+                    /:registrationId/,
+                    `${r.id}`,
+                  )}
+                >
+                  {t('actions.relocate')}
+                </CustomButtonLink>
+              )}
             </div>
             {r.isTransfered && (
               <div className="columns gapped-xs">
@@ -543,21 +500,22 @@ export const UserDetailsPage: FC = () => {
 
   const registrations = personDetails?.registrations || [];
 
-  const canceledRegistrations = filterByState(registrations, cancelledStates);
+  const canceledRegistrations = [
+    ...filterByState(registrations, cancelledStates),
+  ].sort(earliestExamDateFirstComparator);
   const upcomingAndPastRegistrations = filterByState(registrations, [
     RegistrationStates.Submitted,
     RegistrationStates.Completed,
     RegistrationStates.Started,
-    RegistrationStates.FreeRegistrationPending,
-    RegistrationStates.FreeRegistrationSupplementRequested,
-    RegistrationStates.FreeRequestSupplementRequestAnswered,
   ]);
 
-  const upcomingRegistrations = filterByDate(
-    upcomingAndPastRegistrations,
-    true,
-  );
-  const pastRegistrations = filterByDate(upcomingAndPastRegistrations, false);
+  const upcomingRegistrations = [
+    ...filterByDate(upcomingAndPastRegistrations, true),
+  ].sort(latestExamDateFirstComparator);
+
+  const pastRegistrations = [
+    ...filterByDate(upcomingAndPastRegistrations, false),
+  ].sort(earliestExamDateFirstComparator);
 
   const renderBulletpoints = () => {
     if (loggedInSession?.['auth-method'] === 'EMAIL') {
