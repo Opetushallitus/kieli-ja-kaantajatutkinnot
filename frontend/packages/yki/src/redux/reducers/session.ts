@@ -8,7 +8,7 @@ import {
   SuomiFiAuthenticatedSession,
 } from 'interfaces/session';
 
-interface SessionState {
+export interface SessionState {
   status: APIResponseStatus;
   loggedInSession?:
     | EmailAuthenticatedSession

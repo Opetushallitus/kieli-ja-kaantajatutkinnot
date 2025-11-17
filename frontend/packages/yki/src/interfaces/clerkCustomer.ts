@@ -8,9 +8,9 @@ export interface CustomerPerson {
   ssn: string;
   oid: string;
   nationalityCode: string;
-  phoneNumber: string;
-  streetAddress: string;
-  email: string;
+  phoneNumber?: string;
+  streetAddress?: string;
+  email?: string;
 }
 
 type Exam = {
@@ -95,7 +95,7 @@ type QueuedExamResponse = Omit<
   registrationDate: string;
 };
 
-type PastExamResponse = Omit<PastExam, 'examinationDate'> & {
+export type PastExamResponse = Omit<PastExam, 'examinationDate'> & {
   examinationDate: string;
 };
 

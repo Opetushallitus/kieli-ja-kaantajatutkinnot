@@ -5,12 +5,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import fi.oph.yki.Factory;
+import fi.oph.yki.api.dto.PublicEducationBasisDTO;
 import fi.oph.yki.api.dto.PublicEducationDTO;
+import fi.oph.yki.api.dto.PublicEducationUpdateDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.type.FreeRegistrationSource;
+import fi.oph.yki.model.type.FreeRegistrationType;
 import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationRepository;
@@ -69,12 +73,22 @@ public class RegistrationServiceTest {
     final List<PublicEducationDTO> educationDTOs = List.of(
       PublicEducationDTO.builder().educationType(KoulutusTyyppi.HigherEducation.toString()).isActive(true).build()
     );
-    when(koskiService.getEducations(registration)).thenReturn(educationDTOs);
+    final PublicEducationUpdateDTO publicEducationUpdateDTO = PublicEducationUpdateDTO
+      .builder()
+      .basis(
+        PublicEducationBasisDTO
+          .builder()
+          .source(FreeRegistrationSource.USER)
+          .educationType(FreeRegistrationType.MatriculationExam)
+          .build()
+      )
+      .build();
+    when(koskiService.getEducations(registration.getPerson().getOid())).thenReturn(educationDTOs);
 
     entityManager.persist(person);
     entityManager.persist(registration);
 
-    registrationService.updateEducations(registration);
+    registrationService.updateFreeRegistration(registration, publicEducationUpdateDTO);
 
     entityManager.refresh(registration);
     verify(auditService)
@@ -93,7 +107,17 @@ public class RegistrationServiceTest {
     final List<PublicEducationDTO> educationDTOs = List.of(
       PublicEducationDTO.builder().educationType(KoulutusTyyppi.HigherEducation.toString()).isActive(true).build()
     );
-    when(koskiService.getEducations(registration)).thenReturn(educationDTOs);
+    final PublicEducationUpdateDTO publicEducationUpdateDTO = PublicEducationUpdateDTO
+      .builder()
+      .basis(
+        PublicEducationBasisDTO
+          .builder()
+          .source(FreeRegistrationSource.USER)
+          .educationType(FreeRegistrationType.MatriculationExam)
+          .build()
+      )
+      .build();
+    when(koskiService.getEducations(registration.getPerson().getOid())).thenReturn(educationDTOs);
 
     registration.setFreeRegistration(freeRegistration);
     entityManager.persist(person);
@@ -101,7 +125,7 @@ public class RegistrationServiceTest {
     entityManager.persist(freeRegistration);
 
     final FreeRegistrationDTO freeRegistrationBeforeDTO = RegistrationUtil.createFreeRegistrationDTO(freeRegistration);
-    registrationService.updateEducations(registration);
+    registrationService.updateFreeRegistration(registration, publicEducationUpdateDTO);
 
     entityManager.refresh(registration);
     verify(auditService)

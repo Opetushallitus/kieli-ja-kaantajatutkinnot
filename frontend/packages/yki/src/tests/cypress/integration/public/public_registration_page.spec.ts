@@ -54,8 +54,8 @@ describe('PublicRegistrationPage', () => {
 
       onPublicRegistrationPage.selectExamLevel('ylin taso');
       onPublicRegistrationPage.search();
-      onPublicRegistrationPage.expectResultsCount(3);
-      onPublicRegistrationPage.expectResultRowsCount(3);
+      onPublicRegistrationPage.expectResultsCount(4);
+      onPublicRegistrationPage.expectResultRowsCount(4);
     });
   });
 
@@ -119,7 +119,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
-        .getResultRowsNth(2)
+        .getResultRowsNth(1)
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 
@@ -134,7 +134,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
-        .getResultRowsNth(3)
+        .getResultRowsNth(2)
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 
@@ -149,7 +149,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
-        .getResultRowsNth(4)
+        .getResultRowsNth(3)
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 

@@ -42,7 +42,8 @@
       }
 
       &__terms-and-conditions,
-      &__whats-next {
+      &__whats-next,
+      &__exam-fee {
         @include phone-divider-border-top;
         padding-top: 3rem;
       }
@@ -94,10 +95,27 @@
     }
   }
 
+  &--email-link-order__reveal-btn {
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    display: inline;
+    margin: 0;
+    padding: 0;
+  }
+
   &--email-link-order__success {
     svg {
       color: $color-green-600;
     }
+  }
+
+  & &__info-box {
+    background-color: $color-blue-200;
+    border-radius: 4px;
+    padding: 2rem;
+    margin-bottom: 2rem;
   }
 }
 
