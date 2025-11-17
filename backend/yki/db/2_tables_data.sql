@@ -2,8 +2,6 @@
 -- PostgreSQL database dump
 --
 
-\restrict LhdS5Wa2uHLQGKxQZHa86GNiynh5a31Geuo1EgzrSkQFbZvBWSNNXdBzWPkOkJ0
-
 -- Dumped from database version 10.4 (Debian 10.4-2.pgdg90+1)
 -- Dumped by pg_dump version 14.19 (Homebrew)
 
@@ -56,7 +54,16 @@ COPY public.contact (id, organizer_id, name, email, phone_number, deleted_at, cr
 --
 
 COPY public.databasechangelog (id, author, filename, dateexecuted, orderexecuted, exectype, md5sum, description, comments, tag, liquibase, contexts, labels, deployment_id) FROM stdin;
-2025-09-18-add-free-registration	jrkkp	migrations.xml	2025-09-18 15:57:59.705766	1	EXECUTED	9:38ade4e29e208e42646661874f20d2dc	createTable tableName=free_registration; addColumn tableName=registration		\N	4.32.0	\N	\N	8200279238
+2025-10-07-add-free-registration-attachments	jrkkp	migrations.xml	2025-10-07 15:29:18.792315	2	EXECUTED	9:b0a42285360d0f63227df06cc4034dab	createTable tableName=free_attachments		\N	4.32.0	\N	\N	9840158319
+2025-10-09-add-free-registration-comments	jrkkp	migrations.xml	2025-10-09 13:43:24.487852	3	EXECUTED	9:87a09aa94c335be96f6f09e14dc6b857	createTable tableName=free_comment		\N	4.32.0	\N	\N	0006604007
+2025-10-20-add-free-supplement-request	jrkkp	migrations.xml	2025-10-20 15:53:31.823553	4	EXECUTED	9:8b6b0fc873de2e21cd03c86d80fbe125	createTable tableName=free_supplement_req		\N	4.33.0	\N	\N	0964811631
+2025-10-22-add-assessment-date	jrkkp	migrations.xml	2025-10-22 13:36:32.437824	6	EXECUTED	9:bb4984e1c1fb36982db030b30c7860b7	addColumn tableName=free_registration		\N	4.33.0	\N	\N	1129391951
+2025-10-22-create-awaiting-approval-registration-state	jrkkp	migrations.xml	2025-10-23 11:44:24.800348	7	EXECUTED	9:a7a0b779e58da5bb7a447623fc7cd02d	sql		\N	4.33.0	\N	\N	1209064340
+2025-09-18-add-free-registration	jrkkp	migrations.xml	2025-09-18 15:57:59.705766	1	EXECUTED	9:f85c44190f96e4c3c603209ed1b69b2e	createTable tableName=free_registration; addColumn tableName=registration		\N	4.32.0	\N	\N	8200279238
+2025-11-05-add-is-finnish-column	jrkkp	migrations.xml	2025-11-05 15:27:06.533172	8	EXECUTED	9:f1e97de9778a3ffbfc1a731260d21574	addColumn tableName=free_registration; addColumn tableName=registration		\N	4.33.0	\N	\N	2349226037
+2025-11-05-add-is-finnish-and-free-registration-id-column	jrkkp	migrations.xml	2025-11-05 15:29:49.798988	9	EXECUTED	9:f1e97de9778a3ffbfc1a731260d21574	addColumn tableName=free_registration; addColumn tableName=registration		\N	4.33.0	\N	\N	2349389315
+2025-11-04-add-free-registration-is_foreign-column	pkoivisto	migrations.xml	2025-11-06 13:20:42.971072	10	EXECUTED	9:750d0faa71ac7b6f422cdc877cbb71b4	addColumn tableName=free_registration		\N	4.33.0	\N	\N	2428042445
+2025-11-12-add-free-registration-base-entity	jrkkp	migrations.xml	2025-11-12 12:10:21.11799	11	EXECUTED	9:0ba9603ad0039e1b3ef0cea9e4ccd962	addColumn tableName=free_registration		\N	4.33.0	\N	\N	2942220594
 \.
 
 
@@ -331,7 +338,7 @@ COPY public.registration (id, state, exam_session_id, participant_id, started_at
 164	EXPIRED	1	740	2025-07-15 20:01:42.141+00	\N	\N	\N	\N	2025-07-15 20:01:42.143062+00	2025-07-15 20:32:33.598292+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
 166	EXPIRED	1	745	2025-07-15 20:15:31.065+00	\N	\N	\N	\N	2025-07-15 20:15:31.068624+00	2025-07-15 20:45:33.588419+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
 167	EXPIRED	1	746	2025-07-17 10:44:47.243+00	\N	\N	\N	\N	2025-07-17 10:44:47.248344+00	2025-07-17 11:15:32.726593+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-168	EXPIRED	1	747	2025-07-17 10:44:47.25+00	\N	\N	\N	\N	2025-07-17 10:44:47.252648+00	2025-07-17 11:15:32.726593+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+168	COMPLETED	1	747	2025-07-17 10:44:47.25+00	\N	\N	1.2.246.562.24.12308879060	\N	2025-07-17 10:44:47.252648+00	2025-07-17 11:15:32.726593+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
 \.
 
 
@@ -369,10 +376,40 @@ COPY public.exam_session_queue (id, email, lang, exam_session_id, last_notified_
 
 
 --
+-- Data for Name: free_attachment; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.free_attachment (free_attachment_id, free_registration_id, key, filename, size) FROM stdin;
+\.
+
+
+--
+-- Data for Name: free_comment; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.free_comment (free_comment_id, free_registration_id, comment, version, created_by, modified_by, deleted_by, created_at, modified_at, deleted_at) FROM stdin;
+3	1	test	0	1.2.246.562.10.00000000001	1.2.246.562.10.00000000001	\N	2025-10-21 10:10:49.51029+00	2025-10-21 10:10:49.51029+00	\N
+4	1	test	0	1.2.246.562.10.00000000001	1.2.246.562.10.00000000001	\N	2025-10-21 10:10:49.510306+00	2025-10-21 10:10:49.510306+00	\N
+\.
+
+
+--
 -- Data for Name: free_registration; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
-COPY public.free_registration (free_registration_id, source, type, approved, comment, matriculation_exam, higher_education_concluded, higher_education_enrolled, eb, dia, other) FROM stdin;
+COPY public.free_registration (free_registration_id, source, type, approved, comment, matriculation_exam, higher_education_concluded, higher_education_enrolled, eb, dia, other, registration_id, assessment_date, is_finnish, is_foreign, version, created_by, modified_by, deleted_by, created_at, modified_at, deleted_at) FROM stdin;
+4	KOSKI	HigherEducationEnrolled	\N	\N	f	f	f	f	f	f	168	\N	t	f	0	\N	\N	\N	2025-11-12 10:10:21.091727+00	2025-11-12 10:10:21.091727+00	\N
+\.
+
+
+--
+-- Data for Name: free_supplement_req; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.free_supplement_req (free_supplement_req_id, free_registration_id, message, due_date, version, created_by, modified_by, deleted_by, created_at, modified_at, deleted_at) FROM stdin;
+1	1	foo	2025-10-28	0	1.2.246.562.10.00000000001	1.2.246.562.10.00000000001	\N	2025-10-21 10:20:55.016205+00	2025-10-21 10:20:55.016205+00	\N
+2	1	foo	2025-10-28	0	1.2.246.562.10.00000000001	1.2.246.562.10.00000000001	\N	2025-10-21 10:20:55.016207+00	2025-10-21 10:20:55.016207+00	\N
+3	1	foo	2025-10-28	0	1.2.246.562.10.00000000001	1.2.246.562.10.00000000001	\N	2025-10-21 10:20:55.016206+00	2025-10-21 10:20:55.016206+00	\N
 \.
 
 
@@ -421,7 +458,16 @@ COPY public.payment_config (id, organizer_id, merchant_id, merchant_secret, test
 -- Data for Name: person; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
-COPY public.person (oid, first_name, last_name, email, created, modified, phone_number, street_address, post_office, zip) FROM stdin;
+COPY public.person (oid, first_name, last_name, email, created, modified, phone_number, street_address, post_office, zip, nationality_code, gender) FROM stdin;
+1.2.246.562.24.12308879060	Teppo	Testi	test@test.invalid	2025-10-07 11:56:32.997123+00	2025-10-07 11:56:32.997123+00	\N	\N	\N	\N	\N	\N
+\.
+
+
+--
+-- Data for Name: person_sync_status; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.person_sync_status (id, person_oid, success_at, failed_at, should_retry, created) FROM stdin;
 \.
 
 
@@ -495,7 +541,11 @@ COPY public.ragtime_migrations (id, created_at) FROM stdin;
 035-add-explicit-expiration-date-and-exam-fee-to-registration-table.0.1.0	2025-06-25T14:24:05.840
 035-migrate-person-task-lock.0.1.0	2025-06-25T14:24:05.847
 036-new-queueing-functionality.0.1.0	2025-06-25T14:24:05.861
-037-add-registration-ui-language-field.0.1.0	2025-07-17T13:44:14.473
+037-add-new-login-link-type-for-person.0.1.0	2025-11-17T15:03:46.471
+037-add-registration-ui-language-field.0.1.0	2025-11-17T15:03:46.492
+038-create-index-on-registration-person_oid.0.1.0	2025-11-17T15:03:46.510
+039-new-person_sync_status-table.0.1.0	2025-11-17T15:03:46.536
+040-add-columns-for-nationality-and-gender-in-person-table.0.1.0	2025-11-17T15:04:21.924
 \.
 
 
@@ -511,6 +561,7 @@ REMOVE_OLD_DATA_HANDLER	2025-07-18 09:02:27.378359+00	632e3c2c-b2c8-453f-8692-b3
 EXAM_SESSION_QUEUE_HANDLER	2025-06-25 11:20:59.630594+00	2630b6d9-dced-4e83-88f7-996109709032
 REGISTRATION_STATE_HANDLER	2025-07-18 11:25:27.956449+00	12b86c1c-887b-4b50-8c0f-2745306e8869
 REGISTRATION_QUEUE_HANDLER	2025-07-18 11:25:27.956791+00	6f0a7505-34ff-4224-ae68-1100829109c5
+PERSONS_SYNC_HANDLER	-infinity	\N
 \.
 
 
@@ -718,10 +769,45 @@ SELECT pg_catalog.setval('public.exam_session_queue_id_seq', 1, false);
 
 
 --
+-- Name: free_attachments_free_attachment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.free_attachments_free_attachment_id_seq', 1, false);
+
+
+--
+-- Name: free_attachments_free_registration_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.free_attachments_free_registration_id_seq', 1, false);
+
+
+--
+-- Name: free_comment_free_comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.free_comment_free_comment_id_seq', 4, true);
+
+
+--
 -- Name: free_registration_free_registration_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.free_registration_free_registration_id_seq', 1, false);
+SELECT pg_catalog.setval('public.free_registration_free_registration_id_seq', 4, true);
+
+
+--
+-- Name: free_registration_registration_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.free_registration_registration_id_seq', 1, true);
+
+
+--
+-- Name: free_supplement_req_free_supplement_req_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.free_supplement_req_free_supplement_req_id_seq', 3, true);
 
 
 --
@@ -809,6 +895,13 @@ SELECT pg_catalog.setval('public.payment_registration_id_seq', 1, false);
 
 
 --
+-- Name: person_sync_status_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.person_sync_status_id_seq', 1, false);
+
+
+--
 -- Name: pgqueues_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
@@ -839,6 +932,4 @@ SELECT pg_catalog.setval('public.registration_id_seq', 170, true);
 --
 -- PostgreSQL database dump complete
 --
-
-\unrestrict LhdS5Wa2uHLQGKxQZHa86GNiynh5a31Geuo1EgzrSkQFbZvBWSNNXdBzWPkOkJ0
 
