@@ -54,6 +54,37 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="2025-11-10-add-person-hsqldb" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <createTable tableName="person">
+            <column name="oid" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="person_pkey"/>
+            </column>
+            <column name="first_name" type="TEXT" />
+            <column name="last_name" type="TEXT" />
+            <column name="email" type="TEXT" />
+            <column name="nationality_code" type="TEXT" />
+            <column name="phone_number" type="TEXT" />
+            <column name="post_office" type="TEXT" />
+            <column name="street_address" type="TEXT" />
+            <column name="zip" type="TEXT" />
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2025-11-10-add-registration-columns-hsqldb" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <addColumn tableName="registration">
+            <column name="exam_session_id" type="BIGINT"/>
+            <column name="kind" type="TEXT"/>
+            <column name="person_oid" type="TEXT"/>
+            <column name="state" type="TEXT"/>
+        </addColumn>
+    </changeSet>
+
     <changeSet id="2025-11-04-add-free-registration-is_foreign-column" author="pkoivisto">
         <addColumn tableName="free_registration">
             <column name="is_foreign" type="BOOLEAN" />
