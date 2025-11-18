@@ -90,8 +90,7 @@ CREATE TYPE public.registration_state AS ENUM (
     'STARTED',
     'EXPIRED',
     'CANCELLED',
-    'PAID_AND_CANCELLED',
-    'AWAITING_APPROVAL'
+    'PAID_AND_CANCELLED'
 );
 
 
