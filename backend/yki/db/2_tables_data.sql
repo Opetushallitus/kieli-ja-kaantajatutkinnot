@@ -54,7 +54,6 @@ COPY public.contact (id, organizer_id, name, email, phone_number, deleted_at, cr
 --
 
 COPY public.databasechangelog (id, author, filename, dateexecuted, orderexecuted, exectype, md5sum, description, comments, tag, liquibase, contexts, labels, deployment_id) FROM stdin;
-2025-10-22-add-assessment-date	jrkkp	migrations.xml	2025-10-22 13:36:32.437824	6	EXECUTED	9:bb4984e1c1fb36982db030b30c7860b7	addColumn tableName=free_registration		\N	4.33.0	\N	\N	1129391951
 2025-10-22-create-awaiting-approval-registration-state	jrkkp	migrations.xml	2025-10-23 11:44:24.800348	7	EXECUTED	9:a7a0b779e58da5bb7a447623fc7cd02d	sql		\N	4.33.0	\N	\N	1209064340
 2025-09-18-add-free-registration	jrkkp	migrations.xml	2025-09-18 15:57:59.705766	1	EXECUTED	9:f85c44190f96e4c3c603209ed1b69b2e	createTable tableName=free_registration; addColumn tableName=registration		\N	4.32.0	\N	\N	8200279238
 2025-11-04-add-free-registration-is_foreign-column	pkoivisto	migrations.xml	2025-11-06 13:20:42.971072	10	EXECUTED	9:750d0faa71ac7b6f422cdc877cbb71b4	addColumn tableName=free_registration		\N	4.33.0	\N	\N	2428042445
@@ -371,40 +370,11 @@ COPY public.exam_session_queue (id, email, lang, exam_session_id, last_notified_
 
 
 --
--- Data for Name: free_attachment; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public.free_attachment (free_attachment_id, free_registration_id, key, filename, size) FROM stdin;
-\.
-
-
---
--- Data for Name: free_comment; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public.free_comment (free_comment_id, free_registration_id, comment, version, created_by, modified_by, deleted_by, created_at, modified_at, deleted_at) FROM stdin;
-3	1	test	0	1.2.246.562.10.00000000001	1.2.246.562.10.00000000001	\N	2025-10-21 10:10:49.51029+00	2025-10-21 10:10:49.51029+00	\N
-4	1	test	0	1.2.246.562.10.00000000001	1.2.246.562.10.00000000001	\N	2025-10-21 10:10:49.510306+00	2025-10-21 10:10:49.510306+00	\N
-\.
-
-
---
 -- Data for Name: free_registration; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
-COPY public.free_registration (free_registration_id, source, type, approved, comment, matriculation_exam, higher_education_concluded, higher_education_enrolled, eb, dia, other, registration_id, assessment_date, is_finnish, is_foreign, version, created_by, modified_by, deleted_by, created_at, modified_at, deleted_at) FROM stdin;
-4	KOSKI	HigherEducationEnrolled	\N	\N	f	f	f	f	f	f	168	\N	t	f	0	\N	\N	\N	2025-11-12 10:10:21.091727+00	2025-11-12 10:10:21.091727+00	\N
-\.
-
-
---
--- Data for Name: free_supplement_req; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public.free_supplement_req (free_supplement_req_id, free_registration_id, message, due_date, version, created_by, modified_by, deleted_by, created_at, modified_at, deleted_at) FROM stdin;
-1	1	foo	2025-10-28	0	1.2.246.562.10.00000000001	1.2.246.562.10.00000000001	\N	2025-10-21 10:20:55.016205+00	2025-10-21 10:20:55.016205+00	\N
-2	1	foo	2025-10-28	0	1.2.246.562.10.00000000001	1.2.246.562.10.00000000001	\N	2025-10-21 10:20:55.016207+00	2025-10-21 10:20:55.016207+00	\N
-3	1	foo	2025-10-28	0	1.2.246.562.10.00000000001	1.2.246.562.10.00000000001	\N	2025-10-21 10:20:55.016206+00	2025-10-21 10:20:55.016206+00	\N
+COPY public.free_registration (free_registration_id, source, type, matriculation_exam, higher_education_concluded, higher_education_enrolled, eb, dia, other, registration_id, is_foreign, version, created_by, modified_by, deleted_by, created_at, modified_at, deleted_at) FROM stdin;
+4	KOSKI	HigherEducationEnrolled	f	f	f	f	f	f	168	f	0	\N	\N	\N	2025-11-12 10:10:21.091727+00	2025-11-12 10:10:21.091727+00	\N
 \.
 
 
@@ -764,27 +734,6 @@ SELECT pg_catalog.setval('public.exam_session_queue_id_seq', 1, false);
 
 
 --
--- Name: free_attachments_free_attachment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
---
-
-SELECT pg_catalog.setval('public.free_attachments_free_attachment_id_seq', 1, false);
-
-
---
--- Name: free_attachments_free_registration_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
---
-
-SELECT pg_catalog.setval('public.free_attachments_free_registration_id_seq', 1, false);
-
-
---
--- Name: free_comment_free_comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
---
-
-SELECT pg_catalog.setval('public.free_comment_free_comment_id_seq', 4, true);
-
-
---
 -- Name: free_registration_free_registration_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
@@ -796,13 +745,6 @@ SELECT pg_catalog.setval('public.free_registration_free_registration_id_seq', 4,
 --
 
 SELECT pg_catalog.setval('public.free_registration_registration_id_seq', 1, true);
-
-
---
--- Name: free_supplement_req_free_supplement_req_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
---
-
-SELECT pg_catalog.setval('public.free_supplement_req_free_supplement_req_id_seq', 3, true);
 
 
 --
@@ -927,4 +869,3 @@ SELECT pg_catalog.setval('public.registration_id_seq', 170, true);
 --
 -- PostgreSQL database dump complete
 --
-

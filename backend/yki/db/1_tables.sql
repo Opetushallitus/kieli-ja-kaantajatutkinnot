@@ -1320,8 +1320,6 @@ CREATE TABLE public.free_registration (
     free_registration_id bigint NOT NULL,
     source character varying(255) NOT NULL,
     type character varying(255) NOT NULL,
-    approved boolean,
-    comment text,
     matriculation_exam boolean NOT NULL,
     higher_education_concluded boolean NOT NULL,
     higher_education_enrolled boolean NOT NULL,
@@ -1329,7 +1327,6 @@ CREATE TABLE public.free_registration (
     dia boolean NOT NULL,
     other boolean NOT NULL,
     registration_id bigint NOT NULL,
-    assessment_date timestamp with time zone,
     is_foreign boolean,
     version integer DEFAULT 0 NOT NULL,
     created_by text,
@@ -2615,35 +2612,11 @@ ALTER TABLE ONLY public.exam_session_queue
 
 
 --
--- Name: free_attachment free_attachment_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.free_attachment
-    ADD CONSTRAINT free_attachment_pkey PRIMARY KEY (free_attachment_id);
-
-
---
--- Name: free_comment free_comment_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.free_comment
-    ADD CONSTRAINT free_comment_pkey PRIMARY KEY (free_comment_id);
-
-
---
 -- Name: free_registration free_registration_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY public.free_registration
     ADD CONSTRAINT free_registration_pkey PRIMARY KEY (free_registration_id);
-
-
---
--- Name: free_supplement_req free_supplement_req__pkey; Type: CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.free_supplement_req
-    ADD CONSTRAINT free_supplement_req__pkey PRIMARY KEY (free_supplement_req_id);
 
 
 --
@@ -2828,14 +2801,6 @@ ALTER TABLE ONLY public.subtest
 
 ALTER TABLE ONLY public.task_lock
     ADD CONSTRAINT task_lock_pkey PRIMARY KEY (task);
-
-
---
--- Name: free_attachment uploaded_file_attachment_key_uniq_idx; Type: CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.free_attachment
-    ADD CONSTRAINT uploaded_file_attachment_key_uniq_idx UNIQUE (key);
 
 
 --
@@ -3270,5 +3235,3 @@ ALTER TABLE ONLY public.registration
 --
 -- PostgreSQL database dump complete
 --
-
-
