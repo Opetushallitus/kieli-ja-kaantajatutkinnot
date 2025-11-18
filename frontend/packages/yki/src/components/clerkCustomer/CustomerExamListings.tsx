@@ -8,11 +8,16 @@ import { Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import { Dayjs } from 'dayjs';
 import i18next from 'i18next';
+import { AppLanguage } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import {
+  getCurrentLang,
+  useCommonTranslation,
+  usePublicTranslation,
+} from 'configs/i18n';
 import { RegistrationStates } from 'enums/app';
 import {
   ClerkCustomerDetails,
@@ -97,18 +102,29 @@ export const CustomerExamListings = ({
 
   // Testipaikka (Ilmoittautumiset, Jonossa, Menneet)
   const createExamLocationColumn = <
-    T extends { examLocation: { name: string; municipality: string } },
+    T extends {
+      examLocation: {
+        name: string;
+        municipality: string;
+        lang: AppLanguage;
+      }[];
+    },
   >(
     t: typeof i18next.t,
   ): ListTableColumn<T> => ({
     key: 'examLocation',
     title: t('columns.location'),
-    render: ({ examLocation: { name, municipality } }) => (
-      <div className="rows gapped-xs">
-        <Text>{name}</Text>
-        <Text>{municipality}</Text>
-      </div>
-    ),
+    render: ({ examLocation }) => {
+      const currentLang = getCurrentLang();
+      const location = examLocation.find((l) => currentLang === l.lang);
+
+      return (
+        <div className="rows gapped-xs">
+          <Text>{location?.name}</Text>
+          <Text>{location?.municipality}</Text>
+        </div>
+      );
+    },
   });
 
   const registrationStateIconMapping: Partial<

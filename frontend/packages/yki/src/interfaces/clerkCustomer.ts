@@ -1,4 +1,5 @@
 import { Dayjs } from 'dayjs';
+import { AppLanguage } from 'shared/enums';
 
 import { ExamLanguage, ExamLevel, RegistrationStates } from 'enums/app';
 
@@ -13,16 +14,25 @@ export interface CustomerPerson {
   email?: string;
 }
 
+export type ExamLocation = {
+  name: string;
+  municipality: string;
+  lang: AppLanguage;
+};
+
+type ExamLocationResponse = {
+  name: string;
+  municipality: string;
+  lang: string;
+};
+
 type Exam = {
   examinationDate: Dayjs;
   exam: {
     language: ExamLanguage;
     level: ExamLevel;
   };
-  examLocation: {
-    name: string;
-    municipality: string;
-  };
+  examLocation: ExamLocation[];
   registrationStatus: RegistrationStatus;
   registrationDate: Dayjs;
 };
@@ -70,12 +80,13 @@ type RegistrationStatusResponse = Omit<RegistrationStatus, 'paidAt'> & {
 
 type ExamResponse = Omit<
   Exam,
-  'registrationStatus' | 'registrationDate' | 'examinationDate'
+  'registrationStatus' | 'registrationDate' | 'examinationDate' | 'examLocation'
 > & {
   registrationStatus: RegistrationStatusResponse;
 
   examinationDate: string;
   registrationDate: string;
+  examLocation: ExamLocationResponse[];
 };
 
 type QueueSpotOfferedResponse = Omit<QueueSpotOffered, 'dueDate'> & {
@@ -88,15 +99,21 @@ type QueuedExamResponse = Omit<
   | 'queueSpotOffered'
   | 'registrationDate'
   | 'examinationDate'
+  | 'examLocation'
 > & {
   registrationStatus: RegistrationStatusResponse;
   queueSpotOffered: QueueSpotOfferedResponse;
   examinationDate: string;
   registrationDate: string;
+  examLocation: ExamLocationResponse[];
 };
 
-export type PastExamResponse = Omit<PastExam, 'examinationDate'> & {
+export type PastExamResponse = Omit<
+  PastExam,
+  'examinationDate' | 'examLocation'
+> & {
   examinationDate: string;
+  examLocation: ExamLocationResponse[];
 };
 
 export interface ClerkCustomerDetailsResponse {

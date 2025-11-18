@@ -12,6 +12,7 @@ import {
 import {
   ClerkCustomerDetails,
   ClerkCustomerDetailsResponse,
+  ExamLocation,
 } from 'interfaces/clerkCustomer';
 import {
   ClerkFreeRegistrationDetailsResponse,
@@ -448,6 +449,7 @@ export class SerializationUtils {
           },
           registrationDate: dayjs(registration.registrationDate),
           examinationDate: dayjs(registration.examinationDate),
+          examLocation: this.mapExamLocation(registration.examLocation),
         }),
       ),
       queuedExams: clerkCustomerDetailsResponse.queuedExams.map(
@@ -463,14 +465,42 @@ export class SerializationUtils {
           },
           examinationDate: dayjs(queuedExam.examinationDate),
           registrationDate: dayjs(queuedExam.registrationDate),
+          examLocation: this.mapExamLocation(queuedExam.examLocation),
         }),
       ),
       pastExams: clerkCustomerDetailsResponse.pastExams.map((pastExam) => ({
         ...pastExam,
         examinationDate: dayjs(pastExam.examinationDate),
+        examLocation: this.mapExamLocation(pastExam.examLocation),
       })),
     };
   }
+
+  static mapExamLocation(
+    examLocation: {
+      name: string;
+      municipality: string;
+      lang: string;
+    }[],
+  ): ExamLocation[] {
+    return examLocation.map((l) => ({
+      ...l,
+      lang: this.mapToAppLanguage(l.lang),
+    }));
+  }
+
+  static mapToAppLanguage(language: string): AppLanguage {
+    switch (language) {
+      case 'sv':
+        return AppLanguage.Swedish;
+      case 'en':
+        return AppLanguage.English;
+      case 'fi':
+      default:
+        return AppLanguage.Finnish;
+    }
+  }
+
   static mapKoskiEducationToFreeRegistrationBasis(
     koskiEducation: KoskiEducationDTO,
   ): FreeRegistrationBasis {

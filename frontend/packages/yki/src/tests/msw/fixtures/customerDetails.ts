@@ -5,6 +5,60 @@ import {
   QueueOfferStatus,
 } from 'interfaces/clerkCustomer';
 
+const kajaani = [
+  {
+    name: 'Testipaikan nimi',
+    municipality: 'Kajaani',
+    lang: 'fi',
+  },
+  {
+    name: 'Provplatsens namn',
+    municipality: 'Kajana',
+    lang: 'sv',
+  },
+  {
+    name: 'Test site name',
+    municipality: 'Kajaani',
+    lang: 'en',
+  },
+];
+
+const lassila = [
+  {
+    name: 'Lassilan koulu',
+    municipality: 'Lassila',
+    lang: 'fi',
+  },
+  {
+    name: 'Lassila skola',
+    municipality: 'Lassila',
+    lang: 'sv',
+  },
+  {
+    name: 'Lassila School',
+    municipality: 'Lassila',
+    lang: 'en',
+  },
+];
+
+const helsinki = [
+  {
+    name: 'Lorem ipsum oppilaitos',
+    municipality: 'Helsinki',
+    lang: 'fi',
+  },
+  {
+    name: 'Lorem ipsum läroanstalt',
+    municipality: 'Helsingfors',
+    lang: 'sv',
+  },
+  {
+    name: 'Lorem ipsum educational institute',
+    municipality: 'Helsinki',
+    lang: 'en',
+  },
+];
+
 const defaultRegistrations = [
   {
     examinationDate: '2025-09-01T00:00:00.000Z',
@@ -12,10 +66,7 @@ const defaultRegistrations = [
       language: ExamLanguage.FIN,
       level: ExamLevel.KESKI,
     },
-    examLocation: {
-      name: 'Testipaikan nimi',
-      municipality: 'Kajaani',
-    },
+    examLocation: kajaani,
 
     // user have paid
     registrationStatus: {
@@ -30,10 +81,7 @@ const defaultRegistrations = [
       language: ExamLanguage.DEU,
       level: ExamLevel.YLIN,
     },
-    examLocation: {
-      name: 'Lassilan koulu',
-      municipality: 'Lassila',
-    },
+    examLocation: lassila,
     registrationStatus: {
       state: RegistrationStates.PaidAndCancelled,
     },
@@ -45,10 +93,7 @@ const defaultRegistrations = [
       language: ExamLanguage.SME,
       level: ExamLevel.PERUS,
     },
-    examLocation: {
-      name: 'Lorem ipsum oppilaitos',
-      municipality: 'Helsinki',
-    },
+    examLocation: helsinki,
     registrationStatus: {
       state: RegistrationStates.Cancelled,
     },
@@ -60,10 +105,7 @@ const defaultRegistrations = [
       language: ExamLanguage.SME,
       level: ExamLevel.YLIN,
     },
-    examLocation: {
-      name: 'Lorem ipsum oppilaitos',
-      municipality: 'Helsinki',
-    },
+    examLocation: helsinki,
     registrationStatus: {
       state: RegistrationStates.Submitted,
     },
@@ -78,10 +120,7 @@ const defaultQueuedExams = [
       language: ExamLanguage.FIN,
       level: ExamLevel.KESKI,
     },
-    examLocation: {
-      name: 'Testipaikan nimi',
-      municipality: 'Kajaani',
-    },
+    examLocation: kajaani,
 
     // User not paid
     registrationStatus: {
@@ -99,10 +138,7 @@ const defaultQueuedExams = [
       language: ExamLanguage.DEU,
       level: ExamLevel.YLIN,
     },
-    examLocation: {
-      name: 'Lassilan koulu',
-      municipality: 'Lassila',
-    },
+    examLocation: lassila,
     // User not paid
     registrationStatus: {
       state: RegistrationStates.Expired,
@@ -119,10 +155,7 @@ const defaultQueuedExams = [
       language: ExamLanguage.SWE,
       level: ExamLevel.PERUS,
     },
-    examLocation: {
-      name: 'Lorem ipsum oppilaitos',
-      municipality: 'Helsinki',
-    },
+    examLocation: helsinki,
     registrationStatus: {
       state: RegistrationStates.Cancelled,
     },
@@ -137,10 +170,7 @@ const defaultQueuedExams = [
       language: ExamLanguage.SWE,
       level: ExamLevel.PERUS,
     },
-    examLocation: {
-      name: 'Lorem ipsum oppilaitos',
-      municipality: 'Helsinki',
-    },
+    examLocation: helsinki,
     registrationStatus: {
       state: RegistrationStates.Submitted,
     },
@@ -158,10 +188,7 @@ const defaultPastExams: PastExamResponse[] = [
       language: ExamLanguage.FIN,
       level: ExamLevel.PERUS,
     },
-    examLocation: {
-      name: 'Testipaikan nimi',
-      municipality: 'Kajaani',
-    },
+    examLocation: kajaani,
     state: 'REVIEWED',
   },
   {
@@ -170,10 +197,7 @@ const defaultPastExams: PastExamResponse[] = [
       language: ExamLanguage.SWE,
       level: ExamLevel.KESKI,
     },
-    examLocation: {
-      name: 'Lassilan koulu',
-      municipality: 'Lassila',
-    },
+    examLocation: lassila,
     state: 'CANCELLED',
   },
   {
@@ -182,10 +206,7 @@ const defaultPastExams: PastExamResponse[] = [
       language: ExamLanguage.SWE,
       level: ExamLevel.KESKI,
     },
-    examLocation: {
-      name: 'Lorem ipsum oppilaitos',
-      municipality: 'Helsinki',
-    },
+    examLocation: helsinki,
     state: 'REGISTERED',
   },
 ];
