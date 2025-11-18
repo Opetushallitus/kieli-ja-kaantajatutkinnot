@@ -54,14 +54,9 @@ COPY public.contact (id, organizer_id, name, email, phone_number, deleted_at, cr
 --
 
 COPY public.databasechangelog (id, author, filename, dateexecuted, orderexecuted, exectype, md5sum, description, comments, tag, liquibase, contexts, labels, deployment_id) FROM stdin;
-2025-10-07-add-free-registration-attachments	jrkkp	migrations.xml	2025-10-07 15:29:18.792315	2	EXECUTED	9:b0a42285360d0f63227df06cc4034dab	createTable tableName=free_attachments		\N	4.32.0	\N	\N	9840158319
-2025-10-09-add-free-registration-comments	jrkkp	migrations.xml	2025-10-09 13:43:24.487852	3	EXECUTED	9:87a09aa94c335be96f6f09e14dc6b857	createTable tableName=free_comment		\N	4.32.0	\N	\N	0006604007
-2025-10-20-add-free-supplement-request	jrkkp	migrations.xml	2025-10-20 15:53:31.823553	4	EXECUTED	9:8b6b0fc873de2e21cd03c86d80fbe125	createTable tableName=free_supplement_req		\N	4.33.0	\N	\N	0964811631
 2025-10-22-add-assessment-date	jrkkp	migrations.xml	2025-10-22 13:36:32.437824	6	EXECUTED	9:bb4984e1c1fb36982db030b30c7860b7	addColumn tableName=free_registration		\N	4.33.0	\N	\N	1129391951
 2025-10-22-create-awaiting-approval-registration-state	jrkkp	migrations.xml	2025-10-23 11:44:24.800348	7	EXECUTED	9:a7a0b779e58da5bb7a447623fc7cd02d	sql		\N	4.33.0	\N	\N	1209064340
 2025-09-18-add-free-registration	jrkkp	migrations.xml	2025-09-18 15:57:59.705766	1	EXECUTED	9:f85c44190f96e4c3c603209ed1b69b2e	createTable tableName=free_registration; addColumn tableName=registration		\N	4.32.0	\N	\N	8200279238
-2025-11-05-add-is-finnish-column	jrkkp	migrations.xml	2025-11-05 15:27:06.533172	8	EXECUTED	9:f1e97de9778a3ffbfc1a731260d21574	addColumn tableName=free_registration; addColumn tableName=registration		\N	4.33.0	\N	\N	2349226037
-2025-11-05-add-is-finnish-and-free-registration-id-column	jrkkp	migrations.xml	2025-11-05 15:29:49.798988	9	EXECUTED	9:f1e97de9778a3ffbfc1a731260d21574	addColumn tableName=free_registration; addColumn tableName=registration		\N	4.33.0	\N	\N	2349389315
 2025-11-04-add-free-registration-is_foreign-column	pkoivisto	migrations.xml	2025-11-06 13:20:42.971072	10	EXECUTED	9:750d0faa71ac7b6f422cdc877cbb71b4	addColumn tableName=free_registration		\N	4.33.0	\N	\N	2428042445
 2025-11-12-add-free-registration-base-entity	jrkkp	migrations.xml	2025-11-12 12:10:21.11799	11	EXECUTED	9:0ba9603ad0039e1b3ef0cea9e4ccd962	addColumn tableName=free_registration		\N	4.33.0	\N	\N	2942220594
 \.
