@@ -2,8 +2,6 @@
 -- PostgreSQL database dump
 --
 
-\restrict uXlYdnlKtfq0HMuF2ObkwJj8Dvj8q8QrUz57C3Ytrm3k7C5Gx2qWWzm9zlyuvuh
-
 -- Dumped from database version 10.4 (Debian 10.4-2.pgdg90+1)
 -- Dumped by pg_dump version 14.19 (Homebrew)
 
@@ -19,13 +17,27 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: gender_code; Type: TYPE; Schema: public; Owner: admin
+--
+
+CREATE TYPE public.gender_code AS ENUM (
+    'M',
+    'N',
+    'E'
+);
+
+
+ALTER TYPE public.gender_code OWNER TO admin;
+
+--
 -- Name: login_link_type; Type: TYPE; Schema: public; Owner: admin
 --
 
 CREATE TYPE public.login_link_type AS ENUM (
     'LOGIN',
     'REGISTRATION',
-    'PAYMENT'
+    'PAYMENT',
+    'PERSON'
 );
 
 
@@ -1308,14 +1320,21 @@ CREATE TABLE public.free_registration (
     free_registration_id bigint NOT NULL,
     source character varying(255) NOT NULL,
     type character varying(255) NOT NULL,
-    approved boolean,
-    comment text,
     matriculation_exam boolean NOT NULL,
     higher_education_concluded boolean NOT NULL,
     higher_education_enrolled boolean NOT NULL,
     eb boolean NOT NULL,
     dia boolean NOT NULL,
-    other boolean NOT NULL
+    other boolean NOT NULL,
+    registration_id bigint NOT NULL,
+    is_foreign boolean,
+    version integer DEFAULT 0 NOT NULL,
+    created_by text,
+    modified_by text,
+    deleted_by text,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    modified_at timestamp with time zone DEFAULT now() NOT NULL,
+    deleted_at timestamp with time zone
 );
 
 
@@ -1333,6 +1352,27 @@ ALTER TABLE public.free_registration ALTER COLUMN free_registration_id ADD GENER
     NO MAXVALUE
     CACHE 1
 );
+
+
+--
+-- Name: free_registration_registration_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.free_registration_registration_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.free_registration_registration_id_seq OWNER TO admin;
+
+--
+-- Name: free_registration_registration_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.free_registration_registration_id_seq OWNED BY public.free_registration.registration_id;
 
 
 --
@@ -1731,11 +1771,50 @@ CREATE TABLE public.person (
     phone_number text,
     street_address text,
     post_office text,
-    zip text
+    zip text,
+    nationality_code text,
+    gender public.gender_code
 );
 
 
 ALTER TABLE public.person OWNER TO admin;
+
+--
+-- Name: person_sync_status; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.person_sync_status (
+    id bigint NOT NULL,
+    person_oid text,
+    success_at timestamp with time zone,
+    failed_at timestamp with time zone,
+    should_retry boolean,
+    created timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.person_sync_status OWNER TO admin;
+
+--
+-- Name: person_sync_status_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.person_sync_status_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.person_sync_status_id_seq OWNER TO admin;
+
+--
+-- Name: person_sync_status_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.person_sync_status_id_seq OWNED BY public.person_sync_status.id;
+
 
 --
 -- Name: pgqueues; Type: TABLE; Schema: public; Owner: admin
@@ -2142,6 +2221,13 @@ ALTER TABLE ONLY public.exam_session_queue ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
+-- Name: free_registration registration_id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.free_registration ALTER COLUMN registration_id SET DEFAULT nextval('public.free_registration_registration_id_seq'::regclass);
+
+
+--
 -- Name: login_link id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
@@ -2216,6 +2302,13 @@ ALTER TABLE ONLY public.payment_config ALTER COLUMN id SET DEFAULT nextval('publ
 --
 
 ALTER TABLE ONLY public.payment_config ALTER COLUMN organizer_id SET DEFAULT nextval('public.payment_config_organizer_id_seq'::regclass);
+
+
+--
+-- Name: person_sync_status id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.person_sync_status ALTER COLUMN id SET DEFAULT nextval('public.person_sync_status_id_seq'::regclass);
 
 
 --
@@ -2639,6 +2732,14 @@ ALTER TABLE ONLY public.person
 
 
 --
+-- Name: person_sync_status person_sync_status_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.person_sync_status
+    ADD CONSTRAINT person_sync_status_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: pgqueues pgqueues_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -2787,6 +2888,13 @@ CREATE INDEX participant_onr_participant_id ON public.participant_onr USING btre
 
 
 --
+-- Name: person_sync_status_created_idx; Type: INDEX; Schema: public; Owner: admin
+--
+
+CREATE INDEX person_sync_status_created_idx ON public.person_sync_status USING btree (created);
+
+
+--
 -- Name: registration_exam_session_id; Type: INDEX; Schema: public; Owner: admin
 --
 
@@ -2798,6 +2906,13 @@ CREATE INDEX registration_exam_session_id ON public.registration USING btree (ex
 --
 
 CREATE INDEX registration_lifted_from_queue_at ON public.registration USING btree (lifted_from_queue_at);
+
+
+--
+-- Name: registration_person_oid; Type: INDEX; Schema: public; Owner: admin
+--
+
+CREATE INDEX registration_person_oid ON public.registration USING btree (person_oid);
 
 
 --
@@ -3062,6 +3177,14 @@ ALTER TABLE ONLY public.payment
 
 
 --
+-- Name: person_sync_status person_sync_status_person_oid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.person_sync_status
+    ADD CONSTRAINT person_sync_status_person_oid_fkey FOREIGN KEY (person_oid) REFERENCES public.person(oid);
+
+
+--
 -- Name: quarantine quarantine_language_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3112,6 +3235,3 @@ ALTER TABLE ONLY public.registration
 --
 -- PostgreSQL database dump complete
 --
-
-\unrestrict uXlYdnlKtfq0HMuF2ObkwJj8Dvj8q8QrUz57C3Ytrm3k7C5Gx2qWWzm9zlyuvuh
-
