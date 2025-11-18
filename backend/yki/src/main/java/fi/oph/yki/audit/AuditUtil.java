@@ -1,5 +1,6 @@
 package fi.oph.yki.audit;
 
+import fi.oph.yki.util.StringUtil;
 import fi.vm.sade.auditlog.User;
 import fi.vm.sade.javautils.http.HttpServletRequestUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +31,10 @@ public class AuditUtil {
     final InetAddress inetAddress = getInetAddress(request);
     final String session = request.getSession().getId();
     final String userAgent = request.getHeader("User-Agent");
-    return new User(inetAddress, session, userAgent);
+
+    return getOptionalOid(request)
+      .map(oid -> new User(oid, inetAddress, session, userAgent))
+      .orElseGet(() -> new User(inetAddress, session, userAgent));
   }
 
   private static InetAddress getInetAddress(final HttpServletRequest request) {
@@ -47,11 +51,10 @@ public class AuditUtil {
     }
   }
 
-  private static Optional<Oid> getOptionalOid() {
+  private static Optional<Oid> getOptionalOid(final HttpServletRequest request) {
+    final String reqOid = StringUtil.getOidFromRequest(request);
     return Optional
-      .ofNullable(SecurityContextHolder.getContext().getAuthentication())
-      .filter(Authentication::isAuthenticated)
-      .flatMap(authentication -> Optional.ofNullable(authentication.getName()))
+      .ofNullable(reqOid)
       .map(oid -> {
         try {
           return new Oid(oid);
