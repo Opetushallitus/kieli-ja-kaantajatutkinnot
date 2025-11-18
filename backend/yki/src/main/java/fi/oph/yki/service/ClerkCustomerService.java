@@ -70,10 +70,10 @@ public class ClerkCustomerService {
                             session.getLanguage(),
                             session.getLanguage()
                     ),
-                    new ClerkExamLocationDTO(
-                            location.getName(),
-                            location.getPostOffice()
-                    ),
+                    session.getLocations().stream().map(l -> new ClerkExamLocationDTO(
+                        l.getName(),
+                        l.getPostOffice()
+                    )).toList(),
                     new ClerkRegistrationStatusDTO(
                             status.name(),
                             paidAt
