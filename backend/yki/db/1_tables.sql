@@ -2,14 +2,13 @@
 -- PostgreSQL database dump
 --
 
-\restrict uXlYdnlKtfq0HMuF2ObkwJj8Dvj8q8QrUz57C3Ytrm3k7C5Gx2qWWzm9zlyuvuh
-
 -- Dumped from database version 10.4 (Debian 10.4-2.pgdg90+1)
--- Dumped by pg_dump version 14.19 (Homebrew)
+-- Dumped by pg_dump version 17.0
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -19,13 +18,36 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+-- *not* creating schema, since initdb creates it
+
+
+ALTER SCHEMA public OWNER TO postgres;
+
+--
+-- Name: gender_code; Type: TYPE; Schema: public; Owner: admin
+--
+
+CREATE TYPE public.gender_code AS ENUM (
+    'M',
+    'N',
+    'E'
+);
+
+
+ALTER TYPE public.gender_code OWNER TO admin;
+
+--
 -- Name: login_link_type; Type: TYPE; Schema: public; Owner: admin
 --
 
 CREATE TYPE public.login_link_type AS ENUM (
     'LOGIN',
     'REGISTRATION',
-    'PAYMENT'
+    'PAYMENT',
+    'PERSON'
 );
 
 
@@ -68,7 +90,8 @@ CREATE TYPE public.registration_state AS ENUM (
     'STARTED',
     'EXPIRED',
     'CANCELLED',
-    'PAID_AND_CANCELLED'
+    'PAID_AND_CANCELLED',
+    'AWAITING_APPROVAL'
 );
 
 
@@ -278,14 +301,14 @@ ALTER FUNCTION public.select_registration_kind(eid bigint) OWNER TO admin;
 CREATE FUNCTION public.select_registration_modification_dl(registration_id bigint) RETURNS timestamp with time zone
     LANGUAGE plpgsql
     AS $$
-BEGIN
+    BEGIN
     RETURN (SELECT ed.exam_date + interval '8 h'
             FROM registration r
             INNER JOIN exam_session es ON r.exam_session_id = es.id
             INNER JOIN exam_date ed ON es.exam_date_id = ed.id
             WHERE r.id=registration_id)
         AT TIME ZONE 'Europe/Helsinki';
-END;
+    END;
 $$;
 
 
@@ -407,7 +430,7 @@ CREATE SEQUENCE public.contact_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.contact_id_seq OWNER TO admin;
+ALTER SEQUENCE public.contact_id_seq OWNER TO admin;
 
 --
 -- Name: contact_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -428,7 +451,7 @@ CREATE SEQUENCE public.contact_organizer_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.contact_organizer_id_seq OWNER TO admin;
+ALTER SEQUENCE public.contact_organizer_id_seq OWNER TO admin;
 
 --
 -- Name: contact_organizer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -503,7 +526,7 @@ CREATE SEQUENCE public.evaluation_exam_date_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.evaluation_exam_date_id_seq OWNER TO admin;
+ALTER SEQUENCE public.evaluation_exam_date_id_seq OWNER TO admin;
 
 --
 -- Name: evaluation_exam_date_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -524,7 +547,7 @@ CREATE SEQUENCE public.evaluation_exam_date_language_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.evaluation_exam_date_language_id_seq OWNER TO admin;
+ALTER SEQUENCE public.evaluation_exam_date_language_id_seq OWNER TO admin;
 
 --
 -- Name: evaluation_exam_date_language_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -545,7 +568,7 @@ CREATE SEQUENCE public.evaluation_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.evaluation_id_seq OWNER TO admin;
+ALTER SEQUENCE public.evaluation_id_seq OWNER TO admin;
 
 --
 -- Name: evaluation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -585,7 +608,7 @@ CREATE SEQUENCE public.evaluation_order_evaluation_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.evaluation_order_evaluation_id_seq OWNER TO admin;
+ALTER SEQUENCE public.evaluation_order_evaluation_id_seq OWNER TO admin;
 
 --
 -- Name: evaluation_order_evaluation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -606,7 +629,7 @@ CREATE SEQUENCE public.evaluation_order_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.evaluation_order_id_seq OWNER TO admin;
+ALTER SEQUENCE public.evaluation_order_id_seq OWNER TO admin;
 
 --
 -- Name: evaluation_order_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -642,7 +665,7 @@ CREATE SEQUENCE public.evaluation_order_subtest_evaluation_order_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.evaluation_order_subtest_evaluation_order_id_seq OWNER TO admin;
+ALTER SEQUENCE public.evaluation_order_subtest_evaluation_order_id_seq OWNER TO admin;
 
 --
 -- Name: evaluation_order_subtest_evaluation_order_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -663,7 +686,7 @@ CREATE SEQUENCE public.evaluation_order_subtest_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.evaluation_order_subtest_id_seq OWNER TO admin;
+ALTER SEQUENCE public.evaluation_order_subtest_id_seq OWNER TO admin;
 
 --
 -- Name: evaluation_order_subtest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -721,7 +744,7 @@ CREATE SEQUENCE public.evaluation_payment_evaluation_order_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.evaluation_payment_evaluation_order_id_seq OWNER TO admin;
+ALTER SEQUENCE public.evaluation_payment_evaluation_order_id_seq OWNER TO admin;
 
 --
 -- Name: evaluation_payment_evaluation_order_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -742,7 +765,7 @@ CREATE SEQUENCE public.evaluation_payment_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.evaluation_payment_id_seq OWNER TO admin;
+ALTER SEQUENCE public.evaluation_payment_id_seq OWNER TO admin;
 
 --
 -- Name: evaluation_payment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -783,7 +806,7 @@ CREATE SEQUENCE public.evaluation_payment_new_evaluation_order_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.evaluation_payment_new_evaluation_order_id_seq OWNER TO admin;
+ALTER SEQUENCE public.evaluation_payment_new_evaluation_order_id_seq OWNER TO admin;
 
 --
 -- Name: evaluation_payment_new_evaluation_order_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -804,7 +827,7 @@ CREATE SEQUENCE public.evaluation_payment_new_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.evaluation_payment_new_id_seq OWNER TO admin;
+ALTER SEQUENCE public.evaluation_payment_new_id_seq OWNER TO admin;
 
 --
 -- Name: evaluation_payment_new_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -825,7 +848,7 @@ CREATE SEQUENCE public.evaluation_payment_order_number_seq
     CACHE 1;
 
 
-ALTER TABLE public.evaluation_payment_order_number_seq OWNER TO admin;
+ALTER SEQUENCE public.evaluation_payment_order_number_seq OWNER TO admin;
 
 --
 -- Name: exam_date; Type: TABLE; Schema: public; Owner: admin
@@ -859,7 +882,7 @@ CREATE SEQUENCE public.exam_date_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.exam_date_id_seq OWNER TO admin;
+ALTER SEQUENCE public.exam_date_id_seq OWNER TO admin;
 
 --
 -- Name: exam_date_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -896,7 +919,7 @@ CREATE SEQUENCE public.exam_date_language_exam_date_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.exam_date_language_exam_date_id_seq OWNER TO admin;
+ALTER SEQUENCE public.exam_date_language_exam_date_id_seq OWNER TO admin;
 
 --
 -- Name: exam_date_language_exam_date_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -917,7 +940,7 @@ CREATE SEQUENCE public.exam_date_language_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.exam_date_language_id_seq OWNER TO admin;
+ALTER SEQUENCE public.exam_date_language_id_seq OWNER TO admin;
 
 --
 -- Name: exam_date_language_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -953,7 +976,7 @@ CREATE SEQUENCE public.exam_language_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.exam_language_id_seq OWNER TO admin;
+ALTER SEQUENCE public.exam_language_id_seq OWNER TO admin;
 
 --
 -- Name: exam_language_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -974,7 +997,7 @@ CREATE SEQUENCE public.exam_language_organizer_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.exam_language_organizer_id_seq OWNER TO admin;
+ALTER SEQUENCE public.exam_language_organizer_id_seq OWNER TO admin;
 
 --
 -- Name: exam_language_organizer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1027,7 +1050,7 @@ CREATE SEQUENCE public.exam_payment_new_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.exam_payment_new_id_seq OWNER TO admin;
+ALTER SEQUENCE public.exam_payment_new_id_seq OWNER TO admin;
 
 --
 -- Name: exam_payment_new_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1048,7 +1071,7 @@ CREATE SEQUENCE public.exam_payment_new_registration_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.exam_payment_new_registration_id_seq OWNER TO admin;
+ALTER SEQUENCE public.exam_payment_new_registration_id_seq OWNER TO admin;
 
 --
 -- Name: exam_payment_new_registration_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1108,7 +1131,7 @@ CREATE SEQUENCE public.exam_session_contact_contact_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.exam_session_contact_contact_id_seq OWNER TO admin;
+ALTER SEQUENCE public.exam_session_contact_contact_id_seq OWNER TO admin;
 
 --
 -- Name: exam_session_contact_contact_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1129,7 +1152,7 @@ CREATE SEQUENCE public.exam_session_contact_exam_session_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.exam_session_contact_exam_session_id_seq OWNER TO admin;
+ALTER SEQUENCE public.exam_session_contact_exam_session_id_seq OWNER TO admin;
 
 --
 -- Name: exam_session_contact_exam_session_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1150,7 +1173,7 @@ CREATE SEQUENCE public.exam_session_contact_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.exam_session_contact_id_seq OWNER TO admin;
+ALTER SEQUENCE public.exam_session_contact_id_seq OWNER TO admin;
 
 --
 -- Name: exam_session_contact_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1171,7 +1194,7 @@ CREATE SEQUENCE public.exam_session_exam_date_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.exam_session_exam_date_id_seq OWNER TO admin;
+ALTER SEQUENCE public.exam_session_exam_date_id_seq OWNER TO admin;
 
 --
 -- Name: exam_session_exam_date_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1192,7 +1215,7 @@ CREATE SEQUENCE public.exam_session_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.exam_session_id_seq OWNER TO admin;
+ALTER SEQUENCE public.exam_session_id_seq OWNER TO admin;
 
 --
 -- Name: exam_session_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1233,7 +1256,7 @@ CREATE SEQUENCE public.exam_session_location_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.exam_session_location_id_seq OWNER TO admin;
+ALTER SEQUENCE public.exam_session_location_id_seq OWNER TO admin;
 
 --
 -- Name: exam_session_location_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1254,7 +1277,7 @@ CREATE SEQUENCE public.exam_session_organizer_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.exam_session_organizer_id_seq OWNER TO admin;
+ALTER SEQUENCE public.exam_session_organizer_id_seq OWNER TO admin;
 
 --
 -- Name: exam_session_organizer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1291,7 +1314,7 @@ CREATE SEQUENCE public.exam_session_queue_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.exam_session_queue_id_seq OWNER TO admin;
+ALTER SEQUENCE public.exam_session_queue_id_seq OWNER TO admin;
 
 --
 -- Name: exam_session_queue_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1308,14 +1331,21 @@ CREATE TABLE public.free_registration (
     free_registration_id bigint NOT NULL,
     source character varying(255) NOT NULL,
     type character varying(255) NOT NULL,
-    approved boolean,
-    comment text,
     matriculation_exam boolean NOT NULL,
     higher_education_concluded boolean NOT NULL,
     higher_education_enrolled boolean NOT NULL,
     eb boolean NOT NULL,
     dia boolean NOT NULL,
-    other boolean NOT NULL
+    other boolean NOT NULL,
+    registration_id bigint NOT NULL,
+    is_foreign boolean,
+    version integer DEFAULT 0 NOT NULL,
+    created_by text,
+    modified_by text,
+    deleted_by text,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    modified_at timestamp with time zone DEFAULT now() NOT NULL,
+    deleted_at timestamp with time zone
 );
 
 
@@ -1381,7 +1411,7 @@ CREATE SEQUENCE public.login_link_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.login_link_id_seq OWNER TO admin;
+ALTER SEQUENCE public.login_link_id_seq OWNER TO admin;
 
 --
 -- Name: login_link_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1402,7 +1432,7 @@ CREATE SEQUENCE public.login_link_participant_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.login_link_participant_id_seq OWNER TO admin;
+ALTER SEQUENCE public.login_link_participant_id_seq OWNER TO admin;
 
 --
 -- Name: login_link_participant_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1444,7 +1474,7 @@ CREATE SEQUENCE public.organizer_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.organizer_id_seq OWNER TO admin;
+ALTER SEQUENCE public.organizer_id_seq OWNER TO admin;
 
 --
 -- Name: organizer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1479,7 +1509,7 @@ CREATE SEQUENCE public.participant_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.participant_id_seq OWNER TO admin;
+ALTER SEQUENCE public.participant_id_seq OWNER TO admin;
 
 --
 -- Name: participant_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1515,7 +1545,7 @@ CREATE SEQUENCE public.participant_onr_participant_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.participant_onr_participant_id_seq OWNER TO admin;
+ALTER SEQUENCE public.participant_onr_participant_id_seq OWNER TO admin;
 
 --
 -- Name: participant_onr_participant_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1552,7 +1582,7 @@ CREATE SEQUENCE public.participant_sync_status_exam_session_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.participant_sync_status_exam_session_id_seq OWNER TO admin;
+ALTER SEQUENCE public.participant_sync_status_exam_session_id_seq OWNER TO admin;
 
 --
 -- Name: participant_sync_status_exam_session_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1573,7 +1603,7 @@ CREATE SEQUENCE public.participant_sync_status_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.participant_sync_status_id_seq OWNER TO admin;
+ALTER SEQUENCE public.participant_sync_status_id_seq OWNER TO admin;
 
 --
 -- Name: participant_sync_status_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1631,7 +1661,7 @@ CREATE SEQUENCE public.payment_config_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.payment_config_id_seq OWNER TO admin;
+ALTER SEQUENCE public.payment_config_id_seq OWNER TO admin;
 
 --
 -- Name: payment_config_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1652,7 +1682,7 @@ CREATE SEQUENCE public.payment_config_organizer_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.payment_config_organizer_id_seq OWNER TO admin;
+ALTER SEQUENCE public.payment_config_organizer_id_seq OWNER TO admin;
 
 --
 -- Name: payment_config_organizer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1673,7 +1703,7 @@ CREATE SEQUENCE public.payment_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.payment_id_seq OWNER TO admin;
+ALTER SEQUENCE public.payment_id_seq OWNER TO admin;
 
 --
 -- Name: payment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1694,7 +1724,7 @@ CREATE SEQUENCE public.payment_order_number_seq
     CACHE 1;
 
 
-ALTER TABLE public.payment_order_number_seq OWNER TO admin;
+ALTER SEQUENCE public.payment_order_number_seq OWNER TO admin;
 
 --
 -- Name: payment_registration_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
@@ -1708,7 +1738,7 @@ CREATE SEQUENCE public.payment_registration_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.payment_registration_id_seq OWNER TO admin;
+ALTER SEQUENCE public.payment_registration_id_seq OWNER TO admin;
 
 --
 -- Name: payment_registration_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1731,11 +1761,50 @@ CREATE TABLE public.person (
     phone_number text,
     street_address text,
     post_office text,
-    zip text
+    zip text,
+    nationality_code text,
+    gender public.gender_code
 );
 
 
 ALTER TABLE public.person OWNER TO admin;
+
+--
+-- Name: person_sync_status; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.person_sync_status (
+    id bigint NOT NULL,
+    person_oid text,
+    success_at timestamp with time zone,
+    failed_at timestamp with time zone,
+    created timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    should_retry boolean
+);
+
+
+ALTER TABLE public.person_sync_status OWNER TO admin;
+
+--
+-- Name: person_sync_status_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.person_sync_status_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.person_sync_status_id_seq OWNER TO admin;
+
+--
+-- Name: person_sync_status_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.person_sync_status_id_seq OWNED BY public.person_sync_status.id;
+
 
 --
 -- Name: pgqueues; Type: TABLE; Schema: public; Owner: admin
@@ -1764,7 +1833,7 @@ CREATE SEQUENCE public.pgqueues_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.pgqueues_id_seq OWNER TO admin;
+ALTER SEQUENCE public.pgqueues_id_seq OWNER TO admin;
 
 --
 -- Name: pgqueues_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -1774,7 +1843,7 @@ ALTER SEQUENCE public.pgqueues_id_seq OWNED BY public.pgqueues.id;
 
 
 --
--- Name: quarantine; Type: TABLE; Schema: public; Owner: postgres
+-- Name: quarantine; Type: TABLE; Schema: public; Owner: admin
 --
 
 CREATE TABLE public.quarantine (
@@ -1784,22 +1853,22 @@ CREATE TABLE public.quarantine (
     birthdate text NOT NULL,
     first_name text NOT NULL,
     last_name text NOT NULL,
+    diary_number text NOT NULL,
     ssn text,
     email text,
     phone_number text,
     created timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     updated timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    diary_number text,
     deleted_at timestamp with time zone,
     start_date date NOT NULL,
     CONSTRAINT ck_quarantine_start_date_end_date CHECK ((start_date < end_date))
 );
 
 
-ALTER TABLE public.quarantine OWNER TO postgres;
+ALTER TABLE public.quarantine OWNER TO admin;
 
 --
--- Name: quarantine_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: quarantine_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
 --
 
 CREATE SEQUENCE public.quarantine_id_seq
@@ -1810,17 +1879,17 @@ CREATE SEQUENCE public.quarantine_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.quarantine_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.quarantine_id_seq OWNER TO admin;
 
 --
--- Name: quarantine_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: quarantine_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
 
 ALTER SEQUENCE public.quarantine_id_seq OWNED BY public.quarantine.id;
 
 
 --
--- Name: quarantine_review; Type: TABLE; Schema: public; Owner: postgres
+-- Name: quarantine_review; Type: TABLE; Schema: public; Owner: admin
 --
 
 CREATE TABLE public.quarantine_review (
@@ -1834,10 +1903,10 @@ CREATE TABLE public.quarantine_review (
 );
 
 
-ALTER TABLE public.quarantine_review OWNER TO postgres;
+ALTER TABLE public.quarantine_review OWNER TO admin;
 
 --
--- Name: quarantine_review_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: quarantine_review_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
 --
 
 CREATE SEQUENCE public.quarantine_review_id_seq
@@ -1848,10 +1917,10 @@ CREATE SEQUENCE public.quarantine_review_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.quarantine_review_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.quarantine_review_id_seq OWNER TO admin;
 
 --
--- Name: quarantine_review_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: quarantine_review_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
 
 ALTER SEQUENCE public.quarantine_review_id_seq OWNED BY public.quarantine_review.id;
@@ -1886,14 +1955,11 @@ CREATE TABLE public.registration (
     created timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     modified timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     kind public.registration_kind DEFAULT 'ADMISSION'::public.registration_kind NOT NULL,
-    quarantine_id bigint,
-    reviewed timestamp with time zone,
     is_transfered boolean DEFAULT false NOT NULL,
     expires_at timestamp with time zone,
     exam_fee numeric,
     lifted_from_queue_at timestamp with time zone,
-    ui_language text,
-    free_registration_id bigint
+    ui_language text
 );
 
 
@@ -1911,7 +1977,7 @@ CREATE SEQUENCE public.registration_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.registration_id_seq OWNER TO admin;
+ALTER SEQUENCE public.registration_id_seq OWNER TO admin;
 
 --
 -- Name: registration_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
@@ -2219,6 +2285,13 @@ ALTER TABLE ONLY public.payment_config ALTER COLUMN organizer_id SET DEFAULT nex
 
 
 --
+-- Name: person_sync_status id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.person_sync_status ALTER COLUMN id SET DEFAULT nextval('public.person_sync_status_id_seq'::regclass);
+
+
+--
 -- Name: pgqueues id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
@@ -2226,14 +2299,14 @@ ALTER TABLE ONLY public.pgqueues ALTER COLUMN id SET DEFAULT nextval('public.pgq
 
 
 --
--- Name: quarantine id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: quarantine id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY public.quarantine ALTER COLUMN id SET DEFAULT nextval('public.quarantine_id_seq'::regclass);
 
 
 --
--- Name: quarantine_review id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: quarantine_review id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY public.quarantine_review ALTER COLUMN id SET DEFAULT nextval('public.quarantine_review_id_seq'::regclass);
@@ -2639,6 +2712,14 @@ ALTER TABLE ONLY public.person
 
 
 --
+-- Name: person_sync_status person_sync_status_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.person_sync_status
+    ADD CONSTRAINT person_sync_status_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: pgqueues pgqueues_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -2647,7 +2728,7 @@ ALTER TABLE ONLY public.pgqueues
 
 
 --
--- Name: quarantine quarantine_diary_number_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: quarantine quarantine_diary_number_key; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY public.quarantine
@@ -2655,7 +2736,7 @@ ALTER TABLE ONLY public.quarantine
 
 
 --
--- Name: quarantine quarantine_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: quarantine quarantine_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY public.quarantine
@@ -2663,7 +2744,7 @@ ALTER TABLE ONLY public.quarantine
 
 
 --
--- Name: quarantine_review quarantine_review_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: quarantine_review quarantine_review_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY public.quarantine_review
@@ -2671,7 +2752,7 @@ ALTER TABLE ONLY public.quarantine_review
 
 
 --
--- Name: quarantine_review quarantine_review_unique_quarantine_registration_combination; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: quarantine_review quarantine_review_unique_quarantine_registration_combination; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY public.quarantine_review
@@ -2801,6 +2882,13 @@ CREATE INDEX registration_lifted_from_queue_at ON public.registration USING btre
 
 
 --
+-- Name: registration_person_oid; Type: INDEX; Schema: public; Owner: admin
+--
+
+CREATE INDEX registration_person_oid ON public.registration USING btree (person_oid);
+
+
+--
 -- Name: registration_state; Type: INDEX; Schema: public; Owner: admin
 --
 
@@ -2815,7 +2903,7 @@ CREATE TRIGGER participant_limit_trigger BEFORE INSERT ON public.registration FO
 
 
 --
--- Name: quarantine_review quarantine_review_quarantine_not_deleted_trigger; Type: TRIGGER; Schema: public; Owner: postgres
+-- Name: quarantine_review quarantine_review_quarantine_not_deleted_trigger; Type: TRIGGER; Schema: public; Owner: admin
 --
 
 CREATE TRIGGER quarantine_review_quarantine_not_deleted_trigger BEFORE INSERT OR UPDATE ON public.quarantine_review FOR EACH ROW EXECUTE PROCEDURE public.error_if_reviewed_quarantine_is_deleted();
@@ -3062,7 +3150,15 @@ ALTER TABLE ONLY public.payment
 
 
 --
--- Name: quarantine quarantine_language_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: person_sync_status person_sync_status_person_oid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.person_sync_status
+    ADD CONSTRAINT person_sync_status_person_oid_fkey FOREIGN KEY (person_oid) REFERENCES public.person(oid);
+
+
+--
+-- Name: quarantine quarantine_language_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY public.quarantine
@@ -3070,7 +3166,7 @@ ALTER TABLE ONLY public.quarantine
 
 
 --
--- Name: quarantine_review quarantine_review_quarantine_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: quarantine_review quarantine_review_quarantine_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY public.quarantine_review
@@ -3078,7 +3174,7 @@ ALTER TABLE ONLY public.quarantine_review
 
 
 --
--- Name: quarantine_review quarantine_review_registration_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: quarantine_review quarantine_review_registration_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY public.quarantine_review
@@ -3110,8 +3206,14 @@ ALTER TABLE ONLY public.registration
 
 
 --
--- PostgreSQL database dump complete
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
 --
 
-\unrestrict uXlYdnlKtfq0HMuF2ObkwJj8Dvj8q8QrUz57C3Ytrm3k7C5Gx2qWWzm9zlyuvuh
+REVOKE USAGE ON SCHEMA public FROM PUBLIC;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
 
