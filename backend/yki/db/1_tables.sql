@@ -2,8 +2,10 @@
 -- PostgreSQL database dump
 --
 
+\restrict SsmbsQPSDHY0TvHdr6L7aY0cj8U01bd5JS2id5xE60xBK2VNXTBd8lOYbWOjlaa
+
 -- Dumped from database version 10.4 (Debian 10.4-2.pgdg90+1)
--- Dumped by pg_dump version 14.19 (Homebrew)
+-- Dumped by pg_dump version 15.14 (Homebrew)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -15,6 +17,15 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
+
+--
+-- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+-- *not* creating schema, since initdb creates it
+
+
+ALTER SCHEMA public OWNER TO postgres;
 
 --
 -- Name: gender_code; Type: TYPE; Schema: public; Owner: admin
@@ -3233,5 +3244,16 @@ ALTER TABLE ONLY public.registration
 
 
 --
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE USAGE ON SCHEMA public FROM PUBLIC;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
 -- PostgreSQL database dump complete
 --
+
+\unrestrict SsmbsQPSDHY0TvHdr6L7aY0cj8U01bd5JS2id5xE60xBK2VNXTBd8lOYbWOjlaa
+
