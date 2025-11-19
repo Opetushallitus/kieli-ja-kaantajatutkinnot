@@ -1,9 +1,12 @@
 package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import fi.oph.yki.api.dto.PublicEducationDTO;
 import fi.oph.yki.service.koski.KoskiService;
+import fi.oph.yki.util.exception.APIException;
+import fi.oph.yki.util.exception.APIExceptionType;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -113,6 +116,26 @@ public class KoskiServiceTest {
     assertEquals(koskiUrl + "/oid", Objects.requireNonNull(retryRequest.getRequestUrl()).toString());
     assertEquals("{\"oid\":\"1.2.246.562.24.97984579806\"}", retryRequest.getBody().readUtf8());
     assertEquals(1, educations.size());
+    assertEquals(2, mockWebServer.getRequestCount());
+  }
+
+  @Test
+  public void testFetchKoskiNoRetry() {
+    final WebClient webClient = WebClient.builder().baseUrl(koskiUrl).build();
+
+    mockWebServer.enqueue(
+      new MockResponse()
+        .setResponseCode(404)
+        .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+        .setBody(
+          "[{\"key\":\"notFound.oppijaaEiLöydyTaiEiOikeuksia\",\"message\":\"Oppijaa ei löydy tai käyttäjällä ei ole oikeuksia tietojen katseluun.\"}]"
+        )
+    );
+
+    final KoskiService koskiService = new KoskiService(webClient);
+
+    assertTrue(koskiService.getEducations("1.2.246.562.24.97984579806").isEmpty());
+    assertEquals(1, mockWebServer.getRequestCount());
   }
 
   private List<PublicEducationDTO> doRequest(final String response, final String oid) {
