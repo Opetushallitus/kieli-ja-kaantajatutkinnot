@@ -108,4 +108,55 @@
             <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
         </addColumn>
     </changeSet>
+
+    <changeSet id="2025-11-19-add-exam-payment-new-hsqldb" author="saku-koodari">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <createTable tableName="exam_payment_new">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="exam_payment_new_pkey"/>
+            </column>
+            <column name="state" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registration_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="NUMERIC(19,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reference" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="href" type="VARCHAR(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="paid_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="created" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="exam_payment_new"
+                baseColumnNames="registration_id"
+                constraintName="exam_payment_new_registration_id_fkey"
+                referencedTableName="registration"
+                referencedColumnNames="id"/>
+        <addUniqueConstraint tableName="exam_payment_new" columnNames="reference" constraintName="exam_payment_new_reference_key"/>
+        <addUniqueConstraint tableName="exam_payment_new" columnNames="transaction_id" constraintName="exam_payment_new_transaction_id_key"/>
+        <addUniqueConstraint tableName="exam_payment_new" columnNames="href" constraintName="exam_payment_new_href_key"/>
+        <createIndex tableName="exam_payment_new" indexName="exam_payment_new_state">
+            <column name="state"/>
+        </createIndex>
+        <createIndex tableName="exam_payment_new" indexName="exam_payment_new_paid_at">
+            <column name="paid_at"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>
