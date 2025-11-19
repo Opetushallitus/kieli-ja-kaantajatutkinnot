@@ -1,7 +1,9 @@
 package fi.oph.yki.util.exception;
 
+import lombok.Getter;
 import lombok.NonNull;
 
+@Getter
 public class APIException extends RuntimeException {
 
   private final APIExceptionType exceptionType;
