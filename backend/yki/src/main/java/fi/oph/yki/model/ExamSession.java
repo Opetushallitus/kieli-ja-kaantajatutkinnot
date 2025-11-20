@@ -28,7 +28,6 @@ public class ExamSession {
   @Column(name = "level_code")
   private String level;
 
-  // TODO: Should i actually cascade all?
-  @OneToMany(mappedBy = "examSession", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "examSession")
   private List<ExamSessionLocation> locations = new ArrayList<>();
 }

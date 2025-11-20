@@ -3,7 +3,6 @@ package fi.oph.yki.model;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import jakarta.persistence.*;
-import jakarta.persistence.CascadeType;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -43,6 +42,6 @@ public class Registration {
   @OneToOne(fetch = FetchType.LAZY, mappedBy = "registration", optional = false)
   private FreeRegistration freeRegistration;
 
-  @OneToMany(mappedBy = "registration", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "registration")
   private List<ExamPayment> examPayments = new ArrayList<>();
 }
