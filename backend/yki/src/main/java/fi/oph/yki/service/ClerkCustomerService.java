@@ -5,6 +5,7 @@ import fi.oph.yki.model.ExamPayment;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.type.PaymentState;
+import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
@@ -47,6 +48,7 @@ public class ClerkCustomerService {
     return registrationRepository
       .getByPersonOid(oid)
       .stream()
+      .filter(r -> r.getKind() != RegistrationKind.QUEUE)
       .map(registration -> {
         final var session = registration.getExamSession();
 
