@@ -68,7 +68,11 @@ public class ClerkCustomerService {
         return new ClerkCustomerRegistrationDTO(
           session.getExamDate().getExamDate(),
           new ClerkExamDTO(session.getLanguage(), session.getLanguage()),
-          session.getLocations().stream().map(l -> new ClerkExamLocationDTO(l.getName(), l.getPostOffice())).toList(),
+          session
+            .getLocations()
+            .stream()
+            .map(l -> new ClerkExamLocationDTO(l.getName(), l.getPostOffice(), l.getLang()))
+            .toList(),
           new ClerkRegistrationStatusDTO(registration.getState().name(), paidAt),
           registrationDate
         );

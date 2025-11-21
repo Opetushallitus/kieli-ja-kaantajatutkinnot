@@ -24,4 +24,7 @@ public class ExamSessionLocation {
 
   @Column(name = "post_office")
   private String postOffice;
+
+  @Column(name = "lang")
+  private String lang;
 }
