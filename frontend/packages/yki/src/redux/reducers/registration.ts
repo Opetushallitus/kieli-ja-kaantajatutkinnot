@@ -25,6 +25,7 @@ export interface RegistrationState {
     error?: PublicRegistrationInitErrorState;
     examSessionId?: number;
     registrationKind?: RegistrationKind;
+    expiresIn?: number;
   };
   submitRegistration: {
     code?: string;
@@ -41,6 +42,7 @@ export interface RegistrationState {
   registration: Partial<PublicSuomiFiRegistration | PublicEmailRegistration>;
   activeStep: PublicRegistrationFormStep;
   showErrors: boolean;
+  hasTimerExpired: boolean;
 }
 
 export const initialState: RegistrationState = {
@@ -58,6 +60,7 @@ export const initialState: RegistrationState = {
     termsAndConditionsAgreed: false,
   },
   showErrors: false,
+  hasTimerExpired: false,
 };
 
 const registrationSlice = createSlice({
@@ -124,6 +127,8 @@ const registrationSlice = createSlice({
       action: PayloadAction<PublicRegistrationInitResponse>,
     ) {
       state.initRegistration.status = APIResponseStatus.Success;
+      state.initRegistration.expiresIn = action.payload?.expires_in;
+
       const {
         registration_id,
         is_strongly_identified,
@@ -219,6 +224,9 @@ const registrationSlice = createSlice({
     rejectCancelRegistration(state) {
       state.cancelRegistration.status = APIResponseStatus.Error;
     },
+    setHasTimerExpired(state, action: PayloadAction<boolean>) {
+      state.hasTimerExpired = action.payload;
+    },
     identifyRegistration(
       state,
       action: PayloadAction<PublicRegistrationInitPayload>,
@@ -247,4 +255,5 @@ export const {
   acceptCancelRegistration,
   rejectCancelRegistration,
   identifyRegistration,
+  setHasTimerExpired,
 } = registrationSlice.actions;

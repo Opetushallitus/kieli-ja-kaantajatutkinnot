@@ -322,6 +322,12 @@
         "requestReassessment": "Pyydä tarkistusarviointia"
       },
       "registration": {
+        "expirationTimer": {
+          "reservationExpired": "Paikkavaraus tutkintoon umpeutunut",
+          "reservationExpiredContinue": "Jatka etusivulle",
+          "reservationExpiredText": "Paikkavarauksesi tutkintoon on umpeutunut. Jatka etusivulle uusiaksesi ilmoittautuminen.",
+          "reservationExpiresIn": "Paikkavarauksesi tutkintoon umpeutuu: {{minutes}}:{{seconds}}"
+        },
         "enrollModal": {
           "title": "Ilmoittautuminen epäonnistui",
           "examIsFull": "YKI-testi on täynnä. Voit ilmoittautua jonoon.",

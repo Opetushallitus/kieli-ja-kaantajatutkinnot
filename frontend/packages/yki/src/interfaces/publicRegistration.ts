@@ -72,6 +72,7 @@ export interface PublicRegistrationInitResponse {
   };
   is_strongly_identified: boolean;
   registration_kind: RegistrationKind;
+  expires_in?: number;
 }
 
 interface OtherExamSessionRegistration {

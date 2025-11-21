@@ -322,6 +322,12 @@
         "requestReassessment": "Request a reassessment"
       },
       "registration": {
+        "expirationTimer": {
+          "reservationExpired": "Reservation for the test has expired",
+          "reservationExpiredContinue": "Proceed to front page",
+          "reservationExpiredText": "Your reservation for the test has expired. Proceed to the front page.",
+          "reservationExpiresIn": "Your reservation for the test expires in: {{minutes}}:{{seconds}}"
+        },
         "enrollModal": {
           "title": "Registration failed",
           "examIsFull": "The YKI-test is full. However, you can register for the waiting list.",

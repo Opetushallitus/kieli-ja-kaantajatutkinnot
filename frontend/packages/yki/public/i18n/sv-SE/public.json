@@ -322,6 +322,12 @@
         "requestReassessment": "Gör en begäran om kontrollbedömning"
       },
       "registration": {
+        "expirationTimer": {
+          "reservationExpired": "Platsreserveringen till examen är inte längre i kraft",
+          "reservationExpiredContinue": "Fortsätt till framsidan",
+          "reservationExpiredText": "Din platsreservering till examen är inte längre i kraft. Fortsätt till framsidan för att förnya din anmälan.",
+          "reservationExpiresIn": "Din platsreservering till examen upphör att gälla: {{minutes}}:{{seconds}}"
+        },
         "enrollModal": {
           "title": "Anmälning misslyckades",
           "examIsFull": "Det finns inga lediga platser. Du kan anmäla dig till en köplats.",
