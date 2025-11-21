@@ -15,6 +15,7 @@ import { PublicRegistrationControlButtons } from 'components/registration/Public
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
 import { PublicRegistrationStepContents } from 'components/registration/PublicRegistrationStepContents';
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
+import { MemoizedPublicRegistrationTimer } from 'components/registration/PublicRegistrationTimer';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PaymentStatus } from 'enums/api';
@@ -197,10 +198,12 @@ const Heading = () => {
 
 export const PublicRegistrationGrid = () => {
   const { status: examSessionStatus } = useAppSelector(examSessionSelector);
+  const { activeStep } = useAppSelector(registrationSelector);
+  const { status: initRegistrationStatus, expiresIn } =
+    useAppSelector(registrationSelector).initRegistration;
+
   const stepHeading = <Heading />;
-
   const isLoading = examSessionStatus === APIResponseStatus.InProgress;
-
   const { isPhone } = useWindowProperties();
 
   return (
@@ -215,8 +218,18 @@ export const PublicRegistrationGrid = () => {
           <div className="rows gapped-xxl">
             <PublicRegistrationStepper />
             <div className="rows public-registration__grid__heading">
-              <H1>{stepHeading}</H1>
-              <HeaderSeparator />
+              <div className="rows">
+                <div className="columns space-between align-items-start">
+                  <H1>{stepHeading}</H1>
+                  {!isPhone &&
+                    initRegistrationStatus === APIResponseStatus.Success &&
+                    expiresIn &&
+                    activeStep === PublicRegistrationFormStep.Register && (
+                      <MemoizedPublicRegistrationTimer expiresIn={expiresIn} />
+                    )}
+                </div>
+                <HeaderSeparator />
+              </div>
             </div>
           </div>
           <Paper elevation={isPhone ? 0 : 3}>

@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .public-registration {
   & &__grid {
     &__no-stepper {
@@ -92,6 +94,27 @@
       @include phone {
         max-width: 100%;
       }
+    }
+
+    &__timer-progressbar {
+      background-color: color.adjust($color-secondary, $alpha: -0.7);
+
+      & span {
+        background-color: $color-secondary;
+      }
+    }
+
+    &__progress-container {
+      max-width: 38rem;
+
+      @include phone {
+        margin: 0;
+      }
+    }
+
+    &__progress-text {
+      font-size: 1.8em;
+      margin: 0 0 0.5em;
     }
   }
 
