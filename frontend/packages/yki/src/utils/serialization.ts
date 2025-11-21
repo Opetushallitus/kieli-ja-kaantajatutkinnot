@@ -13,6 +13,7 @@ import {
   ClerkCustomerDetails,
   ClerkCustomerDetailsResponse,
   ExamLocation,
+  QueueOfferStatus,
 } from 'interfaces/clerkCustomer';
 import {
   ClerkFreeRegistrationDetailsResponse,
@@ -438,40 +439,66 @@ export class SerializationUtils {
   static deserializeClerkCustomerDetailsResponse(
     clerkCustomerDetailsResponse: ClerkCustomerDetailsResponse,
   ): ClerkCustomerDetails {
+    const now = dayjs().startOf('day');
+    const pastRegistrations = clerkCustomerDetailsResponse.registrations.filter(
+      (registration) => dayjs(registration.examinationDate).isBefore(now),
+    );
+    const notPastRegistrations =
+      clerkCustomerDetailsResponse.registrations.filter(
+        (registration) => !dayjs(registration.examinationDate).isBefore(now),
+      );
+
+    const registeredRegistrations = notPastRegistrations.filter(
+      (registration) => registration.kind === RegistrationKind.Admission,
+    );
+    const queuedRegistrations = notPastRegistrations.filter(
+      (registration) => registration.kind === RegistrationKind.Queue,
+    );
+
     return {
       ...clerkCustomerDetailsResponse,
-      registrations: clerkCustomerDetailsResponse.registrations.map(
-        (registration) => ({
-          ...registration,
-          registrationStatus: {
-            ...registration.registrationStatus,
-            paidAt: dayjs(registration.registrationStatus.paidAt),
-          },
-          registrationDate: dayjs(registration.registrationDate),
-          examinationDate: dayjs(registration.examinationDate),
-          examLocation: this.mapExamLocation(registration.examLocation),
-        }),
-      ),
-      queuedExams: clerkCustomerDetailsResponse.queuedExams.map(
-        (queuedExam) => ({
-          ...queuedExam,
-          registrationStatus: {
-            ...queuedExam.registrationStatus,
-            paidAt: dayjs(queuedExam.registrationStatus.paidAt),
-          },
-          queueSpotOffered: {
-            ...queuedExam.queueSpotOffered,
-            dueDate: dayjs(queuedExam.queueSpotOffered.dueDate),
-          },
-          examinationDate: dayjs(queuedExam.examinationDate),
-          registrationDate: dayjs(queuedExam.registrationDate),
-          examLocation: this.mapExamLocation(queuedExam.examLocation),
-        }),
-      ),
-      pastExams: clerkCustomerDetailsResponse.pastExams.map((pastExam) => ({
-        ...pastExam,
-        examinationDate: dayjs(pastExam.examinationDate),
-        examLocation: this.mapExamLocation(pastExam.examLocation),
+      registrations: registeredRegistrations.map((registration) => ({
+        ...registration,
+        registrationStatus: {
+          ...(registration.registrationStatus.paidAt
+            ? {
+                state: RegistrationStates.Completed,
+                paidAt: dayjs(registration.registrationStatus.paidAt),
+              }
+            : {
+                state: RegistrationStates.Submitted,
+              }),
+        },
+        registrationDate: dayjs(registration.registrationDate),
+        examinationDate: dayjs(registration.examinationDate),
+        examLocation: this.mapExamLocation(registration.examLocation),
+      })),
+      queuedExams: queuedRegistrations.map((registration) => ({
+        ...registration,
+        registrationStatus: {
+          ...(registration.registrationStatus.paidAt
+            ? {
+                state: RegistrationStates.Completed,
+                paidAt: dayjs(registration.registrationStatus.paidAt),
+              }
+            : {
+                state: RegistrationStates.Submitted,
+              }),
+        },
+        queueSpotOffered: {
+          // TODO: How to determine queue spot offered?
+          offered: QueueOfferStatus.NotOffered,
+        },
+        registrationDate: dayjs(registration.registrationDate),
+        examinationDate: dayjs(registration.examinationDate),
+        examLocation: this.mapExamLocation(registration.examLocation),
+      })),
+      pastExams: pastRegistrations.map((registration) => ({
+        exam: registration.exam,
+        examinationDate: dayjs(registration.examinationDate),
+        examLocation: this.mapExamLocation(registration.examLocation),
+        // TODO: How to determine past exam state? (REVIEWED, CANCELLED, REGISTERED)
+        state: 'REVIEWED',
       })),
     };
   }

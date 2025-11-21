@@ -1,7 +1,12 @@
 import { Dayjs } from 'dayjs';
 import { AppLanguage } from 'shared/enums';
 
-import { ExamLanguage, ExamLevel, RegistrationStates } from 'enums/app';
+import {
+  ExamLanguage,
+  ExamLevel,
+  RegistrationKind,
+  RegistrationStates,
+} from 'enums/app';
 
 export interface CustomerPerson {
   firstName: string;
@@ -84,6 +89,7 @@ export type RegistrationResponse = {
     paidAt?: string;
   };
   registrationDate: string;
+  kind: RegistrationKind;
 };
 
 export interface ClerkCustomerDetailsResponse {
