@@ -4,6 +4,7 @@ import fi.oph.yki.api.dto.clerk.*;
 import fi.oph.yki.model.ExamPayment;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.Person;
+import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.PaymentState;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
@@ -16,6 +17,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import javax.swing.text.html.Option;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.NotImplementedException;
 import org.springframework.stereotype.Service;
@@ -53,38 +55,28 @@ public class ClerkCustomerService {
         final var session = registration.getExamSession();
 
         // Use the latest payment information
-        var paidAt = registration
+        var latestExamPayment = registration
           .getExamPayments()
           .stream()
-          .filter(p -> p.getState() == PaymentState.PAID)
-          .max(Comparator.comparing(ExamPayment::getPaidAt))
-          .map(ExamPayment::getPaidAt);
+          .max(Comparator.comparing(ExamPayment::getPaidAt));
+
+        var freeRegistrationCreatedAt = registration.getFreeRegistration().getCreatedAt().toLocalDate();
+        var paidAt = latestExamPayment.map(ExamPayment::getPaidAt);
+
+        var registrationDate = paidAt.orElse(freeRegistrationCreatedAt);
 
         return new ClerkCustomerRegistrationDTO(
           session.getExamDate().getExamDate(),
           new ClerkExamDTO(session.getLanguage(), session.getLanguage()),
           session.getLocations().stream().map(l -> new ClerkExamLocationDTO(l.getName(), l.getPostOffice())).toList(),
           new ClerkRegistrationStatusDTO(registration.getState().name(), paidAt),
-          session.getExamDate().getRegistrationStartDate()
+          registrationDate
         );
       })
       .toList();
   }
 
-  private List<ClerkCustomerQueuedExamDTO> getClerkCustomerQueuedExamDTOs() {
-    throw new NotImplementedException("Get queued exams from the database is not implemented yet.");
-  }
-
-  private List<ClerkCustomerPastExamDTO> getClerkCustomerPastExamDTOs() {
-    throw new NotImplementedException("Get past exams from the database is not implemented yet.");
-  }
-
   public ClerkCustomerDetailsDTO getClerkCustomerDetails(String oid) throws Exception {
-    return new ClerkCustomerDetailsDTO(
-      getClerkCustomerPersonDTO(oid),
-      getClerkCustomerRegistrationDTOs(oid),
-      getClerkCustomerQueuedExamDTOs(),
-      getClerkCustomerPastExamDTOs()
-    );
+    return new ClerkCustomerDetailsDTO(getClerkCustomerPersonDTO(oid), getClerkCustomerRegistrationDTOs(oid));
   }
 }
