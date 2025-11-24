@@ -6,7 +6,5 @@ import lombok.Builder;
 @Builder
 public record ClerkCustomerDetailsDTO(
   ClerkCustomerPersonDTO person,
-  List<ClerkCustomerRegistrationDTO> registrations,
-  List<ClerkCustomerQueuedExamDTO> queuedExams,
-  List<ClerkCustomerPastExamDTO> pastExams
+  List<ClerkCustomerRegistrationDTO> registrations
 ) {}

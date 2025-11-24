@@ -2,8 +2,10 @@
 -- PostgreSQL database dump
 --
 
+\restrict jXdKGbVm0xrgkzk7gUkeu7SnWT13oW6bjuxs0btf2X88xnRpUOPh4nWckvK1I34
+
 -- Dumped from database version 10.4 (Debian 10.4-2.pgdg90+1)
--- Dumped by pg_dump version 14.19 (Homebrew)
+-- Dumped by pg_dump version 15.14 (Homebrew)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -103,6 +105,15 @@ COPY public.exam_date (id, exam_date, registration_start_date, registration_end_
 26	2021-01-30	2020-12-01	2020-12-11	2022-11-30 14:13:51.58286+00	2022-11-30 14:13:51.58286+00	\N	\N	f	\N
 27	2020-08-22	2020-06-01	2020-06-12	2022-11-30 14:13:51.663754+00	2022-11-30 14:13:51.663754+00	\N	\N	f	\N
 28	2025-07-21	2025-06-23	2025-07-23	2022-12-01 12:21:45.787236+00	2022-12-01 12:21:45.787236+00	2025-02-20	2025-02-01	f	\N
+29	2025-07-20	2025-11-18	2025-05-06	2025-11-18 12:07:49.547263+00	2025-11-18 12:07:49.547263+00	\N	\N	f	\N
+30	2025-03-25	2025-11-18	2025-05-06	2025-11-18 12:07:49.547263+00	2025-11-18 12:07:49.547263+00	\N	\N	f	\N
+31	2026-11-30	2025-11-18	2025-05-06	2025-11-18 12:07:49.547263+00	2025-11-18 12:07:49.547263+00	\N	\N	f	\N
+32	2026-10-23	2025-11-18	2025-05-06	2025-11-18 12:07:49.547263+00	2025-11-18 12:07:49.547263+00	\N	\N	f	\N
+33	2026-12-30	2025-11-18	2025-05-06	2025-11-18 12:07:49.547263+00	2025-11-18 12:07:49.547263+00	\N	\N	f	\N
+34	2026-09-01	2025-11-18	2025-05-06	2025-11-18 12:07:49.547263+00	2025-11-18 12:07:49.547263+00	\N	\N	f	\N
+35	2026-11-22	2025-11-18	2025-05-06	2025-11-18 12:07:49.547263+00	2025-11-18 12:07:49.547263+00	\N	\N	f	\N
+36	2026-09-05	2025-11-18	2025-05-06	2025-11-18 12:07:49.547263+00	2025-11-18 12:07:49.547263+00	\N	\N	f	\N
+37	2026-10-18	2025-11-18	2025-05-06	2025-11-18 12:07:49.547263+00	2025-11-18 12:07:49.547263+00	\N	\N	f	\N
 \.
 
 
@@ -263,6 +274,17 @@ COPY public.exam_language (id, language_code, level_code, organizer_id, created)
 
 COPY public.exam_session (id, organizer_id, language_code, level_code, exam_date_id, max_participants, office_oid, published_at, created, modified, post_admission_start_date, post_admission_active, post_admission_quota, post_admission_activated_at) FROM stdin;
 1	1	fin	PERUS	28	11	4.3.2.1	2022-12-01 12:21:45.804827+00	2022-12-01 12:21:45.804827+00	2022-12-01 12:21:45.804827+00	2022-12-01	f	5	\N
+2	1	swe	KESKI	30	11	\N	\N	2025-11-18 12:07:49.548566+00	2025-11-18 12:07:49.548566+00	\N	f	\N	\N
+3	1	swe	KESKI	30	11	\N	\N	2025-11-18 12:07:49.548566+00	2025-11-18 12:07:49.548566+00	\N	f	\N	\N
+4	1	fin	PERUS	29	11	\N	\N	2025-11-18 12:07:49.548566+00	2025-11-18 12:07:49.548566+00	\N	f	\N	\N
+5	1	fin	KESKI	34	11	\N	\N	2025-11-18 12:07:49.548566+00	2025-11-18 12:07:49.548566+00	\N	f	\N	\N
+6	1	deu	YLIN	32	11	\N	\N	2025-11-18 12:07:49.548566+00	2025-11-18 12:07:49.548566+00	\N	f	\N	\N
+7	1	swe	PERUS	31	11	\N	\N	2025-11-18 12:07:49.548566+00	2025-11-18 12:07:49.548566+00	\N	f	\N	\N
+8	1	swe	YLIN	33	11	\N	\N	2025-11-18 12:07:49.548566+00	2025-11-18 12:07:49.548566+00	\N	f	\N	\N
+9	1	fin	KESKI	36	11	\N	\N	2025-11-18 12:07:49.548566+00	2025-11-18 12:07:49.548566+00	\N	f	\N	\N
+10	1	deu	YLIN	37	11	\N	\N	2025-11-18 12:07:49.548566+00	2025-11-18 12:07:49.548566+00	\N	f	\N	\N
+11	1	swe	PERUS	35	11	\N	\N	2025-11-18 12:07:49.548566+00	2025-11-18 12:07:49.548566+00	\N	f	\N	\N
+12	1	swe	PERUS	35	11	\N	\N	2025-11-18 12:07:49.548566+00	2025-11-18 12:07:49.548566+00	\N	f	\N	\N
 \.
 
 
@@ -301,6 +323,7 @@ COPY public.participant (id, external_user_id, email, created) FROM stdin;
 740	b4b53a22-a134-4a5f-a08f-9080732e2ece	\N	2025-07-15 20:01:42.124119+00
 721	210281-9988	\N	2025-07-10 09:31:15.072333+00
 741	7f1ab062-d252-445d-9608-ab9c5798bf45	\N	2025-07-15 20:01:42.124169+00
+750	1.2.246.562.24.82364099322	\N	2025-11-18 12:07:49.546249+00
 \.
 
 
@@ -309,30 +332,10 @@ COPY public.participant (id, external_user_id, email, created) FROM stdin;
 --
 
 COPY public.registration (id, state, exam_session_id, participant_id, started_at, form, form_version, person_oid, original_exam_session_id, created, modified, kind, quarantine_id, reviewed, is_transfered, expires_at, exam_fee, lifted_from_queue_at, ui_language, free_registration_id) FROM stdin;
-169	EXPIRED	1	748	2025-07-17 11:24:40.941+00	\N	\N	\N	\N	2025-07-17 11:24:40.943497+00	2025-07-17 11:54:45.190423+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-170	EXPIRED	1	749	2025-07-17 11:24:40.944+00	\N	\N	\N	\N	2025-07-17 11:24:40.946267+00	2025-07-17 11:54:45.190423+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-147	EXPIRED	1	720	2025-07-10 09:31:15.099+00	\N	\N	\N	\N	2025-07-10 09:31:15.100871+00	2025-07-10 10:02:14.160805+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-148	EXPIRED	1	721	2025-07-10 09:31:15.099+00	\N	\N	\N	\N	2025-07-10 09:31:15.100871+00	2025-07-10 10:02:14.160805+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-149	EXPIRED	1	722	2025-07-10 09:50:34.902+00	\N	\N	\N	\N	2025-07-10 09:50:34.906793+00	2025-07-10 10:21:14.152966+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-150	EXPIRED	1	723	2025-07-10 09:50:34.902+00	\N	\N	\N	\N	2025-07-10 09:50:34.906991+00	2025-07-10 10:21:14.152966+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-151	EXPIRED	1	724	2025-07-14 19:21:27.841+00	\N	\N	\N	\N	2025-07-14 19:21:27.840338+00	2025-07-14 19:52:43.245847+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-152	EXPIRED	1	725	2025-07-14 19:21:27.845+00	\N	\N	\N	\N	2025-07-14 19:21:27.843853+00	2025-07-14 19:52:43.245847+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-153	EXPIRED	1	726	2025-07-14 19:23:02.583+00	\N	\N	\N	\N	2025-07-14 19:23:02.585125+00	2025-07-14 19:53:43.239639+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-156	EXPIRED	1	730	2025-07-14 19:23:35.883+00	\N	\N	\N	\N	2025-07-14 19:23:35.885486+00	2025-07-14 19:53:43.239639+00	QUEUE	\N	\N	f	\N	\N	\N	\N	\N
-154	EXPIRED	1	727	2025-07-14 19:23:02.588+00	\N	\N	\N	\N	2025-07-14 19:23:02.589919+00	2025-07-14 19:53:43.239639+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-155	EXPIRED	1	731	2025-07-14 19:23:35.882+00	\N	\N	\N	\N	2025-07-14 19:23:35.884005+00	2025-07-14 19:53:43.239639+00	QUEUE	\N	\N	f	\N	\N	\N	\N	\N
-157	EXPIRED	1	732	2025-07-14 20:06:17.379+00	\N	\N	\N	\N	2025-07-14 20:06:17.376102+00	2025-07-14 20:37:41.920973+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-158	EXPIRED	1	733	2025-07-14 20:06:17.379+00	\N	\N	\N	\N	2025-07-14 20:06:17.3761+00	2025-07-14 20:37:41.920973+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-159	EXPIRED	1	735	2025-07-14 20:37:50.416+00	\N	\N	\N	\N	2025-07-14 20:37:50.418312+00	2025-07-14 21:08:41.945019+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-161	EXPIRED	1	738	2025-07-14 20:40:18.341+00	\N	\N	\N	\N	2025-07-14 20:40:18.342459+00	2025-07-14 21:10:41.924977+00	QUEUE	\N	\N	f	\N	\N	\N	\N	\N
-160	EXPIRED	1	734	2025-07-14 20:37:50.416+00	\N	\N	\N	\N	2025-07-14 20:37:50.419608+00	2025-07-14 21:08:41.945019+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-162	EXPIRED	1	739	2025-07-14 20:40:18.341+00	\N	\N	\N	\N	2025-07-14 20:40:18.342562+00	2025-07-14 21:10:41.924977+00	QUEUE	\N	\N	f	\N	\N	\N	\N	\N
-163	EXPIRED	1	741	2025-07-15 20:01:42.141+00	\N	\N	\N	\N	2025-07-15 20:01:42.143036+00	2025-07-15 20:32:33.598292+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-165	EXPIRED	1	744	2025-07-15 20:15:31.065+00	\N	\N	\N	\N	2025-07-15 20:15:31.068622+00	2025-07-15 20:45:33.588419+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-164	EXPIRED	1	740	2025-07-15 20:01:42.141+00	\N	\N	\N	\N	2025-07-15 20:01:42.143062+00	2025-07-15 20:32:33.598292+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-166	EXPIRED	1	745	2025-07-15 20:15:31.065+00	\N	\N	\N	\N	2025-07-15 20:15:31.068624+00	2025-07-15 20:45:33.588419+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-167	EXPIRED	1	746	2025-07-17 10:44:47.243+00	\N	\N	\N	\N	2025-07-17 10:44:47.248344+00	2025-07-17 11:15:32.726593+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
-168	COMPLETED	1	747	2025-07-17 10:44:47.25+00	\N	\N	1.2.246.562.24.12308879060	\N	2025-07-17 10:44:47.252648+00	2025-07-17 11:15:32.726593+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+171	SUBMITTED	5	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "fi", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2025-11-18 12:07:49.560085+00	2025-11-18 12:07:49.560085+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+172	SUBMITTED	6	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "de", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2025-11-18 12:07:49.560085+00	2025-11-18 12:07:49.560085+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+173	SUBMITTED	7	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "de", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2025-11-18 12:07:49.560085+00	2025-11-18 12:07:49.560085+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+174	SUBMITTED	8	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "de", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2025-11-18 12:07:49.560085+00	2025-11-18 12:07:49.560085+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
 \.
 
 
@@ -358,6 +361,39 @@ COPY public.exam_session_contact (id, exam_session_id, contact_id, created, dele
 
 COPY public.exam_session_location (id, name, street_address, post_office, zip, other_location_info, extra_information, lang, exam_session_id, created) FROM stdin;
 1	sessiolinna	opintokuja	posti	numero		\N	fi	1	2022-12-01 12:21:45.806316+00
+2	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	fi	2	2025-11-18 12:07:49.553345+00
+3	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	sv	2	2025-11-18 12:07:49.553345+00
+4	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	en	2	2025-11-18 12:07:49.553345+00
+5	Lassilan koulu	Lassilassinkatu 12	Lassila	54321	\N	\N	fi	3	2025-11-18 12:07:49.553345+00
+6	Lassilan koulu	Lassilassinkatu 12	Lassila	54321	\N	\N	sv	3	2025-11-18 12:07:49.553345+00
+7	Lassilan koulu	Lassilassinkatu 12	Lassila	54321	\N	\N	en	3	2025-11-18 12:07:49.553345+00
+8	Testipaikan nimi	Kajaanikatu 123	Kajaani	12345	\N	\N	fi	4	2025-11-18 12:07:49.553345+00
+9	Testipaikan nimi	Kajaanikatu 123	Kajaani	12345	\N	\N	sv	4	2025-11-18 12:07:49.553345+00
+10	Testipaikan nimi	Kajaanikatu 123	Kajaani	12345	\N	\N	en	4	2025-11-18 12:07:49.553345+00
+11	Testipaikan nimi	Kajaanikatu 123	Kajaani	12345	\N	\N	fi	5	2025-11-18 12:07:49.553345+00
+12	Testipaikan nimi	Kajaanikatu 123	Kajaani	12345	\N	\N	sv	5	2025-11-18 12:07:49.553345+00
+13	Testipaikan nimi	Kajaanikatu 123	Kajaani	12345	\N	\N	en	5	2025-11-18 12:07:49.553345+00
+14	Lassilan koulu	Lassilassinkatu 12	Lassila	54321	\N	\N	fi	9	2025-11-18 12:07:49.553345+00
+15	Lassilan koulu	Lassilassinkatu 12	Lassila	54321	\N	\N	sv	9	2025-11-18 12:07:49.553345+00
+16	Lassilan koulu	Lassilassinkatu 12	Lassila	54321	\N	\N	en	9	2025-11-18 12:07:49.553345+00
+17	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	fi	10	2025-11-18 12:07:49.553345+00
+18	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	sv	10	2025-11-18 12:07:49.553345+00
+19	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	en	10	2025-11-18 12:07:49.553345+00
+20	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	fi	6	2025-11-18 12:07:49.553345+00
+21	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	sv	6	2025-11-18 12:07:49.553345+00
+22	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	en	6	2025-11-18 12:07:49.553345+00
+23	Testipaikan nimi	Kajaanikatu 123	Kajaani	12345	\N	\N	fi	11	2025-11-18 12:07:49.553345+00
+24	Testipaikan nimi	Kajaanikatu 123	Kajaani	12345	\N	\N	sv	11	2025-11-18 12:07:49.553345+00
+25	Testipaikan nimi	Kajaanikatu 123	Kajaani	12345	\N	\N	en	11	2025-11-18 12:07:49.553345+00
+26	Lassilan koulu	Lassilassinkatu 12	Lassila	54321	\N	\N	fi	11	2025-11-18 12:07:49.553345+00
+27	Lassilan koulu	Lassilassinkatu 12	Lassila	54321	\N	\N	sv	11	2025-11-18 12:07:49.553345+00
+28	Lassilan koulu	Lassilassinkatu 12	Lassila	54321	\N	\N	en	11	2025-11-18 12:07:49.553345+00
+29	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	fi	7	2025-11-18 12:07:49.553345+00
+30	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	sv	7	2025-11-18 12:07:49.553345+00
+31	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	en	7	2025-11-18 12:07:49.553345+00
+32	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	fi	8	2025-11-18 12:07:49.553345+00
+33	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	sv	8	2025-11-18 12:07:49.553345+00
+34	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	en	8	2025-11-18 12:07:49.553345+00
 \.
 
 
@@ -425,6 +461,7 @@ COPY public.payment_config (id, organizer_id, merchant_id, merchant_secret, test
 
 COPY public.person (oid, first_name, last_name, email, created, modified, phone_number, street_address, post_office, zip, nationality_code, gender) FROM stdin;
 1.2.246.562.24.12308879060	Teppo	Testi	test@test.invalid	2025-10-07 11:56:32.997123+00	2025-10-07 11:56:32.997123+00	\N	\N	\N	\N	\N	\N
+1.2.246.562.24.82364099322	Aino	Osallistuja	aino.osallistuja@loremipsum.fi	2025-11-18 12:07:49.543991+00	2025-11-18 12:07:49.543991+00	+358 401234567	Katuosoite 123	Tampere	33100	\N	\N
 \.
 
 
@@ -632,7 +669,7 @@ SELECT pg_catalog.setval('public.evaluation_payment_order_number_seq', 1, false)
 -- Name: exam_date_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.exam_date_id_seq', 28, true);
+SELECT pg_catalog.setval('public.exam_date_id_seq', 37, true);
 
 
 --
@@ -709,14 +746,14 @@ SELECT pg_catalog.setval('public.exam_session_exam_date_id_seq', 1, false);
 -- Name: exam_session_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.exam_session_id_seq', 1, true);
+SELECT pg_catalog.setval('public.exam_session_id_seq', 12, true);
 
 
 --
 -- Name: exam_session_location_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.exam_session_location_id_seq', 1, true);
+SELECT pg_catalog.setval('public.exam_session_location_id_seq', 34, true);
 
 
 --
@@ -772,7 +809,7 @@ SELECT pg_catalog.setval('public.organizer_id_seq', 1, true);
 -- Name: participant_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.participant_id_seq', 749, true);
+SELECT pg_catalog.setval('public.participant_id_seq', 750, true);
 
 
 --
@@ -863,9 +900,12 @@ SELECT pg_catalog.setval('public.quarantine_review_id_seq', 24, true);
 -- Name: registration_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.registration_id_seq', 170, true);
+SELECT pg_catalog.setval('public.registration_id_seq', 174, true);
 
 
 --
 -- PostgreSQL database dump complete
 --
+
+\unrestrict jXdKGbVm0xrgkzk7gUkeu7SnWT13oW6bjuxs0btf2X88xnRpUOPh4nWckvK1I34
+
