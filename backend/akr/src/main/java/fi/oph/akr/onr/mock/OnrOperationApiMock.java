@@ -36,6 +36,8 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .hasIndividualisedAddress(true)
           .lastName("Lehtinen")
           .firstName("Matti Tauno")
+          .isDuplicate(false)
+          .isPassive(false)
           .nickName("Matti")
           .identityNumber(identityNumber)
           .address(
@@ -57,6 +59,8 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .onrId("1.246.562.24.B00000000002")
           .individualised(true)
           .hasIndividualisedAddress(false)
+          .isPassive(false)
+          .isDuplicate(false)
           .lastName("Mannonen")
           .firstName("Anna Maria")
           .nickName("Anna")
@@ -82,6 +86,8 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .hasIndividualisedAddress(false)
           .lastName("Oppija")
           .firstName("Oona Inkeri")
+          .isDuplicate(true)
+          .isPassive(true)
           .nickName("Oona")
           .identityNumber(identityNumber)
           .address(
@@ -101,6 +107,8 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .onrId("1.246.562.24.D00000000004")
           .individualised(false)
           .hasIndividualisedAddress(false)
+          .isDuplicate(false)
+          .isPassive(true)
           .lastName("Oppija")
           .firstName("Olli Pekka")
           .nickName("Olli Pekka") // ONR doesn't validate nickname
