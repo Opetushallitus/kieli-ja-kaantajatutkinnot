@@ -38,6 +38,7 @@
       <groupId>org.springframework.session</groupId>
       <artifactId>spring-session-jdbc</artifactId>
     </dependency>
+    <!-- Do not update jackson without checking spring boot jackson version first -->
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-xml</artifactId>
@@ -51,7 +52,7 @@
     <dependency>
       <groupId>io.netty</groupId>
       <artifactId>netty-resolver-dns-native-macos</artifactId>
-      <version>4.2.2.Final</version>
+      <version>4.2.6.Final</version>
       <classifier>osx-aarch_64</classifier>
       <scope>runtime</scope>
     </dependency>
