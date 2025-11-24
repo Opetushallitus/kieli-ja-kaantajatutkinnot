@@ -97,15 +97,15 @@ export const CustomerExamListings = ({
 
   // Testipaikka (Ilmoittautumiset, Jonossa, Menneet)
   const createExamLocationColumn = <
-    T extends { examLocation: { schoolName: string; municipality: string } },
+    T extends { examLocation: { name: string; municipality: string } },
   >(
     t: typeof i18next.t,
   ): ListTableColumn<T> => ({
     key: 'examLocation',
     title: t('columns.location'),
-    render: ({ examLocation: { schoolName, municipality } }) => (
+    render: ({ examLocation: { name, municipality } }) => (
       <div className="rows gapped-xs">
-        <Text>{schoolName}</Text>
+        <Text>{name}</Text>
         <Text>{municipality}</Text>
       </div>
     ),

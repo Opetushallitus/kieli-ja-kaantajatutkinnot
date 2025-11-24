@@ -20,7 +20,7 @@ type Exam = {
     level: ExamLevel;
   };
   examLocation: {
-    schoolName: string;
+    name: string;
     municipality: string;
   };
   registrationStatus: RegistrationStatus;

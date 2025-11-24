@@ -13,7 +13,7 @@ const defaultRegistrations = [
       level: ExamLevel.KESKI,
     },
     examLocation: {
-      schoolName: 'Testipaikan nimi',
+      name: 'Testipaikan nimi',
       municipality: 'Kajaani',
     },
 
@@ -31,7 +31,7 @@ const defaultRegistrations = [
       level: ExamLevel.YLIN,
     },
     examLocation: {
-      schoolName: 'Lassilan koulu',
+      name: 'Lassilan koulu',
       municipality: 'Lassila',
     },
     registrationStatus: {
@@ -46,7 +46,7 @@ const defaultRegistrations = [
       level: ExamLevel.PERUS,
     },
     examLocation: {
-      schoolName: 'Lorem ipsum oppilaitos',
+      name: 'Lorem ipsum oppilaitos',
       municipality: 'Helsinki',
     },
     registrationStatus: {
@@ -61,7 +61,7 @@ const defaultRegistrations = [
       level: ExamLevel.YLIN,
     },
     examLocation: {
-      schoolName: 'Lorem ipsum oppilaitos',
+      name: 'Lorem ipsum oppilaitos',
       municipality: 'Helsinki',
     },
     registrationStatus: {
@@ -79,7 +79,7 @@ const defaultQueuedExams = [
       level: ExamLevel.KESKI,
     },
     examLocation: {
-      schoolName: 'Testipaikan nimi',
+      name: 'Testipaikan nimi',
       municipality: 'Kajaani',
     },
 
@@ -100,7 +100,7 @@ const defaultQueuedExams = [
       level: ExamLevel.YLIN,
     },
     examLocation: {
-      schoolName: 'Lassilan koulu',
+      name: 'Lassilan koulu',
       municipality: 'Lassila',
     },
     // User not paid
@@ -120,7 +120,7 @@ const defaultQueuedExams = [
       level: ExamLevel.PERUS,
     },
     examLocation: {
-      schoolName: 'Lorem ipsum oppilaitos',
+      name: 'Lorem ipsum oppilaitos',
       municipality: 'Helsinki',
     },
     registrationStatus: {
@@ -138,7 +138,7 @@ const defaultQueuedExams = [
       level: ExamLevel.PERUS,
     },
     examLocation: {
-      schoolName: 'Lorem ipsum oppilaitos',
+      name: 'Lorem ipsum oppilaitos',
       municipality: 'Helsinki',
     },
     registrationStatus: {
@@ -159,7 +159,7 @@ const defaultPastExams: PastExamResponse[] = [
       level: ExamLevel.PERUS,
     },
     examLocation: {
-      schoolName: 'Testipaikan nimi',
+      name: 'Testipaikan nimi',
       municipality: 'Kajaani',
     },
     state: 'REVIEWED',
@@ -171,7 +171,7 @@ const defaultPastExams: PastExamResponse[] = [
       level: ExamLevel.KESKI,
     },
     examLocation: {
-      schoolName: 'Lassilan koulu',
+      name: 'Lassilan koulu',
       municipality: 'Lassila',
     },
     state: 'CANCELLED',
@@ -183,7 +183,7 @@ const defaultPastExams: PastExamResponse[] = [
       level: ExamLevel.KESKI,
     },
     examLocation: {
-      schoolName: 'Lorem ipsum oppilaitos',
+      name: 'Lorem ipsum oppilaitos',
       municipality: 'Helsinki',
     },
     state: 'REGISTERED',
