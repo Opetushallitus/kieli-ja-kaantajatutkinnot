@@ -51,7 +51,6 @@ public class ClerkCustomerService {
     return registrationRepository
       .getByPersonOid(oid)
       .stream()
-      .filter(r -> r.getKind() != RegistrationKind.QUEUE)
       .map(registration -> {
         final var session = registration.getExamSession();
 
