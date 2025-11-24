@@ -9,6 +9,7 @@ public record ClerkTranslatorDTO(
   @NonNull Long id,
   @NonNull Integer version,
   @NonNull Boolean isIndividualised,
+  @NonNull Boolean isDeceased,
   @NonNull Boolean hasIndividualisedAddress,
   @NonNull String firstName,
   @NonNull String lastName,

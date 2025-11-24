@@ -147,6 +147,7 @@ public class ClerkTranslatorService {
           .phoneNumber(personalData.getPhoneNumber())
           .address(clerkTranslatorAddressDTO)
           .extraInformation(translator.getExtraInformation())
+          .isDeceased(personalData.isDeceased())
           .isAssuranceGiven(translator.isAssuranceGiven())
           .authorisations(translatorAuthorisationsDTO)
           .build();
