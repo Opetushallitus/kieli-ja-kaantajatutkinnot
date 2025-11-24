@@ -3,6 +3,8 @@ package fi.oph.yki.model;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -15,7 +17,6 @@ import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 @Entity
 @Table(name = "registration")
 public class Registration {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false)
@@ -34,6 +35,9 @@ public class Registration {
   @Enumerated
   @JdbcType(PostgreSQLEnumJdbcType.class)
   private RegistrationState state;
+
+  @Column(name = "lifted_from_queue_at")
+  private LocalDateTime liftedFromQueueAt;
 
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "exam_session_id", referencedColumnName = "id")

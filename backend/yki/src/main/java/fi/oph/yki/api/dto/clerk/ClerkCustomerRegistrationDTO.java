@@ -2,6 +2,7 @@ package fi.oph.yki.api.dto.clerk;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @param examLocation Exam locations in different languages.
@@ -11,5 +12,6 @@ public record ClerkCustomerRegistrationDTO(
   ClerkExamDTO exam,
   List<ClerkExamLocationDTO> examLocation,
   ClerkRegistrationStatusDTO registrationStatus,
-  LocalDate registrationDate
+  LocalDate registrationDate,
+  Optional<LocalDate> liftedFromQueueAt
 ) {}

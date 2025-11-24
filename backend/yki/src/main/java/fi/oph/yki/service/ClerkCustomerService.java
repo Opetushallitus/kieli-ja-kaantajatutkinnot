@@ -65,6 +65,10 @@ public class ClerkCustomerService {
 
         var registrationDate = paidAt.orElse(freeRegistrationCreatedAt);
 
+        Optional<LocalDate> liftedFromQueueAt = registration.getLiftedFromQueueAt() == null
+          ? Optional.empty()
+          : Optional.of(registration.getLiftedFromQueueAt().toLocalDate());
+
         return new ClerkCustomerRegistrationDTO(
           session.getExamDate().getExamDate(),
           new ClerkExamDTO(session.getLanguage(), session.getLanguage()),
@@ -74,7 +78,8 @@ public class ClerkCustomerService {
             .map(l -> new ClerkExamLocationDTO(l.getName(), l.getPostOffice(), l.getLang()))
             .toList(),
           new ClerkRegistrationStatusDTO(registration.getState().name(), paidAt),
-          registrationDate
+          registrationDate,
+          liftedFromQueueAt
         );
       })
       .toList();
