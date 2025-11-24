@@ -13,6 +13,7 @@ import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -61,7 +62,7 @@ public class ClerkCustomerService {
           .max(Comparator.comparing(ExamPayment::getPaidAt));
 
         var freeRegistrationCreatedAt = registration.getFreeRegistration().getCreatedAt().toLocalDate();
-        var paidAt = latestExamPayment.map(ExamPayment::getPaidAt);
+        var paidAt = latestExamPayment.map(ExamPayment::getPaidAt).map(LocalDateTime::toLocalDate);
 
         var registrationDate = paidAt.orElse(freeRegistrationCreatedAt);
 

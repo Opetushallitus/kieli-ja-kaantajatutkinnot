@@ -2,8 +2,7 @@ package fi.oph.yki.model;
 
 import fi.oph.yki.model.type.PaymentState;
 import jakarta.persistence.*;
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +22,7 @@ public class ExamPayment {
   private PaymentState state;
 
   @Column(name = "paid_at")
-  private LocalDate paidAt;
+  private LocalDateTime paidAt;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "registration_id")
