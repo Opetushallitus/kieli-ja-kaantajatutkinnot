@@ -87,6 +87,8 @@ public class OnrOperationApiTest {
       .lastName("Suku")
       .firstName("Etu")
       .nickName("Etu")
+      .isPassive(false)
+      .isDuplicate(false)
       .address(
         List.of(
           Factory.createAddress(

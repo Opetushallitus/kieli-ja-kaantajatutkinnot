@@ -21,10 +21,8 @@ public class PersonalData {
   // Always exists for data returned from ONR
   private Boolean hasIndividualisedAddress;
 
-  @NonNull
   private Boolean isPassive;
 
-  @NonNull
   private Boolean isDuplicate;
 
   @NonNull

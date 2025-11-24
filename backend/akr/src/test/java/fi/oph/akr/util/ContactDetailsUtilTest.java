@@ -62,6 +62,8 @@ public class ContactDetailsUtilTest {
       .lastName("Lehtinen")
       .firstName("Matti Tauno")
       .nickName("Matti")
+      .isPassive(false)
+      .isDuplicate(false)
       .identityNumber("090687-913J")
       .address(
         List.of(
@@ -106,6 +108,8 @@ public class ContactDetailsUtilTest {
       .lastName("Lehtinen")
       .firstName("Matti Tauno")
       .nickName("Matti")
+      .isPassive(false)
+      .isDuplicate(false)
       .identityNumber("090687-913J")
       .address(
         List.of(

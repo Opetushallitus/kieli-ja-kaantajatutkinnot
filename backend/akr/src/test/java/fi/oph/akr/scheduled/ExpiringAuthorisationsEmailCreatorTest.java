@@ -167,6 +167,8 @@ public class ExpiringAuthorisationsEmailCreatorTest {
             .firstName("Foo")
             .nickName("Baz")
             .identityNumber("112233")
+            .isPassive(false)
+            .isDuplicate(false)
             .email(translatorEmail)
             .build()
         )

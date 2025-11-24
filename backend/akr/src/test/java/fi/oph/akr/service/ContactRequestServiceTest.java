@@ -275,7 +275,15 @@ class ContactRequestServiceTest {
       .thenReturn(
         Map.of(
           translator.getOnrId(),
-          PersonalData.builder().lastName("Suku").firstName("Etu").nickName("Etu").identityNumber("112233").build()
+          PersonalData
+            .builder()
+            .lastName("Suku")
+            .firstName("Etu")
+            .nickName("Etu")
+            .identityNumber("112233")
+            .isPassive(false)
+            .isDuplicate(false)
+            .build()
         )
       );
 
@@ -427,6 +435,8 @@ class ContactRequestServiceTest {
             .firstName("Etu" + i)
             .nickName("Etu" + i)
             .identityNumber("112233")
+            .isPassive(false)
+            .isDuplicate(false)
             .email(isEmailMask.get(i) ? "etu.suku" + i + "@invalid" : null)
             .build()
         );

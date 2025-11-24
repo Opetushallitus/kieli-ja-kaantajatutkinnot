@@ -184,6 +184,8 @@ class PublicTranslatorServiceTest {
             .lastName("Suku")
             .firstName("Etu")
             .nickName("Etu")
+            .isPassive(false)
+            .isDuplicate(false)
             .identityNumber("112233")
             .address(
               List.of(
@@ -270,6 +272,8 @@ class PublicTranslatorServiceTest {
             .nickName("Baz")
             .lastName("Bar" + StringUtils.leftPad(String.valueOf(i), 2, '0'))
             .identityNumber("112233")
+            .isPassive(false)
+            .isDuplicate(false)
             .address(
               List.of(
                 TranslatorAddressDTO
@@ -427,6 +431,8 @@ class PublicTranslatorServiceTest {
               .nickName("Etu" + i)
               .lastName("Suku" + i)
               .identityNumber("112233")
+              .isPassive(false)
+              .isDuplicate(false)
               .address(
                 List.of(
                   TranslatorAddressDTO
