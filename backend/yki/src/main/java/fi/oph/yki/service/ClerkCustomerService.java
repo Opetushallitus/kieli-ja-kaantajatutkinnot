@@ -79,6 +79,7 @@ public class ClerkCustomerService {
             .toList(),
           new ClerkRegistrationStatusDTO(registration.getState().name(), paidAt),
           registrationDate,
+          registration.getKind(),
           liftedFromQueueAt
         );
       })
