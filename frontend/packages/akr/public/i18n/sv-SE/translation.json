@@ -30,7 +30,8 @@
           "effective": "Auktoriserade",
           "expiredDeduplicated": "Löpt ut",
           "expiring": "Löper ut",
-          "formerVir": "VIR 2008"
+          "formerVir": "VIR 2008",
+          "deceased": "Passiverad"
         },
         "languagePair": {
           "fromPlaceholder": "Varifrån",

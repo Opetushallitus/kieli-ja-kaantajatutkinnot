@@ -30,7 +30,8 @@
           "effective": "Authorised",
           "expiredDeduplicated": "Expired",
           "expiring": "Expiring",
-          "formerVir": "VIR 2008"
+          "formerVir": "VIR 2008",
+          "deceased": "Passive"
         },
         "languagePair": {
           "fromPlaceholder": "Source language",

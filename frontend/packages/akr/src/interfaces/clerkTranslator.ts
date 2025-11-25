@@ -52,6 +52,7 @@ export interface ClerkTranslatorResponse
     WithVersion {
   isIndividualised: boolean;
   hasIndividualisedAddress: boolean;
+  isDeceased: boolean;
   authorisations: ClerkTranslatorAuthorisationsResponse;
 }
 

@@ -9,6 +9,7 @@ export interface ClerkNewTranslator
     | 'isIndividualised'
     | 'hasIndividualisedAddress'
     | 'authorisations'
+    | 'isDeceased'
   > {
   onrId?: string;
   isIndividualised?: boolean;

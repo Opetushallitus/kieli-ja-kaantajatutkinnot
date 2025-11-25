@@ -38,6 +38,7 @@ export const ClerkTranslatorToggleFilters = () => {
   const formerVirCount = translators.filter(
     (t) => t.authorisations.formerVir.length > 0,
   ).length;
+  const deceasedCount = translators.filter((t) => t.isDeceased).length;
 
   const filterData = [
     {
@@ -63,6 +64,12 @@ export const ClerkTranslatorToggleFilters = () => {
       count: formerVirCount,
       testId: `clerk-translator-filters__btn--${AuthorisationStatus.FormerVir}`,
       label: t(AuthorisationStatus.FormerVir),
+    },
+    {
+      status: AuthorisationStatus.Deceased,
+      count: deceasedCount,
+      testId: `clerk-translator-filters__btn--${AuthorisationStatus.Deceased}`,
+      label: t(AuthorisationStatus.Deceased),
     },
   ];
 
