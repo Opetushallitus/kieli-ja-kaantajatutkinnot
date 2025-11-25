@@ -142,11 +142,8 @@ export const usePublicRegistrationErrors = (showErrors: boolean) => {
   const { attemptsUsed } = publicFreeRegistrationDetails;
   const isEligibleForFreeRegistration =
     examSession &&
-    ExamSessionUtils.freeRegistrationPossible(
-      examSession,
-      loggedInSession,
-      attemptsUsed,
-    );
+    ExamSessionUtils.freeRegistrationPossible(examSession, loggedInSession) &&
+    (attemptsUsed || 0) < 3;
 
   return () =>
     getErrors(
