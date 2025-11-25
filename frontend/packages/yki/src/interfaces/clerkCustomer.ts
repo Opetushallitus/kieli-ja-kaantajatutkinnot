@@ -85,11 +85,13 @@ export type RegistrationResponse = {
     lang: string;
   }[];
   registrationStatus: {
-    date: string;
+    state: string;
     paidAt?: string;
   };
   registrationDate: string;
   kind: RegistrationKind;
+  liftedFromQueueAt?: string;
+  expiresAt?: string;
 };
 
 export interface ClerkCustomerDetailsResponse {
