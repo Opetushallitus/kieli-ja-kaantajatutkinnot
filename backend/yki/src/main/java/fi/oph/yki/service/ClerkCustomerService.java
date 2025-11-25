@@ -69,6 +69,10 @@ public class ClerkCustomerService {
           ? Optional.empty()
           : Optional.of(registration.getLiftedFromQueueAt().toLocalDate());
 
+        Optional<LocalDate> expiresAt = registration.getExpiresAt() == null
+          ? Optional.empty()
+          : Optional.of(registration.getExpiresAt().toLocalDate());
+
         return new ClerkCustomerRegistrationDTO(
           session.getExamDate().getExamDate(),
           new ClerkExamDTO(session.getLanguage(), session.getLanguage()),
@@ -80,7 +84,8 @@ public class ClerkCustomerService {
           new ClerkRegistrationStatusDTO(registration.getState().name(), paidAt),
           registrationDate,
           registration.getKind(),
-          liftedFromQueueAt
+          liftedFromQueueAt,
+          expiresAt
         );
       })
       .toList();

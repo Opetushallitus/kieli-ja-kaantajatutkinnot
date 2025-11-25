@@ -39,6 +39,9 @@ public class Registration {
   @Column(name = "lifted_from_queue_at")
   private LocalDateTime liftedFromQueueAt;
 
+  @Column(name = "expires_at")
+  private LocalDateTime expiresAt;
+
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "exam_session_id", referencedColumnName = "id")
   private ExamSession examSession;
