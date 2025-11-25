@@ -1,8 +1,14 @@
-import { ExamLanguage, ExamLevel, RegistrationStates } from 'enums/app';
+import {
+  ExamLanguage,
+  ExamLevel,
+  RegistrationKind,
+  RegistrationStates,
+} from 'enums/app';
 import {
   ClerkCustomerDetailsResponse,
   PastExamResponse,
   QueueOfferStatus,
+  RegistrationResponse,
 } from 'interfaces/clerkCustomer';
 
 const kajaani = [
@@ -59,7 +65,8 @@ const helsinki = [
   },
 ];
 
-const defaultRegistrations = [
+// Ilmoittautunut
+const defaultRegistrations: RegistrationResponse[] = [
   {
     examinationDate: '2025-09-01T00:00:00.000Z',
     exam: {
@@ -74,6 +81,7 @@ const defaultRegistrations = [
       paidAt: '2025-05-01',
     },
     registrationDate: '2025-05-06',
+    kind: RegistrationKind.Admission,
   },
   {
     examinationDate: '2025-10-23',
@@ -86,6 +94,7 @@ const defaultRegistrations = [
       state: RegistrationStates.PaidAndCancelled,
     },
     registrationDate: '2025-05-06',
+    kind: RegistrationKind.Admission,
   },
   {
     examinationDate: '2025-011-30',
@@ -98,6 +107,7 @@ const defaultRegistrations = [
       state: RegistrationStates.Cancelled,
     },
     registrationDate: '2025-05-06',
+    kind: RegistrationKind.Admission,
   },
   {
     examinationDate: '2025-12-30',
@@ -110,10 +120,12 @@ const defaultRegistrations = [
       state: RegistrationStates.Submitted,
     },
     registrationDate: '2025-05-06',
+    kind: RegistrationKind.Admission,
   },
 ];
 
-const defaultQueuedExams = [
+// Jonossa
+const defaultQueuedExams: RegistrationResponse[] = [
   {
     examinationDate: '2025-09-05',
     exam: {
@@ -127,10 +139,8 @@ const defaultQueuedExams = [
       state: RegistrationStates.Submitted,
     },
     registrationDate: '2025-05-06',
-    queueSpotOffered: {
-      offered: QueueOfferStatus.Offered,
-      dueDate: '2025-09-20',
-    },
+    kind: RegistrationKind.Queue,
+    expiresAt: '2025-09-20',
   },
   {
     examinationDate: '2025-10-18',
@@ -144,10 +154,8 @@ const defaultQueuedExams = [
       state: RegistrationStates.Expired,
     },
     registrationDate: '2025-05-06',
-    queueSpotOffered: {
-      offered: QueueOfferStatus.NotAccepted,
-      dueDate: '2025-08-04',
-    },
+    kind: RegistrationKind.Queue,
+    expiresAt: '2025-08-04',
   },
   {
     examinationDate: '2025-11-22',
@@ -160,9 +168,7 @@ const defaultQueuedExams = [
       state: RegistrationStates.Cancelled,
     },
     registrationDate: '2025-05-06',
-    queueSpotOffered: {
-      offered: QueueOfferStatus.NotOffered,
-    },
+    kind: RegistrationKind.Queue,
   },
   {
     examinationDate: '2025-11-22',
@@ -175,13 +181,13 @@ const defaultQueuedExams = [
       state: RegistrationStates.Submitted,
     },
     registrationDate: '2025-05-06',
-    queueSpotOffered: {
-      offered: QueueOfferStatus.NotOffered,
-    },
+    kind: RegistrationKind.Queue,
+    liftedFromQueueAt: '2025-05-06', // kentässä on arvo => jonopaikkaa tarjottu
   },
 ];
 
-const defaultPastExams: PastExamResponse[] = [
+// Menneet
+const defaultPastExams: RegistrationResponse[] = [
   {
     examinationDate: '2025-07-20',
     exam: {
@@ -189,7 +195,11 @@ const defaultPastExams: PastExamResponse[] = [
       level: ExamLevel.PERUS,
     },
     examLocation: kajaani,
-    state: 'REVIEWED',
+    registrationStatus: {
+      state: 'REVIEWED',
+    },
+    registrationDate: '2025-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
+    kind: RegistrationKind.Admission, // Ei näytetä menneet - tutkinnot - näkymässä
   },
   {
     examinationDate: '2025-03-25',
@@ -198,7 +208,11 @@ const defaultPastExams: PastExamResponse[] = [
       level: ExamLevel.KESKI,
     },
     examLocation: lassila,
-    state: 'CANCELLED',
+    registrationStatus: {
+      state: 'CANCELLED',
+    },
+    registrationDate: '2025-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
+    kind: RegistrationKind.Queue, // Ei näytetä menneet - tutkinnot - näkymässä
   },
   {
     examinationDate: '2025-03-25',
@@ -207,7 +221,11 @@ const defaultPastExams: PastExamResponse[] = [
       level: ExamLevel.KESKI,
     },
     examLocation: helsinki,
-    state: 'REGISTERED',
+    registrationStatus: {
+      state: 'REGISTERED',
+    },
+    registrationDate: '2025-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
+    kind: RegistrationKind.Admission, // Ei näytetä "menneet - tutkinnot" - näkymässä
   },
 ];
 
@@ -223,9 +241,11 @@ export const customerDetails: ClerkCustomerDetailsResponse[] = [
       streetAddress: 'Katuosoite 123, 33100 Tampere',
       email: 'aino.osallistuja@loremipsum.fi',
     },
-    registrations: defaultRegistrations,
-    queuedExams: defaultQueuedExams,
-    pastExams: defaultPastExams,
+    registrations: [
+      ...defaultRegistrations,
+      ...defaultQueuedExams,
+      ...defaultPastExams,
+    ],
   },
   {
     person: {
@@ -239,8 +259,6 @@ export const customerDetails: ClerkCustomerDetailsResponse[] = [
       email: 'aino.osallistuja@loremipsum.fi',
     },
     registrations: [],
-    queuedExams: [],
-    pastExams: [],
   },
   {
     person: {
@@ -250,8 +268,10 @@ export const customerDetails: ClerkCustomerDetailsResponse[] = [
       oid: '1.2.246.562.24.82364099324',
       nationalityCode: '246',
     },
-    registrations: defaultRegistrations,
-    queuedExams: defaultQueuedExams,
-    pastExams: defaultPastExams,
+    registrations: [
+      ...defaultRegistrations,
+      ...defaultQueuedExams,
+      ...defaultPastExams,
+    ],
   },
 ];
