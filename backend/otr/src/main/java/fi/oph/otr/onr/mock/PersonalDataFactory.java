@@ -25,6 +25,8 @@ public class PersonalDataFactory {
       .onrId(onrId)
       .individualised(isIndividualised)
       .hasIndividualisedAddress(hasIndividualisedAddress)
+      .isDuplicate(counterValue == 2)
+      .isPassive(counterValue == 2 || (counterValue > 2 && counterValue < 10))
       .lastName(lastName)
       .firstName(nickName + " " + secondName)
       .nickName(nickName)

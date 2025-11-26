@@ -41,6 +41,7 @@ export interface ClerkInterpreter
     WithVersion,
     ClerkInterpreterBasicInformation {
   isIndividualised: boolean;
+  isDeceased: boolean;
   hasIndividualisedAddress: boolean;
   qualifications: ClerkInterpreterQualifications;
 }

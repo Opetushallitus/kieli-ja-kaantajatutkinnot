@@ -32,7 +32,8 @@
         "qualificationStatus": {
           "effective": "Rekisteröidyt",
           "expiredDeduplicated": "Umpeutuneet",
-          "expiring": "Umpeutuvat"
+          "expiring": "Umpeutuvat",
+          "deceased": "Passivoidut"
         }
       },
       "clerkInterpreterListing": {

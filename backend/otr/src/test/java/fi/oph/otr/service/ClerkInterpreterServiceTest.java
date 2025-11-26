@@ -277,6 +277,8 @@ class ClerkInterpreterServiceTest {
       .builder()
       .onrId(onrId)
       .individualised(isIndividualised)
+      .isPassive(null)
+      .isDuplicate(null)
       .hasIndividualisedAddress(hasIndividualisedAddress)
       .lastName(lastName)
       .firstName(firstName)

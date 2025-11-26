@@ -63,7 +63,11 @@ public class PersonalData {
     );
   }
 
-  public boolean isDeceased() {
+  public Boolean isDeceased() {
+    if (this.isPassive == null || this.isDuplicate == null) {
+      return null;
+    }
+
     return this.isPassive && !this.isDuplicate;
   }
 

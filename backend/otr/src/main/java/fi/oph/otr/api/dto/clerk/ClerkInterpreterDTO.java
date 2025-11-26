@@ -27,6 +27,7 @@ public record ClerkInterpreterDTO(
   String extraInformation,
   @NonNull List<String> regions,
   @NonNull ClerkInterpreterQualificationsDTO qualifications,
-  @NonNull Boolean isAssuranceGiven
+  @NonNull Boolean isAssuranceGiven,
+  Boolean isDeceased
 )
   implements ClerkInterpreterDTOCommonFields {}

@@ -132,6 +132,7 @@ export const QualificationDetails = () => {
     [QualificationStatus.Expiring]: expiring,
     [QualificationStatus.Expired]: expired,
     [QualificationStatus.ExpiredDeduplicated]: expiredDeduplicated,
+    [QualificationStatus.Deceased]: [],
   };
 
   const activeQualifications = groupedQualifications[selectedToggleFilter];

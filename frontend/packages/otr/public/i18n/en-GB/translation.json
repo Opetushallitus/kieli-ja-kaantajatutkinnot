@@ -32,7 +32,8 @@
         "qualificationStatus": {
           "effective": null,
           "expiredDeduplicated": "Expired",
-          "expiring": "Expiring"
+          "expiring": "Expiring",
+          "deceased": "Passive"
         }
       },
       "clerkInterpreterListing": {

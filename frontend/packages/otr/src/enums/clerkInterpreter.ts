@@ -3,6 +3,7 @@ export enum QualificationStatus {
   Expiring = 'expiring',
   Expired = 'expired',
   ExpiredDeduplicated = 'expiredDeduplicated',
+  Deceased = 'deceased',
 }
 
 export enum ClerkInterpreterTextFieldEnum {

@@ -32,7 +32,8 @@
         "qualificationStatus": {
           "effective": null,
           "expiredDeduplicated": "Löpt ut",
-          "expiring": "Löper ut"
+          "expiring": "Löper ut",
+          "deceased": "Passiverad"
         }
       },
       "clerkInterpreterListing": {
