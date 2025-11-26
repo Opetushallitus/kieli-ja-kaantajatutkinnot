@@ -390,6 +390,7 @@
         "examSessionDetails": {
           "exam": "Tutkinto",
           "examFee": "Tutkintomaksu",
+          "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä",
           "openings": "Paikkoja vapaana",
           "registrationTime": "Ilmoittautumisaika"
         },

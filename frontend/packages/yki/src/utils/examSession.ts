@@ -139,7 +139,6 @@ export class ExamSessionUtils {
   static freeRegistrationPossible(
     { level_code, language_code }: ExamSession,
     authenticatedSession?: AuthenticatedSession,
-    usedFreeRegistrations?: number,
   ) {
     if (
       authenticatedSession &&
@@ -156,10 +155,6 @@ export class ExamSessionUtils {
       language_code !== ExamLanguage.FIN &&
       language_code !== ExamLanguage.SWE
     ) {
-      return false;
-    }
-
-    if (usedFreeRegistrations !== undefined && usedFreeRegistrations >= 3) {
       return false;
     }
 

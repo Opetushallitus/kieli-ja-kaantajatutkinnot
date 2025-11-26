@@ -390,6 +390,7 @@
         "examSessionDetails": {
           "exam": "Examen",
           "examFee": "Examensavgift",
+          "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä",
           "openings": "Lediga platser",
           "registrationTime": "Anmälningstid"
         },

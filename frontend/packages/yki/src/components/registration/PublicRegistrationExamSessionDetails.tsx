@@ -7,8 +7,10 @@ import {
   usePublicTranslation,
 } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
+import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
+import { registrationSelector } from 'redux/selectors/registration';
 import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
 
@@ -28,6 +30,7 @@ export const PublicRegistrationExamSessionDetails = ({
     publicFreeRegistrationSelector,
   );
   const { loggedInSession } = useAppSelector(sessionSelector);
+  const { activeStep } = useAppSelector(registrationSelector);
 
   if (!examSession) {
     return null;
@@ -42,17 +45,34 @@ export const PublicRegistrationExamSessionDetails = ({
     getCurrentLang(),
   );
 
-  const examFeeText = ExamSessionUtils.freeRegistrationPossible(
+  const freeRegistrationPossible = ExamSessionUtils.freeRegistrationPossible(
     examSession,
     loggedInSession,
-    attemptsUsed,
-  )
-    ? isFree === 'YES'
-      ? `0 €`
-      : isFree === 'NO'
-      ? `${examSession.exam_fee} €`
-      : `0 ${translateCommon('or')} ${examSession.exam_fee} €`
-    : `${examSession.exam_fee} €`;
+  );
+
+  let examFeeText: string;
+  if (freeRegistrationPossible) {
+    if (activeStep === PublicRegistrationFormStep.Identify) {
+      // If user has not yet progressed to registration form, always display an undecided exam fee amount
+      examFeeText = `0 ${translateCommon('or')} ${examSession.exam_fee} €`;
+    } else {
+      switch (isFree) {
+        case 'YES':
+          examFeeText = '0 €';
+          break;
+        case 'NO':
+          examFeeText = `${examSession.exam_fee} €`;
+          break;
+        case 'UNDECIDED':
+          examFeeText = `0 ${translateCommon('or')} ${examSession.exam_fee} €`;
+          break;
+      }
+    }
+  } else {
+    examFeeText = `${examSession.exam_fee} €`;
+  }
+
+  const attemptsLeft = 3 - (attemptsUsed || 0);
 
   return (
     <div className="rows">
@@ -81,13 +101,20 @@ export const PublicRegistrationExamSessionDetails = ({
           {`${t('examFee')}: `}
           <b>{examFeeText}</b>
         </Text>
-
         {showOpenings && (
           <Text>
             {`${t('openings')}: `}
             <b>{availablePlaces ? availablePlaces : translateCommon('full')}</b>
           </Text>
         )}
+        {activeStep === PublicRegistrationFormStep.Register &&
+          freeRegistrationPossible &&
+          attemptsUsed !== undefined && (
+            <Text>
+              {`${t('freeAttemptsLeft')}: `}
+              <b>{attemptsLeft}</b>
+            </Text>
+          )}
       </div>
     </div>
   );
