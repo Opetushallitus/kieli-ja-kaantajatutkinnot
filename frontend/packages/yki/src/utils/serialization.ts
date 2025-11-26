@@ -18,7 +18,9 @@ import {
   PastExam,
   QueuedRegistration,
   QueueOfferStatus,
+  QueueSpotOffered,
   RegistrationResponse,
+  RegistrationStatus,
 } from 'interfaces/clerkCustomer';
 import {
   ClerkFreeRegistrationDetailsResponse,
@@ -487,16 +489,9 @@ export class SerializationUtils {
   ): Exam {
     return {
       ...registration,
-      registrationStatus: {
-        ...(registration.registrationStatus.paidAt
-          ? {
-              state: RegistrationStates.Completed,
-              paidAt: dayjs(registration.registrationStatus.paidAt),
-            }
-          : {
-              state: RegistrationStates.Submitted,
-            }),
-      },
+      registrationStatus: this.deserializeRegistrationStatus(
+        registration.registrationStatus,
+      ),
       registrationDate: dayjs(registration.registrationDate),
       examinationDate: dayjs(registration.examinationDate),
       examLocation: this.deserializaMapLocation(registration.examLocation),
@@ -506,35 +501,98 @@ export class SerializationUtils {
   static deserializeQueuedExam(
     registration: RegistrationResponse,
   ): QueuedRegistration {
+    const registrationStatus = this.deserializeRegistrationStatus(
+      registration.registrationStatus,
+    );
+
     return {
       ...registration,
-      registrationStatus: {
-        ...(registration.registrationStatus.paidAt
-          ? {
-              state: RegistrationStates.Completed,
-              paidAt: dayjs(registration.registrationStatus.paidAt),
-            }
-          : {
-              state: RegistrationStates.Submitted,
-            }),
-      },
-      queueSpotOffered: {
-        // TODO: How to determine queue spot offered?
-        offered: QueueOfferStatus.NotOffered,
-      },
+      registrationStatus,
+      queueSpotOffered: this.getQueueSpotOffered(
+        registrationStatus.state,
+        registration.liftedFromQueueAt,
+        registration.expiresAt,
+      ),
       registrationDate: dayjs(registration.registrationDate),
       examinationDate: dayjs(registration.examinationDate),
       examLocation: this.deserializaMapLocation(registration.examLocation),
     };
   }
 
+  static getQueueSpotOffered(
+    state: RegistrationStates,
+    liftedFromQueueAt?: string,
+    expiresAt?: string,
+  ): QueueSpotOffered {
+    let queueSpotOffered: QueueSpotOffered = {
+      offered: QueueOfferStatus.NotOffered,
+    };
+
+    // Customer got a spot offer
+    // (status maybe be overriden by certain statuses)
+    if (liftedFromQueueAt) {
+      queueSpotOffered = {
+        offered: QueueOfferStatus.Offered,
+        dueDate: dayjs(expiresAt),
+      };
+    }
+
+    // Customer has received a queue spot
+    if (
+      liftedFromQueueAt &&
+      (state === RegistrationStates.Completed ||
+        state === RegistrationStates.PaidAndCancelled)
+    ) {
+      return {
+        offered: QueueOfferStatus.Offered,
+        dueDate: dayjs(expiresAt),
+      };
+    }
+
+    // Customer did not accept the queue offer
+    if (
+      liftedFromQueueAt &&
+      (state === RegistrationStates.Submitted ||
+        state === RegistrationStates.Cancelled ||
+        state === RegistrationStates.Expired)
+    ) {
+      return {
+        offered: QueueOfferStatus.NotAccepted,
+        dueDate: dayjs(expiresAt),
+      };
+    }
+
+    return queueSpotOffered;
+  }
+
   static deserializePastExam(registration: RegistrationResponse): PastExam {
+    const state: ExamState = this.deserializeRegistrationState(
+      registration.registrationStatus.state,
+    );
+
     return {
       exam: registration.exam,
       examinationDate: dayjs(registration.examinationDate),
       examLocation: this.deserializaMapLocation(registration.examLocation),
-      state: registration.registrationStatus.state as ExamState,
+      state,
     };
+  }
+
+  static deserializeRegistrationStatus(status: {
+    state: string;
+    paidAt?: string | undefined;
+  }): RegistrationStatus {
+    const state = this.deserializeRegistrationState(status.state);
+
+    // paidAt will be only rendered when the state is Completed
+    return state === RegistrationStates.Completed
+      ? {
+          state,
+          paidAt: dayjs(status.paidAt),
+        }
+      : {
+          state,
+        };
   }
 
   static deserializaMapLocation(
