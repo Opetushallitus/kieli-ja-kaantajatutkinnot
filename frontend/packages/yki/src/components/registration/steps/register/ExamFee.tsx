@@ -1,4 +1,6 @@
+import InfoFilledIcon from '@mui/icons-material/Info';
 import {
+  Container,
   FormControl,
   FormControlLabel,
   Radio,
@@ -7,7 +9,7 @@ import {
 import { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import { H2, H3, Text } from 'shared/components';
-import { APIResponseStatus } from 'shared/enums';
+import { APIResponseStatus, Color } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -35,8 +37,10 @@ const UserEducationSelection = () => {
   });
   const dispatch = useAppDispatch();
   const { showErrors } = useAppSelector(registrationSelector);
-  const { isFree } = useAppSelector(publicFreeRegistrationSelector);
-
+  const { isFree, attemptsUsed } = useAppSelector(
+    publicFreeRegistrationSelector,
+  );
+  const attemptsLeft = 3 - (attemptsUsed || 0);
   const [countryOfEducation, setCountryOfEducation] = useState<
     CountryOfStudies | undefined
   >(undefined);
@@ -148,6 +152,17 @@ const UserEducationSelection = () => {
       )}
       {isFree === 'YES' && (
         <>
+          <Container className="public-registration__info-box columns gapped-sm">
+            <InfoFilledIcon color={Color.Secondary} />
+            <Text>
+              {t('freeAttemptsOfferedYKI')}
+              <Trans
+                t={t}
+                i18nKey="freeAttemptsLeft"
+                values={{ amount: attemptsLeft }}
+              />
+            </Text>
+          </Container>
           <H3>{t('userSelection.randomChecksPerformed.heading')}</H3>
           <Text>
             {t('userSelection.randomChecksPerformed.part1')}{' '}
