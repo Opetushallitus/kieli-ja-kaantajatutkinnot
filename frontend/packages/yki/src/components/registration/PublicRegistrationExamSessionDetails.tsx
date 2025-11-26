@@ -50,13 +50,28 @@ export const PublicRegistrationExamSessionDetails = ({
     loggedInSession,
   );
 
-  const examFeeText = freeRegistrationPossible
-    ? isFree === 'YES'
-      ? `0 €`
-      : isFree === 'NO'
-      ? `${examSession.exam_fee} €`
-      : `0 ${translateCommon('or')} ${examSession.exam_fee} €`
-    : `${examSession.exam_fee} €`;
+  let examFeeText: string;
+  if (freeRegistrationPossible) {
+    if (activeStep === PublicRegistrationFormStep.Identify) {
+      // If user has not yet progressed to registration form, always display an undecided exam fee amount
+      examFeeText = `0 ${translateCommon('or')} ${examSession.exam_fee} €`;
+    } else {
+      switch (isFree) {
+        case 'YES':
+          examFeeText = '0 €';
+          break;
+        case 'NO':
+          examFeeText = `${examSession.exam_fee} €`;
+          break;
+        case 'UNDECIDED':
+          examFeeText = `0 ${translateCommon('or')} ${examSession.exam_fee} €`;
+          break;
+      }
+    }
+  } else {
+    examFeeText = `${examSession.exam_fee} €`;
+  }
+
   const attemptsLeft = 3 - (attemptsUsed || 0);
 
   return (
