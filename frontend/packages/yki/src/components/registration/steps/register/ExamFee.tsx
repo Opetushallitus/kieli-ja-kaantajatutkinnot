@@ -118,7 +118,13 @@ const UserEducationSelection = () => {
                 className="radio-group-label"
                 value="matriculationExam"
                 control={<Radio />}
-                label={t('userSelection.educationDetails.matriculationExam')}
+                label={
+                  countryOfEducation === 'finland'
+                    ? t('userSelection.educationDetails.matriculationExam')
+                    : t(
+                        'userSelection.educationDetails.comparableMatriculationExam',
+                      )
+                }
                 sx={ErrorLabelStyles}
               />
               <FormControlLabel
