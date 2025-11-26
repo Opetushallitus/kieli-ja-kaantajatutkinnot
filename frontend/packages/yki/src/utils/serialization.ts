@@ -12,8 +12,13 @@ import {
 import {
   ClerkCustomerDetails,
   ClerkCustomerDetailsResponse,
+  Exam,
   ExamLocation,
+  ExamState,
+  PastExam,
+  QueuedRegistration,
   QueueOfferStatus,
+  RegistrationResponse,
 } from 'interfaces/clerkCustomer';
 import {
   ClerkFreeRegistrationDetailsResponse,
@@ -180,6 +185,18 @@ export class SerializationUtils {
         return 'sv';
       case AppLanguage.English:
         return 'en';
+    }
+  }
+
+  static deserializeAppLanguage(language: string): AppLanguage {
+    switch (language) {
+      case 'sv':
+        return AppLanguage.Swedish;
+      case 'en':
+        return AppLanguage.English;
+      case 'fi':
+      default:
+        return AppLanguage.Finnish;
     }
   }
 
@@ -457,53 +474,70 @@ export class SerializationUtils {
 
     return {
       ...clerkCustomerDetailsResponse,
-      registrations: registeredRegistrations.map((registration) => ({
-        ...registration,
-        registrationStatus: {
-          ...(registration.registrationStatus.paidAt
-            ? {
-                state: RegistrationStates.Completed,
-                paidAt: dayjs(registration.registrationStatus.paidAt),
-              }
-            : {
-                state: RegistrationStates.Submitted,
-              }),
-        },
-        registrationDate: dayjs(registration.registrationDate),
-        examinationDate: dayjs(registration.examinationDate),
-        examLocation: this.mapExamLocation(registration.examLocation),
-      })),
-      queuedExams: queuedRegistrations.map((registration) => ({
-        ...registration,
-        registrationStatus: {
-          ...(registration.registrationStatus.paidAt
-            ? {
-                state: RegistrationStates.Completed,
-                paidAt: dayjs(registration.registrationStatus.paidAt),
-              }
-            : {
-                state: RegistrationStates.Submitted,
-              }),
-        },
-        queueSpotOffered: {
-          // TODO: How to determine queue spot offered?
-          offered: QueueOfferStatus.NotOffered,
-        },
-        registrationDate: dayjs(registration.registrationDate),
-        examinationDate: dayjs(registration.examinationDate),
-        examLocation: this.mapExamLocation(registration.examLocation),
-      })),
-      pastExams: pastRegistrations.map((registration) => ({
-        exam: registration.exam,
-        examinationDate: dayjs(registration.examinationDate),
-        examLocation: this.mapExamLocation(registration.examLocation),
-        // TODO: How to determine past exam state? (REVIEWED, CANCELLED, REGISTERED)
-        state: 'REVIEWED',
-      })),
+      registrations: registeredRegistrations.map(
+        this.deserializeUpcomingRegistration,
+      ),
+      queuedExams: queuedRegistrations.map(this.deserializeQueuedExam),
+      pastExams: pastRegistrations.map(this.deserializePastExam),
     };
   }
 
-  static mapExamLocation(
+  static deserializeUpcomingRegistration(
+    registration: RegistrationResponse,
+  ): Exam {
+    return {
+      ...registration,
+      registrationStatus: {
+        ...(registration.registrationStatus.paidAt
+          ? {
+              state: RegistrationStates.Completed,
+              paidAt: dayjs(registration.registrationStatus.paidAt),
+            }
+          : {
+              state: RegistrationStates.Submitted,
+            }),
+      },
+      registrationDate: dayjs(registration.registrationDate),
+      examinationDate: dayjs(registration.examinationDate),
+      examLocation: this.deserializaMapLocation(registration.examLocation),
+    };
+  }
+
+  static deserializeQueuedExam(
+    registration: RegistrationResponse,
+  ): QueuedRegistration {
+    return {
+      ...registration,
+      registrationStatus: {
+        ...(registration.registrationStatus.paidAt
+          ? {
+              state: RegistrationStates.Completed,
+              paidAt: dayjs(registration.registrationStatus.paidAt),
+            }
+          : {
+              state: RegistrationStates.Submitted,
+            }),
+      },
+      queueSpotOffered: {
+        // TODO: How to determine queue spot offered?
+        offered: QueueOfferStatus.NotOffered,
+      },
+      registrationDate: dayjs(registration.registrationDate),
+      examinationDate: dayjs(registration.examinationDate),
+      examLocation: this.deserializaMapLocation(registration.examLocation),
+    };
+  }
+
+  static deserializePastExam(registration: RegistrationResponse): PastExam {
+    return {
+      exam: registration.exam,
+      examinationDate: dayjs(registration.examinationDate),
+      examLocation: this.deserializaMapLocation(registration.examLocation),
+      state: registration.registrationStatus.state as ExamState,
+    };
+  }
+
+  static deserializaMapLocation(
     examLocation: {
       name: string;
       municipality: string;
@@ -512,20 +546,8 @@ export class SerializationUtils {
   ): ExamLocation[] {
     return examLocation.map((l) => ({
       ...l,
-      lang: this.mapToAppLanguage(l.lang),
+      lang: this.deserializeAppLanguage(l.lang),
     }));
-  }
-
-  static mapToAppLanguage(language: string): AppLanguage {
-    switch (language) {
-      case 'sv':
-        return AppLanguage.Swedish;
-      case 'en':
-        return AppLanguage.English;
-      case 'fi':
-      default:
-        return AppLanguage.Finnish;
-    }
   }
 
   static mapKoskiEducationToFreeRegistrationBasis(

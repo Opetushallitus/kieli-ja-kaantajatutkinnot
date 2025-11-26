@@ -6,8 +6,6 @@ import {
 } from 'enums/app';
 import {
   ClerkCustomerDetailsResponse,
-  PastExamResponse,
-  QueueOfferStatus,
   RegistrationResponse,
 } from 'interfaces/clerkCustomer';
 

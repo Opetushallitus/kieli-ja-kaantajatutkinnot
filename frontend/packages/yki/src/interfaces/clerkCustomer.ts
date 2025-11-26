@@ -25,7 +25,7 @@ export type ExamLocation = {
   lang: AppLanguage;
 };
 
-type Exam = {
+export type Exam = {
   examinationDate: Dayjs;
   exam: {
     language: ExamLanguage;
@@ -50,13 +50,13 @@ export type QueueSpotOffered =
       dueDate: Dayjs;
     };
 
-type QueuedRegistration = Exam & {
+export type QueuedRegistration = Exam & {
   queueSpotOffered: QueueSpotOffered;
 };
 
 export type ExamState = 'REVIEWED' | 'CANCELLED' | 'REGISTERED';
 
-type PastExam = Omit<Exam, 'registrationStatus' | 'registrationDate'> & {
+export type PastExam = Omit<Exam, 'registrationStatus' | 'registrationDate'> & {
   state: ExamState;
 };
 
