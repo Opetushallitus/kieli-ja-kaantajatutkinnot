@@ -4,7 +4,7 @@ import { InputFieldUtils } from 'shared/utils';
 import { useAppSelector } from 'configs/redux';
 import { YkiValidationErrors } from 'enums/app';
 import {
-  KoskiEducation,
+  PublicFreeRegistrationDetails,
   UserDeclaredEducation,
 } from 'interfaces/publicFreeRegistration';
 import {
@@ -30,7 +30,7 @@ const getErrors = (
   isEmailRegistration: boolean,
   registration: Partial<PublicEmailRegistration & PublicSuomiFiRegistration>,
   isEligibleForFreeRegistration: boolean,
-  freeRegistrationBasis?: KoskiEducation | UserDeclaredEducation,
+  freeRegistrationDetails: PublicFreeRegistrationDetails,
 ) => {
   if (!showErrors) {
     return {};
@@ -110,11 +110,14 @@ const getErrors = (
     errors['certificateLanguage'] = CustomTextFieldErrors.Required;
   }
   if (isEligibleForFreeRegistration) {
-    if (!freeRegistrationBasis || freeRegistrationBasis.source === 'USER') {
-      if (!freeRegistrationBasis?.countryOfEducation) {
-        errors['countryOfEducation'] = CustomTextFieldErrors.Required;
-      } else if (!freeRegistrationBasis?.educationType) {
-        errors['educationType'] = CustomTextFieldErrors.Required;
+    const { isFree, basis } = freeRegistrationDetails;
+    if (isFree === 'UNDECIDED') {
+      if (!basis || basis.source === 'USER') {
+        if (!basis?.countryOfEducation) {
+          errors['countryOfEducation'] = CustomTextFieldErrors.Required;
+        } else if (!basis?.educationType) {
+          errors['educationType'] = CustomTextFieldErrors.Required;
+        }
       }
     }
   }
@@ -133,9 +136,10 @@ export const usePublicRegistrationErrors = (showErrors: boolean) => {
     useAppSelector(registrationSelector);
   const { loggedInSession } = useAppSelector(sessionSelector);
   const { examSession } = useAppSelector(examSessionSelector);
-  const { basis, attemptsUsed } = useAppSelector(
+  const publicFreeRegistrationDetails = useAppSelector(
     publicFreeRegistrationSelector,
   );
+  const { attemptsUsed } = publicFreeRegistrationDetails;
   const isEligibleForFreeRegistration =
     examSession &&
     ExamSessionUtils.freeRegistrationPossible(
@@ -150,6 +154,6 @@ export const usePublicRegistrationErrors = (showErrors: boolean) => {
       isEmailRegistration as boolean,
       registration,
       !!isEligibleForFreeRegistration,
-      basis,
+      publicFreeRegistrationDetails,
     );
 };

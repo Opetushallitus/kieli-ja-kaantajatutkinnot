@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RegistrationService {
 
+  private static final Logger LOG = LoggerFactory.getLogger(RegistrationService.class);
   private final RegistrationRepository registrationRepository;
   private final FreeRegistrationRepository freeRegistrationRepository;
   private final PersonRepository personRepository;
@@ -35,11 +38,11 @@ public class RegistrationService {
 
   @Transactional(readOnly = true)
   public Registration findRegistration(final Long registrationId, final String oid) {
-    // TODO Person may not exist at this point?
     final Person person = personRepository.getByOid(oid);
     final Registration registration = registrationRepository.getReferenceById(registrationId);
 
     if (person == null || registration.getPerson() == null || !oid.equals(registration.getPerson().getOid())) {
+      LOG.error("Mismatch between registration and person! Supplied registrationId: {}, oid: {}", registrationId, oid);
       throw new APIException(APIExceptionType.PERSON_REGISTRATION_OID_MISMATCH);
     }
 
