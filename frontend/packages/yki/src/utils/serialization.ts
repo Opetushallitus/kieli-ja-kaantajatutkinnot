@@ -566,9 +566,13 @@ export class SerializationUtils {
   }
 
   static deserializePastExam(registration: RegistrationResponse): PastExam {
-    const state: ExamState = this.deserializeRegistrationState(
-      registration.registrationStatus.state,
+    const { state: registrationState } = this.deserializeRegistrationStatus(
+      registration.registrationStatus,
     );
+    const state: ExamState =
+      registrationState === RegistrationStates.Cancelled
+        ? 'CANCELLED'
+        : 'REGISTERED';
 
     return {
       exam: registration.exam,
