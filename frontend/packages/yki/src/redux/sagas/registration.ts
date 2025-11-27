@@ -6,7 +6,7 @@ import { WithId } from 'shared/interfaces';
 import axiosInstance from 'configs/axios';
 import { getCurrentLang } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
-import { AppRoutes } from 'enums/app';
+import { AppRoutes, RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { PublicFreeRegistrationDetails } from 'interfaces/publicFreeRegistration';
 import {
@@ -130,29 +130,37 @@ function* submitRegistrationFormSaga() {
         registrationEducationEndpoint,
         JSON.stringify({ basis }),
       );
-      yield call(
-        axiosInstance.post,
-        APIEndpoints.SubmitRegistration.replace(
-          /:registrationId/,
-          `${registrationState.registration.id}`,
-        ),
-        JSON.stringify({
-          ...SerializationUtils.serializeRegistrationForm(
-            registrationState.registration,
-            nationalities,
+      const response: AxiosResponse<PublicRegistrationFormSubmitSuccessResponse> =
+        yield call(
+          axiosInstance.post,
+          APIEndpoints.SubmitRegistration.replace(
+            /:registrationId/,
+            `${registrationState.registration.id}`,
           ),
-          free_registration_id: freeRegistrationResponse.data.id,
-        }),
-        {
-          params: {
-            lang: SerializationUtils.serializeAppLanguage(lang),
+          JSON.stringify({
+            ...SerializationUtils.serializeRegistrationForm(
+              registrationState.registration,
+              nationalities,
+            ),
+            free_registration_id: freeRegistrationResponse.data.id,
+          }),
+          {
+            params: {
+              lang: SerializationUtils.serializeAppLanguage(lang),
+            },
           },
-        },
-      );
-      window.location.href = AppRoutes.FreeRegistrationSuccess.replace(
-        /:examSessionId/,
-        `${registrationState.initRegistration.examSessionId}`,
-      );
+        );
+      if (response.data.registration_kind === RegistrationKind.Queue) {
+        // Free queued registration -> just display screen instructing user to observe their emails in case they get lifted from queue
+        yield put(acceptPublicRegistrationSubmission(response.data));
+      } else {
+        // In case of free registration with kind Admission, user is admitted directly to the exam
+        // Redirect user to a separate page welcoming them to the exam.
+        window.location.href = AppRoutes.FreeRegistrationSuccess.replace(
+          /:examSessionId/,
+          `${registrationState.initRegistration.examSessionId}`,
+        );
+      }
       yield put(resetUserOpenRegistrations());
     } else {
       const response: AxiosResponse<PublicRegistrationFormSubmitSuccessResponse> =
