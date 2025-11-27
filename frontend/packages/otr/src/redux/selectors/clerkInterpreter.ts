@@ -72,7 +72,12 @@ const hasQualificationsMatchingFilters = (
     case QualificationStatus.ExpiredDeduplicated:
       return matchesFilters(qualifications.expiredDeduplicated).length > 0;
     case QualificationStatus.Deceased:
-      return true;
+      return (
+        matchesFilters(qualifications.effective).length > 0 ||
+        matchesFilters(qualifications.expiring).length > 0 ||
+        matchesFilters(qualifications.expired).length > 0 ||
+        matchesFilters(qualifications.expiredDeduplicated).length > 0
+      );
   }
 };
 
