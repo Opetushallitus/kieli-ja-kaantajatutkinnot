@@ -446,6 +446,7 @@
             "freeAttemptsExhausted": "Olet käyttänyt kaikki ilmaiset kerrat.",
             "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä: <strong>{{amount}}</strong>.",
             "freeAttemptsOffered": "Voit ilmoittautua maksuttomasti kolme (3) kertaa.",
+            "freeAttemptsOfferedYKI": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa.",
             "loading": {
               "checkingEligibility": "Tarkastamme täyttyvätkö maksuttomuuden ehdot kohdallasi.",
               "pleaseWait": "Tietoja ladataan, ole hyvä ja odota hetki."
