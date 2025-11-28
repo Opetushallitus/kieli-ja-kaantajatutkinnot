@@ -477,10 +477,12 @@ export class SerializationUtils {
     return {
       ...clerkCustomerDetailsResponse,
       registrations: registeredRegistrations.map(
-        this.deserializeUpcomingRegistration,
+        SerializationUtils.deserializeUpcomingRegistration,
       ),
-      queuedExams: queuedRegistrations.map(this.deserializeQueuedExam),
-      pastExams: pastRegistrations.map(this.deserializePastExam),
+      queuedExams: queuedRegistrations.map(
+        SerializationUtils.deserializeQueuedExam,
+      ),
+      pastExams: pastRegistrations.map(SerializationUtils.deserializePastExam),
     };
   }
 
@@ -489,33 +491,37 @@ export class SerializationUtils {
   ): Exam {
     return {
       ...registration,
-      registrationStatus: this.deserializeRegistrationStatus(
+      registrationStatus: SerializationUtils.deserializeRegistrationStatus(
         registration.registrationStatus,
       ),
       registrationDate: dayjs(registration.registrationDate),
       examinationDate: dayjs(registration.examinationDate),
-      examLocation: this.deserializaMapLocation(registration.examLocation),
+      examLocation: SerializationUtils.deserializaMapLocation(
+        registration.examLocation,
+      ),
     };
   }
 
   static deserializeQueuedExam(
     registration: RegistrationResponse,
   ): QueuedRegistration {
-    const registrationStatus = this.deserializeRegistrationStatus(
+    const registrationStatus = SerializationUtils.deserializeRegistrationStatus(
       registration.registrationStatus,
     );
 
     return {
       ...registration,
       registrationStatus,
-      queueSpotOffered: this.getQueueSpotOffered(
+      queueSpotOffered: SerializationUtils.getQueueSpotOffered(
         registrationStatus.state,
         registration.liftedFromQueueAt,
         registration.expiresAt,
       ),
       registrationDate: dayjs(registration.registrationDate),
       examinationDate: dayjs(registration.examinationDate),
-      examLocation: this.deserializaMapLocation(registration.examLocation),
+      examLocation: SerializationUtils.deserializaMapLocation(
+        registration.examLocation,
+      ),
     };
   }
 
@@ -566,9 +572,10 @@ export class SerializationUtils {
   }
 
   static deserializePastExam(registration: RegistrationResponse): PastExam {
-    const { state: registrationState } = this.deserializeRegistrationStatus(
-      registration.registrationStatus,
-    );
+    const { state: registrationState } =
+      SerializationUtils.deserializeRegistrationStatus(
+        registration.registrationStatus,
+      );
     const state: ExamState =
       registrationState === RegistrationStates.Cancelled
         ? 'CANCELLED'
@@ -577,7 +584,9 @@ export class SerializationUtils {
     return {
       exam: registration.exam,
       examinationDate: dayjs(registration.examinationDate),
-      examLocation: this.deserializaMapLocation(registration.examLocation),
+      examLocation: SerializationUtils.deserializaMapLocation(
+        registration.examLocation,
+      ),
       state,
     };
   }
@@ -586,7 +595,7 @@ export class SerializationUtils {
     state: string;
     paidAt?: string | undefined;
   }): RegistrationStatus {
-    const state = this.deserializeRegistrationState(status.state);
+    const state = SerializationUtils.deserializeRegistrationState(status.state);
 
     // paidAt will be only rendered when the state is Completed
     return state === RegistrationStates.Completed
@@ -608,7 +617,7 @@ export class SerializationUtils {
   ): ExamLocation[] {
     return examLocation.map((l) => ({
       ...l,
-      lang: this.deserializeAppLanguage(l.lang),
+      lang: SerializationUtils.deserializeAppLanguage(l.lang),
     }));
   }
 
