@@ -66,7 +66,7 @@ const helsinki = [
 // Ilmoittautunut
 const defaultRegistrations: RegistrationResponse[] = [
   {
-    examinationDate: '2025-09-01T00:00:00.000Z',
+    examinationDate: '2035-09-01T00:00:00.000Z',
     exam: {
       language: ExamLanguage.FIN,
       level: ExamLevel.KESKI,
@@ -76,13 +76,13 @@ const defaultRegistrations: RegistrationResponse[] = [
     // user have paid
     registrationStatus: {
       state: RegistrationStates.Completed,
-      paidAt: '2025-05-01',
+      paidAt: '2035-05-01',
     },
-    registrationDate: '2025-05-06',
+    registrationDate: '2035-05-06',
     kind: RegistrationKind.Admission,
   },
   {
-    examinationDate: '2025-10-23',
+    examinationDate: '2035-10-23',
     exam: {
       language: ExamLanguage.DEU,
       level: ExamLevel.YLIN,
@@ -91,11 +91,11 @@ const defaultRegistrations: RegistrationResponse[] = [
     registrationStatus: {
       state: RegistrationStates.PaidAndCancelled,
     },
-    registrationDate: '2025-05-06',
+    registrationDate: '2035-05-06',
     kind: RegistrationKind.Admission,
   },
   {
-    examinationDate: '2025-011-30',
+    examinationDate: '2035-011-30',
     exam: {
       language: ExamLanguage.SME,
       level: ExamLevel.PERUS,
@@ -104,11 +104,11 @@ const defaultRegistrations: RegistrationResponse[] = [
     registrationStatus: {
       state: RegistrationStates.Cancelled,
     },
-    registrationDate: '2025-05-06',
+    registrationDate: '2035-05-06',
     kind: RegistrationKind.Admission,
   },
   {
-    examinationDate: '2025-12-30',
+    examinationDate: '2035-12-30',
     exam: {
       language: ExamLanguage.SME,
       level: ExamLevel.YLIN,
@@ -117,7 +117,7 @@ const defaultRegistrations: RegistrationResponse[] = [
     registrationStatus: {
       state: RegistrationStates.Submitted,
     },
-    registrationDate: '2025-05-06',
+    registrationDate: '2035-05-06',
     kind: RegistrationKind.Admission,
   },
 ];
@@ -125,7 +125,7 @@ const defaultRegistrations: RegistrationResponse[] = [
 // Jonossa
 const defaultQueuedExams: RegistrationResponse[] = [
   {
-    examinationDate: '2025-09-05',
+    examinationDate: '2035-09-05',
     exam: {
       language: ExamLanguage.FIN,
       level: ExamLevel.KESKI,
@@ -136,12 +136,12 @@ const defaultQueuedExams: RegistrationResponse[] = [
     registrationStatus: {
       state: RegistrationStates.Submitted,
     },
-    registrationDate: '2025-05-06',
+    registrationDate: '2035-05-06',
     kind: RegistrationKind.Queue,
-    expiresAt: '2025-09-20',
+    expiresAt: '2035-09-20',
   },
   {
-    examinationDate: '2025-10-18',
+    examinationDate: '2035-10-18',
     exam: {
       language: ExamLanguage.DEU,
       level: ExamLevel.YLIN,
@@ -151,12 +151,12 @@ const defaultQueuedExams: RegistrationResponse[] = [
     registrationStatus: {
       state: RegistrationStates.Expired,
     },
-    registrationDate: '2025-05-06',
+    registrationDate: '2035-05-06',
     kind: RegistrationKind.Queue,
-    expiresAt: '2025-08-04',
+    expiresAt: '2035-08-04',
   },
   {
-    examinationDate: '2025-11-22',
+    examinationDate: '2035-11-22',
     exam: {
       language: ExamLanguage.SWE,
       level: ExamLevel.PERUS,
@@ -165,11 +165,11 @@ const defaultQueuedExams: RegistrationResponse[] = [
     registrationStatus: {
       state: RegistrationStates.Cancelled,
     },
-    registrationDate: '2025-05-06',
+    registrationDate: '2035-05-06',
     kind: RegistrationKind.Queue,
   },
   {
-    examinationDate: '2025-11-22',
+    examinationDate: '2035-11-22',
     exam: {
       language: ExamLanguage.SWE,
       level: ExamLevel.PERUS,
@@ -178,9 +178,9 @@ const defaultQueuedExams: RegistrationResponse[] = [
     registrationStatus: {
       state: RegistrationStates.Submitted,
     },
-    registrationDate: '2025-05-06',
+    registrationDate: '2035-05-06',
     kind: RegistrationKind.Queue,
-    liftedFromQueueAt: '2025-05-06', // kentässä on arvo => jonopaikkaa tarjottu
+    liftedFromQueueAt: '2035-05-06', // kentässä on arvo => jonopaikkaa tarjottu
   },
 ];
 
