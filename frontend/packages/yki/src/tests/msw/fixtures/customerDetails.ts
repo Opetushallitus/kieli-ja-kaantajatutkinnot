@@ -115,7 +115,7 @@ const defaultRegistrations: RegistrationResponse[] = [
     },
     examLocation: helsinki,
     registrationStatus: {
-      state: RegistrationStates.Submitted,
+      state: RegistrationStates.Completed,
     },
     registrationDate: '2035-05-06',
     kind: RegistrationKind.Admission,

@@ -36,17 +36,15 @@ export type Exam = {
   registrationDate: Dayjs;
 };
 
-export type RegistrationStatus =
-  | {
-      state: RegistrationStates.Completed;
-      paidAt: Dayjs;
-    }
-  | { state: Exclude<RegistrationStates, RegistrationStates.Completed> };
+export type RegistrationStatus = {
+  state: RegistrationStates;
+  paidAt?: Dayjs;
+};
 
 export type QueueSpotOffered =
   | { offered: QueueOfferStatus.NotOffered }
   | {
-      offered: QueueOfferStatus.Offered | QueueOfferStatus.NotAccepted;
+      offered: QueueOfferStatus;
       dueDate: Dayjs;
     };
 

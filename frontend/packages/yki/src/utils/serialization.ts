@@ -595,17 +595,10 @@ export class SerializationUtils {
     state: string;
     paidAt?: string | undefined;
   }): RegistrationStatus {
-    const state = SerializationUtils.deserializeRegistrationState(status.state);
-
-    // paidAt will be only rendered when the state is Completed
-    return state === RegistrationStates.Completed
-      ? {
-          state,
-          paidAt: dayjs(status.paidAt),
-        }
-      : {
-          state,
-        };
+    return {
+      state: SerializationUtils.deserializeRegistrationState(status.state),
+      paidAt: status.paidAt ? dayjs(status.paidAt) : undefined,
+    };
   }
 
   static deserializaMapLocation(
