@@ -276,7 +276,6 @@ export class SerializationUtils {
         registrationEndDate: dayjs(v.registration_end_date),
         location: v.location,
         isCancellable: v.is_cancellable,
-        isTransferable: v.is_transferable,
         isTransfered: v.is_transfered,
         expiresAt: v.expires_at ? dayjs(v.expires_at) : undefined,
         paidAt: v.paid_at ? dayjs(v.paid_at) : undefined,
