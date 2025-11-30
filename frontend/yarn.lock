@@ -1440,6 +1440,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.28.4":
+  version: 7.28.4
+  resolution: "@babel/runtime@npm:7.28.4"
+  checksum: 6c9a70452322ea80b3c9b2a412bcf60771819213a67576c8cec41e88a95bb7bf01fc983754cda35dc19603eef52df22203ccbf7777b9d6316932f9fb77c25163
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.22.15, @babel/template@npm:^7.22.5, @babel/template@npm:^7.3.3":
   version: 7.22.15
   resolution: "@babel/template@npm:7.22.15"
@@ -2509,6 +2516,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/types@npm:^7.4.7":
+  version: 7.4.7
+  resolution: "@mui/types@npm:7.4.7"
+  dependencies:
+    "@babel/runtime": "npm:^7.28.4"
+  peerDependencies:
+    "@types/react": ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: a3636f2b39e69502867d460e9a571b0070bdc8df4c5ffd4e9078a908176f968800e809b4a708ba630957b6635535be2e21fa1734c684825dc857642a31c3a94d
+  languageName: node
+  linkType: hard
+
 "@mui/utils@npm:^5.16.6":
   version: 5.16.6
   resolution: "@mui/utils@npm:5.16.6"
@@ -2529,7 +2550,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/utils@npm:^7.0.2, @mui/utils@npm:^7.1.0":
+"@mui/utils@npm:^7.1.0":
   version: 7.1.0
   resolution: "@mui/utils@npm:7.1.0"
   dependencies:
@@ -2549,13 +2570,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-date-pickers@npm:^8.0.0":
-  version: 8.3.0
-  resolution: "@mui/x-date-pickers@npm:8.3.0"
+"@mui/utils@npm:^7.3.3":
+  version: 7.3.3
+  resolution: "@mui/utils@npm:7.3.3"
   dependencies:
-    "@babel/runtime": "npm:^7.27.1"
-    "@mui/utils": "npm:^7.0.2"
-    "@mui/x-internals": "npm:8.3.0"
+    "@babel/runtime": "npm:^7.28.4"
+    "@mui/types": "npm:^7.4.7"
+    "@types/prop-types": "npm:^15.7.15"
+    clsx: "npm:^2.1.1"
+    prop-types: "npm:^15.8.1"
+    react-is: "npm:^19.1.1"
+  peerDependencies:
+    "@types/react": ^17.0.0 || ^18.0.0 || ^19.0.0
+    react: ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 6309f1eab55487cd653d110fbe51fd102608724ba893d58076474126ccbbfa36e0b2843f1fd99be33ea534b284ab5d546563f03b5f43e509afe62ba93ba76951
+  languageName: node
+  linkType: hard
+
+"@mui/x-date-pickers@npm:^8.12.0":
+  version: 8.14.1
+  resolution: "@mui/x-date-pickers@npm:8.14.1"
+  dependencies:
+    "@babel/runtime": "npm:^7.28.4"
+    "@mui/utils": "npm:^7.3.3"
+    "@mui/x-internals": "npm:8.14.0"
     "@types/react-transition-group": "npm:^4.4.12"
     clsx: "npm:^2.1.1"
     prop-types: "npm:^15.8.1"
@@ -2593,19 +2634,21 @@ __metadata:
       optional: true
     moment-jalaali:
       optional: true
-  checksum: db40e3e833b75531951c1f2530323772a6300b3ece4fd55ff0bfd340fe199e3ca59a9f2a6a34e75ec2a521c1130e124b30712601cfb06a0f4463f8c947f5c1bd
+  checksum: 026709760eea1c8bda931ce0bbc3bc777513c4f3a110be78cfa0c35377a45b7c26b3fa9f45f367b238963f34d4342c622f40579649af3cd280e6e773f892745f
   languageName: node
   linkType: hard
 
-"@mui/x-internals@npm:8.3.0":
-  version: 8.3.0
-  resolution: "@mui/x-internals@npm:8.3.0"
+"@mui/x-internals@npm:8.14.0":
+  version: 8.14.0
+  resolution: "@mui/x-internals@npm:8.14.0"
   dependencies:
-    "@babel/runtime": "npm:^7.27.1"
-    "@mui/utils": "npm:^7.0.2"
+    "@babel/runtime": "npm:^7.28.4"
+    "@mui/utils": "npm:^7.3.3"
+    reselect: "npm:^5.1.1"
+    use-sync-external-store: "npm:^1.6.0"
   peerDependencies:
     react: ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: a9e1d0b4831c661c31a051aab1f20286588ba4e60f9c30433354afe4ada6ad4715d9f95f22c3f2780681310486bdf560f1b26b7ab9e0cbc1f7294ec6168eaaa1
+  checksum: 3b8fcd156e265d376439ab398073801559307d25bb804fa59f3544cc8936783a5eda89b7ba07a34ebcd8b1e7c7ae08b44d61fb8c6aa61fac23e37b036c06bd7a
   languageName: node
   linkType: hard
 
@@ -2715,7 +2758,7 @@ __metadata:
     "@mui/icons-material": "npm:^7.1.2"
     "@mui/material": "npm:^7.0.0"
     "@mui/system": "npm:^5.16.7"
-    "@mui/x-date-pickers": "npm:^8.0.0"
+    "@mui/x-date-pickers": "npm:^8.12.0"
     "@opetushallitus/oph-design-system": "npm:^1.0.0"
     "@reduxjs/toolkit": "npm:^2.0.0"
     "@testing-library/cypress": "npm:10.1.0"
@@ -3399,6 +3442,13 @@ __metadata:
   version: 15.7.12
   resolution: "@types/prop-types@npm:15.7.12"
   checksum: ac16cc3d0a84431ffa5cfdf89579ad1e2269549f32ce0c769321fdd078f84db4fbe1b461ed5a1a496caf09e637c0e367d600c541435716a55b1d9713f5035dfe
+  languageName: node
+  linkType: hard
+
+"@types/prop-types@npm:^15.7.15":
+  version: 15.7.15
+  resolution: "@types/prop-types@npm:15.7.15"
+  checksum: 31aa2f59b28f24da6fb4f1d70807dae2aedfce090ec63eaf9ea01727a9533ef6eaf017de5bff99fbccad7d1c9e644f52c6c2ba30869465dd22b1a7221c29f356
   languageName: node
   linkType: hard
 
@@ -11433,7 +11483,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reselect@npm:^5.1.0":
+"reselect@npm:^5.1.0, reselect@npm:^5.1.1":
   version: 5.1.1
   resolution: "reselect@npm:5.1.1"
   checksum: 1fdae11a39ed9c8d85a24df19517c8372ee24fefea9cce3fae9eaad8e9cefbba5a3d4940c6fe31296b6addf76e035588c55798f7e6e147e1b7c0855f119e7fa5
@@ -13234,6 +13284,15 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
   checksum: ddae7c4572511f7f641d6977bd0725340aa7dbeda8250418b54c1a57ec285083d96cf50d1a1acbd6cf729f7a87071b2302c6fbd29310432bf1b21a961a313279
+  languageName: node
+  linkType: hard
+
+"use-sync-external-store@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "use-sync-external-store@npm:1.6.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: b40ad2847ba220695bff2d4ba4f4d60391c0fb4fb012faa7a4c18eb38b69181936f5edc55a522c4d20a788d1a879b73c3810952c9d0fd128d01cb3f22042c09e
   languageName: node
   linkType: hard
 

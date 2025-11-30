@@ -9,6 +9,7 @@ public class APIException extends RuntimeException {
   private final APIExceptionType exceptionType;
 
   public APIException(@NonNull final APIExceptionType exceptionType) {
+    super(exceptionType.name());
     this.exceptionType = exceptionType;
   }
 }

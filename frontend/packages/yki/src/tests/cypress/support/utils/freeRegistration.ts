@@ -2,10 +2,10 @@ import dayjs from 'dayjs';
 import { DateUtils } from 'shared/utils';
 
 import {
-  FreeRegistrationBasis,
   FreeRegistrationStatus,
   Registration,
 } from 'interfaces/clerkFreeRegistration';
+import { FreeRegistrationBasis } from 'interfaces/freeRegistration';
 
 export const getFreeRegistrationStatusText = (
   status: FreeRegistrationStatus,
@@ -43,15 +43,15 @@ export const getFreeRegistrationBasisText = (basis: FreeRegistrationBasis) => {
   switch (basis) {
     case 'MatriculationExam':
       return 'Opiskellut Suomessa: ylioppilastutkinto';
-    case 'HigherEducationDegree':
+    case 'HigherEducationConcluded':
       return 'Opiskellut Suomessa: korkeakoulututkinto';
-    case 'HigherSducationStudies':
+    case 'HigherEducationEnrolled':
       return 'Opiskellut Suomessa: suorittamassa korkeakouluopintoja';
     case 'ComparableMatriculation':
       return 'Opiskellut ulkomailla: ylioppilastutkinto';
-    case 'ComparableHigherEducationDegree':
+    case 'ComparableHigherEducationConcluded':
       return 'Opiskellut ulkomailla: korkeakoulututkinto';
-    case 'ComparableHigherEducationStudies':
+    case 'ComparableHigherEducationEnrolled':
       return 'Opiskellut ulkomailla: suorittamassa korkeakouluopintoja';
     default:
       return '';

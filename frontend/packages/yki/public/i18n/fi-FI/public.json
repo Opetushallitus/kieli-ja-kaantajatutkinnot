@@ -45,7 +45,7 @@
           "REJECTED": {
             "part1": "Maksuttomuus hylätty"
           },
-          "SUPPLEMENT_REQUESTED": {  
+          "SUPPLEMENT_REQUESTED": {
             "part1": "Lisätietopyyntö lähetetty,",
             "part2": "odottaa vastausta"
           },
@@ -110,11 +110,11 @@
           },
           "freeRegistrationBasis": {
             "MatriculationExam": "Opiskellut Suomessa: ylioppilastutkinto",
-            "HigherEducationDegree": "Opiskellut Suomessa: korkeakoulututkinto",
-            "HigherEducationStudies": "Opiskellut Suomessa: suorittamassa korkeakouluopintoja",
+            "HigherEducationConcluded": "Opiskellut Suomessa: korkeakoulututkinto",
+            "HigherEducationEnrolled": "Opiskellut Suomessa: suorittamassa korkeakouluopintoja",
             "ComparableMatriculation": "Opiskellut ulkomailla: ylioppilastutkinto",
-            "ComparableHigherEducationDegree": "Opiskellut ulkomailla: korkeakoulututkinto",
-            "ComparableHigherEducationStudies": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja"
+            "ComparableHigherEducationConcluded": "Opiskellut ulkomailla: korkeakoulututkinto",
+            "ComparableHigherEducationEnrolled": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja"
           },
           "freeRegistrationsLeft": "{{amount}} kpl",
           "languageOfService": {
@@ -166,22 +166,10 @@
           "fields": {
             "ssn": "Hetu",
             "oid": "Oppijanumero",
-            "nationality":"Kansalaisuus",
-            "languageOfService": "Asiointikieli",
-            "languageOfCertificate": "Todistuksen kieli",
+            "nationality": "Kansalaisuus",
             "phoneNumber": "Puhelinnumero",
             "streetAddress": "Osoite",
             "email": "Sähköposti"
-          },
-          "languageOfService": {
-            "fi": "suomi",
-            "sv": "ruotsi",
-            "en": "englanti"
-          },
-          "languageOfCertificate": {
-            "fi": "suomi",
-            "sv": "ruotsi",
-            "en": "englanti"
           },
           "listing": {
             "headers": {
@@ -402,6 +390,7 @@
         "examSessionDetails": {
           "exam": "Tutkinto",
           "examFee": "Tutkintomaksu",
+          "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä",
           "openings": "Paikkoja vapaana",
           "registrationTime": "Ilmoittautumisaika"
         },
@@ -428,7 +417,9 @@
             "fields": {
               "address": "Katuosoite",
               "certificateLanguage": "Valitse todistuksen kieli",
+              "countryOfEducation": "Valitse, missä olet opiskellut",
               "dateOfBirth": "Syntymäaika",
+              "educationType": "Valitse maksuttomuuteen oikeuttavien opintojen tyyppi",
               "email": "Sähköpostiosoite",
               "emailConfirmation": "Sähköpostiosoitteen vahvistus",
               "firstNames": "Etunimet",
@@ -446,6 +437,50 @@
             },
             "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
             "title": "Tiedoissa on korjattavaa!"
+          },
+          "examFee": {
+            "education": {
+              "higherEducation": "Korkeakoulututkinto",
+              "matriculationExam": "Ylioppilastutkinto"
+            },
+            "freeAttemptsExhausted": "Olet käyttänyt kaikki ilmaiset kerrat.",
+            "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä: <strong>{{amount}}</strong>.",
+            "freeAttemptsOffered": "Voit ilmoittautua maksuttomasti kolme (3) kertaa.",
+            "freeAttemptsOfferedYKI": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa.",
+            "loading": {
+              "checkingEligibility": "Tarkastamme täyttyvätkö maksuttomuuden ehdot kohdallasi.",
+              "pleaseWait": "Tietoja ladataan, ole hyvä ja odota hetki."
+            },
+            "noFeeRequired": "YKI-testi on sinulle maksuton.",
+            "paymentRequired": "Kun lähetät ilmoittautumislomakkeen, sinun täytyy maksaa tutkintomaksu.",
+            "noSuitableEducationFound": "Emme löytäneet maksuttomuuteen oikeuttavia tutkintoja.",
+            "suitableEducationFound": "Sinulla on ehdot täyttävä tutkinto",
+            "title": "Tutkintomaksu",
+            "userSelection": {
+              "countryOfStudies": {
+                "abroad": "Olen opiskellut ulkomailla.",
+                "finland": "Olen opiskellut Suomessa.",
+                "prompt": "Missä olet opiskellut?",
+                "uneligible": "Minulla ei ole maksuttomaan YKI-testiin oikeuttavia opintoja. Maksan tutkintomaksun."
+              },
+              "declareEducationOrPay": "Sinun täytyy ilmoittaa tiedot opinnoistasi tai maksaa tutkintomaksu.",
+              "educationDetails": {
+                "higherEducationConcluded": "Olen suorittanut korkeakoulututkinnon.",
+                "higherEducationEnrolled": "Olen suorittamassa korkeakoulututkintoa.",
+                "matriculationExam": "Olen suorittanut ylioppilastutkinnon.",
+                "prompt": "Onko sinulla opintoja, jotka oikeuttavat maksuttomaan YKI-testiin?",
+                "uneligible": "Minulla ei ole maksuttomaan YKI-testiin oikeuttavia opintoja. Maksan tutkintomaksun."
+              },
+              "randomChecksPerformed": {
+                "heading": "Opetushallitus tekee satunnaistarkistuksia",
+                "part1": "Opetushallitus voi pyytää sinulta todistuksen opinnoistasi jälkikäteen.",
+                "part2": "Jos sinulla ei ole todistusta maksuttomaan YKI-testiin oikeuttavista opinnoista, Opetushallitus lähettää sinulle laskun tutkintomaksusta.",
+                "part3": "Satunnaisia tarkistuksia tehdään korkeintaan X kuukautta tutkintopäivän jälkeen.",
+                "part4": "Väärien tietojen ilmoittaminen on petos.",
+                "part5": "Opetushallitus ilmoittaa väärinkäytöksistä poliisille."
+              },
+              "selectOne": "Valitse yksi alla olevista vaihtoehdoista."
+            }
           },
           "labels": {
             "address": "Katuosoite",
@@ -498,6 +533,13 @@
           },
           "title": "Täytä tietosi",
           "whatsNext": {
+            "freeRegistration": {
+              "description": "Kun olet lähettänyt ilmoittautumislomakkeen, ilmoittautumisesi vahvistetaan. Vahvistettu ilmoittautuminen kuluttaa yhden maksuttoman ilmoittautumisen.",
+              "queued": {
+                "part1": "Kun olet lähettänyt ilmoittautumislomakkeen, saat sähköpostiisi vahvistuksen siitä, että olet ilmoittautunut jonoon.",
+                "part2": "Jos saat paikan jonosta, ilmoittautumisesi vahvistetaan. Vahvistettu ilmoittautuminen kuluttaa yhden maksuttoman ilmoittautumisen."
+              }
+            },
             "description": "Kun olet lähettänyt ilmoittautumislomakkeen, sinun täytyy maksaa tutkintomaksu. Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun.",
             "queued": {
               "part1": "Kun olet lähettänyt ilmoittautumislomakkeen, saat sähköpostiisi vahvistuksen siitä, että olet ilmoittautunut jonoon.",
@@ -591,17 +633,38 @@
               },
               "success": "Ilmoittautumislinkki on lähetetty osoitteeseen:"
             },
+            "freeRegistration": {
+              "conditions": {
+                "general": "YKI-testi on sinulle maksuton, jos täytät jonkun seuraavista ehdoista",
+                "point1": "Olet suorittanut suomalaisen ylioppilastutkinnon tai vastaavan ulkomaisen tutkinnon.",
+                "point2": "Olet suorittanut korkeakoulututkinnon Suomessa tai ulkomailla.",
+                "point3": "Olet suorittamassa korkeakoulututkintoa Suomessa tai ulkomailla."
+              },
+              "educationDetailsAreChecked": "Tunnistautumisen jälkeen järjestelmä tarkistaa koulutustietosi automaattisesti.",
+              "heading": "Tutkintomaksu suomen ja ruotsin kielen ylimmän tason YKI-testeissä",
+              "ifSuitableEducationIsNotFound": "Jos koulutustietoja ei löydy, sinun täytyy kertoa opinnoistasi ilmoittautumislomakkeella.",
+              "readMore": {
+                "link": {
+                  "label": "Tutkintomaksut",
+                  "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-tutkintomaksut"
+                },
+                "text": "Lue maksuttoman YKI-testin ehdot Opetushallituksen verkkosivuilta"
+              },
+              "suomiFiAuthenticationRequired": "Sinun täytyy tunnistautua Suomi.fi-palvelussa, jotta voimme tarkistaa, täytätkö ehdot.",
+              "threeAttemptsAvailable": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa."
+            },
             "registrationIsBindingAdvisory": "<strong>Tarkista, että olet valinnut oikean YKI-testin!</strong> Et voi vaihtaa YKI-testin kieltä, tasoa tai testipaikkaa ilmoittautumisen jälkeen.",
             "selectIdentificationMethod": "Valitse tunnistautumistapasi",
-            "suomiFiButtonText": "Tunnistaudu Suomi.fi:n kautta",
+            "suomiFiButtonText": "Tunnistaudu Suomi.fi-palvelussa",
             "title": "Tunnistaudu ilmoittautumista varten",
             "titleForQueueing": "Tunnistaudu jonoon ilmoittautumista varten",
             "withFinnishSSN": {
-              "description": "<strong>Tunnistaudu Suomi.fi:n kautta.</strong>",
+              "description": "Tunnistaudu Suomi.fi-palvelussa",
               "info": "Tunnistautumisen jälkeen sinut ohjataan automaattisesti ilmoittautumislomakkeelle."
             },
             "withoutFinnishSSN": {
-              "description": "<strong>Jos et voi käyttää Suomi.fi-tunnistautumista</strong>, tunnistaudu sähköpostillasi.",
+              "description": "Tunnistaudu sähköpostillasi",
+              "examFeeRequired": "Jos tunnistaudut sähköpostilla, sinun täytyy maksaa tutkintomaksu.",
               "info": "Kun olet tunnistautunut, saat sähköpostiisi linkin. Linkistä pääset jatkamaan ilmoittautumista."
             }
           },
@@ -955,8 +1018,7 @@
           "actions": {
             "cancel": "Peru ilmoittautuminen",
             "confirm": "Vahvista ilmoittautuminen",
-            "relocate": "Siirrä ilmoittautuminen",
-            "modify": "Muokkaa ilmoittautumista"
+            "relocate": "Siirrä ilmoittautuminen"
           },
           "alreadyTransferredNotification": {
             "part1": "Olet siirtänyt ilmoittautumisen.",
@@ -967,7 +1029,7 @@
             "notPaid": "Maksamatta {{ examFee }}€",
             "label": "Tutkintomaksu",
             "paidAt": "Maksettu {{- date }}",
-            "freeRegistrationPending": "0 tai {{ examFee }}€"
+            "free": "Maksuton"
           },
           "header": {
             "cancelled": "Perutut ilmoittautumiset",
@@ -978,11 +1040,6 @@
             "part1": "Olet saanut paikan YKI-testiin jonosta.",
             "part2": "Vahvista ilmoittautuminen {{- date }} mennessä",
             "part3": "tai menetät paikan"
-          },
-          "supplementRequestLabel": "Täydennyspyyntö",
-          "freeRegistrationNotification": {
-            "pending": "Opetushallitus tarkistaa toimittamasi tutkintotodistuksen. Saat päätöksen tutkintomaksun maksuttomuudesta sähköpostiisi ja YKI-verkkopalveluun asian käsittelyn jälkeen.",
-            "answered": "Olet saanut täydennyspyynnön koskien toimittamaasi tutkintotodistusta. Vastaa täydennyspyyntöön muokkaamalla ilmoittautumistasi {{ dueDate }} mennessä."
           },
           "notPaidNotification": {
             "part1": "Ilmoittautumista ei ole vielä vahvistettu.",
@@ -996,9 +1053,7 @@
             "cancelled": "Peruttu",
             "enrolled": "Ilmoittautunut",
             "label": "Tila",
-            "queued": "Jonossa (sija {{ positionInQueue }})",
-            "freeRegistrationPending": "Odottaa opetushallituksen tarkastusta",
-            "freeRegistrationSupplementRequested": "Odottaa vastaustasi"
+            "queued": "Jonossa (sija {{ positionInQueue }})"
           },
           "upcoming": {
             "notFound": "Sinulla ei ole tulevia ilmoittautumisia."

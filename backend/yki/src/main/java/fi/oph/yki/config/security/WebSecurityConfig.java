@@ -151,23 +151,22 @@ public class WebSecurityConfig {
       .build();
   }
 
+  public static AuthorizationDecision validateToken(final HttpServletRequest request, final String token) {
+    final String authorization = request.getHeader("Authorization");
+
+    if (authorization == null || authorization.isEmpty()) {
+      return new AuthorizationDecision(false);
+    }
+
+    final Map<String, String> auth = StringUtil.splitAuth(authorization);
+    final String hash = StringUtil.sha256hex(auth.get("user") + token);
+
+    return new AuthorizationDecision(hash.equals(auth.get("password")));
+  }
+
   public static HttpSecurity commonConfig(final HttpSecurity http, final String token) throws Exception {
     final AuthorizationManager<RequestAuthorizationContext> proxyApiAuthorizationManager =
-      (
-        (authenticationSupplier, object) -> {
-          final HttpServletRequest request = object.getRequest();
-          final String authorization = request.getHeader("Authorization");
-
-          if (authorization == null || authorization.isEmpty()) {
-            return new AuthorizationDecision(false);
-          }
-
-          final Map<String, String> auth = StringUtil.splitAuth(authorization);
-          final String hash = StringUtil.sha256hex(auth.get("user") + token);
-
-          return new AuthorizationDecision(hash.equals(auth.get("password")));
-        }
-      );
+      ((authenticationSupplier, object) -> validateToken(object.getRequest(), token));
 
     return configCsrf(http)
       .authorizeHttpRequests(registry ->

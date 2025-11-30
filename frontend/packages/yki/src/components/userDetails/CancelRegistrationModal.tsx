@@ -97,7 +97,10 @@ export const CancelRegistrationModal = ({
     >
       <div className="rows gapped">
         <div className="rows gapped">
-          {registrationToCancel?.paidAt ? (
+          {registrationToCancel.isFreeRegistration && (
+            <Text>{t('descriptionNotPaid')}</Text>
+          )}
+          {!registrationToCancel.isFreeRegistration && (
             <div className="rows gapped">
               <Text>{t('descriptionPaid1')}</Text>
               <Text>
@@ -109,8 +112,6 @@ export const CancelRegistrationModal = ({
               </Text>
               <Text>{t('descriptionPaid3')}</Text>
             </div>
-          ) : (
-            <Text>{t('descriptionNotPaid')}</Text>
           )}
           <div
             className={`${

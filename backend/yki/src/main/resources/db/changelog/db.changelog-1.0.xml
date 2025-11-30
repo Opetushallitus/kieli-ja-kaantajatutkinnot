@@ -54,4 +54,109 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="2025-11-10-add-person-hsqldb" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <createTable tableName="person">
+            <column name="oid" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="person_pkey"/>
+            </column>
+            <column name="first_name" type="TEXT" />
+            <column name="last_name" type="TEXT" />
+            <column name="email" type="TEXT" />
+            <column name="nationality_code" type="TEXT" />
+            <column name="phone_number" type="TEXT" />
+            <column name="post_office" type="TEXT" />
+            <column name="street_address" type="TEXT" />
+            <column name="zip" type="TEXT" />
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2025-11-10-add-registration-columns-hsqldb" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <addColumn tableName="registration">
+            <column name="exam_session_id" type="BIGINT"/>
+            <column name="kind" type="TEXT"/>
+            <column name="person_oid" type="TEXT"/>
+            <column name="state" type="TEXT"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="2025-11-04-add-free-registration-is_foreign-column" author="pkoivisto">
+        <addColumn tableName="free_registration">
+            <column name="is_foreign" type="BOOLEAN" />
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="2025-11-12-add-free-registration-base-entity" author="jrkkp">
+        <addColumn tableName="free_registration">
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="2025-11-19-add-exam-payment-new-hsqldb" author="saku-koodari">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <createTable tableName="exam_payment_new">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="exam_payment_new_pkey"/>
+            </column>
+            <column name="state" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registration_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="NUMERIC(19,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reference" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="href" type="VARCHAR(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="paid_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="created" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="exam_payment_new"
+                baseColumnNames="registration_id"
+                constraintName="exam_payment_new_registration_id_fkey"
+                referencedTableName="registration"
+                referencedColumnNames="id"/>
+        <addUniqueConstraint tableName="exam_payment_new" columnNames="reference" constraintName="exam_payment_new_reference_key"/>
+        <addUniqueConstraint tableName="exam_payment_new" columnNames="transaction_id" constraintName="exam_payment_new_transaction_id_key"/>
+        <addUniqueConstraint tableName="exam_payment_new" columnNames="href" constraintName="exam_payment_new_href_key"/>
+        <createIndex tableName="exam_payment_new" indexName="exam_payment_new_state">
+            <column name="state"/>
+        </createIndex>
+        <createIndex tableName="exam_payment_new" indexName="exam_payment_new_paid_at">
+            <column name="paid_at"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>

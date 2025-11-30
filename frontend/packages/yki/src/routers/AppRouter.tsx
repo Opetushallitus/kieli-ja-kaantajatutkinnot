@@ -38,6 +38,7 @@ import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
 import { ExamDetailsPage } from 'pages/ExamDetailsPage';
 import { ExpiredLoginLinkPage } from 'pages/ExpiredLoginLinkPage';
+import { FreeRegistrationSuccessPage } from 'pages/FreeRegistrationSuccessPage';
 import { InitRegistrationPage } from 'pages/InitRegistrationPage';
 import { LogoutSuccess } from 'pages/LogoutSuccess';
 import { ModifyContactDetailsPage } from 'pages/ModifyContactDetailsPage';
@@ -220,6 +221,14 @@ export const AppRouter: FC = () => {
             element={
               <YkiTitlePage title="registrationPaymentStatus">
                 <RegistrationPaymentStatusPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.FreeRegistrationSuccess}
+            element={
+              <YkiTitlePage title="freeRegistrationSuccess">
+                <FreeRegistrationSuccessPage />
               </YkiTitlePage>
             }
           />

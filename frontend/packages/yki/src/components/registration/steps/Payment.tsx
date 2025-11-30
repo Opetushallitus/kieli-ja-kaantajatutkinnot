@@ -7,6 +7,7 @@ import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { APIEndpoints, PaymentStatus } from 'enums/api';
+import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { sessionSelector } from 'redux/selectors/session';
 
 const PaymentSuccess = () => {
@@ -91,15 +92,20 @@ const PaymentError = () => {
 export const Payment = () => {
   const [params] = useSearchParams();
   const paymentStatus = params.get('status') as PaymentStatus;
+  const { isFree } = useAppSelector(publicFreeRegistrationSelector);
 
   const renderPayment = () => {
-    switch (paymentStatus) {
-      case PaymentStatus.Success:
-        return <PaymentSuccess />;
-      case PaymentStatus.Cancel:
-        return <PaymentCancel />;
-      default:
-        return <PaymentError />;
+    if (isFree === 'YES') {
+      return <PaymentSuccess />;
+    } else {
+      switch (paymentStatus) {
+        case PaymentStatus.Success:
+          return <PaymentSuccess />;
+        case PaymentStatus.Cancel:
+          return <PaymentCancel />;
+        default:
+          return <PaymentError />;
+      }
     }
   };
 

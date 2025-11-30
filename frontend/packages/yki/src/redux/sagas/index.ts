@@ -11,6 +11,7 @@ import { watchExamSessions } from 'redux/sagas/examSession';
 import { watchLoginLink } from 'redux/sagas/loginLink';
 import { watchLoginLinkRenew } from 'redux/sagas/loginLinkRenew';
 import { watchNationalities } from 'redux/sagas/nationalities';
+import { watchGetKoskiEducations } from 'redux/sagas/publicEducation';
 import { watchPublicIdentification } from 'redux/sagas/publicIdentification';
 import { watchRegistration } from 'redux/sagas/registration';
 import { watchSession } from 'redux/sagas/session';
@@ -35,5 +36,6 @@ export default function* rootSaga() {
     watchClerkFreeRegistrations(),
     watchClerkFreeRegistrationDetails(),
     watchClerkCustomerDetails(),
+    watchGetKoskiEducations(),
   ]);
 }

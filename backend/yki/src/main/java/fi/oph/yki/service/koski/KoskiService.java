@@ -13,6 +13,8 @@ import fi.oph.yki.service.koski.dto.OpiskeluoikeusDTO;
 import fi.oph.yki.service.koski.dto.OpiskeluoikeusjaksoDTO;
 import fi.oph.yki.service.koski.dto.OpiskeluoikeusjaksoTila;
 import fi.oph.yki.service.koski.dto.RequestBody;
+import fi.oph.yki.util.exception.APIException;
+import fi.oph.yki.util.exception.APIExceptionType;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -41,6 +44,13 @@ public class KoskiService {
   private static <T> Predicate<T> distinctByKey(final Function<? super T, ?> keyExtractor) {
     final Set<Object> seen = ConcurrentHashMap.newKeySet();
     return t -> seen.add(keyExtractor.apply(t));
+  }
+
+  private static boolean isExpectedError(final WebClientResponseException exception) {
+    final int statusCode = exception.getStatusCode().value();
+    final String body = exception.getResponseBodyAsString();
+
+    return statusCode == 404 && body.contains("notFound.oppijaaEiLöydyTaiEiOikeuksia");
   }
 
   private String requestWithRetries(final String oid, final int attemptsRemaining) throws JsonProcessingException {
@@ -61,18 +71,28 @@ public class KoskiService {
         })
         .block();
     } catch (final WebClientResponseException e) {
-      final int retries = attemptsRemaining - 1;
-      LOG.error(
-        "KOSKI request for OID {} returned error status {}\n response body: {}, Retries remaining: {}",
-        oid,
-        e.getStatusCode().value(),
-        e.getResponseBodyAsString(),
-        retries
-      );
-      if (retries > 0) {
-        return requestWithRetries(oid, retries);
+      if (isExpectedError(e)) {
+        LOG.info(
+          "KOSKI request for OID {} returned error status {}\n response body: {}. Not retrying.",
+          oid,
+          e.getStatusCode().value(),
+          e.getResponseBodyAsString()
+        );
+        throw new APIException(APIExceptionType.KOSKI_EDUCATIONS_NOT_FOUND);
       } else {
-        throw e;
+        final int retries = attemptsRemaining - 1;
+        LOG.error(
+          "KOSKI request for OID {} returned error status {}\n response body: {}, Retries remaining: {}",
+          oid,
+          e.getStatusCode().value(),
+          e.getResponseBodyAsString(),
+          retries
+        );
+        if (retries > 0) {
+          return requestWithRetries(oid, retries);
+        } else {
+          throw e;
+        }
       }
     } catch (final Exception e) {
       final int retries = attemptsRemaining - 1;
@@ -127,10 +147,9 @@ public class KoskiService {
     return (latestState != null && latestState.equals(OpiskeluoikeusjaksoTila.ACTIVE));
   }
 
-  public List<PublicEducationDTO> getEducations(final Registration registration) {
+  public List<PublicEducationDTO> getEducations(final String oid) {
     try {
       final ObjectMapper objectMapper = new ObjectMapper();
-      final String oid = registration.getPerson().getOid();
       objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
 
       final String response = requestWithRetries(oid, REQUEST_ATTEMPTS);
@@ -155,6 +174,11 @@ public class KoskiService {
         )
         .filter(distinctByKey(PublicEducationDTO::educationType))
         .toList();
+    } catch (final APIException e) {
+      if (e.getExceptionType() != APIExceptionType.KOSKI_EDUCATIONS_NOT_FOUND) {
+        LOG.error("KOSKI failed due to unknown error", e);
+      }
+      return List.of();
     } catch (final Exception e) {
       LOG.error("KOSKI failed due to unknown error", e);
 
