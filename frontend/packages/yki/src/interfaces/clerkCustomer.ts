@@ -33,7 +33,7 @@ export type Exam = {
   };
   examLocation: ExamLocation[];
   registrationStatus: RegistrationStatus;
-  registrationDate: Dayjs;
+  registrationDate: Dayjs | undefined;
 };
 
 export type RegistrationStatus = {

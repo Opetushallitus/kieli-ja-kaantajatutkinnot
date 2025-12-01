@@ -498,7 +498,9 @@ export class SerializationUtils {
           ? dayjs(registration.examPaymentPaidAt)
           : undefined,
       },
-      registrationDate: dayjs(registration.registrationDate),
+      registrationDate: registration.registrationDate
+        ? dayjs(registration.registrationDate)
+        : undefined,
       examinationDate: dayjs(registration.examinationDate),
       examLocation: SerializationUtils.deserializaMapLocation(
         registration.examLocation,
@@ -527,7 +529,9 @@ export class SerializationUtils {
         registration.liftedFromQueueAt,
         registration.expiresAt,
       ),
-      registrationDate: dayjs(registration.registrationDate),
+      registrationDate: registration.registrationDate
+        ? dayjs(registration.registrationDate)
+        : undefined,
       examinationDate: dayjs(registration.examinationDate),
       examLocation: SerializationUtils.deserializaMapLocation(
         registration.examLocation,
@@ -582,6 +586,9 @@ export class SerializationUtils {
 
     return {
       exam: registration.exam,
+      // examinationDate is calculated by fetching the date from the latest examPayment. A date from freeRegistration works as the fallback value, if there is no value. Technically freeRegistration may be also null.
+      // Practically, if the examinationDate is missing,
+      // it's data issue and then probably the data should be fixed.
       examinationDate: dayjs(registration.examinationDate),
       examLocation: SerializationUtils.deserializaMapLocation(
         registration.examLocation,
