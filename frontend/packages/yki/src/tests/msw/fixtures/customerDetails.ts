@@ -74,10 +74,8 @@ const defaultRegistrations: RegistrationResponse[] = [
     examLocation: kajaani,
 
     // user have paid
-    registrationStatus: {
-      state: RegistrationStates.Completed,
-      paidAt: '2035-05-01',
-    },
+    registrationState: RegistrationStates.Completed,
+    examPaymentPaidAt: '2035-05-01',
     registrationDate: '2035-05-06',
     kind: RegistrationKind.Admission,
   },
@@ -88,9 +86,7 @@ const defaultRegistrations: RegistrationResponse[] = [
       level: ExamLevel.YLIN,
     },
     examLocation: lassila,
-    registrationStatus: {
-      state: RegistrationStates.PaidAndCancelled,
-    },
+    registrationState: RegistrationStates.PaidAndCancelled,
     registrationDate: '2035-05-06',
     kind: RegistrationKind.Admission,
   },
@@ -101,9 +97,7 @@ const defaultRegistrations: RegistrationResponse[] = [
       level: ExamLevel.PERUS,
     },
     examLocation: helsinki,
-    registrationStatus: {
-      state: RegistrationStates.Cancelled,
-    },
+    registrationState: RegistrationStates.Cancelled,
     registrationDate: '2035-05-06',
     kind: RegistrationKind.Admission,
   },
@@ -114,9 +108,7 @@ const defaultRegistrations: RegistrationResponse[] = [
       level: ExamLevel.YLIN,
     },
     examLocation: helsinki,
-    registrationStatus: {
-      state: RegistrationStates.Completed,
-    },
+    registrationState: RegistrationStates.Completed,
     registrationDate: '2035-05-06',
     kind: RegistrationKind.Admission,
   },
@@ -133,9 +125,7 @@ const defaultQueuedExams: RegistrationResponse[] = [
     examLocation: kajaani,
 
     // User not paid
-    registrationStatus: {
-      state: RegistrationStates.Submitted,
-    },
+    registrationState: RegistrationStates.Submitted,
     registrationDate: '2035-05-06',
     kind: RegistrationKind.Queue,
     expiresAt: '2035-09-20',
@@ -148,9 +138,7 @@ const defaultQueuedExams: RegistrationResponse[] = [
     },
     examLocation: lassila,
     // User not paid
-    registrationStatus: {
-      state: RegistrationStates.Expired,
-    },
+    registrationState: RegistrationStates.Expired,
     registrationDate: '2035-05-06',
     kind: RegistrationKind.Queue,
     expiresAt: '2035-08-04',
@@ -162,9 +150,7 @@ const defaultQueuedExams: RegistrationResponse[] = [
       level: ExamLevel.PERUS,
     },
     examLocation: helsinki,
-    registrationStatus: {
-      state: RegistrationStates.Cancelled,
-    },
+    registrationState: RegistrationStates.Cancelled,
     registrationDate: '2035-05-06',
     kind: RegistrationKind.Queue,
   },
@@ -175,9 +161,7 @@ const defaultQueuedExams: RegistrationResponse[] = [
       level: ExamLevel.PERUS,
     },
     examLocation: helsinki,
-    registrationStatus: {
-      state: RegistrationStates.Submitted,
-    },
+    registrationState: RegistrationStates.Submitted,
     registrationDate: '2035-05-06',
     kind: RegistrationKind.Queue,
     liftedFromQueueAt: '2035-05-06', // kentässä on arvo => jonopaikkaa tarjottu
@@ -193,9 +177,7 @@ const defaultPastExams: RegistrationResponse[] = [
       level: ExamLevel.PERUS,
     },
     examLocation: kajaani,
-    registrationStatus: {
-      state: 'REVIEWED',
-    },
+    registrationState: 'REVIEWED',
     registrationDate: '2025-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
     kind: RegistrationKind.Admission, // Ei näytetä menneet - tutkinnot - näkymässä
   },
@@ -206,9 +188,7 @@ const defaultPastExams: RegistrationResponse[] = [
       level: ExamLevel.KESKI,
     },
     examLocation: lassila,
-    registrationStatus: {
-      state: 'CANCELLED',
-    },
+    registrationState: 'CANCELLED',
     registrationDate: '2025-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
     kind: RegistrationKind.Queue, // Ei näytetä menneet - tutkinnot - näkymässä
   },
@@ -219,9 +199,7 @@ const defaultPastExams: RegistrationResponse[] = [
       level: ExamLevel.KESKI,
     },
     examLocation: helsinki,
-    registrationStatus: {
-      state: 'REGISTERED',
-    },
+    registrationState: 'REGISTERED',
     registrationDate: '2025-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
     kind: RegistrationKind.Admission, // Ei näytetä "menneet - tutkinnot" - näkymässä
   },

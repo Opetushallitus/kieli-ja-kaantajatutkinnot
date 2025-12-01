@@ -20,7 +20,6 @@ import {
   QueueOfferStatus,
   QueueSpotOffered,
   RegistrationResponse,
-  RegistrationStatus,
 } from 'interfaces/clerkCustomer';
 import {
   ClerkFreeRegistrationDetailsResponse,
@@ -491,9 +490,14 @@ export class SerializationUtils {
   ): Exam {
     return {
       ...registration,
-      registrationStatus: SerializationUtils.deserializeRegistrationStatus(
-        registration.registrationStatus,
-      ),
+      registrationStatus: {
+        state: SerializationUtils.deserializeRegistrationState(
+          registration.registrationState,
+        ),
+        paidAt: registration.examPaymentPaidAt
+          ? dayjs(registration.examPaymentPaidAt)
+          : undefined,
+      },
       registrationDate: dayjs(registration.registrationDate),
       examinationDate: dayjs(registration.examinationDate),
       examLocation: SerializationUtils.deserializaMapLocation(
@@ -505,15 +509,21 @@ export class SerializationUtils {
   static deserializeQueuedExam(
     registration: RegistrationResponse,
   ): QueuedRegistration {
-    const registrationStatus = SerializationUtils.deserializeRegistrationStatus(
-      registration.registrationStatus,
+    const state = SerializationUtils.deserializeRegistrationState(
+      registration.registrationState,
     );
+    const registrationStatus = {
+      state,
+      paidAt: registration.examPaymentPaidAt
+        ? dayjs(registration.examPaymentPaidAt)
+        : undefined,
+    };
 
     return {
       ...registration,
       registrationStatus,
       queueSpotOffered: SerializationUtils.getQueueSpotOffered(
-        registrationStatus.state,
+        state,
         registration.liftedFromQueueAt,
         registration.expiresAt,
       ),
@@ -562,10 +572,9 @@ export class SerializationUtils {
   }
 
   static deserializePastExam(registration: RegistrationResponse): PastExam {
-    const { state: registrationState } =
-      SerializationUtils.deserializeRegistrationStatus(
-        registration.registrationStatus,
-      );
+    const registrationState = SerializationUtils.deserializeRegistrationState(
+      registration.registrationState,
+    );
     const state: ExamState =
       registrationState === RegistrationStates.Cancelled
         ? 'CANCELLED'
@@ -578,16 +587,6 @@ export class SerializationUtils {
         registration.examLocation,
       ),
       state,
-    };
-  }
-
-  static deserializeRegistrationStatus(status: {
-    state: string;
-    paidAt?: string | undefined;
-  }): RegistrationStatus {
-    return {
-      state: SerializationUtils.deserializeRegistrationState(status.state),
-      paidAt: status.paidAt ? dayjs(status.paidAt) : undefined,
     };
   }
 

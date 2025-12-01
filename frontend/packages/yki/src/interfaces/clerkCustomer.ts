@@ -82,14 +82,12 @@ export type RegistrationResponse = {
     municipality: string;
     lang: string;
   }[];
-  registrationStatus: {
-    state: string;
-    paidAt?: string;
-  };
-  registrationDate: string;
-  kind: RegistrationKind;
-  liftedFromQueueAt?: string;
-  expiresAt?: string;
+  registrationState: string;
+  examPaymentPaidAt?: string;
+  registrationDate?: string;
+  kind: RegistrationKind; // ADMISSION
+  liftedFromQueueAt?: string; // null
+  expiresAt?: string; // null
 };
 
 export interface ClerkCustomerDetailsResponse {
