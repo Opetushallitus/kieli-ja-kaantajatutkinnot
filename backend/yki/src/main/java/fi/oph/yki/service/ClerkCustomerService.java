@@ -62,16 +62,7 @@ public class ClerkCustomerService {
 
         var freeRegistrationCreatedAt = registration.getFreeRegistration().getCreatedAt().toLocalDate();
         var paidAt = latestExamPayment.map(ExamPayment::getPaidAt).map(LocalDateTime::toLocalDate);
-
         var registrationDate = paidAt.orElse(freeRegistrationCreatedAt);
-
-        Optional<LocalDate> liftedFromQueueAt = registration.getLiftedFromQueueAt() == null
-          ? Optional.empty()
-          : Optional.of(registration.getLiftedFromQueueAt().toLocalDate());
-
-        Optional<LocalDate> expiresAt = registration.getExpiresAt() == null
-          ? Optional.empty()
-          : Optional.of(registration.getExpiresAt().toLocalDate());
 
         return new ClerkCustomerRegistrationDTO(
           session.getExamDate().getExamDate(),
@@ -81,11 +72,12 @@ public class ClerkCustomerService {
             .stream()
             .map(l -> new ClerkExamLocationDTO(l.getName(), l.getPostOffice(), l.getLang()))
             .toList(),
-          new ClerkRegistrationStatusDTO(registration.getState().name(), paidAt),
+          registration.getState(),
+          paidAt,
           registrationDate,
           registration.getKind(),
-          liftedFromQueueAt,
-          expiresAt
+          registration.getLiftedFromQueueAt(),
+          registration.getExpiresAt()
         );
       })
       .toList();
