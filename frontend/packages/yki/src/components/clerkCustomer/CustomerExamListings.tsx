@@ -214,7 +214,7 @@ export const CustomerExamListings = ({
             <Text>
               {t('values.queueSpotOffered.dueDate', {
                 dueDate: DateUtils.formatOptionalDate(
-                  queueSpotOffered.dueDate,
+                  queueSpotOffered.expiresAt,
                   'l',
                 ),
               })}

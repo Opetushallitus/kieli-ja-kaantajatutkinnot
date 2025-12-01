@@ -539,7 +539,7 @@ export class SerializationUtils {
     if (liftedFromQueueAt) {
       queueSpotOffered = {
         offered: QueueOfferStatus.Offered,
-        dueDate: dayjs(expiresAt),
+        expiresAt: dayjs(expiresAt),
       };
     }
 
@@ -551,7 +551,7 @@ export class SerializationUtils {
     ) {
       return {
         offered: QueueOfferStatus.Offered,
-        dueDate: dayjs(expiresAt),
+        expiresAt: dayjs(expiresAt),
       };
     }
 
@@ -564,7 +564,7 @@ export class SerializationUtils {
     ) {
       return {
         offered: QueueOfferStatus.NotAccepted,
-        dueDate: dayjs(expiresAt),
+        expiresAt: dayjs(expiresAt),
       };
     }
 

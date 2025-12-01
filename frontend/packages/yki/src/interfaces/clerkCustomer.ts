@@ -45,7 +45,7 @@ export type QueueSpotOffered =
   | { offered: QueueOfferStatus.NotOffered }
   | {
       offered: QueueOfferStatus;
-      dueDate: Dayjs;
+      expiresAt: Dayjs;
     };
 
 export type QueuedRegistration = Exam & {
