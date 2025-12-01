@@ -530,42 +530,32 @@ export class SerializationUtils {
     liftedFromQueueAt?: string,
     expiresAt?: string,
   ): QueueSpotOffered {
-    let queueSpotOffered: QueueSpotOffered = {
+    const queueSpotOffered: QueueSpotOffered = {
       offered: QueueOfferStatus.NotOffered,
+      expiresAt: expiresAt ? dayjs(expiresAt) : undefined,
     };
 
-    // Customer got a spot offer
-    // (status maybe be overriden by certain statuses)
     if (liftedFromQueueAt) {
-      queueSpotOffered = {
-        offered: QueueOfferStatus.Offered,
-        expiresAt: dayjs(expiresAt),
-      };
+      // Customer got a spot offer
+      // (status maybe be overriden by certain statuses)
+      queueSpotOffered.offered = QueueOfferStatus.Offered;
     }
 
-    // Customer has received a queue spot
     if (
       liftedFromQueueAt &&
       (state === RegistrationStates.Completed ||
         state === RegistrationStates.PaidAndCancelled)
     ) {
-      return {
-        offered: QueueOfferStatus.Offered,
-        expiresAt: dayjs(expiresAt),
-      };
-    }
-
-    // Customer did not accept the queue offer
-    if (
+      // Customer has received a queue spot
+      queueSpotOffered.offered = QueueOfferStatus.Offered;
+    } else if (
       liftedFromQueueAt &&
       (state === RegistrationStates.Submitted ||
         state === RegistrationStates.Cancelled ||
         state === RegistrationStates.Expired)
     ) {
-      return {
-        offered: QueueOfferStatus.NotAccepted,
-        expiresAt: dayjs(expiresAt),
-      };
+      // Customer did not accept the queue offer
+      queueSpotOffered.offered = QueueOfferStatus.NotAccepted;
     }
 
     return queueSpotOffered;
