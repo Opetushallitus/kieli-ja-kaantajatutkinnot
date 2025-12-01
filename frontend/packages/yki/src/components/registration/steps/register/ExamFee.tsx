@@ -13,6 +13,7 @@ import { APIResponseStatus, Color } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { RegistrationKind } from 'enums/app';
 import { setUserDeclaredFreeRegistration } from 'redux/reducers/publicFreeRegistration';
 import { publicEducationSelector } from 'redux/selectors/publicEducation';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
@@ -194,6 +195,8 @@ export const ExamFee = () => {
   const { basis, attemptsUsed } = useAppSelector(
     publicFreeRegistrationSelector,
   );
+  const { registrationKind } =
+    useAppSelector(registrationSelector).initRegistration;
 
   const isLoading = status === APIResponseStatus.InProgress;
   const hasKoskiEducation = basis && basis.source === 'KOSKI';
@@ -231,7 +234,12 @@ export const ExamFee = () => {
           <Text>
             {t('freeAttemptsOffered')} {t('freeAttemptsExhausted')}
           </Text>
-          <Text>{t('paymentRequired')}</Text>
+          {registrationKind === RegistrationKind.Admission && (
+            <Text>{t('paymentRequired')}</Text>
+          )}
+          {registrationKind === RegistrationKind.Queue && (
+            <Text>{t('paymentRequiredIfLiftedFromQueue')}</Text>
+          )}
         </>
       )}
       {attemptsLeft > 0 && hasKoskiEducation && (

@@ -452,8 +452,9 @@
               "pleaseWait": "Tietoja ladataan, ole hyvä ja odota hetki."
             },
             "noFeeRequired": "YKI-testi on sinulle maksuton.",
-            "paymentRequired": "Kun lähetät ilmoittautumislomakkeen, sinun täytyy maksaa tutkintomaksu.",
             "noSuitableEducationFound": "Emme löytäneet maksuttomuuteen oikeuttavia tutkintoja.",
+            "paymentRequired": "Kun lähetät ilmoittautumislomakkeen, sinun täytyy maksaa tutkintomaksu.",
+            "paymentRequiredIfLiftedFromQueue": "Jos saat paikan YKI-testiin jonosta, sinun täytyy maksaa tutkintomaksu.",
             "suitableEducationFound": "Sinulla on ehdot täyttävä tutkinto",
             "title": "Tutkintomaksu",
             "userSelection": {
