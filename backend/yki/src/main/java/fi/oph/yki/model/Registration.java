@@ -3,7 +3,6 @@ package fi.oph.yki.model;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,7 @@ import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 @Entity
 @Table(name = "registration")
 public class Registration {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false)

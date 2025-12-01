@@ -2,25 +2,18 @@ package fi.oph.yki.service;
 
 import fi.oph.yki.api.dto.clerk.*;
 import fi.oph.yki.model.ExamPayment;
-import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.Person;
-import fi.oph.yki.model.Registration;
-import fi.oph.yki.model.type.PaymentState;
-import fi.oph.yki.model.type.RegistrationKind;
-import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationRepository;
+import fi.oph.yki.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import javax.swing.text.html.Option;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang.NotImplementedException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,7 +26,17 @@ public class ClerkCustomerService {
 
   private ClerkCustomerPersonDTO getClerkCustomerPersonDTO(String oid) throws Exception {
     PersonalDataDTO onrPerson = onrService.getPersonalData(oid);
+    if (onrPerson == null) {
+      throw new NotFoundException(
+        String.format("Person with oid '%s' not found from the oppijanumerorekisteri-service.", oid)
+      );
+    }
+
     Person person = personRepository.getByOid(oid);
+    if (person == null) {
+      // throw 404, because the whole data of getClerkCustomerDetails is tied to a specific user.
+      throw new NotFoundException(String.format("Person with oid '%s' not found from the person repository.", oid));
+    }
 
     return new ClerkCustomerPersonDTO(
       person.getFirstName(),
@@ -60,9 +63,11 @@ public class ClerkCustomerService {
           .stream()
           .max(Comparator.comparing(ExamPayment::getPaidAt));
 
-        var freeRegistrationCreatedAt = registration.getFreeRegistration().getCreatedAt().toLocalDate();
+        Optional<LocalDate> freeRegistrationCreatedAt = registration.getFreeRegistration() == null
+          ? Optional.empty()
+          : Optional.of(registration.getFreeRegistration().getCreatedAt().toLocalDate());
         var paidAt = latestExamPayment.map(ExamPayment::getPaidAt).map(LocalDateTime::toLocalDate);
-        var registrationDate = paidAt.orElse(freeRegistrationCreatedAt);
+        var registrationDate = paidAt.or(() -> freeRegistrationCreatedAt);
 
         return new ClerkCustomerRegistrationDTO(
           session.getExamDate().getExamDate(),

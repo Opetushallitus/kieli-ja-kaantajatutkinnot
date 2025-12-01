@@ -2,7 +2,6 @@ package fi.oph.yki.api.dto.clerk;
 
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,7 +17,7 @@ public record ClerkCustomerRegistrationDTO(
   List<ClerkExamLocationDTO> examLocation,
   RegistrationState registrationState,
   Optional<LocalDate> examPaymentPaidAt,
-  LocalDate registrationDate,
+  Optional<LocalDate> registrationDate,
   RegistrationKind kind,
   LocalDateTime liftedFromQueueAt,
   LocalDateTime expiresAt
