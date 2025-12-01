@@ -465,6 +465,7 @@
               },
               "declareEducationOrPay": "Sinun täytyy ilmoittaa tiedot opinnoistasi tai maksaa tutkintomaksu.",
               "educationDetails": {
+                "comparableMatriculationExam": "Olen suorittanut ylioppilastutkintoa vastaavan ulkomaisen tutkinnon.",
                 "higherEducationConcluded": "Olen suorittanut korkeakoulututkinnon.",
                 "higherEducationEnrolled": "Olen suorittamassa korkeakoulututkintoa.",
                 "matriculationExam": "Olen suorittanut ylioppilastutkinnon.",
