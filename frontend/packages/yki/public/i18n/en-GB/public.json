@@ -322,6 +322,10 @@
         "requestReassessment": "Request a reassessment"
       },
       "registration": {
+        "controlButtons": {
+          "abortRegistration": "Quit registration",
+          "confirm": "Submit"
+        },
         "enrollModal": {
           "title": "Registration failed",
           "examIsFull": "The YKI-test is full. However, you can register for the waiting list.",
@@ -341,16 +345,6 @@
             "part3": "If you want to cancel the registration, first proceed to the registration form and then click QUIT REGISTRATION.",
             "backToRegistrationButton": "Proceed to the registration form"
           }
-        },
-        "expirationTimer": {
-          "reservationExpired": "Registration failed",
-          "reservationExpiredContinue": "Return to home page",
-          "reservationExpiredText": "Time ran out and you lost your reserved place in the YKI test. If you want to register for this YKI test, please return to the home page and register for the YKI test again.",
-          "reservationExpiresIn": "Your reserved place in the YKI test will expire on: {{minutes}}:{{seconds}}"
-        },
-        "controlButtons": {
-          "abortRegistration": "Quit registration",
-          "confirm": "Submit"
         },
         "enrollToQueue": {
           "dialog": {
@@ -400,6 +394,12 @@
           "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä",
           "openings": "Available seats",
           "registrationTime": "Registration period"
+        },
+        "expirationTimer": {
+          "reservationExpired": "Registration failed",
+          "reservationExpiredContinue": "Return to home page",
+          "reservationExpiredText": "Time ran out and you lost your reserved place in the YKI test. If you want to register for this YKI test, please return to the home page and register for the YKI test again.",
+          "reservationExpiresIn": "Your reserved place in the YKI test will expire on: {{minutes}}:{{seconds}}"
         },
         "paymentSum": {
           "title": "Test fee"
