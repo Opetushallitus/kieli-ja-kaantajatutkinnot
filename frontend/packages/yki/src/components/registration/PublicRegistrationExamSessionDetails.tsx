@@ -1,4 +1,5 @@
 import { Text } from 'shared/components';
+import { APIResponseStatus } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import {
@@ -30,7 +31,8 @@ export const PublicRegistrationExamSessionDetails = ({
     publicFreeRegistrationSelector,
   );
   const { loggedInSession } = useAppSelector(sessionSelector);
-  const { activeStep } = useAppSelector(registrationSelector);
+  const { activeStep, submitRegistration } =
+    useAppSelector(registrationSelector);
 
   if (!examSession) {
     return null;
@@ -52,21 +54,53 @@ export const PublicRegistrationExamSessionDetails = ({
 
   let examFeeText: string;
   if (freeRegistrationPossible) {
-    if (activeStep === PublicRegistrationFormStep.Identify) {
-      // If user has not yet progressed to registration form, always display an undecided exam fee amount
-      examFeeText = `0 ${translateCommon('or')} ${examSession.exam_fee} €`;
-    } else {
-      switch (isFree) {
-        case 'YES':
-          examFeeText = '0 €';
-          break;
-        case 'NO':
-          examFeeText = `${examSession.exam_fee} €`;
-          break;
-        case 'UNDECIDED':
-          examFeeText = `0 ${translateCommon('or')} ${examSession.exam_fee} €`;
-          break;
-      }
+    switch (activeStep) {
+      case PublicRegistrationFormStep.Identify:
+        // If user has not yet progressed to registration form, always display an undecided exam fee amount
+        examFeeText = `0 ${translateCommon('or')} ${examSession.exam_fee} €`;
+        break;
+      case PublicRegistrationFormStep.Register:
+        if (submitRegistration.status === APIResponseStatus.Success) {
+          // If user is on register step and form is submitted,
+          // the registration is either free or not; however, not undecided.
+          switch (isFree) {
+            case 'YES':
+              examFeeText = '0 €';
+              break;
+            default:
+              examFeeText = `${examSession.exam_fee} €`;
+              break;
+          }
+        } else {
+          // If user is on register step with form not yet submitted,
+          // registration can be free, paid or not yet definitely either.
+          switch (isFree) {
+            case 'YES':
+              examFeeText = '0 €';
+              break;
+            case 'NO':
+              examFeeText = `${examSession.exam_fee} €`;
+              break;
+            case 'UNDECIDED':
+              examFeeText = `0 ${translateCommon('or')} ${
+                examSession.exam_fee
+              } €`;
+              break;
+          }
+        }
+        break;
+      case PublicRegistrationFormStep.Payment:
+        examFeeText = `${examSession.exam_fee} €`;
+        break;
+      case PublicRegistrationFormStep.Done:
+        switch (isFree) {
+          case 'YES':
+            examFeeText = '0 €';
+            break;
+          default:
+            examFeeText = `${examSession.exam_fee} €`;
+            break;
+        }
     }
   } else {
     examFeeText = `${examSession.exam_fee} €`;
