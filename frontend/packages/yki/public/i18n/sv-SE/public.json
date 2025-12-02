@@ -391,7 +391,7 @@
         "examSessionDetails": {
           "exam": "Examen",
           "examFee": "Examensavgift",
-          "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä",
+          "freeAttemptsLeft": "Antal återstående avgiftsfria examenstillfällen",
           "openings": "Lediga platser",
           "registrationTime": "Anmälningstid"
         },
@@ -452,7 +452,7 @@
             "freeAttemptsExhausted": "Du har använt alla avgiftsfria examenstillfällen.",
             "freeAttemptsLeft": "Antal återstående avgiftsfria examenstillfällen: <strong>{{amount}}</strong>.",
             "freeAttemptsOffered": "Du kan anmäla dig till YKI-examen utan avgift tre (3) gånger.",
-            "freeAttemptsOfferedYKI": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa.",
+            "freeAttemptsOfferedYKI": "Du kan anmäla dig till YKI-examen utan avgift tre (3) gånger.",
             "loading": {
               "checkingEligibility": "Vi kontrollerar informationen om din utbildning automatiskt.",
               "pleaseWait": "Uppgifterna laddas, vänta en stund."
@@ -472,7 +472,7 @@
               },
               "declareEducationOrPay": "Du måste uppge information om dina studier eller betala examensavgiften.",
               "educationDetails": {
-                "comparableMatriculationExam": "Olen suorittanut ylioppilastutkintoa vastaavan ulkomaisen tutkinnon.",
+                "comparableMatriculationExam": "Jag har avlagt en utländsk examen som motsvarar finländsk studentexamen.",
                 "higherEducationConcluded": "Jag har avlagt en högskoleexamen.",
                 "higherEducationEnrolled": "Jag håller på att avlägga en högskoleexamen.",
                 "matriculationExam": "Jag har avlagt studentexamen.",
@@ -654,7 +654,7 @@
                   "label": "Examensavgifter",
                   "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-examensavgifter"
                 },
-                "text": "Lue maksuttoman YKI-testin ehdot Opetushallituksen verkkosivuilta"
+                "text": "Läs mer om villkoren för avgiftsfri YKI-examen på Utbildningsstyrelsens webbplats"
               },
               "suomiFiAuthenticationRequired": "Du ska identifiera dig i tjänsten Suomi.fi för att vi ska kunna kontrollera om du uppfyller villkoren.",
               "threeAttemptsAvailable": "Du kan anmäla dig till YKI-examen utan avgift tre (3) gånger."

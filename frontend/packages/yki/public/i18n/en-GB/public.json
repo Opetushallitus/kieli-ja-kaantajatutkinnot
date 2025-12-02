@@ -391,7 +391,7 @@
         "examSessionDetails": {
           "exam": "Test",
           "examFee": "Test fee",
-          "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä",
+          "freeAttemptsLeft": "You have free registrations remaining",
           "openings": "Available seats",
           "registrationTime": "Registration period"
         },
@@ -452,7 +452,7 @@
             "freeAttemptsExhausted": "You have used up all your free registrations.",
             "freeAttemptsLeft": "You have free registrations remaining: <strong>{{amount}}</strong>.",
             "freeAttemptsOffered": "You can register free of charge a total of three (3) times.",
-            "freeAttemptsOfferedYKI": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa.",
+            "freeAttemptsOfferedYKI": "You can register free of charge a total of three (3) times.",
             "loading": {
               "checkingEligibility": "We will check your study records automatically.",
               "pleaseWait": "Download in progress, please wait."
@@ -472,7 +472,7 @@
               },
               "declareEducationOrPay": "You must provide details of your studies or pay the test fee.",
               "educationDetails": {
-                "comparableMatriculationExam": "Olen suorittanut ylioppilastutkintoa vastaavan ulkomaisen tutkinnon.",
+                "comparableMatriculationExam": "I have completed a foreign degree equivalent to the Finnish matriculation examination.",
                 "higherEducationConcluded": "I have completed a university or university of applied sciences degree.",
                 "higherEducationEnrolled": "I am currently studying for a university or university of applied sciences degree.",
                 "matriculationExam": "I have completed the Finnish matriculation examination.",
@@ -654,7 +654,7 @@
                   "label": "Test fees",
                   "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-test-fees"
                 },
-                "text": "Lue maksuttoman YKI-testin ehdot Opetushallituksen verkkosivuilta"
+                "text": "Read the conditions for free YKI tests on the Finnish National Agency for Education's website"
               },
               "suomiFiAuthenticationRequired": "You must log in using Suomi.fi e-Identification so that we can verify whether you meet the conditions.",
               "threeAttemptsAvailable": "You can register free of charge a total of three (3) times."
