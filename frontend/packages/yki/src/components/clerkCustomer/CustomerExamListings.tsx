@@ -175,7 +175,9 @@ export const CustomerExamListings = ({
   });
 
   // Ilmoittautumispvm (Ilmoittautumiset, Jonossa)
-  const createRegistrationDateColumn = <T extends { registrationDate: Dayjs }>(
+  const createRegistrationDateColumn = <
+    T extends { registrationDate: Dayjs | undefined },
+  >(
     t: typeof i18next.t,
   ): ListTableColumn<T> => ({
     key: 'registrationDate',
