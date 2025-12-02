@@ -322,6 +322,10 @@
         "requestReassessment": "Pyydä tarkistusarviointia"
       },
       "registration": {
+        "controlButtons": {
+          "abortRegistration": "Keskeytä ilmoittautuminen",
+          "confirm": "Lähetä"
+        },
         "enrollModal": {
           "title": "Ilmoittautuminen epäonnistui",
           "examIsFull": "YKI-testi on täynnä. Voit ilmoittautua jonoon.",
@@ -341,10 +345,6 @@
             "part3": "Jos haluat keskeyttää ilmoittautumisen, siirry ensin ilmoittautumislomakkeelle ja paina sitten KESKEYTÄ ILMOITTAUTUMINEN.",
             "backToRegistrationButton": "Siirry ilmoittautumislomakkeelle"
           }
-        },
-        "controlButtons": {
-          "abortRegistration": "Keskeytä ilmoittautuminen",
-          "confirm": "Lähetä"
         },
         "enrollToQueue": {
           "dialog": {
@@ -394,6 +394,12 @@
           "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä",
           "openings": "Paikkoja vapaana",
           "registrationTime": "Ilmoittautumisaika"
+        },
+        "expirationTimer": {
+          "reservationExpired": "Ilmoittautuminen epäonnistui",
+          "reservationExpiredContinue": "Palaa aloitussivulle",
+          "reservationExpiredText": "Aika loppui ja menetit varaamasi paikan YKI-testissä. Jos haluat ilmoittautua YKI-testiin, palaa aloitussivulle ja ilmoittaudu YKI-testiin uudestaan.",
+          "reservationExpiresIn": "Paikkavarauksesi YKI-testiin umpeutuu: {{minutes}}:{{seconds}}"
         },
         "paymentSum": {
           "title": "Tutkintomaksu"
