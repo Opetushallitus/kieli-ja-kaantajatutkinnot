@@ -599,7 +599,7 @@
           "step": {
             "Done": "Done",
             "EnrollToQueue": "Register for the waiting list",
-            "Identify": "Identify",
+            "Identify": "Log in",
             "Payment": "Payment",
             "Register": "Register"
           },
@@ -608,26 +608,26 @@
         "steps": {
           "identify": {
             "alreadyLoggedIn": {
-              "caption": "Check identification details",
-              "currentLoginInformation": "You have identified yourself with the following information:",
+              "caption": "Check login details",
+              "currentLoginInformation": "You have logged in using the following information:",
               "labels": {
                 "abort": "Quit registration",
                 "continueToRegistration": "Continue registration",
                 "email": "Email address",
                 "name": "Name"
               },
-              "reauthenticate": "Check that you have identified yourself with the personal information of the person taking the YKI test. If you have identified yourself with someone else's personal information, click the Log out button at the top of the page and start the registration again.",
-              "title": "Identify yourself for registration"
+              "reauthenticate": "Check that you have logged in using the personal information of the person taking the YKI test. If you have logged in using someone else's personal information, click the Log out button at the top of the page and start the registration again.",
+              "title": "Log in for registration"
             },
-            "caption": "You must identify yourself to register for a YKI test. Use the personal information of the person taking the YKI test for the identification.",
-            "emailButtonText": "identify with email",
+            "caption": "You must log in to register for a YKI test. When you log in, use the personal information of the person taking the YKI test.",
+            "emailButtonText": "log in with email",
             "emailError": "Invalid email address",
             "emailInput": {
               "label": "Fill in your email address",
               "placeholder": "For example, name@email.fi"
             },
             "emailLink": {
-              "error": "Identification failed. You may try again.",
+              "error": "Login failed. You may try again.",
               "incorrectEmailDialog": {
                 "title": "Request failed",
                 "description": "Check your email address."
@@ -655,18 +655,18 @@
               "threeAttemptsAvailable": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa."
             },
             "registrationIsBindingAdvisory": "Check that you are registering for the correct YKI test (including language and level). Registration for YKI test is binding. Once you have confirmed your registration, you can no longer change it.",
-            "selectIdentificationMethod": "Select your identification method",
-            "suomiFiButtonText": "Identify via Suomi.fi",
-            "title": "Identify yourself for registration",
-            "titleForQueueing": "Identify yourself to register for the waiting list",
+            "selectIdentificationMethod": "Please select your login method",
+            "suomiFiButtonText": "Log in using Suomi.fi e-Identification",
+            "title": "Log in to register",
+            "titleForQueueing": "Log in to register for the waiting list",
             "withFinnishSSN": {
-              "description": "Identify yourself through Suomi.fi e-identification",
-              "info": "After the identification you will be directed automatically to the registration form."
+              "description": "Log in using Suomi.fi e-Identification",
+              "info": "After logging in, you will be automatically taken to the registration form."
             },
             "withoutFinnishSSN": {
-              "description": "Identify yourself with your email",
-              "examFeeRequired": "Jos tunnistaudut sähköpostilla, sinun täytyy maksaa tutkintomaksu.",
-              "info": "After the identification, you will receive an email with a link to the registration form."
+              "description": "Log in with your email",
+              "examFeeRequired": "If you log in by email, you will have to pay the test fee.",
+              "info": "Once you have logged in, you will receive an email with a link to the registration form."
             }
           },
           "payment": {
@@ -738,9 +738,9 @@
             "title": "Registration period has ended"
           },
           "unauthorized": {
-            "backToIdentification": "Proceed to select your identification method",
-            "description": "We could not find your identification details. Your previous identification may have expired. You must identify yourself to register for a YKI test.",
-            "title": "You have not identified yourself"
+            "backToIdentification": "Proceed to select your login method",
+            "description": "We could not find your login details. Your previous session may have expired. Please log in to register for a YKI test.",
+            "title": "You have not logged in"
           },
           "upcoming": {
             "description": "Registration is not possible at the moment. The registration period has not started yet.",
@@ -881,7 +881,7 @@
             "confirm": "Yes, I want to quit the registration"
           },
           "description": "Do you want to quit the registration? Any information you have filled in will be lost.",
-          "notice": "If you have identified yourself, your identification will remain active even if you quit the registration. If you no longer want to use the service as identified, click the Log out button at the top of the page.",
+          "notice": "If you have logged in, your login will remain active even if you quit the registration. If you no longer want to continue using the service while logged in, click the Log out button at the top of the page.",
           "title": "Quit registration"
         },
         "description": {
