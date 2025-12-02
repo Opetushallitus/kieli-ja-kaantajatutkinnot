@@ -11,7 +11,7 @@
         "descriptionPaid3": "If you cancel your registration, you cannot restore it. You will need to register again if you want to take the YKI test.",
         "link": {
           "label": "Cancelling your test registration",
-          "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ennen-yki-testia#anchor-osallistumisen-peruminen"
+          "url": "https://www.oph.fi/en/education-and-qualifications/yki-test#anchor-cancelling-your-test-registration"
         },
         "title": "Do you wish to cancel your registration?",
         "success": "Your registration has been cancelled"
@@ -424,9 +424,9 @@
             "fields": {
               "address": "Street address",
               "certificateLanguage": "Select the language of the certificate",
-              "countryOfEducation": "Valitse, missä olet opiskellut",
+              "countryOfEducation": "Select where you have studied",
               "dateOfBirth": "Date of birth",
-              "educationType": "Valitse maksuttomuuteen oikeuttavien opintojen tyyppi",
+              "educationType": "Select whether you have studies that entitle you to free YKI tests",
               "email": "Email address",
               "emailConfirmation": "Confirm email address",
               "firstNames": "First names",
@@ -447,38 +447,38 @@
           },
           "examFee": {
             "education": {
-              "higherEducation": "Korkeakoulututkinto",
-              "matriculationExam": "Ylioppilastutkinto"
+              "higherEducation": "University or university of applied sciences degree",
+              "matriculationExam": "Matriculation examination"
             },
-            "freeAttemptsExhausted": "Olet käyttänyt kaikki ilmaiset kerrat.",
-            "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä: <strong>{{amount}}</strong>.",
-            "freeAttemptsOffered": "Voit ilmoittautua maksuttomasti kolme (3) kertaa.",
+            "freeAttemptsExhausted": "You have used up all your free registrations.",
+            "freeAttemptsLeft": "You have free registrations remaining: <strong>{{amount}}</strong>.",
+            "freeAttemptsOffered": "You can register free of charge a total of three (3) times.",
             "freeAttemptsOfferedYKI": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa.",
             "loading": {
-              "checkingEligibility": "Tarkastamme täyttyvätkö maksuttomuuden ehdot kohdallasi.",
-              "pleaseWait": "Tietoja ladataan, ole hyvä ja odota hetki."
+              "checkingEligibility": "We will check your study records automatically.",
+              "pleaseWait": "Download in progress, please wait."
             },
-            "noFeeRequired": "YKI-testi on sinulle maksuton.",
-            "noSuitableEducationFound": "Emme löytäneet maksuttomuuteen oikeuttavia tutkintoja.",
-            "paymentRequired": "Kun lähetät ilmoittautumislomakkeen, sinun täytyy maksaa tutkintomaksu.",
-            "paymentRequiredIfLiftedFromQueue": "Jos saat paikan YKI-testiin jonosta, sinun täytyy maksaa tutkintomaksu.",
-            "suitableEducationFound": "Sinulla on ehdot täyttävä tutkinto",
-            "title": "Tutkintomaksu",
+            "noFeeRequired": "The YKI test is free of charge for you.",
+            "paymentRequired": "Once you submit your registration form, you must pay the test fee.",
+            "paymentRequiredIfLiftedFromQueue": "If you receive a place in a YKI test from its waiting list, you will need to pay the test fee.",
+            "noSuitableEducationFound": "We could not find any qualifications that entitle you to free registration.",
+            "suitableEducationFound": "You have a qualification that meets the conditions",
+            "title": "Test fee",
             "userSelection": {
               "countryOfStudies": {
-                "abroad": "Olen opiskellut ulkomailla.",
-                "finland": "Olen opiskellut Suomessa.",
-                "prompt": "Missä olet opiskellut?",
-                "uneligible": "Minulla ei ole maksuttomaan YKI-testiin oikeuttavia opintoja. Maksan tutkintomaksun."
+                "abroad": "I have studied abroad.",
+                "finland": "I have studied in Finland.",
+                "prompt": "Where have you studied?",
+                "uneligible": "I do not have any studies that entitle me to free YKI tests. I will pay the test fee."
               },
-              "declareEducationOrPay": "Sinun täytyy ilmoittaa tiedot opinnoistasi tai maksaa tutkintomaksu.",
+              "declareEducationOrPay": "You must provide details of your studies or pay the test fee.",
               "educationDetails": {
                 "comparableMatriculationExam": "Olen suorittanut ylioppilastutkintoa vastaavan ulkomaisen tutkinnon.",
-                "higherEducationConcluded": "Olen suorittanut korkeakoulututkinnon.",
-                "higherEducationEnrolled": "Olen suorittamassa korkeakoulututkintoa.",
-                "matriculationExam": "Olen suorittanut ylioppilastutkinnon.",
-                "prompt": "Onko sinulla opintoja, jotka oikeuttavat maksuttomaan YKI-testiin?",
-                "uneligible": "Minulla ei ole maksuttomaan YKI-testiin oikeuttavia opintoja. Maksan tutkintomaksun."
+                "higherEducationConcluded": "I have completed a university or university of applied sciences degree.",
+                "higherEducationEnrolled": "I am currently studying for a university or university of applied sciences degree.",
+                "matriculationExam": "I have completed the Finnish matriculation examination.",
+                "prompt": "Do you have studies that entitle you to free YKI tests?",
+                "uneligible": "I do not have any studies that entitle me to free YKI tests. I will pay the test fee."
               },
               "randomChecksPerformed": {
                 "heading": "The Finnish National Agency for Education carries out random checks",
@@ -486,7 +486,7 @@
                 "part2": "If you cannot present transcripts or certificates of studies that entitle you to free YKI tests, the Finnish National Agency for Education will send you an invoice for the test fee.",
                 "part3": "If you do not pay the invoice, you will be subjected to debt recovery and enforcement procedures."
               },
-              "selectOne": "Valitse yksi alla olevista vaihtoehdoista."
+              "selectOne": "Please select one of the options below."
             }
           },
           "labels": {
@@ -540,14 +540,14 @@
           },
           "title": "Fill in your personal information",
           "whatsNext": {
-            "description": "Once you have submitted your registration form, you must pay the test fee. Your registration will only be confirmed once you have paid the test fee.",
             "freeRegistration": {
-              "description": "Kun olet lähettänyt ilmoittautumislomakkeen, ilmoittautumisesi vahvistetaan. Vahvistettu ilmoittautuminen kuluttaa yhden maksuttoman ilmoittautumisen.",
+              "description": "Once you submit your registration form, your registration will be confirmed. A confirmed registration reduces the number of times that you can register for free by one.",
               "queued": {
-                "part1": "Kun olet lähettänyt ilmoittautumislomakkeen, saat sähköpostiisi vahvistuksen siitä, että olet ilmoittautunut jonoon.",
-                "part2": "Jos saat paikan jonosta, ilmoittautumisesi vahvistetaan. Vahvistettu ilmoittautuminen kuluttaa yhden maksuttoman ilmoittautumisen."
+                "part1": "Once you have submitted your registration form, you will receive an email confirming that you have been added to the waiting list.",
+                "part2": "If you receive a place in the YKI test from the waiting list, your registration will be confirmed. A confirmed registration reduces the number of times that you can register for free by one."
               }
             },
+            "description": "Once you have submitted your registration form, you must pay the test fee. Your registration will only be confirmed once you have paid the test fee.",
             "queued": {
               "part1": "Once you have submitted your registration form, you will receive an email confirming that you have been added to the waiting list.",
               "part2": "If you receive a place in the YKI test from the waiting list, you will be notified of this by email. Please keep an active eye on your email."
@@ -642,14 +642,14 @@
             },
             "freeRegistration": {
               "conditions": {
-                "general": "YKI-testi on sinulle maksuton, jos täytät jonkun seuraavista ehdoista",
-                "point1": "Olet suorittanut suomalaisen ylioppilastutkinnon tai vastaavan ulkomaisen tutkinnon.",
-                "point2": "Olet suorittanut korkeakoulututkinnon Suomessa tai ulkomailla.",
-                "point3": "Olet suorittamassa korkeakoulututkintoa Suomessa tai ulkomailla."
+                "general": "The YKI test is free of charge for you if you meet one of the following conditions",
+                "point1": "You have completed the Finnish matriculation examination or an equivalent foreign qualification.",
+                "point2": "You have completed a university or university of applied sciences degree in Finland or abroad.",
+                "point3": "You are currently studying for a university or university of applied sciences degree in Finland or abroad."
               },
-              "educationDetailsAreChecked": "Tunnistautumisen jälkeen järjestelmä tarkistaa koulutustietosi automaattisesti.",
-              "heading": "Tutkintomaksu suomen ja ruotsin kielen ylimmän tason YKI-testeissä",
-              "ifSuitableEducationIsNotFound": "Jos koulutustietoja ei löydy, sinun täytyy kertoa opinnoistasi ilmoittautumislomakkeella.",
+              "educationDetailsAreChecked": "After the e-Identification process, the system will automatically check your study records.",
+              "heading": "Test fee for advanced level YKI tests in Finnish and Swedish",
+              "ifSuitableEducationIsNotFound": "If records of your studies are not found, you must provide the details of your studies on the registration form.",
               "readMore": {
                 "link": {
                   "label": "Test fees",
@@ -657,8 +657,8 @@
                 },
                 "text": "Lue maksuttoman YKI-testin ehdot Opetushallituksen verkkosivuilta"
               },
-              "suomiFiAuthenticationRequired": "Sinun täytyy tunnistautua Suomi.fi-palvelussa, jotta voimme tarkistaa, täytätkö ehdot.",
-              "threeAttemptsAvailable": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa."
+              "suomiFiAuthenticationRequired": "You must log in using Suomi.fi e-Identification so that we can verify whether you meet the conditions.",
+              "threeAttemptsAvailable": "You can register free of charge a total of three (3) times."
             },
             "registrationIsBindingAdvisory": "Check that you are registering for the correct YKI test (including language and level). Registration for YKI test is binding. Once you have confirmed your registration, you can no longer change it.",
             "selectIdentificationMethod": "Please select your login method",
@@ -817,7 +817,6 @@
         "heading": "Log out complete",
         "info": "You have logged out successfully. Close all browser windows."
       },
-
       "modifyContactDetailsPage": {
         "buttons": {
           "cancel": "Cancel",
@@ -1037,7 +1036,7 @@
             "notPaid": "Unpaid €{{ examFee }}",
             "label": "Test fee",
             "paidAt": "Paid {{- date }}",
-            "free": "Maksuton"
+            "free": "Free of charge"
           },
           "header": {
             "cancelled": "Cancelled registrations",
