@@ -407,7 +407,6 @@
         "registrationButtonLabels": {
           "enrollToQueue": "Anmäl dig till en köplats",
           "full": "Fullbokat",
-          "orderCancellationNotification": "Beställ en notifiering om lediga platser",
           "periodNotOpen": "Anmälningstiden har inte börjat",
           "register": "Anmäl dig"
         },
