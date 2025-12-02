@@ -323,10 +323,10 @@
       },
       "registration": {
         "expirationTimer": {
-          "reservationExpired": "Platsreserveringen till examen är inte längre i kraft",
-          "reservationExpiredContinue": "Fortsätt till framsidan",
-          "reservationExpiredText": "Din platsreservering till examen är inte längre i kraft. Fortsätt till framsidan för att förnya din anmälan.",
-          "reservationExpiresIn": "Din platsreservering till examen upphör att gälla: {{minutes}}:{{seconds}}"
+          "reservationExpired": "Anmälan misslyckades",
+          "reservationExpiredContinue": "Gå tillbaka till förstasidan",
+          "reservationExpiredText": "Tiden tog slut och platsen på examenstillfället är inte längre reserverad. Om du vill anmäla dig till YKI-examen ska du gå tillbaka till förstasidan och påbörja anmälan på nytt.",
+          "reservationExpiresIn": "Reservationen av din plats på examenstillfället löper ut: {{minutes}}:{{seconds}}"
         },
         "enrollModal": {
           "title": "Anmälning misslyckades",

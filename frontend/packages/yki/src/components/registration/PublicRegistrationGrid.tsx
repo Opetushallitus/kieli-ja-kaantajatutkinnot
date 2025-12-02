@@ -199,12 +199,20 @@ const Heading = () => {
 export const PublicRegistrationGrid = () => {
   const { status: examSessionStatus } = useAppSelector(examSessionSelector);
   const { activeStep } = useAppSelector(registrationSelector);
+  const { status: submitRegistrationStatus } =
+    useAppSelector(registrationSelector).submitRegistration;
   const { status: initRegistrationStatus, expiresIn } =
     useAppSelector(registrationSelector).initRegistration;
 
   const stepHeading = <Heading />;
   const isLoading = examSessionStatus === APIResponseStatus.InProgress;
   const { isPhone } = useWindowProperties();
+  const renderTimer =
+    !isPhone &&
+    initRegistrationStatus === APIResponseStatus.Success &&
+    submitRegistrationStatus !== APIResponseStatus.Success &&
+    expiresIn !== undefined &&
+    activeStep === PublicRegistrationFormStep.Register;
 
   return (
     <Grid
@@ -221,12 +229,9 @@ export const PublicRegistrationGrid = () => {
               <div className="rows">
                 <div className="columns space-between align-items-start">
                   <H1>{stepHeading}</H1>
-                  {!isPhone &&
-                    initRegistrationStatus === APIResponseStatus.Success &&
-                    expiresIn &&
-                    activeStep === PublicRegistrationFormStep.Register && (
-                      <MemoizedPublicRegistrationTimer expiresIn={expiresIn} />
-                    )}
+                  {renderTimer && (
+                    <MemoizedPublicRegistrationTimer expiresIn={expiresIn} />
+                  )}
                 </div>
                 <HeaderSeparator />
               </div>

@@ -26,7 +26,7 @@ describe('PublicRegistrationPage', () => {
       cy.get('.MuiButton-contained').click();
       onPublicRegistrationPage.expectReservationTimerText(
         true,
-        'Paikkavarauksesi tutkintoon umpeutuu: 30:00',
+        'Paikkavarauksesi YKI-testiin umpeutuu: 30:00',
       );
     });
 
@@ -47,14 +47,14 @@ describe('PublicRegistrationPage', () => {
       cy.get('.MuiButton-contained').click();
       onPublicRegistrationPage.expectReservationTimerText(
         true,
-        'Paikkavarauksesi tutkintoon umpeutuu: 30:00',
+        'Paikkavarauksesi YKI-testiin umpeutuu: 30:00',
       );
       cy.clock().tick(30 * 60 * 1000); // Advance time by 30 minutes
 
       cy.findByTestId('public-registration__reservation-expired-modal').should(
         'be.visible',
       );
-      cy.findByRole('button', { name: 'Jatka etusivulle' }).click();
+      cy.findByRole('button', { name: 'Palaa aloitussivulle' }).click();
       cy.url().should('eq', Cypress.config().baseUrl + '/yki/ilmoittautuminen');
     });
   });

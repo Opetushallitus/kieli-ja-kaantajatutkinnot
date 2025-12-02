@@ -323,10 +323,10 @@
       },
       "registration": {
         "expirationTimer": {
-          "reservationExpired": "Paikkavaraus tutkintoon umpeutunut",
-          "reservationExpiredContinue": "Jatka etusivulle",
-          "reservationExpiredText": "Paikkavarauksesi tutkintoon on umpeutunut. Jatka etusivulle uusiaksesi ilmoittautuminen.",
-          "reservationExpiresIn": "Paikkavarauksesi tutkintoon umpeutuu: {{minutes}}:{{seconds}}"
+          "reservationExpired": "Ilmoittautuminen epäonnistui",
+          "reservationExpiredContinue": "Palaa aloitussivulle",
+          "reservationExpiredText": "Aika loppui ja menetit varaamasi paikan YKI-testissä. Jos haluat ilmoittautua YKI-testiin, palaa aloitussivulle ja ilmoittaudu YKI-testiin uudestaan.",
+          "reservationExpiresIn": "Paikkavarauksesi YKI-testiin umpeutuu: {{minutes}}:{{seconds}}"
         },
         "enrollModal": {
           "title": "Ilmoittautuminen epäonnistui",

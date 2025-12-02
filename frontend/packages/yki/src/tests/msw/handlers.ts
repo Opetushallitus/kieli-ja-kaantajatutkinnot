@@ -78,9 +78,8 @@ const initRegistration = async ({
         exam_session_id % 2 === 0
           ? RegistrationKind.Admission
           : RegistrationKind.Queue;
-      const thirtyMinutesInSeconds = 1800;
-      const expires_in =
-        exam_session_id % 2 === 0 ? thirtyMinutesInSeconds : undefined;
+
+      const expires_in = 1800;
 
       return HttpResponse.json(
         {

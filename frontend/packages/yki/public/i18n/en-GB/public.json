@@ -323,10 +323,10 @@
       },
       "registration": {
         "expirationTimer": {
-          "reservationExpired": "Reservation for the test has expired",
-          "reservationExpiredContinue": "Proceed to front page",
-          "reservationExpiredText": "Your reservation for the test has expired. Proceed to the front page.",
-          "reservationExpiresIn": "Your reservation for the test expires in: {{minutes}}:{{seconds}}"
+          "reservationExpired": "Registration failed",
+          "reservationExpiredContinue": "Return to home page",
+          "reservationExpiredText": "Time ran out and you lost your reserved place in the YKI test. If you want to register for this YKI test, please return to the home page and register for the YKI test again.",
+          "reservationExpiresIn": "Your reserved place in the YKI test will expire on: {{minutes}}:{{seconds}}"
         },
         "enrollModal": {
           "title": "Registration failed",

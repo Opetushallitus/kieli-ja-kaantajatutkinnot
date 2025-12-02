@@ -162,6 +162,9 @@ export const PublicRegistrationControlButtons = () => {
     activeStep === PublicRegistrationFormStep.Register &&
     submitRegistrationStatus !== APIResponseStatus.Success &&
     !unrecoverableError;
+  const renderTimer =
+    expiresIn !== undefined &&
+    activeStep === PublicRegistrationFormStep.Register;
 
   const memoizedSetAppBarState = useCallback(
     (order: number, height: number) =>
@@ -181,10 +184,9 @@ export const PublicRegistrationControlButtons = () => {
           setState={memoizedSetAppBarState}
         >
           <div className="rows" style={{ width: '100%' }}>
-            {expiresIn &&
-              activeStep === PublicRegistrationFormStep.Register && (
-                <MemoizedPublicRegistrationTimer expiresIn={expiresIn} />
-              )}
+            {renderTimer && (
+              <MemoizedPublicRegistrationTimer expiresIn={expiresIn} />
+            )}
           </div>
         </StackableMobileAppBar>
         <StackableMobileAppBar
