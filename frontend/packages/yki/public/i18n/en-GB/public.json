@@ -481,12 +481,10 @@
                 "uneligible": "Minulla ei ole maksuttomaan YKI-testiin oikeuttavia opintoja. Maksan tutkintomaksun."
               },
               "randomChecksPerformed": {
-                "heading": "Opetushallitus tekee satunnaistarkistuksia",
-                "part1": "Opetushallitus voi pyytää sinulta todistuksen opinnoistasi jälkikäteen.",
-                "part2": "Jos sinulla ei ole todistusta maksuttomaan YKI-testiin oikeuttavista opinnoista, Opetushallitus lähettää sinulle laskun tutkintomaksusta.",
-                "part3": "Satunnaisia tarkistuksia tehdään korkeintaan X kuukautta tutkintopäivän jälkeen.",
-                "part4": "Väärien tietojen ilmoittaminen on petos.",
-                "part5": "Opetushallitus ilmoittaa väärinkäytöksistä poliisille."
+                "heading": "The Finnish National Agency for Education carries out random checks",
+                "part1": "The Finnish National Agency for Education may ask you for transcripts or certificates of your studies after the test day.",
+                "part2": "If you cannot present transcripts or certificates of studies that entitle you to free YKI tests, the Finnish National Agency for Education will send you an invoice for the test fee.",
+                "part3": "If you do not pay the invoice, you will be subjected to debt recovery and enforcement procedures."
               },
               "selectOne": "Valitse yksi alla olevista vaihtoehdoista."
             }
