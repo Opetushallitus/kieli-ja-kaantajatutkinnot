@@ -44,6 +44,6 @@ public class OnrService {
     }
 
     final String json = response.getResponseBody();
-    return OBJECT_MAPPER.readValue(json, new TypeReference<PersonalDataDTO>() {});
+    return OBJECT_MAPPER.readValue(json, new TypeReference<>() {});
   }
 }

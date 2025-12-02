@@ -25,19 +25,19 @@ public class ClerkCustomerService {
   private final OnrService onrService;
 
   private ClerkCustomerPersonDTO getClerkCustomerPersonDTO(String oid) throws Exception {
-    PersonalDataDTO onrPerson = onrService.getPersonalData(oid);
-    if (onrPerson == null) {
-      throw new NotFoundException(
-        String.format("Person with oid '%s' not found from the oppijanumerorekisteri-service.", oid)
-      );
-    }
-
     Person person = personRepository.getByOid(oid);
     if (person == null) {
       // throw 404, because the whole data of getClerkCustomerDetails is tied to a specific user.
       throw new NotFoundException(String.format("Person with oid '%s' not found from the person repository.", oid));
     }
 
+    PersonalDataDTO onrPerson = onrService.getPersonalData(oid);
+    if (onrPerson == null) {
+      throw new RuntimeException(
+        String.format("Person with oid '%s' was found in the person repository, ", oid) +
+        "but not found from the oppijanumerorekisteri-service."
+      );
+    }
     return new ClerkCustomerPersonDTO(
       person.getFirstName(),
       person.getLastName(),
