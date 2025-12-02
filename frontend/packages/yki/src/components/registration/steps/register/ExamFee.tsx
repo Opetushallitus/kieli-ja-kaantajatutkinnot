@@ -162,7 +162,7 @@ const UserEducationSelection = () => {
           <Container className="public-registration__info-box columns gapped-sm">
             <InfoFilledIcon color={Color.Secondary} />
             <Text>
-              {t('freeAttemptsOfferedYKI')}
+              {t('freeAttemptsOfferedYKI')}{' '}
               <Trans
                 t={t}
                 i18nKey="freeAttemptsLeft"
