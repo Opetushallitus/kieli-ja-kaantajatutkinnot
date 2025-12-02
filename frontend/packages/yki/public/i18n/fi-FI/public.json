@@ -420,7 +420,7 @@
               "certificateLanguage": "Valitse todistuksen kieli",
               "countryOfEducation": "Valitse, missä olet opiskellut",
               "dateOfBirth": "Syntymäaika",
-              "educationType": "Valitse maksuttomuuteen oikeuttavien opintojen tyyppi",
+              "educationType": "Kerro, onko sinulla opintoja, jotka oikeuttavat maksuttomaan YKI-testiin",
               "email": "Sähköpostiosoite",
               "emailConfirmation": "Sähköpostiosoitteen vahvistus",
               "firstNames": "Etunimet",
@@ -449,8 +449,8 @@
             "freeAttemptsOffered": "Voit ilmoittautua maksuttomasti kolme (3) kertaa.",
             "freeAttemptsOfferedYKI": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa.",
             "loading": {
-              "checkingEligibility": "Tarkastamme täyttyvätkö maksuttomuuden ehdot kohdallasi.",
-              "pleaseWait": "Tietoja ladataan, ole hyvä ja odota hetki."
+              "checkingEligibility": "Tarkistamme koulutustietosi automaattisesti.",
+              "pleaseWait": "Tietoja ladataan, odota hetki."
             },
             "noFeeRequired": "YKI-testi on sinulle maksuton.",
             "noSuitableEducationFound": "Emme löytäneet maksuttomuuteen oikeuttavia tutkintoja.",
