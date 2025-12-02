@@ -57,26 +57,31 @@ public class ClerkCustomerService {
       .map(registration -> {
         final var session = registration.getExamSession();
 
-        // Use the latest payment information
-        var latestExamPayment = registration
+        final var examinationDate = session.getExamDate().getExamDate();
+        final var exam = new ClerkExamDTO(session.getLanguage(), session.getLanguage());
+
+        final var examLocation = session
+          .getLocations()
+          .stream()
+          .map(l -> new ClerkExamLocationDTO(l.getName(), l.getPostOffice(), l.getLang()))
+          .toList();
+
+        final var latestExamPayment = registration
           .getExamPayments()
           .stream()
           .max(Comparator.comparing(ExamPayment::getPaidAt));
 
-        Optional<LocalDate> freeRegistrationCreatedAt = registration.getFreeRegistration() == null
+        final Optional<LocalDate> freeRegistrationCreatedAt = registration.getFreeRegistration() == null
           ? Optional.empty()
           : Optional.of(registration.getFreeRegistration().getCreatedAt().toLocalDate());
-        var paidAt = latestExamPayment.map(ExamPayment::getPaidAt).map(LocalDateTime::toLocalDate);
-        var registrationDate = paidAt.or(() -> freeRegistrationCreatedAt);
+
+        final var paidAt = latestExamPayment.map(ExamPayment::getPaidAt).map(LocalDateTime::toLocalDate);
+        final var registrationDate = paidAt.or(() -> freeRegistrationCreatedAt);
 
         return new ClerkCustomerRegistrationDTO(
-          session.getExamDate().getExamDate(),
-          new ClerkExamDTO(session.getLanguage(), session.getLanguage()),
-          session
-            .getLocations()
-            .stream()
-            .map(l -> new ClerkExamLocationDTO(l.getName(), l.getPostOffice(), l.getLang()))
-            .toList(),
+          examinationDate,
+          exam,
+          examLocation,
           registration.getState(),
           paidAt,
           registrationDate,
