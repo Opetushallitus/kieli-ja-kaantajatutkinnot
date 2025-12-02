@@ -407,7 +407,6 @@
         "registrationButtonLabels": {
           "enrollToQueue": "Register for the waiting list",
           "full": "Full",
-          "orderCancellationNotification": "Subscribe to notifications of available seats",
           "periodNotOpen": "Registration has not started",
           "register": "Register"
         },

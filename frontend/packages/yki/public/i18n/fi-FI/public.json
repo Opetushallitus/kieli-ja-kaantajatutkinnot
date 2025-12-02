@@ -407,7 +407,6 @@
         "registrationButtonLabels": {
           "enrollToQueue": "Ilmoittaudu jonoon",
           "full": "Täynnä",
-          "orderCancellationNotification": "Tilaa ilmoitus peruutuspaikoista",
           "periodNotOpen": "Ilmoittautuminen ei ole alkanut",
           "register": "Ilmoittaudu"
         },
