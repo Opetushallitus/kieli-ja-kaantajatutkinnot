@@ -523,10 +523,8 @@
             "item1": "Et voi vaihtaa YKI-testin tasoa.",
             "item2": "Et voi vaihtaa YKI-testin kieltä.",
             "item3": "Et voi vaihtaa testipaikkaa.",
-            "item4": "Ilmoittautuminen on henkilökohtainen. Et voi vaihtaa osallistujan henkilötietoja.",
-            "item5": "Jos et pääse osallistumaan YKI-testiin, voit siirtää ilmoittautumista yhden kerran. Voit siirtää ilmoittautumisen seuraavaan saman kielen ja saman tason YKI-testiin samassa testipaikassa.",
-            "item51": "Uusi testipäivä saa olla enintään vuoden kuluttua alkuperäisestä testipäivästä.",
-            "item52": "Jos seuraavaan saman kielen ja tason YKI-testiin on yli vuosi alkuperäisestä testipäivästä, voit siirtää ilmoittautumisesi seuraavaan saman kielen ja tason YKI-testiin.",
+            "item4": "Et voi vaihtaa testipäivää.",
+            "item5": "Ilmoittautuminen on henkilökohtainen. Et voi vaihtaa osallistujan henkilötietoja.",
             "item6": "Jos et pääse osallistumaan YKI-testiin, voit hakea tutkintomaksun palautusta Opetushallitukselta. Opetushallitus palauttaa tutkintomaksusi, jos hakemuksesi täyttää kaikki lain asettamat ehdot.",
             "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-ilmoittautumisen-ehdot",
             "linkText": "Ilmoittautumisen ehdot",
@@ -1002,12 +1000,9 @@
         "introduction": {
           "bulletPoints": {
             "point1": "Voit katsoa omia ilmoittautumisia viimeisen 12 kuukauden ajalta.",
-            "point2": "Voit siirtää ilmoittautumista yhden kerran.",
-            "point3": "Voit perua ilmoittautumisen.",
-            "point4": "Voit katsoa ne tutkinnot, joihin olet jonossa, ja ottaa paikan vastaan jonosta.",
-            "point5": "Jos YKI-testiin vapautuu paikka, voit ottaa sen vastaan.",
-            "point6": "Voit perua ilmoittautumisen jonoon.",
-            "point7": "Voit muokata yhteystietojasi."
+            "point2": "Voit perua ilmoittautumisen.",
+            "point3": "Voit katsoa ne tutkinnot, joihin olet jonossa, ja ottaa paikan vastaan jonosta.",
+            "point4": "Voit muokata yhteystietojasi."
           },
           "info": "Katso ja muokkaa ilmoittautumisiasi YKI-testeihin."
         },

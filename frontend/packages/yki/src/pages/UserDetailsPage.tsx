@@ -441,11 +441,9 @@ const NotLoggedIn = () => {
             <Text>{t('notLoggedIn.actionsAvailable')}</Text>
           </div>
           <Typography className="margin-top-sm" variant="body1" component="ul">
-            {['point1', 'point2', 'point3', 'point4', 'point7'].map(
-              (point, i) => (
-                <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
-              ),
-            )}
+            {['point1', 'point2', 'point3', 'point4'].map((point, i) => (
+              <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
+            ))}
           </Typography>
         </Grid>
       </Grid>

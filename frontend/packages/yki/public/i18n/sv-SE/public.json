@@ -523,10 +523,8 @@
             "item1": "Du kan inte ändra nivån på YKI-testet.",
             "item2": "Du kan inte ändra språket på YKI-testet.",
             "item3": "Du kan inte ändra testplatsen.",
-            "item4": "Anmälan är personlig. Du kan inte ändra deltagarens personuppgifter.",
-            "item5": "Om du inte kan delta i det YKI-test, kan du flytta din anmälan en (1) gång till ett annat YKI-test i samma språk och på samma nivå vid samma testplats.",
-            "item51": "Den nya testdagen kan infalla högst ett år efter den ursprungliga testdagen.",
-            "item52": "Om nästa YKI-test i samma språk och på samma nivå ordnas mer än ett år efter den ursprungliga testdagen, kan du flytta din anmälan till nästa YKI-test i samma språk och på samma nivå.",
+            "item4": "Du kan inte ändra testdagen.",
+            "item5": "Anmälan är personlig. Du kan inte ändra deltagarens personuppgifter.",
             "item6": "Om du inte kan delta i det YKI-test kan du ansöka om återbetalning av examensavgiften hos Utbildningsstyrelsen. Utbildningsstyrelsen återbetalar din examensavgift om din ansökan uppfyller alla villkor i lagen om allmänna språkexamina (YKI).",
             "link": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-villkoren-for-anmalan",
             "linkText": "Villkoren för anmälan",
@@ -1002,12 +1000,9 @@
         "introduction": {
           "bulletPoints": {
             "point1": "Du kan se dina anmälningar från de senaste 12 månaderna.",
-            "point2": "Du kan flytta din anmälan en gång.",
-            "point3": "Du kan annullera din anmälan.",
-            "point4": "Du kan se de examina som du köar för och ta emot en plats som du köat till.",
-            "point5": "Om en plats på YKI-testet blir ledig kan du ta emot den.",
-            "point6": "Du kan annullera din anmälan till en köplats.",
-            "point7": "Du kan redigera dina kontaktuppgifter."
+            "point2": "Du kan annullera din anmälan.",
+            "point3": "Du kan se de examina som du köar för och ta emot en plats som du köat till.",
+            "point4": "Du kan redigera dina kontaktuppgifter."
           },
           "info": "Se och ändra dina anmälningar till YKI-testet."
         },
