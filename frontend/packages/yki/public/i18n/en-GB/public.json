@@ -4,7 +4,8 @@
       "cancelRegistrationModal": {
         "cancel": "Do not cancel",
         "confirm": "Cancel registration",
-        "descriptionNotPaid": "If you cancel your registration, you cannot restore it. You will need to register again if you want to take the YKI test.",
+        "descriptionNotPaid1": "If you meet the conditions for free YKI tests, you can register for the advanced level YKI test in Finnish or Swedish free of charge a total of three (3) times. If you cancel this registration, one free test is not used.",
+        "descriptionNotPaid2": "If you cancel your registration, you cannot restore it. You will need to register again if you want to take the YKI test.",
         "descriptionPaid1": "If you cancel your registration, the test fee will not be automatically refunded.",
         "descriptionPaid2": "You can apply for a test fee refund from the Finnish National Agency for Education. The Finnish National Agency for Education will refund your test fee if your application meets all the conditions laid down by law. If you want to apply for a refund of the test fee, please read the instructions on the Finnish National Agency for Education's website:",
         "descriptionPaid3": "If you cancel your registration, you cannot restore it. You will need to register again if you want to take the YKI test.",
