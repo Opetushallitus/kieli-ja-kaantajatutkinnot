@@ -4,7 +4,8 @@
       "cancelRegistrationModal": {
         "cancel": "Avbryt",
         "confirm": "Skicka",
-        "descriptionNotPaid": "Om du annullerar din anmälan kan du inte återställa den. Du måste anmäla dig på nytt om du vill delta i YKI-testet.",
+        "descriptionNotPaid1": "Om du uppfyller villkoren för avgiftsfri YKI-examen kan du utan kostnad anmäla dig till totalt tre (3) examenstillfällen i finska eller svenska på högsta nivå. Om du annullerar denna anmälan används inte ett avgiftsfritt examenstillfälle.",
+        "descriptionNotPaid2": "Om du annullerar din anmälan kan du inte återställa den. Du måste anmäla dig på nytt om du vill delta i YKI-testet.",
         "descriptionPaid1": "Om du annullerar anmälan återbetalas examensavgiften inte automatiskt.",
         "descriptionPaid2": "Du kan ansöka om återbetalning av examensavgift hos Utbildningsstyrelsen. Utbildningsstyrelsen återbetalar din examensavgift om din ansökan uppfyller alla lagstadgade villkor. Om du vill ansöka om återbetalning av examensavgiften, läs anvisningarna på Utbildningsstyrelsens webbplats:",
         "descriptionPaid3": "Om du annullerar din anmälan kan du inte återställa den. Du måste anmäla dig på nytt om du vill delta i YKI-testet.",
@@ -12,7 +13,7 @@
           "label": "Annullering av deltagandet",
           "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ennen-yki-testia#anchor-osallistumisen-peruminen"
         },
-        "title": "Avbryt anmälan",
+        "title": "Vill du annullera anmälan?",
         "success": "Anmälan har avbrutits"
       },
       "clerkRegister": {
@@ -452,8 +453,9 @@
               "pleaseWait": "Tietoja ladataan, ole hyvä ja odota hetki."
             },
             "noFeeRequired": "YKI-testi on sinulle maksuton.",
-            "paymentRequired": "Kun lähetät ilmoittautumislomakkeen, sinun täytyy maksaa tutkintomaksu.",
             "noSuitableEducationFound": "Emme löytäneet maksuttomuuteen oikeuttavia tutkintoja.",
+            "paymentRequired": "Kun lähetät ilmoittautumislomakkeen, sinun täytyy maksaa tutkintomaksu.",
+            "paymentRequiredIfLiftedFromQueue": "Jos saat paikan YKI-testiin jonosta, sinun täytyy maksaa tutkintomaksu.",
             "suitableEducationFound": "Sinulla on ehdot täyttävä tutkinto",
             "title": "Tutkintomaksu",
             "userSelection": {
@@ -465,6 +467,7 @@
               },
               "declareEducationOrPay": "Sinun täytyy ilmoittaa tiedot opinnoistasi tai maksaa tutkintomaksu.",
               "educationDetails": {
+                "comparableMatriculationExam": "Olen suorittanut ylioppilastutkintoa vastaavan ulkomaisen tutkinnon.",
                 "higherEducationConcluded": "Olen suorittanut korkeakoulututkinnon.",
                 "higherEducationEnrolled": "Olen suorittamassa korkeakoulututkintoa.",
                 "matriculationExam": "Olen suorittanut ylioppilastutkinnon.",

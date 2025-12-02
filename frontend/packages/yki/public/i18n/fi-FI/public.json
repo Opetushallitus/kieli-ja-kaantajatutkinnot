@@ -4,7 +4,8 @@
       "cancelRegistrationModal": {
         "cancel": "En halua perua",
         "confirm": "Peru ilmoittautuminen",
-        "descriptionNotPaid": "Jos perut ilmoittautumisen, et voi palauttaa sitä. Sinun täytyy ilmoittautua uudelleen, jos haluat osallistua YKI-testiin.",
+        "descriptionNotPaid1": "Jos täytät maksuttoman YKI-testin ehdot, voit ilmoittautua maksuttomasti suomen tai ruotsin kielen ylimmän tason YKI-testiin yhteensä kolme (3) kertaa. Jos perut tämän ilmoittautumisen, saat maksuttoman kerran takaisin.",
+        "descriptionNotPaid2": "Jos perut ilmoittautumisen, et voi palauttaa sitä. Sinun täytyy ilmoittautua uudelleen, jos haluat osallistua YKI-testiin.",
         "descriptionPaid1": "Jos perut ilmoittautumisen, tutkintomaksua ei palauteta automaattisesti.",
         "descriptionPaid2": "Voit hakea tutkintomaksun palautusta Opetushallitukselta. Opetushallitus palauttaa tutkintomaksusi, jos hakemuksesi täyttää kaikki lain asettamat ehdot. Jos haluat hakea tutkintomaksun palautusta, lue ohjeet Opetushallituksen verkkosivuilta:",
         "descriptionPaid3": "Jos perut ilmoittautumisen, et voi palauttaa sitä. Sinun täytyy ilmoittautua uudelleen, jos haluat osallistua YKI-testiin.",
@@ -452,8 +453,9 @@
               "pleaseWait": "Tietoja ladataan, ole hyvä ja odota hetki."
             },
             "noFeeRequired": "YKI-testi on sinulle maksuton.",
-            "paymentRequired": "Kun lähetät ilmoittautumislomakkeen, sinun täytyy maksaa tutkintomaksu.",
             "noSuitableEducationFound": "Emme löytäneet maksuttomuuteen oikeuttavia tutkintoja.",
+            "paymentRequired": "Kun lähetät ilmoittautumislomakkeen, sinun täytyy maksaa tutkintomaksu.",
+            "paymentRequiredIfLiftedFromQueue": "Jos saat paikan YKI-testiin jonosta, sinun täytyy maksaa tutkintomaksu.",
             "suitableEducationFound": "Sinulla on ehdot täyttävä tutkinto",
             "title": "Tutkintomaksu",
             "userSelection": {
@@ -465,6 +467,7 @@
               },
               "declareEducationOrPay": "Sinun täytyy ilmoittaa tiedot opinnoistasi tai maksaa tutkintomaksu.",
               "educationDetails": {
+                "comparableMatriculationExam": "Olen suorittanut ylioppilastutkintoa vastaavan ulkomaisen tutkinnon.",
                 "higherEducationConcluded": "Olen suorittanut korkeakoulututkinnon.",
                 "higherEducationEnrolled": "Olen suorittamassa korkeakoulututkintoa.",
                 "matriculationExam": "Olen suorittanut ylioppilastutkinnon.",
