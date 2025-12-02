@@ -58,7 +58,7 @@ public class ClerkCustomerService {
         final var session = registration.getExamSession();
 
         final var examinationDate = session.getExamDate().getExamDate();
-        final var exam = new ClerkExamDTO(session.getLanguage(), session.getLanguage());
+        final var exam = new ClerkExamDTO(session.getLanguage(), session.getLevel());
 
         final var examLocation = session
           .getLocations()
