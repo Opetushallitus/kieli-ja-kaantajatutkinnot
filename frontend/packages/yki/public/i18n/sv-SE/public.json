@@ -1000,9 +1000,11 @@
         "introduction": {
           "bulletPoints": {
             "point1": "Du kan se dina anmälningar från de senaste 12 månaderna.",
-            "point2": "Du kan annullera din anmälan.",
-            "point3": "Du kan se de examina som du köar för och ta emot en plats som du köat till.",
-            "point4": "Du kan redigera dina kontaktuppgifter."
+            "point3": "Du kan annullera din anmälan.",
+            "point4": "Du kan se de examina som du köar för och ta emot en plats som du köat till.",
+            "point5": "Om en plats på YKI-testet blir ledig kan du ta emot den.",
+            "point6": "Du kan annullera din anmälan till en köplats.",
+            "point7": "Du kan redigera dina kontaktuppgifter."
           },
           "info": "Se och ändra dina anmälningar till YKI-testet."
         },

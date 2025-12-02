@@ -441,7 +441,7 @@ const NotLoggedIn = () => {
             <Text>{t('notLoggedIn.actionsAvailable')}</Text>
           </div>
           <Typography className="margin-top-sm" variant="body1" component="ul">
-            {['point1', 'point2', 'point3', 'point4'].map((point, i) => (
+            {['point1', 'point3', 'point4', 'point7'].map((point, i) => (
               <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
             ))}
           </Typography>
@@ -501,15 +501,15 @@ export const UserDetailsPage: FC = () => {
           <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
         ));
       } else {
-        return ['point2', 'point4', 'point7'].map((point, i) => (
+        return ['point4', 'point7'].map((point, i) => (
           <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
         ));
       }
     }
 
-    return ['point1', 'point2', 'point3', 'point4', 'point7'].map(
-      (point, i) => <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>,
-    );
+    return ['point1', 'point3', 'point4', 'point7'].map((point, i) => (
+      <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
+    ));
   };
 
   return (

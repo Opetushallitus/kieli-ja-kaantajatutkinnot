@@ -1001,9 +1001,11 @@
         "introduction": {
           "bulletPoints": {
             "point1": "You can view your own registrations for the last 12 months.",
-            "point2": "You can cancel your registration.",
-            "point3": "You can view the tests for which you are on the waiting list and accept a place in a test from the waiting list.",
-            "point4": "You can edit your contact information."
+            "point3": "You can cancel your registration.",
+            "point4": "You can view the tests for which you are on the waiting list and accept a place in a test from the waiting list.",
+            "point5": "If a place in the YKI test opens up, you can accept it.",
+            "point6": "You can cancel your waiting list registration.",
+            "point7": "You can edit your contact information."
           },
           "info": "View and edit your registrations for YKI tests."
         },
