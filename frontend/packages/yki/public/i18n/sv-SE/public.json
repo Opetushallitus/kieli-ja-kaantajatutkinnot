@@ -671,7 +671,7 @@
             },
             "withoutFinnishSSN": {
               "description": "Identifiera dig med din e-postadress",
-              "examFeeRequired": "Jos tunnistaudut sähköpostilla, sinun täytyy maksaa tutkintomaksu.",
+              "examFeeRequired": "Om du identifierar dig med e-postpostadress måste du betala examensavgiften.",
               "info": "Efter att du har identifierat dig får du en länk per e-post för att fortsätta till anmälan."
             }
           },
