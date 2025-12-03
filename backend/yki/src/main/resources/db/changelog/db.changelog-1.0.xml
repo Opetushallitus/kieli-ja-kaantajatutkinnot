@@ -86,7 +86,7 @@
     </changeSet>
 
     <changeSet id="2025-11-04-add-free-registration-is_foreign-column" author="pkoivisto">
-        <preConditions onFail="WARN">
+        <preConditions onFail="CONTINUE">
             <not>
                 <columnExists tableName="free_registration" columnName="is_foreign"/>
             </not>
@@ -97,7 +97,7 @@
     </changeSet>
 
     <changeSet id="2025-11-12-add-free-registration-base-entity" author="jrkkp">
-        <preConditions onFail="WARN">
+        <preConditions onFail="CONTINUE">
             <not>
                 <columnExists tableName="free_registration" columnName="version"/>
             </not>
