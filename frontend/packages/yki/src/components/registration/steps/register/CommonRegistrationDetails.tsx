@@ -227,7 +227,11 @@ export const CommonRegistrationDetails = () => {
           </div>
           <br />
           <p>
-            <b>{t('termsAndConditions.description3')}</b>
+            <b>
+              {isFree === 'YES'
+                ? t('termsAndConditions.description3Free')
+                : t('termsAndConditions.description3')}
+            </b>
           </p>
         </Text>
         <FormControl error={!!registrationErrors['termsAndConditionsAgreed']}>

@@ -522,7 +522,8 @@
           "termsAndConditions": {
             "description1": "To register, you must agree to the terms and conditions of the registration:",
             "description2": "Read more on the Finnish National Agency for Education's website",
-            "description3": "Confirmed registration for YKI test is binding. Check that you are registering for the correct YKI test, and you have filled in your personal information correctly.",
+            "description3": "Paid registration for YKI test is binding. Check that you are registering for the correct YKI test, and you have filled in your personal information correctly.",
+            "description3Free": "Confirmed registration for YKI test is binding. Check that you are registering for the correct YKI test, and you have filled in your personal information correctly.",
             "item1": "You cannot change the level of the YKI test.",
             "item2": "You cannot change the language of the YKI test.",
             "item3": "You cannot change the test centre.",

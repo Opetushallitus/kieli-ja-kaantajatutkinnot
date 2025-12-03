@@ -522,7 +522,8 @@
           "termsAndConditions": {
             "description1": "Ilmoittautumista varten sinun täytyy hyväksyä ilmoittautumisen ehdot:",
             "description2": "Lue lisää Opetushallituksen verkkosivuilta",
-            "description3": "Vahvistettu ilmoittautuminen YKI-testiin on sitova. Tarkista, että olet valinnut oikean YKI-testin ja täyttänyt tietosi oikein.",
+            "description3": "Maksettu ilmoittautuminen YKI-testiin on sitova. Tarkista, että olet valinnut oikean YKI-testin ja täyttänyt tietosi oikein.",
+            "description3Free": "Vahvistettu ilmoittautuminen YKI-testiin on sitova. Tarkista, että olet valinnut oikean YKI-testin ja täyttänyt tietosi oikein.",
             "item1": "Et voi vaihtaa YKI-testin tasoa.",
             "item2": "Et voi vaihtaa YKI-testin kieltä.",
             "item3": "Et voi vaihtaa testipaikkaa.",
