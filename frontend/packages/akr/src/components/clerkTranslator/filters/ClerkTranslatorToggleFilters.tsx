@@ -38,7 +38,16 @@ export const ClerkTranslatorToggleFilters = () => {
   const formerVirCount = translators.filter(
     (t) => t.authorisations.formerVir.length > 0,
   ).length;
-  const deceasedCount = translators.filter((t) => t.isDeceased).length;
+  const deceasedCount = translators.filter(
+    (t) =>
+      t.isDeceased &&
+      (t.authorisations.effective.find((a) => a.permissionToPublish) ||
+        t.authorisations.expiring.find((a) => a.permissionToPublish) ||
+        t.authorisations.expiredDeduplicated.find(
+          (a) => a.permissionToPublish,
+        ) ||
+        t.authorisations.formerVir.find((a) => a.permissionToPublish)),
+  ).length;
 
   const filterData = [
     {
