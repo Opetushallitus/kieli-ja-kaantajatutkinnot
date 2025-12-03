@@ -214,8 +214,8 @@ export const CustomerExamListings = ({
           </Text>
           {queueSpotOffered.offered !== QueueOfferStatus.NotOffered && (
             <Text>
-              {t('values.queueSpotOffered.dueDate', {
-                dueDate: DateUtils.formatOptionalDate(
+              {t('values.queueSpotOffered.expiresAt', {
+                expiresAt: DateUtils.formatOptionalDate(
                   queueSpotOffered.expiresAt,
                   'l',
                 ),
