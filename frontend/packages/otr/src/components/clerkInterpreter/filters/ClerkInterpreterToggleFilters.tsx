@@ -34,7 +34,15 @@ export const ClerkInterpreterToggleFilters = ({
   const expiredDeduplicatedCount = interpreters.filter(
     (i) => i.qualifications.expiredDeduplicated.length > 0,
   ).length;
-  const deceasedCount = interpreters.filter((i) => i.isDeceased).length;
+  const deceasedCount = interpreters.filter(
+    (i) =>
+      i.isDeceased &&
+      (i.qualifications.effective.find((q) => q.permissionToPublish) ||
+        i.qualifications.expiring.find((q) => q.permissionToPublish) ||
+        i.qualifications.expiredDeduplicated.find(
+          (q) => q.permissionToPublish,
+        )),
+  ).length;
 
   const filterData = [
     {
