@@ -183,7 +183,7 @@ describe('PublicRegistrationPage', () => {
       cy.get('.MuiButton-contained').click();
       onPublicRegistrationPage.expectReservationTimerText(
         true,
-        'Paikkavarauksesi tutkintoon umpeutuu: 30:00',
+        'Paikkavarauksesi YKI-testiin umpeutuu: 30:00',
       );
     });
 

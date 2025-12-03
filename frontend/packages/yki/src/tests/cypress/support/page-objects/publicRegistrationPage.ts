@@ -8,11 +8,7 @@ class PublicRegistrationPage {
         : cy.findByRole('combobox', { name: /Valitse kieli/ }),
     filterByLevel: (isPhone: boolean = false) =>
       isPhone
-        ? cy
-            .findAllByRole('combobox')
-            .eq(1)
-            .should('be.visible')
-            .should('be.visible')
+        ? cy.findAllByRole('combobox').eq(1).should('be.visible')
         : cy.findByRole('combobox', { name: /Valitse taso/ }),
     resultBox: () =>
       cy.findByTestId('public-registration-page__grid-container__result-box'),
