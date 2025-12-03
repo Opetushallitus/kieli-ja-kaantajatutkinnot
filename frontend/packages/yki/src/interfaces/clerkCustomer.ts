@@ -26,7 +26,7 @@ export type ExamLocation = {
 };
 
 export type Exam = {
-  examinationDate: Dayjs;
+  examDate: Dayjs;
   exam: {
     language: ExamLanguage;
     level: ExamLevel;
@@ -72,7 +72,7 @@ export interface ClerkCustomerDetails {
 }
 
 export type RegistrationResponse = {
-  examinationDate: string;
+  examDate: string;
   exam: {
     language: ExamLanguage;
     level: ExamLevel;

@@ -66,7 +66,7 @@ const helsinki = [
 // Ilmoittautunut
 const defaultRegistrations: RegistrationResponse[] = [
   {
-    examinationDate: '2035-09-01T00:00:00.000Z',
+    examDate: '2035-09-01T00:00:00.000Z',
     exam: {
       language: ExamLanguage.FIN,
       level: ExamLevel.KESKI,
@@ -80,7 +80,7 @@ const defaultRegistrations: RegistrationResponse[] = [
     kind: RegistrationKind.Admission,
   },
   {
-    examinationDate: '2035-10-23',
+    examDate: '2035-10-23',
     exam: {
       language: ExamLanguage.DEU,
       level: ExamLevel.YLIN,
@@ -91,7 +91,7 @@ const defaultRegistrations: RegistrationResponse[] = [
     kind: RegistrationKind.Admission,
   },
   {
-    examinationDate: '2035-011-30',
+    examDate: '2035-011-30',
     exam: {
       language: ExamLanguage.SME,
       level: ExamLevel.PERUS,
@@ -102,7 +102,7 @@ const defaultRegistrations: RegistrationResponse[] = [
     kind: RegistrationKind.Admission,
   },
   {
-    examinationDate: '2035-12-30',
+    examDate: '2035-12-30',
     exam: {
       language: ExamLanguage.SME,
       level: ExamLevel.YLIN,
@@ -117,7 +117,7 @@ const defaultRegistrations: RegistrationResponse[] = [
 // Jonossa
 const defaultQueuedExams: RegistrationResponse[] = [
   {
-    examinationDate: '2035-09-05',
+    examDate: '2035-09-05',
     exam: {
       language: ExamLanguage.FIN,
       level: ExamLevel.KESKI,
@@ -131,7 +131,7 @@ const defaultQueuedExams: RegistrationResponse[] = [
     expiresAt: '2035-09-20',
   },
   {
-    examinationDate: '2035-10-18',
+    examDate: '2035-10-18',
     exam: {
       language: ExamLanguage.DEU,
       level: ExamLevel.YLIN,
@@ -144,7 +144,7 @@ const defaultQueuedExams: RegistrationResponse[] = [
     expiresAt: '2035-08-04',
   },
   {
-    examinationDate: '2035-11-22',
+    examDate: '2035-11-22',
     exam: {
       language: ExamLanguage.SWE,
       level: ExamLevel.PERUS,
@@ -155,7 +155,7 @@ const defaultQueuedExams: RegistrationResponse[] = [
     kind: RegistrationKind.Queue,
   },
   {
-    examinationDate: '2035-11-22',
+    examDate: '2035-11-22',
     exam: {
       language: ExamLanguage.SWE,
       level: ExamLevel.PERUS,
@@ -171,7 +171,7 @@ const defaultQueuedExams: RegistrationResponse[] = [
 // Menneet
 const defaultPastExams: RegistrationResponse[] = [
   {
-    examinationDate: '2025-07-20',
+    examDate: '2025-07-20',
     exam: {
       language: ExamLanguage.FIN,
       level: ExamLevel.PERUS,
@@ -182,7 +182,7 @@ const defaultPastExams: RegistrationResponse[] = [
     kind: RegistrationKind.Admission, // Ei näytetä menneet - tutkinnot - näkymässä
   },
   {
-    examinationDate: '2025-03-25',
+    examDate: '2025-03-25',
     exam: {
       language: ExamLanguage.SWE,
       level: ExamLevel.KESKI,
@@ -193,7 +193,7 @@ const defaultPastExams: RegistrationResponse[] = [
     kind: RegistrationKind.Queue, // Ei näytetä menneet - tutkinnot - näkymässä
   },
   {
-    examinationDate: '2025-03-25',
+    examDate: '2025-03-25',
     exam: {
       language: ExamLanguage.SWE,
       level: ExamLevel.KESKI,

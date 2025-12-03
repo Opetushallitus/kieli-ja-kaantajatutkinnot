@@ -12,7 +12,7 @@ import java.util.Optional;
  * @param liftedFromQueueAt - Date, when the registration was lifted from the queue. Can be null.
  */
 public record ClerkCustomerRegistrationDTO(
-  LocalDate examinationDate,
+  LocalDate examDate,
   ClerkExamDTO exam,
   List<ClerkExamLocationDTO> examLocation,
   RegistrationState registrationState,

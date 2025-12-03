@@ -459,11 +459,11 @@ export class SerializationUtils {
   ): ClerkCustomerDetails {
     const now = dayjs().startOf('day');
     const pastRegistrations = clerkCustomerDetailsResponse.registrations.filter(
-      (registration) => dayjs(registration.examinationDate).isBefore(now),
+      (registration) => dayjs(registration.examDate).isBefore(now),
     );
     const notPastRegistrations =
       clerkCustomerDetailsResponse.registrations.filter(
-        (registration) => !dayjs(registration.examinationDate).isBefore(now),
+        (registration) => !dayjs(registration.examDate).isBefore(now),
       );
 
     const registeredRegistrations = notPastRegistrations.filter(
@@ -501,7 +501,7 @@ export class SerializationUtils {
       registrationDate: registration.registrationDate
         ? dayjs(registration.registrationDate)
         : undefined,
-      examinationDate: dayjs(registration.examinationDate),
+      examDate: dayjs(registration.examDate),
       examLocation: SerializationUtils.deserializaMapLocation(
         registration.examLocation,
       ),
@@ -532,7 +532,7 @@ export class SerializationUtils {
       registrationDate: registration.registrationDate
         ? dayjs(registration.registrationDate)
         : undefined,
-      examinationDate: dayjs(registration.examinationDate),
+      examDate: dayjs(registration.examDate),
       examLocation: SerializationUtils.deserializaMapLocation(
         registration.examLocation,
       ),
@@ -586,10 +586,7 @@ export class SerializationUtils {
 
     return {
       exam: registration.exam,
-      // examinationDate is calculated by fetching the date from the latest examPayment. A date from freeRegistration works as the fallback value, if there is no value. Technically freeRegistration may be also null.
-      // Practically, if the examinationDate is missing,
-      // it's data issue and then probably the data should be fixed.
-      examinationDate: dayjs(registration.examinationDate),
+      examDate: dayjs(registration.examDate),
       examLocation: SerializationUtils.deserializaMapLocation(
         registration.examLocation,
       ),

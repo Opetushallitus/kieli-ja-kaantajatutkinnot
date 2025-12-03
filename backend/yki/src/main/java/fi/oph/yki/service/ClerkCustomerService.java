@@ -57,7 +57,7 @@ public class ClerkCustomerService {
       .map(registration -> {
         final var session = registration.getExamSession();
 
-        final var examinationDate = session.getExamDate().getExamDate();
+        final var examDate = session.getExamDate().getExamDate();
         final var exam = new ClerkExamDTO(session.getLanguage(), session.getLevel());
 
         final var examLocation = session
@@ -79,7 +79,7 @@ public class ClerkCustomerService {
         final var registrationDate = paidAt.or(() -> freeRegistrationCreatedAt);
 
         return new ClerkCustomerRegistrationDTO(
-          examinationDate,
+          examDate,
           exam,
           examLocation,
           registration.getState(),

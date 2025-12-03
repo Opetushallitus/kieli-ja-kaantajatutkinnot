@@ -72,14 +72,14 @@ export const CustomerExamListings = ({
   });
 
   // Tutkintopäivä (Ilmoittautumiset, Jonossa, Menneet)
-  const createExamDateColumn = <T extends { examinationDate: Dayjs }>(
+  const createExamDateColumn = <T extends { examDate: Dayjs }>(
     t: typeof i18next.t,
   ): ListTableColumn<T> => ({
     key: 'examDate',
     title: t('columns.date'),
-    render: ({ examinationDate }) => (
+    render: ({ examDate }) => (
       <div className="rows gapped-xs">
-        <Text>{DateUtils.formatOptionalDate(examinationDate, 'l')}</Text>
+        <Text>{DateUtils.formatOptionalDate(examDate, 'l')}</Text>
       </div>
     ),
   });
