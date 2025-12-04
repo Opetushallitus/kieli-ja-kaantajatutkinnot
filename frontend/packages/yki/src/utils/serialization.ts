@@ -466,8 +466,8 @@ export class SerializationUtils {
         (registration) => !dayjs(registration.examDate).isBefore(now),
       );
 
-    const registeredRegistrations = notPastRegistrations.filter(
-      (registration) => registration.kind === RegistrationKind.Admission,
+    const admissionedRegistrations = notPastRegistrations.filter(
+      (registration) => registration.kind !== RegistrationKind.Queue,
     );
     const queuedRegistrations = notPastRegistrations.filter(
       (registration) => registration.kind === RegistrationKind.Queue,
@@ -475,7 +475,7 @@ export class SerializationUtils {
 
     return {
       ...clerkCustomerDetailsResponse,
-      admissionedRegistrations: registeredRegistrations.map(
+      admissionedRegistrations: admissionedRegistrations.map(
         SerializationUtils.deserializeAdmissionedRegistration,
       ),
       queueRegistrations: queuedRegistrations.map(
@@ -516,16 +516,15 @@ export class SerializationUtils {
     const state = SerializationUtils.deserializeRegistrationState(
       registration.registrationState,
     );
-    const registrationStatus = {
-      state,
-      paidAt: registration.examPaymentPaidAt
-        ? dayjs(registration.examPaymentPaidAt)
-        : undefined,
-    };
 
     return {
       ...registration,
-      registrationStatus,
+      registrationStatus: {
+        state,
+        paidAt: registration.examPaymentPaidAt
+          ? dayjs(registration.examPaymentPaidAt)
+          : undefined,
+      },
       queueSpotOffered: SerializationUtils.getQueueSpotOffered(
         state,
         registration.liftedFromQueueAt,
