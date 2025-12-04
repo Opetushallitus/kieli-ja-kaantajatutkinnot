@@ -1,0 +1,34 @@
+package fi.oph.yki.api.clerk;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
+import fi.oph.yki.service.ClerkExamSessionService;
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.annotation.Resource;
+import org.springframework.context.annotation.Profile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping(
+  value = "/v2/api/clerk/examSession",
+  consumes = APPLICATION_JSON_VALUE,
+  produces = APPLICATION_JSON_VALUE
+)
+@Profile("dev")
+public class ClerkExamSessionController {
+
+  private static final String TAG_EXAM_SESSION = "Exam session API";
+
+  @Resource
+  private ClerkExamSessionService clerkExamSessionService;
+
+  @GetMapping(path = "/{examSessionId:\\d+}")
+  @Operation(tags = TAG_EXAM_SESSION, summary = "Get exam event and enrollments")
+  public ClerkExamSessionDTO getExamSession(@PathVariable final long examSessionId) {
+    return clerkExamSessionService.getExamSession(examSessionId);
+  }
+}
