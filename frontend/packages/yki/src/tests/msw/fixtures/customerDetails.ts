@@ -64,7 +64,7 @@ const helsinki = [
 ];
 
 // Ilmoittautunut
-const defaultRegistrations: RegistrationResponse[] = [
+const defaultAdmissionedRegistrations: RegistrationResponse[] = [
   {
     examDate: '2035-09-01T00:00:00.000Z',
     exam: {
@@ -115,7 +115,7 @@ const defaultRegistrations: RegistrationResponse[] = [
 ];
 
 // Jonossa
-const defaultQueuedExams: RegistrationResponse[] = [
+const defaultQueuedRegistrations: RegistrationResponse[] = [
   {
     examDate: '2035-09-05',
     exam: {
@@ -169,7 +169,7 @@ const defaultQueuedExams: RegistrationResponse[] = [
 ];
 
 // Menneet
-const defaultPastExams: RegistrationResponse[] = [
+const defaultPastRegistrations: RegistrationResponse[] = [
   {
     examDate: '2025-07-20',
     exam: {
@@ -218,9 +218,9 @@ export const customerDetails: ClerkCustomerDetailsResponse[] = [
       email: 'aino.osallistuja@loremipsum.fi',
     },
     registrations: [
-      ...defaultRegistrations,
-      ...defaultQueuedExams,
-      ...defaultPastExams,
+      ...defaultAdmissionedRegistrations,
+      ...defaultQueuedRegistrations,
+      ...defaultPastRegistrations,
     ],
   },
   {
@@ -245,9 +245,9 @@ export const customerDetails: ClerkCustomerDetailsResponse[] = [
       nationalityCode: '246',
     },
     registrations: [
-      ...defaultRegistrations,
-      ...defaultQueuedExams,
-      ...defaultPastExams,
+      ...defaultAdmissionedRegistrations,
+      ...defaultQueuedRegistrations,
+      ...defaultPastRegistrations,
     ],
   },
 ];

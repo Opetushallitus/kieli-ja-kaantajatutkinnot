@@ -25,7 +25,7 @@ export type ExamLocation = {
   lang: AppLanguage;
 };
 
-export type Exam = {
+export type AdmissionedRegistration = {
   examDate: Dayjs;
   exam: {
     language: ExamLanguage;
@@ -48,13 +48,16 @@ export type QueueSpotOffered =
       expiresAt: Dayjs;
     };
 
-export type QueuedRegistration = Exam & {
+export type QueuedRegistration = AdmissionedRegistration & {
   queueSpotOffered: QueueSpotOffered;
 };
 
 export type ExamState = 'REVIEWED' | 'CANCELLED' | 'REGISTERED';
 
-export type PastExam = Omit<Exam, 'registrationStatus' | 'registrationDate'> & {
+export type PastRegistration = Omit<
+  AdmissionedRegistration,
+  'registrationStatus' | 'registrationDate'
+> & {
   state: ExamState;
 };
 
@@ -66,9 +69,9 @@ export enum QueueOfferStatus {
 
 export interface ClerkCustomerDetails {
   person: CustomerPerson;
-  registrations: Exam[];
-  queuedExams: QueuedRegistration[];
-  pastExams: PastExam[];
+  admissionedRegistrations: AdmissionedRegistration[];
+  queueRegistrations: QueuedRegistration[];
+  pastRegistrations: PastRegistration[];
 }
 
 export type RegistrationResponse = {
@@ -85,9 +88,9 @@ export type RegistrationResponse = {
   registrationState: string;
   examPaymentPaidAt?: string;
   registrationDate?: string;
-  kind: RegistrationKind; // ADMISSION
-  liftedFromQueueAt?: string; // null
-  expiresAt?: string; // null
+  kind: RegistrationKind;
+  liftedFromQueueAt?: string;
+  expiresAt?: string;
 };
 
 export interface ClerkCustomerDetailsResponse {

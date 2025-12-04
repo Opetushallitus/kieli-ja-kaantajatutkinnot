@@ -10,12 +10,12 @@ import {
   RegistrationStates,
 } from 'enums/app';
 import {
+  AdmissionedRegistration,
   ClerkCustomerDetails,
   ClerkCustomerDetailsResponse,
-  Exam,
   ExamLocation,
   ExamState,
-  PastExam,
+  PastRegistration,
   QueuedRegistration,
   QueueOfferStatus,
   QueueSpotOffered,
@@ -475,19 +475,21 @@ export class SerializationUtils {
 
     return {
       ...clerkCustomerDetailsResponse,
-      registrations: registeredRegistrations.map(
-        SerializationUtils.deserializeUpcomingRegistration,
+      admissionedRegistrations: registeredRegistrations.map(
+        SerializationUtils.deserializeAdmissionedRegistration,
       ),
-      queuedExams: queuedRegistrations.map(
-        SerializationUtils.deserializeQueuedExam,
+      queueRegistrations: queuedRegistrations.map(
+        SerializationUtils.deserializeQueuedRegistration,
       ),
-      pastExams: pastRegistrations.map(SerializationUtils.deserializePastExam),
+      pastRegistrations: pastRegistrations.map(
+        SerializationUtils.deserializePastRegistration,
+      ),
     };
   }
 
-  static deserializeUpcomingRegistration(
+  static deserializeAdmissionedRegistration(
     registration: RegistrationResponse,
-  ): Exam {
+  ): AdmissionedRegistration {
     return {
       ...registration,
       registrationStatus: {
@@ -508,7 +510,7 @@ export class SerializationUtils {
     };
   }
 
-  static deserializeQueuedExam(
+  static deserializeQueuedRegistration(
     registration: RegistrationResponse,
   ): QueuedRegistration {
     const state = SerializationUtils.deserializeRegistrationState(
@@ -575,7 +577,9 @@ export class SerializationUtils {
     return queueSpotOffered;
   }
 
-  static deserializePastExam(registration: RegistrationResponse): PastExam {
+  static deserializePastRegistration(
+    registration: RegistrationResponse,
+  ): PastRegistration {
     const registrationState = SerializationUtils.deserializeRegistrationState(
       registration.registrationState,
     );

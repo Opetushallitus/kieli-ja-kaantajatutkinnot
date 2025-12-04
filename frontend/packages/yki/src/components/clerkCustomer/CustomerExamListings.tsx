@@ -276,21 +276,23 @@ export const CustomerExamListings = ({
     <Stack spacing={4}>
       <ExamsListing
         columns={registrationsColumns}
-        rows={customerDetails?.registrations}
+        rows={customerDetails?.admissionedRegistrations}
         header={t('headers.registrations')}
-        subHeader={`(${customerDetails?.registrations?.length ?? 0})`}
+        subHeader={`(${
+          customerDetails?.admissionedRegistrations?.length ?? 0
+        })`}
         noRowsText={t('noRowsTexts.registrations')}
       />
       <ExamsListing
         columns={queuedExamsColumns}
-        rows={customerDetails?.queuedExams}
+        rows={customerDetails?.queueRegistrations}
         header={t('headers.queuedExams')}
-        subHeader={`(${customerDetails?.queuedExams?.length ?? 0})`}
+        subHeader={`(${customerDetails?.queueRegistrations?.length ?? 0})`}
         noRowsText={t('noRowsTexts.queuedExams')}
       />
       <ExamsListing
         columns={pastExamsColumns}
-        rows={customerDetails?.pastExams}
+        rows={customerDetails?.pastRegistrations}
         header={t('headers.pastExams')}
         subHeader={`(${t('subHeaders.pastExams')})`}
         noRowsText={t('noRowsTexts.pastExams')}
