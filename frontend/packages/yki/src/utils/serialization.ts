@@ -466,6 +466,10 @@ export class SerializationUtils {
         (registration) => !dayjs(registration.examDate).isBefore(now),
       );
 
+    // TODO: Registrations lifted from queue have kind=Admission instead of kind=Queue.
+    // This makes it difficult to identify them for display in the "Queue" grouping (per designs).
+    // The data model needs clarification: should lifted registrations retain Queue kind with an additional
+    // status field, or should we add a separate field to track their queue history?
     const admissionedRegistrations = notPastRegistrations.filter(
       (registration) => registration.kind !== RegistrationKind.Queue,
     );
