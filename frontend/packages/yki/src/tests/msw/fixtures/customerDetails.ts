@@ -66,7 +66,7 @@ const helsinki = [
 // Ilmoittautunut
 const defaultAdmissionedRegistrations: RegistrationResponse[] = [
   {
-    examDate: '2035-09-01T00:00:00.000Z',
+    examDate: '2035-09-01',
     exam: {
       language: ExamLanguage.FIN,
       level: ExamLevel.KESKI,
@@ -91,7 +91,7 @@ const defaultAdmissionedRegistrations: RegistrationResponse[] = [
     kind: RegistrationKind.Admission,
   },
   {
-    examDate: '2035-011-30',
+    examDate: '2035-11-30',
     exam: {
       language: ExamLanguage.SME,
       level: ExamLevel.PERUS,
@@ -163,7 +163,7 @@ const defaultQueuedRegistrations: RegistrationResponse[] = [
     examLocation: helsinki,
     registrationState: RegistrationStates.Submitted,
     registrationDate: '2035-05-06',
-    kind: RegistrationKind.Queue,
+    kind: RegistrationKind.Admission,
     liftedFromQueueAt: '2035-05-06', // kentässä on arvo => jonopaikkaa tarjottu
   },
 ];
