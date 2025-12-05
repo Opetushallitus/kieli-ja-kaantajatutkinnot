@@ -1,192 +1,207 @@
-import { ExamLanguage, ExamLevel, RegistrationStates } from 'enums/app';
+import {
+  ExamLanguage,
+  ExamLevel,
+  RegistrationKind,
+  RegistrationStates,
+} from 'enums/app';
 import {
   ClerkCustomerDetailsResponse,
-  PastExamResponse,
-  QueueOfferStatus,
+  RegistrationResponse,
 } from 'interfaces/clerkCustomer';
 
-const defaultRegistrations = [
+const kajaani = [
   {
-    examinationDate: '2025-09-01T00:00:00.000Z',
+    name: 'Testipaikan nimi',
+    municipality: 'Kajaani',
+    lang: 'fi',
+  },
+  {
+    name: 'Provplatsens namn',
+    municipality: 'Kajana',
+    lang: 'sv',
+  },
+  {
+    name: 'Test site name',
+    municipality: 'Kajaani',
+    lang: 'en',
+  },
+];
+
+const lassila = [
+  {
+    name: 'Lassilan koulu',
+    municipality: 'Lassila',
+    lang: 'fi',
+  },
+  {
+    name: 'Lassila skola',
+    municipality: 'Lassila',
+    lang: 'sv',
+  },
+  {
+    name: 'Lassila School',
+    municipality: 'Lassila',
+    lang: 'en',
+  },
+];
+
+const helsinki = [
+  {
+    name: 'Lorem ipsum oppilaitos',
+    municipality: 'Helsinki',
+    lang: 'fi',
+  },
+  {
+    name: 'Lorem ipsum läroanstalt',
+    municipality: 'Helsingfors',
+    lang: 'sv',
+  },
+  {
+    name: 'Lorem ipsum educational institute',
+    municipality: 'Helsinki',
+    lang: 'en',
+  },
+];
+
+// Ilmoittautunut
+const defaultAdmissionedRegistrations: RegistrationResponse[] = [
+  {
+    examDate: '2035-09-01',
     exam: {
       language: ExamLanguage.FIN,
       level: ExamLevel.KESKI,
     },
-    examLocation: {
-      schoolName: 'Testipaikan nimi',
-      municipality: 'Kajaani',
-    },
+    examLocation: kajaani,
 
     // user have paid
-    registrationStatus: {
-      state: RegistrationStates.Completed,
-      paidAt: '2025-05-01',
-    },
-    registrationDate: '2025-05-06',
+    registrationState: RegistrationStates.Completed,
+    examPaymentPaidAt: '2035-05-01',
+    registrationDate: '2035-05-06',
+    kind: RegistrationKind.Admission,
   },
   {
-    examinationDate: '2025-10-23',
+    examDate: '2035-10-23',
     exam: {
       language: ExamLanguage.DEU,
       level: ExamLevel.YLIN,
     },
-    examLocation: {
-      schoolName: 'Lassilan koulu',
-      municipality: 'Lassila',
-    },
-    registrationStatus: {
-      state: RegistrationStates.PaidAndCancelled,
-    },
-    registrationDate: '2025-05-06',
+    examLocation: lassila,
+    registrationState: RegistrationStates.PaidAndCancelled,
+    registrationDate: '2035-05-06',
+    kind: RegistrationKind.Admission,
   },
   {
-    examinationDate: '2025-011-30',
+    examDate: '2035-11-30',
     exam: {
       language: ExamLanguage.SME,
       level: ExamLevel.PERUS,
     },
-    examLocation: {
-      schoolName: 'Lorem ipsum oppilaitos',
-      municipality: 'Helsinki',
-    },
-    registrationStatus: {
-      state: RegistrationStates.Cancelled,
-    },
-    registrationDate: '2025-05-06',
+    examLocation: helsinki,
+    registrationState: RegistrationStates.Cancelled,
+    registrationDate: '2035-05-06',
+    kind: RegistrationKind.Admission,
   },
   {
-    examinationDate: '2025-12-30',
+    examDate: '2035-12-30',
     exam: {
       language: ExamLanguage.SME,
       level: ExamLevel.YLIN,
     },
-    examLocation: {
-      schoolName: 'Lorem ipsum oppilaitos',
-      municipality: 'Helsinki',
-    },
-    registrationStatus: {
-      state: RegistrationStates.Submitted,
-    },
-    registrationDate: '2025-05-06',
+    examLocation: helsinki,
+    registrationState: RegistrationStates.Submitted,
+    registrationDate: '2035-05-06',
+    kind: RegistrationKind.Admission,
+    liftedFromQueueAt: '2035-05-06', // kentässä on arvo => jonopaikkaa tarjottu
   },
 ];
 
-const defaultQueuedExams = [
+// Jonossa
+const defaultQueuedRegistrations: RegistrationResponse[] = [
   {
-    examinationDate: '2025-09-05',
+    examDate: '2035-09-05',
     exam: {
       language: ExamLanguage.FIN,
       level: ExamLevel.KESKI,
     },
-    examLocation: {
-      schoolName: 'Testipaikan nimi',
-      municipality: 'Kajaani',
-    },
+    examLocation: kajaani,
 
     // User not paid
-    registrationStatus: {
-      state: RegistrationStates.Submitted,
-    },
-    registrationDate: '2025-05-06',
-    queueSpotOffered: {
-      offered: QueueOfferStatus.Offered,
-      dueDate: '2025-09-20',
-    },
+    registrationState: RegistrationStates.Submitted,
+    registrationDate: '2035-05-06',
+    kind: RegistrationKind.Queue,
+    expiresAt: '2035-09-20',
   },
   {
-    examinationDate: '2025-10-18',
+    examDate: '2035-10-18',
     exam: {
       language: ExamLanguage.DEU,
       level: ExamLevel.YLIN,
     },
-    examLocation: {
-      schoolName: 'Lassilan koulu',
-      municipality: 'Lassila',
-    },
+    examLocation: lassila,
     // User not paid
-    registrationStatus: {
-      state: RegistrationStates.Expired,
-    },
-    registrationDate: '2025-05-06',
-    queueSpotOffered: {
-      offered: QueueOfferStatus.NotAccepted,
-      dueDate: '2025-08-04',
-    },
+    registrationState: RegistrationStates.Expired,
+    registrationDate: '2035-05-06',
+    kind: RegistrationKind.Queue,
+    expiresAt: '2035-08-04',
   },
   {
-    examinationDate: '2025-11-22',
+    examDate: '2035-11-22',
     exam: {
       language: ExamLanguage.SWE,
       level: ExamLevel.PERUS,
     },
-    examLocation: {
-      schoolName: 'Lorem ipsum oppilaitos',
-      municipality: 'Helsinki',
-    },
-    registrationStatus: {
-      state: RegistrationStates.Cancelled,
-    },
-    registrationDate: '2025-05-06',
-    queueSpotOffered: {
-      offered: QueueOfferStatus.NotOffered,
-    },
+    examLocation: helsinki,
+    registrationState: RegistrationStates.Cancelled,
+    registrationDate: '2035-05-06',
+    kind: RegistrationKind.Queue,
   },
   {
-    examinationDate: '2025-11-22',
+    examDate: '2035-11-22',
     exam: {
       language: ExamLanguage.SWE,
       level: ExamLevel.PERUS,
     },
-    examLocation: {
-      schoolName: 'Lorem ipsum oppilaitos',
-      municipality: 'Helsinki',
-    },
-    registrationStatus: {
-      state: RegistrationStates.Submitted,
-    },
-    registrationDate: '2025-05-06',
-    queueSpotOffered: {
-      offered: QueueOfferStatus.NotOffered,
-    },
+    examLocation: helsinki,
+    registrationState: RegistrationStates.Submitted,
+    registrationDate: '2035-05-06',
+    kind: RegistrationKind.Queue,
   },
 ];
 
-const defaultPastExams: PastExamResponse[] = [
+// Menneet
+const defaultPastRegistrations: RegistrationResponse[] = [
   {
-    examinationDate: '2025-07-20',
+    examDate: '2015-07-20',
     exam: {
       language: ExamLanguage.FIN,
       level: ExamLevel.PERUS,
     },
-    examLocation: {
-      schoolName: 'Testipaikan nimi',
-      municipality: 'Kajaani',
-    },
-    state: 'REVIEWED',
+    examLocation: kajaani,
+    registrationState: 'REVIEWED',
+    registrationDate: '2015-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
+    kind: RegistrationKind.Admission, // Ei näytetä menneet - tutkinnot - näkymässä
   },
   {
-    examinationDate: '2025-03-25',
+    examDate: '2015-03-25',
     exam: {
       language: ExamLanguage.SWE,
       level: ExamLevel.KESKI,
     },
-    examLocation: {
-      schoolName: 'Lassilan koulu',
-      municipality: 'Lassila',
-    },
-    state: 'CANCELLED',
+    examLocation: lassila,
+    registrationState: 'CANCELLED',
+    registrationDate: '2015-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
+    kind: RegistrationKind.Queue, // Ei näytetä menneet - tutkinnot - näkymässä
   },
   {
-    examinationDate: '2025-03-25',
+    examDate: '2015-03-25',
     exam: {
       language: ExamLanguage.SWE,
       level: ExamLevel.KESKI,
     },
-    examLocation: {
-      schoolName: 'Lorem ipsum oppilaitos',
-      municipality: 'Helsinki',
-    },
-    state: 'REGISTERED',
+    examLocation: helsinki,
+    registrationState: 'REGISTERED',
+    registrationDate: '2015-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
+    kind: RegistrationKind.Admission, // Ei näytetä "menneet - tutkinnot" - näkymässä
   },
 ];
 
@@ -202,9 +217,11 @@ export const customerDetails: ClerkCustomerDetailsResponse[] = [
       streetAddress: 'Katuosoite 123, 33100 Tampere',
       email: 'aino.osallistuja@loremipsum.fi',
     },
-    registrations: defaultRegistrations,
-    queuedExams: defaultQueuedExams,
-    pastExams: defaultPastExams,
+    registrations: [
+      ...defaultAdmissionedRegistrations,
+      ...defaultQueuedRegistrations,
+      ...defaultPastRegistrations,
+    ],
   },
   {
     person: {
@@ -218,8 +235,6 @@ export const customerDetails: ClerkCustomerDetailsResponse[] = [
       email: 'aino.osallistuja@loremipsum.fi',
     },
     registrations: [],
-    queuedExams: [],
-    pastExams: [],
   },
   {
     person: {
@@ -229,8 +244,10 @@ export const customerDetails: ClerkCustomerDetailsResponse[] = [
       oid: '1.2.246.562.24.82364099324',
       nationalityCode: '246',
     },
-    registrations: defaultRegistrations,
-    queuedExams: defaultQueuedExams,
-    pastExams: defaultPastExams,
+    registrations: [
+      ...defaultAdmissionedRegistrations,
+      ...defaultQueuedRegistrations,
+      ...defaultPastRegistrations,
+    ],
   },
 ];

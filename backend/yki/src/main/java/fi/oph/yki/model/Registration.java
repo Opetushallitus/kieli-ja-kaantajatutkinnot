@@ -3,6 +3,7 @@ package fi.oph.yki.model;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -34,6 +35,12 @@ public class Registration {
   @Enumerated
   @JdbcType(PostgreSQLEnumJdbcType.class)
   private RegistrationState state;
+
+  @Column(name = "lifted_from_queue_at")
+  private LocalDateTime liftedFromQueueAt;
+
+  @Column(name = "expires_at")
+  private LocalDateTime expiresAt;
 
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "exam_session_id", referencedColumnName = "id")

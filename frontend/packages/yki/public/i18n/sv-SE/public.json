@@ -202,8 +202,7 @@
                 "SUBMITTED": "Ei Maksanut",
                 "EXPIRED": "Erääntynyt",
                 "CANCELLED": "Peruttu",
-                "PAID_AND_CANCELLED": "Maksanut ja peruttu",
-                "FREE_REGISTRATION_PENDING": "Maksuttomuuden tarkistus kesken"
+                "PAID_AND_CANCELLED": "Maksanut ja peruttu"
               },
               "actions": {
                 "relocate": "Siirrä tilaisuuteen",
@@ -214,7 +213,7 @@
                 "OFFERED": "Kyllä",
                 "NOT_OFFERED": "Ei",
                 "NOT_ACCEPTED": "Ei otettu vastaan",
-                "dueDate": "Eräpäivä {{ dueDate }}"
+                "expiresAt": "Eräpäivä {{ expiresAt }}"
               },
               "examState": {
                 "REVIEWED": "Arvioitu",
