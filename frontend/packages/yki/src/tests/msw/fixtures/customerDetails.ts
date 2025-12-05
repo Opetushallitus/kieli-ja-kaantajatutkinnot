@@ -171,36 +171,36 @@ const defaultQueuedRegistrations: RegistrationResponse[] = [
 // Menneet
 const defaultPastRegistrations: RegistrationResponse[] = [
   {
-    examDate: '2025-07-20',
+    examDate: '2015-07-20',
     exam: {
       language: ExamLanguage.FIN,
       level: ExamLevel.PERUS,
     },
     examLocation: kajaani,
     registrationState: 'REVIEWED',
-    registrationDate: '2025-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
+    registrationDate: '2015-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
     kind: RegistrationKind.Admission, // Ei näytetä menneet - tutkinnot - näkymässä
   },
   {
-    examDate: '2025-03-25',
+    examDate: '2015-03-25',
     exam: {
       language: ExamLanguage.SWE,
       level: ExamLevel.KESKI,
     },
     examLocation: lassila,
     registrationState: 'CANCELLED',
-    registrationDate: '2025-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
+    registrationDate: '2015-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
     kind: RegistrationKind.Queue, // Ei näytetä menneet - tutkinnot - näkymässä
   },
   {
-    examDate: '2025-03-25',
+    examDate: '2015-03-25',
     exam: {
       language: ExamLanguage.SWE,
       level: ExamLevel.KESKI,
     },
     examLocation: helsinki,
     registrationState: 'REGISTERED',
-    registrationDate: '2025-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
+    registrationDate: '2015-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
     kind: RegistrationKind.Admission, // Ei näytetä "menneet - tutkinnot" - näkymässä
   },
 ];

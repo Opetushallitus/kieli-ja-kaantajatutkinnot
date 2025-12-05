@@ -16,7 +16,7 @@ Cypress.on('test:after:run:async', async () => {
 
 beforeEach(() => {
   // Use fixed date for tests
-  const fixedDateForTests = dayjs('2025-09-27T16:00:00+0200');
+  const fixedDateForTests = dayjs('2022-09-27T16:00:00+0200');
   useFixedDate(fixedDateForTests);
 });
 
