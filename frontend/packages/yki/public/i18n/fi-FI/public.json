@@ -584,7 +584,7 @@
                 "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-ilmoittautumisen-ehdot"
               },
               "text1": "Tarkista ennen maksamista, että olet valinnut oikean YKI-testin.",
-              "text2": "Et voi vaihtaa YKI-testin kieltä, tasoa tai testipaikkaa maksamisen jälkeen.",
+              "text2": "Et voi vaihtaa YKI-testin kieltä, tasoa, testipaikkaa tai testipäivää maksamisen jälkeen.",
               "text3": "Lue ilmoittautumisen ehdot Opetushallituksen verkkosivuilta:"
             },
             "title": "Vahvista ilmoittautuminen maksamalla tutkintomaksu"
@@ -655,12 +655,12 @@
                   "label": "Tutkintomaksut",
                   "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-tutkintomaksut"
                 },
-                "text": "Lue maksuttoman YKI-testin ehdot Opetushallituksen verkkosivuilta"
+                "text": "Lue lisää maksuttomista YKI-testeistä Opetushallituksen verkkosivuilta"
               },
               "suomiFiAuthenticationRequired": "Sinun täytyy tunnistautua Suomi.fi-palvelussa, jotta voimme tarkistaa, täytätkö ehdot.",
               "threeAttemptsAvailable": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa."
             },
-            "registrationIsBindingAdvisory": "<strong>Tarkista, että olet valinnut oikean YKI-testin!</strong> Et voi vaihtaa YKI-testin kieltä, tasoa tai testipaikkaa ilmoittautumisen jälkeen.",
+            "registrationIsBindingAdvisory": "<strong>Tarkista, että olet valinnut oikean YKI-testin!</strong> Et voi vaihtaa YKI-testin kieltä, tasoa, testipaikkaa tai testipäivää ilmoittautumisen jälkeen.",
             "selectIdentificationMethod": "Valitse tunnistautumistapasi",
             "suomiFiButtonText": "Tunnistaudu Suomi.fi-palvelussa",
             "title": "Tunnistaudu ilmoittautumista varten",

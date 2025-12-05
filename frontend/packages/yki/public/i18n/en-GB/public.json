@@ -458,9 +458,9 @@
               "pleaseWait": "Download in progress, please wait."
             },
             "noFeeRequired": "The YKI test is free of charge for you.",
+            "noSuitableEducationFound": "We could not find any qualifications that entitle you to free registration.",
             "paymentRequired": "Once you submit your registration form, you must pay the test fee.",
             "paymentRequiredIfLiftedFromQueue": "If you receive a place in a YKI test from its waiting list, you will need to pay the test fee.",
-            "noSuitableEducationFound": "We could not find any qualifications that entitle you to free registration.",
             "suitableEducationFound": "You have a qualification that meets the conditions",
             "title": "Test fee",
             "userSelection": {
@@ -584,7 +584,7 @@
                 "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-terms-and-conditions-for-registration"
               },
               "text1": "Before paying, please check that you have selected the correct YKI test.",
-              "text2": "You cannot change the language, level or test centre of the YKI test after paying the fee.",
+              "text2": "You cannot change the language, level, test centre or test day of the YKI test after paying the fee.",
               "text3": "Please read the terms and conditions for registration on the Finnish National Agency for Education's website:"
             },
             "title": "Confirm the registration by paying the test fee"
@@ -655,12 +655,12 @@
                   "label": "Test fees",
                   "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-test-fees"
                 },
-                "text": "Read the conditions for free YKI tests on the Finnish National Agency for Education's website"
+                "text": "Read more about the free YKI tests on the Finnish National Agency for Education's website"
               },
               "suomiFiAuthenticationRequired": "You must log in using Suomi.fi e-Identification so that we can verify whether you meet the conditions.",
               "threeAttemptsAvailable": "You can register free of charge a total of three (3) times."
             },
-            "registrationIsBindingAdvisory": "Check that you are registering for the correct YKI test (including language and level). Registration for YKI test is binding. Once you have confirmed your registration, you can no longer change it.",
+            "registrationIsBindingAdvisory": "<strong>Check that you are registering for the correct YKI test!</strong> Once you have confirmed your registration, you can no longer change the language, level, test centre or the test day.",
             "selectIdentificationMethod": "Please select your login method",
             "suomiFiButtonText": "Log in using Suomi.fi e-Identification",
             "title": "Log in to register",
