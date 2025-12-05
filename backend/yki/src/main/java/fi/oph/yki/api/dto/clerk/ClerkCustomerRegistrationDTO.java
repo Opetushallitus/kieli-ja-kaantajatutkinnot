@@ -19,6 +19,6 @@ public record ClerkCustomerRegistrationDTO(
   Optional<LocalDate> examPaymentPaidAt,
   Optional<LocalDate> registrationDate,
   RegistrationKind kind,
-  LocalDateTime liftedFromQueueAt,
-  LocalDateTime expiresAt
+  Optional<LocalDate> liftedFromQueueAt,
+  Optional<LocalDate> expiresAt
 ) {}

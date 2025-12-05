@@ -78,6 +78,14 @@ public class ClerkCustomerService {
         final var paidAt = latestExamPayment.map(ExamPayment::getPaidAt).map(LocalDateTime::toLocalDate);
         final var registrationDate = paidAt.or(() -> freeRegistrationCreatedAt);
 
+        final Optional<LocalDate> liftedFromQueueAt = registration.getLiftedFromQueueAt() == null
+          ? Optional.empty()
+          : Optional.of(registration.getLiftedFromQueueAt().toLocalDate());
+
+        final Optional<LocalDate> expiresAt = registration.getExpiresAt() == null
+          ? Optional.empty()
+          : Optional.of(registration.getExpiresAt().toLocalDate());
+
         return new ClerkCustomerRegistrationDTO(
           examDate,
           exam,
@@ -86,8 +94,8 @@ public class ClerkCustomerService {
           paidAt,
           registrationDate,
           registration.getKind(),
-          registration.getLiftedFromQueueAt(),
-          registration.getExpiresAt()
+          liftedFromQueueAt,
+          expiresAt
         );
       })
       .toList();
