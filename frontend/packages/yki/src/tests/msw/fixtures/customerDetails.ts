@@ -108,9 +108,10 @@ const defaultAdmissionedRegistrations: RegistrationResponse[] = [
       level: ExamLevel.YLIN,
     },
     examLocation: helsinki,
-    registrationState: RegistrationStates.Completed,
+    registrationState: RegistrationStates.Submitted,
     registrationDate: '2035-05-06',
     kind: RegistrationKind.Admission,
+    liftedFromQueueAt: '2035-05-06', // kentässä on arvo => jonopaikkaa tarjottu
   },
 ];
 
@@ -163,8 +164,7 @@ const defaultQueuedRegistrations: RegistrationResponse[] = [
     examLocation: helsinki,
     registrationState: RegistrationStates.Submitted,
     registrationDate: '2035-05-06',
-    kind: RegistrationKind.Admission,
-    liftedFromQueueAt: '2035-05-06', // kentässä on arvo => jonopaikkaa tarjottu
+    kind: RegistrationKind.Queue,
   },
 ];
 
