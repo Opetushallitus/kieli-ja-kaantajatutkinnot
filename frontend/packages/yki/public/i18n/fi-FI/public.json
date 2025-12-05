@@ -692,8 +692,8 @@
                   "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ennen-testia"
                 },
                 "part1": "Ilmoittautuminen onnistui! Saat vahvistuksen ilmoittautumisestasi sähköpostilla.",
-                "part2": "Testipaikka lähettää sinulle ohjeet YKI-testiä varten ennen testipäivää. Ohjeissa kerrotaan missä testipaikka on ja milloin testi alkaa.",
-                "part3": "Ohjeissa kerrotaan muun muassa testipaikan tarkka sijainti ja kellonaika, jolloin testi alkaa.",
+                "part2": "Testipaikka lähettää sinulle ohjeet YKI-testiä varten ennen testipäivää",
+                "part3": "Ohjeissa kerrotaan missä testipaikka on ja milloin testi alkaa.",
                 "specialArrangements": {
                   "description": "Jos tarvitset erityisjärjestelyjä, lähetä hakemus mahdollisimman pian. Ohjeet erityisjärjestelyjen hakemiseen ovat Opetushallituksen verkkosivuilla:",
                   "label": "Tarvitsetko erityisjärjestelyjä? (oph.fi)",
