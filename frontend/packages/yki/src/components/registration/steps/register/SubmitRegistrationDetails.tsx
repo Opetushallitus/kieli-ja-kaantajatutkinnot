@@ -202,8 +202,9 @@ const Success = () => {
 
 export const SubmitRegistrationDetails = () => {
   const { status } = useAppSelector(registrationSelector).submitRegistration;
+  const { hasTimerExpired } = useAppSelector(registrationSelector);
   useRegistrationNavigationProtection(
-    status !== APIResponseStatus.Success,
+    !hasTimerExpired && status !== APIResponseStatus.Success,
     <DialogContents />,
   );
 
