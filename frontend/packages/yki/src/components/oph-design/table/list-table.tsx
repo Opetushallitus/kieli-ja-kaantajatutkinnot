@@ -11,6 +11,7 @@ import {
 import { styled as muiStyled } from '@mui/material/styles';
 import { shouldForwardProp } from '@mui/system/createStyled';
 import { ophColors } from '@opetushallitus/oph-design-system';
+import i18next from 'i18next';
 import React, { useMemo } from 'react';
 
 import { OphPagination } from './oph-pagination';
@@ -123,7 +124,11 @@ interface ListTableProps<T extends Row>
   selection?: SelectionProps['selection'];
   setSelection?: SelectionProps['setSelection'];
   collapsibleRows?: boolean;
-  renderCollapsibleRow?: (row: T, open: boolean) => React.ReactNode;
+  renderCollapsibleRow?: (
+    row: T,
+    open: boolean,
+    t: typeof i18next.t,
+  ) => React.ReactNode;
 }
 
 const TableWrapper = styled(Box)(({ theme }) => ({

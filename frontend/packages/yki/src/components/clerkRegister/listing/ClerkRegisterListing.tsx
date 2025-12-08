@@ -1,12 +1,4 @@
-import {
-  Collapse,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Collapse, TableCell, TableRow, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Dayjs } from 'dayjs';
 import i18next from 'i18next';
@@ -135,8 +127,8 @@ export const ClerkRegisterListing = ({
           columns={columns}
           translateHeader={false}
           pagination={pagination}
-          renderCollapsibleRow={(row, open) => (
-            <ClerkRegisterCollapsibleRow row={row} open={open} />
+          renderCollapsibleRow={(row, open, t) => (
+            <ClerkRegisterCollapsibleRow row={row} open={open} t={t} />
           )}
           collapsibleRows={true}
         />
@@ -147,9 +139,11 @@ export const ClerkRegisterListing = ({
 const ClerkRegisterCollapsibleRow = ({
   row,
   open,
+  t,
 }: {
   row: ClerkOrganizerType;
   open: boolean;
+  t: typeof i18next.t;
 }) => (
   <TableRow>
     <TableCell
@@ -167,7 +161,7 @@ const ClerkRegisterCollapsibleRow = ({
             }}
           >
             <div className="rows">
-              <Label>Järjestäjäsopimus</Label>
+              <Label>{t('organizerAgreement')}</Label>
               <Text>
                 {`${DateUtils.formatOptionalDate(
                   row.agreement_start_date,
@@ -176,7 +170,7 @@ const ClerkRegisterCollapsibleRow = ({
             </div>
 
             <div className="rows">
-              <Label>Kielitutkinnot</Label>
+              <Label>{t('languageProficiencies')}</Label>
               {getLanguagesWithLevelDescriptions(row.languages || []).map(
                 (lang) => (
                   <Text key={lang}>{lang}</Text>
@@ -184,7 +178,7 @@ const ClerkRegisterCollapsibleRow = ({
               )}
             </div>
             <div className="rows">
-              <Label>Yhteystiedot</Label>
+              <Label>{t('contactInfo')}</Label>
               <Text>{row.contact_name}</Text>
               <Text>{row.contact_phone_number}</Text>
               <Text>
@@ -192,30 +186,10 @@ const ClerkRegisterCollapsibleRow = ({
               </Text>
             </div>
             <div className="rows">
-              <Label>Lisätiedot</Label>
+              <Label>{t('extraInfo')}</Label>
               <Text>{row.extra}</Text>
             </div>
           </div>
-          <Table size="small" aria-label="purchases">
-            <TableHead>
-              <TableRow>
-                <TableCell>Date</TableCell>
-                <TableCell>Customer</TableCell>
-                <TableCell align="right">Amount</TableCell>
-                <TableCell align="right">Total price ($)</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow key={row.oid}>
-                <TableCell component="th" scope="row">
-                  Hello
-                </TableCell>
-                <TableCell>Hullo</TableCell>
-                <TableCell align="right">12345</TableCell>
-                <TableCell align="right">100</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
         </Box>
       </Collapse>
     </TableCell>
