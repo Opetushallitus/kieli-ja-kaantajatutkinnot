@@ -51,32 +51,57 @@ const StyledTable = styled(Table)({
   },
 });
 
-const StyledTableBody = styled(TableBody)(({ theme }) => ({
-  '& .MuiTableCell-root': {
-    padding: theme.spacing(1, 0, 1, 2),
-    textAlign: 'left',
-    whiteSpace: 'pre-wrap',
-    height: '64px',
-    borderWidth: 0,
-  },
-  '& .MuiTableRow-root': {
-    '&:nth-of-type(even)': {
-      '.MuiTableCell-root': {
-        backgroundColor: ophColors.grey50,
-      },
+const StyledTableBody = styled(TableBody)<{ collapsibleRows?: boolean }>(
+  ({ theme, collapsibleRows }) => ({
+    '& .MuiTableCell-root': {
+      padding: theme.spacing(1, 0, 1, 2),
+      textAlign: 'left',
+      whiteSpace: 'pre-wrap',
+      height: '64px',
+      borderWidth: 0,
     },
-    '&:nth-of-type(odd)': {
-      '.MuiTableCell-root': {
-        backgroundColor: ophColors.white,
-      },
+    '& .MuiTableRow-root': {
+      ...(collapsibleRows
+        ? {
+            '&:nth-of-type(4n - 1)': {
+              '.MuiTableCell-root': {
+                backgroundColor: ophColors.grey50,
+              },
+            },
+            '&:nth-of-type(even)': {
+              '.MuiTableCell-root': {
+                backgroundColor: ophColors.white,
+              },
+            },
+            '&:nth-of-type(odd)': {
+              '&:hover': {
+                '.MuiTableCell-root': {
+                  backgroundColor: ophColors.lightBlue2,
+                },
+              },
+            },
+          }
+        : {
+            '&:nth-of-type(even)': {
+              '.MuiTableCell-root': {
+                backgroundColor: ophColors.grey50,
+              },
+            },
+            '&:nth-of-type(odd)': {
+              '.MuiTableCell-root': {
+                backgroundColor: ophColors.white,
+              },
+            },
+            '&:hover': {
+              '.MuiTableCell-root': {
+                backgroundColor: ophColors.lightBlue2,
+              },
+            },
+          }),
     },
-    '&:hover': {
-      '.MuiTableCell-root': {
-        backgroundColor: ophColors.lightBlue2,
-      },
-    },
-  },
-}));
+  }),
+);
+
 type ListTablePaginationProps = {
   page: number;
   setPage: (page: number) => void;
@@ -97,6 +122,8 @@ interface ListTableProps<T extends Row>
   checkboxSelection?: boolean;
   selection?: SelectionProps['selection'];
   setSelection?: SelectionProps['setSelection'];
+  collapsibleRows?: boolean;
+  renderCollapsibleRow?: (row: T, open: boolean) => React.ReactNode;
 }
 
 const TableWrapper = styled(Box)(({ theme }) => ({
@@ -145,6 +172,8 @@ export const ListTable = <T extends Row>({
   rowKeyProp,
   translateHeader = true,
   pagination,
+  collapsibleRows = false,
+  renderCollapsibleRow,
   ...props
 }: ListTableProps<T>) => {
   const translateCommon = useCommonTranslation();
@@ -184,7 +213,7 @@ export const ListTable = <T extends Row>({
               })}
             </TableRow>
           </TableHead>
-          <StyledTableBody>
+          <StyledTableBody collapsibleRows={collapsibleRows}>
             {pageRows.map((rowProps) => {
               const rowId = rowProps?.[rowKeyProp] as string;
 
@@ -194,6 +223,8 @@ export const ListTable = <T extends Row>({
                   key={rowId}
                   row={rowProps}
                   columns={columns}
+                  collapsibleRows={collapsibleRows}
+                  renderCollapsibleRow={renderCollapsibleRow}
                 />
               );
             })}

@@ -1,4 +1,12 @@
-import { Typography } from '@mui/material';
+import {
+  Collapse,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
 import { Box } from '@mui/system';
 import { Dayjs } from 'dayjs';
 import i18next from 'i18next';
@@ -23,6 +31,18 @@ type ClerkRegisterListingProps = {
   setPage: (page: number) => void;
 };
 
+type ClerkOrganizerType = {
+  id: number;
+  oid: string;
+  agreement_start_date?: Dayjs;
+  agreement_end_date?: Dayjs;
+  contact_name?: string;
+  contact_email?: string;
+  contact_phone_number?: string;
+  languages: Array<OrganizerLanguage> | null;
+  extra: string;
+};
+
 export const ClerkRegisterListing = ({
   page,
   setPage,
@@ -31,11 +51,6 @@ export const ClerkRegisterListing = ({
   const filteredOrganizers = useAppSelector(selectFilteredClerkOrganizers);
   const rows = filteredOrganizers.map((organizer) => ({
     ...organizer,
-    collapsibleContent: {
-      name: organizer.contact_name,
-      email: organizer.contact_email,
-      phone: organizer.contact_phone_numner,
-    },
   }));
 
   const pagination = {
@@ -47,18 +62,6 @@ export const ClerkRegisterListing = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister.listing',
   });
-
-  type ClerkOrganizerType = {
-    id: number;
-    oid: string;
-    agreement_start_date?: Dayjs;
-    agreement_end_date?: Dayjs;
-    contact_name?: string;
-    contact_email?: string;
-    contact_phone_numner?: string;
-    languages: Array<OrganizerLanguage> | null;
-    extra: string;
-  };
 
   const createOrganizerColumn = (
     t: typeof i18next.t,
@@ -127,7 +130,72 @@ export const ClerkRegisterListing = ({
           columns={columns}
           translateHeader={false}
           pagination={pagination}
+          renderCollapsibleRow={(row, open) => (
+            <ClerkRegisterCollapsibleRow row={row} open={open} />
+          )}
+          collapsibleRows={true}
         />
       );
   }
 };
+
+const ClerkRegisterCollapsibleRow = ({
+  row,
+  open,
+}: {
+  row: ClerkOrganizerType;
+  open: boolean;
+}) => (
+  <TableRow>
+    <TableCell
+      style={{ height: 'unset', paddingTop: 0, paddingBottom: 0 }}
+      colSpan={3}
+    >
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <Box sx={{ margin: '1rem 4rem' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '0.5rem',
+            }}
+          >
+            <div className="columns">
+              <strong>Järjestäjäsopimus</strong>
+              {row.contact_name}
+            </div>
+            <div>
+              <strong>Kielitutkinnot:</strong> {row.contact_name}
+            </div>
+            <div>
+              <strong>Yhteystiedot:</strong> {row.contact_phone_number}
+            </div>
+            <div>
+              <strong>Lisätiedot:</strong> {row.extra}
+            </div>
+          </div>
+          <Table size="small" aria-label="purchases">
+            <TableHead>
+              <TableRow>
+                <TableCell>Date</TableCell>
+                <TableCell>Customer</TableCell>
+                <TableCell align="right">Amount</TableCell>
+                <TableCell align="right">Total price ($)</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow key={row.oid}>
+                <TableCell component="th" scope="row">
+                  Hello
+                </TableCell>
+                <TableCell>Hullo</TableCell>
+                <TableCell align="right">12345</TableCell>
+                <TableCell align="right">100</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </Box>
+      </Collapse>
+    </TableCell>
+  </TableRow>
+);

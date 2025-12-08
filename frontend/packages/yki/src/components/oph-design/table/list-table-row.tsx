@@ -1,5 +1,5 @@
 import { ChevronLeft } from '@mui/icons-material';
-import { Collapse, TableCell, TableRow } from '@mui/material';
+import { TableCell, TableRow } from '@mui/material';
 import { PropsWithChildren, useState } from 'react';
 
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
@@ -8,12 +8,16 @@ type TableRowsProps<T extends Row> = PropsWithChildren<{
   rowKeyProp: keyof T;
   row: T;
   columns: ListTableColumn<T>[];
+  collapsibleRows: boolean;
+  renderCollapsibleRow?: (row: T, open: boolean) => React.ReactNode;
 }>;
 
 export const ListTableRow = <T extends Row>({
   rowKeyProp,
   row,
   columns,
+  collapsibleRows,
+  renderCollapsibleRow,
 }: TableRowsProps<T>) => {
   const [open, setOpen] = useState(false);
 
@@ -29,7 +33,7 @@ export const ListTableRow = <T extends Row>({
               sx={style}
               onClick={() => setOpen((prev) => !prev)}
             >
-              {i === 0 && (
+              {collapsibleRows && i === 0 && (
                 <ChevronLeft
                   fontSize="large"
                   style={{
@@ -45,19 +49,9 @@ export const ListTableRow = <T extends Row>({
           );
         })}
       </TableRow>
-      {row.collapsibleContent && (
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          <TableRow key={`${rowId}-collapse`}>
-            {columns.map(({ key: columnKey, render, style }) => {
-              return (
-                <TableCell key={columnKey.toString()} sx={style}>
-                  {render(row)}
-                </TableCell>
-              );
-            })}
-          </TableRow>
-        </Collapse>
-      )}
+      {collapsibleRows &&
+        renderCollapsibleRow &&
+        renderCollapsibleRow(row, open)}
     </>
   );
 };
