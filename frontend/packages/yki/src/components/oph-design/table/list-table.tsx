@@ -5,7 +5,6 @@ import {
   Stack,
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableRow,
 } from '@mui/material';
@@ -18,6 +17,7 @@ import { OphPagination } from './oph-pagination';
 import { SelectionProps } from './table-checkboxes';
 import { TableHeaderCell } from './table-header-cell';
 import { ListTableColumn, Row } from './table-types';
+import { ListTableRow } from 'components/oph-design/table/list-table-row';
 import { useCommonTranslation } from 'configs/i18n';
 
 const DEFAULT_BOX_BORDER = `2px solid ${ophColors.grey100}`;
@@ -189,15 +189,12 @@ export const ListTable = <T extends Row>({
               const rowId = rowProps?.[rowKeyProp] as string;
 
               return (
-                <TableRow key={rowId}>
-                  {columns.map(({ key: columnKey, render, style }) => {
-                    return (
-                      <TableCell key={columnKey.toString()} sx={style}>
-                        {render(rowProps)}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
+                <ListTableRow
+                  rowKeyProp={rowKeyProp}
+                  key={rowId}
+                  row={rowProps}
+                  columns={columns}
+                />
               );
             })}
           </StyledTableBody>
