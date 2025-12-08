@@ -3,9 +3,9 @@ import { t } from 'i18next';
 import { OrganizerLanguage } from 'interfaces/clerkOrganizer';
 
 const LEVEL_TRANSLATIONS = {
-  PERUS: 'common.level.basic',
-  KESKI: 'common.level.middle',
-  YLIN: 'common.level.high',
+  PERUS: 'yki.common.languageLevel.PERUS',
+  KESKI: 'yki.common.languageLevel.KESKI',
+  YLIN: 'yki.common.languageLevel.YLIN',
 };
 
 const LANGUAGES = [
@@ -71,7 +71,10 @@ export const languagesToString = (array: OrganizerLanguage[]) => {
 
   return list.map((lang) => lang.split(' ')[0].toLowerCase()).join(', ');
 };
-const getLanguagesWithLevelDescriptions = (array: OrganizerLanguage[]) => {
+
+export const getLanguagesWithLevelDescriptions = (
+  array: OrganizerLanguage[],
+) => {
   const list = [];
   for (const lang in LANGUAGES) {
     const language = LANGUAGES[lang];
@@ -87,8 +90,10 @@ const getLanguagesWithLevelDescriptions = (array: OrganizerLanguage[]) => {
     if (levels.length > 0) {
       const description =
         levels.length === language.levels.length
-          ? t('common.level.all')
-          : levels.map((l) => levelDescription(l)).join(` ${t('common.and')} `);
+          ? t('yki.common.languageLevel.ALL')
+          : levels
+              .map((l) => levelDescription(l))
+              .join(` ${t('yki.common.and')} `);
       list.push(`${language.name} - ${capitalize(description)}`);
     }
   }

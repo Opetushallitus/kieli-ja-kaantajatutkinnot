@@ -13,18 +13,23 @@ import i18next from 'i18next';
 import { useEffect } from 'react';
 import { CustomCircularProgress } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
+import { DateUtils } from 'shared/utils';
 
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { OrganizerLanguage } from 'interfaces/clerkOrganizer';
+import { Label, Text } from 'ophTheme/Text';
 import { loadClerkOrganizers } from 'redux/reducers/clerkOrganizer';
 import {
   clerkOrganizersSelector,
   selectFilteredClerkOrganizers,
 } from 'redux/selectors/clerkOrganizers';
-import { languagesToString } from 'utils/clerk';
+import {
+  getLanguagesWithLevelDescriptions,
+  languagesToString,
+} from 'utils/clerk';
 
 type ClerkRegisterListingProps = {
   page: number;
@@ -158,20 +163,37 @@ const ClerkRegisterCollapsibleRow = ({
               display: 'flex',
               flexDirection: 'row',
               gap: '0.5rem',
+              justifyContent: 'space-between',
             }}
           >
-            <div className="columns">
-              <strong>Järjestäjäsopimus</strong>
-              {row.contact_name}
+            <div className="rows">
+              <Label>Järjestäjäsopimus</Label>
+              <Text>
+                {`${DateUtils.formatOptionalDate(
+                  row.agreement_start_date,
+                )} - ${DateUtils.formatOptionalDate(row.agreement_end_date)}`}
+              </Text>{' '}
             </div>
-            <div>
-              <strong>Kielitutkinnot:</strong> {row.contact_name}
+
+            <div className="rows">
+              <Label>Kielitutkinnot</Label>
+              {getLanguagesWithLevelDescriptions(row.languages || []).map(
+                (lang) => (
+                  <Text key={lang}>{lang}</Text>
+                ),
+              )}
             </div>
-            <div>
-              <strong>Yhteystiedot:</strong> {row.contact_phone_number}
+            <div className="rows">
+              <Label>Yhteystiedot</Label>
+              <Text>{row.contact_name}</Text>
+              <Text>{row.contact_phone_number}</Text>
+              <Text>
+                <a href={`mailto:${row.contact_email}`}>{row.contact_email}</a>
+              </Text>
             </div>
-            <div>
-              <strong>Lisätiedot:</strong> {row.extra}
+            <div className="rows">
+              <Label>Lisätiedot</Label>
+              <Text>{row.extra}</Text>
             </div>
           </div>
           <Table size="small" aria-label="purchases">
