@@ -49,11 +49,6 @@ export const ClerkRegisterListing = ({
   const filteredOrganizers = useAppSelector(selectFilteredClerkOrganizers);
   const rows = filteredOrganizers.map((organizer) => ({
     ...organizer,
-    collapsibleContent: {
-      name: organizer.contact_name,
-      email: organizer.contact_email,
-      phone: organizer.contact_phone_numner,
-    },
   }));
 
   const pagination = {
