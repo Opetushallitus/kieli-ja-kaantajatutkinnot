@@ -457,9 +457,9 @@
               "pleaseWait": "Download in progress, please wait."
             },
             "noFeeRequired": "The YKI test is free of charge for you.",
+            "noSuitableEducationFound": "We could not find any qualifications that entitle you to free registration.",
             "paymentRequired": "Once you submit your registration form, you must pay the test fee.",
             "paymentRequiredIfLiftedFromQueue": "If you receive a place in a YKI test from its waiting list, you will need to pay the test fee.",
-            "noSuitableEducationFound": "We could not find any qualifications that entitle you to free registration.",
             "suitableEducationFound": "You have a qualification that meets the conditions",
             "title": "Test fee",
             "userSelection": {
@@ -520,12 +520,13 @@
           "ssn": "Personal identity code",
           "termsAndConditions": {
             "description1": "To register, you must agree to the terms and conditions of the registration:",
-            "description2": "Read more on the Finnish National Agency for Education’s website",
+            "description2": "Read more on the Finnish National Agency for Education's website",
             "description3": "Paid registration for YKI test is binding. Check that you are registering for the correct YKI test, and you have filled in your personal information correctly.",
+            "description3Free": "Confirmed registration for YKI test is binding. Check that you are registering for the correct YKI test, and you have filled in your personal information correctly.",
             "item1": "You cannot change the level of the YKI test.",
             "item2": "You cannot change the language of the YKI test.",
             "item3": "You cannot change the test centre.",
-            "item4": "Registration is personal. You cannot change the participant’s personal information.",
+            "item4": "Registration is personal. You cannot change the participant's personal information.",
             "item5": "If you cannot participate in the YKI test, you may reschedule your registration once to another YKI test of the same language and level at the same test centre.",
             "item51": "The new test day cannot be more than one year after the original test day.",
             "item52": "If the next YKI test of the same language and level is held more than a year from the original test day, you may reschedule your registration to the next YKI test of the same language and level.",
@@ -582,7 +583,7 @@
                 "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-terms-and-conditions-for-registration"
               },
               "text1": "Before paying, please check that you have selected the correct YKI test.",
-              "text2": "You cannot change the language, level or test centre of the YKI test after paying the fee.",
+              "text2": "You cannot change the language, level, test centre or test day of the YKI test after paying the fee.",
               "text3": "Please read the terms and conditions for registration on the Finnish National Agency for Education's website:"
             },
             "title": "Confirm the registration by paying the test fee"
@@ -653,12 +654,12 @@
                   "label": "Test fees",
                   "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-test-fees"
                 },
-                "text": "Read the conditions for free YKI tests on the Finnish National Agency for Education's website"
+                "text": "Read more about the free YKI tests on the Finnish National Agency for Education's website"
               },
               "suomiFiAuthenticationRequired": "You must log in using Suomi.fi e-Identification so that we can verify whether you meet the conditions.",
               "threeAttemptsAvailable": "You can register free of charge a total of three (3) times."
             },
-            "registrationIsBindingAdvisory": "Check that you are registering for the correct YKI test (including language and level). Registration for YKI test is binding. Once you have confirmed your registration, you can no longer change it.",
+            "registrationIsBindingAdvisory": "<strong>Check that you are registering for the correct YKI test!</strong> Once you have confirmed your registration, you can no longer change the language, level, test centre or the test day.",
             "selectIdentificationMethod": "Please select your login method",
             "suomiFiButtonText": "Log in using Suomi.fi e-Identification",
             "title": "Log in to register",
@@ -690,8 +691,8 @@
                   "url": "https://www.oph.fi/en/education-and-qualifications/yki-test"
                 },
                 "part1": "Your registration has been confirmed! You will receive a confirmation email shortly.",
-                "part2": "Closer to the test date, your test centre will send you an email with detailed instructions on arriving at the test, including the exact location and start time.",
-                "part3": "The instructions include the exact location of the test centre and the time at which the test will start.",
+                "part2": "Your test centre will send you instructions for the YKI test before the test day.",
+                "part3": "The instructions will tell you where the test centre is and what time the YKI test starts.",
                 "specialArrangements": {
                   "description": "If you need special arrangements, send your application as soon as possible according to the instructions provided by the Finnish National Agency for Education. The instructions can be found on their website:",
                   "label": "Do you need special arrangements? (oph.fi)",

@@ -54,7 +54,7 @@ export const CommonRegistrationDetails = () => {
   const { status: publicEducationStatus } = useAppSelector(
     publicEducationSelector,
   );
-  const { basis, attemptsUsed } = useAppSelector(
+  const { basis, attemptsUsed, isFree } = useAppSelector(
     publicFreeRegistrationSelector,
   );
   const { registration, showErrors } = useAppSelector(registrationSelector);
@@ -213,7 +213,7 @@ export const CommonRegistrationDetails = () => {
               <li>{t('termsAndConditions.item51')}</li>
               <li>{t('termsAndConditions.item52')}</li>
             </ul>
-            <li>{t('termsAndConditions.item6')}</li>
+            {isFree !== 'YES' && <li>{t('termsAndConditions.item6')}</li>}
           </ul>
           {t('termsAndConditions.description2')}:{' '}
           <div
@@ -227,7 +227,11 @@ export const CommonRegistrationDetails = () => {
           </div>
           <br />
           <p>
-            <b>{t('termsAndConditions.description3')}</b>
+            <b>
+              {isFree === 'YES'
+                ? t('termsAndConditions.description3Free')
+                : t('termsAndConditions.description3')}
+            </b>
           </p>
         </Text>
         <FormControl error={!!registrationErrors['termsAndConditionsAgreed']}>

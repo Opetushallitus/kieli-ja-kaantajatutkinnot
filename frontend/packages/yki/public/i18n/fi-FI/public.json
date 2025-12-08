@@ -522,6 +522,7 @@
             "description1": "Ilmoittautumista varten sinun täytyy hyväksyä ilmoittautumisen ehdot:",
             "description2": "Lue lisää Opetushallituksen verkkosivuilta",
             "description3": "Maksettu ilmoittautuminen YKI-testiin on sitova. Tarkista, että olet valinnut oikean YKI-testin ja täyttänyt tietosi oikein.",
+            "description3Free": "Vahvistettu ilmoittautuminen YKI-testiin on sitova. Tarkista, että olet valinnut oikean YKI-testin ja täyttänyt tietosi oikein.",
             "item1": "Et voi vaihtaa YKI-testin tasoa.",
             "item2": "Et voi vaihtaa YKI-testin kieltä.",
             "item3": "Et voi vaihtaa testipaikkaa.",
@@ -582,7 +583,7 @@
                 "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-ilmoittautumisen-ehdot"
               },
               "text1": "Tarkista ennen maksamista, että olet valinnut oikean YKI-testin.",
-              "text2": "Et voi vaihtaa YKI-testin kieltä, tasoa tai testipaikkaa maksamisen jälkeen.",
+              "text2": "Et voi vaihtaa YKI-testin kieltä, tasoa, testipaikkaa tai testipäivää maksamisen jälkeen.",
               "text3": "Lue ilmoittautumisen ehdot Opetushallituksen verkkosivuilta:"
             },
             "title": "Vahvista ilmoittautuminen maksamalla tutkintomaksu"
@@ -653,12 +654,12 @@
                   "label": "Tutkintomaksut",
                   "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-tutkintomaksut"
                 },
-                "text": "Lue maksuttoman YKI-testin ehdot Opetushallituksen verkkosivuilta"
+                "text": "Lue lisää maksuttomista YKI-testeistä Opetushallituksen verkkosivuilta"
               },
               "suomiFiAuthenticationRequired": "Sinun täytyy tunnistautua Suomi.fi-palvelussa, jotta voimme tarkistaa, täytätkö ehdot.",
               "threeAttemptsAvailable": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa."
             },
-            "registrationIsBindingAdvisory": "<strong>Tarkista, että olet valinnut oikean YKI-testin!</strong> Et voi vaihtaa YKI-testin kieltä, tasoa tai testipaikkaa ilmoittautumisen jälkeen.",
+            "registrationIsBindingAdvisory": "<strong>Tarkista, että olet valinnut oikean YKI-testin!</strong> Et voi vaihtaa YKI-testin kieltä, tasoa, testipaikkaa tai testipäivää ilmoittautumisen jälkeen.",
             "selectIdentificationMethod": "Valitse tunnistautumistapasi",
             "suomiFiButtonText": "Tunnistaudu Suomi.fi-palvelussa",
             "title": "Tunnistaudu ilmoittautumista varten",
@@ -690,8 +691,8 @@
                   "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ennen-testia"
                 },
                 "part1": "Ilmoittautuminen onnistui! Saat vahvistuksen ilmoittautumisestasi sähköpostilla.",
-                "part2": "Testipaikka lähettää sinulle ohjeet YKI-testiä varten ennen testipäivää. Ohjeissa kerrotaan missä testipaikka on ja milloin testi alkaa.",
-                "part3": "Ohjeissa kerrotaan muun muassa testipaikan tarkka sijainti ja kellonaika, jolloin testi alkaa.",
+                "part2": "Testipaikka lähettää sinulle ohjeet YKI-testiä varten ennen testipäivää",
+                "part3": "Ohjeissa kerrotaan missä testipaikka on ja milloin testi alkaa.",
                 "specialArrangements": {
                   "description": "Jos tarvitset erityisjärjestelyjä, lähetä hakemus mahdollisimman pian. Ohjeet erityisjärjestelyjen hakemiseen ovat Opetushallituksen verkkosivuilla:",
                   "label": "Tarvitsetko erityisjärjestelyjä? (oph.fi)",
