@@ -1,3 +1,4 @@
+import { Error } from '@mui/icons-material';
 import { Collapse, TableCell, TableRow, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Dayjs } from 'dayjs';
@@ -73,13 +74,14 @@ export const ClerkRegisterListing = ({
   ): ListTableColumn<ClerkOrganizerType> => ({
     key: 'agreements',
     title: t('header.agreements'),
-    render: (rowProps) => (
-      <span>
-        {rowProps.languages
-          ? languagesToString(rowProps.languages)
-          : t('agreementExpired')}
-      </span>
-    ),
+    render: (rowProps) =>
+      rowProps.languages ? (
+        <span>{languagesToString(rowProps.languages)}</span>
+      ) : (
+        <div className="columns" style={{ gap: '0.25rem' }}>
+          <Error color="error" fontSize="large" /> {t('agreementExpired')}
+        </div>
+      ),
   });
 
   const createMunicipalityColumn = (
