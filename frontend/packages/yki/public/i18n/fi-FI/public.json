@@ -202,8 +202,7 @@
                 "SUBMITTED": "Ei Maksanut",
                 "EXPIRED": "Erääntynyt",
                 "CANCELLED": "Peruttu",
-                "PAID_AND_CANCELLED": "Maksanut ja peruttu",
-                "FREE_REGISTRATION_PENDING": "Maksuttomuuden tarkistus kesken"
+                "PAID_AND_CANCELLED": "Maksanut ja peruttu"
               },
               "actions": {
                 "relocate": "Siirrä tilaisuuteen",
@@ -214,7 +213,7 @@
                 "OFFERED": "Kyllä",
                 "NOT_OFFERED": "Ei",
                 "NOT_ACCEPTED": "Ei otettu vastaan",
-                "dueDate": "Eräpäivä {{ dueDate }}"
+                "expiresAt": "Eräpäivä {{ expiresAt }}"
               },
               "examState": {
                 "REVIEWED": "Arvioitu",
@@ -322,6 +321,10 @@
         "requestReassessment": "Pyydä tarkistusarviointia"
       },
       "registration": {
+        "controlButtons": {
+          "abortRegistration": "Keskeytä ilmoittautuminen",
+          "confirm": "Lähetä"
+        },
         "enrollModal": {
           "title": "Ilmoittautuminen epäonnistui",
           "examIsFull": "YKI-testi on täynnä. Voit ilmoittautua jonoon.",
@@ -341,10 +344,6 @@
             "part3": "Jos haluat keskeyttää ilmoittautumisen, siirry ensin ilmoittautumislomakkeelle ja paina sitten KESKEYTÄ ILMOITTAUTUMINEN.",
             "backToRegistrationButton": "Siirry ilmoittautumislomakkeelle"
           }
-        },
-        "controlButtons": {
-          "abortRegistration": "Keskeytä ilmoittautuminen",
-          "confirm": "Lähetä"
         },
         "enrollToQueue": {
           "dialog": {
@@ -395,13 +394,18 @@
           "openings": "Paikkoja vapaana",
           "registrationTime": "Ilmoittautumisaika"
         },
+        "expirationTimer": {
+          "reservationExpired": "Ilmoittautuminen epäonnistui",
+          "reservationExpiredContinue": "Palaa aloitussivulle",
+          "reservationExpiredText": "Aika loppui ja menetit varaamasi paikan YKI-testissä. Jos haluat ilmoittautua YKI-testiin, palaa aloitussivulle ja ilmoittaudu YKI-testiin uudestaan.",
+          "reservationExpiresIn": "Paikkavarauksesi YKI-testiin umpeutuu: {{minutes}}:{{seconds}}"
+        },
         "paymentSum": {
           "title": "Tutkintomaksu"
         },
         "registrationButtonLabels": {
           "enrollToQueue": "Ilmoittaudu jonoon",
           "full": "Täynnä",
-          "orderCancellationNotification": "Tilaa ilmoitus peruutuspaikoista",
           "periodNotOpen": "Ilmoittautuminen ei ole alkanut",
           "register": "Ilmoittaudu"
         },
@@ -420,7 +424,7 @@
               "certificateLanguage": "Valitse todistuksen kieli",
               "countryOfEducation": "Valitse, missä olet opiskellut",
               "dateOfBirth": "Syntymäaika",
-              "educationType": "Valitse maksuttomuuteen oikeuttavien opintojen tyyppi",
+              "educationType": "Kerro, onko sinulla opintoja, jotka oikeuttavat maksuttomaan YKI-testiin",
               "email": "Sähköpostiosoite",
               "emailConfirmation": "Sähköpostiosoitteen vahvistus",
               "firstNames": "Etunimet",
@@ -449,8 +453,8 @@
             "freeAttemptsOffered": "Voit ilmoittautua maksuttomasti kolme (3) kertaa.",
             "freeAttemptsOfferedYKI": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa.",
             "loading": {
-              "checkingEligibility": "Tarkastamme täyttyvätkö maksuttomuuden ehdot kohdallasi.",
-              "pleaseWait": "Tietoja ladataan, ole hyvä ja odota hetki."
+              "checkingEligibility": "Tarkistamme koulutustietosi automaattisesti.",
+              "pleaseWait": "Tietoja ladataan, odota hetki."
             },
             "noFeeRequired": "YKI-testi on sinulle maksuton.",
             "noSuitableEducationFound": "Emme löytäneet maksuttomuuteen oikeuttavia tutkintoja.",
@@ -475,12 +479,10 @@
                 "uneligible": "Minulla ei ole maksuttomaan YKI-testiin oikeuttavia opintoja. Maksan tutkintomaksun."
               },
               "randomChecksPerformed": {
-                "heading": "Opetushallitus tekee satunnaistarkistuksia",
-                "part1": "Opetushallitus voi pyytää sinulta todistuksen opinnoistasi jälkikäteen.",
+                "heading": "Opetushallitus tekee satunnaistarkastuksia",
+                "part1": "Opetushallitus voi pyytää sinulta todistuksen opinnoistasi testipäivän jälkeen.",
                 "part2": "Jos sinulla ei ole todistusta maksuttomaan YKI-testiin oikeuttavista opinnoista, Opetushallitus lähettää sinulle laskun tutkintomaksusta.",
-                "part3": "Satunnaisia tarkistuksia tehdään korkeintaan X kuukautta tutkintopäivän jälkeen.",
-                "part4": "Väärien tietojen ilmoittaminen on petos.",
-                "part5": "Opetushallitus ilmoittaa väärinkäytöksistä poliisille."
+                "part3": "Jos et maksa laskua, lasku siirtyy perintään ja ulosottoon."
               },
               "selectOne": "Valitse yksi alla olevista vaihtoehdoista."
             }
@@ -520,6 +522,7 @@
             "description1": "Ilmoittautumista varten sinun täytyy hyväksyä ilmoittautumisen ehdot:",
             "description2": "Lue lisää Opetushallituksen verkkosivuilta",
             "description3": "Maksettu ilmoittautuminen YKI-testiin on sitova. Tarkista, että olet valinnut oikean YKI-testin ja täyttänyt tietosi oikein.",
+            "description3Free": "Vahvistettu ilmoittautuminen YKI-testiin on sitova. Tarkista, että olet valinnut oikean YKI-testin ja täyttänyt tietosi oikein.",
             "item1": "Et voi vaihtaa YKI-testin tasoa.",
             "item2": "Et voi vaihtaa YKI-testin kieltä.",
             "item3": "Et voi vaihtaa testipaikkaa.",
@@ -578,7 +581,7 @@
                 "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-ilmoittautumisen-ehdot"
               },
               "text1": "Tarkista ennen maksamista, että olet valinnut oikean YKI-testin.",
-              "text2": "Et voi vaihtaa YKI-testin kieltä, tasoa tai testipaikkaa maksamisen jälkeen.",
+              "text2": "Et voi vaihtaa YKI-testin kieltä, tasoa, testipaikkaa tai testipäivää maksamisen jälkeen.",
               "text3": "Lue ilmoittautumisen ehdot Opetushallituksen verkkosivuilta:"
             },
             "title": "Vahvista ilmoittautuminen maksamalla tutkintomaksu"
@@ -649,12 +652,12 @@
                   "label": "Tutkintomaksut",
                   "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-tutkintomaksut"
                 },
-                "text": "Lue maksuttoman YKI-testin ehdot Opetushallituksen verkkosivuilta"
+                "text": "Lue lisää maksuttomista YKI-testeistä Opetushallituksen verkkosivuilta"
               },
               "suomiFiAuthenticationRequired": "Sinun täytyy tunnistautua Suomi.fi-palvelussa, jotta voimme tarkistaa, täytätkö ehdot.",
               "threeAttemptsAvailable": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa."
             },
-            "registrationIsBindingAdvisory": "<strong>Tarkista, että olet valinnut oikean YKI-testin!</strong> Et voi vaihtaa YKI-testin kieltä, tasoa tai testipaikkaa ilmoittautumisen jälkeen.",
+            "registrationIsBindingAdvisory": "<strong>Tarkista, että olet valinnut oikean YKI-testin!</strong> Et voi vaihtaa YKI-testin kieltä, tasoa, testipaikkaa tai testipäivää ilmoittautumisen jälkeen.",
             "selectIdentificationMethod": "Valitse tunnistautumistapasi",
             "suomiFiButtonText": "Tunnistaudu Suomi.fi-palvelussa",
             "title": "Tunnistaudu ilmoittautumista varten",
@@ -686,8 +689,8 @@
                   "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ennen-testia"
                 },
                 "part1": "Ilmoittautuminen onnistui! Saat vahvistuksen ilmoittautumisestasi sähköpostilla.",
-                "part2": "Testipaikka lähettää sinulle ohjeet YKI-testiä varten ennen testipäivää. Ohjeissa kerrotaan missä testipaikka on ja milloin testi alkaa.",
-                "part3": "Ohjeissa kerrotaan muun muassa testipaikan tarkka sijainti ja kellonaika, jolloin testi alkaa.",
+                "part2": "Testipaikka lähettää sinulle ohjeet YKI-testiä varten ennen testipäivää",
+                "part3": "Ohjeissa kerrotaan missä testipaikka on ja milloin testi alkaa.",
                 "specialArrangements": {
                   "description": "Jos tarvitset erityisjärjestelyjä, lähetä hakemus mahdollisimman pian. Ohjeet erityisjärjestelyjen hakemiseen ovat Opetushallituksen verkkosivuilla:",
                   "label": "Tarvitsetko erityisjärjestelyjä? (oph.fi)",

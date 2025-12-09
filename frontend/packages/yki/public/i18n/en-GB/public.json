@@ -11,7 +11,7 @@
         "descriptionPaid3": "If you cancel your registration, you cannot restore it. You will need to register again if you want to take the YKI test.",
         "link": {
           "label": "Cancelling your test registration",
-          "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ennen-yki-testia#anchor-osallistumisen-peruminen"
+          "url": "https://www.oph.fi/en/education-and-qualifications/yki-test#anchor-cancelling-your-test-registration"
         },
         "title": "Do you wish to cancel your registration?",
         "success": "Your registration has been cancelled"
@@ -202,8 +202,7 @@
                 "SUBMITTED": "Ei Maksanut",
                 "EXPIRED": "Erääntynyt",
                 "CANCELLED": "Peruttu",
-                "PAID_AND_CANCELLED": "Maksanut ja peruttu",
-                "FREE_REGISTRATION_PENDING": "Maksuttomuuden tarkistus kesken"
+                "PAID_AND_CANCELLED": "Maksanut ja peruttu"
               },
               "actions": {
                 "relocate": "Siirrä tilaisuuteen",
@@ -214,7 +213,7 @@
                 "OFFERED": "Kyllä",
                 "NOT_OFFERED": "Ei",
                 "NOT_ACCEPTED": "Ei otettu vastaan",
-                "dueDate": "Eräpäivä {{ dueDate }}"
+                "expiresAt": "Eräpäivä {{ expiresAt }}"
               },
               "examState": {
                 "REVIEWED": "Arvioitu",
@@ -322,6 +321,10 @@
         "requestReassessment": "Request a reassessment"
       },
       "registration": {
+        "controlButtons": {
+          "abortRegistration": "Quit registration",
+          "confirm": "Submit"
+        },
         "enrollModal": {
           "title": "Registration failed",
           "examIsFull": "The YKI-test is full. However, you can register for the waiting list.",
@@ -341,10 +344,6 @@
             "part3": "If you want to cancel the registration, first proceed to the registration form and then click QUIT REGISTRATION.",
             "backToRegistrationButton": "Proceed to the registration form"
           }
-        },
-        "controlButtons": {
-          "abortRegistration": "Quit registration",
-          "confirm": "Submit"
         },
         "enrollToQueue": {
           "dialog": {
@@ -391,9 +390,15 @@
         "examSessionDetails": {
           "exam": "Test",
           "examFee": "Test fee",
-          "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä",
+          "freeAttemptsLeft": "You have free registrations remaining",
           "openings": "Available seats",
           "registrationTime": "Registration period"
+        },
+        "expirationTimer": {
+          "reservationExpired": "Registration failed",
+          "reservationExpiredContinue": "Return to home page",
+          "reservationExpiredText": "Time ran out and you lost your reserved place in the YKI test. If you want to register for this YKI test, please return to the home page and register for the YKI test again.",
+          "reservationExpiresIn": "Your reserved place in the YKI test will expire in: {{minutes}}:{{seconds}}"
         },
         "paymentSum": {
           "title": "Test fee"
@@ -401,7 +406,6 @@
         "registrationButtonLabels": {
           "enrollToQueue": "Register for the waiting list",
           "full": "Full",
-          "orderCancellationNotification": "Subscribe to notifications of available seats",
           "periodNotOpen": "Registration has not started",
           "register": "Register"
         },
@@ -418,9 +422,9 @@
             "fields": {
               "address": "Street address",
               "certificateLanguage": "Select the language of the certificate",
-              "countryOfEducation": "Valitse, missä olet opiskellut",
+              "countryOfEducation": "Select where you have studied",
               "dateOfBirth": "Date of birth",
-              "educationType": "Valitse maksuttomuuteen oikeuttavien opintojen tyyppi",
+              "educationType": "Select whether you have studies that entitle you to free YKI tests",
               "email": "Email address",
               "emailConfirmation": "Confirm email address",
               "firstNames": "First names",
@@ -441,48 +445,46 @@
           },
           "examFee": {
             "education": {
-              "higherEducation": "Korkeakoulututkinto",
-              "matriculationExam": "Ylioppilastutkinto"
+              "higherEducation": "University or university of applied sciences degree",
+              "matriculationExam": "Matriculation examination"
             },
-            "freeAttemptsExhausted": "Olet käyttänyt kaikki ilmaiset kerrat.",
-            "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä: <strong>{{amount}}</strong>.",
-            "freeAttemptsOffered": "Voit ilmoittautua maksuttomasti kolme (3) kertaa.",
-            "freeAttemptsOfferedYKI": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa.",
+            "freeAttemptsExhausted": "You have used up all your free registrations.",
+            "freeAttemptsLeft": "You have free registrations remaining: <strong>{{amount}}</strong>.",
+            "freeAttemptsOffered": "You can register free of charge a total of three (3) times.",
+            "freeAttemptsOfferedYKI": "You can register free of charge a total of three (3) times.",
             "loading": {
-              "checkingEligibility": "Tarkastamme täyttyvätkö maksuttomuuden ehdot kohdallasi.",
-              "pleaseWait": "Tietoja ladataan, ole hyvä ja odota hetki."
+              "checkingEligibility": "We will check your study records automatically.",
+              "pleaseWait": "Download in progress, please wait."
             },
-            "noFeeRequired": "YKI-testi on sinulle maksuton.",
-            "noSuitableEducationFound": "Emme löytäneet maksuttomuuteen oikeuttavia tutkintoja.",
-            "paymentRequired": "Kun lähetät ilmoittautumislomakkeen, sinun täytyy maksaa tutkintomaksu.",
-            "paymentRequiredIfLiftedFromQueue": "Jos saat paikan YKI-testiin jonosta, sinun täytyy maksaa tutkintomaksu.",
-            "suitableEducationFound": "Sinulla on ehdot täyttävä tutkinto",
-            "title": "Tutkintomaksu",
+            "noFeeRequired": "The YKI test is free of charge for you.",
+            "noSuitableEducationFound": "We could not find any qualifications that entitle you to free registration.",
+            "paymentRequired": "Once you submit your registration form, you must pay the test fee.",
+            "paymentRequiredIfLiftedFromQueue": "If you receive a place in a YKI test from its waiting list, you will need to pay the test fee.",
+            "suitableEducationFound": "You have a qualification that meets the conditions",
+            "title": "Test fee",
             "userSelection": {
               "countryOfStudies": {
-                "abroad": "Olen opiskellut ulkomailla.",
-                "finland": "Olen opiskellut Suomessa.",
-                "prompt": "Missä olet opiskellut?",
-                "uneligible": "Minulla ei ole maksuttomaan YKI-testiin oikeuttavia opintoja. Maksan tutkintomaksun."
+                "abroad": "I have studied abroad.",
+                "finland": "I have studied in Finland.",
+                "prompt": "Where have you studied?",
+                "uneligible": "I do not have any studies that entitle me to free YKI tests. I will pay the test fee."
               },
-              "declareEducationOrPay": "Sinun täytyy ilmoittaa tiedot opinnoistasi tai maksaa tutkintomaksu.",
+              "declareEducationOrPay": "You must provide details of your studies or pay the test fee.",
               "educationDetails": {
-                "comparableMatriculationExam": "Olen suorittanut ylioppilastutkintoa vastaavan ulkomaisen tutkinnon.",
-                "higherEducationConcluded": "Olen suorittanut korkeakoulututkinnon.",
-                "higherEducationEnrolled": "Olen suorittamassa korkeakoulututkintoa.",
-                "matriculationExam": "Olen suorittanut ylioppilastutkinnon.",
-                "prompt": "Onko sinulla opintoja, jotka oikeuttavat maksuttomaan YKI-testiin?",
-                "uneligible": "Minulla ei ole maksuttomaan YKI-testiin oikeuttavia opintoja. Maksan tutkintomaksun."
+                "comparableMatriculationExam": "I have completed a foreign degree equivalent to the Finnish matriculation examination.",
+                "higherEducationConcluded": "I have completed a university or university of applied sciences degree.",
+                "higherEducationEnrolled": "I am currently studying for a university or university of applied sciences degree.",
+                "matriculationExam": "I have completed the Finnish matriculation examination.",
+                "prompt": "Do you have studies that entitle you to free YKI tests?",
+                "uneligible": "I do not have any studies that entitle me to free YKI tests. I will pay the test fee."
               },
               "randomChecksPerformed": {
-                "heading": "Opetushallitus tekee satunnaistarkistuksia",
-                "part1": "Opetushallitus voi pyytää sinulta todistuksen opinnoistasi jälkikäteen.",
-                "part2": "Jos sinulla ei ole todistusta maksuttomaan YKI-testiin oikeuttavista opinnoista, Opetushallitus lähettää sinulle laskun tutkintomaksusta.",
-                "part3": "Satunnaisia tarkistuksia tehdään korkeintaan X kuukautta tutkintopäivän jälkeen.",
-                "part4": "Väärien tietojen ilmoittaminen on petos.",
-                "part5": "Opetushallitus ilmoittaa väärinkäytöksistä poliisille."
+                "heading": "The Finnish National Agency for Education carries out random checks",
+                "part1": "The Finnish National Agency for Education may ask you for transcripts or certificates of your studies after the test day.",
+                "part2": "If you cannot present transcripts or certificates of studies that entitle you to free YKI tests, the Finnish National Agency for Education will send you an invoice for the test fee.",
+                "part3": "If you do not pay the invoice, you will be subjected to debt recovery and enforcement procedures."
               },
-              "selectOne": "Valitse yksi alla olevista vaihtoehdoista."
+              "selectOne": "Please select one of the options below."
             }
           },
           "labels": {
@@ -518,8 +520,9 @@
           "ssn": "Personal identity code",
           "termsAndConditions": {
             "description1": "To register, you must agree to the terms and conditions of the registration:",
-            "description2": "Read more on the Finnish National Agency for Education’s website",
+            "description2": "Read more on the Finnish National Agency for Education's website",
             "description3": "Paid registration for YKI test is binding. Check that you are registering for the correct YKI test, and you have filled in your personal information correctly.",
+            "description3Free": "Confirmed registration for YKI test is binding. Check that you are registering for the correct YKI test, and you have filled in your personal information correctly.",
             "item1": "You cannot change the level of the YKI test.",
             "item2": "You cannot change the language of the YKI test.",
             "item3": "You cannot change the test centre.",
@@ -534,14 +537,14 @@
           },
           "title": "Fill in your personal information",
           "whatsNext": {
-            "description": "Once you have submitted your registration form, you must pay the test fee. Your registration will only be confirmed once you have paid the test fee.",
             "freeRegistration": {
-              "description": "Kun olet lähettänyt ilmoittautumislomakkeen, ilmoittautumisesi vahvistetaan. Vahvistettu ilmoittautuminen kuluttaa yhden maksuttoman ilmoittautumisen.",
+              "description": "Once you submit your registration form, your registration will be confirmed. A confirmed registration reduces the number of times that you can register for free by one.",
               "queued": {
-                "part1": "Kun olet lähettänyt ilmoittautumislomakkeen, saat sähköpostiisi vahvistuksen siitä, että olet ilmoittautunut jonoon.",
-                "part2": "Jos saat paikan jonosta, ilmoittautumisesi vahvistetaan. Vahvistettu ilmoittautuminen kuluttaa yhden maksuttoman ilmoittautumisen."
+                "part1": "Once you have submitted your registration form, you will receive an email confirming that you have been added to the waiting list.",
+                "part2": "If you receive a place in the YKI test from the waiting list, your registration will be confirmed. A confirmed registration reduces the number of times that you can register for free by one."
               }
             },
+            "description": "Once you have submitted your registration form, you must pay the test fee. Your registration will only be confirmed once you have paid the test fee.",
             "queued": {
               "part1": "Once you have submitted your registration form, you will receive an email confirming that you have been added to the waiting list.",
               "part2": "If you receive a place in the YKI test from the waiting list, you will be notified of this by email. Please keep an active eye on your email."
@@ -578,7 +581,7 @@
                 "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-terms-and-conditions-for-registration"
               },
               "text1": "Before paying, please check that you have selected the correct YKI test.",
-              "text2": "You cannot change the language, level or test centre of the YKI test after paying the fee.",
+              "text2": "You cannot change the language, level, test centre or test day of the YKI test after paying the fee.",
               "text3": "Please read the terms and conditions for registration on the Finnish National Agency for Education's website:"
             },
             "title": "Confirm the registration by paying the test fee"
@@ -599,7 +602,7 @@
           "step": {
             "Done": "Done",
             "EnrollToQueue": "Register for the waiting list",
-            "Identify": "Identify",
+            "Identify": "Log in",
             "Payment": "Payment",
             "Register": "Register"
           },
@@ -608,26 +611,26 @@
         "steps": {
           "identify": {
             "alreadyLoggedIn": {
-              "caption": "Check identification details",
-              "currentLoginInformation": "You have identified yourself with the following information:",
+              "caption": "Check login details",
+              "currentLoginInformation": "You have logged in using the following information:",
               "labels": {
                 "abort": "Quit registration",
                 "continueToRegistration": "Continue registration",
                 "email": "Email address",
                 "name": "Name"
               },
-              "reauthenticate": "Check that you have identified yourself with the personal information of the person taking the YKI test. If you have identified yourself with someone else's personal information, click the Log out button at the top of the page and start the registration again.",
-              "title": "Identify yourself for registration"
+              "reauthenticate": "Check that you have logged in using the personal information of the person taking the YKI test. If you have logged in using someone else's personal information, click the Log out button at the top of the page and start the registration again.",
+              "title": "Log in for registration"
             },
-            "caption": "You must identify yourself to register for a YKI test. Use the personal information of the person taking the YKI test for the identification.",
-            "emailButtonText": "identify with email",
+            "caption": "You must log in to register for a YKI test. When you log in, use the personal information of the person taking the YKI test.",
+            "emailButtonText": "log in with email",
             "emailError": "Invalid email address",
             "emailInput": {
               "label": "Fill in your email address",
               "placeholder": "For example, name@email.fi"
             },
             "emailLink": {
-              "error": "Identification failed. You may try again.",
+              "error": "Login failed. You may try again.",
               "incorrectEmailDialog": {
                 "title": "Request failed",
                 "description": "Check your email address."
@@ -636,37 +639,37 @@
             },
             "freeRegistration": {
               "conditions": {
-                "general": "YKI-testi on sinulle maksuton, jos täytät jonkun seuraavista ehdoista",
-                "point1": "Olet suorittanut suomalaisen ylioppilastutkinnon tai vastaavan ulkomaisen tutkinnon.",
-                "point2": "Olet suorittanut korkeakoulututkinnon Suomessa tai ulkomailla.",
-                "point3": "Olet suorittamassa korkeakoulututkintoa Suomessa tai ulkomailla."
+                "general": "The YKI test is free of charge for you if you meet one of the following conditions",
+                "point1": "You have completed the Finnish matriculation examination or an equivalent foreign qualification.",
+                "point2": "You have completed a university or university of applied sciences degree in Finland or abroad.",
+                "point3": "You are currently studying for a university or university of applied sciences degree in Finland or abroad."
               },
-              "educationDetailsAreChecked": "Tunnistautumisen jälkeen järjestelmä tarkistaa koulutustietosi automaattisesti.",
-              "heading": "Tutkintomaksu suomen ja ruotsin kielen ylimmän tason YKI-testeissä",
-              "ifSuitableEducationIsNotFound": "Jos koulutustietoja ei löydy, sinun täytyy kertoa opinnoistasi ilmoittautumislomakkeella.",
+              "educationDetailsAreChecked": "After the e-Identification process, the system will automatically check your study records.",
+              "heading": "Test fee for advanced level YKI tests in Finnish and Swedish",
+              "ifSuitableEducationIsNotFound": "If records of your studies are not found, you must provide the details of your studies on the registration form.",
               "readMore": {
                 "link": {
                   "label": "Test fees",
                   "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-test-fees"
                 },
-                "text": "Lue maksuttoman YKI-testin ehdot Opetushallituksen verkkosivuilta"
+                "text": "Read more about the free YKI tests on the Finnish National Agency for Education's website"
               },
-              "suomiFiAuthenticationRequired": "Sinun täytyy tunnistautua Suomi.fi-palvelussa, jotta voimme tarkistaa, täytätkö ehdot.",
-              "threeAttemptsAvailable": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa."
+              "suomiFiAuthenticationRequired": "You must log in using Suomi.fi e-Identification so that we can verify whether you meet the conditions.",
+              "threeAttemptsAvailable": "You can register free of charge a total of three (3) times."
             },
-            "registrationIsBindingAdvisory": "Check that you are registering for the correct YKI test (including language and level). Registration for YKI test is binding. Once you have confirmed your registration, you can no longer change it.",
-            "selectIdentificationMethod": "Select your identification method",
-            "suomiFiButtonText": "Identify via Suomi.fi",
-            "title": "Identify yourself for registration",
-            "titleForQueueing": "Identify yourself to register for the waiting list",
+            "registrationIsBindingAdvisory": "<strong>Check that you are registering for the correct YKI test!</strong> Once you have confirmed your registration, you can no longer change the language, level, test centre or the test day.",
+            "selectIdentificationMethod": "Please select your login method",
+            "suomiFiButtonText": "Log in using Suomi.fi e-Identification",
+            "title": "Log in to register",
+            "titleForQueueing": "Log in to register for the waiting list",
             "withFinnishSSN": {
-              "description": "Identify yourself through Suomi.fi e-identification",
-              "info": "After the identification you will be directed automatically to the registration form."
+              "description": "Log in using Suomi.fi e-Identification",
+              "info": "After logging in, you will be automatically taken to the registration form."
             },
             "withoutFinnishSSN": {
-              "description": "Identify yourself with your email",
-              "examFeeRequired": "Jos tunnistaudut sähköpostilla, sinun täytyy maksaa tutkintomaksu.",
-              "info": "After the identification, you will receive an email with a link to the registration form."
+              "description": "Log in with your email",
+              "examFeeRequired": "If you log in by email, you will have to pay the test fee.",
+              "info": "Once you have logged in, you will receive an email with a link to the registration form."
             }
           },
           "payment": {
@@ -686,8 +689,8 @@
                   "url": "https://www.oph.fi/en/education-and-qualifications/yki-test"
                 },
                 "part1": "Your registration has been confirmed! You will receive a confirmation email shortly.",
-                "part2": "Closer to the test date, your test centre will send you an email with detailed instructions on arriving at the test, including the exact location and start time.",
-                "part3": "The instructions include the exact location of the test centre and the time at which the test will start.",
+                "part2": "Your test centre will send you instructions for the YKI test before the test day.",
+                "part3": "The instructions will tell you where the test centre is and what time the YKI test starts.",
                 "specialArrangements": {
                   "description": "If you need special arrangements, send your application as soon as possible according to the instructions provided by the Finnish National Agency for Education. The instructions can be found on their website:",
                   "label": "Do you need special arrangements? (oph.fi)",
@@ -738,9 +741,9 @@
             "title": "Registration period has ended"
           },
           "unauthorized": {
-            "backToIdentification": "Proceed to select your identification method",
-            "description": "We could not find your identification details. Your previous identification may have expired. You must identify yourself to register for a YKI test.",
-            "title": "You have not identified yourself"
+            "backToIdentification": "Proceed to select your login method",
+            "description": "We could not find your login details. Your previous session may have expired. Please log in to register for a YKI test.",
+            "title": "You have not logged in"
           },
           "upcoming": {
             "description": "Registration is not possible at the moment. The registration period has not started yet.",
@@ -811,7 +814,6 @@
         "heading": "Log out complete",
         "info": "You have logged out successfully. Close all browser windows."
       },
-
       "modifyContactDetailsPage": {
         "buttons": {
           "cancel": "Cancel",
@@ -881,7 +883,7 @@
             "confirm": "Yes, I want to quit the registration"
           },
           "description": "Do you want to quit the registration? Any information you have filled in will be lost.",
-          "notice": "If you have identified yourself, your identification will remain active even if you quit the registration. If you no longer want to use the service as identified, click the Log out button at the top of the page.",
+          "notice": "If you have logged in, your login will remain active even if you quit the registration. If you no longer want to continue using the service while logged in, click the Log out button at the top of the page.",
           "title": "Quit registration"
         },
         "description": {
@@ -1030,7 +1032,7 @@
             "notPaid": "Unpaid €{{ examFee }}",
             "label": "Test fee",
             "paidAt": "Paid {{- date }}",
-            "free": "Maksuton"
+            "free": "Free of charge"
           },
           "header": {
             "cancelled": "Cancelled registrations",

@@ -162,7 +162,7 @@ const UserEducationSelection = () => {
           <Container className="public-registration__info-box columns gapped-sm">
             <InfoFilledIcon color={Color.Secondary} />
             <Text>
-              {t('freeAttemptsOfferedYKI')}
+              {t('freeAttemptsOfferedYKI')}{' '}
               <Trans
                 t={t}
                 i18nKey="freeAttemptsLeft"
@@ -171,14 +171,11 @@ const UserEducationSelection = () => {
             </Text>
           </Container>
           <H3>{t('userSelection.randomChecksPerformed.heading')}</H3>
+          <Text>{t('userSelection.randomChecksPerformed.part1')}</Text>
           <Text>
-            {t('userSelection.randomChecksPerformed.part1')}{' '}
             {t('userSelection.randomChecksPerformed.part2')}
-          </Text>
-          <Text>
-            {t('userSelection.randomChecksPerformed.part3')}{' '}
-            {t('userSelection.randomChecksPerformed.part4')}{' '}
-            {t('userSelection.randomChecksPerformed.part5')}
+            <br />
+            {t('userSelection.randomChecksPerformed.part3')}
           </Text>
         </>
       )}

@@ -119,6 +119,16 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="2025-12-02-add-registration-queue-columns-hsqldb" author="saku-koodari">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <addColumn tableName="registration">
+            <column name="expires_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="lifted_from_queue_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </addColumn>
+    </changeSet>
+
     <changeSet id="2025-11-19-add-exam-payment-new-hsqldb" author="saku-koodari">
         <preConditions onFail="CONTINUE">
             <dbms type="hsqldb"/>

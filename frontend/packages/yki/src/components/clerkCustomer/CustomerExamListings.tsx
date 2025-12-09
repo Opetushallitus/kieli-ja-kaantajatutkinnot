@@ -8,11 +8,16 @@ import { Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import { Dayjs } from 'dayjs';
 import i18next from 'i18next';
+import { AppLanguage } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import {
+  getCurrentLang,
+  useCommonTranslation,
+  usePublicTranslation,
+} from 'configs/i18n';
 import { RegistrationStates } from 'enums/app';
 import {
   ClerkCustomerDetails,
@@ -67,14 +72,14 @@ export const CustomerExamListings = ({
   });
 
   // Tutkintopäivä (Ilmoittautumiset, Jonossa, Menneet)
-  const createExamDateColumn = <T extends { examinationDate: Dayjs }>(
+  const createExamDateColumn = <T extends { examDate: Dayjs }>(
     t: typeof i18next.t,
   ): ListTableColumn<T> => ({
     key: 'examDate',
     title: t('columns.date'),
-    render: ({ examinationDate }) => (
+    render: ({ examDate }) => (
       <div className="rows gapped-xs">
-        <Text>{DateUtils.formatOptionalDate(examinationDate, 'l')}</Text>
+        <Text>{DateUtils.formatOptionalDate(examDate, 'l')}</Text>
       </div>
     ),
   });
@@ -97,18 +102,29 @@ export const CustomerExamListings = ({
 
   // Testipaikka (Ilmoittautumiset, Jonossa, Menneet)
   const createExamLocationColumn = <
-    T extends { examLocation: { schoolName: string; municipality: string } },
+    T extends {
+      examLocation: {
+        name: string;
+        municipality: string;
+        lang: AppLanguage;
+      }[];
+    },
   >(
     t: typeof i18next.t,
   ): ListTableColumn<T> => ({
     key: 'examLocation',
     title: t('columns.location'),
-    render: ({ examLocation: { schoolName, municipality } }) => (
-      <div className="rows gapped-xs">
-        <Text>{schoolName}</Text>
-        <Text>{municipality}</Text>
-      </div>
-    ),
+    render: ({ examLocation }) => {
+      const currentLang = getCurrentLang();
+      const location = examLocation.find((l) => currentLang === l.lang);
+
+      return (
+        <div className="rows gapped-xs">
+          <Text>{location?.name}</Text>
+          <Text>{location?.municipality}</Text>
+        </div>
+      );
+    },
   });
 
   const registrationStateIconMapping: Partial<
@@ -159,7 +175,9 @@ export const CustomerExamListings = ({
   });
 
   // Ilmoittautumispvm (Ilmoittautumiset, Jonossa)
-  const createRegistrationDateColumn = <T extends { registrationDate: Dayjs }>(
+  const createRegistrationDateColumn = <
+    T extends { registrationDate: Dayjs | undefined },
+  >(
     t: typeof i18next.t,
   ): ListTableColumn<T> => ({
     key: 'registrationDate',
@@ -196,9 +214,9 @@ export const CustomerExamListings = ({
           </Text>
           {queueSpotOffered.offered !== QueueOfferStatus.NotOffered && (
             <Text>
-              {t('values.queueSpotOffered.dueDate', {
-                dueDate: DateUtils.formatOptionalDate(
-                  queueSpotOffered.dueDate,
+              {t('values.queueSpotOffered.expiresAt', {
+                expiresAt: DateUtils.formatOptionalDate(
+                  queueSpotOffered.expiresAt,
                   'l',
                 ),
               })}
@@ -258,21 +276,23 @@ export const CustomerExamListings = ({
     <Stack spacing={4}>
       <ExamsListing
         columns={registrationsColumns}
-        rows={customerDetails?.registrations}
+        rows={customerDetails?.admissionedRegistrations}
         header={t('headers.registrations')}
-        subHeader={`(${customerDetails?.registrations?.length ?? 0})`}
+        subHeader={`(${
+          customerDetails?.admissionedRegistrations?.length ?? 0
+        })`}
         noRowsText={t('noRowsTexts.registrations')}
       />
       <ExamsListing
         columns={queuedExamsColumns}
-        rows={customerDetails?.queuedExams}
+        rows={customerDetails?.queueRegistrations}
         header={t('headers.queuedExams')}
-        subHeader={`(${customerDetails?.queuedExams?.length ?? 0})`}
+        subHeader={`(${customerDetails?.queueRegistrations?.length ?? 0})`}
         noRowsText={t('noRowsTexts.queuedExams')}
       />
       <ExamsListing
         columns={pastExamsColumns}
-        rows={customerDetails?.pastExams}
+        rows={customerDetails?.pastRegistrations}
         header={t('headers.pastExams')}
         subHeader={`(${t('subHeaders.pastExams')})`}
         noRowsText={t('noRowsTexts.pastExams')}

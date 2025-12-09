@@ -1,6 +1,12 @@
 import { Dayjs } from 'dayjs';
+import { AppLanguage } from 'shared/enums';
 
-import { ExamLanguage, ExamLevel, RegistrationStates } from 'enums/app';
+import {
+  ExamLanguage,
+  ExamLevel,
+  RegistrationKind,
+  RegistrationStates,
+} from 'enums/app';
 
 export interface CustomerPerson {
   firstName: string;
@@ -13,41 +19,45 @@ export interface CustomerPerson {
   email?: string;
 }
 
-type Exam = {
-  examinationDate: Dayjs;
+export type ExamLocation = {
+  name: string;
+  municipality: string;
+  lang: AppLanguage;
+};
+
+export type AdmissionedRegistration = {
+  examDate: Dayjs;
   exam: {
     language: ExamLanguage;
     level: ExamLevel;
   };
-  examLocation: {
-    schoolName: string;
-    municipality: string;
-  };
+  examLocation: ExamLocation[];
   registrationStatus: RegistrationStatus;
-  registrationDate: Dayjs;
+  registrationDate: Dayjs | undefined;
 };
 
-export type RegistrationStatus =
-  | {
-      state: RegistrationStates.Completed;
-      paidAt: Dayjs;
-    }
-  | { state: Exclude<RegistrationStates, RegistrationStates.Completed> };
+export type RegistrationStatus = {
+  state: RegistrationStates;
+  paidAt?: Dayjs;
+};
 
 export type QueueSpotOffered =
   | { offered: QueueOfferStatus.NotOffered }
   | {
-      offered: QueueOfferStatus.Offered | QueueOfferStatus.NotAccepted;
-      dueDate: Dayjs;
+      offered: QueueOfferStatus;
+      expiresAt: Dayjs;
     };
 
-type QueuedRegistration = Exam & {
+export type QueuedRegistration = AdmissionedRegistration & {
   queueSpotOffered: QueueSpotOffered;
 };
 
 export type ExamState = 'REVIEWED' | 'CANCELLED' | 'REGISTERED';
 
-type PastExam = Omit<Exam, 'registrationStatus' | 'registrationDate'> & {
+export type PastRegistration = Omit<
+  AdmissionedRegistration,
+  'registrationStatus' | 'registrationDate'
+> & {
   state: ExamState;
 };
 
@@ -59,49 +69,31 @@ export enum QueueOfferStatus {
 
 export interface ClerkCustomerDetails {
   person: CustomerPerson;
-  registrations: Exam[];
-  queuedExams: QueuedRegistration[];
-  pastExams: PastExam[];
+  admissionedRegistrations: AdmissionedRegistration[];
+  queueRegistrations: QueuedRegistration[];
+  pastRegistrations: PastRegistration[];
 }
 
-type RegistrationStatusResponse = Omit<RegistrationStatus, 'paidAt'> & {
-  paidAt?: string;
-};
-
-type ExamResponse = Omit<
-  Exam,
-  'registrationStatus' | 'registrationDate' | 'examinationDate'
-> & {
-  registrationStatus: RegistrationStatusResponse;
-
-  examinationDate: string;
-  registrationDate: string;
-};
-
-type QueueSpotOfferedResponse = Omit<QueueSpotOffered, 'dueDate'> & {
-  dueDate?: string;
-};
-
-type QueuedExamResponse = Omit<
-  QueuedRegistration,
-  | 'registrationStatus'
-  | 'queueSpotOffered'
-  | 'registrationDate'
-  | 'examinationDate'
-> & {
-  registrationStatus: RegistrationStatusResponse;
-  queueSpotOffered: QueueSpotOfferedResponse;
-  examinationDate: string;
-  registrationDate: string;
-};
-
-export type PastExamResponse = Omit<PastExam, 'examinationDate'> & {
-  examinationDate: string;
+export type RegistrationResponse = {
+  examDate: string;
+  exam: {
+    language: ExamLanguage;
+    level: ExamLevel;
+  };
+  examLocation: {
+    name: string;
+    municipality: string;
+    lang: string;
+  }[];
+  registrationState: string;
+  examPaymentPaidAt?: string;
+  registrationDate?: string;
+  kind: RegistrationKind;
+  liftedFromQueueAt?: string;
+  expiresAt?: string;
 };
 
 export interface ClerkCustomerDetailsResponse {
   person: CustomerPerson;
-  registrations: ExamResponse[];
-  queuedExams: QueuedExamResponse[];
-  pastExams: PastExamResponse[];
+  registrations: RegistrationResponse[];
 }
