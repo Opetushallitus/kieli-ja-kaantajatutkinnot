@@ -398,7 +398,7 @@
           "reservationExpired": "Registration failed",
           "reservationExpiredContinue": "Return to home page",
           "reservationExpiredText": "Time ran out and you lost your reserved place in the YKI test. If you want to register for this YKI test, please return to the home page and register for the YKI test again.",
-          "reservationExpiresIn": "Your reserved place in the YKI test will expire on: {{minutes}}:{{seconds}}"
+          "reservationExpiresIn": "Your reserved place in the YKI test will expire in: {{minutes}}:{{seconds}}"
         },
         "paymentSum": {
           "title": "Test fee"
