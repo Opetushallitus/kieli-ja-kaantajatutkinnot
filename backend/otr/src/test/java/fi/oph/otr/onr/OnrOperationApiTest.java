@@ -1,4 +1,4 @@
-package fi.oph.akr.service;
+package fi.oph.otr.onr;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -8,13 +8,12 @@ import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fi.oph.akr.Factory;
-import fi.oph.akr.onr.OnrOperationApiImpl;
-import fi.oph.akr.onr.dto.ContactDetailsGroupDTO;
-import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
-import fi.oph.akr.onr.dto.ContactDetailsGroupType;
-import fi.oph.akr.onr.dto.PersonalDataDTO;
-import fi.oph.akr.onr.model.PersonalData;
+import fi.oph.otr.Factory;
+import fi.oph.otr.onr.dto.ContactDetailsGroupDTO;
+import fi.oph.otr.onr.dto.ContactDetailsGroupSource;
+import fi.oph.otr.onr.dto.ContactDetailsGroupType;
+import fi.oph.otr.onr.dto.PersonalDataDTO;
+import fi.oph.otr.onr.model.PersonalData;
 import fi.vm.sade.javautils.nio.cas.CasClient;
 import java.util.List;
 import java.util.Map;
@@ -63,12 +62,6 @@ public class OnrOperationApiTest {
           final PersonalDataDTO actual = OBJECT_MAPPER.readValue(request.getStringData(), new TypeReference<>() {});
 
           assertThat(actual).usingRecursiveComparison().ignoringFields("contactDetailsGroups").isEqualTo(expected);
-          assertThat(actual.getContactDetailsGroups())
-            .usingRecursiveComparison()
-            .ignoringCollectionOrder()
-            .ignoringFields("contactDetailsSet")
-            .isEqualTo(expected.getContactDetailsGroups());
-
           assertDetailsGroupsEquals(actual.getContactDetailsGroups(), expected.getContactDetailsGroups());
         }
 
@@ -89,37 +82,13 @@ public class OnrOperationApiTest {
       .nickName("Etu")
       .isPassive(false)
       .isDuplicate(false)
-      .address(
-        List.of(
-          Factory.createAddress(
-            "testi katu",
-            "90100",
-            "Testikaupunki",
-            "FI",
-            ContactDetailsGroupSource.AKR,
-            ContactDetailsGroupType.AKR_OSOITE
-          ),
-          Factory.createAddress(
-            "foo",
-            "1234",
-            "bar",
-            null,
-            ContactDetailsGroupSource.OTR,
-            ContactDetailsGroupType.OTR_OSOITE
-          ),
-          Factory.createAddress(
-            "foo",
-            "1234",
-            "bar",
-            null,
-            ContactDetailsGroupSource.OTR,
-            ContactDetailsGroupType.OTR_OSOITE
-          )
-        )
-      )
+      .street("testi katu")
+      .postalCode("90100")
+      .town("Testikaupunki")
+      .country("FI")
       .identityNumber("111111-1111")
       .individualised(true)
-      .hasIndividualisedAddress(true)
+      .hasIndividualisedAddress(false)
       .build();
 
     onrOperationApi.updatePersonalData(personalData);
@@ -156,16 +125,16 @@ public class OnrOperationApiTest {
     final ContactDetailsGroupDTO actualContactDetailsGroups = actual
       .stream()
       .filter(group ->
-        group.getSource().equals(ContactDetailsGroupSource.AKR) &&
-        group.getType().equals(ContactDetailsGroupType.AKR_OSOITE)
+        group.getSource().equals(ContactDetailsGroupSource.OTR) &&
+        group.getType().equals(ContactDetailsGroupType.OTR_OSOITE)
       )
       .findFirst()
       .orElse(null);
     final ContactDetailsGroupDTO expectedContactDetailsGroups = expected
       .stream()
       .filter(group ->
-        group.getSource().equals(ContactDetailsGroupSource.AKR) &&
-        group.getType().equals(ContactDetailsGroupType.AKR_OSOITE)
+        group.getSource().equals(ContactDetailsGroupSource.OTR) &&
+        group.getType().equals(ContactDetailsGroupType.OTR_OSOITE)
       )
       .findFirst()
       .orElse(null);

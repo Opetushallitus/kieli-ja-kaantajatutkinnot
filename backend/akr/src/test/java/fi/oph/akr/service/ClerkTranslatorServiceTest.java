@@ -280,6 +280,8 @@ class ClerkTranslatorServiceTest {
             .nickName(nickNames.get(i))
             .lastName(lastNames.get(i))
             .email(emails.get(i))
+            .isPassive(null)
+            .isDuplicate(false)
             .phoneNumber(phoneNumbers.get(i))
             .address(Factory.createAddressList(streets.get(i), postalCodes.get(i), towns.get(i), countries.get(i)))
             .individualised(false)
@@ -1050,6 +1052,8 @@ class ClerkTranslatorServiceTest {
       .address(Factory.createAddressList("st", "pstl", "tw", "FI"))
       .identityNumber("112233")
       .individualised(true)
+      .isPassive(null)
+      .isDuplicate(null)
       .hasIndividualisedAddress(false)
       .build();
   }
@@ -1087,6 +1091,8 @@ class ClerkTranslatorServiceTest {
       .firstName(translatorDTO.firstName())
       .nickName(translatorDTO.nickName())
       .lastName(translatorDTO.lastName())
+      .isPassive(false)
+      .isDuplicate(false)
       .email(translatorDTO.email())
       .phoneNumber(translatorDTO.phoneNumber())
       .address(convertTranslatorAddressDTO(translatorDTO.address()))

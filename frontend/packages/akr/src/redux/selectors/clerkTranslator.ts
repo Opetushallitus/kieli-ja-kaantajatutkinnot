@@ -37,6 +37,9 @@ export const selectFilteredClerkTranslators = createSelector(
     if (filters.emailStatus === TranslatorEmailStatus.Missing) {
       filteredTranslators = filteredTranslators.filter((t) => !t.email);
     }
+    if (filters.authorisationStatus === AuthorisationStatus.Deceased) {
+      filteredTranslators = filteredTranslators.filter((t) => t.isDeceased);
+    }
 
     return filteredTranslators.filter((t) =>
       hasAuthorisationsMatchingFilters(t, filters),
@@ -102,6 +105,14 @@ const hasAuthorisationsMatchingFilters = (
       return matchesFilters(authorisations.expiredDeduplicated).length > 0;
     case AuthorisationStatus.FormerVir:
       return matchesFilters(authorisations.formerVir).length > 0;
+    case AuthorisationStatus.Deceased:
+      return (
+        matchesFilters(authorisations.effective).length > 0 ||
+        matchesFilters(authorisations.expiring).length > 0 ||
+        matchesFilters(authorisations.expired).length > 0 ||
+        matchesFilters(authorisations.expiredDeduplicated).length > 0 ||
+        matchesFilters(authorisations.formerVir).length > 0
+      );
   }
 };
 

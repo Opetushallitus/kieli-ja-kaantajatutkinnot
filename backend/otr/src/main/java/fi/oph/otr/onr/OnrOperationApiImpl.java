@@ -111,6 +111,8 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       .firstName(personalDataDTO.getFirstName())
       .nickName(personalDataDTO.getNickName())
       .identityNumber(identityNumber.orElse("ei tiedossa"))
+      .isDuplicate(personalDataDTO.getIsDuplicate())
+      .isPassive(personalDataDTO.getIsPassive())
       .email(ContactDetailsUtil.getPrimaryEmail(groups))
       .phoneNumber(ContactDetailsUtil.getPrimaryPhoneNumber(groups))
       .street(ContactDetailsUtil.getPrimaryStreet(groups))

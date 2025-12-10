@@ -34,6 +34,15 @@ export const ClerkInterpreterToggleFilters = ({
   const expiredDeduplicatedCount = interpreters.filter(
     (i) => i.qualifications.expiredDeduplicated.length > 0,
   ).length;
+  const deceasedCount = interpreters.filter(
+    (i) =>
+      i.isDeceased &&
+      (i.qualifications.effective.find((q) => q.permissionToPublish) ||
+        i.qualifications.expiring.find((q) => q.permissionToPublish) ||
+        i.qualifications.expiredDeduplicated.find(
+          (q) => q.permissionToPublish,
+        )),
+  ).length;
 
   const filterData = [
     {
@@ -53,6 +62,12 @@ export const ClerkInterpreterToggleFilters = ({
       count: expiredDeduplicatedCount,
       testId: `clerk-interpreter-filters__btn--${QualificationStatus.ExpiredDeduplicated}`,
       label: t(QualificationStatus.ExpiredDeduplicated),
+    },
+    {
+      status: QualificationStatus.Deceased,
+      count: deceasedCount,
+      testId: `clerk-interpreter-filters__btn--${QualificationStatus.Deceased}`,
+      label: t(QualificationStatus.Deceased),
     },
   ];
 
