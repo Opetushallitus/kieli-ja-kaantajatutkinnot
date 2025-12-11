@@ -4,6 +4,7 @@ export enum AuthorisationStatus {
   Expired = 'expired',
   ExpiredDeduplicated = 'expiredDeduplicated',
   FormerVir = 'formerVir',
+  Deceased = 'deceased',
 }
 
 export enum AuthorisationBasisEnum {

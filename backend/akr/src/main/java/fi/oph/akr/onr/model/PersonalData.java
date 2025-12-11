@@ -21,6 +21,10 @@ public class PersonalData {
   // Always exists for data returned from ONR
   private Boolean hasIndividualisedAddress;
 
+  private Boolean isPassive;
+
+  private Boolean isDuplicate;
+
   @NonNull
   private String lastName;
 
@@ -57,6 +61,14 @@ public class PersonalData {
       this.hasIndividualisedAddress != null &&
       (this.individualised || !this.hasIndividualisedAddress)
     );
+  }
+
+  public Boolean isDeceased() {
+    if (this.isPassive == null || this.isDuplicate == null) {
+      return null;
+    }
+
+    return this.isPassive && !this.isDuplicate;
   }
 
   public void assertOnrUpdatePossible() {

@@ -44,7 +44,7 @@ describe('PublicUserDetailsPage', () => {
 
     it('shows error toast on failed cancellation request and do not close the modal', () => {
       // Handler returns error for 3rd registration (id 1339)
-      onPublicUserDetailsPage.cancelPaidRegistration();
+      onPublicUserDetailsPage.cancelPaidRegistration(5);
       findAlertDialogByText(dialogHeading).should('be.visible');
       findAlertDialogByText(dialogHeading)
         .findByRole('button', { name: 'Peru ilmoittautuminen' })

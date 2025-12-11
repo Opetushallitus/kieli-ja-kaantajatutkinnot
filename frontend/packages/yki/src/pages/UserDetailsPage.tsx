@@ -2,7 +2,6 @@ import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import InfoFilledIcon from '@mui/icons-material/Info';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
 import WarningOutlinedIcon from '@mui/icons-material/WarningOutlined';
 import { Grid, Paper, Typography } from '@mui/material';
@@ -342,30 +341,7 @@ const Registrations: FC<RegistrationsProps> = ({
               >
                 {t('actions.cancel')}
               </CustomButton>
-              {r.state === RegistrationStates.Completed && (
-                <CustomButtonLink
-                  className="fit-content-max-width"
-                  color={Color.Secondary}
-                  variant={Variant.Outlined}
-                  disabled={!r.isTransferable}
-                  to={AppRoutes.TransferRegistration.replace(
-                    /:registrationId/,
-                    `${r.id}`,
-                  )}
-                >
-                  {t('actions.relocate')}
-                </CustomButtonLink>
-              )}
             </div>
-            {r.isTransfered && (
-              <div className="columns gapped-xs">
-                <InfoOutlinedIcon />
-                <Text>
-                  {t('alreadyTransferredNotification.part1')}{' '}
-                  {t('alreadyTransferredNotification.part2')}
-                </Text>
-              </div>
-            )}
           </div>
         )}
       </Paper>
@@ -465,11 +441,9 @@ const NotLoggedIn = () => {
             <Text>{t('notLoggedIn.actionsAvailable')}</Text>
           </div>
           <Typography className="margin-top-sm" variant="body1" component="ul">
-            {['point1', 'point2', 'point3', 'point4', 'point7'].map(
-              (point, i) => (
-                <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
-              ),
-            )}
+            {['point1', 'point3', 'point4', 'point7'].map((point, i) => (
+              <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
+            ))}
           </Typography>
         </Grid>
       </Grid>
@@ -527,15 +501,15 @@ export const UserDetailsPage: FC = () => {
           <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
         ));
       } else {
-        return ['point2', 'point4', 'point7'].map((point, i) => (
+        return ['point4', 'point7'].map((point, i) => (
           <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
         ));
       }
     }
 
-    return ['point1', 'point2', 'point3', 'point4', 'point7'].map(
-      (point, i) => <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>,
-    );
+    return ['point1', 'point3', 'point4', 'point7'].map((point, i) => (
+      <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
+    ));
   };
 
   return (

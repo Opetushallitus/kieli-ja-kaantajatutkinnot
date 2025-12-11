@@ -2,9 +2,14 @@ import { selectComboBoxOptionByName } from 'tests/cypress/support/utils/comboBox
 
 class PublicRegistrationPage {
   elements = {
-    filterByLanguage: () =>
-      cy.findByRole('combobox', { name: /Valitse kieli/ }),
-    filterByLevel: () => cy.findByRole('combobox', { name: /Valitse taso/ }),
+    filterByLanguage: (isPhone: boolean = false) =>
+      isPhone
+        ? cy.findAllByRole('combobox').eq(0).should('be.visible')
+        : cy.findByRole('combobox', { name: /Valitse kieli/ }),
+    filterByLevel: (isPhone: boolean = false) =>
+      isPhone
+        ? cy.findAllByRole('combobox').eq(1).should('be.visible')
+        : cy.findByRole('combobox', { name: /Valitse taso/ }),
     resultBox: () =>
       cy.findByTestId('public-registration-page__grid-container__result-box'),
     showOnlyIfAvailablePlaces: () =>
@@ -53,12 +58,20 @@ class PublicRegistrationPage {
     this.elements.title().should('be.visible');
   }
 
-  selectExamLanguage(language: string) {
-    selectComboBoxOptionByName(this.elements.filterByLanguage(), language);
+  selectExamLanguage(language: string, isPhone: boolean = false) {
+    selectComboBoxOptionByName(
+      this.elements.filterByLanguage(isPhone),
+      language,
+      isPhone,
+    );
   }
 
-  selectExamLevel(level: string) {
-    selectComboBoxOptionByName(this.elements.filterByLevel(), level);
+  selectExamLevel(level: string, isPhone: boolean = false) {
+    selectComboBoxOptionByName(
+      this.elements.filterByLevel(isPhone),
+      level,
+      isPhone,
+    );
   }
 
   search() {
@@ -72,6 +85,17 @@ class PublicRegistrationPage {
 
   toggleShowOnlyIfOngoingAdmission() {
     this.elements.showOnlyIfOngoingAdmission().click();
+  }
+
+  expectReservationTimerText(visible, text?) {
+    visible
+      ? cy
+          .findByTestId('public-registration__reservation-timer-text')
+          .should('be.visible')
+          .and('have.text', text)
+      : cy
+          .findByTestId('public-registration__reservation-timer-text')
+          .should('not.exist');
   }
 }
 

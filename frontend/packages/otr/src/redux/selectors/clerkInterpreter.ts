@@ -26,6 +26,9 @@ export const selectFilteredClerkInterpreters = createSelector(
         interpreterNameMatchesName(interpreter, filters.name as string),
       );
     }
+    if (filters.qualificationStatus === QualificationStatus.Deceased) {
+      filteredInterpreters = filteredInterpreters.filter((i) => i.isDeceased);
+    }
 
     return filteredInterpreters.filter((interpreter) =>
       hasQualificationsMatchingFilters(interpreter, filters),
@@ -68,6 +71,13 @@ const hasQualificationsMatchingFilters = (
       return matchesFilters(qualifications.expired).length > 0;
     case QualificationStatus.ExpiredDeduplicated:
       return matchesFilters(qualifications.expiredDeduplicated).length > 0;
+    case QualificationStatus.Deceased:
+      return (
+        matchesFilters(qualifications.effective).length > 0 ||
+        matchesFilters(qualifications.expiring).length > 0 ||
+        matchesFilters(qualifications.expired).length > 0 ||
+        matchesFilters(qualifications.expiredDeduplicated).length > 0
+      );
   }
 };
 

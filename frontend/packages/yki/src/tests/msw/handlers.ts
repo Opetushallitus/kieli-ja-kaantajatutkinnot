@@ -78,6 +78,9 @@ const initRegistration = async ({
         exam_session_id % 2 === 0
           ? RegistrationKind.Admission
           : RegistrationKind.Queue;
+      const thirtyMinutesInSeconds = 1800;
+      const expires_in =
+        exam_session_id % 2 === 0 ? thirtyMinutesInSeconds : undefined;
 
       return HttpResponse.json(
         {
@@ -91,6 +94,7 @@ const initRegistration = async ({
           // return different registration kind (admission vs. queue)
           // based on the parity of registration id.
           registration_id: exam_session_id,
+          expires_in,
           ...rest,
         },
         /*exam_session_id % 2 === 0
@@ -166,7 +170,7 @@ export const handlers = [
   http.delete(APIEndpoints.CancelUserRegistration, ({ params }) => {
     const { registrationId } = params;
     if (registrationId) {
-      if (registrationId === '1339') {
+      if (registrationId === '1338') {
         return HttpResponse.json({ success: false });
       }
 

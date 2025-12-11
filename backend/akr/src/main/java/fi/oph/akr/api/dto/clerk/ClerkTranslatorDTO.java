@@ -13,6 +13,7 @@ public record ClerkTranslatorDTO(
   @NonNull String firstName,
   @NonNull String lastName,
   @NonNull String nickName,
+  Boolean isDeceased,
   String onrId,
   String identityNumber,
   String email,

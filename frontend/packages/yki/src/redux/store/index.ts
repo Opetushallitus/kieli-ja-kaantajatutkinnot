@@ -20,7 +20,6 @@ import { publicFreeRegistrationReducer } from 'redux/reducers/publicFreeRegistra
 import { publicIdentificationReducer } from 'redux/reducers/publicIdentification';
 import { registrationReducer } from 'redux/reducers/registration';
 import { sessionReducer } from 'redux/reducers/session';
-import { transferRegistrationReducer } from 'redux/reducers/transferRegistration';
 import { userDetailsReducer } from 'redux/reducers/userDetails';
 import { userOpenRegistrationsReducer } from 'redux/reducers/userOpenRegistrations';
 import rootSaga from 'redux/sagas/index';
@@ -40,7 +39,6 @@ export const rootReducer = combineReducers({
   publicIdentification: publicIdentificationReducer,
   registration: registrationReducer,
   session: sessionReducer,
-  transferRegistration: transferRegistrationReducer,
   userOpenRegistrations: userOpenRegistrationsReducer,
   userDetails: userDetailsReducer,
   clerkOrganizer: clerkOrganizersReducer,

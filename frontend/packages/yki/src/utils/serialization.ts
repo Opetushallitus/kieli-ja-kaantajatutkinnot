@@ -10,8 +10,16 @@ import {
   RegistrationStates,
 } from 'enums/app';
 import {
+  AdmissionedRegistration,
   ClerkCustomerDetails,
   ClerkCustomerDetailsResponse,
+  ExamLocation,
+  ExamState,
+  PastRegistration,
+  QueuedRegistration,
+  QueueOfferStatus,
+  QueueSpotOffered,
+  RegistrationResponse,
 } from 'interfaces/clerkCustomer';
 import {
   ClerkFreeRegistrationDetailsResponse,
@@ -54,12 +62,6 @@ import {
   PublicRegistrationInitRequest,
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
-import {
-  TransferRegistrationDetails,
-  TransferRegistrationDetailsResponse,
-  TransferRegistrationTarget,
-  TransferRegistrationTargetResponse,
-} from 'interfaces/transferRegistration';
 import {
   ModifyContactDetails,
   PersonDetails,
@@ -181,6 +183,18 @@ export class SerializationUtils {
     }
   }
 
+  static deserializeAppLanguage(language: string): AppLanguage {
+    switch (language) {
+      case 'sv':
+        return AppLanguage.Swedish;
+      case 'en':
+        return AppLanguage.English;
+      case 'fi':
+      default:
+        return AppLanguage.Finnish;
+    }
+  }
+
   static serializeGender(gender?: GenderEnum) {
     switch (gender) {
       case GenderEnum.Male:
@@ -282,7 +296,6 @@ export class SerializationUtils {
         registrationEndDate: dayjs(v.registration_end_date),
         location: v.location,
         isCancellable: v.is_cancellable,
-        isTransferable: v.is_transferable,
         isTransfered: v.is_transfered,
         expiresAt: v.expires_at ? dayjs(v.expires_at) : undefined,
         paidAt: v.paid_at ? dayjs(v.paid_at) : undefined,
@@ -296,24 +309,6 @@ export class SerializationUtils {
             : undefined,
         isFreeRegistration: v.is_free_registration,
       })),
-    };
-  }
-
-  static deserializeTransferRegistrationTarget(
-    response: TransferRegistrationTargetResponse,
-  ): TransferRegistrationTarget {
-    return { ...response, session_date: dayjs(response.session_date) };
-  }
-
-  static deserializeTransferRegistrationDetails(
-    response: TransferRegistrationDetailsResponse,
-  ): TransferRegistrationDetails {
-    return {
-      ...response,
-      session_date: dayjs(response.session_date),
-      targets: response.targets.map(
-        SerializationUtils.deserializeTransferRegistrationTarget,
-      ),
     };
   }
 
@@ -437,40 +432,163 @@ export class SerializationUtils {
   static deserializeClerkCustomerDetailsResponse(
     clerkCustomerDetailsResponse: ClerkCustomerDetailsResponse,
   ): ClerkCustomerDetails {
+    const now = dayjs().startOf('day');
+    const pastRegistrations = clerkCustomerDetailsResponse.registrations.filter(
+      (registration) => dayjs(registration.examDate).isBefore(now),
+    );
+    const notPastRegistrations =
+      clerkCustomerDetailsResponse.registrations.filter(
+        (registration) => !dayjs(registration.examDate).isBefore(now),
+      );
+
+    // TODO: Registrations lifted from queue have kind=Admission instead of kind=Queue.
+    // This makes it difficult to identify them for display in the "Queue" grouping (per designs).
+    // The data model needs clarification: should lifted registrations retain Queue kind with an additional
+    // status field, or should we add a separate field to track their queue history?
+    const admissionedRegistrations = notPastRegistrations.filter(
+      (registration) => registration.kind !== RegistrationKind.Queue,
+    );
+    const queuedRegistrations = notPastRegistrations.filter(
+      (registration) => registration.kind === RegistrationKind.Queue,
+    );
+
     return {
       ...clerkCustomerDetailsResponse,
-      registrations: clerkCustomerDetailsResponse.registrations.map(
-        (registration) => ({
-          ...registration,
-          registrationStatus: {
-            ...registration.registrationStatus,
-            paidAt: dayjs(registration.registrationStatus.paidAt),
-          },
-          registrationDate: dayjs(registration.registrationDate),
-          examinationDate: dayjs(registration.examinationDate),
-        }),
+      admissionedRegistrations: admissionedRegistrations.map(
+        SerializationUtils.deserializeAdmissionedRegistration,
       ),
-      queuedExams: clerkCustomerDetailsResponse.queuedExams.map(
-        (queuedExam) => ({
-          ...queuedExam,
-          registrationStatus: {
-            ...queuedExam.registrationStatus,
-            paidAt: dayjs(queuedExam.registrationStatus.paidAt),
-          },
-          queueSpotOffered: {
-            ...queuedExam.queueSpotOffered,
-            dueDate: dayjs(queuedExam.queueSpotOffered.dueDate),
-          },
-          examinationDate: dayjs(queuedExam.examinationDate),
-          registrationDate: dayjs(queuedExam.registrationDate),
-        }),
+      queueRegistrations: queuedRegistrations.map(
+        SerializationUtils.deserializeQueuedRegistration,
       ),
-      pastExams: clerkCustomerDetailsResponse.pastExams.map((pastExam) => ({
-        ...pastExam,
-        examinationDate: dayjs(pastExam.examinationDate),
-      })),
+      pastRegistrations: pastRegistrations.map(
+        SerializationUtils.deserializePastRegistration,
+      ),
     };
   }
+
+  static deserializeAdmissionedRegistration(
+    registration: RegistrationResponse,
+  ): AdmissionedRegistration {
+    return {
+      ...registration,
+      registrationStatus: {
+        state: SerializationUtils.deserializeRegistrationState(
+          registration.registrationState,
+        ),
+        paidAt: registration.examPaymentPaidAt
+          ? dayjs(registration.examPaymentPaidAt)
+          : undefined,
+      },
+      registrationDate: registration.registrationDate
+        ? dayjs(registration.registrationDate)
+        : undefined,
+      examDate: dayjs(registration.examDate),
+      examLocation: SerializationUtils.deserializaMapLocation(
+        registration.examLocation,
+      ),
+    };
+  }
+
+  static deserializeQueuedRegistration(
+    registration: RegistrationResponse,
+  ): QueuedRegistration {
+    const state = SerializationUtils.deserializeRegistrationState(
+      registration.registrationState,
+    );
+
+    return {
+      ...registration,
+      registrationStatus: {
+        state,
+        paidAt: registration.examPaymentPaidAt
+          ? dayjs(registration.examPaymentPaidAt)
+          : undefined,
+      },
+      queueSpotOffered: SerializationUtils.getQueueSpotOffered(
+        state,
+        registration.liftedFromQueueAt,
+        registration.expiresAt,
+      ),
+      registrationDate: registration.registrationDate
+        ? dayjs(registration.registrationDate)
+        : undefined,
+      examDate: dayjs(registration.examDate),
+      examLocation: SerializationUtils.deserializaMapLocation(
+        registration.examLocation,
+      ),
+    };
+  }
+
+  static getQueueSpotOffered(
+    state: RegistrationStates,
+    liftedFromQueueAt?: string,
+    expiresAt?: string,
+  ): QueueSpotOffered {
+    const queueSpotOffered: QueueSpotOffered = {
+      offered: QueueOfferStatus.NotOffered,
+      expiresAt: expiresAt ? dayjs(expiresAt) : undefined,
+    };
+
+    if (liftedFromQueueAt) {
+      // Customer got a spot offer
+      // (status maybe be overriden by certain statuses)
+      queueSpotOffered.offered = QueueOfferStatus.Offered;
+    }
+
+    if (
+      liftedFromQueueAt &&
+      (state === RegistrationStates.Completed ||
+        state === RegistrationStates.PaidAndCancelled)
+    ) {
+      // Customer has received a queue spot
+      queueSpotOffered.offered = QueueOfferStatus.Offered;
+    } else if (
+      liftedFromQueueAt &&
+      (state === RegistrationStates.Submitted ||
+        state === RegistrationStates.Cancelled ||
+        state === RegistrationStates.Expired)
+    ) {
+      // Customer did not accept the queue offer
+      queueSpotOffered.offered = QueueOfferStatus.NotAccepted;
+    }
+
+    return queueSpotOffered;
+  }
+
+  static deserializePastRegistration(
+    registration: RegistrationResponse,
+  ): PastRegistration {
+    const registrationState = SerializationUtils.deserializeRegistrationState(
+      registration.registrationState,
+    );
+    const state: ExamState =
+      registrationState === RegistrationStates.Cancelled
+        ? 'CANCELLED'
+        : 'REGISTERED';
+
+    return {
+      exam: registration.exam,
+      examDate: dayjs(registration.examDate),
+      examLocation: SerializationUtils.deserializaMapLocation(
+        registration.examLocation,
+      ),
+      state,
+    };
+  }
+
+  static deserializaMapLocation(
+    examLocation: {
+      name: string;
+      municipality: string;
+      lang: string;
+    }[],
+  ): ExamLocation[] {
+    return examLocation.map((l) => ({
+      ...l,
+      lang: SerializationUtils.deserializeAppLanguage(l.lang),
+    }));
+  }
+
   static mapKoskiEducationToFreeRegistrationBasis(
     koskiEducation: KoskiEducationDTO,
   ): FreeRegistrationBasis {

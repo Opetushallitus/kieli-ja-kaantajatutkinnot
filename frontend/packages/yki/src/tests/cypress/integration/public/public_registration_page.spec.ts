@@ -164,4 +164,47 @@ describe('PublicRegistrationPage', () => {
       worker.start();
     });
   });
+
+  describe('when registering for an exam on Desktop', () => {
+    it('shows timer with time remaining when type is ADMISSION', () => {
+      onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
+      onPublicRegistrationPage.selectExamLevel('kaikki tasot');
+      onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
+      onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
+      onPublicRegistrationPage.search();
+
+      onPublicRegistrationPage
+        .getResultRowsNth(1)
+        .findByRole('button', { name: /Ilmoittaudu/ })
+        .click();
+
+      onInitRegistrationPage.expectTitle('Tunnistaudu ilmoittautumista varten');
+
+      cy.get('.MuiButton-contained').click();
+      onPublicRegistrationPage.expectReservationTimerText(
+        true,
+        'Paikkavarauksesi YKI-testiin umpeutuu: 30:00',
+      );
+    });
+
+    it('no timer is shown when type is QUEUE', () => {
+      onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
+      onPublicRegistrationPage.selectExamLevel('kaikki tasot');
+      onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
+      onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
+      onPublicRegistrationPage.search();
+
+      onPublicRegistrationPage
+        .getResultRowsNth(0)
+        .findByRole('button', { name: /Ilmoittaudu/ })
+        .click();
+
+      onInitRegistrationPage.expectTitle(
+        'Tunnistaudu jonoon ilmoittautumista varten',
+      );
+
+      cy.get('.MuiButton-contained').click();
+      onPublicRegistrationPage.expectReservationTimerText(false);
+    });
+  });
 });
