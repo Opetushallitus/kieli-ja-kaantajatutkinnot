@@ -1,6 +1,8 @@
 package fi.oph.yki.util;
 
+import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
 import fi.oph.yki.model.FreeRegistration;
+import fi.oph.yki.model.Registration;
 import fi.oph.yki.service.dto.FreeRegistrationDTO;
 
 public class RegistrationUtil {
@@ -18,5 +20,9 @@ public class RegistrationUtil {
       .dia(freeRegistration.getDia())
       .other(freeRegistration.getOther())
       .build();
+  }
+
+  public static ClerkRegistrationDTO createClerkRegistrationDTO(final Registration registration) {
+    return ClerkRegistrationDTO.builder().build();
   }
 }

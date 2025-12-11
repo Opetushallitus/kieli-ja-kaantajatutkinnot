@@ -4,6 +4,7 @@ import fi.oph.yki.api.dto.clerk.ClerkCustomerRegistrationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamLocationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationStatusDTO;
+import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Registration;
 import jakarta.persistence.Column;
 import java.time.LocalDate;
@@ -16,4 +17,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
   List<Registration> getByPersonOid(String personOid);
+  List<Registration> getByExamSession(ExamSession examSession);
 }
