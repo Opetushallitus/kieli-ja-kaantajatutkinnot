@@ -170,7 +170,7 @@ export const handlers = [
   http.delete(APIEndpoints.CancelUserRegistration, ({ params }) => {
     const { registrationId } = params;
     if (registrationId) {
-      if (registrationId === '1339') {
+      if (registrationId === '1338') {
         return HttpResponse.json({ success: false });
       }
 

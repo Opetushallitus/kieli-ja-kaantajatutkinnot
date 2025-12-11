@@ -46,8 +46,6 @@ import { NotFoundPage } from 'pages/NotFoundPage';
 import { ReassessmentPage } from 'pages/ReassessmentPage';
 import { RegistrationPage } from 'pages/RegistrationPage';
 import { RegistrationPaymentStatusPage } from 'pages/RegistrationPaymentStatusPage';
-import { TransferRegistrationPage } from 'pages/TransferRegistrationPage';
-import { TransferRegistrationSuccessPage } from 'pages/TransferRegistrationSuccessPage';
 import { UserDetailsPage } from 'pages/UserDetailsPage';
 import { loadSession } from 'redux/reducers/session';
 import { sessionSelector } from 'redux/selectors/session';
@@ -287,22 +285,6 @@ export const AppRouter: FC = () => {
             element={
               <UserPortalSubPage title="transferRegistration">
                 <ConfirmRegistrationPage />
-              </UserPortalSubPage>
-            }
-          />
-          <Route
-            path={AppRoutes.TransferRegistration}
-            element={
-              <UserPortalSubPage title="transferRegistration">
-                <TransferRegistrationPage />
-              </UserPortalSubPage>
-            }
-          />
-          <Route
-            path={AppRoutes.TransferRegistrationSuccess}
-            element={
-              <UserPortalSubPage title="transferRegistration">
-                <TransferRegistrationSuccessPage />
               </UserPortalSubPage>
             }
           />

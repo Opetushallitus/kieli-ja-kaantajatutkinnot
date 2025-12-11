@@ -63,12 +63,6 @@ import {
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
 import {
-  TransferRegistrationDetails,
-  TransferRegistrationDetailsResponse,
-  TransferRegistrationTarget,
-  TransferRegistrationTargetResponse,
-} from 'interfaces/transferRegistration';
-import {
   ModifyContactDetails,
   PersonDetails,
   PersonDetailsResponse,
@@ -302,7 +296,6 @@ export class SerializationUtils {
         registrationEndDate: dayjs(v.registration_end_date),
         location: v.location,
         isCancellable: v.is_cancellable,
-        isTransferable: v.is_transferable,
         isTransfered: v.is_transfered,
         expiresAt: v.expires_at ? dayjs(v.expires_at) : undefined,
         paidAt: v.paid_at ? dayjs(v.paid_at) : undefined,
@@ -316,24 +309,6 @@ export class SerializationUtils {
             : undefined,
         isFreeRegistration: v.is_free_registration,
       })),
-    };
-  }
-
-  static deserializeTransferRegistrationTarget(
-    response: TransferRegistrationTargetResponse,
-  ): TransferRegistrationTarget {
-    return { ...response, session_date: dayjs(response.session_date) };
-  }
-
-  static deserializeTransferRegistrationDetails(
-    response: TransferRegistrationDetailsResponse,
-  ): TransferRegistrationDetails {
-    return {
-      ...response,
-      session_date: dayjs(response.session_date),
-      targets: response.targets.map(
-        SerializationUtils.deserializeTransferRegistrationTarget,
-      ),
     };
   }
 

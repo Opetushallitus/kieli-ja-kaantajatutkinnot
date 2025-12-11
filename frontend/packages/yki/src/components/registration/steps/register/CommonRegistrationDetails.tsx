@@ -209,10 +209,6 @@ export const CommonRegistrationDetails = () => {
             <li>{t('termsAndConditions.item3')}</li>
             <li>{t('termsAndConditions.item4')}</li>
             <li>{t('termsAndConditions.item5')}</li>
-            <ul>
-              <li>{t('termsAndConditions.item51')}</li>
-              <li>{t('termsAndConditions.item52')}</li>
-            </ul>
             {isFree !== 'YES' && <li>{t('termsAndConditions.item6')}</li>}
           </ul>
           {t('termsAndConditions.description2')}:{' '}

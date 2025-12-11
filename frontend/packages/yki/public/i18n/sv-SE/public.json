@@ -526,10 +526,8 @@
             "item1": "Du kan inte ändra nivån på YKI-testet.",
             "item2": "Du kan inte ändra språket på YKI-testet.",
             "item3": "Du kan inte ändra testplatsen.",
-            "item4": "Anmälan är personlig. Du kan inte ändra deltagarens personuppgifter.",
-            "item5": "Om du inte kan delta i det YKI-test, kan du flytta din anmälan en (1) gång till ett annat YKI-test i samma språk och på samma nivå vid samma testplats.",
-            "item51": "Den nya testdagen kan infalla högst ett år efter den ursprungliga testdagen.",
-            "item52": "Om nästa YKI-test i samma språk och på samma nivå ordnas mer än ett år efter den ursprungliga testdagen, kan du flytta din anmälan till nästa YKI-test i samma språk och på samma nivå.",
+            "item4": "Du kan inte ändra testdagen.",
+            "item5": "Anmälan är personlig. Du kan inte ändra deltagarens personuppgifter.",
             "item6": "Om du inte kan delta i det YKI-test kan du ansöka om återbetalning av examensavgiften hos Utbildningsstyrelsen. Utbildningsstyrelsen återbetalar din examensavgift om din ansökan uppfyller alla villkor i lagen om allmänna språkexamina (YKI).",
             "link": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-villkoren-for-anmalan",
             "linkText": "Villkoren för anmälan",
@@ -752,17 +750,6 @@
             "title": "Anmälningstiden har inte börjat"
           }
         }
-      },
-      "transferRegistration": {
-        "actions": {
-          "cancel": "Flytta inte",
-          "confirm": "Ja, flytta",
-          "select": "Välj"
-        },
-        "confirmTransfer": "Är du säker på att du vill flytta fram din anmälan till nästa YKI-test?",
-        "description": "Det går inte att ångra flytten. Du kan flytta fram anmälan endast en gång.",
-        "select": "Välj",
-        "title": "Flytta anmälan"
       }
     },
     "pages": {
@@ -945,47 +932,6 @@
         "register": "Anmäl dig",
         "title": "Allmänna språkexamina (YKI) - Anmälan"
       },
-      "transferRegistrationPage": {
-        "currentRegistrationDetails": {
-          "heading": "Du håller på att flytta anmälan"
-        },
-        "introduction": {
-          "criteria": {
-            "item1": "Det nya testdatumet får vara högst ett år efter det ursprungliga testdatumet.",
-            "item2": "Om nästa YKI-test för samma språk och nivå är mer än ett år efter det ursprungliga testdatumet, kan du flytta anmälan till nästa YKI-test för samma språk och nivå."
-          },
-          "info": "Du kan flytta fram din anmälan en gång till ett YKI-test för samma språk och nivå på samma testplats."
-        },
-        "selectNewExamDate": {
-          "actions": {
-            "select": "Välj"
-          },
-          "noCandidatesFound": "Inga YKI-test hittades. Kontakta din testplats direkt för att fråga om att flytta din anmälan. Testplatsens e-postadress är {{email}}.",
-          "heading": "Välj ett nytt testdatum"
-        },
-        "title": "Flytta anmälan"
-      },
-      "transferRegistrationSuccessPage": {
-        "information": {
-          "beforeYkiTest": {
-            "description": "Läs också Utbildningsstyrelsens anvisningar för YKI-testet:",
-            "label": "Före YKI-testet (oph.fi)",
-            "url": "https://www.oph.fi/sv/utbildning-och-examina/fore-yki-testdagen"
-          },
-          "heading": "Välkommen till YKI-testet!",
-          "part1": "Din anmälan har flyttats. Du får en bekräftelse av din anmälan per e-post.",
-          "part2": "Testplatsen skickar instruktioner för YKI-testet till dig före testdagen. I anvisningarna står det var testplatsen är och när testet börjar.",
-          "part3": "I anvisningarna står det bland annat var testet ordnas och vilket klockslag det börjar.",
-          "specialArrangements": {
-            "description1": "Om du behöver specialarrangemang",
-            "description2": "ska du ansöka om det även för den nya testdagen.",
-            "description3": "Skicka in din ansökan så snart som möjligt. Anvisningar för hur du ansöker om specialarrangemang finns på Utbildningsstyrelsens webbplats",
-            "label": "Behöver du specialarrangemang",
-            "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-behover-du-specialarrangemang"
-          }
-        },
-        "title": "Anmälan har flyttats!"
-      },
       "userDetailsPage": {
         "expiredLoginLink": {
           "part1": "Länken gäller inte längre. Av datasäkerhetsskäl fungerar länken bara i 14 dagar. Du måste beställa en ny länk.",
@@ -1005,7 +951,6 @@
         "introduction": {
           "bulletPoints": {
             "point1": "Du kan se dina anmälningar från de senaste 12 månaderna.",
-            "point2": "Du kan flytta din anmälan en gång.",
             "point3": "Du kan annullera din anmälan.",
             "point4": "Du kan se de examina som du köar för och ta emot en plats som du köat till.",
             "point5": "Om en plats på YKI-testet blir ledig kan du ta emot den.",
@@ -1023,12 +968,7 @@
         "registrations": {
           "actions": {
             "cancel": "Annullera anmälan",
-            "confirm": "Bekräfta anmälan",
-            "relocate": "Flytta anmälan"
-          },
-          "alreadyTransferredNotification": {
-            "part1": "Du har flyttat din anmälan.",
-            "part2": "Du kan flytta anmälan endast en gång. Du kan inte flytta den på nytt."
+            "confirm": "Bekräfta anmälan"
           },
           "examPayment": {
             "expiresAt": "Förfallodatum {{- date }}",
