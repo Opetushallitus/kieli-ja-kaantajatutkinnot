@@ -750,17 +750,6 @@
             "title": "Ilmoittautumisaika ei ole alkanut"
           }
         }
-      },
-      "transferRegistration": {
-        "actions": {
-          "cancel": "En siirrä",
-          "confirm": "Kyllä, siirrän",
-          "select": "Valitse"
-        },
-        "confirmTransfer": "Haluatko varmasti siirtää ilmoittautumisesi seuraavaan YKI-testiin?",
-        "description": "Siirto on lopullinen. Voit siirtää ilmoittautumisen vain yhden kerran.",
-        "select": "Valitse",
-        "title": "Siirrä ilmoittautuminen"
       }
     },
     "pages": {
@@ -943,47 +932,6 @@
         "register": "Ilmoittaudu",
         "title": "Yleiset kielitutkinnot (YKI) - Ilmoittautuminen"
       },
-      "transferRegistrationPage": {
-        "currentRegistrationDetails": {
-          "heading": "Olet siirtämässä"
-        },
-        "introduction": {
-          "criteria": {
-            "item1": "Uusi testipäivä saa olla enintään vuoden kuluttua alkuperäisestä testipäivästä.",
-            "item2": "Jos seuraavaan saman kielen ja tason YKI-testiin on yli vuosi alkuperäisestä testipäivästä, voit siirtää ilmoittautumisesi seuraavaan saman kielen ja tason YKI-testiin."
-          },
-          "info": "Voit siirtää ilmoittautumisesi yhden kerran saman kielen ja tason YKI-testiin samassa testipaikassa."
-        },
-        "selectNewExamDate": {
-          "actions": {
-            "select": "Valitse"
-          },
-          "noCandidatesFound": "YKI-testejä ei löytynyt. Kysy ilmoittautumisen siirrosta suoraan omalta testipaikaltasi. Testipaikkasi sähköpostiosoite on {{email}}.",
-          "heading": "Valitse uusi testipäivä"
-        },
-        "title": "Siirrä ilmoittautuminen"
-      },
-      "transferRegistrationSuccessPage": {
-        "information": {
-          "beforeYkiTest": {
-            "description": "Lue myös Opetushallituksen ohjeet YKI-testistä:",
-            "label": "Ennen YKI-testia (oph.fi)",
-            "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ennen-testia"
-          },
-          "heading": "Tervetuloa YKI-testiin!",
-          "part1": "Ilmoittautuminen on siirretty. Saat vahvistuksen ilmoittautumisestasi sähköpostilla.",
-          "part2": "Testipaikka lähettää sinulle ohjeet YKI-testiä varten ennen testipäivää. Ohjeissa kerrotaan missä testipaikka on ja milloin testi alkaa.",
-          "part3": "Ohjeissa kerrotaan muun muassa testipaikan tarkka sijainti ja kellonaika, jolloin testi alkaa.",
-          "specialArrangements": {
-            "description1": "Jos tarvitset erityisjärjestelyjä,",
-            "description2": "sinun täytyy hakea erityisjärjestelyjä myös uudelle testipäivälle.",
-            "description3": "Lähetä hakemus mahdollisimman pian. Ohjeet erityisjärjestelyjen hakemiseen ovat Opetushallituksen verkkosivuilla",
-            "label": "Tarvitsetko erityisjärjestelyjä? (oph.fi)",
-            "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tarvitsetko-erityisjarjestelyja"
-          }
-        },
-        "title": "Ilmoittautumisen siirto onnistui!"
-      },
       "userDetailsPage": {
         "expiredLoginLink": {
           "part1": "Linkki on vanhentunut. Tietoturvan takia linkki toimii vain 14 päivän ajan. Sinun täytyy tilata uusi linkki.",
@@ -1020,12 +968,7 @@
         "registrations": {
           "actions": {
             "cancel": "Peru ilmoittautuminen",
-            "confirm": "Vahvista ilmoittautuminen",
-            "relocate": "Siirrä ilmoittautuminen"
-          },
-          "alreadyTransferredNotification": {
-            "part1": "Olet siirtänyt ilmoittautumisen.",
-            "part2": "Ilmoittautumisen voi siirtää vain yhden kerran. Et voi siirtää sitä enää uudelleen."
+            "confirm": "Vahvista ilmoittautuminen"
           },
           "examPayment": {
             "expiresAt": "Eräpäivä {{- date }}",
