@@ -14,13 +14,17 @@ import axiosInstance from 'configs/axios';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { OrganizerLanguage } from 'interfaces/clerkOrganizer';
-import { Label, Text } from 'ophTheme/Text';
+import { ExamSession } from 'interfaces/examSessions';
+import { H4, Label, Text } from 'ophTheme/Text';
 import { loadClerkOrganizerRegistry } from 'redux/reducers/clerkOrganizer';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
 import {
   getLanguagesWithLevelDescriptions,
   languagesToString,
+  languageToString,
+  levelDescription,
 } from 'utils/clerk';
+import { SerializationUtils } from 'utils/serialization';
 
 type ClerkRegisterListingProps = {
   page: number;
@@ -148,21 +152,92 @@ const ClerkRegisterCollapsibleRow = ({
   open: boolean;
   t: typeof i18next.t;
 }) => {
-  const [_examSessions, setExamSessions] = useState([]);
+  const [examSessions, setExamSessions] = useState<ExamSession[]>([]);
+  const tExam = usePublicTranslation({
+    keyPrefix: 'yki.component.clerkRegister.examSessionListing',
+  }).t;
 
   useEffect(() => {
     if (open) {
       const fetchExamSessions = async () => {
-        const oneYearAgo = dayjs().subtract(1, 'year').format('YYYY-MM-DD');
-        const response = await axiosInstance.get(
-          `/yki/api/clerk/organizer/${row.oid}/exam-session`,
-          { params: { from: oneYearAgo } },
-        );
-        setExamSessions(response.data);
+        try {
+          const oneYearAgo = dayjs().subtract(1, 'year').format('YYYY-MM-DD');
+          const response = await axiosInstance.get(
+            `/yki/api/clerk/organizer/${row.oid}/exam-session`,
+            { params: { from: oneYearAgo } },
+          );
+          setExamSessions(
+            response.data.exam_sessions.map(
+              SerializationUtils.deserializeExamSessionResponse,
+            ),
+          );
+        } catch (error) {
+          setExamSessions([]);
+        }
       };
       fetchExamSessions();
     }
   }, [row.oid, open, setExamSessions]);
+
+  const rows = examSessions.map((examSession) => ({
+    ...examSession,
+  }));
+
+  const createExamDateColumn = (
+    t: typeof i18next.t,
+  ): ListTableColumn<ExamSession> => ({
+    key: 'session_date',
+    title: t('header.sessionDate'),
+    render: (rowProps) => (
+      <span>{rowProps.session_date.format('YYYY-MM-DD')}</span>
+    ),
+  });
+
+  const createExamLanguageColumn = (
+    t: typeof i18next.t,
+  ): ListTableColumn<ExamSession> => ({
+    key: 'language_code',
+    title: t('header.language'),
+    render: (rowProps) => (
+      <span>{languageToString(rowProps.language_code)}</span>
+    ),
+  });
+
+  const createExamLevelColumn = (
+    t: typeof i18next.t,
+  ): ListTableColumn<ExamSession> => ({
+    key: 'level_code',
+    title: t('header.level'),
+    render: (rowProps) => <span>{levelDescription(rowProps.level_code)}</span>,
+  });
+
+  const createExamRegistrationPerioidColumn = (
+    t: typeof i18next.t,
+  ): ListTableColumn<ExamSession> => ({
+    key: 'registration_period',
+    title: t('header.registrationPerioid'),
+    render: (rowProps) => (
+      <span>{rowProps.registration_start_date.format('YYYY-MM-DD')}</span>
+    ),
+  });
+
+  const createExamRegistrationsColumn = (
+    t: typeof i18next.t,
+  ): ListTableColumn<ExamSession> => ({
+    key: 'max_participants',
+    title: t('header.registrations'),
+    render: (rowProps) => (
+      <span>{`${rowProps.participants} / ${rowProps.max_participants}`}</span>
+    ),
+  });
+
+  const columns = [
+    createExamDateColumn(tExam),
+    createExamLanguageColumn(tExam),
+    createExamLevelColumn(tExam),
+    createExamRegistrationPerioidColumn(tExam),
+    createExamRegistrationsColumn(tExam),
+  ];
 
   return (
     <TableRow>
@@ -212,6 +287,13 @@ const ClerkRegisterCollapsibleRow = ({
                 <Text>{row.extra}</Text>
               </div>
             </div>
+            <H4>{t('upcomingExamSessions')}</H4>
+            <ListTable
+              rows={rows}
+              rowKeyProp="id"
+              columns={columns}
+              translateHeader={false}
+            />
           </Box>
         </Collapse>
       </TableCell>

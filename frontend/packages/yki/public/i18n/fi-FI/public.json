@@ -17,6 +17,19 @@
         "success": "Ilmoittautuminen peruttu onnistuneesti"
       },
       "clerkRegister": {
+        "examSessionListing": {
+          "header": {
+            "sessionDate": "Tutkintopäivä",
+            "language": "Kieli",
+            "level": "Taso",
+            "registrationPerioid": "Ilmoittautumisaika",
+            "registrations": "Ilmoittautuneet"
+          },
+          "agreementExpired": "Sopimus vanhentunut",
+          "errors": {
+            "loadingFailed": "Järjestäjien hakeminen epäonnistui"
+          }
+        },
         "listing": {
           "header": {
             "organizer": "Järjestäjä",
@@ -32,7 +45,9 @@
             "organizerAgreement": "Järjestäjäsopimus",
             "languageProficiencies": "Kielitutkinnot",
             "contactInfo": "Yhteystiedot",
-            "extraInfo": "Lisätiedot"
+            "extraInfo": "Lisätiedot",
+            "upcomingExamSessions": "Tulevat tutkintotilaisuudet",
+            "pastExamSessions": "Menneet tutkintotilaisuudet"
           }
         }
       },

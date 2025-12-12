@@ -1,11 +1,13 @@
 import { t } from 'i18next';
 
+import { ExamLevel } from 'enums/app';
 import { OrganizerLanguage } from 'interfaces/clerkOrganizer';
 
 const LEVEL_TRANSLATIONS = {
   PERUS: 'yki.common.languageLevel.PERUS',
   KESKI: 'yki.common.languageLevel.KESKI',
   YLIN: 'yki.common.languageLevel.YLIN',
+  ALL: 'yki.common.languageLevel.ALL',
 };
 
 const LANGUAGES = [
@@ -62,8 +64,14 @@ const capitalize = (s: string) => {
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
-const levelDescription = (level: keyof typeof LEVEL_TRANSLATIONS) => {
+export const levelDescription = (level: keyof typeof ExamLevel) => {
   return t(LEVEL_TRANSLATIONS[level]);
+};
+
+export const languageToString = (lang: string) => {
+  const found = LANGUAGES.find((l) => l.code === lang);
+
+  return found ? found.name : '';
 };
 
 export const languagesToString = (array: OrganizerLanguage[]) => {

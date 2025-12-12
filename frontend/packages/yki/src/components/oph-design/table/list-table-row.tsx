@@ -49,7 +49,7 @@ export const ListTableRow = <T extends Row>({
                     transform: open ? 'rotate(90deg)' : 'rotate(270deg)',
                     transition: 'transform 0.2s',
                     verticalAlign: 'middle',
-                    marginRight: '0.5em',
+                    marginRight: '0.5rem',
                   }}
                 />
               )}
