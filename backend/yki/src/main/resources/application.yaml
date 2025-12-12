@@ -22,6 +22,11 @@ spring:
   thymeleaf:
     prefix: classpath:static/
     templateResolverOrder: 1
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev.otuva.opintopolku.fi/kayttooikeus-service
 management:
   endpoints:
     access:
