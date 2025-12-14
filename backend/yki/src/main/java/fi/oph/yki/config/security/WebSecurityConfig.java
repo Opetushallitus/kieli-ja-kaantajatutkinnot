@@ -178,13 +178,8 @@ public class WebSecurityConfig {
     final CasAuthenticationFilter casAuthenticationFilter
   ) throws Exception {
     return configCsrf(httpSecurity)
-      .authorizeHttpRequests(registry ->
-        registry
-          .requestMatchers("/v2/api/clerk/**", "/v2/virkailija/**", "/v2/virkailija")
-          .hasRole(Constants.APP_ADMIN_ROLE)
-          .anyRequest()
-          .authenticated()
-      )
+      .securityMatcher("/v2/api/clerk/**", "/v2/virkailija/**", "/v2/virkailija")
+      .authorizeHttpRequests(registry -> registry.anyRequest().hasRole(Constants.APP_ADMIN_ROLE))
       .addFilter(casAuthenticationFilter)
       .authenticationProvider(casAuthenticationProvider())
       .exceptionHandling(exceptionHandlingConfigurer -> {
@@ -216,9 +211,8 @@ public class WebSecurityConfig {
     final AuthorizationManager<RequestAuthorizationContext> proxyApiAuthorizationManager =
       ((authenticationSupplier, object) -> validateToken(object.getRequest(), token));
     return configCsrf(httpSecurity)
-      .authorizeHttpRequests(registry ->
-        registry.requestMatchers("/api/public/**").access(proxyApiAuthorizationManager).anyRequest().authenticated()
-      )
+      .securityMatcher("/api/public/**")
+      .authorizeHttpRequests(registry -> registry.anyRequest().access(proxyApiAuthorizationManager))
       .build();
   }
 
