@@ -26,7 +26,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://dev.otuva.opintopolku.fi/kayttooikeus-service
+          issuer-uri: ${oauth2.issuer-uri:https://dev.otuva.opintopolku.fi/kayttooikeus-service}
+          jwk-set-uri: ${oauth2.jwk-set-uri:https://dev.otuva.opintopolku.fi/kayttooikeus-service/oauth2/jwks}
 management:
   endpoints:
     access:
