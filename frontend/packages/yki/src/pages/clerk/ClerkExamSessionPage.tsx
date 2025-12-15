@@ -10,7 +10,7 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { H2 } from 'ophTheme/Text';
-import { loadClerkCustomerDetails } from 'redux/reducers/clerkCustomerDetails';
+import { loadClerkExamSessionDetails } from 'redux/reducers/clerkExamSession';
 import { clerkCustomerDetailsSelector } from 'redux/selectors/clerkCustomerDetailsSelector';
 
 export const ClerkExamSessionPage: FC = () => {
@@ -29,8 +29,8 @@ export const ClerkExamSessionPage: FC = () => {
   const params = useParams();
 
   useEffect(() => {
-    if (status === APIResponseStatus.NotStarted && params.oid) {
-      dispatch(loadClerkCustomerDetails(params.oid));
+    if (status === APIResponseStatus.NotStarted && params.id) {
+      dispatch(loadClerkExamSessionDetails(params.id));
     } else if (status === APIResponseStatus.Error) {
       showToast({
         severity: Severity.Error,
@@ -38,7 +38,7 @@ export const ClerkExamSessionPage: FC = () => {
       });
       navigate(AppRoutes.ClerkCustomerDetails);
     }
-  }, [dispatch, navigate, params.oid, showToast, status, t]);
+  }, [dispatch, navigate, params.id, showToast, status, t]);
 
   return (
     <Box className="clerk-exam-session-page">

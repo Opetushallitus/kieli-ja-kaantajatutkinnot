@@ -26,6 +26,9 @@ import {
   QueueSpotOffered,
   RegistrationStatus,
 } from 'interfaces/clerkCustomer';
+import {
+  ClerkRegistration,
+} from 'interfaces/clerkExamSession';
 import { H3, Text } from 'ophTheme/Text';
 
 const ExamsListing = <T extends Row>({
@@ -61,10 +64,10 @@ const ExamsListing = <T extends Row>({
   </div>
 );
 
-export const CustomerExamListings = ({
-  customerDetails,
+export const ClerkExamSessionRegistrations = ({
+  examRegistrations,
 }: {
-  customerDetails: ClerkCustomerDetails | null;
+  examRegistrations: Array<ClerkRegistration> | null;
 }) => {
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
@@ -257,45 +260,17 @@ export const CustomerExamListings = ({
     createRegistrationStateColumn(t),
     createRegistrationDateColumn(t),
   ];
-  const queuedExamsColumns = [
-    createExamDateColumn(t),
-    createExamNameColumn(t),
-    createExamLocationColumn(t),
-    createRegistrationStateColumn(t),
-    createRegistrationDateColumn(t),
-    createQueueSpotOfferedColumn(t),
-  ];
-  const pastExamsColumns = [
-    createExamDateColumn(t),
-    createExamNameColumn(t),
-    createExamLocationColumn(t),
-    createExamStateColumn(t),
-  ];
 
   return (
     <Stack spacing={4}>
       <ExamsListing
         columns={registrationsColumns}
-        rows={customerDetails?.admissionedRegistrations}
+        rows={examRegistrations}
         header={t('headers.registrations')}
         subHeader={`(${
-          customerDetails?.admissionedRegistrations?.length ?? 0
+          examRegistrations.length ?? 0
         })`}
         noRowsText={t('noRowsTexts.registrations')}
-      />
-      <ExamsListing
-        columns={queuedExamsColumns}
-        rows={customerDetails?.queueRegistrations}
-        header={t('headers.queuedExams')}
-        subHeader={`(${customerDetails?.queueRegistrations?.length ?? 0})`}
-        noRowsText={t('noRowsTexts.queuedExams')}
-      />
-      <ExamsListing
-        columns={pastExamsColumns}
-        rows={customerDetails?.pastRegistrations}
-        header={t('headers.pastExams')}
-        subHeader={`(${t('subHeaders.pastExams')})`}
-        noRowsText={t('noRowsTexts.pastExams')}
       />
     </Stack>
   );
