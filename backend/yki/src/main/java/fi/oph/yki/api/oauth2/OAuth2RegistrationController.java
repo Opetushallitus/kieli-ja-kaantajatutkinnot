@@ -26,4 +26,11 @@ public class OAuth2RegistrationController {
   public String health() {
     return "OK";
   }
+
+  @GetMapping(path = "/admin")
+  @Operation(tags = TAG_REGISTRATION, summary = "Test connection and admin credentials")
+  @ResponseStatus(HttpStatus.OK)
+  public String admin() {
+    return "OK";
+  }
 }
