@@ -165,7 +165,13 @@ public class WebSecurityConfig {
   public SecurityFilterChain oauth2SecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
     return configCsrf(httpSecurity)
       .securityMatcher("/v2/api/oauth2/**")
-      .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+      .authorizeHttpRequests(auth ->
+        auth
+          .requestMatchers("/v2/api/oauth2/registration/admin")
+          .hasRole(Constants.APP_ADMIN_ROLE)
+          .anyRequest()
+          .authenticated()
+      )
       .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(oauth2JwtConverter())))
       .build();
