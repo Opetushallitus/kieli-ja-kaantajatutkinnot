@@ -159,6 +159,7 @@ public class RegistrationService {
 
   @Transactional
   public void upsertRegistrationEvaluationStates(final EvaluationStatesDTO dto) {
+    // TODO Audit logging
     dto
       .tilat()
       .stream()
@@ -184,6 +185,8 @@ public class RegistrationService {
                   )
                 )
               );
+            // TODO Don't attempt to create new RegistrationEvaluation if one already exists
+            // TODO Update createdBy, updatedBy
             RegistrationEvaluation evaluation = new RegistrationEvaluation();
             evaluation.setRegistration(registration);
             evaluation.setState(EvaluationState.fromKituEvaluationState(tila.tila()));
