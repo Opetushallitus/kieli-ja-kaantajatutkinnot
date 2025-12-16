@@ -17,6 +17,7 @@ import fi.oph.yki.model.type.FreeRegistrationSource;
 import fi.oph.yki.model.type.FreeRegistrationType;
 import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.repository.PersonRepository;
+import fi.oph.yki.repository.RegistrationEvaluationRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.service.dto.FreeRegistrationDTO;
 import fi.oph.yki.service.koski.KoskiService;
@@ -44,6 +45,9 @@ public class RegistrationServiceTest {
   @Resource
   private FreeRegistrationRepository freeRegistrationRepository;
 
+  @Resource
+  RegistrationEvaluationRepository registrationEvaluationRepository;
+
   @MockBean
   private AuditService auditService;
 
@@ -62,7 +66,8 @@ public class RegistrationServiceTest {
         freeRegistrationRepository,
         personRepository,
         auditService,
-        koskiService
+        koskiService,
+        registrationEvaluationRepository
       );
   }
 
