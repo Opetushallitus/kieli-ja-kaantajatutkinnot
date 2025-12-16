@@ -63,4 +63,7 @@ public class Registration {
 
   @OneToMany(mappedBy = "registration")
   private List<ExamPayment> examPayments = new ArrayList<>();
+
+  @OneToOne(fetch = FetchType.LAZY, mappedBy = "registration", optional = false)
+  private RegistrationEvaluation evaluation;
 }
