@@ -169,6 +169,8 @@ public class WebSecurityConfig {
         auth
           .requestMatchers("/v2/api/oauth2/registration/admin")
           .hasRole(Constants.APP_ADMIN_ROLE)
+          .requestMatchers("/v2/api/oauth2/registration/evaluation")
+          .hasRole(Constants.APP_EVALUATION_UPDATER_ROLE)
           .anyRequest()
           .authenticated()
       )
