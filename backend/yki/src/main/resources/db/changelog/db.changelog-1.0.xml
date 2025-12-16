@@ -179,4 +179,37 @@
             <column name="paid_at"/>
         </createIndex>
     </changeSet>
+    <changeSet id="2025-12-16-add-registration-evaluation" author="pkoivisto">
+        <sql>CREATE TYPE evaluation_state AS ENUM ('EVALUATION_PENDING', 'EVALUATION_COMPLETE', 'REVIEW_PENDING', 'REVIEW_COMPLETE', 'RETAKE_PENDING', 'NO_SHOW', 'ABORTED')</sql>
+        <createTable tableName="registration_evaluation">
+            <column autoIncrement="true" name="registration_evaluation_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="registration_evaluation_pkey"/>
+            </column>
+            <column name="registration_id" type="BIGINT">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="state" type="evaluation_state">
+                <constraints nullable="false" />
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="registration_evaluation"
+                baseColumnNames="registration_id"
+                constraintName="fk_registration_evaluation_registration_id"
+                referencedTableName="registration"
+                referencedColumnNames="id" />
+    </changeSet>
 </databaseChangeLog>
