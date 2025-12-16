@@ -47,7 +47,12 @@
             "contactInfo": "Yhteystiedot",
             "extraInfo": "Lisätiedot",
             "upcomingExamSessions": "Tulevat tutkintotilaisuudet",
-            "pastExamSessions": "Menneet tutkintotilaisuudet"
+            "pastExamSessions": "Menneet tutkintotilaisuudet",
+            "pastExamSessionsDetails": "(edeltävät 365pv)"
+          },
+          "actionButtons": {
+            "adminUserView": "Tarkastele järjestäjän näkymää",
+            "modify": "Muokkaa tietoja"
           }
         }
       },

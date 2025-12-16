@@ -1,10 +1,22 @@
-import { Error } from '@mui/icons-material';
-import { Collapse, TableCell, TableRow, Typography } from '@mui/material';
+import { Error, KeyboardArrowDown } from '@mui/icons-material';
+import {
+  Collapse,
+  styled,
+  TableCell,
+  TableRow,
+  Typography,
+} from '@mui/material';
+import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
+import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import MuiAccordionSummary, {
+  accordionSummaryClasses,
+  AccordionSummaryProps,
+} from '@mui/material/AccordionSummary';
 import { Box } from '@mui/system';
 import dayjs, { Dayjs } from 'dayjs';
 import i18next from 'i18next';
 import { useEffect, useState } from 'react';
-import { CustomCircularProgress } from 'shared/components';
+import { CustomButton, CustomCircularProgress } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
@@ -42,6 +54,39 @@ type ClerkOrganizerType = {
   languages: Array<OrganizerLanguage> | null;
   extra: string;
 };
+const Accordion = styled((props: AccordionProps) => (
+  <MuiAccordion disableGutters elevation={0} square {...props} />
+))(() => ({
+  '&::before': {
+    display: 'none',
+  },
+}));
+
+const AccordionSummary = styled((props: AccordionSummaryProps) => (
+  <MuiAccordionSummary
+    expandIcon={<KeyboardArrowDown fontSize="large" />}
+    {...props}
+  />
+))(({ theme }) => ({
+  flexDirection: 'row-reverse',
+  padding: 0,
+
+  [`& .${accordionSummaryClasses.expandIconWrapper}`]: {
+    color: theme.palette.text.primary,
+    transform: 'rotate(0deg)',
+  },
+  [`& .${accordionSummaryClasses.expandIconWrapper}.${accordionSummaryClasses.expanded}`]:
+    {
+      transform: 'rotate(180deg)',
+    },
+  [`& .${accordionSummaryClasses.content}`]: {
+    marginLeft: theme.spacing(1),
+  },
+}));
+
+const AccordionDetails = styled(MuiAccordionDetails)(() => ({
+  padding: 0,
+}));
 
 export const ClerkRegisterListing = ({
   page,
@@ -62,14 +107,14 @@ export const ClerkRegisterListing = ({
   };
 
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.clerkRegister.listing',
+    keyPrefix: 'yki.component.clerkRegister',
   });
 
   const createOrganizerColumn = (
     t: typeof i18next.t,
   ): ListTableColumn<ClerkOrganizerType> => ({
     key: 'organizer',
-    title: t('header.organizer'),
+    title: t('listing.header.organizer'),
     render: (rowProps) => <span>{rowProps.oid}</span>,
   });
 
@@ -77,13 +122,14 @@ export const ClerkRegisterListing = ({
     t: typeof i18next.t,
   ): ListTableColumn<ClerkOrganizerType> => ({
     key: 'agreements',
-    title: t('header.agreements'),
+    title: t('listing.header.agreements'),
     render: (rowProps) =>
       rowProps.languages ? (
         <span>{languagesToString(rowProps.languages)}</span>
       ) : (
         <div className="columns" style={{ gap: '0.25rem' }}>
-          <Error color="error" fontSize="large" /> {t('agreementExpired')}
+          <Error color="error" fontSize="large" />{' '}
+          {t('examSessionListing.agreementExpired')}
         </div>
       ),
   });
@@ -92,7 +138,7 @@ export const ClerkRegisterListing = ({
     t: typeof i18next.t,
   ): ListTableColumn<ClerkOrganizerType> => ({
     key: 'municipality',
-    title: t('header.municipality'),
+    title: t('listing.header.municipality'),
     render: (rowProps) => <span>{rowProps.contact_name}</span>,
   });
 
@@ -123,7 +169,9 @@ export const ClerkRegisterListing = ({
           justifyContent="center"
           alignItems="center"
         >
-          <Typography variant="h2">{t('errors.loadingFailed')}</Typography>
+          <Typography variant="h2">
+            {t('listing.errors.loadingFailed')}
+          </Typography>
         </Box>
       );
     case APIResponseStatus.Success:
@@ -134,8 +182,8 @@ export const ClerkRegisterListing = ({
           columns={columns}
           translateHeader={false}
           pagination={pagination}
-          renderCollapsibleRow={(row, open, t) => (
-            <ClerkRegisterCollapsibleRow row={row} open={open} t={t} />
+          renderCollapsibleRow={(row, open) => (
+            <ClerkRegisterCollapsibleRow row={row} open={open} />
           )}
           collapsibleRows={true}
         />
@@ -146,16 +194,15 @@ export const ClerkRegisterListing = ({
 const ClerkRegisterCollapsibleRow = ({
   row,
   open,
-  t,
 }: {
   row: ClerkOrganizerType;
   open: boolean;
-  t: typeof i18next.t;
 }) => {
   const [examSessions, setExamSessions] = useState<ExamSession[]>([]);
-  const tExam = usePublicTranslation({
-    keyPrefix: 'yki.component.clerkRegister.examSessionListing',
-  }).t;
+
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.clerkRegister',
+  });
 
   useEffect(() => {
     if (open) {
@@ -179,17 +226,25 @@ const ClerkRegisterCollapsibleRow = ({
     }
   }, [row.oid, open, setExamSessions]);
 
-  const rows = examSessions.map((examSession) => ({
-    ...examSession,
-  }));
+  const upcomingExams = examSessions
+    .map((examSession) => ({
+      ...examSession,
+    }))
+    .filter((exam) => dayjs().isBefore(exam.session_date, 'day'));
+
+  const pastExams = examSessions
+    .map((examSession) => ({
+      ...examSession,
+    }))
+    .filter((exam) => dayjs().isAfter(exam.session_date, 'day'));
 
   const createExamDateColumn = (
     t: typeof i18next.t,
   ): ListTableColumn<ExamSession> => ({
     key: 'session_date',
-    title: t('header.sessionDate'),
+    title: t('examSessionListing.header.sessionDate'),
     render: (rowProps) => (
-      <span>{rowProps.session_date.format('YYYY-MM-DD')}</span>
+      <span>{rowProps.session_date.format('D.M.YYYY')}</span>
     ),
   });
 
@@ -197,7 +252,7 @@ const ClerkRegisterCollapsibleRow = ({
     t: typeof i18next.t,
   ): ListTableColumn<ExamSession> => ({
     key: 'language_code',
-    title: t('header.language'),
+    title: t('examSessionListing.header.language'),
     render: (rowProps) => (
       <span>{languageToString(rowProps.language_code)}</span>
     ),
@@ -207,7 +262,7 @@ const ClerkRegisterCollapsibleRow = ({
     t: typeof i18next.t,
   ): ListTableColumn<ExamSession> => ({
     key: 'level_code',
-    title: t('header.level'),
+    title: t('examSessionListing.header.level'),
     render: (rowProps) => <span>{levelDescription(rowProps.level_code)}</span>,
   });
 
@@ -215,7 +270,7 @@ const ClerkRegisterCollapsibleRow = ({
     t: typeof i18next.t,
   ): ListTableColumn<ExamSession> => ({
     key: 'registration_period',
-    title: t('header.registrationPerioid'),
+    title: t('examSessionListing.header.registrationPerioid'),
     render: (rowProps) => (
       <span>{rowProps.registration_start_date.format('YYYY-MM-DD')}</span>
     ),
@@ -225,18 +280,18 @@ const ClerkRegisterCollapsibleRow = ({
     t: typeof i18next.t,
   ): ListTableColumn<ExamSession> => ({
     key: 'max_participants',
-    title: t('header.registrations'),
+    title: t('examSessionListing.header.registrations'),
     render: (rowProps) => (
       <span>{`${rowProps.participants} / ${rowProps.max_participants}`}</span>
     ),
   });
 
   const columns = [
-    createExamDateColumn(tExam),
-    createExamLanguageColumn(tExam),
-    createExamLevelColumn(tExam),
-    createExamRegistrationPerioidColumn(tExam),
-    createExamRegistrationsColumn(tExam),
+    createExamDateColumn(t),
+    createExamLanguageColumn(t),
+    createExamLevelColumn(t),
+    createExamRegistrationPerioidColumn(t),
+    createExamRegistrationsColumn(t),
   ];
 
   return (
@@ -246,7 +301,12 @@ const ClerkRegisterCollapsibleRow = ({
         colSpan={3}
       >
         <Collapse in={open} timeout="auto" unmountOnExit>
-          <Box sx={{ margin: '1rem 4rem' }}>
+          <Box
+            sx={{ margin: '1rem 4rem' }}
+            gap={2}
+            display="flex"
+            flexDirection="column"
+          >
             <div
               style={{
                 display: 'flex',
@@ -256,7 +316,7 @@ const ClerkRegisterCollapsibleRow = ({
               }}
             >
               <div className="rows">
-                <Label>{t('organizerAgreement')}</Label>
+                <Label>{t('listing.contentLabels.organizerAgreement')}</Label>
                 <Text>
                   {`${DateUtils.formatOptionalDate(
                     row.agreement_start_date,
@@ -265,7 +325,9 @@ const ClerkRegisterCollapsibleRow = ({
               </div>
 
               <div className="rows">
-                <Label>{t('languageProficiencies')}</Label>
+                <Label>
+                  {t('listing.contentLabels.languageProficiencies')}
+                </Label>
                 {getLanguagesWithLevelDescriptions(row.languages || []).map(
                   (lang) => (
                     <Text key={lang}>{lang}</Text>
@@ -273,7 +335,7 @@ const ClerkRegisterCollapsibleRow = ({
                 )}
               </div>
               <div className="rows">
-                <Label>{t('contactInfo')}</Label>
+                <Label>{t('listing.contentLabels.contactInfo')}</Label>
                 <Text>{row.contact_name}</Text>
                 <Text>{row.contact_phone_number}</Text>
                 <Text>
@@ -283,17 +345,50 @@ const ClerkRegisterCollapsibleRow = ({
                 </Text>
               </div>
               <div className="rows">
-                <Label>{t('extraInfo')}</Label>
+                <Label>{t('listing.contentLabels.extraInfo')}</Label>
                 <Text>{row.extra}</Text>
               </div>
             </div>
-            <H4>{t('upcomingExamSessions')}</H4>
+            <div
+              className="columns"
+              style={{ justifyContent: 'flex-end', gap: '1rem' }}
+            >
+              <CustomButton onClick={() => {}} variant="outlined">
+                {t('listing.actionButtons.adminUserView')}
+              </CustomButton>
+              <CustomButton onClick={() => {}} variant="outlined">
+                {t('listing.actionButtons.modify')}
+              </CustomButton>
+            </div>
+            <H4>{t('listing.contentLabels.upcomingExamSessions')}</H4>
             <ListTable
-              rows={rows}
+              rows={upcomingExams}
               rowKeyProp="id"
               columns={columns}
               translateHeader={false}
+              rowHeight="small"
             />
+            <Accordion>
+              <AccordionSummary
+                aria-controls="panel1-content"
+                id="panel1-header"
+              >
+                <H4>{t('listing.contentLabels.pastExamSessions')}</H4>
+                <Text>
+                  {` ${t('listing.contentLabels.pastExamSessionsDetails')}`}
+                </Text>
+              </AccordionSummary>
+
+              <AccordionDetails>
+                <ListTable
+                  rows={pastExams}
+                  rowKeyProp="id"
+                  columns={columns}
+                  translateHeader={false}
+                  rowHeight="small"
+                />
+              </AccordionDetails>
+            </Accordion>
           </Box>
         </Collapse>
       </TableCell>

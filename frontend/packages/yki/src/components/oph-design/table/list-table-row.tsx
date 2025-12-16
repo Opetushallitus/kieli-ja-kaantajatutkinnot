@@ -1,21 +1,15 @@
 import { ChevronLeft } from '@mui/icons-material';
 import { TableCell, TableRow } from '@mui/material';
-import i18next from 'i18next';
 import { PropsWithChildren, useState } from 'react';
 
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
-import { usePublicTranslation } from 'configs/i18n';
 
 type TableRowsProps<T extends Row> = PropsWithChildren<{
   rowKeyProp: keyof T;
   row: T;
   columns: ListTableColumn<T>[];
   collapsibleRows: boolean;
-  renderCollapsibleRow?: (
-    row: T,
-    open: boolean,
-    t: typeof i18next.t,
-  ) => React.ReactNode;
+  renderCollapsibleRow?: (row: T, open: boolean) => React.ReactNode;
 }>;
 
 export const ListTableRow = <T extends Row>({
@@ -25,9 +19,6 @@ export const ListTableRow = <T extends Row>({
   collapsibleRows,
   renderCollapsibleRow,
 }: TableRowsProps<T>) => {
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.clerkRegister.listing.contentLabels',
-  });
   const [open, setOpen] = useState(false);
 
   const rowId = row?.[rowKeyProp] as string;
@@ -60,7 +51,7 @@ export const ListTableRow = <T extends Row>({
       </TableRow>
       {collapsibleRows &&
         renderCollapsibleRow &&
-        renderCollapsibleRow(row, open, t)}
+        renderCollapsibleRow(row, open)}
     </>
   );
 };

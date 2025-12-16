@@ -11,7 +11,6 @@ import {
 import { styled as muiStyled } from '@mui/material/styles';
 import { shouldForwardProp } from '@mui/system/createStyled';
 import { ophColors } from '@opetushallitus/oph-design-system';
-import i18next from 'i18next';
 import React, { useMemo } from 'react';
 
 import { OphPagination } from './oph-pagination';
@@ -52,56 +51,57 @@ const StyledTable = styled(Table)({
   },
 });
 
-const StyledTableBody = styled(TableBody)<{ collapsibleRows?: boolean }>(
-  ({ theme, collapsibleRows }) => ({
-    '& .MuiTableCell-root': {
-      padding: theme.spacing(1, 0, 1, 2),
-      textAlign: 'left',
-      whiteSpace: 'pre-wrap',
-      height: '64px',
-      borderWidth: 0,
-    },
-    '& .MuiTableRow-root': {
-      ...(collapsibleRows
-        ? {
-            '&:nth-of-type(4n - 1)': {
-              '.MuiTableCell-root': {
-                backgroundColor: ophColors.grey50,
-              },
+const StyledTableBody = styled(TableBody)<{
+  collapsibleRows?: boolean;
+  rowHeight?: 'small' | 'medium';
+}>(({ theme, collapsibleRows, rowHeight = 'medium' }) => ({
+  '& .MuiTableCell-root': {
+    padding: theme.spacing(1, 0, 1, 2),
+    textAlign: 'left',
+    whiteSpace: 'pre-wrap',
+    height: rowHeight === 'small' ? '32px' : '64px',
+    borderWidth: 0,
+  },
+  '& .MuiTableRow-root': {
+    ...(collapsibleRows
+      ? {
+          '&:nth-of-type(4n - 1)': {
+            '.MuiTableCell-root': {
+              backgroundColor: ophColors.grey50,
             },
-            '&:nth-of-type(even)': {
-              '.MuiTableCell-root': {
-                backgroundColor: ophColors.white,
-              },
+          },
+          '&:nth-of-type(even)': {
+            '.MuiTableCell-root': {
+              backgroundColor: ophColors.white,
             },
-            '&:nth-of-type(odd)': {
-              '&:hover': {
-                '.MuiTableCell-root': {
-                  backgroundColor: ophColors.lightBlue2,
-                },
-              },
-            },
-          }
-        : {
-            '&:nth-of-type(even)': {
-              '.MuiTableCell-root': {
-                backgroundColor: ophColors.grey50,
-              },
-            },
-            '&:nth-of-type(odd)': {
-              '.MuiTableCell-root': {
-                backgroundColor: ophColors.white,
-              },
-            },
+          },
+          '&:nth-of-type(odd)': {
             '&:hover': {
               '.MuiTableCell-root': {
                 backgroundColor: ophColors.lightBlue2,
               },
             },
-          }),
-    },
-  }),
-);
+          },
+        }
+      : {
+          '&:nth-of-type(even)': {
+            '.MuiTableCell-root': {
+              backgroundColor: ophColors.grey50,
+            },
+          },
+          '&:nth-of-type(odd)': {
+            '.MuiTableCell-root': {
+              backgroundColor: ophColors.white,
+            },
+          },
+          '&:hover': {
+            '.MuiTableCell-root': {
+              backgroundColor: ophColors.lightBlue2,
+            },
+          },
+        }),
+  },
+}));
 
 type ListTablePaginationProps = {
   page: number;
@@ -126,11 +126,8 @@ interface ListTableProps<T extends Row>
   selection?: SelectionProps['selection'];
   setSelection?: SelectionProps['setSelection'];
   collapsibleRows?: boolean;
-  renderCollapsibleRow?: (
-    row: T,
-    open: boolean,
-    t: typeof i18next.t,
-  ) => React.ReactNode;
+  renderCollapsibleRow?: (row: T, open: boolean) => React.ReactNode;
+  rowHeight?: 'small' | 'medium';
 }
 
 const TableWrapper = styled(Box)(({ theme }) => ({
@@ -181,6 +178,7 @@ export const ListTable = <T extends Row>({
   pagination,
   collapsibleRows = false,
   renderCollapsibleRow,
+  rowHeight = 'medium',
   ...props
 }: ListTableProps<T>) => {
   const translateCommon = useCommonTranslation();
@@ -224,7 +222,10 @@ export const ListTable = <T extends Row>({
               })}
             </TableRow>
           </TableHead>
-          <StyledTableBody collapsibleRows={collapsibleRows}>
+          <StyledTableBody
+            collapsibleRows={collapsibleRows}
+            rowHeight={rowHeight}
+          >
             {pageRows.map((rowProps) => {
               const rowId = rowProps?.[rowKeyProp] as string;
 
