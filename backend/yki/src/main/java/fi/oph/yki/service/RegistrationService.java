@@ -4,15 +4,19 @@ import fi.oph.yki.api.dto.PublicEducationBasisDTO;
 import fi.oph.yki.api.dto.PublicEducationDTO;
 import fi.oph.yki.api.dto.PublicEducationUpdateDTO;
 import fi.oph.yki.api.dto.PublicFreeRegistrationDTO;
+import fi.oph.yki.api.dto.oauth2.EvaluationStatesDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.RegistrationEvaluation;
+import fi.oph.yki.model.type.EvaluationState;
 import fi.oph.yki.model.type.FreeRegistrationSource;
 import fi.oph.yki.model.type.FreeRegistrationType;
 import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.repository.PersonRepository;
+import fi.oph.yki.repository.RegistrationEvaluationRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.service.dto.FreeRegistrationDTO;
 import fi.oph.yki.service.koski.KoskiService;
@@ -22,6 +26,8 @@ import fi.oph.yki.util.exception.APIExceptionType;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import fi.oph.yki.util.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +44,7 @@ public class RegistrationService {
   private final PersonRepository personRepository;
   private final AuditService auditService;
   private final KoskiService koskiService;
+  private final RegistrationEvaluationRepository registrationEvaluationRepository;
 
   @Transactional(readOnly = true)
   public Registration findRegistration(final Long registrationId, final String oid) {
@@ -148,5 +155,41 @@ public class RegistrationService {
   @Transactional(readOnly = true)
   public boolean hasFreeRegistrationsLeft(String oid) {
     return freeRegistrationRepository.countFreeRegistrationsUsed(oid) < 3;
+  }
+
+  @Transactional
+  public void upsertRegistrationEvaluationStates(final EvaluationStatesDTO dto) {
+    dto
+      .tilat()
+      .stream()
+      .forEach(
+        (
+          tila -> {
+            var suoritus = tila.suoritus();
+            Registration registration = registrationRepository
+              .getByOidAndExamDetails(
+                suoritus.oppijanumero(),
+                suoritus.tutkintopaiva(),
+                suoritus.tutkintokieli(),
+                suoritus.tutkintotaso()
+              )
+              .orElseThrow(() ->
+                new NotFoundException(
+                  String.format(
+                    "Failed to find registration. oid: {}, tutkintopaiva: {}, tutkintokieli: {}, tutkintotaso: {}",
+                    suoritus.oppijanumero(),
+                    suoritus.tutkintopaiva(),
+                    suoritus.tutkintokieli(),
+                    suoritus.tutkintotaso()
+                  )
+                )
+              );
+            RegistrationEvaluation evaluation = new RegistrationEvaluation();
+            evaluation.setRegistration(registration);
+            evaluation.setState(EvaluationState.fromKituEvaluationState(tila.tila()));
+            registrationEvaluationRepository.save(evaluation);
+          }
+        )
+      );
   }
 }
