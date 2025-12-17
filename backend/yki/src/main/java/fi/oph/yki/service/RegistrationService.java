@@ -23,11 +23,10 @@ import fi.oph.yki.service.koski.KoskiService;
 import fi.oph.yki.util.RegistrationUtil;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
+import fi.oph.yki.util.exception.NotFoundException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import fi.oph.yki.util.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
