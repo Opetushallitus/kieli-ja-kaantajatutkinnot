@@ -166,12 +166,19 @@ public class RegistrationService {
         (
           tila -> {
             var suoritus = tila.suoritus();
+            var examLevel =
+              switch (suoritus.tutkintotaso()) {
+                case "PT" -> "PERUS";
+                case "KT" -> "KESKI";
+                case "YT" -> "YLIN";
+                default -> throw new RuntimeException("Unknown exam level: " + suoritus.tutkintotaso());
+              };
             Registration registration = registrationRepository
               .getByOidAndExamDetails(
                 suoritus.oppijanumero(),
                 suoritus.tutkintopaiva(),
                 suoritus.tutkintokieli(),
-                suoritus.tutkintotaso()
+                examLevel
               )
               .orElseThrow(() ->
                 new NotFoundException(
@@ -184,12 +191,13 @@ public class RegistrationService {
                   )
                 )
               );
-            // TODO Don't attempt to create new RegistrationEvaluation if one already exists
             // TODO Update createdBy, updatedBy
-            RegistrationEvaluation evaluation = new RegistrationEvaluation();
+            RegistrationEvaluation evaluation = registration.getEvaluation() != null
+              ? registration.getEvaluation()
+              : new RegistrationEvaluation();
             evaluation.setRegistration(registration);
             evaluation.setState(EvaluationState.fromKituEvaluationState(tila.tila()));
-            registrationEvaluationRepository.save(evaluation);
+            registrationEvaluationRepository.saveAndFlush(evaluation);
           }
         )
       );
