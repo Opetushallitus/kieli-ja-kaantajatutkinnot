@@ -11,7 +11,7 @@ import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 @Setter
 @Entity
 @Table(name = "registration_evaluation")
-public class RegistrationEvaluation {
+public class RegistrationEvaluation extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
