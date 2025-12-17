@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -113,7 +116,28 @@ public class ClerkCustomerService {
     return new ClerkCustomerDetailsDTO(getClerkCustomerPersonDTO(oid), getClerkCustomerRegistrationDTOs(oid));
   }
 
-  public List<ClerkCustomerDetailsDTO> searchClerkCustomers() throws Exception {
+  public Page<ClerkCustomerDetailsDTO> searchClerkCustomers(Pageable pageable) throws Exception {
+    // Get paginated persons
+    final Page<Person> personPage = personRepository.findAll(pageable);
+
+    // Transform persons to DTOs with their registrations
+    final List<ClerkCustomerDetailsDTO> content = personPage
+      .getContent()
+      .stream()
+      .map(person -> {
+        var registrations = registrationRepository.getByPersonOid(person.getOid());
+        return new ClerkCustomerDetailsDTO(
+          PersonToDTO(person),
+          registrations.stream().map(this::RegistrationToDTO).toList()
+        );
+      })
+      .toList();
+
+    // Return Page with transformed content
+    return new PageImpl<>(content, pageable, personPage.getTotalElements());
+  }
+
+  public List<ClerkCustomerDetailsDTO> searchClerkCustomer() throws Exception {
     final var persons = personRepository.findAll();
     return persons
       .stream()
