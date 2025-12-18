@@ -40,16 +40,17 @@ Make sure you have listed technologies installed on your machine.
 1. git clone https://github.com/Opetushallitus/yki
 2. Follow it's `README.md` to setup it's environment
 
-#### Run database on docker
+#### Run yki database on docker
 
 ```sh
-# Run psql on docker, make sure you don't have local postgreql running 
-docker run --name postgres-yki -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -p 5432:5432 -d postgres:15.15
+# Build the PostgreSQL image                                                                                                                                                                          
+cd backend/yki/db                                                                                                                                                                                                               
+docker build -t yki-postgres . 
 
+# Create database
 psql -h localhost -U admin -c 'create database yki'
 
-# Import data from {package}/db - folders
-cd backend/yki/db
+# Import data
 psql -h localhost -p 5432 -U admin -d yki < *.sql
 ```
 
