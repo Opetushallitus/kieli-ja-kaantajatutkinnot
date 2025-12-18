@@ -12,7 +12,7 @@ This mono-repo contains the language and translator services of the Finnish Nati
 
 - Maven 3.1+
 - JDK 17
-- PostgreSQL 14.7 (For example with OSX with Homebrew: `brew install postgresql@14`)
+- PostgreSQL 15.14 (For example with OSX with Homebrew: `brew install postgresql`)
 - node v20.9.0
 - yarn 4.0.1 (to enable it, run the following command: `corepack enable`)
 
@@ -39,6 +39,19 @@ Make sure you have listed technologies installed on your machine.
 * This project is still dependent on https://github.com/Opetushallitus/yki
 1. git clone https://github.com/Opetushallitus/yki
 2. Follow it's `README.md` to setup it's environment
+
+#### Run database on docker
+
+```sh
+# Run psql on docker, make sure you don't have local postgreql running 
+docker run --name postgres-yki -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -p 5432:5432 -d postgres:latest
+
+psql -h localhost -U admin -c 'create database yki'
+
+# Import data from {package}/db - folders
+cd backend/yki/db
+psql -h localhost -p 5432 -U admin -d yki < *.sql
+```
 
 ### backend with IntelliJ IDEA
 1. Open the repository with Idea
