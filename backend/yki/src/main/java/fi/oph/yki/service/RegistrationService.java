@@ -4,7 +4,10 @@ import fi.oph.yki.api.dto.PublicEducationBasisDTO;
 import fi.oph.yki.api.dto.PublicEducationDTO;
 import fi.oph.yki.api.dto.PublicEducationUpdateDTO;
 import fi.oph.yki.api.dto.PublicFreeRegistrationDTO;
+import fi.oph.yki.api.dto.oauth2.EvaluationStateError;
+import fi.oph.yki.api.dto.oauth2.EvaluationStateErrorDTO;
 import fi.oph.yki.api.dto.oauth2.EvaluationStatesDTO;
+import fi.oph.yki.api.dto.oauth2.EvaluationStatesResponseDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.FreeRegistration;
@@ -24,8 +27,11 @@ import fi.oph.yki.util.RegistrationUtil;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import fi.oph.yki.util.exception.NotFoundException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -157,49 +163,74 @@ public class RegistrationService {
   }
 
   @Transactional
-  public void upsertRegistrationEvaluationStates(final EvaluationStatesDTO dto) {
+  public EvaluationStatesResponseDTO upsertRegistrationEvaluationStates(final EvaluationStatesDTO dto) {
     // TODO Audit logging
+    AtomicInteger procesed = new AtomicInteger();
+    List<EvaluationStateErrorDTO> errors = new ArrayList<>();
     dto
       .tilat()
       .stream()
       .forEach(
         (
           tila -> {
-            var suoritus = tila.suoritus();
-            var examLevel =
-              switch (suoritus.tutkintotaso()) {
-                case "PT" -> "PERUS";
-                case "KT" -> "KESKI";
-                case "YT" -> "YLIN";
-                default -> throw new RuntimeException("Unknown exam level: " + suoritus.tutkintotaso());
-              };
-            Registration registration = registrationRepository
-              .getByOidAndExamDetails(
-                suoritus.oppijanumero(),
-                suoritus.tutkintopaiva(),
-                suoritus.tutkintokieli(),
-                examLevel
-              )
-              .orElseThrow(() ->
-                new NotFoundException(
-                  String.format(
-                    "Failed to find registration. oid: {}, tutkintopaiva: {}, tutkintokieli: {}, tutkintotaso: {}",
-                    suoritus.oppijanumero(),
-                    suoritus.tutkintopaiva(),
-                    suoritus.tutkintokieli(),
-                    suoritus.tutkintotaso()
-                  )
+            try {
+              var suoritus = tila.suoritus();
+              var examLevel =
+                switch (suoritus.tutkintotaso()) {
+                  case "PT" -> "PERUS";
+                  case "KT" -> "KESKI";
+                  case "YT" -> "YLIN";
+                  default -> throw new RuntimeException("Unknown exam level: " + suoritus.tutkintotaso());
+                };
+              Registration registration = registrationRepository
+                .getByOidAndExamDetails(
+                  suoritus.oppijanumero(),
+                  suoritus.tutkintopaiva(),
+                  suoritus.tutkintokieli(),
+                  examLevel
                 )
-              );
-            // TODO Update createdBy, updatedBy
-            RegistrationEvaluation evaluation = registration.getEvaluation() != null
-              ? registration.getEvaluation()
-              : new RegistrationEvaluation();
-            evaluation.setRegistration(registration);
-            evaluation.setState(EvaluationState.fromKituEvaluationState(tila.tila()));
-            registrationEvaluationRepository.saveAndFlush(evaluation);
+                .orElseThrow(() ->
+                  new NotFoundException(
+                  MessageFormat.format(
+                    "Failed to find registration. oid: {0}, tutkintopaiva: {1}, tutkintokieli: {2}, tutkintotaso: {3}",
+                      suoritus.oppijanumero(),
+                      suoritus.tutkintopaiva(),
+                      suoritus.tutkintokieli(),
+                      suoritus.tutkintotaso()
+                    )
+                  )
+                );
+              // TODO Update createdBy, updatedBy
+              RegistrationEvaluation evaluation = registration.getEvaluation() != null
+                ? registration.getEvaluation()
+                : new RegistrationEvaluation();
+              evaluation.setRegistration(registration);
+              evaluation.setState(EvaluationState.fromKituEvaluationState(tila.tila()));
+              registrationEvaluationRepository.saveAndFlush(evaluation);
+              procesed.getAndIncrement();
+            } catch (NotFoundException e) {
+              var error = EvaluationStateErrorDTO
+                .builder()
+                .suoritus(tila.suoritus())
+                .tila(tila.tila())
+                .virhe(EvaluationStateError.SUORITUSTA_EI_LOYDY)
+                .build();
+              errors.add(error);
+              LOG.error("Error processing evaluation state entry", e);
+            } catch (Exception e) {
+              var error = EvaluationStateErrorDTO
+                .builder()
+                .suoritus(tila.suoritus())
+                .tila(tila.tila())
+                .virhe(EvaluationStateError.TUNTEMATON)
+                .build();
+              errors.add(error);
+              LOG.error("Error processing evaluation state entry", e);
+            }
           }
         )
       );
+
+    return EvaluationStatesResponseDTO.builder().hyvaksytyt(procesed.get()).virheet(errors).build();
   }
 }

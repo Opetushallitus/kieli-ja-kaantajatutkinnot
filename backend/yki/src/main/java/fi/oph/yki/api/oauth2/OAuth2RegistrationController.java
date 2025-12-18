@@ -4,6 +4,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import fi.oph.yki.api.dto.clerk.ClerkApprovalUpdateDTO;
 import fi.oph.yki.api.dto.oauth2.EvaluationStatesDTO;
+import fi.oph.yki.api.dto.oauth2.EvaluationStatesResponseDTO;
 import fi.oph.yki.service.RegistrationService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
@@ -40,8 +41,7 @@ public class OAuth2RegistrationController {
 
   @PostMapping(path = "/evaluation")
   @Operation(tags = TAG_REGISTRATION, summary = "Upsert states of evaluation for registrations")
-  public String upsertEvaluationStates(@RequestBody @Valid final EvaluationStatesDTO dto) {
-    registrationService.upsertRegistrationEvaluationStates(dto);
-    return "OK";
+  public EvaluationStatesResponseDTO upsertEvaluationStates(@RequestBody @Valid final EvaluationStatesDTO dto) {
+    return registrationService.upsertRegistrationEvaluationStates(dto);
   }
 }
