@@ -68,6 +68,7 @@ public class ClerkCustomerService {
     final var latestExamPayment = registration
       .getExamPayments()
       .stream()
+      .filter(p -> p.getPaidAt() != null)
       .max(Comparator.comparing(ExamPayment::getPaidAt));
 
     final Optional<LocalDate> freeRegistrationCreatedAt = registration.getFreeRegistration() == null
