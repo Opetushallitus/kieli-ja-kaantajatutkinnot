@@ -31,7 +31,7 @@ public class ClerkCustomerDetailsController {
     summary = "Search customers with pagination",
     description = "Returns paginated customer details. Default page size is 20, max is 100."
   )
-  public Page<ClerkCustomerDetailsDTO> searchCustomers(
+  public Page<ClerkCustomerSummaryDTO> searchCustomers(
     @RequestParam(defaultValue = "0") int page,
     @RequestParam(defaultValue = "20") int size
   ) throws Exception {
@@ -41,8 +41,7 @@ public class ClerkCustomerDetailsController {
     // Create Pageable (no sorting for now)
     final Pageable pageable = PageRequest.of(page, validatedSize);
 
-    var resp = service.searchClerkCustomers(pageable);
-    return resp;
+    return service.searchClerkCustomers(pageable);
   }
 
   @GetMapping(path = "/{oid}", consumes = ALL_VALUE)

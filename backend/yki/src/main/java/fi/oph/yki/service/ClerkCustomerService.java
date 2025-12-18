@@ -117,21 +117,17 @@ public class ClerkCustomerService {
     return new ClerkCustomerDetailsDTO(getClerkCustomerPersonDTO(oid), getClerkCustomerRegistrationDTOs(oid));
   }
 
-  public Page<ClerkCustomerDetailsDTO> searchClerkCustomers(Pageable pageable) throws Exception {
+  public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(Pageable pageable) throws Exception {
     // Get paginated persons
     final Page<Person> personPage = personRepository.findAll(pageable);
 
     // Transform persons to DTOs with their registrations
-    final List<ClerkCustomerDetailsDTO> content = personPage
+    final List<ClerkCustomerSummaryDTO> content = personPage
       .getContent()
       .stream()
-      .map(person -> {
-        var registrations = registrationRepository.getByPersonOid(person.getOid());
-        return new ClerkCustomerDetailsDTO(
-          PersonToDTO(person),
-          registrations.stream().map(this::RegistrationToDTO).toList()
-        );
-      })
+      .map(person ->
+        new ClerkCustomerSummaryDTO(PersonToDTO(person), registrationRepository.getByPersonOid(person.getOid()).size())
+      )
       .toList();
 
     // Return Page with transformed content
