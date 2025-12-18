@@ -44,7 +44,7 @@ Make sure you have listed technologies installed on your machine.
 
 ```sh
 # Run psql on docker, make sure you don't have local postgreql running 
-docker run --name postgres-yki -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -p 5432:5432 -d postgres:latest
+docker run --name postgres-yki -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -p 5432:5432 -d postgres:15.15
 
 psql -h localhost -U admin -c 'create database yki'
 
