@@ -12,7 +12,7 @@ This mono-repo contains the language and translator services of the Finnish Nati
 
 - Maven 3.1+
 - JDK 17
-- PostgreSQL 15.14 (For example with OSX with Homebrew: `brew install postgresql`)
+- PostgreSQL 15.15 (For example with OSX with Homebrew: `brew install postgresql@15`)
 - node v20.9.0
 - yarn 4.0.1 (to enable it, run the following command: `corepack enable`)
 
