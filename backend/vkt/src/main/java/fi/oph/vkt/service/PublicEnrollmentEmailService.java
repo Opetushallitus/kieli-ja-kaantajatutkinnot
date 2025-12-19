@@ -4,7 +4,12 @@ import static fi.oph.vkt.util.LocalisationUtil.localeFI;
 import static fi.oph.vkt.util.LocalisationUtil.localeSV;
 
 import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
-import fi.oph.vkt.model.*;
+import fi.oph.vkt.model.EmailType;
+import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.EnrollmentAppointment;
+import fi.oph.vkt.model.EnrollmentCommon;
+import fi.oph.vkt.model.ExaminerExamEvent;
+import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import fi.oph.vkt.service.email.EmailAttachmentData;
 import fi.oph.vkt.service.email.EmailService;
