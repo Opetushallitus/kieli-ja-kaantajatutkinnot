@@ -32,7 +32,7 @@ public class ClerkCustomerService {
   private final RegistrationRepository registrationRepository;
   private final OnrService onrService;
 
-  private ClerkCustomerPersonDTO PersonToDTO(Person person) throws RuntimeException {
+  private ClerkCustomerPersonDTO personToDTO(Person person) throws RuntimeException {
     final var oid = person.getOid();
 
     final PersonalDataDTO onrPerson;
@@ -55,7 +55,7 @@ public class ClerkCustomerService {
       .build();
   }
 
-  private ClerkCustomerRegistrationDTO RegistrationToDTO(Registration registration) {
+  private ClerkCustomerRegistrationDTO registrationToDTO(Registration registration) {
     final var session = registration.getExamSession();
 
     final var examDate = session.getExamDate().getExamDate();
@@ -94,9 +94,10 @@ public class ClerkCustomerService {
       .build();
   }
 
+  @Transactional(readOnly = true)
   public ClerkCustomerDetailsDTO getClerkCustomerDetails(String oid) {
-    var personDTO = PersonToDTO(personRepository.getByOid(oid));
-    var registrationsDTOs = registrationRepository.getByPersonOid(oid).stream().map(this::RegistrationToDTO).toList();
+    var personDTO = personToDTO(personRepository.getByOid(oid));
+    var registrationsDTOs = registrationRepository.getByPersonOid(oid).stream().map(this::registrationToDTO).toList();
     return ClerkCustomerDetailsDTO.builder().person(personDTO).registrations(registrationsDTOs).build();
   }
 
@@ -110,8 +111,8 @@ public class ClerkCustomerService {
       .map(person ->
         ClerkCustomerSummaryDTO
           .builder()
-          .person(PersonToDTO(person))
-          .registrationsCount(registrationRepository.getByPersonOid(person.getOid()).size())
+          .person(personToDTO(person))
+          .registrationsCount(registrationRepository.countByPersonOid(person.getOid()))
           .build()
       )
       .toList();

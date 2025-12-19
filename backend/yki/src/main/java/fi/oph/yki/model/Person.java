@@ -25,9 +25,7 @@ public class Person {
 
   @Id
   @Size(max = 255)
-  @Column(name = "oid", unique = true)
-  @NonNull
-  @NotNull
+  @Column(name = "oid", unique = true, nullable = false)
   private String oid;
 
   @Size(max = 255)
