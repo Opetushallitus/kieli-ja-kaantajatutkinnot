@@ -1,10 +1,7 @@
 package fi.oph.yki.api.dto.clerk;
 
+import java.util.List;
 import lombok.Builder;
 
-import java.util.List;
-
 @Builder
-public record ClerkExamSessionDTO(
-  List<ClerkRegistrationDTO> registrations
-) {}
+public record ClerkExamSessionDTO(List<ClerkRegistrationDTO> registrations) {}

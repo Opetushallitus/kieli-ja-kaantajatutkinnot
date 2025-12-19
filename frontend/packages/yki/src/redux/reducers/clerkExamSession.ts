@@ -1,20 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ClerkExamSessionDetails } from 'interfaces/clerkExamSession';
+import { ClerkExamSession } from 'interfaces/clerkExamSession';
 
 interface ClerkExamSessionState {
-  examSessionDetails: ClerkExamSessionDetails | null;
+  clerkExamSession: ClerkExamSession | null;
   status: APIResponseStatus;
 }
 
 const initialState: ClerkExamSessionState = {
-  examSessionDetails: null,
+  clerkExamSession: null,
   status: APIResponseStatus.NotStarted,
 };
 
 const clerkExamSessionSlice = createSlice({
-  name: 'examSessionDetails',
+  name: 'clerkExamSession',
   initialState,
   reducers: {
     loadClerkExamSessionDetails(state, _action: PayloadAction<number>) {
@@ -23,7 +23,7 @@ const clerkExamSessionSlice = createSlice({
     rejectExamSessionDetails(state) {
       state.status = APIResponseStatus.Error;
     },
-    storeExamSessionDetails(state, action: PayloadAction<ClerkExamSessionDetails>) {
+    storeExamSessionDetails(state, action: PayloadAction<ClerkExamSession>) {
       state.status = APIResponseStatus.Success;
       state.ExamSessionDetails = action.payload;
     },

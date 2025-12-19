@@ -26,9 +26,7 @@ import {
   QueueSpotOffered,
   RegistrationStatus,
 } from 'interfaces/clerkCustomer';
-import {
-  ClerkRegistration,
-} from 'interfaces/clerkExamSession';
+import { ClerkRegistration } from 'interfaces/clerkExamSession';
 import { H3, Text } from 'ophTheme/Text';
 
 const ExamsListing = <T extends Row>({
@@ -267,9 +265,7 @@ export const ClerkExamSessionRegistrations = ({
         columns={registrationsColumns}
         rows={examRegistrations}
         header={t('headers.registrations')}
-        subHeader={`(${
-          examRegistrations.length ?? 0
-        })`}
+        subHeader={`(${examRegistrations.length ?? 0})`}
         noRowsText={t('noRowsTexts.registrations')}
       />
     </Stack>

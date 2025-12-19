@@ -1,13 +1,8 @@
-import {
-  ExamLanguage,
-  ExamLevel,
-} from 'enums/app';
+import { ExamLanguage, ExamLevel } from 'enums/app';
 
-export interface ClerkRegistration {
+export interface ClerkRegistration {}
 
-}
-
-export interface ClerkExamSessionDetails {
+export interface ClerkExamSession {
   language: ExamLanguage;
   level: ExamLevel;
   registrations: Array<ClerkRegistration>;

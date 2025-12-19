@@ -12,22 +12,17 @@ import { nationalitiesSelector } from 'redux/selectors/nationalities';
 export const ClerkExamSessionDetails = ({
   examSessionDetails,
 }: {
-  examSessionDetails: ClerkExamSessionDetails | undefined;
+  examSessionDetails: ClerkExamSession | null;
 }) => {
   const dispatch = useDispatch();
   const appLanguage = getCurrentLang();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkCustomer',
   });
-  const { nationalities, status } = useAppSelector(nationalitiesSelector);
 
-  useEffect(() => {
-    if (status === APIResponseStatus.NotStarted) {
-      dispatch(loadNationalities());
-    }
-  }, [dispatch, status]);
-
-  if (!person) return <></>;
+  if (!examSessionDetails) {
+    return <></>;
+  }
 
   return (
     <div className="rows gapped customer-details">
@@ -41,21 +36,12 @@ export const ClerkExamSessionDetails = ({
           <Label>{t('details.fields.email')}</Label>
         </div>
         <div className="rows gapped-xs">
-          <div>{person.ssn}</div>
-          <div>{person.oid}</div>
-          <div>
-            {
-              nationalities.find(
-                ({ code, language }) =>
-                  code == person.nationalityCode && language == appLanguage,
-              )?.name
-            }
-          </div>
-          <div>{person.phoneNumber}</div>
-          <div>{person.streetAddress}</div>
-          <div>
-            <a href={`mailto:${person.email}`}>{person.email}</a>
-          </div>
+          <div>{examSessionDetails.level}</div>
+          <div>{examSessionDetails.language}</div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
         </div>
       </div>
     </div>
