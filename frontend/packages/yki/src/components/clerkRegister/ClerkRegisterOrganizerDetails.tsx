@@ -67,7 +67,6 @@ export const ClerkRegisterOrganizerDetails = ({
     t: typeof i18next.t,
   ): ListTableColumn<ExamSession> => ({
     key: 'session_date',
-    style: { '& .MuiTableCell-root': { height: '32px' } },
     title: t('examSessionListing.header.sessionDate'),
     render: (rowProps) => (
       <span>{rowProps.session_date.format('D.M.YYYY')}</span>
@@ -78,7 +77,6 @@ export const ClerkRegisterOrganizerDetails = ({
     t: typeof i18next.t,
   ): ListTableColumn<ExamSession> => ({
     key: 'language_code',
-    style: { height: '32px' },
     title: t('examSessionListing.header.language'),
     render: (rowProps) => (
       <span>{languageToString(rowProps.language_code)}</span>
@@ -89,7 +87,6 @@ export const ClerkRegisterOrganizerDetails = ({
     t: typeof i18next.t,
   ): ListTableColumn<ExamSession> => ({
     key: 'level_code',
-    style: { height: '32px' },
     title: t('examSessionListing.header.level'),
     render: (rowProps) => <span>{levelDescription(rowProps.level_code)}</span>,
   });
@@ -98,7 +95,6 @@ export const ClerkRegisterOrganizerDetails = ({
     t: typeof i18next.t,
   ): ListTableColumn<ExamSession> => ({
     key: 'registration_period',
-    style: { height: '32px' },
     title: t('examSessionListing.header.registrationPerioid'),
     render: (rowProps) => (
       <span>{rowProps.registration_start_date.format('YYYY-MM-DD')}</span>
@@ -109,7 +105,6 @@ export const ClerkRegisterOrganizerDetails = ({
     t: typeof i18next.t,
   ): ListTableColumn<ExamSession> => ({
     key: 'max_participants',
-    style: { height: '32px' },
     title: t('examSessionListing.header.registrations'),
     render: (rowProps) => (
       <span>{`${rowProps.participants} / ${rowProps.max_participants}`}</span>

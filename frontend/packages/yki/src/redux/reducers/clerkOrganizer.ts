@@ -35,9 +35,6 @@ const clerkOrganizersSlice = createSlice({
     loadClerkOrganizerRegistry(state) {
       state.organizerRegistryStatus = APIResponseStatus.InProgress;
     },
-    rejectClerkOrganizerRegistry(state) {
-      state.organizerRegistryStatus = APIResponseStatus.Error;
-    },
     storeClerkOrganizerRegistry(
       state,
       action: PayloadAction<Array<ClerkOrganizerRegistry>>,
@@ -54,6 +51,5 @@ export const {
   rejectClerkOrganizers,
   storeClerkOrganizers,
   loadClerkOrganizerRegistry,
-  rejectClerkOrganizerRegistry,
   storeClerkOrganizerRegistry,
 } = clerkOrganizersSlice.actions;
