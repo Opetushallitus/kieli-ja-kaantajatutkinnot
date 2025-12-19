@@ -64,7 +64,9 @@ public class ClerkCustomerService {
     final var examLocation = session
       .getLocations()
       .stream()
-      .map(l -> new ClerkExamLocationDTO(l.getName(), l.getPostOffice(), l.getLang()))
+      .map(l ->
+        ClerkExamLocationDTO.builder().name(l.getName()).municipality(l.getPostOffice()).lang(l.getLang()).build()
+      )
       .toList();
 
     final var latestExamPayment = registration
