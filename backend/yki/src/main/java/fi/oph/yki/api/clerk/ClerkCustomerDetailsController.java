@@ -35,13 +35,9 @@ public class ClerkCustomerDetailsController {
     @RequestParam(defaultValue = "0") int page,
     @RequestParam(defaultValue = "20") int size
   ) throws Exception {
-    // Validate and cap page size
     final int validatedSize = Math.min(size, MAX_PAGE_SIZE);
 
-    // Create Pageable (no sorting for now)
-    final Pageable pageable = PageRequest.of(page, validatedSize);
-
-    return service.searchClerkCustomers(pageable);
+    return service.searchClerkCustomers(PageRequest.of(page, validatedSize));
   }
 
   @GetMapping(path = "/{oid}", consumes = ALL_VALUE)

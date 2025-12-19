@@ -1,5 +1,6 @@
 package fi.oph.yki.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import fi.oph.yki.api.dto.clerk.*;
 import fi.oph.yki.model.ExamPayment;
 import fi.oph.yki.model.Person;
@@ -15,6 +16,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -29,28 +31,29 @@ public class ClerkCustomerService {
   private final RegistrationRepository registrationRepository;
   private final OnrService onrService;
 
-  private ClerkCustomerPersonDTO PersonToDTO(Person person) throws NotFoundException {
-    try {
-      final var oid = person.getOid();
-      final var onrPerson = Objects.requireNonNull(
-        onrService.getPersonalData(oid),
-        String.format("Person with oid '%s' was found in the person repository, ", oid) +
-        "but not found from the oppijanumerorekisteri-service."
-      );
-
-      return new ClerkCustomerPersonDTO(
-        person.getFirstName(),
-        person.getLastName(),
-        onrPerson.getIdentityNumber(),
-        person.getOid(),
-        person.getNationalityCode(),
-        person.getPhoneNumber(),
-        person.getAddress(),
-        person.getEmail()
-      );
-    } catch (Exception e) {
-      throw new NotFoundException(e.getMessage());
+  private ClerkCustomerPersonDTO PersonToDTO(Person person) throws RuntimeException {
+    final var oid = person.getOid();
+    if (oid == null) {
+      throw new NotFoundException("Person oid is null in the repository.");
     }
+
+    final PersonalDataDTO onrPerson;
+    try {
+      onrPerson = onrService.getPersonalData(oid);
+    } catch (Exception e) {
+      throw new RuntimeException("Unable to get personal data from ONR with oid '" + oid + "'.", e);
+    }
+
+    return new ClerkCustomerPersonDTO(
+      person.getFirstName(),
+      person.getLastName(),
+      onrPerson.getIdentityNumber(),
+      person.getOid(),
+      person.getNationalityCode(),
+      person.getPhoneNumber(),
+      person.getAddress(),
+      person.getEmail()
+    );
   }
 
   private ClerkCustomerRegistrationDTO RegistrationToDTO(Registration registration) {
@@ -118,10 +121,8 @@ public class ClerkCustomerService {
   }
 
   public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(Pageable pageable) throws Exception {
-    // Get paginated persons
     final Page<Person> personPage = personRepository.findAll(pageable);
 
-    // Transform persons to DTOs with their registrations
     final List<ClerkCustomerSummaryDTO> content = personPage
       .getContent()
       .stream()
@@ -130,21 +131,6 @@ public class ClerkCustomerService {
       )
       .toList();
 
-    // Return Page with transformed content
     return new PageImpl<>(content, pageable, personPage.getTotalElements());
-  }
-
-  public List<ClerkCustomerDetailsDTO> searchClerkCustomer() throws Exception {
-    final var persons = personRepository.findAll();
-    return persons
-      .stream()
-      .map(person -> {
-        var registrations = registrationRepository.getByPersonOid(person.getOid());
-        return new ClerkCustomerDetailsDTO(
-          PersonToDTO(person),
-          registrations.stream().map(this::RegistrationToDTO).toList()
-        );
-      })
-      .toList();
   }
 }

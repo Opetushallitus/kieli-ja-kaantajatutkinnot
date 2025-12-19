@@ -1,9 +1,11 @@
 package fi.oph.yki.onr;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.vm.sade.javautils.nio.cas.CasClient;
+import java.util.concurrent.ExecutionException;
 import org.asynchttpclient.Request;
 import org.asynchttpclient.RequestBuilder;
 import org.asynchttpclient.Response;
@@ -32,7 +34,8 @@ public class OnrService {
     this.onrServiceUrl = onrServiceUrl;
   }
 
-  public PersonalDataDTO getPersonalData(final String oidNumber) throws Exception {
+  public PersonalDataDTO getPersonalData(final String oidNumber)
+    throws RuntimeException, ExecutionException, InterruptedException, JsonProcessingException {
     final Request request = defaultRequestBuilder
       .setUrl(onrServiceUrl + "/henkilo/" + oidNumber)
       .setMethod(Methods.GET)
@@ -40,7 +43,7 @@ public class OnrService {
 
     final Response response = casClient.executeBlocking(request);
     if (response.getStatusCode() != HttpStatus.OK.value()) {
-      throw new RuntimeException(("Wrong status code: " + response.getStatusCode()));
+      throw new RuntimeException("Unexpected status code from ONR: " + response.getStatusCode());
     }
 
     final String json = response.getResponseBody();
