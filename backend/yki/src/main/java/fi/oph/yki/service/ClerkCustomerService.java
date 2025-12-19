@@ -1,6 +1,11 @@
 package fi.oph.yki.service;
 
-import fi.oph.yki.api.dto.clerk.*;
+import fi.oph.yki.api.dto.clerk.ClerkCustomerDetailsDTO;
+import fi.oph.yki.api.dto.clerk.ClerkCustomerPersonDTO;
+import fi.oph.yki.api.dto.clerk.ClerkCustomerRegistrationDTO;
+import fi.oph.yki.api.dto.clerk.ClerkCustomerSummaryDTO;
+import fi.oph.yki.api.dto.clerk.ClerkExamDTO;
+import fi.oph.yki.api.dto.clerk.ClerkExamLocationDTO;
 import fi.oph.yki.model.ExamPayment;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
@@ -9,7 +14,6 @@ import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationRepository;
-import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;

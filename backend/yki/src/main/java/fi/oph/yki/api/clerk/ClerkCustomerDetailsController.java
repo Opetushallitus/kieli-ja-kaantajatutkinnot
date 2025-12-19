@@ -3,15 +3,20 @@ package fi.oph.yki.api.clerk;
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import fi.oph.yki.api.dto.clerk.*;
+import fi.oph.yki.api.dto.clerk.ClerkCustomerDetailsDTO;
+import fi.oph.yki.api.dto.clerk.ClerkCustomerSummaryDTO;
 import fi.oph.yki.service.ClerkCustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequestMapping(value = "/v2/api/clerk/customer", produces = APPLICATION_JSON_VALUE)
@@ -33,7 +38,7 @@ public class ClerkCustomerDetailsController {
   public Page<ClerkCustomerSummaryDTO> searchCustomers(
     @RequestParam(defaultValue = "0") int page,
     @RequestParam(defaultValue = "20") int size
-  ) throws Exception {
+  ) {
     final int validatedSize = Math.min(size, MAX_PAGE_SIZE);
 
     return service.searchClerkCustomers(PageRequest.of(page, validatedSize));
