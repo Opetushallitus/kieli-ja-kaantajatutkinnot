@@ -1,5 +1,8 @@
 package fi.oph.yki.api.dto.clerk;
 
+import lombok.Builder;
+
+@Builder
 public record ClerkCustomerPersonDTO(
   String firstName,
   String lastName,

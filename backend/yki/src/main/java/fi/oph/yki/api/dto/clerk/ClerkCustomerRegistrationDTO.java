@@ -6,19 +6,21 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import lombok.Builder;
 
 /**
  * @param examLocation Exam locations in different languages.
  * @param liftedFromQueueAt - Date, when the registration was lifted from the queue. Can be null.
  */
+@Builder
 public record ClerkCustomerRegistrationDTO(
   LocalDate examDate,
   ClerkExamDTO exam,
   List<ClerkExamLocationDTO> examLocation,
   RegistrationState registrationState,
-  Optional<LocalDate> examPaymentPaidAt,
-  Optional<LocalDate> registrationDate,
+  Optional<LocalDateTime> examPaymentPaidAt,
+  Optional<LocalDateTime> registrationDate,
   RegistrationKind kind,
-  Optional<LocalDate> liftedFromQueueAt,
-  Optional<LocalDate> expiresAt
+  Optional<LocalDateTime> liftedFromQueueAt,
+  Optional<LocalDateTime> expiresAt
 ) {}

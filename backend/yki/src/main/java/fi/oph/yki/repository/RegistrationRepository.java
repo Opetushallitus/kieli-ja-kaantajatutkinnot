@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
   List<Registration> getByPersonOid(String personOid);
+
+  int countByPersonOid(String personOid);
 }
