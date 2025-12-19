@@ -22,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,9 +34,6 @@ public class ClerkCustomerService {
 
   private ClerkCustomerPersonDTO PersonToDTO(Person person) throws RuntimeException {
     final var oid = person.getOid();
-    if (oid == null) {
-      throw new NotFoundException("Person oid is null in the repository.");
-    }
 
     final PersonalDataDTO onrPerson;
     try {
@@ -102,32 +100,25 @@ public class ClerkCustomerService {
     );
   }
 
-  private ClerkCustomerPersonDTO getClerkCustomerPersonDTO(String oid) throws Exception {
-    return PersonToDTO(
-      Objects.requireNonNull(
-        personRepository.getByOid(oid),
-        // throw 404, because the whole data of getClerkCustomerDetails is tied to a specific user.
-        String.format("Person with oid '%s' not found from the person repository.", oid)
-      )
-    );
+  public ClerkCustomerDetailsDTO getClerkCustomerDetails(String oid) {
+    var personDTO = PersonToDTO(personRepository.getByOid(oid));
+    var registrationsDTOs = registrationRepository.getByPersonOid(oid).stream().map(this::RegistrationToDTO).toList();
+    return new ClerkCustomerDetailsDTO(personDTO, registrationsDTOs);
   }
 
-  private List<ClerkCustomerRegistrationDTO> getClerkCustomerRegistrationDTOs(String oid) {
-    return registrationRepository.getByPersonOid(oid).stream().map(this::RegistrationToDTO).toList();
-  }
-
-  public ClerkCustomerDetailsDTO getClerkCustomerDetails(String oid) throws Exception {
-    return new ClerkCustomerDetailsDTO(getClerkCustomerPersonDTO(oid), getClerkCustomerRegistrationDTOs(oid));
-  }
-
-  public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(Pageable pageable) throws Exception {
+  @Transactional(readOnly = true)
+  public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(Pageable pageable) {
     final Page<Person> personPage = personRepository.findAll(pageable);
 
     final List<ClerkCustomerSummaryDTO> content = personPage
       .getContent()
       .stream()
       .map(person ->
-        new ClerkCustomerSummaryDTO(PersonToDTO(person), registrationRepository.getByPersonOid(person.getOid()).size())
+        ClerkCustomerSummaryDTO
+          .builder()
+          .person(PersonToDTO(person))
+          .registrationsCount(registrationRepository.getByPersonOid(person.getOid()).size())
+          .build()
       )
       .toList();
 

@@ -22,7 +22,6 @@ public class ClerkCustomerDetailsController {
   private ClerkCustomerService service;
 
   private static final String TAG_CUSTOMER = "Clerk customer API";
-  private static final int DEFAULT_PAGE_SIZE = 20;
   private static final int MAX_PAGE_SIZE = 100;
 
   @PostMapping(path = "/search", consumes = ALL_VALUE)
