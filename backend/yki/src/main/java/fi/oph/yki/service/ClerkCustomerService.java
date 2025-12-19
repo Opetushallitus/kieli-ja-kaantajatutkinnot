@@ -2,6 +2,7 @@ package fi.oph.yki.service;
 
 import fi.oph.yki.api.dto.clerk.*;
 import fi.oph.yki.model.ExamPayment;
+import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.onr.OnrService;
@@ -67,20 +68,11 @@ public class ClerkCustomerService {
       .filter(p -> p.getPaidAt() != null)
       .max(Comparator.comparing(ExamPayment::getPaidAt));
 
-    final Optional<LocalDateTime> freeRegistrationCreatedAt = registration.getFreeRegistration() == null
-      ? Optional.empty()
-      : Optional.of(registration.getFreeRegistration().getCreatedAt());
+    final var freeRegistrationCreatedAt = Optional.ofNullable(registration.getFreeRegistration())
+      .map(FreeRegistration::getCreatedAt);
 
     final var paidAt = latestExamPayment.map(ExamPayment::getPaidAt);
     final var registrationDate = paidAt.or(() -> freeRegistrationCreatedAt);
-
-    final Optional<LocalDateTime> liftedFromQueueAt = registration.getLiftedFromQueueAt() == null
-      ? Optional.empty()
-      : Optional.of(registration.getLiftedFromQueueAt());
-
-    final Optional<LocalDateTime> expiresAt = registration.getExpiresAt() == null
-      ? Optional.empty()
-      : Optional.of(registration.getExpiresAt());
 
     return new ClerkCustomerRegistrationDTO(
       examDate,
@@ -90,8 +82,8 @@ public class ClerkCustomerService {
       paidAt,
       registrationDate,
       registration.getKind(),
-      liftedFromQueueAt,
-      expiresAt
+      Optional.ofNullable(registration.getLiftedFromQueueAt()),
+      Optional.ofNullable(registration.getExpiresAt())
     );
   }
 
