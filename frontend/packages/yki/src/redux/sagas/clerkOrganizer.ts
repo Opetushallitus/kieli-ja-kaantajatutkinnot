@@ -55,6 +55,7 @@ function* loadClerkOrganizerRegistrySaga() {
     for (const key in findByOids) {
       fetchedOrganizations.push(findByOids[key]);
     }
+
     for (const key in fetchedOrganizers) {
       const organization = fetchedOrganizations.find(
         (org) => org.oid === fetchedOrganizers[key].oid,

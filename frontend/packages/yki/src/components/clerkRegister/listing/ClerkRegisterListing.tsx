@@ -16,6 +16,7 @@ import { Box } from '@mui/system';
 import dayjs, { Dayjs } from 'dayjs';
 import i18next from 'i18next';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CustomButton, CustomCircularProgress } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
@@ -25,6 +26,7 @@ import { ListTableColumn } from 'components/oph-design/table/table-types';
 import axiosInstance from 'configs/axios';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { AppRoutes } from 'enums/app';
 import { OrganizerLanguage } from 'interfaces/clerkOrganizer';
 import { ExamSession } from 'interfaces/examSessions';
 import { H4, Label, Text } from 'ophTheme/Text';
@@ -45,6 +47,7 @@ type ClerkRegisterListingProps = {
 
 type ClerkOrganizerType = {
   id: number;
+  nimi: string;
   oid: string;
   agreement_start_date?: Dayjs;
   agreement_end_date?: Dayjs;
@@ -98,6 +101,7 @@ export const ClerkRegisterListing = ({
 
   const rows = organizerRegistry.map((organizer) => ({
     ...organizer.organizer,
+    nimi: organizer?.organization?.nimi?.fi ?? '',
   }));
 
   const pagination = {
@@ -115,7 +119,7 @@ export const ClerkRegisterListing = ({
   ): ListTableColumn<ClerkOrganizerType> => ({
     key: 'organizer',
     title: t('listing.header.organizer'),
-    render: (rowProps) => <span>{rowProps.oid}</span>,
+    render: (rowProps) => <span>{rowProps.nimi}</span>,
   });
 
   const createAgreementsColumn = (
@@ -203,6 +207,8 @@ const ClerkRegisterCollapsibleRow = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
   });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (open) {
@@ -353,10 +359,20 @@ const ClerkRegisterCollapsibleRow = ({
               className="columns"
               style={{ justifyContent: 'flex-end', gap: '1rem' }}
             >
-              <CustomButton onClick={() => {}} variant="outlined">
+              <CustomButton
+                onClick={() =>
+                  navigate(
+                    AppRoutes.ClerkOrganizerRegisterDetails.replace(
+                      ':oid',
+                      row.oid,
+                    ),
+                  )
+                }
+                variant="outlined"
+              >
                 {t('listing.actionButtons.adminUserView')}
               </CustomButton>
-              <CustomButton onClick={() => {}} variant="outlined">
+              <CustomButton variant="outlined">
                 {t('listing.actionButtons.modify')}
               </CustomButton>
             </div>
@@ -385,7 +401,6 @@ const ClerkRegisterCollapsibleRow = ({
                   rowKeyProp="id"
                   columns={columns}
                   translateHeader={false}
-                  rowHeight="small"
                 />
               </AccordionDetails>
             </Accordion>

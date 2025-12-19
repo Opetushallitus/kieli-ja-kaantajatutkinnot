@@ -1,5 +1,6 @@
 import { ChevronLeft } from '@mui/icons-material';
 import { TableCell, TableRow } from '@mui/material';
+import { ophColors } from '@opetushallitus/oph-design-system';
 import { PropsWithChildren, useState } from 'react';
 
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
@@ -9,6 +10,7 @@ type TableRowsProps<T extends Row> = PropsWithChildren<{
   row: T;
   columns: ListTableColumn<T>[];
   collapsibleRows: boolean;
+  rowHeight?: 'small' | 'medium';
   renderCollapsibleRow?: (row: T, open: boolean) => React.ReactNode;
 }>;
 
@@ -17,6 +19,7 @@ export const ListTableRow = <T extends Row>({
   row,
   columns,
   collapsibleRows,
+  rowHeight,
   renderCollapsibleRow,
 }: TableRowsProps<T>) => {
   const [open, setOpen] = useState(false);
@@ -25,7 +28,37 @@ export const ListTableRow = <T extends Row>({
 
   return (
     <>
-      <TableRow key={rowId}>
+      <TableRow
+        key={rowId}
+        sx={{
+          height: rowHeight === 'small' ? '32px' : '64px',
+          ...(collapsibleRows
+            ? {
+                '&:nth-of-type(4n - 1)': {
+                  backgroundColor: ophColors.grey50,
+                },
+                '&:nth-of-type(even)': {
+                  backgroundColor: ophColors.white,
+                },
+                '&:nth-of-type(odd)': {
+                  '&:hover': {
+                    backgroundColor: ophColors.lightBlue2,
+                  },
+                },
+              }
+            : {
+                '&:nth-of-type(even)': {
+                  backgroundColor: ophColors.grey50,
+                },
+                '&:nth-of-type(odd)': {
+                  backgroundColor: ophColors.white,
+                },
+                '&:hover': {
+                  backgroundColor: ophColors.lightBlue2,
+                },
+              }),
+        }}
+      >
         {columns.map(({ key: columnKey, render, style }, i) => {
           return (
             <TableCell

@@ -51,57 +51,16 @@ const StyledTable = styled(Table)({
   },
 });
 
-const StyledTableBody = styled(TableBody)<{
-  collapsibleRows?: boolean;
-  rowHeight?: 'small' | 'medium';
-}>(({ theme, collapsibleRows, rowHeight = 'medium' }) => ({
-  '& .MuiTableCell-root': {
-    padding: theme.spacing(1, 0, 1, 2),
-    textAlign: 'left',
-    whiteSpace: 'pre-wrap',
-    height: rowHeight === 'small' ? '32px' : '64px',
-    borderWidth: 0,
-  },
-  '& .MuiTableRow-root': {
-    ...(collapsibleRows
-      ? {
-          '&:nth-of-type(4n - 1)': {
-            '.MuiTableCell-root': {
-              backgroundColor: ophColors.grey50,
-            },
-          },
-          '&:nth-of-type(even)': {
-            '.MuiTableCell-root': {
-              backgroundColor: ophColors.white,
-            },
-          },
-          '&:nth-of-type(odd)': {
-            '&:hover': {
-              '.MuiTableCell-root': {
-                backgroundColor: ophColors.lightBlue2,
-              },
-            },
-          },
-        }
-      : {
-          '&:nth-of-type(even)': {
-            '.MuiTableCell-root': {
-              backgroundColor: ophColors.grey50,
-            },
-          },
-          '&:nth-of-type(odd)': {
-            '.MuiTableCell-root': {
-              backgroundColor: ophColors.white,
-            },
-          },
-          '&:hover': {
-            '.MuiTableCell-root': {
-              backgroundColor: ophColors.lightBlue2,
-            },
-          },
-        }),
-  },
-}));
+const StyledTableBody = styled(TableBody)(({ theme }) => {
+  return {
+    '& .MuiTableCell-root': {
+      padding: theme.spacing(1, 0, 1, 2),
+      textAlign: 'left',
+      whiteSpace: 'pre-wrap',
+      borderWidth: 0,
+    },
+  };
+});
 
 type ListTablePaginationProps = {
   page: number;
@@ -222,10 +181,7 @@ export const ListTable = <T extends Row>({
               })}
             </TableRow>
           </TableHead>
-          <StyledTableBody
-            collapsibleRows={collapsibleRows}
-            rowHeight={rowHeight}
-          >
+          <StyledTableBody>
             {pageRows.map((rowProps) => {
               const rowId = rowProps?.[rowKeyProp] as string;
 
@@ -235,6 +191,7 @@ export const ListTable = <T extends Row>({
                   key={rowId}
                   row={rowProps}
                   columns={columns}
+                  rowHeight={rowHeight}
                   collapsibleRows={collapsibleRows}
                   renderCollapsibleRow={renderCollapsibleRow}
                 />
