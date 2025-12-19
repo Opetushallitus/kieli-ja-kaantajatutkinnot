@@ -38,23 +38,24 @@ public class ClerkCustomerService {
       throw new RuntimeException("Unable to get personal data from ONR with oid '" + oid + "'.", e);
     }
 
-    return new ClerkCustomerPersonDTO(
-      person.getFirstName(),
-      person.getLastName(),
-      onrPerson.getIdentityNumber(),
-      person.getOid(),
-      person.getNationalityCode(),
-      person.getPhoneNumber(),
-      person.getAddress(),
-      person.getEmail()
-    );
+    return ClerkCustomerPersonDTO
+      .builder()
+      .firstName(person.getFirstName())
+      .lastName(person.getLastName())
+      .ssn(onrPerson.getIdentityNumber())
+      .oid(person.getOid())
+      .nationalityCode(person.getNationalityCode())
+      .phoneNumber(person.getPhoneNumber())
+      .streetAddress(person.getAddress())
+      .email(person.getEmail())
+      .build();
   }
 
   private ClerkCustomerRegistrationDTO RegistrationToDTO(Registration registration) {
     final var session = registration.getExamSession();
 
     final var examDate = session.getExamDate().getExamDate();
-    final var exam = new ClerkExamDTO(session.getLanguage(), session.getLevel());
+    final var exam = ClerkExamDTO.builder().language(session.getLanguage()).level(session.getLevel()).build();
 
     final var examLocation = session
       .getLocations()
@@ -68,29 +69,31 @@ public class ClerkCustomerService {
       .filter(p -> p.getPaidAt() != null)
       .max(Comparator.comparing(ExamPayment::getPaidAt));
 
-    final var freeRegistrationCreatedAt = Optional.ofNullable(registration.getFreeRegistration())
+    final var freeRegistrationCreatedAt = Optional
+      .ofNullable(registration.getFreeRegistration())
       .map(FreeRegistration::getCreatedAt);
 
     final var paidAt = latestExamPayment.map(ExamPayment::getPaidAt);
     final var registrationDate = paidAt.or(() -> freeRegistrationCreatedAt);
 
-    return new ClerkCustomerRegistrationDTO(
-      examDate,
-      exam,
-      examLocation,
-      registration.getState(),
-      paidAt,
-      registrationDate,
-      registration.getKind(),
-      Optional.ofNullable(registration.getLiftedFromQueueAt()),
-      Optional.ofNullable(registration.getExpiresAt())
-    );
+    return ClerkCustomerRegistrationDTO
+      .builder()
+      .examDate(examDate)
+      .exam(exam)
+      .examLocation(examLocation)
+      .registrationState(registration.getState())
+      .examPaymentPaidAt(paidAt)
+      .registrationDate(registrationDate)
+      .kind(registration.getKind())
+      .liftedFromQueueAt(Optional.ofNullable(registration.getLiftedFromQueueAt()))
+      .expiresAt(Optional.ofNullable(registration.getExpiresAt()))
+      .build();
   }
 
   public ClerkCustomerDetailsDTO getClerkCustomerDetails(String oid) {
     var personDTO = PersonToDTO(personRepository.getByOid(oid));
     var registrationsDTOs = registrationRepository.getByPersonOid(oid).stream().map(this::RegistrationToDTO).toList();
-    return new ClerkCustomerDetailsDTO(personDTO, registrationsDTOs);
+    return ClerkCustomerDetailsDTO.builder().person(personDTO).registrations(registrationsDTOs).build();
   }
 
   @Transactional(readOnly = true)
