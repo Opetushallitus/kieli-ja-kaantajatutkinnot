@@ -17,6 +17,7 @@ public enum EvaluationState {
       case ARVIOITU -> EVALUATION_COMPLETE;
       case TARKISTUSARVIOITAVA -> REVIEW_PENDING;
       case TARKISTUSARVIOITU -> REVIEW_COMPLETE;
+      case UUSITTAVA -> RETAKE_PENDING;
       case EI_SUORITUSTA -> NO_SHOW;
       case KESKEYTETTY -> ABORTED;
       default -> throw new RuntimeException("Unhandled state: " + state);
