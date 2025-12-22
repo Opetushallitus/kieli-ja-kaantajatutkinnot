@@ -164,7 +164,6 @@ public class RegistrationService {
 
   @Transactional
   public EvaluationStatesResponseDTO upsertRegistrationEvaluationStates(final EvaluationStatesDTO dto) {
-    // TODO Audit logging
     AtomicInteger procesed = new AtomicInteger();
     List<EvaluationStateErrorDTO> errors = new ArrayList<>();
     dto
@@ -200,7 +199,6 @@ public class RegistrationService {
                     )
                   )
                 );
-              // TODO Update createdBy, updatedBy
               RegistrationEvaluation evaluation = registration.getEvaluation() != null
                 ? registration.getEvaluation()
                 : new RegistrationEvaluation();
