@@ -11,12 +11,12 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { H2 } from 'ophTheme/Text';
 import { loadClerkExamSessionDetails } from 'redux/reducers/clerkExamSession';
-import { clerkCustomerDetailsSelector } from 'redux/selectors/clerkCustomerDetailsSelector';
+import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
 
 export const ClerkExamSessionPage: FC = () => {
   const translateCommon = useCommonTranslation();
-  const { customerDetails, status } = useAppSelector(
-    clerkCustomerDetailsSelector,
+  const { clerkExamSession, status } = useAppSelector(
+    clerkExamSessionDetailsSelector,
   );
 
   const { t } = usePublicTranslation({
@@ -30,7 +30,7 @@ export const ClerkExamSessionPage: FC = () => {
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted && params.id) {
-      dispatch(loadClerkExamSessionDetails(params.id));
+      dispatch(loadClerkExamSessionDetails(+params.id));
     } else if (status === APIResponseStatus.Error) {
       showToast({
         severity: Severity.Error,
@@ -52,9 +52,7 @@ export const ClerkExamSessionPage: FC = () => {
         </IconButton>
         <ChevronRight color="disabled" fontSize="large" />
         <H2>
-          {customerDetails?.person
-            ? `${customerDetails.person.lastName} ${customerDetails.person.firstName}`
-            : translateCommon('loadingContent')}
+          Tutkintotilaisuus
         </H2>
       </div>
 

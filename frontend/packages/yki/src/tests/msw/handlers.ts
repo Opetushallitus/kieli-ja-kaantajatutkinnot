@@ -16,6 +16,7 @@ import {
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { organizers } from 'tests/msw/fixtures/organizers';
 import { personDetails } from 'tests/msw/fixtures/personDetails';
+import { clerkExamSession } from 'tests/msw/fixtures/clerkExamSession';
 import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/registrationInit';
 
 interface FreeRegistrationRequest {
@@ -253,6 +254,7 @@ export const handlers = [
       return notFound();
     }
   }),
+  http.get(APIEndpoints.ClerkExamSession, () => HttpResponse.json(clerkExamSession)),
   http.get(APIEndpoints.PublicKoskiEducations, async () => {
     return HttpResponse.json({
       educations: [{ educationType: 'ylioppilastutkinto', isActive: true }],

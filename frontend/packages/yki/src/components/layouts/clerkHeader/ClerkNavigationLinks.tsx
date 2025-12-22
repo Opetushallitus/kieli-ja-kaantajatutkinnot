@@ -27,6 +27,11 @@ export const ClerkNavigationLinks = () => {
       )}
       links={[
         {
+          active: getTabForPath(pathname) === 'organizerRegister',
+          href: AppRoutes.ClerkExamSession,
+          label: translateCommon('organizerRegister'),
+        },
+        {
           active: getTabForPath(pathname) === 'registration',
           href: AppRoutes.ClerkOrganizerRegister,
           label: translateCommon('registration'),

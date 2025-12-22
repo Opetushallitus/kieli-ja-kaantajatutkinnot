@@ -22,6 +22,10 @@ import {
   RegistrationResponse,
 } from 'interfaces/clerkCustomer';
 import {
+  ClerkExamSession,
+  ClerkExamSessionResponse,
+} from 'interfaces/clerkExamSession';
+import {
   ClerkFreeRegistrationDetailsResponse,
   ClerkFreeRegistrationResponse,
 } from 'interfaces/clerkFreeRegistration';
@@ -418,6 +422,7 @@ export class SerializationUtils {
       })),
     };
   }
+
   static serializeModifyContactDetailsRequest(payload: ModifyContactDetails) {
     const { email, phoneNumber, streetAddress, zip, postOffice } = payload;
 
@@ -429,6 +434,13 @@ export class SerializationUtils {
       post_office: postOffice,
     };
   }
+
+  static deserializeClerkExamSessionResponse(
+    clerkExamSessionResponse: ClerkExamSessionResponse,
+  ): ClerkExamSession {
+    return clerkExamSessionResponse;
+  }
+
   static deserializeClerkCustomerDetailsResponse(
     clerkCustomerDetailsResponse: ClerkCustomerDetailsResponse,
   ): ClerkCustomerDetails {

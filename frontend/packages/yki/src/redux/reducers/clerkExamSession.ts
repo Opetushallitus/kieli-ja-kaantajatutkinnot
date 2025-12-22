@@ -25,7 +25,7 @@ const clerkExamSessionSlice = createSlice({
     },
     storeExamSessionDetails(state, action: PayloadAction<ClerkExamSession>) {
       state.status = APIResponseStatus.Success;
-      state.ExamSessionDetails = action.payload;
+      state.clerkExamSession = action.payload;
     },
   },
 });

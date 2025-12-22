@@ -251,13 +251,11 @@ export const ClerkExamSessionRegistrations = ({
     ),
   });
 
-  const registrationsColumns = [
-    createExamDateColumn(t),
-    createExamNameColumn(t),
-    createExamLocationColumn(t),
-    createRegistrationStateColumn(t),
-    createRegistrationDateColumn(t),
-  ];
+  const registrationsColumns = [createExamDateColumn(t)];
+
+  if (!examRegistrations) {
+    return <></>;
+  }
 
   return (
     <Stack spacing={4}>

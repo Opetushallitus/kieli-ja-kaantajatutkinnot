@@ -4,29 +4,32 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { ClerkCustomerDetailsResponse } from 'interfaces/clerkCustomer';
+import { ClerkExamSessionResponse } from 'interfaces/clerkExamSession';
 import {
-  loadClerkCustomerDetails,
-  rejectCustomerDetails,
-  storeCustomerDetails,
-} from 'redux/reducers/clerkCustomerDetails';
+  loadClerkExamSessionDetails,
+  rejectExamSessionDetails,
+  storeExamSessionDetails,
+} from 'redux/reducers/clerkExamSession';
 import { SerializationUtils } from 'utils/serialization';
 
-function* loadClerkExamSessionSaga(action: PayloadAction<string>) {
+function* loadClerkExamSessionDetailsSaga(action: PayloadAction<string>) {
   try {
-    const response: AxiosResponse<ClerkCustomerDetailsResponse> = yield call(
+    const response: AxiosResponse<ClerkExamSessionResponse> = yield call(
       axiosInstance.get,
-      APIEndpoints.ClerkCustomerDetails.replace(/:oid$/, action.payload),
+      APIEndpoints.ClerkExamSession.replace(/:id$/, action.payload),
     );
-    const clerkCustomerDetails =
-      SerializationUtils.deserializeClerkCustomerDetailsResponse(response.data);
+    const clerkExamSession =
+      SerializationUtils.deserializeClerkExamSessionResponse(response.data);
 
-    yield put(storeCustomerDetails(clerkCustomerDetails));
+    yield put(storeExamSessionDetails(clerkExamSession));
   } catch (error) {
-    yield put(rejectCustomerDetails());
+    yield put(rejectExamSessionDetails());
   }
 }
 
 export function* watchClerkExamSession() {
-  yield takeLatest(loadClerkExamSession.type, loadClerkExamSessionSaga);
+  yield takeLatest(
+    loadClerkExamSessionDetails.type,
+    loadClerkExamSessionDetailsSaga,
+  );
 }
