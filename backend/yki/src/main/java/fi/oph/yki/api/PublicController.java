@@ -1,6 +1,9 @@
 package fi.oph.yki.api;
 
-import fi.oph.yki.api.dto.*;
+import fi.oph.yki.api.dto.PublicEducationAndFreeRegistrationsCountDTO;
+import fi.oph.yki.api.dto.PublicEducationDTO;
+import fi.oph.yki.api.dto.PublicEducationUpdateDTO;
+import fi.oph.yki.api.dto.PublicFreeRegistrationDTO;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.service.RegistrationService;
 import fi.oph.yki.service.koski.KoskiService;
@@ -13,7 +16,13 @@ import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/public", produces = MediaType.APPLICATION_JSON_VALUE)
