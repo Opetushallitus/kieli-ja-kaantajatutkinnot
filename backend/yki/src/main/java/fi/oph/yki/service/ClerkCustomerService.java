@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -109,7 +108,8 @@ public class ClerkCustomerService {
 
   @Transactional(readOnly = true)
   public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(Pageable pageable, ClerkCustomerSearchRequestDTO request) {
-    final List<PersonSearchResult> personPage = personRepository.searchPersons(
+    final var personPage = personRepository.searchPersons(
+      pageable,
       request.personQuery(),
       request.organizerId(),
       request.examDateId(),
@@ -117,29 +117,24 @@ public class ClerkCustomerService {
       request.levelCode()
     );
 
-    final List<ClerkCustomerSummaryDTO> content = personPage
-      .stream()
-      .map(person ->
-        ClerkCustomerSummaryDTO
-          .builder()
-          .person(
-            ClerkCustomerPersonDTO
-              .builder()
-              .firstName(person.firstName())
-              .lastName(person.lastName())
-              .ssn(getPersonalData(person.oid()).getIdentityNumber())
-              .oid(person.oid())
-              .nationalityCode(person.nationalityCode())
-              .phoneNumber(person.phoneNumber())
-              .streetAddress(person.streetAddress())
-              .email(person.email())
-              .build()
-          )
-          .registrationsCount(person.registrationsCount() == null ? 0 : person.registrationsCount())
-          .build()
-      )
-      .toList();
-
-    return new PageImpl<>(content, pageable, personPage.size());
+    return personPage.map(person ->
+      ClerkCustomerSummaryDTO
+        .builder()
+        .person(
+          ClerkCustomerPersonDTO
+            .builder()
+            .firstName(person.firstName())
+            .lastName(person.lastName())
+            .ssn(getPersonalData(person.oid()).getIdentityNumber())
+            .oid(person.oid())
+            .nationalityCode(person.nationalityCode())
+            .phoneNumber(person.phoneNumber())
+            .streetAddress(person.streetAddress())
+            .email(person.email())
+            .build()
+        )
+        .registrationsCount(person.registrationsCount() == null ? 0 : person.registrationsCount())
+        .build()
+    );
   }
 }

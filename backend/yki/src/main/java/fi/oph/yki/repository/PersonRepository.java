@@ -2,8 +2,8 @@ package fi.oph.yki.repository;
 
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.PersonSearchResult;
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -51,10 +51,31 @@ WHERE (:personQuery IS NULL OR :personQuery = '' OR
     AND (:examDateId IS NULL OR es.exam_date_id = :examDateId)
     AND (:languageCode IS NULL OR :languageCode = '' OR es.language_code = :languageCode)
     AND (:levelCode IS NULL OR :levelCode = '' OR es.level_code = :levelCode)
+ORDER BY p.created DESC, p.oid
+""",
+    countQuery = """
+SELECT COUNT(DISTINCT p.oid)
+FROM person p
+LEFT JOIN registration r ON r.person_oid = p.oid
+LEFT JOIN exam_session es ON r.exam_session_id = es.id
+WHERE (:personQuery IS NULL OR :personQuery = '' OR
+        LOWER(p.oid) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
+        LOWER(p.first_name) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
+        LOWER(p.last_name) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
+        LOWER(COALESCE(p.email, '')) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
+        LOWER(COALESCE(p.phone_number, '')) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
+        LOWER(COALESCE(p.street_address, '')) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
+        LOWER(COALESCE(p.nationality_code, '')) LIKE LOWER(CONCAT('%', :personQuery, '%'))
+    )
+    AND (:organizerId IS NULL OR es.organizer_id = :organizerId)
+    AND (:examDateId IS NULL OR es.exam_date_id = :examDateId)
+    AND (:languageCode IS NULL OR :languageCode = '' OR es.language_code = :languageCode)
+    AND (:levelCode IS NULL OR :levelCode = '' OR es.level_code = :levelCode)
 """,
     nativeQuery = true
   )
-  List<PersonSearchResult> searchPersons(
+  Page<PersonSearchResult> searchPersons(
+    Pageable pageable,
     @Param("personQuery") String personQuery,
     @Param("organizerId") Long organizerId,
     @Param("examDateId") Long examDateId,
