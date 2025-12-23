@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/v2/api/clerk/customer", produces = APPLICATION_JSON_VALUE)
 @Profile("dev")
-public class ClerkCustomerDetailsController {
+public class ClerkCustomerController {
 
   @Resource
   private ClerkCustomerService service;
