@@ -36,8 +36,6 @@ SELECT
     ) as registrationsCount
 
 FROM person p
-LEFT JOIN registration r ON r.person_oid = p.oid
-LEFT JOIN exam_session es ON r.exam_session_id = es.id
 WHERE (:personQuery IS NULL OR :personQuery = '' OR
         LOWER(p.oid) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
         LOWER(p.first_name) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
@@ -47,17 +45,23 @@ WHERE (:personQuery IS NULL OR :personQuery = '' OR
         LOWER(COALESCE(p.street_address, '')) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
         LOWER(COALESCE(p.nationality_code, '')) LIKE LOWER(CONCAT('%', :personQuery, '%'))
     )
-    AND (:organizerId IS NULL OR es.organizer_id = :organizerId)
-    AND (:examDateId IS NULL OR es.exam_date_id = :examDateId)
-    AND (:languageCode IS NULL OR :languageCode = '' OR es.language_code = :languageCode)
-    AND (:levelCode IS NULL OR :levelCode = '' OR es.level_code = :levelCode)
+    AND (
+        (:organizerId IS NULL AND :examDateId IS NULL AND (:languageCode IS NULL OR :languageCode = '') AND (:levelCode IS NULL OR :levelCode = ''))
+        OR EXISTS (
+            SELECT 1
+            FROM registration r
+            JOIN exam_session es ON r.exam_session_id = es.id
+            WHERE r.person_oid = p.oid
+              AND (:organizerId IS NULL OR es.organizer_id = :organizerId)
+              AND (:examDateId IS NULL OR es.exam_date_id = :examDateId)
+              AND (:languageCode IS NULL OR :languageCode = '' OR es.language_code = :languageCode)
+              AND (:levelCode IS NULL OR :levelCode = '' OR es.level_code = :levelCode)
+        )
+    )
 ORDER BY p.created DESC, p.oid
 """,
     countQuery = """
-SELECT COUNT(DISTINCT p.oid)
-FROM person p
-LEFT JOIN registration r ON r.person_oid = p.oid
-LEFT JOIN exam_session es ON r.exam_session_id = es.id
+SELECT COUNT(*) FROM person p
 WHERE (:personQuery IS NULL OR :personQuery = '' OR
         LOWER(p.oid) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
         LOWER(p.first_name) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
@@ -67,10 +71,19 @@ WHERE (:personQuery IS NULL OR :personQuery = '' OR
         LOWER(COALESCE(p.street_address, '')) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
         LOWER(COALESCE(p.nationality_code, '')) LIKE LOWER(CONCAT('%', :personQuery, '%'))
     )
-    AND (:organizerId IS NULL OR es.organizer_id = :organizerId)
-    AND (:examDateId IS NULL OR es.exam_date_id = :examDateId)
-    AND (:languageCode IS NULL OR :languageCode = '' OR es.language_code = :languageCode)
-    AND (:levelCode IS NULL OR :levelCode = '' OR es.level_code = :levelCode)
+    AND (
+        (:organizerId IS NULL AND :examDateId IS NULL AND (:languageCode IS NULL OR :languageCode = '') AND (:levelCode IS NULL OR :levelCode = ''))
+        OR EXISTS (
+            SELECT 1
+            FROM registration r
+            JOIN exam_session es ON r.exam_session_id = es.id
+            WHERE r.person_oid = p.oid
+              AND (:organizerId IS NULL OR es.organizer_id = :organizerId)
+              AND (:examDateId IS NULL OR es.exam_date_id = :examDateId)
+              AND (:languageCode IS NULL OR :languageCode = '' OR es.language_code = :languageCode)
+              AND (:levelCode IS NULL OR :levelCode = '' OR es.level_code = :levelCode)
+        )
+    )
 """,
     nativeQuery = true
   )
