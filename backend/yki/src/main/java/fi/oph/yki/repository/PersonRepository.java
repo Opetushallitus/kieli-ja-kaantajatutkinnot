@@ -37,13 +37,13 @@ SELECT
 
 FROM person p
 WHERE (:personQuery IS NULL OR :personQuery = '' OR
-        LOWER(p.oid) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
-        LOWER(p.first_name) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
-        LOWER(p.last_name) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
-        LOWER(COALESCE(p.email, '')) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
-        LOWER(COALESCE(p.phone_number, '')) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
-        LOWER(COALESCE(p.street_address, '')) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
-        LOWER(COALESCE(p.nationality_code, '')) LIKE LOWER(CONCAT('%', :personQuery, '%'))
+        p.oid ILIKE CONCAT('%', :personQuery, '%') OR
+        p.first_name ILIKE CONCAT('%', :personQuery, '%') OR
+        p.last_name ILIKE CONCAT('%', :personQuery, '%') OR
+        COALESCE(p.email, '') ILIKE CONCAT('%', :personQuery, '%') OR
+        COALESCE(p.phone_number, '') ILIKE CONCAT('%', :personQuery, '%') OR
+        COALESCE(p.street_address, '') ILIKE CONCAT('%', :personQuery, '%') OR
+        COALESCE(p.nationality_code, '') ILIKE CONCAT('%', :personQuery, '%')
     )
     AND (
         (:organizerId IS NULL AND :examDateId IS NULL AND (:languageCode IS NULL OR :languageCode = '') AND (:levelCode IS NULL OR :levelCode = ''))
@@ -63,13 +63,13 @@ ORDER BY p.created DESC, p.oid
     countQuery = """
 SELECT COUNT(*) FROM person p
 WHERE (:personQuery IS NULL OR :personQuery = '' OR
-        LOWER(p.oid) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
-        LOWER(p.first_name) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
-        LOWER(p.last_name) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
-        LOWER(COALESCE(p.email, '')) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
-        LOWER(COALESCE(p.phone_number, '')) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
-        LOWER(COALESCE(p.street_address, '')) LIKE LOWER(CONCAT('%', :personQuery, '%')) OR
-        LOWER(COALESCE(p.nationality_code, '')) LIKE LOWER(CONCAT('%', :personQuery, '%'))
+        p.oid ILIKE CONCAT('%', :personQuery, '%') OR
+        p.first_name ILIKE CONCAT('%', :personQuery, '%') OR
+        p.last_name ILIKE CONCAT('%', :personQuery, '%') OR
+        COALESCE(p.email, '') ILIKE CONCAT('%', :personQuery, '%') OR
+        COALESCE(p.phone_number, '') ILIKE CONCAT('%', :personQuery, '%') OR
+        COALESCE(p.street_address, '') ILIKE CONCAT('%', :personQuery, '%') OR
+        COALESCE(p.nationality_code, '') ILIKE CONCAT('%', :personQuery, '%')
     )
     AND (
         (:organizerId IS NULL AND :examDateId IS NULL AND (:languageCode IS NULL OR :languageCode = '') AND (:levelCode IS NULL OR :levelCode = ''))
