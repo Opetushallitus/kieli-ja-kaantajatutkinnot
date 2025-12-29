@@ -51,9 +51,7 @@ export const ClerkExamSessionPage: FC = () => {
           <HomeOutlined color="secondary" fontSize="large" />
         </IconButton>
         <ChevronRight color="disabled" fontSize="large" />
-        <H2>
-          Tutkintotilaisuus
-        </H2>
+        <H2>Tutkintotilaisuus</H2>
       </div>
 
       <Grid

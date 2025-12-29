@@ -438,7 +438,21 @@ export class SerializationUtils {
   static deserializeClerkExamSessionResponse(
     clerkExamSessionResponse: ClerkExamSessionResponse,
   ): ClerkExamSession {
-    return clerkExamSessionResponse;
+    return {
+      ...clerkExamSessionResponse,
+      publishedAt: dayjs(clerkExamSessionResponse.publishedAt),
+      date: dayjs(clerkExamSessionResponse.date),
+      registrationStartDate: dayjs(
+        clerkExamSessionResponse.registrationStartDate,
+      ),
+      registrationEndDate: dayjs(
+        clerkExamSessionResponse.registrationStartDate,
+      ),
+      availableRegistrationKind:
+        clerkExamSessionResponse.availableRegistrationKind === 'ADMISSION'
+          ? RegistrationKind.Admission
+          : RegistrationKind.Queue,
+    };
   }
 
   static deserializeClerkCustomerDetailsResponse(

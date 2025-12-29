@@ -3,6 +3,7 @@ import { http, HttpResponse, PathParams, StrictRequest } from 'msw';
 import { APIEndpoints } from 'enums/api';
 import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationInitRequest } from 'interfaces/publicRegistration';
+import { clerkExamSession } from 'tests/msw/fixtures/clerkExamSession';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
@@ -16,7 +17,6 @@ import {
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { organizers } from 'tests/msw/fixtures/organizers';
 import { personDetails } from 'tests/msw/fixtures/personDetails';
-import { clerkExamSession } from 'tests/msw/fixtures/clerkExamSession';
 import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/registrationInit';
 
 interface FreeRegistrationRequest {
@@ -254,7 +254,9 @@ export const handlers = [
       return notFound();
     }
   }),
-  http.get(APIEndpoints.ClerkExamSession, () => HttpResponse.json(clerkExamSession)),
+  http.get(APIEndpoints.ClerkExamSession, () =>
+    HttpResponse.json(clerkExamSession),
+  ),
   http.get(APIEndpoints.PublicKoskiEducations, async () => {
     return HttpResponse.json({
       educations: [{ educationType: 'ylioppilastutkinto', isActive: true }],
