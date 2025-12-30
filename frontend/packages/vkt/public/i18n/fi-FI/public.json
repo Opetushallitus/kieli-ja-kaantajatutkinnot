@@ -459,7 +459,7 @@
           },
           "selectExam": {
             "examFee": {
-              "part1": "Tutkintomaksu on <0>277 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kerralla.</0>",
+              "part1": "Tutkintomaksu on <0>280 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kerralla.</0>",
               "part2": "Suullisen ja kirjallisen taidon tutkintojen suorittaminen osoittaa myös vastaavan tasoista ymmärtämisen taitoa.",
               "part3": "Tutkintomaksu on  <0>140 euroa</0>, jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen.",
               "part4": "Kun olet sopinut tutkintopäivästä tutkintosuorituksen vastaanottajan kanssa, saat sähköpostilla linkin tutkintomaksun maksamista varten. Linkki on voimassa 3 vuorokautta.",
@@ -628,7 +628,7 @@
           },
           "enrollmentFees": {
             "bulletPoints": {
-              "point1": "Tutkintomaksu on <0>277 euroa,</0> jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kertaa.",
+              "point1": "Tutkintomaksu on <0>280 euroa,</0> jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kertaa.",
               "point2": "Tutkintomaksu on <0>140 euroa,</0> jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
             },
             "title": "Tutkintomaksut"
@@ -687,7 +687,7 @@
             "part4": "Tutkintomaksu on 277 euroa, jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
           },
           "goodAndSatisfactoryLevel": {
-            "part1": "<0>Hyvän ja tyydyttävän taidon</0> tutkintomaksu on 277 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kertaa.",
+            "part1": "<0>Hyvän ja tyydyttävän taidon</0> tutkintomaksu on 280 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kertaa.",
             "part2": "Tutkintomaksu on 140 euroa, jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
           },
           "title": "Tutkintomaksut"
