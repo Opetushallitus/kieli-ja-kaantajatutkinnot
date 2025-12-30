@@ -916,10 +916,10 @@
           }
         },
         "infoBox": {
-          "heading": "You can now join the waiting list for YKI tests!",
-          "text": "You can also view your registrations in the My Studyinfo service. Read more on the website of the Finnish National Agency for Education: ",
-          "link": "Changes in registration for YKI tests",
-          "url": "https://www.oph.fi/en/news/2025/changes-registration-yki-tests"
+          "part1": "In 2026, some YKI tests are becoming free of charge, the conditions for the test fee refund are being simplified and registrations for YKI tests can no longer be rescheduled.",
+          "part2": "Read more on EDUFI's website:",
+          "link": "Changes to the YKI tests on 1 January 2026",
+          "url": "https://www.oph.fi/en/news/2025/changes-yki-tests-1-january-2026"
         },
         "labels": {
           "excludeFullSessions": "Show only the tests that have available seats",

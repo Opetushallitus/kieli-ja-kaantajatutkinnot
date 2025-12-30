@@ -1,7 +1,7 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Alert, Box, Container, Grid, Link, Paper } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
-import { H1, H2, H3, HeaderSeparator, Text } from 'shared/components';
+import { H1, H2, HeaderSeparator, Text, WebLink } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 
 import { PublicExamSessionListing } from 'components/registration/examSession/PublicExamSessionListing';
@@ -21,13 +21,16 @@ const InformationBox = () => {
   });
 
   return (
-    <Container className="public-registration-page__info-box">
-      <H3>{t('heading')}</H3>
+    <Container className="public-registration-page__info-box rows gapped">
+      <Text>{t('part1')}</Text>
       <Text>
-        {t('text')}
-        <Link href={t('url')} className="bold" target="_blank">
-          {t('link')}
-        </Link>
+        {t('part2')}{' '}
+        <WebLink
+          href={t('url')}
+          label={t('link')}
+          target="_blank"
+          endIcon={<OpenInNewIcon />}
+        />
       </Text>
     </Container>
   );
