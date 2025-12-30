@@ -881,7 +881,7 @@
               "label": "Sopivan YKI-testin valinta ja testipäivät",
               "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/sopivan-yki-testin-valinta-ja-testipaivat"
             },
-            "text": "Yleisissä kielitutkinnoissa (YKI) arvioidaan yleiskielen osaamista käytännön tilanteissa. Voit tehdä YKI-testin perustasolla, keskitasolla tai ylimmällä tasolla. Selvitä ennen testiin ilmoittautumista, milloin ja miltä tasolta tarvitset todistuksen. Lue lisää sopivan YKI-testin valinnasta Opetushallituksen verkkosivuilta:"
+            "text": "Yleisissä kielitutkinnoissa eli YKI-testissä arvioidaan yleiskielen osaamista käytännön tilanteissa. Voit tehdä YKI-testin perustasolla, keskitasolla tai ylimmällä tasolla. Selvitä ennen testiin ilmoittautumista, miltä tasolta tarvitset todistuksen. Lue lisää sopivan YKI-testin valinnasta Opetushallituksen verkkosivuilta:"
           },
           "part2": {
              "link": {
@@ -920,7 +920,7 @@
           }
         },
         "infoBox": {
-          "part1": "1.1.2026 alkaen osa YKI-testeistä muuttuu maksuttomiksi, tutkintomaksun palautuksen ehtoja yksinkertaistetaan eikä ilmoittautumista ei voi enää siirtää.",
+          "part1": "1.1.2026 alkaen osa YKI-testeistä muuttuu maksuttomiksi, tutkintomaksun palautuksen ehtoja yksinkertaistetaan eikä ilmoittautumista voi enää siirtää.",
           "part2": "Lue lisää Opetushallituksen verkkosivuilta:",
           "link": "YKI-testeihin tulee muutoksia 1.1.2026",
           "url": "https://www.oph.fi/fi/uutiset/2025/yki-testeihin-tulee-muutoksia-112026"
