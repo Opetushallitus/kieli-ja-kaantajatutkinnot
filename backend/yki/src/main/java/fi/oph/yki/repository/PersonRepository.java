@@ -37,10 +37,12 @@ SELECT
 
 FROM person p
 WHERE (:personQuery IS NULL OR :personQuery = '' OR
-        p.oid ILIKE CONCAT('%', :personQuery, '%') OR
-        p.first_name ILIKE CONCAT('%', :personQuery, '%') OR
-        p.last_name ILIKE CONCAT('%', :personQuery, '%') OR
-        COALESCE(p.email, '') ILIKE CONCAT('%', :personQuery, '%')
+        to_tsvector('simple',
+            p.oid || ' ' ||
+            p.first_name || ' ' ||
+            p.last_name || ' ' ||
+            COALESCE(p.email, '')
+        ) @@ plainto_tsquery('simple', :personQuery)
     )
     AND (
         (:organizerId IS NULL AND :examDateId IS NULL AND (:languageCode IS NULL OR :languageCode = '') AND (:levelCode IS NULL OR :levelCode = ''))
@@ -60,10 +62,12 @@ ORDER BY p.created DESC, p.oid
     countQuery = """
 SELECT COUNT(*) FROM person p
 WHERE (:personQuery IS NULL OR :personQuery = '' OR
-        p.oid ILIKE CONCAT('%', :personQuery, '%') OR
-        p.first_name ILIKE CONCAT('%', :personQuery, '%') OR
-        p.last_name ILIKE CONCAT('%', :personQuery, '%') OR
-        COALESCE(p.email, '') ILIKE CONCAT('%', :personQuery, '%')
+        to_tsvector('simple',
+            p.oid || ' ' ||
+            p.first_name || ' ' ||
+            p.last_name || ' ' ||
+            COALESCE(p.email, '')
+        ) @@ plainto_tsquery('simple', :personQuery)
     )
     AND (
         (:organizerId IS NULL AND :examDateId IS NULL AND (:languageCode IS NULL OR :languageCode = '') AND (:levelCode IS NULL OR :levelCode = ''))
