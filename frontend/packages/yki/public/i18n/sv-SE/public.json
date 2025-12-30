@@ -877,14 +877,18 @@
         },
         "description": {
           "part1": {
-            "text": "I den allmänna språkexamen (YKI) bedöms kunskaperna i standardspråket i praktiska situationer. Med examensintyg kan du officiellt visa dina språkkunskaper i olika språk."
-          },
-          "part2": {
             "link": {
               "label": "Att välja ett lämpligt YKI-test och testdagarna",
               "url": "https://www.oph.fi/sv/utbildning-och-examina/att-valja-ett-lampligt-yki-test-testdagarna"
             },
-            "text": "Du kan avlägga YKI-testet på grundnivå, mellannivå eller högsta nivå. Före du anmäler dig till YKI-testet ska du ta reda på när och på vilken nivå du behöver ett examensintyg. Läs mer om att välja ett lämpligt YKI-test på Utbildningsstyrelsens webbplats:"
+            "text": "I den allmänna språkexamen, alltså YKI-testet, bedöms kunskaperna i standardspråket i praktiska situationer. Du kan avlägga YKI-testet på grundnivå, mellannivå eller högsta nivå. Före du anmäler dig till YKI-testet ska du ta reda på vilken nivå du behöver ett examensintyg. Läs mer om att välja ett lämpligt YKI-test på Utbildningsstyrelsens webbplats:"
+          },
+          "part2": {
+            "link": {
+              "label": "Anmälan till YKI-test",
+              "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test"
+            },
+            "text": "Du kan anmäla dig till YKI-testet på den här sidan. Om examenstillfället är fullbokat, kan du anmäla dig till en köplats. Läs mer om hur du anmäler dig på Utbildningsstyrelsens webbplats:"
           },
           "part3": {
             "link": {

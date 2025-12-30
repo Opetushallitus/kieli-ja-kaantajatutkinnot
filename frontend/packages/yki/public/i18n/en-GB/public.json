@@ -877,14 +877,18 @@
         },
         "description": {
           "part1": {
-            "text": "The National Certificates of Language Proficiency (YKI) test measures functional language proficiency in everyday situations. You can officially prove your language skills in different languages with a National Certificate of Language Proficiency."
-          },
-          "part2": {
             "link": {
               "label": "Selecting the right YKI test and the test days",
               "url": "https://www.oph.fi/en/education-and-qualifications/selecting-right-yki-test-test-days"
             },
-            "text": "You can take the YKI test at the basic level, intermediate level, or advanced level. Before registering for the test, find out when you need the certificate and at what level. Read more about selecting the right YKI test on the website of the Finnish National Agency for Education:"
+            "text": "The National Certificates of Language Proficiency, also known as the YKI test, measures functional language proficiency in everyday situations. You can take the YKI test at the basic level, intermediate level, or advanced level. Before registering for the test, find out at what level you need the certificate. Read more about selecting the right YKI test on the website of the Finnish National Agency for Education:"
+          },
+          "part2": {
+            "link": {
+              "label": "Registering for the YKI test",
+              "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test"
+            },
+            "text": "You can register for the YKI test on this page. If the YKI test is fully booked, you can register for its waiting list. Read the registration instructions on the website of the Finnish National Agency for Education:"
           },
           "part3": {
             "link": {

@@ -83,7 +83,15 @@ export const RegistrationPage: FC = () => {
           </H1>
           <HeaderSeparator />
           <div className="rows gapped">
-            <Text>{t('description.part1.text')}</Text>
+            <div>
+              <Text>{t('description.part1.text')}</Text>
+              <div className="columns gapped-xxs">
+                <Link href={t('description.part1.link.url')} target="_blank">
+                  <Text>{t('description.part1.link.label')}</Text>
+                </Link>
+                <OpenInNewIcon />
+              </div>
+            </div>
             <div>
               <Text>{t('description.part2.text')}</Text>
               <div className="columns gapped-xxs">

@@ -877,14 +877,18 @@
         },
         "description": {
           "part1": {
-            "text": "Yleisissä kielitutkinnoissa (YKI) arvioidaan yleiskielen osaamista käytännön tilanteissa. Saat suoritetusta tutkinnosta todistuksen, jolla voit osoittaa virallisesti kielitaitosi eri kielissä."
-          },
-          "part2": {
             "link": {
               "label": "Sopivan YKI-testin valinta ja testipäivät",
               "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/sopivan-yki-testin-valinta-ja-testipaivat"
             },
-            "text": "Voit tehdä YKI-testin perustasolla, keskitasolla tai ylimmällä tasolla. Selvitä ennen testiin ilmoittautumista, milloin ja miltä tasolta tarvitset todistuksen. Lue lisää sopivan YKI-testin valinnasta Opetushallituksen verkkosivuilta:"
+            "text": "Yleisissä kielitutkinnoissa (YKI) arvioidaan yleiskielen osaamista käytännön tilanteissa. Voit tehdä YKI-testin perustasolla, keskitasolla tai ylimmällä tasolla. Selvitä ennen testiin ilmoittautumista, milloin ja miltä tasolta tarvitset todistuksen. Lue lisää sopivan YKI-testin valinnasta Opetushallituksen verkkosivuilta:"
+          },
+          "part2": {
+             "link": {
+              "label": "Ilmoittautuminen YKI-testiin",
+              "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin"
+            },
+            "text": "Voit ilmoittautua YKI-testiin tällä sivulla. Jos YKI-testi on täynnä, voit ilmoittautua jonoon. Lue ilmoittautumisohjeet Opetushallituksen verkkosivuilta:"
           },
           "part3": {
             "link": {
