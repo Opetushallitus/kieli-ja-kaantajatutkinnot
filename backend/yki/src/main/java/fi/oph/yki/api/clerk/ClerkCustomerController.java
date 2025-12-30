@@ -3,12 +3,14 @@ package fi.oph.yki.api.clerk;
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import fi.oph.yki.api.dto.clerk.ClerkCustomerDetailsDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCustomerSearchRequestDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCustomerSummaryDTO;
 import fi.oph.yki.service.ClerkCustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
+import java.util.concurrent.ExecutionException;
 import org.apache.coyote.BadRequestException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
@@ -42,7 +44,7 @@ public class ClerkCustomerController {
     @RequestParam(defaultValue = "0") int page,
     @RequestParam(defaultValue = "20") int size,
     @RequestBody(required = false) ClerkCustomerSearchRequestDTO request
-  ) throws BadRequestException {
+  ) throws BadRequestException, ExecutionException, InterruptedException, JsonProcessingException {
     final int validatedSize = Math.min(size, MAX_PAGE_SIZE);
 
     if (request == null) {
