@@ -59,7 +59,7 @@ class ReceiptRendererTest {
     enrollment.setUnderstandingSkill(true);
 
     final Payment payment = Factory.payment(enrollment);
-    payment.setAmount(25700);
+    payment.setAmount(27700);
     payment.setReference("RF-123");
 
     entityManager.persist(examEvent);
@@ -72,11 +72,11 @@ class ReceiptRendererTest {
     assertEquals("RF-123", receiptData.paymentReference());
     assertEquals("Ruotsi, erinomainen taito, 07.10.2024", receiptData.exam());
     assertEquals("Bar, Foo", receiptData.participant());
-    assertEquals("257 €", receiptData.totalAmount());
+    assertEquals("277 €", receiptData.totalAmount());
 
     final ReceiptItem item1 = receiptData.items().get(0);
     assertEquals("Kirjallinen taito", item1.name());
-    assertEquals("257 €", item1.amount());
+    assertEquals("277 €", item1.amount());
 
     final ReceiptItem item2 = receiptData.items().get(1);
     assertEquals("Ymmärtämisen taito", item2.name());
@@ -98,7 +98,7 @@ class ReceiptRendererTest {
     enrollment.setUnderstandingSkill(true);
 
     final Payment payment = Factory.payment(enrollment);
-    payment.setAmount(25700);
+    payment.setAmount(27700);
 
     entityManager.persist(examEvent);
     entityManager.persist(person);

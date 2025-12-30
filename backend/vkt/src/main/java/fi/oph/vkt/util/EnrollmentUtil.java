@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 
 public class EnrollmentUtil {
 
-  private static final int SKILL_FEE = 25700;
-  private static final int SKILL_APPOINTMENT_FEE = 12900;
+  private static final int SKILL_FEE = 27700;
+  private static final int SKILL_APPOINTMENT_FEE = 14000;
   public static final Integer FREE_ENROLLMENT_LIMIT = 3;
 
   public static int getTotalFee(final EnrollmentAppointment enrollmentAppointment) {
