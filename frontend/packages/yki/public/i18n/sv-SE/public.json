@@ -877,14 +877,18 @@
         },
         "description": {
           "part1": {
-            "text": "I den allmänna språkexamen (YKI) bedöms kunskaperna i standardspråket i praktiska situationer. Med examensintyg kan du officiellt visa dina språkkunskaper i olika språk."
-          },
-          "part2": {
             "link": {
               "label": "Att välja ett lämpligt YKI-test och testdagarna",
               "url": "https://www.oph.fi/sv/utbildning-och-examina/att-valja-ett-lampligt-yki-test-testdagarna"
             },
-            "text": "Du kan avlägga YKI-testet på grundnivå, mellannivå eller högsta nivå. Före du anmäler dig till YKI-testet ska du ta reda på när och på vilken nivå du behöver ett examensintyg. Läs mer om att välja ett lämpligt YKI-test på Utbildningsstyrelsens webbplats:"
+            "text": "I den allmänna språkexamen, alltså YKI-testet, bedöms kunskaperna i standardspråket i praktiska situationer. Du kan avlägga YKI-testet på grundnivå, mellannivå eller högsta nivå. Före du anmäler dig till YKI-testet ska du ta reda på vilken nivå du behöver ett examensintyg. Läs mer om att välja ett lämpligt YKI-test på Utbildningsstyrelsens webbplats:"
+          },
+          "part2": {
+            "link": {
+              "label": "Anmälan till YKI-test",
+              "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test"
+            },
+            "text": "Du kan anmäla dig till YKI-testet på den här sidan. Om examenstillfället är fullbokat, kan du anmäla dig till en köplats. Läs mer om hur du anmäler dig på Utbildningsstyrelsens webbplats:"
           },
           "part3": {
             "link": {
@@ -916,10 +920,10 @@
           }
         },
         "infoBox": {
-          "heading": "Nu kan du anmäla dig till kön till YKI-test!",
-          "text": "Du kan också se dina anmälningar i Min Studieinfo. Läs mer på Utbildningsstyrelsens webbsidor: ",
-          "link": "Ändringar i anmälan till YKI-testet",
-          "url": "https://www.oph.fi/sv/nyheter/2025/andringar-i-anmalan-till-yki-testet"
+          "part1": "2026 blir en del av YKI-testerna avgiftsfria, villkoren för återbetalning av examensavgiften förtydligas och anmälan kan inte längre flyttas.",
+          "part2": "Läs mer på Utbildningsstyrelsens webbplats:",
+          "link": "Ändringar i YKI-tester fr.o.m. 1.1.2026",
+          "url": "https://www.oph.fi/sv/nyheter/2025/andringar-i-allmanna-sprakexamina-fran-och-med-den-1-januari-2026"
         },
         "labels": {
           "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",

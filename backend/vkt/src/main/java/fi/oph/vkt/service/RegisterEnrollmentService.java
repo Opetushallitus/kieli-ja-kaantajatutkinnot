@@ -1,12 +1,11 @@
 package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
-import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.integration.RegisterEnrollmentDTO;
 import fi.oph.vkt.api.dto.integration.RegistryPersonDTO;
-import fi.oph.vkt.model.*;
+import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.type.EnrollmentStatus;
-import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.PersonUtil;

@@ -1,6 +1,9 @@
 package fi.oph.yki.service;
 
-import fi.oph.yki.api.dto.*;
+import fi.oph.yki.api.dto.PublicEducationBasisDTO;
+import fi.oph.yki.api.dto.PublicEducationDTO;
+import fi.oph.yki.api.dto.PublicEducationUpdateDTO;
+import fi.oph.yki.api.dto.PublicFreeRegistrationDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.FreeRegistration;
