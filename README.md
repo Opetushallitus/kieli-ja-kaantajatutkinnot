@@ -35,15 +35,20 @@ In addition, the shared frontend content can be found [here](./docs/shared_front
 
 Make sure you have listed technologies installed on your machine. 
 
-### database
+### Database
 * This project is still dependent on https://github.com/Opetushallitus/yki
 1. git clone https://github.com/Opetushallitus/yki
 2. Follow it's `README.md` to setup it's environment
 
-### backend with IntelliJ IDEA
+### Backend with IntelliJ IDEA
 1. Open the repository with Idea
 2. To run a service, open a service folder under `backend` - folder, that you want to run
 3. Right-click `pom.xml` -> `Add as maven project`
+
+Also make sure you set dev profile for local development. You can use `application-dev.yaml` for local configuration overrides. 
+
+At the time of writing Java 21 is current version in use.
+
 
 #### Github maven authentication
 
