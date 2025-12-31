@@ -1,11 +1,8 @@
 package fi.oph.yki.model;
 
 import jakarta.annotation.Nullable;
-import java.time.Instant;
 
-/** Holds data from PersonRepository.findAllPersons() query. */
-public record PersonSearchResult(
-  // Osallistujan tiedot
+ public record PersonSearchProjection(
   String oid,
   String firstName,
   String lastName,

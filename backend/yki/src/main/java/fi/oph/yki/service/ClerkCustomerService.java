@@ -10,7 +10,7 @@ import fi.oph.yki.api.dto.clerk.ClerkExamDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamLocationDTO;
 import fi.oph.yki.model.ExamPayment;
 import fi.oph.yki.model.FreeRegistration;
-import fi.oph.yki.model.PersonSearchResult;
+import fi.oph.yki.model.PersonSearchProjection;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
@@ -110,7 +110,7 @@ public class ClerkCustomerService {
     return ClerkCustomerDetailsDTO.builder().person(personDTO).registrations(registrationsDTOs).build();
   }
 
-  private Page<PersonSearchResult> searchPersons(Pageable pageable, ClerkCustomerSearchRequestDTO request)
+  private Page<PersonSearchProjection> searchPersons(Pageable pageable, ClerkCustomerSearchRequestDTO request)
     throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
     final var personQuery = request.personQuery() == null ? "" : request.personQuery();
     final var queries = personQuery.split(" ");

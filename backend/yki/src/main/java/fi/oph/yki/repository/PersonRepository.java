@@ -1,7 +1,7 @@
 package fi.oph.yki.repository;
 
 import fi.oph.yki.model.Person;
-import fi.oph.yki.model.PersonSearchResult;
+import fi.oph.yki.model.PersonSearchProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -83,7 +83,7 @@ WHERE (:personQuery IS NULL OR :personQuery = '' OR
 """,
     nativeQuery = true
   )
-  Page<PersonSearchResult> searchPersons(
+  Page<PersonSearchProjection> searchPersons(
     Pageable pageable,
     @Param("personQuery") String personQuery,
     @Param("organizerId") Long organizerId,
