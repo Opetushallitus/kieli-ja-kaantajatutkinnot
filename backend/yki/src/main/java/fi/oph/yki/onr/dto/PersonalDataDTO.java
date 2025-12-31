@@ -11,6 +11,9 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PersonalDataDTO {
 
+  @JsonProperty("oidHenkilo")
+  private String oidHenkilo;
+
   @JsonProperty("hetu")
   private String identityNumber;
 }
