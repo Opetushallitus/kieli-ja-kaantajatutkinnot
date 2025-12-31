@@ -16,7 +16,7 @@ import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationRepository;
-import fi.oph.yki.util.SsnUtil;
+import fi.oph.yki.util.HetuUtils;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -105,7 +105,11 @@ public class ClerkCustomerService {
       .email(person.getEmail())
       .build();
 
-    final var registrationsDTOs = registrationRepository.getByPersonOid(oid).stream().map(this::registrationToDTO).toList();
+    final var registrationsDTOs = registrationRepository
+      .getByPersonOid(oid)
+      .stream()
+      .map(this::registrationToDTO)
+      .toList();
 
     return ClerkCustomerDetailsDTO.builder().person(personDTO).registrations(registrationsDTOs).build();
   }
@@ -115,16 +119,11 @@ public class ClerkCustomerService {
     final var personQuery = request.personQuery() == null ? "" : request.personQuery();
     final var queries = personQuery.split(" ");
 
-    final var possibleSsn = SsnUtil.findValidSsn(queries);
-    if (possibleSsn.isPresent()) {
-      final var ssn = possibleSsn.get();
+    final var possibleHetu = HetuUtils.findValidHetu(queries);
+    if (possibleHetu.isPresent()) {
+      final var hetu = possibleHetu.get();
 
-      // Search by OID instead of the original query because
-      // ONR search finds either 0 or 1 persons.
-      // If we get 0 persons, then we can just return an empty page.
-      // If we found 1 person from ONR, our database should have only one corresponding person.
-
-      final var onrDtoOptional = onrService.findPersonalDataByIdentityNumber(ssn);
+      final var onrDtoOptional = onrService.findPersonalDataByIdentityNumber(hetu);
       if (onrDtoOptional.isEmpty()) {
         return new PageImpl<>(List.of());
       }
