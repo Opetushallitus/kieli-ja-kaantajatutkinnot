@@ -46,20 +46,8 @@ public class ClerkCustomerController {
   ) throws IllegalArgumentException, ExecutionException, InterruptedException, JsonProcessingException {
     final int validatedSize = Math.min(size, MAX_PAGE_SIZE);
 
-    if (request == null) {
-      request =
-        ClerkCustomerSearchRequestDTO
-          .builder()
-          .personQuery(null)
-          .organizerId(null)
-          .examDateId(null)
-          .languageCode(null)
-          .levelCode(null)
-          .build();
-    }
-
     if (request.personQuery() != null) {
-      var personQuery = request.personQuery().trim();
+      final var  personQuery = request.personQuery().trim();
       if (personQuery.length() <= 2) {
         throw new IllegalArgumentException("When given the person query, it must have atleast three characters");
       }
