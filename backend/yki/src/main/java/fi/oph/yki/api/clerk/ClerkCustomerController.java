@@ -11,7 +11,6 @@ import fi.oph.yki.service.ClerkCustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import java.util.concurrent.ExecutionException;
-import org.apache.coyote.BadRequestException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,7 +43,7 @@ public class ClerkCustomerController {
     @RequestParam(defaultValue = "0") int page,
     @RequestParam(defaultValue = "20") int size,
     @RequestBody(required = false) ClerkCustomerSearchRequestDTO request
-  ) throws BadRequestException, ExecutionException, InterruptedException, JsonProcessingException {
+  ) throws IllegalArgumentException, ExecutionException, InterruptedException, JsonProcessingException {
     final int validatedSize = Math.min(size, MAX_PAGE_SIZE);
 
     if (request == null) {
@@ -62,7 +61,7 @@ public class ClerkCustomerController {
     if (request.personQuery() != null) {
       var personQuery = request.personQuery().trim();
       if (personQuery.length() <= 2) {
-        throw new BadRequestException("When given the person query, it must have atleast three characters");
+        throw new IllegalArgumentException("When given the person query, it must have atleast three characters");
       }
     }
 

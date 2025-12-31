@@ -17,14 +17,11 @@ import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.SsnUtil;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang.NotImplementedException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -142,7 +139,7 @@ public class ClerkCustomerService {
       );
     }
 
-    // Normal query, that has no SSN
+    // Normal query that has no SSN
     return personRepository.searchPersons(
       pageable,
       request.personQuery(),
