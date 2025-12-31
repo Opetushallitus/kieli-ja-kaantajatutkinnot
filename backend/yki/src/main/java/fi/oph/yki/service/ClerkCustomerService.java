@@ -17,10 +17,12 @@ import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.SsnUtil;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.NotImplementedException;
 import org.springframework.data.domain.Page;
@@ -111,53 +113,37 @@ public class ClerkCustomerService {
     return ClerkCustomerDetailsDTO.builder().person(personDTO).registrations(registrationsDTOs).build();
   }
 
-  private Page<ClerkCustomerSummaryDTO> searchByPersonIdentityNumber(ClerkCustomerSearchRequestDTO request)
+  private Page<PersonSearchResult> searchPersons(Pageable pageable, ClerkCustomerSearchRequestDTO request)
     throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
-    // returns 0 (Optional.empty) or 1 (Optional.of) result.
-    // Therefore, further pagination is not needed.
-    var onrDtoOptional = onrService.findPersonalDataByIdentityNumber(request.personQuery());
-    if (onrDtoOptional.isEmpty()) {
-      // ONR service returns empty when the user was not found
-      return Page.empty();
+    var personQuery = request.personQuery() == null ? "" : request.personQuery();
+    var queries = personQuery.split(" ");
+
+    var possibleSsn = SsnUtil.findValidSsn(queries);
+    if (possibleSsn.isPresent()) {
+      var ssn = possibleSsn.get();
+
+      // Search by OID instead of the original query because
+      // ONR search finds either 0 or 1 persons.
+      // If we get 0 persons, then we can just return an empty page.
+      // If we found 1 person from ONR, our database should have only one corresponding person.
+
+      var onrDtoOptional = onrService.findPersonalDataByIdentityNumber(ssn);
+      if (onrDtoOptional.isEmpty()) {
+        return new PageImpl<>(List.of());
+      }
+
+      return personRepository.searchPersons(
+        pageable,
+        onrDtoOptional.get().getOidHenkilo(),
+        request.organizerId(),
+        request.examDateId(),
+        request.languageCode(),
+        request.levelCode()
+      );
     }
 
-    var onrDto = onrDtoOptional.get();
-    var person = personRepository.getByOid(onrDto.getOidHenkilo());
-    var registrations = registrationRepository.countByPersonOid(person.getOid());
-
-    return new PageImpl<>(
-      List.of(
-        ClerkCustomerSummaryDTO
-          .builder()
-          .person(
-            ClerkCustomerPersonDTO
-              .builder()
-              .firstName(person.getFirstName())
-              .lastName(person.getLastName())
-              .ssn(onrDto.getIdentityNumber())
-              .oid(person.getOid())
-              .nationalityCode(person.getNationalityCode())
-              .phoneNumber(person.getPhoneNumber())
-              .streetAddress(person.getSteetAddress())
-              .email(person.getEmail())
-              .build()
-          )
-          .registrationsCount((long) registrations)
-          .build()
-      )
-    );
-  }
-
-  @Transactional(readOnly = true)
-  public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(Pageable pageable, ClerkCustomerSearchRequestDTO request)
-    throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
-    String possibleSsn = request.personQuery();
-
-    if (SsnUtil.isValidSsn(possibleSsn)) {
-      return searchByPersonIdentityNumber(request);
-    }
-
-    final var personPage = personRepository.searchPersons(
+    // Normal query, that has no SSN
+    return personRepository.searchPersons(
       pageable,
       request.personQuery(),
       request.organizerId(),
@@ -165,25 +151,30 @@ public class ClerkCustomerService {
       request.languageCode(),
       request.levelCode()
     );
+  }
 
-    return personPage.map(person ->
-      ClerkCustomerSummaryDTO
-        .builder()
-        .person(
-          ClerkCustomerPersonDTO
-            .builder()
-            .firstName(person.firstName())
-            .lastName(person.lastName())
-            .ssn(getPersonalData(person.oid()).getIdentityNumber())
-            .oid(person.oid())
-            .nationalityCode(person.nationalityCode())
-            .phoneNumber(person.phoneNumber())
-            .streetAddress(person.streetAddress())
-            .email(person.email())
-            .build()
-        )
-        .registrationsCount(person.registrationsCount() == null ? 0 : person.registrationsCount())
-        .build()
-    );
+  @Transactional(readOnly = true)
+  public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(Pageable pageable, ClerkCustomerSearchRequestDTO request)
+    throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
+    return searchPersons(pageable, request)
+      .map(person ->
+        ClerkCustomerSummaryDTO
+          .builder()
+          .person(
+            ClerkCustomerPersonDTO
+              .builder()
+              .firstName(person.firstName())
+              .lastName(person.lastName())
+              .ssn(getPersonalData(person.oid()).getIdentityNumber())
+              .oid(person.oid())
+              .nationalityCode(person.nationalityCode())
+              .phoneNumber(person.phoneNumber())
+              .streetAddress(person.streetAddress())
+              .email(person.email())
+              .build()
+          )
+          .registrationsCount(person.registrationsCount() == null ? 0 : person.registrationsCount())
+          .build()
+      );
   }
 }

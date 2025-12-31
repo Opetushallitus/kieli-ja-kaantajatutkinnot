@@ -4,6 +4,7 @@ import jakarta.annotation.Nullable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SsnUtil {
 
@@ -51,7 +52,7 @@ public class SsnUtil {
    * Relatively loose check whether the given string is a valid finnish SSN.
    * Tries to parse the date part and checks whether the checksum is a number or letter.
    */
-  public static boolean isValidSsn(@Nullable String ssn) {
+  private static boolean isValidSsn(@Nullable String ssn) {
     if (ssn == null) {
       return false;
     }
@@ -85,5 +86,15 @@ public class SsnUtil {
     } catch (Exception e) {
       return false;
     }
+  }
+
+  public static Optional<String> findValidSsn(String[] possibleSsns) {
+    for (String possibleSsn : possibleSsns) {
+      if (isValidSsn(possibleSsn)) {
+        return Optional.of(possibleSsn);
+      }
+    }
+
+    return Optional.empty();
   }
 }
