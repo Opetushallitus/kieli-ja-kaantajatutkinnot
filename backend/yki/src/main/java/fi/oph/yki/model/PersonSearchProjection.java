@@ -1,11 +1,12 @@
 package fi.oph.yki.model;
 
 import jakarta.annotation.Nullable;
+import lombok.NonNull;
 
- public record PersonSearchProjection(
-  String oid,
-  String firstName,
-  String lastName,
+public record PersonSearchProjection(
+  @NonNull String oid,
+  @NonNull String firstName,
+  @NonNull String lastName,
   @Nullable String email,
   @Nullable String phoneNumber,
   @Nullable String streetAddress,
