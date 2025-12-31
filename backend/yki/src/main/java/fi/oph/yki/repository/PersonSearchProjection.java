@@ -1,4 +1,4 @@
-package fi.oph.yki.model;
+package fi.oph.yki.repository;
 
 import jakarta.annotation.Nullable;
 import lombok.NonNull;
