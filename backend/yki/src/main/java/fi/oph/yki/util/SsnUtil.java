@@ -61,7 +61,7 @@ public class SsnUtil {
       // format: ppkkvvynnnt
 
       // day
-      int day = Integer.parseInt(ssn.substring(0, 2));
+      Integer.parseInt(ssn.substring(0, 2));
 
       // month
       Integer.parseInt(ssn.substring(2, 4));
@@ -69,7 +69,7 @@ public class SsnUtil {
       // year in two digits
       Integer.parseInt(ssn.substring(4, 6));
 
-      var centurySeparator = ssn.charAt(6);
+      final var centurySeparator = ssn.charAt(6);
       if (centurySeparator != '+' && centurySeparator != '-' && !Character.isLetter(centurySeparator)) {
         return false;
       }
@@ -77,7 +77,7 @@ public class SsnUtil {
       // individual number
       Integer.parseInt(ssn.substring(7, 10));
 
-      var checksum = ssn.charAt(10);
+      final var checksum = ssn.charAt(10);
       if (!Character.isDigit(checksum) && !Character.isLetter(checksum)) {
         return false;
       }

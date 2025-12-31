@@ -92,8 +92,8 @@ public class ClerkCustomerService {
 
   @Transactional(readOnly = true)
   public ClerkCustomerDetailsDTO getClerkCustomerDetails(String oid) {
-    var person = personRepository.getByOid(oid);
-    var personDTO = ClerkCustomerPersonDTO
+    final var person = personRepository.getByOid(oid);
+    final var personDTO = ClerkCustomerPersonDTO
       .builder()
       .firstName(person.getFirstName())
       .lastName(person.getLastName())
@@ -105,26 +105,26 @@ public class ClerkCustomerService {
       .email(person.getEmail())
       .build();
 
-    var registrationsDTOs = registrationRepository.getByPersonOid(oid).stream().map(this::registrationToDTO).toList();
+    final var registrationsDTOs = registrationRepository.getByPersonOid(oid).stream().map(this::registrationToDTO).toList();
 
     return ClerkCustomerDetailsDTO.builder().person(personDTO).registrations(registrationsDTOs).build();
   }
 
   private Page<PersonSearchResult> searchPersons(Pageable pageable, ClerkCustomerSearchRequestDTO request)
     throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
-    var personQuery = request.personQuery() == null ? "" : request.personQuery();
-    var queries = personQuery.split(" ");
+    final var personQuery = request.personQuery() == null ? "" : request.personQuery();
+    final var queries = personQuery.split(" ");
 
-    var possibleSsn = SsnUtil.findValidSsn(queries);
+    final var possibleSsn = SsnUtil.findValidSsn(queries);
     if (possibleSsn.isPresent()) {
-      var ssn = possibleSsn.get();
+      final var ssn = possibleSsn.get();
 
       // Search by OID instead of the original query because
       // ONR search finds either 0 or 1 persons.
       // If we get 0 persons, then we can just return an empty page.
       // If we found 1 person from ONR, our database should have only one corresponding person.
 
-      var onrDtoOptional = onrService.findPersonalDataByIdentityNumber(ssn);
+      final var onrDtoOptional = onrService.findPersonalDataByIdentityNumber(ssn);
       if (onrDtoOptional.isEmpty()) {
         return new PageImpl<>(List.of());
       }
