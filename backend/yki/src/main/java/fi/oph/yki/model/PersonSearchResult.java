@@ -10,8 +10,6 @@ public record PersonSearchResult(
   String firstName,
   String lastName,
   @Nullable String email,
-  Instant created,
-  Instant modified,
   @Nullable String phoneNumber,
   @Nullable String streetAddress,
   @Nullable String postOffice,

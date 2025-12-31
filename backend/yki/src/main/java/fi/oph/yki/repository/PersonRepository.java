@@ -21,8 +21,6 @@ SELECT
     p.first_name as firstName,
     p.last_name as lastName,
     p.email,
-    p.created,
-    p.modified,
     p.phone_number as phoneNumber,
     p.street_address as streetAddress,
     p.post_office as postOffice,
