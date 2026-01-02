@@ -11,7 +11,7 @@ import {
 export interface CustomerPerson {
   firstName: string;
   lastName: string;
-  ssn: string;
+  ssn?: string;
   oid: string;
   nationalityCode: string;
   phoneNumber?: string;
@@ -92,6 +92,11 @@ export type RegistrationResponse = {
   liftedFromQueueAt?: string;
   expiresAt?: string;
 };
+
+export interface ClerkCustomerSummary {
+  person: CustomerPerson;
+  registrationsCount: number;
+}
 
 export interface ClerkCustomerDetailsResponse {
   person: CustomerPerson;
