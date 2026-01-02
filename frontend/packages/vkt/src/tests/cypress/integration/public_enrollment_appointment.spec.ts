@@ -52,7 +52,7 @@ describe('PublicEnrollmentAppointmentPage', () => {
 
     onPublicEnrollmentAppointmentPage.expectStepHeading('Esikatsele ja maksa');
     cy.findByText('Koko tutkinto').should('be.visible');
-    cy.findByText('258€').should('be.visible');
+    cy.findByText('280€').should('be.visible');
 
     onPublicEnrollmentAppointmentPage.proceedToPayment();
 
