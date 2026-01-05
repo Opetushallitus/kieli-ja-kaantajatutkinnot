@@ -2,12 +2,14 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { APIResponseStatus } from 'shared/enums';
 
-import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
+import { getCurrentLang, useCommonTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { Label } from 'ophTheme/Text';
 import { loadNationalities } from 'redux/reducers/nationalities';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
+import { DateTimeUtils } from 'utils/dateTime';
+import { ExamSessionUtils } from 'utils/examSession';
 
 export const ClerkExamSessionDetails = ({
   examSessionDetails,
@@ -16,32 +18,52 @@ export const ClerkExamSessionDetails = ({
 }) => {
   const dispatch = useDispatch();
   const appLanguage = getCurrentLang();
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.clerkCustomer',
-  });
+  const t = useCommonTranslation();
 
   if (!examSessionDetails) {
     return <></>;
   }
 
+  const location = ExamSessionUtils.getLocationInfo(
+    examSessionDetails,
+    getCurrentLang(),
+  );
+
   return (
     <div className="rows gapped customer-details">
       <div className="columns gapped-xxl align-items-start">
         <div className="rows gapped-xs">
-          <Label>{t('details.fields.ssn')}</Label>
-          <Label>{t('details.fields.oid')}</Label>
-          <Label>{t('details.fields.nationality')}</Label>
-          <Label>{t('details.fields.phoneNumber')}</Label>
-          <Label>{t('details.fields.streetAddress')}</Label>
-          <Label>{t('details.fields.email')}</Label>
+          <Label>{location.name}</Label>
+          <Label>{t('registrationPeriod')}</Label>
+          <Label>{t('institution')}</Label>
+          <Label>{t('maxParticipants')}</Label>
+          <Label>{t('contactInfo')}</Label>
+          <Label>{t('extraInfo')}</Label>
         </div>
         <div className="rows gapped-xs">
-          <div>{examSessionDetails.level}</div>
-          <div>{examSessionDetails.language}</div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          <div>
+            {t('languages.' + examSessionDetails.language)}
+            {' - '}
+            {t('languageLevel.' + examSessionDetails.level)}
+            {' '}
+            {DateTimeUtils.renderDate(examSessionDetails.date)}
+          </div>
+          <div>
+            {DateTimeUtils.renderDate(examSessionDetails.registrationStartDate)}
+            {' - '}
+            {DateTimeUtils.renderDate(examSessionDetails.registrationEndDate)}
+          </div>
+          <div>{location.streetAddress}, {location.zip} {location.postOffice}</div>
+          <div>{examSessionDetails.maxParticipants}</div>
+          <div>{examSessionDetails.contact.map((c) => <span>{c.email}</span>)}</div>
+          <div>
+            {examSessionDetails.location.map((l) =>
+              <div>
+                <span>{l.lang}</span>
+                <span>{l.extraInformation}</span>
+              </div>
+              )}
+            </div>
         </div>
       </div>
     </div>

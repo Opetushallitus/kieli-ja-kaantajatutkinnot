@@ -12,4 +12,9 @@ export class DateTimeUtils {
       t('yki.common.dates.dateTimeFormat'),
     );
   }
+  static renderDate(date?: Dayjs) {
+    const t = translateOutsideComponent();
+
+    return DateUtils.formatOptionalDate(date, t('yki.common.dates.dateFormat'));
+  }
 }

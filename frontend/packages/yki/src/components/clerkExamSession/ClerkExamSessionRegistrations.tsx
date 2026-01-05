@@ -29,6 +29,46 @@ import {
 import { ClerkRegistration } from 'interfaces/clerkExamSession';
 import { H3, Text } from 'ophTheme/Text';
 
+const TABS = ['pending', 'previous'] as const;
+type Tab = (typeof TABS)[number];
+
+type ExamsListingTabsProps = {
+  activeTab: Tab;
+  setActiveTab: Dispatch<SetStateAction<Tab>>;
+};
+
+const ExamsListingTabs = ({
+  activeTab,
+  setActiveTab,
+}: ExamsListingTabsProps) => {
+
+  const handleTabChange = (tab: Tab) => {
+    setActiveTab(tab);
+  };
+
+  return (
+    <div className="clerk-free-registration__filter-tabs">
+      <div className="columns gapped">
+        {TABS.map((tab) => (
+          <div
+            key={tab}
+            className={`clerk-free-registration__filter-tabs__tab ${
+              activeTab === tab ? 'active' : ''
+            }`}
+            onClick={() => handleTabChange(tab)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={() => handleTabChange(tab)}
+          >
+            {tab === 'pending' ? t('pending') : t('previous')}
+          </div>
+        ))}
+      </div>
+      <Divider />
+    </div>
+  );
+};
+
 const ExamsListing = <T extends Row>({
   columns,
   rows,

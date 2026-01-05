@@ -29,7 +29,8 @@
       },
       "contactEmail": "kielitutkinnot@oph.fi",
       "dates": {
-        "dateTimeFormat": "l [klo] HH.mm"
+        "dateTimeFormat": "l [klo] HH.mm",
+        "dateFormat": "l"
       },
       "email": "Sähköpostiosoite",
       "error": "Tapahtui odottamaton virhe.",
@@ -95,6 +96,9 @@
         }
       },
       "institution": "Testipaikka",
+      "maxParticipants": "Osallistujapaikkojen määrä",
+      "contactInfo": "Yhteystiedot",
+      "extraInfo": "Lisätiedot",
       "language": "Kieli",
       "languageLevel": {
         "ALL": "kaikki tasot",
