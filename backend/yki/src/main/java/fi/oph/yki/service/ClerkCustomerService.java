@@ -36,15 +36,15 @@ public class ClerkCustomerService {
   private final RegistrationRepository registrationRepository;
   private final OnrService onrService;
 
-  private PersonalDataDTO getPersonalData(String oid) throws RuntimeException {
+  private PersonalDataDTO getPersonalData(final String oid) throws RuntimeException {
     try {
       return onrService.getPersonalData(oid);
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw new RuntimeException("Unable to get personal data from ONR with oid '" + oid + "'.", e);
     }
   }
 
-  private ClerkCustomerRegistrationDTO registrationToDTO(Registration registration) {
+  private ClerkCustomerRegistrationDTO registrationToDTO(final Registration registration) {
     final var session = registration.getExamSession();
 
     final var examDate = session.getExamDate().getExamDate();
@@ -91,7 +91,7 @@ public class ClerkCustomerService {
   }
 
   @Transactional(readOnly = true)
-  public ClerkCustomerDetailsDTO getClerkCustomerDetails(String oid) {
+  public ClerkCustomerDetailsDTO getClerkCustomerDetails(final String oid) {
     final var person = personRepository.getByOid(oid);
     final var personDTO = ClerkCustomerPersonDTO
       .builder()
@@ -114,8 +114,10 @@ public class ClerkCustomerService {
     return ClerkCustomerDetailsDTO.builder().person(personDTO).registrations(registrationsDTOs).build();
   }
 
-  private Page<PersonSearchProjection> searchPersons(Pageable pageable, ClerkCustomerSearchRequestDTO request)
-    throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
+  private Page<PersonSearchProjection> searchPersons(
+    final Pageable pageable,
+    final ClerkCustomerSearchRequestDTO request
+  ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
     final var personQuery = request.personQuery() == null ? "" : request.personQuery();
     final var queries = personQuery.split(" ");
 
@@ -150,8 +152,10 @@ public class ClerkCustomerService {
   }
 
   @Transactional(readOnly = true)
-  public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(Pageable pageable, ClerkCustomerSearchRequestDTO request)
-    throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
+  public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(
+    final Pageable pageable,
+    final ClerkCustomerSearchRequestDTO request
+  ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
     return searchPersons(pageable, request)
       .map(person ->
         ClerkCustomerSummaryDTO
