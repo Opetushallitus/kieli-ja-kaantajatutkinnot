@@ -7,13 +7,19 @@ import {
 } from 'interfaces/clerkCustomer';
 
 interface ClerkCustomersSearchState {
-  customers: ClerkCustomerSummary[] | null;
+  customers: ClerkCustomerSummary[];
   status: APIResponseStatus;
+  page: number;
+  size: number;
+  totalElements: number;
 }
 
 const initialState: ClerkCustomersSearchState = {
-  customers: null,
+  customers: [],
   status: APIResponseStatus.NotStarted,
+  page: 0,
+  size: 20,
+  totalElements: 0,
 };
 
 const clerkCustomersSearchSlice = createSlice({
@@ -22,16 +28,29 @@ const clerkCustomersSearchSlice = createSlice({
   reducers: {
     loadCustomersSearch(
       state,
-      _action: PayloadAction<ClerkCustomerSearchParams>,
+      action: PayloadAction<ClerkCustomerSearchParams>,
     ) {
       state.status = APIResponseStatus.InProgress;
+      state.page = action.payload.page;
+      state.size = action.payload.size;
     },
     rejectCustomersSearch(state) {
       state.status = APIResponseStatus.Error;
     },
-    storeCustomersSearch(state, action: PayloadAction<ClerkCustomerSummary[]>) {
+    storeCustomersSearch(
+      state,
+      action: PayloadAction<{
+        customers: ClerkCustomerSummary[];
+        page: number;
+        size: number;
+        totalElements: number;
+      }>,
+    ) {
       state.status = APIResponseStatus.Success;
-      state.customers = action.payload;
+      state.customers = action.payload.customers;
+      state.page = action.payload.page;
+      state.size = action.payload.size;
+      state.totalElements = action.payload.totalElements;
     },
   },
 });

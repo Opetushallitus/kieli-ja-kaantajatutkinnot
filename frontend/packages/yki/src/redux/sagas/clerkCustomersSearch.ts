@@ -34,7 +34,14 @@ function* loadCustomersSearchSaga(
     const customers: ClerkCustomerSummary[] = response.data.content.map(
       SerializationUtils.deserializeClerkCustomerSummaryResponse,
     );
-    yield put(storeCustomersSearch(customers));
+    yield put(
+      storeCustomersSearch({
+        customers,
+        page: response.data.number,
+        size: response.data.size,
+        totalElements: response.data.totalElements,
+      }),
+    );
   } catch (error) {
     yield put(rejectCustomersSearch());
   }
