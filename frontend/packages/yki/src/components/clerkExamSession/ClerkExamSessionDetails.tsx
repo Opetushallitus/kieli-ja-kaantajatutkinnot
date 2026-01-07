@@ -1,32 +1,27 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { APIResponseStatus } from 'shared/enums';
+import { AppLanguage } from 'shared/enums';
 
 import { getCurrentLang, useCommonTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { Label } from 'ophTheme/Text';
-import { loadNationalities } from 'redux/reducers/nationalities';
-import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { DateTimeUtils } from 'utils/dateTime';
-import { ExamSessionUtils } from 'utils/examSession';
 
 export const ClerkExamSessionDetails = ({
   examSessionDetails,
 }: {
   examSessionDetails: ClerkExamSession | null;
 }) => {
-  const dispatch = useDispatch();
-  const appLanguage = getCurrentLang();
   const t = useCommonTranslation();
 
   if (!examSessionDetails) {
     return <></>;
   }
 
-  const location = ExamSessionUtils.getLocationInfo(
-    examSessionDetails,
-    getCurrentLang(),
+  const lang = getCurrentLang();
+  const location = examSessionDetails.location.find(
+    (esl) =>
+      (lang === AppLanguage.Finnish && esl.lang === 'fi') ||
+      (lang === AppLanguage.Swedish && esl.lang === 'sv') ||
+      (lang === AppLanguage.English && esl.lang === 'en'),
   );
 
   return (
@@ -44,8 +39,7 @@ export const ClerkExamSessionDetails = ({
           <div>
             {t('languages.' + examSessionDetails.language)}
             {' - '}
-            {t('languageLevel.' + examSessionDetails.level)}
-            {' '}
+            {t('languageLevel.' + examSessionDetails.level)}{' '}
             {DateTimeUtils.renderDate(examSessionDetails.date)}
           </div>
           <div>
@@ -53,17 +47,23 @@ export const ClerkExamSessionDetails = ({
             {' - '}
             {DateTimeUtils.renderDate(examSessionDetails.registrationEndDate)}
           </div>
-          <div>{location.streetAddress}, {location.zip} {location.postOffice}</div>
-          <div>{examSessionDetails.maxParticipants}</div>
-          <div>{examSessionDetails.contact.map((c) => <span>{c.email}</span>)}</div>
           <div>
-            {examSessionDetails.location.map((l) =>
-              <div>
+            {location.streetAddress}, {location.zip} {location.postOffice}
+          </div>
+          <div>{examSessionDetails.maxParticipants}</div>
+          <div>
+            {examSessionDetails.contact.map((c) => (
+              <span key={'contact-email-' + c.email}>{c.email}</span>
+            ))}
+          </div>
+          <div>
+            {examSessionDetails.location.map((l) => (
+              <div key={'location-lang-' + l.lang}>
                 <span>{l.lang}</span>
                 <span>{l.extraInformation}</span>
               </div>
-              )}
-            </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

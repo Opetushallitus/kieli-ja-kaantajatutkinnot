@@ -1,35 +1,23 @@
 import BlockIcon from '@mui/icons-material/Block';
-import BlockOutlinedIcon from '@mui/icons-material/BlockOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
-import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import WarningIcon from '@mui/icons-material/Warning';
-import { Stack } from '@mui/material';
+import { Divider, Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import { Dayjs } from 'dayjs';
 import i18next from 'i18next';
-import { AppLanguage } from 'shared/enums';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { DateUtils } from 'shared/utils';
 
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
-import {
-  getCurrentLang,
-  useCommonTranslation,
-  usePublicTranslation,
-} from 'configs/i18n';
+import { usePublicTranslation } from 'configs/i18n';
 import { RegistrationStates } from 'enums/app';
-import {
-  ClerkCustomerDetails,
-  ExamState,
-  QueueOfferStatus,
-  QueueSpotOffered,
-  RegistrationStatus,
-} from 'interfaces/clerkCustomer';
+import { RegistrationStatus } from 'interfaces/clerkCustomer';
 import { ClerkRegistration } from 'interfaces/clerkExamSession';
-import { H3, Text } from 'ophTheme/Text';
+import { ClerkRegistrationPerson } from 'interfaces/clerkRegistration';
+import { Text } from 'ophTheme/Text';
 
-const TABS = ['pending', 'previous'] as const;
+const TABS = ['admissions', 'queued'] as const;
 type Tab = (typeof TABS)[number];
 
 type ExamsListingTabsProps = {
@@ -41,6 +29,9 @@ const ExamsListingTabs = ({
   activeTab,
   setActiveTab,
 }: ExamsListingTabsProps) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.clerkExamSessionRegistrations.tabs',
+  });
 
   const handleTabChange = (tab: Tab) => {
     setActiveTab(tab);
@@ -60,7 +51,7 @@ const ExamsListingTabs = ({
             tabIndex={0}
             onKeyDown={() => handleTabChange(tab)}
           >
-            {tab === 'pending' ? t('pending') : t('previous')}
+            {tab === 'admissions' ? t('admissions') : t('queued')}
           </div>
         ))}
       </div>
@@ -72,22 +63,13 @@ const ExamsListingTabs = ({
 const ExamsListing = <T extends Row>({
   columns,
   rows,
-  header,
-  subHeader,
   noRowsText,
 }: {
   columns: ListTableColumn<T>[];
   rows: T[] | undefined;
-  header: string;
-  subHeader: string;
   noRowsText: string;
 }) => (
   <div>
-    <div className="columns flex-start">
-      <H3>{header}</H3>
-      <span>&nbsp;</span>
-      <span>{subHeader}</span>
-    </div>
     {!rows?.length ? (
       <Box sx={{ margin: '1em 0' }}>{noRowsText}</Box>
     ) : (
@@ -107,10 +89,11 @@ export const ClerkExamSessionRegistrations = ({
 }: {
   examRegistrations: Array<ClerkRegistration> | null;
 }) => {
-  const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkCustomer.details.listing',
   });
+
+  const [activeTab, setActiveTab] = useState<Tab>('pending');
 
   // Tutkintopäivä (Ilmoittautumiset, Jonossa, Menneet)
   const createExamDateColumn = <T extends { examDate: Dayjs }>(
@@ -123,49 +106,6 @@ export const ClerkExamSessionRegistrations = ({
         <Text>{DateUtils.formatOptionalDate(examDate, 'l')}</Text>
       </div>
     ),
-  });
-
-  // Tutkinto (Ilmoittautumiset, Jonossa, Menneet)
-  const createExamNameColumn = <
-    T extends { exam: { language: string; level: string } },
-  >(
-    t: typeof i18next.t,
-  ): ListTableColumn<T> => ({
-    key: 'examName',
-    title: t('columns.name'),
-    render: ({ exam: { language, level } }) => (
-      <div className="columns gapped-xs">
-        <Text>{translateCommon(`languages.${language}`)},</Text>
-        <Text>{translateCommon(`languageLevel.${level}`)}</Text>
-      </div>
-    ),
-  });
-
-  // Testipaikka (Ilmoittautumiset, Jonossa, Menneet)
-  const createExamLocationColumn = <
-    T extends {
-      examLocation: {
-        name: string;
-        municipality: string;
-        lang: AppLanguage;
-      }[];
-    },
-  >(
-    t: typeof i18next.t,
-  ): ListTableColumn<T> => ({
-    key: 'examLocation',
-    title: t('columns.location'),
-    render: ({ examLocation }) => {
-      const currentLang = getCurrentLang();
-      const location = examLocation.find((l) => currentLang === l.lang);
-
-      return (
-        <div className="rows gapped-xs">
-          <Text>{location?.name}</Text>
-          <Text>{location?.municipality}</Text>
-        </div>
-      );
-    },
   });
 
   const registrationStateIconMapping: Partial<
@@ -188,110 +128,54 @@ export const ClerkExamSessionRegistrations = ({
 
   // Ilmoittautumisen tila (Ilmoittautumiset, Jonossa)
   const createRegistrationStateColumn = <
-    T extends { registrationStatus: RegistrationStatus },
+    T extends { state: RegistrationStatus },
   >(
     t: typeof i18next.t,
   ): ListTableColumn<T> => ({
-    key: 'registrationState',
+    key: 'state',
     title: t('columns.registrationState'),
-    render: ({ registrationStatus }) => {
+    render: ({ state }) => {
       return (
         <div className="columns gapped-xs">
-          {registrationStateIconMapping[registrationStatus.state]}
+          {registrationStateIconMapping[state]}
           <Text>
-            <strong>
-              {t(`values.registrationState.${registrationStatus.state}`)}
-            </strong>
-          </Text>
-          <Text>
-            {registrationStatus.state === RegistrationStates.Completed && (
-              <span>
-                {DateUtils.formatOptionalDate(registrationStatus.paidAt, 'l')}
-              </span>
-            )}
+            <strong>{t(`values.registrationState.${state}`)}</strong>
           </Text>
         </div>
       );
     },
   });
 
-  // Ilmoittautumispvm (Ilmoittautumiset, Jonossa)
-  const createRegistrationDateColumn = <
-    T extends { registrationDate: Dayjs | undefined },
-  >(
+  const createPersonColumn = <T extends { person: ClerkRegistrationPerson }>(
     t: typeof i18next.t,
   ): ListTableColumn<T> => ({
-    key: 'registrationDate',
-    title: t('columns.registrationDate'),
-    render: ({ registrationDate }) => (
-      <div className="rows gapped-xs">
-        <Text>{DateUtils.formatOptionalDate(registrationDate, 'l')}</Text>
-      </div>
-    ),
-  });
-
-  // TODO:
-  // Toiminnot (kaikissa, mutta jokaisessa eri vaihtoehdot)
-
-  // Jonopaikkaa tarjottu (Jonossa)
-  const createQueueSpotOfferedColumn = <
-    T extends { queueSpotOffered: QueueSpotOffered },
-  >(
-    t: typeof i18next.t,
-  ): ListTableColumn<T> => ({
-    key: 'queueSpotOffered',
-    title: t('columns.queueSpotOffered'),
-    render: ({ queueSpotOffered }) => {
-      return (
-        <div className="rows gapped-xs">
-          <Text
-            color={
-              queueSpotOffered.offered == QueueOfferStatus.NotAccepted
-                ? 'error'
-                : 'textPrimary'
-            }
-          >
-            {t(`values.queueSpotOffered.${queueSpotOffered.offered}`)}
-          </Text>
-          {queueSpotOffered.offered !== QueueOfferStatus.NotOffered && (
-            <Text>
-              {t('values.queueSpotOffered.expiresAt', {
-                expiresAt: DateUtils.formatOptionalDate(
-                  queueSpotOffered.expiresAt,
-                  'l',
-                ),
-              })}
-            </Text>
-          )}
-        </div>
-      );
-    },
-  });
-
-  // Tila (Menneet)
-  const examStateIconMapping: Partial<Record<ExamState, JSX.Element>> = {
-    ['REVIEWED']: <SchoolOutlinedIcon fontSize="large" color="success" />,
-    ['CANCELLED']: <BlockOutlinedIcon fontSize="large" color="error" />,
-    ['REGISTERED']: (
-      <CheckCircleOutlineOutlinedIcon fontSize="large" color="success" />
-    ),
-  };
-  const createExamStateColumn = <T extends { state: ExamState }>(
-    t: typeof i18next.t,
-  ): ListTableColumn<T> => ({
-    key: 'examState',
-    title: t('columns.examState'),
-    render: ({ state }) => (
+    key: 'person',
+    title: t('columns.personName'),
+    render: ({ person }) => (
       <div className="columns gapped-xxs">
-        {examStateIconMapping[state]}
-        <Text>
-          <span>&nbsp;{t(`values.examState.${state}`)}</span>
-        </Text>
+        <Text>{person.firstName}</Text>
       </div>
     ),
   });
 
-  const registrationsColumns = [createExamDateColumn(t)];
+  const createActionsColumn = <T extends { id: number }>(
+    t: typeof i18next.t,
+  ): ListTableColumn<T> => ({
+    key: 'id',
+    title: t('columns.actions'),
+    render: ({ id }) => (
+      <div className="columns gapped-xxs">
+        <Text>{id}</Text>
+      </div>
+    ),
+  });
+
+  const registrationsColumns = [
+    createPersonColumn(t),
+    createRegistrationStateColumn(t),
+    createExamDateColumn(t),
+    createActionsColumn(t),
+  ];
 
   if (!examRegistrations) {
     return <></>;
@@ -299,11 +183,10 @@ export const ClerkExamSessionRegistrations = ({
 
   return (
     <Stack spacing={4}>
+      <ExamsListingTabs activeTab={activeTab} setActiveTab={setActiveTab} />
       <ExamsListing
         columns={registrationsColumns}
         rows={examRegistrations}
-        header={t('headers.registrations')}
-        subHeader={`(${examRegistrations.length ?? 0})`}
         noRowsText={t('noRowsTexts.registrations')}
       />
     </Stack>

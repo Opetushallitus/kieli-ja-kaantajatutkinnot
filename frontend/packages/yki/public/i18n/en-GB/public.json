@@ -30,6 +30,12 @@
           }
         }
       },
+      "clerkExamSessionRegistrations": {
+        "tabs": {
+          "admissions": "Ilmoittautuneet",
+          "queued": "Jonossa"
+        }
+      },
       "clerkFreeRegistration": {
         "description": "Tarkasta oikeuttavatko ilmoittautujan toimittamat liitteet tutkinnon maksuttomuuteen ja hyväksy maksuttomuus tai lähetä lisätietopyyntö.",
         "tabs": {
@@ -187,6 +193,7 @@
               "pastExams": "Ei menneitä tutkintorilaisuuksia viimeisen 365 päivän ajalta"
             },
             "columns": {
+              "personName": "Nimi",
               "date": "Tutkintopäivä",
               "name": "Tutkinto",
               "location": "Testipaikka",
@@ -194,7 +201,8 @@
               "registrationDate": "Ilmoittautumispvm",
               "actions": "Toiminnot",
               "queueSpotOffered": "Jonopaikkaa tarjottu",
-              "examState": "Tila"
+              "examState": "Tila",
+              "actions": "Toiminnot"
             },
             "values": {
               "registrationState": {

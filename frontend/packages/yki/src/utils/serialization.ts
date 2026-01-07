@@ -30,6 +30,7 @@ import {
   ClerkFreeRegistrationResponse,
 } from 'interfaces/clerkFreeRegistration';
 import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
+import { ClerkRegistrationResponse } from 'interfaces/clerkRegistration';
 import {
   RegistrationToConfirmDetails,
   RegistrationToConfirmDetailsResponse,
@@ -365,6 +366,15 @@ export class SerializationUtils {
     };
   }
 
+  static deserializeClerkRegistrationResponse(
+    registrationResponse: ClerkRegistrationResponse,
+  ) {
+    return {
+      ...registrationResponse,
+      examDate: dayjs(registrationResponse.examDate),
+    };
+  }
+
   static deserializeClerkFreeRegistrationResponse(
     freeRegistrationResponse: ClerkFreeRegistrationResponse,
   ) {
@@ -452,6 +462,9 @@ export class SerializationUtils {
         clerkExamSessionResponse.availableRegistrationKind === 'ADMISSION'
           ? RegistrationKind.Admission
           : RegistrationKind.Queue,
+      registrations: clerkExamSessionResponse.registrations.map(
+        SerializationUtils.deserializeClerkRegistrationResponse,
+      ),
     };
   }
 

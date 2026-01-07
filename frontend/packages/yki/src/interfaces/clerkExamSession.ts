@@ -1,6 +1,10 @@
 import { Dayjs } from 'dayjs';
 
 import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
+import {
+  ClerkRegistration,
+  ClerkRegistrationResponse,
+} from 'interfaces/clerkRegistration';
 
 type Location = {
   lang: string;
@@ -16,10 +20,6 @@ type Contact = {
   email: string;
 };
 
-export interface ClerkRegistration {
-  examDate: Dayjs;
-}
-
 export interface ClerkExamSessionResponse
   extends Omit<
     ClerkExamSession,
@@ -28,12 +28,14 @@ export interface ClerkExamSessionResponse
     | 'registrationStartDate'
     | 'registrationEndDate'
     | 'availableRegistrationKind'
+    | 'registrations'
   > {
   publishedAt: string;
   date: string;
   registrationStartDate: string;
   registrationEndDate: string;
   availableRegistrationKind: string;
+  registrations: Array<ClerkRegistrationResponse>;
 }
 
 export interface ClerkExamSession {

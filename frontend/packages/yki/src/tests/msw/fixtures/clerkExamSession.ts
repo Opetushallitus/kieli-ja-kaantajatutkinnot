@@ -1,5 +1,6 @@
 import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
 import { ClerkExamSessionResponse } from 'interfaces/clerkExamSession';
+import { registrations } from 'tests/msw/fixtures/clerkExamSessionRegistrations';
 
 export const clerkExamSession: ClerkExamSessionResponse = {
   level: ExamLevel.YLIN,
@@ -52,5 +53,5 @@ export const clerkExamSession: ClerkExamSessionResponse = {
   examFee: 200,
   registrationEndDate: '2030-12-31',
   availableRegistrationKind: RegistrationKind.Admission,
-  registrations: [],
+  registrations: registrations,
 };

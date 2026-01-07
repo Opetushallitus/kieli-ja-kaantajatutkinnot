@@ -6,7 +6,7 @@ import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
 import { ClerkExamSession } from 'components/clerkExamSession/ClerkExamSession';
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { H2 } from 'ophTheme/Text';
@@ -14,10 +14,7 @@ import { loadClerkExamSessionDetails } from 'redux/reducers/clerkExamSession';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
 
 export const ClerkExamSessionPage: FC = () => {
-  const translateCommon = useCommonTranslation();
-  const { clerkExamSession, status } = useAppSelector(
-    clerkExamSessionDetailsSelector,
-  );
+  const { status } = useAppSelector(clerkExamSessionDetailsSelector);
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkCustomer',
