@@ -1,22 +1,26 @@
 package fi.oph.yki.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import fi.oph.yki.api.dto.clerk.ClerkCustomerDetailsDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCustomerPersonDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCustomerRegistrationDTO;
+import fi.oph.yki.api.dto.clerk.ClerkCustomerSearchRequestDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCustomerSummaryDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamLocationDTO;
 import fi.oph.yki.model.ExamPayment;
 import fi.oph.yki.model.FreeRegistration;
-import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.PersonRepository;
+import fi.oph.yki.repository.PersonSearchProjection;
 import fi.oph.yki.repository.RegistrationRepository;
+import fi.oph.yki.util.HetuUtils;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -32,27 +36,12 @@ public class ClerkCustomerService {
   private final RegistrationRepository registrationRepository;
   private final OnrService onrService;
 
-  private ClerkCustomerPersonDTO personToDTO(Person person) throws RuntimeException {
-    final var oid = person.getOid();
-
-    final PersonalDataDTO onrPerson;
+  private PersonalDataDTO getPersonalData(String oid) throws RuntimeException {
     try {
-      onrPerson = onrService.getPersonalData(oid);
+      return onrService.getPersonalData(oid);
     } catch (Exception e) {
       throw new RuntimeException("Unable to get personal data from ONR with oid '" + oid + "'.", e);
     }
-
-    return ClerkCustomerPersonDTO
-      .builder()
-      .firstName(person.getFirstName())
-      .lastName(person.getLastName())
-      .ssn(onrPerson.getIdentityNumber())
-      .oid(person.getOid())
-      .nationalityCode(person.getNationalityCode())
-      .phoneNumber(person.getPhoneNumber())
-      .streetAddress(person.getAddress())
-      .email(person.getEmail())
-      .build();
   }
 
   private ClerkCustomerRegistrationDTO registrationToDTO(Registration registration) {
@@ -64,8 +53,13 @@ public class ClerkCustomerService {
     final var examLocation = session
       .getLocations()
       .stream()
-      .map(l ->
-        ClerkExamLocationDTO.builder().name(l.getName()).municipality(l.getPostOffice()).lang(l.getLang()).build()
+      .map(location ->
+        ClerkExamLocationDTO
+          .builder()
+          .name(location.getName())
+          .municipality(location.getPostOffice())
+          .lang(location.getLang())
+          .build()
       )
       .toList();
 
@@ -98,27 +92,85 @@ public class ClerkCustomerService {
 
   @Transactional(readOnly = true)
   public ClerkCustomerDetailsDTO getClerkCustomerDetails(String oid) {
-    var personDTO = personToDTO(personRepository.getByOid(oid));
-    var registrationsDTOs = registrationRepository.getByPersonOid(oid).stream().map(this::registrationToDTO).toList();
+    final var person = personRepository.getByOid(oid);
+    final var personDTO = ClerkCustomerPersonDTO
+      .builder()
+      .firstName(person.getFirstName())
+      .lastName(person.getLastName())
+      .ssn(getPersonalData(person.getOid()).getIdentityNumber())
+      .oid(person.getOid())
+      .nationalityCode(person.getNationalityCode())
+      .phoneNumber(person.getPhoneNumber())
+      .streetAddress(person.getAddress())
+      .email(person.getEmail())
+      .build();
+
+    final var registrationsDTOs = registrationRepository
+      .getByPersonOid(oid)
+      .stream()
+      .map(this::registrationToDTO)
+      .toList();
+
     return ClerkCustomerDetailsDTO.builder().person(personDTO).registrations(registrationsDTOs).build();
   }
 
-  @Transactional(readOnly = true)
-  public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(Pageable pageable) {
-    final Page<Person> personPage = personRepository.findAll(pageable);
+  private Page<PersonSearchProjection> searchPersons(Pageable pageable, ClerkCustomerSearchRequestDTO request)
+    throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
+    final var personQuery = request.personQuery() == null ? "" : request.personQuery();
+    final var queries = personQuery.split(" ");
 
-    final List<ClerkCustomerSummaryDTO> content = personPage
-      .getContent()
-      .stream()
+    final var possibleHetu = HetuUtils.findValidHetu(queries);
+    if (possibleHetu.isPresent()) {
+      final var hetu = possibleHetu.get();
+
+      final var onrDtoOptional = onrService.findPersonalDataByIdentityNumber(hetu);
+      if (onrDtoOptional.isEmpty()) {
+        return new PageImpl<>(List.of());
+      }
+
+      return personRepository.searchPersons(
+        pageable,
+        onrDtoOptional.get().getOidHenkilo(),
+        request.organizerId(),
+        request.examDateId(),
+        request.languageCode(),
+        request.levelCode()
+      );
+    }
+
+    // Normal query that has no SSN
+    return personRepository.searchPersons(
+      pageable,
+      request.personQuery(),
+      request.organizerId(),
+      request.examDateId(),
+      request.languageCode(),
+      request.levelCode()
+    );
+  }
+
+  @Transactional(readOnly = true)
+  public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(Pageable pageable, ClerkCustomerSearchRequestDTO request)
+    throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
+    return searchPersons(pageable, request)
       .map(person ->
         ClerkCustomerSummaryDTO
           .builder()
-          .person(personToDTO(person))
-          .registrationsCount(registrationRepository.countByPersonOid(person.getOid()))
+          .person(
+            ClerkCustomerPersonDTO
+              .builder()
+              .firstName(person.firstName())
+              .lastName(person.lastName())
+              .ssn(getPersonalData(person.oid()).getIdentityNumber())
+              .oid(person.oid())
+              .nationalityCode(person.nationalityCode())
+              .phoneNumber(person.phoneNumber())
+              .streetAddress(person.streetAddress())
+              .email(person.email())
+              .build()
+          )
+          .registrationsCount(person.registrationsCount() == null ? 0 : person.registrationsCount())
           .build()
-      )
-      .toList();
-
-    return new PageImpl<>(content, pageable, personPage.getTotalElements());
+      );
   }
 }

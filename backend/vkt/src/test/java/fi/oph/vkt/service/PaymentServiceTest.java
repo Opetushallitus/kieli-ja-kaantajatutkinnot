@@ -140,14 +140,14 @@ public class PaymentServiceTest {
       Item
         .builder()
         .units(1)
-        .unitPrice(25700)
+        .unitPrice(27700)
         .vatPercentage(0)
         .productCode(ExamLevel.EXCELLENT + "-" + EnrollmentSkill.TEXTUAL)
         .build(),
       Item
         .builder()
         .units(1)
-        .unitPrice(25700)
+        .unitPrice(27700)
         .vatPercentage(0)
         .productCode(ExamLevel.EXCELLENT + "-" + EnrollmentSkill.ORAL)
         .build(),
@@ -174,7 +174,7 @@ public class PaymentServiceTest {
         anyLong(),
         argThat(new PrefixMatcher("VKTET-")),
         eq(customer),
-        eq(51400),
+        eq(55400),
         eq(AppLocale.FI)
       );
 
@@ -182,7 +182,7 @@ public class PaymentServiceTest {
     assertEquals(1, payments.size());
 
     final Payment payment = payments.get(0);
-    assertEquals(51400, payment.getAmount());
+    assertEquals(55400, payment.getAmount());
     assertEquals("test", payment.getTransactionId());
     assertEquals("foo", payment.getReference());
     assertTrue(payment.getMerchantReference().matches("^VKTET-(\\d+)-(\\d+)$"));
@@ -239,14 +239,14 @@ public class PaymentServiceTest {
       Item
         .builder()
         .units(1)
-        .unitPrice(12900)
+        .unitPrice(14000)
         .vatPercentage(0)
         .productCode(ExamLevel.GOOD_AND_SATISFACTORY + "-" + EnrollmentSkill.TEXTUAL)
         .build(),
       Item
         .builder()
         .units(1)
-        .unitPrice(12900)
+        .unitPrice(14000)
         .vatPercentage(0)
         .productCode(ExamLevel.GOOD_AND_SATISFACTORY + "-" + EnrollmentSkill.ORAL)
         .build(),
@@ -273,7 +273,7 @@ public class PaymentServiceTest {
         anyLong(),
         argThat(new PrefixMatcher("VKTHTT-")),
         eq(customer),
-        eq(25800),
+        eq(28000),
         eq(AppLocale.FI)
       );
 
@@ -281,7 +281,7 @@ public class PaymentServiceTest {
     assertEquals(1, payments.size());
 
     final Payment payment = payments.get(0);
-    assertEquals(25800, payment.getAmount());
+    assertEquals(28000, payment.getAmount());
     assertEquals("test", payment.getTransactionId());
     assertEquals("foo", payment.getReference());
     assertTrue(payment.getMerchantReference().matches("^VKTHTT-(\\d+)-(\\d+)$"));
@@ -336,7 +336,7 @@ public class PaymentServiceTest {
       Item
         .builder()
         .units(1)
-        .unitPrice(25700)
+        .unitPrice(27700)
         .vatPercentage(0)
         .productCode(ExamLevel.EXCELLENT + "-" + EnrollmentSkill.TEXTUAL)
         .build(),
@@ -356,7 +356,7 @@ public class PaymentServiceTest {
         anyLong(),
         argThat(new PrefixMatcher("VKTET-")),
         any(Customer.class),
-        eq(25700),
+        eq(27700),
         eq(AppLocale.FI)
       );
   }
