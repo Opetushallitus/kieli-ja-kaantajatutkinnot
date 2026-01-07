@@ -71,6 +71,8 @@ export const ClerkCustomersListing = ({
             page: page + 1,
             setPage: (nextPage) => onPageChange(nextPage - 1),
             pageSize,
+            totalCount,
+            serverSide: true,
           }}
         />
       )}
