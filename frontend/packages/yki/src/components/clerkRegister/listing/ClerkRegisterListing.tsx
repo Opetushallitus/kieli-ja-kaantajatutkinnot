@@ -386,6 +386,7 @@ const ClerkRegisterCollapsibleRow = ({
             />
             <Accordion>
               <AccordionSummary
+                data-testid="clerk-register__past-exam-sessions-accordion"
                 aria-controls="panel1-content"
                 id="panel1-header"
               >
@@ -397,10 +398,12 @@ const ClerkRegisterCollapsibleRow = ({
 
               <AccordionDetails>
                 <ListTable
+                  data-testid="clerk-register__past-exam-sessions"
                   rows={pastExams}
                   rowKeyProp="id"
                   columns={columns}
                   translateHeader={false}
+                  rowHeight="small"
                 />
               </AccordionDetails>
             </Accordion>

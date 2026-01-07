@@ -68,6 +68,7 @@ export const ListTableRow = <T extends Row>({
             >
               {collapsibleRows && i === 0 && (
                 <ChevronLeft
+                  aria-label="expand row"
                   fontSize="large"
                   style={{
                     transform: open ? 'rotate(90deg)' : 'rotate(270deg)',
