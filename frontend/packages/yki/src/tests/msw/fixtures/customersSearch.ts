@@ -3,6 +3,42 @@ import { ClerkCustomerSummary } from 'interfaces/clerkCustomer';
 export const allCustomers: ClerkCustomerSummary[] = [
   {
     person: {
+      firstName: 'Jori Testi',
+      lastName: 'Häkkinen-Testi',
+      ssn: '280105A911J',
+      oid: '1.2.246.562.24.82364099322',
+      nationalityCode: '246',
+      phoneNumber: '+358 401234567',
+      streetAddress: 'Katuosoite 123, 33100 Tampere',
+      email: 'aino.osallistuja@loremipsum.fi',
+    },
+    registrationsCount: 11,
+  },
+  {
+    person: {
+      firstName: 'Aino',
+      lastName: 'Osallistuja',
+      ssn: '010170-960F',
+      oid: '1.2.246.562.24.82364099323',
+      nationalityCode: '246',
+      phoneNumber: '+358 401234567',
+      streetAddress: 'Katuosoite 123, 33100 Tampere',
+      email: 'aino.osallistuja@loremipsum.fi',
+    },
+    registrationsCount: 0,
+  },
+  {
+    person: {
+      firstName: 'Aino',
+      lastName: 'Osallistuja',
+      ssn: '010170-960F',
+      oid: '1.2.246.562.24.82364099324',
+      nationalityCode: '246',
+    },
+    registrationsCount: 11,
+  },
+  {
+    person: {
       firstName: 'Kukka-Maaria Jennika Etel',
       lastName: 'Haapakoski Henriksson',
       ssn: '261298-998X',
