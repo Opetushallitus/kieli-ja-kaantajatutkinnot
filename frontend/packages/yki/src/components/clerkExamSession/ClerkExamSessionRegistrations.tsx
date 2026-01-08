@@ -2,22 +2,18 @@ import BlockIcon from '@mui/icons-material/Block';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
 import { Divider, Stack } from '@mui/material';
-import { Box } from '@mui/system';
-import { Dayjs } from 'dayjs';
 import i18next from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { DateUtils } from 'shared/utils';
 
 import { ListTable } from 'components/oph-design/table/list-table';
-import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
+import { ListTableColumn } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
-import { RegistrationStates } from 'enums/app';
-import { RegistrationStatus } from 'interfaces/clerkCustomer';
-import { ClerkRegistration } from 'interfaces/clerkExamSession';
-import { ClerkRegistrationPerson } from 'interfaces/clerkRegistration';
+import { RegistrationKind, RegistrationStates } from 'enums/app';
+import { ClerkRegistration } from 'interfaces/clerkRegistration';
 import { Text } from 'ophTheme/Text';
 
-const TABS = ['admissions', 'queued'] as const;
+const TABS = [RegistrationKind.Admission, RegistrationKind.Queue] as const;
 type Tab = (typeof TABS)[number];
 
 type ExamsListingTabsProps = {
@@ -51,7 +47,7 @@ const ExamsListingTabs = ({
             tabIndex={0}
             onKeyDown={() => handleTabChange(tab)}
           >
-            {tab === 'admissions' ? t('admissions') : t('queued')}
+            {tab === RegistrationKind.Admission ? t('admissions') : t('queued')}
           </div>
         ))}
       </div>
@@ -59,30 +55,6 @@ const ExamsListingTabs = ({
     </div>
   );
 };
-
-const ExamsListing = <T extends Row>({
-  columns,
-  rows,
-  noRowsText,
-}: {
-  columns: ListTableColumn<T>[];
-  rows: T[] | undefined;
-  noRowsText: string;
-}) => (
-  <div>
-    {!rows?.length ? (
-      <Box sx={{ margin: '1em 0' }}>{noRowsText}</Box>
-    ) : (
-      <ListTable
-        className="clerk-customer-exams-listing__table"
-        rows={rows}
-        rowKeyProp="id"
-        columns={columns}
-        translateHeader={false}
-      />
-    )}
-  </div>
-);
 
 export const ClerkExamSessionRegistrations = ({
   examRegistrations,
@@ -93,12 +65,12 @@ export const ClerkExamSessionRegistrations = ({
     keyPrefix: 'yki.component.clerkCustomer.details.listing',
   });
 
-  const [activeTab, setActiveTab] = useState<Tab>('pending');
+  const [activeTab, setActiveTab] = useState<Tab>(RegistrationKind.Admission);
 
   // Tutkintopäivä (Ilmoittautumiset, Jonossa, Menneet)
-  const createExamDateColumn = <T extends { examDate: Dayjs }>(
+  const createExamDateColumn = (
     t: typeof i18next.t,
-  ): ListTableColumn<T> => ({
+  ): ListTableColumn<ClerkRegistration> => ({
     key: 'examDate',
     title: t('columns.date'),
     render: ({ examDate }) => (
@@ -126,12 +98,9 @@ export const ClerkExamSessionRegistrations = ({
     ),
   };
 
-  // Ilmoittautumisen tila (Ilmoittautumiset, Jonossa)
-  const createRegistrationStateColumn = <
-    T extends { state: RegistrationStatus },
-  >(
+  const createRegistrationStateColumn = (
     t: typeof i18next.t,
-  ): ListTableColumn<T> => ({
+  ): ListTableColumn<ClerkRegistration> => ({
     key: 'state',
     title: t('columns.registrationState'),
     render: ({ state }) => {
@@ -146,9 +115,9 @@ export const ClerkExamSessionRegistrations = ({
     },
   });
 
-  const createPersonColumn = <T extends { person: ClerkRegistrationPerson }>(
+  const createPersonColumn = (
     t: typeof i18next.t,
-  ): ListTableColumn<T> => ({
+  ): ListTableColumn<ClerkRegistration> => ({
     key: 'person',
     title: t('columns.personName'),
     render: ({ person }) => (
@@ -158,9 +127,9 @@ export const ClerkExamSessionRegistrations = ({
     ),
   });
 
-  const createActionsColumn = <T extends { id: number }>(
+  const createActionsColumn = (
     t: typeof i18next.t,
-  ): ListTableColumn<T> => ({
+  ): ListTableColumn<ClerkRegistration> => ({
     key: 'id',
     title: t('columns.actions'),
     render: ({ id }) => (
@@ -184,10 +153,12 @@ export const ClerkExamSessionRegistrations = ({
   return (
     <Stack spacing={4}>
       <ExamsListingTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-      <ExamsListing
-        columns={registrationsColumns}
+      <ListTable
+        className="clerk-customer-exams-listing__table"
         rows={examRegistrations}
-        noRowsText={t('noRowsTexts.registrations')}
+        rowKeyProp="id"
+        columns={registrationsColumns}
+        translateHeader={false}
       />
     </Stack>
   );

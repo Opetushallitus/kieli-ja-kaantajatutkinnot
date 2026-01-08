@@ -29,7 +29,8 @@
       },
       "contactEmail": "kielitutkinnot@oph.fi",
       "dates": {
-        "dateTimeFormat": "l [at] HH:mm"
+        "dateTimeFormat": "l [at] HH:mm",
+        "dateFormat": "l"
       },
       "email": "Email address",
       "error": "An unexpected error has occurred.",
@@ -95,6 +96,9 @@
         }
       },
       "institution": "Test centre",
+      "maxParticipants": "Osallistujapaikkojen määrä",
+      "contactInfo": "Yhteystiedot",
+      "extraInfo": "Lisätiedot",
       "language": "Language",
       "languageLevel": {
         "ALL": "all levels",
@@ -145,6 +149,7 @@
       "registration": "Registration",
       "freeRegistration": "Maksuttomuus",
       "customerSearch": "Asiakashaku",
+      "organizerRegister": "Järjestäjärekisteri",
       "registrationPeriod": "Registration period",
       "specialArrangementsLink": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-do-you-need-special-arrangements",
       "userRegistrations": "My registrations",

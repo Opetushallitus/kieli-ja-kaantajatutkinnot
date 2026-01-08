@@ -28,7 +28,7 @@ export const ClerkExamSessionDetails = ({
     <div className="rows gapped customer-details">
       <div className="columns gapped-xxl align-items-start">
         <div className="rows gapped-xs">
-          <Label>{location.name}</Label>
+          <Label>{location && location.name}</Label>
           <Label>{t('registrationPeriod')}</Label>
           <Label>{t('institution')}</Label>
           <Label>{t('maxParticipants')}</Label>
@@ -48,7 +48,11 @@ export const ClerkExamSessionDetails = ({
             {DateTimeUtils.renderDate(examSessionDetails.registrationEndDate)}
           </div>
           <div>
-            {location.streetAddress}, {location.zip} {location.postOffice}
+            {location && (
+              <>
+                {location.streetAddress}, {location.zip} {location.postOffice}
+              </>
+            )}
           </div>
           <div>{examSessionDetails.maxParticipants}</div>
           <div>

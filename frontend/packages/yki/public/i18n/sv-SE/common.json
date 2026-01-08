@@ -29,7 +29,8 @@
       },
       "contactEmail": "kielitutkinnot@oph.fi",
       "dates": {
-        "dateTimeFormat": "l [kl.] HH:mm"
+        "dateTimeFormat": "l [kl.] HH:mm",
+        "dateFormat": "l"
       },
       "email": "E-postadress",
       "error": "Ett oväntat fel uppstod.",
@@ -95,6 +96,9 @@
         }
       },
       "institution": "Testplats",
+      "maxParticipants": "Osallistujapaikkojen määrä",
+      "contactInfo": "Yhteystiedot",
+      "extraInfo": "Lisätiedot",
       "language": "Språk",
       "languageLevel": {
         "ALL": "alla nivåer",
@@ -145,6 +149,7 @@
       "registration": "Anmälan",
       "freeRegistration": "Maksuttomuus",
       "customerSearch": "Asiakashaku",
+      "organizerRegister": "Järjestäjärekisteri",
       "registrationPeriod": "Anmälningstid",
       "specialArrangementsLink": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-behover-du-specialarrangemang",
       "userRegistrations": "Mina anmälningar",

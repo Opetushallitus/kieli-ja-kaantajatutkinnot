@@ -1,3 +1,4 @@
+import { RegistrationStates } from 'enums/app';
 import { ClerkRegistrationResponse } from 'interfaces/clerkRegistration';
 
 export const registrations: ClerkRegistrationResponse[] = [
@@ -9,7 +10,7 @@ export const registrations: ClerkRegistrationResponse[] = [
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139511',
     },
-    state: 'COMPLETED',
+    state: RegistrationStates.Completed,
     examDate: '2025-11-21T00:00:00.000Z',
     kind: 'ADMISSION',
   },

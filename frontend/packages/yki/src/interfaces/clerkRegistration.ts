@@ -1,12 +1,6 @@
 import { Dayjs } from 'dayjs';
 
-export type RegistrationState =
-  | 'PENDING'
-  | 'APPROVED'
-  | 'REJECTED'
-  | 'SUPPLEMENT_REQUESTED'
-  | 'SUPPLEMENT_REQUEST_ANSWERED'
-  | 'SUPPLEMENT_REQUEST_EXPIRED';
+import { RegistrationStates } from 'enums/app';
 
 interface ClerkRegistrationPerson {
   firstName: string;
@@ -20,10 +14,10 @@ export interface ClerkRegistrationResponse
   examDate: string;
 }
 
-interface ClerkRegistration {
+export type ClerkRegistration = {
   id: number;
   person: ClerkRegistrationPerson;
   examDate: Dayjs;
-  state: RegistrationState;
+  state: RegistrationStates;
   kind: string;
-}
+};
