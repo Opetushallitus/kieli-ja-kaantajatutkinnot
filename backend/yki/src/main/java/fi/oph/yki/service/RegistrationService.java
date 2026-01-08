@@ -190,8 +190,8 @@ public class RegistrationService {
                 )
                 .orElseThrow(() ->
                   new NotFoundException(
-                  MessageFormat.format(
-                    "Failed to find registration. oid: {0}, tutkintopaiva: {1}, tutkintokieli: {2}, tutkintotaso: {3}",
+                    MessageFormat.format(
+                      "Failed to find registration. oid: {0}, tutkintopaiva: {1}, tutkintokieli: {2}, tutkintotaso: {3}",
                       suoritus.oppijanumero(),
                       suoritus.tutkintopaiva(),
                       suoritus.tutkintokieli(),
