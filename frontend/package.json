@@ -3,7 +3,7 @@
   "engines": {
     "node": "v20.9.0"
   },
-  "packageManager": "yarn@4.0.1",
+  "packageManager": "yarn@4.12.0",
   "private": true,
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
   "resolutions": {
