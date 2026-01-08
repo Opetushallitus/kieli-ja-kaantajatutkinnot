@@ -32,8 +32,8 @@
       },
       "clerkExamSessionRegistrations": {
         "tabs": {
-          "admissions": "Ilmoittautuneet",
-          "queued": "Jonossa"
+          "admissions": "Ilmoittautuneet ({{ num }})",
+          "queued": "Jonossa ({{ num }})"
         }
       },
       "clerkFreeRegistration": {
@@ -193,6 +193,7 @@
               "pastExams": "Ei menneitä tutkintorilaisuuksia viimeisen 365 päivän ajalta"
             },
             "columns": {
+              "positionInQueue": "Jonosija",
               "personName": "Nimi",
               "date": "Tutkintopäivä",
               "name": "Tutkinto",

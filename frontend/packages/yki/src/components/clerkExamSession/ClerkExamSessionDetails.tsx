@@ -2,7 +2,7 @@ import { AppLanguage } from 'shared/enums';
 
 import { getCurrentLang, useCommonTranslation } from 'configs/i18n';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
-import { Label } from 'ophTheme/Text';
+import { H3, Label, Text } from 'ophTheme/Text';
 import { DateTimeUtils } from 'utils/dateTime';
 
 export const ClerkExamSessionDetails = ({
@@ -26,40 +26,52 @@ export const ClerkExamSessionDetails = ({
 
   return (
     <div className="rows gapped customer-details">
-      <div className="columns gapped-xxl align-items-start">
+      <div>
+        <H3>{location && location.name}</H3>
+        <Text>
+          {t('languages.' + examSessionDetails.language)}
+          {' - '}
+          {t('languageLevel.' + examSessionDetails.level)}{' '}
+          {DateTimeUtils.renderDate(examSessionDetails.date)}
+        </Text>
+      </div>
+      <div className="grid-4-columns gapped">
         <div className="rows gapped-xs">
-          <Label>{location && location.name}</Label>
-          <Label>{t('registrationPeriod')}</Label>
-          <Label>{t('institution')}</Label>
-          <Label>{t('maxParticipants')}</Label>
-          <Label>{t('contactInfo')}</Label>
-          <Label>{t('extraInfo')}</Label>
+          <div className="rows gapped-xs">
+            <Label>{t('registrationPeriod')}</Label>
+            <div>
+              {DateTimeUtils.renderDate(
+                examSessionDetails.registrationStartDate,
+              )}
+              {' - '}
+              {DateTimeUtils.renderDate(examSessionDetails.registrationEndDate)}
+            </div>
+          </div>
+          <div className="rows gapped-xs">
+            <Label>{t('institution')}</Label>
+            <div>
+              {location && (
+                <>
+                  {location.streetAddress}, {location.zip} {location.postOffice}
+                </>
+              )}
+            </div>
+          </div>
         </div>
         <div className="rows gapped-xs">
-          <div>
-            {t('languages.' + examSessionDetails.language)}
-            {' - '}
-            {t('languageLevel.' + examSessionDetails.level)}{' '}
-            {DateTimeUtils.renderDate(examSessionDetails.date)}
-          </div>
-          <div>
-            {DateTimeUtils.renderDate(examSessionDetails.registrationStartDate)}
-            {' - '}
-            {DateTimeUtils.renderDate(examSessionDetails.registrationEndDate)}
-          </div>
-          <div>
-            {location && (
-              <>
-                {location.streetAddress}, {location.zip} {location.postOffice}
-              </>
-            )}
-          </div>
+          <Label>{t('maxParticipants')}</Label>
           <div>{examSessionDetails.maxParticipants}</div>
+        </div>
+        <div className="rows gapped-xs">
+          <Label>{t('contactInfo')}</Label>
           <div>
             {examSessionDetails.contact.map((c) => (
               <span key={'contact-email-' + c.email}>{c.email}</span>
             ))}
           </div>
+        </div>
+        <div className="rows gapped-xs">
+          <Label>{t('extraInfo')}</Label>
           <div>
             {examSessionDetails.location.map((l) => (
               <div key={'location-lang-' + l.lang}>

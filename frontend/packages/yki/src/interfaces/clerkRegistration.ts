@@ -7,6 +7,11 @@ interface ClerkRegistrationPerson {
   lastName: string;
   socialSecurityNumber: string;
   oid: string;
+  email: string;
+  phoneNumber: string;
+  zip: string;
+  postOffice: string;
+  streetAddress: string;
 }
 
 export interface ClerkRegistrationResponse

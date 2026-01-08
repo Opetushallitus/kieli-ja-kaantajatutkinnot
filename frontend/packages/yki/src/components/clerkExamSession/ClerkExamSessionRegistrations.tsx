@@ -1,15 +1,17 @@
+import { DeleteOutlined, TurnRightOutlined } from '@mui/icons-material';
 import BlockIcon from '@mui/icons-material/Block';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
-import { Divider, Stack } from '@mui/material';
+import { Divider, IconButton, Stack } from '@mui/material';
 import i18next from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { DateUtils } from 'shared/utils';
 
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
-import { RegistrationKind, RegistrationStates } from 'enums/app';
+import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { ClerkRegistration } from 'interfaces/clerkRegistration';
 import { Text } from 'ophTheme/Text';
 
@@ -19,11 +21,15 @@ type Tab = (typeof TABS)[number];
 type ExamsListingTabsProps = {
   activeTab: Tab;
   setActiveTab: Dispatch<SetStateAction<Tab>>;
+  admissionCount: number;
+  queuedCount: number;
 };
 
 const ExamsListingTabs = ({
   activeTab,
   setActiveTab,
+  admissionCount,
+  queuedCount,
 }: ExamsListingTabsProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkExamSessionRegistrations.tabs',
@@ -47,7 +53,9 @@ const ExamsListingTabs = ({
             tabIndex={0}
             onKeyDown={() => handleTabChange(tab)}
           >
-            {tab === RegistrationKind.Admission ? t('admissions') : t('queued')}
+            {tab === RegistrationKind.Admission
+              ? t('admissions', { num: admissionCount })
+              : t('queued', { num: queuedCount })}
           </div>
         ))}
       </div>
@@ -103,12 +111,22 @@ export const ClerkExamSessionRegistrations = ({
   ): ListTableColumn<ClerkRegistration> => ({
     key: 'state',
     title: t('columns.registrationState'),
-    render: ({ state }) => {
+    render: ({ state, person }) => {
       return (
-        <div className="columns gapped-xs">
-          {registrationStateIconMapping[state]}
+        <div className="rows gapped-xs">
           <Text>
+            {registrationStateIconMapping[state]}
             <strong>{t(`values.registrationState.${state}`)}</strong>
+          </Text>
+          <Text>
+            {person.streetAddress}
+            {', '}
+            {person.zip} {person.postOffice}
+          </Text>
+          <Text>
+            {person.phoneNumber}
+            {', '}
+            {person.email}
           </Text>
         </div>
       );
@@ -121,8 +139,12 @@ export const ClerkExamSessionRegistrations = ({
     key: 'person',
     title: t('columns.personName'),
     render: ({ person }) => (
-      <div className="columns gapped-xxs">
-        <Text>{person.firstName}</Text>
+      <div className="rows gapped-xxs">
+        <Link to={AppRoutes.ClerkCustomerDetails.replace(':oid', person.oid)}>
+          {person.firstName} {person.lastName}
+        </Link>
+        <Text>{person.socialSecurityNumber}</Text>
+        <Text>{person.oid}</Text>
       </div>
     ),
   });
@@ -133,33 +155,78 @@ export const ClerkExamSessionRegistrations = ({
     key: 'id',
     title: t('columns.actions'),
     render: ({ id }) => (
-      <div className="columns gapped-xxs">
-        <Text>{id}</Text>
+      <div className="rows gapped-xxs">
+        <IconButton color="secondary" onClick={() => id}>
+          <TurnRightOutlined color="secondary" fontSize="large" />
+          Siirrä tilaisuuteen
+        </IconButton>
+        <IconButton color="secondary" onClick={() => id}>
+          <DeleteOutlined color="secondary" fontSize="large" />
+          Peru osallistuminen
+        </IconButton>
       </div>
     ),
   });
 
-  const registrationsColumns = [
+  const createPositionInQueueColumn = (
+    t: typeof i18next.t,
+  ): ListTableColumn<ClerkRegistration> => ({
+    key: 'person',
+    title: t('columns.positionInQueue'),
+    render: ({ id }) => <div className="rows gapped-xxs">{id}</div>,
+  });
+
+  if (!examRegistrations) {
+    return <></>;
+  }
+
+  const admissionsColumns = [
     createPersonColumn(t),
     createRegistrationStateColumn(t),
     createExamDateColumn(t),
     createActionsColumn(t),
   ];
 
-  if (!examRegistrations) {
-    return <></>;
-  }
+  const queuedColumns = [
+    createPositionInQueueColumn(t),
+    createPersonColumn(t),
+    createRegistrationStateColumn(t),
+    createExamDateColumn(t),
+    createActionsColumn(t),
+  ];
+
+  const admissions = examRegistrations.filter(
+    (r) => r.kind === RegistrationKind.Admission,
+  );
+  const queued = examRegistrations.filter(
+    (r) => r.kind === RegistrationKind.Queue,
+  );
 
   return (
     <Stack spacing={4}>
-      <ExamsListingTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-      <ListTable
-        className="clerk-customer-exams-listing__table"
-        rows={examRegistrations}
-        rowKeyProp="id"
-        columns={registrationsColumns}
-        translateHeader={false}
+      <ExamsListingTabs
+        admissionCount={admissions.length ?? 0}
+        queuedCount={queued.length ?? 0}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
       />
+      {activeTab === RegistrationKind.Admission ? (
+        <ListTable
+          className="clerk-customer-exams-listing__table"
+          rows={admissions}
+          rowKeyProp="id"
+          columns={admissionsColumns}
+          translateHeader={false}
+        />
+      ) : (
+        <ListTable
+          className="clerk-customer-exams-listing__table"
+          rows={queued}
+          rowKeyProp="id"
+          columns={queuedColumns}
+          translateHeader={false}
+        />
+      )}
     </Stack>
   );
 };
