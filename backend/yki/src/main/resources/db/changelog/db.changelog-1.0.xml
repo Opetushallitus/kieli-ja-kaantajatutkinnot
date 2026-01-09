@@ -183,7 +183,7 @@
         <preConditions onFail="CONTINUE">
             <dbms type="postgresql" />
         </preConditions>
-        <sql>CREATE TYPE evaluation_state AS ENUM ('EVALUATION_PENDING', 'EVALUATION_COMPLETE', 'REVIEW_PENDING', 'REVIEW_COMPLETE', 'RETAKE_PENDING', 'NO_SHOW', 'ABORTED')</sql>
+        <sql>CREATE TYPE evaluation_state AS ENUM ('EVALUATION_PENDING', 'EVALUATION_COMPLETE', 'REVIEW_PENDING', 'REVIEW_COMPLETE', 'REVIEW_FINALIZED', 'RETAKE_PENDING', 'NO_SHOW', 'ABORTED')</sql>
         <createTable tableName="registration_evaluation">
             <column autoIncrement="true" name="registration_evaluation_id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="registration_evaluation_pkey"/>
