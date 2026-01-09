@@ -36,6 +36,12 @@ public class ExamSession {
   @Column(name = "level_code")
   private String level;
 
+  @Column(name = "max_participants")
+  private Integer maxParticipants;
+
+  @Column(name = "office_oid")
+  private String officeOid;
+
   @OneToMany(mappedBy = "examSession")
   private List<ExamSessionLocation> locations = new ArrayList<>();
 }

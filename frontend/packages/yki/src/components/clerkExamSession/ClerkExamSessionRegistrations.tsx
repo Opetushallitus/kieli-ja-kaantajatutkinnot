@@ -118,16 +118,20 @@ export const ClerkExamSessionRegistrations = ({
             {registrationStateIconMapping[state]}
             <strong>{t(`values.registrationState.${state}`)}</strong>
           </Text>
-          <Text>
-            {person.streetAddress}
-            {', '}
-            {person.zip} {person.postOffice}
-          </Text>
-          <Text>
-            {person.phoneNumber}
-            {', '}
-            {person.email}
-          </Text>
+          {person && (
+            <>
+              <Text>
+                {person.streetAddress}
+                {', '}
+                {person.zip} {person.postOffice}
+              </Text>
+              <Text>
+                {person.phoneNumber}
+                {', '}
+                {person.email}
+              </Text>
+            </>
+          )}
         </div>
       );
     },
@@ -138,15 +142,16 @@ export const ClerkExamSessionRegistrations = ({
   ): ListTableColumn<ClerkRegistration> => ({
     key: 'person',
     title: t('columns.personName'),
-    render: ({ person }) => (
-      <div className="rows gapped-xxs">
-        <Link to={AppRoutes.ClerkCustomerDetails.replace(':oid', person.oid)}>
-          {person.firstName} {person.lastName}
-        </Link>
-        <Text>{person.socialSecurityNumber}</Text>
-        <Text>{person.oid}</Text>
-      </div>
-    ),
+    render: ({ person }) =>
+      person && (
+        <div className="rows gapped-xxs">
+          <Link to={AppRoutes.ClerkCustomerDetails.replace(':oid', person.oid)}>
+            {person.firstName} {person.lastName}
+          </Link>
+          <Text>{person.socialSecurityNumber}</Text>
+          <Text>{person.oid}</Text>
+        </div>
+      ),
   });
 
   const createActionsColumn = (
