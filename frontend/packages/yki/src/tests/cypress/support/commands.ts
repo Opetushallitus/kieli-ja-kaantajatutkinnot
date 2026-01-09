@@ -70,3 +70,7 @@ Cypress.Commands.add('openCustomerSearchPage', () => {
 Cypress.Commands.add('openClerkCustomerDetailsPage', (oid: string) => {
   cy.visit(AppRoutes.ClerkCustomerDetails.replace(/:oid/, `${oid}`));
 });
+
+Cypress.Commands.add('openClerkCustomersSearchPage', () => {
+  cy.visit(AppRoutes.CustomerSearch);
+});
