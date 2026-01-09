@@ -40,9 +40,9 @@ public class ClerkCustomerController {
     description = "Returns paginated customer details. Default page size is 20, max is 100."
   )
   public Page<ClerkCustomerSummaryDTO> searchCustomers(
-    @RequestParam(defaultValue = "0") int page,
-    @RequestParam(defaultValue = "20") int size,
-    @RequestBody(required = true) ClerkCustomerSearchRequestDTO request
+    @RequestParam(defaultValue = "0") final int page,
+    @RequestParam(defaultValue = "20") final int size,
+    @RequestBody(required = true) final ClerkCustomerSearchRequestDTO request
   ) throws IllegalArgumentException, ExecutionException, InterruptedException, JsonProcessingException {
     final int validatedSize = Math.min(size, MAX_PAGE_SIZE);
 
@@ -58,7 +58,7 @@ public class ClerkCustomerController {
 
   @GetMapping(path = "/{oid}", consumes = ALL_VALUE)
   @Operation(tags = TAG_CUSTOMER, summary = "Get customer details")
-  public ClerkCustomerDetailsDTO getCustomerDetails(@PathVariable String oid) throws Exception {
+  public ClerkCustomerDetailsDTO getCustomerDetails(@PathVariable final String oid) throws Exception {
     return service.getClerkCustomerDetails(oid);
   }
 }

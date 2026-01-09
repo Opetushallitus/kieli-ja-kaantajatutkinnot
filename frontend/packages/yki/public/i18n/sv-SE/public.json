@@ -231,6 +231,19 @@
               }
             }
           }
+        },
+        "search": {
+          "header": "{{amount}} osallistujaa",
+          "listing": {
+            "apiResponseStatus": {
+              "inProgress": "Ladataan tietoja",
+              "error": "Tietojen lataaminen epäonnistui"
+            },
+            "columns": {
+              "name": "Nimi",
+              "registrations": "Ilmoittautumiset"
+            }
+          }
         }
       },
       "cookieBanner": {
@@ -773,6 +786,9 @@
       },
       "clerkCustomerDetailsPage": {
         "heading": "Asiakkaan tiedot"
+      },
+      "clerkCustomersSearchPage": {
+        "heading": "Asiakashaku"
       },
       "confirmRegistrationPage": {
         "heading": "Bekräfta anmälan"

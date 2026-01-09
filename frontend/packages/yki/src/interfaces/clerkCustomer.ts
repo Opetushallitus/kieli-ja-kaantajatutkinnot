@@ -11,7 +11,7 @@ import {
 export interface CustomerPerson {
   firstName: string;
   lastName: string;
-  ssn: string;
+  ssn?: string;
   oid: string;
   nationalityCode: string;
   phoneNumber?: string;
@@ -92,6 +92,64 @@ export type RegistrationResponse = {
   liftedFromQueueAt?: string;
   expiresAt?: string;
 };
+
+export type ClerkCustomerSearchParams = {
+  request: {
+    personQuery?: string;
+    organizerId?: number;
+    examDateId?: number;
+    languageCode?: string;
+    levelCode?: string;
+  };
+  page: number;
+  size: number;
+};
+
+export interface ClerkCustomerSummary {
+  person: CustomerPerson;
+  registrationsCount: number;
+}
+
+type PageSortResponse = {
+  empty: boolean;
+  sorted: boolean;
+  unsorted: boolean;
+};
+
+export type PageResponse<T> = {
+  content: T[];
+  pageable: {
+    sort: PageSortResponse;
+    offset: number;
+    pageNumber: number;
+    pageSize: number;
+    paged: boolean;
+    unpaged: boolean;
+  };
+  totalElements: number;
+  last: boolean;
+  totalPages: number;
+  size: number;
+  number: number;
+  sort: PageSortResponse;
+  numberOfElements: number;
+  first: boolean;
+  empty: boolean;
+};
+
+export interface ClerkCustomerSummaryResponse {
+  person: {
+    firstName: string;
+    lastName: string;
+    ssn: string | null;
+    oid: string;
+    nationalityCode: string;
+    phoneNumber: string | null;
+    streetAddress: string | null;
+    email: string | null;
+  };
+  registrationsCount: number;
+}
 
 export interface ClerkCustomerDetailsResponse {
   person: CustomerPerson;

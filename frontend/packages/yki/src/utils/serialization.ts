@@ -13,6 +13,8 @@ import {
   AdmissionedRegistration,
   ClerkCustomerDetails,
   ClerkCustomerDetailsResponse,
+  ClerkCustomerSummary,
+  ClerkCustomerSummaryResponse,
   ExamLocation,
   ExamState,
   PastRegistration,
@@ -502,6 +504,23 @@ export class SerializationUtils {
       pastRegistrations: pastRegistrations.map(
         SerializationUtils.deserializePastRegistration,
       ),
+    };
+  }
+
+  static deserializeClerkCustomerSummaryResponse(
+    clerkCustomerSummaryResponse: ClerkCustomerSummaryResponse,
+  ): ClerkCustomerSummary {
+    return {
+      ...clerkCustomerSummaryResponse,
+      person: {
+        ...clerkCustomerSummaryResponse.person,
+        ssn: clerkCustomerSummaryResponse.person.ssn ?? undefined,
+        phoneNumber:
+          clerkCustomerSummaryResponse.person.phoneNumber ?? undefined,
+        streetAddress:
+          clerkCustomerSummaryResponse.person.streetAddress ?? undefined,
+        email: clerkCustomerSummaryResponse.person.email ?? undefined,
+      },
     };
   }
 

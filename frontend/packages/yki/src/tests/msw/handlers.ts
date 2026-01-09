@@ -5,6 +5,7 @@ import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationInitRequest } from 'interfaces/publicRegistration';
 import { clerkExamSession } from 'tests/msw/fixtures/clerkExamSession';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
+import { allCustomers } from 'tests/msw/fixtures/customersSearch';
 import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
@@ -257,6 +258,46 @@ export const handlers = [
   http.get(APIEndpoints.ClerkExamSession, () =>
     HttpResponse.json(clerkExamSession),
   ),
+  http.post(APIEndpoints.ClerkCustomersSearch, async ({ request }) => {
+    const url = new URL(request.url);
+    const getNumberParam = (urlParam: string, fallback: number) => {
+      const param = Number(url.searchParams.get(urlParam));
+
+      return Number.isFinite(param) && param >= 0 ? param : fallback;
+    };
+
+    const page = getNumberParam('page', 0);
+    const size = getNumberParam('size', 20);
+
+    // Emulating pagination
+    const filtered = allCustomers; // return every customer, for testing
+    const start = page * size;
+    const paged = filtered.slice(start, start + size);
+    const totalElements = filtered.length;
+    const totalPages = size > 0 ? Math.ceil(totalElements / size) : 0;
+    const sort = { empty: true, unsorted: true, sorted: false };
+
+    return HttpResponse.json({
+      content: paged,
+      pageable: {
+        sort,
+        offset: start,
+        pageNumber: page,
+        pageSize: size,
+        paged: true,
+        unpaged: false,
+      },
+      last: totalPages === 0 ? true : page >= totalPages - 1,
+      totalElements,
+      totalPages,
+      size,
+      number: page,
+      sort,
+      first: page === 0,
+      numberOfElements: paged.length,
+      empty: paged.length === 0,
+    });
+  }),
   http.get(APIEndpoints.PublicKoskiEducations, async () => {
     return HttpResponse.json({
       educations: [{ educationType: 'ylioppilastutkinto', isActive: true }],

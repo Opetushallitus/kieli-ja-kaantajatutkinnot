@@ -82,6 +82,8 @@ type ListTablePaginationProps = {
   setPage: (page: number) => void;
   pageSize: number;
   label?: string;
+  totalCount?: number;
+  serverSide?: boolean;
 };
 
 interface ListTableProps<T extends Row>
@@ -151,7 +153,11 @@ export const ListTable = <T extends Row>({
 
   const pageRows = useMemo(() => {
     if (pagination) {
-      const start = pagination?.pageSize * (pagination.page - 1);
+      if (pagination.serverSide) {
+        return rows;
+      }
+
+      const start = pagination.pageSize * (pagination.page - 1);
 
       return rows.slice(start, start + pagination.pageSize);
     }
@@ -209,7 +215,7 @@ export const ListTable = <T extends Row>({
           page={pagination.page}
           setPage={pagination.setPage}
           pageSize={pagination.pageSize}
-          totalCount={rows?.length ?? 0}
+          totalCount={pagination.totalCount ?? rows?.length ?? 0}
         />
       )}
     </Stack>

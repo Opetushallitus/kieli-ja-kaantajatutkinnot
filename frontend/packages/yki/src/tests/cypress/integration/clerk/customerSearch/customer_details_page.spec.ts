@@ -31,6 +31,7 @@ describe('ClerkCustomerDetailsPage', () => {
       .should('have.text', '1.9.2035');
 
     const queuedTableBody = onClerkCustomerDetailsPage.elements.queuedTableBody;
+
     queuedTableBody().should('have.length', 4);
 
     const pastTableBody = onClerkCustomerDetailsPage.elements.pastTableBody;
