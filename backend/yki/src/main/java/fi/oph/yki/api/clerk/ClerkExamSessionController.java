@@ -13,11 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(
-  value = "/v2/api/clerk/examSession",
-  consumes = APPLICATION_JSON_VALUE,
-  produces = APPLICATION_JSON_VALUE
-)
+@RequestMapping(value = "/v2/api/clerk/examSession", produces = APPLICATION_JSON_VALUE)
 @Profile("dev")
 public class ClerkExamSessionController {
 

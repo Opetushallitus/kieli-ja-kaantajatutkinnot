@@ -1,6 +1,7 @@
 package fi.oph.yki.service;
 
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionLocationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.repository.ExamSessionRepository;
@@ -24,7 +25,21 @@ public class ClerkExamSessionService {
       .stream()
       .map(RegistrationUtil::createClerkRegistrationDTO)
       .toList();
+    final List<ClerkExamSessionLocationDTO> locationDTOS = examSession
+      .getLocations()
+      .stream()
+      .map(l ->
+        ClerkExamSessionLocationDTO.builder().postOffice(l.getPostOffice()).name(l.getName()).lang(l.getLang()).build()
+      )
+      .toList();
 
-    return ClerkExamSessionDTO.builder().registrations(registrationDTOs).build();
+    return ClerkExamSessionDTO
+      .builder()
+      .id(examSession.getId())
+      .level(examSession.getLevel())
+      .language(examSession.getLanguage())
+      .location(locationDTOS)
+      .registrations(registrationDTOs)
+      .build();
   }
 }

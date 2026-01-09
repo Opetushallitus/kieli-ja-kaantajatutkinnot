@@ -23,6 +23,11 @@ public class RegistrationUtil {
   }
 
   public static ClerkRegistrationDTO createClerkRegistrationDTO(final Registration registration) {
-    return ClerkRegistrationDTO.builder().build();
+    return ClerkRegistrationDTO
+      .builder()
+      .id(registration.getId())
+      .state(registration.getState())
+      .kind(registration.getKind())
+      .build();
   }
 }
