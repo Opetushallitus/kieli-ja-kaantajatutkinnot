@@ -1,10 +1,10 @@
 import { ChevronRight, HomeOutlined } from '@mui/icons-material';
 import { Box, Grid, IconButton, Paper } from '@mui/material';
 import { FC } from 'react';
-import { H2 } from 'shared/components';
 
 import { ClerkCustomerSearch } from 'components/clerkCustomer/ClerkCustomerSearch';
 import { usePublicTranslation } from 'configs/i18n';
+import { H2 } from 'ophTheme/Text';
 
 export const ClerkCustomerSearchPage: FC = () => {
   const { t } = usePublicTranslation({
