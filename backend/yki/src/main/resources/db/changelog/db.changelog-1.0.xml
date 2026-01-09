@@ -179,4 +179,14 @@
             <column name="paid_at"/>
         </createIndex>
     </changeSet>
+
+    <changeSet id="2026-01-09-add-registration-created-modified-columns-hsqldb" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <addColumn tableName="registration">
+            <column name="created" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="modified" type="TIMESTAMP WITH TIME ZONE"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
