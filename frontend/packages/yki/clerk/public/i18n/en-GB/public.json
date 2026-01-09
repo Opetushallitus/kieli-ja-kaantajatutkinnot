@@ -265,8 +265,10 @@
           "header": "{{amount}} osallistujaa",
           "listing": {
             "apiResponseStatus": {
-              "inProgress": "Ladataan tietoja",
-              "error": "Tietojen lataaminen epäonnistui"
+              "NOT_STARTED": "Tietojen lataaminen epäonnistui",
+              "IN_PROGRESS": "Ladataan tietoja",
+              "ERROR": "Tietojen lataaminen epäonnistui",
+              "CANCELLED": "Tietojen lataaminen epäonnistui"
             },
             "columns": {
               "name": "Nimi",

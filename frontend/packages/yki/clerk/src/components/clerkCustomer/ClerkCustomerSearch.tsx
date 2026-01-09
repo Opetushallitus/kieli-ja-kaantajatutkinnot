@@ -9,14 +9,28 @@ import { H2 } from 'ophTheme/Text';
 import { loadCustomersSearch } from 'redux/reducers/clerkCustomersSearch';
 import { clerkCustomersSearchSelector } from 'redux/selectors/clerkCustomersSearchSelector';
 
+const InfoText = ({ status }: { status: APIResponseStatus }) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.clerkCustomer.search',
+  });
+
+  return (
+    <Box
+      minHeight="10vh"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <H2>{t(`listing.apiResponseStatus.${status}`)}</H2>
+    </Box>
+  );
+};
+
 export const ClerkCustomerSearch = () => {
   const { status, customers, page, size, totalElements } = useAppSelector(
     clerkCustomersSearchSelector,
   );
 
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.clerkCustomer.search',
-  });
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -33,52 +47,29 @@ export const ClerkCustomerSearch = () => {
     }
   }, [dispatch, page, size, status]);
 
-  switch (status) {
-    case APIResponseStatus.NotStarted:
-    case APIResponseStatus.InProgress:
-      return (
-        <Box
-          minHeight="10vh"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <H2>{t('listing.apiResponseStatus.inProgress')}</H2>
-        </Box>
-      );
-    case APIResponseStatus.Error:
-      return (
-        <Box
-          minHeight="10vh"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <H2>{t('listing.apiResponseStatus.error')}</H2>
-        </Box>
-      );
-
-    case APIResponseStatus.Success:
-      return (
-        <>
-          <ClerkCustomersListing
-            customers={customers}
-            page={page}
-            pageSize={size}
-            totalCount={totalElements}
-            onPageChange={(newPage) =>
-              dispatch(
-                loadCustomersSearch({
-                  request: {
-                    personQuery: '',
-                  },
-                  page: newPage,
-                  size,
-                }),
-              )
-            }
-          />
-        </>
-      );
-  }
+  return (
+    <>
+      {status !== APIResponseStatus.Success ? (
+        <InfoText status={status} />
+      ) : (
+        <ClerkCustomersListing
+          customers={customers}
+          page={page}
+          pageSize={size}
+          totalCount={totalElements}
+          onPageChange={(newPage) =>
+            dispatch(
+              loadCustomersSearch({
+                request: {
+                  personQuery: '',
+                },
+                page: newPage,
+                size,
+              }),
+            )
+          }
+        />
+      )}
+    </>
+  );
 };
