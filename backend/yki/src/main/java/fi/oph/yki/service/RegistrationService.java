@@ -214,7 +214,7 @@ public class RegistrationService {
                 .virhe(EvaluationStateError.SUORITUSTA_EI_LOYDY)
                 .build();
               errors.add(error);
-              LOG.error("Error processing evaluation state entry", e);
+              LOG.error(e.getMessage());
             } catch (Exception e) {
               var error = EvaluationStateErrorDTO
                 .builder()
