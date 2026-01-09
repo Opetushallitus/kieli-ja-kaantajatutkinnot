@@ -16,7 +16,7 @@ export const registrations: ClerkRegistrationResponse[] = [
       postOffice: 'Kittilä',
     },
     state: RegistrationStates.Completed,
-    examDate: '2025-11-21T00:00:00.000Z',
+    registrationDate: '2025-11-21T00:00:00.000Z',
     kind: 'ADMISSION',
   },
   {
@@ -33,7 +33,7 @@ export const registrations: ClerkRegistrationResponse[] = [
       postOffice: 'Kittilä',
     },
     state: RegistrationStates.Cancelled,
-    examDate: '2025-11-21T00:00:00.000Z',
+    registrationDate: '2025-11-21T00:00:00.000Z',
     kind: 'ADMISSION',
   },
   {
@@ -50,7 +50,7 @@ export const registrations: ClerkRegistrationResponse[] = [
       postOffice: 'Kittilä',
     },
     state: RegistrationStates.Cancelled,
-    examDate: '2025-11-21T00:00:00.000Z',
+    registrationDate: '2025-11-21T00:00:00.000Z',
     kind: 'QUEUE',
   },
 ];

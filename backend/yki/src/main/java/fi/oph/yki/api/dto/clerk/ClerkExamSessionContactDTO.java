@@ -1,3 +1,6 @@
 package fi.oph.yki.api.dto.clerk;
 
-public record ClerkExamSessionContactDTO() {}
+import lombok.Builder;
+
+@Builder
+public record ClerkExamSessionContactDTO(String email, String name, String phoneNumber) {}

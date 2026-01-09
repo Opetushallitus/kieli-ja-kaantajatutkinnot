@@ -64,10 +64,14 @@ export const ClerkExamSessionDetails = ({
         </div>
         <div className="rows gapped-xs">
           <Label>{t('contactInfo')}</Label>
-          <div>
+          <div className="rows">
             {examSessionDetails.contact &&
               examSessionDetails.contact.map((c) => (
-                <span key={'contact-email-' + c.email}>{c.email}</span>
+                <div className="rows" key={'contact-email-' + c.email}>
+                  <span>{c.name}</span>
+                  <span>{c.phoneNumber}</span>
+                  <span>{c.email}</span>
+                </div>
               ))}
           </div>
         </div>

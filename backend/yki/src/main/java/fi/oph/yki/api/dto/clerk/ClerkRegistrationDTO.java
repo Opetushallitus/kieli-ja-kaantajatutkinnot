@@ -10,7 +10,7 @@ import lombok.NonNull;
 @Builder
 public record ClerkRegistrationDTO(
   Long id,
-  LocalDate examDate,
+  LocalDate registrationDate,
   ClerkPersonDTO person,
   RegistrationState state,
   @NonNull @NotNull RegistrationKind kind

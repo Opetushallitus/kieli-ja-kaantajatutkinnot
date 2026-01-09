@@ -17,7 +17,9 @@ type Location = {
 };
 
 type Contact = {
-  email: string;
+  email?: string;
+  phoneNumber?: string;
+  name?: string;
 };
 
 export interface ClerkExamSessionResponse

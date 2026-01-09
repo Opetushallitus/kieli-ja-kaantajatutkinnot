@@ -49,6 +49,9 @@ public class Registration {
   @Column(name = "lifted_from_queue_at")
   private LocalDateTime liftedFromQueueAt;
 
+  @Column(name = "created")
+  private LocalDateTime createdAt;
+
   @Column(name = "expires_at")
   private LocalDateTime expiresAt;
 

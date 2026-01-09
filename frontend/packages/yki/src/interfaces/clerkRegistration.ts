@@ -15,14 +15,14 @@ interface ClerkRegistrationPerson {
 }
 
 export interface ClerkRegistrationResponse
-  extends Omit<ClerkRegistration, 'examDate'> {
-  examDate: string;
+  extends Omit<ClerkRegistration, 'registrationDate'> {
+  registrationDate: string;
 }
 
 export type ClerkRegistration = {
   id: number;
   person: ClerkRegistrationPerson;
-  examDate: Dayjs;
+  registrationDate: Dayjs;
   state: RegistrationStates;
   kind: string;
 };

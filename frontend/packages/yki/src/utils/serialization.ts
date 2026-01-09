@@ -371,7 +371,7 @@ export class SerializationUtils {
   ) {
     return {
       ...registrationResponse,
-      examDate: dayjs(registrationResponse.examDate),
+      registrationDate: dayjs(registrationResponse.registrationDate),
     };
   }
 

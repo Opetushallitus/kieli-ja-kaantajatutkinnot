@@ -1,8 +1,10 @@
 package fi.oph.yki.util;
 
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionContactDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionLocationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
+import fi.oph.yki.model.ExamSessionContact;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
@@ -26,12 +28,25 @@ public class RegistrationUtil {
       .build();
   }
 
+  public static ClerkExamSessionContactDTO createClerkExamSessionContactDTO(final ExamSessionContact contact) {
+    return ClerkExamSessionContactDTO
+      .builder()
+      .name(contact.getName())
+      .email(contact.getEmail())
+      .phoneNumber(contact.getPhoneNumber())
+      .build();
+  }
+
   public static ClerkExamSessionLocationDTO createClerkExamSessionLocationDTO(final ExamSessionLocation location) {
     return ClerkExamSessionLocationDTO
       .builder()
       .postOffice(location.getPostOffice())
       .name(location.getName())
       .lang(location.getLang())
+      .streetAddress(location.getStreetAddress())
+      .extraInformation(location.getExtraInformation())
+      .otherLocationInfo(location.getOtherLocationInfo())
+      .zip(location.getZip())
       .build();
   }
 
@@ -52,6 +67,7 @@ public class RegistrationUtil {
       .id(registration.getId())
       .state(registration.getState())
       .kind(registration.getKind())
+      .registrationDate(registration.getCreatedAt().toLocalDate())
       .person(person != null ? createClerkPersonDTO(person) : null)
       .build();
   }

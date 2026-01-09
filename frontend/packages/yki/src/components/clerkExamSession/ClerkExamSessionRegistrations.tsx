@@ -75,19 +75,6 @@ export const ClerkExamSessionRegistrations = ({
 
   const [activeTab, setActiveTab] = useState<Tab>(RegistrationKind.Admission);
 
-  // Tutkintopäivä (Ilmoittautumiset, Jonossa, Menneet)
-  const createExamDateColumn = (
-    t: typeof i18next.t,
-  ): ListTableColumn<ClerkRegistration> => ({
-    key: 'examDate',
-    title: t('columns.date'),
-    render: ({ examDate }) => (
-      <div className="rows gapped-xs">
-        <Text>{DateUtils.formatOptionalDate(examDate, 'l')}</Text>
-      </div>
-    ),
-  });
-
   const registrationStateIconMapping: Partial<
     Record<RegistrationStates, JSX.Element>
   > = {
@@ -154,6 +141,18 @@ export const ClerkExamSessionRegistrations = ({
       ),
   });
 
+  const createRegistrationDateColumn = (
+    t: typeof i18next.t,
+  ): ListTableColumn<ClerkRegistration> => ({
+    key: 'registrationDate',
+    title: t('columns.date'),
+    render: ({ registrationDate }) => (
+      <div className="rows gapped-xs">
+        <Text>{DateUtils.formatOptionalDate(registrationDate, 'l')}</Text>
+      </div>
+    ),
+  });
+
   const createActionsColumn = (
     t: typeof i18next.t,
   ): ListTableColumn<ClerkRegistration> => ({
@@ -188,7 +187,7 @@ export const ClerkExamSessionRegistrations = ({
   const admissionsColumns = [
     createPersonColumn(t),
     createRegistrationStateColumn(t),
-    createExamDateColumn(t),
+    createRegistrationDateColumn(t),
     createActionsColumn(t),
   ];
 
@@ -196,7 +195,7 @@ export const ClerkExamSessionRegistrations = ({
     createPositionInQueueColumn(t),
     createPersonColumn(t),
     createRegistrationStateColumn(t),
-    createExamDateColumn(t),
+    createRegistrationDateColumn(t),
     createActionsColumn(t),
   ];
 

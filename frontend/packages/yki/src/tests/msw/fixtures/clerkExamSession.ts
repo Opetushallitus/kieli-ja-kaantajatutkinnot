@@ -12,7 +12,9 @@ export const clerkExamSession: ClerkExamSessionResponse = {
   queue: 0,
   contact: [
     {
-      email: 'contact.person@testi.invalid',
+      name: 'Teppo-Testi Järjestäjä',
+      phoneNumber: '+358401234567',
+      email: 'jarjestaja@testi.invalid',
     },
   ],
   officeOid: '1.2.246.562.10.29461948951',

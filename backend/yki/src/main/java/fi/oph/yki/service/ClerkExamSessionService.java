@@ -1,5 +1,6 @@
 package fi.oph.yki.service;
 
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionContactDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionLocationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
@@ -31,6 +32,11 @@ public class ClerkExamSessionService {
       .stream()
       .map(RegistrationUtil::createClerkExamSessionLocationDTO)
       .toList();
+    final List<ClerkExamSessionContactDTO> contactDTOS = examSession
+      .getContact()
+      .stream()
+      .map(RegistrationUtil::createClerkExamSessionContactDTO)
+      .toList();
     final ExamDate examDate = examSession.getExamDate();
 
     return ClerkExamSessionDTO
@@ -44,6 +50,7 @@ public class ClerkExamSessionService {
       .registrationStartDate(examDate.getRegistrationStartDate())
       .registrationEndDate(examDate.getRegistrationEndDate())
       .maxParticipants(examSession.getMaxParticipants())
+      .contact(contactDTOS)
       .build();
   }
 }
