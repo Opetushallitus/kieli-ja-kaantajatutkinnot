@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import { useEffect } from 'react';
 import { APIResponseStatus } from 'shared/enums';
 
+import { ClerkCustomerListingFilter } from 'components/clerkCustomer/ClerkCustomerListingFilter';
 import { ClerkCustomersListing } from 'components/clerkCustomer/ClerkCustomersListing';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -49,6 +50,8 @@ export const ClerkCustomerSearch = () => {
 
   return (
     <>
+      <ClerkCustomerListingFilter />
+
       {status !== APIResponseStatus.Success ? (
         <InfoText status={status} />
       ) : (

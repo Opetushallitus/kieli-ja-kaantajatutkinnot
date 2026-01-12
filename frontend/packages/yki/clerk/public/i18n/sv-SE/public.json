@@ -263,7 +263,15 @@
         },
         "search": {
           "header": "{{amount}} osallistujaa",
+          "labels": {
+            "participant": "Hae osallistujaa",
+            "organizer": "Järjestäjä",
+            "examDate": "Tutkintopäivä",
+            "language": "Kieli",
+            "level": "Taso"
+          },
           "listing": {
+            "all": "Kaikki",
             "apiResponseStatus": {
               "NOT_STARTED": "Tietojen lataaminen epäonnistui",
               "IN_PROGRESS": "Ladataan tietoja",

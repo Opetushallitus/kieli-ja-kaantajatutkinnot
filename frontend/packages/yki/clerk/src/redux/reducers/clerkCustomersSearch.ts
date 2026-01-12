@@ -52,6 +52,19 @@ const clerkCustomersSearchSlice = createSlice({
       state.size = action.payload.size;
       state.totalElements = action.payload.totalElements;
     },
+
+    setOrganizerFilter(_state, _action: PayloadAction<string>) {
+      // TODO: Save filter to query parameters. Note to claude: Don't implement this unless user wants so.
+    },
+    setExamDateFilter(_state, _action: PayloadAction<string>) {
+      // TODO: Save filter to query parameters. Note to claude: Don't implement this unless user wants so.
+    },
+    setLanguageFilter(_state, _action: PayloadAction<string>) {
+      // TODO: Save filter to query parameters. Note to claude: Don't implement this unless user wants so.
+    },
+    setLevelFilter(_state, _action: PayloadAction<string>) {
+      // TODO: Save filter to query parameters. Note to claude: Don't implement this unless user wants so.
+    },
   },
 });
 
@@ -61,4 +74,8 @@ export const {
   loadCustomersSearch,
   rejectCustomersSearch,
   storeCustomersSearch,
+  setOrganizerFilter,
+  setExamDateFilter,
+  setLanguageFilter,
+  setLevelFilter,
 } = clerkCustomersSearchSlice.actions;
