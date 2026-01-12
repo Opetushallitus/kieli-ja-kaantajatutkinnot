@@ -53,6 +53,19 @@
           "actionButtons": {
             "adminUserView": "Tarkastele järjestäjän näkymää",
             "modify": "Muokkaa tietoja"
+          },
+          "modals": {
+            "modifyAgreement": {
+              "title": "Muokkaa järjestäjäsopimuksen tietoja",
+              "organizerLabel": "Järjestäjä",
+              "startDateLabel": "Sopimuksen alkamispäivä",
+              "startDateDescription": "Valitse sopimuksen uusi alkamispäivä",
+              "startDateError": "Valitse sopimuksen alkamispäivä",
+              "endDateLabel": "Sopimuksen päättymispäivä",
+              "addressLabel": "Osoite",
+              "languagesLabel": "Kielitutkinnot",
+              "languagesDescription": "Valitse kullekin kielelle sopimukseen kuuluvat tasot"
+            }
           }
         }
       },

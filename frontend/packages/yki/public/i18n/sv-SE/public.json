@@ -53,6 +53,19 @@
           "actionButtons": {
             "adminUserView": "Tarkastele järjestäjän näkymää",
             "modify": "Muokkaa tietoja"
+          },
+          "modals": {
+            "modifyAgreement": {
+              "title": "Redigera avtalsuppgifter för arrangör",
+              "organizerLabel": "Arrangör",
+              "startDateLabel": "Avtalets startdatum",
+              "startDateDescription": "Välj det nya startdatumet för avtalet",
+              "startDateError": "Välj ett startdatum för avtalet",
+              "endDateLabel": "Avtalets slutdatum",
+              "addressLabel": "Adress",
+              "languagesLabel": "Språkkunskaper",
+              "languagesDescription": "Välj de nivåer som ingår i avtalet för varje språk"
+            }
           }
         }
       },

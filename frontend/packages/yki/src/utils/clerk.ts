@@ -2,6 +2,7 @@ import { t } from 'i18next';
 
 import { ExamLevel } from 'enums/app';
 import { OrganizerLanguage } from 'interfaces/clerkOrganizer';
+import { FindByOidsOrganization } from 'interfaces/clerkOrganizerRegistry';
 
 const LEVEL_TRANSLATIONS = {
   PERUS: 'yki.common.languageLevel.PERUS',
@@ -10,7 +11,7 @@ const LEVEL_TRANSLATIONS = {
   ALL: 'yki.common.languageLevel.ALL',
 };
 
-const LANGUAGES = [
+export const LANGUAGES = [
   {
     code: 'fin',
     name: 'Suomi',
@@ -107,4 +108,16 @@ export const getLanguagesWithLevelDescriptions = (
   }
 
   return list;
+};
+
+export const getOrganizerAddress = (
+  organization: FindByOidsOrganization | undefined,
+) => {
+  return {
+    street: organization?.postiosoite?.osoite ?? '',
+    zipCode: organization?.postiosoite?.postinumeroUri
+      ? organization.postiosoite.postinumeroUri.split('_').pop() ?? ''
+      : '',
+    city: organization?.postiosoite?.postitoimipaikka ?? '',
+  };
 };

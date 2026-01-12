@@ -21,6 +21,7 @@ import { CustomButton, CustomCircularProgress } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
+import { ModifyAgreementModal } from 'components/clerkRegister/listing/ModifyAgreementModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import axiosInstance from 'configs/axios';
@@ -34,6 +35,7 @@ import { loadClerkOrganizerRegistry } from 'redux/reducers/clerkOrganizer';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
 import {
   getLanguagesWithLevelDescriptions,
+  getOrganizerAddress,
   languagesToString,
   languageToString,
   levelDescription,
@@ -45,9 +47,16 @@ type ClerkRegisterListingProps = {
   setPage: (page: number) => void;
 };
 
+export type ClerkOrganizerAddress = {
+  street: string;
+  zipCode: string;
+  city: string;
+};
+
 type ClerkOrganizerType = {
   id: number;
   nimi: string;
+  address: ClerkOrganizerAddress;
   oid: string;
   agreement_start_date?: Dayjs;
   agreement_end_date?: Dayjs;
@@ -102,6 +111,7 @@ export const ClerkRegisterListing = ({
   const rows = organizerRegistry.map((organizer) => ({
     ...organizer.organizer,
     nimi: organizer?.organization?.nimi?.fi ?? '',
+    address: getOrganizerAddress(organizer.organization),
   }));
 
   const pagination = {
@@ -203,12 +213,19 @@ const ClerkRegisterCollapsibleRow = ({
   open: boolean;
 }) => {
   const [examSessions, setExamSessions] = useState<ExamSession[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
   });
 
   const navigate = useNavigate();
+
+  const handleSaveAgreementDate = async (_startDate: Dayjs) => {
+    // TODO: Implement API call to update agreement start date
+    // For now, just close the modal
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     if (open) {
@@ -372,10 +389,23 @@ const ClerkRegisterCollapsibleRow = ({
               >
                 {t('listing.actionButtons.adminUserView')}
               </CustomButton>
-              <CustomButton variant="outlined">
+              <CustomButton
+                variant="outlined"
+                onClick={() => setIsModalOpen(true)}
+              >
                 {t('listing.actionButtons.modify')}
               </CustomButton>
             </div>
+            <ModifyAgreementModal
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+              organizerName={row.nimi}
+              currentStartDate={row.agreement_start_date}
+              currentEndDate={row.agreement_end_date}
+              address={row.address}
+              languages={row.languages || []}
+              onSave={handleSaveAgreementDate}
+            />
             <H4>{t('listing.contentLabels.upcomingExamSessions')}</H4>
             <ListTable
               rows={upcomingExams}
