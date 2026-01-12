@@ -59,7 +59,6 @@
               "title": "Redigera avtalsuppgifter för arrangör",
               "organizerLabel": "Arrangör",
               "startDateLabel": "Avtalets startdatum",
-              "startDateDescription": "Välj det nya startdatumet för avtalet",
               "startDateError": "Välj ett startdatum för avtalet",
               "endDateLabel": "Avtalets slutdatum",
               "addressLabel": "Adress",

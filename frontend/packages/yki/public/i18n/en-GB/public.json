@@ -59,7 +59,6 @@
               "title": "Edit organizer agreement details",
               "organizerLabel": "Organizer",
               "startDateLabel": "Agreement start date",
-              "startDateDescription": "Select the new agreement start date",
               "startDateError": "Please select an agreement start date",
               "endDateLabel": "Agreement end date",
               "addressLabel": "Address",
