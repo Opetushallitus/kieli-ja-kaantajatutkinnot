@@ -56,14 +56,15 @@
           },
           "modals": {
             "modifyAgreement": {
-              "title": "Muokkaa järjestäjäsopimuksen tietoja",
-              "organizerLabel": "Järjestäjä",
-              "startDateLabel": "Sopimuksen alkamispäivä",
+              "saveButton": "Tallenna muutokset",
+              "title": "Muokkaa tietoja",
+              "organizerAgreementLabel": "Järjestäjäsopimus",
+              "startDateLabel": "Sopimus alkaa *",
               "startDateError": "Valitse sopimuksen alkamispäivä",
-              "endDateLabel": "Sopimuksen päättymispäivä",
+              "endDateLabel": "Sopimus päättyy *",
               "addressLabel": "Osoite",
               "languagesLabel": "Kielitutkinnot",
-              "languagesDescription": "Valitse kullekin kielelle sopimukseen kuuluvat tasot"
+              "language": "Kieli *"
             }
           }
         }

@@ -1,6 +1,10 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Checkbox } from '@mui/material';
-import { OphButton } from '@opetushallitus/oph-design-system';
+import { Box } from '@mui/material';
+import {
+  OphButton,
+  OphCheckbox,
+  ophColors,
+} from '@opetushallitus/oph-design-system';
 import { Dayjs } from 'dayjs';
 import { useState } from 'react';
 import { CustomDatePicker, CustomModal } from 'shared/components';
@@ -9,7 +13,7 @@ import { Color, Variant } from 'shared/enums';
 import { ClerkOrganizerAddress } from 'components/clerkRegister/listing/ClerkRegisterListing';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { OrganizerLanguage } from 'interfaces/clerkOrganizer';
-import { H2, Label, Text } from 'ophTheme/Text';
+import { H2, H3, Label, Text } from 'ophTheme/Text';
 import { LANGUAGES, levelDescription } from 'utils/clerk';
 
 type LanguageSelection = {
@@ -128,15 +132,11 @@ export const ModifyAgreementModal = ({
           gap={1}
         >
           <H2>{t('listing.modals.modifyAgreement.title')}</H2>
-          <div className="clerk-register__modal-close-icon">
-            <CloseIcon
-              color={Color.Inherit}
-              aria-hidden={true}
-              fontSize="large"
-              onClick={handleCloseModal}
-              style={{ cursor: 'pointer' }}
-            />
-          </div>
+          <CloseIcon
+            fontSize="large"
+            onClick={handleCloseModal}
+            style={{ cursor: 'pointer' }}
+          />
         </Box>
       }
     >
@@ -151,24 +151,19 @@ export const ModifyAgreementModal = ({
         <div
           style={{ overflowY: 'auto', flex: '1 1 auto', paddingRight: '8px' }}
         >
-          <div className="rows gapped">
+          <div className="rows gapped-xl">
             <div>
-              <Label>
-                {t('listing.modals.modifyAgreement.organizerLabel')}
-              </Label>
-              <Text>{organizerName}</Text>
-            </div>
-
-            <div>
-              <Label>{t('listing.modals.modifyAgreement.addressLabel')}</Label>
+              <H3>{organizerName}</H3>
               <Text>{`${address.street}, ${address.zipCode} ${address.city}`}</Text>
             </div>
-
+            <H3>
+              {t('listing.modals.modifyAgreement.organizerAgreementLabel')}
+            </H3>
             <div
               className="columns gapped"
               style={{ alignItems: 'flex-start' }}
             >
-              <div style={{ flex: 1 }}>
+              <div className="rows gapped-xxs">
                 <Label>
                   {t('listing.modals.modifyAgreement.startDateLabel')}
                 </Label>
@@ -184,13 +179,28 @@ export const ModifyAgreementModal = ({
                   }
                 />
               </div>
-              <div style={{ flex: 1 }}>
+              <svg
+                width="18"
+                height="1"
+                style={{ alignSelf: 'flex-end', margin: '21px 0' }}
+              >
+                <line
+                  x1="0"
+                  y1="1"
+                  x2="18"
+                  y2="1"
+                  stroke={ophColors.grey900}
+                  strokeWidth="2"
+                />
+              </svg>
+              <div className="rows gapped-xxs">
                 <Label>
                   {t('listing.modals.modifyAgreement.endDateLabel')}
                 </Label>
                 <CustomDatePicker
                   value={endDate}
                   setValue={(value: Dayjs | null) => setEndDate(value)}
+                  minDate={startDate || undefined}
                 />
               </div>
             </div>
@@ -199,9 +209,6 @@ export const ModifyAgreementModal = ({
               <Label>
                 {t('listing.modals.modifyAgreement.languagesLabel')}
               </Label>
-              <Text>
-                {t('listing.modals.modifyAgreement.languagesDescription')}
-              </Text>
               <div
                 className="rows gapped"
                 style={{ marginTop: '1rem', gap: '0.5rem' }}
@@ -213,11 +220,14 @@ export const ModifyAgreementModal = ({
                     alignItems: 'center',
                     gap: '1rem',
                     padding: '0.5rem',
-                    fontWeight: 600,
                     borderBottom: '2px solid #e0e0e0',
                   }}
                 >
-                  <div style={{ minWidth: '150px' }}>Kieli</div>
+                  <div style={{ minWidth: '150px' }}>
+                    <Label>
+                      {t('listing.modals.modifyAgreement.language')}
+                    </Label>
+                  </div>
                   <div
                     style={{
                       display: 'flex',
@@ -227,13 +237,13 @@ export const ModifyAgreementModal = ({
                     }}
                   >
                     <div style={{ minWidth: '80px', textAlign: 'center' }}>
-                      {levelDescription('PERUS')}
+                      <Label>{levelDescription('PERUS')}</Label>
                     </div>
                     <div style={{ minWidth: '80px', textAlign: 'center' }}>
-                      {levelDescription('KESKI')}
+                      <Label>{levelDescription('KESKI')}</Label>
                     </div>
                     <div style={{ minWidth: '80px', textAlign: 'center' }}>
-                      {levelDescription('YLIN')}
+                      <Label>{levelDescription('YLIN')}</Label>
                     </div>
                   </div>
                 </div>
@@ -251,8 +261,8 @@ export const ModifyAgreementModal = ({
                         borderBottom: '1px solid #e0e0e0',
                       }}
                     >
-                      <div style={{ minWidth: '150px', fontWeight: 500 }}>
-                        {lang.language_name}
+                      <div style={{ minWidth: '150px' }}>
+                        <Text>{lang.language_name}</Text>
                       </div>
                       <div
                         style={{
@@ -262,51 +272,28 @@ export const ModifyAgreementModal = ({
                           flex: 1,
                         }}
                       >
-                        <div
-                          style={{
-                            minWidth: '80px',
-                            display: 'flex',
-                            justifyContent: 'center',
-                          }}
-                        >
-                          <Checkbox
-                            checked={lang.levels.PERUS}
-                            onChange={() =>
-                              toggleLanguageLevel(lang.language_code, 'PERUS')
-                            }
-                            size="small"
-                          />
-                        </div>
-                        <div
-                          style={{
-                            minWidth: '80px',
-                            display: 'flex',
-                            justifyContent: 'center',
-                          }}
-                        >
-                          <Checkbox
-                            checked={lang.levels.KESKI}
-                            onChange={() =>
-                              toggleLanguageLevel(lang.language_code, 'KESKI')
-                            }
-                            size="small"
-                          />
-                        </div>
-                        <div
-                          style={{
-                            minWidth: '80px',
-                            display: 'flex',
-                            justifyContent: 'center',
-                          }}
-                        >
-                          <Checkbox
-                            checked={lang.levels.YLIN}
-                            onChange={() =>
-                              toggleLanguageLevel(lang.language_code, 'YLIN')
-                            }
-                            size="small"
-                          />
-                        </div>
+                        <OphCheckbox
+                          checked={lang.levels.PERUS}
+                          onChange={() =>
+                            toggleLanguageLevel(lang.language_code, 'PERUS')
+                          }
+                          sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+                        />
+
+                        <OphCheckbox
+                          checked={lang.levels.KESKI}
+                          onChange={() =>
+                            toggleLanguageLevel(lang.language_code, 'KESKI')
+                          }
+                          sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+                        />
+                        <OphCheckbox
+                          checked={lang.levels.YLIN}
+                          onChange={() =>
+                            toggleLanguageLevel(lang.language_code, 'YLIN')
+                          }
+                          sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+                        />
                       </div>
                     </div>
                   );
@@ -327,7 +314,7 @@ export const ModifyAgreementModal = ({
                 color={Color.Primary}
                 onClick={handleSave}
               >
-                {translateCommon('save')}
+                {t('listing.modals.modifyAgreement.saveButton')}
               </OphButton>
             </div>
           </div>

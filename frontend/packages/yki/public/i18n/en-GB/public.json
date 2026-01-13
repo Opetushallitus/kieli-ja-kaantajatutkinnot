@@ -56,14 +56,15 @@
           },
           "modals": {
             "modifyAgreement": {
-              "title": "Edit organizer agreement details",
-              "organizerLabel": "Organizer",
-              "startDateLabel": "Agreement start date",
-              "startDateError": "Please select an agreement start date",
-              "endDateLabel": "Agreement end date",
-              "addressLabel": "Address",
-              "languagesLabel": "Language proficiencies",
-              "languagesDescription": "Select the proficiency levels included in the agreement for each language"
+              "saveButton": "Tallenna muutokset",
+              "title": "Muokkaa tietoja",
+              "organizerAgreementLabel": "Järjestäjäsopimus",
+              "startDateLabel": "Sopimus alkaa *",
+              "startDateError": "Valitse sopimuksen alkamispäivä",
+              "endDateLabel": "Sopimus päättyy *",
+              "addressLabel": "Osoite",
+              "languagesLabel": "Kielitutkinnot",
+              "language": "Kieli *"
             }
           }
         }
