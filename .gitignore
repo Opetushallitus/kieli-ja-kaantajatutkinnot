@@ -38,6 +38,7 @@
 **/secrets.yml
 **/.gradletasknamecache
 **/.sts4-cache
+CLAUDE*.md
 
 **/.idea/
 **/node_modules/
