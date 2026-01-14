@@ -13,7 +13,7 @@ import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from '@mui/material/AccordionSummary';
 import { Box } from '@mui/system';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import i18next from 'i18next';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +28,7 @@ import axiosInstance from 'configs/axios';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { OrganizerLanguage } from 'interfaces/clerkOrganizer';
+import { ClerkOrganizerType } from 'interfaces/clerkOrganizer';
 import { ExamSession } from 'interfaces/examSessions';
 import { H4, Label, Text } from 'ophTheme/Text';
 import { loadClerkOrganizerRegistry } from 'redux/reducers/clerkOrganizer';
@@ -47,25 +47,6 @@ type ClerkRegisterListingProps = {
   setPage: (page: number) => void;
 };
 
-export type ClerkOrganizerAddress = {
-  street: string;
-  zipCode: string;
-  city: string;
-};
-
-type ClerkOrganizerType = {
-  id: number;
-  nimi: string;
-  address: ClerkOrganizerAddress;
-  oid: string;
-  agreement_start_date?: Dayjs;
-  agreement_end_date?: Dayjs;
-  contact_name?: string;
-  contact_email?: string;
-  contact_phone_number?: string;
-  languages: Array<OrganizerLanguage> | null;
-  extra: string;
-};
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(() => ({
@@ -108,9 +89,9 @@ export const ClerkRegisterListing = ({
     clerkOrganizersSelector,
   );
 
-  const rows = organizerRegistry.map((organizer) => ({
+  const rows: ClerkOrganizerType[] = organizerRegistry.map((organizer) => ({
     ...organizer.organizer,
-    nimi: organizer?.organization?.nimi?.fi ?? '',
+    name: organizer?.organization?.nimi?.fi ?? '',
     address: getOrganizerAddress(organizer.organization),
   }));
 
@@ -129,7 +110,7 @@ export const ClerkRegisterListing = ({
   ): ListTableColumn<ClerkOrganizerType> => ({
     key: 'organizer',
     title: t('listing.header.organizer'),
-    render: (rowProps) => <span>{rowProps.nimi}</span>,
+    render: (rowProps) => <span>{rowProps.name}</span>,
   });
 
   const createAgreementsColumn = (
@@ -138,7 +119,7 @@ export const ClerkRegisterListing = ({
     key: 'agreements',
     title: t('listing.header.agreements'),
     render: (rowProps) =>
-      rowProps.languages ? (
+      rowProps.languages && rowProps.languages.length > 0 ? (
         <span>{languagesToString(rowProps.languages)}</span>
       ) : (
         <div className="columns" style={{ gap: '0.25rem' }}>
@@ -153,7 +134,7 @@ export const ClerkRegisterListing = ({
   ): ListTableColumn<ClerkOrganizerType> => ({
     key: 'municipality',
     title: t('listing.header.municipality'),
-    render: (rowProps) => <span>{rowProps.contact_name}</span>,
+    render: (rowProps) => <span>{rowProps.address.city}</span>,
   });
 
   const columns = [
@@ -221,12 +202,6 @@ const ClerkRegisterCollapsibleRow = ({
 
   const navigate = useNavigate();
 
-  const handleSaveAgreementDate = async (_startDate: Dayjs) => {
-    // TODO: Implement API call to update agreement start date
-    // For now, just close the modal
-    setIsModalOpen(false);
-  };
-
   useEffect(() => {
     if (open) {
       const fetchExamSessions = async () => {
@@ -267,7 +242,10 @@ const ClerkRegisterCollapsibleRow = ({
     key: 'session_date',
     title: t('examSessionListing.header.sessionDate'),
     render: (rowProps) => (
-      <span>{rowProps.session_date.format('D.M.YYYY')}</span>
+      // TODO link to exam session details page
+      <a href="/" onClick={(e) => e.preventDefault()}>
+        <span>{rowProps.session_date.format('D.M.YYYY')}</span>
+      </a>
     ),
   });
 
@@ -399,12 +377,7 @@ const ClerkRegisterCollapsibleRow = ({
             <ModifyAgreementModal
               isModalOpen={isModalOpen}
               setIsModalOpen={setIsModalOpen}
-              organizerName={row.nimi}
-              currentStartDate={row.agreement_start_date}
-              currentEndDate={row.agreement_end_date}
-              address={row.address}
-              languages={row.languages || []}
-              onSave={handleSaveAgreementDate}
+              row={row}
             />
             <H4>{t('listing.contentLabels.upcomingExamSessions')}</H4>
             <ListTable

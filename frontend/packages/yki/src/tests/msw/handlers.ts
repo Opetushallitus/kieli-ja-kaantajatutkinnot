@@ -202,6 +202,25 @@ export const handlers = [
     return HttpResponse.redirect(redirect as string);
   }),
   http.get(APIEndpoints.ClerkOrganizer, () => HttpResponse.json(organizers)),
+  http.put(
+    `${APIEndpoints.ClerkOrganizer}/:id`,
+    async ({ params, request }) => {
+      const organizerId = Number(params.id);
+      const updatedData = (await request.json()) as Record<string, unknown>;
+      const organizerIndex = organizers.findIndex((o) => o.id === organizerId);
+
+      if (organizerIndex !== -1) {
+        organizers[organizerIndex] = {
+          ...organizers[organizerIndex],
+          ...updatedData,
+        };
+
+        return HttpResponse.json(organizers[organizerIndex]);
+      } else {
+        return notFound();
+      }
+    },
+  ),
   http.get(APIEndpoints.ClerkFreeRegistration, ({ cookies }) => {
     if (cookies['free-registration-error-500'] === '1') {
       return HttpResponse.json({ error: 'forced error' }, { status: 500 });

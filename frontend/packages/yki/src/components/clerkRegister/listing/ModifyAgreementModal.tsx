@@ -6,14 +6,18 @@ import {
   ophColors,
 } from '@opetushallitus/oph-design-system';
 import { Dayjs } from 'dayjs';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { CustomDatePicker, CustomModal } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
-import { ClerkOrganizerAddress } from 'components/clerkRegister/listing/ClerkRegisterListing';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { OrganizerLanguage } from 'interfaces/clerkOrganizer';
+import { useAppDispatch } from 'configs/redux';
+import {
+  ClerkOrganizerType,
+  OrganizerLanguage,
+} from 'interfaces/clerkOrganizer';
 import { H2, H3, Label, Text } from 'ophTheme/Text';
+import { updateClerkOrganizer } from 'redux/reducers/clerkOrganizer';
 import { LANGUAGES, levelDescription } from 'utils/clerk';
 
 type LanguageSelection = {
@@ -29,31 +33,42 @@ type LanguageSelection = {
 type ModifyAgreementModalProps = {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
-  organizerName: string;
-  currentStartDate?: Dayjs;
-  currentEndDate?: Dayjs;
-  address: ClerkOrganizerAddress;
-  languages: Array<OrganizerLanguage>;
-  onSave: (startDate: Dayjs) => void;
+  row: ClerkOrganizerType;
 };
 
 export const ModifyAgreementModal = ({
   isModalOpen,
   setIsModalOpen,
-  organizerName,
-  currentStartDate,
-  currentEndDate,
-  address,
-  languages,
-  onSave,
+  row,
 }: ModifyAgreementModalProps) => {
+  const {
+    id,
+    oid,
+    name,
+    agreement_start_date,
+    agreement_end_date,
+    address,
+    languages,
+    contact_name,
+    contact_email,
+    contact_phone_number,
+    extra,
+  } = row;
   const [startDate, setStartDate] = useState<Dayjs | null>(
-    currentStartDate || null,
+    agreement_start_date || null,
   );
-  const [endDate, setEndDate] = useState<Dayjs | null>(currentEndDate || null);
+  const [endDate, setEndDate] = useState<Dayjs | null>(
+    agreement_end_date || null,
+  );
+
+  const dispatch = useAppDispatch();
 
   // Initialize language selections from current languages
-  const initializeLanguageSelections = (): LanguageSelection[] => {
+  const initializeLanguageSelections = useCallback((): LanguageSelection[] => {
+    if (!languages) {
+      return [];
+    }
+
     return LANGUAGES.map((lang: { code: string; name: string }) => {
       const existingLevels = languages
         .filter((l) => l.language_code === lang.code)
@@ -69,22 +84,35 @@ export const ModifyAgreementModal = ({
         },
       };
     });
-  };
+  }, [languages]);
 
   const [languageSelections, setLanguageSelections] = useState<
     LanguageSelection[]
   >(initializeLanguageSelections());
-
   const [touched, setTouched] = useState(false);
-
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
   });
   const translateCommon = useCommonTranslation();
 
+  // Re-initialize language selections when modal opens or languages change
+  useEffect(() => {
+    if (isModalOpen) {
+      setLanguageSelections(initializeLanguageSelections());
+      setStartDate(agreement_start_date || null);
+      setEndDate(agreement_end_date || null);
+      setTouched(false);
+    }
+  }, [
+    isModalOpen,
+    initializeLanguageSelections,
+    agreement_start_date,
+    agreement_end_date,
+  ]);
+
   const handleCloseModal = () => {
-    setStartDate(currentStartDate || null);
-    setEndDate(currentEndDate || null);
+    setStartDate(agreement_start_date || null);
+    setEndDate(agreement_end_date || null);
     setLanguageSelections(initializeLanguageSelections());
     setIsModalOpen(false);
     setTouched(false);
@@ -113,7 +141,41 @@ export const ModifyAgreementModal = ({
     setTouched(true);
     if (!startDate) return;
 
-    onSave(startDate);
+    const selectedLanguages: Array<OrganizerLanguage> = [];
+    languageSelections.forEach((lang) => {
+      if (lang.levels.PERUS) {
+        selectedLanguages.push({
+          language_code: lang.language_code,
+          level_code: 'PERUS',
+        });
+      }
+      if (lang.levels.KESKI) {
+        selectedLanguages.push({
+          language_code: lang.language_code,
+          level_code: 'KESKI',
+        });
+      }
+      if (lang.levels.YLIN) {
+        selectedLanguages.push({
+          language_code: lang.language_code,
+          level_code: 'YLIN',
+        });
+      }
+    });
+
+    dispatch(
+      updateClerkOrganizer({
+        id,
+        oid,
+        agreement_start_date: startDate,
+        agreement_end_date: endDate || undefined,
+        languages: selectedLanguages,
+        contact_name,
+        contact_email,
+        contact_phone_number,
+        extra,
+      }),
+    );
     handleCloseModal();
   };
 
@@ -132,11 +194,7 @@ export const ModifyAgreementModal = ({
           gap={1}
         >
           <H2>{t('listing.modals.modifyAgreement.title')}</H2>
-          <CloseIcon
-            fontSize="large"
-            onClick={handleCloseModal}
-            style={{ cursor: 'pointer' }}
-          />
+          <CloseIcon fontSize="large" onClick={handleCloseModal} />
         </Box>
       }
     >
@@ -153,7 +211,7 @@ export const ModifyAgreementModal = ({
         >
           <div className="rows gapped-xl">
             <div>
-              <H3>{organizerName}</H3>
+              <H3>{name}</H3>
               <Text>{`${address.street}, ${address.zipCode} ${address.city}`}</Text>
             </div>
             <H3>
@@ -223,7 +281,7 @@ export const ModifyAgreementModal = ({
                     borderBottom: '2px solid #e0e0e0',
                   }}
                 >
-                  <div style={{ minWidth: '150px' }}>
+                  <div style={{ flex: 1, minWidth: '150px' }}>
                     <Label>
                       {t('listing.modals.modifyAgreement.language')}
                     </Label>
@@ -261,7 +319,7 @@ export const ModifyAgreementModal = ({
                         borderBottom: '1px solid #e0e0e0',
                       }}
                     >
-                      <div style={{ minWidth: '150px' }}>
+                      <div style={{ flex: 1, minWidth: '150px' }}>
                         <Text>{lang.language_name}</Text>
                       </div>
                       <div
@@ -272,28 +330,53 @@ export const ModifyAgreementModal = ({
                           flex: 1,
                         }}
                       >
-                        <OphCheckbox
-                          checked={lang.levels.PERUS}
-                          onChange={() =>
-                            toggleLanguageLevel(lang.language_code, 'PERUS')
-                          }
-                          sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
-                        />
-
-                        <OphCheckbox
-                          checked={lang.levels.KESKI}
-                          onChange={() =>
-                            toggleLanguageLevel(lang.language_code, 'KESKI')
-                          }
-                          sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
-                        />
-                        <OphCheckbox
-                          checked={lang.levels.YLIN}
-                          onChange={() =>
-                            toggleLanguageLevel(lang.language_code, 'YLIN')
-                          }
-                          sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
-                        />
+                        <div
+                          style={{
+                            minWidth: '80px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          <OphCheckbox
+                            checked={lang.levels.PERUS}
+                            onChange={() =>
+                              toggleLanguageLevel(lang.language_code, 'PERUS')
+                            }
+                            // public side root html font-size affects mui icon size as it uses em and rem, so we need to set it explicitly
+                            // this can be removed when clerk build gets a separate build
+                            sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+                          />
+                        </div>
+                        <div
+                          style={{
+                            minWidth: '80px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          <OphCheckbox
+                            checked={lang.levels.KESKI}
+                            onChange={() =>
+                              toggleLanguageLevel(lang.language_code, 'KESKI')
+                            }
+                            sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+                          />
+                        </div>
+                        <div
+                          style={{
+                            minWidth: '80px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          <OphCheckbox
+                            checked={lang.levels.YLIN}
+                            onChange={() =>
+                              toggleLanguageLevel(lang.language_code, 'YLIN')
+                            }
+                            sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+                          />
+                        </div>
                       </div>
                     </div>
                   );

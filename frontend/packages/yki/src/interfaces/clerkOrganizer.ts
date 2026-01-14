@@ -24,3 +24,24 @@ export interface ClerkOrganizerResponse
   agreement_start_date: string;
   agreement_end_date: string;
 }
+
+export type ClerkOrganizerAddress = {
+  street: string;
+  zipCode: string;
+  city: string;
+};
+
+// For Generic type inference
+export type ClerkOrganizerType = {
+  id: number;
+  name: string;
+  address: ClerkOrganizerAddress;
+  oid: string;
+  agreement_start_date?: Dayjs;
+  agreement_end_date?: Dayjs;
+  contact_name?: string;
+  contact_email?: string;
+  contact_phone_number?: string;
+  languages: Array<OrganizerLanguage> | null;
+  extra: string;
+};

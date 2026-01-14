@@ -9,6 +9,7 @@ interface ClerkOrganizerState {
   organizerRegistry: Array<ClerkOrganizerRegistry>;
   status: APIResponseStatus;
   organizerRegistryStatus?: APIResponseStatus;
+  updateStatus?: APIResponseStatus;
 }
 
 const initialState: ClerkOrganizerState = {
@@ -42,6 +43,31 @@ const clerkOrganizersSlice = createSlice({
       state.organizerRegistryStatus = APIResponseStatus.Success;
       state.organizerRegistry = action.payload;
     },
+    updateClerkOrganizer(state, _action: PayloadAction<ClerkOrganizer>) {
+      state.updateStatus = APIResponseStatus.InProgress;
+    },
+    updateClerkOrganizerSuccess(state, action: PayloadAction<ClerkOrganizer>) {
+      state.updateStatus = APIResponseStatus.Success;
+      const index = state.organizers.findIndex(
+        (o) => o.id === action.payload.id,
+      );
+      if (index !== -1) {
+        state.organizers[index] = action.payload;
+      }
+
+      const registryIndex = state.organizerRegistry.findIndex(
+        (r) => r.organizer.id === action.payload.id,
+      );
+      if (registryIndex !== -1) {
+        state.organizerRegistry[registryIndex] = {
+          ...state.organizerRegistry[registryIndex],
+          organizer: action.payload,
+        };
+      }
+    },
+    updateClerkOrganizerError(state) {
+      state.updateStatus = APIResponseStatus.Error;
+    },
   },
 });
 
@@ -52,4 +78,7 @@ export const {
   storeClerkOrganizers,
   loadClerkOrganizerRegistry,
   storeClerkOrganizerRegistry,
+  updateClerkOrganizer,
+  updateClerkOrganizerSuccess,
+  updateClerkOrganizerError,
 } = clerkOrganizersSlice.actions;
