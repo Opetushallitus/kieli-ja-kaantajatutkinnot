@@ -21,6 +21,7 @@ import { CustomButton, CustomCircularProgress } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
+import { ClerkRegisterListingFilters } from 'components/clerkRegister/listing/ClerkRegisterListingFilters';
 import { ModifyAgreementModal } from 'components/clerkRegister/listing/ModifyAgreementModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
@@ -33,9 +34,9 @@ import { ExamSession } from 'interfaces/examSessions';
 import { H4, Label, Text } from 'ophTheme/Text';
 import { loadClerkOrganizerRegistry } from 'redux/reducers/clerkOrganizer';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
+import { filteredClerkOrganizersSelector } from 'redux/selectors/filteredClerkOrganizers';
 import {
   getLanguagesWithLevelDescriptions,
-  getOrganizerAddress,
   languagesToString,
   languageToString,
   levelDescription,
@@ -85,15 +86,8 @@ export const ClerkRegisterListing = ({
   page,
   setPage,
 }: ClerkRegisterListingProps) => {
-  const { organizerRegistryStatus, organizerRegistry } = useAppSelector(
-    clerkOrganizersSelector,
-  );
-
-  const rows: ClerkOrganizerType[] = organizerRegistry.map((organizer) => ({
-    ...organizer.organizer,
-    name: organizer?.organization?.nimi?.fi ?? '',
-    address: getOrganizerAddress(organizer.organization),
-  }));
+  const { organizerRegistryStatus } = useAppSelector(clerkOrganizersSelector);
+  const rows = useAppSelector(filteredClerkOrganizersSelector);
 
   const pagination = {
     page,
@@ -171,17 +165,20 @@ export const ClerkRegisterListing = ({
       );
     case APIResponseStatus.Success:
       return (
-        <ListTable
-          rows={rows}
-          rowKeyProp="oid"
-          columns={columns}
-          translateHeader={false}
-          pagination={pagination}
-          renderCollapsibleRow={(row, open) => (
-            <ClerkRegisterCollapsibleRow row={row} open={open} />
-          )}
-          collapsibleRows={true}
-        />
+        <>
+          <ClerkRegisterListingFilters />
+          <ListTable
+            rows={rows}
+            rowKeyProp="oid"
+            columns={columns}
+            translateHeader={false}
+            pagination={pagination}
+            renderCollapsibleRow={(row, open) => (
+              <ClerkRegisterCollapsibleRow row={row} open={open} />
+            )}
+            collapsibleRows={true}
+          />
+        </>
       );
   }
 };

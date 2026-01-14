@@ -10,6 +10,7 @@ interface ClerkOrganizerState {
   status: APIResponseStatus;
   organizerRegistryStatus?: APIResponseStatus;
   updateStatus?: APIResponseStatus;
+  searchQuery: string;
 }
 
 const initialState: ClerkOrganizerState = {
@@ -17,6 +18,7 @@ const initialState: ClerkOrganizerState = {
   organizerRegistry: [],
   status: APIResponseStatus.NotStarted,
   organizerRegistryStatus: APIResponseStatus.NotStarted,
+  searchQuery: '',
 };
 
 const clerkOrganizersSlice = createSlice({
@@ -68,6 +70,9 @@ const clerkOrganizersSlice = createSlice({
     updateClerkOrganizerError(state) {
       state.updateStatus = APIResponseStatus.Error;
     },
+    setSearchQuery(state, action: PayloadAction<string>) {
+      state.searchQuery = action.payload;
+    },
   },
 });
 
@@ -81,4 +86,5 @@ export const {
   updateClerkOrganizer,
   updateClerkOrganizerSuccess,
   updateClerkOrganizerError,
+  setSearchQuery,
 } = clerkOrganizersSlice.actions;

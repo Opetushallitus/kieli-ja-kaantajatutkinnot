@@ -31,6 +31,9 @@
           }
         },
         "listing": {
+          "filters": {
+            "searchLabel": "Hae järjestäjää tai paikkakuntaa"
+          },
           "header": {
             "organizer": "Järjestäjä",
             "agreements": "Kielitutkintosopimukset",
