@@ -2,7 +2,7 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 8
+  version: 6
   cacheKey: 10
 
 "@aashutoshrathi/word-wrap@npm:^1.2.3":
@@ -2725,133 +2725,93 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opetushallitus/kieli-ja-kaantajatutkinnot.akr@workspace:packages/akr":
-  version: 0.0.0-use.local
-  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.akr@workspace:packages/akr"
-  dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.14.1"
-  languageName: unknown
-  linkType: soft
-
-"@opetushallitus/kieli-ja-kaantajatutkinnot.otr@workspace:packages/otr":
-  version: 0.0.0-use.local
-  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.otr@workspace:packages/otr"
-  dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.14.1"
-  languageName: unknown
-  linkType: soft
-
 "@opetushallitus/kieli-ja-kaantajatutkinnot.root@workspace:.":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.root@workspace:."
   dependencies:
-    "@babel/core": "npm:^7.23.2"
-    "@babel/plugin-transform-runtime": "npm:^7.23.2"
-    "@babel/preset-env": "npm:^7.23.2"
-    "@babel/preset-react": "npm:^7.22.15"
-    "@babel/preset-typescript": "npm:^7.23.2"
-    "@babel/runtime": "npm:^7.26.10"
-    "@cypress/webpack-preprocessor": "npm:^6.0.0"
-    "@emotion/react": "npm:^11.13.0"
-    "@emotion/styled": "npm:^11.13.0"
-    "@fontsource/roboto": "npm:^5.1.0"
-    "@mui/icons-material": "npm:^7.1.2"
-    "@mui/material": "npm:^7.0.0"
-    "@mui/system": "npm:^5.16.7"
-    "@mui/x-date-pickers": "npm:^8.12.0"
-    "@opetushallitus/oph-design-system": "npm:^1.0.0"
-    "@reduxjs/toolkit": "npm:^2.0.0"
-    "@testing-library/cypress": "npm:10.1.0"
-    "@testing-library/dom": "npm:10.4.1"
-    "@testing-library/jest-dom": "npm:^6.1.4"
-    "@testing-library/react": "npm:^16.3.0"
-    "@testing-library/user-event": "npm:^14.5.1"
-    "@types/jest": "npm:^29.5.7"
-    "@types/js-cookie": "npm:^3.0.6"
-    "@types/node": "npm:^20.8.10"
-    "@types/react": "npm:18.3.1"
-    "@types/react-dom": "npm:18.3.1"
-    "@types/react-redux": "npm:^7.1.29"
-    "@typescript-eslint/eslint-plugin": "npm:^6.10.0"
-    "@typescript-eslint/parser": "npm:^6.10.0"
-    axios: "npm:^1.12.0"
-    babel-jest: "npm:^29.7.0"
-    babel-loader: "npm:^9.1.3"
-    compression-webpack-plugin: "npm:^10.0.0"
-    copy-webpack-plugin: "npm:^11.0.0"
-    css-loader: "npm:^6.8.1"
-    cypress: "npm:^14.5.4"
-    dayjs: "npm:^1.11.13"
-    dotenv-webpack: "npm:^8.1.0"
-    eslint: "npm:^8.53.0"
-    eslint-config-prettier: "npm:^9.0.0"
-    eslint-import-resolver-webpack: "npm:^0.13.8"
-    eslint-plugin-eslint-comments: "npm:^3.2.0"
-    eslint-plugin-import: "npm:^2.29.0"
-    eslint-plugin-jsx-a11y: "npm:^6.8.0"
-    eslint-plugin-no-only-tests: "npm:^3.1.0"
-    eslint-plugin-prettier: "npm:^5.0.1"
-    eslint-plugin-react: "npm:^7.33.2"
-    eslint-plugin-react-hooks: "npm:^4.6.0"
-    eslint-webpack-plugin: "npm:^4.0.1"
+    "@babel/core": ^7.23.2
+    "@babel/plugin-transform-runtime": ^7.23.2
+    "@babel/preset-env": ^7.23.2
+    "@babel/preset-react": ^7.22.15
+    "@babel/preset-typescript": ^7.23.2
+    "@babel/runtime": ^7.26.10
+    "@cypress/webpack-preprocessor": ^6.0.0
+    "@emotion/react": ^11.13.0
+    "@emotion/styled": ^11.13.0
+    "@fontsource/roboto": ^5.1.0
+    "@mui/icons-material": ^7.1.2
+    "@mui/material": ^7.0.0
+    "@mui/system": ^5.16.7
+    "@mui/x-date-pickers": ^8.12.0
+    "@opetushallitus/oph-design-system": ^1.0.0
+    "@reduxjs/toolkit": ^2.0.0
+    "@testing-library/cypress": 10.1.0
+    "@testing-library/dom": 10.4.1
+    "@testing-library/jest-dom": ^6.1.4
+    "@testing-library/react": ^16.3.0
+    "@testing-library/user-event": ^14.5.1
+    "@types/jest": ^29.5.7
+    "@types/js-cookie": ^3.0.6
+    "@types/node": ^20.8.10
+    "@types/react": 18.3.1
+    "@types/react-dom": 18.3.1
+    "@types/react-redux": ^7.1.29
+    "@typescript-eslint/eslint-plugin": ^6.10.0
+    "@typescript-eslint/parser": ^6.10.0
+    axios: ^1.12.0
+    babel-jest: ^29.7.0
+    babel-loader: ^9.1.3
+    compression-webpack-plugin: ^10.0.0
+    copy-webpack-plugin: ^11.0.0
+    css-loader: ^6.8.1
+    cypress: ^14.5.4
+    dayjs: ^1.11.13
+    dotenv-webpack: ^8.1.0
+    eslint: ^8.53.0
+    eslint-config-prettier: ^9.0.0
+    eslint-import-resolver-webpack: ^0.13.8
+    eslint-plugin-eslint-comments: ^3.2.0
+    eslint-plugin-import: ^2.29.0
+    eslint-plugin-jsx-a11y: ^6.8.0
+    eslint-plugin-no-only-tests: ^3.1.0
+    eslint-plugin-prettier: ^5.0.1
+    eslint-plugin-react: ^7.33.2
+    eslint-plugin-react-hooks: ^4.6.0
+    eslint-webpack-plugin: ^4.0.1
     finnish-personal-identity-code-validator: "kimmotaskinen/finnish-personal-identity-code-validator#support-new-delimiters"
-    focus-trap-react: "npm:^11.0.1"
-    git-revision-webpack-plugin: "npm:^5.0.0"
-    history: "npm:^5.3.0"
-    html-webpack-plugin: "npm:^5.5.3"
-    i18next: "npm:^24.2.3"
-    i18next-browser-languagedetector: "npm:^7.2.1"
-    jest: "npm:^29.7.0"
-    jest-environment-jsdom: "npm:^29.7.0"
-    js-cookie: "npm:^3.0.5"
-    mini-css-extract-plugin: "npm:^2.7.6"
-    msw: "npm:^2.10.5"
-    normalize.css: "npm:^8.0.1"
-    postcss: "npm:^8.4.31"
-    prettier: "npm:^3.0.3"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
-    react-i18next: "npm:^13.5.0"
-    react-redux: "npm:^9.0.0"
-    react-router-dom: "npm:6.28.0"
-    redux-saga: "npm:^1.3.0"
-    sass: "npm:^1.69.5"
-    sass-loader: "npm:^13.3.2"
-    style-loader: "npm:^3.3.3"
-    stylelint: "npm:^15.11.0"
-    stylelint-config-prettier: "npm:^9.0.5"
-    stylelint-config-sass-guidelines: "npm:^10.0.0"
-    stylelint-prettier: "npm:^4.0.2"
-    stylelint-webpack-plugin: "npm:^4.1.1"
-    ts-unused-exports: "npm:^10.0.1"
-    typescript: "npm:^5.2.2"
-    webpack: "npm:^5.94.0"
-    webpack-cli: "npm:^5.1.4"
-    webpack-dev-server: "npm:^5.2.1"
-  languageName: unknown
-  linkType: soft
-
-"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.14.1":
-  version: 0.0.0-use.local
-  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
-  languageName: unknown
-  linkType: soft
-
-"@opetushallitus/kieli-ja-kaantajatutkinnot.vkt@workspace:packages/vkt":
-  version: 0.0.0-use.local
-  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.vkt@workspace:packages/vkt"
-  dependencies:
-    reduxjs-toolkit-persist: "npm:^7.2.1"
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.14.1"
-  languageName: unknown
-  linkType: soft
-
-"@opetushallitus/kieli-ja-kaantajatutkinnot.yki@workspace:packages/yki":
-  version: 0.0.0-use.local
-  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.yki@workspace:packages/yki"
-  dependencies:
-    multer: "npm:^2.0.2"
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.14.1"
+    focus-trap-react: ^11.0.1
+    git-revision-webpack-plugin: ^5.0.0
+    history: ^5.3.0
+    html-webpack-plugin: ^5.5.3
+    i18next: ^24.2.3
+    i18next-browser-languagedetector: ^7.2.1
+    jest: ^29.7.0
+    jest-environment-jsdom: ^29.7.0
+    js-cookie: ^3.0.5
+    mini-css-extract-plugin: ^2.7.6
+    msw: ^2.10.5
+    normalize.css: ^8.0.1
+    postcss: ^8.4.31
+    prettier: ^3.0.3
+    react: ^18.3.1
+    react-dom: ^18.3.1
+    react-i18next: ^13.5.0
+    react-redux: ^9.0.0
+    react-router-dom: 6.30.3
+    redux-saga: ^1.3.0
+    sass: ^1.69.5
+    sass-loader: ^13.3.2
+    style-loader: ^3.3.3
+    stylelint: ^15.11.0
+    stylelint-config-prettier: ^9.0.5
+    stylelint-config-sass-guidelines: ^10.0.0
+    stylelint-prettier: ^4.0.2
+    stylelint-webpack-plugin: ^4.1.1
+    ts-unused-exports: ^10.0.1
+    typescript: ^5.2.2
+    webpack: ^5.94.0
+    webpack-cli: ^5.1.4
+    webpack-dev-server: ^5.2.1
   languageName: unknown
   linkType: soft
 
@@ -2971,10 +2931,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/router@npm:1.21.0":
-  version: 1.21.0
-  resolution: "@remix-run/router@npm:1.21.0"
-  checksum: cf0fb69d19c1b79095ff67c59cea89086f3982a9a54c8a993818a60fc76e0ebab5a8db647c1a96a662729fad8e806ddd0a96622adf473f5a9f0b99998b2dbad4
+"@remix-run/router@npm:1.23.2":
+  version: 1.23.2
+  resolution: "@remix-run/router@npm:1.23.2"
+  checksum: 8/0f046e480372be17d14f88684435cd6af4c05ce842bd6094a549605dd5b8f0ab1e9a1e9d9e2faec9e4d5cd370d02179b456189192f06415e461bce44c28295d8
   languageName: node
   linkType: hard
 
@@ -4236,13 +4196,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"append-field@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "append-field@npm:1.0.0"
-  checksum: afb50f5ff668af1cb66bc5cfebb55ed9a1d99e24901782ee83d00aed1a499835f9375a149cf27b17f79595ecfcc3d1de0cd5b020b210a5359c43eaf607c217de
-  languageName: node
-  linkType: hard
-
 "arch@npm:^2.2.0":
   version: 2.2.0
   resolution: "arch@npm:2.2.0"
@@ -4865,15 +4818,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"busboy@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "busboy@npm:1.6.0"
-  dependencies:
-    streamsearch: "npm:^1.1.0"
-  checksum: bee10fa10ea58e7e3e7489ffe4bda6eacd540a17de9f9cd21cc37e297b2dd9fe52b2715a5841afaec82900750d810d01d7edb4b2d456427f449b92b417579763
-  languageName: node
-  linkType: hard
-
 "bytes@npm:3.0.0":
   version: 3.0.0
   resolution: "bytes@npm:3.0.0"
@@ -5370,18 +5314,6 @@ __metadata:
   version: 0.0.1
   resolution: "concat-map@npm:0.0.1"
   checksum: 9680699c8e2b3af0ae22592cb764acaf973f292a7b71b8a06720233011853a58e256c89216a10cbe889727532fd77f8bcd49a760cedfde271b8e006c20e079f2
-  languageName: node
-  linkType: hard
-
-"concat-stream@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "concat-stream@npm:2.0.0"
-  dependencies:
-    buffer-from: "npm:^1.0.0"
-    inherits: "npm:^2.0.3"
-    readable-stream: "npm:^3.0.2"
-    typedarray: "npm:^0.0.6"
-  checksum: 250e576d0617e7c58e1c4b2dd6fe69560f316d2c962a409f9f3aac794018499ddb31948b1e4296f217008e124cd5d526432097745157fe504b5d9f3dc469eadb
   languageName: node
   linkType: hard
 
@@ -7324,9 +7256,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fsevents@patch:fsevents@npm%3A^2.3.2#optional!builtin<compat/fsevents>, fsevents@patch:fsevents@npm%3A~2.3.2#optional!builtin<compat/fsevents>":
+"fsevents@patch:fsevents@npm%3A^2.3.2#~builtin<compat/fsevents>, fsevents@patch:fsevents@npm%3A~2.3.2#~builtin<compat/fsevents>":
   version: 2.3.3
-  resolution: "fsevents@patch:fsevents@npm%3A2.3.3#optional!builtin<compat/fsevents>::version=2.3.3&hash=df0bf1"
+  resolution: "fsevents@patch:fsevents@npm%3A2.3.3#~builtin<compat/fsevents>::version=2.3.3&hash=df0bf1"
   dependencies:
     node-gyp: "npm:latest"
   conditions: os=darwin
@@ -10033,17 +9965,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mkdirp@npm:^0.5.6":
-  version: 0.5.6
-  resolution: "mkdirp@npm:0.5.6"
-  dependencies:
-    minimist: "npm:^1.2.6"
-  bin:
-    mkdirp: bin/cmd.js
-  checksum: 0c91b721bb12c3f9af4b77ebf73604baf350e64d80df91754dc509491ae93bf238581e59c7188360cec7cb62fc4100959245a42cfe01834efedc5e9d068376c2
-  languageName: node
-  linkType: hard
-
 "mkdirp@npm:^1.0.3":
   version: 1.0.4
   resolution: "mkdirp@npm:1.0.4"
@@ -10104,21 +10025,6 @@ __metadata:
   bin:
     msw: cli/index.js
   checksum: 9e48c1d4d5e3da35720ab915f5e5624330203a6eb8d824f426d736635b884769c8ca0863634364c9f4b2466208049964706778ce69f31fdb7c35ae47064f396f
-  languageName: node
-  linkType: hard
-
-"multer@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "multer@npm:2.0.2"
-  dependencies:
-    append-field: "npm:^1.0.0"
-    busboy: "npm:^1.6.0"
-    concat-stream: "npm:^2.0.0"
-    mkdirp: "npm:^0.5.6"
-    object-assign: "npm:^4.1.1"
-    type-is: "npm:^1.6.18"
-    xtend: "npm:^4.0.2"
-  checksum: 4bdcb07138cf72f93adc08a0dc27c058faab9f6721067a58f394fa546d73d11b7f100cdd66e733d649d184f9d1b402065f6888b31ec427409f056ee92c4367a6
   languageName: node
   linkType: hard
 
@@ -11173,27 +11079,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:6.28.0":
-  version: 6.28.0
-  resolution: "react-router-dom@npm:6.28.0"
+"react-router-dom@npm:6.30.3":
+  version: 6.30.3
+  resolution: "react-router-dom@npm:6.30.3"
   dependencies:
-    "@remix-run/router": "npm:1.21.0"
-    react-router: "npm:6.28.0"
+    "@remix-run/router": 1.23.2
+    react-router: 6.30.3
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: e637825132ea96c3514ef7b8322f9bf0b752a942d6b4ffc4c20e389b5911726adf3dba8208ed4b97bf5b9c3bd465d9d1a1db1a58a610a8d528f18d890e0b143f
+  checksum: 8/1f43ce47dd8cfc1bc728ea7b0cf10136416416491136726cda500aaea74da3c5dbcfcec24781bc390f6e8a4383ff72b8331b53887485e79dcb75387ffe5508c3
   languageName: node
   linkType: hard
 
-"react-router@npm:6.28.0":
-  version: 6.28.0
-  resolution: "react-router@npm:6.28.0"
+"react-router@npm:6.30.3":
+  version: 6.30.3
+  resolution: "react-router@npm:6.30.3"
   dependencies:
-    "@remix-run/router": "npm:1.21.0"
+    "@remix-run/router": 1.23.2
   peerDependencies:
     react: ">=16.8"
-  checksum: f021a644513144884a567d9c2dcc432e8e3233f931378c219c5a3b5b842340f0faca86225a708bafca1e9010965afe1a7dada28aef5b7b6138c885c0552d9a7d
+  checksum: 8/b61e1a456b72ed35907dadc261d8572a65dd4caae008f7a85a6b09b437b1a4b90034fc7df0e418f1f01b73c2b8a8f6755d7fc0108b1ec3f2ed37f03a1e248513
   languageName: node
   linkType: hard
 
@@ -11259,7 +11165,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"readable-stream@npm:^3.0.2, readable-stream@npm:^3.0.6":
+"readable-stream@npm:^3.0.6":
   version: 3.6.2
   resolution: "readable-stream@npm:3.6.2"
   dependencies:
@@ -11339,15 +11245,6 @@ __metadata:
   version: 5.0.1
   resolution: "redux@npm:5.0.1"
   checksum: a373f9ed65693ead58bea5ef61c1d6bef39da9f2706db3be6f84815f3a1283230ecd1184efb1b3daa7f807d8211b0181564ca8f336fc6ee0b1e2fa0ba06737c2
-  languageName: node
-  linkType: hard
-
-"reduxjs-toolkit-persist@npm:^7.2.1":
-  version: 7.2.1
-  resolution: "reduxjs-toolkit-persist@npm:7.2.1"
-  peerDependencies:
-    "@reduxjs/toolkit": ^1.6.1
-  checksum: 94c75dff10c8442e69feda9c2a647df23c43c99a74fe175f2623acd8518ae7f47ad48f636d7b8ae26ee1b7b7927ad6c93e6c2b8150bb1a77274f8135eddce8b9
   languageName: node
   linkType: hard
 
@@ -11546,29 +11443,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@npm%3A^1.14.2#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.19.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.20.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.4#optional!builtin<compat/resolve>":
+"resolve@patch:resolve@npm%3A^1.14.2#~builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.19.0#~builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.20.0#~builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.4#~builtin<compat/resolve>":
   version: 1.22.8
-  resolution: "resolve@patch:resolve@npm%3A1.22.8#optional!builtin<compat/resolve>::version=1.22.8&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.22.8#~builtin<compat/resolve>::version=1.22.8&hash=c3c19d"
   dependencies:
     is-core-module: "npm:^2.13.0"
     path-parse: "npm:^1.0.7"
     supports-preserve-symlinks-flag: "npm:^1.0.0"
   bin:
     resolve: bin/resolve
-  checksum: f345cd37f56a2c0275e3fe062517c650bb673815d885e7507566df589375d165bbbf4bdb6aa95600a9bc55f4744b81f452b5a63f95b9f10a72787dba3c90890a
+  checksum: 8/5479b7d431cacd5185f8db64bfcb7286ae5e31eb299f4c4f404ad8aa6098b77599563ac4257cb2c37a42f59dfc06a1bec2bcf283bb448f319e37f0feb9a09847
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@npm%3A^2.0.0-next.4#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^2.0.0-next.5#optional!builtin<compat/resolve>":
+"resolve@patch:resolve@npm%3A^2.0.0-next.4#~builtin<compat/resolve>, resolve@patch:resolve@npm%3A^2.0.0-next.5#~builtin<compat/resolve>":
   version: 2.0.0-next.5
-  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.5#optional!builtin<compat/resolve>::version=2.0.0-next.5&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.5#~builtin<compat/resolve>::version=2.0.0-next.5&hash=c3c19d"
   dependencies:
     is-core-module: "npm:^2.13.0"
     path-parse: "npm:^1.0.7"
     supports-preserve-symlinks-flag: "npm:^1.0.0"
   bin:
     resolve: bin/resolve
-  checksum: 05fa778de9d0347c8b889eb7a18f1f06bf0f801b0eb4610b4871a4b2f22e220900cf0ad525e94f990bb8d8921c07754ab2122c0c225ab4cdcea98f36e64fa4c2
+  checksum: 8/064d09c1808d0c51b3d90b5d27e198e6d0c5dad0eb57065fd40803d6a20553e5398b07f76739d69cbabc12547058bec6b32106ea66622375fb0d7e8fca6a846c
   languageName: node
   linkType: hard
 
@@ -12262,13 +12159,6 @@ __metadata:
   version: 1.5.0
   resolution: "statuses@npm:1.5.0"
   checksum: c469b9519de16a4bb19600205cffb39ee471a5f17b82589757ca7bd40a8d92ebb6ed9f98b5a540c5d302ccbc78f15dc03cc0280dd6e00df1335568a5d5758a5c
-  languageName: node
-  linkType: hard
-
-"streamsearch@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "streamsearch@npm:1.1.0"
-  checksum: 612c2b2a7dbcc859f74597112f80a42cbe4d448d03da790d5b7b39673c1197dd3789e91cd67210353e58857395d32c1e955a9041c4e6d5bae723436b3ed9ed14
   languageName: node
   linkType: hard
 
@@ -13026,7 +12916,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-is@npm:^1.6.18, type-is@npm:~1.6.18":
+"type-is@npm:~1.6.18":
   version: 1.6.18
   resolution: "type-is@npm:1.6.18"
   dependencies:
@@ -13083,13 +12973,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedarray@npm:^0.0.6":
-  version: 0.0.6
-  resolution: "typedarray@npm:0.0.6"
-  checksum: 2cc1bcf7d8c1237f6a16c04efc06637b2c5f2d74e58e84665445cf87668b85a21ab18dd751fa49eee6ae024b70326635d7b79ad37b1c370ed2fec6aeeeb52714
-  languageName: node
-  linkType: hard
-
 "typescript-compare@npm:^0.0.2":
   version: 0.0.2
   resolution: "typescript-compare@npm:0.0.2"
@@ -13125,13 +13008,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.2.2#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@^5.2.2#~builtin<compat/typescript>":
   version: 5.2.2
-  resolution: "typescript@patch:typescript@npm%3A5.2.2#optional!builtin<compat/typescript>::version=5.2.2&hash=f3b441"
+  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=d73830"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: f79cc2ba802c94c2b78dbb00d767a10adb67368ae764709737dc277273ec148aa4558033a03ce901406b35fddf4eac46dabc94a1e1d12d2587e2b9cfe5707b4a
+  checksum: 8/07106822b4305de3f22835cbba949a2b35451cad50888759b6818421290ff95d522b38ef7919e70fb381c5fe9c1c643d7dea22c8b31652a717ddbd57b7f4d554
   languageName: node
   linkType: hard
 
@@ -13818,13 +13701,6 @@ __metadata:
   version: 2.2.0
   resolution: "xmlchars@npm:2.2.0"
   checksum: 4ad5924974efd004a47cce6acf5c0269aee0e62f9a805a426db3337af7bcbd331099df174b024ace4fb18971b8a56de386d2e73a1c4b020e3abd63a4a9b917f1
-  languageName: node
-  linkType: hard
-
-"xtend@npm:^4.0.2":
-  version: 4.0.2
-  resolution: "xtend@npm:4.0.2"
-  checksum: ac5dfa738b21f6e7f0dd6e65e1b3155036d68104e67e5d5d1bde74892e327d7e5636a076f625599dc394330a731861e87343ff184b0047fef1360a7ec0a5a36a
   languageName: node
   linkType: hard
 
