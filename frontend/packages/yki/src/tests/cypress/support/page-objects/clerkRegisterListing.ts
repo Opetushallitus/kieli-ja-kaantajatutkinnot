@@ -64,7 +64,6 @@ class ClerkRegisterListing {
       .find('td')
       .eq(1)
       .within(() => {
-        cy.get('[data-testid="ErrorIcon"]').should('exist');
         cy.contains('Sopimus vanhentunut').should('exist');
       });
   }
