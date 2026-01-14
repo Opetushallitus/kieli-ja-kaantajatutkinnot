@@ -27,6 +27,12 @@
           "agreementExpired": "Sopimus vanhentunut",
           "errors": {
             "loadingFailed": "Järjestäjien hakeminen epäonnistui"
+          },
+          "contentLabels": {
+            "organizerAgreement": "Järjestäjäsopimus",
+            "languageProficiencies": "Kielitutkinnot",
+            "contactInfo": "Yhteystiedot",
+            "extraInfo": "Lisätiedot"
           }
         }
       },

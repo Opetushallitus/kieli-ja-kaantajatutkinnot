@@ -1,6 +1,7 @@
 {
   "yki": {
     "common": {
+      "and": "and",
       "actions": "Actions",
       "address": "Address",
       "appNameAbbreviation": "YKI",
