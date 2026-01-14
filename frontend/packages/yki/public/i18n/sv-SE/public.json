@@ -35,7 +35,8 @@
             "searchLabel": "Hae järjestäjää tai paikkakuntaa",
             "languageLabel": "Kieli",
             "levelLabel": "Taso",
-            "all": "Kaikki"
+            "all": "Kaikki",
+            "selectPlaceholder": "Valitse..."
           },
           "header": {
             "organizer": "Järjestäjä",
