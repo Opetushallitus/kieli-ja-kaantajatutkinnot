@@ -32,7 +32,10 @@
         },
         "listing": {
           "filters": {
-            "searchLabel": "Hae järjestäjää tai paikkakuntaa"
+            "searchLabel": "Hae järjestäjää tai paikkakuntaa",
+            "languageLabel": "Kieli",
+            "levelLabel": "Taso",
+            "all": "Kaikki"
           },
           "header": {
             "organizer": "Järjestäjä",

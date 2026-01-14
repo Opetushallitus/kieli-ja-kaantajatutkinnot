@@ -11,6 +11,8 @@ interface ClerkOrganizerState {
   organizerRegistryStatus?: APIResponseStatus;
   updateStatus?: APIResponseStatus;
   searchQuery: string;
+  languageFilter: string;
+  levelFilter: string;
 }
 
 const initialState: ClerkOrganizerState = {
@@ -19,6 +21,8 @@ const initialState: ClerkOrganizerState = {
   status: APIResponseStatus.NotStarted,
   organizerRegistryStatus: APIResponseStatus.NotStarted,
   searchQuery: '',
+  languageFilter: '',
+  levelFilter: '',
 };
 
 const clerkOrganizersSlice = createSlice({
@@ -73,6 +77,12 @@ const clerkOrganizersSlice = createSlice({
     setSearchQuery(state, action: PayloadAction<string>) {
       state.searchQuery = action.payload;
     },
+    setLanguageFilter(state, action: PayloadAction<string>) {
+      state.languageFilter = action.payload;
+    },
+    setLevelFilter(state, action: PayloadAction<string>) {
+      state.levelFilter = action.payload;
+    },
   },
 });
 
@@ -87,4 +97,6 @@ export const {
   updateClerkOrganizerSuccess,
   updateClerkOrganizerError,
   setSearchQuery,
+  setLanguageFilter,
+  setLevelFilter,
 } = clerkOrganizersSlice.actions;

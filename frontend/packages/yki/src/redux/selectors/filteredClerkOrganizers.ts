@@ -8,8 +8,10 @@ export const filteredClerkOrganizersSelector = createSelector(
   [
     (state: RootState) => state.clerkOrganizer.organizerRegistry,
     (state: RootState) => state.clerkOrganizer.searchQuery,
+    (state: RootState) => state.clerkOrganizer.languageFilter,
+    (state: RootState) => state.clerkOrganizer.levelFilter,
   ],
-  (organizerRegistry, searchQuery) => {
+  (organizerRegistry, searchQuery, languageFilter, levelFilter) => {
     const allRows: ClerkOrganizerType[] = organizerRegistry.map(
       (organizer) => ({
         ...organizer.organizer,
@@ -18,16 +20,34 @@ export const filteredClerkOrganizersSelector = createSelector(
       }),
     );
 
-    if (!searchQuery) {
-      return allRows;
-    }
+    return allRows.filter((row) => {
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        const matchesSearch =
+          row.name.toLowerCase().includes(query) ||
+          row.address.city.toLowerCase().includes(query);
+        if (!matchesSearch) return false;
+      }
 
-    const query = searchQuery.toLowerCase();
+      if (languageFilter || levelFilter) {
+        if (!row.languages || row.languages.length === 0) {
+          return false;
+        }
 
-    return allRows.filter(
-      (row) =>
-        row.name.toLowerCase().includes(query) ||
-        row.address.city.toLowerCase().includes(query),
-    );
+        const hasMatch = row.languages.some((lang) => {
+          const matchesLanguage = languageFilter
+            ? lang.language_code === languageFilter
+            : true;
+          const matchesLevel = levelFilter
+            ? lang.level_code === levelFilter
+            : true;
+
+          return matchesLanguage && matchesLevel;
+        });
+        if (!hasMatch) return false;
+      }
+
+      return true;
+    });
   },
 );
