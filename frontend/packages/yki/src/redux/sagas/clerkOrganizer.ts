@@ -103,6 +103,8 @@ function* updateClerkOrganizerSaga(
       requestData,
     );
 
+    yield new Promise((resolve) => setTimeout(resolve, 3000));
+
     const updatedOrganizer =
       SerializationUtils.deserializeClerkOrganizerResponse(response.data);
     yield put(updateClerkOrganizerSuccess(updatedOrganizer));

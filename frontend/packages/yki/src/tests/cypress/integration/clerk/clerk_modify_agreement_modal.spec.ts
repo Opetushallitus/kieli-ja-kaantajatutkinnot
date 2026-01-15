@@ -1,5 +1,6 @@
 import { onClerkRegisterListing } from 'tests/cypress/support/page-objects/clerkRegisterListing';
 import { onModifyAgreementModal } from 'tests/cypress/support/page-objects/modifyAgreementModal';
+import { onToast } from 'tests/cypress/support/page-objects/toast';
 
 describe('ModifyAgreementModal', () => {
   beforeEach(() => {
@@ -83,6 +84,7 @@ describe('ModifyAgreementModal', () => {
       onModifyAgreementModal.enterStartDate('15.03.2026');
       onModifyAgreementModal.clickSaveButton();
       onModifyAgreementModal.expectModalNotVisible();
+      onToast.expectText('Muutokset tallennettu onnistuneesti');
     });
 
     it('should successfully save with start date and end date', () => {
@@ -90,6 +92,7 @@ describe('ModifyAgreementModal', () => {
       onModifyAgreementModal.enterEndDate('31.12.2028');
       onModifyAgreementModal.clickSaveButton();
       onModifyAgreementModal.expectModalNotVisible();
+      onToast.expectText('Muutokset tallennettu onnistuneesti');
     });
 
     it('should successfully save with language selections', () => {
@@ -97,6 +100,7 @@ describe('ModifyAgreementModal', () => {
       onModifyAgreementModal.toggleLanguageLevel('Ranska', 'YLIN');
       onModifyAgreementModal.clickSaveButton();
       onModifyAgreementModal.expectModalNotVisible();
+      onToast.expectText('Muutokset tallennettu onnistuneesti');
     });
 
     it('should persist date changes after save and reopen', () => {

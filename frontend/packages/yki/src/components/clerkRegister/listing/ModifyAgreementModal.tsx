@@ -7,17 +7,22 @@ import {
 } from '@opetushallitus/oph-design-system';
 import { Dayjs } from 'dayjs';
 import { useCallback, useEffect, useState } from 'react';
-import { CustomDatePicker, CustomModal } from 'shared/components';
-import { Color, Variant } from 'shared/enums';
+import {
+  CustomDatePicker,
+  CustomModal,
+  LoadingProgressIndicator,
+} from 'shared/components';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {
   ClerkOrganizerType,
   OrganizerLanguage,
 } from 'interfaces/clerkOrganizer';
 import { H2, H3, Label, Text } from 'ophTheme/Text';
 import { updateClerkOrganizer } from 'redux/reducers/clerkOrganizer';
+import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
 import { LANGUAGES, levelDescription } from 'utils/clerk';
 
 type LanguageSelection = {
@@ -61,6 +66,7 @@ export const ModifyAgreementModal = ({
     agreement_end_date || null,
   );
 
+  const { updateStatus } = useAppSelector(clerkOrganizersSelector);
   const dispatch = useAppDispatch();
 
   // Initialize language selections from current languages
@@ -134,7 +140,8 @@ export const ModifyAgreementModal = ({
   };
 
   const handleSave = () => {
-    if (!startDate) return;
+    if (!startDate || !endDate || endDate.isBefore(startDate.add(1, 'day')))
+      return;
 
     const selectedLanguages: Array<OrganizerLanguage> = [];
     languageSelections.forEach((lang) => {
@@ -171,7 +178,6 @@ export const ModifyAgreementModal = ({
         extra,
       }),
     );
-    handleCloseModal();
   };
 
   const getEndDateHelperText = () => {
@@ -401,13 +407,18 @@ export const ModifyAgreementModal = ({
               >
                 {t('listing.modals.modifyAgreement.cancelButton')}
               </OphButton>
-              <OphButton
-                variant={Variant.Contained}
-                color={Color.Primary}
-                onClick={handleSave}
+              <LoadingProgressIndicator
+                isLoading={updateStatus === APIResponseStatus.InProgress}
               >
-                {t('listing.modals.modifyAgreement.saveButton')}
-              </OphButton>
+                <OphButton
+                  variant={Variant.Contained}
+                  color={Color.Primary}
+                  onClick={handleSave}
+                  disabled={updateStatus === APIResponseStatus.InProgress}
+                >
+                  {t('listing.modals.modifyAgreement.saveButton')}
+                </OphButton>
+              </LoadingProgressIndicator>
             </div>
           </div>
         </div>

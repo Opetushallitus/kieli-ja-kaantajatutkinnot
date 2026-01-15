@@ -20,6 +20,7 @@ const initialState: ClerkOrganizerState = {
   organizerRegistry: [],
   status: APIResponseStatus.NotStarted,
   organizerRegistryStatus: APIResponseStatus.NotStarted,
+  updateStatus: APIResponseStatus.NotStarted,
   searchQuery: '',
   languageFilter: '',
   levelFilter: '',

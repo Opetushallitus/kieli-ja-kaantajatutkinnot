@@ -18,7 +18,8 @@ import i18next from 'i18next';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomButton, CustomCircularProgress } from 'shared/components';
-import { APIResponseStatus, Color } from 'shared/enums';
+import { APIResponseStatus, Color, Severity } from 'shared/enums';
+import { useToast } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { ClerkRegisterListingFilters } from 'components/clerkRegister/listing/ClerkRegisterListingFilters';
@@ -86,7 +87,9 @@ export const ClerkRegisterListing = ({
   page,
   setPage,
 }: ClerkRegisterListingProps) => {
-  const { organizerRegistryStatus } = useAppSelector(clerkOrganizersSelector);
+  const { organizerRegistryStatus, updateStatus } = useAppSelector(
+    clerkOrganizersSelector,
+  );
   const rows = useAppSelector(filteredClerkOrganizersSelector);
 
   const pagination = {
@@ -98,6 +101,8 @@ export const ClerkRegisterListing = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
   });
+
+  const { showToast } = useToast();
 
   const createOrganizerColumn = (
     t: typeof i18next.t,
@@ -144,6 +149,20 @@ export const ClerkRegisterListing = ({
       dispatch(loadClerkOrganizerRegistry());
     }
   }, [dispatch, organizerRegistryStatus]);
+
+  useEffect(() => {
+    if (updateStatus === APIResponseStatus.Error) {
+      showToast({
+        description: t('listing.modals.modifyAgreement.toasts.updateError'),
+        severity: Severity.Error,
+      });
+    } else if (updateStatus === APIResponseStatus.Success) {
+      showToast({
+        description: t('listing.modals.modifyAgreement.toasts.updateSuccess'),
+        severity: Severity.Success,
+      });
+    }
+  }, [updateStatus, showToast, t]);
 
   switch (organizerRegistryStatus) {
     case APIResponseStatus.NotStarted:

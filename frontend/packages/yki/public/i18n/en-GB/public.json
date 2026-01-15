@@ -74,7 +74,11 @@
               "endDateError": "Valitse sopimuksen päättymispäivä",
               "addressLabel": "Osoite",
               "languagesLabel": "Kielitutkinnot",
-              "language": "Kieli *"
+              "language": "Kieli *",
+             "toasts": {
+                "updateSuccess": "Muutokset tallennettu onnistuneesti",
+                "updateError": "Muutosten tallentaminen epäonnistui"
+              }
             }
           }
         }
