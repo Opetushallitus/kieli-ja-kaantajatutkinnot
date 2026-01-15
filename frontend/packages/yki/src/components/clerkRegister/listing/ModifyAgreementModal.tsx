@@ -10,7 +10,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { CustomDatePicker, CustomModal } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import {
   ClerkOrganizerType,
@@ -89,11 +89,9 @@ export const ModifyAgreementModal = ({
   const [languageSelections, setLanguageSelections] = useState<
     LanguageSelection[]
   >(initializeLanguageSelections());
-  const [touched, setTouched] = useState(false);
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
   });
-  const translateCommon = useCommonTranslation();
 
   // Re-initialize language selections when modal opens or languages change
   useEffect(() => {
@@ -101,7 +99,6 @@ export const ModifyAgreementModal = ({
       setLanguageSelections(initializeLanguageSelections());
       setStartDate(agreement_start_date || null);
       setEndDate(agreement_end_date || null);
-      setTouched(false);
     }
   }, [
     isModalOpen,
@@ -115,7 +112,6 @@ export const ModifyAgreementModal = ({
     setEndDate(agreement_end_date || null);
     setLanguageSelections(initializeLanguageSelections());
     setIsModalOpen(false);
-    setTouched(false);
   };
 
   const toggleLanguageLevel = (
@@ -138,7 +134,6 @@ export const ModifyAgreementModal = ({
   };
 
   const handleSave = () => {
-    setTouched(true);
     if (!startDate) return;
 
     const selectedLanguages: Array<OrganizerLanguage> = [];
@@ -179,15 +174,27 @@ export const ModifyAgreementModal = ({
     handleCloseModal();
   };
 
-  const dateError = touched && !startDate;
+  const getEndDateHelperText = () => {
+    if (!endDate) {
+      return t('listing.modals.modifyAgreement.endDateError');
+    }
+
+    if (startDate && endDate.isBefore(startDate.add(1, 'day'))) {
+      return t('listing.modals.modifyAgreement.endDateBeforeStartDateError');
+    }
+
+    return '';
+  };
 
   return (
     <CustomModal
+      data-testid="modify-agreement-modal"
       open={isModalOpen}
       onCloseModal={handleCloseModal}
       aria-labelledby="modal-title"
       modalTitle={
         <Box
+          data-testid="modify-agreement-modal-title"
           display="flex"
           justifyContent="space-between"
           alignItems="flex-start"
@@ -228,10 +235,9 @@ export const ModifyAgreementModal = ({
                 <CustomDatePicker
                   value={startDate}
                   setValue={(value: Dayjs | null) => setStartDate(value)}
-                  onBlur={() => setTouched(true)}
-                  error={dateError}
+                  error={!startDate}
                   helperText={
-                    dateError
+                    !startDate
                       ? t('listing.modals.modifyAgreement.startDateError')
                       : ''
                   }
@@ -240,7 +246,7 @@ export const ModifyAgreementModal = ({
               <svg
                 width="18"
                 height="1"
-                style={{ alignSelf: 'flex-end', margin: '21px 0' }}
+                style={{ alignSelf: 'flex-start', marginTop: '51px' }}
               >
                 <line
                   x1="0"
@@ -258,7 +264,9 @@ export const ModifyAgreementModal = ({
                 <CustomDatePicker
                   value={endDate}
                   setValue={(value: Dayjs | null) => setEndDate(value)}
-                  minDate={startDate || undefined}
+                  minDate={startDate?.add(1, 'day') || undefined}
+                  error={!endDate}
+                  helperText={getEndDateHelperText()}
                 />
               </div>
             </div>
@@ -310,6 +318,7 @@ export const ModifyAgreementModal = ({
                 {languageSelections.map((lang) => {
                   return (
                     <div
+                      id={`language-row-${lang.language_name}`}
                       key={lang.language_code}
                       style={{
                         display: 'flex',
@@ -390,7 +399,7 @@ export const ModifyAgreementModal = ({
                 color={Color.Primary}
                 onClick={handleCloseModal}
               >
-                {translateCommon('cancel')}
+                {t('listing.modals.modifyAgreement.cancelButton')}
               </OphButton>
               <OphButton
                 variant={Variant.Contained}

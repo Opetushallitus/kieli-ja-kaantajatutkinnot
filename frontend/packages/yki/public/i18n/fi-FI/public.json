@@ -63,12 +63,15 @@
           },
           "modals": {
             "modifyAgreement": {
+              "cancelButton": "Peruuta",
               "saveButton": "Tallenna muutokset",
               "title": "Muokkaa tietoja",
               "organizerAgreementLabel": "Järjestäjäsopimus",
               "startDateLabel": "Sopimus alkaa *",
               "startDateError": "Valitse sopimuksen alkamispäivä",
+              "endDateBeforeStartDateError": "Sopimuksen päättymispäivä ei voi olla alkamispäivää aiemmin",
               "endDateLabel": "Sopimus päättyy *",
+              "endDateError": "Valitse sopimuksen päättymispäivä",
               "addressLabel": "Osoite",
               "languagesLabel": "Kielitutkinnot",
               "language": "Kieli *"

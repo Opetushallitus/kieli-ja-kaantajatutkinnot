@@ -114,6 +114,10 @@ class ClerkRegisterListing {
     this.elements.adminViewButton().click();
   }
 
+  clickModifyButton() {
+    this.elements.modifyButton().click();
+  }
+
   expectUpcomingExamSessionsVisible(amount: number) {
     this.elements.upcomingExamSessionsSection().and('have.length', amount);
   }
