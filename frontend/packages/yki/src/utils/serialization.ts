@@ -28,6 +28,7 @@ import {
   ClerkFreeRegistrationResponse,
 } from 'interfaces/clerkFreeRegistration';
 import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
+import { FindByOidsOrganizationResponse } from 'interfaces/clerkOrganizerRegistry';
 import {
   RegistrationToConfirmDetails,
   RegistrationToConfirmDetailsResponse,
@@ -622,5 +623,18 @@ export class SerializationUtils {
           ? 'HigherEducationEnrolled'
           : 'HigherEducationConcluded';
     }
+  }
+
+  static deserializeFindByOidsOrganizationResponse(
+    organizationResponse: FindByOidsOrganizationResponse,
+  ) {
+    return {
+      ...organizationResponse,
+      alkuPvm: dayjs(organizationResponse.alkuPvm),
+      nimet: organizationResponse.nimet.map((nimiHistoria) => ({
+        ...nimiHistoria,
+        alkuPvm: dayjs(nimiHistoria.alkuPvm),
+      })),
+    };
   }
 }

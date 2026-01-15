@@ -33,6 +33,7 @@ import { ClerkCustomerSearchPage } from 'pages/clerk/ClerkCustomerSearchPage';
 import { ClerkFreeRegistrationDetailsPage } from 'pages/clerk/ClerkFreeRegistrationDetailsPage';
 import { ClerkFreeRegistrationPage } from 'pages/clerk/ClerkFreeRegistrationPage';
 import { ClerkHomePage } from 'pages/clerk/ClerkHomePage';
+import { ClerkOrganizerRegisterDetails } from 'pages/clerk/ClerkOrganizerRegisterDetails';
 import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
@@ -151,6 +152,14 @@ export const AppRouter: FC = () => {
             element={
               <YkiTitlePage title="clerk">
                 <ClerkHomePage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ClerkOrganizerRegisterDetails}
+            element={
+              <YkiTitlePage title="clerk">
+                <ClerkOrganizerRegisterDetails />
               </YkiTitlePage>
             }
           />
