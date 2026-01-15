@@ -25,7 +25,7 @@ export interface ClerkOrganizerResponse
   agreement_end_date: string;
 }
 
-export type ClerkOrganizerAddress = {
+type ClerkOrganizerAddress = {
   street: string;
   zipCode: string;
   city: string;
