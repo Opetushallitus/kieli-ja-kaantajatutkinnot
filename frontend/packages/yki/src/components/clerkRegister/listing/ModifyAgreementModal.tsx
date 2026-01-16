@@ -207,7 +207,11 @@ export const ModifyAgreementModal = ({
           gap={1}
         >
           <H2>{t('listing.modals.modifyAgreement.title')}</H2>
-          <CloseIcon fontSize="large" onClick={handleCloseModal} />
+          <CloseIcon
+            data-testid="modify-agreement-modal-close"
+            fontSize="large"
+            onClick={handleCloseModal}
+          />
         </Box>
       }
     >

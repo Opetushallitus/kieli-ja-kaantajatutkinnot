@@ -29,13 +29,13 @@ describe('ModifyAgreementModal', () => {
     it('should close modal when close button is clicked', () => {
       onModifyAgreementModal.expectModalVisible();
       onModifyAgreementModal.clickCloseButton();
-      onModifyAgreementModal.expectModalNotVisible();
+      onModifyAgreementModal.expectModalNotExist();
     });
 
     it('should close modal when cancel button is clicked', () => {
       onModifyAgreementModal.expectModalVisible();
       onModifyAgreementModal.clickCancelButton();
-      onModifyAgreementModal.expectModalNotVisible();
+      onModifyAgreementModal.expectModalNotExist();
     });
 
     it('should revert changes when cancel is clicked', () => {
@@ -44,7 +44,7 @@ describe('ModifyAgreementModal', () => {
       onModifyAgreementModal.toggleLanguageLevel('Englanti', 'PERUS');
       onModifyAgreementModal.expectLanguageLevelChecked('Englanti', 'PERUS');
       onModifyAgreementModal.clickCancelButton();
-
+      onModifyAgreementModal.expectModalNotExist();
       onClerkRegisterListing.clickModifyButton();
       onModifyAgreementModal.expectModalVisible();
       onModifyAgreementModal.expectLanguageLevelNotChecked('Englanti', 'PERUS');
@@ -83,7 +83,6 @@ describe('ModifyAgreementModal', () => {
     it('should successfully save changes with valid start date', () => {
       onModifyAgreementModal.enterStartDate('15.03.2026');
       onModifyAgreementModal.clickSaveButton();
-      onModifyAgreementModal.expectModalNotVisible();
       onToast.expectText('Muutokset tallennettu onnistuneesti');
     });
 
@@ -91,7 +90,6 @@ describe('ModifyAgreementModal', () => {
       onModifyAgreementModal.enterStartDate('15.03.2026');
       onModifyAgreementModal.enterEndDate('31.12.2028');
       onModifyAgreementModal.clickSaveButton();
-      onModifyAgreementModal.expectModalNotVisible();
       onToast.expectText('Muutokset tallennettu onnistuneesti');
     });
 
@@ -99,7 +97,6 @@ describe('ModifyAgreementModal', () => {
       onModifyAgreementModal.toggleLanguageLevel('Englanti', 'PERUS');
       onModifyAgreementModal.toggleLanguageLevel('Ranska', 'YLIN');
       onModifyAgreementModal.clickSaveButton();
-      onModifyAgreementModal.expectModalNotVisible();
       onToast.expectText('Muutokset tallennettu onnistuneesti');
     });
 
@@ -107,8 +104,9 @@ describe('ModifyAgreementModal', () => {
       const newStartDate = '25.04.2026';
       onModifyAgreementModal.enterStartDate(newStartDate);
       onModifyAgreementModal.clickSaveButton();
-      onModifyAgreementModal.expectModalNotVisible();
-
+      onToast.expectText('Muutokset tallennettu onnistuneesti');
+      onModifyAgreementModal.clickCloseButton();
+      onModifyAgreementModal.expectModalNotExist();
       onClerkRegisterListing.clickModifyButton();
       onModifyAgreementModal.expectModalVisible();
       onModifyAgreementModal
@@ -119,8 +117,8 @@ describe('ModifyAgreementModal', () => {
     it('should persist language selections after save and reopen', () => {
       onModifyAgreementModal.toggleLanguageLevel('Englanti', 'PERUS');
       onModifyAgreementModal.clickSaveButton();
-      onModifyAgreementModal.expectModalNotVisible();
-
+      onModifyAgreementModal.clickCloseButton();
+      onModifyAgreementModal.expectModalNotExist();
       onClerkRegisterListing.clickModifyButton();
       onModifyAgreementModal.expectModalVisible();
       onModifyAgreementModal.expectLanguageLevelChecked('Englanti', 'PERUS');
@@ -137,7 +135,6 @@ describe('ModifyAgreementModal', () => {
       onModifyAgreementModal.toggleLanguageLevel('Ranska', 'YLIN');
 
       onModifyAgreementModal.clickSaveButton();
-      onModifyAgreementModal.expectModalNotVisible();
     });
 
     it('should handle deselecting all levels for a language', () => {
@@ -145,9 +142,7 @@ describe('ModifyAgreementModal', () => {
       onModifyAgreementModal.expectLanguageLevelChecked('Englanti', 'PERUS');
       onModifyAgreementModal.toggleLanguageLevel('Englanti', 'PERUS');
       onModifyAgreementModal.expectLanguageLevelNotChecked('Englanti', 'PERUS');
-
       onModifyAgreementModal.clickSaveButton();
-      onModifyAgreementModal.expectModalNotVisible();
     });
 
     it('should allow updating organizer with all field types', () => {
@@ -159,7 +154,8 @@ describe('ModifyAgreementModal', () => {
       onModifyAgreementModal.toggleLanguageLevel('Ranska', 'YLIN');
 
       onModifyAgreementModal.clickSaveButton();
-      onModifyAgreementModal.expectModalNotVisible();
+      onModifyAgreementModal.clickCloseButton();
+      onModifyAgreementModal.expectModalNotExist();
 
       onClerkRegisterListing.clickModifyButton();
       onModifyAgreementModal.expectLanguageLevelChecked('Englanti', 'PERUS');

@@ -5,7 +5,7 @@ class ModifyAgreementModal {
       cy
         .get('.custom-modal-title')
         .findByRole('heading', { name: 'Muokkaa sopimusta' }),
-    closeButton: () => cy.get('svg[data-testid="CloseIcon"]').first(),
+    closeButton: () => cy.findByTestId('modify-agreement-modal-close'),
     organizerName: (name: string) =>
       cy.get('.custom-modal').findByRole('heading', { level: 3, name }),
     startDateLabel: () =>
@@ -82,7 +82,7 @@ class ModifyAgreementModal {
     this.elements.modal().should('be.visible');
   }
 
-  expectModalNotVisible() {
+  expectModalNotExist() {
     this.elements.modal().should('not.exist');
   }
 
@@ -152,7 +152,7 @@ class ModifyAgreementModal {
     this.elements.datePickerDay(day).click();
   }
 
-  closeDatePicker() {
+  enterEscKey() {
     cy.get('body').type('{esc}');
   }
 
