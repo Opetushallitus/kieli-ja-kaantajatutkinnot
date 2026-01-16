@@ -236,7 +236,7 @@ export const ModifyAgreementModal = ({
             </H3>
             <div
               className="columns gapped"
-              style={{ alignItems: 'flex-start' }}
+              style={{ alignItems: 'flex-start', padding: '0 4px' }}
             >
               <div className="rows gapped-xxs">
                 <Label>
