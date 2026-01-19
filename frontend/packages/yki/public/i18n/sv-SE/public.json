@@ -3,19 +3,33 @@
     "component": {
       "cancelRegistrationModal": {
         "cancel": "Avbryt",
-        "confirm": "Skicka",
-        "descriptionNotPaid": "Om du annullerar din anmälan kan du inte återställa den. Du måste anmäla dig på nytt om du vill delta i YKI-testet.",
+        "confirm": "Annullera anmälan",
+        "descriptionNotPaid1": "Om du uppfyller villkoren för avgiftsfri YKI-testet kan du utan kostnad anmäla dig till totalt tre (3) examenstillfällen i finska eller svenska på högsta nivå. Om du annullerar denna anmälan används inte ett avgiftsfritt examenstillfälle.",
+        "descriptionNotPaid2": "Om du annullerar din anmälan kan du inte återställa den. Du måste anmäla dig på nytt om du vill delta i YKI-testet.",
         "descriptionPaid1": "Om du annullerar anmälan återbetalas examensavgiften inte automatiskt.",
         "descriptionPaid2": "Du kan ansöka om återbetalning av examensavgift hos Utbildningsstyrelsen. Utbildningsstyrelsen återbetalar din examensavgift om din ansökan uppfyller alla lagstadgade villkor. Om du vill ansöka om återbetalning av examensavgiften, läs anvisningarna på Utbildningsstyrelsens webbplats:",
         "descriptionPaid3": "Om du annullerar din anmälan kan du inte återställa den. Du måste anmäla dig på nytt om du vill delta i YKI-testet.",
         "link": {
           "label": "Annullering av deltagandet",
-          "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ennen-yki-testia#anchor-osallistumisen-peruminen"
+          "url": "https://www.oph.fi/sv/utbildning-och-examina/fore-yki-testdagen#anchor-annullering-av-deltagande"
         },
-        "title": "Avbryt anmälan",
+        "title": "Vill du annullera anmälan?",
         "success": "Anmälan har avbrutits"
       },
       "clerkRegister": {
+        "examSessionListing": {
+          "header": {
+            "sessionDate": "Tutkintopäivä",
+            "language": "Kieli",
+            "level": "Taso",
+            "registrationPerioid": "Ilmoittautumisaika",
+            "registrations": "Ilmoittautuneet"
+          },
+          "agreementExpired": "Sopimus vanhentunut",
+          "errors": {
+            "loadingFailed": "Järjestäjien hakeminen epäonnistui"
+          }
+        },
         "listing": {
           "header": {
             "organizer": "Järjestäjä",
@@ -26,6 +40,19 @@
           "agreementExpired": "Sopimus vanhentunut",
           "errors": {
             "loadingFailed": "Järjestäjien hakeminen epäonnistui"
+          },
+          "contentLabels": {
+            "organizerAgreement": "Järjestäjäsopimus",
+            "languageProficiencies": "Kielitutkinnot",
+            "contactInfo": "Yhteystiedot",
+            "extraInfo": "Lisätiedot",
+            "upcomingExamSessions": "Tulevat tutkintotilaisuudet",
+            "pastExamSessions": "Menneet tutkintotilaisuudet",
+            "pastExamSessionsDetails": "(edeltävät 365pv)"
+          },
+          "actionButtons": {
+            "adminUserView": "Tarkastele järjestäjän näkymää",
+            "modify": "Muokkaa tietoja"
           }
         }
       },
@@ -37,7 +64,7 @@
         },
         "status": {
           "PENDING": {
-            "part1": "Maksuttomuus tarkistamatta"
+            "part1": "Maksuttomuus tarkastamatta"
           },
           "APPROVED": {
             "part1": "Maksuttomuus hyväksytty"
@@ -45,16 +72,16 @@
           "REJECTED": {
             "part1": "Maksuttomuus hylätty"
           },
-          "INFORMATION_REQUESTED": {  
+          "SUPPLEMENT_REQUESTED": {
             "part1": "Lisätietopyyntö lähetetty,",
             "part2": "odottaa vastausta"
           },
-          "INFORMATION_REQUEST_ANSWERED": {
-            "part1": "Maksuttomuus tarkistamatta,",
+          "SUPPLEMENT_REQUEST_ANSWERED": {
+            "part1": "Maksuttomuus tarkastamatta,",
             "part2": "lisätietopyyntöön vastattu"
           },
-          "INFORMATION_REQUEST_EXPIRED": {
-            "part1": "Maksuttomuus tarkistamatta,",
+          "SUPPLEMENT_REQUEST_EXPIRED": {
+            "part1": "Maksuttomuus tarkastamatta,",
             "part2": "lisätietopyyntöön ei vastattu"
           }
         },
@@ -82,15 +109,20 @@
             "arrivedAt": "Saapunut"
           },
           "buttons": {
-            "sendInformationRequest": "Lähetä lisätietopyyntö",
+            "sendSupplementRequest": "Lähetä lisätietopyyntö",
             "approveFreeRegistration": "Hyväksy maksuttomuus",
             "rejectFreeRegistration": "Hylkää maksuttomuus"
           },
-          "comments": {
-            "clerkComments": {
-              "part1": "Tarkastajan kommentit",
-              "part2": "ei näy ilmoittautujalle"
+          "messages": {
+            "title": "Tarkastajan kommentit ja lisätietopyynnöt",
+            "message": {
+              "type": {
+                "COMMENT": "Kommentti",
+                "SUPPLEMENT_REQUEST": "Lisätietopyyntö"
+              }
             },
+            "newCommentPart1": "Lisää uusi kommentti",
+            "newCommentPart2": "ei näy ilmoittautujalle",
             "addNewComment": "Lisää uusi kommentti",
             "save": "Tallenna kommentti"
           },
@@ -98,21 +130,21 @@
             "status": "Tarkastuksen tila",
             "freeRegistrationBasis": "Maksuttomuuden peruste",
             "freeRegistrationsLeft": "Maksuttomia kertoja jäljellä",
-            "languageOfCommunication": "Asiointikieli",
+            "languageOfService": "Asiointikieli",
             "registrationType": "Ilmoittautunut vai jono",
             "supplementRequestDueDate": "Lisätietopyynnön eräpäivä",
             "extraInformation": "Lisätiedot"
           },
           "freeRegistrationBasis": {
-            "MATRICULATION_EXAMINATION": "Opiskellut Suomessa: ylioppilastutkinto",
-            "HIGHER_EDUCATION_DEGREE": "Opiskellut Suomessa: korkeakoulututkinto",
-            "HIGHER_EDUCATION_STUDIES": "Opiskellut Suomessa: suorittamassa korkeakouluopintoja",
-            "COMPARABLE_MATRICULATION_EXAMINATION": "Opiskellut ulkomailla: ylioppilastutkinto",
-            "COMPARABLE_HIGHER_EDUCATION_DEGREE": "Opiskellut ulkomailla: korkeakoulututkinto",
-            "COMPARABLE_HIGHER_EDUCATION_STUDIES": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja"
+            "MatriculationExam": "Opiskellut Suomessa: ylioppilastutkinto",
+            "HigherEducationConcluded": "Opiskellut Suomessa: korkeakoulututkinto",
+            "HigherEducationEnrolled": "Opiskellut Suomessa: suorittamassa korkeakouluopintoja",
+            "ComparableMatriculation": "Opiskellut ulkomailla: ylioppilastutkinto",
+            "ComparableHigherEducationConcluded": "Opiskellut ulkomailla: korkeakoulututkinto",
+            "ComparableHigherEducationEnrolled": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja"
           },
           "freeRegistrationsLeft": "{{amount}} kpl",
-          "languageOfCommunication": {
+          "languageOfService": {
             "fi": "suomi",
             "sv": "ruotsi",
             "en": "englanti"
@@ -128,7 +160,11 @@
             "approvalConfirmed": "Maksuttomuuden hyväksyminen onnistui",
             "approvalFailed": "Maksuttomuuden hyväksyminen epäonnistui",
             "rejectConfirmed": "Maksuttomuuden hylkääminen onnistui",
-            "rejectFailed": "Maksuttomuuden hylkääminen epäonnistui"
+            "rejectFailed": "Maksuttomuuden hylkääminen epäonnistui",
+            "supplementRequestSuccess": "Lisätietopyyntö lähetetty",
+            "supplementRequestFailed": "Lisätietopyynnön lähetys epäonnistui",
+            "addCommentConfirmed": "Kommentin lisääminen onnistui",
+            "addCommentFailed": "Kommentin lisääminen epäonnistui"
           },
           "modals": {
             "approve": {
@@ -138,6 +174,91 @@
             "reject": {
               "title": "Vahvista maksuttomuuden hylkääminen",
               "subTitle": "Olet hylkäämässä ilmoittautumisen maksuttomuuden."
+            },
+            "supplementRequest": {
+              "title": "Lähetä lisätietopyyntö",
+              "subTitle": "Kuvaile lyhyesti, miksi todistukset eivät kelpaa ja/tai mitä tietoa tarvitaan, jotta maksuttomuus voidaan hyväksyä. Linkki lisätietopyyntöön vastaamiseen lähetetään ilmoittautujalle lisätietopyynnön mukana.",
+              "subTitleLabel": "Lisätietopyyntö",
+              "messageError": "Kirjoita viesti",
+              "dueDateLabel": "Lisätietopyynnön eräpäivä *",
+              "dueDateDescription": "Eräpäivä asetetaan oletuksena 7 päivän päähän. Voit tarvittaessa muokata eräpäivää",
+              "dueDateError": "Tarkista tietopyynnön eräpäivä",
+              "submitButton": "Lähetä lisätietopyyntö"
+            }
+          }
+        }
+      },
+      "clerkCustomer": {
+        "details": {
+          "fields": {
+            "ssn": "Hetu",
+            "oid": "Oppijanumero",
+            "nationality": "Kansalaisuus",
+            "phoneNumber": "Puhelinnumero",
+            "streetAddress": "Osoite",
+            "email": "Sähköposti"
+          },
+          "listing": {
+            "headers": {
+              "registrations": "Ilmoittautumiset",
+              "queuedExams": "Jonossa",
+              "pastExams": "Menneet tutkintotilaisuudet"
+            },
+            "subHeaders": {
+              "pastExams": "edeltävät 365pv"
+            },
+            "noRowsTexts": {
+              "registrations": "Ei tulevia ilmoittautumisia",
+              "queuedExams": "Ei jonotuspaikkoja",
+              "pastExams": "Ei menneitä tutkintorilaisuuksia viimeisen 365 päivän ajalta"
+            },
+            "columns": {
+              "date": "Tutkintopäivä",
+              "name": "Tutkinto",
+              "location": "Testipaikka",
+              "registrationState": "Ilmoittautumisen tila",
+              "registrationDate": "Ilmoittautumispvm",
+              "actions": "Toiminnot",
+              "queueSpotOffered": "Jonopaikkaa tarjottu",
+              "examState": "Tila"
+            },
+            "values": {
+              "registrationState": {
+                "COMPLETED": "Maksanut",
+                "SUBMITTED": "Ei Maksanut",
+                "EXPIRED": "Erääntynyt",
+                "CANCELLED": "Peruttu",
+                "PAID_AND_CANCELLED": "Maksanut ja peruttu"
+              },
+              "actions": {
+                "relocate": "Siirrä tilaisuuteen",
+                "cancel": "Peru osallistuminen",
+                "showResults": "Tutkintojen tulokset (Koski)"
+              },
+              "queueSpotOffered": {
+                "OFFERED": "Kyllä",
+                "NOT_OFFERED": "Ei",
+                "NOT_ACCEPTED": "Ei otettu vastaan",
+                "expiresAt": "Eräpäivä {{ expiresAt }}"
+              },
+              "examState": {
+                "REVIEWED": "Arvioitu",
+                "CANCELLED": "Peruttu",
+                "REGISTERED": "Ilmoittautunut"
+              }
+            }
+          }
+        },
+        "search": {
+          "header": "{{amount}} osallistujaa",
+          "listing": {
+            "apiResponseStatus": {
+              "inProgress": "Ladataan tietoja",
+              "error": "Tietojen lataaminen epäonnistui"
+            },
+            "columns": {
+              "name": "Nimi",
+              "registrations": "Ilmoittautumiset"
             }
           }
         }
@@ -239,6 +360,10 @@
         "requestReassessment": "Gör en begäran om kontrollbedömning"
       },
       "registration": {
+        "controlButtons": {
+          "abortRegistration": "Avbryt anmälan",
+          "confirm": "Skicka"
+        },
         "enrollModal": {
           "title": "Anmälning misslyckades",
           "examIsFull": "Det finns inga lediga platser. Du kan anmäla dig till en köplats.",
@@ -258,10 +383,6 @@
             "part3": "Om du vill avbryta anmälan, fortsätt först till anmälningsblanketten och klicka sedan på AVBRYT ANMÄLAN.",
             "backToRegistrationButton": "Fortsätt till anmälningsblanketten"
           }
-        },
-        "controlButtons": {
-          "abortRegistration": "Avbryt anmälan",
-          "confirm": "Skicka"
         },
         "enrollToQueue": {
           "dialog": {
@@ -308,8 +429,15 @@
         "examSessionDetails": {
           "exam": "Examen",
           "examFee": "Examensavgift",
+          "freeAttemptsLeft": "Antal återstående avgiftsfria examenstillfällen",
           "openings": "Lediga platser",
           "registrationTime": "Anmälningstid"
+        },
+        "expirationTimer": {
+          "reservationExpired": "Anmälan misslyckades",
+          "reservationExpiredContinue": "Gå tillbaka till förstasidan",
+          "reservationExpiredText": "Tiden tog slut och platsen på examenstillfället är inte längre reserverad. Om du vill anmäla dig till YKI-testet ska du gå tillbaka till förstasidan och påbörja anmälan på nytt.",
+          "reservationExpiresIn": "Reservationen av din plats på examenstillfället löper ut: {{minutes}}:{{seconds}}"
         },
         "paymentSum": {
           "title": "Examensavgift"
@@ -317,7 +445,6 @@
         "registrationButtonLabels": {
           "enrollToQueue": "Anmäl dig till en köplats",
           "full": "Fullbokat",
-          "orderCancellationNotification": "Beställ en notifiering om lediga platser",
           "periodNotOpen": "Anmälningstiden har inte börjat",
           "register": "Anmäl dig"
         },
@@ -334,7 +461,9 @@
             "fields": {
               "address": "Gatuadress",
               "certificateLanguage": "Välj språket på intyget",
+              "countryOfEducation": "Välj var du har studerat",
               "dateOfBirth": "Födelsedatum",
+              "educationType": "Uppge om du har studier som berättigar till avgiftsfri YKI-testet",
               "email": "E-postadress",
               "emailConfirmation": "Bekräfta din e-postadress",
               "firstNames": "Förnamn",
@@ -352,6 +481,50 @@
             },
             "fixErrors": "Fyll i uppgifterna som saknas eller korrigera felaktiga uppgifter:",
             "title": "Felaktiga uppgifter!"
+          },
+          "examFee": {
+            "education": {
+              "higherEducation": "Högskoleexamen",
+              "matriculationExam": "Studentexamen"
+            },
+            "freeAttemptsExhausted": "Du har använt alla avgiftsfria examenstillfällen.",
+            "freeAttemptsLeft": "Antal återstående avgiftsfria examenstillfällen: <strong>{{amount}}</strong>.",
+            "freeAttemptsOffered": "Du kan anmäla dig till YKI-testet utan avgift tre (3) gånger.",
+            "freeAttemptsOfferedYKI": "Du kan anmäla dig till YKI-testet utan avgift tre (3) gånger.",
+            "loading": {
+              "checkingEligibility": "Vi kontrollerar informationen om din utbildning automatiskt.",
+              "pleaseWait": "Uppgifterna laddas, vänta en stund."
+            },
+            "noFeeRequired": "Du har rätt till avgiftsfri YKI-testet.",
+            "noSuitableEducationFound": "Vi hittade inga examina som berättigar till avgiftsfrihet.",
+            "paymentRequired": "När du skickar anmälningsblanketten måste du betala examensavgiften.",
+            "paymentRequiredIfLiftedFromQueue": "Om du får en plats i kön till YKI-testet ska du betala examensavgiften.",
+            "suitableEducationFound": "Du har en examen som uppfyller villkoren",
+            "title": "Examensavgift",
+            "userSelection": {
+              "countryOfStudies": {
+                "abroad": "Jag har studerat utomlands.",
+                "finland": "Jag har studerat i Finland.",
+                "prompt": "Var har du studerat?",
+                "uneligible": "Jag har inga studier som berättigar till avgiftsfri YKI-testet. Jag betalar examensavgiften."
+              },
+              "declareEducationOrPay": "Du måste uppge information om dina studier eller betala examensavgiften.",
+              "educationDetails": {
+                "comparableMatriculationExam": "Jag har avlagt en utländsk examen som motsvarar finländsk studentexamen.",
+                "higherEducationConcluded": "Jag har avlagt en högskoleexamen.",
+                "higherEducationEnrolled": "Jag håller på att avlägga en högskoleexamen.",
+                "matriculationExam": "Jag har avlagt studentexamen.",
+                "prompt": "Har du studier som berättigar till avgiftsfri YKI-testet?",
+                "uneligible": "Jag har inga studier som berättigar till avgiftsfri YKI-testet. Jag betalar examensavgiften."
+              },
+              "randomChecksPerformed": {
+                "heading": "Utbildningsstyrelsen gör slumpmässiga kontroller",
+                "part1": "Utbildningsstyrelsen kan be dig om ett intyg över dina studier efter testdagen.",
+                "part2": "Om du inte har ett intyg över studier som berättigar till avgiftsfri YKI-testet, skickar Utbildningsstyrelsen dig en faktura för examensavgiften.",
+                "part3": "Om du inte betalar fakturan går den till indrivning och utmätning."
+              },
+              "selectOne": "Välj ett av alternativen nedan."
+            }
           },
           "labels": {
             "address": "Gatuadress",
@@ -388,13 +561,12 @@
             "description1": "För att anmäla dig måste du godkänna anmälningsvillkoren:",
             "description2": "Läs mer på Utbildningsstyrelsen webbplats",
             "description3": "Betald anmälan till YKI test är bindande. Kontrollera att du har valt det rätta YKI-testet och fyllt i dina uppgifter korrekt.",
+            "description3Free": "När anmälan är bekräftad är anmälan till YKI-testet bindande. Kontrollera att du har valt det rätta YKI-testet och fyllt i dina uppgifter korrekt.",
             "item1": "Du kan inte ändra nivån på YKI-testet.",
             "item2": "Du kan inte ändra språket på YKI-testet.",
             "item3": "Du kan inte ändra testplatsen.",
-            "item4": "Anmälan är personlig. Du kan inte ändra deltagarens personuppgifter.",
-            "item5": "Om du inte kan delta i det YKI-test, kan du flytta din anmälan en (1) gång till ett annat YKI-test i samma språk och på samma nivå vid samma testplats.",
-            "item51": "Den nya testdagen kan infalla högst ett år efter den ursprungliga testdagen.",
-            "item52": "Om nästa YKI-test i samma språk och på samma nivå ordnas mer än ett år efter den ursprungliga testdagen, kan du flytta din anmälan till nästa YKI-test i samma språk och på samma nivå.",
+            "item4": "Du kan inte ändra testdagen.",
+            "item5": "Anmälan är personlig. Du kan inte ändra deltagarens personuppgifter.",
             "item6": "Om du inte kan delta i det YKI-test kan du ansöka om återbetalning av examensavgiften hos Utbildningsstyrelsen. Utbildningsstyrelsen återbetalar din examensavgift om din ansökan uppfyller alla villkor i lagen om allmänna språkexamina (YKI).",
             "link": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-villkoren-for-anmalan",
             "linkText": "Villkoren för anmälan",
@@ -404,7 +576,14 @@
           },
           "title": "Fyll i dina uppgifter",
           "whatsNext": {
-            "description": "När du har skickat anmälningsblanketten ska du betala examensavgiften. Anmälan bekräftas först när du har betalat examensavgiften.",
+            "freeRegistration": {
+              "description": "När du har skickat anmälningsblanketten bekräftas din anmälan. När din anmälan har bekräftats har du använt ett avgiftsfritt examenstillfälle.",
+              "queued": {
+                "part1": "När du har skickat anmälningsblanketten får du en e-postbekräftelse om att du anmält dig till en köplats.",
+                "part2": "Om du får en plats i kön bekräftas din anmälan. När din anmälan har bekräftats har du använt ett avgiftsfritt examenstillfälle."
+              }
+            },
+            "description": "När du har skickat anmälningsblanketten ska du betala examensavgiften. Din anmälan bekräftas först när du har betalat examensavgiften.",
             "queued": {
               "part1": "När du har skickat anmälningsblanketten får du en e-postbekräftelse om att du anmält dig till en köplats.",
               "part2": "Om du får en plats på YKI-testet får du ett meddelande om det per e-post. Håll koll på din e-post."
@@ -497,17 +676,38 @@
               },
               "success": "Anmälningslänken har skickats till adressen:"
             },
-            "registrationIsBindingAdvisory": "Kontrollera att du anmäler dig till ett YKI-test på rätt språk och nivå. Anmälan till allmän språkexamen är bindande. Du kan inte ändra din anmälan efter att du har bekräftat den.",
+            "freeRegistration": {
+              "conditions": {
+                "general": "Du har rätt till avgiftsfri YKI-testet om du uppfyller något av följande villkor:",
+                "point1": "Du har avlagt finländsk studentexamen eller motsvarande utländsk examen.",
+                "point2": "Du har avlagt en högskoleexamen i Finland eller utomlands.",
+                "point3": "Du håller på att avlägga en högskoleexamen i Finland eller utomlands."
+              },
+              "educationDetailsAreChecked": "När du har identifierat dig kontrollerar systemet automatiskt informationen om din utbildning.",
+              "heading": "Examensavgift för YKI-testet i finska och svenska på högsta nivå",
+              "ifSuitableEducationIsNotFound": "Om information om din utbildning inte hittas, måste du anmäla uppgifterna med en anmälningsblankett.",
+              "readMore": {
+                "link": {
+                  "label": "Examensavgifter",
+                  "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-examensavgifter"
+                },
+                "text": "Läs mer om avgiftsfri YKI-testet på Utbildningsstyrelsens webbplats"
+              },
+              "suomiFiAuthenticationRequired": "Du ska identifiera dig i tjänsten Suomi.fi för att vi ska kunna kontrollera om du uppfyller villkoren.",
+              "threeAttemptsAvailable": "Du kan anmäla dig till YKI-testet utan avgift tre (3) gånger."
+            },
+            "registrationIsBindingAdvisory": "<strong>Kontrollera att du anmäler dig till ett YKI-test på rätt språk och nivå.</strong> Du kan inte ändra språk, nivå, testplats eller testdag för YKI-testet efter att du har anmält dig.",
             "selectIdentificationMethod": "Välj din identifieringsmetod",
             "suomiFiButtonText": "Identifiera dig via Suomi.fi-tjänsten",
             "title": "Identifiera dig för anmälan",
             "titleForQueueing": "Identifiera dig för att anmäla dig till en köplats",
             "withFinnishSSN": {
-              "description": "<strong>Identifiera dig via Suomi.fi-tjänsten</strong>",
+              "description": "Identifiera dig via Suomi.fi-tjänsten",
               "info": "Efter identifieringen tas du automatiskt vidare till anmälningsblanketten."
             },
             "withoutFinnishSSN": {
-              "description": "<strong>Om du inte kan använda Suomi.fi-identifikation</strong>, identifiera dig med din e-postadress.",
+              "description": "Identifiera dig med din e-postadress",
+              "examFeeRequired": "Om du identifierar dig med e-postpostadress måste du betala examensavgiften.",
               "info": "Efter att du har identifierat dig får du en länk per e-post för att fortsätta till anmälan."
             }
           },
@@ -589,17 +789,6 @@
             "title": "Anmälningstiden har inte börjat"
           }
         }
-      },
-      "transferRegistration": {
-        "actions": {
-          "cancel": "Flytta inte",
-          "confirm": "Ja, flytta",
-          "select": "Välj"
-        },
-        "confirmTransfer": "Är du säker på att du vill flytta fram din anmälan till nästa YKI-test?",
-        "description": "Det går inte att ångra flytten. Du kan flytta fram anmälan endast en gång.",
-        "select": "Välj",
-        "title": "Flytta anmälan"
       }
     },
     "pages": {
@@ -611,6 +800,12 @@
       },
       "clerkFreeRegistrationDetailsPage": {
         "heading": "Maksuttomuuden tarkastukset"
+      },
+      "clerkCustomerDetailsPage": {
+        "heading": "Asiakkaan tiedot"
+      },
+      "clerkCustomersSearchPage": {
+        "heading": "Asiakashaku"
       },
       "confirmRegistrationPage": {
         "heading": "Bekräfta anmälan"
@@ -649,6 +844,40 @@
       "logoutSuccessPage": {
         "heading": "Utloggningen lyckades",
         "info": "Du har loggat ut. Stäng alla fönster i webbläsaren."
+      },
+      "modifyContactDetailsPage": {
+        "buttons": {
+          "cancel": "Avbryt",
+          "save": "Spara kontaktuppgifterna"
+        },
+        "description": {
+          "part1": "Vi skickar intyget till dig per post.",
+          "part2": "Kontrollera att du har uppgett rätt adress."
+        },
+        "errorDialog": {
+          "fixErrors": "Fyll i uppgifterna som saknas eller korrigera felaktiga uppgifter:",
+          "title": "Felaktiga uppgifter!"
+        },
+        "labels": {
+          "confirmEmail": "Bekräfta din e-postadress",
+          "email": "E-postadress",
+          "phoneNumber": "Telefonnummer",
+          "postOffice": "Postanstalt",
+          "streetAddress": "Gatuadress",
+          "zip": "Postnummer"
+        },
+        "placeholders": {
+          "confirmEmail": "Skriv din e-postadress på nytt",
+          "email": "Till exempel namn@e-post.fi",
+          "phoneNumber": "Skriv i formatet +358 50 123 4567",
+          "postOffice": "",
+          "streetAddress": "",
+          "zip": ""
+        },
+        "toast": {
+          "success": "Kontaktuppgifterna har sparats"
+        },
+        "title": "Redigera kontaktuppgifterna"
       },
       "notFoundPage": {
         "description": "Kontrollera webbadressen eller gå tillbaka till startsidan.",
@@ -690,14 +919,18 @@
         },
         "description": {
           "part1": {
-            "text": "I den allmänna språkexamen (YKI) bedöms kunskaperna i standardspråket i praktiska situationer. Med examensintyg kan du officiellt visa dina språkkunskaper i olika språk."
-          },
-          "part2": {
             "link": {
               "label": "Att välja ett lämpligt YKI-test och testdagarna",
               "url": "https://www.oph.fi/sv/utbildning-och-examina/att-valja-ett-lampligt-yki-test-testdagarna"
             },
-            "text": "Du kan avlägga YKI-examen på grundnivå, mellannivå eller högsta nivå. Före du anmäler dig till YKI-testet ska du ta reda på när och på vilken nivå du behöver ett examensintyg. Läs mer om att välja ett lämpligt YKI-test på Utbildningsstyrelsens webbplats:"
+            "text": "I den allmänna språkexamen, alltså YKI-testet, bedöms kunskaperna i standardspråket i praktiska situationer. Du kan avlägga YKI-testet på grundnivå, mellannivå eller högsta nivå. Före du anmäler dig till YKI-testet ska du ta reda på vilken nivå du behöver ett examensintyg. Läs mer om att välja ett lämpligt YKI-test på Utbildningsstyrelsens webbplats:"
+          },
+          "part2": {
+            "link": {
+              "label": "Anmälan till YKI-test",
+              "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test"
+            },
+            "text": "Du kan anmäla dig till YKI-testet på den här sidan. Om examenstillfället är fullbokat, kan du anmäla dig till en köplats. Läs mer om hur du anmäler dig på Utbildningsstyrelsens webbplats:"
           },
           "part3": {
             "link": {
@@ -729,10 +962,10 @@
           }
         },
         "infoBox": {
-          "heading": "Nu kan du anmäla dig till kön till YKI-test!",
-          "text": "Du kan också se dina anmälningar i Min Studieinfo. Läs mer på Utbildningsstyrelsens webbsidor: ",
-          "link": "Ändringar i anmälan till YKI-testet",
-          "url": "https://www.oph.fi/sv/nyheter/2025/andringar-i-anmalan-till-yki-testet"
+          "part1": "2026 blir en del av YKI-testerna avgiftsfria, villkoren för återbetalning av examensavgiften förtydligas och anmälan kan inte längre flyttas.",
+          "part2": "Läs mer på Utbildningsstyrelsens webbplats:",
+          "link": "Ändringar i YKI-tester fr.o.m. 1.1.2026",
+          "url": "https://www.oph.fi/sv/nyheter/2025/andringar-i-allmanna-sprakexamina-fran-och-med-den-1-januari-2026"
         },
         "labels": {
           "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",
@@ -745,47 +978,6 @@
         "register": "Anmäl dig",
         "title": "Allmänna språkexamina (YKI) - Anmälan"
       },
-      "transferRegistrationPage": {
-        "currentRegistrationDetails": {
-          "heading": "Du håller på att flytta anmälan"
-        },
-        "introduction": {
-          "criteria": {
-            "item1": "Det nya testdatumet får vara högst ett år efter det ursprungliga testdatumet.",
-            "item2": "Om nästa YKI-test för samma språk och nivå är mer än ett år efter det ursprungliga testdatumet, kan du flytta anmälan till nästa YKI-test för samma språk och nivå."
-          },
-          "info": "Du kan flytta fram din anmälan en gång till ett YKI-test för samma språk och nivå på samma testplats."
-        },
-        "selectNewExamDate": {
-          "actions": {
-            "select": "Välj"
-          },
-          "noCandidatesFound": "Inga YKI-test hittades. Kontakta din testplats direkt för att fråga om att flytta din anmälan. Testplatsens e-postadress är {{email}}.",
-          "heading": "Välj ett nytt testdatum"
-        },
-        "title": "Flytta anmälan"
-      },
-      "transferRegistrationSuccessPage": {
-        "information": {
-          "beforeYkiTest": {
-            "description": "Läs också Utbildningsstyrelsens anvisningar för YKI-testet:",
-            "label": "Före YKI-testet (oph.fi)",
-            "url": "https://www.oph.fi/sv/utbildning-och-examina/fore-yki-testdagen"
-          },
-          "heading": "Välkommen till YKI-testet!",
-          "part1": "Din anmälan har flyttats. Du får en bekräftelse av din anmälan per e-post.",
-          "part2": "Testplatsen skickar instruktioner för YKI-testet till dig före testdagen. I anvisningarna står det var testplatsen är och när testet börjar.",
-          "part3": "I anvisningarna står det bland annat var testet ordnas och vilket klockslag det börjar.",
-          "specialArrangements": {
-            "description1": "Om du behöver specialarrangemang",
-            "description2": "ska du ansöka om det även för den nya testdagen.",
-            "description3": "Skicka in din ansökan så snart som möjligt. Anvisningar för hur du ansöker om specialarrangemang finns på Utbildningsstyrelsens webbplats",
-            "label": "Behöver du specialarrangemang",
-            "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-behover-du-specialarrangemang"
-          }
-        },
-        "title": "Anmälan har flyttats!"
-      },
       "userDetailsPage": {
         "expiredLoginLink": {
           "part1": "Länken gäller inte längre. Av datasäkerhetsskäl fungerar länken bara i 14 dagar. Du måste beställa en ny länk.",
@@ -797,8 +989,7 @@
         "contactDetails": {
           "description": {
             "part1": "Vi skickar intyget till dig per post.",
-            "part2": "Kontrollera att du har uppgett rätt adress.",
-            "part3": "Om det finns ett fel i dina kontaktuppgifter, meddela Utbildningsstyrelsen om det per e-post på kielitutkinnot@oph.fi"
+            "part2": "Kontrollera att du har uppgett rätt adress."
           },
           "heading": "Dina kontaktuppgifter",
           "modify": "Redigera kontaktuppgifterna"
@@ -806,11 +997,11 @@
         "introduction": {
           "bulletPoints": {
             "point1": "Du kan se dina anmälningar från de senaste 12 månaderna.",
-            "point2": "Du kan flytta din anmälan en gång.",
             "point3": "Du kan annullera din anmälan.",
             "point4": "Du kan se de examina som du köar för och ta emot en plats som du köat till.",
             "point5": "Om en plats på YKI-testet blir ledig kan du ta emot den.",
-            "point6": "Du kan annullera din anmälan till en köplats."
+            "point6": "Du kan annullera din anmälan till en köplats.",
+            "point7": "Du kan redigera dina kontaktuppgifter."
           },
           "info": "Se och ändra dina anmälningar till YKI-testet."
         },
@@ -823,18 +1014,14 @@
         "registrations": {
           "actions": {
             "cancel": "Annullera anmälan",
-            "confirm": "Bekräfta anmälan",
-            "relocate": "Flytta anmälan"
-          },
-          "alreadyTransferredNotification": {
-            "part1": "Du har flyttat din anmälan.",
-            "part2": "Du kan flytta anmälan endast en gång. Du kan inte flytta den på nytt."
+            "confirm": "Bekräfta anmälan"
           },
           "examPayment": {
             "expiresAt": "Förfallodatum {{- date }}",
             "notPaid": "Obetalt {{ examFee }}€",
             "label": "Examensavgift",
-            "paidAt": "Betald {{- date }}"
+            "paidAt": "Betald {{- date }}",
+            "free": "Avgiftsfri"
           },
           "header": {
             "cancelled": "Annullerade anmälningar",

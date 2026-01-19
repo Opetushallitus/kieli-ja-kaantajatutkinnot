@@ -266,7 +266,7 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Admission,
     },
     {
-      level_code: ExamLevel.KESKI,
+      level_code: ExamLevel.YLIN,
       language_code: ExamLanguage.FIN,
       open: true,
       upcoming_admission: true,
@@ -313,7 +313,7 @@ export const examSessions: ExamSessionsResponse = {
           zip: '40100',
         },
       ],
-      exam_fee: 176,
+      exam_fee: 200,
       registration_end_date: '2039-02-28',
       available_registration_kind: RegistrationKind.Admission,
     },

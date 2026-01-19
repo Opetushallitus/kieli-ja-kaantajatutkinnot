@@ -3,17 +3,23 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse, isAxiosError } from 'axios';
 
 import axiosInstance from 'configs/axios';
-import { getCurrentLang } from 'configs/i18n';
+import { getCurrentLang, translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import {
   CancelRegistrationResponse,
+  ModifyContactDetails,
+  ModifyContactDetailsResponse,
   PersonDetailsResponse,
 } from 'interfaces/userDetails';
+import { setAPIError } from 'redux/reducers/APIError';
 import {
   acceptCancelUserRegistration,
+  acceptModifyContactDetails,
   cancelUserRegistration,
+  doModifyContactDetails,
   loadPersonDetails,
   rejectCancelUserRegistration,
+  rejectModifyContactDetails,
   rejectPersonDetails,
   storePersonDetails,
 } from 'redux/reducers/userDetails';
@@ -66,7 +72,32 @@ function* cancelUserRegistrationSaga(action: PayloadAction<number>) {
   }
 }
 
+function* modifyContactDetailsSaga(
+  action: PayloadAction<ModifyContactDetails>,
+) {
+  const t = translateOutsideComponent();
+  try {
+    const response: AxiosResponse<ModifyContactDetailsResponse> = yield call(
+      axiosInstance.post,
+      APIEndpoints.PersonDetails,
+      JSON.stringify(
+        SerializationUtils.serializeModifyContactDetailsRequest(action.payload),
+      ),
+    );
+
+    if (response.data.success) {
+      yield put(acceptModifyContactDetails());
+    } else {
+      yield put(rejectModifyContactDetails());
+    }
+  } catch (error) {
+    yield put(rejectModifyContactDetails());
+    yield put(setAPIError(t('yki.common.error')));
+  }
+}
+
 export function* watchUserDetails() {
   yield takeLatest(loadPersonDetails.type, loadPersonDetailsSaga);
   yield takeLeading(cancelUserRegistration.type, cancelUserRegistrationSaga);
+  yield takeLatest(doModifyContactDetails.type, modifyContactDetailsSaga);
 }

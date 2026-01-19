@@ -1,9 +1,6 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ThemeProvider } from '@mui/material';
-import {
-  createOphTheme,
-  OphThemeProvider,
-} from '@opetushallitus/oph-design-system/theme';
+import { OphThemeProvider } from '@opetushallitus/oph-design-system/theme';
 import { FC, useEffect } from 'react';
 import {
   createBrowserRouter,
@@ -29,24 +26,27 @@ import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
+import { clerkTheme } from 'ophTheme/OphTheme';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
+import { ClerkCustomerDetailsPage } from 'pages/clerk/ClerkCustomerDetailsPage';
 import { ClerkCustomerSearchPage } from 'pages/clerk/ClerkCustomerSearchPage';
 import { ClerkFreeRegistrationDetailsPage } from 'pages/clerk/ClerkFreeRegistrationDetailsPage';
 import { ClerkFreeRegistrationPage } from 'pages/clerk/ClerkFreeRegistrationPage';
 import { ClerkHomePage } from 'pages/clerk/ClerkHomePage';
+import { ClerkOrganizerRegisterDetails } from 'pages/clerk/ClerkOrganizerRegisterDetails';
 import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
 import { ExamDetailsPage } from 'pages/ExamDetailsPage';
 import { ExpiredLoginLinkPage } from 'pages/ExpiredLoginLinkPage';
+import { FreeRegistrationSuccessPage } from 'pages/FreeRegistrationSuccessPage';
 import { InitRegistrationPage } from 'pages/InitRegistrationPage';
 import { LogoutSuccess } from 'pages/LogoutSuccess';
+import { ModifyContactDetailsPage } from 'pages/ModifyContactDetailsPage';
 import { NotFoundPage } from 'pages/NotFoundPage';
 import { ReassessmentPage } from 'pages/ReassessmentPage';
 import { RegistrationPage } from 'pages/RegistrationPage';
 import { RegistrationPaymentStatusPage } from 'pages/RegistrationPaymentStatusPage';
-import { TransferRegistrationPage } from 'pages/TransferRegistrationPage';
-import { TransferRegistrationSuccessPage } from 'pages/TransferRegistrationSuccessPage';
 import { UserDetailsPage } from 'pages/UserDetailsPage';
 import { loadSession } from 'redux/reducers/session';
 import { sessionSelector } from 'redux/selectors/session';
@@ -90,19 +90,6 @@ export const AppRouter: FC = () => {
       </NotifierContextProvider>
     </div>
   );
-
-  const clerkTheme = createOphTheme({
-    variant: 'oph',
-    overrides: {
-      components: {
-        MuiAppBar: {
-          defaultProps: {
-            color: 'default',
-          },
-        },
-      },
-    },
-  });
 
   const ClerkRoot = (
     <div className="app">
@@ -169,6 +156,14 @@ export const AppRouter: FC = () => {
             }
           />
           <Route
+            path={AppRoutes.ClerkOrganizerRegisterDetails}
+            element={
+              <YkiTitlePage title="clerk">
+                <ClerkOrganizerRegisterDetails />
+              </YkiTitlePage>
+            }
+          />
+          <Route
             path={AppRoutes.ClerkFreeRegistration}
             element={
               <YkiTitlePage title="clerk">
@@ -189,6 +184,14 @@ export const AppRouter: FC = () => {
             element={
               <YkiTitlePage title="customerSearch">
                 <ClerkCustomerSearchPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ClerkCustomerDetails}
+            element={
+              <YkiTitlePage title="customerDetails">
+                <ClerkCustomerDetailsPage />
               </YkiTitlePage>
             }
           />
@@ -227,6 +230,14 @@ export const AppRouter: FC = () => {
             element={
               <YkiTitlePage title="registrationPaymentStatus">
                 <RegistrationPaymentStatusPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.FreeRegistrationSuccess}
+            element={
+              <YkiTitlePage title="freeRegistrationSuccess">
+                <FreeRegistrationSuccessPage />
               </YkiTitlePage>
             }
           />
@@ -271,26 +282,18 @@ export const AppRouter: FC = () => {
             }
           />
           <Route
+            path={AppRoutes.ModifyContactDetails}
+            element={
+              <UserPortalSubPage title="modifyContactDetails">
+                <ModifyContactDetailsPage />
+              </UserPortalSubPage>
+            }
+          />
+          <Route
             path={AppRoutes.ConfirmRegistration}
             element={
               <UserPortalSubPage title="transferRegistration">
                 <ConfirmRegistrationPage />
-              </UserPortalSubPage>
-            }
-          />
-          <Route
-            path={AppRoutes.TransferRegistration}
-            element={
-              <UserPortalSubPage title="transferRegistration">
-                <TransferRegistrationPage />
-              </UserPortalSubPage>
-            }
-          />
-          <Route
-            path={AppRoutes.TransferRegistrationSuccess}
-            element={
-              <UserPortalSubPage title="transferRegistration">
-                <TransferRegistrationSuccessPage />
               </UserPortalSubPage>
             }
           />
@@ -319,7 +322,6 @@ export const AppRouter: FC = () => {
             }
           />
         </Route>
-        ,
       </>,
     ),
   );

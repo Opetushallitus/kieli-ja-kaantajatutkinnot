@@ -33,6 +33,8 @@ public class PersonalDataFactory {
       .lastName(lastName)
       .firstName(nickName + " " + secondName)
       .nickName(nickName)
+      .isDuplicate(counterValue == 2)
+      .isPassive(counterValue == 2 || (counterValue > 2 && counterValue < 20))
       .identityNumber(identityNumbers.next())
       .email(nickName.toLowerCase() + "." + lastName.toLowerCase() + "@example.invalid")
       .phoneNumber(counterValue % 10 != 0 ? "+35840" + (1000000 + counterValue) : null)

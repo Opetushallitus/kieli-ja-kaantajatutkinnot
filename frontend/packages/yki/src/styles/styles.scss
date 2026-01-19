@@ -15,10 +15,13 @@
 @import 'components/registration/exam-session-filters';
 @import 'components/registration/exam-session-listing';
 @import 'components/registration/public-registration';
+@import 'components/registration/mobile-app-bar';
 @import 'components/userDetails/cancel-registration-modal';
 @import 'components/freeRegistration/free-registration';
 @import 'components/freeRegistrationListing/free-registration-listing';
 @import 'components/freeRegistrationDetails/free-registration-details';
+@import 'components/customerDetails/customer-exams-listing';
+@import 'components/clerkRegisterOrganizerDetails/clerk-register-organizer-details';
 
 // Pages
 @import 'pages/accessibility-statement-page';
@@ -29,6 +32,7 @@
 @import 'pages/public-exam-details-page';
 @import 'pages/reassessment-page';
 @import 'pages/user-details-page';
+@import 'pages/modify-contact-details-page';
 @import 'pages/registration-page';
 @import 'pages/registration-payment-status-page';
 @import 'pages/transfer-registration-page';
@@ -37,3 +41,5 @@
 @import 'pages/clerk-register-page';
 @import 'pages/clerk-free-registration-page';
 @import 'pages/clerk-free-registration-details-page';
+@import 'pages/clerk-customer-details-page';
+@import 'pages/clerk-customers-search-page';

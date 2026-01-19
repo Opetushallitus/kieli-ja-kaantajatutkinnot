@@ -2,7 +2,6 @@ import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import InfoFilledIcon from '@mui/icons-material/Info';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
 import WarningOutlinedIcon from '@mui/icons-material/WarningOutlined';
 import { Grid, Paper, Typography } from '@mui/material';
@@ -69,9 +68,43 @@ const filterByDate = (
     return [];
   }
 
+  const now = dayjs();
+
   return registrations.filter((r) =>
-    upcoming ? dayjs().isBefore(r.examDate) : dayjs().isAfter(r.examDate),
+    upcoming
+      ? now.isBefore(r.examDate, 'day') || now.isSame(r.examDate, 'day')
+      : now.isAfter(r.examDate, 'day'),
   );
+};
+
+const earliestExamDateFirstComparator = (
+  a: PersonRegistrations,
+  b: PersonRegistrations,
+) => {
+  const ed1 = a.examDate,
+    ed2 = b.examDate;
+  if (ed1.isBefore(ed2)) {
+    return -1;
+  } else if (ed2.isBefore(ed1)) {
+    return 1;
+  } else {
+    return 0;
+  }
+};
+
+const latestExamDateFirstComparator = (
+  a: PersonRegistrations,
+  b: PersonRegistrations,
+) => {
+  const ed1 = a.examDate,
+    ed2 = b.examDate;
+  if (ed1.isBefore(ed2)) {
+    return -1;
+  } else if (ed2.isBefore(ed1)) {
+    return 1;
+  } else {
+    return 0;
+  }
 };
 
 interface RegistrationsProps {
@@ -145,10 +178,22 @@ const ExamPayment = ({
 }: {
   registration: PersonRegistrations;
 }) => {
-  const { paidAt, expiresAt, examFee } = registration;
+  const { paidAt, expiresAt, examFee, isFreeRegistration } = registration;
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage.registrations.examPayment',
   });
+
+  if (isFreeRegistration) {
+    return (
+      <div>
+        <Text className="bold">{t('label')}</Text>
+        <div className="columns gapped-xxs">
+          <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
+          <Text>{t('free')}</Text>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -296,30 +341,7 @@ const Registrations: FC<RegistrationsProps> = ({
               >
                 {t('actions.cancel')}
               </CustomButton>
-              {r.state === RegistrationStates.Completed && (
-                <CustomButtonLink
-                  className="fit-content-max-width"
-                  color={Color.Secondary}
-                  variant={Variant.Outlined}
-                  disabled={!r.isTransferable}
-                  to={AppRoutes.TransferRegistration.replace(
-                    /:registrationId/,
-                    `${r.id}`,
-                  )}
-                >
-                  {t('actions.relocate')}
-                </CustomButtonLink>
-              )}
             </div>
-            {r.isTransfered && (
-              <div className="columns gapped-xs">
-                <InfoOutlinedIcon />
-                <Text>
-                  {t('alreadyTransferredNotification.part1')}{' '}
-                  {t('alreadyTransferredNotification.part2')}
-                </Text>
-              </div>
-            )}
           </div>
         )}
       </Paper>
@@ -338,8 +360,6 @@ const ContactDetails = () => {
     return <></>;
   }
 
-  const editingContactDetailsAllowed = false;
-
   return (
     <div className="margin-top-xxl">
       <H2 className="user-details-page__info__section__heading-title">
@@ -349,8 +369,6 @@ const ContactDetails = () => {
         <div className="user-details-page__info__section rows gapped">
           <Text>
             {t('description.part1')} {t('description.part2')}
-            <br />
-            {t('description.part3')}
           </Text>
           <div className="rows">
             <Text>
@@ -369,20 +387,18 @@ const ContactDetails = () => {
               {personDetails.phoneNumber}
             </Text>
           </div>
-          {editingContactDetailsAllowed && (
-            <div className="columns">
-              <CustomButtonLink
-                variant={Variant.Text}
-                color={Color.Secondary}
-                to={''}
-                fullWidth={false}
-                startIcon={<EditOutlinedIcon />}
-                className="text-transform-none user-details-page__edit-btn"
-              >
-                {t('modify')}
-              </CustomButtonLink>
-            </div>
-          )}
+          <div className="columns">
+            <CustomButtonLink
+              variant={Variant.Text}
+              color={Color.Secondary}
+              to={AppRoutes.ModifyContactDetails}
+              fullWidth={false}
+              startIcon={<EditOutlinedIcon />}
+              className="text-transform-none user-details-page__edit-btn"
+            >
+              {t('modify')}
+            </CustomButtonLink>
+          </div>
         </div>
       </Paper>
     </div>
@@ -425,7 +441,7 @@ const NotLoggedIn = () => {
             <Text>{t('notLoggedIn.actionsAvailable')}</Text>
           </div>
           <Typography className="margin-top-sm" variant="body1" component="ul">
-            {['point1', 'point2', 'point3', 'point4'].map((point, i) => (
+            {['point1', 'point3', 'point4', 'point7'].map((point, i) => (
               <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
             ))}
           </Typography>
@@ -458,19 +474,22 @@ export const UserDetailsPage: FC = () => {
 
   const registrations = personDetails?.registrations || [];
 
-  const canceledRegistrations = filterByState(registrations, cancelledStates);
+  const canceledRegistrations = [
+    ...filterByState(registrations, cancelledStates),
+  ].sort(earliestExamDateFirstComparator);
   const upcomingAndPastRegistrations = filterByState(registrations, [
     RegistrationStates.Submitted,
     RegistrationStates.Completed,
     RegistrationStates.Started,
   ]);
 
-  const upcomingRegistrations = filterByDate(
-    upcomingAndPastRegistrations,
-    true,
-  );
+  const upcomingRegistrations = [
+    ...filterByDate(upcomingAndPastRegistrations, true),
+  ].sort(latestExamDateFirstComparator);
 
-  const pastRegistrations = filterByDate(upcomingAndPastRegistrations, false);
+  const pastRegistrations = [
+    ...filterByDate(upcomingAndPastRegistrations, false),
+  ].sort(earliestExamDateFirstComparator);
 
   const renderBulletpoints = () => {
     if (loggedInSession?.['auth-method'] === 'EMAIL') {
@@ -478,17 +497,17 @@ export const UserDetailsPage: FC = () => {
         upcomingRegistrations[0]?.positionInQueue ||
         upcomingRegistrations[0]?.liftedFromQueueAt
       ) {
-        return ['point5', 'point6'].map((point, i) => (
+        return ['point5', 'point6', 'point7'].map((point, i) => (
           <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
         ));
       } else {
-        return ['point2', 'point4'].map((point, i) => (
+        return ['point4', 'point7'].map((point, i) => (
           <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
         ));
       }
     }
 
-    return ['point1', 'point2', 'point3', 'point4'].map((point, i) => (
+    return ['point1', 'point3', 'point4', 'point7'].map((point, i) => (
       <li key={i}>{t(`introduction.bulletPoints.${point}`)}</li>
     ));
   };

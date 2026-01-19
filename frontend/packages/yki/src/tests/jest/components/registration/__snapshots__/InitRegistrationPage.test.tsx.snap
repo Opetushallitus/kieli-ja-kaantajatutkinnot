@@ -73,7 +73,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 >
                   examFee: 
                   <b>
-                    200 €
+                    0 or 200 €
                   </b>
                 </p>
                 <p
@@ -183,7 +183,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 >
                   examFee: 
                   <b>
-                    200 €
+                    0 or 200 €
                   </b>
                 </p>
                 <p
@@ -564,12 +564,20 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 >
                   caption
                 </p>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                <div
+                  class="rows"
                 >
-                  <br />
-                  withFinnishSSN.info
-                </p>
+                  <h3
+                    class="MuiTypography-root MuiTypography-h3 css-13msox4-MuiTypography-root"
+                  >
+                    withFinnishSSN.description
+                  </h3>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  >
+                    withFinnishSSN.info
+                  </p>
+                </div>
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-r1ewpe-MuiButtonBase-root-MuiButton-root"
                   href="/yki/auth/?examSessionId=11&toQueue=false"
@@ -577,78 +585,111 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 >
                   suomiFiButtonText
                 </a>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-                >
-                  <br />
-                  withoutFinnishSSN.info
-                </p>
                 <div
-                  class="columns gapped align-items-end"
+                  class="columns"
                 >
-                  <div
-                    class="rows"
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+                    data-testid="ExpandMoreIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
                   >
-                    <label
-                      for="email-identification__email-input"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-                      >
-                        <b>
-                          label
-                        </b>
-                      </p>
-                    </label>
+                    <path
+                      d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                    />
+                  </svg>
+                  <button
+                    aria-controls="public-registration--email-link-order__input-region"
+                    aria-expanded="false"
+                    class="public-registration--email-link-order__reveal-btn"
+                    id="public-registration--email-link-order__reveal-btn"
+                  >
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                     >
-                      placeholder
+                      withoutFinnishSSN.description
                     </p>
+                  </button>
+                </div>
+                <div
+                  aria-labelledby="public-registration--email-link-order__reveal-btn"
+                  hidden=""
+                  id="public-registration--email-link-order__input-region"
+                  role="region"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  >
+                    withoutFinnishSSN.info
+                  </p>
+                  <div
+                    class="columns gapped align-items-end"
+                  >
                     <div
-                      class="MuiFormControl-root MuiTextField-root public-registration__grid__form-container__registration-text-field css-1xp5r68-MuiFormControl-root-MuiTextField-root"
+                      class="rows"
                     >
-                      <div
-                        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
+                      <label
+                        for="email-identification__email-input"
                       >
-                        <input
-                          aria-invalid="false"
-                          autocomplete="email"
-                          class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
-                          id="email-identification__email-input"
-                          type="email"
-                          value=""
-                        />
-                        <fieldset
-                          aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                         >
-                          <legend
-                            class="css-w4cd9x"
+                          <b>
+                            label
+                          </b>
+                        </p>
+                      </label>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                      >
+                        placeholder
+                      </p>
+                      <div
+                        class="MuiFormControl-root MuiTextField-root public-registration__grid__form-container__registration-text-field css-1xp5r68-MuiFormControl-root-MuiTextField-root"
+                      >
+                        <div
+                          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
+                        >
+                          <input
+                            aria-invalid="false"
+                            autocomplete="email"
+                            class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                            id="email-identification__email-input"
+                            type="email"
+                            value=""
+                          />
+                          <fieldset
+                            aria-hidden="true"
+                            class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
                           >
-                            <span
-                              aria-hidden="true"
-                              class="notranslate"
+                            <legend
+                              class="css-w4cd9x"
                             >
-                              ​
-                            </span>
-                          </legend>
-                        </fieldset>
+                              <span
+                                aria-hidden="true"
+                                class="notranslate"
+                              >
+                                ​
+                              </span>
+                            </legend>
+                          </fieldset>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="rows"
-                  >
-                    <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-1mns5ui-MuiButtonBase-root-MuiButton-root"
-                      tabindex="0"
-                      type="button"
+                    <div
+                      class="rows"
                     >
-                      emailButtonText
-                    </button>
+                      <button
+                        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+                        tabindex="0"
+                        type="button"
+                      >
+                        emailButtonText
+                      </button>
+                    </div>
+                     
                   </div>
-                   
                 </div>
                 <div
                   class="columns margin-top-lg justify-content-center"

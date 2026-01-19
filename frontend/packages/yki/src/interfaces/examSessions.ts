@@ -1,5 +1,4 @@
 import { Dayjs } from 'dayjs';
-import { WithId } from 'shared/interfaces';
 
 import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
 import { OrganizerContact } from 'interfaces/organizer';
@@ -40,7 +39,9 @@ export interface ExamSessionLocation {
   lang: 'fi' | 'sv' | 'en';
 }
 
-export interface ExamSession extends WithId {
+type WithIdType = { id: number };
+
+export type ExamSession = WithIdType & {
   session_date: Dayjs;
   language_code: ExamLanguage;
   level_code: ExamLevel;
@@ -59,4 +60,4 @@ export interface ExamSession extends WithId {
   registration_start_date: Dayjs;
   registration_end_date: Dayjs;
   upcoming_admission?: boolean;
-}
+};

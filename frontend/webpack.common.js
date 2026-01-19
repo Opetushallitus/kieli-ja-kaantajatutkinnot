@@ -138,10 +138,21 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", ykiClerk =
       },
       compress: true,
       port,
-      proxy: env.proxy &&{
-        [`/${CONTEXT_PATH}/api`]: env.proxy,
-        [`/${CONTEXT_PATH}/auth`]: env.proxy,
+      proxy: env.proxy && [{
+        "context": [`/${CONTEXT_PATH}/v2/api`],
+        "target": env.proxy,
+        "secure": false,
       },
+      {
+        "context": [`/${CONTEXT_PATH}/auth`],
+        "target": env.proxy,
+        "secure": false,
+      },
+      {
+        "context": [`/${CONTEXT_PATH}/api`],
+        "target": env.proxy,
+        "secure": false,
+      }],
     },
   });
 

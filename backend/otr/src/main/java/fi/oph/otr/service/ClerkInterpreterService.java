@@ -156,6 +156,7 @@ public class ClerkInterpreterService {
         .version(interpreter.getVersion())
         .isIndividualised(personalData.getIndividualised())
         .hasIndividualisedAddress(personalData.getHasIndividualisedAddress())
+        .isDeceased(personalData.isDeceased())
         .identityNumber(personalData.getIdentityNumber())
         .lastName(personalData.getLastName())
         .firstName(personalData.getFirstName())

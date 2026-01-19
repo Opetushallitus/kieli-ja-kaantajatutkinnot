@@ -19,7 +19,6 @@ export interface PersonRegistrations extends WithId {
   registrationStartDate: Dayjs;
   registrationEndDate: Dayjs;
   location: Array<ExamSessionLocation>;
-  isTransferable: boolean;
   isTransfered: boolean;
   isCancellable: boolean;
   paidAt?: Dayjs;
@@ -27,6 +26,7 @@ export interface PersonRegistrations extends WithId {
   examFee?: number;
   liftedFromQueueAt?: Dayjs;
   positionInQueue?: number;
+  isFreeRegistration?: boolean;
 }
 
 interface PersonRegistrationsResponse extends WithId {
@@ -40,13 +40,13 @@ interface PersonRegistrationsResponse extends WithId {
   registration_end_date: string;
   location: Array<ExamSessionLocation>;
   is_transfered: boolean;
-  is_transferable: boolean;
   is_cancellable: boolean;
   paid_at?: string;
   expires_at?: string;
   exam_fee?: number;
   lifted_from_queue_at?: string;
   position_in_queue?: number;
+  is_free_registration?: boolean;
 }
 
 export interface PersonDetails {
@@ -58,6 +58,14 @@ export interface PersonDetails {
   postOffice: string;
   zip: string;
   registrations: Array<PersonRegistrations>;
+}
+
+export interface ModifyContactDetails
+  extends Pick<
+    PersonDetails,
+    'email' | 'phoneNumber' | 'postOffice' | 'streetAddress' | 'zip'
+  > {
+  confirmEmail: string;
 }
 
 export interface PersonDetailsResponse {
@@ -72,5 +80,9 @@ export interface PersonDetailsResponse {
 }
 
 export interface CancelRegistrationResponse {
+  success: boolean;
+}
+
+export interface ModifyContactDetailsResponse {
   success: boolean;
 }

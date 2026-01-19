@@ -1,12 +1,13 @@
 import {
   BlockFlipped,
   CheckCircle,
+  ErrorOutline,
   HourglassBottom,
 } from '@mui/icons-material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Divider, TextField } from '@mui/material';
+import { Divider, TextField, Typography } from '@mui/material';
 import { ClockIcon } from '@mui/x-date-pickers';
-import { OphButton, ophColors } from '@opetushallitus/oph-design-system';
+import { OphButton } from '@opetushallitus/oph-design-system';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { APIResponseStatus, Severity, Variant } from 'shared/enums';
@@ -14,22 +15,29 @@ import { useToast } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { FreeRegistrationModal } from 'components/clerkFreeRegistration/FreeRegistrationModal';
+import { FreeRegistrationSupplementRequestModal } from 'components/clerkFreeRegistration/FreeRegistrationSuppmentRequestModal';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { FreeRegistrationStatus } from 'interfaces/clerkFreeRegistration';
 import { Label, Text } from 'ophTheme/Text';
-import { FreeRegistrationApprovalStatus } from 'redux/reducers/clerkFreeRegistration';
 import {
+  FreeRegistrationModalStatus,
+  resetSupplementRequestStatus,
+  setFreeRegistrationStatus,
+} from 'redux/reducers/clerkFreeRegistration';
+import {
+  addComment,
   loadClerkFreeRegistrationDetails,
   resetClerkFreeRegistrationDetails,
 } from 'redux/reducers/clerkFreeRegistrationDetails';
-import { freeRegistrationApprovalStatusSelector } from 'redux/selectors/clerkFreeRegistration';
+import { clerkFreeRegistrationSelector } from 'redux/selectors/clerkFreeRegistration';
 import { clerkFreeRegistrationDetailsSelector } from 'redux/selectors/clerkFreeRegistrationDetails';
 
 export const ClerkFreeRegistrationDetails = () => {
   const [comment, setComment] = useState('');
-
+  const [isRequestSupplementModalOpen, setIsRequestSupplementModalOpen] =
+    useState(false);
   const onCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
   };
@@ -42,11 +50,10 @@ export const ClerkFreeRegistrationDetails = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const params = useParams();
-  const { status, registrationDetails } = useAppSelector(
+  const { status, registrationDetails, commentStatus } = useAppSelector(
     clerkFreeRegistrationDetailsSelector,
   );
-
-  const approvalStatus = useAppSelector(freeRegistrationApprovalStatusSelector);
+  const { modalSubmitStatus } = useAppSelector(clerkFreeRegistrationSelector);
 
   const translateCommon = useCommonTranslation();
 
@@ -59,58 +66,96 @@ export const ClerkFreeRegistrationDetails = () => {
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
+  const freeRegistrationId = params.id ? +params.id : null;
+
   useEffect(() => {
     if (
       status === APIResponseStatus.NotStarted &&
-      params.id &&
-      !isNaN(+params.id)
+      freeRegistrationId &&
+      !isNaN(freeRegistrationId)
     ) {
-      dispatch(loadClerkFreeRegistrationDetails(+params.id));
-    } else if (status === APIResponseStatus.Error || isNaN(Number(params.id))) {
+      dispatch(loadClerkFreeRegistrationDetails(freeRegistrationId));
+    } else if (
+      status === APIResponseStatus.Error ||
+      isNaN(Number(freeRegistrationId))
+    ) {
       showToast({
         severity: Severity.Error,
         description: t('details.toasts.notFound'),
       });
       navigate(AppRoutes.ClerkFreeRegistration);
     }
-  }, [dispatch, navigate, params.id, showToast, status, t]);
+  }, [dispatch, navigate, freeRegistrationId, showToast, status, t]);
 
   useEffect(() => {
-    return () => {
-      setComment('');
-      dispatch(resetClerkFreeRegistrationDetails());
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (approvalStatus === FreeRegistrationApprovalStatus.ApprovalSuccess) {
+    if (modalSubmitStatus === FreeRegistrationModalStatus.ApprovalSuccess) {
       showToast({
         severity: Severity.Success,
         description: t('details.toasts.approvalConfirmed'),
       });
     } else if (
-      approvalStatus === FreeRegistrationApprovalStatus.ApprovalError
+      modalSubmitStatus === FreeRegistrationModalStatus.ApprovalError
     ) {
       showToast({
         severity: Severity.Error,
         description: t('details.toasts.approvalFailed'),
       });
     } else if (
-      approvalStatus === FreeRegistrationApprovalStatus.RejectSuccess
+      modalSubmitStatus === FreeRegistrationModalStatus.RejectSuccess
     ) {
       showToast({
         severity: Severity.Success,
         description: t('details.toasts.rejectConfirmed'),
       });
-    } else if (approvalStatus === FreeRegistrationApprovalStatus.RejectError) {
+    } else if (modalSubmitStatus === FreeRegistrationModalStatus.RejectError) {
       showToast({
         severity: Severity.Error,
         description: t('details.toasts.rejectFailed'),
       });
+    } else if (
+      modalSubmitStatus === FreeRegistrationModalStatus.SupplementRequestSuccess
+    ) {
+      showToast({
+        severity: Severity.Success,
+        description: t('details.toasts.supplementRequestSuccess'),
+      });
+    } else if (
+      modalSubmitStatus === FreeRegistrationModalStatus.SupplementRequestError
+    ) {
+      showToast({
+        severity: Severity.Error,
+        description: t('details.toasts.supplementRequestFailed'),
+      });
     }
-  }, [approvalStatus, showToast, t]);
+  }, [modalSubmitStatus, showToast, t]);
 
-  if (!registrationDetails) {
+  useEffect(() => {
+    if (commentStatus === APIResponseStatus.Success) {
+      setComment('');
+      showToast({
+        severity: Severity.Success,
+        description: t('details.toasts.addCommentConfirmed'),
+      });
+    } else if (commentStatus === APIResponseStatus.Error) {
+      showToast({
+        severity: Severity.Error,
+        description: t('details.toasts.addCommentFailed'),
+      });
+    }
+  }, [dispatch, commentStatus, showToast, t]);
+
+  useEffect(() => {
+    return () => {
+      setComment('');
+      dispatch(resetClerkFreeRegistrationDetails());
+      dispatch(
+        setFreeRegistrationStatus(FreeRegistrationModalStatus.NotStarted),
+      );
+      dispatch(resetSupplementRequestStatus());
+    };
+  }, [dispatch]);
+
+  if (!registrationDetails || !freeRegistrationId) {
     return null;
   }
 
@@ -120,26 +165,24 @@ export const ClerkFreeRegistrationDetails = () => {
         <>
           <OphButton
             variant={Variant.Outlined}
-            style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
+            onClick={() => setIsRequestSupplementModalOpen(true)}
           >
-            {t('details.buttons.sendInformationRequest')}
+            {t('details.buttons.sendSupplementRequest')}
           </OphButton>
           <OphButton
             variant={Variant.Contained}
-            style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
             onClick={() => setIsApproveModalOpen(true)}
             disabled={
-              approvalStatus === FreeRegistrationApprovalStatus.RejectSuccess
+              modalSubmitStatus === FreeRegistrationModalStatus.RejectSuccess
             }
           >
             {t('details.buttons.approveFreeRegistration')}
           </OphButton>
           <OphButton
-            variant="contained"
-            style={{ backgroundColor: '#0033CC', color: 'white' }}
+            variant={Variant.Contained}
             onClick={() => setIsRejectModalOpen(true)}
             disabled={
-              approvalStatus === FreeRegistrationApprovalStatus.ApprovalSuccess
+              modalSubmitStatus === FreeRegistrationModalStatus.ApprovalSuccess
             }
           >
             {t('details.buttons.rejectFreeRegistration')}
@@ -147,27 +190,33 @@ export const ClerkFreeRegistrationDetails = () => {
         </>
       );
     } else if (
-      registrationDetails.status === 'INFORMATION_REQUESTED' ||
-      registrationDetails.status === 'INFORMATION_REQUEST_ANSWERED' ||
-      registrationDetails.status === 'INFORMATION_REQUEST_EXPIRED'
+      registrationDetails.status === 'SUPPLEMENT_REQUESTED' ||
+      registrationDetails.status === 'SUPPLEMENT_REQUEST_ANSWERED' ||
+      registrationDetails.status === 'SUPPLEMENT_REQUEST_EXPIRED'
     ) {
       return (
         <>
           <OphButton
             variant={Variant.Outlined}
-            style={{ backgroundColor: ophColors.white, color: ophColors.blue2 }}
+            onClick={() => setIsRequestSupplementModalOpen(true)}
           >
-            {t('details.buttons.sendInformationRequest')}
+            {t('details.buttons.sendSupplementRequest')}
           </OphButton>
           <OphButton
             variant={Variant.Contained}
-            style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
+            onClick={() => setIsApproveModalOpen(true)}
+            disabled={
+              modalSubmitStatus === FreeRegistrationModalStatus.RejectSuccess
+            }
           >
             {t('details.buttons.approveFreeRegistration')}
           </OphButton>
           <OphButton
             variant={Variant.Contained}
-            style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
+            onClick={() => setIsRejectModalOpen(true)}
+            disabled={
+              modalSubmitStatus === FreeRegistrationModalStatus.ApprovalSuccess
+            }
           >
             {t('details.buttons.rejectFreeRegistration')}
           </OphButton>
@@ -177,7 +226,10 @@ export const ClerkFreeRegistrationDetails = () => {
       return (
         <OphButton
           variant={Variant.Contained}
-          style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
+          onClick={() => setIsApproveModalOpen(true)}
+          disabled={
+            modalSubmitStatus === FreeRegistrationModalStatus.RejectSuccess
+          }
         >
           {t('details.buttons.approveFreeRegistration')}
         </OphButton>
@@ -187,7 +239,10 @@ export const ClerkFreeRegistrationDetails = () => {
     return (
       <OphButton
         variant={Variant.Contained}
-        style={{ backgroundColor: ophColors.blue2, color: ophColors.white }}
+        onClick={() => setIsRejectModalOpen(true)}
+        disabled={
+          modalSubmitStatus === FreeRegistrationModalStatus.ApprovalSuccess
+        }
       >
         {t('details.buttons.rejectFreeRegistration')}
       </OphButton>
@@ -210,7 +265,7 @@ export const ClerkFreeRegistrationDetails = () => {
             <Text>{t(`status.${registrationDetails.status}.part1`)}</Text>
           </>
         );
-      case 'INFORMATION_REQUESTED':
+      case 'SUPPLEMENT_REQUESTED':
         return (
           <>
             <HourglassBottom color="success" fontSize="large" />
@@ -220,7 +275,7 @@ export const ClerkFreeRegistrationDetails = () => {
             </Text>
           </>
         );
-      case 'INFORMATION_REQUEST_ANSWERED':
+      case 'SUPPLEMENT_REQUEST_ANSWERED':
         return (
           <>
             <ClockIcon color="error" fontSize="large" />
@@ -230,10 +285,10 @@ export const ClerkFreeRegistrationDetails = () => {
             </Text>
           </>
         );
-      case 'INFORMATION_REQUEST_EXPIRED':
+      case 'SUPPLEMENT_REQUEST_EXPIRED':
         return (
           <>
-            <ClockIcon color="error" fontSize="large" />
+            <ErrorOutline color="error" fontSize="large" />
             <Text>
               {t(`status.${registrationDetails.status}.part1`)}{' '}
               {t(`status.${registrationDetails.status}.part2`)}
@@ -252,33 +307,45 @@ export const ClerkFreeRegistrationDetails = () => {
     }
   };
 
+  const renderExamSessionDetails = () => (
+    <Text>
+      {`${translateLanguage(
+        registrationDetails.examSession.language,
+      )} - ${translateLevel(
+        registrationDetails.examSession.level,
+      )} ${DateUtils.formatOptionalDate(
+        registrationDetails.examSession.examDate,
+        'l',
+      )}`}
+    </Text>
+  );
+
+  const renderPersonDetails = () => (
+    <Text>
+      <strong>{`${registrationDetails.person.firstName} ${registrationDetails.person.lastName}`}</strong>{' '}
+      {`(${registrationDetails.person.socialSecurityNumber})`}
+    </Text>
+  );
+
   return (
     <div className="rows gapped free-registration-details">
       <FreeRegistrationModal
+        freeRegistrationId={freeRegistrationId}
         isApproveModalOpen={isApproveModalOpen}
         setIsApproveModal={setIsApproveModalOpen}
         isRejectModalOpen={isRejectModalOpen}
         setIsRejectModal={setIsRejectModalOpen}
       />
       <div>
-        <b>{`${registrationDetails.person.firstName} ${registrationDetails.person.lastName}`}</b>{' '}
-        <Text>{`(${registrationDetails.person.socialSecurityNumber})`}</Text>
-        <div>
-          {translateLanguage(registrationDetails.examSession.language)}
-          {' - '}
-          {translateLevel(registrationDetails.examSession.level)}{' '}
-          {DateUtils.formatOptionalDate(
-            registrationDetails.examSession.examDate,
-            'l',
-          )}
-        </div>
+        {renderPersonDetails()}
+        {renderExamSessionDetails()}
       </div>
       <div className="columns gapped-xxl align-items-start">
         <div className="rows gapped-xs">
           <Label>{t('details.fields.status')}</Label>
           <Label>{t('details.fields.freeRegistrationBasis')}</Label>
           <Label>{t('details.fields.freeRegistrationsLeft')}</Label>
-          <Label>{t('details.fields.languageOfCommunication')}</Label>
+          <Label>{t('details.fields.languageOfService')}</Label>
           <Label>{t('details.fields.registrationType')}</Label>
           <Label>{t('details.fields.supplementRequestDueDate')}</Label>
           <Label>{t('details.fields.extraInformation')}</Label>
@@ -301,7 +368,7 @@ export const ClerkFreeRegistrationDetails = () => {
           </div>
           <div>
             {t(
-              `details.languageOfCommunication.${registrationDetails.languageOfCommunication}`,
+              `details.languageOfService.${registrationDetails.languageOfService}`,
             )}
           </div>
           <div>
@@ -330,7 +397,7 @@ export const ClerkFreeRegistrationDetails = () => {
           </div>
         </div>
       </div>
-      <div style={{ maxWidth: '700px' }} className="rows gapped-xxl">
+      <div style={{ maxWidth: '900px' }} className="rows gapped-xl">
         <div className="rows gapped-xs">
           <div className="columns space-between">
             <Text>{t('details.attachments.attachment')}</Text>
@@ -355,28 +422,67 @@ export const ClerkFreeRegistrationDetails = () => {
         <div className="columns gapped flex-end">{renderButtons()}</div>
         <Divider />
         <div className="rows gapped">
+          <Label>{t('details.messages.title')}</Label>
+          {registrationDetails.messages.map((message) => (
+            <div key={message.id} className="rows">
+              <div className="columns space-between">
+                <Typography
+                  variant="body1"
+                  fontSize={'13px'}
+                  lineHeight={'19px'}
+                >
+                  {t(`details.messages.message.type.${message.type}`)}{' '}
+                  {DateUtils.formatOptionalDate(message.createdAt, 'l LTS')}
+                  {', '}
+                  {message.createdBy}
+                </Typography>
+              </div>
+
+              <Text>{message.text}</Text>
+            </div>
+          ))}
+        </div>
+        <div className="rows gapped">
           <div>
-            <b>{t('details.comments.clerkComments.part1')}</b>{' '}
-            {`(${t('details.comments.clerkComments.part2')})`}
+            <Label>{t('details.messages.newCommentPart1')}</Label>{' '}
+            {`(${t('details.messages.newCommentPart2')})`}
+            <TextField
+              id="comment"
+              minRows={5}
+              maxRows={15}
+              value={comment}
+              onChange={onCommentChange}
+              disabled={commentStatus === APIResponseStatus.InProgress}
+              multiline
+              fullWidth
+            />
           </div>
-          {t('details.comments.addNewComment')}
-          <TextField
-            minRows={5}
-            maxRows={15}
-            value={comment}
-            onChange={onCommentChange}
-            type={'textarea'}
-            slotProps={{ formHelperText: { component: 'div' } }}
-            multiline
-            fullWidth
-          />
           <div className="columns flex-end">
-            <OphButton variant={Variant.Outlined}>
-              {t('details.comments.save')}
+            <OphButton
+              variant={Variant.Outlined}
+              disabled={commentStatus === APIResponseStatus.InProgress}
+              onClick={() =>
+                comment.length &&
+                dispatch(
+                  addComment({
+                    freeRegistrationId,
+                    comment,
+                  }),
+                )
+              }
+            >
+              {t('details.messages.save')}
             </OphButton>
           </div>
         </div>
       </div>
+      <FreeRegistrationSupplementRequestModal
+        freeRegistrationId={freeRegistrationId}
+        isModalOpen={isRequestSupplementModalOpen}
+        setIsModalOpen={setIsRequestSupplementModalOpen}
+        renderPersonDetails={renderPersonDetails}
+        renderExamSessionDetails={renderExamSessionDetails}
+      />
     </div>
   );
 };

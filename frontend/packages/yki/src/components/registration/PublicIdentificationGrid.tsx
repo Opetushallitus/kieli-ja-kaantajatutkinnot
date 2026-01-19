@@ -1,6 +1,14 @@
-import { Grid, Paper } from '@mui/material';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { Container, Grid, Paper } from '@mui/material';
 import { Trans } from 'react-i18next';
-import { CustomButton, H1, H2, HeaderSeparator, Text } from 'shared/components';
+import {
+  CustomButton,
+  H1,
+  H2,
+  HeaderSeparator,
+  Text,
+  WebLink,
+} from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -16,6 +24,7 @@ import { cancelRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 import { sessionSelector } from 'redux/selectors/session';
+import { ExamSessionUtils } from 'utils/examSession';
 
 const AlreadyLoggedIn = () => {
   const { t } = usePublicTranslation({
@@ -37,9 +46,6 @@ const AlreadyLoggedIn = () => {
 
   return (
     <>
-      <Text>
-        <Trans t={t} i18nKey="registrationIsBindingAdvisory" />
-      </Text>
       <H2>{t('alreadyLoggedIn.caption')}</H2>
       <Text> {t('alreadyLoggedIn.currentLoginInformation')}</Text>
       <Text>
@@ -89,21 +95,47 @@ const AlreadyLoggedIn = () => {
   );
 };
 
-const Identify = () => {
+const FreeRegistrationInfoBox = () => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration.steps.identify',
+    keyPrefix: 'yki.component.registration.steps.identify.freeRegistration',
   });
 
   return (
-    <>
-      <Text>
-        <Trans t={t} i18nKey="registrationIsBindingAdvisory" />
-      </Text>
-      <div className="gapped rows">
-        <SelectIdentificationMethod />
-        <PublicRegistrationControlButtons />
+    <Container className="public-registration__info-box rows gapped-sm">
+      <H2>{t('heading')}</H2>
+      <div className="rows">
+        <Text>{t('conditions.general')}:</Text>
+        <ul>
+          {['point1', 'point2', 'point3'].map((v) => (
+            <Text key={v}>
+              <li>{t('conditions.' + v)}</li>
+            </Text>
+          ))}
+        </ul>
       </div>
-    </>
+      <Text>{t('threeAttemptsAvailable')}</Text>
+      <Text>
+        <b>{t('suomiFiAuthenticationRequired')}</b>{' '}
+        {t('educationDetailsAreChecked')} {t('ifSuitableEducationIsNotFound')}
+      </Text>
+      <Text>
+        {t('readMore.text')}:{' '}
+        <WebLink
+          label={t('readMore.link.label')}
+          href={t('readMore.link.url')}
+          endIcon={<OpenInNewIcon />}
+        />
+      </Text>
+    </Container>
+  );
+};
+
+const Identify = () => {
+  return (
+    <div className="gapped rows">
+      <SelectIdentificationMethod />
+      <PublicRegistrationControlButtons />
+    </div>
   );
 };
 
@@ -152,6 +184,13 @@ export const PublicIdentificationGrid = () => {
                   examSession={examSession}
                   showOpenings={true}
                 />
+                <Text>
+                  <Trans t={t} i18nKey="registrationIsBindingAdvisory" />
+                </Text>
+                {examSession &&
+                  ExamSessionUtils.freeRegistrationPossible(examSession) && (
+                    <FreeRegistrationInfoBox />
+                  )}
                 {loggedInSession ? <AlreadyLoggedIn /> : <Identify />}
               </div>
             </div>

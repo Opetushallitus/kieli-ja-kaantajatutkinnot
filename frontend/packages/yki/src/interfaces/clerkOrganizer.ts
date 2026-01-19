@@ -14,7 +14,7 @@ export interface ClerkOrganizer extends WithId {
   agreement_end_date?: Dayjs;
   contact_name?: string;
   contact_email?: string;
-  contact_phone_numner?: string;
+  contact_phone_number?: string;
   languages: Array<OrganizerLanguage> | null;
   extra: string;
 }

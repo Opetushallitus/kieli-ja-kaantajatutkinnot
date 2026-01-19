@@ -1,0 +1,10 @@
+package fi.oph.yki.api.dto.clerk;
+
+import java.util.List;
+import lombok.Builder;
+
+@Builder
+public record ClerkCustomerDetailsDTO(
+  ClerkCustomerPersonDTO person,
+  List<ClerkCustomerRegistrationDTO> registrations
+) {}

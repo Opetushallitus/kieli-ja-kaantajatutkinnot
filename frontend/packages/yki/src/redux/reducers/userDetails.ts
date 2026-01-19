@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { PersonDetails, PersonRegistrations } from 'interfaces/userDetails';
+import {
+  ModifyContactDetails,
+  PersonDetails,
+  PersonRegistrations,
+} from 'interfaces/userDetails';
 
 export interface UserDetailsState {
   personDetails?: PersonDetails;
@@ -10,6 +14,8 @@ export interface UserDetailsState {
   status: APIResponseStatus;
   cancelUserRegistrationStatus: APIResponseStatus;
   isCancelModalOpen: boolean;
+  modifyContactDetails: Partial<ModifyContactDetails>;
+  modifyContactDetailsStatus: APIResponseStatus;
 }
 
 const initialState: UserDetailsState = {
@@ -17,6 +23,8 @@ const initialState: UserDetailsState = {
   status: APIResponseStatus.NotStarted,
   cancelUserRegistrationStatus: APIResponseStatus.NotStarted,
   isCancelModalOpen: false,
+  modifyContactDetailsStatus: APIResponseStatus.NotStarted,
+  modifyContactDetails: {},
 };
 
 const userDetailsSlice = createSlice({
@@ -54,6 +62,32 @@ const userDetailsSlice = createSlice({
     resetCancelRegistrationStatus(state) {
       state.cancelUserRegistrationStatus = APIResponseStatus.NotStarted;
     },
+    doModifyContactDetails(
+      state,
+      _action: PayloadAction<ModifyContactDetails>,
+    ) {
+      state.modifyContactDetailsStatus = APIResponseStatus.InProgress;
+    },
+    updateModifyContactDetails(
+      state,
+      action: PayloadAction<Partial<ModifyContactDetails>>,
+    ) {
+      state.modifyContactDetails = {
+        ...state.modifyContactDetails,
+        ...action.payload,
+      };
+    },
+    rejectModifyContactDetails(state) {
+      state.modifyContactDetailsStatus = APIResponseStatus.Error;
+    },
+    acceptModifyContactDetails(state) {
+      state.modifyContactDetailsStatus = APIResponseStatus.Success;
+    },
+    resetModifyContactDetails(state) {
+      state.modifyContactDetails = initialState.modifyContactDetails;
+      state.modifyContactDetailsStatus =
+        initialState.modifyContactDetailsStatus;
+    },
   },
 });
 
@@ -67,4 +101,9 @@ export const {
   rejectCancelUserRegistration,
   setRegistrationToCancel,
   resetCancelRegistrationStatus,
+  updateModifyContactDetails,
+  resetModifyContactDetails,
+  doModifyContactDetails,
+  acceptModifyContactDetails,
+  rejectModifyContactDetails,
 } = userDetailsSlice.actions;

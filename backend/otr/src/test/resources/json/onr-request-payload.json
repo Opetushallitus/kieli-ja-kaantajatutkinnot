@@ -1,0 +1,72 @@
+{
+  "oidHenkilo": "1.2.3.4",
+  "sukunimi": "Suku",
+  "etunimet": "Etu",
+  "kutsumanimi": "Etu",
+  "hetu": "111111-1111",
+  "yksiloityVTJ": true,
+  "yhteystiedotRyhma": [
+    {
+      "readOnly": false,
+      "ryhmaKuvaus": "yhteystietotyyppi13",
+      "ryhmaAlkuperaTieto": "alkupera7",
+      "yhteystieto": [
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KAUPUNKI",
+          "yhteystietoArvo": "Testikaupunki"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_PUHELINNUMERO",
+          "yhteystietoArvo": "01234"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_POSTINUMERO",
+          "yhteystietoArvo": "90100"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_SAHKOPOSTI",
+          "yhteystietoArvo": "foo@bar"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KATUOSOITE",
+          "yhteystietoArvo": "testi katu"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_MAA",
+          "yhteystietoArvo": "FI"
+        }
+      ]
+    },
+    {
+      "readOnly": null,
+      "ryhmaKuvaus": "yhteystietotyyppi14",
+      "ryhmaAlkuperaTieto": "alkupera8",
+      "yhteystieto": [
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KATUOSOITE",
+          "yhteystietoArvo": "testi katu"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_PUHELINNUMERO",
+          "yhteystietoArvo": "01234"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_MAA",
+          "yhteystietoArvo": "FI"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KAUPUNKI",
+          "yhteystietoArvo": "Testikaupunki"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_POSTINUMERO",
+          "yhteystietoArvo": "90100"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_SAHKOPOSTI",
+          "yhteystietoArvo": "foo@bar"
+        }
+      ]
+    }
+  ]
+}

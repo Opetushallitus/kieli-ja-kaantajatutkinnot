@@ -1,0 +1,11 @@
+.mobile {
+  & &-app-bar {
+    @include app-bar-bottom;
+
+    &__tool-bar {
+      button {
+        margin: 0;
+      }
+    }
+  }
+}

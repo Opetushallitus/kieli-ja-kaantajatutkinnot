@@ -129,7 +129,7 @@ public class Factory {
 
   public static Payment payment(final Enrollment enrollment) {
     final Payment payment = new Payment();
-    payment.setAmount(25700);
+    payment.setAmount(27700);
     payment.setTransactionId("t-123");
     payment.setReference("RF-test");
     payment.setPaymentUrl("url");

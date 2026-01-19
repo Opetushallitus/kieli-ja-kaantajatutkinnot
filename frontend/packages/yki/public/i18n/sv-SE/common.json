@@ -1,6 +1,7 @@
 {
   "yki": {
     "common": {
+      "and": "och",
       "actions": "Funktioner",
       "address": "Adress",
       "appNameAbbreviation": "YKI",
@@ -127,6 +128,7 @@
       "no": "Nej",
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen - Till anmälningssidan för YKI-testet",
+      "or": "eller",
       "phoneNumber": "Telefonnummer",
       "placesAvailable": "Lediga platser",
       "price": "Pris",
@@ -142,6 +144,7 @@
       },
       "reassessment": "Kontrollbedömning",
       "registration": "Anmälan",
+      "clerkOrganizerRegister": "Järjestäjärekisteri",
       "freeRegistration": "Maksuttomuus",
       "customerSearch": "Asiakashaku",
       "registrationPeriod": "Anmälningstid",
@@ -157,6 +160,7 @@
         "registration": "Anmälning",
         "initRegistration": "Anmälning",
         "examDetails": "Test",
+        "freeRegistrationSuccess": "Ilmoittautuminen onnistui",
         "registrationPaymentStatus": "Anmälning",
         "reassessment": "Kontrollbedömning",
         "evaluationOrder": "Kontrollbedömning",
@@ -165,10 +169,12 @@
         "logoutSuccess": "Utloggning lyckades",
         "userDetails": "Mina anmälningar",
         "transferRegistration": "Flytta anmälan",
+        "modifyContactDetails": "Redigera kontaktuppgifterna",
         "confirmRegistration": "Bekräfta anmälan",
         "notFound": "Sidan hittades inte",
         "expiredLoginLink": "Länken gäller inte längre",
-        "customerSearch": "Asiakashaku"
+        "customerSearch": "Asiakashaku",
+        "customerDetails": "Asiakkaan tiedot"
       },
       "previous": "Tidigare"
     }

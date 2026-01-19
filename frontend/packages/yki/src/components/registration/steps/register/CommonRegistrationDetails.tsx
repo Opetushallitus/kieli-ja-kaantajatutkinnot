@@ -9,9 +9,10 @@ import {
 } from '@mui/material';
 import { ChangeEvent, useEffect } from 'react';
 import { H2, H3, Text } from 'shared/components';
-import { Color } from 'shared/enums';
+import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
+import { ExamFee } from 'components/registration/steps/register/ExamFee';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {
@@ -26,9 +27,15 @@ import {
   PersonFillOutDetails,
   RegistrationCheckboxDetails,
 } from 'interfaces/publicRegistration';
+import { getKoskiEducations } from 'redux/reducers/publicEducation';
+import { setPublicFreeRegistration } from 'redux/reducers/publicFreeRegistration';
 import { updatePublicRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
+import { publicEducationSelector } from 'redux/selectors/publicEducation';
+import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
+import { sessionSelector } from 'redux/selectors/session';
+import { ExamSessionUtils } from 'utils/examSession';
 
 const ErrorLabelStyles = {
   '&.Mui-error .MuiFormControlLabel-label': {
@@ -43,9 +50,18 @@ export const CommonRegistrationDetails = () => {
   const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
 
+  const { loggedInSession } = useAppSelector(sessionSelector);
+  const { status: publicEducationStatus } = useAppSelector(
+    publicEducationSelector,
+  );
+  const { basis, attemptsUsed, isFree } = useAppSelector(
+    publicFreeRegistrationSelector,
+  );
   const { registration, showErrors } = useAppSelector(registrationSelector);
-  const { language_code, level_code } = useAppSelector(examSessionSelector)
+  const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
+  const { language_code, level_code } = examSession;
+
   const dispatch = useAppDispatch();
   const handleCheckboxClick = (
     fieldName: keyof RegistrationCheckboxDetails,
@@ -67,6 +83,11 @@ export const CommonRegistrationDetails = () => {
     language_code === ExamLanguage.SWE ||
     (language_code === ExamLanguage.ENG && level_code !== ExamLevel.PERUS);
 
+  const shouldGetKoskiEducations = ExamSessionUtils.freeRegistrationPossible(
+    examSession,
+    loggedInSession,
+  );
+  const showExamFeeSection = shouldGetKoskiEducations;
   useEffect(() => {
     if (hideInstructionLanguageSelection) {
       const instructionLanguage =
@@ -76,6 +97,32 @@ export const CommonRegistrationDetails = () => {
       dispatch(updatePublicRegistration({ instructionLanguage }));
     }
   }, [dispatch, hideInstructionLanguageSelection, language_code]);
+
+  useEffect(() => {
+    if (shouldGetKoskiEducations) {
+      if (publicEducationStatus === APIResponseStatus.NotStarted) {
+        dispatch(getKoskiEducations());
+      } else if (
+        publicEducationStatus === APIResponseStatus.Success &&
+        attemptsUsed !== undefined
+      ) {
+        const freeAttemptsLeft = 3 - attemptsUsed;
+        if (freeAttemptsLeft > 0) {
+          if (basis?.source === 'KOSKI') {
+            dispatch(setPublicFreeRegistration({ isFree: 'YES' }));
+          }
+        } else {
+          dispatch(setPublicFreeRegistration({ isFree: 'NO' }));
+        }
+      }
+    }
+  }, [
+    dispatch,
+    shouldGetKoskiEducations,
+    publicEducationStatus,
+    basis?.source,
+    attemptsUsed,
+  ]);
 
   const getRegistrationErrors = usePublicRegistrationErrors(showErrors);
   const registrationErrors = getRegistrationErrors();
@@ -147,6 +194,7 @@ export const CommonRegistrationDetails = () => {
           </FormControl>
         </fieldset>
       )}
+      {showExamFeeSection && <ExamFee />}
       <H2 className="public-registration__grid__form-container__terms-and-conditions">
         {t('termsAndConditions.title')}
       </H2>
@@ -161,11 +209,7 @@ export const CommonRegistrationDetails = () => {
             <li>{t('termsAndConditions.item3')}</li>
             <li>{t('termsAndConditions.item4')}</li>
             <li>{t('termsAndConditions.item5')}</li>
-            <ul>
-              <li>{t('termsAndConditions.item51')}</li>
-              <li>{t('termsAndConditions.item52')}</li>
-            </ul>
-            <li>{t('termsAndConditions.item6')}</li>
+            {isFree !== 'YES' && <li>{t('termsAndConditions.item6')}</li>}
           </ul>
           {t('termsAndConditions.description2')}:{' '}
           <div
@@ -179,7 +223,11 @@ export const CommonRegistrationDetails = () => {
           </div>
           <br />
           <p>
-            <b>{t('termsAndConditions.description3')}</b>
+            <b>
+              {isFree === 'YES'
+                ? t('termsAndConditions.description3Free')
+                : t('termsAndConditions.description3')}
+            </b>
           </p>
         </Text>
         <FormControl error={!!registrationErrors['termsAndConditionsAgreed']}>

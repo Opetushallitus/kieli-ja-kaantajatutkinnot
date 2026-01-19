@@ -1,4 +1,5 @@
 import { Text } from 'shared/components';
+import { APIResponseStatus } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import {
@@ -6,7 +7,12 @@ import {
   useCommonTranslation,
   usePublicTranslation,
 } from 'configs/i18n';
+import { useAppSelector } from 'configs/redux';
+import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
+import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
+import { registrationSelector } from 'redux/selectors/registration';
+import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
 
 export const PublicRegistrationExamSessionDetails = ({
@@ -21,6 +27,13 @@ export const PublicRegistrationExamSessionDetails = ({
   });
   const translateCommon = useCommonTranslation();
 
+  const { isFree, attemptsUsed } = useAppSelector(
+    publicFreeRegistrationSelector,
+  );
+  const { loggedInSession } = useAppSelector(sessionSelector);
+  const { activeStep, submitRegistration } =
+    useAppSelector(registrationSelector);
+
   if (!examSession) {
     return null;
   }
@@ -33,6 +46,67 @@ export const PublicRegistrationExamSessionDetails = ({
     examSession,
     getCurrentLang(),
   );
+
+  const freeRegistrationPossible = ExamSessionUtils.freeRegistrationPossible(
+    examSession,
+    loggedInSession,
+  );
+
+  let examFeeText: string;
+  if (freeRegistrationPossible) {
+    switch (activeStep) {
+      case PublicRegistrationFormStep.Identify:
+        // If user has not yet progressed to registration form, always display an undecided exam fee amount
+        examFeeText = `0 ${translateCommon('or')} ${examSession.exam_fee} €`;
+        break;
+      case PublicRegistrationFormStep.Register:
+        if (submitRegistration.status === APIResponseStatus.Success) {
+          // If user is on register step and form is submitted,
+          // the registration is either free or not; however, not undecided.
+          switch (isFree) {
+            case 'YES':
+              examFeeText = '0 €';
+              break;
+            default:
+              examFeeText = `${examSession.exam_fee} €`;
+              break;
+          }
+        } else {
+          // If user is on register step with form not yet submitted,
+          // registration can be free, paid or not yet definitely either.
+          switch (isFree) {
+            case 'YES':
+              examFeeText = '0 €';
+              break;
+            case 'NO':
+              examFeeText = `${examSession.exam_fee} €`;
+              break;
+            case 'UNDECIDED':
+              examFeeText = `0 ${translateCommon('or')} ${
+                examSession.exam_fee
+              } €`;
+              break;
+          }
+        }
+        break;
+      case PublicRegistrationFormStep.Payment:
+        examFeeText = `${examSession.exam_fee} €`;
+        break;
+      case PublicRegistrationFormStep.Done:
+        switch (isFree) {
+          case 'YES':
+            examFeeText = '0 €';
+            break;
+          default:
+            examFeeText = `${examSession.exam_fee} €`;
+            break;
+        }
+    }
+  } else {
+    examFeeText = `${examSession.exam_fee} €`;
+  }
+
+  const attemptsLeft = 3 - (attemptsUsed || 0);
 
   return (
     <div className="rows">
@@ -59,15 +133,22 @@ export const PublicRegistrationExamSessionDetails = ({
         </Text>
         <Text>
           {`${t('examFee')}: `}
-          <b>{`${examSession.exam_fee} €`}</b>
+          <b>{examFeeText}</b>
         </Text>
-
         {showOpenings && (
           <Text>
             {`${t('openings')}: `}
             <b>{availablePlaces ? availablePlaces : translateCommon('full')}</b>
           </Text>
         )}
+        {activeStep === PublicRegistrationFormStep.Register &&
+          freeRegistrationPossible &&
+          attemptsUsed !== undefined && (
+            <Text>
+              {`${t('freeAttemptsLeft')}: `}
+              <b>{attemptsLeft}</b>
+            </Text>
+          )}
       </div>
     </div>
   );

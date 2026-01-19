@@ -1,9 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Dayjs } from 'dayjs';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ClerkFreeRegistration } from 'interfaces/clerkFreeRegistration';
+import {
+  ClerkFreeRegistration,
+  ClerkFreeRegistrationSort,
+} from 'interfaces/clerkFreeRegistration';
 
-export enum FreeRegistrationApprovalStatus {
+export enum FreeRegistrationModalStatus {
   NotStarted,
   ApprovalInProgress,
   ApprovalSuccess,
@@ -11,18 +15,23 @@ export enum FreeRegistrationApprovalStatus {
   RejectInProgress,
   RejectSuccess,
   RejectError,
+  SupplementRequestInProgress,
+  SupplementRequestSuccess,
+  SupplementRequestError,
 }
 
 interface ClerkFreeRegistrationState {
   freeRegistrations: Array<ClerkFreeRegistration>;
+  freeRegistrationsSort: ClerkFreeRegistrationSort;
   status: APIResponseStatus;
-  registrationApprovalStatus: FreeRegistrationApprovalStatus;
+  modalSubmitStatus: FreeRegistrationModalStatus;
 }
 
 const initialState: ClerkFreeRegistrationState = {
   freeRegistrations: [],
+  freeRegistrationsSort: 'examDate:asc',
   status: APIResponseStatus.NotStarted,
-  registrationApprovalStatus: FreeRegistrationApprovalStatus.NotStarted,
+  modalSubmitStatus: FreeRegistrationModalStatus.NotStarted,
 };
 
 const clerkFreeRegistrationSlice = createSlice({
@@ -42,20 +51,45 @@ const clerkFreeRegistrationSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.freeRegistrations = action.payload;
     },
-
     setFreeRegistrationStatus(
       state,
-      action: PayloadAction<FreeRegistrationApprovalStatus>,
+      action: PayloadAction<FreeRegistrationModalStatus>,
     ) {
-      state.registrationApprovalStatus = action.payload;
+      state.modalSubmitStatus = action.payload;
     },
-    approveFreeRegistration(state) {
-      state.registrationApprovalStatus =
-        FreeRegistrationApprovalStatus.ApprovalInProgress;
+    approveFreeRegistration(state, _action: PayloadAction<number>) {
+      state.modalSubmitStatus = FreeRegistrationModalStatus.ApprovalInProgress;
     },
-    rejectFreeRegistration(state) {
-      state.registrationApprovalStatus =
-        FreeRegistrationApprovalStatus.RejectInProgress;
+    rejectFreeRegistration(state, _action: PayloadAction<number>) {
+      state.modalSubmitStatus = FreeRegistrationModalStatus.RejectInProgress;
+    },
+    submitClerkFreeRegistrationSupplementRequest(
+      state,
+      _action: PayloadAction<{
+        freeRegistrationId: number;
+        message: string;
+        dueDate: Dayjs;
+      }>,
+    ) {
+      state.modalSubmitStatus =
+        FreeRegistrationModalStatus.SupplementRequestInProgress;
+    },
+    rejectClerkFreeRegistrationSupplementRequest(state) {
+      state.modalSubmitStatus =
+        FreeRegistrationModalStatus.SupplementRequestError;
+    },
+    acceptClerkFreeRegistrationSupplementRequest(state) {
+      state.modalSubmitStatus =
+        FreeRegistrationModalStatus.SupplementRequestSuccess;
+    },
+    resetSupplementRequestStatus(state) {
+      state.modalSubmitStatus = FreeRegistrationModalStatus.NotStarted;
+    },
+    setFreeRegistrationsSort(
+      state,
+      action: PayloadAction<ClerkFreeRegistrationSort>,
+    ) {
+      state.freeRegistrationsSort = action.payload;
     },
   },
 });
@@ -68,4 +102,9 @@ export const {
   setFreeRegistrationStatus,
   approveFreeRegistration,
   rejectFreeRegistration,
+  submitClerkFreeRegistrationSupplementRequest,
+  rejectClerkFreeRegistrationSupplementRequest,
+  acceptClerkFreeRegistrationSupplementRequest,
+  resetSupplementRequestStatus,
+  setFreeRegistrationsSort,
 } = clerkFreeRegistrationSlice.actions;

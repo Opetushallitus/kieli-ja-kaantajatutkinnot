@@ -1,6 +1,7 @@
 import { Dayjs } from 'dayjs';
 
 import { ExamLanguage, ExamLevel } from 'enums/app';
+import { FreeRegistrationBasis } from 'interfaces/freeRegistration';
 
 interface FreeRegistrationPerson {
   firstName: string;
@@ -13,9 +14,9 @@ export type FreeRegistrationStatus =
   | 'PENDING'
   | 'APPROVED'
   | 'REJECTED'
-  | 'INFORMATION_REQUESTED'
-  | 'INFORMATION_REQUEST_ANSWERED'
-  | 'INFORMATION_REQUEST_EXPIRED';
+  | 'SUPPLEMENT_REQUESTED'
+  | 'SUPPLEMENT_REQUEST_ANSWERED'
+  | 'SUPPLEMENT_REQUEST_EXPIRED';
 
 // exported in cypress which is excluded from root tsconfig.json
 // so would give error otherwise
@@ -40,13 +41,18 @@ export type ClerkFreeRegistration = {
   registration: Registration;
 };
 
+export type SortOrder = 'asc' | 'desc' | '';
+type ClerkFreeRegistrationSortKeys = Omit<ClerkFreeRegistration, 'id'>;
+export type ClerkFreeRegistrationSort =
+  `${keyof ClerkFreeRegistrationSortKeys}:${SortOrder}`;
+
 export interface ClerkFreeRegistrationResponse
   extends Omit<
     ClerkFreeRegistration,
     'supplementRequestDueDate' | 'assessmentDate' | 'examDate'
   > {
-  supplementRequestDueDate: string;
-  assessmentDate: string;
+  supplementRequestDueDate?: string;
+  assessmentDate?: string;
   examDate: string;
 }
 
@@ -62,16 +68,17 @@ interface FreeRegistrationAttachmentResponse
   submittedAt: string;
 }
 
-type Comment = {
+type Message = {
   id: number;
-  timestamp: Dayjs;
-  commentor: string;
-  comment: string;
+  createdAt: Dayjs;
+  createdBy: string;
+  text: string;
+  type: 'COMMENT' | 'SUPPLEMENT_REQUEST';
 };
 
-interface CommentResponse extends Omit<Comment, 'timestamp'> {
-  timestamp: string;
-}
+type MessageResponse = Omit<Message, 'createdAt'> & {
+  createdAt: string;
+};
 
 type ExamSession = {
   id: number;
@@ -84,17 +91,6 @@ interface ExamSessionResponse extends Omit<ExamSession, 'examDate'> {
   examDate: string;
 }
 
-// exported in cypress which is excluded from root tsconfig.json
-// so would give error otherwise
-// ts-unused-exports:disable-next-line
-export type FreeRegistrationBasis =
-  | 'MATRICULATION_EXAMINATION'
-  | 'HIGHER_EDUCATION_DEGREE'
-  | 'HIGHER_EDUCATION_STUDIES'
-  | 'COMPARABLE_MATRICULATION_EXAMINATION'
-  | 'COMPARABLE_HIGHER_EDUCATION_DEGREE'
-  | 'COMPARABLE_HIGHER_EDUCATION_STUDIES';
-
 export type ClerkFreeRegistrationDetails = {
   id: number;
   person: FreeRegistrationPerson;
@@ -102,13 +98,13 @@ export type ClerkFreeRegistrationDetails = {
   freeRegistrationBasis: FreeRegistrationBasis;
   freeRegistrationsLeft: number;
   supplementRequestDueDate?: Dayjs;
-  supplementRequest?: Comment;
+  supplementRequest?: Message;
   assessmentDate?: Dayjs;
   examSession: ExamSession;
-  languageOfCommunication: 'fi' | 'sv' | 'en';
+  languageOfService: 'fi' | 'sv' | 'en';
   registration: Registration;
   attachments: FreeRegistrationAttachment[];
-  comments: Comment[];
+  messages: Message[];
 };
 
 export interface ClerkFreeRegistrationDetailsResponse
@@ -119,12 +115,12 @@ export interface ClerkFreeRegistrationDetailsResponse
     | 'assessmentDate'
     | 'examSession'
     | 'attachments'
-    | 'comments'
+    | 'messages'
   > {
   supplementRequestDueDate?: string;
-  supplementRequest?: CommentResponse;
+  supplementRequest?: MessageResponse;
   assessmentDate?: string;
   examSession: ExamSessionResponse;
   attachments: FreeRegistrationAttachmentResponse[];
-  comments: CommentResponse[];
+  messages: MessageResponse[];
 }

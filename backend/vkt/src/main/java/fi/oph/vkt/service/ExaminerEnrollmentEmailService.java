@@ -3,14 +3,14 @@ package fi.oph.vkt.service;
 import static fi.oph.vkt.util.LocalisationUtil.localeFI;
 import static fi.oph.vkt.util.LocalisationUtil.localeSV;
 
-import fi.oph.vkt.model.*;
-import fi.oph.vkt.service.email.EmailAttachmentData;
+import fi.oph.vkt.model.EmailType;
+import fi.oph.vkt.model.EnrollmentAppointment;
+import fi.oph.vkt.model.Examiner;
+import fi.oph.vkt.model.ExaminerExamEvent;
 import fi.oph.vkt.service.email.EmailService;
-import fi.oph.vkt.service.receipt.ReceiptRenderer;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.LocalisationUtil;
 import fi.oph.vkt.util.TemplateRenderer;
-import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;

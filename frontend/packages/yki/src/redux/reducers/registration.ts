@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { APIResponseStatus } from 'shared/enums';
 
-import { RegistrationKind } from 'enums/app';
+import { RegistrationKind, RegistrationStates } from 'enums/app';
 import {
   PublicRegistrationFormStep,
   PublicRegistrationFormSubmitError,
@@ -25,12 +25,14 @@ export interface RegistrationState {
     error?: PublicRegistrationInitErrorState;
     examSessionId?: number;
     registrationKind?: RegistrationKind;
+    expiresIn?: number;
   };
   submitRegistration: {
     code?: string;
     status: APIResponseStatus;
     error?: PublicRegistrationFormSubmitError;
     registrationKind?: RegistrationKind;
+    finalState?: RegistrationStates;
   };
   cancelRegistration: {
     status: APIResponseStatus;
@@ -40,6 +42,7 @@ export interface RegistrationState {
   registration: Partial<PublicSuomiFiRegistration | PublicEmailRegistration>;
   activeStep: PublicRegistrationFormStep;
   showErrors: boolean;
+  hasTimerExpired: boolean;
 }
 
 export const initialState: RegistrationState = {
@@ -57,6 +60,7 @@ export const initialState: RegistrationState = {
     termsAndConditionsAgreed: false,
   },
   showErrors: false,
+  hasTimerExpired: false,
 };
 
 const registrationSlice = createSlice({
@@ -123,6 +127,8 @@ const registrationSlice = createSlice({
       action: PayloadAction<PublicRegistrationInitResponse>,
     ) {
       state.initRegistration.status = APIResponseStatus.Success;
+      state.initRegistration.expiresIn = action.payload?.expires_in;
+
       const {
         registration_id,
         is_strongly_identified,
@@ -169,6 +175,7 @@ const registrationSlice = createSlice({
       state.submitRegistration.code = action.payload.code;
       state.submitRegistration.registrationKind =
         action.payload.registration_kind;
+      state.submitRegistration.finalState = action.payload.state;
     },
     rejectPublicRegistrationSubmission(
       state,
@@ -217,6 +224,9 @@ const registrationSlice = createSlice({
     rejectCancelRegistration(state) {
       state.cancelRegistration.status = APIResponseStatus.Error;
     },
+    setHasTimerExpired(state, action: PayloadAction<boolean>) {
+      state.hasTimerExpired = action.payload;
+    },
     identifyRegistration(
       state,
       action: PayloadAction<PublicRegistrationInitPayload>,
@@ -245,4 +255,5 @@ export const {
   acceptCancelRegistration,
   rejectCancelRegistration,
   identifyRegistration,
+  setHasTimerExpired,
 } = registrationSlice.actions;

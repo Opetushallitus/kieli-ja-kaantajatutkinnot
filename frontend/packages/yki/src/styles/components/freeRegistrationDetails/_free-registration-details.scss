@@ -2,4 +2,9 @@
   &__divider {
     margin: 8px 0;
   }
+
+  &__modal-close-icon {
+    color: $text-color-primary;
+    cursor: pointer;
+  }
 }

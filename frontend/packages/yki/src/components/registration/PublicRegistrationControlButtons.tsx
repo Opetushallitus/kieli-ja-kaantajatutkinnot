@@ -1,12 +1,16 @@
+import { useCallback, useState } from 'react';
 import {
   CustomButton,
   CustomButtonLink,
   LoadingProgressIndicator,
+  StackableMobileAppBar,
   Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
-import { useDialog } from 'shared/hooks';
+import { useDialog, useWindowProperties } from 'shared/hooks';
+import { MobileAppBarState } from 'shared/interfaces';
 
+import { MemoizedPublicRegistrationTimer } from 'components/registration/PublicRegistrationTimer';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
@@ -65,6 +69,7 @@ const SubmitButton = () => {
   const { showDialog } = useDialog();
   const dispatch = useAppDispatch();
   const getRegistrationErrors = usePublicRegistrationErrors(true);
+  const { isPhone } = useWindowProperties();
 
   const isSubmitInProgress =
     submitRegistrationStatus === APIResponseStatus.InProgress;
@@ -114,7 +119,7 @@ const SubmitButton = () => {
         className="margin-top-lg"
         disabled={isSubmitInProgress}
         size="large"
-        sx={{ width: '30rem', padding: '15px 22px' }}
+        sx={!isPhone ? { width: '30rem', padding: '15px 22px' } : {}}
         variant={Variant.Contained}
         color={Color.Secondary}
         onClick={handleSubmitBtnClick}
@@ -127,15 +132,18 @@ const SubmitButton = () => {
 };
 
 export const PublicRegistrationControlButtons = () => {
+  const [appBarState, setAppBarState] = useState<MobileAppBarState>({});
   const emailLinkOrderStatus = useAppSelector(publicIdentificationSelector)
     .emailLinkOrder.status;
   const {
     activeStep,
+    initRegistration: { expiresIn },
     submitRegistration: {
       status: submitRegistrationStatus,
       error: submitRegistrationError,
     },
   } = useAppSelector(registrationSelector);
+  const { isPhone } = useWindowProperties();
 
   const unrecoverableError =
     submitRegistrationError &&
@@ -155,8 +163,44 @@ export const PublicRegistrationControlButtons = () => {
     submitRegistrationStatus !== APIResponseStatus.Success &&
     !unrecoverableError;
 
+  const memoizedSetAppBarState = useCallback(
+    (order: number, height: number) =>
+      setAppBarState((prev) => ({
+        ...prev,
+        [order]: height,
+      })),
+    [],
+  );
+
   if (renderAbort || renderSubmit) {
-    return (
+    return isPhone ? (
+      <>
+        <StackableMobileAppBar
+          order={1}
+          state={appBarState}
+          setState={memoizedSetAppBarState}
+        >
+          <div className="rows" style={{ width: '100%' }}>
+            {expiresIn &&
+              activeStep === PublicRegistrationFormStep.Register && (
+                <MemoizedPublicRegistrationTimer expiresIn={expiresIn} />
+              )}
+          </div>
+        </StackableMobileAppBar>
+        <StackableMobileAppBar
+          order={2}
+          state={appBarState}
+          setState={memoizedSetAppBarState}
+        >
+          <div className="rows" style={{ width: '100%' }}>
+            <div className="columns margin-top-lg space-between">
+              {renderAbort && <AbortButton />}
+              {renderSubmit && <SubmitButton />}
+            </div>
+          </div>
+        </StackableMobileAppBar>
+      </>
+    ) : (
       <div className="columns margin-top-lg justify-content-center">
         <div className="rows flex-end gapped margin-top-lg align-items-center">
           {renderSubmit && <SubmitButton />}

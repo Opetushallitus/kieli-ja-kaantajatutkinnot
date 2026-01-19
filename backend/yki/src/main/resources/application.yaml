@@ -5,8 +5,12 @@ server:
   servlet:
     context-path: "/yki"
 spring:
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  datasource:
+    url: ${postgresql.url:jdbc:postgresql://localhost:5432/yki}
+    username: ${postgresql.username:admin}
+    password: ${postgresql.password:admin}
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
   web:
     resources:
       static-locations: classpath:static/
@@ -36,3 +40,29 @@ springdoc:
     path: /swagger-ui.html
   api-docs:
     path: /api-docs
+app:
+  proxy-token: ${proxy-token:"03e2f9b3-d1de-4846-884e-80e6c3d0fae4"}
+  koski:
+    url: ${koski.url:null}
+    user: ${cas.username:null}
+    password: ${cas.password:null}
+  email:
+    sending-enabled: ${email.sending-enabled:false}
+    service-url: ${email.service-url:null}
+host:
+  alb: ${virkailija.host.alb:localhost:${server.port}}
+cas:
+  key: yki-ui
+  send-renew: false
+  login-path: /login/cas
+  logout-path: /cas/localLogout
+  logout-success-path: /etusivu
+  cookie-name: JSESSIONID
+  onr-url: ${virkailija.onr.url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}
+  service-url: ${virkailija.cas.service-url:http://localhost:${server.port}/yki}
+  url: ${virkailija.cas.url:http://localhost:${server.port}/yki}
+  cas-url: ${virkailija.cas.url:https://virkailija.untuvaopintopolku.fi/cas}
+  login-url: ${virkailija.cas.login-url:http://localhost:${server.port}/login}
+  onr:
+    username: ${cas.username:null}
+    password: ${cas.password:null}

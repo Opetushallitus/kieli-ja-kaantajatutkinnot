@@ -1,0 +1,47 @@
+version: "3.8"
+services:
+  yki-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.yki
+    working_dir: /app
+    ports:
+      - "8083:8083"
+    command: "./mvnw clean install -DskipTests"
+    entrypoint:
+      [
+        "sh",
+        "-c",
+        "cd vkt; ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${YKI_UNSECURE:-false}",
+      ]
+    networks:
+      - yki-dev
+    volumes:
+      - $HOME/.m2:/root/.m2
+      - ./backend/yki:/app/yki
+    depends_on:
+      - yki-postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://yki-postgres:5432/yki
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - SERVER_PORT=8083
+      - YKI_UNSECURE=${YKI_UNSECURE}
+
+  yki-postgres:
+    build: ./backend/yki/db
+    container_name: yki-postgres
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    networks:
+      - yki-dev
+    environment:
+      - POSTGRES_DB=yki
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USERNAME=admin
+      - PGPORT=5432
+
+networks:
+  yki-dev: {}

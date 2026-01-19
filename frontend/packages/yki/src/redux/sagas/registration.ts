@@ -1,11 +1,14 @@
 import { call, put, select, takeLatest } from '@redux-saga/core/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse, isAxiosError } from 'axios';
+import { WithId } from 'shared/interfaces';
 
 import axiosInstance from 'configs/axios';
 import { getCurrentLang } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
+import { AppRoutes, RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+import { PublicFreeRegistrationDetails } from 'interfaces/publicFreeRegistration';
 import {
   PublicRegistrationFormSubmitErrorResponse,
   PublicRegistrationFormSubmitSuccessResponse,
@@ -32,6 +35,7 @@ import {
 import { resetSession } from 'redux/reducers/session';
 import { resetUserOpenRegistrations } from 'redux/reducers/userOpenRegistrations';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
+import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -112,27 +116,75 @@ function* submitRegistrationFormSaga() {
     const registrationState: RegistrationState =
       yield select(registrationSelector);
     const { nationalities } = yield select(nationalitiesSelector);
-    const response: AxiosResponse<PublicRegistrationFormSubmitSuccessResponse> =
-      yield call(
-        axiosInstance.post,
-        APIEndpoints.SubmitRegistration.replace(
+    const { basis, isFree }: PublicFreeRegistrationDetails = yield select(
+      publicFreeRegistrationSelector,
+    );
+    if (isFree === 'YES' && basis) {
+      const registrationEducationEndpoint =
+        APIEndpoints.PublicFreeRegistrationEducation.replace(
           /:registrationId/,
           `${registrationState.registration.id}`,
-        ),
-        JSON.stringify(
-          SerializationUtils.serializeRegistrationForm(
-            registrationState.registration,
-            nationalities,
-          ),
-        ),
-        {
-          params: {
-            lang: SerializationUtils.serializeAppLanguage(lang),
-          },
-        },
+        );
+      const freeRegistrationResponse: AxiosResponse<WithId> = yield call(
+        axiosInstance.post,
+        registrationEducationEndpoint,
+        JSON.stringify({ basis }),
       );
-    yield put(acceptPublicRegistrationSubmission(response.data));
-    yield put(resetUserOpenRegistrations());
+      const response: AxiosResponse<PublicRegistrationFormSubmitSuccessResponse> =
+        yield call(
+          axiosInstance.post,
+          APIEndpoints.SubmitRegistration.replace(
+            /:registrationId/,
+            `${registrationState.registration.id}`,
+          ),
+          JSON.stringify({
+            ...SerializationUtils.serializeRegistrationForm(
+              registrationState.registration,
+              nationalities,
+            ),
+            free_registration_id: freeRegistrationResponse.data.id,
+          }),
+          {
+            params: {
+              lang: SerializationUtils.serializeAppLanguage(lang),
+            },
+          },
+        );
+      if (response.data.registration_kind === RegistrationKind.Queue) {
+        // Free queued registration -> just display screen instructing user to observe their emails in case they get lifted from queue
+        yield put(acceptPublicRegistrationSubmission(response.data));
+      } else {
+        // In case of free registration with kind Admission, user is admitted directly to the exam
+        // Redirect user to a separate page welcoming them to the exam.
+        window.location.href = AppRoutes.FreeRegistrationSuccess.replace(
+          /:examSessionId/,
+          `${registrationState.initRegistration.examSessionId}`,
+        );
+      }
+      yield put(resetUserOpenRegistrations());
+    } else {
+      const response: AxiosResponse<PublicRegistrationFormSubmitSuccessResponse> =
+        yield call(
+          axiosInstance.post,
+          APIEndpoints.SubmitRegistration.replace(
+            /:registrationId/,
+            `${registrationState.registration.id}`,
+          ),
+          JSON.stringify(
+            SerializationUtils.serializeRegistrationForm(
+              registrationState.registration,
+              nationalities,
+            ),
+          ),
+          {
+            params: {
+              lang: SerializationUtils.serializeAppLanguage(lang),
+            },
+          },
+        );
+      yield put(acceptPublicRegistrationSubmission(response.data));
+      yield put(resetUserOpenRegistrations());
+    }
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       const response =

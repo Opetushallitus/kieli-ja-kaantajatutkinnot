@@ -8,7 +8,7 @@ import { PublicRegistrationGrid } from 'components/registration/PublicRegistrati
 import { PublicExamDetailsPageSkeleton } from 'components/skeletons/PublicExamDetailsPageSkeleton';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { RegistrationKind } from 'enums/app';
+import { RegistrationKind, RegistrationStates } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import {
@@ -67,6 +67,7 @@ export const ExamDetailsPage = ({
           acceptPublicRegistrationSubmission({
             code: code || '',
             registration_kind,
+            state: RegistrationStates.Submitted,
           }),
         );
       } else {

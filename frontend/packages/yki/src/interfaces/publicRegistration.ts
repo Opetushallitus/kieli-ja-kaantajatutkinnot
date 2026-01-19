@@ -72,6 +72,7 @@ export interface PublicRegistrationInitResponse {
   };
   is_strongly_identified: boolean;
   registration_kind: RegistrationKind;
+  expires_in?: number;
 }
 
 interface OtherExamSessionRegistration {
@@ -111,6 +112,7 @@ export function isRegistrationInitErrorResponse(
 export interface PublicRegistrationFormSubmitSuccessResponse {
   code: string;
   registration_kind: RegistrationKind;
+  state: RegistrationStates;
 }
 
 export interface PublicRegistrationFormSubmitErrorResponse {

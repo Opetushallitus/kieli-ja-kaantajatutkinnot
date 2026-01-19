@@ -1,6 +1,7 @@
 {
   "yki": {
     "common": {
+      "and": "ja",
       "actions": "Toiminnot",
       "address": "Osoite",
       "appNameAbbreviation": "YKI",
@@ -127,6 +128,7 @@
       "no": "Ei",
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Yleisten kielitutkintojen ilmoittautumissivulle.",
+      "or": "tai",
       "phoneNumber": "Puhelinnumero",
       "placesAvailable": "Paikkoja vapaana",
       "price": "Hinta",
@@ -142,6 +144,7 @@
       },
       "reassessment": "Tarkistusarviointi",
       "registration": "Ilmoittautuminen",
+      "clerkOrganizerRegister": "Järjestäjärekisteri",
       "freeRegistration": "Maksuttomuus",
       "customerSearch": "Asiakashaku",
       "registrationPeriod": "Ilmoittautumisaika",
@@ -157,6 +160,7 @@
         "registration": "Ilmoittautuminen",
         "initRegistration": "Ilmoittautuminen",
         "examDetails": "Tutkinto",
+        "freeRegistrationSuccess": "Ilmoittautuminen onnistui",
         "registrationPaymentStatus": "Ilmoittautuminen",
         "reassessment": "Tarkistusarviointi",
         "evaluationOrder": "Tarkistusarviointi",
@@ -165,10 +169,12 @@
         "logoutSuccess": "Uloskirjautuminen onnnistui",
         "userDetails": "Omat ilmoittautumiset",
         "transferRegistration": "Siirrä ilmoittautuminen",
+        "modifyContactDetails": "Muokkaa yhteystietoja",
         "confirmRegistration": "Vahvista ilmoittautuminen",
         "notFound": "Etsimääsi sivua ei löytynyt",
         "expiredLoginLink": "Linkki on vanhentunut",
-        "customerSearch": "Asiakashaku"
+        "customerSearch": "Asiakashaku",
+        "customerDetails": "Asiakkaan tiedot"
       },
       "previous": "Edellinen"
     }

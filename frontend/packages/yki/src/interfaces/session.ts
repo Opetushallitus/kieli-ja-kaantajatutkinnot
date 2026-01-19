@@ -1,11 +1,16 @@
-export interface EmailAuthenticatedSession {
+export interface AuthenticatedSession {
+  'auth-method': 'CAS' | 'EMAIL' | 'SUOMIFI';
+}
+
+export interface EmailAuthenticatedSession extends AuthenticatedSession {
   'auth-method': 'EMAIL';
   identity: {
     'external-user-id': string;
+    email: string;
   };
 }
 
-export interface SuomiFiAuthenticatedSession {
+export interface SuomiFiAuthenticatedSession extends AuthenticatedSession {
   'auth-method': 'SUOMIFI';
   identity: {
     first_name: string;
@@ -14,7 +19,7 @@ export interface SuomiFiAuthenticatedSession {
   };
 }
 
-export interface CasAuthenticatedClerkSession {
+export interface CasAuthenticatedClerkSession extends AuthenticatedSession {
   'auth-method': 'CAS';
   identity: {
     username: string;

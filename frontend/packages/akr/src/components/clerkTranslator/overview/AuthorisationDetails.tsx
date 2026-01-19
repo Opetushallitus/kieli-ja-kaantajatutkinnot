@@ -139,6 +139,7 @@ export const AuthorisationDetails = () => {
     [AuthorisationStatus.Expired]: expired,
     [AuthorisationStatus.ExpiredDeduplicated]: expiredDeduplicated,
     [AuthorisationStatus.FormerVir]: formerVir,
+    [AuthorisationStatus.Deceased]: [],
   };
 
   const activeAuthorisations = groupedAuthorisations[selectedToggleFilter];

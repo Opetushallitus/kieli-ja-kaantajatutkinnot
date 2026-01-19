@@ -23,6 +23,7 @@ import { loadLoginLink, resetLoginLink } from 'redux/reducers/loginLink';
 import { loadNationalities } from 'redux/reducers/nationalities';
 import { loginLinkSelector } from 'redux/selectors/loginLink';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
+import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 import { sessionSelector } from 'redux/selectors/session';
 import { SerializationUtils } from 'utils/serialization';
@@ -33,6 +34,7 @@ const FillRegistrationDetails = () => {
     keyPrefix: 'yki.component.registration.registrationDetails',
   });
   const { isEmailRegistration } = useAppSelector(registrationSelector);
+  const { isFree } = useAppSelector(publicFreeRegistrationSelector);
   const { registrationKind } =
     useAppSelector(registrationSelector).initRegistration;
   const nationalitiesStatus = useAppSelector(nationalitiesSelector).status;
@@ -65,13 +67,22 @@ const FillRegistrationDetails = () => {
       <H2 className="public-registration__grid__form-container__whats-next">
         {t('whatsNext.title')}
       </H2>
-      {registrationKind === RegistrationKind.Admission && (
+      {registrationKind === RegistrationKind.Admission && isFree !== 'YES' && (
         <Text>{t('whatsNext.description')}</Text>
       )}
-      {registrationKind === RegistrationKind.Queue && (
+      {registrationKind === RegistrationKind.Admission && isFree === 'YES' && (
+        <Text>{t('whatsNext.freeRegistration.description')}</Text>
+      )}
+      {registrationKind === RegistrationKind.Queue && isFree !== 'YES' && (
         <>
           <Text>{t('whatsNext.queued.part1')}</Text>
           <Text>{t('whatsNext.queued.part2')}</Text>
+        </>
+      )}
+      {registrationKind === RegistrationKind.Queue && isFree === 'YES' && (
+        <>
+          <Text>{t('whatsNext.freeRegistration.queued.part1')}</Text>
+          <Text>{t('whatsNext.freeRegistration.queued.part2')}</Text>
         </>
       )}
     </div>
@@ -191,8 +202,9 @@ const Success = () => {
 
 export const SubmitRegistrationDetails = () => {
   const { status } = useAppSelector(registrationSelector).submitRegistration;
+  const { hasTimerExpired } = useAppSelector(registrationSelector);
   useRegistrationNavigationProtection(
-    status !== APIResponseStatus.Success,
+    !hasTimerExpired && status !== APIResponseStatus.Success,
     <DialogContents />,
   );
 

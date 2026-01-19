@@ -22,8 +22,7 @@ const getTabForPath = (path: string) => {
     return HeaderTabNav.Reassessment;
   } else if (
     path === AppRoutes.UserDetails ||
-    matchPath(AppRoutes.TransferRegistration, path) ||
-    matchPath(AppRoutes.TransferRegistrationSuccess, path) ||
+    path === AppRoutes.ModifyContactDetails ||
     matchPath(AppRoutes.ConfirmRegistration, path)
   ) {
     return HeaderTabNav.UserRegistrations;

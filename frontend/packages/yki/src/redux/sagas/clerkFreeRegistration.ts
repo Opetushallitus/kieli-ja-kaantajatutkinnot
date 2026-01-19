@@ -1,18 +1,30 @@
+import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
+import { Dayjs } from 'dayjs';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { ClerkFreeRegistrationResponse } from 'interfaces/clerkFreeRegistration';
 import {
+  ClerkFreeRegistrationDetailsResponse,
+  ClerkFreeRegistrationResponse,
+} from 'interfaces/clerkFreeRegistration';
+import {
+  acceptClerkFreeRegistrationSupplementRequest,
   approveFreeRegistration,
-  FreeRegistrationApprovalStatus,
+  FreeRegistrationModalStatus,
   loadClerkFreeRegistrations,
   rejectClerkFreeRegistrations,
+  rejectClerkFreeRegistrationSupplementRequest,
   rejectFreeRegistration,
   setFreeRegistrationStatus,
   storeClerkFreeRegistrations,
+  submitClerkFreeRegistrationSupplementRequest,
 } from 'redux/reducers/clerkFreeRegistration';
+import {
+  loadClerkFreeRegistrationDetails,
+  storeClerkFreeRegistrationDetails,
+} from 'redux/reducers/clerkFreeRegistrationDetails';
 import { SerializationUtils } from 'utils/serialization';
 
 function* loadClerkFreeRegistrationsSaga() {
@@ -28,29 +40,81 @@ function* loadClerkFreeRegistrationsSaga() {
   }
 }
 
-function* approveFreeRegistrationSaga() {
+function* approveFreeRegistrationSaga(action: PayloadAction<number>) {
   try {
-    yield call(axiosInstance.put, APIEndpoints.ApproveClerkFreeRegistration);
+    const response: AxiosResponse<ClerkFreeRegistrationDetailsResponse> =
+      yield call(
+        axiosInstance.put,
+        APIEndpoints.ClerkFreeRegistrationDetails.replace(
+          /:id$/,
+          `${action.payload}`,
+        ),
+        { approved: true },
+      );
+    const freeRegistrationDetails =
+      SerializationUtils.deserializeClerkFreeRegistrationDetailsResponse(
+        response.data,
+      );
+    yield put(storeClerkFreeRegistrationDetails(freeRegistrationDetails));
     yield put(
-      setFreeRegistrationStatus(FreeRegistrationApprovalStatus.ApprovalSuccess),
+      setFreeRegistrationStatus(FreeRegistrationModalStatus.ApprovalSuccess),
     );
   } catch (error) {
     yield put(
-      setFreeRegistrationStatus(FreeRegistrationApprovalStatus.ApprovalError),
+      setFreeRegistrationStatus(FreeRegistrationModalStatus.ApprovalError),
     );
   }
 }
 
-function* rejectFreeRegistrationSaga() {
+function* rejectFreeRegistrationSaga(action: PayloadAction<number>) {
   try {
-    yield call(axiosInstance.put, APIEndpoints.RejectClerkFreeRegistration);
+    const response: AxiosResponse<ClerkFreeRegistrationDetailsResponse> =
+      yield call(
+        axiosInstance.put,
+        APIEndpoints.ClerkFreeRegistrationDetails.replace(
+          /:id$/,
+          `${action.payload}`,
+        ),
+        { approved: false },
+      );
+    const freeRegistrationDetails =
+      SerializationUtils.deserializeClerkFreeRegistrationDetailsResponse(
+        response.data,
+      );
+    yield put(storeClerkFreeRegistrationDetails(freeRegistrationDetails));
     yield put(
-      setFreeRegistrationStatus(FreeRegistrationApprovalStatus.RejectSuccess),
+      setFreeRegistrationStatus(FreeRegistrationModalStatus.RejectSuccess),
     );
   } catch (error) {
     yield put(
-      setFreeRegistrationStatus(FreeRegistrationApprovalStatus.RejectError),
+      setFreeRegistrationStatus(FreeRegistrationModalStatus.RejectError),
     );
+  }
+}
+
+function* submitClerkFreeRegistrationSupplementRequestSaga(
+  action: PayloadAction<{
+    freeRegistrationId: number;
+    message: string;
+    dueDate: Dayjs;
+  }>,
+) {
+  try {
+    const { freeRegistrationId, message, dueDate } = action.payload;
+    const endpoint =
+      APIEndpoints.ClerkFreeRegistrationSupplementRequest.replace(
+        ':id',
+        `${freeRegistrationId}`,
+      );
+    yield call(axiosInstance.post, endpoint, {
+      message,
+      dueDate: dueDate.toISOString(),
+    });
+    yield put(acceptClerkFreeRegistrationSupplementRequest());
+    yield put(loadClerkFreeRegistrationDetails(freeRegistrationId));
+    yield put(loadClerkFreeRegistrations());
+  } catch (error) {
+    yield put(rejectClerkFreeRegistrationSupplementRequest());
   }
 }
 
@@ -59,7 +123,10 @@ export function* watchClerkFreeRegistrations() {
     loadClerkFreeRegistrations.type,
     loadClerkFreeRegistrationsSaga,
   );
-
   yield takeLatest(approveFreeRegistration.type, approveFreeRegistrationSaga);
   yield takeLatest(rejectFreeRegistration.type, rejectFreeRegistrationSaga);
+  yield takeLatest(
+    submitClerkFreeRegistrationSupplementRequest.type,
+    submitClerkFreeRegistrationSupplementRequestSaga,
+  );
 }

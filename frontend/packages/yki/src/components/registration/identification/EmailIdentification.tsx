@@ -1,5 +1,8 @@
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
+import { Container } from '@mui/material';
 import { useCallback, useState } from 'react';
-import { Trans } from 'react-i18next';
 import { CustomButton, LabeledTextField, Text } from 'shared/components';
 import {
   Color,
@@ -16,6 +19,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamSession } from 'interfaces/examSessions';
 import { sendEmailLinkOrder } from 'redux/reducers/publicIdentification';
 import { examSessionSelector } from 'redux/selectors/examSession';
+import { ExamSessionUtils } from 'utils/examSession';
 
 const EmailInput = ({
   email,
@@ -75,16 +79,33 @@ const SubmitButton = ({ onSubmit }: { onSubmit: () => void }) => {
   );
 };
 
+const ExamFeeRequiredInfo = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.steps.identify.withoutFinnishSSN',
+  });
+
+  return (
+    <Container className="public-registration__info-box columns gapped-sm">
+      <InfoOutlineIcon color={Color.Secondary} />
+      <Text>{t('examFeeRequired')}</Text>
+    </Container>
+  );
+};
+
 export const EmailIdentification = () => {
   const dispatch = useAppDispatch();
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
+  const isFreeRegistrationPossible =
+    ExamSessionUtils.freeRegistrationPossible(examSession);
 
   const { showDialog } = useDialog();
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.identify',
   });
+
+  const [showInput, setShowInput] = useState(false);
 
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
@@ -139,37 +160,58 @@ export const EmailIdentification = () => {
 
   const { isPhone } = useWindowProperties();
 
+  const toggleEmailInputBtnId =
+    'public-registration--email-link-order__reveal-btn';
+  const emailInputRegionId =
+    'public-registration--email-link-order__input-region';
+
   return (
     <>
-      <Text>
-        <Trans t={t} i18nKey={'withoutFinnishSSN.description'} />
-        <br />
-        {t('withoutFinnishSSN.info')}
-      </Text>
-      {isPhone ? (
-        <>
-          <EmailInput
-            email={email}
-            error={error}
-            setEmail={setEmail}
-            validateEmail={validateEmail}
-          />
-          <SubmitButton onSubmit={onSubmit} />
-        </>
-      ) : (
-        <div className="columns gapped align-items-end">
-          <EmailInput
-            email={email}
-            error={error}
-            setEmail={setEmail}
-            validateEmail={validateEmail}
-          />
-          <div className="rows">
+      <div className="columns">
+        {showInput ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        <button
+          className="public-registration--email-link-order__reveal-btn"
+          onClick={() => setShowInput(!showInput)}
+          aria-expanded={showInput}
+          aria-controls={emailInputRegionId}
+          id={toggleEmailInputBtnId}
+        >
+          <Text>{t('withoutFinnishSSN.description')}</Text>
+        </button>
+      </div>
+      <div
+        hidden={!showInput}
+        role="region"
+        id={emailInputRegionId}
+        aria-labelledby={toggleEmailInputBtnId}
+      >
+        <Text>{t('withoutFinnishSSN.info')}</Text>
+        {isFreeRegistrationPossible && <ExamFeeRequiredInfo />}
+        {isPhone ? (
+          <>
+            <EmailInput
+              email={email}
+              error={error}
+              setEmail={setEmail}
+              validateEmail={validateEmail}
+            />
             <SubmitButton onSubmit={onSubmit} />
-            {error && <Text>&nbsp;</Text>}
-          </div>{' '}
-        </div>
-      )}
+          </>
+        ) : (
+          <div className="columns gapped align-items-end">
+            <EmailInput
+              email={email}
+              error={error}
+              setEmail={setEmail}
+              validateEmail={validateEmail}
+            />
+            <div className="rows">
+              <SubmitButton onSubmit={onSubmit} />
+              {error && <Text>&nbsp;</Text>}
+            </div>{' '}
+          </div>
+        )}
+      </div>
     </>
   );
 };

@@ -1,0 +1,6466 @@
+{
+  "henkilö": {
+    "oid": "1.2.246.562.24.37998958910",
+    "syntymäaika": "1981-02-21",
+    "etunimet": "Nordea",
+    "sukunimi": "Demo",
+    "kutsumanimi": "Nordea"
+  },
+  "opiskeluoikeudet": [
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.38417217288",
+        "oppilaitosnumero": {
+          "koodiarvo": "01904",
+          "nimi": {
+            "fi": "Oulun yliopisto",
+            "sv": "Uleåborgs universitet",
+            "en": "University of Oulu"
+          },
+          "lyhytNimi": {
+            "fi": "Oulun yliopisto",
+            "sv": "Uleåborgs universitet",
+            "en": "University of Oulu"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Oulun yliopisto",
+          "sv": "Uleåborgs universitet",
+          "en": "University of Oulu"
+        },
+        "kotipaikka": {
+          "koodiarvo": "564",
+          "nimi": {
+            "fi": "Oulu",
+            "sv": "Uleåborg"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2024-12-31",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2020-08-01",
+            "tila": {
+              "koodiarvo": "1",
+              "nimi": {
+                "fi": "aktiivinen",
+                "sv": "aktiv",
+                "en": "active"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "4",
+          "nimi": {
+            "fi": "Ylempi korkeakoulututkinto",
+            "sv": "Högre högskoleexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        },
+        "lukukausiIlmoittautuminen": {
+          "ilmoittautumisjaksot": [
+            {
+              "alku": "2020-08-01",
+              "loppu": "2020-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2021-01-01",
+              "loppu": "2021-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2021-08-01",
+              "loppu": "2021-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2022-01-01",
+              "loppu": "2022-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2022-08-01",
+              "loppu": "2022-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2023-01-01",
+              "loppu": "2023-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2023-08-01",
+              "loppu": "2023-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2024-01-01",
+              "loppu": "2024-07-31",
+              "tila": {
+                "koodiarvo": "2",
+                "nimi": {
+                  "fi": "Poissa",
+                  "sv": "Frånvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              }
+            }
+          ]
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "772501",
+              "nimi": {
+                "fi": "Terveystieteiden maisteri, terveydenhuollon kandidaatti (ylempi)",
+                "sv": "Magister i hälsovetenskaper",
+                "en": "Master of Health Sciences"
+              },
+              "lyhytNimi": {
+                "fi": "Terveystieteiden maisteri",
+                "sv": "Mag. i hälsovetenskaper",
+                "en": "Master of Health Sciences"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            },
+            "virtaNimi": {
+              "fi": "Hoitotieteen maisteriohjelma",
+              "en": "Master's Programme in Nursing Science"
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.38417217288",
+            "nimi": {
+              "fi": "Oulun yliopisto",
+              "sv": "Uleåborgs universitet",
+              "en": "University of Oulu"
+            },
+            "kotipaikka": {
+              "koodiarvo": "564",
+              "nimi": {
+                "fi": "Oulu",
+                "sv": "Uleåborg"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "alkamispäivä": "2020-08-01"
+    },
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.38515028629",
+        "oppilaitosnumero": {
+          "koodiarvo": "10088",
+          "nimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "lyhytNimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Itä-Suomen yliopisto",
+          "sv": "Östra Finlands Universitet",
+          "en": "University of Eastern Finland"
+        },
+        "kotipaikka": {
+          "koodiarvo": "167",
+          "nimi": {
+            "fi": "Joensuu",
+            "sv": "Joensuu"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2011-12-07",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2008-08-01",
+            "tila": {
+              "koodiarvo": "1",
+              "nimi": {
+                "fi": "aktiivinen",
+                "sv": "aktiv",
+                "en": "active"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2011-12-08",
+            "tila": {
+              "koodiarvo": "3",
+              "nimi": {
+                "fi": "valmistunut",
+                "sv": "slutförd",
+                "en": "concluded"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "2",
+          "nimi": {
+            "fi": "Alempi korkeakoulututkinto",
+            "sv": "Lägre högskoleexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        },
+        "lukukausiIlmoittautuminen": {
+          "ilmoittautumisjaksot": [
+            {
+              "alku": "2008-08-01",
+              "loppu": "2008-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2008-08-01",
+              "loppu": "2008-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2008-08-01",
+              "loppu": "2008-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-01-01",
+              "loppu": "2009-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-01-01",
+              "loppu": "2009-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-01-01",
+              "loppu": "2009-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-08-01",
+              "loppu": "2009-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-08-01",
+              "loppu": "2009-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-08-01",
+              "loppu": "2009-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-01-01",
+              "loppu": "2010-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-01-01",
+              "loppu": "2010-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-01-01",
+              "loppu": "2010-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-08-01",
+              "loppu": "2010-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-08-01",
+              "loppu": "2010-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-08-01",
+              "loppu": "2010-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-01-01",
+              "loppu": "2011-07-31",
+              "tila": {
+                "koodiarvo": "2",
+                "nimi": {
+                  "fi": "Poissa",
+                  "sv": "Frånvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": false
+            },
+            {
+              "alku": "2011-01-01",
+              "loppu": "2011-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-01-01",
+              "loppu": "2011-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            }
+          ]
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "672501",
+              "nimi": {
+                "fi": "Terveystieteiden kandidaatti (alempi)",
+                "sv": "Kandidat i hälsovetenskaper (lägre)",
+                "en": "Bachelor of Health Sciences"
+              },
+              "lyhytNimi": {
+                "fi": "Terveyst. kand. (al)",
+                "sv": "Kand. i hälsov.sk. (lägre)",
+                "en": "Bachelor of Health Sciences"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "vahvistus": {
+            "päivä": "2011-12-07"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.38515028629",
+            "nimi": {
+              "fi": "Itä-Suomen yliopisto",
+              "sv": "Östra Finlands Universitet",
+              "en": "University of Eastern Finland"
+            },
+            "kotipaikka": {
+              "koodiarvo": "167",
+              "nimi": {
+                "fi": "Joensuu",
+                "sv": "Joensuu"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "alkamispäivä": "2008-08-01"
+    },
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.38515028629",
+        "oppilaitosnumero": {
+          "koodiarvo": "10088",
+          "nimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "lyhytNimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Itä-Suomen yliopisto",
+          "sv": "Östra Finlands Universitet",
+          "en": "University of Eastern Finland"
+        },
+        "kotipaikka": {
+          "koodiarvo": "167",
+          "nimi": {
+            "fi": "Joensuu",
+            "sv": "Joensuu"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2014-08-06",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2008-08-01",
+            "tila": {
+              "koodiarvo": "2",
+              "nimi": {
+                "fi": "optio",
+                "sv": "option",
+                "en": "option"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2011-12-08",
+            "tila": {
+              "koodiarvo": "1",
+              "nimi": {
+                "fi": "aktiivinen",
+                "sv": "aktiv",
+                "en": "active"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2014-08-07",
+            "tila": {
+              "koodiarvo": "3",
+              "nimi": {
+                "fi": "valmistunut",
+                "sv": "slutförd",
+                "en": "concluded"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "4",
+          "nimi": {
+            "fi": "Ylempi korkeakoulututkinto",
+            "sv": "Högre högskoleexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        },
+        "lukukausiIlmoittautuminen": {
+          "ilmoittautumisjaksot": [
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-01-01",
+              "loppu": "2014-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-01-01",
+              "loppu": "2014-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-01-01",
+              "loppu": "2014-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-08-01",
+              "loppu": "2014-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-08-01",
+              "loppu": "2014-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            }
+          ]
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "772501",
+              "nimi": {
+                "fi": "Terveystieteiden maisteri, terveydenhuollon kandidaatti (ylempi)",
+                "sv": "Magister i hälsovetenskaper",
+                "en": "Master of Health Sciences"
+              },
+              "lyhytNimi": {
+                "fi": "Terveystieteiden maisteri",
+                "sv": "Mag. i hälsovetenskaper",
+                "en": "Master of Health Sciences"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "vahvistus": {
+            "päivä": "2014-08-06"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.38515028629",
+            "nimi": {
+              "fi": "Itä-Suomen yliopisto",
+              "sv": "Östra Finlands Universitet",
+              "en": "University of Eastern Finland"
+            },
+            "kotipaikka": {
+              "koodiarvo": "167",
+              "nimi": {
+                "fi": "Joensuu",
+                "sv": "Joensuu"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "alkamispäivä": "2008-08-01"
+    },
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.78305677532",
+        "oppilaitosnumero": {
+          "koodiarvo": "10089",
+          "nimi": {
+            "fi": "Turun yliopisto",
+            "sv": "Åbo universitet",
+            "en": "University of Turku"
+          },
+          "lyhytNimi": {
+            "fi": "Turun yliopisto",
+            "sv": "Åbo universitet",
+            "en": "University of Turku"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Turun yliopisto",
+          "sv": "Åbo universitet",
+          "en": "University of Turku"
+        },
+        "kotipaikka": {
+          "koodiarvo": "853",
+          "nimi": {
+            "fi": "Turku",
+            "sv": "Åbo"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2010-09-20",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2007-08-01",
+            "tila": {
+              "koodiarvo": "1",
+              "nimi": {
+                "fi": "aktiivinen",
+                "sv": "aktiv",
+                "en": "active"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2010-09-21",
+            "tila": {
+              "koodiarvo": "3",
+              "nimi": {
+                "fi": "valmistunut",
+                "sv": "slutförd",
+                "en": "concluded"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "2",
+          "nimi": {
+            "fi": "Alempi korkeakoulututkinto",
+            "sv": "Lägre högskoleexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        },
+        "lukukausiIlmoittautuminen": {
+          "ilmoittautumisjaksot": [
+            {
+              "alku": "2007-08-01",
+              "loppu": "2007-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2008-01-01",
+              "loppu": "2008-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2008-08-01",
+              "loppu": "2008-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-01-01",
+              "loppu": "2009-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-08-01",
+              "loppu": "2009-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-01-01",
+              "loppu": "2010-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-08-01",
+              "loppu": "2010-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            }
+          ]
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "623404",
+              "nimi": {
+                "fi": "Hum. kand., puhetieteet",
+                "sv": "Hum. kand., talvetenskaper",
+                "en": "Bachelor of Arts, Speech Sciences"
+              },
+              "lyhytNimi": {
+                "fi": "HuK, puhetieteet",
+                "sv": "HuK, talvetenskaper",
+                "en": "BA, Speech Sciences"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "vahvistus": {
+            "päivä": "2010-09-20"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.78305677532",
+            "nimi": {
+              "fi": "Turun yliopisto",
+              "sv": "Åbo universitet",
+              "en": "University of Turku"
+            },
+            "kotipaikka": {
+              "koodiarvo": "853",
+              "nimi": {
+                "fi": "Turku",
+                "sv": "Åbo"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "alkamispäivä": "2007-08-01"
+    },
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.78305677532",
+        "oppilaitosnumero": {
+          "koodiarvo": "10089",
+          "nimi": {
+            "fi": "Turun yliopisto",
+            "sv": "Åbo universitet",
+            "en": "University of Turku"
+          },
+          "lyhytNimi": {
+            "fi": "Turun yliopisto",
+            "sv": "Åbo universitet",
+            "en": "University of Turku"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Turun yliopisto",
+          "sv": "Åbo universitet",
+          "en": "University of Turku"
+        },
+        "kotipaikka": {
+          "koodiarvo": "853",
+          "nimi": {
+            "fi": "Turku",
+            "sv": "Åbo"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2012-06-20",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2007-08-01",
+            "tila": {
+              "koodiarvo": "2",
+              "nimi": {
+                "fi": "optio",
+                "sv": "option",
+                "en": "option"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2010-09-21",
+            "tila": {
+              "koodiarvo": "1",
+              "nimi": {
+                "fi": "aktiivinen",
+                "sv": "aktiv",
+                "en": "active"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2012-06-21",
+            "tila": {
+              "koodiarvo": "3",
+              "nimi": {
+                "fi": "valmistunut",
+                "sv": "slutförd",
+                "en": "concluded"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "4",
+          "nimi": {
+            "fi": "Ylempi korkeakoulututkinto",
+            "sv": "Högre högskoleexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        },
+        "lukukausiIlmoittautuminen": {
+          "ilmoittautumisjaksot": [
+            {
+              "alku": "2010-08-01",
+              "loppu": "2010-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-01-01",
+              "loppu": "2011-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            }
+          ]
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "726404",
+              "nimi": {
+                "fi": "Fil. maist., puhetieteet",
+                "sv": "Fil. mag., talvetenskaper",
+                "en": "Master of Arts, Speech Sciences"
+              },
+              "lyhytNimi": {
+                "fi": "FM, puhetieteet",
+                "sv": "FM, talvetenskaper",
+                "en": "MA, Speech Sciences"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "vahvistus": {
+            "päivä": "2012-06-20"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.78305677532",
+            "nimi": {
+              "fi": "Turun yliopisto",
+              "sv": "Åbo universitet",
+              "en": "University of Turku"
+            },
+            "kotipaikka": {
+              "koodiarvo": "853",
+              "nimi": {
+                "fi": "Turku",
+                "sv": "Åbo"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "alkamispäivä": "2007-08-01"
+    },
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.38515028629",
+        "oppilaitosnumero": {
+          "koodiarvo": "10088",
+          "nimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "lyhytNimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Itä-Suomen yliopisto",
+          "sv": "Östra Finlands Universitet",
+          "en": "University of Eastern Finland"
+        },
+        "kotipaikka": {
+          "koodiarvo": "167",
+          "nimi": {
+            "fi": "Joensuu",
+            "sv": "Joensuu"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2010-02-10",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2008-08-01",
+            "tila": {
+              "koodiarvo": "1",
+              "nimi": {
+                "fi": "aktiivinen",
+                "sv": "aktiv",
+                "en": "active"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2010-02-11",
+            "tila": {
+              "koodiarvo": "4",
+              "nimi": {
+                "fi": "passivoitu",
+                "sv": "passiverad",
+                "en": "passivated"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "2",
+          "nimi": {
+            "fi": "Alempi korkeakoulututkinto",
+            "sv": "Lägre högskoleexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        },
+        "lukukausiIlmoittautuminen": {
+          "ilmoittautumisjaksot": [
+            {
+              "alku": "2008-08-01",
+              "loppu": "2008-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2008-08-01",
+              "loppu": "2008-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2008-08-01",
+              "loppu": "2008-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-01-01",
+              "loppu": "2009-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-01-01",
+              "loppu": "2009-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-01-01",
+              "loppu": "2009-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-08-01",
+              "loppu": "2009-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-08-01",
+              "loppu": "2009-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-08-01",
+              "loppu": "2009-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-01-01",
+              "loppu": "2010-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-01-01",
+              "loppu": "2010-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-01-01",
+              "loppu": "2010-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            }
+          ]
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "672501",
+              "nimi": {
+                "fi": "Terveystieteiden kandidaatti (alempi)",
+                "sv": "Kandidat i hälsovetenskaper (lägre)",
+                "en": "Bachelor of Health Sciences"
+              },
+              "lyhytNimi": {
+                "fi": "Terveyst. kand. (al)",
+                "sv": "Kand. i hälsov.sk. (lägre)",
+                "en": "Bachelor of Health Sciences"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.38515028629",
+            "nimi": {
+              "fi": "Itä-Suomen yliopisto",
+              "sv": "Östra Finlands Universitet",
+              "en": "University of Eastern Finland"
+            },
+            "kotipaikka": {
+              "koodiarvo": "167",
+              "nimi": {
+                "fi": "Joensuu",
+                "sv": "Joensuu"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "alkamispäivä": "2008-08-01"
+    },
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.38515028629",
+        "oppilaitosnumero": {
+          "koodiarvo": "10088",
+          "nimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "lyhytNimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Itä-Suomen yliopisto",
+          "sv": "Östra Finlands Universitet",
+          "en": "University of Eastern Finland"
+        },
+        "kotipaikka": {
+          "koodiarvo": "167",
+          "nimi": {
+            "fi": "Joensuu",
+            "sv": "Joensuu"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2017-10-17",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2011-09-12",
+            "tila": {
+              "koodiarvo": "1",
+              "nimi": {
+                "fi": "aktiivinen",
+                "sv": "aktiv",
+                "en": "active"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2017-10-18",
+            "tila": {
+              "koodiarvo": "3",
+              "nimi": {
+                "fi": "valmistunut",
+                "sv": "slutförd",
+                "en": "concluded"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "7",
+          "nimi": {
+            "fi": "Tohtorintutkinto",
+            "sv": "Doktorsexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        },
+        "lukukausiIlmoittautuminen": {
+          "ilmoittautumisjaksot": [
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-01-01",
+              "loppu": "2014-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-01-01",
+              "loppu": "2014-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-01-01",
+              "loppu": "2014-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-08-01",
+              "loppu": "2014-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-08-01",
+              "loppu": "2014-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2015-01-01",
+              "loppu": "2015-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2015-01-01",
+              "loppu": "2015-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2015-08-01",
+              "loppu": "2015-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2016-01-01",
+              "loppu": "2016-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2016-08-01",
+              "loppu": "2016-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2017-01-01",
+              "loppu": "2017-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": false
+            },
+            {
+              "alku": "2017-08-01",
+              "loppu": "2017-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": false
+            }
+          ]
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "875401",
+              "nimi": {
+                "fi": "Farmasian tohtori",
+                "sv": "Farmacie doktor",
+                "en": "Doctor of Science (Pharmacy)"
+              },
+              "lyhytNimi": {
+                "fi": "Farmasian tohtori",
+                "sv": "Farmacie doktor",
+                "en": "Doctor of Science (Pharmacy)"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "vahvistus": {
+            "päivä": "2017-10-17"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.38515028629",
+            "nimi": {
+              "fi": "Itä-Suomen yliopisto",
+              "sv": "Östra Finlands Universitet",
+              "en": "University of Eastern Finland"
+            },
+            "kotipaikka": {
+              "koodiarvo": "167",
+              "nimi": {
+                "fi": "Joensuu",
+                "sv": "Joensuu"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "alkamispäivä": "2011-09-12"
+    },
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.38515028629",
+        "oppilaitosnumero": {
+          "koodiarvo": "10088",
+          "nimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "lyhytNimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Itä-Suomen yliopisto",
+          "sv": "Östra Finlands Universitet",
+          "en": "University of Eastern Finland"
+        },
+        "kotipaikka": {
+          "koodiarvo": "167",
+          "nimi": {
+            "fi": "Joensuu",
+            "sv": "Joensuu"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2016-12-19",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2008-08-01",
+            "tila": {
+              "koodiarvo": "2",
+              "nimi": {
+                "fi": "optio",
+                "sv": "option",
+                "en": "option"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2010-02-11",
+            "tila": {
+              "koodiarvo": "1",
+              "nimi": {
+                "fi": "aktiivinen",
+                "sv": "aktiv",
+                "en": "active"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2016-12-20",
+            "tila": {
+              "koodiarvo": "3",
+              "nimi": {
+                "fi": "valmistunut",
+                "sv": "slutförd",
+                "en": "concluded"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "4",
+          "nimi": {
+            "fi": "Ylempi korkeakoulututkinto",
+            "sv": "Högre högskoleexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        },
+        "lukukausiIlmoittautuminen": {
+          "ilmoittautumisjaksot": [
+            {
+              "alku": "2010-01-01",
+              "loppu": "2010-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-01-01",
+              "loppu": "2010-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-01-01",
+              "loppu": "2010-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-08-01",
+              "loppu": "2010-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-08-01",
+              "loppu": "2010-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-08-01",
+              "loppu": "2010-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-01-01",
+              "loppu": "2011-07-31",
+              "tila": {
+                "koodiarvo": "2",
+                "nimi": {
+                  "fi": "Poissa",
+                  "sv": "Frånvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": false
+            },
+            {
+              "alku": "2011-01-01",
+              "loppu": "2011-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-01-01",
+              "loppu": "2011-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-01-01",
+              "loppu": "2014-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-01-01",
+              "loppu": "2014-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-01-01",
+              "loppu": "2014-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-08-01",
+              "loppu": "2014-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-08-01",
+              "loppu": "2014-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2015-01-01",
+              "loppu": "2015-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2015-01-01",
+              "loppu": "2015-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2015-08-01",
+              "loppu": "2015-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2016-01-01",
+              "loppu": "2016-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2016-08-01",
+              "loppu": "2016-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            }
+          ]
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "772501",
+              "nimi": {
+                "fi": "Terveystieteiden maisteri, terveydenhuollon kandidaatti (ylempi)",
+                "sv": "Magister i hälsovetenskaper",
+                "en": "Master of Health Sciences"
+              },
+              "lyhytNimi": {
+                "fi": "Terveystieteiden maisteri",
+                "sv": "Mag. i hälsovetenskaper",
+                "en": "Master of Health Sciences"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "vahvistus": {
+            "päivä": "2016-12-19"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.38515028629",
+            "nimi": {
+              "fi": "Itä-Suomen yliopisto",
+              "sv": "Östra Finlands Universitet",
+              "en": "University of Eastern Finland"
+            },
+            "kotipaikka": {
+              "koodiarvo": "167",
+              "nimi": {
+                "fi": "Joensuu",
+                "sv": "Joensuu"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "alkamispäivä": "2008-08-01"
+    },
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.38515028629",
+        "oppilaitosnumero": {
+          "koodiarvo": "10088",
+          "nimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "lyhytNimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Itä-Suomen yliopisto",
+          "sv": "Östra Finlands Universitet",
+          "en": "University of Eastern Finland"
+        },
+        "kotipaikka": {
+          "koodiarvo": "167",
+          "nimi": {
+            "fi": "Joensuu",
+            "sv": "Joensuu"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2009-11-16",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2003-08-01",
+            "tila": {
+              "koodiarvo": "1",
+              "nimi": {
+                "fi": "aktiivinen",
+                "sv": "aktiv",
+                "en": "active"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2009-11-17",
+            "tila": {
+              "koodiarvo": "3",
+              "nimi": {
+                "fi": "valmistunut",
+                "sv": "slutförd",
+                "en": "concluded"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "4",
+          "nimi": {
+            "fi": "Ylempi korkeakoulututkinto",
+            "sv": "Högre högskoleexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        },
+        "lukukausiIlmoittautuminen": {
+          "ilmoittautumisjaksot": [
+            {
+              "alku": "2003-08-01",
+              "loppu": "2003-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2003-08-01",
+              "loppu": "2003-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2004-01-01",
+              "loppu": "2004-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2004-01-01",
+              "loppu": "2004-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2004-08-01",
+              "loppu": "2004-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2004-08-01",
+              "loppu": "2004-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2005-01-01",
+              "loppu": "2005-07-31",
+              "tila": {
+                "koodiarvo": "2",
+                "nimi": {
+                  "fi": "Poissa",
+                  "sv": "Frånvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": false
+            },
+            {
+              "alku": "2005-01-01",
+              "loppu": "2005-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2005-08-01",
+              "loppu": "2005-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2006-01-01",
+              "loppu": "2006-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2006-08-01",
+              "loppu": "2006-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2007-01-01",
+              "loppu": "2007-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2007-08-01",
+              "loppu": "2007-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2007-08-01",
+              "loppu": "2007-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2008-01-01",
+              "loppu": "2008-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2008-01-01",
+              "loppu": "2008-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2008-08-01",
+              "loppu": "2008-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2008-08-01",
+              "loppu": "2008-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2008-08-01",
+              "loppu": "2008-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-01-01",
+              "loppu": "2009-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-01-01",
+              "loppu": "2009-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-01-01",
+              "loppu": "2009-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-08-01",
+              "loppu": "2009-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-08-01",
+              "loppu": "2009-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-08-01",
+              "loppu": "2009-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            }
+          ]
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "772401",
+              "nimi": {
+                "fi": "Proviisori",
+                "sv": "Provisor",
+                "en": "Master of Science (Pharmacy)"
+              },
+              "lyhytNimi": {
+                "fi": "Proviisori",
+                "sv": "Provisor",
+                "en": "Master of Science (Pharmacy)"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "vahvistus": {
+            "päivä": "2009-11-16"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.38515028629",
+            "nimi": {
+              "fi": "Itä-Suomen yliopisto",
+              "sv": "Östra Finlands Universitet",
+              "en": "University of Eastern Finland"
+            },
+            "kotipaikka": {
+              "koodiarvo": "167",
+              "nimi": {
+                "fi": "Joensuu",
+                "sv": "Joensuu"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        },
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "672401",
+              "nimi": {
+                "fi": "Farmaseutti",
+                "sv": "Farmaceut",
+                "en": "Bachelor of Science (Pharmacy)"
+              },
+              "lyhytNimi": {
+                "fi": "Farmaseutti",
+                "sv": "Farmaceut",
+                "en": "Bachelor of Science (Pharmacy)"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "vahvistus": {
+            "päivä": "2006-05-17"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.38515028629",
+            "nimi": {
+              "fi": "Itä-Suomen yliopisto",
+              "sv": "Östra Finlands Universitet",
+              "en": "University of Eastern Finland"
+            },
+            "kotipaikka": {
+              "koodiarvo": "167",
+              "nimi": {
+                "fi": "Joensuu",
+                "sv": "Joensuu"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "alkamispäivä": "2003-08-01"
+    },
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.38515028629",
+        "oppilaitosnumero": {
+          "koodiarvo": "10088",
+          "nimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "lyhytNimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Itä-Suomen yliopisto",
+          "sv": "Östra Finlands Universitet",
+          "en": "University of Eastern Finland"
+        },
+        "kotipaikka": {
+          "koodiarvo": "167",
+          "nimi": {
+            "fi": "Joensuu",
+            "sv": "Joensuu"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2013-12-18",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2011-08-01",
+            "tila": {
+              "koodiarvo": "1",
+              "nimi": {
+                "fi": "aktiivinen",
+                "sv": "aktiv",
+                "en": "active"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2013-12-19",
+            "tila": {
+              "koodiarvo": "4",
+              "nimi": {
+                "fi": "passivoitu",
+                "sv": "passiverad",
+                "en": "passivated"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "2",
+          "nimi": {
+            "fi": "Alempi korkeakoulututkinto",
+            "sv": "Lägre högskoleexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        },
+        "lukukausiIlmoittautuminen": {
+          "ilmoittautumisjaksot": [
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            }
+          ]
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "633501",
+              "nimi": {
+                "fi": "Psykologian kandidaatti (alempi)",
+                "sv": "Psykologie kandidat (lägre)",
+                "en": "Bachelor of Arts (Psychology)"
+              },
+              "lyhytNimi": {
+                "fi": "Psykologian kandidaatti (al)",
+                "sv": "Psykologie kandidat (lägre)",
+                "en": "BA (Psychology)"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.38515028629",
+            "nimi": {
+              "fi": "Itä-Suomen yliopisto",
+              "sv": "Östra Finlands Universitet",
+              "en": "University of Eastern Finland"
+            },
+            "kotipaikka": {
+              "koodiarvo": "167",
+              "nimi": {
+                "fi": "Joensuu",
+                "sv": "Joensuu"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "alkamispäivä": "2011-08-01"
+    },
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.38515028629",
+        "oppilaitosnumero": {
+          "koodiarvo": "10088",
+          "nimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "lyhytNimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Itä-Suomen yliopisto",
+          "sv": "Östra Finlands Universitet",
+          "en": "University of Eastern Finland"
+        },
+        "kotipaikka": {
+          "koodiarvo": "167",
+          "nimi": {
+            "fi": "Joensuu",
+            "sv": "Joensuu"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2010-12-10",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2007-08-01",
+            "tila": {
+              "koodiarvo": "1",
+              "nimi": {
+                "fi": "aktiivinen",
+                "sv": "aktiv",
+                "en": "active"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2010-12-11",
+            "tila": {
+              "koodiarvo": "3",
+              "nimi": {
+                "fi": "valmistunut",
+                "sv": "slutförd",
+                "en": "concluded"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "2",
+          "nimi": {
+            "fi": "Alempi korkeakoulututkinto",
+            "sv": "Lägre högskoleexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        },
+        "lukukausiIlmoittautuminen": {
+          "ilmoittautumisjaksot": [
+            {
+              "alku": "2007-08-01",
+              "loppu": "2007-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2007-08-01",
+              "loppu": "2007-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2008-01-01",
+              "loppu": "2008-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2008-01-01",
+              "loppu": "2008-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2008-08-01",
+              "loppu": "2008-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2008-08-01",
+              "loppu": "2008-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2008-08-01",
+              "loppu": "2008-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-01-01",
+              "loppu": "2009-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-01-01",
+              "loppu": "2009-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-01-01",
+              "loppu": "2009-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-08-01",
+              "loppu": "2009-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-08-01",
+              "loppu": "2009-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-08-01",
+              "loppu": "2009-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-01-01",
+              "loppu": "2010-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-01-01",
+              "loppu": "2010-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-01-01",
+              "loppu": "2010-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-08-01",
+              "loppu": "2010-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-08-01",
+              "loppu": "2010-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-08-01",
+              "loppu": "2010-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            }
+          ]
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "642102",
+              "nimi": {
+                "fi": "Luonnont. kand., tilastotiede",
+                "sv": "Nat. kand., statistik",
+                "en": "Bachelor of Science, Statistics"
+              },
+              "lyhytNimi": {
+                "fi": "LuK, tilastotiede",
+                "sv": "NaK, statistik",
+                "en": "BSc, Statistics"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "vahvistus": {
+            "päivä": "2010-12-10"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.38515028629",
+            "nimi": {
+              "fi": "Itä-Suomen yliopisto",
+              "sv": "Östra Finlands Universitet",
+              "en": "University of Eastern Finland"
+            },
+            "kotipaikka": {
+              "koodiarvo": "167",
+              "nimi": {
+                "fi": "Joensuu",
+                "sv": "Joensuu"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "alkamispäivä": "2007-08-01"
+    },
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.38515028629",
+        "oppilaitosnumero": {
+          "koodiarvo": "10088",
+          "nimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "lyhytNimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Itä-Suomen yliopisto",
+          "sv": "Östra Finlands Universitet",
+          "en": "University of Eastern Finland"
+        },
+        "kotipaikka": {
+          "koodiarvo": "167",
+          "nimi": {
+            "fi": "Joensuu",
+            "sv": "Joensuu"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2014-12-31",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2007-08-01",
+            "tila": {
+              "koodiarvo": "2",
+              "nimi": {
+                "fi": "optio",
+                "sv": "option",
+                "en": "option"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2010-12-11",
+            "tila": {
+              "koodiarvo": "1",
+              "nimi": {
+                "fi": "aktiivinen",
+                "sv": "aktiv",
+                "en": "active"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2015-01-01",
+            "tila": {
+              "koodiarvo": "4",
+              "nimi": {
+                "fi": "passivoitu",
+                "sv": "passiverad",
+                "en": "passivated"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "4",
+          "nimi": {
+            "fi": "Ylempi korkeakoulututkinto",
+            "sv": "Högre högskoleexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        },
+        "lukukausiIlmoittautuminen": {
+          "ilmoittautumisjaksot": [
+            {
+              "alku": "2010-08-01",
+              "loppu": "2010-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-08-01",
+              "loppu": "2010-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-08-01",
+              "loppu": "2010-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-01-01",
+              "loppu": "2011-07-31",
+              "tila": {
+                "koodiarvo": "2",
+                "nimi": {
+                  "fi": "Poissa",
+                  "sv": "Frånvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": false
+            },
+            {
+              "alku": "2011-01-01",
+              "loppu": "2011-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-01-01",
+              "loppu": "2011-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-01-01",
+              "loppu": "2014-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-01-01",
+              "loppu": "2014-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-01-01",
+              "loppu": "2014-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-08-01",
+              "loppu": "2014-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-08-01",
+              "loppu": "2014-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2015-01-01",
+              "loppu": "2015-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2015-01-01",
+              "loppu": "2015-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            }
+          ]
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "742102",
+              "nimi": {
+                "fi": "Fil. maist., tilastotiede (luonnontieteellinen ala)",
+                "sv": "Fil. mag., statistik (naturvetenskapliga området)",
+                "en": "Master of Science, Statistics (Natural Sciences)"
+              },
+              "lyhytNimi": {
+                "fi": "FM, tilastotiede (luonnont.)",
+                "sv": "FM, statistik (nat.vet.)",
+                "en": "MSc, Statistics (Natural Sc.)"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.38515028629",
+            "nimi": {
+              "fi": "Itä-Suomen yliopisto",
+              "sv": "Östra Finlands Universitet",
+              "en": "University of Eastern Finland"
+            },
+            "kotipaikka": {
+              "koodiarvo": "167",
+              "nimi": {
+                "fi": "Joensuu",
+                "sv": "Joensuu"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "alkamispäivä": "2007-08-01"
+    },
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.38515028629",
+        "oppilaitosnumero": {
+          "koodiarvo": "10088",
+          "nimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "lyhytNimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Itä-Suomen yliopisto",
+          "sv": "Östra Finlands Universitet",
+          "en": "University of Eastern Finland"
+        },
+        "kotipaikka": {
+          "koodiarvo": "167",
+          "nimi": {
+            "fi": "Joensuu",
+            "sv": "Joensuu"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2014-10-07",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2011-08-01",
+            "tila": {
+              "koodiarvo": "2",
+              "nimi": {
+                "fi": "optio",
+                "sv": "option",
+                "en": "option"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2014-10-08",
+            "tila": {
+              "koodiarvo": "3",
+              "nimi": {
+                "fi": "valmistunut",
+                "sv": "slutförd",
+                "en": "concluded"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "4",
+          "nimi": {
+            "fi": "Ylempi korkeakoulututkinto",
+            "sv": "Högre högskoleexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "733501",
+              "nimi": {
+                "fi": "Psykologian maisteri",
+                "sv": "Psykologie magister",
+                "en": "Master of Arts (Psychology)"
+              },
+              "lyhytNimi": {
+                "fi": "Psykologian maisteri",
+                "sv": "Psykologie magister",
+                "en": "Master of Arts (Psychology)"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "vahvistus": {
+            "päivä": "2014-10-07"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.38515028629",
+            "nimi": {
+              "fi": "Itä-Suomen yliopisto",
+              "sv": "Östra Finlands Universitet",
+              "en": "University of Eastern Finland"
+            },
+            "kotipaikka": {
+              "koodiarvo": "167",
+              "nimi": {
+                "fi": "Joensuu",
+                "sv": "Joensuu"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "alkamispäivä": "2011-08-01"
+    },
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.57572539237",
+        "oppilaitosnumero": {
+          "koodiarvo": "02504",
+          "nimi": {
+            "fi": "Jyväskylän ammattikorkeakoulu",
+            "sv": "Jyväskylän ammattikorkeakoulu",
+            "en": "Jamk University of Applied Sciences"
+          },
+          "lyhytNimi": {
+            "fi": "Jyväskylän ammattikorkeakoulu",
+            "sv": "Jyväskylän ammattikorkeakoulu",
+            "en": "Jamk University of Applied Sciences"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Jyväskylän ammattikorkeakoulu",
+          "sv": "Jyväskylän ammattikorkeakoulu",
+          "en": "Jamk University of Applied Sciences"
+        },
+        "kotipaikka": {
+          "koodiarvo": "179",
+          "nimi": {
+            "fi": "Jyväskylä",
+            "sv": "Jyväskylä"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2014-12-11",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2012-08-27",
+            "tila": {
+              "koodiarvo": "1",
+              "nimi": {
+                "fi": "aktiivinen",
+                "sv": "aktiv",
+                "en": "active"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2014-12-12",
+            "tila": {
+              "koodiarvo": "3",
+              "nimi": {
+                "fi": "valmistunut",
+                "sv": "slutförd",
+                "en": "concluded"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "3",
+          "nimi": {
+            "fi": "Ylempi ammattikorkeakoulututkinto",
+            "sv": "Högre yrkeshögskoleexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        },
+        "lukukausiIlmoittautuminen": {
+          "ilmoittautumisjaksot": [
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              }
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              }
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              }
+            },
+            {
+              "alku": "2014-01-01",
+              "loppu": "2014-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              }
+            },
+            {
+              "alku": "2014-08-01",
+              "loppu": "2014-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              }
+            }
+          ]
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "771218",
+              "nimi": {
+                "fi": "Kuntoutuksen ohjaaja (ylempi AMK)",
+                "sv": "Rehabiliteringsledare (högre YH)",
+                "en": "Master of Social Services and Health Care (UAS), Rehabilitation Counsellor"
+              },
+              "lyhytNimi": {
+                "fi": "Kuntoutuksen ohjaaja (AMK,yl)",
+                "sv": "Rehabiliteringsledare (h. YH)",
+                "en": "MHC (UAS), Rehab. Couns."
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "vahvistus": {
+            "päivä": "2014-12-11"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.57572539237",
+            "nimi": {
+              "fi": "Jyväskylän ammattikorkeakoulu",
+              "sv": "Jyväskylän ammattikorkeakoulu",
+              "en": "Jamk University of Applied Sciences"
+            },
+            "kotipaikka": {
+              "koodiarvo": "179",
+              "nimi": {
+                "fi": "Jyväskylä",
+                "sv": "Jyväskylä"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "luokittelu": [
+        {
+          "koodiarvo": "3",
+          "nimi": {
+            "fi": "Aikuiskoulutus"
+          },
+          "koodistoUri": "virtaopiskeluoikeudenluokittelu",
+          "koodistoVersio": 1
+        }
+      ],
+      "alkamispäivä": "2012-08-27"
+    },
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.38515028629",
+        "oppilaitosnumero": {
+          "koodiarvo": "10088",
+          "nimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "lyhytNimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Itä-Suomen yliopisto",
+          "sv": "Östra Finlands Universitet",
+          "en": "University of Eastern Finland"
+        },
+        "kotipaikka": {
+          "koodiarvo": "167",
+          "nimi": {
+            "fi": "Joensuu",
+            "sv": "Joensuu"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2017-01-25",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2011-08-01",
+            "tila": {
+              "koodiarvo": "1",
+              "nimi": {
+                "fi": "aktiivinen",
+                "sv": "aktiv",
+                "en": "active"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2017-01-26",
+            "tila": {
+              "koodiarvo": "3",
+              "nimi": {
+                "fi": "valmistunut",
+                "sv": "slutförd",
+                "en": "concluded"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "4",
+          "nimi": {
+            "fi": "Ylempi korkeakoulututkinto",
+            "sv": "Högre högskoleexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        },
+        "lukukausiIlmoittautuminen": {
+          "ilmoittautumisjaksot": [
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-08-01",
+              "loppu": "2013-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-01-01",
+              "loppu": "2014-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-01-01",
+              "loppu": "2014-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-01-01",
+              "loppu": "2014-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-08-01",
+              "loppu": "2014-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2014-08-01",
+              "loppu": "2014-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2015-01-01",
+              "loppu": "2015-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2015-01-01",
+              "loppu": "2015-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2015-08-01",
+              "loppu": "2015-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2016-01-01",
+              "loppu": "2016-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2016-08-01",
+              "loppu": "2016-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2017-01-01",
+              "loppu": "2017-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": false
+            }
+          ]
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "772201",
+              "nimi": {
+                "fi": "Hammaslääketieteen lisensiaatti",
+                "sv": "Odontologie licentiat",
+                "en": "Licentiate of Dentistry"
+              },
+              "lyhytNimi": {
+                "fi": "Hammaslääketieteen lis.",
+                "sv": "Odontologie licentiat",
+                "en": "Licentiate of Dentistry"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "vahvistus": {
+            "päivä": "2017-01-25"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.38515028629",
+            "nimi": {
+              "fi": "Itä-Suomen yliopisto",
+              "sv": "Östra Finlands Universitet",
+              "en": "University of Eastern Finland"
+            },
+            "kotipaikka": {
+              "koodiarvo": "167",
+              "nimi": {
+                "fi": "Joensuu",
+                "sv": "Joensuu"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "alkamispäivä": "2011-08-01"
+    },
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.38515028629",
+        "oppilaitosnumero": {
+          "koodiarvo": "10088",
+          "nimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "lyhytNimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Itä-Suomen yliopisto",
+          "sv": "Östra Finlands Universitet",
+          "en": "University of Eastern Finland"
+        },
+        "kotipaikka": {
+          "koodiarvo": "167",
+          "nimi": {
+            "fi": "Joensuu",
+            "sv": "Joensuu"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2004-10-22",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2000-08-01",
+            "tila": {
+              "koodiarvo": "1",
+              "nimi": {
+                "fi": "aktiivinen",
+                "sv": "aktiv",
+                "en": "active"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2004-10-23",
+            "tila": {
+              "koodiarvo": "3",
+              "nimi": {
+                "fi": "valmistunut",
+                "sv": "slutförd",
+                "en": "concluded"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "4",
+          "nimi": {
+            "fi": "Ylempi korkeakoulututkinto",
+            "sv": "Högre högskoleexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        },
+        "lukukausiIlmoittautuminen": {
+          "ilmoittautumisjaksot": [
+            {
+              "alku": "2000-08-01",
+              "loppu": "2000-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": false
+            },
+            {
+              "alku": "2001-01-01",
+              "loppu": "2001-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": false
+            },
+            {
+              "alku": "2001-08-01",
+              "loppu": "2001-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2002-01-01",
+              "loppu": "2002-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2002-08-01",
+              "loppu": "2002-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2003-01-01",
+              "loppu": "2003-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2003-08-01",
+              "loppu": "2003-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2003-08-01",
+              "loppu": "2003-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2004-01-01",
+              "loppu": "2004-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2004-01-01",
+              "loppu": "2004-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2004-08-01",
+              "loppu": "2004-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2004-08-01",
+              "loppu": "2004-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            }
+          ]
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "733203",
+              "nimi": {
+                "fi": "Yhteiskuntat. maist., sosiaalitieteet",
+                "sv": "Samh. mag., socialvetenskaper",
+                "en": "Master of Social Sciences, Social Studies"
+              },
+              "lyhytNimi": {
+                "fi": "YTM, sosiaalitieteet",
+                "sv": "SVM, socialvetenskaper",
+                "en": "MSocSc, Social Studies"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "vahvistus": {
+            "päivä": "2004-10-22"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.38515028629",
+            "nimi": {
+              "fi": "Itä-Suomen yliopisto",
+              "sv": "Östra Finlands Universitet",
+              "en": "University of Eastern Finland"
+            },
+            "kotipaikka": {
+              "koodiarvo": "167",
+              "nimi": {
+                "fi": "Joensuu",
+                "sv": "Joensuu"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "alkamispäivä": "2000-08-01"
+    },
+    {
+      "oppilaitos": {
+        "oid": "1.2.246.562.10.38515028629",
+        "oppilaitosnumero": {
+          "koodiarvo": "10088",
+          "nimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "lyhytNimi": {
+            "fi": "Itä-Suomen yliopisto",
+            "sv": "Östra Finlands Universitet",
+            "en": "University of Eastern Finland"
+          },
+          "koodistoUri": "oppilaitosnumero",
+          "koodistoVersio": 1
+        },
+        "nimi": {
+          "fi": "Itä-Suomen yliopisto",
+          "sv": "Östra Finlands Universitet",
+          "en": "University of Eastern Finland"
+        },
+        "kotipaikka": {
+          "koodiarvo": "167",
+          "nimi": {
+            "fi": "Joensuu",
+            "sv": "Joensuu"
+          },
+          "koodistoUri": "kunta",
+          "koodistoVersio": 2
+        }
+      },
+      "päättymispäivä": "2013-04-15",
+      "tila": {
+        "opiskeluoikeusjaksot": [
+          {
+            "alku": "2009-08-01",
+            "tila": {
+              "koodiarvo": "1",
+              "nimi": {
+                "fi": "aktiivinen",
+                "sv": "aktiv",
+                "en": "active"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          },
+          {
+            "alku": "2013-04-16",
+            "tila": {
+              "koodiarvo": "3",
+              "nimi": {
+                "fi": "valmistunut",
+                "sv": "slutförd",
+                "en": "concluded"
+              },
+              "koodistoUri": "virtaopiskeluoikeudentila",
+              "koodistoVersio": 1
+            }
+          }
+        ]
+      },
+      "lisätiedot": {
+        "virtaOpiskeluoikeudenTyyppi": {
+          "koodiarvo": "2",
+          "nimi": {
+            "fi": "Alempi korkeakoulututkinto",
+            "sv": "Lägre högskoleexamen"
+          },
+          "koodistoUri": "virtaopiskeluoikeudentyyppi",
+          "koodistoVersio": 1
+        },
+        "lukukausiIlmoittautuminen": {
+          "ilmoittautumisjaksot": [
+            {
+              "alku": "2009-08-01",
+              "loppu": "2009-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-08-01",
+              "loppu": "2009-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2009-08-01",
+              "loppu": "2009-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-01-01",
+              "loppu": "2010-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-01-01",
+              "loppu": "2010-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-01-01",
+              "loppu": "2010-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-08-01",
+              "loppu": "2010-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-08-01",
+              "loppu": "2010-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2010-08-01",
+              "loppu": "2010-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-01-01",
+              "loppu": "2011-07-31",
+              "tila": {
+                "koodiarvo": "2",
+                "nimi": {
+                  "fi": "Poissa",
+                  "sv": "Frånvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": false
+            },
+            {
+              "alku": "2011-01-01",
+              "loppu": "2011-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-01-01",
+              "loppu": "2011-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2011-08-01",
+              "loppu": "2011-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-01-01",
+              "loppu": "2012-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2012-08-01",
+              "loppu": "2012-12-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            },
+            {
+              "alku": "2013-01-01",
+              "loppu": "2013-07-31",
+              "tila": {
+                "koodiarvo": "1",
+                "nimi": {
+                  "fi": "Läsnä",
+                  "sv": "Närvarande"
+                },
+                "koodistoUri": "virtalukukausiilmtila",
+                "koodistoVersio": 1
+              },
+              "ylioppilaskunnanJäsen": true
+            }
+          ]
+        }
+      },
+      "suoritukset": [
+        {
+          "koulutusmoduuli": {
+            "tunniste": {
+              "koodiarvo": "633501",
+              "nimi": {
+                "fi": "Psykologian kandidaatti (alempi)",
+                "sv": "Psykologie kandidat (lägre)",
+                "en": "Bachelor of Arts (Psychology)"
+              },
+              "lyhytNimi": {
+                "fi": "Psykologian kandidaatti (al)",
+                "sv": "Psykologie kandidat (lägre)",
+                "en": "BA (Psychology)"
+              },
+              "koodistoUri": "koulutus",
+              "koodistoVersio": 12
+            }
+          },
+          "tyyppi": {
+            "koodiarvo": "korkeakoulututkinto",
+            "koodistoUri": "suorituksentyyppi"
+          },
+          "vahvistus": {
+            "päivä": "2013-04-15"
+          },
+          "toimipiste": {
+            "oid": "1.2.246.562.10.38515028629",
+            "nimi": {
+              "fi": "Itä-Suomen yliopisto",
+              "sv": "Östra Finlands Universitet",
+              "en": "University of Eastern Finland"
+            },
+            "kotipaikka": {
+              "koodiarvo": "167",
+              "nimi": {
+                "fi": "Joensuu",
+                "sv": "Joensuu"
+              },
+              "koodistoUri": "kunta",
+              "koodistoVersio": 2
+            }
+          }
+        }
+      ],
+      "tyyppi": {
+        "koodiarvo": "korkeakoulutus",
+        "nimi": {
+          "fi": "Korkeakoulutus",
+          "sv": "Högskoleutbildning",
+          "en": "Higher education"
+        },
+        "lyhytNimi": {
+          "fi": "Korkeakoulutus"
+        },
+        "koodistoUri": "opiskeluoikeudentyyppi",
+        "koodistoVersio": 1
+      },
+      "alkamispäivä": "2009-08-01"
+    }
+  ]
+}

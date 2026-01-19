@@ -8,6 +8,39 @@
   "zip": "99100",
   "post_office": "Kittilä",
   "registrations": [
+        {
+      "id": 1336,
+      "exam_session_id": "1",
+      "location": [
+        {
+          "street_address": "School of wizardry",
+          "post_office": "Hogwarts",
+          "zip": "90100",
+          "lang": "fi"
+        },
+        {
+          "street_address": "School of wizardry",
+          "post_office": "Hogwarts",
+          "zip": "90100",
+          "lang": "sv"
+        },
+        {
+          "street_address": "School of wizardry",
+          "post_office": "Hogwarts",
+          "zip": "90100",
+          "lang": "en"
+        }
+      ],
+      "state": "COMPLETED",
+      "exam_date": "2026-02-12",
+      "language_code": "fin",
+      "level_code": "KESKI",
+      "is_cancellable": true,
+      "is_transferable": true,
+      "is_transfered": false,
+      "paid_at": "2025-04-15",
+      "is_free_registration": true
+    },
     {
       "id": 1337,
       "exam_session_id": "1",

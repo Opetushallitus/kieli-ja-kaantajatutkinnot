@@ -1,6 +1,7 @@
 {
   "yki": {
     "common": {
+      "and": "and",
       "actions": "Actions",
       "address": "Address",
       "appNameAbbreviation": "YKI",
@@ -127,6 +128,7 @@
       "no": "No",
       "ophLogoAlt": "Logo: Finnish National Agency for Education.",
       "ophLogoToFrontPageAlt": "The Finnish National Agency for Education - To the YKI registration page",
+      "or": "or",
       "phoneNumber": "Telephone number",
       "placesAvailable": "Available seats",
       "price": "Price",
@@ -142,6 +144,7 @@
       },
       "reassessment": "Reassessment",
       "registration": "Registration",
+      "clerkOrganizerRegister": "Järjestäjärekisteri",
       "freeRegistration": "Maksuttomuus",
       "customerSearch": "Asiakashaku",
       "registrationPeriod": "Registration period",
@@ -157,6 +160,7 @@
         "registration": "Registration",
         "initRegistration": "Registration",
         "examDetails": "Test",
+        "freeRegistrationSuccess": "Ilmoittautuminen onnistui",
         "registrationPaymentStatus": "Registration",
         "reassessment": "Reassessment",
         "evaluationOrder": "Reassessment",
@@ -165,10 +169,12 @@
         "logoutSuccess": "Log out complete",
         "userDetails": "My registrations",
         "transferRegistration": "Reschedule registration",
+        "modifyContactDetails": "Edit contact information",
         "confirmRegistration": "Confirm registration",
         "notFound": "Page not found",
         "expiredLoginLink": "The link has expired",
-        "customerSearch": "Asiakashaku"
+        "customerSearch": "Asiakashaku",
+        "customerDetails": "Asiakkaan tiedot"
       },
       "previous": "Previous"
     }

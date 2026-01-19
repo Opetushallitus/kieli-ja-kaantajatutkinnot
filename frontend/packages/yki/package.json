@@ -19,7 +19,8 @@
     "yki:lint": "yarn yki:eslint && yarn yki:tslint && yarn yki:stylelint && yarn yki:exportlint",
     "yki:qa": "yarn yki:lint && yarn yki:format && yarn yki:test:jest && yarn yki:start:ci",
     "yki:start": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8080",
-    "yki:clerk:clerk": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8080",
+    "yki:start:msw": "yarn g:webpack serve --config webpack.config.js",
+    "yki:clerk:clerk": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8083",
     "yki:clerk:start:msw": "yarn g:webpack serve --env goal=yki-clerk --config webpack.config.js",
     "yki:start:ci": "yarn g:webpack serve --env cypress --env prod --config webpack.config.js --no-open --no-client-overlay",
     "yki:clerk:start:ci": "yarn g:webpack serve --env cypress --env prod --env goal=yki-clerk --config webpack.config.js --no-open --no-client-overlay",
@@ -28,7 +29,7 @@
     "yki:stylelint": "yarn g:stylelint --fix \"./src/**/*.scss\"",
     "yki:test:cypress": "TZ=Europe/Helsinki yarn g:cypress run --spec=\"./src/tests/cypress/integration/public/*.ts\"",
     "yki:test:cypress:open": "TZ=Europe/Helsinki yarn g:cypress open",
-    "yki:clerk:test:cypress": "TZ=Europe/Helsinki yarn g:cypress run --config baseUrl=http://localhost:4004 --spec=\"./src/tests/cypress/integration/clerk/*.ts\"",
+    "yki:clerk:test:cypress": "TZ=Europe/Helsinki yarn g:cypress run --config baseUrl=http://localhost:4004 --spec=\"./src/tests/cypress/integration/clerk/**/*.ts\"",
     "yki:clerk:test:cypress:open": "TZ=Europe/Helsinki yarn g:cypress open --config baseUrl=http://localhost:4004",
     "yki:test:jest": "yarn g:jest",
     "yki:tslint": "yarn g:tsc --pretty --noEmit"

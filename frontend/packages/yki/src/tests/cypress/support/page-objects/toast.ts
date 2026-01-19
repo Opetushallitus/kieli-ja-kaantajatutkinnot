@@ -12,6 +12,10 @@ class Toast {
   expectText(text: string) {
     this.elements.toastNotification().should('contain.text', text);
   }
+
+  expectNotExist() {
+    this.elements.toastNotification().should('not.exist');
+  }
 }
 
 export const onToast = new Toast();

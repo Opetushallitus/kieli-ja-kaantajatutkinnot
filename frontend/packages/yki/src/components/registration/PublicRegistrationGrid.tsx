@@ -15,6 +15,7 @@ import { PublicRegistrationControlButtons } from 'components/registration/Public
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
 import { PublicRegistrationStepContents } from 'components/registration/PublicRegistrationStepContents';
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
+import { MemoizedPublicRegistrationTimer } from 'components/registration/PublicRegistrationTimer';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PaymentStatus } from 'enums/api';
@@ -23,6 +24,7 @@ import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
 import { loadExamSession } from 'redux/reducers/examSession';
 import { examSessionSelector } from 'redux/selectors/examSession';
+import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 
 const RegistrationForm = () => {
@@ -154,6 +156,7 @@ const Heading = () => {
     useAppSelector(registrationSelector).initRegistration;
   const { status: submitFormStatus } =
     useAppSelector(registrationSelector).submitRegistration;
+  const { isFree } = useAppSelector(publicFreeRegistrationSelector);
   const [params] = useSearchParams();
   const paymentStatus = params.get('status') as PaymentStatus;
 
@@ -176,6 +179,11 @@ const Heading = () => {
     initRegistrationError
   ) {
     return t(`unavailable.${initRegistrationError}.title`);
+  } else if (
+    activeStep === PublicRegistrationFormStep.Done &&
+    isFree === 'YES'
+  ) {
+    return t('steps.payment.success.heading');
   } else {
     switch (paymentStatus) {
       case PaymentStatus.Success:
@@ -190,10 +198,12 @@ const Heading = () => {
 
 export const PublicRegistrationGrid = () => {
   const { status: examSessionStatus } = useAppSelector(examSessionSelector);
+  const { activeStep } = useAppSelector(registrationSelector);
+  const { status: initRegistrationStatus, expiresIn } =
+    useAppSelector(registrationSelector).initRegistration;
+
   const stepHeading = <Heading />;
-
   const isLoading = examSessionStatus === APIResponseStatus.InProgress;
-
   const { isPhone } = useWindowProperties();
 
   return (
@@ -208,8 +218,18 @@ export const PublicRegistrationGrid = () => {
           <div className="rows gapped-xxl">
             <PublicRegistrationStepper />
             <div className="rows public-registration__grid__heading">
-              <H1>{stepHeading}</H1>
-              <HeaderSeparator />
+              <div className="rows">
+                <div className="columns space-between align-items-start">
+                  <H1>{stepHeading}</H1>
+                  {!isPhone &&
+                    initRegistrationStatus === APIResponseStatus.Success &&
+                    expiresIn &&
+                    activeStep === PublicRegistrationFormStep.Register && (
+                      <MemoizedPublicRegistrationTimer expiresIn={expiresIn} />
+                    )}
+                </div>
+                <HeaderSeparator />
+              </div>
             </div>
           </div>
           <Paper elevation={isPhone ? 0 : 3}>

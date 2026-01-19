@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.thymeleaf.context.Context;
@@ -26,6 +27,7 @@ import org.thymeleaf.templateresolver.StringTemplateResolver;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test-hsql")
 class IndexControllerIntegrationTest {
 
   private static String expectedIndexHtml;

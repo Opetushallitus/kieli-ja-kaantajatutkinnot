@@ -1,0 +1,15 @@
+package fi.oph.yki.model.type;
+
+public enum RegistrationState {
+  COMPLETED,
+  SUBMITTED,
+  STARTED,
+  EXPIRED,
+  CANCELLED,
+  PAID_AND_CANCELLED,
+}
+// PENDING,
+// APPROVED,
+// REJECTED,
+// INFORMATION_REQUESTED,
+// INFORMATION_REQUEST_ANSWERED,

@@ -11,6 +11,7 @@ import { PaymentStatus } from 'enums/api';
 import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { examSessionSelector } from 'redux/selectors/examSession';
+import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 
 export const PublicRegistrationStepper = () => {
@@ -18,6 +19,7 @@ export const PublicRegistrationStepper = () => {
   const { examSession } = useAppSelector(examSessionSelector);
   const { status: initRegistrationStatus, error: initRegistrationError } =
     useAppSelector(registrationSelector).initRegistration;
+  const { isFree } = useAppSelector(publicFreeRegistrationSelector);
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.stepper',
   });
@@ -30,7 +32,8 @@ export const PublicRegistrationStepper = () => {
 
   const isError =
     (activeStep === PublicRegistrationFormStep.Done &&
-      paymentStatus !== PaymentStatus.Success) ||
+      paymentStatus !== PaymentStatus.Success &&
+      isFree !== 'YES') ||
     (activeStep === PublicRegistrationFormStep.Register &&
       initRegistrationStatus === APIResponseStatus.Error) ||
     (activeStep === PublicRegistrationFormStep.Identify &&

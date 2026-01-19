@@ -1,6 +1,7 @@
 package fi.oph.akr.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -32,6 +33,9 @@ public class OnrOperationApiTest {
 
   @Value("classpath:json/onr-person-3.json")
   private org.springframework.core.io.Resource onrMockResponse;
+
+  @Value("classpath:json/onr-person-list.json")
+  private org.springframework.core.io.Resource onrMockListResponse;
 
   @Value("classpath:json/onr-request-payload.json")
   private org.springframework.core.io.Resource onrMockRequest;
@@ -83,6 +87,8 @@ public class OnrOperationApiTest {
       .lastName("Suku")
       .firstName("Etu")
       .nickName("Etu")
+      .isPassive(false)
+      .isDuplicate(false)
       .address(
         List.of(
           Factory.createAddress(
@@ -117,6 +123,30 @@ public class OnrOperationApiTest {
       .build();
 
     onrOperationApi.updatePersonalData(personalData);
+  }
+
+  @Test
+  public void shouldFetchOnrPersonalData() throws Exception {
+    final CasClient casClient = mock(CasClient.class);
+    final OnrOperationApiImpl onrOperationApi = new OnrOperationApiImpl(casClient, "http://localhost");
+    when(casClient.executeBlocking(any()))
+      .thenAnswer(invocation -> {
+        final Request request = invocation.getArgument(0, Request.class);
+        final Response response = mock(Response.class);
+        final String mockJson = request.getUrl().equals("http://localhost/henkilo/henkilotByHenkiloOidList")
+          ? new String(onrMockListResponse.getInputStream().readAllBytes())
+          : "";
+        when(response.getStatusCode()).thenReturn(HttpStatus.OK.value());
+        when(response.getResponseBody()).thenReturn(mockJson);
+
+        return response;
+      });
+
+    final Map<String, PersonalData> personalDatas = onrOperationApi.fetchPersonalDatas(
+      List.of("1.2.246.562.24.17957554663")
+    );
+
+    assertTrue(personalDatas.get("1.2.246.562.24.17957554663").isDeceased());
   }
 
   private static void assertDetailsGroupsEquals(

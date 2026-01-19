@@ -11,7 +11,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       oid: '1.2.246.562.10.39706139511',
     },
     status: 'PENDING',
-    freeRegistrationBasis: 'HIGHER_EDUCATION_DEGREE',
+    freeRegistrationBasis: 'HigherEducationConcluded',
     freeRegistrationsLeft: 0,
     examSession: {
       id: 1,
@@ -19,7 +19,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       level: ExamLevel.KESKI,
       examDate: '2025-11-21T00:00:00.000Z',
     },
-    languageOfCommunication: 'fi',
+    languageOfService: 'fi',
     registration: {
       kind: 'ADMISSION',
     },
@@ -31,7 +31,29 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [
+      {
+        id: 1,
+        text: 'Olet toimittanut tutkintotodistuksen, mutta se on swahilin kielellä. Toimittaisitko tutkintotodistuksen käännöksen joko suomeksi, ruotsiksi tai englanniksi.',
+        createdAt: '2024-10-10T00:00:00.000Z',
+        createdBy: 'Ville Virkailija',
+        type: 'SUPPLEMENT_REQUEST',
+      },
+      {
+        id: 2,
+        text: 'Pyydetään ilmoittautujalta käännöstä todistukseen.',
+        createdAt: '2024-10-10T00:00:00.000Z',
+        createdBy: 'Kalle Virkailija',
+        type: 'COMMENT',
+      },
+      {
+        id: 3,
+        text: 'Tarkistettu että ei ole oikeaa käännöstä tässä.',
+        createdAt: '2024-10-10T00:00:00.000Z',
+        createdBy: 'Ville Virkailija',
+        type: 'COMMENT',
+      },
+    ],
   },
   {
     id: 2,
@@ -41,8 +63,8 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139522',
     },
-    status: 'PENDING',
-    freeRegistrationBasis: 'HIGHER_EDUCATION_STUDIES',
+    status: 'SUPPLEMENT_REQUEST_EXPIRED',
+    freeRegistrationBasis: 'HigherEducationConcluded',
     freeRegistrationsLeft: 0,
     examSession: {
       id: 1,
@@ -50,7 +72,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       level: ExamLevel.KESKI,
       examDate: '2025-11-22T00:00:00.000Z',
     },
-    languageOfCommunication: 'en',
+    languageOfService: 'en',
     registration: {
       kind: 'ADMISSION',
     },
@@ -62,7 +84,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
   {
     id: 3,
@@ -73,7 +95,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       oid: '1.2.246.562.10.39706139533',
     },
     status: 'APPROVED',
-    freeRegistrationBasis: 'MATRICULATION_EXAMINATION',
+    freeRegistrationBasis: 'MatriculationExam',
     freeRegistrationsLeft: 0,
     assessmentDate: '2025-11-10T00:00:00.000Z',
     examSession: {
@@ -82,7 +104,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       level: ExamLevel.KESKI,
       examDate: '2025-11-23T00:00:00.000Z',
     },
-    languageOfCommunication: 'en',
+    languageOfService: 'en',
     registration: {
       kind: 'QUEUE',
       positionInQueue: 5,
@@ -96,7 +118,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
   {
     id: 4,
@@ -107,7 +129,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       oid: '1.2.246.562.10.39706139544',
     },
     status: 'REJECTED',
-    freeRegistrationBasis: 'COMPARABLE_MATRICULATION_EXAMINATION',
+    freeRegistrationBasis: 'ComparableMatriculation',
     freeRegistrationsLeft: 0,
     assessmentDate: '2025-11-10T00:00:00.000Z',
     examSession: {
@@ -116,7 +138,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       level: ExamLevel.KESKI,
       examDate: '2025-11-22T00:00:00.000Z',
     },
-    languageOfCommunication: 'en',
+    languageOfService: 'en',
     registration: {
       kind: 'QUEUE',
       positionInQueue: 1,
@@ -130,7 +152,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
   {
     id: 5,
@@ -140,8 +162,8 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139555',
     },
-    status: 'INFORMATION_REQUESTED',
-    freeRegistrationBasis: 'COMPARABLE_HIGHER_EDUCATION_STUDIES',
+    status: 'SUPPLEMENT_REQUESTED',
+    freeRegistrationBasis: 'ComparableHigherEducationEnrolled',
     freeRegistrationsLeft: 0,
     supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
     examSession: {
@@ -150,7 +172,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       level: ExamLevel.KESKI,
       examDate: '2025-11-22T00:00:00.000Z',
     },
-    languageOfCommunication: 'en',
+    languageOfService: 'en',
     registration: {
       kind: 'ADMISSION',
     },
@@ -162,7 +184,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
   {
     id: 6,
@@ -172,8 +194,8 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139555',
     },
-    status: 'INFORMATION_REQUEST_ANSWERED',
-    freeRegistrationBasis: 'COMPARABLE_HIGHER_EDUCATION_STUDIES',
+    status: 'SUPPLEMENT_REQUEST_ANSWERED',
+    freeRegistrationBasis: 'ComparableHigherEducationEnrolled',
     freeRegistrationsLeft: 0,
     supplementRequestDueDate: '2025-11-11T00:00:00.000Z',
     examSession: {
@@ -182,7 +204,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       level: ExamLevel.KESKI,
       examDate: '2025-11-24T00:00:00.000Z',
     },
-    languageOfCommunication: 'en',
+    languageOfService: 'en',
     registration: {
       kind: 'ADMISSION',
     },
@@ -194,7 +216,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
   {
     id: 7,
@@ -204,8 +226,8 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       socialSecurityNumber: '112233-9999',
       oid: '1.2.246.562.10.39706139511',
     },
-    status: 'PENDING',
-    freeRegistrationBasis: 'HIGHER_EDUCATION_DEGREE',
+    status: 'SUPPLEMENT_REQUEST_EXPIRED',
+    freeRegistrationBasis: 'HigherEducationConcluded',
     freeRegistrationsLeft: 0,
     examSession: {
       id: 1,
@@ -213,7 +235,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       level: ExamLevel.KESKI,
       examDate: '2025-11-25T00:00:00.000Z',
     },
-    languageOfCommunication: 'fi',
+    languageOfService: 'fi',
     registration: {
       kind: 'ADMISSION',
     },
@@ -225,7 +247,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
   {
     id: 8,
@@ -236,7 +258,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       oid: '1.2.246.562.10.39706139511',
     },
     status: 'PENDING',
-    freeRegistrationBasis: 'HIGHER_EDUCATION_DEGREE',
+    freeRegistrationBasis: 'HigherEducationConcluded',
     freeRegistrationsLeft: 0,
     examSession: {
       id: 1,
@@ -244,7 +266,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       level: ExamLevel.KESKI,
       examDate: '2025-11-26T00:00:00.000Z',
     },
-    languageOfCommunication: 'fi',
+    languageOfService: 'fi',
     registration: {
       kind: 'ADMISSION',
     },
@@ -256,7 +278,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
   {
     id: 9,
@@ -267,7 +289,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       oid: '1.2.246.562.10.39706139511',
     },
     status: 'PENDING',
-    freeRegistrationBasis: 'HIGHER_EDUCATION_DEGREE',
+    freeRegistrationBasis: 'HigherEducationConcluded',
     freeRegistrationsLeft: 0,
     examSession: {
       id: 1,
@@ -275,7 +297,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       level: ExamLevel.KESKI,
       examDate: '2025-11-27T00:00:00.000Z',
     },
-    languageOfCommunication: 'fi',
+    languageOfService: 'fi',
     registration: {
       kind: 'ADMISSION',
     },
@@ -287,7 +309,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
   {
     id: 10,
@@ -298,7 +320,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       oid: '1.2.246.562.10.39706139511',
     },
     status: 'PENDING',
-    freeRegistrationBasis: 'HIGHER_EDUCATION_DEGREE',
+    freeRegistrationBasis: 'HigherEducationConcluded',
     freeRegistrationsLeft: 0,
     examSession: {
       id: 1,
@@ -306,7 +328,7 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
       level: ExamLevel.KESKI,
       examDate: '2025-11-22T00:00:00.000Z',
     },
-    languageOfCommunication: 'fi',
+    languageOfService: 'fi',
     registration: {
       kind: 'ADMISSION',
     },
@@ -318,6 +340,6 @@ export const freeRegistrationDetails: ClerkFreeRegistrationDetailsResponse[] = [
         submittedAt: '2024-10-10T00:00:00.000Z',
       },
     ],
-    comments: [],
+    messages: [],
   },
 ];

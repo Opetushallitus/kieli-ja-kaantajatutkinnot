@@ -1,6 +1,7 @@
 import {
   BlockFlipped,
   CheckCircle,
+  ErrorOutline,
   HourglassBottom,
 } from '@mui/icons-material';
 import { Box } from '@mui/system';
@@ -20,10 +21,14 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import {
   ClerkFreeRegistration,
+  ClerkFreeRegistrationSort,
   FreeRegistrationStatus,
 } from 'interfaces/clerkFreeRegistration';
 import { H2, Text } from 'ophTheme/Text';
-import { loadClerkFreeRegistrations } from 'redux/reducers/clerkFreeRegistration';
+import {
+  loadClerkFreeRegistrations,
+  setFreeRegistrationsSort,
+} from 'redux/reducers/clerkFreeRegistration';
 import {
   clerkFreeRegistrationSelector,
   selectFilteredFreeRegistrations,
@@ -44,31 +49,31 @@ export const ClerkFreeRegistrationListing = ({
   setPageSize,
   activeTab,
 }: ClerkRegisterListingProps) => {
-  const { status } = useAppSelector(clerkFreeRegistrationSelector);
+  const { status, freeRegistrationsSort } = useAppSelector(
+    clerkFreeRegistrationSelector,
+  );
   const dispatch = useAppDispatch();
   const filteredFreeRegistrations = useAppSelector(
     selectFilteredFreeRegistrations,
   );
-
-  const rows = filteredFreeRegistrations.filter((registration) =>
-    activeTab === 'pending'
-      ? [
-          'PENDING',
-          'INFORMATION_REQUESTED',
-          'INFORMATION_REQUEST_ANSWERED',
-        ].includes(registration.status)
-      : ['APPROVED', 'REJECTED'].includes(registration.status),
-  );
-
-  const pagination = {
-    page,
-    setPage,
-    pageSize,
-  };
-
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkFreeRegistration',
   });
+  const commonTranslation = useCommonTranslation();
+
+  const isPendingReqistation = (status: FreeRegistrationStatus) =>
+    [
+      'PENDING',
+      'SUPPLEMENT_REQUESTED',
+      'SUPPLEMENT_REQUEST_ANSWERED',
+      'SUPPLEMENT_REQUEST_EXPIRED',
+    ].includes(status);
+
+  const rows = filteredFreeRegistrations.filter((registration) =>
+    activeTab === 'pending'
+      ? isPendingReqistation(registration.status)
+      : !isPendingReqistation(registration.status),
+  );
 
   const renderStatusColumn = (status: FreeRegistrationStatus) => {
     switch (status) {
@@ -86,7 +91,7 @@ export const ClerkFreeRegistrationListing = ({
             <Text className="bold">{t(`status.${status}.part1`)}</Text>
           </div>
         );
-      case 'INFORMATION_REQUESTED':
+      case 'SUPPLEMENT_REQUESTED':
         return (
           <div className="columns gapped-xxs align-items-start">
             <HourglassBottom color="success" fontSize="large" />
@@ -96,10 +101,20 @@ export const ClerkFreeRegistrationListing = ({
             </div>
           </div>
         );
-      case 'INFORMATION_REQUEST_ANSWERED':
+      case 'SUPPLEMENT_REQUEST_ANSWERED':
         return (
           <div className="columns gapped-xxs align-items-start">
             <ClockIcon color="error" fontSize="large" />
+            <div className="rows gapped-xxs">
+              <Text className="bold">{t(`status.${status}.part1`)}</Text>
+              <Text>{t(`status.${status}.part2`)}</Text>
+            </div>
+          </div>
+        );
+      case 'SUPPLEMENT_REQUEST_EXPIRED':
+        return (
+          <div className="columns gapped-xxs align-items-start">
+            <ErrorOutline color="error" fontSize="large" />
             <div className="rows gapped-xxs">
               <Text className="bold">{t(`status.${status}.part1`)}</Text>
               <Text>{t(`status.${status}.part2`)}</Text>
@@ -118,13 +133,12 @@ export const ClerkFreeRegistrationListing = ({
     }
   };
 
-  const commonTranslation = useCommonTranslation();
-
   const createPersonColumn = (
     t: typeof i18next.t,
   ): ListTableColumn<ClerkFreeRegistration> => ({
     key: 'person',
     title: t('listing.header.person'),
+    sortable: true,
     render: (rowProps) => (
       <div className="rows gapped-xs">
         <Text>{`${rowProps.person.firstName} ${rowProps.person.lastName}`}</Text>
@@ -139,6 +153,7 @@ export const ClerkFreeRegistrationListing = ({
   ): ListTableColumn<ClerkFreeRegistration> => ({
     key: 'status',
     title: t('listing.header.status'),
+    sortable: true,
     render: (rowProps) => renderStatusColumn(rowProps.status),
   });
 
@@ -147,6 +162,7 @@ export const ClerkFreeRegistrationListing = ({
   ): ListTableColumn<ClerkFreeRegistration> => ({
     key: 'supplementRequestDueDate',
     title: t('listing.header.supplementRequestDueDate'),
+    sortable: true,
     render: (rowProps) => (
       <Text>
         {rowProps.supplementRequestDueDate
@@ -161,6 +177,7 @@ export const ClerkFreeRegistrationListing = ({
   ): ListTableColumn<ClerkFreeRegistration> => ({
     key: 'assessmentDate',
     title: t('listing.header.assessmentDate'),
+    sortable: true,
     render: (rowProps) => (
       <Text>
         {rowProps.assessmentDate
@@ -175,6 +192,7 @@ export const ClerkFreeRegistrationListing = ({
   ): ListTableColumn<ClerkFreeRegistration> => ({
     key: 'examDate',
     title: t('listing.header.examDate'),
+    sortable: true,
     render: (rowProps) => (
       <Text>{DateUtils.formatOptionalDate(rowProps.examDate, 'l')}</Text>
     ),
@@ -185,6 +203,7 @@ export const ClerkFreeRegistrationListing = ({
   ): ListTableColumn<ClerkFreeRegistration> => ({
     key: 'registration',
     title: t('listing.header.registration'),
+    sortable: true,
     render: (rowProps) => (
       <Text>
         {rowProps.registration.kind === 'ADMISSION'
@@ -264,7 +283,13 @@ export const ClerkFreeRegistrationListing = ({
             rowKeyProp="id"
             columns={columns}
             translateHeader={false}
-            pagination={pagination}
+            pagination={{ page, setPage, pageSize }}
+            sort={freeRegistrationsSort}
+            setSort={(sort: string) =>
+              dispatch(
+                setFreeRegistrationsSort(sort as ClerkFreeRegistrationSort),
+              )
+            }
           />
         </>
       );

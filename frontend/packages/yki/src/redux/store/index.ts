@@ -3,6 +3,8 @@ import { combineReducers, configureStore, Tuple } from '@reduxjs/toolkit';
 
 import { RootState } from 'configs/redux';
 import { APIErrorReducer } from 'redux/reducers/APIError';
+import { clerkCustomerDetailsReducer } from 'redux/reducers/clerkCustomerDetails';
+import { clerkCustomersSearchReducer } from 'redux/reducers/clerkCustomersSearch';
 import { clerkFreeRegistrationReducer } from 'redux/reducers/clerkFreeRegistration';
 import { clerkFreeRegistrationDetailsReducer } from 'redux/reducers/clerkFreeRegistrationDetails';
 import { clerkOrganizersReducer } from 'redux/reducers/clerkOrganizer';
@@ -14,10 +16,11 @@ import { examSessionsReducer } from 'redux/reducers/examSessions';
 import { loginLinkReducer } from 'redux/reducers/loginLink';
 import { loginLinkRenewReducer } from 'redux/reducers/loginLinkRenew';
 import { nationalitiesReducer } from 'redux/reducers/nationalities';
+import { publicEducationReducer } from 'redux/reducers/publicEducation';
+import { publicFreeRegistrationReducer } from 'redux/reducers/publicFreeRegistration';
 import { publicIdentificationReducer } from 'redux/reducers/publicIdentification';
 import { registrationReducer } from 'redux/reducers/registration';
 import { sessionReducer } from 'redux/reducers/session';
-import { transferRegistrationReducer } from 'redux/reducers/transferRegistration';
 import { userDetailsReducer } from 'redux/reducers/userDetails';
 import { userOpenRegistrationsReducer } from 'redux/reducers/userOpenRegistrations';
 import rootSaga from 'redux/sagas/index';
@@ -37,12 +40,15 @@ export const rootReducer = combineReducers({
   publicIdentification: publicIdentificationReducer,
   registration: registrationReducer,
   session: sessionReducer,
-  transferRegistration: transferRegistrationReducer,
   userOpenRegistrations: userOpenRegistrationsReducer,
   userDetails: userDetailsReducer,
   clerkOrganizer: clerkOrganizersReducer,
   clerkFreeRegistration: clerkFreeRegistrationReducer,
   clerkFreeRegistrationDetails: clerkFreeRegistrationDetailsReducer,
+  clerkCustomerDetails: clerkCustomerDetailsReducer,
+  clerkCustomersSearch: clerkCustomersSearchReducer,
+  publicEducation: publicEducationReducer,
+  publicFreeRegistration: publicFreeRegistrationReducer,
 });
 
 export const setupStore = (preloadedState?: Partial<RootState>) => {

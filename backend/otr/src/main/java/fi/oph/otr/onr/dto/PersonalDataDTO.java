@@ -29,6 +29,12 @@ public class PersonalDataDTO {
   @JsonProperty("yksiloityVTJ")
   private Boolean individualised;
 
+  @JsonProperty("passivoitu")
+  private Boolean isPassive;
+
+  @JsonProperty("duplicate")
+  private Boolean isDuplicate;
+
   @JsonProperty("yhteystiedotRyhma")
   private List<ContactDetailsGroupDTO> contactDetailsGroups;
 }

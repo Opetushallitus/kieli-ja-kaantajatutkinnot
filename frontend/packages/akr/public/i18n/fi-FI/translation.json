@@ -30,7 +30,8 @@
           "effective": "Auktorisoidut",
           "expiredDeduplicated": "Umpeutuneet",
           "expiring": "Umpeutuvat",
-          "formerVir": "VIR 2008"
+          "formerVir": "VIR 2008",
+          "deceased": "Passivoidut"
         },
         "emailState": {
           "placeholder": "Sähköpostiosoite",

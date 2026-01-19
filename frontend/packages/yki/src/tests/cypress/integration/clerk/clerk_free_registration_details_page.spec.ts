@@ -38,7 +38,7 @@ describe('ClerkFreeRegistrationDetailsPage', () => {
     onClerkFreeRegistrationDetailsPage.expectCorrectActionButtonsVisible(id);
   });
 
-  it('shows details correctly for INFORMATION_REQUESTED free registration ', () => {
+  it('shows details correctly for SUPPLEMENT_REQUESTED free registration ', () => {
     const id = 5;
     cy.openClerkFreeRegistrationDetailsPage(id);
     onClerkFreeRegistrationDetailsPage.expectDetailsVisible(id);
@@ -46,8 +46,16 @@ describe('ClerkFreeRegistrationDetailsPage', () => {
     onClerkFreeRegistrationDetailsPage.expectCorrectActionButtonsVisible(id);
   });
 
-  it('shows details correctly for INFORMATION_REQUEST_ANSWERED free registration ', () => {
+  it('shows details correctly for SUPPLEMENT_REQUEST_ANSWERED free registration ', () => {
     const id = 6;
+    cy.openClerkFreeRegistrationDetailsPage(id);
+    onClerkFreeRegistrationDetailsPage.expectDetailsVisible(id);
+    onClerkFreeRegistrationDetailsPage.expectAttachmentsVisible(id);
+    onClerkFreeRegistrationDetailsPage.expectCorrectActionButtonsVisible(id);
+  });
+
+  it('shows details correctly for SUPPLEMENT_REQUEST_EXPIRED free registration ', () => {
+    const id = 7;
     cy.openClerkFreeRegistrationDetailsPage(id);
     onClerkFreeRegistrationDetailsPage.expectDetailsVisible(id);
     onClerkFreeRegistrationDetailsPage.expectAttachmentsVisible(id);
@@ -84,5 +92,41 @@ describe('ClerkFreeRegistrationDetailsPage', () => {
     cy.findByRole('button', { name: 'Hylkää maksuttomuus' }).click();
 
     onToast.expectText('Maksuttomuuden hylkääminen onnistui');
+  });
+
+  it('sends supplement request via modal from details page', () => {
+    const id = 1;
+    cy.openClerkFreeRegistrationDetailsPage(id);
+    cy.findByRole('button', { name: 'Lähetä lisätietopyyntö' }).click();
+    onClerkFreeRegistrationDetailsPage.FillOutSupplementRequest({
+      message: 'Where info?',
+    });
+    cy.findByRole('button', { name: 'Lähetä lisätietopyyntö' }).click();
+    onToast.expectText('Lisätietopyyntö lähetetty');
+  });
+
+  it('shows success toast on confirmed comment', () => {
+    const id = 1;
+    cy.openClerkFreeRegistrationDetailsPage(id);
+    onClerkFreeRegistrationDetailsPage.addComment('Testi kommentti');
+    onToast.expectText('Kommentin lisääminen onnistui');
+  });
+
+  it('shows error toast and preserves comment field text on rejected comment', () => {
+    const id = 1;
+    cy.openClerkFreeRegistrationDetailsPage(id, {
+      error: '1',
+    });
+    onClerkFreeRegistrationDetailsPage.addComment('Testi kommentti');
+    onToast.expectText('Kommentin lisääminen epäonnistui');
+  });
+
+  it('should not allow making an empty comment', () => {
+    const id = 1;
+    cy.openClerkFreeRegistrationDetailsPage(id, {
+      error: '1',
+    });
+    onClerkFreeRegistrationDetailsPage.addComment('');
+    onToast.expectNotExist();
   });
 });

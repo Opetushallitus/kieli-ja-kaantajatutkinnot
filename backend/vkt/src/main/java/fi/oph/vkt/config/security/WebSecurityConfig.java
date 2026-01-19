@@ -62,9 +62,7 @@ public class WebSecurityConfig {
   @Bean
   public CasAuthenticationProvider casAuthenticationProvider() {
     final CasAuthenticationProvider casAuthenticationProvider = new CasAuthenticationProvider();
-    final String host = environment.getRequiredProperty("host.alb");
-
-    casAuthenticationProvider.setUserDetailsService(new OphUserDetailsServiceImpl(host, Constants.CALLER_ID));
+    casAuthenticationProvider.setAuthenticationUserDetailsService(new OphUserDetailsServiceImpl());
 
     casAuthenticationProvider.setServiceProperties(serviceProperties());
     casAuthenticationProvider.setTicketValidator(ticketValidator());

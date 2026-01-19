@@ -2,15 +2,20 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkOrganizer } from 'interfaces/clerkOrganizer';
+import { ClerkOrganizerRegistry } from 'interfaces/clerkOrganizerRegistry';
 
 interface ClerkOrganizerState {
   organizers: Array<ClerkOrganizer>;
+  organizerRegistry: Array<ClerkOrganizerRegistry>;
   status: APIResponseStatus;
+  organizerRegistryStatus?: APIResponseStatus;
 }
 
 const initialState: ClerkOrganizerState = {
   organizers: [],
+  organizerRegistry: [],
   status: APIResponseStatus.NotStarted,
+  organizerRegistryStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkOrganizersSlice = createSlice({
@@ -27,6 +32,16 @@ const clerkOrganizersSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.organizers = action.payload;
     },
+    loadClerkOrganizerRegistry(state) {
+      state.organizerRegistryStatus = APIResponseStatus.InProgress;
+    },
+    storeClerkOrganizerRegistry(
+      state,
+      action: PayloadAction<Array<ClerkOrganizerRegistry>>,
+    ) {
+      state.organizerRegistryStatus = APIResponseStatus.Success;
+      state.organizerRegistry = action.payload;
+    },
   },
 });
 
@@ -35,4 +50,6 @@ export const {
   loadClerkOrganizers,
   rejectClerkOrganizers,
   storeClerkOrganizers,
+  loadClerkOrganizerRegistry,
+  storeClerkOrganizerRegistry,
 } = clerkOrganizersSlice.actions;
