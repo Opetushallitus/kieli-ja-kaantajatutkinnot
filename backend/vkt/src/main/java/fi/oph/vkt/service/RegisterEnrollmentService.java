@@ -78,7 +78,12 @@ public class RegisterEnrollmentService {
       final String examinerOid;
       final String examMunicipality;
       Map<String, GradeDTO> grades = new HashMap<>();
+
       if (enrollment instanceof Enrollment) {
+        // TODO: remove me after successful test run
+        if (((Enrollment) enrollment).getId() != 134L) {
+          return;
+        }
         final ExamEvent examEvent = ((Enrollment) enrollment).getExamEvent();
         examDate = DateUtil.formatOptionalDate(examEvent.getDate());
         language = examEvent.getLanguage().toString();
@@ -87,6 +92,10 @@ public class RegisterEnrollmentService {
         examinerOid = null;
         examMunicipality = null;
       } else {
+        // TODO: remove me after successful test run
+        if (((EnrollmentAppointment) enrollment).getId() != 134L) {
+          return;
+        }
         final ExaminerExamEvent examEvent = ((EnrollmentAppointment) enrollment).getExaminerExamEvent();
         id = "HTT-" + ((EnrollmentAppointment) enrollment).getId();
         examDate = DateUtil.formatOptionalDate(examEvent.getDate());
