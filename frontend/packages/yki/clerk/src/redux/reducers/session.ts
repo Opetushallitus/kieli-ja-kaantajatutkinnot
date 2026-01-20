@@ -1,0 +1,44 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { APIResponseStatus } from 'shared/enums';
+
+import {
+  CasAuthenticatedClerkSession,
+  SessionResponse,
+} from 'interfaces/session';
+
+export interface SessionState {
+  status: APIResponseStatus;
+  loggedInSession?: CasAuthenticatedClerkSession;
+}
+
+const initialState: SessionState = {
+  status: APIResponseStatus.NotStarted,
+};
+
+const sessionSlice = createSlice({
+  name: 'session',
+  initialState,
+  reducers: {
+    acceptSession(state, action: PayloadAction<SessionResponse>) {
+      state.status = APIResponseStatus.Success;
+      if (!action.payload.identity) {
+        state.loggedInSession = undefined;
+      } else {
+        state.loggedInSession = action.payload;
+      }
+    },
+    loadSession(state) {
+      state.status = APIResponseStatus.InProgress;
+    },
+    rejectSession(state) {
+      state.status = APIResponseStatus.Error;
+    },
+    resetSession(_) {
+      return initialState;
+    },
+  },
+});
+
+export const sessionReducer = sessionSlice.reducer;
+export const { acceptSession, loadSession, rejectSession, resetSession } =
+  sessionSlice.actions;

@@ -23,7 +23,12 @@
     "g:webpack": "cd $INIT_CWD && webpack"
   },
   "workspaces": [
-    "packages/*"
+    "packages/akr",
+    "packages/otr",
+    "packages/vkt",
+    "packages/shared",
+    "packages/yki/clerk",
+    "packages/yki/public"
   ],
   "dependencies": {
     "@emotion/react": "^11.13.0",

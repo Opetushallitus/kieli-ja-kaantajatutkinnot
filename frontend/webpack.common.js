@@ -7,19 +7,26 @@ const CopyPlugin = require("copy-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const Dotenv = require('dotenv-webpack')
 
-module.exports = (appName, env, dirName, port, entryPage = "etusivu", ykiClerk = false
-) => {
-  const STATIC_PATH = ykiClerk
-    ? 'v2/static' // cloud-base path for new yki clerk is '/yki/v2'
-    : `${appName}/static`;
-  const CONTEXT_PATH = appName;
-
-  const getMode = () => ({ mode: env.prod ? "production" : "development" });
-  const getEntry = () => ({ entry: path.join(dirName, "src", "index.tsx") });
-  const getOutput = () => ({
-    output: {
-      filename: `${STATIC_PATH}/js/[name].[contenthash].js`,
-      path: path.join(
+const getOutputPath = (appName, dirName) => {
+  console.log('appName', appName)
+  console.log('dirName  ', dirName  )
+  console.log('pathname', path.join(dirName, "..", "..", "..", "..", "backend", appName, "src", "main", "resources", "static"))
+  if (dirName.includes('clerk') || dirName.includes('public')) {
+    return path.join(
+        dirName,
+        "..",
+        "..",
+        "..",
+        "..",
+        "backend",
+        appName,
+        "src",
+        "main",
+        "resources",
+        "static"
+      )
+  } else {
+  return path.join(
         dirName,
         "..",
         "..",
@@ -30,7 +37,24 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", ykiClerk =
         "main",
         "resources",
         "static"
-      ),
+      )
+  }
+}
+
+module.exports = (appName, env, dirName, port, entryPage = "etusivu"
+) => {
+    const STATIC_PATH = dirName.includes('clerk')
+    ? 'v2/static' // cloud-base path for new yki clerk is '/yki/v2'
+    : `${appName}/static`;
+    console.log('static path:', STATIC_PATH)
+  const CONTEXT_PATH = appName;
+
+  const getMode = () => ({ mode: env.prod ? "production" : "development" });
+  const getEntry = () => ({ entry: path.join(dirName, "src", "index.tsx") });
+  const getOutput = () => ({
+    output: {
+      filename: `${STATIC_PATH}/js/[name].[contenthash].js`,
+      path: getOutputPath(appName, dirName),
     },
   });
 

@@ -1,0 +1,60 @@
+import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
+import { PublicRegistrationInitResponse } from 'interfaces/publicRegistration';
+
+export const registrationInitResponse: PublicRegistrationInitResponse = {
+  exam_session: {
+    level_code: ExamLevel.PERUS,
+    language_code: ExamLanguage.ENG,
+    max_participants: 5,
+    participants: 2,
+    office_oid: '1.2.3.4.5',
+    registration_start_date: '2023-01-01',
+    registration_end_date: '2026-05-01',
+    session_date: '2026-06-01',
+    organizer_oid: '1.2.3.4',
+    open: true,
+    id: 1,
+    location: [
+      {
+        name: 'Omenia',
+        street_address: 'Upseerinkatu 11',
+        post_office: 'Espoo',
+        zip: '02110',
+        other_location_info: 'Other info',
+        lang: 'fi',
+      },
+      {
+        name: 'Omenia',
+        street_address: 'Upseerinkatu 11',
+        post_office: 'Espoo',
+        zip: '02110',
+        other_location_info: 'Other info',
+        lang: 'sv',
+      },
+      {
+        name: 'Omenia',
+        street_address: 'Upseerinkatu 11',
+        post_office: 'Espoo',
+        zip: '02110',
+        other_location_info: 'Other info',
+        lang: 'en',
+      },
+    ],
+    exam_fee: 153,
+    published_at: '',
+    available_registration_kind: RegistrationKind.Admission,
+  },
+  user: {
+    last_name: 'Parkkonen-Testi',
+    ssn: '260553-959D',
+    post_office: 'HELSINKI',
+    'external-user-id': '260553-959D',
+    street_address: 'Ateläniitynpolku 29 G',
+    first_name: 'Carl-Erik',
+    zip: '00100',
+    nationalities: ['246'],
+  },
+  registration_id: 1,
+  is_strongly_identified: true,
+  registration_kind: RegistrationKind.Admission,
+};
