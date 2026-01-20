@@ -1,29 +1,18 @@
-import dayjs from 'dayjs';
 import { http, HttpResponse, PathParams, StrictRequest } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
 import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationInitRequest } from 'interfaces/publicRegistration';
-import { customerDetails } from 'tests/msw/fixtures/customerDetails';
-import { allCustomers } from 'tests/msw/fixtures/customersSearch';
 import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
-import { findByOidsResponse } from 'tests/msw/fixtures/findByOids';
-import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
-import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import {
   //NoSessionResponse,
   SuomiFiAuthenticatedSessionResponse,
 } from 'tests/msw/fixtures/identity';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
-import { organizers } from 'tests/msw/fixtures/organizers';
 import { personDetails } from 'tests/msw/fixtures/personDetails';
 import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/registrationInit';
-
-interface FreeRegistrationRequest {
-  approved: boolean;
-}
 
 const data = {
   evaluationPeriods,
@@ -201,121 +190,6 @@ export const handlers = [
 
     return HttpResponse.redirect(redirect as string);
   }),
-  http.get(APIEndpoints.ClerkOrganizer, () => HttpResponse.json(organizers)),
-  http.put(
-    `${APIEndpoints.ClerkOrganizer}/:id`,
-    async ({ params, request }) => {
-      const organizerId = Number(params.id);
-      const updatedData = (await request.json()) as Record<string, unknown>;
-      const organizerIndex = organizers.findIndex((o) => o.id === organizerId);
-
-      if (organizerIndex !== -1) {
-        organizers[organizerIndex] = {
-          ...organizers[organizerIndex],
-          ...updatedData,
-        };
-
-        return HttpResponse.json(organizers[organizerIndex]);
-      } else {
-        return notFound();
-      }
-    },
-  ),
-  http.get(APIEndpoints.ClerkFreeRegistration, ({ cookies }) => {
-    if (cookies['free-registration-error-500'] === '1') {
-      return HttpResponse.json({ error: 'forced error' }, { status: 500 });
-    }
-
-    return HttpResponse.json(freeRegistrations);
-  }),
-  http.get(APIEndpoints.ClerkFreeRegistrationDetails, ({ params }) => {
-    const index = params?.id ? Number(params.id) - 1 : NaN;
-    if (index >= 0) {
-      return HttpResponse.json(freeRegistrationDetails[index]);
-    } else {
-      return notFound();
-    }
-  }),
-  http.put(
-    APIEndpoints.ClerkFreeRegistrationDetails,
-    async ({ params, request }) => {
-      const index = params?.id ? Number(params.id) - 1 : NaN;
-      const { approved } = (await request.json()) as FreeRegistrationRequest;
-      const response = freeRegistrationDetails[index];
-
-      if (index >= 0) {
-        return HttpResponse.json({
-          ...response,
-          status: approved ? 'APPROVED' : 'REJECTED',
-        });
-      } else {
-        return notFound();
-      }
-    },
-  ),
-  http.post(APIEndpoints.ClerkFreeRegistrationSupplementRequest, () => {
-    return HttpResponse.json({ success: true });
-  }),
-  http.post(
-    APIEndpoints.ClerkFreeRegistrationDetailsMessages,
-    ({ cookies }) => {
-      if (cookies['error'] === '1') {
-        return HttpResponse.json({ error: 'forced error' }, { status: 500 });
-      }
-
-      return HttpResponse.json({ success: true });
-    },
-  ),
-  http.get(APIEndpoints.ClerkCustomerDetails, ({ params }) => {
-    const oid = params?.oid as string | undefined;
-    const details = customerDetails.find((cd) => cd.person.oid === oid);
-    if (details) {
-      return HttpResponse.json(details);
-    } else {
-      return notFound();
-    }
-  }),
-
-  http.post(APIEndpoints.ClerkCustomersSearch, async ({ request }) => {
-    const url = new URL(request.url);
-    const getNumberParam = (urlParam: string, fallback: number) => {
-      const param = Number(url.searchParams.get(urlParam));
-
-      return Number.isFinite(param) && param >= 0 ? param : fallback;
-    };
-
-    const page = getNumberParam('page', 0);
-    const size = getNumberParam('size', 20);
-
-    // Emulating pagination
-    const filtered = allCustomers; // return every customer, for testing
-    const start = page * size;
-    const paged = filtered.slice(start, start + size);
-    const totalElements = filtered.length;
-    const totalPages = size > 0 ? Math.ceil(totalElements / size) : 0;
-    const sort = { empty: true, unsorted: true, sorted: false };
-
-    return HttpResponse.json({
-      content: paged,
-      pageable: {
-        sort,
-        offset: start,
-        pageNumber: page,
-        pageSize: size,
-        paged: true,
-        unpaged: false,
-      },
-      last: totalPages === 0 ? true : page >= totalPages - 1,
-      totalElements,
-      totalPages,
-      size,
-      number: page,
-      sort,
-      first: page === 0,
-      numberOfElements: paged.length,
-      empty: paged.length === 0,
-    });
-  }),
   http.get(APIEndpoints.PublicKoskiEducations, async () => {
     return HttpResponse.json({
       educations: [{ educationType: 'ylioppilastutkinto', isActive: true }],
@@ -325,24 +199,5 @@ export const handlers = [
   http.post(APIEndpoints.PublicFreeRegistrationEducation, () => {
     return HttpResponse.json({ id: 1337 }, { status: 201 });
   }),
-  http.post('/organisaatio-service/rest/organisaatio/v3/findbyoids', () => {
-    return HttpResponse.json(findByOidsResponse);
-  }),
 
-  http.get('/yki/api/clerk/organizer/:oid/exam-session', ({ params }) => {
-    const { from } = params;
-
-    const filteredExamSessions = from
-      ? examSessions.exam_sessions.filter((e) => {
-          return (
-            dayjs().isSame(dayjs(e.session_date), 'day') ||
-            dayjs().isAfter(dayjs(e.session_date), 'day')
-          );
-        })
-      : examSessions.exam_sessions;
-
-    return HttpResponse.json({ exam_sessions: filteredExamSessions });
-    // all exam dates
-    // return HttpResponse.json({ dates: examDates.dates });
-  }),
 ];

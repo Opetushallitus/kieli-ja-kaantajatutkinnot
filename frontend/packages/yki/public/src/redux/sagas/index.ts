@@ -1,10 +1,5 @@
 import { all } from 'redux-saga/effects';
 
-import { watchClerkCustomerDetails } from 'redux/sagas/clerkCustomerDetails';
-import { watchClerkCustomersSearch } from 'redux/sagas/clerkCustomersSearch';
-import { watchClerkFreeRegistrations } from 'redux/sagas/clerkFreeRegistration';
-import { watchClerkFreeRegistrationDetails } from 'redux/sagas/clerkFreeRegistrationDetails';
-import { watchClerkOrganizers } from 'redux/sagas/clerkOrganizer';
 import { watchConfirmRegistration } from 'redux/sagas/confirmRegistration';
 import { watchEvaluationOrder } from 'redux/sagas/evaluationOrder';
 import { watchEvaluationPeriods } from 'redux/sagas/evaluationPeriod';
@@ -33,11 +28,6 @@ export default function* rootSaga() {
     watchConfirmRegistration(),
     watchLoginLink(),
     watchLoginLinkRenew(),
-    watchClerkOrganizers(),
-    watchClerkFreeRegistrations(),
-    watchClerkFreeRegistrationDetails(),
-    watchClerkCustomerDetails(),
-    watchClerkCustomersSearch(),
     watchGetKoskiEducations(),
   ]);
 }

@@ -9,7 +9,6 @@
       "back": "Tillbaka",
       "backToHomePage": "Tillbaka till startsidan",
       "cancel": "Avbryt",
-      "clerk": "Administratör",
       "component": {
         "table": {
           "header": {
@@ -23,8 +22,7 @@
             "displayedRowsAriaLabel": "Visar {{from}}-{{to}} / {{count}} resultat",
             "displayedRowsLabel": "{{from}}-{{to}} / {{count}}",
             "nextButtonLabel": "Följande sökresultat",
-            "rowsPerPage": "Resultat per sida",
-            "clerkRowsPerPage": "Visar per sida"
+            "rowsPerPage": "Resultat per sida"
           }
         }
       },
@@ -144,7 +142,6 @@
       },
       "reassessment": "Kontrollbedömning",
       "registration": "Anmälan",
-      "clerkOrganizerRegister": "Järjestäjärekisteri",
       "freeRegistration": "Maksuttomuus",
       "customerSearch": "Asiakashaku",
       "registrationPeriod": "Anmälningstid",
@@ -156,7 +153,6 @@
         "link": "https://www.oph.fi/sv/allmanna-sprakexamina-yki"
       },
       "pageTitle": {
-        "clerk": "Administratör",
         "registration": "Anmälning",
         "initRegistration": "Anmälning",
         "examDetails": "Test",
@@ -172,9 +168,7 @@
         "modifyContactDetails": "Redigera kontaktuppgifterna",
         "confirmRegistration": "Bekräfta anmälan",
         "notFound": "Sidan hittades inte",
-        "expiredLoginLink": "Länken gäller inte längre",
-        "customerSearch": "Asiakashaku",
-        "customerDetails": "Asiakkaan tiedot"
+        "expiredLoginLink": "Länken gäller inte längre"
       },
       "previous": "Tidigare"
     }

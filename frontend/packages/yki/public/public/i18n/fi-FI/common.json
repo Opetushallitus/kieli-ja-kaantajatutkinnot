@@ -9,7 +9,6 @@
       "back": "Takaisin",
       "backToHomePage": "Takaisin aloitussivulle",
       "cancel": "Keskeytä",
-      "clerk": "Virkailija",
       "component": {
         "table": {
           "header": {
@@ -23,8 +22,7 @@
             "displayedRowsAriaLabel": "Näytetään {{from}}-{{to}} / {{count}} tulosta",
             "displayedRowsLabel": "{{from}}-{{to}} / {{count}}",
             "nextButtonLabel": "Seuraavat hakutulokset",
-            "rowsPerPage": "Tulokset per sivu",
-            "clerkRowsPerPage": "Näytä per sivu"
+            "rowsPerPage": "Tulokset per sivu"
           }
         }
       },
@@ -144,7 +142,6 @@
       },
       "reassessment": "Tarkistusarviointi",
       "registration": "Ilmoittautuminen",
-      "clerkOrganizerRegister": "Järjestäjärekisteri",
       "freeRegistration": "Maksuttomuus",
       "customerSearch": "Asiakashaku",
       "registrationPeriod": "Ilmoittautumisaika",
@@ -156,7 +153,6 @@
         "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki"
       },
       "pageTitle": {
-        "clerk": "Virkailija",
         "registration": "Ilmoittautuminen",
         "initRegistration": "Ilmoittautuminen",
         "examDetails": "Tutkinto",
@@ -172,9 +168,7 @@
         "modifyContactDetails": "Muokkaa yhteystietoja",
         "confirmRegistration": "Vahvista ilmoittautuminen",
         "notFound": "Etsimääsi sivua ei löytynyt",
-        "expiredLoginLink": "Linkki on vanhentunut",
-        "customerSearch": "Asiakashaku",
-        "customerDetails": "Asiakkaan tiedot"
+        "expiredLoginLink": "Linkki on vanhentunut"
       },
       "previous": "Edellinen"
     }

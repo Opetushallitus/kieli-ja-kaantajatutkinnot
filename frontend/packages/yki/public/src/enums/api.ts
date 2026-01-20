@@ -24,13 +24,6 @@ export enum APIEndpoints {
   ConfirmRegistration = '/yki/api/person/registration/:registrationId/confirm',
   RedirectToPayment = '/yki/api/payment/v3/:registrationId/redirect?lang=:lang',
   RedirectToPaymentFromUserPortal = '/yki/api/person/registration/:registrationId/payment-redirect?lang=:lang',
-  ClerkOrganizer = '/yki/v2/api/clerk/organizer',
-  ClerkFreeRegistration = '/yki/v2/api/clerk/registration/approvals',
-  ClerkFreeRegistrationDetails = '/yki/v2/api/clerk/registration/approval/:id',
-  ClerkFreeRegistrationSupplementRequest = '/yki/v2/api/clerk/registration/approval/:id/supplement-request',
-  ClerkFreeRegistrationDetailsMessages = '/yki/v2/api/clerk/registration/approval/:id/comment',
-  ClerkCustomerDetails = '/yki/v2/api/clerk/customer/:oid',
-  ClerkCustomersSearch = '/yki/v2/api/clerk/customer/search?page=:page&size=:size',
   PublicKoskiEducations = '/yki/api/public/education',
   PublicFreeRegistrationEducation = '/yki/api/public/education/:registrationId',
 }

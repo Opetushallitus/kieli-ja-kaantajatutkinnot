@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { APIResponseStatus } from 'shared/enums';
 
 import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
@@ -8,6 +7,7 @@ import { useAppSelector } from 'configs/redux';
 import { CustomerPerson } from 'interfaces/clerkCustomer';
 import { Label } from 'ophTheme/Text';
 import { loadNationalities } from 'redux/reducers/nationalities';
+import { nationalitiesSelector } from 'redux/selectors/nationalities';
 
 export const CustomerInformation = ({
   person,

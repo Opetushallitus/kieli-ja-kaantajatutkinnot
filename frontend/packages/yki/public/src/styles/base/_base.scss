@@ -58,25 +58,6 @@ body,
     }
   }
 
-  .clerk-content {
-    display: flex;
-    grid-area: content;
-
-    &__container {
-      display: flex;
-      flex-grow: 1;
-      justify-content: center;
-      padding: 2rem 4rem;
-
-      @include phone {
-        justify-content: unset;
-        margin: 0 auto;
-        padding: 0;
-        width: 100vw;
-      }
-    }
-  }
-
   .footer {
     grid-area: footer;
   }

@@ -1,6 +1,5 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ThemeProvider } from '@mui/material';
-import { OphThemeProvider } from '@opetushallitus/oph-design-system/theme';
 import { FC, useEffect } from 'react';
 import {
   createBrowserRouter,
@@ -19,21 +18,13 @@ import { theme } from 'shared/configs';
 import { APIResponseStatus, Variant } from 'shared/enums';
 import { TitlePage, TitlePageProps } from 'shared/utils';
 
-import { ClerkHeader } from 'components/layouts/clerkHeader/ClerkHeader';
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
-import { clerkTheme } from 'ophTheme/OphTheme';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
-import { ClerkCustomerDetailsPage } from 'pages/clerk/ClerkCustomerDetailsPage';
-import { ClerkCustomerSearchPage } from 'pages/clerk/ClerkCustomerSearchPage';
-import { ClerkFreeRegistrationDetailsPage } from 'pages/clerk/ClerkFreeRegistrationDetailsPage';
-import { ClerkFreeRegistrationPage } from 'pages/clerk/ClerkFreeRegistrationPage';
-import { ClerkHomePage } from 'pages/clerk/ClerkHomePage';
-import { ClerkOrganizerRegisterDetails } from 'pages/clerk/ClerkOrganizerRegisterDetails';
 import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
@@ -91,24 +82,6 @@ export const AppRouter: FC = () => {
     </div>
   );
 
-  const ClerkRoot = (
-    <div className="app">
-      <NotifierContextProvider>
-        <OphThemeProvider lang="fi" variant="oph" overrides={clerkTheme}>
-          <ClerkHeader />
-          <ErrorToast />
-          <Notifier />
-          <ScrollToTop />
-          <main className="clerk-content" id="main-content">
-            <div className="clerk-content__container">
-              <Outlet />
-            </div>
-          </main>
-        </OphThemeProvider>
-      </NotifierContextProvider>
-    </div>
-  );
-
   const YkiTitlePage = ({ title, children }: TitlePageProps) => (
     <TitlePage title={createTitle(title)} className="title-page">
       {children}
@@ -144,58 +117,7 @@ export const AppRouter: FC = () => {
   };
 
   const router = createBrowserRouter(
-    createRoutesFromElements(
-      <>
-        <Route path={AppRoutes.ClerkRoot} element={ClerkRoot}>
-          <Route
-            path={AppRoutes.ClerkOrganizerRegister}
-            element={
-              <YkiTitlePage title="clerk">
-                <ClerkHomePage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ClerkOrganizerRegisterDetails}
-            element={
-              <YkiTitlePage title="clerk">
-                <ClerkOrganizerRegisterDetails />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ClerkFreeRegistration}
-            element={
-              <YkiTitlePage title="clerk">
-                <ClerkFreeRegistrationPage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ClerkFreeRegistrationDetails}
-            element={
-              <YkiTitlePage title="clerk">
-                <ClerkFreeRegistrationDetailsPage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.CustomerSearch}
-            element={
-              <YkiTitlePage title="customerSearch">
-                <ClerkCustomerSearchPage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ClerkCustomerDetails}
-            element={
-              <YkiTitlePage title="customerDetails">
-                <ClerkCustomerDetailsPage />
-              </YkiTitlePage>
-            }
-          />
-        </Route>
+    createRoutesFromElements(      
         <Route path={AppRoutes.PublicRoot} element={Root}>
           <Route index={true} element={FrontPage} />
           <Route path={AppRoutes.Registration} element={FrontPage} />
@@ -322,7 +244,6 @@ export const AppRouter: FC = () => {
             }
           />
         </Route>
-      </>,
     ),
   );
 

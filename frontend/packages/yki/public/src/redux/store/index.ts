@@ -3,11 +3,6 @@ import { combineReducers, configureStore, Tuple } from '@reduxjs/toolkit';
 
 import { RootState } from 'configs/redux';
 import { APIErrorReducer } from 'redux/reducers/APIError';
-import { clerkCustomerDetailsReducer } from 'redux/reducers/clerkCustomerDetails';
-import { clerkCustomersSearchReducer } from 'redux/reducers/clerkCustomersSearch';
-import { clerkFreeRegistrationReducer } from 'redux/reducers/clerkFreeRegistration';
-import { clerkFreeRegistrationDetailsReducer } from 'redux/reducers/clerkFreeRegistrationDetails';
-import { clerkOrganizersReducer } from 'redux/reducers/clerkOrganizer';
 import { confirmRegistrationReducer } from 'redux/reducers/confirmRegistration';
 import { evaluationOrderReducer } from 'redux/reducers/evaluationOrder';
 import { evaluationPeriodsReducer } from 'redux/reducers/evaluationPeriods';
@@ -42,11 +37,6 @@ export const rootReducer = combineReducers({
   session: sessionReducer,
   userOpenRegistrations: userOpenRegistrationsReducer,
   userDetails: userDetailsReducer,
-  clerkOrganizer: clerkOrganizersReducer,
-  clerkFreeRegistration: clerkFreeRegistrationReducer,
-  clerkFreeRegistrationDetails: clerkFreeRegistrationDetailsReducer,
-  clerkCustomerDetails: clerkCustomerDetailsReducer,
-  clerkCustomersSearch: clerkCustomersSearchReducer,
   publicEducation: publicEducationReducer,
   publicFreeRegistration: publicFreeRegistrationReducer,
 });

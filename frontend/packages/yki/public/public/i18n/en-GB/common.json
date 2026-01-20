@@ -9,7 +9,6 @@
       "back": "Back",
       "backToHomePage": "Back to front page",
       "cancel": "Quit",
-      "clerk": "Clerk",
       "component": {
         "table": {
           "header": {
@@ -23,8 +22,7 @@
             "displayedRowsAriaLabel": "Showing {{from}}-{{to}} / {{count}} results",
             "displayedRowsLabel": "{{from}}-{{to}} / {{count}}",
             "nextButtonLabel": "Next search results",
-            "rowsPerPage": "Results per page",
-            "clerkRowsPerPage": "Show per page"
+            "rowsPerPage": "Results per page"
           }
         }
       },
@@ -144,7 +142,6 @@
       },
       "reassessment": "Reassessment",
       "registration": "Registration",
-      "clerkOrganizerRegister": "Järjestäjärekisteri",
       "freeRegistration": "Maksuttomuus",
       "customerSearch": "Asiakashaku",
       "registrationPeriod": "Registration period",
@@ -156,7 +153,6 @@
         "link": "https://www.oph.fi/en/national-certificates-language-proficiency-yki"
       },
       "pageTitle": {
-        "clerk": "Clerk",
         "registration": "Registration",
         "initRegistration": "Registration",
         "examDetails": "Test",
@@ -172,9 +168,7 @@
         "modifyContactDetails": "Edit contact information",
         "confirmRegistration": "Confirm registration",
         "notFound": "Page not found",
-        "expiredLoginLink": "The link has expired",
-        "customerSearch": "Asiakashaku",
-        "customerDetails": "Asiakkaan tiedot"
+        "expiredLoginLink": "The link has expired"
       },
       "previous": "Previous"
     }

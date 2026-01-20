@@ -4,12 +4,8 @@
 // Base
 @import 'base/base';
 
-// yki clerk colors
-@import 'colors/yki-clerk';
-
 // Components
 @import 'components/layouts/header';
-@import 'components/layouts/clerk-header';
 @import 'components/layouts/footer';
 @import 'components/layouts/session-header';
 @import 'components/registration/exam-session-filters';
@@ -20,8 +16,6 @@
 @import 'components/freeRegistration/free-registration';
 @import 'components/freeRegistrationListing/free-registration-listing';
 @import 'components/freeRegistrationDetails/free-registration-details';
-@import 'components/customerDetails/customer-exams-listing';
-@import 'components/clerkRegisterOrganizerDetails/clerk-register-organizer-details';
 @import 'components/modifyAgreementModal/modify-agreement-modal';
 
 // Pages
@@ -39,8 +33,3 @@
 @import 'pages/transfer-registration-page';
 @import 'pages/transfer-registration-success-page';
 @import 'pages/confirm-registration-page';
-@import 'pages/clerk-register-page';
-@import 'pages/clerk-free-registration-page';
-@import 'pages/clerk-free-registration-details-page';
-@import 'pages/clerk-customer-details-page';
-@import 'pages/clerk-customers-search-page';
