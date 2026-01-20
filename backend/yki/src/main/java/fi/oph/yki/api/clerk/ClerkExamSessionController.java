@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 @RestController
 @RequestMapping(value = "/v2/api/clerk/examSession", produces = APPLICATION_JSON_VALUE)
@@ -26,5 +27,11 @@ public class ClerkExamSessionController {
   @Operation(tags = TAG_EXAM_SESSION, summary = "Get exam event and enrollments")
   public ClerkExamSessionDTO getExamSession(@PathVariable final long examSessionId) {
     return clerkExamSessionService.getExamSession(examSessionId);
+  }
+
+  @GetMapping(value = "/{examSessionId:\\d+}/excel")
+  @Operation(tags = TAG_EXAM_SESSION, summary = "Download excel of registrations to exam event")
+  public AbstractXlsxView getExamEventExcel(@PathVariable final long examSessionId) {
+    return clerkExamSessionService.getExamEventExcel(examSessionId);
   }
 }

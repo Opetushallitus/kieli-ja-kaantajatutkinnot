@@ -10,8 +10,14 @@ import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.RegistrationUtil;
 import java.util.List;
+
+import fi.oph.yki.view.ExamSessionXlsxData;
+import fi.oph.yki.view.ExamSessionXlsxDataRowUtil;
+import fi.oph.yki.view.ExamSessionXlsxView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 @RequiredArgsConstructor
 @Service
@@ -20,6 +26,7 @@ public class ClerkExamSessionService {
   private final ExamSessionRepository examSessionRepository;
   private final RegistrationRepository registrationRepository;
 
+  @Transactional(readOnly = true)
   public ClerkExamSessionDTO getExamSession(final Long examSessionId) {
     final ExamSession examSession = examSessionRepository.getReferenceById(examSessionId);
     final List<ClerkRegistrationDTO> registrationDTOs = registrationRepository
@@ -52,5 +59,13 @@ public class ClerkExamSessionService {
       .maxParticipants(examSession.getMaxParticipants())
       .contact(contactDTOS)
       .build();
+  }
+
+  @Transactional(readOnly = true)
+  public AbstractXlsxView getExamEventExcel(final long examSessionId) {
+    final ExamSessionXlsxData excelData = ExamSessionXlsxDataRowUtil.createExcelData();
+    final AbstractXlsxView excel = new ExamSessionXlsxView(excelData);
+
+    return excel;
   }
 }
