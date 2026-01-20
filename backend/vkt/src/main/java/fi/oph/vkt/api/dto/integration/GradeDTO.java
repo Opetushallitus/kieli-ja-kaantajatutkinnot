@@ -5,4 +5,4 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record GradeDTO(@NonNull @NotNull String arvosana, @NonNull @NotNull String paivamaara) {}
+public record GradeDTO(@NonNull String arvosana, @NonNull String paivamaara) {}
