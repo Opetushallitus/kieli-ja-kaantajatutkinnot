@@ -17,6 +17,9 @@ import {
   rejectClerkOrganizers,
   storeClerkOrganizerRegistry,
   storeClerkOrganizers,
+  updateClerkOrganizer,
+  updateClerkOrganizerError,
+  updateClerkOrganizerSuccess,
 } from 'redux/reducers/clerkOrganizer';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -87,10 +90,32 @@ function* loadClerkOrganizersSaga() {
   }
 }
 
+function* updateClerkOrganizerSaga(
+  action: ReturnType<typeof updateClerkOrganizer>,
+) {
+  try {
+    const organizer = action.payload;
+    const requestData = SerializationUtils.serializeClerkOrganizer(organizer);
+
+    const response: AxiosResponse<ClerkOrganizerResponse> = yield call(
+      axiosInstance.put,
+      `${APIEndpoints.ClerkOrganizer}/${organizer.id}`,
+      requestData,
+    );
+
+    const updatedOrganizer =
+      SerializationUtils.deserializeClerkOrganizerResponse(response.data);
+    yield put(updateClerkOrganizerSuccess(updatedOrganizer));
+  } catch (error) {
+    yield put(updateClerkOrganizerError());
+  }
+}
+
 export function* watchClerkOrganizers() {
   yield takeLatest(
     loadClerkOrganizerRegistry.type,
     loadClerkOrganizerRegistrySaga,
   );
   yield takeLatest(loadClerkOrganizers.type, loadClerkOrganizersSaga);
+  yield takeLatest(updateClerkOrganizer.type, updateClerkOrganizerSaga);
 }

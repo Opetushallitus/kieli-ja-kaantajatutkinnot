@@ -27,7 +27,10 @@ import {
   ClerkFreeRegistrationDetailsResponse,
   ClerkFreeRegistrationResponse,
 } from 'interfaces/clerkFreeRegistration';
-import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
+import {
+  ClerkOrganizer,
+  ClerkOrganizerResponse,
+} from 'interfaces/clerkOrganizer';
 import { FindByOidsOrganizationResponse } from 'interfaces/clerkOrganizerRegistry';
 import {
   RegistrationToConfirmDetails,
@@ -361,6 +364,18 @@ export class SerializationUtils {
         : undefined,
       languages: organizerResponse.languages || null,
       extra: organizerResponse.extra || '',
+    };
+  }
+
+  static serializeClerkOrganizer(organizer: ClerkOrganizer) {
+    return {
+      ...organizer,
+      agreement_start_date: organizer.agreement_start_date
+        ? organizer.agreement_start_date.format('YYYY-MM-DD')
+        : undefined,
+      agreement_end_date: organizer.agreement_end_date
+        ? organizer.agreement_end_date.format('YYYY-MM-DD')
+        : undefined,
     };
   }
 

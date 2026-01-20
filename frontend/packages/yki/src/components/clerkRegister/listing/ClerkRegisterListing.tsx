@@ -13,25 +13,29 @@ import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from '@mui/material/AccordionSummary';
 import { Box } from '@mui/system';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import i18next from 'i18next';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomButton, CustomCircularProgress } from 'shared/components';
-import { APIResponseStatus, Color } from 'shared/enums';
+import { APIResponseStatus, Color, Severity } from 'shared/enums';
+import { useToast } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
+import { ClerkRegisterListingFilters } from 'components/clerkRegister/listing/ClerkRegisterListingFilters';
+import { ModifyAgreementModal } from 'components/clerkRegister/listing/ModifyAgreementModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import axiosInstance from 'configs/axios';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { OrganizerLanguage } from 'interfaces/clerkOrganizer';
+import { ClerkOrganizerType } from 'interfaces/clerkOrganizer';
 import { ExamSession } from 'interfaces/examSessions';
 import { H4, Label, Text } from 'ophTheme/Text';
 import { loadClerkOrganizerRegistry } from 'redux/reducers/clerkOrganizer';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
+import { filteredClerkOrganizersSelector } from 'redux/selectors/filteredClerkOrganizers';
 import {
   getLanguagesWithLevelDescriptions,
   languagesToString,
@@ -45,18 +49,6 @@ type ClerkRegisterListingProps = {
   setPage: (page: number) => void;
 };
 
-type ClerkOrganizerType = {
-  id: number;
-  nimi: string;
-  oid: string;
-  agreement_start_date?: Dayjs;
-  agreement_end_date?: Dayjs;
-  contact_name?: string;
-  contact_email?: string;
-  contact_phone_number?: string;
-  languages: Array<OrganizerLanguage> | null;
-  extra: string;
-};
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(() => ({
@@ -95,14 +87,10 @@ export const ClerkRegisterListing = ({
   page,
   setPage,
 }: ClerkRegisterListingProps) => {
-  const { organizerRegistryStatus, organizerRegistry } = useAppSelector(
+  const { organizerRegistryStatus, updateStatus } = useAppSelector(
     clerkOrganizersSelector,
   );
-
-  const rows = organizerRegistry.map((organizer) => ({
-    ...organizer.organizer,
-    nimi: organizer?.organization?.nimi?.fi ?? '',
-  }));
+  const rows = useAppSelector(filteredClerkOrganizersSelector);
 
   const pagination = {
     page,
@@ -114,12 +102,14 @@ export const ClerkRegisterListing = ({
     keyPrefix: 'yki.component.clerkRegister',
   });
 
+  const { showToast } = useToast();
+
   const createOrganizerColumn = (
     t: typeof i18next.t,
   ): ListTableColumn<ClerkOrganizerType> => ({
     key: 'organizer',
     title: t('listing.header.organizer'),
-    render: (rowProps) => <span>{rowProps.nimi}</span>,
+    render: (rowProps) => <span>{rowProps.name}</span>,
   });
 
   const createAgreementsColumn = (
@@ -128,7 +118,7 @@ export const ClerkRegisterListing = ({
     key: 'agreements',
     title: t('listing.header.agreements'),
     render: (rowProps) =>
-      rowProps.languages ? (
+      rowProps.languages && rowProps.languages.length > 0 ? (
         <span>{languagesToString(rowProps.languages)}</span>
       ) : (
         <div className="columns" style={{ gap: '0.25rem' }}>
@@ -143,7 +133,7 @@ export const ClerkRegisterListing = ({
   ): ListTableColumn<ClerkOrganizerType> => ({
     key: 'municipality',
     title: t('listing.header.municipality'),
-    render: (rowProps) => <span>{rowProps.contact_name}</span>,
+    render: (rowProps) => <span>{rowProps.address.city}</span>,
   });
 
   const columns = [
@@ -159,6 +149,20 @@ export const ClerkRegisterListing = ({
       dispatch(loadClerkOrganizerRegistry());
     }
   }, [dispatch, organizerRegistryStatus]);
+
+  useEffect(() => {
+    if (updateStatus === APIResponseStatus.Error) {
+      showToast({
+        description: t('listing.modals.modifyAgreement.toasts.updateError'),
+        severity: Severity.Error,
+      });
+    } else if (updateStatus === APIResponseStatus.Success) {
+      showToast({
+        description: t('listing.modals.modifyAgreement.toasts.updateSuccess'),
+        severity: Severity.Success,
+      });
+    }
+  }, [updateStatus, showToast, t]);
 
   switch (organizerRegistryStatus) {
     case APIResponseStatus.NotStarted:
@@ -180,17 +184,20 @@ export const ClerkRegisterListing = ({
       );
     case APIResponseStatus.Success:
       return (
-        <ListTable
-          rows={rows}
-          rowKeyProp="oid"
-          columns={columns}
-          translateHeader={false}
-          pagination={pagination}
-          renderCollapsibleRow={(row, open) => (
-            <ClerkRegisterCollapsibleRow row={row} open={open} />
-          )}
-          collapsibleRows={true}
-        />
+        <>
+          <ClerkRegisterListingFilters />
+          <ListTable
+            rows={rows}
+            rowKeyProp="oid"
+            columns={columns}
+            translateHeader={false}
+            pagination={pagination}
+            renderCollapsibleRow={(row, open) => (
+              <ClerkRegisterCollapsibleRow row={row} open={open} />
+            )}
+            collapsibleRows={true}
+          />
+        </>
       );
   }
 };
@@ -203,6 +210,7 @@ const ClerkRegisterCollapsibleRow = ({
   open: boolean;
 }) => {
   const [examSessions, setExamSessions] = useState<ExamSession[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
@@ -250,7 +258,10 @@ const ClerkRegisterCollapsibleRow = ({
     key: 'session_date',
     title: t('examSessionListing.header.sessionDate'),
     render: (rowProps) => (
-      <span>{rowProps.session_date.format('D.M.YYYY')}</span>
+      // TODO link to exam session details page
+      <a href="/" onClick={(e) => e.preventDefault()}>
+        <span>{rowProps.session_date.format('D.M.YYYY')}</span>
+      </a>
     ),
   });
 
@@ -372,10 +383,18 @@ const ClerkRegisterCollapsibleRow = ({
               >
                 {t('listing.actionButtons.adminUserView')}
               </CustomButton>
-              <CustomButton variant="outlined">
+              <CustomButton
+                variant="outlined"
+                onClick={() => setIsModalOpen(true)}
+              >
                 {t('listing.actionButtons.modify')}
               </CustomButton>
             </div>
+            <ModifyAgreementModal
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+              row={row}
+            />
             <H4>{t('listing.contentLabels.upcomingExamSessions')}</H4>
             <ListTable
               rows={upcomingExams}

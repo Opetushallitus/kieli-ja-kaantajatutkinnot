@@ -9,6 +9,10 @@ interface ClerkOrganizerState {
   organizerRegistry: Array<ClerkOrganizerRegistry>;
   status: APIResponseStatus;
   organizerRegistryStatus?: APIResponseStatus;
+  updateStatus?: APIResponseStatus;
+  searchQuery: string;
+  languageFilter: string;
+  levelFilter: string;
 }
 
 const initialState: ClerkOrganizerState = {
@@ -16,6 +20,10 @@ const initialState: ClerkOrganizerState = {
   organizerRegistry: [],
   status: APIResponseStatus.NotStarted,
   organizerRegistryStatus: APIResponseStatus.NotStarted,
+  updateStatus: APIResponseStatus.NotStarted,
+  searchQuery: '',
+  languageFilter: '',
+  levelFilter: '',
 };
 
 const clerkOrganizersSlice = createSlice({
@@ -42,6 +50,40 @@ const clerkOrganizersSlice = createSlice({
       state.organizerRegistryStatus = APIResponseStatus.Success;
       state.organizerRegistry = action.payload;
     },
+    updateClerkOrganizer(state, _action: PayloadAction<ClerkOrganizer>) {
+      state.updateStatus = APIResponseStatus.InProgress;
+    },
+    updateClerkOrganizerSuccess(state, action: PayloadAction<ClerkOrganizer>) {
+      state.updateStatus = APIResponseStatus.Success;
+      const index = state.organizers.findIndex(
+        (o) => o.id === action.payload.id,
+      );
+      if (index !== -1) {
+        state.organizers[index] = action.payload;
+      }
+
+      const registryIndex = state.organizerRegistry.findIndex(
+        (r) => r.organizer.id === action.payload.id,
+      );
+      if (registryIndex !== -1) {
+        state.organizerRegistry[registryIndex] = {
+          ...state.organizerRegistry[registryIndex],
+          organizer: action.payload,
+        };
+      }
+    },
+    updateClerkOrganizerError(state) {
+      state.updateStatus = APIResponseStatus.Error;
+    },
+    setSearchQuery(state, action: PayloadAction<string>) {
+      state.searchQuery = action.payload;
+    },
+    setLanguageFilter(state, action: PayloadAction<string>) {
+      state.languageFilter = action.payload;
+    },
+    setLevelFilter(state, action: PayloadAction<string>) {
+      state.levelFilter = action.payload;
+    },
   },
 });
 
@@ -52,4 +94,10 @@ export const {
   storeClerkOrganizers,
   loadClerkOrganizerRegistry,
   storeClerkOrganizerRegistry,
+  updateClerkOrganizer,
+  updateClerkOrganizerSuccess,
+  updateClerkOrganizerError,
+  setSearchQuery,
+  setLanguageFilter,
+  setLevelFilter,
 } = clerkOrganizersSlice.actions;

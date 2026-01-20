@@ -17,11 +17,11 @@ describe('ClerkRegisterListing', () => {
       0,
       'suomi, saksa, pohjoissaame',
     );
-    onClerkRegisterListing.expectOrganizerMunicipality(0, 'Iida Ikola');
+    onClerkRegisterListing.expectOrganizerMunicipality(0, 'HELSINKI');
 
     onClerkRegisterListing.expectOrganizerName(2, 'Jyväskylän kansalaisopisto');
     onClerkRegisterListing.expectOrganizerAgreementExpired(2);
-    onClerkRegisterListing.expectOrganizerMunicipality(2, 'Ismo8 Supinen');
+    onClerkRegisterListing.expectOrganizerMunicipality(2, 'JYVÄSKYLÄ');
   });
 
   it('should expand and collapse collapsible row', () => {
