@@ -33,22 +33,6 @@ export enum ExamLevel {
   YLIN = 'YLIN',
 }
 
-export enum CertificateLanguage {
-  FI = 'fi',
-  SV = 'sv',
-  EN = 'en',
-}
-
-export enum InstructionLanguage {
-  FI = 'fi',
-  SV = 'sv',
-}
-
-export enum RadioButtonValue {
-  YES = 'radioButtonYes',
-  NO = 'radioButtonNo',
-}
-
 export enum GenderEnum {
   Male = 'male',
   Female = 'female',
@@ -59,10 +43,6 @@ export enum GenderEnum {
 export enum RegistrationKind {
   Admission = 'ADMISSION',
   Queue = 'QUEUE',
-}
-
-export enum YkiValidationErrors {
-  MismatchingEmails = 'errors.mismatchingEmails',
 }
 
 export enum RegistrationStates {

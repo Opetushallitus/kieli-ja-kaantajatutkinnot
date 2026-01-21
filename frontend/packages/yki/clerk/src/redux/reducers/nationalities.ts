@@ -34,5 +34,4 @@ const nationalitiesSlice = createSlice({
 });
 
 export const nationalitiesReducer = nationalitiesSlice.reducer;
-export const { acceptNationalities, loadNationalities, rejectNationalities } =
-  nationalitiesSlice.actions;
+export const { loadNationalities } = nationalitiesSlice.actions;

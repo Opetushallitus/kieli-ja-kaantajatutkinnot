@@ -20,8 +20,6 @@ const langFI = AppLanguage.Finnish;
 const langSV = AppLanguage.Swedish;
 const langEN = AppLanguage.English;
 
-const supportedLangs = [langFI, langSV, langEN];
-
 const resources = {
   [langFI]: {
     [I18nNamespace.Common]: commonFI,
@@ -70,17 +68,6 @@ export const initI18n = () => {
   return i18n;
 };
 
-export const initI18nForTests = () => {
-  const i18n = use(initReactI18next).init({
-    defaultNS: 'common',
-    resources,
-    fallbackLng: langFI,
-    load: 'currentOnly',
-  });
-
-  return i18n;
-};
-
 const useAppTranslation = (
   options: UseTranslationOptions<string>,
   ns: I18nNamespace,
@@ -114,11 +101,7 @@ export const getCurrentLang = (): AppLanguage => {
   return i18n.language as AppLanguage;
 };
 
-export const getSupportedLangs = (): Array<AppLanguage> => {
-  return supportedLangs;
-};
-
-export const changeLang = (language: AppLanguage) => {
+const changeLang = (language: AppLanguage) => {
   DateUtils.setDayjsLocale(language);
   document.documentElement.setAttribute('lang', language);
 

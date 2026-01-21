@@ -5,6 +5,7 @@ import { watchClerkCustomersSearch } from 'redux/sagas/clerkCustomersSearch';
 import { watchClerkFreeRegistrations } from 'redux/sagas/clerkFreeRegistration';
 import { watchClerkFreeRegistrationDetails } from 'redux/sagas/clerkFreeRegistrationDetails';
 import { watchClerkOrganizers } from 'redux/sagas/clerkOrganizer';
+import { watchSession } from 'redux/sagas/session';
 
 export default function* rootSaga() {
   yield all([
@@ -13,5 +14,6 @@ export default function* rootSaga() {
     watchClerkFreeRegistrationDetails(),
     watchClerkCustomerDetails(),
     watchClerkCustomersSearch(),
+    watchSession(),
   ]);
 }

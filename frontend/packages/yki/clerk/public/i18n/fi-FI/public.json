@@ -1,5 +1,6 @@
 {
   "yki": {
+    "component": {
       "clerkRegister": {
         "examSessionListing": {
           "header": {
@@ -273,7 +274,8 @@
             }
           }
         }
-      },
+      }
+    },
     "pages": {
       "clerkRegisterPage": {
         "heading": "Kielitutkintojen järjestäjärekisteri"

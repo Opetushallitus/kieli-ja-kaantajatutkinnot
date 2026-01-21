@@ -40,5 +40,5 @@ const sessionSlice = createSlice({
 });
 
 export const sessionReducer = sessionSlice.reducer;
-export const { acceptSession, loadSession, rejectSession, resetSession } =
+export const { acceptSession, loadSession, rejectSession } =
   sessionSlice.actions;
