@@ -263,6 +263,7 @@
         },
         "search": {
           "header": "{{amount}} osallistujaa",
+          "submit": "Hae osallistujia",
           "labels": {
             "participant": "Hae osallistujaa",
             "organizer": "Järjestäjä",

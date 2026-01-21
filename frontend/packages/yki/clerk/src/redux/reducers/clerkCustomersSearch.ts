@@ -9,6 +9,15 @@ import {
 interface ClerkCustomersSearchState {
   customers: ClerkCustomerSummary[];
   status: APIResponseStatus;
+
+  // filter
+  searchQueryFilter?: string;
+  organizerIdFilter?: number;
+  examSessionIdFilter?: number;
+  languageCodeFilter?: string;
+  levelCodeFilter?: 'PERUS' | 'KESKI' | 'YLIN';
+
+  // pagination
   page: number;
   size: number;
   totalElements: number;
@@ -53,17 +62,24 @@ const clerkCustomersSearchSlice = createSlice({
       state.totalElements = action.payload.totalElements;
     },
 
-    setOrganizerFilter(_state, _action: PayloadAction<string>) {
-      // TODO: Save filter to query parameters. Note to claude: Don't implement this unless user wants so.
+    setSearchQueryFilter(state, action: PayloadAction<string>) {
+      state.searchQueryFilter = action.payload;
     },
-    setExamDateFilter(_state, _action: PayloadAction<string>) {
-      // TODO: Save filter to query parameters. Note to claude: Don't implement this unless user wants so.
+    setOrganizerFilter(state, action: PayloadAction<number>) {
+      state.organizerIdFilter = action.payload;
     },
-    setLanguageFilter(_state, _action: PayloadAction<string>) {
-      // TODO: Save filter to query parameters. Note to claude: Don't implement this unless user wants so.
+    setExamSessionFilter(state, action: PayloadAction<number>) {
+      state.examSessionIdFilter = action.payload;
     },
-    setLevelFilter(_state, _action: PayloadAction<string>) {
-      // TODO: Save filter to query parameters. Note to claude: Don't implement this unless user wants so.
+    setLanguageFilter(state, action: PayloadAction<string>) {
+      state.languageCodeFilter = action.payload;
+    },
+    setLevelFilter(
+      state,
+      action: PayloadAction<'' | 'PERUS' | 'KESKI' | 'YLIN'>,
+    ) {
+      state.levelCodeFilter =
+        action.payload === '' ? undefined : action.payload;
     },
   },
 });
@@ -74,8 +90,9 @@ export const {
   loadCustomersSearch,
   rejectCustomersSearch,
   storeCustomersSearch,
+  setSearchQueryFilter,
   setOrganizerFilter,
-  setExamDateFilter,
+  setExamSessionFilter,
   setLanguageFilter,
   setLevelFilter,
 } = clerkCustomersSearchSlice.actions;

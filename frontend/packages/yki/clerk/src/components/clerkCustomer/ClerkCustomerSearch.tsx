@@ -28,25 +28,47 @@ const InfoText = ({ status }: { status: APIResponseStatus }) => {
 };
 
 export const ClerkCustomerSearch = () => {
-  const { status, customers, page, size, totalElements } = useAppSelector(
-    clerkCustomersSearchSelector,
-  );
+  const {
+    status,
+    customers,
+    searchQueryFilter,
+    organizerIdFilter,
+    examSessionIdFilter,
+    languageCodeFilter,
+    levelCodeFilter,
+    page,
+    size,
+    totalElements,
+  } = useAppSelector(clerkCustomersSearchSelector);
 
   const dispatch = useAppDispatch();
-
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
       dispatch(
         loadCustomersSearch({
           request: {
-            personQuery: '',
+            personQuery: searchQueryFilter,
+            organizerId: organizerIdFilter,
+            examDateId: examSessionIdFilter,
+            languageCode: languageCodeFilter,
+            levelCode: levelCodeFilter,
           },
           page,
           size,
         }),
       );
     }
-  }, [dispatch, page, size, status]);
+  }, [
+    dispatch,
+    examSessionIdFilter,
+    languageCodeFilter,
+    levelCodeFilter,
+    organizerIdFilter,
+    page,
+    searchQueryFilter,
+    size,
+    status,
+  ]);
 
   return (
     <>
@@ -64,7 +86,11 @@ export const ClerkCustomerSearch = () => {
             dispatch(
               loadCustomersSearch({
                 request: {
-                  personQuery: '',
+                  personQuery: searchQueryFilter,
+                  organizerId: organizerIdFilter,
+                  examDateId: examSessionIdFilter,
+                  languageCode: languageCodeFilter,
+                  levelCode: levelCodeFilter,
                 },
                 page: newPage,
                 size,

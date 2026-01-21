@@ -1,19 +1,26 @@
-import { TextField } from '@mui/material';
-import { OphSelectFormField } from '@opetushallitus/oph-design-system';
+import { Search } from '@mui/icons-material';
+import { IconButton, InputAdornment } from '@mui/material';
+import {
+  OphButton,
+  OphInputFormField,
+  OphSelectFormField,
+} from '@opetushallitus/oph-design-system';
 import { useEffect } from 'react';
-import { APIResponseStatus } from 'shared/enums';
+import { APIResponseStatus, Variant } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { Label } from 'ophTheme/Text';
 import {
-  setExamDateFilter,
+  loadCustomersSearch,
+  setExamSessionFilter,
   setLanguageFilter,
   setLevelFilter,
   setOrganizerFilter,
+  setSearchQueryFilter,
 } from 'redux/reducers/clerkCustomersSearch';
 import { loadClerkOrganizerRegistry } from 'redux/reducers/clerkOrganizer';
 import { loadExamSessions } from 'redux/reducers/examSessions';
+import { clerkCustomersSearchSelector } from 'redux/selectors/clerkCustomersSearchSelector';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
 import { examSessionsSelector } from 'redux/selectors/examSessions';
 import { filteredClerkOrganizersSelector } from 'redux/selectors/filteredClerkOrganizers';
@@ -32,6 +39,15 @@ export const ClerkCustomerListingFilter = () => {
   const organizers = useAppSelector(filteredClerkOrganizersSelector);
   const { status: examSessionsStatus, exam_sessions } =
     useAppSelector(examSessionsSelector);
+  const {
+    searchQueryFilter,
+    organizerIdFilter,
+    examSessionIdFilter,
+    languageCodeFilter,
+    levelCodeFilter,
+    size,
+    page,
+  } = useAppSelector(clerkCustomersSearchSelector);
 
   useEffect(() => {
     if (organizerRegistryStatus === APIResponseStatus.NotStarted) {
@@ -45,11 +61,44 @@ export const ClerkCustomerListingFilter = () => {
   return (
     <div
       className="columns gapped"
-      style={{ marginBottom: '2rem', alignItems: 'flex-start' }}
+      style={{ marginBottom: '2rem', alignItems: 'flex-end' }}
     >
       <div style={{ flex: 1, maxWidth: '300px' }}>
-        <Label>{t('labels.participant')}</Label>
-        <TextField sx={{ width: '100%' }} />
+        <OphInputFormField
+          sx={{ width: '100%' }}
+          label={t('labels.participant')}
+          value={searchQueryFilter}
+          onChange={(e) => dispatch(setSearchQueryFilter(e.target.value))}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                sx={{ padding: 0, margin: '0 4px' }}
+                aria-label={t('listing.filters.searchLabel')}
+                onClick={() => {
+                  dispatch(setSearchQueryFilter(searchQueryFilter ?? ''));
+                  dispatch(
+                    loadCustomersSearch({
+                      request: {
+                        personQuery: searchQueryFilter,
+                        organizerId: organizerIdFilter,
+                        examDateId: examSessionIdFilter,
+                        languageCode: languageCodeFilter,
+                        levelCode: levelCodeFilter,
+                      },
+                      page,
+                      size,
+                    }),
+                  );
+                }}
+                onMouseDown={(e) => e.preventDefault()}
+                onMouseUp={(e) => e.preventDefault()}
+                edge="end"
+              >
+                <Search color="disabled" fontSize="large" />
+              </IconButton>
+            </InputAdornment>
+          }
+        />
       </div>
       <div style={{ flex: 1, maxWidth: '300px' }}>
         <OphSelectFormField
@@ -63,7 +112,7 @@ export const ClerkCustomerListingFilter = () => {
               value: String(org.id),
             })),
           ]}
-          onChange={(e) => dispatch(setOrganizerFilter(e.target.value))}
+          onChange={(e) => dispatch(setOrganizerFilter(+e.target.value))}
         />
       </div>
       <div style={{ minWidth: '150px' }}>
@@ -78,7 +127,7 @@ export const ClerkCustomerListingFilter = () => {
               value: String(es.id),
             })),
           ]}
-          onChange={(e) => dispatch(setExamDateFilter(e.target.value))}
+          onChange={(e) => dispatch(setExamSessionFilter(+e.target.value))}
         />
       </div>
       <div style={{ minWidth: '150px' }}>
@@ -110,6 +159,29 @@ export const ClerkCustomerListingFilter = () => {
           ]}
           onChange={(e) => dispatch(setLevelFilter(e.target.value))}
         />
+      </div>
+      <div style={{ minWidth: '150px' }}>
+        <OphButton
+          variant={Variant.Contained}
+          sx={{ width: '100%' }}
+          onClick={() =>
+            dispatch(
+              loadCustomersSearch({
+                request: {
+                  personQuery: searchQueryFilter,
+                  organizerId: organizerIdFilter,
+                  examDateId: examSessionIdFilter,
+                  languageCode: languageCodeFilter,
+                  levelCode: levelCodeFilter,
+                },
+                page,
+                size,
+              }),
+            )
+          }
+        >
+          {t('submit')}
+        </OphButton>
       </div>
     </div>
   );
