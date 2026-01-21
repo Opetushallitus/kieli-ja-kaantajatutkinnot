@@ -8,7 +8,7 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const Dotenv = require('dotenv-webpack')
 
 const getOutputPath = (appName, dirName) => {
-  if (dirName.includes('clerk') || dirName.includes('public')) {
+  if (appName === 'yki') {
     return path.join(
         dirName,
         "..",
