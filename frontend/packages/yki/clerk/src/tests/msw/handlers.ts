@@ -6,6 +6,7 @@ import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 import { findByOidsResponse } from 'tests/msw/fixtures/findByOids';
+import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { organizers } from 'tests/msw/fixtures/organizers';
 
 const notFound = () => new HttpResponse(null, { status: 404 });
@@ -29,6 +30,9 @@ export const handlers = [
     return HttpResponse.json(adminUser);
     //return HttpResponse.json(NoSessionResponse);
   }),
+  http.get(APIEndpoints.CountryCodes, () =>
+    HttpResponse.json(maatJaValtiot2Response),
+  ),
   http.get(APIEndpoints.ClerkOrganizer, () => HttpResponse.json(organizers)),
   http.put(
     `${APIEndpoints.ClerkOrganizer}/:id`,
