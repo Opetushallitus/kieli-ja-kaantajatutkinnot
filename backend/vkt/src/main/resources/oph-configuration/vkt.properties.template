@@ -29,6 +29,9 @@ cas-oppija.validate-ticket-url={{opintopolku_baseurl}}/cas-oppija/serviceValidat
 payment.paytrail.secret={{vkt_paytrail_secret}}
 payment.paytrail.account={{vkt_paytrail_account}}
 
+register.url={{vkt_register_url}}
+register.sync-enabled={{vkt_register_sync}}
+
 koski.url={{vkt_koski_url}}
 onr.service-url=${virkailija.cas.base-url}/oppijanumerorekisteri-service
 

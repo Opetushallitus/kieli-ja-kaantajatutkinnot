@@ -87,6 +87,9 @@ app:
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}
+  register:
+    sync-enabled: ${register.sync-enabled:null}
+    url: ${register.url:null}
   koski:
     url: ${koski.url:null}
     user: ${cas.username:null}
