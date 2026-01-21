@@ -117,133 +117,131 @@ export const AppRouter: FC = () => {
   };
 
   const router = createBrowserRouter(
-    createRoutesFromElements(      
-        <Route path={AppRoutes.PublicRoot} element={Root}>
-          <Route index={true} element={FrontPage} />
-          <Route path={AppRoutes.Registration} element={FrontPage} />
-          <Route
-            path={AppRoutes.ExamSession}
-            element={
-              <YkiTitlePage title="registration">
-                <InitRegistrationPage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ExamSessionRegistration}
-            element={
-              <YkiTitlePage title="examDetails">
-                <ExamDetailsPage
-                  registrationKind={RegistrationKind.Admission}
-                />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ExamSessionQueue}
-            element={
-              <YkiTitlePage title="examDetails">
-                <ExamDetailsPage registrationKind={RegistrationKind.Queue} />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.RegistrationPaymentStatus}
-            element={
-              <YkiTitlePage title="registrationPaymentStatus">
-                <RegistrationPaymentStatusPage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.FreeRegistrationSuccess}
-            element={
-              <YkiTitlePage title="freeRegistrationSuccess">
-                <FreeRegistrationSuccessPage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.Reassessment}
-            element={
-              <YkiTitlePage title="reassessment">
-                <ReassessmentPage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ReassessmentOrder}
-            element={
-              <YkiTitlePage title="evaluationOrder">
-                <EvaluationOrderPage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ReassessmentOrderStatus}
-            element={
-              <YkiTitlePage title="evaluationOrderStatus">
-                <EvaluationOrderStatusPage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.AccessibilityStatementPage}
-            element={
-              <YkiTitlePage title="accessibilityStatement">
-                <AccessibilityStatementPage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.UserDetails}
-            element={
-              <YkiTitlePage title="userDetails">
-                <UserDetailsPage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ModifyContactDetails}
-            element={
-              <UserPortalSubPage title="modifyContactDetails">
-                <ModifyContactDetailsPage />
-              </UserPortalSubPage>
-            }
-          />
-          <Route
-            path={AppRoutes.ConfirmRegistration}
-            element={
-              <UserPortalSubPage title="transferRegistration">
-                <ConfirmRegistrationPage />
-              </UserPortalSubPage>
-            }
-          />
-          <Route
-            path={AppRoutes.ExpiredLoginLinkPage}
-            element={
-              <UserPortalSubPage title="expiredLoginLink">
-                <ExpiredLoginLinkPage />
-              </UserPortalSubPage>
-            }
-          />
-          <Route
-            path={AppRoutes.LogoutSuccess}
-            element={
-              <YkiTitlePage title="logoutSuccess">
-                <LogoutSuccess />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.NotFoundPage}
-            element={
-              <YkiTitlePage title="notFound">
-                <NotFoundPage />
-              </YkiTitlePage>
-            }
-          />
-        </Route>
+    createRoutesFromElements(
+      <Route path={AppRoutes.PublicRoot} element={Root}>
+        <Route index={true} element={FrontPage} />
+        <Route path={AppRoutes.Registration} element={FrontPage} />
+        <Route
+          path={AppRoutes.ExamSession}
+          element={
+            <YkiTitlePage title="registration">
+              <InitRegistrationPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ExamSessionRegistration}
+          element={
+            <YkiTitlePage title="examDetails">
+              <ExamDetailsPage registrationKind={RegistrationKind.Admission} />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ExamSessionQueue}
+          element={
+            <YkiTitlePage title="examDetails">
+              <ExamDetailsPage registrationKind={RegistrationKind.Queue} />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.RegistrationPaymentStatus}
+          element={
+            <YkiTitlePage title="registrationPaymentStatus">
+              <RegistrationPaymentStatusPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.FreeRegistrationSuccess}
+          element={
+            <YkiTitlePage title="freeRegistrationSuccess">
+              <FreeRegistrationSuccessPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.Reassessment}
+          element={
+            <YkiTitlePage title="reassessment">
+              <ReassessmentPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ReassessmentOrder}
+          element={
+            <YkiTitlePage title="evaluationOrder">
+              <EvaluationOrderPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ReassessmentOrderStatus}
+          element={
+            <YkiTitlePage title="evaluationOrderStatus">
+              <EvaluationOrderStatusPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.AccessibilityStatementPage}
+          element={
+            <YkiTitlePage title="accessibilityStatement">
+              <AccessibilityStatementPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.UserDetails}
+          element={
+            <YkiTitlePage title="userDetails">
+              <UserDetailsPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ModifyContactDetails}
+          element={
+            <UserPortalSubPage title="modifyContactDetails">
+              <ModifyContactDetailsPage />
+            </UserPortalSubPage>
+          }
+        />
+        <Route
+          path={AppRoutes.ConfirmRegistration}
+          element={
+            <UserPortalSubPage title="transferRegistration">
+              <ConfirmRegistrationPage />
+            </UserPortalSubPage>
+          }
+        />
+        <Route
+          path={AppRoutes.ExpiredLoginLinkPage}
+          element={
+            <UserPortalSubPage title="expiredLoginLink">
+              <ExpiredLoginLinkPage />
+            </UserPortalSubPage>
+          }
+        />
+        <Route
+          path={AppRoutes.LogoutSuccess}
+          element={
+            <YkiTitlePage title="logoutSuccess">
+              <LogoutSuccess />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.NotFoundPage}
+          element={
+            <YkiTitlePage title="notFound">
+              <NotFoundPage />
+            </YkiTitlePage>
+          }
+        />
+      </Route>,
     ),
   );
 
