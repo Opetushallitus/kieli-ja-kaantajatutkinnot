@@ -43,7 +43,6 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu"
     const STATIC_PATH = dirName.includes('clerk')
     ? 'v2/static' // cloud-base path for new yki clerk is '/yki/v2'
     : `${appName}/static`;
-    console.log('static path:', STATIC_PATH)
   const CONTEXT_PATH = appName;
 
   const getMode = () => ({ mode: env.prod ? "production" : "development" });
