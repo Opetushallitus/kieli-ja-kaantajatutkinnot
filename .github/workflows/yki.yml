@@ -18,15 +18,18 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  frontend:
-    uses: ./.github/workflows/common-frontend.yml
+  public-frontend:
+    uses: ./.github/workflows/yki-public-frontend.yml
     with:
       app-name: "yki"
       cypress-base-url: "http://localhost:4003"
-      clerk-cypress-base-url: "http://localhost:4004"
-      clerk: "clerk"
+  clerk-frontend:
+    uses: ./.github/workflows/yki-clerk-frontend.yml
+    with:
+      app-name: "yki"
+      cypress-base-url: "http://localhost:4003"
   backend:
-    needs: frontend
+    needs: [public-frontend, clerk-frontend]
     uses: ./.github/workflows/common-backend.yml
     with:
       app-name: "yki"
