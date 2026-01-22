@@ -1,6 +1,7 @@
 {
   "yki": {
     "common": {
+      "and": "and",
       "actions": "Actions",
       "address": "Address",
       "appNameAbbreviation": "YKI",
@@ -147,6 +148,7 @@
       },
       "reassessment": "Reassessment",
       "registration": "Registration",
+      "clerkOrganizerRegister": "Järjestäjärekisteri",
       "freeRegistration": "Maksuttomuus",
       "customerSearch": "Asiakashaku",
       "organizerRegister": "Järjestäjärekisteri",

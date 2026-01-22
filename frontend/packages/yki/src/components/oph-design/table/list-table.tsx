@@ -5,7 +5,6 @@ import {
   Stack,
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableRow,
 } from '@mui/material';
@@ -18,6 +17,7 @@ import { OphPagination } from './oph-pagination';
 import { SelectionProps } from './table-checkboxes';
 import { TableHeaderCell } from './table-header-cell';
 import { ListTableColumn, Row } from './table-types';
+import { ListTableRow } from 'components/oph-design/table/list-table-row';
 import { useCommonTranslation } from 'configs/i18n';
 
 const DEFAULT_BOX_BORDER = `2px solid ${ophColors.grey100}`;
@@ -51,32 +51,17 @@ const StyledTable = styled(Table)({
   },
 });
 
-const StyledTableBody = styled(TableBody)(({ theme }) => ({
-  '& .MuiTableCell-root': {
-    padding: theme.spacing(1, 0, 1, 2),
-    textAlign: 'left',
-    whiteSpace: 'pre-wrap',
-    height: '64px',
-    borderWidth: 0,
-  },
-  '& .MuiTableRow-root': {
-    '&:nth-of-type(even)': {
-      '.MuiTableCell-root': {
-        backgroundColor: ophColors.grey50,
-      },
+const StyledTableBody = styled(TableBody)(({ theme }) => {
+  return {
+    '& .MuiTableCell-root': {
+      padding: theme.spacing(1, 0, 1, 2),
+      textAlign: 'left',
+      whiteSpace: 'pre-wrap',
+      borderWidth: 0,
     },
-    '&:nth-of-type(odd)': {
-      '.MuiTableCell-root': {
-        backgroundColor: ophColors.white,
-      },
-    },
-    '&:hover': {
-      '.MuiTableCell-root': {
-        backgroundColor: ophColors.lightBlue2,
-      },
-    },
-  },
-}));
+  };
+});
+
 type ListTablePaginationProps = {
   page: number;
   setPage: (page: number) => void;
@@ -99,6 +84,9 @@ interface ListTableProps<T extends Row>
   checkboxSelection?: boolean;
   selection?: SelectionProps['selection'];
   setSelection?: SelectionProps['setSelection'];
+  collapsibleRows?: boolean;
+  renderCollapsibleRow?: (row: T, open: boolean) => React.ReactNode;
+  rowHeight?: 'small' | 'medium';
 }
 
 const TableWrapper = styled(Box)(({ theme }) => ({
@@ -147,6 +135,9 @@ export const ListTable = <T extends Row>({
   rowKeyProp,
   translateHeader = true,
   pagination,
+  collapsibleRows = false,
+  renderCollapsibleRow,
+  rowHeight = 'medium',
   ...props
 }: ListTableProps<T>) => {
   const translateCommon = useCommonTranslation();
@@ -195,15 +186,15 @@ export const ListTable = <T extends Row>({
               const rowId = rowProps?.[rowKeyProp] as string;
 
               return (
-                <TableRow key={rowId}>
-                  {columns.map(({ key: columnKey, render, style }) => {
-                    return (
-                      <TableCell key={columnKey.toString()} sx={style}>
-                        {render(rowProps)}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
+                <ListTableRow
+                  rowKeyProp={rowKeyProp}
+                  key={rowId}
+                  row={rowProps}
+                  columns={columns}
+                  rowHeight={rowHeight}
+                  collapsibleRows={collapsibleRows}
+                  renderCollapsibleRow={renderCollapsibleRow}
+                />
               );
             })}
           </StyledTableBody>

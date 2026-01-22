@@ -5,8 +5,8 @@ import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 
 const getTabForPath = (path: string) => {
-  if (path === AppRoutes.ClerkOrganizerRegister) {
-    return 'registration';
+  if (path.includes(AppRoutes.ClerkOrganizerRegister)) {
+    return 'clerkOrganizerRegister';
   } else if (path.includes(AppRoutes.ClerkFreeRegistration)) {
     return 'freeRegistration';
   } else if (path.includes(AppRoutes.CustomerSearch)) {
@@ -34,9 +34,9 @@ export const ClerkNavigationLinks = () => {
           label: translateCommon('organizerRegister'),
         },
         {
-          active: getTabForPath(pathname) === 'registration',
+          active: getTabForPath(pathname) === 'clerkOrganizerRegister',
           href: AppRoutes.ClerkOrganizerRegister,
-          label: translateCommon('registration'),
+          label: translateCommon('clerkOrganizerRegister'),
         },
         {
           active: getTabForPath(pathname) === 'freeRegistration',

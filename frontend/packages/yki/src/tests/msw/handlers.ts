@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { http, HttpResponse, PathParams, StrictRequest } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
@@ -9,6 +10,7 @@ import { allCustomers } from 'tests/msw/fixtures/customersSearch';
 import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
+import { findByOidsResponse } from 'tests/msw/fixtures/findByOids';
 import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
 import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import {
@@ -201,6 +203,25 @@ export const handlers = [
     return HttpResponse.redirect(redirect as string);
   }),
   http.get(APIEndpoints.ClerkOrganizer, () => HttpResponse.json(organizers)),
+  http.put(
+    `${APIEndpoints.ClerkOrganizer}/:id`,
+    async ({ params, request }) => {
+      const organizerId = Number(params.id);
+      const updatedData = (await request.json()) as Record<string, unknown>;
+      const organizerIndex = organizers.findIndex((o) => o.id === organizerId);
+
+      if (organizerIndex !== -1) {
+        organizers[organizerIndex] = {
+          ...organizers[organizerIndex],
+          ...updatedData,
+        };
+
+        return HttpResponse.json(organizers[organizerIndex]);
+      } else {
+        return notFound();
+      }
+    },
+  ),
   http.get(APIEndpoints.ClerkFreeRegistration, ({ cookies }) => {
     if (cookies['free-registration-error-500'] === '1') {
       return HttpResponse.json({ error: 'forced error' }, { status: 500 });
@@ -306,5 +327,25 @@ export const handlers = [
   }),
   http.post(APIEndpoints.PublicFreeRegistrationEducation, () => {
     return HttpResponse.json({ id: 1337 }, { status: 201 });
+  }),
+  http.post('/organisaatio-service/rest/organisaatio/v3/findbyoids', () => {
+    return HttpResponse.json(findByOidsResponse);
+  }),
+
+  http.get('/yki/api/clerk/organizer/:oid/exam-session', ({ params }) => {
+    const { from } = params;
+
+    const filteredExamSessions = from
+      ? examSessions.exam_sessions.filter((e) => {
+          return (
+            dayjs().isSame(dayjs(e.session_date), 'day') ||
+            dayjs().isAfter(dayjs(e.session_date), 'day')
+          );
+        })
+      : examSessions.exam_sessions;
+
+    return HttpResponse.json({ exam_sessions: filteredExamSessions });
+    // all exam dates
+    // return HttpResponse.json({ dates: examDates.dates });
   }),
 ];

@@ -34,6 +34,11 @@ import {
 import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
 import { ClerkRegistrationResponse } from 'interfaces/clerkRegistration';
 import {
+  ClerkOrganizer,
+  ClerkOrganizerResponse,
+} from 'interfaces/clerkOrganizer';
+import { FindByOidsOrganizationResponse } from 'interfaces/clerkOrganizerRegistry';
+import {
   RegistrationToConfirmDetails,
   RegistrationToConfirmDetailsResponse,
 } from 'interfaces/confirmRegistration';
@@ -377,6 +382,18 @@ export class SerializationUtils {
     };
   }
 
+  static serializeClerkOrganizer(organizer: ClerkOrganizer) {
+    return {
+      ...organizer,
+      agreement_start_date: organizer.agreement_start_date
+        ? organizer.agreement_start_date.format('YYYY-MM-DD')
+        : undefined,
+      agreement_end_date: organizer.agreement_end_date
+        ? organizer.agreement_end_date.format('YYYY-MM-DD')
+        : undefined,
+    };
+  }
+
   static deserializeClerkFreeRegistrationResponse(
     freeRegistrationResponse: ClerkFreeRegistrationResponse,
   ) {
@@ -661,5 +678,18 @@ export class SerializationUtils {
           ? 'HigherEducationEnrolled'
           : 'HigherEducationConcluded';
     }
+  }
+
+  static deserializeFindByOidsOrganizationResponse(
+    organizationResponse: FindByOidsOrganizationResponse,
+  ) {
+    return {
+      ...organizationResponse,
+      alkuPvm: dayjs(organizationResponse.alkuPvm),
+      nimet: organizationResponse.nimet.map((nimiHistoria) => ({
+        ...nimiHistoria,
+        alkuPvm: dayjs(nimiHistoria.alkuPvm),
+      })),
+    };
   }
 }

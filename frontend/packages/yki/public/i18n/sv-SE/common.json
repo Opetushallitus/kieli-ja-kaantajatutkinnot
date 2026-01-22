@@ -1,6 +1,7 @@
 {
   "yki": {
     "common": {
+      "and": "och",
       "actions": "Funktioner",
       "address": "Adress",
       "appNameAbbreviation": "YKI",
@@ -147,6 +148,7 @@
       },
       "reassessment": "Kontrollbedömning",
       "registration": "Anmälan",
+      "clerkOrganizerRegister": "Järjestäjärekisteri",
       "freeRegistration": "Maksuttomuus",
       "customerSearch": "Asiakashaku",
       "organizerRegister": "Järjestäjärekisteri",

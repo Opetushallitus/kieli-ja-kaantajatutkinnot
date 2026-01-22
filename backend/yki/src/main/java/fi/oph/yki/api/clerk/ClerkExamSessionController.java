@@ -31,7 +31,7 @@ public class ClerkExamSessionController {
 
   @GetMapping(value = "/{examSessionId:\\d+}/excel")
   @Operation(tags = TAG_EXAM_SESSION, summary = "Download excel of registrations to exam event")
-  public AbstractXlsxView getExamEventExcel(@PathVariable final long examSessionId) {
-    return clerkExamSessionService.getExamEventExcel(examSessionId);
+  public AbstractXlsxView getExamSessionExcel(@PathVariable final long examSessionId) {
+    return clerkExamSessionService.getExamSessionExcel(examSessionId);
   }
 }

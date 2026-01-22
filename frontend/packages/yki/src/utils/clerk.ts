@@ -1,14 +1,17 @@
 import { t } from 'i18next';
 
+import { ExamLevel } from 'enums/app';
 import { OrganizerLanguage } from 'interfaces/clerkOrganizer';
+import { FindByOidsOrganization } from 'interfaces/clerkOrganizerRegistry';
 
 const LEVEL_TRANSLATIONS = {
-  PERUS: 'common.level.basic',
-  KESKI: 'common.level.middle',
-  YLIN: 'common.level.high',
+  PERUS: 'yki.common.languageLevel.PERUS',
+  KESKI: 'yki.common.languageLevel.KESKI',
+  YLIN: 'yki.common.languageLevel.YLIN',
+  ALL: 'yki.common.languageLevel.ALL',
 };
 
-const LANGUAGES = [
+export const LANGUAGES = [
   {
     code: 'fin',
     name: 'Suomi',
@@ -62,8 +65,14 @@ const capitalize = (s: string) => {
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
-const levelDescription = (level: keyof typeof LEVEL_TRANSLATIONS) => {
+export const levelDescription = (level: keyof typeof ExamLevel) => {
   return t(LEVEL_TRANSLATIONS[level]);
+};
+
+export const languageToString = (lang: string) => {
+  const found = LANGUAGES.find((l) => l.code === lang);
+
+  return found ? found.name : '';
 };
 
 export const languagesToString = (array: OrganizerLanguage[]) => {
@@ -71,7 +80,10 @@ export const languagesToString = (array: OrganizerLanguage[]) => {
 
   return list.map((lang) => lang.split(' ')[0].toLowerCase()).join(', ');
 };
-const getLanguagesWithLevelDescriptions = (array: OrganizerLanguage[]) => {
+
+export const getLanguagesWithLevelDescriptions = (
+  array: OrganizerLanguage[],
+) => {
   const list = [];
   for (const lang in LANGUAGES) {
     const language = LANGUAGES[lang];
@@ -87,11 +99,25 @@ const getLanguagesWithLevelDescriptions = (array: OrganizerLanguage[]) => {
     if (levels.length > 0) {
       const description =
         levels.length === language.levels.length
-          ? t('common.level.all')
-          : levels.map((l) => levelDescription(l)).join(` ${t('common.and')} `);
+          ? t('yki.common.languageLevel.ALL')
+          : levels
+              .map((l) => levelDescription(l))
+              .join(` ${t('yki.common.and')} `);
       list.push(`${language.name} - ${capitalize(description)}`);
     }
   }
 
   return list;
+};
+
+export const getOrganizerAddress = (
+  organization: FindByOidsOrganization | undefined,
+) => {
+  return {
+    street: organization?.postiosoite?.osoite ?? '',
+    zipCode: organization?.postiosoite?.postinumeroUri
+      ? organization.postiosoite.postinumeroUri.split('_').pop() ?? ''
+      : '',
+    city: organization?.postiosoite?.postitoimipaikka ?? '',
+  };
 };

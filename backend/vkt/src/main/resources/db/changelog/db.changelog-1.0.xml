@@ -1203,6 +1203,14 @@
     <changeSet id="2025-03-24-examiner-phone-number-null" author="jrkkp">
         <dropNotNullConstraint tableName="examiner" columnName="phone_number" columnDataType="TEXT"/>
     </changeSet>
+    <changeSet id="2025-05-16-enrollment-kitu-sync" author="jrkkp">
+        <addColumn tableName="enrollment">
+            <column name="last_sync_at" type="TIMESTAMP WITH TIME ZONE" />
+        </addColumn>
+        <addColumn tableName="enrollment_appointment">
+            <column name="last_sync_at" type="TIMESTAMP WITH TIME ZONE" />
+        </addColumn>
+    </changeSet>
     <changeSet id="2025-05-26-payment-merchant-reference" author="jrkkp">
         <addColumn tableName="payment">
             <column name="merchant_reference" type="text" />
