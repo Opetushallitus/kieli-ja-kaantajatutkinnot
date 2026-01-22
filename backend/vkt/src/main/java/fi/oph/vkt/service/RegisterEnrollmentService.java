@@ -118,6 +118,11 @@ public class RegisterEnrollmentService {
         return;
       }
 
+      if (enrollment.getPerson().getOid() == null || enrollment.getPerson().getOid().isEmpty()) {
+        LOG.error(String.format("Sync failed. No oid for person in enrollment (%s)", id));
+        return;
+      }
+
       final RegisterPersonDTO personDTO = PersonUtil.createRegistryPersonDTO(enrollment.getPerson());
       final SourceDTO sourceDTO = SourceDTO.builder().id(id).lahde("KIOS").build();
       final List<PartialExamsDTO> partialExamsDTOS = new ArrayList<>();
