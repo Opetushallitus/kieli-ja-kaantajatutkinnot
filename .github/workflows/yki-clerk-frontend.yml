@@ -69,7 +69,7 @@ jobs:
         with:
           working-directory: ${{ env.FRONTEND_DIR }}
           install: false
-          start: yarn ${{ inputs.app-name }}:clerk::start:ci
+          start: yarn ${{ inputs.app-name }}:clerk:start:ci
           wait-on: ${{ inputs.cypress-base-url }}
           command: yarn ${{ inputs.app-name }}:clerk:test:cypress
         timeout-minutes: 10
