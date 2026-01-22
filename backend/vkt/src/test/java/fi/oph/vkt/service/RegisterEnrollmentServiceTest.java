@@ -74,8 +74,6 @@ public class RegisterEnrollmentServiceTest {
     when(environment.getRequiredProperty("app.register.url")).thenReturn("https://foo.bar");
   }
 
-  // TODO: remove me after succesful test run
-  @Disabled
   @Test
   public void testSyncEnrollments() throws IOException, InterruptedException, ExecutionException {
     final ExamEvent examEvent1 = createExamEvent(2, LocalDate.of(2025, 5, 27));
