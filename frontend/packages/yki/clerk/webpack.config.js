@@ -1,12 +1,13 @@
 const { merge } = require('webpack-merge');
-const common = require('../../../webpack.common');
+const yki = require('../../../webpack.yki');
 module.exports = (env) => {
-  const { getDefaults } = common(
+  const { getDefaults } = yki(
     'yki', // cloud-base path for new yki clerk is '/yki/v2' and we already prefix 'yki' in the backend
     env,
     __dirname,
     4004,
     'v2/virkailija/jarjestajarekisteri',
+    true
   );
   return merge([getDefaults(),{
     devServer: {
@@ -16,3 +17,5 @@ module.exports = (env) => {
     },
   }]);
 };
+
+

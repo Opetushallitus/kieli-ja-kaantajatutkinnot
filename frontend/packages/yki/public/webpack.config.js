@@ -1,7 +1,7 @@
 const { merge } = require('webpack-merge');
-const common = require('../../../webpack.common');
+const yki = require('../../../webpack.yki');
 module.exports = (env) => {
-  const { getDefaults } = common(
+  const { getDefaults } = yki(
     'yki',
     env,
     __dirname,

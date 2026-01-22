@@ -7,9 +7,10 @@ const CopyPlugin = require("copy-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const Dotenv = require('dotenv-webpack')
 
-module.exports = (appName, env, dirName, port, entryPage = "etusivu"
+module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = false
 ) => {
-    const STATIC_PATH = `${appName}/static`;
+  // cloud-base path for new yki clerk is '/yki/v2'
+  const STATIC_PATH = isClerk ? 'v2/static' : `${appName}/static`;
   const CONTEXT_PATH = appName;
 
   const getMode = () => ({ mode: env.prod ? "production" : "development" });
@@ -22,13 +23,15 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu"
         "..",
         "..",
         "..",
+        "..",
         "backend",
         appName,
         "src",
         "main",
         "resources",
-        "static"
-      ),
+        "static",
+        isClerk ? 'clerk' : `public`
+      )
     },
   });
 
