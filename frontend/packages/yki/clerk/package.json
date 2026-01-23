@@ -1,6 +1,6 @@
 {
   "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.yki.clerk",
-  "description": "Yleiset kielitutkinnot (YKI) Clerk",
+  "description": "Yleiset kielitutkinnot (YKI) Clerk UI",
   "license": "MIT",
   "main": "index.js",
   "msw": {
