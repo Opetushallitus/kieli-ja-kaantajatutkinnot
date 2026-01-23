@@ -86,4 +86,4 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/src/main/resources/static/public
-          key: ${{ runner.os }}-${{ inputs.app-name }}-frontend-build-${{ github.sha }}
+          key: ${{ runner.os }}-${{ inputs.app-name }}-public-frontend-build-${{ github.sha }}

@@ -12,6 +12,10 @@ on:
         required: false
         type: boolean
         default: false
+      yki-cache-key:
+        description: "YKI cache key"
+        required: false
+        type: string
 
 env:
   BACKEND_DIR: ./backend
@@ -30,6 +34,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
       - uses: actions/cache@v3
+        if: ${{ inputs.yki-cache-key != '' }}
+        with:
+          path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/src/main/resources/static/${{ inputs.yki-cache-key }}
+          key: ${{ runner.os }}-${{ inputs.app-name }}-${{ inputs.yki-cache-key }}-frontend-build-${{ github.sha }}
+      - uses: actions/cache@v3
+        if: ${{ inputs.yki-cache-key == '' }}
         with:
           path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/src/main/resources/static
           key: ${{ runner.os }}-${{ inputs.app-name }}-frontend-build-${{ github.sha }}
