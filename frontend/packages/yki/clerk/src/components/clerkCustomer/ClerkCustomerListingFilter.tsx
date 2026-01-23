@@ -81,7 +81,7 @@ export const ClerkCustomerListingFilter = () => {
                       request: {
                         personQuery: searchQueryFilter,
                         organizerId: organizerIdFilter,
-                        examDateId: examSessionIdFilter,
+                        examSessionId: examSessionIdFilter,
                         languageCode: languageCodeFilter,
                         levelCode: levelCodeFilter,
                       },
@@ -170,7 +170,7 @@ export const ClerkCustomerListingFilter = () => {
                 request: {
                   personQuery: searchQueryFilter,
                   organizerId: organizerIdFilter,
-                  examDateId: examSessionIdFilter,
+                  examSessionId: examSessionIdFilter,
                   languageCode: languageCodeFilter,
                   levelCode: levelCodeFilter,
                 },
