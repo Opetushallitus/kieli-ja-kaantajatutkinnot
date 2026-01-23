@@ -28,7 +28,7 @@ import org.thymeleaf.templateresolver.StringTemplateResolver;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test-hsql")
-class IndexControllerIntegrationTest {
+class ClerkIndexControllerIntegrationTest {
 
   private static String expectedIndexHtml;
   private static String expectedIndexHtmlTemplate;
@@ -39,7 +39,7 @@ class IndexControllerIntegrationTest {
 
   @BeforeAll
   public static void loadExpectedIndexHtml() throws IOException {
-    expectedIndexHtmlTemplate = TestUtil.readResourceAsString("static/index.html");
+    expectedIndexHtmlTemplate = TestUtil.readResourceAsString("static/clerk/index.html");
     templateEngine = new SpringTemplateEngine();
     final StringTemplateResolver templateResolver = new StringTemplateResolver();
     templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -63,8 +63,10 @@ class IndexControllerIntegrationTest {
 
   @Test
   public void testStaticAssetIsReturned() throws Exception {
-    final String expectedContent = TestUtil.readResourceAsString("static/yki/static/assets/svg/footer_wave.svg");
-    assertGetContent("/yki/static/assets/svg/footer_wave.svg", "image/svg+xml", expectedContent);
+    final String expectedContent = TestUtil.readResourceAsString(
+      "static/clerk/v2/static/assets/svg/oph_logo_textless.svg"
+    );
+    assertGetContent("/clerk/v2/static/assets/svg/oph_logo_textless.svg", "image/svg+xml", expectedContent);
   }
 
   @Test
