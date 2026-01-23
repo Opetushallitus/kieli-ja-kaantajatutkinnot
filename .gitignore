@@ -64,6 +64,8 @@ dist
 !**/.yarn/sdks
 !**/.yarn/versions
 
+cypress/
+
 backend/vkt/src/main/resources/application-dev.yaml
 backend/yki/src/main/resources/application-dev.yaml
 backend/yki/src/main/resources/static/
