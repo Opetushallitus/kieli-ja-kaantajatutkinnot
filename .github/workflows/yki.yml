@@ -33,6 +33,7 @@ jobs:
     uses: ./.github/workflows/common-backend.yml
     with:
       app-name: "yki"
+      yki-separate-frontend-builds: true
   deploy:
     needs: backend
     uses: ./.github/workflows/common-deploy.yml
