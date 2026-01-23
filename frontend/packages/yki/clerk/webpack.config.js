@@ -2,7 +2,7 @@ const { merge } = require('webpack-merge');
 const yki = require('../../../webpack.yki');
 module.exports = (env) => {
   const { getDefaults } = yki(
-    'yki', // cloud-base path for new yki clerk is '/yki/v2' and we already prefix 'yki' in the backend
+    'yki',
     env,
     __dirname,
     4004,
