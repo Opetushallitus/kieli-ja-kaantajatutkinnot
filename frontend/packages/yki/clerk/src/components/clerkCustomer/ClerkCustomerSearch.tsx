@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import { useEffect } from 'react';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkCustomerListingFilter } from 'components/clerkCustomer/ClerkCustomerListingFilter';
@@ -42,63 +41,44 @@ export const ClerkCustomerSearch = () => {
   } = useAppSelector(clerkCustomersSearchSelector);
 
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    if (status === APIResponseStatus.NotStarted) {
-      dispatch(
-        loadCustomersSearch({
-          request: {
-            personQuery: searchQueryFilter,
-            organizerId: organizerIdFilter,
-            examSessionId: examSessionIdFilter,
-            languageCode: languageCodeFilter,
-            levelCode: levelCodeFilter,
-          },
-          page,
-          size,
-        }),
-      );
+
+  const renderClerkCustomersListing = () => {
+    switch (status) {
+      case APIResponseStatus.NotStarted:
+        return null;
+      case APIResponseStatus.Success:
+        return (
+          <ClerkCustomersListing
+            customers={customers}
+            page={page}
+            pageSize={size}
+            totalCount={totalElements}
+            onPageChange={(newPage) =>
+              dispatch(
+                loadCustomersSearch({
+                  request: {
+                    personQuery: searchQueryFilter,
+                    organizerId: organizerIdFilter,
+                    examSessionId: examSessionIdFilter,
+                    languageCode: languageCodeFilter,
+                    levelCode: levelCodeFilter,
+                  },
+                  page: newPage,
+                  size,
+                }),
+              )
+            }
+          />
+        );
+      default:
+        return <InfoText status={status} />;
     }
-  }, [
-    dispatch,
-    examSessionIdFilter,
-    languageCodeFilter,
-    levelCodeFilter,
-    organizerIdFilter,
-    page,
-    searchQueryFilter,
-    size,
-    status,
-  ]);
+  };
 
   return (
     <>
       <ClerkCustomerListingFilter />
-
-      {status !== APIResponseStatus.Success ? (
-        <InfoText status={status} />
-      ) : (
-        <ClerkCustomersListing
-          customers={customers}
-          page={page}
-          pageSize={size}
-          totalCount={totalElements}
-          onPageChange={(newPage) =>
-            dispatch(
-              loadCustomersSearch({
-                request: {
-                  personQuery: searchQueryFilter,
-                  organizerId: organizerIdFilter,
-                  examSessionId: examSessionIdFilter,
-                  languageCode: languageCodeFilter,
-                  levelCode: levelCodeFilter,
-                },
-                page: newPage,
-                size,
-              }),
-            )
-          }
-        />
-      )}
+      {renderClerkCustomersListing()}
     </>
   );
 };
