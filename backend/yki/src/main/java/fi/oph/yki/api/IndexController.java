@@ -47,10 +47,11 @@ public class IndexController {
     return new ModelAndView("public/index.html", Map.of("cspNonce", cspNonce));
   }
 
-  // Virkalija UI paths
+  // Virkailija UI paths
   // Map to everything which has no suffix, i.e. matches to "/foo/bar" but not to "/foo/bar.js"
   @GetMapping(
     path = {
+      "virkailija",
       "virkailija/{path:[^.]*}",
       "virkailija/*/{path:[^.]*}",
       "virkailija/*/*/{path:[^.]*}",
