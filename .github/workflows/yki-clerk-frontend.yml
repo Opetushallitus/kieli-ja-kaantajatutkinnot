@@ -85,5 +85,5 @@ jobs:
       - name: Cache build
         uses: actions/cache@v3
         with:
-          path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/src/main/resources/static/clerk
+          path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/src/main/resources/static/v2/clerk
           key: ${{ runner.os }}-${{ inputs.app-name }}-clerk-frontend-build-${{ github.sha }}

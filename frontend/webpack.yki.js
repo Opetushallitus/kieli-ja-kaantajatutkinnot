@@ -7,17 +7,17 @@ const CopyPlugin = require("copy-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const Dotenv = require('dotenv-webpack')
 
+
+// cloud-base path for new yki clerk is '/yki/v2' 
 module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = false
 ) => {
-  // cloud-base path for new yki clerk is '/yki/v2'
-  const STATIC_PATH = isClerk ? 'v2/clerk/static' : 'public/static';
   const CONTEXT_PATH = appName;
 
   const getMode = () => ({ mode: env.prod ? "production" : "development" });
   const getEntry = () => ({ entry: path.join(dirName, "src", "index.tsx") });
   const getOutput = () => ({
     output: {
-      filename: `${STATIC_PATH}/js/[name].[contenthash].js`,
+      filename: `js/[name].[contenthash].js`,
       path: path.join(
         dirName,
         "..",
@@ -30,7 +30,7 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = 
         "main",
         "resources",
         "static",
-        isClerk ? 'clerk' : `public`
+        isClerk ? "v2/clerk" : "public",
       )
     },
   });
@@ -41,13 +41,13 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = 
         algorithm: "gzip",
       }),
       new MiniCssExtractPlugin({
-        filename: `${STATIC_PATH}/css/[name].[contenthash].css`,
+        filename: `css/[name].[contenthash].css`,
       }),
       new CopyPlugin({
         patterns: [
           {
             from: path.join(dirName, "public", "favicon.ico"),
-            to: `${STATIC_PATH}/assets/ico/[name][ext]`,
+            to: `assets/ico/[name][ext]`,
           },
         ],
       }),
@@ -56,7 +56,7 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = 
       }),
       ...getESLintPlugin(env),
       ...getStylelintPlugin(env),
-      ...getHtmlWebpackPlugin(env, CONTEXT_PATH, dirName),
+      ...getHtmlWebpackPlugin(env, CONTEXT_PATH, dirName, isClerk),
       new CSPNoncePlaceholderInjectorPlugin(),
       new Dotenv()
     ],
@@ -83,21 +83,21 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = 
           test: /\.(woff(2)?|ttf|eot)$/,
           type: "asset/resource",
           generator: {
-            filename: `${STATIC_PATH}/assets/fonts/[name][ext]`,
+            filename: `assets/fonts/[name][ext]`,
           },
         },
         {
           test: /\.svg$/,
           type: "asset/resource",
           generator: {
-            filename: `${STATIC_PATH}/assets/svg/[name][ext]`,
+            filename: `assets/svg/[name][ext]`,
           },
         },
         {
           test: /\.(avif|jpg|webp)$/,
           type: "asset/resource",
           generator: {
-            filename: `${STATIC_PATH}/assets/images/[name][ext]`
+            filename: `assets/images/[name][ext]`
           }
         },
         {
@@ -204,9 +204,13 @@ const getESLintPlugin = (env) => {
   return [];
 };
 
-const getHtmlWebpackPlugin = (env, appName, dirName) => {
+const getHtmlWebpackPlugin = (env, appName, dirName, isClerk) => {
+  const publicPath = env.prod && !env.cypress 
+    ? (isClerk ? `/${appName}/v2/` : `/${appName}/public/`)
+    : "/";
+  
   const configs = {
-    publicPath: env.prod && !env.cypress ? `/${appName}/` : "/",
+    publicPath,
     template: path.join(dirName, "public", "index.html"),
     templateParameters: {
       GIT_INFO: "Not available",

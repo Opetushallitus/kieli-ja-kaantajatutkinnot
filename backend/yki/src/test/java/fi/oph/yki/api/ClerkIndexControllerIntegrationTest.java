@@ -39,7 +39,7 @@ class ClerkIndexControllerIntegrationTest {
 
   @BeforeAll
   public static void loadExpectedIndexHtml() throws IOException {
-    expectedIndexHtmlTemplate = TestUtil.readResourceAsString("static/clerk/index.html");
+    expectedIndexHtmlTemplate = TestUtil.readResourceAsString("static/v2/clerk/index.html");
     templateEngine = new SpringTemplateEngine();
     final StringTemplateResolver templateResolver = new StringTemplateResolver();
     templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -63,10 +63,8 @@ class ClerkIndexControllerIntegrationTest {
 
   @Test
   public void testStaticAssetIsReturned() throws Exception {
-    final String expectedContent = TestUtil.readResourceAsString(
-      "static/clerk/v2/static/assets/svg/oph_logo_textless.svg"
-    );
-    assertGetContent("/clerk/v2/static/assets/svg/oph_logo_textless.svg", "image/svg+xml", expectedContent);
+    final String expectedContent = TestUtil.readResourceAsString("static/v2/clerk/assets/svg/oph_logo_textless.svg");
+    assertGetContent("/v2/clerk/assets/svg/oph_logo_textless.svg", "image/svg+xml", expectedContent);
   }
 
   @Test

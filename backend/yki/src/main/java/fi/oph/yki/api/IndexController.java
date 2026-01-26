@@ -69,7 +69,7 @@ public class IndexController {
   public ModelAndView indexAllOtherClerkPaths(final HttpServletResponse response) {
     final String cspNonce = getNonce();
     addCSPHeaders(response, cspNonce);
-    return new ModelAndView("clerk/index.html", Map.of("cspNonce", cspNonce));
+    return new ModelAndView("v2/clerk/index.html", Map.of("cspNonce", cspNonce));
   }
 
   // Map to everything which has no suffix, i.e. matches to "/foo/bar" but not to "/foo/bar.js"

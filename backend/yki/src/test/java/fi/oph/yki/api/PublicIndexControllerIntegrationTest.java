@@ -63,8 +63,8 @@ class PublicIndexControllerIntegrationTest {
 
   @Test
   public void testStaticAssetIsReturned() throws Exception {
-    final String expectedContent = TestUtil.readResourceAsString("static/public/yki/static/assets/svg/footer_wave.svg");
-    assertGetContent("/public/yki/static/assets/svg/footer_wave.svg", "image/svg+xml", expectedContent);
+    final String expectedContent = TestUtil.readResourceAsString("static/public/assets/svg/footer_wave.svg");
+    assertGetContent("/public/assets/svg/footer_wave.svg", "image/svg+xml", expectedContent);
   }
 
   @Test
