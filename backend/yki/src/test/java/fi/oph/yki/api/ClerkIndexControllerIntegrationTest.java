@@ -48,17 +48,17 @@ class ClerkIndexControllerIntegrationTest {
 
   @Test
   public void testIndexHtmlIsReturnedFromRoot() throws Exception {
-    assertIndexHtml("/virkailija");
+    assertIndexHtml("/v2");
   }
 
   @Test
   public void testIndexHtmlIsReturnedFromRandomPathWithoutExtension() throws Exception {
-    assertIndexHtml("/virkailija/foo/bar/a");
+    assertIndexHtml("/v2/foo/bar/a");
   }
 
   @Test
   public void testRandomPathWithExtensionIsNotFound() throws Exception {
-    mockMvc.perform(get("/virkailija/foo/bar/foo.txt")).andExpect(status().isNotFound());
+    mockMvc.perform(get("/v2/foo/bar/foo.txt")).andExpect(status().isNotFound());
   }
 
   @Test
@@ -69,7 +69,7 @@ class ClerkIndexControllerIntegrationTest {
 
   @Test
   public void testDifferentNoncesAreReturnedForDifferentRequests() {
-    final List<String> urls = List.of("/virkailija", "/virkailija", "/foo", "/foo", "/virkailija");
+    final List<String> urls = List.of("/v2", "/v2", "/foo", "/foo", "/v2");
     final Set<String> nonces = urls
       .stream()
       .map(url -> {
