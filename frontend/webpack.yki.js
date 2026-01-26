@@ -206,7 +206,7 @@ const getESLintPlugin = (env) => {
 
 const getHtmlWebpackPlugin = (env, appName, dirName, isClerk) => {
   const publicPath = env.prod && !env.cypress 
-    ? (isClerk ? `/${appName}/v2/` : `/${appName}/public/`)
+    ? (isClerk ? `/${appName}/v2/clerk` : `/${appName}/public/`)
     : "/";
   
   const configs = {
