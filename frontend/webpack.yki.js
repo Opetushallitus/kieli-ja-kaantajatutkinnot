@@ -10,7 +10,7 @@ const Dotenv = require('dotenv-webpack')
 module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = false
 ) => {
   // cloud-base path for new yki clerk is '/yki/v2'
-  const STATIC_PATH = isClerk ? 'v2/static' : `${appName}/static`;
+  const STATIC_PATH = isClerk ? 'v2/clerk/static' : 'public/static';
   const CONTEXT_PATH = appName;
 
   const getMode = () => ({ mode: env.prod ? "production" : "development" });

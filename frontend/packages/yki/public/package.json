@@ -1,6 +1,6 @@
 {
   "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.yki",
-  "description": "Yleiset kielitutkinnot (YKI)",
+  "description": "Yleiset kielitutkinnot (YKI) UI",
   "license": "MIT",
   "main": "index.js",
   "msw": {
