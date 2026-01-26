@@ -75,7 +75,7 @@ export const ClerkCustomerListingFilter = () => {
                 sx={{ padding: 0, margin: '0 4px' }}
                 aria-label={t('listing.filters.searchLabel')}
                 onClick={() => {
-                  dispatch(setSearchQueryFilter(searchQueryFilter ?? ''));
+                  dispatch(setSearchQueryFilter(searchQueryFilter));
                   dispatch(
                     loadCustomersSearch({
                       request: {

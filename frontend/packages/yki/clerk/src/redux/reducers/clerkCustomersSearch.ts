@@ -62,21 +62,21 @@ const clerkCustomersSearchSlice = createSlice({
       state.totalElements = action.payload.totalElements;
     },
 
-    setSearchQueryFilter(state, action: PayloadAction<string>) {
+    setSearchQueryFilter(state, action: PayloadAction<string | undefined>) {
       state.searchQueryFilter = action.payload;
     },
-    setOrganizerFilter(state, action: PayloadAction<number>) {
+    setOrganizerFilter(state, action: PayloadAction<number | undefined>) {
       state.organizerIdFilter = action.payload;
     },
-    setExamSessionFilter(state, action: PayloadAction<number>) {
+    setExamSessionFilter(state, action: PayloadAction<number | undefined>) {
       state.examSessionIdFilter = action.payload;
     },
-    setLanguageFilter(state, action: PayloadAction<string>) {
+    setLanguageFilter(state, action: PayloadAction<string | undefined>) {
       state.languageCodeFilter = action.payload;
     },
     setLevelFilter(
       state,
-      action: PayloadAction<'' | 'PERUS' | 'KESKI' | 'YLIN'>,
+      action: PayloadAction<'' | 'PERUS' | 'KESKI' | 'YLIN' | undefined>,
     ) {
       state.levelCodeFilter =
         action.payload === '' ? undefined : action.payload;
