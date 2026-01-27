@@ -22,7 +22,7 @@ import { loadClerkOrganizerRegistry } from 'redux/reducers/clerkOrganizer';
 import { loadExamSessions } from 'redux/reducers/examSessions';
 import { clerkCustomersSearchSelector } from 'redux/selectors/clerkCustomersSearchSelector';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
-import { examSessionsSelector } from 'redux/selectors/examSessions';
+import { examSessionsSelector } from 'redux/selectors/examSession';
 import { filteredClerkOrganizersSelector } from 'redux/selectors/filteredClerkOrganizers';
 import { LANGUAGES, levelDescription } from 'utils/clerk';
 

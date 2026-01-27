@@ -1,5 +1,5 @@
-interface AuthenticatedSession {
-  'auth-method': 'CAS';
+export interface AuthenticatedSession {
+  'auth-method': 'CAS' | 'EMAIL' | 'SUOMIFI';
 }
 
 export interface CasAuthenticatedClerkSession extends AuthenticatedSession {

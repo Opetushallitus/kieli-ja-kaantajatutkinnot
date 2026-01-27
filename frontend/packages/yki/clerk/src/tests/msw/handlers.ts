@@ -1,11 +1,9 @@
-import dayjs from 'dayjs';
 import { http, HttpResponse } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
 import { examSessions } from 'tests/msw/fixtures/examSession';
-import { findByOidsResponse } from 'tests/msw/fixtures/findByOids';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { organizers } from 'tests/msw/fixtures/organizers';
 
@@ -151,5 +149,20 @@ export const handlers = [
       numberOfElements: paged.length,
       empty: paged.length === 0,
     });
+  }),
+  http.get(
+    APIEndpoints.ExamSessions,
+    () => new Response(JSON.stringify(examSessions), { status: 200 }),
+  ),
+  http.get(APIEndpoints.ExamSession, ({ params }) => {
+    const { examSessionId } = params;
+    const examSession = examSessions.exam_sessions.find(
+      (es) => es.id === Number(examSessionId),
+    );
+    if (examSession) {
+      return HttpResponse.json(examSession);
+    } else {
+      return notFound();
+    }
   }),
 ];
