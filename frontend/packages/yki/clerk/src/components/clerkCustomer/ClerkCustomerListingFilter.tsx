@@ -5,6 +5,7 @@ import {
   OphInputFormField,
   OphSelectFormField,
 } from '@opetushallitus/oph-design-system';
+import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { APIResponseStatus, Variant } from 'shared/enums';
 
@@ -19,10 +20,8 @@ import {
   setSearchQueryFilter,
 } from 'redux/reducers/clerkCustomersSearch';
 import { loadClerkOrganizerRegistry } from 'redux/reducers/clerkOrganizer';
-import { loadExamSessions } from 'redux/reducers/examSessions';
 import { clerkCustomersSearchSelector } from 'redux/selectors/clerkCustomersSearchSelector';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
-import { examSessionsSelector } from 'redux/selectors/examSession';
 import { filteredClerkOrganizersSelector } from 'redux/selectors/filteredClerkOrganizers';
 import { LANGUAGES, levelDescription } from 'utils/clerk';
 
@@ -37,8 +36,7 @@ export const ClerkCustomerListingFilter = () => {
   const dispatch = useAppDispatch();
   const { organizerRegistryStatus } = useAppSelector(clerkOrganizersSelector);
   const organizers = useAppSelector(filteredClerkOrganizersSelector);
-  const { status: examSessionsStatus, exam_sessions } =
-    useAppSelector(examSessionsSelector);
+  const exam_sessions: { session_date: dayjs.Dayjs; id: number }[] = [];
   const {
     searchQueryFilter,
     organizerIdFilter,
@@ -53,10 +51,7 @@ export const ClerkCustomerListingFilter = () => {
     if (organizerRegistryStatus === APIResponseStatus.NotStarted) {
       dispatch(loadClerkOrganizerRegistry());
     }
-    if (examSessionsStatus === APIResponseStatus.NotStarted) {
-      dispatch(loadExamSessions());
-    }
-  }, [dispatch, organizerRegistryStatus, examSessionsStatus]);
+  }, [dispatch, organizerRegistryStatus]);
 
   return (
     <div

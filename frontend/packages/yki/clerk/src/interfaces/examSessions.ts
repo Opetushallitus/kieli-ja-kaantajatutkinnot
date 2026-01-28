@@ -7,14 +7,6 @@ export interface ExamSessionsResponse {
   exam_sessions: Array<ExamSessionResponse>;
 }
 
-export interface ExamSessionFilters {
-  language?: ExamLanguage;
-  level?: ExamLevel;
-  municipality?: string;
-  excludeFullSessions: boolean;
-  excludeNonOpenSessions: boolean;
-}
-
 export interface ExamSessions {
   exam_sessions: Array<ExamSession>;
 }
@@ -29,7 +21,7 @@ export interface ExamSessionResponse
   registration_end_date?: string;
 }
 
-export interface ExamSessionLocation {
+interface ExamSessionLocation {
   name: string;
   post_office: string;
   zip: string;

@@ -190,21 +190,6 @@ export const handlers = [
       empty: paged.length === 0,
     });
   }),
-  http.get(
-    APIEndpoints.ExamSessions,
-    () => new Response(JSON.stringify(examSessions), { status: 200 }),
-  ),
-  http.get(APIEndpoints.ExamSession, ({ params }) => {
-    const { examSessionId } = params;
-    const examSession = examSessions.exam_sessions.find(
-      (es) => es.id === Number(examSessionId),
-    );
-    if (examSession) {
-      return HttpResponse.json(examSession);
-    } else {
-      return notFound();
-    }
-  }),
   http.post('/organisaatio-service/rest/organisaatio/v3/findbyoids', () => {
     return HttpResponse.json(findByOidsResponse);
   }),
