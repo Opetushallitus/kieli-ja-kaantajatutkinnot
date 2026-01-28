@@ -9,6 +9,15 @@ import {
 interface ClerkCustomersSearchState {
   customers: ClerkCustomerSummary[];
   status: APIResponseStatus;
+
+  // filter
+  searchQueryFilter?: string;
+  organizerIdFilter?: number;
+  examSessionIdFilter?: number;
+  languageCodeFilter?: string;
+  levelCodeFilter?: 'PERUS' | 'KESKI' | 'YLIN';
+
+  // pagination
   page: number;
   size: number;
   totalElements: number;
@@ -52,6 +61,26 @@ const clerkCustomersSearchSlice = createSlice({
       state.size = action.payload.size;
       state.totalElements = action.payload.totalElements;
     },
+
+    setSearchQueryFilter(state, action: PayloadAction<string | undefined>) {
+      state.searchQueryFilter = action.payload;
+    },
+    setOrganizerFilter(state, action: PayloadAction<number | undefined>) {
+      state.organizerIdFilter = action.payload;
+    },
+    setExamSessionFilter(state, action: PayloadAction<number | undefined>) {
+      state.examSessionIdFilter = action.payload;
+    },
+    setLanguageFilter(state, action: PayloadAction<string | undefined>) {
+      state.languageCodeFilter = action.payload;
+    },
+    setLevelFilter(
+      state,
+      action: PayloadAction<'' | 'PERUS' | 'KESKI' | 'YLIN' | undefined>,
+    ) {
+      state.levelCodeFilter =
+        action.payload === '' ? undefined : action.payload;
+    },
   },
 });
 
@@ -61,4 +90,9 @@ export const {
   loadCustomersSearch,
   rejectCustomersSearch,
   storeCustomersSearch,
+  setSearchQueryFilter,
+  setOrganizerFilter,
+  setExamSessionFilter,
+  setLanguageFilter,
+  setLevelFilter,
 } = clerkCustomersSearchSlice.actions;

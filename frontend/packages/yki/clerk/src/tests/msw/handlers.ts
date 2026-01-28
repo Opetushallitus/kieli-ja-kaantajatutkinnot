@@ -75,9 +75,16 @@ export const handlers = [
       return notFound();
     }
   }),
-
   http.post(APIEndpoints.ClerkCustomersSearch, async ({ request }) => {
     const url = new URL(request.url);
+    const body = (await request.json()) as {
+      personQuery?: string;
+      organizerId?: number;
+      examSessionId?: number;
+      languageCode?: string;
+      levelCode?: string;
+    };
+
     const getNumberParam = (urlParam: string, fallback: number) => {
       const param = Number(url.searchParams.get(urlParam));
 
@@ -87,8 +94,37 @@ export const handlers = [
     const page = getNumberParam('page', 0);
     const size = getNumberParam('size', 20);
 
-    // Emulating pagination
-    const filtered = allCustomers; // return every customer, for testing
+    const personQuery = body.personQuery?.trim() ?? '';
+    if (personQuery.length > 0 && personQuery.length <= 2) {
+      return HttpResponse.json(
+        {
+          error:
+            'When given the person query, it must have atleast three characters',
+        },
+        { status: 400 },
+      );
+    }
+
+    const searchTerms = personQuery.toLowerCase().split(/\s+/).filter(Boolean);
+
+    const matchesSearchTerms = (customer: (typeof allCustomers)[0]) => {
+      if (searchTerms.length === 0) {
+        return true;
+      }
+
+      const searchableText = [
+        customer.person.oid,
+        customer.person.firstName,
+        customer.person.lastName,
+        customer.person.email ?? '',
+      ]
+        .join(' ')
+        .toLowerCase();
+
+      return searchTerms.every((term) => searchableText.includes(term));
+    };
+
+    const filtered = allCustomers.filter(matchesSearchTerms);
     const start = page * size;
     const paged = filtered.slice(start, start + size);
     const totalElements = filtered.length;
@@ -116,10 +152,24 @@ export const handlers = [
       empty: paged.length === 0,
     });
   }),
+  http.get(
+    APIEndpoints.ExamSessions,
+    () => new Response(JSON.stringify(examSessions), { status: 200 }),
+  ),
+  http.get(APIEndpoints.ExamSession, ({ params }) => {
+    const { examSessionId } = params;
+    const examSession = examSessions.exam_sessions.find(
+      (es) => es.id === Number(examSessionId),
+    );
+    if (examSession) {
+      return HttpResponse.json(examSession);
+    } else {
+      return notFound();
+    }
+  }),
   http.post('/organisaatio-service/rest/organisaatio/v3/findbyoids', () => {
     return HttpResponse.json(findByOidsResponse);
   }),
-
   http.get('/yki/api/clerk/organizer/:oid/exam-session', ({ params }) => {
     const { from } = params;
 
