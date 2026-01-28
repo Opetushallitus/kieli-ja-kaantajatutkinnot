@@ -1,9 +1,11 @@
+import dayjs from 'dayjs';
 import { http, HttpResponse } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
 import { examSessions } from 'tests/msw/fixtures/examSession';
+import { findByOidsResponse } from 'tests/msw/fixtures/findByOids';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { organizers } from 'tests/msw/fixtures/organizers';
 
@@ -164,5 +166,24 @@ export const handlers = [
     } else {
       return notFound();
     }
+  }),
+  http.post('/organisaatio-service/rest/organisaatio/v3/findbyoids', () => {
+    return HttpResponse.json(findByOidsResponse);
+  }),
+  http.get('/yki/api/clerk/organizer/:oid/exam-session', ({ params }) => {
+    const { from } = params;
+
+    const filteredExamSessions = from
+      ? examSessions.exam_sessions.filter((e) => {
+          return (
+            dayjs().isSame(dayjs(e.session_date), 'day') ||
+            dayjs().isAfter(dayjs(e.session_date), 'day')
+          );
+        })
+      : examSessions.exam_sessions;
+
+    return HttpResponse.json({ exam_sessions: filteredExamSessions });
+    // all exam dates
+    // return HttpResponse.json({ dates: examDates.dates });
   }),
 ];
