@@ -7,7 +7,7 @@ import lombok.Builder;
 public record ClerkCustomerSearchRequestDTO(
   @Nullable String personQuery,
   @Nullable Long organizerId,
-  @Nullable Long examSessionId,
+  @Nullable Long examDateId,
   @Nullable String languageCode,
   @Nullable String levelCode
 ) {}

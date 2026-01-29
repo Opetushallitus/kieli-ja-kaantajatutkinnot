@@ -134,7 +134,7 @@ public class ClerkCustomerService {
         pageable,
         onrDtoOptional.get().getOidHenkilo(),
         request.organizerId(),
-        request.examSessionId(),
+        request.examDateId(),
         request.languageCode(),
         request.levelCode()
       );
@@ -145,7 +145,7 @@ public class ClerkCustomerService {
       pageable,
       request.personQuery(),
       request.organizerId(),
-      request.examSessionId(),
+      request.examDateId(),
       request.languageCode(),
       request.levelCode()
     );
