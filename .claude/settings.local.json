@@ -2,6 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(ls:*)"
+    ],
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.git/**)"
     ]
   }
 }
