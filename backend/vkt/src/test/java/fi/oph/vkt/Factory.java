@@ -107,12 +107,12 @@ public class Factory {
     final EnrollmentAppointment enrollment = new EnrollmentAppointment();
     enrollment.setExaminer(examiner);
     enrollment.setOralSkill(true);
-    enrollment.setTextualSkill(false);
+    enrollment.setTextualSkill(true);
     enrollment.setUnderstandingSkill(true);
     enrollment.setSpeakingPartialExam(true);
     enrollment.setSpeechComprehensionPartialExam(true);
-    enrollment.setWritingPartialExam(false);
-    enrollment.setReadingComprehensionPartialExam(false);
+    enrollment.setWritingPartialExam(true);
+    enrollment.setReadingComprehensionPartialExam(true);
     enrollment.setStatus(EnrollmentAppointmentStatus.COMPLETED);
     enrollment.setPreviousEnrollment("1.11.2022");
     enrollment.setDigitalCertificateConsent(true);
@@ -184,18 +184,22 @@ public class Factory {
     return municipality;
   }
 
-  public static EnrollmentGrade enrollmentGrades() {
+  public static EnrollmentGrade enrollmentGrades(final boolean hasPartialGrades) {
     final EnrollmentGrade enrollmentGrade = new EnrollmentGrade();
 
     enrollmentGrade.setWritingPartialExamGrade(EnrollmentGradeType.FAILED);
     enrollmentGrade.setSpeakingPartialExamGrade(EnrollmentGradeType.GOOD);
     enrollmentGrade.setSpeechComprehensionPartialExamGrade(EnrollmentGradeType.SATISFACTORY);
-    enrollmentGrade.setReadingComprehensionPartialExamGrade(EnrollmentGradeType.FAILED);
+    if (!hasPartialGrades) {
+      enrollmentGrade.setReadingComprehensionPartialExamGrade(EnrollmentGradeType.FAILED);
+    }
 
     enrollmentGrade.setWritingPartialExamComment("Writing comment");
     enrollmentGrade.setSpeakingPartialExamComment("Speaking comment");
     enrollmentGrade.setSpeechComprehensionPartialExamComment("Speech comment");
-    enrollmentGrade.setReadingComprehensionPartialExamComment("Reading comment");
+    if (!hasPartialGrades) {
+      enrollmentGrade.setReadingComprehensionPartialExamComment("Reading comment");
+    }
 
     return enrollmentGrade;
   }

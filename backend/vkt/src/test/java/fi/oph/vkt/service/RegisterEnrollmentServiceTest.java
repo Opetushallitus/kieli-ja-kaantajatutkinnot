@@ -51,6 +51,9 @@ public class RegisterEnrollmentServiceTest {
   @Value("classpath:register/sync-request2.json")
   private org.springframework.core.io.Resource syncRequest2;
 
+  @Value("classpath:register/sync-request3.json")
+  private org.springframework.core.io.Resource syncRequest3;
+
   @Value("classpath:register/sync-response.json")
   private org.springframework.core.io.Resource syncResponse;
 
@@ -84,12 +87,20 @@ public class RegisterEnrollmentServiceTest {
     final EnrollmentAppointment enrollmentAppointment1 = createEnrollmentAppointment(
       examinerExamEvent,
       EnrollmentAppointmentStatus.COMPLETED,
-      true
+      true,
+      false
     );
     final EnrollmentAppointment enrollmentAppointment2 = createEnrollmentAppointment(
       examinerExamEvent,
       EnrollmentAppointmentStatus.COMPLETED,
+      false,
       false
+    );
+    final EnrollmentAppointment enrollmentAppointment3 = createEnrollmentAppointment(
+      examinerExamEvent,
+      EnrollmentAppointmentStatus.COMPLETED,
+      true,
+      true
     );
 
     final CasClient casClient = mock(CasClient.class);
@@ -103,6 +114,7 @@ public class RegisterEnrollmentServiceTest {
     assertNull(enrollment2.getLastSyncAt());
     assertNull(enrollmentAppointment1.getLastSyncAt());
     assertNull(enrollmentAppointment2.getLastSyncAt());
+    assertNull(enrollmentAppointment3.getLastSyncAt());
 
     final RegisterEnrollmentService registerEnrollmentService = new RegisterEnrollmentService(
       casClient,
@@ -146,9 +158,30 @@ public class RegisterEnrollmentServiceTest {
           );
         })
       );
-    verify(casClient, times(2)).executeBlocking(any());
+    verify(casClient, times(1))
+      .executeBlocking(
+        argThat(r -> {
+          final String actual = r.getStringData();
+          final String today = DateUtil.formatOptionalDate(LocalDate.now());
+          final String expected3 = getMockSyncRequest3()
+            .replace("[id]", "HTT-" + enrollmentAppointment3.getId())
+            .replace("[date]", today)
+            .trim();
+
+          return (
+            actual != null &&
+            actual.trim().equals(expected3) &&
+            r.getUrl().equals("https://foo.bar") &&
+            r.getMethod().equals("PUT") &&
+            r.getHeaders().get("Content-Type").equals("application/json")
+          );
+        })
+      );
+
+    verify(casClient, times(3)).executeBlocking(any());
     assertNotNull(enrollmentAppointment1.getLastSyncAt());
     assertNull(enrollmentAppointment2.getLastSyncAt());
+    assertNotNull(enrollmentAppointment3.getLastSyncAt());
     assertNotNull(enrollment1.getLastSyncAt());
     assertNull(enrollment2.getLastSyncAt());
   }
@@ -164,6 +197,14 @@ public class RegisterEnrollmentServiceTest {
   private String getMockSyncRequest2() {
     try {
       return new String(syncRequest2.getInputStream().readAllBytes());
+    } catch (final Exception e) {
+      return "";
+    }
+  }
+
+  private String getMockSyncRequest3() {
+    try {
+      return new String(syncRequest3.getInputStream().readAllBytes());
     } catch (final Exception e) {
       return "";
     }
@@ -206,11 +247,12 @@ public class RegisterEnrollmentServiceTest {
   private EnrollmentAppointment createEnrollmentAppointment(
     final ExaminerExamEvent examEvent,
     final EnrollmentAppointmentStatus status,
-    final boolean hasGrades
+    final boolean hasGrades,
+    final boolean hasPartialGrades
   ) {
     final Person person = createPerson("2.2.246.562.10.123456789" + personOidCounter++);
     final Examiner examiner = examEvent.getExaminer();
-    final EnrollmentGrade enrollmentGrade = Factory.enrollmentGrades();
+    final EnrollmentGrade enrollmentGrade = Factory.enrollmentGrades(hasPartialGrades);
     final EnrollmentAppointment enrollment = Factory.enrollmentAppointment(examiner, examEvent, person);
     enrollment.setStatus(status);
 
