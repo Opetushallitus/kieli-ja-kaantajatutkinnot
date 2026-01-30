@@ -97,7 +97,7 @@ export type ClerkCustomerSearchParams = {
   request: {
     personQuery?: string;
     organizerId?: number;
-    examDateId?: number;
+    examSessionId?: number;
     languageCode?: string;
     levelCode?: string;
   };

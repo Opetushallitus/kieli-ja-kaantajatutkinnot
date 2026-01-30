@@ -18,4 +18,4 @@ const APIErrorSlice = createSlice({
 });
 
 export const APIErrorReducer = APIErrorSlice.reducer;
-export const { resetAPIError } = APIErrorSlice.actions;
+export const { setAPIError, resetAPIError } = APIErrorSlice.actions;

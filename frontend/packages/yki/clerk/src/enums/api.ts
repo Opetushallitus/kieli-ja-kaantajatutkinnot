@@ -7,5 +7,7 @@ export enum APIEndpoints {
   ClerkFreeRegistrationDetailsMessages = '/yki/v2/api/clerk/registration/approval/:id/comment',
   ClerkCustomerDetails = '/yki/v2/api/clerk/customer/:oid',
   ClerkCustomersSearch = '/yki/v2/api/clerk/customer/search?page=:page&size=:size',
+  ExamSession = '/yki/api/exam-session/:examSessionId',
+  ExamSessions = '/yki/api/exam-session',
   User = '/yki/api/user/identity',
 }
