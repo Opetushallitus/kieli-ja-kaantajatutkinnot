@@ -44,7 +44,7 @@ public class ClerkCustomerController {
   public Page<ClerkCustomerSummaryDTO> searchCustomers(
     @RequestParam(defaultValue = "0") final int page,
     @RequestParam(defaultValue = "20") final int size,
-    @RequestBody(required = true) final ClerkCustomerSearchRequestDTO request
+    @RequestBody final ClerkCustomerSearchRequestDTO request
   ) throws IllegalArgumentException, ExecutionException, InterruptedException, JsonProcessingException {
     final int validatedSize = Math.min(size, MAX_PAGE_SIZE);
 
