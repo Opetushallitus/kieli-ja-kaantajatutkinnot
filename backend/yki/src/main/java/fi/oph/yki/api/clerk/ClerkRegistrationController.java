@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
   consumes = APPLICATION_JSON_VALUE,
   produces = APPLICATION_JSON_VALUE
 )
-@Profile("dev")
 @Conditional(ClerkEnabledCondition.class)
 public class ClerkRegistrationController {
 
