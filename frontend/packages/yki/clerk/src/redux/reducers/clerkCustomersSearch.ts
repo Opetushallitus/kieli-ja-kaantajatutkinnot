@@ -13,7 +13,7 @@ interface ClerkCustomersSearchState {
   // filter
   searchQueryFilter?: string;
   organizerIdFilter?: number;
-  examSessionIdFilter?: number;
+  examDateIdFilter?: number;
   languageCodeFilter?: string;
   levelCodeFilter?: 'PERUS' | 'KESKI' | 'YLIN';
 
@@ -68,8 +68,8 @@ const clerkCustomersSearchSlice = createSlice({
     setOrganizerFilter(state, action: PayloadAction<number | undefined>) {
       state.organizerIdFilter = action.payload;
     },
-    setExamSessionFilter(state, action: PayloadAction<number | undefined>) {
-      state.examSessionIdFilter = action.payload;
+    setExamDateFilter(state, action: PayloadAction<number | undefined>) {
+      state.examDateIdFilter = action.payload;
     },
     setLanguageFilter(state, action: PayloadAction<string | undefined>) {
       state.languageCodeFilter = action.payload;
@@ -92,7 +92,7 @@ export const {
   storeCustomersSearch,
   setSearchQueryFilter,
   setOrganizerFilter,
-  setExamSessionFilter,
+  setExamDateFilter,
   setLanguageFilter,
   setLevelFilter,
 } = clerkCustomersSearchSlice.actions;

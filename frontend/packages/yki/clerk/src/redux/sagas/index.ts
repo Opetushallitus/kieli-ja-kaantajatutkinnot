@@ -5,6 +5,7 @@ import { watchClerkCustomersSearch } from 'redux/sagas/clerkCustomersSearch';
 import { watchClerkFreeRegistrations } from 'redux/sagas/clerkFreeRegistration';
 import { watchClerkFreeRegistrationDetails } from 'redux/sagas/clerkFreeRegistrationDetails';
 import { watchClerkOrganizers } from 'redux/sagas/clerkOrganizer';
+import { watchExamDates } from 'redux/sagas/examDate';
 import { watchNationalities } from 'redux/sagas/nationalities';
 import { watchSession } from 'redux/sagas/session';
 
@@ -15,6 +16,7 @@ export default function* rootSaga() {
     watchClerkFreeRegistrationDetails(),
     watchClerkCustomerDetails(),
     watchClerkCustomersSearch(),
+    watchExamDates(),
     watchNationalities(),
     watchSession(),
   ]);

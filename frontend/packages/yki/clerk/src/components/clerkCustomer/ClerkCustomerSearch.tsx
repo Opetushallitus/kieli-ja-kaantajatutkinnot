@@ -32,7 +32,7 @@ export const ClerkCustomerSearch = () => {
     customers,
     searchQueryFilter,
     organizerIdFilter,
-    examSessionIdFilter,
+    examDateIdFilter,
     languageCodeFilter,
     levelCodeFilter,
     page,
@@ -59,7 +59,7 @@ export const ClerkCustomerSearch = () => {
                   request: {
                     personQuery: searchQueryFilter,
                     organizerId: organizerIdFilter,
-                    examSessionId: examSessionIdFilter,
+                    examDateId: examDateIdFilter,
                     languageCode: languageCodeFilter,
                     levelCode: levelCodeFilter,
                   },
