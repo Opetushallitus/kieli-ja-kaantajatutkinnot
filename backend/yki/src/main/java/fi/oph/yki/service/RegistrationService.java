@@ -1,5 +1,6 @@
 package fi.oph.yki.service;
 
+import fi.oph.yki.api.dto.CancellationResponseDTO;
 import fi.oph.yki.api.dto.PublicEducationBasisDTO;
 import fi.oph.yki.api.dto.PublicEducationDTO;
 import fi.oph.yki.api.dto.PublicEducationUpdateDTO;
@@ -17,6 +18,7 @@ import fi.oph.yki.model.RegistrationEvaluation;
 import fi.oph.yki.model.type.EvaluationState;
 import fi.oph.yki.model.type.FreeRegistrationSource;
 import fi.oph.yki.model.type.FreeRegistrationType;
+import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationEvaluationRepository;
@@ -26,9 +28,15 @@ import fi.oph.yki.service.koski.KoskiService;
 import fi.oph.yki.util.RegistrationUtil;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
+<<<<<<< HEAD
 import fi.oph.yki.util.exception.NotFoundException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+=======
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+>>>>>>> ed87bb2b (wip: cancel asiakashaku)
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,6 +52,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class RegistrationService {
 
   private static final Logger LOG = LoggerFactory.getLogger(RegistrationService.class);
+  private static final ZoneId HELSINKI_ZONE = ZoneId.of("Europe/Helsinki");
+  private static final int CANCELLATION_DEADLINE_HOURS = 8;
+
   private final RegistrationRepository registrationRepository;
   private final FreeRegistrationRepository freeRegistrationRepository;
   private final PersonRepository personRepository;
@@ -162,6 +173,7 @@ public class RegistrationService {
     return freeRegistrationRepository.countFreeRegistrationsUsed(oid) < 3;
   }
 
+<<<<<<< HEAD
   @Transactional
   public EvaluationStatesResponseDTO upsertRegistrationEvaluationStates(final EvaluationStatesDTO dto) {
     AtomicInteger procesed = new AtomicInteger();
@@ -236,5 +248,39 @@ public class RegistrationService {
       errors.size()
     );
     return EvaluationStatesResponseDTO.builder().hyvaksytyt(procesed.get()).virheet(errors).build();
+=======
+  public boolean isCancellable(Registration registration) {
+    Set<RegistrationState> cancellableStates = Set.of(RegistrationState.SUBMITTED, RegistrationState.COMPLETED);
+    if (!cancellableStates.contains(registration.getState())) {
+      return false;
+    }
+
+    LocalDate examDate = registration.getExamSession().getExamDate().getExamDate();
+    ZonedDateTime deadline = examDate.atStartOfDay(HELSINKI_ZONE).plusHours(CANCELLATION_DEADLINE_HOURS);
+    ZonedDateTime now = ZonedDateTime.now(HELSINKI_ZONE);
+
+    return now.isBefore(deadline);
+  }
+
+  @Transactional
+  public CancellationResponseDTO cancelPersonRegistration(String oid, Long registrationId) {
+    Registration registration = registrationRepository
+      .findByIdAndPersonOidWithExamSession(registrationId, oid)
+      .orElseThrow(() -> new APIException(APIExceptionType.PERSON_REGISTRATION_OID_MISMATCH));
+
+    if (!isCancellable(registration)) {
+      throw new APIException(APIExceptionType.REGISTRATION_NOT_CANCELLABLE);
+    }
+
+    RegistrationState newState = registration.getState() == RegistrationState.COMPLETED
+      ? RegistrationState.PAID_AND_CANCELLED
+      : RegistrationState.CANCELLED;
+    registration.setState(newState);
+    registrationRepository.save(registration);
+
+    auditService.logById(YkiOperation.CANCEL_REGISTRATION, registrationId);
+
+    return new CancellationResponseDTO(true);
+>>>>>>> ed87bb2b (wip: cancel asiakashaku)
   }
 }

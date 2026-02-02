@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -27,4 +28,12 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     final String language,
     final String level
   );
+
+  @Query(
+    "SELECT r FROM Registration r " +
+    "JOIN FETCH r.examSession es " +
+    "JOIN FETCH es.examDate " +
+    "WHERE r.id = :id AND r.person.oid = :oid"
+  )
+  Optional<Registration> findByIdAndPersonOidWithExamSession(@Param("id") Long id, @Param("oid") String oid);
 }

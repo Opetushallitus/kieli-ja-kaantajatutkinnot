@@ -1,5 +1,6 @@
 package fi.oph.yki.api;
 
+import fi.oph.yki.api.dto.CancellationResponseDTO;
 import fi.oph.yki.api.dto.PublicEducationAndFreeRegistrationsCountDTO;
 import fi.oph.yki.api.dto.PublicEducationDTO;
 import fi.oph.yki.api.dto.PublicEducationUpdateDTO;
@@ -16,6 +17,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -78,5 +80,20 @@ public class PublicController {
       .educations(educations)
       .usedFreeRegistrations(usedFreeRegistrations)
       .build();
+  }
+
+  @DeleteMapping(path = "/person/registrations/{registrationId:\\d+}")
+  @ResponseStatus(HttpStatus.OK)
+  public CancellationResponseDTO cancelPersonRegistration(
+    @PathVariable final long registrationId,
+    final HttpServletRequest request
+  ) {
+    final String oid = StringUtil.getOidFromRequest(request);
+
+    if (oid == null || oid.isEmpty()) {
+      throw new APIException(APIExceptionType.SESSION_OID_NOT_FOUND);
+    }
+
+    return registrationService.cancelPersonRegistration(oid, registrationId);
   }
 }

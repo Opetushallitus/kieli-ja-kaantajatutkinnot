@@ -10,4 +10,5 @@ public enum YkiOperation implements Operation {
   ADD_COMMENT,
   CREATE_FREE_REGISTRATION,
   UPDATE_FREE_REGISTRATION,
+  CANCEL_REGISTRATION,
 }
