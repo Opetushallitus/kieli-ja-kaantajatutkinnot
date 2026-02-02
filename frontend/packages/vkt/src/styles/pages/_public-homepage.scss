@@ -30,6 +30,7 @@
   & &__info-box {
     background-color: $color-blue-200;
     border-radius: 4px;
+    margin-bottom: 2rem;
 
     @include phone {
       padding: 2rem 1rem;

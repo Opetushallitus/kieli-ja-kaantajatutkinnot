@@ -128,8 +128,15 @@
         }
       },
       "info": {
-        "previousEnrollment": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen. Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.",
+        "previousEnrollment": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen. Om ett av delproven som ingår i examen blir underkänd, har du högst tre år på dig att ta om det underkända delprovet. Observera dock att det underkända delprovet måste tas om senast den 31.12.2028.",
         "selectExam": "När du avlägger båda delproven som hör till examen med godkänt resultat får du ett intyg över examensprestationen för en viss färdighet. Om du avlägger examina i muntliga och skriftliga färdigheter behöver du inte avlägga examen i förståelse separat."
+      },
+      "infoBox": {
+        "part1": "Språkexamina för statsförvaltningen avvecklas stegvis före utgången av 2028.",
+        "part2": "Nya VKT-examina kan avläggas fram till den 30 juni 2026. Därefter kan du endast förnya tidigare underkända delprov.",
+        "part3": "Läs mer på Utbildningsstyrelsens webbplats: ",
+        "link": "Språkexamina för statsförvaltningen avskaffas – delta i examen senast den 30 juni 2026 ",
+        "url": "https://www.oph.fi/sv/nyheter/2026/sprakexamina-statsforvaltningen-avskaffas-delta-i-examen-senast-den-30-juni-2026"
       },
       "languageFilter": {
         "label": "Visa examina i följande språk",

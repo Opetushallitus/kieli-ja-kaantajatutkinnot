@@ -130,8 +130,15 @@
         }
       },
       "info": {
-        "previousEnrollment": "Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana. Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osan suorittamispäivästä alkaen.",
+        "previousEnrollment": "Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana. Jos toinen tutkintoon kuuluvista osakokeista hylätään, sinulla on enintään kolme vuotta aikaa uusia hylätty osakoe. Huomioi kuitenkin, että hylätty osakoe on suoritettava uudelleen viimeistään 31.12.2028.",
         "selectExam": "Kun suoritat molemmat tutkintoon kuuluvat osakokeet hyväksytysti, saat todistuksen tietyn taidon tutkintosuorituksesta. Jos suoritat suullisen ja kirjallisen taidon tutkinnot, sinun ei tarvitse suorittaa erikseen ymmärtämisen taidon tutkintoa."
+      },
+      "infoBox": {
+        "part1": "Valtionhallinnon kielitutkinnot lakkautetaan vaiheittain vuoden 2028 loppuun mennessä.",
+        "part2": "Uusia VKT-tutkintoja voi suorittaa 30.6.2026 saakka. Sen jälkeen voit uusia vain aiemmin hylättyjä osakokeita.",
+        "part3": "Lue lisää Opetushallituksen verkkosivuilta: ",
+        "link": "Valtionhallinnon kielitutkinnot päättyvät – osallistu tutkintoon viimeistään 30.6.2026",
+        "url": "https://www.oph.fi/fi/uutiset/2026/valtionhallinnon-kielitutkinnot-paattyvat-osallistu-tutkintoon-viimeistaan-3062026"
       },
       "languageFilter": {
         "label": "Näytä seuraavien kielten tutkinnot",
