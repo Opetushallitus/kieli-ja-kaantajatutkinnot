@@ -1,5 +1,8 @@
 package fi.oph.yki.view;
 
+import fi.oph.yki.model.ExamSession;
+import fi.oph.yki.model.Registration;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -10,8 +13,17 @@ public class ExamSessionXlsxDataRowUtil {
   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
   private static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-  public static ExamSessionXlsxData createExcelData() {
+  public static ExamSessionXlsxData createExcelData(final ExamSession examSession) {
+    final List<ExamSessionXlsxDataRow> excelDataRows = examSession.getRegistrations()
+            .stream()
+            .map(ExamSessionXlsxDataRowUtil::createDataRow)
+            .toList();
+
     return ExamSessionXlsxData.builder().build();
+  }
+
+  private static ExamSessionXlsxDataRow createDataRow(final Registration registration) {
+    return ExamSessionXlsxDataRow.builder().build();
   }
 
 }
