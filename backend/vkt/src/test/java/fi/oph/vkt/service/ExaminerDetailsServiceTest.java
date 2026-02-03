@@ -20,7 +20,6 @@ import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.ExaminerRepository;
 import fi.oph.vkt.service.onr.OnrService;
 import fi.oph.vkt.service.onr.PersonalData;
-import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
