@@ -4,10 +4,17 @@ import { http, HttpResponse } from 'msw';
 import { APIEndpoints } from 'enums/api';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
+import { examDates } from 'tests/msw/fixtures/examDate';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 import { findByOidsResponse } from 'tests/msw/fixtures/findByOids';
+import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
+import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { organizers } from 'tests/msw/fixtures/organizers';
+
+interface FreeRegistrationRequest {
+  approved: boolean;
+}
 
 const notFound = () => new HttpResponse(null, { status: 404 });
 
@@ -53,6 +60,38 @@ export const handlers = [
       }
     },
   ),
+  http.get(APIEndpoints.ClerkFreeRegistration, ({ cookies }) => {
+    if (cookies['free-registration-error-500'] === '1') {
+      return HttpResponse.json({ error: 'forced error' }, { status: 500 });
+    }
+
+    return HttpResponse.json(freeRegistrations);
+  }),
+  http.get(APIEndpoints.ClerkFreeRegistrationDetails, ({ params }) => {
+    const index = params?.id ? Number(params.id) - 1 : NaN;
+    if (index >= 0) {
+      return HttpResponse.json(freeRegistrationDetails[index]);
+    } else {
+      return notFound();
+    }
+  }),
+  http.put(
+    APIEndpoints.ClerkFreeRegistrationDetails,
+    async ({ params, request }) => {
+      const index = params?.id ? Number(params.id) - 1 : NaN;
+      const { approved } = (await request.json()) as FreeRegistrationRequest;
+      const response = freeRegistrationDetails[index];
+
+      if (index >= 0) {
+        return HttpResponse.json({
+          ...response,
+          status: approved ? 'APPROVED' : 'REJECTED',
+        });
+      } else {
+        return notFound();
+      }
+    },
+  ),
   http.post(APIEndpoints.ClerkFreeRegistrationSupplementRequest, () => {
     return HttpResponse.json({ success: true });
   }),
@@ -80,7 +119,7 @@ export const handlers = [
     const body = (await request.json()) as {
       personQuery?: string;
       organizerId?: number;
-      examSessionId?: number;
+      examDateId?: number;
       languageCode?: string;
       levelCode?: string;
     };
@@ -152,21 +191,6 @@ export const handlers = [
       empty: paged.length === 0,
     });
   }),
-  http.get(
-    APIEndpoints.ExamSessions,
-    () => new Response(JSON.stringify(examSessions), { status: 200 }),
-  ),
-  http.get(APIEndpoints.ExamSession, ({ params }) => {
-    const { examSessionId } = params;
-    const examSession = examSessions.exam_sessions.find(
-      (es) => es.id === Number(examSessionId),
-    );
-    if (examSession) {
-      return HttpResponse.json(examSession);
-    } else {
-      return notFound();
-    }
-  }),
   http.post('/organisaatio-service/rest/organisaatio/v3/findbyoids', () => {
     return HttpResponse.json(findByOidsResponse);
   }),
@@ -185,5 +209,8 @@ export const handlers = [
     return HttpResponse.json({ exam_sessions: filteredExamSessions });
     // all exam dates
     // return HttpResponse.json({ dates: examDates.dates });
+  }),
+  http.get(APIEndpoints.ExamDate, () => {
+    return HttpResponse.json(examDates);
   }),
 ];

@@ -8,8 +8,7 @@ import { clerkCustomersSearchReducer } from 'redux/reducers/clerkCustomersSearch
 import { clerkFreeRegistrationReducer } from 'redux/reducers/clerkFreeRegistration';
 import { clerkFreeRegistrationDetailsReducer } from 'redux/reducers/clerkFreeRegistrationDetails';
 import { clerkOrganizersReducer } from 'redux/reducers/clerkOrganizer';
-import { examSessionReducer } from 'redux/reducers/examSession';
-import { examSessionsReducer } from 'redux/reducers/examSessions';
+import { examDateReducer } from 'redux/reducers/examDate';
 import { nationalitiesReducer } from 'redux/reducers/nationalities';
 import { sessionReducer } from 'redux/reducers/session';
 import rootSaga from 'redux/sagas/index';
@@ -23,8 +22,7 @@ export const rootReducer = combineReducers({
   clerkFreeRegistrationDetails: clerkFreeRegistrationDetailsReducer,
   clerkCustomerDetails: clerkCustomerDetailsReducer,
   clerkCustomersSearch: clerkCustomersSearchReducer,
-  examSession: examSessionReducer,
-  examSessions: examSessionsReducer,
+  examDate: examDateReducer,
   nationalities: nationalitiesReducer,
   session: sessionReducer,
 });

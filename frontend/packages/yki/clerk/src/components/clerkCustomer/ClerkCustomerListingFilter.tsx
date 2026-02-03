@@ -12,17 +12,17 @@ import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {
   loadCustomersSearch,
-  setExamSessionFilter,
+  setExamDateFilter,
   setLanguageFilter,
   setLevelFilter,
   setOrganizerFilter,
   setSearchQueryFilter,
 } from 'redux/reducers/clerkCustomersSearch';
 import { loadClerkOrganizerRegistry } from 'redux/reducers/clerkOrganizer';
-import { loadExamSessions } from 'redux/reducers/examSessions';
+import { loadExamDates } from 'redux/reducers/examDate';
 import { clerkCustomersSearchSelector } from 'redux/selectors/clerkCustomersSearchSelector';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
-import { examSessionsSelector } from 'redux/selectors/examSession';
+import { examDateSelector } from 'redux/selectors/examDate';
 import { filteredClerkOrganizersSelector } from 'redux/selectors/filteredClerkOrganizers';
 import { LANGUAGES, levelDescription } from 'utils/clerk';
 
@@ -37,12 +37,12 @@ export const ClerkCustomerListingFilter = () => {
   const dispatch = useAppDispatch();
   const { organizerRegistryStatus } = useAppSelector(clerkOrganizersSelector);
   const organizers = useAppSelector(filteredClerkOrganizersSelector);
-  const { status: examSessionsStatus, exam_sessions } =
-    useAppSelector(examSessionsSelector);
+  const { status: examDateStatus, examDates } =
+    useAppSelector(examDateSelector);
   const {
     searchQueryFilter,
     organizerIdFilter,
-    examSessionIdFilter,
+    examDateIdFilter,
     languageCodeFilter,
     levelCodeFilter,
     size,
@@ -53,10 +53,13 @@ export const ClerkCustomerListingFilter = () => {
     if (organizerRegistryStatus === APIResponseStatus.NotStarted) {
       dispatch(loadClerkOrganizerRegistry());
     }
-    if (examSessionsStatus === APIResponseStatus.NotStarted) {
-      dispatch(loadExamSessions());
+  }, [dispatch, organizerRegistryStatus]);
+
+  useEffect(() => {
+    if (examDateStatus === APIResponseStatus.NotStarted) {
+      dispatch(loadExamDates());
     }
-  }, [dispatch, organizerRegistryStatus, examSessionsStatus]);
+  }, [dispatch, examDateStatus]);
 
   return (
     <div
@@ -81,7 +84,7 @@ export const ClerkCustomerListingFilter = () => {
                       request: {
                         personQuery: searchQueryFilter,
                         organizerId: organizerIdFilter,
-                        examSessionId: examSessionIdFilter,
+                        examDateId: examDateIdFilter,
                         languageCode: languageCodeFilter,
                         levelCode: levelCodeFilter,
                       },
@@ -122,12 +125,12 @@ export const ClerkCustomerListingFilter = () => {
           inputProps={{ 'aria-label': t('labels.examDate') }}
           options={[
             { label: t('listing.all'), value: '' },
-            ...exam_sessions.map((es) => ({
-              label: es.session_date.format('D.M.YYYY'),
-              value: String(es.id),
+            ...examDates.map((ed) => ({
+              label: ed.examDate.format('D.M.YYYY'),
+              value: String(ed.id),
             })),
           ]}
-          onChange={(e) => dispatch(setExamSessionFilter(+e.target.value))}
+          onChange={(e) => dispatch(setExamDateFilter(+e.target.value))}
         />
       </div>
       <div style={{ minWidth: '150px' }}>
@@ -170,7 +173,7 @@ export const ClerkCustomerListingFilter = () => {
                 request: {
                   personQuery: searchQueryFilter,
                   organizerId: organizerIdFilter,
-                  examSessionId: examSessionIdFilter,
+                  examDateId: examDateIdFilter,
                   languageCode: languageCodeFilter,
                   levelCode: levelCodeFilter,
                 },

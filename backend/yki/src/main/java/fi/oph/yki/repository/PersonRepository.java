@@ -42,14 +42,14 @@ WHERE (:personQuery IS NULL OR :personQuery = '' OR
         ) @@ plainto_tsquery('simple', :personQuery)
     )
     AND (
-        (:organizerId IS NULL AND :examSessionId IS NULL AND (:languageCode IS NULL OR :languageCode = '') AND (:levelCode IS NULL OR :levelCode = ''))
+        (:organizerId IS NULL AND :examDateId IS NULL AND (:languageCode IS NULL OR :languageCode = '') AND (:levelCode IS NULL OR :levelCode = ''))
         OR EXISTS (
             SELECT 1
             FROM registration r
             JOIN exam_session es ON r.exam_session_id = es.id
             WHERE r.person_oid = p.oid
               AND (:organizerId IS NULL OR es.organizer_id = :organizerId)
-              AND (:examSessionId IS NULL OR es.id = :examSessionId)
+              AND (:examDateId IS NULL OR es.exam_date_id = :examDateId)
               AND (:languageCode IS NULL OR :languageCode = '' OR es.language_code = :languageCode)
               AND (:levelCode IS NULL OR :levelCode = '' OR es.level_code = :levelCode)
         )
@@ -67,14 +67,14 @@ WHERE (:personQuery IS NULL OR :personQuery = '' OR
         ) @@ plainto_tsquery('simple', :personQuery)
     )
     AND (
-        (:organizerId IS NULL AND :examSessionId IS NULL AND (:languageCode IS NULL OR :languageCode = '') AND (:levelCode IS NULL OR :levelCode = ''))
+        (:organizerId IS NULL AND :examDateId IS NULL AND (:languageCode IS NULL OR :languageCode = '') AND (:levelCode IS NULL OR :levelCode = ''))
         OR EXISTS (
             SELECT 1
             FROM registration r
             JOIN exam_session es ON r.exam_session_id = es.id
             WHERE r.person_oid = p.oid
               AND (:organizerId IS NULL OR es.organizer_id = :organizerId)
-              AND (:examSessionId IS NULL OR es.id = :examSessionId)
+              AND (:examDateId IS NULL OR es.exam_date_id = :examDateId)
               AND (:languageCode IS NULL OR :languageCode = '' OR es.language_code = :languageCode)
               AND (:levelCode IS NULL OR :levelCode = '' OR es.level_code = :levelCode)
         )
@@ -86,7 +86,7 @@ WHERE (:personQuery IS NULL OR :personQuery = '' OR
     Pageable pageable,
     @Param("personQuery") String personQuery,
     @Param("organizerId") Long organizerId,
-    @Param("examSessionId") Long examSessionId,
+    @Param("examDateId") Long examDateId,
     @Param("languageCode") String languageCode,
     @Param("levelCode") String levelCode
   );
