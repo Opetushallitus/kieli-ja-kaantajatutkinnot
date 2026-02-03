@@ -4,12 +4,25 @@ import { APIResponseStatus } from 'shared/enums';
 import { ClerkOrganizer } from 'interfaces/clerkOrganizer';
 import { ClerkOrganizerRegistry } from 'interfaces/clerkOrganizerRegistry';
 
+interface Organization {
+  oid: string;
+  nimi: {
+    fi: string;
+    sv?: string;
+    en?: string;
+  };
+  kotipaikkaUri?: string;
+  status: string;
+}
+
 interface ClerkOrganizerState {
   organizers: Array<ClerkOrganizer>;
   organizerRegistry: Array<ClerkOrganizerRegistry>;
+  allOrganizations: Array<Organization>;
   status: APIResponseStatus;
   organizerRegistryStatus?: APIResponseStatus;
   updateStatus?: APIResponseStatus;
+  allOrganizationsStatus?: APIResponseStatus;
   searchQuery: string;
   languageFilter: string;
   levelFilter: string;
@@ -18,9 +31,11 @@ interface ClerkOrganizerState {
 const initialState: ClerkOrganizerState = {
   organizers: [],
   organizerRegistry: [],
+  allOrganizations: [],
   status: APIResponseStatus.NotStarted,
   organizerRegistryStatus: APIResponseStatus.NotStarted,
   updateStatus: APIResponseStatus.NotStarted,
+  allOrganizationsStatus: APIResponseStatus.NotStarted,
   searchQuery: '',
   languageFilter: '',
   levelFilter: '',
@@ -84,6 +99,16 @@ const clerkOrganizersSlice = createSlice({
     setLevelFilter(state, action: PayloadAction<string>) {
       state.levelFilter = action.payload;
     },
+    loadAllOrganizations(state) {
+      state.allOrganizationsStatus = APIResponseStatus.InProgress;
+    },
+    storeAllOrganizations(state, action: PayloadAction<Array<Organization>>) {
+      state.allOrganizationsStatus = APIResponseStatus.Success;
+      state.allOrganizations = action.payload;
+    },
+    rejectAllOrganizations(state) {
+      state.allOrganizationsStatus = APIResponseStatus.Error;
+    },
   },
 });
 
@@ -100,4 +125,7 @@ export const {
   setSearchQuery,
   setLanguageFilter,
   setLevelFilter,
+  loadAllOrganizations,
+  storeAllOrganizations,
+  rejectAllOrganizations,
 } = clerkOrganizersSlice.actions;

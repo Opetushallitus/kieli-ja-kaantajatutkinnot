@@ -12,9 +12,12 @@ import {
   FindByOidsOrganizationResponse,
 } from 'interfaces/clerkOrganizerRegistry';
 import {
+  loadAllOrganizations,
   loadClerkOrganizerRegistry,
   loadClerkOrganizers,
+  rejectAllOrganizations,
   rejectClerkOrganizers,
+  storeAllOrganizations,
   storeClerkOrganizerRegistry,
   storeClerkOrganizers,
   updateClerkOrganizer,
@@ -111,6 +114,25 @@ function* updateClerkOrganizerSaga(
   }
 }
 
+function* loadAllOrganizationsSaga() {
+  try {
+    const response: AxiosResponse<{
+      organisaatiot: Array<{
+        oid: string;
+        nimi: { fi: string; sv?: string; en?: string };
+        kotipaikkaUri?: string;
+        status: string;
+      }>;
+    }> = yield call(
+      axiosInstance.get,
+      '/organisaatio-service/rest/organisaatio/v4/hae?searchStr=&aktiiviset=true&suunnitellut=true&lakkautetut=false&lang=fi',
+    );
+    yield put(storeAllOrganizations(response.data.organisaatiot));
+  } catch (error) {
+    yield put(rejectAllOrganizations());
+  }
+}
+
 export function* watchClerkOrganizers() {
   yield takeLatest(
     loadClerkOrganizerRegistry.type,
@@ -118,4 +140,5 @@ export function* watchClerkOrganizers() {
   );
   yield takeLatest(loadClerkOrganizers.type, loadClerkOrganizersSaga);
   yield takeLatest(updateClerkOrganizer.type, updateClerkOrganizerSaga);
+  yield takeLatest(loadAllOrganizations.type, loadAllOrganizationsSaga);
 }

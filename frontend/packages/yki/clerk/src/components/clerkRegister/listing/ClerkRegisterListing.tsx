@@ -91,6 +91,7 @@ export const ClerkRegisterListing = ({
     clerkOrganizersSelector,
   );
   const rows = useAppSelector(filteredClerkOrganizersSelector);
+  const navigate = useNavigate();
 
   const pagination = {
     page,
@@ -185,7 +186,22 @@ export const ClerkRegisterListing = ({
     case APIResponseStatus.Success:
       return (
         <>
-          <ClerkRegisterListingFilters />
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            mb={2}
+          >
+            <ClerkRegisterListingFilters />
+            <CustomButton
+              variant="contained"
+              color="secondary"
+              onClick={() => navigate(AppRoutes.ClerkAddOrganizer)}
+              data-testid="add-organizer-button"
+            >
+              {t('listing.buttons.addOrganizer')}
+            </CustomButton>
+          </Box>
           <ListTable
             rows={rows}
             rowKeyProp="oid"

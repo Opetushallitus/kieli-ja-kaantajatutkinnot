@@ -7,6 +7,7 @@ import { allCustomers } from 'tests/msw/fixtures/customersSearch';
 import { examDates } from 'tests/msw/fixtures/examDate';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 import { findByOidsResponse } from 'tests/msw/fixtures/findByOids';
+import { findOrganizations } from 'tests/msw/fixtures/findOrganizations';
 import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
 import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
@@ -228,4 +229,10 @@ export const handlers = [
   http.get(APIEndpoints.ExamDate, () => {
     return HttpResponse.json(examDates);
   }),
+  http.get(
+    '/organisaatio-service/rest/organisaatio/v4/hae?searchStr=&aktiiviset=true&suunnitellut=true&lakkautetut=false&lang=fi',
+    () => {
+      return HttpResponse.json(findOrganizations);
+    },
+  ),
 ];
