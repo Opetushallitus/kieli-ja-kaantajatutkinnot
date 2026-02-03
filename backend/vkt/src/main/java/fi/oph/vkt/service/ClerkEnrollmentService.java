@@ -105,7 +105,18 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final ClerkEnrollmentAuditDTO oldAuditDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
     enrollment.assertVersion(dto.version());
 
-    enrollment.setStatus(dto.newStatus());
+    // If lifting from queue and free enrollment is approved
+    // then change status to completed
+    if (
+      EnrollmentStatus.AWAITING_PAYMENT.equals(dto.newStatus()) &&
+      enrollment.getFreeEnrollment() != null &&
+      enrollment.getFreeEnrollment().getApproved()
+    ) {
+      enrollment.setStatus(EnrollmentStatus.COMPLETED);
+    } else {
+      enrollment.setStatus(dto.newStatus());
+    }
+
     enrollmentRepository.flush();
 
     final ClerkEnrollmentAuditDTO newAuditDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
