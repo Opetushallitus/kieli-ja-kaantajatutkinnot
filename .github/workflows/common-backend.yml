@@ -26,29 +26,32 @@ jobs:
     if: ${{ contains(github.event.head_commit.message, inputs.app-name) || contains(github.ref, 'snyk-io') }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # actions/checkout v6.0.2
       - name: Cache local Maven repository
-        uses: actions/cache@v3
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # actions/cache v5.0.3
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - uses: actions/cache@v3
+      - uses: actions/cache/restore@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # actions/cache/restore v5.0.3
         if: ${{ !inputs.yki-separate-frontend-builds }}
         with:
           path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/src/main/resources/static
           key: ${{ runner.os }}-${{ inputs.app-name }}-frontend-build-${{ github.sha }}
-      - uses: actions/cache@v3
+          fail-on-cache-miss: true
+      - uses: actions/cache/restore@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # actions/cache/restore v5.0.3
         if: ${{ inputs.yki-separate-frontend-builds }}
         with:
           path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/src/main/resources/static/public
           key: ${{ runner.os }}-${{ inputs.app-name }}-public-frontend-build-${{ github.sha }}
-      - uses: actions/cache@v3
+          fail-on-cache-miss: true
+      - uses: actions/cache/restore@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # actions/cache/restore v5.0.3
         if: ${{ inputs.yki-separate-frontend-builds }}
         with:
           path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/src/main/resources/static/v2/clerk
           key: ${{ runner.os }}-${{ inputs.app-name }}-clerk-frontend-build-${{ github.sha }}
+          fail-on-cache-miss: true
       - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
@@ -78,7 +81,7 @@ jobs:
         env:
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_REGISTRY_TOKEN: ${{ github.token }}
-      - uses: actions/cache@v3
+      - uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # actions/cache v5.0.3
         with:
           path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/target/${{ inputs.app-name }}-*.jar
           key: ${{ runner.os }}-${{ inputs.app-name }}-backend-build-${{ github.sha }}

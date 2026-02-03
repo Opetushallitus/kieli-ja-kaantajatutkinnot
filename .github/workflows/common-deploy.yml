@@ -34,11 +34,12 @@ jobs:
       }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v3
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # actions/checkout v6.0.2
+      - uses: actions/cache/restore@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # actions/cache/restore v5.0.3
         with:
           path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/target/${{ inputs.app-name }}-*.jar
           key: ${{ runner.os }}-${{ inputs.app-name }}-backend-build-${{ github.sha }}
+          fail-on-cache-miss: true
       - name: Build Docker container
         if: ${{ !inputs.with-wkhtmltopdf }}
         working-directory: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}
