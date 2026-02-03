@@ -59,7 +59,7 @@ cas:
   logout-path: /cas/localLogout
   logout-success-path: /etusivu
   cookie-name: JSESSIONID
-  onr-url: ${virkailija.onr.url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}
+  onr-url: ${cas.onr-service-url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}
   service-url: ${virkailija.cas.service-url:http://localhost:${server.port}/yki}
   url: ${virkailija.cas.url:http://localhost:${server.port}/yki}
   cas-url: ${virkailija.cas.url:https://virkailija.untuvaopintopolku.fi/cas}
