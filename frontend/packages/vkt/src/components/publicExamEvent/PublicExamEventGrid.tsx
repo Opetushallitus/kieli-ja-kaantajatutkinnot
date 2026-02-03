@@ -8,6 +8,7 @@ import { useWindowProperties } from 'shared/hooks';
 
 import { BoldedTranslationString } from 'components/common/BoldedTranslationString';
 import { BulletList } from 'components/common/BulletList';
+import { InformationBox } from 'components/common/InformationBox';
 import { PublicExamEventListing } from 'components/publicExamEvent/listing/PublicExamEventListing';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -154,6 +155,7 @@ export const PublicExamEventGrid = () => {
   return (
     <>
       <Grid className="public-homepage__grid-container__item-header">
+        <InformationBox />
         <H1 data-testid="public-homepage__title-heading">{t('title')}</H1>
         <HeaderSeparator />
         <div className="rows gapped">
