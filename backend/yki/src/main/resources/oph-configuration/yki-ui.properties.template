@@ -14,6 +14,6 @@ virkailija.cas.login-url=${virkailija.cas.base-url}/cas/login
 koski.url={{yki_koski_url}}
 cas.username={{yki_cas_username}}
 cas.password={{yki_cas_password}}
-cas.onr-url={virkailija.cas.base-url}/oppijanumerorekisteri-service
+cas.onr-url=${virkailija.cas.base-url}/oppijanumerorekisteri-service
 proxy-token={{yki_proxy_token}}
 clerk.enabled = {{yki_clerk_enabled}}
