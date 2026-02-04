@@ -782,6 +782,7 @@
           "state": {
             "cancelled": "Cancelled",
             "enrolled": "Registered",
+            "evaluated": "Arvioitu",
             "label": "Status",
             "queued": "On the waiting list (position {{ positionInQueue }})"
           },

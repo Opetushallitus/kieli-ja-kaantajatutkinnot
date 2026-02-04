@@ -89,3 +89,14 @@ export enum RegistrationStates {
   PaidAndCancelled = 'PAID_AND_CANCELLED',
   Unknown = 'UNKNOWN',
 }
+
+export enum EvaluationState {
+  EvaluationPending = 'EVALUATION_PENDING',
+  EvaluationComplete = 'EVALUATION_COMPLETE',
+  ReviewPending = 'REVIEW_PENDING',
+  ReviewComplete = 'REVIEW_COMPLETE',
+  ReviewFinalized = 'REVIEW_FINALIZED',
+  RetakePending = 'RETAKE_PENDING',
+  NoShow = 'NO_SHOW',
+  Aborted = 'ABORTED',
+}
