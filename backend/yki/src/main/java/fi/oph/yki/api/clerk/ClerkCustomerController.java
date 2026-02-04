@@ -50,7 +50,7 @@ public class ClerkCustomerController {
 
     if (request.personQuery() != null) {
       final var personQuery = request.personQuery().trim();
-      if (personQuery.length() <= 2) {
+      if (!personQuery.isEmpty() && personQuery.length() <= 2) {
         throw new IllegalArgumentException("When given the person query, it must have atleast three characters");
       }
     }
