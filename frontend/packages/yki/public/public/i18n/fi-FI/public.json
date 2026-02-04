@@ -782,6 +782,7 @@
           "state": {
             "cancelled": "Peruttu",
             "enrolled": "Ilmoittautunut",
+            "evaluated": "Arvioitu",
             "label": "Tila",
             "queued": "Jonossa (sija {{ positionInQueue }})"
           },

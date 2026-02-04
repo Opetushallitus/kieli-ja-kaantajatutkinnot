@@ -3,6 +3,7 @@ import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import InfoFilledIcon from '@mui/icons-material/Info';
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
+import SchoolIcon from '@mui/icons-material/School';
 import WarningOutlinedIcon from '@mui/icons-material/WarningOutlined';
 import { Grid, Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
@@ -29,7 +30,12 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
-import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
+import {
+  AppRoutes,
+  EvaluationState,
+  RegistrationKind,
+  RegistrationStates,
+} from 'enums/app';
 import { PersonRegistrations } from 'interfaces/userDetails';
 //import { ExpiredLoginLinkPage } from 'pages/ExpiredLoginLinkPage';
 import {
@@ -126,10 +132,13 @@ const RegistrationState = ({
 }: {
   registration: PersonRegistrations;
 }) => {
-  const { state, kind } = registration;
+  const { state, evaluationState, kind } = registration;
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage.registrations.state',
   });
+
+  const isReviewed = evaluationState === EvaluationState.EvaluationComplete;
+
   const isEnrolled =
     state === RegistrationStates.Completed ||
     (state === RegistrationStates.Submitted &&
@@ -150,7 +159,13 @@ const RegistrationState = ({
     <div>
       <Text className="bold">{t('label')}</Text>
       <div className="columns gapped-xxs">
-        {isEnrolled && (
+        {isReviewed && (
+          <>
+            <SchoolIcon className="user-details-page__icon--ok" />{' '}
+            <Text>{t('evaluated')}</Text>
+          </>
+        )}
+        {!isReviewed && isEnrolled && (
           <>
             <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
             <Text>{t('enrolled')}</Text>
