@@ -229,6 +229,12 @@ public class RegistrationService {
         )
       );
 
+    LOG.info(
+      "Finished processing evaluation states. Number of entries in input: {}, saved states: {}, errors: {}",
+      dto.tilat().size(),
+      procesed.get(),
+      errors.size()
+    );
     return EvaluationStatesResponseDTO.builder().hyvaksytyt(procesed.get()).virheet(errors).build();
   }
 }
