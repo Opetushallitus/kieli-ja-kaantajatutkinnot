@@ -157,15 +157,22 @@ public class ClerkCustomerService {
     final ClerkCustomerSearchRequestDTO request
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
     return searchPersons(pageable, request)
-      .map(person ->
-        ClerkCustomerSummaryDTO
+      .map(person -> {
+        String identityNumber;
+        try {
+          identityNumber = onrService.getPersonalData(person.oid()).getIdentityNumber();
+        } catch (final Exception e) {
+          identityNumber = null;
+        }
+
+        return ClerkCustomerSummaryDTO
           .builder()
           .person(
             ClerkCustomerPersonDTO
               .builder()
               .firstName(person.firstName())
               .lastName(person.lastName())
-              .ssn(getPersonalData(person.oid()).getIdentityNumber())
+              .ssn(identityNumber)
               .oid(person.oid())
               .nationalityCode(person.nationalityCode())
               .phoneNumber(person.phoneNumber())
@@ -174,7 +181,7 @@ public class ClerkCustomerService {
               .build()
           )
           .registrationsCount(person.registrationsCount() == null ? 0 : person.registrationsCount())
-          .build()
-      );
+          .build();
+      });
   }
 }
