@@ -40,6 +40,7 @@ const getErrors = (
     type: TextFieldTypes.Text,
     required: true,
     value: registration.address,
+    maxLength: 100,
   });
   errors['postNumber'] = InputFieldUtils.validateCustomTextFieldErrors({
     type: TextFieldTypes.Text,
@@ -50,6 +51,7 @@ const getErrors = (
     type: TextFieldTypes.Text,
     required: true,
     value: registration.postOffice,
+    maxLength: 50,
   });
   errors['phoneNumber'] = InputFieldUtils.validateCustomTextFieldErrors({
     type: TextFieldTypes.PhoneNumber,
