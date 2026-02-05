@@ -22,6 +22,7 @@ import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
@@ -185,6 +186,28 @@ class ClerkEnrollmentServiceTest {
         any(ClerkEnrollmentAuditDTO.class),
         any(ClerkEnrollmentAuditDTO.class)
       );
+  }
+
+  @Test
+  public void testStatusChangeForFreeEnrollment() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+    final FreeEnrollment freeEnrollment = Factory.freeEnrollment(enrollment, person);
+    enrollment.setStatus(EnrollmentStatus.QUEUED);
+    enrollment.setFreeEnrollment(freeEnrollment);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+    entityManager.persist(freeEnrollment);
+
+    final int originalVersion = enrollment.getVersion();
+    final EnrollmentStatus status = EnrollmentStatus.AWAITING_PAYMENT;
+    final ClerkEnrollmentDTO dto = clerkEnrollmentService.changeStatus(createStatusChangeDTO(enrollment, status));
+    assertEquals(EnrollmentStatus.COMPLETED, dto.status());
+
+    assertEquals(originalVersion + 1, enrollmentRepository.getReferenceById(enrollment.getId()).getVersion());
   }
 
   private static ClerkEnrollmentStatusChangeDTO createStatusChangeDTO(
