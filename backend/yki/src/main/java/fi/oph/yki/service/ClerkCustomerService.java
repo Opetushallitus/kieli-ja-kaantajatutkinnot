@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +37,7 @@ public class ClerkCustomerService {
   private final PersonRepository personRepository;
   private final RegistrationRepository registrationRepository;
   private final OnrService onrService;
+  private static final Logger LOG = LoggerFactory.getLogger(ClerkCustomerService.class);
 
   private PersonalDataDTO getPersonalData(final String oid) throws RuntimeException {
     try {
@@ -157,15 +160,23 @@ public class ClerkCustomerService {
     final ClerkCustomerSearchRequestDTO request
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
     return searchPersons(pageable, request)
-      .map(person ->
-        ClerkCustomerSummaryDTO
+      .map(person -> {
+        String identityNumber;
+        try {
+          identityNumber = onrService.getPersonalData(person.oid()).getIdentityNumber();
+        } catch (final Exception e) {
+          identityNumber = null;
+          LOG.error("Unable to get identity number from ONR for oid: {}", person.oid(), e);
+        }
+
+        return ClerkCustomerSummaryDTO
           .builder()
           .person(
             ClerkCustomerPersonDTO
               .builder()
               .firstName(person.firstName())
               .lastName(person.lastName())
-              .ssn(getPersonalData(person.oid()).getIdentityNumber())
+              .ssn(identityNumber)
               .oid(person.oid())
               .nationalityCode(person.nationalityCode())
               .phoneNumber(person.phoneNumber())
@@ -174,7 +185,7 @@ public class ClerkCustomerService {
               .build()
           )
           .registrationsCount(person.registrationsCount() == null ? 0 : person.registrationsCount())
-          .build()
-      );
+          .build();
+      });
   }
 }
