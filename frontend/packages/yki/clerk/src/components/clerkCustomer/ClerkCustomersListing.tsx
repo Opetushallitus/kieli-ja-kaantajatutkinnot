@@ -1,3 +1,4 @@
+import { Error } from '@mui/icons-material';
 import { Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
 
@@ -40,7 +41,14 @@ export const ClerkCustomersListing = ({
             to={AppRoutes.ClerkCustomerDetails.replace(/:oid$/, person.oid)}
           >{`${person.firstName} ${person.lastName}`}</Link>
           <p>{person.ssn}</p>
-          <p>{person.oid}</p>
+          {person.ssn ? (
+            <p>{person.oid}</p>
+          ) : (
+            <div className="columns" style={{ gap: '0.25rem' }}>
+              <Error color="error" fontSize="large" />
+              {person.oid}
+            </div>
+          )}
         </div>
       ),
     },
