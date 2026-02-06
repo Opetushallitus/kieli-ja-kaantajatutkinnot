@@ -46,7 +46,6 @@ export const ClerkCustomerListingFilter = () => {
     languageCodeFilter,
     levelCodeFilter,
     size,
-    page,
   } = useAppSelector(clerkCustomersSearchSelector);
 
   useEffect(() => {
@@ -88,7 +87,7 @@ export const ClerkCustomerListingFilter = () => {
                         languageCode: languageCodeFilter,
                         levelCode: levelCodeFilter,
                       },
-                      page,
+                      page: 0, // Reset to first page when filters change
                       size,
                     }),
                   );
@@ -177,7 +176,7 @@ export const ClerkCustomerListingFilter = () => {
                   languageCode: languageCodeFilter,
                   levelCode: levelCodeFilter,
                 },
-                page,
+                page: 0, // Reset to first page when filters change
                 size,
               }),
             )
