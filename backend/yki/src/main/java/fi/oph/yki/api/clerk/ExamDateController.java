@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/v2/api/clerk/exam-date", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v2/api/clerk/examDate", produces = MediaType.APPLICATION_JSON_VALUE)
 @Conditional(ClerkEnabledCondition.class)
 public class ExamDateController {
 
