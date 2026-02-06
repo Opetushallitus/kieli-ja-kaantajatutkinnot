@@ -24,13 +24,12 @@ import {
   ClerkFreeRegistrationDetailsResponse,
   ClerkFreeRegistrationResponse,
 } from 'interfaces/clerkFreeRegistration';
-import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
-import { ClerkRegistrationResponse } from 'interfaces/clerkRegistration';
 import {
   ClerkOrganizer,
   ClerkOrganizerResponse,
 } from 'interfaces/clerkOrganizer';
 import { FindByOidsOrganizationResponse } from 'interfaces/clerkOrganizerRegistry';
+import { ClerkRegistrationResponse } from 'interfaces/clerkRegistration';
 import {
   ExamSession,
   ExamSessionResponse,
@@ -241,18 +240,6 @@ export class SerializationUtils {
         ...message,
         createdAt: dayjs(message.createdAt),
       })),
-    };
-  }
-
-  static serializeModifyContactDetailsRequest(payload: ModifyContactDetails) {
-    const { email, phoneNumber, streetAddress, zip, postOffice } = payload;
-
-    return {
-      email,
-      phone_number: phoneNumber,
-      street_address: streetAddress,
-      zip,
-      post_office: postOffice,
     };
   }
 

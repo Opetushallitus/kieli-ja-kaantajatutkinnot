@@ -23,6 +23,7 @@ import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { clerkTheme } from 'ophTheme/OphTheme';
 import { ClerkCustomerDetailsPage } from 'pages/ClerkCustomerDetailsPage';
 import { ClerkCustomerSearchPage } from 'pages/ClerkCustomerSearchPage';
+import { ClerkExamSessionPage } from 'pages/ClerkExamSessionPage';
 import { ClerkFreeRegistrationDetailsPage } from 'pages/ClerkFreeRegistrationDetailsPage';
 import { ClerkFreeRegistrationPage } from 'pages/ClerkFreeRegistrationPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
@@ -107,6 +108,14 @@ export const AppRouter: FC = () => {
           element={
             <YkiTitlePage title="clerk">
               <ClerkFreeRegistrationDetailsPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ClerkExamSession}
+          element={
+            <YkiTitlePage title="customerExamSession">
+              <ClerkExamSessionPage />
             </YkiTitlePage>
           }
         />

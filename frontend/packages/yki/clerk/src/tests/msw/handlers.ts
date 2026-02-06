@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { http, HttpResponse } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
+import { clerkExamSession } from 'tests/msw/fixtures/clerkExamSession';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
 import { examDates } from 'tests/msw/fixtures/examDate';
@@ -213,4 +214,7 @@ export const handlers = [
   http.get(APIEndpoints.ExamDate, () => {
     return HttpResponse.json(examDates);
   }),
+  http.get(APIEndpoints.ClerkExamSession, () =>
+    HttpResponse.json(clerkExamSession),
+  ),
 ];

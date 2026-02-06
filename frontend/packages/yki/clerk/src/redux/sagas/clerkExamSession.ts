@@ -1,15 +1,15 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import {
-  loadClerkExamSessionDetails,
-  rejectExamSessionDetails,
-  storeExamSessionDetails,
-} from 'redux/reducers/clerkExamSession';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkExamSessionResponse } from 'interfaces/clerkExamSession';
+import {
+  loadClerkExamSessionDetails,
+  rejectExamSessionDetails,
+  storeExamSessionDetails,
+} from 'redux/reducers/clerkExamSession';
 import { SerializationUtils } from 'utils/serialization';
 
 function* loadClerkExamSessionDetailsSaga(action: PayloadAction<string>) {

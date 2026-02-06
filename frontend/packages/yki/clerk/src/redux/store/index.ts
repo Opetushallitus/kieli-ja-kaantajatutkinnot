@@ -5,6 +5,7 @@ import { RootState } from 'configs/redux';
 import { APIErrorReducer } from 'redux/reducers/APIError';
 import { clerkCustomerDetailsReducer } from 'redux/reducers/clerkCustomerDetails';
 import { clerkCustomersSearchReducer } from 'redux/reducers/clerkCustomersSearch';
+import { clerkExamSessionReducer } from 'redux/reducers/clerkExamSession';
 import { clerkFreeRegistrationReducer } from 'redux/reducers/clerkFreeRegistration';
 import { clerkFreeRegistrationDetailsReducer } from 'redux/reducers/clerkFreeRegistrationDetails';
 import { clerkOrganizersReducer } from 'redux/reducers/clerkOrganizer';
@@ -22,6 +23,7 @@ export const rootReducer = combineReducers({
   clerkFreeRegistrationDetails: clerkFreeRegistrationDetailsReducer,
   clerkCustomerDetails: clerkCustomerDetailsReducer,
   clerkCustomersSearch: clerkCustomersSearchReducer,
+  clerkExamSession: clerkExamSessionReducer,
   examDate: examDateReducer,
   nationalities: nationalitiesReducer,
   session: sessionReducer,
