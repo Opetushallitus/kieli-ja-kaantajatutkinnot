@@ -5,8 +5,9 @@ import fi.oph.yki.util.StringUtil;
 import fi.vm.sade.java_utils.security.OpintopolkuCasAuthenticationFilter;
 import fi.vm.sade.javautils.kayttooikeusclient.OphUserDetailsServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
-import org.apereo.cas.client.session.SessionMappingStorage;
+import java.util.stream.Collectors;
 import org.apereo.cas.client.session.SingleSignOutFilter;
 import org.apereo.cas.client.validation.Cas20ProxyTicketValidator;
 import org.apereo.cas.client.validation.TicketValidator;
@@ -16,9 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.env.Environment;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.cas.ServiceProperties;
@@ -28,6 +31,12 @@ import org.springframework.security.cas.web.CasAuthenticationFilter;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -118,13 +127,65 @@ public class WebSecurityConfig {
     return casAuthenticationEntryPoint;
   }
 
+  // OAuth2
+  Converter<Jwt, AbstractAuthenticationToken> oauth2JwtConverter() {
+    return new Converter<Jwt, AbstractAuthenticationToken>() {
+      final JwtGrantedAuthoritiesConverter delegate = new JwtGrantedAuthoritiesConverter();
+
+      @Override
+      public AbstractAuthenticationToken convert(Jwt source) {
+        var authorityList = extractRoles(source);
+        var delegateAuthorities = delegate.convert(source);
+        authorityList.addAll(delegateAuthorities);
+        return new JwtAuthenticationToken(source, authorityList);
+      }
+
+      private List<GrantedAuthority> extractRoles(Jwt jwt) {
+        Map<String, List<String>> roleClaim = jwt.getClaims().get("roles") != null
+          ? (Map<String, List<String>>) jwt.getClaims().get("roles")
+          : Map.of();
+        var roles = roleClaim
+          .keySet()
+          .stream()
+          .map(oid -> {
+            var orgRoles = roleClaim.get(oid);
+            return orgRoles.stream().map(role -> List.of("ROLE_APP_" + role, "ROLE_APP_" + role + "_" + oid)).toList();
+          })
+          .flatMap(List::stream)
+          .flatMap(List::stream)
+          .map(SimpleGrantedAuthority::new)
+          .collect(Collectors.<GrantedAuthority>toList());
+        return roles;
+      }
+    };
+  }
+
   @Bean
-  public SecurityFilterChain filterChain(
+  @Order(1)
+  public SecurityFilterChain oauth2SecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    return configCsrf(httpSecurity)
+      .securityMatcher("/v2/api/oauth2/**")
+      .authorizeHttpRequests(auth ->
+        auth
+          .requestMatchers("/v2/api/oauth2/registration/admin")
+          .hasRole(Constants.APP_ADMIN_ROLE)
+          .anyRequest()
+          .authenticated()
+      )
+      .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+      .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(oauth2JwtConverter())))
+      .build();
+  }
+
+  @Bean
+  @Order(2)
+  public SecurityFilterChain casSecurityFilterChain(
     final HttpSecurity httpSecurity,
     final CasAuthenticationFilter casAuthenticationFilter
   ) throws Exception {
-    final String token = environment.getRequiredProperty("app.proxy-token");
-    return commonConfig(httpSecurity, token)
+    return configCsrf(httpSecurity)
+      .securityMatcher("/v2/api/clerk/**", "/v2/virkailija/**", "/v2/virkailija")
+      .authorizeHttpRequests(registry -> registry.anyRequest().hasRole(Constants.APP_ADMIN_ROLE))
       .addFilter(casAuthenticationFilter)
       .authenticationProvider(casAuthenticationProvider())
       .exceptionHandling(exceptionHandlingConfigurer -> {
@@ -149,6 +210,26 @@ public class WebSecurityConfig {
       .build();
   }
 
+  @Bean
+  @Order(3)
+  public SecurityFilterChain proxyApiSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    final String token = environment.getRequiredProperty("app.proxy-token");
+    final AuthorizationManager<RequestAuthorizationContext> proxyApiAuthorizationManager =
+      ((authenticationSupplier, object) -> validateToken(object.getRequest(), token));
+    return configCsrf(httpSecurity)
+      .securityMatcher("/api/public/**")
+      .authorizeHttpRequests(registry -> registry.anyRequest().access(proxyApiAuthorizationManager))
+      .build();
+  }
+
+  @Bean
+  @Order(4)
+  public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    return configCsrf(httpSecurity)
+      .authorizeHttpRequests(registry -> registry.requestMatchers("/", "/**").permitAll().anyRequest().authenticated())
+      .build();
+  }
+
   public static AuthorizationDecision validateToken(final HttpServletRequest request, final String token) {
     final String authorization = request.getHeader("Authorization");
 
@@ -160,24 +241,6 @@ public class WebSecurityConfig {
     final String hash = StringUtil.sha256hex(auth.get("user") + token);
 
     return new AuthorizationDecision(hash.equals(auth.get("password")));
-  }
-
-  public static HttpSecurity commonConfig(final HttpSecurity http, final String token) throws Exception {
-    final AuthorizationManager<RequestAuthorizationContext> proxyApiAuthorizationManager =
-      ((authenticationSupplier, object) -> validateToken(object.getRequest(), token));
-
-    return configCsrf(http)
-      .authorizeHttpRequests(registry ->
-        registry
-          .requestMatchers("/api/public/**")
-          .access(proxyApiAuthorizationManager)
-          .requestMatchers("/v2/api/clerk/**", "/v2/virkailija/**", "/v2/virkailija")
-          .hasRole(Constants.APP_ADMIN_ROLE)
-          .requestMatchers("/", "/**")
-          .permitAll()
-          .anyRequest()
-          .authenticated()
-      );
   }
 
   public static HttpSecurity configCsrf(final HttpSecurity httpSecurity) throws Exception {
