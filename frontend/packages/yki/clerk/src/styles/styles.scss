@@ -1,0 +1,21 @@
+//Shared
+@import 'shared/styles';
+
+// Base
+@import 'base/base';
+
+// yki clerk colors
+@import 'colors/yki-clerk';
+
+// Components
+@import 'components/layouts/clerk-header';
+@import 'components/layouts/session-header';
+@import 'components/clerkRegisterOrganizerDetails/clerk-register-organizer-details';
+
+// Pages
+@import 'pages/not-found-page';
+@import 'pages/clerk-register-page';
+@import 'pages/clerk-free-registration-page';
+@import 'pages/clerk-free-registration-details-page';
+@import 'pages/clerk-customer-details-page';
+@import 'pages/clerk-customers-search-page';

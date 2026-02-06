@@ -2846,9 +2846,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opetushallitus/kieli-ja-kaantajatutkinnot.yki@workspace:packages/yki":
+"@opetushallitus/kieli-ja-kaantajatutkinnot.yki.clerk@workspace:packages/yki/clerk":
   version: 0.0.0-use.local
-  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.yki@workspace:packages/yki"
+  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.yki.clerk@workspace:packages/yki/clerk"
+  dependencies:
+    multer: "npm:^2.0.2"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.14.1"
+  languageName: unknown
+  linkType: soft
+
+"@opetushallitus/kieli-ja-kaantajatutkinnot.yki@workspace:packages/yki/public":
+  version: 0.0.0-use.local
+  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.yki@workspace:packages/yki/public"
   dependencies:
     multer: "npm:^2.0.2"
     shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.14.1"

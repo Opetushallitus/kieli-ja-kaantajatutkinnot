@@ -8,6 +8,7 @@ import fi.oph.vkt.model.EnrollmentGrade;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.ExaminerExamEvent;
+import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Municipality;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
@@ -17,10 +18,13 @@ import fi.oph.vkt.model.type.EnrollmentGradeType;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
+import fi.oph.vkt.model.type.FreeEnrollmentSource;
+import fi.oph.vkt.model.type.FreeEnrollmentType;
 import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.service.onr.PersonalData;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class Factory {
@@ -76,6 +80,18 @@ public class Factory {
     return person;
   }
 
+  public static FreeEnrollment freeEnrollment(final Enrollment enrollment, final Person person) {
+    final FreeEnrollment freeEnrollment = new FreeEnrollment();
+    freeEnrollment.setEnrollment(enrollment);
+    freeEnrollment.setPerson(person);
+    freeEnrollment.setSource(FreeEnrollmentSource.KOSKI);
+    freeEnrollment.setType(FreeEnrollmentType.HigherEducationConcluded);
+    freeEnrollment.setApproved(true);
+    freeEnrollment.setAttachments(List.of());
+
+    return freeEnrollment;
+  }
+
   public static Enrollment enrollment(final ExamEvent examEvent, final Person person) {
     final Enrollment enrollment = new Enrollment();
     enrollment.setOralSkill(true);
@@ -107,12 +123,12 @@ public class Factory {
     final EnrollmentAppointment enrollment = new EnrollmentAppointment();
     enrollment.setExaminer(examiner);
     enrollment.setOralSkill(true);
-    enrollment.setTextualSkill(false);
+    enrollment.setTextualSkill(true);
     enrollment.setUnderstandingSkill(true);
     enrollment.setSpeakingPartialExam(true);
     enrollment.setSpeechComprehensionPartialExam(true);
-    enrollment.setWritingPartialExam(false);
-    enrollment.setReadingComprehensionPartialExam(false);
+    enrollment.setWritingPartialExam(true);
+    enrollment.setReadingComprehensionPartialExam(true);
     enrollment.setStatus(EnrollmentAppointmentStatus.COMPLETED);
     enrollment.setPreviousEnrollment("1.11.2022");
     enrollment.setDigitalCertificateConsent(true);
@@ -184,18 +200,22 @@ public class Factory {
     return municipality;
   }
 
-  public static EnrollmentGrade enrollmentGrades() {
+  public static EnrollmentGrade enrollmentGrades(final boolean hasPartialGrades) {
     final EnrollmentGrade enrollmentGrade = new EnrollmentGrade();
 
     enrollmentGrade.setWritingPartialExamGrade(EnrollmentGradeType.FAILED);
     enrollmentGrade.setSpeakingPartialExamGrade(EnrollmentGradeType.GOOD);
     enrollmentGrade.setSpeechComprehensionPartialExamGrade(EnrollmentGradeType.SATISFACTORY);
-    enrollmentGrade.setReadingComprehensionPartialExamGrade(EnrollmentGradeType.FAILED);
+    if (!hasPartialGrades) {
+      enrollmentGrade.setReadingComprehensionPartialExamGrade(EnrollmentGradeType.FAILED);
+    }
 
     enrollmentGrade.setWritingPartialExamComment("Writing comment");
     enrollmentGrade.setSpeakingPartialExamComment("Speaking comment");
     enrollmentGrade.setSpeechComprehensionPartialExamComment("Speech comment");
-    enrollmentGrade.setReadingComprehensionPartialExamComment("Reading comment");
+    if (!hasPartialGrades) {
+      enrollmentGrade.setReadingComprehensionPartialExamComment("Reading comment");
+    }
 
     return enrollmentGrade;
   }

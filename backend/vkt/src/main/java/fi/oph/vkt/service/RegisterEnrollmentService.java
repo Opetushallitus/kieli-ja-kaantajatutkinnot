@@ -119,7 +119,10 @@ public class RegisterEnrollmentService {
       final SourceDTO sourceDTO = SourceDTO.builder().id(id).lahde("KIOS").build();
       final List<PartialExamsDTO> partialExamsDTOS = new ArrayList<>();
 
-      if (enrollment.isSpeakingPartialExam()) {
+      if (
+        enrollment.isSpeakingPartialExam() &&
+        (enrollment instanceof Enrollment || grades.containsKey(SPEAKING_PARTIAL_EXAM))
+      ) {
         partialExamsDTOS.add(
           PartialExamsDTO
             .builder()
@@ -130,7 +133,10 @@ public class RegisterEnrollmentService {
         );
       }
 
-      if (enrollment.isWritingPartialExam()) {
+      if (
+        enrollment.isWritingPartialExam() &&
+        (enrollment instanceof Enrollment || grades.containsKey(WRITING_PARTIAL_EXAM))
+      ) {
         partialExamsDTOS.add(
           PartialExamsDTO
             .builder()
@@ -141,7 +147,10 @@ public class RegisterEnrollmentService {
         );
       }
 
-      if (enrollment.isReadingComprehensionPartialExam()) {
+      if (
+        enrollment.isReadingComprehensionPartialExam() &&
+        (enrollment instanceof Enrollment || grades.containsKey(READING_COMPREHENSION_PARTIAL_EXAM))
+      ) {
         partialExamsDTOS.add(
           PartialExamsDTO
             .builder()
@@ -152,7 +161,10 @@ public class RegisterEnrollmentService {
         );
       }
 
-      if (enrollment.isSpeechComprehensionPartialExam()) {
+      if (
+        enrollment.isSpeechComprehensionPartialExam() &&
+        (enrollment instanceof Enrollment || grades.containsKey(SPEECH_COMPREHENSION_PARTIAL_EXAM))
+      ) {
         partialExamsDTOS.add(
           PartialExamsDTO
             .builder()

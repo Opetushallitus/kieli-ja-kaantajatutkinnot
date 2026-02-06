@@ -1,0 +1,17 @@
+.not-found-page {
+  flex: 1;
+
+  & &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2.5rem;
+
+    @include phone {
+      @include phone-divider-border-top;
+      @include phone-divider-border-bottom;
+      gap: 1.5rem;
+      padding: 1rem 2rem;
+    }
+  }
+}

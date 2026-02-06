@@ -354,7 +354,7 @@ public class ExaminerEnrollmentServiceTest {
     final ExaminerExamEvent examEvent = Factory.examinerExamEvent(examiner, municipality);
     final Person person = Factory.person();
     final EnrollmentAppointment enrollment = Factory.enrollmentAppointment(examiner, examEvent, person);
-    final EnrollmentGrade enrollmentGrade = Factory.enrollmentGrades();
+    final EnrollmentGrade enrollmentGrade = Factory.enrollmentGrades(false);
 
     enrollment.setGrade(enrollmentGrade);
 
@@ -390,7 +390,7 @@ public class ExaminerEnrollmentServiceTest {
     final ExaminerExamEvent examEvent = Factory.examinerExamEvent(examiner, municipality);
     final Person person = Factory.person();
     final EnrollmentAppointment enrollment = Factory.enrollmentAppointment(examiner, examEvent, person);
-    final EnrollmentGrade enrollmentGrade = Factory.enrollmentGrades();
+    final EnrollmentGrade enrollmentGrade = Factory.enrollmentGrades(false);
 
     enrollment.setGrade(enrollmentGrade);
 
