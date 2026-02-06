@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/v2/api/clerk/examDate", produces = MediaType.APPLICATION_JSON_VALUE)
 @Conditional(ClerkEnabledCondition.class)
-public class ExamDateController {
+public class ClerkExamDateController {
 
   @Resource
   private ExamDateService examDateService;
