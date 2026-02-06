@@ -4,23 +4,34 @@ import fi.oph.yki.api.dto.PublicEducationBasisDTO;
 import fi.oph.yki.api.dto.PublicEducationDTO;
 import fi.oph.yki.api.dto.PublicEducationUpdateDTO;
 import fi.oph.yki.api.dto.PublicFreeRegistrationDTO;
+import fi.oph.yki.api.dto.oauth2.EvaluationStateError;
+import fi.oph.yki.api.dto.oauth2.EvaluationStateErrorDTO;
+import fi.oph.yki.api.dto.oauth2.EvaluationStatesDTO;
+import fi.oph.yki.api.dto.oauth2.EvaluationStatesResponseDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.RegistrationEvaluation;
+import fi.oph.yki.model.type.EvaluationState;
 import fi.oph.yki.model.type.FreeRegistrationSource;
 import fi.oph.yki.model.type.FreeRegistrationType;
 import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.repository.PersonRepository;
+import fi.oph.yki.repository.RegistrationEvaluationRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.service.dto.FreeRegistrationDTO;
 import fi.oph.yki.service.koski.KoskiService;
 import fi.oph.yki.util.RegistrationUtil;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
+import fi.oph.yki.util.exception.NotFoundException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -38,6 +49,7 @@ public class RegistrationService {
   private final PersonRepository personRepository;
   private final AuditService auditService;
   private final KoskiService koskiService;
+  private final RegistrationEvaluationRepository registrationEvaluationRepository;
 
   @Transactional(readOnly = true)
   public Registration findRegistration(final Long registrationId, final String oid) {
@@ -148,5 +160,81 @@ public class RegistrationService {
   @Transactional(readOnly = true)
   public boolean hasFreeRegistrationsLeft(String oid) {
     return freeRegistrationRepository.countFreeRegistrationsUsed(oid) < 3;
+  }
+
+  @Transactional
+  public EvaluationStatesResponseDTO upsertRegistrationEvaluationStates(final EvaluationStatesDTO dto) {
+    AtomicInteger procesed = new AtomicInteger();
+    List<EvaluationStateErrorDTO> errors = new ArrayList<>();
+    dto
+      .tilat()
+      .stream()
+      .forEach(
+        (
+          tila -> {
+            try {
+              var suoritus = tila.suoritus();
+              var examLevel =
+                switch (suoritus.tutkintotaso()) {
+                  case "PT" -> "PERUS";
+                  case "KT" -> "KESKI";
+                  case "YT" -> "YLIN";
+                  default -> throw new RuntimeException("Unknown exam level: " + suoritus.tutkintotaso());
+                };
+              Registration registration = registrationRepository
+                .getByOidAndExamDetails(
+                  suoritus.oppijanumero(),
+                  suoritus.tutkintopaiva(),
+                  suoritus.tutkintokieli(),
+                  examLevel
+                )
+                .orElseThrow(() ->
+                  new NotFoundException(
+                    MessageFormat.format(
+                      "Failed to find registration. oid: {0}, tutkintopaiva: {1}, tutkintokieli: {2}, tutkintotaso: {3}",
+                      suoritus.oppijanumero(),
+                      suoritus.tutkintopaiva(),
+                      suoritus.tutkintokieli(),
+                      suoritus.tutkintotaso()
+                    )
+                  )
+                );
+              RegistrationEvaluation evaluation = registration.getEvaluation() != null
+                ? registration.getEvaluation()
+                : new RegistrationEvaluation();
+              evaluation.setRegistration(registration);
+              evaluation.setState(EvaluationState.fromKituEvaluationState(tila.tila()));
+              registrationEvaluationRepository.saveAndFlush(evaluation);
+              procesed.getAndIncrement();
+            } catch (NotFoundException e) {
+              var error = EvaluationStateErrorDTO
+                .builder()
+                .suoritus(tila.suoritus())
+                .tila(tila.tila())
+                .virhe(EvaluationStateError.SUORITUSTA_EI_LOYDY)
+                .build();
+              errors.add(error);
+              LOG.error(e.getMessage());
+            } catch (Exception e) {
+              var error = EvaluationStateErrorDTO
+                .builder()
+                .suoritus(tila.suoritus())
+                .tila(tila.tila())
+                .virhe(EvaluationStateError.TUNTEMATON)
+                .build();
+              errors.add(error);
+              LOG.error("Error processing evaluation state entry", e);
+            }
+          }
+        )
+      );
+
+    LOG.info(
+      "Finished processing evaluation states. Number of entries in input: {}, saved states: {}, errors: {}",
+      dto.tilat().size(),
+      procesed.get(),
+      errors.size()
+    );
+    return EvaluationStatesResponseDTO.builder().hyvaksytyt(procesed.get()).virheet(errors).build();
   }
 }
