@@ -1,11 +1,17 @@
-import { DeleteOutlined, TurnRightOutlined } from '@mui/icons-material';
+import {
+  DeleteOutlined,
+  Download,
+  TurnRightOutlined,
+} from '@mui/icons-material';
 import BlockIcon from '@mui/icons-material/Block';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
 import { Divider, IconButton, Stack } from '@mui/material';
+import { OphButton } from '@opetushallitus/oph-design-system';
 import i18next from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import { ListTable } from 'components/oph-design/table/list-table';
@@ -40,12 +46,12 @@ const ExamsListingTabs = ({
   };
 
   return (
-    <div className="clerk-free-registration__filter-tabs">
+    <div className="clerk-exam-session-page__filter-tabs">
       <div className="columns gapped">
         {TABS.map((tab) => (
           <div
             key={tab}
-            className={`clerk-free-registration__filter-tabs__tab ${
+            className={`clerk-exam-session-page__filter-tabs__tab ${
               activeTab === tab ? 'active' : ''
             }`}
             onClick={() => handleTabChange(tab)}
@@ -208,12 +214,19 @@ export const ClerkExamSessionRegistrations = ({
 
   return (
     <Stack spacing={4}>
-      <ExamsListingTabs
-        admissionCount={admissions.length ?? 0}
-        queuedCount={queued.length ?? 0}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-      />
+      <div className="clerk-exam-session-page__tabs grid-2-columns">
+        <ExamsListingTabs
+          admissionCount={admissions.length ?? 0}
+          queuedCount={queued.length ?? 0}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+        />
+        <div className="clerk-exam-session-page__filter-buttons">
+          <OphButton color="primary" variant={Variant.Contained}>
+            <Download fontSize="large" /> Lataa excel
+          </OphButton>
+        </div>
+      </div>
       {activeTab === RegistrationKind.Admission ? (
         <ListTable
           className="clerk-customer-exams-listing__table"

@@ -50,6 +50,6 @@ public class ExamSession {
   @OneToMany(mappedBy = "examSession")
   private List<ExamSessionLocation> locations = new ArrayList<>();
 
-  @OneToMany(mappedBy = "registration")
+  @OneToMany(mappedBy = "examSession")
   private List<Registration> registrations = new ArrayList<>();
 }

@@ -63,8 +63,9 @@ public class ClerkExamSessionService {
 
   @Transactional(readOnly = true)
   public AbstractXlsxView getExamSessionExcel(final long examSessionId) {
-    final ExamSessionXlsxData excelData = ExamSessionXlsxDataRowUtil.createExcelData();
-    final AbstractXlsxView excel = new ExamSessionXlsxView(excelData);
+    final var examSession = examSessionRepository.getReferenceById(examSessionId);
+    final var excelData = ExamSessionXlsxDataRowUtil.createExcelData(examSession);
+    final var excel = new ExamSessionXlsxView(excelData);
 
     return excel;
   }

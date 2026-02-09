@@ -19,11 +19,22 @@ public class ExamSessionXlsxDataRowUtil {
             .map(ExamSessionXlsxDataRowUtil::createDataRow)
             .toList();
 
-    return ExamSessionXlsxData.builder().build();
+    return ExamSessionXlsxData
+            .builder()
+            .date(DATE_FORMAT.format(examSession.getExamDate().getExamDate()))
+            .language(examSession.getLanguage())
+            .rows(excelDataRows)
+            .build();
   }
 
   private static ExamSessionXlsxDataRow createDataRow(final Registration registration) {
-    return ExamSessionXlsxDataRow.builder().build();
+    final var person = registration.getPerson();
+
+    return ExamSessionXlsxDataRow
+            .builder()
+            .firstName(person == null ? "" : person.getFirstName())
+            .lastName(person == null ? "" : person.getLastName())
+            .build();
   }
 
 }

@@ -45,35 +45,8 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
     final List<String> headers = List.of(
             "Päivä",
             "Kieli",
-            "Ilmoittautumisaika",
             "Sukunimi",
-            "Etunimi",
-            "Syntymäaika",
-            "Henkilötunnus",
-            "Aiempi tutkintopäivä",
-            "Tila",
-            "KT", // Kirjallinen taito
-            "ST", // Suullinen taito
-            "YT", // Ymmärtämisen taito
-            "KI", // Kirjoittaminen
-            "TY", // Tekstin ymmärtäminen
-            "PU", // Puhuminen
-            "PY", // Puheen ymmärtäminen,
-            "Maksuton",
-            "Koulutustiedon lähde",
-            "Ylioppilastutkinto",
-            "DIA-tutkinto",
-            "EB-tutkinto",
-            "Korkeakoulututkinto",
-            "Korkeakouluopinnot käynnissä",
-            "Muu tutkinto",
-            "Sähköposti",
-            "Puhelin",
-            "Sähk. Tod.",
-            "Katu",
-            "Postinumero",
-            "Kaupunki",
-            "Maa"
+            "Etunimi"
     );
     final Sheet sheet = workbook.createSheet("Tilaisuuden tiedot");
 
@@ -86,41 +59,8 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
       int ci = 0;
       row.createCell(ci).setCellValue(data.date());
       row.createCell(++ci).setCellValue(data.language());
-      row.createCell(++ci).setCellValue(dataRow.enrollmentTime());
       row.createCell(++ci).setCellValue(dataRow.lastName());
       row.createCell(++ci).setCellValue(dataRow.firstName());
-      row.createCell(++ci).setCellValue(dataRow.birthdate());
-      row.createCell(++ci).setCellValue(dataRow.ssn());
-      setNullableValue(row.createCell(++ci), dataRow.previousEnrollment());
-      row.createCell(++ci).setCellValue(dataRow.status());
-      row.createCell(++ci).setCellValue(dataRow.textualSkill());
-      row.createCell(++ci).setCellValue(dataRow.oralSkill());
-      row.createCell(++ci).setCellValue(dataRow.understandingSkill());
-      row.createCell(++ci).setCellValue(dataRow.writing());
-      row.createCell(++ci).setCellValue(dataRow.readingComprehension());
-      row.createCell(++ci).setCellValue(dataRow.speaking());
-      row.createCell(++ci).setCellValue(dataRow.speechComprehension());
-
-      if (dataRow.isFree() != null) {
-        row.createCell(++ci).setCellValue(dataRow.isFree());
-      } else {
-        row.createCell(++ci);
-      }
-
-      row.createCell(++ci).setCellValue(dataRow.matriculationExam());
-      row.createCell(++ci).setCellValue(dataRow.dia());
-      row.createCell(++ci).setCellValue(dataRow.eb());
-      row.createCell(++ci).setCellValue(dataRow.higherEducationConcluded());
-      row.createCell(++ci).setCellValue(dataRow.higherEducationEnrolled());
-      row.createCell(++ci).setCellValue(dataRow.otherEducation());
-
-      row.createCell(++ci).setCellValue(dataRow.email());
-      row.createCell(++ci).setCellValue(dataRow.phoneNumber());
-      row.createCell(++ci).setCellValue(dataRow.digitalCertificateConsent());
-      row.createCell(++ci).setCellValue(dataRow.street());
-      row.createCell(++ci).setCellValue(dataRow.postalCode());
-      row.createCell(++ci).setCellValue(dataRow.town());
-      row.createCell(++ci).setCellValue(dataRow.country());
     }
 
     autoresizeExcelColumns(sheet, headers);
