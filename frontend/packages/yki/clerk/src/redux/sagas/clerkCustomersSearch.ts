@@ -21,14 +21,14 @@ function* loadCustomersSearchSaga(
   action: PayloadAction<ClerkCustomerSearchParams>,
 ) {
   try {
-    const { page, size, request } = action.payload;
+    const { page, size, request, sort } = action.payload;
+    const backendSort = sort ? sort.replace(/^name:/, 'lastName:') : '';
     const response: AxiosResponse<PageResponse<ClerkCustomerSummaryResponse>> =
       yield call(
         axiosInstance.post,
-        APIEndpoints.ClerkCustomersSearch.replace(':page', `${page}`).replace(
-          ':size',
-          `${size}`,
-        ),
+        APIEndpoints.ClerkCustomersSearch.replace(':page', `${page}`)
+          .replace(':size', `${size}`)
+          .replace(':sort', backendSort),
         request,
       );
     const customers: ClerkCustomerSummary[] = response.data.content.map(

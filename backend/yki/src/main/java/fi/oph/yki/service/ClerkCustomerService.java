@@ -20,6 +20,7 @@ import fi.oph.yki.util.HetuUtils;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -38,6 +39,7 @@ public class ClerkCustomerService {
   private final RegistrationRepository registrationRepository;
   private final OnrService onrService;
   private static final Logger LOG = LoggerFactory.getLogger(ClerkCustomerService.class);
+  private static final Set<String> ALLOWED_SORT_COLUMNS = Set.of("lastName");
 
   private PersonalDataDTO getPersonalData(final String oid) throws RuntimeException {
     try {
@@ -117,10 +119,31 @@ public class ClerkCustomerService {
     return ClerkCustomerDetailsDTO.builder().person(personDTO).registrations(registrationsDTOs).build();
   }
 
+  private String parseSortDirection(final String sort) {
+    if (sort == null || sort.isBlank()) {
+      return null;
+    }
+    final var parts = sort.split(":");
+    if (parts.length != 2) {
+      return null;
+    }
+    final var column = parts[0];
+    final var direction = parts[1].toUpperCase();
+    if (!ALLOWED_SORT_COLUMNS.contains(column)) {
+      return null;
+    }
+    if (!"ASC".equals(direction) && !"DESC".equals(direction)) {
+      return null;
+    }
+    return direction;
+  }
+
   private Page<PersonSearchProjection> searchPersons(
     final Pageable pageable,
-    final ClerkCustomerSearchRequestDTO request
+    final ClerkCustomerSearchRequestDTO request,
+    final String sort
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
+    final var sortDirection = parseSortDirection(sort);
     final var personQuery = request.personQuery() == null ? "" : request.personQuery();
     final var queries = personQuery.split(" ");
 
@@ -139,7 +162,8 @@ public class ClerkCustomerService {
         request.organizerId(),
         request.examDateId(),
         request.languageCode(),
-        request.levelCode()
+        request.levelCode(),
+        sortDirection
       );
     }
 
@@ -150,16 +174,18 @@ public class ClerkCustomerService {
       request.organizerId(),
       request.examDateId(),
       request.languageCode(),
-      request.levelCode()
+      request.levelCode(),
+      sortDirection
     );
   }
 
   @Transactional(readOnly = true)
   public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(
     final Pageable pageable,
-    final ClerkCustomerSearchRequestDTO request
+    final ClerkCustomerSearchRequestDTO request,
+    final String sort
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
-    return searchPersons(pageable, request)
+    return searchPersons(pageable, request, sort)
       .map(person -> {
         String identityNumber;
         try {

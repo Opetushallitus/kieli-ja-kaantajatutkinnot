@@ -164,11 +164,25 @@ export const handlers = [
     };
 
     const filtered = allCustomers.filter(matchesSearchTerms);
+
+    const sortParam = url.searchParams.get('sort') ?? '';
+    const [sortCol, sortDir] = sortParam.split(':');
+    const sorted = [...filtered];
+    if (sortCol === 'lastName' && (sortDir === 'asc' || sortDir === 'desc')) {
+      sorted.sort((a, b) => {
+        const cmp = a.person.lastName.localeCompare(b.person.lastName);
+
+        return sortDir === 'desc' ? -cmp : cmp;
+      });
+    }
+
     const start = page * size;
-    const paged = filtered.slice(start, start + size);
-    const totalElements = filtered.length;
+    const paged = sorted.slice(start, start + size);
+    const totalElements = sorted.length;
     const totalPages = size > 0 ? Math.ceil(totalElements / size) : 0;
-    const sort = { empty: true, unsorted: true, sorted: false };
+    const sort = sortCol
+      ? { empty: false, unsorted: false, sorted: true }
+      : { empty: true, unsorted: true, sorted: false };
 
     return HttpResponse.json({
       content: paged,

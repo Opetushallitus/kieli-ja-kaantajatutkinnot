@@ -44,6 +44,7 @@ public class ClerkCustomerController {
   public Page<ClerkCustomerSummaryDTO> searchCustomers(
     @RequestParam(defaultValue = "0") final int page,
     @RequestParam(defaultValue = "20") final int size,
+    @RequestParam(defaultValue = "") final String sort,
     @RequestBody final ClerkCustomerSearchRequestDTO request
   ) throws IllegalArgumentException, ExecutionException, InterruptedException, JsonProcessingException {
     final int validatedSize = Math.min(size, MAX_PAGE_SIZE);
@@ -55,7 +56,7 @@ public class ClerkCustomerController {
       }
     }
 
-    return service.searchClerkCustomers(PageRequest.of(page, validatedSize), request);
+    return service.searchClerkCustomers(PageRequest.of(page, validatedSize), request, sort);
   }
 
   @GetMapping(path = "/{oid}", consumes = ALL_VALUE)
