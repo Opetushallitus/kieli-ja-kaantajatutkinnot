@@ -21,6 +21,9 @@ interface ClerkCustomersSearchState {
   page: number;
   size: number;
   totalElements: number;
+
+  // sort
+  sort: string;
 }
 
 const initialState: ClerkCustomersSearchState = {
@@ -29,6 +32,7 @@ const initialState: ClerkCustomersSearchState = {
   page: 0,
   size: 20,
   totalElements: 0,
+  sort: '',
 };
 
 const clerkCustomersSearchSlice = createSlice({
@@ -42,6 +46,9 @@ const clerkCustomersSearchSlice = createSlice({
       state.status = APIResponseStatus.InProgress;
       state.page = action.payload.page;
       state.size = action.payload.size;
+      if (action.payload.sort !== undefined) {
+        state.sort = action.payload.sort;
+      }
     },
     rejectCustomersSearch(state) {
       state.status = APIResponseStatus.Error;
@@ -81,6 +88,9 @@ const clerkCustomersSearchSlice = createSlice({
       state.levelCodeFilter =
         action.payload === '' ? undefined : action.payload;
     },
+    setCustomersSort(state, action: PayloadAction<string>) {
+      state.sort = action.payload;
+    },
   },
 });
 
@@ -95,4 +105,5 @@ export const {
   setExamDateFilter,
   setLanguageFilter,
   setLevelFilter,
+  setCustomersSort,
 } = clerkCustomersSearchSlice.actions;

@@ -16,12 +16,16 @@ export const ClerkCustomersListing = ({
   pageSize,
   totalCount,
   onPageChange,
+  sort,
+  onSortChange,
 }: {
   customers: ClerkCustomerSummary[] | undefined;
   page: number;
   pageSize: number;
   totalCount: number;
   onPageChange: (page: number) => void;
+  sort: string;
+  onSortChange: (sort: string) => void;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkCustomer.search',
@@ -35,6 +39,7 @@ export const ClerkCustomersListing = ({
     {
       key: 'name',
       title: t('listing.columns.name'),
+      sortable: true,
       render: ({ person }) => (
         <div>
           <Link
@@ -57,6 +62,7 @@ export const ClerkCustomersListing = ({
     {
       key: 'registrationsCount',
       title: t('listing.columns.registrations'),
+      sortable: true,
       render: ({ registrationsCount }) => registrationsCount,
     },
   ];
@@ -84,6 +90,8 @@ export const ClerkCustomersListing = ({
             totalCount,
             serverSide: true,
           }}
+          sort={sort}
+          setSort={onSortChange}
         />
       )}
     </Stack>

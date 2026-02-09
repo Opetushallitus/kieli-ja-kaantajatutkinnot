@@ -21,14 +21,16 @@ function* loadCustomersSearchSaga(
   action: PayloadAction<ClerkCustomerSearchParams>,
 ) {
   try {
-    const { page, size, request } = action.payload;
+    const { page, size, request, sort } = action.payload;
+    const { sortColumn, sortDirection } =
+      SerializationUtils.serializeCustomerSearchSort(sort);
     const response: AxiosResponse<PageResponse<ClerkCustomerSummaryResponse>> =
       yield call(
         axiosInstance.post,
-        APIEndpoints.ClerkCustomersSearch.replace(':page', `${page}`).replace(
-          ':size',
-          `${size}`,
-        ),
+        APIEndpoints.ClerkCustomersSearch.replace(':page', `${page}`)
+          .replace(':size', `${size}`)
+          .replace(':sortColumn', sortColumn)
+          .replace(':sortDirection', sortDirection),
         request,
       );
     const customers: ClerkCustomerSummary[] = response.data.content.map(

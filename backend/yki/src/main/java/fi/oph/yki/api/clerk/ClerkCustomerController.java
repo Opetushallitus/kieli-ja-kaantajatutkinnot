@@ -11,6 +11,7 @@ import fi.oph.yki.config.ClerkEnabledCondition;
 import fi.oph.yki.service.ClerkCustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Profile;
@@ -44,6 +45,8 @@ public class ClerkCustomerController {
   public Page<ClerkCustomerSummaryDTO> searchCustomers(
     @RequestParam(defaultValue = "0") final int page,
     @RequestParam(defaultValue = "20") final int size,
+    @RequestParam(defaultValue = "lastName") final String sortColumn,
+    @RequestParam(defaultValue = "ASC") final String sortDirection,
     @RequestBody final ClerkCustomerSearchRequestDTO request
   ) throws IllegalArgumentException, ExecutionException, InterruptedException, JsonProcessingException {
     final int validatedSize = Math.min(size, MAX_PAGE_SIZE);
@@ -55,7 +58,15 @@ public class ClerkCustomerController {
       }
     }
 
-    return service.searchClerkCustomers(PageRequest.of(page, validatedSize), request);
+    if (!Objects.equals(sortColumn, "lastName") && !Objects.equals(sortColumn, "registrationCount")) {
+      throw new IllegalArgumentException(String.format("Invalid sort column %s", sortColumn));
+    }
+
+    if (!Objects.equals(sortDirection, "ASC") && !Objects.equals(sortDirection, "DESC")) {
+      throw new IllegalArgumentException(String.format("Invalid sort direction %s", sortDirection));
+    }
+
+    return service.searchClerkCustomers(PageRequest.of(page, validatedSize), request, sortColumn, sortDirection);
   }
 
   @GetMapping(path = "/{oid}", consumes = ALL_VALUE)

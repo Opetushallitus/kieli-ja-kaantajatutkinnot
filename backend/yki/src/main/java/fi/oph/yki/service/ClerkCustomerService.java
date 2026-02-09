@@ -20,6 +20,7 @@ import fi.oph.yki.util.HetuUtils;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -119,7 +120,9 @@ public class ClerkCustomerService {
 
   private Page<PersonSearchProjection> searchPersons(
     final Pageable pageable,
-    final ClerkCustomerSearchRequestDTO request
+    final ClerkCustomerSearchRequestDTO request,
+    final String sortColumn,
+    final String sortDirection
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
     final var personQuery = request.personQuery() == null ? "" : request.personQuery();
     final var queries = personQuery.split(" ");
@@ -139,7 +142,9 @@ public class ClerkCustomerService {
         request.organizerId(),
         request.examDateId(),
         request.languageCode(),
-        request.levelCode()
+        request.levelCode(),
+        sortColumn,
+        sortDirection
       );
     }
 
@@ -150,16 +155,20 @@ public class ClerkCustomerService {
       request.organizerId(),
       request.examDateId(),
       request.languageCode(),
-      request.levelCode()
+      request.levelCode(),
+      sortColumn,
+      sortDirection
     );
   }
 
   @Transactional(readOnly = true)
   public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(
     final Pageable pageable,
-    final ClerkCustomerSearchRequestDTO request
+    final ClerkCustomerSearchRequestDTO request,
+    final String sortColumn,
+    final String sortDirection
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
-    return searchPersons(pageable, request)
+    return searchPersons(pageable, request, sortColumn, sortDirection)
       .map(person -> {
         String identityNumber;
         try {

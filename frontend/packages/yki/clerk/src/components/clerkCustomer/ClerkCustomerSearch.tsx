@@ -6,7 +6,10 @@ import { ClerkCustomersListing } from 'components/clerkCustomer/ClerkCustomersLi
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { H2 } from 'ophTheme/Text';
-import { loadCustomersSearch } from 'redux/reducers/clerkCustomersSearch';
+import {
+  loadCustomersSearch,
+  setCustomersSort,
+} from 'redux/reducers/clerkCustomersSearch';
 import { clerkCustomersSearchSelector } from 'redux/selectors/clerkCustomersSearchSelector';
 
 const InfoText = ({ status }: { status: APIResponseStatus }) => {
@@ -38,6 +41,7 @@ export const ClerkCustomerSearch = () => {
     page,
     size,
     totalElements,
+    sort,
   } = useAppSelector(clerkCustomersSearchSelector);
 
   const dispatch = useAppDispatch();
@@ -53,6 +57,24 @@ export const ClerkCustomerSearch = () => {
             page={page}
             pageSize={size}
             totalCount={totalElements}
+            sort={sort}
+            onSortChange={(newSort) => {
+              dispatch(setCustomersSort(newSort));
+              dispatch(
+                loadCustomersSearch({
+                  request: {
+                    personQuery: searchQueryFilter,
+                    organizerId: organizerIdFilter,
+                    examDateId: examDateIdFilter,
+                    languageCode: languageCodeFilter,
+                    levelCode: levelCodeFilter,
+                  },
+                  page: 0,
+                  size,
+                  sort: newSort,
+                }),
+              );
+            }}
             onPageChange={(newPage) =>
               dispatch(
                 loadCustomersSearch({
@@ -65,6 +87,7 @@ export const ClerkCustomerSearch = () => {
                   },
                   page: newPage,
                   size,
+                  sort,
                 }),
               )
             }

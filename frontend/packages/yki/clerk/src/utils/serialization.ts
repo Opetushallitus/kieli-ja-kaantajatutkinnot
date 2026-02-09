@@ -406,6 +406,24 @@ export class SerializationUtils {
     }));
   }
 
+  static serializeCustomerSearchSort(sort?: string): {
+    sortColumn: string;
+    sortDirection: string;
+  } {
+    if (!sort) {
+      return { sortColumn: '', sortDirection: '' };
+    }
+    const [key, direction] = sort.split(':');
+    if (!key || !direction) {
+      return { sortColumn: '', sortDirection: '' };
+    }
+    const columnMap: Record<string, string> = { name: 'lastName' };
+    const sortColumn = columnMap[key] ?? key;
+    const sortDirection = direction.toUpperCase();
+
+    return { sortColumn, sortDirection };
+  }
+
   static deserializeFindByOidsOrganizationResponse(
     organizationResponse: FindByOidsOrganizationResponse,
   ) {

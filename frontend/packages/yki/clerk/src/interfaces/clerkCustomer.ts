@@ -103,6 +103,7 @@ export type ClerkCustomerSearchParams = {
   };
   page: number;
   size: number;
+  sort?: string;
 };
 
 export interface ClerkCustomerSummary {
