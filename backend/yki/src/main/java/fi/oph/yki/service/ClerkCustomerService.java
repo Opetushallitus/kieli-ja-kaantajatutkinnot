@@ -39,7 +39,7 @@ public class ClerkCustomerService {
   private final RegistrationRepository registrationRepository;
   private final OnrService onrService;
   private static final Logger LOG = LoggerFactory.getLogger(ClerkCustomerService.class);
-  private static final Set<String> ALLOWED_SORT_COLUMNS = Set.of("lastName");
+  private static final Set<String> ALLOWED_SORT_COLUMNS = Set.of("lastName", "registrationsCount");
 
   private PersonalDataDTO getPersonalData(final String oid) throws RuntimeException {
     try {
@@ -119,23 +119,23 @@ public class ClerkCustomerService {
     return ClerkCustomerDetailsDTO.builder().person(personDTO).registrations(registrationsDTOs).build();
   }
 
-  private String parseSortDirection(final String sort) {
+  private String[] parseSort(final String sort) {
     if (sort == null || sort.isBlank()) {
-      return null;
+      return new String[] { null, null };
     }
     final var parts = sort.split(":");
     if (parts.length != 2) {
-      return null;
+      return new String[] { null, null };
     }
     final var column = parts[0];
     final var direction = parts[1].toUpperCase();
     if (!ALLOWED_SORT_COLUMNS.contains(column)) {
-      return null;
+      return new String[] { null, null };
     }
     if (!"ASC".equals(direction) && !"DESC".equals(direction)) {
-      return null;
+      return new String[] { null, null };
     }
-    return direction;
+    return new String[] { column, direction };
   }
 
   private Page<PersonSearchProjection> searchPersons(
@@ -143,7 +143,9 @@ public class ClerkCustomerService {
     final ClerkCustomerSearchRequestDTO request,
     final String sort
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
-    final var sortDirection = parseSortDirection(sort);
+    final var parsed = parseSort(sort);
+    final var sortColumn = parsed[0];
+    final var sortDirection = parsed[1];
     final var personQuery = request.personQuery() == null ? "" : request.personQuery();
     final var queries = personQuery.split(" ");
 
@@ -163,6 +165,7 @@ public class ClerkCustomerService {
         request.examDateId(),
         request.languageCode(),
         request.levelCode(),
+        sortColumn,
         sortDirection
       );
     }
@@ -175,6 +178,7 @@ public class ClerkCustomerService {
       request.examDateId(),
       request.languageCode(),
       request.levelCode(),
+      sortColumn,
       sortDirection
     );
   }

@@ -55,8 +55,10 @@ WHERE (:personQuery IS NULL OR :personQuery = '' OR
         )
     )
 ORDER BY
-    CASE WHEN :sortDirection = 'ASC' THEN p.last_name END ASC,
-    CASE WHEN :sortDirection = 'DESC' THEN p.last_name END DESC,
+    CASE WHEN :sortColumn = 'lastName' AND :sortDirection = 'ASC' THEN p.last_name END ASC,
+    CASE WHEN :sortColumn = 'lastName' AND :sortDirection = 'DESC' THEN p.last_name END DESC,
+    CASE WHEN :sortColumn = 'registrationsCount' AND :sortDirection = 'ASC' THEN (SELECT COUNT(*) FROM registration r2 WHERE r2.person_oid = p.oid) END ASC,
+    CASE WHEN :sortColumn = 'registrationsCount' AND :sortDirection = 'DESC' THEN (SELECT COUNT(*) FROM registration r2 WHERE r2.person_oid = p.oid) END DESC,
     p.created DESC, p.oid
 """,
     countQuery = """
@@ -92,6 +94,7 @@ WHERE (:personQuery IS NULL OR :personQuery = '' OR
     @Param("examDateId") Long examDateId,
     @Param("languageCode") String languageCode,
     @Param("levelCode") String levelCode,
+    @Param("sortColumn") String sortColumn,
     @Param("sortDirection") String sortDirection
   );
 }

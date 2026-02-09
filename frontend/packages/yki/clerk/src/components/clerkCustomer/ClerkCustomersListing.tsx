@@ -62,6 +62,7 @@ export const ClerkCustomersListing = ({
     {
       key: 'registrationsCount',
       title: t('listing.columns.registrations'),
+      sortable: true,
       render: ({ registrationsCount }) => registrationsCount,
     },
   ];

@@ -168,12 +168,20 @@ export const handlers = [
     const sortParam = url.searchParams.get('sort') ?? '';
     const [sortCol, sortDir] = sortParam.split(':');
     const sorted = [...filtered];
-    if (sortCol === 'lastName' && (sortDir === 'asc' || sortDir === 'desc')) {
-      sorted.sort((a, b) => {
-        const cmp = a.person.lastName.localeCompare(b.person.lastName);
+    if (sortDir === 'asc' || sortDir === 'desc') {
+      if (sortCol === 'lastName') {
+        sorted.sort((a, b) => {
+          const cmp = a.person.lastName.localeCompare(b.person.lastName);
 
-        return sortDir === 'desc' ? -cmp : cmp;
-      });
+          return sortDir === 'desc' ? -cmp : cmp;
+        });
+      } else if (sortCol === 'registrationsCount') {
+        sorted.sort((a, b) => {
+          const cmp = a.registrationsCount - b.registrationsCount;
+
+          return sortDir === 'desc' ? -cmp : cmp;
+        });
+      }
     }
 
     const start = page * size;
