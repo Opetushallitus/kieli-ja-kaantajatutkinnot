@@ -1,9 +1,11 @@
+import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import {
+  ClerkOrganization,
   ClerkOrganizer,
   ClerkOrganizerResponse,
 } from 'interfaces/clerkOrganizer';
@@ -12,12 +14,18 @@ import {
   FindByOidsOrganizationResponse,
 } from 'interfaces/clerkOrganizerRegistry';
 import {
+  addClerkOrganizer,
   loadAllOrganizations,
+  loadClerkOrganization,
   loadClerkOrganizerRegistry,
   loadClerkOrganizers,
+  rejectAddClerkOrganizer,
   rejectAllOrganizations,
+  rejectClerkOrganization,
   rejectClerkOrganizers,
+  storeAddClerkOrganizer,
   storeAllOrganizations,
+  storeClerkOrganization,
   storeClerkOrganizerRegistry,
   storeClerkOrganizers,
   updateClerkOrganizer,
@@ -117,19 +125,72 @@ function* updateClerkOrganizerSaga(
 function* loadAllOrganizationsSaga() {
   try {
     const response: AxiosResponse<{
-      organisaatiot: Array<{
-        oid: string;
-        nimi: { fi: string; sv?: string; en?: string };
-        kotipaikkaUri?: string;
-        status: string;
-      }>;
+      organisaatiot: Array<ClerkOrganization>;
     }> = yield call(
       axiosInstance.get,
       '/organisaatio-service/rest/organisaatio/v4/hae?searchStr=&aktiiviset=true&suunnitellut=true&lakkautetut=false&lang=fi',
     );
-    yield put(storeAllOrganizations(response.data.organisaatiot));
+    const organizations_01_02_05 = response.data.organisaatiot.filter((org) => {
+      return (
+        org.organisaatiotyypit.includes('organisaatiotyyppi_01') ||
+        org.organisaatiotyypit.includes('organisaatiotyyppi_02') ||
+        org.organisaatiotyypit.includes('organisaatiotyyppi_05')
+      );
+    });
+    yield put(storeAllOrganizations(organizations_01_02_05));
   } catch (error) {
     yield put(rejectAllOrganizations());
+  }
+}
+
+function* loadClerkOrganizationSaga(action: PayloadAction<Array<string>>) {
+  try {
+    const findByOidsResponse: AxiosResponse<
+      Array<FindByOidsOrganizationResponse>
+    > = yield call(
+      axiosInstance.post,
+      '/organisaatio-service/rest/organisaatio/v3/findbyoids',
+      action.payload,
+    );
+
+    const organization = findByOidsResponse.data.map(
+      SerializationUtils.deserializeFindByOidsOrganizationResponse,
+    );
+    yield put(storeClerkOrganization(organization[0]));
+  } catch (error) {
+    yield put(rejectClerkOrganization());
+  }
+}
+
+function* addClerkOrganizerSaga(action: PayloadAction<ClerkOrganizer>) {
+  try {
+    const newClerkOrganizerEntry = {
+      organizer: action.payload,
+      organization: {} as FindByOidsOrganization,
+    };
+    const findByOidsResponse: AxiosResponse<
+      Array<FindByOidsOrganizationResponse>
+    > = yield call(
+      axiosInstance.post,
+      '/organisaatio-service/rest/organisaatio/v3/findbyoids',
+      action.payload.oid,
+    );
+
+    newClerkOrganizerEntry.organization = findByOidsResponse.data.map(
+      SerializationUtils.deserializeFindByOidsOrganizationResponse,
+    )[0];
+
+    yield call(
+      axiosInstance.post,
+      'yki/api/virkailija/organizer',
+      newClerkOrganizerEntry.organizer,
+    );
+
+    yield Promise.resolve(() => setTimeout(() => {}, 3000));
+
+    yield put(storeAddClerkOrganizer(newClerkOrganizerEntry));
+  } catch (error) {
+    yield put(rejectAddClerkOrganizer());
   }
 }
 
@@ -141,4 +202,6 @@ export function* watchClerkOrganizers() {
   yield takeLatest(loadClerkOrganizers.type, loadClerkOrganizersSaga);
   yield takeLatest(updateClerkOrganizer.type, updateClerkOrganizerSaga);
   yield takeLatest(loadAllOrganizations.type, loadAllOrganizationsSaga);
+  yield takeLatest(loadClerkOrganization.type, loadClerkOrganizationSaga);
+  yield takeLatest(addClerkOrganizer.type, addClerkOrganizerSaga);
 }

@@ -6,6 +6,12 @@ import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
 
+const getOrganizationTypes = (t: (t: string) => string) => ({
+  organisaatiotyyppi_01: t('addOrganizer.organizationTypes.type01'),
+  organisaatiotyyppi_02: t('addOrganizer.organizationTypes.type02'),
+  organisaatiotyyppi_05: t('addOrganizer.organizationTypes.type05'),
+});
+
 export const ClerkAddOrganizer: FC = () => {
   const [selectedOrganizationOid, setSelectedOrganizationOid] =
     useState<string>('');
@@ -22,9 +28,12 @@ export const ClerkAddOrganizer: FC = () => {
       const oid = target.getAttribute('data-oid');
       if (oid) {
         setSelectedOrganizationOid(oid);
+        setSearchQuery('');
       }
     }
   };
+
+  const organizationTypes = getOrganizationTypes(t);
 
   return (
     <div
@@ -36,10 +45,13 @@ export const ClerkAddOrganizer: FC = () => {
     >
       <OphInputFormField
         data-testid="organizer-search-input"
-        label={t('listing.modals.addOrganizer.searchLabel')}
+        label={t('addOrganizer.search.label')}
         value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        placeholder={t('listing.modals.addOrganizer.searchPlaceholder')}
+        onChange={(e) => {
+          setSearchQuery(e.target.value);
+          setSelectedOrganizationOid('');
+        }}
+        placeholder={t('addOrganizer.search.placeholder')}
         sx={{ width: '100%' }}
       />
 
@@ -51,7 +63,9 @@ export const ClerkAddOrganizer: FC = () => {
         <div>
           {allOrganizations
             .filter((org) => {
-              return org.nimi.fi.includes(searchQuery);
+              return org.nimi.fi
+                .toLocaleLowerCase()
+                .includes(searchQuery.toLocaleLowerCase());
             })
             .map((org) => (
               <div
@@ -66,14 +80,18 @@ export const ClerkAddOrganizer: FC = () => {
                   marginTop: '0.5rem',
                   cursor: 'pointer',
                 }}
-                onClick={() => setSelectedOrganizationOid(org.oid)}
+                onClick={() => {
+                  setSelectedOrganizationOid(org.oid);
+                  setSearchQuery('');
+                }}
               >
-                {org.nimi.fi}
+                {org.nimi.fi}{' '}
+                <span>({organizationTypes[org.organisaatiotyypit[0]]})</span>
               </div>
             ))}
         </div>
       ) : (
-        <div>{t('listing.modals.addOrganizer.selectOrganizationPrompt')}</div>
+        <div>{t('addOrganizer.search.infoText')}</div>
       )}
     </div>
   );

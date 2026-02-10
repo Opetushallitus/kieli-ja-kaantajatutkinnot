@@ -159,7 +159,7 @@ export class SerializationUtils {
     };
   }
 
-  static serializeClerkOrganizer(organizer: ClerkOrganizer) {
+  static serializeClerkOrganizer(organizer: Partial<ClerkOrganizer>) {
     return {
       ...organizer,
       agreement_start_date: organizer.agreement_start_date
@@ -418,6 +418,9 @@ export class SerializationUtils {
         ...nimiHistoria,
         alkuPvm: dayjs(nimiHistoria.alkuPvm),
       })),
+      tarkastusPvm: organizationResponse.tarkastusPvm
+        ? dayjs(organizationResponse.tarkastusPvm)
+        : undefined,
     };
   }
 }

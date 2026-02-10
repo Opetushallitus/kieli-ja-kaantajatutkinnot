@@ -210,6 +210,27 @@ export const handlers = [
   http.post('/organisaatio-service/rest/organisaatio/v3/findbyoids', () => {
     return HttpResponse.json(findByOidsResponse);
   }),
+  http.post(
+    '/organisaatio-service/rest/organisaatio/v3/findbyoids',
+    async ({ request }) => {
+      const requestBody = (await request.json()) as Array<string>;
+
+      if (requestBody.length === 0) {
+        return HttpResponse.json([]);
+      }
+
+      if (requestBody.length === 1) {
+        const oid = requestBody[0];
+        const organization = findByOidsResponse.find((org) => org.oid === oid);
+        if (organization) {
+          return HttpResponse.json([organization]);
+        }
+      }
+
+      // return all organizations by default for multiple oids
+      return HttpResponse.json(findByOidsResponse);
+    },
+  ),
   http.get('/yki/api/clerk/organizer/:oid/exam-session', ({ params }) => {
     const { from } = params;
 

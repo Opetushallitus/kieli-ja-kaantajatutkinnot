@@ -12,6 +12,7 @@ type YhteystietoBase = {
   kieli: string;
   yhteystietoOid: string;
   id: string;
+  version: string;
 };
 
 type YhteystietoOsoite = YhteystietoBase & {
@@ -42,6 +43,7 @@ type Yhteystieto =
 
 interface MetadataYhteystieto {
   osoiteTyyppi: 'kaynti' | 'posti';
+  version: string;
   kieli: string;
   postinumeroUri: string;
   yhteystietoOid: string;
@@ -107,6 +109,7 @@ export interface FindByOidsOrganization {
   kotipaikkaUri: string;
   version: number;
   status: string;
+  tarkastusPvm?: Dayjs;
 }
 
 interface NimiHistoriaResponse extends Omit<NimiHistoria, 'alkuPvm'> {
@@ -114,9 +117,10 @@ interface NimiHistoriaResponse extends Omit<NimiHistoria, 'alkuPvm'> {
 }
 
 export interface FindByOidsOrganizationResponse
-  extends Omit<FindByOidsOrganization, 'nimet' | 'alkuPvm'> {
+  extends Omit<FindByOidsOrganization, 'nimet' | 'alkuPvm' | 'tarkastusPvm'> {
   nimet: NimiHistoriaResponse[];
   alkuPvm: string;
+  tarkastusPvm?: number;
 }
 
 export interface ClerkOrganizerRegistry {

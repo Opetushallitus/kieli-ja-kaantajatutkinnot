@@ -1,26 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ClerkOrganizer } from 'interfaces/clerkOrganizer';
-import { ClerkOrganizerRegistry } from 'interfaces/clerkOrganizerRegistry';
-
-interface Organization {
-  oid: string;
-  nimi: {
-    fi: string;
-    sv?: string;
-    en?: string;
-  };
-  kotipaikkaUri?: string;
-  status: string;
-}
+import { ClerkOrganization, ClerkOrganizer } from 'interfaces/clerkOrganizer';
+import {
+  ClerkOrganizerRegistry,
+  FindByOidsOrganization,
+} from 'interfaces/clerkOrganizerRegistry';
 
 interface ClerkOrganizerState {
   organizers: Array<ClerkOrganizer>;
+  organization?: FindByOidsOrganization;
   organizerRegistry: Array<ClerkOrganizerRegistry>;
-  allOrganizations: Array<Organization>;
+  allOrganizations: Array<ClerkOrganization>;
   status: APIResponseStatus;
-  organizerRegistryStatus?: APIResponseStatus;
+  organizationStatus: APIResponseStatus;
+  organizerRegistryStatus: APIResponseStatus;
+  addClerkOrganizerStatus: APIResponseStatus;
   updateStatus?: APIResponseStatus;
   allOrganizationsStatus?: APIResponseStatus;
   searchQuery: string;
@@ -33,7 +28,9 @@ const initialState: ClerkOrganizerState = {
   organizerRegistry: [],
   allOrganizations: [],
   status: APIResponseStatus.NotStarted,
+  organizationStatus: APIResponseStatus.NotStarted,
   organizerRegistryStatus: APIResponseStatus.NotStarted,
+  addClerkOrganizerStatus: APIResponseStatus.NotStarted,
   updateStatus: APIResponseStatus.NotStarted,
   allOrganizationsStatus: APIResponseStatus.NotStarted,
   searchQuery: '',
@@ -65,7 +62,10 @@ const clerkOrganizersSlice = createSlice({
       state.organizerRegistryStatus = APIResponseStatus.Success;
       state.organizerRegistry = action.payload;
     },
-    updateClerkOrganizer(state, _action: PayloadAction<ClerkOrganizer>) {
+    updateClerkOrganizer(
+      state,
+      _action: PayloadAction<Partial<ClerkOrganizer>>,
+    ) {
       state.updateStatus = APIResponseStatus.InProgress;
     },
     updateClerkOrganizerSuccess(state, action: PayloadAction<ClerkOrganizer>) {
@@ -102,12 +102,42 @@ const clerkOrganizersSlice = createSlice({
     loadAllOrganizations(state) {
       state.allOrganizationsStatus = APIResponseStatus.InProgress;
     },
-    storeAllOrganizations(state, action: PayloadAction<Array<Organization>>) {
+    storeAllOrganizations(
+      state,
+      action: PayloadAction<Array<ClerkOrganization>>,
+    ) {
       state.allOrganizationsStatus = APIResponseStatus.Success;
       state.allOrganizations = action.payload;
     },
     rejectAllOrganizations(state) {
       state.allOrganizationsStatus = APIResponseStatus.Error;
+    },
+    loadClerkOrganization(state, _action: PayloadAction<Array<string>>) {
+      state.organizationStatus = APIResponseStatus.InProgress;
+    },
+    storeClerkOrganization(
+      state,
+      action: PayloadAction<FindByOidsOrganization>,
+    ) {
+      state.organizationStatus = APIResponseStatus.Success;
+      state.organization = action.payload;
+    },
+    rejectClerkOrganization(state) {
+      state.organizationStatus = APIResponseStatus.Error;
+    },
+    addClerkOrganizer(state, _action: PayloadAction<ClerkOrganizer>) {
+      state.addClerkOrganizerStatus = APIResponseStatus.InProgress;
+    },
+    storeAddClerkOrganizer(
+      state,
+      action: PayloadAction<ClerkOrganizerRegistry>,
+    ) {
+      state.addClerkOrganizerStatus = APIResponseStatus.Success;
+      // Do we need to update organizerRegistry and/or allOrganizers?
+      state.organizers.push(action.payload.organizer);
+    },
+    rejectAddClerkOrganizer(state) {
+      state.addClerkOrganizerStatus = APIResponseStatus.Error;
     },
   },
 });
@@ -128,4 +158,10 @@ export const {
   loadAllOrganizations,
   storeAllOrganizations,
   rejectAllOrganizations,
+  loadClerkOrganization,
+  storeClerkOrganization,
+  rejectClerkOrganization,
+  addClerkOrganizer,
+  storeAddClerkOrganizer,
+  rejectAddClerkOrganizer,
 } = clerkOrganizersSlice.actions;

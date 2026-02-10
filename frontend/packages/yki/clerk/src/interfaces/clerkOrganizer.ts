@@ -8,8 +8,11 @@ export interface OrganizerLanguage {
   level_code: LanguageLevelCode;
 }
 
+type ClerkOrganizerName = Record<'fi' | 'sv' | 'en', string>;
+
 export interface ClerkOrganizer extends WithId {
   oid: string;
+  nimi: ClerkOrganizerName;
   agreement_start_date?: Dayjs;
   agreement_end_date?: Dayjs;
   contact_name?: string;
@@ -45,3 +48,20 @@ export type ClerkOrganizerType = {
   languages: Array<OrganizerLanguage> | null;
   extra: string;
 };
+
+export type OrganizationTypes =
+  | 'organisaatiotyyppi_01'
+  | 'organisaatiotyyppi_02'
+  | 'organisaatiotyyppi_05';
+
+export interface ClerkOrganization {
+  oid: string;
+  nimi: {
+    fi: string;
+    sv?: string;
+    en?: string;
+  };
+  kotipaikkaUri?: string;
+  status: string;
+  organisaatiotyypit: OrganizationTypes[];
+}
