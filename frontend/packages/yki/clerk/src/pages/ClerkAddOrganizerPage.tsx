@@ -15,7 +15,7 @@ export const ClerkAddOrganizerPage = () => {
   const navigate = useNavigate();
 
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.clerkRegister',
+    keyPrefix: 'yki.pages.clerkAddOrganizerPage',
   });
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export const ClerkAddOrganizerPage = () => {
         <IconButton
           color="secondary"
           className="clerk-add-organizer-page__home-button"
-          onClick={() => navigate(AppRoutes.ClerkFreeRegistration)}
+          onClick={() => navigate(AppRoutes.ClerkOrganizerRegister)}
         >
           <HomeOutlined color="secondary" fontSize="large" />
         </IconButton>

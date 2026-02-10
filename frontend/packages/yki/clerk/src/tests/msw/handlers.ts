@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { http, HttpResponse } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
+import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
 import { examDates } from 'tests/msw/fixtures/examDate';
@@ -43,12 +44,13 @@ export const handlers = [
   ),
   http.get(APIEndpoints.ClerkOrganizer, () => HttpResponse.json(organizers)),
   http.put(
-    `${APIEndpoints.ClerkOrganizer}/:id`,
+    `${APIEndpoints.ClerkOrganizer}/:oid`,
     async ({ params, request }) => {
-      const organizerId = Number(params.id);
+      const organizerOid = params.oid as string;
       const updatedData = (await request.json()) as Record<string, unknown>;
-      const organizerIndex = organizers.findIndex((o) => o.id === organizerId);
-
+      const organizerIndex = organizers.findIndex(
+        (o) => o.oid === organizerOid,
+      );
       if (organizerIndex !== -1) {
         organizers[organizerIndex] = {
           ...organizers[organizerIndex],
@@ -217,18 +219,16 @@ export const handlers = [
 
       if (requestBody.length === 0) {
         return HttpResponse.json([]);
-      }
-
-      if (requestBody.length === 1) {
+      } else if (requestBody.length === 1) {
         const oid = requestBody[0];
         const organization = findByOidsResponse.find((org) => org.oid === oid);
         if (organization) {
           return HttpResponse.json([organization]);
         }
+      } else {
+        // return all organizations by default for multiple oids
+        return HttpResponse.json(findByOidsResponse);
       }
-
-      // return all organizations by default for multiple oids
-      return HttpResponse.json(findByOidsResponse);
     },
   ),
   http.get('/yki/api/clerk/organizer/:oid/exam-session', ({ params }) => {
@@ -256,4 +256,16 @@ export const handlers = [
       return HttpResponse.json(findOrganizations);
     },
   ),
+  http.post(APIEndpoints.AddClerkOrganizer, async ({ request }) => {
+    const requestBody = (await request.json()) as Omit<
+      ClerkOrganizerResponse,
+      'id'
+    >;
+    organizers.push({
+      ...requestBody,
+      id: organizers.length + 1,
+    });
+
+    return HttpResponse.json({ success: true });
+  }),
 ];

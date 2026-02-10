@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, delay, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
@@ -110,12 +110,13 @@ function* updateClerkOrganizerSaga(
 
     const response: AxiosResponse<ClerkOrganizerResponse> = yield call(
       axiosInstance.put,
-      `${APIEndpoints.ClerkOrganizer}/${organizer.id}`,
+      `${APIEndpoints.ClerkOrganizer}/${organizer.oid}`,
       requestData,
     );
 
     const updatedOrganizer =
       SerializationUtils.deserializeClerkOrganizerResponse(response.data);
+
     yield put(updateClerkOrganizerSuccess(updatedOrganizer));
   } catch (error) {
     yield put(updateClerkOrganizerError());
@@ -164,6 +165,7 @@ function* loadClerkOrganizationSaga(action: PayloadAction<Array<string>>) {
 
 function* addClerkOrganizerSaga(action: PayloadAction<ClerkOrganizer>) {
   try {
+    yield delay(500);
     const newClerkOrganizerEntry = {
       organizer: action.payload,
       organization: {} as FindByOidsOrganization,
@@ -173,7 +175,7 @@ function* addClerkOrganizerSaga(action: PayloadAction<ClerkOrganizer>) {
     > = yield call(
       axiosInstance.post,
       '/organisaatio-service/rest/organisaatio/v3/findbyoids',
-      action.payload.oid,
+      [action.payload.oid],
     );
 
     newClerkOrganizerEntry.organization = findByOidsResponse.data.map(
@@ -182,11 +184,9 @@ function* addClerkOrganizerSaga(action: PayloadAction<ClerkOrganizer>) {
 
     yield call(
       axiosInstance.post,
-      'yki/api/virkailija/organizer',
+      APIEndpoints.AddClerkOrganizer,
       newClerkOrganizerEntry.organizer,
     );
-
-    yield Promise.resolve(() => setTimeout(() => {}, 3000));
 
     yield put(storeAddClerkOrganizer(newClerkOrganizerEntry));
   } catch (error) {

@@ -421,6 +421,9 @@ export class SerializationUtils {
       tarkastusPvm: organizationResponse.tarkastusPvm
         ? dayjs(organizationResponse.tarkastusPvm)
         : undefined,
+      ytjpaivitysPvm: organizationResponse.ytjpaivitysPvm
+        ? dayjs(organizationResponse.ytjpaivitysPvm)
+        : undefined,
     };
   }
 }

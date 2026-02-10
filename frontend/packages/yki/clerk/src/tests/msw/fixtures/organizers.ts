@@ -1,4 +1,6 @@
-export const organizers = [
+import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
+
+export const organizers: ClerkOrganizerResponse[] = [
   {
     id: 1,
     oid: '1.2.246.562.10.28646781493',

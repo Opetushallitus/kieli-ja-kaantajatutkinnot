@@ -71,14 +71,14 @@ const clerkOrganizersSlice = createSlice({
     updateClerkOrganizerSuccess(state, action: PayloadAction<ClerkOrganizer>) {
       state.updateStatus = APIResponseStatus.Success;
       const index = state.organizers.findIndex(
-        (o) => o.id === action.payload.id,
+        (o) => o.oid === action.payload.oid,
       );
       if (index !== -1) {
         state.organizers[index] = action.payload;
       }
 
       const registryIndex = state.organizerRegistry.findIndex(
-        (r) => r.organizer.id === action.payload.id,
+        (r) => r.organizer.oid === action.payload.oid,
       );
       if (registryIndex !== -1) {
         state.organizerRegistry[registryIndex] = {
@@ -89,6 +89,9 @@ const clerkOrganizersSlice = createSlice({
     },
     updateClerkOrganizerError(state) {
       state.updateStatus = APIResponseStatus.Error;
+    },
+    resetUpdateClerkOrganizerStatus(state) {
+      state.updateStatus = APIResponseStatus.NotStarted;
     },
     setSearchQuery(state, action: PayloadAction<string>) {
       state.searchQuery = action.payload;
@@ -125,7 +128,10 @@ const clerkOrganizersSlice = createSlice({
     rejectClerkOrganization(state) {
       state.organizationStatus = APIResponseStatus.Error;
     },
-    addClerkOrganizer(state, _action: PayloadAction<ClerkOrganizer>) {
+    addClerkOrganizer(
+      state,
+      _action: PayloadAction<Omit<ClerkOrganizer, 'id' | 'nimi'>>,
+    ) {
       state.addClerkOrganizerStatus = APIResponseStatus.InProgress;
     },
     storeAddClerkOrganizer(
@@ -135,6 +141,7 @@ const clerkOrganizersSlice = createSlice({
       state.addClerkOrganizerStatus = APIResponseStatus.Success;
       // Do we need to update organizerRegistry and/or allOrganizers?
       state.organizers.push(action.payload.organizer);
+      state.organizerRegistry.push(action.payload);
     },
     rejectAddClerkOrganizer(state) {
       state.addClerkOrganizerStatus = APIResponseStatus.Error;
@@ -164,4 +171,5 @@ export const {
   addClerkOrganizer,
   storeAddClerkOrganizer,
   rejectAddClerkOrganizer,
+  resetUpdateClerkOrganizerStatus,
 } = clerkOrganizersSlice.actions;

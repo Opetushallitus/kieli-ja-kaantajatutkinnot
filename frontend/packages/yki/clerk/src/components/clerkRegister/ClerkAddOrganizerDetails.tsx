@@ -9,13 +9,17 @@ import { Dayjs } from 'dayjs';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomDatePicker } from 'shared/components';
-import { Color, Variant } from 'shared/enums';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useToast } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { H3, Label, Text } from 'ophTheme/Text';
-import { loadClerkOrganization } from 'redux/reducers/clerkOrganizer';
+import {
+  addClerkOrganizer,
+  loadClerkOrganization,
+} from 'redux/reducers/clerkOrganizer';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
 import { getOrganizerAddress, LANGUAGES, levelDescription } from 'utils/clerk';
 
@@ -36,7 +40,9 @@ type LanguageSelection = {
 export const ClerkAddOrganizerDetails = ({
   selectedOrganizationOid,
 }: ClerkAddOrganizerDetailsProps) => {
-  const { organization } = useAppSelector(clerkOrganizersSelector);
+  const { organization, addClerkOrganizerStatus } = useAppSelector(
+    clerkOrganizersSelector,
+  );
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
   const [contactName, setContactName] = useState<string>('');
@@ -46,6 +52,7 @@ export const ClerkAddOrganizerDetails = ({
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { showToast } = useToast();
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
@@ -82,6 +89,21 @@ export const ClerkAddOrganizerDetails = ({
     setExtraInfo('');
   }, [initializeLanguageSelections, selectedOrganizationOid]);
 
+  useEffect(() => {
+    if (addClerkOrganizerStatus === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: t('addOrganizer.toasts.success'),
+      });
+      navigate(AppRoutes.ClerkOrganizerRegister);
+    } else if (addClerkOrganizerStatus === APIResponseStatus.Error) {
+      showToast({
+        severity: Severity.Error,
+        description: t('addOrganizer.toasts.error'),
+      });
+    }
+  }, [addClerkOrganizerStatus, navigate, showToast, t]);
+
   const handleCancel = () => {
     navigate(AppRoutes.ClerkOrganizerRegister);
   };
@@ -89,8 +111,43 @@ export const ClerkAddOrganizerDetails = ({
   const handleSave = () => {
     if (!startDate || !endDate || endDate.isBefore(startDate.add(1, 'day')))
       return;
-    // TODO: Implement add organizer logic
-    navigate(AppRoutes.ClerkOrganizerRegister);
+
+    const selectedLanguages = languageSelections.flatMap((lang) => {
+      const levels = [];
+      if (lang.levels.PERUS) {
+        levels.push({
+          language_code: lang.language_code,
+          level_code: 'PERUS' as const,
+        });
+      }
+      if (lang.levels.KESKI) {
+        levels.push({
+          language_code: lang.language_code,
+          level_code: 'KESKI' as const,
+        });
+      }
+      if (lang.levels.YLIN) {
+        levels.push({
+          language_code: lang.language_code,
+          level_code: 'YLIN' as const,
+        });
+      }
+
+      return levels;
+    });
+
+    dispatch(
+      addClerkOrganizer({
+        oid: selectedOrganizationOid,
+        agreement_start_date: startDate,
+        agreement_end_date: endDate,
+        contact_name: contactName,
+        contact_email: contactEmail,
+        contact_phone_number: contactPhone,
+        languages: selectedLanguages,
+        extra: extraInfo,
+      }),
+    );
   };
 
   const toggleLanguageLevel = (
