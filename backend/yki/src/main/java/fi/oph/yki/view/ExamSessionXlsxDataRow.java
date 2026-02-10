@@ -4,7 +4,4 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record ExamSessionXlsxDataRow(
-  @NonNull String lastName,
-  @NonNull String firstName
-) {}
+public record ExamSessionXlsxDataRow(@NonNull String lastName, @NonNull String firstName) {}

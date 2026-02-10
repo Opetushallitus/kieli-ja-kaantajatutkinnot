@@ -1,18 +1,18 @@
 package fi.oph.yki.view;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.springframework.web.servlet.view.document.AbstractXlsxView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.NonNull;
 import java.util.List;
 import java.util.Map;
+import lombok.NonNull;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 public class ExamSessionXlsxView extends AbstractXlsxView {
 
@@ -24,14 +24,14 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
 
   @Override
   protected void buildExcelDocument(
-          final @NonNull Map<String, Object> model,
-          final @NonNull Workbook workbook,
-          final @NonNull HttpServletRequest request,
-          final @NonNull HttpServletResponse response
+    final @NonNull Map<String, Object> model,
+    final @NonNull Workbook workbook,
+    final @NonNull HttpServletRequest request,
+    final @NonNull HttpServletResponse response
   ) {
     setFilenameHeader(
-            response,
-            String.format("VKT_erinomainen_taito_tilaisuus_%s_%s.xlsx", data.date(), data.language())
+      response,
+      String.format("VKT_erinomainen_taito_tilaisuus_%s_%s.xlsx", data.date(), data.language())
     );
     response.setHeader("Cache-Control", "no-cache, no-store, private, max-age=0, must-revalidate");
     writeExcel(workbook);
@@ -42,12 +42,7 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
   }
 
   private void writeExcel(final Workbook workbook) {
-    final List<String> headers = List.of(
-            "Päivä",
-            "Kieli",
-            "Sukunimi",
-            "Etunimi"
-    );
+    final List<String> headers = List.of("Päivä", "Kieli", "Sukunimi", "Etunimi");
     final Sheet sheet = workbook.createSheet("Tilaisuuden tiedot");
 
     createExcelHeader((XSSFWorkbook) workbook, sheet, headers);

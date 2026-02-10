@@ -1,9 +1,8 @@
 package fi.oph.yki.view;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.NonNull;
-
-import java.util.List;
 
 @Builder
 public record ExamSessionXlsxData(
