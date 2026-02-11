@@ -1,6 +1,13 @@
-import { AppLanguage } from 'shared/enums';
+import { OphButton } from '@opetushallitus/oph-design-system';
+import { useState } from 'react';
+import { AppLanguage, Variant } from 'shared/enums';
 
-import { getCurrentLang, useCommonTranslation } from 'configs/i18n';
+import { ClerkExamSessionEditModal } from 'components/clerkExamSession/ClerkExamSessionEditModal';
+import {
+  getCurrentLang,
+  useCommonTranslation,
+  usePublicTranslation,
+} from 'configs/i18n';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { H3, Label, Text } from 'ophTheme/Text';
 import { DateTimeUtils } from 'utils/dateTime';
@@ -11,6 +18,10 @@ export const ClerkExamSessionDetails = ({
   examSessionDetails: ClerkExamSession | null;
 }) => {
   const t = useCommonTranslation();
+  const { t: tButtons } = usePublicTranslation({
+    keyPrefix: 'yki.component.clerkExamSessionRegistrations.buttons',
+  });
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   if (!examSessionDetails) {
     return <></>;
@@ -26,8 +37,17 @@ export const ClerkExamSessionDetails = ({
 
   return (
     <div className="rows gapped customer-details">
-      <div>
+      <div className="columns" style={{ justifyContent: 'space-between' }}>
         <H3>{location && location.name}</H3>
+        <OphButton
+          color="primary"
+          variant={Variant.Outlined}
+          onClick={() => setIsEditModalOpen(true)}
+        >
+          {tButtons('edit')}
+        </OphButton>
+      </div>
+      <div>
         <Text>
           {t('languages.' + examSessionDetails.language)}
           {' - '}
@@ -87,6 +107,11 @@ export const ClerkExamSessionDetails = ({
           </div>
         </div>
       </div>
+      <ClerkExamSessionEditModal
+        isOpen={isEditModalOpen}
+        setIsOpen={setIsEditModalOpen}
+        examSessionDetails={examSessionDetails}
+      />
     </div>
   );
 };

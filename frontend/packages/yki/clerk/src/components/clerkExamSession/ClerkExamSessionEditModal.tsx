@@ -8,29 +8,30 @@ import { CustomModal } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { useAppDispatch } from 'configs/redux';
+import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { H2 } from 'ophTheme/Text';
-import {
-  resetEditForm,
-  updateEditForm,
-} from 'redux/reducers/clerkExamSession';
-import { clerkExamSessionEditFormSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
+import { resetEditForm, updateEditForm } from 'redux/reducers/clerkExamSession';
 
 type ClerkExamSessionEditModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  examSessionDetails: ClerkExamSession;
 };
 
 export const ClerkExamSessionEditModal = ({
   isOpen,
   setIsOpen,
+  examSessionDetails,
 }: ClerkExamSessionEditModalProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkExamSessionRegistrations.modals.edit',
   });
   const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
-  const editForm = useAppSelector(clerkExamSessionEditFormSelector);
+
+  const location = examSessionDetails.location[0];
+  const contact = examSessionDetails.contact[0];
 
   const handleCloseModal = () => {
     dispatch(resetEditForm());
@@ -62,7 +63,7 @@ export const ClerkExamSessionEditModal = ({
       <div className="rows gapped">
         <OphInputFormField
           label={t('fields.maxParticipants')}
-          value={editForm.maxParticipants}
+          value={String(examSessionDetails.maxParticipants ?? '')}
           onChange={(e) =>
             dispatch(updateEditForm({ maxParticipants: e.target.value }))
           }
@@ -70,7 +71,7 @@ export const ClerkExamSessionEditModal = ({
         />
         <OphInputFormField
           label={t('fields.streetAddress')}
-          value={editForm.streetAddress}
+          value={location?.streetAddress ?? ''}
           onChange={(e) =>
             dispatch(updateEditForm({ streetAddress: e.target.value }))
           }
@@ -78,31 +79,26 @@ export const ClerkExamSessionEditModal = ({
         <div className="columns gapped">
           <OphInputFormField
             label={t('fields.postalCode')}
-            value={editForm.postalCode}
+            value={location?.zip ?? ''}
             onChange={(e) =>
               dispatch(updateEditForm({ postalCode: e.target.value }))
             }
           />
           <OphInputFormField
             label={t('fields.city')}
-            value={editForm.city}
-            onChange={(e) =>
-              dispatch(updateEditForm({ city: e.target.value }))
-            }
+            value={location?.postOffice ?? ''}
+            onChange={(e) => dispatch(updateEditForm({ city: e.target.value }))}
           />
         </div>
         <OphInputFormField
           label={t('fields.contactInfo')}
-          value={editForm.contactInfo}
+          value={contact?.name ?? ''}
           onChange={(e) =>
             dispatch(updateEditForm({ contactInfo: e.target.value }))
           }
         />
         <div className="columns gapped flex-end">
-          <OphButton
-            variant={Variant.Outlined}
-            onClick={handleCloseModal}
-          >
+          <OphButton variant={Variant.Outlined} onClick={handleCloseModal}>
             {translateCommon('cancel')}
           </OphButton>
         </div>

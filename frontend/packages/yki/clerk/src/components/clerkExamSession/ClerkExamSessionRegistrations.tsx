@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom';
 import { Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
-import { ClerkExamSessionEditModal } from 'components/clerkExamSession/ClerkExamSessionEditModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
@@ -84,7 +83,6 @@ export const ClerkExamSessionRegistrations = ({
   });
 
   const [activeTab, setActiveTab] = useState<Tab>(RegistrationKind.Admission);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const registrationStateIconMapping: Partial<
     Record<RegistrationStates, JSX.Element>
@@ -227,13 +225,6 @@ export const ClerkExamSessionRegistrations = ({
           setActiveTab={setActiveTab}
         />
         <div className="clerk-exam-session-page__filter-buttons">
-          <OphButton
-            color="primary"
-            variant={Variant.Outlined}
-            onClick={() => setIsEditModalOpen(true)}
-          >
-            {tButtons('edit')}
-          </OphButton>
           <OphButton color="primary" variant={Variant.Contained}>
             <Download fontSize="large" /> {tButtons('downloadExcel')}
           </OphButton>
@@ -256,10 +247,6 @@ export const ClerkExamSessionRegistrations = ({
           translateHeader={false}
         />
       )}
-      <ClerkExamSessionEditModal
-        isOpen={isEditModalOpen}
-        setIsOpen={setIsEditModalOpen}
-      />
     </Stack>
   );
 };

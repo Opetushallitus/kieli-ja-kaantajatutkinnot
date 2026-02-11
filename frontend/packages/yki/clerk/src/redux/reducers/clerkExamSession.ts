@@ -49,7 +49,10 @@ const clerkExamSessionSlice = createSlice({
     },
     saveExamSession(
       state,
-      _action: PayloadAction<{ examSessionId: number; form: ClerkExamSessionEditForm }>,
+      _action: PayloadAction<{
+        examSessionId: number;
+        form: ClerkExamSessionEditForm;
+      }>,
     ) {
       state.updateStatus = APIResponseStatus.InProgress;
     },
@@ -60,9 +63,6 @@ const clerkExamSessionSlice = createSlice({
     },
     rejectSaveExamSession(state) {
       state.updateStatus = APIResponseStatus.Error;
-    },
-    resetUpdateStatus(state) {
-      state.updateStatus = APIResponseStatus.NotStarted;
     },
     updateEditForm(
       state,
@@ -84,7 +84,6 @@ export const {
   saveExamSession,
   acceptSaveExamSession,
   rejectSaveExamSession,
-  resetUpdateStatus,
   updateEditForm,
   resetEditForm,
 } = clerkExamSessionSlice.actions;
