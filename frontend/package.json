@@ -41,7 +41,7 @@
     "@opetushallitus/oph-design-system": "^1.0.0",
     "@reduxjs/toolkit": "^2.0.0",
     "@types/js-cookie": "^3.0.6",
-    "axios": "^1.12.0",
+    "axios": "^1.13.5",
     "dayjs": "^1.11.13",
     "finnish-personal-identity-code-validator": "kimmotaskinen/finnish-personal-identity-code-validator#support-new-delimiters",
     "focus-trap-react": "^11.0.1",
