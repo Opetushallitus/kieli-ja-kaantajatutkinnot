@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
+import { ClerkExamSessionEditModal } from 'components/clerkExamSession/ClerkExamSessionEditModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
@@ -78,8 +79,12 @@ export const ClerkExamSessionRegistrations = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkCustomer.details.listing',
   });
+  const { t: tButtons } = usePublicTranslation({
+    keyPrefix: 'yki.component.clerkExamSessionRegistrations.buttons',
+  });
 
   const [activeTab, setActiveTab] = useState<Tab>(RegistrationKind.Admission);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const registrationStateIconMapping: Partial<
     Record<RegistrationStates, JSX.Element>
@@ -168,11 +173,11 @@ export const ClerkExamSessionRegistrations = ({
       <div className="rows gapped-xxs">
         <IconButton color="secondary" onClick={() => id}>
           <TurnRightOutlined color="secondary" fontSize="large" />
-          Siirrä tilaisuuteen
+          {t('values.actions.relocate')}
         </IconButton>
         <IconButton color="secondary" onClick={() => id}>
           <DeleteOutlined color="secondary" fontSize="large" />
-          Peru osallistuminen
+          {t('values.actions.cancel')}
         </IconButton>
       </div>
     ),
@@ -222,8 +227,15 @@ export const ClerkExamSessionRegistrations = ({
           setActiveTab={setActiveTab}
         />
         <div className="clerk-exam-session-page__filter-buttons">
+          <OphButton
+            color="primary"
+            variant={Variant.Outlined}
+            onClick={() => setIsEditModalOpen(true)}
+          >
+            {tButtons('edit')}
+          </OphButton>
           <OphButton color="primary" variant={Variant.Contained}>
-            <Download fontSize="large" /> Lataa excel
+            <Download fontSize="large" /> {tButtons('downloadExcel')}
           </OphButton>
         </div>
       </div>
@@ -244,6 +256,10 @@ export const ClerkExamSessionRegistrations = ({
           translateHeader={false}
         />
       )}
+      <ClerkExamSessionEditModal
+        isOpen={isEditModalOpen}
+        setIsOpen={setIsEditModalOpen}
+      />
     </Stack>
   );
 };

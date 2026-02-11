@@ -72,6 +72,22 @@
         "tabs": {
           "admissions": "Ilmoittautuneet ({{ num }})",
           "queued": "Jonossa ({{ num }})"
+        },
+        "buttons": {
+          "edit": "Muokkaa",
+          "downloadExcel": "Lataa excel"
+        },
+        "modals": {
+          "edit": {
+            "title": "Muokkaa tutkintotilaisuutta",
+            "fields": {
+              "maxParticipants": "Osallistujien enimmäismäärä",
+              "streetAddress": "Katuosoite",
+              "postalCode": "Postinumero",
+              "city": "Postitoimipaikka",
+              "contactInfo": "Yhteystiedot"
+            }
+          }
         }
       },
       "clerkFreeRegistration": {

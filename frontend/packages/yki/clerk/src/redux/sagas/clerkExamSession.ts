@@ -6,8 +6,12 @@ import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkExamSessionResponse } from 'interfaces/clerkExamSession';
 import {
+  ClerkExamSessionEditForm,
+  acceptSaveExamSession,
   loadClerkExamSessionDetails,
   rejectExamSessionDetails,
+  rejectSaveExamSession,
+  saveExamSession,
   storeExamSessionDetails,
 } from 'redux/reducers/clerkExamSession';
 import { SerializationUtils } from 'utils/serialization';
@@ -27,9 +31,38 @@ function* loadClerkExamSessionDetailsSaga(action: PayloadAction<string>) {
   }
 }
 
+function* saveExamSessionSaga(
+  action: PayloadAction<{
+    examSessionId: number;
+    form: ClerkExamSessionEditForm;
+  }>,
+) {
+  const { examSessionId, form } = action.payload;
+  try {
+    const response: AxiosResponse<ClerkExamSessionResponse> = yield call(
+      axiosInstance.put,
+      APIEndpoints.ClerkExamSession.replace(/:id$/, `${examSessionId}`),
+      {
+        maxParticipants: Number(form.maxParticipants),
+        streetAddress: form.streetAddress,
+        zip: form.postalCode,
+        postOffice: form.city,
+        contactInfo: form.contactInfo,
+      },
+    );
+    const clerkExamSession =
+      SerializationUtils.deserializeClerkExamSessionResponse(response.data);
+
+    yield put(acceptSaveExamSession(clerkExamSession));
+  } catch (error) {
+    yield put(rejectSaveExamSession());
+  }
+}
+
 export function* watchClerkExamSession() {
   yield takeLatest(
     loadClerkExamSessionDetails.type,
     loadClerkExamSessionDetailsSaga,
   );
+  yield takeLatest(saveExamSession.type, saveExamSessionSaga);
 }

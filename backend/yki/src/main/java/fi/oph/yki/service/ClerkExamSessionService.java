@@ -3,6 +3,7 @@ package fi.oph.yki.service;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionContactDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionLocationDTO;
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
@@ -67,5 +68,28 @@ public class ClerkExamSessionService {
     final var excel = new ExamSessionXlsxView(excelData);
 
     return excel;
+  }
+
+  @Transactional
+  public ClerkExamSessionDTO updateExamSession(final long examSessionId, final ClerkExamSessionUpdateDTO dto) {
+    final ExamSession examSession = examSessionRepository.getReferenceById(examSessionId);
+
+    examSession.setMaxParticipants(dto.maxParticipants());
+
+    final var locations = examSession.getLocations();
+    if (!locations.isEmpty()) {
+      final var location = locations.get(0);
+      location.setStreetAddress(dto.streetAddress());
+      location.setZip(dto.zip());
+      location.setPostOffice(dto.postOffice());
+    }
+
+    final var contacts = examSession.getContact();
+    if (!contacts.isEmpty()) {
+      final var contact = contacts.get(0);
+      contact.setName(dto.contactInfo());
+    }
+
+    return getExamSession(examSessionId);
   }
 }
