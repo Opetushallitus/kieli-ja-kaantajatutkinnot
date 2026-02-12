@@ -9,8 +9,15 @@ import { Dayjs } from 'dayjs';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomDatePicker } from 'shared/components';
-import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import {
+  APIResponseStatus,
+  Color,
+  Severity,
+  TextFieldTypes,
+  Variant,
+} from 'shared/enums';
 import { useToast } from 'shared/hooks';
+import { InputFieldUtils } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -49,6 +56,13 @@ export const ClerkAddOrganizerDetails = ({
   const [contactEmail, setContactEmail] = useState<string>('');
   const [contactPhone, setContactPhone] = useState<string>('');
   const [extraInfo, setExtraInfo] = useState<string>('');
+  const [startDateError, setStartDateError] = useState<string>('');
+  const [endDateError, setEndDateError] = useState<string>('');
+  const [languageSelectionError, setLanguageSelectionError] =
+    useState<string>('');
+  const [contactNameError, setContactNameError] = useState<string>('');
+  const [contactEmailError, setContactEmailError] = useState<string>('');
+  const [contactPhoneError, setContactPhoneError] = useState<string>('');
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -87,6 +101,9 @@ export const ClerkAddOrganizerDetails = ({
     setContactEmail('');
     setContactPhone('');
     setExtraInfo('');
+    setContactNameError('');
+    setContactEmailError('');
+    setContactPhoneError('');
   }, [initializeLanguageSelections, selectedOrganizationOid]);
 
   useEffect(() => {
@@ -109,8 +126,74 @@ export const ClerkAddOrganizerDetails = ({
   };
 
   const handleSave = () => {
-    if (!startDate || !endDate || endDate.isBefore(startDate.add(1, 'day')))
+    // Reset errors
+    setContactNameError('');
+    setContactEmailError('');
+    setContactPhoneError('');
+    setStartDateError('');
+    setEndDateError('');
+    setLanguageSelectionError('');
+
+    // Validate contact fields
+    let hasError = false;
+
+    const contactNameError = InputFieldUtils.validateCustomTextFieldErrors({
+      type: TextFieldTypes.Text,
+      value: contactName,
+      required: true,
+    });
+    if (contactNameError) {
+      setContactNameError(translateCommon(contactNameError));
+      hasError = true;
+    }
+
+    const phoneError = InputFieldUtils.validateCustomTextFieldErrors({
+      type: TextFieldTypes.PhoneNumber,
+      value: contactPhone,
+      required: true,
+    });
+    if (phoneError) {
+      setContactPhoneError(translateCommon(phoneError));
+      hasError = true;
+    }
+
+    const emailError = InputFieldUtils.validateCustomTextFieldErrors({
+      type: TextFieldTypes.Email,
+      value: contactEmail,
+      required: true,
+    });
+    if (emailError) {
+      setContactEmailError(translateCommon(emailError));
+      hasError = true;
+    }
+
+    if (!startDate) {
+      setStartDateError(t('addOrganizer.validation.dateRequired'));
+      hasError = true;
+    }
+
+    if (!endDate) {
+      setEndDateError(t('addOrganizer.validation.dateRequired'));
+      hasError = true;
+    }
+
+    if (
+      !languageSelections.some((lang) =>
+        Object.values(lang.levels).some((isSelected) => isSelected),
+      )
+    ) {
+      setLanguageSelectionError(t('addOrganizer.validation.languageRequired'));
+      hasError = true;
+    }
+
+    if (
+      hasError ||
+      !startDate ||
+      !endDate ||
+      endDate.isBefore(startDate.add(1, 'day'))
+    ) {
       return;
+    }
 
     const selectedLanguages = languageSelections.flatMap((lang) => {
       const levels = [];
@@ -209,7 +292,7 @@ export const ClerkAddOrganizerDetails = ({
             <CustomDatePicker
               value={startDate}
               setValue={(value: Dayjs | null) => setStartDate(value)}
-              error={!startDate}
+              error={!!startDateError}
               helperText={
                 !startDate
                   ? t('listing.modals.modifyAgreement.startDateError')
@@ -237,7 +320,7 @@ export const ClerkAddOrganizerDetails = ({
               value={endDate}
               setValue={(value: Dayjs | null) => setEndDate(value)}
               minDate={startDate?.add(1, 'day') || undefined}
-              error={!endDate}
+              error={!!endDateError}
               helperText={getEndDateHelperText()}
             />
           </div>
@@ -245,6 +328,17 @@ export const ClerkAddOrganizerDetails = ({
 
         <div>
           <Label>{t('listing.modals.modifyAgreement.languagesLabel')}</Label>
+          {languageSelectionError && (
+            <Text
+              style={{
+                color: ophColors.red1,
+                marginBottom: '0.5rem',
+                fontSize: '13px',
+              }}
+            >
+              {languageSelectionError}
+            </Text>
+          )}
           <div
             className="rows gapped"
             style={{ marginTop: '1rem', gap: '0.5rem' }}
@@ -366,22 +460,40 @@ export const ClerkAddOrganizerDetails = ({
             <OphInputFormField
               label="Nimi *"
               value={contactName}
-              onChange={(e) => setContactName(e.target.value)}
+              onChange={(e) => {
+                setContactName(e.target.value);
+                setContactNameError('');
+              }}
               sx={{ width: '100%' }}
+              placeholder={t('addOrganizer.contactNamePlaceholder')}
+              error={!!contactNameError}
+              helperText={contactNameError}
             />
             <OphInputFormField
               label="Sähköpostiosoite *"
               value={contactEmail}
-              onChange={(e) => setContactEmail(e.target.value)}
+              onChange={(e) => {
+                setContactEmail(e.target.value);
+                setContactEmailError('');
+              }}
               type="email"
               sx={{ width: '100%' }}
+              placeholder={t('addOrganizer.contactEmailPlaceholder')}
+              error={!!contactEmailError}
+              helperText={contactEmailError}
             />
             <OphInputFormField
               label="Puhelinnumero *"
               value={contactPhone}
-              onChange={(e) => setContactPhone(e.target.value)}
+              onChange={(e) => {
+                setContactPhone(e.target.value);
+                setContactPhoneError('');
+              }}
               type="tel"
               sx={{ width: '100%' }}
+              placeholder={t('addOrganizer.contactPhonePlaceholder')}
+              error={!!contactPhoneError}
+              helperText={contactPhoneError}
             />
           </div>
           <div className="rows gapped-xxs" style={{ marginTop: '1rem' }}>
@@ -393,6 +505,7 @@ export const ClerkAddOrganizerDetails = ({
               minRows={3}
               maxRows={10}
               fullWidth
+              placeholder={t('addOrganizer.extraInfoPlaceholder')}
             />
           </div>
         </div>

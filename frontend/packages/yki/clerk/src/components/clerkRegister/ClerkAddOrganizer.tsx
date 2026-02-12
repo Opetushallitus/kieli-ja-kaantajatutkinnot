@@ -1,4 +1,9 @@
-import { OphInputFormField } from '@opetushallitus/oph-design-system';
+import { Search } from '@mui/icons-material';
+import { InputAdornment } from '@mui/material';
+import {
+  ophColors,
+  OphInputFormField,
+} from '@opetushallitus/oph-design-system';
 import { FC, useState } from 'react';
 
 import { ClerkAddOrganizerDetails } from 'components/clerkRegister/ClerkAddOrganizerDetails';
@@ -37,7 +42,7 @@ export const ClerkAddOrganizer: FC = () => {
 
   return (
     <div
-      className="rows gapped"
+      className="rows gapped-sm"
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -53,6 +58,11 @@ export const ClerkAddOrganizer: FC = () => {
         }}
         placeholder={t('addOrganizer.search.placeholder')}
         sx={{ width: '100%' }}
+        endAdornment={
+          <InputAdornment position="end">
+            <Search fontSize="large" style={{ color: ophColors.grey300 }} />
+          </InputAdornment>
+        }
       />
 
       {selectedOrganizationOid ? (
@@ -61,34 +71,39 @@ export const ClerkAddOrganizer: FC = () => {
         />
       ) : searchQuery ? (
         <div>
-          {allOrganizations
-            .filter((org) => {
+          {(() => {
+            const filteredOrgs = allOrganizations.filter((org) => {
               return org.nimi.fi
                 .toLocaleLowerCase()
                 .includes(searchQuery.toLocaleLowerCase());
-            })
-            .map((org) => (
-              <div
-                onKeyDown={handleKeyDown}
-                tabIndex={0}
-                role="button"
-                key={org.oid}
-                style={{
-                  padding: '0.5rem',
-                  border: '1px solid #ccc',
-                  borderRadius: '4px',
-                  marginTop: '0.5rem',
-                  cursor: 'pointer',
-                }}
-                onClick={() => {
-                  setSelectedOrganizationOid(org.oid);
-                  setSearchQuery('');
-                }}
-              >
-                {org.nimi.fi}{' '}
-                <span>({organizationTypes[org.organisaatiotyypit[0]]})</span>
-              </div>
-            ))}
+            });
+
+            return (
+              <>
+                <div style={{ marginBottom: '0.5rem' }}>
+                  {t('addOrganizer.search.result', {
+                    count: filteredOrgs.length,
+                  })}
+                </div>
+                {filteredOrgs.map((org) => (
+                  <div
+                    className="clerk-add-organizer__search-result"
+                    onKeyDown={handleKeyDown}
+                    tabIndex={0}
+                    role="button"
+                    key={org.oid}
+                    onClick={() => {
+                      setSelectedOrganizationOid(org.oid);
+                      setSearchQuery('');
+                    }}
+                  >
+                    <div style={{ color: '#0033CC' }}>{org.nimi.fi}</div>
+                    <div>{organizationTypes[org.organisaatiotyypit[0]]}</div>
+                  </div>
+                ))}
+              </>
+            );
+          })()}
         </div>
       ) : (
         <div>{t('addOrganizer.search.infoText')}</div>

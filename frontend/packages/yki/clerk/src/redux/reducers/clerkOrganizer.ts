@@ -139,7 +139,6 @@ const clerkOrganizersSlice = createSlice({
       action: PayloadAction<ClerkOrganizerRegistry>,
     ) {
       state.addClerkOrganizerStatus = APIResponseStatus.Success;
-      // Do we need to update organizerRegistry and/or allOrganizers?
       state.organizers.push(action.payload.organizer);
       state.organizerRegistry.push(action.payload);
     },
