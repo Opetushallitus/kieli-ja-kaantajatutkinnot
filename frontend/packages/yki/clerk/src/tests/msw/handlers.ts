@@ -114,6 +114,21 @@ export const handlers = [
       return notFound();
     }
   }),
+  http.post(
+    APIEndpoints.ClerkPersonContactUpdate,
+    async ({ params, request }) => {
+      const oid = params?.oid as string | undefined;
+      const body = (await request.json()) as Record<string, string>;
+      const details = customerDetails.find((cd) => cd.person.oid === oid);
+      if (details) {
+        Object.assign(details.person, body);
+
+        return new HttpResponse(null, { status: 200 });
+      } else {
+        return notFound();
+      }
+    },
+  ),
   http.post(APIEndpoints.ClerkCustomersSearch, async ({ request }) => {
     const url = new URL(request.url);
     const body = (await request.json()) as {

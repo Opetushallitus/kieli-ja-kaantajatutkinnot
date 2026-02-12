@@ -3,13 +3,20 @@
     "component": {
       "clerkCustomer": {
         "details": {
+          "buttons": {
+            "editContact": "Muokkaa yhteystietoja",
+            "save": "Tallenna tiedot"
+          },
           "fields": {
+            "confirmEmail": "Vahvista sähköposti",
             "email": "Sähköposti",
             "nationality": "Kansalaisuus",
             "oid": "Oppijanumero",
             "phoneNumber": "Puhelinnumero",
+            "postOffice": "Postitoimipaikka",
             "ssn": "Hetu",
-            "streetAddress": "Osoite"
+            "streetAddress": "Osoite",
+            "zip": "Postinumero"
           },
           "listing": {
             "columns": {

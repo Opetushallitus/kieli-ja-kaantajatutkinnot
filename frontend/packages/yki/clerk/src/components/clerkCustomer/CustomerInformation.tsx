@@ -1,7 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { CustomButton } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
+import { EditCustomerInformationModal } from 'components/clerkCustomer/EditCustomerInformationModal';
 import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { CustomerPerson } from 'interfaces/clerkCustomer';
@@ -15,6 +17,7 @@ export const CustomerInformation = ({
   person: CustomerPerson | undefined;
 }) => {
   const dispatch = useDispatch();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const appLanguage = getCurrentLang();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkCustomer',
@@ -30,38 +33,54 @@ export const CustomerInformation = ({
   if (!person) return <></>;
 
   return (
-    <div className="rows gapped customer-details">
-      <div className="columns gapped-xxl align-items-start">
-        <div className="rows gapped-xs">
-          <Label>{t('details.fields.ssn')}</Label>
-          <Label>{t('details.fields.oid')}</Label>
-          <Label>{t('details.fields.nationality')}</Label>
-          <Label>{t('details.fields.phoneNumber')}</Label>
-          <Label>{t('details.fields.streetAddress')}</Label>
-          <Label>{t('details.fields.email')}</Label>
-        </div>
-        <div className="rows gapped-xs">
-          <div>{person.ssn}</div>
-          <div>{person.oid}</div>
-          <div>
-            {
-              nationalities.find(
-                ({ code, language }) =>
-                  code == person.nationalityCode && language == appLanguage,
-              )?.name
-            }
+    <>
+      <div className="rows gapped customer-details">
+        <div className="columns gapped-xxl align-items-start">
+          <div className="rows gapped-xs">
+            <Label>{t('details.fields.ssn')}</Label>
+            <Label>{t('details.fields.oid')}</Label>
+            <Label>{t('details.fields.nationality')}</Label>
+            <Label>{t('details.fields.phoneNumber')}</Label>
+            <Label>{t('details.fields.streetAddress')}</Label>
+            <Label>{t('details.fields.email')}</Label>
           </div>
-          <div>{person.phoneNumber}</div>
-          <div>
-            {[person.streetAddress, person.zip, person.postOffice]
-              .filter((v) => !!v)
-              .join(', ')}
-          </div>
-          <div>
-            <a href={`mailto:${person.email}`}>{person.email}</a>
+          <div className="rows gapped-xs">
+            <div>{person.ssn}</div>
+            <div>{person.oid}</div>
+            <div>
+              {
+                nationalities.find(
+                  ({ code, language }) =>
+                    code == person.nationalityCode && language == appLanguage,
+                )?.name
+              }
+            </div>
+            <div>{person.phoneNumber}</div>
+            <div>
+              {[person.streetAddress, person.zip, person.postOffice]
+                .filter((v) => !!v)
+                .join(', ')}
+            </div>
+            <div>
+              <a href={`mailto:${person.email}`}>{person.email}</a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <div className="rows gapped-xs">
+        <CustomButton
+          className="align-self-start"
+          variant="outlined"
+          onClick={() => setIsEditModalOpen(true)}
+        >
+          {t('details.buttons.editContact')}
+        </CustomButton>
+      </div>
+      <EditCustomerInformationModal
+        isModalOpen={isEditModalOpen}
+        setIsModalOpen={setIsEditModalOpen}
+        person={person}
+      />
+    </>
   );
 };

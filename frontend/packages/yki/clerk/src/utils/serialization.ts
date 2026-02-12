@@ -277,6 +277,10 @@ export class SerializationUtils {
         phoneNumber:
           clerkCustomerSummaryResponse.person.phoneNumber ?? undefined,
         email: clerkCustomerSummaryResponse.person.email ?? undefined,
+        streetAddress:
+          clerkCustomerSummaryResponse.person.streetAddress ?? undefined,
+        zip: clerkCustomerSummaryResponse.person.zip ?? undefined,
+        postOffice: clerkCustomerSummaryResponse.person.postOffice ?? undefined,
       },
     };
   }

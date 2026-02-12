@@ -1,7 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ClerkCustomerDetails } from 'interfaces/clerkCustomer';
+import {
+  ClerkCustomerDetails,
+  ClerkPersonContactUpdateRequest,
+} from 'interfaces/clerkCustomer';
 
 interface ClerkCustomerDetailsState {
   customerDetails: ClerkCustomerDetails | null;
@@ -27,6 +30,12 @@ const clerkCustomerDetailsSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.customerDetails = action.payload;
     },
+    updateCustomerContactDetails(
+      state,
+      _action: PayloadAction<ClerkPersonContactUpdateRequest>,
+    ) {
+      state.status = APIResponseStatus.InProgress;
+    },
   },
 });
 
@@ -35,4 +44,5 @@ export const {
   loadClerkCustomerDetails,
   rejectCustomerDetails,
   storeCustomerDetails,
+  updateCustomerContactDetails,
 } = clerkCustomerDetailsSlice.actions;

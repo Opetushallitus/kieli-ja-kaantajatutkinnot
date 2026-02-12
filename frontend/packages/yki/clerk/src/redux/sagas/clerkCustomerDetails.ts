@@ -4,11 +4,15 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { ClerkCustomerDetailsResponse } from 'interfaces/clerkCustomer';
+import {
+  ClerkCustomerDetailsResponse,
+  ClerkPersonContactUpdateRequest,
+} from 'interfaces/clerkCustomer';
 import {
   loadClerkCustomerDetails,
   rejectCustomerDetails,
   storeCustomerDetails,
+  updateCustomerContactDetails,
 } from 'redux/reducers/clerkCustomerDetails';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -27,6 +31,25 @@ function* loadClerkCustomerDetailsSaga(action: PayloadAction<string>) {
   }
 }
 
+function* updateCustomerContactDetailsSaga(
+  action: PayloadAction<ClerkPersonContactUpdateRequest>,
+) {
+  try {
+    yield call(
+      axiosInstance.post,
+      APIEndpoints.ClerkPersonContactUpdate.replace(/:oid/, action.payload.oid),
+      action.payload,
+    );
+    yield put(loadClerkCustomerDetails(action.payload.oid));
+  } catch (error) {
+    yield put(rejectCustomerDetails());
+  }
+}
+
 export function* watchClerkCustomerDetails() {
   yield takeLatest(loadClerkCustomerDetails.type, loadClerkCustomerDetailsSaga);
+  yield takeLatest(
+    updateCustomerContactDetails.type,
+    updateCustomerContactDetailsSaga,
+  );
 }

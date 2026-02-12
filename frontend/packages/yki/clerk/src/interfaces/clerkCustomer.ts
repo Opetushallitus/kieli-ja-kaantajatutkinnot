@@ -95,6 +95,15 @@ export type RegistrationResponse = {
   expiresAt?: string;
 };
 
+export interface ClerkPersonContactUpdateRequest {
+  oid: string;
+  email: string;
+  phoneNumber: string;
+  streetAddress: string;
+  postOffice: string;
+  zip: string;
+}
+
 export type ClerkCustomerSearchParams = {
   request: {
     personQuery?: string;
