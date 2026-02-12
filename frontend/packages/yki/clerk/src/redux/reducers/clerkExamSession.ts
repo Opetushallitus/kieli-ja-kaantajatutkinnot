@@ -11,26 +11,16 @@ export interface ClerkExamSessionEditForm {
   contactInfo: string;
 }
 
-const initialEditForm: ClerkExamSessionEditForm = {
-  maxParticipants: '',
-  streetAddress: '',
-  postalCode: '',
-  city: '',
-  contactInfo: '',
-};
-
 interface ClerkExamSessionState {
   clerkExamSession: ClerkExamSession | null;
   status: APIResponseStatus;
   updateStatus: APIResponseStatus;
-  editForm: ClerkExamSessionEditForm;
 }
 
 const initialState: ClerkExamSessionState = {
   clerkExamSession: null,
   status: APIResponseStatus.NotStarted,
   updateStatus: APIResponseStatus.NotStarted,
-  editForm: initialEditForm,
 };
 
 const clerkExamSessionSlice = createSlice({
@@ -59,19 +49,9 @@ const clerkExamSessionSlice = createSlice({
     acceptSaveExamSession(state, action: PayloadAction<ClerkExamSession>) {
       state.updateStatus = APIResponseStatus.Success;
       state.clerkExamSession = action.payload;
-      state.editForm = initialEditForm;
     },
     rejectSaveExamSession(state) {
       state.updateStatus = APIResponseStatus.Error;
-    },
-    updateEditForm(
-      state,
-      action: PayloadAction<Partial<ClerkExamSessionEditForm>>,
-    ) {
-      state.editForm = { ...state.editForm, ...action.payload };
-    },
-    resetEditForm(state) {
-      state.editForm = initialEditForm;
     },
   },
 });
@@ -84,6 +64,4 @@ export const {
   saveExamSession,
   acceptSaveExamSession,
   rejectSaveExamSession,
-  updateEditForm,
-  resetEditForm,
 } = clerkExamSessionSlice.actions;

@@ -1,6 +1,12 @@
 import { OphButton } from '@opetushallitus/oph-design-system';
-import { useState } from 'react';
-import { AppLanguage, Variant } from 'shared/enums';
+import { useEffect, useRef, useState } from 'react';
+import {
+  APIResponseStatus,
+  AppLanguage,
+  Severity,
+  Variant,
+} from 'shared/enums';
+import { useToast } from 'shared/hooks';
 
 import { ClerkExamSessionEditModal } from 'components/clerkExamSession/ClerkExamSessionEditModal';
 import {
@@ -8,8 +14,10 @@ import {
   useCommonTranslation,
   usePublicTranslation,
 } from 'configs/i18n';
+import { useAppSelector } from 'configs/redux';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { H3, Label, Text } from 'ophTheme/Text';
+import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
 import { DateTimeUtils } from 'utils/dateTime';
 
 export const ClerkExamSessionDetails = ({
@@ -21,7 +29,26 @@ export const ClerkExamSessionDetails = ({
   const { t: tButtons } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkExamSessionRegistrations.buttons',
   });
+  const { t: tModal } = usePublicTranslation({
+    keyPrefix: 'yki.component.clerkExamSessionRegistrations.modals.edit',
+  });
+  const { showToast } = useToast();
+  const { updateStatus } = useAppSelector(clerkExamSessionDetailsSelector);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const prevUpdateStatus = useRef(updateStatus);
+
+  useEffect(() => {
+    if (
+      prevUpdateStatus.current === APIResponseStatus.InProgress &&
+      updateStatus === APIResponseStatus.Success
+    ) {
+      showToast({
+        severity: Severity.Success,
+        description: tModal('toasts.saveSuccess'),
+      });
+    }
+    prevUpdateStatus.current = updateStatus;
+  }, [updateStatus, showToast, tModal]);
 
   if (!examSessionDetails) {
     return <></>;

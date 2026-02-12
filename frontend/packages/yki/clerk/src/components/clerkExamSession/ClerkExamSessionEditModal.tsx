@@ -4,14 +4,16 @@ import {
   OphButton,
   OphInputFormField,
 } from '@opetushallitus/oph-design-system';
+import { useEffect, useRef, useState } from 'react';
 import { CustomModal } from 'shared/components';
-import { Color, Variant } from 'shared/enums';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { H2 } from 'ophTheme/Text';
-import { resetEditForm, updateEditForm } from 'redux/reducers/clerkExamSession';
+import { saveExamSession } from 'redux/reducers/clerkExamSession';
+import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
 
 type ClerkExamSessionEditModalProps = {
   isOpen: boolean;
@@ -29,13 +31,46 @@ export const ClerkExamSessionEditModal = ({
   });
   const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
+  const { updateStatus } = useAppSelector(clerkExamSessionDetailsSelector);
 
   const location = examSessionDetails.location[0];
   const contact = examSessionDetails.contact[0];
+  const isSaving = updateStatus === APIResponseStatus.InProgress;
+  const prevUpdateStatus = useRef(updateStatus);
+
+  useEffect(() => {
+    if (
+      prevUpdateStatus.current === APIResponseStatus.InProgress &&
+      updateStatus === APIResponseStatus.Success
+    ) {
+      setIsOpen(false);
+    }
+    prevUpdateStatus.current = updateStatus;
+  }, [updateStatus, setIsOpen]);
+
+  const [form, setForm] = useState({
+    maxParticipants: String(examSessionDetails.maxParticipants ?? ''),
+    streetAddress: location?.streetAddress ?? '',
+    postalCode: location?.zip ?? '',
+    city: location?.postOffice ?? '',
+    contactInfo: contact?.name ?? '',
+  });
+
+  const updateField = (field: string, value: string) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleCloseModal = () => {
-    dispatch(resetEditForm());
     setIsOpen(false);
+  };
+
+  const handleSave = () => {
+    dispatch(
+      saveExamSession({
+        examSessionId: examSessionDetails.id,
+        form,
+      }),
+    );
   };
 
   return (
@@ -63,43 +98,47 @@ export const ClerkExamSessionEditModal = ({
       <div className="rows gapped">
         <OphInputFormField
           label={t('fields.maxParticipants')}
-          value={String(examSessionDetails.maxParticipants ?? '')}
-          onChange={(e) =>
-            dispatch(updateEditForm({ maxParticipants: e.target.value }))
-          }
+          value={form.maxParticipants}
+          onChange={(e) => updateField('maxParticipants', e.target.value)}
           type="number"
+          disabled={isSaving}
         />
         <OphInputFormField
           label={t('fields.streetAddress')}
-          value={location?.streetAddress ?? ''}
-          onChange={(e) =>
-            dispatch(updateEditForm({ streetAddress: e.target.value }))
-          }
+          value={form.streetAddress}
+          onChange={(e) => updateField('streetAddress', e.target.value)}
+          disabled={isSaving}
         />
         <div className="columns gapped">
           <OphInputFormField
             label={t('fields.postalCode')}
-            value={location?.zip ?? ''}
-            onChange={(e) =>
-              dispatch(updateEditForm({ postalCode: e.target.value }))
-            }
+            value={form.postalCode}
+            onChange={(e) => updateField('postalCode', e.target.value)}
+            disabled={isSaving}
           />
           <OphInputFormField
             label={t('fields.city')}
-            value={location?.postOffice ?? ''}
-            onChange={(e) => dispatch(updateEditForm({ city: e.target.value }))}
+            value={form.city}
+            onChange={(e) => updateField('city', e.target.value)}
+            disabled={isSaving}
           />
         </div>
         <OphInputFormField
           label={t('fields.contactInfo')}
-          value={contact?.name ?? ''}
-          onChange={(e) =>
-            dispatch(updateEditForm({ contactInfo: e.target.value }))
-          }
+          value={form.contactInfo}
+          onChange={(e) => updateField('contactInfo', e.target.value)}
+          disabled={isSaving}
         />
         <div className="columns gapped flex-end">
           <OphButton variant={Variant.Outlined} onClick={handleCloseModal}>
             {translateCommon('cancel')}
+          </OphButton>
+          <OphButton
+            variant={Variant.Contained}
+            onClick={handleSave}
+            disabled={isSaving}
+          >
+            {t('saveButton')}
           </OphButton>
         </div>
       </div>

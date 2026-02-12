@@ -80,6 +80,10 @@
         "modals": {
           "edit": {
             "title": "Muokkaa tutkintotilaisuutta",
+            "saveButton": "Tallenna muutokset",
+            "toasts": {
+              "saveSuccess": "Muutokset tallennettu onnistuneesti"
+            },
             "fields": {
               "maxParticipants": "Osallistujien enimmäismäärä",
               "streetAddress": "Katuosoite",
