@@ -16,6 +16,8 @@ export interface CustomerPerson {
   nationalityCode: string;
   phoneNumber?: string;
   streetAddress?: string;
+  postOffice?: string;
+  zip?: string;
   email?: string;
 }
 
@@ -146,6 +148,8 @@ export interface ClerkCustomerSummaryResponse {
     nationalityCode: string;
     phoneNumber: string | null;
     streetAddress: string | null;
+    postOffice: string | null;
+    zip: string | null;
     email: string | null;
   };
   registrationsCount: number;

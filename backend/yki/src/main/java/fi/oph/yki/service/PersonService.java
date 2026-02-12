@@ -18,7 +18,6 @@ public class PersonService {
 
   @Transactional
   public void updateContactDetails(final String oid, final ClerkPersonContactUpdateDTO dto) {
-
     final Person person = personRepository.getByOid(oid);
     if (person == null) {
       throw new NotFoundException(String.format("Person not found with oid: %s", oid));

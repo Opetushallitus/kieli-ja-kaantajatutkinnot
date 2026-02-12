@@ -38,7 +38,16 @@ class ClerkCustomerDetailsPage {
     cy.findByText('Suomi').should('be.visible');
 
     cy.findByText(details.person.phoneNumber).should('be.visible');
-    cy.findByText(details.person.streetAddress).should('be.visible');
+
+    cy.findByText(
+      [
+        details.person.streetAddress,
+        details.person.zip,
+        details.person.postOffice,
+      ]
+        .filter((v) => !!v)
+        .join(', '),
+    ).should('be.visible');
 
     cy.contains('a', details.person.email)
       .should('have.attr', 'href')

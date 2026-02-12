@@ -104,7 +104,9 @@ public class ClerkCustomerService {
       .oid(person.getOid())
       .nationalityCode(person.getNationalityCode())
       .phoneNumber(person.getPhoneNumber())
-      .streetAddress(person.getAddress())
+      .streetAddress(person.getSteetAddress())
+      .postOffice(person.getPostOffice())
+      .zip(person.getZip())
       .email(person.getEmail())
       .build();
 

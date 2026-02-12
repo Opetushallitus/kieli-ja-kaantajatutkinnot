@@ -52,7 +52,11 @@ export const CustomerInformation = ({
             }
           </div>
           <div>{person.phoneNumber}</div>
-          <div>{person.streetAddress}</div>
+          <div>
+            {[person.streetAddress, person.zip, person.postOffice]
+              .filter((v) => !!v)
+              .join(', ')}
+          </div>
           <div>
             <a href={`mailto:${person.email}`}>{person.email}</a>
           </div>
