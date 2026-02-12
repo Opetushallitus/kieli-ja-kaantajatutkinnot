@@ -82,7 +82,8 @@
             "title": "Muokkaa tutkintotilaisuutta",
             "saveButton": "Tallenna muutokset",
             "toasts": {
-              "saveSuccess": "Muutokset tallennettu onnistuneesti"
+              "saveSuccess": "Muutokset tallennettu onnistuneesti",
+              "saveFailed": "Muutosten tallentaminen epäonnistui"
             },
             "fields": {
               "maxParticipants": "Osallistujien enimmäismäärä",

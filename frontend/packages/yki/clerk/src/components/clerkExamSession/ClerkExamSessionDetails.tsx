@@ -25,12 +25,9 @@ export const ClerkExamSessionDetails = ({
 }: {
   examSessionDetails: ClerkExamSession | null;
 }) => {
-  const t = useCommonTranslation();
-  const { t: tButtons } = usePublicTranslation({
-    keyPrefix: 'yki.component.clerkExamSessionRegistrations.buttons',
-  });
-  const { t: tModal } = usePublicTranslation({
-    keyPrefix: 'yki.component.clerkExamSessionRegistrations.modals.edit',
+  const commonTranslation = useCommonTranslation();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.clerkExamSessionRegistrations',
   });
   const { showToast } = useToast();
   const { updateStatus } = useAppSelector(clerkExamSessionDetailsSelector);
@@ -38,17 +35,21 @@ export const ClerkExamSessionDetails = ({
   const prevUpdateStatus = useRef(updateStatus);
 
   useEffect(() => {
-    if (
-      prevUpdateStatus.current === APIResponseStatus.InProgress &&
-      updateStatus === APIResponseStatus.Success
-    ) {
-      showToast({
-        severity: Severity.Success,
-        description: tModal('toasts.saveSuccess'),
-      });
+    if (prevUpdateStatus.current === APIResponseStatus.InProgress) {
+      if (updateStatus === APIResponseStatus.Success) {
+        showToast({
+          severity: Severity.Success,
+          description: t('modals.edit.toasts.saveSuccess'),
+        });
+      } else if (updateStatus === APIResponseStatus.Error) {
+        showToast({
+          severity: Severity.Error,
+          description: t('modals.edit.toasts.saveFailed'),
+        });
+      }
     }
     prevUpdateStatus.current = updateStatus;
-  }, [updateStatus, showToast, tModal]);
+  }, [updateStatus, showToast, t]);
 
   if (!examSessionDetails) {
     return <></>;
@@ -71,21 +72,21 @@ export const ClerkExamSessionDetails = ({
           variant={Variant.Outlined}
           onClick={() => setIsEditModalOpen(true)}
         >
-          {tButtons('edit')}
+          {commonTranslation('buttons.edit')}
         </OphButton>
       </div>
       <div>
         <Text>
-          {t('languages.' + examSessionDetails.language)}
+          {commonTranslation('languages.' + examSessionDetails.language)}
           {' - '}
-          {t('languageLevel.' + examSessionDetails.level)}{' '}
+          {commonTranslation('languageLevel.' + examSessionDetails.level)}{' '}
           {DateTimeUtils.renderDate(examSessionDetails.date)}
         </Text>
       </div>
       <div className="grid-4-columns gapped">
         <div className="rows gapped-xs">
           <div className="rows gapped-xs">
-            <Label>{t('registrationPeriod')}</Label>
+            <Label>{commonTranslation('registrationPeriod')}</Label>
             <div>
               {DateTimeUtils.renderDate(
                 examSessionDetails.registrationStartDate,
@@ -95,7 +96,7 @@ export const ClerkExamSessionDetails = ({
             </div>
           </div>
           <div className="rows gapped-xs">
-            <Label>{t('institution')}</Label>
+            <Label>{commonTranslation('institution')}</Label>
             <div>
               {location && (
                 <>
@@ -106,11 +107,11 @@ export const ClerkExamSessionDetails = ({
           </div>
         </div>
         <div className="rows gapped-xs">
-          <Label>{t('maxParticipants')}</Label>
+          <Label>{commonTranslation('maxParticipants')}</Label>
           <div>{examSessionDetails.maxParticipants}</div>
         </div>
         <div className="rows gapped-xs">
-          <Label>{t('contactInfo')}</Label>
+          <Label>{commonTranslation('contactInfo')}</Label>
           <div className="rows">
             {examSessionDetails.contact &&
               examSessionDetails.contact.map((c) => (
@@ -123,7 +124,7 @@ export const ClerkExamSessionDetails = ({
           </div>
         </div>
         <div className="rows gapped-xs">
-          <Label>{t('extraInfo')}</Label>
+          <Label>{commonTranslation('extraInfo')}</Label>
           <div>
             {examSessionDetails.location.map((l) => (
               <div key={'location-lang-' + l.lang}>
