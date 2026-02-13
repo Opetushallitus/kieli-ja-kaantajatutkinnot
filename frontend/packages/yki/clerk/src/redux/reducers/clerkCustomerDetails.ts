@@ -9,11 +9,13 @@ import {
 interface ClerkCustomerDetailsState {
   customerDetails: ClerkCustomerDetails | null;
   status: APIResponseStatus;
+  updateStatus: APIResponseStatus;
 }
 
 const initialState: ClerkCustomerDetailsState = {
   customerDetails: null,
   status: APIResponseStatus.NotStarted,
+  updateStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkCustomerDetailsSlice = createSlice({
@@ -34,7 +36,16 @@ const clerkCustomerDetailsSlice = createSlice({
       state,
       _action: PayloadAction<ClerkPersonContactUpdateRequest>,
     ) {
-      state.status = APIResponseStatus.InProgress;
+      state.updateStatus = APIResponseStatus.InProgress;
+    },
+    resolveCustomerContactUpdate(state) {
+      state.updateStatus = APIResponseStatus.Success;
+    },
+    rejectCustomerContactUpdate(state) {
+      state.updateStatus = APIResponseStatus.Error;
+    },
+    resetCustomerContactUpdateStatus(state) {
+      state.updateStatus = APIResponseStatus.NotStarted;
     },
   },
 });
@@ -45,4 +56,7 @@ export const {
   rejectCustomerDetails,
   storeCustomerDetails,
   updateCustomerContactDetails,
+  resolveCustomerContactUpdate,
+  rejectCustomerContactUpdate,
+  resetCustomerContactUpdateStatus,
 } = clerkCustomerDetailsSlice.actions;

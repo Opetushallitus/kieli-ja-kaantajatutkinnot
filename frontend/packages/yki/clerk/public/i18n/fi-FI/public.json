@@ -67,6 +67,10 @@
                 "SUBMITTED": "Ei Maksanut"
               }
             }
+          },
+          "toasts": {
+            "updateError": "Muutosten tallentaminen epäonnistui",
+            "updateSuccess": "Muutosten tallentaminen onnistui"
           }
         },
         "search": {

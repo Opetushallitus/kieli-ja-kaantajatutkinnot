@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { CustomButton } from 'shared/components';
-import { APIResponseStatus } from 'shared/enums';
+import { APIResponseStatus, Severity } from 'shared/enums';
+import { useToast } from 'shared/hooks';
 
 import { EditCustomerInformationModal } from 'components/clerkCustomer/EditCustomerInformationModal';
 import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { CustomerPerson } from 'interfaces/clerkCustomer';
 import { Label } from 'ophTheme/Text';
+import { resetCustomerContactUpdateStatus } from 'redux/reducers/clerkCustomerDetails';
 import { loadNationalities } from 'redux/reducers/nationalities';
+import { clerkCustomerDetailsSelector } from 'redux/selectors/clerkCustomerDetailsSelector';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 
 export const CustomerInformation = ({
@@ -22,13 +25,31 @@ export const CustomerInformation = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkCustomer',
   });
+  const { showToast } = useToast();
   const { nationalities, status } = useAppSelector(nationalitiesSelector);
+  const { updateStatus } = useAppSelector(clerkCustomerDetailsSelector);
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
       dispatch(loadNationalities());
     }
   }, [dispatch, status]);
+
+  useEffect(() => {
+    if (updateStatus === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: t('details.toasts.updateSuccess'),
+      });
+      dispatch(resetCustomerContactUpdateStatus());
+    } else if (updateStatus === APIResponseStatus.Error) {
+      showToast({
+        severity: Severity.Error,
+        description: t('details.toasts.updateError'),
+      });
+      dispatch(resetCustomerContactUpdateStatus());
+    }
+  }, [dispatch, showToast, t, updateStatus]);
 
   if (!person) return <></>;
 

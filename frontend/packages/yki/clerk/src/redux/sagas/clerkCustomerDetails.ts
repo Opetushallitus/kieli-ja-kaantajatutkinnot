@@ -10,7 +10,9 @@ import {
 } from 'interfaces/clerkCustomer';
 import {
   loadClerkCustomerDetails,
+  rejectCustomerContactUpdate,
   rejectCustomerDetails,
+  resolveCustomerContactUpdate,
   storeCustomerDetails,
   updateCustomerContactDetails,
 } from 'redux/reducers/clerkCustomerDetails';
@@ -40,9 +42,10 @@ function* updateCustomerContactDetailsSaga(
       APIEndpoints.ClerkPersonContactUpdate.replace(/:oid/, action.payload.oid),
       action.payload,
     );
+    yield put(resolveCustomerContactUpdate());
     yield put(loadClerkCustomerDetails(action.payload.oid));
   } catch (error) {
-    yield put(rejectCustomerDetails());
+    yield put(rejectCustomerContactUpdate());
   }
 }
 
