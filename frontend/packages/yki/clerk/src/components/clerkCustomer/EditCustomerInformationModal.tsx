@@ -92,19 +92,24 @@ export const EditCustomerInformationModal = ({
             fullWidth
           />
 
-          <Label>{t('details.fields.zip')}</Label>
-          <TextField
-            value={zip}
-            onChange={(event) => setZip(event.target.value)}
-            fullWidth
-          />
-
-          <Label>{t('details.fields.postOffice')}</Label>
-          <TextField
-            value={postOffice}
-            onChange={(event) => setPostOffice(event.target.value)}
-            fullWidth
-          />
+          <div className="columns gapped">
+            <div className="rows gapped-xxs" style={{ flex: 1 }}>
+              <Label>{t('details.fields.zip')}</Label>
+              <TextField
+                value={zip}
+                onChange={(event) => setZip(event.target.value)}
+                fullWidth
+              />
+            </div>
+            <div className="rows gapped-xxs" style={{ flex: 2 }}>
+              <Label>{t('details.fields.postOffice')}</Label>
+              <TextField
+                value={postOffice}
+                onChange={(event) => setPostOffice(event.target.value)}
+                fullWidth
+              />
+            </div>
+          </div>
         </div>
         <div className="columns gapped flex-end">
           <OphButton
