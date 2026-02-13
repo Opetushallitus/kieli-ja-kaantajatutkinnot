@@ -47,6 +47,7 @@ class ClerkAddOrganizer {
 
   enterSearchQuery(query: string) {
     this.elements.searchInput().clear();
+    this.elements.searchInput().should('have.text', '');
     this.elements.searchInput().type(query);
   }
 
@@ -157,19 +158,27 @@ class ClerkAddOrganizer {
   }
 
   enterContactName(name: string) {
-    this.elements.contactNameField().clear().type(name);
+    this.elements.contactNameField().clear();
+    this.elements.contactNameField().should('have.text', '');
+    this.elements.contactNameField().type(name);
   }
 
   enterContactEmail(email: string) {
-    this.elements.contactEmailField().clear().type(email);
+    this.elements.contactEmailField().clear();
+    this.elements.contactEmailField().should('have.text', '');
+    this.elements.contactEmailField().type(email);
   }
 
   enterContactPhone(phone: string) {
-    this.elements.contactPhoneField().clear().type(phone);
+    this.elements.contactPhoneField().clear();
+    this.elements.contactPhoneField().should('have.text', '');
+    this.elements.contactPhoneField().type(phone);
   }
 
   enterExtraInfo(info: string) {
-    this.elements.extraInfoField().clear().type(info);
+    this.elements.extraInfoField().clear();
+    this.elements.extraInfoField().should('have.text', '');
+    this.elements.extraInfoField().type(info);
   }
 
   clickAddButton() {
