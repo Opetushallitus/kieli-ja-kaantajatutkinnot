@@ -80,6 +80,26 @@ class ClerkCustomerDetailsPage {
   }
 
   // Menneet tutkintotilaisuudet
+  clickEditContactButton() {
+    cy.findByText('Muokkaa yhteystietoja').click();
+  }
+
+  expectContactDetailsVisible(fields: {
+    phoneNumber: string;
+    streetAddress: string;
+    zip: string;
+    postOffice: string;
+    email: string;
+  }) {
+    cy.findByText(fields.phoneNumber).should('be.visible');
+    cy.findByText(
+      `${fields.streetAddress}, ${fields.zip}, ${fields.postOffice}`,
+    ).should('be.visible');
+    cy.contains('a', fields.email)
+      .should('have.attr', 'href')
+      .and('include', `mailto:${fields.email}`);
+  }
+
   expectPastTableHeadersVisible() {
     cy.findAllByText('Menneet tutkintotilaisuudet').should('be.visible');
     const pastTableHeader = this.elements.pastTableHeader;
