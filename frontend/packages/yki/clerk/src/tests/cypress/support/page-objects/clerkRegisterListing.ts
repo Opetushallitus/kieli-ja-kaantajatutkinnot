@@ -122,10 +122,10 @@ class ClerkRegisterListing {
     this.elements.upcomingExamSessionsSection().and('have.length', amount);
   }
 
-  expectPastExamSessions() {
+  expectPastExamSessions(numberOfSessions: number) {
     this.elements.pastExamSessions().should('be.visible');
     this.elements.pastExamSessions().within(() => {
-      cy.get('tbody tr').should('have.length', 9);
+      cy.get('tbody tr').should('have.length', numberOfSessions);
     });
   }
 

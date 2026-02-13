@@ -12,7 +12,7 @@ describe('ClerkRegisterListing', () => {
   });
 
   it('should display organizer details correctly', () => {
-    onClerkRegisterListing.expectOrganizerName(0, 'Amiedu');
+    onClerkRegisterListing.expectOrganizerName(0, 'Taitotalo');
     onClerkRegisterListing.expectOrganizerAgreements(
       0,
       'suomi, saksa, pohjoissaame',
@@ -63,7 +63,7 @@ describe('ClerkRegisterListing', () => {
     onClerkRegisterListing.clickExpandRow(0);
     onClerkRegisterListing.expectUpcomingExamSessionsVisible(1);
     onClerkRegisterListing.clickPastExamSessionsAccordion();
-    onClerkRegisterListing.expectPastExamSessions();
+    onClerkRegisterListing.expectPastExamSessions(2);
   });
 
   it('should navigate to admin user view when button is clicked', () => {
