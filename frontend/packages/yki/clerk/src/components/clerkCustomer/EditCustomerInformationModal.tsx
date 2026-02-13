@@ -33,6 +33,7 @@ export const EditCustomerInformationModal = ({
   const [phoneNumber, setPhoneNumber] = useState(person.phoneNumber);
   const [zip, setZip] = useState(person.zip);
   const [postOffice, setPostOffice] = useState(person.postOffice);
+  const [emailMismatch, setEmailMismatch] = useState(false);
 
   useEffect(() => {
     if (isModalOpen) {
@@ -42,6 +43,7 @@ export const EditCustomerInformationModal = ({
       setPhoneNumber(person.phoneNumber);
       setZip(person.zip);
       setPostOffice(person.postOffice);
+      setEmailMismatch(false);
     }
   }, [isModalOpen, person]);
 
@@ -63,6 +65,7 @@ export const EditCustomerInformationModal = ({
           <TextField
             value={email}
             onChange={(event) => setEmail(event.target.value)}
+            error={emailMismatch}
             fullWidth
           />
 
@@ -70,6 +73,7 @@ export const EditCustomerInformationModal = ({
           <TextField
             value={confirmEmail}
             onChange={(event) => setConfirmEmail(event.target.value)}
+            error={emailMismatch}
             fullWidth
           />
         </div>
@@ -112,6 +116,11 @@ export const EditCustomerInformationModal = ({
           <OphButton
             variant={Variant.Contained}
             onClick={() => {
+              if (email !== confirmEmail) {
+                setEmailMismatch(true);
+
+                return;
+              }
               dispatch(
                 updateCustomerContactDetails({
                   oid: person.oid,
