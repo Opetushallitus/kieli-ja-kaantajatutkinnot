@@ -12,7 +12,7 @@ describe('ModifyAgreementModal', () => {
 
   describe('Modal Display and Structure', () => {
     it('should display the modal with title and organizer information', () => {
-      onModifyAgreementModal.expectOrganizerNameDisplayed('Amiedu');
+      onModifyAgreementModal.expectOrganizerNameDisplayed('Taitotalo');
       onModifyAgreementModal.expectStartDateFieldVisible();
       onModifyAgreementModal.expectEndDateFieldVisible();
       onModifyAgreementModal.expectLanguagesFieldVisible();
