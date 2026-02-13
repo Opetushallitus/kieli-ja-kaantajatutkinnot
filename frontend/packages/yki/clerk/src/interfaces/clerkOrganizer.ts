@@ -46,7 +46,7 @@ export type ClerkOrganizerType = {
   extra: string;
 };
 
-export type OrganizationTypes =
+type OrganizationTypes =
   | 'organisaatiotyyppi_01'
   | 'organisaatiotyyppi_02'
   | 'organisaatiotyyppi_05';
