@@ -72,7 +72,7 @@ export const ClerkExamSessionDetails = ({
           variant={Variant.Outlined}
           onClick={() => setIsEditModalOpen(true)}
         >
-          {commonTranslation('buttons.edit')}
+          {t('buttons.edit')}
         </OphButton>
       </div>
       <div>
@@ -113,14 +113,9 @@ export const ClerkExamSessionDetails = ({
         <div className="rows gapped-xs">
           <Label>{commonTranslation('contactInfo')}</Label>
           <div className="rows">
-            {examSessionDetails.contact &&
-              examSessionDetails.contact.map((c) => (
-                <div className="rows" key={'contact-email-' + c.email}>
-                  <span>{c.name}</span>
-                  <span>{c.phoneNumber}</span>
-                  <span>{c.email}</span>
-                </div>
-              ))}
+            <span>{examSessionDetails.contactName}</span>
+            <span>{examSessionDetails.contactPhoneNumber}</span>
+            <span>{examSessionDetails.contactEmail}</span>
           </div>
         </div>
         <div className="rows gapped-xs">

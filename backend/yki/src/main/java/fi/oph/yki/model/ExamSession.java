@@ -7,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -43,9 +42,14 @@ public class ExamSession {
   @Column(name = "office_oid")
   private String officeOid;
 
-  @JoinTable(name = "exam_session_contact")
-  @OneToMany(fetch = FetchType.LAZY)
-  private List<ExamSessionContact> contact;
+  @Column(name = "contact_name")
+  private String contactName;
+
+  @Column(name = "contact_email")
+  private String contactEmail;
+
+  @Column(name = "contact_phone_number")
+  private String contactPhoneNumber;
 
   @OneToMany(mappedBy = "examSession")
   private List<ExamSessionLocation> locations = new ArrayList<>();

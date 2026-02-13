@@ -10,13 +10,9 @@ export const clerkExamSession: ClerkExamSessionResponse = {
   participants: 15,
   maxParticipants: 15,
   queue: 0,
-  contact: [
-    {
-      name: 'Teppo-Testi Järjestäjä',
-      phoneNumber: '+358401234567',
-      email: 'jarjestaja@testi.invalid',
-    },
-  ],
+  contactName: 'Teppo-Testi Järjestäjä',
+  contactPhoneNumber: '+358401234567',
+  contactEmail: 'jarjestaja@testi.invalid',
   officeOid: '1.2.246.562.10.29461948951',
   publishedAt: '2019-01-15T11:16:37.959Z',
   date: '2035-01-01',

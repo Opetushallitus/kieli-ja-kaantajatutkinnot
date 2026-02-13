@@ -34,7 +34,6 @@ export const ClerkExamSessionEditModal = ({
   const { updateStatus } = useAppSelector(clerkExamSessionDetailsSelector);
 
   const location = examSessionDetails.location[0];
-  const contact = examSessionDetails.contact[0];
   const isSaving = updateStatus === APIResponseStatus.InProgress;
   const prevUpdateStatus = useRef(updateStatus);
 
@@ -53,7 +52,9 @@ export const ClerkExamSessionEditModal = ({
     streetAddress: location?.streetAddress ?? '',
     postalCode: location?.zip ?? '',
     city: location?.postOffice ?? '',
-    contactInfo: contact?.name ?? '',
+    contactName: examSessionDetails.contactName ?? '',
+    contactEmail: examSessionDetails.contactEmail ?? '',
+    contactPhoneNumber: examSessionDetails.contactPhoneNumber ?? '',
   });
 
   const updateField = (field: string, value: string) => {
@@ -124,9 +125,21 @@ export const ClerkExamSessionEditModal = ({
           />
         </div>
         <OphInputFormField
-          label={t('fields.contactInfo')}
-          value={form.contactInfo}
-          onChange={(e) => updateField('contactInfo', e.target.value)}
+          label={t('fields.contactName')}
+          value={form.contactName}
+          onChange={(e) => updateField('contactName', e.target.value)}
+          disabled={isSaving}
+        />
+        <OphInputFormField
+          label={t('fields.contactEmail')}
+          value={form.contactEmail}
+          onChange={(e) => updateField('contactEmail', e.target.value)}
+          disabled={isSaving}
+        />
+        <OphInputFormField
+          label={t('fields.contactPhoneNumber')}
+          value={form.contactPhoneNumber}
+          onChange={(e) => updateField('contactPhoneNumber', e.target.value)}
           disabled={isSaving}
         />
         <div className="columns gapped flex-end">

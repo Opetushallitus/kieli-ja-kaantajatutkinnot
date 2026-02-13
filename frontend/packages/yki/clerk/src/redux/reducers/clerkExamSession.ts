@@ -8,7 +8,9 @@ export interface ClerkExamSessionEditForm {
   streetAddress: string;
   postalCode: string;
   city: string;
-  contactInfo: string;
+  contactName: string;
+  contactEmail: string;
+  contactPhoneNumber: string;
 }
 
 interface ClerkExamSessionState {
@@ -53,6 +55,9 @@ const clerkExamSessionSlice = createSlice({
     rejectSaveExamSession(state) {
       state.updateStatus = APIResponseStatus.Error;
     },
+    resetClerkExamSession() {
+      return initialState;
+    },
   },
 });
 
@@ -64,4 +69,5 @@ export const {
   saveExamSession,
   acceptSaveExamSession,
   rejectSaveExamSession,
+  resetClerkExamSession,
 } = clerkExamSessionSlice.actions;

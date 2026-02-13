@@ -47,7 +47,9 @@ function* saveExamSessionSaga(
         streetAddress: form.streetAddress,
         zip: form.postalCode,
         postOffice: form.city,
-        contactInfo: form.contactInfo,
+        contactName: form.contactName,
+        contactEmail: form.contactEmail,
+        contactPhoneNumber: form.contactPhoneNumber,
       },
     );
     const clerkExamSession =

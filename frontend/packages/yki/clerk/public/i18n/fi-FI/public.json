@@ -90,7 +90,9 @@
               "streetAddress": "Katuosoite",
               "postalCode": "Postinumero",
               "city": "Postitoimipaikka",
-              "contactInfo": "Yhteystiedot"
+              "contactName": "Yhteyshenkilö",
+              "contactEmail": "Sähköposti",
+              "contactPhoneNumber": "Puhelinnumero"
             }
           }
         }

@@ -1,6 +1,5 @@
 package fi.oph.yki.service;
 
-import fi.oph.yki.api.dto.clerk.ClerkExamSessionContactDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionLocationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
@@ -10,7 +9,6 @@ import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.RegistrationUtil;
-import fi.oph.yki.view.ExamSessionXlsxData;
 import fi.oph.yki.view.ExamSessionXlsxDataRowUtil;
 import fi.oph.yki.view.ExamSessionXlsxView;
 import java.util.List;
@@ -39,11 +37,6 @@ public class ClerkExamSessionService {
       .stream()
       .map(RegistrationUtil::createClerkExamSessionLocationDTO)
       .toList();
-    final List<ClerkExamSessionContactDTO> contactDTOS = examSession
-      .getContact()
-      .stream()
-      .map(RegistrationUtil::createClerkExamSessionContactDTO)
-      .toList();
     final ExamDate examDate = examSession.getExamDate();
 
     return ClerkExamSessionDTO
@@ -57,7 +50,9 @@ public class ClerkExamSessionService {
       .registrationStartDate(examDate.getRegistrationStartDate())
       .registrationEndDate(examDate.getRegistrationEndDate())
       .maxParticipants(examSession.getMaxParticipants())
-      .contact(contactDTOS)
+      .contactName(examSession.getContactName())
+      .contactEmail(examSession.getContactEmail())
+      .contactPhoneNumber(examSession.getContactPhoneNumber())
       .build();
   }
 
@@ -84,11 +79,9 @@ public class ClerkExamSessionService {
       location.setPostOffice(dto.postOffice());
     }
 
-    final var contacts = examSession.getContact();
-    if (!contacts.isEmpty()) {
-      final var contact = contacts.get(0);
-      contact.setName(dto.contactInfo());
-    }
+    examSession.setContactName(dto.contactName());
+    examSession.setContactEmail(dto.contactEmail());
+    examSession.setContactPhoneNumber(dto.contactPhoneNumber());
 
     return getExamSession(examSessionId);
   }

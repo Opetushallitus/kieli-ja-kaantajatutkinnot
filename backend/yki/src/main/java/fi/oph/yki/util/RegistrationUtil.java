@@ -1,10 +1,8 @@
 package fi.oph.yki.util;
 
-import fi.oph.yki.api.dto.clerk.ClerkExamSessionContactDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionLocationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
-import fi.oph.yki.model.ExamSessionContact;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
@@ -25,15 +23,6 @@ public class RegistrationUtil {
       .eb(freeRegistration.getEb())
       .dia(freeRegistration.getDia())
       .other(freeRegistration.getOther())
-      .build();
-  }
-
-  public static ClerkExamSessionContactDTO createClerkExamSessionContactDTO(final ExamSessionContact contact) {
-    return ClerkExamSessionContactDTO
-      .builder()
-      .name(contact.getName())
-      .email(contact.getEmail())
-      .phoneNumber(contact.getPhoneNumber())
       .build();
   }
 

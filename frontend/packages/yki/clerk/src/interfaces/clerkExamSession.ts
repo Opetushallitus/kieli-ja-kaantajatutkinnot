@@ -16,12 +16,6 @@ type Location = {
   zip: string;
 };
 
-type Contact = {
-  email?: string;
-  phoneNumber?: string;
-  name?: string;
-};
-
 export interface ClerkExamSessionResponse
   extends Omit<
     ClerkExamSession,
@@ -48,7 +42,9 @@ export interface ClerkExamSession {
   participants: number;
   maxParticipants: number;
   queue: number;
-  contact: Array<Contact>;
+  contactName: string;
+  contactEmail: string;
+  contactPhoneNumber: string;
   officeOid: string;
   publishedAt: Dayjs;
   date: Dayjs;

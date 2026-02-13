@@ -260,4 +260,23 @@
                 referencedTableName="registration"
                 referencedColumnNames="id" />
     </changeSet>
+
+    <changeSet id="2026-02-11-add-exam-session-hsqldb" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <createTable tableName="exam_session">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="exam_session_pkey"/>
+            </column>
+            <column name="exam_date_id" type="BIGINT"/>
+            <column name="language_code" type="TEXT"/>
+            <column name="level_code" type="TEXT"/>
+            <column name="max_participants" type="INT"/>
+            <column name="office_oid" type="TEXT"/>
+            <column name="contact_name" type="TEXT"/>
+            <column name="contact_email" type="TEXT"/>
+            <column name="contact_phone_number" type="TEXT"/>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>
