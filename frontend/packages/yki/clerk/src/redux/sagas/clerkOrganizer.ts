@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import { call, delay, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
@@ -165,7 +165,6 @@ function* loadClerkOrganizationSaga(action: PayloadAction<Array<string>>) {
 
 function* addClerkOrganizerSaga(action: PayloadAction<ClerkOrganizer>) {
   try {
-    yield delay(500);
     const newClerkOrganizerEntry = {
       organizer: action.payload,
       organization: {} as FindByOidsOrganization,

@@ -499,6 +499,7 @@ export const ClerkAddOrganizerDetails = ({
           <div className="rows gapped-xxs" style={{ marginTop: '1rem' }}>
             <Label>Lisätiedot</Label>
             <TextField
+              data-testid="clerk-add-organizer-extra-info-field"
               value={extraInfo}
               onChange={(e) => setExtraInfo(e.target.value)}
               multiline
@@ -522,6 +523,7 @@ export const ClerkAddOrganizerDetails = ({
           variant={Variant.Contained}
           color={Color.Primary}
           onClick={handleSave}
+          disabled={addClerkOrganizerStatus === APIResponseStatus.InProgress}
         >
           {t('addOrganizer.addButton')}
         </OphButton>
