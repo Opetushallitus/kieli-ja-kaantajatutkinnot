@@ -294,7 +294,7 @@ export const ClerkAddOrganizerDetails = ({
               setValue={(value: Dayjs | null) => setStartDate(value)}
               error={!!startDateError}
               helperText={
-                !startDate
+                !!startDateError
                   ? t('listing.modals.modifyAgreement.startDateError')
                   : ''
               }
@@ -321,7 +321,7 @@ export const ClerkAddOrganizerDetails = ({
               setValue={(value: Dayjs | null) => setEndDate(value)}
               minDate={startDate?.add(1, 'day') || undefined}
               error={!!endDateError}
-              helperText={getEndDateHelperText()}
+              helperText={!!endDateError && getEndDateHelperText()}
             />
           </div>
         </div>

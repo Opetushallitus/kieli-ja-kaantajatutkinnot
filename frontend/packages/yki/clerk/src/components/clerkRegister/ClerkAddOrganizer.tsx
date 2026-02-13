@@ -1,4 +1,4 @@
-import { Search } from '@mui/icons-material';
+import { ListAlt, Search } from '@mui/icons-material';
 import { InputAdornment } from '@mui/material';
 import {
   ophColors,
@@ -106,7 +106,20 @@ export const ClerkAddOrganizer: FC = () => {
           })()}
         </div>
       ) : (
-        <div>{t('addOrganizer.search.infoText')}</div>
+        <div className="rows gapped-sm" style={{ alignItems: 'center' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              padding: '2rem',
+              backgroundColor: ophColors.grey50,
+              borderRadius: '50%',
+            }}
+          >
+            <ListAlt fontSize="large" style={{ color: ophColors.grey700 }} />
+          </div>
+          <div>{t('addOrganizer.search.infoText')}</div>
+        </div>
       )}
     </div>
   );
