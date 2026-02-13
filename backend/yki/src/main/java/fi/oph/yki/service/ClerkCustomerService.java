@@ -12,7 +12,6 @@ import fi.oph.yki.model.ExamPayment;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.onr.OnrService;
-import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.PersonSearchProjection;
 import fi.oph.yki.repository.RegistrationRepository;
@@ -38,14 +37,6 @@ public class ClerkCustomerService {
   private final RegistrationRepository registrationRepository;
   private final OnrService onrService;
   private static final Logger LOG = LoggerFactory.getLogger(ClerkCustomerService.class);
-
-  private PersonalDataDTO getPersonalData(final String oid) throws RuntimeException {
-    try {
-      return onrService.getPersonalData(oid);
-    } catch (final Exception e) {
-      throw new RuntimeException("Unable to get personal data from ONR with oid '" + oid + "'.", e);
-    }
-  }
 
   private ClerkCustomerRegistrationDTO registrationToDTO(final Registration registration) {
     final var session = registration.getExamSession();
@@ -96,11 +87,20 @@ public class ClerkCustomerService {
   @Transactional(readOnly = true)
   public ClerkCustomerDetailsDTO getClerkCustomerDetails(final String oid) {
     final var person = personRepository.getByOid(oid);
+
+    String identityNumber;
+    try {
+      identityNumber = onrService.getPersonalData(person.getOid()).getIdentityNumber();
+    } catch (final Exception e) {
+      identityNumber = null;
+      LOG.error("Unable to get identity number from ONR for oid: {}", person.getOid(), e);
+    }
+
     final var personDTO = ClerkCustomerPersonDTO
       .builder()
       .firstName(person.getFirstName())
       .lastName(person.getLastName())
-      .ssn(getPersonalData(person.getOid()).getIdentityNumber())
+      .ssn(identityNumber)
       .oid(person.getOid())
       .nationalityCode(person.getNationalityCode())
       .phoneNumber(person.getPhoneNumber())
