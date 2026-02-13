@@ -1,6 +1,6 @@
 import { TextField } from '@mui/material';
 import { OphButton } from '@opetushallitus/oph-design-system';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CustomModal } from 'shared/components';
 import { Variant } from 'shared/enums';
 
@@ -33,6 +33,17 @@ export const EditCustomerInformationModal = ({
   const [phoneNumber, setPhoneNumber] = useState(person.phoneNumber);
   const [zip, setZip] = useState(person.zip);
   const [postOffice, setPostOffice] = useState(person.postOffice);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      setEmail(person.email);
+      setConfirmEmail(person.email);
+      setStreetAddress(person.streetAddress);
+      setPhoneNumber(person.phoneNumber);
+      setZip(person.zip);
+      setPostOffice(person.postOffice);
+    }
+  }, [isModalOpen, person]);
 
   return (
     <CustomModal
