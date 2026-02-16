@@ -49,8 +49,14 @@ class ClerkAddOrganizer {
   }
 
   enterSearchQuery(query: string) {
-    this.elements.searchInput().should('be.enabled');
-    this.elements.searchInput().clear();
+    // Wait for Material-UI initialization by checking the input is ready
+    this.elements
+      .searchInput()
+      .should('be.visible')
+      .and('not.have.attr', 'readonly');
+
+    // Use invoke to set value and trigger events - more reliable for MUI
+    this.elements.searchInput().invoke('val', '').trigger('input');
     this.elements.searchInput().type(query);
   }
 
