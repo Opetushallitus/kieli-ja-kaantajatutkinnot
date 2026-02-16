@@ -4,7 +4,9 @@ import fi.oph.yki.api.dto.clerk.ClerkPersonContactUpdateDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.Person;
+import fi.oph.yki.model.PersonSyncStatus;
 import fi.oph.yki.repository.PersonRepository;
+import fi.oph.yki.repository.PersonSyncStatusRepository;
 import fi.oph.yki.util.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PersonService {
 
   private final PersonRepository personRepository;
+  private final PersonSyncStatusRepository personSyncStatusRepository;
 
   @Transactional
   public void updateContactDetails(final String oid, final ClerkPersonContactUpdateDTO dto) {
@@ -29,5 +32,9 @@ public class PersonService {
     person.setPostOffice(dto.postOffice());
     person.setZip(dto.zip());
     personRepository.saveAndFlush(person);
+
+    final var syncStatus = new PersonSyncStatus();
+    syncStatus.setPersonOid(oid);
+    personSyncStatusRepository.saveAndFlush(syncStatus);
   }
 }
