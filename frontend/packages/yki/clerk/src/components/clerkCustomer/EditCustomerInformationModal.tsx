@@ -52,7 +52,7 @@ export const EditCustomerInformationModal = ({
       open={isModalOpen}
       onCloseModal={() => setIsModalOpen(false)}
       aria-labelledby="edit-customer-information-modal-title"
-      modalTitle={`Muokkaa yhteystietoja`}
+      modalTitle={t('details.fields.modalTitle')}
     >
       <div className="rows gapped">
         <div className="">

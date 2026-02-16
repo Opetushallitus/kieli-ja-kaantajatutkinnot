@@ -10,6 +10,7 @@
           "fields": {
             "confirmEmail": "Vahvista sähköposti",
             "email": "Sähköposti",
+            "modalTitle": "Muokkaa yhteystietoja",
             "nationality": "Kansalaisuus",
             "oid": "Oppijanumero",
             "phoneNumber": "Puhelinnumero",
