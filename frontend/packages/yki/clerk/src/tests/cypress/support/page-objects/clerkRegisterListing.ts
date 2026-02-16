@@ -24,6 +24,8 @@ class ClerkRegisterListing {
       cy.findByTestId('clerk-register__past-exam-sessions'),
     errorMessage: () => cy.contains('Järjestäjien hakeminen epäonnistui'),
     agreementExpiredWarning: () => cy.contains('Sopimus vanhentunut'),
+    addOrganizerButton: () =>
+      cy.findByRole('button', { name: 'Lisää järjestäjä' }),
   };
 
   expectListingTableVisible() {
@@ -116,6 +118,10 @@ class ClerkRegisterListing {
 
   clickModifyButton() {
     this.elements.modifyButton().click();
+  }
+
+  clickAddOrganizerButton() {
+    this.elements.addOrganizerButton().click();
   }
 
   expectUpcomingExamSessionsVisible(amount: number) {

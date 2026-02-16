@@ -17,7 +17,10 @@ class ClerkAddOrganizer {
     contactPhoneField: () =>
       cy.contains('Puhelinnumero *').parent().find('input'),
     extraInfoField: () =>
-      cy.findByTestId('clerk-add-organizer-extra-info-field'),
+      cy
+        .findByTestId('add-organizer-extra-info-field')
+        .find('textarea')
+        .first(),
     cancelButton: () => cy.contains('button', 'Keskeytä'),
     addButton: () => cy.findByRole('button', { name: 'Lisää järjestäjä' }),
     contactNameError: () =>
@@ -46,7 +49,9 @@ class ClerkAddOrganizer {
   }
 
   enterSearchQuery(query: string) {
-    this.elements.searchInput().should('be.enabled').clear().type(query);
+    this.elements.searchInput().should('be.enabled');
+    this.elements.searchInput().clear();
+    this.elements.searchInput().type(query);
   }
 
   expectSearchResultsVisible() {

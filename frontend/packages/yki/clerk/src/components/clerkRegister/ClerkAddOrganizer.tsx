@@ -4,7 +4,7 @@ import {
   ophColors,
   OphInputFormField,
 } from '@opetushallitus/oph-design-system';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { ClerkAddOrganizerDetails } from 'components/clerkRegister/ClerkAddOrganizerDetails';
 import { usePublicTranslation } from 'configs/i18n';
@@ -21,11 +21,18 @@ export const ClerkAddOrganizer: FC = () => {
   const [selectedOrganizationOid, setSelectedOrganizationOid] =
     useState<string>('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [organizationTypes, setOrganizationTypes] = useState<
+    Record<string, string>
+  >({});
   const { allOrganizations } = useAppSelector(clerkOrganizersSelector);
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
   });
+
+  useEffect(() => {
+    setOrganizationTypes(getOrganizationTypes(t));
+  }, [t]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -37,8 +44,6 @@ export const ClerkAddOrganizer: FC = () => {
       }
     }
   };
-
-  const organizationTypes = getOrganizationTypes(t);
 
   return (
     <div

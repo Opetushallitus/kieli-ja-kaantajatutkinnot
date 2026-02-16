@@ -1,13 +1,14 @@
 import { onClerkAddOrganizer } from 'tests/cypress/support/page-objects/clerkAddOrganizer';
+import { onClerkRegisterListing } from 'tests/cypress/support/page-objects/clerkRegisterListing';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 
 describe('ClerkAddOrganizer', () => {
   beforeEach(() => {
     cy.openClerkAddOrganizerPage();
+    onClerkAddOrganizer.expectSearchInputVisible();
   });
 
   it('should display search input and initial instructions', () => {
-    onClerkAddOrganizer.expectSearchInputVisible();
     onClerkAddOrganizer.expectSearchIconVisible();
     onClerkAddOrganizer.expectInitialInfoTextVisible();
     onClerkAddOrganizer.expectDetailsFormNotVisible();
@@ -105,10 +106,14 @@ describe('ClerkAddOrganizer', () => {
 
     // Cancel should navigate away
     onClerkAddOrganizer.clickCancelButton();
-    cy.url().should('include', '/virkailija/jarjestajarekisteri');
+    cy.location('pathname').should(
+      'eq',
+      '/yki/v2/virkailija/jarjestajarekisteri',
+    );
 
     // Verify new search clears previous selection
-    cy.openClerkAddOrganizerPage();
+    onClerkRegisterListing.clickAddOrganizerButton();
+    onClerkAddOrganizer.expectSearchInputVisible();
     onClerkAddOrganizer.enterSearchQuery('opisto');
     onClerkAddOrganizer.expectSearchResultsVisible();
     onClerkAddOrganizer.enterSearchQuery('koulu');
