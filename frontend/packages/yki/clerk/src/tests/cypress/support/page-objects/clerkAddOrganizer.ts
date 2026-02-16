@@ -46,9 +46,7 @@ class ClerkAddOrganizer {
   }
 
   enterSearchQuery(query: string) {
-    this.elements.searchInput().clear();
-    this.elements.searchInput().should('have.text', '');
-    this.elements.searchInput().type(query);
+    this.elements.searchInput().should('be.enabled').clear().type(query);
   }
 
   expectSearchResultsVisible() {
