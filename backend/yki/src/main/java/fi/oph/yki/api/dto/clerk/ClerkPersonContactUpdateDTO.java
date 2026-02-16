@@ -8,7 +8,7 @@ import lombok.Builder;
 public record ClerkPersonContactUpdateDTO(
   @NotBlank @Size(max = 255) String email,
   @NotBlank @Size(max = 255) String phoneNumber,
-  @NotBlank @Size(max = 255) String streetAddress,
-  @NotBlank @Size(max = 255) String postOffice,
+  @NotBlank @Size(max = 100) String streetAddress,
+  @NotBlank @Size(max = 50) String postOffice,
   @NotBlank @Size(max = 255) String zip
 ) {}

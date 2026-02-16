@@ -35,11 +35,11 @@ public class Person {
   @Column(name = "phone_number")
   private String phoneNumber;
 
-  @Size(max = 255)
+  @Size(max = 100)
   @Column(name = "street_address")
   private String steetAddress;
 
-  @Size(max = 255)
+  @Size(max = 50)
   @Column(name = "post_office")
   private String postOffice;
 
