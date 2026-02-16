@@ -117,6 +117,7 @@ describe('ModifyAgreementModal', () => {
     it('should persist language selections after save and reopen', () => {
       onModifyAgreementModal.toggleLanguageLevel('Englanti', 'PERUS');
       onModifyAgreementModal.clickSaveButton();
+      onToast.expectText('Muutokset tallennettu onnistuneesti');
       onModifyAgreementModal.clickCloseButton();
       onModifyAgreementModal.expectModalNotExist();
       onClerkRegisterListing.clickModifyButton();
@@ -135,6 +136,7 @@ describe('ModifyAgreementModal', () => {
       onModifyAgreementModal.toggleLanguageLevel('Ranska', 'YLIN');
 
       onModifyAgreementModal.clickSaveButton();
+      onToast.expectText('Muutokset tallennettu onnistuneesti');
     });
 
     it('should handle deselecting all levels for a language', () => {
