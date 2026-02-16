@@ -25,7 +25,7 @@ public class ClerkPersonController {
   @Resource
   private PersonService personService;
 
-  @PostMapping(path = "/{oid}/contact-details")
+  @PostMapping(path = "/{oid}/contactDetails")
   @Operation(tags = TAG_PERSON, summary = "Update person contact details")
   public void updateContactDetails(
     @PathVariable final String oid,
