@@ -207,7 +207,13 @@
           "examSessionIsFull": "Examenstillfället är fullbokat"
         },
         "registrationDetails": {
-          "certificateLanguage": "På vilket språk vill du ha intyget? *",
+          "certificate": {
+            "part1": "När ditt test har bedömts får du ett intyg över examen.",
+            "part2": "Om du utför YKI-testet senast den 31 mars 2026 får du intyget per post.",
+            "part3": "Om du utför testet den 1 april 2026 eller senare kan du få ett digitalt YKI-intyg.",
+            "title": "Information om intyget"
+          },
+          "certificateLanguage": "Ifall intyget postas, på vilket språk vill du ha intyget? *",
           "description1": "Fyll i YKI-anmälningsblanketten med examensdeltagarens uppgifter.",
           "description2": "För- och efternamnet måste stavas på samma sätt som på deltagarens officiella identitetsbevis.",
           "errors": {

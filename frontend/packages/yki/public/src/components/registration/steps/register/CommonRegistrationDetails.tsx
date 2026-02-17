@@ -129,6 +129,42 @@ export const CommonRegistrationDetails = () => {
 
   return (
     <>
+      {hideInstructionLanguageSelection ? null : (
+        <fieldset className="registration-details__radio-group">
+          <legend>
+            <Text>
+              <b>{t('instructionLanguage')}</b>
+            </Text>
+          </legend>
+          <FormControl error={!!registrationErrors['instructionLanguage']}>
+            <RadioGroup
+              row={!isPhone}
+              onChange={handleChange('instructionLanguage')}
+            >
+              <FormControlLabel
+                className="radio-group-label"
+                value={InstructionLanguage.FI}
+                control={<Radio />}
+                label={translateCommon('languages.fin')}
+                sx={ErrorLabelStyles}
+              />
+              <FormControlLabel
+                className="radio-group-label"
+                value={InstructionLanguage.SV}
+                control={<Radio />}
+                label={translateCommon('languages.swe')}
+                sx={ErrorLabelStyles}
+              />
+            </RadioGroup>
+          </FormControl>
+        </fieldset>
+      )}
+      <H2 className="public-registration__grid__form-container__certificate">
+        {t('certificate.title')}
+      </H2>
+      <Text>{t('certificate.part1')}</Text>
+      <Text>{t('certificate.part2')}</Text>
+      <Text>{t('certificate.part3')}</Text>
       <fieldset className="registration-details__radio-group">
         <legend>
           <Text>
@@ -164,36 +200,6 @@ export const CommonRegistrationDetails = () => {
           </RadioGroup>
         </FormControl>
       </fieldset>
-      {hideInstructionLanguageSelection ? null : (
-        <fieldset className="registration-details__radio-group">
-          <legend>
-            <Text>
-              <b>{t('instructionLanguage')}</b>
-            </Text>
-          </legend>
-          <FormControl error={!!registrationErrors['instructionLanguage']}>
-            <RadioGroup
-              row={!isPhone}
-              onChange={handleChange('instructionLanguage')}
-            >
-              <FormControlLabel
-                className="radio-group-label"
-                value={InstructionLanguage.FI}
-                control={<Radio />}
-                label={translateCommon('languages.fin')}
-                sx={ErrorLabelStyles}
-              />
-              <FormControlLabel
-                className="radio-group-label"
-                value={InstructionLanguage.SV}
-                control={<Radio />}
-                label={translateCommon('languages.swe')}
-                sx={ErrorLabelStyles}
-              />
-            </RadioGroup>
-          </FormControl>
-        </fieldset>
-      )}
       {showExamFeeSection && <ExamFee />}
       <H2 className="public-registration__grid__form-container__terms-and-conditions">
         {t('termsAndConditions.title')}

@@ -207,7 +207,13 @@
           "examSessionIsFull": "Tutkinto on täynnä"
         },
         "registrationDetails": {
-          "certificateLanguage": "Millä kielellä haluat todistuksesi? *",
+          "certificate": {
+            "part1": "Kun testisi on arvioitu, saat tutkinnosta todistuksen.",
+            "part2": "Jos suoritat YKI-testin 31.3.2026 mennessä, saat todistuksen postitse.",
+            "part3": "Jos suoritat YKI-testin 1.4.2026 tai sen jälkeen, voit saada digitaalisen YKI-todistuksen.",
+            "title": "Tietoa todistuksesta"
+          },
+          "certificateLanguage": "Jos todistus postitetaan, millä kielellä haluat todistuksesi? *",
           "description1": "Täytä YKI-testin ilmoittautumislomakkeelle testiin osallistujan tiedot.",
           "description2": "Kirjoita etu- ja sukunimi ilmoittautumislomakkeelle samalla tavalla kuin ne on kirjoitettu viralliseen henkilöllisyystodistukseen.",
           "errors": {

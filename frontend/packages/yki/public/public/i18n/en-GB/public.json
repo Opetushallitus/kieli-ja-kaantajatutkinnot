@@ -207,6 +207,12 @@
           "examSessionIsFull": "Test is full"
         },
         "registrationDetails": {
+          "certificate": {
+            "part1": "Once your test has been assessed, you will receive your YKI certificate.",
+            "part2": "If you take the YKI test before 31 March 2026, the certificate will be sent to you by post.",
+            "part3": "If you take the YKI test on or after 1 April 2026, you can get a digital YKI certificate.",
+            "title": "About the certificate"
+          },
           "certificateLanguage": "In which language do you wish to receive the certificate? *",
           "description1": "Fill in the YKI registration form using the personal information of the person taking the test.",
           "description2": "Write the first and last name exactly as they appear on the official identity card.",
