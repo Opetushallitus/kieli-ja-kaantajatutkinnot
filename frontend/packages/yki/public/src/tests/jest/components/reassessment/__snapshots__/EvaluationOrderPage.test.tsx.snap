@@ -98,7 +98,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
               <span
                 class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-rizt0-MuiTypography-root"
               >
-                Tekstin ymmärtäminen 100 €
+                Tekstin ymmärtäminen 108 €
               </span>
             </label>
             <label
@@ -127,7 +127,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
               <span
                 class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-rizt0-MuiTypography-root"
               >
-                Puheen ymmärtäminen 100 €
+                Puheen ymmärtäminen 108 €
               </span>
             </label>
             <label
@@ -156,7 +156,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
               <span
                 class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-rizt0-MuiTypography-root"
               >
-                Kirjoittaminen 100 €
+                Kirjoittaminen 108 €
               </span>
             </label>
             <label
@@ -185,7 +185,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
               <span
                 class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-rizt0-MuiTypography-root"
               >
-                Puhuminen 100 €
+                Puhuminen 108 €
               </span>
             </label>
           </div>
