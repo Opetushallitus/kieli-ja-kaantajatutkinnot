@@ -1,6 +1,7 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Alert, Box, Container, Grid, Link, Paper } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
+import { Trans } from 'react-i18next';
 import { H1, H2, HeaderSeparator, Text, WebLink } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 
@@ -22,12 +23,26 @@ const InformationBox = () => {
 
   return (
     <Container className="public-registration-page__info-box rows gapped">
-      <Text>{t('part1')}</Text>
       <Text>
-        {t('part2')}{' '}
+        {t('part1')} {t('part2')}{' '}
+        <Trans
+          i18nKey="part3"
+          t={t}
+          components={{
+            CustomLink: (
+              <WebLink
+                href={t('suomiFiMessages.url')}
+                label={t('suomiFiMessages.label')}
+              />
+            ),
+          }}
+        />
+      </Text>
+      <Text>
+        {t('part4')}{' '}
         <WebLink
-          href={t('url')}
-          label={t('link')}
+          href={t('afterYkiTest.url')}
+          label={t('afterYkiTest.label')}
           target="_blank"
           endIcon={<OpenInNewIcon />}
         />

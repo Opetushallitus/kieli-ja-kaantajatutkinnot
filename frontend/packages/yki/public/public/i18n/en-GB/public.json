@@ -700,10 +700,18 @@
           }
         },
         "infoBox": {
-          "part1": "In 2026, some YKI tests are becoming free of charge, the conditions for the test fee refund are being simplified and registrations for YKI tests can no longer be rescheduled.",
-          "part2": "Read more on EDUFI's website:",
-          "link": "Changes to the YKI tests on 1 January 2026",
-          "url": "https://www.oph.fi/en/news/2025/changes-yki-tests-1-january-2026"
+          "afterYkiTest": {
+            "label": "After the YKI test",
+            "url": "https://www.oph.fi/en/education-and-qualifications/after-yki-test"
+          },
+          "part1": "If you take the test on or after 1 April 2026, you can get a digital YKI certificate.",
+          "part2": "You can access the certificate in the My Studyinfo service.",
+          "part3": "If you have activated the <CustomLink></CustomLink> Messages service, you will receive an electronic <CustomLink></CustomLink> message once your certificate is ready.",
+          "part4": "You can read more about the test results and certificates on the website of the Finnish National Agency for Education:",
+          "suomiFiMessages": {
+            "label": "Suomi.fi",
+            "url": "https://www.suomi.fi/messages"
+          }
         },
         "labels": {
           "excludeFullSessions": "Show only the tests that have available seats",

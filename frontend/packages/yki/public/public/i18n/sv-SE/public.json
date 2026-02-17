@@ -700,10 +700,18 @@
           }
         },
         "infoBox": {
-          "part1": "2026 blir en del av YKI-testerna avgiftsfria, villkoren för återbetalning av examensavgiften förtydligas och anmälan kan inte längre flyttas.",
-          "part2": "Läs mer på Utbildningsstyrelsens webbplats:",
-          "link": "Ändringar i YKI-tester fr.o.m. 1.1.2026",
-          "url": "https://www.oph.fi/sv/nyheter/2025/andringar-i-allmanna-sprakexamina-fran-och-med-den-1-januari-2026"
+          "afterYkiTest": {
+            "label": "Efter YKI-testet",
+            "url": "https://www.oph.fi/sv/utbildning-och-examina/efter-yki-testet"
+          },
+          "part1": "Om du utför testet den 1 april 2026 eller senare kan du få ett digitalt YKI-intyg.",
+          "part2": "Du får intyget i tjänsten Min Studieinfo.",
+          "part3": "Om du använder tjänsten <CustomLink></CustomLink>-meddelanden får du ett elektroniskt meddelande i <CustomLink></CustomLink> när intyget är klart.",
+          "part4": "Du kan läsa mer om testresultatet och intygen på Utbildningsstyrelsens webbplats:",
+          "suomiFiMessages": {
+            "label": "Suomi.fi",
+            "url": "https://www.suomi.fi/meddelanden"
+          }
         },
         "labels": {
           "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",

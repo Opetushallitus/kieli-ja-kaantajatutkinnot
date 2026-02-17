@@ -664,7 +664,7 @@
             "text": "Yleisissä kielitutkinnoissa eli YKI-testissä arvioidaan yleiskielen osaamista käytännön tilanteissa. Voit tehdä YKI-testin perustasolla, keskitasolla tai ylimmällä tasolla. Selvitä ennen testiin ilmoittautumista, miltä tasolta tarvitset todistuksen. Lue lisää sopivan YKI-testin valinnasta Opetushallituksen verkkosivuilta:"
           },
           "part2": {
-             "link": {
+            "link": {
               "label": "Ilmoittautuminen YKI-testiin",
               "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin"
             },
@@ -700,10 +700,18 @@
           }
         },
         "infoBox": {
-          "part1": "1.1.2026 alkaen osa YKI-testeistä muuttuu maksuttomiksi, tutkintomaksun palautuksen ehtoja yksinkertaistetaan eikä ilmoittautumista voi enää siirtää.",
-          "part2": "Lue lisää Opetushallituksen verkkosivuilta:",
-          "link": "YKI-testeihin tulee muutoksia 1.1.2026",
-          "url": "https://www.oph.fi/fi/uutiset/2025/yki-testeihin-tulee-muutoksia-112026"
+          "afterYkiTest": {
+            "label": "YKI-testin jälkeen",
+            "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/yki-testin-jalkeen"
+          },
+          "part1": "Jos suoritat testin 1.4.2026 tai sen jälkeen, voit saada digitaalisen YKI-todistuksen.",
+          "part2": "Saat todistuksen Oma Opintopolkuun.",
+          "part3": "Jos käytät <CustomLink></CustomLink>-viestit -palvelua, saat sähköisen <CustomLink></CustomLink>-viestin, kun todistus on valmis.",
+          "part4": "Voit lukea lisää testin tuloksista ja todistuksista Opetushallituksen verkkosivuilta:",
+          "suomiFiMessages": {
+            "label": "Suomi.fi",
+            "url": "https://www.suomi.fi/viestit"
+          }
         },
         "labels": {
           "excludeFullSessions": "Näytä vain kielitutkinnot, joissa on tilaa",
