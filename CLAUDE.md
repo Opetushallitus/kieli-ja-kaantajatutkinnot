@@ -46,3 +46,15 @@
 ## Liquibase
 * If you are assigned to update migration, do not create new migration file, but update the existing one.
 
+## Plan File Naming Convention
+
+When creating plans, use this format:
+`~/.claude/plans/YYYY-MM-DD-feature-name.md`
+
+Example: `2025-02-13-user-authentication.md`
+
+Always include:
+- ISO date prefix (YYYY-MM-DD)
+- Kebab-case feature name
+- .md extension
+```

@@ -276,9 +276,11 @@ export class SerializationUtils {
         ssn: clerkCustomerSummaryResponse.person.ssn ?? undefined,
         phoneNumber:
           clerkCustomerSummaryResponse.person.phoneNumber ?? undefined,
+        email: clerkCustomerSummaryResponse.person.email ?? undefined,
         streetAddress:
           clerkCustomerSummaryResponse.person.streetAddress ?? undefined,
-        email: clerkCustomerSummaryResponse.person.email ?? undefined,
+        zip: clerkCustomerSummaryResponse.person.zip ?? undefined,
+        postOffice: clerkCustomerSummaryResponse.person.postOffice ?? undefined,
       },
     };
   }
