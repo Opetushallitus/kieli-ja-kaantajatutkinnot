@@ -2,7 +2,8 @@ import { TextField } from '@mui/material';
 import { OphButton } from '@opetushallitus/oph-design-system';
 import { useEffect, useState } from 'react';
 import { CustomModal } from 'shared/components';
-import { Variant } from 'shared/enums';
+import { TextFieldTypes, Variant } from 'shared/enums';
+import { InputFieldUtils } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
@@ -34,6 +35,8 @@ export const EditCustomerInformationModal = ({
   const [zip, setZip] = useState(person.zip);
   const [postOffice, setPostOffice] = useState(person.postOffice);
   const [emailMismatch, setEmailMismatch] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [phoneNumberError, setPhoneNumberError] = useState('');
 
   useEffect(() => {
     if (isModalOpen) {
@@ -44,6 +47,8 @@ export const EditCustomerInformationModal = ({
       setZip(person.zip);
       setPostOffice(person.postOffice);
       setEmailMismatch(false);
+      setEmailError('');
+      setPhoneNumberError('');
     }
   }, [isModalOpen, person]);
 
@@ -65,7 +70,8 @@ export const EditCustomerInformationModal = ({
           <TextField
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            error={emailMismatch}
+            error={emailMismatch || !!emailError}
+            helperText={emailError}
             slotProps={{ htmlInput: { maxLength: 255 } }}
             fullWidth
           />
@@ -84,6 +90,8 @@ export const EditCustomerInformationModal = ({
           <TextField
             value={phoneNumber}
             onChange={(event) => setPhoneNumber(event.target.value)}
+            error={!!phoneNumberError}
+            helperText={phoneNumberError}
             slotProps={{ htmlInput: { maxLength: 255 } }}
             fullWidth
           />
@@ -127,9 +135,32 @@ export const EditCustomerInformationModal = ({
           <OphButton
             variant={Variant.Contained}
             onClick={() => {
-              if (email !== confirmEmail) {
-                setEmailMismatch(true);
+              const emailValidation =
+                InputFieldUtils.validateCustomTextFieldErrors({
+                  type: TextFieldTypes.Email,
+                  value: email ?? '',
+                  required: true,
+                });
+              const phoneValidation =
+                InputFieldUtils.validateCustomTextFieldErrors({
+                  type: TextFieldTypes.PhoneNumber,
+                  value: phoneNumber ?? '',
+                  required: true,
+                });
 
+              setEmailError(
+                emailValidation ? translateCommon(emailValidation) : '',
+              );
+              setPhoneNumberError(
+                phoneValidation ? translateCommon(phoneValidation) : '',
+              );
+              setEmailMismatch(!emailValidation && email !== confirmEmail);
+
+              if (
+                emailValidation ||
+                phoneValidation ||
+                email !== confirmEmail
+              ) {
                 return;
               }
               dispatch(
