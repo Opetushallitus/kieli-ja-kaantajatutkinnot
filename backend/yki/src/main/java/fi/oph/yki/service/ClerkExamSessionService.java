@@ -69,6 +69,8 @@ public class ClerkExamSessionService {
   public ClerkExamSessionDTO updateExamSession(final long examSessionId, final ClerkExamSessionUpdateDTO dto) {
     final ExamSession examSession = examSessionRepository.getReferenceById(examSessionId);
 
+    examSession.setLanguage(dto.language());
+    examSession.setLevel(dto.level());
     examSession.setMaxParticipants(dto.maxParticipants());
 
     final var locations = examSession.getLocations();

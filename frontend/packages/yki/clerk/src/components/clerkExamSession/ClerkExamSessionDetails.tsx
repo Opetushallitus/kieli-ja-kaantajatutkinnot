@@ -22,8 +22,10 @@ import { DateTimeUtils } from 'utils/dateTime';
 
 export const ClerkExamSessionDetails = ({
   examSessionDetails,
+  languages,
 }: {
   examSessionDetails: ClerkExamSession | null;
+  languages: string[];
 }) => {
   const commonTranslation = useCommonTranslation();
   const { t } = usePublicTranslation({
@@ -134,6 +136,7 @@ export const ClerkExamSessionDetails = ({
         isOpen={isEditModalOpen}
         setIsOpen={setIsEditModalOpen}
         examSessionDetails={examSessionDetails}
+        languages={languages}
       />
     </div>
   );

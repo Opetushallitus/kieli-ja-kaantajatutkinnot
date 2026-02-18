@@ -43,6 +43,8 @@ function* saveExamSessionSaga(
       axiosInstance.put,
       APIEndpoints.ClerkExamSession.replace(/:id$/, `${examSessionId}`),
       {
+        language: form.language,
+        level: form.level,
         maxParticipants: Number(form.maxParticipants),
         streetAddress: form.streetAddress,
         zip: form.postalCode,

@@ -86,6 +86,8 @@
               "saveFailed": "Muutosten tallentaminen epäonnistui"
             },
             "fields": {
+              "language": "Tutkintokieli",
+              "level": "Tutkintotaso",
               "maxParticipants": "Osallistujien enimmäismäärä",
               "streetAddress": "Katuosoite",
               "postalCode": "Postinumero",

@@ -23,7 +23,10 @@ export const ClerkExamSession = () => {
 
   return (
     <Stack rowGap={4}>
-      <ClerkExamSessionDetails examSessionDetails={clerkExamSession} />
+      <ClerkExamSessionDetails
+        examSessionDetails={clerkExamSession}
+        languages={['deu', 'eng', 'fin']}
+      />
       <ClerkExamSessionRegistrations
         examRegistrations={clerkExamSession.registrations}
       />

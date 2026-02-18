@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import {
   OphButton,
   OphInputFormField,
+  OphRadioGroupFormField,
 } from '@opetushallitus/oph-design-system';
 import { useEffect, useRef, useState } from 'react';
 import { CustomModal } from 'shared/components';
@@ -10,6 +11,7 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { ExamLevel } from 'enums/app';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { H2 } from 'ophTheme/Text';
 import { saveExamSession } from 'redux/reducers/clerkExamSession';
@@ -19,12 +21,14 @@ type ClerkExamSessionEditModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   examSessionDetails: ClerkExamSession;
+  languages: string[];
 };
 
 export const ClerkExamSessionEditModal = ({
   isOpen,
   setIsOpen,
   examSessionDetails,
+  languages,
 }: ClerkExamSessionEditModalProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkExamSessionRegistrations.modals.edit',
@@ -47,7 +51,21 @@ export const ClerkExamSessionEditModal = ({
     prevUpdateStatus.current = updateStatus;
   }, [updateStatus, setIsOpen]);
 
+  const languageOptions = languages.map((lang) => ({
+    value: lang,
+    label: translateCommon('languages.' + lang),
+  }));
+
+  const levelOptions = [ExamLevel.PERUS, ExamLevel.KESKI, ExamLevel.YLIN].map(
+    (level) => ({
+      value: level,
+      label: translateCommon('languageLevel.' + level),
+    }),
+  );
+
   const [form, setForm] = useState({
+    language: examSessionDetails.language,
+    level: examSessionDetails.level,
     maxParticipants: String(examSessionDetails.maxParticipants ?? ''),
     streetAddress: location?.streetAddress ?? '',
     postalCode: location?.zip ?? '',
@@ -97,6 +115,20 @@ export const ClerkExamSessionEditModal = ({
       }
     >
       <div className="rows gapped">
+        <OphRadioGroupFormField
+          label={t('fields.language')}
+          value={form.language}
+          onChange={(_e, value) => updateField('language', value)}
+          options={languageOptions}
+          disabled={isSaving}
+        />
+        <OphRadioGroupFormField
+          label={t('fields.level')}
+          value={form.level}
+          onChange={(_e, value) => updateField('level', value)}
+          options={levelOptions}
+          disabled={isSaving}
+        />
         <OphInputFormField
           label={t('fields.maxParticipants')}
           value={form.maxParticipants}

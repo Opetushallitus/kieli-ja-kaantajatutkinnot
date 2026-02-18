@@ -4,6 +4,8 @@ import { APIResponseStatus } from 'shared/enums';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
 
 export interface ClerkExamSessionEditForm {
+  language: string;
+  level: string;
   maxParticipants: string;
   streetAddress: string;
   postalCode: string;
