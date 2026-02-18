@@ -66,6 +66,7 @@ export const EditCustomerInformationModal = ({
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             error={emailMismatch}
+            slotProps={{ htmlInput: { maxLength: 255 } }}
             fullWidth
           />
 
@@ -74,6 +75,7 @@ export const EditCustomerInformationModal = ({
             value={confirmEmail}
             onChange={(event) => setConfirmEmail(event.target.value)}
             error={emailMismatch}
+            slotProps={{ htmlInput: { maxLength: 255 } }}
             fullWidth
           />
         </div>
@@ -82,6 +84,7 @@ export const EditCustomerInformationModal = ({
           <TextField
             value={phoneNumber}
             onChange={(event) => setPhoneNumber(event.target.value)}
+            slotProps={{ htmlInput: { maxLength: 255 } }}
             fullWidth
           />
 
@@ -89,6 +92,7 @@ export const EditCustomerInformationModal = ({
           <TextField
             value={streetAddress}
             onChange={(event) => setStreetAddress(event.target.value)}
+            slotProps={{ htmlInput: { maxLength: 100 } }}
             fullWidth
           />
 
@@ -98,6 +102,7 @@ export const EditCustomerInformationModal = ({
               <TextField
                 value={zip}
                 onChange={(event) => setZip(event.target.value)}
+                slotProps={{ htmlInput: { maxLength: 255 } }}
                 fullWidth
               />
             </div>
@@ -106,6 +111,7 @@ export const EditCustomerInformationModal = ({
               <TextField
                 value={postOffice}
                 onChange={(event) => setPostOffice(event.target.value)}
+                slotProps={{ htmlInput: { maxLength: 50 } }}
                 fullWidth
               />
             </div>
