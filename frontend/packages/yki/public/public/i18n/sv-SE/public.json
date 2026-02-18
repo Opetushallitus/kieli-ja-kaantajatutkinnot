@@ -208,9 +208,22 @@
         },
         "registrationDetails": {
           "certificate": {
+            "furtherDetails": {
+              "label": "YKI-intyg",
+              "text": "Läs mer på Utbildningsstyrelsens webbplats:",
+              "url": "https://www.oph.fi/sv/utbildning-och-examina/efter-yki-testet#anchor-yki-intyg"
+            },
             "part1": "När ditt test har bedömts får du ett intyg över examen.",
             "part2": "Om du utför YKI-testet senast den 31 mars 2026 får du intyget per post.",
             "part3": "Om du utför testet den 1 april 2026 eller senare kan du få ett digitalt YKI-intyg.",
+            "stronglyAuthenticated": {
+              "part4": "Intyget kommer till tjänsten Min Studieinfo om du använder <SuomiFiLink></SuomiFiLink>-meddelanden.",
+              "part5": "När intyget är klart i Min Studieinfo skickar Utbildningsstyrelsen ett meddelande till dig.",
+              "part6": "Du får meddelandet i tjänsten <SuomiFiLink></SuomiFiLink>-meddelanden.",
+              "part7": "I Min Studieinfo kan du se intyget och ladda ner det på finska, svenska eller engelska.",
+              "part8": "Om du inte använder <SuomiFiLink></SuomiFiLink>-meddelanden när intyget blir klart får du intyget per post.",
+              "part9": "Intyget skickas till postadressen i befolkningsdatasystemet."
+            },
             "title": "Information om intyget"
           },
           "certificateLanguage": "Ifall intyget postas, på vilket språk vill du ha intyget? *",
@@ -713,11 +726,7 @@
           "part1": "Om du utför testet den 1 april 2026 eller senare kan du få ett digitalt YKI-intyg.",
           "part2": "Du får intyget i tjänsten Min Studieinfo.",
           "part3": "Om du använder tjänsten <CustomLink></CustomLink>-meddelanden får du ett elektroniskt meddelande i <CustomLink></CustomLink> när intyget är klart.",
-          "part4": "Du kan läsa mer om testresultatet och intygen på Utbildningsstyrelsens webbplats:",
-          "suomiFiMessages": {
-            "label": "Suomi.fi",
-            "url": "https://www.suomi.fi/meddelanden"
-          }
+          "part4": "Du kan läsa mer om testresultatet och intygen på Utbildningsstyrelsens webbplats:"
         },
         "labels": {
           "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",

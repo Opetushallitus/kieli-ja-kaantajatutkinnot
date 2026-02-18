@@ -170,7 +170,11 @@
         "notFound": "Page not found",
         "expiredLoginLink": "The link has expired"
       },
-      "previous": "Previous"
+      "previous": "Previous",
+      "suomiFiLink": {
+        "label": "Suomi.fi",
+        "url": "https://www.suomi.fi/messages"
+      }
     }
   }
 }

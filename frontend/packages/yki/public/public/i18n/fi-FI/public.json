@@ -208,9 +208,22 @@
         },
         "registrationDetails": {
           "certificate": {
+            "furtherDetails": {
+              "label": "YKI-todistus",
+              "text": "Lue lisää Opetushallituksen verkkosivuilta:",
+              "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/yki-testin-jalkeen#anchor-yki-todistus"
+            },
             "part1": "Kun testisi on arvioitu, saat tutkinnosta todistuksen.",
             "part2": "Jos suoritat YKI-testin 31.3.2026 mennessä, saat todistuksen postitse.",
             "part3": "Jos suoritat YKI-testin 1.4.2026 tai sen jälkeen, voit saada digitaalisen YKI-todistuksen.",
+            "stronglyAuthenticated": {
+              "part4": "Todistus tulee Oma Opintopolku -palveluun, jos käytät sähköisiä <SuomiFiLink></SuomiFiLink>-viestejä.",
+              "part5": "Kun todistus on valmis Oma Opintopolussa, Opetushallitus lähettää sinulle viestin.",
+              "part6": "Saat viestin <SuomiFiLink></SuomiFiLink>-viestit -palvelussa.",
+              "part7": "Oma Opintopolussa voit katsella todistusta ja ladata sen suomeksi, ruotsiksi tai englanniksi.",
+              "part8": "Jos et käytä <SuomiFiLink></SuomiFiLink>-viestejä, kun todistuksesi valmistuu, saat todistuksen postitse.",
+              "part9": "Todistus postitetaan väestötietojärjestelmässä olevaan postiosoitteeseen."
+            },
             "title": "Tietoa todistuksesta"
           },
           "certificateLanguage": "Jos todistus postitetaan, millä kielellä haluat todistuksesi? *",
@@ -713,11 +726,7 @@
           "part1": "Jos suoritat testin 1.4.2026 tai sen jälkeen, voit saada digitaalisen YKI-todistuksen.",
           "part2": "Saat todistuksen Oma Opintopolkuun.",
           "part3": "Jos käytät <CustomLink></CustomLink>-viestit -palvelua, saat sähköisen <CustomLink></CustomLink>-viestin, kun todistus on valmis.",
-          "part4": "Voit lukea lisää testin tuloksista ja todistuksista Opetushallituksen verkkosivuilta:",
-          "suomiFiMessages": {
-            "label": "Suomi.fi",
-            "url": "https://www.suomi.fi/viestit"
-          }
+          "part4": "Voit lukea lisää testin tuloksista ja todistuksista Opetushallituksen verkkosivuilta:"
         },
         "labels": {
           "excludeFullSessions": "Näytä vain kielitutkinnot, joissa on tilaa",

@@ -5,6 +5,7 @@ import { Trans } from 'react-i18next';
 import { H1, H2, HeaderSeparator, Text, WebLink } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 
+import { SuomiFiLink } from 'components/elements/SuomiFiLink';
 import { PublicExamSessionListing } from 'components/registration/examSession/PublicExamSessionListing';
 import { PublicExamSessionFilters } from 'components/registration/examSession/PublicExamSessionListingFilters';
 import { usePublicTranslation } from 'configs/i18n';
@@ -29,12 +30,7 @@ const InformationBox = () => {
           i18nKey="part3"
           t={t}
           components={{
-            CustomLink: (
-              <WebLink
-                href={t('suomiFiMessages.url')}
-                label={t('suomiFiMessages.label')}
-              />
-            ),
+            CustomLink: <SuomiFiLink />,
           }}
         />
       </Text>

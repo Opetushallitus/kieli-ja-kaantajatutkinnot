@@ -170,7 +170,11 @@
         "notFound": "Sidan hittades inte",
         "expiredLoginLink": "Länken gäller inte längre"
       },
-      "previous": "Tidigare"
+      "previous": "Tidigare",
+      "suomiFiLink": {
+        "label": "Suomi.fi",
+        "url": "https://www.suomi.fi/meddelanden"
+      }
     }
   }
 }
