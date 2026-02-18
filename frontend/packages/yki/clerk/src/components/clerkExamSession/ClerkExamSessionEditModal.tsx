@@ -118,14 +118,18 @@ export const ClerkExamSessionEditModal = ({
         <OphRadioGroupFormField
           label={t('fields.language')}
           value={form.language}
-          onChange={(_e, value) => updateField('language', value)}
+          onChange={(e) =>
+            updateField('language', (e.target as HTMLInputElement).value)
+          }
           options={languageOptions}
           disabled={isSaving}
         />
         <OphRadioGroupFormField
           label={t('fields.level')}
           value={form.level}
-          onChange={(_e, value) => updateField('level', value)}
+          onChange={(e) =>
+            updateField('level', (e.target as HTMLInputElement).value)
+          }
           options={levelOptions}
           disabled={isSaving}
         />
