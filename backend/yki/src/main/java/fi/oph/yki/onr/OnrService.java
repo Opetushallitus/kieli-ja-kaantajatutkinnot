@@ -5,6 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.vm.sade.javautils.nio.cas.CasClient;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import org.asynchttpclient.Request;
@@ -49,6 +51,23 @@ public class OnrService {
 
     final String json = response.getResponseBody();
     return OBJECT_MAPPER.readValue(json, new TypeReference<>() {});
+  }
+
+  public List<PersonalDataDTO> listPersonDetails(final List<String> oids)
+    throws RuntimeException, ExecutionException, InterruptedException, JsonProcessingException {
+    final String body = OBJECT_MAPPER.writeValueAsString(Map.of("henkiloOids", oids));
+    final Request request = defaultRequestBuilder
+      .setUrl(onrServiceUrl + "/s2s/henkilo/perustiedotAsAdmin")
+      .setMethod(Methods.POST)
+      .setBody(body)
+      .build();
+
+    final Response response = casClient.executeBlocking(request);
+    if (response.getStatusCode() != HttpStatus.OK.value()) {
+      throw new RuntimeException("Unexpected status code from ONR: " + response.getStatusCode());
+    }
+
+    return OBJECT_MAPPER.readValue(response.getResponseBody(), new TypeReference<>() {});
   }
 
   public Optional<PersonalDataDTO> findPersonalDataByIdentityNumber(final String identityNumber)

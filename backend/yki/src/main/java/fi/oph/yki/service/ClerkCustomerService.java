@@ -10,8 +10,10 @@ import fi.oph.yki.api.dto.clerk.ClerkExamDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamLocationDTO;
 import fi.oph.yki.model.ExamPayment;
 import fi.oph.yki.model.FreeRegistration;
+import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.onr.OnrService;
+import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.PersonSearchProjection;
 import fi.oph.yki.repository.RegistrationRepository;
@@ -84,23 +86,24 @@ public class ClerkCustomerService {
       .build();
   }
 
+  private String getIdentityNumber(Person person) {
+    try {
+      return onrService.getPersonalData(person.getOid()).getIdentityNumber();
+    } catch (final Exception e) {
+      LOG.error("Unable to get identity number from ONR for oid: {}", person.getOid(), e);
+      return null;
+    }
+  }
+
   @Transactional(readOnly = true)
   public ClerkCustomerDetailsDTO getClerkCustomerDetails(final String oid) {
     final var person = personRepository.getByOid(oid);
-
-    String identityNumber;
-    try {
-      identityNumber = onrService.getPersonalData(person.getOid()).getIdentityNumber();
-    } catch (final Exception e) {
-      identityNumber = null;
-      LOG.error("Unable to get identity number from ONR for oid: {}", person.getOid(), e);
-    }
 
     final var personDTO = ClerkCustomerPersonDTO
       .builder()
       .firstName(person.getFirstName())
       .lastName(person.getLastName())
-      .ssn(identityNumber)
+      .ssn(getIdentityNumber(person))
       .oid(person.getOid())
       .nationalityCode(person.getNationalityCode())
       .phoneNumber(person.getPhoneNumber())
@@ -156,38 +159,49 @@ public class ClerkCustomerService {
     );
   }
 
+  private List<PersonalDataDTO> getPersonDetails(List<String> oids) {
+    try {
+      return onrService.listPersonDetails(oids);
+    } catch (final Exception e) {
+      LOG.error("Unable to get identity numbers from ONR", e);
+      return List.of();
+    }
+  }
+
   @Transactional(readOnly = true)
   public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(
     final Pageable pageable,
     final ClerkCustomerSearchRequestDTO request
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
-    return searchPersons(pageable, request)
-      .map(person -> {
-        String identityNumber;
-        try {
-          identityNumber = onrService.getPersonalData(person.oid()).getIdentityNumber();
-        } catch (final Exception e) {
-          identityNumber = null;
-          LOG.error("Unable to get identity number from ONR for oid: {}", person.oid(), e);
-        }
+    final var personsPage = searchPersons(pageable, request);
+    final var oids = personsPage.getContent().stream().map(PersonSearchProjection::oid).toList();
+    final var personDetails = getPersonDetails(oids);
 
-        return ClerkCustomerSummaryDTO
-          .builder()
-          .person(
-            ClerkCustomerPersonDTO
-              .builder()
-              .firstName(person.firstName())
-              .lastName(person.lastName())
-              .ssn(identityNumber)
-              .oid(person.oid())
-              .nationalityCode(person.nationalityCode())
-              .phoneNumber(person.phoneNumber())
-              .streetAddress(person.streetAddress())
-              .email(person.email())
-              .build()
-          )
-          .registrationsCount(person.registrationsCount() == null ? 0 : person.registrationsCount())
-          .build();
-      });
+    return personsPage.map(person ->
+      ClerkCustomerSummaryDTO
+        .builder()
+        .person(
+          ClerkCustomerPersonDTO
+            .builder()
+            .firstName(person.firstName())
+            .lastName(person.lastName())
+            .ssn(
+              personDetails
+                .stream()
+                .filter(personDetail -> person.oid().equals(personDetail.getOidHenkilo()))
+                .findFirst()
+                .map(PersonalDataDTO::getIdentityNumber)
+                .orElse(null)
+            )
+            .oid(person.oid())
+            .nationalityCode(person.nationalityCode())
+            .phoneNumber(person.phoneNumber())
+            .streetAddress(person.streetAddress())
+            .email(person.email())
+            .build()
+        )
+        .registrationsCount(person.registrationsCount() == null ? 0 : person.registrationsCount())
+        .build()
+    );
   }
 }
