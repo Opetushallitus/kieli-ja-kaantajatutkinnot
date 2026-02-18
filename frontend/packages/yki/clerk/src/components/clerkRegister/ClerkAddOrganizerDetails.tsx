@@ -110,13 +110,13 @@ export const ClerkAddOrganizerDetails = ({
     if (addClerkOrganizerStatus === APIResponseStatus.Success) {
       showToast({
         severity: Severity.Success,
-        description: t('addOrganizer.toasts.success'),
+        description: t('clerkAddOrganizer.toasts.success'),
       });
       navigate(AppRoutes.ClerkOrganizerRegister);
     } else if (addClerkOrganizerStatus === APIResponseStatus.Error) {
       showToast({
         severity: Severity.Error,
-        description: t('addOrganizer.toasts.error'),
+        description: t('clerkAddOrganizer.toasts.error'),
       });
     }
   }, [addClerkOrganizerStatus, navigate, showToast, t]);
@@ -168,12 +168,12 @@ export const ClerkAddOrganizerDetails = ({
     }
 
     if (!startDate) {
-      setStartDateError(t('addOrganizer.validation.dateRequired'));
+      setStartDateError(t('clerkAddOrganizer.validation.dateRequired'));
       hasError = true;
     }
 
     if (!endDate) {
-      setEndDateError(t('addOrganizer.validation.dateRequired'));
+      setEndDateError(t('clerkAddOrganizer.validation.dateRequired'));
       hasError = true;
     }
 
@@ -182,7 +182,9 @@ export const ClerkAddOrganizerDetails = ({
         Object.values(lang.levels).some((isSelected) => isSelected),
       )
     ) {
-      setLanguageSelectionError(t('addOrganizer.validation.languageRequired'));
+      setLanguageSelectionError(
+        t('clerkAddOrganizer.validation.languageRequired'),
+      );
       hasError = true;
     }
 
@@ -465,7 +467,7 @@ export const ClerkAddOrganizerDetails = ({
                 setContactNameError('');
               }}
               sx={{ width: '100%' }}
-              placeholder={t('addOrganizer.contactNamePlaceholder')}
+              placeholder={t('clerkAddOrganizer.contactNamePlaceholder')}
               error={!!contactNameError}
               helperText={contactNameError}
             />
@@ -478,7 +480,7 @@ export const ClerkAddOrganizerDetails = ({
               }}
               type="email"
               sx={{ width: '100%' }}
-              placeholder={t('addOrganizer.contactEmailPlaceholder')}
+              placeholder={t('clerkAddOrganizer.contactEmailPlaceholder')}
               error={!!contactEmailError}
               helperText={contactEmailError}
             />
@@ -491,7 +493,7 @@ export const ClerkAddOrganizerDetails = ({
               }}
               type="tel"
               sx={{ width: '100%' }}
-              placeholder={t('addOrganizer.contactPhonePlaceholder')}
+              placeholder={t('clerkAddOrganizer.contactPhonePlaceholder')}
               error={!!contactPhoneError}
               helperText={contactPhoneError}
             />
@@ -506,7 +508,7 @@ export const ClerkAddOrganizerDetails = ({
               minRows={3}
               maxRows={10}
               fullWidth
-              placeholder={t('addOrganizer.extraInfoPlaceholder')}
+              placeholder={t('clerkAddOrganizer.extraInfoPlaceholder')}
             />
           </div>
         </div>
@@ -525,7 +527,7 @@ export const ClerkAddOrganizerDetails = ({
           onClick={handleSave}
           disabled={addClerkOrganizerStatus === APIResponseStatus.InProgress}
         >
-          {t('addOrganizer.addButton')}
+          {t('clerkAddOrganizer.addButton')}
         </OphButton>
       </div>
     </div>

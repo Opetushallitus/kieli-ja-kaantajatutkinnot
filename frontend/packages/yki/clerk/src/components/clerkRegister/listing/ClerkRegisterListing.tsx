@@ -199,7 +199,7 @@ export const ClerkRegisterListing = ({
               onClick={() => navigate(AppRoutes.ClerkAddOrganizer)}
               data-testid="add-organizer-button"
             >
-              {t('listing.buttons.addOrganizer')}
+              {t('listing.actionButtons.addOrganizer')}
             </CustomButton>
           </Box>
           <ListTable

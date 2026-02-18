@@ -232,6 +232,34 @@
         }
       },
       "clerkRegister": {
+        "clerkAddOrganizer": {
+          "addButton": "Lisää järjestäjä",
+          "contactEmailPlaceholder": "essi.esimerkki@jarjestaja.fi",
+          "contactNamePlaceholder": "Essi Esimerkki",
+          "contactPhonePlaceholder": "+358 01 234 5678",
+          "extraInfoPlaceholder": "Esim yleinen sähköpostilista kaikille@jarjestaja.fi",
+          "organizationTypes": {
+            "type01": "Koulutustoimija",
+            "type02": "Oppilaitos",
+            "type05": "Muu organisaatio"
+          },
+          "search": {
+            "infoText": "Hae ja valitse organisaatio",
+            "label": "Hae organisaatiota",
+            "noResults": "Ei hakutuloksia",
+            "placeholder": "Hae organisaatiota",
+            "result_one": "{{count}} organisaatio",
+            "result_other": "{{count}} organisaatiota"
+          },
+          "toasts": {
+            "error": "Järjestäjän lisääminen epäonnistui",
+            "success": "Järjestäjän lisääminen onnistui"
+          },
+          "validation": {
+            "dateRequired": "Valitse päivämäärä",
+            "languageRequired": "Valitse vähintään yksi kieli ja taso"
+          }
+        },
         "examSessionListing": {
           "agreementExpired": "Sopimus vanhentunut",
           "errors": {
@@ -247,6 +275,7 @@
         },
         "listing": {
           "actionButtons": {
+            "addOrganizer": "Lisää järjestäjä",
             "adminUserView": "Tarkastele järjestäjän näkymää",
             "modify": "Muokkaa tietoja"
           },
@@ -300,6 +329,9 @@
       }
     },
     "pages": {
+      "clerkAddOrganizerPage": {
+        "heading": "Lisää uusi kielitutkintojen järjestäjä"
+      },
       "clerkCustomerDetailsPage": {
         "heading": "Asiakkaan tiedot"
       },

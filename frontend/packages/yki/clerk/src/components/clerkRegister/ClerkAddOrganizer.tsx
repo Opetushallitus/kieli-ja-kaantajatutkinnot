@@ -12,9 +12,9 @@ import { useAppSelector } from 'configs/redux';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
 
 const getOrganizationTypes = (t: (t: string) => string) => ({
-  organisaatiotyyppi_01: t('addOrganizer.organizationTypes.type01'),
-  organisaatiotyyppi_02: t('addOrganizer.organizationTypes.type02'),
-  organisaatiotyyppi_05: t('addOrganizer.organizationTypes.type05'),
+  organisaatiotyyppi_01: t('clerkAddOrganizer.organizationTypes.type01'),
+  organisaatiotyyppi_02: t('clerkAddOrganizer.organizationTypes.type02'),
+  organisaatiotyyppi_05: t('clerkAddOrganizer.organizationTypes.type05'),
 });
 
 export const ClerkAddOrganizer: FC = () => {
@@ -55,13 +55,13 @@ export const ClerkAddOrganizer: FC = () => {
     >
       <OphInputFormField
         data-testid="organizer-search-input"
-        label={t('addOrganizer.search.label')}
+        label={t('clerkAddOrganizer.search.label')}
         value={searchQuery}
         onChange={(e) => {
           setSearchQuery(e.target.value);
           setSelectedOrganizationOid('');
         }}
-        placeholder={t('addOrganizer.search.placeholder')}
+        placeholder={t('clerkAddOrganizer.search.placeholder')}
         sx={{ width: '100%' }}
         endAdornment={
           <InputAdornment position="end">
@@ -86,7 +86,7 @@ export const ClerkAddOrganizer: FC = () => {
             return (
               <>
                 <div style={{ marginBottom: '0.5rem' }}>
-                  {t('addOrganizer.search.result', {
+                  {t('clerkAddOrganizer.search.result', {
                     count: filteredOrgs.length,
                   })}
                 </div>
@@ -123,7 +123,7 @@ export const ClerkAddOrganizer: FC = () => {
           >
             <ListAlt fontSize="large" style={{ color: ophColors.grey700 }} />
           </div>
-          <div>{t('addOrganizer.search.infoText')}</div>
+          <div>{t('clerkAddOrganizer.search.infoText')}</div>
         </div>
       )}
     </div>
