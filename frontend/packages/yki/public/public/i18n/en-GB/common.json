@@ -26,7 +26,13 @@
           }
         }
       },
-      "contactEmail": "kielitutkinnot@oph.fi",
+      "contactEmail": {
+        "jyu": "yki-info@jyu.fi",
+        "oph": "kielitutkinnot@oph.fi"
+      },
+      "contactPhone": {
+        "jyu": "050 591 9322 (Weekdays 9-11 am)"
+      },
       "dates": {
         "dateTimeFormat": "l [at] HH:mm"
       },
