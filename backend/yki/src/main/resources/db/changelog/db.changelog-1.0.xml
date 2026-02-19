@@ -320,4 +320,14 @@
             <column name="lang" type="TEXT"/>
         </createTable>
     </changeSet>
+    <changeSet id="2025-02-19-add-contact-to-session" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="postgresql" />
+        </preConditions>
+        <addColumn tableName="exam_session">
+            <column name="contact_name" type="TEXT"/>
+            <column name="contact_email" type="TEXT"/>
+            <column name="contact_phone_number" type="TEXT"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
