@@ -169,7 +169,44 @@ export const CommonRegistrationDetails = () => {
       <Text>{t('certificate.part2')}</Text>
       {isEmailRegistration && (
         <>
-          <Text>{t('certificate.part3')}</Text>
+          <Text>
+            {t('certificate.part3')}{' '}
+            {t('certificate.weaklyAuthenticated.part4')}
+            <ol>
+              <li>{t('certificate.weaklyAuthenticated.part5')}</li>
+              <li>
+                <Trans
+                  i18nKey="certificate.weaklyAuthenticated.part6"
+                  t={t}
+                  components={{
+                    SuomiFiLink: <SuomiFiLink />,
+                  }}
+                />
+              </li>
+            </ol>
+          </Text>
+          <Text>
+            {t('certificate.weaklyAuthenticated.part7')}{' '}
+            <Trans
+              i18nKey="certificate.weaklyAuthenticated.part8"
+              t={t}
+              components={{
+                SuomiFiLink: <SuomiFiLink />,
+              }}
+            />{' '}
+            {t('certificate.weaklyAuthenticated.part9')}
+          </Text>
+          <Text>
+            <Trans
+              i18nKey="certificate.weaklyAuthenticated.part10"
+              t={t}
+              components={{
+                SuomiFiLink: <SuomiFiLink />,
+              }}
+            />{' '}
+            {t('certificate.weaklyAuthenticated.part11')}{' '}
+            {t('certificate.weaklyAuthenticated.part12')}
+          </Text>
         </>
       )}
       {!isEmailRegistration && (

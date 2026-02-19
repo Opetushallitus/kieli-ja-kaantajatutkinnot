@@ -224,7 +224,18 @@
               "part8": "Om du inte använder <SuomiFiLink></SuomiFiLink>-meddelanden när intyget blir klart får du intyget per post.",
               "part9": "Intyget skickas till postadressen i befolkningsdatasystemet."
             },
-            "title": "Information om intyget"
+            "title": "Information om intyget",
+            "weaklyAuthenticated": {
+              "part4": "Intyget kommer till tjänsten Min Studieinfo om båda följande villkor uppfylls:",
+              "part5": "Du har på den här anmälningsblanketten angett din finländska personbeteckning.",
+              "part6": "Du använder elektroniska <SuomiFiLink></SuomiFiLink>-meddelanden.",
+              "part7": "När intyget är klart i Min Studieinfo skickar Utbildningsstyrelsen ett meddelande till dig.",
+              "part8": "Du får meddelandet i tjänsten <SuomiFiLink></SuomiFiLink>-meddelanden.",
+              "part9": "I Min Studieinfo kan du se intyget och ladda ner det på finska, svenska eller engelska.",
+              "part10": "Om du inte har en finländsk personbeteckning eller inte använder <SuomiFiLink></SuomiFiLink>-meddelanden får du YKI intyget per post.",
+              "part11": "Intyget skickas i första hand till postadressen i befolkningsdatasystemet.",
+              "part12": "Om du inte har uppgett din personbeteckning, kommer intyget att skickas till den postadress du har angett."
+            }
           },
           "certificateLanguage": "Ifall intyget postas, på vilket språk vill du ha intyget? *",
           "description1": "Fyll i YKI-anmälningsblanketten med examensdeltagarens uppgifter.",
