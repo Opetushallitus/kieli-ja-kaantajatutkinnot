@@ -23,6 +23,7 @@ import {
   rejectAllOrganizations,
   rejectClerkOrganization,
   rejectClerkOrganizers,
+  rejectLoadClerkOrganizerRegistry,
   storeAddClerkOrganizer,
   storeAllOrganizations,
   storeClerkOrganization,
@@ -82,7 +83,7 @@ function* loadClerkOrganizerRegistrySaga() {
 
     yield put(storeClerkOrganizerRegistry(registry));
   } catch (error) {
-    yield put(rejectClerkOrganizers());
+    yield put(rejectLoadClerkOrganizerRegistry());
   }
 }
 
