@@ -48,16 +48,16 @@ export const handlers = [
     async ({ params, request }) => {
       const organizerOid = params.oid as string;
       const updatedData = (await request.json()) as Record<string, unknown>;
-      const organizerIndex = organizers.findIndex(
+      const organizerIndex = organizers.organizers.findIndex(
         (o) => o.oid === organizerOid,
       );
       if (organizerIndex !== -1) {
-        organizers[organizerIndex] = {
-          ...organizers[organizerIndex],
+        organizers.organizers[organizerIndex] = {
+          ...organizers.organizers[organizerIndex],
           ...updatedData,
         };
 
-        return HttpResponse.json(organizers[organizerIndex]);
+        return HttpResponse.json(organizers.organizers[organizerIndex]);
       } else {
         return notFound();
       }
@@ -258,9 +258,9 @@ export const handlers = [
       ClerkOrganizerResponse,
       'id'
     >;
-    organizers.push({
+    organizers.organizers.push({
       ...requestBody,
-      id: organizers.length + 1,
+      id: organizers.organizers.length + 1,
     });
 
     return HttpResponse.json({ success: true });

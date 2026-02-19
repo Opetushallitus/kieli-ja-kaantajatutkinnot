@@ -42,11 +42,11 @@ function* loadClerkOrganizerRegistrySaga() {
   const registry = [];
 
   try {
-    const response: AxiosResponse<Array<ClerkOrganizerResponse>> = yield call(
-      axiosInstance.get,
-      APIEndpoints.ClerkOrganizer,
-    );
-    const organizers = response.data.map(
+    const response: AxiosResponse<{
+      organizers: Array<ClerkOrganizerResponse>;
+    }> = yield call(axiosInstance.get, APIEndpoints.ClerkOrganizer);
+
+    const organizers = response.data.organizers.map(
       SerializationUtils.deserializeClerkOrganizerResponse,
     );
     for (const key in organizers) {
