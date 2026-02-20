@@ -222,7 +222,7 @@
               "part6": "the Finnish National Agency for Education will send you a message in the <SuomiFiLink></SuomiFiLink> Messages service.",
               "part7": "You can then view and download the certificate in Finnish, Swedish or English in My Studyinfo.",
               "part8": "If you have not activated <SuomiFiLink></SuomiFiLink> Messages by the time your YKI certificate is ready, the certificate will be sent to you by post.",
-              "part9": "The certificate will be sent to the postal address in the Finnish Population Information System."
+              "part9": "The certificate will be sent to the postal address listed in the Finnish Population Information System."
             },
             "title": "About the certificate",
             "weaklyAuthenticated": {
@@ -233,8 +233,8 @@
               "part8": "in the <SuomiFiLink></SuomiFiLink> Messages service.",
               "part9": "You can then view and download the certificate in Finnish, Swedish or English in My Studyinfo.",
               "part10": "If you do not have a Finnish personal identity code or you have not activated <SuomiFiLink></SuomiFiLink> Messages, the YKI certificate will be sent to you by post.",
-              "part11": "The certificate will be primarily sent to the postal address in the Finnish Population Information System.",
-              "part12": "If you have not provided your Finnish personal identity code, the certificate will be sent to the postal address you have provided."
+              "part11": "The certificate will primarily be sent to the postal address listed in the Finnish Population Information System.",
+              "part12": "If you have not provided your personal identity code, the certificate will be sent to the postal address you have written on this registration form."
             }
           },
           "certificateLanguage": "In which language do you wish to receive the certificate? *",
