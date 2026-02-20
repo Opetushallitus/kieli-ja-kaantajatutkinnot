@@ -31,7 +31,8 @@
         "oph": "kielitutkinnot@oph.fi"
       },
       "contactPhone": {
-        "jyu": "050 591 9322 (Weekdays 9-11 am)"
+        "hours": "(Weekdays 9-11 am)",
+        "jyu": "+358 50 591 9322"
       },
       "dates": {
         "dateTimeFormat": "l [at] HH:mm"
