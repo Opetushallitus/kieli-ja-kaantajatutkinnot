@@ -224,9 +224,11 @@ const AcceptConditions = () => {
             href={translateCommon('privacyStatement.link.url')}
             target="_blank"
           >
-            <Text>{translateCommon('privacyStatement.link.label')}</Text>
+            <Text color="secondary">
+              {translateCommon('privacyStatement.link.label')}
+            </Text>
           </Link>
-          <OpenInNewIcon />
+          <OpenInNewIcon color="secondary" />
         </div>
       </div>
       <FormControl error={showErrors && !acceptConditions}>

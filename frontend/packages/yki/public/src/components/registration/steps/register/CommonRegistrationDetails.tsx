@@ -308,9 +308,9 @@ export const CommonRegistrationDetails = () => {
             style={{ display: 'inline-flex' }}
           >
             <Link href={t('termsAndConditions.link')} target="_blank">
-              <Text>{t('termsAndConditions.linkText')}</Text>
+              <Text color="secondary">{t('termsAndConditions.linkText')}</Text>
             </Link>
-            <OpenInNewIcon />
+            <OpenInNewIcon color="secondary" />
           </div>
           <br />
           <p>
@@ -347,9 +347,11 @@ export const CommonRegistrationDetails = () => {
             href={translateCommon('privacyStatement.link.url')}
             target="_blank"
           >
-            <Text>{translateCommon('privacyStatement.link.label')}</Text>
+            <Text color="secondary">
+              {translateCommon('privacyStatement.link.label')}
+            </Text>
           </Link>
-          <OpenInNewIcon />
+          <OpenInNewIcon color="secondary" />
         </div>
       </div>
       <FormControl error={!!registrationErrors['privacyStatementConfirmation']}>
