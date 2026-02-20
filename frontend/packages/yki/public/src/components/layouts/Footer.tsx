@@ -24,7 +24,7 @@ export const Footer = () => {
           <div className="footer__container footer__container__links rows gapped-xs">
             <h2>{t('headings.statements')}</h2>
             <Link to={AppRoutes.AccessibilityStatementPage}>
-              <Text>{t('links.accessibility.text')}</Text>
+              <Text color="secondary">{t('links.accessibility.text')}</Text>
             </Link>
             <a
               href={t('links.privacy.url')}
@@ -32,7 +32,8 @@ export const Footer = () => {
               target="_blank"
               rel="noreferrer"
             >
-              {t('links.privacy.text')} <OpenInNewIcon />
+              <Text color="secondary">{t('links.privacy.text')}</Text>{' '}
+              <OpenInNewIcon color="secondary" />
             </a>
           </div>
           <div className="footer__container footer__container__info rows gapped-xs">
@@ -44,8 +45,8 @@ export const Footer = () => {
               target="_blank"
               rel="noreferrer"
             >
-              {t('links.ykiHomepage.text')}
-              <OpenInNewIcon />
+              <Text color="secondary">{t('links.ykiHomepage.text')}</Text>
+              <OpenInNewIcon color="secondary" />
             </a>
             <a
               className="footer__container__links__contact__email"
@@ -53,7 +54,9 @@ export const Footer = () => {
               target="_blank"
               rel="noreferrer"
             >
-              {translateCommon('contactEmail.jyu')}
+              <Text color="secondary">
+                {translateCommon('contactEmail.jyu')}
+              </Text>
             </a>
             <div className="columns gapped-xxs">
               <a
@@ -61,10 +64,14 @@ export const Footer = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                {translateCommon('contactPhone.jyu')}
+                <Text color="secondary">
+                  {translateCommon('contactPhone.jyu')}
+                </Text>
               </a>
               <Text className="inline-text">
-                {translateCommon('contactPhone.hours')}
+                <Text color="secondary">
+                  {translateCommon('contactPhone.hours')}
+                </Text>
               </Text>
             </div>
           </div>
