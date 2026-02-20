@@ -207,7 +207,37 @@
           "examSessionIsFull": "Tutkinto on täynnä"
         },
         "registrationDetails": {
-          "certificateLanguage": "Millä kielellä haluat todistuksesi? *",
+          "certificate": {
+            "furtherDetails": {
+              "label": "YKI-todistus",
+              "text": "Lue lisää Opetushallituksen verkkosivuilta:",
+              "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/yki-testin-jalkeen#anchor-yki-todistus"
+            },
+            "part1": "Kun testisi on arvioitu, saat tutkinnosta todistuksen.",
+            "part2": "Jos suoritat YKI-testin 31.3.2026 mennessä, saat todistuksen postitse.",
+            "part3": "Jos suoritat YKI-testin 1.4.2026 tai sen jälkeen, voit saada digitaalisen YKI-todistuksen.",
+            "stronglyAuthenticated": {
+              "part4": "Todistus tulee Oma Opintopolku -palveluun, jos käytät sähköisiä <SuomiFiLink></SuomiFiLink>-viestejä.",
+              "part5": "Kun todistus on valmis Oma Opintopolussa, Opetushallitus lähettää sinulle viestin.",
+              "part6": "Saat viestin <SuomiFiLink></SuomiFiLink>-viestit -palvelussa.",
+              "part7": "Oma Opintopolussa voit katsella todistusta ja ladata sen suomeksi, ruotsiksi tai englanniksi.",
+              "part8": "Jos et käytä <SuomiFiLink></SuomiFiLink>-viestejä, kun todistuksesi valmistuu, saat todistuksen postitse.",
+              "part9": "Todistus postitetaan väestötietojärjestelmässä olevaan postiosoitteeseen."
+            },
+            "title": "Tietoa todistuksesta",
+            "weaklyAuthenticated": {
+              "part4": "Saat YKI-todistuksen Oma Opintopolku -palveluun, jos molemmat ehdot täyttyvät:",
+              "part5": "Olet antanut tällä ilmoittautumislomakkeella suomalaisen henkilötunnuksesi.",
+              "part6": "Käytät sähköisiä <SuomiFiLink></SuomiFiLink>-viestejä.",
+              "part7": "Kun todistus on valmis Oma Opintopolussa, Opetushallitus lähettää sinulle viestin.",
+              "part8": "Saat viestin <SuomiFiLink></SuomiFiLink>-viestit -palvelussa.",
+              "part9": "Oma Opintopolussa voit katsella todistusta ja ladata sen suomeksi, ruotsiksi tai englanniksi.",
+              "part10": "Jos sinulla ei ole suomalaista henkilötunnusta tai et käytä <SuomiFiLink></SuomiFiLink>-viestejä, saat YKI-todistuksen postitse.",
+              "part11": "Todistus postitetaan ensisijaisesti väestötietojärjestelmässä olevaan postiosoitteeseen.",
+              "part12": "Jos et ole antanut henkilötunnustasi, todistus postitetaan ilmoittamaasi postiosoitteeseen."
+            }
+          },
+          "certificateLanguage": "Jos todistus postitetaan, millä kielellä haluat todistuksesi? *",
           "description1": "Täytä YKI-testin ilmoittautumislomakkeelle testiin osallistujan tiedot.",
           "description2": "Kirjoita etu- ja sukunimi ilmoittautumislomakkeelle samalla tavalla kuin ne on kirjoitettu viralliseen henkilöllisyystodistukseen.",
           "errors": {
@@ -664,7 +694,7 @@
             "text": "Yleisissä kielitutkinnoissa eli YKI-testissä arvioidaan yleiskielen osaamista käytännön tilanteissa. Voit tehdä YKI-testin perustasolla, keskitasolla tai ylimmällä tasolla. Selvitä ennen testiin ilmoittautumista, miltä tasolta tarvitset todistuksen. Lue lisää sopivan YKI-testin valinnasta Opetushallituksen verkkosivuilta:"
           },
           "part2": {
-             "link": {
+            "link": {
               "label": "Ilmoittautuminen YKI-testiin",
               "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin"
             },
@@ -700,10 +730,14 @@
           }
         },
         "infoBox": {
-          "part1": "1.1.2026 alkaen osa YKI-testeistä muuttuu maksuttomiksi, tutkintomaksun palautuksen ehtoja yksinkertaistetaan eikä ilmoittautumista voi enää siirtää.",
-          "part2": "Lue lisää Opetushallituksen verkkosivuilta:",
-          "link": "YKI-testeihin tulee muutoksia 1.1.2026",
-          "url": "https://www.oph.fi/fi/uutiset/2025/yki-testeihin-tulee-muutoksia-112026"
+          "afterYkiTest": {
+            "label": "YKI-testin jälkeen",
+            "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/yki-testin-jalkeen"
+          },
+          "part1": "Jos suoritat testin 1.4.2026 tai sen jälkeen, voit saada digitaalisen YKI-todistuksen.",
+          "part2": "Saat todistuksen Oma Opintopolkuun.",
+          "part3": "Jos käytät <CustomLink></CustomLink>-viestit -palvelua, saat sähköisen <CustomLink></CustomLink>-viestin, kun todistus on valmis.",
+          "part4": "Voit lukea lisää testin tuloksista ja todistuksista Opetushallituksen verkkosivuilta:"
         },
         "labels": {
           "excludeFullSessions": "Näytä vain kielitutkinnot, joissa on tilaa",

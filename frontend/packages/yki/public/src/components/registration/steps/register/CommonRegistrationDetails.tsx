@@ -8,10 +8,12 @@ import {
   RadioGroup,
 } from '@mui/material';
 import { ChangeEvent, useEffect } from 'react';
-import { H2, H3, Text } from 'shared/components';
+import { Trans } from 'react-i18next';
+import { H2, H3, Text, WebLink } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
+import { SuomiFiLink } from 'components/elements/SuomiFiLink';
 import { ExamFee } from 'components/registration/steps/register/ExamFee';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -57,7 +59,8 @@ export const CommonRegistrationDetails = () => {
   const { basis, attemptsUsed, isFree } = useAppSelector(
     publicFreeRegistrationSelector,
   );
-  const { registration, showErrors } = useAppSelector(registrationSelector);
+  const { isEmailRegistration, registration, showErrors } =
+    useAppSelector(registrationSelector);
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
   const { language_code, level_code } = examSession;
@@ -129,6 +132,124 @@ export const CommonRegistrationDetails = () => {
 
   return (
     <>
+      {hideInstructionLanguageSelection ? null : (
+        <fieldset className="registration-details__radio-group">
+          <legend>
+            <Text>
+              <b>{t('instructionLanguage')}</b>
+            </Text>
+          </legend>
+          <FormControl error={!!registrationErrors['instructionLanguage']}>
+            <RadioGroup
+              row={!isPhone}
+              onChange={handleChange('instructionLanguage')}
+            >
+              <FormControlLabel
+                className="radio-group-label"
+                value={InstructionLanguage.FI}
+                control={<Radio />}
+                label={translateCommon('languages.fin')}
+                sx={ErrorLabelStyles}
+              />
+              <FormControlLabel
+                className="radio-group-label"
+                value={InstructionLanguage.SV}
+                control={<Radio />}
+                label={translateCommon('languages.swe')}
+                sx={ErrorLabelStyles}
+              />
+            </RadioGroup>
+          </FormControl>
+        </fieldset>
+      )}
+      <H2 className="public-registration__grid__form-container__certificate">
+        {t('certificate.title')}
+      </H2>
+      <Text>{t('certificate.part1')}</Text>
+      <Text>{t('certificate.part2')}</Text>
+      {isEmailRegistration && (
+        <>
+          <Text>
+            {t('certificate.part3')}{' '}
+            {t('certificate.weaklyAuthenticated.part4')}
+            <ol>
+              <li>{t('certificate.weaklyAuthenticated.part5')}</li>
+              <li>
+                <Trans
+                  i18nKey="certificate.weaklyAuthenticated.part6"
+                  t={t}
+                  components={{
+                    SuomiFiLink: <SuomiFiLink />,
+                  }}
+                />
+              </li>
+            </ol>
+          </Text>
+          <Text>
+            {t('certificate.weaklyAuthenticated.part7')}{' '}
+            <Trans
+              i18nKey="certificate.weaklyAuthenticated.part8"
+              t={t}
+              components={{
+                SuomiFiLink: <SuomiFiLink />,
+              }}
+            />{' '}
+            {t('certificate.weaklyAuthenticated.part9')}
+          </Text>
+          <Text>
+            <Trans
+              i18nKey="certificate.weaklyAuthenticated.part10"
+              t={t}
+              components={{
+                SuomiFiLink: <SuomiFiLink />,
+              }}
+            />{' '}
+            {t('certificate.weaklyAuthenticated.part11')}{' '}
+            {t('certificate.weaklyAuthenticated.part12')}
+          </Text>
+        </>
+      )}
+      {!isEmailRegistration && (
+        <>
+          <Text>
+            {t('certificate.part3')}{' '}
+            <Trans
+              i18nKey="certificate.stronglyAuthenticated.part4"
+              t={t}
+              components={{
+                SuomiFiLink: <SuomiFiLink />,
+              }}
+            />{' '}
+            {t('certificate.stronglyAuthenticated.part5')}{' '}
+            <Trans
+              i18nKey="certificate.stronglyAuthenticated.part6"
+              t={t}
+              components={{
+                SuomiFiLink: <SuomiFiLink />,
+              }}
+            />{' '}
+            {t('certificate.stronglyAuthenticated.part7')}
+          </Text>
+          <Text>
+            <Trans
+              i18nKey="certificate.stronglyAuthenticated.part8"
+              t={t}
+              components={{
+                SuomiFiLink: <SuomiFiLink />,
+              }}
+            />{' '}
+            {t('certificate.stronglyAuthenticated.part9')}
+          </Text>
+        </>
+      )}
+      <Text>
+        {t('certificate.furtherDetails.text')}{' '}
+        <WebLink
+          href={t('certificate.furtherDetails.url')}
+          label={t('certificate.furtherDetails.label')}
+          endIcon={<OpenInNewIcon />}
+        />
+      </Text>
       <fieldset className="registration-details__radio-group">
         <legend>
           <Text>
@@ -164,36 +285,6 @@ export const CommonRegistrationDetails = () => {
           </RadioGroup>
         </FormControl>
       </fieldset>
-      {hideInstructionLanguageSelection ? null : (
-        <fieldset className="registration-details__radio-group">
-          <legend>
-            <Text>
-              <b>{t('instructionLanguage')}</b>
-            </Text>
-          </legend>
-          <FormControl error={!!registrationErrors['instructionLanguage']}>
-            <RadioGroup
-              row={!isPhone}
-              onChange={handleChange('instructionLanguage')}
-            >
-              <FormControlLabel
-                className="radio-group-label"
-                value={InstructionLanguage.FI}
-                control={<Radio />}
-                label={translateCommon('languages.fin')}
-                sx={ErrorLabelStyles}
-              />
-              <FormControlLabel
-                className="radio-group-label"
-                value={InstructionLanguage.SV}
-                control={<Radio />}
-                label={translateCommon('languages.swe')}
-                sx={ErrorLabelStyles}
-              />
-            </RadioGroup>
-          </FormControl>
-        </fieldset>
-      )}
       {showExamFeeSection && <ExamFee />}
       <H2 className="public-registration__grid__form-container__terms-and-conditions">
         {t('termsAndConditions.title')}

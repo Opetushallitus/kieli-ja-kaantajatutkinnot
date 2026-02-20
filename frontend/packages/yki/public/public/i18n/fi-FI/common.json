@@ -176,7 +176,11 @@
         "notFound": "Etsimääsi sivua ei löytynyt",
         "expiredLoginLink": "Linkki on vanhentunut"
       },
-      "previous": "Edellinen"
+      "previous": "Edellinen",
+      "suomiFiLink": {
+        "label": "Suomi.fi",
+        "url": "https://www.suomi.fi/viestit"
+      }
     }
   }
 }

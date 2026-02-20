@@ -207,6 +207,36 @@
           "examSessionIsFull": "Test is full"
         },
         "registrationDetails": {
+          "certificate": {
+            "furtherDetails": {
+              "label": "YKI certificate",
+              "text": "Read more on the website of the Finnish National Agency for Education:",
+              "url": "https://www.oph.fi/en/education-and-qualifications/after-yki-test#anchor-yki-certificate"
+            },
+            "part1": "Once your test has been assessed, you will receive your YKI certificate.",
+            "part2": "If you take the YKI test before 31 March 2026, the certificate will be sent to you by post.",
+            "part3": "If you take the YKI test on or after 1 April 2026, you can get a digital YKI certificate.",
+            "stronglyAuthenticated": {
+              "part4": "You can access the certificate in the My Studyinfo service, provided that you have activated the <SuomiFiLink></SuomiFiLink> Messages service.",
+              "part5": "Once the certificate is ready in My Studyinfo,",
+              "part6": "the Finnish National Agency for Education will send you a message in the <SuomiFiLink></SuomiFiLink> Messages service.",
+              "part7": "You can then view and download the certificate in Finnish, Swedish or English in My Studyinfo.",
+              "part8": "If you have not activated <SuomiFiLink></SuomiFiLink> Messages by the time your YKI certificate is ready, the certificate will be sent to you by post.",
+              "part9": "The certificate will be sent to the postal address listed in the Finnish Population Information System."
+            },
+            "title": "About the certificate",
+            "weaklyAuthenticated": {
+              "part4": "You can access the certificate in the My Studyinfo service, provided that both of the following conditions are met:",
+              "part5": "You have provided your Finnish personal identity code on this registration form.",
+              "part6": "You have activated the <SuomiFiLink></SuomiFiLink> Messages service.",
+              "part7": "Once the certificate is ready in My Studyinfo, the Finnish National Agency for Education will send you a message",
+              "part8": "in the <SuomiFiLink></SuomiFiLink> Messages service.",
+              "part9": "You can then view and download the certificate in Finnish, Swedish or English in My Studyinfo.",
+              "part10": "If you do not have a Finnish personal identity code or you have not activated <SuomiFiLink></SuomiFiLink> Messages, the YKI certificate will be sent to you by post.",
+              "part11": "The certificate will primarily be sent to the postal address listed in the Finnish Population Information System.",
+              "part12": "If you have not provided your personal identity code, the certificate will be sent to the postal address you have written on this registration form."
+            }
+          },
           "certificateLanguage": "In which language do you wish to receive the certificate? *",
           "description1": "Fill in the YKI registration form using the personal information of the person taking the test.",
           "description2": "Write the first and last name exactly as they appear on the official identity card.",
@@ -700,10 +730,14 @@
           }
         },
         "infoBox": {
-          "part1": "In 2026, some YKI tests are becoming free of charge, the conditions for the test fee refund are being simplified and registrations for YKI tests can no longer be rescheduled.",
-          "part2": "Read more on EDUFI's website:",
-          "link": "Changes to the YKI tests on 1 January 2026",
-          "url": "https://www.oph.fi/en/news/2025/changes-yki-tests-1-january-2026"
+          "afterYkiTest": {
+            "label": "After the YKI test",
+            "url": "https://www.oph.fi/en/education-and-qualifications/after-yki-test"
+          },
+          "part1": "If you take the test on or after 1 April 2026, you can get a digital YKI certificate.",
+          "part2": "You can access the certificate in the My Studyinfo service.",
+          "part3": "If you have activated the <CustomLink></CustomLink> Messages service, you will receive an electronic <CustomLink></CustomLink> message once your certificate is ready.",
+          "part4": "You can read more about the test results and certificates on the website of the Finnish National Agency for Education:"
         },
         "labels": {
           "excludeFullSessions": "Show only the tests that have available seats",
