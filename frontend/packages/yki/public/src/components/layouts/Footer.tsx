@@ -55,6 +55,18 @@ export const Footer = () => {
             >
               {translateCommon('contactEmail.jyu')}
             </a>
+            <div className="columns gapped-xxs">
+              <a
+                href={`tel:${translateCommon('contactPhone.jyu')}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {translateCommon('contactPhone.jyu')}
+              </a>
+              <Text className="inline-text">
+                {translateCommon('contactPhone.hours')}
+              </Text>
+            </div>
           </div>
           <div className="footer__container footer__container__contact-details rows gapped-xs">
             <h2>{t('headings.contacts')}</h2>
