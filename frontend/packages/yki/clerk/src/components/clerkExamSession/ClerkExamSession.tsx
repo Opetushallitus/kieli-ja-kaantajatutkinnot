@@ -28,6 +28,7 @@ export const ClerkExamSession = () => {
         languages={['deu', 'eng', 'fin']}
       />
       <ClerkExamSessionRegistrations
+        examSessionId={clerkExamSession.id}
         examRegistrations={clerkExamSession.registrations}
       />
     </Stack>

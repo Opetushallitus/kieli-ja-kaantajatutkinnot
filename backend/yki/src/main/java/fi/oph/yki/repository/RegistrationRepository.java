@@ -2,6 +2,7 @@ package fi.oph.yki.repository;
 
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.type.RegistrationState;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
   List<Registration> getByPersonOid(String personOid);
-  List<Registration> getByExamSession(ExamSession examSession);
+  List<Registration> getByExamSessionAndStateIn(ExamSession examSession, List<RegistrationState> states);
 
   int countByPersonOid(String personOid);
 

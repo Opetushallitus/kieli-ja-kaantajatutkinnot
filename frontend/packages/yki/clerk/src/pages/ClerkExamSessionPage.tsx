@@ -33,7 +33,6 @@ export const ClerkExamSessionPage: FC = () => {
         severity: Severity.Error,
         description: t('details.toasts.notFound'),
       });
-      navigate(AppRoutes.ClerkCustomerDetails);
     }
   }, [dispatch, navigate, params.id, showToast, status, t]);
 

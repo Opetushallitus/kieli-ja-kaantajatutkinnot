@@ -17,6 +17,7 @@ import { DateUtils } from 'shared/utils';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
+import { APIEndpoints } from 'enums/api';
 import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { ClerkRegistration } from 'interfaces/clerkRegistration';
 import { Text } from 'ophTheme/Text';
@@ -71,8 +72,10 @@ const ExamsListingTabs = ({
 };
 
 export const ClerkExamSessionRegistrations = ({
+  examSessionId,
   examRegistrations,
 }: {
+  examSessionId: number;
   examRegistrations: Array<ClerkRegistration> | null;
 }) => {
   const { t } = usePublicTranslation({
@@ -167,18 +170,20 @@ export const ClerkExamSessionRegistrations = ({
   ): ListTableColumn<ClerkRegistration> => ({
     key: 'id',
     title: t('columns.actions'),
-    render: ({ id }) => (
-      <div className="rows gapped-xxs">
-        <IconButton color="secondary" onClick={() => id}>
-          <TurnRightOutlined color="secondary" fontSize="large" />
-          {t('values.actions.relocate')}
-        </IconButton>
-        <IconButton color="secondary" onClick={() => id}>
-          <DeleteOutlined color="secondary" fontSize="large" />
-          {t('values.actions.cancel')}
-        </IconButton>
-      </div>
-    ),
+    render: ({ id, state }) =>
+      (state === RegistrationStates.Completed ||
+        state === RegistrationStates.Submitted) && (
+        <div className="rows gapped-xxs">
+          <IconButton color="secondary" onClick={() => id}>
+            <TurnRightOutlined color="secondary" fontSize="large" />
+            {t('values.actions.relocate')}
+          </IconButton>
+          <IconButton color="secondary" onClick={() => id}>
+            <DeleteOutlined color="secondary" fontSize="large" />
+            {t('values.actions.cancel')}
+          </IconButton>
+        </div>
+      ),
   });
 
   const createPositionInQueueColumn = (
@@ -225,7 +230,18 @@ export const ClerkExamSessionRegistrations = ({
           setActiveTab={setActiveTab}
         />
         <div className="clerk-exam-session-page__filter-buttons">
-          <OphButton color="primary" variant={Variant.Contained}>
+          <OphButton
+            color="primary"
+            variant={Variant.Contained}
+            onClick={() =>
+              window.open(
+                APIEndpoints.ClerkExamSessionExcel.replace(
+                  ':id',
+                  String(examSessionId),
+                ),
+              )
+            }
+          >
             <Download fontSize="large" /> {tButtons('downloadExcel')}
           </OphButton>
         </div>

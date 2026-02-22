@@ -42,7 +42,10 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
   }
 
   private void writeExcel(final Workbook workbook) {
-    final List<String> headers = List.of("Päivä", "Kieli", "Sukunimi", "Etunimi");
+    final List<String> headers = List.of(
+      "Päivä", "Kieli", "OID", "Sukunimi", "Etunimi",
+      "Kansalaisuus", "Osoite", "Postinumero", "Postitoimipaikka", "Sähköposti"
+    );
     final Sheet sheet = workbook.createSheet("Tilaisuuden tiedot");
 
     createExcelHeader((XSSFWorkbook) workbook, sheet, headers);
@@ -54,8 +57,14 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
       int ci = 0;
       row.createCell(ci).setCellValue(data.date());
       row.createCell(++ci).setCellValue(data.language());
+      row.createCell(++ci).setCellValue(dataRow.oid());
       row.createCell(++ci).setCellValue(dataRow.lastName());
       row.createCell(++ci).setCellValue(dataRow.firstName());
+      setNullableValue(row.createCell(++ci), dataRow.nationalityCode());
+      setNullableValue(row.createCell(++ci), dataRow.streetAddress());
+      setNullableValue(row.createCell(++ci), dataRow.zip());
+      setNullableValue(row.createCell(++ci), dataRow.postOffice());
+      setNullableValue(row.createCell(++ci), dataRow.email());
     }
 
     autoresizeExcelColumns(sheet, headers);

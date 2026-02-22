@@ -2,10 +2,9 @@ package fi.oph.yki.view;
 
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Registration;
-import java.time.LocalDate;
+import fi.oph.yki.model.type.RegistrationState;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 
 public class ExamSessionXlsxDataRowUtil {
 
@@ -16,6 +15,7 @@ public class ExamSessionXlsxDataRowUtil {
     final List<ExamSessionXlsxDataRow> excelDataRows = examSession
       .getRegistrations()
       .stream()
+      .filter(r -> r.getState() == RegistrationState.COMPLETED)
       .map(ExamSessionXlsxDataRowUtil::createDataRow)
       .toList();
 
@@ -32,8 +32,14 @@ public class ExamSessionXlsxDataRowUtil {
 
     return ExamSessionXlsxDataRow
       .builder()
-      .firstName(person == null ? "" : person.getFirstName())
+      .oid(person == null ? "" : person.getOid())
       .lastName(person == null ? "" : person.getLastName())
+      .firstName(person == null ? "" : person.getFirstName())
+      .nationalityCode(person == null ? null : person.getNationalityCode())
+      .streetAddress(person == null ? null : person.getSteetAddress())
+      .zip(person == null ? null : person.getZip())
+      .postOffice(person == null ? null : person.getPostOffice())
+      .email(person == null ? null : person.getEmail())
       .build();
   }
 }

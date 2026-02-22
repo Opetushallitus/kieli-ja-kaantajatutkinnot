@@ -6,6 +6,7 @@ import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
+import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.RegistrationUtil;
@@ -28,7 +29,15 @@ public class ClerkExamSessionService {
   public ClerkExamSessionDTO getExamSession(final Long examSessionId) {
     final ExamSession examSession = examSessionRepository.getReferenceById(examSessionId);
     final List<ClerkRegistrationDTO> registrationDTOs = registrationRepository
-      .getByExamSession(examSession)
+      .getByExamSessionAndStateIn(
+        examSession,
+        List.of(
+          RegistrationState.COMPLETED,
+          RegistrationState.SUBMITTED,
+          RegistrationState.CANCELLED,
+          RegistrationState.PAID_AND_CANCELLED
+        )
+      )
       .stream()
       .map(RegistrationUtil::createClerkRegistrationDTO)
       .toList();
