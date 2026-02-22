@@ -96,6 +96,14 @@
               "contactEmail": "Sähköposti",
               "contactPhoneNumber": "Puhelinnumero"
             }
+          },
+          "relocate": {
+            "title": "Vahvista siirto",
+            "subTitle": "Haluatko varmasti siirtää ilmoittautumisen?"
+          },
+          "cancel": {
+            "title": "Vahvista peruutus",
+            "subTitle": "Haluatko varmasti peruuttaa ilmoittautumisen?"
           }
         }
       },

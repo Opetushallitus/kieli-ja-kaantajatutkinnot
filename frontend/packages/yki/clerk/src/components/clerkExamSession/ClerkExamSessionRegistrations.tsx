@@ -5,22 +5,24 @@ import {
 } from '@mui/icons-material';
 import BlockIcon from '@mui/icons-material/Block';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CloseIcon from '@mui/icons-material/Close';
 import WarningIcon from '@mui/icons-material/Warning';
-import { Divider, IconButton, Stack } from '@mui/material';
+import { Box, Divider, IconButton, Stack } from '@mui/material';
 import { OphButton } from '@opetushallitus/oph-design-system';
 import i18next from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Variant } from 'shared/enums';
+import { CustomModal } from 'shared/components';
+import { Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { ClerkRegistration } from 'interfaces/clerkRegistration';
-import { Text } from 'ophTheme/Text';
+import { H2, Text } from 'ophTheme/Text';
 
 const TABS = [RegistrationKind.Admission, RegistrationKind.Queue] as const;
 type Tab = (typeof TABS)[number];
@@ -84,8 +86,18 @@ export const ClerkExamSessionRegistrations = ({
   const { t: tButtons } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkExamSessionRegistrations.buttons',
   });
+  const { t: tModals } = usePublicTranslation({
+    keyPrefix: 'yki.component.clerkExamSessionRegistrations.modals',
+  });
+  const translateCommon = useCommonTranslation();
 
   const [activeTab, setActiveTab] = useState<Tab>(RegistrationKind.Admission);
+  const [relocateRegistrationId, setRelocateRegistrationId] = useState<
+    number | null
+  >(null);
+  const [cancelRegistrationId, setCancelRegistrationId] = useState<
+    number | null
+  >(null);
 
   const registrationStateIconMapping: Partial<
     Record<RegistrationStates, JSX.Element>
@@ -173,12 +185,20 @@ export const ClerkExamSessionRegistrations = ({
     render: ({ id, state }) =>
       (state === RegistrationStates.Completed ||
         state === RegistrationStates.Submitted) && (
-        <div className="rows gapped-xxs">
-          <IconButton color="secondary" onClick={() => id}>
+        <div className="rows gapped-xxs" style={{ alignItems: 'flex-start' }}>
+          <IconButton
+            color="secondary"
+            onClick={() => setRelocateRegistrationId(id)}
+            sx={{ width: 'fit-content' }}
+          >
             <TurnRightOutlined color="secondary" fontSize="large" />
             {t('values.actions.relocate')}
           </IconButton>
-          <IconButton color="secondary" onClick={() => id}>
+          <IconButton
+            color="secondary"
+            onClick={() => setCancelRegistrationId(id)}
+            sx={{ width: 'fit-content' }}
+          >
             <DeleteOutlined color="secondary" fontSize="large" />
             {t('values.actions.cancel')}
           </IconButton>
@@ -263,6 +283,92 @@ export const ClerkExamSessionRegistrations = ({
           translateHeader={false}
         />
       )}
+
+      <CustomModal
+        open={relocateRegistrationId !== null}
+        onCloseModal={() => setRelocateRegistrationId(null)}
+        aria-labelledby="modal-title"
+        modalTitle={
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="flex-start"
+            gap={1}
+          >
+            <H2>{tModals('relocate.title')}</H2>
+            <CloseIcon
+              color={Color.Inherit}
+              aria-hidden={true}
+              fontSize="large"
+              onClick={() => setRelocateRegistrationId(null)}
+            />
+          </Box>
+        }
+      >
+        <div className="rows gapped">
+          <Text className="margin-top">{tModals('relocate.subTitle')}</Text>
+          <div className="columns gapped flex-end">
+            <OphButton
+              variant={Variant.Outlined}
+              onClick={() => setRelocateRegistrationId(null)}
+            >
+              {translateCommon('cancel')}
+            </OphButton>
+            <OphButton
+              variant={Variant.Contained}
+              onClick={() => {
+                // TODO: dispatch relocate action
+                setRelocateRegistrationId(null);
+              }}
+            >
+              {t('values.actions.relocate')}
+            </OphButton>
+          </div>
+        </div>
+      </CustomModal>
+
+      <CustomModal
+        open={cancelRegistrationId !== null}
+        onCloseModal={() => setCancelRegistrationId(null)}
+        aria-labelledby="modal-title"
+        modalTitle={
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="flex-start"
+            gap={1}
+          >
+            <H2>{tModals('cancel.title')}</H2>
+            <CloseIcon
+              color={Color.Inherit}
+              aria-hidden={true}
+              fontSize="large"
+              onClick={() => setCancelRegistrationId(null)}
+            />
+          </Box>
+        }
+      >
+        <div className="rows gapped">
+          <Text className="margin-top">{tModals('cancel.subTitle')}</Text>
+          <div className="columns gapped flex-end">
+            <OphButton
+              variant={Variant.Outlined}
+              onClick={() => setCancelRegistrationId(null)}
+            >
+              {translateCommon('cancel')}
+            </OphButton>
+            <OphButton
+              variant={Variant.Contained}
+              onClick={() => {
+                // TODO: dispatch cancel action
+                setCancelRegistrationId(null);
+              }}
+            >
+              {t('values.actions.cancel')}
+            </OphButton>
+          </div>
+        </div>
+      </CustomModal>
     </Stack>
   );
 };
