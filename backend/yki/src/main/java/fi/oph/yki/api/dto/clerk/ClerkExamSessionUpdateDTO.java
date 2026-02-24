@@ -1,5 +1,6 @@
 package fi.oph.yki.api.dto.clerk;
 
+import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.util.StringUtil;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -9,6 +10,7 @@ import lombok.Builder;
 public record ClerkExamSessionUpdateDTO(
   @Size(max = 255) String language,
   @Size(max = 255) String level,
+  ExamSessionType type,
   @NotNull Integer maxParticipants,
   @Size(max = 255) String streetAddress,
   @Size(max = 255) String zip,

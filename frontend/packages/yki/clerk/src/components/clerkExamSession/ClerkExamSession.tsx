@@ -6,10 +6,12 @@ import { ClerkExamSessionRegistrations } from 'components/clerkExamSession/Clerk
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { resetClerkExamSession } from 'redux/reducers/clerkExamSession';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
+import { examDateSelector } from 'redux/selectors/examDate';
 
 export const ClerkExamSession = () => {
   const dispatch = useAppDispatch();
   const { clerkExamSession } = useAppSelector(clerkExamSessionDetailsSelector);
+  const { examDates } = useAppSelector(examDateSelector);
 
   useEffect(() => {
     return () => {
@@ -26,6 +28,7 @@ export const ClerkExamSession = () => {
       <ClerkExamSessionDetails
         examSessionDetails={clerkExamSession}
         languages={['deu', 'eng', 'fin']}
+        examDates={examDates}
       />
       <ClerkExamSessionRegistrations
         examSessionId={clerkExamSession.id}

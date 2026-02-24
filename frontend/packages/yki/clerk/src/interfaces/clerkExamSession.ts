@@ -1,6 +1,11 @@
 import { Dayjs } from 'dayjs';
 
-import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
+import {
+  ExamLanguage,
+  ExamLevel,
+  ExamSessionType,
+  RegistrationKind,
+} from 'enums/app';
 import {
   ClerkRegistration,
   ClerkRegistrationResponse,
@@ -37,6 +42,7 @@ export interface ClerkExamSessionResponse
 export interface ClerkExamSession {
   language: ExamLanguage;
   level: ExamLevel;
+  type: ExamSessionType;
   open: boolean;
   upcomingAdmission: boolean;
   participants: number;

@@ -16,6 +16,7 @@ import {
 } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
+import { ExamDate } from 'interfaces/examDate';
 import { H3, Label, Text } from 'ophTheme/Text';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
 import { DateTimeUtils } from 'utils/dateTime';
@@ -23,9 +24,11 @@ import { DateTimeUtils } from 'utils/dateTime';
 export const ClerkExamSessionDetails = ({
   examSessionDetails,
   languages,
+  examDates,
 }: {
   examSessionDetails: ClerkExamSession | null;
   languages: string[];
+  examDates: ExamDate[];
 }) => {
   const commonTranslation = useCommonTranslation();
   const { t } = usePublicTranslation({
@@ -125,8 +128,10 @@ export const ClerkExamSessionDetails = ({
           <div>
             {examSessionDetails.location.map((l) => (
               <div key={'location-lang-' + l.lang}>
-                <span>{l.lang}</span>
-                <span>{l.extraInformation}</span>
+                <Text className="bold">
+                  {commonTranslation('lang.' + l.lang)}
+                </Text>
+                <span>{l.extraInformation ?? '-'}</span>
               </div>
             ))}
           </div>
@@ -137,6 +142,7 @@ export const ClerkExamSessionDetails = ({
         setIsOpen={setIsEditModalOpen}
         examSessionDetails={examSessionDetails}
         languages={languages}
+        examDates={examDates}
       />
     </div>
   );

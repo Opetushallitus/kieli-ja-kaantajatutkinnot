@@ -86,8 +86,15 @@
               "saveFailed": "Muutosten tallentaminen epäonnistui"
             },
             "fields": {
+              "examDate": "Tutkintopäivä",
               "language": "Tutkintokieli",
               "level": "Tutkintotaso",
+              "type": "Tutkintotyyppi",
+              "typeOptions": {
+                "FULL": "Täydellinen tutkinto",
+                "READ_SPEAK": "Lukeminen ja puhuminen",
+                "LISTEN_WRITE": "Kuunteleminen ja kirjoittaminen"
+              },
               "maxParticipants": "Osallistujien enimmäismäärä",
               "streetAddress": "Katuosoite",
               "postalCode": "Postinumero",

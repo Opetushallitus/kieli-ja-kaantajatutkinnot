@@ -1,5 +1,6 @@
 package fi.oph.yki.api.dto.clerk;
 
+import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.RegistrationKind;
 import java.time.LocalDate;
 import java.util.List;
@@ -10,6 +11,7 @@ public record ClerkExamSessionDTO(
   Long id,
   String language,
   String level,
+  ExamSessionType type,
   Boolean open,
   Boolean upcomingAdmission,
   Integer participants,

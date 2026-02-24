@@ -11,17 +11,20 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { ExamLevel } from 'enums/app';
+import { ExamLevel, ExamSessionType } from 'enums/app';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
+import { ExamDate } from 'interfaces/examDate';
 import { H2 } from 'ophTheme/Text';
 import { saveExamSession } from 'redux/reducers/clerkExamSession';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
+import { DateTimeUtils } from 'utils/dateTime';
 
 type ClerkExamSessionEditModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   examSessionDetails: ClerkExamSession;
   languages: string[];
+  examDates: ExamDate[];
 };
 
 export const ClerkExamSessionEditModal = ({
@@ -29,6 +32,7 @@ export const ClerkExamSessionEditModal = ({
   setIsOpen,
   examSessionDetails,
   languages,
+  examDates,
 }: ClerkExamSessionEditModalProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkExamSessionRegistrations.modals.edit',
@@ -63,9 +67,29 @@ export const ClerkExamSessionEditModal = ({
     }),
   );
 
+  const typeOptions = [
+    ExamSessionType.FULL,
+    ExamSessionType.READ_SPEAK,
+    ExamSessionType.LISTEN_WRITE,
+  ].map((type) => ({
+    value: type,
+    label: t('fields.typeOptions.' + type),
+  }));
+
+  const examDateOptions = examDates.map((ed) => ({
+    value: String(ed.id),
+    label: DateTimeUtils.renderDate(ed.examDate),
+  }));
+
+  const currentExamDateId = examDates.find((ed) =>
+    ed.examDate.isSame(examSessionDetails.date, 'day'),
+  )?.id;
+
   const [form, setForm] = useState({
+    examDateId: String(currentExamDateId ?? ''),
     language: examSessionDetails.language,
     level: examSessionDetails.level,
+    type: examSessionDetails.type ?? '',
     maxParticipants: String(examSessionDetails.maxParticipants ?? ''),
     streetAddress: location?.streetAddress ?? '',
     postalCode: location?.zip ?? '',
@@ -131,6 +155,24 @@ export const ClerkExamSessionEditModal = ({
             updateField('level', (e.target as HTMLInputElement).value)
           }
           options={levelOptions}
+          disabled={isSaving}
+        />
+        <OphRadioGroupFormField
+          label={t('fields.type')}
+          value={form.type}
+          onChange={(e) =>
+            updateField('type', (e.target as HTMLInputElement).value)
+          }
+          options={typeOptions}
+          disabled={isSaving}
+        />
+        <OphRadioGroupFormField
+          label={t('fields.examDate')}
+          value={form.examDateId}
+          onChange={(e) =>
+            updateField('examDateId', (e.target as HTMLInputElement).value)
+          }
+          options={examDateOptions}
           disabled={isSaving}
         />
         <OphInputFormField

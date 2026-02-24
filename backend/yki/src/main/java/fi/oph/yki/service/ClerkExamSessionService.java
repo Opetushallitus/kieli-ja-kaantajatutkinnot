@@ -53,6 +53,7 @@ public class ClerkExamSessionService {
       .id(examSession.getId())
       .level(examSession.getLevel())
       .language(examSession.getLanguage())
+      .type(examSession.getType())
       .location(locationDTOS)
       .registrations(registrationDTOs)
       .date(examDate.getExamDate())
@@ -80,6 +81,7 @@ public class ClerkExamSessionService {
 
     examSession.setLanguage(dto.language());
     examSession.setLevel(dto.level());
+    examSession.setType(dto.type());
     examSession.setMaxParticipants(dto.maxParticipants());
 
     final var locations = examSession.getLocations();

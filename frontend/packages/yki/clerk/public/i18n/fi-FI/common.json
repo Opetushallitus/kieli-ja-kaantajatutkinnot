@@ -128,6 +128,11 @@
         "header": "Haluatko varmasti poistua sivulta?"
       },
       "name": "Nimi",
+      "lang": {
+        "en": "Englanti",
+        "fi": "Suomi",
+        "sw": "Ruotsi"
+      },
       "next": "Seuraava",
       "no": "Ei",
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",

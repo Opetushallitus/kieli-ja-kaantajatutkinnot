@@ -41,6 +41,12 @@ export enum GenderEnum {
   PreferNotToDisclose = 'preferNotToDisclose',
 }
 
+export enum ExamSessionType {
+  FULL = 'FULL',
+  READ_SPEAK = 'READ_SPEAK',
+  LISTEN_WRITE = 'LISTEN_WRITE',
+}
+
 export enum RegistrationKind {
   Admission = 'ADMISSION',
   Queue = 'QUEUE',
