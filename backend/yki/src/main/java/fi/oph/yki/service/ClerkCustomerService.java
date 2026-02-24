@@ -20,8 +20,10 @@ import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.HetuUtils;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -159,12 +161,15 @@ public class ClerkCustomerService {
     );
   }
 
-  private List<PersonalDataDTO> getPersonDetails(List<String> oids) {
+  private Map<String, String> getOidToHetuMap(List<String> oids) {
     try {
-      return onrService.listPersonDetails(oids);
+      return onrService
+        .listPersonDetails(oids)
+        .stream()
+        .collect(Collectors.toMap(PersonalDataDTO::getOidHenkilo, PersonalDataDTO::getIdentityNumber));
     } catch (final Exception e) {
       LOG.error("Unable to get identity numbers from ONR", e);
-      return List.of();
+      return Map.of();
     }
   }
 
@@ -175,7 +180,7 @@ public class ClerkCustomerService {
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
     final var personsPage = searchPersons(pageable, request);
     final var oids = personsPage.getContent().stream().map(PersonSearchProjection::oid).toList();
-    final var personDetails = getPersonDetails(oids);
+    final var hetuByOid = getOidToHetuMap(oids);
 
     return personsPage.map(person ->
       ClerkCustomerSummaryDTO
@@ -185,14 +190,7 @@ public class ClerkCustomerService {
             .builder()
             .firstName(person.firstName())
             .lastName(person.lastName())
-            .ssn(
-              personDetails
-                .stream()
-                .filter(personDetail -> person.oid().equals(personDetail.getOidHenkilo()))
-                .findFirst()
-                .map(PersonalDataDTO::getIdentityNumber)
-                .orElse(null)
-            )
+            .ssn(hetuByOid.get(person.oid()))
             .oid(person.oid())
             .nationalityCode(person.nationalityCode())
             .phoneNumber(person.phoneNumber())
