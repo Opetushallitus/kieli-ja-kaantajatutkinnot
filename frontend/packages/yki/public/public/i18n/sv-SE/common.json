@@ -50,6 +50,7 @@
         },
         "loadingFailed": "Det gick inte att ladda uppgifterna.",
         "mismatchingEmails": "Innehållet i fälten för e-postadress motsvarar inte varandra",
+        "preferredNameMustBeFirstName": "Kutsumanimen on oltava yksi etunimistä",
         "registration": {
           "alreadyRegistered": "Du kan endast anmäla dig till ett YKI-test.",
           "examSessionFull": "Examenstillfället är fullbokat.",

@@ -258,6 +258,7 @@
               "phoneNumber": "Puhelinnumero",
               "postNumber": "Postinumero",
               "postOffice": "Postitoimipaikka",
+              "preferredName": "Kutsumanimi",
               "privacyStatementConfirmation": "Hyväksy henkilötietojen käsittelyn ehdot",
               "ssn": "Henkilötunnus",
               "termsAndConditionsAgreed": "Hyväksy ilmoittautumisen ehdot"
@@ -321,6 +322,7 @@
             "phoneNumber": "Puhelinnumero",
             "postNumber": "Postinumero",
             "postOffice": "Postitoimipaikka",
+            "preferredName": "Kutsumanimi",
             "ssn": "Henkilötunnus"
           },
           "placeholders": {
@@ -334,7 +336,8 @@
             "nationality": "Valitse kansalaisuus",
             "phoneNumber": "Kirjoita muodossa +358 50 123 4567",
             "postNumber": "",
-            "postOffice": ""
+            "postOffice": "",
+            "preferredName": ""
           },
           "finnishSSN": "Onko sinulla suomalainen henkilötunnus? *",
           "instructionLanguage": "Millä kielellä haluat tehtävien ohjeet? *",

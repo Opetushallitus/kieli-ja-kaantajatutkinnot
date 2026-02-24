@@ -220,6 +220,7 @@ export class SerializationUtils {
     return {
       first_name: registration.firstNames,
       last_name: registration.lastName,
+      preferred_name: registration.preferredName,
       nationalities: [nationality],
       nationality_desc,
       certificate_lang: registration.certificateLanguage,

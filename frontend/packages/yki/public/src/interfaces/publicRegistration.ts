@@ -13,6 +13,7 @@ import { ExamSessionResponse } from 'interfaces/examSessions';
 
 export interface PersonFillOutDetails {
   firstNames: string;
+  preferredName: string;
   lastName: string;
   address: string;
   postNumber: string;

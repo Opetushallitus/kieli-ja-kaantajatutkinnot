@@ -129,10 +129,16 @@ export const EmailRegistrationDetails = () => {
             {registration.email}
           </Text>
         </div>
-        <div className="grid-columns gapped">
+        <div className="grid-2-columns gapped">
           <LabeledTextField
             {...getLabeledTextFieldAttributes('firstNames')}
             value={registration.firstNames || ''}
+            type={TextFieldTypes.Text}
+            autoComplete={InputAutoComplete.FirstName}
+          />
+          <LabeledTextField
+            {...getLabeledTextFieldAttributes('preferredName')}
+            value={registration.preferredName || ''}
             type={TextFieldTypes.Text}
             autoComplete={InputAutoComplete.FirstName}
           />

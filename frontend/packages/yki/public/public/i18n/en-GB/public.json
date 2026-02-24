@@ -258,6 +258,7 @@
               "phoneNumber": "Telephone number",
               "postNumber": "Postal code",
               "postOffice": "Municipality",
+              "preferredName": "Preferred given name",
               "privacyStatementConfirmation": "Accept the terms and conditions for processing personal data",
               "ssn": "Personal identity code",
               "termsAndConditionsAgreed": "Accept the terms and conditions for registration"
@@ -321,6 +322,7 @@
             "phoneNumber": "Telephone number",
             "postNumber": "Postal code",
             "postOffice": "Municipality",
+            "preferredName": "Preferred given name",
             "ssn": "Personal identity code"
           },
           "placeholders": {
@@ -334,7 +336,8 @@
             "nationality": "Select nationality",
             "phoneNumber": "Use the format +358 50 123 4567",
             "postNumber": "",
-            "postOffice": ""
+            "postOffice": "",
+            "preferredName": ""
           },
           "finnishSSN": "Do you have a Finnish personal identity code? *",
           "instructionLanguage": "In which language do you wish to read the instructions of the tasks? *",

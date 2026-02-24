@@ -50,6 +50,7 @@
         },
         "loadingFailed": "Tietojen lataaminen epäonnistui.",
         "mismatchingEmails": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
+        "preferredNameMustBeFirstName": "Kutsumanimen on oltava yksi etunimistä",
         "registration": {
           "alreadyRegistered": "Voit ilmoittautua vain yhteen YKI-testiin.",
           "examSessionFull": "Tutkinto on täynnä",

@@ -258,6 +258,7 @@
               "phoneNumber": "Telefonnummer",
               "postNumber": "Postnummer",
               "postOffice": "Postanstalt",
+              "preferredName": "Tilltalsnamn",
               "privacyStatementConfirmation": "Godkänn villkoren för behandlingen av personuppgifter",
               "ssn": "Personbeteckning",
               "termsAndConditionsAgreed": "Godkänn villkoren för anmälan"
@@ -321,6 +322,7 @@
             "phoneNumber": "Telefonnummer",
             "postNumber": "Postnummer",
             "postOffice": "Postanstalt",
+            "preferredName": "Tilltalsnamn",
             "ssn": "Personbeteckning"
           },
           "placeholders": {
@@ -334,7 +336,8 @@
             "nationality": "Välj nationalitet",
             "phoneNumber": "Skriv i formatet +358 50 123 4567",
             "postNumber": "",
-            "postOffice": ""
+            "postOffice": "",
+            "preferredName": ""
           },
           "finnishSSN": "Har du en finsk personbeteckning? *",
           "instructionLanguage": "På vilket språk vill du ha anvisningarna för uppgifterna? *",
