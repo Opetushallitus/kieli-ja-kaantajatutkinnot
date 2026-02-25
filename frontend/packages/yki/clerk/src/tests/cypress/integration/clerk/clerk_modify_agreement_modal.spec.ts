@@ -40,14 +40,14 @@ describe('ModifyAgreementModal', () => {
 
     it('should revert changes when cancel is clicked', () => {
       onModifyAgreementModal.enterStartDate('10.10.2025');
-      onModifyAgreementModal.expectLanguageLevelNotChecked('Englanti', 'PERUS');
-      onModifyAgreementModal.toggleLanguageLevel('Englanti', 'PERUS');
-      onModifyAgreementModal.expectLanguageLevelChecked('Englanti', 'PERUS');
+      onModifyAgreementModal.expectLanguageLevelNotChecked('englanti', 'PERUS');
+      onModifyAgreementModal.toggleLanguageLevel('englanti', 'PERUS');
+      onModifyAgreementModal.expectLanguageLevelChecked('englanti', 'PERUS');
       onModifyAgreementModal.clickCancelButton();
       onModifyAgreementModal.expectModalNotExist();
       onClerkRegisterListing.clickModifyButton();
       onModifyAgreementModal.expectModalVisible();
-      onModifyAgreementModal.expectLanguageLevelNotChecked('Englanti', 'PERUS');
+      onModifyAgreementModal.expectLanguageLevelNotChecked('englanti', 'PERUS');
       onModifyAgreementModal.expectStartDateValue('01.01.2018');
       onModifyAgreementModal.expectEndDateValue('01.01.2029');
     });
@@ -94,8 +94,8 @@ describe('ModifyAgreementModal', () => {
     });
 
     it('should successfully save with language selections', () => {
-      onModifyAgreementModal.toggleLanguageLevel('Englanti', 'PERUS');
-      onModifyAgreementModal.toggleLanguageLevel('Ranska', 'YLIN');
+      onModifyAgreementModal.toggleLanguageLevel('englanti', 'PERUS');
+      onModifyAgreementModal.toggleLanguageLevel('ranska', 'YLIN');
       onModifyAgreementModal.clickSaveButton();
       onToast.expectText('Muutokset tallennettu onnistuneesti');
     });
@@ -115,14 +115,14 @@ describe('ModifyAgreementModal', () => {
     });
 
     it('should persist language selections after save and reopen', () => {
-      onModifyAgreementModal.toggleLanguageLevel('Englanti', 'PERUS');
+      onModifyAgreementModal.toggleLanguageLevel('englanti', 'PERUS');
       onModifyAgreementModal.clickSaveButton();
       onToast.expectText('Muutokset tallennettu onnistuneesti');
       onModifyAgreementModal.clickCloseButton();
       onModifyAgreementModal.expectModalNotExist();
       onClerkRegisterListing.clickModifyButton();
       onModifyAgreementModal.expectModalVisible();
-      onModifyAgreementModal.expectLanguageLevelChecked('Englanti', 'PERUS');
+      onModifyAgreementModal.expectLanguageLevelChecked('englanti', 'PERUS');
     });
   });
 
@@ -131,19 +131,19 @@ describe('ModifyAgreementModal', () => {
       onModifyAgreementModal.enterStartDate('10.05.2026');
       onModifyAgreementModal.enterEndDate('10.05.2030');
 
-      onModifyAgreementModal.toggleLanguageLevel('Englanti', 'PERUS');
-      onModifyAgreementModal.toggleLanguageLevel('Englanti', 'KESKI');
-      onModifyAgreementModal.toggleLanguageLevel('Ranska', 'YLIN');
+      onModifyAgreementModal.toggleLanguageLevel('englanti', 'PERUS');
+      onModifyAgreementModal.toggleLanguageLevel('englanti', 'KESKI');
+      onModifyAgreementModal.toggleLanguageLevel('ranska', 'YLIN');
 
       onModifyAgreementModal.clickSaveButton();
       onToast.expectText('Muutokset tallennettu onnistuneesti');
     });
 
     it('should handle deselecting all levels for a language', () => {
-      onModifyAgreementModal.toggleLanguageLevel('Englanti', 'PERUS');
-      onModifyAgreementModal.expectLanguageLevelChecked('Englanti', 'PERUS');
-      onModifyAgreementModal.toggleLanguageLevel('Englanti', 'PERUS');
-      onModifyAgreementModal.expectLanguageLevelNotChecked('Englanti', 'PERUS');
+      onModifyAgreementModal.toggleLanguageLevel('englanti', 'PERUS');
+      onModifyAgreementModal.expectLanguageLevelChecked('englanti', 'PERUS');
+      onModifyAgreementModal.toggleLanguageLevel('englanti', 'PERUS');
+      onModifyAgreementModal.expectLanguageLevelNotChecked('englanti', 'PERUS');
       onModifyAgreementModal.clickSaveButton();
     });
 
@@ -151,18 +151,18 @@ describe('ModifyAgreementModal', () => {
       onModifyAgreementModal.enterStartDate('01.06.2026');
       onModifyAgreementModal.enterEndDate('01.06.2029');
 
-      onModifyAgreementModal.toggleLanguageLevel('Englanti', 'PERUS');
-      onModifyAgreementModal.toggleLanguageLevel('Saksa', 'KESKI');
-      onModifyAgreementModal.toggleLanguageLevel('Ranska', 'YLIN');
+      onModifyAgreementModal.toggleLanguageLevel('englanti', 'PERUS');
+      onModifyAgreementModal.toggleLanguageLevel('saksa', 'KESKI');
+      onModifyAgreementModal.toggleLanguageLevel('ranska', 'YLIN');
 
       onModifyAgreementModal.clickSaveButton();
       onModifyAgreementModal.clickCloseButton();
       onModifyAgreementModal.expectModalNotExist();
 
       onClerkRegisterListing.clickModifyButton();
-      onModifyAgreementModal.expectLanguageLevelChecked('Englanti', 'PERUS');
-      onModifyAgreementModal.expectLanguageLevelChecked('Saksa', 'KESKI');
-      onModifyAgreementModal.expectLanguageLevelChecked('Ranska', 'YLIN');
+      onModifyAgreementModal.expectLanguageLevelChecked('englanti', 'PERUS');
+      onModifyAgreementModal.expectLanguageLevelChecked('saksa', 'KESKI');
+      onModifyAgreementModal.expectLanguageLevelChecked('ranska', 'YLIN');
     });
   });
 });

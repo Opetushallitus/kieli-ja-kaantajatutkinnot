@@ -42,7 +42,7 @@ describe('ClerkRegisterListing', () => {
     );
     onClerkRegisterListing.expectLanguageProficienciesVisible();
     onClerkRegisterListing.expectLanguageProficiency(
-      'KielitutkinnotSuomi - Kaikki tasotSaksa - Ylin tasoPohjoissaame - Perustaso ja keskitaso',
+      'Kielitutkinnotsuomi - Kaikki tasotsaksa - Ylin tasopohjoissaame - Perustaso ja keskitaso',
     );
     onClerkRegisterListing.expectContactInfo('Iida Ikola');
     onClerkRegisterListing.expectContactInfo('0101234546');
