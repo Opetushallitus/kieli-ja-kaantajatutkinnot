@@ -166,6 +166,7 @@ public class ClerkCustomerService {
       return onrService
         .listPersonDetails(oids)
         .stream()
+        .filter(dto -> dto.getIdentityNumber() != null)
         .collect(Collectors.toMap(PersonalDataDTO::getOidHenkilo, PersonalDataDTO::getIdentityNumber));
     } catch (final Exception e) {
       LOG.error("Unable to get identity numbers from ONR", e);
