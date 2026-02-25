@@ -10,16 +10,20 @@ import fi.oph.yki.api.dto.clerk.ClerkExamDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamLocationDTO;
 import fi.oph.yki.model.ExamPayment;
 import fi.oph.yki.model.FreeRegistration;
+import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.onr.OnrService;
+import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.PersonSearchProjection;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.HetuUtils;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,23 +88,24 @@ public class ClerkCustomerService {
       .build();
   }
 
+  private String getIdentityNumber(Person person) {
+    try {
+      return onrService.getPersonalData(person.getOid()).getIdentityNumber();
+    } catch (final Exception e) {
+      LOG.error("Unable to get identity number from ONR for oid: {}", person.getOid(), e);
+      return null;
+    }
+  }
+
   @Transactional(readOnly = true)
   public ClerkCustomerDetailsDTO getClerkCustomerDetails(final String oid) {
     final var person = personRepository.getByOid(oid);
-
-    String identityNumber;
-    try {
-      identityNumber = onrService.getPersonalData(person.getOid()).getIdentityNumber();
-    } catch (final Exception e) {
-      identityNumber = null;
-      LOG.error("Unable to get identity number from ONR for oid: {}", person.getOid(), e);
-    }
 
     final var personDTO = ClerkCustomerPersonDTO
       .builder()
       .firstName(person.getFirstName())
       .lastName(person.getLastName())
-      .ssn(identityNumber)
+      .ssn(getIdentityNumber(person))
       .oid(person.getOid())
       .nationalityCode(person.getNationalityCode())
       .phoneNumber(person.getPhoneNumber())
@@ -156,38 +161,46 @@ public class ClerkCustomerService {
     );
   }
 
+  private Map<String, String> getOidToHetuMap(List<String> oids) {
+    try {
+      return onrService
+        .listPersonDetails(oids)
+        .stream()
+        .filter(dto -> dto.getIdentityNumber() != null)
+        .collect(Collectors.toMap(PersonalDataDTO::getOidHenkilo, PersonalDataDTO::getIdentityNumber));
+    } catch (final Exception e) {
+      LOG.error("Unable to get identity numbers from ONR", e);
+      return Map.of();
+    }
+  }
+
   @Transactional(readOnly = true)
   public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(
     final Pageable pageable,
     final ClerkCustomerSearchRequestDTO request
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
-    return searchPersons(pageable, request)
-      .map(person -> {
-        String identityNumber;
-        try {
-          identityNumber = onrService.getPersonalData(person.oid()).getIdentityNumber();
-        } catch (final Exception e) {
-          identityNumber = null;
-          LOG.error("Unable to get identity number from ONR for oid: {}", person.oid(), e);
-        }
+    final var personsPage = searchPersons(pageable, request);
+    final var oids = personsPage.getContent().stream().map(PersonSearchProjection::oid).toList();
+    final var hetuByOid = getOidToHetuMap(oids);
 
-        return ClerkCustomerSummaryDTO
-          .builder()
-          .person(
-            ClerkCustomerPersonDTO
-              .builder()
-              .firstName(person.firstName())
-              .lastName(person.lastName())
-              .ssn(identityNumber)
-              .oid(person.oid())
-              .nationalityCode(person.nationalityCode())
-              .phoneNumber(person.phoneNumber())
-              .streetAddress(person.streetAddress())
-              .email(person.email())
-              .build()
-          )
-          .registrationsCount(person.registrationsCount() == null ? 0 : person.registrationsCount())
-          .build();
-      });
+    return personsPage.map(person ->
+      ClerkCustomerSummaryDTO
+        .builder()
+        .person(
+          ClerkCustomerPersonDTO
+            .builder()
+            .firstName(person.firstName())
+            .lastName(person.lastName())
+            .ssn(hetuByOid.get(person.oid()))
+            .oid(person.oid())
+            .nationalityCode(person.nationalityCode())
+            .phoneNumber(person.phoneNumber())
+            .streetAddress(person.streetAddress())
+            .email(person.email())
+            .build()
+        )
+        .registrationsCount(person.registrationsCount() == null ? 0 : person.registrationsCount())
+        .build()
+    );
   }
 }
