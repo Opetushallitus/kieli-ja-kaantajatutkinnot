@@ -9,14 +9,11 @@ import {
   CustomModal,
   H2,
   H3,
-  ManagedPaginatedTable,
   Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
-import { useWindowProperties } from 'shared/hooks';
 
-import { PublicExamSessionListingHeader } from 'components/registration/examSession/PublicExamSessionListingHeader';
-import { PublicExamSessionListingRow } from 'components/registration/examSession/PublicExamSessionListingRow';
+import { PublicExamSessionCard } from 'components/registration/examSession/PublicExamSessionCard';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
@@ -29,49 +26,6 @@ import {
 } from 'redux/reducers/registration';
 import { examSessionsSelector } from 'redux/selectors/examSessions';
 import { registrationSelector } from 'redux/selectors/registration';
-import { TableUtils } from 'utils/table';
-
-const getRowDetails = (examSession: ExamSession) => {
-  return <PublicExamSessionListingRow examSession={examSession} />;
-};
-
-const DisplayedRowsLabel = ({
-  from,
-  to,
-  count,
-}: {
-  from: number;
-  to: number;
-  count: number;
-}) => {
-  const translateCommon = useCommonTranslation();
-  const { isPhone } = useWindowProperties();
-  const fullLabelText = translateCommon(
-    'component.table.pagination.displayedRowsAriaLabel',
-    {
-      from,
-      to,
-      count,
-    },
-  );
-
-  if (isPhone) {
-    return (
-      <>
-        <span className="display-none">{fullLabelText}</span>
-        <span aria-hidden="true">
-          {translateCommon('component.table.pagination.displayedRowsLabel', {
-            from,
-            to,
-            count,
-          })}
-        </span>
-      </>
-    );
-  } else {
-    return fullLabelText;
-  }
-};
 
 const RegistrationInitLoadingModal = () => {
   const { initRegistration } = useAppSelector(registrationSelector);
@@ -226,11 +180,8 @@ const RegistrationInitErrorModal = ({
 
 export const PublicExamSessionsTable = ({
   examSessions,
-  onPageChange,
-  onRowsPerPageChange,
   page,
   rowsPerPage,
-  rowsPerPageOptions,
 }: {
   examSessions: Array<ExamSession>;
   onPageChange: (page: number) => void;
@@ -239,29 +190,17 @@ export const PublicExamSessionsTable = ({
   rowsPerPage: number;
   rowsPerPageOptions: Array<number>;
 }) => {
-  const translateCommon = useCommonTranslation();
+  const paginatedSessions = examSessions.slice(
+    page * rowsPerPage,
+    (page + 1) * rowsPerPage,
+  );
 
   return (
-    <ManagedPaginatedTable
-      className="public-exam-session-listing table-layout-auto"
-      data={examSessions}
-      header={<PublicExamSessionListingHeader />}
-      getRowDetails={getRowDetails}
-      rowsPerPageOptions={rowsPerPageOptions}
-      page={page}
-      onPageChange={onPageChange}
-      rowsPerPage={rowsPerPage}
-      onRowsPerPageChange={onRowsPerPageChange}
-      rowsPerPageLabel={translateCommon(
-        'component.table.pagination.rowsPerPage',
-      )}
-      labelDisplayedRows={({ from, to, count }) => (
-        <DisplayedRowsLabel from={from} to={to} count={count} />
-      )}
-      backIconButtonProps={TableUtils.getPaginationBackButtonProps()}
-      nextIconButtonProps={TableUtils.getPaginationNextButtonProps()}
-      stickyHeader
-    />
+    <div className="exam-session-cards">
+      {paginatedSessions.map((examSession) => (
+        <PublicExamSessionCard key={examSession.id} examSession={examSession} />
+      ))}
+    </div>
   );
 };
 
