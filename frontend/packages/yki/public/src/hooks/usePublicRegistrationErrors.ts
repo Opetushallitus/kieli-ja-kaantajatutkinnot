@@ -99,6 +99,9 @@ const getErrors = (
       required: true,
       value: registration.lastName,
     });
+    if (!registration.nativeLanguage) {
+      errors['nativeLanguage'] = CustomTextFieldErrors.Required;
+    }
     if (!registration.gender) {
       errors['gender'] = CustomTextFieldErrors.Required;
     }

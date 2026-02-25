@@ -10,6 +10,7 @@ import {
   //NoSessionResponse,
   SuomiFiAuthenticatedSessionResponse,
 } from 'tests/msw/fixtures/identity';
+import { kieliResponse } from 'tests/msw/fixtures/kieli';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { personDetails } from 'tests/msw/fixtures/personDetails';
 import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/registrationInit';
@@ -137,6 +138,7 @@ export const handlers = [
   http.get(APIEndpoints.CountryCodes, () =>
     HttpResponse.json(maatJaValtiot2Response),
   ),
+  http.get(APIEndpoints.LanguageCodes, () => HttpResponse.json(kieliResponse)),
   http.post(APIEndpoints.SubmitRegistration, async ({ params, request }) => {
     const { registrationId } = params;
     const queued = Number(registrationId) % 2 === 1;

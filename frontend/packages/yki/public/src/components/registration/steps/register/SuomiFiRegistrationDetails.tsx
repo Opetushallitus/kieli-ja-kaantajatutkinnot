@@ -16,7 +16,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { useNationalityOptions } from 'hooks/useNationalityOptions';
 import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
-import { Nationality } from 'interfaces/nationality';
+import { CodeElement } from 'interfaces/code';
 import {
   PublicEmailRegistration,
   PublicSuomiFiRegistration,
@@ -24,7 +24,7 @@ import {
 import { updatePublicRegistration } from 'redux/reducers/registration';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
-import { nationalityToComboBoxOption } from 'utils/autocomplete';
+import { codeElementToComboBoxOption } from 'utils/autocomplete';
 
 const PersonIdentityDetails = () => {
   const registration: Partial<
@@ -191,12 +191,12 @@ export const SuomiFiRegistrationDetails = () => {
           values={nationalityOptions}
           value={
             registration.nationality
-              ? nationalityToComboBoxOption(
+              ? codeElementToComboBoxOption(
                   nationalities.find(
                     ({ code, language }) =>
                       code === registration.nationality &&
                       language === appLanguage,
-                  ) as Nationality,
+                  ) as CodeElement,
                 )
               : null
           }
