@@ -43,7 +43,7 @@ describe('ClerkAddOrganizer', () => {
     onClerkAddOrganizer.clickSearchResult(0);
     onClerkAddOrganizer.enterStartDate('15.03.2026');
     onClerkAddOrganizer.enterEndDate('31.12.2028');
-    onClerkAddOrganizer.toggleLanguageLevel('Suomi', 'PERUS');
+    onClerkAddOrganizer.toggleLanguageLevel('suomi', 'PERUS');
 
     // Try to save without contact info
     onClerkAddOrganizer.clickAddButton();
@@ -77,12 +77,12 @@ describe('ClerkAddOrganizer', () => {
     onClerkAddOrganizer.enterEndDate('31.12.2029');
 
     // Select languages
-    onClerkAddOrganizer.toggleLanguageLevel('Suomi', 'PERUS');
-    onClerkAddOrganizer.toggleLanguageLevel('Suomi', 'KESKI');
-    onClerkAddOrganizer.toggleLanguageLevel('Englanti', 'YLIN');
-    onClerkAddOrganizer.expectLanguageLevelChecked('Suomi', 'PERUS');
-    onClerkAddOrganizer.expectLanguageLevelChecked('Suomi', 'KESKI');
-    onClerkAddOrganizer.expectLanguageLevelChecked('Englanti', 'YLIN');
+    onClerkAddOrganizer.toggleLanguageLevel('suomi', 'PERUS');
+    onClerkAddOrganizer.toggleLanguageLevel('suomi', 'KESKI');
+    onClerkAddOrganizer.toggleLanguageLevel('englanti', 'YLIN');
+    onClerkAddOrganizer.expectLanguageLevelChecked('suomi', 'PERUS');
+    onClerkAddOrganizer.expectLanguageLevelChecked('suomi', 'KESKI');
+    onClerkAddOrganizer.expectLanguageLevelChecked('englanti', 'YLIN');
 
     // Fill contact information
     onClerkAddOrganizer.enterContactName('Etunimi Sukunimi');
