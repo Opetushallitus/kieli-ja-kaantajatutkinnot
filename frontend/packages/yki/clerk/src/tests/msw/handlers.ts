@@ -209,9 +209,6 @@ export const handlers = [
       empty: paged.length === 0,
     });
   }),
-  http.post('/organisaatio-service/rest/organisaatio/v3/findbyoids', () => {
-    return HttpResponse.json(findByOidsResponse);
-  }),
   http.post(
     '/organisaatio-service/rest/organisaatio/v3/findbyoids',
     async ({ request }) => {
