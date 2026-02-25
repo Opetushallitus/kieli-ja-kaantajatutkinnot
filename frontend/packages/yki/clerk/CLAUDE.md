@@ -61,6 +61,18 @@ Pattern: `load*` action triggers saga → saga calls API → deserialize → `st
 
 API responses are deserialized in [src/utils/serialization.ts](src/utils/serialization.ts) before storing in Redux (e.g., date strings → dayjs objects).
 
+### Clerk customer details flow (example)
+
+1. [src/enums/app.ts](src/enums/app.ts) — `AppRoutes` defines frontend routes
+2. [src/routers/AppRouter.tsx](src/routers/AppRouter.tsx) — router logic
+3. [src/pages/ClerkCustomerDetailsPage.tsx](src/pages/ClerkCustomerDetailsPage.tsx) — page component
+4. [src/components/clerk/clerkCustomer/ClerkCustomerDetails.tsx](src/components/clerk/clerkCustomer/ClerkCustomerDetails.tsx) — main component
+5. [src/redux/selectors/clerkCustomerDetails.ts](src/redux/selectors/clerkCustomerDetails.ts) — selector
+6. [src/redux/reducers/clerkCustomerDetails.ts](src/redux/reducers/clerkCustomerDetails.ts) — reducer
+7. [src/redux/sagas/clerkCustomerDetails.ts](src/redux/sagas/clerkCustomerDetails.ts) — saga: calls backend API or MSW
+8. [src/utils/serialization.ts](src/utils/serialization.ts) — deserializes API response (e.g. `deserializeClerkCustomerDetailsResponse`)
+9. [src/enums/api.ts](src/enums/api.ts) — `APIEndpoints` defines API endpoints
+
 ## API Endpoints
 
 - Defined in [src/enums/api.ts](src/enums/api.ts)
@@ -80,6 +92,17 @@ When developing, endpoints are mocked in [src/tests/msw/handlers.ts](src/tests/m
 - During development: write Finnish text, copy same value to Swedish and English
 - Use `useCommonTranslation()` hook with `keyPrefix: 'yki.common'`
 - Translators will translate later
+
+### Which file to edit
+
+- `common.json` — shared keys under `yki.common.*` (generic errors, labels, dates, etc.)
+- `public.json` — component/page-specific keys under `yki.component.*` and `yki.pages.*`
+
+### Key naming convention
+
+- Generic error: `yki.common.error`
+- Component-specific errors: `yki.component.<componentName>.errors.<key>` (e.g. `yki.component.clerkExamDate.errors.loadingFailed`)
+- Always update all three locale files (fi-FI, sv-SE, en-GB) with the same Finnish text during development
 
 ## Styling
 
@@ -101,15 +124,3 @@ The `shared` package provides common utilities, enums, and types:
 - `DateUtils` for date formatting
 - `AppLanguage`, `I18nNamespace` enums
 
-## Plan File Naming Convention
-
-When creating plans, use this format:
-`~/.claude/plans/YYYY-MM-DD-feature-name.md`
-
-Example: `2025-02-13-user-authentication.md`
-
-Always include:
-- ISO date prefix (YYYY-MM-DD)
-- Kebab-case feature name
-- .md extension
-```

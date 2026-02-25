@@ -1,26 +1,42 @@
-# Database
-- The database older than our backend. The old backend is remotely at https://github.com/Opetushallitus/yki, and locally potentially at `../../../yki`. The old database contain the data already, so when our code is missing tables or columns, that is very domain specific, that it should be reviewed manually by the user.
+# YKI Backend
 
-- We have sql scripts at `db` - folder to set up the database locally, with `db/create_db_sql.sh`
-- We also use liquibase to add new migrations.
+## Database
 
+The database is older than our backend. The old backend is remotely at https://github.com/Opetushallitus/yki, and locally potentially at `../../../yki`. The old database contains the data already, so when our code is missing tables or columns, that is very domain specific and should be reviewed manually.
 
-# Maven
-We use maven, not gradle, and this is a shared project. Parent pom is at the parent folder.
+- SQL scripts to set up the database locally: `db/` folder, entry point `db/create_db_sql.sh`
+- Liquibase migrations: `src/main/resources/db/changelog/`
 
-./mvnw clean install build etc
+### Liquibase
 
+- Do **not** create new migration files — update the existing one.
 
-## Coding style
-Follow the existing styles of the codebase. Don't comment much. Only comments that requires larger context, eg. domain decisions or bug fixes.
+## Maven
 
-## Code structure
+This is a shared project. Parent pom is at the root. Use `./mvnw` (not gradle):
 
-### backend
- 1. @src/main/java/fi/oph/yki/api/ - controllers
- 2. @src/main/java/fi/oph/yki/api/clerk - Clerk - specific controllers
- 3. @src/main/java/fi/oph/yki/service/ - services
- 3. @src/main/java/fi/oph/yki/repository - repositories
- 4. @db - folder: local database initialization scripts
- 5. @src/main/resources/db/changelog - liquibase migrations
+```bash
+./mvnw clean install
+```
 
+## Code Structure
+
+```
+src/main/java/fi/oph/yki/
+├── api/          # Controllers (REST endpoints)
+│   └── clerk/   # Clerk-specific controllers
+├── service/      # Business logic
+├── repository/   # JPA repositories (database access)
+├── model/        # JPA entities
+└── ...
+src/main/resources/db/changelog/   # Liquibase migrations
+db/                                # Local DB init scripts
+```
+
+## Clerk Customer Details Flow (example)
+
+1. [src/main/java/fi/oph/yki/api/clerk/ClerkCustomerController.java](src/main/java/fi/oph/yki/api/clerk/ClerkCustomerController.java) — REST controller
+2. [src/main/java/fi/oph/yki/service/ClerkCustomerService.java](src/main/java/fi/oph/yki/service/ClerkCustomerService.java) — business logic
+3. [src/main/java/fi/oph/yki/repository/](src/main/java/fi/oph/yki/repository/) — JPA repositories
+4. [db/](db/) — local database initialization scripts
+5. [src/main/resources/db/changelog/](src/main/resources/db/changelog/) — Liquibase migrations
