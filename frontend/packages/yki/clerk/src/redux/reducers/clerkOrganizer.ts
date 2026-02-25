@@ -128,6 +128,10 @@ const clerkOrganizersSlice = createSlice({
     rejectClerkOrganization(state) {
       state.organizationStatus = APIResponseStatus.Error;
     },
+    resetClerkOrganization(state) {
+      state.organizationStatus = APIResponseStatus.NotStarted;
+      state.organization = undefined;
+    },
     addClerkOrganizer(
       state,
       _action: PayloadAction<Omit<ClerkOrganizer, 'id' | 'nimi'>>,
@@ -167,6 +171,7 @@ export const {
   loadClerkOrganization,
   storeClerkOrganization,
   rejectClerkOrganization,
+  resetClerkOrganization,
   addClerkOrganizer,
   storeAddClerkOrganizer,
   rejectAddClerkOrganizer,

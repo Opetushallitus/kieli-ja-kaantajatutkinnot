@@ -26,6 +26,7 @@ import { H3, Label, Text } from 'ophTheme/Text';
 import {
   addClerkOrganizer,
   loadClerkOrganization,
+  resetClerkOrganization,
 } from 'redux/reducers/clerkOrganizer';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
 import { getOrganizerAddress, LANGUAGES, levelDescription } from 'utils/clerk';
@@ -120,6 +121,12 @@ export const ClerkAddOrganizerDetails = ({
       });
     }
   }, [addClerkOrganizerStatus, navigate, showToast, t]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetClerkOrganization());
+    };
+  }, [dispatch]);
 
   const handleCancel = () => {
     navigate(AppRoutes.ClerkOrganizerRegister);
