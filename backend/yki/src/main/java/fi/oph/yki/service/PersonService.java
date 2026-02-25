@@ -18,6 +18,7 @@ public class PersonService {
 
   private final PersonRepository personRepository;
   private final PersonSyncStatusRepository personSyncStatusRepository;
+  private final AuditService auditService;
 
   @Transactional
   public void updateContactDetails(final String oid, final ClerkPersonContactUpdateDTO dto) {
@@ -26,6 +27,7 @@ public class PersonService {
       throw new NotFoundException(String.format("Person not found with oid: %s", oid));
     }
 
+    auditService.logClerkById(YkiOperation.UPDATE_PERSON_CONTACT_DETAILS, oid);
     person.setEmail(dto.email());
     person.setPhoneNumber(dto.phoneNumber());
     person.setSteetAddress(dto.streetAddress());
