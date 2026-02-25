@@ -56,7 +56,7 @@ public class ClerkExamSessionServiceTest {
     assertEquals(examSession.getId(), result.id());
     assertEquals("fin", result.language());
     assertEquals("PERUS", result.level());
-    assertEquals(20, result.maxParticipants());
+    assertEquals(20, result.maxParticipantsTotal());
     assertEquals("Testi Henkilö", result.contactName());
     assertEquals("testi@example.com", result.contactEmail());
     assertEquals("0401234567", result.contactPhoneNumber());
@@ -84,7 +84,7 @@ public class ClerkExamSessionServiceTest {
       .builder()
       .language("deu")
       .level("KESKI")
-      .maxParticipants(30)
+      .maxParticipantsTotal(30)
       .streetAddress("Uusi katu 2")
       .zip("00200")
       .postOffice("Espoo")
@@ -97,7 +97,7 @@ public class ClerkExamSessionServiceTest {
 
     assertEquals("deu", result.language());
     assertEquals("KESKI", result.level());
-    assertEquals(30, result.maxParticipants());
+    assertEquals(30, result.maxParticipantsTotal());
     assertEquals("Uusi Henkilö", result.contactName());
     assertEquals("uusi@example.com", result.contactEmail());
     assertEquals("0509876543", result.contactPhoneNumber());

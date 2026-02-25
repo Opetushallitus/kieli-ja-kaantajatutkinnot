@@ -90,7 +90,13 @@ export const ClerkExamSessionEditModal = ({
     language: examSessionDetails.language,
     level: examSessionDetails.level,
     type: examSessionDetails.type ?? '',
-    maxParticipants: String(examSessionDetails.maxParticipants ?? ''),
+    maxParticipantsTotal: String(examSessionDetails.maxParticipantsTotal ?? ''),
+    maxParticipantsPartial1: String(
+      examSessionDetails.maxParticipantsPartial1 ?? '',
+    ),
+    maxParticipantsPartial2: String(
+      examSessionDetails.maxParticipantsPartial2 ?? '',
+    ),
     streetAddress: location?.streetAddress ?? '',
     postalCode: location?.zip ?? '',
     city: location?.postOffice ?? '',
@@ -175,13 +181,38 @@ export const ClerkExamSessionEditModal = ({
           options={examDateOptions}
           disabled={isSaving}
         />
-        <OphInputFormField
-          label={t('fields.maxParticipants')}
-          value={form.maxParticipants}
-          onChange={(e) => updateField('maxParticipants', e.target.value)}
-          type="number"
-          disabled={isSaving}
-        />
+        {form.type === ExamSessionType.FULL || !form.type ? (
+          <OphInputFormField
+            label={t('fields.maxParticipants')}
+            value={form.maxParticipantsTotal}
+            onChange={(e) =>
+              updateField('maxParticipantsTotal', e.target.value)
+            }
+            type="number"
+            disabled={isSaving}
+          />
+        ) : (
+          <div className="columns gapped">
+            <OphInputFormField
+              label={t('fields.maxParticipantsPart1')}
+              value={form.maxParticipantsPartial1}
+              onChange={(e) =>
+                updateField('maxParticipantsPartial1', e.target.value)
+              }
+              type="number"
+              disabled={isSaving}
+            />
+            <OphInputFormField
+              label={t('fields.maxParticipantsPart2')}
+              value={form.maxParticipantsPartial2}
+              onChange={(e) =>
+                updateField('maxParticipantsPartial2', e.target.value)
+              }
+              type="number"
+              disabled={isSaving}
+            />
+          </div>
+        )}
         <OphInputFormField
           label={t('fields.streetAddress')}
           value={form.streetAddress}

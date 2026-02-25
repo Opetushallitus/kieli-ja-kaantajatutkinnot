@@ -96,6 +96,8 @@
                 "LISTEN_WRITE": "Puheen ymmärtäminen ja kirjoittaminen"
               },
               "maxParticipants": "Osallistujien enimmäismäärä",
+              "maxParticipantsPart1": "Osakoe 1: enimmäismäärä",
+              "maxParticipantsPart2": "Osakoe 2: enimmäismäärä",
               "streetAddress": "Katuosoite",
               "postalCode": "Postinumero",
               "city": "Postitoimipaikka",

@@ -6,7 +6,9 @@ import { ClerkExamSession } from 'interfaces/clerkExamSession';
 export interface ClerkExamSessionEditForm {
   language: string;
   level: string;
-  maxParticipants: string;
+  maxParticipantsTotal: string;
+  maxParticipantsPartial1: string;
+  maxParticipantsPartial2: string;
   streetAddress: string;
   postalCode: string;
   city: string;

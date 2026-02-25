@@ -45,7 +45,9 @@ function* saveExamSessionSaga(
       {
         language: form.language,
         level: form.level,
-        maxParticipants: Number(form.maxParticipants),
+        maxParticipantsTotal: Number(form.maxParticipantsTotal),
+        maxParticipantsPartial1: Number(form.maxParticipantsPartial1) || null,
+        maxParticipantsPartial2: Number(form.maxParticipantsPartial2) || null,
         streetAddress: form.streetAddress,
         zip: form.postalCode,
         postOffice: form.city,

@@ -112,8 +112,8 @@ export const ClerkExamSessionDetails = ({
           </div>
         </div>
         <div className="rows gapped-xs">
-          <Label>{commonTranslation('maxParticipants')}</Label>
-          <div>{examSessionDetails.maxParticipants}</div>
+          <Label>{commonTranslation('maxParticipantsTotal')}</Label>
+          <div>{examSessionDetails.maxParticipantsTotal}</div>
         </div>
         <div className="rows gapped-xs">
           <Label>{commonTranslation('contactInfo')}</Label>

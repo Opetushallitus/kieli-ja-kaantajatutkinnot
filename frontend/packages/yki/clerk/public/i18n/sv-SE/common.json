@@ -97,7 +97,7 @@
         }
       },
       "institution": "Testplats",
-      "maxParticipants": "Osallistujapaikkojen määrä",
+      "maxParticipantsTotal": "Osallistujapaikkojen määrä",
       "contactInfo": "Yhteystiedot",
       "extraInfo": "Lisätiedot",
       "language": "Språk",
