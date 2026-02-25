@@ -30,7 +30,7 @@ function* loadExamDatesSaga() {
     yield put(storeExamDates(examDates));
   } catch (error) {
     yield put(rejectExamDates());
-    yield put(setAPIError(t('yki.common.error')));
+    yield put(setAPIError(t('yki.common.errors.loadingExamDatesFailed')));
   }
 }
 

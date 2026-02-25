@@ -47,6 +47,7 @@
           "required": "Uppgiften är obligatorisk",
           "telFormat": "Telefonnummret är felaktigt"
         },
+        "loadingExamDatesFailed": "Tutkintopäivien lataaminen epäonnistui",
         "loadingFailed": "Det gick inte att ladda uppgifterna.",
         "mismatchingEmails": "Innehållet i fälten för e-postadress motsvarar inte varandra",
         "registration": {

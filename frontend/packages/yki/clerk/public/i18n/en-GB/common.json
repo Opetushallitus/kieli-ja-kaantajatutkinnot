@@ -47,6 +47,7 @@
           "required": "The information is mandatory",
           "telFormat": "The telephone number is incorrect"
         },
+        "loadingExamDatesFailed": "Tutkintopäivien lataaminen epäonnistui",
         "loadingFailed": "Downloading the information failed.",
         "mismatchingEmails": "The contents of the email address fields are different.",
         "registration": {
