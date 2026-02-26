@@ -7,6 +7,7 @@ declare global {
     interface Chainable {
       isOnPage(page: string): Chainable<Element>;
       openClerkRegistrationPage(): void;
+      openClerkAddOrganizerPage(): void;
       openClerkFreeRegistrationPage(cookie?: Record<string, string>): void;
       openClerkFreeRegistrationDetailsPage(
         id: number,

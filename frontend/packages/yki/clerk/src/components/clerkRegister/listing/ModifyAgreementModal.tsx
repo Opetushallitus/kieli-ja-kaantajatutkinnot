@@ -21,7 +21,10 @@ import {
   OrganizerLanguage,
 } from 'interfaces/clerkOrganizer';
 import { H2, H3, Label, Text } from 'ophTheme/Text';
-import { updateClerkOrganizer } from 'redux/reducers/clerkOrganizer';
+import {
+  resetUpdateClerkOrganizerStatus,
+  updateClerkOrganizer,
+} from 'redux/reducers/clerkOrganizer';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
 import { LANGUAGES, levelDescription } from 'utils/clerk';
 
@@ -59,6 +62,7 @@ export const ModifyAgreementModal = ({
     contact_phone_number,
     extra,
   } = row;
+
   const [startDate, setStartDate] = useState<Dayjs | null>(
     agreement_start_date || null,
   );
@@ -118,6 +122,7 @@ export const ModifyAgreementModal = ({
     setEndDate(agreement_end_date || null);
     setLanguageSelections(initializeLanguageSelections());
     setIsModalOpen(false);
+    dispatch(resetUpdateClerkOrganizerStatus());
   };
 
   const toggleLanguageLevel = (
