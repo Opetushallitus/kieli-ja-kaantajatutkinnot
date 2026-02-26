@@ -4,6 +4,7 @@ import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -42,8 +43,7 @@ public class Registration {
   private RegistrationKind kind;
 
   @Column(name = "state", columnDefinition = "registration_state")
-  @Enumerated
-  @JdbcType(PostgreSQLEnumJdbcType.class)
+  @Enumerated(value = EnumType.STRING)
   private RegistrationState state;
 
   @Column(name = "lifted_from_queue_at")

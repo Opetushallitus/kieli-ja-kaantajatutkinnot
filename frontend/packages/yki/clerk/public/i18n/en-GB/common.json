@@ -132,6 +132,11 @@
         "description": "All changes will be lost.",
         "header": "Are you sure you want to leave this page?"
       },
+      "lang": {
+        "en": "Englanti",
+        "fi": "Suomi",
+        "sv": "Ruotsi"
+      },
       "next": "Next",
       "no": "No",
       "ophLogoAlt": "Logo: Finnish National Agency for Education.",

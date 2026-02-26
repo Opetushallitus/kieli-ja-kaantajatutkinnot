@@ -6,6 +6,7 @@ import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.FreeRegistrationSource;
 import fi.oph.yki.model.type.FreeRegistrationType;
 import java.time.LocalDate;
@@ -53,6 +54,7 @@ public class Factory {
 
   public static ExamSession examSession(final ExamDate examDate) {
     final ExamSession examSession = new ExamSession();
+    examSession.setType(ExamSessionType.FULL);
     examSession.setExamDate(examDate);
     examSession.setLanguage("fin");
     examSession.setLevel("PERUS");

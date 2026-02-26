@@ -3,6 +3,7 @@ package fi.oph.yki.model;
 import fi.oph.yki.model.type.ExamSessionType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -56,8 +57,7 @@ public class ExamSession {
   private String contactPhoneNumber;
 
   @Column(name = "type")
-  @Enumerated
-  @JdbcType(PostgreSQLEnumJdbcType.class)
+  @Enumerated(value = EnumType.STRING)
   private ExamSessionType type;
 
   @OneToMany(mappedBy = "examSession")

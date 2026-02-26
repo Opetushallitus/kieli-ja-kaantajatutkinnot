@@ -245,7 +245,7 @@ export const handlers = [
     // all exam dates
     // return HttpResponse.json({ dates: examDates.dates });
   }),
-  http.get(APIEndpoints.ExamDate, () => {
+  http.get(APIEndpoints.ClerkExamDate, () => {
     return HttpResponse.json(examDates);
   }),
   http.get(APIEndpoints.ClerkExamSession, () =>

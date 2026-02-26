@@ -132,6 +132,11 @@
         "description": "Du kommer att förlora dina ändringar.",
         "header": "Är du säker på att du vill lämna den här sidan?"
       },
+      "lang": {
+        "en": "Englanti",
+        "fi": "Suomi",
+        "sv": "Ruotsi"
+      },
       "next": "Följande",
       "no": "Nej",
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",

@@ -19,7 +19,12 @@ public class ClerkExamDateService {
   private final ExamDateRepository examDateRepository;
 
   private static ClerkExamDateLanguageDTO toLanguageDTO(final ExamDateLanguage lang) {
-    return ClerkExamDateLanguageDTO.builder().id(lang.getId()).languageCode(lang.getLanguageCode()).levelCode(lang.getLevelCode()).build();
+    return ClerkExamDateLanguageDTO
+      .builder()
+      .id(lang.getId())
+      .languageCode(lang.getLanguageCode())
+      .levelCode(lang.getLevelCode())
+      .build();
   }
 
   private static ClerkExamDateDTO toDTO(final ExamDate ed) {
