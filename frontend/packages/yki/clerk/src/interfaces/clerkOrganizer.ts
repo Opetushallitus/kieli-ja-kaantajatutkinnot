@@ -45,3 +45,20 @@ export type ClerkOrganizerType = {
   languages: Array<OrganizerLanguage> | null;
   extra: string;
 };
+
+type OrganizationTypes =
+  | 'organisaatiotyyppi_01'
+  | 'organisaatiotyyppi_02'
+  | 'organisaatiotyyppi_05';
+
+export interface ClerkOrganization {
+  oid: string;
+  nimi: {
+    fi: string;
+    sv?: string;
+    en?: string;
+  };
+  kotipaikkaUri?: string;
+  status: string;
+  organisaatiotyypit: OrganizationTypes[];
+}

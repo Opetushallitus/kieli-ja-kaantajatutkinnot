@@ -100,3 +100,16 @@ The `shared` package provides common utilities, enums, and types:
 - `APIResponseStatus` enum for loading states
 - `DateUtils` for date formatting
 - `AppLanguage`, `I18nNamespace` enums
+
+## Plan File Naming Convention
+
+When creating plans, use this format:
+`~/.claude/plans/YYYY-MM-DD-feature-name.md`
+
+Example: `2025-02-13-user-authentication.md`
+
+Always include:
+- ISO date prefix (YYYY-MM-DD)
+- Kebab-case feature name
+- .md extension
+```

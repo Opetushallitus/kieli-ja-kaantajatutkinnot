@@ -207,7 +207,37 @@
           "examSessionIsFull": "Examenstillfället är fullbokat"
         },
         "registrationDetails": {
-          "certificateLanguage": "På vilket språk vill du ha intyget? *",
+          "certificate": {
+            "furtherDetails": {
+              "label": "YKI-intyg",
+              "text": "Läs mer på Utbildningsstyrelsens webbplats:",
+              "url": "https://www.oph.fi/sv/utbildning-och-examina/efter-yki-testet#anchor-yki-intyg"
+            },
+            "part1": "När ditt test har bedömts får du ett intyg över examen.",
+            "part2": "Om du utför YKI-testet senast den 31 mars 2026 får du intyget per post.",
+            "part3": "Om du utför testet den 1 april 2026 eller senare kan du få ett digitalt YKI-intyg.",
+            "stronglyAuthenticated": {
+              "part4": "Intyget kommer till tjänsten Min Studieinfo om du använder <SuomiFiLink></SuomiFiLink>-meddelanden.",
+              "part5": "När intyget är klart i Min Studieinfo skickar Utbildningsstyrelsen ett meddelande till dig.",
+              "part6": "Du får meddelandet i tjänsten <SuomiFiLink></SuomiFiLink>-meddelanden.",
+              "part7": "I Min Studieinfo kan du se intyget och ladda ner det på finska, svenska eller engelska.",
+              "part8": "Om du inte använder <SuomiFiLink></SuomiFiLink>-meddelanden när intyget blir klart får du intyget per post.",
+              "part9": "Intyget skickas till postadressen i befolkningsdatasystemet."
+            },
+            "title": "Information om intyget",
+            "weaklyAuthenticated": {
+              "part4": "Intyget kommer till tjänsten Min Studieinfo om båda följande villkor uppfylls:",
+              "part5": "Du har på den här anmälningsblanketten angett din finländska personbeteckning.",
+              "part6": "Du använder elektroniska <SuomiFiLink></SuomiFiLink>-meddelanden.",
+              "part7": "När intyget är klart i Min Studieinfo skickar Utbildningsstyrelsen ett meddelande till dig.",
+              "part8": "Du får meddelandet i tjänsten <SuomiFiLink></SuomiFiLink>-meddelanden.",
+              "part9": "I Min Studieinfo kan du se intyget och ladda ner det på finska, svenska eller engelska.",
+              "part10": "Om du inte har en finländsk personbeteckning eller inte använder <SuomiFiLink></SuomiFiLink>-meddelanden får du YKI intyget per post.",
+              "part11": "Intyget skickas i första hand till postadressen i befolkningsdatasystemet.",
+              "part12": "Om du inte har uppgett din personbeteckning, kommer intyget att skickas till den postadress du har angett."
+            }
+          },
+          "certificateLanguage": "Ifall intyget postas, på vilket språk vill du ha intyget? *",
           "description1": "Fyll i YKI-anmälningsblanketten med examensdeltagarens uppgifter.",
           "description2": "För- och efternamnet måste stavas på samma sätt som på deltagarens officiella identitetsbevis.",
           "errors": {
@@ -632,7 +662,7 @@
             "linkText": "Efter YKI-testet: Kontrollbedömning (oph.fi)"
           },
           "pricing": {
-            "body1": "Det är möjligt att begära kontrollbedömning av ett eller flera delprov. Avgiften för kontrollbedömning är 100 euro per delprov. Avgiften ska betalas i samband med att begäran om kontrollbedömning görs. Endast betalda begäranden om kontrollbedömning behandlas.",
+            "body1": "Det är möjligt att begära kontrollbedömning av ett eller flera delprov. Avgiften för kontrollbedömning är 108 euro per delprov. Avgiften ska betalas i samband med att begäran om kontrollbedömning görs. Endast betalda begäranden om kontrollbedömning behandlas.",
             "body2": "Du kan ansöka om kontrollbedömning inom 14 dagar från den tidpunkt då du har haft möjlighet att få resultatet av YKI-testet. I tabellen nedan kan du kontrollera när du kan begära kontrollbedömning av din examensprestation. I slutet av sidan finns en lista på testdagar som du för tillfället kan begära kontrollbedömning för.",
             "body3": "Behandlingstiden för ärendet är i ungefär tre månader. Beslutet skickas per e-post.",
             "body4": "Avgiften återbetalas om bedömningen av delprovet förändras i samband med kontrollbedömningen.",
@@ -700,10 +730,14 @@
           }
         },
         "infoBox": {
-          "part1": "2026 blir en del av YKI-testerna avgiftsfria, villkoren för återbetalning av examensavgiften förtydligas och anmälan kan inte längre flyttas.",
-          "part2": "Läs mer på Utbildningsstyrelsens webbplats:",
-          "link": "Ändringar i YKI-tester fr.o.m. 1.1.2026",
-          "url": "https://www.oph.fi/sv/nyheter/2025/andringar-i-allmanna-sprakexamina-fran-och-med-den-1-januari-2026"
+          "afterYkiTest": {
+            "label": "Efter YKI-testet",
+            "url": "https://www.oph.fi/sv/utbildning-och-examina/efter-yki-testet"
+          },
+          "part1": "Om du utför testet den 1 april 2026 eller senare kan du få ett digitalt YKI-intyg.",
+          "part2": "Du får intyget i tjänsten Min Studieinfo.",
+          "part3": "Om du använder tjänsten <CustomLink></CustomLink>-meddelanden får du ett elektroniskt meddelande i <CustomLink></CustomLink> när intyget är klart.",
+          "part4": "Du kan läsa mer om testresultatet och intygen på Utbildningsstyrelsens webbplats:"
         },
         "labels": {
           "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",

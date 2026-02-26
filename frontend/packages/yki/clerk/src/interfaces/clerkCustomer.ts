@@ -16,6 +16,8 @@ export interface CustomerPerson {
   nationalityCode: string;
   phoneNumber?: string;
   streetAddress?: string;
+  postOffice?: string;
+  zip?: string;
   email?: string;
 }
 
@@ -93,6 +95,15 @@ export type RegistrationResponse = {
   expiresAt?: string;
 };
 
+export interface ClerkPersonContactUpdateRequest {
+  oid: string;
+  email: string;
+  phoneNumber: string;
+  streetAddress: string;
+  postOffice: string;
+  zip: string;
+}
+
 export type ClerkCustomerSearchParams = {
   request: {
     personQuery?: string;
@@ -146,6 +157,8 @@ export interface ClerkCustomerSummaryResponse {
     nationalityCode: string;
     phoneNumber: string | null;
     streetAddress: string | null;
+    postOffice: string | null;
+    zip: string | null;
     email: string | null;
   };
   registrationsCount: number;

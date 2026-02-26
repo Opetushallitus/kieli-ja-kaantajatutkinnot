@@ -173,7 +173,7 @@ export class SerializationUtils {
     };
   }
 
-  static serializeClerkOrganizer(organizer: ClerkOrganizer) {
+  static serializeClerkOrganizer(organizer: Partial<ClerkOrganizer>) {
     return {
       ...organizer,
       agreement_start_date: organizer.agreement_start_date
@@ -313,9 +313,11 @@ export class SerializationUtils {
         ssn: clerkCustomerSummaryResponse.person.ssn ?? undefined,
         phoneNumber:
           clerkCustomerSummaryResponse.person.phoneNumber ?? undefined,
+        email: clerkCustomerSummaryResponse.person.email ?? undefined,
         streetAddress:
           clerkCustomerSummaryResponse.person.streetAddress ?? undefined,
-        email: clerkCustomerSummaryResponse.person.email ?? undefined,
+        zip: clerkCustomerSummaryResponse.person.zip ?? undefined,
+        postOffice: clerkCustomerSummaryResponse.person.postOffice ?? undefined,
       },
     };
   }
@@ -453,6 +455,12 @@ export class SerializationUtils {
         ...nimiHistoria,
         alkuPvm: dayjs(nimiHistoria.alkuPvm),
       })),
+      tarkastusPvm: organizationResponse.tarkastusPvm
+        ? dayjs(organizationResponse.tarkastusPvm)
+        : undefined,
+      ytjpaivitysPvm: organizationResponse.ytjpaivitysPvm
+        ? dayjs(organizationResponse.ytjpaivitysPvm)
+        : undefined,
     };
   }
 }

@@ -24,6 +24,8 @@ class ClerkRegisterListing {
       cy.findByTestId('clerk-register__past-exam-sessions'),
     errorMessage: () => cy.contains('Järjestäjien hakeminen epäonnistui'),
     agreementExpiredWarning: () => cy.contains('Sopimus vanhentunut'),
+    addOrganizerButton: () =>
+      cy.findByRole('button', { name: 'Lisää järjestäjä' }),
   };
 
   expectListingTableVisible() {
@@ -118,14 +120,18 @@ class ClerkRegisterListing {
     this.elements.modifyButton().click();
   }
 
+  clickAddOrganizerButton() {
+    this.elements.addOrganizerButton().click();
+  }
+
   expectUpcomingExamSessionsVisible(amount: number) {
     this.elements.upcomingExamSessionsSection().and('have.length', amount);
   }
 
-  expectPastExamSessions() {
+  expectPastExamSessions(numberOfSessions: number) {
     this.elements.pastExamSessions().should('be.visible');
     this.elements.pastExamSessions().within(() => {
-      cy.get('tbody tr').should('have.length', 9);
+      cy.get('tbody tr').should('have.length', numberOfSessions);
     });
   }
 

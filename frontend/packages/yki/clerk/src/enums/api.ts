@@ -1,6 +1,7 @@
 export enum APIEndpoints {
   CountryCodes = '/yki/api/code/maatjavaltiot2',
   ClerkOrganizer = '/yki/v2/api/clerk/organizer',
+  AddClerkOrganizer = '/yki/v2/api/clerk/organizer/add',
   ClerkFreeRegistration = '/yki/v2/api/clerk/registration/approvals',
   ClerkFreeRegistrationDetails = '/yki/v2/api/clerk/registration/approval/:id',
   ClerkFreeRegistrationSupplementRequest = '/yki/v2/api/clerk/registration/approval/:id/supplement-request',
@@ -10,6 +11,6 @@ export enum APIEndpoints {
   ClerkExamSessionExcel = '/yki/v2/api/clerk/examSession/:id/excel',
   ClerkCustomersSearch = '/yki/v2/api/clerk/customer/search?page=:page&size=:size',
   ClerkExamDate = '/yki/v2/api/clerk/examDate',
-  ExamDate = '/yki/v2/api/exam-date',
+  ClerkPersonContactUpdate = '/yki/v2/api/clerk/person/:oid/contactDetails',
   User = '/yki/api/user/identity',
 }

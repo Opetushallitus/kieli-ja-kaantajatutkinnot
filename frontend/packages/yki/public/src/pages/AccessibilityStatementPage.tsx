@@ -134,8 +134,8 @@ export const AccessibilityStatementPage = () => {
                 {translateAccessibility('content.feedback.description2')}
                 {': '}
                 <WebLink
-                  href={`mailto:${translateCommon('contactEmail')}`}
-                  label={translateCommon('contactEmail')}
+                  href={`mailto:${translateCommon('contactEmail.oph')}`}
+                  label={translateCommon('contactEmail.oph')}
                 />
               </Text>
             </div>

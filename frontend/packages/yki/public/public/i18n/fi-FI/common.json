@@ -26,7 +26,14 @@
           }
         }
       },
-      "contactEmail": "kielitutkinnot@oph.fi",
+      "contactEmail": {
+        "jyu": "yki-info@jyu.fi",
+        "oph": "kielitutkinnot@oph.fi"
+      },
+      "contactPhone": {
+        "hours": "(Arkisin klo 9-11)",
+        "jyu": "+358 50 591 9322"
+      },
       "dates": {
         "dateTimeFormat": "l [klo] HH.mm"
       },
@@ -170,7 +177,11 @@
         "notFound": "Etsimääsi sivua ei löytynyt",
         "expiredLoginLink": "Linkki on vanhentunut"
       },
-      "previous": "Edellinen"
+      "previous": "Edellinen",
+      "suomiFiLink": {
+        "label": "Suomi.fi",
+        "url": "https://www.suomi.fi/viestit"
+      }
     }
   }
 }

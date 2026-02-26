@@ -11,6 +11,7 @@
 @import 'components/layouts/clerk-header';
 @import 'components/layouts/session-header';
 @import 'components/clerkRegisterOrganizerDetails/clerk-register-organizer-details';
+@import 'components/clerkAddOrganizer/clerk-add-organizer';
 
 // Pages
 @import 'pages/not-found-page';
@@ -20,3 +21,4 @@
 @import 'pages/clerk-exam-session-page';
 @import 'pages/clerk-customer-details-page';
 @import 'pages/clerk-customers-search-page';
+@import 'pages/clerk-add-organizer-page';

@@ -21,6 +21,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { clerkTheme } from 'ophTheme/OphTheme';
+import { ClerkAddOrganizerPage } from 'pages/ClerkAddOrganizerPage';
 import { ClerkCustomerDetailsPage } from 'pages/ClerkCustomerDetailsPage';
 import { ClerkCustomerSearchPage } from 'pages/ClerkCustomerSearchPage';
 import { ClerkExamSessionPage } from 'pages/ClerkExamSessionPage';
@@ -84,6 +85,14 @@ export const AppRouter: FC = () => {
           element={
             <YkiTitlePage title="clerk">
               <ClerkHomePage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ClerkAddOrganizer}
+          element={
+            <YkiTitlePage title="clerk">
+              <ClerkAddOrganizerPage />
             </YkiTitlePage>
           }
         />

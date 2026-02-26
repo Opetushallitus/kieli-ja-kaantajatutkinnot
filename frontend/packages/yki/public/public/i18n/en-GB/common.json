@@ -26,7 +26,14 @@
           }
         }
       },
-      "contactEmail": "kielitutkinnot@oph.fi",
+      "contactEmail": {
+        "jyu": "yki-info@jyu.fi",
+        "oph": "kielitutkinnot@oph.fi"
+      },
+      "contactPhone": {
+        "hours": "(Weekdays 9-11 am)",
+        "jyu": "+358 50 591 9322"
+      },
       "dates": {
         "dateTimeFormat": "l [at] HH:mm"
       },
@@ -170,7 +177,11 @@
         "notFound": "Page not found",
         "expiredLoginLink": "The link has expired"
       },
-      "previous": "Previous"
+      "previous": "Previous",
+      "suomiFiLink": {
+        "label": "Suomi.fi",
+        "url": "https://www.suomi.fi/messages"
+      }
     }
   }
 }

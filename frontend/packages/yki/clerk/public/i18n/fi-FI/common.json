@@ -1,15 +1,17 @@
 {
   "yki": {
     "common": {
-      "and": "ja",
       "actions": "Toiminnot",
       "address": "Osoite",
+      "and": "ja",
       "appNameAbbreviation": "YKI",
       "appTitle": "Yleiset kielitutkinnot - Opetushallitus",
       "back": "Takaisin",
       "backToHomePage": "Takaisin aloitussivulle",
       "cancel": "Keskeytä",
       "clerk": "Virkailija",
+      "clerkExamSessions": "Tutkintopäivät",
+      "clerkOrganizerRegister": "Järjestäjärekisteri",
       "component": {
         "table": {
           "header": {
@@ -20,15 +22,16 @@
           },
           "pagination": {
             "backButtonLabel": "Edelliset hakutulokset",
+            "clerkRowsPerPage": "Näytä per sivu",
             "displayedRowsAriaLabel": "Näytetään {{from}}-{{to}} / {{count}} tulosta",
             "displayedRowsLabel": "{{from}}-{{to}} / {{count}}",
             "nextButtonLabel": "Seuraavat hakutulokset",
-            "rowsPerPage": "Tulokset per sivu",
-            "clerkRowsPerPage": "Näytä per sivu"
+            "rowsPerPage": "Tulokset per sivu"
           }
         }
       },
       "contactEmail": "kielitutkinnot@oph.fi",
+      "customerSearch": "Asiakashaku",
       "dates": {
         "dateTimeFormat": "l [klo] HH.mm",
         "dateFormat": "l"
@@ -40,8 +43,8 @@
           "dateFormat": "Kirjoita päivämäärä muodossa pp.kk.vvvv",
           "emailFormat": "Sähköpostiosoite on virheellinen",
           "maxLength": "Teksti on liian pitkä",
-          "required": "Tieto on pakollinen",
           "personalIdentityCodeFormat": "Henkilötunnuksen muotoa ei tunnistettu",
+          "required": "Tieto on pakollinen",
           "telFormat": "Puhelinnumero on virheellinen"
         },
         "loadingFailed": "Tietojen lataaminen epäonnistui.",
@@ -56,6 +59,7 @@
         }
       },
       "examDate": "Testipäivä",
+      "examination": "Tutkinto",
       "examParts": {
         "readingComprehension": "Tekstin ymmärtäminen",
         "speaking": "Puhuminen",
@@ -63,7 +67,7 @@
         "writing": "Kirjoittaminen"
       },
       "examSession": "Tutkinto",
-      "examination": "Tutkinto",
+      "freeRegistration": "Maksuttomuus",
       "full": "Täynnä",
       "gender": {
         "female": "Nainen",
@@ -77,6 +81,11 @@
           "langSelectorAriaLabel": "Kieli / Språk / Language",
           "mainNavigation": "Päänavigaatio"
         },
+        "lang": {
+          "en": "In English",
+          "fi": "Suomeksi",
+          "sv": "På svenska"
+        },
         "sessionState": {
           "activeRegistrations_one": "Sinulla on 1 ilmoittautuminen kesken.",
           "activeRegistrations_other": "Sinulla on {{count}} ilmoittautumista kesken.",
@@ -89,11 +98,6 @@
             "description2": "Menetät täyttämäsi tiedot ja ilmoittautumisesi keskeytyy.",
             "title": "Kirjaudu ulos"
           }
-        },
-        "lang": {
-          "en": "In English",
-          "fi": "Suomeksi",
-          "sv": "På svenska"
         }
       },
       "institution": "Testipaikka",
@@ -123,11 +127,11 @@
       "loadingContent": "Sisältöä ladataan",
       "loadingDone": "Lataus valmis",
       "municipality": "Paikkakunta",
+      "name": "Nimi",
       "navigationProtection": {
         "description": "Menetät tekemäsi muutokset.",
         "header": "Haluatko varmasti poistua sivulta?"
       },
-      "name": "Nimi",
       "lang": {
         "en": "Englanti",
         "fi": "Suomi",
@@ -138,8 +142,30 @@
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Yleisten kielitutkintojen ilmoittautumissivulle.",
       "or": "tai",
+      "pageTitle": {
+        "accessibilityStatement": "Saavutettavuusseloste",
+        "clerk": "Virkailija",
+        "confirmRegistration": "Vahvista ilmoittautuminen",
+        "customerDetails": "Asiakkaan tiedot",
+        "customerSearch": "Asiakashaku",
+        "evaluationOrder": "Tarkistusarviointi",
+        "evaluationOrderStatus": "Tarkistusarviointi",
+        "examDetails": "Tutkinto",
+        "expiredLoginLink": "Linkki on vanhentunut",
+        "freeRegistrationSuccess": "Ilmoittautuminen onnistui",
+        "initRegistration": "Ilmoittautuminen",
+        "logoutSuccess": "Uloskirjautuminen onnnistui",
+        "modifyContactDetails": "Muokkaa yhteystietoja",
+        "notFound": "Etsimääsi sivua ei löytynyt",
+        "reassessment": "Tarkistusarviointi",
+        "registration": "Ilmoittautuminen",
+        "registrationPaymentStatus": "Ilmoittautuminen",
+        "transferRegistration": "Siirrä ilmoittautuminen",
+        "userDetails": "Omat ilmoittautumiset"
+      },
       "phoneNumber": "Puhelinnumero",
       "placesAvailable": "Paikkoja vapaana",
+      "previous": "Edellinen",
       "price": "Hinta",
       "privacyStatement": {
         "description": "Noudatamme henkilötietojen käsittelyssä EU:n yleistä tietosuoja-asetusta.",
@@ -153,10 +179,6 @@
       },
       "reassessment": "Tarkistusarviointi",
       "registration": "Ilmoittautuminen",
-      "clerkOrganizerRegister": "Järjestäjärekisteri",
-      "freeRegistration": "Maksuttomuus",
-      "customerSearch": "Asiakashaku",
-      "organizerRegister": "Järjestäjärekisteri",
       "registrationPeriod": "Ilmoittautumisaika",
       "specialArrangementsLink": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin",
       "userRegistrations": "Omat ilmoittautumiset",
@@ -164,29 +186,7 @@
       "ykiHomepage": {
         "ariaLabel": "Yleisten kielitutkintojen verkkosivu (oph.fi), avaa uudessa välilehdessä",
         "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki"
-      },
-      "pageTitle": {
-        "clerk": "Virkailija",
-        "registration": "Ilmoittautuminen",
-        "initRegistration": "Ilmoittautuminen",
-        "examDetails": "Tutkinto",
-        "freeRegistrationSuccess": "Ilmoittautuminen onnistui",
-        "registrationPaymentStatus": "Ilmoittautuminen",
-        "reassessment": "Tarkistusarviointi",
-        "evaluationOrder": "Tarkistusarviointi",
-        "evaluationOrderStatus": "Tarkistusarviointi",
-        "accessibilityStatement": "Saavutettavuusseloste",
-        "logoutSuccess": "Uloskirjautuminen onnnistui",
-        "userDetails": "Omat ilmoittautumiset",
-        "transferRegistration": "Siirrä ilmoittautuminen",
-        "modifyContactDetails": "Muokkaa yhteystietoja",
-        "confirmRegistration": "Vahvista ilmoittautuminen",
-        "notFound": "Etsimääsi sivua ei löytynyt",
-        "expiredLoginLink": "Linkki on vanhentunut",
-        "customerSearch": "Asiakashaku",
-        "customerDetails": "Asiakkaan tiedot"
-      },
-      "previous": "Edellinen"
+      }
     }
   }
 }
