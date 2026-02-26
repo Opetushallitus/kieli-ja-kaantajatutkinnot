@@ -12,7 +12,7 @@ services:
       [
         "sh",
         "-c",
-        "cd vkt; ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${YKI_UNSECURE:-false}",
+        "cd yki; ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${YKI_UNSECURE:-false}",
       ]
     networks:
       - yki-dev
