@@ -59,9 +59,9 @@ public class ClerkExamSessionService {
       .date(examDate.getExamDate())
       .registrationStartDate(examDate.getRegistrationStartDate())
       .registrationEndDate(examDate.getRegistrationEndDate())
-      .maxParticipantsTotal(examSession.getMaxParticipantsTotal())
-      .maxParticipantsPartial1(examSession.getMaxParticipantsPartial1())
-      .maxParticipantsPartial2(examSession.getMaxParticipantsPartial2())
+      .maxParticipantsTotal(examSession.getMaxParticipants())
+      .maxParticipantsPartial1(examSession.getMaxParticipants())
+      .maxParticipantsPartial2(examSession.getMaxParticipants())
       .contactName(examSession.getContactName())
       .contactEmail(examSession.getContactEmail())
       .contactPhoneNumber(examSession.getContactPhoneNumber())
@@ -84,9 +84,7 @@ public class ClerkExamSessionService {
     examSession.setLanguage(dto.language());
     examSession.setLevel(dto.level());
     examSession.setType(dto.type());
-    examSession.setMaxParticipantsTotal(dto.maxParticipantsTotal());
-    examSession.setMaxParticipantsPartial1(dto.maxParticipantsPartial1());
-    examSession.setMaxParticipantsPartial2(dto.maxParticipantsPartial2());
+    examSession.setMaxParticipants(dto.maxParticipantsTotal());
 
     final var locations = examSession.getLocations();
     if (!locations.isEmpty()) {

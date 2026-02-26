@@ -43,9 +43,6 @@ public class ExamSession {
   @Column(name = "max_participants")
   private Integer maxParticipants;
 
-  @Column(name = "max_participants_2")
-  private Integer maxParticipants2;
-
   @Column(name = "office_oid")
   private String officeOid;
 

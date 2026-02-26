@@ -9,6 +9,7 @@ export enum APIEndpoints {
   ClerkExamSession = '/yki/v2/api/clerk/examSession/:id',
   ClerkExamSessionExcel = '/yki/v2/api/clerk/examSession/:id/excel',
   ClerkCustomersSearch = '/yki/v2/api/clerk/customer/search?page=:page&size=:size',
+  ClerkExamDate = '/yki/v2/api/clerk/examDate',
   ExamDate = '/yki/v2/api/exam-date',
   User = '/yki/api/user/identity',
 }

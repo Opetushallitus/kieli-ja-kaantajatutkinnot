@@ -5,6 +5,7 @@ import { ClerkExamSessionDetails } from 'components/clerkExamSession/ClerkExamSe
 import { ClerkExamSessionRegistrations } from 'components/clerkExamSession/ClerkExamSessionRegistrations';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { resetClerkExamSession } from 'redux/reducers/clerkExamSession';
+import { loadExamDates } from 'redux/reducers/examDate';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
 import { examDateSelector } from 'redux/selectors/examDate';
 
@@ -14,6 +15,8 @@ export const ClerkExamSession = () => {
   const { examDates } = useAppSelector(examDateSelector);
 
   useEffect(() => {
+    dispatch(loadExamDates());
+
     return () => {
       dispatch(resetClerkExamSession());
     };

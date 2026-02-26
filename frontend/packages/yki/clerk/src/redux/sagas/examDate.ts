@@ -18,7 +18,7 @@ function* loadExamDatesSaga() {
   try {
     const response: AxiosResponse<ExamDateResponse[]> = yield call(
       axiosInstance.get,
-      APIEndpoints.ExamDate,
+      APIEndpoints.ClerkExamDate,
     );
 
     const examDates: ExamDate[] = response.data.map((ed) => ({
