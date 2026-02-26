@@ -8,7 +8,7 @@ import {
 import { Dayjs } from 'dayjs';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CustomDatePicker } from 'shared/components';
+import { CustomDatePicker, LoadingProgressIndicator } from 'shared/components';
 import {
   APIResponseStatus,
   Color,
@@ -48,9 +48,8 @@ type LanguageSelection = {
 export const ClerkAddOrganizerDetails = ({
   selectedOrganizationOid,
 }: ClerkAddOrganizerDetailsProps) => {
-  const { organization, addClerkOrganizerStatus } = useAppSelector(
-    clerkOrganizersSelector,
-  );
+  const { organization, organizationStatus, addClerkOrganizerStatus } =
+    useAppSelector(clerkOrganizersSelector);
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
   const [contactName, setContactName] = useState<string>('');
@@ -287,10 +286,14 @@ export const ClerkAddOrganizerDetails = ({
         className="rows gapped-xl"
         style={{ marginTop: '1rem', maxWidth: '848px' }}
       >
-        <div>
-          <H3>{organization?.nimi?.fi ?? ''}</H3>
-          <Text>{`${organizerAddress.street}, ${organizerAddress.zipCode} ${organizerAddress.city}`}</Text>
-        </div>
+        <LoadingProgressIndicator
+          isLoading={organizationStatus === APIResponseStatus.InProgress}
+        >
+          <div>
+            <H3>{organization?.nimi?.fi ?? ''}</H3>
+            <Text>{`${organizerAddress.street}, ${organizerAddress.zipCode} ${organizerAddress.city}`}</Text>
+          </div>
+        </LoadingProgressIndicator>
         <H3>{t('listing.modals.modifyAgreement.organizerAgreementLabel')}</H3>
         <div
           className="columns gapped"
