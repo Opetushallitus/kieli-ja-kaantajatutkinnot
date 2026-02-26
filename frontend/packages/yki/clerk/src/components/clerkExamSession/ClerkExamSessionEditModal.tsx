@@ -76,10 +76,23 @@ export const ClerkExamSessionEditModal = ({
     label: t('fields.typeOptions.' + type),
   }));
 
-  const examDateOptions = examDates.map((ed) => ({
-    value: String(ed.id),
-    label: DateTimeUtils.renderDate(ed.examDate),
-  }));
+  const examDateOptions = examDates.map((ed) => {
+    const languagesStr =
+      ed.languages &&
+      ed.languages
+        .map(
+          (l) =>
+            translateCommon('languages.' + l.languageCode) +
+            ' - ' +
+            translateCommon('languageLevel.' + l.levelCode),
+        )
+        .join(', ');
+    const label = languagesStr
+      ? `${DateTimeUtils.renderDate(ed.examDate)} (${languagesStr})`
+      : DateTimeUtils.renderDate(ed.examDate);
+
+    return { value: String(ed.id), label };
+  });
 
   const currentExamDateId = examDates.find((ed) =>
     ed.examDate.isSame(examSessionDetails.date, 'day'),

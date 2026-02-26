@@ -1,6 +1,6 @@
 import { ExamDateResponse } from 'interfaces/examDate';
 
-export const examDates: ExamDateResponse[] = [
+const examDatesRaw = [
   { id: 1, examDate: '2018-01-27' },
   { id: 2, examDate: '2018-10-27' },
   { id: 3, examDate: '2018-11-10' },
@@ -90,3 +90,26 @@ export const examDates: ExamDateResponse[] = [
   { id: 101, examDate: '2027-10-31' },
   { id: 98, examDate: '2300-10-29' },
 ];
+
+const languagesByExamDateId: Record<number, ExamDateResponse['languages']> = {
+  107: [
+    { id: 1, languageCode: 'fin', levelCode: 'PERUS' },
+    { id: 2, languageCode: 'fin', levelCode: 'KESKI' },
+    { id: 3, languageCode: 'eng', levelCode: 'KESKI' },
+  ],
+  110: [
+    { id: 4, languageCode: 'swe', levelCode: 'PERUS' },
+    { id: 5, languageCode: 'fin', levelCode: 'YLIN' },
+  ],
+  101: [{ id: 6, languageCode: 'deu', levelCode: 'PERUS' }],
+  98: [
+    { id: 7, languageCode: 'fin', levelCode: 'PERUS' },
+    { id: 8, languageCode: 'fin', levelCode: 'KESKI' },
+    { id: 9, languageCode: 'fin', levelCode: 'YLIN' },
+  ],
+};
+
+export const examDates: ExamDateResponse[] = examDatesRaw.map((ed) => ({
+  ...ed,
+  languages: languagesByExamDateId[ed.id] ?? [],
+}));

@@ -24,6 +24,7 @@ function* loadExamDatesSaga() {
     const examDates: ExamDate[] = response.data.map((ed) => ({
       id: ed.id,
       examDate: dayjs(ed.examDate),
+      languages: ed.languages,
     }));
 
     yield put(storeExamDates(examDates));

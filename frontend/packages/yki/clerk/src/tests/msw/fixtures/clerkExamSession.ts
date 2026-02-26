@@ -1,10 +1,16 @@
-import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
+import {
+  ExamLanguage,
+  ExamLevel,
+  ExamSessionType,
+  RegistrationKind,
+} from 'enums/app';
 import { ClerkExamSessionResponse } from 'interfaces/clerkExamSession';
 import { registrations } from 'tests/msw/fixtures/clerkExamSessionRegistrations';
 
 export const clerkExamSession: ClerkExamSessionResponse = {
   level: ExamLevel.YLIN,
   language: ExamLanguage.FIN,
+  type: ExamSessionType.FULL,
   open: true,
   upcomingAdmission: true,
   participants: 15,
