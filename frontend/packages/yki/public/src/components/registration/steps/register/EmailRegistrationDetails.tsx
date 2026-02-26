@@ -225,6 +225,7 @@ export const EmailRegistrationDetails = () => {
         </div>
         <LabeledComboBox
           id="public-registration__contact-gender-field"
+          className="half-max-width"
           label={t('labels.gender') + ' *'}
           aria-label={t('labels.gender') + ' *'}
           placeholder={t('placeholders.gender')}
