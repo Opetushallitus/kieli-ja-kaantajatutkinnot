@@ -1,257 +1,5 @@
 {
-  "pages": {
-    "clerkAddOrganizerPage": {
-      "heading": "Lisää uusi kielitutkintojen järjestäjä"
-    },
-    "clerkCustomerDetailsPage": {
-      "heading": "Asiakkaan tiedot"
-    },
-    "clerkCustomersSearchPage": {
-      "heading": "Asiakashaku"
-    },
-    "clerkFreeRegistrationDetailsPage": {
-      "heading": "Maksuttomuuden tarkastukset"
-    },
-    "clerkFreeRegistrationPage": {
-      "heading": "Maksuttomuuden tarkastukset"
-    },
-    "clerkRegisterPage": {
-      "heading": "Kielitutkintojen järjestäjärekisteri"
-    },
-    "notFoundPage": {
-      "description": "Kontrollera webbadressen eller gå tillbaka till startsidan.",
-      "title": "Sidan hittades inte"
-    }
-  },
   "yki": {
-    "clerkFreeRegistration": {
-      "description": "Tarkasta oikeuttavatko ilmoittautujan toimittamat liitteet tutkinnon maksuttomuuteen ja hyväksy maksuttomuus tai lähetä lisätietopyyntö.",
-      "details": {
-        "attachments": {
-          "arrivedAt": "Saapunut",
-          "attachment": "Liite"
-        },
-        "buttons": {
-          "approveFreeRegistration": "Hyväksy maksuttomuus",
-          "rejectFreeRegistration": "Hylkää maksuttomuus",
-          "sendSupplementRequest": "Lähetä lisätietopyyntö"
-        },
-        "customerView": "Asiakkaan näkymä",
-        "examView": "Tutkintotilaisuuden näkymä",
-        "fields": {
-          "extraInformation": "Lisätiedot",
-          "freeRegistrationBasis": "Maksuttomuuden peruste",
-          "freeRegistrationsLeft": "Maksuttomia kertoja jäljellä",
-          "languageOfService": "Asiointikieli",
-          "registrationType": "Ilmoittautunut vai jono",
-          "status": "Tarkastuksen tila",
-          "supplementRequestDueDate": "Lisätietopyynnön eräpäivä"
-        },
-        "freeRegistrationBasis": {
-          "ComparableHigherEducationConcluded": "Opiskellut ulkomailla: korkeakoulututkinto",
-          "ComparableHigherEducationEnrolled": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja",
-          "ComparableMatriculation": "Opiskellut ulkomailla: ylioppilastutkinto",
-          "HigherEducationConcluded": "Opiskellut Suomessa: korkeakoulututkinto",
-          "HigherEducationEnrolled": "Opiskellut Suomessa: suorittamassa korkeakouluopintoja",
-          "MatriculationExam": "Opiskellut Suomessa: ylioppilastutkinto"
-        },
-        "freeRegistrationsLeft": "{{amount}} kpl",
-        "languageOfService": {
-          "en": "englanti",
-          "fi": "suomi",
-          "sv": "ruotsi"
-        },
-        "messages": {
-          "addNewComment": "Lisää uusi kommentti",
-          "message": {
-            "type": {
-              "COMMENT": "Kommentti",
-              "SUPPLEMENT_REQUEST": "Lisätietopyyntö"
-            }
-          },
-          "newCommentPart1": "Lisää uusi kommentti",
-          "newCommentPart2": "ei näy ilmoittautujalle",
-          "save": "Tallenna kommentti",
-          "title": "Tarkastajan kommentit ja lisätietopyynnöt"
-        },
-        "modals": {
-          "approve": {
-            "subTitle": "Olet hyväksymässä ilmoittautumisen maksuttomuuden.",
-            "title": "Vahvista maksuttomuuden hyväksyminen"
-          },
-          "reject": {
-            "subTitle": "Olet hylkäämässä ilmoittautumisen maksuttomuuden.",
-            "title": "Vahvista maksuttomuuden hylkääminen"
-          },
-          "supplementRequest": {
-            "dueDateDescription": "Eräpäivä asetetaan oletuksena 7 päivän päähän. Voit tarvittaessa muokata eräpäivää",
-            "dueDateError": "Tarkista tietopyynnön eräpäivä",
-            "dueDateLabel": "Lisätietopyynnön eräpäivä *",
-            "messageError": "Kirjoita viesti",
-            "submitButton": "Lähetä lisätietopyyntö",
-            "subTitle": "Kuvaile lyhyesti, miksi todistukset eivät kelpaa ja/tai mitä tietoa tarvitaan, jotta maksuttomuus voidaan hyväksyä. Linkki lisätietopyyntöön vastaamiseen lähetetään ilmoittautujalle lisätietopyynnön mukana.",
-            "subTitleLabel": "Lisätietopyyntö",
-            "title": "Lähetä lisätietopyyntö"
-          }
-        },
-        "registrationStatus": {
-          "enrolled": "Ilmoittautunut",
-          "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
-        },
-        "toasts": {
-          "addCommentConfirmed": "Kommentin lisääminen onnistui",
-          "addCommentFailed": "Kommentin lisääminen epäonnistui",
-          "approvalConfirmed": "Maksuttomuuden hyväksyminen onnistui",
-          "approvalFailed": "Maksuttomuuden hyväksyminen epäonnistui",
-          "notFound": "Maksuttoman ilmoittautumisen tietoja ei löydy",
-          "rejectConfirmed": "Maksuttomuuden hylkääminen onnistui",
-          "rejectFailed": "Maksuttomuuden hylkääminen epäonnistui",
-          "supplementRequestFailed": "Lisätietopyynnön lähetys epäonnistui",
-          "supplementRequestSuccess": "Lisätietopyyntö lähetetty"
-        }
-      },
-      "listing": {
-        "amountOfRegistrations": "{{ amount }} ilmoittautujaa",
-        "assessCertificate": "Tarkasta todistus",
-        "header": {
-          "actions": "Toiminnot",
-          "assessmentDate": "Tarkastuksen päivämäärä",
-          "examDate": "Tutkinnon pvm",
-          "person": "Nimi",
-          "registration": "Ilmoittautuminen",
-          "status": "Tarkastuksen tila",
-          "supplementRequestDueDate": "Lisätietopyynnön eräpäivä"
-        },
-        "registrationStatus": {
-          "enrolled": "Ilmoittautunut",
-          "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
-        },
-        "showDetails": "Näytä tiedot"
-      },
-      "status": {
-        "APPROVED": {
-          "part1": "Maksuttomuus hyväksytty"
-        },
-        "PENDING": {
-          "part1": "Maksuttomuus tarkastamatta"
-        },
-        "REJECTED": {
-          "part1": "Maksuttomuus hylätty"
-        },
-        "SUPPLEMENT_REQUEST_ANSWERED": {
-          "part1": "Maksuttomuus tarkastamatta,",
-          "part2": "lisätietopyyntöön vastattu"
-        },
-        "SUPPLEMENT_REQUEST_EXPIRED": {
-          "part1": "Maksuttomuus tarkastamatta,",
-          "part2": "lisätietopyyntöön ei vastattu"
-        },
-        "SUPPLEMENT_REQUESTED": {
-          "part1": "Lisätietopyyntö lähetetty,",
-          "part2": "odottaa vastausta"
-        }
-      },
-      "tabs": {
-        "pending": "Odottavat tarkastukset",
-        "previous": "Aiemmat tarkastukset"
-      }
-    },
-    "clerkRegister": {
-      "clerkAddOrganizer": {
-        "addButton": "Lisää järjestäjä",
-        "contactEmailPlaceholder": "essi.esimerkki@jarjestaja.fi",
-        "contactNamePlaceholder": "Essi Esimerkki",
-        "contactPhonePlaceholder": "+358 01 234 5678",
-        "extraInfoPlaceholder": "Esim yleinen sähköpostilista kaikille@jarjestaja.fi",
-        "organizationTypes": {
-          "type01": "Koulutustoimija",
-          "type02": "Oppilaitos",
-          "type05": "Muu organisaatio"
-        },
-        "search": {
-          "infoText": "Hae ja valitse organisaatio",
-          "label": "Hae organisaatiota",
-          "noResults": "Ei hakutuloksia",
-          "placeholder": "Hae organisaatiota",
-          "result_one": "{{count}} organisaatio",
-          "result_other": "{{count}} organisaatiota"
-        },
-        "toasts": {
-          "error": "Järjestäjän lisääminen epäonnistui",
-          "success": "Järjestäjän lisääminen onnistui"
-        },
-        "validation": {
-          "dateRequired": "Valitse päivämäärä",
-          "languageRequired": "Valitse vähintään yksi kieli ja taso"
-        }
-      },
-      "examSessionListing": {
-        "agreementExpired": "Sopimus vanhentunut",
-        "errors": {
-          "loadingFailed": "Järjestäjien hakeminen epäonnistui"
-        },
-        "header": {
-          "language": "Kieli",
-          "level": "Taso",
-          "registrationPerioid": "Ilmoittautumisaika",
-          "registrations": "Ilmoittautuneet",
-          "sessionDate": "Tutkintopäivä"
-        }
-      },
-      "listing": {
-        "actionButtons": {
-          "addOrganizer": "Lisää järjestäjä",
-          "adminUserView": "Tarkastele järjestäjän näkymää",
-          "modify": "Muokkaa tietoja"
-        },
-        "agreementExpired": "Sopimus vanhentunut",
-        "contentLabels": {
-          "contactInfo": "Yhteystiedot",
-          "extraInfo": "Lisätiedot",
-          "languageProficiencies": "Kielitutkinnot",
-          "organizerAgreement": "Järjestäjäsopimus",
-          "pastExamSessions": "Menneet tutkintotilaisuudet",
-          "pastExamSessionsDetails": "(edeltävät 365pv)",
-          "upcomingExamSessions": "Tulevat tutkintotilaisuudet"
-        },
-        "errors": {
-          "loadingFailed": "Järjestäjien hakeminen epäonnistui"
-        },
-        "filters": {
-          "all": "Kaikki",
-          "languageLabel": "Kieli",
-          "levelLabel": "Taso",
-          "searchLabel": "Hae järjestäjää tai paikkakuntaa",
-          "selectPlaceholder": "Valitse..."
-        },
-        "header": {
-          "agreements": "Kielitutkintosopimukset",
-          "municipality": "Paikkakunta",
-          "organizer": "Järjestäjä",
-          "searchResults": "({{count}}) järjestäjää"
-        },
-        "modals": {
-          "modifyAgreement": {
-            "addressLabel": "Osoite",
-            "cancelButton": "Peruuta",
-            "endDateBeforeStartDateError": "Sopimuksen päättymispäivä ei voi olla alkamispäivää aiemmin",
-            "endDateError": "Valitse sopimuksen päättymispäivä",
-            "endDateLabel": "Sopimus päättyy *",
-            "language": "Kieli *",
-            "languagesLabel": "Kielitutkinnot",
-            "organizerAgreementLabel": "Järjestäjäsopimus",
-            "saveButton": "Tallenna muutokset",
-            "startDateError": "Valitse sopimuksen alkamispäivä",
-            "startDateLabel": "Sopimus alkaa *",
-            "title": "Muokkaa tietoja",
-            "toasts": {
-              "updateError": "Muutosten tallentaminen epäonnistui",
-              "updateSuccess": "Muutokset tallennettu onnistuneesti"
-            }
-          }
-        }
-      }
-    },
     "component": {
       "clerkCustomer": {
         "details": {
@@ -354,7 +102,23 @@
       },
       "clerkExamDates": {
         "addNewExamDateButton": "Lisää tutkintopäivä",
-        "header": "Tutkintopäivät"
+        "header": "Tutkintopäivät",
+        "modal": {
+          "cancelButton": "Peruuta",
+          "examDateLabel": "Tutkintopäivä",
+          "examLabel": "Koe",
+          "examTypes": {
+            "allExamParts": "Kaikki osakokeet",
+            "readingComprehensionAndSpeaking": "Tekstin ymmärtäminen ja Puhuminen",
+            "speechComprehensionAndWriting": "Puheen ymmärtäminen ja kirjoittaminen"
+          },
+          "languageLabel": "Kieli",
+          "languageLevelsAndExamsHeader": "Kielitasot ja kokeet",
+          "registrationEndLabel": "Ilmoittautuminen päättyy",
+          "registrationStartLabel": "Ilmoittautuminen alkaa",
+          "submitButton": "Lisää tutkintopäivä",
+          "title": "Lisää uusi tutkintopäivä"
+        }
       },
       "clerkExamSessionRegistrations": {
         "buttons": {
@@ -399,11 +163,263 @@
             "subTitle": "Haluatko varmasti siirtää ilmoittautumisen?",
             "title": "Vahvista siirto"
           }
+        },
         "tabs": {
-            "admissions": "Ilmoittautuneet ({{ num }})",
-            "queued": "Jonossa ({{ num }})"
+          "admissions": "Ilmoittautuneet ({{ num }})",
+          "queued": "Jonossa ({{ num }})"
+        }
+      },
+      "clerkFreeRegistration": {
+        "description": "Tarkasta oikeuttavatko ilmoittautujan toimittamat liitteet tutkinnon maksuttomuuteen ja hyväksy maksuttomuus tai lähetä lisätietopyyntö.",
+        "details": {
+          "attachments": {
+            "arrivedAt": "Saapunut",
+            "attachment": "Liite"
+          },
+          "buttons": {
+            "approveFreeRegistration": "Hyväksy maksuttomuus",
+            "rejectFreeRegistration": "Hylkää maksuttomuus",
+            "sendSupplementRequest": "Lähetä lisätietopyyntö"
+          },
+          "customerView": "Asiakkaan näkymä",
+          "examView": "Tutkintotilaisuuden näkymä",
+          "fields": {
+            "extraInformation": "Lisätiedot",
+            "freeRegistrationBasis": "Maksuttomuuden peruste",
+            "freeRegistrationsLeft": "Maksuttomia kertoja jäljellä",
+            "languageOfService": "Asiointikieli",
+            "registrationType": "Ilmoittautunut vai jono",
+            "status": "Tarkastuksen tila",
+            "supplementRequestDueDate": "Lisätietopyynnön eräpäivä"
+          },
+          "freeRegistrationBasis": {
+            "ComparableHigherEducationConcluded": "Opiskellut ulkomailla: korkeakoulututkinto",
+            "ComparableHigherEducationEnrolled": "Opiskellut ulkomailla: suorittamassa korkeakouluopintoja",
+            "ComparableMatriculation": "Opiskellut ulkomailla: ylioppilastutkinto",
+            "HigherEducationConcluded": "Opiskellut Suomessa: korkeakoulututkinto",
+            "HigherEducationEnrolled": "Opiskellut Suomessa: suorittamassa korkeakouluopintoja",
+            "MatriculationExam": "Opiskellut Suomessa: ylioppilastutkinto"
+          },
+          "freeRegistrationsLeft": "{{amount}} kpl",
+          "languageOfService": {
+            "en": "englanti",
+            "fi": "suomi",
+            "sv": "ruotsi"
+          },
+          "messages": {
+            "addNewComment": "Lisää uusi kommentti",
+            "message": {
+              "type": {
+                "COMMENT": "Kommentti",
+                "SUPPLEMENT_REQUEST": "Lisätietopyyntö"
+              }
+            },
+            "newCommentPart1": "Lisää uusi kommentti",
+            "newCommentPart2": "ei näy ilmoittautujalle",
+            "save": "Tallenna kommentti",
+            "title": "Tarkastajan kommentit ja lisätietopyynnöt"
+          },
+          "modals": {
+            "approve": {
+              "subTitle": "Olet hyväksymässä ilmoittautumisen maksuttomuuden.",
+              "title": "Vahvista maksuttomuuden hyväksyminen"
+            },
+            "reject": {
+              "subTitle": "Olet hylkäämässä ilmoittautumisen maksuttomuuden.",
+              "title": "Vahvista maksuttomuuden hylkääminen"
+            },
+            "supplementRequest": {
+              "dueDateDescription": "Eräpäivä asetetaan oletuksena 7 päivän päähän. Voit tarvittaessa muokata eräpäivää",
+              "dueDateError": "Tarkista tietopyynnön eräpäivä",
+              "dueDateLabel": "Lisätietopyynnön eräpäivä *",
+              "messageError": "Kirjoita viesti",
+              "submitButton": "Lähetä lisätietopyyntö",
+              "subTitle": "Kuvaile lyhyesti, miksi todistukset eivät kelpaa ja/tai mitä tietoa tarvitaan, jotta maksuttomuus voidaan hyväksyä. Linkki lisätietopyyntöön vastaamiseen lähetetään ilmoittautujalle lisätietopyynnön mukana.",
+              "subTitleLabel": "Lisätietopyyntö",
+              "title": "Lähetä lisätietopyyntö"
+            }
+          },
+          "registrationStatus": {
+            "enrolled": "Ilmoittautunut",
+            "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
+          },
+          "toasts": {
+            "addCommentConfirmed": "Kommentin lisääminen onnistui",
+            "addCommentFailed": "Kommentin lisääminen epäonnistui",
+            "approvalConfirmed": "Maksuttomuuden hyväksyminen onnistui",
+            "approvalFailed": "Maksuttomuuden hyväksyminen epäonnistui",
+            "notFound": "Maksuttoman ilmoittautumisen tietoja ei löydy",
+            "rejectConfirmed": "Maksuttomuuden hylkääminen onnistui",
+            "rejectFailed": "Maksuttomuuden hylkääminen epäonnistui",
+            "supplementRequestFailed": "Lisätietopyynnön lähetys epäonnistui",
+            "supplementRequestSuccess": "Lisätietopyyntö lähetetty"
+          }
+        },
+        "listing": {
+          "amountOfRegistrations": "{{ amount }} ilmoittautujaa",
+          "assessCertificate": "Tarkasta todistus",
+          "header": {
+            "actions": "Toiminnot",
+            "assessmentDate": "Tarkastuksen päivämäärä",
+            "examDate": "Tutkinnon pvm",
+            "person": "Nimi",
+            "registration": "Ilmoittautuminen",
+            "status": "Tarkastuksen tila",
+            "supplementRequestDueDate": "Lisätietopyynnön eräpäivä"
+          },
+          "registrationStatus": {
+            "enrolled": "Ilmoittautunut",
+            "queued": "Jonossa ({{ positionInQueue }}/{{ queue }})"
+          },
+          "showDetails": "Näytä tiedot"
+        },
+        "status": {
+          "APPROVED": {
+            "part1": "Maksuttomuus hyväksytty"
+          },
+          "PENDING": {
+            "part1": "Maksuttomuus tarkastamatta"
+          },
+          "REJECTED": {
+            "part1": "Maksuttomuus hylätty"
+          },
+          "SUPPLEMENT_REQUEST_ANSWERED": {
+            "part1": "Maksuttomuus tarkastamatta,",
+            "part2": "lisätietopyyntöön vastattu"
+          },
+          "SUPPLEMENT_REQUEST_EXPIRED": {
+            "part1": "Maksuttomuus tarkastamatta,",
+            "part2": "lisätietopyyntöön ei vastattu"
+          },
+          "SUPPLEMENT_REQUESTED": {
+            "part1": "Lisätietopyyntö lähetetty,",
+            "part2": "odottaa vastausta"
+          }
+        },
+        "tabs": {
+          "pending": "Odottavat tarkastukset",
+          "previous": "Aiemmat tarkastukset"
+        }
+      },
+      "clerkRegister": {
+        "clerkAddOrganizer": {
+          "addButton": "Lisää järjestäjä",
+          "contactEmailPlaceholder": "essi.esimerkki@jarjestaja.fi",
+          "contactNamePlaceholder": "Essi Esimerkki",
+          "contactPhonePlaceholder": "+358 01 234 5678",
+          "extraInfoPlaceholder": "Esim yleinen sähköpostilista kaikille@jarjestaja.fi",
+          "organizationTypes": {
+            "type01": "Koulutustoimija",
+            "type02": "Oppilaitos",
+            "type05": "Muu organisaatio"
+          },
+          "search": {
+            "infoText": "Hae ja valitse organisaatio",
+            "label": "Hae organisaatiota",
+            "noResults": "Ei hakutuloksia",
+            "placeholder": "Hae organisaatiota",
+            "result_one": "{{count}} organisaatio",
+            "result_other": "{{count}} organisaatiota"
+          },
+          "toasts": {
+            "error": "Järjestäjän lisääminen epäonnistui",
+            "success": "Järjestäjän lisääminen onnistui"
+          },
+          "validation": {
+            "dateRequired": "Valitse päivämäärä",
+            "languageRequired": "Valitse vähintään yksi kieli ja taso"
+          }
+        },
+        "examSessionListing": {
+          "agreementExpired": "Sopimus vanhentunut",
+          "errors": {
+            "loadingFailed": "Järjestäjien hakeminen epäonnistui"
+          },
+          "header": {
+            "language": "Kieli",
+            "level": "Taso",
+            "registrationPerioid": "Ilmoittautumisaika",
+            "registrations": "Ilmoittautuneet",
+            "sessionDate": "Tutkintopäivä"
+          }
+        },
+        "listing": {
+          "actionButtons": {
+            "addOrganizer": "Lisää järjestäjä",
+            "adminUserView": "Tarkastele järjestäjän näkymää",
+            "modify": "Muokkaa tietoja"
+          },
+          "agreementExpired": "Sopimus vanhentunut",
+          "contentLabels": {
+            "contactInfo": "Yhteystiedot",
+            "extraInfo": "Lisätiedot",
+            "languageProficiencies": "Kielitutkinnot",
+            "organizerAgreement": "Järjestäjäsopimus",
+            "pastExamSessions": "Menneet tutkintotilaisuudet",
+            "pastExamSessionsDetails": "(edeltävät 365pv)",
+            "upcomingExamSessions": "Tulevat tutkintotilaisuudet"
+          },
+          "errors": {
+            "loadingFailed": "Järjestäjien hakeminen epäonnistui"
+          },
+          "filters": {
+            "all": "Kaikki",
+            "languageLabel": "Kieli",
+            "levelLabel": "Taso",
+            "searchLabel": "Hae järjestäjää tai paikkakuntaa",
+            "selectPlaceholder": "Valitse..."
+          },
+          "header": {
+            "agreements": "Kielitutkintosopimukset",
+            "municipality": "Paikkakunta",
+            "organizer": "Järjestäjä",
+            "searchResults": "({{count}}) järjestäjää"
+          },
+          "modals": {
+            "modifyAgreement": {
+              "addressLabel": "Osoite",
+              "cancelButton": "Peruuta",
+              "endDateBeforeStartDateError": "Sopimuksen päättymispäivä ei voi olla alkamispäivää aiemmin",
+              "endDateError": "Valitse sopimuksen päättymispäivä",
+              "endDateLabel": "Sopimus päättyy *",
+              "language": "Kieli *",
+              "languagesLabel": "Kielitutkinnot",
+              "organizerAgreementLabel": "Järjestäjäsopimus",
+              "saveButton": "Tallenna muutokset",
+              "startDateError": "Valitse sopimuksen alkamispäivä",
+              "startDateLabel": "Sopimus alkaa *",
+              "title": "Muokkaa tietoja",
+              "toasts": {
+                "updateError": "Muutosten tallentaminen epäonnistui",
+                "updateSuccess": "Muutokset tallennettu onnistuneesti"
+              }
+            }
           }
         }
+      }
+    },
+    "pages": {
+      "clerkAddOrganizerPage": {
+        "heading": "Lisää uusi kielitutkintojen järjestäjä"
+      },
+      "clerkCustomerDetailsPage": {
+        "heading": "Asiakkaan tiedot"
+      },
+      "clerkCustomersSearchPage": {
+        "heading": "Asiakashaku"
+      },
+      "clerkFreeRegistrationDetailsPage": {
+        "heading": "Maksuttomuuden tarkastukset"
+      },
+      "clerkFreeRegistrationPage": {
+        "heading": "Maksuttomuuden tarkastukset"
+      },
+      "clerkRegisterPage": {
+        "heading": "Kielitutkintojen järjestäjärekisteri"
+      },
+      "notFoundPage": {
+        "description": "Kontrollera webbadressen eller gå tillbaka till startsidan.",
+        "title": "Sidan hittades inte"
       }
     }
   }

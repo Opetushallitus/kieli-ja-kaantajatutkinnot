@@ -102,7 +102,23 @@
       },
       "clerkExamDates": {
         "addNewExamDateButton": "Lisää tutkintopäivä",
-        "header": "Tutkintopäivät"
+        "header": "Tutkintopäivät",
+        "modal": {
+          "cancelButton": "Peruuta",
+          "examDateLabel": "Tutkintopäivä",
+          "examLabel": "Koe",
+          "examTypes": {
+            "allExamParts": "Kaikki osakokeet",
+            "readingComprehensionAndSpeaking": "Tekstin ymmärtäminen ja Puhuminen",
+            "speechComprehensionAndWriting": "Puheen ymmärtäminen ja kirjoittaminen"
+          },
+          "languageLabel": "Kieli",
+          "languageLevelsAndExamsHeader": "Kielitasot ja kokeet",
+          "registrationEndLabel": "Ilmoittautuminen päättyy",
+          "registrationStartLabel": "Ilmoittautuminen alkaa",
+          "submitButton": "Lisää tutkintopäivä",
+          "title": "Lisää uusi tutkintopäivä"
+        }
       },
       "clerkExamSessionRegistrations": {
         "buttons": {

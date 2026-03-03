@@ -31,14 +31,16 @@
         }
       },
       "contactEmail": "kielitutkinnot@oph.fi",
+      "contactInfo": "Yhteystiedot",
       "customerSearch": "Asiakashaku",
       "dates": {
-        "dateTimeFormat": "l [at] HH:mm",
-        "dateFormat": "l"
+        "dateFormat": "l",
+        "dateTimeFormat": "l [at] HH:mm"
       },
       "email": "Email address",
       "error": "An unexpected error has occurred.",
       "errors": {
+        "addingExamDateFailed": "Tutkintopäivän lisääminen epäonnistui",
         "customTextField": {
           "dateFormat": "Fill in as dd.mm.yyyy.",
           "emailFormat": "The email address is incorrect",
@@ -68,6 +70,7 @@
         "writing": "Writing"
       },
       "examSession": "Test",
+      "extraInfo": "Lisätiedot",
       "freeRegistration": "Maksuttomuus",
       "full": "Full",
       "gender": {
@@ -102,9 +105,11 @@
         }
       },
       "institution": "Test centre",
-      "maxParticipantsTotal": "Osallistujapaikkojen määrä",
-      "contactInfo": "Yhteystiedot",
-      "extraInfo": "Lisätiedot",
+      "lang": {
+        "en": "Englanti",
+        "fi": "Suomi",
+        "sv": "Ruotsi"
+      },
       "language": "Language",
       "languageLevel": {
         "ALL": "all levels",
@@ -127,16 +132,12 @@
       "level": "Level",
       "loadingContent": "Loading content",
       "loadingDone": "Loading complete",
+      "maxParticipantsTotal": "Osallistujapaikkojen määrä",
       "municipality": "Municipality",
       "name": "Name",
       "navigationProtection": {
         "description": "All changes will be lost.",
         "header": "Are you sure you want to leave this page?"
-      },
-      "lang": {
-        "en": "Englanti",
-        "fi": "Suomi",
-        "sv": "Ruotsi"
       },
       "next": "Next",
       "no": "No",

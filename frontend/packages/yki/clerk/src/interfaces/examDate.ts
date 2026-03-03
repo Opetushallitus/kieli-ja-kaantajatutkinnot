@@ -17,3 +17,16 @@ export interface ExamDateResponse {
   examDate: string;
   languages: ExamDateLanguage[];
 }
+
+export interface LanguageLevelSelection {
+  languageCode: string;
+  levelCode: string;
+}
+
+export interface CreateExamDateRequest {
+  examDate: string;
+  registrationStartDate: string;
+  registrationEndDate: string;
+  languages: LanguageLevelSelection[];
+  examTypes: string[];
+}

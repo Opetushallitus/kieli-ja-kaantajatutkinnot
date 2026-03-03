@@ -8,8 +8,11 @@ import { APIEndpoints } from 'enums/api';
 import { ExamDate, ExamDateResponse } from 'interfaces/examDate';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
+  addExamDate,
   loadExamDates,
+  rejectAddExamDate,
   rejectExamDates,
+  storeAddExamDate,
   storeExamDates,
 } from 'redux/reducers/examDate';
 
@@ -34,6 +37,19 @@ function* loadExamDatesSaga() {
   }
 }
 
+function* addExamDateSaga(action: ReturnType<typeof addExamDate>) {
+  const t = translateOutsideComponent();
+  try {
+    yield call(axiosInstance.post, APIEndpoints.ClerkExamDate, action.payload);
+    yield put(storeAddExamDate());
+    yield put(loadExamDates());
+  } catch (error) {
+    yield put(rejectAddExamDate());
+    yield put(setAPIError(t('yki.common.errors.addingExamDateFailed')));
+  }
+}
+
 export function* watchExamDates() {
   yield takeLatest(loadExamDates.type, loadExamDatesSaga);
+  yield takeLatest(addExamDate.type, addExamDateSaga);
 }
