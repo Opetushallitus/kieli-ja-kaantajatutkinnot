@@ -6,13 +6,22 @@ import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkExamSessionResponse } from 'interfaces/clerkExamSession';
 import {
+  acceptCancelRegistration,
+  acceptRelocateRegistration,
   acceptSaveExamSession,
+  cancelRegistration,
   ClerkExamSessionEditForm,
   loadClerkExamSessionDetails,
+  loadRelocateExamSessions,
+  rejectCancelRegistration,
   rejectExamSessionDetails,
+  rejectRelocateExamSessions,
+  rejectRelocateRegistration,
   rejectSaveExamSession,
+  relocateRegistration,
   saveExamSession,
   storeExamSessionDetails,
+  storeRelocateExamSessions,
 } from 'redux/reducers/clerkExamSession';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -65,10 +74,78 @@ function* saveExamSessionSaga(
   }
 }
 
+function* loadRelocateExamSessionsSaga(
+  action: PayloadAction<{ language: string; level: string }>,
+) {
+  try {
+    const { language, level } = action.payload;
+    const response: AxiosResponse<ClerkExamSessionResponse[]> = yield call(
+      axiosInstance.get,
+      APIEndpoints.ClerkExamSessions,
+      { params: { language, level } },
+    );
+
+    yield put(storeRelocateExamSessions(response.data));
+  } catch (error) {
+    yield put(rejectRelocateExamSessions());
+  }
+}
+
+function* relocateRegistrationSaga(
+  action: PayloadAction<{
+    registrationId: number;
+    targetExamSessionId: number;
+    currentExamSessionId: number;
+  }>,
+) {
+  const { registrationId, targetExamSessionId, currentExamSessionId } =
+    action.payload;
+  try {
+    yield call(
+      axiosInstance.put,
+      APIEndpoints.ClerkRegistrationMove.replace(
+        ':registrationId',
+        String(registrationId),
+      ).replace(':targetExamSessionId', String(targetExamSessionId)),
+    );
+
+    yield put(acceptRelocateRegistration());
+    yield put(loadClerkExamSessionDetails(currentExamSessionId));
+  } catch (error) {
+    yield put(rejectRelocateRegistration());
+  }
+}
+
+function* cancelRegistrationSaga(
+  action: PayloadAction<{
+    registrationId: number;
+    currentExamSessionId: number;
+  }>,
+) {
+  const { registrationId, currentExamSessionId } = action.payload;
+  try {
+    yield call(
+      axiosInstance.put,
+      APIEndpoints.ClerkRegistrationCancel.replace(
+        ':registrationId',
+        String(registrationId),
+      ),
+    );
+
+    yield put(acceptCancelRegistration());
+    yield put(loadClerkExamSessionDetails(currentExamSessionId));
+  } catch (error) {
+    yield put(rejectCancelRegistration());
+  }
+}
+
 export function* watchClerkExamSession() {
   yield takeLatest(
     loadClerkExamSessionDetails.type,
     loadClerkExamSessionDetailsSaga,
   );
   yield takeLatest(saveExamSession.type, saveExamSessionSaga);
+  yield takeLatest(loadRelocateExamSessions.type, loadRelocateExamSessionsSaga);
+  yield takeLatest(relocateRegistration.type, relocateRegistrationSaga);
+  yield takeLatest(cancelRegistration.type, cancelRegistrationSaga);
 }

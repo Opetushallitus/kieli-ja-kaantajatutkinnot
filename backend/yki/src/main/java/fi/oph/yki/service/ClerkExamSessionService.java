@@ -28,6 +28,16 @@ public class ClerkExamSessionService {
   @Transactional(readOnly = true)
   public ClerkExamSessionDTO getExamSession(final Long examSessionId) {
     final ExamSession examSession = examSessionRepository.getReferenceById(examSessionId);
+
+    return toDTO(examSession);
+  }
+
+  @Transactional(readOnly = true)
+  public List<ClerkExamSessionDTO> getExamSessionsByLanguageAndLevel(final String language, final String level) {
+    return examSessionRepository.getByLanguageAndLevel(language, level).stream().map(this::toDTO).toList();
+  }
+
+  private ClerkExamSessionDTO toDTO(final ExamSession examSession) {
     final List<ClerkRegistrationDTO> registrationDTOs = registrationRepository
       .getByExamSessionAndStateIn(
         examSession,

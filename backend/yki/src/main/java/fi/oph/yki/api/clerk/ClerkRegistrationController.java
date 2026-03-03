@@ -55,4 +55,16 @@ public class ClerkRegistrationController {
   ) {
     return clerkRegistrationService.updateApproval(freeRegistrationId, dto);
   }
+
+  @PutMapping(path = "/{registrationId:\\d+}/move/{targetExamSessionId:\\d+}", consumes = ALL_VALUE)
+  @Operation(tags = TAG_REGISTRATION, summary = "Move registration to another exam session")
+  public void moveRegistration(@PathVariable final long registrationId, @PathVariable final long targetExamSessionId) {
+    clerkRegistrationService.moveRegistration(registrationId, targetExamSessionId);
+  }
+
+  @PutMapping(path = "/{registrationId:\\d+}/cancel", consumes = ALL_VALUE)
+  @Operation(tags = TAG_REGISTRATION, summary = "Cancel registration")
+  public void cancelRegistration(@PathVariable final long registrationId) {
+    clerkRegistrationService.cancelRegistration(registrationId);
+  }
 }

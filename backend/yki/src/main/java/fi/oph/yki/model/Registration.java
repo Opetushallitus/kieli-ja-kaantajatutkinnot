@@ -44,6 +44,7 @@ public class Registration {
 
   @Column(name = "state", columnDefinition = "registration_state")
   @Enumerated(value = EnumType.STRING)
+  @JdbcType(PostgreSQLEnumJdbcType.class)
   private RegistrationState state;
 
   @Column(name = "lifted_from_queue_at")

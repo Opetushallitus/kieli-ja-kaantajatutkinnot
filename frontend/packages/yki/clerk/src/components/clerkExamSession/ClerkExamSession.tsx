@@ -36,6 +36,8 @@ export const ClerkExamSession = () => {
       <ClerkExamSessionRegistrations
         examSessionId={clerkExamSession.id}
         examRegistrations={clerkExamSession.registrations}
+        language={clerkExamSession.language}
+        level={clerkExamSession.level}
       />
     </Stack>
   );

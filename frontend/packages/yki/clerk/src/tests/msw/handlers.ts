@@ -248,8 +248,19 @@ export const handlers = [
   http.get(APIEndpoints.ClerkExamDate, () => {
     return HttpResponse.json(examDates);
   }),
+  http.get(APIEndpoints.ClerkExamSessions, () =>
+    HttpResponse.json([clerkExamSession]),
+  ),
   http.get(APIEndpoints.ClerkExamSession, () =>
     HttpResponse.json(clerkExamSession),
+  ),
+  http.put(
+    APIEndpoints.ClerkRegistrationMove,
+    () => new HttpResponse(null, { status: 200 }),
+  ),
+  http.put(
+    APIEndpoints.ClerkRegistrationCancel,
+    () => new HttpResponse(null, { status: 200 }),
   ),
   http.get(
     '/organisaatio-service/rest/organisaatio/v4/hae?searchStr=&aktiiviset=true&suunnitellut=true&lakkautetut=false&lang=fi',

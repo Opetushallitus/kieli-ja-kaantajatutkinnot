@@ -139,7 +139,8 @@
           },
           "relocate": {
             "title": "Vahvista siirto",
-            "subTitle": "Haluatko varmasti siirtää ilmoittautumisen?"
+            "subTitle": "Haluatko varmasti siirtää ilmoittautumisen?",
+            "selectExamSession": "Valitse tutkintotilaisuus"
           },
           "cancel": {
             "title": "Vahvista peruutus",
