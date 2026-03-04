@@ -7,7 +7,11 @@ import {
 } from '@opetushallitus/oph-design-system';
 import { Dayjs } from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
-import { CustomDatePicker, CustomModal } from 'shared/components';
+import {
+  CustomDatePicker,
+  CustomModal,
+  LoadingProgressIndicator,
+} from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -79,6 +83,7 @@ export const AddExamDateModal = ({
   const [examTypes, setExamTypes] = useState<ExamTypeSelection>(
     initialExamTypeSelection,
   );
+
   const isSaving = addStatus === APIResponseStatus.InProgress;
 
   useEffect(() => {
@@ -204,54 +209,58 @@ export const AddExamDateModal = ({
       }
     >
       <div
-        className="rows gapped"
+        className="columns gapped"
         style={{
-          display: 'flex',
-          flexDirection: 'column',
           maxHeight: 'calc(100vh - 200px)',
+          width: '50vw',
+          maxWidth: '900px',
         }}
       >
-        <div
-          style={{ overflowY: 'auto', flex: '1 1 auto', paddingRight: '8px' }}
-        >
-          <div className="rows gapped-xl">
-            <div className="rows gapped-xxs">
-              <Label>{t('examDateLabel')} *</Label>
+        <div className="rows gapped-xl grow">
+          <div className="rows gapped-xxs">
+            <Label>{t('examDateLabel')} *</Label>
+            <div style={{ maxWidth: '180px' }}>
               <CustomDatePicker
                 value={examDate}
                 setValue={setExamDate}
                 error={false}
               />
             </div>
+          </div>
 
-            <div
-              className="columns gapped"
-              style={{ alignItems: 'flex-start', padding: '0 4px' }}
-            >
-              <div className="rows gapped-xxs">
-                <Label>{t('registrationStartLabel')} *</Label>
+          <div
+            className="columns gapped"
+            style={{
+              justifyContent: 'flex-start',
+            }}
+          >
+            <div className="rows gapped-xxs">
+              <Label>{t('registrationStartLabel')} *</Label>
+              <div style={{ maxWidth: '180px' }}>
                 <CustomDatePicker
                   value={registrationStart}
                   setValue={setRegistrationStart}
                   error={false}
                 />
               </div>
-              <svg
-                width="18"
-                height="1"
-                style={{ alignSelf: 'flex-start', marginTop: '51px' }}
-              >
-                <line
-                  x1="0"
-                  y1="1"
-                  x2="18"
-                  y2="1"
-                  stroke={ophColors.grey900}
-                  strokeWidth="2"
-                />
-              </svg>
-              <div className="rows gapped-xxs">
-                <Label>{t('registrationEndLabel')} *</Label>
+            </div>
+            <svg
+              width="18"
+              height="1"
+              style={{ alignSelf: 'flex-start', marginTop: '51px' }}
+            >
+              <line
+                x1="0"
+                y1="1"
+                x2="18"
+                y2="1"
+                stroke={ophColors.grey900}
+                strokeWidth="2"
+              />
+            </svg>
+            <div className="rows gapped-xxs">
+              <Label>{t('registrationEndLabel')} *</Label>
+              <div style={{ maxWidth: '180px' }}>
                 <CustomDatePicker
                   value={registrationEnd}
                   setValue={setRegistrationEnd}
@@ -260,25 +269,60 @@ export const AddExamDateModal = ({
                 />
               </div>
             </div>
+          </div>
 
-            <H3>{t('languageLevelsAndExamsHeader')}</H3>
+          <H3>{t('languageLevelsAndExamsHeader')}</H3>
 
-            <div>
+          <div style={{ overflowX: 'auto' }}>
+            <div
+              className="rows gapped"
+              style={{ marginTop: '1rem', gap: '0.5rem' }}
+            >
               <div
-                className="rows gapped"
-                style={{ marginTop: '1rem', gap: '0.5rem' }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '1rem',
+                  padding: '0.5rem',
+                  borderBottom: '2px solid #e0e0e0',
+                }}
               >
+                <div style={{ flex: '1 0 20%', minWidth: '150px' }}>
+                  <Label>{t('languageLabel')} *</Label>
+                </div>
                 <div
+                  style={{
+                    display: 'flex',
+                    gap: '0.5rem',
+                    justifyContent: 'space-around',
+                    flex: 1,
+                  }}
+                >
+                  <div style={{ minWidth: '80px', textAlign: 'center' }}>
+                    <Label>{levelDescription('PERUS')}</Label>
+                  </div>
+                  <div style={{ minWidth: '80px', textAlign: 'center' }}>
+                    <Label>{levelDescription('KESKI')}</Label>
+                  </div>
+                  <div style={{ minWidth: '80px', textAlign: 'center' }}>
+                    <Label>{levelDescription('YLIN')}</Label>
+                  </div>
+                </div>
+              </div>
+
+              {languageSelections.map((lang) => (
+                <div
+                  key={lang.languageCode}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: '1rem',
                     padding: '0.5rem',
-                    borderBottom: '2px solid #e0e0e0',
+                    borderBottom: '1px solid #e0e0e0',
                   }}
                 >
-                  <div style={{ flex: 1, minWidth: '150px' }}>
-                    <Label>{t('languageLabel')} *</Label>
+                  <div style={{ flex: '1 0 20%', minWidth: '150px' }}>
+                    <Text>{lang.languageName}</Text>
                   </div>
                   <div
                     style={{
@@ -288,127 +332,92 @@ export const AddExamDateModal = ({
                       flex: 1,
                     }}
                   >
-                    <div style={{ minWidth: '80px', textAlign: 'center' }}>
-                      <Label>{levelDescription('PERUS')}</Label>
-                    </div>
-                    <div style={{ minWidth: '80px', textAlign: 'center' }}>
-                      <Label>{levelDescription('KESKI')}</Label>
-                    </div>
-                    <div style={{ minWidth: '80px', textAlign: 'center' }}>
-                      <Label>{levelDescription('YLIN')}</Label>
-                    </div>
-                  </div>
-                </div>
-
-                {languageSelections.map((lang) => (
-                  <div
-                    key={lang.languageCode}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '1rem',
-                      padding: '0.5rem',
-                      borderBottom: '1px solid #e0e0e0',
-                    }}
-                  >
-                    <div style={{ flex: 1, minWidth: '150px' }}>
-                      <Text>{lang.languageName}</Text>
+                    <div
+                      style={{
+                        minWidth: '80px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <OphCheckbox
+                        checked={lang.levels.PERUS}
+                        onChange={() =>
+                          toggleLanguageLevel(lang.languageCode, 'PERUS')
+                        }
+                        sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+                      />
                     </div>
                     <div
                       style={{
+                        minWidth: '80px',
                         display: 'flex',
-                        gap: '0.5rem',
-                        justifyContent: 'space-around',
-                        flex: 1,
+                        justifyContent: 'center',
                       }}
                     >
-                      <div
-                        style={{
-                          minWidth: '80px',
-                          display: 'flex',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <OphCheckbox
-                          checked={lang.levels.PERUS}
-                          onChange={() =>
-                            toggleLanguageLevel(lang.languageCode, 'PERUS')
-                          }
-                          sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
-                        />
-                      </div>
-                      <div
-                        style={{
-                          minWidth: '80px',
-                          display: 'flex',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <OphCheckbox
-                          checked={lang.levels.KESKI}
-                          onChange={() =>
-                            toggleLanguageLevel(lang.languageCode, 'KESKI')
-                          }
-                          sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
-                        />
-                      </div>
-                      <div
-                        style={{
-                          minWidth: '80px',
-                          display: 'flex',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <OphCheckbox
-                          checked={lang.levels.YLIN}
-                          onChange={() =>
-                            toggleLanguageLevel(lang.languageCode, 'YLIN')
-                          }
-                          sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
-                        />
-                      </div>
+                      <OphCheckbox
+                        checked={lang.levels.KESKI}
+                        onChange={() =>
+                          toggleLanguageLevel(lang.languageCode, 'KESKI')
+                        }
+                        sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+                      />
+                    </div>
+                    <div
+                      style={{
+                        minWidth: '80px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <OphCheckbox
+                        checked={lang.levels.YLIN}
+                        onChange={() =>
+                          toggleLanguageLevel(lang.languageCode, 'YLIN')
+                        }
+                        sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+                      />
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
+          </div>
 
-            <div className="rows gapped-xxs">
-              <Label>{t('examLabel')} *</Label>
-              <div className="rows" style={{ gap: '0.25rem' }}>
-                <OphCheckbox
-                  checked={examTypes.speechComprehensionAndWriting}
-                  onChange={() =>
-                    toggleExamType('speechComprehensionAndWriting')
-                  }
-                  label={t('examTypes.speechComprehensionAndWriting')}
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
-                />
-                <OphCheckbox
-                  checked={examTypes.readingComprehensionAndSpeaking}
-                  onChange={() =>
-                    toggleExamType('readingComprehensionAndSpeaking')
-                  }
-                  label={t('examTypes.readingComprehensionAndSpeaking')}
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
-                />
-                <OphCheckbox
-                  checked={examTypes.allExamParts}
-                  onChange={() => toggleExamType('allExamParts')}
-                  label={t('examTypes.allExamParts')}
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
-                />
-              </div>
+          <div className="rows gapped-xxs">
+            <Label>{t('examLabel')} *</Label>
+            <div className="rows" style={{ gap: '0.25rem' }}>
+              <OphCheckbox
+                checked={examTypes.speechComprehensionAndWriting}
+                onChange={() => toggleExamType('speechComprehensionAndWriting')}
+                label={t('examTypes.speechComprehensionAndWriting')}
+                sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+              />
+              <OphCheckbox
+                checked={examTypes.readingComprehensionAndSpeaking}
+                onChange={() =>
+                  toggleExamType('readingComprehensionAndSpeaking')
+                }
+                label={t('examTypes.readingComprehensionAndSpeaking')}
+                sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+              />
+              <OphCheckbox
+                checked={examTypes.allExamParts}
+                onChange={() => toggleExamType('allExamParts')}
+                label={t('examTypes.allExamParts')}
+                sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+              />
             </div>
+          </div>
 
-            <div className="columns gapped flex-end">
-              <OphButton
-                variant={Variant.Outlined}
-                color={Color.Primary}
-                onClick={handleCloseModal}
-              >
-                {translateCommon('cancel')}
-              </OphButton>
+          <div className="columns gapped flex-end">
+            <OphButton
+              variant={Variant.Outlined}
+              color={Color.Primary}
+              onClick={handleCloseModal}
+            >
+              {translateCommon('cancel')}
+            </OphButton>
+            <LoadingProgressIndicator isLoading={isSaving}>
               <OphButton
                 variant={Variant.Contained}
                 color={Color.Primary}
@@ -417,7 +426,7 @@ export const AddExamDateModal = ({
               >
                 {t('submitButton')}
               </OphButton>
-            </div>
+            </LoadingProgressIndicator>
           </div>
         </div>
       </div>
