@@ -28,7 +28,8 @@
               "name": "Tutkinto",
               "queueSpotOffered": "Jonopaikkaa tarjottu",
               "registrationDate": "Ilmoittautumispvm",
-              "registrationState": "Ilmoittautumisen tila"
+              "registrationState": "Ilmoittautumisen tila",
+              "personName": "Nimi"
             },
             "headers": {
               "pastExams": "Menneet tutkintotilaisuudet",
