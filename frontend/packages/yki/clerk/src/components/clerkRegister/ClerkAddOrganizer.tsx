@@ -5,6 +5,8 @@ import {
   OphInputFormField,
 } from '@opetushallitus/oph-design-system';
 import { FC, useEffect, useState } from 'react';
+import { LoadingProgressIndicator } from 'shared/components';
+import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkAddOrganizerDetails } from 'components/clerkRegister/ClerkAddOrganizerDetails';
 import { usePublicTranslation } from 'configs/i18n';
@@ -24,7 +26,9 @@ export const ClerkAddOrganizer: FC = () => {
   const [organizationTypes, setOrganizationTypes] = useState<
     Record<string, string>
   >({});
-  const { allOrganizations } = useAppSelector(clerkOrganizersSelector);
+  const { allOrganizations, allOrganizationsStatus } = useAppSelector(
+    clerkOrganizersSelector,
+  );
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
@@ -75,41 +79,45 @@ export const ClerkAddOrganizer: FC = () => {
           selectedOrganizationOid={selectedOrganizationOid}
         />
       ) : searchQuery ? (
-        <div>
-          {(() => {
-            const filteredOrgs = allOrganizations.filter((org) => {
-              return org.nimi.fi
-                .toLocaleLowerCase()
-                .includes(searchQuery.toLocaleLowerCase());
-            });
+        <LoadingProgressIndicator
+          isLoading={allOrganizationsStatus === APIResponseStatus.InProgress}
+        >
+          <div>
+            {(() => {
+              const filteredOrgs = allOrganizations.filter((org) => {
+                return org.nimi.fi
+                  .toLocaleLowerCase()
+                  .includes(searchQuery.toLocaleLowerCase());
+              });
 
-            return (
-              <>
-                <div style={{ marginBottom: '0.5rem' }}>
-                  {t('clerkAddOrganizer.search.result', {
-                    count: filteredOrgs.length,
-                  })}
-                </div>
-                {filteredOrgs.map((org) => (
-                  <div
-                    className="clerk-add-organizer__search-result"
-                    onKeyDown={handleKeyDown}
-                    tabIndex={0}
-                    role="button"
-                    key={org.oid}
-                    onClick={() => {
-                      setSelectedOrganizationOid(org.oid);
-                      setSearchQuery('');
-                    }}
-                  >
-                    <div style={{ color: '#0033CC' }}>{org.nimi.fi}</div>
-                    <div>{organizationTypes[org.organisaatiotyypit[0]]}</div>
+              return (
+                <>
+                  <div style={{ marginBottom: '0.5rem' }}>
+                    {t('clerkAddOrganizer.search.result', {
+                      count: filteredOrgs.length,
+                    })}
                   </div>
-                ))}
-              </>
-            );
-          })()}
-        </div>
+                  {filteredOrgs.map((org) => (
+                    <div
+                      className="clerk-add-organizer__search-result"
+                      onKeyDown={handleKeyDown}
+                      tabIndex={0}
+                      role="button"
+                      key={org.oid}
+                      onClick={() => {
+                        setSelectedOrganizationOid(org.oid);
+                        setSearchQuery('');
+                      }}
+                    >
+                      <div style={{ color: '#0033CC' }}>{org.nimi.fi}</div>
+                      <div>{organizationTypes[org.organisaatiotyypit[0]]}</div>
+                    </div>
+                  ))}
+                </>
+              );
+            })()}
+          </div>
+        </LoadingProgressIndicator>
       ) : (
         <div className="rows gapped-sm" style={{ alignItems: 'center' }}>
           <div

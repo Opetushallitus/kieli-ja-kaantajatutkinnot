@@ -17,6 +17,10 @@ import {
   RegistrationResponse,
 } from 'interfaces/clerkCustomer';
 import {
+  ClerkExamSession,
+  ClerkExamSessionResponse,
+} from 'interfaces/clerkExamSession';
+import {
   ClerkFreeRegistrationDetailsResponse,
   ClerkFreeRegistrationResponse,
 } from 'interfaces/clerkFreeRegistration';
@@ -25,6 +29,7 @@ import {
   ClerkOrganizerResponse,
 } from 'interfaces/clerkOrganizer';
 import { FindByOidsOrganizationResponse } from 'interfaces/clerkOrganizerRegistry';
+import { ClerkRegistrationResponse } from 'interfaces/clerkRegistration';
 import {
   ExamSession,
   ExamSessionResponse,
@@ -159,6 +164,15 @@ export class SerializationUtils {
     };
   }
 
+  static deserializeClerkRegistrationResponse(
+    registrationResponse: ClerkRegistrationResponse,
+  ) {
+    return {
+      ...registrationResponse,
+      registrationDate: dayjs(registrationResponse.registrationDate),
+    };
+  }
+
   static serializeClerkOrganizer(organizer: Partial<ClerkOrganizer>) {
     return {
       ...organizer,
@@ -226,6 +240,29 @@ export class SerializationUtils {
         ...message,
         createdAt: dayjs(message.createdAt),
       })),
+    };
+  }
+
+  static deserializeClerkExamSessionResponse(
+    clerkExamSessionResponse: ClerkExamSessionResponse,
+  ): ClerkExamSession {
+    return {
+      ...clerkExamSessionResponse,
+      publishedAt: dayjs(clerkExamSessionResponse.publishedAt),
+      date: dayjs(clerkExamSessionResponse.date),
+      registrationStartDate: dayjs(
+        clerkExamSessionResponse.registrationStartDate,
+      ),
+      registrationEndDate: dayjs(
+        clerkExamSessionResponse.registrationStartDate,
+      ),
+      availableRegistrationKind:
+        clerkExamSessionResponse.availableRegistrationKind === 'ADMISSION'
+          ? RegistrationKind.Admission
+          : RegistrationKind.Queue,
+      registrations: clerkExamSessionResponse.registrations.map(
+        SerializationUtils.deserializeClerkRegistrationResponse,
+      ),
     };
   }
 

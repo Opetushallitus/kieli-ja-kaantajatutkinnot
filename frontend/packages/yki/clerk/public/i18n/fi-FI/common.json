@@ -33,7 +33,8 @@
       "contactEmail": "kielitutkinnot@oph.fi",
       "customerSearch": "Asiakashaku",
       "dates": {
-        "dateTimeFormat": "l [klo] HH.mm"
+        "dateTimeFormat": "l [klo] HH.mm",
+        "dateFormat": "l"
       },
       "email": "Sähköpostiosoite",
       "error": "Tapahtui odottamaton virhe.",
@@ -100,6 +101,9 @@
         }
       },
       "institution": "Testipaikka",
+      "maxParticipantsTotal": "Osallistujapaikkojen määrä",
+      "contactInfo": "Yhteystiedot",
+      "extraInfo": "Lisätiedot",
       "language": "Kieli",
       "languageLevel": {
         "ALL": "kaikki tasot",
@@ -127,6 +131,11 @@
       "navigationProtection": {
         "description": "Menetät tekemäsi muutokset.",
         "header": "Haluatko varmasti poistua sivulta?"
+      },
+      "lang": {
+        "en": "Englanti",
+        "fi": "Suomi",
+        "sv": "Ruotsi"
       },
       "next": "Seuraava",
       "no": "Ei",

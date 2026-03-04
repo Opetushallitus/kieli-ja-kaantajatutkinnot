@@ -28,7 +28,8 @@
               "name": "Tutkinto",
               "queueSpotOffered": "Jonopaikkaa tarjottu",
               "registrationDate": "Ilmoittautumispvm",
-              "registrationState": "Ilmoittautumisen tila"
+              "registrationState": "Ilmoittautumisen tila",
+              "personName": "Nimi"
             },
             "headers": {
               "pastExams": "Menneet tutkintotilaisuudet",
@@ -97,6 +98,55 @@
             }
           },
           "submit": "Hae osallistujia"
+        }
+      },
+      "clerkExamSessionRegistrations": {
+        "tabs": {
+          "admissions": "Ilmoittautuneet ({{ num }})",
+          "queued": "Jonossa ({{ num }})"
+        },
+        "buttons": {
+          "edit": "Muokkaa",
+          "downloadExcel": "Lataa excel"
+        },
+        "modals": {
+          "edit": {
+            "title": "Muokkaa tutkintotilaisuutta",
+            "saveButton": "Tallenna muutokset",
+            "toasts": {
+              "saveSuccess": "Muutokset tallennettu onnistuneesti",
+              "saveFailed": "Muutosten tallentaminen epäonnistui"
+            },
+            "fields": {
+              "examDate": "Tutkintopäivä",
+              "language": "Tutkintokieli",
+              "level": "Tutkintotaso",
+              "type": "Tutkintotyyppi",
+              "typeOptions": {
+                "FULL": "Täydellinen tutkinto",
+                "READ_SPEAK": "Lukeminen ja puhuminen",
+                "LISTEN_WRITE": "Kuunteleminen ja kirjoittaminen"
+              },
+              "maxParticipants": "Osallistujien enimmäismäärä",
+              "maxParticipantsPart1": "Osakoe 1: enimmäismäärä",
+              "maxParticipantsPart2": "Osakoe 2: enimmäismäärä",
+              "streetAddress": "Katuosoite",
+              "postalCode": "Postinumero",
+              "city": "Postitoimipaikka",
+              "contactName": "Yhteyshenkilö",
+              "contactEmail": "Sähköposti",
+              "contactPhoneNumber": "Puhelinnumero"
+            }
+          },
+          "relocate": {
+            "title": "Vahvista siirto",
+            "subTitle": "Haluatko varmasti siirtää ilmoittautumisen?",
+            "selectExamSession": "Valitse tutkintotilaisuus"
+          },
+          "cancel": {
+            "title": "Vahvista peruutus",
+            "subTitle": "Haluatko varmasti peruuttaa ilmoittautumisen?"
+          }
         }
       },
       "clerkFreeRegistration": {

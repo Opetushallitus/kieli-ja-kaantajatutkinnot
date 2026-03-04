@@ -11,6 +11,8 @@ const getTabForPath = (path: string) => {
     return 'freeRegistration';
   } else if (path.includes(AppRoutes.CustomerSearch)) {
     return 'customerSearch';
+  } else if (path.includes(AppRoutes.ClerkExamSession)) {
+    return 'organizerRegister';
   } else {
     return false;
   }

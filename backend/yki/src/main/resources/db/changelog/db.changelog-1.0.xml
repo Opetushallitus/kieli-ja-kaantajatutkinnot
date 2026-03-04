@@ -179,6 +179,16 @@
             <column name="paid_at"/>
         </createIndex>
     </changeSet>
+
+    <changeSet id="2026-01-09-add-registration-created-modified-columns-hsqldb" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <addColumn tableName="registration">
+            <column name="created" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="modified" type="TIMESTAMP WITH TIME ZONE"/>
+        </addColumn>
+    </changeSet>
     <changeSet id="2025-12-16-add-registration-evaluation" author="pkoivisto">
         <preConditions onFail="CONTINUE">
             <dbms type="postgresql" />
@@ -249,5 +259,207 @@
                 constraintName="fk_registration_evaluation_registration_id"
                 referencedTableName="registration"
                 referencedColumnNames="id" />
+    </changeSet>
+
+    <changeSet id="2026-02-11-add-exam-date-hsqldb" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <createTable tableName="exam_date">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="exam_date_pkey"/>
+            </column>
+            <column name="exam_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registration_start_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registration_end_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2026-02-11-add-exam-session-hsqldb" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <createTable tableName="exam_session">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="exam_session_pkey"/>
+            </column>
+            <column name="exam_date_id" type="BIGINT"/>
+            <column name="language_code" type="TEXT"/>
+            <column name="level_code" type="TEXT"/>
+            <column name="max_participants" type="INT"/>
+            <column name="office_oid" type="TEXT"/>
+            <column name="contact_name" type="TEXT"/>
+            <column name="contact_email" type="TEXT"/>
+            <column name="contact_phone_number" type="TEXT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2026-02-11-add-exam-session-location-hsqldb" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <createTable tableName="exam_session_location">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="exam_session_location_pkey"/>
+            </column>
+            <column name="exam_session_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="TEXT"/>
+            <column name="post_office" type="TEXT"/>
+            <column name="street_address" type="TEXT"/>
+            <column name="other_location_info" type="TEXT"/>
+            <column name="extra_information" type="TEXT"/>
+            <column name="zip" type="TEXT"/>
+            <column name="lang" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2025-02-19-add-contact-to-session" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="postgresql" />
+        </preConditions>
+        <addColumn tableName="exam_session">
+            <column name="contact_name" type="TEXT"/>
+            <column name="contact_email" type="TEXT"/>
+            <column name="contact_phone_number" type="TEXT"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2026-02-16-add-exam-session-tickets" author="lket">
+        <preConditions onFail="CONTINUE">
+            <dbms type="postgresql" />
+        </preConditions>
+        <sql>CREATE TYPE exam_session_type AS ENUM ('FULL','READ_SPEAK','LISTEN_WRITE')</sql>
+        <sql>CREATE TYPE exam_session_ticket_type AS ENUM ('ALL_PARTS','READ','SPEAK','LISTEN','WRITE')</sql>
+        <createTable tableName="exam_session_ticket">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="exam_session_ticket_pkey"/>
+            </column>
+            <column name="exam_date_id" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="exam_session_id" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="type" type="exam_session_ticket_type">
+                <constraints nullable="false" />
+            </column>
+            <column name="registration_id" type="BIGINT"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="exam_session_ticket"
+                baseColumnNames="exam_date_id"
+                constraintName="fk_exam_session_ticket_exam_date"
+                referencedTableName="exam_date"
+                referencedColumnNames="id" />
+        <addForeignKeyConstraint
+                baseTableName="exam_session_ticket"
+                baseColumnNames="exam_session_id"
+                constraintName="fk_exam_session_ticket_exam_session"
+                referencedTableName="exam_session"
+                referencedColumnNames="id" />
+        <addForeignKeyConstraint
+                baseTableName="exam_session_ticket"
+                baseColumnNames="registration_id"
+                constraintName="fk_exam_session_ticket_registration"
+                referencedTableName="registration"
+                referencedColumnNames="id" />
+        <createIndex tableName="exam_session_ticket"
+                     indexName="idx_exam_session_ticket_exam_date_id">
+            <column name="exam_date_id"/>
+        </createIndex>
+        <createIndex tableName="exam_session_ticket"
+                     indexName="idx_exam_session_ticket_exam_session_id">
+            <column name="exam_session_id"/>
+        </createIndex>
+        <createIndex tableName="exam_session_ticket"
+                     indexName="idx_exam_session_ticket_registration_id">
+            <column name="registration_id"/>
+        </createIndex>
+        <addColumn tableName="exam_session">
+            <column name="type"
+                    type="exam_session_type"
+                    defaultValue="FULL">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="exam_date">
+            <column name="type"
+                    type="exam_session_type"
+                    defaultValue="FULL">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="registration">
+            <column name="partial_exam_type"
+                    type="exam_session_ticket_type"
+                    defaultValue="ALL_PARTS">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2026-02-16-add-exam-session-tickets-h2" author="lket">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb" />
+        </preConditions>
+        <createTable tableName="exam_session_ticket">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="exam_session_ticket_pkey"/>
+            </column>
+            <column name="exam_date_id" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="exam_session_id" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="type" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+            <column name="registration_id" type="BIGINT"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="exam_session_ticket"
+                baseColumnNames="exam_date_id"
+                constraintName="fk_exam_session_ticket_exam_date"
+                referencedTableName="exam_date"
+                referencedColumnNames="id" />
+        <addForeignKeyConstraint
+                baseTableName="exam_session_ticket"
+                baseColumnNames="exam_session_id"
+                constraintName="fk_exam_session_ticket_exam_session"
+                referencedTableName="exam_session"
+                referencedColumnNames="id" />
+        <addForeignKeyConstraint
+                baseTableName="exam_session_ticket"
+                baseColumnNames="registration_id"
+                constraintName="fk_exam_session_ticket_registration"
+                referencedTableName="registration"
+                referencedColumnNames="id" />
+        <addColumn tableName="exam_session">
+            <column name="type"
+                    type="TEXT"
+                    defaultValue="FULL">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="exam_date">
+            <column name="type"
+                    type="TEXT"
+                    defaultValue="FULL">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="registration">
+            <column name="partial_exam_type"
+                    type="TEXT"
+                    defaultValue="ALL_PARTS">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
     </changeSet>
 </databaseChangeLog>
