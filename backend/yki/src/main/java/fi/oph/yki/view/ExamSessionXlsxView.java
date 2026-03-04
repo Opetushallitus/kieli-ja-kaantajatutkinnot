@@ -29,7 +29,7 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
     final @NonNull HttpServletRequest request,
     final @NonNull HttpServletResponse response
   ) {
-    setFilenameHeader(response, String.format("YKI_tuktintotilaisuus_%s_%s.xlsx", data.date(), data.language()));
+    setFilenameHeader(response, String.format("YKI_tutkintotilaisuus_%s_%s.xlsx", data.date(), data.language()));
     response.setHeader("Cache-Control", "no-cache, no-store, private, max-age=0, must-revalidate");
     writeExcel(workbook);
   }
