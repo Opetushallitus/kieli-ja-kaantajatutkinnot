@@ -5,8 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,4 +32,7 @@ public class ExamDate {
 
   @Column(name = "registration_end_date", nullable = false)
   private LocalDate registrationEndDate;
+
+  @OneToMany(mappedBy = "examDate")
+  private List<ExamDateLanguage> languages = new ArrayList<>();
 }

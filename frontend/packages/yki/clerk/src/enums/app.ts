@@ -7,6 +7,7 @@ export enum AppRoutes {
   ClerkRoot = '/yki/v2/virkailija',
   CustomerSearch = '/yki/v2/virkailija/asiakashaku',
   ClerkCustomerDetails = '/yki/v2/virkailija/asiakashaku/:oid',
+  ClerkExamSession = '/yki/v2/virkailija/tilaisuus/:id',
   ClerkOrganizerRegister = '/yki/v2/virkailija/jarjestajarekisteri',
   ClerkAddOrganizer = '/yki/v2/virkailija/jarjestajarekisteri/lisaa',
   ClerkOrganizerRegisterDetails = '/yki/v2/virkailija/jarjestajarekisteri/:oid/tutkintotilaisuudet',
@@ -39,6 +40,12 @@ export enum GenderEnum {
   Female = 'female',
   Other = 'other',
   PreferNotToDisclose = 'preferNotToDisclose',
+}
+
+export enum ExamSessionType {
+  FULL = 'FULL',
+  READ_SPEAK = 'READ_SPEAK',
+  LISTEN_WRITE = 'LISTEN_WRITE',
 }
 
 export enum RegistrationKind {

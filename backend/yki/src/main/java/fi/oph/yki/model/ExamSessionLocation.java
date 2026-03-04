@@ -33,6 +33,18 @@ public class ExamSessionLocation {
   @Column(name = "post_office")
   private String postOffice;
 
+  @Column(name = "street_address")
+  private String streetAddress;
+
+  @Column(name = "other_location_info")
+  private String otherLocationInfo;
+
+  @Column(name = "extra_information")
+  private String extraInformation;
+
+  @Column(name = "zip")
+  private String zip;
+
   @Column(name = "lang")
   private String lang;
 }

@@ -33,7 +33,8 @@
       "contactEmail": "kielitutkinnot@oph.fi",
       "customerSearch": "Asiakashaku",
       "dates": {
-        "dateTimeFormat": "l [at] HH:mm"
+        "dateTimeFormat": "l [at] HH:mm",
+        "dateFormat": "l"
       },
       "email": "Email address",
       "error": "An unexpected error has occurred.",
@@ -100,6 +101,9 @@
         }
       },
       "institution": "Test centre",
+      "maxParticipantsTotal": "Osallistujapaikkojen määrä",
+      "contactInfo": "Yhteystiedot",
+      "extraInfo": "Lisätiedot",
       "language": "Language",
       "languageLevel": {
         "ALL": "all levels",
@@ -127,6 +131,11 @@
       "navigationProtection": {
         "description": "All changes will be lost.",
         "header": "Are you sure you want to leave this page?"
+      },
+      "lang": {
+        "en": "Englanti",
+        "fi": "Suomi",
+        "sv": "Ruotsi"
       },
       "next": "Next",
       "no": "No",

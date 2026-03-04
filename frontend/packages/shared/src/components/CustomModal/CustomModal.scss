@@ -5,6 +5,8 @@
 .custom-modal {
   background: colors.$color-primary;
   left: 50%;
+  max-height: 90vh;
+  overflow-y: auto;
   padding: map.get(maps.$spacing, 'lg');
   position: absolute;
   top: 50%;

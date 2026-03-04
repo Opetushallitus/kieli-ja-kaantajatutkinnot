@@ -8,7 +8,7 @@ public class ClerkEnabledCondition implements Condition {
 
   @Override
   public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-    final String clerkEnabled = context.getEnvironment().getProperty("clerk.enabled");
+    final String clerkEnabled = context.getEnvironment().getProperty("app.clerk-enabled");
     if (clerkEnabled == null || clerkEnabled.isEmpty()) {
       return false;
     }
