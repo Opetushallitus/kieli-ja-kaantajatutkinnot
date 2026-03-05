@@ -259,7 +259,7 @@
               "phoneNumber": "Telephone number",
               "postNumber": "Postal code",
               "postOffice": "Municipality",
-              "preferredName": "Preferred given name",
+              "preferredName": "Preferred first name",
               "privacyStatementConfirmation": "Accept the terms and conditions for processing personal data",
               "ssn": "Personal identity code",
               "termsAndConditionsAgreed": "Accept the terms and conditions for registration"
@@ -324,7 +324,7 @@
             "phoneNumber": "Telephone number",
             "postNumber": "Postal code",
             "postOffice": "Municipality",
-            "preferredName": "Preferred given name",
+            "preferredName": "Preferred first name",
             "ssn": "Personal identity code"
           },
           "placeholders": {
