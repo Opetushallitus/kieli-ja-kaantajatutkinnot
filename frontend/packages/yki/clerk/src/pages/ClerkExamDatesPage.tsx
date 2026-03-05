@@ -1,17 +1,37 @@
 import { Box, Grid, Paper } from '@mui/material';
 import { OphButton } from '@opetushallitus/oph-design-system';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
+import { APIResponseStatus, Severity } from 'shared/enums';
+import { useToast } from 'shared/hooks';
 
 import { AddExamDateModal } from 'components/ClerkExamDates/AddExamDateModal';
 import { ClerkExamDates } from 'components/ClerkExamDates/ClerkExamDates';
 import { usePublicTranslation } from 'configs/i18n';
+import { useAppSelector } from 'configs/redux';
 import { H2 } from 'ophTheme/Text';
+import { examDateSelector } from 'redux/selectors/examDate';
 
 export const ClerkExamDatesPage: FC = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkExamDates',
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { addStatus } = useAppSelector(examDateSelector);
+  const { showToast } = useToast();
+
+  useEffect(() => {
+    if (addStatus === APIResponseStatus.Success) {
+      showToast({
+        description: t('examDateAdded'),
+        severity: Severity.Success,
+      });
+    } else if (addStatus === APIResponseStatus.Error) {
+      showToast({
+        description: t('examDateAddError'),
+        severity: Severity.Error,
+      });
+    }
+  }, [addStatus, showToast, t]);
 
   return (
     <Box className="clerk-exam-session-page">
