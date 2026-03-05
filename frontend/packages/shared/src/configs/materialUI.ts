@@ -4,8 +4,7 @@ import type {} from '@mui/x-date-pickers/themeAugmentation';
 const colorPrimary = '#ffffff';
 const colorTextPrimary = '#000a48';
 const colorSecondaryDark = '#000a48';
-// const colorSecondary = '#0041dc';
-const colorSecondary = '#378703';
+const colorSecondary = '#0041dc';
 const colorSecondaryLight = '#159ecb'; // not in figma specs
 
 const colorGrey200 = '#f5f5f5';
