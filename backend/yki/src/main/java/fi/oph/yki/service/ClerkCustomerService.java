@@ -20,6 +20,7 @@ import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.PersonSearchProjection;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.HetuUtils;
+import fi.vm.sade.auditlog.Target;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -178,12 +179,39 @@ public class ClerkCustomerService {
     }
   }
 
+  private Target toTarget(final ClerkCustomerSearchRequestDTO request) {
+    final var targetBuilder = new Target.Builder();
+    final var personQuery = request.personQuery() == null ? "" : request.personQuery();
+    final var containsHetu = HetuUtils.findValidHetu(personQuery.split(" ")).isPresent();
+
+    targetBuilder.setField("containsHetu", Boolean.toString(containsHetu));
+
+    if (!containsHetu && !personQuery.isEmpty()) {
+      targetBuilder.setField("personQuery", personQuery);
+    }
+    if (request.organizerId() != null) {
+      targetBuilder.setField("organizerId", Long.toString(request.organizerId()));
+    }
+    if (request.examDateId() != null) {
+      targetBuilder.setField("examDateId", Long.toString(request.examDateId()));
+    }
+    if (request.languageCode() != null) {
+      targetBuilder.setField("languageCode", request.languageCode());
+    }
+    if (request.levelCode() != null) {
+      targetBuilder.setField("levelCode", request.levelCode());
+    }
+
+    return targetBuilder.build();
+  }
+
   @Transactional(readOnly = true)
   public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(
     final Pageable pageable,
     final ClerkCustomerSearchRequestDTO request
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
-    auditService.logClerkOperation(YkiOperation.SEARCH_CUSTOMERS);
+    auditService.logClerkWithTarget(YkiOperation.SEARCH_CUSTOMERS, toTarget(request));
+
     final var personsPage = searchPersons(pageable, request);
     final var oids = personsPage.getContent().stream().map(PersonSearchProjection::oid).toList();
     final var hetuByOid = getOidToHetuMap(oids);

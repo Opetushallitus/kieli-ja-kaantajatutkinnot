@@ -47,8 +47,8 @@ public class AuditService {
     log(operation, new Target.Builder().setField("id", Long.toString(id)).build(), Changes.addedDto(dto));
   }
 
-  public void logClerkOperation(final YkiOperation operation) {
-    logClerk(operation, new Target.Builder().build(), Changes.EMPTY);
+  public void logClerkWithTarget(final YkiOperation operation, final Target target) {
+    logClerk(operation, target, Changes.EMPTY);
   }
 
   public void logClerkById(final YkiOperation operation, final String id) {
