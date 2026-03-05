@@ -40,6 +40,7 @@ public class ExamSessionXlsxDataRowUtil {
       .zip(person == null ? null : person.getZip())
       .postOffice(person == null ? null : person.getPostOffice())
       .email(person == null ? null : person.getEmail())
+      .partialExamType(registration.getPartialExamType() != null ? registration.getPartialExamType().name() : null)
       .build();
   }
 }

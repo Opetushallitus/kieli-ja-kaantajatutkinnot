@@ -49,7 +49,8 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
       "Osoite",
       "Postinumero",
       "Postitoimipaikka",
-      "Sähköposti"
+      "Sähköposti",
+      "Osakoe"
     );
     final Sheet sheet = workbook.createSheet("Tilaisuuden tiedot");
 
@@ -70,6 +71,7 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
       setNullableValue(row.createCell(++ci), dataRow.zip());
       setNullableValue(row.createCell(++ci), dataRow.postOffice());
       setNullableValue(row.createCell(++ci), dataRow.email());
+      setNullableValue(row.createCell(++ci), dataRow.partialExamType());
     }
 
     autoresizeExcelColumns(sheet, headers);

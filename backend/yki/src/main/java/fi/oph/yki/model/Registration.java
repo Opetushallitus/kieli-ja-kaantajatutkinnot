@@ -1,5 +1,6 @@
 package fi.oph.yki.model;
 
+import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import jakarta.persistence.Column;
@@ -46,6 +47,11 @@ public class Registration {
   @Enumerated(value = EnumType.STRING)
   @JdbcType(PostgreSQLEnumJdbcType.class)
   private RegistrationState state;
+
+  @Column(name = "partial_exam_type", columnDefinition = "exam_session_ticket_type")
+  @Enumerated(value = EnumType.STRING)
+  @JdbcType(PostgreSQLEnumJdbcType.class)
+  private PartialExamType partialExamType;
 
   @Column(name = "lifted_from_queue_at")
   private LocalDateTime liftedFromQueueAt;

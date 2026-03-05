@@ -58,6 +58,7 @@ public class RegistrationUtil {
       .kind(registration.getKind())
       .registrationDate(registration.getCreatedAt().toLocalDate())
       .person(person != null ? createClerkPersonDTO(person) : null)
+      .partialExamType(registration.getPartialExamType())
       .build();
   }
 }
