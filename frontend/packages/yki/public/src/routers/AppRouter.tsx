@@ -42,6 +42,87 @@ import { UserDetailsPage } from 'pages/UserDetailsPage';
 import { loadSession } from 'redux/reducers/session';
 import { sessionSelector } from 'redux/selectors/session';
 
+const colorSecondaryLight = '#159ecb'; // not in figma specs
+const colorSecondary = '#378703';
+const colorSecondaryDark = '#244b0a'; // not in figma specs
+const colorPrimary = '#ffffff';
+const colorGrey200 = '#f5f5f5';
+const colorGrey700 = '#666666';
+const fontWeightBold = 700;
+
+const ykiPublicTheme = {
+  ...theme,
+  components: {
+    ...theme.components,
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          color: colorGrey700,
+          '&.Mui-checked': {
+            color: colorSecondary,
+          },
+        },
+      },
+    },
+    MuiRadio: {
+      styleOverrides: {
+        root: {
+          color: colorGrey700,
+          '&.Mui-checked': {
+            color: colorSecondary,
+          },
+          '&.Mui-disabled': {
+            color: colorGrey700,
+          },
+        },
+      },
+    },
+    MuiAutocomplete: {
+      styleOverrides: {
+        tag: {
+          backgroundColor: colorSecondary,
+          color: colorPrimary,
+          '.MuiChip-deleteIcon': {
+            color: colorGrey200,
+          },
+        },
+      },
+    },
+    MuiStepIcon: {
+      styleOverrides: {
+        root: {
+          '&.Mui-completed': {
+            color: colorSecondary,
+          },
+          '&.Mui-active': {
+            color: colorSecondary,
+          },
+        },
+        text: {
+          fill: colorPrimary,
+        },
+      },
+    },
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          color: colorSecondary,
+          fontWeight: fontWeightBold,
+          textDecoration: 'underline',
+        },
+      },
+    },
+  },
+  palette: {
+    ...theme.palette,
+    secondary: {
+      main: colorSecondary,
+      light: colorSecondaryLight,
+      dark: colorSecondaryDark,
+    },
+  },
+};
+
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
   const sessionStatus = useAppSelector(sessionSelector).status;
@@ -66,7 +147,7 @@ export const AppRouter: FC = () => {
   const Root = (
     <div className="app">
       <NotifierContextProvider>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={ykiPublicTheme}>
           <Header />
           <ErrorToast />
           <Notifier />

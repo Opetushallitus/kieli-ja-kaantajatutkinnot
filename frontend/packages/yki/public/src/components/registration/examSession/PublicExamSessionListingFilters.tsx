@@ -300,9 +300,9 @@ export const PublicExamSessionFilters = ({
             color={Color.Secondary}
             variant={Variant.Contained}
             onClick={handleSubmitBtnClick}
-            startIcon={<SearchIcon />}
+            startIcon={<SearchIcon sx={{ color: 'white' }} />}
           >
-            {t('filters.buttons.search')}
+            <Text color="white">{t('filters.buttons.search')}</Text>
           </CustomButton>
         </LoadingProgressIndicator>
       </div>
