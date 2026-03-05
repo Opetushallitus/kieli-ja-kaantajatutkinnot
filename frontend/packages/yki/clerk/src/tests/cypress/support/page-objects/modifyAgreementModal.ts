@@ -157,10 +157,7 @@ class ModifyAgreementModal {
   }
 
   toggleLanguageLevel(languageName: string, level: 'PERUS' | 'KESKI' | 'YLIN') {
-    this.elements
-      .languageCheckbox(languageName, level)
-      .find('input[type="checkbox"]')
-      .click();
+    this.elements.languageCheckbox(languageName, level).click();
   }
 
   expectLanguageLevelChecked(
