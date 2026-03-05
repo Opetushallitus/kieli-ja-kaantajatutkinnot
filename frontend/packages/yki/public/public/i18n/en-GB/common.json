@@ -50,7 +50,7 @@
         },
         "loadingFailed": "Downloading the information failed.",
         "mismatchingEmails": "The contents of the email address fields are different.",
-        "preferredNameMustBeFirstName": "Kutsumanimen on oltava yksi etunimistä",
+        "preferredNameMustBeFirstName": "The preferred name has to be one of your first names.",
         "registration": {
           "alreadyRegistered": "You can register for only one YKI test.",
           "examSessionFull": "The test is full.",
