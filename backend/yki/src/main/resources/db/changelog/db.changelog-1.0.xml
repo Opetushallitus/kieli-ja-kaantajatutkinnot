@@ -462,4 +462,12 @@
             </column>
         </addColumn>
     </changeSet>
+    <changeSet id="2026-03-06-add-person-country-code" author="antigravity">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <addColumn tableName="person">
+            <column name="country_code" type="TEXT"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
