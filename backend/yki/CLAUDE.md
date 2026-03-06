@@ -2,7 +2,7 @@
 
 ## Database
 
-The database is older than our backend. The old backend is remotely at https://github.com/Opetushallitus/yki, and locally potentially at `../../../yki`. The old database contains the data already, so when our code is missing tables or columns, that is very domain specific and should be reviewed manually.
+The database is older than our backend. The old backend is remotely at https://github.com/Opetushallitus/yki. The old database contains the data already, so when our code is missing tables or columns, that is very domain specific and should be reviewed manually.
 
 - SQL scripts to set up the database locally: `db/` folder, entry point `db/create_db_sql.sh`
 - Liquibase migrations: `src/main/resources/db/changelog/`
