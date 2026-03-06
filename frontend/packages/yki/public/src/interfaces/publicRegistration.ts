@@ -23,6 +23,7 @@ export interface PersonFillOutDetails {
   instructionLanguage: InstructionLanguage | '';
   nationality: string;
   nativeLanguage: string;
+  countryCode: string;
 }
 
 export interface RegistrationCheckboxDetails {

@@ -68,6 +68,10 @@ const getErrors = (
     errors['nationality'] = CustomTextFieldErrors.Required;
   }
 
+  if (!registration.countryCode) {
+    errors['countryCode'] = CustomTextFieldErrors.Required;
+  }
+
   if (isEmailRegistration) {
     errors['firstNames'] = InputFieldUtils.validateCustomTextFieldErrors({
       type: TextFieldTypes.Text,
