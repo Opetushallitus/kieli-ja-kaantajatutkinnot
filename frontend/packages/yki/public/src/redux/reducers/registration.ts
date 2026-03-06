@@ -58,6 +58,7 @@ export const initialState: RegistrationState = {
   registration: {
     privacyStatementConfirmation: false,
     termsAndConditionsAgreed: false,
+    countryCode: '246',
   },
   showErrors: false,
   hasTimerExpired: false,
