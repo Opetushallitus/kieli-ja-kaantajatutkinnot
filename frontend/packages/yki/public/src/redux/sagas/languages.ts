@@ -5,23 +5,23 @@ import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { KoodistoResponse } from 'interfaces/code';
 import {
-  acceptNationalities,
-  loadNationalities,
-  rejectNationalities,
-} from 'redux/reducers/nationalities';
+  acceptLanguages,
+  loadLanguages,
+  rejectLanguages,
+} from 'redux/reducers/languages';
 
-function* loadNationalitiesSaga() {
+function* loadLanguagesSaga() {
   try {
     const response: AxiosResponse<KoodistoResponse> = yield call(
       axiosInstance.get,
-      APIEndpoints.CountryCodes,
+      APIEndpoints.LanguageCodes,
     );
-    yield put(acceptNationalities(response.data));
+    yield put(acceptLanguages(response.data));
   } catch (error) {
-    yield put(rejectNationalities());
+    yield put(rejectLanguages());
   }
 }
 
-export function* watchNationalities() {
-  yield takeLatest(loadNationalities.type, loadNationalitiesSaga);
+export function* watchLanguages() {
+  yield takeLatest(loadLanguages.type, loadLanguagesSaga);
 }

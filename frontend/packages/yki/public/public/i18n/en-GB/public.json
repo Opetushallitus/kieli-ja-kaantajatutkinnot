@@ -255,9 +255,11 @@
               "instructionLanguage": "Select language of the tasks",
               "lastName": "Last name",
               "nationality": "Nationality",
+              "nativeLanguage": "Äidinkieli",
               "phoneNumber": "Telephone number",
               "postNumber": "Postal code",
               "postOffice": "Municipality",
+              "preferredName": "Preferred first name",
               "privacyStatementConfirmation": "Accept the terms and conditions for processing personal data",
               "ssn": "Personal identity code",
               "termsAndConditionsAgreed": "Accept the terms and conditions for registration"
@@ -318,9 +320,11 @@
             "gender": "Gender",
             "lastName": "Last name",
             "nationality": "Nationality",
+            "nativeLanguage": "Äidinkieli",
             "phoneNumber": "Telephone number",
             "postNumber": "Postal code",
             "postOffice": "Municipality",
+            "preferredName": "Preferred first name",
             "ssn": "Personal identity code"
           },
           "placeholders": {
@@ -332,9 +336,11 @@
             "gender": "Select gender",
             "lastName": "",
             "nationality": "Select nationality",
+            "nativeLanguage": "Valitse äidinkieli",
             "phoneNumber": "Use the format +358 50 123 4567",
             "postNumber": "",
-            "postOffice": ""
+            "postOffice": "",
+            "preferredName": ""
           },
           "finnishSSN": "Do you have a Finnish personal identity code? *",
           "instructionLanguage": "In which language do you wish to read the instructions of the tasks? *",

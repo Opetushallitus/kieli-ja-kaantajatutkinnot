@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { NationalitiesResponse, Nationality } from 'interfaces/nationality';
+import { CodeElement, KoodistoResponse } from 'interfaces/code';
 import { SerializationUtils } from 'utils/serialization';
 
 export interface NationalityCodesState {
   status: APIResponseStatus;
-  nationalities: Array<Nationality>;
+  nationalities: Array<CodeElement>;
 }
 
 const initialState: NationalityCodesState = {
@@ -18,9 +18,9 @@ const nationalitiesSlice = createSlice({
   name: 'nationalities',
   initialState,
   reducers: {
-    acceptNationalities(state, action: PayloadAction<NationalitiesResponse>) {
+    acceptNationalities(state, action: PayloadAction<KoodistoResponse>) {
       state.status = APIResponseStatus.Success;
-      state.nationalities = SerializationUtils.deserializeNationalitiesResponse(
+      state.nationalities = SerializationUtils.deserializeKoodistoResponse(
         action.payload,
       );
     },

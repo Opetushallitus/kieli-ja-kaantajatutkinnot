@@ -255,9 +255,11 @@
               "instructionLanguage": "Välj språket för uppgifterna",
               "lastName": "Efternamn",
               "nationality": "Nationalitet",
+              "nativeLanguage": "Äidinkieli",
               "phoneNumber": "Telefonnummer",
               "postNumber": "Postnummer",
               "postOffice": "Postanstalt",
+              "preferredName": "Tilltalsnamn",
               "privacyStatementConfirmation": "Godkänn villkoren för behandlingen av personuppgifter",
               "ssn": "Personbeteckning",
               "termsAndConditionsAgreed": "Godkänn villkoren för anmälan"
@@ -318,9 +320,11 @@
             "gender": "Kön",
             "lastName": "Efternamn",
             "nationality": "Nationalitet",
+            "nativeLanguage": "Äidinkieli",
             "phoneNumber": "Telefonnummer",
             "postNumber": "Postnummer",
             "postOffice": "Postanstalt",
+            "preferredName": "Tilltalsnamn",
             "ssn": "Personbeteckning"
           },
           "placeholders": {
@@ -332,9 +336,11 @@
             "gender": "Välj kön",
             "lastName": "",
             "nationality": "Välj nationalitet",
+            "nativeLanguage": "Valitse äidinkieli",
             "phoneNumber": "Skriv i formatet +358 50 123 4567",
             "postNumber": "",
-            "postOffice": ""
+            "postOffice": "",
+            "preferredName": ""
           },
           "finnishSSN": "Har du en finsk personbeteckning? *",
           "instructionLanguage": "På vilket språk vill du ha anvisningarna för uppgifterna? *",

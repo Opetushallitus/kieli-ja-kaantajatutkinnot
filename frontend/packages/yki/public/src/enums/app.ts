@@ -78,6 +78,7 @@ export enum RegistrationKind {
 
 export enum YkiValidationErrors {
   MismatchingEmails = 'errors.mismatchingEmails',
+  PreferredNameMustBeFirstName = 'errors.preferredNameMustBeFirstName',
 }
 
 export enum RegistrationStates {

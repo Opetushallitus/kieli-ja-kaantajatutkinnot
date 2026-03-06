@@ -1,9 +1,9 @@
 import { ComboBoxOption } from 'shared/interfaces';
 
-import { Nationality } from 'interfaces/nationality';
+import { CodeElement } from 'interfaces/code';
 
-export const nationalityToComboBoxOption = (
-  nationality: Nationality,
+export const codeElementToComboBoxOption = (
+  codeElement: CodeElement,
 ): ComboBoxOption => {
-  return { label: nationality.name, value: nationality.code };
+  return { label: codeElement.name, value: codeElement.code };
 };

@@ -1,5 +1,5 @@
 import { CustomTextFieldErrors, TextFieldTypes } from 'shared/enums';
-import { InputFieldUtils } from 'shared/utils';
+import { InputFieldUtils, StringUtils } from 'shared/utils';
 
 import { useAppSelector } from 'configs/redux';
 import { YkiValidationErrors } from 'enums/app';
@@ -24,6 +24,11 @@ type PublicRegistrationErrors = {
       Omit<UserDeclaredEducation, 'source'>
   >]: string;
 };
+
+const preferredNameSearchCollator = new Intl.Collator('fi-FI', {
+  usage: 'search',
+  sensitivity: 'base',
+});
 
 const getErrors = (
   showErrors: boolean,
@@ -69,11 +74,34 @@ const getErrors = (
       required: true,
       value: registration.firstNames,
     });
+    let preferredNameError = InputFieldUtils.validateCustomTextFieldErrors({
+      type: TextFieldTypes.Text,
+      required: true,
+      value: registration.preferredName,
+    });
+    if (StringUtils.isBlankString(preferredNameError)) {
+      // Preferred name must be one of first names.
+      // However, in case of combined names, the preferred name can also be a part of those.
+      // Thus, given the first name 'Ville-Pekka', possible preferred names are 'Ville', 'Pekka' and 'Ville-Pekka'.
+      const firstNames = (registration.firstNames || '').split(/\s/);
+      const candidates = firstNames.flatMap((v) => [v, ...v.split('-')]);
+      const preferredName = registration.preferredName || '';
+      const matchingName = candidates.find(
+        (v) => preferredNameSearchCollator.compare(v, preferredName) === 0,
+      );
+      if (!matchingName) {
+        preferredNameError = YkiValidationErrors.PreferredNameMustBeFirstName;
+      }
+    }
+    errors['preferredName'] = preferredNameError;
     errors['lastName'] = InputFieldUtils.validateCustomTextFieldErrors({
       type: TextFieldTypes.Text,
       required: true,
       value: registration.lastName,
     });
+    if (!registration.nativeLanguage) {
+      errors['nativeLanguage'] = CustomTextFieldErrors.Required;
+    }
     if (!registration.gender) {
       errors['gender'] = CustomTextFieldErrors.Required;
     }
