@@ -10,6 +10,7 @@ type TableRowsProps<T extends Row> = PropsWithChildren<{
   row: T;
   columns: ListTableColumn<T>[];
   collapsibleRows: boolean;
+  hoverable?: boolean;
   rowHeight?: 'small' | 'medium';
   renderCollapsibleRow?: (row: T, open: boolean) => React.ReactNode;
 }>;
@@ -19,6 +20,7 @@ export const ListTableRow = <T extends Row>({
   row,
   columns,
   collapsibleRows,
+  hoverable = true,
   rowHeight,
   renderCollapsibleRow,
 }: TableRowsProps<T>) => {
@@ -41,9 +43,11 @@ export const ListTableRow = <T extends Row>({
                   backgroundColor: ophColors.white,
                 },
                 '&:nth-of-type(odd)': {
-                  '&:hover': {
-                    backgroundColor: ophColors.lightBlue2,
-                  },
+                  ...(hoverable && {
+                    '&:hover': {
+                      backgroundColor: ophColors.lightBlue2,
+                    },
+                  }),
                 },
               }
             : {
@@ -53,9 +57,11 @@ export const ListTableRow = <T extends Row>({
                 '&:nth-of-type(odd)': {
                   backgroundColor: ophColors.white,
                 },
-                '&:hover': {
-                  backgroundColor: ophColors.lightBlue2,
-                },
+                ...(hoverable && {
+                  '&:hover': {
+                    backgroundColor: ophColors.lightBlue2,
+                  },
+                }),
               }),
         }}
       >
