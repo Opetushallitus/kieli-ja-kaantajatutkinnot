@@ -281,6 +281,30 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="2026-03-09-add-exam-date-language-hsqldb" author="kimmotaskinen-knowit">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <createTable tableName="exam_date_language">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="exam_date_language_pkey"/>
+            </column>
+            <column name="exam_date_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="language_code" type="CHAR(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="level_code" type="TEXT"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="exam_date_language"
+                baseColumnNames="exam_date_id"
+                constraintName="fk_exam_date_language_exam_date"
+                referencedTableName="exam_date"
+                referencedColumnNames="id" />
+    </changeSet>
+
     <changeSet id="2026-02-11-add-exam-session-hsqldb" author="jrkkp">
         <preConditions onFail="CONTINUE">
             <dbms type="hsqldb"/>

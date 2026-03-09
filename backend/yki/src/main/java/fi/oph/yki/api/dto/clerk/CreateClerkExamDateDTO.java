@@ -6,11 +6,10 @@ import java.util.List;
 import lombok.Builder;
 
 @Builder
-public record ClerkExamDateDTO(
-  Long id,
+public record CreateClerkExamDateDTO(
   LocalDate examDate,
   LocalDate registrationStartDate,
   LocalDate registrationEndDate,
   ExamSessionType type,
-  List<ClerkExamDateLanguageDTO> languages
+  List<CreateClerkExamDateLanguageDTO> languages
 ) {}
