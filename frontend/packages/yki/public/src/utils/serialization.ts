@@ -236,6 +236,7 @@ export class SerializationUtils {
       phone_number: registration.phoneNumber,
       email: registration.email,
       gender: SerializationUtils.serializeGender(registration.gender),
+      country_code: registration.countryCode,
     };
   }
 
