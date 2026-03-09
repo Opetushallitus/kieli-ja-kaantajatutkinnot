@@ -12,6 +12,7 @@ import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {
   loadCustomersSearch,
+  resetCustomersSearch,
   setExamDateFilter,
   setLanguageFilter,
   setLevelFilter,
@@ -107,6 +108,7 @@ export const ClerkCustomerListingFilter = () => {
           sx={{ width: '100%' }}
           label={t('labels.organizer')}
           inputProps={{ 'aria-label': t('labels.organizer') }}
+          value={organizerIdFilter ? String(organizerIdFilter) : ''}
           options={[
             { label: t('listing.all'), value: '' },
             ...organizers.map((org) => ({
@@ -122,6 +124,7 @@ export const ClerkCustomerListingFilter = () => {
           sx={{ width: '100%' }}
           label={t('labels.examDate')}
           inputProps={{ 'aria-label': t('labels.examDate') }}
+          value={examDateIdFilter ? String(examDateIdFilter) : ''}
           options={[
             { label: t('listing.all'), value: '' },
             ...examDates.map((ed) => ({
@@ -137,6 +140,7 @@ export const ClerkCustomerListingFilter = () => {
           sx={{ width: '100%' }}
           label={t('labels.language')}
           inputProps={{ 'aria-label': t('labels.language') }}
+          value={languageCodeFilter ?? ''}
           options={[
             { label: t('listing.all'), value: '' },
             ...LANGUAGES.map((lang) => ({
@@ -152,6 +156,7 @@ export const ClerkCustomerListingFilter = () => {
           sx={{ width: '100%' }}
           label={t('labels.level')}
           inputProps={{ 'aria-label': t('labels.level') }}
+          value={levelCodeFilter ?? ''}
           options={[
             { label: t('listing.all'), value: '' },
             ...levels.map((level) => ({
@@ -183,6 +188,15 @@ export const ClerkCustomerListingFilter = () => {
           }
         >
           {t('submit')}
+        </OphButton>
+      </div>
+      <div style={{ minWidth: '150px' }}>
+        <OphButton
+          variant={Variant.Outlined}
+          sx={{ width: '100%' }}
+          onClick={() => dispatch(resetCustomersSearch())}
+        >
+          {t('clear')}
         </OphButton>
       </div>
     </div>

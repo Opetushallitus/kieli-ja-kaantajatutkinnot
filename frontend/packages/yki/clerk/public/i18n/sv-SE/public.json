@@ -97,6 +97,7 @@
               "registrations": "Ilmoittautumiset"
             }
           },
+          "clear": "Tyhjennä",
           "submit": "Hae osallistujia"
         }
       },
