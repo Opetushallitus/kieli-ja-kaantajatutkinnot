@@ -8,6 +8,8 @@ import fi.oph.yki.api.dto.clerk.ClerkCustomerSearchRequestDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCustomerSummaryDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamLocationDTO;
+import fi.oph.yki.audit.AuditService;
+import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.ExamPayment;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
@@ -18,6 +20,7 @@ import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.PersonSearchProjection;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.HetuUtils;
+import fi.vm.sade.auditlog.Target;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +43,7 @@ public class ClerkCustomerService {
   private final PersonRepository personRepository;
   private final RegistrationRepository registrationRepository;
   private final OnrService onrService;
+  private final AuditService auditService;
   private static final Logger LOG = LoggerFactory.getLogger(ClerkCustomerService.class);
 
   private ClerkCustomerRegistrationDTO registrationToDTO(final Registration registration) {
@@ -99,6 +103,7 @@ public class ClerkCustomerService {
 
   @Transactional(readOnly = true)
   public ClerkCustomerDetailsDTO getClerkCustomerDetails(final String oid) {
+    auditService.logClerkById(YkiOperation.GET_CUSTOMER_DETAILS, oid);
     final var person = personRepository.getByOid(oid);
 
     final var personDTO = ClerkCustomerPersonDTO
@@ -174,11 +179,39 @@ public class ClerkCustomerService {
     }
   }
 
+  private Target toTarget(final ClerkCustomerSearchRequestDTO request) {
+    final var targetBuilder = new Target.Builder();
+    final var personQuery = request.personQuery() == null ? "" : request.personQuery();
+    final var containsHetu = HetuUtils.findValidHetu(personQuery.split(" ")).isPresent();
+
+    targetBuilder.setField("containsHetu", Boolean.toString(containsHetu));
+
+    if (!containsHetu && !personQuery.isEmpty()) {
+      targetBuilder.setField("personQuery", personQuery);
+    }
+    if (request.organizerId() != null) {
+      targetBuilder.setField("organizerId", Long.toString(request.organizerId()));
+    }
+    if (request.examDateId() != null) {
+      targetBuilder.setField("examDateId", Long.toString(request.examDateId()));
+    }
+    if (request.languageCode() != null) {
+      targetBuilder.setField("languageCode", request.languageCode());
+    }
+    if (request.levelCode() != null) {
+      targetBuilder.setField("levelCode", request.levelCode());
+    }
+
+    return targetBuilder.build();
+  }
+
   @Transactional(readOnly = true)
   public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(
     final Pageable pageable,
     final ClerkCustomerSearchRequestDTO request
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
+    auditService.logClerkWithTarget(YkiOperation.SEARCH_CUSTOMERS, toTarget(request));
+
     final var personsPage = searchPersons(pageable, request);
     final var oids = personsPage.getContent().stream().map(PersonSearchProjection::oid).toList();
     final var hetuByOid = getOidToHetuMap(oids);
