@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.CreateClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.CreateClerkExamDateLanguageDTO;
+import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.repository.ExamDateRepository;
 import jakarta.annotation.Resource;
@@ -14,6 +15,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
@@ -23,11 +25,14 @@ public class ClerkExamDateServiceTest {
   @Resource
   private ExamDateRepository examDateRepository;
 
+  @MockBean
+  private AuditService auditService;
+
   private ClerkExamDateService clerkExamDateService;
 
   @BeforeEach
   public void setup() {
-    clerkExamDateService = new ClerkExamDateService(examDateRepository);
+    clerkExamDateService = new ClerkExamDateService(examDateRepository, auditService);
   }
 
   @Test

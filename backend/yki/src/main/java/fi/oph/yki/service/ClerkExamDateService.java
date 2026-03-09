@@ -4,6 +4,8 @@ import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateLanguageDTO;
 import fi.oph.yki.api.dto.clerk.CreateClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.CreateClerkExamDateLanguageDTO;
+import fi.oph.yki.audit.AuditService;
+import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamDateLanguage;
 import fi.oph.yki.repository.ExamDateRepository;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClerkExamDateService {
 
   private final ExamDateRepository examDateRepository;
+  private final AuditService auditService;
 
   private static ClerkExamDateLanguageDTO toLanguageDTO(final ExamDateLanguage lang) {
     return ClerkExamDateLanguageDTO
@@ -78,6 +81,9 @@ public class ClerkExamDateService {
 
   @Transactional
   public ClerkExamDateDTO createExamDate(final CreateClerkExamDateDTO dto) {
-    return toDTO(examDateRepository.save(toEntity(dto)));
+    final ClerkExamDateDTO result = toDTO(examDateRepository.save(toEntity(dto)));
+    auditService.logCreate(YkiOperation.CREATE_EXAM_DATE, result.id(), result);
+
+    return result;
   }
 }
