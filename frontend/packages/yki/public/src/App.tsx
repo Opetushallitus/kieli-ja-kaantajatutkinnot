@@ -10,8 +10,10 @@ import 'styles/styles.scss';
 // Initialize I18next
 initI18n();
 
+const store = setupStore();
+
 export const App = () => (
-  <Provider store={setupStore()}>
+  <Provider store={store}>
     <StyleCacheProvider appName="yki">
       <AppRouter />
     </StyleCacheProvider>
