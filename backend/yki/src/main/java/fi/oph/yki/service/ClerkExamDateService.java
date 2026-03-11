@@ -10,6 +10,8 @@ import fi.oph.yki.audit.dto.ClerkExamDateAuditDTO;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamDateLanguage;
 import fi.oph.yki.repository.ExamDateRepository;
+import fi.oph.yki.util.exception.APIException;
+import fi.oph.yki.util.exception.APIExceptionType;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
@@ -85,6 +87,13 @@ public class ClerkExamDateService {
 
   @Transactional
   public ClerkExamDateDTO createExamDate(final CreateClerkExamDateDTO dto) {
+    if (examDateRepository.existsByExamDate(dto.examDate())) {
+      throw new APIException(APIExceptionType.EXAM_DATE_CREATE_DUPLICATE_DATE);
+    }
+    if (!dto.registrationEndDate().isAfter(dto.registrationStartDate())) {
+      throw new APIException(APIExceptionType.EXAM_DATE_REGISTRATION_END_BEFORE_START);
+    }
+
     final ClerkExamDateDTO result = toDTO(examDateRepository.save(toEntity(dto)));
     final ClerkExamDateAuditDTO auditDto = new ClerkExamDateAuditDTO(result);
     auditService.logCreate(YkiOperation.CREATE_EXAM_DATE, result.id(), auditDto);

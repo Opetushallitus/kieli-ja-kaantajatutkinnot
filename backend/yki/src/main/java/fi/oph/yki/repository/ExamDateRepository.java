@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ExamDateRepository extends JpaRepository<ExamDate, Long> {
   List<ExamDate> getByExamDateAfter(LocalDate date);
+
+  boolean existsByExamDate(LocalDate examDate);
 }
