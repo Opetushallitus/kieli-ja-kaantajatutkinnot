@@ -2,6 +2,7 @@ package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.CreateClerkExamDateDTO;
@@ -9,6 +10,8 @@ import fi.oph.yki.api.dto.clerk.CreateClerkExamDateLanguageDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.repository.ExamDateRepository;
+import fi.oph.yki.util.exception.APIException;
+import fi.oph.yki.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.util.List;
@@ -103,5 +106,54 @@ public class ClerkExamDateServiceTest {
     assertEquals(List.of(ExamSessionType.LISTEN_WRITE), allExamDates.get(0).examTypes());
     assertEquals(1, allExamDates.get(0).languages().size());
     assertEquals("eng", allExamDates.get(0).languages().get(0).languageCode());
+  }
+
+  @Test
+  public void testCreateExamDateThrowsForDuplicateExamDate() {
+    final CreateClerkExamDateDTO dto = CreateClerkExamDateDTO
+      .builder()
+      .examDate(LocalDate.of(2026, 10, 15))
+      .registrationStartDate(LocalDate.of(2026, 8, 1))
+      .registrationEndDate(LocalDate.of(2026, 9, 30))
+      .examTypes(List.of(ExamSessionType.FULL))
+      .languages(List.of())
+      .build();
+
+    clerkExamDateService.createExamDate(dto);
+
+    final APIException ex = assertThrows(APIException.class, () -> clerkExamDateService.createExamDate(dto));
+    assertEquals(APIExceptionType.EXAM_DATE_CREATE_DUPLICATE_DATE, ex.getExceptionType());
+  }
+
+  @Test
+  public void testCreateExamDateThrowsWhenRegistrationEndBeforeStart() {
+    final CreateClerkExamDateDTO dto = CreateClerkExamDateDTO
+      .builder()
+      .examDate(LocalDate.of(2026, 10, 15))
+      .registrationStartDate(LocalDate.of(2026, 9, 30))
+      .registrationEndDate(LocalDate.of(2026, 8, 1))
+      .examTypes(List.of(ExamSessionType.FULL))
+      .languages(List.of())
+      .build();
+
+    final APIException ex = assertThrows(APIException.class, () -> clerkExamDateService.createExamDate(dto));
+    assertEquals(APIExceptionType.EXAM_DATE_REGISTRATION_END_BEFORE_START, ex.getExceptionType());
+  }
+
+  @Test
+  public void testCreateExamDateThrowsWhenRegistrationEndEqualsStart() {
+    final LocalDate sameDate = LocalDate.of(2026, 9, 15);
+
+    final CreateClerkExamDateDTO dto = CreateClerkExamDateDTO
+      .builder()
+      .examDate(LocalDate.of(2026, 10, 15))
+      .registrationStartDate(sameDate)
+      .registrationEndDate(sameDate)
+      .examTypes(List.of(ExamSessionType.FULL))
+      .languages(List.of())
+      .build();
+
+    final APIException ex = assertThrows(APIException.class, () -> clerkExamDateService.createExamDate(dto));
+    assertEquals(APIExceptionType.EXAM_DATE_REGISTRATION_END_BEFORE_START, ex.getExceptionType());
   }
 }

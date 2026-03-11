@@ -118,6 +118,10 @@
           "registrationStartLabel": "Ilmoittautuminen alkaa",
           "submitButton": "Lisää tutkintopäivä",
           "title": "Lisää uusi tutkintopäivä"
+        },
+        "toasts": {
+          "examDateAdded": "Tutkintopäivä lisätty onnistuneesti",
+          "examDateAddError": "Tutkintopäivän lisääminen epäonnistui"
         }
       },
       "clerkExamSessionRegistrations": {

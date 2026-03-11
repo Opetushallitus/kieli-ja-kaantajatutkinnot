@@ -22,12 +22,12 @@ export const ClerkExamDatesPage: FC = () => {
   useEffect(() => {
     if (addStatus === APIResponseStatus.Success) {
       showToast({
-        description: t('examDateAdded'),
+        description: t('toasts.examDateAdded'),
         severity: Severity.Success,
       });
     } else if (addStatus === APIResponseStatus.Error) {
       showToast({
-        description: t('examDateAddError'),
+        description: t('toasts.examDateAddError'),
         severity: Severity.Error,
       });
     }
