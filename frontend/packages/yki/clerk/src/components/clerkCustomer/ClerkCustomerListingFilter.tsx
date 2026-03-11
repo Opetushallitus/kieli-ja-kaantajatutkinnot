@@ -70,7 +70,7 @@ export const ClerkCustomerListingFilter = () => {
         <OphInputFormField
           sx={{ width: '100%' }}
           label={t('labels.participant')}
-          value={searchQueryFilter}
+          value={searchQueryFilter ?? ''}
           onChange={(e) => dispatch(setSearchQueryFilter(e.target.value))}
           endAdornment={
             <InputAdornment position="end">
