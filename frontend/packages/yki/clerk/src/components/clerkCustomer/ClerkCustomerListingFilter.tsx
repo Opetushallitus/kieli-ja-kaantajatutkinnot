@@ -41,6 +41,7 @@ export const ClerkCustomerListingFilter = () => {
   const { status: examDateStatus, examDates } =
     useAppSelector(examDateSelector);
   const {
+    status,
     searchQueryFilter,
     organizerIdFilter,
     examDateIdFilter,
@@ -171,6 +172,7 @@ export const ClerkCustomerListingFilter = () => {
         <OphButton
           variant={Variant.Contained}
           sx={{ width: '100%' }}
+          disabled={status === APIResponseStatus.InProgress}
           onClick={() =>
             dispatch(
               loadCustomersSearch({
