@@ -10,7 +10,10 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { H2 } from 'ophTheme/Text';
-import { loadClerkCustomerDetails } from 'redux/reducers/clerkCustomerDetails';
+import {
+  loadClerkCustomerDetails,
+  resetCustomerDetails,
+} from 'redux/reducers/clerkCustomerDetails';
 import { clerkCustomerDetailsSelector } from 'redux/selectors/clerkCustomerDetailsSelector';
 
 export const ClerkCustomerDetailsPage: FC = () => {
@@ -27,6 +30,12 @@ export const ClerkCustomerDetailsPage: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const params = useParams();
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetCustomerDetails());
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted && params.oid) {
