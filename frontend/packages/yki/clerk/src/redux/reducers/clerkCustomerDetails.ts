@@ -47,6 +47,9 @@ const clerkCustomerDetailsSlice = createSlice({
     resetCustomerContactUpdateStatus(state) {
       state.updateStatus = APIResponseStatus.NotStarted;
     },
+    resetCustomerDetails() {
+      return initialState;
+    },
   },
 });
 
@@ -59,4 +62,5 @@ export const {
   resolveCustomerContactUpdate,
   rejectCustomerContactUpdate,
   resetCustomerContactUpdateStatus,
+  resetCustomerDetails,
 } = clerkCustomerDetailsSlice.actions;
