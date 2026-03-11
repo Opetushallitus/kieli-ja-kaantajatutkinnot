@@ -4,7 +4,7 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { ChangeEvent, useCallback, useEffect } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { LabeledComboBox, LabeledTextField, Text } from 'shared/components';
 import {
   APIResponseStatus,
@@ -24,7 +24,10 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { GenderEnum, RadioButtonValue } from 'enums/app';
 import { useLanguageOptions } from 'hooks/useLanguageOptions';
 import { useNationalityOptions } from 'hooks/useNationalityOptions';
-import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
+import {
+  PublicRegistrationErrors,
+  usePublicRegistrationErrors,
+} from 'hooks/usePublicRegistrationErrors';
 import { CodeElement } from 'interfaces/code';
 import { PublicEmailRegistration } from 'interfaces/publicRegistration';
 import { loadLanguages } from 'redux/reducers/languages';
@@ -58,6 +61,19 @@ export const EmailRegistrationDetails = () => {
   const nationalityOptions = useNationalityOptions();
   const languageOptions = useLanguageOptions();
   const appLanguage = getCurrentLang();
+  const [dirtyFields, setDirtyFields] = useState<
+    Array<keyof PublicRegistrationErrors>
+  >([]);
+
+  const hasErrors = (
+    registrationErrors: PublicRegistrationErrors,
+    fieldName: keyof PublicRegistrationErrors,
+  ) => {
+    return (
+      (showErrors || dirtyFields.includes(fieldName)) &&
+      !!registrationErrors[fieldName as keyof PublicRegistrationErrors]
+    );
+  };
 
   useEffect(() => {
     if (languagesStatus === APIResponseStatus.NotStarted) {
@@ -73,7 +89,7 @@ export const EmailRegistrationDetails = () => {
     [translateCommon],
   );
 
-  const getRegistrationErrors = usePublicRegistrationErrors(showErrors);
+  const getRegistrationErrors = usePublicRegistrationErrors(true);
   const registrationErrors = getRegistrationErrors();
 
   const getEventTargetValue = (value: string) => {
@@ -106,6 +122,7 @@ export const EmailRegistrationDetails = () => {
     (fieldName: keyof Omit<PublicEmailRegistration, 'id'>) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const trimmedValue = event.target.value ? event.target.value.trim() : '';
+      setDirtyFields([...dirtyFields, fieldName]);
       updateRegistrationField(fieldName, getEventTargetValue(trimmedValue));
     };
 
@@ -125,8 +142,8 @@ export const EmailRegistrationDetails = () => {
     placeholder: t('placeholders.' + fieldName),
     onChange: handleChange(fieldName),
     onBlur: handleBlur(fieldName),
-    error: showErrors && !!registrationErrors[fieldName],
-    helperText: registrationErrors[fieldName]
+    error: hasErrors(registrationErrors, fieldName),
+    helperText: hasErrors(registrationErrors, fieldName)
       ? translateCommon(registrationErrors[fieldName] as string)
       : '',
     required: true,

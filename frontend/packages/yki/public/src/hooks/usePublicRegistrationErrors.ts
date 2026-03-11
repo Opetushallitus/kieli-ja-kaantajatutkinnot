@@ -17,7 +17,7 @@ import { registrationSelector } from 'redux/selectors/registration';
 import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
 
-type PublicRegistrationErrors = {
+export type PublicRegistrationErrors = {
   [field in keyof Partial<
     PublicEmailRegistration &
       PublicSuomiFiRegistration &
