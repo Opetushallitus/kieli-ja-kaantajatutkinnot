@@ -172,13 +172,13 @@ export const AddExamDateModal = ({
 
     const selectedExamTypes: string[] = [];
     if (examTypes.speechComprehensionAndWriting) {
-      selectedExamTypes.push('SPEECH_COMPREHENSION_AND_WRITING');
+      selectedExamTypes.push('LISTEN_WRITE');
     }
     if (examTypes.readingComprehensionAndSpeaking) {
-      selectedExamTypes.push('READING_COMPREHENSION_AND_SPEAKING');
+      selectedExamTypes.push('READ_SPEAK');
     }
     if (examTypes.allExamParts) {
-      selectedExamTypes.push('ALL');
+      selectedExamTypes.push('FULL');
     }
 
     const request: CreateExamDateRequest = {

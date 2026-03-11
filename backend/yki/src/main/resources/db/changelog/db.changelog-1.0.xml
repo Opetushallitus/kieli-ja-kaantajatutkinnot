@@ -486,4 +486,46 @@
             </column>
         </addColumn>
     </changeSet>
+
+    <changeSet id="2026-03-12-add-exam-date-exam-type" author="kimmotaskinen-knowit">
+        <preConditions onFail="CONTINUE">
+            <dbms type="postgresql" />
+        </preConditions>
+        <dropColumn tableName="exam_date" columnName="type" />
+        <createTable tableName="exam_date_exam_type">
+            <column name="exam_date_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="exam_type" type="exam_session_type">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="exam_date_exam_type"
+                baseColumnNames="exam_date_id"
+                constraintName="fk_exam_date_exam_type_exam_date"
+                referencedTableName="exam_date"
+                referencedColumnNames="id" />
+    </changeSet>
+
+    <changeSet id="2026-03-12-add-exam-date-exam-type-hsqldb" author="kimmotaskinen-knowit">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb" />
+        </preConditions>
+        <dropColumn tableName="exam_date" columnName="type" />
+        <createTable tableName="exam_date_exam_type">
+            <column name="exam_date_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="exam_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="exam_date_exam_type"
+                baseColumnNames="exam_date_id"
+                constraintName="fk_exam_date_exam_type_exam_date"
+                referencedTableName="exam_date"
+                referencedColumnNames="id" />
+    </changeSet>
 </databaseChangeLog>

@@ -6,6 +6,7 @@ import fi.oph.yki.api.dto.clerk.CreateClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.CreateClerkExamDateLanguageDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
+import fi.oph.yki.audit.dto.ClerkExamDateAuditDTO;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamDateLanguage;
 import fi.oph.yki.repository.ExamDateRepository;
@@ -39,7 +40,7 @@ public class ClerkExamDateService {
       .examDate(ed.getExamDate())
       .registrationStartDate(ed.getRegistrationStartDate())
       .registrationEndDate(ed.getRegistrationEndDate())
-      .type(ed.getType())
+      .examTypes(ed.getExamTypes())
       .languages(ed.getLanguages().stream().map(ClerkExamDateService::toLanguageDTO).toList())
       .build();
   }
@@ -59,7 +60,10 @@ public class ClerkExamDateService {
       .toList();
   }
 
-  private static ExamDateLanguage toLanguageEntity(final ExamDate examDate, final CreateClerkExamDateLanguageDTO langDTO) {
+  private static ExamDateLanguage toLanguageEntity(
+    final ExamDate examDate,
+    final CreateClerkExamDateLanguageDTO langDTO
+  ) {
     final ExamDateLanguage lang = new ExamDateLanguage();
     lang.setExamDate(examDate);
     lang.setLanguageCode(langDTO.languageCode());
@@ -73,7 +77,7 @@ public class ClerkExamDateService {
     examDate.setExamDate(dto.examDate());
     examDate.setRegistrationStartDate(dto.registrationStartDate());
     examDate.setRegistrationEndDate(dto.registrationEndDate());
-    examDate.setType(dto.type());
+    examDate.setExamTypes(dto.examTypes());
     examDate.setLanguages(dto.languages().stream().map(langDTO -> toLanguageEntity(examDate, langDTO)).toList());
 
     return examDate;
@@ -82,7 +86,8 @@ public class ClerkExamDateService {
   @Transactional
   public ClerkExamDateDTO createExamDate(final CreateClerkExamDateDTO dto) {
     final ClerkExamDateDTO result = toDTO(examDateRepository.save(toEntity(dto)));
-    auditService.logCreate(YkiOperation.CREATE_EXAM_DATE, result.id(), result);
+    final ClerkExamDateAuditDTO auditDto = new ClerkExamDateAuditDTO(result);
+    auditService.logCreate(YkiOperation.CREATE_EXAM_DATE, result.id(), auditDto);
 
     return result;
   }
