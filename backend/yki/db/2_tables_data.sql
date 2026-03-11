@@ -2,8 +2,6 @@
 -- PostgreSQL database dump
 --
 
-\restrict yH8zRHZRroWe7DeBtMbwULigEEXhoZEPpe3vQ40A4XZEO0F7fGrw1duV83DPTSS
-
 -- Dumped from database version 10.4 (Debian 10.4-2.pgdg90+1)
 -- Dumped by pg_dump version 15.14 (Homebrew)
 
@@ -12,7 +10,7 @@ SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
+SET search_path = public;
 SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
@@ -970,6 +968,4 @@ SELECT pg_catalog.setval('public.registration_id_seq', 185, true);
 --
 -- PostgreSQL database dump complete
 --
-
-\unrestrict yH8zRHZRroWe7DeBtMbwULigEEXhoZEPpe3vQ40A4XZEO0F7fGrw1duV83DPTSS
 
