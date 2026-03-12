@@ -1,5 +1,6 @@
 package fi.oph.yki.model;
 
+import fi.oph.yki.model.type.ExamSessionTicketType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import jakarta.persistence.Column;
@@ -11,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -47,6 +49,15 @@ public class Registration {
   @JdbcType(PostgreSQLEnumJdbcType.class)
   private RegistrationState state;
 
+  @Column(name = "participant_id")
+  private Long participantId;
+
+  @Column(name = "strong_auth")
+  private Boolean strongAuth;
+
+  @Column(name = "started_at")
+  private LocalDateTime startedAt;
+
   @Column(name = "lifted_from_queue_at")
   private LocalDateTime liftedFromQueueAt;
 
@@ -56,9 +67,14 @@ public class Registration {
   @Column(name = "expires_at")
   private LocalDateTime expiresAt;
 
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "exam_session_id", referencedColumnName = "id")
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "exam_session_id")
   private ExamSession examSession;
+
+  @Column(name = "partial_exam_type")
+  @Enumerated(EnumType.STRING)
+  @JdbcType(PostgreSQLEnumJdbcType.class)
+  private ExamSessionTicketType partialExamType;
 
   // DO NOT REMOVE THE fetch=FetchType.LAZY ANNOTATION unless extremely confident that things will not break!
   // IDEA will falsely claim that it will not affect loading - this is not so.

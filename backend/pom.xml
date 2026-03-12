@@ -278,6 +278,9 @@
           <offline>true</offline>
           <failOnNoGitDirectory>false</failOnNoGitDirectory>
           <dotGitDirectory>${project.basedir}../../.git</dotGitDirectory>
+          <gitDescribe>
+            <skip>true</skip>
+          </gitDescribe>
         </configuration>
       </plugin>
     </plugins>

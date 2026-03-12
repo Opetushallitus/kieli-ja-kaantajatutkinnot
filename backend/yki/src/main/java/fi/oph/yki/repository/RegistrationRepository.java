@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -29,5 +30,38 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     final LocalDate examDate,
     final String language,
     final String level
+  );
+
+  Optional<Registration> findByPersonOidAndExamSessionIdAndState(
+    String personOid,
+    Long examSessionId,
+    RegistrationState state
+  );
+
+  @Query(
+    """
+      SELECT COUNT(r) < es.maxParticipants
+      FROM Registration r JOIN r.examSession es
+      WHERE es.id = :examSessionId
+        AND r.state IN ('COMPLETED', 'SUBMITTED', 'STARTED')
+        AND r.kind = 'ADMISSION'
+      """
+  )
+  boolean isSpaceLeft(@Param("examSessionId") Long examSessionId);
+
+  @Query(
+    """
+      SELECT COUNT(r) > 0
+      FROM Registration r
+      JOIN r.examSession es
+      JOIN es.examDate ed
+      WHERE r.person.oid = :personOid
+        AND r.state IN ('COMPLETED', 'SUBMITTED', 'STARTED')
+        AND ed.id = (SELECT es2.examDate.id FROM ExamSession es2 WHERE es2.id = :examSessionId)
+      """
+  )
+  boolean isPersonAlreadyRegisteredOnExamDate(
+    @Param("personOid") String personOid,
+    @Param("examSessionId") Long examSessionId
   );
 }
