@@ -18,7 +18,7 @@ export interface ExamDateResponse {
   languages: ExamDateLanguage[];
 }
 
-export interface LanguageLevelSelection {
+interface LanguageLevelSelection {
   languageCode: string;
   levelCode: string;
 }
