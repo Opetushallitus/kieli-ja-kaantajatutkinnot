@@ -49,6 +49,8 @@
           "required": "Uppgiften är obligatorisk",
           "telFormat": "Telefonnummret är felaktigt"
         },
+        "examDateDuplicate": "Tutkintopäivä on jo olemassa valitulle päivämäärälle",
+        "examDateRegistrationEndBeforeStart": "Ilmoittautumisen päättymispäivän on oltava alkamispäivän jälkeen",
         "loadingExamDatesFailed": "Tutkintopäivien lataaminen epäonnistui",
         "loadingFailed": "Det gick inte att ladda uppgifterna.",
         "mismatchingEmails": "Innehållet i fälten för e-postadress motsvarar inte varandra",

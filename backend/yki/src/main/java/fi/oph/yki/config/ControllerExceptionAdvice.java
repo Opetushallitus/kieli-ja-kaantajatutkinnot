@@ -1,6 +1,9 @@
 package fi.oph.yki.config;
 
+import fi.oph.yki.util.exception.APIException;
+import fi.oph.yki.util.exception.APIExceptionType;
 import jakarta.validation.ConstraintViolationException;
+import java.util.Map;
 import java.util.Set;
 import org.apache.catalina.connector.ClientAbortException;
 import org.slf4j.Logger;
@@ -30,6 +33,12 @@ public class ControllerExceptionAdvice {
     MethodArgumentNotValidException.class.getSimpleName(),
     MissingServletRequestParameterException.class.getSimpleName()
   );
+
+  @ExceptionHandler(APIException.class)
+  public ResponseEntity<Object> handleAPIException(final APIException ex) {
+    LOG.error("APIException: " + ex.getExceptionType());
+    return badRequest(ex.getExceptionType());
+  }
 
   @ExceptionHandler(ClientAbortException.class)
   public void handleClientAbortException(final ClientAbortException ex) {
@@ -65,6 +74,10 @@ public class ControllerExceptionAdvice {
 
   private ResponseEntity<Object> badRequest() {
     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+  }
+
+  private ResponseEntity<Object> badRequest(final APIExceptionType exceptionType) {
+    return new ResponseEntity<>(Map.of("errorCode", exceptionType.getCode()), HttpStatus.BAD_REQUEST);
   }
 
   private ResponseEntity<Object> internalServerError() {

@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import dayjs from 'dayjs';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
@@ -45,7 +45,19 @@ function* addExamDateSaga(action: ReturnType<typeof addExamDate>) {
     yield put(loadExamDates());
   } catch (error) {
     yield put(rejectAddExamDate());
-    yield put(setAPIError(t('yki.common.errors.addingExamDateFailed')));
+
+    const axiosError = error as AxiosError<{ errorCode?: string }>;
+    const errorCode = axiosError.response?.data?.errorCode;
+
+    if (errorCode === 'examDateCreateDuplicateDate') {
+      yield put(setAPIError(t('yki.common.errors.examDateDuplicate')));
+    } else if (errorCode === 'examDateRegistrationEndBeforeStart') {
+      yield put(
+        setAPIError(t('yki.common.errors.examDateRegistrationEndBeforeStart')),
+      );
+    } else {
+      yield put(setAPIError(t('yki.common.errors.addingExamDateFailed')));
+    }
   }
 }
 
