@@ -56,45 +56,31 @@ export const CustomerInformation = ({
   return (
     <>
       <div className="rows gapped customer-details">
-        <div className="rows gapped-xs">
-          {person.ssn && (
-            <div className="columns gapped-xxl align-items-start">
-              <Label>{t('details.fields.ssn')}</Label>
-              <div>{person.ssn}</div>
-            </div>
-          )}
-          <div className="columns gapped-xxl align-items-start">
-            <Label>{t('details.fields.oid')}</Label>
-            <div>{person.oid}</div>
+        <div className="customer-details__fields">
+          <Label>{t('details.fields.ssn')}</Label>
+          <div>{person.ssn}</div>
+          <Label>{t('details.fields.oid')}</Label>
+          <div>{person.oid}</div>
+          <Label>{t('details.fields.nationality')}</Label>
+          <div>
+            {
+              nationalities.find(
+                ({ code, language }) =>
+                  code == person.nationalityCode && language == appLanguage,
+              )?.name
+            }
           </div>
-          <div className="columns gapped-xxl align-items-start">
-            <Label>{t('details.fields.nationality')}</Label>
-            <div>
-              {
-                nationalities.find(
-                  ({ code, language }) =>
-                    code == person.nationalityCode && language == appLanguage,
-                )?.name
-              }
-            </div>
+          <Label>{t('details.fields.phoneNumber')}</Label>
+          <div>{person.phoneNumber}</div>
+          <Label>{t('details.fields.streetAddress')}</Label>
+          <div>
+            {[person.streetAddress, person.zip, person.postOffice]
+              .filter((v) => !!v)
+              .join(', ')}
           </div>
-          <div className="columns gapped-xxl align-items-start">
-            <Label>{t('details.fields.phoneNumber')}</Label>
-            <div>{person.phoneNumber}</div>
-          </div>
-          <div className="columns gapped-xxl align-items-start">
-            <Label>{t('details.fields.streetAddress')}</Label>
-            <div>
-              {[person.streetAddress, person.zip, person.postOffice]
-                .filter((v) => !!v)
-                .join(', ')}
-            </div>
-          </div>
-          <div className="columns gapped-xxl align-items-start">
-            <Label>{t('details.fields.email')}</Label>
-            <div>
-              <a href={`mailto:${person.email}`}>{person.email}</a>
-            </div>
+          <Label>{t('details.fields.email')}</Label>
+          <div>
+            <a href={`mailto:${person.email}`}>{person.email}</a>
           </div>
         </div>
       </div>
