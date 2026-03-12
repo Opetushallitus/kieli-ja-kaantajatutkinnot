@@ -53,6 +53,8 @@ public class AuditUtil {
 
   private static Optional<Oid> getOptionalOid(final HttpServletRequest request) {
     final String reqOid = StringUtil.getOidFromRequest(request);
+
+    // TODO fetch OID from clerk authentication
     return Optional
       .ofNullable(reqOid)
       .map(oid -> {
