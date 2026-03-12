@@ -2,8 +2,8 @@ package fi.oph.yki.api.clerk;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCreateExamDateDTO;
+import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.config.ClerkEnabledCondition;
 import fi.oph.yki.service.ClerkExamDateService;
 import io.swagger.v3.oas.annotations.Operation;

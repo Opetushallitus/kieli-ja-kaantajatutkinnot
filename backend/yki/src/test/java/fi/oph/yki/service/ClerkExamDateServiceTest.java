@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCreateExamDateDTO;
+import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.CreateClerkExamDateLanguageDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.model.type.ExamSessionType;

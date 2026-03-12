@@ -1,8 +1,8 @@
 package fi.oph.yki.service;
 
+import fi.oph.yki.api.dto.clerk.ClerkCreateExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateLanguageDTO;
-import fi.oph.yki.api.dto.clerk.ClerkCreateExamDateDTO;
 import fi.oph.yki.api.dto.clerk.CreateClerkExamDateLanguageDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
