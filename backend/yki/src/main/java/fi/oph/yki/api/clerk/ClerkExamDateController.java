@@ -8,6 +8,7 @@ import fi.oph.yki.config.ClerkEnabledCondition;
 import fi.oph.yki.service.ClerkExamDateService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,7 @@ public class ClerkExamDateController {
 
   @PostMapping
   @Operation(tags = TAG_EXAM_DATE, summary = "Create a new exam date")
-  public ClerkExamDateDTO createExamDate(@RequestBody final ClerkCreateExamDateDTO dto) {
+  public ClerkExamDateDTO createExamDate(@RequestBody @Valid final ClerkCreateExamDateDTO dto) {
     return clerkExamDateService.createExamDate(dto);
   }
 }
