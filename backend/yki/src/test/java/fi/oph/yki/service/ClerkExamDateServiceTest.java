@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
-import fi.oph.yki.api.dto.clerk.CreateClerkExamDateDTO;
+import fi.oph.yki.api.dto.clerk.ClerkCreateExamDateDTO;
 import fi.oph.yki.api.dto.clerk.CreateClerkExamDateLanguageDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.model.type.ExamSessionType;
@@ -40,7 +40,7 @@ public class ClerkExamDateServiceTest {
 
   @Test
   public void testCreateExamDate() {
-    final CreateClerkExamDateDTO dto = CreateClerkExamDateDTO
+    final ClerkCreateExamDateDTO dto = ClerkCreateExamDateDTO
       .builder()
       .examDate(LocalDate.of(2026, 10, 15))
       .registrationStartDate(LocalDate.of(2026, 8, 1))
@@ -70,7 +70,7 @@ public class ClerkExamDateServiceTest {
 
   @Test
   public void testCreateExamDateWithNoLanguages() {
-    final CreateClerkExamDateDTO dto = CreateClerkExamDateDTO
+    final ClerkCreateExamDateDTO dto = ClerkCreateExamDateDTO
       .builder()
       .examDate(LocalDate.of(2026, 11, 20))
       .registrationStartDate(LocalDate.of(2026, 9, 1))
@@ -89,7 +89,7 @@ public class ClerkExamDateServiceTest {
 
   @Test
   public void testCreateExamDateIsPersisted() {
-    final CreateClerkExamDateDTO dto = CreateClerkExamDateDTO
+    final ClerkCreateExamDateDTO dto = ClerkCreateExamDateDTO
       .builder()
       .examDate(LocalDate.of(2027, 1, 10))
       .registrationStartDate(LocalDate.of(2026, 11, 1))
@@ -110,7 +110,7 @@ public class ClerkExamDateServiceTest {
 
   @Test
   public void testCreateExamDateThrowsForDuplicateExamDate() {
-    final CreateClerkExamDateDTO dto = CreateClerkExamDateDTO
+    final ClerkCreateExamDateDTO dto = ClerkCreateExamDateDTO
       .builder()
       .examDate(LocalDate.of(2026, 10, 15))
       .registrationStartDate(LocalDate.of(2026, 8, 1))
@@ -127,7 +127,7 @@ public class ClerkExamDateServiceTest {
 
   @Test
   public void testCreateExamDateThrowsWhenRegistrationEndBeforeStart() {
-    final CreateClerkExamDateDTO dto = CreateClerkExamDateDTO
+    final ClerkCreateExamDateDTO dto = ClerkCreateExamDateDTO
       .builder()
       .examDate(LocalDate.of(2026, 10, 15))
       .registrationStartDate(LocalDate.of(2026, 9, 30))
@@ -144,7 +144,7 @@ public class ClerkExamDateServiceTest {
   public void testCreateExamDateThrowsWhenRegistrationEndEqualsStart() {
     final LocalDate sameDate = LocalDate.of(2026, 9, 15);
 
-    final CreateClerkExamDateDTO dto = CreateClerkExamDateDTO
+    final ClerkCreateExamDateDTO dto = ClerkCreateExamDateDTO
       .builder()
       .examDate(LocalDate.of(2026, 10, 15))
       .registrationStartDate(sameDate)

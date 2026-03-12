@@ -2,7 +2,7 @@ package fi.oph.yki.service;
 
 import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateLanguageDTO;
-import fi.oph.yki.api.dto.clerk.CreateClerkExamDateDTO;
+import fi.oph.yki.api.dto.clerk.ClerkCreateExamDateDTO;
 import fi.oph.yki.api.dto.clerk.CreateClerkExamDateLanguageDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
@@ -74,7 +74,7 @@ public class ClerkExamDateService {
     return lang;
   }
 
-  private static ExamDate toEntity(final CreateClerkExamDateDTO dto) {
+  private static ExamDate toEntity(final ClerkCreateExamDateDTO dto) {
     final ExamDate examDate = new ExamDate();
     examDate.setExamDate(dto.examDate());
     examDate.setRegistrationStartDate(dto.registrationStartDate());
@@ -86,7 +86,7 @@ public class ClerkExamDateService {
   }
 
   @Transactional
-  public ClerkExamDateDTO createExamDate(final CreateClerkExamDateDTO dto) {
+  public ClerkExamDateDTO createExamDate(final ClerkCreateExamDateDTO dto) {
     if (examDateRepository.existsByExamDate(dto.examDate())) {
       throw new APIException(APIExceptionType.EXAM_DATE_CREATE_DUPLICATE_DATE);
     }
