@@ -466,7 +466,7 @@
                 referencedColumnNames="id" />
         <addColumn tableName="exam_session">
             <column name="type"
-                    type="TEXT"
+                    type="VARCHAR(50)"
                     defaultValue="FULL">
                 <constraints nullable="false"/>
             </column>
@@ -496,7 +496,7 @@
             <column name="exam_date_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="exam_type" type="exam_session_type">
+            <column name="exam_type" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
