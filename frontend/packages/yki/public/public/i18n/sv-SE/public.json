@@ -822,6 +822,7 @@
           "state": {
             "cancelled": "Annullerad",
             "enrolled": "Anmäld",
+            "evaluated": "Arvioitu",
             "label": "Status",
             "queued": "I kö (på plats {{ positionInQueue }})"
           },
