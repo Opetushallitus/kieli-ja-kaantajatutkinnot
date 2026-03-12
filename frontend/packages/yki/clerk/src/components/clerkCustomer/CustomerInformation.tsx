@@ -56,18 +56,19 @@ export const CustomerInformation = ({
   return (
     <>
       <div className="rows gapped customer-details">
-        <div className="columns gapped-xxl align-items-start">
-          <div className="rows gapped-xs">
-            <Label>{t('details.fields.ssn')}</Label>
+        <div className="rows gapped-xs">
+          {person.ssn && (
+            <div className="columns gapped-xxl align-items-start">
+              <Label>{t('details.fields.ssn')}</Label>
+              <div>{person.ssn}</div>
+            </div>
+          )}
+          <div className="columns gapped-xxl align-items-start">
             <Label>{t('details.fields.oid')}</Label>
-            <Label>{t('details.fields.nationality')}</Label>
-            <Label>{t('details.fields.phoneNumber')}</Label>
-            <Label>{t('details.fields.streetAddress')}</Label>
-            <Label>{t('details.fields.email')}</Label>
-          </div>
-          <div className="rows gapped-xs">
-            <div>{person.ssn}</div>
             <div>{person.oid}</div>
+          </div>
+          <div className="columns gapped-xxl align-items-start">
+            <Label>{t('details.fields.nationality')}</Label>
             <div>
               {
                 nationalities.find(
@@ -76,12 +77,21 @@ export const CustomerInformation = ({
                 )?.name
               }
             </div>
+          </div>
+          <div className="columns gapped-xxl align-items-start">
+            <Label>{t('details.fields.phoneNumber')}</Label>
             <div>{person.phoneNumber}</div>
+          </div>
+          <div className="columns gapped-xxl align-items-start">
+            <Label>{t('details.fields.streetAddress')}</Label>
             <div>
               {[person.streetAddress, person.zip, person.postOffice]
                 .filter((v) => !!v)
                 .join(', ')}
             </div>
+          </div>
+          <div className="columns gapped-xxl align-items-start">
+            <Label>{t('details.fields.email')}</Label>
             <div>
               <a href={`mailto:${person.email}`}>{person.email}</a>
             </div>
