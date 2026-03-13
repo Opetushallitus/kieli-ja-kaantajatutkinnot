@@ -9,6 +9,8 @@ import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.CreateClerkExamDateLanguageDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.model.type.ExamSessionType;
+import fi.oph.yki.model.type.LanguageCode;
+import fi.oph.yki.model.type.LevelCode;
 import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
@@ -48,8 +50,8 @@ public class ClerkExamDateServiceTest {
       .examTypes(List.of(ExamSessionType.FULL))
       .languages(
         List.of(
-          CreateClerkExamDateLanguageDTO.builder().languageCode("fin").levelCode("KESKI").build(),
-          CreateClerkExamDateLanguageDTO.builder().languageCode("swe").levelCode("PERUS").build()
+          CreateClerkExamDateLanguageDTO.builder().languageCode(LanguageCode.fin).levelCode(LevelCode.KESKI).build(),
+          CreateClerkExamDateLanguageDTO.builder().languageCode(LanguageCode.swe).levelCode(LevelCode.PERUS).build()
         )
       )
       .build();
@@ -95,7 +97,7 @@ public class ClerkExamDateServiceTest {
       .registrationStartDate(LocalDate.of(2026, 11, 1))
       .registrationEndDate(LocalDate.of(2026, 12, 31))
       .examTypes(List.of(ExamSessionType.LISTEN_WRITE))
-      .languages(List.of(CreateClerkExamDateLanguageDTO.builder().languageCode("eng").levelCode("YLIN").build()))
+      .languages(List.of(CreateClerkExamDateLanguageDTO.builder().languageCode(LanguageCode.eng).levelCode(LevelCode.YLIN).build()))
       .build();
 
     clerkExamDateService.createExamDate(dto);

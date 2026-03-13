@@ -68,8 +68,8 @@ public class ClerkExamDateService {
   ) {
     final ExamDateLanguage lang = new ExamDateLanguage();
     lang.setExamDate(examDate);
-    lang.setLanguageCode(langDTO.languageCode());
-    lang.setLevelCode(langDTO.levelCode());
+    lang.setLanguageCode(langDTO.languageCode().name());
+    lang.setLevelCode(langDTO.levelCode().name());
 
     return lang;
   }
