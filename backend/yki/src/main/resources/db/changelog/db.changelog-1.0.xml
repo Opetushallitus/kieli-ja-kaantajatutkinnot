@@ -466,7 +466,7 @@
                 referencedColumnNames="id" />
         <addColumn tableName="exam_session">
             <column name="type"
-                    type="VARCHAR(50)"
+                    type="TEXT"
                     defaultValue="FULL">
                 <constraints nullable="false"/>
             </column>
@@ -513,7 +513,6 @@
                 referencedTableName="exam_date"
                 referencedColumnNames="id" />
     </changeSet>
-
     <changeSet id="2026-03-12-add-exam-date-exam-type-hsqldb" author="kimmotaskinen-knowit">
         <preConditions onFail="CONTINUE">
             <dbms type="hsqldb" />
