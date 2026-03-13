@@ -496,7 +496,7 @@
             <column name="exam_date_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="exam_type" type="VARCHAR(50)">
+            <column name="exam_type" type="exam_session_type">
                 <constraints nullable="false"/>
             </column>
         </createTable>
