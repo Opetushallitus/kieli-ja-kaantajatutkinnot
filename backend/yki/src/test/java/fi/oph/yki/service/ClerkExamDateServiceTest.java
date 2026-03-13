@@ -97,7 +97,11 @@ public class ClerkExamDateServiceTest {
       .registrationStartDate(LocalDate.of(2026, 11, 1))
       .registrationEndDate(LocalDate.of(2026, 12, 31))
       .examTypes(List.of(ExamSessionType.LISTEN_WRITE))
-      .languages(List.of(CreateClerkExamDateLanguageDTO.builder().languageCode(LanguageCode.eng).levelCode(LevelCode.YLIN).build()))
+      .languages(
+        List.of(
+          CreateClerkExamDateLanguageDTO.builder().languageCode(LanguageCode.eng).levelCode(LevelCode.YLIN).build()
+        )
+      )
       .build();
 
     clerkExamDateService.createExamDate(dto);
