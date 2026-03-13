@@ -498,7 +498,6 @@
         <preConditions onFail="CONTINUE">
             <dbms type="postgresql" />
         </preConditions>
-        <dropColumn tableName="exam_date" columnName="type" />
         <createTable tableName="exam_date_exam_type">
             <column name="exam_date_id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -519,7 +518,6 @@
         <preConditions onFail="CONTINUE">
             <dbms type="hsqldb" />
         </preConditions>
-        <dropColumn tableName="exam_date" columnName="type" />
         <createTable tableName="exam_date_exam_type">
             <column name="exam_date_id" type="BIGINT">
                 <constraints nullable="false"/>
