@@ -28,7 +28,7 @@ import { ClerkExamSessionPage } from 'pages/ClerkExamSessionPage';
 import { ClerkFreeRegistrationDetailsPage } from 'pages/ClerkFreeRegistrationDetailsPage';
 import { ClerkFreeRegistrationPage } from 'pages/ClerkFreeRegistrationPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
-import { ClerkOrganizerRegisterDetails } from 'pages/ClerkOrganizerRegisterDetails';
+import { ClerkOrganizerRegisterDetailsPage } from 'pages/ClerkOrganizerRegisterDetails';
 import { loadSession } from 'redux/reducers/session';
 import { sessionSelector } from 'redux/selectors/session';
 
@@ -100,7 +100,7 @@ export const AppRouter: FC = () => {
           path={AppRoutes.ClerkOrganizerRegisterDetails}
           element={
             <YkiTitlePage title="clerk">
-              <ClerkOrganizerRegisterDetails />
+              <ClerkOrganizerRegisterDetailsPage />
             </YkiTitlePage>
           }
         />
