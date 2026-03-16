@@ -24,6 +24,7 @@ import { clerkTheme } from 'ophTheme/OphTheme';
 import { ClerkAddOrganizerPage } from 'pages/ClerkAddOrganizerPage';
 import { ClerkCustomerDetailsPage } from 'pages/ClerkCustomerDetailsPage';
 import { ClerkCustomerSearchPage } from 'pages/ClerkCustomerSearchPage';
+import { ClerkExamDatesPage } from 'pages/ClerkExamDatesPage';
 import { ClerkExamSessionPage } from 'pages/ClerkExamSessionPage';
 import { ClerkFreeRegistrationDetailsPage } from 'pages/ClerkFreeRegistrationDetailsPage';
 import { ClerkFreeRegistrationPage } from 'pages/ClerkFreeRegistrationPage';
@@ -117,6 +118,14 @@ export const AppRouter: FC = () => {
           element={
             <YkiTitlePage title="clerk">
               <ClerkFreeRegistrationDetailsPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ClerkExamDates}
+          element={
+            <YkiTitlePage title="customerExamSession">
+              <ClerkExamDatesPage />
             </YkiTitlePage>
           }
         />

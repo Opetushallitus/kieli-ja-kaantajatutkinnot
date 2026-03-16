@@ -14,6 +14,10 @@ public class StringUtil {
   }
 
   public static Map<String, String> splitAuth(final String authStr) {
+    if (authStr == null) {
+      return null;
+    }
+
     final String[] auth = authStr.split(":", 2);
 
     return Map.of("user", auth[0], "password", auth[1]);
@@ -23,7 +27,7 @@ public class StringUtil {
     final String authorization = request.getHeader("Authorization");
     final Map<String, String> auth = StringUtil.splitAuth(authorization);
 
-    return auth.get("user");
+    return auth == null ? null : auth.get("user");
   }
 
   public static String sanitize(final String nullable) {
