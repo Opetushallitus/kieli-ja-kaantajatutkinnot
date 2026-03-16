@@ -81,6 +81,9 @@ const clerkCustomersSearchSlice = createSlice({
       state.levelCodeFilter =
         action.payload === '' ? undefined : action.payload;
     },
+    resetCustomersSearch() {
+      return initialState;
+    },
   },
 });
 
@@ -89,6 +92,7 @@ export const clerkCustomersSearchReducer = clerkCustomersSearchSlice.reducer;
 export const {
   loadCustomersSearch,
   rejectCustomersSearch,
+  resetCustomersSearch,
   storeCustomersSearch,
   setSearchQueryFilter,
   setOrganizerFilter,

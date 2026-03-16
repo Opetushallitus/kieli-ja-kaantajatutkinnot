@@ -1,3 +1,13 @@
+.customer-details {
+  &__fields {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 4rem;
+    row-gap: 0.75rem;
+    align-items: start;
+  }
+}
+
 .clerk-customer-details-page {
   flex: 1;
   background-color: $page-background-color;
