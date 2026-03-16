@@ -76,6 +76,7 @@
           }
         },
         "search": {
+          "clear": "Tyhjennä",
           "header": "{{amount}} osallistujaa",
           "labels": {
             "examDate": "Tutkintopäivä",
@@ -97,7 +98,6 @@
               "registrations": "Ilmoittautumiset"
             }
           },
-          "clear": "Tyhjennä",
           "submit": "Hae osallistujia"
         }
       },
