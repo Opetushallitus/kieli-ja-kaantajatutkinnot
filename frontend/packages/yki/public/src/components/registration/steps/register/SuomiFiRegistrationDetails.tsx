@@ -15,7 +15,10 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { useNationalityOptions } from 'hooks/useNationalityOptions';
-import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
+import {
+  PublicRegistrationErrors,
+  usePublicRegistrationErrors,
+} from 'hooks/usePublicRegistrationErrors';
 import { CodeElement } from 'interfaces/code';
 import {
   PublicEmailRegistration,
@@ -82,7 +85,16 @@ const PersonIdentityDetails = () => {
   }
 };
 
-export const SuomiFiRegistrationDetails = () => {
+export const SuomiFiRegistrationDetails = ({
+  setDirtyField,
+  hasErrors,
+}: {
+  setDirtyField: (fieldName: keyof PublicRegistrationErrors) => void;
+  hasErrors: (
+    registrationErrors: PublicRegistrationErrors,
+    fieldName: keyof PublicRegistrationErrors,
+  ) => boolean;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationDetails',
   });
@@ -115,10 +127,12 @@ export const SuomiFiRegistrationDetails = () => {
     (fieldName: keyof Omit<PublicSuomiFiRegistration, 'id'>) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const trimmedValue = event.target.value ? event.target.value.trim() : '';
+      setDirtyField(fieldName);
       updateRegistrationField(fieldName, trimmedValue);
     };
 
   const handlePhoneNumberBlur = () => {
+    setDirtyField('phoneNumber');
     dispatch(
       updatePublicRegistration({
         phoneNumber: registration.phoneNumber?.replace(/\s/g, ''),
@@ -138,8 +152,8 @@ export const SuomiFiRegistrationDetails = () => {
       placeholder: t('placeholders.' + fieldName),
       onChange: handleChange(fieldName),
       onBlur: handleBlur(fieldName),
-      error: showErrors && !!registrationErrors[fieldName],
-      helperText: registrationErrors[fieldName]
+      error: hasErrors(registrationErrors, fieldName),
+      helperText: hasErrors(registrationErrors, fieldName)
         ? translateCommon(registrationErrors[fieldName] as string)
         : '',
       required: true,
