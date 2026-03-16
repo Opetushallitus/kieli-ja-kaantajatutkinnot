@@ -2,7 +2,7 @@
 
 # cd "$YKI" || { echo "could find '\$YKI'."; exit 1 }
 cd "$KIOS/backend/yki/db" || {
-    echo "could find backend/yki/db"
+    echo "could find backend/yki/db" >&2
     exit 1
 }
 
