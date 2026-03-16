@@ -4,7 +4,7 @@ root: <%= ENV["KIOS"] %>
 windows:
 
   # Uusi - frontend
-  - frontend-clerk: scripts/run-frontend-clerk.sh
+  - frontend-clerk: '<%= ENV["USE_MSW"] == "false" ? "scripts/run-frontend-clerk-no-msw.sh" : "scripts/run-frontend-clerk.sh" %>'
 
   - frontend-public: scripts/run-frontend-public.sh
 
