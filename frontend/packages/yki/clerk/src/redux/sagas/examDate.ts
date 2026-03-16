@@ -15,6 +15,7 @@ import {
   storeAddExamDate,
   storeExamDates,
 } from 'redux/reducers/examDate';
+import { NotifierUtils } from 'utils/notifier';
 
 function* loadExamDatesSaga() {
   const t = translateOutsideComponent();
@@ -46,18 +47,11 @@ function* addExamDateSaga(action: ReturnType<typeof addExamDate>) {
   } catch (error) {
     yield put(rejectAddExamDate());
 
-    const axiosError = error as AxiosError<{ errorCode?: string }>;
-    const errorCode = axiosError.response?.data?.errorCode;
-
-    if (errorCode === 'examDateCreateDuplicateDate') {
-      yield put(setAPIError(t('yki.common.errors.examDateDuplicate')));
-    } else if (errorCode === 'examDateRegistrationEndBeforeStart') {
-      yield put(
-        setAPIError(t('yki.common.errors.examDateRegistrationEndBeforeStart')),
-      );
-    } else {
-      yield put(setAPIError(t('yki.common.errors.addingExamDateFailed')));
-    }
+    const errorMessage = NotifierUtils.getAPIErrorMessage(
+      error as AxiosError,
+      t('yki.common.errors.addingExamDateFailed'),
+    );
+    yield put(setAPIError(errorMessage));
   }
 }
 

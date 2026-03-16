@@ -41,6 +41,11 @@
       "error": "An unexpected error has occurred.",
       "errors": {
         "addingExamDateFailed": "Tutkintopäivän lisääminen epäonnistui",
+        "api": {
+          "examDateCreateDuplicateDate": "Tutkintopäivä on jo olemassa valitulle päivämäärälle",
+          "examDateRegistrationEndBeforeStart": "Ilmoittautumisen päättymispäivän on oltava alkamispäivän jälkeen",
+          "generic": "Tapahtui odottamaton virhe. Yritä uudestaan hetken kuluttua."
+        },
         "customTextField": {
           "dateFormat": "Fill in as dd.mm.yyyy.",
           "emailFormat": "The email address is incorrect",
@@ -49,8 +54,6 @@
           "required": "The information is mandatory",
           "telFormat": "The telephone number is incorrect"
         },
-        "examDateDuplicate": "Tutkintopäivä on jo olemassa valitulle päivämäärälle",
-        "examDateRegistrationEndBeforeStart": "Ilmoittautumisen päättymispäivän on oltava alkamispäivän jälkeen",
         "loadingExamDatesFailed": "Tutkintopäivien lataaminen epäonnistui",
         "loadingFailed": "Downloading the information failed.",
         "mismatchingEmails": "The contents of the email address fields are different.",
