@@ -104,6 +104,19 @@
       "clerkExamDates": {
         "addNewExamDateButton": "Lisää tutkintopäivä",
         "header": "Tutkintopäivät",
+        "listing": {
+          "allLevels": "Kaikki tasot",
+          "errors": {
+            "loadingFailed": "Tutkintopäivien lataaminen epäonnistui"
+          },
+          "header": {
+            "examDate": "Tutkintopäivä",
+            "examType": "Koe",
+            "languageLevels": "Kielitasot",
+            "registrationPeriod": "Ilmoittautumisaika"
+          },
+          "resultCount": "{{count}} tutkintopäivää"
+        },
         "modal": {
           "cancelButton": "Peruuta",
           "examDateLabel": "Tutkintopäivä",

@@ -6,15 +6,21 @@ interface ExamDateLanguage {
   levelCode: string;
 }
 
-export interface ExamDate {
+export type ExamDate = {
   id: number;
   examDate: Dayjs;
+  registrationStartDate: Dayjs;
+  registrationEndDate: Dayjs;
+  examTypes: string[];
   languages: ExamDateLanguage[];
-}
+};
 
 export interface ExamDateResponse {
   id: number;
   examDate: string;
+  registrationStartDate: string;
+  registrationEndDate: string;
+  examTypes: string[];
   languages: ExamDateLanguage[];
 }
 
