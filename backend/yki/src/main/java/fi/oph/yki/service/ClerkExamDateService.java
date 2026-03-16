@@ -93,6 +93,9 @@ public class ClerkExamDateService {
     if (!dto.registrationEndDate().isAfter(dto.registrationStartDate())) {
       throw new APIException(APIExceptionType.EXAM_DATE_REGISTRATION_END_BEFORE_START);
     }
+    if (!dto.examDate().isAfter(dto.registrationEndDate())) {
+      throw new APIException(APIExceptionType.EXAM_DATE_EXAM_BEFORE_REGISTRATION_END);
+    }
 
     final ClerkExamDateDTO result = toDTO(examDateRepository.save(toEntity(dto)));
     final ClerkExamDateAuditDTO auditDto = new ClerkExamDateAuditDTO(result);

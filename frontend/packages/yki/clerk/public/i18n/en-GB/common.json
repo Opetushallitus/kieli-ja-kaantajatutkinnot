@@ -43,6 +43,7 @@
         "addingExamDateFailed": "Tutkintopäivän lisääminen epäonnistui",
         "api": {
           "examDateCreateDuplicateDate": "Tutkintopäivä on jo olemassa valitulle päivämäärälle",
+          "examDateExamBeforeRegistrationEnd": "Tutkintopäivän on oltava ilmoittautumisen päättymispäivän jälkeen",
           "examDateRegistrationEndBeforeStart": "Ilmoittautumisen päättymispäivän on oltava alkamispäivän jälkeen",
           "generic": "Tapahtui odottamaton virhe. Yritä uudestaan hetken kuluttua."
         },
