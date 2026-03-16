@@ -6,4 +6,6 @@ cd "$KIOS/frontend/packages/yki/clerk" || {
 }
 
 echo "yarn yki:clerk:test:cypress"
+
+set -x
 npx cypress open

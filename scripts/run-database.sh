@@ -15,8 +15,11 @@ if [[ $KERNEL == "Darwin" ]]; then
     sleep 5
 fi
 
-# start (and try running) posgres/database
-docker run --name postgres-yki -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -p 5432:5432 -d postgres:latest
+(
+    set -x
+    # start (and try running) posgres/database
+    docker run --name postgres-yki -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -p 5432:5432 -d postgres:latest
+)
 
 ### add data
 #psql -h localhost -p 5432 -U admin -d yki < *.sql
@@ -24,8 +27,11 @@ docker run --name postgres-yki -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin
 echo "when creating new db, run:" 
 printf "\tpsql -h localhost -U admin -c 'create database yki'\n\n"
 
-# start db
-docker start "$(docker ps -a | grep "postgres-yki" | awk '{ print $1 }')"
-
-# ensure running
-docker ps -a
+(
+    set -x
+    # start db
+    docker start "$(docker ps -a | grep "postgres-yki" | awk '{ print $1 }')"
+    
+    # ensure running
+    docker ps -a
+)

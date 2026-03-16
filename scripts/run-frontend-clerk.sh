@@ -6,5 +6,6 @@ cd "$KIOS/frontend/packages/yki/clerk" || {
 }
 
 echo "yarn run yki:start:dev-server"
+set -x
 echo "USE_MSW=true" > .env 
 yarn yki:clerk:start:msw

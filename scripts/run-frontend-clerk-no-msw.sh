@@ -9,5 +9,6 @@ cd "$KIOS/frontend/packages/yki/clerk" || {
     exit 1
 }
 
+set -x
 echo 'USE_MSW=false' > .env
 yarn yki:clerk:start

@@ -5,5 +5,6 @@ cd "$KIOS/frontend/packages/yki/public" || {
     exit 1
 }
 
+set -x
 echo "USE_MSW=true" > .env 
 yarn yki:start:msw
