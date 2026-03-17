@@ -60,7 +60,6 @@ export const AddressDetails = ({
   if (isPhone) {
     return (
       <>
-        {countryCodeDropdown}
         <LabeledTextField
           {...getLabeledTextFieldAttributes('address')}
           value={registration.address || ''}
@@ -79,12 +78,12 @@ export const AddressDetails = ({
           autoComplete={InputAutoComplete.Town}
           fullWidth
         />
+        {countryCodeDropdown}
       </>
     );
   } else {
     return (
       <>
-        {countryCodeDropdown}
         <div className="registration-details__address-grid gapped">
           <LabeledTextField
             {...getLabeledTextFieldAttributes('address')}
@@ -104,6 +103,7 @@ export const AddressDetails = ({
             />
           </div>
         </div>
+        {countryCodeDropdown}
       </>
     );
   }
