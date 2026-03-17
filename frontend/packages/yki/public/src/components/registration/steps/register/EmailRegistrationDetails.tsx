@@ -178,6 +178,8 @@ export const EmailRegistrationDetails = ({
         </div>
         <AddressDetails
           getLabeledTextFieldAttributes={getLabeledTextFieldAttributes}
+          setDirtyField={setDirtyField}
+          hasErrors={hasErrors}
         />
         <div className="grid-columns gapped">
           <LabeledComboBox
@@ -201,10 +203,11 @@ export const EmailRegistrationDetails = ({
             onChange={(v?: string) => {
               dispatch(updatePublicRegistration({ nationality: v }));
             }}
-            showError={showErrors && !!registrationErrors['nationality']}
+            onBlur={() => setDirtyField('nationality')}
+            showError={hasErrors(registrationErrors, 'nationality')}
             helperText={
-              registrationErrors['nationality']
-                ? translateCommon(registrationErrors['nationality'])
+              hasErrors(registrationErrors, 'nationality')
+                ? translateCommon(registrationErrors['nationality'] as string)
                 : ''
             }
           />
@@ -229,10 +232,13 @@ export const EmailRegistrationDetails = ({
             onChange={(v?: string) => {
               dispatch(updatePublicRegistration({ nativeLanguage: v }));
             }}
-            showError={showErrors && !!registrationErrors['nativeLanguage']}
+            onBlur={() => setDirtyField('nativeLanguage')}
+            showError={hasErrors(registrationErrors, 'nativeLanguage')}
             helperText={
-              registrationErrors['nativeLanguage']
-                ? translateCommon(registrationErrors['nativeLanguage'])
+              hasErrors(registrationErrors, 'nativeLanguage')
+                ? translateCommon(
+                    registrationErrors['nativeLanguage'] as string,
+                  )
                 : ''
             }
           />
@@ -255,10 +261,11 @@ export const EmailRegistrationDetails = ({
           onChange={(v?: string) => {
             dispatch(updatePublicRegistration({ gender: v as GenderEnum }));
           }}
-          showError={showErrors && !!registrationErrors['gender']}
+          onBlur={() => setDirtyField('gender')}
+          showError={hasErrors(registrationErrors, 'gender')}
           helperText={
-            registrationErrors['gender']
-              ? translateCommon(registrationErrors['gender'])
+            hasErrors(registrationErrors, 'gender')
+              ? translateCommon(registrationErrors['gender'] as string)
               : ''
           }
         />
