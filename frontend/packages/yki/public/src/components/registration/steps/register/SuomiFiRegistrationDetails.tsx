@@ -29,7 +29,6 @@ import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
 import { codeElementToComboBoxOption } from 'utils/autocomplete';
 
-// TODO remove me deploy commit
 const PersonIdentityDetails = () => {
   const registration: Partial<
     PublicSuomiFiRegistration & PublicEmailRegistration
