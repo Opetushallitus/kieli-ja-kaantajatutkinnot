@@ -166,6 +166,8 @@ export const SuomiFiRegistrationDetails = ({
       <PersonIdentityDetails />
       <AddressDetails
         getLabeledTextFieldAttributes={getLabeledTextFieldAttributes}
+        setDirtyField={setDirtyField}
+        hasErrors={hasErrors}
       />
       <div className="grid-2-columns gapped">
         <LabeledTextField
