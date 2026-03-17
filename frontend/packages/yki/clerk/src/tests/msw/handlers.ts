@@ -260,8 +260,6 @@ export const handlers = [
       languages: Array<Omit<ExamDateLanguage, 'id'>>;
     };
 
-    // TODO: Add registrationStart, registrationEnd and examTypes
-
     const {
       languages,
       examDate,
