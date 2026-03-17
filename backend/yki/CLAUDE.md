@@ -2,21 +2,23 @@
 
 ## Database
 
-The database is older than our backend. The old backend is remotely at https://github.com/Opetushallitus/yki. The old database contains the data already, so when our code is missing tables or columns, that is very domain specific and should be reviewed manually.
+The schema originates from the old Clojure backend (https://github.com/Opetushallitus/yki).
+Tables or columns absent from our Liquibase migrations may exist in production via that repo —
+treat missing schema as intentional until confirmed otherwise.
 
-- SQL scripts to set up the database locally: `db/` folder, entry point `db/create_db_sql.sh`
-- Liquibase migrations: `src/main/resources/db/changelog/`
-
-### Liquibase
-
-- Do **not** create new migration files — update the existing one.
+- Local setup: `db/` folder, entry point `db/create_db_sql.sh`
+- Migrations: `src/main/resources/db/changelog/` — update the existing file, do **not** create new ones.
 
 ## Maven
 
 This is a shared project. Parent pom is at the root. Use `./mvnw` (not gradle):
 
 ```bash
+# Build
 ./mvnw clean install
+
+# Run all tests
+./mvnw clean test
 ```
 
 ## Code Structure
