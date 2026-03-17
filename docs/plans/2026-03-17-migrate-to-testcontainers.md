@@ -7,7 +7,7 @@ so tests run against the same schema and DB as production.
 ## Status
 
 - [x] `ClerkExamDateServiceTest` — migrated (this branch)
-- [ ] `ClerkExamSessionServiceTest` — uses `@DataJpaTest` (implicit HSQLDB)
+- [x] `ClerkExamSessionServiceTest` — migrated
 - [ ] `RegistrationServiceTest` — uses `@DataJpaTest` (implicit HSQLDB)
 - [ ] `ClerkIndexControllerIntegrationTest` — uses `@ActiveProfiles("test-hsql")`
 - [ ] `PublicIndexControllerIntegrationTest` — uses `@ActiveProfiles("test-hsql")`

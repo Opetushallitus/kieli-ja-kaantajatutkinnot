@@ -56,8 +56,9 @@ public class ExamSession {
   @Column(name = "contact_phone_number")
   private String contactPhoneNumber;
 
-  @Column(name = "type")
+  @Column(name = "type", columnDefinition = "exam_session_type")
   @Enumerated(value = EnumType.STRING)
+  @JdbcType(PostgreSQLEnumJdbcType.class)
   private ExamSessionType type;
 
   @OneToMany(mappedBy = "examSession")
