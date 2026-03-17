@@ -105,15 +105,19 @@
         "addNewExamDateButton": "Lisää tutkintopäivä",
         "header": "Tutkintopäivät",
         "listing": {
+          "addReviewEvaluation": "Lisää tarkistusarviointi",
           "allLevels": "Kaikki tasot",
+          "edit": "Muokkaa",
           "errors": {
             "loadingFailed": "Tutkintopäivien lataaminen epäonnistui"
           },
           "header": {
+            "edit": "Muokkaa",
             "examDate": "Tutkintopäivä",
             "examType": "Koe",
             "languageLevels": "Kielitasot",
-            "registrationPeriod": "Ilmoittautumisaika"
+            "registrationPeriod": "Ilmoittautumisaika",
+            "reviewEvaluation": "Tarkistusarviointi"
           },
           "resultCount": "{{count}} tutkintopäivää"
         },

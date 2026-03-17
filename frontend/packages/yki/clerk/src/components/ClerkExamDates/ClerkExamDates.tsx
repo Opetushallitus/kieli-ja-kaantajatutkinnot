@@ -1,13 +1,15 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { CustomCircularProgress } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 
 import { ListTable } from 'components/oph-design/table/list-table';
+import { PageSizeSelector } from 'components/oph-design/table/page-size-selector';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamDate } from 'interfaces/examDate';
+import { H2, Text } from 'ophTheme/Text';
 import { loadExamDates } from 'redux/reducers/examDate';
 import { examDateSelector } from 'redux/selectors/examDate';
 import { languageToString, levelDescription } from 'utils/clerk';
@@ -25,6 +27,7 @@ export const ClerkExamDates = () => {
   const dispatch = useAppDispatch();
   const { status, examDates } = useAppSelector(examDateSelector);
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
@@ -93,12 +96,30 @@ export const ClerkExamDates = () => {
         </span>
       ),
     },
+    {
+      key: 'reviewEvaluation',
+      title: t('listing.header.reviewEvaluation'),
+      render: () => (
+        <Link component="button" underline="hover">
+          {t('listing.addReviewEvaluation')}
+        </Link>
+      ),
+    },
+    {
+      key: 'edit',
+      title: t('listing.header.edit'),
+      render: () => (
+        <Link component="button" underline="hover">
+          {t('listing.edit')}
+        </Link>
+      ),
+    },
   ];
 
   const pagination = {
     page,
     setPage,
-    pageSize: 20,
+    pageSize,
   };
 
   switch (status) {
@@ -114,17 +135,16 @@ export const ClerkExamDates = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <Typography variant="h2">
-            {t('listing.errors.loadingFailed')}
-          </Typography>
+          <H2>{t('listing.errors.loadingFailed')}</H2>
         </Box>
       );
     case APIResponseStatus.Success:
       return (
         <>
-          <Typography sx={{ mb: 2 }}>
-            {t('listing.resultCount', { count: examDates.length })}
-          </Typography>
+          <div className="columns space-between">
+            <Text>{t('listing.resultCount', { count: examDates.length })}</Text>
+            <PageSizeSelector pageSize={pageSize} setPageSize={setPageSize} />
+          </div>
           <ListTable
             rows={examDates}
             rowKeyProp="id"
