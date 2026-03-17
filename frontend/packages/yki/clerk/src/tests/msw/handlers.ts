@@ -3,6 +3,7 @@ import { http, HttpResponse } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
 import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
+import { ExamDateLanguage, ExamDateResponse } from 'interfaces/examDate';
 import { clerkExamSession } from 'tests/msw/fixtures/clerkExamSession';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
@@ -252,14 +253,22 @@ export const handlers = [
     HttpResponse.json([clerkExamSession]),
   ),
   http.post(APIEndpoints.ClerkExamDate, async ({ request }) => {
-    const body = (await request.json()) as {
-      examDate: string;
-      languages: Array<{ languageCode: string; levelCode: string }>;
+    const body = (await request.json()) as Omit<
+      ExamDateResponse,
+      'id' | 'languages'
+    > & {
+      languages: Array<Omit<ExamDateLanguage, 'id'>>;
     };
 
     // TODO: Add registrationStart, registrationEnd and examTypes
 
-    const { languages, examDate } = body;
+    const {
+      languages,
+      examDate,
+      registrationStartDate,
+      registrationEndDate,
+      examTypes,
+    } = body;
     const newId = Math.max(...examDates.map((ed) => ed.id)) + 1;
     examDates.push({
       id: newId,
@@ -268,6 +277,9 @@ export const handlers = [
         { [newId]: languages.map((l, index) => ({ id: index + 1, ...l })) }[
           newId
         ] ?? [],
+      registrationStartDate,
+      registrationEndDate,
+      examTypes,
     });
 
     return HttpResponse.json({ id: newId, ...body });

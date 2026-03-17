@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 
-interface ExamDateLanguage {
+export interface ExamDateLanguage {
   id: number;
   languageCode: string;
   levelCode: string;

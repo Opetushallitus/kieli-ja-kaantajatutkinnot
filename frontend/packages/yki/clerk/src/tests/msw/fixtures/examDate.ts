@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import { ExamDateResponse } from 'interfaces/examDate';
 
 const examDatesRaw = [
@@ -109,7 +111,14 @@ const languagesByExamDateId: Record<number, ExamDateResponse['languages']> = {
   ],
 };
 
-export const examDates: ExamDateResponse[] = examDatesRaw.map((ed) => ({
-  ...ed,
-  languages: languagesByExamDateId[ed.id] ?? [],
-}));
+export const examDates: ExamDateResponse[] = examDatesRaw.map((ed) => {
+  const exam = dayjs(ed.examDate);
+
+  return {
+    ...ed,
+    registrationStartDate: exam.subtract(3, 'month').format('YYYY-MM-DD'),
+    registrationEndDate: exam.subtract(1, 'month').format('YYYY-MM-DD'),
+    examTypes: [],
+    languages: languagesByExamDateId[ed.id] ?? [],
+  };
+});
