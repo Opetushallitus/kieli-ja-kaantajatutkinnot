@@ -4,7 +4,7 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect } from 'react';
 import { LabeledComboBox, LabeledTextField, Text } from 'shared/components';
 import {
   APIResponseStatus,
@@ -43,7 +43,16 @@ const ErrorLabelStyles = {
   },
 };
 
-export const EmailRegistrationDetails = () => {
+export const EmailRegistrationDetails = ({
+  setDirtyField,
+  hasErrors,
+}: {
+  setDirtyField: (fieldName: keyof PublicRegistrationErrors) => void;
+  hasErrors: (
+    registrationErrors: PublicRegistrationErrors,
+    fieldName: keyof PublicRegistrationErrors,
+  ) => boolean;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationDetails',
   });
@@ -61,19 +70,6 @@ export const EmailRegistrationDetails = () => {
   const nationalityOptions = useNationalityOptions();
   const languageOptions = useLanguageOptions();
   const appLanguage = getCurrentLang();
-  const [dirtyFields, setDirtyFields] = useState<
-    Array<keyof PublicRegistrationErrors>
-  >([]);
-
-  const hasErrors = (
-    registrationErrors: PublicRegistrationErrors,
-    fieldName: keyof PublicRegistrationErrors,
-  ) => {
-    return (
-      (showErrors || dirtyFields.includes(fieldName)) &&
-      !!registrationErrors[fieldName as keyof PublicRegistrationErrors]
-    );
-  };
 
   useEffect(() => {
     if (languagesStatus === APIResponseStatus.NotStarted) {
@@ -122,11 +118,12 @@ export const EmailRegistrationDetails = () => {
     (fieldName: keyof Omit<PublicEmailRegistration, 'id'>) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const trimmedValue = event.target.value ? event.target.value.trim() : '';
-      setDirtyFields([...dirtyFields, fieldName]);
+      setDirtyField(fieldName);
       updateRegistrationField(fieldName, getEventTargetValue(trimmedValue));
     };
 
   const handlePhoneNumberBlur = () => {
+    setDirtyField('phoneNumber');
     dispatch(
       updatePublicRegistration({
         phoneNumber: registration.phoneNumber?.replace(/\s/g, ''),
