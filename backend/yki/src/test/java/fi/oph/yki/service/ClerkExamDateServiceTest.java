@@ -162,4 +162,36 @@ public class ClerkExamDateServiceTest {
     final APIException ex = assertThrows(APIException.class, () -> clerkExamDateService.createExamDate(dto));
     assertEquals(APIExceptionType.EXAM_DATE_REGISTRATION_END_BEFORE_START, ex.getExceptionType());
   }
+
+  @Test
+  public void testCreateExamDateThrowsWhenExamDateBeforeRegistrationEnd() {
+    final ClerkCreateExamDateDTO dto = ClerkCreateExamDateDTO
+      .builder()
+      .examDate(LocalDate.of(2026, 9, 15))
+      .registrationStartDate(LocalDate.of(2026, 8, 1))
+      .registrationEndDate(LocalDate.of(2026, 9, 30))
+      .examTypes(List.of(ExamSessionType.FULL))
+      .languages(List.of())
+      .build();
+
+    final APIException ex = assertThrows(APIException.class, () -> clerkExamDateService.createExamDate(dto));
+    assertEquals(APIExceptionType.EXAM_DATE_EXAM_BEFORE_REGISTRATION_END, ex.getExceptionType());
+  }
+
+  @Test
+  public void testCreateExamDateThrowsWhenExamDateEqualsRegistrationEnd() {
+    final LocalDate sameDate = LocalDate.of(2026, 9, 30);
+
+    final ClerkCreateExamDateDTO dto = ClerkCreateExamDateDTO
+      .builder()
+      .examDate(sameDate)
+      .registrationStartDate(LocalDate.of(2026, 8, 1))
+      .registrationEndDate(sameDate)
+      .examTypes(List.of(ExamSessionType.FULL))
+      .languages(List.of())
+      .build();
+
+    final APIException ex = assertThrows(APIException.class, () -> clerkExamDateService.createExamDate(dto));
+    assertEquals(APIExceptionType.EXAM_DATE_EXAM_BEFORE_REGISTRATION_END, ex.getExceptionType());
+  }
 }
