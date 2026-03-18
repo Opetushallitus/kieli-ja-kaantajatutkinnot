@@ -18,4 +18,19 @@
   <name>yki-ui</name>
   <description>Yleiset kielitutkinnot</description>
 
+  <build>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
+      <testResource>
+        <directory>db</directory>
+        <targetPath>db</targetPath>
+        <includes>
+          <include>1_tables.sql</include>
+        </includes>
+      </testResource>
+    </testResources>
+  </build>
+
 </project>
