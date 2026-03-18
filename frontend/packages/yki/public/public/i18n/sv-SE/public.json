@@ -637,6 +637,7 @@
         },
         "labels": {
           "confirmEmail": "Bekräfta din e-postadress",
+          "countryCode": "Land",
           "email": "E-postadress",
           "phoneNumber": "Telefonnummer",
           "postOffice": "Postanstalt",
@@ -645,6 +646,7 @@
         },
         "placeholders": {
           "confirmEmail": "Skriv din e-postadress på nytt",
+          "countryCode": "Välj land",
           "email": "Till exempel namn@e-post.fi",
           "phoneNumber": "Skriv i formatet +358 50 123 4567",
           "postOffice": "",
