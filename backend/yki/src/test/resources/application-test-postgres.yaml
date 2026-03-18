@@ -1,0 +1,9 @@
+spring:
+  config:
+    import: application.yaml
+  jpa:
+    database: postgresql
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
