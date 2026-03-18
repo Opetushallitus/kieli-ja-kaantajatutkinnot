@@ -251,6 +251,27 @@ export const handlers = [
   http.get(APIEndpoints.ClerkExamSessions, () =>
     HttpResponse.json([clerkExamSession]),
   ),
+  http.post(APIEndpoints.ClerkExamDate, async ({ request }) => {
+    const body = (await request.json()) as {
+      examDate: string;
+      languages: Array<{ languageCode: string; levelCode: string }>;
+    };
+
+    // TODO: Add registrationStart, registrationEnd and examTypes
+
+    const { languages, examDate } = body;
+    const newId = Math.max(...examDates.map((ed) => ed.id)) + 1;
+    examDates.push({
+      id: newId,
+      examDate,
+      languages:
+        { [newId]: languages.map((l, index) => ({ id: index + 1, ...l })) }[
+          newId
+        ] ?? [],
+    });
+
+    return HttpResponse.json({ id: newId, ...body });
+  }),
   http.get(APIEndpoints.ClerkExamSession, () =>
     HttpResponse.json(clerkExamSession),
   ),

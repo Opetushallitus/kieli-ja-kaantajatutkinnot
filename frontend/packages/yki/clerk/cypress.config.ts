@@ -7,6 +7,8 @@ import webpackConfigs from './webpack.config';
 export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:4004',
+    viewportWidth: 1024,
+    viewportHeight: 768,
     video: false,
     defaultCommandTimeout: 3000,
     chromeWebSecurity: false,

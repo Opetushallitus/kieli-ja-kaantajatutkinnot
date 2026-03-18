@@ -31,14 +31,22 @@
         }
       },
       "contactEmail": "kielitutkinnot@oph.fi",
+      "contactInfo": "Yhteystiedot",
       "customerSearch": "Asiakashaku",
       "dates": {
-        "dateTimeFormat": "l [kl.] HH:mm",
-        "dateFormat": "l"
+        "dateFormat": "l",
+        "dateTimeFormat": "l [kl.] HH:mm"
       },
       "email": "E-postadress",
       "error": "Ett oväntat fel uppstod.",
       "errors": {
+        "addingExamDateFailed": "Tutkintopäivän lisääminen epäonnistui",
+        "api": {
+          "examDateCreateDuplicateDate": "Tutkintopäivä on jo olemassa valitulle päivämäärälle",
+          "examDateExamBeforeRegistrationEnd": "Tutkintopäivän on oltava ilmoittautumisen päättymispäivän jälkeen",
+          "examDateRegistrationEndBeforeStart": "Ilmoittautumisen päättymispäivän on oltava alkamispäivän jälkeen",
+          "generic": "Tapahtui odottamaton virhe. Yritä uudestaan hetken kuluttua."
+        },
         "customTextField": {
           "dateFormat": "Ange datum i formatet dd.mm.åååå",
           "emailFormat": "E-postadressen är felaktig",
@@ -68,6 +76,7 @@
         "writing": "Skrivning"
       },
       "examSession": "Examen",
+      "extraInfo": "Lisätiedot",
       "freeRegistration": "Maksuttomuus",
       "full": "Fullbokat",
       "gender": {
@@ -102,9 +111,11 @@
         }
       },
       "institution": "Testplats",
-      "maxParticipantsTotal": "Osallistujapaikkojen määrä",
-      "contactInfo": "Yhteystiedot",
-      "extraInfo": "Lisätiedot",
+      "lang": {
+        "en": "Englanti",
+        "fi": "Suomi",
+        "sv": "Ruotsi"
+      },
       "language": "Språk",
       "languageLevel": {
         "ALL": "alla nivåer",
@@ -127,16 +138,12 @@
       "level": "Nivå",
       "loadingContent": "Innehållet laddas",
       "loadingDone": "Innehållet har laddats",
+      "maxParticipantsTotal": "Osallistujapaikkojen määrä",
       "municipality": "Ort",
       "name": "Namn",
       "navigationProtection": {
         "description": "Du kommer att förlora dina ändringar.",
         "header": "Är du säker på att du vill lämna den här sidan?"
-      },
-      "lang": {
-        "en": "Englanti",
-        "fi": "Suomi",
-        "sv": "Ruotsi"
       },
       "next": "Följande",
       "no": "Nej",

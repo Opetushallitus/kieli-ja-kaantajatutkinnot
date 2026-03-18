@@ -17,3 +17,13 @@ export enum APIEndpoints {
   ClerkPersonContactUpdate = '/yki/v2/api/clerk/person/:oid/contactDetails',
   User = '/yki/api/user/identity',
 }
+
+/**
+ * Certain errors expected to be returned by the backend.
+ * The respective backend enum is `APIExceptionType`.
+ */
+export enum APIError {
+  ExamDateCreateDuplicateDate = 'examDateCreateDuplicateDate',
+  ExamDateRegistrationEndBeforeStart = 'examDateRegistrationEndBeforeStart',
+  ExamDateExamBeforeRegistrationEnd = 'examDateExamBeforeRegistrationEnd',
+}

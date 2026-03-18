@@ -11,8 +11,11 @@ const getTabForPath = (path: string) => {
     return 'freeRegistration';
   } else if (path.includes(AppRoutes.CustomerSearch)) {
     return 'customerSearch';
-  } else if (path.includes(AppRoutes.ClerkExamSession)) {
-    return 'organizerRegister';
+  } else if (
+    path.includes(AppRoutes.ClerkExamSession) ||
+    path.includes(AppRoutes.ClerkExamDates)
+  ) {
+    return 'clerkExamSessions';
   } else {
     return false;
   }
@@ -28,6 +31,11 @@ export const ClerkNavigationLinks = () => {
         'header.accessibility.mainNavigation',
       )}
       links={[
+        {
+          active: getTabForPath(pathname) === 'clerkExamSessions',
+          href: AppRoutes.ClerkExamDates,
+          label: translateCommon('clerkExamSessions'),
+        },
         {
           active: getTabForPath(pathname) === 'clerkOrganizerRegister',
           href: AppRoutes.ClerkOrganizerRegister,

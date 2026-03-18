@@ -60,13 +60,19 @@ export interface PersonDetails {
   streetAddress: string;
   postOffice: string;
   zip: string;
+  countryCode?: string;
   registrations: Array<PersonRegistrations>;
 }
 
 export interface ModifyContactDetails
   extends Pick<
     PersonDetails,
-    'email' | 'phoneNumber' | 'postOffice' | 'streetAddress' | 'zip'
+    | 'email'
+    | 'phoneNumber'
+    | 'postOffice'
+    | 'streetAddress'
+    | 'zip'
+    | 'countryCode'
   > {
   confirmEmail: string;
 }
@@ -79,6 +85,7 @@ export interface PersonDetailsResponse {
   street_address: string;
   post_office: string;
   zip: string;
+  country_code?: string;
   registrations: Array<PersonRegistrationsResponse>;
 }
 

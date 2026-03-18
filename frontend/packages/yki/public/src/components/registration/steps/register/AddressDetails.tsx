@@ -36,12 +36,12 @@ export const AddressDetails = ({
     keyPrefix: 'yki.component.registration.registrationDetails',
   });
   const translateCommon = useCommonTranslation();
-  const { registration } = useAppSelector(registrationSelector);
+  const { registration, showErrors } = useAppSelector(registrationSelector);
   const countryOptions = useCountryOptions();
   const { isPhone } = useWindowProperties();
   const dispatch = useAppDispatch();
 
-  const getRegistrationErrors = usePublicRegistrationErrors(true);
+  const getRegistrationErrors = usePublicRegistrationErrors(showErrors);
   const registrationErrors = getRegistrationErrors();
 
   const countryCodeDropdown = (
@@ -91,12 +91,12 @@ export const AddressDetails = ({
           autoComplete={InputAutoComplete.Town}
           fullWidth
         />
+        {countryCodeDropdown}
       </>
     );
   } else {
     return (
       <>
-        {countryCodeDropdown}
         <div className="registration-details__address-grid gapped">
           <LabeledTextField
             {...getLabeledTextFieldAttributes('address')}
@@ -116,6 +116,7 @@ export const AddressDetails = ({
             />
           </div>
         </div>
+        {countryCodeDropdown}
       </>
     );
   }

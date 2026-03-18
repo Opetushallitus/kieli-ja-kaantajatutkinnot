@@ -36,12 +36,15 @@ import {
   RegistrationKind,
   RegistrationStates,
 } from 'enums/app';
+import { useCountryOptions } from 'hooks/useCountryOptions';
 import { PersonRegistrations } from 'interfaces/userDetails';
 //import { ExpiredLoginLinkPage } from 'pages/ExpiredLoginLinkPage';
+import { loadNationalities } from 'redux/reducers/nationalities';
 import {
   loadPersonDetails,
   setRegistrationToCancel,
 } from 'redux/reducers/userDetails';
+import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { sessionSelector } from 'redux/selectors/session';
 import { userDetailsSelector } from 'redux/selectors/userDetails';
 import { ExamSessionUtils } from 'utils/examSession';
@@ -370,10 +373,15 @@ const ContactDetails = () => {
   });
   const translateCommon = useCommonTranslation();
   const { personDetails } = useAppSelector(userDetailsSelector);
+  const countryOptions = useCountryOptions();
 
   if (!personDetails) {
     return <></>;
   }
+
+  const countryName = countryOptions.find(
+    (o) => o.value === personDetails.countryCode,
+  )?.label;
 
   return (
     <div className="margin-top-xxl">
@@ -392,7 +400,9 @@ const ContactDetails = () => {
             </Text>
             <Text>
               <b>{translateCommon('address')}:</b>{' '}
-              {`${personDetails.streetAddress}, ${personDetails.zip} ${personDetails.postOffice}`}
+              {`${personDetails.streetAddress}, ${personDetails.zip} ${
+                personDetails.postOffice
+              }${countryName ? `, ${countryName}` : ''}`}
             </Text>
             <Text>
               <b>{translateCommon('email')}:</b> {personDetails.email}
@@ -476,6 +486,13 @@ export const UserDetailsPage: FC = () => {
   const { loggedInSession } = useAppSelector(sessionSelector);
   const { status, personDetails, registrationToCancel } =
     useAppSelector(userDetailsSelector);
+  const { status: nationalitiesStatus } = useAppSelector(nationalitiesSelector);
+
+  useEffect(() => {
+    if (nationalitiesStatus === APIResponseStatus.NotStarted) {
+      dispatch(loadNationalities());
+    }
+  }, [dispatch, nationalitiesStatus]);
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
