@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.TestUtil;
 import jakarta.annotation.Resource;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -27,7 +29,8 @@ import org.thymeleaf.templateresolver.StringTemplateResolver;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("test-hsql")
+@ActiveProfiles("test-postgres")
+@Import(PostgresTestcontainerConfig.class)
 class PublicIndexControllerIntegrationTest {
 
   private static String expectedIndexHtml;
