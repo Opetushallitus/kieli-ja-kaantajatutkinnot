@@ -32,11 +32,7 @@ type LanguageSelection = {
   };
 };
 
-type ExamTypeSelection = {
-  speechComprehensionAndWriting: boolean;
-  readingComprehensionAndSpeaking: boolean;
-  allExamParts: boolean;
-};
+type ExamTypeSelection = string | null;
 
 type AddExamDateModalProps = {
   isModalOpen: boolean;
@@ -54,11 +50,7 @@ const initializeLanguageSelections = (): LanguageSelection[] =>
     },
   }));
 
-const initialExamTypeSelection: ExamTypeSelection = {
-  speechComprehensionAndWriting: false,
-  readingComprehensionAndSpeaking: false,
-  allExamParts: false,
-};
+const initialExamTypeSelection: ExamTypeSelection = null;
 
 export const AddExamDateModal = ({
   isModalOpen,
@@ -131,8 +123,8 @@ export const AddExamDateModal = ({
     );
   };
 
-  const toggleExamType = (type: keyof ExamTypeSelection) => {
-    setExamTypes((prev) => ({ ...prev, [type]: !prev[type] }));
+  const selectExamType = (type: string) => {
+    setExamTypes(type);
   };
 
   const handleSubmit = () => {
@@ -141,7 +133,7 @@ export const AddExamDateModal = ({
       !registrationStart ||
       !registrationEnd ||
       registrationEnd.isBefore(registrationStart.add(1, 'day')) ||
-      !Object.values(examTypes).some((isChecked) => isChecked)
+      !examTypes
     ) {
       return;
     }
@@ -170,23 +162,12 @@ export const AddExamDateModal = ({
       return levels;
     });
 
-    const selectedExamTypes: string[] = [];
-    if (examTypes.speechComprehensionAndWriting) {
-      selectedExamTypes.push('LISTEN_WRITE');
-    }
-    if (examTypes.readingComprehensionAndSpeaking) {
-      selectedExamTypes.push('READ_SPEAK');
-    }
-    if (examTypes.allExamParts) {
-      selectedExamTypes.push('FULL');
-    }
-
     const request: CreateExamDateRequest = {
       examDate: examDate.format('YYYY-MM-DD'),
       registrationStartDate: registrationStart.format('YYYY-MM-DD'),
       registrationEndDate: registrationEnd.format('YYYY-MM-DD'),
       languages: selectedLanguages,
-      examTypes: selectedExamTypes,
+      examType: examTypes,
     };
 
     dispatch(addExamDate(request));
@@ -409,26 +390,22 @@ export const AddExamDateModal = ({
               <div className="rows" style={{ gap: '0.25rem' }}>
                 <OphCheckbox
                   data-testid="exam-type-speech"
-                  checked={examTypes.speechComprehensionAndWriting}
-                  onChange={() =>
-                    toggleExamType('speechComprehensionAndWriting')
-                  }
+                  checked={examTypes === 'LISTEN_WRITE'}
+                  onChange={() => selectExamType('LISTEN_WRITE')}
                   label={t('examTypes.speechComprehensionAndWriting')}
                   sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
                 />
                 <OphCheckbox
                   data-testid="exam-type-reading"
-                  checked={examTypes.readingComprehensionAndSpeaking}
-                  onChange={() =>
-                    toggleExamType('readingComprehensionAndSpeaking')
-                  }
+                  checked={examTypes === 'READ_SPEAK'}
+                  onChange={() => selectExamType('READ_SPEAK')}
                   label={t('examTypes.readingComprehensionAndSpeaking')}
                   sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
                 />
                 <OphCheckbox
                   data-testid="exam-type-all"
-                  checked={examTypes.allExamParts}
-                  onChange={() => toggleExamType('allExamParts')}
+                  checked={examTypes === 'FULL'}
+                  onChange={() => selectExamType('FULL')}
                   label={t('examTypes.allExamParts')}
                   sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
                 />

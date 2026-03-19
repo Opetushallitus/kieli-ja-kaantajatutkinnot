@@ -30,7 +30,7 @@ function* loadExamDatesSaga() {
       examDate: dayjs(ed.examDate),
       registrationStartDate: dayjs(ed.registrationStartDate),
       registrationEndDate: dayjs(ed.registrationEndDate),
-      examTypes: ed.examTypes,
+      examType: ed.examType,
       languages: ed.languages,
     }));
 

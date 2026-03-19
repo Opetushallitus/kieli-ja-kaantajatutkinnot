@@ -532,4 +532,18 @@
                 referencedTableName="exam_date"
                 referencedColumnNames="id" />
     </changeSet>
+    <changeSet id="2026-03-19-exam-date-type-to-exam-type" author="kimmotaskinen-knowit">
+        <preConditions onFail="CONTINUE">
+            <dbms type="postgresql" />
+        </preConditions>
+        <dropTable tableName="exam_date_exam_type" />
+        <renameColumn tableName="exam_date" oldColumnName="type" newColumnName="exam_type" />
+    </changeSet>
+    <changeSet id="2026-03-19-exam-date-type-to-exam-type-hsqldb" author="kimmotaskinen-knowit">
+        <preConditions onFail="CONTINUE">
+            <dbms type="hsqldb" />
+        </preConditions>
+        <dropTable tableName="exam_date_exam_type" />
+        <renameColumn tableName="exam_date" oldColumnName="type" newColumnName="exam_type" columnDataType="TEXT" />
+    </changeSet>
 </databaseChangeLog>

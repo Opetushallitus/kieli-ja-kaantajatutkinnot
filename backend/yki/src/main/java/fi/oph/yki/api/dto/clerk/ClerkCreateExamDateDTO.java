@@ -13,6 +13,6 @@ public record ClerkCreateExamDateDTO(
   @NonNull @NotNull LocalDate examDate,
   @NonNull @NotNull LocalDate registrationStartDate,
   @NonNull @NotNull LocalDate registrationEndDate,
-  @NotEmpty List<ExamSessionType> examTypes,
+  @NonNull @NotNull ExamSessionType examType,
   @NotEmpty List<CreateClerkExamDateLanguageDTO> languages
 ) {}

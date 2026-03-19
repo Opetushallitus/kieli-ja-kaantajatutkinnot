@@ -47,7 +47,7 @@ public class ClerkExamDateServiceTest {
       .examDate(LocalDate.of(2026, 10, 15))
       .registrationStartDate(LocalDate.of(2026, 8, 1))
       .registrationEndDate(LocalDate.of(2026, 9, 30))
-      .examTypes(List.of(ExamSessionType.FULL))
+      .examType(ExamSessionType.FULL)
       .languages(
         List.of(
           CreateClerkExamDateLanguageDTO.builder().languageCode(LanguageCode.fin).levelCode(LevelCode.KESKI).build(),
@@ -62,7 +62,7 @@ public class ClerkExamDateServiceTest {
     assertEquals(LocalDate.of(2026, 10, 15), result.examDate());
     assertEquals(LocalDate.of(2026, 8, 1), result.registrationStartDate());
     assertEquals(LocalDate.of(2026, 9, 30), result.registrationEndDate());
-    assertEquals(List.of(ExamSessionType.FULL), result.examTypes());
+    assertEquals(ExamSessionType.FULL, result.examType());
     assertEquals(2, result.languages().size());
     assertEquals("fin", result.languages().get(0).languageCode());
     assertEquals("KESKI", result.languages().get(0).levelCode());
@@ -77,7 +77,7 @@ public class ClerkExamDateServiceTest {
       .examDate(LocalDate.of(2026, 11, 20))
       .registrationStartDate(LocalDate.of(2026, 9, 1))
       .registrationEndDate(LocalDate.of(2026, 10, 31))
-      .examTypes(List.of(ExamSessionType.READ_SPEAK))
+      .examType(ExamSessionType.READ_SPEAK)
       .languages(List.of())
       .build();
 
@@ -85,7 +85,7 @@ public class ClerkExamDateServiceTest {
 
     assertNotNull(result.id());
     assertEquals(LocalDate.of(2026, 11, 20), result.examDate());
-    assertEquals(List.of(ExamSessionType.READ_SPEAK), result.examTypes());
+    assertEquals(ExamSessionType.READ_SPEAK, result.examType());
     assertEquals(0, result.languages().size());
   }
 
@@ -96,7 +96,7 @@ public class ClerkExamDateServiceTest {
       .examDate(LocalDate.of(2027, 1, 10))
       .registrationStartDate(LocalDate.of(2026, 11, 1))
       .registrationEndDate(LocalDate.of(2026, 12, 31))
-      .examTypes(List.of(ExamSessionType.LISTEN_WRITE))
+      .examType(ExamSessionType.LISTEN_WRITE)
       .languages(
         List.of(
           CreateClerkExamDateLanguageDTO.builder().languageCode(LanguageCode.eng).levelCode(LevelCode.YLIN).build()
@@ -109,7 +109,7 @@ public class ClerkExamDateServiceTest {
     final List<ClerkExamDateDTO> allExamDates = clerkExamDateService.getAllExamDates();
     assertEquals(1, allExamDates.size());
     assertEquals(LocalDate.of(2027, 1, 10), allExamDates.get(0).examDate());
-    assertEquals(List.of(ExamSessionType.LISTEN_WRITE), allExamDates.get(0).examTypes());
+    assertEquals(ExamSessionType.LISTEN_WRITE, allExamDates.get(0).examType());
     assertEquals(1, allExamDates.get(0).languages().size());
     assertEquals("eng", allExamDates.get(0).languages().get(0).languageCode());
   }
@@ -121,7 +121,7 @@ public class ClerkExamDateServiceTest {
       .examDate(LocalDate.of(2026, 10, 15))
       .registrationStartDate(LocalDate.of(2026, 8, 1))
       .registrationEndDate(LocalDate.of(2026, 9, 30))
-      .examTypes(List.of(ExamSessionType.FULL))
+      .examType(ExamSessionType.FULL)
       .languages(List.of())
       .build();
 
@@ -138,7 +138,7 @@ public class ClerkExamDateServiceTest {
       .examDate(LocalDate.of(2026, 10, 15))
       .registrationStartDate(LocalDate.of(2026, 9, 30))
       .registrationEndDate(LocalDate.of(2026, 8, 1))
-      .examTypes(List.of(ExamSessionType.FULL))
+      .examType(ExamSessionType.FULL)
       .languages(List.of())
       .build();
 
@@ -155,7 +155,7 @@ public class ClerkExamDateServiceTest {
       .examDate(LocalDate.of(2026, 10, 15))
       .registrationStartDate(sameDate)
       .registrationEndDate(sameDate)
-      .examTypes(List.of(ExamSessionType.FULL))
+      .examType(ExamSessionType.FULL)
       .languages(List.of())
       .build();
 
@@ -170,7 +170,7 @@ public class ClerkExamDateServiceTest {
       .examDate(LocalDate.of(2026, 9, 15))
       .registrationStartDate(LocalDate.of(2026, 8, 1))
       .registrationEndDate(LocalDate.of(2026, 9, 30))
-      .examTypes(List.of(ExamSessionType.FULL))
+      .examType(ExamSessionType.FULL)
       .languages(List.of())
       .build();
 
@@ -187,7 +187,7 @@ public class ClerkExamDateServiceTest {
       .examDate(sameDate)
       .registrationStartDate(LocalDate.of(2026, 8, 1))
       .registrationEndDate(sameDate)
-      .examTypes(List.of(ExamSessionType.FULL))
+      .examType(ExamSessionType.FULL)
       .languages(List.of())
       .build();
 

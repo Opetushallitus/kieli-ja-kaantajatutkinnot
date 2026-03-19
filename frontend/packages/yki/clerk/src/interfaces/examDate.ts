@@ -11,7 +11,7 @@ export type ExamDate = {
   examDate: Dayjs;
   registrationStartDate: Dayjs;
   registrationEndDate: Dayjs;
-  examTypes: string[];
+  examType: string;
   languages: ExamDateLanguage[];
 };
 
@@ -20,7 +20,7 @@ export interface ExamDateResponse {
   examDate: string;
   registrationStartDate: string;
   registrationEndDate: string;
-  examTypes: string[];
+  examType: string;
   languages: ExamDateLanguage[];
 }
 
@@ -34,5 +34,5 @@ export interface CreateExamDateRequest {
   registrationStartDate: string;
   registrationEndDate: string;
   languages: LanguageLevelSelection[];
-  examTypes: string[];
+  examType: string;
 }

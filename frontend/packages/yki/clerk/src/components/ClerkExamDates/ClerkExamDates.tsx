@@ -76,14 +76,12 @@ export const ClerkExamDates = () => {
       ),
     },
     {
-      key: 'examTypes',
+      key: 'examType',
       title: t('listing.header.examType'),
       render: (row) => (
-        <div>
-          {row.examTypes.map((type) => (
-            <div key={type}>{t(EXAM_TYPE_TRANSLATION_KEYS[type] ?? type)}</div>
-          ))}
-        </div>
+        <span>
+          {t(EXAM_TYPE_TRANSLATION_KEYS[row.examType] ?? row.examType)}
+        </span>
       ),
     },
     {

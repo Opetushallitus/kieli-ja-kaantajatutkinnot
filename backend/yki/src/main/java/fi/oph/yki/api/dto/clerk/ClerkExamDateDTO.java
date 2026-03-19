@@ -11,6 +11,6 @@ public record ClerkExamDateDTO(
   LocalDate examDate,
   LocalDate registrationStartDate,
   LocalDate registrationEndDate,
-  List<ExamSessionType> examTypes,
+  ExamSessionType examType,
   List<ClerkExamDateLanguageDTO> languages
 ) {}

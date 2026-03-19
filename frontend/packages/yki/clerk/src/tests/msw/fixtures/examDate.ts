@@ -122,10 +122,8 @@ const generateLanguages = (
 
 const EXAM_TYPES = ['FULL', 'READ_SPEAK', 'LISTEN_WRITE'];
 
-const generateExamTypes = (examDateId: number): string[] => {
-  const count = (examDateId % 3) + 1;
-
-  return EXAM_TYPES.slice(0, count);
+const generateExamType = (examDateId: number): string => {
+  return EXAM_TYPES[examDateId % EXAM_TYPES.length];
 };
 
 export const examDates: ExamDateResponse[] = examDatesRaw.map((ed) => {
@@ -135,7 +133,7 @@ export const examDates: ExamDateResponse[] = examDatesRaw.map((ed) => {
     ...ed,
     registrationStartDate: exam.subtract(3, 'month').format('YYYY-MM-DD'),
     registrationEndDate: exam.subtract(1, 'month').format('YYYY-MM-DD'),
-    examTypes: generateExamTypes(ed.id),
+    examType: generateExamType(ed.id),
     languages: generateLanguages(ed.id),
   };
 });
