@@ -1,17 +1,23 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { CreateExamDateRequest, ExamDate } from 'interfaces/examDate';
+import {
+  CreateExamDateRequest,
+  ExamDate,
+  UpdateExamDateRequest,
+} from 'interfaces/examDate';
 
 interface ExamDateState {
   status: APIResponseStatus;
   addStatus: APIResponseStatus;
+  updateStatus: APIResponseStatus;
   examDates: ExamDate[];
 }
 
 const initialState: ExamDateState = {
   status: APIResponseStatus.NotStarted,
   addStatus: APIResponseStatus.NotStarted,
+  updateStatus: APIResponseStatus.NotStarted,
   examDates: [],
 };
 
@@ -41,6 +47,18 @@ const examDateSlice = createSlice({
     resetAddExamDateStatus(state) {
       state.addStatus = APIResponseStatus.NotStarted;
     },
+    updateExamDate(state, _action: PayloadAction<UpdateExamDateRequest>) {
+      state.updateStatus = APIResponseStatus.InProgress;
+    },
+    rejectUpdateExamDate(state) {
+      state.updateStatus = APIResponseStatus.Error;
+    },
+    storeUpdateExamDate(state) {
+      state.updateStatus = APIResponseStatus.Success;
+    },
+    resetUpdateExamDateStatus(state) {
+      state.updateStatus = APIResponseStatus.NotStarted;
+    },
   },
 });
 
@@ -53,4 +71,8 @@ export const {
   rejectAddExamDate,
   storeAddExamDate,
   resetAddExamDateStatus,
+  updateExamDate,
+  rejectUpdateExamDate,
+  storeUpdateExamDate,
+  resetUpdateExamDateStatus,
 } = examDateSlice.actions;

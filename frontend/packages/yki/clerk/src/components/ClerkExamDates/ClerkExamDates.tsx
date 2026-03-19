@@ -1,8 +1,10 @@
 import { Box, Link } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { CustomCircularProgress } from 'shared/components';
-import { APIResponseStatus, Color } from 'shared/enums';
+import { APIResponseStatus, Color, Severity } from 'shared/enums';
+import { useToast } from 'shared/hooks';
 
+import { ModifyExamDateModal } from 'components/ClerkExamDates/ModifyExamDateModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { PageSizeSelector } from 'components/oph-design/table/page-size-selector';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
@@ -25,15 +27,36 @@ export const ClerkExamDates = () => {
     keyPrefix: 'yki.component.clerkExamDates',
   });
   const dispatch = useAppDispatch();
-  const { status, examDates } = useAppSelector(examDateSelector);
+  const { status, examDates, updateStatus } = useAppSelector(examDateSelector);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
+  const [examDateToEdit, setExamDateToEdit] = useState<ExamDate | null>(null);
+  const { showToast } = useToast();
+
+  const handleCloseModifyModal = useCallback(() => {
+    setExamDateToEdit(null);
+  }, []);
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
       dispatch(loadExamDates());
     }
   }, [dispatch, status]);
+
+  useEffect(() => {
+    if (updateStatus === APIResponseStatus.Success) {
+      handleCloseModifyModal();
+      showToast({
+        description: t('toasts.examDateUpdated'),
+        severity: Severity.Success,
+      });
+    } else if (updateStatus === APIResponseStatus.Error) {
+      showToast({
+        description: t('toasts.examDateUpdateError'),
+        severity: Severity.Error,
+      });
+    }
+  }, [updateStatus, showToast, handleCloseModifyModal, t]);
 
   const formatLanguageLevel = (ed: ExamDate) => {
     const grouped = new Map<string, string[]>();
@@ -106,8 +129,12 @@ export const ClerkExamDates = () => {
     {
       key: 'edit',
       title: t('listing.header.edit'),
-      render: () => (
-        <Link component="button" underline="hover">
+      render: (row) => (
+        <Link
+          component="button"
+          underline="hover"
+          onClick={() => setExamDateToEdit(row)}
+        >
           {t('listing.edit')}
         </Link>
       ),
@@ -149,6 +176,10 @@ export const ClerkExamDates = () => {
             columns={columns}
             translateHeader={false}
             pagination={pagination}
+          />
+          <ModifyExamDateModal
+            examDateToEdit={examDateToEdit}
+            onClose={handleCloseModifyModal}
           />
         </>
       );

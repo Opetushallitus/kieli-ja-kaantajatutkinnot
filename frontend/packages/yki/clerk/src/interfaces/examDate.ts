@@ -38,3 +38,7 @@ export interface CreateExamDateRequest {
   languages: LanguageLevelSelection[];
   examType: ExamType;
 }
+
+export interface UpdateExamDateRequest extends CreateExamDateRequest {
+  id: number;
+}
