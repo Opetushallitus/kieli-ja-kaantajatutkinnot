@@ -25,15 +25,22 @@ import fi.oph.yki.service.koski.dto.KoulutusTyyppi;
 import fi.oph.yki.util.RegistrationUtil;
 import jakarta.annotation.Resource;
 import java.util.List;
+import fi.oph.yki.PostgresTestcontainerConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 
 @WithMockUser
 @DataJpaTest
+@ActiveProfiles("test-postgres")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(PostgresTestcontainerConfig.class)
 public class RegistrationServiceTest {
 
   @Resource

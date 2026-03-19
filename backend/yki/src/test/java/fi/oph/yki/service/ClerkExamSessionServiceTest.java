@@ -13,14 +13,21 @@ import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
+import fi.oph.yki.PostgresTestcontainerConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 
 @WithMockUser
 @DataJpaTest
+@ActiveProfiles("test-postgres")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(PostgresTestcontainerConfig.class)
 public class ClerkExamSessionServiceTest {
 
   @Resource
