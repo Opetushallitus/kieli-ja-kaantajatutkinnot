@@ -14,6 +14,7 @@ import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -122,11 +123,16 @@ public class ClerkExamDateService {
     examDate.setExamDate(dto.examDate());
     examDate.setRegistrationStartDate(dto.registrationStartDate());
     examDate.setRegistrationEndDate(dto.registrationEndDate());
-    examDate.setExamTypes(dto.examTypes());
+    examDate.getExamTypes().clear();
+    examDate.getExamTypes().addAll(dto.examTypes());
     examDate.getLanguages().clear();
-    dto.languages().stream().map(langDTO -> toLanguageEntity(examDate, langDTO)).forEach(examDate.getLanguages()::add);
+    examDate
+      .getLanguages()
+      .addAll(dto.languages().stream().map(langDTO -> toLanguageEntity(examDate, langDTO)).toList());
 
-    final ClerkExamDateDTO result = toDTO(examDateRepository.save(examDate));
+    examDateRepository.flush();
+
+    final ClerkExamDateDTO result = toDTO(examDate);
     final ClerkExamDateAuditDTO auditAfter = new ClerkExamDateAuditDTO(result);
     auditService.logUpdate(YkiOperation.UPDATE_EXAM_DATE, result.id(), auditBefore, auditAfter);
 
