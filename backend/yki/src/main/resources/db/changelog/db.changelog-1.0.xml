@@ -538,6 +538,7 @@
         </preConditions>
         <dropTable tableName="exam_date_exam_type" />
         <renameColumn tableName="exam_date" oldColumnName="type" newColumnName="exam_type" />
+        <sql>ALTER TABLE exam_date ALTER COLUMN exam_type TYPE VARCHAR(50) USING exam_type::text</sql>
     </changeSet>
     <changeSet id="2026-03-19-exam-date-type-to-exam-type-hsqldb" author="kimmotaskinen-knowit">
         <preConditions onFail="CONTINUE">

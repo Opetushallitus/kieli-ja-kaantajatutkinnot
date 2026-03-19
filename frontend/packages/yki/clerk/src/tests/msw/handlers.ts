@@ -265,7 +265,7 @@ export const handlers = [
       examDate,
       registrationStartDate,
       registrationEndDate,
-      examTypes,
+      examType,
     } = body;
     const newId = Math.max(...examDates.map((ed) => ed.id)) + 1;
     examDates.push({
@@ -277,7 +277,7 @@ export const handlers = [
         ] ?? [],
       registrationStartDate,
       registrationEndDate,
-      examTypes,
+      examType,
     });
 
     return HttpResponse.json({ id: newId, ...body });

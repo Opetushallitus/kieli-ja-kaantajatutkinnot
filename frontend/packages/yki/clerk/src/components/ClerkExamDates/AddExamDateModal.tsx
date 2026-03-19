@@ -1,5 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box } from '@mui/material';
+import { Box, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import {
   OphButton,
   OphCheckbox,
@@ -16,7 +16,7 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { CreateExamDateRequest } from 'interfaces/examDate';
+import { CreateExamDateRequest, ExamType } from 'interfaces/examDate';
 import { H2, H3, Label, Text } from 'ophTheme/Text';
 import { addExamDate, resetAddExamDateStatus } from 'redux/reducers/examDate';
 import { examDateSelector } from 'redux/selectors/examDate';
@@ -31,8 +31,6 @@ type LanguageSelection = {
     YLIN: boolean;
   };
 };
-
-type ExamTypeSelection = string | null;
 
 type AddExamDateModalProps = {
   isModalOpen: boolean;
@@ -49,8 +47,6 @@ const initializeLanguageSelections = (): LanguageSelection[] =>
       YLIN: false,
     },
   }));
-
-const initialExamTypeSelection: ExamTypeSelection = null;
 
 export const AddExamDateModal = ({
   isModalOpen,
@@ -72,9 +68,7 @@ export const AddExamDateModal = ({
   const [languageSelections, setLanguageSelections] = useState<
     LanguageSelection[]
   >(initializeLanguageSelections());
-  const [examTypes, setExamTypes] = useState<ExamTypeSelection>(
-    initialExamTypeSelection,
-  );
+  const [examType, setExamType] = useState<ExamType>('FULL');
 
   const isSaving = addStatus === APIResponseStatus.InProgress;
 
@@ -87,7 +81,7 @@ export const AddExamDateModal = ({
       setRegistrationStart(null);
       setRegistrationEnd(null);
       setLanguageSelections(initializeLanguageSelections());
-      setExamTypes(initialExamTypeSelection);
+      setExamType('FULL');
       setIsModalOpen(false);
       dispatch(resetAddExamDateStatus());
     }
@@ -99,7 +93,7 @@ export const AddExamDateModal = ({
     setRegistrationStart(null);
     setRegistrationEnd(null);
     setLanguageSelections(initializeLanguageSelections());
-    setExamTypes(initialExamTypeSelection);
+    setExamType('FULL');
     setIsModalOpen(false);
     dispatch(resetAddExamDateStatus());
   };
@@ -123,17 +117,12 @@ export const AddExamDateModal = ({
     );
   };
 
-  const selectExamType = (type: string) => {
-    setExamTypes(type);
-  };
-
   const handleSubmit = () => {
     if (
       !examDate ||
       !registrationStart ||
       !registrationEnd ||
-      registrationEnd.isBefore(registrationStart.add(1, 'day')) ||
-      !examTypes
+      registrationEnd.isBefore(registrationStart.add(1, 'day'))
     ) {
       return;
     }
@@ -167,7 +156,7 @@ export const AddExamDateModal = ({
       registrationStartDate: registrationStart.format('YYYY-MM-DD'),
       registrationEndDate: registrationEnd.format('YYYY-MM-DD'),
       languages: selectedLanguages,
-      examType: examTypes,
+      examType,
     };
 
     dispatch(addExamDate(request));
@@ -387,29 +376,27 @@ export const AddExamDateModal = ({
 
             <div className="rows gapped-xxs">
               <Label>{t('examLabel')} *</Label>
-              <div className="rows" style={{ gap: '0.25rem' }}>
-                <OphCheckbox
-                  data-testid="exam-type-speech"
-                  checked={examTypes === 'LISTEN_WRITE'}
-                  onChange={() => selectExamType('LISTEN_WRITE')}
+              <RadioGroup
+                data-testid="exam-type-radio-group"
+                value={examType}
+                onChange={(e) => setExamType(e.target.value as ExamType)}
+              >
+                <FormControlLabel
+                  value="LISTEN_WRITE"
+                  control={<Radio data-testid="exam-type-speech" />}
                   label={t('examTypes.speechComprehensionAndWriting')}
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
                 />
-                <OphCheckbox
-                  data-testid="exam-type-reading"
-                  checked={examTypes === 'READ_SPEAK'}
-                  onChange={() => selectExamType('READ_SPEAK')}
+                <FormControlLabel
+                  value="READ_SPEAK"
+                  control={<Radio data-testid="exam-type-reading" />}
                   label={t('examTypes.readingComprehensionAndSpeaking')}
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
                 />
-                <OphCheckbox
-                  data-testid="exam-type-all"
-                  checked={examTypes === 'FULL'}
-                  onChange={() => selectExamType('FULL')}
+                <FormControlLabel
+                  value="FULL"
+                  control={<Radio data-testid="exam-type-all" />}
                   label={t('examTypes.allExamParts')}
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
                 />
-              </div>
+              </RadioGroup>
             </div>
           </div>
         </div>

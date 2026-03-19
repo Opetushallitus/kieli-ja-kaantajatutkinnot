@@ -6,12 +6,14 @@ export interface ExamDateLanguage {
   levelCode: string;
 }
 
+export type ExamType = 'FULL' | 'READ_SPEAK' | 'LISTEN_WRITE';
+
 export type ExamDate = {
   id: number;
   examDate: Dayjs;
   registrationStartDate: Dayjs;
   registrationEndDate: Dayjs;
-  examType: string;
+  examType: ExamType;
   languages: ExamDateLanguage[];
 };
 
@@ -20,7 +22,7 @@ export interface ExamDateResponse {
   examDate: string;
   registrationStartDate: string;
   registrationEndDate: string;
-  examType: string;
+  examType: ExamType;
   languages: ExamDateLanguage[];
 }
 
@@ -34,5 +36,5 @@ export interface CreateExamDateRequest {
   registrationStartDate: string;
   registrationEndDate: string;
   languages: LanguageLevelSelection[];
-  examType: string;
+  examType: ExamType;
 }

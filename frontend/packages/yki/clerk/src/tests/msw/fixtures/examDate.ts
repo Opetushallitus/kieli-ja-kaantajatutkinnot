@@ -120,9 +120,10 @@ const generateLanguages = (
   }));
 };
 
-const EXAM_TYPES = ['FULL', 'READ_SPEAK', 'LISTEN_WRITE'];
+const EXAM_TYPES = ['FULL', 'READ_SPEAK', 'LISTEN_WRITE'] as const;
+type ExamType = (typeof EXAM_TYPES)[number];
 
-const generateExamType = (examDateId: number): string => {
+const generateExamType = (examDateId: number): ExamType => {
   return EXAM_TYPES[examDateId % EXAM_TYPES.length];
 };
 
