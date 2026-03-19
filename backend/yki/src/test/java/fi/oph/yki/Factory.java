@@ -17,6 +17,8 @@ public class Factory {
   public static Person person() {
     final Person person = new Person();
     person.setOid("1.2.3.4.5");
+    person.setFirstName("Testi");
+    person.setLastName("Henkilö");
 
     return person;
   }

@@ -3,6 +3,7 @@ package fi.oph.yki.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.PublicEducationDTO;
 import fi.oph.yki.service.koski.KoskiService;
 import fi.oph.yki.util.exception.APIException;
@@ -13,7 +14,6 @@ import java.util.Objects;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
-import fi.oph.yki.PostgresTestcontainerConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

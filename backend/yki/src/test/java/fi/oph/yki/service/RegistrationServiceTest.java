@@ -5,6 +5,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import fi.oph.yki.Factory;
+import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.PublicEducationBasisDTO;
 import fi.oph.yki.api.dto.PublicEducationDTO;
 import fi.oph.yki.api.dto.PublicEducationUpdateDTO;
@@ -25,7 +26,6 @@ import fi.oph.yki.service.koski.dto.KoulutusTyyppi;
 import fi.oph.yki.util.RegistrationUtil;
 import jakarta.annotation.Resource;
 import java.util.List;
-import fi.oph.yki.PostgresTestcontainerConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
