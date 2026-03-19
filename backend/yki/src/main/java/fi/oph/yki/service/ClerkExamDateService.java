@@ -175,4 +175,18 @@ public class ClerkExamDateService {
 
     return result;
   }
+
+  @Transactional
+  public void deleteExamDate(final long id) {
+    final ExamDate examDate = examDateRepository
+      .findById(id)
+      .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
+
+    if (examSessionRepository.existsByExamDateId(id)) {
+      throw new APIException(APIExceptionType.EXAM_DATE_HAS_SESSIONS);
+    }
+
+    examDateRepository.delete(examDate);
+    auditService.logById(YkiOperation.DELETE_EXAM_DATE, id);
+  }
 }
