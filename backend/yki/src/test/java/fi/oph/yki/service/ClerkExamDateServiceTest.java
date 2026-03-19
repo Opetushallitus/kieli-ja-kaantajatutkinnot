@@ -24,6 +24,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -37,6 +38,9 @@ public class ClerkExamDateServiceTest {
   @Resource
   private ExamDateRepository examDateRepository;
 
+  @Resource
+  private JdbcTemplate jdbcTemplate;
+
   @MockBean
   private AuditService auditService;
 
@@ -45,6 +49,10 @@ public class ClerkExamDateServiceTest {
   @BeforeEach
   public void setup() {
     clerkExamDateService = new ClerkExamDateService(examDateRepository, auditService);
+    jdbcTemplate.execute(
+      "INSERT INTO public.language (code) VALUES " +
+      "('fin'), ('swe'), ('eng'), ('spa'), ('ita'), ('fra'), ('sme'), ('deu'), ('rus')"
+    );
   }
 
   @Test
