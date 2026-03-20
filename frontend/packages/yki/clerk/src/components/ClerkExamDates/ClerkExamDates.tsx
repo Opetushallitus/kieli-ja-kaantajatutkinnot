@@ -12,10 +12,13 @@ import { PageSizeSelector } from 'components/oph-design/table/page-size-selector
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { ExamDate } from 'interfaces/examDate';
+import { ExamDate, ExamDateSort } from 'interfaces/examDate';
 import { H2, Text } from 'ophTheme/Text';
-import { loadExamDates } from 'redux/reducers/examDate';
-import { examDateSelector } from 'redux/selectors/examDate';
+import { loadExamDates, setExamDateSort } from 'redux/reducers/examDate';
+import {
+  examDateSelector,
+  selectSortedExamDates,
+} from 'redux/selectors/examDate';
 import { languageToString, levelDescription } from 'utils/clerk';
 
 const EXAM_TYPE_TRANSLATION_KEYS: Record<string, string> = {
@@ -29,7 +32,9 @@ export const ClerkExamDates = () => {
     keyPrefix: 'yki.component.clerkExamDates',
   });
   const dispatch = useAppDispatch();
-  const { status, examDates, updateStatus } = useAppSelector(examDateSelector);
+  const { status, examDateSort, updateStatus } =
+    useAppSelector(examDateSelector);
+  const examDates = useAppSelector(selectSortedExamDates);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const [examDateToEdit, setExamDateToEdit] = useState<ExamDate | null>(null);
@@ -198,6 +203,10 @@ export const ClerkExamDates = () => {
             columns={columns}
             translateHeader={false}
             pagination={pagination}
+            sort={examDateSort}
+            setSort={(sort: string) =>
+              dispatch(setExamDateSort(sort as ExamDateSort))
+            }
           />
           <ModifyExamDateModal
             examDateToEdit={examDateToEdit}
