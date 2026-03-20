@@ -38,9 +38,6 @@ public class ClerkExamDateServiceTest {
   @Resource
   private ExamDateRepository examDateRepository;
 
-  @Resource
-  private JdbcTemplate jdbcTemplate;
-
   @MockBean
   private AuditService auditService;
 
@@ -49,10 +46,6 @@ public class ClerkExamDateServiceTest {
   @BeforeEach
   public void setup() {
     clerkExamDateService = new ClerkExamDateService(examDateRepository, auditService);
-    jdbcTemplate.execute(
-      "INSERT INTO public.language (code) VALUES " +
-      "('fin'), ('swe'), ('eng'), ('spa'), ('ita'), ('fra'), ('sme'), ('deu'), ('rus')"
-    );
   }
 
   @Test
