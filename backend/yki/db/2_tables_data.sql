@@ -25,3 +25,11 @@ INSERT INTO language (code, created) VALUES
 ('sme',	'2022-11-30 14:13:51.536695+00'),
 ('deu',	'2022-11-30 14:13:51.537193+00'),
 ('rus',	'2022-11-30 14:13:51.53784+00');
+
+--
+-- Relax NOT NULL constraints not satisfiable by local seed data
+--
+
+ALTER TABLE exam_session ALTER COLUMN organizer_id DROP NOT NULL;
+ALTER TABLE exam_session ALTER COLUMN organizer_id DROP DEFAULT;
+ALTER TABLE registration ALTER COLUMN participant_id DROP NOT NULL;

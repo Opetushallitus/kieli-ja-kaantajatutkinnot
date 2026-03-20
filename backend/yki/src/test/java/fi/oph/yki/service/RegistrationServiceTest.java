@@ -11,6 +11,8 @@ import fi.oph.yki.api.dto.PublicEducationDTO;
 import fi.oph.yki.api.dto.PublicEducationUpdateDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
+import fi.oph.yki.model.ExamDate;
+import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
@@ -81,7 +83,10 @@ public class RegistrationServiceTest {
   @Test
   public void testCreateEducations() {
     final Person person = Factory.person();
+    final ExamDate examDate = Factory.examDate();
+    final ExamSession examSession = Factory.examSession(examDate);
     final Registration registration = Factory.registration(person);
+    registration.setExamSession(examSession);
     final List<PublicEducationDTO> educationDTOs = List.of(
       PublicEducationDTO.builder().educationType(KoulutusTyyppi.HigherEducation.toString()).isActive(true).build()
     );
@@ -97,6 +102,8 @@ public class RegistrationServiceTest {
       .build();
     when(koskiService.getEducations(registration.getPerson().getOid())).thenReturn(educationDTOs);
 
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
     entityManager.persist(person);
     entityManager.persist(registration);
 
@@ -114,7 +121,10 @@ public class RegistrationServiceTest {
   @Test
   public void testUpdateEducations() {
     final Person person = Factory.person();
+    final ExamDate examDate = Factory.examDate();
+    final ExamSession examSession = Factory.examSession(examDate);
     final Registration registration = Factory.registration(person);
+    registration.setExamSession(examSession);
     final FreeRegistration freeRegistration = Factory.freeRegistration(registration);
     final List<PublicEducationDTO> educationDTOs = List.of(
       PublicEducationDTO.builder().educationType(KoulutusTyyppi.HigherEducation.toString()).isActive(true).build()
@@ -132,6 +142,8 @@ public class RegistrationServiceTest {
     when(koskiService.getEducations(registration.getPerson().getOid())).thenReturn(educationDTOs);
 
     registration.setFreeRegistration(freeRegistration);
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
     entityManager.persist(person);
     entityManager.persist(registration);
     entityManager.persist(freeRegistration);
