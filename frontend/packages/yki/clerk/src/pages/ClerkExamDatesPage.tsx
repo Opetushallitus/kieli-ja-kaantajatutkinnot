@@ -25,11 +25,6 @@ export const ClerkExamDatesPage: FC = () => {
         description: t('toasts.examDateAdded'),
         severity: Severity.Success,
       });
-    } else if (addStatus === APIResponseStatus.Error) {
-      showToast({
-        description: t('toasts.examDateAddError'),
-        severity: Severity.Error,
-      });
     }
   }, [addStatus, showToast, t]);
 

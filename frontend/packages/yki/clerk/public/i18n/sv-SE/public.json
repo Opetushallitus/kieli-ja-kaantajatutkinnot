@@ -76,6 +76,7 @@
           }
         },
         "search": {
+          "clear": "Tyhjennä",
           "header": "{{amount}} osallistujaa",
           "labels": {
             "examDate": "Tutkintopäivä",
@@ -97,13 +98,29 @@
               "registrations": "Ilmoittautumiset"
             }
           },
-          "clear": "Tyhjennä",
           "submit": "Hae osallistujia"
         }
       },
       "clerkExamDates": {
         "addNewExamDateButton": "Lisää tutkintopäivä",
         "header": "Tutkintopäivät",
+        "listing": {
+          "addReviewEvaluation": "Lisää tarkistusarviointi",
+          "allLevels": "Kaikki tasot",
+          "edit": "Muokkaa",
+          "errors": {
+            "loadingFailed": "Tutkintopäivien lataaminen epäonnistui"
+          },
+          "header": {
+            "edit": "Muokkaa",
+            "examDate": "Tutkintopäivä",
+            "examType": "Koe",
+            "languageLevels": "Kielitasot",
+            "registrationPeriod": "Ilmoittautumisaika",
+            "reviewEvaluation": "Tarkistusarviointi"
+          },
+          "resultCount": "{{count}} tutkintopäivää"
+        },
         "modal": {
           "cancelButton": "Peruuta",
           "examDateLabel": "Tutkintopäivä",

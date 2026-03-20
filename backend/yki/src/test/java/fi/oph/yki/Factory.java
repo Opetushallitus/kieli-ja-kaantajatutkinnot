@@ -49,7 +49,7 @@ public class Factory {
     examDate.setExamDate(LocalDate.of(2026, 6, 15));
     examDate.setRegistrationStartDate(LocalDate.of(2026, 3, 1));
     examDate.setRegistrationEndDate(LocalDate.of(2026, 5, 31));
-    examDate.setExamTypes(List.of(ExamSessionType.FULL));
+    examDate.setExamType(ExamSessionType.FULL);
 
     return examDate;
   }

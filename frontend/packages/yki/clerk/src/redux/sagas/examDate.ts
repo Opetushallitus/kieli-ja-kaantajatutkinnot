@@ -28,6 +28,9 @@ function* loadExamDatesSaga() {
     const examDates: ExamDate[] = response.data.map((ed) => ({
       id: ed.id,
       examDate: dayjs(ed.examDate),
+      registrationStartDate: dayjs(ed.registrationStartDate),
+      registrationEndDate: dayjs(ed.registrationEndDate),
+      examType: ed.examType,
       languages: ed.languages,
     }));
 
