@@ -45,6 +45,11 @@ export const ClerkExamDates = () => {
   }, []);
   const [showPastDates, setShowPastDates] = useState(false);
 
+  const toggleShowPastDates = () => {
+    setShowPastDates((prev) => !prev);
+    setPage(1);
+  };
+
   const filteredExamDates = useMemo(() => {
     if (showPastDates) return examDates;
     const today = dayjs();
@@ -185,7 +190,7 @@ export const ClerkExamDates = () => {
             control={
               <OphCheckbox
                 checked={showPastDates}
-                onChange={() => setShowPastDates((prev) => !prev)}
+                onChange={toggleShowPastDates}
                 sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
               />
             }

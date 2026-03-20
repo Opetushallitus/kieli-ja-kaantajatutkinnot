@@ -1,15 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-<<<<<<< HEAD
 import {
   CreateExamDateRequest,
   ExamDate,
+  ExamDateSort,
   UpdateExamDateRequest,
 } from 'interfaces/examDate';
-=======
-import { CreateExamDateRequest, ExamDate, ExamDateSort } from 'interfaces/examDate';
->>>>>>> 599eb3870 (YKI(Frontend): Added sort support for the exam date column)
 
 interface ExamDateState {
   status: APIResponseStatus;
@@ -53,7 +50,6 @@ const examDateSlice = createSlice({
     resetAddExamDateStatus(state) {
       state.addStatus = APIResponseStatus.NotStarted;
     },
-<<<<<<< HEAD
     updateExamDate(state, _action: PayloadAction<UpdateExamDateRequest>) {
       state.updateStatus = APIResponseStatus.InProgress;
     },
@@ -65,10 +61,9 @@ const examDateSlice = createSlice({
     },
     resetUpdateExamDateStatus(state) {
       state.updateStatus = APIResponseStatus.NotStarted;
-=======
+    },
     setExamDateSort(state, action: PayloadAction<ExamDateSort>) {
       state.examDateSort = action.payload;
->>>>>>> 599eb3870 (YKI(Frontend): Added sort support for the exam date column)
     },
   },
 });
@@ -82,12 +77,9 @@ export const {
   rejectAddExamDate,
   storeAddExamDate,
   resetAddExamDateStatus,
-<<<<<<< HEAD
   updateExamDate,
   rejectUpdateExamDate,
   storeUpdateExamDate,
   resetUpdateExamDateStatus,
-=======
   setExamDateSort,
->>>>>>> 599eb3870 (YKI(Frontend): Added sort support for the exam date column)
 } = examDateSlice.actions;

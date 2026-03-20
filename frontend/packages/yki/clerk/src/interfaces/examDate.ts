@@ -39,11 +39,9 @@ export interface CreateExamDateRequest {
   examType: ExamType;
 }
 
-<<<<<<< HEAD
 export interface UpdateExamDateRequest extends CreateExamDateRequest {
   id: number;
 }
-=======
+
 export type SortOrder = 'asc' | 'desc' | '';
 export type ExamDateSort = `${keyof ExamDate}:${SortOrder}`;
->>>>>>> 599eb3870 (YKI(Frontend): Added sort support for the exam date column)
