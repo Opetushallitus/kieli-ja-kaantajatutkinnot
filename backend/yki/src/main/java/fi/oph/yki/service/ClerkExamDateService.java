@@ -82,7 +82,9 @@ public class ClerkExamDateService {
     examDate.setRegistrationStartDate(dto.registrationStartDate());
     examDate.setRegistrationEndDate(dto.registrationEndDate());
     examDate.setExamType(dto.examType());
-    examDate.setLanguages(dto.languages().stream().map(langDTO -> toLanguageEntity(examDate, langDTO)).toList());
+    examDate.setLanguages(
+      new ArrayList<>(dto.languages().stream().map(langDTO -> toLanguageEntity(examDate, langDTO)).toList())
+    );
 
     return examDate;
   }
@@ -123,8 +125,7 @@ public class ClerkExamDateService {
     examDate.setExamDate(dto.examDate());
     examDate.setRegistrationStartDate(dto.registrationStartDate());
     examDate.setRegistrationEndDate(dto.registrationEndDate());
-    examDate.getExamTypes().clear();
-    examDate.getExamTypes().addAll(dto.examTypes());
+    examDate.setExamType(dto.examType());
     examDate.getLanguages().clear();
     examDate
       .getLanguages()

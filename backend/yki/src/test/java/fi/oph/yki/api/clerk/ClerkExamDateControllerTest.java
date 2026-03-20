@@ -35,10 +35,7 @@ class ClerkExamDateControllerTest {
     data.put("examDate", "2026-10-15");
     data.put("registrationStartDate", "2026-08-01");
     data.put("registrationEndDate", "2026-09-30");
-
-    final JSONArray examTypes = new JSONArray();
-    examTypes.add("FULL");
-    data.put("examTypes", examTypes);
+    data.put("examType", "FULL");
 
     final JSONObject lang = new JSONObject();
     lang.put("languageCode", "fin");
@@ -60,9 +57,9 @@ class ClerkExamDateControllerTest {
   }
 
   @Test
-  public void testCreateWithEmptyExamTypesReturnsBadRequest() throws Exception {
+  public void testCreateWithEmptyExamTypeReturnsBadRequest() throws Exception {
     final JSONObject data = validCreateData();
-    data.put("examTypes", new JSONArray());
+    data.put("examType", null);
 
     mockMvc
       .perform(post(BASE_URL).with(csrf()).contentType(MediaType.APPLICATION_JSON).content(data.toJSONString()))
@@ -80,9 +77,9 @@ class ClerkExamDateControllerTest {
   }
 
   @Test
-  public void testUpdateWithEmptyExamTypesReturnsBadRequest() throws Exception {
+  public void testUpdateWithNoExamTypeReturnsBadRequest() throws Exception {
     final JSONObject data = validCreateData();
-    data.put("examTypes", new JSONArray());
+    data.put("examType", null);
 
     mockMvc
       .perform(put(BASE_URL + "/1").with(csrf()).contentType(MediaType.APPLICATION_JSON).content(data.toJSONString()))

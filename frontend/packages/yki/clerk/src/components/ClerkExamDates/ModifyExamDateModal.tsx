@@ -1,6 +1,6 @@
 import { Warning } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
-import { Box } from '@mui/material';
+import { Box, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import {
   OphButton,
   OphCheckbox,
@@ -17,7 +17,7 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { ExamDate, UpdateExamDateRequest } from 'interfaces/examDate';
+import { ExamDate, ExamType, UpdateExamDateRequest } from 'interfaces/examDate';
 import { H2, H3, Label, Text } from 'ophTheme/Text';
 import {
   resetUpdateExamDateStatus,
@@ -34,12 +34,6 @@ type LanguageSelection = {
     KESKI: boolean;
     YLIN: boolean;
   };
-};
-
-type ExamTypeSelection = {
-  speechComprehensionAndWriting: boolean;
-  readingComprehensionAndSpeaking: boolean;
-  allExamParts: boolean;
 };
 
 type ModifyExamDateModalProps = {
@@ -66,14 +60,6 @@ const initializeLanguageSelections = (
     };
   });
 
-const initializeExamTypes = (
-  existingExamTypes: string[],
-): ExamTypeSelection => ({
-  speechComprehensionAndWriting: existingExamTypes.includes('LISTEN_WRITE'),
-  readingComprehensionAndSpeaking: existingExamTypes.includes('READ_SPEAK'),
-  allExamParts: existingExamTypes.includes('FULL'),
-});
-
 export const ModifyExamDateModal = ({
   examDateToEdit,
   onClose,
@@ -94,11 +80,7 @@ export const ModifyExamDateModal = ({
   const [languageSelections, setLanguageSelections] = useState<
     LanguageSelection[]
   >([]);
-  const [examTypes, setExamTypes] = useState<ExamTypeSelection>({
-    speechComprehensionAndWriting: false,
-    readingComprehensionAndSpeaking: false,
-    allExamParts: false,
-  });
+  const [examType, setExamType] = useState<ExamType>('FULL');
 
   const isSaving = updateStatus === APIResponseStatus.InProgress;
   const isOpen = examDateToEdit !== null;
@@ -111,7 +93,7 @@ export const ModifyExamDateModal = ({
       setLanguageSelections(
         initializeLanguageSelections(examDateToEdit.languages),
       );
-      setExamTypes(initializeExamTypes(examDateToEdit.examTypes));
+      setExamType('FULL');
     }
   }, [examDateToEdit]);
 
@@ -150,10 +132,6 @@ export const ModifyExamDateModal = ({
     );
   };
 
-  const toggleExamType = (type: keyof ExamTypeSelection) => {
-    setExamTypes((prev) => ({ ...prev, [type]: !prev[type] }));
-  };
-
   const handleSubmit = () => {
     if (
       !examDateToEdit ||
@@ -161,7 +139,7 @@ export const ModifyExamDateModal = ({
       !registrationStart ||
       !registrationEnd ||
       registrationEnd.isBefore(registrationStart.add(1, 'day')) ||
-      !Object.values(examTypes).some((isChecked) => isChecked)
+      !examType
     ) {
       return;
     }
@@ -181,24 +159,13 @@ export const ModifyExamDateModal = ({
       return levels;
     });
 
-    const selectedExamTypes: string[] = [];
-    if (examTypes.speechComprehensionAndWriting) {
-      selectedExamTypes.push('LISTEN_WRITE');
-    }
-    if (examTypes.readingComprehensionAndSpeaking) {
-      selectedExamTypes.push('READ_SPEAK');
-    }
-    if (examTypes.allExamParts) {
-      selectedExamTypes.push('FULL');
-    }
-
     const request: UpdateExamDateRequest = {
       id: examDateToEdit.id,
       examDate: examDate.format('YYYY-MM-DD'),
       registrationStartDate: registrationStart.format('YYYY-MM-DD'),
       registrationEndDate: registrationEnd.format('YYYY-MM-DD'),
       languages: selectedLanguages,
-      examTypes: selectedExamTypes,
+      examType,
     };
 
     dispatch(updateExamDate(request));
@@ -395,30 +362,31 @@ export const ModifyExamDateModal = ({
 
             <div className="rows gapped-xxs">
               <Label>{t('modal.examLabel')} *</Label>
-              <div className="rows" style={{ gap: '0.25rem' }}>
-                <OphCheckbox
-                  checked={examTypes.speechComprehensionAndWriting}
-                  onChange={() =>
-                    toggleExamType('speechComprehensionAndWriting')
-                  }
-                  label={t('modal.examTypes.speechComprehensionAndWriting')}
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+              <RadioGroup
+                data-testid="exam-type-radio-group"
+                value={examType}
+                onChange={(e) => setExamType(e.target.value as ExamType)}
+              >
+                <FormControlLabel
+                  value="LISTEN_WRITE"
+                  control={<Radio data-testid="exam-type-speech" />}
+                  label={t(
+                    'modifyModal.examTypes.speechComprehensionAndWriting',
+                  )}
                 />
-                <OphCheckbox
-                  checked={examTypes.readingComprehensionAndSpeaking}
-                  onChange={() =>
-                    toggleExamType('readingComprehensionAndSpeaking')
-                  }
-                  label={t('modal.examTypes.readingComprehensionAndSpeaking')}
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+                <FormControlLabel
+                  value="READ_SPEAK"
+                  control={<Radio data-testid="exam-type-reading" />}
+                  label={t(
+                    'modifyModal.examTypes.readingComprehensionAndSpeaking',
+                  )}
                 />
-                <OphCheckbox
-                  checked={examTypes.allExamParts}
-                  onChange={() => toggleExamType('allExamParts')}
-                  label={t('modal.examTypes.allExamParts')}
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+                <FormControlLabel
+                  value="FULL"
+                  control={<Radio data-testid="exam-type-all" />}
+                  label={t('modifyModal.examTypes.allExamParts')}
                 />
-              </div>
+              </RadioGroup>
             </div>
           </div>
         </div>
