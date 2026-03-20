@@ -16,7 +16,7 @@ class AddExamDateModal {
     ) => {
       return cy.get(`[data-testid="language-${language}-${level}"]`);
     },
-    examTypeCheckbox: (
+    examTypeRadio: (
       examType:
         | 'speechComprehensionAndWriting'
         | 'readingComprehensionAndSpeaking'
@@ -133,7 +133,7 @@ class AddExamDateModal {
       | 'allExamParts',
   ) {
     this.elements
-      .examTypeCheckbox(examType)
+      .examTypeRadio(examType)
       .scrollIntoView()
       .click()
       .should('be.checked');
@@ -164,7 +164,7 @@ class AddExamDateModal {
       | 'readingComprehensionAndSpeaking'
       | 'allExamParts',
   ) {
-    this.elements.examTypeCheckbox(examType).should('be.checked');
+    this.elements.examTypeRadio(examType).should('be.checked');
   }
 
   expectExamTypeNotChecked(
@@ -173,7 +173,7 @@ class AddExamDateModal {
       | 'readingComprehensionAndSpeaking'
       | 'allExamParts',
   ) {
-    this.elements.examTypeCheckbox(examType).should('not.be.checked');
+    this.elements.examTypeRadio(examType).should('not.be.checked');
   }
 
   clickCloseButton() {
