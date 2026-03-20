@@ -16,6 +16,6 @@ public class PostgresTestcontainerConfig {
       .withUsername("admin")
       .withPassword("admin")
       .withDatabaseName("yki")
-      .withInitScript("db/1_tables.sql");
+      .withInitScripts("db/1_tables.sql", "db/2_tables_data.sql");
   }
 }

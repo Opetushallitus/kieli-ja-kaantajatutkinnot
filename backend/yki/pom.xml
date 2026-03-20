@@ -40,6 +40,7 @@
         <targetPath>db</targetPath>
         <includes>
           <include>1_tables.sql</include>
+          <include>2_tables_data.sql</include>
         </includes>
       </testResource>
     </testResources>
