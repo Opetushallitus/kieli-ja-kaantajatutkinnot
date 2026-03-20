@@ -171,16 +171,14 @@ const ContactDetailInputFields = ({ showErrors }: { showErrors: boolean }) => {
         {...getLabeledTextFieldAttributes('streetAddress')}
         autoComplete={InputAutoComplete.Street}
       />
-      <div className="grid-2-columns gapped">
-        <LabeledTextField
-          {...getLabeledTextFieldAttributes('zip')}
-          autoComplete={InputAutoComplete.PostalCode}
-        />
-        <LabeledTextField
-          {...getLabeledTextFieldAttributes('postOffice')}
-          autoComplete={InputAutoComplete.Town}
-        />
-      </div>
+      <LabeledTextField
+        {...getLabeledTextFieldAttributes('zip')}
+        autoComplete={InputAutoComplete.PostalCode}
+      />
+      <LabeledTextField
+        {...getLabeledTextFieldAttributes('postOffice')}
+        autoComplete={InputAutoComplete.Town}
+      />
       {countryCodeDropdown}
       <LabeledTextField
         {...getLabeledTextFieldAttributes('email')}
