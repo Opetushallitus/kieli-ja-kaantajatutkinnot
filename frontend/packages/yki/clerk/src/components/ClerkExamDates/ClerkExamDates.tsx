@@ -1,5 +1,7 @@
-import { Box, Link } from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
+import { Box, FormControlLabel, Link } from '@mui/material';
+import { OphCheckbox } from '@opetushallitus/oph-design-system';
+import dayjs from 'dayjs';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CustomCircularProgress } from 'shared/components';
 import { APIResponseStatus, Color, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
@@ -36,6 +38,14 @@ export const ClerkExamDates = () => {
   const handleCloseModifyModal = useCallback(() => {
     setExamDateToEdit(null);
   }, []);
+  const [showPastDates, setShowPastDates] = useState(false);
+
+  const filteredExamDates = useMemo(() => {
+    if (showPastDates) return examDates;
+    const today = dayjs();
+
+    return examDates.filter((ed) => !ed.examDate.isBefore(today, 'day'));
+  }, [examDates, showPastDates]);
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
@@ -166,12 +176,24 @@ export const ClerkExamDates = () => {
     case APIResponseStatus.Success:
       return (
         <>
+          <FormControlLabel
+            control={
+              <OphCheckbox
+                checked={showPastDates}
+                onChange={() => setShowPastDates((prev) => !prev)}
+                sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+              />
+            }
+            label={t('listing.showPastDates')}
+          />
           <div className="columns space-between">
-            <Text>{t('listing.resultCount', { count: examDates.length })}</Text>
+            <Text>
+              {t('listing.resultCount', { count: filteredExamDates.length })}
+            </Text>
             <PageSizeSelector pageSize={pageSize} setPageSize={setPageSize} />
           </div>
           <ListTable
-            rows={examDates}
+            rows={filteredExamDates}
             rowKeyProp="id"
             columns={columns}
             translateHeader={false}

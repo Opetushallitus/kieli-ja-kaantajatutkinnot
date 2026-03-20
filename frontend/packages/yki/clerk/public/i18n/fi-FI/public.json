@@ -119,7 +119,8 @@
             "registrationPeriod": "Ilmoittautumisaika",
             "reviewEvaluation": "Tarkistusarviointi"
           },
-          "resultCount": "{{count}} tutkintopäivää"
+          "resultCount": "{{count}} tutkintopäivää",
+          "showPastDates": "Näytä menneet päivät"
         },
         "modal": {
           "cancelButton": "Peruuta",
