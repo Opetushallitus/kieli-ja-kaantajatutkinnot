@@ -80,7 +80,7 @@ export const ModifyExamDateModal = ({
   const [languageSelections, setLanguageSelections] = useState<
     LanguageSelection[]
   >([]);
-  const [examType, setExamType] = useState<ExamType>('FULL');
+  const [examType, setExamType] = useState<ExamType | ''>('');
 
   const isSaving = updateStatus === APIResponseStatus.InProgress;
   const isOpen = examDateToEdit !== null;
@@ -93,7 +93,7 @@ export const ModifyExamDateModal = ({
       setLanguageSelections(
         initializeLanguageSelections(examDateToEdit.languages),
       );
-      setExamType('FULL');
+      setExamType(examDateToEdit.examType);
     }
   }, [examDateToEdit]);
 
