@@ -12,6 +12,7 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.context.annotation.Conditional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,5 +56,11 @@ public class ClerkExamDateController {
     @RequestBody @Valid final ClerkUpdateExamDateDTO dto
   ) {
     return clerkExamDateService.updateExamDate(id, dto);
+  }
+
+  @DeleteMapping(path = "/{id}")
+  @Operation(tags = TAG_EXAM_DATE, summary = "Delete an exam date")
+  public void deleteExamDate(@PathVariable final long id) {
+    clerkExamDateService.deleteExamDate(id);
   }
 }
