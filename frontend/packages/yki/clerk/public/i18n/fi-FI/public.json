@@ -369,7 +369,8 @@
           "actionButtons": {
             "addOrganizer": "Lisää järjestäjä",
             "adminUserView": "Tarkastele järjestäjän näkymää",
-            "modify": "Muokkaa tietoja"
+            "modify": "Muokkaa tietoja",
+            "addExamSession": "Lisää tutkintotilaisuus"
           },
           "agreementExpired": "Sopimus vanhentunut",
           "contentLabels": {

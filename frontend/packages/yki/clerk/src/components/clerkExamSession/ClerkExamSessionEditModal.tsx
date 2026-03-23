@@ -15,16 +15,21 @@ import { ExamLevel, ExamSessionType } from 'enums/app';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { ExamDate } from 'interfaces/examDate';
 import { H2 } from 'ophTheme/Text';
-import { saveExamSession } from 'redux/reducers/clerkExamSession';
+import {
+  createExamSession,
+  saveExamSession,
+} from 'redux/reducers/clerkExamSession';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
 import { DateTimeUtils } from 'utils/dateTime';
 
 type ClerkExamSessionEditModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  examSessionDetails: ClerkExamSession;
+  examSessionDetails?: ClerkExamSession;
   languages: string[];
   examDates: ExamDate[];
+  mode?: 'create' | 'edit';
+  organizerOid?: string;
 };
 
 export const ClerkExamSessionEditModal = ({
@@ -33,27 +38,33 @@ export const ClerkExamSessionEditModal = ({
   examSessionDetails,
   languages,
   examDates,
+  mode = 'edit',
+  organizerOid,
 }: ClerkExamSessionEditModalProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkExamSessionRegistrations.modals.edit',
   });
   const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
-  const { updateStatus } = useAppSelector(clerkExamSessionDetailsSelector);
+  const { updateStatus, createStatus } = useAppSelector(
+    clerkExamSessionDetailsSelector,
+  );
 
-  const location = examSessionDetails.location[0];
-  const isSaving = updateStatus === APIResponseStatus.InProgress;
-  const prevUpdateStatus = useRef(updateStatus);
+  const isCreateMode = mode === 'create';
+  const activeStatus = isCreateMode ? createStatus : updateStatus;
+  const location = examSessionDetails?.location[0];
+  const isSaving = activeStatus === APIResponseStatus.InProgress;
+  const prevActiveStatus = useRef(activeStatus);
 
   useEffect(() => {
     if (
-      prevUpdateStatus.current === APIResponseStatus.InProgress &&
-      updateStatus === APIResponseStatus.Success
+      prevActiveStatus.current === APIResponseStatus.InProgress &&
+      activeStatus === APIResponseStatus.Success
     ) {
       setIsOpen(false);
     }
-    prevUpdateStatus.current = updateStatus;
-  }, [updateStatus, setIsOpen]);
+    prevActiveStatus.current = activeStatus;
+  }, [activeStatus, setIsOpen]);
 
   const languageOptions = languages.map((lang) => ({
     value: lang,
@@ -94,28 +105,32 @@ export const ClerkExamSessionEditModal = ({
     return { value: String(ed.id), label };
   });
 
-  const currentExamDateId = examDates.find((ed) =>
-    ed.examDate.isSame(examSessionDetails.date, 'day'),
-  )?.id;
+  const currentExamDateId = examSessionDetails
+    ? examDates.find((ed) =>
+        ed.examDate.isSame(examSessionDetails.date, 'day'),
+      )?.id
+    : undefined;
 
   const [form, setForm] = useState({
     examDateId: String(currentExamDateId ?? ''),
-    language: examSessionDetails.language,
-    level: examSessionDetails.level,
-    type: examSessionDetails.type ?? '',
-    maxParticipantsTotal: String(examSessionDetails.maxParticipantsTotal ?? ''),
+    language: examSessionDetails?.language ?? '',
+    level: examSessionDetails?.level ?? '',
+    type: examSessionDetails?.type ?? '',
+    maxParticipantsTotal: String(
+      examSessionDetails?.maxParticipantsTotal ?? '',
+    ),
     maxParticipantsPartial1: String(
-      examSessionDetails.maxParticipantsPartial1 ?? '',
+      examSessionDetails?.maxParticipantsPartial1 ?? '',
     ),
     maxParticipantsPartial2: String(
-      examSessionDetails.maxParticipantsPartial2 ?? '',
+      examSessionDetails?.maxParticipantsPartial2 ?? '',
     ),
     streetAddress: location?.streetAddress ?? '',
     postalCode: location?.zip ?? '',
     city: location?.postOffice ?? '',
-    contactName: examSessionDetails.contactName ?? '',
-    contactEmail: examSessionDetails.contactEmail ?? '',
-    contactPhoneNumber: examSessionDetails.contactPhoneNumber ?? '',
+    contactName: examSessionDetails?.contactName ?? '',
+    contactEmail: examSessionDetails?.contactEmail ?? '',
+    contactPhoneNumber: examSessionDetails?.contactPhoneNumber ?? '',
   });
 
   const updateField = (field: string, value: string) => {
@@ -127,12 +142,21 @@ export const ClerkExamSessionEditModal = ({
   };
 
   const handleSave = () => {
-    dispatch(
-      saveExamSession({
-        examSessionId: examSessionDetails.id,
-        form,
-      }),
-    );
+    if (isCreateMode && organizerOid) {
+      dispatch(
+        createExamSession({
+          ...form,
+          organizerOid,
+        }),
+      );
+    } else if (examSessionDetails) {
+      dispatch(
+        saveExamSession({
+          examSessionId: examSessionDetails.id,
+          form,
+        }),
+      );
+    }
   };
 
   return (
