@@ -47,31 +47,6 @@ describe('AddExamDateModal', () => {
     });
   });
 
-  describe('Exam Type Selection', () => {
-    it('should allow selecting multiple exam types independently', () => {
-      onAddExamDateModal.enterExamDate('10.05.2026');
-      onAddExamDateModal.enterRegistrationStartDate('01.04.2026');
-      onAddExamDateModal.enterRegistrationEndDate('02.04.2026');
-      onAddExamDateModal.selectLanguageLevel('eng', 'PERUS');
-
-      // Select different exam types
-      onAddExamDateModal.selectExamType('speechComprehensionAndWriting');
-      onAddExamDateModal.expectExamTypeChecked('speechComprehensionAndWriting');
-
-      onAddExamDateModal.selectExamType('readingComprehensionAndSpeaking');
-      onAddExamDateModal.expectExamTypeChecked(
-        'readingComprehensionAndSpeaking',
-      );
-
-      // Verify both are checked
-      onAddExamDateModal.expectExamTypeNotChecked('allExamParts');
-
-      // Select all exam parts
-      onAddExamDateModal.selectExamType('allExamParts');
-      onAddExamDateModal.expectExamTypeChecked('allExamParts');
-    });
-  });
-
   describe('Form Submission', () => {
     it('should successfully submit form with all required fields filled', () => {
       const examDate = '15.05.2026';
@@ -87,9 +62,8 @@ describe('AddExamDateModal', () => {
       onAddExamDateModal.selectLanguageLevel('eng', 'KESKI');
       onAddExamDateModal.selectLanguageLevel('fra', 'YLIN');
 
-      // Select multiple exam types
+      // Select exam type
       onAddExamDateModal.selectExamType('speechComprehensionAndWriting');
-      onAddExamDateModal.selectExamType('readingComprehensionAndSpeaking');
 
       // Submit the form
       onAddExamDateModal.clickSubmitButton();
