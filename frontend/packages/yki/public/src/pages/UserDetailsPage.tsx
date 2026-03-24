@@ -30,12 +30,7 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
-import {
-  AppRoutes,
-  EvaluationState,
-  RegistrationKind,
-  RegistrationStates,
-} from 'enums/app';
+import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { PersonRegistrations } from 'interfaces/userDetails';
 //import { ExpiredLoginLinkPage } from 'pages/ExpiredLoginLinkPage';
 import {
@@ -137,7 +132,7 @@ const RegistrationState = ({
     keyPrefix: 'yki.pages.userDetailsPage.registrations.state',
   });
 
-  const isReviewed = evaluationState === EvaluationState.EvaluationComplete;
+  const hasEvaluation = !!evaluationState;
 
   const isEnrolled =
     state === RegistrationStates.Completed ||
@@ -159,13 +154,13 @@ const RegistrationState = ({
     <div>
       <Text className="bold">{t('label')}</Text>
       <div className="columns gapped-xxs">
-        {isReviewed && (
+        {hasEvaluation && (
           <>
             <SchoolIcon className="user-details-page__icon--ok" />{' '}
-            <Text>{t('evaluated')}</Text>
+            <Text>{t(evaluationState)}</Text>
           </>
         )}
-        {!isReviewed && isEnrolled && (
+        {!hasEvaluation && isEnrolled && (
           <>
             <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
             <Text>{t('enrolled')}</Text>

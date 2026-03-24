@@ -782,7 +782,13 @@
           "state": {
             "cancelled": "Peruttu",
             "enrolled": "Ilmoittautunut",
-            "evaluated": "Arvioitu",
+            "EvaluationComplete": "Arviointi valmis",
+            "EvaluationPending": "Arviointi kesken",
+            "NoShow": "Ei osallistunut",
+            "Aborted": "Suoritus keskeytetty",
+            "ReviewComplete": "Tarkistusarviointi kesken",
+            "RetakePending": "Tarkistusarviointi kesken",
+            "ReviewFinalized": "Tarkistusarviointi valmis",
             "label": "Tila",
             "queued": "Jonossa (sija {{ positionInQueue }})"
           },
