@@ -44,6 +44,7 @@
         "api": {
           "examDateCreateDuplicateDate": "Tutkintopäivä on jo olemassa valitulle päivämäärälle",
           "examDateExamBeforeRegistrationEnd": "Tutkintopäivän on oltava ilmoittautumisen päättymispäivän jälkeen",
+          "examDateHasSessions": "Tutkintopäivää ei voi poistaa, koska siihen on liitetty tutkintoistuntoja",
           "examDateRegistrationEndBeforeStart": "Ilmoittautumisen päättymispäivän on oltava alkamispäivän jälkeen",
           "generic": "Tapahtui odottamaton virhe. Yritä uudestaan hetken kuluttua."
         },
@@ -66,7 +67,8 @@
           "personCreationFailed": "Submitting the registration form failed.",
           "registrationPeriodClosed": "The registration period has ended."
         },
-        "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui"
+        "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui",
+        "deletingExamDateFailed": "Deleting exam date failed"
       },
       "examDate": "Test day",
       "examination": "Test",

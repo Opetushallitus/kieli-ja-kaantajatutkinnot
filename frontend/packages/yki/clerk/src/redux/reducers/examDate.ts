@@ -12,6 +12,7 @@ interface ExamDateState {
   status: APIResponseStatus;
   addStatus: APIResponseStatus;
   updateStatus: APIResponseStatus;
+  deleteStatus: APIResponseStatus;
   examDates: ExamDate[];
   examDateSort: ExamDateSort;
 }
@@ -20,6 +21,7 @@ const initialState: ExamDateState = {
   status: APIResponseStatus.NotStarted,
   addStatus: APIResponseStatus.NotStarted,
   updateStatus: APIResponseStatus.NotStarted,
+  deleteStatus: APIResponseStatus.NotStarted,
   examDates: [],
   examDateSort: 'examDate:desc',
 };
@@ -65,6 +67,18 @@ const examDateSlice = createSlice({
     setExamDateSort(state, action: PayloadAction<ExamDateSort>) {
       state.examDateSort = action.payload;
     },
+    deleteExamDate(state, _action: PayloadAction<number>) {
+      state.deleteStatus = APIResponseStatus.InProgress;
+    },
+    rejectDeleteExamDate(state) {
+      state.deleteStatus = APIResponseStatus.Error;
+    },
+    storeDeleteExamDate(state) {
+      state.deleteStatus = APIResponseStatus.Success;
+    },
+    resetDeleteExamDateStatus(state) {
+      state.deleteStatus = APIResponseStatus.NotStarted;
+    },
   },
 });
 
@@ -82,4 +96,8 @@ export const {
   storeUpdateExamDate,
   resetUpdateExamDateStatus,
   setExamDateSort,
+  deleteExamDate,
+  rejectDeleteExamDate,
+  storeDeleteExamDate,
+  resetDeleteExamDateStatus,
 } = examDateSlice.actions;
