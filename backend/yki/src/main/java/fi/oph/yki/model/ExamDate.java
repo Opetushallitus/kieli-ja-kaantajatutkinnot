@@ -1,7 +1,11 @@
 package fi.oph.yki.model;
 
+import fi.oph.yki.model.type.ExamSessionType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,6 +37,10 @@ public class ExamDate {
   @Column(name = "registration_end_date", nullable = false)
   private LocalDate registrationEndDate;
 
-  @OneToMany(mappedBy = "examDate")
+  @Column(name = "exam_type", nullable = false)
+  @Enumerated(EnumType.STRING)
+  private ExamSessionType examType;
+
+  @OneToMany(mappedBy = "examDate", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<ExamDateLanguage> languages = new ArrayList<>();
 }

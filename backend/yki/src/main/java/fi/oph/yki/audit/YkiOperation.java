@@ -15,4 +15,6 @@ public enum YkiOperation implements Operation {
   CANCEL_REGISTRATION,
   GET_CUSTOMER_DETAILS,
   SEARCH_CUSTOMERS,
+  CREATE_EXAM_DATE,
+  UPDATE_EXAM_DATE,
 }

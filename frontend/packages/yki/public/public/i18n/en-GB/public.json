@@ -107,7 +107,7 @@
         },
         "heading": "Select the test for whch you wish to request a reassessment",
         "noResults": {
-          "description": "You can request a reassessment within 14 days after you have had the opportunity to receive your YKI test results.",
+          "description": "You can request a reassessment within 30 days after you have had the opportunity to receive your YKI test results.",
           "heading": "It is not possible to request a reassessment at the moment"
         },
         "requestReassessment": "Request a reassessment"
@@ -672,7 +672,7 @@
           },
           "pricing": {
             "body1": "You can request a reassessment of one subtest or several subtests. The reassessment fee is 108 euros per subtest. The fee must be paid when you submit your request for a reassessment. The request will be processed only if the fee has been paid.",
-            "body2": "You can request a reassessment within 14 days when you have had the opportunity to receive your YKI test results. The list at the end of this page contains the test days for which you can currently submit a request for a reassessment.",
+            "body2": "You can request a reassessment within 30 days when you have had the opportunity to receive your YKI test results. The list at the end of this page contains the test days for which you can currently submit a request for a reassessment.",
             "body3": "The average processing time is approximately three months. The results of the reassessment will be sent to you by email.",
             "body4": "The fee will be refunded if the reassessment changes the assessment of the subtest.",
             "heading": "How to request and pay for a reassessment"
@@ -680,7 +680,7 @@
         },
         "introduction": {
           "info": "You can submit a claim for correction if you are not satisfied with the assessment of your YKI test. A claim for correction means a reassessment of your YKI test. You can submit a request for a reassessment on this page.",
-          "timeLimit": "You can request a reassessment within 14 days after you have had the opportunity to receive your YKI test results."
+          "timeLimit": "You can request a reassessment within 30 days after you have had the opportunity to receive your YKI test results."
         },
         "title": "National Certificates of Language Proficiency (YKI) - Reassessment"
       },

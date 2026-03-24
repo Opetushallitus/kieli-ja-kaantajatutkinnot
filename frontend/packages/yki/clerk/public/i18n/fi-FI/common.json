@@ -31,14 +31,22 @@
         }
       },
       "contactEmail": "kielitutkinnot@oph.fi",
+      "contactInfo": "Yhteystiedot",
       "customerSearch": "Asiakashaku",
       "dates": {
-        "dateTimeFormat": "l [klo] HH.mm",
-        "dateFormat": "l"
+        "dateFormat": "l",
+        "dateTimeFormat": "l [klo] HH.mm"
       },
       "email": "Sähköpostiosoite",
       "error": "Tapahtui odottamaton virhe.",
       "errors": {
+        "addingExamDateFailed": "Tutkintopäivän lisääminen epäonnistui",
+        "api": {
+          "examDateCreateDuplicateDate": "Tutkintopäivä on jo olemassa valitulle päivämäärälle",
+          "examDateExamBeforeRegistrationEnd": "Tutkintopäivän on oltava ilmoittautumisen päättymispäivän jälkeen",
+          "examDateRegistrationEndBeforeStart": "Ilmoittautumisen päättymispäivän on oltava alkamispäivän jälkeen",
+          "generic": "Tapahtui odottamaton virhe. Yritä uudestaan hetken kuluttua."
+        },
         "customTextField": {
           "dateFormat": "Kirjoita päivämäärä muodossa pp.kk.vvvv",
           "emailFormat": "Sähköpostiosoite on virheellinen",
@@ -57,7 +65,8 @@
           "paymentCreationFailed": "Ilmoittautumislomakkeen lähetys epäonnistui.",
           "personCreationFailed": "Ilmoittautumislomakkeen lähetys epäonnistui.",
           "registrationPeriodClosed": "Ilmoittautumisaika on päättynyt."
-        }
+        },
+        "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui"
       },
       "examDate": "Testipäivä",
       "examination": "Tutkinto",
@@ -68,6 +77,7 @@
         "writing": "Kirjoittaminen"
       },
       "examSession": "Tutkinto",
+      "extraInfo": "Lisätiedot",
       "freeRegistration": "Maksuttomuus",
       "full": "Täynnä",
       "gender": {
@@ -102,9 +112,11 @@
         }
       },
       "institution": "Testipaikka",
-      "maxParticipantsTotal": "Osallistujapaikkojen määrä",
-      "contactInfo": "Yhteystiedot",
-      "extraInfo": "Lisätiedot",
+      "lang": {
+        "en": "Englanti",
+        "fi": "Suomi",
+        "sv": "Ruotsi"
+      },
       "language": "Kieli",
       "languageLevel": {
         "ALL": "kaikki tasot",
@@ -127,16 +139,12 @@
       "level": "Taso",
       "loadingContent": "Sisältöä ladataan",
       "loadingDone": "Lataus valmis",
+      "maxParticipantsTotal": "Osallistujapaikkojen määrä",
       "municipality": "Paikkakunta",
       "name": "Nimi",
       "navigationProtection": {
         "description": "Menetät tekemäsi muutokset.",
         "header": "Haluatko varmasti poistua sivulta?"
-      },
-      "lang": {
-        "en": "Englanti",
-        "fi": "Suomi",
-        "sv": "Ruotsi"
       },
       "next": "Seuraava",
       "no": "Ei",

@@ -40,3 +40,7 @@ Cypress.Commands.add('openClerkCustomerDetailsPage', (oid: string) => {
 Cypress.Commands.add('openClerkCustomersSearchPage', () => {
   cy.visit(AppRoutes.CustomerSearch);
 });
+
+Cypress.Commands.add('openClerkExamDatesPage', () => {
+  cy.visit(AppRoutes.ClerkExamDates);
+});

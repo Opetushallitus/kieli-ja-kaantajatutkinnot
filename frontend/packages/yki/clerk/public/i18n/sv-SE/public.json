@@ -26,10 +26,10 @@
               "examState": "Tila",
               "location": "Testipaikka",
               "name": "Tutkinto",
+              "personName": "Nimi",
               "queueSpotOffered": "Jonopaikkaa tarjottu",
               "registrationDate": "Ilmoittautumispvm",
-              "registrationState": "Ilmoittautumisen tila",
-              "personName": "Nimi"
+              "registrationState": "Ilmoittautumisen tila"
             },
             "headers": {
               "pastExams": "Menneet tutkintotilaisuudet",
@@ -76,6 +76,7 @@
           }
         },
         "search": {
+          "clear": "Tyhjennä",
           "header": "{{amount}} osallistujaa",
           "labels": {
             "examDate": "Tutkintopäivä",
@@ -97,57 +98,110 @@
               "registrations": "Ilmoittautumiset"
             }
           },
-          "clear": "Tyhjennä",
           "submit": "Hae osallistujia"
         }
       },
-      "clerkExamSessionRegistrations": {
-        "tabs": {
-          "admissions": "Ilmoittautuneet ({{ num }})",
-          "queued": "Jonossa ({{ num }})"
-        },
-        "buttons": {
+      "clerkExamDates": {
+        "addNewExamDateButton": "Lisää tutkintopäivä",
+        "header": "Tutkintopäivät",
+        "listing": {
+          "addReviewEvaluation": "Lisää tarkistusarviointi",
+          "allLevels": "Kaikki tasot",
           "edit": "Muokkaa",
-          "downloadExcel": "Lataa excel"
+          "errors": {
+            "loadingFailed": "Tutkintopäivien lataaminen epäonnistui"
+          },
+          "header": {
+            "edit": "Muokkaa",
+            "examDate": "Tutkintopäivä",
+            "examType": "Koe",
+            "languageLevels": "Kielitasot",
+            "registrationPeriod": "Ilmoittautumisaika",
+            "reviewEvaluation": "Tarkistusarviointi"
+          },
+          "resultCount": "{{count}} tutkintopäivää"
+        },
+        "modal": {
+          "cancelButton": "Peruuta",
+          "examDateLabel": "Tutkintopäivä",
+          "examLabel": "Koe",
+          "examTypes": {
+            "allExamParts": "Kaikki osakokeet",
+            "readingComprehensionAndSpeaking": "Tekstin ymmärtäminen ja Puhuminen",
+            "speechComprehensionAndWriting": "Puheen ymmärtäminen ja kirjoittaminen"
+          },
+          "languageLabel": "Kieli",
+          "languageLevelsAndExamsHeader": "Kielitasot ja kokeet",
+          "registrationEndLabel": "Ilmoittautuminen päättyy",
+          "registrationStartLabel": "Ilmoittautuminen alkaa",
+          "submitButton": "Lisää tutkintopäivä",
+          "title": "Lisää uusi tutkintopäivä"
+        },
+        "modifyModal": {
+          "examDateDetails": "Tutkintopäivän tiedot",
+          "examTypes": {
+            "allExamParts": "Kaikki osakokeet",
+            "readingComprehensionAndSpeaking": "Tekstin ymmärtäminen ja Puhuminen",
+            "speechComprehensionAndWriting": "Puheen ymmärtäminen ja kirjoittaminen"
+          },
+          "infoBox": "Huomioithan, että tutkintopäivälle on jo luotu tutkintotilaisuuksia. Voit silti muokata tietoja.",
+          "submitButton": "Tallenna muutokset",
+          "title": "Muokkaa tutkintopäivää"
+        },
+        "toasts": {
+          "examDateAdded": "Tutkintopäivä lisätty onnistuneesti",
+          "examDateAddError": "Tutkintopäivän lisääminen epäonnistui",
+          "examDateUpdated": "Tutkintopäivän tiedot tallennettu onnistuneesti",
+          "examDateUpdateError": "Tutkintopäivän muokkaaminen epäonnistui"
+        }
+      },
+      "clerkExamSessionRegistrations": {
+        "buttons": {
+          "downloadExcel": "Lataa excel",
+          "edit": "Muokkaa"
         },
         "modals": {
+          "cancel": {
+            "subTitle": "Haluatko varmasti peruuttaa ilmoittautumisen?",
+            "title": "Vahvista peruutus"
+          },
           "edit": {
-            "title": "Muokkaa tutkintotilaisuutta",
-            "saveButton": "Tallenna muutokset",
-            "toasts": {
-              "saveSuccess": "Muutokset tallennettu onnistuneesti",
-              "saveFailed": "Muutosten tallentaminen epäonnistui"
-            },
             "fields": {
+              "city": "Postitoimipaikka",
+              "contactEmail": "Sähköposti",
+              "contactName": "Yhteyshenkilö",
+              "contactPhoneNumber": "Puhelinnumero",
               "examDate": "Tutkintopäivä",
               "language": "Tutkintokieli",
               "level": "Tutkintotaso",
-              "type": "Tutkintotyyppi",
-              "typeOptions": {
-                "FULL": "Täydellinen tutkinto",
-                "READ_SPEAK": "Lukeminen ja puhuminen",
-                "LISTEN_WRITE": "Kuunteleminen ja kirjoittaminen"
-              },
               "maxParticipants": "Osallistujien enimmäismäärä",
               "maxParticipantsPart1": "Osakoe 1: enimmäismäärä",
               "maxParticipantsPart2": "Osakoe 2: enimmäismäärä",
-              "streetAddress": "Katuosoite",
               "postalCode": "Postinumero",
-              "city": "Postitoimipaikka",
-              "contactName": "Yhteyshenkilö",
-              "contactEmail": "Sähköposti",
-              "contactPhoneNumber": "Puhelinnumero"
+              "streetAddress": "Katuosoite",
+              "type": "Tutkintotyyppi",
+              "typeOptions": {
+                "FULL": "Täydellinen tutkinto",
+                "LISTEN_WRITE": "Kuunteleminen ja kirjoittaminen",
+                "READ_SPEAK": "Lukeminen ja puhuminen"
+              }
+            },
+            "saveButton": "Tallenna muutokset",
+            "title": "Muokkaa tutkintotilaisuutta",
+            "toasts": {
+              "saveFailed": "Muutosten tallentaminen epäonnistui",
+              "saveSuccess": "Muutokset tallennettu onnistuneesti"
             }
           },
           "relocate": {
-            "title": "Vahvista siirto",
+            "selectExamSession": "Valitse tutkintotilaisuus",
             "subTitle": "Haluatko varmasti siirtää ilmoittautumisen?",
-            "selectExamSession": "Valitse tutkintotilaisuus"
-          },
-          "cancel": {
-            "title": "Vahvista peruutus",
-            "subTitle": "Haluatko varmasti peruuttaa ilmoittautumisen?"
+            "title": "Vahvista siirto"
           }
+        },
+        "tabs": {
+          "admissions": "Ilmoittautuneet ({{ num }})",
+          "queued": "Jonossa ({{ num }})"
         }
       },
       "clerkFreeRegistration": {

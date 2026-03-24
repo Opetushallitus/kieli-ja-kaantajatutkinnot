@@ -2,8 +2,6 @@
 -- PostgreSQL database dump
 --
 
-\restrict uiMPSsr7djeIpTEAIWWF9EL1CXTawwdpqO9lFiAemj5MFxv1etPmTOfxo4Wi24d
-
 -- Dumped from database version 10.4 (Debian 10.4-2.pgdg90+1)
 -- Dumped by pg_dump version 15.14 (Homebrew)
 
@@ -25,7 +23,7 @@ SET row_security = off;
 -- *not* creating schema, since initdb creates it
 
 
-ALTER SCHEMA public OWNER TO postgres;
+ALTER SCHEMA public OWNER TO admin;
 
 --
 -- Name: gender_code; Type: TYPE; Schema: public; Owner: admin
@@ -1887,7 +1885,7 @@ CREATE TABLE public.quarantine (
 );
 
 
-ALTER TABLE public.quarantine OWNER TO postgres;
+ALTER TABLE public.quarantine OWNER TO admin;
 
 --
 -- Name: quarantine_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -1901,7 +1899,7 @@ CREATE SEQUENCE public.quarantine_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.quarantine_id_seq OWNER TO postgres;
+ALTER TABLE public.quarantine_id_seq OWNER TO admin;
 
 --
 -- Name: quarantine_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -1925,7 +1923,7 @@ CREATE TABLE public.quarantine_review (
 );
 
 
-ALTER TABLE public.quarantine_review OWNER TO postgres;
+ALTER TABLE public.quarantine_review OWNER TO admin;
 
 --
 -- Name: quarantine_review_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -1939,7 +1937,7 @@ CREATE SEQUENCE public.quarantine_review_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.quarantine_review_id_seq OWNER TO postgres;
+ALTER TABLE public.quarantine_review_id_seq OWNER TO admin;
 
 --
 -- Name: quarantine_review_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -3255,6 +3253,4 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 --
 -- PostgreSQL database dump complete
 --
-
-\unrestrict uiMPSsr7djeIpTEAIWWF9EL1CXTawwdpqO9lFiAemj5MFxv1etPmTOfxo4Wi24d
 

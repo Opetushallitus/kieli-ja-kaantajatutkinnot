@@ -3,6 +3,7 @@ import { http, HttpResponse } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
 import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
+import { ExamDateLanguage, ExamDateResponse } from 'interfaces/examDate';
 import { clerkExamSession } from 'tests/msw/fixtures/clerkExamSession';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
@@ -251,6 +252,36 @@ export const handlers = [
   http.get(APIEndpoints.ClerkExamSessions, () =>
     HttpResponse.json([clerkExamSession]),
   ),
+  http.post(APIEndpoints.ClerkExamDate, async ({ request }) => {
+    const body = (await request.json()) as Omit<
+      ExamDateResponse,
+      'id' | 'languages'
+    > & {
+      languages: Array<Omit<ExamDateLanguage, 'id'>>;
+    };
+
+    const {
+      languages,
+      examDate,
+      registrationStartDate,
+      registrationEndDate,
+      examType,
+    } = body;
+    const newId = Math.max(...examDates.map((ed) => ed.id)) + 1;
+    examDates.push({
+      id: newId,
+      examDate,
+      languages:
+        { [newId]: languages.map((l, index) => ({ id: index + 1, ...l })) }[
+          newId
+        ] ?? [],
+      registrationStartDate,
+      registrationEndDate,
+      examType,
+    });
+
+    return HttpResponse.json({ id: newId, ...body });
+  }),
   http.get(APIEndpoints.ClerkExamSession, () =>
     HttpResponse.json(clerkExamSession),
   ),
