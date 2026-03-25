@@ -51,15 +51,20 @@ export const DeleteExamDateModal = ({
       aria-labelledby="delete-exam-date-modal-title"
       modalTitle={<H2>{t('title')}</H2>}
     >
-      <div className="rows gapped-lg" style={{ maxWidth: '750px' }}>
-        <Text>
-          <Trans
-            t={t}
-            i18nKey="description"
-            values={{ examDate: formattedDate }}
-            components={{ bold: <strong /> }}
-          />
-        </Text>
+      <div
+        className="rows gapped-xl"
+        style={{ width: '600px', maxWidth: '90vw' }}
+      >
+        <div>
+          <Text>
+            <Trans
+              t={t}
+              i18nKey="description"
+              values={{ examDate: formattedDate }}
+              components={{ bold: <strong /> }}
+            />
+          </Text>
+        </div>
         <div className="columns gapped flex-end">
           <OphButton
             variant={Variant.Outlined}
