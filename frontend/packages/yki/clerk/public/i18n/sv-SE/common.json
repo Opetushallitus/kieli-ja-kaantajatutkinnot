@@ -65,7 +65,8 @@
           "paymentCreationFailed": "Det gick inte att skicka anmälningsblanketten.",
           "personCreationFailed": "Det gick inte att skicka anmälningsblanketten.",
           "registrationPeriodClosed": "Anmälningstiden har upphört."
-        }
+        },
+        "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui"
       },
       "examDate": "Testdag",
       "examination": "Examen",

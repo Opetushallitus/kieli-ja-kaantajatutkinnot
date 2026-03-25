@@ -53,11 +53,11 @@ jobs:
           key: ${{ runner.os }}-${{ inputs.app-name }}-clerk-frontend-build-${{ github.sha }}
           fail-on-cache-miss: true
       - name: Set up JDK 21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@17f84c3641ba7b8f6deff6309fc4c864478f5d62 # actions/setup-java v3
         with:
           java-version: "21"
           distribution: "temurin"
-      - uses: szenius/set-timezone@v1.1
+      - uses: szenius/set-timezone@d1416e74a9a643cbf6c711905741e73e3a0c26b8 # szenius/set-timezone v1.1
         with:
           timezoneLinux: "Europe/Helsinki"
       - name: Install wkhtmltopdf
@@ -72,7 +72,7 @@ jobs:
           echo 'Installation of wkhtmltopdf completed'
         shell: bash
       - name: Prepare maven settings
-        uses: s4u/maven-settings-action@v2
+        uses: s4u/maven-settings-action@6fd54e315175e01fffb0b988c0254feb388869f8 # s4u/maven-settings-action v2
         with:
           servers: '[{"id": "oph-github-packages", "username": "${GITHUB_USERNAME}", "password": "${GITHUB_REGISTRY_TOKEN}"}]'
       - name: Build with Maven

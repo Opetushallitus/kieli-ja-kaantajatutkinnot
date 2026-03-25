@@ -12,8 +12,11 @@ import {
   loadExamDates,
   rejectAddExamDate,
   rejectExamDates,
+  rejectUpdateExamDate,
   storeAddExamDate,
   storeExamDates,
+  storeUpdateExamDate,
+  updateExamDate,
 } from 'redux/reducers/examDate';
 import { NotifierUtils } from 'utils/notifier';
 
@@ -22,12 +25,15 @@ function* loadExamDatesSaga() {
   try {
     const response: AxiosResponse<ExamDateResponse[]> = yield call(
       axiosInstance.get,
-      APIEndpoints.ClerkExamDate,
+      `${APIEndpoints.ClerkExamDate}/all`,
     );
 
     const examDates: ExamDate[] = response.data.map((ed) => ({
       id: ed.id,
       examDate: dayjs(ed.examDate),
+      registrationStartDate: dayjs(ed.registrationStartDate),
+      registrationEndDate: dayjs(ed.registrationEndDate),
+      examType: ed.examType,
       languages: ed.languages,
     }));
 
@@ -55,7 +61,29 @@ function* addExamDateSaga(action: ReturnType<typeof addExamDate>) {
   }
 }
 
+function* updateExamDateSaga(action: ReturnType<typeof updateExamDate>) {
+  const t = translateOutsideComponent();
+  try {
+    yield call(
+      axiosInstance.put,
+      `${APIEndpoints.ClerkExamDate}/${action.payload.id}`,
+      action.payload,
+    );
+    yield put(storeUpdateExamDate());
+    yield put(loadExamDates());
+  } catch (error) {
+    yield put(rejectUpdateExamDate());
+
+    const errorMessage = NotifierUtils.getAPIErrorMessage(
+      error as AxiosError,
+      t('yki.common.errors.updatingExamDateFailed'),
+    );
+    yield put(setAPIError(errorMessage));
+  }
+}
+
 export function* watchExamDates() {
   yield takeLatest(loadExamDates.type, loadExamDatesSaga);
   yield takeLatest(addExamDate.type, addExamDateSaga);
+  yield takeLatest(updateExamDate.type, updateExamDateSaga);
 }

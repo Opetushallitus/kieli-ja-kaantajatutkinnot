@@ -121,6 +121,42 @@ interface RegistrationsProps {
   setIsCancelModalOpen: (open: boolean) => void;
 }
 
+const EvaluationStateInfo = ({ state }: { state: EvaluationState }) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.userDetailsPage.registrations.state',
+  });
+
+  switch (state) {
+    case EvaluationState.EvaluationPending:
+    case EvaluationState.ReviewPending:
+    case EvaluationState.ReviewComplete:
+      return (
+        <>
+          <AlarmOutlinedIcon className="user-details-page__icon--alert" />
+          <Text>{t(state)}</Text>
+        </>
+      );
+    case EvaluationState.EvaluationComplete:
+    case EvaluationState.ReviewFinalized:
+      return (
+        <>
+          <SchoolIcon className="user-details-page__icon--ok" />{' '}
+          <Text>{t(state)}</Text>
+        </>
+      );
+    case EvaluationState.Aborted:
+    case EvaluationState.NoShow:
+      return (
+        <>
+          <NotInterestedIcon className="user-details-page__icon--cancel" />
+          <Text>{t(state)}</Text>
+        </>
+      );
+    default:
+      return <></>;
+  }
+};
+
 const InfoBox = ({ children }: { children: JSX.Element }) => {
   return (
     <div className="user-details-page__info-box columns gapped-xs">
@@ -140,7 +176,7 @@ const RegistrationState = ({
     keyPrefix: 'yki.pages.userDetailsPage.registrations.state',
   });
 
-  const isReviewed = evaluationState === EvaluationState.EvaluationComplete;
+  const hasEvaluation = !!evaluationState;
 
   const isEnrolled =
     state === RegistrationStates.Completed ||
@@ -162,13 +198,8 @@ const RegistrationState = ({
     <div>
       <Text className="bold">{t('label')}</Text>
       <div className="columns gapped-xxs">
-        {isReviewed && (
-          <>
-            <SchoolIcon className="user-details-page__icon--ok" />{' '}
-            <Text>{t('evaluated')}</Text>
-          </>
-        )}
-        {!isReviewed && isEnrolled && (
+        {hasEvaluation && <EvaluationStateInfo state={evaluationState} />}
+        {!hasEvaluation && isEnrolled && (
           <>
             <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
             <Text>{t('enrolled')}</Text>

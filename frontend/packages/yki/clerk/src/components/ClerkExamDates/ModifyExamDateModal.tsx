@@ -1,3 +1,4 @@
+import { Warning } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import {
@@ -16,9 +17,12 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { CreateExamDateRequest, ExamType } from 'interfaces/examDate';
+import { ExamDate, ExamType, UpdateExamDateRequest } from 'interfaces/examDate';
 import { H2, H3, Label, Text } from 'ophTheme/Text';
-import { addExamDate, resetAddExamDateStatus } from 'redux/reducers/examDate';
+import {
+  resetUpdateExamDateStatus,
+  updateExamDate,
+} from 'redux/reducers/examDate';
 import { examDateSelector } from 'redux/selectors/examDate';
 import { LANGUAGES, levelDescription } from 'utils/clerk';
 
@@ -32,33 +36,41 @@ type LanguageSelection = {
   };
 };
 
-type AddExamDateModalProps = {
-  isModalOpen: boolean;
-  setIsModalOpen: (isOpen: boolean) => void;
+type ModifyExamDateModalProps = {
+  examDateToEdit: ExamDate | null;
+  onClose: () => void;
 };
 
-const initializeLanguageSelections = (): LanguageSelection[] =>
-  LANGUAGES.map((lang) => ({
-    languageCode: lang.code,
-    languageName: lang.name,
-    levels: {
-      PERUS: false,
-      KESKI: false,
-      YLIN: false,
-    },
-  }));
+const initializeLanguageSelections = (
+  existingLanguages: ExamDate['languages'],
+): LanguageSelection[] =>
+  LANGUAGES.map((lang) => {
+    const existing = existingLanguages.filter(
+      (l) => l.languageCode === lang.code,
+    );
 
-export const AddExamDateModal = ({
-  isModalOpen,
-  setIsModalOpen,
-}: AddExamDateModalProps) => {
+    return {
+      languageCode: lang.code,
+      languageName: lang.name,
+      levels: {
+        PERUS: existing.some((l) => l.levelCode === 'PERUS'),
+        KESKI: existing.some((l) => l.levelCode === 'KESKI'),
+        YLIN: existing.some((l) => l.levelCode === 'YLIN'),
+      },
+    };
+  });
+
+export const ModifyExamDateModal = ({
+  examDateToEdit,
+  onClose,
+}: ModifyExamDateModalProps) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.clerkExamDates.modal',
+    keyPrefix: 'yki.component.clerkExamDates',
   });
   const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
-  const { addStatus } = useAppSelector(examDateSelector);
-  const prevAddStatus = useRef(addStatus);
+  const { updateStatus } = useAppSelector(examDateSelector);
+  const prevUpdateStatus = useRef(updateStatus);
 
   const [examDate, setExamDate] = useState<Dayjs | null>(null);
   const [registrationStart, setRegistrationStart] = useState<Dayjs | null>(
@@ -67,35 +79,38 @@ export const AddExamDateModal = ({
   const [registrationEnd, setRegistrationEnd] = useState<Dayjs | null>(null);
   const [languageSelections, setLanguageSelections] = useState<
     LanguageSelection[]
-  >(initializeLanguageSelections());
-  const [examType, setExamType] = useState<ExamType>('FULL');
+  >([]);
+  const [examType, setExamType] = useState<ExamType | ''>('');
 
-  const isSaving = addStatus === APIResponseStatus.InProgress;
+  const isSaving = updateStatus === APIResponseStatus.InProgress;
+  const isOpen = examDateToEdit !== null;
+
+  useEffect(() => {
+    if (examDateToEdit) {
+      setExamDate(examDateToEdit.examDate);
+      setRegistrationStart(examDateToEdit.registrationStartDate);
+      setRegistrationEnd(examDateToEdit.registrationEndDate);
+      setLanguageSelections(
+        initializeLanguageSelections(examDateToEdit.languages),
+      );
+      setExamType(examDateToEdit.examType);
+    }
+  }, [examDateToEdit]);
 
   useEffect(() => {
     if (
-      prevAddStatus.current === APIResponseStatus.InProgress &&
-      addStatus === APIResponseStatus.Success
+      prevUpdateStatus.current === APIResponseStatus.InProgress &&
+      updateStatus === APIResponseStatus.Success
     ) {
-      setExamDate(null);
-      setRegistrationStart(null);
-      setRegistrationEnd(null);
-      setLanguageSelections(initializeLanguageSelections());
-      setExamType('FULL');
-      setIsModalOpen(false);
-      dispatch(resetAddExamDateStatus());
+      onClose();
+      dispatch(resetUpdateExamDateStatus());
     }
-    prevAddStatus.current = addStatus;
-  }, [addStatus, setIsModalOpen, dispatch]);
+    prevUpdateStatus.current = updateStatus;
+  }, [updateStatus, onClose, dispatch]);
 
   const handleCloseModal = () => {
-    setExamDate(null);
-    setRegistrationStart(null);
-    setRegistrationEnd(null);
-    setLanguageSelections(initializeLanguageSelections());
-    setExamType('FULL');
-    setIsModalOpen(false);
-    dispatch(resetAddExamDateStatus());
+    onClose();
+    dispatch(resetUpdateExamDateStatus());
   };
 
   const toggleLanguageLevel = (
@@ -119,10 +134,12 @@ export const AddExamDateModal = ({
 
   const handleSubmit = () => {
     if (
+      !examDateToEdit ||
       !examDate ||
       !registrationStart ||
       !registrationEnd ||
-      registrationEnd.isBefore(registrationStart.add(1, 'day'))
+      registrationEnd.isBefore(registrationStart.add(1, 'day')) ||
+      !examType
     ) {
       return;
     }
@@ -130,28 +147,20 @@ export const AddExamDateModal = ({
     const selectedLanguages = languageSelections.flatMap((lang) => {
       const levels: Array<{ languageCode: string; levelCode: string }> = [];
       if (lang.levels.PERUS) {
-        levels.push({
-          languageCode: lang.languageCode,
-          levelCode: 'PERUS',
-        });
+        levels.push({ languageCode: lang.languageCode, levelCode: 'PERUS' });
       }
       if (lang.levels.KESKI) {
-        levels.push({
-          languageCode: lang.languageCode,
-          levelCode: 'KESKI',
-        });
+        levels.push({ languageCode: lang.languageCode, levelCode: 'KESKI' });
       }
       if (lang.levels.YLIN) {
-        levels.push({
-          languageCode: lang.languageCode,
-          levelCode: 'YLIN',
-        });
+        levels.push({ languageCode: lang.languageCode, levelCode: 'YLIN' });
       }
 
       return levels;
     });
 
-    const request: CreateExamDateRequest = {
+    const request: UpdateExamDateRequest = {
+      id: examDateToEdit.id,
       examDate: examDate.format('YYYY-MM-DD'),
       registrationStartDate: registrationStart.format('YYYY-MM-DD'),
       registrationEndDate: registrationEnd.format('YYYY-MM-DD'),
@@ -159,15 +168,15 @@ export const AddExamDateModal = ({
       examType,
     };
 
-    dispatch(addExamDate(request));
+    dispatch(updateExamDate(request));
   };
 
   return (
     <CustomModal
-      data-testid="add-exam-date-modal"
-      open={isModalOpen}
+      data-testid="modify-exam-date-modal"
+      open={isOpen}
       onCloseModal={handleCloseModal}
-      aria-labelledby="add-exam-date-modal-title"
+      aria-labelledby="modify-exam-date-modal-title"
       modalTitle={
         <Box
           display="flex"
@@ -175,9 +184,9 @@ export const AddExamDateModal = ({
           alignItems="flex-start"
           gap={1}
         >
-          <H2>{t('title')}</H2>
+          <H2>{t('modifyModal.title')}</H2>
           <CloseIcon
-            data-testid="add-exam-date-modal-close"
+            data-testid="modify-exam-date-modal-close"
             fontSize="large"
             onClick={handleCloseModal}
           />
@@ -198,9 +207,24 @@ export const AddExamDateModal = ({
           style={{ overflowY: 'auto', flex: '1 1 auto', paddingRight: '8px' }}
         >
           <div className="rows gapped-xl">
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                p: 1.5,
+                backgroundColor: '#FFF8E1',
+                borderRadius: 1,
+              }}
+            >
+              <Warning sx={{ color: '#F9A825' }} />
+              <Text>{t('modifyModal.infoBox')}</Text>
+            </Box>
+
             <div className="rows gapped-xxs">
-              <Label>{t('examDateLabel')} *</Label>
-              <div style={{ maxWidth: '180px' }} data-testid="exam-date-input">
+              <H3>{t('modifyModal.examDateDetails')}</H3>
+              <Label>{t('modal.examDateLabel')} *</Label>
+              <div style={{ maxWidth: '180px' }}>
                 <CustomDatePicker
                   value={examDate}
                   setValue={setExamDate}
@@ -211,16 +235,11 @@ export const AddExamDateModal = ({
 
             <div
               className="columns gapped"
-              style={{
-                justifyContent: 'flex-start',
-              }}
+              style={{ justifyContent: 'flex-start' }}
             >
               <div className="rows gapped-xxs">
-                <Label>{t('registrationStartLabel')} *</Label>
-                <div
-                  style={{ maxWidth: '180px' }}
-                  data-testid="registration-start-input"
-                >
+                <Label>{t('modal.registrationStartLabel')} *</Label>
+                <div style={{ maxWidth: '180px' }}>
                   <CustomDatePicker
                     value={registrationStart}
                     setValue={setRegistrationStart}
@@ -243,11 +262,8 @@ export const AddExamDateModal = ({
                 />
               </svg>
               <div className="rows gapped-xxs">
-                <Label>{t('registrationEndLabel')} *</Label>
-                <div
-                  style={{ maxWidth: '180px' }}
-                  data-testid="registration-end-input"
-                >
+                <Label>{t('modal.registrationEndLabel')} *</Label>
+                <div style={{ maxWidth: '180px' }}>
                   <CustomDatePicker
                     value={registrationEnd}
                     setValue={setRegistrationEnd}
@@ -258,7 +274,7 @@ export const AddExamDateModal = ({
               </div>
             </div>
 
-            <H3>{t('languageLevelsAndExamsHeader')}</H3>
+            <H3>{t('modal.languageLevelsAndExamsHeader')}</H3>
 
             <div style={{ overflowX: 'auto' }}>
               <div
@@ -275,7 +291,7 @@ export const AddExamDateModal = ({
                   }}
                 >
                   <div style={{ flex: '1 1 20%', minWidth: '150px' }}>
-                    <Label>{t('languageLabel')} *</Label>
+                    <Label>{t('modal.languageLabel')} *</Label>
                   </div>
                   <div
                     style={{
@@ -300,7 +316,7 @@ export const AddExamDateModal = ({
                 {languageSelections.map((lang) => (
                   <div
                     key={lang.languageCode}
-                    data-testid={`language-row-${lang.languageCode}`}
+                    data-testid={`modify-language-row-${lang.languageCode}`}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -320,54 +336,24 @@ export const AddExamDateModal = ({
                         flex: 1,
                       }}
                     >
-                      <div
-                        style={{
-                          minWidth: '80px',
-                          display: 'flex',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <OphCheckbox
-                          data-testid={`language-${lang.languageCode}-PERUS`}
-                          checked={lang.levels.PERUS}
-                          onChange={() =>
-                            toggleLanguageLevel(lang.languageCode, 'PERUS')
-                          }
-                          sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
-                        />
-                      </div>
-                      <div
-                        style={{
-                          minWidth: '80px',
-                          display: 'flex',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <OphCheckbox
-                          data-testid={`language-${lang.languageCode}-KESKI`}
-                          checked={lang.levels.KESKI}
-                          onChange={() =>
-                            toggleLanguageLevel(lang.languageCode, 'KESKI')
-                          }
-                          sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
-                        />
-                      </div>
-                      <div
-                        style={{
-                          minWidth: '80px',
-                          display: 'flex',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <OphCheckbox
-                          data-testid={`language-${lang.languageCode}-YLIN`}
-                          checked={lang.levels.YLIN}
-                          onChange={() =>
-                            toggleLanguageLevel(lang.languageCode, 'YLIN')
-                          }
-                          sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
-                        />
-                      </div>
+                      {(['PERUS', 'KESKI', 'YLIN'] as const).map((level) => (
+                        <div
+                          key={level}
+                          style={{
+                            minWidth: '80px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          <OphCheckbox
+                            checked={lang.levels[level]}
+                            onChange={() =>
+                              toggleLanguageLevel(lang.languageCode, level)
+                            }
+                            sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+                          />
+                        </div>
+                      ))}
                     </div>
                   </div>
                 ))}
@@ -375,7 +361,7 @@ export const AddExamDateModal = ({
             </div>
 
             <div className="rows gapped-xxs">
-              <Label>{t('examLabel')} *</Label>
+              <Label>{t('modal.examLabel')} *</Label>
               <RadioGroup
                 data-testid="exam-type-radio-group"
                 value={examType}
@@ -384,28 +370,27 @@ export const AddExamDateModal = ({
                 <FormControlLabel
                   value="LISTEN_WRITE"
                   control={<Radio data-testid="exam-type-speech" />}
-                  label={t('examTypes.speechComprehensionAndWriting')}
+                  label={t(
+                    'modifyModal.examTypes.speechComprehensionAndWriting',
+                  )}
                 />
                 <FormControlLabel
                   value="READ_SPEAK"
                   control={<Radio data-testid="exam-type-reading" />}
-                  label={t('examTypes.readingComprehensionAndSpeaking')}
+                  label={t(
+                    'modifyModal.examTypes.readingComprehensionAndSpeaking',
+                  )}
                 />
                 <FormControlLabel
                   value="FULL"
                   control={<Radio data-testid="exam-type-all" />}
-                  label={t('examTypes.allExamParts')}
+                  label={t('modifyModal.examTypes.allExamParts')}
                 />
               </RadioGroup>
             </div>
           </div>
         </div>
-        <div
-          className="columns gapped flex-end"
-          style={{
-            flex: '0 0 auto',
-          }}
-        >
+        <div className="columns gapped flex-end" style={{ flex: '0 0 auto' }}>
           <OphButton
             variant={Variant.Outlined}
             color={Color.Primary}
@@ -420,7 +405,7 @@ export const AddExamDateModal = ({
               onClick={handleSubmit}
               disabled={isSaving}
             >
-              {t('submitButton')}
+              {t('modifyModal.submitButton')}
             </OphButton>
           </LoadingProgressIndicator>
         </div>

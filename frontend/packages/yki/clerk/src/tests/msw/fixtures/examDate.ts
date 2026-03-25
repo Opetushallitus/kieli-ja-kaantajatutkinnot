@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import { ExamDateResponse } from 'interfaces/examDate';
 
 const examDatesRaw = [
@@ -91,25 +93,48 @@ const examDatesRaw = [
   { id: 98, examDate: '2300-10-29' },
 ];
 
-const languagesByExamDateId: Record<number, ExamDateResponse['languages']> = {
-  107: [
-    { id: 1, languageCode: 'fin', levelCode: 'PERUS' },
-    { id: 2, languageCode: 'fin', levelCode: 'KESKI' },
-    { id: 3, languageCode: 'eng', levelCode: 'KESKI' },
-  ],
-  110: [
-    { id: 4, languageCode: 'swe', levelCode: 'PERUS' },
-    { id: 5, languageCode: 'fin', levelCode: 'YLIN' },
-  ],
-  101: [{ id: 6, languageCode: 'deu', levelCode: 'PERUS' }],
-  98: [
-    { id: 7, languageCode: 'fin', levelCode: 'PERUS' },
-    { id: 8, languageCode: 'fin', levelCode: 'KESKI' },
-    { id: 9, languageCode: 'fin', levelCode: 'YLIN' },
-  ],
+const LANGUAGE_CODES = [
+  'fin',
+  'swe',
+  'eng',
+  'deu',
+  'rus',
+  'fra',
+  'sme',
+  'spa',
+  'ita',
+];
+const LEVEL_CODES = ['PERUS', 'KESKI', 'YLIN'];
+
+let nextLangId = 1;
+
+const generateLanguages = (
+  examDateId: number,
+): ExamDateResponse['languages'] => {
+  const langCount = (examDateId % 3) + 1;
+
+  return Array.from({ length: langCount }, (_, i) => ({
+    id: nextLangId++,
+    languageCode: LANGUAGE_CODES[(examDateId + i) % LANGUAGE_CODES.length],
+    levelCode: LEVEL_CODES[(examDateId + i) % LEVEL_CODES.length],
+  }));
 };
 
-export const examDates: ExamDateResponse[] = examDatesRaw.map((ed) => ({
-  ...ed,
-  languages: languagesByExamDateId[ed.id] ?? [],
-}));
+const EXAM_TYPES = ['FULL', 'READ_SPEAK', 'LISTEN_WRITE'] as const;
+type ExamType = (typeof EXAM_TYPES)[number];
+
+const generateExamType = (examDateId: number): ExamType => {
+  return EXAM_TYPES[examDateId % EXAM_TYPES.length];
+};
+
+export const examDates: ExamDateResponse[] = examDatesRaw.map((ed) => {
+  const exam = dayjs(ed.examDate);
+
+  return {
+    ...ed,
+    registrationStartDate: exam.subtract(3, 'month').format('YYYY-MM-DD'),
+    registrationEndDate: exam.subtract(1, 'month').format('YYYY-MM-DD'),
+    examType: generateExamType(ed.id),
+    languages: generateLanguages(ed.id),
+  };
+});

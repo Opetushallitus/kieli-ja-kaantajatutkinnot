@@ -9,6 +9,8 @@ import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.FreeRegistrationSource;
 import fi.oph.yki.model.type.FreeRegistrationType;
+import fi.oph.yki.model.type.RegistrationKind;
+import fi.oph.yki.model.type.RegistrationState;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,6 +19,8 @@ public class Factory {
   public static Person person() {
     final Person person = new Person();
     person.setOid("1.2.3.4.5");
+    person.setFirstName("Testi");
+    person.setLastName("Henkilö");
 
     return person;
   }
@@ -24,6 +28,8 @@ public class Factory {
   public static Registration registration(final Person person) {
     final Registration registration = new Registration();
     registration.setPerson(person);
+    registration.setState(RegistrationState.SUBMITTED);
+    registration.setKind(RegistrationKind.ADMISSION);
 
     return registration;
   }
@@ -49,7 +55,7 @@ public class Factory {
     examDate.setExamDate(LocalDate.of(2026, 6, 15));
     examDate.setRegistrationStartDate(LocalDate.of(2026, 3, 1));
     examDate.setRegistrationEndDate(LocalDate.of(2026, 5, 31));
-    examDate.setExamTypes(List.of(ExamSessionType.FULL));
+    examDate.setExamType(ExamSessionType.FULL);
 
     return examDate;
   }
