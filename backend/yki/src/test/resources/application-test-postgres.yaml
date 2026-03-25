@@ -2,10 +2,8 @@ spring:
   config:
     import: application.yaml
   jpa:
-    database: hsql
+    database: postgresql
     properties:
       hibernate:
         jdbc:
           time_zone: UTC
-  datasource:
-    url: jdbc:hsqldb:mem:testdb;DB_CLOSE_DELAY=-1
