@@ -48,6 +48,7 @@ public class ClerkExamDateService {
       .registrationEndDate(ed.getRegistrationEndDate())
       .examType(ed.getExamType())
       .languages(ed.getLanguages().stream().map(ClerkExamDateService::toLanguageDTO).toList())
+      .examSessionCount(ed.getSessions().size())
       .build();
   }
 

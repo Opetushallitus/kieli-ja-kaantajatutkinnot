@@ -43,4 +43,7 @@ public class ExamDate {
 
   @OneToMany(mappedBy = "examDate", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<ExamDateLanguage> languages = new ArrayList<>();
+
+  @OneToMany(mappedBy = "examDate")
+  private List<ExamSession> sessions = new ArrayList<>();
 }
