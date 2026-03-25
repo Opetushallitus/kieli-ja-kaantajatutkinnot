@@ -11,6 +11,7 @@ import fi.oph.yki.audit.dto.ClerkExamDateAuditDTO;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamDateLanguage;
 import fi.oph.yki.repository.ExamDateRepository;
+import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import java.time.LocalDate;
@@ -26,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClerkExamDateService {
 
   private final ExamDateRepository examDateRepository;
+  private final ExamSessionRepository examSessionRepository;
   private final AuditService auditService;
 
   private static ClerkExamDateLanguageDTO toLanguageDTO(final ExamDateLanguage lang) {
@@ -89,6 +91,24 @@ public class ClerkExamDateService {
     return examDate;
   }
 
+  private static boolean languagesMatch(final ExamDate examDate, final ClerkUpdateExamDateDTO dto) {
+    final var existing = examDate
+      .getLanguages()
+      .stream()
+      .map(l -> l.getLanguageCode() + ":" + l.getLevelCode())
+      .sorted()
+      .toList();
+
+    final var requested = dto
+      .languages()
+      .stream()
+      .map(l -> l.languageCode().name() + ":" + l.levelCode().name())
+      .sorted()
+      .toList();
+
+    return existing.equals(requested);
+  }
+
   @Transactional
   public ClerkExamDateDTO createExamDate(final ClerkCreateExamDateDTO dto) {
     if (examDateRepository.existsByExamDate(dto.examDate())) {
@@ -122,14 +142,29 @@ public class ClerkExamDateService {
       .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
     final ClerkExamDateAuditDTO auditBefore = new ClerkExamDateAuditDTO(toDTO(examDate));
 
+    final boolean hasSessions = examSessionRepository.existsByExamDateId(id);
+
+    if (hasSessions) {
+      if (
+        !dto.examDate().isEqual(examDate.getExamDate()) ||
+        !dto.examType().equals(examDate.getExamType()) ||
+        !languagesMatch(examDate, dto)
+      ) {
+        throw new APIException(APIExceptionType.EXAM_DATE_HAS_SESSIONS);
+      }
+    }
+
     examDate.setExamDate(dto.examDate());
     examDate.setRegistrationStartDate(dto.registrationStartDate());
     examDate.setRegistrationEndDate(dto.registrationEndDate());
     examDate.setExamType(dto.examType());
-    examDate.getLanguages().clear();
-    examDate
-      .getLanguages()
-      .addAll(dto.languages().stream().map(langDTO -> toLanguageEntity(examDate, langDTO)).toList());
+
+    if (!hasSessions) {
+      examDate.getLanguages().clear();
+      examDate
+        .getLanguages()
+        .addAll(dto.languages().stream().map(langDTO -> toLanguageEntity(examDate, langDTO)).toList());
+    }
 
     examDateRepository.flush();
 
