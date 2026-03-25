@@ -278,6 +278,7 @@ export const handlers = [
       registrationStartDate,
       registrationEndDate,
       examType,
+      examSessionCount: 0,
     });
 
     return HttpResponse.json({ id: newId, ...body });

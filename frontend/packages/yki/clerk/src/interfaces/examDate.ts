@@ -15,6 +15,7 @@ export type ExamDate = {
   registrationEndDate: Dayjs;
   examType: ExamType;
   languages: ExamDateLanguage[];
+  examSessionCount: number;
 };
 
 export interface ExamDateResponse {
@@ -24,6 +25,7 @@ export interface ExamDateResponse {
   registrationEndDate: string;
   examType: ExamType;
   languages: ExamDateLanguage[];
+  examSessionCount: number;
 }
 
 interface LanguageLevelSelection {
