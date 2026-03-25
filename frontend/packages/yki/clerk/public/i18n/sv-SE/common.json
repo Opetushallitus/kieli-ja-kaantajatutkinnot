@@ -44,7 +44,7 @@
         "api": {
           "examDateCreateDuplicateDate": "Tutkintopäivä on jo olemassa valitulle päivämäärälle",
           "examDateExamBeforeRegistrationEnd": "Tutkintopäivän on oltava ilmoittautumisen päättymispäivän jälkeen",
-          "examDateHasSessions": "Tutkintopäivää ei voi poistaa, koska siihen on liitetty tutkintoistuntoja",
+          "examDateHasSessions": "Tutkintopäivää ei voi poistaa, koska siihen on liitetty tutkintotilaisuuksia",
           "examDateRegistrationEndBeforeStart": "Ilmoittautumisen päättymispäivän on oltava alkamispäivän jälkeen",
           "generic": "Tapahtui odottamaton virhe. Yritä uudestaan hetken kuluttua."
         },
@@ -56,6 +56,7 @@
           "required": "Uppgiften är obligatorisk",
           "telFormat": "Telefonnummret är felaktigt"
         },
+        "deletingExamDateFailed": "Det gick inte att ta bort provdatumet",
         "loadingExamDatesFailed": "Tutkintopäivien lataaminen epäonnistui",
         "loadingFailed": "Det gick inte att ladda uppgifterna.",
         "mismatchingEmails": "Innehållet i fälten för e-postadress motsvarar inte varandra",
@@ -67,8 +68,7 @@
           "personCreationFailed": "Det gick inte att skicka anmälningsblanketten.",
           "registrationPeriodClosed": "Anmälningstiden har upphört."
         },
-        "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui",
-        "deletingExamDateFailed": "Det gick inte att ta bort provdatumet"
+        "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui"
       },
       "examDate": "Testdag",
       "examination": "Examen",
