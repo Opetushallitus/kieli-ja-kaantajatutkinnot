@@ -49,6 +49,8 @@ import { sessionSelector } from 'redux/selectors/session';
 import { userDetailsSelector } from 'redux/selectors/userDetails';
 import { ExamSessionUtils } from 'utils/examSession';
 
+// TODO remove me: deploy commit
+
 const cancelledStates = [
   RegistrationStates.Expired,
   RegistrationStates.Cancelled,
