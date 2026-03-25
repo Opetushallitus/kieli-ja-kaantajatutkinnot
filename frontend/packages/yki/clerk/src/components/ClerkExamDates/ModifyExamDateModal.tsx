@@ -46,6 +46,7 @@ type FormErrors = {
   registrationStart: boolean;
   registrationEnd: boolean;
   registrationEndBeforeStart: boolean;
+  registrationEndAfterExamDate: boolean;
   languages: boolean;
 };
 
@@ -103,6 +104,7 @@ export const ModifyExamDateModal = ({
     registrationStart: false,
     registrationEnd: false,
     registrationEndBeforeStart: false,
+    registrationEndAfterExamDate: false,
     languages: false,
   });
 
@@ -114,12 +116,15 @@ export const ModifyExamDateModal = ({
       !!registrationStart &&
       !!registrationEnd &&
       registrationEnd.isBefore(registrationStart.add(1, 'day'));
+    const registrationEndAfterExamDate =
+      !!examDate && !!registrationEnd && !registrationEnd.isBefore(examDate);
 
     return {
       examDate: !examDate,
       registrationStart: !registrationStart,
       registrationEnd: !registrationEnd,
       registrationEndBeforeStart,
+      registrationEndAfterExamDate,
       languages: !hasSelectedLanguages,
     };
   }, [examDate, registrationStart, registrationEnd, hasSelectedLanguages]);
@@ -134,6 +139,9 @@ export const ModifyExamDateModal = ({
         registrationEnd: prev.registrationEnd && current.registrationEnd,
         registrationEndBeforeStart:
           prev.registrationEndBeforeStart && current.registrationEndBeforeStart,
+        registrationEndAfterExamDate:
+          prev.registrationEndAfterExamDate &&
+          current.registrationEndAfterExamDate,
         languages: prev.languages && current.languages,
       }));
     }
@@ -344,13 +352,16 @@ export const ModifyExamDateModal = ({
                     error={
                       submitted &&
                       (errors.registrationEnd ||
-                        errors.registrationEndBeforeStart)
+                        errors.registrationEndBeforeStart ||
+                        errors.registrationEndAfterExamDate)
                     }
                     helperText={
                       submitted && errors.registrationEnd
                         ? t('modal.errors.required')
                         : submitted && errors.registrationEndBeforeStart
                         ? t('modal.errors.registrationEndBeforeStart')
+                        : submitted && errors.registrationEndAfterExamDate
+                        ? t('modal.errors.registrationEndAfterExamDate')
                         : undefined
                     }
                   />
