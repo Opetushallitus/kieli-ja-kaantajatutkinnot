@@ -171,6 +171,10 @@ export const ModifyExamDateModal = ({
     dispatch(updateExamDate(request));
   };
 
+  const hasExamSessions = examDateToEdit?.examSessionCount
+    ? examDateToEdit.examSessionCount > 0
+    : false;
+
   return (
     <CustomModal
       data-testid="modify-exam-date-modal"
@@ -207,19 +211,21 @@ export const ModifyExamDateModal = ({
           style={{ overflowY: 'auto', flex: '1 1 auto', paddingRight: '8px' }}
         >
           <div className="rows gapped-xl">
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1,
-                p: 1.5,
-                backgroundColor: '#FFF8E1',
-                borderRadius: 1,
-              }}
-            >
-              <Warning sx={{ color: '#F9A825' }} />
-              <Text>{t('modifyModal.infoBox')}</Text>
-            </Box>
+            {hasExamSessions && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                  p: 1.5,
+                  backgroundColor: '#FFF8E1',
+                  borderRadius: 1,
+                }}
+              >
+                <Warning sx={{ color: '#F9A825' }} />
+                <Text>{t('modifyModal.infoBox')}</Text>
+              </Box>
+            )}
 
             <div className="rows gapped-xxs">
               <H3>{t('modifyModal.examDateDetails')}</H3>
@@ -229,6 +235,7 @@ export const ModifyExamDateModal = ({
                   value={examDate}
                   setValue={setExamDate}
                   error={false}
+                  disabled={hasExamSessions}
                 />
               </div>
             </div>
@@ -348,6 +355,7 @@ export const ModifyExamDateModal = ({
                           <OphCheckbox
                             checked={lang.levels[level]}
                             onChange={() =>
+                              !hasExamSessions &&
                               toggleLanguageLevel(lang.languageCode, level)
                             }
                             sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
@@ -365,7 +373,9 @@ export const ModifyExamDateModal = ({
               <RadioGroup
                 data-testid="exam-type-radio-group"
                 value={examType}
-                onChange={(e) => setExamType(e.target.value as ExamType)}
+                onChange={(e) =>
+                  !hasExamSessions && setExamType(e.target.value as ExamType)
+                }
               >
                 <FormControlLabel
                   value="LISTEN_WRITE"
