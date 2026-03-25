@@ -17,5 +17,6 @@ public enum YkiOperation implements Operation {
   SEARCH_CUSTOMERS,
   CREATE_EXAM_DATE,
   UPDATE_EXAM_DATE,
+  CREATE_EVALUATION,
   DELETE_EXAM_DATE,
 }

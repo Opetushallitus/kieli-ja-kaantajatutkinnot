@@ -68,7 +68,8 @@
           "personCreationFailed": "Submitting the registration form failed.",
           "registrationPeriodClosed": "The registration period has ended."
         },
-        "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui"
+        "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui",
+        "addingEvaluationFailed": "Tarkistusarvioinnin lisääminen epäonnistui"
       },
       "examDate": "Test day",
       "examination": "Test",

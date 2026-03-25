@@ -2,6 +2,7 @@ package fi.oph.yki.api.clerk;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import fi.oph.yki.api.dto.clerk.ClerkCreateEvaluationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCreateExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkUpdateExamDateDTO;
@@ -56,6 +57,15 @@ public class ClerkExamDateController {
     @RequestBody @Valid final ClerkUpdateExamDateDTO dto
   ) {
     return clerkExamDateService.updateExamDate(id, dto);
+  }
+
+  @PostMapping(path = "/{examDateId}/evaluation")
+  @Operation(tags = TAG_EXAM_DATE, summary = "Create evaluation period for an exam date")
+  public ClerkExamDateDTO createEvaluation(
+    @PathVariable final long examDateId,
+    @RequestBody @Valid final ClerkCreateEvaluationDTO dto
+  ) {
+    return clerkExamDateService.createEvaluation(examDateId, dto);
   }
 
   @DeleteMapping(path = "/{id}")

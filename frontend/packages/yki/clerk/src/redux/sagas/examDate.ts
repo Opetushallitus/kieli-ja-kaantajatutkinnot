@@ -8,13 +8,16 @@ import { APIEndpoints } from 'enums/api';
 import { ExamDate, ExamDateResponse } from 'interfaces/examDate';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
+  addEvaluation,
   addExamDate,
   deleteExamDate,
   loadExamDates,
+  rejectAddEvaluation,
   rejectAddExamDate,
   rejectDeleteExamDate,
   rejectExamDates,
   rejectUpdateExamDate,
+  storeAddEvaluation,
   storeAddExamDate,
   storeDeleteExamDate,
   storeExamDates,
@@ -86,6 +89,28 @@ function* updateExamDateSaga(action: ReturnType<typeof updateExamDate>) {
   }
 }
 
+function* addEvaluationSaga(action: ReturnType<typeof addEvaluation>) {
+  const t = translateOutsideComponent();
+  try {
+    const { examDateId, ...body } = action.payload;
+    yield call(
+      axiosInstance.post,
+      `${APIEndpoints.ClerkExamDate}/${examDateId}/evaluation`,
+      body,
+    );
+    yield put(storeAddEvaluation());
+    yield put(loadExamDates());
+  } catch (error) {
+    yield put(rejectAddEvaluation());
+
+    const errorMessage = NotifierUtils.getAPIErrorMessage(
+      error as AxiosError,
+      t('yki.common.errors.addingEvaluationFailed'),
+    );
+    yield put(setAPIError(errorMessage));
+  }
+}
+
 function* deleteExamDateSaga(action: ReturnType<typeof deleteExamDate>) {
   const t = translateOutsideComponent();
   try {
@@ -110,5 +135,6 @@ export function* watchExamDates() {
   yield takeLatest(loadExamDates.type, loadExamDatesSaga);
   yield takeLatest(addExamDate.type, addExamDateSaga);
   yield takeLatest(updateExamDate.type, updateExamDateSaga);
+  yield takeLatest(addEvaluation.type, addEvaluationSaga);
   yield takeLatest(deleteExamDate.type, deleteExamDateSaga);
 }

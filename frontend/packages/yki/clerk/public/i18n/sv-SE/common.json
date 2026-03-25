@@ -68,7 +68,8 @@
           "personCreationFailed": "Det gick inte att skicka anmälningsblanketten.",
           "registrationPeriodClosed": "Anmälningstiden har upphört."
         },
-        "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui"
+        "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui",
+        "addingEvaluationFailed": "Tarkistusarvioinnin lisääminen epäonnistui"
       },
       "examDate": "Testdag",
       "examination": "Examen",

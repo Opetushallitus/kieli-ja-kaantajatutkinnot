@@ -68,7 +68,8 @@
           "personCreationFailed": "Ilmoittautumislomakkeen lähetys epäonnistui.",
           "registrationPeriodClosed": "Ilmoittautumisaika on päättynyt."
         },
-        "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui"
+        "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui",
+        "addingEvaluationFailed": "Tarkistusarvioinnin lisääminen epäonnistui"
       },
       "examDate": "Testipäivä",
       "examination": "Tutkinto",
