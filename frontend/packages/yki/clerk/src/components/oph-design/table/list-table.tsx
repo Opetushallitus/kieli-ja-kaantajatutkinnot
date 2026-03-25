@@ -85,6 +85,7 @@ interface ListTableProps<T extends Row>
   selection?: SelectionProps['selection'];
   setSelection?: SelectionProps['setSelection'];
   collapsibleRows?: boolean;
+  hoverable?: boolean;
   renderCollapsibleRow?: (row: T, open: boolean) => React.ReactNode;
   rowHeight?: 'small' | 'medium';
 }
@@ -136,6 +137,7 @@ export const ListTable = <T extends Row>({
   translateHeader = true,
   pagination,
   collapsibleRows = false,
+  hoverable = true,
   renderCollapsibleRow,
   rowHeight = 'medium',
   ...props
@@ -193,6 +195,7 @@ export const ListTable = <T extends Row>({
                   columns={columns}
                   rowHeight={rowHeight}
                   collapsibleRows={collapsibleRows}
+                  hoverable={hoverable}
                   renderCollapsibleRow={renderCollapsibleRow}
                 />
               );

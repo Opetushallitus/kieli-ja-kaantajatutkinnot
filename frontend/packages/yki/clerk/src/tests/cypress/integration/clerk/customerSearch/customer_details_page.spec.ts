@@ -2,6 +2,7 @@ import { AppLanguage } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import { onClerkCustomerDetailsPage } from 'tests/cypress/support/page-objects/clerkCustomerDetailsPage';
+import { onToast } from 'tests/cypress/support/page-objects/toast';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 
 describe('ClerkCustomerDetailsPage', () => {
@@ -59,6 +60,37 @@ describe('ClerkCustomerDetailsPage', () => {
     cy.findAllByText(
       'Ei menneitä tutkintorilaisuuksia viimeisen 365 päivän ajalta',
     ).should('be.visible');
+  });
+
+  it('can edit customer contact information', () => {
+    const oid = '1.2.246.562.24.82364099322';
+    cy.openClerkCustomerDetailsPage(oid);
+    onClerkCustomerDetailsPage.isVisible(oid);
+
+    onClerkCustomerDetailsPage.clickEditContactButton();
+
+    const newValues = {
+      email: 'new.email@example.com',
+      phoneNumber: '+358 501112233',
+      streetAddress: 'Uusi katu 456',
+      zip: '00100',
+      postOffice: 'Helsinki',
+    };
+
+    const modal = () => cy.get('.custom-modal');
+
+    modal().find('input').eq(0).clear().type(newValues.email);
+    modal().find('input').eq(1).clear().type(newValues.email);
+    modal().find('input').eq(2).clear().type(newValues.phoneNumber);
+    modal().find('input').eq(3).clear().type(newValues.streetAddress);
+    modal().find('input').eq(4).clear().type(newValues.zip);
+    modal().find('input').eq(5).clear().type(newValues.postOffice);
+
+    cy.findByText('Tallenna tiedot').click();
+
+    onToast.expectText('Muutosten tallentaminen onnistui');
+
+    onClerkCustomerDetailsPage.expectContactDetailsVisible(newValues);
   });
 
   it('shows user details correctly, when user has no contact information', () => {

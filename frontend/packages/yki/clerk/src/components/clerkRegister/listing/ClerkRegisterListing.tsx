@@ -91,6 +91,7 @@ export const ClerkRegisterListing = ({
     clerkOrganizersSelector,
   );
   const rows = useAppSelector(filteredClerkOrganizersSelector);
+  const navigate = useNavigate();
 
   const pagination = {
     page,
@@ -185,7 +186,22 @@ export const ClerkRegisterListing = ({
     case APIResponseStatus.Success:
       return (
         <>
-          <ClerkRegisterListingFilters />
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            mb={2}
+          >
+            <ClerkRegisterListingFilters />
+            <CustomButton
+              variant="contained"
+              color="secondary"
+              onClick={() => navigate(AppRoutes.ClerkAddOrganizer)}
+              data-testid="add-organizer-button"
+            >
+              {t('listing.actionButtons.addOrganizer')}
+            </CustomButton>
+          </Box>
           <ListTable
             rows={rows}
             rowKeyProp="oid"
@@ -244,13 +260,15 @@ const ClerkRegisterCollapsibleRow = ({
     .map((examSession) => ({
       ...examSession,
     }))
-    .filter((exam) => dayjs().isBefore(exam.session_date, 'day'));
+    .filter((exam) => dayjs().isBefore(exam.session_date, 'day'))
+    .filter((exam) => exam.organizer_oid === row.oid);
 
   const pastExams = examSessions
     .map((examSession) => ({
       ...examSession,
     }))
-    .filter((exam) => dayjs().isAfter(exam.session_date, 'day'));
+    .filter((exam) => dayjs().isAfter(exam.session_date, 'day'))
+    .filter((exam) => exam.organizer_oid === row.oid);
 
   const createExamDateColumn = (
     t: typeof i18next.t,
@@ -258,8 +276,8 @@ const ClerkRegisterCollapsibleRow = ({
     key: 'session_date',
     title: t('examSessionListing.header.sessionDate'),
     render: (rowProps) => (
-      // TODO link to exam session details page
-      <a href="/" onClick={(e) => e.preventDefault()}>
+      // TODO use proper url and navigateTo
+      <a href={'/yki/v2/virkailija/tilaisuus/' + rowProps.id}>
         <span>{rowProps.session_date.format('D.M.YYYY')}</span>
       </a>
     ),

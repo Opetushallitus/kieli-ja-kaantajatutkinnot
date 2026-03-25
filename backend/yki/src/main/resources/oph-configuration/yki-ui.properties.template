@@ -17,3 +17,6 @@ cas.password={{yki_cas_password}}
 cas.onr-service-url=${virkailija.cas.base-url}/oppijanumerorekisteri-service
 proxy-token={{yki_proxy_token}}
 clerk.enabled = {{yki_clerk_enabled}}
+
+oauth2.issuer-uri={{yki_oauth2_issuer_uri}}
+oauth2.jwk-set-uri={{yki_oauth2_issuer_uri}}/oauth2/jwks

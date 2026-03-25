@@ -14,7 +14,9 @@ import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.RegistrationLangOfService;
 import fi.oph.yki.model.type.RegistrationState;
+import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.FreeRegistrationRepository;
+import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.DateUtil;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,8 @@ public class ClerkRegistrationService {
 
   public static final int NUM_FREE_REGISTRATIONS = 3;
   private final FreeRegistrationRepository freeRegistrationRepository;
+  private final RegistrationRepository registrationRepository;
+  private final ExamSessionRepository examSessionRepository;
   private final AuditService auditService;
 
   @Transactional(readOnly = true)
@@ -63,6 +67,25 @@ public class ClerkRegistrationService {
     final FreeRegistration freeRegistrationUpdated = freeRegistrationRepository.saveAndFlush(freeRegistration);
 
     return createClerkApprovalDetailsDTO(freeRegistrationUpdated);
+  }
+
+  @Transactional
+  public void moveRegistration(final long registrationId, final long targetExamSessionId) {
+    auditService.logById(YkiOperation.MOVE_REGISTRATION, registrationId);
+
+    final Registration registration = registrationRepository.getReferenceById(registrationId);
+    final ExamSession targetExamSession = examSessionRepository.getReferenceById(targetExamSessionId);
+    registration.setExamSession(targetExamSession);
+    registrationRepository.saveAndFlush(registration);
+  }
+
+  @Transactional
+  public void cancelRegistration(final long registrationId) {
+    auditService.logById(YkiOperation.CANCEL_REGISTRATION, registrationId);
+
+    final Registration registration = registrationRepository.getReferenceById(registrationId);
+    registration.setState(RegistrationState.CANCELLED);
+    registrationRepository.saveAndFlush(registration);
   }
 
   @Transactional(readOnly = true)

@@ -5,11 +5,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import fi.oph.yki.Factory;
+import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.PublicEducationBasisDTO;
 import fi.oph.yki.api.dto.PublicEducationDTO;
 import fi.oph.yki.api.dto.PublicEducationUpdateDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
+import fi.oph.yki.model.ExamDate;
+import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
@@ -17,6 +20,7 @@ import fi.oph.yki.model.type.FreeRegistrationSource;
 import fi.oph.yki.model.type.FreeRegistrationType;
 import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.repository.PersonRepository;
+import fi.oph.yki.repository.RegistrationEvaluationRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.service.dto.FreeRegistrationDTO;
 import fi.oph.yki.service.koski.KoskiService;
@@ -26,13 +30,19 @@ import jakarta.annotation.Resource;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 
 @WithMockUser
 @DataJpaTest
+@ActiveProfiles("test-postgres")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(PostgresTestcontainerConfig.class)
 public class RegistrationServiceTest {
 
   @Resource
@@ -43,6 +53,9 @@ public class RegistrationServiceTest {
 
   @Resource
   private FreeRegistrationRepository freeRegistrationRepository;
+
+  @Resource
+  RegistrationEvaluationRepository registrationEvaluationRepository;
 
   @MockBean
   private AuditService auditService;
@@ -62,14 +75,18 @@ public class RegistrationServiceTest {
         freeRegistrationRepository,
         personRepository,
         auditService,
-        koskiService
+        koskiService,
+        registrationEvaluationRepository
       );
   }
 
   @Test
   public void testCreateEducations() {
     final Person person = Factory.person();
+    final ExamDate examDate = Factory.examDate();
+    final ExamSession examSession = Factory.examSession(examDate);
     final Registration registration = Factory.registration(person);
+    registration.setExamSession(examSession);
     final List<PublicEducationDTO> educationDTOs = List.of(
       PublicEducationDTO.builder().educationType(KoulutusTyyppi.HigherEducation.toString()).isActive(true).build()
     );
@@ -85,6 +102,8 @@ public class RegistrationServiceTest {
       .build();
     when(koskiService.getEducations(registration.getPerson().getOid())).thenReturn(educationDTOs);
 
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
     entityManager.persist(person);
     entityManager.persist(registration);
 
@@ -102,7 +121,10 @@ public class RegistrationServiceTest {
   @Test
   public void testUpdateEducations() {
     final Person person = Factory.person();
+    final ExamDate examDate = Factory.examDate();
+    final ExamSession examSession = Factory.examSession(examDate);
     final Registration registration = Factory.registration(person);
+    registration.setExamSession(examSession);
     final FreeRegistration freeRegistration = Factory.freeRegistration(registration);
     final List<PublicEducationDTO> educationDTOs = List.of(
       PublicEducationDTO.builder().educationType(KoulutusTyyppi.HigherEducation.toString()).isActive(true).build()
@@ -120,6 +142,8 @@ public class RegistrationServiceTest {
     when(koskiService.getEducations(registration.getPerson().getOid())).thenReturn(educationDTOs);
 
     registration.setFreeRegistration(freeRegistration);
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
     entityManager.persist(person);
     entityManager.persist(registration);
     entityManager.persist(freeRegistration);

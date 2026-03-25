@@ -1,6 +1,8 @@
+import dayjs from 'dayjs';
+
 import { ExamDateResponse } from 'interfaces/examDate';
 
-export const examDates: ExamDateResponse[] = [
+const examDatesRaw = [
   { id: 1, examDate: '2018-01-27' },
   { id: 2, examDate: '2018-10-27' },
   { id: 3, examDate: '2018-11-10' },
@@ -90,3 +92,49 @@ export const examDates: ExamDateResponse[] = [
   { id: 101, examDate: '2027-10-31' },
   { id: 98, examDate: '2300-10-29' },
 ];
+
+const LANGUAGE_CODES = [
+  'fin',
+  'swe',
+  'eng',
+  'deu',
+  'rus',
+  'fra',
+  'sme',
+  'spa',
+  'ita',
+];
+const LEVEL_CODES = ['PERUS', 'KESKI', 'YLIN'];
+
+let nextLangId = 1;
+
+const generateLanguages = (
+  examDateId: number,
+): ExamDateResponse['languages'] => {
+  const langCount = (examDateId % 3) + 1;
+
+  return Array.from({ length: langCount }, (_, i) => ({
+    id: nextLangId++,
+    languageCode: LANGUAGE_CODES[(examDateId + i) % LANGUAGE_CODES.length],
+    levelCode: LEVEL_CODES[(examDateId + i) % LEVEL_CODES.length],
+  }));
+};
+
+const EXAM_TYPES = ['FULL', 'READ_SPEAK', 'LISTEN_WRITE'] as const;
+type ExamType = (typeof EXAM_TYPES)[number];
+
+const generateExamType = (examDateId: number): ExamType => {
+  return EXAM_TYPES[examDateId % EXAM_TYPES.length];
+};
+
+export const examDates: ExamDateResponse[] = examDatesRaw.map((ed) => {
+  const exam = dayjs(ed.examDate);
+
+  return {
+    ...ed,
+    registrationStartDate: exam.subtract(3, 'month').format('YYYY-MM-DD'),
+    registrationEndDate: exam.subtract(1, 'month').format('YYYY-MM-DD'),
+    examType: generateExamType(ed.id),
+    languages: generateLanguages(ed.id),
+  };
+});

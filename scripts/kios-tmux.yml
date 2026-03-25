@@ -1,0 +1,27 @@
+name: kios
+root: <%= ENV["KIOS"] %>
+
+windows:
+
+  # Uusi - frontend
+  - frontend-clerk: '<%= ENV["USE_MSW"] == "false" ? "scripts/run-frontend-clerk-no-msw.sh" : "scripts/run-frontend-clerk.sh" %>'
+
+  - frontend-public: scripts/run-frontend-public.sh
+
+  - cypress-clerk: scripts/run-cypress-clerk.sh
+
+#   - cypress-clerk: |
+#       cd frontend/packages/yki/public
+#       echo "yarn yki:test:cypress"
+#       npx cypress open
+
+  - "backend (idea)": code . && idea .
+
+  - database: scripts/run-database.sh
+
+  # Muut
+  - git: 
+      layout: even-horizontal
+      panes:
+        - git --no-pager status
+        - git --no-pager diff

@@ -1,15 +1,17 @@
 {
   "yki": {
     "common": {
-      "and": "och",
       "actions": "Funktioner",
       "address": "Adress",
+      "and": "och",
       "appNameAbbreviation": "YKI",
       "appTitle": "Allmänna språkexamina - Utbildningsstyrelsen",
       "back": "Tillbaka",
       "backToHomePage": "Tillbaka till startsidan",
       "cancel": "Avbryt",
       "clerk": "Administratör",
+      "clerkExamSessions": "Tutkintopäivät",
+      "clerkOrganizerRegister": "Järjestäjärekisteri",
       "component": {
         "table": {
           "header": {
@@ -20,29 +22,40 @@
           },
           "pagination": {
             "backButtonLabel": "Tidigare sökresultat",
+            "clerkRowsPerPage": "Visar per sida",
             "displayedRowsAriaLabel": "Visar {{from}}-{{to}} / {{count}} resultat",
             "displayedRowsLabel": "{{from}}-{{to}} / {{count}}",
             "nextButtonLabel": "Följande sökresultat",
-            "rowsPerPage": "Resultat per sida",
-            "clerkRowsPerPage": "Visar per sida"
+            "rowsPerPage": "Resultat per sida"
           }
         }
       },
       "contactEmail": "kielitutkinnot@oph.fi",
+      "contactInfo": "Yhteystiedot",
+      "customerSearch": "Asiakashaku",
       "dates": {
+        "dateFormat": "l",
         "dateTimeFormat": "l [kl.] HH:mm"
       },
       "email": "E-postadress",
       "error": "Ett oväntat fel uppstod.",
       "errors": {
+        "addingExamDateFailed": "Tutkintopäivän lisääminen epäonnistui",
+        "api": {
+          "examDateCreateDuplicateDate": "Tutkintopäivä on jo olemassa valitulle päivämäärälle",
+          "examDateExamBeforeRegistrationEnd": "Tutkintopäivän on oltava ilmoittautumisen päättymispäivän jälkeen",
+          "examDateRegistrationEndBeforeStart": "Ilmoittautumisen päättymispäivän on oltava alkamispäivän jälkeen",
+          "generic": "Tapahtui odottamaton virhe. Yritä uudestaan hetken kuluttua."
+        },
         "customTextField": {
           "dateFormat": "Ange datum i formatet dd.mm.åååå",
           "emailFormat": "E-postadressen är felaktig",
           "maxLength": "Texten är för lång",
-          "required": "Uppgiften är obligatorisk",
           "personalIdentityCodeFormat": "Personbeteckningens format kunde inte identifieras",
+          "required": "Uppgiften är obligatorisk",
           "telFormat": "Telefonnummret är felaktigt"
         },
+        "loadingExamDatesFailed": "Tutkintopäivien lataaminen epäonnistui",
         "loadingFailed": "Det gick inte att ladda uppgifterna.",
         "mismatchingEmails": "Innehållet i fälten för e-postadress motsvarar inte varandra",
         "registration": {
@@ -52,9 +65,11 @@
           "paymentCreationFailed": "Det gick inte att skicka anmälningsblanketten.",
           "personCreationFailed": "Det gick inte att skicka anmälningsblanketten.",
           "registrationPeriodClosed": "Anmälningstiden har upphört."
-        }
+        },
+        "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui"
       },
       "examDate": "Testdag",
+      "examination": "Examen",
       "examParts": {
         "readingComprehension": "Textförståelse",
         "speaking": "Tal",
@@ -62,7 +77,8 @@
         "writing": "Skrivning"
       },
       "examSession": "Examen",
-      "examination": "Examen",
+      "extraInfo": "Lisätiedot",
+      "freeRegistration": "Maksuttomuus",
       "full": "Fullbokat",
       "gender": {
         "female": "Kvinna",
@@ -76,6 +92,11 @@
           "langSelectorAriaLabel": "Kieli / Språk / Language",
           "mainNavigation": "Huvudnavigering"
         },
+        "lang": {
+          "en": "In English",
+          "fi": "Suomeksi",
+          "sv": "På svenska"
+        },
         "sessionState": {
           "activeRegistrations_one": "Du har redan påbörjat 1 anmälan.",
           "activeRegistrations_other": "Du har redan påbörjat {{count}} anmälningar.",
@@ -88,14 +109,14 @@
             "description2": "Du förlorar uppgifterna som du har fyllt i och din anmälan kommer att avbrytas.",
             "title": "Logga ut"
           }
-        },
-        "lang": {
-          "en": "In English",
-          "fi": "Suomeksi",
-          "sv": "På svenska"
         }
       },
       "institution": "Testplats",
+      "lang": {
+        "en": "Englanti",
+        "fi": "Suomi",
+        "sv": "Ruotsi"
+      },
       "language": "Språk",
       "languageLevel": {
         "ALL": "alla nivåer",
@@ -118,19 +139,42 @@
       "level": "Nivå",
       "loadingContent": "Innehållet laddas",
       "loadingDone": "Innehållet har laddats",
+      "maxParticipantsTotal": "Osallistujapaikkojen määrä",
       "municipality": "Ort",
+      "name": "Namn",
       "navigationProtection": {
         "description": "Du kommer att förlora dina ändringar.",
         "header": "Är du säker på att du vill lämna den här sidan?"
       },
-      "name": "Namn",
       "next": "Följande",
       "no": "Nej",
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen - Till anmälningssidan för YKI-testet",
       "or": "eller",
+      "pageTitle": {
+        "accessibilityStatement": "Tillgänglighetsutlåtande",
+        "clerk": "Administratör",
+        "confirmRegistration": "Bekräfta anmälan",
+        "customerDetails": "Asiakkaan tiedot",
+        "customerSearch": "Asiakashaku",
+        "evaluationOrder": "Kontrollbedömning",
+        "evaluationOrderStatus": "Kontrollbedömning",
+        "examDetails": "Test",
+        "expiredLoginLink": "Länken gäller inte längre",
+        "freeRegistrationSuccess": "Ilmoittautuminen onnistui",
+        "initRegistration": "Anmälning",
+        "logoutSuccess": "Utloggning lyckades",
+        "modifyContactDetails": "Redigera kontaktuppgifterna",
+        "notFound": "Sidan hittades inte",
+        "reassessment": "Kontrollbedömning",
+        "registration": "Anmälning",
+        "registrationPaymentStatus": "Anmälning",
+        "transferRegistration": "Flytta anmälan",
+        "userDetails": "Mina anmälningar"
+      },
       "phoneNumber": "Telefonnummer",
       "placesAvailable": "Lediga platser",
+      "previous": "Tidigare",
       "price": "Pris",
       "privacyStatement": {
         "description": "Vi följer EU:s allmänna dataskyddsförordning vid behandlingen av personuppgifter.",
@@ -144,9 +188,6 @@
       },
       "reassessment": "Kontrollbedömning",
       "registration": "Anmälan",
-      "clerkOrganizerRegister": "Järjestäjärekisteri",
-      "freeRegistration": "Maksuttomuus",
-      "customerSearch": "Asiakashaku",
       "registrationPeriod": "Anmälningstid",
       "specialArrangementsLink": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-behover-du-specialarrangemang",
       "userRegistrations": "Mina anmälningar",
@@ -154,29 +195,7 @@
       "ykiHomepage": {
         "ariaLabel": "Webbplatsen för allmänna språkexamina (oph.fi), öppnas i en ny flik",
         "link": "https://www.oph.fi/sv/allmanna-sprakexamina-yki"
-      },
-      "pageTitle": {
-        "clerk": "Administratör",
-        "registration": "Anmälning",
-        "initRegistration": "Anmälning",
-        "examDetails": "Test",
-        "freeRegistrationSuccess": "Ilmoittautuminen onnistui",
-        "registrationPaymentStatus": "Anmälning",
-        "reassessment": "Kontrollbedömning",
-        "evaluationOrder": "Kontrollbedömning",
-        "evaluationOrderStatus": "Kontrollbedömning",
-        "accessibilityStatement": "Tillgänglighetsutlåtande",
-        "logoutSuccess": "Utloggning lyckades",
-        "userDetails": "Mina anmälningar",
-        "transferRegistration": "Flytta anmälan",
-        "modifyContactDetails": "Redigera kontaktuppgifterna",
-        "confirmRegistration": "Bekräfta anmälan",
-        "notFound": "Sidan hittades inte",
-        "expiredLoginLink": "Länken gäller inte längre",
-        "customerSearch": "Asiakashaku",
-        "customerDetails": "Asiakkaan tiedot"
-      },
-      "previous": "Tidigare"
+      }
     }
   }
 }

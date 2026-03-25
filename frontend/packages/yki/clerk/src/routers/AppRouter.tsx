@@ -21,12 +21,15 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { clerkTheme } from 'ophTheme/OphTheme';
+import { ClerkAddOrganizerPage } from 'pages/ClerkAddOrganizerPage';
 import { ClerkCustomerDetailsPage } from 'pages/ClerkCustomerDetailsPage';
 import { ClerkCustomerSearchPage } from 'pages/ClerkCustomerSearchPage';
+import { ClerkExamDatesPage } from 'pages/ClerkExamDatesPage';
+import { ClerkExamSessionPage } from 'pages/ClerkExamSessionPage';
 import { ClerkFreeRegistrationDetailsPage } from 'pages/ClerkFreeRegistrationDetailsPage';
 import { ClerkFreeRegistrationPage } from 'pages/ClerkFreeRegistrationPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
-import { ClerkOrganizerRegisterDetails } from 'pages/ClerkOrganizerRegisterDetails';
+import { ClerkOrganizerRegisterDetailsPage } from 'pages/ClerkOrganizerRegisterDetails';
 import { loadSession } from 'redux/reducers/session';
 import { sessionSelector } from 'redux/selectors/session';
 
@@ -87,10 +90,18 @@ export const AppRouter: FC = () => {
           }
         />
         <Route
+          path={AppRoutes.ClerkAddOrganizer}
+          element={
+            <YkiTitlePage title="clerk">
+              <ClerkAddOrganizerPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
           path={AppRoutes.ClerkOrganizerRegisterDetails}
           element={
             <YkiTitlePage title="clerk">
-              <ClerkOrganizerRegisterDetails />
+              <ClerkOrganizerRegisterDetailsPage />
             </YkiTitlePage>
           }
         />
@@ -107,6 +118,22 @@ export const AppRouter: FC = () => {
           element={
             <YkiTitlePage title="clerk">
               <ClerkFreeRegistrationDetailsPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ClerkExamDates}
+          element={
+            <YkiTitlePage title="clerk">
+              <ClerkExamDatesPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ClerkExamSession}
+          element={
+            <YkiTitlePage title="customerExamSession">
+              <ClerkExamSessionPage />
             </YkiTitlePage>
           }
         />

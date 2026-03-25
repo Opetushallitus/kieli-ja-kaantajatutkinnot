@@ -1,7 +1,7 @@
 import { getCurrentLang } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
-import { nationalityToComboBoxOption } from 'utils/autocomplete';
+import { codeElementToComboBoxOption } from 'utils/autocomplete';
 
 export const useNationalityOptions = () => {
   const lang = getCurrentLang();
@@ -9,7 +9,7 @@ export const useNationalityOptions = () => {
 
   const options = [...nationalities]
     .filter((v) => v.language === lang)
-    .map(nationalityToComboBoxOption);
+    .map(codeElementToComboBoxOption);
   options.sort((a, b) => (a.label < b.label ? -1 : 1));
 
   return options;

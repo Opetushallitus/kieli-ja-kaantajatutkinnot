@@ -1,0 +1,63 @@
+import {
+  ExamLanguage,
+  ExamLevel,
+  ExamSessionType,
+  RegistrationKind,
+} from 'enums/app';
+import { ClerkExamSessionResponse } from 'interfaces/clerkExamSession';
+import { registrations } from 'tests/msw/fixtures/clerkExamSessionRegistrations';
+
+export const clerkExamSession: ClerkExamSessionResponse = {
+  level: ExamLevel.YLIN,
+  language: ExamLanguage.FIN,
+  type: ExamSessionType.FULL,
+  open: true,
+  upcomingAdmission: true,
+  participants: 15,
+  maxParticipantsTotal: 15,
+  maxParticipantsPartial1: 10,
+  maxParticipantsPartial2: 10,
+  queue: 0,
+  contactName: 'Teppo-Testi Järjestäjä',
+  contactPhoneNumber: '+358401234567',
+  contactEmail: 'jarjestaja@testi.invalid',
+  officeOid: '1.2.246.562.10.29461948951',
+  publishedAt: '2019-01-15T11:16:37.959Z',
+  date: '2035-01-01',
+  organizerOid: '1.2.246.562.10.28646781493',
+  id: 999,
+  registrationStartDate: '2023-01-01',
+  location: [
+    {
+      lang: 'fi',
+      extraInformation: '',
+      name: 'Jälkiedu',
+      otherLocationInfo: 'auditorio A2',
+      streetAddress: 'Jokukatu 4',
+      postOffice: 'Tampere',
+      zip: '00100',
+    },
+    {
+      lang: 'sv',
+      extraInformation: '',
+      name: 'Jälkiedu',
+      otherLocationInfo: 'auditorium A2',
+      streetAddress: 'Jokukatu 4',
+      postOffice: 'Tammerfors',
+      zip: '00100',
+    },
+    {
+      lang: 'en',
+      extraInformation: '',
+      name: 'Jälkiedu',
+      otherLocationInfo: 'auditorium A2',
+      streetAddress: 'Jokukatu 4',
+      postOffice: 'Tampere',
+      zip: '00100',
+    },
+  ],
+  examFee: 200,
+  registrationEndDate: '2030-12-31',
+  availableRegistrationKind: RegistrationKind.Admission,
+  registrations: registrations,
+};

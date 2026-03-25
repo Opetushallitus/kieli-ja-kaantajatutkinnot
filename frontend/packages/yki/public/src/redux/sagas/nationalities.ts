@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { NationalitiesResponse } from 'interfaces/nationality';
+import { KoodistoResponse } from 'interfaces/code';
 import {
   acceptNationalities,
   loadNationalities,
@@ -12,7 +12,7 @@ import {
 
 function* loadNationalitiesSaga() {
   try {
-    const response: AxiosResponse<NationalitiesResponse> = yield call(
+    const response: AxiosResponse<KoodistoResponse> = yield call(
       axiosInstance.get,
       APIEndpoints.CountryCodes,
     );

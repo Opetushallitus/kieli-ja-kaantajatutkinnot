@@ -4,6 +4,7 @@ import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -42,12 +43,15 @@ public class Registration {
   private RegistrationKind kind;
 
   @Column(name = "state", columnDefinition = "registration_state")
-  @Enumerated
+  @Enumerated(value = EnumType.STRING)
   @JdbcType(PostgreSQLEnumJdbcType.class)
   private RegistrationState state;
 
   @Column(name = "lifted_from_queue_at")
   private LocalDateTime liftedFromQueueAt;
+
+  @Column(name = "created")
+  private LocalDateTime createdAt;
 
   @Column(name = "expires_at")
   private LocalDateTime expiresAt;
@@ -63,4 +67,7 @@ public class Registration {
 
   @OneToMany(mappedBy = "registration")
   private List<ExamPayment> examPayments = new ArrayList<>();
+
+  @OneToOne(fetch = FetchType.LAZY, mappedBy = "registration", optional = false)
+  private RegistrationEvaluation evaluation;
 }

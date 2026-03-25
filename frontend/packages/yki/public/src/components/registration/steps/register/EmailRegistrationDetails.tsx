@@ -4,9 +4,10 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { ChangeEvent, useCallback } from 'react';
+import { ChangeEvent, useCallback, useEffect } from 'react';
 import { LabeledComboBox, LabeledTextField, Text } from 'shared/components';
 import {
+  APIResponseStatus,
   InputAutoComplete,
   TextFieldTypes,
   TextFieldVariant,
@@ -21,14 +22,17 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { GenderEnum, RadioButtonValue } from 'enums/app';
+import { useLanguageOptions } from 'hooks/useLanguageOptions';
 import { useNationalityOptions } from 'hooks/useNationalityOptions';
 import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
-import { Nationality } from 'interfaces/nationality';
+import { CodeElement } from 'interfaces/code';
 import { PublicEmailRegistration } from 'interfaces/publicRegistration';
+import { loadLanguages } from 'redux/reducers/languages';
 import { updatePublicRegistration } from 'redux/reducers/registration';
+import { languagesSelector } from 'redux/selectors/languages';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
-import { nationalityToComboBoxOption } from 'utils/autocomplete';
+import { codeElementToComboBoxOption } from 'utils/autocomplete';
 
 const ErrorLabelStyles = {
   '&.Mui-error .MuiFormControlLabel-label': {
@@ -49,8 +53,17 @@ export const EmailRegistrationDetails = () => {
 
   const { showErrors } = useAppSelector(registrationSelector);
   const { nationalities } = useAppSelector(nationalitiesSelector);
+  const { languages, status: languagesStatus } =
+    useAppSelector(languagesSelector);
   const nationalityOptions = useNationalityOptions();
+  const languageOptions = useLanguageOptions();
   const appLanguage = getCurrentLang();
+
+  useEffect(() => {
+    if (languagesStatus === APIResponseStatus.NotStarted) {
+      dispatch(loadLanguages());
+    }
+  }, [dispatch, languagesStatus]);
 
   const genderToComboBoxOption = useCallback(
     (gender: GenderEnum) => ({
@@ -129,10 +142,16 @@ export const EmailRegistrationDetails = () => {
             {registration.email}
           </Text>
         </div>
-        <div className="grid-columns gapped">
+        <div className="grid-2-columns gapped">
           <LabeledTextField
             {...getLabeledTextFieldAttributes('firstNames')}
             value={registration.firstNames || ''}
+            type={TextFieldTypes.Text}
+            autoComplete={InputAutoComplete.FirstName}
+          />
+          <LabeledTextField
+            {...getLabeledTextFieldAttributes('preferredName')}
+            value={registration.preferredName || ''}
             type={TextFieldTypes.Text}
             autoComplete={InputAutoComplete.FirstName}
           />
@@ -148,30 +167,6 @@ export const EmailRegistrationDetails = () => {
         />
         <div className="grid-columns gapped">
           <LabeledComboBox
-            id="public-registration__contact-gender-field"
-            label={t('labels.gender') + ' *'}
-            aria-label={t('labels.gender') + ' *'}
-            placeholder={t('placeholders.gender')}
-            variant={TextFieldVariant.Outlined}
-            values={[
-              ...Object.values(GenderEnum).map(genderToComboBoxOption),
-            ].sort((a, b) => a.label.localeCompare(b.label))}
-            value={
-              registration.gender
-                ? genderToComboBoxOption(registration.gender)
-                : null
-            }
-            onChange={(v?: string) => {
-              dispatch(updatePublicRegistration({ gender: v as GenderEnum }));
-            }}
-            showError={showErrors && !!registrationErrors['gender']}
-            helperText={
-              registrationErrors['gender']
-                ? translateCommon(registrationErrors['gender'])
-                : ''
-            }
-          />
-          <LabeledComboBox
             id="public-registration__contact-details__nationality-field"
             label={t('labels.nationality') + ' *'}
             aria-label={t('labels.nationality') + ' *'}
@@ -180,12 +175,12 @@ export const EmailRegistrationDetails = () => {
             values={nationalityOptions}
             value={
               registration.nationality
-                ? nationalityToComboBoxOption(
+                ? codeElementToComboBoxOption(
                     nationalities.find(
                       ({ code, language }) =>
                         code === registration.nationality &&
                         language === appLanguage,
-                    ) as Nationality,
+                    ) as CodeElement,
                   )
                 : null
             }
@@ -199,7 +194,60 @@ export const EmailRegistrationDetails = () => {
                 : ''
             }
           />
+          <LabeledComboBox
+            id="public-registration__contact-details__language-field"
+            label={t('labels.nativeLanguage') + ' *'}
+            aria-label={t('labels.nativeLanguage') + ' *'}
+            placeholder={t('placeholders.nativeLanguage')}
+            variant={TextFieldVariant.Outlined}
+            values={languageOptions}
+            value={
+              registration.nativeLanguage
+                ? codeElementToComboBoxOption(
+                    languages.find(
+                      ({ code, language }) =>
+                        code === registration.nativeLanguage &&
+                        language === appLanguage,
+                    ) as CodeElement,
+                  )
+                : null
+            }
+            onChange={(v?: string) => {
+              dispatch(updatePublicRegistration({ nativeLanguage: v }));
+            }}
+            showError={showErrors && !!registrationErrors['nativeLanguage']}
+            helperText={
+              registrationErrors['nativeLanguage']
+                ? translateCommon(registrationErrors['nativeLanguage'])
+                : ''
+            }
+          />
         </div>
+        <LabeledComboBox
+          id="public-registration__contact-gender-field"
+          className="half-max-width"
+          label={t('labels.gender') + ' *'}
+          aria-label={t('labels.gender') + ' *'}
+          placeholder={t('placeholders.gender')}
+          variant={TextFieldVariant.Outlined}
+          values={[
+            ...Object.values(GenderEnum).map(genderToComboBoxOption),
+          ].sort((a, b) => a.label.localeCompare(b.label))}
+          value={
+            registration.gender
+              ? genderToComboBoxOption(registration.gender)
+              : null
+          }
+          onChange={(v?: string) => {
+            dispatch(updatePublicRegistration({ gender: v as GenderEnum }));
+          }}
+          showError={showErrors && !!registrationErrors['gender']}
+          helperText={
+            registrationErrors['gender']
+              ? translateCommon(registrationErrors['gender'])
+              : ''
+          }
+        />
         <div className="grid-columns gapped">
           <LabeledTextField
             {...getLabeledTextFieldAttributes('phoneNumber')}

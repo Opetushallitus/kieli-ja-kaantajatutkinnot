@@ -2,11 +2,15 @@ import dayjs from 'dayjs';
 import { http, HttpResponse } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
+import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
+import { ExamDateLanguage, ExamDateResponse } from 'interfaces/examDate';
+import { clerkExamSession } from 'tests/msw/fixtures/clerkExamSession';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
 import { examDates } from 'tests/msw/fixtures/examDate';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 import { findByOidsResponse } from 'tests/msw/fixtures/findByOids';
+import { findOrganizations } from 'tests/msw/fixtures/findOrganizations';
 import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
 import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
@@ -42,19 +46,20 @@ export const handlers = [
   ),
   http.get(APIEndpoints.ClerkOrganizer, () => HttpResponse.json(organizers)),
   http.put(
-    `${APIEndpoints.ClerkOrganizer}/:id`,
+    `${APIEndpoints.ClerkOrganizer}/:oid`,
     async ({ params, request }) => {
-      const organizerId = Number(params.id);
+      const organizerOid = params.oid as string;
       const updatedData = (await request.json()) as Record<string, unknown>;
-      const organizerIndex = organizers.findIndex((o) => o.id === organizerId);
-
+      const organizerIndex = organizers.organizers.findIndex(
+        (o) => o.oid === organizerOid,
+      );
       if (organizerIndex !== -1) {
-        organizers[organizerIndex] = {
-          ...organizers[organizerIndex],
+        organizers.organizers[organizerIndex] = {
+          ...organizers.organizers[organizerIndex],
           ...updatedData,
         };
 
-        return HttpResponse.json(organizers[organizerIndex]);
+        return HttpResponse.json(organizers.organizers[organizerIndex]);
       } else {
         return notFound();
       }
@@ -114,6 +119,21 @@ export const handlers = [
       return notFound();
     }
   }),
+  http.post(
+    APIEndpoints.ClerkPersonContactUpdate,
+    async ({ params, request }) => {
+      const oid = params?.oid as string | undefined;
+      const body = (await request.json()) as Record<string, string>;
+      const details = customerDetails.find((cd) => cd.person.oid === oid);
+      if (details) {
+        Object.assign(details.person, body);
+
+        return new HttpResponse(null, { status: 200 });
+      } else {
+        return notFound();
+      }
+    },
+  ),
   http.post(APIEndpoints.ClerkCustomersSearch, async ({ request }) => {
     const url = new URL(request.url);
     const body = (await request.json()) as {
@@ -191,9 +211,25 @@ export const handlers = [
       empty: paged.length === 0,
     });
   }),
-  http.post('/organisaatio-service/rest/organisaatio/v3/findbyoids', () => {
-    return HttpResponse.json(findByOidsResponse);
-  }),
+  http.post(
+    '/organisaatio-service/rest/organisaatio/v3/findbyoids',
+    async ({ request }) => {
+      const requestBody = (await request.json()) as Array<string>;
+
+      if (requestBody.length === 0) {
+        return HttpResponse.json([]);
+      } else if (requestBody.length === 1) {
+        const oid = requestBody[0];
+        const organization = findByOidsResponse.find((org) => org.oid === oid);
+        if (organization) {
+          return HttpResponse.json([organization]);
+        }
+      } else {
+        // return all organizations by default for multiple oids
+        return HttpResponse.json(findByOidsResponse);
+      }
+    },
+  ),
   http.get('/yki/api/clerk/organizer/:oid/exam-session', ({ params }) => {
     const { from } = params;
 
@@ -210,7 +246,69 @@ export const handlers = [
     // all exam dates
     // return HttpResponse.json({ dates: examDates.dates });
   }),
-  http.get(APIEndpoints.ExamDate, () => {
+  http.get(APIEndpoints.ClerkExamDate, () => {
     return HttpResponse.json(examDates);
+  }),
+  http.get(APIEndpoints.ClerkExamSessions, () =>
+    HttpResponse.json([clerkExamSession]),
+  ),
+  http.post(APIEndpoints.ClerkExamDate, async ({ request }) => {
+    const body = (await request.json()) as Omit<
+      ExamDateResponse,
+      'id' | 'languages'
+    > & {
+      languages: Array<Omit<ExamDateLanguage, 'id'>>;
+    };
+
+    const {
+      languages,
+      examDate,
+      registrationStartDate,
+      registrationEndDate,
+      examType,
+    } = body;
+    const newId = Math.max(...examDates.map((ed) => ed.id)) + 1;
+    examDates.push({
+      id: newId,
+      examDate,
+      languages:
+        { [newId]: languages.map((l, index) => ({ id: index + 1, ...l })) }[
+          newId
+        ] ?? [],
+      registrationStartDate,
+      registrationEndDate,
+      examType,
+    });
+
+    return HttpResponse.json({ id: newId, ...body });
+  }),
+  http.get(APIEndpoints.ClerkExamSession, () =>
+    HttpResponse.json(clerkExamSession),
+  ),
+  http.put(
+    APIEndpoints.ClerkRegistrationMove,
+    () => new HttpResponse(null, { status: 200 }),
+  ),
+  http.put(
+    APIEndpoints.ClerkRegistrationCancel,
+    () => new HttpResponse(null, { status: 200 }),
+  ),
+  http.get(
+    '/organisaatio-service/rest/organisaatio/v4/hae?searchStr=&aktiiviset=true&suunnitellut=true&lakkautetut=false&lang=fi',
+    () => {
+      return HttpResponse.json(findOrganizations);
+    },
+  ),
+  http.post(APIEndpoints.AddClerkOrganizer, async ({ request }) => {
+    const requestBody = (await request.json()) as Omit<
+      ClerkOrganizerResponse,
+      'id'
+    >;
+    organizers.organizers.push({
+      ...requestBody,
+      id: organizers.organizers.length + 1,
+    });
+
+    return HttpResponse.json({ success: true });
   }),
 ];

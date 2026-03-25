@@ -56,6 +56,7 @@ const ExamsListing = <T extends Row>({
         rowKeyProp="id"
         columns={columns}
         translateHeader={false}
+        hoverable={false}
       />
     )}
   </div>

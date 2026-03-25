@@ -13,6 +13,7 @@ import { ExamSessionResponse } from 'interfaces/examSessions';
 
 export interface PersonFillOutDetails {
   firstNames: string;
+  preferredName: string;
   lastName: string;
   address: string;
   postNumber: string;
@@ -21,6 +22,7 @@ export interface PersonFillOutDetails {
   certificateLanguage: CertificateLanguage | '';
   instructionLanguage: InstructionLanguage | '';
   nationality: string;
+  nativeLanguage: string;
 }
 
 export interface RegistrationCheckboxDetails {

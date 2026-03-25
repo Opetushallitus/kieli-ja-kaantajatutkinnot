@@ -55,13 +55,15 @@ export const ClerkRegisterOrganizerDetails = ({
     .map((examSession) => ({
       ...examSession,
     }))
-    .filter((exam) => dayjs().isBefore(exam.session_date, 'day'));
+    .filter((exam) => dayjs().isBefore(exam.session_date, 'day'))
+    .filter((exam) => exam.organizer_oid === row.oid);
 
   const pastExams = examSessions
     .map((examSession) => ({
       ...examSession,
     }))
-    .filter((exam) => dayjs().isAfter(exam.session_date, 'day'));
+    .filter((exam) => dayjs().isAfter(exam.session_date, 'day'))
+    .filter((exam) => exam.organizer_oid === row.oid);
 
   const createExamDateColumn = (
     t: typeof i18next.t,

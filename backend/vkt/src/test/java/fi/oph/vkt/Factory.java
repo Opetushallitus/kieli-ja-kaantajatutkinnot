@@ -8,6 +8,7 @@ import fi.oph.vkt.model.EnrollmentGrade;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Examiner;
 import fi.oph.vkt.model.ExaminerExamEvent;
+import fi.oph.vkt.model.FreeEnrollment;
 import fi.oph.vkt.model.Municipality;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
@@ -17,10 +18,13 @@ import fi.oph.vkt.model.type.EnrollmentGradeType;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
+import fi.oph.vkt.model.type.FreeEnrollmentSource;
+import fi.oph.vkt.model.type.FreeEnrollmentType;
 import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.service.onr.PersonalData;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class Factory {
@@ -74,6 +78,18 @@ public class Factory {
     person.setUuid(UUID.randomUUID());
 
     return person;
+  }
+
+  public static FreeEnrollment freeEnrollment(final Enrollment enrollment, final Person person) {
+    final FreeEnrollment freeEnrollment = new FreeEnrollment();
+    freeEnrollment.setEnrollment(enrollment);
+    freeEnrollment.setPerson(person);
+    freeEnrollment.setSource(FreeEnrollmentSource.KOSKI);
+    freeEnrollment.setType(FreeEnrollmentType.HigherEducationConcluded);
+    freeEnrollment.setApproved(true);
+    freeEnrollment.setAttachments(List.of());
+
+    return freeEnrollment;
   }
 
   public static Enrollment enrollment(final ExamEvent examEvent, final Person person) {

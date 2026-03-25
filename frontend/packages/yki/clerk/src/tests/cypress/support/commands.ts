@@ -4,6 +4,10 @@ Cypress.Commands.add('openClerkRegistrationPage', () => {
   cy.visit(AppRoutes.ClerkOrganizerRegister);
 });
 
+Cypress.Commands.add('openClerkAddOrganizerPage', () => {
+  cy.visit(AppRoutes.ClerkAddOrganizer);
+});
+
 Cypress.Commands.add('openClerkFreeRegistrationPage', (cookies) => {
   if (cookies) {
     Object.keys(cookies).forEach((key) => {
@@ -35,4 +39,8 @@ Cypress.Commands.add('openClerkCustomerDetailsPage', (oid: string) => {
 
 Cypress.Commands.add('openClerkCustomersSearchPage', () => {
   cy.visit(AppRoutes.CustomerSearch);
+});
+
+Cypress.Commands.add('openClerkExamDatesPage', () => {
+  cy.visit(AppRoutes.ClerkExamDates);
 });

@@ -49,12 +49,24 @@ export const Footer = () => {
             </a>
             <a
               className="footer__container__links__contact__email"
-              href={`mailto:${translateCommon('contactEmail')}`}
+              href={`mailto:${translateCommon('contactEmail.jyu')}`}
               target="_blank"
               rel="noreferrer"
             >
-              {translateCommon('contactEmail')}
+              {translateCommon('contactEmail.jyu')}
             </a>
+            <div className="columns gapped-xxs">
+              <a
+                href={`tel:${translateCommon('contactPhone.jyu')}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {translateCommon('contactPhone.jyu')}
+              </a>
+              <Text className="inline-text">
+                {translateCommon('contactPhone.hours')}
+              </Text>
+            </div>
           </div>
           <div className="footer__container footer__container__contact-details rows gapped-xs">
             <h2>{t('headings.contacts')}</h2>

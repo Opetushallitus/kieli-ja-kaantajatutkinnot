@@ -35,11 +35,11 @@ public class Person {
   @Column(name = "phone_number")
   private String phoneNumber;
 
-  @Size(max = 255)
+  @Size(max = 100)
   @Column(name = "street_address")
   private String steetAddress;
 
-  @Size(max = 255)
+  @Size(max = 50)
   @Column(name = "post_office")
   private String postOffice;
 
@@ -50,8 +50,4 @@ public class Person {
   @Size(max = 255)
   @Column(name = "nationality_code")
   private String nationalityCode;
-
-  public String getAddress() {
-    return String.format("%s, %s, %s", steetAddress, zip, postOffice);
-  }
 }

@@ -53,8 +53,39 @@ public class AuditUtil {
 
   private static Optional<Oid> getOptionalOid(final HttpServletRequest request) {
     final String reqOid = StringUtil.getOidFromRequest(request);
+
+    // TODO fetch OID from clerk authentication
     return Optional
       .ofNullable(reqOid)
+      .map(oid -> {
+        try {
+          return new Oid(oid);
+        } catch (GSSException e) {
+          throw new RuntimeException(e);
+        }
+      });
+  }
+
+  public static User getClerkUser() {
+    final RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+
+    if (requestAttributes instanceof ServletRequestAttributes) {
+      HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+      final InetAddress inetAddress = getInetAddress(request);
+      final String session = request.getSession().getId();
+      final String userAgent = request.getHeader("User-Agent");
+      return getOptionalClerkOid()
+        .map(oid -> new User(oid, inetAddress, session, userAgent))
+        .orElseGet(() -> new User(inetAddress, session, userAgent));
+    }
+    return getUserOnlyWithIp();
+  }
+
+  private static Optional<Oid> getOptionalClerkOid() {
+    return Optional
+      .ofNullable(SecurityContextHolder.getContext().getAuthentication())
+      .filter(Authentication::isAuthenticated)
+      .flatMap(authentication -> Optional.ofNullable(authentication.getName()))
       .map(oid -> {
         try {
           return new Oid(oid);

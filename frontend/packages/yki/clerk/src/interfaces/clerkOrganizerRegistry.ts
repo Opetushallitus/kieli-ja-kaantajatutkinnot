@@ -12,6 +12,8 @@ type YhteystietoBase = {
   kieli: string;
   yhteystietoOid: string;
   id: string;
+  version: string;
+  ytjPaivitysPvm?: string;
 };
 
 type YhteystietoOsoite = YhteystietoBase & {
@@ -42,6 +44,7 @@ type Yhteystieto =
 
 interface MetadataYhteystieto {
   osoiteTyyppi: 'kaynti' | 'posti';
+  version: string;
   kieli: string;
   postinumeroUri: string;
   yhteystietoOid: string;
@@ -73,6 +76,7 @@ interface Osoite {
   yhteystietoOid: string;
   postitoimipaikka: string;
   osoite: string;
+  ytjPaivitysPvm?: string;
 }
 
 interface NimiHistoria {
@@ -87,7 +91,7 @@ export interface FindByOidsOrganization {
   metadata?: Metadata;
   alkuPvm: Dayjs;
   parentOid: string;
-  oppilaitosKoodi: string;
+  oppilaitosKoodi?: string;
   yhteystiedot: Yhteystieto[];
   ryhmatyypit: string[];
   kayttoryhmat: string[];
@@ -99,7 +103,7 @@ export interface FindByOidsOrganization {
   parentOidPath: string;
   vuosiluokat: string[];
   kayntiosoite: Osoite;
-  oppilaitosTyyppiUri: string;
+  oppilaitosTyyppiUri?: string;
   toimipistekoodi: string;
   lisatiedot: unknown[];
   kieletUris: string[];
@@ -107,6 +111,11 @@ export interface FindByOidsOrganization {
   kotipaikkaUri: string;
   version: number;
   status: string;
+  tarkastusPvm?: Dayjs;
+  yritysmuoto?: string;
+  ytunnus?: string;
+  ytjkieli?: string;
+  ytjpaivitysPvm?: Dayjs;
 }
 
 interface NimiHistoriaResponse extends Omit<NimiHistoria, 'alkuPvm'> {
@@ -114,9 +123,14 @@ interface NimiHistoriaResponse extends Omit<NimiHistoria, 'alkuPvm'> {
 }
 
 export interface FindByOidsOrganizationResponse
-  extends Omit<FindByOidsOrganization, 'nimet' | 'alkuPvm'> {
+  extends Omit<
+    FindByOidsOrganization,
+    'nimet' | 'alkuPvm' | 'tarkastusPvm' | 'ytjpaivitysPvm'
+  > {
   nimet: NimiHistoriaResponse[];
   alkuPvm: string;
+  tarkastusPvm?: number;
+  ytjpaivitysPvm?: string;
 }
 
 export interface ClerkOrganizerRegistry {

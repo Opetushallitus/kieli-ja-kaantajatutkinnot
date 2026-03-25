@@ -17,6 +17,10 @@ import {
   RegistrationResponse,
 } from 'interfaces/clerkCustomer';
 import {
+  ClerkExamSession,
+  ClerkExamSessionResponse,
+} from 'interfaces/clerkExamSession';
+import {
   ClerkFreeRegistrationDetailsResponse,
   ClerkFreeRegistrationResponse,
 } from 'interfaces/clerkFreeRegistration';
@@ -25,6 +29,7 @@ import {
   ClerkOrganizerResponse,
 } from 'interfaces/clerkOrganizer';
 import { FindByOidsOrganizationResponse } from 'interfaces/clerkOrganizerRegistry';
+import { ClerkRegistrationResponse } from 'interfaces/clerkRegistration';
 import {
   ExamSession,
   ExamSessionResponse,
@@ -159,7 +164,16 @@ export class SerializationUtils {
     };
   }
 
-  static serializeClerkOrganizer(organizer: ClerkOrganizer) {
+  static deserializeClerkRegistrationResponse(
+    registrationResponse: ClerkRegistrationResponse,
+  ) {
+    return {
+      ...registrationResponse,
+      registrationDate: dayjs(registrationResponse.registrationDate),
+    };
+  }
+
+  static serializeClerkOrganizer(organizer: Partial<ClerkOrganizer>) {
     return {
       ...organizer,
       agreement_start_date: organizer.agreement_start_date
@@ -229,6 +243,29 @@ export class SerializationUtils {
     };
   }
 
+  static deserializeClerkExamSessionResponse(
+    clerkExamSessionResponse: ClerkExamSessionResponse,
+  ): ClerkExamSession {
+    return {
+      ...clerkExamSessionResponse,
+      publishedAt: dayjs(clerkExamSessionResponse.publishedAt),
+      date: dayjs(clerkExamSessionResponse.date),
+      registrationStartDate: dayjs(
+        clerkExamSessionResponse.registrationStartDate,
+      ),
+      registrationEndDate: dayjs(
+        clerkExamSessionResponse.registrationStartDate,
+      ),
+      availableRegistrationKind:
+        clerkExamSessionResponse.availableRegistrationKind === 'ADMISSION'
+          ? RegistrationKind.Admission
+          : RegistrationKind.Queue,
+      registrations: clerkExamSessionResponse.registrations.map(
+        SerializationUtils.deserializeClerkRegistrationResponse,
+      ),
+    };
+  }
+
   static deserializeClerkCustomerDetailsResponse(
     clerkCustomerDetailsResponse: ClerkCustomerDetailsResponse,
   ): ClerkCustomerDetails {
@@ -276,9 +313,11 @@ export class SerializationUtils {
         ssn: clerkCustomerSummaryResponse.person.ssn ?? undefined,
         phoneNumber:
           clerkCustomerSummaryResponse.person.phoneNumber ?? undefined,
+        email: clerkCustomerSummaryResponse.person.email ?? undefined,
         streetAddress:
           clerkCustomerSummaryResponse.person.streetAddress ?? undefined,
-        email: clerkCustomerSummaryResponse.person.email ?? undefined,
+        zip: clerkCustomerSummaryResponse.person.zip ?? undefined,
+        postOffice: clerkCustomerSummaryResponse.person.postOffice ?? undefined,
       },
     };
   }
@@ -416,6 +455,12 @@ export class SerializationUtils {
         ...nimiHistoria,
         alkuPvm: dayjs(nimiHistoria.alkuPvm),
       })),
+      tarkastusPvm: organizationResponse.tarkastusPvm
+        ? dayjs(organizationResponse.tarkastusPvm)
+        : undefined,
+      ytjpaivitysPvm: organizationResponse.ytjpaivitysPvm
+        ? dayjs(organizationResponse.ytjpaivitysPvm)
+        : undefined,
     };
   }
 }

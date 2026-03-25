@@ -1,0 +1,15 @@
+.clerk-add-organizer {
+  &__search-result {
+    width: 100%;
+    padding: 0.5rem 1rem;
+
+    &:nth-child(odd) {
+      background-color: #f5f5f5;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: #c1eaff;
+    }
+  }
+}

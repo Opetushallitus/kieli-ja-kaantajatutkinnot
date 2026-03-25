@@ -14,47 +14,47 @@ const LEVEL_TRANSLATIONS = {
 export const LANGUAGES = [
   {
     code: 'fin',
-    name: 'Suomi',
+    name: 'suomi',
     levels: ['PERUS', 'KESKI', 'YLIN'],
   },
   {
     code: 'swe',
-    name: 'Ruotsi',
+    name: 'ruotsi',
     levels: ['PERUS', 'KESKI', 'YLIN'],
   },
   {
     code: 'eng',
-    name: 'Englanti',
+    name: 'englanti',
     levels: ['PERUS', 'KESKI', 'YLIN'],
   },
   {
     code: 'deu',
-    name: 'Saksa',
+    name: 'saksa',
     levels: ['PERUS', 'KESKI', 'YLIN'],
   },
   {
     code: 'rus',
-    name: 'Venäjä',
+    name: 'venäjä',
     levels: ['PERUS', 'KESKI', 'YLIN'],
   },
   {
     code: 'fra',
-    name: 'Ranska',
+    name: 'ranska',
     levels: ['PERUS', 'KESKI', 'YLIN'],
   },
   {
     code: 'sme',
-    name: 'Pohjoissaame',
+    name: 'pohjoissaame',
     levels: ['PERUS', 'KESKI', 'YLIN'],
   },
   {
     code: 'spa',
-    name: 'Espanja',
+    name: 'espanja',
     levels: ['PERUS', 'KESKI', 'YLIN'],
   },
   {
     code: 'ita',
-    name: 'Italia',
+    name: 'italia',
     levels: ['PERUS', 'KESKI'],
   },
 ];

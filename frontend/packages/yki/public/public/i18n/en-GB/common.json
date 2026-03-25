@@ -26,7 +26,14 @@
           }
         }
       },
-      "contactEmail": "kielitutkinnot@oph.fi",
+      "contactEmail": {
+        "jyu": "yki-info@jyu.fi",
+        "oph": "kielitutkinnot@oph.fi"
+      },
+      "contactPhone": {
+        "hours": "(Weekdays 9-11 am)",
+        "jyu": "+358 50 591 9322"
+      },
       "dates": {
         "dateTimeFormat": "l [at] HH:mm"
       },
@@ -43,6 +50,7 @@
         },
         "loadingFailed": "Downloading the information failed.",
         "mismatchingEmails": "The contents of the email address fields are different.",
+        "preferredNameMustBeFirstName": "The preferred name has to be one of your first names.",
         "registration": {
           "alreadyRegistered": "You can register for only one YKI test.",
           "examSessionFull": "The test is full.",
@@ -170,7 +178,11 @@
         "notFound": "Page not found",
         "expiredLoginLink": "The link has expired"
       },
-      "previous": "Previous"
+      "previous": "Previous",
+      "suomiFiLink": {
+        "label": "Suomi.fi",
+        "url": "https://www.suomi.fi/messages"
+      }
     }
   }
 }

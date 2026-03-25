@@ -10,6 +10,7 @@ import {
   RegistrationKind,
   RegistrationStates,
 } from 'enums/app';
+import { CodeElement, KoodistoResponse } from 'interfaces/code';
 import {
   RegistrationToConfirmDetails,
   RegistrationToConfirmDetailsResponse,
@@ -38,7 +39,6 @@ import {
   LoginLinkDetails,
   LoginLinkDetailsResponse,
 } from 'interfaces/loginLink';
-import { NationalitiesResponse, Nationality } from 'interfaces/nationality';
 import { KoskiEducationDTO } from 'interfaces/publicEducation';
 import {
   PublicEmailRegistration,
@@ -190,9 +190,9 @@ export class SerializationUtils {
     }
   }
 
-  static deserializeNationalitiesResponse(
-    response: NationalitiesResponse,
-  ): Array<Nationality> {
+  static deserializeKoodistoResponse(
+    response: KoodistoResponse,
+  ): Array<CodeElement> {
     return response
       .map((v) =>
         v.metadata.map((metadata) => ({
@@ -211,7 +211,7 @@ export class SerializationUtils {
 
   static serializeRegistrationForm(
     registration: Partial<PublicSuomiFiRegistration & PublicEmailRegistration>,
-    nationalities: Array<Nationality>,
+    nationalities: Array<CodeElement>,
   ) {
     const nationality = registration.nationality;
     const nationality_desc = nationalities.find(
@@ -221,8 +221,10 @@ export class SerializationUtils {
     return {
       first_name: registration.firstNames,
       last_name: registration.lastName,
+      preferred_name: registration.preferredName,
       nationalities: [nationality],
       nationality_desc,
+      native_language: registration.nativeLanguage,
       certificate_lang: registration.certificateLanguage,
       exam_lang: registration.instructionLanguage,
       birthdate: DateUtils.serializeDate(
