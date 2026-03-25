@@ -124,7 +124,7 @@ export const AppRouter: FC = () => {
         <Route
           path={AppRoutes.ClerkExamDates}
           element={
-            <YkiTitlePage title="customerExamSession">
+            <YkiTitlePage title="clerk">
               <ClerkExamDatesPage />
             </YkiTitlePage>
           }

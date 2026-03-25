@@ -4,6 +4,7 @@ import { APIResponseStatus } from 'shared/enums';
 import {
   CreateExamDateRequest,
   ExamDate,
+  ExamDateSort,
   UpdateExamDateRequest,
 } from 'interfaces/examDate';
 
@@ -12,6 +13,7 @@ interface ExamDateState {
   addStatus: APIResponseStatus;
   updateStatus: APIResponseStatus;
   examDates: ExamDate[];
+  examDateSort: ExamDateSort;
 }
 
 const initialState: ExamDateState = {
@@ -19,6 +21,7 @@ const initialState: ExamDateState = {
   addStatus: APIResponseStatus.NotStarted,
   updateStatus: APIResponseStatus.NotStarted,
   examDates: [],
+  examDateSort: 'examDate:desc',
 };
 
 const examDateSlice = createSlice({
@@ -59,6 +62,9 @@ const examDateSlice = createSlice({
     resetUpdateExamDateStatus(state) {
       state.updateStatus = APIResponseStatus.NotStarted;
     },
+    setExamDateSort(state, action: PayloadAction<ExamDateSort>) {
+      state.examDateSort = action.payload;
+    },
   },
 });
 
@@ -75,4 +81,5 @@ export const {
   rejectUpdateExamDate,
   storeUpdateExamDate,
   resetUpdateExamDateStatus,
+  setExamDateSort,
 } = examDateSlice.actions;

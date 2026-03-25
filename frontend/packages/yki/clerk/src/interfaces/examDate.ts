@@ -42,3 +42,6 @@ export interface CreateExamDateRequest {
 export interface UpdateExamDateRequest extends CreateExamDateRequest {
   id: number;
 }
+
+export type SortOrder = 'asc' | 'desc' | '';
+export type ExamDateSort = `${keyof ExamDate}:${SortOrder}`;
