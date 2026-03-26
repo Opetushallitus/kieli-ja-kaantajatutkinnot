@@ -185,7 +185,7 @@ export const theme = createTheme({
     MuiLink: {
       styleOverrides: {
         root: {
-          color: colorSecondary,
+          color: colorTextPrimary,
           fontWeight: fontWeightBold,
           textDecoration: 'underline',
         },
