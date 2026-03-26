@@ -221,11 +221,6 @@ export const ClerkRegisterOrganizerDetails = ({
         setIsOpen={setIsAddModalOpen}
         mode="create"
         organizerOid={row.oid}
-        languages={
-          row.languages
-            ? [...new Set(row.languages.map((l) => l.language_code))]
-            : []
-        }
         examDates={examDates}
       />
     </Box>

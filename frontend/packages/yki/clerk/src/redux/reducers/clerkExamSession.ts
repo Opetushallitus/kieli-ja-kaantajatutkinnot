@@ -145,9 +145,6 @@ const clerkExamSessionSlice = createSlice({
     rejectCreateExamSession(state) {
       state.createStatus = APIResponseStatus.Error;
     },
-    resetCreate(state) {
-      state.createStatus = APIResponseStatus.NotStarted;
-    },
     resetClerkExamSession() {
       return initialState;
     },
@@ -176,6 +173,5 @@ export const {
   createExamSession,
   acceptCreateExamSession,
   rejectCreateExamSession,
-  resetCreate,
   resetClerkExamSession,
 } = clerkExamSessionSlice.actions;
