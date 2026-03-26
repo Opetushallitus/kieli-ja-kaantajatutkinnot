@@ -119,10 +119,45 @@ export const AddEvaluationModal = ({
     });
   };
 
+  const isValidDateOrder = (
+    examDateValue: Dayjs,
+    start: Dayjs | null,
+    end: Dayjs | null,
+  ): boolean => {
+    if (!start || !end) return false;
+
+    return !start.isBefore(examDateValue, 'day') && !end.isBefore(start, 'day');
+  };
+
+  const hasIncompleteOverrides = (): boolean => {
+    if (!perLanguageDatesEnabled) return false;
+
+    return Array.from(languageOverrides.values()).some(
+      (state) => !state.useDefault && (!state.startDate || !state.endDate),
+    );
+  };
+
+  const hasInvalidOverrideDates = (): boolean => {
+    if (!perLanguageDatesEnabled || !examDate) return false;
+
+    return Array.from(languageOverrides.values()).some(
+      (state) =>
+        !state.useDefault &&
+        !isValidDateOrder(examDate.examDate, state.startDate, state.endDate),
+    );
+  };
+
+  const isSubmitDisabled =
+    isSaving ||
+    !examDate ||
+    !defaultStartDate ||
+    !defaultEndDate ||
+    !isValidDateOrder(examDate.examDate, defaultStartDate, defaultEndDate) ||
+    hasIncompleteOverrides() ||
+    hasInvalidOverrideDates();
+
   const handleSubmit = () => {
-    if (!examDate || !defaultStartDate || !defaultEndDate) {
-      return;
-    }
+    if (isSubmitDisabled) return;
 
     const request: { examDateId: number } & CreateEvaluationRequest = {
       examDateId: examDate.id,
@@ -351,7 +386,7 @@ export const AddEvaluationModal = ({
               variant={Variant.Contained}
               color={Color.Primary}
               onClick={handleSubmit}
-              disabled={isSaving}
+              disabled={isSubmitDisabled}
             >
               {t('evaluationModal.submitButton')}
             </OphButton>
