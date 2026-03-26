@@ -41,8 +41,8 @@ public class ClerkExamDateServiceTest {
   @Resource
   private ExamDateRepository examDateRepository;
 
-    @Resource
-    private ExamSessionRepository examSessionRepository;
+  @Resource
+  private ExamSessionRepository examSessionRepository;
 
   @MockitoBean
   private AuditService auditService;
