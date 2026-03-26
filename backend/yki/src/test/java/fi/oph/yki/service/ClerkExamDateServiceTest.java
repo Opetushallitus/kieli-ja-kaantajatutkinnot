@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import fi.oph.yki.api.dto.clerk.ClerkCreateEvaluationDTO;
 import fi.oph.yki.PostgresTestcontainerConfig;
+import fi.oph.yki.api.dto.clerk.ClerkCreateEvaluationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCreateExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkUpdateExamDateDTO;
