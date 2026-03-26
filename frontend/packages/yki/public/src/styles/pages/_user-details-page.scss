@@ -92,19 +92,19 @@
 
   & &__icon {
     &--ok {
-      color: #378703;
+      color: $color-green-600;
     }
 
     &--alert {
-      color: #ffcc33;
+      color: $color-yellow-500;
     }
 
     &--cancel {
-      color: #cc3300;
+      color: $color-red-500;
     }
 
     &--info {
-      color: #0033cc;
+      color: $color-secondary;
     }
   }
 
@@ -119,6 +119,6 @@
   }
 
   & &__text--alert {
-    color: #cc3300;
+    color: $color-red-500;
   }
 }

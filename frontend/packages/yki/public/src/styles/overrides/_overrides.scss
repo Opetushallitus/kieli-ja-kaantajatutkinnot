@@ -2,7 +2,13 @@
 // Until new colors are used across the board in AKR and OTR, we need two separate color variables for the secondary color.
 
 $color-secondary: #378703;
-$color-secondary-dark: #000a48;
+$color-secondary-dark: #004806;
+
+.color-secondary-dark {
+  &#{&} {
+    color: $color-secondary-dark;
+  }
+}
 
 .custom-fileupload {
   .file-dropzone {

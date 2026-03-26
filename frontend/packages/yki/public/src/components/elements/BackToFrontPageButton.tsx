@@ -1,4 +1,4 @@
-import { CustomButton } from 'shared/components';
+import { CustomButton, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation } from 'configs/i18n';
@@ -14,7 +14,7 @@ export const BackToFrontPageButton = () => {
       variant={Variant.Contained}
       href={AppRoutes.Registration}
     >
-      {translateCommon('backToHomePage')}
+      <Text color="white">{translateCommon('backToHomePage')}</Text>
     </CustomButton>
   );
 };

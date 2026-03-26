@@ -88,7 +88,7 @@ export const Footer = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                {t('address.phone.number')}
+                <Text color="secondary">{t('address.phone.number')}</Text>
               </a>
             </div>
           </div>
