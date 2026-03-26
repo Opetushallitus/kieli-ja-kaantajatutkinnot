@@ -178,16 +178,36 @@ export const ClerkExamDates = () => {
         );
 
         if (hasEvaluation) {
+          const evalLanguages = row.languages.filter(
+            (l) => l.evaluationStartDate && l.evaluationEndDate,
+          );
+          const uniqueDates = Array.from(
+            new Set(
+              evalLanguages.map(
+                (l) => `${l.evaluationStartDate}-${l.evaluationEndDate}`,
+              ),
+            ),
+          );
+
+          if (uniqueDates.length === 1) {
+            const lang = evalLanguages[0];
+
+            return (
+              <span>
+                {dayjs(lang.evaluationStartDate).format('D.M.YYYY')}-
+                {dayjs(lang.evaluationEndDate).format('D.M.YYYY')}
+              </span>
+            );
+          }
+
           return (
             <div>
-              {row.languages.map((lang) =>
-                lang.evaluationStartDate && lang.evaluationEndDate ? (
-                  <div key={lang.id}>
-                    {dayjs(lang.evaluationStartDate).format('D.M.YYYY')}-
-                    {dayjs(lang.evaluationEndDate).format('D.M.YYYY')}
-                  </div>
-                ) : null,
-              )}
+              {evalLanguages.map((lang) => (
+                <div key={lang.id}>
+                  {dayjs(lang.evaluationStartDate).format('D.M.YYYY')}-
+                  {dayjs(lang.evaluationEndDate).format('D.M.YYYY')}
+                </div>
+              ))}
             </div>
           );
         }
