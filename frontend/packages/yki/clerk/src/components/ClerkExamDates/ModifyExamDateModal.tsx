@@ -442,8 +442,8 @@ export const ModifyExamDateModal = ({
                         >
                           <OphCheckbox
                             checked={lang.levels[level]}
+                            disabled={hasExamSessions}
                             onChange={() =>
-                              !hasExamSessions &&
                               toggleLanguageLevel(lang.languageCode, level)
                             }
                             sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
@@ -466,9 +466,7 @@ export const ModifyExamDateModal = ({
               <RadioGroup
                 data-testid="exam-type-radio-group"
                 value={examType}
-                onChange={(e) =>
-                  !hasExamSessions && setExamType(e.target.value as ExamType)
-                }
+                onChange={(e) => setExamType(e.target.value as ExamType)}
               >
                 <FormControlLabel
                   value="LISTEN_WRITE"
@@ -476,6 +474,7 @@ export const ModifyExamDateModal = ({
                   label={t(
                     'modifyModal.examTypes.speechComprehensionAndWriting',
                   )}
+                  disabled={hasExamSessions}
                 />
                 <FormControlLabel
                   value="READ_SPEAK"
@@ -483,11 +482,13 @@ export const ModifyExamDateModal = ({
                   label={t(
                     'modifyModal.examTypes.readingComprehensionAndSpeaking',
                   )}
+                  disabled={hasExamSessions}
                 />
                 <FormControlLabel
                   value="FULL"
                   control={<Radio data-testid="exam-type-all" />}
                   label={t('modifyModal.examTypes.allExamParts')}
+                  disabled={hasExamSessions}
                 />
               </RadioGroup>
             </div>
