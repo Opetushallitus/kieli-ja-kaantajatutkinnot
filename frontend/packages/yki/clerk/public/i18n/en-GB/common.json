@@ -65,7 +65,8 @@
           "paymentCreationFailed": "Submitting the registration form failed.",
           "personCreationFailed": "Submitting the registration form failed.",
           "registrationPeriodClosed": "The registration period has ended."
-        }
+        },
+        "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui"
       },
       "examDate": "Test day",
       "examination": "Test",

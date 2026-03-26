@@ -41,6 +41,6 @@ public class ExamDate {
   @Enumerated(EnumType.STRING)
   private ExamSessionType examType;
 
-  @OneToMany(mappedBy = "examDate", cascade = CascadeType.PERSIST)
+  @OneToMany(mappedBy = "examDate", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<ExamDateLanguage> languages = new ArrayList<>();
 }

@@ -119,7 +119,8 @@
             "registrationPeriod": "Ilmoittautumisaika",
             "reviewEvaluation": "Tarkistusarviointi"
           },
-          "resultCount": "{{count}} tutkintopäivää"
+          "resultCount": "{{count}} tutkintopäivää",
+          "showPastDates": "Näytä menneet päivät"
         },
         "modal": {
           "cancelButton": "Peruuta",
@@ -137,9 +138,22 @@
           "submitButton": "Lisää tutkintopäivä",
           "title": "Lisää uusi tutkintopäivä"
         },
+        "modifyModal": {
+          "examDateDetails": "Tutkintopäivän tiedot",
+          "examTypes": {
+            "allExamParts": "Kaikki osakokeet",
+            "readingComprehensionAndSpeaking": "Tekstin ymmärtäminen ja Puhuminen",
+            "speechComprehensionAndWriting": "Puheen ymmärtäminen ja kirjoittaminen"
+          },
+          "infoBox": "Huomioithan, että tutkintopäivälle on jo luotu tutkintotilaisuuksia. Voit silti muokata tietoja.",
+          "submitButton": "Tallenna muutokset",
+          "title": "Muokkaa tutkintopäivää"
+        },
         "toasts": {
           "examDateAdded": "Tutkintopäivä lisätty onnistuneesti",
-          "examDateAddError": "Tutkintopäivän lisääminen epäonnistui"
+          "examDateAddError": "Tutkintopäivän lisääminen epäonnistui",
+          "examDateUpdated": "Tutkintopäivän tiedot tallennettu onnistuneesti",
+          "examDateUpdateError": "Tutkintopäivän muokkaaminen epäonnistui"
         }
       },
       "clerkExamSessionRegistrations": {

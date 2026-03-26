@@ -59,6 +59,7 @@ public class ExamSession {
 
   @Column(name = "type")
   @Enumerated(value = EnumType.STRING)
+  @JdbcType(PostgreSQLEnumJdbcType.class)
   private ExamSessionType type;
 
   @OneToMany(mappedBy = "examSession", cascade = CascadeType.PERSIST)
