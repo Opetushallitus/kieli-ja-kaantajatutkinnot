@@ -77,7 +77,9 @@ const AlreadyLoggedIn = () => {
             : AppRoutes.ExamSessionRegistration
           ).replace(/:examSessionId/, `${examSession.id}`)}
         >
-          {t('alreadyLoggedIn.labels.continueToRegistration')}
+          <Text color="white">
+            {t('alreadyLoggedIn.labels.continueToRegistration')}
+          </Text>
         </CustomButton>
         <CustomButton
           aria-label={t('alreadyLoggedIn.labels.abort')}
