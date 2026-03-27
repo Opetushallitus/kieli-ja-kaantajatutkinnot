@@ -12,7 +12,8 @@ public enum APIExceptionType {
   EXAM_DATE_HAS_SESSIONS,
   EVALUATION_EXAM_DATE_HAS_NO_LANGUAGES,
   EVALUATION_ALREADY_EXISTS,
-  EVALUATION_INVALID_DATE_ORDER;
+  EVALUATION_INVALID_DATE_ORDER,
+  EXAM_DATE_HAS_EVALUATIONS;
 
   public String getCode() {
     final StringBuilder codeBuilder = new StringBuilder();

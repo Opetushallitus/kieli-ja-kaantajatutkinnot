@@ -279,6 +279,10 @@ public class ClerkExamDateService {
       throw new APIException(APIExceptionType.EXAM_DATE_HAS_SESSIONS);
     }
 
+    if (evaluationRepository.existsByExamDateIdAndDeletedAtIsNull(id)) {
+      throw new APIException(APIExceptionType.EXAM_DATE_HAS_EVALUATIONS);
+    }
+
     examDate.setDeletedAt(LocalDateTime.now());
     examDateRepository.flush();
     auditService.logById(YkiOperation.DELETE_EXAM_DATE, id);
