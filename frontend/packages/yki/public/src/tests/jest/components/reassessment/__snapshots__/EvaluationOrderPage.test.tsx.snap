@@ -431,14 +431,14 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
               target="_blank"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1u4wdl3-MuiTypography-root"
               >
                 Tietoa henkilötietojen käsittelystä (oph.fi)
               </p>
             </a>
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-colorSecondary MuiSvgIcon-fontSizeMedium css-25to7p-MuiSvgIcon-root"
               data-testid="OpenInNewIcon"
               focusable="false"
               viewBox="0 0 24 24"
