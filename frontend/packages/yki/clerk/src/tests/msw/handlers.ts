@@ -246,7 +246,7 @@ export const handlers = [
     // all exam dates
     // return HttpResponse.json({ dates: examDates.dates });
   }),
-  http.get(APIEndpoints.ClerkExamDate, () => {
+  http.get(`${APIEndpoints.ClerkExamDate}/all`, () => {
     return HttpResponse.json(examDates);
   }),
   http.get(APIEndpoints.ClerkExamSessions, () =>
@@ -282,6 +282,16 @@ export const handlers = [
     });
 
     return HttpResponse.json({ id: newId, ...body });
+  }),
+  http.delete(`${APIEndpoints.ClerkExamDate}/:id`, ({ params }) => {
+    const id = Number(params.id);
+    const index = examDates.findIndex((ed) => ed.id === id);
+    if (index === -1) {
+      return notFound();
+    }
+    examDates.splice(index, 1);
+
+    return new HttpResponse(null, { status: 200 });
   }),
   http.get(APIEndpoints.ClerkExamSession, () =>
     HttpResponse.json(clerkExamSession),

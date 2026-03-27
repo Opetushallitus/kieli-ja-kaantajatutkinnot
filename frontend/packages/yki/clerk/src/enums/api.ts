@@ -26,4 +26,5 @@ export enum APIError {
   ExamDateCreateDuplicateDate = 'examDateCreateDuplicateDate',
   ExamDateRegistrationEndBeforeStart = 'examDateRegistrationEndBeforeStart',
   ExamDateExamBeforeRegistrationEnd = 'examDateExamBeforeRegistrationEnd',
+  ExamDateHasSessions = 'examDateHasSessions',
 }

@@ -103,6 +103,12 @@
       },
       "clerkExamDates": {
         "addNewExamDateButton": "Lisää tutkintopäivä",
+        "deleteModal": {
+          "cancelButton": "Peruuta",
+          "confirmButton": "Poista tutkintopäivä",
+          "description": "Olet poistamassa tutkintopäivää <bold>{{examDate}}</bold>.",
+          "title": "Vahvista tutkintopäivän poisto"
+        },
         "header": "Tutkintopäivät",
         "listing": {
           "addReviewEvaluation": "Lisää tarkistusarviointi",
@@ -145,6 +151,7 @@
           "title": "Lisää uusi tutkintopäivä"
         },
         "modifyModal": {
+          "deleteButton": "Poista tutkintopäivä",
           "examDateDetails": "Tutkintopäivän tiedot",
           "examTypes": {
             "allExamParts": "Kaikki osakokeet",
@@ -158,6 +165,8 @@
         "toasts": {
           "examDateAdded": "Tutkintopäivä lisätty onnistuneesti",
           "examDateAddError": "Tutkintopäivän lisääminen epäonnistui",
+          "examDateDeleted": "Tutkintopäivä poistettu onnistuneesti",
+          "examDateDeleteError": "Tutkintopäivän poistaminen epäonnistui",
           "examDateUpdated": "Tutkintopäivän tiedot tallennettu onnistuneesti",
           "examDateUpdateError": "Tutkintopäivän muokkaaminen epäonnistui"
         }

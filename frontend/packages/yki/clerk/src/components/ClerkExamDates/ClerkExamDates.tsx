@@ -32,7 +32,7 @@ export const ClerkExamDates = () => {
     keyPrefix: 'yki.component.clerkExamDates',
   });
   const dispatch = useAppDispatch();
-  const { status, examDateSort, updateStatus } =
+  const { status, examDateSort, updateStatus, deleteStatus } =
     useAppSelector(examDateSelector);
   const examDates = useAppSelector(selectSortedExamDates);
   const [page, setPage] = useState(1);
@@ -77,6 +77,16 @@ export const ClerkExamDates = () => {
       });
     }
   }, [updateStatus, showToast, handleCloseModifyModal, t]);
+
+  useEffect(() => {
+    if (deleteStatus === APIResponseStatus.Success) {
+      handleCloseModifyModal();
+      showToast({
+        description: t('toasts.examDateDeleted'),
+        severity: Severity.Success,
+      });
+    }
+  }, [deleteStatus, handleCloseModifyModal, showToast, t]);
 
   const formatLanguageLevel = (ed: ExamDate) => {
     const grouped = new Map<string, string[]>();
