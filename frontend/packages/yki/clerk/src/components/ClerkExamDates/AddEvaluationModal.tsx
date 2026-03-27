@@ -6,7 +6,7 @@ import {
   ophColors,
 } from '@opetushallitus/oph-design-system';
 import { Dayjs } from 'dayjs';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   CustomDatePicker,
   CustomModal,
@@ -36,6 +36,17 @@ type LanguageOverrideState = {
   endDate: Dayjs | null;
 };
 
+type FormErrors = {
+  defaultStartDate: boolean;
+  defaultEndDate: boolean;
+  defaultStartDateBeforeExamDate: boolean;
+  defaultEndDateBeforeStartDate: boolean;
+  overrideStartDates: Map<number, boolean>;
+  overrideEndDates: Map<number, boolean>;
+  overrideStartDatesBeforeExamDate: Map<number, boolean>;
+  overrideEndDatesBeforeStartDate: Map<number, boolean>;
+};
+
 type AddEvaluationModalProps = {
   examDate: ExamDate | null;
   onClose: () => void;
@@ -47,6 +58,17 @@ const formatLanguageLabel = (lang: ExamDateLanguage) => {
 
   return `${name} - ${level}`;
 };
+
+const emptyErrors = (): FormErrors => ({
+  defaultStartDate: false,
+  defaultEndDate: false,
+  defaultStartDateBeforeExamDate: false,
+  defaultEndDateBeforeStartDate: false,
+  overrideStartDates: new Map(),
+  overrideEndDates: new Map(),
+  overrideStartDatesBeforeExamDate: new Map(),
+  overrideEndDatesBeforeStartDate: new Map(),
+});
 
 export const AddEvaluationModal = ({
   examDate,
@@ -66,9 +88,100 @@ export const AddEvaluationModal = ({
   const [languageOverrides, setLanguageOverrides] = useState<
     Map<number, LanguageOverrideState>
   >(new Map());
+  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState<FormErrors>(emptyErrors());
 
   const isSaving = addEvaluationStatus === APIResponseStatus.InProgress;
   const isOpen = examDate !== null;
+
+  const validate = useCallback((): FormErrors => {
+    const result = emptyErrors();
+
+    result.defaultStartDate = !defaultStartDate;
+    result.defaultEndDate = !defaultEndDate;
+    result.defaultStartDateBeforeExamDate =
+      !!defaultStartDate &&
+      !!examDate &&
+      defaultStartDate.isBefore(examDate.examDate, 'day');
+    result.defaultEndDateBeforeStartDate =
+      !!defaultStartDate &&
+      !!defaultEndDate &&
+      defaultEndDate.isBefore(defaultStartDate, 'day');
+
+    if (perLanguageDatesEnabled) {
+      Array.from(languageOverrides.entries()).forEach(([langId, state]) => {
+        if (state.useDefault) return;
+
+        result.overrideStartDates.set(langId, !state.startDate);
+        result.overrideEndDates.set(langId, !state.endDate);
+        result.overrideStartDatesBeforeExamDate.set(
+          langId,
+          !!state.startDate &&
+            !!examDate &&
+            state.startDate.isBefore(examDate.examDate, 'day'),
+        );
+        result.overrideEndDatesBeforeStartDate.set(
+          langId,
+          !!state.startDate &&
+            !!state.endDate &&
+            state.endDate.isBefore(state.startDate, 'day'),
+        );
+      });
+    }
+
+    return result;
+  }, [
+    defaultStartDate,
+    defaultEndDate,
+    examDate,
+    perLanguageDatesEnabled,
+    languageOverrides,
+  ]);
+
+  useEffect(() => {
+    if (submitted) {
+      const current = validate();
+
+      setErrors((prev) => ({
+        defaultStartDate: prev.defaultStartDate && current.defaultStartDate,
+        defaultEndDate: prev.defaultEndDate && current.defaultEndDate,
+        defaultStartDateBeforeExamDate:
+          prev.defaultStartDateBeforeExamDate &&
+          current.defaultStartDateBeforeExamDate,
+        defaultEndDateBeforeStartDate:
+          prev.defaultEndDateBeforeStartDate &&
+          current.defaultEndDateBeforeStartDate,
+        overrideStartDates: new Map(
+          Array.from(current.overrideStartDates.entries()).map(([id, val]) => [
+            id,
+            (prev.overrideStartDates.get(id) ?? false) && val,
+          ]),
+        ),
+        overrideEndDates: new Map(
+          Array.from(current.overrideEndDates.entries()).map(([id, val]) => [
+            id,
+            (prev.overrideEndDates.get(id) ?? false) && val,
+          ]),
+        ),
+        overrideStartDatesBeforeExamDate: new Map(
+          Array.from(current.overrideStartDatesBeforeExamDate.entries()).map(
+            ([id, val]) => [
+              id,
+              (prev.overrideStartDatesBeforeExamDate.get(id) ?? false) && val,
+            ],
+          ),
+        ),
+        overrideEndDatesBeforeStartDate: new Map(
+          Array.from(current.overrideEndDatesBeforeStartDate.entries()).map(
+            ([id, val]) => [
+              id,
+              (prev.overrideEndDatesBeforeStartDate.get(id) ?? false) && val,
+            ],
+          ),
+        ),
+      }));
+    }
+  }, [submitted, validate]);
 
   useEffect(() => {
     if (examDate) {
@@ -83,6 +196,7 @@ export const AddEvaluationModal = ({
           ]),
         ),
       );
+      setSubmitted(false);
     }
   }, [examDate]);
 
@@ -119,45 +233,33 @@ export const AddEvaluationModal = ({
     });
   };
 
-  const isValidDateOrder = (
-    examDateValue: Dayjs,
-    start: Dayjs | null,
-    end: Dayjs | null,
-  ): boolean => {
-    if (!start || !end) return false;
-
-    return !start.isBefore(examDateValue, 'day') && !end.isBefore(start, 'day');
-  };
-
-  const hasIncompleteOverrides = (): boolean => {
-    if (!perLanguageDatesEnabled) return false;
-
-    return Array.from(languageOverrides.values()).some(
-      (state) => !state.useDefault && (!state.startDate || !state.endDate),
-    );
-  };
-
-  const hasInvalidOverrideDates = (): boolean => {
-    if (!perLanguageDatesEnabled || !examDate) return false;
-
-    return Array.from(languageOverrides.values()).some(
-      (state) =>
-        !state.useDefault &&
-        !isValidDateOrder(examDate.examDate, state.startDate, state.endDate),
-    );
-  };
-
-  const isSubmitDisabled =
-    isSaving ||
-    !examDate ||
-    !defaultStartDate ||
-    !defaultEndDate ||
-    !isValidDateOrder(examDate.examDate, defaultStartDate, defaultEndDate) ||
-    hasIncompleteOverrides() ||
-    hasInvalidOverrideDates();
-
   const handleSubmit = () => {
-    if (isSubmitDisabled) return;
+    const validationErrors = validate();
+    setErrors(validationErrors);
+    setSubmitted(true);
+
+    const hasValidationErrors =
+      validationErrors.defaultStartDate ||
+      validationErrors.defaultEndDate ||
+      validationErrors.defaultStartDateBeforeExamDate ||
+      validationErrors.defaultEndDateBeforeStartDate ||
+      Array.from(validationErrors.overrideStartDates.values()).some(Boolean) ||
+      Array.from(validationErrors.overrideEndDates.values()).some(Boolean) ||
+      Array.from(
+        validationErrors.overrideStartDatesBeforeExamDate.values(),
+      ).some(Boolean) ||
+      Array.from(
+        validationErrors.overrideEndDatesBeforeStartDate.values(),
+      ).some(Boolean);
+
+    if (
+      !examDate ||
+      hasValidationErrors ||
+      !defaultStartDate ||
+      !defaultEndDate
+    ) {
+      return;
+    }
 
     const request: { examDateId: number } & CreateEvaluationRequest = {
       examDateId: examDate.id,
@@ -243,7 +345,18 @@ export const AddEvaluationModal = ({
                     value={defaultStartDate}
                     setValue={setDefaultStartDate}
                     minDate={examDate?.examDate}
-                    error={false}
+                    error={
+                      submitted &&
+                      (errors.defaultStartDate ||
+                        errors.defaultStartDateBeforeExamDate)
+                    }
+                    helperText={
+                      submitted && errors.defaultStartDate
+                        ? t('evaluationModal.errors.required')
+                        : submitted && errors.defaultStartDateBeforeExamDate
+                        ? t('evaluationModal.errors.startDateBeforeExamDate')
+                        : undefined
+                    }
                   />
                 </div>
               </div>
@@ -268,7 +381,18 @@ export const AddEvaluationModal = ({
                     value={defaultEndDate}
                     setValue={setDefaultEndDate}
                     minDate={defaultStartDate || undefined}
-                    error={false}
+                    error={
+                      submitted &&
+                      (errors.defaultEndDate ||
+                        errors.defaultEndDateBeforeStartDate)
+                    }
+                    helperText={
+                      submitted && errors.defaultEndDate
+                        ? t('evaluationModal.errors.required')
+                        : submitted && errors.defaultEndDateBeforeStartDate
+                        ? t('evaluationModal.errors.endDateBeforeStartDate')
+                        : undefined
+                    }
                   />
                 </div>
               </div>
@@ -284,6 +408,14 @@ export const AddEvaluationModal = ({
             {perLanguageDatesEnabled &&
               examDate?.languages.map((lang) => {
                 const override = languageOverrides.get(lang.id);
+                const startMissing =
+                  errors.overrideStartDates.get(lang.id) ?? false;
+                const endMissing =
+                  errors.overrideEndDates.get(lang.id) ?? false;
+                const startBeforeExam =
+                  errors.overrideStartDatesBeforeExamDate.get(lang.id) ?? false;
+                const endBeforeStart =
+                  errors.overrideEndDatesBeforeStartDate.get(lang.id) ?? false;
 
                 return (
                   <div key={lang.id} className="rows gapped-xxs">
@@ -328,7 +460,18 @@ export const AddEvaluationModal = ({
                                 })
                               }
                               minDate={examDate.examDate}
-                              error={false}
+                              error={
+                                submitted && (startMissing || startBeforeExam)
+                              }
+                              helperText={
+                                submitted && startMissing
+                                  ? t('evaluationModal.errors.required')
+                                  : submitted && startBeforeExam
+                                  ? t(
+                                      'evaluationModal.errors.startDateBeforeExamDate',
+                                    )
+                                  : undefined
+                              }
                             />
                           </div>
                         </div>
@@ -362,7 +505,18 @@ export const AddEvaluationModal = ({
                                 })
                               }
                               minDate={override?.startDate || undefined}
-                              error={false}
+                              error={
+                                submitted && (endMissing || endBeforeStart)
+                              }
+                              helperText={
+                                submitted && endMissing
+                                  ? t('evaluationModal.errors.required')
+                                  : submitted && endBeforeStart
+                                  ? t(
+                                      'evaluationModal.errors.endDateBeforeStartDate',
+                                    )
+                                  : undefined
+                              }
                             />
                           </div>
                         </div>
@@ -386,7 +540,7 @@ export const AddEvaluationModal = ({
               variant={Variant.Contained}
               color={Color.Primary}
               onClick={handleSubmit}
-              disabled={isSubmitDisabled}
+              disabled={isSaving}
             >
               {t('evaluationModal.submitButton')}
             </OphButton>

@@ -170,7 +170,12 @@
           "enablePerLanguageDates": "Lisää päivämäärät kielitutkintokohtaisesti",
           "useDefaultDates": "Käytä oletuspäiviä",
           "setCustomDates": "Aseta eri päivät",
-          "submitButton": "Lisää tarkistusarviointi"
+          "submitButton": "Lisää tarkistusarviointi",
+          "errors": {
+            "required": "Tieto on pakollinen",
+            "startDateBeforeExamDate": "Alkupäivä ei voi olla ennen tutkintopäivää",
+            "endDateBeforeStartDate": "Päättymispäivä ei voi olla ennen alkupäivää"
+          }
         },
         "toasts": {
           "examDateAdded": "Tutkintopäivä lisätty onnistuneesti",

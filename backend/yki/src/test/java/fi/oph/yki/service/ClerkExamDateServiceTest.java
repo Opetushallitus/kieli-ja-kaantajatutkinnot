@@ -59,7 +59,8 @@ public class ClerkExamDateServiceTest {
 
   @BeforeEach
   public void setup() {
-    clerkExamDateService = new ClerkExamDateService(examDateRepository, evaluationRepository, examSessionRepository, auditService);
+    clerkExamDateService =
+      new ClerkExamDateService(examDateRepository, evaluationRepository, examSessionRepository, auditService);
   }
 
   @Test
