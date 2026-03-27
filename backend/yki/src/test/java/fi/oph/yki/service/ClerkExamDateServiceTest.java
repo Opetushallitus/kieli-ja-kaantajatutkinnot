@@ -43,6 +43,9 @@ public class ClerkExamDateServiceTest {
   @Resource
   private ExamSessionRepository examSessionRepository;
 
+  @Resource
+  private JdbcTemplate jdbcTemplate;
+
   @MockitoBean
   private AuditService auditService;
 
@@ -368,5 +371,67 @@ public class ClerkExamDateServiceTest {
       () -> clerkExamDateService.updateExamDate(created.id(), updateDto)
     );
     assertEquals(APIExceptionType.EXAM_DATE_EXAM_BEFORE_REGISTRATION_END, ex.getExceptionType());
+  }
+
+  @Test
+  public void testDeleteExamDate() {
+    final ClerkExamDateDTO created = createTestExamDate();
+    assertEquals(1, clerkExamDateService.getAllExamDates().size());
+
+    clerkExamDateService.deleteExamDate(created.id());
+
+    assertEquals(0, clerkExamDateService.getAllExamDates().size());
+  }
+
+  @Test
+  public void testDeleteExamDateThrowsForNonExistentId() {
+    final APIException ex = assertThrows(APIException.class, () -> clerkExamDateService.deleteExamDate(999L));
+    assertEquals(APIExceptionType.NOT_FOUND, ex.getExceptionType());
+  }
+
+  @Test
+  public void testDeleteExamDateThrowsWhenExamSessionsExist() {
+    final ClerkExamDateDTO created = createTestExamDate();
+
+    jdbcTemplate.update(
+      "INSERT INTO organizer (oid, agreement_start_date, agreement_end_date) VALUES (?, ?, ?)",
+      "1.2.3.4.5",
+      LocalDate.of(2026, 1, 1),
+      LocalDate.of(2027, 1, 1)
+    );
+    final Long organizerId = jdbcTemplate.queryForObject(
+      "SELECT id FROM organizer WHERE oid = '1.2.3.4.5'",
+      Long.class
+    );
+    jdbcTemplate.update(
+      "INSERT INTO exam_session (organizer_id, language_code, level_code, exam_date_id, max_participants) VALUES (?, ?, ?, ?, ?)",
+      organizerId,
+      "fin",
+      "KESKI",
+      created.id(),
+      10
+    );
+
+    final APIException ex = assertThrows(APIException.class, () -> clerkExamDateService.deleteExamDate(created.id()));
+    assertEquals(APIExceptionType.EXAM_DATE_HAS_SESSIONS, ex.getExceptionType());
+  }
+
+  @Test
+  public void testDeletedExamDateAllowsCreatingNewWithSameDate() {
+    final ClerkExamDateDTO created = createTestExamDate();
+    clerkExamDateService.deleteExamDate(created.id());
+
+    final ClerkCreateExamDateDTO dto = ClerkCreateExamDateDTO
+      .builder()
+      .examDate(LocalDate.of(2026, 10, 15))
+      .registrationStartDate(LocalDate.of(2026, 8, 1))
+      .registrationEndDate(LocalDate.of(2026, 9, 30))
+      .examType(ExamSessionType.FULL)
+      .languages(List.of())
+      .build();
+
+    final ClerkExamDateDTO result = clerkExamDateService.createExamDate(dto);
+    assertNotNull(result.id());
+    assertEquals(LocalDate.of(2026, 10, 15), result.examDate());
   }
 }
