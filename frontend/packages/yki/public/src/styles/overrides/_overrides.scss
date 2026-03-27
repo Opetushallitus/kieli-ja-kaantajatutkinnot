@@ -2,7 +2,15 @@
 // Until new colors are used across the board in AKR and OTR, we need two separate color variables for the secondary color.
 
 $color-secondary: #378703;
-$color-secondary-dark: #004806;
+$color-secondary-dark: #5bca13;
+$ods-green-6: #f4fff4;
+$color-text-primary: #1d1d1d;
+$color-divider: #dfdfdf;
+$color-link-hover: #5bca13;
+
+.button-color-white {
+  color: #ffffff;
+}
 
 .color-secondary-dark {
   &#{&} {
@@ -24,7 +32,7 @@ $color-secondary-dark: #004806;
 
 .lang-selector {
   @include mobile {
-    background-color: $color-secondary-dark;
+    background-color: $color-secondary;
   }
 }
 

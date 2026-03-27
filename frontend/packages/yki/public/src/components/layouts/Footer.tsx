@@ -69,9 +69,7 @@ export const Footer = () => {
                 </Text>
               </a>
               <Text className="inline-text">
-                <Text color="secondary">
-                  {translateCommon('contactPhone.hours')}
-                </Text>
+                <Text>{translateCommon('contactPhone.hours')}</Text>
               </Text>
             </div>
           </div>

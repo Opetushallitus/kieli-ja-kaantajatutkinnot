@@ -332,7 +332,9 @@ const Registrations: FC<RegistrationsProps> = ({
                       `${r.id}`,
                     )}
                   >
-                    <Text color="white">{t('actions.confirm')}</Text>
+                    <span className="button-color-white">
+                      {t('actions.confirm')}
+                    </span>
                   </CustomButtonLink>
                 )}
               <CustomButton
