@@ -14,6 +14,7 @@ import { PersonFillOutDetails } from 'interfaces/publicRegistration';
 import { updatePublicRegistration } from 'redux/reducers/registration';
 import { registrationSelector } from 'redux/selectors/registration';
 
+// TODO remove me, deploy commit
 export const AddressDetails = ({
   getLabeledTextFieldAttributes,
 }: {
