@@ -44,16 +44,33 @@ import { sessionSelector } from 'redux/selectors/session';
 
 const colorSecondaryLight = '#159ecb'; // not in figma specs
 const colorSecondary = '#378703';
-const colorSecondaryDark = '#244b0a'; // not in figma specs
+const colorSecondaryDark = '#5bca13';
 const colorPrimary = '#ffffff';
 const colorGrey200 = '#f5f5f5';
 const colorGrey700 = '#666666';
 const fontWeightBold = 700;
+const colorTextPrimary = '#1d1d1d';
 
 const ykiPublicTheme = {
   ...theme,
   components: {
     ...theme.components,
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          variants: [
+            {
+              props: { variant: Variant.Contained },
+              style: {
+                '&:hover': {
+                  backgroundColor: colorSecondaryDark,
+                },
+              },
+            },
+          ],
+        },
+      },
+    },
     MuiCheckbox: {
       styleOverrides: {
         root: {
@@ -121,6 +138,33 @@ const ykiPublicTheme = {
       dark: colorSecondaryDark,
     },
   },
+  typography: {
+    ...theme.typography,
+    h1: {
+      ...theme.typography.h1,
+      color: colorTextPrimary,
+    },
+    h2: {
+      ...theme.typography.h2,
+      color: colorTextPrimary,
+    },
+    h3: {
+      ...theme.typography.h3,
+      color: colorTextPrimary,
+    },
+    body1: {
+      ...theme.typography.body1,
+      color: colorTextPrimary,
+    },
+    caption: {
+      ...theme.typography.caption,
+      color: colorGrey700,
+    },
+    label: {
+      ...theme.typography.label,
+      color: colorTextPrimary,
+    },
+  },
 };
 
 export const AppRouter: FC = () => {
@@ -186,7 +230,7 @@ export const AppRouter: FC = () => {
               to={AppRoutes.UserDetails}
               startIcon={<ArrowBackIcon />}
               variant={Variant.Text}
-              className="color-secondary-dark"
+              className="color-text-primary"
             >
               {translateCommon('back')}
             </CustomButtonLink>
