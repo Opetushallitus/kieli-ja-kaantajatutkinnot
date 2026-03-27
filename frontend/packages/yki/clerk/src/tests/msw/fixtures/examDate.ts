@@ -136,5 +136,6 @@ export const examDates: ExamDateResponse[] = examDatesRaw.map((ed) => {
     registrationEndDate: exam.subtract(1, 'month').format('YYYY-MM-DD'),
     examType: generateExamType(ed.id),
     languages: generateLanguages(ed.id),
+    examSessionCount: ed.id % 4 === 0 ? (ed.id % 3) + 1 : 0,
   };
 });

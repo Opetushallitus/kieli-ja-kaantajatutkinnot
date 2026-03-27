@@ -7,7 +7,7 @@ import {
   ophColors,
 } from '@opetushallitus/oph-design-system';
 import { Dayjs } from 'dayjs';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   CustomDatePicker,
   CustomModal,
@@ -39,6 +39,15 @@ type LanguageSelection = {
 type ModifyExamDateModalProps = {
   examDateToEdit: ExamDate | null;
   onClose: () => void;
+};
+
+type FormErrors = {
+  examDate: boolean;
+  registrationStart: boolean;
+  registrationEnd: boolean;
+  registrationEndBeforeStart: boolean;
+  registrationEndAfterExamDate: boolean;
+  languages: boolean;
 };
 
 const initializeLanguageSelections = (
@@ -80,10 +89,63 @@ export const ModifyExamDateModal = ({
   const [languageSelections, setLanguageSelections] = useState<
     LanguageSelection[]
   >([]);
-  const [examType, setExamType] = useState<ExamType | ''>('');
+  const [examType, setExamType] = useState<ExamType>('FULL');
+  const [submitted, setSubmitted] = useState(false);
+  const hasSelectedLanguages = useMemo(
+    () =>
+      languageSelections.some(
+        (lang) => lang.levels.PERUS || lang.levels.KESKI || lang.levels.YLIN,
+      ),
+    [languageSelections],
+  );
+
+  const [errors, setErrors] = useState<FormErrors>({
+    examDate: false,
+    registrationStart: false,
+    registrationEnd: false,
+    registrationEndBeforeStart: false,
+    registrationEndAfterExamDate: false,
+    languages: false,
+  });
 
   const isSaving = updateStatus === APIResponseStatus.InProgress;
   const isOpen = examDateToEdit !== null;
+
+  const validate = useCallback((): FormErrors => {
+    const registrationEndBeforeStart =
+      !!registrationStart &&
+      !!registrationEnd &&
+      registrationEnd.isBefore(registrationStart.add(1, 'day'));
+    const registrationEndAfterExamDate =
+      !!examDate && !!registrationEnd && !registrationEnd.isBefore(examDate);
+
+    return {
+      examDate: !examDate,
+      registrationStart: !registrationStart,
+      registrationEnd: !registrationEnd,
+      registrationEndBeforeStart,
+      registrationEndAfterExamDate,
+      languages: !hasSelectedLanguages,
+    };
+  }, [examDate, registrationStart, registrationEnd, hasSelectedLanguages]);
+
+  useEffect(() => {
+    if (submitted) {
+      const current = validate();
+
+      setErrors((prev) => ({
+        examDate: prev.examDate && current.examDate,
+        registrationStart: prev.registrationStart && current.registrationStart,
+        registrationEnd: prev.registrationEnd && current.registrationEnd,
+        registrationEndBeforeStart:
+          prev.registrationEndBeforeStart && current.registrationEndBeforeStart,
+        registrationEndAfterExamDate:
+          prev.registrationEndAfterExamDate &&
+          current.registrationEndAfterExamDate,
+        languages: prev.languages && current.languages,
+      }));
+    }
+  }, [submitted, validate]);
 
   useEffect(() => {
     if (examDateToEdit) {
@@ -94,6 +156,7 @@ export const ModifyExamDateModal = ({
         initializeLanguageSelections(examDateToEdit.languages),
       );
       setExamType(examDateToEdit.examType);
+      setSubmitted(false);
     }
   }, [examDateToEdit]);
 
@@ -133,14 +196,13 @@ export const ModifyExamDateModal = ({
   };
 
   const handleSubmit = () => {
-    if (
-      !examDateToEdit ||
-      !examDate ||
-      !registrationStart ||
-      !registrationEnd ||
-      registrationEnd.isBefore(registrationStart.add(1, 'day')) ||
-      !examType
-    ) {
+    const validationErrors = validate();
+    setErrors(validationErrors);
+    setSubmitted(true);
+
+    const hasErrors = Object.values(validationErrors).some(Boolean);
+
+    if (!examDateToEdit || hasErrors) {
       return;
     }
 
@@ -159,17 +221,23 @@ export const ModifyExamDateModal = ({
       return levels;
     });
 
-    const request: UpdateExamDateRequest = {
-      id: examDateToEdit.id,
-      examDate: examDate.format('YYYY-MM-DD'),
-      registrationStartDate: registrationStart.format('YYYY-MM-DD'),
-      registrationEndDate: registrationEnd.format('YYYY-MM-DD'),
-      languages: selectedLanguages,
-      examType,
-    };
+    if (examDate && registrationStart && registrationEnd) {
+      const request: UpdateExamDateRequest = {
+        id: examDateToEdit.id,
+        examDate: examDate.format('YYYY-MM-DD'),
+        registrationStartDate: registrationStart.format('YYYY-MM-DD'),
+        registrationEndDate: registrationEnd.format('YYYY-MM-DD'),
+        languages: selectedLanguages,
+        examType: examType,
+      };
 
-    dispatch(updateExamDate(request));
+      dispatch(updateExamDate(request));
+    }
   };
+
+  const hasExamSessions = examDateToEdit?.examSessionCount
+    ? examDateToEdit.examSessionCount > 0
+    : false;
 
   return (
     <CustomModal
@@ -207,19 +275,21 @@ export const ModifyExamDateModal = ({
           style={{ overflowY: 'auto', flex: '1 1 auto', paddingRight: '8px' }}
         >
           <div className="rows gapped-xl">
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1,
-                p: 1.5,
-                backgroundColor: '#FFF8E1',
-                borderRadius: 1,
-              }}
-            >
-              <Warning sx={{ color: '#F9A825' }} />
-              <Text>{t('modifyModal.infoBox')}</Text>
-            </Box>
+            {hasExamSessions && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                  p: 1.5,
+                  backgroundColor: '#FFF8E1',
+                  borderRadius: 1,
+                }}
+              >
+                <Warning sx={{ color: '#F9A825' }} />
+                <Text>{t('modifyModal.infoBox')}</Text>
+              </Box>
+            )}
 
             <div className="rows gapped-xxs">
               <H3>{t('modifyModal.examDateDetails')}</H3>
@@ -228,14 +298,20 @@ export const ModifyExamDateModal = ({
                 <CustomDatePicker
                   value={examDate}
                   setValue={setExamDate}
-                  error={false}
+                  error={submitted && errors.examDate}
+                  helperText={
+                    submitted && errors.examDate
+                      ? t('modal.errors.required')
+                      : undefined
+                  }
+                  disabled={hasExamSessions}
                 />
               </div>
             </div>
 
             <div
               className="columns gapped"
-              style={{ justifyContent: 'flex-start' }}
+              style={{ alignItems: 'flex-start' }}
             >
               <div className="rows gapped-xxs">
                 <Label>{t('modal.registrationStartLabel')} *</Label>
@@ -243,7 +319,12 @@ export const ModifyExamDateModal = ({
                   <CustomDatePicker
                     value={registrationStart}
                     setValue={setRegistrationStart}
-                    error={false}
+                    error={submitted && errors.registrationStart}
+                    helperText={
+                      submitted && errors.registrationStart
+                        ? t('modal.errors.required')
+                        : undefined
+                    }
                   />
                 </div>
               </div>
@@ -268,7 +349,21 @@ export const ModifyExamDateModal = ({
                     value={registrationEnd}
                     setValue={setRegistrationEnd}
                     minDate={registrationStart?.add(1, 'day') || undefined}
-                    error={false}
+                    error={
+                      submitted &&
+                      (errors.registrationEnd ||
+                        errors.registrationEndBeforeStart ||
+                        errors.registrationEndAfterExamDate)
+                    }
+                    helperText={
+                      submitted && errors.registrationEnd
+                        ? t('modal.errors.required')
+                        : submitted && errors.registrationEndBeforeStart
+                        ? t('modal.errors.registrationEndBeforeStart')
+                        : submitted && errors.registrationEndAfterExamDate
+                        ? t('modal.errors.registrationEndAfterExamDate')
+                        : undefined
+                    }
                   />
                 </div>
               </div>
@@ -347,6 +442,7 @@ export const ModifyExamDateModal = ({
                         >
                           <OphCheckbox
                             checked={lang.levels[level]}
+                            disabled={hasExamSessions}
                             onChange={() =>
                               toggleLanguageLevel(lang.languageCode, level)
                             }
@@ -357,6 +453,11 @@ export const ModifyExamDateModal = ({
                     </div>
                   </div>
                 ))}
+                {submitted && errors.languages && (
+                  <Text style={{ color: '#d32f2f' }}>
+                    {t('modal.errors.noLanguagesSelected')}
+                  </Text>
+                )}
               </div>
             </div>
 
@@ -373,6 +474,7 @@ export const ModifyExamDateModal = ({
                   label={t(
                     'modifyModal.examTypes.speechComprehensionAndWriting',
                   )}
+                  disabled={hasExamSessions}
                 />
                 <FormControlLabel
                   value="READ_SPEAK"
@@ -380,11 +482,13 @@ export const ModifyExamDateModal = ({
                   label={t(
                     'modifyModal.examTypes.readingComprehensionAndSpeaking',
                   )}
+                  disabled={hasExamSessions}
                 />
                 <FormControlLabel
                   value="FULL"
                   control={<Radio data-testid="exam-type-all" />}
                   label={t('modifyModal.examTypes.allExamParts')}
+                  disabled={hasExamSessions}
                 />
               </RadioGroup>
             </div>

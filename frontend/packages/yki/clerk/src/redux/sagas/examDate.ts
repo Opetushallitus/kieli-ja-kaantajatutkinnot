@@ -35,6 +35,7 @@ function* loadExamDatesSaga() {
       registrationEndDate: dayjs(ed.registrationEndDate),
       examType: ed.examType,
       languages: ed.languages,
+      examSessionCount: ed.examSessionCount,
     }));
 
     yield put(storeExamDates(examDates));

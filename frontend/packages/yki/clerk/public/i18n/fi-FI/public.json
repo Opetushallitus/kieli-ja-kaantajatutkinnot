@@ -124,6 +124,12 @@
         },
         "modal": {
           "cancelButton": "Peruuta",
+          "errors": {
+            "noLanguagesSelected": "Valitse vähintään yksi kieli ja taso",
+            "registrationEndAfterExamDate": "Ilmoittautumisen päättymispäivän on oltava ennen tutkintopäivää",
+            "registrationEndBeforeStart": "Päättymispäivän on oltava alkamispäivän jälkeen",
+            "required": "Tieto on pakollinen"
+          },
           "examDateLabel": "Tutkintopäivä",
           "examLabel": "Koe",
           "examTypes": {

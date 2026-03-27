@@ -14,6 +14,7 @@ import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.LanguageCode;
 import fi.oph.yki.model.type.LevelCode;
 import fi.oph.yki.repository.ExamDateRepository;
+import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
@@ -28,6 +29,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @WithMockUser
 @DataJpaTest
@@ -39,14 +41,17 @@ public class ClerkExamDateServiceTest {
   @Resource
   private ExamDateRepository examDateRepository;
 
-  @MockBean
+  @Resource
+  private ExamSessionRepository examSessionRepository;
+
+  @MockitoBean
   private AuditService auditService;
 
   private ClerkExamDateService clerkExamDateService;
 
   @BeforeEach
   public void setup() {
-    clerkExamDateService = new ClerkExamDateService(examDateRepository, auditService);
+    clerkExamDateService = new ClerkExamDateService(examDateRepository, examSessionRepository, auditService);
   }
 
   @Test

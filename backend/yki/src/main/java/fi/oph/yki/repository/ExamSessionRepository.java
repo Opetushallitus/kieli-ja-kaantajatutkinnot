@@ -5,4 +5,6 @@ import java.util.List;
 
 public interface ExamSessionRepository extends BaseRepository<ExamSession> {
   List<ExamSession> getByLanguageAndLevel(String language, String level);
+
+  boolean existsByExamDateId(long examDateId);
 }
