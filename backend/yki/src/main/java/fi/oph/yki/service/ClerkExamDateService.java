@@ -15,6 +15,7 @@ import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -54,13 +55,17 @@ public class ClerkExamDateService {
 
   @Transactional(readOnly = true)
   public List<ClerkExamDateDTO> getFutureExamDates() {
-    return examDateRepository.getByExamDateAfter(LocalDate.now()).stream().map(ClerkExamDateService::toDTO).toList();
+    return examDateRepository
+      .getByExamDateAfterAndDeletedAtIsNull(LocalDate.now())
+      .stream()
+      .map(ClerkExamDateService::toDTO)
+      .toList();
   }
 
   @Transactional(readOnly = true)
   public List<ClerkExamDateDTO> getAllExamDates() {
     return examDateRepository
-      .findAll()
+      .findAllByDeletedAtIsNull()
       .stream()
       .sorted(Comparator.comparing(ExamDate::getExamDate))
       .map(ClerkExamDateService::toDTO)
@@ -112,7 +117,7 @@ public class ClerkExamDateService {
 
   @Transactional
   public ClerkExamDateDTO createExamDate(final ClerkCreateExamDateDTO dto) {
-    if (examDateRepository.existsByExamDate(dto.examDate())) {
+    if (examDateRepository.existsByExamDateAndDeletedAtIsNull(dto.examDate())) {
       throw new APIException(APIExceptionType.EXAM_DATE_CREATE_DUPLICATE_DATE);
     }
     if (!dto.registrationEndDate().isAfter(dto.registrationStartDate())) {
@@ -186,7 +191,8 @@ public class ClerkExamDateService {
       throw new APIException(APIExceptionType.EXAM_DATE_HAS_SESSIONS);
     }
 
-    examDateRepository.delete(examDate);
+    examDate.setDeletedAt(LocalDateTime.now());
+    examDateRepository.flush();
     auditService.logById(YkiOperation.DELETE_EXAM_DATE, id);
   }
 }

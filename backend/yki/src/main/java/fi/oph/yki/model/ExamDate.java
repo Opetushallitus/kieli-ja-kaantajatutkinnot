@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -46,4 +47,7 @@ public class ExamDate {
 
   @OneToMany(mappedBy = "examDate")
   private List<ExamSession> sessions = new ArrayList<>();
+
+  @Column(name = "deleted_at")
+  private LocalDateTime deletedAt;
 }
