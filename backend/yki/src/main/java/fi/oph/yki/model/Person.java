@@ -50,4 +50,8 @@ public class Person {
   @Size(max = 255)
   @Column(name = "nationality_code")
   private String nationalityCode;
+
+  @Size(max = 255)
+  @Column(name = "country_code")
+  private String countryCode;
 }

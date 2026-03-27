@@ -9,6 +9,7 @@ export const personDetails: PersonDetailsResponse = {
   street_address: 'Kuusamakuja 9',
   zip: '99100',
   post_office: 'Kittilä',
+  country_code: '246',
   registrations: [
     {
       id: 1336,

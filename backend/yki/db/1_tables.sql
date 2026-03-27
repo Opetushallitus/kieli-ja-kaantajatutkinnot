@@ -1782,7 +1782,8 @@ CREATE TABLE public.person (
     post_office text,
     zip text,
     nationality_code text,
-    gender public.gender_code
+    gender public.gender_code,
+    country_code text
 );
 
 
