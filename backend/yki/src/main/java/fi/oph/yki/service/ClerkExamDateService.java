@@ -223,7 +223,7 @@ public class ClerkExamDateService {
       throw new APIException(APIExceptionType.EVALUATION_EXAM_DATE_HAS_NO_LANGUAGES);
     }
 
-    if (evaluationRepository.existsByExamDateAndDeletedAtIsNull(examDate)) {
+    if (evaluationRepository.existsByExamDateIdAndDeletedAtIsNull(examDateId)) {
       throw new APIException(APIExceptionType.EVALUATION_ALREADY_EXISTS);
     }
 
