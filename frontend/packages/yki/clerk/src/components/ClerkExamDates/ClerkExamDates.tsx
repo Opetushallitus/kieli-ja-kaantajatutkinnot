@@ -1,5 +1,7 @@
-import { Box, Link } from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
+import { Box, FormControlLabel, Link } from '@mui/material';
+import { OphCheckbox } from '@opetushallitus/oph-design-system';
+import dayjs from 'dayjs';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CustomCircularProgress } from 'shared/components';
 import { APIResponseStatus, Color, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
@@ -10,10 +12,13 @@ import { PageSizeSelector } from 'components/oph-design/table/page-size-selector
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { ExamDate } from 'interfaces/examDate';
+import { ExamDate, ExamDateSort } from 'interfaces/examDate';
 import { H2, Text } from 'ophTheme/Text';
-import { loadExamDates } from 'redux/reducers/examDate';
-import { examDateSelector } from 'redux/selectors/examDate';
+import { loadExamDates, setExamDateSort } from 'redux/reducers/examDate';
+import {
+  examDateSelector,
+  selectSortedExamDates,
+} from 'redux/selectors/examDate';
 import { languageToString, levelDescription } from 'utils/clerk';
 
 const EXAM_TYPE_TRANSLATION_KEYS: Record<string, string> = {
@@ -27,7 +32,9 @@ export const ClerkExamDates = () => {
     keyPrefix: 'yki.component.clerkExamDates',
   });
   const dispatch = useAppDispatch();
-  const { status, examDates, updateStatus } = useAppSelector(examDateSelector);
+  const { status, examDateSort, updateStatus, deleteStatus } =
+    useAppSelector(examDateSelector);
+  const examDates = useAppSelector(selectSortedExamDates);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const [examDateToEdit, setExamDateToEdit] = useState<ExamDate | null>(null);
@@ -36,6 +43,19 @@ export const ClerkExamDates = () => {
   const handleCloseModifyModal = useCallback(() => {
     setExamDateToEdit(null);
   }, []);
+  const [showPastDates, setShowPastDates] = useState(false);
+
+  const toggleShowPastDates = () => {
+    setShowPastDates((prev) => !prev);
+    setPage(1);
+  };
+
+  const filteredExamDates = useMemo(() => {
+    if (showPastDates) return examDates;
+    const today = dayjs();
+
+    return examDates.filter((ed) => !ed.examDate.isBefore(today, 'day'));
+  }, [examDates, showPastDates]);
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
@@ -57,6 +77,16 @@ export const ClerkExamDates = () => {
       });
     }
   }, [updateStatus, showToast, handleCloseModifyModal, t]);
+
+  useEffect(() => {
+    if (deleteStatus === APIResponseStatus.Success) {
+      handleCloseModifyModal();
+      showToast({
+        description: t('toasts.examDateDeleted'),
+        severity: Severity.Success,
+      });
+    }
+  }, [deleteStatus, handleCloseModifyModal, showToast, t]);
 
   const formatLanguageLevel = (ed: ExamDate) => {
     const grouped = new Map<string, string[]>();
@@ -166,16 +196,32 @@ export const ClerkExamDates = () => {
     case APIResponseStatus.Success:
       return (
         <>
+          <FormControlLabel
+            control={
+              <OphCheckbox
+                checked={showPastDates}
+                onChange={toggleShowPastDates}
+                sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+              />
+            }
+            label={t('listing.showPastDates')}
+          />
           <div className="columns space-between">
-            <Text>{t('listing.resultCount', { count: examDates.length })}</Text>
+            <Text>
+              {t('listing.resultCount', { count: filteredExamDates.length })}
+            </Text>
             <PageSizeSelector pageSize={pageSize} setPageSize={setPageSize} />
           </div>
           <ListTable
-            rows={examDates}
+            rows={filteredExamDates}
             rowKeyProp="id"
             columns={columns}
             translateHeader={false}
             pagination={pagination}
+            sort={examDateSort}
+            setSort={(sort: string) =>
+              dispatch(setExamDateSort(sort as ExamDateSort))
+            }
           />
           <ModifyExamDateModal
             examDateToEdit={examDateToEdit}

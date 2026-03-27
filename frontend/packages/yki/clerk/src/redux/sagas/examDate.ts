@@ -9,11 +9,14 @@ import { ExamDate, ExamDateResponse } from 'interfaces/examDate';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
   addExamDate,
+  deleteExamDate,
   loadExamDates,
   rejectAddExamDate,
+  rejectDeleteExamDate,
   rejectExamDates,
   rejectUpdateExamDate,
   storeAddExamDate,
+  storeDeleteExamDate,
   storeExamDates,
   storeUpdateExamDate,
   updateExamDate,
@@ -25,7 +28,7 @@ function* loadExamDatesSaga() {
   try {
     const response: AxiosResponse<ExamDateResponse[]> = yield call(
       axiosInstance.get,
-      APIEndpoints.ClerkExamDate,
+      `${APIEndpoints.ClerkExamDate}/all`,
     );
 
     const examDates: ExamDate[] = response.data.map((ed) => ({
@@ -35,6 +38,7 @@ function* loadExamDatesSaga() {
       registrationEndDate: dayjs(ed.registrationEndDate),
       examType: ed.examType,
       languages: ed.languages,
+      examSessionCount: ed.examSessionCount,
     }));
 
     yield put(storeExamDates(examDates));
@@ -82,8 +86,29 @@ function* updateExamDateSaga(action: ReturnType<typeof updateExamDate>) {
   }
 }
 
+function* deleteExamDateSaga(action: ReturnType<typeof deleteExamDate>) {
+  const t = translateOutsideComponent();
+  try {
+    yield call(
+      axiosInstance.delete,
+      `${APIEndpoints.ClerkExamDate}/${action.payload}`,
+    );
+    yield put(storeDeleteExamDate());
+    yield put(loadExamDates());
+  } catch (error) {
+    yield put(rejectDeleteExamDate());
+
+    const errorMessage = NotifierUtils.getAPIErrorMessage(
+      error as AxiosError,
+      t('yki.common.errors.deletingExamDateFailed'),
+    );
+    yield put(setAPIError(errorMessage));
+  }
+}
+
 export function* watchExamDates() {
   yield takeLatest(loadExamDates.type, loadExamDatesSaga);
   yield takeLatest(addExamDate.type, addExamDateSaga);
   yield takeLatest(updateExamDate.type, updateExamDateSaga);
+  yield takeLatest(deleteExamDate.type, deleteExamDateSaga);
 }

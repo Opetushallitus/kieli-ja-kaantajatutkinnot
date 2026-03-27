@@ -637,6 +637,7 @@
         },
         "labels": {
           "confirmEmail": "Vahvista sähköpostiosoite",
+          "countryCode": "Maa",
           "email": "Sähköpostiosoite",
           "phoneNumber": "Puhelinnumero",
           "postOffice": "Postitoimipaikka",
@@ -645,6 +646,7 @@
         },
         "placeholders": {
           "confirmEmail": "Kirjoita sähköpostiosoite uudelleen",
+          "countryCode": "Valitse maa",
           "email": "Esim. nimi@sahkoposti.fi",
           "phoneNumber": "Kirjoita muodossa +358 50 123 4567",
           "postOffice": "",

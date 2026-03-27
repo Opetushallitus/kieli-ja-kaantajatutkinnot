@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.clerk.ClerkCreateExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkUpdateExamDateDTO;
@@ -13,6 +14,7 @@ import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.LanguageCode;
 import fi.oph.yki.model.type.LevelCode;
 import fi.oph.yki.repository.ExamDateRepository;
+import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
@@ -20,25 +22,38 @@ import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @WithMockUser
 @DataJpaTest
+@ActiveProfiles("test-postgres")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(PostgresTestcontainerConfig.class)
 public class ClerkExamDateServiceTest {
 
   @Resource
   private ExamDateRepository examDateRepository;
 
-  @MockBean
+  @Resource
+  private ExamSessionRepository examSessionRepository;
+
+  @Resource
+  private JdbcTemplate jdbcTemplate;
+
+  @MockitoBean
   private AuditService auditService;
 
   private ClerkExamDateService clerkExamDateService;
 
   @BeforeEach
   public void setup() {
-    clerkExamDateService = new ClerkExamDateService(examDateRepository, auditService);
+    clerkExamDateService = new ClerkExamDateService(examDateRepository, examSessionRepository, auditService);
   }
 
   @Test
@@ -356,5 +371,67 @@ public class ClerkExamDateServiceTest {
       () -> clerkExamDateService.updateExamDate(created.id(), updateDto)
     );
     assertEquals(APIExceptionType.EXAM_DATE_EXAM_BEFORE_REGISTRATION_END, ex.getExceptionType());
+  }
+
+  @Test
+  public void testDeleteExamDate() {
+    final ClerkExamDateDTO created = createTestExamDate();
+    assertEquals(1, clerkExamDateService.getAllExamDates().size());
+
+    clerkExamDateService.deleteExamDate(created.id());
+
+    assertEquals(0, clerkExamDateService.getAllExamDates().size());
+  }
+
+  @Test
+  public void testDeleteExamDateThrowsForNonExistentId() {
+    final APIException ex = assertThrows(APIException.class, () -> clerkExamDateService.deleteExamDate(999L));
+    assertEquals(APIExceptionType.NOT_FOUND, ex.getExceptionType());
+  }
+
+  @Test
+  public void testDeleteExamDateThrowsWhenExamSessionsExist() {
+    final ClerkExamDateDTO created = createTestExamDate();
+
+    jdbcTemplate.update(
+      "INSERT INTO organizer (oid, agreement_start_date, agreement_end_date) VALUES (?, ?, ?)",
+      "1.2.3.4.5",
+      LocalDate.of(2026, 1, 1),
+      LocalDate.of(2027, 1, 1)
+    );
+    final Long organizerId = jdbcTemplate.queryForObject(
+      "SELECT id FROM organizer WHERE oid = '1.2.3.4.5'",
+      Long.class
+    );
+    jdbcTemplate.update(
+      "INSERT INTO exam_session (organizer_id, language_code, level_code, exam_date_id, max_participants) VALUES (?, ?, ?, ?, ?)",
+      organizerId,
+      "fin",
+      "KESKI",
+      created.id(),
+      10
+    );
+
+    final APIException ex = assertThrows(APIException.class, () -> clerkExamDateService.deleteExamDate(created.id()));
+    assertEquals(APIExceptionType.EXAM_DATE_HAS_SESSIONS, ex.getExceptionType());
+  }
+
+  @Test
+  public void testDeletedExamDateAllowsCreatingNewWithSameDate() {
+    final ClerkExamDateDTO created = createTestExamDate();
+    clerkExamDateService.deleteExamDate(created.id());
+
+    final ClerkCreateExamDateDTO dto = ClerkCreateExamDateDTO
+      .builder()
+      .examDate(LocalDate.of(2026, 10, 15))
+      .registrationStartDate(LocalDate.of(2026, 8, 1))
+      .registrationEndDate(LocalDate.of(2026, 9, 30))
+      .examType(ExamSessionType.FULL)
+      .languages(List.of())
+      .build();
+
+    final ClerkExamDateDTO result = clerkExamDateService.createExamDate(dto);
+    assertNotNull(result.id());
+    assertEquals(LocalDate.of(2026, 10, 15), result.examDate());
   }
 }

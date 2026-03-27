@@ -1,4 +1,4 @@
-import { TextFieldTypes } from 'shared/enums';
+import { CustomTextFieldErrors, TextFieldTypes } from 'shared/enums';
 import { InputFieldUtils } from 'shared/utils';
 
 import { useAppSelector } from 'configs/redux';
@@ -49,6 +49,10 @@ const getErrors = (
     modifyContactDetails.email !== modifyContactDetails.confirmEmail
       ? YkiValidationErrors.MismatchingEmails
       : '';
+
+  errors['countryCode'] = modifyContactDetails.countryCode
+    ? ''
+    : CustomTextFieldErrors.Required;
 
   return errors;
 };

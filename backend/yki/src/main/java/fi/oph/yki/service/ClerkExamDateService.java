@@ -11,9 +11,11 @@ import fi.oph.yki.audit.dto.ClerkExamDateAuditDTO;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamDateLanguage;
 import fi.oph.yki.repository.ExamDateRepository;
+import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -26,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClerkExamDateService {
 
   private final ExamDateRepository examDateRepository;
+  private final ExamSessionRepository examSessionRepository;
   private final AuditService auditService;
 
   private static ClerkExamDateLanguageDTO toLanguageDTO(final ExamDateLanguage lang) {
@@ -46,18 +49,23 @@ public class ClerkExamDateService {
       .registrationEndDate(ed.getRegistrationEndDate())
       .examType(ed.getExamType())
       .languages(ed.getLanguages().stream().map(ClerkExamDateService::toLanguageDTO).toList())
+      .examSessionCount(ed.getSessions().size())
       .build();
   }
 
   @Transactional(readOnly = true)
   public List<ClerkExamDateDTO> getFutureExamDates() {
-    return examDateRepository.getByExamDateAfter(LocalDate.now()).stream().map(ClerkExamDateService::toDTO).toList();
+    return examDateRepository
+      .getByExamDateAfterAndDeletedAtIsNull(LocalDate.now())
+      .stream()
+      .map(ClerkExamDateService::toDTO)
+      .toList();
   }
 
   @Transactional(readOnly = true)
   public List<ClerkExamDateDTO> getAllExamDates() {
     return examDateRepository
-      .findAll()
+      .findAllByDeletedAtIsNull()
       .stream()
       .sorted(Comparator.comparing(ExamDate::getExamDate))
       .map(ClerkExamDateService::toDTO)
@@ -89,9 +97,27 @@ public class ClerkExamDateService {
     return examDate;
   }
 
+  private static boolean languagesMatch(final ExamDate examDate, final ClerkUpdateExamDateDTO dto) {
+    final var existing = examDate
+      .getLanguages()
+      .stream()
+      .map(l -> l.getLanguageCode() + ":" + l.getLevelCode())
+      .sorted()
+      .toList();
+
+    final var requested = dto
+      .languages()
+      .stream()
+      .map(l -> l.languageCode().name() + ":" + l.levelCode().name())
+      .sorted()
+      .toList();
+
+    return existing.equals(requested);
+  }
+
   @Transactional
   public ClerkExamDateDTO createExamDate(final ClerkCreateExamDateDTO dto) {
-    if (examDateRepository.existsByExamDate(dto.examDate())) {
+    if (examDateRepository.existsByExamDateAndDeletedAtIsNull(dto.examDate())) {
       throw new APIException(APIExceptionType.EXAM_DATE_CREATE_DUPLICATE_DATE);
     }
     if (!dto.registrationEndDate().isAfter(dto.registrationStartDate())) {
@@ -122,14 +148,29 @@ public class ClerkExamDateService {
       .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
     final ClerkExamDateAuditDTO auditBefore = new ClerkExamDateAuditDTO(toDTO(examDate));
 
+    final boolean hasSessions = examSessionRepository.existsByExamDateId(id);
+
+    if (hasSessions) {
+      if (
+        !dto.examDate().isEqual(examDate.getExamDate()) ||
+        !dto.examType().equals(examDate.getExamType()) ||
+        !languagesMatch(examDate, dto)
+      ) {
+        throw new APIException(APIExceptionType.EXAM_DATE_HAS_SESSIONS);
+      }
+    }
+
     examDate.setExamDate(dto.examDate());
     examDate.setRegistrationStartDate(dto.registrationStartDate());
     examDate.setRegistrationEndDate(dto.registrationEndDate());
     examDate.setExamType(dto.examType());
-    examDate.getLanguages().clear();
-    examDate
-      .getLanguages()
-      .addAll(dto.languages().stream().map(langDTO -> toLanguageEntity(examDate, langDTO)).toList());
+
+    if (!hasSessions) {
+      examDate.getLanguages().clear();
+      examDate
+        .getLanguages()
+        .addAll(dto.languages().stream().map(langDTO -> toLanguageEntity(examDate, langDTO)).toList());
+    }
 
     examDateRepository.flush();
 
@@ -138,5 +179,20 @@ public class ClerkExamDateService {
     auditService.logUpdate(YkiOperation.UPDATE_EXAM_DATE, result.id(), auditBefore, auditAfter);
 
     return result;
+  }
+
+  @Transactional
+  public void deleteExamDate(final long id) {
+    final ExamDate examDate = examDateRepository
+      .findById(id)
+      .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
+
+    if (examSessionRepository.existsByExamDateId(id)) {
+      throw new APIException(APIExceptionType.EXAM_DATE_HAS_SESSIONS);
+    }
+
+    examDate.setDeletedAt(LocalDateTime.now());
+    examDateRepository.flush();
+    auditService.logById(YkiOperation.DELETE_EXAM_DATE, id);
   }
 }
