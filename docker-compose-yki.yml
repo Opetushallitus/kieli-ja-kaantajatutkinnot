@@ -12,7 +12,7 @@ services:
       [
         "sh",
         "-c",
-        "cd vkt; ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${YKI_UNSECURE:-false}",
+        "cd yki; ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${YKI_UNSECURE:-false}",
       ]
     networks:
       - yki-dev
@@ -27,6 +27,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=admin
       - SERVER_PORT=8083
       - YKI_UNSECURE=${YKI_UNSECURE}
+      - CLERK_ENABLED=true
 
   yki-postgres:
     build: ./backend/yki/db
@@ -39,8 +40,8 @@ services:
       - yki-dev
     environment:
       - POSTGRES_DB=yki
+      - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
-      - POSTGRES_USERNAME=admin
       - PGPORT=5432
 
 networks:

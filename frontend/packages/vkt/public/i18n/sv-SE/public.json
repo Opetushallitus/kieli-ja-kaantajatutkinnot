@@ -458,9 +458,9 @@
           },
           "selectExam": {
             "examFee": {
-              "part1": "Examensavgiften är <0>258 euro om du avlägger examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift samtidigt..</0>",
+              "part1": "Examensavgiften är <0>280 euro om du avlägger examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift samtidigt..</0>",
               "part2": "Avläggandet av examina i muntliga och skriftliga färdigheter visar också färdigheter i förståelse på motsvarande nivå.",
-              "part3": "Examensavgiften är <0>129 euro</0> om du avlägger antingen examen som gäller förmåga att använda språket i tal, examen som gäller förmåga att använda språket i skrift eller ett enskilt delprov.",
+              "part3": "Examensavgiften är <0>140 euro</0> om du avlägger antingen examen som gäller förmåga att använda språket i tal, examen som gäller förmåga att använda språket i skrift eller ett enskilt delprov.",
               "part4": "När du har kommit överens om examensdagen med examinatorn får du en länk per e-post för betalning av examensavgiften. Länken är giltig i 3 dygn.",
               "title": "Examensavgift"
             },
@@ -539,8 +539,8 @@
           },
           "ineligibility": {
             "description": "<0>Den som inte har rätt till avgiftsfri examen, ska i samband med anmälning betala även examensavgiften:</0>",
-            "fullExaminationPayment": "Examensavgiften är 514 euro om muntlig och skriftlig examen avläggs samtidigt.",
-            "partialExaminationPayment": "Examensavgiften är 257 euro om du avlägger antingen examen som gäller förmåga att använda språket i tal eller examen som gäller förmåga att använda språket i skrift eller ett av delproven."
+            "fullExaminationPayment": "Examensavgiften är 554 euro om muntlig och skriftlig examen avläggs samtidigt.",
+            "partialExaminationPayment": "Examensavgiften är 277 euro om du avlägger antingen examen som gäller förmåga att använda språket i tal eller examen som gäller förmåga att använda språket i skrift eller ett av delproven."
           },
           "title": "Avgftsfri examen"
         },
@@ -627,8 +627,8 @@
           },
           "enrollmentFees": {
             "bulletPoints": {
-              "point1": "Examensavgiften är <0>258 euroa</0> om du avlägger examen i både muntliga och skriftliga färdigheter samtidigt.",
-              "point2": "Examensavgiften är <0>129 euro</0> om du avlägger antingen examen i muntliga färdigheter, examen i skriftliga färdigheter eller ett enskilt delprov."
+              "point1": "Examensavgiften är <0>280 euroa</0> om du avlägger examen i både muntliga och skriftliga färdigheter samtidigt.",
+              "point2": "Examensavgiften är <0>140 euro</0> om du avlägger antingen examen i muntliga färdigheter, examen i skriftliga färdigheter eller ett enskilt delprov."
             },
             "title": "Examensavgifter"
           },
@@ -682,12 +682,12 @@
           "excellentLevel": {
             "part1": "Examina som gäller <0>utmärkta kunskaper</0> är avgiftsfria på vissa villkor.",
             "part2": "Personer som inte är berättigade till avgiftsfri examen som gäller utmärkta kunskaper betalar en examensavgift.",
-            "part3": "Examensavgiften är 514 euro om du avlägger examen i både muntliga och skriftliga färdigheter samtidigt.",
-            "part4": "Examensavgiften är 257 euro om du avlägger antingen examen i muntliga färdigheter, examen i skriftliga färdigheter eller ett enskilt delprov."
+            "part3": "Examensavgiften är 554 euro om du avlägger examen i både muntliga och skriftliga färdigheter samtidigt.",
+            "part4": "Examensavgiften är 277 euro om du avlägger antingen examen i muntliga färdigheter, examen i skriftliga färdigheter eller ett enskilt delprov."
           },
           "goodAndSatisfactoryLevel": {
-            "part1": "Examensavgiften för examen som gäller <0>goda och nöjaktiga kunskaper</0> är 258 euro om du avlägger examen i både muntliga och skriftliga färdigheter samtidigt.",
-            "part2": "Examensavgiften är 129 euro om du avlägger antingen examen i muntliga färdigheter, examen i skriftliga färdigheter eller ett enskilt delprov."
+            "part1": "Examensavgiften för examen som gäller <0>goda och nöjaktiga kunskaper</0> är 280 euro om du avlägger examen i både muntliga och skriftliga färdigheter samtidigt.",
+            "part2": "Examensavgiften är 140 euro om du avlägger antingen examen i muntliga färdigheter, examen i skriftliga färdigheter eller ett enskilt delprov."
           },
           "title": "Examensavgifter"
         },

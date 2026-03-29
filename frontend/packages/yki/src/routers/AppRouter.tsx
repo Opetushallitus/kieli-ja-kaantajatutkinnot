@@ -30,9 +30,11 @@ import { clerkTheme } from 'ophTheme/OphTheme';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ClerkCustomerDetailsPage } from 'pages/clerk/ClerkCustomerDetailsPage';
 import { ClerkCustomerSearchPage } from 'pages/clerk/ClerkCustomerSearchPage';
+import { ClerkExamSessionPage } from 'pages/clerk/ClerkExamSessionPage';
 import { ClerkFreeRegistrationDetailsPage } from 'pages/clerk/ClerkFreeRegistrationDetailsPage';
 import { ClerkFreeRegistrationPage } from 'pages/clerk/ClerkFreeRegistrationPage';
 import { ClerkHomePage } from 'pages/clerk/ClerkHomePage';
+import { ClerkOrganizerRegisterDetails } from 'pages/clerk/ClerkOrganizerRegisterDetails';
 import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
@@ -155,6 +157,14 @@ export const AppRouter: FC = () => {
             }
           />
           <Route
+            path={AppRoutes.ClerkOrganizerRegisterDetails}
+            element={
+              <YkiTitlePage title="clerk">
+                <ClerkOrganizerRegisterDetails />
+              </YkiTitlePage>
+            }
+          />
+          <Route
             path={AppRoutes.ClerkFreeRegistration}
             element={
               <YkiTitlePage title="clerk">
@@ -183,6 +193,14 @@ export const AppRouter: FC = () => {
             element={
               <YkiTitlePage title="customerDetails">
                 <ClerkCustomerDetailsPage />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.ClerkExamSession}
+            element={
+              <YkiTitlePage title="customerExamSession">
+                <ClerkExamSessionPage />
               </YkiTitlePage>
             }
           />

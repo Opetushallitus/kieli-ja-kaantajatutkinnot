@@ -47,6 +47,27 @@ public class AuditService {
     log(operation, new Target.Builder().setField("id", Long.toString(id)).build(), Changes.addedDto(dto));
   }
 
+  public void logClerkWithTarget(final YkiOperation operation, final Target target) {
+    logClerk(operation, target, Changes.EMPTY);
+  }
+
+  public void logClerkById(final YkiOperation operation, final String id) {
+    logClerk(operation, new Target.Builder().setField("id", id).build(), Changes.EMPTY);
+  }
+
+  private void logClerk(final YkiOperation operation, final Target target, final Changes changes) {
+    final User user = getClerkUser();
+    audit.log(user, operation, target, changes);
+  }
+
+  private User getClerkUser() {
+    if (devWebSecurityOff) {
+      LOG.warn("dev.web.security.off is OFF, auditing only IP");
+      return AuditUtil.getUserOnlyWithIp();
+    }
+    return AuditUtil.getClerkUser();
+  }
+
   private void log(final YkiOperation operation, final Target target, final Changes changes) {
     final User user = getUser();
     audit.log(user, operation, target, changes);

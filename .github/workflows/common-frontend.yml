@@ -11,14 +11,6 @@ on:
         description: "Cypress base url"
         required: true
         type: string
-      clerk-cypress-base-url:
-        description: "Temporary YKI Clerk Cypress base url"
-        required: false
-        type: string
-      clerk:
-        description: "Used temporarily for new YKI clerk"
-        required: false
-        type: string  
 env:
   FRONTEND_DIR: ./frontend
   BACKEND_DIR: ./backend
@@ -32,8 +24,8 @@ jobs:
       matrix:
         node-version: [20.9.0]
     steps:
-      - uses: actions/checkout@v3
-      - uses: szenius/set-timezone@v1.1
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # actions/checkout v6.0.2
+      - uses: szenius/set-timezone@d1416e74a9a643cbf6c711905741e73e3a0c26b8 # szenius/set-timezone v1.1
         with:
           timezoneLinux: "Europe/Helsinki"
       - name: Use Node.js ${{ matrix.node-version }}
@@ -41,7 +33,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Cache Yarn modules
-        uses: actions/cache@v3
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # actions/cache v5.0.3
         id: yarn-cache
         with:
           path: "**/node_modules"
@@ -61,7 +53,7 @@ jobs:
         working-directory: ${{ env.FRONTEND_DIR }}
         run: yarn ${{ inputs.app-name }}:test:jest
       - name: Cache Cypress
-        uses: actions/cache@v3
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # actions/cache v5.0.3
         id: cypress-cache
         with:
           path: "~/.cache/Cypress"
@@ -81,16 +73,6 @@ jobs:
           wait-on: ${{ inputs.cypress-base-url }}
           command: yarn ${{ inputs.app-name }}:test:cypress
         timeout-minutes: 10
-      - name: Clerk Run Cypress Tests
-        uses: cypress-io/github-action@v4
-        with:
-          working-directory: ${{ env.FRONTEND_DIR }}
-          install: false
-          start: yarn ${{ inputs.app-name }}:clerk:start:ci
-          wait-on: ${{ inputs.clerk-cypress-base-url }}
-          command: yarn ${{ inputs.app-name }}:clerk:test:cypress
-        timeout-minutes: 10
-        if: ${{ inputs.clerk != '' }}
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
         if: failure()
@@ -100,12 +82,8 @@ jobs:
       - name: Build
         working-directory: ${{ env.FRONTEND_DIR }}
         run: yarn ${{ inputs.app-name }}:build
-      - name: Build Clerk
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: yarn ${{ inputs.app-name }}:build:${{ inputs.clerk }}
-        if: ${{ inputs.clerk != '' }}
       - name: Cache build
-        uses: actions/cache@v3
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # actions/cache v5.0.3
         with:
           path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/src/main/resources/static
           key: ${{ runner.os }}-${{ inputs.app-name }}-frontend-build-${{ github.sha }}

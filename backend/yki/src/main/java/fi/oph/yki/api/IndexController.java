@@ -44,7 +44,32 @@ public class IndexController {
   public ModelAndView index(final HttpServletResponse response) {
     final String cspNonce = getNonce();
     addCSPHeaders(response, cspNonce);
-    return new ModelAndView("index.html", Map.of("cspNonce", cspNonce));
+    return new ModelAndView("public/index.html", Map.of("cspNonce", cspNonce));
+  }
+
+  // Virkailija UI paths
+  // Map to everything which has no suffix, i.e. matches to "/foo/bar" but not to "/foo/bar.js"
+  @GetMapping(
+    path = {
+      "v2",
+      "v2/{path:[^.]*}",
+      "v2/*/{path:[^.]*}",
+      "v2/*/*/{path:[^.]*}",
+      "v2/*/*/*/{path:[^.]*}",
+      "v2/*/*/*/*/{path:[^.]*}",
+      "v2/*/*/*/*/*/{path:[^.]*}",
+      "v2/*/*/*/*/*/*/{path:[^.]*}",
+      "v2/*/*/*/*/*/*/*/{path:[^.]*}",
+      "v2/*/*/*/*/*/*/*/*/{path:[^.]*}",
+      "v2/*/*/*/*/*/*/*/*/*/{path:[^.]*}",
+      "v2/*/*/*/*/*/*/*/*/*/*/{path:[^.]*}",
+      "v2/*/*/*/*/*/*/*/*/*/*/*/{path:[^.]*}",
+    }
+  )
+  public ModelAndView indexAllOtherClerkPaths(final HttpServletResponse response) {
+    final String cspNonce = getNonce();
+    addCSPHeaders(response, cspNonce);
+    return new ModelAndView("v2/clerk/index.html", Map.of("cspNonce", cspNonce));
   }
 
   // Map to everything which has no suffix, i.e. matches to "/foo/bar" but not to "/foo/bar.js"
@@ -67,6 +92,6 @@ public class IndexController {
   public ModelAndView indexAllOtherPaths(final HttpServletResponse response) {
     final String cspNonce = getNonce();
     addCSPHeaders(response, cspNonce);
-    return new ModelAndView("index.html", Map.of("cspNonce", cspNonce));
+    return new ModelAndView("public/index.html", Map.of("cspNonce", cspNonce));
   }
 }

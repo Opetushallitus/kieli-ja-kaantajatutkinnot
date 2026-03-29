@@ -1,13 +1,42 @@
 {
+  "[json]": {
+    "editor.codeActionsOnSave": {
+      "source.sort.json": "always"
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.codeActionsOnSave": {
+      "source.sort.json": "never"
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "css.validate": false,
-  "less.validate": false,
-  "scss.validate": false,
-  "stylelint.validate": ["css", "scss"],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
-    "source.fixAll.stylelint": "explicit",
-    "source.fixAll.sortJSON": "explicit"
+    "source.fixAll.sortJSON": "explicit",
+    "source.fixAll.stylelint": "explicit"
   },
-  "eslint.validate": ["typescript", "typescriptreact", "javascript"],
-  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "eslint.validate": [
+    "typescript",
+    "typescriptreact",
+    "javascript"
+  ],
+  "files.associations": {
+    ".eslint.json": "jsonc",
+    ".prettierrc.json": "jsonc",
+    ".stylelintrc.json": "jsonc",
+    "cors.json": "jsonc",
+    "jest.config.json": "jsonc",
+    "package.json": "jsonc",
+    "settings.json": "json",
+    "tsconfig.json": "jsonc"
+  },
+  "less.validate": false,
+  "scss.validate": false,
+  "stylelint.validate": [
+    "css",
+    "scss"
+  ],
+  "typescript.preferences.importModuleSpecifier": "non-relative"
 }

@@ -1,0 +1,282 @@
+import CloseIcon from '@mui/icons-material/Close';
+import { Box } from '@mui/material';
+import {
+  OphButton,
+  OphInputFormField,
+  OphRadioGroupFormField,
+} from '@opetushallitus/oph-design-system';
+import { useEffect, useRef, useState } from 'react';
+import { CustomModal } from 'shared/components';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
+
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { ExamLevel, ExamSessionType } from 'enums/app';
+import { ClerkExamSession } from 'interfaces/clerkExamSession';
+import { ExamDate } from 'interfaces/examDate';
+import { H2 } from 'ophTheme/Text';
+import { saveExamSession } from 'redux/reducers/clerkExamSession';
+import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
+import { DateTimeUtils } from 'utils/dateTime';
+
+type ClerkExamSessionEditModalProps = {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  examSessionDetails: ClerkExamSession;
+  languages: string[];
+  examDates: ExamDate[];
+};
+
+export const ClerkExamSessionEditModal = ({
+  isOpen,
+  setIsOpen,
+  examSessionDetails,
+  languages,
+  examDates,
+}: ClerkExamSessionEditModalProps) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.clerkExamSessionRegistrations.modals.edit',
+  });
+  const translateCommon = useCommonTranslation();
+  const dispatch = useAppDispatch();
+  const { updateStatus } = useAppSelector(clerkExamSessionDetailsSelector);
+
+  const location = examSessionDetails.location[0];
+  const isSaving = updateStatus === APIResponseStatus.InProgress;
+  const prevUpdateStatus = useRef(updateStatus);
+
+  useEffect(() => {
+    if (
+      prevUpdateStatus.current === APIResponseStatus.InProgress &&
+      updateStatus === APIResponseStatus.Success
+    ) {
+      setIsOpen(false);
+    }
+    prevUpdateStatus.current = updateStatus;
+  }, [updateStatus, setIsOpen]);
+
+  const languageOptions = languages.map((lang) => ({
+    value: lang,
+    label: translateCommon('languages.' + lang),
+  }));
+
+  const levelOptions = [ExamLevel.PERUS, ExamLevel.KESKI, ExamLevel.YLIN].map(
+    (level) => ({
+      value: level,
+      label: translateCommon('languageLevel.' + level),
+    }),
+  );
+
+  const typeOptions = [
+    ExamSessionType.FULL,
+    ExamSessionType.READ_SPEAK,
+    ExamSessionType.LISTEN_WRITE,
+  ].map((type) => ({
+    value: type,
+    label: t('fields.typeOptions.' + type),
+  }));
+
+  const examDateOptions = examDates.map((ed) => {
+    const languagesStr =
+      ed.languages &&
+      ed.languages
+        .map(
+          (l) =>
+            translateCommon('languages.' + l.languageCode) +
+            ' - ' +
+            translateCommon('languageLevel.' + l.levelCode),
+        )
+        .join(', ');
+    const label = languagesStr
+      ? `${DateTimeUtils.renderDate(ed.examDate)} (${languagesStr})`
+      : DateTimeUtils.renderDate(ed.examDate);
+
+    return { value: String(ed.id), label };
+  });
+
+  const currentExamDateId = examDates.find((ed) =>
+    ed.examDate.isSame(examSessionDetails.date, 'day'),
+  )?.id;
+
+  const [form, setForm] = useState({
+    examDateId: String(currentExamDateId ?? ''),
+    language: examSessionDetails.language,
+    level: examSessionDetails.level,
+    type: examSessionDetails.type ?? '',
+    maxParticipantsTotal: String(examSessionDetails.maxParticipantsTotal ?? ''),
+    maxParticipantsPartial1: String(
+      examSessionDetails.maxParticipantsPartial1 ?? '',
+    ),
+    maxParticipantsPartial2: String(
+      examSessionDetails.maxParticipantsPartial2 ?? '',
+    ),
+    streetAddress: location?.streetAddress ?? '',
+    postalCode: location?.zip ?? '',
+    city: location?.postOffice ?? '',
+    contactName: examSessionDetails.contactName ?? '',
+    contactEmail: examSessionDetails.contactEmail ?? '',
+    contactPhoneNumber: examSessionDetails.contactPhoneNumber ?? '',
+  });
+
+  const updateField = (field: string, value: string) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleSave = () => {
+    dispatch(
+      saveExamSession({
+        examSessionId: examSessionDetails.id,
+        form,
+      }),
+    );
+  };
+
+  return (
+    <CustomModal
+      open={isOpen}
+      onCloseModal={handleCloseModal}
+      aria-labelledby="modal-title"
+      modalTitle={
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="flex-start"
+          gap={1}
+        >
+          <H2>{t('title')}</H2>
+          <CloseIcon
+            color={Color.Inherit}
+            aria-hidden={true}
+            fontSize="large"
+            onClick={handleCloseModal}
+          />
+        </Box>
+      }
+    >
+      <div className="rows gapped">
+        <OphRadioGroupFormField
+          label={t('fields.language')}
+          value={form.language}
+          onChange={(e) =>
+            updateField('language', (e.target as HTMLInputElement).value)
+          }
+          options={languageOptions}
+          disabled={isSaving}
+        />
+        <OphRadioGroupFormField
+          label={t('fields.level')}
+          value={form.level}
+          onChange={(e) =>
+            updateField('level', (e.target as HTMLInputElement).value)
+          }
+          options={levelOptions}
+          disabled={isSaving}
+        />
+        <OphRadioGroupFormField
+          label={t('fields.type')}
+          value={form.type}
+          onChange={(e) =>
+            updateField('type', (e.target as HTMLInputElement).value)
+          }
+          options={typeOptions}
+          disabled={isSaving}
+        />
+        <OphRadioGroupFormField
+          label={t('fields.examDate')}
+          value={form.examDateId}
+          onChange={(e) =>
+            updateField('examDateId', (e.target as HTMLInputElement).value)
+          }
+          options={examDateOptions}
+          disabled={isSaving}
+        />
+        {form.type === ExamSessionType.FULL || !form.type ? (
+          <OphInputFormField
+            label={t('fields.maxParticipants')}
+            value={form.maxParticipantsTotal}
+            onChange={(e) =>
+              updateField('maxParticipantsTotal', e.target.value)
+            }
+            type="number"
+            disabled={isSaving}
+          />
+        ) : (
+          <div className="columns gapped">
+            <OphInputFormField
+              label={t('fields.maxParticipantsPart1')}
+              value={form.maxParticipantsPartial1}
+              onChange={(e) =>
+                updateField('maxParticipantsPartial1', e.target.value)
+              }
+              type="number"
+              disabled={isSaving}
+            />
+            <OphInputFormField
+              label={t('fields.maxParticipantsPart2')}
+              value={form.maxParticipantsPartial2}
+              onChange={(e) =>
+                updateField('maxParticipantsPartial2', e.target.value)
+              }
+              type="number"
+              disabled={isSaving}
+            />
+          </div>
+        )}
+        <OphInputFormField
+          label={t('fields.streetAddress')}
+          value={form.streetAddress}
+          onChange={(e) => updateField('streetAddress', e.target.value)}
+          disabled={isSaving}
+        />
+        <div className="columns gapped">
+          <OphInputFormField
+            label={t('fields.postalCode')}
+            value={form.postalCode}
+            onChange={(e) => updateField('postalCode', e.target.value)}
+            disabled={isSaving}
+          />
+          <OphInputFormField
+            label={t('fields.city')}
+            value={form.city}
+            onChange={(e) => updateField('city', e.target.value)}
+            disabled={isSaving}
+          />
+        </div>
+        <OphInputFormField
+          label={t('fields.contactName')}
+          value={form.contactName}
+          onChange={(e) => updateField('contactName', e.target.value)}
+          disabled={isSaving}
+        />
+        <OphInputFormField
+          label={t('fields.contactEmail')}
+          value={form.contactEmail}
+          onChange={(e) => updateField('contactEmail', e.target.value)}
+          disabled={isSaving}
+        />
+        <OphInputFormField
+          label={t('fields.contactPhoneNumber')}
+          value={form.contactPhoneNumber}
+          onChange={(e) => updateField('contactPhoneNumber', e.target.value)}
+          disabled={isSaving}
+        />
+        <div className="columns gapped flex-end">
+          <OphButton variant={Variant.Outlined} onClick={handleCloseModal}>
+            {translateCommon('cancel')}
+          </OphButton>
+          <OphButton
+            variant={Variant.Contained}
+            onClick={handleSave}
+            disabled={isSaving}
+          >
+            {t('saveButton')}
+          </OphButton>
+        </div>
+      </div>
+    </CustomModal>
+  );
+};

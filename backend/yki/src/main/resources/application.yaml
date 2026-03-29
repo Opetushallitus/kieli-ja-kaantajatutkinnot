@@ -22,6 +22,12 @@ spring:
   thymeleaf:
     prefix: classpath:static/
     templateResolverOrder: 1
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${oauth2.issuer-uri:https://dev.otuva.opintopolku.fi/kayttooikeus-service}
+          jwk-set-uri: ${oauth2.jwk-set-uri:https://dev.otuva.opintopolku.fi/kayttooikeus-service/oauth2/jwks}
 management:
   endpoints:
     access:
@@ -46,6 +52,7 @@ app:
     url: ${koski.url:null}
     user: ${cas.username:null}
     password: ${cas.password:null}
+  clerk-enabled: ${clerk.enabled:false}
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}
@@ -58,7 +65,7 @@ cas:
   logout-path: /cas/localLogout
   logout-success-path: /etusivu
   cookie-name: JSESSIONID
-  onr-url: ${virkailija.onr.url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}
+  onr-url: ${cas.onr-service-url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}
   service-url: ${virkailija.cas.service-url:http://localhost:${server.port}/yki}
   url: ${virkailija.cas.url:http://localhost:${server.port}/yki}
   cas-url: ${virkailija.cas.url:https://virkailija.untuvaopintopolku.fi/cas}

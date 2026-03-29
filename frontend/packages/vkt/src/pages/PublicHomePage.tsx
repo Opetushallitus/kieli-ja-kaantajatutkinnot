@@ -7,6 +7,7 @@ import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { BoldedTranslationString } from 'components/common/BoldedTranslationString';
+import { InformationBox } from 'components/common/InformationBox';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
@@ -177,6 +178,7 @@ export const PublicHomePage: FC = () => {
         className="public-homepage__grid-container"
       >
         <Grid className="public-homepage__grid-container__item-header">
+          <InformationBox />
           <H1 data-testid="public-homepage__title-heading">{t('title')}</H1>
           <HeaderSeparator />
           <div className="rows gapped">

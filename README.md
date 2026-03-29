@@ -109,7 +109,45 @@ cd frontend
 yarn 
 yarn run yki:start:dev-server
 ```
- 
+
+## Local development with tmuxinator
+
+[tmux](https://github.com/tmux/tmux) and [tmuxinator](https://github.com/tmuxinator/tmuxinator) are required. Install them (e.g. with Homebrew):
+
+```sh
+brew install tmux
+gem install tmuxinator
+```
+
+Start the YKI clerk environment (uses MSW mock by default):
+
+```sh
+scripts/run-local-env.sh
+```
+
+To connect to a real backend instead of MSW:
+
+```sh
+scripts/run-local-env.sh --no-msw
+```
+
+When using `--no-msw`, start the backend separately:
+
+```sh
+cd backend/yki && ./mvnw spring-boot:run
+# or run fi.oph.yki.YkiApplication in IntelliJ debugger
+```
+
+To stop, run from within the tmux session:
+
+```sh
+scripts/stop-tmux.sh
+# or gracefully, waiting N seconds before killing:
+scripts/stop-tmux.sh --gracefully=3
+```
+
+&nbsp;
+
 ## Development setup initialisation with Docker
 
 1. Download Docker Desktop

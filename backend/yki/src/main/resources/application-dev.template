@@ -1,0 +1,11 @@
+cas:
+  username: username
+  password: password
+
+clerk:
+  enabled: true
+
+dev:
+  web:
+    security:
+      'off': true

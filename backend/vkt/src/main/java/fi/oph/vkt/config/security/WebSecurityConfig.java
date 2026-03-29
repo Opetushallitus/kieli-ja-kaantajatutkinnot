@@ -176,7 +176,7 @@ public class WebSecurityConfig {
         registry
           .requestMatchers("/api/v1/clerk/user")
           .hasAnyRole(Constants.APP_ADMIN_ROLE, Constants.APP_TV_ROLE)
-          .requestMatchers("/api/v1/clerk/**", "/api/v1/registry/**", "/virkailija/**", "/virkailija")
+          .requestMatchers("/api/v1/clerk/**", "/virkailija/**", "/virkailija")
           .hasRole(Constants.APP_ADMIN_ROLE)
           .requestMatchers("/api/v1/tv/{oid}/**")
           .access(examinerApiAuthorizationManager)

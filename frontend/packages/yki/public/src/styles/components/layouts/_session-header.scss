@@ -1,0 +1,51 @@
+.session-header {
+  background: #f0f3f7;
+  justify-content: flex-end;
+  padding: 2rem 6rem;
+
+  @include phone {
+    align-items: flex-end;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  & &__logout-button {
+    background-color: $color-primary;
+  }
+
+  & &__user-details {
+    @include phone {
+      align-items: flex-end;
+    }
+  }
+
+  & &__user-icon {
+    height: 2rem;
+    width: 2rem;
+  }
+
+  & &__open-registrations {
+    @include not-phone {
+      margin-right: auto;
+    }
+
+    @include phone {
+      align-items: flex-end;
+      background-color: $color-grey-400;
+      padding: 2rem;
+      width: 100%;
+    }
+
+    & a {
+      color: $color-secondary-dark;
+      font-size: 1.6rem;
+      font-weight: normal;
+      letter-spacing: 0;
+      line-height: 1.9rem;
+      margin: 0;
+      text-decoration: underline;
+      text-transform: initial;
+    }
+  }
+}

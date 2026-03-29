@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClerkHeader should render ClerkHeader correctly 1`] = `
+<div>
+  <header
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic clerk-header css-ptdwpq-MuiPaper-root-MuiAppBar-root"
+    style="--Paper-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);"
+  >
+    <div
+      class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular clerk-header__toolbar css-1ygil4i-MuiToolbar-root"
+    >
+      <div
+        class="clerk-header__tabs"
+      >
+        <nav
+          aria-label="header.accessibility.mainNavigation"
+          class="navigation-links"
+        >
+          <ul>
+            <li>
+              <a
+                aria-current="false"
+                href="/yki/v2/virkailija/tutkintopaivat"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  clerkExamSessions
+                </p>
+              </a>
+            </li>
+            <li>
+              <a
+                aria-current="false"
+                href="/yki/v2/virkailija/jarjestajarekisteri"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  clerkOrganizerRegister
+                </p>
+              </a>
+            </li>
+            <li>
+              <a
+                aria-current="false"
+                href="/yki/v2/virkailija/maksuttomuus"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  freeRegistration
+                </p>
+              </a>
+            </li>
+            <li>
+              <a
+                aria-current="false"
+                href="/yki/v2/virkailija/asiakashaku"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  customerSearch
+                </p>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+</div>
+`;

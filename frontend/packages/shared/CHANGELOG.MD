@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.14.2] - 2026-03-25
+
+### Changed
+
+- Small fix to custom modal title
+
 ## [1.14.1] - 2025-10-10
 
 ### Changed

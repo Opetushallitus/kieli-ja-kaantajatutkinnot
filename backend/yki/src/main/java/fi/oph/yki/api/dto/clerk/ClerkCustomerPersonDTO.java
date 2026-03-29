@@ -11,5 +11,7 @@ public record ClerkCustomerPersonDTO(
   String nationalityCode,
   String phoneNumber,
   String streetAddress,
+  String postOffice,
+  String zip,
   String email
 ) {}

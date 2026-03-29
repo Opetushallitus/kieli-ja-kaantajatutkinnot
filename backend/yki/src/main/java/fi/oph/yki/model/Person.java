@@ -2,19 +2,10 @@ package fi.oph.yki.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 @Getter
@@ -44,11 +35,11 @@ public class Person {
   @Column(name = "phone_number")
   private String phoneNumber;
 
-  @Size(max = 255)
+  @Size(max = 100)
   @Column(name = "street_address")
   private String steetAddress;
 
-  @Size(max = 255)
+  @Size(max = 50)
   @Column(name = "post_office")
   private String postOffice;
 
@@ -60,7 +51,7 @@ public class Person {
   @Column(name = "nationality_code")
   private String nationalityCode;
 
-  public String getAddress() {
-    return String.format("%s, %s, %s", steetAddress, zip, postOffice);
-  }
+  @Size(max = 255)
+  @Column(name = "country_code")
+  private String countryCode;
 }

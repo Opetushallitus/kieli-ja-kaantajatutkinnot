@@ -1,0 +1,188 @@
+{
+  "yki": {
+    "common": {
+      "and": "ja",
+      "actions": "Toiminnot",
+      "address": "Osoite",
+      "appNameAbbreviation": "YKI",
+      "appTitle": "Yleiset kielitutkinnot - Opetushallitus",
+      "back": "Takaisin",
+      "backToHomePage": "Takaisin aloitussivulle",
+      "cancel": "Keskeytä",
+      "component": {
+        "table": {
+          "header": {
+            "searchResults": "Tulokset ({{count}})",
+            "searchResultsAriaLabel_one": "Tulokset (1 tulos)",
+            "searchResultsAriaLabel_other": "Tulokset ({{count}} tulosta)",
+            "searchResultsAriaLabel_zero": "Tulokset (ei tuloksia)"
+          },
+          "pagination": {
+            "backButtonLabel": "Edelliset hakutulokset",
+            "displayedRowsAriaLabel": "Näytetään {{from}}-{{to}} / {{count}} tulosta",
+            "displayedRowsLabel": "{{from}}-{{to}} / {{count}}",
+            "nextButtonLabel": "Seuraavat hakutulokset",
+            "rowsPerPage": "Tulokset per sivu"
+          }
+        }
+      },
+      "contactEmail": {
+        "jyu": "yki-info@jyu.fi",
+        "oph": "kielitutkinnot@oph.fi"
+      },
+      "contactPhone": {
+        "hours": "(Arkisin klo 9-11)",
+        "jyu": "+358 50 591 9322"
+      },
+      "dates": {
+        "dateTimeFormat": "l [klo] HH.mm"
+      },
+      "email": "Sähköpostiosoite",
+      "error": "Tapahtui odottamaton virhe.",
+      "errors": {
+        "customTextField": {
+          "dateFormat": "Kirjoita päivämäärä muodossa pp.kk.vvvv",
+          "emailFormat": "Sähköpostiosoite on virheellinen",
+          "maxLength": "Teksti on liian pitkä",
+          "required": "Tieto on pakollinen",
+          "personalIdentityCodeFormat": "Henkilötunnuksen muotoa ei tunnistettu",
+          "telFormat": "Puhelinnumero on virheellinen"
+        },
+        "loadingFailed": "Tietojen lataaminen epäonnistui.",
+        "mismatchingEmails": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
+        "preferredNameMustBeFirstName": "Kutsumanimen on oltava yksi etunimistä",
+        "registration": {
+          "alreadyRegistered": "Voit ilmoittautua vain yhteen YKI-testiin.",
+          "examSessionFull": "Tutkinto on täynnä",
+          "formExpired": "Ilmoittautumislomakkeen täyttöaika on umpeutunut.",
+          "paymentCreationFailed": "Ilmoittautumislomakkeen lähetys epäonnistui.",
+          "personCreationFailed": "Ilmoittautumislomakkeen lähetys epäonnistui.",
+          "registrationPeriodClosed": "Ilmoittautumisaika on päättynyt."
+        }
+      },
+      "examDate": "Testipäivä",
+      "examParts": {
+        "readingComprehension": "Tekstin ymmärtäminen",
+        "speaking": "Puhuminen",
+        "speechComprehension": "Puheen ymmärtäminen",
+        "writing": "Kirjoittaminen"
+      },
+      "examSession": "Tutkinto",
+      "examination": "Tutkinto",
+      "full": "Täynnä",
+      "gender": {
+        "female": "Nainen",
+        "male": "Mies",
+        "other": "Muu",
+        "preferNotToDisclose": "En halua määritellä"
+      },
+      "header": {
+        "accessibility": {
+          "continueToMain": "Jatka sisältöön",
+          "langSelectorAriaLabel": "Kieli / Språk / Language",
+          "mainNavigation": "Päänavigaatio"
+        },
+        "sessionState": {
+          "activeRegistrations_one": "Sinulla on 1 ilmoittautuminen kesken.",
+          "activeRegistrations_other": "Sinulla on {{count}} ilmoittautumista kesken.",
+          "continueToRegistration": "Siirry takaisin ilmoittautumislomakkeelle.",
+          "logOut": "Kirjaudu ulos",
+          "logOutDialog": {
+            "cancelButton": "En halua kirjautua ulos",
+            "confirmButton": "Kyllä, kirjaudun ulos",
+            "description1": "Haluatko varmasti kirjautua ulos?",
+            "description2": "Menetät täyttämäsi tiedot ja ilmoittautumisesi keskeytyy.",
+            "title": "Kirjaudu ulos"
+          }
+        },
+        "lang": {
+          "en": "In English",
+          "fi": "Suomeksi",
+          "sv": "På svenska"
+        }
+      },
+      "institution": "Testipaikka",
+      "language": "Kieli",
+      "languageLevel": {
+        "ALL": "kaikki tasot",
+        "KESKI": "keskitaso",
+        "PERUS": "perustaso",
+        "YLIN": "ylin taso"
+      },
+      "languages": {
+        "all": "kaikki kielet",
+        "deu": "saksa",
+        "eng": "englanti",
+        "fin": "suomi",
+        "fra": "ranska",
+        "ita": "italia",
+        "rus": "venäjä",
+        "sme": "pohjoissaame",
+        "spa": "espanja",
+        "swe": "ruotsi"
+      },
+      "level": "Taso",
+      "loadingContent": "Sisältöä ladataan",
+      "loadingDone": "Lataus valmis",
+      "municipality": "Paikkakunta",
+      "navigationProtection": {
+        "description": "Menetät tekemäsi muutokset.",
+        "header": "Haluatko varmasti poistua sivulta?"
+      },
+      "name": "Nimi",
+      "next": "Seuraava",
+      "no": "Ei",
+      "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
+      "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Yleisten kielitutkintojen ilmoittautumissivulle.",
+      "or": "tai",
+      "phoneNumber": "Puhelinnumero",
+      "placesAvailable": "Paikkoja vapaana",
+      "price": "Hinta",
+      "privacyStatement": {
+        "description": "Noudatamme henkilötietojen käsittelyssä EU:n yleistä tietosuoja-asetusta.",
+        "grantApproval": "Hyväksyn henkilötietojeni käsittelyn *",
+        "link": {
+          "label": "Tietoa henkilötietojen käsittelystä (oph.fi)",
+          "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tietoa-henkilotietojen-kasittelysta"
+        },
+        "readConditions": "Lue henkilötietojen käsittelyn ehdot Opetushallituksen verkkosivuilta:",
+        "title": "Henkilötietojen käsittelyn ehdot"
+      },
+      "reassessment": "Tarkistusarviointi",
+      "registration": "Ilmoittautuminen",
+      "freeRegistration": "Maksuttomuus",
+      "customerSearch": "Asiakashaku",
+      "registrationPeriod": "Ilmoittautumisaika",
+      "specialArrangementsLink": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin",
+      "userRegistrations": "Omat ilmoittautumiset",
+      "yes": "Kyllä",
+      "ykiHomepage": {
+        "ariaLabel": "Yleisten kielitutkintojen verkkosivu (oph.fi), avaa uudessa välilehdessä",
+        "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki"
+      },
+      "pageTitle": {
+        "registration": "Ilmoittautuminen",
+        "initRegistration": "Ilmoittautuminen",
+        "examDetails": "Tutkinto",
+        "freeRegistrationSuccess": "Ilmoittautuminen onnistui",
+        "registrationPaymentStatus": "Ilmoittautuminen",
+        "reassessment": "Tarkistusarviointi",
+        "evaluationOrder": "Tarkistusarviointi",
+        "evaluationOrderStatus": "Tarkistusarviointi",
+        "accessibilityStatement": "Saavutettavuusseloste",
+        "logoutSuccess": "Uloskirjautuminen onnnistui",
+        "userDetails": "Omat ilmoittautumiset",
+        "transferRegistration": "Siirrä ilmoittautuminen",
+        "modifyContactDetails": "Muokkaa yhteystietoja",
+        "confirmRegistration": "Vahvista ilmoittautuminen",
+        "notFound": "Etsimääsi sivua ei löytynyt",
+        "expiredLoginLink": "Linkki on vanhentunut"
+      },
+      "previous": "Edellinen",
+      "suomiFiLink": {
+        "label": "Suomi.fi",
+        "url": "https://www.suomi.fi/viestit"
+      }
+    }
+  }
+}
