@@ -112,7 +112,7 @@ yarn run yki:start:dev-server
 
 ## Local development with tmuxinator
 
-[tmux](https://github.com/tmux/tmux) and [tmuxinator](https://github.com/tmuxinator/tmuxinator) are required. Install them (e.g. with Homebrew):
+[tmux](https://github.com/tmux/tmux) and [tmuxinator](https://github.com/tmuxinator/tmuxinator) are optional. Install them (e.g. with Homebrew):
 
 ```sh
 brew install tmux
@@ -146,25 +146,6 @@ scripts/stop-tmux.sh
 scripts/stop-tmux.sh --gracefully=3
 ```
 
-&nbsp;
-
-## Development setup initialisation with Docker
-
-1. Download Docker Desktop
-2. Build containers for a specific app
-```sh
-docker-compose -f docker-compose-<app>.yml build
-```
-3. Run mvn install for the backend: `cd backend/<app>; ./mwnw install`
-4. Run the app with docker-compose
-```sh
-docker-compose -f docker-compose-<app>.yml up
-```
-
-Or use PostgresSQL client inside docker:
-```sh
-docker exec -ti <app>-postgres psql -U postgres -d <app>-postgres
-```
 
 ## Development
 
