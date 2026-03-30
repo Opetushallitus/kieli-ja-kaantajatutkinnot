@@ -165,7 +165,7 @@ export const AccessibilityStatementPage = () => {
                     label={translateAccessibility(
                       'content.administrativeAgency.link.label',
                     )}
-                    endIcon={<OpenInNewIcon />}
+                    endIcon={<OpenInNewIcon color="inherit" />}
                   />
                 </Text>
                 <Text>

@@ -58,12 +58,35 @@ const ykiPublicTheme = {
     MuiButton: {
       styleOverrides: {
         root: {
+          borderWidth: '2px',
+          borderColor: colorSecondary,
           variants: [
             {
               props: { variant: Variant.Contained },
               style: {
                 '&:hover': {
+                  color: colorSecondaryDark,
                   backgroundColor: colorSecondaryDark,
+                },
+              },
+            },
+            {
+              props: { variant: Variant.Outlined },
+              color: colorPrimary,
+              style: {
+                '&:hover': {
+                  color: colorSecondaryDark,
+                  borderColor: colorSecondaryDark,
+                  backgroundColor: colorPrimary,
+                },
+              },
+            },
+            {
+              props: { variant: Variant.Text },
+              style: {
+                '&:hover': {
+                  color: colorSecondaryDark,
+                  backgroundColor: colorPrimary,
                 },
               },
             },
@@ -123,9 +146,12 @@ const ykiPublicTheme = {
     MuiLink: {
       styleOverrides: {
         root: {
-          color: colorSecondary,
+          color: colorTextPrimary,
           fontWeight: fontWeightBold,
           textDecoration: 'underline',
+          '&:hover': {
+            backgroundColor: 'transparent',
+          },
         },
       },
     },

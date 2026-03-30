@@ -1,9 +1,8 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { H3, OPHLogoViewer, Svg, Text } from 'shared/components';
+import { H3, OPHLogoViewer, Text } from 'shared/components';
 import { Direction } from 'shared/enums';
-import { FooterWave } from 'shared/statics';
 
 import {
   getCurrentLang,
@@ -18,8 +17,7 @@ export const Footer = () => {
 
   return (
     <footer>
-      <Svg className="footer__wave" src={FooterWave} alt="" />
-      <Paper className="footer" elevation={3}>
+      <Paper className="footer" elevation={0}>
         <div className="footer__info-row">
           <div className="footer__container footer__container__links rows gapped-xs">
             <h2>{t('headings.statements')}</h2>

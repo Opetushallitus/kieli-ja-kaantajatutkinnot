@@ -281,7 +281,7 @@ export const PublicExamSessionListing = ({
               examSessionId={initRegistration.examSessionId}
             />
           )}
-          <div ref={listingHeaderRef}>
+          <div ref={listingHeaderRef} style={{ marginBottom: '2rem' }}>
             <Typography
               variant="h2"
               component="h3"
