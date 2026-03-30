@@ -13,10 +13,11 @@ The database is older than our backend. The old backend is remotely at https://g
 
 ## Maven
 
-This is a shared project. Parent pom is at the root. Use `./mvnw` (not gradle):
+This is a shared project. Parent pom is at the root. `./mvnw` lives inside each submodule — always `cd` into the submodule first:
 
 ```bash
-./mvnw clean install
+(cd backend/yki && ./mvnw clean install)
+(cd backend/yki && ./mvnw test -Dtest="SomeTest")
 ```
 
 ## Code Structure
