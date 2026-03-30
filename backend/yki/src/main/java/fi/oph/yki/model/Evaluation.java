@@ -11,7 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,5 +41,5 @@ public class Evaluation {
   private LocalDate evaluationEndDate;
 
   @Column(name = "deleted_at")
-  private OffsetDateTime deletedAt;
+  private LocalDateTime deletedAt;
 }
