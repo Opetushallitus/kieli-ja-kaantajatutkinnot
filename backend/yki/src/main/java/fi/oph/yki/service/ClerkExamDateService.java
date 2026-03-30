@@ -1,5 +1,6 @@
 package fi.oph.yki.service;
 
+import fi.oph.yki.api.dto.clerk.ClerkCreateEvaluationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCreateExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateLanguageDTO;
@@ -8,8 +9,10 @@ import fi.oph.yki.api.dto.clerk.CreateClerkExamDateLanguageDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.audit.dto.ClerkExamDateAuditDTO;
+import fi.oph.yki.model.Evaluation;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamDateLanguage;
+import fi.oph.yki.repository.EvaluationRepository;
 import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.util.exception.APIException;
@@ -19,6 +22,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,19 +33,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClerkExamDateService {
 
   private final ExamDateRepository examDateRepository;
+  private final EvaluationRepository evaluationRepository;
   private final ExamSessionRepository examSessionRepository;
   private final AuditService auditService;
 
-  private static ClerkExamDateLanguageDTO toLanguageDTO(final ExamDateLanguage lang) {
+  private static ClerkExamDateLanguageDTO toLanguageDTO(final ExamDateLanguage lang, final Evaluation evaluation) {
     return ClerkExamDateLanguageDTO
       .builder()
       .id(lang.getId())
       .languageCode(lang.getLanguageCode())
       .levelCode(lang.getLevelCode())
+      .evaluationStartDate(evaluation != null ? evaluation.getEvaluationStartDate() : null)
+      .evaluationEndDate(evaluation != null ? evaluation.getEvaluationEndDate() : null)
       .build();
   }
 
-  private static ClerkExamDateDTO toDTO(final ExamDate ed) {
+  private static ClerkExamDateDTO toDTO(final ExamDate ed, final Map<Long, Evaluation> evaluationsByLanguageId) {
     return ClerkExamDateDTO
       .builder()
       .id(ed.getId())
@@ -48,27 +56,40 @@ public class ClerkExamDateService {
       .registrationStartDate(ed.getRegistrationStartDate())
       .registrationEndDate(ed.getRegistrationEndDate())
       .examType(ed.getExamType())
-      .languages(ed.getLanguages().stream().map(ClerkExamDateService::toLanguageDTO).toList())
+      .languages(
+        ed.getLanguages().stream().map(lang -> toLanguageDTO(lang, evaluationsByLanguageId.get(lang.getId()))).toList()
+      )
       .examSessionCount(ed.getSessions().size())
       .build();
   }
 
+  private Map<Long, Evaluation> getEvaluationsByLanguageId() {
+    return evaluationRepository
+      .findByDeletedAtIsNull()
+      .stream()
+      .collect(Collectors.toMap(e -> e.getExamDateLanguage().getId(), e -> e));
+  }
+
   @Transactional(readOnly = true)
   public List<ClerkExamDateDTO> getFutureExamDates() {
+    final Map<Long, Evaluation> evalMap = getEvaluationsByLanguageId();
+
     return examDateRepository
       .getByExamDateAfterAndDeletedAtIsNull(LocalDate.now())
       .stream()
-      .map(ClerkExamDateService::toDTO)
+      .map(ed -> toDTO(ed, evalMap))
       .toList();
   }
 
   @Transactional(readOnly = true)
   public List<ClerkExamDateDTO> getAllExamDates() {
+    final Map<Long, Evaluation> evalMap = getEvaluationsByLanguageId();
+
     return examDateRepository
       .findAllByDeletedAtIsNull()
       .stream()
       .sorted(Comparator.comparing(ExamDate::getExamDate))
-      .map(ClerkExamDateService::toDTO)
+      .map(ed -> toDTO(ed, evalMap))
       .toList();
   }
 
@@ -127,7 +148,7 @@ public class ClerkExamDateService {
       throw new APIException(APIExceptionType.EXAM_DATE_EXAM_BEFORE_REGISTRATION_END);
     }
 
-    final ClerkExamDateDTO result = toDTO(examDateRepository.save(toEntity(dto)));
+    final ClerkExamDateDTO result = toDTO(examDateRepository.save(toEntity(dto)), Map.of());
     final ClerkExamDateAuditDTO auditDto = new ClerkExamDateAuditDTO(result);
     auditService.logCreate(YkiOperation.CREATE_EXAM_DATE, result.id(), auditDto);
 
@@ -146,7 +167,8 @@ public class ClerkExamDateService {
     final ExamDate examDate = examDateRepository
       .findById(id)
       .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
-    final ClerkExamDateAuditDTO auditBefore = new ClerkExamDateAuditDTO(toDTO(examDate));
+    final Map<Long, Evaluation> evalMap = getEvaluationsByLanguageId();
+    final ClerkExamDateAuditDTO auditBefore = new ClerkExamDateAuditDTO(toDTO(examDate, evalMap));
 
     final boolean hasSessions = examSessionRepository.existsByExamDateId(id);
 
@@ -174,9 +196,75 @@ public class ClerkExamDateService {
 
     examDateRepository.flush();
 
-    final ClerkExamDateDTO result = toDTO(examDate);
+    final ClerkExamDateDTO result = toDTO(examDate, getEvaluationsByLanguageId());
     final ClerkExamDateAuditDTO auditAfter = new ClerkExamDateAuditDTO(result);
     auditService.logUpdate(YkiOperation.UPDATE_EXAM_DATE, result.id(), auditBefore, auditAfter);
+
+    return result;
+  }
+
+  private static void validateEvaluationDateOrder(
+    final LocalDate examDateValue,
+    final LocalDate startDate,
+    final LocalDate endDate
+  ) {
+    if (startDate.isBefore(examDateValue) || endDate.isBefore(startDate)) {
+      throw new APIException(APIExceptionType.EVALUATION_INVALID_DATE_ORDER);
+    }
+  }
+
+  @Transactional
+  public ClerkExamDateDTO createEvaluation(final long examDateId, final ClerkCreateEvaluationDTO dto) {
+    final ExamDate examDate = examDateRepository
+      .findById(examDateId)
+      .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
+
+    if (examDate.getLanguages().isEmpty()) {
+      throw new APIException(APIExceptionType.EVALUATION_EXAM_DATE_HAS_NO_LANGUAGES);
+    }
+
+    if (evaluationRepository.existsByExamDateIdAndDeletedAtIsNull(examDateId)) {
+      throw new APIException(APIExceptionType.EVALUATION_ALREADY_EXISTS);
+    }
+
+    validateEvaluationDateOrder(examDate.getExamDate(), dto.evaluationStartDate(), dto.evaluationEndDate());
+
+    final Map<Long, ClerkCreateEvaluationDTO.LanguageEvaluationOverride> overrideMap = dto.overrides() != null
+      ? dto
+        .overrides()
+        .stream()
+        .collect(Collectors.toMap(ClerkCreateEvaluationDTO.LanguageEvaluationOverride::examDateLanguageId, o -> o))
+      : Map.of();
+
+    for (final ClerkCreateEvaluationDTO.LanguageEvaluationOverride override : overrideMap.values()) {
+      validateEvaluationDateOrder(examDate.getExamDate(), override.evaluationStartDate(), override.evaluationEndDate());
+    }
+
+    final List<Evaluation> evaluations = examDate
+      .getLanguages()
+      .stream()
+      .map(lang -> {
+        final ClerkCreateEvaluationDTO.LanguageEvaluationOverride override = overrideMap.get(lang.getId());
+        final Evaluation evaluation = new Evaluation();
+        evaluation.setExamDate(examDate);
+        evaluation.setExamDateLanguage(lang);
+        evaluation.setEvaluationStartDate(
+          override != null ? override.evaluationStartDate() : dto.evaluationStartDate()
+        );
+        evaluation.setEvaluationEndDate(override != null ? override.evaluationEndDate() : dto.evaluationEndDate());
+
+        return evaluation;
+      })
+      .toList();
+
+    evaluationRepository.saveAll(evaluations);
+
+    final Map<Long, Evaluation> evalMap = evaluations
+      .stream()
+      .collect(Collectors.toMap(e -> e.getExamDateLanguage().getId(), e -> e));
+    final ClerkExamDateDTO result = toDTO(examDate, evalMap);
+
+    auditService.logById(YkiOperation.CREATE_EVALUATION, examDateId);
 
     return result;
   }
