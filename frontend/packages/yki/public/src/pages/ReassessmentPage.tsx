@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { loadEvaluationPeriods } from 'redux/reducers/evaluationPeriods';
 import { evaluationPeriodsSelector } from 'redux/selectors/evaluationPeriods';
 
+// TODO remove me, deploy commit
 export const ReassessmentPage: FC = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.reassessmentPage',
