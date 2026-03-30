@@ -35,15 +35,20 @@ In addition, the shared frontend content can be found [here](./docs/shared_front
 
 Make sure you have listed technologies installed on your machine. 
 
-### database
+### Database
 * This project is still dependent on https://github.com/Opetushallitus/yki
 1. git clone https://github.com/Opetushallitus/yki
 2. Follow it's `README.md` to setup it's environment
 
-### backend with IntelliJ IDEA
+### Backend with IntelliJ IDEA
 1. Open the repository with Idea
 2. To run a service, open a service folder under `backend` - folder, that you want to run
 3. Right-click `pom.xml` -> `Add as maven project`
+
+Also make sure you set dev profile for local development. You can use `application-dev.yaml` for local configuration overrides. 
+
+At the time of writing Java 21 is current version in use.
+
 
 #### Github maven authentication
 
@@ -107,7 +112,7 @@ yarn run yki:start:dev-server
 
 ## Local development with tmuxinator
 
-[tmux](https://github.com/tmux/tmux) and [tmuxinator](https://github.com/tmuxinator/tmuxinator) are required. Install them (e.g. with Homebrew):
+[tmux](https://github.com/tmux/tmux) and [tmuxinator](https://github.com/tmuxinator/tmuxinator) are optional. Install them (e.g. with Homebrew):
 
 ```sh
 brew install tmux
@@ -141,25 +146,6 @@ scripts/stop-tmux.sh
 scripts/stop-tmux.sh --gracefully=3
 ```
 
-&nbsp;
-
-## Development setup initialisation with Docker
-
-1. Download Docker Desktop
-2. Build containers for a specific app
-```sh
-docker-compose -f docker-compose-<app>.yml build
-```
-3. Run mvn install for the backend: `cd backend/<app>; ./mwnw install`
-4. Run the app with docker-compose
-```sh
-docker-compose -f docker-compose-<app>.yml up
-```
-
-Or use PostgresSQL client inside docker:
-```sh
-docker exec -ti <app>-postgres psql -U postgres -d <app>-postgres
-```
 
 ## Development
 
