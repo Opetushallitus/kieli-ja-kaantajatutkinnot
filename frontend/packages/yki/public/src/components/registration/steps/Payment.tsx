@@ -34,22 +34,22 @@ const PaymentSuccess = () => {
         <Text>{t('beforeYkiTest.description')}</Text>
         <div className="columns gapped-xxs">
           <Link href={t('beforeYkiTest.url')} target="_blank">
-            <Text color="secondary" className="bold">
+            <Text color="textPrimary" className="bold">
               {t('beforeYkiTest.label')}
             </Text>
           </Link>
-          <OpenInNewIcon color="secondary" />
+          <OpenInNewIcon color="inherit" />
         </div>
       </div>
       <div>
         <Text>{t('specialArrangements.description')}</Text>
         <div className="columns gapped-xxs">
           <Link href={t('specialArrangements.url')} target="_blank">
-            <Text color="secondary" className="bold">
+            <Text color="textPrimary" className="bold">
               {t('specialArrangements.label')}
             </Text>
           </Link>
-          <OpenInNewIcon color="secondary" />
+          <OpenInNewIcon color="inherit" />
         </div>
       </div>
       <div>
@@ -58,7 +58,7 @@ const PaymentSuccess = () => {
           <br />
           {isSuomiFiSession && (
             <Link href={`${APIEndpoints.Authenticate}?toUserPortal=true`}>
-              <Text color="secondary" className="bold">
+              <Text color="textPrimary" className="bold">
                 {t('toUserPortal.link.label')}
               </Text>
             </Link>
@@ -66,11 +66,11 @@ const PaymentSuccess = () => {
           {!isSuomiFiSession && (
             <div className="columns gapped-xxs">
               <Link href={omaOpintopolkuUrl} target="_blank">
-                <Text color="secondary" className="bold">
+                <Text color="textPrimary" className="bold">
                   {t('toUserPortal.link.omaOpintopolkuLabel')}
                 </Text>
               </Link>
-              <OpenInNewIcon color="secondary" />
+              <OpenInNewIcon color="inherit" />
             </div>
           )}
         </Text>

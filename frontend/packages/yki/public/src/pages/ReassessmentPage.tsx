@@ -58,7 +58,7 @@ export const ReassessmentPage: FC = () => {
                   target="_black"
                 >
                   {t('info.general.linkText')}
-                  <OpenInNewIcon color="secondary" />
+                  <OpenInNewIcon color="inherit" />
                 </a>
               </Text>
               <br />
