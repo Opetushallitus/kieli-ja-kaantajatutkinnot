@@ -33,8 +33,13 @@ export const ClerkExamDates = () => {
     keyPrefix: 'yki.component.clerkExamDates',
   });
   const dispatch = useAppDispatch();
-  const { status, examDateSort, updateStatus, addEvaluationStatus, deleteStatus } =
-    useAppSelector(examDateSelector);
+  const {
+    status,
+    examDateSort,
+    updateStatus,
+    addEvaluationStatus,
+    deleteStatus,
+  } = useAppSelector(examDateSelector);
   const examDates = useAppSelector(selectSortedExamDates);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
