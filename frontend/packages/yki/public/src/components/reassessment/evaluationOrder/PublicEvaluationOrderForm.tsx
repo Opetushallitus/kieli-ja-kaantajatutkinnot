@@ -8,6 +8,7 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
+import { ophColors } from '@opetushallitus/oph-design-system';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomButton, H2, LabeledTextField, Text } from 'shared/components';
@@ -358,7 +359,7 @@ const ActionButtons = () => {
         onClick={handleSubmitAction}
         fullWidth={isPhone}
       >
-        {t('pay')}
+        <span className="button-color-white">{t('pay')}</span>
       </CustomButton>
       <CustomButton
         variant={Variant.Text}
@@ -378,7 +379,11 @@ export const PublicEvaluationOrderForm = () => {
   });
 
   return (
-    <Paper elevation={3} className="public-evaluation-order-page__order-form">
+    <Paper
+      elevation={3}
+      className="public-evaluation-order-page__order-form"
+      style={{ borderTop: '5px solid ' + ophColors.green2 }}
+    >
       <RenderEvaluationDetails />
       <Text>{t('info.requiredFields')}</Text>
       <SelectExaminationParts />
