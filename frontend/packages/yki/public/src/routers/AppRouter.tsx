@@ -60,6 +60,7 @@ const ykiPublicTheme = {
         root: {
           borderWidth: '2px',
           borderColor: colorSecondary,
+          transition: 'color 0.25s, background-color 0.25s, border-color 0.25s',
           variants: [
             {
               props: { variant: Variant.Contained },
