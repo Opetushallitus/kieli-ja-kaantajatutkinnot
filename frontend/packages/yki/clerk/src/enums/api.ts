@@ -30,4 +30,5 @@ export enum APIError {
   EvaluationAlreadyExists = 'evaluationAlreadyExists',
   EvaluationInvalidDateOrder = 'evaluationInvalidDateOrder',
   ExamDateHasSessions = 'examDateHasSessions',
+  ExamDateHasEvaluations = 'examDateHasEvaluations',
 }

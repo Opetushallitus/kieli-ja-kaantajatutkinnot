@@ -614,4 +614,25 @@ public class ClerkExamDateServiceTest {
     assertNotNull(result.id());
     assertEquals(LocalDate.of(2026, 10, 15), result.examDate());
   }
+
+  @Test
+  public void testDeleteExamDateThrowsWhenEvaluationsExist() {
+    final ClerkExamDateDTO created = createTestExamDate();
+
+    final Long examDateLanguageId = jdbcTemplate.queryForObject(
+      "SELECT id FROM exam_date_language WHERE exam_date_id = ?",
+      Long.class,
+      created.id()
+    );
+    jdbcTemplate.update(
+      "INSERT INTO evaluation (exam_date_id, exam_date_language_id, evaluation_start_date, evaluation_end_date) VALUES (?, ?, ?, ?)",
+      created.id(),
+      examDateLanguageId,
+      LocalDate.of(2026, 10, 20),
+      LocalDate.of(2026, 11, 20)
+    );
+
+    final APIException ex = assertThrows(APIException.class, () -> clerkExamDateService.deleteExamDate(created.id()));
+    assertEquals(APIExceptionType.EXAM_DATE_HAS_EVALUATIONS, ex.getExceptionType());
+  }
 }
