@@ -103,6 +103,12 @@
       },
       "clerkExamDates": {
         "addNewExamDateButton": "Lisää tutkintopäivä",
+        "deleteModal": {
+          "cancelButton": "Peruuta",
+          "confirmButton": "Poista tutkintopäivä",
+          "description": "Olet poistamassa tutkintopäivää <bold>{{examDate}}</bold>.",
+          "title": "Vahvista tutkintopäivän poisto"
+        },
         "header": "Tutkintopäivät",
         "listing": {
           "addReviewEvaluation": "Lisää tarkistusarviointi",
@@ -124,6 +130,12 @@
         },
         "modal": {
           "cancelButton": "Peruuta",
+          "errors": {
+            "noLanguagesSelected": "Valitse vähintään yksi kieli ja taso",
+            "registrationEndAfterExamDate": "Ilmoittautumisen päättymispäivän on oltava ennen tutkintopäivää",
+            "registrationEndBeforeStart": "Päättymispäivän on oltava alkamispäivän jälkeen",
+            "required": "Tieto on pakollinen"
+          },
           "examDateLabel": "Tutkintopäivä",
           "examLabel": "Koe",
           "examTypes": {
@@ -139,6 +151,7 @@
           "title": "Lisää uusi tutkintopäivä"
         },
         "modifyModal": {
+          "deleteButton": "Poista tutkintopäivä",
           "examDateDetails": "Tutkintopäivän tiedot",
           "examTypes": {
             "allExamParts": "Kaikki osakokeet",
@@ -149,11 +162,30 @@
           "submitButton": "Tallenna muutokset",
           "title": "Muokkaa tutkintopäivää"
         },
+        "evaluationModal": {
+          "title": "Lisää tarkistusarviointi",
+          "infoText": "Olet lisäämässä tarkistusarviointia seuraaville kielitutkinnoille:",
+          "evaluationStartLabel": "Tarkistusarviointi alkaa",
+          "evaluationEndLabel": "Tarkistusarviointi päättyy",
+          "enablePerLanguageDates": "Lisää päivämäärät kielitutkintokohtaisesti",
+          "useDefaultDates": "Käytä oletuspäiviä",
+          "setCustomDates": "Aseta eri päivät",
+          "submitButton": "Lisää tarkistusarviointi",
+          "errors": {
+            "required": "Tieto on pakollinen",
+            "startDateBeforeExamDate": "Alkupäivä ei voi olla ennen tutkintopäivää",
+            "endDateBeforeStartDate": "Päättymispäivä ei voi olla ennen alkupäivää"
+          }
+        },
         "toasts": {
           "examDateAdded": "Tutkintopäivä lisätty onnistuneesti",
           "examDateAddError": "Tutkintopäivän lisääminen epäonnistui",
+          "examDateDeleted": "Tutkintopäivä poistettu onnistuneesti",
+          "examDateDeleteError": "Tutkintopäivän poistaminen epäonnistui",
           "examDateUpdated": "Tutkintopäivän tiedot tallennettu onnistuneesti",
-          "examDateUpdateError": "Tutkintopäivän muokkaaminen epäonnistui"
+          "examDateUpdateError": "Tutkintopäivän muokkaaminen epäonnistui",
+          "evaluationAdded": "Tarkistusarviointi lisätty onnistuneesti",
+          "evaluationAddError": "Tarkistusarvioinnin lisääminen epäonnistui"
         }
       },
       "clerkExamSessionRegistrations": {

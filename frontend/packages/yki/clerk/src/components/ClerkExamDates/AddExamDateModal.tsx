@@ -6,7 +6,7 @@ import {
   ophColors,
 } from '@opetushallitus/oph-design-system';
 import { Dayjs } from 'dayjs';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   CustomDatePicker,
   CustomModal,
@@ -35,6 +35,15 @@ type LanguageSelection = {
 type AddExamDateModalProps = {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
+};
+
+type FormErrors = {
+  examDate: boolean;
+  registrationStart: boolean;
+  registrationEnd: boolean;
+  registrationEndBeforeStart: boolean;
+  registrationEndAfterExamDate: boolean;
+  languages: boolean;
 };
 
 const initializeLanguageSelections = (): LanguageSelection[] =>
@@ -69,8 +78,61 @@ export const AddExamDateModal = ({
     LanguageSelection[]
   >(initializeLanguageSelections());
   const [examType, setExamType] = useState<ExamType>('FULL');
+  const [submitted, setSubmitted] = useState(false);
+  const hasSelectedLanguages = useMemo(
+    () =>
+      languageSelections.some(
+        (lang) => lang.levels.PERUS || lang.levels.KESKI || lang.levels.YLIN,
+      ),
+    [languageSelections],
+  );
+
+  const [errors, setErrors] = useState<FormErrors>({
+    examDate: false,
+    registrationStart: false,
+    registrationEnd: false,
+    registrationEndBeforeStart: false,
+    registrationEndAfterExamDate: false,
+    languages: false,
+  });
 
   const isSaving = addStatus === APIResponseStatus.InProgress;
+
+  const validate = useCallback((): FormErrors => {
+    const registrationEndBeforeStart =
+      !!registrationStart &&
+      !!registrationEnd &&
+      registrationEnd.isBefore(registrationStart.add(1, 'day'));
+    const registrationEndAfterExamDate =
+      !!examDate && !!registrationEnd && !registrationEnd.isBefore(examDate);
+
+    return {
+      examDate: !examDate,
+      registrationStart: !registrationStart,
+      registrationEnd: !registrationEnd,
+      registrationEndBeforeStart,
+      registrationEndAfterExamDate,
+      languages: !hasSelectedLanguages,
+    };
+  }, [examDate, registrationStart, registrationEnd, hasSelectedLanguages]);
+
+  useEffect(() => {
+    if (submitted) {
+      const current = validate();
+
+      setErrors((prev) => ({
+        examDate: prev.examDate && current.examDate,
+        registrationStart: prev.registrationStart && current.registrationStart,
+        registrationEnd: prev.registrationEnd && current.registrationEnd,
+        registrationEndBeforeStart:
+          prev.registrationEndBeforeStart && current.registrationEndBeforeStart,
+        registrationEndAfterExamDate:
+          prev.registrationEndAfterExamDate &&
+          current.registrationEndAfterExamDate,
+        languages: prev.languages && current.languages,
+      }));
+    }
+  }, [submitted, validate]);
 
   useEffect(() => {
     if (
@@ -82,6 +144,7 @@ export const AddExamDateModal = ({
       setRegistrationEnd(null);
       setLanguageSelections(initializeLanguageSelections());
       setExamType('FULL');
+      setSubmitted(false);
       setIsModalOpen(false);
       dispatch(resetAddExamDateStatus());
     }
@@ -94,6 +157,7 @@ export const AddExamDateModal = ({
     setRegistrationEnd(null);
     setLanguageSelections(initializeLanguageSelections());
     setExamType('FULL');
+    setSubmitted(false);
     setIsModalOpen(false);
     dispatch(resetAddExamDateStatus());
   };
@@ -118,12 +182,13 @@ export const AddExamDateModal = ({
   };
 
   const handleSubmit = () => {
-    if (
-      !examDate ||
-      !registrationStart ||
-      !registrationEnd ||
-      registrationEnd.isBefore(registrationStart.add(1, 'day'))
-    ) {
+    const validationErrors = validate();
+    setErrors(validationErrors);
+    setSubmitted(true);
+
+    const hasErrors = Object.values(validationErrors).some(Boolean);
+
+    if (hasErrors) {
       return;
     }
 
@@ -151,15 +216,17 @@ export const AddExamDateModal = ({
       return levels;
     });
 
-    const request: CreateExamDateRequest = {
-      examDate: examDate.format('YYYY-MM-DD'),
-      registrationStartDate: registrationStart.format('YYYY-MM-DD'),
-      registrationEndDate: registrationEnd.format('YYYY-MM-DD'),
-      languages: selectedLanguages,
-      examType,
-    };
+    if (examDate && registrationStart && registrationEnd) {
+      const request: CreateExamDateRequest = {
+        examDate: examDate.format('YYYY-MM-DD'),
+        registrationStartDate: registrationStart.format('YYYY-MM-DD'),
+        registrationEndDate: registrationEnd.format('YYYY-MM-DD'),
+        languages: selectedLanguages,
+        examType,
+      };
 
-    dispatch(addExamDate(request));
+      dispatch(addExamDate(request));
+    }
   };
 
   return (
@@ -204,7 +271,12 @@ export const AddExamDateModal = ({
                 <CustomDatePicker
                   value={examDate}
                   setValue={setExamDate}
-                  error={false}
+                  error={submitted && errors.examDate}
+                  helperText={
+                    submitted && errors.examDate
+                      ? t('errors.required')
+                      : undefined
+                  }
                 />
               </div>
             </div>
@@ -212,7 +284,7 @@ export const AddExamDateModal = ({
             <div
               className="columns gapped"
               style={{
-                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
               }}
             >
               <div className="rows gapped-xxs">
@@ -224,7 +296,12 @@ export const AddExamDateModal = ({
                   <CustomDatePicker
                     value={registrationStart}
                     setValue={setRegistrationStart}
-                    error={false}
+                    error={submitted && errors.registrationStart}
+                    helperText={
+                      submitted && errors.registrationStart
+                        ? t('errors.required')
+                        : undefined
+                    }
                   />
                 </div>
               </div>
@@ -252,7 +329,21 @@ export const AddExamDateModal = ({
                     value={registrationEnd}
                     setValue={setRegistrationEnd}
                     minDate={registrationStart?.add(1, 'day') || undefined}
-                    error={false}
+                    error={
+                      submitted &&
+                      (errors.registrationEnd ||
+                        errors.registrationEndBeforeStart ||
+                        errors.registrationEndAfterExamDate)
+                    }
+                    helperText={
+                      submitted && errors.registrationEnd
+                        ? t('errors.required')
+                        : submitted && errors.registrationEndBeforeStart
+                        ? t('errors.registrationEndBeforeStart')
+                        : submitted && errors.registrationEndAfterExamDate
+                        ? t('errors.registrationEndAfterExamDate')
+                        : undefined
+                    }
                   />
                 </div>
               </div>
@@ -371,6 +462,11 @@ export const AddExamDateModal = ({
                     </div>
                   </div>
                 ))}
+                {submitted && errors.languages && (
+                  <Text style={{ color: '#d32f2f' }}>
+                    {t('errors.noLanguagesSelected')}
+                  </Text>
+                )}
               </div>
             </div>
 

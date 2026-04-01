@@ -11,10 +11,10 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(ClerkExamDateController.class)
@@ -27,7 +27,7 @@ class ClerkExamDateControllerTest {
   @Resource
   private MockMvc mockMvc;
 
-  @MockBean
+  @MockitoBean
   private ClerkExamDateService clerkExamDateService;
 
   private static JSONObject validCreateData() {
@@ -93,6 +93,56 @@ class ClerkExamDateControllerTest {
 
     mockMvc
       .perform(put(BASE_URL + "/1").with(csrf()).contentType(MediaType.APPLICATION_JSON).content(data.toJSONString()))
+      .andExpect(status().isBadRequest());
+  }
+
+  private static JSONObject validEvaluationData() {
+    final JSONObject data = new JSONObject();
+    data.put("evaluationStartDate", "2026-10-20");
+    data.put("evaluationEndDate", "2026-11-20");
+
+    return data;
+  }
+
+  @Test
+  public void testCreateEvaluationWithValidData() throws Exception {
+    mockMvc
+      .perform(
+        post(BASE_URL + "/1/evaluation")
+          .with(csrf())
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(validEvaluationData().toJSONString())
+      )
+      .andExpect(status().isOk());
+  }
+
+  @Test
+  public void testCreateEvaluationWithMissingStartDateReturnsBadRequest() throws Exception {
+    final JSONObject data = validEvaluationData();
+    data.put("evaluationStartDate", null);
+
+    mockMvc
+      .perform(
+        post(BASE_URL + "/1/evaluation")
+          .with(csrf())
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(data.toJSONString())
+      )
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testCreateEvaluationWithMissingEndDateReturnsBadRequest() throws Exception {
+    final JSONObject data = validEvaluationData();
+    data.put("evaluationEndDate", null);
+
+    mockMvc
+      .perform(
+        post(BASE_URL + "/1/evaluation")
+          .with(csrf())
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(data.toJSONString())
+      )
       .andExpect(status().isBadRequest());
   }
 }

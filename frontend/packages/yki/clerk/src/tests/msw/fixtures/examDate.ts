@@ -117,6 +117,8 @@ const generateLanguages = (
     id: nextLangId++,
     languageCode: LANGUAGE_CODES[(examDateId + i) % LANGUAGE_CODES.length],
     levelCode: LEVEL_CODES[(examDateId + i) % LEVEL_CODES.length],
+    evaluationStartDate: null,
+    evaluationEndDate: null,
   }));
 };
 
@@ -129,12 +131,23 @@ const generateExamType = (examDateId: number): ExamType => {
 
 export const examDates: ExamDateResponse[] = examDatesRaw.map((ed) => {
   const exam = dayjs(ed.examDate);
+  const languages = generateLanguages(ed.id);
+
+  if (ed.id <= 3) {
+    const evalStart = exam.add(1, 'week').format('YYYY-MM-DD');
+    const evalEnd = exam.add(5, 'week').format('YYYY-MM-DD');
+    languages.forEach((lang) => {
+      lang.evaluationStartDate = evalStart;
+      lang.evaluationEndDate = evalEnd;
+    });
+  }
 
   return {
     ...ed,
     registrationStartDate: exam.subtract(3, 'month').format('YYYY-MM-DD'),
     registrationEndDate: exam.subtract(1, 'month').format('YYYY-MM-DD'),
     examType: generateExamType(ed.id),
-    languages: generateLanguages(ed.id),
+    languages,
+    examSessionCount: ed.id % 4 === 0 ? (ed.id % 3) + 1 : 0,
   };
 });

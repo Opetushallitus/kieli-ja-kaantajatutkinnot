@@ -237,6 +237,7 @@ export class SerializationUtils {
       phone_number: registration.phoneNumber,
       email: registration.email,
       gender: SerializationUtils.serializeGender(registration.gender),
+      country_code: registration.countryCode,
     };
   }
 
@@ -270,6 +271,7 @@ export class SerializationUtils {
       streetAddress: response.street_address,
       postOffice: response.post_office,
       zip: response.zip,
+      countryCode: response.country_code,
       registrations: response.registrations?.map((v) => ({
         id: v.id,
         kind: v.kind as RegistrationKind,
@@ -335,7 +337,8 @@ export class SerializationUtils {
   }
 
   static serializeModifyContactDetailsRequest(payload: ModifyContactDetails) {
-    const { email, phoneNumber, streetAddress, zip, postOffice } = payload;
+    const { email, phoneNumber, streetAddress, zip, postOffice, countryCode } =
+      payload;
 
     return {
       email,
@@ -343,6 +346,7 @@ export class SerializationUtils {
       street_address: streetAddress,
       zip,
       post_office: postOffice,
+      country_code: countryCode,
     };
   }
 
