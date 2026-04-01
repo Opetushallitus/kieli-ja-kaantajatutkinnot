@@ -135,6 +135,14 @@ public class ClerkPaymentReportServiceTest {
     testEntityManager.persist(freeRegistration);
 
     testEntityManager.flush();
+
+    testEntityManager
+      .getEntityManager()
+      .createNativeQuery("UPDATE free_registration SET created_at = :createdAt WHERE free_registration_id = :id")
+      .setParameter("createdAt", LocalDateTime.of(2026, 3, 15, 10, 0, 0))
+      .setParameter("id", freeRegistration.getId())
+      .executeUpdate();
+
     testEntityManager.clear();
 
     final List<ClerkPaymentReportRowDTO> result = clerkPaymentReportService.getPaymentReport(
