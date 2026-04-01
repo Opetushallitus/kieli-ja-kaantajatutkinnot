@@ -1,6 +1,13 @@
 {
   "yki": {
     "component": {
+      "clerkPaymentReport": {
+        "title": "Tutkintomaksujen raportointi",
+        "description": "Valitse alta päivämäärät joiden ajalta haluat tarkastella toteutuneita tutkintomaksuja. Oletusarvoisesti valittuna on koko edellinen kuukausi. Huomaathan, että mahdollisesti jälkikäteen palautetut tutkintomaksut näkyvät edelleen raportissa maksutuina.",
+        "from": "Mistä",
+        "to": "Mihin",
+        "download": "Muodosta raportti (.xlsx)"
+      },
       "clerkCustomer": {
         "details": {
           "buttons": {
@@ -481,6 +488,9 @@
       },
       "clerkFreeRegistrationPage": {
         "heading": "Maksuttomuuden tarkastukset"
+      },
+      "clerkPaymentReportPage": {
+        "heading": "Raportit ja tilastot"
       },
       "clerkRegisterPage": {
         "heading": "Kielitutkintojen järjestäjärekisteri"

@@ -1,6 +1,13 @@
 {
   "yki": {
     "component": {
+      "clerkPaymentReport": {
+        "title": "Rapportering av examensavgifter",
+        "description": "Välj datumintervallet för vilka du vill granska genomförda examensavgifter. Som standard är hela föregående månad vald. Observera att eventuellt i efterhand återbetalade examensavgifter fortfarande visas i rapporten som betalda.",
+        "from": "Från",
+        "to": "Till",
+        "download": "Skapa rapport (.xlsx)"
+      },
       "clerkCustomer": {
         "details": {
           "buttons": {
@@ -481,6 +488,9 @@
       },
       "clerkFreeRegistrationPage": {
         "heading": "Maksuttomuuden tarkastukset"
+      },
+      "clerkPaymentReportPage": {
+        "heading": "Rapporter och statistik"
       },
       "clerkRegisterPage": {
         "heading": "Kielitutkintojen järjestäjärekisteri"
