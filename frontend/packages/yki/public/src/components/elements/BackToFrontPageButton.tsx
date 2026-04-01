@@ -14,7 +14,9 @@ export const BackToFrontPageButton = () => {
       variant={Variant.Contained}
       href={AppRoutes.Registration}
     >
-      {translateCommon('backToHomePage')}
+      <span className="button-color-white">
+        {translateCommon('backToHomePage')}
+      </span>
     </CustomButton>
   );
 };

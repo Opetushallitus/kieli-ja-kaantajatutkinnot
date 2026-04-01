@@ -1,0 +1,116 @@
+.exam-session-card {
+  background-color: $color-primary;
+  border-top: 5px solid $color-secondary;
+  border-radius: 4px;
+  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.15);
+  padding: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 2.6rem;
+    color: $color-text-primary;
+  }
+
+  &__meta {
+    display: flex;
+    gap: 2.4rem;
+
+    @include phone {
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+  }
+
+  &__meta-field {
+    flex: 1 0 0;
+
+    &:first-child {
+      flex: 0 0 auto;
+      width: 22.3rem;
+
+      @include phone {
+        width: auto;
+      }
+    }
+  }
+
+  &__meta-label {
+    font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    color: $color-text-primary;
+    padding-bottom: 0.2rem;
+  }
+
+  &__meta-value {
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    color: $color-text-primary;
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th {
+      font-weight: 600;
+      font-size: 1.6rem;
+      line-height: 2.4rem;
+      color: $color-text-primary;
+      text-align: left;
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid $color-divider;
+      height: 4rem;
+    }
+
+    td {
+      font-weight: 400;
+      font-size: 1.6rem;
+      line-height: 2.4rem;
+      color: $color-text-primary;
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid #ededed;
+      min-height: 5.6rem;
+      vertical-align: middle;
+    }
+
+    @include phone {
+      th {
+        display: none;
+      }
+
+      tr {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        padding: 1.2rem 0;
+        border-bottom: 1px solid #ededed;
+      }
+
+      td {
+        display: block;
+
+        padding: 0;
+
+        &::before {
+          content: attr(data-label);
+          display: block;
+          font-weight: 600;
+          font-size: 1.6rem;
+          color: $color-text-primary;
+        }
+      }
+    }
+  }
+}
+
+.exam-session-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}

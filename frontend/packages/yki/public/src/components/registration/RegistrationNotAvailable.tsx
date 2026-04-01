@@ -1,4 +1,5 @@
 import { Grid, Paper } from '@mui/material';
+import { ophColors } from '@opetushallitus/oph-design-system';
 import { H1, HeaderSeparator, Text } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -74,7 +75,10 @@ export const RegistrationNotAvailable = () => {
           <RegistrationUnavailableHeader />
           <HeaderSeparator />
         </div>
-        <Paper elevation={isPhone ? 0 : 3}>
+        <Paper
+          elevation={isPhone ? 0 : 3}
+          style={isPhone ? {} : { borderTop: '5px solid ' + ophColors.green2 }}
+        >
           <div className="public-registration__grid__form-container">
             <div className="rows gapped">
               <PublicRegistrationExamSessionDetails

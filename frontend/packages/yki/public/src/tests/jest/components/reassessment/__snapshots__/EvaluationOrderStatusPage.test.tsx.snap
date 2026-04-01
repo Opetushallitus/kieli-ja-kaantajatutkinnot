@@ -31,7 +31,11 @@ exports[`EvaluationOrderStatusPage should render view correctly on cancelled pay
         href="/yki/ilmoittautuminen"
         tabindex="0"
       >
-        Takaisin aloitussivulle
+        <span
+          class="button-color-white"
+        >
+          Takaisin aloitussivulle
+        </span>
       </a>
     </div>
   </div>
@@ -69,7 +73,11 @@ exports[`EvaluationOrderStatusPage should render view correctly on payment error
         href="/yki/ilmoittautuminen"
         tabindex="0"
       >
-        Takaisin aloitussivulle
+        <span
+          class="button-color-white"
+        >
+          Takaisin aloitussivulle
+        </span>
       </a>
     </div>
   </div>
@@ -129,7 +137,11 @@ exports[`EvaluationOrderStatusPage should render view correctly on successful pa
         href="/yki/ilmoittautuminen"
         tabindex="0"
       >
-        Takaisin aloitussivulle
+        <span
+          class="button-color-white"
+        >
+          Takaisin aloitussivulle
+        </span>
       </a>
     </div>
   </div>

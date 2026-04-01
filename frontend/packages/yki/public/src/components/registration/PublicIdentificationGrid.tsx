@@ -1,5 +1,6 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Container, Grid, Paper } from '@mui/material';
+import { ophColors } from '@opetushallitus/oph-design-system';
 import { Trans } from 'react-i18next';
 import {
   CustomButton,
@@ -77,7 +78,9 @@ const AlreadyLoggedIn = () => {
             : AppRoutes.ExamSessionRegistration
           ).replace(/:examSessionId/, `${examSession.id}`)}
         >
-          {t('alreadyLoggedIn.labels.continueToRegistration')}
+          <span className="button-color-white">
+            {t('alreadyLoggedIn.labels.continueToRegistration')}
+          </span>
         </CustomButton>
         <CustomButton
           aria-label={t('alreadyLoggedIn.labels.abort')}
@@ -123,7 +126,7 @@ const FreeRegistrationInfoBox = () => {
         <WebLink
           label={t('readMore.link.label')}
           href={t('readMore.link.url')}
-          endIcon={<OpenInNewIcon />}
+          endIcon={<OpenInNewIcon color="inherit" />}
         />
       </Text>
     </Container>
@@ -177,7 +180,10 @@ export const PublicIdentificationGrid = () => {
               <HeaderSeparator />
             </div>
           </div>
-          <Paper elevation={isPhone ? 0 : 3}>
+          <Paper
+            elevation={isPhone ? 0 : 3}
+            style={isPhone ? {} : { borderTop: '5px solid' + ophColors.green2 }}
+          >
             <div className="public-registration__grid__form-container">
               <div className="rows gapped">
                 <PublicRegistrationExamSessionDetails

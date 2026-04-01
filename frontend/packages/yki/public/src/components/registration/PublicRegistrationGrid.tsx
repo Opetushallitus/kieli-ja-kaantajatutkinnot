@@ -1,4 +1,5 @@
 import { Grid, Paper } from '@mui/material';
+import { ophColors } from '@opetushallitus/oph-design-system';
 import { useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import {
@@ -232,7 +233,12 @@ export const PublicRegistrationGrid = () => {
               </div>
             </div>
           </div>
-          <Paper elevation={isPhone ? 0 : 3}>
+          <Paper
+            elevation={isPhone ? 0 : 3}
+            style={
+              isPhone ? {} : { borderTop: '5px solid ' + ophColors.green2 }
+            }
+          >
             <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
               <StepContentSelector />
             </LoadingProgressIndicator>

@@ -40,8 +40,6 @@ export const ReassessmentPage: FC = () => {
           </H1>
           <HeaderSeparator />
           <Text>{t('introduction.info')}</Text>
-          <br />
-          <Text>{t('introduction.timeLimit')}</Text>
         </Grid>
         <Grid className="public-reassessment-page__grid-container__item-info">
           <Paper elevation={3} className="public-reassessment-page__info">
@@ -60,7 +58,7 @@ export const ReassessmentPage: FC = () => {
                   target="_black"
                 >
                   {t('info.general.linkText')}
-                  <OpenInNewIcon />
+                  <OpenInNewIcon color="inherit" />
                 </a>
               </Text>
               <br />
@@ -74,9 +72,24 @@ export const ReassessmentPage: FC = () => {
               <br />
               <Text>{t('info.pricing.body2')}</Text>
               <br />
-              <Text>{t('info.pricing.body3')}</Text>
+              <Text>
+                {t('info.pricing.body3')}
+                <a
+                  className="columns gapped-xxs"
+                  href={t('info.general.link')}
+                  rel="noreferrer"
+                  target="_black"
+                >
+                  {t('info.general.linkText')}
+                  <OpenInNewIcon />
+                </a>
+              </Text>
               <br />
               <Text>{t('info.pricing.body4')}</Text>
+              <br />
+              <Text>{t('info.pricing.body5')}</Text>
+              <br />
+              <Text>{t('info.pricing.body6')}</Text>
             </div>
           </Paper>
         </Grid>
