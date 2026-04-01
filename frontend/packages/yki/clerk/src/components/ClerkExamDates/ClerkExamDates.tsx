@@ -6,6 +6,7 @@ import { CustomCircularProgress } from 'shared/components';
 import { APIResponseStatus, Color, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
+import { AddEvaluationModal } from 'components/ClerkExamDates/AddEvaluationModal';
 import { ModifyExamDateModal } from 'components/ClerkExamDates/ModifyExamDateModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { PageSizeSelector } from 'components/oph-design/table/page-size-selector';
@@ -32,16 +33,27 @@ export const ClerkExamDates = () => {
     keyPrefix: 'yki.component.clerkExamDates',
   });
   const dispatch = useAppDispatch();
-  const { status, examDateSort, updateStatus, deleteStatus } =
-    useAppSelector(examDateSelector);
+  const {
+    status,
+    examDateSort,
+    updateStatus,
+    addEvaluationStatus,
+    deleteStatus,
+  } = useAppSelector(examDateSelector);
   const examDates = useAppSelector(selectSortedExamDates);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const [examDateToEdit, setExamDateToEdit] = useState<ExamDate | null>(null);
+  const [examDateForEvaluation, setExamDateForEvaluation] =
+    useState<ExamDate | null>(null);
   const { showToast } = useToast();
 
   const handleCloseModifyModal = useCallback(() => {
     setExamDateToEdit(null);
+  }, []);
+
+  const handleCloseEvaluationModal = useCallback(() => {
+    setExamDateForEvaluation(null);
   }, []);
   const [showPastDates, setShowPastDates] = useState(false);
 
@@ -77,6 +89,21 @@ export const ClerkExamDates = () => {
       });
     }
   }, [updateStatus, showToast, handleCloseModifyModal, t]);
+
+  useEffect(() => {
+    if (addEvaluationStatus === APIResponseStatus.Success) {
+      handleCloseEvaluationModal();
+      showToast({
+        description: t('toasts.evaluationAdded'),
+        severity: Severity.Success,
+      });
+    } else if (addEvaluationStatus === APIResponseStatus.Error) {
+      showToast({
+        description: t('toasts.evaluationAddError'),
+        severity: Severity.Error,
+      });
+    }
+  }, [addEvaluationStatus, showToast, handleCloseEvaluationModal, t]);
 
   useEffect(() => {
     if (deleteStatus === APIResponseStatus.Success) {
@@ -150,11 +177,56 @@ export const ClerkExamDates = () => {
     {
       key: 'reviewEvaluation',
       title: t('listing.header.reviewEvaluation'),
-      render: () => (
-        <Link component="button" underline="hover">
-          {t('listing.addReviewEvaluation')}
-        </Link>
-      ),
+      render: (row) => {
+        const hasEvaluation = row.languages.some(
+          (l) => l.evaluationStartDate && l.evaluationEndDate,
+        );
+
+        if (hasEvaluation) {
+          const evalLanguages = row.languages.filter(
+            (l) => l.evaluationStartDate && l.evaluationEndDate,
+          );
+          const uniqueDates = Array.from(
+            new Set(
+              evalLanguages.map(
+                (l) => `${l.evaluationStartDate}-${l.evaluationEndDate}`,
+              ),
+            ),
+          );
+
+          if (uniqueDates.length === 1) {
+            const lang = evalLanguages[0];
+
+            return (
+              <span>
+                {dayjs(lang.evaluationStartDate).format('D.M.YYYY')}-
+                {dayjs(lang.evaluationEndDate).format('D.M.YYYY')}
+              </span>
+            );
+          }
+
+          return (
+            <div>
+              {evalLanguages.map((lang) => (
+                <div key={lang.id}>
+                  {dayjs(lang.evaluationStartDate).format('D.M.YYYY')}-
+                  {dayjs(lang.evaluationEndDate).format('D.M.YYYY')}
+                </div>
+              ))}
+            </div>
+          );
+        }
+
+        return (
+          <Link
+            component="button"
+            underline="hover"
+            onClick={() => setExamDateForEvaluation(row)}
+          >
+            {t('listing.addReviewEvaluation')}
+          </Link>
+        );
+      },
     },
     {
       key: 'edit',
@@ -226,6 +298,10 @@ export const ClerkExamDates = () => {
           <ModifyExamDateModal
             examDateToEdit={examDateToEdit}
             onClose={handleCloseModifyModal}
+          />
+          <AddEvaluationModal
+            examDate={examDateForEvaluation}
+            onClose={handleCloseEvaluationModal}
           />
         </>
       );

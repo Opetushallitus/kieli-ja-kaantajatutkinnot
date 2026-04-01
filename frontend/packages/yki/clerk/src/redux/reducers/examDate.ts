@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import {
+  CreateEvaluationRequest,
   CreateExamDateRequest,
   ExamDate,
   ExamDateSort,
@@ -12,6 +13,7 @@ interface ExamDateState {
   status: APIResponseStatus;
   addStatus: APIResponseStatus;
   updateStatus: APIResponseStatus;
+  addEvaluationStatus: APIResponseStatus;
   deleteStatus: APIResponseStatus;
   examDates: ExamDate[];
   examDateSort: ExamDateSort;
@@ -21,6 +23,7 @@ const initialState: ExamDateState = {
   status: APIResponseStatus.NotStarted,
   addStatus: APIResponseStatus.NotStarted,
   updateStatus: APIResponseStatus.NotStarted,
+  addEvaluationStatus: APIResponseStatus.NotStarted,
   deleteStatus: APIResponseStatus.NotStarted,
   examDates: [],
   examDateSort: 'examDate:desc',
@@ -64,6 +67,21 @@ const examDateSlice = createSlice({
     resetUpdateExamDateStatus(state) {
       state.updateStatus = APIResponseStatus.NotStarted;
     },
+    addEvaluation(
+      state,
+      _action: PayloadAction<{ examDateId: number } & CreateEvaluationRequest>,
+    ) {
+      state.addEvaluationStatus = APIResponseStatus.InProgress;
+    },
+    rejectAddEvaluation(state) {
+      state.addEvaluationStatus = APIResponseStatus.Error;
+    },
+    storeAddEvaluation(state) {
+      state.addEvaluationStatus = APIResponseStatus.Success;
+    },
+    resetAddEvaluationStatus(state) {
+      state.addEvaluationStatus = APIResponseStatus.NotStarted;
+    },
     setExamDateSort(state, action: PayloadAction<ExamDateSort>) {
       state.examDateSort = action.payload;
     },
@@ -95,6 +113,10 @@ export const {
   rejectUpdateExamDate,
   storeUpdateExamDate,
   resetUpdateExamDateStatus,
+  addEvaluation,
+  rejectAddEvaluation,
+  storeAddEvaluation,
+  resetAddEvaluationStatus,
   setExamDateSort,
   deleteExamDate,
   rejectDeleteExamDate,
