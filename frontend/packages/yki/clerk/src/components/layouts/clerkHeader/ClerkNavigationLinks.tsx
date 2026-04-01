@@ -9,6 +9,8 @@ const getTabForPath = (path: string) => {
     return 'clerkOrganizerRegister';
   } else if (path.includes(AppRoutes.ClerkFreeRegistration)) {
     return 'freeRegistration';
+  } else if (path.includes(AppRoutes.ClerkQuarantine)) {
+    return 'quarantine';
   } else if (path.includes(AppRoutes.CustomerSearch)) {
     return 'customerSearch';
   } else if (
@@ -50,6 +52,11 @@ export const ClerkNavigationLinks = () => {
           active: getTabForPath(pathname) === 'customerSearch',
           href: AppRoutes.CustomerSearch,
           label: translateCommon('customerSearch'),
+        },
+        {
+          active: getTabForPath(pathname) === 'quarantine',
+          href: AppRoutes.ClerkQuarantine,
+          label: translateCommon('quarantine'),
         },
       ]}
     />

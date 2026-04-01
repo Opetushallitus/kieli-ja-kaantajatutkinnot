@@ -25,6 +25,10 @@ import {
   ClerkFreeRegistrationResponse,
 } from 'interfaces/clerkFreeRegistration';
 import {
+  ClerkQuarantineMatch,
+  ClerkQuarantineMatchResponse,
+} from 'interfaces/clerkQuarantine';
+import {
   ClerkOrganizer,
   ClerkOrganizerResponse,
 } from 'interfaces/clerkOrganizer';
@@ -461,6 +465,33 @@ export class SerializationUtils {
       ytjpaivitysPvm: organizationResponse.ytjpaivitysPvm
         ? dayjs(organizationResponse.ytjpaivitysPvm)
         : undefined,
+    };
+  }
+
+  static deserializeClerkQuarantineMatchResponse(
+    response: ClerkQuarantineMatchResponse,
+  ): ClerkQuarantineMatch {
+    return {
+      quarantineId: response.id,
+      registrationId: response.registrationId,
+      examLanguageCode: response.languageCode,
+      examDate: dayjs(response.examDate),
+      ban: {
+        firstName: response.firstName,
+        lastName: response.lastName,
+        birthdate: response.birthdate,
+        ssn: response.ssn,
+        email: response.email,
+        phoneNumber: response.phoneNumber,
+      },
+      registrant: {
+        firstName: response.form.first_name ?? '',
+        lastName: response.form.last_name ?? '',
+        birthdate: response.form.birthdate ?? '',
+        ssn: response.form.ssn ?? '',
+        email: response.form.email ?? '',
+        phoneNumber: response.form.phone_number ?? '',
+      },
     };
   }
 }

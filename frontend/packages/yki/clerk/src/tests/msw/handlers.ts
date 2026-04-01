@@ -20,6 +20,7 @@ import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDeta
 import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { organizers } from 'tests/msw/fixtures/organizers';
+import { quarantineMatches } from 'tests/msw/fixtures/quarantineMatches';
 
 interface FreeRegistrationRequest {
   approved: boolean;
@@ -337,6 +338,9 @@ export const handlers = [
     () => {
       return HttpResponse.json(findOrganizations);
     },
+  ),
+  http.get(APIEndpoints.ClerkQuarantineMatches, () =>
+    HttpResponse.json({ quarantineMatches }),
   ),
   http.post(APIEndpoints.AddClerkOrganizer, async ({ request }) => {
     const requestBody = (await request.json()) as Omit<

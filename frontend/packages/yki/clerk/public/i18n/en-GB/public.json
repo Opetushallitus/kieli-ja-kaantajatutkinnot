@@ -369,6 +369,30 @@
           "previous": "Aiemmat tarkastukset"
         }
       },
+      "clerkQuarantine": {
+        "description": "Järjestelmän tunnistamat ilmoittautujat, joiden tiedot vastaavat voimassa olevan osallistumiskiellon tietoja. Tarkista, onko ilmoittautuja osallistumiskiellossa ja peru tai hyväksy ilmoittautuminen mahdollisimman pian.",
+        "listing": {
+          "amountOfRegistrations": "{{amount}} ilmoittautujaa",
+          "header": {
+            "birthdate": "Syntymäaika",
+            "email": "Sähköposti",
+            "examDate": "Tutkinnon pvm",
+            "examLanguage": "Tutkinnon kieli",
+            "name": "Etunimi sukunimi",
+            "phoneNumber": "Puhelinnumero",
+            "ssn": "Hetu"
+          },
+          "rowLabel": {
+            "ban": "Osallistumiskielto",
+            "registrant": "Ilmoittautuja"
+          }
+        },
+        "tabs": {
+          "active": "Voimassa olevat osallistumiskiellot",
+          "pending": "Odottavat tarkistukset",
+          "previous": "Aiemmat tarkistukset"
+        }
+      },
       "clerkRegister": {
         "clerkAddOrganizer": {
           "addButton": "Lisää järjestäjä",
@@ -481,6 +505,9 @@
       },
       "clerkFreeRegistrationPage": {
         "heading": "Maksuttomuuden tarkastukset"
+      },
+      "clerkQuarantinePage": {
+        "heading": "Osallistumiskiellot"
       },
       "clerkRegisterPage": {
         "heading": "Kielitutkintojen järjestäjärekisteri"
