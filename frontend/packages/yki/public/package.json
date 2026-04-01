@@ -29,6 +29,7 @@
     "yki:tslint": "yarn g:tsc --pretty --noEmit"
   },
   "dependencies": {
+    "@fontsource/open-sans": "^5.2.7",
     "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.14.1"
   },
   "devDependencies": {
