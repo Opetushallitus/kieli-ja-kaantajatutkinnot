@@ -447,7 +447,9 @@ const NotLoggedIn = () => {
                 href={`${APIEndpoints.Authenticate}?toUserPortal=true`}
                 className="user-details-page__login-btn"
               >
-                {t('notLoggedIn.loginThroughSuomiFi')}
+                <span className="button-color-white">
+                  {t('notLoggedIn.loginThroughSuomiFi')}
+                </span>
               </CustomButton>
             </div>
             <Text>{t('notLoggedIn.actionsAvailable')}</Text>
