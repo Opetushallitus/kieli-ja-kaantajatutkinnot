@@ -3,7 +3,7 @@
     "component": {
       "clerkPaymentReport": {
         "title": "Tutkintomaksujen raportointi",
-        "description": "Valitse alta päivämäärät joiden ajalta haluat tarkastella toteutuneita tutkintomaksuja. Oletusarvoisesti valittuna on koko edellinen kuukausi. Huomaathan, että mahdollisesti jälkikäteen palautetut tutkintomaksut näkyvät edelleen raportissa maksutuina.",
+        "description": "Valitse alta päivämäärät joiden ajalta haluat tarkastella toteutuneita tutkintomaksuja. Oletusarvoisesti valittuna on koko edellinen kuukausi. Huomaathan, että mahdollisesti jälkikäteen palautetut tutkintomaksut näkyvät edelleen raportissa maksettuina.",
         "from": "Mistä",
         "to": "Mihin",
         "download": "Muodosta raportti (.xlsx)"
