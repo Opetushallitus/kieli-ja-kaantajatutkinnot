@@ -19,4 +19,5 @@ public enum YkiOperation implements Operation {
   UPDATE_EXAM_DATE,
   CREATE_EVALUATION,
   DELETE_EXAM_DATE,
+  GET_QUARANTINE_MATCHES,
 }
