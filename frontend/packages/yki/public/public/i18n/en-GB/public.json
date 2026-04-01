@@ -828,6 +828,14 @@
           "state": {
             "cancelled": "Cancelled",
             "enrolled": "Registered",
+            "EVALUATION_COMPLETE": "Arviointi valmis",
+            "EVALUATION_PENDING": "Arviointi kesken",
+            "NO_SHOW": "Ei osallistunut",
+            "ABORTED": "Suoritus keskeytetty",
+            "REVIEW_PENDING": "Tarkistusarviointi kesken",
+            "REVIEW_COMPLETE": "Tarkistusarviointi kesken",
+            "RETAKE_PENDING": "-",
+            "REVIEW_FINALIZED": "Tarkistusarviointi valmis",
             "label": "Status",
             "queued": "On the waiting list (position {{ positionInQueue }})"
           },

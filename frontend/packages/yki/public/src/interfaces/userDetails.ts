@@ -2,6 +2,7 @@ import { Dayjs } from 'dayjs';
 import { WithId } from 'shared/interfaces';
 
 import {
+  EvaluationState,
   ExamLanguage,
   ExamLevel,
   RegistrationKind,
@@ -27,6 +28,7 @@ export interface PersonRegistrations extends WithId {
   liftedFromQueueAt?: Dayjs;
   positionInQueue?: number;
   isFreeRegistration?: boolean;
+  evaluationState?: EvaluationState;
 }
 
 interface PersonRegistrationsResponse extends WithId {
@@ -47,6 +49,7 @@ interface PersonRegistrationsResponse extends WithId {
   lifted_from_queue_at?: string;
   position_in_queue?: number;
   is_free_registration?: boolean;
+  evaluation_state?: string;
 }
 
 export interface PersonDetails {

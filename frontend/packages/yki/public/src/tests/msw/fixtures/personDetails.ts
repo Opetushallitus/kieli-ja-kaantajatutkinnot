@@ -1,4 +1,4 @@
-import { RegistrationStates } from 'enums/app';
+import { EvaluationState, RegistrationStates } from 'enums/app';
 import { PersonDetailsResponse } from 'interfaces/userDetails';
 
 export const personDetails: PersonDetailsResponse = {
@@ -42,7 +42,8 @@ export const personDetails: PersonDetailsResponse = {
       ],
       kind: 'ADMISSION',
       state: RegistrationStates.Completed,
-      exam_date: '2026-02-12',
+      evaluation_state: EvaluationState.EvaluationComplete,
+      exam_date: '2026-01-12',
       registration_start_date: '2025-01-01',
       registration_end_date: '2025-12-31',
       language_code: 'fin',

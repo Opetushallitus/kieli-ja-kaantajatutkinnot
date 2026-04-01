@@ -3,6 +3,7 @@ import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import InfoFilledIcon from '@mui/icons-material/Info';
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
+import SchoolIcon from '@mui/icons-material/School';
 import WarningOutlinedIcon from '@mui/icons-material/WarningOutlined';
 import { Grid, Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
@@ -29,7 +30,12 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
-import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
+import {
+  AppRoutes,
+  EvaluationState,
+  RegistrationKind,
+  RegistrationStates,
+} from 'enums/app';
 import { useCountryOptions } from 'hooks/useCountryOptions';
 import { PersonRegistrations } from 'interfaces/userDetails';
 //import { ExpiredLoginLinkPage } from 'pages/ExpiredLoginLinkPage';
@@ -115,6 +121,42 @@ interface RegistrationsProps {
   setIsCancelModalOpen: (open: boolean) => void;
 }
 
+const EvaluationStateInfo = ({ state }: { state: EvaluationState }) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.userDetailsPage.registrations.state',
+  });
+
+  switch (state) {
+    case EvaluationState.EvaluationPending:
+    case EvaluationState.ReviewPending:
+    case EvaluationState.ReviewComplete:
+      return (
+        <>
+          <AlarmOutlinedIcon className="user-details-page__icon--alert" />
+          <Text>{t(state)}</Text>
+        </>
+      );
+    case EvaluationState.EvaluationComplete:
+    case EvaluationState.ReviewFinalized:
+      return (
+        <>
+          <SchoolIcon className="user-details-page__icon--ok" />{' '}
+          <Text>{t(state)}</Text>
+        </>
+      );
+    case EvaluationState.Aborted:
+    case EvaluationState.NoShow:
+      return (
+        <>
+          <NotInterestedIcon className="user-details-page__icon--cancel" />
+          <Text>{t(state)}</Text>
+        </>
+      );
+    default:
+      return <></>;
+  }
+};
+
 const InfoBox = ({ children }: { children: JSX.Element }) => {
   return (
     <div className="user-details-page__info-box columns gapped-xs">
@@ -129,10 +171,13 @@ const RegistrationState = ({
 }: {
   registration: PersonRegistrations;
 }) => {
-  const { state, kind } = registration;
+  const { state, evaluationState, kind } = registration;
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage.registrations.state',
   });
+
+  const hasEvaluation = !!evaluationState;
+
   const isEnrolled =
     state === RegistrationStates.Completed ||
     (state === RegistrationStates.Submitted &&
@@ -153,7 +198,8 @@ const RegistrationState = ({
     <div>
       <Text className="bold">{t('label')}</Text>
       <div className="columns gapped-xxs">
-        {isEnrolled && (
+        {hasEvaluation && <EvaluationStateInfo state={evaluationState} />}
+        {!hasEvaluation && isEnrolled && (
           <>
             <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
             <Text>{t('enrolled')}</Text>
