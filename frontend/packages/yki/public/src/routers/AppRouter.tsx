@@ -156,6 +156,13 @@ const ykiPublicTheme = {
         },
       },
     },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          fontFamily: "'Open Sans', sans-serif",
+        },
+      },
+    },
   },
   palette: {
     ...theme.palette,
