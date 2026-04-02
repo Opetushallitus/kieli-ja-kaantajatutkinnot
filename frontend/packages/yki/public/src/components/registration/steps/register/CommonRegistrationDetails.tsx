@@ -45,6 +45,7 @@ const ErrorLabelStyles = {
   },
 };
 
+// TODO remove me, deploy commmit
 export const CommonRegistrationDetails = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationDetails',
