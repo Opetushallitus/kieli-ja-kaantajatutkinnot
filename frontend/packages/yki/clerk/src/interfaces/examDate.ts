@@ -4,6 +4,8 @@ export interface ExamDateLanguage {
   id: number;
   languageCode: string;
   levelCode: string;
+  evaluationStartDate: string | null;
+  evaluationEndDate: string | null;
 }
 
 export type ExamType = 'FULL' | 'READ_SPEAK' | 'LISTEN_WRITE';
@@ -43,6 +45,18 @@ export interface CreateExamDateRequest {
 
 export interface UpdateExamDateRequest extends CreateExamDateRequest {
   id: number;
+}
+
+export interface LanguageEvaluationOverride {
+  examDateLanguageId: number;
+  evaluationStartDate: string;
+  evaluationEndDate: string;
+}
+
+export interface CreateEvaluationRequest {
+  evaluationStartDate: string;
+  evaluationEndDate: string;
+  overrides?: LanguageEvaluationOverride[];
 }
 
 export type SortOrder = 'asc' | 'desc' | '';

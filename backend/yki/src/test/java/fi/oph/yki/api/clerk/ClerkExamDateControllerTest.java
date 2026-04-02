@@ -95,4 +95,54 @@ class ClerkExamDateControllerTest {
       .perform(put(BASE_URL + "/1").with(csrf()).contentType(MediaType.APPLICATION_JSON).content(data.toJSONString()))
       .andExpect(status().isBadRequest());
   }
+
+  private static JSONObject validEvaluationData() {
+    final JSONObject data = new JSONObject();
+    data.put("evaluationStartDate", "2026-10-20");
+    data.put("evaluationEndDate", "2026-11-20");
+
+    return data;
+  }
+
+  @Test
+  public void testCreateEvaluationWithValidData() throws Exception {
+    mockMvc
+      .perform(
+        post(BASE_URL + "/1/evaluation")
+          .with(csrf())
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(validEvaluationData().toJSONString())
+      )
+      .andExpect(status().isOk());
+  }
+
+  @Test
+  public void testCreateEvaluationWithMissingStartDateReturnsBadRequest() throws Exception {
+    final JSONObject data = validEvaluationData();
+    data.put("evaluationStartDate", null);
+
+    mockMvc
+      .perform(
+        post(BASE_URL + "/1/evaluation")
+          .with(csrf())
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(data.toJSONString())
+      )
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testCreateEvaluationWithMissingEndDateReturnsBadRequest() throws Exception {
+    final JSONObject data = validEvaluationData();
+    data.put("evaluationEndDate", null);
+
+    mockMvc
+      .perform(
+        post(BASE_URL + "/1/evaluation")
+          .with(csrf())
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(data.toJSONString())
+      )
+      .andExpect(status().isBadRequest());
+  }
 }
