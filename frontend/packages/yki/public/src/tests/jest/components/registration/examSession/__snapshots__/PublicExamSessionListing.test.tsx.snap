@@ -70,30 +70,112 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <thead>
           <tr>
             <th>
-              price
+              examSessionCard.exam
             </th>
             <th>
-              placesAvailable
+              examSessionCard.examStartTime
             </th>
             <th>
-              actions
+              examSessionCard.price
+            </th>
+            <th>
+              examSessionCard.placesAvailable
+            </th>
+            <th>
+              examSessionCard.actions
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td
-              data-label="price"
+              data-label="examSessionCard.examType.readSpeak"
+            >
+              examSessionCard.examType.readSpeak
+            </td>
+            <td
+              data-label="examSessionCard.examStartTime"
+            >
+              klo 14:30
+            </td>
+            <td
+              data-label="examSessionCard.price"
             >
               0 / 200 €
             </td>
             <td
-              data-label="placesAvailable"
+              data-label="examSessionCard.placesAvailable"
             >
-              full
+              registrationButtonLabels.full
             </td>
             <td
-              data-label="actions"
+              data-label="examSessionCard.actions"
+            >
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                register
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td
+              data-label="examSessionCard.examType.read"
+            >
+              examSessionCard.examType.read
+            </td>
+            <td
+              data-label="examSessionCard.examStartTime"
+            >
+              klo 14:30
+            </td>
+            <td
+              data-label="examSessionCard.price"
+            >
+              0 / 200 €
+            </td>
+            <td
+              data-label="examSessionCard.placesAvailable"
+            >
+              registrationButtonLabels.full
+            </td>
+            <td
+              data-label="examSessionCard.actions"
+            >
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                register
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td
+              data-label="examSessionCard.examType.speak"
+            >
+              examSessionCard.examType.speak
+            </td>
+            <td
+              data-label="examSessionCard.examStartTime"
+            >
+              klo 14:30
+            </td>
+            <td
+              data-label="examSessionCard.price"
+            >
+              0 / 200 €
+            </td>
+            <td
+              data-label="examSessionCard.placesAvailable"
+            >
+              registrationButtonLabels.full
+            </td>
+            <td
+              data-label="examSessionCard.actions"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
@@ -172,30 +254,108 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <thead>
           <tr>
             <th>
-              price
+              examSessionCard.exam
             </th>
             <th>
-              placesAvailable
+              examSessionCard.examStartTime
             </th>
             <th>
-              actions
+              examSessionCard.price
+            </th>
+            <th>
+              examSessionCard.placesAvailable
+            </th>
+            <th>
+              examSessionCard.actions
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td
-              data-label="price"
+              data-label="examSessionCard.examType.listenWrite"
+            >
+              examSessionCard.examType.listenWrite
+            </td>
+            <td
+              data-label="examSessionCard.examStartTime"
+            >
+              klo 14:30
+            </td>
+            <td
+              data-label="examSessionCard.price"
             >
               0 / 200 €
             </td>
             <td
-              data-label="placesAvailable"
+              data-label="examSessionCard.placesAvailable"
             >
-              full
+              registrationButtonLabels.full
             </td>
             <td
-              data-label="actions"
+              data-label="examSessionCard.actions"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+              >
+                admissionPeriodIsClosed
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td
+              data-label="examSessionCard.examType.listen"
+            >
+              examSessionCard.examType.listen
+            </td>
+            <td
+              data-label="examSessionCard.examStartTime"
+            >
+              klo 14:30
+            </td>
+            <td
+              data-label="examSessionCard.price"
+            >
+              0 / 200 €
+            </td>
+            <td
+              data-label="examSessionCard.placesAvailable"
+            >
+              registrationButtonLabels.full
+            </td>
+            <td
+              data-label="examSessionCard.actions"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+              >
+                admissionPeriodIsClosed
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td
+              data-label="examSessionCard.examType.write"
+            >
+              examSessionCard.examType.write
+            </td>
+            <td
+              data-label="examSessionCard.examStartTime"
+            >
+              klo 14:30
+            </td>
+            <td
+              data-label="examSessionCard.price"
+            >
+              0 / 200 €
+            </td>
+            <td
+              data-label="examSessionCard.placesAvailable"
+            >
+              registrationButtonLabels.full
+            </td>
+            <td
+              data-label="examSessionCard.actions"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
@@ -272,30 +432,46 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <thead>
           <tr>
             <th>
-              price
+              examSessionCard.exam
             </th>
             <th>
-              placesAvailable
+              examSessionCard.examStartTime
             </th>
             <th>
-              actions
+              examSessionCard.price
+            </th>
+            <th>
+              examSessionCard.placesAvailable
+            </th>
+            <th>
+              examSessionCard.actions
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td
-              data-label="price"
+              data-label="examSessionCard.examType.full"
+            >
+              examSessionCard.examType.full
+            </td>
+            <td
+              data-label="examSessionCard.examStartTime"
+            >
+              klo 14:30
+            </td>
+            <td
+              data-label="examSessionCard.price"
             >
               0 / 200 €
             </td>
             <td
-              data-label="placesAvailable"
+              data-label="examSessionCard.placesAvailable"
             >
-              full
+              registrationButtonLabels.full
             </td>
             <td
-              data-label="actions"
+              data-label="examSessionCard.actions"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
@@ -372,30 +548,46 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <thead>
           <tr>
             <th>
-              price
+              examSessionCard.exam
             </th>
             <th>
-              placesAvailable
+              examSessionCard.examStartTime
             </th>
             <th>
-              actions
+              examSessionCard.price
+            </th>
+            <th>
+              examSessionCard.placesAvailable
+            </th>
+            <th>
+              examSessionCard.actions
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td
-              data-label="price"
+              data-label="examSessionCard.examType.full"
+            >
+              examSessionCard.examType.full
+            </td>
+            <td
+              data-label="examSessionCard.examStartTime"
+            >
+              klo 14:30
+            </td>
+            <td
+              data-label="examSessionCard.price"
             >
               153 €
             </td>
             <td
-              data-label="placesAvailable"
+              data-label="examSessionCard.placesAvailable"
             >
               50
             </td>
             <td
-              data-label="actions"
+              data-label="examSessionCard.actions"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
@@ -472,30 +664,46 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <thead>
           <tr>
             <th>
-              price
+              examSessionCard.exam
             </th>
             <th>
-              placesAvailable
+              examSessionCard.examStartTime
             </th>
             <th>
-              actions
+              examSessionCard.price
+            </th>
+            <th>
+              examSessionCard.placesAvailable
+            </th>
+            <th>
+              examSessionCard.actions
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td
-              data-label="price"
+              data-label="examSessionCard.examType.full"
+            >
+              examSessionCard.examType.full
+            </td>
+            <td
+              data-label="examSessionCard.examStartTime"
+            >
+              klo 14:30
+            </td>
+            <td
+              data-label="examSessionCard.price"
             >
               176 €
             </td>
             <td
-              data-label="placesAvailable"
+              data-label="examSessionCard.placesAvailable"
             >
               20
             </td>
             <td
-              data-label="actions"
+              data-label="examSessionCard.actions"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
@@ -574,30 +782,46 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <thead>
           <tr>
             <th>
-              price
+              examSessionCard.exam
             </th>
             <th>
-              placesAvailable
+              examSessionCard.examStartTime
             </th>
             <th>
-              actions
+              examSessionCard.price
+            </th>
+            <th>
+              examSessionCard.placesAvailable
+            </th>
+            <th>
+              examSessionCard.actions
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td
-              data-label="price"
+              data-label="examSessionCard.examType.full"
+            >
+              examSessionCard.examType.full
+            </td>
+            <td
+              data-label="examSessionCard.examStartTime"
+            >
+              klo 14:30
+            </td>
+            <td
+              data-label="examSessionCard.price"
             >
               0 / 200 €
             </td>
             <td
-              data-label="placesAvailable"
+              data-label="examSessionCard.placesAvailable"
             >
               1
             </td>
             <td
-              data-label="actions"
+              data-label="examSessionCard.actions"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
@@ -676,30 +900,46 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <thead>
           <tr>
             <th>
-              price
+              examSessionCard.exam
             </th>
             <th>
-              placesAvailable
+              examSessionCard.examStartTime
             </th>
             <th>
-              actions
+              examSessionCard.price
+            </th>
+            <th>
+              examSessionCard.placesAvailable
+            </th>
+            <th>
+              examSessionCard.actions
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td
-              data-label="price"
+              data-label="examSessionCard.examType.full"
+            >
+              examSessionCard.examType.full
+            </td>
+            <td
+              data-label="examSessionCard.examStartTime"
+            >
+              klo 14:30
+            </td>
+            <td
+              data-label="examSessionCard.price"
             >
               200 €
             </td>
             <td
-              data-label="placesAvailable"
+              data-label="examSessionCard.placesAvailable"
             >
-              full
+              registrationButtonLabels.full
             </td>
             <td
-              data-label="actions"
+              data-label="examSessionCard.actions"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
@@ -778,30 +1018,46 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <thead>
           <tr>
             <th>
-              price
+              examSessionCard.exam
             </th>
             <th>
-              placesAvailable
+              examSessionCard.examStartTime
             </th>
             <th>
-              actions
+              examSessionCard.price
+            </th>
+            <th>
+              examSessionCard.placesAvailable
+            </th>
+            <th>
+              examSessionCard.actions
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td
-              data-label="price"
+              data-label="examSessionCard.examType.full"
+            >
+              examSessionCard.examType.full
+            </td>
+            <td
+              data-label="examSessionCard.examStartTime"
+            >
+              klo 14:30
+            </td>
+            <td
+              data-label="examSessionCard.price"
             >
               153 €
             </td>
             <td
-              data-label="placesAvailable"
+              data-label="examSessionCard.placesAvailable"
             >
-              full
+              registrationButtonLabels.full
             </td>
             <td
-              data-label="actions"
+              data-label="examSessionCard.actions"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
@@ -880,30 +1136,46 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <thead>
           <tr>
             <th>
-              price
+              examSessionCard.exam
             </th>
             <th>
-              placesAvailable
+              examSessionCard.examStartTime
             </th>
             <th>
-              actions
+              examSessionCard.price
+            </th>
+            <th>
+              examSessionCard.placesAvailable
+            </th>
+            <th>
+              examSessionCard.actions
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td
-              data-label="price"
+              data-label="examSessionCard.examType.full"
+            >
+              examSessionCard.examType.full
+            </td>
+            <td
+              data-label="examSessionCard.examStartTime"
+            >
+              klo 14:30
+            </td>
+            <td
+              data-label="examSessionCard.price"
             >
               153 €
             </td>
             <td
-              data-label="placesAvailable"
+              data-label="examSessionCard.placesAvailable"
             >
-              full
+              registrationButtonLabels.full
             </td>
             <td
-              data-label="actions"
+              data-label="examSessionCard.actions"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
@@ -982,30 +1254,46 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <thead>
           <tr>
             <th>
-              price
+              examSessionCard.exam
             </th>
             <th>
-              placesAvailable
+              examSessionCard.examStartTime
             </th>
             <th>
-              actions
+              examSessionCard.price
+            </th>
+            <th>
+              examSessionCard.placesAvailable
+            </th>
+            <th>
+              examSessionCard.actions
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td
-              data-label="price"
+              data-label="examSessionCard.examType.full"
+            >
+              examSessionCard.examType.full
+            </td>
+            <td
+              data-label="examSessionCard.examStartTime"
+            >
+              klo 14:30
+            </td>
+            <td
+              data-label="examSessionCard.price"
             >
               176 €
             </td>
             <td
-              data-label="placesAvailable"
+              data-label="examSessionCard.placesAvailable"
             >
-              full
+              registrationButtonLabels.full
             </td>
             <td
-              data-label="actions"
+              data-label="examSessionCard.actions"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
@@ -1082,30 +1370,46 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <thead>
           <tr>
             <th>
-              price
+              examSessionCard.exam
             </th>
             <th>
-              placesAvailable
+              examSessionCard.examStartTime
             </th>
             <th>
-              actions
+              examSessionCard.price
+            </th>
+            <th>
+              examSessionCard.placesAvailable
+            </th>
+            <th>
+              examSessionCard.actions
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td
-              data-label="price"
+              data-label="examSessionCard.examType.full"
+            >
+              examSessionCard.examType.full
+            </td>
+            <td
+              data-label="examSessionCard.examStartTime"
+            >
+              klo 14:30
+            </td>
+            <td
+              data-label="examSessionCard.price"
             >
               176 €
             </td>
             <td
-              data-label="placesAvailable"
+              data-label="examSessionCard.placesAvailable"
             >
               10
             </td>
             <td
-              data-label="actions"
+              data-label="examSessionCard.actions"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
@@ -1184,30 +1488,46 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <thead>
           <tr>
             <th>
-              price
+              examSessionCard.exam
             </th>
             <th>
-              placesAvailable
+              examSessionCard.examStartTime
             </th>
             <th>
-              actions
+              examSessionCard.price
+            </th>
+            <th>
+              examSessionCard.placesAvailable
+            </th>
+            <th>
+              examSessionCard.actions
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td
-              data-label="price"
+              data-label="examSessionCard.examType.full"
+            >
+              examSessionCard.examType.full
+            </td>
+            <td
+              data-label="examSessionCard.examStartTime"
+            >
+              klo 14:30
+            </td>
+            <td
+              data-label="examSessionCard.price"
             >
               176 €
             </td>
             <td
-              data-label="placesAvailable"
+              data-label="examSessionCard.placesAvailable"
             >
               17
             </td>
             <td
-              data-label="actions"
+              data-label="examSessionCard.actions"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
@@ -1286,30 +1606,46 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
         <thead>
           <tr>
             <th>
-              price
+              examSessionCard.exam
             </th>
             <th>
-              placesAvailable
+              examSessionCard.examStartTime
             </th>
             <th>
-              actions
+              examSessionCard.price
+            </th>
+            <th>
+              examSessionCard.placesAvailable
+            </th>
+            <th>
+              examSessionCard.actions
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td
-              data-label="price"
+              data-label="examSessionCard.examType.full"
+            >
+              examSessionCard.examType.full
+            </td>
+            <td
+              data-label="examSessionCard.examStartTime"
+            >
+              klo 14:30
+            </td>
+            <td
+              data-label="examSessionCard.price"
             >
               176 €
             </td>
             <td
-              data-label="placesAvailable"
+              data-label="examSessionCard.placesAvailable"
             >
               19
             </td>
             <td
-              data-label="actions"
+              data-label="examSessionCard.actions"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"

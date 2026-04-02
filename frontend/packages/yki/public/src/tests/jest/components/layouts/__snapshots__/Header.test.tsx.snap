@@ -247,7 +247,11 @@ exports[`Header should render Header correctly 1`] = `
             tabindex="0"
             type="button"
           >
-            buttonText
+            <span
+              class="button-color-white"
+            >
+              buttonText
+            </span>
           </button>
         </div>
       </div>
