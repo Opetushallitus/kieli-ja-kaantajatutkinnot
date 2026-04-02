@@ -161,12 +161,14 @@ const RegistrationInitErrorModal = ({
               variant={Variant.Contained}
               onClick={() => {
                 dispatch(resetPublicRegistration());
-                dispatch(
-                  initRegistration({
-                    examSessionId: examSessionId,
-                    registrationKind: RegistrationKind.Queue,
-                  }),
-                );
+                initRegistrationState.partialExamType &&
+                  dispatch(
+                    initRegistration({
+                      examSessionId: examSessionId,
+                      registrationKind: RegistrationKind.Queue,
+                      partialExamType: initRegistrationState.partialExamType,
+                    }),
+                  );
               }}
             >
               {t('enrollToQueue')}

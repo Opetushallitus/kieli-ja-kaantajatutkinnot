@@ -329,6 +329,7 @@ export class SerializationUtils {
     return {
       exam_session_id: payload.examSessionId,
       to_queue: payload.registrationKind === RegistrationKind.Queue,
+      partial_exam_type: payload.partialExamType,
     };
   }
 

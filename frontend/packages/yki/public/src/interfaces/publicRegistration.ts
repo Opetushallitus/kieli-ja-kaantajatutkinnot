@@ -47,14 +47,23 @@ export interface PublicEmailRegistration
   ssn?: string;
 }
 
+export type PartialExamType =
+  | 'ALL_PARTS'
+  | 'READ'
+  | 'SPEAK'
+  | 'LISTEN'
+  | 'WRITE';
+
 export interface PublicRegistrationInitPayload {
   examSessionId: number;
   registrationKind: RegistrationKind;
+  partialExamType: PartialExamType;
 }
 
 export interface PublicRegistrationInitRequest {
   exam_session_id: number;
   to_queue: boolean;
+  partial_exam_type: PartialExamType;
 }
 
 export interface PublicRegistrationInitResponse {

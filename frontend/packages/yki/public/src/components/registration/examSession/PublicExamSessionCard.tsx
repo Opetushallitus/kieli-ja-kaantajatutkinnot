@@ -11,6 +11,7 @@ import {
 import { useAppDispatch } from 'configs/redux';
 import { RegistrationKind } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
+import { PartialExamType } from 'interfaces/publicRegistration';
 import {
   initRegistration,
   resetPublicRegistration,
@@ -20,8 +21,10 @@ import { ExamSessionUtils } from 'utils/examSession';
 
 const RegisterToExamButton = ({
   examSession,
+  partialExamType,
 }: {
   examSession: ExamSession;
+  partialExamType: PartialExamType;
 }) => {
   const dispatch = useAppDispatch();
   const { t } = usePublicTranslation({
@@ -40,6 +43,7 @@ const RegisterToExamButton = ({
           initRegistration({
             examSessionId: examSession.id,
             registrationKind: available_registration_kind,
+            partialExamType,
           }),
         );
       }}
@@ -100,6 +104,193 @@ const MetaField = ({
   </div>
 );
 
+const getTableBody = ({
+  examSession,
+  t,
+}: {
+  examSession: ExamSession;
+  t: ReturnType<typeof usePublicTranslation>['t'];
+}) => {
+  const examSessionFee = ExamSessionUtils.freeRegistrationPossible(examSession)
+    ? `0 / ${examSession.exam_fee} €`
+    : `${examSession.exam_fee} €`;
+
+  const availablePlaces = ExamSessionUtils.getAvailablePlaces(examSession);
+  const availablePlacesText =
+    availablePlaces > 0
+      ? '' + availablePlaces
+      : t('registrationButtonLabels.full');
+
+  if (examSession.registrationType === 'READ_SPEAK') {
+    return (
+      <>
+        <tr>
+          <td data-label={t('examSessionCard.examType.readSpeak')}>
+            {t('examSessionCard.examType.readSpeak')}
+          </td>
+          <td data-label={t('examSessionCard.examStartTime')}>klo 14:30</td>
+          <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
+          <td data-label={t('examSessionCard.placesAvailable')}>
+            {availablePlacesText}
+          </td>
+          <td data-label={t('examSessionCard.actions')}>
+            {examSession.open ? (
+              <RegisterToExamButton
+                examSession={examSession}
+                partialExamType="ALL_PARTS"
+              />
+            ) : (
+              <Text>
+                <RegistrationUnavailableText examSession={examSession} />
+              </Text>
+            )}
+          </td>
+        </tr>
+        <tr>
+          <td data-label={t('examSessionCard.examType.read')}>
+            {t('examSessionCard.examType.read')}
+          </td>
+          <td data-label={t('examSessionCard.examStartTime')}>klo 14:30</td>
+          <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
+          <td data-label={t('examSessionCard.placesAvailable')}>
+            {availablePlacesText}
+          </td>
+          <td data-label={t('examSessionCard.actions')}>
+            {examSession.open ? (
+              <RegisterToExamButton
+                examSession={examSession}
+                partialExamType="READ"
+              />
+            ) : (
+              <Text>
+                <RegistrationUnavailableText examSession={examSession} />
+              </Text>
+            )}
+          </td>
+        </tr>
+        <tr>
+          <td data-label={t('examSessionCard.examType.speak')}>
+            {t('examSessionCard.examType.speak')}
+          </td>
+          <td data-label={t('examSessionCard.examStartTime')}>klo 14:30</td>
+          <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
+          <td data-label={t('examSessionCard.placesAvailable')}>
+            {availablePlacesText}
+          </td>
+          <td data-label={t('examSessionCard.actions')}>
+            {examSession.open ? (
+              <RegisterToExamButton
+                examSession={examSession}
+                partialExamType="SPEAK"
+              />
+            ) : (
+              <Text>
+                <RegistrationUnavailableText examSession={examSession} />
+              </Text>
+            )}
+          </td>
+        </tr>
+      </>
+    );
+  } else if (examSession.registrationType === 'LISTEN_WRITE') {
+    return (
+      <>
+        <tr>
+          <td data-label={t('examSessionCard.examType.listenWrite')}>
+            {t('examSessionCard.examType.listenWrite')}
+          </td>
+          <td data-label={t('examSessionCard.examStartTime')}>klo 14:30</td>
+          <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
+          <td data-label={t('examSessionCard.placesAvailable')}>
+            {availablePlacesText}
+          </td>
+          <td data-label={t('examSessionCard.actions')}>
+            {examSession.open ? (
+              <RegisterToExamButton
+                examSession={examSession}
+                partialExamType="ALL_PARTS"
+              />
+            ) : (
+              <Text>
+                <RegistrationUnavailableText examSession={examSession} />
+              </Text>
+            )}
+          </td>
+        </tr>
+        <tr>
+          <td data-label={t('examSessionCard.examType.listen')}>
+            {t('examSessionCard.examType.listen')}
+          </td>
+          <td data-label={t('examSessionCard.examStartTime')}>klo 14:30</td>
+          <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
+          <td data-label={t('examSessionCard.placesAvailable')}>
+            {availablePlacesText}
+          </td>
+          <td data-label={t('examSessionCard.actions')}>
+            {examSession.open ? (
+              <RegisterToExamButton
+                examSession={examSession}
+                partialExamType="LISTEN"
+              />
+            ) : (
+              <Text>
+                <RegistrationUnavailableText examSession={examSession} />
+              </Text>
+            )}
+          </td>
+        </tr>
+        <tr>
+          <td data-label={t('examSessionCard.examType.write')}>
+            {t('examSessionCard.examType.write')}
+          </td>
+          <td data-label={t('examSessionCard.examStartTime')}>klo 14:30</td>
+          <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
+          <td data-label={t('examSessionCard.placesAvailable')}>
+            {availablePlacesText}
+          </td>
+          <td data-label={t('examSessionCard.actions')}>
+            {examSession.open ? (
+              <RegisterToExamButton
+                examSession={examSession}
+                partialExamType="WRITE"
+              />
+            ) : (
+              <Text>
+                <RegistrationUnavailableText examSession={examSession} />
+              </Text>
+            )}
+          </td>
+        </tr>
+      </>
+    );
+  }
+
+  return (
+    <tr>
+      <td data-label={t('examSessionCard.examType.full')}>
+        {t('examSessionCard.examType.full')}
+      </td>
+      <td data-label={t('examSessionCard.examStartTime')}>klo 14:30</td>
+      <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
+      <td data-label={t('examSessionCard.placesAvailable')}>
+        {availablePlacesText}
+      </td>
+      <td data-label={t('examSessionCard.actions')}>
+        {examSession.open ? (
+          <RegisterToExamButton
+            examSession={examSession}
+            partialExamType="ALL_PARTS"
+          />
+        ) : (
+          <Text>
+            <RegistrationUnavailableText examSession={examSession} />
+          </Text>
+        )}
+      </td>
+    </tr>
+  );
+};
+
 export const PublicExamSessionCard = ({
   examSession,
 }: {
@@ -107,25 +298,15 @@ export const PublicExamSessionCard = ({
 }) => {
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration.registrationButtonLabels',
+    keyPrefix: 'yki.component.registration',
   });
 
   const locationInfo = ExamSessionUtils.getLocationInfo(
     examSession,
     getCurrentLang(),
   );
-
-  const { open, availablePlaces, start, end } =
+  const { start, end } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-
-  const availablePlacesText =
-    availablePlaces > 0 ? '' + availablePlaces : t('full');
-
-  const examSessionFee = ExamSessionUtils.freeRegistrationPossible(examSession)
-    ? `0 / ${examSession.exam_fee} €`
-    : `${examSession.exam_fee} €`;
-
-  const registerActionAvailable = !!open;
 
   return (
     <article
@@ -162,28 +343,14 @@ export const PublicExamSessionCard = ({
       <table className="exam-session-card__table">
         <thead>
           <tr>
-            <th>{translateCommon('price')}</th>
-            <th>{translateCommon('placesAvailable')}</th>
-            <th>{translateCommon('actions')}</th>
+            <th>{t('examSessionCard.exam')}</th>
+            <th>{t('examSessionCard.examStartTime')}</th>
+            <th>{t('examSessionCard.price')}</th>
+            <th>{t('examSessionCard.placesAvailable')}</th>
+            <th>{t('examSessionCard.actions')}</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td data-label={translateCommon('price')}>{examSessionFee}</td>
-            <td data-label={translateCommon('placesAvailable')}>
-              {availablePlacesText}
-            </td>
-            <td data-label={translateCommon('actions')}>
-              {registerActionAvailable ? (
-                <RegisterToExamButton examSession={examSession} />
-              ) : (
-                <Text>
-                  <RegistrationUnavailableText examSession={examSession} />
-                </Text>
-              )}
-            </td>
-          </tr>
-        </tbody>
+        <tbody>{getTableBody({ examSession, t })}</tbody>
       </table>
     </article>
   );
