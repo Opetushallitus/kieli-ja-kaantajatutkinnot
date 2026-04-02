@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 
-export interface RegistrationForm {
+interface RegistrationForm {
   first_name?: string;
   last_name?: string;
   birthdate?: string;
@@ -29,7 +29,7 @@ export type ClerkQuarantineMatchesResponse = {
   quarantineMatches: ClerkQuarantineMatchResponse[];
 };
 
-export type QuarantinePersonData = {
+type QuarantinePersonData = {
   firstName: string;
   lastName: string;
   birthdate: string;

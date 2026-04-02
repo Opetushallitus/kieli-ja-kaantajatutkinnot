@@ -25,14 +25,14 @@ import {
   ClerkFreeRegistrationResponse,
 } from 'interfaces/clerkFreeRegistration';
 import {
-  ClerkQuarantineMatch,
-  ClerkQuarantineMatchResponse,
-} from 'interfaces/clerkQuarantine';
-import {
   ClerkOrganizer,
   ClerkOrganizerResponse,
 } from 'interfaces/clerkOrganizer';
 import { FindByOidsOrganizationResponse } from 'interfaces/clerkOrganizerRegistry';
+import {
+  ClerkQuarantineMatch,
+  ClerkQuarantineMatchResponse,
+} from 'interfaces/clerkQuarantine';
 import { ClerkRegistrationResponse } from 'interfaces/clerkRegistration';
 import {
   ExamSession,

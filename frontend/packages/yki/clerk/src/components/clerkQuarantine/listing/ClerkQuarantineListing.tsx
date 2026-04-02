@@ -9,7 +9,10 @@ import { PageSizeSelector } from 'components/oph-design/table/page-size-selector
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { ClerkQuarantineMatch, ClerkQuarantineSort } from 'interfaces/clerkQuarantine';
+import {
+  ClerkQuarantineMatch,
+  ClerkQuarantineSort,
+} from 'interfaces/clerkQuarantine';
 import { H2, Text } from 'ophTheme/Text';
 import {
   loadClerkQuarantineMatches,
