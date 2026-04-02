@@ -73,22 +73,23 @@ public class ClerkQuarantineService {
       form.put("ssn", oidToSsn.get(proj.getPersonOid()));
 
       matches.add(
-        new ClerkQuarantineMatchDTO(
-          proj.getQuarantineId(),
-          proj.getQuarantineLang().trim(),
-          proj.getBirthdate(),
-          proj.getCreated(),
-          proj.getSsn(),
-          proj.getFirstName(),
-          proj.getLastName(),
-          proj.getEmail(),
-          proj.getPhoneNumber(),
-          proj.getRegistrationId(),
-          form,
-          proj.getState(),
-          proj.getExamDate(),
-          proj.getLanguageCode().trim()
-        )
+        ClerkQuarantineMatchDTO
+          .builder()
+          .id(proj.getQuarantineId())
+          .quarantineLang(proj.getQuarantineLang().trim())
+          .birthdate(proj.getBirthdate())
+          .created(proj.getCreated())
+          .ssn(proj.getSsn())
+          .firstName(proj.getFirstName())
+          .lastName(proj.getLastName())
+          .email(proj.getEmail())
+          .phoneNumber(proj.getPhoneNumber())
+          .registrationId(proj.getRegistrationId())
+          .form(form)
+          .state(proj.getState())
+          .examDate(proj.getExamDate())
+          .languageCode(proj.getLanguageCode().trim())
+          .build()
       );
     }
 
