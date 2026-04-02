@@ -140,7 +140,7 @@ export const SuomiFiRegistrationDetails = ({
     );
   };
 
-  const getRegistrationErrors = usePublicRegistrationErrors(showErrors);
+  const getRegistrationErrors = usePublicRegistrationErrors(true);
   const registrationErrors = getRegistrationErrors();
 
   const getLabeledTextFieldAttributes = (

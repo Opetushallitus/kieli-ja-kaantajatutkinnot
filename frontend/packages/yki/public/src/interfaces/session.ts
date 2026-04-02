@@ -1,5 +1,7 @@
 export interface AuthenticatedSession {
   'auth-method': 'CAS' | 'EMAIL' | 'SUOMIFI';
+  'yki-session-id'?: string;
+  timeout?: number;
 }
 
 export interface EmailAuthenticatedSession extends AuthenticatedSession {
@@ -15,6 +17,13 @@ export interface SuomiFiAuthenticatedSession extends AuthenticatedSession {
   identity: {
     first_name: string;
     last_name: string;
+    nick_name?: string;
+    oid?: string;
+    zip?: string;
+    street_address?: string;
+    post_office?: string;
+    nationalities?: Array<string>;
+    'external-user-id'?: string;
     ssn: string;
   };
 }
