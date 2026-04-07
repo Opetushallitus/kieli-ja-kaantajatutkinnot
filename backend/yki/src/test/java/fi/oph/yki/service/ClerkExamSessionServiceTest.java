@@ -7,9 +7,11 @@ import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
+import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
+import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import jakarta.annotation.Resource;
@@ -22,6 +24,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @WithMockUser
 @DataJpaTest
@@ -37,13 +40,20 @@ public class ClerkExamSessionServiceTest {
   private RegistrationRepository registrationRepository;
 
   @Resource
+  private ExamDateRepository examDateRepository;
+
+  @MockitoBean
+  private AuditService auditService;
+
+  @Resource
   private TestEntityManager entityManager;
 
   private ClerkExamSessionService clerkExamSessionService;
 
   @BeforeEach
   public void setup() {
-    clerkExamSessionService = new ClerkExamSessionService(examSessionRepository, registrationRepository);
+    clerkExamSessionService =
+      new ClerkExamSessionService(examSessionRepository, registrationRepository, examDateRepository, auditService);
   }
 
   @Test
