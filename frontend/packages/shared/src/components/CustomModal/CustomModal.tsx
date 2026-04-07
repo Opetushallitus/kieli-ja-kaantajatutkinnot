@@ -1,5 +1,5 @@
 import Modal, { ModalProps } from '@mui/material/Modal';
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useCallback } from 'react';
 
 import { H2 } from '../Text/Text';
 import './CustomModal.scss';
@@ -27,6 +27,16 @@ export const CustomModal: FC<CustomModalProps> = ({
     onCloseModal();
   };
 
+  const ariaLabelledBy = props['aria-labelledby'];
+
+  const getModalTitle = useCallback(() => {
+    if (typeof modalTitle === 'string') {
+      return <H2 id={ariaLabelledBy}>{modalTitle}</H2>;
+    }
+
+    return modalTitle;
+  }, [modalTitle, ariaLabelledBy]);
+
   return (
     <Modal
       {...props}
@@ -37,7 +47,7 @@ export const CustomModal: FC<CustomModalProps> = ({
     >
       <div className="custom-modal">
         <div className="rows gapped">
-          <H2 id={props['aria-labelledby']}>{modalTitle}</H2>
+          {getModalTitle()}
           {children}
         </div>
       </div>

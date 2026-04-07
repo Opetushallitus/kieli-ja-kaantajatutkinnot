@@ -107,7 +107,7 @@
         },
         "heading": "Select the test for whch you wish to request a reassessment",
         "noResults": {
-          "description": "You can request a reassessment within 30 days after you have had the opportunity to receive your YKI test results.",
+          "description": "Please wait until the reassessment request period begins.",
           "heading": "It is not possible to request a reassessment at the moment"
         },
         "requestReassessment": "Request a reassessment"
@@ -256,6 +256,7 @@
               "lastName": "Last name",
               "nationality": "Nationality",
               "nativeLanguage": "Äidinkieli",
+              "countryCode": "Country",
               "phoneNumber": "Telephone number",
               "postNumber": "Postal code",
               "postOffice": "Municipality",
@@ -321,6 +322,7 @@
             "lastName": "Last name",
             "nationality": "Nationality",
             "nativeLanguage": "Äidinkieli",
+            "countryCode": "Country",
             "phoneNumber": "Telephone number",
             "postNumber": "Postal code",
             "postOffice": "Municipality",
@@ -337,6 +339,7 @@
             "lastName": "",
             "nationality": "Select nationality",
             "nativeLanguage": "Valitse äidinkieli",
+            "countryCode": "Select country",
             "phoneNumber": "Use the format +358 50 123 4567",
             "postNumber": "",
             "postOffice": "",
@@ -634,6 +637,7 @@
         },
         "labels": {
           "confirmEmail": "Confirm email address",
+          "countryCode": "Country",
           "email": "Email address",
           "phoneNumber": "Telephone number",
           "postOffice": "Municipality",
@@ -642,6 +646,7 @@
         },
         "placeholders": {
           "confirmEmail": "Fill in your email address again",
+          "countryCode": "Select country",
           "email": "For example, name@email.fi",
           "phoneNumber": "Use the format +358 50 123 4567",
           "postOffice": "",
@@ -665,19 +670,20 @@
             "body3": "The reassessment only concerns your YKI test answers. It will not take into account any other factors that may have affected the test results. The decision on a reassessment may not be appealed.",
             "heading": "What is a reassessment?",
             "link": "https://www.oph.fi/en/education-and-qualifications/after-yki-test#anchor-reassessment",
-            "linkText": "After the YKI test: Reassessment (oph.fi)"
+            "linkText": "Reassessment"
           },
           "pricing": {
-            "body1": "You can request a reassessment of one subtest or several subtests. The reassessment fee is 108 euros per subtest. The fee must be paid when you submit your request for a reassessment. The request will be processed only if the fee has been paid.",
-            "body2": "You can request a reassessment within 30 days when you have had the opportunity to receive your YKI test results. The list at the end of this page contains the test days for which you can currently submit a request for a reassessment.",
-            "body3": "The average processing time is approximately three months. The results of the reassessment will be sent to you by email.",
-            "body4": "The fee will be refunded if the reassessment changes the assessment of the subtest.",
+            "body1": "The reassessment fee is 108 euros per subtest. The fee must be paid when you submit your request for a reassessment.",
+            "body2": "You have 30 days to request a reassessment. The time starts when you are notified that your certificate is ready.",
+            "body3": "Before requesting a reassessment, you can ask for information on how the assessment criteria were applied to your test. Read further instructions on the website of the Finnish National Agency for Education:",
+            "body4": "Reassessment takes approximately three months.",
+            "body5": "Once the reassessment is completed, the decision on the results will be sent to you by email.",
+            "body6": "The fee will be refunded if the reassessment changes the assessment of the subtest.",
             "heading": "How to request and pay for a reassessment"
           }
         },
         "introduction": {
-          "info": "You can submit a claim for correction if you are not satisfied with the assessment of your YKI test. A claim for correction means a reassessment of your YKI test. You can submit a request for a reassessment on this page.",
-          "timeLimit": "You can request a reassessment within 30 days after you have had the opportunity to receive your YKI test results."
+          "info": "If you are not satisfied with the assessment of your YKI test, you can submit a request for an administrative review. Submitting a request for an administrative review means that your YKI test will be reassessed. You can request a reassessment on this page."
         },
         "title": "National Certificates of Language Proficiency (YKI) - Reassessment"
       },

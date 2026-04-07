@@ -256,6 +256,7 @@
               "lastName": "Efternamn",
               "nationality": "Nationalitet",
               "nativeLanguage": "Äidinkieli",
+              "countryCode": "Land",
               "phoneNumber": "Telefonnummer",
               "postNumber": "Postnummer",
               "postOffice": "Postanstalt",
@@ -321,6 +322,7 @@
             "lastName": "Efternamn",
             "nationality": "Nationalitet",
             "nativeLanguage": "Äidinkieli",
+            "countryCode": "Land",
             "phoneNumber": "Telefonnummer",
             "postNumber": "Postnummer",
             "postOffice": "Postanstalt",
@@ -337,6 +339,7 @@
             "lastName": "",
             "nationality": "Välj nationalitet",
             "nativeLanguage": "Valitse äidinkieli",
+            "countryCode": "Välj land",
             "phoneNumber": "Skriv i formatet +358 50 123 4567",
             "postNumber": "",
             "postOffice": "",
@@ -634,6 +637,7 @@
         },
         "labels": {
           "confirmEmail": "Bekräfta din e-postadress",
+          "countryCode": "Land",
           "email": "E-postadress",
           "phoneNumber": "Telefonnummer",
           "postOffice": "Postanstalt",
@@ -642,6 +646,7 @@
         },
         "placeholders": {
           "confirmEmail": "Skriv din e-postadress på nytt",
+          "countryCode": "Välj land",
           "email": "Till exempel namn@e-post.fi",
           "phoneNumber": "Skriv i formatet +358 50 123 4567",
           "postOffice": "",
@@ -665,19 +670,20 @@
             "body3": "Vid kontrollbedömningen bedöms endast din prestation i testet, inga andra faktorer tas i beaktande. Beslut som gäller kontrollbedömningen får inte överklagas genom besvär.",
             "heading": "Vad innebär kontrollbedömning?",
             "link": "https://www.oph.fi/sv/utbildning-och-examina/efter-yki-testet#anchor-kontrollbedomning",
-            "linkText": "Efter YKI-testet: Kontrollbedömning (oph.fi)"
+            "linkText": "Kontrollbedömning"
           },
           "pricing": {
-            "body1": "Det är möjligt att begära kontrollbedömning av ett eller flera delprov. Avgiften för kontrollbedömning är 108 euro per delprov. Avgiften ska betalas i samband med att begäran om kontrollbedömning görs. Endast betalda begäranden om kontrollbedömning behandlas.",
-            "body2": "Du kan ansöka om kontrollbedömning inom 30 dagar från den tidpunkt då du har haft möjlighet att få resultatet av YKI-testet. I tabellen nedan kan du kontrollera när du kan begära kontrollbedömning av din examensprestation. I slutet av sidan finns en lista på testdagar som du för tillfället kan begära kontrollbedömning för.",
-            "body3": "Behandlingstiden för ärendet är i ungefär tre månader. Beslutet skickas per e-post.",
-            "body4": "Avgiften återbetalas om bedömningen av delprovet förändras i samband med kontrollbedömningen.",
+            "body1": "Avgiften för kontrollbedömning är 108 euro per delprov. Avgiften ska betalas i samband med att begäran om kontrollbedömning görs.",
+            "body2": "Du har 30 dygn på dig att begära kontrollbedömning. Tiden börjar när du får information om att intyget är klart.",
+            "body3": "Innan du begär en kontrollbedömning kan du begära information om hur bedömningsgrunderna har tillämpats på ditt test. Läs närmare anvisningar på Utbildningsstyrelsens webbplats:",
+            "body4": "Kontrollbedömningen tar cirka tre månader.",
+            "body5": "När kontrollbedömningen är färdig får du beslutet om resultatet per e-post.",
+            "body6": "Avgiften återbetalas om bedömningen av delprovet förändras i samband med kontrollbedömningen.",
             "heading": "Att begära och betala kontrollbedömning"
           }
         },
         "introduction": {
-          "info": "Kontrollbedömning ger dig möjligheten att begära om omprövning om du inte är nöjd med bedömningen av din examensprestation. Begäran om omprövning innebär kontrollbedömning av ditt YKI-test. Du kan skicka begäran om kontrollbedömning på den här sidan.",
-          "timeLimit": "Du kan ansöka om kontrollbedömning inom 30 dagar från den tidpunkt då du har haft möjlighet att få resultatet av YKI-testet."
+          "info": "Du kan begära omprövning om du inte är nöjd med bedömningen av ditt YKI-test. En begäran om omprövning innebär att ditt YKI-test bedöms på nytt, det vill säga att en kontrollbedömning görs. Du kan begära kontrollbedömning på den här sidan."
         },
         "title": "Allmänna språkexamina (YKI) - Kontrollbedömning"
       },

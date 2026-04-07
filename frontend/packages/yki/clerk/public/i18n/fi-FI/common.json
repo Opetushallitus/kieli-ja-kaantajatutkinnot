@@ -44,6 +44,8 @@
         "api": {
           "examDateCreateDuplicateDate": "Tutkintopäivä on jo olemassa valitulle päivämäärälle",
           "examDateExamBeforeRegistrationEnd": "Tutkintopäivän on oltava ilmoittautumisen päättymispäivän jälkeen",
+          "examDateHasEvaluations": "Tutkintopäivää ei voi poistaa, koska siihen on liitetty tarkistusarviointeja",
+          "examDateHasSessions": "Tutkintopäivää ei voi poistaa, koska siihen on liitetty tutkintotilaisuuksia",
           "examDateRegistrationEndBeforeStart": "Ilmoittautumisen päättymispäivän on oltava alkamispäivän jälkeen",
           "generic": "Tapahtui odottamaton virhe. Yritä uudestaan hetken kuluttua."
         },
@@ -55,6 +57,7 @@
           "required": "Tieto on pakollinen",
           "telFormat": "Puhelinnumero on virheellinen"
         },
+        "deletingExamDateFailed": "Tutkintopäivän poistaminen epäonnistui",
         "loadingExamDatesFailed": "Tutkintopäivien lataaminen epäonnistui",
         "loadingFailed": "Tietojen lataaminen epäonnistui.",
         "mismatchingEmails": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
@@ -66,7 +69,8 @@
           "personCreationFailed": "Ilmoittautumislomakkeen lähetys epäonnistui.",
           "registrationPeriodClosed": "Ilmoittautumisaika on päättynyt."
         },
-        "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui"
+        "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui",
+        "addingEvaluationFailed": "Tarkistusarvioinnin lisääminen epäonnistui"
       },
       "examDate": "Testipäivä",
       "examination": "Tutkinto",

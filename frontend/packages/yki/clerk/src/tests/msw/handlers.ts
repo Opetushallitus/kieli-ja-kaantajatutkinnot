@@ -3,7 +3,12 @@ import { http, HttpResponse } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
 import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
-import { ExamDateLanguage, ExamDateResponse } from 'interfaces/examDate';
+import {
+  CreateEvaluationRequest,
+  ExamDateLanguage,
+  ExamDateResponse,
+  LanguageEvaluationOverride,
+} from 'interfaces/examDate';
 import { clerkExamSession } from 'tests/msw/fixtures/clerkExamSession';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
@@ -246,7 +251,7 @@ export const handlers = [
     // all exam dates
     // return HttpResponse.json({ dates: examDates.dates });
   }),
-  http.get(APIEndpoints.ClerkExamDate, () => {
+  http.get(`${APIEndpoints.ClerkExamDate}/all`, () => {
     return HttpResponse.json(examDates);
   }),
   http.get(APIEndpoints.ClerkExamSessions, () =>
@@ -278,6 +283,7 @@ export const handlers = [
       registrationStartDate,
       registrationEndDate,
       examType,
+      examSessionCount: 0,
     });
 
     return HttpResponse.json({ id: newId, ...body });
@@ -285,6 +291,39 @@ export const handlers = [
   http.post(APIEndpoints.ClerkExamSessions, () =>
     HttpResponse.json(clerkExamSession),
   ),
+  http.post(
+    `${APIEndpoints.ClerkExamDate}/:examDateId/evaluation`,
+    async ({ params, request }) => {
+      const examDateId = Number(params.examDateId);
+      const body = (await request.json()) as CreateEvaluationRequest;
+      const examDate = examDates.find((ed) => ed.id === examDateId);
+      if (!examDate) {
+        return new HttpResponse(null, { status: 404 });
+      }
+
+      examDate.languages.forEach((lang) => {
+        const override = body.overrides?.find(
+          (o: LanguageEvaluationOverride) => o.examDateLanguageId === lang.id,
+        );
+        lang.evaluationStartDate =
+          override?.evaluationStartDate ?? body.evaluationStartDate;
+        lang.evaluationEndDate =
+          override?.evaluationEndDate ?? body.evaluationEndDate;
+      });
+
+      return HttpResponse.json(examDate);
+    },
+  ),
+  http.delete(`${APIEndpoints.ClerkExamDate}/:id`, ({ params }) => {
+    const id = Number(params.id);
+    const index = examDates.findIndex((ed) => ed.id === id);
+    if (index === -1) {
+      return notFound();
+    }
+    examDates.splice(index, 1);
+
+    return new HttpResponse(null, { status: 200 });
+  }),
   http.get(APIEndpoints.ClerkExamSession, () =>
     HttpResponse.json(clerkExamSession),
   ),

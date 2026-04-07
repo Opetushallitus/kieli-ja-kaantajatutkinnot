@@ -26,6 +26,7 @@ SELECT
     p.zip,
     p.nationality_code as nationalityCode,
     p.gender,
+    p.country_code as countryCode,
 
     -- Count of registrations for this person
     (

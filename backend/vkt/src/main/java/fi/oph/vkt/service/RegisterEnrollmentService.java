@@ -111,7 +111,7 @@ public class RegisterEnrollmentService {
       }
 
       if (enrollment.getPerson().getOid() == null || enrollment.getPerson().getOid().isEmpty()) {
-        LOG.error(String.format("Sync failed. No oid for person in enrollment (%s)", id));
+        LOG.warn(String.format("Sync failed. No oid for person in enrollment (%s)", id));
         return;
       }
 

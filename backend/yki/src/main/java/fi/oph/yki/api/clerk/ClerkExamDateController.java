@@ -2,6 +2,7 @@ package fi.oph.yki.api.clerk;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import fi.oph.yki.api.dto.clerk.ClerkCreateEvaluationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCreateExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkUpdateExamDateDTO;
@@ -12,6 +13,7 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.context.annotation.Conditional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,5 +57,20 @@ public class ClerkExamDateController {
     @RequestBody @Valid final ClerkUpdateExamDateDTO dto
   ) {
     return clerkExamDateService.updateExamDate(id, dto);
+  }
+
+  @PostMapping(path = "/{examDateId}/evaluation")
+  @Operation(tags = TAG_EXAM_DATE, summary = "Create evaluation period for an exam date")
+  public ClerkExamDateDTO createEvaluation(
+    @PathVariable final long examDateId,
+    @RequestBody @Valid final ClerkCreateEvaluationDTO dto
+  ) {
+    return clerkExamDateService.createEvaluation(examDateId, dto);
+  }
+
+  @DeleteMapping(path = "/{id}")
+  @Operation(tags = TAG_EXAM_DATE, summary = "Delete an exam date")
+  public void deleteExamDate(@PathVariable final long id) {
+    clerkExamDateService.deleteExamDate(id);
   }
 }

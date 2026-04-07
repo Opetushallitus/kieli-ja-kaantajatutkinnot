@@ -7,6 +7,7 @@ import {
   H1,
   H2,
   HeaderSeparator,
+  LabeledComboBox,
   LabeledTextField,
   LoadingProgressIndicator,
   Text,
@@ -18,6 +19,7 @@ import {
   InputAutoComplete,
   Severity,
   TextFieldTypes,
+  TextFieldVariant,
   Variant,
 } from 'shared/enums';
 import { useDialog, useToast, useWindowProperties } from 'shared/hooks';
@@ -25,8 +27,10 @@ import { useDialog, useToast, useWindowProperties } from 'shared/hooks';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { useCountryOptions } from 'hooks/useCountryOptions';
 import { useModifyContactDetailsErrors } from 'hooks/useModifyContactDetailsErrors';
 import { ModifyContactDetails } from 'interfaces/userDetails';
+import { loadNationalities } from 'redux/reducers/nationalities';
 import { loadSession } from 'redux/reducers/session';
 import {
   doModifyContactDetails,
@@ -34,6 +38,7 @@ import {
   resetModifyContactDetails,
   updateModifyContactDetails,
 } from 'redux/reducers/userDetails';
+import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { userDetailsSelector } from 'redux/selectors/userDetails';
 
 const Header = () => {
@@ -58,6 +63,7 @@ const ContactDetailInputFields = ({ showErrors }: { showErrors: boolean }) => {
   const { modifyContactDetails } = useAppSelector(userDetailsSelector);
   const dispatch = useAppDispatch();
 
+  const countryOptions = useCountryOptions();
   const getErrors = useModifyContactDetailsErrors(showErrors);
   const fieldErrors = getErrors();
 
@@ -93,6 +99,32 @@ const ContactDetailInputFields = ({ showErrors }: { showErrors: boolean }) => {
     };
   };
 
+  const countryCodeDropdown = (
+    <LabeledComboBox
+      id="modify-contact-details__country-code-field"
+      className="half-width-on-desktop"
+      label={`${t('labels.countryCode')} *`}
+      aria-label={`${t('labels.countryCode')} *`}
+      placeholder={t('placeholders.countryCode')}
+      variant={TextFieldVariant.Outlined}
+      values={countryOptions}
+      value={
+        countryOptions.find(
+          (o) => o.value === modifyContactDetails.countryCode,
+        ) || null
+      }
+      onChange={(v?: string) => {
+        dispatch(updateModifyContactDetails({ countryCode: v }));
+      }}
+      showError={showErrors && !!fieldErrors['countryCode']}
+      helperText={
+        fieldErrors['countryCode']
+          ? translateCommon(fieldErrors['countryCode'] as string)
+          : ''
+      }
+    />
+  );
+
   if (isPhone) {
     return (
       <>
@@ -108,6 +140,7 @@ const ContactDetailInputFields = ({ showErrors }: { showErrors: boolean }) => {
           {...getLabeledTextFieldAttributes('postOffice')}
           autoComplete={InputAutoComplete.Town}
         />
+        {countryCodeDropdown}
         <LabeledTextField
           {...getLabeledTextFieldAttributes('email')}
           type={TextFieldTypes.Email}
@@ -138,16 +171,15 @@ const ContactDetailInputFields = ({ showErrors }: { showErrors: boolean }) => {
         {...getLabeledTextFieldAttributes('streetAddress')}
         autoComplete={InputAutoComplete.Street}
       />
-      <div className="grid-2-columns gapped">
-        <LabeledTextField
-          {...getLabeledTextFieldAttributes('zip')}
-          autoComplete={InputAutoComplete.PostalCode}
-        />
-        <LabeledTextField
-          {...getLabeledTextFieldAttributes('postOffice')}
-          autoComplete={InputAutoComplete.Town}
-        />
-      </div>
+      <LabeledTextField
+        {...getLabeledTextFieldAttributes('zip')}
+        autoComplete={InputAutoComplete.PostalCode}
+      />
+      <LabeledTextField
+        {...getLabeledTextFieldAttributes('postOffice')}
+        autoComplete={InputAutoComplete.Town}
+      />
+      {countryCodeDropdown}
       <LabeledTextField
         {...getLabeledTextFieldAttributes('email')}
         type={TextFieldTypes.Email}
@@ -310,6 +342,7 @@ export const ModifyContactDetailsPage = () => {
   const dispatch = useAppDispatch();
   const { status, personDetails, modifyContactDetailsStatus } =
     useAppSelector(userDetailsSelector);
+  const { status: nationalitiesStatus } = useAppSelector(nationalitiesSelector);
   const { showToast } = useToast();
   const navigate = useNavigate();
   const { t } = usePublicTranslation({
@@ -317,11 +350,23 @@ export const ModifyContactDetailsPage = () => {
   });
 
   useEffect(() => {
+    if (nationalitiesStatus === APIResponseStatus.NotStarted) {
+      dispatch(loadNationalities());
+    }
+  }, [dispatch, nationalitiesStatus]);
+
+  useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
       dispatch(loadPersonDetails());
     } else if (status === APIResponseStatus.Success && personDetails) {
-      const { email, phoneNumber, streetAddress, postOffice, zip } =
-        personDetails;
+      const {
+        email,
+        phoneNumber,
+        streetAddress,
+        postOffice,
+        zip,
+        countryCode,
+      } = personDetails;
       dispatch(
         updateModifyContactDetails({
           email,
@@ -330,6 +375,7 @@ export const ModifyContactDetailsPage = () => {
           streetAddress,
           postOffice,
           zip,
+          countryCode,
         }),
       );
     }
