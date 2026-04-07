@@ -83,6 +83,7 @@
       "examSession": "Test",
       "extraInfo": "Lisätiedot",
       "freeRegistration": "Maksuttomuus",
+      "quarantine": "Osallistumiskiellot",
       "full": "Full",
       "gender": {
         "female": "Female",
