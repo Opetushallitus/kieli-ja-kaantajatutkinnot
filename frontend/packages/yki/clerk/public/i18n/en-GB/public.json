@@ -369,6 +369,13 @@
           "previous": "Aiemmat tarkastukset"
         }
       },
+      "clerkQuarantine": {
+        "tabs": {
+          "active": "Voimassa olevat osallistumiskiellot",
+          "pending": "Odottavat tarkistukset",
+          "previous": "Aiemmat tarkistukset"
+        }
+      },
       "clerkRegister": {
         "clerkAddOrganizer": {
           "addButton": "Lisää järjestäjä",
