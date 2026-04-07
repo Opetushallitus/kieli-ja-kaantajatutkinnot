@@ -482,6 +482,9 @@
       "clerkFreeRegistrationPage": {
         "heading": "Maksuttomuuden tarkastukset"
       },
+      "clerkQuarantinePage": {
+        "heading": "Osallistumiskiellot"
+      },
       "clerkRegisterPage": {
         "heading": "Kielitutkintojen järjestäjärekisteri"
       },
