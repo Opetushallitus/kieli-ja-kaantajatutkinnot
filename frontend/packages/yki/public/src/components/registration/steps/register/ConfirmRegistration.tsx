@@ -27,7 +27,7 @@ export const ConfirmRegistration = ({
         {t('verifyRegistrationDetails.text2')}{' '}
         {t('verifyRegistrationDetails.text3')}{' '}
         <WebLink
-          startIcon={<OpenInNewIcon />}
+          startIcon={<OpenInNewIcon color="inherit" />}
           href={t('verifyRegistrationDetails.termsAndConditions.url')}
           label={t('verifyRegistrationDetails.termsAndConditions.label')}
         />
@@ -57,7 +57,9 @@ export const ConfirmRegistration = ({
             variant={Variant.Contained}
             fullWidth={isPhone}
           >
-            {t('payImmediately.action')}
+            <span className="button-color-white">
+              {t('payImmediately.action')}
+            </span>
           </CustomButton>
         </a>
       </div>

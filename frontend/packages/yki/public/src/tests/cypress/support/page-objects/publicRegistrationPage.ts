@@ -35,16 +35,16 @@ class PublicRegistrationPage {
       .should('exist');
   }
 
-  expectResultRowsCount(count: number) {
-    return this.getResultRows().should('have.length', count);
+  expectResultCardsCount(count: number) {
+    return this.getResultCards().should('have.length', count);
   }
 
-  getResultRows() {
-    return this.elements.resultBox().find('tbody').findAllByRole('row');
+  getResultCards() {
+    return this.elements.resultBox().find('.exam-session-card');
   }
 
-  getResultRowsNth(nth: number) {
-    return this.elements.resultBox().find('tbody').findAllByRole('row').eq(nth);
+  getResultCardsNth(nth: number) {
+    return this.elements.resultBox().find('.exam-session-card').eq(nth);
   }
 
   alertModalContains(text: string) {

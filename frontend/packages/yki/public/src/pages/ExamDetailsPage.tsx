@@ -77,6 +77,7 @@ export const ExamDetailsPage = ({
             examSessionId: +params.examSessionId,
             // TODO registrationKind not needed when calling /identify, refactor away!
             registrationKind: RegistrationKind.Admission,
+            partialExamType: 'ALL_PARTS', // TODO check if sensible default!
           }),
         );
       }

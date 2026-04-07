@@ -44,6 +44,8 @@ const RegisterToExamButton = ({
           initRegistration({
             examSessionId: examSession.id,
             registrationKind: available_registration_kind,
+            // TODO ListingRow is the old listing supporting only "FULL"
+            partialExamType: 'ALL_PARTS',
           }),
         );
       }}

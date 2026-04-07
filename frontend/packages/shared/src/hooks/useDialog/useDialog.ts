@@ -5,7 +5,7 @@ import { NotifierTypes, Severity } from '../../enums';
 import { Dialog, DialogButtonAction } from '../../interfaces/notifier';
 
 interface ShowDialogProps {
-  title: string;
+  title: string | React.ReactNode;
   severity: Severity;
   description?: string;
   content?: React.ReactNode;

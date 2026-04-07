@@ -247,7 +247,7 @@ export const CommonRegistrationDetails = () => {
         <WebLink
           href={t('certificate.furtherDetails.url')}
           label={t('certificate.furtherDetails.label')}
-          endIcon={<OpenInNewIcon />}
+          endIcon={<OpenInNewIcon color="inherit" />}
         />
       </Text>
       <fieldset className="registration-details__radio-group">
@@ -308,9 +308,11 @@ export const CommonRegistrationDetails = () => {
             style={{ display: 'inline-flex' }}
           >
             <Link href={t('termsAndConditions.link')} target="_blank">
-              <Text>{t('termsAndConditions.linkText')}</Text>
+              <Text color="textPrimary">
+                {t('termsAndConditions.linkText')}
+              </Text>
             </Link>
-            <OpenInNewIcon />
+            <OpenInNewIcon color="inherit" />
           </div>
           <br />
           <p>
@@ -347,9 +349,11 @@ export const CommonRegistrationDetails = () => {
             href={translateCommon('privacyStatement.link.url')}
             target="_blank"
           >
-            <Text>{translateCommon('privacyStatement.link.label')}</Text>
+            <Text color="textPrimary">
+              {translateCommon('privacyStatement.link.label')}
+            </Text>
           </Link>
-          <OpenInNewIcon />
+          <OpenInNewIcon color="inherit" />
         </div>
       </div>
       <FormControl error={!!registrationErrors['privacyStatementConfirmation']}>
