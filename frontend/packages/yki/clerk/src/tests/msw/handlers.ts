@@ -21,6 +21,8 @@ import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { organizers } from 'tests/msw/fixtures/organizers';
 
+// TODO remove me, deploy commit
+
 interface FreeRegistrationRequest {
   approved: boolean;
 }
