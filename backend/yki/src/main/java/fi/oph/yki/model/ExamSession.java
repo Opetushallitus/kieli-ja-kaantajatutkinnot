@@ -1,6 +1,7 @@
 package fi.oph.yki.model;
 
 import fi.oph.yki.model.type.ExamSessionType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -61,7 +62,7 @@ public class ExamSession {
   @JdbcType(PostgreSQLEnumJdbcType.class)
   private ExamSessionType type;
 
-  @OneToMany(mappedBy = "examSession")
+  @OneToMany(mappedBy = "examSession", cascade = CascadeType.PERSIST)
   private List<ExamSessionLocation> locations = new ArrayList<>();
 
   @OneToMany(mappedBy = "examSession")

@@ -288,6 +288,9 @@ export const handlers = [
 
     return HttpResponse.json({ id: newId, ...body });
   }),
+  http.post(APIEndpoints.ClerkExamSessions, () =>
+    HttpResponse.json(clerkExamSession),
+  ),
   http.post(
     `${APIEndpoints.ClerkExamDate}/:examDateId/evaluation`,
     async ({ params, request }) => {

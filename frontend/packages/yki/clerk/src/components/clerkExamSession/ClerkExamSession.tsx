@@ -30,7 +30,6 @@ export const ClerkExamSession = () => {
     <Stack rowGap={4}>
       <ClerkExamSessionDetails
         examSessionDetails={clerkExamSession}
-        languages={['deu', 'eng', 'fin']}
         examDates={examDates}
       />
       <ClerkExamSessionRegistrations

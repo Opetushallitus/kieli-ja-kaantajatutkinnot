@@ -1,12 +1,17 @@
 package fi.oph.yki.service;
 
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionCreateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionLocationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
+import fi.oph.yki.audit.AuditService;
+import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
+import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.type.RegistrationState;
+import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.RegistrationUtil;
@@ -24,6 +29,8 @@ public class ClerkExamSessionService {
 
   private final ExamSessionRepository examSessionRepository;
   private final RegistrationRepository registrationRepository;
+  private final ExamDateRepository examDateRepository;
+  private final AuditService auditService;
 
   @Transactional(readOnly = true)
   public ClerkExamSessionDTO getExamSession(final Long examSessionId) {
@@ -109,5 +116,34 @@ public class ClerkExamSessionService {
     examSession.setContactPhoneNumber(dto.contactPhoneNumber());
 
     return getExamSession(examSessionId);
+  }
+
+  @Transactional
+  public ClerkExamSessionDTO createExamSession(final ClerkExamSessionCreateDTO dto) {
+    final ExamDate examDate = examDateRepository.getReferenceById(dto.examDateId());
+
+    final ExamSession examSession = new ExamSession();
+    examSession.setExamDate(examDate);
+    examSession.setOfficeOid(dto.organizerOid());
+    examSession.setLanguage(dto.language());
+    examSession.setLevel(dto.level());
+    examSession.setType(dto.type());
+    examSession.setMaxParticipants(dto.maxParticipantsTotal());
+    examSession.setContactName(dto.contactName());
+    examSession.setContactEmail(dto.contactEmail());
+    examSession.setContactPhoneNumber(dto.contactPhoneNumber());
+
+    final ExamSessionLocation location = new ExamSessionLocation();
+    location.setExamSession(examSession);
+    location.setStreetAddress(dto.streetAddress());
+    location.setZip(dto.zip());
+    location.setPostOffice(dto.postOffice());
+    location.setLang("fi");
+    examSession.getLocations().add(location);
+
+    final ExamSession saved = examSessionRepository.save(examSession);
+    auditService.logById(YkiOperation.CREATE_EXAM_SESSION, saved.getId());
+
+    return toDTO(saved);
   }
 }

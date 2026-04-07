@@ -11,54 +11,65 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { ExamLevel, ExamSessionType } from 'enums/app';
+import { ExamLanguage, ExamLevel, ExamSessionType } from 'enums/app';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { ExamDate } from 'interfaces/examDate';
-import { H2 } from 'ophTheme/Text';
-import { saveExamSession } from 'redux/reducers/clerkExamSession';
+import { H2, Label, Text } from 'ophTheme/Text';
+import {
+  createExamSession,
+  saveExamSession,
+} from 'redux/reducers/clerkExamSession';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
 import { DateTimeUtils } from 'utils/dateTime';
 
 type ClerkExamSessionEditModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  examSessionDetails: ClerkExamSession;
-  languages: string[];
+  examSessionDetails?: ClerkExamSession;
   examDates: ExamDate[];
+  mode?: 'create' | 'edit-full' | 'edit-partial';
+  organizerOid?: string;
 };
 
 export const ClerkExamSessionEditModal = ({
   isOpen,
   setIsOpen,
   examSessionDetails,
-  languages,
   examDates,
+  mode = 'edit-partial',
+  organizerOid,
 }: ClerkExamSessionEditModalProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkExamSessionRegistrations.modals.edit',
   });
   const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
-  const { updateStatus } = useAppSelector(clerkExamSessionDetailsSelector);
+  const { updateStatus, createStatus } = useAppSelector(
+    clerkExamSessionDetailsSelector,
+  );
 
-  const location = examSessionDetails.location[0];
-  const isSaving = updateStatus === APIResponseStatus.InProgress;
-  const prevUpdateStatus = useRef(updateStatus);
+  const isCreateMode = mode === 'create';
+  const activeStatus = isCreateMode ? createStatus : updateStatus;
+  const location = examSessionDetails?.location[0];
+  const isSaving = activeStatus === APIResponseStatus.InProgress;
+  const prevActiveStatus = useRef(activeStatus);
 
   useEffect(() => {
     if (
-      prevUpdateStatus.current === APIResponseStatus.InProgress &&
-      updateStatus === APIResponseStatus.Success
+      prevActiveStatus.current === APIResponseStatus.InProgress &&
+      activeStatus === APIResponseStatus.Success
     ) {
       setIsOpen(false);
     }
-    prevUpdateStatus.current = updateStatus;
-  }, [updateStatus, setIsOpen]);
+    prevActiveStatus.current = activeStatus;
+  }, [activeStatus, setIsOpen]);
 
-  const languageOptions = languages.map((lang) => ({
-    value: lang,
-    label: translateCommon('languages.' + lang),
-  }));
+  const languageOptions = Object.values(ExamLanguage)
+    .filter((l) => l !== ExamLanguage.ALL)
+    .map((lang) => ({
+      value: lang,
+      label: translateCommon('languages.' + lang),
+    }));
 
   const levelOptions = [ExamLevel.PERUS, ExamLevel.KESKI, ExamLevel.YLIN].map(
     (level) => ({
@@ -76,7 +87,42 @@ export const ClerkExamSessionEditModal = ({
     label: t('fields.typeOptions.' + type),
   }));
 
-  const examDateOptions = examDates.map((ed) => {
+  const currentExamDateId = examSessionDetails
+    ? examDates.find((ed) => ed.examDate.isSame(examSessionDetails.date, 'day'))
+        ?.id
+    : undefined;
+
+  const [form, setForm] = useState({
+    examDateId: String(currentExamDateId ?? ''),
+    language: examSessionDetails?.language ?? '',
+    level: examSessionDetails?.level ?? '',
+    type: examSessionDetails?.type ?? '',
+    maxParticipantsTotal: String(
+      examSessionDetails?.maxParticipantsTotal ?? '',
+    ),
+    maxParticipantsPartial1: String(
+      examSessionDetails?.maxParticipantsPartial1 ?? '',
+    ),
+    maxParticipantsPartial2: String(
+      examSessionDetails?.maxParticipantsPartial2 ?? '',
+    ),
+    streetAddress: location?.streetAddress ?? '',
+    postalCode: location?.zip ?? '',
+    city: location?.postOffice ?? '',
+    contactName: examSessionDetails?.contactName ?? '',
+    contactEmail: examSessionDetails?.contactEmail ?? '',
+    contactPhoneNumber: examSessionDetails?.contactPhoneNumber ?? '',
+  });
+
+  const filteredExamDates = examDates.filter(
+    (ed) =>
+      (!form.type || ed.examType === form.type) &&
+      (!form.language ||
+        ed.languages?.some((l) => l.languageCode === form.language)) &&
+      (!form.level || ed.languages?.some((l) => l.levelCode === form.level)),
+  );
+
+  const examDateOptions = filteredExamDates.map((ed) => {
     const languagesStr =
       ed.languages &&
       ed.languages
@@ -94,30 +140,6 @@ export const ClerkExamSessionEditModal = ({
     return { value: String(ed.id), label };
   });
 
-  const currentExamDateId = examDates.find((ed) =>
-    ed.examDate.isSame(examSessionDetails.date, 'day'),
-  )?.id;
-
-  const [form, setForm] = useState({
-    examDateId: String(currentExamDateId ?? ''),
-    language: examSessionDetails.language,
-    level: examSessionDetails.level,
-    type: examSessionDetails.type ?? '',
-    maxParticipantsTotal: String(examSessionDetails.maxParticipantsTotal ?? ''),
-    maxParticipantsPartial1: String(
-      examSessionDetails.maxParticipantsPartial1 ?? '',
-    ),
-    maxParticipantsPartial2: String(
-      examSessionDetails.maxParticipantsPartial2 ?? '',
-    ),
-    streetAddress: location?.streetAddress ?? '',
-    postalCode: location?.zip ?? '',
-    city: location?.postOffice ?? '',
-    contactName: examSessionDetails.contactName ?? '',
-    contactEmail: examSessionDetails.contactEmail ?? '',
-    contactPhoneNumber: examSessionDetails.contactPhoneNumber ?? '',
-  });
-
   const updateField = (field: string, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
@@ -127,12 +149,21 @@ export const ClerkExamSessionEditModal = ({
   };
 
   const handleSave = () => {
-    dispatch(
-      saveExamSession({
-        examSessionId: examSessionDetails.id,
-        form,
-      }),
-    );
+    if (isCreateMode && organizerOid) {
+      dispatch(
+        createExamSession({
+          ...form,
+          organizerOid,
+        }),
+      );
+    } else if (examSessionDetails) {
+      dispatch(
+        saveExamSession({
+          examSessionId: examSessionDetails.id,
+          form,
+        }),
+      );
+    }
   };
 
   return (
@@ -140,6 +171,7 @@ export const ClerkExamSessionEditModal = ({
       open={isOpen}
       onCloseModal={handleCloseModal}
       aria-labelledby="modal-title"
+      sx={{ '& .custom-modal': { width: 800 } }}
       modalTitle={
         <Box
           display="flex"
@@ -147,7 +179,7 @@ export const ClerkExamSessionEditModal = ({
           alignItems="flex-start"
           gap={1}
         >
-          <H2>{t('title')}</H2>
+          <H2>{isCreateMode ? t('createTitle') : t('title')}</H2>
           <CloseIcon
             color={Color.Inherit}
             aria-hidden={true}
@@ -158,42 +190,67 @@ export const ClerkExamSessionEditModal = ({
       }
     >
       <div className="rows gapped">
-        <OphRadioGroupFormField
-          label={t('fields.language')}
-          value={form.language}
-          onChange={(e) =>
-            updateField('language', (e.target as HTMLInputElement).value)
-          }
-          options={languageOptions}
-          disabled={isSaving}
-        />
-        <OphRadioGroupFormField
-          label={t('fields.level')}
-          value={form.level}
-          onChange={(e) =>
-            updateField('level', (e.target as HTMLInputElement).value)
-          }
-          options={levelOptions}
-          disabled={isSaving}
-        />
-        <OphRadioGroupFormField
-          label={t('fields.type')}
-          value={form.type}
-          onChange={(e) =>
-            updateField('type', (e.target as HTMLInputElement).value)
-          }
-          options={typeOptions}
-          disabled={isSaving}
-        />
-        <OphRadioGroupFormField
-          label={t('fields.examDate')}
-          value={form.examDateId}
-          onChange={(e) =>
-            updateField('examDateId', (e.target as HTMLInputElement).value)
-          }
-          options={examDateOptions}
-          disabled={isSaving}
-        />
+        {mode === 'edit-partial' ? (
+          <Text>
+            {translateCommon('languages.' + form.language)}
+            {' - '}
+            {translateCommon('languageLevel.' + form.level)}
+            {' | '}
+            {form.type && t('fields.typeOptions.' + form.type)}
+            {' | '}
+            {examSessionDetails &&
+              DateTimeUtils.renderDate(examSessionDetails.date)}
+          </Text>
+        ) : (
+          <>
+            <OphRadioGroupFormField
+              label={t('fields.language')}
+              value={form.language}
+              onChange={(e) =>
+                updateField('language', (e.target as HTMLInputElement).value)
+              }
+              options={languageOptions}
+              disabled={isSaving}
+            />
+            <OphRadioGroupFormField
+              label={t('fields.level')}
+              value={form.level}
+              onChange={(e) =>
+                updateField('level', (e.target as HTMLInputElement).value)
+              }
+              options={levelOptions}
+              disabled={isSaving}
+            />
+            <OphRadioGroupFormField
+              label={t('fields.type')}
+              value={form.type}
+              onChange={(e) =>
+                updateField('type', (e.target as HTMLInputElement).value)
+              }
+              options={typeOptions}
+              disabled={isSaving}
+            />
+            {examDateOptions.length > 0 ? (
+              <OphRadioGroupFormField
+                label={t('fields.examDate')}
+                value={form.examDateId}
+                onChange={(e) =>
+                  updateField(
+                    'examDateId',
+                    (e.target as HTMLInputElement).value,
+                  )
+                }
+                options={examDateOptions}
+                disabled={isSaving}
+              />
+            ) : (
+              <div className="rows gapped-xxs">
+                <Label>{t('fields.examDate')}</Label>
+                <Text>{t('fields.noExamDates')}</Text>
+              </div>
+            )}
+          </>
+        )}
         {form.type === ExamSessionType.FULL || !form.type ? (
           <OphInputFormField
             label={t('fields.maxParticipants')}
@@ -273,7 +330,7 @@ export const ClerkExamSessionEditModal = ({
             onClick={handleSave}
             disabled={isSaving}
           >
-            {t('saveButton')}
+            {isCreateMode ? t('createButton') : t('saveButton')}
           </OphButton>
         </div>
       </div>

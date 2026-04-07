@@ -205,6 +205,7 @@
               "contactName": "Yhteyshenkilö",
               "contactPhoneNumber": "Puhelinnumero",
               "examDate": "Tutkintopäivä",
+              "noExamDates": "Ei tutkintopäiviä valituilla valinnoilla",
               "language": "Tutkintokieli",
               "level": "Tutkintotaso",
               "maxParticipants": "Osallistujien enimmäismäärä",
@@ -220,6 +221,8 @@
               }
             },
             "saveButton": "Tallenna muutokset",
+            "createButton": "Luo tutkintotilaisuus",
+            "createTitle": "Luo tutkintotilaisuus",
             "title": "Muokkaa tutkintotilaisuutta",
             "toasts": {
               "saveFailed": "Muutosten tallentaminen epäonnistui",
@@ -415,7 +418,8 @@
           "actionButtons": {
             "addOrganizer": "Lisää järjestäjä",
             "adminUserView": "Tarkastele järjestäjän näkymää",
-            "modify": "Muokkaa tietoja"
+            "modify": "Muokkaa tietoja",
+            "addExamSession": "Lisää tutkintotilaisuus"
           },
           "agreementExpired": "Sopimus vanhentunut",
           "contentLabels": {

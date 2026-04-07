@@ -20,10 +20,17 @@ export interface ClerkExamSessionEditForm {
   contactPhoneNumber: string;
 }
 
+export interface ClerkExamSessionCreateForm extends ClerkExamSessionEditForm {
+  organizerOid: string;
+  examDateId: string;
+  type: string;
+}
+
 interface ClerkExamSessionState {
   clerkExamSession: ClerkExamSession | null;
   status: APIResponseStatus;
   updateStatus: APIResponseStatus;
+  createStatus: APIResponseStatus;
   relocateExamSessions: ClerkExamSessionResponse[];
   relocateExamSessionsStatus: APIResponseStatus;
   relocateStatus: APIResponseStatus;
@@ -34,6 +41,7 @@ const initialState: ClerkExamSessionState = {
   clerkExamSession: null,
   status: APIResponseStatus.NotStarted,
   updateStatus: APIResponseStatus.NotStarted,
+  createStatus: APIResponseStatus.NotStarted,
   relocateExamSessions: [],
   relocateExamSessionsStatus: APIResponseStatus.NotStarted,
   relocateStatus: APIResponseStatus.NotStarted,
@@ -125,6 +133,18 @@ const clerkExamSessionSlice = createSlice({
     resetCancel(state) {
       state.cancelStatus = APIResponseStatus.NotStarted;
     },
+    createExamSession(
+      state,
+      _action: PayloadAction<ClerkExamSessionCreateForm>,
+    ) {
+      state.createStatus = APIResponseStatus.InProgress;
+    },
+    acceptCreateExamSession(state) {
+      state.createStatus = APIResponseStatus.Success;
+    },
+    rejectCreateExamSession(state) {
+      state.createStatus = APIResponseStatus.Error;
+    },
     resetClerkExamSession() {
       return initialState;
     },
@@ -150,5 +170,8 @@ export const {
   acceptCancelRegistration,
   rejectCancelRegistration,
   resetCancel,
+  createExamSession,
+  acceptCreateExamSession,
+  rejectCreateExamSession,
   resetClerkExamSession,
 } = clerkExamSessionSlice.actions;

@@ -2,6 +2,7 @@ package fi.oph.yki.api.clerk;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionCreateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
 import fi.oph.yki.config.ClerkEnabledCondition;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +52,12 @@ public class ClerkExamSessionController {
   @Operation(tags = TAG_EXAM_SESSION, summary = "Download excel of registrations to exam event")
   public AbstractXlsxView getExamSessionExcel(@PathVariable final long examSessionId) {
     return clerkExamSessionService.getExamSessionExcel(examSessionId);
+  }
+
+  @PostMapping(consumes = APPLICATION_JSON_VALUE)
+  @Operation(tags = TAG_EXAM_SESSION, summary = "Create a new exam session")
+  public ClerkExamSessionDTO createExamSession(@RequestBody @Valid final ClerkExamSessionCreateDTO dto) {
+    return clerkExamSessionService.createExamSession(dto);
   }
 
   @PutMapping(path = "/{examSessionId:\\d+}", consumes = APPLICATION_JSON_VALUE)

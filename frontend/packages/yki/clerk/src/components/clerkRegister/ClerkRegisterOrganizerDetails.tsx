@@ -6,13 +6,17 @@ import { useEffect, useState } from 'react';
 import { CustomButton } from 'shared/components';
 import { DateUtils } from 'shared/utils';
 
+import { ClerkExamSessionEditModal } from 'components/clerkExamSession/ClerkExamSessionEditModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import axiosInstance from 'configs/axios';
 import { usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ClerkOrganizer } from 'interfaces/clerkOrganizer';
 import { ExamSession } from 'interfaces/examSessions';
 import { H4, Label, Text } from 'ophTheme/Text';
+import { loadExamDates } from 'redux/reducers/examDate';
+import { examDateSelector } from 'redux/selectors/examDate';
 import {
   getLanguagesWithLevelDescriptions,
   languageToString,
@@ -26,10 +30,17 @@ export const ClerkRegisterOrganizerDetails = ({
   row: ClerkOrganizer;
 }) => {
   const [examSessions, setExamSessions] = useState<ExamSession[]>([]);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const dispatch = useAppDispatch();
+  const { examDates } = useAppSelector(examDateSelector);
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
   });
+
+  useEffect(() => {
+    dispatch(loadExamDates());
+  }, [dispatch]);
 
   useEffect(() => {
     const fetchExamSessions = async () => {
@@ -179,6 +190,12 @@ export const ClerkRegisterOrganizerDetails = ({
         <CustomButton variant="outlined">
           {t('listing.actionButtons.modify')}
         </CustomButton>
+        <CustomButton
+          variant="contained"
+          onClick={() => setIsAddModalOpen(true)}
+        >
+          {t('listing.actionButtons.addExamSession')}
+        </CustomButton>
       </div>
       <H4>{t('listing.contentLabels.upcomingExamSessions')}</H4>
       <ListTable
@@ -198,6 +215,13 @@ export const ClerkRegisterOrganizerDetails = ({
         columns={columns}
         translateHeader={false}
         rowHeight="small"
+      />
+      <ClerkExamSessionEditModal
+        isOpen={isAddModalOpen}
+        setIsOpen={setIsAddModalOpen}
+        mode="create"
+        organizerOid={row.oid}
+        examDates={examDates}
       />
     </Box>
   );
