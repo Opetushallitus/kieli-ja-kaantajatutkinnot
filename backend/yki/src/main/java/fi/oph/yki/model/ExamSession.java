@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -35,6 +36,10 @@ public class ExamSession {
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "exam_date_id", referencedColumnName = "id")
   private ExamDate examDate;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "organizer_id", referencedColumnName = "id")
+  private Organizer organizerOid;
 
   @Column(name = "language_code")
   private String language;
