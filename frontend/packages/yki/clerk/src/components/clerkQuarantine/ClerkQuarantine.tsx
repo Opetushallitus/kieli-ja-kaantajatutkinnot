@@ -1,8 +1,11 @@
 import { Divider } from '@mui/material';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { ClerkQuarantineListing } from 'components/clerkQuarantine/ClerkQuarantineListing';
 import { usePublicTranslation } from 'configs/i18n';
+import { loadClerkQuarantineMatches } from 'redux/reducers/clerkQuarantine';
+import { selectSortedQuarantineMatches } from 'redux/selectors/clerkQuarantine';
 
 const TABS = ['pending', 'previous', 'active'] as const;
 type Tab = (typeof TABS)[number];
@@ -51,9 +54,15 @@ const QuarantineTabs = ({
 };
 
 export const ClerkQuarantine = () => {
+  const dispatch = useDispatch();
+  const matches = useSelector(selectSortedQuarantineMatches);
   const [activeTab, setActiveTab] = useState<Tab>('pending');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+
+  useEffect(() => {
+    dispatch(loadClerkQuarantineMatches());
+  }, [dispatch]);
 
   return (
     <div className="rows gapped">
@@ -63,6 +72,7 @@ export const ClerkQuarantine = () => {
         setPage={setPage}
       />
       <ClerkQuarantineListing
+        matches={matches}
         page={page}
         setPage={setPage}
         pageSize={pageSize}
