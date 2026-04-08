@@ -140,6 +140,7 @@ public class ClerkExamSessionService {
     examSession.setContactPhoneNumber(dto.contactPhoneNumber());
 
     final ExamSessionLocation location = new ExamSessionLocation();
+    location.setName("TODO");
     location.setExamSession(examSession);
     location.setStreetAddress(dto.streetAddress());
     location.setZip(dto.zip());
