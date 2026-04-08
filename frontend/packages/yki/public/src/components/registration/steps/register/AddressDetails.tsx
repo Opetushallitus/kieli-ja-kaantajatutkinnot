@@ -9,28 +9,38 @@ import { useWindowProperties } from 'shared/hooks';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { useCountryOptions } from 'hooks/useCountryOptions';
-import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
+import {
+  PublicRegistrationErrors,
+  usePublicRegistrationErrors,
+} from 'hooks/usePublicRegistrationErrors';
 import { PersonFillOutDetails } from 'interfaces/publicRegistration';
 import { updatePublicRegistration } from 'redux/reducers/registration';
 import { registrationSelector } from 'redux/selectors/registration';
 
 export const AddressDetails = ({
   getLabeledTextFieldAttributes,
+  setDirtyField,
+  hasErrors,
 }: {
   getLabeledTextFieldAttributes: (
     fieldName: keyof PersonFillOutDetails,
   ) => LabeledTextFieldProps;
+  setDirtyField: (fieldName: keyof PublicRegistrationErrors) => void;
+  hasErrors: (
+    registrationErrors: PublicRegistrationErrors,
+    fieldName: keyof PublicRegistrationErrors,
+  ) => boolean;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationDetails',
   });
   const translateCommon = useCommonTranslation();
-  const { registration, showErrors } = useAppSelector(registrationSelector);
+  const { registration } = useAppSelector(registrationSelector);
   const countryOptions = useCountryOptions();
   const { isPhone } = useWindowProperties();
   const dispatch = useAppDispatch();
 
-  const getRegistrationErrors = usePublicRegistrationErrors(showErrors);
+  const getRegistrationErrors = usePublicRegistrationErrors(true);
   const registrationErrors = getRegistrationErrors();
 
   const countryCodeDropdown = (
@@ -48,9 +58,10 @@ export const AddressDetails = ({
       onChange={(v?: string) => {
         dispatch(updatePublicRegistration({ countryCode: v }));
       }}
-      showError={showErrors && !!registrationErrors['countryCode']}
+      onBlur={() => setDirtyField('countryCode')}
+      showError={hasErrors(registrationErrors, 'countryCode')}
       helperText={
-        registrationErrors['countryCode']
+        hasErrors(registrationErrors, 'countryCode')
           ? translateCommon(registrationErrors['countryCode'] as string)
           : ''
       }
@@ -60,6 +71,7 @@ export const AddressDetails = ({
   if (isPhone) {
     return (
       <>
+        {countryCodeDropdown}
         <LabeledTextField
           {...getLabeledTextFieldAttributes('address')}
           value={registration.address || ''}

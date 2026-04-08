@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { H2, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
@@ -19,6 +19,7 @@ import { APIEndpoints } from 'enums/api';
 import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormSubmitError } from 'enums/publicRegistration';
 import { useRegistrationNavigationProtection } from 'hooks/useNavigationProtection';
+import { PublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
 import { loadLoginLink, resetLoginLink } from 'redux/reducers/loginLink';
 import { loadNationalities } from 'redux/reducers/nationalities';
 import { loginLinkSelector } from 'redux/selectors/loginLink';
@@ -33,7 +34,8 @@ const FillRegistrationDetails = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationDetails',
   });
-  const { isEmailRegistration } = useAppSelector(registrationSelector);
+  const { showErrors, isEmailRegistration } =
+    useAppSelector(registrationSelector);
   const { isFree } = useAppSelector(publicFreeRegistrationSelector);
   const { registrationKind } =
     useAppSelector(registrationSelector).initRegistration;
@@ -44,6 +46,23 @@ const FillRegistrationDetails = () => {
       dispatch(loadNationalities());
     }
   }, [dispatch, nationalitiesStatus]);
+
+  const [dirtyFields, setDirtyFields] = useState<
+    Array<keyof PublicRegistrationErrors>
+  >([]);
+
+  const setDirtyField = (fieldName: keyof PublicRegistrationErrors) =>
+    setDirtyFields([...dirtyFields, fieldName]);
+
+  const hasErrors = (
+    registrationErrors: PublicRegistrationErrors,
+    fieldName: keyof PublicRegistrationErrors,
+  ) => {
+    return (
+      (showErrors || dirtyFields.includes(fieldName)) &&
+      !!registrationErrors[fieldName as keyof PublicRegistrationErrors]
+    );
+  };
 
   return (
     <div className="margin-top-xxl rows gapped">
@@ -59,9 +78,15 @@ const FillRegistrationDetails = () => {
       </Text>
       <Text>{t('requiredFields')}</Text>
       {isEmailRegistration ? (
-        <EmailRegistrationDetails />
+        <EmailRegistrationDetails
+          setDirtyField={setDirtyField}
+          hasErrors={hasErrors}
+        />
       ) : (
-        <SuomiFiRegistrationDetails />
+        <SuomiFiRegistrationDetails
+          setDirtyField={setDirtyField}
+          hasErrors={hasErrors}
+        />
       )}
       <CommonRegistrationDetails />
       <H2 className="public-registration__grid__form-container__whats-next">
