@@ -13,6 +13,7 @@ import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
+import fi.oph.yki.repository.OrganizerRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
@@ -42,6 +43,9 @@ public class ClerkExamSessionServiceTest {
   @Resource
   private ExamDateRepository examDateRepository;
 
+  @Resource
+  private OrganizerRepository organizerRepository;
+
   @MockitoBean
   private AuditService auditService;
 
@@ -53,7 +57,13 @@ public class ClerkExamSessionServiceTest {
   @BeforeEach
   public void setup() {
     clerkExamSessionService =
-      new ClerkExamSessionService(examSessionRepository, registrationRepository, examDateRepository, auditService);
+      new ClerkExamSessionService(
+        examSessionRepository,
+        registrationRepository,
+        examDateRepository,
+        organizerRepository,
+        auditService
+      );
   }
 
   @Test

@@ -10,9 +10,11 @@ import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
+import fi.oph.yki.model.Organizer;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
+import fi.oph.yki.repository.OrganizerRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.RegistrationUtil;
 import fi.oph.yki.view.ExamSessionXlsxDataRowUtil;
@@ -30,6 +32,7 @@ public class ClerkExamSessionService {
   private final ExamSessionRepository examSessionRepository;
   private final RegistrationRepository registrationRepository;
   private final ExamDateRepository examDateRepository;
+  private final OrganizerRepository organizerRepository;
   private final AuditService auditService;
 
   @Transactional(readOnly = true)
@@ -121,10 +124,13 @@ public class ClerkExamSessionService {
   @Transactional
   public ClerkExamSessionDTO createExamSession(final ClerkExamSessionCreateDTO dto) {
     final ExamDate examDate = examDateRepository.getReferenceById(dto.examDateId());
+    final Organizer organizer = organizerRepository
+      .findByOidAndDeletedAtIsNull(dto.organizerOid())
+      .orElseThrow(() -> new IllegalArgumentException("Organizer not found for oid: " + dto.organizerOid()));
 
     final ExamSession examSession = new ExamSession();
     examSession.setExamDate(examDate);
-    examSession.setOfficeOid(dto.organizerOid());
+    examSession.setOrganizerOid(organizer);
     examSession.setLanguage(dto.language());
     examSession.setLevel(dto.level());
     examSession.setType(dto.type());
