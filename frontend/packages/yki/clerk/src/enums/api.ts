@@ -1,6 +1,6 @@
 export enum APIEndpoints {
   CountryCodes = '/yki/api/code/maatjavaltiot2',
-  ClerkOrganizer = '/yki/v2/api/clerk/organizer',
+  ClerkOrganizer = '/yki/api/virkailija/organizer',
   AddClerkOrganizer = '/yki/v2/api/clerk/organizer/add',
   ClerkFreeRegistration = '/yki/v2/api/clerk/registration/approvals',
   ClerkFreeRegistrationDetails = '/yki/v2/api/clerk/registration/approval/:id',
