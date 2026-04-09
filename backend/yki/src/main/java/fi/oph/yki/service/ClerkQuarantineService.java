@@ -70,7 +70,7 @@ public class ClerkQuarantineService {
         form.put("birthdate", HetuUtils.dateFromHetu(originalFormSsn).toString());
       }
 
-      form.put("ssn", oidToSsn.get(proj.getPersonOid()));
+      form.put("ssn", proj.getPersonOid() != null ? oidToSsn.get(proj.getPersonOid()) : null);
 
       matches.add(
         ClerkQuarantineMatchDTO
