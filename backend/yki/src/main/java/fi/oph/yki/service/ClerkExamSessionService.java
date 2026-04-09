@@ -11,6 +11,7 @@ import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.Organizer;
+import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
@@ -134,7 +135,11 @@ public class ClerkExamSessionService {
     examSession.setLanguage(dto.language());
     examSession.setLevel(dto.level());
     examSession.setType(dto.type());
-    examSession.setMaxParticipants(dto.maxParticipantsTotal());
+    if (dto.type().equals(ExamSessionType.FULL)) {
+      examSession.setMaxParticipants(dto.maxParticipantsTotal());
+    } else {
+      examSession.setMaxParticipants(dto.maxParticipantsPartial1() + dto.maxParticipantsPartial2());
+    }
     examSession.setContactName(dto.contactName());
     examSession.setContactEmail(dto.contactEmail());
     examSession.setContactPhoneNumber(dto.contactPhoneNumber());
