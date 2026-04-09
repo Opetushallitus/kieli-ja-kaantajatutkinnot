@@ -121,7 +121,7 @@ const getTableBody = ({
       ? '' + availablePlaces
       : t('registrationButtonLabels.full');
 
-  if (examSession.registrationType === 'READ_SPEAK') {
+  if (examSession.type === 'READ_SPEAK') {
     return (
       <>
         <tr>
@@ -192,7 +192,7 @@ const getTableBody = ({
         </tr>
       </>
     );
-  } else if (examSession.registrationType === 'LISTEN_WRITE') {
+  } else if (examSession.type === 'LISTEN_WRITE') {
     return (
       <>
         <tr>
