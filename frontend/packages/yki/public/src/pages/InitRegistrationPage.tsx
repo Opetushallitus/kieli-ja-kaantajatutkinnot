@@ -103,20 +103,20 @@ export const InitRegistrationPage = () => {
     ) {
       // Ensure registration init endpoint gets called, even if navigating to the page directly by URL.
       // This is necessary to accurately infer if user can enroll to exam proper or if they must enroll to queue instead.
-      initRegistrationState.partialExamType &&
-        dispatch(
-          initRegistration({
-            examSessionId: examSession.id,
-            registrationKind: examSession.available_registration_kind,
-            partialExamType: initRegistrationState.partialExamType,
-          }),
-          [
-            examSession,
-            initRegistrationState.status,
-            initRegistrationState.examSessionId,
-            initRegistrationState.partialExamType,
-          ],
-        );
+      dispatch(
+        initRegistration({
+          examSessionId: examSession.id,
+          registrationKind: examSession.available_registration_kind,
+          //partialExamType: initRegistrationState.partialExamType,
+          partialExamType: 'ALL_PARTS',
+        }),
+        [
+          examSession,
+          initRegistrationState.status,
+          initRegistrationState.examSessionId,
+          initRegistrationState.partialExamType,
+        ],
+      );
     }
   });
 

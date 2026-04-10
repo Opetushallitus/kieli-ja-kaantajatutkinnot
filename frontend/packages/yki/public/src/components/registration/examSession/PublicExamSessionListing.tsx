@@ -19,7 +19,10 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { PublicRegistrationInitError } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
-import { PublicRegistrationInitErrorState } from 'interfaces/publicRegistration';
+import {
+  PartialExamType,
+  PublicRegistrationInitErrorState,
+} from 'interfaces/publicRegistration';
 import {
   initRegistration,
   resetPublicRegistration,
@@ -77,8 +80,10 @@ const OtherStartedRegistrationErrorModal = () => {
 
 const RegistrationInitErrorModal = ({
   examSessionId,
+  partialExamType,
 }: {
   examSessionId: number;
+  partialExamType: PartialExamType;
 }) => {
   const dispatch = useAppDispatch();
   const { initRegistration: initRegistrationState } =
@@ -161,14 +166,13 @@ const RegistrationInitErrorModal = ({
               variant={Variant.Contained}
               onClick={() => {
                 dispatch(resetPublicRegistration());
-                initRegistrationState.partialExamType &&
-                  dispatch(
-                    initRegistration({
-                      examSessionId: examSessionId,
-                      registrationKind: RegistrationKind.Queue,
-                      partialExamType: initRegistrationState.partialExamType,
-                    }),
-                  );
+                dispatch(
+                  initRegistration({
+                    examSessionId: examSessionId,
+                    registrationKind: RegistrationKind.Queue,
+                    partialExamType,
+                  }),
+                );
               }}
             >
               {t('enrollToQueue')}
@@ -278,11 +282,14 @@ export const PublicExamSessionListing = ({
       return (
         <>
           {isRegistrationLoading && <RegistrationInitLoadingModal />}
-          {isRegistrationInitError && initRegistration.examSessionId && (
-            <RegistrationInitErrorModal
-              examSessionId={initRegistration.examSessionId}
-            />
-          )}
+          {isRegistrationInitError &&
+            initRegistration.examSessionId &&
+            initRegistration.partialExamType && (
+              <RegistrationInitErrorModal
+                examSessionId={initRegistration.examSessionId}
+                partialExamType={initRegistration.partialExamType}
+              />
+            )}
           <div ref={listingHeaderRef} style={{ marginBottom: '2rem' }}>
             <Typography
               variant="h2"
