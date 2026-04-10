@@ -2,6 +2,7 @@ import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
 import { ClerkQuarantineMatch } from 'interfaces/clerkQuarantine';
+import { languageToString } from 'utils/clerk';
 
 type ClerkQuarantineMatchRow = ClerkQuarantineMatch & Row;
 
@@ -32,7 +33,7 @@ export const ClerkQuarantineListing = ({
     {
       key: 'examLanguageCode',
       title: t('listing.columns.examLanguage'),
-      render: ({ examLanguageCode }) => examLanguageCode,
+      render: ({ examLanguageCode }) => languageToString(examLanguageCode),
     },
     {
       key: 'examDate',
