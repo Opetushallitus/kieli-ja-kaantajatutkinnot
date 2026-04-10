@@ -2,6 +2,7 @@ import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
 import { ClerkQuarantineMatch } from 'interfaces/clerkQuarantine';
+import { Text } from 'ophTheme/Text';
 import { languageToString } from 'utils/clerk';
 
 type ClerkQuarantineMatchRow = ClerkQuarantineMatch & Row;
@@ -69,17 +70,20 @@ export const ClerkQuarantineListing = ({
   ];
 
   return (
-    <ListTable
-      rows={rows}
-      rowKeyProp="quarantineId"
-      columns={columns}
-      translateHeader={false}
-      pagination={{
-        page,
-        setPage,
-        pageSize,
-        totalCount: matches.length,
-      }}
-    />
+    <>
+      <Text>{t('listing.resultCount', { count: matches.length })}</Text>
+      <ListTable
+        rows={rows}
+        rowKeyProp="quarantineId"
+        columns={columns}
+        translateHeader={false}
+        pagination={{
+          page,
+          setPage,
+          pageSize,
+          totalCount: matches.length,
+        }}
+      />
+    </>
   );
 };

@@ -385,7 +385,8 @@
             "name": "Etunimi Sukunimi",
             "phoneNumber": "Puhelinnumero",
             "ssn": "Hetu"
-          }
+          },
+          "resultCount": "{{count}} ilmoittautujaa"
         },
         "tabs": {
           "active": "Voimassa olevat osallistumiskiellot",
