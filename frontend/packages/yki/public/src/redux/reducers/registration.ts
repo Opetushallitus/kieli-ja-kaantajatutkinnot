@@ -123,8 +123,17 @@ const registrationSlice = createSlice({
         }
       }
     },
-    resetPublicRegistration() {
-      return initialState;
+    resetPublicRegistration(
+      state,
+      action: PayloadAction<PartialExamType | undefined>,
+    ) {
+      state = {
+        ...initialState,
+        initRegistration: {
+          ...initialState.initRegistration,
+          partialExamType: action.payload,
+        },
+      };
     },
     acceptPublicRegistrationInit(
       state,

@@ -38,7 +38,7 @@ const RegisterToExamButton = ({
       color={Color.Secondary}
       variant={Variant.Outlined}
       onClick={() => {
-        dispatch(resetPublicRegistration());
+        dispatch(resetPublicRegistration(partialExamType));
         dispatch(
           initRegistration({
             examSessionId: examSession.id,
