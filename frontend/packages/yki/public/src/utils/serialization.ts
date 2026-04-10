@@ -32,6 +32,7 @@ import {
   ExamSessionResponse,
   ExamSessions,
   ExamSessionsResponse,
+  ExamSessionType,
 } from 'interfaces/examSessions';
 import { FreeRegistrationBasis } from 'interfaces/freeRegistration';
 import {
@@ -273,6 +274,7 @@ export class SerializationUtils {
       countryCode: response.country_code,
       registrations: response.registrations?.map((v) => ({
         id: v.id,
+        type: v.type as ExamSessionType,
         kind: v.kind as RegistrationKind,
         examSessionId: v.exam_session_id,
         examLang: v.language_code as ExamLanguage,

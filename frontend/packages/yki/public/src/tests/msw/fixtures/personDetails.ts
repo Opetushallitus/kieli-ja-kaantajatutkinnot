@@ -55,7 +55,7 @@ export const personDetails: PersonDetailsResponse = {
     },
     {
       id: 1337,
-      type: 'LISTEN_WRITE',
+      type: 'READ_SPEAK',
       exam_session_id: '1',
       location: [
         {
@@ -138,7 +138,7 @@ export const personDetails: PersonDetailsResponse = {
     },
     {
       id: 1339,
-      type: 'LISTEN_WRITE',
+      type: 'FULL',
       exam_session_id: '1',
       location: [
         {
@@ -179,7 +179,7 @@ export const personDetails: PersonDetailsResponse = {
     },
     {
       id: 5001,
-      type: 'LISTEN_WRITE',
+      type: 'FULL',
       exam_session_id: '3',
       location: [
         {
@@ -222,7 +222,7 @@ export const personDetails: PersonDetailsResponse = {
     },
     {
       id: 5003,
-      type: 'LISTEN_WRITE',
+      type: 'FULL',
       exam_session_id: '5',
       location: [
         {
@@ -265,7 +265,7 @@ export const personDetails: PersonDetailsResponse = {
     },
     {
       id: 5004,
-      type: 'LISTEN_WRITE',
+      type: 'FULL',
       exam_session_id: '5',
       location: [
         {
