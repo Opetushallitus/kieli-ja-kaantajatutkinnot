@@ -7,7 +7,7 @@ import {
   RegistrationKind,
   RegistrationStates,
 } from 'enums/app';
-import { ExamSessionLocation } from 'interfaces/examSessions';
+import { ExamSessionLocation, ExamSessionType } from 'interfaces/examSessions';
 
 export interface PersonRegistrations extends WithId {
   state: RegistrationStates;
@@ -30,6 +30,7 @@ export interface PersonRegistrations extends WithId {
 }
 
 interface PersonRegistrationsResponse extends WithId {
+  type: ExamSessionType;
   exam_session_id: string;
   language_code: string;
   level_code: string;
