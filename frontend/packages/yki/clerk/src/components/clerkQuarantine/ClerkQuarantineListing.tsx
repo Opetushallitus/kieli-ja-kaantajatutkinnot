@@ -1,3 +1,5 @@
+import { Trans } from 'react-i18next';
+
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
@@ -71,6 +73,13 @@ export const ClerkQuarantineListing = ({
 
   return (
     <>
+      <Text>
+        <Trans
+          t={t}
+          i18nKey="listing.description"
+          components={{ bold: <strong /> }}
+        />
+      </Text>
       <Text>{t('listing.resultCount', { count: matches.length })}</Text>
       <ListTable
         rows={rows}

@@ -112,7 +112,7 @@
         "header": "Tutkintopäivät",
         "listing": {
           "addReviewEvaluation": "Lisää tarkistusarviointi",
-          "allLevels": "Kaikki tasot",
+          "allLevels": "Kaikki tasot", 
           "edit": "Muokkaa",
           "errors": {
             "loadingFailed": "Tutkintopäivien lataaminen epäonnistui"
@@ -386,6 +386,7 @@
             "phoneNumber": "Puhelinnumero",
             "ssn": "Hetu"
           },
+          "description": "Järjestelmän tunnistamat ilmoittautujat, joiden tiedot vastaavat voimassa olevan osallistumiskiellon tietoja. Tarkista, onko ilmoittautuja osallistumiskellossa ja <bold>peru tai hyväksy ilmoittautuminen</bold>",
           "resultCount": "{{count}} ilmoittautujaa"
         },
         "tabs": {
