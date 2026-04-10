@@ -22,6 +22,7 @@ public class ScheduledTaskMonitor {
   private static final String LOCK_AT_LEAST = "PT1S";
   private static final String LOCK_AT_MOST = "PT4M";
 
+  // task interval values from yki-repo
   private static final Map<String, Duration> MONITORED_TASKS = Map.of(
     "REGISTRATION_QUEUE_HANDLER",
     Duration.ofMinutes(10), // interval: 29s
