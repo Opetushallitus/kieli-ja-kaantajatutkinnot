@@ -315,6 +315,33 @@ export const PublicExamSessionCard = ({
       data-testid={`public-exam-session__id-${examSession.id}-card`}
     >
       <div>
+        <div className="exam-session-card__partial-exam-indicator">
+          {examSession.type === 'READ_SPEAK' && (
+            <>
+              <div className="exam-session-card__partial-exam-indicator__item">
+                <span>{t('examSessionCard.examType.read')}</span>
+              </div>
+              <div className="exam-session-card__partial-exam-indicator__item">
+                <span>{t('examSessionCard.examType.speak')}</span>
+              </div>
+            </>
+          )}
+          {examSession.type === 'LISTEN_WRITE' && (
+            <>
+              <div className="exam-session-card__partial-exam-indicator__item">
+                <span>{t('examSessionCard.examType.listen')}</span>
+              </div>
+              <div className="exam-session-card__partial-exam-indicator__item">
+                <span>{t('examSessionCard.examType.write')}</span>
+              </div>
+            </>
+          )}
+          {examSession.type === 'FULL' && (
+            <div className="exam-session-card__partial-exam-indicator__item">
+              <span>{t('examSessionCard.registrationType.allParts')}</span>
+            </div>
+          )}
+        </div>
         <h3 className="exam-session-card__title">
           {ExamSessionUtils.languageAndLevelText(examSession)}
         </h3>

@@ -198,7 +198,10 @@
           "placesAvailable": "Paikkoja vapaana",
           "price": "Hinta",
           "registerToPartialExamsSeparately": "Ilmoittaudu osakokeisiin erikseen",
-          "registrationTime": "Ilmoittautumisaika"
+          "registrationTime": "Ilmoittautumisaika",
+          "registrationType": {
+            "allParts": "Kaikki osakokeet"
+          }
         },
         "examSessionDetails": {
           "exam": "Test",

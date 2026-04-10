@@ -8,6 +8,21 @@
   flex-direction: column;
   gap: 2.4rem;
 
+  &__partial-exam-indicator {
+    display: flex;
+    gap: 0.5rem;
+
+    &__item {
+      background-color: $ods-lightblue-2;
+      color: $ods-cyan-1;
+      font-size: 16px;
+      line-height: 24px;
+      font-family: open-sans, sans-serif;
+      padding: 2px 5px;
+      border-radius: 2px;
+    }
+  }
+
   &__title {
     font-size: 2rem;
     font-weight: 700;
