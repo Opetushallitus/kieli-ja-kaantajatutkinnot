@@ -1,11 +1,33 @@
-import { Divider } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkQuarantineListing } from 'components/clerkQuarantine/ClerkQuarantineListing';
 import { usePublicTranslation } from 'configs/i18n';
+import { H2 } from 'ophTheme/Text';
 import { loadClerkQuarantineMatches } from 'redux/reducers/clerkQuarantine';
-import { selectSortedQuarantineMatches } from 'redux/selectors/clerkQuarantine';
+import {
+  clerkQuarantineSelector,
+  selectSortedQuarantineMatches,
+} from 'redux/selectors/clerkQuarantine';
+
+const InfoText = ({ status }: { status: APIResponseStatus }) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.clerkQuarantine',
+  });
+
+  return (
+    <Box
+      minHeight="10vh"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <H2>{t(`listing.apiResponseStatus.${status}`)}</H2>
+    </Box>
+  );
+};
 
 const TABS = ['pending', 'previous', 'active'] as const;
 type Tab = (typeof TABS)[number];
@@ -55,6 +77,7 @@ const QuarantineTabs = ({
 
 export const ClerkQuarantine = () => {
   const dispatch = useDispatch();
+  const { status } = useSelector(clerkQuarantineSelector);
   const matches = useSelector(selectSortedQuarantineMatches);
   const [activeTab, setActiveTab] = useState<Tab>('pending');
   const [page, setPage] = useState(1);
@@ -64,6 +87,24 @@ export const ClerkQuarantine = () => {
     dispatch(loadClerkQuarantineMatches());
   }, [dispatch]);
 
+  const renderListing = () => {
+    switch (status) {
+      case APIResponseStatus.Success:
+        return (
+          <ClerkQuarantineListing
+            matches={matches}
+            page={page}
+            setPage={setPage}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
+            activeTab={activeTab}
+          />
+        );
+      default:
+        return <InfoText status={status} />;
+    }
+  };
+
   return (
     <div className="rows gapped">
       <QuarantineTabs
@@ -71,14 +112,7 @@ export const ClerkQuarantine = () => {
         setActiveTab={setActiveTab}
         setPage={setPage}
       />
-      <ClerkQuarantineListing
-        matches={matches}
-        page={page}
-        setPage={setPage}
-        pageSize={pageSize}
-        setPageSize={setPageSize}
-        activeTab={activeTab}
-      />
+      {renderListing()}
     </div>
   );
 };

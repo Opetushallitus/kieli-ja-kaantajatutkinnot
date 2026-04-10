@@ -370,6 +370,14 @@
         }
       },
       "clerkQuarantine": {
+        "listing": {
+          "apiResponseStatus": {
+            "CANCELLED": "Tietojen lataaminen epäonnistui",
+            "ERROR": "Tietojen lataaminen epäonnistui",
+            "IN_PROGRESS": "Ladataan tietoja",
+            "NOT_STARTED": "Tietojen lataaminen epäonnistui"
+          }
+        },
         "tabs": {
           "active": "Voimassa olevat osallistumiskiellot",
           "pending": "Odottavat tarkistukset",
