@@ -10,6 +10,24 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
       data-testid="public-exam-session__id-999-card"
     >
       <div>
+        <div
+          class="exam-session-card__partial-exam-indicator"
+        >
+          <div
+            class="exam-session-card__partial-exam-indicator__item"
+          >
+            <span>
+              examSessionCard.examType.read
+            </span>
+          </div>
+          <div
+            class="exam-session-card__partial-exam-indicator__item"
+          >
+            <span>
+              examSessionCard.examType.speak
+            </span>
+          </div>
+        </div>
         <h3
           class="exam-session-card__title"
         >
@@ -111,13 +129,11 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             <td
               data-label="examSessionCard.actions"
             >
-              <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary css-1ioaic5-MuiButtonBase-root-MuiButton-root"
-                tabindex="0"
-                type="button"
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
               >
-                register
-              </button>
+                examSessionCard.registerToPartialExamsSeparately
+              </p>
             </td>
           </tr>
           <tr>
@@ -149,7 +165,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
                 tabindex="0"
                 type="button"
               >
-                register
+                enrollToQueue
               </button>
             </td>
           </tr>
@@ -182,7 +198,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
                 tabindex="0"
                 type="button"
               >
-                register
+                enrollToQueue
               </button>
             </td>
           </tr>
@@ -194,6 +210,24 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
       data-testid="public-exam-session__id-888-card"
     >
       <div>
+        <div
+          class="exam-session-card__partial-exam-indicator"
+        >
+          <div
+            class="exam-session-card__partial-exam-indicator__item"
+          >
+            <span>
+              examSessionCard.examType.listen
+            </span>
+          </div>
+          <div
+            class="exam-session-card__partial-exam-indicator__item"
+          >
+            <span>
+              examSessionCard.examType.write
+            </span>
+          </div>
+        </div>
         <h3
           class="exam-session-card__title"
         >
@@ -372,6 +406,17 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
       data-testid="public-exam-session__id-25-card"
     >
       <div>
+        <div
+          class="exam-session-card__partial-exam-indicator"
+        >
+          <div
+            class="exam-session-card__partial-exam-indicator__item"
+          >
+            <span>
+              examSessionCard.registrationType.allParts
+            </span>
+          </div>
+        </div>
         <h3
           class="exam-session-card__title"
         >
@@ -488,6 +533,17 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
       data-testid="public-exam-session__id-10-card"
     >
       <div>
+        <div
+          class="exam-session-card__partial-exam-indicator"
+        >
+          <div
+            class="exam-session-card__partial-exam-indicator__item"
+          >
+            <span>
+              examSessionCard.registrationType.allParts
+            </span>
+          </div>
+        </div>
         <h3
           class="exam-session-card__title"
         >
@@ -604,6 +660,17 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
       data-testid="public-exam-session__id-11-card"
     >
       <div>
+        <div
+          class="exam-session-card__partial-exam-indicator"
+        >
+          <div
+            class="exam-session-card__partial-exam-indicator__item"
+          >
+            <span>
+              examSessionCard.registrationType.allParts
+            </span>
+          </div>
+        </div>
         <h3
           class="exam-session-card__title"
         >
@@ -722,6 +789,17 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
       data-testid="public-exam-session__id-12-card"
     >
       <div>
+        <div
+          class="exam-session-card__partial-exam-indicator"
+        >
+          <div
+            class="exam-session-card__partial-exam-indicator__item"
+          >
+            <span>
+              examSessionCard.registrationType.allParts
+            </span>
+          </div>
+        </div>
         <h3
           class="exam-session-card__title"
         >
@@ -840,6 +918,17 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
       data-testid="public-exam-session__id-13-card"
     >
       <div>
+        <div
+          class="exam-session-card__partial-exam-indicator"
+        >
+          <div
+            class="exam-session-card__partial-exam-indicator__item"
+          >
+            <span>
+              examSessionCard.registrationType.allParts
+            </span>
+          </div>
+        </div>
         <h3
           class="exam-session-card__title"
         >
@@ -958,6 +1047,17 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
       data-testid="public-exam-session__id-14-card"
     >
       <div>
+        <div
+          class="exam-session-card__partial-exam-indicator"
+        >
+          <div
+            class="exam-session-card__partial-exam-indicator__item"
+          >
+            <span>
+              examSessionCard.registrationType.allParts
+            </span>
+          </div>
+        </div>
         <h3
           class="exam-session-card__title"
         >
@@ -1076,6 +1176,17 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
       data-testid="public-exam-session__id-15-card"
     >
       <div>
+        <div
+          class="exam-session-card__partial-exam-indicator"
+        >
+          <div
+            class="exam-session-card__partial-exam-indicator__item"
+          >
+            <span>
+              examSessionCard.registrationType.allParts
+            </span>
+          </div>
+        </div>
         <h3
           class="exam-session-card__title"
         >
@@ -1194,6 +1305,17 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
       data-testid="public-exam-session__id-16-card"
     >
       <div>
+        <div
+          class="exam-session-card__partial-exam-indicator"
+        >
+          <div
+            class="exam-session-card__partial-exam-indicator__item"
+          >
+            <span>
+              examSessionCard.registrationType.allParts
+            </span>
+          </div>
+        </div>
         <h3
           class="exam-session-card__title"
         >
@@ -1310,6 +1432,17 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
       data-testid="public-exam-session__id-2-card"
     >
       <div>
+        <div
+          class="exam-session-card__partial-exam-indicator"
+        >
+          <div
+            class="exam-session-card__partial-exam-indicator__item"
+          >
+            <span>
+              examSessionCard.registrationType.allParts
+            </span>
+          </div>
+        </div>
         <h3
           class="exam-session-card__title"
         >
@@ -1428,6 +1561,17 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
       data-testid="public-exam-session__id-6-card"
     >
       <div>
+        <div
+          class="exam-session-card__partial-exam-indicator"
+        >
+          <div
+            class="exam-session-card__partial-exam-indicator__item"
+          >
+            <span>
+              examSessionCard.registrationType.allParts
+            </span>
+          </div>
+        </div>
         <h3
           class="exam-session-card__title"
         >
@@ -1546,6 +1690,17 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
       data-testid="public-exam-session__id-3-card"
     >
       <div>
+        <div
+          class="exam-session-card__partial-exam-indicator"
+        >
+          <div
+            class="exam-session-card__partial-exam-indicator__item"
+          >
+            <span>
+              examSessionCard.registrationType.allParts
+            </span>
+          </div>
+        </div>
         <h3
           class="exam-session-card__title"
         >

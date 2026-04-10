@@ -846,6 +846,16 @@
             "part2": "Please pay the test fee to confirm your registration.",
             "part3": "If you do not pay the test fee by the due date, your registration will be cancelled."
           },
+          "partialExams": {
+            "FULL": "Tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen",
+            "label": "Osakokeet",
+            "LISTEN": "Puheen ymmärtäminen",
+            "LISTEN_WRITE": "Puheen ymmärtäminen ja kirjoittaminen",
+            "READ": "Tekstin ymmärtäminen",
+            "READ_SPEAK": "Tekstin ymmärtäminen ja puhuminen",
+            "SPEAK": "Puhuminen",
+            "WRITE": "Kirjoittaminen"
+          },
           "past": {
             "notFound": "You have no completed tests or past registrations"
           },

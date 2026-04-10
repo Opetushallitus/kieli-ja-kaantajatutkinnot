@@ -846,6 +846,16 @@
             "part2": "Betala examensavgiften för att bekräfta anmälan.",
             "part3": "Om du inte betalar examensavgiften senast på förfallodagen annulleras din anmälan."
           },
+          "partialExams": {
+            "FULL": "Tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen",
+            "label": "Osakokeet",
+            "LISTEN": "Puheen ymmärtäminen",
+            "LISTEN_WRITE": "Puheen ymmärtäminen ja kirjoittaminen",
+            "READ": "Tekstin ymmärtäminen",
+            "READ_SPEAK": "Tekstin ymmärtäminen ja puhuminen",
+            "SPEAK": "Puhuminen",
+            "WRITE": "Kirjoittaminen"
+          },
           "past": {
             "notFound": "Du har inga prestationer eller tidigare anmälningar"
           },

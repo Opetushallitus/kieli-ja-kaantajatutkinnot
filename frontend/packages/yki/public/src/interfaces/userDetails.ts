@@ -27,6 +27,7 @@ export interface PersonRegistrations extends WithId {
   liftedFromQueueAt?: Dayjs;
   positionInQueue?: number;
   isFreeRegistration?: boolean;
+  type: ExamSessionType;
 }
 
 interface PersonRegistrationsResponse extends WithId {
