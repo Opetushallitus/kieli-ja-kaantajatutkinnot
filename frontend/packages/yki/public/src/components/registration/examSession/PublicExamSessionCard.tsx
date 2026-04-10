@@ -116,10 +116,46 @@ const getTableBody = ({
     : `${examSession.exam_fee} €`;
 
   const availablePlaces = ExamSessionUtils.getAvailablePlaces(examSession);
+
   const availablePlacesText =
     availablePlaces > 0
       ? '' + availablePlaces
       : t('registrationButtonLabels.full');
+
+  const renderActions = ({
+    examSession,
+    partialExamType,
+    availablePlaces,
+  }: {
+    examSession: ExamSession;
+    partialExamType: PartialExamType;
+    availablePlaces: number;
+  }) => {
+    if (examSession.open) {
+      if (
+        availablePlaces === 0 &&
+        ['LISTEN_WRITE', 'READ_SPEAK'].includes(examSession.type) &&
+        partialExamType === 'ALL_PARTS'
+      ) {
+        return (
+          <Text>{t('examSessionCard.registerToPartialExamsSeparately')}</Text>
+        );
+      } else {
+        return (
+          <RegisterToExamButton
+            examSession={examSession}
+            partialExamType={partialExamType}
+          />
+        );
+      }
+    } else {
+      return (
+        <Text>
+          <RegistrationUnavailableText examSession={examSession} />
+        </Text>
+      );
+    }
+  };
 
   if (examSession.type === 'READ_SPEAK') {
     return (
@@ -134,16 +170,11 @@ const getTableBody = ({
             {availablePlacesText}
           </td>
           <td data-label={t('examSessionCard.actions')}>
-            {examSession.open ? (
-              <RegisterToExamButton
-                examSession={examSession}
-                partialExamType="ALL_PARTS"
-              />
-            ) : (
-              <Text>
-                <RegistrationUnavailableText examSession={examSession} />
-              </Text>
-            )}
+            {renderActions({
+              examSession,
+              partialExamType: 'ALL_PARTS',
+              availablePlaces,
+            })}
           </td>
         </tr>
         <tr>
@@ -156,16 +187,11 @@ const getTableBody = ({
             {availablePlacesText}
           </td>
           <td data-label={t('examSessionCard.actions')}>
-            {examSession.open ? (
-              <RegisterToExamButton
-                examSession={examSession}
-                partialExamType="READ"
-              />
-            ) : (
-              <Text>
-                <RegistrationUnavailableText examSession={examSession} />
-              </Text>
-            )}
+            {renderActions({
+              examSession,
+              partialExamType: 'READ',
+              availablePlaces,
+            })}
           </td>
         </tr>
         <tr>
@@ -178,16 +204,11 @@ const getTableBody = ({
             {availablePlacesText}
           </td>
           <td data-label={t('examSessionCard.actions')}>
-            {examSession.open ? (
-              <RegisterToExamButton
-                examSession={examSession}
-                partialExamType="SPEAK"
-              />
-            ) : (
-              <Text>
-                <RegistrationUnavailableText examSession={examSession} />
-              </Text>
-            )}
+            {renderActions({
+              examSession,
+              partialExamType: 'SPEAK',
+              availablePlaces,
+            })}
           </td>
         </tr>
       </>
@@ -205,16 +226,11 @@ const getTableBody = ({
             {availablePlacesText}
           </td>
           <td data-label={t('examSessionCard.actions')}>
-            {examSession.open ? (
-              <RegisterToExamButton
-                examSession={examSession}
-                partialExamType="ALL_PARTS"
-              />
-            ) : (
-              <Text>
-                <RegistrationUnavailableText examSession={examSession} />
-              </Text>
-            )}
+            {renderActions({
+              examSession,
+              partialExamType: 'ALL_PARTS',
+              availablePlaces,
+            })}
           </td>
         </tr>
         <tr>
@@ -227,16 +243,11 @@ const getTableBody = ({
             {availablePlacesText}
           </td>
           <td data-label={t('examSessionCard.actions')}>
-            {examSession.open ? (
-              <RegisterToExamButton
-                examSession={examSession}
-                partialExamType="LISTEN"
-              />
-            ) : (
-              <Text>
-                <RegistrationUnavailableText examSession={examSession} />
-              </Text>
-            )}
+            {renderActions({
+              examSession,
+              partialExamType: 'LISTEN',
+              availablePlaces,
+            })}
           </td>
         </tr>
         <tr>
@@ -249,16 +260,11 @@ const getTableBody = ({
             {availablePlacesText}
           </td>
           <td data-label={t('examSessionCard.actions')}>
-            {examSession.open ? (
-              <RegisterToExamButton
-                examSession={examSession}
-                partialExamType="WRITE"
-              />
-            ) : (
-              <Text>
-                <RegistrationUnavailableText examSession={examSession} />
-              </Text>
-            )}
+            {renderActions({
+              examSession,
+              partialExamType: 'WRITE',
+              availablePlaces,
+            })}
           </td>
         </tr>
       </>
@@ -276,16 +282,11 @@ const getTableBody = ({
         {availablePlacesText}
       </td>
       <td data-label={t('examSessionCard.actions')}>
-        {examSession.open ? (
-          <RegisterToExamButton
-            examSession={examSession}
-            partialExamType="ALL_PARTS"
-          />
-        ) : (
-          <Text>
-            <RegistrationUnavailableText examSession={examSession} />
-          </Text>
-        )}
+        {renderActions({
+          examSession,
+          partialExamType: 'ALL_PARTS',
+          availablePlaces,
+        })}
       </td>
     </tr>
   );
