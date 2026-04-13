@@ -3,7 +3,9 @@ package fi.oph.yki.api.dto.clerk;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.time.Instant;
 import java.time.LocalDate;
+import lombok.Builder;
 
+@Builder
 public record ClerkQuarantineMatchDTO(
   Long id,
   String quarantineLang,

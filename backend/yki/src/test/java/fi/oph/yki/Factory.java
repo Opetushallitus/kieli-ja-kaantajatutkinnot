@@ -5,6 +5,7 @@ import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
+import fi.oph.yki.model.Quarantine;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.FreeRegistrationSource;
@@ -72,6 +73,18 @@ public class Factory {
     examSession.setContactPhoneNumber("0401234567");
 
     return examSession;
+  }
+
+  public static Quarantine quarantine() {
+    final Quarantine quarantine = new Quarantine();
+    quarantine.setLanguageCode("fin");
+    quarantine.setBirthdate("1975-01-01");
+    quarantine.setFirstName("Testi");
+    quarantine.setLastName("Henkilö");
+    quarantine.setStartDate(LocalDate.of(2026, 1, 1));
+    quarantine.setEndDate(LocalDate.of(2026, 12, 31));
+
+    return quarantine;
   }
 
   public static ExamSessionLocation examSessionLocation(final ExamSession examSession) {
