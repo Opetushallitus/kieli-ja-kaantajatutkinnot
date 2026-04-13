@@ -43,6 +43,7 @@ public class ScheduledTaskMonitor {
   @Scheduled(cron = Constants.SCHEDULED_TASK_MONITOR_CRON)
   @SchedulerLock(name = "scheduledTaskMonitor", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
   public void monitorScheduledTasks() {
+    LOG.info("Monitoring scheduled tasks");
     MONITORED_TASKS.forEach((@NonNull final String task, final Duration maxAge) -> {
       taskLockRepository
         .findById(task)
