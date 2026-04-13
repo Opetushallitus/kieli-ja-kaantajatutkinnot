@@ -34,6 +34,7 @@ public class PublicController {
   @Resource
   private KoskiService koskiService;
 
+  // TODO remove me: deploy commit
   @PostMapping(
     path = "/education/{registrationId:\\d+}",
     consumes = MediaType.APPLICATION_JSON_VALUE,
