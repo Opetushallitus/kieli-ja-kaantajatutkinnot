@@ -29,6 +29,7 @@ import { ListTableColumn } from 'components/oph-design/table/table-types';
 import axiosInstance from 'configs/axios';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { APIEndpoints } from 'enums/api';
 import { AppRoutes } from 'enums/app';
 import { ClerkOrganizerType } from 'interfaces/clerkOrganizer';
 import { ExamSession } from 'interfaces/examSessions';
@@ -240,7 +241,7 @@ const ClerkRegisterCollapsibleRow = ({
         try {
           const oneYearAgo = dayjs().subtract(1, 'year').format('YYYY-MM-DD');
           const response = await axiosInstance.get(
-            `/yki/api/clerk/organizer/${row.oid}/exam-session`,
+            APIEndpoints.ClerkOrganizer + `/${row.oid}/exam-session`,
             { params: { from: oneYearAgo } },
           );
           setExamSessions(
