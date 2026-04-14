@@ -3,7 +3,8 @@ import { OphButton } from '@opetushallitus/oph-design-system';
 import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
 import { CustomDatePicker } from 'shared/components';
-import { Variant } from 'shared/enums';
+import { Severity, Variant } from 'shared/enums';
+import { useToast } from 'shared/hooks';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
@@ -12,6 +13,7 @@ export const ClerkPaymentReport = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkPaymentReport',
   });
+  const { showToast } = useToast();
 
   const [from, setFrom] = useState<Dayjs | null>(
     dayjs().subtract(1, 'month').startOf('month'),
@@ -31,6 +33,14 @@ export const ClerkPaymentReport = () => {
         'YYYY-MM-DD',
       )}&to=${to.format('YYYY-MM-DD')}`;
       const response = await fetch(url, { credentials: 'include' });
+      if (!response.ok) {
+        showToast({
+          severity: Severity.Error,
+          description: t('toasts.downloadError'),
+        });
+
+        return;
+      }
       const blob = await response.blob();
       const downloadUrl = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
