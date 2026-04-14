@@ -15,6 +15,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -52,6 +53,9 @@ public class ExamSession {
 
   @Column(name = "office_oid")
   private String officeOid;
+
+  @Column(name = "published_at")
+  private LocalDateTime publishedAt;
 
   @Column(name = "contact_name")
   private String contactName;

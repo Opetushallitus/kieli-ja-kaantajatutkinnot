@@ -7,6 +7,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import jakarta.persistence.OneToMany;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +28,27 @@ public class Organizer {
   @Column(name = "oid", nullable = false)
   private String oid;
 
+  @Column(name = "agreement_start_date", nullable = false)
+  private LocalDate agreementStartDate;
+
+  @Column(name = "agreement_end_date", nullable = false)
+  private LocalDate agreementEndDate;
+
+  @Column(name = "contact_name")
+  private String contactName;
+
+  @Column(name = "contact_email")
+  private String contactEmail;
+
+  @Column(name = "contact_phone_number")
+  private String contactPhoneNumber;
+
+  @Column(name = "extra")
+  private String extra;
+
   @Column(name = "deleted_at")
   private LocalDateTime deletedAt;
+
+  @OneToMany(mappedBy = "organizer")
+  private List<ExamLanguage> languages = new ArrayList<>();
 }
