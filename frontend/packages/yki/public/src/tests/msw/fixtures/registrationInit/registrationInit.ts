@@ -56,6 +56,6 @@ export const registrationInitResponse: PublicRegistrationInitResponse = {
     nationalities: ['246'],
   },
   registration_id: 1,
-  is_strongly_identified: false,
+  is_strongly_identified: true,
   registration_kind: RegistrationKind.Admission,
 };

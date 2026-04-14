@@ -30,6 +30,7 @@ import { ClerkFreeRegistrationDetailsPage } from 'pages/ClerkFreeRegistrationDet
 import { ClerkFreeRegistrationPage } from 'pages/ClerkFreeRegistrationPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
 import { ClerkOrganizerRegisterDetailsPage } from 'pages/ClerkOrganizerRegisterDetails';
+import { ClerkQuarantinePage } from 'pages/ClerkQuarantinePage';
 import { loadSession } from 'redux/reducers/session';
 import { sessionSelector } from 'redux/selectors/session';
 
@@ -118,6 +119,14 @@ export const AppRouter: FC = () => {
           element={
             <YkiTitlePage title="clerk">
               <ClerkFreeRegistrationDetailsPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ClerkQuarantine}
+          element={
+            <YkiTitlePage title="clerk">
+              <ClerkQuarantinePage />
             </YkiTitlePage>
           }
         />
