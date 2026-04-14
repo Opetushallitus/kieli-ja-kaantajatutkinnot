@@ -1,6 +1,7 @@
 import { Trans } from 'react-i18next';
 
 import { ListTable } from 'components/oph-design/table/list-table';
+import { PageSizeSelector } from 'components/oph-design/table/page-size-selector';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
 import {
@@ -28,6 +29,7 @@ export const ClerkQuarantineListing = ({
   page,
   setPage,
   pageSize,
+  setPageSize,
   sort,
   setSort,
 }: ClerkQuarantineListingProps) => {
@@ -133,7 +135,10 @@ export const ClerkQuarantineListing = ({
           components={{ bold: <strong /> }}
         />
       </Text>
-      <Text>{t('listing.resultCount', { count: rows.length })}</Text>
+      <div className="columns space-between">
+        <Text>{t('listing.resultCount', { count: rows.length })}</Text>
+        <PageSizeSelector pageSize={pageSize} setPageSize={setPageSize} />
+      </div>
       <ListTable
         rows={rows}
         rowKeyProp="quarantineId"
