@@ -78,7 +78,7 @@ const QuarantineTabs = ({
 export const ClerkQuarantine = () => {
   const dispatch = useDispatch();
   const { status } = useSelector(clerkQuarantineSelector);
-  const matches = useSelector(selectSortedQuarantineMatches);
+  const rows = useSelector(selectSortedQuarantineMatches);
   const [activeTab, setActiveTab] = useState<Tab>('pending');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -92,7 +92,7 @@ export const ClerkQuarantine = () => {
       case APIResponseStatus.Success:
         return (
           <ClerkQuarantineListing
-            matches={matches}
+            rows={rows}
             page={page}
             setPage={setPage}
             pageSize={pageSize}

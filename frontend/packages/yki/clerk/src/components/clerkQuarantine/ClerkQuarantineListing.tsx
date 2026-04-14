@@ -10,7 +10,7 @@ import { languageToString } from 'utils/clerk';
 type ClerkQuarantineMatchRow = ClerkQuarantineMatch & Row;
 
 type ClerkQuarantineListingProps = {
-  matches: ClerkQuarantineMatch[];
+  rows: ClerkQuarantineMatchRow[];
   page: number;
   setPage: (page: number) => void;
   pageSize: number;
@@ -19,7 +19,7 @@ type ClerkQuarantineListingProps = {
 };
 
 export const ClerkQuarantineListing = ({
-  matches,
+  rows,
   page,
   setPage,
   pageSize,
@@ -27,10 +27,10 @@ export const ClerkQuarantineListing = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkQuarantine',
   });
-
-  const rows: ClerkQuarantineMatchRow[] = matches.map((match) => ({
-    ...match,
-  }));
+  // Cells stack two values (registrant + quarantined person). Some values such
+  // as email are long tokens with no spaces, so the browser cannot wrap them
+  // naturally and they overflow into adjacent cells without this.
+  const style = { wordBreak: 'break-word' as const };
 
   const columns: ListTableColumn<ClerkQuarantineMatchRow>[] = [
     {
@@ -45,29 +45,63 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'name',
+      style,
       title: t('listing.columns.name'),
-      render: ({ quarantinedPerson }) =>
-        `${quarantinedPerson.firstName} ${quarantinedPerson.lastName}`,
+      render: (match) => (
+        <div>
+          <div>
+            {match.registrantForm.firstName} {match.registrantForm.lastName}
+          </div>
+          <div>
+            {match.quarantinedPerson.firstName}{' '}
+            {match.quarantinedPerson.lastName}
+          </div>
+        </div>
+      ),
     },
     {
       key: 'birthdate',
+      style,
       title: t('listing.columns.birthdate'),
-      render: ({ quarantinedPerson }) => quarantinedPerson.birthdate,
+      render: (match) => (
+        <div>
+          <div>{match.registrantForm.birthdate}</div>
+          <div>{match.quarantinedPerson.birthdate}</div>
+        </div>
+      ),
     },
     {
       key: 'ssn',
+      style,
       title: t('listing.columns.ssn'),
-      render: ({ quarantinedPerson }) => quarantinedPerson.ssn,
+      render: (match) => (
+        <div>
+          <div>{match.registrantForm.ssn}</div>
+          <div>{match.quarantinedPerson.ssn}</div>
+        </div>
+      ),
     },
     {
       key: 'email',
+      style,
       title: t('listing.columns.email'),
-      render: ({ quarantinedPerson }) => quarantinedPerson.email,
+      render: (match) => (
+        <div>
+          <div>{match.registrantForm.email}</div>
+          <div>{match.quarantinedPerson.email}</div>
+        </div>
+      ),
     },
     {
       key: 'phoneNumber',
+      style,
       title: t('listing.columns.phoneNumber'),
-      render: ({ quarantinedPerson }) => quarantinedPerson.phoneNumber,
+      render: (match) => (
+        <div>
+          <div>{match.registrantForm.phoneNumber}</div>
+          <div>{match.quarantinedPerson.phoneNumber}</div>
+        </div>
+      ),
     },
   ];
 
@@ -80,7 +114,7 @@ export const ClerkQuarantineListing = ({
           components={{ bold: <strong /> }}
         />
       </Text>
-      <Text>{t('listing.resultCount', { count: matches.length })}</Text>
+      <Text>{t('listing.resultCount', { count: rows.length })}</Text>
       <ListTable
         rows={rows}
         rowKeyProp="quarantineId"
@@ -90,7 +124,7 @@ export const ClerkQuarantineListing = ({
           page,
           setPage,
           pageSize,
-          totalCount: matches.length,
+          totalCount: rows.length,
         }}
       />
     </>
