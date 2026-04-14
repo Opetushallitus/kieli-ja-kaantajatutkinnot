@@ -1,10 +1,6 @@
 {
   "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.shared",
-<<<<<<< HEAD
-  "version": "1.14.3",
-=======
   "version": "2.14.5",
->>>>>>> 33ff843b7 (YKI:SHARED(Frontend) Bump shared version [deploy])
   "description": "Shared Frontend Package",
   "exports": {
     "./components": "./src/components/index.tsx",
