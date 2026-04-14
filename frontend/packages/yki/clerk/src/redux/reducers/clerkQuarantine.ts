@@ -45,5 +45,6 @@ export const clerkQuarantineReducer = clerkQuarantineSlice.reducer;
 export const {
   loadClerkQuarantineMatches,
   rejectClerkQuarantineMatches,
+  setQuarantineSort,
   storeClerkQuarantineMatches,
 } = clerkQuarantineSlice.actions;

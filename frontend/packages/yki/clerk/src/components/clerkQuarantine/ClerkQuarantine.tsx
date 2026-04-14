@@ -6,7 +6,10 @@ import { APIResponseStatus } from 'shared/enums';
 import { ClerkQuarantineListing } from 'components/clerkQuarantine/ClerkQuarantineListing';
 import { usePublicTranslation } from 'configs/i18n';
 import { H2 } from 'ophTheme/Text';
-import { loadClerkQuarantineMatches } from 'redux/reducers/clerkQuarantine';
+import {
+  loadClerkQuarantineMatches,
+  setQuarantineSort,
+} from 'redux/reducers/clerkQuarantine';
 import {
   clerkQuarantineSelector,
   selectSortedQuarantineMatches,
@@ -77,7 +80,7 @@ const QuarantineTabs = ({
 
 export const ClerkQuarantine = () => {
   const dispatch = useDispatch();
-  const { status } = useSelector(clerkQuarantineSelector);
+  const { status, sort } = useSelector(clerkQuarantineSelector);
   const rows = useSelector(selectSortedQuarantineMatches);
   const [activeTab, setActiveTab] = useState<Tab>('pending');
   const [page, setPage] = useState(1);
@@ -98,6 +101,8 @@ export const ClerkQuarantine = () => {
             pageSize={pageSize}
             setPageSize={setPageSize}
             activeTab={activeTab}
+            sort={sort}
+            setSort={(s) => dispatch(setQuarantineSort(s))}
           />
         );
       default:

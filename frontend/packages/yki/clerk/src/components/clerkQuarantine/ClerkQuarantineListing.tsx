@@ -3,7 +3,10 @@ import { Trans } from 'react-i18next';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
-import { ClerkQuarantineMatch } from 'interfaces/clerkQuarantine';
+import {
+  ClerkQuarantineMatch,
+  ClerkQuarantineSort,
+} from 'interfaces/clerkQuarantine';
 import { Text } from 'ophTheme/Text';
 import { languageToString } from 'utils/clerk';
 
@@ -16,6 +19,8 @@ type ClerkQuarantineListingProps = {
   pageSize: number;
   setPageSize: (pageSize: number) => void;
   activeTab: 'pending' | 'previous' | 'active';
+  sort: ClerkQuarantineSort;
+  setSort: (sort: ClerkQuarantineSort) => void;
 };
 
 export const ClerkQuarantineListing = ({
@@ -23,10 +28,13 @@ export const ClerkQuarantineListing = ({
   page,
   setPage,
   pageSize,
+  sort,
+  setSort,
 }: ClerkQuarantineListingProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkQuarantine',
   });
+
   // Cells stack two values (registrant + quarantined person). Some values such
   // as email are long tokens with no spaces, so the browser cannot wrap them
   // naturally and they overflow into adjacent cells without this.
@@ -50,6 +58,7 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'examDate',
+      sortable: true,
       title: t('listing.columns.examDate'),
       render: ({ examDate }) => examDate.format('D.M.YYYY'),
     },
@@ -130,6 +139,8 @@ export const ClerkQuarantineListing = ({
         rowKeyProp="quarantineId"
         columns={columns}
         translateHeader={false}
+        sort={sort}
+        setSort={(s) => setSort(s as ClerkQuarantineSort)}
         pagination={{
           page,
           setPage,
