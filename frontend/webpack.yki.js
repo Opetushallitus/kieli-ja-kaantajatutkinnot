@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const Dotenv = require('dotenv-webpack')
-const findByOids = require("./packages/yki/clerk/src/tests/msw/fixtures/findByOids.js");
+const findByOids = require("./packages/yki/clerk/src/tests/msw/fixtures/findByOidsData.js");
 
 
 // cloud-base path for new yki clerk is '/yki/v2' 
