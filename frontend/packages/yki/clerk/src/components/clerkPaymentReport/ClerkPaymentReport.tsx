@@ -32,7 +32,10 @@ export const ClerkPaymentReport = () => {
       const url = `${APIEndpoints.ClerkPaymentReportExcel}?from=${from.format(
         'YYYY-MM-DD',
       )}&to=${to.format('YYYY-MM-DD')}`;
-      const response = await fetch(url, { credentials: 'include' });
+      const response = await fetch(url, {
+        credentials: 'include',
+        redirect: 'manual',
+      });
       if (!response.ok) {
         showToast({
           severity: Severity.Error,
