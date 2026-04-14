@@ -53,6 +53,8 @@ app:
     user: ${cas.username:null}
     password: ${cas.password:null}
   clerk-enabled: ${clerk.enabled:false}
+  organization-service:
+    url: ${organization-service.url:https://virkailija.untuvaopintopolku.fi/organisaatio-service}
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}

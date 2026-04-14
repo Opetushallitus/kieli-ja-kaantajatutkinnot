@@ -1,6 +1,16 @@
 {
   "yki": {
     "component": {
+      "clerkPaymentReport": {
+        "title": "Exam payment reporting",
+        "description": "Select the date range for which you want to view completed exam payments. By default, the entire previous month is selected. Please note that any subsequently refunded exam payments will still appear in the report as paid.",
+        "from": "From",
+        "to": "To",
+        "download": "Generate report (.xlsx)",
+        "toasts": {
+          "downloadError": "Failed to generate the report"
+        }
+      },
       "clerkCustomer": {
         "details": {
           "buttons": {
@@ -507,6 +517,9 @@
       },
       "clerkFreeRegistrationPage": {
         "heading": "Maksuttomuuden tarkastukset"
+      },
+      "clerkPaymentReportPage": {
+        "heading": "Reports and statistics"
       },
       "clerkQuarantinePage": {
         "heading": "Osallistumiskiellot"
