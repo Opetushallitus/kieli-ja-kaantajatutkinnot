@@ -34,6 +34,16 @@ export const ClerkQuarantineListing = ({
 
   const columns: ListTableColumn<ClerkQuarantineMatchRow>[] = [
     {
+      key: 'personType',
+      title: '',
+      render: () => (
+        <div>
+          <div>{t('listing.personType.registrant')}</div>
+          <div>{t('listing.personType.quarantinedPerson')}</div>
+        </div>
+      ),
+    },
+    {
       key: 'examLanguageCode',
       title: t('listing.columns.examLanguage'),
       render: ({ examLanguageCode }) => languageToString(examLanguageCode),
