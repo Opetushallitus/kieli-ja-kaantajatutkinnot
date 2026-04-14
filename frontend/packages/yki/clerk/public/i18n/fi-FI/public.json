@@ -369,6 +369,32 @@
           "previous": "Aiemmat tarkastukset"
         }
       },
+      "clerkQuarantine": {
+        "listing": {
+          "apiResponseStatus": {
+            "CANCELLED": "Tietojen lataaminen epäonnistui",
+            "ERROR": "Tietojen lataaminen epäonnistui",
+            "IN_PROGRESS": "Ladataan tietoja",
+            "NOT_STARTED": "Tietojen lataaminen epäonnistui"
+          },
+          "columns": {
+            "birthdate": "Syntymäaika",
+            "email": "Sähköposti",
+            "examDate": "Tutkinnon pvm",
+            "examLanguage": "Tutkinnon kieli",
+            "name": "Etunimi Sukunimi",
+            "phoneNumber": "Puhelinnumero",
+            "ssn": "Hetu"
+          },
+          "description": "Järjestelmän tunnistamat ilmoittautujat, joiden tiedot vastaavat voimassa olevan osallistumiskiellon tietoja. Tarkista, onko ilmoittautuja osallistumiskellossa ja <bold>peru tai hyväksy ilmoittautuminen</bold>",
+          "resultCount": "{{count}} ilmoittautujaa"
+        },
+        "tabs": {
+          "active": "Voimassa olevat osallistumiskiellot",
+          "pending": "Odottavat tarkistukset",
+          "previous": "Aiemmat tarkistukset"
+        }
+      },
       "clerkRegister": {
         "clerkAddOrganizer": {
           "addButton": "Lisää järjestäjä",
@@ -481,6 +507,9 @@
       },
       "clerkFreeRegistrationPage": {
         "heading": "Maksuttomuuden tarkastukset"
+      },
+      "clerkQuarantinePage": {
+        "heading": "Osallistumiskiellot"
       },
       "clerkRegisterPage": {
         "heading": "Kielitutkintojen järjestäjärekisteri"

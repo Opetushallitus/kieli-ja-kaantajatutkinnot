@@ -29,6 +29,10 @@ import {
   ClerkOrganizerResponse,
 } from 'interfaces/clerkOrganizer';
 import { FindByOidsOrganizationResponse } from 'interfaces/clerkOrganizerRegistry';
+import {
+  ClerkQuarantineMatch,
+  ClerkQuarantineMatchResponse,
+} from 'interfaces/clerkQuarantine';
 import { ClerkRegistrationResponse } from 'interfaces/clerkRegistration';
 import {
   ExamSession,
@@ -443,6 +447,33 @@ export class SerializationUtils {
       ...l,
       lang: SerializationUtils.deserializeAppLanguage(l.lang),
     }));
+  }
+
+  static deserializeClerkQuarantineMatchResponse(
+    response: ClerkQuarantineMatchResponse,
+  ): ClerkQuarantineMatch {
+    return {
+      quarantineId: response.id,
+      registrationId: response.registrationId,
+      examLanguageCode: response.languageCode,
+      examDate: dayjs(response.examDate),
+      quarantinedPerson: {
+        firstName: response.firstName,
+        lastName: response.lastName,
+        birthdate: response.birthdate,
+        ssn: response.ssn,
+        email: response.email,
+        phoneNumber: response.phoneNumber,
+      },
+      registrantForm: {
+        firstName: response.form.firstName,
+        lastName: response.form.lastName,
+        birthdate: response.form.birthdate,
+        ssn: response.form.ssn,
+        email: response.form.email,
+        phoneNumber: response.form.phoneNumber,
+      },
+    };
   }
 
   static deserializeFindByOidsOrganizationResponse(

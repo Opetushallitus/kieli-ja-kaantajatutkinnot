@@ -17,6 +17,7 @@ declare global {
       openClerkCustomerDetailsPage(oid: string): void;
       openClerkCustomersSearchPage(): void;
       openClerkExamDatesPage(): void;
+      openClerkQuarantinePage(): void;
     }
   }
 }
