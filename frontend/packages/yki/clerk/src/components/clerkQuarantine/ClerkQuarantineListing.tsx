@@ -102,7 +102,7 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'email',
-      style,
+      style: { ...style, width: '20%' }, // Note: the default is ~12.5% with 8 equal columns
       title: t('listing.columns.email'),
       render: (match) => (
         <div>
