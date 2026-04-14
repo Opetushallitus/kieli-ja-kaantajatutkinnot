@@ -395,7 +395,7 @@
         },
         "tabs": {
           "active": "Voimassa olevat osallistumiskiellot",
-          "pending": "Odottavat tarkistukset",
+          "pending": "Odottavat tarkistukset ({{count}})",
           "previous": "Aiemmat tarkistukset"
         }
       },

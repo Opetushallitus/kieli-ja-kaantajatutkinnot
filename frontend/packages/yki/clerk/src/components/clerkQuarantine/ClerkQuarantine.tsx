@@ -39,12 +39,14 @@ type QuarantineTabsProps = {
   activeTab: Tab;
   setActiveTab: Dispatch<SetStateAction<Tab>>;
   setPage: Dispatch<SetStateAction<number>>;
+  tableRowsCount?: number;
 };
 
 const QuarantineTabs = ({
   activeTab,
   setActiveTab,
   setPage,
+  tableRowsCount,
 }: QuarantineTabsProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkQuarantine.tabs',
@@ -69,7 +71,9 @@ const QuarantineTabs = ({
             tabIndex={0}
             onKeyDown={() => handleTabChange(tab)}
           >
-            {t(tab)}
+            {tab === 'pending'
+              ? t('pending', { count: tableRowsCount ?? 0 })
+              : t(tab)}
           </div>
         ))}
       </div>
@@ -116,6 +120,7 @@ export const ClerkQuarantine = () => {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         setPage={setPage}
+        tableRowsCount={rows?.length}
       />
       {renderListing()}
     </div>
