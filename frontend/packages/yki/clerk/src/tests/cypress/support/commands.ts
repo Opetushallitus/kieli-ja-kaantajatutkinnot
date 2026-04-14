@@ -44,3 +44,7 @@ Cypress.Commands.add('openClerkCustomersSearchPage', () => {
 Cypress.Commands.add('openClerkExamDatesPage', () => {
   cy.visit(AppRoutes.ClerkExamDates);
 });
+
+Cypress.Commands.add('openClerkQuarantinePage', () => {
+  cy.visit(AppRoutes.ClerkQuarantine);
+});

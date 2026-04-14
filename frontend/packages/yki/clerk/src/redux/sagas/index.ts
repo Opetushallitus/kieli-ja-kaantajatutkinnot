@@ -6,6 +6,7 @@ import { watchClerkExamSession } from 'redux/sagas/clerkExamSession';
 import { watchClerkFreeRegistrations } from 'redux/sagas/clerkFreeRegistration';
 import { watchClerkFreeRegistrationDetails } from 'redux/sagas/clerkFreeRegistrationDetails';
 import { watchClerkOrganizers } from 'redux/sagas/clerkOrganizer';
+import { watchClerkQuarantine } from 'redux/sagas/clerkQuarantine';
 import { watchExamDates } from 'redux/sagas/examDate';
 import { watchNationalities } from 'redux/sagas/nationalities';
 import { watchSession } from 'redux/sagas/session';
@@ -21,5 +22,6 @@ export default function* rootSaga() {
     watchExamDates(),
     watchNationalities(),
     watchSession(),
+    watchClerkQuarantine(),
   ]);
 }

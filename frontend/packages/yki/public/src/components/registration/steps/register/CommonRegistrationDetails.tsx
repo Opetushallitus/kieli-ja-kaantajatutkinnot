@@ -59,7 +59,7 @@ export const CommonRegistrationDetails = () => {
   const { basis, attemptsUsed, isFree } = useAppSelector(
     publicFreeRegistrationSelector,
   );
-  const { isEmailRegistration, registration, showErrors } =
+  const { showErrors, isEmailRegistration, registration } =
     useAppSelector(registrationSelector);
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
@@ -127,7 +127,7 @@ export const CommonRegistrationDetails = () => {
     attemptsUsed,
   ]);
 
-  const getRegistrationErrors = usePublicRegistrationErrors(showErrors);
+  const getRegistrationErrors = usePublicRegistrationErrors(true);
   const registrationErrors = getRegistrationErrors();
 
   return (
@@ -139,7 +139,9 @@ export const CommonRegistrationDetails = () => {
               <b>{t('instructionLanguage')}</b>
             </Text>
           </legend>
-          <FormControl error={!!registrationErrors['instructionLanguage']}>
+          <FormControl
+            error={showErrors && !!registrationErrors['instructionLanguage']}
+          >
             <RadioGroup
               row={!isPhone}
               onChange={handleChange('instructionLanguage')}
@@ -256,7 +258,9 @@ export const CommonRegistrationDetails = () => {
             <b>{t('certificateLanguage')}</b>
           </Text>
         </legend>
-        <FormControl error={!!registrationErrors['certificateLanguage']}>
+        <FormControl
+          error={showErrors && !!registrationErrors['certificateLanguage']}
+        >
           <RadioGroup
             row={!isPhone}
             onChange={handleChange('certificateLanguage')}
@@ -321,7 +325,9 @@ export const CommonRegistrationDetails = () => {
             </b>
           </p>
         </Text>
-        <FormControl error={!!registrationErrors['termsAndConditionsAgreed']}>
+        <FormControl
+          error={showErrors && !!registrationErrors['termsAndConditionsAgreed']}
+        >
           <FormControlLabel
             control={
               <Checkbox
@@ -352,7 +358,11 @@ export const CommonRegistrationDetails = () => {
           <OpenInNewIcon />
         </div>
       </div>
-      <FormControl error={!!registrationErrors['privacyStatementConfirmation']}>
+      <FormControl
+        error={
+          showErrors && !!registrationErrors['privacyStatementConfirmation']
+        }
+      >
         <FormControlLabel
           control={
             <Checkbox
