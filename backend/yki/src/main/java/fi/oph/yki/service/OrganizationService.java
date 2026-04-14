@@ -18,8 +18,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class OrganizationService {
 
   private static final Logger LOG = LoggerFactory.getLogger(OrganizationService.class);
-  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
+  private final ObjectMapper objectMapper;
   private final WebClient organizationClient;
 
   @SuppressWarnings("unchecked")
@@ -38,7 +38,7 @@ public class OrganizationService {
         .bodyToMono(String.class)
         .block();
 
-      final List<Map<String, Object>> organizations = OBJECT_MAPPER.readValue(responseBody, new TypeReference<>() {});
+      final List<Map<String, Object>> organizations = objectMapper.readValue(responseBody, new TypeReference<>() {});
 
       return organizations
         .stream()
