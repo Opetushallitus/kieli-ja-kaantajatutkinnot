@@ -56,14 +56,14 @@ export const ClerkNavigationLinks = () => {
           label: translateCommon('customerSearch'),
         },
         {
-          active: getTabForPath(pathname) === 'paymentReport',
-          href: AppRoutes.ClerkPaymentReport,
-          label: translateCommon('paymentReport'),
-        },
-        {
           active: getTabForPath(pathname) === 'quarantine',
           href: AppRoutes.ClerkQuarantine,
           label: translateCommon('quarantine'),
+        },
+        {
+          active: getTabForPath(pathname) === 'paymentReport',
+          href: AppRoutes.ClerkPaymentReport,
+          label: translateCommon('paymentReport'),
         },
       ]}
     />
