@@ -209,8 +209,10 @@
             "title": "Vahvista peruutus"
           },
           "edit": {
+            "officeOidLabel": "Oppilaitos tai toimipiste",
             "fields": {
               "city": "Postitoimipaikka",
+              "name": "Tila",
               "contactEmail": "Sähköposti",
               "contactName": "Yhteyshenkilö",
               "contactPhoneNumber": "Puhelinnumero",
@@ -225,7 +227,7 @@
               "streetAddress": "Katuosoite",
               "type": "Tutkintotyyppi",
               "typeOptions": {
-                "FULL": "Täydellinen tutkinto",
+                "FULL": "Koko tutkinto",
                 "LISTEN_WRITE": "Kuunteleminen ja kirjoittaminen",
                 "READ_SPEAK": "Lukeminen ja puhuminen"
               }

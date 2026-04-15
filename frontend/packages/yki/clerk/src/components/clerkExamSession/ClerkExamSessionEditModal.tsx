@@ -6,8 +6,14 @@ import {
   OphRadioGroupFormField,
 } from '@opetushallitus/oph-design-system';
 import { useEffect, useRef, useState } from 'react';
-import { CustomModal } from 'shared/components';
-import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import { ComboBox, CustomModal } from 'shared/components';
+import {
+  APIResponseStatus,
+  Color,
+  TextFieldVariant,
+  Variant,
+} from 'shared/enums';
+import { ComboBoxOption } from 'shared/interfaces';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -19,7 +25,9 @@ import {
   createExamSession,
   saveExamSession,
 } from 'redux/reducers/clerkExamSession';
+import { loadOrganizationHierarchy } from 'redux/reducers/clerkOrganizer';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
+import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
 import { DateTimeUtils } from 'utils/dateTime';
 
 type ClerkExamSessionEditModalProps = {
@@ -47,12 +55,29 @@ export const ClerkExamSessionEditModal = ({
   const { updateStatus, createStatus } = useAppSelector(
     clerkExamSessionDetailsSelector,
   );
+  const { organizationHierarchy } = useAppSelector(clerkOrganizersSelector);
 
   const isCreateMode = mode === 'create';
   const activeStatus = isCreateMode ? createStatus : updateStatus;
   const location = examSessionDetails?.location[0];
   const isSaving = activeStatus === APIResponseStatus.InProgress;
   const prevActiveStatus = useRef(activeStatus);
+
+  const [selectedOfficeOid, setSelectedOfficeOid] =
+    useState<ComboBoxOption | null>(null);
+
+  useEffect(() => {
+    if (isOpen && organizerOid) {
+      dispatch(loadOrganizationHierarchy(organizerOid));
+    }
+  }, [isOpen, organizerOid, dispatch]);
+
+  const officeOidOptions: ComboBoxOption[] = organizationHierarchy.map(
+    (org) => ({
+      label: org.name?.fi ?? org.oid,
+      value: org.oid,
+    }),
+  );
 
   useEffect(() => {
     if (
@@ -109,9 +134,14 @@ export const ClerkExamSessionEditModal = ({
     streetAddress: location?.streetAddress ?? '',
     postalCode: location?.zip ?? '',
     city: location?.postOffice ?? '',
+    name:
+      organizationHierarchy.find((org) => org.oid === selectedOfficeOid?.value)
+        ?.name?.fi ?? '',
+    otherLocationInfo: location?.otherLocationInfo ?? '',
     contactName: examSessionDetails?.contactName ?? '',
     contactEmail: examSessionDetails?.contactEmail ?? '',
     contactPhoneNumber: examSessionDetails?.contactPhoneNumber ?? '',
+    officeOid: selectedOfficeOid,
   });
 
   const filteredExamDates = examDates.filter(
@@ -203,6 +233,23 @@ export const ClerkExamSessionEditModal = ({
           </Text>
         ) : (
           <>
+            <div className="rows gapped-xxs">
+              <Label>{t('officeOidLabel')} *</Label>
+              <ComboBox
+                data-testid="officeoid-combobox"
+                autoHighlight
+                variant={TextFieldVariant.Outlined}
+                values={officeOidOptions}
+                value={selectedOfficeOid}
+                onChange={(value?: string) => {
+                  const option = officeOidOptions.find(
+                    (o) => o.value === value,
+                  );
+                  setSelectedOfficeOid(option ?? null);
+                }}
+              />
+            </div>
+
             <OphRadioGroupFormField
               label={t('fields.language')}
               value={form.language}
@@ -303,6 +350,12 @@ export const ClerkExamSessionEditModal = ({
             disabled={isSaving}
           />
         </div>
+        <OphInputFormField
+          label={t('fields.name')}
+          value={form.otherLocationInfo}
+          onChange={(e) => updateField('otherLocationInfo', e.target.value)}
+          disabled={isSaving}
+        />
         <OphInputFormField
           label={t('fields.contactName')}
           value={form.contactName}
