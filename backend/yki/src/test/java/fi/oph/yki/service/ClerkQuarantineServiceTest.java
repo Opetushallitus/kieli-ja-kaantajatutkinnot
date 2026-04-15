@@ -1,24 +1,35 @@
 package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchDTO;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchesResponseDTO;
 import fi.oph.yki.audit.AuditService;
+import fi.oph.yki.model.ExamDate;
+import fi.oph.yki.model.ExamSession;
+import fi.oph.yki.model.Person;
+import fi.oph.yki.model.Quarantine;
+import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.QuarantineRepository;
 import jakarta.annotation.Resource;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -36,6 +47,11 @@ public class ClerkQuarantineServiceTest {
   private QuarantineRepository quarantineRepository;
 
   @Resource
+  private TestEntityManager entityManager;
+
+  // Kept for quarantine_review inserts only — QuarantineReview has no JPA entity and we decided
+  // against adding one that would be used exclusively in tests.
+  @Resource
   private JdbcTemplate jdbcTemplate;
 
   @MockBean
@@ -44,62 +60,109 @@ public class ClerkQuarantineServiceTest {
   @MockBean
   private AuditService auditService;
 
+  private final ObjectMapper objectMapper = new ObjectMapper();
+
   private ClerkQuarantineService clerkQuarantineService;
+
+  private ExamSession finSession;
+  private Registration regSsnMatch;
+  private Registration regBirthdateMatch;
+  private Registration regStarted;
+  private Registration regSweMismatch;
+  private Registration regReviewed;
 
   @BeforeEach
   public void setup() {
-    clerkQuarantineService =
-      new ClerkQuarantineService(quarantineRepository, onrService, auditService, new ObjectMapper());
+    clerkQuarantineService = new ClerkQuarantineService(quarantineRepository, onrService, auditService, objectMapper);
 
-    // exam_date: id=100, within ban date range
-    jdbcTemplate.update(
-      "INSERT INTO exam_date (id, exam_date, registration_start_date, registration_end_date) VALUES (100, '2026-05-09', '2025-12-01', '2025-12-31')"
-    );
-    // exam_session: id=100 (fin), id=101 (swe) — both share exam_date 100
-    jdbcTemplate.update(
-      "INSERT INTO exam_session (id, language_code, level_code, exam_date_id, max_participants) VALUES (100, 'fin', 'KESKI', 100, 30)"
-    );
-    jdbcTemplate.update(
-      "INSERT INTO exam_session (id, language_code, level_code, exam_date_id, max_participants) VALUES (101, 'swe', 'KESKI', 100, 30)"
-    );
+    final ExamDate examDate = Factory.examDate();
+    entityManager.persist(examDate);
 
-    // registration 100: COMPLETED, fin, SSN match, person_oid='person1'
-    jdbcTemplate.update(
-      "INSERT INTO registration (id, state, exam_session_id, form, person_oid) VALUES (100, 'COMPLETED', 100, '{\"ssn\":\"010675-9981\",\"birthdate\":\"1975-06-01\"}'::jsonb, 'person1')"
-    );
-    // registration 101: SUBMITTED, fin, birthdate-only match (no ssn in form), person_oid='person2'
-    jdbcTemplate.update(
-      "INSERT INTO registration (id, state, exam_session_id, form, person_oid) VALUES (101, 'SUBMITTED', 100, '{\"birthdate\":\"1980-02-15\"}'::jsonb, 'person2')"
-    );
-    // registration 102: STARTED — should be filtered out
-    jdbcTemplate.update(
-      "INSERT INTO registration (id, state, exam_session_id, form) VALUES (102, 'STARTED', 100, '{\"ssn\":\"010675-9981\"}'::jsonb)"
-    );
-    // registration 103: COMPLETED, swe — language mismatch with fin quarantine
-    jdbcTemplate.update(
-      "INSERT INTO registration (id, state, exam_session_id, form) VALUES (103, 'COMPLETED', 101, '{\"ssn\":\"010675-9981\"}'::jsonb)"
-    );
-    // registration 104: COMPLETED, fin, SSN match — will have a reviewed quarantine_review
-    jdbcTemplate.update(
-      "INSERT INTO registration (id, state, exam_session_id, form, person_oid) VALUES (104, 'COMPLETED', 100, '{\"ssn\":\"100100-960R\"}'::jsonb, 'person3')"
-    );
+    finSession = Factory.examSession(examDate);
+    entityManager.persist(finSession);
 
-    // quarantine 100: fin, SSN=010675-9981, covers exam_date 2026-05-09
-    jdbcTemplate.update(
-      "INSERT INTO quarantine (id, language_code, ssn, birthdate, first_name, last_name, start_date, end_date, updated) VALUES (100, 'fin', '010675-9981', '1975-06-01', 'Anna-Liisa', 'Sallinen', '2026-01-01', '2026-12-31', '2020-01-01 00:00:00+00')"
-    );
-    // quarantine 101: fin, birthdate-only match with registration 101
-    jdbcTemplate.update(
-      "INSERT INTO quarantine (id, language_code, ssn, birthdate, first_name, last_name, start_date, end_date) VALUES (101, 'fin', null, '1980-02-15', 'Test', 'Person', '2026-01-01', '2026-12-31')"
-    );
-    // quarantine 102: fin, SSN match with registration 104 — will be reviewed
-    jdbcTemplate.update(
-      "INSERT INTO quarantine (id, language_code, ssn, birthdate, first_name, last_name, start_date, end_date, updated) VALUES (102, 'fin', '100100-960R', '1910-01-10', 'Reviewed', 'Person', '2026-01-01', '2026-12-31', '2020-01-01 00:00:00+00')"
-    );
+    final ExamSession sweSession = Factory.examSession(examDate);
+    sweSession.setLanguage("swe");
+    entityManager.persist(sweSession);
 
-    // quarantine_review for quarantine 102 / registration 104 — updated is newer than quarantine.updated
+    final Person person1 = Factory.person();
+    person1.setOid("oid-person1");
+    entityManager.persist(person1);
+
+    final Person person2 = Factory.person();
+    person2.setOid("oid-person2");
+    entityManager.persist(person2);
+
+    final Person person3 = Factory.person();
+    person3.setOid("oid-person3");
+    entityManager.persist(person3);
+
+    // COMPLETED, fin, SSN match
+    regSsnMatch = Factory.registration(person1);
+    regSsnMatch.setExamSession(finSession);
+    regSsnMatch.setState(RegistrationState.COMPLETED);
+    regSsnMatch.setForm(objectMapper.createObjectNode().put("ssn", "010675-9981").put("birthdate", "1975-06-01"));
+    entityManager.persist(regSsnMatch);
+
+    // SUBMITTED, fin, birthdate-only match (no ssn in form)
+    regBirthdateMatch = Factory.registration(person2);
+    regBirthdateMatch.setExamSession(finSession);
+    regBirthdateMatch.setForm(objectMapper.createObjectNode().put("birthdate", "1980-02-15"));
+    entityManager.persist(regBirthdateMatch);
+
+    // STARTED — should be filtered out
+    regStarted = Factory.registration(null);
+    regStarted.setExamSession(finSession);
+    regStarted.setState(RegistrationState.STARTED);
+    regStarted.setForm(objectMapper.createObjectNode().put("ssn", "010675-9981"));
+    entityManager.persist(regStarted);
+
+    // COMPLETED, swe — language mismatch with fin quarantine
+    regSweMismatch = Factory.registration(null);
+    regSweMismatch.setExamSession(sweSession);
+    regSweMismatch.setState(RegistrationState.COMPLETED);
+    regSweMismatch.setForm(objectMapper.createObjectNode().put("ssn", "010675-9981"));
+    entityManager.persist(regSweMismatch);
+
+    // COMPLETED, fin — will have a reviewed quarantine_review
+    regReviewed = Factory.registration(person3);
+    regReviewed.setExamSession(finSession);
+    regReviewed.setState(RegistrationState.COMPLETED);
+    regReviewed.setForm(objectMapper.createObjectNode().put("ssn", "100100-960R"));
+    entityManager.persist(regReviewed);
+
+    // fin, SSN=010675-9981, covers Factory.examDate() date
+    final Quarantine quarantineSsn = Factory.quarantine();
+    quarantineSsn.setSsn("010675-9981");
+    quarantineSsn.setBirthdate("1975-06-01");
+    quarantineSsn.setFirstName("Anna-Liisa");
+    quarantineSsn.setLastName("Sallinen");
+    quarantineSsn.setUpdated(Instant.parse("2020-01-01T00:00:00Z"));
+    entityManager.persist(quarantineSsn);
+
+    // fin, birthdate-only match
+    final Quarantine quarantineBirthdate = Factory.quarantine();
+    quarantineBirthdate.setSsn(null);
+    quarantineBirthdate.setBirthdate("1980-02-15");
+    entityManager.persist(quarantineBirthdate);
+
+    // fin, SSN match with regReviewed — will be reviewed
+    final Quarantine quarantineReviewed = Factory.quarantine();
+    quarantineReviewed.setSsn("100100-960R");
+    quarantineReviewed.setBirthdate("1910-01-10");
+    quarantineReviewed.setFirstName("Reviewed");
+    quarantineReviewed.setLastName("Person");
+    quarantineReviewed.setUpdated(Instant.parse("2020-01-01T00:00:00Z"));
+    entityManager.persist(quarantineReviewed);
+
+    entityManager.flush();
+
+    // quarantine_review — raw SQL: QuarantineReview has no JPA entity and we decided against
+    // adding one that would be used exclusively in tests.
     jdbcTemplate.update(
-      "INSERT INTO quarantine_review (id, quarantine_id, registration_id, quarantined, reviewer_oid, updated) VALUES (1, 102, 104, true, 'reviewer1', CURRENT_TIMESTAMP)"
+      "INSERT INTO quarantine_review (quarantine_id, registration_id, quarantined, reviewer_oid) VALUES (?, ?, true, 'reviewer1')",
+      quarantineReviewed.getId(),
+      regReviewed.getId()
     );
   }
 
@@ -109,9 +172,7 @@ public class ClerkQuarantineServiceTest {
 
     final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
 
-    // registration 102 (STARTED) must not appear
-    final boolean hasStarted = response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(102L));
-    assertEquals(false, hasStarted);
+    assertFalse(response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(regStarted.getId())));
   }
 
   @Test
@@ -120,9 +181,7 @@ public class ClerkQuarantineServiceTest {
 
     final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
 
-    // registration 103 is in swe session but quarantine 100 is fin — no match
-    final boolean hasSweMismatch = response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(103L));
-    assertEquals(false, hasSweMismatch);
+    assertFalse(response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(regSweMismatch.getId())));
   }
 
   @Test
@@ -131,8 +190,7 @@ public class ClerkQuarantineServiceTest {
 
     final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
 
-    final boolean hasSsnMatch = response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(100L));
-    assertEquals(true, hasSsnMatch);
+    assertTrue(response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(regSsnMatch.getId())));
   }
 
   @Test
@@ -141,11 +199,9 @@ public class ClerkQuarantineServiceTest {
 
     final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
 
-    final boolean hasBirthdateMatch = response
-      .quarantineMatches()
-      .stream()
-      .anyMatch(m -> m.registrationId().equals(101L));
-    assertEquals(true, hasBirthdateMatch);
+    assertTrue(
+      response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(regBirthdateMatch.getId()))
+    );
   }
 
   @Test
@@ -154,27 +210,22 @@ public class ClerkQuarantineServiceTest {
 
     final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
 
-    // quarantine 102 / registration 104 has a newer review — must be excluded
-    final boolean hasReviewedPair = response
-      .quarantineMatches()
-      .stream()
-      .anyMatch(m -> m.registrationId().equals(104L));
-    assertEquals(false, hasReviewedPair);
+    assertFalse(response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(regReviewed.getId())));
   }
 
   @Test
   public void testFormSsnIsOverwrittenWithOnrSsn() throws Exception {
-    final PersonalDataDTO person1 = new PersonalDataDTO();
-    person1.setOidHenkilo("person1");
-    person1.setIdentityNumber("NEW-SSN-FROM-ONR");
-    when(onrService.listPersonDetails(any())).thenReturn(List.of(person1));
+    final PersonalDataDTO person1Dto = new PersonalDataDTO();
+    person1Dto.setOidHenkilo("oid-person1");
+    person1Dto.setIdentityNumber("NEW-SSN-FROM-ONR");
+    when(onrService.listPersonDetails(any())).thenReturn(List.of(person1Dto));
 
     final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
 
     final ClerkQuarantineMatchDTO match = response
       .quarantineMatches()
       .stream()
-      .filter(m -> m.registrationId().equals(100L))
+      .filter(m -> m.registrationId().equals(regSsnMatch.getId()))
       .findFirst()
       .orElseThrow();
 
@@ -183,11 +234,16 @@ public class ClerkQuarantineServiceTest {
 
   @Test
   public void testFormBirthdateIsPopulatedWhenAbsentUsingOriginalFormSsn() throws Exception {
-    // registration 101 has birthdate-only match; form has no ssn → birthdate stays absent for this case
-    // Use a separate registration with ssn but no birthdate in form
-    jdbcTemplate.update(
-      "INSERT INTO registration (id, state, exam_session_id, form, person_oid) VALUES (200, 'COMPLETED', 100, '{\"ssn\":\"010675-9981\"}'::jsonb, 'person4')"
-    );
+    final Person person4 = Factory.person();
+    person4.setOid("oid-person4");
+    entityManager.persist(person4);
+
+    // Registration with SSN in form but no birthdate — birthdate should be derived from the SSN
+    final Registration regNoBirthdate = Factory.registration(person4);
+    regNoBirthdate.setExamSession(finSession);
+    regNoBirthdate.setState(RegistrationState.COMPLETED);
+    regNoBirthdate.setForm(objectMapper.createObjectNode().put("ssn", "010675-9981"));
+    entityManager.persistAndFlush(regNoBirthdate);
 
     when(onrService.listPersonDetails(any())).thenReturn(List.of());
 
@@ -196,11 +252,11 @@ public class ClerkQuarantineServiceTest {
     final ClerkQuarantineMatchDTO match = response
       .quarantineMatches()
       .stream()
-      .filter(m -> m.registrationId().equals(200L))
+      .filter(m -> m.registrationId().equals(regNoBirthdate.getId()))
       .findFirst()
       .orElseThrow();
 
-    // birthdate should be computed from original form.ssn (010675-9981 → 1975-06-01)
+    // birthdate derived from original form.ssn (010675-9981 → 1975-06-01)
     assertEquals("1975-06-01", match.form().get("birthdate").asText());
   }
 
@@ -213,11 +269,11 @@ public class ClerkQuarantineServiceTest {
     final ClerkQuarantineMatchDTO match = response
       .quarantineMatches()
       .stream()
-      .filter(m -> m.registrationId().equals(100L))
+      .filter(m -> m.registrationId().equals(regSsnMatch.getId()))
       .findFirst()
       .orElseThrow();
 
-    // person1 not in ONR response → form.ssn should be JSON null
+    // person not in ONR response → form.ssn should be JSON null
     assertTrue(match.form().get("ssn").isNull());
   }
 }

@@ -1,5 +1,6 @@
 package fi.oph.yki.model;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import jakarta.persistence.Column;
@@ -20,7 +21,9 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.JdbcType;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
+import org.hibernate.type.SqlTypes;
 
 @Getter
 @Setter
@@ -46,6 +49,10 @@ public class Registration {
   @Enumerated(value = EnumType.STRING)
   @JdbcType(PostgreSQLEnumJdbcType.class)
   private RegistrationState state;
+
+  @JdbcTypeCode(SqlTypes.JSON)
+  @Column(name = "form")
+  private ObjectNode form;
 
   @Column(name = "lifted_from_queue_at")
   private LocalDateTime liftedFromQueueAt;
