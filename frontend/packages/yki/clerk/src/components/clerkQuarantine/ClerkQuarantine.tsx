@@ -120,7 +120,7 @@ export const ClerkQuarantine = () => {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         setPage={setPage}
-        tableRowsCount={rows?.length}
+        tableRowsCount={rows.length}
       />
       {renderListing()}
     </div>
