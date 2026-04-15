@@ -10,6 +10,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,5 +30,15 @@ public class ClerkQuarantineController {
   @Operation(tags = TAG_QUARANTINE, summary = "Get unreviewed quarantine matches")
   public ClerkQuarantineMatchesResponseDTO getQuarantineMatches() throws JsonProcessingException {
     return clerkQuarantineService.getQuarantineMatches();
+  }
+
+  @PutMapping(path = "/{id:\\d+}/registration/{regId:\\d+}/set", consumes = APPLICATION_JSON_VALUE)
+  @Operation(tags = TAG_QUARANTINE, summary = "Set quarantine review decision for a registration")
+  public void setQuarantineReview(
+    @PathVariable final long id,
+    @PathVariable final long regId,
+    @RequestBody final boolean isQuarantined
+  ) {
+    clerkQuarantineService.setQuarantineReview(id, regId, isQuarantined);
   }
 }
