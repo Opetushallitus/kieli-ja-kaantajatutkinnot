@@ -67,6 +67,10 @@ public class Registration {
   @JoinColumn(name = "exam_session_id", referencedColumnName = "id")
   private ExamSession examSession;
 
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "original_exam_session_id", referencedColumnName = "id")
+  private ExamSession originalExamSession;
+
   // DO NOT REMOVE THE fetch=FetchType.LAZY ANNOTATION unless extremely confident that things will not break!
   // IDEA will falsely claim that it will not affect loading - this is not so.
   @OneToOne(fetch = FetchType.LAZY, mappedBy = "registration", optional = false)

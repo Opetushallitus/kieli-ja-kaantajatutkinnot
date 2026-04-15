@@ -53,6 +53,14 @@ public class AppConfig {
   }
 
   @Bean
+  public WebClient organizationClient(final Environment environment) {
+    return webClientBuilderWithCallerId("organization-connection-provider")
+      .baseUrl(environment.getRequiredProperty("app.organization-service.url"))
+      .defaultHeaders(headers -> headers.setContentType(MediaType.APPLICATION_JSON))
+      .build();
+  }
+
+  @Bean
   @ConditionalOnProperty(name = "app.email.sending-enabled", havingValue = "false")
   public EmailSender emailSenderNoOp() {
     LOG.warn("EmailSenderNoOp in use");

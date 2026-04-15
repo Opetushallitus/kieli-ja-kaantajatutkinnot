@@ -83,6 +83,7 @@
       "examSession": "Examen",
       "extraInfo": "Lisätiedot",
       "freeRegistration": "Maksuttomuus",
+      "paymentReport": "Maksuraportti",
       "quarantine": "Osallistumiskiellot",
       "full": "Fullbokat",
       "gender": {
@@ -171,6 +172,7 @@
         "logoutSuccess": "Utloggning lyckades",
         "modifyContactDetails": "Redigera kontaktuppgifterna",
         "notFound": "Sidan hittades inte",
+        "paymentReport": "Betalningsrapport",
         "reassessment": "Kontrollbedömning",
         "registration": "Anmälning",
         "registrationPaymentStatus": "Anmälning",

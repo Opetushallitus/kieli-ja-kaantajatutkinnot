@@ -83,6 +83,7 @@
       "examSession": "Test",
       "extraInfo": "Lisätiedot",
       "freeRegistration": "Maksuttomuus",
+      "paymentReport": "Maksuraportti",
       "quarantine": "Osallistumiskiellot",
       "full": "Full",
       "gender": {
@@ -171,6 +172,7 @@
         "logoutSuccess": "Log out complete",
         "modifyContactDetails": "Edit contact information",
         "notFound": "Page not found",
+        "paymentReport": "Payment report",
         "reassessment": "Reassessment",
         "registration": "Registration",
         "registrationPaymentStatus": "Registration",
