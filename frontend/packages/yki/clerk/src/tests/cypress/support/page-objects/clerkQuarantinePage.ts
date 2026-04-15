@@ -27,13 +27,9 @@ class ClerkQuarantinePage {
       .tableRows()
       .eq(index)
       .within(() => {
-        cy.get('td').eq(0).should('have.text', data[0]);
-        cy.get('td').eq(1).should('have.text', data[1]);
-        cy.get('td').eq(2).should('have.text', data[2]);
-        cy.get('td').eq(3).should('have.text', data[3]);
-        cy.get('td').eq(4).should('have.text', data[4]);
-        cy.get('td').eq(5).should('have.text', data[5]);
-        cy.get('td').eq(6).should('have.text', data[6]);
+        data.forEach((value, i) => {
+          cy.get('td').eq(i).should('have.text', value);
+        });
       });
   }
 }

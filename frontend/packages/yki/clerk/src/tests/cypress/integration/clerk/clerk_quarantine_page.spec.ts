@@ -14,7 +14,7 @@ describe('ClerkQuarantinePage', () => {
     onClerkQuarantinePage.elements
       .tabs()
       .eq(0)
-      .should('have.text', 'Odottavat tarkistukset');
+      .should('have.text', 'Odottavat tarkistukset (4)');
     onClerkQuarantinePage.elements
       .tabs()
       .eq(1)
@@ -26,7 +26,7 @@ describe('ClerkQuarantinePage', () => {
   });
 
   it('should have pending tab active by default', () => {
-    onClerkQuarantinePage.expectActiveTab('Odottavat tarkistukset');
+    onClerkQuarantinePage.expectActiveTab('Odottavat tarkistukset (4)');
   });
 
   it('should switch active tab on click', () => {
@@ -46,13 +46,14 @@ describe('ClerkQuarantinePage', () => {
 
   it('should display correct data in first row', () => {
     onClerkQuarantinePage.expectCorrectRowData(0, [
+      'IlmoittautujaOsallistumiskielto',
       'suomi',
       '20.9.2025',
-      'Markku Virtanen',
-      '1980-05-15',
-      '150580-900T',
-      'markku.virtanen@ban.fi',
-      '+358401234567',
+      'Marko VirtanenMarkku Virtanen',
+      '1980-05-151980-05-15',
+      '150580-900T150580-900T',
+      'marko.virtanen@gmail.commarkku.virtanen@ban.fi',
+      '+358401234567+358401234567',
     ]);
   });
 });
