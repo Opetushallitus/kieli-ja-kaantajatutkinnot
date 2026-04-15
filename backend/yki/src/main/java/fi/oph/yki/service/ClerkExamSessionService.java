@@ -132,6 +132,7 @@ public class ClerkExamSessionService {
     final ExamSession examSession = new ExamSession();
     examSession.setExamDate(examDate);
     examSession.setOrganizerOid(organizer);
+    examSession.setOfficeOid(dto.officeOid());
     examSession.setLanguage(dto.language());
     examSession.setLevel(dto.level());
     examSession.setType(dto.type());
@@ -149,6 +150,8 @@ public class ClerkExamSessionService {
     location.setStreetAddress(dto.streetAddress());
     location.setZip(dto.zip());
     location.setPostOffice(dto.postOffice());
+    location.setName(dto.name());
+    location.setOtherLocationInfo(dto.otherLocationInfo());
     location.setLang("fi");
     examSession.getLocations().add(location);
 

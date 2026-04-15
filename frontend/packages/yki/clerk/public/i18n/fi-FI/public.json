@@ -199,8 +199,10 @@
             "title": "Vahvista peruutus"
           },
           "edit": {
+            "officeOidLabel": "Oppilaitos tai toimipiste",
             "fields": {
               "city": "Postitoimipaikka",
+              "name": "Tila",
               "contactEmail": "Sähköposti",
               "contactName": "Yhteyshenkilö",
               "contactPhoneNumber": "Puhelinnumero",
