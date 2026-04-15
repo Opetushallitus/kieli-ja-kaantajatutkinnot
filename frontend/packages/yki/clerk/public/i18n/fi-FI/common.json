@@ -83,6 +83,8 @@
       "examSession": "Tutkinto",
       "extraInfo": "Lisätiedot",
       "freeRegistration": "Maksuttomuus",
+      "paymentReport": "Maksuraportti",
+      "quarantine": "Osallistumiskiellot",
       "full": "Täynnä",
       "gender": {
         "female": "Nainen",
@@ -170,6 +172,7 @@
         "logoutSuccess": "Uloskirjautuminen onnnistui",
         "modifyContactDetails": "Muokkaa yhteystietoja",
         "notFound": "Etsimääsi sivua ei löytynyt",
+        "paymentReport": "Maksuraportti",
         "reassessment": "Tarkistusarviointi",
         "registration": "Ilmoittautuminen",
         "registrationPaymentStatus": "Ilmoittautuminen",

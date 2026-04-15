@@ -65,6 +65,30 @@ exports[`ClerkHeader should render ClerkHeader correctly 1`] = `
                 </p>
               </a>
             </li>
+            <li>
+              <a
+                aria-current="false"
+                href="/yki/v2/virkailija/osallistumiskiellot"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  quarantine
+                </p>
+              </a>
+            </li>
+            <li>
+              <a
+                aria-current="false"
+                href="/yki/v2/virkailija/maksuraportti"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  paymentReport
+                </p>
+              </a>
+            </li>
           </ul>
         </nav>
       </div>

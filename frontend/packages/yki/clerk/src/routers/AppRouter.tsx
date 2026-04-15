@@ -30,6 +30,8 @@ import { ClerkFreeRegistrationDetailsPage } from 'pages/ClerkFreeRegistrationDet
 import { ClerkFreeRegistrationPage } from 'pages/ClerkFreeRegistrationPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
 import { ClerkOrganizerRegisterDetailsPage } from 'pages/ClerkOrganizerRegisterDetails';
+import { ClerkPaymentReportPage } from 'pages/ClerkPaymentReportPage';
+import { ClerkQuarantinePage } from 'pages/ClerkQuarantinePage';
 import { loadSession } from 'redux/reducers/session';
 import { sessionSelector } from 'redux/selectors/session';
 
@@ -122,6 +124,14 @@ export const AppRouter: FC = () => {
           }
         />
         <Route
+          path={AppRoutes.ClerkQuarantine}
+          element={
+            <YkiTitlePage title="clerk">
+              <ClerkQuarantinePage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
           path={AppRoutes.ClerkExamDates}
           element={
             <YkiTitlePage title="clerk">
@@ -150,6 +160,14 @@ export const AppRouter: FC = () => {
           element={
             <YkiTitlePage title="customerDetails">
               <ClerkCustomerDetailsPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ClerkPaymentReport}
+          element={
+            <YkiTitlePage title="paymentReport">
+              <ClerkPaymentReportPage />
             </YkiTitlePage>
           }
         />
