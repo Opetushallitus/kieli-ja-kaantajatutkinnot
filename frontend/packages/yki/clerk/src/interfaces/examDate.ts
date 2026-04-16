@@ -47,16 +47,14 @@ export interface UpdateExamDateRequest extends CreateExamDateRequest {
   id: number;
 }
 
-export interface LanguageEvaluationOverride {
+export interface LanguageEvaluation {
   examDateLanguageId: number;
-  evaluationStartDate: string;
-  evaluationEndDate: string;
+  evaluationStartDate: string | null;
+  evaluationEndDate: string | null;
 }
 
-export interface CreateEvaluationRequest {
-  evaluationStartDate: string;
-  evaluationEndDate: string;
-  overrides?: LanguageEvaluationOverride[];
+export interface UpdateEvaluationRequest {
+  evaluations: LanguageEvaluation[];
 }
 
 export type SortOrder = 'asc' | 'desc' | '';
