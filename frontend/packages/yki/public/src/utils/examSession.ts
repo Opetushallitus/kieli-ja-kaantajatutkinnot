@@ -3,7 +3,12 @@ import { StringUtils } from 'shared/utils';
 
 import { translateOutsideComponent } from 'configs/i18n';
 import { ExamLanguage, ExamLevel } from 'enums/app';
-import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
+import {
+  ExamSession,
+  ExamSessionLocation,
+  ExamSessionType,
+} from 'interfaces/examSessions';
+import { PartialExamType } from 'interfaces/publicRegistration';
 import { AuthenticatedSession } from 'interfaces/session';
 
 export class ExamSessionUtils {
@@ -160,4 +165,18 @@ export class ExamSessionUtils {
 
     return true;
   }
+
+  static getPartialExamTypeFromExamSession = (
+    examSessionType: ExamSessionType,
+  ): PartialExamType => {
+    if (
+      examSessionType === 'FULL' ||
+      examSessionType === 'READ_SPEAK' ||
+      examSessionType === 'LISTEN_WRITE'
+    ) {
+      return 'ALL_PARTS';
+    } else {
+      return examSessionType;
+    }
+  };
 }

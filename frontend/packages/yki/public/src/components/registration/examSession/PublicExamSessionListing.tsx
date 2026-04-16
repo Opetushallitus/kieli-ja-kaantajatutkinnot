@@ -168,7 +168,7 @@ const RegistrationInitErrorModal = ({
                 dispatch(resetPublicRegistration());
                 dispatch(
                   initRegistration({
-                    examSessionId: examSessionId,
+                    examSessionId,
                     registrationKind: RegistrationKind.Queue,
                     partialExamType,
                   }),
@@ -251,16 +251,11 @@ export const PublicExamSessionListing = ({
       navigate(
         AppRoutes.ExamSession.replace(
           /:examSessionId$/,
-          `${initRegistration.examSessionId}?partialExamType=${initRegistration.partialExamType}`,
+          `${initRegistration.examSessionId}`,
         ),
       );
     }
-  }, [
-    navigate,
-    initRegistration.status,
-    initRegistration.examSessionId,
-    initRegistration.partialExamType,
-  ]);
+  }, [navigate, initRegistration.status, initRegistration.examSessionId]);
 
   const isRegistrationLoading =
     initRegistration.status === APIResponseStatus.InProgress;

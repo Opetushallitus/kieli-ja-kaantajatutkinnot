@@ -10,7 +10,6 @@ import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { RegistrationKind, RegistrationStates } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
-import { PartialExamType } from 'interfaces/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import {
   acceptPublicRegistrationSubmission,
@@ -19,6 +18,7 @@ import {
 } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
+import { ExamSessionUtils } from 'utils/examSession';
 
 export const ExamDetailsPage = ({
   registrationKind,
@@ -56,7 +56,7 @@ export const ExamDetailsPage = ({
     ) {
       if (searchParams.get('submitted')) {
         // eslint-disable-next-line no-console
-        console.log('initRegistrationState SUBMITEED');
+        console.log('initRegistrationState SUBMITTED');
         // If form is already submitted, just reload exam session details
         // and manually set registration status to submitted.
         const code = searchParams.get('code');
@@ -79,17 +79,19 @@ export const ExamDetailsPage = ({
         console.log(
           'initRegistrationState',
           initRegistration.partialExamType,
-          searchParams.get('partialExamType'),
+          ExamSessionUtils.getPartialExamTypeFromExamSession(
+            examSession?.type || 'FULL',
+          ),
         );
         dispatch(
           identifyRegistration({
             examSessionId: +params.examSessionId,
             // TODO registrationKind not needed when calling /identify, refactor away!
             registrationKind: RegistrationKind.Admission,
-            partialExamType:
-              initRegistration.partialExamType ||
-              (searchParams.get('partialExamType') as PartialExamType) ||
-              'ALL_PARTS',
+            // Test with "FULL" fallback, verify later how to properly handle partialExamType
+            partialExamType: ExamSessionUtils.getPartialExamTypeFromExamSession(
+              examSession?.type || 'FULL',
+            ),
           }),
         );
       }
@@ -109,6 +111,7 @@ export const ExamDetailsPage = ({
     params.examSessionId,
     showToast,
     examSession?.id,
+    examSession?.type,
     t,
     searchParams,
     registrationKind,
