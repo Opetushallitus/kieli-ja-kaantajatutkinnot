@@ -101,6 +101,8 @@ export const InitRegistrationPage = () => {
       (initRegistrationState.status === APIResponseStatus.NotStarted ||
         initRegistrationState.examSessionId !== idFromParams)
     ) {
+      // eslint-disable-next-line no-console
+      console.log('initRegistrationState', initRegistrationState);
       // Ensure registration init endpoint gets called, even if navigating to the page directly by URL.
       // This is necessary to accurately infer if user can enroll to exam proper or if they must enroll to queue instead.
       dispatch(

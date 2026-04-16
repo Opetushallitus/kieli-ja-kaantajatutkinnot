@@ -251,11 +251,16 @@ export const PublicExamSessionListing = ({
       navigate(
         AppRoutes.ExamSession.replace(
           /:examSessionId$/,
-          `${initRegistration.examSessionId}`,
+          `${initRegistration.examSessionId}?partialExamType=${initRegistration.partialExamType}`,
         ),
       );
     }
-  }, [navigate, initRegistration.status, initRegistration.examSessionId]);
+  }, [
+    navigate,
+    initRegistration.status,
+    initRegistration.examSessionId,
+    initRegistration.partialExamType,
+  ]);
 
   const isRegistrationLoading =
     initRegistration.status === APIResponseStatus.InProgress;

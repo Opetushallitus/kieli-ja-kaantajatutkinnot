@@ -10,6 +10,7 @@ import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { RegistrationKind, RegistrationStates } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+import { PartialExamType } from 'interfaces/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import {
   acceptPublicRegistrationSubmission,
@@ -54,6 +55,8 @@ export const ExamDetailsPage = ({
       params.examSessionId
     ) {
       if (searchParams.get('submitted')) {
+        // eslint-disable-next-line no-console
+        console.log('initRegistrationState SUBMITEED');
         // If form is already submitted, just reload exam session details
         // and manually set registration status to submitted.
         const code = searchParams.get('code');
@@ -72,12 +75,21 @@ export const ExamDetailsPage = ({
         );
       } else {
         // Else attempt to initiate registration.
+        // eslint-disable-next-line no-console
+        console.log(
+          'initRegistrationState',
+          initRegistration.partialExamType,
+          searchParams.get('partialExamType'),
+        );
         dispatch(
           identifyRegistration({
             examSessionId: +params.examSessionId,
             // TODO registrationKind not needed when calling /identify, refactor away!
             registrationKind: RegistrationKind.Admission,
-            partialExamType: initRegistration.partialExamType || 'ALL_PARTS',
+            partialExamType:
+              initRegistration.partialExamType ||
+              (searchParams.get('partialExamType') as PartialExamType) ||
+              'ALL_PARTS',
           }),
         );
       }
