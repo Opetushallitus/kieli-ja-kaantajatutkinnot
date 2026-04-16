@@ -1,3 +1,4 @@
+import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
@@ -7,6 +8,9 @@ import { ClerkQuarantineMatchesResponse } from 'interfaces/clerkQuarantine';
 import {
   loadClerkQuarantineMatches,
   rejectClerkQuarantineMatches,
+  rejectQuarantineReview,
+  resolveQuarantineReview,
+  setQuarantineReview,
   storeClerkQuarantineMatches,
 } from 'redux/reducers/clerkQuarantine';
 import { SerializationUtils } from 'utils/serialization';
@@ -26,9 +30,35 @@ function* loadClerkQuarantineMatchesSaga() {
   }
 }
 
+function* setQuarantineReviewSaga(
+  action: PayloadAction<{
+    quarantineId: number;
+    registrationId: number;
+    isQuarantined: boolean;
+  }>,
+) {
+  const { quarantineId, registrationId, isQuarantined } = action.payload;
+
+  try {
+    yield call(
+      axiosInstance.put,
+      APIEndpoints.ClerkQuarantineSetReview.replace(
+        ':id',
+        String(quarantineId),
+      ).replace(':regId', String(registrationId)),
+      isQuarantined,
+    );
+    yield put(resolveQuarantineReview());
+    yield put(loadClerkQuarantineMatches());
+  } catch (error) {
+    yield put(rejectQuarantineReview());
+  }
+}
+
 export function* watchClerkQuarantine() {
   yield takeLatest(
     loadClerkQuarantineMatches.type,
     loadClerkQuarantineMatchesSaga,
   );
+  yield takeLatest(setQuarantineReview.type, setQuarantineReviewSaga);
 }

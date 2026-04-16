@@ -360,6 +360,16 @@ export const handlers = [
   http.get(APIEndpoints.ClerkQuarantineMatches, () =>
     HttpResponse.json({ quarantineMatches }),
   ),
+  http.put(APIEndpoints.ClerkQuarantineSetReview, ({ params }) => {
+    const id = Number(params.id);
+    const regId = Number(params.regId);
+    const idx = quarantineMatches.findIndex(
+      (m) => m.id === id && m.registrationId === regId,
+    );
+    if (idx !== -1) quarantineMatches.splice(idx, 1);
+
+    return new HttpResponse(null, { status: 200 });
+  }),
   http.post(APIEndpoints.AddClerkOrganizer, async ({ request }) => {
     const requestBody = (await request.json()) as Omit<
       ClerkOrganizerResponse,
