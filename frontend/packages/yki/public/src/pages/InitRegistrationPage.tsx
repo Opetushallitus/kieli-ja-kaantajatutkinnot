@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import { init } from 'i18next';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { APIResponseStatus, Severity } from 'shared/enums';
@@ -95,6 +96,8 @@ export const InitRegistrationPage = () => {
     }
   }, [status, dispatch, navigate, showToast, idFromParams, examSession?.id, t]);
 
+  console.log('partialExamType InitRegistrationPage');
+
   useEffect(() => {
     if (
       examSession &&
@@ -107,8 +110,7 @@ export const InitRegistrationPage = () => {
         initRegistration({
           examSessionId: examSession.id,
           registrationKind: examSession.available_registration_kind,
-          //partialExamType: initRegistrationState.partialExamType,
-          partialExamType: 'ALL_PARTS',
+          partialExamType: initRegistrationState.partialExamType || 'ALL_PARTS',
         }),
         [
           examSession,
