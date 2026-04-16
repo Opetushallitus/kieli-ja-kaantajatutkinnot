@@ -107,8 +107,7 @@ export const InitRegistrationPage = () => {
         initRegistration({
           examSessionId: examSession.id,
           registrationKind: examSession.available_registration_kind,
-          //partialExamType: initRegistrationState.partialExamType,
-          partialExamType: 'ALL_PARTS',
+          partialExamType: initRegistrationState.partialExamType || 'ALL_PARTS',
         }),
         [
           examSession,

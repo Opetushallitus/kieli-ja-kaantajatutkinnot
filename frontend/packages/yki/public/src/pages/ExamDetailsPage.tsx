@@ -77,7 +77,7 @@ export const ExamDetailsPage = ({
             examSessionId: +params.examSessionId,
             // TODO registrationKind not needed when calling /identify, refactor away!
             registrationKind: RegistrationKind.Admission,
-            partialExamType: 'ALL_PARTS', // TODO check if sensible default!
+            partialExamType: initRegistration.partialExamType || 'ALL_PARTS',
           }),
         );
       }
@@ -100,6 +100,7 @@ export const ExamDetailsPage = ({
     t,
     searchParams,
     registrationKind,
+    initRegistration.partialExamType,
   ]);
 
   return (
