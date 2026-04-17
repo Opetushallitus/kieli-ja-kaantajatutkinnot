@@ -107,12 +107,21 @@ public class ClerkExamSessionService {
     examSession.setType(dto.type());
     examSession.setMaxParticipants(dto.maxParticipantsTotal());
 
-    final var locations = examSession.getLocations();
-    if (!locations.isEmpty()) {
-      final var location = locations.get(0);
-      location.setStreetAddress(dto.streetAddress());
-      location.setZip(dto.zip());
-      location.setPostOffice(dto.postOffice());
+    final var existingLocations = examSession.getLocations();
+    existingLocations.clear();
+    if (dto.location() != null) {
+      for (final var locDto : dto.location()) {
+        final ExamSessionLocation loc = new ExamSessionLocation();
+        loc.setExamSession(examSession);
+        loc.setLang(locDto.lang() != null ? locDto.lang() : "fi");
+        loc.setStreetAddress(locDto.streetAddress());
+        loc.setZip(locDto.postalCode());
+        loc.setPostOffice(locDto.city());
+        loc.setName(locDto.name());
+        loc.setOtherLocationInfo(locDto.otherLocationInfo());
+        loc.setExtraInformation(locDto.extraInformation());
+        existingLocations.add(loc);
+      }
     }
 
     examSession.setContactName(dto.contactName());
@@ -145,15 +154,20 @@ public class ClerkExamSessionService {
     examSession.setContactEmail(dto.contactEmail());
     examSession.setContactPhoneNumber(dto.contactPhoneNumber());
 
-    final ExamSessionLocation location = new ExamSessionLocation();
-    location.setExamSession(examSession);
-    location.setStreetAddress(dto.streetAddress());
-    location.setZip(dto.zip());
-    location.setPostOffice(dto.postOffice());
-    location.setName(dto.name());
-    location.setOtherLocationInfo(dto.otherLocationInfo());
-    location.setLang("fi");
-    examSession.getLocations().add(location);
+    if (dto.location() != null) {
+      for (final var locDto : dto.location()) {
+        final ExamSessionLocation location = new ExamSessionLocation();
+        location.setExamSession(examSession);
+        location.setLang(locDto.lang() != null ? locDto.lang() : "fi");
+        location.setStreetAddress(locDto.streetAddress());
+        location.setZip(locDto.postalCode());
+        location.setPostOffice(locDto.city());
+        location.setName(locDto.name());
+        location.setOtherLocationInfo(locDto.otherLocationInfo());
+        location.setExtraInformation(locDto.extraInformation());
+        examSession.getLocations().add(location);
+      }
+    }
 
     final ExamSession saved = examSessionRepository.save(examSession);
     auditService.logById(YkiOperation.CREATE_EXAM_SESSION, saved.getId());

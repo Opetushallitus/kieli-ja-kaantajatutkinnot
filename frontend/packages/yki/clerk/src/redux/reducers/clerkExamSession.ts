@@ -6,15 +6,23 @@ import {
   ClerkExamSessionResponse,
 } from 'interfaces/clerkExamSession';
 
+interface ClerkExamSessionLocationForm {
+  lang: string;
+  streetAddress: string;
+  postalCode: string;
+  city: string;
+  name: string;
+  otherLocationInfo: string;
+  extraInformation: string;
+}
+
 export interface ClerkExamSessionEditForm {
   language: string;
   level: string;
   maxParticipantsTotal: string;
   maxParticipantsPartial1: string;
   maxParticipantsPartial2: string;
-  streetAddress: string;
-  postalCode: string;
-  city: string;
+  location: ClerkExamSessionLocationForm[];
   contactName: string;
   contactEmail: string;
   contactPhoneNumber: string;

@@ -213,6 +213,9 @@
             "fields": {
               "city": "Postitoimipaikka",
               "name": "Tila",
+              "extraInformationFi": "Lisätiedot (suomi)",
+              "extraInformationSv": "Lisätiedot (ruotsi)",
+              "extraInformationEn": "Lisätiedot (englanti)",
               "contactEmail": "Sähköposti",
               "contactName": "Yhteyshenkilö",
               "contactPhoneNumber": "Puhelinnumero",
@@ -232,6 +235,8 @@
                 "READ_SPEAK": "Lukeminen ja puhuminen"
               }
             },
+            "contactHeading": "Yhteystiedot",
+            "extraInformationHeading": "Lisätiedot",
             "saveButton": "Tallenna muutokset",
             "createButton": "Luo tutkintotilaisuus",
             "createTitle": "Luo tutkintotilaisuus",
