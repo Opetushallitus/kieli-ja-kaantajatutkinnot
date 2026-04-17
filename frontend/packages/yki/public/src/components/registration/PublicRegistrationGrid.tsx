@@ -48,11 +48,11 @@ const RegistrationForm = () => {
       code &&
       registrationId
     ) {
-      const params = new URLSearchParams();
-      params.append('submitted', 'true');
-      params.append('code', code);
-      params.append('registrationId', `${registrationId}`);
-      window.location.href = `${window.location.href}?${params.toString()}`;
+      const url = new URL(window.location.href);
+      url.searchParams.set('submitted', 'true');
+      url.searchParams.set('code', code);
+      url.searchParams.set('registrationId', `${registrationId}`);
+      window.location.href = url.toString();
     }
   });
   useEffect(() => {
