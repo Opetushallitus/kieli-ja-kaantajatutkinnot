@@ -166,17 +166,20 @@ export class ExamSessionUtils {
     return true;
   }
 
-  static getPartialExamTypeFromExamSession = (
+  static resolvePartialExamType(
+    fromUrl: PartialExamType | null,
+    fromRedux: PartialExamType | undefined,
     examSessionType: ExamSessionType,
-  ): PartialExamType => {
+  ): PartialExamType | null {
+    if (fromUrl) return fromUrl;
+    if (fromRedux) return fromRedux;
     if (
-      examSessionType === 'FULL' ||
       examSessionType === 'READ_SPEAK' ||
       examSessionType === 'LISTEN_WRITE'
     ) {
-      return 'ALL_PARTS';
-    } else {
-      return examSessionType;
+      return null;
     }
-  };
+
+    return 'ALL_PARTS';
+  }
 }
