@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import { init } from 'i18next';
 import { useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { APIResponseStatus, Severity } from 'shared/enums';
