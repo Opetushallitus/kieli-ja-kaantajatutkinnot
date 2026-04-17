@@ -154,6 +154,7 @@ public class ClerkExamSessionService {
     examSession.setContactEmail(dto.contactEmail());
     examSession.setContactPhoneNumber(dto.contactPhoneNumber());
 
+    // TODO remove me, deply commit
     if (dto.location() != null) {
       for (final var locDto : dto.location()) {
         final ExamSessionLocation location = new ExamSessionLocation();
