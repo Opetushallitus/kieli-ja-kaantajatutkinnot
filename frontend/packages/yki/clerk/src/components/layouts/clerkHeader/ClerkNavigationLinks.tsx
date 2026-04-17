@@ -18,6 +18,8 @@ const getTabForPath = (path: string) => {
     path.includes(AppRoutes.ClerkExamDates)
   ) {
     return 'clerkExamSessions';
+  } else if (path.includes(AppRoutes.ClerkPaymentReport)) {
+    return 'paymentReport';
   } else {
     return false;
   }
@@ -57,6 +59,11 @@ export const ClerkNavigationLinks = () => {
           active: getTabForPath(pathname) === 'quarantine',
           href: AppRoutes.ClerkQuarantine,
           label: translateCommon('quarantine'),
+        },
+        {
+          active: getTabForPath(pathname) === 'paymentReport',
+          href: AppRoutes.ClerkPaymentReport,
+          label: translateCommon('paymentReport'),
         },
       ]}
     />

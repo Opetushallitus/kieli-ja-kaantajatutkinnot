@@ -1,6 +1,16 @@
 {
   "yki": {
     "component": {
+      "clerkPaymentReport": {
+        "title": "Exam payment reporting",
+        "description": "Select the date range for which you want to view completed exam payments. By default, the entire previous month is selected. Please note that any subsequently refunded exam payments will still appear in the report as paid.",
+        "from": "From",
+        "to": "To",
+        "download": "Generate report (.xlsx)",
+        "toasts": {
+          "downloadError": "Failed to generate the report"
+        }
+      },
       "clerkCustomer": {
         "details": {
           "buttons": {
@@ -392,11 +402,15 @@
             "ssn": "Hetu"
           },
           "description": "Järjestelmän tunnistamat ilmoittautujat, joiden tiedot vastaavat voimassa olevan osallistumiskiellon tietoja. Tarkista, onko ilmoittautuja osallistumiskellossa ja <bold>peru tai hyväksy ilmoittautuminen</bold>",
+          "personType": {
+            "quarantinedPerson": "Osallistumiskielto",
+            "registrant": "Ilmoittautuja"
+          },
           "resultCount": "{{count}} ilmoittautujaa"
         },
         "tabs": {
           "active": "Voimassa olevat osallistumiskiellot",
-          "pending": "Odottavat tarkistukset",
+          "pending": "Odottavat tarkistukset ({{count}})",
           "previous": "Aiemmat tarkistukset"
         }
       },
@@ -513,6 +527,9 @@
       },
       "clerkFreeRegistrationPage": {
         "heading": "Maksuttomuuden tarkastukset"
+      },
+      "clerkPaymentReportPage": {
+        "heading": "Reports and statistics"
       },
       "clerkQuarantinePage": {
         "heading": "Osallistumiskiellot"
