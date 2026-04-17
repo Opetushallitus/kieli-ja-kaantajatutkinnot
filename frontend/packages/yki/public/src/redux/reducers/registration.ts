@@ -27,7 +27,6 @@ export interface RegistrationState {
     examSessionId?: number;
     registrationKind?: RegistrationKind;
     expiresIn?: number;
-    partialExamType?: PartialExamType;
   };
   submitRegistration: {
     code?: string;
@@ -45,6 +44,7 @@ export interface RegistrationState {
   activeStep: PublicRegistrationFormStep;
   showErrors: boolean;
   hasTimerExpired: boolean;
+  partialExamType?: PartialExamType;
 }
 
 export const initialState: RegistrationState = {
@@ -77,7 +77,7 @@ const registrationSlice = createSlice({
       state.initRegistration.status = APIResponseStatus.InProgress;
       state.initRegistration.examSessionId = action.payload.examSessionId;
       state.initRegistration.registrationKind = action.payload.registrationKind;
-      state.initRegistration.partialExamType = action.payload.partialExamType;
+      state.partialExamType = action.payload.partialExamType;
     },
     rejectPublicRegistrationInit(
       state,
@@ -123,17 +123,8 @@ const registrationSlice = createSlice({
         }
       }
     },
-    resetPublicRegistration(
-      state,
-      action: PayloadAction<PartialExamType | undefined>,
-    ) {
-      state = {
-        ...initialState,
-        initRegistration: {
-          ...initialState.initRegistration,
-          partialExamType: action.payload,
-        },
-      };
+    resetPublicRegistration() {
+      return initialState;
     },
     acceptPublicRegistrationInit(
       state,
@@ -247,6 +238,7 @@ const registrationSlice = createSlice({
       state.initRegistration.status = APIResponseStatus.InProgress;
       state.initRegistration.examSessionId = action.payload.examSessionId;
       state.initRegistration.registrationKind = action.payload.registrationKind;
+      state.partialExamType = action.payload.partialExamType;
     },
   },
 });

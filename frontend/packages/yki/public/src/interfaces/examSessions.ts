@@ -41,14 +41,7 @@ export interface ExamSessionLocation {
 
 type WithIdType = { id: number };
 
-export type ExamSessionType =
-  | 'FULL'
-  | 'READ_SPEAK'
-  | 'LISTEN_WRITE'
-  | 'READ'
-  | 'SPEAK'
-  | 'LISTEN'
-  | 'WRITE';
+export type ExamSessionType = 'FULL' | 'READ_SPEAK' | 'LISTEN_WRITE';
 
 export type ExamSession = WithIdType & {
   type: ExamSessionType;

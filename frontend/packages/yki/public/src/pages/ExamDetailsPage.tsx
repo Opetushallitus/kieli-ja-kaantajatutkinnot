@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { useEffect } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
@@ -8,8 +8,9 @@ import { PublicRegistrationGrid } from 'components/registration/PublicRegistrati
 import { PublicExamDetailsPageSkeleton } from 'components/skeletons/PublicExamDetailsPageSkeleton';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { RegistrationKind, RegistrationStates } from 'enums/app';
+import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+import { PartialExamType } from 'interfaces/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import {
   acceptPublicRegistrationSubmission,
@@ -34,11 +35,16 @@ export const ExamDetailsPage = ({
 
   // Redux
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { status, examSession } = useAppSelector(examSessionSelector);
-  const { initRegistration } = useAppSelector(registrationSelector);
+  const { initRegistration, partialExamType } =
+    useAppSelector(registrationSelector);
   // React Router
   const params = useParams();
   const [searchParams] = useSearchParams();
+  const partialExamTypeFromUrl = searchParams.get(
+    'partialExamType',
+  ) as PartialExamType | null;
 
   const isLoading =
     status === APIResponseStatus.InProgress ||
@@ -76,22 +82,14 @@ export const ExamDetailsPage = ({
       } else {
         // Else attempt to initiate registration.
         // eslint-disable-next-line no-console
-        console.log(
-          'initRegistrationState',
-          initRegistration.partialExamType,
-          ExamSessionUtils.getPartialExamTypeFromExamSession(
-            examSession?.type || 'FULL',
-          ),
-        );
+        console.log('initRegistrationState', partialExamType);
         dispatch(
           identifyRegistration({
             examSessionId: +params.examSessionId,
             // TODO registrationKind not needed when calling /identify, refactor away!
             registrationKind: RegistrationKind.Admission,
-            // Test with "FULL" fallback, verify later how to properly handle partialExamType
-            partialExamType: ExamSessionUtils.getPartialExamTypeFromExamSession(
-              examSession?.type || 'FULL',
-            ),
+            partialExamType:
+              partialExamTypeFromUrl ?? partialExamType ?? 'ALL_PARTS',
           }),
         );
       }
@@ -115,8 +113,24 @@ export const ExamDetailsPage = ({
     t,
     searchParams,
     registrationKind,
-    initRegistration.partialExamType,
+    partialExamType,
+    partialExamTypeFromUrl,
   ]);
+
+  useEffect(() => {
+    if (
+      initRegistration.status === APIResponseStatus.Success &&
+      examSession &&
+      partialExamTypeFromUrl === null &&
+      ExamSessionUtils.resolvePartialExamType(
+        null,
+        undefined,
+        examSession.type,
+      ) === null
+    ) {
+      navigate(AppRoutes.Registration, { replace: true });
+    }
+  }, [initRegistration.status, examSession, partialExamTypeFromUrl, navigate]);
 
   return (
     <Box className="public-exam-details-page">

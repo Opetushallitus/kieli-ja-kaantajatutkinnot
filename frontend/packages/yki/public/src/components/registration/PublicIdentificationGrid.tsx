@@ -35,6 +35,7 @@ const AlreadyLoggedIn = () => {
   const { loggedInSession } = useAppSelector(sessionSelector);
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
+  const { partialExamType } = useAppSelector(registrationSelector);
   const isSuomiFiAuthenticatedSession =
     loggedInSession?.['auth-method'] === 'SUOMIFI';
   const isEmailAuthenticatedSession =
@@ -73,10 +74,12 @@ const AlreadyLoggedIn = () => {
           color={Color.Secondary}
           className="fit-content-max-width"
           size="large"
-          href={(toQueue
+          href={`${(toQueue
             ? AppRoutes.ExamSessionQueue
             : AppRoutes.ExamSessionRegistration
-          ).replace(/:examSessionId/, `${examSession.id}`)}
+          ).replace(/:examSessionId/, `${examSession.id}`)}?partialExamType=${
+            partialExamType ?? 'ALL_PARTS'
+          }`}
         >
           <span className="button-color-white">
             {t('alreadyLoggedIn.labels.continueToRegistration')}

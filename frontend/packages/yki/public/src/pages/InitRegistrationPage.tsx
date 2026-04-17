@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { init } from 'i18next';
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
@@ -12,6 +12,7 @@ import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+import { PartialExamType } from 'interfaces/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import { resetPublicIdentificationState } from 'redux/reducers/publicIdentification';
 import {
@@ -50,11 +51,18 @@ export const InitRegistrationPage = () => {
   const dispatch = useAppDispatch();
 
   const { status, examSession } = useAppSelector(examSessionSelector);
-  const { activeStep, initRegistration: initRegistrationState } =
-    useAppSelector(registrationSelector);
+  const {
+    activeStep,
+    initRegistration: initRegistrationState,
+    partialExamType,
+  } = useAppSelector(registrationSelector);
   // React Router
   const navigate = useNavigate();
   const params = useParams();
+  const [searchParams] = useSearchParams();
+  const partialExamTypeFromUrl = searchParams.get(
+    'partialExamType',
+  ) as PartialExamType | null;
 
   const isLoading = status === APIResponseStatus.InProgress;
 
@@ -104,6 +112,16 @@ export const InitRegistrationPage = () => {
       (initRegistrationState.status === APIResponseStatus.NotStarted ||
         initRegistrationState.examSessionId !== idFromParams)
     ) {
+      const resolvedPartialExamType = ExamSessionUtils.resolvePartialExamType(
+        partialExamTypeFromUrl,
+        partialExamType,
+        examSession.type,
+      );
+      if (resolvedPartialExamType === null) {
+        navigate(AppRoutes.Registration, { replace: true });
+
+        return;
+      }
       // eslint-disable-next-line no-console
       console.log('initRegistrationState', initRegistrationState);
       // Ensure registration init endpoint gets called, even if navigating to the page directly by URL.
@@ -112,15 +130,13 @@ export const InitRegistrationPage = () => {
         initRegistration({
           examSessionId: examSession.id,
           registrationKind: examSession.available_registration_kind,
-          partialExamType: ExamSessionUtils.getPartialExamTypeFromExamSession(
-            examSession.type,
-          ),
+          partialExamType: resolvedPartialExamType,
         }),
         [
           examSession,
           initRegistrationState.status,
           initRegistrationState.examSessionId,
-          initRegistrationState.partialExamType,
+          partialExamType,
         ],
       );
     }
