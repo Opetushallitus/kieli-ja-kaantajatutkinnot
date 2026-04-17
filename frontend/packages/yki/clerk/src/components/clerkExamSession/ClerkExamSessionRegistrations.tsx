@@ -49,12 +49,12 @@ const ExamsListingTabs = ({
   };
 
   return (
-    <div className="clerk-exam-session-page__filter-tabs">
+    <div className="clerk-exam-session-registrations__filter-tabs">
       <div className="columns gapped">
         {TABS.map((tab) => (
           <div
             key={tab}
-            className={`clerk-exam-session-page__filter-tabs__tab ${
+            className={`clerk-exam-session-registrations__filter-tabs__tab ${
               activeTab === tab ? 'active' : ''
             }`}
             onClick={() => handleTabChange(tab)}
@@ -241,14 +241,14 @@ export const ClerkExamSessionRegistrations = ({
 
   return (
     <Stack spacing={4}>
-      <div className="clerk-exam-session-page__tabs grid-2-columns">
+      <div className="clerk-exam-session-registrations__tabs grid-2-columns">
         <ExamsListingTabs
           admissionCount={admissions.length ?? 0}
           queuedCount={queued.length ?? 0}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
-        <div className="clerk-exam-session-page__filter-buttons">
+        <div className="clerk-exam-session-registrations__filter-buttons">
           <OphButton
             color="primary"
             variant={Variant.Contained}

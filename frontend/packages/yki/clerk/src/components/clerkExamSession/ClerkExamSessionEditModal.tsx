@@ -20,7 +20,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamLanguage, ExamLevel, ExamSessionType } from 'enums/app';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { ExamDate } from 'interfaces/examDate';
-import { H2, Label, Text } from 'ophTheme/Text';
+import { H2, H3, Label, Text } from 'ophTheme/Text';
 import {
   createExamSession,
   saveExamSession,
@@ -134,13 +134,23 @@ export const ClerkExamSessionEditModal = ({
     maxParticipantsPartial2: String(
       examSessionDetails?.maxParticipantsPartial2 ?? '',
     ),
-    streetAddress: location?.streetAddress ?? '',
-    postalCode: location?.zip ?? '',
-    city: location?.postOffice ?? '',
-    name:
-      organizationHierarchy.find((org) => org.oid === selectedOfficeOid?.value)
-        ?.name?.fi ?? '',
-    otherLocationInfo: location?.otherLocationInfo ?? '',
+    location: (['fi', 'sv', 'en'] as const).map((lang) => {
+      const loc = examSessionDetails?.location.find((l) => l.lang === lang);
+
+      return {
+        lang,
+        streetAddress: loc?.streetAddress ?? location?.streetAddress ?? '',
+        postalCode: loc?.zip ?? location?.zip ?? '',
+        city: loc?.postOffice ?? location?.postOffice ?? '',
+        name:
+          organizationHierarchy.find(
+            (org) => org.oid === selectedOfficeOid?.value,
+          )?.name?.fi ?? '',
+        otherLocationInfo:
+          loc?.otherLocationInfo ?? location?.otherLocationInfo ?? '',
+        extraInformation: loc?.extraInformation ?? '',
+      };
+    }),
     contactName: examSessionDetails?.contactName ?? '',
     contactEmail: examSessionDetails?.contactEmail ?? '',
     contactPhoneNumber: examSessionDetails?.contactPhoneNumber ?? '',
@@ -175,6 +185,15 @@ export const ClerkExamSessionEditModal = ({
 
   const updateField = (field: string, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const updateLocationField = (lang: string, field: string, value: string) => {
+    setForm((prev) => ({
+      ...prev,
+      location: prev.location.map((loc) =>
+        loc.lang === lang ? { ...loc, [field]: value } : loc,
+      ),
+    }));
   };
 
   const handleCloseModal = () => {
@@ -335,30 +354,37 @@ export const ClerkExamSessionEditModal = ({
         )}
         <OphInputFormField
           label={t('fields.streetAddress')}
-          value={form.streetAddress}
-          onChange={(e) => updateField('streetAddress', e.target.value)}
+          value={form.location[0]?.streetAddress ?? ''}
+          onChange={(e) =>
+            updateLocationField('fi', 'streetAddress', e.target.value)
+          }
           disabled={isSaving}
         />
         <div className="columns gapped">
           <OphInputFormField
             label={t('fields.postalCode')}
-            value={form.postalCode}
-            onChange={(e) => updateField('postalCode', e.target.value)}
+            value={form.location[0]?.postalCode ?? ''}
+            onChange={(e) =>
+              updateLocationField('fi', 'postalCode', e.target.value)
+            }
             disabled={isSaving}
           />
           <OphInputFormField
             label={t('fields.city')}
-            value={form.city}
-            onChange={(e) => updateField('city', e.target.value)}
+            value={form.location[0]?.city ?? ''}
+            onChange={(e) => updateLocationField('fi', 'city', e.target.value)}
             disabled={isSaving}
           />
         </div>
         <OphInputFormField
           label={t('fields.name')}
-          value={form.otherLocationInfo}
-          onChange={(e) => updateField('otherLocationInfo', e.target.value)}
+          value={form.location[0]?.otherLocationInfo ?? ''}
+          onChange={(e) =>
+            updateLocationField('fi', 'otherLocationInfo', e.target.value)
+          }
           disabled={isSaving}
         />
+        <H3>{t('contactHeading')}</H3>
         <OphInputFormField
           label={t('fields.contactName')}
           value={form.contactName}
@@ -375,6 +401,43 @@ export const ClerkExamSessionEditModal = ({
           label={t('fields.contactPhoneNumber')}
           value={form.contactPhoneNumber}
           onChange={(e) => updateField('contactPhoneNumber', e.target.value)}
+          disabled={isSaving}
+        />
+        <H3>{t('extraInformationHeading')}</H3>
+        <OphInputFormField
+          label={t('fields.extraInformationFi')}
+          value={
+            form.location.find((l) => l.lang === 'fi')?.extraInformation ?? ''
+          }
+          onChange={(e) =>
+            updateLocationField('fi', 'extraInformation', e.target.value)
+          }
+          multiline
+          minRows={2}
+          disabled={isSaving}
+        />
+        <OphInputFormField
+          label={t('fields.extraInformationSv')}
+          value={
+            form.location.find((l) => l.lang === 'sv')?.extraInformation ?? ''
+          }
+          onChange={(e) =>
+            updateLocationField('sv', 'extraInformation', e.target.value)
+          }
+          multiline
+          minRows={2}
+          disabled={isSaving}
+        />
+        <OphInputFormField
+          label={t('fields.extraInformationEn')}
+          value={
+            form.location.find((l) => l.lang === 'en')?.extraInformation ?? ''
+          }
+          onChange={(e) =>
+            updateLocationField('en', 'extraInformation', e.target.value)
+          }
+          multiline
+          minRows={2}
           disabled={isSaving}
         />
         <div className="columns gapped flex-end">

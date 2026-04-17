@@ -2,8 +2,9 @@ import { Error } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import i18next from 'i18next';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { CustomButton } from 'shared/components';
+import { APIResponseStatus } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import { ClerkExamSessionEditModal } from 'components/clerkExamSession/ClerkExamSessionEditModal';
@@ -17,6 +18,7 @@ import { ClerkOrganizer } from 'interfaces/clerkOrganizer';
 import { ExamSession } from 'interfaces/examSessions';
 import { H4, Label, Text } from 'ophTheme/Text';
 import { loadExamDates } from 'redux/reducers/examDate';
+import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
 import { examDateSelector } from 'redux/selectors/examDate';
 import {
   getLanguagesWithLevelDescriptions,
@@ -34,34 +36,42 @@ export const ClerkRegisterOrganizerDetails = ({
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const dispatch = useAppDispatch();
   const { examDates } = useAppSelector(examDateSelector);
+  const { createStatus } = useAppSelector(clerkExamSessionDetailsSelector);
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
   });
+
+  const fetchExamSessions = useCallback(async () => {
+    try {
+      const oneYearAgo = dayjs().subtract(1, 'year').format('YYYY-MM-DD');
+      const response = await axiosInstance.get(
+        `${APIEndpoints.ClerkOrganizer}/${row.oid}/exam-session`,
+        { params: { from: oneYearAgo } },
+      );
+      setExamSessions(
+        response.data.exam_sessions.map(
+          SerializationUtils.deserializeExamSessionResponse,
+        ),
+      );
+    } catch (error) {
+      setExamSessions([]);
+    }
+  }, [row.oid]);
 
   useEffect(() => {
     dispatch(loadExamDates());
   }, [dispatch]);
 
   useEffect(() => {
-    const fetchExamSessions = async () => {
-      try {
-        const oneYearAgo = dayjs().subtract(1, 'year').format('YYYY-MM-DD');
-        const response = await axiosInstance.get(
-          `${APIEndpoints.ClerkOrganizer}/${row.oid}/exam-session`,
-          { params: { from: oneYearAgo } },
-        );
-        setExamSessions(
-          response.data.exam_sessions.map(
-            SerializationUtils.deserializeExamSessionResponse,
-          ),
-        );
-      } catch (error) {
-        setExamSessions([]);
-      }
-    };
     fetchExamSessions();
-  }, [row.oid]);
+  }, [fetchExamSessions]);
+
+  useEffect(() => {
+    if (createStatus === APIResponseStatus.Success) {
+      fetchExamSessions();
+    }
+  }, [createStatus, fetchExamSessions]);
 
   const upcomingExams = examSessions
     .map((examSession) => ({

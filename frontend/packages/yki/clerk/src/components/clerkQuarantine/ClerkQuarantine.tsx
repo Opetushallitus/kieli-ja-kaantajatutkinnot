@@ -6,7 +6,10 @@ import { APIResponseStatus } from 'shared/enums';
 import { ClerkQuarantineListing } from 'components/clerkQuarantine/ClerkQuarantineListing';
 import { usePublicTranslation } from 'configs/i18n';
 import { H2 } from 'ophTheme/Text';
-import { loadClerkQuarantineMatches } from 'redux/reducers/clerkQuarantine';
+import {
+  loadClerkQuarantineMatches,
+  setQuarantineSort,
+} from 'redux/reducers/clerkQuarantine';
 import {
   clerkQuarantineSelector,
   selectSortedQuarantineMatches,
@@ -36,12 +39,14 @@ type QuarantineTabsProps = {
   activeTab: Tab;
   setActiveTab: Dispatch<SetStateAction<Tab>>;
   setPage: Dispatch<SetStateAction<number>>;
+  tableRowsCount?: number;
 };
 
 const QuarantineTabs = ({
   activeTab,
   setActiveTab,
   setPage,
+  tableRowsCount,
 }: QuarantineTabsProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkQuarantine.tabs',
@@ -66,7 +71,9 @@ const QuarantineTabs = ({
             tabIndex={0}
             onKeyDown={() => handleTabChange(tab)}
           >
-            {t(tab)}
+            {tab === 'pending'
+              ? t('pending', { count: tableRowsCount ?? 0 })
+              : t(tab)}
           </div>
         ))}
       </div>
@@ -77,8 +84,8 @@ const QuarantineTabs = ({
 
 export const ClerkQuarantine = () => {
   const dispatch = useDispatch();
-  const { status } = useSelector(clerkQuarantineSelector);
-  const matches = useSelector(selectSortedQuarantineMatches);
+  const { status, sort } = useSelector(clerkQuarantineSelector);
+  const rows = useSelector(selectSortedQuarantineMatches);
   const [activeTab, setActiveTab] = useState<Tab>('pending');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -92,12 +99,14 @@ export const ClerkQuarantine = () => {
       case APIResponseStatus.Success:
         return (
           <ClerkQuarantineListing
-            matches={matches}
+            rows={rows}
             page={page}
             setPage={setPage}
             pageSize={pageSize}
             setPageSize={setPageSize}
             activeTab={activeTab}
+            sort={sort}
+            setSort={(s) => dispatch(setQuarantineSort(s))}
           />
         );
       default:
@@ -111,6 +120,7 @@ export const ClerkQuarantine = () => {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         setPage={setPage}
+        tableRowsCount={rows.length}
       />
       {renderListing()}
     </div>

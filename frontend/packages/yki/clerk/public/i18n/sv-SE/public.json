@@ -213,6 +213,9 @@
             "fields": {
               "city": "Postitoimipaikka",
               "name": "Tila",
+              "extraInformationFi": "Lisätiedot (suomi)",
+              "extraInformationSv": "Lisätiedot (ruotsi)",
+              "extraInformationEn": "Lisätiedot (englanti)",
               "contactEmail": "Sähköposti",
               "contactName": "Yhteyshenkilö",
               "contactPhoneNumber": "Puhelinnumero",
@@ -232,6 +235,8 @@
                 "READ_SPEAK": "Lukeminen ja puhuminen"
               }
             },
+            "contactHeading": "Yhteystiedot",
+            "extraInformationHeading": "Lisätiedot",
             "saveButton": "Tallenna muutokset",
             "createButton": "Luo tutkintotilaisuus",
             "createTitle": "Luo tutkintotilaisuus",
@@ -402,11 +407,15 @@
             "ssn": "Hetu"
           },
           "description": "Järjestelmän tunnistamat ilmoittautujat, joiden tiedot vastaavat voimassa olevan osallistumiskiellon tietoja. Tarkista, onko ilmoittautuja osallistumiskellossa ja <bold>peru tai hyväksy ilmoittautuminen</bold>",
+          "personType": {
+            "quarantinedPerson": "Osallistumiskielto",
+            "registrant": "Ilmoittautuja"
+          },
           "resultCount": "{{count}} ilmoittautujaa"
         },
         "tabs": {
           "active": "Voimassa olevat osallistumiskiellot",
-          "pending": "Odottavat tarkistukset",
+          "pending": "Odottavat tarkistukset ({{count}})",
           "previous": "Aiemmat tarkistukset"
         }
       },

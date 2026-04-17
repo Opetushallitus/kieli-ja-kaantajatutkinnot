@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionLocationCreateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.model.ExamDate;
@@ -17,6 +18,7 @@ import fi.oph.yki.repository.OrganizerRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -107,14 +109,21 @@ public class ClerkExamSessionServiceTest {
     entityManager.flush();
     entityManager.clear();
 
+    final ClerkExamSessionLocationCreateDTO locationDTO = ClerkExamSessionLocationCreateDTO
+      .builder()
+      .lang("fi")
+      .name("Testipaikka")
+      .streetAddress("Uusi katu 2")
+      .postalCode("00200")
+      .city("Espoo")
+      .build();
+
     final ClerkExamSessionUpdateDTO updateDTO = ClerkExamSessionUpdateDTO
       .builder()
       .language("deu")
       .level("KESKI")
       .maxParticipantsTotal(30)
-      .streetAddress("Uusi katu 2")
-      .zip("00200")
-      .postOffice("Espoo")
+      .location(List.of(locationDTO))
       .contactName("Uusi Henkilö")
       .contactEmail("uusi@example.com")
       .contactPhoneNumber("0509876543")
