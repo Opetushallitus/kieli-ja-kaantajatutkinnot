@@ -167,6 +167,9 @@ public class ClerkCustomerService {
   }
 
   private Map<String, String> getOidToHetuMap(List<String> oids) {
+    if (oids.isEmpty()) {
+      return Map.of();
+    }
     try {
       return onrService
         .listPersonDetails(oids)
