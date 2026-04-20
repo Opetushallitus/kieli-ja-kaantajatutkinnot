@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchDTO;
-import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchesResponseDTO;
 import fi.oph.yki.service.ClerkQuarantineService;
 import jakarta.annotation.Resource;
 import java.time.Instant;
@@ -47,7 +46,7 @@ class ClerkQuarantineControllerTest {
       Instant.parse("2025-12-16T12:20:36.140Z"),
       "010675-9981",
       "Anna-Liisa",
-      "Sallinen",
+      "Salline<n",
       "salla@testi.fi",
       "+35840123456",
       1055L,
@@ -57,17 +56,16 @@ class ClerkQuarantineControllerTest {
       "fin"
     );
 
-    when(clerkQuarantineService.getQuarantineMatches())
-      .thenReturn(new ClerkQuarantineMatchesResponseDTO(List.of(match)));
+    when(clerkQuarantineService.getQuarantineMatches()).thenReturn(List.of(match));
 
     mockMvc
       .perform(get(MATCHES_URL))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.quarantineMatches").isArray())
-      .andExpect(jsonPath("$.quarantineMatches[0].id").value(19))
-      .andExpect(jsonPath("$.quarantineMatches[0].quarantineLang").value("fin"))
-      .andExpect(jsonPath("$.quarantineMatches[0].registrationId").value(1055))
-      .andExpect(jsonPath("$.quarantineMatches[0].form.ssn").value("010675-9981"));
+      .andExpect(jsonPath("$").isArray())
+      .andExpect(jsonPath("$[0].id").value(19))
+      .andExpect(jsonPath("$[0].quarantineLang").value("fin"))
+      .andExpect(jsonPath("$[0].registrationId").value(1055))
+      .andExpect(jsonPath("$[0].form.ssn").value("010675-9981"));
   }
 
   @Test

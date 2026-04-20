@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchDTO;
-import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchesResponseDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.onr.OnrService;
@@ -49,7 +48,7 @@ public class ClerkQuarantineService {
   }
 
   @Transactional(readOnly = true)
-  public ClerkQuarantineMatchesResponseDTO getQuarantineMatches() throws JsonProcessingException {
+  public List<ClerkQuarantineMatchDTO> getQuarantineMatches() throws JsonProcessingException {
     final List<QuarantineMatchProjection> projections = quarantineRepository.findPendingMatches();
 
     final List<String> oids = projections
@@ -96,7 +95,7 @@ public class ClerkQuarantineService {
 
     auditService.logOperation(YkiOperation.GET_QUARANTINE_MATCHES);
 
-    return new ClerkQuarantineMatchesResponseDTO(matches);
+    return matches;
   }
 
   @Transactional

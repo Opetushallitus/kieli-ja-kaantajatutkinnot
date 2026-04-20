@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchDTO;
-import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchesResponseDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
@@ -23,7 +22,6 @@ import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.QuarantineRepository;
 import jakarta.annotation.Resource;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -170,47 +168,45 @@ public class ClerkQuarantineServiceTest {
   public void testOnlySubmittedAndCompletedRegistrationsAppear() throws Exception {
     when(onrService.listPersonDetails(any())).thenReturn(List.of());
 
-    final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
+    final List<ClerkQuarantineMatchDTO> response = clerkQuarantineService.getQuarantineMatches();
 
-    assertFalse(response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(regStarted.getId())));
+    assertFalse(response.stream().anyMatch(m -> m.registrationId().equals(regStarted.getId())));
   }
 
   @Test
   public void testLanguageCodeMustMatch() throws Exception {
     when(onrService.listPersonDetails(any())).thenReturn(List.of());
 
-    final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
+    final List<ClerkQuarantineMatchDTO> response = clerkQuarantineService.getQuarantineMatches();
 
-    assertFalse(response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(regSweMismatch.getId())));
+    assertFalse(response.stream().anyMatch(m -> m.registrationId().equals(regSweMismatch.getId())));
   }
 
   @Test
   public void testSsnMatchTriggersResult() throws Exception {
     when(onrService.listPersonDetails(any())).thenReturn(List.of());
 
-    final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
+    final List<ClerkQuarantineMatchDTO> response = clerkQuarantineService.getQuarantineMatches();
 
-    assertTrue(response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(regSsnMatch.getId())));
+    assertTrue(response.stream().anyMatch(m -> m.registrationId().equals(regSsnMatch.getId())));
   }
 
   @Test
   public void testBirthdateMatchTriggersResult() throws Exception {
     when(onrService.listPersonDetails(any())).thenReturn(List.of());
 
-    final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
+    final List<ClerkQuarantineMatchDTO> response = clerkQuarantineService.getQuarantineMatches();
 
-    assertTrue(
-      response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(regBirthdateMatch.getId()))
-    );
+    assertTrue(response.stream().anyMatch(m -> m.registrationId().equals(regBirthdateMatch.getId())));
   }
 
   @Test
   public void testAlreadyReviewedPairsAreExcluded() throws Exception {
     when(onrService.listPersonDetails(any())).thenReturn(List.of());
 
-    final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
+    final List<ClerkQuarantineMatchDTO> response = clerkQuarantineService.getQuarantineMatches();
 
-    assertFalse(response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(regReviewed.getId())));
+    assertFalse(response.stream().anyMatch(m -> m.registrationId().equals(regReviewed.getId())));
   }
 
   @Test
@@ -220,10 +216,9 @@ public class ClerkQuarantineServiceTest {
     person1Dto.setIdentityNumber("NEW-SSN-FROM-ONR");
     when(onrService.listPersonDetails(any())).thenReturn(List.of(person1Dto));
 
-    final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
+    final List<ClerkQuarantineMatchDTO> response = clerkQuarantineService.getQuarantineMatches();
 
     final ClerkQuarantineMatchDTO match = response
-      .quarantineMatches()
       .stream()
       .filter(m -> m.registrationId().equals(regSsnMatch.getId()))
       .findFirst()
@@ -247,10 +242,9 @@ public class ClerkQuarantineServiceTest {
 
     when(onrService.listPersonDetails(any())).thenReturn(List.of());
 
-    final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
+    final List<ClerkQuarantineMatchDTO> response = clerkQuarantineService.getQuarantineMatches();
 
     final ClerkQuarantineMatchDTO match = response
-      .quarantineMatches()
       .stream()
       .filter(m -> m.registrationId().equals(regNoBirthdate.getId()))
       .findFirst()
@@ -264,10 +258,9 @@ public class ClerkQuarantineServiceTest {
   public void testFormSsnIsNullWhenPersonNotInOnr() throws Exception {
     when(onrService.listPersonDetails(any())).thenReturn(List.of());
 
-    final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
+    final List<ClerkQuarantineMatchDTO> response = clerkQuarantineService.getQuarantineMatches();
 
     final ClerkQuarantineMatchDTO match = response
-      .quarantineMatches()
       .stream()
       .filter(m -> m.registrationId().equals(regSsnMatch.getId()))
       .findFirst()
