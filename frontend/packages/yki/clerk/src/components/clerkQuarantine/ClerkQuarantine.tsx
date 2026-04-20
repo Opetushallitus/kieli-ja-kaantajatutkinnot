@@ -1,13 +1,16 @@
 import { Box, Divider } from '@mui/material';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { APIResponseStatus } from 'shared/enums';
+import { APIResponseStatus, Severity } from 'shared/enums';
+import { useToast } from 'shared/hooks';
 
 import { ClerkQuarantineListing } from 'components/clerkQuarantine/ClerkQuarantineListing';
 import { usePublicTranslation } from 'configs/i18n';
 import { H2 } from 'ophTheme/Text';
 import {
   loadClerkQuarantineMatches,
+  resetQuarantineReviewStatus,
+  setQuarantineReview,
   setQuarantineSort,
 } from 'redux/reducers/clerkQuarantine';
 import {
@@ -84,15 +87,38 @@ const QuarantineTabs = ({
 
 export const ClerkQuarantine = () => {
   const dispatch = useDispatch();
-  const { status, sort } = useSelector(clerkQuarantineSelector);
+  const { status, sort, reviewStatus, lastReviewAction } = useSelector(
+    clerkQuarantineSelector,
+  );
   const rows = useSelector(selectSortedQuarantineMatches);
   const [activeTab, setActiveTab] = useState<Tab>('pending');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const { showToast } = useToast();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.clerkQuarantine',
+  });
 
   useEffect(() => {
     dispatch(loadClerkQuarantineMatches());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!lastReviewAction) return;
+    if (reviewStatus === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: t(`toasts.${lastReviewAction}Success`),
+      });
+      dispatch(resetQuarantineReviewStatus());
+    } else if (reviewStatus === APIResponseStatus.Error) {
+      showToast({
+        severity: Severity.Error,
+        description: t(`toasts.${lastReviewAction}Error`),
+      });
+      dispatch(resetQuarantineReviewStatus());
+    }
+  }, [dispatch, showToast, t, reviewStatus, lastReviewAction]);
 
   const renderListing = () => {
     switch (status) {
@@ -107,6 +133,15 @@ export const ClerkQuarantine = () => {
             activeTab={activeTab}
             sort={sort}
             setSort={(s) => dispatch(setQuarantineSort(s))}
+            onSetReview={(quarantineId, registrationId, isQuarantined) =>
+              dispatch(
+                setQuarantineReview({
+                  quarantineId,
+                  registrationId,
+                  isQuarantined,
+                }),
+              )
+            }
           />
         );
       default:

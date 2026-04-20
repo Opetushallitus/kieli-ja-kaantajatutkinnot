@@ -387,7 +387,12 @@
             "IN_PROGRESS": "Ladataan tietoja",
             "NOT_STARTED": "Tietojen lataaminen epäonnistui"
           },
+          "actions": {
+            "accept": "Hyväksy ilmoittautuminen",
+            "cancel": "Peru ilmoittautuminen"
+          },
           "columns": {
+            "actions": "Toiminnot",
             "birthdate": "Syntymäaika",
             "email": "Sähköposti",
             "examDate": "Tutkinnon pvm",
@@ -407,6 +412,12 @@
           "active": "Voimassa olevat osallistumiskiellot",
           "pending": "Odottavat tarkistukset ({{count}})",
           "previous": "Aiemmat tarkistukset"
+        },
+        "toasts": {
+          "acceptError": "Hyväksyminen epäonnistui",
+          "acceptSuccess": "Hyväksyminen onnistui",
+          "cancelError": "Hylkääminen epäonnistui",
+          "cancelSuccess": "Hylkääminen onnistui"
         }
       },
       "clerkRegister": {
