@@ -10,6 +10,8 @@ import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.QuarantineMatchProjection;
 import fi.oph.yki.repository.QuarantineRepository;
+import fi.oph.yki.repository.QuarantineReviewRepository;
+import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.HetuUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,8 @@ public class ClerkQuarantineService {
   private static final Logger LOG = LoggerFactory.getLogger(ClerkQuarantineService.class);
 
   private final QuarantineRepository quarantineRepository;
+  private final RegistrationRepository registrationRepository;
+  private final QuarantineReviewRepository quarantineReviewRepository;
   private final OnrService onrService;
   private final AuditService auditService;
   private final ObjectMapper objectMapper;
@@ -103,10 +107,10 @@ public class ClerkQuarantineService {
     final String reviewerOid = SecurityContextHolder.getContext().getAuthentication().getName();
 
     if (isQuarantined) {
-      quarantineRepository.cancelForQuarantine(registrationId);
+      registrationRepository.cancel(registrationId);
     }
 
-    long quarantineReviewId = quarantineRepository.upsertReview(
+    long quarantineReviewId = quarantineReviewRepository.upsertReview(
       quarantineId,
       registrationId,
       isQuarantined,

@@ -20,6 +20,8 @@ import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.QuarantineRepository;
+import fi.oph.yki.repository.QuarantineReviewRepository;
+import fi.oph.yki.repository.RegistrationRepository;
 import jakarta.annotation.Resource;
 import java.time.Instant;
 import java.util.List;
@@ -42,7 +44,13 @@ import org.springframework.test.context.ActiveProfiles;
 public class ClerkQuarantineServiceTest {
 
   @Resource
+  private RegistrationRepository registrationRepository;
+
+  @Resource
   private QuarantineRepository quarantineRepository;
+
+  @Resource
+  private QuarantineReviewRepository quarantineReviewRepository;
 
   @Resource
   private TestEntityManager entityManager;
@@ -71,7 +79,15 @@ public class ClerkQuarantineServiceTest {
 
   @BeforeEach
   public void setup() {
-    clerkQuarantineService = new ClerkQuarantineService(quarantineRepository, onrService, auditService, objectMapper);
+    clerkQuarantineService =
+      new ClerkQuarantineService(
+        quarantineRepository,
+        registrationRepository,
+        quarantineReviewRepository,
+        onrService,
+        auditService,
+        objectMapper
+      );
 
     final ExamDate examDate = Factory.examDate();
     entityManager.persist(examDate);
