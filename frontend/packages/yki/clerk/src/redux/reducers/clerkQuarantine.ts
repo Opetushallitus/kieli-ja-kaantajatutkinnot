@@ -11,7 +11,7 @@ interface ClerkQuarantineState {
   sort: ClerkQuarantineSort;
   status: APIResponseStatus;
   reviewStatus: APIResponseStatus;
-  lastReviewAction: 'accept' | 'cancel' | null;
+  lastReviewAction: 'matchConfirmed' | 'matchRejected' | null;
 }
 
 const initialState: ClerkQuarantineState = {
@@ -47,13 +47,13 @@ const clerkQuarantineSlice = createSlice({
       action: PayloadAction<{
         quarantineId: number;
         registrationId: number;
-        isQuarantined: boolean;
+        matchConfirmed: boolean;
       }>,
     ) {
       state.reviewStatus = APIResponseStatus.InProgress;
-      state.lastReviewAction = action.payload.isQuarantined
-        ? 'accept'
-        : 'cancel';
+      state.lastReviewAction = action.payload.matchConfirmed
+        ? 'matchConfirmed'
+        : 'matchRejected';
     },
     resolveQuarantineReview(state) {
       state.reviewStatus = APIResponseStatus.Success;

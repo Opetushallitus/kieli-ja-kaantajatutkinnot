@@ -3,6 +3,7 @@ package fi.oph.yki.api.clerk;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchDTO;
+import fi.oph.yki.api.dto.clerk.QuarantineReviewRequest;
 import fi.oph.yki.config.ClerkEnabledCondition;
 import fi.oph.yki.service.ClerkQuarantineService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,8 +38,10 @@ public class ClerkQuarantineController {
   public void setQuarantineReview(
     @PathVariable final long id,
     @PathVariable final long regId,
-    @RequestBody final boolean isQuarantined
+    @RequestBody final QuarantineReviewRequest request
   ) {
-    clerkQuarantineService.setQuarantineReview(id, regId, isQuarantined);
+    final boolean matchConfirmed = request.quarantined();
+
+    clerkQuarantineService.setQuarantineReview(id, regId, matchConfirmed);
   }
 }

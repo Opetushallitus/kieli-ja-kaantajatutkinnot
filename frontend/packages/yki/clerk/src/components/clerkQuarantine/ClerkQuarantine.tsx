@@ -133,12 +133,12 @@ export const ClerkQuarantine = () => {
             activeTab={activeTab}
             sort={sort}
             setSort={(s) => dispatch(setQuarantineSort(s))}
-            onSetReview={(quarantineId, registrationId, isQuarantined) =>
+            onSetReview={(quarantineId, registrationId, matchConfirmed) =>
               dispatch(
                 setQuarantineReview({
                   quarantineId,
                   registrationId,
-                  isQuarantined,
+                  matchConfirmed,
                 }),
               )
             }

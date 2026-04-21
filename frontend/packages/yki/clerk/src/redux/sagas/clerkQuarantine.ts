@@ -34,10 +34,10 @@ function* setQuarantineReviewSaga(
   action: PayloadAction<{
     quarantineId: number;
     registrationId: number;
-    isQuarantined: boolean;
+    matchConfirmed: boolean;
   }>,
 ) {
-  const { quarantineId, registrationId, isQuarantined } = action.payload;
+  const { quarantineId, registrationId, matchConfirmed } = action.payload;
 
   try {
     yield call(
@@ -46,7 +46,7 @@ function* setQuarantineReviewSaga(
         ':id',
         String(quarantineId),
       ).replace(':regId', String(registrationId)),
-      isQuarantined,
+      { quarantined: matchConfirmed },
     );
     yield put(resolveQuarantineReview());
     yield put(loadClerkQuarantineMatches());

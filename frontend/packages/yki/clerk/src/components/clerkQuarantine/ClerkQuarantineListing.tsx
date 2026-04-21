@@ -34,7 +34,7 @@ type ClerkQuarantineListingProps = {
   onSetReview: (
     quarantineId: number,
     registrationId: number,
-    isQuarantined: boolean,
+    matchConfirmed: boolean,
   ) => void;
 };
 
@@ -56,11 +56,11 @@ export const ClerkQuarantineListing = ({
 
   const handleConfirm = () => {
     if (!modalState) return;
-    const isQuarantined = modalState.action === 'accept';
+    const matchConfirmed = modalState.action === 'accept';
     onSetReview(
       modalState.match.quarantineId,
       modalState.match.registrationId,
-      isQuarantined,
+      matchConfirmed,
     );
     setModalState(null);
   };

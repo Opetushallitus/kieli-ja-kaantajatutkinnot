@@ -116,17 +116,17 @@ public class ClerkQuarantineService {
   }
 
   @Transactional
-  public void setQuarantineReview(final long quarantineId, final long registrationId, final boolean isQuarantined) {
+  public void setQuarantineReview(final long quarantineId, final long registrationId, final boolean matchConfirmed) {
     final String reviewerOid = SecurityContextHolder.getContext().getAuthentication().getName();
 
-    if (isQuarantined) {
+    if (matchConfirmed) {
       registrationRepository.cancel(registrationId);
     }
 
     long quarantineReviewId = quarantineReviewRepository.upsertReview(
       quarantineId,
       registrationId,
-      isQuarantined,
+      matchConfirmed,
       reviewerOid
     );
 

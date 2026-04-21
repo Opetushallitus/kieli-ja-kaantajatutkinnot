@@ -26,6 +26,10 @@ interface FreeRegistrationRequest {
   approved: boolean;
 }
 
+interface QuarantineReviewRequest {
+  quarantined: boolean;
+}
+
 const notFound = () => new HttpResponse(null, { status: 404 });
 
 const adminUser = {
@@ -360,16 +364,25 @@ export const handlers = [
   http.get(APIEndpoints.ClerkQuarantineMatches, () =>
     HttpResponse.json(quarantineMatches),
   ),
-  http.put(APIEndpoints.ClerkQuarantineSetReview, ({ params }) => {
-    const id = Number(params.id);
-    const regId = Number(params.regId);
-    const idx = quarantineMatches.findIndex(
-      (m) => m.id === id && m.registrationId === regId,
-    );
-    if (idx !== -1) quarantineMatches.splice(idx, 1);
+  http.put(
+    APIEndpoints.ClerkQuarantineSetReview,
+    async ({ params, request }) => {
+      const requestBody = (await request.json()) as QuarantineReviewRequest;
 
-    return new HttpResponse(null, { status: 200 });
-  }),
+      if (typeof requestBody.quarantined !== 'boolean') {
+        return new HttpResponse(null, { status: 400 });
+      }
+
+      const id = Number(params.id);
+      const regId = Number(params.regId);
+      const idx = quarantineMatches.findIndex(
+        (m) => m.id === id && m.registrationId === regId,
+      );
+      if (idx !== -1) quarantineMatches.splice(idx, 1);
+
+      return new HttpResponse(null, { status: 200 });
+    },
+  ),
   http.post(APIEndpoints.AddClerkOrganizer, async ({ request }) => {
     const requestBody = (await request.json()) as Omit<
       ClerkOrganizerResponse,
