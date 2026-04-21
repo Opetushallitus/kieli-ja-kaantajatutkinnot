@@ -85,8 +85,7 @@ public class ClerkQuarantineServiceTest {
         registrationRepository,
         quarantineReviewRepository,
         onrService,
-        auditService,
-        objectMapper
+        auditService
       );
 
     final ExamDate examDate = Factory.examDate();
@@ -240,7 +239,7 @@ public class ClerkQuarantineServiceTest {
       .findFirst()
       .orElseThrow();
 
-    assertEquals("NEW-SSN-FROM-ONR", match.form().get("ssn").asText());
+    assertEquals("NEW-SSN-FROM-ONR", match.registrant().ssn());
   }
 
   @Test
@@ -267,7 +266,7 @@ public class ClerkQuarantineServiceTest {
       .orElseThrow();
 
     // birthdate derived from original form.ssn (010675-9981 → 1975-06-01)
-    assertEquals("1975-06-01", match.form().get("birthdate").asText());
+    assertEquals("1975-06-01", match.registrant().birthdate());
   }
 
   @Test
@@ -283,6 +282,6 @@ public class ClerkQuarantineServiceTest {
       .orElseThrow();
 
     // person not in ONR response → form.ssn should be JSON null
-    assertTrue(match.form().get("ssn").isNull());
+    assertTrue(match.registrant().ssn() == null || match.registrant().ssn().isEmpty());
   }
 }

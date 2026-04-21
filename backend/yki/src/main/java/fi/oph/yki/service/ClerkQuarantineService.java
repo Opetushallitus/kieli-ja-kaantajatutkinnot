@@ -1,9 +1,7 @@
 package fi.oph.yki.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchDTO;
+import fi.oph.yki.api.dto.clerk.ClerkQuarantinePersonDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.onr.OnrService;
@@ -36,7 +34,6 @@ public class ClerkQuarantineService {
   private final QuarantineReviewRepository quarantineReviewRepository;
   private final OnrService onrService;
   private final AuditService auditService;
-  private final ObjectMapper objectMapper;
 
   private Map<String, String> getOidToSsnMap(final List<String> oids) {
     try {
@@ -52,7 +49,8 @@ public class ClerkQuarantineService {
   }
 
   @Transactional(readOnly = true)
-  public List<ClerkQuarantineMatchDTO> getQuarantineMatches() throws JsonProcessingException {
+  public List<ClerkQuarantineMatchDTO> getQuarantineMatches() {
+    // Returns quarantine+registrations pairs
     final List<QuarantineMatchProjection> projections = quarantineRepository.findPendingMatches();
 
     final List<String> oids = projections
@@ -66,30 +64,45 @@ public class ClerkQuarantineService {
 
     final List<ClerkQuarantineMatchDTO> matches = new ArrayList<>();
     for (final QuarantineMatchProjection proj : projections) {
-      final ObjectNode form = (ObjectNode) objectMapper.readTree(proj.getForm());
+      final ClerkQuarantinePersonDTO quarantinedPerson = ClerkQuarantinePersonDTO
+        .builder()
+        .firstName(proj.getFirstName())
+        .lastName(proj.getLastName())
+        .birthdate(proj.getBirthdate())
+        .ssn(proj.getSsn())
+        .email(proj.getEmail())
+        .phoneNumber(proj.getPhoneNumber())
+        .build();
 
-      // Original behavior: compute birthdate from original form.ssn BEFORE overwriting it with ONR SSN
-      final String originalFormSsn = form.hasNonNull("ssn") ? form.get("ssn").asText(null) : null;
-      if (!form.hasNonNull("birthdate") && originalFormSsn != null) {
-        form.put("birthdate", HetuUtils.dateFromHetu(originalFormSsn).toString());
-      }
+      // Get the birthday from the form if it is set.
+      // Otherwise, if SSN is set in the form, try to calculate the birthdate from given SSN.
+      final String formBirthdate = proj.getFormBirthdate() != null
+        ? proj.getFormBirthdate()
+        : (proj.getFormSsn() != null ? HetuUtils.dateFromHetu(proj.getFormSsn()).toString() : null);
 
-      form.put("ssn", proj.getPersonOid() != null ? oidToSsn.get(proj.getPersonOid()) : null);
+      // the logic is inherited from old yki backend,
+      // which doesn't use form.ssn except for possible birthdate calculation (the line above)
+      final String formSsn = proj.getPersonOid() != null ? oidToSsn.get(proj.getPersonOid()) : null;
+
+      final ClerkQuarantinePersonDTO registrant = ClerkQuarantinePersonDTO
+        .builder()
+        .firstName(proj.getFormFirstName())
+        .lastName(proj.getFormLastName())
+        .birthdate(formBirthdate)
+        .ssn(formSsn)
+        .email(proj.getFormEmail())
+        .phoneNumber(proj.getFormPhoneNumber())
+        .build();
 
       matches.add(
         ClerkQuarantineMatchDTO
           .builder()
           .id(proj.getQuarantineId())
           .quarantineLang(proj.getQuarantineLang().trim())
-          .birthdate(proj.getBirthdate())
           .created(proj.getCreated())
-          .ssn(proj.getSsn())
-          .firstName(proj.getFirstName())
-          .lastName(proj.getLastName())
-          .email(proj.getEmail())
-          .phoneNumber(proj.getPhoneNumber())
+          .quarantinedPerson(quarantinedPerson)
+          .registrant(registrant)
           .registrationId(proj.getRegistrationId())
-          .form(form)
           .state(proj.getState())
           .examDate(proj.getExamDate())
           .languageCode(proj.getLanguageCode().trim())

@@ -457,22 +457,8 @@ export class SerializationUtils {
       registrationId: response.registrationId,
       examLanguageCode: response.languageCode,
       examDate: dayjs(response.examDate),
-      quarantinedPerson: {
-        firstName: response.firstName,
-        lastName: response.lastName,
-        birthdate: response.birthdate,
-        ssn: response.ssn,
-        email: response.email,
-        phoneNumber: response.phoneNumber,
-      },
-      registrantForm: {
-        firstName: response.form.firstName,
-        lastName: response.form.lastName,
-        birthdate: response.form.birthdate,
-        ssn: response.form.ssn,
-        email: response.form.email,
-        phoneNumber: response.form.phoneNumber,
-      },
+      quarantinedPerson: response.quarantinedPerson,
+      registrant: response.registrant,
     };
   }
 

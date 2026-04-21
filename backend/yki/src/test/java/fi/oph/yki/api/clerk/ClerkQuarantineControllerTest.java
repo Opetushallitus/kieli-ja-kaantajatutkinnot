@@ -5,9 +5,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchDTO;
+import fi.oph.yki.api.dto.clerk.ClerkQuarantinePersonDTO;
 import fi.oph.yki.service.ClerkQuarantineService;
 import jakarta.annotation.Resource;
 import java.time.Instant;
@@ -35,22 +34,27 @@ class ClerkQuarantineControllerTest {
   @Test
   @WithMockUser
   public void testGetQuarantineMatchesReturnsOkWithResponseShape() throws Exception {
-    final ObjectNode form = new ObjectMapper().createObjectNode();
-    form.put("ssn", "010675-9981");
-    form.put("birthdate", "1975-06-01");
-
     final ClerkQuarantineMatchDTO match = new ClerkQuarantineMatchDTO(
       19L,
       "fin",
-      "1975-06-01",
       Instant.parse("2025-12-16T12:20:36.140Z"),
-      "010675-9981",
-      "Anna-Liisa",
-      "Salline<n",
-      "salla@testi.fi",
-      "+35840123456",
+      new ClerkQuarantinePersonDTO(
+        "Anna-Liisa",
+        "Sallinen",
+        "1975-06-01",
+        "010675-9981",
+        "salla@testi.fi",
+        "+35840123456"
+      ),
+      new ClerkQuarantinePersonDTO(
+        "Aino-Liisa",
+        "Sailinen",
+        "1995-06-15",
+        "010695-9981",
+        "saila@testi.fi",
+        "+35840123456"
+      ),
       1055L,
-      form,
       "COMPLETED",
       LocalDate.of(2026, 5, 9),
       "fin"
@@ -65,7 +69,8 @@ class ClerkQuarantineControllerTest {
       .andExpect(jsonPath("$[0].id").value(19))
       .andExpect(jsonPath("$[0].quarantineLang").value("fin"))
       .andExpect(jsonPath("$[0].registrationId").value(1055))
-      .andExpect(jsonPath("$[0].form.ssn").value("010675-9981"));
+      .andExpect(jsonPath("$[0].quarantinedPerson.ssn").value("010675-9981"))
+      .andExpect(jsonPath("$[0].registrant.ssn").value("010695-9981"));
   }
 
   @Test

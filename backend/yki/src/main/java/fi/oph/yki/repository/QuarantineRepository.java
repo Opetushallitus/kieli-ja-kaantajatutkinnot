@@ -3,14 +3,17 @@ package fi.oph.yki.repository;
 import fi.oph.yki.model.Quarantine;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface QuarantineRepository extends JpaRepository<Quarantine, Long> {
+  // Original endpoint uses: select-quarantine-matches
+  // Technically, this method could belong into RegistrationRepository, but this is used only in the quarantine-specific domain context.
+  /**
+   *  Find registrations for the same exam language and quarantine period whose identity matches the quarantine entry by SSN or birthdate, unless that exact quarantine-registration pair
+   *   has already been reviewed after the quarantine was last changed.
+   */
   @Query(
     value = """
 SELECT
@@ -24,7 +27,12 @@ SELECT
     q.email                 AS email,
     q.phone_number          AS phoneNumber,
     r.id                    AS registrationId,
-    r.form::text            AS form,
+    r.form->>'first_name'   AS formFirstName,
+    r.form->>'last_name'    AS formLastName,
+    r.form->>'birthdate'    AS formBirthdate,
+    r.form->>'ssn'          AS formSsn,
+    r.form->>'email'        AS formEmail,
+    r.form->>'phone_number' AS formPhoneNumber,
     r.state                 AS state,
     r.person_oid            AS personOid,
     ed.exam_date            AS examDate,

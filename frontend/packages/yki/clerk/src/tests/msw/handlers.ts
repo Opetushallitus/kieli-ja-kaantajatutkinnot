@@ -358,7 +358,7 @@ export const handlers = [
     });
   }),
   http.get(APIEndpoints.ClerkQuarantineMatches, () =>
-    HttpResponse.json({ quarantineMatches }),
+    HttpResponse.json(quarantineMatches),
   ),
   http.put(APIEndpoints.ClerkQuarantineSetReview, ({ params }) => {
     const id = Number(params.id);

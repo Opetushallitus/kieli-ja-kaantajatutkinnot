@@ -82,7 +82,7 @@ export const ClerkQuarantineListing = ({
       render: (match) => (
         <div>
           <div>
-            {match.registrantForm.firstName} {match.registrantForm.lastName}
+            {match.registrant.firstName} {match.registrant.lastName}
           </div>
           <div>
             {match.quarantinedPerson.firstName}{' '}
@@ -97,7 +97,7 @@ export const ClerkQuarantineListing = ({
       title: t('listing.columns.birthdate'),
       render: (match) => (
         <div>
-          <div>{match.registrantForm.birthdate}</div>
+          <div>{match.registrant.birthdate}</div>
           <div>{match.quarantinedPerson.birthdate}</div>
         </div>
       ),
@@ -108,7 +108,7 @@ export const ClerkQuarantineListing = ({
       title: t('listing.columns.ssn'),
       render: (match) => (
         <div>
-          <div>{match.registrantForm.ssn}</div>
+          <div>{match.registrant.ssn}</div>
           <div>{match.quarantinedPerson.ssn}</div>
         </div>
       ),
@@ -119,7 +119,7 @@ export const ClerkQuarantineListing = ({
       title: t('listing.columns.email'),
       render: (match) => (
         <div>
-          <div>{match.registrantForm.email}</div>
+          <div>{match.registrant.email}</div>
           <div>{match.quarantinedPerson.email}</div>
         </div>
       ),
@@ -130,7 +130,7 @@ export const ClerkQuarantineListing = ({
       title: t('listing.columns.phoneNumber'),
       render: (match) => (
         <div>
-          <div>{match.registrantForm.phoneNumber}</div>
+          <div>{match.registrant.phoneNumber}</div>
           <div>{match.quarantinedPerson.phoneNumber}</div>
         </div>
       ),
