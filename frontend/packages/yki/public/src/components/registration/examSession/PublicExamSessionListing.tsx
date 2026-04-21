@@ -165,6 +165,12 @@ const RegistrationInitErrorModal = ({
               color={Color.Secondary}
               variant={Variant.Contained}
               onClick={() => {
+                // eslint-disable-next-line no-console
+                console.log(
+                  'Enroll to queue for exam session Error Modal',
+                  examSessionId,
+                  partialExamType,
+                );
                 dispatch(resetPublicRegistration());
                 dispatch(
                   initRegistration({
@@ -231,8 +237,7 @@ export const PublicExamSessionListing = ({
   const translateCommon = useCommonTranslation();
   const navigate = useNavigate();
   const { status } = useAppSelector(examSessionsSelector);
-  const { initRegistration, partialExamType } =
-    useAppSelector(registrationSelector);
+  const { initRegistration } = useAppSelector(registrationSelector);
 
   const listingHeaderRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -253,14 +258,14 @@ export const PublicExamSessionListing = ({
         `${AppRoutes.ExamSession.replace(
           /:examSessionId$/,
           `${initRegistration.examSessionId}`,
-        )}?partialExamType=${partialExamType ?? 'ALL_PARTS'}`,
+        )}?registrationId=${initRegistration.registrationId}`,
       );
     }
   }, [
     navigate,
     initRegistration.status,
     initRegistration.examSessionId,
-    partialExamType,
+    initRegistration.registrationId,
   ]);
 
   const isRegistrationLoading =
@@ -290,10 +295,10 @@ export const PublicExamSessionListing = ({
           {isRegistrationLoading && <RegistrationInitLoadingModal />}
           {isRegistrationInitError &&
             initRegistration.examSessionId &&
-            partialExamType && (
+            initRegistration.partialExamType && (
               <RegistrationInitErrorModal
                 examSessionId={initRegistration.examSessionId}
-                partialExamType={partialExamType}
+                partialExamType={initRegistration.partialExamType}
               />
             )}
           <div ref={listingHeaderRef} style={{ marginBottom: '2rem' }}>
