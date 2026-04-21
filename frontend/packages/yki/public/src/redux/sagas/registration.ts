@@ -12,6 +12,7 @@ import { PublicFreeRegistrationDetails } from 'interfaces/publicFreeRegistration
 import {
   PublicRegistrationFormSubmitErrorResponse,
   PublicRegistrationFormSubmitSuccessResponse,
+  PublicRegistrationIdentifyPayload,
   PublicRegistrationInitErrorResponse,
   PublicRegistrationInitPayload,
   PublicRegistrationInitResponse,
@@ -77,14 +78,14 @@ function* initRegistrationSaga(
 }
 
 function* identifyRegistrationSaga(
-  action: PayloadAction<PublicRegistrationInitPayload>,
+  action: PayloadAction<PublicRegistrationIdentifyPayload>,
 ) {
   try {
     const response: AxiosResponse<PublicRegistrationInitResponse> = yield call(
       axiosInstance.post,
       APIEndpoints.IdentifyRegistration,
       JSON.stringify(
-        SerializationUtils.serializePublicRegistrationInitRequest(
+        SerializationUtils.serializePublicRegistrationIdentifyRequest(
           action.payload,
         ),
       ),

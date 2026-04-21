@@ -72,6 +72,12 @@ export interface PublicRegistrationInitRequest {
   partial_exam_type: PartialExamType;
 }
 
+export interface PublicRegistrationIdentifyRequest {
+  exam_session_id: number;
+  to_queue: boolean;
+  registration_id: number;
+}
+
 export interface PublicRegistrationInitResponse {
   exam_session: ExamSessionResponse;
   registration_id: number;
