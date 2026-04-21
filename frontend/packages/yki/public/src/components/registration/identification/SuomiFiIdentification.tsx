@@ -12,7 +12,7 @@ import { registrationSelector } from 'redux/selectors/registration';
 export const SuomiFiIdentification = () => {
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
-  const { partialExamType } = useAppSelector(registrationSelector);
+  const { initRegistration } = useAppSelector(registrationSelector);
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.identify',
@@ -33,7 +33,7 @@ export const SuomiFiIdentification = () => {
           examSession.id
         }&toQueue=${
           examSession.available_registration_kind === RegistrationKind.Queue
-        }&partialExamType=${partialExamType ?? 'ALL_PARTS'}`}
+        }&registrationId=${initRegistration.registrationId}`}
       >
         <span className="button-color-white">{t('suomiFiButtonText')}</span>
       </CustomButton>

@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { useEffect } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
@@ -11,7 +11,6 @@ import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
-import { PartialExamType } from 'interfaces/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import { resetPublicIdentificationState } from 'redux/reducers/publicIdentification';
 import {
@@ -50,18 +49,11 @@ export const InitRegistrationPage = () => {
   const dispatch = useAppDispatch();
 
   const { status, examSession } = useAppSelector(examSessionSelector);
-  const {
-    activeStep,
-    initRegistration: initRegistrationState,
-    partialExamType,
-  } = useAppSelector(registrationSelector);
+  const { activeStep, initRegistration: initRegistrationState } =
+    useAppSelector(registrationSelector);
   // React Router
   const navigate = useNavigate();
   const params = useParams();
-  const [searchParams] = useSearchParams();
-  const partialExamTypeFromUrl = searchParams.get(
-    'partialExamType',
-  ) as PartialExamType | null;
 
   const isLoading = status === APIResponseStatus.InProgress;
 
@@ -71,6 +63,8 @@ export const InitRegistrationPage = () => {
     }
 
     return () => {
+      // eslint-disable-next-line no-console
+      console.log('reset registration and identification state');
       dispatch(resetPublicIdentificationState());
       dispatch(resetPublicRegistration());
     };
@@ -88,6 +82,8 @@ export const InitRegistrationPage = () => {
       examSession?.id !== idFromParams
     ) {
       // Fetch exam details
+      // eslint-disable-next-line no-console
+      console.log('fetching exam session details with id', idFromParams);
       dispatch(loadExamSession(idFromParams));
     } else if (
       status === APIResponseStatus.Error ||
@@ -109,31 +105,25 @@ export const InitRegistrationPage = () => {
       (initRegistrationState.status === APIResponseStatus.NotStarted ||
         initRegistrationState.examSessionId !== idFromParams)
     ) {
-      const resolvedPartialExamType = ExamSessionUtils.resolvePartialExamType(
-        partialExamTypeFromUrl,
-        partialExamType,
-        examSession.type,
-      );
-      if (resolvedPartialExamType === null) {
-        navigate(AppRoutes.Registration, { replace: true });
-
-        return;
-      }
       // eslint-disable-next-line no-console
-      console.log('initRegistrationState', initRegistrationState);
+      console.log(
+        'InitRegistrationPage useEffect',
+        initRegistrationState,
+        examSession,
+      );
       // Ensure registration init endpoint gets called, even if navigating to the page directly by URL.
       // This is necessary to accurately infer if user can enroll to exam proper or if they must enroll to queue instead.
       dispatch(
         initRegistration({
           examSessionId: examSession.id,
           registrationKind: examSession.available_registration_kind,
-          partialExamType: resolvedPartialExamType,
+          partialExamType: initRegistrationState.partialExamType || 'ALL_PARTS',
         }),
         [
           examSession,
           initRegistrationState.status,
           initRegistrationState.examSessionId,
-          partialExamType,
+          initRegistrationState.partialExamType,
         ],
       );
     }

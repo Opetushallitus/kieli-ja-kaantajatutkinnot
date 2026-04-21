@@ -60,6 +60,12 @@ export interface PublicRegistrationInitPayload {
   partialExamType: PartialExamType;
 }
 
+export interface PublicRegistrationIdentifyPayload {
+  examSessionId: number;
+  registrationKind: RegistrationKind;
+  registrationId: number;
+}
+
 export interface PublicRegistrationInitRequest {
   exam_session_id: number;
   to_queue: boolean;
