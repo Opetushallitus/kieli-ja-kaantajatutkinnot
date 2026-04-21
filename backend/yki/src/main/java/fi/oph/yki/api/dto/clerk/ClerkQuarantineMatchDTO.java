@@ -14,5 +14,6 @@ public record ClerkQuarantineMatchDTO(
   Long registrationId,
   String state,
   LocalDate examDate,
-  String languageCode
+  String languageCode,
+  String levelCode
 ) {}

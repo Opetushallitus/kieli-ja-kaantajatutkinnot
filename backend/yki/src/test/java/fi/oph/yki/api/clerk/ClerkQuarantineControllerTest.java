@@ -57,7 +57,8 @@ class ClerkQuarantineControllerTest {
       1055L,
       "COMPLETED",
       LocalDate.of(2026, 5, 9),
-      "fin"
+      "fin",
+      "KESKI"
     );
 
     when(clerkQuarantineService.getQuarantineMatches()).thenReturn(List.of(match));

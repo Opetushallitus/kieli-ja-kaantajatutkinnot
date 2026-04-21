@@ -8,7 +8,7 @@ import { Color, Variant } from 'shared/enums';
 import { usePublicTranslation } from 'configs/i18n';
 import { ClerkQuarantineMatch } from 'interfaces/clerkQuarantine';
 import { H2, Text } from 'ophTheme/Text';
-import { languageToString } from 'utils/clerk';
+import { languageToString, levelDescription } from 'utils/clerk';
 
 type ClerkQuarantineModalProps = {
   match: ClerkQuarantineMatch | null;
@@ -67,6 +67,7 @@ export const ClerkQuarantineModal = ({
                 lastName: registrant.lastName,
                 ssn: registrant.ssn,
                 examLanguage: languageToString(match.examLanguageCode),
+                examLevel: levelDescription(match.examLevelCode),
                 examDate: match.examDate.format('D.M.YYYY'),
               }}
             />

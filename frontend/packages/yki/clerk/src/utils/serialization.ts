@@ -456,6 +456,7 @@ export class SerializationUtils {
       quarantineId: response.id,
       registrationId: response.registrationId,
       examLanguageCode: response.languageCode,
+      examLevelCode: response.levelCode,
       examDate: dayjs(response.examDate),
       quarantinedPerson: response.quarantinedPerson,
       registrant: response.registrant,

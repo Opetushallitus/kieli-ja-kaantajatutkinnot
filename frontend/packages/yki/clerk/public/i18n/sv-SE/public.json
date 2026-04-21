@@ -412,13 +412,13 @@
           "accept": {
             "cancel": "Peruuta",
             "confirm": "Hyväksy ilmoittautuminen",
-            "description": "Olet hyväksymässä <bold>{{firstName}} {{lastName}}</bold> ({{ssn}}) tilaisuudessa <bold>{{examLanguage}} {{examDate}}</bold>",
+            "description": "Olet hyväksymässä <bold>{{firstName}} {{lastName}}</bold> ({{ssn}}) tilaisuudessa <bold>{{examLanguage}}-{{examLevel}} {{examDate}}</bold>",
             "title": "Vahvista ilmoittautumisen hyväksyminen"
           },
           "reject": {
             "cancel": "En halua perua",
             "confirm": "Peru ilmoittautuminen",
-            "description": "Olet perumassa <bold>{{firstName}} {{lastName}}</bold> ({{ssn}}) tilaisuudessa <bold>{{examLanguage}} {{examDate}}</bold>",
+            "description": "Olet perumassa <bold>{{firstName}} {{lastName}}</bold> ({{ssn}}) tilaisuudessa <bold>{{examLanguage}}-{{examLevel}} {{examDate}}</bold>",
             "title": "Vahvista ilmoittautumisen peruminen"
           }
         },

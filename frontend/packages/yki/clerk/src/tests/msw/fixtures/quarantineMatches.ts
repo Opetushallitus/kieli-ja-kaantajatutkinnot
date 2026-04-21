@@ -23,6 +23,7 @@ export const quarantineMatches: ClerkQuarantineMatchResponse[] = [
     state: 'SUBMITTED',
     examDate: '2025-09-20',
     languageCode: 'fin',
+    levelCode: 'KESKI',
   },
   {
     id: 2,
@@ -46,6 +47,7 @@ export const quarantineMatches: ClerkQuarantineMatchResponse[] = [
     state: 'COMPLETED',
     examDate: '2025-11-15',
     languageCode: 'fin',
+    levelCode: 'YLIN',
   },
   {
     id: 3,
@@ -69,6 +71,7 @@ export const quarantineMatches: ClerkQuarantineMatchResponse[] = [
     state: 'SUBMITTED',
     examDate: '2026-03-14',
     languageCode: 'swe',
+    levelCode: 'PERUS',
   },
   {
     id: 4,
@@ -92,5 +95,6 @@ export const quarantineMatches: ClerkQuarantineMatchResponse[] = [
     state: 'COMPLETED',
     examDate: '2026-06-06',
     languageCode: 'eng',
+    levelCode: 'KESKI',
   },
 ];

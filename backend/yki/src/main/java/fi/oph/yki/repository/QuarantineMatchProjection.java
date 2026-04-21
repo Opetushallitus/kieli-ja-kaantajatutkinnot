@@ -43,4 +43,6 @@ public interface QuarantineMatchProjection {
   LocalDate getExamDate();
 
   String getLanguageCode();
+
+  String getLevelCode();
 }

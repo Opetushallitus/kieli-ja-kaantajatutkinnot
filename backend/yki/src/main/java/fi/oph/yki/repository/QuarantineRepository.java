@@ -36,7 +36,8 @@ SELECT
     r.state                 AS state,
     r.person_oid            AS personOid,
     ed.exam_date            AS examDate,
-    es.language_code        AS languageCode
+    es.language_code        AS languageCode,
+    es.level_code           AS levelCode
 FROM quarantine q
 INNER JOIN registration r
     ON (q.ssn = r.form->>'ssn' OR q.birthdate = r.form->>'birthdate')

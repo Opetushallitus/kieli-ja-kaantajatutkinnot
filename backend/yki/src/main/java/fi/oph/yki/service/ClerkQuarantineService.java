@@ -106,6 +106,7 @@ public class ClerkQuarantineService {
           .state(proj.getState())
           .examDate(proj.getExamDate())
           .languageCode(proj.getLanguageCode().trim())
+          .levelCode(proj.getLevelCode().trim())
           .build()
       );
     }
