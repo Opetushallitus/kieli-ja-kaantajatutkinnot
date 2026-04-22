@@ -145,6 +145,7 @@ export interface PublicRegistrationFormSubmitErrorResponse {
 
 export interface UserOpenRegistration {
   exam_session_id: number;
+  registration_id: number;
   expires_at: string;
 }
 
