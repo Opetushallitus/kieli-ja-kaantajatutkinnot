@@ -165,21 +165,4 @@ export class ExamSessionUtils {
 
     return true;
   }
-
-  static resolvePartialExamType(
-    fromUrl: PartialExamType | null,
-    fromRedux: PartialExamType | undefined,
-    examSessionType: ExamSessionType,
-  ): PartialExamType | null {
-    if (fromUrl) return fromUrl;
-    if (fromRedux) return fromRedux;
-    if (
-      examSessionType === 'READ_SPEAK' ||
-      examSessionType === 'LISTEN_WRITE'
-    ) {
-      return null;
-    }
-
-    return 'ALL_PARTS';
-  }
 }
