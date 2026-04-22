@@ -1,4 +1,5 @@
-import { Text } from 'shared/components';
+import { init } from 'i18next';
+import { H2, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
@@ -31,7 +32,7 @@ export const PublicRegistrationExamSessionDetails = ({
     publicFreeRegistrationSelector,
   );
   const { loggedInSession } = useAppSelector(sessionSelector);
-  const { activeStep, submitRegistration } =
+  const { activeStep, submitRegistration, initRegistration } =
     useAppSelector(registrationSelector);
 
   if (!examSession) {
@@ -108,17 +109,58 @@ export const PublicRegistrationExamSessionDetails = ({
 
   const attemptsLeft = 3 - (attemptsUsed || 0);
 
+  console.log('exam + init', examSession, initRegistration);
+
+  const getPartialExamsText = () => {
+    if (examSession.type === 'FULL') {
+      return 'Kaikki osakokeet: tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen';
+    }
+
+    if (examSession.type === 'LISTEN_WRITE') {
+      if (initRegistration.partialExamType === 'ALL_PARTS') {
+        return 'Puheen ymmärtäminen ja kirjoittaminen';
+      }
+      if (initRegistration.partialExamType === 'LISTEN') {
+        return 'Puheen ymmärtäminen';
+      }
+      if (initRegistration.partialExamType === 'WRITE') {
+        return 'Kirjoittaminen';
+      }
+    }
+
+    if (examSession.type === 'READ_SPEAK') {
+      if (initRegistration.partialExamType === 'ALL_PARTS') {
+        return 'Tekstin ymmärtäminen ja puhuminen';
+      }
+      if (initRegistration.partialExamType === 'READ') {
+        return 'Tekstin ymmärtäminen';
+      }
+      if (initRegistration.partialExamType === 'SPEAK') {
+        return 'Puhuminen';
+      }
+    }
+  };
+
   return (
     <div className="rows">
       <div className="rows-gapped-xxs">
-        <Text>
-          {`${translateCommon('examSession')}: `}
+        <H2 style={{ marginBottom: '1rem' }}>
           <b>{header}</b>
+        </H2>
+        <Text>
+          {`${translateCommon('partialExams')}: `}
+          <b>{getPartialExamsText()}</b>
         </Text>
         <Text>
           {`${translateCommon('examDate')}: `}
           <b>{DateUtils.formatOptionalDate(examSession.session_date)}</b>
         </Text>
+
+        <Text>
+          {`${translateCommon('partialExamTimeLabel')}: `}
+          <b>{translateCommon('partialExamTime')}</b>
+        </Text>
+
         <Text>
           {`${translateCommon('institution')}: `}
           <b>{`${location.name}, ${

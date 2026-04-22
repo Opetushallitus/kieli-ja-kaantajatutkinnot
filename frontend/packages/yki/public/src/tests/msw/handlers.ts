@@ -7,7 +7,7 @@ import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder'
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 import {
-  //NoSessionResponse,
+  NoSessionResponse,
   SuomiFiAuthenticatedSessionResponse,
 } from 'tests/msw/fixtures/identity';
 import { kieliResponse } from 'tests/msw/fixtures/kieli';
@@ -130,7 +130,7 @@ export const handlers = [
   }),
   http.get(APIEndpoints.User, () => {
     return HttpResponse.json(SuomiFiAuthenticatedSessionResponse);
-    //return HttpResponse.json(NoSessionResponse);
+    // return HttpResponse.json(NoSessionResponse);
   }),
   http.post(APIEndpoints.EvaluationOrder, () =>
     HttpResponse.json(evaluationOrderPostResponse),
