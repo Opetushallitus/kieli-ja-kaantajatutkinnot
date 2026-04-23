@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface QuarantineRepository extends JpaRepository<Quarantine, Long> {
-  // Original query in the old yki backend: select-quarantine-matches
-  // Technically, this method could belong into RegistrationRepository, but this is used only in the quarantine-specific domain context.
   @Query(
     value = """
 SELECT
