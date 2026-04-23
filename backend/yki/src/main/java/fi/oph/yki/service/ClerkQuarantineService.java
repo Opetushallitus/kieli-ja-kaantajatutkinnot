@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -96,5 +97,23 @@ public class ClerkQuarantineService {
     auditService.logOperation(YkiOperation.GET_QUARANTINE_MATCHES);
 
     return new ClerkQuarantineMatchesResponseDTO(matches);
+  }
+
+  @Transactional
+  public void setQuarantineReview(final long quarantineId, final long registrationId, final boolean isQuarantined) {
+    final String reviewerOid = SecurityContextHolder.getContext().getAuthentication().getName();
+
+    if (isQuarantined) {
+      quarantineRepository.cancelForQuarantine(registrationId);
+    }
+
+    long quarantineReviewId = quarantineRepository.upsertReview(
+      quarantineId,
+      registrationId,
+      isQuarantined,
+      reviewerOid
+    );
+
+    auditService.logClerkById(YkiOperation.SET_QUARANTINE_REVIEW, String.valueOf(quarantineReviewId));
   }
 }

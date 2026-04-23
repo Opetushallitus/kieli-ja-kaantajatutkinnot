@@ -1,4 +1,6 @@
+import { OphButton } from '@opetushallitus/oph-design-system';
 import { Trans } from 'react-i18next';
+import { Variant } from 'shared/enums';
 
 import { ListTable } from 'components/oph-design/table/list-table';
 import { PageSizeSelector } from 'components/oph-design/table/page-size-selector';
@@ -22,6 +24,11 @@ type ClerkQuarantineListingProps = {
   activeTab: 'pending' | 'previous' | 'active';
   sort: ClerkQuarantineSort;
   setSort: (sort: ClerkQuarantineSort) => void;
+  onSetReview: (
+    quarantineId: number,
+    registrationId: number,
+    isQuarantined: boolean,
+  ) => void;
 };
 
 export const ClerkQuarantineListing = ({
@@ -32,6 +39,7 @@ export const ClerkQuarantineListing = ({
   setPageSize,
   sort,
   setSort,
+  onSetReview,
 }: ClerkQuarantineListingProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkQuarantine',
@@ -40,7 +48,8 @@ export const ClerkQuarantineListing = ({
   // Cells stack two values (registrant + quarantined person). Some values such
   // as email are long tokens with no spaces, so the browser cannot wrap them
   // naturally and they overflow into adjacent cells without this.
-  const style = { wordBreak: 'break-word' as const };
+  const wideStyle = { wordBreak: 'break-word' as const };
+  const narrowStyle = { whiteSpace: 'nowrap' as const, width: '1%' };
 
   const columns: ListTableColumn<ClerkQuarantineMatchRow>[] = [
     {
@@ -55,18 +64,20 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'examLanguageCode',
+      style: narrowStyle,
       title: t('listing.columns.examLanguage'),
       render: ({ examLanguageCode }) => languageToString(examLanguageCode),
     },
     {
       key: 'examDate',
       sortable: true,
+      style: narrowStyle,
       title: t('listing.columns.examDate'),
       render: ({ examDate }) => examDate.format('D.M.YYYY'),
     },
     {
       key: 'name',
-      style,
+      style: wideStyle,
       title: t('listing.columns.name'),
       render: (match) => (
         <div>
@@ -82,7 +93,7 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'birthdate',
-      style,
+      style: narrowStyle,
       title: t('listing.columns.birthdate'),
       render: (match) => (
         <div>
@@ -93,7 +104,7 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'ssn',
-      style,
+      style: narrowStyle,
       title: t('listing.columns.ssn'),
       render: (match) => (
         <div>
@@ -104,7 +115,7 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'email',
-      style: { ...style, width: '20%' }, // Note: the default is, ~12.5% with 8 equal columns
+      style: wideStyle,
       title: t('listing.columns.email'),
       render: (match) => (
         <div>
@@ -115,12 +126,39 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'phoneNumber',
-      style,
+      style: narrowStyle,
       title: t('listing.columns.phoneNumber'),
       render: (match) => (
         <div>
           <div>{match.registrantForm.phoneNumber}</div>
           <div>{match.quarantinedPerson.phoneNumber}</div>
+        </div>
+      ),
+    },
+    {
+      key: 'actions',
+      title: t('listing.columns.actions'),
+      style: narrowStyle,
+      render: (match) => (
+        <div className="columns gapped-xxs">
+          <OphButton
+            variant={Variant.Text}
+            sx={{ padding: 0, minWidth: 0 }}
+            onClick={() =>
+              onSetReview(match.quarantineId, match.registrationId, true)
+            }
+          >
+            {t('listing.actions.accept')}
+          </OphButton>
+          <OphButton
+            variant={Variant.Text}
+            sx={{ padding: 0, minWidth: 0 }}
+            onClick={() =>
+              onSetReview(match.quarantineId, match.registrationId, false)
+            }
+          >
+            {t('listing.actions.cancel')}
+          </OphButton>
         </div>
       ),
     },
