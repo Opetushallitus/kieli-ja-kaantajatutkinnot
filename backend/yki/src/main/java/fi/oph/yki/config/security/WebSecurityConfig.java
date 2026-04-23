@@ -43,7 +43,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-@Profile("!dev")
+@Profile("dev")
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -99,7 +99,7 @@ public class WebSecurityConfig {
       serviceProperties()
     );
     casAuthenticationFilter.setAuthenticationManager(authenticationManager);
-    casAuthenticationFilter.setFilterProcessesUrl("/v2/virkailija" + environment.getRequiredProperty("cas.login-path"));
+    casAuthenticationFilter.setFilterProcessesUrl(environment.getRequiredProperty("cas.login-path"));
     return casAuthenticationFilter;
   }
 

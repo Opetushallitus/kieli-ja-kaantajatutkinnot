@@ -63,7 +63,7 @@ host:
 cas:
   key: yki-ui
   send-renew: false
-  login-path: /login/cas
+  login-path: /v2/virkailija/login/cas
   logout-path: /cas/localLogout
   logout-success-path: /etusivu
   cookie-name: JSESSIONID
