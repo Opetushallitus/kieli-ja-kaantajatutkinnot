@@ -33,7 +33,7 @@ const examDateSlice = createSlice({
   name: 'examDate',
   initialState,
   reducers: {
-    loadExamDates(state) {
+    loadExamDates(state, _action: PayloadAction<boolean>) {
       state.status = APIResponseStatus.InProgress;
     },
     rejectExamDates(state) {

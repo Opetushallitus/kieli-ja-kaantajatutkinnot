@@ -60,7 +60,7 @@ export const ClerkRegisterOrganizerDetails = ({
   }, [row.oid]);
 
   useEffect(() => {
-    dispatch(loadExamDates());
+    dispatch(loadExamDates(true));
   }, [dispatch]);
 
   useEffect(() => {

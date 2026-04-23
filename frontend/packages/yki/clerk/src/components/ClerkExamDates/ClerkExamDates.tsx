@@ -71,7 +71,7 @@ export const ClerkExamDates = () => {
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
-      dispatch(loadExamDates());
+      dispatch(loadExamDates(false));
     }
   }, [dispatch, status]);
 
