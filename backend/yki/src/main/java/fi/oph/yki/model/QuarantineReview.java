@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,10 +37,10 @@ public class QuarantineReview {
   private boolean quarantined;
 
   @Column(name = "created")
-  private Instant created;
+  private LocalDateTime created;
 
   @Column(name = "updated")
-  private Instant updated;
+  private LocalDateTime updated;
 
   @Column(name = "reviewer_oid", nullable = false)
   private String reviewerOid;

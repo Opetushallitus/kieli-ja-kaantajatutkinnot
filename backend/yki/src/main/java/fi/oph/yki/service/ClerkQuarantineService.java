@@ -74,22 +74,14 @@ public class ClerkQuarantineService {
         .phoneNumber(proj.getPhoneNumber())
         .build();
 
-      // Get the birthday from the form if it is set.
-      // Otherwise, if SSN is set in the form, try to calculate the birthdate from given SSN.
-      final String formBirthdate = proj.getFormBirthdate() != null
-        ? proj.getFormBirthdate()
-        : (proj.getFormSsn() != null ? HetuUtils.dateFromHetu(proj.getFormSsn()).toString() : null);
-
-      // the logic is inherited from old yki backend,
-      // which doesn't use form.ssn except for possible birthdate calculation (the line above)
-      final String formSsn = proj.getPersonOid() != null ? oidToSsn.get(proj.getPersonOid()) : null;
+      final String registrantSsn = proj.getPersonOid() != null ? oidToSsn.get(proj.getPersonOid()) : null;
 
       final ClerkQuarantinePersonDTO registrant = ClerkQuarantinePersonDTO
         .builder()
         .firstName(proj.getFormFirstName())
         .lastName(proj.getFormLastName())
-        .birthdate(formBirthdate)
-        .ssn(formSsn)
+        .birthdate(proj.getFormBirthdate())
+        .ssn(registrantSsn)
         .email(proj.getFormEmail())
         .phoneNumber(proj.getFormPhoneNumber())
         .build();

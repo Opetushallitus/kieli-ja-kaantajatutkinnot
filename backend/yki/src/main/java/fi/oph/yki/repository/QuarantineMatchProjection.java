@@ -30,8 +30,6 @@ public interface QuarantineMatchProjection {
 
   String getFormBirthdate();
 
-  String getFormSsn();
-
   String getFormEmail();
 
   String getFormPhoneNumber();

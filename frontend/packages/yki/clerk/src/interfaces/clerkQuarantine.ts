@@ -2,10 +2,6 @@ import { Dayjs } from 'dayjs';
 
 import { ExamLevel } from 'enums/app';
 
-/**
- * A person that is inspected in the quarantine - domain/context.
- * Can be quarantined person, or the person, whose information was set in the registration form. They can be also the same person.
- */
 type ClerkQuarantinePerson = {
   firstName: string;
   lastName: string;

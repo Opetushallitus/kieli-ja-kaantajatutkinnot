@@ -8,12 +8,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface QuarantineRepository extends JpaRepository<Quarantine, Long> {
-  // Original endpoint uses: select-quarantine-matches
+  // Original query in the old yki backend: select-quarantine-matches
   // Technically, this method could belong into RegistrationRepository, but this is used only in the quarantine-specific domain context.
-  /**
-   *  Find registrations for the same exam language and quarantine period whose identity matches the quarantine entry by SSN or birthdate, unless that exact quarantine-registration pair
-   *   has already been reviewed after the quarantine was last changed.
-   */
   @Query(
     value = """
 SELECT
@@ -30,7 +26,6 @@ SELECT
     r.form->>'first_name'   AS formFirstName,
     r.form->>'last_name'    AS formLastName,
     r.form->>'birthdate'    AS formBirthdate,
-    r.form->>'ssn'          AS formSsn,
     r.form->>'email'        AS formEmail,
     r.form->>'phone_number' AS formPhoneNumber,
     r.state                 AS state,

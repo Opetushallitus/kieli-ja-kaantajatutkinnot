@@ -243,33 +243,6 @@ public class ClerkQuarantineServiceTest {
   }
 
   @Test
-  public void testFormBirthdateIsPopulatedWhenAbsentUsingOriginalFormSsn() throws Exception {
-    final Person person4 = Factory.person();
-    person4.setOid("oid-person4");
-    entityManager.persist(person4);
-
-    // Registration with SSN in form but no birthdate — birthdate should be derived from the SSN
-    final Registration regNoBirthdate = Factory.registration(person4);
-    regNoBirthdate.setExamSession(finSession);
-    regNoBirthdate.setState(RegistrationState.COMPLETED);
-    regNoBirthdate.setForm(objectMapper.createObjectNode().put("ssn", "010675-9981"));
-    entityManager.persistAndFlush(regNoBirthdate);
-
-    when(onrService.listPersonDetails(any())).thenReturn(List.of());
-
-    final List<ClerkQuarantineMatchDTO> response = clerkQuarantineService.getQuarantineMatches();
-
-    final ClerkQuarantineMatchDTO match = response
-      .stream()
-      .filter(m -> m.registrationId().equals(regNoBirthdate.getId()))
-      .findFirst()
-      .orElseThrow();
-
-    // birthdate derived from original form.ssn (010675-9981 → 1975-06-01)
-    assertEquals("1975-06-01", match.registrant().birthdate());
-  }
-
-  @Test
   public void testFormSsnIsNullWhenPersonNotInOnr() throws Exception {
     when(onrService.listPersonDetails(any())).thenReturn(List.of());
 
