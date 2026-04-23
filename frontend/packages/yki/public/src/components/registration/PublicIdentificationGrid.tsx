@@ -151,7 +151,7 @@ export const PublicIdentificationGrid = () => {
   });
   const { isPhone } = useWindowProperties();
 
-  const { registrationKind, partialExamType } =
+  const { registrationKind } =
     useAppSelector(registrationSelector).initRegistration;
   const { examSession } = useAppSelector(examSessionSelector);
   const { loggedInSession } = useAppSelector(sessionSelector);
@@ -160,7 +160,6 @@ export const PublicIdentificationGrid = () => {
     return null;
   }
 
-  console.log('partialExamType', partialExamType);
   const toQueue = registrationKind === RegistrationKind.Queue;
 
   return (

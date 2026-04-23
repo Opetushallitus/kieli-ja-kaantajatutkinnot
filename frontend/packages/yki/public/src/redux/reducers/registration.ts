@@ -134,6 +134,7 @@ const registrationSlice = createSlice({
     ) {
       state.initRegistration.status = APIResponseStatus.Success;
       state.initRegistration.expiresIn = action.payload?.expires_in;
+      state.initRegistration.partialExamType = action.payload.partial_exam_type;
 
       const {
         registration_id,

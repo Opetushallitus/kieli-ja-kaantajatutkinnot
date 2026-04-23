@@ -1,4 +1,3 @@
-import { init } from 'i18next';
 import { H2, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
@@ -108,8 +107,6 @@ export const PublicRegistrationExamSessionDetails = ({
   }
 
   const attemptsLeft = 3 - (attemptsUsed || 0);
-
-  console.log('exam + init', examSession, initRegistration);
 
   const getPartialExamsText = () => {
     if (examSession.type === 'FULL') {
