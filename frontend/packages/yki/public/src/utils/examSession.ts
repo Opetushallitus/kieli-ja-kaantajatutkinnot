@@ -3,7 +3,12 @@ import { StringUtils } from 'shared/utils';
 
 import { translateOutsideComponent } from 'configs/i18n';
 import { ExamLanguage, ExamLevel } from 'enums/app';
-import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
+import {
+  ExamSession,
+  ExamSessionLocation,
+  ExamSessionType,
+} from 'interfaces/examSessions';
+import { PartialExamType } from 'interfaces/publicRegistration';
 import { AuthenticatedSession } from 'interfaces/session';
 
 export class ExamSessionUtils {
@@ -159,5 +164,42 @@ export class ExamSessionUtils {
     }
 
     return true;
+  }
+
+  static getPartialExanTypeText(
+    examSessionType: ExamSessionType,
+    partialExamType?: PartialExamType,
+  ) {
+    if (!partialExamType) {
+      return '';
+    }
+
+    if (examSessionType === 'FULL') {
+      return 'Kaikki osakokeet: tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen';
+    }
+
+    if (examSessionType === 'LISTEN_WRITE') {
+      if (partialExamType === 'ALL_PARTS') {
+        return 'Puheen ymmärtäminen ja kirjoittaminen';
+      }
+      if (partialExamType === 'LISTEN') {
+        return 'Puheen ymmärtäminen';
+      }
+      if (partialExamType === 'WRITE') {
+        return 'Kirjoittaminen';
+      }
+    }
+
+    if (examSessionType === 'READ_SPEAK') {
+      if (partialExamType === 'ALL_PARTS') {
+        return 'Tekstin ymmärtäminen ja puhuminen';
+      }
+      if (partialExamType === 'READ') {
+        return 'Tekstin ymmärtäminen';
+      }
+      if (partialExamType === 'SPEAK') {
+        return 'Puhuminen';
+      }
+    }
   }
 }

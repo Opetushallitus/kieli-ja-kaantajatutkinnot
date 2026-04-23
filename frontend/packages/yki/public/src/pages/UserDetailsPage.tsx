@@ -298,11 +298,19 @@ const Registrations: FC<RegistrationsProps> = ({
           )}
         <div>
           <Text className="bold">{t('partialExams.label')}</Text>
-          <Text>{t(`partialExams.${r.type}`)}</Text>
+          <Text>
+            {ExamSessionUtils.getPartialExanTypeText(r.type, r.partialExamType)}
+          </Text>
         </div>
         <div>
           <Text className="bold">{translateCommon('examDate')}</Text>
           <Text>{DateUtils.formatOptionalDate(r.examDate, 'l')}</Text>
+        </div>
+        <div>
+          <Text className="bold">
+            {translateCommon('partialExamTimeLabel')}
+          </Text>
+          <Text>{translateCommon('partialExamTime')}</Text>
         </div>
         {r.kind === RegistrationKind.Queue && (
           <div>

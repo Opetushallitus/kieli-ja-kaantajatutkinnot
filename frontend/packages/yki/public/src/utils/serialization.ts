@@ -276,6 +276,7 @@ export class SerializationUtils {
       countryCode: response.country_code,
       registrations: response.registrations?.map((v) => ({
         id: v.id,
+        partialExamType: v.partial_exam_type,
         type: v.type as ExamSessionType,
         kind: v.kind as RegistrationKind,
         examSessionId: v.exam_session_id,

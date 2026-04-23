@@ -108,36 +108,6 @@ export const PublicRegistrationExamSessionDetails = ({
 
   const attemptsLeft = 3 - (attemptsUsed || 0);
 
-  const getPartialExamsText = () => {
-    if (examSession.type === 'FULL') {
-      return 'Kaikki osakokeet: tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen';
-    }
-
-    if (examSession.type === 'LISTEN_WRITE') {
-      if (initRegistration.partialExamType === 'ALL_PARTS') {
-        return 'Puheen ymmärtäminen ja kirjoittaminen';
-      }
-      if (initRegistration.partialExamType === 'LISTEN') {
-        return 'Puheen ymmärtäminen';
-      }
-      if (initRegistration.partialExamType === 'WRITE') {
-        return 'Kirjoittaminen';
-      }
-    }
-
-    if (examSession.type === 'READ_SPEAK') {
-      if (initRegistration.partialExamType === 'ALL_PARTS') {
-        return 'Tekstin ymmärtäminen ja puhuminen';
-      }
-      if (initRegistration.partialExamType === 'READ') {
-        return 'Tekstin ymmärtäminen';
-      }
-      if (initRegistration.partialExamType === 'SPEAK') {
-        return 'Puhuminen';
-      }
-    }
-  };
-
   return (
     <div className="rows">
       <div className="rows-gapped-xxs">
@@ -146,7 +116,12 @@ export const PublicRegistrationExamSessionDetails = ({
         </H2>
         <Text>
           {`${translateCommon('partialExams')}: `}
-          <b>{getPartialExamsText()}</b>
+          <b>
+            {ExamSessionUtils.getPartialExanTypeText(
+              examSession.type,
+              initRegistration.partialExamType,
+            )}
+          </b>
         </Text>
         <Text>
           {`${translateCommon('examDate')}: `}
