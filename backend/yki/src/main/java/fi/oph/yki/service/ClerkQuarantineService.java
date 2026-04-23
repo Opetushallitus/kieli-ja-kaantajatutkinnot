@@ -62,32 +62,32 @@ public class ClerkQuarantineService {
 
     final Map<String, String> oidToSsn = oids.isEmpty() ? Map.of() : getOidToSsnMap(oids);
 
-    final List<ClerkQuarantineMatchDTO> matches = new ArrayList<>();
-    for (final QuarantineMatchProjection proj : projections) {
-      final ClerkQuarantinePersonDTO quarantinedPerson = ClerkQuarantinePersonDTO
-        .builder()
-        .firstName(proj.getFirstName())
-        .lastName(proj.getLastName())
-        .birthdate(proj.getBirthdate())
-        .ssn(proj.getSsn())
-        .email(proj.getEmail())
-        .phoneNumber(proj.getPhoneNumber())
-        .build();
+    final List<ClerkQuarantineMatchDTO> matches = projections
+      .stream()
+      .map(proj -> {
+        final ClerkQuarantinePersonDTO quarantinedPerson = ClerkQuarantinePersonDTO
+          .builder()
+          .firstName(proj.getFirstName())
+          .lastName(proj.getLastName())
+          .birthdate(proj.getBirthdate())
+          .ssn(proj.getSsn())
+          .email(proj.getEmail())
+          .phoneNumber(proj.getPhoneNumber())
+          .build();
 
-      final String registrantSsn = proj.getPersonOid() != null ? oidToSsn.get(proj.getPersonOid()) : null;
+        final String registrantSsn = proj.getPersonOid() != null ? oidToSsn.get(proj.getPersonOid()) : null;
 
-      final ClerkQuarantinePersonDTO registrant = ClerkQuarantinePersonDTO
-        .builder()
-        .firstName(proj.getFormFirstName())
-        .lastName(proj.getFormLastName())
-        .birthdate(proj.getFormBirthdate())
-        .ssn(registrantSsn)
-        .email(proj.getFormEmail())
-        .phoneNumber(proj.getFormPhoneNumber())
-        .build();
+        final ClerkQuarantinePersonDTO registrant = ClerkQuarantinePersonDTO
+          .builder()
+          .firstName(proj.getFormFirstName())
+          .lastName(proj.getFormLastName())
+          .birthdate(proj.getFormBirthdate())
+          .ssn(registrantSsn)
+          .email(proj.getFormEmail())
+          .phoneNumber(proj.getFormPhoneNumber())
+          .build();
 
-      matches.add(
-        ClerkQuarantineMatchDTO
+        return ClerkQuarantineMatchDTO
           .builder()
           .id(proj.getQuarantineId())
           .quarantineLang(proj.getQuarantineLang().trim())
@@ -99,9 +99,9 @@ public class ClerkQuarantineService {
           .examDate(proj.getExamDate())
           .languageCode(proj.getLanguageCode().trim())
           .levelCode(proj.getLevelCode().trim())
-          .build()
-      );
-    }
+          .build();
+      })
+      .collect(Collectors.toList());
 
     auditService.logOperation(YkiOperation.GET_QUARANTINE_MATCHES);
 
