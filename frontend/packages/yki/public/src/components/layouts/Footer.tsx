@@ -1,7 +1,7 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { H3, OPHLogoViewer, Text } from 'shared/components';
+import { OPHLogoViewer, Text } from 'shared/components';
 import { Direction } from 'shared/enums';
 
 import {
@@ -20,7 +20,7 @@ export const Footer = () => {
       <Paper className="footer" elevation={0}>
         <div className="footer__info-row">
           <div className="footer__container footer__container__links rows gapped-xs">
-            <h2>{t('headings.statements')}</h2>
+            <h4 style={{ marginBottom: '1rem' }}>{t('headings.statements')}</h4>
             <Link to={AppRoutes.AccessibilityStatementPage}>
               <Text color="secondary">{t('links.accessibility.text')}</Text>
             </Link>
@@ -35,7 +35,7 @@ export const Footer = () => {
             </a>
           </div>
           <div className="footer__container footer__container__info rows gapped-xs">
-            <h2>{t('headings.info')}</h2>
+            <h4 style={{ marginBottom: '1rem' }}>{t('headings.info')}</h4>
             <a
               href={translateCommon('ykiHomepage.link')}
               aria-label={translateCommon('ykiHomepage.ariaLabel')}
@@ -72,8 +72,8 @@ export const Footer = () => {
             </div>
           </div>
           <div className="footer__container footer__container__contact-details rows gapped-xs">
-            <h2>{t('headings.contacts')}</h2>
-            <H3>{t('address.name')}</H3>
+            <h4 style={{ marginBottom: '1rem' }}>{t('headings.contacts')}</h4>
+            <span className="label">{t('address.name')}</span>
             <Text>{t('address.street')}</Text>
             <Text>{t('address.zipCity')}</Text>
             <div className="columns gapped-xxs">
