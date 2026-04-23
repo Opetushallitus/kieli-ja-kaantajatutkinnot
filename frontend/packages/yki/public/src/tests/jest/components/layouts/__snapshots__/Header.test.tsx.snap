@@ -28,7 +28,7 @@ exports[`Header should render Header correctly 1`] = `
           header.sessionState.activeRegistrations
         </p>
         <a
-          href="/yki/ilmoittautuminen/tutkintotilaisuus/1"
+          href="/yki/ilmoittautuminen/tutkintotilaisuus/1?registrationId=999"
         >
           header.sessionState.continueToRegistration
         </a>

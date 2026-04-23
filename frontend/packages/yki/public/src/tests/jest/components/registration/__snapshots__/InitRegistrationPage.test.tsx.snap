@@ -36,13 +36,19 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
               <div
                 class="rows-gapped-xxs"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                <h2
+                  class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
+                  style="margin-bottom: 1rem;"
                 >
-                  examSession: 
                   <b>
                     yki.common.languages.fin, yki.common.languageLevel.YLIN
                   </b>
+                </h2>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  partialExams: 
+                  <b />
                 </p>
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
@@ -50,6 +56,14 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                   examDate: 
                   <b>
                     12/29/2039
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  partialExamTimeLabel: 
+                  <b>
+                    partialExamTime
                   </b>
                 </p>
                 <p
@@ -150,13 +164,19 @@ exports[`InitRegistrationPage should not let user proceed if registration period
               <div
                 class="rows-gapped-xxs"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                <h2
+                  class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
+                  style="margin-bottom: 1rem;"
                 >
-                  examSession: 
                   <b>
                     yki.common.languages.fin, yki.common.languageLevel.YLIN
                   </b>
+                </h2>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  partialExams: 
+                  <b />
                 </p>
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
@@ -164,6 +184,14 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                   examDate: 
                   <b>
                     01/01/2035
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  partialExamTimeLabel: 
+                  <b>
+                    partialExamTime
                   </b>
                 </p>
                 <p
@@ -506,13 +534,19 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 <div
                   class="rows-gapped-xxs"
                 >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  <h2
+                    class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
+                    style="margin-bottom: 1rem;"
                   >
-                    examSession: 
                     <b>
                       yki.common.languages.fin, yki.common.languageLevel.KESKI
                     </b>
+                  </h2>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  >
+                    partialExams: 
+                    <b />
                   </p>
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
@@ -520,6 +554,14 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     examDate: 
                     <b>
                       04/06/2019
+                    </b>
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  >
+                    partialExamTimeLabel: 
+                    <b>
+                      partialExamTime
                     </b>
                   </p>
                   <p
