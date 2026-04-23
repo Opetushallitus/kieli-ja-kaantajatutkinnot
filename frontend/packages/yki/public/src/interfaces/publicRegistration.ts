@@ -81,6 +81,7 @@ export interface PublicRegistrationIdentifyRequest {
 export interface PublicRegistrationInitResponse {
   exam_session: ExamSessionResponse;
   registration_id: number;
+  partial_exam_type: PartialExamType;
   user: {
     first_name?: string;
     last_name?: string;

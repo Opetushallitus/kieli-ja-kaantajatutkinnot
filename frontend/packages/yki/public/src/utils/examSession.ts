@@ -3,12 +3,7 @@ import { StringUtils } from 'shared/utils';
 
 import { translateOutsideComponent } from 'configs/i18n';
 import { ExamLanguage, ExamLevel } from 'enums/app';
-import {
-  ExamSession,
-  ExamSessionLocation,
-  ExamSessionType,
-} from 'interfaces/examSessions';
-import { PartialExamType } from 'interfaces/publicRegistration';
+import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
 import { AuthenticatedSession } from 'interfaces/session';
 
 export class ExamSessionUtils {

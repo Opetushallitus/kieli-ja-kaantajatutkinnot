@@ -7,7 +7,7 @@ import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder'
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 import {
-  NoSessionResponse,
+  // NoSessionResponse,
   SuomiFiAuthenticatedSessionResponse,
 } from 'tests/msw/fixtures/identity';
 import { kieliResponse } from 'tests/msw/fixtures/kieli';
@@ -62,6 +62,7 @@ const initRegistration = async ({
         exam_session,
         registration_kind: _registration_kind,
         registration_id: _registration_id,
+        partial_exam_type: _partial_exam_type,
         ...rest
       } = registrationInitResponse;
       const examSession =
@@ -82,6 +83,7 @@ const initRegistration = async ({
             available_registration_kind: kind,
           },
           registration_kind: kind,
+          partial_exam_type: 'ALL_PARTS',
           // Mock registration id to match exam session id.
           // This is so that we can in the registration submit endpoint
           // return different registration kind (admission vs. queue)
