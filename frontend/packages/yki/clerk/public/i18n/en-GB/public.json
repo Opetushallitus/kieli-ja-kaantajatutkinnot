@@ -1,16 +1,6 @@
 {
   "yki": {
     "component": {
-      "clerkPaymentReport": {
-        "title": "Exam payment reporting",
-        "description": "Select the date range for which you want to view completed exam payments. By default, the entire previous month is selected. Please note that any subsequently refunded exam payments will still appear in the report as paid.",
-        "from": "From",
-        "to": "To",
-        "download": "Generate report (.xlsx)",
-        "toasts": {
-          "downloadError": "Failed to generate the report"
-        }
-      },
       "clerkCustomer": {
         "details": {
           "buttons": {
@@ -119,6 +109,21 @@
           "description": "You are about to delete exam date <bold>{{examDate}}</bold>.",
           "title": "Confirm exam date deletion"
         },
+        "evaluationModal": {
+          "enablePerLanguageDates": "Lisää päivämäärät kielitutkintokohtaisesti",
+          "errors": {
+            "endDateBeforeStartDate": "Päättymispäivä ei voi olla ennen alkupäivää",
+            "required": "Tieto on pakollinen",
+            "startDateBeforeExamDate": "Alkupäivä ei voi olla ennen tutkintopäivää"
+          },
+          "evaluationEndLabel": "Tarkistusarviointi päättyy",
+          "evaluationStartLabel": "Tarkistusarviointi alkaa",
+          "infoText": "Olet lisäämässä tarkistusarviointia seuraaville kielitutkinnoille:",
+          "setCustomDates": "Aseta eri päivät",
+          "submitButton": "Lisää tarkistusarviointi",
+          "title": "Lisää tarkistusarviointi",
+          "useDefaultDates": "Käytä oletuspäiviä"
+        },
         "header": "Tutkintopäivät",
         "listing": {
           "addReviewEvaluation": "Lisää tarkistusarviointi",
@@ -150,7 +155,7 @@
           "examLabel": "Koe",
           "examTypes": {
             "allExamParts": "Kaikki osakokeet",
-            "readingComprehensionAndSpeaking": "Tekstin ymmärtäminen ja Puhuminen",
+            "readingComprehensionAndSpeaking": "Tekstin ymmärtäminen ja puhuminen",
             "speechComprehensionAndWriting": "Puheen ymmärtäminen ja kirjoittaminen"
           },
           "languageLabel": "Kieli",
@@ -172,30 +177,15 @@
           "submitButton": "Tallenna muutokset",
           "title": "Muokkaa tutkintopäivää"
         },
-        "evaluationModal": {
-          "title": "Lisää tarkistusarviointi",
-          "infoText": "Olet lisäämässä tarkistusarviointia seuraaville kielitutkinnoille:",
-          "evaluationStartLabel": "Tarkistusarviointi alkaa",
-          "evaluationEndLabel": "Tarkistusarviointi päättyy",
-          "enablePerLanguageDates": "Lisää päivämäärät kielitutkintokohtaisesti",
-          "useDefaultDates": "Käytä oletuspäiviä",
-          "setCustomDates": "Aseta eri päivät",
-          "submitButton": "Lisää tarkistusarviointi",
-          "errors": {
-            "required": "Tieto on pakollinen",
-            "startDateBeforeExamDate": "Alkupäivä ei voi olla ennen tutkintopäivää",
-            "endDateBeforeStartDate": "Päättymispäivä ei voi olla ennen alkupäivää"
-          }
-        },
         "toasts": {
+          "evaluationAdded": "Tarkistusarviointi lisätty onnistuneesti",
+          "evaluationAddError": "Tarkistusarvioinnin lisääminen epäonnistui",
           "examDateAdded": "Tutkintopäivä lisätty onnistuneesti",
           "examDateAddError": "Tutkintopäivän lisääminen epäonnistui",
           "examDateDeleted": "Tutkintopäivä poistettu onnistuneesti",
           "examDateDeleteError": "Tutkintopäivän poistaminen epäonnistui",
           "examDateUpdated": "Tutkintopäivän tiedot tallennettu onnistuneesti",
-          "examDateUpdateError": "Tutkintopäivän muokkaaminen epäonnistui",
-          "evaluationAdded": "Tarkistusarviointi lisätty onnistuneesti",
-          "evaluationAddError": "Tarkistusarvioinnin lisääminen epäonnistui"
+          "examDateUpdateError": "Tutkintopäivän muokkaaminen epäonnistui"
         }
       },
       "clerkExamSessionRegistrations": {
@@ -387,6 +377,16 @@
         "tabs": {
           "pending": "Odottavat tarkastukset",
           "previous": "Aiemmat tarkastukset"
+        }
+      },
+      "clerkPaymentReport": {
+        "description": "Select the date range for which you want to view completed exam payments. By default, the entire previous month is selected. Please note that any subsequently refunded exam payments will still appear in the report as paid.",
+        "download": "Generate report (.xlsx)",
+        "from": "From",
+        "title": "Exam payment reporting",
+        "to": "To",
+        "toasts": {
+          "downloadError": "Failed to generate the report"
         }
       },
       "clerkQuarantine": {
