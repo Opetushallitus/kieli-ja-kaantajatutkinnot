@@ -2,12 +2,14 @@ package fi.oph.yki.service;
 
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchDTO;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantinePersonDTO;
+import fi.oph.yki.api.dto.clerk.ClerkQuarantineReviewDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.QuarantineMatchProjection;
 import fi.oph.yki.repository.QuarantineRepository;
+import fi.oph.yki.repository.QuarantineReviewProjection;
 import fi.oph.yki.repository.QuarantineReviewRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.HetuUtils;
@@ -106,6 +108,53 @@ public class ClerkQuarantineService {
     auditService.logOperation(YkiOperation.GET_QUARANTINE_MATCHES);
 
     return matches;
+  }
+
+  @Transactional(readOnly = true)
+  public List<ClerkQuarantineReviewDTO> getReviews() {
+    final List<ClerkQuarantineReviewDTO> reviews = quarantineReviewRepository
+      .findAllReviews()
+      .stream()
+      .map(p -> {
+        final ClerkQuarantinePersonDTO quarantinedPerson = ClerkQuarantinePersonDTO
+          .builder()
+          .firstName(p.getFirstName())
+          .lastName(p.getLastName())
+          .birthdate(p.getBirthdate())
+          .ssn(p.getSsn())
+          .email(p.getEmail())
+          .phoneNumber(p.getPhoneNumber())
+          .build();
+
+        final ClerkQuarantinePersonDTO registrant = ClerkQuarantinePersonDTO
+          .builder()
+          .firstName(p.getFormFirstName())
+          .lastName(p.getFormLastName())
+          .birthdate(p.getFormBirthdate())
+          .email(p.getFormEmail())
+          .phoneNumber(p.getFormPhoneNumber())
+          .build();
+
+        return ClerkQuarantineReviewDTO
+          .builder()
+          .id(p.getId())
+          .quarantined(Boolean.TRUE.equals(p.getQuarantined()))
+          .quarantineId(p.getQuarantineId())
+          .registrationId(p.getRegistrationId())
+          .updated(p.getUpdated())
+          .examDate(p.getExamDate())
+          .languageCode(p.getLanguageCode() != null ? p.getLanguageCode().trim() : null)
+          .levelCode(p.getLevelCode() != null ? p.getLevelCode().trim() : null)
+          .state(p.getState())
+          .quarantinedPerson(quarantinedPerson)
+          .registrant(registrant)
+          .build();
+      })
+      .toList();
+
+    auditService.logOperation(YkiOperation.GET_QUARANTINE_REVIEWS);
+
+    return reviews;
   }
 
   @Transactional

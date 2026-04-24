@@ -2,6 +2,7 @@ package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchDTO;
+import fi.oph.yki.api.dto.clerk.ClerkQuarantineReviewDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
@@ -24,6 +26,8 @@ import fi.oph.yki.repository.QuarantineReviewRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import jakarta.annotation.Resource;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -150,7 +154,7 @@ public class ClerkQuarantineServiceTest {
     quarantineSsn.setBirthdate("1975-06-01");
     quarantineSsn.setFirstName("Anna-Liisa");
     quarantineSsn.setLastName("Sallinen");
-    quarantineSsn.setUpdated(Instant.parse("2020-01-01T00:00:00Z"));
+    quarantineSsn.setUpdated(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0));
     entityManager.persist(quarantineSsn);
 
     // fin, birthdate-only match
@@ -165,7 +169,7 @@ public class ClerkQuarantineServiceTest {
     quarantineReviewed.setBirthdate("1910-01-10");
     quarantineReviewed.setFirstName("Reviewed");
     quarantineReviewed.setLastName("Person");
-    quarantineReviewed.setUpdated(Instant.parse("2020-01-01T00:00:00Z"));
+    quarantineSsn.setUpdated(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0));
     entityManager.persist(quarantineReviewed);
 
     entityManager.flush();
@@ -240,6 +244,34 @@ public class ClerkQuarantineServiceTest {
       .orElseThrow();
 
     assertEquals("NEW-SSN-FROM-ONR", match.registrant().ssn());
+  }
+
+  @Test
+  public void testGetReviewsReturnsCompletedReview() {
+    final List<ClerkQuarantineReviewDTO> reviews = clerkQuarantineService.getReviews();
+
+    assertEquals(1, reviews.size());
+    final ClerkQuarantineReviewDTO review = reviews.get(0);
+    assertTrue(review.quarantined());
+    assertEquals(regReviewed.getId(), review.registrationId());
+    assertEquals("Reviewed", review.quarantinedPerson().firstName());
+    assertEquals("Person", review.quarantinedPerson().lastName());
+  }
+
+  @Test
+  public void testGetReviewsDoesNotIncludePendingMatches() {
+    final List<ClerkQuarantineReviewDTO> reviews = clerkQuarantineService.getReviews();
+
+    assertFalse(reviews.stream().anyMatch(r -> r.registrationId().equals(regSsnMatch.getId())));
+    assertFalse(reviews.stream().anyMatch(r -> r.registrationId().equals(regBirthdateMatch.getId())));
+  }
+
+  @Test
+  public void testGetReviewsRegistrantBirthdateIsNullWhenAbsentFromForm() {
+    final List<ClerkQuarantineReviewDTO> reviews = clerkQuarantineService.getReviews();
+
+    final ClerkQuarantineReviewDTO review = reviews.get(0);
+    assertNull(review.registrant().birthdate());
   }
 
   @Test
