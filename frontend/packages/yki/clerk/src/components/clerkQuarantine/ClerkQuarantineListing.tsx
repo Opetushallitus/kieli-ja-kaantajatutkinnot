@@ -1,7 +1,9 @@
 import { OphButton } from '@opetushallitus/oph-design-system';
+import { useState } from 'react';
 import { Trans } from 'react-i18next';
 import { Variant } from 'shared/enums';
 
+import { ClerkQuarantineModal } from 'components/clerkQuarantine/ClerkQuarantineModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { PageSizeSelector } from 'components/oph-design/table/page-size-selector';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
@@ -12,6 +14,11 @@ import {
 } from 'interfaces/clerkQuarantine';
 import { Text } from 'ophTheme/Text';
 import { languageToString } from 'utils/clerk';
+
+type ModalState = {
+  match: ClerkQuarantineMatch;
+  action: 'accept' | 'reject';
+};
 
 type ClerkQuarantineMatchRow = ClerkQuarantineMatch & Row;
 
@@ -27,7 +34,7 @@ type ClerkQuarantineListingProps = {
   onSetReview: (
     quarantineId: number,
     registrationId: number,
-    isQuarantined: boolean,
+    matchConfirmed: boolean,
   ) => void;
 };
 
@@ -44,6 +51,19 @@ export const ClerkQuarantineListing = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkQuarantine',
   });
+
+  const [modalState, setModalState] = useState<ModalState | null>(null);
+
+  const handleConfirm = () => {
+    if (!modalState) return;
+    const matchConfirmed = modalState.action === 'accept';
+    onSetReview(
+      modalState.match.quarantineId,
+      modalState.match.registrationId,
+      matchConfirmed,
+    );
+    setModalState(null);
+  };
 
   // Cells stack two values (registrant + quarantined person). Some values such
   // as email are long tokens with no spaces, so the browser cannot wrap them
@@ -82,7 +102,7 @@ export const ClerkQuarantineListing = ({
       render: (match) => (
         <div>
           <div>
-            {match.registrantForm.firstName} {match.registrantForm.lastName}
+            {match.registrant.firstName} {match.registrant.lastName}
           </div>
           <div>
             {match.quarantinedPerson.firstName}{' '}
@@ -97,7 +117,7 @@ export const ClerkQuarantineListing = ({
       title: t('listing.columns.birthdate'),
       render: (match) => (
         <div>
-          <div>{match.registrantForm.birthdate}</div>
+          <div>{match.registrant.birthdate}</div>
           <div>{match.quarantinedPerson.birthdate}</div>
         </div>
       ),
@@ -108,7 +128,7 @@ export const ClerkQuarantineListing = ({
       title: t('listing.columns.ssn'),
       render: (match) => (
         <div>
-          <div>{match.registrantForm.ssn}</div>
+          <div>{match.registrant.ssn}</div>
           <div>{match.quarantinedPerson.ssn}</div>
         </div>
       ),
@@ -119,7 +139,7 @@ export const ClerkQuarantineListing = ({
       title: t('listing.columns.email'),
       render: (match) => (
         <div>
-          <div>{match.registrantForm.email}</div>
+          <div>{match.registrant.email}</div>
           <div>{match.quarantinedPerson.email}</div>
         </div>
       ),
@@ -130,7 +150,7 @@ export const ClerkQuarantineListing = ({
       title: t('listing.columns.phoneNumber'),
       render: (match) => (
         <div>
-          <div>{match.registrantForm.phoneNumber}</div>
+          <div>{match.registrant.phoneNumber}</div>
           <div>{match.quarantinedPerson.phoneNumber}</div>
         </div>
       ),
@@ -144,18 +164,14 @@ export const ClerkQuarantineListing = ({
           <OphButton
             variant={Variant.Text}
             sx={{ padding: 0, minWidth: 0 }}
-            onClick={() =>
-              onSetReview(match.quarantineId, match.registrationId, true)
-            }
+            onClick={() => setModalState({ match, action: 'accept' })}
           >
             {t('listing.actions.accept')}
           </OphButton>
           <OphButton
             variant={Variant.Text}
             sx={{ padding: 0, minWidth: 0 }}
-            onClick={() =>
-              onSetReview(match.quarantineId, match.registrationId, false)
-            }
+            onClick={() => setModalState({ match, action: 'reject' })}
           >
             {t('listing.actions.cancel')}
           </OphButton>
@@ -190,6 +206,12 @@ export const ClerkQuarantineListing = ({
           pageSize,
           totalCount: rows.length,
         }}
+      />
+      <ClerkQuarantineModal
+        match={modalState?.match ?? null}
+        action={modalState?.action ?? null}
+        onClose={() => setModalState(null)}
+        onConfirm={handleConfirm}
       />
     </>
   );

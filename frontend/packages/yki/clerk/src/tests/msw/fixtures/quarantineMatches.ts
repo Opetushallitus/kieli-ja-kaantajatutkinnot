@@ -3,14 +3,16 @@ import { ClerkQuarantineMatchResponse } from 'interfaces/clerkQuarantine';
 export const quarantineMatches: ClerkQuarantineMatchResponse[] = [
   {
     id: 1,
-    birthdate: '1980-05-15',
-    ssn: '150580-900T',
-    firstName: 'Markku',
-    lastName: 'Virtanen',
-    email: 'markku.virtanen@ban.fi',
-    phoneNumber: '+358401234567',
+    quarantinedPerson: {
+      birthdate: '1980-05-15',
+      ssn: '150580-900T',
+      firstName: 'Markku',
+      lastName: 'Virtanen',
+      email: 'markku.virtanen@ban.fi',
+      phoneNumber: '+358401234567',
+    },
     registrationId: 1001,
-    form: {
+    registrant: {
       firstName: 'Marko',
       lastName: 'Virtanen',
       birthdate: '1980-05-15',
@@ -21,17 +23,20 @@ export const quarantineMatches: ClerkQuarantineMatchResponse[] = [
     state: 'SUBMITTED',
     examDate: '2025-09-20',
     languageCode: 'fin',
+    levelCode: 'KESKI',
   },
   {
     id: 2,
-    birthdate: '1975-11-03',
-    ssn: '031175-812A',
-    firstName: 'Pirjo',
-    lastName: 'Mäkinen',
-    email: 'pirjo.makinen@ban.fi',
-    phoneNumber: '+358509876543',
+    quarantinedPerson: {
+      birthdate: '1975-11-03',
+      ssn: '031175-812A',
+      firstName: 'Pirjo',
+      lastName: 'Mäkinen',
+      email: 'pirjo.makinen@ban.fi',
+      phoneNumber: '+358509876543',
+    },
     registrationId: 1002,
-    form: {
+    registrant: {
       firstName: 'Pirjo',
       lastName: 'Mäkinen-Leinonen',
       birthdate: '1975-11-03',
@@ -42,17 +47,20 @@ export const quarantineMatches: ClerkQuarantineMatchResponse[] = [
     state: 'COMPLETED',
     examDate: '2025-11-15',
     languageCode: 'fin',
+    levelCode: 'YLIN',
   },
   {
     id: 3,
-    birthdate: '1992-07-22',
-    ssn: '220792-5532',
-    firstName: 'Erik',
-    lastName: 'Lindqvist',
-    email: 'erik.lindqvist@ban.fi',
-    phoneNumber: '+358441112233',
+    quarantinedPerson: {
+      birthdate: '1992-07-22',
+      ssn: '220792-5532',
+      firstName: 'Erik',
+      lastName: 'Lindqvist',
+      email: 'erik.lindqvist@ban.fi',
+      phoneNumber: '+358441112233',
+    },
     registrationId: 1003,
-    form: {
+    registrant: {
       firstName: 'Erik',
       lastName: 'Lindqist',
       birthdate: '1992-07-22',
@@ -63,17 +71,20 @@ export const quarantineMatches: ClerkQuarantineMatchResponse[] = [
     state: 'SUBMITTED',
     examDate: '2026-03-14',
     languageCode: 'swe',
+    levelCode: 'PERUS',
   },
   {
     id: 4,
-    birthdate: '1988-02-28',
-    ssn: '280288-371B',
-    firstName: 'Anna',
-    lastName: 'Korhonen',
-    email: 'anna.korhonen@ban.fi',
-    phoneNumber: '+358503334455',
+    quarantinedPerson: {
+      birthdate: '1988-02-28',
+      ssn: '280288-371B',
+      firstName: 'Anna',
+      lastName: 'Korhonen',
+      email: 'anna.korhonen@ban.fi',
+      phoneNumber: '+358503334455',
+    },
     registrationId: 1004,
-    form: {
+    registrant: {
       firstName: 'Anne',
       lastName: 'Korhonen',
       birthdate: '1988-02-28',
@@ -84,5 +95,6 @@ export const quarantineMatches: ClerkQuarantineMatchResponse[] = [
     state: 'COMPLETED',
     examDate: '2026-06-06',
     languageCode: 'eng',
+    levelCode: 'KESKI',
   },
 ];

@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchDTO;
-import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchesResponseDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
@@ -21,9 +20,10 @@ import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.QuarantineRepository;
+import fi.oph.yki.repository.QuarantineReviewRepository;
+import fi.oph.yki.repository.RegistrationRepository;
 import jakarta.annotation.Resource;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +44,13 @@ import org.springframework.test.context.ActiveProfiles;
 public class ClerkQuarantineServiceTest {
 
   @Resource
+  private RegistrationRepository registrationRepository;
+
+  @Resource
   private QuarantineRepository quarantineRepository;
+
+  @Resource
+  private QuarantineReviewRepository quarantineReviewRepository;
 
   @Resource
   private TestEntityManager entityManager;
@@ -73,7 +79,14 @@ public class ClerkQuarantineServiceTest {
 
   @BeforeEach
   public void setup() {
-    clerkQuarantineService = new ClerkQuarantineService(quarantineRepository, onrService, auditService, objectMapper);
+    clerkQuarantineService =
+      new ClerkQuarantineService(
+        quarantineRepository,
+        registrationRepository,
+        quarantineReviewRepository,
+        onrService,
+        auditService
+      );
 
     final ExamDate examDate = Factory.examDate();
     entityManager.persist(examDate);
@@ -170,47 +183,45 @@ public class ClerkQuarantineServiceTest {
   public void testOnlySubmittedAndCompletedRegistrationsAppear() throws Exception {
     when(onrService.listPersonDetails(any())).thenReturn(List.of());
 
-    final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
+    final List<ClerkQuarantineMatchDTO> response = clerkQuarantineService.getQuarantineMatches();
 
-    assertFalse(response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(regStarted.getId())));
+    assertFalse(response.stream().anyMatch(m -> m.registrationId().equals(regStarted.getId())));
   }
 
   @Test
   public void testLanguageCodeMustMatch() throws Exception {
     when(onrService.listPersonDetails(any())).thenReturn(List.of());
 
-    final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
+    final List<ClerkQuarantineMatchDTO> response = clerkQuarantineService.getQuarantineMatches();
 
-    assertFalse(response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(regSweMismatch.getId())));
+    assertFalse(response.stream().anyMatch(m -> m.registrationId().equals(regSweMismatch.getId())));
   }
 
   @Test
   public void testSsnMatchTriggersResult() throws Exception {
     when(onrService.listPersonDetails(any())).thenReturn(List.of());
 
-    final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
+    final List<ClerkQuarantineMatchDTO> response = clerkQuarantineService.getQuarantineMatches();
 
-    assertTrue(response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(regSsnMatch.getId())));
+    assertTrue(response.stream().anyMatch(m -> m.registrationId().equals(regSsnMatch.getId())));
   }
 
   @Test
   public void testBirthdateMatchTriggersResult() throws Exception {
     when(onrService.listPersonDetails(any())).thenReturn(List.of());
 
-    final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
+    final List<ClerkQuarantineMatchDTO> response = clerkQuarantineService.getQuarantineMatches();
 
-    assertTrue(
-      response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(regBirthdateMatch.getId()))
-    );
+    assertTrue(response.stream().anyMatch(m -> m.registrationId().equals(regBirthdateMatch.getId())));
   }
 
   @Test
   public void testAlreadyReviewedPairsAreExcluded() throws Exception {
     when(onrService.listPersonDetails(any())).thenReturn(List.of());
 
-    final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
+    final List<ClerkQuarantineMatchDTO> response = clerkQuarantineService.getQuarantineMatches();
 
-    assertFalse(response.quarantineMatches().stream().anyMatch(m -> m.registrationId().equals(regReviewed.getId())));
+    assertFalse(response.stream().anyMatch(m -> m.registrationId().equals(regReviewed.getId())));
   }
 
   @Test
@@ -220,60 +231,30 @@ public class ClerkQuarantineServiceTest {
     person1Dto.setIdentityNumber("NEW-SSN-FROM-ONR");
     when(onrService.listPersonDetails(any())).thenReturn(List.of(person1Dto));
 
-    final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
+    final List<ClerkQuarantineMatchDTO> response = clerkQuarantineService.getQuarantineMatches();
 
     final ClerkQuarantineMatchDTO match = response
-      .quarantineMatches()
       .stream()
       .filter(m -> m.registrationId().equals(regSsnMatch.getId()))
       .findFirst()
       .orElseThrow();
 
-    assertEquals("NEW-SSN-FROM-ONR", match.form().get("ssn").asText());
-  }
-
-  @Test
-  public void testFormBirthdateIsPopulatedWhenAbsentUsingOriginalFormSsn() throws Exception {
-    final Person person4 = Factory.person();
-    person4.setOid("oid-person4");
-    entityManager.persist(person4);
-
-    // Registration with SSN in form but no birthdate — birthdate should be derived from the SSN
-    final Registration regNoBirthdate = Factory.registration(person4);
-    regNoBirthdate.setExamSession(finSession);
-    regNoBirthdate.setState(RegistrationState.COMPLETED);
-    regNoBirthdate.setForm(objectMapper.createObjectNode().put("ssn", "010675-9981"));
-    entityManager.persistAndFlush(regNoBirthdate);
-
-    when(onrService.listPersonDetails(any())).thenReturn(List.of());
-
-    final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
-
-    final ClerkQuarantineMatchDTO match = response
-      .quarantineMatches()
-      .stream()
-      .filter(m -> m.registrationId().equals(regNoBirthdate.getId()))
-      .findFirst()
-      .orElseThrow();
-
-    // birthdate derived from original form.ssn (010675-9981 → 1975-06-01)
-    assertEquals("1975-06-01", match.form().get("birthdate").asText());
+    assertEquals("NEW-SSN-FROM-ONR", match.registrant().ssn());
   }
 
   @Test
   public void testFormSsnIsNullWhenPersonNotInOnr() throws Exception {
     when(onrService.listPersonDetails(any())).thenReturn(List.of());
 
-    final ClerkQuarantineMatchesResponseDTO response = clerkQuarantineService.getQuarantineMatches();
+    final List<ClerkQuarantineMatchDTO> response = clerkQuarantineService.getQuarantineMatches();
 
     final ClerkQuarantineMatchDTO match = response
-      .quarantineMatches()
       .stream()
       .filter(m -> m.registrationId().equals(regSsnMatch.getId()))
       .findFirst()
       .orElseThrow();
 
     // person not in ONR response → form.ssn should be JSON null
-    assertTrue(match.form().get("ssn").isNull());
+    assertTrue(match.registrant().ssn() == null || match.registrant().ssn().isEmpty());
   }
 }

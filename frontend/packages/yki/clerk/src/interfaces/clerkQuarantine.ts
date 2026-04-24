@@ -1,6 +1,8 @@
 import { Dayjs } from 'dayjs';
 
-type RegistrantForm = {
+import { ExamLevel } from 'enums/app';
+
+type ClerkQuarantinePerson = {
   firstName: string;
   lastName: string;
   birthdate?: string;
@@ -11,37 +13,23 @@ type RegistrantForm = {
 
 export type ClerkQuarantineMatchResponse = {
   id: number;
-  birthdate: string;
-  ssn: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
+  quarantinedPerson: ClerkQuarantinePerson;
+  registrant: ClerkQuarantinePerson;
   registrationId: number;
-  form: RegistrantForm;
   state: string;
   examDate: string;
   languageCode: string;
+  levelCode: keyof typeof ExamLevel;
 };
 
 export type ClerkQuarantineMatch = {
   quarantineId: number;
   registrationId: number;
   examLanguageCode: string;
+  examLevelCode: keyof typeof ExamLevel;
   examDate: Dayjs;
-  quarantinedPerson: {
-    firstName: string;
-    lastName: string;
-    birthdate: string;
-    ssn: string;
-    email: string;
-    phoneNumber: string;
-  };
-  registrantForm: RegistrantForm;
-};
-
-export type ClerkQuarantineMatchesResponse = {
-  quarantineMatches: ClerkQuarantineMatchResponse[];
+  quarantinedPerson: ClerkQuarantinePerson;
+  registrant: ClerkQuarantinePerson;
 };
 
 export type ClerkQuarantineSort = 'examDate:asc' | 'examDate:desc';

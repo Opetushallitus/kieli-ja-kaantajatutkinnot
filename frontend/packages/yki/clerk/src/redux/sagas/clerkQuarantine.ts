@@ -4,7 +4,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { ClerkQuarantineMatchesResponse } from 'interfaces/clerkQuarantine';
+import { ClerkQuarantineMatchResponse } from 'interfaces/clerkQuarantine';
 import {
   loadClerkQuarantineMatches,
   rejectClerkQuarantineMatches,
@@ -17,11 +17,11 @@ import { SerializationUtils } from 'utils/serialization';
 
 function* loadClerkQuarantineMatchesSaga() {
   try {
-    const response: AxiosResponse<ClerkQuarantineMatchesResponse> = yield call(
+    const response: AxiosResponse<ClerkQuarantineMatchResponse[]> = yield call(
       axiosInstance.get,
       APIEndpoints.ClerkQuarantineMatches,
     );
-    const matches = response.data.quarantineMatches.map(
+    const matches = response.data.map(
       SerializationUtils.deserializeClerkQuarantineMatchResponse,
     );
     yield put(storeClerkQuarantineMatches(matches));
@@ -34,10 +34,10 @@ function* setQuarantineReviewSaga(
   action: PayloadAction<{
     quarantineId: number;
     registrationId: number;
-    isQuarantined: boolean;
+    matchConfirmed: boolean;
   }>,
 ) {
-  const { quarantineId, registrationId, isQuarantined } = action.payload;
+  const { quarantineId, registrationId, matchConfirmed } = action.payload;
 
   try {
     yield call(
@@ -46,7 +46,7 @@ function* setQuarantineReviewSaga(
         ':id',
         String(quarantineId),
       ).replace(':regId', String(registrationId)),
-      isQuarantined,
+      { quarantined: matchConfirmed },
     );
     yield put(resolveQuarantineReview());
     yield put(loadClerkQuarantineMatches());

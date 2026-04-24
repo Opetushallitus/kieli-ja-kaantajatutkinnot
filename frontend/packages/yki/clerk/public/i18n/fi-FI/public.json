@@ -408,16 +408,30 @@
           },
           "resultCount": "{{count}} ilmoittautujaa"
         },
+        "modals": {
+          "accept": {
+            "cancel": "Peruuta",
+            "confirm": "Hyväksy ilmoittautuminen",
+            "description": "Olet hyväksymässä <bold>{{firstName}} {{lastName}}</bold> ({{ssn}}) tilaisuudessa <bold>{{examLanguage}}-{{examLevel}} {{examDate}}</bold>",
+            "title": "Vahvista ilmoittautumisen hyväksyminen"
+          },
+          "reject": {
+            "cancel": "En halua perua",
+            "confirm": "Peru ilmoittautuminen",
+            "description": "Olet perumassa <bold>{{firstName}} {{lastName}}</bold> ({{ssn}}) tilaisuudessa <bold>{{examLanguage}}-{{examLevel}} {{examDate}}</bold>",
+            "title": "Vahvista ilmoittautumisen peruminen"
+          }
+        },
         "tabs": {
           "active": "Voimassa olevat osallistumiskiellot",
           "pending": "Odottavat tarkistukset ({{count}})",
           "previous": "Aiemmat tarkistukset"
         },
         "toasts": {
-          "acceptError": "Hyväksyminen epäonnistui",
-          "acceptSuccess": "Hyväksyminen onnistui",
-          "cancelError": "Hylkääminen epäonnistui",
-          "cancelSuccess": "Hylkääminen onnistui"
+          "matchConfirmedError": "Hyväksyminen epäonnistui",
+          "matchConfirmedSuccess": "Hyväksyminen onnistui",
+          "matchRejectedError": "Hylkääminen epäonnistui",
+          "matchRejectedSuccess": "Hylkääminen onnistui"
         }
       },
       "clerkRegister": {
