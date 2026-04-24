@@ -1,3 +1,5 @@
+import { InfoOutlined as InfoIcon } from '@mui/icons-material';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {
   Collapse,
   FormControl,
@@ -8,7 +10,7 @@ import {
   RadioGroup,
 } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { H2, LabeledTextField, Text } from 'shared/components';
+import { H2, LabeledTextField, Text, WebLink } from 'shared/components';
 import { TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
 import { getErrors, hasErrors } from 'shared/utils';
@@ -66,7 +68,7 @@ export const PreviousEnrollment = ({
     }
 
     if (enrollment.hasPreviousEnrollment === false) {
-      setValid(true);
+      setValid(false);
 
       return;
     }
@@ -103,7 +105,7 @@ export const PreviousEnrollment = ({
   };
 
   const hasRadioButtonError =
-    showValidation && enrollment.hasPreviousEnrollment === undefined;
+    showValidation && enrollment.hasPreviousEnrollment !== true;
 
   const showCustomTextFieldError = (
     fieldName: keyof PreviousEnrollmentField,
@@ -135,67 +137,94 @@ export const PreviousEnrollment = ({
           {t('part2')}
         </Text>
       </div>
-      <div className="public-enrollment__grid__previous-enrollment rows gapped">
-        <FormControl component="fieldset">
-          <FormLabel component="legend" className="heading-label">
-            {t('radioButtons.label')}
-          </FormLabel>
-          <RadioGroup
-            name="has-previous-enrollment-group"
-            value={
-              enrollment.hasPreviousEnrollment
-                ? PreviouslyEnrolled.Yes
-                : PreviouslyEnrolled.No
-            }
-            onChange={handleRadioButtonChange}
+      <div className="rows">
+        <div className="public-enrollment__grid__previous-enrollment rows gapped">
+          <FormControl component="fieldset">
+            <FormLabel component="legend" className="heading-label">
+              {t('radioButtons.label')}
+            </FormLabel>
+            <RadioGroup
+              name="has-previous-enrollment-group"
+              value={
+                enrollment.hasPreviousEnrollment
+                  ? PreviouslyEnrolled.Yes
+                  : PreviouslyEnrolled.No
+              }
+              onChange={handleRadioButtonChange}
+            >
+              <FormControlLabel
+                disabled={editingDisabled}
+                data-testid="enrollment-checkbox-previously-enrolled-yes"
+                value={PreviouslyEnrolled.Yes}
+                control={
+                  <Radio aria-describedby="has-previous-enrollment-error" />
+                }
+                label={translateCommon('yes')}
+                checked={enrollment.hasPreviousEnrollment}
+                className={`margin-top-sm margin-left-sm ${
+                  hasRadioButtonError && 'checkbox-error'
+                }`}
+              />
+              <FormControlLabel
+                disabled={editingDisabled}
+                data-testid="enrollment-checkbox-previously-enrolled-no"
+                value={PreviouslyEnrolled.No}
+                control={
+                  <Radio aria-describedby="has-previous-enrollment-error" />
+                }
+                label={translateCommon('no')}
+                checked={enrollment.hasPreviousEnrollment === false}
+                className={`margin-left-sm ${
+                  hasRadioButtonError && 'checkbox-error'
+                }`}
+              />
+            </RadioGroup>
+            {hasRadioButtonError && (
+              <FormHelperText id="has-previous-enrollment-error" error={true}>
+                {translateCommon('errors.customTextField.required')}
+              </FormHelperText>
+            )}
+          </FormControl>
+          <Collapse
+            orientation="vertical"
+            in={enrollment.hasPreviousEnrollment}
           >
-            <FormControlLabel
-              disabled={editingDisabled}
-              data-testid="enrollment-checkbox-previously-enrolled-yes"
-              value={PreviouslyEnrolled.Yes}
-              control={
-                <Radio aria-describedby="has-previous-enrollment-error" />
-              }
-              label={translateCommon('yes')}
-              checked={enrollment.hasPreviousEnrollment}
-              className={`margin-top-sm margin-left-sm ${
-                hasRadioButtonError && 'checkbox-error'
-              }`}
-            />
-            <FormControlLabel
-              disabled={editingDisabled}
-              data-testid="enrollment-checkbox-previously-enrolled-no"
-              value={PreviouslyEnrolled.No}
-              control={
-                <Radio aria-describedby="has-previous-enrollment-error" />
-              }
-              label={translateCommon('no')}
-              checked={enrollment.hasPreviousEnrollment === false}
-              className={`margin-left-sm ${
-                hasRadioButtonError && 'checkbox-error'
-              }`}
-            />
-          </RadioGroup>
-          {hasRadioButtonError && (
-            <FormHelperText id="has-previous-enrollment-error" error={true}>
-              {translateCommon('errors.customTextField.required')}
-            </FormHelperText>
-          )}
-        </FormControl>
-        <Collapse orientation="vertical" in={enrollment.hasPreviousEnrollment}>
-          <div className="margin-top-sm">
-            <LabeledTextField
-              className="public-enrollment__grid__previous-enrollment__textField"
-              id="public-enrollment__previous-enrollment__textField"
-              label={t('textField.label')}
-              placeholder={t('textField.placeholder')}
-              value={enrollment.previousEnrollment}
-              onBlur={handleTextFieldBlur}
-              onChange={handleTextFieldChange}
-              error={showCustomTextFieldError('previousEnrollment')}
-              helperText={errors['previousEnrollment']}
-              disabled={editingDisabled}
-            />
+            <div className="margin-top-sm">
+              <LabeledTextField
+                className="public-enrollment__grid__previous-enrollment__textField"
+                id="public-enrollment__previous-enrollment__textField"
+                label={t('textField.label')}
+                placeholder={t('textField.placeholder')}
+                value={enrollment.previousEnrollment}
+                onBlur={handleTextFieldBlur}
+                onChange={handleTextFieldChange}
+                error={showCustomTextFieldError('previousEnrollment')}
+                helperText={errors['previousEnrollment']}
+                disabled={editingDisabled}
+              />
+            </div>
+          </Collapse>
+        </div>
+        <Collapse
+          orientation="vertical"
+          in={enrollment.hasPreviousEnrollment === false}
+        >
+          <div className="public-enrollment__grid__previous-enrollment-info-box rows gapped margin-top-sm">
+            <div className="public-enrollment__grid__previous-enrollment-info-box__header columns">
+              <InfoIcon color="secondary" />
+              <Text>{t('noEnrollmentInfoBox.line1')}</Text>
+            </div>
+            <Text className="public-enrollment__grid__previous-enrollment-info-box__body">
+              {t('noEnrollmentInfoBox.line2')}
+            </Text>
+            <Text className="public-enrollment__grid__previous-enrollment-info-box__body">
+              {t('noEnrollmentInfoBox.readMore')}{' '}
+              <WebLink
+                href={t('noEnrollmentInfoBox.url')}
+                label={t('noEnrollmentInfoBox.link')}
+                endIcon={<OpenInNewIcon />}
+              />
+            </Text>
           </div>
         </Collapse>
       </div>

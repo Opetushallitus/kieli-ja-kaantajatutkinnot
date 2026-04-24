@@ -255,7 +255,14 @@
               "label": "Milloin olet viimeksi osallistunut? *",
               "placeholder": "Kirjoita päivämäärä tai vapaa teksti"
             },
-            "title": "Aikaisempiin erinomaisen taidon tutkintoihin osallistuminen"
+            "title": "Aikaisempiin erinomaisen taidon tutkintoihin osallistuminen",
+            "noEnrollmentInfoBox": {
+              "line1": "1.7.2026 alkaen vain aiemmin hylättyjen osakokeiden uusiminen on mahdollista.",
+              "line2": "Jos et ole suorittanut valtionhallinnon kielitutkintoa, mutta tarvitset todistuksen suomen tai ruotsin kielen taidosta julkishallinnon työtehtävää varten, voit suorittaa yleisen kielitutkinnon eli YKI-testin.",
+              "readMore": "Lue lisää Opetushallituksen verkkosivuilta:",
+              "link": "Yleiset kielitutkinnot (YKI)",
+              "url": "https://yki.opintopolku.fi/yki/ilmoittautuminen"
+            }
           }
         }
       },
