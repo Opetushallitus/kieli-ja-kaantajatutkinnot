@@ -33,7 +33,7 @@ SELECT
     es.level_code           AS levelCode
 FROM quarantine q
 INNER JOIN registration r
-    ON (q.ssn = r.form->>'ssn' OR q.birthdate = r.form->>'birthdate')
+    ON q.birthdate = r.form->>'birthdate'
 INNER JOIN exam_session es
     ON r.exam_session_id = es.id
 INNER JOIN exam_date ed
