@@ -5,16 +5,20 @@ import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
 import { ClerkQuarantineListing } from 'components/clerkQuarantine/ClerkQuarantineListing';
+import { ClerkQuarantineReviewListing } from 'components/clerkQuarantine/ClerkQuarantineReviewListing';
 import { usePublicTranslation } from 'configs/i18n';
 import { H2 } from 'ophTheme/Text';
 import {
   loadClerkQuarantineMatches,
+  loadClerkQuarantineReviews,
   resetQuarantineReviewStatus,
   setQuarantineReview,
   setQuarantineSort,
 } from 'redux/reducers/clerkQuarantine';
 import {
   clerkQuarantineSelector,
+  selectQuarantineReviews,
+  selectQuarantineReviewsStatus,
   selectSortedQuarantineMatches,
 } from 'redux/selectors/clerkQuarantine';
 
@@ -91,6 +95,8 @@ export const ClerkQuarantine = () => {
     clerkQuarantineSelector,
   );
   const rows = useSelector(selectSortedQuarantineMatches);
+  const reviews = useSelector(selectQuarantineReviews);
+  const reviewsStatus = useSelector(selectQuarantineReviewsStatus);
   const [activeTab, setActiveTab] = useState<Tab>('pending');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -102,6 +108,15 @@ export const ClerkQuarantine = () => {
   useEffect(() => {
     dispatch(loadClerkQuarantineMatches());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (
+      activeTab === 'previous' &&
+      reviewsStatus === APIResponseStatus.NotStarted
+    ) {
+      dispatch(loadClerkQuarantineReviews());
+    }
+  }, [dispatch, activeTab, reviewsStatus]);
 
   useEffect(() => {
     if (!lastReviewAction) return;
@@ -121,6 +136,34 @@ export const ClerkQuarantine = () => {
   }, [dispatch, showToast, t, reviewStatus, lastReviewAction]);
 
   const renderListing = () => {
+    if (activeTab === 'previous') {
+      switch (reviewsStatus) {
+        case APIResponseStatus.Success:
+          return (
+            <ClerkQuarantineReviewListing
+              rows={reviews}
+              page={page}
+              setPage={setPage}
+              pageSize={pageSize}
+              setPageSize={setPageSize}
+              sort={sort}
+              setSort={(s) => dispatch(setQuarantineSort(s))}
+              onCancelRegistration={(quarantineId, registrationId) =>
+                dispatch(
+                  setQuarantineReview({
+                    quarantineId,
+                    registrationId,
+                    matchConfirmed: false,
+                  }),
+                )
+              }
+            />
+          );
+        default:
+          return <InfoText status={reviewsStatus} />;
+      }
+    }
+
     switch (status) {
       case APIResponseStatus.Success:
         return (

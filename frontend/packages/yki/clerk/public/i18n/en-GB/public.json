@@ -399,6 +399,7 @@
             "examLanguage": "Tutkinnon kieli",
             "name": "Etunimi Sukunimi",
             "phoneNumber": "Puhelinnumero",
+            "registrationState": "Ilmoitt. tila",
             "ssn": "Hetu"
           },
           "description": "Järjestelmän tunnistamat ilmoittautujat, joiden tiedot vastaavat voimassa olevan osallistumiskiellon tietoja. Tarkista, onko ilmoittautuja osallistumiskellossa ja <bold>peru tai hyväksy ilmoittautuminen</bold>",
@@ -406,7 +407,20 @@
             "quarantinedPerson": "Osallistumiskielto",
             "registrant": "Ilmoittautuja"
           },
-          "resultCount": "{{count}} ilmoittautujaa"
+          "resultCount": "{{count}} ilmoittautujaa",
+          "values": {
+            "registrationState": {
+              "CANCELLED": "Peruttu",
+              "COMPLETED": "Maksanut",
+              "EXPIRED": "Erääntynyt",
+              "PAID_AND_CANCELLED": "Maksanut ja peruttu",
+              "SUBMITTED": "Ei Maksanut",
+              "UNKNOWN": "Tuntematon"
+            }
+          }
+        },
+        "reviewListing": {
+          "description": "Sivulla on listattu kaikki tarkistetut ilmoittautumiset. Sarakkeessa Ilmoittumisen tila näet, onko ilmoittautuminen hyväksytty vai peruuttu. Voit perua hyväksytyn päätöksen jälkikäteen."
         },
         "modals": {
           "accept": {

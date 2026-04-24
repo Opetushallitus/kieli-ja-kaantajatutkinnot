@@ -21,6 +21,7 @@ import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { organizers } from 'tests/msw/fixtures/organizers';
 import { quarantineMatches } from 'tests/msw/fixtures/quarantineMatches';
+import { quarantineReviews } from 'tests/msw/fixtures/quarantineReviews';
 
 interface FreeRegistrationRequest {
   approved: boolean;
@@ -363,6 +364,9 @@ export const handlers = [
   }),
   http.get(APIEndpoints.ClerkQuarantineMatches, () =>
     HttpResponse.json(quarantineMatches),
+  ),
+  http.get(APIEndpoints.ClerkQuarantineReviews, () =>
+    HttpResponse.json(quarantineReviews),
   ),
   http.put(
     APIEndpoints.ClerkQuarantineSetReview,

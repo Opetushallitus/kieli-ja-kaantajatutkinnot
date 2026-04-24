@@ -6,12 +6,15 @@ import { CustomModal } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
-import { ClerkQuarantineMatch } from 'interfaces/clerkQuarantine';
+import {
+  ClerkQuarantineMatch,
+  ClerkQuarantineReview,
+} from 'interfaces/clerkQuarantine';
 import { H2, Text } from 'ophTheme/Text';
 import { languageToString, levelDescription } from 'utils/clerk';
 
 type ClerkQuarantineModalProps = {
-  match: ClerkQuarantineMatch | null;
+  match: ClerkQuarantineMatch | ClerkQuarantineReview | null;
   action: 'accept' | 'reject' | null;
   onClose: () => void;
   onConfirm: () => void;

@@ -6,6 +6,12 @@ import { ClerkQuarantineMatch } from 'interfaces/clerkQuarantine';
 export const clerkQuarantineSelector = (state: RootState) =>
   state.clerkQuarantine;
 
+export const selectQuarantineReviews = (state: RootState) =>
+  state.clerkQuarantine.reviews;
+
+export const selectQuarantineReviewsStatus = (state: RootState) =>
+  state.clerkQuarantine.reviewsStatus;
+
 export const selectSortedQuarantineMatches = createSelector(
   (state: RootState) => state.clerkQuarantine.matches,
   (state: RootState) => state.clerkQuarantine.sort,
