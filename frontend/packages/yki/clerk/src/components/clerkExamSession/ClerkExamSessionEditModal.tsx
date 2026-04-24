@@ -30,6 +30,8 @@ import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessio
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
 import { DateTimeUtils } from 'utils/dateTime';
 
+type ShortLang = 'fi' | 'sv' | 'en';
+
 type ClerkExamSessionEditModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
@@ -117,6 +119,24 @@ export const ClerkExamSessionEditModal = ({
         ?.id
     : undefined;
 
+  const officeOidToName = (officeOid: string, lang: ShortLang) => {
+    return (
+      organizationHierarchy.find((org) => org.oid === officeOid)?.name[lang] ??
+      ''
+    );
+  };
+
+  const setOfficeOid = (office: ComboBoxOption | null) => {
+    setSelectedOfficeOid(office);
+    ['fi', 'en', 'sv'].map((lang) => {
+      updateLocationField(
+        lang as ShortLang,
+        'name',
+        office ? officeOidToName(office.value, lang as ShortLang) : '',
+      );
+    });
+  };
+
   const [form, setForm] = useState({
     examDateId: String(currentExamDateId ?? ''),
     language: examSessionDetails?.language ?? '',
@@ -139,10 +159,7 @@ export const ClerkExamSessionEditModal = ({
         streetAddress: loc?.streetAddress ?? location?.streetAddress ?? '',
         postalCode: loc?.zip ?? location?.zip ?? '',
         city: loc?.postOffice ?? location?.postOffice ?? '',
-        name:
-          organizationHierarchy.find(
-            (org) => org.oid === selectedOfficeOid?.value,
-          )?.name?.fi ?? '',
+        name: '',
         otherLocationInfo:
           loc?.otherLocationInfo ?? location?.otherLocationInfo ?? '',
         extraInformation: loc?.extraInformation ?? '',
@@ -184,11 +201,20 @@ export const ClerkExamSessionEditModal = ({
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
-  const updateLocationField = (lang: string, field: string, value: string) => {
+  const updateLocationField = (
+    lang: ShortLang,
+    field: string,
+    value: string,
+  ) => {
     setForm((prev) => ({
       ...prev,
       location: prev.location.map((loc) =>
-        loc.lang === lang ? { ...loc, [field]: value } : loc,
+        // Extra information is language specific. All other fields are have same value for every lang
+        field === 'extraInformation'
+          ? loc.lang === lang
+            ? { ...loc, [field]: value }
+            : loc
+          : { ...loc, [field]: value },
       ),
     }));
   };
@@ -264,7 +290,7 @@ export const ClerkExamSessionEditModal = ({
                   const option = officeOidOptions.find(
                     (o) => o.value === value,
                   );
-                  setSelectedOfficeOid(option ?? null);
+                  setOfficeOid(option ?? null);
                 }}
               />
             </div>

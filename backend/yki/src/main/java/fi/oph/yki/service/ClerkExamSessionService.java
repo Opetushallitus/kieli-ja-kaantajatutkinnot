@@ -102,26 +102,30 @@ public class ClerkExamSessionService {
   public ClerkExamSessionDTO updateExamSession(final long examSessionId, final ClerkExamSessionUpdateDTO dto) {
     final ExamSession examSession = examSessionRepository.getReferenceById(examSessionId);
 
-    examSession.setLanguage(dto.language());
-    examSession.setLevel(dto.level());
-    examSession.setType(dto.type());
+    if (dto.language() != null) {
+      examSession.setLanguage(dto.language());
+    }
+    if (dto.level() != null) {
+      examSession.setLevel(dto.level());
+    }
+
     examSession.setMaxParticipants(dto.maxParticipantsTotal());
 
-    final var existingLocations = examSession.getLocations();
-    existingLocations.clear();
-    if (dto.location() != null) {
-      for (final var locDto : dto.location()) {
-        final ExamSessionLocation loc = new ExamSessionLocation();
-        loc.setExamSession(examSession);
-        loc.setLang(locDto.lang() != null ? locDto.lang() : "fi");
-        loc.setStreetAddress(locDto.streetAddress());
-        loc.setZip(locDto.postalCode());
-        loc.setPostOffice(locDto.city());
-        loc.setName(locDto.name());
-        loc.setOtherLocationInfo(locDto.otherLocationInfo());
-        loc.setExtraInformation(locDto.extraInformation());
-        existingLocations.add(loc);
-      }
+    if (dto.location() != null && !dto.location().isEmpty()) {
+      examSession
+        .getLocations()
+        .forEach(loc -> {
+          final var locDto = dto.location().stream().filter(l -> l.lang().equals(loc.getLang())).findFirst();
+
+          if (locDto.isPresent()) {
+            loc.setLang(locDto.get().lang());
+            loc.setStreetAddress(locDto.get().streetAddress());
+            loc.setZip(locDto.get().postalCode());
+            loc.setPostOffice(locDto.get().city());
+            loc.setOtherLocationInfo(locDto.get().otherLocationInfo());
+            loc.setExtraInformation(locDto.get().extraInformation());
+          }
+        });
     }
 
     examSession.setContactName(dto.contactName());
