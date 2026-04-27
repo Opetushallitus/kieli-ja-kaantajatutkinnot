@@ -22,7 +22,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
       </div>
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-1gtchvp-MuiPaper-root"
-        style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12); border-top: 5px solid #378703;"
+        style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12);"
       >
         <div
           class="public-registration__grid__form-container"
@@ -113,11 +113,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 href="/yki/ilmoittautuminen"
                 tabindex="0"
               >
-                <span
-                  class="button-color-white"
-                >
-                  backToHomePage
-                </span>
+                backToHomePage
               </a>
             </div>
           </div>
@@ -150,7 +146,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
       </div>
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-1gtchvp-MuiPaper-root"
-        style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12); border-top: 5px solid #378703;"
+        style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12);"
       >
         <div
           class="public-registration__grid__form-container"
@@ -241,11 +237,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 href="/yki/ilmoittautuminen"
                 tabindex="0"
               >
-                <span
-                  class="button-color-white"
-                >
-                  backToHomePage
-                </span>
+                backToHomePage
               </a>
             </div>
           </div>
@@ -633,11 +625,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   href="/yki/auth/?examSessionId=11&toQueue=false&registrationId=123"
                   tabindex="0"
                 >
-                  <span
-                    class="button-color-white"
-                  >
-                    suomiFiButtonText
-                  </span>
+                  suomiFiButtonText
                 </a>
                 <div
                   class="columns"
@@ -739,11 +727,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                         tabindex="0"
                         type="button"
                       >
-                        <span
-                          class="button-color-white"
-                        >
-                          emailButtonText
-                        </span>
+                        emailButtonText
                       </button>
                     </div>
                      
