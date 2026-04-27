@@ -9,15 +9,20 @@ import {
   CustomModal,
   H2,
   H3,
+  ManagedPaginatedTable,
   Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import { PublicExamSessionCard } from 'components/registration/examSession/PublicExamSessionCard';
+import { PublicExamSessionListingHeader } from 'components/registration/examSession/PublicExamSessionListingHeader';
+import { PublicExamSessionListingRow } from 'components/registration/examSession/PublicExamSessionListingRow';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { PublicRegistrationInitError } from 'enums/publicRegistration';
+import { clerkEnabled } from 'featureFlags';
 import { ExamSession } from 'interfaces/examSessions';
 import {
   PartialExamType,
@@ -29,6 +34,7 @@ import {
 } from 'redux/reducers/registration';
 import { examSessionsSelector } from 'redux/selectors/examSessions';
 import { registrationSelector } from 'redux/selectors/registration';
+import { TableUtils } from 'utils/table';
 
 const RegistrationInitLoadingModal = () => {
   const { initRegistration } = useAppSelector(registrationSelector);
@@ -190,7 +196,7 @@ const RegistrationInitErrorModal = ({
   );
 };
 
-export const PublicExamSessionsTable = ({
+export const NewYkiPublicExamSessionsTable = ({
   examSessions,
   page,
   rowsPerPage,
@@ -213,6 +219,89 @@ export const PublicExamSessionsTable = ({
         <PublicExamSessionCard key={examSession.id} examSession={examSession} />
       ))}
     </div>
+  );
+};
+
+const DisplayedRowsLabel = ({
+  from,
+  to,
+  count,
+}: {
+  from: number;
+  to: number;
+  count: number;
+}) => {
+  const translateCommon = useCommonTranslation();
+  const { isPhone } = useWindowProperties();
+  const fullLabelText = translateCommon(
+    'component.table.pagination.displayedRowsAriaLabel',
+    {
+      from,
+      to,
+      count,
+    },
+  );
+
+  if (isPhone) {
+    return (
+      <>
+        <span className="display-none">{fullLabelText}</span>
+        <span aria-hidden="true">
+          {translateCommon('component.table.pagination.displayedRowsLabel', {
+            from,
+            to,
+            count,
+          })}
+        </span>
+      </>
+    );
+  } else {
+    return fullLabelText;
+  }
+};
+
+const getRowDetails = (examSession: ExamSession) => {
+  return <PublicExamSessionListingRow examSession={examSession} />;
+};
+
+export const PublicExamSessionsTable = ({
+  examSessions,
+  onPageChange,
+  onRowsPerPageChange,
+  page,
+  rowsPerPage,
+  rowsPerPageOptions,
+}: {
+  examSessions: Array<ExamSession>;
+  onPageChange: (page: number) => void;
+  onRowsPerPageChange: (rowsPerPage: number) => void;
+  page: number;
+  rowsPerPage: number;
+  rowsPerPageOptions: Array<number>;
+}) => {
+  const translateCommon = useCommonTranslation();
+
+  return (
+    <ManagedPaginatedTable
+      className="public-exam-session-listing table-layout-auto"
+      data={examSessions}
+      header={<PublicExamSessionListingHeader />}
+      getRowDetails={getRowDetails}
+      rowsPerPageOptions={rowsPerPageOptions}
+      page={page}
+      onPageChange={onPageChange}
+      rowsPerPage={rowsPerPage}
+      onRowsPerPageChange={onRowsPerPageChange}
+      rowsPerPageLabel={translateCommon(
+        'component.table.pagination.rowsPerPage',
+      )}
+      labelDisplayedRows={({ from, to, count }) => (
+        <DisplayedRowsLabel from={from} to={to} count={count} />
+      )}
+      backIconButtonProps={TableUtils.getPaginationBackButtonProps()}
+      nextIconButtonProps={TableUtils.getPaginationNextButtonProps()}
+      stickyHeader
+    />
   );
 };
 
@@ -319,14 +408,25 @@ export const PublicExamSessionListing = ({
             </Typography>
           </div>
           {examSessions.length > 0 ? (
-            <PublicExamSessionsTable
-              examSessions={examSessions}
-              onPageChange={onPageChange}
-              onRowsPerPageChange={onRowsPerPageChange}
-              page={page}
-              rowsPerPage={rowsPerPage}
-              rowsPerPageOptions={rowsPerPageOptions}
-            />
+            clerkEnabled ? (
+              <NewYkiPublicExamSessionsTable
+                examSessions={examSessions}
+                onPageChange={onPageChange}
+                onRowsPerPageChange={onRowsPerPageChange}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                rowsPerPageOptions={rowsPerPageOptions}
+              />
+            ) : (
+              <PublicExamSessionsTable
+                examSessions={examSessions}
+                onPageChange={onPageChange}
+                onRowsPerPageChange={onRowsPerPageChange}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                rowsPerPageOptions={rowsPerPageOptions}
+              />
+            )
           ) : (
             <Text className="margin-top-lg">{t('noResults')}</Text>
           )}

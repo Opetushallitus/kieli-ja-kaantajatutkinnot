@@ -26,9 +26,7 @@ export const LogoutSuccess: React.FC = () => {
           startIcon={<ArrowBackIosOutlinedIcon />}
           className="color-secondary-dark"
         >
-          <span className="button-color-white">
-            {translateCommon('backToHomePage')}
-          </span>
+          {translateCommon('backToHomePage')}
         </CustomButtonLink>
       </Grid>
       <Grid className="logout-success-page__heading">

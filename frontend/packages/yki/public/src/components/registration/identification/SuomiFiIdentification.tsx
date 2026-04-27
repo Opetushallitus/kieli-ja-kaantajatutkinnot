@@ -35,7 +35,7 @@ export const SuomiFiIdentification = () => {
           examSession.available_registration_kind === RegistrationKind.Queue
         }&registrationId=${initRegistration.registrationId}`}
       >
-        <span className="button-color-white">{t('suomiFiButtonText')}</span>
+        {t('suomiFiButtonText')}
       </CustomButton>
     </>
   );

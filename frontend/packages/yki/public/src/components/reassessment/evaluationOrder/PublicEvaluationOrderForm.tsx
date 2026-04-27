@@ -26,6 +26,7 @@ import { DateUtils, InputFieldUtils } from 'shared/utils';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { clerkEnabled } from 'featureFlags';
 import {
   ExaminationParts,
   ParticipantDetails,
@@ -229,7 +230,7 @@ const AcceptConditions = () => {
               {translateCommon('privacyStatement.link.label')}
             </Text>
           </Link>
-          <OpenInNewIcon color="inherit" />
+          {clerkEnabled ? <OpenInNewIcon color="inherit" /> : <OpenInNewIcon />}
         </div>
       </div>
       <FormControl error={showErrors && !acceptConditions}>
@@ -359,7 +360,7 @@ const ActionButtons = () => {
         onClick={handleSubmitAction}
         fullWidth={isPhone}
       >
-        <span className="button-color-white">{t('pay')}</span>
+        {t('pay')}
       </CustomButton>
       <CustomButton
         variant={Variant.Text}
@@ -382,7 +383,11 @@ export const PublicEvaluationOrderForm = () => {
     <Paper
       elevation={3}
       className="public-evaluation-order-page__order-form"
-      style={{ borderTop: '5px solid ' + ophColors.green2 }}
+      style={
+        clerkEnabled
+          ? { borderTop: '5px solid ' + ophColors.green2 }
+          : undefined
+      }
     >
       <RenderEvaluationDetails />
       <Text>{t('info.requiredFields')}</Text>
