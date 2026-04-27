@@ -104,6 +104,8 @@ export const PreviousEnrollment = ({
     );
   };
 
+  const hasNoEnrollmentError =
+    showValidation && enrollment.hasPreviousEnrollment === false;
   const hasRadioButtonError =
     showValidation && enrollment.hasPreviousEnrollment !== true;
 
@@ -181,7 +183,9 @@ export const PreviousEnrollment = ({
             </RadioGroup>
             {hasRadioButtonError && (
               <FormHelperText id="has-previous-enrollment-error" error={true}>
-                {translateCommon('errors.customTextField.required')}
+                {hasNoEnrollmentError
+                  ? t('noEnrollmentInfoBox.line1')
+                  : translateCommon('errors.customTextField.required')}
               </FormHelperText>
             )}
           </FormControl>
