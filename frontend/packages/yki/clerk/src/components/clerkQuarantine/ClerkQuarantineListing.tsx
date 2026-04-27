@@ -201,14 +201,14 @@ export const ClerkQuarantineListing = ({
             sx={{ padding: 0, minWidth: 0 }}
             onClick={() => setModalState({ match, action: 'accept' })}
           >
-            {t('listing.actions.accept')}
+            {t('listing.values.actions.accept')}
           </OphButton>
           <OphButton
             variant={Variant.Text}
             sx={{ padding: 0, minWidth: 0 }}
             onClick={() => setModalState({ match, action: 'reject' })}
           >
-            {t('listing.actions.cancel')}
+            {t('listing.values.actions.reject')}
           </OphButton>
         </div>
       ),

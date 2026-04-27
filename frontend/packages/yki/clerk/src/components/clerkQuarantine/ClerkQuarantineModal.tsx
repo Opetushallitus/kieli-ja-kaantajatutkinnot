@@ -82,7 +82,7 @@ export const ClerkQuarantineModal = ({
             {t(`${keyPrefix}.cancel`)}
           </OphButton>
           <OphButton variant={Variant.Contained} onClick={onConfirm}>
-            {t(`${keyPrefix}.confirm`)}
+            {t(`button.${keyPrefix}`)}
           </OphButton>
         </div>
       </div>

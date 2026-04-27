@@ -148,7 +148,7 @@ export const ClerkQuarantineReviewListing = ({
             sx={{ padding: 0, minWidth: 0 }}
             onClick={() => setPendingCancel(review)}
           >
-            {t('listing.actions.cancel')}
+            {t('listing.values.actions.reject')}
           </OphButton>
         ) : null,
     },
