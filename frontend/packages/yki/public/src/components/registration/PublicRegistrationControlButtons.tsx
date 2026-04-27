@@ -125,9 +125,7 @@ const SubmitButton = () => {
         onClick={handleSubmitBtnClick}
         data-testid="public-registration__controlButtons__submit"
       >
-        <span className="button-color-white">
-          {t('controlButtons.confirm')}
-        </span>
+        {t('controlButtons.confirm')}
       </CustomButton>
     </LoadingProgressIndicator>
   );

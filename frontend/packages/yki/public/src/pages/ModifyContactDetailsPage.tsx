@@ -276,7 +276,7 @@ const ControlButtons = ({
         onClick={onSave}
         disabled={modifyRequestInProgress}
       >
-        <span className="button-color-white">{t('buttons.save')}</span>
+        {t('buttons.save')}
       </CustomButton>
     </LoadingProgressIndicator>
   );

@@ -20,9 +20,11 @@ import { TitlePage, TitlePageProps } from 'shared/utils';
 
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
+import { NewYkiFooter } from 'components/layouts/NewYkiFooter';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
+import { clerkEnabled } from 'featureFlags';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
@@ -51,7 +53,7 @@ const colorGrey700 = '#666666';
 const fontWeightBold = 700;
 const colorTextPrimary = '#1d1d1d';
 
-const ykiPublicTheme = {
+const newYkiPublicTheme = {
   ...theme,
   components: {
     ...theme.components,
@@ -64,9 +66,10 @@ const ykiPublicTheme = {
           variants: [
             {
               props: { variant: Variant.Contained },
+              color: colorPrimary,
               style: {
                 '&:hover': {
-                  color: colorSecondaryDark,
+                  color: colorPrimary,
                   backgroundColor: colorSecondaryDark,
                 },
               },
@@ -170,6 +173,7 @@ const ykiPublicTheme = {
       main: colorSecondary,
       light: colorSecondaryLight,
       dark: colorSecondaryDark,
+      contrastText: colorPrimary,
     },
   },
   typography: {
@@ -201,6 +205,8 @@ const ykiPublicTheme = {
   },
 };
 
+const newYkiThemeOrSharedTheme = clerkEnabled ? newYkiPublicTheme : theme;
+
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
   const sessionStatus = useAppSelector(sessionSelector).status;
@@ -225,7 +231,7 @@ export const AppRouter: FC = () => {
   const Root = (
     <div className="app">
       <NotifierContextProvider>
-        <ThemeProvider theme={ykiPublicTheme}>
+        <ThemeProvider theme={newYkiThemeOrSharedTheme}>
           <Header />
           <ErrorToast />
           <Notifier />
@@ -235,7 +241,7 @@ export const AppRouter: FC = () => {
               <Outlet />
             </div>
           </main>
-          <Footer />
+          {clerkEnabled ? <NewYkiFooter /> : <Footer />}
         </ThemeProvider>
       </NotifierContextProvider>
     </div>

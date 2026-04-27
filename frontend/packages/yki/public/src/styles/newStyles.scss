@@ -1,16 +1,20 @@
 //Shared
 @import 'shared/styles';
 
+// YKI Public overrides
+@import 'overrides/new-yki-overrides';
+
 // Base
 @import 'base/base';
 
 // Components
-@import 'components/layouts/header';
-@import 'components/layouts/footer';
-@import 'components/layouts/session-header';
+@import 'components/layouts/new-yki-header';
+@import 'components/layouts/new-yki-footer';
+@import 'components/layouts/new-yki-session-header';
 @import 'components/registration/exam-session-filters';
 @import 'components/registration/exam-session-listing';
-@import 'components/registration/public-registration';
+@import 'components/registration/exam-session-card';
+@import 'components/registration/new-yki-public-registration';
 @import 'components/registration/mobile-app-bar';
 @import 'components/userDetails/cancel-registration-modal';
 @import 'components/freeRegistration/free-registration';
@@ -20,16 +24,16 @@
 
 // Pages
 @import 'pages/accessibility-statement-page';
-@import 'pages/evaluation-order-page';
+@import 'pages/new-yki-evaluation-order-page';
 @import 'pages/evaluation-order-status-page';
 @import 'pages/logout-success-page';
 @import 'pages/not-found-page';
 @import 'pages/public-exam-details-page';
-@import 'pages/reassessment-page';
-@import 'pages/user-details-page';
+@import 'pages/new-yki-reassessment-page';
+@import 'pages/new-yki-user-details-page';
 @import 'pages/modify-contact-details-page';
-@import 'pages/registration-page';
+@import 'pages/new-yki-registration-page';
 @import 'pages/registration-payment-status-page';
-@import 'pages/transfer-registration-page';
+@import 'pages/new-yki-transfer-registration-page';
 @import 'pages/transfer-registration-success-page';
-@import 'pages/confirm-registration-page';
+@import 'pages/new-yki-confirm-registration-page';

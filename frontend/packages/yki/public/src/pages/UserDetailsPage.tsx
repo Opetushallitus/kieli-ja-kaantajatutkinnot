@@ -344,9 +344,7 @@ const Registrations: FC<RegistrationsProps> = ({
                       `${r.id}`,
                     )}
                   >
-                    <span className="button-color-white">
-                      {t('actions.confirm')}
-                    </span>
+                    {t('actions.confirm')}
                   </CustomButtonLink>
                 )}
               <CustomButton
@@ -459,9 +457,7 @@ const NotLoggedIn = () => {
                 href={`${APIEndpoints.Authenticate}?toUserPortal=true`}
                 className="user-details-page__login-btn"
               >
-                <span className="button-color-white">
-                  {t('notLoggedIn.loginThroughSuomiFi')}
-                </span>
+                {t('notLoggedIn.loginThroughSuomiFi')}
               </CustomButton>
             </div>
             <Text>{t('notLoggedIn.actionsAvailable')}</Text>

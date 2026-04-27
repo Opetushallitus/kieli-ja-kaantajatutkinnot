@@ -57,9 +57,7 @@ export const ConfirmRegistration = ({
             variant={Variant.Contained}
             fullWidth={isPhone}
           >
-            <span className="button-color-white">
-              {t('payImmediately.action')}
-            </span>
+            {t('payImmediately.action')}
           </CustomButton>
         </a>
       </div>

@@ -74,7 +74,7 @@ const SubmitButton = ({ onSubmit }: { onSubmit: () => void }) => {
       onClick={onSubmit}
       fullWidth={isPhone}
     >
-      <span className="button-color-white">{t('emailButtonText')}</span>
+      {t('emailButtonText')}
     </CustomButton>
   );
 };

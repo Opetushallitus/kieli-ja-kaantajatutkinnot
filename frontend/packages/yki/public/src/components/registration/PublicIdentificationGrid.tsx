@@ -20,6 +20,7 @@ import { PublicRegistrationStepper } from 'components/registration/PublicRegistr
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
+import { clerkEnabled } from 'featureFlags';
 import { ExamSession } from 'interfaces/examSessions';
 import { cancelRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
@@ -81,9 +82,7 @@ const AlreadyLoggedIn = () => {
             initRegistration.registrationId
           }`}
         >
-          <span className="button-color-white">
-            {t('alreadyLoggedIn.labels.continueToRegistration')}
-          </span>
+          {t('alreadyLoggedIn.labels.continueToRegistration')}
         </CustomButton>
         <CustomButton
           aria-label={t('alreadyLoggedIn.labels.abort')}
@@ -186,7 +185,13 @@ export const PublicIdentificationGrid = () => {
           </div>
           <Paper
             elevation={isPhone ? 0 : 3}
-            style={isPhone ? {} : { borderTop: '5px solid' + ophColors.green2 }}
+            style={
+              isPhone
+                ? {}
+                : clerkEnabled
+                ? { borderTop: '5px solid' + ophColors.green2 }
+                : undefined
+            }
           >
             <div className="public-registration__grid__form-container">
               <div className="rows gapped">

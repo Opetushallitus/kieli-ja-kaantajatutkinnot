@@ -88,9 +88,7 @@ export const Header = (): JSX.Element => {
       </AppBar>
       <CookieBanner
         title={t('title')}
-        buttonText={
-          <span className="button-color-white">{t('buttonText')}</span>
-        }
+        buttonText={t('buttonText')}
         cookieTag="cookie-consent-yki"
         buttonAriaLabel={t('buttonAriaLabel')}
         path="/yki"

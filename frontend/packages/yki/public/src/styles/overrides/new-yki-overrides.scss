@@ -18,13 +18,9 @@ a {
   }
 }
 
-.button-color-white {
-  color: #ffffff;
-}
-
 .color-secondary-dark {
   &#{&} {
-    color: $color-secondary-dark;
+    color: $color-secondary;
   }
 }
 

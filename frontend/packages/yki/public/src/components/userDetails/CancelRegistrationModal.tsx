@@ -138,7 +138,7 @@ export const CancelRegistrationModal = ({
                 onClick={cancel}
                 disabled={isLoading}
               >
-                <span className="button-color-white">{t('confirm')}</span>
+                {t('confirm')}
               </CustomButton>
             </LoadingProgressIndicator>
           </div>
