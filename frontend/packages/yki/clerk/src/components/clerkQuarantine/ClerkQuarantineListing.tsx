@@ -69,12 +69,6 @@ export const ClerkQuarantineListing = ({
     setModalState(null);
   };
 
-  // Cells stack two values (registrant + quarantined person). Some values such
-  // as email are long tokens with no spaces, so the browser cannot wrap them
-  // naturally and they overflow into adjacent cells without this.
-  const wideStyle = { wordBreak: 'break-word' as const };
-  const narrowStyle = { whiteSpace: 'nowrap' as const, width: '1%' };
-
   const registrationStateIconMapping: Partial<
     Record<RegistrationStates, JSX.Element>
   > = {
@@ -106,20 +100,26 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'examLanguageCode',
-      style: narrowStyle,
+      style: {
+        whiteSpace: 'nowrap',
+        maxWidth: '100px',
+      },
       title: t('listing.columns.examLanguage'),
       render: ({ examLanguageCode }) => languageToString(examLanguageCode),
     },
     {
       key: 'examDate',
       sortable: true,
-      style: narrowStyle,
+      style: {
+        whiteSpace: 'nowrap',
+        maxWidth: '100px',
+      },
       title: t('listing.columns.examDate'),
       render: ({ examDate }) => examDate.format('D.M.YYYY'),
     },
     {
       key: 'name',
-      style: wideStyle,
+      style: { wordBreak: 'break-word' },
       title: t('listing.columns.name'),
       render: (match) => (
         <div>
@@ -135,7 +135,7 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'birthdate',
-      style: narrowStyle,
+      style: { whiteSpace: 'nowrap' },
       title: t('listing.columns.birthdate'),
       render: (match) => (
         <div>
@@ -146,7 +146,7 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'ssn',
-      style: narrowStyle,
+      style: { whiteSpace: 'nowrap' },
       title: t('listing.columns.ssn'),
       render: (match) => (
         <div>
@@ -157,7 +157,7 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'email',
-      style: wideStyle,
+      style: { wordBreak: 'break-word' },
       title: t('listing.columns.email'),
       render: (match) => (
         <div>
@@ -168,7 +168,7 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'phoneNumber',
-      style: narrowStyle,
+      style: { whiteSpace: 'nowrap' },
       title: t('listing.columns.phoneNumber'),
       render: (match) => (
         <div>
@@ -179,7 +179,7 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'registrationState',
-      style: narrowStyle,
+      style: { whiteSpace: 'nowrap' },
       title: t('listing.columns.registrationState'),
       render: ({ state }) => (
         <div className="columns gapped-xs">
@@ -193,7 +193,7 @@ export const ClerkQuarantineListing = ({
     {
       key: 'actions',
       title: t('listing.columns.actions'),
-      style: narrowStyle,
+      style: { whiteSpace: 'nowrap' },
       render: (match) => (
         <div className="columns gapped-xxs">
           <OphButton
