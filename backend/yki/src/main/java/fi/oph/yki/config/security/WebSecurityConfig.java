@@ -1,6 +1,7 @@
 package fi.oph.yki.config.security;
 
 import fi.oph.yki.config.Constants;
+import fi.oph.yki.service.PermissionsService;
 import fi.oph.yki.util.StringUtil;
 import fi.vm.sade.java_utils.security.OpintopolkuCasAuthenticationFilter;
 import fi.vm.sade.javautils.kayttooikeusclient.OphUserDetailsServiceImpl;
@@ -21,6 +22,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
@@ -32,6 +34,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -49,11 +52,13 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurityConfig {
 
   private final Environment environment;
+  private final PermissionsService permissionsService;
   private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
 
   @Autowired
-  public WebSecurityConfig(final Environment environment) {
+  public WebSecurityConfig(final Environment environment, final PermissionsService permissionsService) {
     this.environment = environment;
+    this.permissionsService = permissionsService;
   }
 
   @Bean
@@ -185,9 +190,24 @@ public class WebSecurityConfig {
     final HttpSecurity httpSecurity,
     final CasAuthenticationFilter casAuthenticationFilter
   ) throws Exception {
+    final AuthorizationManager<RequestAuthorizationContext> proxyAuthorizationManager =
+      (
+        (authenticationSupplier, object) -> {
+          Authentication authentication = authenticationSupplier.get();
+
+          if (!authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
+            return new AuthorizationDecision(false);
+          } else {
+            permissionsService.getPermissionForUsername(authentication.getName());
+
+            return new AuthorizationDecision(true);
+          }
+        }
+      );
+
     return configCsrf(httpSecurity)
       .securityMatcher("/v2/api/clerk/**", "/v2/virkailija/**", "/v2/virkailija")
-      .authorizeHttpRequests(registry -> registry.anyRequest().hasRole(Constants.APP_ADMIN_ROLE))
+      .authorizeHttpRequests(registry -> registry.anyRequest().access(proxyAuthorizationManager))
       .addFilter(casAuthenticationFilter)
       .authenticationProvider(casAuthenticationProvider())
       .exceptionHandling(exceptionHandlingConfigurer -> {
