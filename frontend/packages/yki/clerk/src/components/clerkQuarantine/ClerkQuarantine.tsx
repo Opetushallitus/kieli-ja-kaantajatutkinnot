@@ -17,8 +17,6 @@ import {
 } from 'redux/reducers/clerkQuarantine';
 import {
   clerkQuarantineSelector,
-  selectQuarantineReviews,
-  selectQuarantineReviewsStatus,
   selectSortedQuarantineMatches,
 } from 'redux/selectors/clerkQuarantine';
 
@@ -91,12 +89,15 @@ const QuarantineTabs = ({
 
 export const ClerkQuarantine = () => {
   const dispatch = useDispatch();
-  const { status, sort, reviewStatus, lastReviewAction } = useSelector(
-    clerkQuarantineSelector,
-  );
+  const {
+    status,
+    sort,
+    reviewStatus,
+    lastReviewAction,
+    reviews,
+    reviewsStatus,
+  } = useSelector(clerkQuarantineSelector);
   const rows = useSelector(selectSortedQuarantineMatches);
-  const reviews = useSelector(selectQuarantineReviews);
-  const reviewsStatus = useSelector(selectQuarantineReviewsStatus);
   const [activeTab, setActiveTab] = useState<Tab>('pending');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
