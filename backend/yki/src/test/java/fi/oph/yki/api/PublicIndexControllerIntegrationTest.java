@@ -104,6 +104,7 @@ class PublicIndexControllerIntegrationTest {
   private void fillNonceIntoTemplate(final String nonce) {
     final Context ctx = new Context();
     ctx.setVariable("cspNonce", nonce);
+    ctx.setVariable("clerkEnabled", false);
     expectedIndexHtml = templateEngine.process(expectedIndexHtmlTemplate, ctx);
   }
 
