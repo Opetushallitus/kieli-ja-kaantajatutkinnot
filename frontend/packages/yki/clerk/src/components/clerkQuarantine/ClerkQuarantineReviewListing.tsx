@@ -1,3 +1,6 @@
+import BlockIcon from '@mui/icons-material/Block';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import WarningIcon from '@mui/icons-material/Warning';
 import { OphButton } from '@opetushallitus/oph-design-system';
 import { useState } from 'react';
 import { Variant } from 'shared/enums';
@@ -7,6 +10,7 @@ import { ListTable } from 'components/oph-design/table/list-table';
 import { PageSizeSelector } from 'components/oph-design/table/page-size-selector';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
+import { RegistrationStates } from 'enums/app';
 import {
   ClerkQuarantineReview,
   ClerkQuarantineSort,
@@ -51,6 +55,24 @@ export const ClerkQuarantineReviewListing = ({
       pendingCancel.registrationId,
     );
     setPendingCancel(null);
+  };
+
+  const registrationStateIconMapping: Partial<
+    Record<RegistrationStates, JSX.Element>
+  > = {
+    [RegistrationStates.Completed]: (
+      <CheckCircleIcon fontSize="large" color="success" />
+    ),
+    [RegistrationStates.PaidAndCancelled]: (
+      <BlockIcon fontSize="large" color="error" />
+    ),
+    [RegistrationStates.Cancelled]: (
+      <BlockIcon fontSize="large" color="error" />
+    ),
+    [RegistrationStates.Expired]: <BlockIcon fontSize="large" color="error" />,
+    [RegistrationStates.Submitted]: (
+      <WarningIcon fontSize="large" color="warning" />
+    ),
   };
 
   const columns: ListTableColumn<ClerkQuarantineReviewRow>[] = [
@@ -134,6 +156,19 @@ export const ClerkQuarantineReviewListing = ({
         <div>
           <div>{review.registrant.phoneNumber}</div>
           <div>{review.quarantinedPerson.phoneNumber}</div>
+        </div>
+      ),
+    },
+    {
+      key: 'registrationState',
+      style: { whiteSpace: 'nowrap' },
+      title: t('listing.columns.registrationState'),
+      render: ({ state }) => (
+        <div className="columns gapped-xs">
+          {registrationStateIconMapping[state]}
+          <Text>
+            <strong>{t(`listing.values.registrationState.${state}`)}</strong>
+          </Text>
         </div>
       ),
     },

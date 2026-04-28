@@ -1,6 +1,3 @@
-import BlockIcon from '@mui/icons-material/Block';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import WarningIcon from '@mui/icons-material/Warning';
 import { OphButton } from '@opetushallitus/oph-design-system';
 import { useState } from 'react';
 import { Trans } from 'react-i18next';
@@ -11,7 +8,6 @@ import { ListTable } from 'components/oph-design/table/list-table';
 import { PageSizeSelector } from 'components/oph-design/table/page-size-selector';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
-import { RegistrationStates } from 'enums/app';
 import {
   ClerkQuarantineMatch,
   ClerkQuarantineSort,
@@ -67,24 +63,6 @@ export const ClerkQuarantineListing = ({
       matchConfirmed,
     );
     setModalState(null);
-  };
-
-  const registrationStateIconMapping: Partial<
-    Record<RegistrationStates, JSX.Element>
-  > = {
-    [RegistrationStates.Completed]: (
-      <CheckCircleIcon fontSize="large" color="success" />
-    ),
-    [RegistrationStates.PaidAndCancelled]: (
-      <BlockIcon fontSize="large" color="error" />
-    ),
-    [RegistrationStates.Cancelled]: (
-      <BlockIcon fontSize="large" color="error" />
-    ),
-    [RegistrationStates.Expired]: <BlockIcon fontSize="large" color="error" />,
-    [RegistrationStates.Submitted]: (
-      <WarningIcon fontSize="large" color="warning" />
-    ),
   };
 
   const columns: ListTableColumn<ClerkQuarantineMatchRow>[] = [
@@ -177,19 +155,7 @@ export const ClerkQuarantineListing = ({
         </div>
       ),
     },
-    {
-      key: 'registrationState',
-      style: { whiteSpace: 'nowrap' },
-      title: t('listing.columns.registrationState'),
-      render: ({ state }) => (
-        <div className="columns gapped-xs">
-          {registrationStateIconMapping[state]}
-          <Text>
-            <strong>{t(`listing.values.registrationState.${state}`)}</strong>
-          </Text>
-        </div>
-      ),
-    },
+
     {
       key: 'actions',
       title: t('listing.columns.actions'),
