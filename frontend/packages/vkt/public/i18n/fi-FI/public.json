@@ -699,6 +699,15 @@
           },
           "title": "Tutkintomaksut"
         },
+        "discontinuationInfo": {
+          "title": "Valtionhallinnon kielitutkinnot lakkautetaan vaiheittain vuoden 2028 loppuun mennessä",
+          "part1": "1.7.2026 alkaen voit uusia vain aiemmin hylättyjä valtionhallinnon kielitutkinnon osakokeita, jos toinen tutkintoon kuuluvista osakokeista on suoritettu hyväksytysti ja toinen osakoe on hylätty. Tällöin voit suorittaa uudelleen vain hylätyn osakokeen. Sinulla on enintään kolme vuotta aikaa uusia hylätty osakoe. Aika lasketaan hylkäämispäätöksestä. Huomioi kuitenkin, että hylätty osakoe on suoritettava uudelleen viimeistään 31.12.2028.",
+          "part2": "Jos et ole suorittanut valtionhallinnon kielitutkintoa, mutta tarvitset todistuksen suomen tai ruotsin kielen taidosta julkishallinnon työtehtävää varten, voit suorittaa yleisen kielitutkinnon eli YKI-testin.",
+          "part2Link": {
+            "label": "Lue lisää YKI-testeistä Opetushallituksen verkkosivuilta.",
+            "url": "https://www.oph.fi/yki"
+          }
+        },
         "title": "Valtionhallinnon kielitutkinnot (VKT)"
       }
     }

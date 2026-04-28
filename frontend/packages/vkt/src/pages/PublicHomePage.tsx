@@ -6,8 +6,6 @@ import { H1, H2, HeaderSeparator, Text, WebLink } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
-import { BoldedTranslationString } from 'components/common/BoldedTranslationString';
-import { InformationBox } from 'components/common/InformationBox';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
@@ -136,26 +134,23 @@ const GoodAndSatisfactoryLevelCard = () => {
   );
 };
 
-const EnrollmentFees = () => {
+const DiscontinuationInfo = () => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicHomePage.enrollmentFees',
+    keyPrefix: 'vkt.component.publicHomePage.discontinuationInfo',
   });
 
   return (
     <Container className="public-homepage__info-box">
       <div className="rows gapped">
         <H2>{t('title')}</H2>
+        <Text>{t('part1')}</Text>
         <Text>
-          <BoldedTranslationString i18nKey="excellentLevel.part1" t={t} />{' '}
-          {t('excellentLevel.part2')} {t('excellentLevel.part3')}{' '}
-          {t('excellentLevel.part4')}
-        </Text>
-        <Text>
-          <BoldedTranslationString
-            i18nKey="goodAndSatisfactoryLevel.part1"
-            t={t}
-          />{' '}
-          {t('goodAndSatisfactoryLevel.part2')}
+          {t('part2')}{' '}
+          <WebLink
+            href={t('part2Link.url')}
+            label={t('part2Link.label')}
+            endIcon={<OpenInNewIcon />}
+          />
         </Text>
       </div>
     </Container>
@@ -178,7 +173,6 @@ export const PublicHomePage: FC = () => {
         className="public-homepage__grid-container"
       >
         <Grid className="public-homepage__grid-container__item-header">
-          <InformationBox />
           <H1 data-testid="public-homepage__title-heading">{t('title')}</H1>
           <HeaderSeparator />
           <div className="rows gapped">
@@ -204,7 +198,7 @@ export const PublicHomePage: FC = () => {
                 isPhone ? 'gapped-xl' : 'gapped-xxl'
               }`}
             >
-              <EnrollmentFees />
+              <DiscontinuationInfo />
               <div className="rows gapped">
                 <H2>{t('enrollment.heading')}</H2>
                 <div className={`gapped-xxl ${isPhone ? 'rows' : 'columns'}`}>

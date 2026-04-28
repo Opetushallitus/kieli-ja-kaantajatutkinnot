@@ -7,7 +7,6 @@ import { I18nNamespace } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { BulletList } from 'components/common/BulletList';
-import { InformationBox } from 'components/common/InformationBox';
 import { PublicExaminerListing } from 'components/publicExaminerListing/PublicExaminerListing';
 import {
   useCommonTranslation,
@@ -134,7 +133,6 @@ export const PublicGoodAndSatisfactoryLevelLandingPage: FC = () => {
         <Grid className="public-homepage__grid-container__item-header">
           <div className="rows gapped-xxl">
             <div>
-              <InformationBox />
               <H1 data-testid="public-homepage__title-heading">{t('title')}</H1>
               <HeaderSeparator />
               <Text>
