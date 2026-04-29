@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Trans } from 'react-i18next';
 import { Variant } from 'shared/enums';
 
-import { ClerkQuarantineModal } from 'components/clerkQuarantine/listing/ClerkQuarantineModal';
+import { RegistrationConfirmationModal } from 'components/clerkQuarantine/listing/RegistrationConfirmationModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { PageSizeSelector } from 'components/oph-design/table/page-size-selector';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
@@ -22,13 +22,13 @@ type ModalState = {
 
 type ClerkQuarantineMatchRow = ClerkQuarantineMatch & Row;
 
-type ClerkQuarantineListingProps = {
+type PendingReviewsListing = {
   rows: ClerkQuarantineMatchRow[];
   page: number;
   setPage: (page: number) => void;
   pageSize: number;
   setPageSize: (pageSize: number) => void;
-  activeTab: 'pending' | 'previous' | 'active';
+  activeTab: 'pendingReviews' | 'pastReviews' | 'activeQuarantines';
   sort: ClerkQuarantineSort;
   setSort: (sort: ClerkQuarantineSort) => void;
   onSetReview: (
@@ -38,7 +38,7 @@ type ClerkQuarantineListingProps = {
   ) => void;
 };
 
-export const ClerkQuarantineListing = ({
+export const PendingReviewsListing = ({
   rows,
   page,
   setPage,
@@ -47,7 +47,7 @@ export const ClerkQuarantineListing = ({
   sort,
   setSort,
   onSetReview,
-}: ClerkQuarantineListingProps) => {
+}: PendingReviewsListing) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkQuarantine',
   });
@@ -208,7 +208,7 @@ export const ClerkQuarantineListing = ({
           totalCount: rows.length,
         }}
       />
-      <ClerkQuarantineModal
+      <RegistrationConfirmationModal
         match={modalState?.match ?? null}
         action={modalState?.action ?? null}
         onClose={() => setModalState(null)}

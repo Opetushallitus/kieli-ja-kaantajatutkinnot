@@ -439,9 +439,9 @@
           }
         },
         "tabs": {
-          "active": "Voimassa olevat osallistumiskiellot",
-          "pending": "Odottavat tarkistukset ({{count}})",
-          "previous": "Aiemmat tarkistukset"
+          "activeQuarantines": "Voimassa olevat osallistumiskiellot",
+          "pendingReviews": "Odottavat tarkistukset ({{count}})",
+          "pastReviews": "Aiemmat tarkistukset"
         },
         "toasts": {
           "matchConfirmedError": "Hyväksyminen epäonnistui",

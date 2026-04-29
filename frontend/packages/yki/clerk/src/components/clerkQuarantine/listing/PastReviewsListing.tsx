@@ -5,7 +5,7 @@ import { OphButton } from '@opetushallitus/oph-design-system';
 import { useState } from 'react';
 import { Variant } from 'shared/enums';
 
-import { ClerkQuarantineModal } from 'components/clerkQuarantine/listing/ClerkQuarantineModal';
+import { RegistrationConfirmationModal } from 'components/clerkQuarantine/listing/RegistrationConfirmationModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { PageSizeSelector } from 'components/oph-design/table/page-size-selector';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
@@ -20,7 +20,7 @@ import { languageToString } from 'utils/clerk';
 
 type ClerkQuarantineReviewRow = ClerkQuarantineReview & Row;
 
-type ClerkQuarantineReviewListingProps = {
+type PastReviewsListingProps = {
   rows: ClerkQuarantineReviewRow[];
   page: number;
   setPage: (page: number) => void;
@@ -31,7 +31,7 @@ type ClerkQuarantineReviewListingProps = {
   onCancelRegistration: (quarantineId: number, registrationId: number) => void;
 };
 
-export const ClerkQuarantineReviewListing = ({
+export const PastReviewsListing = ({
   rows,
   page,
   setPage,
@@ -40,7 +40,7 @@ export const ClerkQuarantineReviewListing = ({
   sort,
   setSort,
   onCancelRegistration,
-}: ClerkQuarantineReviewListingProps) => {
+}: PastReviewsListingProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkQuarantine',
   });
@@ -210,7 +210,7 @@ export const ClerkQuarantineReviewListing = ({
           totalCount: rows.length,
         }}
       />
-      <ClerkQuarantineModal
+      <RegistrationConfirmationModal
         match={pendingCancel}
         action={pendingCancel ? 'reject' : null}
         onClose={() => setPendingCancel(null)}

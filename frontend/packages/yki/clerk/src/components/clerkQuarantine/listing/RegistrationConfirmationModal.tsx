@@ -13,19 +13,19 @@ import {
 import { H2, Text } from 'ophTheme/Text';
 import { languageToString, levelDescription } from 'utils/clerk';
 
-type ClerkQuarantineModalProps = {
+type RegistrationConfirmationModalProps = {
   match: ClerkQuarantineMatch | ClerkQuarantineReview | null;
   action: 'accept' | 'reject' | null;
   onClose: () => void;
   onConfirm: () => void;
 };
 
-export const ClerkQuarantineModal = ({
+export const RegistrationConfirmationModal = ({
   match,
   action,
   onClose,
   onConfirm,
-}: ClerkQuarantineModalProps) => {
+}: RegistrationConfirmationModalProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkQuarantine.modals',
   });
