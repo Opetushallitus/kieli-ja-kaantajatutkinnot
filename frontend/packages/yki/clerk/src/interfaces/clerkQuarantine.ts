@@ -27,7 +27,7 @@ export type ClerkQuarantineMatchResponse = {
 export type ClerkQuarantineMatch = {
   quarantineId: number;
   registrationId: number;
-  examLanguageCode: string; // TODO: Use LanguageLevelCode
+  examLanguageCode: LanguageLevelCode;
   examLevelCode: keyof typeof ExamLevel;
   examDate: Dayjs;
   state: RegistrationStates;

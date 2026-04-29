@@ -1,7 +1,12 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { AppLanguage } from 'shared/enums';
 
-import { GenderEnum, RegistrationKind, RegistrationStates } from 'enums/app';
+import {
+  ExamLevel,
+  GenderEnum,
+  RegistrationKind,
+  RegistrationStates,
+} from 'enums/app';
 import {
   AdmissionedRegistration,
   ClerkCustomerDetails,
@@ -457,7 +462,7 @@ export class SerializationUtils {
     return {
       quarantineId: response.id,
       registrationId: response.registrationId,
-      examLanguageCode: response.languageCode,
+      examLanguageCode: response.languageCode as 'PERUS' | 'KESKI' | 'YLIN',
       examLevelCode: response.levelCode,
       examDate: dayjs(response.examDate),
       state: SerializationUtils.deserializeRegistrationState(response.state),
@@ -476,11 +481,9 @@ export class SerializationUtils {
       registrationId: response.registrationId,
       updated: dayjs(response.updated),
       examDate: dayjs(response.examDate),
-      examLanguageCode:
-        response.languageCode.trim() as ClerkQuarantineReview['examLanguageCode'],
-      examLevelCode:
-        response.levelCode.trim() as ClerkQuarantineReview['examLevelCode'],
-      state: response.state as ClerkQuarantineReview['state'],
+      examLanguageCode: response.languageCode as 'PERUS' | 'KESKI' | 'YLIN',
+      examLevelCode: response.levelCode as ExamLevel,
+      state: SerializationUtils.deserializeRegistrationState(response.state),
       quarantinedPerson: response.quarantinedPerson,
       registrant: response.registrant,
     };
