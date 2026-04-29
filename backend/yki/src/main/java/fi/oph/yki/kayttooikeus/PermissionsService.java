@@ -1,16 +1,13 @@
-package fi.oph.yki.service;
+package fi.oph.yki.kayttooikeus;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.yki.config.CacheConfig;
+import fi.oph.yki.kayttooikeus.dto.KayttooikeusResponseDTO;
 import fi.vm.sade.javautils.nio.cas.CasClient;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import org.asynchttpclient.Request;
 import org.asynchttpclient.RequestBuilder;
 import org.asynchttpclient.Response;
@@ -41,10 +38,14 @@ public class PermissionsService {
     this.kayttooikeusServiceUrl = kayttooikeusServiceUrl;
   }
 
-  @Cacheable(CacheConfig.PERMISSIONS_CACHE)
-  public Map<String, Object> getPermissionForUsername(final String oid) {
+  //@Cacheable(CacheConfig.PERMISSIONS_CACHE)
+  public KayttooikeusResponseDTO getPermissionForUsername(final String oid) {
+    if (oid == null || oid.isEmpty()) {
+      throw new RuntimeException("OID is not valid: " + oid);
+    }
+
     final Request request = defaultRequestBuilder
-      .setUrl(kayttooikeusServiceUrl + "/kayttooikeus/kayttaja?username=jarpesonen")
+      .setUrl(kayttooikeusServiceUrl + "/kayttooikeus/kayttaja?oidHenkilo=" + oid)
       .setMethod(Methods.GET)
       .build();
 
@@ -57,7 +58,7 @@ public class PermissionsService {
         throw new RuntimeException("Could not get user by oid " + oid + ", status: " + response.getStatusCode());
       }
 
-      final List<Map<String, Object>> results = OBJECT_MAPPER.readValue(
+      final List<KayttooikeusResponseDTO> results = OBJECT_MAPPER.readValue(
         response.getResponseBody(),
         new TypeReference<>() {}
       );
@@ -66,9 +67,34 @@ public class PermissionsService {
         throw new RuntimeException("No user found by oid " + oid);
       }
 
-      return results.get(0);
+      if (results.size() > 1) {
+        throw new RuntimeException(
+          "Response has multiple users, don't know what to do. Result size: " + results.size()
+        );
+      }
+
+      final KayttooikeusResponseDTO kayttooikeusResponseDTO = results.get(0);
+      if (!oid.equals(kayttooikeusResponseDTO.oidHenkilo())) {
+        throw new RuntimeException(
+          String.format("Response OID does not match %s != %s ", kayttooikeusResponseDTO.oidHenkilo(), oid)
+        );
+      }
+
+      return kayttooikeusResponseDTO;
     } catch (final Exception e) {
       throw new RuntimeException("Fetching permissions failed for oid " + oid, e);
     }
+  }
+
+  public boolean hasPermissionForOrganisation(final KayttooikeusResponseDTO permissions, final String organizationOid) {
+    return permissions
+      .organisaatiot()
+      .stream()
+      .anyMatch(o -> {
+        return (
+          organizationOid.equals(o.organisaatioOid()) &&
+          o.kayttooikeudet().stream().anyMatch(k -> "YKI".equals(k.palvelu()) && "JARJESTAJA".equals(k.oikeus()))
+        );
+      });
   }
 }

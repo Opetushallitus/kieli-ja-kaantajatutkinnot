@@ -1,7 +1,8 @@
 package fi.oph.yki.config.security;
 
 import fi.oph.yki.config.Constants;
-import fi.oph.yki.service.PermissionsService;
+import fi.oph.yki.kayttooikeus.PermissionsService;
+import fi.oph.yki.kayttooikeus.dto.KayttooikeusResponseDTO;
 import fi.oph.yki.util.StringUtil;
 import fi.vm.sade.java_utils.security.OpintopolkuCasAuthenticationFilter;
 import fi.vm.sade.javautils.kayttooikeusclient.OphUserDetailsServiceImpl;
@@ -193,14 +194,20 @@ public class WebSecurityConfig {
     final AuthorizationManager<RequestAuthorizationContext> proxyAuthorizationManager =
       (
         (authenticationSupplier, object) -> {
-          Authentication authentication = authenticationSupplier.get();
+          final Authentication authentication = authenticationSupplier.get();
+          final Map<String, String> requestVariables = object.getVariables();
+          final String targetOid = requestVariables.get("oid");
 
           if (!authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
             return new AuthorizationDecision(false);
           } else {
-            permissionsService.getPermissionForUsername(authentication.getName());
+            final KayttooikeusResponseDTO kayttooikeusResponseDTO = permissionsService.getPermissionForUsername(
+              authentication.getName()
+            );
 
-            return new AuthorizationDecision(true);
+            return new AuthorizationDecision(
+              permissionsService.hasPermissionForOrganisation(kayttooikeusResponseDTO, targetOid)
+            );
           }
         }
       );
