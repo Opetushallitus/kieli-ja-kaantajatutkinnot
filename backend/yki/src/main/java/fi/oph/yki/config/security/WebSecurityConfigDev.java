@@ -19,7 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Profile("dev")
+@Profile("!dev")
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfigDev {

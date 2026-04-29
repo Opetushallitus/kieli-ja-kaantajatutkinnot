@@ -14,8 +14,27 @@ import org.springframework.http.MediaType;
 @Configuration
 public class OnrClientConfig {
 
-  @Bean
-  public CasClient casClient(
+  @Bean(name = "casPermissionsClient")
+  public CasClient casPermissionsClient(
+    @Value("${cas.kayttooikeus-url}") final String kayttooikeusServiceUrl,
+    @Value("${cas.cas-url}") final String casUrl,
+    @Value("${cas.onr.username}") final String casUsername,
+    @Value("${cas.onr.password}") final String casPassword
+  ) {
+    return CasClientBuilder.build(
+      CasConfig.SpringSessionCasConfig(
+        casUsername,
+        casPassword,
+        casUrl,
+        kayttooikeusServiceUrl,
+        Constants.CALLER_ID,
+        Constants.CALLER_ID
+      )
+    );
+  }
+
+  @Bean(name = "casOnrClient")
+  public CasClient casOnrClient(
     @Value("${cas.onr-url}") final String onrServiceUrl,
     @Value("${cas.cas-url}") final String casUrl,
     @Value("${cas.onr.username}") final String casUsername,
