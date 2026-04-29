@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
-import { ClerkQuarantineListing } from 'components/clerkQuarantine/listing/ClerkQuarantineListing';
-import { ClerkQuarantineReviewListing } from 'components/clerkQuarantine/listing/ClerkQuarantineReviewListing';
+import { ClerkQuarantineListing } from 'components/clerkQuarantine/listing/PendingReviewsListing';
+import { ClerkQuarantineReviewListing } from 'components/clerkQuarantine/listing/PastReviewsListing';
 import { usePublicTranslation } from 'configs/i18n';
 import { H2 } from 'ophTheme/Text';
 import {
