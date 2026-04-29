@@ -1,37 +1,44 @@
-import BlockIcon from '@mui/icons-material/Block';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import WarningIcon from '@mui/icons-material/Warning';
 import { OphButton } from '@opetushallitus/oph-design-system';
 import { useState } from 'react';
+import { Trans } from 'react-i18next';
 import { Variant } from 'shared/enums';
 
-import { ClerkQuarantineModal } from 'components/clerkQuarantine/ClerkQuarantineModal';
+import { ClerkQuarantineModal } from 'components/clerkQuarantine/listing/ClerkQuarantineModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { PageSizeSelector } from 'components/oph-design/table/page-size-selector';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
-import { RegistrationStates } from 'enums/app';
 import {
-  ClerkQuarantineReview,
+  ClerkQuarantineMatch,
   ClerkQuarantineSort,
 } from 'interfaces/clerkQuarantine';
 import { Text } from 'ophTheme/Text';
 import { languageToString } from 'utils/clerk';
 
-type ClerkQuarantineReviewRow = ClerkQuarantineReview & Row;
+type ModalState = {
+  match: ClerkQuarantineMatch;
+  action: 'accept' | 'reject';
+};
 
-type ClerkQuarantineReviewListingProps = {
-  rows: ClerkQuarantineReviewRow[];
+type ClerkQuarantineMatchRow = ClerkQuarantineMatch & Row;
+
+type ClerkQuarantineListingProps = {
+  rows: ClerkQuarantineMatchRow[];
   page: number;
   setPage: (page: number) => void;
   pageSize: number;
   setPageSize: (pageSize: number) => void;
+  activeTab: 'pending' | 'previous' | 'active';
   sort: ClerkQuarantineSort;
   setSort: (sort: ClerkQuarantineSort) => void;
-  onCancelRegistration: (quarantineId: number, registrationId: number) => void;
+  onSetReview: (
+    quarantineId: number,
+    registrationId: number,
+    matchConfirmed: boolean,
+  ) => void;
 };
 
-export const ClerkQuarantineReviewListing = ({
+export const ClerkQuarantineListing = ({
   rows,
   page,
   setPage,
@@ -39,43 +46,26 @@ export const ClerkQuarantineReviewListing = ({
   setPageSize,
   sort,
   setSort,
-  onCancelRegistration,
-}: ClerkQuarantineReviewListingProps) => {
+  onSetReview,
+}: ClerkQuarantineListingProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkQuarantine',
   });
 
-  const [pendingCancel, setPendingCancel] =
-    useState<ClerkQuarantineReview | null>(null);
+  const [modalState, setModalState] = useState<ModalState | null>(null);
 
   const handleConfirm = () => {
-    if (!pendingCancel) return;
-    onCancelRegistration(
-      pendingCancel.quarantineId,
-      pendingCancel.registrationId,
+    if (!modalState) return;
+    const matchConfirmed = modalState.action === 'accept';
+    onSetReview(
+      modalState.match.quarantineId,
+      modalState.match.registrationId,
+      matchConfirmed,
     );
-    setPendingCancel(null);
+    setModalState(null);
   };
 
-  const registrationStateIconMapping: Partial<
-    Record<RegistrationStates, JSX.Element>
-  > = {
-    [RegistrationStates.Completed]: (
-      <CheckCircleIcon fontSize="large" color="success" />
-    ),
-    [RegistrationStates.PaidAndCancelled]: (
-      <BlockIcon fontSize="large" color="error" />
-    ),
-    [RegistrationStates.Cancelled]: (
-      <BlockIcon fontSize="large" color="error" />
-    ),
-    [RegistrationStates.Expired]: <BlockIcon fontSize="large" color="error" />,
-    [RegistrationStates.Submitted]: (
-      <WarningIcon fontSize="large" color="warning" />
-    ),
-  };
-
-  const columns: ListTableColumn<ClerkQuarantineReviewRow>[] = [
+  const columns: ListTableColumn<ClerkQuarantineMatchRow>[] = [
     {
       key: 'personType',
       title: '',
@@ -88,14 +78,20 @@ export const ClerkQuarantineReviewListing = ({
     },
     {
       key: 'examLanguageCode',
-      style: { whiteSpace: 'nowrap' },
+      style: {
+        whiteSpace: 'nowrap',
+        maxWidth: '100px',
+      },
       title: t('listing.columns.examLanguage'),
       render: ({ examLanguageCode }) => languageToString(examLanguageCode),
     },
     {
       key: 'examDate',
       sortable: true,
-      style: { whiteSpace: 'nowrap' },
+      style: {
+        whiteSpace: 'nowrap',
+        maxWidth: '100px',
+      },
       title: t('listing.columns.examDate'),
       render: ({ examDate }) => examDate.format('D.M.YYYY'),
     },
@@ -103,14 +99,14 @@ export const ClerkQuarantineReviewListing = ({
       key: 'name',
       style: { wordBreak: 'break-word' },
       title: t('listing.columns.name'),
-      render: (review) => (
+      render: (match) => (
         <div>
           <div>
-            {review.registrant.firstName} {review.registrant.lastName}
+            {match.registrant.firstName} {match.registrant.lastName}
           </div>
           <div>
-            {review.quarantinedPerson.firstName}{' '}
-            {review.quarantinedPerson.lastName}
+            {match.quarantinedPerson.firstName}{' '}
+            {match.quarantinedPerson.lastName}
           </div>
         </div>
       ),
@@ -119,10 +115,10 @@ export const ClerkQuarantineReviewListing = ({
       key: 'birthdate',
       style: { whiteSpace: 'nowrap' },
       title: t('listing.columns.birthdate'),
-      render: (review) => (
+      render: (match) => (
         <div>
-          <div>{review.registrant.birthdate}</div>
-          <div>{review.quarantinedPerson.birthdate}</div>
+          <div>{match.registrant.birthdate}</div>
+          <div>{match.quarantinedPerson.birthdate}</div>
         </div>
       ),
     },
@@ -130,10 +126,10 @@ export const ClerkQuarantineReviewListing = ({
       key: 'ssn',
       style: { whiteSpace: 'nowrap' },
       title: t('listing.columns.ssn'),
-      render: (review) => (
+      render: (match) => (
         <div>
-          <div>{review.registrant.ssn}</div>
-          <div>{review.quarantinedPerson.ssn}</div>
+          <div>{match.registrant.ssn}</div>
+          <div>{match.quarantinedPerson.ssn}</div>
         </div>
       ),
     },
@@ -141,10 +137,10 @@ export const ClerkQuarantineReviewListing = ({
       key: 'email',
       style: { wordBreak: 'break-word' },
       title: t('listing.columns.email'),
-      render: (review) => (
+      render: (match) => (
         <div>
-          <div>{review.registrant.email}</div>
-          <div>{review.quarantinedPerson.email}</div>
+          <div>{match.registrant.email}</div>
+          <div>{match.quarantinedPerson.email}</div>
         </div>
       ),
     },
@@ -152,53 +148,55 @@ export const ClerkQuarantineReviewListing = ({
       key: 'phoneNumber',
       style: { whiteSpace: 'nowrap' },
       title: t('listing.columns.phoneNumber'),
-      render: (review) => (
+      render: (match) => (
         <div>
-          <div>{review.registrant.phoneNumber}</div>
-          <div>{review.quarantinedPerson.phoneNumber}</div>
+          <div>{match.registrant.phoneNumber}</div>
+          <div>{match.quarantinedPerson.phoneNumber}</div>
         </div>
       ),
     },
-    {
-      key: 'registrationState',
-      style: { whiteSpace: 'nowrap' },
-      title: t('listing.columns.registrationState'),
-      render: ({ state }) => (
-        <div className="columns gapped-xs">
-          {registrationStateIconMapping[state]}
-          <Text>
-            <strong>{t(`listing.values.registrationState.${state}`)}</strong>
-          </Text>
-        </div>
-      ),
-    },
+
     {
       key: 'actions',
       title: t('listing.columns.actions'),
       style: { whiteSpace: 'nowrap' },
-      render: (review) =>
-        review.quarantined ? (
+      render: (match) => (
+        <div className="columns gapped-xxs">
           <OphButton
             variant={Variant.Text}
             sx={{ padding: 0, minWidth: 0 }}
-            onClick={() => setPendingCancel(review)}
+            onClick={() => setModalState({ match, action: 'accept' })}
+          >
+            {t('listing.values.actions.accept')}
+          </OphButton>
+          <OphButton
+            variant={Variant.Text}
+            sx={{ padding: 0, minWidth: 0 }}
+            onClick={() => setModalState({ match, action: 'reject' })}
           >
             {t('listing.values.actions.reject')}
           </OphButton>
-        ) : null,
+        </div>
+      ),
     },
   ];
 
   return (
     <>
-      <Text>{t('reviewListing.description')}</Text>
+      <Text>
+        <Trans
+          t={t}
+          i18nKey="listing.description"
+          components={{ bold: <strong /> }}
+        />
+      </Text>
       <div className="columns space-between">
         <Text>{t('listing.resultCount', { count: rows.length })}</Text>
         <PageSizeSelector pageSize={pageSize} setPageSize={setPageSize} />
       </div>
       <ListTable
         rows={rows}
-        rowKeyProp="id"
+        rowKeyProp="quarantineId"
         columns={columns}
         translateHeader={false}
         sort={sort}
@@ -211,9 +209,9 @@ export const ClerkQuarantineReviewListing = ({
         }}
       />
       <ClerkQuarantineModal
-        match={pendingCancel}
-        action={pendingCancel ? 'reject' : null}
-        onClose={() => setPendingCancel(null)}
+        match={modalState?.match ?? null}
+        action={modalState?.action ?? null}
+        onClose={() => setModalState(null)}
         onConfirm={handleConfirm}
       />
     </>
