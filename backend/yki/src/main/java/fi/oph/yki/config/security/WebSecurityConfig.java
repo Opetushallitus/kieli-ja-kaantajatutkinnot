@@ -196,6 +196,7 @@ public class WebSecurityConfig {
         (authenticationSupplier, object) -> {
           final Authentication authentication = authenticationSupplier.get();
           final Map<String, String> requestVariables = object.getVariables();
+          final String method = object.getRequest().getMethod();
           final String targetOid = requestVariables.get("oid");
 
           if (
@@ -210,9 +211,20 @@ public class WebSecurityConfig {
               authentication.getName()
             );
 
-            return new AuthorizationDecision(
-              permissionsService.hasPermissionForOrganisation(kayttooikeusResponseDTO, targetOid)
-            );
+            final boolean hasAccess = "GET".equals(method)
+              ? (
+                permissionsService.hasAdminPermission(kayttooikeusResponseDTO) ||
+                permissionsService.hasPermissionForOrganisation(kayttooikeusResponseDTO, targetOid, "JARJESTAJA") ||
+                permissionsService.hasPermissionForOrganisation(kayttooikeusResponseDTO, targetOid, "YLLAPITAJA") ||
+                permissionsService.hasReadPermission(kayttooikeusResponseDTO) // For SOLKI read access
+              )
+              : (
+                permissionsService.hasAdminPermission(kayttooikeusResponseDTO) ||
+                permissionsService.hasPermissionForOrganisation(kayttooikeusResponseDTO, targetOid, "JARJESTAJA") ||
+                permissionsService.hasPermissionForOrganisation(kayttooikeusResponseDTO, targetOid, "YLLAPITAJA")
+              );
+
+            return new AuthorizationDecision(hasAccess);
           }
         }
       );

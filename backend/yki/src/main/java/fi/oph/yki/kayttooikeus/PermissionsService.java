@@ -3,7 +3,7 @@ package fi.oph.yki.kayttooikeus;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fi.oph.yki.config.CacheConfig;
+import fi.oph.yki.kayttooikeus.dto.KayttooikeusDTO;
 import fi.oph.yki.kayttooikeus.dto.KayttooikeusResponseDTO;
 import fi.vm.sade.javautils.nio.cas.CasClient;
 import java.util.HashSet;
@@ -14,7 +14,6 @@ import org.asynchttpclient.Response;
 import org.asynchttpclient.util.HttpConstants.Methods;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +22,7 @@ public class PermissionsService {
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
     .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+  public static final String YKI_PALVELU = "YKI";
 
   private final CasClient casPermissionsClient;
   private final RequestBuilder defaultRequestBuilder;
@@ -86,15 +86,34 @@ public class PermissionsService {
     }
   }
 
-  public boolean hasPermissionForOrganisation(final KayttooikeusResponseDTO permissions, final String organizationOid) {
-    return permissions
+  private boolean hasOikeus(final List<KayttooikeusDTO> kayttooikeudet, final String oikeus) {
+    return kayttooikeudet.stream().anyMatch(k -> YKI_PALVELU.equals(k.palvelu()) && oikeus.equals(k.oikeus()));
+  }
+
+  public boolean hasPermissionForOrganisation(
+    final KayttooikeusResponseDTO kayttooikeusResponseDTO,
+    final String organizationOid,
+    final String role
+  ) {
+    return kayttooikeusResponseDTO
       .organisaatiot()
       .stream()
-      .anyMatch(o -> {
-        return (
-          organizationOid.equals(o.organisaatioOid()) &&
-          o.kayttooikeudet().stream().anyMatch(k -> "YKI".equals(k.palvelu()) && "JARJESTAJA".equals(k.oikeus()))
-        );
-      });
+      .anyMatch(o -> organizationOid.equals(o.organisaatioOid()) && hasOikeus(o.kayttooikeudet(), role));
+  }
+
+  public boolean hasReadPermission(final KayttooikeusResponseDTO kayttooikeusResponseDTO) {
+    return kayttooikeusResponseDTO
+      .organisaatiot()
+      .stream()
+      .anyMatch(o -> hasOikeus(o.kayttooikeudet(), "ILMOITTAUTUMISET_R"));
+  }
+
+  public boolean hasAdminPermission(KayttooikeusResponseDTO kayttooikeusResponseDTO) {
+    return kayttooikeusResponseDTO
+      .organisaatiot()
+      .stream()
+      .anyMatch(o ->
+        "1.2.246.562.10.00000000001".equals(o.organisaatioOid()) && hasOikeus(o.kayttooikeudet(), "YLLAPITAJA")
+      );
   }
 }
