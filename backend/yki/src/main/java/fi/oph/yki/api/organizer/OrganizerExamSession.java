@@ -1,4 +1,4 @@
-package fi.oph.yki.api.clerk;
+package fi.oph.yki.api.organizer;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -18,17 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/v2/api/clerk/organizer", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v2/api/organizer/{oid}/exam-session", produces = APPLICATION_JSON_VALUE)
 @Conditional(ClerkEnabledCondition.class)
-public class ClerkOrganizerController {
+public class OrganizerExamSession {
 
   private final ClerkOrganizerService clerkOrganizerService;
 
-  private static final String TAG_ORGANIZER = "Clerk organizer API";
+  private static final String TAG_ORGANIZER = "Organizer exam session API";
 
   @GetMapping
-  @Operation(tags = TAG_ORGANIZER, summary = "List all organizers")
-  public Map<String, List<ClerkOrganizerDTO>> getOrganizers() {
-    return Map.of("organizers", clerkOrganizerService.getOrganizers());
+  @Operation(tags = TAG_ORGANIZER, summary = "List exam sessions for an organizer")
+  public Map<String, List<ClerkOrganizerExamSessionDTO>> getExamSessions(@PathVariable("oid") final String oid) {
+    return Map.of("exam_sessions", clerkOrganizerService.getExamSessionsByOrganizerOid(oid));
   }
 }

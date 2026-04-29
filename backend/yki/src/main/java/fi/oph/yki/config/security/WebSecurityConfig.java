@@ -191,14 +191,19 @@ public class WebSecurityConfig {
     final HttpSecurity httpSecurity,
     final CasAuthenticationFilter casAuthenticationFilter
   ) throws Exception {
-    final AuthorizationManager<RequestAuthorizationContext> proxyAuthorizationManager =
+    final AuthorizationManager<RequestAuthorizationContext> organizerAuthorizationManager =
       (
         (authenticationSupplier, object) -> {
           final Authentication authentication = authenticationSupplier.get();
           final Map<String, String> requestVariables = object.getVariables();
           final String targetOid = requestVariables.get("oid");
 
-          if (!authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
+          if (
+            targetOid == null ||
+            targetOid.isEmpty() ||
+            !authentication.isAuthenticated() ||
+            authentication instanceof AnonymousAuthenticationToken
+          ) {
             return new AuthorizationDecision(false);
           } else {
             final KayttooikeusResponseDTO kayttooikeusResponseDTO = permissionsService.getPermissionForUsername(
@@ -213,9 +218,19 @@ public class WebSecurityConfig {
       );
 
     return configCsrf(httpSecurity)
-      .securityMatcher("/v2/api/clerk/**", "/v2/virkailija/**", "/v2/virkailija")
-      .authorizeHttpRequests(registry -> registry.anyRequest().access(proxyAuthorizationManager))
+      .securityMatcher("/v2/api/clerk/**", "/v2/virkailija/**", "/v2/virkailija", "/v2/api/organizer/**")
       .addFilter(casAuthenticationFilter)
+      .authorizeHttpRequests(auth ->
+        auth
+          .requestMatchers("/v2/api/clerk/**", "/v2/virkailija/**", "/v2/virkailija")
+          .hasRole(Constants.APP_ADMIN_ROLE)
+          .requestMatchers("/v2/api/organizer/{oid}/**")
+          .access(organizerAuthorizationManager)
+          .requestMatchers("/v2/api/organizer/**", "/v2/api/organizer", "/v2/jarjestaja/**", "/v2/jarjestaja")
+          .hasAnyRole(Constants.APP_ADMIN_ROLE, Constants.APP_ORGANIZER_ROLE)
+          .anyRequest()
+          .authenticated()
+      )
       .authenticationProvider(casAuthenticationProvider())
       .exceptionHandling(exceptionHandlingConfigurer -> {
         try {
