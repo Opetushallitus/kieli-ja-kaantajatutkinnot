@@ -35,7 +35,14 @@
           "enrollToQueue": "Ilmoittaudu jonoon",
           "pay": "Siirry maksamaan",
           "enroll": "Ilmoittaudu",
-          "submit": "Lähetä"
+          "submit": "Lähetä",
+          "errors": {
+            "title": "Tiedoissa on korjattavaa!",
+            "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
+            "messages": {
+              "hasPreviousEnrollment": "Et voi jatkaa ilmoittautumista, jos et ole osallistunut erinomaisen taidon tutkintoon aiemmin."
+            }
+          }
         },
         "examEventDetails": {
           "enrollmentToQueue": "ilmoittautuminen jonoon",
@@ -256,6 +263,7 @@
               "placeholder": "Kirjoita päivämäärä tai vapaa teksti"
             },
             "title": "Aikaisempiin erinomaisen taidon tutkintoihin osallistuminen",
+            "noEnrollmentError": "Et voi jatkaa ilmoittautumista, jos et ole osallistunut erinomaisen taidon tutkintoon aiemmin.",
             "noEnrollmentInfoBox": {
               "line1": "1.7.2026 alkaen vain aiemmin hylättyjen osakokeiden uusiminen on mahdollista.",
               "line2": "Jos et ole suorittanut valtionhallinnon kielitutkintoa, mutta tarvitset todistuksen suomen tai ruotsin kielen taidosta julkishallinnon työtehtävää varten, voit suorittaa yleisen kielitutkinnon eli YKI-testin.",

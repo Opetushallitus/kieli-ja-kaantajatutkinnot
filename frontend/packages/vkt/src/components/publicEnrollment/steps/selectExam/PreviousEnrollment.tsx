@@ -104,10 +104,11 @@ export const PreviousEnrollment = ({
     );
   };
 
+  const hasNoSelectionError =
+    showValidation && enrollment.hasPreviousEnrollment === undefined;
   const hasNoEnrollmentError =
     showValidation && enrollment.hasPreviousEnrollment === false;
-  const hasRadioButtonError =
-    showValidation && enrollment.hasPreviousEnrollment !== true;
+  const hasRadioButtonError = hasNoSelectionError || hasNoEnrollmentError;
 
   const showCustomTextFieldError = (
     fieldName: keyof PreviousEnrollmentField,
@@ -184,7 +185,7 @@ export const PreviousEnrollment = ({
             {hasRadioButtonError && (
               <FormHelperText id="has-previous-enrollment-error" error={true}>
                 {hasNoEnrollmentError
-                  ? t('noEnrollmentInfoBox.line1')
+                  ? t('noEnrollmentError')
                   : translateCommon('errors.customTextField.required')}
               </FormHelperText>
             )}

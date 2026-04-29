@@ -4,7 +4,11 @@ import {
 } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { CustomButton, LoadingProgressIndicator } from 'shared/components';
+import {
+  CustomButton,
+  LoadingProgressIndicator,
+  Text,
+} from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
 
@@ -146,6 +150,19 @@ export const PublicEnrollmentControlButtons = ({
       navigate(RouteUtils.stepToRoute(nextStep, examEventId));
     } else {
       setShowValidation(true);
+      if (
+        activeStep === PublicEnrollmentFormStep.SelectExam &&
+        enrollment.hasPreviousEnrollment !== true
+      ) {
+        showDialog({
+          title: t('errors.title'),
+          severity: Severity.Error,
+          content: <Text>{t('errors.messages.hasPreviousEnrollment')}</Text>,
+          actions: [
+            { title: translateCommon('back'), variant: Variant.Contained },
+          ],
+        });
+      }
     }
   };
 

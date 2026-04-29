@@ -35,7 +35,14 @@
           "enrollToQueue": "Ställ dig i kön",
           "pay": "Betala",
           "enroll": "Anmäl dig",
-          "submit": "Skicka"
+          "submit": "Skicka",
+          "errors": {
+            "title": "Uppgifterna behöver korrigeras!",
+            "fixErrors": "Korrigera de saknade eller felaktiga uppgifterna:",
+            "messages": {
+              "hasPreviousEnrollment": "Du kan inte fortsätta anmälan om du inte har deltagit i en språkexamen för statsförvaltningen som gäller utmärkta språkkunskaper tidigare."
+            }
+          }
         },
         "examEventDetails": {
           "enrollmentToQueue": "Ställ dig i kön",
@@ -256,6 +263,7 @@
               "placeholder": "Datum eller fritext"
             },
             "title": "Deltagande i tidigare språkexamina för statsförvaltningen som gäller utmärkta språkkunskaper",
+            "noEnrollmentError": "Du kan inte fortsätta anmälan om du inte har deltagit i en språkexamen för statsförvaltningen som gäller utmärkta språkkunskaper tidigare.",
             "noEnrollmentInfoBox": {
               "line1": "Från och med den 1 juli 2026 är det endast möjligt att förnya tidigare underkända delprov.",
               "line2": "Om du inte har avlagt språkexamen för statsförvaltningen, men behöver ett intyg över dina kunskaper i finska eller svenska för en arbetsuppgift inom den offentliga förvaltningen, kan du avlägga allmänna språkexamen, dvs. YKI-testet.",
