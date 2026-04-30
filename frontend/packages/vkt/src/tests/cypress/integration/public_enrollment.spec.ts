@@ -2,6 +2,7 @@ import { HTTPStatusCode } from 'shared/enums';
 
 import { APIEndpoints } from 'enums/api';
 import { PublicReservationResponse } from 'interfaces/publicEnrollment';
+import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onPublicEnrollmentPage } from 'tests/cypress/support/page-objects/publicEnrollmentPage';
 import { onPublicExcellentLevelPage } from 'tests/cypress/support/page-objects/publicExcellentLevelPage';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
@@ -208,6 +209,8 @@ describe('Public enrollment', () => {
 
       onPublicEnrollmentPage.expectStepHeading('Valitse tutkinto');
       onPublicEnrollmentPage.clickNext();
+      onDialog.expectText('Tiedoissa on korjattavaa!');
+      onDialog.clickButtonByText('Takaisin');
       onPublicEnrollmentPage.expectFullExamError();
       onPublicEnrollmentPage.enrollmentFullExamRadio();
       onPublicEnrollmentPage.expectFullExamErrorNotExist();
