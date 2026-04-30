@@ -1221,7 +1221,7 @@
             <column name="paid_at" type="TIMESTAMP WITH TIME ZONE" />
         </addColumn>
     </changeSet>
-    <changeSet id="2026-04-30-contact-attachment" author="mvonbell">
+    <changeSet id="2026-04-30-contact-attachment" author="miikavonbell">
         <createTable tableName="contact_attachment">
             <column autoIncrement="true" name="attachment_id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="contact_attachment_pkey" />
