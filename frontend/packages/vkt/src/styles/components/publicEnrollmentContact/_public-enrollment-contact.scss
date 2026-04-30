@@ -84,6 +84,21 @@
         margin-bottom: 2rem;
       }
     }
+
+    &__previous-enrollment-info-box {
+      background-color: $color-blue-200;
+      border-radius: 4px;
+      padding: 2rem;
+
+      &__header {
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+
+      &__body {
+        padding-left: calc(24px + 0.5rem);
+      }
+    }
   }
 
   & &__info-box {

@@ -22,3 +22,8 @@ export interface PublicFileUploadParameters {
   examEventId: number;
   file: File;
 }
+
+export interface PublicContactFileUploadParameters {
+  examinerId: number;
+  file: File;
+}

@@ -1221,4 +1221,40 @@
             <column name="paid_at" type="TIMESTAMP WITH TIME ZONE" />
         </addColumn>
     </changeSet>
+    <changeSet id="2026-04-30-contact-attachment" author="mvonbell">
+        <createTable tableName="contact_attachment">
+            <column autoIncrement="true" name="attachment_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="contact_attachment_pkey" />
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="enrollment_appointment_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="key" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="contact_attachment_key_uniq_idx"/>
+            </column>
+            <column name="filename" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+            <column name="size" type="INT">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="contact_attachment" baseColumnNames="enrollment_appointment_id"
+                                 referencedTableName="enrollment_appointment" referencedColumnNames="enrollment_appointment_id"
+                                 constraintName="fk_contact_attachment_enrollment_appointment"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
 </databaseChangeLog>

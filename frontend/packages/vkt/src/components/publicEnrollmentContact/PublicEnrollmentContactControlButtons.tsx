@@ -146,6 +146,20 @@ export const PublicEnrollmentContactControlButtons = ({
       dispatch(loadPublicEnrollmentSave({ enrollment, examinerId }));
     } else {
       setShowValidation(true);
+
+      if (enrollment.hasPreviousEnrollment !== true) {
+        showDialog({
+          title: t('errors.title'),
+          severity: Severity.Error,
+          content: <Text>{t('errors.messages.hasPreviousEnrollment')}</Text>,
+          actions: [
+            { title: translateCommon('back'), variant: Variant.Contained },
+          ],
+        });
+
+        return;
+      }
+
       const errors = {
         isFullExam: enrollment.isFullExam === undefined,
         partialExamSelection:

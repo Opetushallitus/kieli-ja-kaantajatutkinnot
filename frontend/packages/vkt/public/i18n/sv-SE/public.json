@@ -377,6 +377,9 @@
             "phoneNumber": "Telefonnummer"
           },
           "fixErrors": "Fyll i uppgifterna som saknas eller korrigera felaktiga uppgifter:",
+          "messages": {
+            "hasPreviousEnrollment": ""
+          },
           "title": "Felaktiga uppgifter!"
         },
         "examinerDetails": {
@@ -508,6 +511,14 @@
                 "no": "Nej",
                 "yes": "Ja"
               },
+              "noEnrollmentError": "",
+              "noEnrollmentInfoBox": {
+                "line1": "",
+                "line2": "",
+                "readMore": "",
+                "link": "",
+                "url": "https://www.oph.fi/yki"
+              },
               "part1": "Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.",
               "radioButtons": {
                 "label": "Har du deltagit i examina som gäller goda eller nöjaktiga språkkunskaper tidigare?"
@@ -516,7 +527,22 @@
                 "label": "När har du deltagit senast?",
                 "placeholder": "Datum eller fritext"
               },
-              "title": "Deltagande i tidigare examina"
+              "title": "Deltagande i tidigare examina",
+              "uploadAttachment": {
+                "title": "",
+                "helpText": "",
+                "instructions": {
+                  "part1": "",
+                  "part2": "",
+                  "part3": ""
+                },
+                "uploadFile": "",
+                "dropFile": "",
+                "deleteAttachment": {
+                  "title": "",
+                  "description": ""
+                }
+              }
             }
           }
         }

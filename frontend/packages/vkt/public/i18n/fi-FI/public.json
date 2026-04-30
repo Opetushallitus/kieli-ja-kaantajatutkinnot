@@ -377,6 +377,9 @@
             "phoneNumber": "Puhelinnumero"
           },
           "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
+          "messages": {
+            "hasPreviousEnrollment": "Et voi lähettää yhteydenottopyyntöä, jos et ole osallistunut hyvän ja tyydyttävän taidon kielitutkintoon aiemmin."
+          },
           "title": "Tiedoissa on korjattavaa!"
         },
         "examinerDetails": {
@@ -509,6 +512,14 @@
                 "no": "En",
                 "yes": "Kyllä"
               },
+              "noEnrollmentError": "Et voi jatkaa ilmoittautumista, jos et ole osallistunut hyvän ja tyydyttävän taidon kielitutkintoon aiemmin.",
+              "noEnrollmentInfoBox": {
+                "line1": "1.7.2026 alkaen vain aiemmin hylättyjen osakokeiden uusiminen on mahdollista.",
+                "line2": "Jos et ole suorittanut valtionhallinnon kielitutkintoa aikaisemmin, mutta tarvitset todistuksen suomen tai ruotsin kielen taidosta julkishallinnon työtehtävää varten, voit suorittaa yleisen kielitutkinnon eli YKI-testin.",
+                "readMore": "Lue lisää Opetushallituksen verkkosivuilta:",
+                "link": "Yleiset kielitutkinnot (YKI)",
+                "url": "https://www.oph.fi/yki"
+              },
               "part1": "Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osan suorittamispäivästä alkaen.",
               "radioButtons": {
                 "label": "Oletko osallistunut aiemmin hyvän ja tyydyttävän taidon kielitutkintoon? *"
@@ -517,7 +528,22 @@
                 "label": "Milloin olet viimeksi osallistunut? *",
                 "placeholder": "Kirjoita päivämäärä tai vapaa teksti"
               },
-              "title": "Aikaisempiin tutkintoihin osallistuminen"
+              "title": "Aikaisempiin tutkintoihin osallistuminen",
+              "uploadAttachment": {
+                "title": "Lähetä päätös aiemman tutkinnon tuloksesta",
+                "helpText": "Lisää päätös tutkinnon tuloksesta",
+                "instructions": {
+                  "part1": "Lisää todistus, jossa näkyy aiemmin hylätyn osakokeen tiedot.",
+                  "part2": "Tallenna todistus joko pdf-muodossa tai kuvatiedostona (esim. png tai jpeg). Tiedoston maksimikoko on 1.0 GB.",
+                  "part3": "Jos olet osallistunut tutkintoon monta kertaa, voit lisätä useita todistuksia."
+                },
+                "uploadFile": "Lähetä tiedosto",
+                "dropFile": "Pudota tiedosto tähän",
+                "deleteAttachment": {
+                  "title": "Poista tiedosto",
+                  "description": "Haluatko varmasti poistaa tiedoston <0>{{fileName}}</0>?"
+                }
+              }
             }
           }
         }
