@@ -387,10 +387,6 @@
             "IN_PROGRESS": "Ladataan tietoja",
             "NOT_STARTED": "Tietojen lataaminen epäonnistui"
           },
-          "actions": {
-            "accept": "Hyväksy ilmoittautuminen",
-            "cancel": "Peru ilmoittautuminen"
-          },
           "columns": {
             "actions": "Toiminnot",
             "birthdate": "Syntymäaika",
@@ -399,6 +395,7 @@
             "examLanguage": "Tutkinnon kieli",
             "name": "Etunimi Sukunimi",
             "phoneNumber": "Puhelinnumero",
+            "registrationState": "Ilmoitt. tila",
             "ssn": "Hetu"
           },
           "description": "Järjestelmän tunnistamat ilmoittautujat, joiden tiedot vastaavat voimassa olevan osallistumiskiellon tietoja. Tarkista, onko ilmoittautuja osallistumiskellossa ja <bold>peru tai hyväksy ilmoittautuminen</bold>",
@@ -406,26 +403,45 @@
             "quarantinedPerson": "Osallistumiskielto",
             "registrant": "Ilmoittautuja"
           },
-          "resultCount": "{{count}} ilmoittautujaa"
+          "resultCount": "{{count}} ilmoittautujaa",
+          "values": {
+            "actions": {
+              "accept": "Hyväksy ilmoitt.",
+              "reject": "Peru ilmoitt."
+            },
+            "registrationState": {
+              "CANCELLED": "Peruttu",
+              "COMPLETED": "Maksanut",
+              "EXPIRED": "Erääntynyt",
+              "PAID_AND_CANCELLED": "Maksanut ja peruttu",
+              "SUBMITTED": "Ei Maksanut",
+              "UNKNOWN": "Tuntematon"
+            }
+          }
+        },
+        "reviewListing": {
+          "description": "Sivulla on listattu kaikki tarkistetut ilmoittautumiset. Sarakkeessa Ilmoittumisen tila näet, onko ilmoittautuminen hyväksytty vai peruuttu. Voit perua hyväksytyn päätöksen jälkikäteen."
         },
         "modals": {
+          "button": {
+            "accept": "Hyväksy ilmoittautuminen",
+            "reject": "Peru ilmoittautuminen"
+          },
           "accept": {
             "cancel": "Peruuta",
-            "confirm": "Hyväksy ilmoittautuminen",
             "description": "Olet hyväksymässä <bold>{{firstName}} {{lastName}}</bold> ({{ssn}}) tilaisuudessa <bold>{{examLanguage}}-{{examLevel}} {{examDate}}</bold>",
             "title": "Vahvista ilmoittautumisen hyväksyminen"
           },
           "reject": {
             "cancel": "En halua perua",
-            "confirm": "Peru ilmoittautuminen",
             "description": "Olet perumassa <bold>{{firstName}} {{lastName}}</bold> ({{ssn}}) tilaisuudessa <bold>{{examLanguage}}-{{examLevel}} {{examDate}}</bold>",
             "title": "Vahvista ilmoittautumisen peruminen"
           }
         },
         "tabs": {
-          "active": "Voimassa olevat osallistumiskiellot",
-          "pending": "Odottavat tarkistukset ({{count}})",
-          "previous": "Aiemmat tarkistukset"
+          "activeQuarantines": "Voimassa olevat osallistumiskiellot",
+          "pendingReviews": "Odottavat tarkistukset ({{count}})",
+          "pastReviews": "Aiemmat tarkistukset"
         },
         "toasts": {
           "matchConfirmedError": "Hyväksyminen epäonnistui",

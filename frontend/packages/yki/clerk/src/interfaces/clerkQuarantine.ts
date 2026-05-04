@@ -1,6 +1,8 @@
 import { Dayjs } from 'dayjs';
 
-import { ExamLevel } from 'enums/app';
+import { ExamLevel, RegistrationStates } from 'enums/app';
+
+type LanguageLevelCode = 'PERUS' | 'KESKI' | 'YLIN';
 
 type ClerkQuarantinePerson = {
   firstName: string;
@@ -25,9 +27,38 @@ export type ClerkQuarantineMatchResponse = {
 export type ClerkQuarantineMatch = {
   quarantineId: number;
   registrationId: number;
-  examLanguageCode: string;
+  examLanguageCode: LanguageLevelCode;
   examLevelCode: keyof typeof ExamLevel;
   examDate: Dayjs;
+  state: RegistrationStates;
+  quarantinedPerson: ClerkQuarantinePerson;
+  registrant: ClerkQuarantinePerson;
+};
+
+export type ClerkQuarantineReviewResponse = {
+  id: number;
+  quarantined: boolean;
+  quarantineId: number;
+  registrationId: number;
+  updated: string;
+  examDate: string;
+  languageCode: string;
+  levelCode: keyof typeof ExamLevel;
+  state: string;
+  quarantinedPerson: ClerkQuarantinePerson;
+  registrant: ClerkQuarantinePerson;
+};
+
+export type ClerkQuarantineReview = {
+  id: number;
+  quarantined: boolean;
+  quarantineId: number;
+  registrationId: number;
+  updated: Dayjs;
+  examDate: Dayjs;
+  examLanguageCode: LanguageLevelCode;
+  examLevelCode: keyof typeof ExamLevel;
+  state: RegistrationStates;
   quarantinedPerson: ClerkQuarantinePerson;
   registrant: ClerkQuarantinePerson;
 };

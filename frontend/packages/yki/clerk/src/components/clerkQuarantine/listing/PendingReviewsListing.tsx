@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Trans } from 'react-i18next';
 import { Variant } from 'shared/enums';
 
-import { ClerkQuarantineModal } from 'components/clerkQuarantine/ClerkQuarantineModal';
+import { RegistrationConfirmationModal } from 'components/clerkQuarantine/listing/RegistrationConfirmationModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { PageSizeSelector } from 'components/oph-design/table/page-size-selector';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
@@ -22,13 +22,13 @@ type ModalState = {
 
 type ClerkQuarantineMatchRow = ClerkQuarantineMatch & Row;
 
-type ClerkQuarantineListingProps = {
+type PendingReviewsListing = {
   rows: ClerkQuarantineMatchRow[];
   page: number;
   setPage: (page: number) => void;
   pageSize: number;
   setPageSize: (pageSize: number) => void;
-  activeTab: 'pending' | 'previous' | 'active';
+  activeTab: 'pendingReviews' | 'pastReviews' | 'activeQuarantines';
   sort: ClerkQuarantineSort;
   setSort: (sort: ClerkQuarantineSort) => void;
   onSetReview: (
@@ -38,7 +38,7 @@ type ClerkQuarantineListingProps = {
   ) => void;
 };
 
-export const ClerkQuarantineListing = ({
+export const PendingReviewsListing = ({
   rows,
   page,
   setPage,
@@ -47,7 +47,7 @@ export const ClerkQuarantineListing = ({
   sort,
   setSort,
   onSetReview,
-}: ClerkQuarantineListingProps) => {
+}: PendingReviewsListing) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkQuarantine',
   });
@@ -65,12 +65,6 @@ export const ClerkQuarantineListing = ({
     setModalState(null);
   };
 
-  // Cells stack two values (registrant + quarantined person). Some values such
-  // as email are long tokens with no spaces, so the browser cannot wrap them
-  // naturally and they overflow into adjacent cells without this.
-  const wideStyle = { wordBreak: 'break-word' as const };
-  const narrowStyle = { whiteSpace: 'nowrap' as const, width: '1%' };
-
   const columns: ListTableColumn<ClerkQuarantineMatchRow>[] = [
     {
       key: 'personType',
@@ -84,20 +78,26 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'examLanguageCode',
-      style: narrowStyle,
+      style: {
+        whiteSpace: 'nowrap',
+        maxWidth: '100px',
+      },
       title: t('listing.columns.examLanguage'),
       render: ({ examLanguageCode }) => languageToString(examLanguageCode),
     },
     {
       key: 'examDate',
       sortable: true,
-      style: narrowStyle,
+      style: {
+        whiteSpace: 'nowrap',
+        maxWidth: '100px',
+      },
       title: t('listing.columns.examDate'),
       render: ({ examDate }) => examDate.format('D.M.YYYY'),
     },
     {
       key: 'name',
-      style: wideStyle,
+      style: { wordBreak: 'break-word' },
       title: t('listing.columns.name'),
       render: (match) => (
         <div>
@@ -113,7 +113,7 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'birthdate',
-      style: narrowStyle,
+      style: { whiteSpace: 'nowrap' },
       title: t('listing.columns.birthdate'),
       render: (match) => (
         <div>
@@ -124,7 +124,7 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'ssn',
-      style: narrowStyle,
+      style: { whiteSpace: 'nowrap' },
       title: t('listing.columns.ssn'),
       render: (match) => (
         <div>
@@ -135,7 +135,7 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'email',
-      style: wideStyle,
+      style: { wordBreak: 'break-word' },
       title: t('listing.columns.email'),
       render: (match) => (
         <div>
@@ -146,7 +146,7 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'phoneNumber',
-      style: narrowStyle,
+      style: { whiteSpace: 'nowrap' },
       title: t('listing.columns.phoneNumber'),
       render: (match) => (
         <div>
@@ -155,10 +155,11 @@ export const ClerkQuarantineListing = ({
         </div>
       ),
     },
+
     {
       key: 'actions',
       title: t('listing.columns.actions'),
-      style: narrowStyle,
+      style: { whiteSpace: 'nowrap' },
       render: (match) => (
         <div className="columns gapped-xxs">
           <OphButton
@@ -166,14 +167,14 @@ export const ClerkQuarantineListing = ({
             sx={{ padding: 0, minWidth: 0 }}
             onClick={() => setModalState({ match, action: 'accept' })}
           >
-            {t('listing.actions.accept')}
+            {t('listing.values.actions.accept')}
           </OphButton>
           <OphButton
             variant={Variant.Text}
             sx={{ padding: 0, minWidth: 0 }}
             onClick={() => setModalState({ match, action: 'reject' })}
           >
-            {t('listing.actions.cancel')}
+            {t('listing.values.actions.reject')}
           </OphButton>
         </div>
       ),
@@ -207,7 +208,7 @@ export const ClerkQuarantineListing = ({
           totalCount: rows.length,
         }}
       />
-      <ClerkQuarantineModal
+      <RegistrationConfirmationModal
         match={modalState?.match ?? null}
         action={modalState?.action ?? null}
         onClose={() => setModalState(null)}

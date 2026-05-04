@@ -1,7 +1,12 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { AppLanguage } from 'shared/enums';
 
-import { GenderEnum, RegistrationKind, RegistrationStates } from 'enums/app';
+import {
+  ExamLevel,
+  GenderEnum,
+  RegistrationKind,
+  RegistrationStates,
+} from 'enums/app';
 import {
   AdmissionedRegistration,
   ClerkCustomerDetails,
@@ -32,6 +37,8 @@ import { FindByOidsOrganizationResponse } from 'interfaces/clerkOrganizerRegistr
 import {
   ClerkQuarantineMatch,
   ClerkQuarantineMatchResponse,
+  ClerkQuarantineReview,
+  ClerkQuarantineReviewResponse,
 } from 'interfaces/clerkQuarantine';
 import { ClerkRegistrationResponse } from 'interfaces/clerkRegistration';
 import {
@@ -455,9 +462,28 @@ export class SerializationUtils {
     return {
       quarantineId: response.id,
       registrationId: response.registrationId,
-      examLanguageCode: response.languageCode,
+      examLanguageCode: response.languageCode as 'PERUS' | 'KESKI' | 'YLIN',
       examLevelCode: response.levelCode,
       examDate: dayjs(response.examDate),
+      state: SerializationUtils.deserializeRegistrationState(response.state),
+      quarantinedPerson: response.quarantinedPerson,
+      registrant: response.registrant,
+    };
+  }
+
+  static deserializeClerkQuarantineReviewResponse(
+    response: ClerkQuarantineReviewResponse,
+  ): ClerkQuarantineReview {
+    return {
+      id: response.id,
+      quarantined: response.quarantined,
+      quarantineId: response.quarantineId,
+      registrationId: response.registrationId,
+      updated: dayjs(response.updated),
+      examDate: dayjs(response.examDate),
+      examLanguageCode: response.languageCode as 'PERUS' | 'KESKI' | 'YLIN',
+      examLevelCode: response.levelCode as ExamLevel,
+      state: SerializationUtils.deserializeRegistrationState(response.state),
       quarantinedPerson: response.quarantinedPerson,
       registrant: response.registrant,
     };

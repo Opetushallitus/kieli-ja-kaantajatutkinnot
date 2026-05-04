@@ -3,6 +3,7 @@ package fi.oph.yki.api.clerk;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchDTO;
+import fi.oph.yki.api.dto.clerk.ClerkQuarantineReviewDTO;
 import fi.oph.yki.api.dto.clerk.QuarantineReviewRequest;
 import fi.oph.yki.config.ClerkEnabledCondition;
 import fi.oph.yki.service.ClerkQuarantineService;
@@ -31,6 +32,12 @@ public class ClerkQuarantineController {
   @Operation(tags = TAG_QUARANTINE, summary = "Get unreviewed quarantine matches")
   public List<ClerkQuarantineMatchDTO> getQuarantineMatches() {
     return clerkQuarantineService.getQuarantineMatches();
+  }
+
+  @GetMapping(path = "/reviews")
+  @Operation(tags = TAG_QUARANTINE, summary = "Get completed quarantine reviews")
+  public List<ClerkQuarantineReviewDTO> getReviews() {
+    return clerkQuarantineService.getReviews();
   }
 
   @PutMapping(path = "/{id:\\d+}/registration/{regId:\\d+}/set", consumes = APPLICATION_JSON_VALUE)
