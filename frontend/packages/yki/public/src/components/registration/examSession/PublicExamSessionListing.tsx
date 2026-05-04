@@ -347,7 +347,7 @@ export const PublicExamSessionListing = ({
         `${AppRoutes.ExamSession.replace(
           /:examSessionId$/,
           `${initRegistration.examSessionId}`,
-        )}?registrationId=${initRegistration.registrationId}`,
+        )}`,
       );
     }
   }, [

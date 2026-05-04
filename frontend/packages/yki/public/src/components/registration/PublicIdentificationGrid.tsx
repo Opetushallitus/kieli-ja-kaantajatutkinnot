@@ -2,6 +2,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Container, Grid, Paper } from '@mui/material';
 import { ophColors } from '@opetushallitus/oph-design-system';
 import { Trans } from 'react-i18next';
+import { generatePath } from 'react-router-dom';
 import {
   CustomButton,
   H1,
@@ -75,12 +76,15 @@ const AlreadyLoggedIn = () => {
           color={Color.Secondary}
           className="fit-content-max-width"
           size="large"
-          href={`${(toQueue
-            ? AppRoutes.ExamSessionQueue
-            : AppRoutes.ExamSessionRegistration
-          ).replace(/:examSessionId/, `${examSession.id}`)}?registrationId=${
-            initRegistration.registrationId
-          }`}
+          href={generatePath(
+            toQueue
+              ? AppRoutes.ExamSessionQueue
+              : AppRoutes.ExamSessionRegistration,
+            {
+              examSessionId: `${examSession.id}`,
+              registrationId: `${initRegistration.registrationId}`,
+            },
+          )}
         >
           {t('alreadyLoggedIn.labels.continueToRegistration')}
         </CustomButton>
