@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/v2/api/organizer/{oid}/exam-session", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v2/api/organizer/{oid}/examSession", produces = APPLICATION_JSON_VALUE)
 @Conditional(ClerkEnabledCondition.class)
 public class OrganizerExamSession {
 
