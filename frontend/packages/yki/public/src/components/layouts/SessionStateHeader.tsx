@@ -61,11 +61,10 @@ const OpenRegistrationsContent = ({
         })}
       </Text>
       <Link
-        to={
-          generatePath(AppRoutes.ExamSessionRegistration, {
-            examSessionId,
-          }) + `?registrationId=${registrationId}`
-        }
+        to={generatePath(AppRoutes.ExamSessionRegistration, {
+          examSessionId,
+          registrationId,
+        })}
       >
         {translateCommon('header.sessionState.continueToRegistration')}
       </Link>

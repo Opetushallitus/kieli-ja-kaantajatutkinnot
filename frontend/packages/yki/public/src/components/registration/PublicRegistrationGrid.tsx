@@ -52,7 +52,6 @@ const RegistrationForm = () => {
       const url = new URL(window.location.href);
       url.searchParams.set('submitted', 'true');
       url.searchParams.set('code', code);
-      url.searchParams.set('registrationId', `${registrationId}`);
       window.location.href = url.toString();
     }
   });

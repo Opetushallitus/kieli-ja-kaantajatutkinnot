@@ -38,7 +38,6 @@ export const ExamDetailsPage = ({
   // React Router
   const params = useParams();
   const [searchParams] = useSearchParams();
-  const registrationIdFromParams = searchParams.get('registrationId');
 
   const isLoading =
     status === APIResponseStatus.InProgress ||
@@ -55,14 +54,14 @@ export const ExamDetailsPage = ({
       initRegistrationStatus: initRegistration.status,
       examSessionId: examSession?.id,
       paramsExamSessionId: params.examSessionId,
-      registrationId: registrationIdFromParams,
+      registrationId: params.registrationId,
       searchParams: Object.fromEntries(searchParams.entries()),
     });
     if (
       status === APIResponseStatus.NotStarted &&
       !examSession?.id &&
       params.examSessionId &&
-      registrationIdFromParams
+      params.registrationId
     ) {
       if (searchParams.get('submitted')) {
         // eslint-disable-next-line no-console
@@ -89,14 +88,14 @@ export const ExamDetailsPage = ({
         console.log('Dispatching identifyRegistration with', {
           examSessionId: +params.examSessionId,
           registrationKind,
-          registrationId: +registrationIdFromParams,
+          registrationId: +params.registrationId,
         });
         dispatch(
           identifyRegistration({
             examSessionId: +params.examSessionId,
             // TODO registrationKind not needed when calling /identify, refactor away!
             registrationKind: RegistrationKind.Admission,
-            registrationId: +registrationIdFromParams,
+            registrationId: +params.registrationId,
           }),
         );
       }
@@ -114,7 +113,7 @@ export const ExamDetailsPage = ({
     status,
     dispatch,
     params.examSessionId,
-    registrationIdFromParams,
+    params.registrationId,
     showToast,
     examSession?.id,
     examSession?.type,
