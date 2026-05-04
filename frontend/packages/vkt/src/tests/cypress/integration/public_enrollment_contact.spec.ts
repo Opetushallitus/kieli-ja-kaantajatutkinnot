@@ -104,7 +104,9 @@ describe('PublicEnrollmentContactPage', () => {
           privacyStatementConfirmation: false,
           status: null,
           message: expectedEnrollmentContact.message,
-          attachments: [{ id: 'fake-attachment-key', name: 'test.pdf', size: 1000 }],
+          attachments: [
+            { id: 'fake-attachment-key', name: 'test.pdf', size: 1000 },
+          ],
         },
         contactDetailsNeedConfirmation: false,
         contactedExaminers: [],
@@ -120,7 +122,9 @@ describe('PublicEnrollmentContactPage', () => {
       onPublicEnrollmentContactPage.expectStepHeading(
         'Valitse tutkinto ja lähetä viesti',
       );
-      onPublicEnrollmentContactPage.writePartialExamDescription('kirjoittaminen');
+      onPublicEnrollmentContactPage.writePartialExamDescription(
+        'kirjoittaminen',
+      );
       onPublicEnrollmentContactPage.clickSubmit();
       onPublicEnrollmentContactPage.expectStepHeading('Viesti lähetetty');
     });

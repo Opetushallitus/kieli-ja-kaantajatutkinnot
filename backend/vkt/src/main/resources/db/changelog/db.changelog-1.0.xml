@@ -1222,6 +1222,9 @@
         </addColumn>
     </changeSet>
     <changeSet id="2026-04-30-contact-attachment" author="miikavonbell">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="contact_attachment"/></not>
+        </preConditions>
         <createTable tableName="contact_attachment">
             <column autoIncrement="true" name="attachment_id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="contact_attachment_pkey" />
