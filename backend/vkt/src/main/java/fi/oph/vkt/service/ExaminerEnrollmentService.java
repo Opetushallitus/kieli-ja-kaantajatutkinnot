@@ -254,6 +254,21 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
   }
 
+  @Transactional(readOnly = true)
+  public void verifyAttachmentAccess(final String oid, final long enrollmentAppointmentId, final String key) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
+      enrollmentAppointmentId
+    );
+    checkExaminerOid(enrollmentAppointment, oid);
+    final boolean keyBelongsToAppointment = enrollmentAppointment
+      .getAttachments()
+      .stream()
+      .anyMatch(a -> a.getKey().equals(key));
+    if (!keyBelongsToAppointment) {
+      throw new APIException(APIExceptionType.ATTACHMENT_PERSON_MISMATCH);
+    }
+  }
+
   @Transactional
   public void deleteEnrollmentContactRequest(final String oid, final long enrollmentContactId) {
     final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(

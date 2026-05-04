@@ -13,9 +13,12 @@ import fi.oph.vkt.api.dto.examiner.ExaminerEnrollmentGradesDTO;
 import fi.oph.vkt.api.dto.examiner.ExaminerOnrBirthdateDTO;
 import fi.oph.vkt.service.ExaminerEnrollmentService;
 import fi.oph.vkt.service.ExaminerPersonService;
+import fi.oph.vkt.service.aws.S3Service;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,6 +40,9 @@ public class ExaminerEnrollmentController {
 
   @Resource
   private ExaminerPersonService examinerPersonService;
+
+  @Resource
+  private S3Service s3Service;
 
   private static final String TAG_ENROLLMENT = "Examiner enrollment API";
 
@@ -156,5 +162,17 @@ public class ExaminerEnrollmentController {
     @RequestBody @Valid final ExaminerEnrollmentBirthdateOrSsnDTO dto
   ) {
     return examinerEnrollmentService.createPersonForAppointment(oid, enrollmentAppointmentId, dto);
+  }
+
+  @GetMapping(path = "/appointment/{enrollmentAppointmentId:\\d+}/attachment", consumes = ALL_VALUE)
+  @Operation(tags = TAG_ENROLLMENT, summary = "Download enrollment appointment attachment")
+  public void attachmentRedirect(
+    @PathVariable final String oid,
+    @PathVariable final long enrollmentAppointmentId,
+    @RequestParam final String key,
+    final HttpServletResponse response
+  ) throws IOException {
+    examinerEnrollmentService.verifyAttachmentAccess(oid, enrollmentAppointmentId, key);
+    response.sendRedirect(s3Service.getPresignedUrl(key));
   }
 }

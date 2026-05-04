@@ -25,6 +25,7 @@ export enum APIEndpoints {
   ExaminerExamEvent = '/vkt/api/v1/tv/:oid/examEvent',
   ExaminerEnrollmentAppointment = '/vkt/api/v1/tv/:oid/enrollment/appointment',
   ExaminerEnrollmentContactRequest = '/vkt/api/v1/tv/:oid/enrollment/contact',
+  ExaminerEnrollmentAttachment = '/vkt/api/v1/tv/:oid/enrollment/appointment/:enrollmentAppointmentId/attachment',
 }
 
 /**
