@@ -110,6 +110,9 @@ public class ClerkExamSessionService {
     }
 
     examSession.setMaxParticipants(dto.maxParticipantsTotal());
+    examSession.setStartTime(dto.startTime());
+    examSession.setStartTimePart1(dto.startTimePart1());
+    examSession.setStartTimePart2(dto.startTimePart2());
 
     if (dto.location() != null && !dto.location().isEmpty()) {
       examSession
@@ -150,9 +153,12 @@ public class ClerkExamSessionService {
     examSession.setLevel(dto.level());
     examSession.setType(dto.type());
     if (dto.type().equals(ExamSessionType.FULL)) {
+      examSession.setStartTime(dto.startTime());
       examSession.setMaxParticipants(dto.maxParticipantsTotal());
     } else {
       examSession.setMaxParticipants(dto.maxParticipantsPartial1() + dto.maxParticipantsPartial2());
+      examSession.setStartTimePart1(dto.startTimePart1());
+      examSession.setStartTimePart2(dto.startTimePart2());
     }
     examSession.setContactName(dto.contactName());
     examSession.setContactEmail(dto.contactEmail());

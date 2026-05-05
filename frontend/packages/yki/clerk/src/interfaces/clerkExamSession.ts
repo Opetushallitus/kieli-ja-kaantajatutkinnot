@@ -49,6 +49,9 @@ export interface ClerkExamSession {
   maxParticipantsTotal: number;
   maxParticipantsPartial1: number;
   maxParticipantsPartial2: number;
+  startTime: string;
+  startTimePart1: string;
+  startTimePart2: string;
   queue: number;
   contactName: string;
   contactEmail: string;

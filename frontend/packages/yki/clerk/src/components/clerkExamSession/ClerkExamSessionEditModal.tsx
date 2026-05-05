@@ -75,6 +75,7 @@ export const ClerkExamSessionEditModal = ({
     type: false,
     examDateId: false,
     maxParticipants: false,
+    startTime: false,
     streetAddress: false,
     postalCode: false,
     city: false,
@@ -167,6 +168,9 @@ export const ClerkExamSessionEditModal = ({
     maxParticipantsPartial2: String(
       examSessionDetails?.maxParticipantsPartial2 ?? '',
     ),
+    startTime: examSessionDetails?.startTime ?? '',
+    startTimePart1: examSessionDetails?.startTimePart1 ?? '',
+    startTimePart2: examSessionDetails?.startTimePart2 ?? '',
     location: (['fi', 'sv', 'en'] as const).map((lang) => {
       const loc = examSessionDetails?.location.find((l) => l.lang === lang);
 
@@ -248,6 +252,9 @@ export const ClerkExamSessionEditModal = ({
       maxParticipants: isFull
         ? !form.maxParticipantsTotal
         : !form.maxParticipantsPartial1 || !form.maxParticipantsPartial2,
+      startTime: isFull
+        ? !form.startTime
+        : !form.startTimePart1 || !form.startTimePart2,
       streetAddress: !loc?.streetAddress,
       postalCode: !loc?.postalCode,
       city: !loc?.city,
@@ -269,6 +276,7 @@ export const ClerkExamSessionEditModal = ({
         type: prev.type && current.type,
         examDateId: prev.examDateId && current.examDateId,
         maxParticipants: prev.maxParticipants && current.maxParticipants,
+        startTime: prev.startTime && current.startTime,
         streetAddress: prev.streetAddress && current.streetAddress,
         postalCode: prev.postalCode && current.postalCode,
         city: prev.city && current.city,
@@ -439,28 +447,12 @@ export const ClerkExamSessionEditModal = ({
           </>
         )}
         {form.type === ExamSessionType.FULL || !form.type ? (
-          <OphInputFormField
-            label={t('fields.maxParticipants')}
-            value={form.maxParticipantsTotal}
-            onChange={(e) =>
-              updateField('maxParticipantsTotal', e.target.value)
-            }
-            type="number"
-            disabled={isSaving}
-            error={submitted && errors.maxParticipants}
-            helperText={
-              submitted && errors.maxParticipants
-                ? t('errors.required')
-                : undefined
-            }
-          />
-        ) : (
           <div className="columns gapped">
             <OphInputFormField
-              label={t('fields.maxParticipantsPart1')}
-              value={form.maxParticipantsPartial1}
+              label={t('fields.maxParticipants')}
+              value={form.maxParticipantsTotal}
               onChange={(e) =>
-                updateField('maxParticipantsPartial1', e.target.value)
+                updateField('maxParticipantsTotal', e.target.value)
               }
               type="number"
               disabled={isSaving}
@@ -472,21 +464,80 @@ export const ClerkExamSessionEditModal = ({
               }
             />
             <OphInputFormField
-              label={t('fields.maxParticipantsPart2')}
-              value={form.maxParticipantsPartial2}
-              onChange={(e) =>
-                updateField('maxParticipantsPartial2', e.target.value)
-              }
-              type="number"
+              label={t('fields.startTime')}
+              value={form.startTime}
+              onChange={(e) => updateField('startTime', e.target.value)}
+              type="time"
               disabled={isSaving}
-              error={submitted && errors.maxParticipants}
+              error={submitted && errors.startTime}
               helperText={
-                submitted && errors.maxParticipants
-                  ? t('errors.required')
-                  : undefined
+                submitted && errors.startTime ? t('errors.required') : undefined
               }
             />
           </div>
+        ) : (
+          <>
+            <div className="columns gapped">
+              <OphInputFormField
+                label={t('fields.maxParticipantsPart1')}
+                value={form.maxParticipantsPartial1}
+                onChange={(e) =>
+                  updateField('maxParticipantsPartial1', e.target.value)
+                }
+                type="number"
+                disabled={isSaving}
+                error={submitted && errors.maxParticipants}
+                helperText={
+                  submitted && errors.maxParticipants
+                    ? t('errors.required')
+                    : undefined
+                }
+              />
+              <OphInputFormField
+                label={t('fields.startTimePart1')}
+                value={form.startTimePart1}
+                onChange={(e) => updateField('startTimePart1', e.target.value)}
+                type="time"
+                disabled={isSaving}
+                error={submitted && errors.startTime}
+                helperText={
+                  submitted && errors.startTime
+                    ? t('errors.required')
+                    : undefined
+                }
+              />
+            </div>
+            <div className="columns gapped">
+              <OphInputFormField
+                label={t('fields.maxParticipantsPart2')}
+                value={form.maxParticipantsPartial2}
+                onChange={(e) =>
+                  updateField('maxParticipantsPartial2', e.target.value)
+                }
+                type="number"
+                disabled={isSaving}
+                error={submitted && errors.maxParticipants}
+                helperText={
+                  submitted && errors.maxParticipants
+                    ? t('errors.required')
+                    : undefined
+                }
+              />
+              <OphInputFormField
+                label={t('fields.startTimePart2')}
+                value={form.startTimePart2}
+                onChange={(e) => updateField('startTimePart2', e.target.value)}
+                type="time"
+                disabled={isSaving}
+                error={submitted && errors.startTime}
+                helperText={
+                  submitted && errors.startTime
+                    ? t('errors.required')
+                    : undefined
+                }
+              />
+            </div>
+          </>
         )}
         <OphInputFormField
           label={t('fields.streetAddress')}
