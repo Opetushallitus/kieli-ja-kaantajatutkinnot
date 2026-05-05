@@ -1,5 +1,5 @@
 import { Box, Divider } from '@mui/material';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
@@ -12,6 +12,7 @@ import { H2 } from 'ophTheme/Text';
 import {
   loadClerkQuarantineMatches,
   loadClerkQuarantineReviews,
+  resetCreateClerkQuarantineStatus,
   resetQuarantineReviewStatus,
   setQuarantineReview,
   setQuarantineSort,
@@ -97,7 +98,9 @@ export const ClerkQuarantine = () => {
     lastReviewAction,
     reviews,
     reviewsStatus,
+    createStatus,
   } = useSelector(clerkQuarantineSelector);
+  const prevCreateStatus = useRef(createStatus);
   const rows = useSelector(selectSortedQuarantineMatches);
   const [activeTab, setActiveTab] =
     useState<ClerkQuarantineTab>('pendingReviews');
@@ -137,6 +140,25 @@ export const ClerkQuarantine = () => {
       dispatch(resetQuarantineReviewStatus());
     }
   }, [dispatch, showToast, t, reviewStatus, lastReviewAction]);
+
+  useEffect(() => {
+    if (prevCreateStatus.current === APIResponseStatus.InProgress) {
+      if (createStatus === APIResponseStatus.Success) {
+        showToast({
+          severity: Severity.Success,
+          description: t('toasts.quarantineAdded'),
+        });
+        dispatch(resetCreateClerkQuarantineStatus());
+      } else if (createStatus === APIResponseStatus.Error) {
+        showToast({
+          severity: Severity.Error,
+          description: t('toasts.quarantineAddError'),
+        });
+        dispatch(resetCreateClerkQuarantineStatus());
+      }
+    }
+    prevCreateStatus.current = createStatus;
+  }, [dispatch, showToast, t, createStatus]);
 
   const renderListing = () => {
     switch (activeTab) {

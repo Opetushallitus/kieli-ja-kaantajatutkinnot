@@ -447,7 +447,9 @@
           "matchConfirmedError": "Hyväksyminen epäonnistui",
           "matchConfirmedSuccess": "Hyväksyminen onnistui",
           "matchRejectedError": "Hylkääminen epäonnistui",
-          "matchRejectedSuccess": "Hylkääminen onnistui"
+          "matchRejectedSuccess": "Hylkääminen onnistui",
+          "quarantineAdded": "Osallistumiskielto lisätty onnistuneesti",
+          "quarantineAddError": "Osallistumiskiellon lisääminen epäonnistui"
         },
         "activeQuarantines": {
           "addButton": "Lisää osallistumiskielto",
