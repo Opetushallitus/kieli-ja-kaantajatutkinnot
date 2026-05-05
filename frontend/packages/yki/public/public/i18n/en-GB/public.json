@@ -776,12 +776,18 @@
           "part4": "You can read more about the test results and certificates on the website of the Finnish National Agency for Education:"
         },
         "labels": {
+          "allPartsAtOnce": "All parts at once",
           "excludeFullSessions": "Show only the tests that have available seats",
           "excludeNonOpenSessions": "Show only the tests that are open for registration at the moment",
           "filterExamSessions": "Filter results",
+          "listen": "Puheen ymmärtäminen",
+          "read": "Tekstin ymmärtäminen",
+          "selectExamType": "Exam",
           "selectLanguage": "Choose language",
           "selectLevel": "Choose level",
-          "selectMunicipality": "Choose municipality"
+          "selectMunicipality": "Choose municipality",
+          "speak": "Puhuminen",
+          "write": "Kirjoittaminen"
         },
         "register": "Register",
         "title": "National Certificates of Language Proficiency (YKI) - Registration"
