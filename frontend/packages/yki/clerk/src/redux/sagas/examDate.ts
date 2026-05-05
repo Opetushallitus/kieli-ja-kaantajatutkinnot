@@ -103,7 +103,7 @@ function* saveEvaluationSaga(action: ReturnType<typeof saveEvaluation>) {
       body,
     );
     yield put(storeSaveEvaluation());
-    yield put(loadExamDates());
+    yield put(loadExamDates(false));
   } catch (error) {
     yield put(rejectSaveEvaluation());
 
