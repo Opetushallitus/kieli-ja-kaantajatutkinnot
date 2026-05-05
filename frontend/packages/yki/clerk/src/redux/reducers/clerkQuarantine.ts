@@ -3,21 +3,26 @@ import { APIResponseStatus } from 'shared/enums';
 
 import {
   ClerkQuarantineMatch,
+  ClerkQuarantineReview,
   ClerkQuarantineSort,
 } from 'interfaces/clerkQuarantine';
 
 interface ClerkQuarantineState {
   matches: ClerkQuarantineMatch[];
+  reviews: ClerkQuarantineReview[];
   sort: ClerkQuarantineSort;
   status: APIResponseStatus;
+  reviewsStatus: APIResponseStatus;
   reviewStatus: APIResponseStatus;
-  lastReviewAction: 'accept' | 'cancel' | null;
+  lastReviewAction: 'matchConfirmed' | 'matchRejected' | null;
 }
 
 const initialState: ClerkQuarantineState = {
   matches: [],
+  reviews: [],
   sort: 'examDate:asc',
   status: APIResponseStatus.NotStarted,
+  reviewsStatus: APIResponseStatus.NotStarted,
   reviewStatus: APIResponseStatus.NotStarted,
   lastReviewAction: null,
 };
@@ -39,6 +44,19 @@ const clerkQuarantineSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.matches = action.payload;
     },
+    loadClerkQuarantineReviews(state) {
+      state.reviewsStatus = APIResponseStatus.InProgress;
+    },
+    rejectClerkQuarantineReviews(state) {
+      state.reviewsStatus = APIResponseStatus.Error;
+    },
+    storeClerkQuarantineReviews(
+      state,
+      action: PayloadAction<ClerkQuarantineReview[]>,
+    ) {
+      state.reviewsStatus = APIResponseStatus.Success;
+      state.reviews = action.payload;
+    },
     setQuarantineSort(state, action: PayloadAction<ClerkQuarantineSort>) {
       state.sort = action.payload;
     },
@@ -47,13 +65,13 @@ const clerkQuarantineSlice = createSlice({
       action: PayloadAction<{
         quarantineId: number;
         registrationId: number;
-        isQuarantined: boolean;
+        matchConfirmed: boolean;
       }>,
     ) {
       state.reviewStatus = APIResponseStatus.InProgress;
-      state.lastReviewAction = action.payload.isQuarantined
-        ? 'accept'
-        : 'cancel';
+      state.lastReviewAction = action.payload.matchConfirmed
+        ? 'matchConfirmed'
+        : 'matchRejected';
     },
     resolveQuarantineReview(state) {
       state.reviewStatus = APIResponseStatus.Success;
@@ -72,10 +90,13 @@ export const clerkQuarantineReducer = clerkQuarantineSlice.reducer;
 export const {
   loadClerkQuarantineMatches,
   rejectClerkQuarantineMatches,
+  storeClerkQuarantineMatches,
+  loadClerkQuarantineReviews,
+  rejectClerkQuarantineReviews,
+  storeClerkQuarantineReviews,
+  setQuarantineSort,
+  setQuarantineReview,
+  resolveQuarantineReview,
   rejectQuarantineReview,
   resetQuarantineReviewStatus,
-  resolveQuarantineReview,
-  setQuarantineReview,
-  setQuarantineSort,
-  storeClerkQuarantineMatches,
 } = clerkQuarantineSlice.actions;

@@ -4,10 +4,10 @@ import { http, HttpResponse } from 'msw';
 import { APIEndpoints } from 'enums/api';
 import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
 import {
-  CreateEvaluationRequest,
   ExamDateLanguage,
   ExamDateResponse,
-  LanguageEvaluationOverride,
+  LanguageEvaluation,
+  UpdateEvaluationRequest,
 } from 'interfaces/examDate';
 import { clerkExamSession } from 'tests/msw/fixtures/clerkExamSession';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
@@ -21,9 +21,14 @@ import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { organizers } from 'tests/msw/fixtures/organizers';
 import { quarantineMatches } from 'tests/msw/fixtures/quarantineMatches';
+import { quarantineReviews } from 'tests/msw/fixtures/quarantineReviews';
 
 interface FreeRegistrationRequest {
   approved: boolean;
+}
+
+interface QuarantineReviewRequest {
+  quarantined: boolean;
 }
 
 const notFound = () => new HttpResponse(null, { status: 404 });
@@ -289,27 +294,24 @@ export const handlers = [
 
     return HttpResponse.json({ id: newId, ...body });
   }),
-  http.post(APIEndpoints.ClerkExamSessions, () =>
-    HttpResponse.json(clerkExamSession),
-  ),
-  http.post(
+  http.put(
     `${APIEndpoints.ClerkExamDate}/:examDateId/evaluation`,
     async ({ params, request }) => {
       const examDateId = Number(params.examDateId);
-      const body = (await request.json()) as CreateEvaluationRequest;
+      const body = (await request.json()) as UpdateEvaluationRequest;
       const examDate = examDates.find((ed) => ed.id === examDateId);
       if (!examDate) {
         return new HttpResponse(null, { status: 404 });
       }
 
       examDate.languages.forEach((lang) => {
-        const override = body.overrides?.find(
-          (o: LanguageEvaluationOverride) => o.examDateLanguageId === lang.id,
+        const evaluation = body.evaluations.find(
+          (e: LanguageEvaluation) => e.examDateLanguageId === lang.id,
         );
-        lang.evaluationStartDate =
-          override?.evaluationStartDate ?? body.evaluationStartDate;
-        lang.evaluationEndDate =
-          override?.evaluationEndDate ?? body.evaluationEndDate;
+        if (evaluation) {
+          lang.evaluationStartDate = evaluation.evaluationStartDate;
+          lang.evaluationEndDate = evaluation.evaluationEndDate;
+        }
       });
 
       return HttpResponse.json(examDate);
@@ -361,18 +363,30 @@ export const handlers = [
     });
   }),
   http.get(APIEndpoints.ClerkQuarantineMatches, () =>
-    HttpResponse.json({ quarantineMatches }),
+    HttpResponse.json(quarantineMatches),
   ),
-  http.put(APIEndpoints.ClerkQuarantineSetReview, ({ params }) => {
-    const id = Number(params.id);
-    const regId = Number(params.regId);
-    const idx = quarantineMatches.findIndex(
-      (m) => m.id === id && m.registrationId === regId,
-    );
-    if (idx !== -1) quarantineMatches.splice(idx, 1);
+  http.get(APIEndpoints.ClerkQuarantineReviews, () =>
+    HttpResponse.json(quarantineReviews),
+  ),
+  http.put(
+    APIEndpoints.ClerkQuarantineSetReview,
+    async ({ params, request }) => {
+      const requestBody = (await request.json()) as QuarantineReviewRequest;
 
-    return new HttpResponse(null, { status: 200 });
-  }),
+      if (typeof requestBody.quarantined !== 'boolean') {
+        return new HttpResponse(null, { status: 400 });
+      }
+
+      const id = Number(params.id);
+      const regId = Number(params.regId);
+      const idx = quarantineMatches.findIndex(
+        (m) => m.id === id && m.registrationId === regId,
+      );
+      if (idx !== -1) quarantineMatches.splice(idx, 1);
+
+      return new HttpResponse(null, { status: 200 });
+    },
+  ),
   http.post(APIEndpoints.AddClerkOrganizer, async ({ request }) => {
     const requestBody = (await request.json()) as Omit<
       ClerkOrganizerResponse,

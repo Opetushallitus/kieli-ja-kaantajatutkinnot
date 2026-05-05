@@ -2,10 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import {
-  CreateEvaluationRequest,
   CreateExamDateRequest,
   ExamDate,
   ExamDateSort,
+  UpdateEvaluationRequest,
   UpdateExamDateRequest,
 } from 'interfaces/examDate';
 
@@ -13,7 +13,7 @@ interface ExamDateState {
   status: APIResponseStatus;
   addStatus: APIResponseStatus;
   updateStatus: APIResponseStatus;
-  addEvaluationStatus: APIResponseStatus;
+  saveEvaluationStatus: APIResponseStatus;
   deleteStatus: APIResponseStatus;
   examDates: ExamDate[];
   examDateSort: ExamDateSort;
@@ -23,7 +23,7 @@ const initialState: ExamDateState = {
   status: APIResponseStatus.NotStarted,
   addStatus: APIResponseStatus.NotStarted,
   updateStatus: APIResponseStatus.NotStarted,
-  addEvaluationStatus: APIResponseStatus.NotStarted,
+  saveEvaluationStatus: APIResponseStatus.NotStarted,
   deleteStatus: APIResponseStatus.NotStarted,
   examDates: [],
   examDateSort: 'examDate:desc',
@@ -67,20 +67,20 @@ const examDateSlice = createSlice({
     resetUpdateExamDateStatus(state) {
       state.updateStatus = APIResponseStatus.NotStarted;
     },
-    addEvaluation(
+    saveEvaluation(
       state,
-      _action: PayloadAction<{ examDateId: number } & CreateEvaluationRequest>,
+      _action: PayloadAction<{ examDateId: number } & UpdateEvaluationRequest>,
     ) {
-      state.addEvaluationStatus = APIResponseStatus.InProgress;
+      state.saveEvaluationStatus = APIResponseStatus.InProgress;
     },
-    rejectAddEvaluation(state) {
-      state.addEvaluationStatus = APIResponseStatus.Error;
+    rejectSaveEvaluation(state) {
+      state.saveEvaluationStatus = APIResponseStatus.Error;
     },
-    storeAddEvaluation(state) {
-      state.addEvaluationStatus = APIResponseStatus.Success;
+    storeSaveEvaluation(state) {
+      state.saveEvaluationStatus = APIResponseStatus.Success;
     },
-    resetAddEvaluationStatus(state) {
-      state.addEvaluationStatus = APIResponseStatus.NotStarted;
+    resetSaveEvaluationStatus(state) {
+      state.saveEvaluationStatus = APIResponseStatus.NotStarted;
     },
     setExamDateSort(state, action: PayloadAction<ExamDateSort>) {
       state.examDateSort = action.payload;
@@ -113,10 +113,10 @@ export const {
   rejectUpdateExamDate,
   storeUpdateExamDate,
   resetUpdateExamDateStatus,
-  addEvaluation,
-  rejectAddEvaluation,
-  storeAddEvaluation,
-  resetAddEvaluationStatus,
+  saveEvaluation,
+  rejectSaveEvaluation,
+  storeSaveEvaluation,
+  resetSaveEvaluationStatus,
   setExamDateSort,
   deleteExamDate,
   rejectDeleteExamDate,

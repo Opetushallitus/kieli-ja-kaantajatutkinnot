@@ -6,8 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -43,9 +43,21 @@ public class Quarantine {
   @Column(name = "end_date", nullable = false)
   private LocalDate endDate;
 
+  @Column(name = "email")
+  private String email;
+
+  @Column(name = "phone_number")
+  private String phoneNumber;
+
+  @Column(name = "diary_number", nullable = false)
+  private String diaryNumber;
+
+  @Column(name = "created", insertable = false, updatable = false)
+  private LocalDateTime created;
+
   @Column(name = "updated")
-  private Instant updated;
+  private LocalDateTime updated;
 
   @Column(name = "deleted_at")
-  private Instant deletedAt;
+  private LocalDateTime deletedAt;
 }

@@ -4,24 +4,30 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { ClerkQuarantineMatchesResponse } from 'interfaces/clerkQuarantine';
+import {
+  ClerkQuarantineMatchResponse,
+  ClerkQuarantineReviewResponse,
+} from 'interfaces/clerkQuarantine';
 import {
   loadClerkQuarantineMatches,
+  loadClerkQuarantineReviews,
   rejectClerkQuarantineMatches,
+  rejectClerkQuarantineReviews,
   rejectQuarantineReview,
   resolveQuarantineReview,
   setQuarantineReview,
   storeClerkQuarantineMatches,
+  storeClerkQuarantineReviews,
 } from 'redux/reducers/clerkQuarantine';
 import { SerializationUtils } from 'utils/serialization';
 
 function* loadClerkQuarantineMatchesSaga() {
   try {
-    const response: AxiosResponse<ClerkQuarantineMatchesResponse> = yield call(
+    const response: AxiosResponse<ClerkQuarantineMatchResponse[]> = yield call(
       axiosInstance.get,
       APIEndpoints.ClerkQuarantineMatches,
     );
-    const matches = response.data.quarantineMatches.map(
+    const matches = response.data.map(
       SerializationUtils.deserializeClerkQuarantineMatchResponse,
     );
     yield put(storeClerkQuarantineMatches(matches));
@@ -30,14 +36,29 @@ function* loadClerkQuarantineMatchesSaga() {
   }
 }
 
+function* loadClerkQuarantineReviewsSaga() {
+  try {
+    const response: AxiosResponse<ClerkQuarantineReviewResponse[]> = yield call(
+      axiosInstance.get,
+      APIEndpoints.ClerkQuarantineReviews,
+    );
+    const reviews = response.data.map(
+      SerializationUtils.deserializeClerkQuarantineReviewResponse,
+    );
+    yield put(storeClerkQuarantineReviews(reviews));
+  } catch (error) {
+    yield put(rejectClerkQuarantineReviews());
+  }
+}
+
 function* setQuarantineReviewSaga(
   action: PayloadAction<{
     quarantineId: number;
     registrationId: number;
-    isQuarantined: boolean;
+    matchConfirmed: boolean;
   }>,
 ) {
-  const { quarantineId, registrationId, isQuarantined } = action.payload;
+  const { quarantineId, registrationId, matchConfirmed } = action.payload;
 
   try {
     yield call(
@@ -46,10 +67,11 @@ function* setQuarantineReviewSaga(
         ':id',
         String(quarantineId),
       ).replace(':regId', String(registrationId)),
-      isQuarantined,
+      { quarantined: matchConfirmed },
     );
     yield put(resolveQuarantineReview());
     yield put(loadClerkQuarantineMatches());
+    yield put(loadClerkQuarantineReviews());
   } catch (error) {
     yield put(rejectQuarantineReview());
   }
@@ -59,6 +81,10 @@ export function* watchClerkQuarantine() {
   yield takeLatest(
     loadClerkQuarantineMatches.type,
     loadClerkQuarantineMatchesSaga,
+  );
+  yield takeLatest(
+    loadClerkQuarantineReviews.type,
+    loadClerkQuarantineReviewsSaga,
   );
   yield takeLatest(setQuarantineReview.type, setQuarantineReviewSaga);
 }
