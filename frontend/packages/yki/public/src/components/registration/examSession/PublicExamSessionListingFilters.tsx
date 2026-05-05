@@ -31,10 +31,76 @@ import { ExamSessionFilters } from 'interfaces/examSessions';
 import { setPublicExamSessionFilters } from 'redux/reducers/examSessions';
 import { examSessionsSelector } from 'redux/selectors/examSessions';
 
+type PartialExamTypeFilter =
+  | 'ALL_PARTS'
+  | 'READ'
+  | 'SPEAK'
+  | 'LISTEN'
+  | 'WRITE';
+
 const municipalityToComboBoxOption = (m: string) => ({
   value: m,
   label: m,
 });
+
+const PARTIAL_EXAM_TYPE_OPTIONS: Array<{
+  type: PartialExamTypeFilter;
+  i18nKey: string;
+}> = [
+  { type: 'ALL_PARTS', i18nKey: 'labels.allPartsAtOnce' },
+  { type: 'READ', i18nKey: 'labels.read' },
+  { type: 'SPEAK', i18nKey: 'labels.speak' },
+  { type: 'LISTEN', i18nKey: 'labels.listen' },
+  { type: 'WRITE', i18nKey: 'labels.write' },
+];
+
+const SelectPartialExamTypes = () => {
+  const { selectedPartialExamTypes } =
+    useAppSelector(examSessionsSelector).filters;
+  const dispatch = useAppDispatch();
+
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.registrationPage',
+  });
+  const tCard = usePublicTranslation({ keyPrefix: 'yki' }).t;
+
+  const handleChange = (type: PartialExamTypeFilter, checked: boolean) => {
+    const updated = checked
+      ? [...selectedPartialExamTypes, type]
+      : selectedPartialExamTypes.filter((t) => t !== type);
+    dispatch(
+      setPublicExamSessionFilters({ selectedPartialExamTypes: updated }),
+    );
+  };
+
+  return (
+    <Box className="public-exam-session-filters__toggle-box">
+      <FormControl component="fieldset" variant={TextFieldVariant.Standard}>
+        <Typography variant="h3" component="legend">
+          {t('labels.selectExamType')}
+        </Typography>
+        <FormGroup>
+          {PARTIAL_EXAM_TYPE_OPTIONS.map(({ type, i18nKey }) => (
+            <FormControlLabel
+              key={type}
+              control={
+                <Checkbox
+                  checked={selectedPartialExamTypes.includes(type)}
+                  onChange={(_, checked) => handleChange(type, checked)}
+                />
+              }
+              label={
+                i18nKey.startsWith('examSessionCard')
+                  ? tCard(i18nKey)
+                  : t(i18nKey)
+              }
+            />
+          ))}
+        </FormGroup>
+      </FormControl>
+    </Box>
+  );
+};
 
 const SelectMunicipality = () => {
   const municipalities = useAppSelector(examSessionsSelector).municipalities;
@@ -258,6 +324,7 @@ export const PublicExamSessionFilters = ({
         </fieldset>
         <SelectMunicipality />
       </div>
+      <SelectPartialExamTypes />
       <Box className="public-exam-session-filters__toggle-box">
         <FormControl component="fieldset" variant={TextFieldVariant.Standard}>
           <Typography variant="h3" component="legend">

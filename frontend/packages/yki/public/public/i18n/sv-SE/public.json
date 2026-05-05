@@ -776,12 +776,18 @@
           "part4": "Du kan läsa mer om testresultatet och intygen på Utbildningsstyrelsens webbplats:"
         },
         "labels": {
+          "allPartsAtOnce": "Alla delprov på en gång",
           "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",
           "excludeNonOpenSessions": "Visa endast examenstillfällen vars anmälan har börjat",
           "filterExamSessions": "Filtrera resultaten",
+          "listen": "Puheen ymmärtäminen",
+          "read": "Tekstin ymmärtäminen",
+          "selectExamType": "Examen",
           "selectLanguage": "Välj språk",
           "selectLevel": "Välj nivå",
-          "selectMunicipality": "Välj ort"
+          "selectMunicipality": "Välj ort",
+          "speak": "Puhuminen",
+          "write": "Kirjoittaminen"
         },
         "register": "Anmäl dig",
         "title": "Allmänna språkexamina (YKI) - Anmälan"

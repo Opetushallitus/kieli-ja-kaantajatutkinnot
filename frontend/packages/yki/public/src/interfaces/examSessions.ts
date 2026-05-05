@@ -13,6 +13,9 @@ export interface ExamSessionFilters {
   municipality?: string;
   excludeFullSessions: boolean;
   excludeNonOpenSessions: boolean;
+  selectedPartialExamTypes: Array<
+    'ALL_PARTS' | 'READ' | 'SPEAK' | 'LISTEN' | 'WRITE'
+  >;
 }
 
 export interface ExamSessions {
