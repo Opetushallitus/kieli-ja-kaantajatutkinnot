@@ -1,11 +1,21 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box } from '@mui/material';
+import {
+  Box,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { OphButton } from '@opetushallitus/oph-design-system';
-import { CustomModal } from 'shared/components';
+import { Dayjs } from 'dayjs';
+import { useState } from 'react';
+import { CustomDatePicker, CustomModal } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
-import { H2 } from 'ophTheme/Text';
+import { H2, H3, Label } from 'ophTheme/Text';
+import { LANGUAGES } from 'utils/clerk';
 
 type AddNewQuarantineModalProps = {
   isOpen: boolean;
@@ -20,10 +30,35 @@ export const AddNewQuarantineModal = ({
     keyPrefix: 'yki.component.clerkQuarantine.activeQuarantines.modal',
   });
 
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [birthdate, setBirthdate] = useState('');
+  const [ssn, setSsn] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [examLanguage, setExamLanguage] = useState('');
+  const [startsAt, setStartsAt] = useState<Dayjs | null>(null);
+  const [endsAt, setEndsAt] = useState<Dayjs | null>(null);
+  const [caseNumber, setCaseNumber] = useState('');
+
+  const handleClose = () => {
+    setFirstName('');
+    setLastName('');
+    setBirthdate('');
+    setSsn('');
+    setEmail('');
+    setPhoneNumber('');
+    setExamLanguage('');
+    setStartsAt(null);
+    setEndsAt(null);
+    setCaseNumber('');
+    onClose();
+  };
+
   return (
     <CustomModal
       open={isOpen}
-      onCloseModal={onClose}
+      onCloseModal={handleClose}
       aria-labelledby="add-new-quarantine-modal-title"
       modalTitle={
         <Box
@@ -38,19 +73,151 @@ export const AddNewQuarantineModal = ({
               color={Color.Inherit}
               aria-hidden={true}
               fontSize="large"
-              onClick={onClose}
+              onClick={handleClose}
             />
           </div>
         </Box>
       }
     >
-      <div className="columns gapped flex-end">
-        <OphButton variant={Variant.Outlined} onClick={onClose}>
-          {t('cancel')}
-        </OphButton>
-        <OphButton variant={Variant.Contained} onClick={onClose}>
-          {t('submit')}
-        </OphButton>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          maxHeight: 'calc(100vh - 200px)',
+          width: '50vw',
+          maxWidth: '700px',
+          gap: '2rem',
+        }}
+      >
+        <div
+          style={{ overflowY: 'auto', flex: '1 1 auto', paddingRight: '8px' }}
+        >
+          <div className="rows gapped">
+            <H3>{t('subHeaders.personInfo')}</H3>
+
+            <div className="columns gapped">
+              <div
+                className="rows gapped-xxs"
+                style={{ width: '180px', flexShrink: 0 }}
+              >
+                <Label>{t('fields.firstName')} *</Label>
+                <TextField
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  fullWidth
+                />
+              </div>
+              <div className="rows gapped-xxs" style={{ flex: 1 }}>
+                <Label>{t('fields.lastName')} *</Label>
+                <TextField
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  fullWidth
+                />
+              </div>
+            </div>
+
+            <div className="columns gapped">
+              <div
+                className="rows gapped-xxs"
+                style={{ width: '180px', flexShrink: 0 }}
+              >
+                <Label>{t('fields.birthdate')}</Label>
+                <TextField
+                  value={birthdate}
+                  onChange={(e) => setBirthdate(e.target.value)}
+                  fullWidth
+                />
+              </div>
+            </div>
+
+            <div className="columns gapped">
+              <div
+                className="rows gapped-xxs"
+                style={{ width: '180px', flexShrink: 0 }}
+              >
+                <Label>{t('fields.ssn')}</Label>
+                <TextField
+                  value={ssn}
+                  onChange={(e) => setSsn(e.target.value)}
+                  fullWidth
+                />
+              </div>
+            </div>
+
+            <div className="rows gapped-xxs">
+              <Label>{t('fields.email')} *</Label>
+              <TextField
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                fullWidth
+              />
+            </div>
+
+            <div className="rows gapped-xxs">
+              <Label>{t('fields.phoneNumber')} *</Label>
+              <TextField
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                type="tel"
+                fullWidth
+              />
+            </div>
+
+            <H3>{t('subHeaders.generalInfo')}</H3>
+
+            <div className="rows gapped-xxs">
+              <Label>{t('fields.examLanguage')} *</Label>
+              <RadioGroup
+                value={examLanguage}
+                onChange={(e) => setExamLanguage(e.target.value)}
+              >
+                {LANGUAGES.map((lang) => (
+                  <FormControlLabel
+                    key={lang.code}
+                    value={lang.code}
+                    control={<Radio />}
+                    label={lang.name}
+                  />
+                ))}
+              </RadioGroup>
+            </div>
+
+            <div className="columns gapped" style={{ alignItems: 'flex-end' }}>
+              <div
+                className="rows gapped-xxs"
+                style={{ width: '180px', flexShrink: 0 }}
+              >
+                <Label>{t('fields.startsAt')} *</Label>
+                <CustomDatePicker value={startsAt} setValue={setStartsAt} />
+              </div>
+              <Typography style={{ paddingBottom: '8px' }}>—</Typography>
+              <div className="rows gapped-xxs" style={{ flex: 1 }}>
+                <Label>{t('fields.endsAt')} *</Label>
+                <CustomDatePicker value={endsAt} setValue={setEndsAt} />
+              </div>
+            </div>
+
+            <div className="rows gapped-xxs">
+              <Label>{t('fields.caseNumber')} *</Label>
+              <TextField
+                value={caseNumber}
+                onChange={(e) => setCaseNumber(e.target.value)}
+                fullWidth
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="columns gapped flex-end" style={{ flex: '0 0 auto' }}>
+          <OphButton variant={Variant.Outlined} onClick={handleClose}>
+            {t('cancel')}
+          </OphButton>
+          <OphButton variant={Variant.Contained} onClick={handleClose}>
+            {t('submit')}
+          </OphButton>
+        </div>
       </div>
     </CustomModal>
   );

@@ -454,9 +454,25 @@
           "modal": {
             "title": "Lisää osallistumiskielto",
             "cancel": "Peruuta",
-            "submit": "Lisää osallistumiskielto"
+            "submit": "Lisää osallistumiskielto",
+            "subHeaders": {
+              "personInfo": "Osallistumiskieltoon asetettavan henkilön tiedot",
+              "generalInfo": "Osallistumiskiellon yleistiedot"
+            },
+            "fields": {
+              "firstName": "Etunimi",
+              "lastName": "Sukunimi",
+              "birthdate": "Syntymäaika",
+              "ssn": "Henkilötunnus",
+              "email": "Sähköpostiosoite",
+              "phoneNumber": "Puhelinnumero",
+              "examLanguage": "Tutkinnon kieli",
+              "startsAt": "Osallistumiskielto alkaa",
+              "endsAt": "Osallistumiskielto päättyy",
+              "caseNumber": "Asianumero"
+            }
           }
-	}
+        }
       },
       "clerkRegister": {
         "clerkAddOrganizer": {
