@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
+import { ActiveQuarantinesListing } from 'components/clerkQuarantine/listing/ActiveQuarantinesListing';
 import { PastReviewsListing } from 'components/clerkQuarantine/listing/PastReviewsListing';
 import { PendingReviewsListing } from 'components/clerkQuarantine/listing/PendingReviewsListing';
 import { usePublicTranslation } from 'configs/i18n';
@@ -164,6 +165,8 @@ export const ClerkQuarantine = () => {
         );
 
       case 'activeQuarantines':
+        return <ActiveQuarantinesListing />;
+
       case 'pendingReviews':
       default:
         return status !== APIResponseStatus.Success ? (

@@ -448,6 +448,14 @@
           "matchConfirmedSuccess": "Hyväksyminen onnistui",
           "matchRejectedError": "Hylkääminen epäonnistui",
           "matchRejectedSuccess": "Hylkääminen onnistui"
+        },
+        "activeQuarantines": {
+          "addButton": "Lisää osallistumiskielto",
+          "modal": {
+            "title": "Lisää osallistumiskielto",
+            "cancel": "Peruuta",
+            "submit": "Lisää osallistumiskielto"
+          }
         }
       },
       "clerkRegister": {
