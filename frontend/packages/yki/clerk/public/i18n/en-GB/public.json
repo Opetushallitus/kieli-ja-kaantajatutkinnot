@@ -235,6 +235,9 @@
                 "READ_SPEAK": "Lukeminen ja puhuminen"
               }
             },
+            "errors": {
+              "required": "Tieto on pakollinen"
+            },
             "contactHeading": "Yhteystiedot",
             "extraInformationHeading": "Lisätiedot",
             "saveButton": "Tallenna muutokset",
