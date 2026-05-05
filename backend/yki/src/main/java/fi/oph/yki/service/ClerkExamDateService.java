@@ -1,9 +1,9 @@
 package fi.oph.yki.service;
 
-import fi.oph.yki.api.dto.clerk.ClerkCreateEvaluationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCreateExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateLanguageDTO;
+import fi.oph.yki.api.dto.clerk.ClerkUpdateEvaluationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkUpdateExamDateDTO;
 import fi.oph.yki.api.dto.clerk.CreateClerkExamDateLanguageDTO;
 import fi.oph.yki.audit.AuditService;
@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -214,57 +215,80 @@ public class ClerkExamDateService {
   }
 
   @Transactional
-  public ClerkExamDateDTO createEvaluation(final long examDateId, final ClerkCreateEvaluationDTO dto) {
+  public ClerkExamDateDTO updateEvaluation(final long examDateId, final ClerkUpdateEvaluationDTO dto) {
     final ExamDate examDate = examDateRepository
       .findById(examDateId)
       .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
 
-    if (examDate.getLanguages().isEmpty()) {
-      throw new APIException(APIExceptionType.EVALUATION_EXAM_DATE_HAS_NO_LANGUAGES);
+    for (final ClerkUpdateEvaluationDTO.LanguageEvaluation lang : dto.evaluations()) {
+      final boolean hasStart = lang.evaluationStartDate() != null;
+      final boolean hasEnd = lang.evaluationEndDate() != null;
+      if (hasStart != hasEnd) {
+        throw new APIException(APIExceptionType.EVALUATION_INVALID_DATE_ORDER);
+      }
+      if (hasStart) {
+        validateEvaluationDateOrder(examDate.getExamDate(), lang.evaluationStartDate(), lang.evaluationEndDate());
+      }
     }
 
-    if (evaluationRepository.existsByExamDateIdAndDeletedAtIsNull(examDateId)) {
-      throw new APIException(APIExceptionType.EVALUATION_ALREADY_EXISTS);
-    }
+    final List<Evaluation> allEvaluations = evaluationRepository.findByExamDateId(examDateId);
 
-    validateEvaluationDateOrder(examDate.getExamDate(), dto.evaluationStartDate(), dto.evaluationEndDate());
-
-    final Map<Long, ClerkCreateEvaluationDTO.LanguageEvaluationOverride> overrideMap = dto.overrides() != null
-      ? dto
-        .overrides()
-        .stream()
-        .collect(Collectors.toMap(ClerkCreateEvaluationDTO.LanguageEvaluationOverride::examDateLanguageId, o -> o))
-      : Map.of();
-
-    for (final ClerkCreateEvaluationDTO.LanguageEvaluationOverride override : overrideMap.values()) {
-      validateEvaluationDateOrder(examDate.getExamDate(), override.evaluationStartDate(), override.evaluationEndDate());
-    }
-
-    final List<Evaluation> evaluations = examDate
-      .getLanguages()
+    final Map<Long, Evaluation> existingByLanguageId = allEvaluations
       .stream()
-      .map(lang -> {
-        final ClerkCreateEvaluationDTO.LanguageEvaluationOverride override = overrideMap.get(lang.getId());
-        final Evaluation evaluation = new Evaluation();
-        evaluation.setExamDate(examDate);
-        evaluation.setExamDateLanguage(lang);
-        evaluation.setEvaluationStartDate(
-          override != null ? override.evaluationStartDate() : dto.evaluationStartDate()
-        );
-        evaluation.setEvaluationEndDate(override != null ? override.evaluationEndDate() : dto.evaluationEndDate());
-
-        return evaluation;
-      })
-      .toList();
-
-    evaluationRepository.saveAll(evaluations);
-
-    final Map<Long, Evaluation> evalMap = evaluations
-      .stream()
+      .filter(e -> e.getDeletedAt() == null)
       .collect(Collectors.toMap(e -> e.getExamDateLanguage().getId(), e -> e));
+
+    final Map<Long, Evaluation> softDeletedByLanguageId = allEvaluations
+      .stream()
+      .filter(e -> e.getDeletedAt() != null)
+      .collect(Collectors.toMap(e -> e.getExamDateLanguage().getId(), e -> e));
+
+    final LocalDateTime now = LocalDateTime.now();
+    final Map<Long, Evaluation> evalMap = new HashMap<>();
+
+    for (final ClerkUpdateEvaluationDTO.LanguageEvaluation lang : dto.evaluations()) {
+      final Evaluation existing = existingByLanguageId.get(lang.examDateLanguageId());
+
+      if (lang.evaluationStartDate() != null) {
+        if (existing != null) {
+          existing.setEvaluationStartDate(lang.evaluationStartDate());
+          existing.setEvaluationEndDate(lang.evaluationEndDate());
+          evaluationRepository.save(existing);
+          evalMap.put(lang.examDateLanguageId(), existing);
+        } else {
+          final Evaluation softDeleted = softDeletedByLanguageId.get(lang.examDateLanguageId());
+          if (softDeleted != null) {
+            softDeleted.setDeletedAt(null);
+            softDeleted.setEvaluationStartDate(lang.evaluationStartDate());
+            softDeleted.setEvaluationEndDate(lang.evaluationEndDate());
+            evaluationRepository.save(softDeleted);
+            evalMap.put(lang.examDateLanguageId(), softDeleted);
+          } else {
+            final Evaluation evaluation = new Evaluation();
+            evaluation.setExamDate(examDate);
+            evaluation.setExamDateLanguage(
+              examDate
+                .getLanguages()
+                .stream()
+                .filter(l -> l.getId() == lang.examDateLanguageId())
+                .findFirst()
+                .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND))
+            );
+            evaluation.setEvaluationStartDate(lang.evaluationStartDate());
+            evaluation.setEvaluationEndDate(lang.evaluationEndDate());
+            evaluationRepository.save(evaluation);
+            evalMap.put(lang.examDateLanguageId(), evaluation);
+          }
+        }
+      } else if (existing != null) {
+        existing.setDeletedAt(now);
+        evaluationRepository.save(existing);
+      }
+    }
+
     final ClerkExamDateDTO result = toDTO(examDate, evalMap);
 
-    auditService.logById(YkiOperation.CREATE_EVALUATION, examDateId);
+    auditService.logById(YkiOperation.UPDATE_EVALUATION, examDateId);
 
     return result;
   }

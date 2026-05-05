@@ -4,10 +4,10 @@ import { http, HttpResponse } from 'msw';
 import { APIEndpoints } from 'enums/api';
 import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
 import {
-  CreateEvaluationRequest,
   ExamDateLanguage,
   ExamDateResponse,
-  LanguageEvaluationOverride,
+  LanguageEvaluation,
+  UpdateEvaluationRequest,
 } from 'interfaces/examDate';
 import { clerkExamSession } from 'tests/msw/fixtures/clerkExamSession';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
@@ -294,24 +294,24 @@ export const handlers = [
 
     return HttpResponse.json({ id: newId, ...body });
   }),
-  http.post(
+  http.put(
     `${APIEndpoints.ClerkExamDate}/:examDateId/evaluation`,
     async ({ params, request }) => {
       const examDateId = Number(params.examDateId);
-      const body = (await request.json()) as CreateEvaluationRequest;
+      const body = (await request.json()) as UpdateEvaluationRequest;
       const examDate = examDates.find((ed) => ed.id === examDateId);
       if (!examDate) {
         return new HttpResponse(null, { status: 404 });
       }
 
       examDate.languages.forEach((lang) => {
-        const override = body.overrides?.find(
-          (o: LanguageEvaluationOverride) => o.examDateLanguageId === lang.id,
+        const evaluation = body.evaluations.find(
+          (e: LanguageEvaluation) => e.examDateLanguageId === lang.id,
         );
-        lang.evaluationStartDate =
-          override?.evaluationStartDate ?? body.evaluationStartDate;
-        lang.evaluationEndDate =
-          override?.evaluationEndDate ?? body.evaluationEndDate;
+        if (evaluation) {
+          lang.evaluationStartDate = evaluation.evaluationStartDate;
+          lang.evaluationEndDate = evaluation.evaluationEndDate;
+        }
       });
 
       return HttpResponse.json(examDate);

@@ -121,7 +121,7 @@
         },
         "header": "Tutkintopäivät",
         "listing": {
-          "addReviewEvaluation": "Lisää tarkistusarviointi",
+          "editReviewEvaluation": "Muokkaa tarkistusarviointeja",
           "allLevels": "Kaikki tasot", 
           "edit": "Muokkaa",
           "errors": {
@@ -173,14 +173,14 @@
           "title": "Muokkaa tutkintopäivää"
         },
         "evaluationModal": {
-          "title": "Lisää tarkistusarviointi",
-          "infoText": "Olet lisäämässä tarkistusarviointia seuraaville kielitutkinnoille:",
-          "evaluationStartLabel": "Tarkistusarviointi alkaa",
-          "evaluationEndLabel": "Tarkistusarviointi päättyy",
-          "enablePerLanguageDates": "Lisää päivämäärät kielitutkintokohtaisesti",
-          "useDefaultDates": "Käytä oletuspäiviä",
-          "setCustomDates": "Aseta eri päivät",
-          "submitButton": "Lisää tarkistusarviointi",
+          "title": "Tarkistusarvioinnit",
+          "infoText": "Tarkistusarvioinnit tutkintopäivälle {{examDate}}.",
+          "header": {
+            "languageLevel": "Kieli ja taso",
+            "evaluationPeriod": "Tarkistusarvioinnin ajankohta"
+          },
+          "cancelButton": "Peruuta",
+          "submitButton": "Tallenna muutokset",
           "errors": {
             "required": "Tieto on pakollinen",
             "startDateBeforeExamDate": "Alkupäivä ei voi olla ennen tutkintopäivää",
