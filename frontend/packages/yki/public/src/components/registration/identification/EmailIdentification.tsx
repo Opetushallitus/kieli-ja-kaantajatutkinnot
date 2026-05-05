@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamSession } from 'interfaces/examSessions';
 import { sendEmailLinkOrder } from 'redux/reducers/publicIdentification';
 import { examSessionSelector } from 'redux/selectors/examSession';
+import { registrationSelector } from 'redux/selectors/registration';
 import { ExamSessionUtils } from 'utils/examSession';
 
 const EmailInput = ({
@@ -98,6 +99,7 @@ export const EmailIdentification = () => {
     .examSession as ExamSession;
   const isFreeRegistrationPossible =
     ExamSessionUtils.freeRegistrationPossible(examSession);
+  const { initRegistration } = useAppSelector(registrationSelector);
 
   const { showDialog } = useDialog();
   const translateCommon = useCommonTranslation();
@@ -135,6 +137,7 @@ export const EmailIdentification = () => {
           examSessionId: examSession.id,
           email,
           registrationKind: examSession.available_registration_kind,
+          registrationId: initRegistration.registrationId,
         }),
       );
     } else {
@@ -152,6 +155,7 @@ export const EmailIdentification = () => {
     email,
     examSession.id,
     examSession.available_registration_kind,
+    initRegistration.registrationId,
     showDialog,
     t,
     translateCommon,
