@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import fi.oph.yki.PostgresTestcontainerConfig;
-import fi.oph.yki.api.dto.clerk.ClerkCreateEvaluationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCreateExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
+import fi.oph.yki.api.dto.clerk.ClerkUpdateEvaluationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkUpdateExamDateDTO;
 import fi.oph.yki.api.dto.clerk.CreateClerkExamDateLanguageDTO;
 import fi.oph.yki.audit.AuditService;
@@ -400,16 +400,30 @@ public class ClerkExamDateServiceTest {
     return clerkExamDateService.createExamDate(dto);
   }
 
-  @Test
-  public void testCreateEvaluation() {
-    final ClerkExamDateDTO created = createTestExamDate();
-    final ClerkCreateEvaluationDTO evalDto = ClerkCreateEvaluationDTO
+  private ClerkUpdateEvaluationDTO.LanguageEvaluation langEval(
+    final Long examDateLanguageId,
+    final LocalDate start,
+    final LocalDate end
+  ) {
+    return ClerkUpdateEvaluationDTO.LanguageEvaluation
       .builder()
-      .evaluationStartDate(LocalDate.of(2026, 10, 20))
-      .evaluationEndDate(LocalDate.of(2026, 11, 20))
+      .examDateLanguageId(examDateLanguageId)
+      .evaluationStartDate(start)
+      .evaluationEndDate(end)
+      .build();
+  }
+
+  @Test
+  public void testUpdateEvaluation() {
+    final ClerkExamDateDTO created = createTestExamDate();
+    final Long langId = created.languages().get(0).id();
+
+    final ClerkUpdateEvaluationDTO evalDto = ClerkUpdateEvaluationDTO
+      .builder()
+      .evaluations(List.of(langEval(langId, LocalDate.of(2026, 10, 20), LocalDate.of(2026, 11, 20))))
       .build();
 
-    final ClerkExamDateDTO result = clerkExamDateService.createEvaluation(created.id(), evalDto);
+    final ClerkExamDateDTO result = clerkExamDateService.updateEvaluation(created.id(), evalDto);
 
     assertEquals(1, result.languages().size());
     assertEquals(LocalDate.of(2026, 10, 20), result.languages().get(0).evaluationStartDate());
@@ -417,27 +431,22 @@ public class ClerkExamDateServiceTest {
   }
 
   @Test
-  public void testCreateEvaluationWithOverrides() {
+  public void testUpdateEvaluationWithPerLanguageDates() {
     final ClerkExamDateDTO created = createTestExamDateWithMultipleLanguages();
-    final Long overrideLangId = created.languages().get(1).id();
+    final Long langId0 = created.languages().get(0).id();
+    final Long langId1 = created.languages().get(1).id();
 
-    final ClerkCreateEvaluationDTO evalDto = ClerkCreateEvaluationDTO
+    final ClerkUpdateEvaluationDTO evalDto = ClerkUpdateEvaluationDTO
       .builder()
-      .evaluationStartDate(LocalDate.of(2026, 10, 20))
-      .evaluationEndDate(LocalDate.of(2026, 11, 20))
-      .overrides(
+      .evaluations(
         List.of(
-          ClerkCreateEvaluationDTO.LanguageEvaluationOverride
-            .builder()
-            .examDateLanguageId(overrideLangId)
-            .evaluationStartDate(LocalDate.of(2026, 10, 25))
-            .evaluationEndDate(LocalDate.of(2026, 12, 1))
-            .build()
+          langEval(langId0, LocalDate.of(2026, 10, 20), LocalDate.of(2026, 11, 20)),
+          langEval(langId1, LocalDate.of(2026, 10, 25), LocalDate.of(2026, 12, 1))
         )
       )
       .build();
 
-    final ClerkExamDateDTO result = clerkExamDateService.createEvaluation(created.id(), evalDto);
+    final ClerkExamDateDTO result = clerkExamDateService.updateEvaluation(created.id(), evalDto);
 
     assertEquals(2, result.languages().size());
     assertEquals(LocalDate.of(2026, 10, 20), result.languages().get(0).evaluationStartDate());
@@ -447,15 +456,99 @@ public class ClerkExamDateServiceTest {
   }
 
   @Test
-  public void testCreateEvaluationIsPersisted() {
-    final ClerkExamDateDTO created = createTestExamDate();
-    final ClerkCreateEvaluationDTO evalDto = ClerkCreateEvaluationDTO
+  public void testUpdateEvaluationPartial() {
+    final ClerkExamDateDTO created = createTestExamDateWithMultipleLanguages();
+    final Long langId0 = created.languages().get(0).id();
+    final Long langId1 = created.languages().get(1).id();
+
+    final ClerkUpdateEvaluationDTO evalDto = ClerkUpdateEvaluationDTO
       .builder()
-      .evaluationStartDate(LocalDate.of(2026, 10, 20))
-      .evaluationEndDate(LocalDate.of(2026, 11, 20))
+      .evaluations(
+        List.of(
+          langEval(langId0, LocalDate.of(2026, 10, 20), LocalDate.of(2026, 11, 20)),
+          langEval(langId1, null, null)
+        )
+      )
       .build();
 
-    clerkExamDateService.createEvaluation(created.id(), evalDto);
+    final ClerkExamDateDTO result = clerkExamDateService.updateEvaluation(created.id(), evalDto);
+
+    assertEquals(2, result.languages().size());
+    assertEquals(LocalDate.of(2026, 10, 20), result.languages().get(0).evaluationStartDate());
+    assertEquals(LocalDate.of(2026, 11, 20), result.languages().get(0).evaluationEndDate());
+    assertNull(result.languages().get(1).evaluationStartDate());
+    assertNull(result.languages().get(1).evaluationEndDate());
+  }
+
+  @Test
+  public void testUpdateEvaluationReplacesPreviousDates() {
+    final ClerkExamDateDTO created = createTestExamDate();
+    final Long langId = created.languages().get(0).id();
+
+    clerkExamDateService.updateEvaluation(
+      created.id(),
+      ClerkUpdateEvaluationDTO
+        .builder()
+        .evaluations(List.of(langEval(langId, LocalDate.of(2026, 10, 20), LocalDate.of(2026, 11, 20))))
+        .build()
+    );
+
+    final ClerkUpdateEvaluationDTO updateDto = ClerkUpdateEvaluationDTO
+      .builder()
+      .evaluations(List.of(langEval(langId, LocalDate.of(2026, 11, 1), LocalDate.of(2026, 12, 1))))
+      .build();
+
+    final ClerkExamDateDTO result = clerkExamDateService.updateEvaluation(created.id(), updateDto);
+
+    assertEquals(LocalDate.of(2026, 11, 1), result.languages().get(0).evaluationStartDate());
+    assertEquals(LocalDate.of(2026, 12, 1), result.languages().get(0).evaluationEndDate());
+  }
+
+  @Test
+  public void testUpdateEvaluationResurrectsSoftDeleted() {
+    final ClerkExamDateDTO created = createTestExamDate();
+    final Long langId = created.languages().get(0).id();
+
+    clerkExamDateService.updateEvaluation(
+      created.id(),
+      ClerkUpdateEvaluationDTO
+        .builder()
+        .evaluations(List.of(langEval(langId, LocalDate.of(2026, 10, 20), LocalDate.of(2026, 11, 20))))
+        .build()
+    );
+
+    clerkExamDateService.updateEvaluation(
+      created.id(),
+      ClerkUpdateEvaluationDTO.builder().evaluations(List.of(langEval(langId, null, null))).build()
+    );
+
+    clerkExamDateService.updateEvaluation(
+      created.id(),
+      ClerkUpdateEvaluationDTO
+        .builder()
+        .evaluations(List.of(langEval(langId, LocalDate.of(2026, 11, 1), LocalDate.of(2026, 12, 1))))
+        .build()
+    );
+
+    final var allRows = evaluationRepository.findByExamDateId(created.id());
+    assertEquals(1, allRows.size());
+    assertNull(allRows.get(0).getDeletedAt());
+    assertEquals(LocalDate.of(2026, 11, 1), allRows.get(0).getEvaluationStartDate());
+    assertEquals(LocalDate.of(2026, 12, 1), allRows.get(0).getEvaluationEndDate());
+  }
+
+  @Test
+  public void testUpdateEvaluationIsPersisted() {
+    final ClerkExamDateDTO created = createTestExamDate();
+    final Long langId = created.languages().get(0).id();
+
+    clerkExamDateService.updateEvaluation(
+      created.id(),
+      ClerkUpdateEvaluationDTO
+        .builder()
+        .evaluations(List.of(langEval(langId, LocalDate.of(2026, 10, 20), LocalDate.of(2026, 11, 20))))
+        .build()
+    );
 
     final List<ClerkExamDateDTO> allExamDates = clerkExamDateService.getAllExamDates();
     assertEquals(1, allExamDates.size());
@@ -464,91 +557,83 @@ public class ClerkExamDateServiceTest {
   }
 
   @Test
-  public void testCreateEvaluationThrowsForNonExistentExamDate() {
-    final ClerkCreateEvaluationDTO evalDto = ClerkCreateEvaluationDTO
+  public void testUpdateEvaluationThrowsForNonExistentExamDate() {
+    final ClerkUpdateEvaluationDTO evalDto = ClerkUpdateEvaluationDTO
       .builder()
-      .evaluationStartDate(LocalDate.of(2026, 10, 20))
-      .evaluationEndDate(LocalDate.of(2026, 11, 20))
+      .evaluations(List.of(langEval(1L, LocalDate.of(2026, 10, 20), LocalDate.of(2026, 11, 20))))
       .build();
 
     final APIException ex = assertThrows(
       APIException.class,
-      () -> clerkExamDateService.createEvaluation(999L, evalDto)
+      () -> clerkExamDateService.updateEvaluation(999L, evalDto)
     );
     assertEquals(APIExceptionType.NOT_FOUND, ex.getExceptionType());
   }
 
   @Test
-  public void testCreateEvaluationThrowsForExamDateWithNoLanguages() {
-    final ClerkCreateExamDateDTO examDto = ClerkCreateExamDateDTO
-      .builder()
-      .examDate(LocalDate.of(2026, 11, 20))
-      .registrationStartDate(LocalDate.of(2026, 9, 1))
-      .registrationEndDate(LocalDate.of(2026, 10, 31))
-      .examType(ExamSessionType.FULL)
-      .languages(List.of())
-      .build();
-    final ClerkExamDateDTO created = clerkExamDateService.createExamDate(examDto);
-
-    final ClerkCreateEvaluationDTO evalDto = ClerkCreateEvaluationDTO
-      .builder()
-      .evaluationStartDate(LocalDate.of(2026, 11, 25))
-      .evaluationEndDate(LocalDate.of(2026, 12, 25))
-      .build();
-
-    final APIException ex = assertThrows(
-      APIException.class,
-      () -> clerkExamDateService.createEvaluation(created.id(), evalDto)
-    );
-    assertEquals(APIExceptionType.EVALUATION_EXAM_DATE_HAS_NO_LANGUAGES, ex.getExceptionType());
-  }
-
-  @Test
-  public void testCreateEvaluationThrowsWhenAlreadyExists() {
+  public void testUpdateEvaluationThrowsWhenStartDateBeforeExamDate() {
     final ClerkExamDateDTO created = createTestExamDate();
-    final ClerkCreateEvaluationDTO evalDto = ClerkCreateEvaluationDTO
+    final Long langId = created.languages().get(0).id();
+
+    final ClerkUpdateEvaluationDTO evalDto = ClerkUpdateEvaluationDTO
       .builder()
-      .evaluationStartDate(LocalDate.of(2026, 10, 20))
-      .evaluationEndDate(LocalDate.of(2026, 11, 20))
-      .build();
-
-    clerkExamDateService.createEvaluation(created.id(), evalDto);
-
-    final APIException ex = assertThrows(
-      APIException.class,
-      () -> clerkExamDateService.createEvaluation(created.id(), evalDto)
-    );
-    assertEquals(APIExceptionType.EVALUATION_ALREADY_EXISTS, ex.getExceptionType());
-  }
-
-  @Test
-  public void testCreateEvaluationThrowsWhenStartDateBeforeExamDate() {
-    final ClerkExamDateDTO created = createTestExamDate();
-    final ClerkCreateEvaluationDTO evalDto = ClerkCreateEvaluationDTO
-      .builder()
-      .evaluationStartDate(LocalDate.of(2026, 10, 1))
-      .evaluationEndDate(LocalDate.of(2026, 11, 20))
+      .evaluations(List.of(langEval(langId, LocalDate.of(2026, 10, 1), LocalDate.of(2026, 11, 20))))
       .build();
 
     final APIException ex = assertThrows(
       APIException.class,
-      () -> clerkExamDateService.createEvaluation(created.id(), evalDto)
+      () -> clerkExamDateService.updateEvaluation(created.id(), evalDto)
     );
     assertEquals(APIExceptionType.EVALUATION_INVALID_DATE_ORDER, ex.getExceptionType());
   }
 
   @Test
-  public void testCreateEvaluationThrowsWhenEndDateBeforeStartDate() {
+  public void testUpdateEvaluationThrowsWhenEndDateBeforeStartDate() {
     final ClerkExamDateDTO created = createTestExamDate();
-    final ClerkCreateEvaluationDTO evalDto = ClerkCreateEvaluationDTO
+    final Long langId = created.languages().get(0).id();
+
+    final ClerkUpdateEvaluationDTO evalDto = ClerkUpdateEvaluationDTO
       .builder()
-      .evaluationStartDate(LocalDate.of(2026, 11, 20))
-      .evaluationEndDate(LocalDate.of(2026, 10, 20))
+      .evaluations(List.of(langEval(langId, LocalDate.of(2026, 11, 20), LocalDate.of(2026, 10, 20))))
       .build();
 
     final APIException ex = assertThrows(
       APIException.class,
-      () -> clerkExamDateService.createEvaluation(created.id(), evalDto)
+      () -> clerkExamDateService.updateEvaluation(created.id(), evalDto)
+    );
+    assertEquals(APIExceptionType.EVALUATION_INVALID_DATE_ORDER, ex.getExceptionType());
+  }
+
+  @Test
+  public void testUpdateEvaluationThrowsWhenOnlyStartDateProvided() {
+    final ClerkExamDateDTO created = createTestExamDate();
+    final Long langId = created.languages().get(0).id();
+
+    final ClerkUpdateEvaluationDTO evalDto = ClerkUpdateEvaluationDTO
+      .builder()
+      .evaluations(List.of(langEval(langId, LocalDate.of(2026, 10, 20), null)))
+      .build();
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkExamDateService.updateEvaluation(created.id(), evalDto)
+    );
+    assertEquals(APIExceptionType.EVALUATION_INVALID_DATE_ORDER, ex.getExceptionType());
+  }
+
+  @Test
+  public void testUpdateEvaluationThrowsWhenOnlyEndDateProvided() {
+    final ClerkExamDateDTO created = createTestExamDate();
+    final Long langId = created.languages().get(0).id();
+
+    final ClerkUpdateEvaluationDTO evalDto = ClerkUpdateEvaluationDTO
+      .builder()
+      .evaluations(List.of(langEval(langId, null, LocalDate.of(2026, 11, 20))))
+      .build();
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkExamDateService.updateEvaluation(created.id(), evalDto)
     );
     assertEquals(APIExceptionType.EVALUATION_INVALID_DATE_ORDER, ex.getExceptionType());
   }

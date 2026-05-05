@@ -21,14 +21,19 @@ SELECT
     q.email                 AS email,
     q.phone_number          AS phoneNumber,
     r.id                    AS registrationId,
-    r.form::text            AS form,
+    r.form->>'first_name'   AS formFirstName,
+    r.form->>'last_name'    AS formLastName,
+    r.form->>'birthdate'    AS formBirthdate,
+    r.form->>'email'        AS formEmail,
+    r.form->>'phone_number' AS formPhoneNumber,
     r.state                 AS state,
     r.person_oid            AS personOid,
     ed.exam_date            AS examDate,
-    es.language_code        AS languageCode
+    es.language_code        AS languageCode,
+    es.level_code           AS levelCode
 FROM quarantine q
 INNER JOIN registration r
-    ON (q.ssn = r.form->>'ssn' OR q.birthdate = r.form->>'birthdate')
+    ON q.birthdate = r.form->>'birthdate'
 INNER JOIN exam_session es
     ON r.exam_session_id = es.id
 INNER JOIN exam_date ed

@@ -1,6 +1,10 @@
 import { Dayjs } from 'dayjs';
 
-type RegistrantForm = {
+import { ExamLevel, RegistrationStates } from 'enums/app';
+
+type LanguageLevelCode = 'PERUS' | 'KESKI' | 'YLIN';
+
+type ClerkQuarantinePerson = {
   firstName: string;
   lastName: string;
   birthdate?: string;
@@ -11,37 +15,52 @@ type RegistrantForm = {
 
 export type ClerkQuarantineMatchResponse = {
   id: number;
-  birthdate: string;
-  ssn: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
+  quarantinedPerson: ClerkQuarantinePerson;
+  registrant: ClerkQuarantinePerson;
   registrationId: number;
-  form: RegistrantForm;
   state: string;
   examDate: string;
   languageCode: string;
+  levelCode: keyof typeof ExamLevel;
 };
 
 export type ClerkQuarantineMatch = {
   quarantineId: number;
   registrationId: number;
-  examLanguageCode: string;
+  examLanguageCode: LanguageLevelCode;
+  examLevelCode: keyof typeof ExamLevel;
   examDate: Dayjs;
-  quarantinedPerson: {
-    firstName: string;
-    lastName: string;
-    birthdate: string;
-    ssn: string;
-    email: string;
-    phoneNumber: string;
-  };
-  registrantForm: RegistrantForm;
+  state: RegistrationStates;
+  quarantinedPerson: ClerkQuarantinePerson;
+  registrant: ClerkQuarantinePerson;
 };
 
-export type ClerkQuarantineMatchesResponse = {
-  quarantineMatches: ClerkQuarantineMatchResponse[];
+export type ClerkQuarantineReviewResponse = {
+  id: number;
+  quarantined: boolean;
+  quarantineId: number;
+  registrationId: number;
+  updated: string;
+  examDate: string;
+  languageCode: string;
+  levelCode: keyof typeof ExamLevel;
+  state: string;
+  quarantinedPerson: ClerkQuarantinePerson;
+  registrant: ClerkQuarantinePerson;
+};
+
+export type ClerkQuarantineReview = {
+  id: number;
+  quarantined: boolean;
+  quarantineId: number;
+  registrationId: number;
+  updated: Dayjs;
+  examDate: Dayjs;
+  examLanguageCode: LanguageLevelCode;
+  examLevelCode: keyof typeof ExamLevel;
+  state: RegistrationStates;
+  quarantinedPerson: ClerkQuarantinePerson;
+  registrant: ClerkQuarantinePerson;
 };
 
 export type ClerkQuarantineSort = 'examDate:asc' | 'examDate:desc';
