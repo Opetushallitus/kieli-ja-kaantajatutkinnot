@@ -1,6 +1,7 @@
 import { Dayjs } from 'dayjs';
 import { CustomButton, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import {
@@ -101,6 +102,31 @@ const MetaField = ({
   <div className="exam-session-card__meta-field">
     <div className="exam-session-card__meta-label">{label}</div>
     <div className="exam-session-card__meta-value">{value}</div>
+  </div>
+);
+
+const MobileExamRow = ({
+  examTypeLabel,
+  examSessionFee,
+  availablePlacesText,
+  action,
+  t,
+}: {
+  examTypeLabel: string;
+  examSessionFee: string;
+  availablePlacesText: string;
+  action: JSX.Element;
+  t: ReturnType<typeof usePublicTranslation>['t'];
+}) => (
+  <div className="exam-session-card__mobile-exam-row">
+    <MetaField label={t('examSessionCard.exam')} value={examTypeLabel} />
+    <MetaField label={t('examSessionCard.examStartTime')} value="klo 14:30" />
+    <MetaField label={t('examSessionCard.price')} value={examSessionFee} />
+    <MetaField
+      label={t('examSessionCard.placesAvailable')}
+      value={availablePlacesText}
+    />
+    <div className="exam-session-card__mobile-exam-row__action">{action}</div>
   </div>
 );
 
@@ -292,6 +318,95 @@ const getTableBody = ({
   );
 };
 
+const getMobileTableBody = ({
+  examSession,
+  t,
+}: {
+  examSession: ExamSession;
+  t: ReturnType<typeof usePublicTranslation>['t'];
+}) => {
+  const examSessionFee = ExamSessionUtils.freeRegistrationPossible(examSession)
+    ? `0 / ${examSession.exam_fee} €`
+    : `${examSession.exam_fee} €`;
+
+  const availablePlaces = ExamSessionUtils.getAvailablePlaces(examSession);
+
+  const availablePlacesText =
+    availablePlaces > 0
+      ? '' + availablePlaces
+      : t('registrationButtonLabels.full');
+
+  const renderActions = ({
+    examSession,
+    partialExamType,
+    availablePlaces,
+  }: {
+    examSession: ExamSession;
+    partialExamType: PartialExamType;
+    availablePlaces: number;
+  }): JSX.Element => {
+    if (examSession.open) {
+      if (
+        availablePlaces === 0 &&
+        ['LISTEN_WRITE', 'READ_SPEAK'].includes(examSession.type) &&
+        partialExamType === 'ALL_PARTS'
+      ) {
+        return (
+          <Text>{t('examSessionCard.registerToPartialExamsSeparately')}</Text>
+        );
+      } else {
+        return (
+          <RegisterToExamButton
+            examSession={examSession}
+            partialExamType={partialExamType}
+          />
+        );
+      }
+    } else {
+      return (
+        <Text>
+          <RegistrationUnavailableText examSession={examSession} />
+        </Text>
+      );
+    }
+  };
+
+  const row = (examTypeLabel: string, partialExamType: PartialExamType) => (
+    <MobileExamRow
+      key={partialExamType}
+      examTypeLabel={examTypeLabel}
+      examSessionFee={examSessionFee}
+      availablePlacesText={availablePlacesText}
+      action={renderActions({ examSession, partialExamType, availablePlaces })}
+      t={t}
+    />
+  );
+
+  if (examSession.type === 'READ_SPEAK') {
+    return (
+      <div className="exam-session-card__mobile-exam-rows">
+        {row(t('examSessionCard.examType.readSpeak'), 'ALL_PARTS')}
+        {row(t('examSessionCard.examType.read'), 'READ')}
+        {row(t('examSessionCard.examType.speak'), 'SPEAK')}
+      </div>
+    );
+  } else if (examSession.type === 'LISTEN_WRITE') {
+    return (
+      <div className="exam-session-card__mobile-exam-rows">
+        {row(t('examSessionCard.examType.listenWrite'), 'ALL_PARTS')}
+        {row(t('examSessionCard.examType.listen'), 'LISTEN')}
+        {row(t('examSessionCard.examType.write'), 'WRITE')}
+      </div>
+    );
+  }
+
+  return (
+    <div className="exam-session-card__mobile-exam-rows">
+      {row(t('examSessionCard.examType.full'), 'ALL_PARTS')}
+    </div>
+  );
+};
+
 export const PublicExamSessionCard = ({
   examSession,
 }: {
@@ -301,6 +416,8 @@ export const PublicExamSessionCard = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration',
   });
+
+  const { isPhone } = useWindowProperties();
 
   const locationInfo = ExamSessionUtils.getLocationInfo(
     examSession,
@@ -368,18 +485,22 @@ export const PublicExamSessionCard = ({
         />
       </div>
 
-      <table className="exam-session-card__table">
-        <thead>
-          <tr>
-            <th>{t('examSessionCard.exam')}</th>
-            <th>{t('examSessionCard.examStartTime')}</th>
-            <th>{t('examSessionCard.price')}</th>
-            <th>{t('examSessionCard.placesAvailable')}</th>
-            <th>{t('examSessionCard.actions')}</th>
-          </tr>
-        </thead>
-        <tbody>{getTableBody({ examSession, t })}</tbody>
-      </table>
+      {isPhone ? (
+        getMobileTableBody({ examSession, t })
+      ) : (
+        <table className="exam-session-card__table">
+          <thead>
+            <tr>
+              <th>{t('examSessionCard.exam')}</th>
+              <th>{t('examSessionCard.examStartTime')}</th>
+              <th>{t('examSessionCard.price')}</th>
+              <th>{t('examSessionCard.placesAvailable')}</th>
+              <th>{t('examSessionCard.actions')}</th>
+            </tr>
+          </thead>
+          <tbody>{getTableBody({ examSession, t })}</tbody>
+        </table>
+      )}
     </article>
   );
 };

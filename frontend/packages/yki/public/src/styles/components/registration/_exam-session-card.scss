@@ -8,9 +8,13 @@
   flex-direction: column;
   gap: 2.4rem;
 
+  @include phone {
+    padding: 2rem 1rem;
+  }
+
   &__partial-exam-indicator {
     display: flex;
-    gap: 0.5rem;
+    gap: 1rem;
 
     &__item {
       background-color: $ods-lightblue-2;
@@ -28,6 +32,11 @@
     font-weight: 700;
     line-height: 2.6rem;
     color: $color-text-primary;
+
+    @include phone {
+      margin-top: 1rem;
+      margin-bottom: 0;
+    }
   }
 
   &__meta {
@@ -119,6 +128,31 @@
           font-size: 1.6rem;
           color: $color-text-primary;
         }
+      }
+    }
+  }
+
+  &__mobile-exam-rows {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid $color-divider;
+  }
+
+  &__mobile-exam-row {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+
+    &:nth-child(even) {
+      background-color: #f6f6f6;
+    }
+
+    &__action {
+      display: flex;
+
+      > * {
+        flex: 1;
       }
     }
   }
