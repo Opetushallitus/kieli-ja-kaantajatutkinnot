@@ -9,12 +9,18 @@ import {
 } from '@mui/material';
 import { OphButton } from '@opetushallitus/oph-design-system';
 import { Dayjs } from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CustomDatePicker, CustomModal } from 'shared/components';
-import { Color, Variant } from 'shared/enums';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { H2, H3, Label } from 'ophTheme/Text';
+import {
+  createClerkQuarantine,
+  resetCreateClerkQuarantineStatus,
+} from 'redux/reducers/clerkQuarantine';
+import { clerkQuarantineSelector } from 'redux/selectors/clerkQuarantine';
 import { LANGUAGES } from 'utils/clerk';
 
 type AddNewQuarantineModalProps = {
@@ -26,6 +32,9 @@ export const AddNewQuarantineModal = ({
   isOpen,
   onClose,
 }: AddNewQuarantineModalProps) => {
+  const dispatch = useAppDispatch();
+  const { createStatus } = useAppSelector(clerkQuarantineSelector);
+  const prevCreateStatus = useRef(createStatus);
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkQuarantine.activeQuarantines.modal',
   });
@@ -41,7 +50,7 @@ export const AddNewQuarantineModal = ({
   const [endsAt, setEndsAt] = useState<Dayjs | null>(null);
   const [caseNumber, setCaseNumber] = useState('');
 
-  const handleClose = () => {
+  const resetFields = () => {
     setFirstName('');
     setLastName('');
     setBirthdate('');
@@ -52,8 +61,44 @@ export const AddNewQuarantineModal = ({
     setStartsAt(null);
     setEndsAt(null);
     setCaseNumber('');
+  };
+
+  const handleClose = () => {
+    resetFields();
+    dispatch(resetCreateClerkQuarantineStatus());
     onClose();
   };
+
+  useEffect(() => {
+    if (
+      prevCreateStatus.current === APIResponseStatus.InProgress &&
+      createStatus === APIResponseStatus.Success
+    ) {
+      resetFields();
+      onClose();
+      dispatch(resetCreateClerkQuarantineStatus());
+    }
+    prevCreateStatus.current = createStatus;
+  }, [createStatus, onClose, dispatch]);
+
+  const handleSubmit = () => {
+    dispatch(
+      createClerkQuarantine({
+        firstName,
+        lastName,
+        ...(birthdate && { birthdate }),
+        ...(ssn && { ssn }),
+        ...(email && { email }),
+        ...(phoneNumber && { phoneNumber }),
+        languageCode: examLanguage,
+        startDate: startsAt!.format('YYYY-MM-DD'),
+        endDate: endsAt!.format('YYYY-MM-DD'),
+        diaryNumber: caseNumber,
+      }),
+    );
+  };
+
+  const isSubmitting = createStatus === APIResponseStatus.InProgress;
 
   return (
     <CustomModal
@@ -211,10 +256,18 @@ export const AddNewQuarantineModal = ({
         </div>
 
         <div className="columns gapped flex-end" style={{ flex: '0 0 auto' }}>
-          <OphButton variant={Variant.Outlined} onClick={handleClose}>
+          <OphButton
+            variant={Variant.Outlined}
+            onClick={handleClose}
+            disabled={isSubmitting}
+          >
             {t('cancel')}
           </OphButton>
-          <OphButton variant={Variant.Contained} onClick={handleClose}>
+          <OphButton
+            variant={Variant.Contained}
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+          >
             {t('submit')}
           </OphButton>
         </div>

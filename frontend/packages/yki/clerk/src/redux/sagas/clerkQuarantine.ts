@@ -7,13 +7,17 @@ import { APIEndpoints } from 'enums/api';
 import {
   ClerkQuarantineMatchResponse,
   ClerkQuarantineReviewResponse,
+  CreateClerkQuarantineRequest,
 } from 'interfaces/clerkQuarantine';
 import {
+  createClerkQuarantine,
   loadClerkQuarantineMatches,
   loadClerkQuarantineReviews,
   rejectClerkQuarantineMatches,
   rejectClerkQuarantineReviews,
+  rejectCreateClerkQuarantine,
   rejectQuarantineReview,
+  resolveCreateClerkQuarantine,
   resolveQuarantineReview,
   setQuarantineReview,
   storeClerkQuarantineMatches,
@@ -77,6 +81,21 @@ function* setQuarantineReviewSaga(
   }
 }
 
+function* createClerkQuarantineSaga(
+  action: PayloadAction<CreateClerkQuarantineRequest>,
+) {
+  try {
+    yield call(
+      axiosInstance.post,
+      APIEndpoints.ClerkQuarantine,
+      action.payload,
+    );
+    yield put(resolveCreateClerkQuarantine());
+  } catch (error) {
+    yield put(rejectCreateClerkQuarantine());
+  }
+}
+
 export function* watchClerkQuarantine() {
   yield takeLatest(
     loadClerkQuarantineMatches.type,
@@ -87,4 +106,5 @@ export function* watchClerkQuarantine() {
     loadClerkQuarantineReviewsSaga,
   );
   yield takeLatest(setQuarantineReview.type, setQuarantineReviewSaga);
+  yield takeLatest(createClerkQuarantine.type, createClerkQuarantineSaga);
 }

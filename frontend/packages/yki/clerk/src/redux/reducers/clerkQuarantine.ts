@@ -5,6 +5,7 @@ import {
   ClerkQuarantineMatch,
   ClerkQuarantineReview,
   ClerkQuarantineSort,
+  CreateClerkQuarantineRequest,
 } from 'interfaces/clerkQuarantine';
 
 interface ClerkQuarantineState {
@@ -15,6 +16,7 @@ interface ClerkQuarantineState {
   reviewsStatus: APIResponseStatus;
   reviewStatus: APIResponseStatus;
   lastReviewAction: 'matchConfirmed' | 'matchRejected' | null;
+  createStatus: APIResponseStatus;
 }
 
 const initialState: ClerkQuarantineState = {
@@ -25,6 +27,7 @@ const initialState: ClerkQuarantineState = {
   reviewsStatus: APIResponseStatus.NotStarted,
   reviewStatus: APIResponseStatus.NotStarted,
   lastReviewAction: null,
+  createStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkQuarantineSlice = createSlice({
@@ -83,6 +86,21 @@ const clerkQuarantineSlice = createSlice({
       state.reviewStatus = APIResponseStatus.NotStarted;
       state.lastReviewAction = null;
     },
+    createClerkQuarantine(
+      state,
+      _action: PayloadAction<CreateClerkQuarantineRequest>,
+    ) {
+      state.createStatus = APIResponseStatus.InProgress;
+    },
+    resolveCreateClerkQuarantine(state) {
+      state.createStatus = APIResponseStatus.Success;
+    },
+    rejectCreateClerkQuarantine(state) {
+      state.createStatus = APIResponseStatus.Error;
+    },
+    resetCreateClerkQuarantineStatus(state) {
+      state.createStatus = APIResponseStatus.NotStarted;
+    },
   },
 });
 
@@ -99,4 +117,8 @@ export const {
   resolveQuarantineReview,
   rejectQuarantineReview,
   resetQuarantineReviewStatus,
+  createClerkQuarantine,
+  resolveCreateClerkQuarantine,
+  rejectCreateClerkQuarantine,
+  resetCreateClerkQuarantineStatus,
 } = clerkQuarantineSlice.actions;

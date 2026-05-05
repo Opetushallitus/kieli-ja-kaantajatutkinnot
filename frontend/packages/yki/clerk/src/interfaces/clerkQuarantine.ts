@@ -64,3 +64,16 @@ export type ClerkQuarantineReview = {
 };
 
 export type ClerkQuarantineSort = 'examDate:asc' | 'examDate:desc';
+
+export type CreateClerkQuarantineRequest = {
+  firstName: string;
+  lastName: string;
+  birthdate?: string;
+  ssn?: string;
+  email?: string;
+  phoneNumber?: string;
+  languageCode: string;
+  startDate: string;
+  endDate: string;
+  diaryNumber: string;
+};
