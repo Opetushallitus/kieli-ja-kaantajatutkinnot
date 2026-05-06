@@ -472,6 +472,10 @@
               "startsAt": "Osallistumiskielto alkaa",
               "endsAt": "Osallistumiskielto päättyy",
               "caseNumber": "Asianumero"
+            },
+            "errors": {
+              "birthdateOrSsnRequired": "Syntymäaika tai henkilötunnus on annettava",
+              "startDateAfterEndDate": "Alkamispäivän on oltava ennen päättymispäivää"
             }
           }
         }

@@ -1,7 +1,9 @@
 import CloseIcon from '@mui/icons-material/Close';
 import {
   Box,
+  FormControl,
   FormControlLabel,
+  FormHelperText,
   Radio,
   RadioGroup,
   TextField,
@@ -9,9 +11,16 @@ import {
 } from '@mui/material';
 import { OphButton } from '@opetushallitus/oph-design-system';
 import { Dayjs } from 'dayjs';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { CustomDatePicker, CustomModal } from 'shared/components';
-import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import {
+  APIResponseStatus,
+  Color,
+  CustomTextFieldErrors,
+  TextFieldTypes,
+  Variant,
+} from 'shared/enums';
+import { InputFieldUtils } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -23,9 +32,19 @@ import {
 import { clerkQuarantineSelector } from 'redux/selectors/clerkQuarantine';
 import { LANGUAGES } from 'utils/clerk';
 
-type FormErrors = {
-  birthdateInvalid: boolean;
-};
+type QuarantineField =
+  | 'firstName'
+  | 'lastName'
+  | 'birthdate'
+  | 'ssn'
+  | 'email'
+  | 'phoneNumber'
+  | 'examLanguage'
+  | 'startsAt'
+  | 'endsAt'
+  | 'caseNumber';
+
+type FormErrors = Partial<Record<QuarantineField, string>>;
 
 type AddNewQuarantineModalProps = {
   isOpen: boolean;
@@ -55,23 +74,71 @@ export const AddNewQuarantineModal = ({
   const [endsAt, setEndsAt] = useState<Dayjs | null>(null);
   const [caseNumber, setCaseNumber] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [errors, setErrors] = useState<FormErrors>({ birthdateInvalid: false });
 
-  const validate = useCallback(
-    (): FormErrors => ({
-      birthdateInvalid: birthdate !== null && !birthdate.isValid(),
-    }),
-    [birthdate],
-  );
+  const errors = useMemo<FormErrors>(() => {
+    const result: FormErrors = {};
 
-  useEffect(() => {
-    if (submitted) {
-      const current = validate();
-      setErrors((prev) => ({
-        birthdateInvalid: prev.birthdateInvalid && current.birthdateInvalid,
-      }));
+    if (!firstName.trim()) {
+      result.firstName = translateCommon(CustomTextFieldErrors.Required);
     }
-  }, [submitted, validate]);
+    if (!lastName.trim()) {
+      result.lastName = translateCommon(CustomTextFieldErrors.Required);
+    }
+    if (birthdate !== null && !birthdate.isValid()) {
+      result.birthdate = translateCommon(CustomTextFieldErrors.DateFormat);
+    }
+    if (!birthdate?.isValid() && !ssn.trim()) {
+      result.ssn = t('errors.birthdateOrSsnRequired');
+    }
+
+    const emailError = InputFieldUtils.validateCustomTextFieldErrors({
+      type: TextFieldTypes.Email,
+      value: email,
+      required: true,
+    });
+    if (emailError) {
+      result.email = translateCommon(emailError);
+    }
+
+    const phoneError = InputFieldUtils.validateCustomTextFieldErrors({
+      type: TextFieldTypes.PhoneNumber,
+      value: phoneNumber,
+      required: true,
+    });
+    if (phoneError) {
+      result.phoneNumber = translateCommon(phoneError);
+    }
+
+    if (!examLanguage) {
+      result.examLanguage = translateCommon(CustomTextFieldErrors.Required);
+    }
+    if (!startsAt?.isValid()) {
+      result.startsAt = translateCommon(CustomTextFieldErrors.Required);
+    }
+    if (!endsAt?.isValid()) {
+      result.endsAt = translateCommon(CustomTextFieldErrors.Required);
+    } else if (startsAt?.isValid() && !startsAt.isBefore(endsAt, 'day')) {
+      result.endsAt = t('errors.startDateAfterEndDate');
+    }
+    if (!caseNumber.trim()) {
+      result.caseNumber = translateCommon(CustomTextFieldErrors.Required);
+    }
+
+    return result;
+  }, [
+    firstName,
+    lastName,
+    birthdate,
+    ssn,
+    email,
+    phoneNumber,
+    examLanguage,
+    startsAt,
+    endsAt,
+    caseNumber,
+    t,
+    translateCommon,
+  ]);
 
   const resetFields = () => {
     setFirstName('');
@@ -85,7 +152,6 @@ export const AddNewQuarantineModal = ({
     setEndsAt(null);
     setCaseNumber('');
     setSubmitted(false);
-    setErrors({ birthdateInvalid: false });
   };
 
   const handleClose = () => {
@@ -107,11 +173,9 @@ export const AddNewQuarantineModal = ({
   }, [createStatus, onClose, dispatch]);
 
   const handleSubmit = () => {
-    const validationErrors = validate();
-    setErrors(validationErrors);
     setSubmitted(true);
 
-    if (Object.values(validationErrors).some(Boolean)) {
+    if (Object.keys(errors).length > 0 || !startsAt || !endsAt) {
       return;
     }
 
@@ -121,11 +185,11 @@ export const AddNewQuarantineModal = ({
         lastName,
         ...(birthdate && { birthdate: birthdate.format('YYYY-MM-DD') }),
         ...(ssn && { ssn }),
-        ...(email && { email }),
-        ...(phoneNumber && { phoneNumber }),
+        email,
+        phoneNumber,
         languageCode: examLanguage,
-        startDate: startsAt!.format('YYYY-MM-DD'),
-        endDate: endsAt!.format('YYYY-MM-DD'),
+        startDate: startsAt.format('YYYY-MM-DD'),
+        endDate: endsAt.format('YYYY-MM-DD'),
         diaryNumber: caseNumber,
       }),
     );
@@ -184,6 +248,8 @@ export const AddNewQuarantineModal = ({
                 <TextField
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
+                  error={submitted && !!errors.firstName}
+                  helperText={submitted ? errors.firstName : undefined}
                   fullWidth
                 />
               </div>
@@ -196,6 +262,8 @@ export const AddNewQuarantineModal = ({
                 <TextField
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
+                  error={submitted && !!errors.lastName}
+                  helperText={submitted ? errors.lastName : undefined}
                   fullWidth
                 />
               </div>
@@ -211,12 +279,8 @@ export const AddNewQuarantineModal = ({
                 <CustomDatePicker
                   value={birthdate}
                   setValue={setBirthdate}
-                  error={submitted && errors.birthdateInvalid}
-                  helperText={
-                    submitted && errors.birthdateInvalid
-                      ? translateCommon('errors.customTextField.dateFormat')
-                      : undefined
-                  }
+                  error={submitted && !!errors.birthdate}
+                  helperText={submitted ? errors.birthdate : undefined}
                 />
               </div>
             </div>
@@ -231,6 +295,8 @@ export const AddNewQuarantineModal = ({
                 <TextField
                   value={ssn}
                   onChange={(e) => setSsn(e.target.value)}
+                  error={submitted && !!errors.ssn}
+                  helperText={submitted ? errors.ssn : undefined}
                   fullWidth
                 />
               </div>
@@ -242,6 +308,8 @@ export const AddNewQuarantineModal = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 type="email"
+                error={submitted && !!errors.email}
+                helperText={submitted ? errors.email : undefined}
                 fullWidth
               />
             </div>
@@ -252,13 +320,18 @@ export const AddNewQuarantineModal = ({
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 type="tel"
+                error={submitted && !!errors.phoneNumber}
+                helperText={submitted ? errors.phoneNumber : undefined}
                 fullWidth
               />
             </div>
 
             <H3>{t('subHeaders.generalInfo')}</H3>
 
-            <div className="rows gapped-xxs">
+            <FormControl
+              className="rows gapped-xxs"
+              error={submitted && !!errors.examLanguage}
+            >
               <Label>{t('fields.examLanguage')} *</Label>
               <RadioGroup
                 value={examLanguage}
@@ -273,7 +346,10 @@ export const AddNewQuarantineModal = ({
                   />
                 ))}
               </RadioGroup>
-            </div>
+              {submitted && errors.examLanguage && (
+                <FormHelperText>{errors.examLanguage}</FormHelperText>
+              )}
+            </FormControl>
 
             <div className="columns gapped" style={{ alignItems: 'flex-end' }}>
               <div
@@ -282,7 +358,12 @@ export const AddNewQuarantineModal = ({
                 style={{ width: '180px', flexShrink: 0 }}
               >
                 <Label>{t('fields.startsAt')} *</Label>
-                <CustomDatePicker value={startsAt} setValue={setStartsAt} />
+                <CustomDatePicker
+                  value={startsAt}
+                  setValue={setStartsAt}
+                  error={submitted && !!errors.startsAt}
+                  helperText={submitted ? errors.startsAt : undefined}
+                />
               </div>
               <Typography style={{ paddingBottom: '8px' }}>—</Typography>
               <div
@@ -291,7 +372,12 @@ export const AddNewQuarantineModal = ({
                 style={{ flex: 1 }}
               >
                 <Label>{t('fields.endsAt')} *</Label>
-                <CustomDatePicker value={endsAt} setValue={setEndsAt} />
+                <CustomDatePicker
+                  value={endsAt}
+                  setValue={setEndsAt}
+                  error={submitted && !!errors.endsAt}
+                  helperText={submitted ? errors.endsAt : undefined}
+                />
               </div>
             </div>
 
@@ -303,6 +389,8 @@ export const AddNewQuarantineModal = ({
               <TextField
                 value={caseNumber}
                 onChange={(e) => setCaseNumber(e.target.value)}
+                error={submitted && !!errors.caseNumber}
+                helperText={submitted ? errors.caseNumber : undefined}
                 fullWidth
               />
             </div>

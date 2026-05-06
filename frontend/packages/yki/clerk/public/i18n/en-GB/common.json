@@ -47,7 +47,10 @@
           "examDateHasEvaluations": "Tutkintopäivää ei voi poistaa, koska siihen on liitetty tarkistusarviointeja",
           "examDateHasSessions": "Tutkintopäivää ei voi poistaa, koska siihen on liitetty tutkintotilaisuuksia",
           "examDateRegistrationEndBeforeStart": "Ilmoittautumisen päättymispäivän on oltava alkamispäivän jälkeen",
-          "generic": "Tapahtui odottamaton virhe. Yritä uudestaan hetken kuluttua."
+          "generic": "Tapahtui odottamaton virhe. Yritä uudestaan hetken kuluttua.",
+          "quarantineInvalidSsn": "Henkilötunnus on virheellinen",
+          "quarantineMissingSsnAndBirthdate": "Syntymäaika tai henkilötunnus on annettava",
+          "quarantineSsnBirthdateMismatch": "Henkilötunnus ja syntymäaika eivät täsmää"
         },
         "customTextField": {
           "dateFormat": "Fill in as dd.mm.yyyy.",
@@ -70,7 +73,8 @@
           "registrationPeriodClosed": "The registration period has ended."
         },
         "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui",
-        "addingEvaluationFailed": "Tarkistusarvioinnin lisääminen epäonnistui"
+        "addingEvaluationFailed": "Tarkistusarvioinnin lisääminen epäonnistui",
+        "addingQuarantineFailed": "Osallistumiskiellon lisääminen epäonnistui"
       },
       "examDate": "Test day",
       "examination": "Test",

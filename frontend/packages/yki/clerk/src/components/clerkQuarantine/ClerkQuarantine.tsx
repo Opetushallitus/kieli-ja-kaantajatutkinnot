@@ -150,10 +150,6 @@ export const ClerkQuarantine = () => {
         });
         dispatch(resetCreateClerkQuarantineStatus());
       } else if (createStatus === APIResponseStatus.Error) {
-        showToast({
-          severity: Severity.Error,
-          description: t('toasts.quarantineAddError'),
-        });
         dispatch(resetCreateClerkQuarantineStatus());
       }
     }

@@ -36,4 +36,7 @@ export enum APIError {
   EvaluationInvalidDateOrder = 'evaluationInvalidDateOrder',
   ExamDateHasSessions = 'examDateHasSessions',
   ExamDateHasEvaluations = 'examDateHasEvaluations',
+  QuarantineInvalidSsn = 'quarantineInvalidSsn',
+  QuarantineMissingSsnAndBirthdate = 'quarantineMissingSsnAndBirthdate',
+  QuarantineSsnBirthdateMismatch = 'quarantineSsnBirthdateMismatch',
 }
