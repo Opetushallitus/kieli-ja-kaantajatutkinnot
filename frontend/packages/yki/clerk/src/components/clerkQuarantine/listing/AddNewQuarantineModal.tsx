@@ -9,11 +9,11 @@ import {
 } from '@mui/material';
 import { OphButton } from '@opetushallitus/oph-design-system';
 import { Dayjs } from 'dayjs';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { CustomDatePicker, CustomModal } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { H2, H3, Label } from 'ophTheme/Text';
 import {
@@ -22,6 +22,10 @@ import {
 } from 'redux/reducers/clerkQuarantine';
 import { clerkQuarantineSelector } from 'redux/selectors/clerkQuarantine';
 import { LANGUAGES } from 'utils/clerk';
+
+type FormErrors = {
+  birthdateInvalid: boolean;
+};
 
 type AddNewQuarantineModalProps = {
   isOpen: boolean;
@@ -38,10 +42,11 @@ export const AddNewQuarantineModal = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkQuarantine.activeQuarantines.modal',
   });
+  const translateCommon = useCommonTranslation();
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [birthdate, setBirthdate] = useState('');
+  const [birthdate, setBirthdate] = useState<Dayjs | null>(null);
   const [ssn, setSsn] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -49,11 +54,29 @@ export const AddNewQuarantineModal = ({
   const [startsAt, setStartsAt] = useState<Dayjs | null>(null);
   const [endsAt, setEndsAt] = useState<Dayjs | null>(null);
   const [caseNumber, setCaseNumber] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState<FormErrors>({ birthdateInvalid: false });
+
+  const validate = useCallback(
+    (): FormErrors => ({
+      birthdateInvalid: birthdate !== null && !birthdate.isValid(),
+    }),
+    [birthdate],
+  );
+
+  useEffect(() => {
+    if (submitted) {
+      const current = validate();
+      setErrors((prev) => ({
+        birthdateInvalid: prev.birthdateInvalid && current.birthdateInvalid,
+      }));
+    }
+  }, [submitted, validate]);
 
   const resetFields = () => {
     setFirstName('');
     setLastName('');
-    setBirthdate('');
+    setBirthdate(null);
     setSsn('');
     setEmail('');
     setPhoneNumber('');
@@ -61,6 +84,8 @@ export const AddNewQuarantineModal = ({
     setStartsAt(null);
     setEndsAt(null);
     setCaseNumber('');
+    setSubmitted(false);
+    setErrors({ birthdateInvalid: false });
   };
 
   const handleClose = () => {
@@ -82,11 +107,19 @@ export const AddNewQuarantineModal = ({
   }, [createStatus, onClose, dispatch]);
 
   const handleSubmit = () => {
+    const validationErrors = validate();
+    setErrors(validationErrors);
+    setSubmitted(true);
+
+    if (Object.values(validationErrors).some(Boolean)) {
+      return;
+    }
+
     dispatch(
       createClerkQuarantine({
         firstName,
         lastName,
-        ...(birthdate && { birthdate }),
+        ...(birthdate && { birthdate: birthdate.format('YYYY-MM-DD') }),
         ...(ssn && { ssn }),
         ...(email && { email }),
         ...(phoneNumber && { phoneNumber }),
@@ -175,10 +208,15 @@ export const AddNewQuarantineModal = ({
                 style={{ width: '180px', flexShrink: 0 }}
               >
                 <Label>{t('fields.birthdate')}</Label>
-                <TextField
+                <CustomDatePicker
                   value={birthdate}
-                  onChange={(e) => setBirthdate(e.target.value)}
-                  fullWidth
+                  setValue={setBirthdate}
+                  error={submitted && errors.birthdateInvalid}
+                  helperText={
+                    submitted && errors.birthdateInvalid
+                      ? translateCommon('errors.customTextField.dateFormat')
+                      : undefined
+                  }
                 />
               </div>
             </div>
