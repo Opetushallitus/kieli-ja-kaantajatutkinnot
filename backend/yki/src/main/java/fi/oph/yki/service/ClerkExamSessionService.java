@@ -81,8 +81,11 @@ public class ClerkExamSessionService {
       .registrationStartDate(examDate.getRegistrationStartDate())
       .registrationEndDate(examDate.getRegistrationEndDate())
       .maxParticipantsTotal(examSession.getMaxParticipants())
-      .maxParticipantsPartial1(examSession.getMaxParticipants())
-      .maxParticipantsPartial2(examSession.getMaxParticipants())
+      .maxParticipantsReadListen(examSession.getMaxParticipantsReadListen())
+      .maxParticipantsSpeakWrite(examSession.getMaxParticipantsSpeakWrite())
+      .startTime(examSession.getStartTime())
+      .startTimePart1(examSession.getStartTimePart1())
+      .startTimePart2(examSession.getStartTimePart2())
       .contactName(examSession.getContactName())
       .contactEmail(examSession.getContactEmail())
       .contactPhoneNumber(examSession.getContactPhoneNumber())
@@ -102,26 +105,39 @@ public class ClerkExamSessionService {
   public ClerkExamSessionDTO updateExamSession(final long examSessionId, final ClerkExamSessionUpdateDTO dto) {
     final ExamSession examSession = examSessionRepository.getReferenceById(examSessionId);
 
-    examSession.setLanguage(dto.language());
-    examSession.setLevel(dto.level());
-    examSession.setType(dto.type());
-    examSession.setMaxParticipants(dto.maxParticipantsTotal());
+    if (dto.language() != null) {
+      examSession.setLanguage(dto.language());
+    }
+    if (dto.level() != null) {
+      examSession.setLevel(dto.level());
+    }
 
-    final var existingLocations = examSession.getLocations();
-    existingLocations.clear();
-    if (dto.location() != null) {
-      for (final var locDto : dto.location()) {
-        final ExamSessionLocation loc = new ExamSessionLocation();
-        loc.setExamSession(examSession);
-        loc.setLang(locDto.lang() != null ? locDto.lang() : "fi");
-        loc.setStreetAddress(locDto.streetAddress());
-        loc.setZip(locDto.postalCode());
-        loc.setPostOffice(locDto.city());
-        loc.setName(locDto.name());
-        loc.setOtherLocationInfo(locDto.otherLocationInfo());
-        loc.setExtraInformation(locDto.extraInformation());
-        existingLocations.add(loc);
-      }
+    if (examSession.getType().equals(ExamSessionType.FULL)) {
+      examSession.setStartTime(dto.startTime());
+      examSession.setMaxParticipants(dto.maxParticipantsTotal());
+    } else {
+      examSession.setMaxParticipants(dto.maxParticipantsReadListen() + dto.maxParticipantsSpeakWrite());
+      examSession.setMaxParticipantsSpeakWrite(dto.maxParticipantsSpeakWrite());
+      examSession.setMaxParticipantsReadListen(dto.maxParticipantsReadListen());
+      examSession.setStartTimePart1(dto.startTimePart1());
+      examSession.setStartTimePart2(dto.startTimePart2());
+    }
+
+    if (dto.location() != null && !dto.location().isEmpty()) {
+      examSession
+        .getLocations()
+        .forEach(loc -> {
+          final var locDto = dto.location().stream().filter(l -> l.lang().equals(loc.getLang())).findFirst();
+
+          if (locDto.isPresent()) {
+            loc.setLang(locDto.get().lang());
+            loc.setStreetAddress(locDto.get().streetAddress());
+            loc.setZip(locDto.get().postalCode());
+            loc.setPostOffice(locDto.get().city());
+            loc.setOtherLocationInfo(locDto.get().otherLocationInfo());
+            loc.setExtraInformation(locDto.get().extraInformation());
+          }
+        });
     }
 
     examSession.setContactName(dto.contactName());
@@ -146,9 +162,14 @@ public class ClerkExamSessionService {
     examSession.setLevel(dto.level());
     examSession.setType(dto.type());
     if (dto.type().equals(ExamSessionType.FULL)) {
+      examSession.setStartTime(dto.startTime());
       examSession.setMaxParticipants(dto.maxParticipantsTotal());
     } else {
-      examSession.setMaxParticipants(dto.maxParticipantsPartial1() + dto.maxParticipantsPartial2());
+      examSession.setMaxParticipants(dto.maxParticipantsSpeakWrite() + dto.maxParticipantsReadListen());
+      examSession.setMaxParticipantsSpeakWrite(dto.maxParticipantsSpeakWrite());
+      examSession.setMaxParticipantsReadListen(dto.maxParticipantsReadListen());
+      examSession.setStartTimePart1(dto.startTimePart1());
+      examSession.setStartTimePart2(dto.startTimePart2());
     }
     examSession.setContactName(dto.contactName());
     examSession.setContactEmail(dto.contactEmail());

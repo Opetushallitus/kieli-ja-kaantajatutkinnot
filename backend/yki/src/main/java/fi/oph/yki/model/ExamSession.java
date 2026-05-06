@@ -51,11 +51,26 @@ public class ExamSession {
   @Column(name = "max_participants")
   private Integer maxParticipants;
 
+  @Column(name = "max_participants_read_listen")
+  private Integer maxParticipantsReadListen;
+
+  @Column(name = "max_participants_speak_write")
+  private Integer maxParticipantsSpeakWrite;
+
   @Column(name = "office_oid")
   private String officeOid;
 
   @Column(name = "published_at")
   private LocalDateTime publishedAt;
+
+  @Column(name = "start_time")
+  private String startTime;
+
+  @Column(name = "start_time_part1")
+  private String startTimePart1;
+
+  @Column(name = "start_time_part2")
+  private String startTimePart2;
 
   @Column(name = "contact_name")
   private String contactName;

@@ -1,3 +1,4 @@
+import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError, AxiosResponse } from 'axios';
 import dayjs from 'dayjs';
 import { call, put, takeLatest } from 'redux-saga/effects';
@@ -26,12 +27,15 @@ import {
 } from 'redux/reducers/examDate';
 import { NotifierUtils } from 'utils/notifier';
 
-function* loadExamDatesSaga() {
+function* loadExamDatesSaga(action: PayloadAction<boolean>) {
   const t = translateOutsideComponent();
+  const getFutureDates = action.payload;
   try {
     const response: AxiosResponse<ExamDateResponse[]> = yield call(
       axiosInstance.get,
-      `${APIEndpoints.ClerkExamDate}/all`,
+      getFutureDates
+        ? `${APIEndpoints.ClerkExamDate}`
+        : `${APIEndpoints.ClerkExamDate}/all`,
     );
 
     const examDates: ExamDate[] = response.data.map((ed) => ({
@@ -56,7 +60,7 @@ function* addExamDateSaga(action: ReturnType<typeof addExamDate>) {
   try {
     yield call(axiosInstance.post, APIEndpoints.ClerkExamDate, action.payload);
     yield put(storeAddExamDate());
-    yield put(loadExamDates());
+    yield put(loadExamDates(false));
   } catch (error) {
     yield put(rejectAddExamDate());
 
@@ -77,7 +81,7 @@ function* updateExamDateSaga(action: ReturnType<typeof updateExamDate>) {
       action.payload,
     );
     yield put(storeUpdateExamDate());
-    yield put(loadExamDates());
+    yield put(loadExamDates(false));
   } catch (error) {
     yield put(rejectUpdateExamDate());
 
@@ -99,7 +103,7 @@ function* saveEvaluationSaga(action: ReturnType<typeof saveEvaluation>) {
       body,
     );
     yield put(storeSaveEvaluation());
-    yield put(loadExamDates());
+    yield put(loadExamDates(false));
   } catch (error) {
     yield put(rejectSaveEvaluation());
 
@@ -119,7 +123,7 @@ function* deleteExamDateSaga(action: ReturnType<typeof deleteExamDate>) {
       `${APIEndpoints.ClerkExamDate}/${action.payload}`,
     );
     yield put(storeDeleteExamDate());
-    yield put(loadExamDates());
+    yield put(loadExamDates(false));
   } catch (error) {
     yield put(rejectDeleteExamDate());
 

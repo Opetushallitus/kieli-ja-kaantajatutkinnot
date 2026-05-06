@@ -208,6 +208,12 @@
           "downloadExcel": "Lataa excel",
           "edit": "Muokkaa"
         },
+        "maxParticipants": {
+          "maxParticipantsReading": "Tekstin ymmärtäminen: {{count}}",
+          "maxParticipantsSpeaking": "Puhuminen: {{count}}",
+          "maxParticipantsSpeech": "Puheen ymmärtäminen: {{count}}",
+          "maxParticipantsWriting": "Kirjoittaminen: {{count}}"
+        },
         "modals": {
           "cancel": {
             "subTitle": "Haluatko varmasti peruuttaa ilmoittautumisen?",
@@ -231,6 +237,9 @@
               "maxParticipants": "Osallistujien enimmäismäärä",
               "maxParticipantsPart1": "Osakoe 1: enimmäismäärä",
               "maxParticipantsPart2": "Osakoe 2: enimmäismäärä",
+              "startTime": "Alkamisaika",
+              "startTimePart1": "Osakoe 1: alkamisaika",
+              "startTimePart2": "Osakoe 2: alkamisaika",
               "postalCode": "Postinumero",
               "streetAddress": "Katuosoite",
               "type": "Tutkintotyyppi",
@@ -239,6 +248,9 @@
                 "LISTEN_WRITE": "Kuunteleminen ja kirjoittaminen",
                 "READ_SPEAK": "Lukeminen ja puhuminen"
               }
+            },
+            "errors": {
+              "required": "Tieto on pakollinen"
             },
             "contactHeading": "Yhteystiedot",
             "extraInformationHeading": "Lisätiedot",

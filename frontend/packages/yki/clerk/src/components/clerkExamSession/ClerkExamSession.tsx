@@ -15,7 +15,7 @@ export const ClerkExamSession = () => {
   const { examDates } = useAppSelector(examDateSelector);
 
   useEffect(() => {
-    dispatch(loadExamDates());
+    dispatch(loadExamDates(false));
 
     return () => {
       dispatch(resetClerkExamSession());
