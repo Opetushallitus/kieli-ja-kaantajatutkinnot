@@ -81,8 +81,11 @@ public class ClerkExamSessionService {
       .registrationStartDate(examDate.getRegistrationStartDate())
       .registrationEndDate(examDate.getRegistrationEndDate())
       .maxParticipantsTotal(examSession.getMaxParticipants())
-      .maxParticipantsPartial1(examSession.getMaxParticipants())
-      .maxParticipantsPartial2(examSession.getMaxParticipants())
+      .maxParticipantsReadListen(examSession.getMaxParticipantsReadListen())
+      .maxParticipantsSpeakWrite(examSession.getMaxParticipantsSpeakWrite())
+      .startTime(examSession.getStartTime())
+      .startTimePart1(examSession.getStartTimePart1())
+      .startTimePart2(examSession.getStartTimePart2())
       .contactName(examSession.getContactName())
       .contactEmail(examSession.getContactEmail())
       .contactPhoneNumber(examSession.getContactPhoneNumber())
@@ -109,10 +112,16 @@ public class ClerkExamSessionService {
       examSession.setLevel(dto.level());
     }
 
-    examSession.setMaxParticipants(dto.maxParticipantsTotal());
-    examSession.setStartTime(dto.startTime());
-    examSession.setStartTimePart1(dto.startTimePart1());
-    examSession.setStartTimePart2(dto.startTimePart2());
+    if (examSession.getType().equals(ExamSessionType.FULL)) {
+      examSession.setStartTime(dto.startTime());
+      examSession.setMaxParticipants(dto.maxParticipantsTotal());
+    } else {
+      examSession.setMaxParticipants(dto.maxParticipantsReadListen() + dto.maxParticipantsSpeakWrite());
+      examSession.setMaxParticipantsSpeakWrite(dto.maxParticipantsSpeakWrite());
+      examSession.setMaxParticipantsReadListen(dto.maxParticipantsReadListen());
+      examSession.setStartTimePart1(dto.startTimePart1());
+      examSession.setStartTimePart2(dto.startTimePart2());
+    }
 
     if (dto.location() != null && !dto.location().isEmpty()) {
       examSession
@@ -156,7 +165,9 @@ public class ClerkExamSessionService {
       examSession.setStartTime(dto.startTime());
       examSession.setMaxParticipants(dto.maxParticipantsTotal());
     } else {
-      examSession.setMaxParticipants(dto.maxParticipantsPartial1() + dto.maxParticipantsPartial2());
+      examSession.setMaxParticipants(dto.maxParticipantsSpeakWrite() + dto.maxParticipantsReadListen());
+      examSession.setMaxParticipantsSpeakWrite(dto.maxParticipantsSpeakWrite());
+      examSession.setMaxParticipantsReadListen(dto.maxParticipantsReadListen());
       examSession.setStartTimePart1(dto.startTimePart1());
       examSession.setStartTimePart2(dto.startTimePart2());
     }

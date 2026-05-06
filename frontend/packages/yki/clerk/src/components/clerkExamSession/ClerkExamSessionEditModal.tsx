@@ -145,6 +145,7 @@ export const ClerkExamSessionEditModal = ({
 
   const setOfficeOid = (office: ComboBoxOption | null) => {
     setSelectedOfficeOid(office);
+    updateField('officeOid', office?.value ?? '');
     ['fi', 'en', 'sv'].map((lang) => {
       updateLocationField(
         lang as ShortLang,
@@ -162,11 +163,11 @@ export const ClerkExamSessionEditModal = ({
     maxParticipantsTotal: String(
       examSessionDetails?.maxParticipantsTotal ?? '',
     ),
-    maxParticipantsPartial1: String(
-      examSessionDetails?.maxParticipantsPartial1 ?? '',
+    maxParticipantsReadListen: String(
+      examSessionDetails?.maxParticipantsReadListen ?? '',
     ),
-    maxParticipantsPartial2: String(
-      examSessionDetails?.maxParticipantsPartial2 ?? '',
+    maxParticipantsSpeakWrite: String(
+      examSessionDetails?.maxParticipantsSpeakWrite ?? '',
     ),
     startTime: examSessionDetails?.startTime ?? '',
     startTimePart1: examSessionDetails?.startTimePart1 ?? '',
@@ -188,7 +189,7 @@ export const ClerkExamSessionEditModal = ({
     contactName: examSessionDetails?.contactName ?? '',
     contactEmail: examSessionDetails?.contactEmail ?? '',
     contactPhoneNumber: examSessionDetails?.contactPhoneNumber ?? '',
-    officeOid: selectedOfficeOid,
+    officeOid: examSessionDetails?.officeOid ?? '',
   });
 
   const filteredExamDates = examDates.filter(
@@ -251,7 +252,7 @@ export const ClerkExamSessionEditModal = ({
       examDateId: mode !== 'edit-partial' && !form.examDateId,
       maxParticipants: isFull
         ? !form.maxParticipantsTotal
-        : !form.maxParticipantsPartial1 || !form.maxParticipantsPartial2,
+        : !form.maxParticipantsReadListen || !form.maxParticipantsSpeakWrite,
       startTime: isFull
         ? !form.startTime
         : !form.startTimePart1 || !form.startTimePart2,
@@ -480,9 +481,9 @@ export const ClerkExamSessionEditModal = ({
             <div className="columns gapped">
               <OphInputFormField
                 label={t('fields.maxParticipantsPart1')}
-                value={form.maxParticipantsPartial1}
+                value={form.maxParticipantsReadListen}
                 onChange={(e) =>
-                  updateField('maxParticipantsPartial1', e.target.value)
+                  updateField('maxParticipantsReadListen', e.target.value)
                 }
                 type="number"
                 disabled={isSaving}
@@ -510,9 +511,9 @@ export const ClerkExamSessionEditModal = ({
             <div className="columns gapped">
               <OphInputFormField
                 label={t('fields.maxParticipantsPart2')}
-                value={form.maxParticipantsPartial2}
+                value={form.maxParticipantsSpeakWrite}
                 onChange={(e) =>
-                  updateField('maxParticipantsPartial2', e.target.value)
+                  updateField('maxParticipantsSpeakWrite', e.target.value)
                 }
                 type="number"
                 disabled={isSaving}

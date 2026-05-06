@@ -51,6 +51,12 @@ public class ExamSession {
   @Column(name = "max_participants")
   private Integer maxParticipants;
 
+  @Column(name = "max_participants_read_listen")
+  private Integer maxParticipantsReadListen;
+
+  @Column(name = "max_participants_speak_write")
+  private Integer maxParticipantsSpeakWrite;
+
   @Column(name = "office_oid")
   private String officeOid;
 

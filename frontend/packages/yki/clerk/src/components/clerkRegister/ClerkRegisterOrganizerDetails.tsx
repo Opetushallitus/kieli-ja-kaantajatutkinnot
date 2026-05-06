@@ -93,7 +93,10 @@ export const ClerkRegisterOrganizerDetails = ({
     key: 'session_date',
     title: t('examSessionListing.header.sessionDate'),
     render: (rowProps) => (
-      <span>{rowProps.session_date.format('D.M.YYYY')}</span>
+      // TODO use proper url and navigateTo
+      <a href={'/yki/v2/virkailija/tilaisuus/' + rowProps.id}>
+        <span>{rowProps.session_date.format('D.M.YYYY')}</span>
+      </a>
     ),
   });
 

@@ -203,6 +203,12 @@
           "downloadExcel": "Lataa excel",
           "edit": "Muokkaa"
         },
+        "maxParticipants": {
+          "maxParticipantsReading": "Tekstin ymmärtäminen: {{count}}",
+          "maxParticipantsSpeaking": "Puhuminen: {{count}}",
+          "maxParticipantsSpeech": "Puheen ymmärtäminen: {{count}}",
+          "maxParticipantsWriting": "Kirjoittaminen: {{count}}"
+        },
         "modals": {
           "cancel": {
             "subTitle": "Haluatko varmasti peruuttaa ilmoittautumisen?",
