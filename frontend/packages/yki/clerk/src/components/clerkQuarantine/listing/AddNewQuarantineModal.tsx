@@ -125,6 +125,7 @@ export const AddNewQuarantineModal = ({
       }
     >
       <div
+        data-testid="add-quarantine-modal"
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -142,6 +143,7 @@ export const AddNewQuarantineModal = ({
 
             <div className="columns gapped">
               <div
+                data-testid="add-quarantine-first-name"
                 className="rows gapped-xxs"
                 style={{ width: '180px', flexShrink: 0 }}
               >
@@ -152,7 +154,11 @@ export const AddNewQuarantineModal = ({
                   fullWidth
                 />
               </div>
-              <div className="rows gapped-xxs" style={{ flex: 1 }}>
+              <div
+                data-testid="add-quarantine-last-name"
+                className="rows gapped-xxs"
+                style={{ flex: 1 }}
+              >
                 <Label>{t('fields.lastName')} *</Label>
                 <TextField
                   value={lastName}
@@ -164,6 +170,7 @@ export const AddNewQuarantineModal = ({
 
             <div className="columns gapped">
               <div
+                data-testid="add-quarantine-birthdate"
                 className="rows gapped-xxs"
                 style={{ width: '180px', flexShrink: 0 }}
               >
@@ -178,6 +185,7 @@ export const AddNewQuarantineModal = ({
 
             <div className="columns gapped">
               <div
+                data-testid="add-quarantine-ssn"
                 className="rows gapped-xxs"
                 style={{ width: '180px', flexShrink: 0 }}
               >
@@ -190,7 +198,7 @@ export const AddNewQuarantineModal = ({
               </div>
             </div>
 
-            <div className="rows gapped-xxs">
+            <div data-testid="add-quarantine-email" className="rows gapped-xxs">
               <Label>{t('fields.email')} *</Label>
               <TextField
                 value={email}
@@ -200,7 +208,7 @@ export const AddNewQuarantineModal = ({
               />
             </div>
 
-            <div className="rows gapped-xxs">
+            <div data-testid="add-quarantine-phone" className="rows gapped-xxs">
               <Label>{t('fields.phoneNumber')} *</Label>
               <TextField
                 value={phoneNumber}
@@ -231,6 +239,7 @@ export const AddNewQuarantineModal = ({
 
             <div className="columns gapped" style={{ alignItems: 'flex-end' }}>
               <div
+                data-testid="add-quarantine-start-date"
                 className="rows gapped-xxs"
                 style={{ width: '180px', flexShrink: 0 }}
               >
@@ -238,13 +247,20 @@ export const AddNewQuarantineModal = ({
                 <CustomDatePicker value={startsAt} setValue={setStartsAt} />
               </div>
               <Typography style={{ paddingBottom: '8px' }}>—</Typography>
-              <div className="rows gapped-xxs" style={{ flex: 1 }}>
+              <div
+                data-testid="add-quarantine-end-date"
+                className="rows gapped-xxs"
+                style={{ flex: 1 }}
+              >
                 <Label>{t('fields.endsAt')} *</Label>
                 <CustomDatePicker value={endsAt} setValue={setEndsAt} />
               </div>
             </div>
 
-            <div className="rows gapped-xxs">
+            <div
+              data-testid="add-quarantine-case-number"
+              className="rows gapped-xxs"
+            >
               <Label>{t('fields.caseNumber')} *</Label>
               <TextField
                 value={caseNumber}
