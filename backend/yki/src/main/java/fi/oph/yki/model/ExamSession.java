@@ -66,11 +66,11 @@ public class ExamSession {
   @Column(name = "start_time")
   private String startTime;
 
-  @Column(name = "start_time_part1")
-  private String startTimePart1;
+  @Column(name = "start_time_read_listen")
+  private String startTimeReadListen;
 
-  @Column(name = "start_time_part2")
-  private String startTimePart2;
+  @Column(name = "start_time_speak_write")
+  private String startTimeSpeakWrite;
 
   @Column(name = "contact_name")
   private String contactName;

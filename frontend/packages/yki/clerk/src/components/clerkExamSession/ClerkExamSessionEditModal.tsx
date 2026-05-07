@@ -172,8 +172,8 @@ export const ClerkExamSessionEditModal = ({
       examSessionDetails?.maxParticipantsSpeakWrite ?? '',
     ),
     startTime: examSessionDetails?.startTime ?? '',
-    startTimePart1: examSessionDetails?.startTimePart1 ?? '',
-    startTimePart2: examSessionDetails?.startTimePart2 ?? '',
+    startTimeReadListen: examSessionDetails?.startTimeReadListen ?? '',
+    startTimeSpeakWrite: examSessionDetails?.startTimeSpeakWrite ?? '',
     location: (['fi', 'sv', 'en'] as const).map((lang) => {
       const loc = examSessionDetails?.location.find((l) => l.lang === lang);
 
@@ -257,7 +257,7 @@ export const ClerkExamSessionEditModal = ({
         : !form.maxParticipantsReadListen || !form.maxParticipantsSpeakWrite,
       startTime: isFull
         ? !form.startTime
-        : !form.startTimePart1 || !form.startTimePart2,
+        : !form.startTimeReadListen || !form.startTimeSpeakWrite,
       streetAddress: !loc?.streetAddress,
       postalCode: !loc?.postalCode,
       city: !loc?.city,
@@ -497,9 +497,11 @@ export const ClerkExamSessionEditModal = ({
                 }
               />
               <OphInputFormField
-                label={t('fields.startTimePart1')}
-                value={form.startTimePart1}
-                onChange={(e) => updateField('startTimePart1', e.target.value)}
+                label={t('fields.startTimeReadListen')}
+                value={form.startTimeReadListen}
+                onChange={(e) =>
+                  updateField('startTimeReadListen', e.target.value)
+                }
                 type="time"
                 disabled={isSaving}
                 error={submitted && errors.startTime}
@@ -527,9 +529,11 @@ export const ClerkExamSessionEditModal = ({
                 }
               />
               <OphInputFormField
-                label={t('fields.startTimePart2')}
-                value={form.startTimePart2}
-                onChange={(e) => updateField('startTimePart2', e.target.value)}
+                label={t('fields.startTimeSpeakWrite')}
+                value={form.startTimeSpeakWrite}
+                onChange={(e) =>
+                  updateField('startTimeSpeakWrite', e.target.value)
+                }
                 type="time"
                 disabled={isSaving}
                 error={submitted && errors.startTime}

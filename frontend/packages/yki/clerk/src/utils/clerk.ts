@@ -141,7 +141,7 @@ export const getExamSessionStartTimesDescription = (
     : t('yki.common.examSessionTimes.partialSessionTime', {
         partialExam1: getExamPartialType1(examSession.type),
         partialExam2: getExamPartialType2(examSession.type),
-        time1: examSession.startTimePart1,
-        time2: examSession.startTimePart2,
+        time1: examSession.startTimeReadListen,
+        time2: examSession.startTimeSpeakWrite,
       });
 };

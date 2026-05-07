@@ -254,8 +254,8 @@
     <changeSet id="2026-05-05-add-exam-session-start-times" author="jrkkp">
         <addColumn tableName="exam_session">
             <column name="start_time" type="TEXT"/>
-            <column name="start_time_part1" type="TEXT"/>
-            <column name="start_time_part2" type="TEXT"/>
+            <column name="start_time_read_listen" type="TEXT"/>
+            <column name="start_time_speak_write" type="TEXT"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>

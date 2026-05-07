@@ -84,8 +84,8 @@ public class ClerkExamSessionService {
       .maxParticipantsReadListen(examSession.getMaxParticipantsReadListen())
       .maxParticipantsSpeakWrite(examSession.getMaxParticipantsSpeakWrite())
       .startTime(examSession.getStartTime())
-      .startTimePart1(examSession.getStartTimePart1())
-      .startTimePart2(examSession.getStartTimePart2())
+      .startTimeReadListen(examSession.getStartTimeReadListen())
+      .startTimeSpeakWrite(examSession.getStartTimeSpeakWrite())
       .contactName(examSession.getContactName())
       .contactEmail(examSession.getContactEmail())
       .contactPhoneNumber(examSession.getContactPhoneNumber())
@@ -119,8 +119,8 @@ public class ClerkExamSessionService {
       examSession.setMaxParticipants(dto.maxParticipantsReadListen() + dto.maxParticipantsSpeakWrite());
       examSession.setMaxParticipantsSpeakWrite(dto.maxParticipantsSpeakWrite());
       examSession.setMaxParticipantsReadListen(dto.maxParticipantsReadListen());
-      examSession.setStartTimePart1(dto.startTimePart1());
-      examSession.setStartTimePart2(dto.startTimePart2());
+      examSession.setStartTimeReadListen(dto.startTimeReadListen());
+      examSession.setStartTimeSpeakWrite(dto.startTimeSpeakWrite());
     }
 
     if (dto.location() != null && !dto.location().isEmpty()) {
@@ -168,8 +168,8 @@ public class ClerkExamSessionService {
       examSession.setMaxParticipants(dto.maxParticipantsSpeakWrite() + dto.maxParticipantsReadListen());
       examSession.setMaxParticipantsSpeakWrite(dto.maxParticipantsSpeakWrite());
       examSession.setMaxParticipantsReadListen(dto.maxParticipantsReadListen());
-      examSession.setStartTimePart1(dto.startTimePart1());
-      examSession.setStartTimePart2(dto.startTimePart2());
+      examSession.setStartTimeReadListen(dto.startTimeReadListen());
+      examSession.setStartTimeSpeakWrite(dto.startTimeSpeakWrite());
     }
     examSession.setContactName(dto.contactName());
     examSession.setContactEmail(dto.contactEmail());
