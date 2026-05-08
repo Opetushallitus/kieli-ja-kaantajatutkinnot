@@ -166,7 +166,7 @@ export class ExamSessionUtils {
     return true;
   }
 
-  static getPartialExanTypeText(
+  static getPartialExamTypeText(
     examSessionType: ExamSessionType,
     partialExamType?: PartialExamType,
   ) {
@@ -174,31 +174,33 @@ export class ExamSessionUtils {
       return '';
     }
 
+    const t = translateOutsideComponent();
+
     if (examSessionType === 'FULL') {
-      return 'Kaikki osakokeet: tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen';
+      return t('yki.component.examSessionCard.examType.full');
     }
 
     if (examSessionType === 'LISTEN_WRITE') {
       if (partialExamType === 'ALL_PARTS') {
-        return 'Puheen ymmärtäminen ja kirjoittaminen';
+        return t('yki.component.examSessionCard.examType.listenWrite');
       }
       if (partialExamType === 'LISTEN') {
-        return 'Puheen ymmärtäminen';
+        return t('yki.component.examSessionCard.examType.listen');
       }
       if (partialExamType === 'WRITE') {
-        return 'Kirjoittaminen';
+        return t('yki.component.examSessionCard.examType.write');
       }
     }
 
     if (examSessionType === 'READ_SPEAK') {
       if (partialExamType === 'ALL_PARTS') {
-        return 'Tekstin ymmärtäminen ja puhuminen';
+        return t('yki.component.examSessionCard.examType.readSpeak');
       }
       if (partialExamType === 'READ') {
-        return 'Tekstin ymmärtäminen';
+        return t('yki.component.examSessionCard.examType.read');
       }
       if (partialExamType === 'SPEAK') {
-        return 'Puhuminen';
+        return t('yki.component.examSessionCard.examType.speak');
       }
     }
   }

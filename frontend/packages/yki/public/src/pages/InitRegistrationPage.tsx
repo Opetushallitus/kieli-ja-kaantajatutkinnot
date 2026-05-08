@@ -63,8 +63,6 @@ export const InitRegistrationPage = () => {
     }
 
     return () => {
-      // eslint-disable-next-line no-console
-      console.log('reset registration and identification state');
       dispatch(resetPublicIdentificationState());
       dispatch(resetPublicRegistration());
     };
@@ -82,8 +80,6 @@ export const InitRegistrationPage = () => {
       examSession?.id !== idFromParams
     ) {
       // Fetch exam details
-      // eslint-disable-next-line no-console
-      console.log('fetching exam session details with id', idFromParams);
       dispatch(loadExamSession(idFromParams));
     } else if (
       status === APIResponseStatus.Error ||
@@ -105,12 +101,6 @@ export const InitRegistrationPage = () => {
       (initRegistrationState.status === APIResponseStatus.NotStarted ||
         initRegistrationState.examSessionId !== idFromParams)
     ) {
-      // eslint-disable-next-line no-console
-      console.log(
-        'InitRegistrationPage useEffect',
-        initRegistrationState,
-        examSession,
-      );
       // Ensure registration init endpoint gets called, even if navigating to the page directly by URL.
       // This is necessary to accurately infer if user can enroll to exam proper or if they must enroll to queue instead.
       dispatch(

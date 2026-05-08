@@ -48,15 +48,6 @@ export const ExamDetailsPage = ({
   }, [dispatch]);
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('ExamDetailsPage useEffect', {
-      status,
-      initRegistrationStatus: initRegistration.status,
-      examSessionId: examSession?.id,
-      paramsExamSessionId: params.examSessionId,
-      registrationId: params.registrationId,
-      searchParams: Object.fromEntries(searchParams.entries()),
-    });
     if (
       status === APIResponseStatus.NotStarted &&
       !examSession?.id &&
@@ -64,8 +55,6 @@ export const ExamDetailsPage = ({
       params.registrationId
     ) {
       if (searchParams.get('submitted')) {
-        // eslint-disable-next-line no-console
-        console.log('initRegistrationState SUBMITTED');
         // If form is already submitted, just reload exam session details
         // and manually set registration status to submitted.
         const code = searchParams.get('code');
@@ -84,12 +73,6 @@ export const ExamDetailsPage = ({
         );
       } else {
         // Else attempt to initiate registration.
-        // eslint-disable-next-line no-console
-        console.log('Dispatching identifyRegistration with', {
-          examSessionId: +params.examSessionId,
-          registrationKind,
-          registrationId: +params.registrationId,
-        });
         dispatch(
           identifyRegistration({
             examSessionId: +params.examSessionId,

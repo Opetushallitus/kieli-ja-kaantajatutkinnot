@@ -299,7 +299,7 @@ const Registrations: FC<RegistrationsProps> = ({
         <div>
           <Text className="bold">{t('partialExams.label')}</Text>
           <Text>
-            {ExamSessionUtils.getPartialExanTypeText(r.type, r.partialExamType)}
+            {ExamSessionUtils.getPartialExamTypeText(r.type, r.partialExamType)}
           </Text>
         </div>
         <div>

@@ -117,7 +117,7 @@ export const PublicRegistrationExamSessionDetails = ({
         <Text>
           {`${translateCommon('partialExams')}: `}
           <b>
-            {ExamSessionUtils.getPartialExanTypeText(
+            {ExamSessionUtils.getPartialExamTypeText(
               examSession.type,
               initRegistration.partialExamType,
             )}
