@@ -205,8 +205,12 @@ export class ExamSessionUtils {
 
   static getStartTime(
     examSession: ExamSession,
-    partialExamType: PartialExamType,
+    partialExamType?: PartialExamType,
   ) {
+    if (!partialExamType) {
+      return '';
+    }
+
     if (examSession.type === 'LISTEN_WRITE') {
       if (partialExamType === 'LISTEN') {
         return examSession.start_time_read_listen;

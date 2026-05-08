@@ -156,7 +156,7 @@
         "userDetails": "Omat ilmoittautumiset"
       },
       "partialExams": "Osakokeet",
-      "partialExamTime": "klo 17:30",
+      "partialExamTime": "klo {{startTime}}",
       "partialExamTimeLabel": "Testin alkamisaika",
       "phoneNumber": "Puhelinnumero",
       "placesAvailable": "Paikkoja vapaana",

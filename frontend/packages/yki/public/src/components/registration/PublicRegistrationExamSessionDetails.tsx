@@ -130,7 +130,15 @@ export const PublicRegistrationExamSessionDetails = ({
 
         <Text>
           {`${translateCommon('partialExamTimeLabel')}: `}
-          <b>{translateCommon('partialExamTime')}</b>
+          <b>
+            {translateCommon('partialExamTime', {
+              startTime:
+                ExamSessionUtils.getStartTime(
+                  examSession,
+                  initRegistration.partialExamType,
+                ) || '',
+            })}
+          </b>
         </Text>
 
         <Text>

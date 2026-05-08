@@ -9,8 +9,10 @@ export const examSessions: ExamSessionsResponse = {
       language_code: ExamLanguage.FIN,
       open: true,
       upcoming_admission: true,
-      participants: 15,
+      participants: 10,
       max_participants: 15,
+      start_time_read_listen: '09:00',
+      start_time_speak_write: '13:00',
       queue: 0,
       contact: [
         {
@@ -54,7 +56,7 @@ export const examSessions: ExamSessionsResponse = {
       ],
       exam_fee: 200,
       registration_end_date: '2030-12-31',
-      available_registration_kind: RegistrationKind.Queue,
+      available_registration_kind: RegistrationKind.Admission,
     },
     {
       type: 'LISTEN_WRITE',
@@ -62,8 +64,10 @@ export const examSessions: ExamSessionsResponse = {
       language_code: ExamLanguage.FIN,
       open: false,
       upcoming_admission: false,
-      participants: 15,
+      participants: 10,
       max_participants: 15,
+      start_time_read_listen: '08:00',
+      start_time_speak_write: '12:00',
       queue: 0,
       contact: [
         {
@@ -107,7 +111,7 @@ export const examSessions: ExamSessionsResponse = {
       ],
       exam_fee: 200,
       registration_end_date: '2023-01-03',
-      available_registration_kind: RegistrationKind.Queue,
+      available_registration_kind: RegistrationKind.Admission,
     },
     {
       type: 'FULL',
@@ -117,6 +121,7 @@ export const examSessions: ExamSessionsResponse = {
       upcoming_admission: true,
       participants: 15,
       max_participants: 15,
+      start_time: '09:00',
       queue: 0,
       contact: [
         {
@@ -170,6 +175,7 @@ export const examSessions: ExamSessionsResponse = {
       upcoming_admission: true,
       participants: 0,
       max_participants: 50,
+      start_time: '09:00',
       queue: 0,
       contact: [
         {
@@ -224,6 +230,7 @@ export const examSessions: ExamSessionsResponse = {
       participants: 0,
       max_participants: 20,
       queue: 0,
+      start_time: '09:00',
       contact: [
         {
           name: 'Contact Person',
@@ -279,6 +286,7 @@ export const examSessions: ExamSessionsResponse = {
       participants: 24,
       max_participants: 25,
       queue: 0,
+      start_time: '09:00',
       contact: [
         {
           email: 'contact.person@testi.invalid',
@@ -331,6 +339,7 @@ export const examSessions: ExamSessionsResponse = {
       upcoming_admission: true,
       participants: 10,
       max_participants: 10,
+      start_time: '09:00',
       contact: [
         {
           email: 'contact.person@testi.invalid',
@@ -383,6 +392,7 @@ export const examSessions: ExamSessionsResponse = {
       upcoming_admission: true,
       participants: 20,
       max_participants: 20,
+      start_time: '09:00',
       contact: [
         {
           email: 'contact.person@testi.invalid',
@@ -435,6 +445,7 @@ export const examSessions: ExamSessionsResponse = {
       upcoming_admission: true,
       participants: 20,
       max_participants: 20,
+      start_time: '09:00',
       contact: [
         {
           email: 'contact.person@testi.invalid',
@@ -487,6 +498,7 @@ export const examSessions: ExamSessionsResponse = {
       upcoming_admission: false,
       participants: 10,
       max_participants: 20,
+      start_time: '09:00',
       contact: [
         {
           name: 'Contact Person',
@@ -541,6 +553,7 @@ export const examSessions: ExamSessionsResponse = {
       upcoming_admission: true,
       participants: 10,
       max_participants: 20,
+      start_time: '09:00',
       contact: [
         {
           name: 'Contact Person',
@@ -595,6 +608,7 @@ export const examSessions: ExamSessionsResponse = {
       upcoming_admission: true,
       participants: 3,
       max_participants: 20,
+      start_time: '09:00',
       contact: [
         {
           name: 'Contact Person',
@@ -649,6 +663,7 @@ export const examSessions: ExamSessionsResponse = {
       upcoming_admission: true,
       participants: 1,
       max_participants: 20,
+      start_time: '09:00',
       contact: [
         {
           name: 'Contact Person',
