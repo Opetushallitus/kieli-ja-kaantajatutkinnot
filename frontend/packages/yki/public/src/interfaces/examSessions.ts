@@ -55,6 +55,11 @@ export type ExamSession = WithIdType & {
   start_time_read_listen?: string;
   start_time_speak_write?: string;
   max_participants: number;
+  max_participants_read_listen?: number;
+  max_participants_speak_write?: number;
+  participants: number;
+  participants_read_listen?: number;
+  participants_speak_write?: number;
   published_at: string;
   location: Array<ExamSessionLocation>;
   exam_fee: number;
@@ -65,7 +70,6 @@ export type ExamSession = WithIdType & {
   open?: boolean;
   queue?: number;
   queue_full?: boolean;
-  participants: number;
   registration_start_date: Dayjs;
   registration_end_date: Dayjs;
   upcoming_admission?: boolean;

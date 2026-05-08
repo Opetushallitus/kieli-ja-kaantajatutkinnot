@@ -39,7 +39,10 @@ export const PublicRegistrationExamSessionDetails = ({
   }
 
   const { availablePlaces, start, end } =
-    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(
+      examSession,
+      initRegistration.partialExamType,
+    );
 
   const header = ExamSessionUtils.languageAndLevelText(examSession);
   const location = ExamSessionUtils.getLocationInfo(

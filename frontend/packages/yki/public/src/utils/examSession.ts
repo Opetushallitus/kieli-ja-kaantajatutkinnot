@@ -12,20 +12,63 @@ import { PartialExamType } from 'interfaces/publicRegistration';
 import { AuthenticatedSession } from 'interfaces/session';
 
 export class ExamSessionUtils {
-  private static getRegistrationAvailablePlaces(examSession: ExamSession) {
+  private static getRegistrationAvailablePlaces(
+    examSession: ExamSession,
+    partialExamType?: PartialExamType,
+  ) {
+    if (examSession.type === 'READ_SPEAK') {
+      if (partialExamType === 'READ') {
+        return Math.max(
+          (examSession.max_participants_read_listen ?? 0) -
+            (examSession.participants_read_listen ?? 0),
+          0,
+        );
+      }
+      if (partialExamType === 'SPEAK' || partialExamType === 'ALL_PARTS') {
+        return Math.max(
+          (examSession.max_participants_speak_write ?? 0) -
+            (examSession.participants_speak_write ?? 0),
+          0,
+        );
+      }
+    } else if (examSession.type === 'LISTEN_WRITE') {
+      if (partialExamType === 'LISTEN') {
+        return Math.max(
+          (examSession.max_participants_read_listen ?? 0) -
+            (examSession.participants_read_listen ?? 0),
+          0,
+        );
+      }
+      if (partialExamType === 'WRITE' || partialExamType === 'ALL_PARTS') {
+        return Math.max(
+          (examSession.max_participants_speak_write ?? 0) -
+            (examSession.participants_speak_write ?? 0),
+          0,
+        );
+      }
+    }
+
     return Math.max(examSession.max_participants - examSession.participants, 0);
   }
 
-  static getAvailablePlaces(examSession: ExamSession) {
+  static getAvailablePlaces(
+    examSession: ExamSession,
+    partialExamType?: PartialExamType,
+  ) {
     if (!examSession.upcoming_admission || examSession.queue) {
       return 0;
     } else {
-      return ExamSessionUtils.getRegistrationAvailablePlaces(examSession);
+      return ExamSessionUtils.getRegistrationAvailablePlaces(
+        examSession,
+        partialExamType,
+      );
     }
   }
 
-  static hasRoom(examSession: ExamSession) {
-    return ExamSessionUtils.getAvailablePlaces(examSession) > 0;
+  static hasRoom(examSession: ExamSession, partialExamType?: PartialExamType) {
+    return (
+      ExamSessionUtils.getAvailablePlaces(examSession, partialExamType) > 0
+    );
   }
 
   private static compareExamSessionsByAdmissionAvailability(
@@ -122,14 +165,20 @@ export class ExamSessionUtils {
     return locationData as ExamSessionLocation;
   }
 
-  static getEffectiveRegistrationPeriodDetails(examSession: ExamSession) {
+  static getEffectiveRegistrationPeriodDetails(
+    examSession: ExamSession,
+    partialExamType?: PartialExamType,
+  ) {
     return {
       kind: examSession.available_registration_kind,
       start: examSession.registration_start_date,
       end: examSession.registration_end_date,
       participants: examSession.participants,
       quota: examSession.max_participants,
-      availablePlaces: ExamSessionUtils.getAvailablePlaces(examSession),
+      availablePlaces: ExamSessionUtils.getAvailablePlaces(
+        examSession,
+        partialExamType,
+      ),
       open: examSession.open,
       queue: examSession.queue,
     };

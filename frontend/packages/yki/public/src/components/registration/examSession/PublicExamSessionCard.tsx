@@ -141,13 +141,6 @@ const getTableBody = ({
     ? `0 / ${examSession.exam_fee} €`
     : `${examSession.exam_fee} €`;
 
-  const availablePlaces = ExamSessionUtils.getAvailablePlaces(examSession);
-
-  const availablePlacesText =
-    availablePlaces > 0
-      ? '' + availablePlaces
-      : t('registrationButtonLabels.full');
-
   const renderActions = ({
     examSession,
     partialExamType,
@@ -183,6 +176,15 @@ const getTableBody = ({
     }
   };
 
+  const getAvailablePlacesText = (partialExamType?: PartialExamType) => {
+    const places = ExamSessionUtils.getAvailablePlaces(
+      examSession,
+      partialExamType,
+    );
+
+    return places > 0 ? '' + places : t('registrationButtonLabels.full');
+  };
+
   if (examSession.type === 'READ_SPEAK') {
     return (
       <>
@@ -198,13 +200,16 @@ const getTableBody = ({
           </td>
           <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
           <td data-label={t('examSessionCard.placesAvailable')}>
-            {availablePlacesText}
+            {getAvailablePlacesText('ALL_PARTS')}
           </td>
           <td data-label={t('examSessionCard.actions')}>
             {renderActions({
               examSession,
               partialExamType: 'ALL_PARTS',
-              availablePlaces,
+              availablePlaces: ExamSessionUtils.getAvailablePlaces(
+                examSession,
+                'ALL_PARTS',
+              ),
             })}
           </td>
         </tr>
@@ -220,13 +225,16 @@ const getTableBody = ({
           </td>
           <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
           <td data-label={t('examSessionCard.placesAvailable')}>
-            {availablePlacesText}
+            {getAvailablePlacesText('READ')}
           </td>
           <td data-label={t('examSessionCard.actions')}>
             {renderActions({
               examSession,
               partialExamType: 'READ',
-              availablePlaces,
+              availablePlaces: ExamSessionUtils.getAvailablePlaces(
+                examSession,
+                'READ',
+              ),
             })}
           </td>
         </tr>
@@ -242,13 +250,16 @@ const getTableBody = ({
           </td>
           <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
           <td data-label={t('examSessionCard.placesAvailable')}>
-            {availablePlacesText}
+            {getAvailablePlacesText('SPEAK')}
           </td>
           <td data-label={t('examSessionCard.actions')}>
             {renderActions({
               examSession,
               partialExamType: 'SPEAK',
-              availablePlaces,
+              availablePlaces: ExamSessionUtils.getAvailablePlaces(
+                examSession,
+                'SPEAK',
+              ),
             })}
           </td>
         </tr>
@@ -269,13 +280,16 @@ const getTableBody = ({
           </td>
           <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
           <td data-label={t('examSessionCard.placesAvailable')}>
-            {availablePlacesText}
+            {getAvailablePlacesText('ALL_PARTS')}
           </td>
           <td data-label={t('examSessionCard.actions')}>
             {renderActions({
               examSession,
               partialExamType: 'ALL_PARTS',
-              availablePlaces,
+              availablePlaces: ExamSessionUtils.getAvailablePlaces(
+                examSession,
+                'ALL_PARTS',
+              ),
             })}
           </td>
         </tr>
@@ -291,13 +305,16 @@ const getTableBody = ({
           </td>
           <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
           <td data-label={t('examSessionCard.placesAvailable')}>
-            {availablePlacesText}
+            {getAvailablePlacesText('LISTEN')}
           </td>
           <td data-label={t('examSessionCard.actions')}>
             {renderActions({
               examSession,
               partialExamType: 'LISTEN',
-              availablePlaces,
+              availablePlaces: ExamSessionUtils.getAvailablePlaces(
+                examSession,
+                'LISTEN',
+              ),
             })}
           </td>
         </tr>
@@ -313,13 +330,16 @@ const getTableBody = ({
           </td>
           <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
           <td data-label={t('examSessionCard.placesAvailable')}>
-            {availablePlacesText}
+            {getAvailablePlacesText('WRITE')}
           </td>
           <td data-label={t('examSessionCard.actions')}>
             {renderActions({
               examSession,
               partialExamType: 'WRITE',
-              availablePlaces,
+              availablePlaces: ExamSessionUtils.getAvailablePlaces(
+                examSession,
+                'WRITE',
+              ),
             })}
           </td>
         </tr>
@@ -340,13 +360,16 @@ const getTableBody = ({
       </td>
       <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
       <td data-label={t('examSessionCard.placesAvailable')}>
-        {availablePlacesText}
+        {getAvailablePlacesText('ALL_PARTS')}
       </td>
       <td data-label={t('examSessionCard.actions')}>
         {renderActions({
           examSession,
           partialExamType: 'ALL_PARTS',
-          availablePlaces,
+          availablePlaces: ExamSessionUtils.getAvailablePlaces(
+            examSession,
+            'ALL_PARTS',
+          ),
         })}
       </td>
     </tr>
@@ -366,10 +389,14 @@ const getMobileTableBody = ({
 
   const availablePlaces = ExamSessionUtils.getAvailablePlaces(examSession);
 
-  const availablePlacesText =
-    availablePlaces > 0
-      ? '' + availablePlaces
-      : t('registrationButtonLabels.full');
+  const getAvailablePlacesText = (partialExamType?: PartialExamType) => {
+    const places = ExamSessionUtils.getAvailablePlaces(
+      examSession,
+      partialExamType,
+    );
+
+    return places > 0 ? '' + places : t('registrationButtonLabels.full');
+  };
 
   const renderActions = ({
     examSession,
@@ -411,7 +438,7 @@ const getMobileTableBody = ({
       key={partialExamType}
       examTypeLabel={examTypeLabel}
       examSessionFee={examSessionFee}
-      availablePlacesText={availablePlacesText}
+      availablePlacesText={getAvailablePlacesText(partialExamType)}
       action={renderActions({ examSession, partialExamType, availablePlaces })}
       t={t}
     />
