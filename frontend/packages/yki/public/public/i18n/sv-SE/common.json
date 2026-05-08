@@ -156,7 +156,7 @@
         "userDetails": "Mina anmälningar"
       },
       "partialExams": "Osakokeet",
-      "partialExamTime": "klo 17:30",
+      "partialExamTime": "klo {{startTime}}",
       "partialExamTimeLabel": "Testin alkamisaika",
       "phoneNumber": "Telefonnummer",
       "placesAvailable": "Lediga platser",

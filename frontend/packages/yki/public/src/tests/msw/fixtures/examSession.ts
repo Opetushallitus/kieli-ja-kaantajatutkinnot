@@ -273,6 +273,7 @@ export const examSessions: ExamSessionsResponse = {
         ALL_PARTS: RegistrationKind.Admission,
       },
       queue: 0,
+      start_time: '09:00',
       contact: [
         {
           name: 'Contact Person',
