@@ -202,4 +202,33 @@ export class ExamSessionUtils {
       }
     }
   }
+
+  static getStartTime(
+    examSession: ExamSession,
+    partialExamType: PartialExamType,
+  ) {
+    if (examSession.type === 'LISTEN_WRITE') {
+      if (partialExamType === 'LISTEN') {
+        return examSession.start_time_read_listen;
+      }
+      if (partialExamType === 'WRITE') {
+        return examSession.start_time_speak_write;
+      }
+
+      return examSession.start_time_read_listen;
+    }
+
+    if (examSession.type === 'READ_SPEAK') {
+      if (partialExamType === 'READ') {
+        return examSession.start_time_read_listen;
+      }
+      if (partialExamType === 'SPEAK') {
+        return examSession.start_time_speak_write;
+      }
+
+      return examSession.start_time_read_listen;
+    }
+
+    return examSession.start_time;
+  }
 }

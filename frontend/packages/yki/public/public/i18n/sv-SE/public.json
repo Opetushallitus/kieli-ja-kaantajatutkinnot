@@ -183,7 +183,7 @@
           "actions": "Toiminnot",
           "exam": "Koe",
           "examFee": "Tutkintomaksu",
-          "examStartTime": "Alkaa",
+          "examStartTime": "Alkaa klo {{startTime}}",
           "examType": {
             "full": "Tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen",
             "listen": "Puheen ymmärtäminen",

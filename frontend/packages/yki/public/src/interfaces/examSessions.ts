@@ -51,6 +51,9 @@ export type ExamSession = WithIdType & {
   session_date: Dayjs;
   language_code: ExamLanguage;
   level_code: ExamLevel;
+  start_time?: string;
+  start_time_read_listen?: string;
+  start_time_speak_write?: string;
   max_participants: number;
   published_at: string;
   location: Array<ExamSessionLocation>;

@@ -190,7 +190,12 @@ const getTableBody = ({
           <td data-label={t('examSessionCard.examType.readSpeak')}>
             {t('examSessionCard.examType.readSpeak')}
           </td>
-          <td data-label={t('examSessionCard.examStartTime')}>klo 14:30</td>
+          <td data-label={t('examSessionCard.examStartTime')}>
+            {t('examSessionCard.examStartTime', {
+              startTime:
+                ExamSessionUtils.getStartTime(examSession, 'ALL_PARTS') || '',
+            })}
+          </td>
           <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
           <td data-label={t('examSessionCard.placesAvailable')}>
             {availablePlacesText}
@@ -207,7 +212,12 @@ const getTableBody = ({
           <td data-label={t('examSessionCard.examType.read')}>
             {t('examSessionCard.examType.read')}
           </td>
-          <td data-label={t('examSessionCard.examStartTime')}>klo 14:30</td>
+          <td data-label={t('examSessionCard.examStartTime')}>
+            {t('examSessionCard.examStartTime', {
+              startTime:
+                ExamSessionUtils.getStartTime(examSession, 'READ') || '',
+            })}
+          </td>
           <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
           <td data-label={t('examSessionCard.placesAvailable')}>
             {availablePlacesText}
@@ -224,7 +234,12 @@ const getTableBody = ({
           <td data-label={t('examSessionCard.examType.speak')}>
             {t('examSessionCard.examType.speak')}
           </td>
-          <td data-label={t('examSessionCard.examStartTime')}>klo 14:30</td>
+          <td data-label={t('examSessionCard.examStartTime')}>
+            {t('examSessionCard.examStartTime', {
+              startTime:
+                ExamSessionUtils.getStartTime(examSession, 'SPEAK') || '',
+            })}
+          </td>
           <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
           <td data-label={t('examSessionCard.placesAvailable')}>
             {availablePlacesText}
@@ -246,7 +261,12 @@ const getTableBody = ({
           <td data-label={t('examSessionCard.examType.listenWrite')}>
             {t('examSessionCard.examType.listenWrite')}
           </td>
-          <td data-label={t('examSessionCard.examStartTime')}>klo 14:30</td>
+          <td data-label={t('examSessionCard.examStartTime')}>
+            {t('examSessionCard.examStartTime', {
+              startTime:
+                ExamSessionUtils.getStartTime(examSession, 'ALL_PARTS') || '',
+            })}
+          </td>
           <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
           <td data-label={t('examSessionCard.placesAvailable')}>
             {availablePlacesText}
@@ -263,7 +283,12 @@ const getTableBody = ({
           <td data-label={t('examSessionCard.examType.listen')}>
             {t('examSessionCard.examType.listen')}
           </td>
-          <td data-label={t('examSessionCard.examStartTime')}>klo 14:30</td>
+          <td data-label={t('examSessionCard.examStartTime')}>
+            {t('examSessionCard.examStartTime', {
+              startTime:
+                ExamSessionUtils.getStartTime(examSession, 'LISTEN') || '',
+            })}
+          </td>
           <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
           <td data-label={t('examSessionCard.placesAvailable')}>
             {availablePlacesText}
@@ -280,7 +305,12 @@ const getTableBody = ({
           <td data-label={t('examSessionCard.examType.write')}>
             {t('examSessionCard.examType.write')}
           </td>
-          <td data-label={t('examSessionCard.examStartTime')}>klo 14:30</td>
+          <td data-label={t('examSessionCard.examStartTime')}>
+            {t('examSessionCard.examStartTime', {
+              startTime:
+                ExamSessionUtils.getStartTime(examSession, 'WRITE') || '',
+            })}
+          </td>
           <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
           <td data-label={t('examSessionCard.placesAvailable')}>
             {availablePlacesText}
@@ -302,7 +332,12 @@ const getTableBody = ({
       <td data-label={t('examSessionCard.examType.full')}>
         {t('examSessionCard.examType.full')}
       </td>
-      <td data-label={t('examSessionCard.examStartTime')}>klo 14:30</td>
+      <td data-label={t('examSessionCard.examStartTime')}>
+        {t('examSessionCard.examStartTime', {
+          startTime:
+            ExamSessionUtils.getStartTime(examSession, 'ALL_PARTS') || '',
+        })}
+      </td>
       <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
       <td data-label={t('examSessionCard.placesAvailable')}>
         {availablePlacesText}
