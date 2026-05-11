@@ -95,6 +95,7 @@ function* createClerkQuarantineSaga(
       action.payload,
     );
     yield put(resolveCreateClerkQuarantine());
+    yield put(loadClerkQuarantineMatches());
   } catch (error) {
     yield put(rejectCreateClerkQuarantine());
 
