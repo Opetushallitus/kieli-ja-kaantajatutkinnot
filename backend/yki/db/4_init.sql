@@ -524,6 +524,8 @@ COPY public.quarantine (id, language_code, end_date, birthdate, first_name, last
 10	fin	2023-12-26	1999-04-03	Testi	Testinen	201190-9012	email@invalid.invalid	0401234567	2022-12-28 13:23:09.711442+00	2023-01-05 11:12:05.992913+00	10123421	\N	2022-12-28
 11	fin	2023-02-26	2022-12-06	Testinen	Testi	\N	test@invalid.invalid	0401234567	2022-12-29 09:58:30.342062+00	2023-01-05 11:32:05.599048+00	111234221	\N	2022-12-29
 12	fin	2023-12-29	2018-02-01	Testi	Testinen	201190-9012	email@invalid.invalid	0401234567	2022-12-29 13:01:49.496899+00	2023-01-05 12:06:42.827034+00	121234	\N	2022-12-29
+13	fin	2026-10-17	1990-05-11	Aino	Osallistuja	\N	asdasd@asdsd.asd	34234234234	2026-05-11 14:08:48.603907+00	\N	34534534534	\N	2026-05-11
+14	fin	2222-10-10	1990-01-01	Aino	Osallistuja	\N	asa@asdasd.ss	3242342342	2026-05-11 14:09:47.246273+00	\N	zxczxczxc	\N	2025-01-10
 \.
 
 
@@ -920,7 +922,7 @@ SELECT pg_catalog.setval('public.pgqueues_id_seq', 1, true);
 -- Name: quarantine_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.quarantine_id_seq', 12, true);
+SELECT pg_catalog.setval('public.quarantine_id_seq', 14, true);
 
 
 --
