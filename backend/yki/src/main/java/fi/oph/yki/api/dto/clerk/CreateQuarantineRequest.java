@@ -1,5 +1,6 @@
 package fi.oph.yki.api.dto.clerk;
 
+import fi.oph.yki.util.StringUtil;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -16,4 +17,14 @@ public record CreateQuarantineRequest(
   String ssn,
   String email,
   String phoneNumber
-) {}
+) {
+  public CreateQuarantineRequest {
+    languageCode = StringUtil.sanitize(languageCode);
+    firstName = StringUtil.sanitize(firstName);
+    lastName = StringUtil.sanitize(lastName);
+    diaryNumber = StringUtil.sanitize(diaryNumber);
+    ssn = StringUtil.sanitize(ssn);
+    email = StringUtil.sanitize(email);
+    phoneNumber = StringUtil.sanitize(phoneNumber);
+  }
+}
