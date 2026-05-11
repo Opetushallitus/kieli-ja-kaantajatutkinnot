@@ -125,34 +125,6 @@ COPY public.exam_date (id, exam_date, registration_start_date, registration_end_
 
 
 --
--- Data for Name: exam_level; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public.exam_level (code, created) FROM stdin;
-PERUS	2022-11-30 14:13:51.538476+00
-KESKI	2022-11-30 14:13:51.539196+00
-YLIN	2022-11-30 14:13:51.539767+00
-\.
-
-
---
--- Data for Name: language; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public.language (code, created) FROM stdin;
-fin	2022-11-30 14:13:51.532916+00
-swe	2022-11-30 14:13:51.533786+00
-eng	2022-11-30 14:13:51.534399+00
-spa	2022-11-30 14:13:51.534979+00
-ita	2022-11-30 14:13:51.535495+00
-fra	2022-11-30 14:13:51.536075+00
-sme	2022-11-30 14:13:51.536695+00
-deu	2022-11-30 14:13:51.537193+00
-rus	2022-11-30 14:13:51.53784+00
-\.
-
-
---
 -- Data for Name: exam_date_language; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
