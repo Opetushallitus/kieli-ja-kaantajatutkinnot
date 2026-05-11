@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# cd "$YKI" || { echo "could find '\$YKI'."; exit 1 }
 cd "$KIOS/backend/yki/db" || {
     echo "could find backend/yki/db" >&2
     exit 1
@@ -15,23 +14,11 @@ if [[ $KERNEL == "Darwin" ]]; then
     sleep 5
 fi
 
-(
-    set -x
-    # start (and try running) posgres/database
-    docker run --name postgres-yki -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -p 5432:5432 -d postgres:latest
-)
+set -x
 
-### add data
-#psql -h localhost -p 5432 -U admin -d yki < *.sql
+# start (and try running) posgres/database
+docker build -t postgres-yki-init .
+docker run --name postgres-yki -p 5432:5432 -d postgres-yki-init
+docker start "$(docker ps -a | grep "postgres-yki" | awk '{ print $1 }')"
+docker ps -a
 
-echo "when creating new db, run:" 
-printf "\tpsql -h localhost -U admin -c 'create database yki'\n\n"
-
-(
-    set -x
-    # start db
-    docker start "$(docker ps -a | grep "postgres-yki" | awk '{ print $1 }')"
-    
-    # ensure running
-    docker ps -a
-)
