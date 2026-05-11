@@ -15,7 +15,7 @@ import {
   TextFieldTypes,
   Variant,
 } from 'shared/enums';
-import { InputFieldUtils } from 'shared/utils';
+import { DateUtils, InputFieldUtils } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -60,7 +60,7 @@ export const AddNewQuarantineModal = ({
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [birthdate, setBirthdate] = useState<Dayjs | null>(null);
+  const [birthdate, setBirthdate] = useState('');
   const [ssn, setSsn] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -79,10 +79,11 @@ export const AddNewQuarantineModal = ({
     if (!lastName.trim()) {
       result.lastName = translateCommon(CustomTextFieldErrors.Required);
     }
-    if (birthdate !== null && !birthdate.isValid()) {
+    const parsedBirthdate = DateUtils.parseDateString(birthdate);
+    if (birthdate.trim() && !parsedBirthdate) {
       result.birthdate = translateCommon(CustomTextFieldErrors.DateFormat);
     }
-    if (!birthdate?.isValid() && !ssn.trim()) {
+    if (!parsedBirthdate && !ssn.trim()) {
       result.ssn = t('errors.birthdateOrSsnRequired');
     }
 
@@ -143,7 +144,7 @@ export const AddNewQuarantineModal = ({
   const resetFields = () => {
     setFirstName('');
     setLastName('');
-    setBirthdate(null);
+    setBirthdate('');
     setSsn('');
     setEmail('');
     setPhoneNumber('');
@@ -183,7 +184,9 @@ export const AddNewQuarantineModal = ({
       createClerkQuarantine({
         firstName,
         lastName,
-        ...(birthdate && { birthdate: birthdate.format('YYYY-MM-DD') }),
+        ...(DateUtils.parseDateString(birthdate) && {
+          birthdate: DateUtils.parseDateString(birthdate)!.format('YYYY-MM-DD'),
+        }),
         ...(ssn && { ssn }),
         email,
         phoneNumber,
@@ -269,15 +272,16 @@ export const AddNewQuarantineModal = ({
             <div className="columns gapped">
               <div
                 data-testid="add-quarantine-birthdate"
-                className="rows gapped-xxs"
                 style={{ width: '180px', flexShrink: 0 }}
               >
-                <Label>{t('fields.birthdate')}</Label>
-                <CustomDatePicker
+                <OphInputFormField
+                  label={t('fields.birthdate')}
                   value={birthdate}
-                  setValue={setBirthdate}
+                  onChange={(e) => setBirthdate(e.target.value)}
+                  placeholder="p.k.vvvv"
                   error={submitted && !!errors.birthdate}
                   helperText={submitted ? errors.birthdate : undefined}
+                  sx={{ width: '100%' }}
                 />
               </div>
             </div>
