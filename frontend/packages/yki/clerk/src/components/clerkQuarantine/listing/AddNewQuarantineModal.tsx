@@ -1,15 +1,10 @@
 import CloseIcon from '@mui/icons-material/Close';
+import { Box, Typography } from '@mui/material';
 import {
-  Box,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  Radio,
-  RadioGroup,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { OphButton } from '@opetushallitus/oph-design-system';
+  OphButton,
+  OphInputFormField,
+  OphRadioGroupFormField,
+} from '@opetushallitus/oph-design-system';
 import { Dayjs } from 'dayjs';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { CustomDatePicker, CustomModal } from 'shared/components';
@@ -140,6 +135,11 @@ export const AddNewQuarantineModal = ({
     translateCommon,
   ]);
 
+  const languageOptions = useMemo(
+    () => LANGUAGES.map((lang) => ({ value: lang.code, label: lang.name })),
+    [],
+  );
+
   const resetFields = () => {
     setFirstName('');
     setLastName('');
@@ -241,30 +241,27 @@ export const AddNewQuarantineModal = ({
             <div className="columns gapped">
               <div
                 data-testid="add-quarantine-first-name"
-                className="rows gapped-xxs"
                 style={{ width: '180px', flexShrink: 0 }}
               >
-                <Label>{t('fields.firstName')} *</Label>
-                <TextField
+                <OphInputFormField
+                  label={t('fields.firstName')}
+                  required
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   error={submitted && !!errors.firstName}
                   helperText={submitted ? errors.firstName : undefined}
-                  fullWidth
+                  sx={{ width: '100%' }}
                 />
               </div>
-              <div
-                data-testid="add-quarantine-last-name"
-                className="rows gapped-xxs"
-                style={{ flex: 1 }}
-              >
-                <Label>{t('fields.lastName')} *</Label>
-                <TextField
+              <div data-testid="add-quarantine-last-name" style={{ flex: 1 }}>
+                <OphInputFormField
+                  label={t('fields.lastName')}
+                  required
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   error={submitted && !!errors.lastName}
                   helperText={submitted ? errors.lastName : undefined}
-                  fullWidth
+                  sx={{ width: '100%' }}
                 />
               </div>
             </div>
@@ -288,68 +285,57 @@ export const AddNewQuarantineModal = ({
             <div className="columns gapped">
               <div
                 data-testid="add-quarantine-ssn"
-                className="rows gapped-xxs"
                 style={{ width: '180px', flexShrink: 0 }}
               >
-                <Label>{t('fields.ssn')}</Label>
-                <TextField
+                <OphInputFormField
+                  label={t('fields.ssn')}
                   value={ssn}
                   onChange={(e) => setSsn(e.target.value)}
                   error={submitted && !!errors.ssn}
                   helperText={submitted ? errors.ssn : undefined}
-                  fullWidth
+                  sx={{ width: '100%' }}
                 />
               </div>
             </div>
 
-            <div data-testid="add-quarantine-email" className="rows gapped-xxs">
-              <Label>{t('fields.email')} *</Label>
-              <TextField
+            <div data-testid="add-quarantine-email">
+              <OphInputFormField
+                label={t('fields.email')}
+                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 type="email"
                 error={submitted && !!errors.email}
                 helperText={submitted ? errors.email : undefined}
-                fullWidth
+                sx={{ width: '100%' }}
               />
             </div>
 
-            <div data-testid="add-quarantine-phone" className="rows gapped-xxs">
-              <Label>{t('fields.phoneNumber')} *</Label>
-              <TextField
+            <div data-testid="add-quarantine-phone">
+              <OphInputFormField
+                label={t('fields.phoneNumber')}
+                required
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 type="tel"
                 error={submitted && !!errors.phoneNumber}
                 helperText={submitted ? errors.phoneNumber : undefined}
-                fullWidth
+                sx={{ width: '100%' }}
               />
             </div>
 
             <H3>{t('subHeaders.generalInfo')}</H3>
 
-            <FormControl
-              className="rows gapped-xxs"
-              error={submitted && !!errors.examLanguage}
-            >
-              <Label>{t('fields.examLanguage')} *</Label>
-              <RadioGroup
-                value={examLanguage}
-                onChange={(e) => setExamLanguage(e.target.value)}
-              >
-                {LANGUAGES.map((lang) => (
-                  <FormControlLabel
-                    key={lang.code}
-                    value={lang.code}
-                    control={<Radio />}
-                    label={lang.name}
-                  />
-                ))}
-              </RadioGroup>
-              {submitted && errors.examLanguage && (
-                <FormHelperText>{errors.examLanguage}</FormHelperText>
-              )}
-            </FormControl>
+            <OphRadioGroupFormField
+              label={t('fields.examLanguage')}
+              required
+              value={examLanguage}
+              onChange={(e) =>
+                setExamLanguage((e.target as HTMLInputElement).value)
+              }
+              options={languageOptions}
+              errorMessage={submitted ? errors.examLanguage : undefined}
+            />
 
             <div className="columns gapped" style={{ alignItems: 'flex-end' }}>
               <div
@@ -381,17 +367,15 @@ export const AddNewQuarantineModal = ({
               </div>
             </div>
 
-            <div
-              data-testid="add-quarantine-case-number"
-              className="rows gapped-xxs"
-            >
-              <Label>{t('fields.caseNumber')} *</Label>
-              <TextField
+            <div data-testid="add-quarantine-case-number">
+              <OphInputFormField
+                label={t('fields.caseNumber')}
+                required
                 value={caseNumber}
                 onChange={(e) => setCaseNumber(e.target.value)}
                 error={submitted && !!errors.caseNumber}
                 helperText={submitted ? errors.caseNumber : undefined}
-                fullWidth
+                sx={{ width: '100%' }}
               />
             </div>
           </div>
