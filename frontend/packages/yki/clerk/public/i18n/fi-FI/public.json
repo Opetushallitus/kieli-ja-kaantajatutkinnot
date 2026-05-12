@@ -486,7 +486,37 @@
           "matchConfirmedError": "Hyväksyminen epäonnistui",
           "matchConfirmedSuccess": "Hyväksyminen onnistui",
           "matchRejectedError": "Hylkääminen epäonnistui",
-          "matchRejectedSuccess": "Hylkääminen onnistui"
+          "matchRejectedSuccess": "Hylkääminen onnistui",
+          "quarantineAdded": "Osallistumiskielto lisätty onnistuneesti",
+          "quarantineAddError": "Osallistumiskiellon lisääminen epäonnistui"
+        },
+        "activeQuarantines": {
+          "addButton": "Lisää osallistumiskielto",
+          "modal": {
+            "title": "Lisää osallistumiskielto",
+            "cancel": "Peruuta",
+            "submit": "Lisää osallistumiskielto",
+            "subHeaders": {
+              "personInfo": "Osallistumiskieltoon asetettavan henkilön tiedot",
+              "generalInfo": "Osallistumiskiellon yleistiedot"
+            },
+            "fields": {
+              "firstName": "Etunimi",
+              "lastName": "Sukunimi",
+              "birthdate": "Syntymäaika",
+              "ssn": "Henkilötunnus",
+              "email": "Sähköpostiosoite",
+              "phoneNumber": "Puhelinnumero",
+              "examLanguage": "Tutkinnon kieli",
+              "startsAt": "Osallistumiskielto alkaa",
+              "endsAt": "Osallistumiskielto päättyy",
+              "caseNumber": "Asianumero"
+            },
+            "errors": {
+              "birthdateOrSsnRequired": "Syntymäaika tai henkilötunnus on annettava",
+              "startDateAfterEndDate": "Alkamispäivän on oltava ennen päättymispäivää"
+            }
+          }
         }
       },
       "clerkRegister": {
