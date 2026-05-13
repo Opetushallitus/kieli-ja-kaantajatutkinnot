@@ -21,6 +21,7 @@ import {
   loadClerkOrganizerRegistry,
   loadClerkOrganizers,
   loadOrganizationHierarchy,
+  loadOrganizerRegistry,
   rejectAddClerkOrganizer,
   rejectAllOrganizations,
   rejectClerkOrganization,
@@ -39,6 +40,59 @@ import {
 } from 'redux/reducers/clerkOrganizer';
 import { flattenOrganizationHierarchy } from 'utils/organization';
 import { SerializationUtils } from 'utils/serialization';
+
+function* loadOrganizerRegistrySaga(action: PayloadAction<string>) {
+  const oid = action.payload;
+  const fetchedOrganizers: ClerkOrganizer[] = [];
+  const organizationIds = [''];
+  const fetchedOrganizations: FindByOidsOrganization[] = [];
+  const registry = [];
+
+  try {
+    const response: AxiosResponse<{
+      organizers: Array<ClerkOrganizerResponse>;
+    }> = yield call(axiosInstance.get, `${APIEndpoints.Organizer}/${oid}`);
+
+    const organizers = response.data.organizers.map(
+      SerializationUtils.deserializeClerkOrganizerResponse,
+    );
+    for (const key in organizers) {
+      fetchedOrganizers.push(organizers[key]);
+    }
+    for (const key in fetchedOrganizers) {
+      organizationIds.push(fetchedOrganizers[key].oid);
+    }
+    const findByOidsResponse: AxiosResponse<
+      Array<FindByOidsOrganizationResponse>
+    > = yield call(
+      axiosInstance.post,
+      '/organisaatio-service/rest/organisaatio/v3/findbyoids',
+      organizationIds,
+    );
+
+    const findByOids = findByOidsResponse.data.map(
+      SerializationUtils.deserializeFindByOidsOrganizationResponse,
+    );
+
+    for (const key in findByOids) {
+      fetchedOrganizations.push(findByOids[key]);
+    }
+
+    for (const key in fetchedOrganizers) {
+      const organization = fetchedOrganizations.find(
+        (org) => org.oid === fetchedOrganizers[key].oid,
+      );
+      registry.push({
+        organizer: fetchedOrganizers[key],
+        organization: organization,
+      });
+    }
+
+    yield put(storeClerkOrganizerRegistry(registry));
+  } catch (error) {
+    yield put(rejectLoadClerkOrganizerRegistry());
+  }
+}
 
 function* loadClerkOrganizerRegistrySaga() {
   const fetchedOrganizers: ClerkOrganizer[] = [];
@@ -221,6 +275,8 @@ export function* watchClerkOrganizers() {
     loadClerkOrganizerRegistry.type,
     loadClerkOrganizerRegistrySaga,
   );
+  yield takeLatest(loadOrganizerRegistry.type, loadOrganizerRegistrySaga);
+
   yield takeLatest(loadClerkOrganizers.type, loadClerkOrganizersSaga);
   yield takeLatest(updateClerkOrganizer.type, updateClerkOrganizerSaga);
   yield takeLatest(loadAllOrganizations.type, loadAllOrganizationsSaga);

@@ -48,6 +48,9 @@ springdoc:
     path: /api-docs
 app:
   proxy-token: ${proxy-token:"03e2f9b3-d1de-4846-884e-80e6c3d0fae4"}
+  base-url:
+    public: ${public-base-url:http://localhost:8083}/yki
+    clerk: ${clerk-base-url:http://localhost:8083/yki}
   koski:
     url: ${koski.url:null}
     user: ${cas.username:null}

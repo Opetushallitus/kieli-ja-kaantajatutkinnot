@@ -16,6 +16,8 @@ export enum AppRoutes {
   ClerkFreeRegistrationDetails = '/yki/v2/virkailija/maksuttomuus/:id',
   ClerkPaymentReport = '/yki/v2/virkailija/maksuraportti',
   ClerkQuarantine = '/yki/v2/virkailija/osallistumiskiellot',
+  Organizer = '/yki/v2/jarjestaja',
+  OrganizerHome = '/yki/v2/jarjestaja/:oid',
 }
 
 export enum ExamLanguage {

@@ -39,7 +39,7 @@ public class PermissionsService {
   }
 
   //@Cacheable(CacheConfig.PERMISSIONS_CACHE)
-  public KayttooikeusResponseDTO getPermissionForUsername(final String oid) {
+  public KayttooikeusResponseDTO getPermissionForUser(final String oid) {
     if (oid == null || oid.isEmpty()) {
       throw new RuntimeException("OID is not valid: " + oid);
     }

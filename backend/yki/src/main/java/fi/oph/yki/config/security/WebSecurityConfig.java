@@ -207,7 +207,7 @@ public class WebSecurityConfig {
           ) {
             return new AuthorizationDecision(false);
           } else {
-            final KayttooikeusResponseDTO kayttooikeusResponseDTO = permissionsService.getPermissionForUsername(
+            final KayttooikeusResponseDTO kayttooikeusResponseDTO = permissionsService.getPermissionForUser(
               authentication.getName()
             );
 
@@ -230,7 +230,7 @@ public class WebSecurityConfig {
       );
 
     return configCsrf(httpSecurity)
-      .securityMatcher("/v2/api/clerk/**", "/v2/virkailija/**", "/v2/virkailija", "/v2/api/organizer/**")
+      .securityMatcher("/v2/api/clerk/**", "/v2/virkailija/**", "/v2/virkailija", "/v2/api/organizer/**", "/v2/auth/**")
       .addFilter(casAuthenticationFilter)
       .authorizeHttpRequests(auth ->
         auth
@@ -238,7 +238,14 @@ public class WebSecurityConfig {
           .hasRole(Constants.APP_ADMIN_ROLE)
           .requestMatchers("/v2/api/organizer/{oid}/**")
           .access(organizerAuthorizationManager)
-          .requestMatchers("/v2/api/organizer/**", "/v2/api/organizer", "/v2/jarjestaja/**", "/v2/jarjestaja")
+          .requestMatchers(
+            "/v2/api/organizer/**",
+            "/v2/api/organizer",
+            "/v2/jarjestaja/**",
+            "/v2/jarjestaja",
+            "/v2/auth/**",
+            "/v2/auth"
+          )
           .hasAnyRole(Constants.APP_ADMIN_ROLE, Constants.APP_ORGANIZER_ROLE)
           .anyRequest()
           .authenticated()

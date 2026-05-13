@@ -30,6 +30,11 @@ public class ClerkOrganizerService {
   }
 
   @Transactional(readOnly = true)
+  public List<ClerkOrganizerDTO> getOrganizers(List<String> oids) {
+    return organizerRepository.findAllByDeletedAtIsNull().stream().map(this::toDTO).toList();
+  }
+
+  @Transactional(readOnly = true)
   public List<ClerkOrganizerExamSessionDTO> getExamSessionsByOrganizerOid(final String oid) {
     return examSessionRepository.findByOrganizerOid_Oid(oid).stream().map(this::toExamSessionDTO).toList();
   }
