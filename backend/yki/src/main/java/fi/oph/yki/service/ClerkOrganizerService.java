@@ -30,8 +30,8 @@ public class ClerkOrganizerService {
   }
 
   @Transactional(readOnly = true)
-  public List<ClerkOrganizerDTO> getOrganizers(List<String> oids) {
-    return organizerRepository.findAllByDeletedAtIsNull().stream().map(this::toDTO).toList();
+  public List<ClerkOrganizerDTO> getOrganizers(final List<String> oids) {
+    return organizerRepository.findAllByOidInAndDeletedAtIsNull(oids).stream().map(this::toDTO).toList();
   }
 
   @Transactional(readOnly = true)

@@ -18,7 +18,7 @@ import { ClerkOrganizer } from 'interfaces/clerkOrganizer';
 import { ExamSession } from 'interfaces/examSessions';
 import { User } from 'interfaces/user';
 import { H4, Label, Text } from 'ophTheme/Text';
-import { loadExamDates } from 'redux/reducers/examDate';
+import { loadExamDates, loadOrganizerExamDates } from 'redux/reducers/examDate';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
 import { examDateSelector } from 'redux/selectors/examDate';
 import {
@@ -66,9 +66,9 @@ export const ClerkRegisterOrganizerDetails = ({
     if (user === 'clerk') {
       dispatch(loadExamDates(true));
     } else if (user === 'organizer') {
-      dispatch(loadExamDates(true));
+      dispatch(loadOrganizerExamDates(row.oid));
     }
-  }, [dispatch, user]);
+  }, [dispatch, user, row.oid]);
 
   useEffect(() => {
     fetchExamSessions();

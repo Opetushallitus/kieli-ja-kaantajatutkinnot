@@ -65,9 +65,8 @@ function* loadOrganizerRegistrySaga(action: PayloadAction<string>) {
     const findByOidsResponse: AxiosResponse<
       Array<FindByOidsOrganizationResponse>
     > = yield call(
-      axiosInstance.post,
-      '/organisaatio-service/rest/organisaatio/v3/findbyoids',
-      organizationIds,
+      axiosInstance.get,
+      `/organisaatio-service/rest/organisaatio/v4/${oid}?lang=fi`,
     );
 
     const findByOids = findByOidsResponse.data.map(

@@ -11,4 +11,6 @@ public interface OrganizerRepository extends JpaRepository<Organizer, Long> {
   Optional<Organizer> findByOidAndDeletedAtIsNull(String oid);
 
   List<Organizer> findAllByDeletedAtIsNull();
+
+  List<Organizer> findAllByOidInAndDeletedAtIsNull(List<String> oids);
 }

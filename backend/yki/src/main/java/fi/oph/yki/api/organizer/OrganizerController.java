@@ -2,12 +2,14 @@ package fi.oph.yki.api.organizer;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionDTO;
 import fi.oph.yki.config.ClerkEnabledCondition;
 import fi.oph.yki.kayttooikeus.PermissionsService;
 import fi.oph.yki.kayttooikeus.dto.KayttooikeusResponseDTO;
 import fi.oph.yki.kayttooikeus.dto.OrganisaatioDTO;
+import fi.oph.yki.service.ClerkExamDateService;
 import fi.oph.yki.service.ClerkOrganizerService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
@@ -32,13 +34,16 @@ public class OrganizerController {
   private ClerkOrganizerService clerkOrganizerService;
 
   @Resource
+  private ClerkExamDateService clerkExamDateService;
+
+  @Resource
   private PermissionsService permissionsService;
 
   private static final String TAG_ORGANIZER = "Organizer exam session API";
 
   @GetMapping
-  @Operation(tags = TAG_ORGANIZER, summary = "List exam sessions for an organizer")
-  public Map<String, List<ClerkOrganizerDTO>> getOrganizers() {
+  @Operation(tags = TAG_ORGANIZER, summary = "List available organisations for given organizer")
+  public Map<String, List<ClerkOrganizerDTO>> getOrganisations() {
     final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     final KayttooikeusResponseDTO kayttooikeusResponseDTO = permissionsService.getPermissionForUser(auth.getName());
     final List<String> oids = kayttooikeusResponseDTO
@@ -55,4 +60,11 @@ public class OrganizerController {
   public Map<String, List<ClerkOrganizerExamSessionDTO>> getExamSessions(@PathVariable("oid") final String oid) {
     return Map.of("exam_sessions", clerkOrganizerService.getExamSessionsByOrganizerOid(oid));
   }
+
+  @GetMapping(path = "/examDates")
+  @Operation(tags = TAG_ORGANIZER, summary = "Get future exam dates")
+  public List<ClerkExamDateDTO> getFutureExamDates() {
+    return clerkExamDateService.getFutureExamDates();
+  }
+
 }
