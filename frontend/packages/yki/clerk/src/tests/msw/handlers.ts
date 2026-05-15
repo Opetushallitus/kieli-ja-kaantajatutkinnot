@@ -252,7 +252,7 @@ export const handlers = [
         }
       } else {
         // return all organizations by default for multiple oids
-        return HttpResponse.json(findByOidsResponse);
+        return HttpResponse.json(findByOidResponse);
       }
     },
   ),

@@ -66,5 +66,4 @@ public class OrganizerController {
   public List<ClerkExamDateDTO> getFutureExamDates() {
     return clerkExamDateService.getFutureExamDates();
   }
-
 }
