@@ -62,12 +62,11 @@ function* loadOrganizerRegistrySaga(action: PayloadAction<string>) {
     for (const key in fetchedOrganizers) {
       organizationIds.push(fetchedOrganizers[key].oid);
     }
-    const findByOidsResponse: AxiosResponse<
-      Array<FindByOidsOrganizationResponse>
-    > = yield call(
-      axiosInstance.get,
-      `/organisaatio-service/rest/organisaatio/v4/${oid}?lang=fi`,
-    );
+    const findByOidsResponse: AxiosResponse<FindByOidsOrganizationResponse> =
+      yield call(
+        axiosInstance.get,
+        `/organisaatio-service/rest/organisaatio/v4/${oid}?lang=fi`,
+      );
 
     const findByOids =
       SerializationUtils.deserializeFindByOidsOrganizationResponse(
