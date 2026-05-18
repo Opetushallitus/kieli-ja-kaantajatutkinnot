@@ -52,8 +52,10 @@ public class IndexController {
   @GetMapping(
     path = {
       "v2/jarjestaja/*",
+      "v2/jarjestaja/*/",
       // For local development
       "yki/v2/jarjestaja/*",
+      "yki/v2/jarjestaja/*/",
       "v2",
       "v2/{path:[^.]*}",
       "v2/*/{path:[^.]*}",

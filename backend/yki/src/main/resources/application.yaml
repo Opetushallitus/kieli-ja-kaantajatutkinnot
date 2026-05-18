@@ -57,9 +57,9 @@ app:
     password: ${cas.password:null}
   clerk-enabled: ${clerk.enabled:false}
   organization-service:
-    url: ${organization-service.url:https://virkailija.untuvaopintopolku.fi/organisaatio-service}
+    url: ${organisaatio-url:https://virkailija.untuvaopintopolku.fi/organisaatio-service}
   kayttooikeus-service:
-    url: ${kayttooikeus-service.url:https://virkailija.untuvaopintopolku.fi/kayttooikeus-service}
+    url: ${kayttooikeus-url:https://virkailija.untuvaopintopolku.fi/kayttooikeus-service}
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}
@@ -73,7 +73,7 @@ cas:
   logout-success-path: /etusivu
   cookie-name: JSESSIONID
   onr-url: ${cas.onr-service-url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}
-  kayttooikeus-url: https://virkailija.untuvaopintopolku.fi/kayttooikeus-service
+  kayttooikeus-url: ${kayttooikeus-url:https://virkailija.untuvaopintopolku.fi/kayttooikeus-service}
   service-url: ${virkailija.cas.service-url:http://localhost:${server.port}/yki}
   url: ${virkailija.cas.url:http://localhost:${server.port}/yki}
   cas-url: ${virkailija.cas.url:https://virkailija.untuvaopintopolku.fi/cas}

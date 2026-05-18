@@ -3,6 +3,7 @@ package fi.oph.yki.kayttooikeus;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fi.oph.yki.config.CacheConfig;
 import fi.oph.yki.kayttooikeus.dto.KayttooikeusDTO;
 import fi.oph.yki.kayttooikeus.dto.KayttooikeusResponseDTO;
 import fi.vm.sade.javautils.nio.cas.CasClient;
@@ -14,6 +15,7 @@ import org.asynchttpclient.Response;
 import org.asynchttpclient.util.HttpConstants.Methods;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +40,7 @@ public class PermissionsService {
     this.kayttooikeusServiceUrl = kayttooikeusServiceUrl;
   }
 
-  //@Cacheable(CacheConfig.PERMISSIONS_CACHE)
+  @Cacheable(CacheConfig.PERMISSIONS_CACHE)
   public KayttooikeusResponseDTO getPermissionForUser(final String oid) {
     if (oid == null || oid.isEmpty()) {
       throw new RuntimeException("OID is not valid: " + oid);
