@@ -16,7 +16,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
 import { ClerkOrganizer } from 'interfaces/clerkOrganizer';
 import { ExamSession } from 'interfaces/examSessions';
-import { User } from 'interfaces/user';
+import { RouteType } from 'interfaces/user';
 import { H4, Label, Text } from 'ophTheme/Text';
 import { loadExamDates, loadOrganizerExamDates } from 'redux/reducers/examDate';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
@@ -33,7 +33,7 @@ export const ClerkRegisterOrganizerDetails = ({
   user,
 }: {
   row: ClerkOrganizer;
-  user: User;
+  user: RouteType;
 }) => {
   const [examSessions, setExamSessions] = useState<ExamSession[]>([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);

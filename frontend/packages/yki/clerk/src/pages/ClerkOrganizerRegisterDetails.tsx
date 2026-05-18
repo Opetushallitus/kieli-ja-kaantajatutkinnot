@@ -8,7 +8,7 @@ import { APIResponseStatus } from 'shared/enums';
 import { ClerkRegisterOrganizerDetails } from 'components/clerkRegister/ClerkRegisterOrganizerDetails';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { User } from 'interfaces/user';
+import { RouteType } from 'interfaces/user';
 import { H2 } from 'ophTheme/Text';
 import {
   loadClerkOrganizerRegistry,
@@ -16,7 +16,11 @@ import {
 } from 'redux/reducers/clerkOrganizer';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
 
-export const ClerkOrganizerRegisterDetailsPage = ({ user }: { user: User }) => {
+export const ClerkOrganizerRegisterDetailsPage = ({
+  user,
+}: {
+  user: RouteType;
+}) => {
   const { organizerRegistryStatus, organizerRegistry } = useAppSelector(
     clerkOrganizersSelector,
   );

@@ -1,1 +1,1 @@
-export type User = 'clerk' | 'organizer';
+export type RouteType = 'clerk' | 'organizer';
