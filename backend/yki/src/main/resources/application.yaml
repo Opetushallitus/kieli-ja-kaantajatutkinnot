@@ -74,7 +74,7 @@ cas:
   cookie-name: JSESSIONID
   onr-url: ${cas.onr-service-url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}
   kayttooikeus-url: ${kayttooikeus-url:https://virkailija.untuvaopintopolku.fi/kayttooikeus-service}
-  service-url: ${virkailija.cas.service-url:http://localhost:${server.port}/yki}
+  service-url: ${virkailija.cas.service-url:http://localhost:${server.port}/yki/v2/virkailija}
   url: ${virkailija.cas.url:http://localhost:${server.port}/yki}
   cas-url: ${virkailija.cas.url:https://virkailija.untuvaopintopolku.fi/cas}
   login-url: ${virkailija.cas.login-url:http://localhost:${server.port}/login}

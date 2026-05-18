@@ -69,13 +69,12 @@ function* loadOrganizerRegistrySaga(action: PayloadAction<string>) {
       `/organisaatio-service/rest/organisaatio/v4/${oid}?lang=fi`,
     );
 
-    const findByOids = findByOidsResponse.data.map(
-      SerializationUtils.deserializeFindByOidsOrganizationResponse,
-    );
+    const findByOids =
+      SerializationUtils.deserializeFindByOidsOrganizationResponse(
+        findByOidsResponse.data,
+      );
 
-    for (const key in findByOids) {
-      fetchedOrganizations.push(findByOids[key]);
-    }
+    fetchedOrganizations.push(findByOids);
 
     for (const key in fetchedOrganizers) {
       const organization = fetchedOrganizations.find(
