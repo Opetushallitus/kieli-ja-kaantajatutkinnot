@@ -50,7 +50,8 @@
           "generic": "Tapahtui odottamaton virhe. Yritä uudestaan hetken kuluttua.",
           "quarantineInvalidSsn": "Henkilötunnus on virheellinen",
           "quarantineMissingSsnAndBirthdate": "Syntymäaika tai henkilötunnus on annettava",
-          "quarantineSsnBirthdateMismatch": "Henkilötunnus ja syntymäaika eivät täsmää"
+          "quarantineSsnBirthdateMismatch": "Henkilötunnus ja syntymäaika eivät täsmää",
+          "quarantineDiaryNumberAlreadyExists": "Annettu diaarinumero on jo olemassa"
         },
         "customTextField": {
           "dateFormat": "Kirjoita päivämäärä muodossa pp.kk.vvvv",
