@@ -8,6 +8,7 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const Dotenv = require('dotenv-webpack')
 const findByOids = require("./packages/yki/clerk/src/tests/msw/fixtures/findByOidsData.js");
 const findByOid = require("./packages/yki/clerk/src/tests/msw/fixtures/findByOidData.js");
+const findByOid2 = require("./packages/yki/clerk/src/tests/msw/fixtures/findByOidData2.js");
 const haeOid = require("./packages/yki/clerk/src/tests/msw/fixtures/haeOidData.js");
 
 
@@ -149,6 +150,9 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = 
         });
         devServer.app.get('/organisaatio-service/rest/organisaatio/v4/1.2.246.562.10.28646781493', (req, res) => {
           res.json(findByOid);
+        });
+        devServer.app.get('/organisaatio-service/rest/organisaatio/v4/1.2.246.562.10.14901695099', (req, res) => {
+          res.json(findByOid2);
         });
         return middlewares;
       },
