@@ -104,7 +104,7 @@ public class WebSecurityConfig {
       serviceProperties()
     );
     casAuthenticationFilter.setAuthenticationManager(authenticationManager);
-    casAuthenticationFilter.setFilterProcessesUrl(environment.getRequiredProperty("cas.login-path"));
+    casAuthenticationFilter.setFilterProcessesUrl("/v2/virkailija" + environment.getRequiredProperty("cas.login-path"));
     return casAuthenticationFilter;
   }
 
