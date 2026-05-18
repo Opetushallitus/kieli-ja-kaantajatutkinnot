@@ -1,7 +1,9 @@
 import { OphButton } from '@opetushallitus/oph-design-system';
+import { useState } from 'react';
 import { Trans } from 'react-i18next';
 import { Variant } from 'shared/enums';
 
+import { RegistrationConfirmationModal } from 'components/clerkQuarantine/listing/RegistrationConfirmationModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { PageSizeSelector } from 'components/oph-design/table/page-size-selector';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
@@ -13,25 +15,30 @@ import {
 import { Text } from 'ophTheme/Text';
 import { languageToString } from 'utils/clerk';
 
+type ModalState = {
+  match: ClerkQuarantineMatch;
+  action: 'accept' | 'reject';
+};
+
 type ClerkQuarantineMatchRow = ClerkQuarantineMatch & Row;
 
-type ClerkQuarantineListingProps = {
+type PendingReviewsListing = {
   rows: ClerkQuarantineMatchRow[];
   page: number;
   setPage: (page: number) => void;
   pageSize: number;
   setPageSize: (pageSize: number) => void;
-  activeTab: 'pending' | 'previous' | 'active';
+  activeTab: 'pendingReviews' | 'pastReviews' | 'activeQuarantines';
   sort: ClerkQuarantineSort;
   setSort: (sort: ClerkQuarantineSort) => void;
   onSetReview: (
     quarantineId: number,
     registrationId: number,
-    isQuarantined: boolean,
+    matchConfirmed: boolean,
   ) => void;
 };
 
-export const ClerkQuarantineListing = ({
+export const PendingReviewsListing = ({
   rows,
   page,
   setPage,
@@ -40,16 +47,23 @@ export const ClerkQuarantineListing = ({
   sort,
   setSort,
   onSetReview,
-}: ClerkQuarantineListingProps) => {
+}: PendingReviewsListing) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkQuarantine',
   });
 
-  // Cells stack two values (registrant + quarantined person). Some values such
-  // as email are long tokens with no spaces, so the browser cannot wrap them
-  // naturally and they overflow into adjacent cells without this.
-  const wideStyle = { wordBreak: 'break-word' as const };
-  const narrowStyle = { whiteSpace: 'nowrap' as const, width: '1%' };
+  const [modalState, setModalState] = useState<ModalState | null>(null);
+
+  const handleConfirm = () => {
+    if (!modalState) return;
+    const matchConfirmed = modalState.action === 'accept';
+    onSetReview(
+      modalState.match.quarantineId,
+      modalState.match.registrationId,
+      matchConfirmed,
+    );
+    setModalState(null);
+  };
 
   const columns: ListTableColumn<ClerkQuarantineMatchRow>[] = [
     {
@@ -64,25 +78,31 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'examLanguageCode',
-      style: narrowStyle,
+      style: {
+        whiteSpace: 'nowrap',
+        maxWidth: '100px',
+      },
       title: t('listing.columns.examLanguage'),
       render: ({ examLanguageCode }) => languageToString(examLanguageCode),
     },
     {
       key: 'examDate',
       sortable: true,
-      style: narrowStyle,
+      style: {
+        whiteSpace: 'nowrap',
+        maxWidth: '100px',
+      },
       title: t('listing.columns.examDate'),
       render: ({ examDate }) => examDate.format('D.M.YYYY'),
     },
     {
       key: 'name',
-      style: wideStyle,
+      style: { wordBreak: 'break-word' },
       title: t('listing.columns.name'),
       render: (match) => (
         <div>
           <div>
-            {match.registrantForm.firstName} {match.registrantForm.lastName}
+            {match.registrant.firstName} {match.registrant.lastName}
           </div>
           <div>
             {match.quarantinedPerson.firstName}{' '}
@@ -93,71 +113,68 @@ export const ClerkQuarantineListing = ({
     },
     {
       key: 'birthdate',
-      style: narrowStyle,
+      style: { whiteSpace: 'nowrap' },
       title: t('listing.columns.birthdate'),
       render: (match) => (
         <div>
-          <div>{match.registrantForm.birthdate}</div>
+          <div>{match.registrant.birthdate}</div>
           <div>{match.quarantinedPerson.birthdate}</div>
         </div>
       ),
     },
     {
       key: 'ssn',
-      style: narrowStyle,
+      style: { whiteSpace: 'nowrap' },
       title: t('listing.columns.ssn'),
       render: (match) => (
         <div>
-          <div>{match.registrantForm.ssn}</div>
+          <div>{match.registrant.ssn}</div>
           <div>{match.quarantinedPerson.ssn}</div>
         </div>
       ),
     },
     {
       key: 'email',
-      style: wideStyle,
+      style: { wordBreak: 'break-word' },
       title: t('listing.columns.email'),
       render: (match) => (
         <div>
-          <div>{match.registrantForm.email}</div>
+          <div>{match.registrant.email}</div>
           <div>{match.quarantinedPerson.email}</div>
         </div>
       ),
     },
     {
       key: 'phoneNumber',
-      style: narrowStyle,
+      style: { whiteSpace: 'nowrap' },
       title: t('listing.columns.phoneNumber'),
       render: (match) => (
         <div>
-          <div>{match.registrantForm.phoneNumber}</div>
+          <div>{match.registrant.phoneNumber}</div>
           <div>{match.quarantinedPerson.phoneNumber}</div>
         </div>
       ),
     },
+
     {
       key: 'actions',
       title: t('listing.columns.actions'),
-      style: narrowStyle,
+      style: { whiteSpace: 'nowrap' },
       render: (match) => (
         <div className="columns gapped-xxs">
           <OphButton
             variant={Variant.Text}
             sx={{ padding: 0, minWidth: 0 }}
-            onClick={() =>
-              onSetReview(match.quarantineId, match.registrationId, true)
-            }
+            onClick={() => setModalState({ match, action: 'accept' })}
           >
-            {t('listing.actions.accept')}
+            {t('listing.values.actions.accept')}
           </OphButton>
           <OphButton
             variant={Variant.Text}
             sx={{ padding: 0, minWidth: 0 }}
-            onClick={() =>
-              onSetReview(match.quarantineId, match.registrationId, false)
-            }
+            onClick={() => setModalState({ match, action: 'reject' })}
           >
-            {t('listing.actions.cancel')}
+            {t('listing.values.actions.reject')}
           </OphButton>
         </div>
       ),
@@ -190,6 +207,12 @@ export const ClerkQuarantineListing = ({
           pageSize,
           totalCount: rows.length,
         }}
+      />
+      <RegistrationConfirmationModal
+        match={modalState?.match ?? null}
+        action={modalState?.action ?? null}
+        onClose={() => setModalState(null)}
+        onConfirm={handleConfirm}
       />
     </>
   );

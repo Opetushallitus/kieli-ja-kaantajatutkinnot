@@ -97,18 +97,25 @@ class ClerkExamDateControllerTest {
   }
 
   private static JSONObject validEvaluationData() {
+    final JSONObject lang = new JSONObject();
+    lang.put("examDateLanguageId", 1);
+    lang.put("evaluationStartDate", "2026-10-20");
+    lang.put("evaluationEndDate", "2026-11-20");
+
+    final JSONArray evaluations = new JSONArray();
+    evaluations.add(lang);
+
     final JSONObject data = new JSONObject();
-    data.put("evaluationStartDate", "2026-10-20");
-    data.put("evaluationEndDate", "2026-11-20");
+    data.put("evaluations", evaluations);
 
     return data;
   }
 
   @Test
-  public void testCreateEvaluationWithValidData() throws Exception {
+  public void testUpdateEvaluationWithValidData() throws Exception {
     mockMvc
       .perform(
-        post(BASE_URL + "/1/evaluation")
+        put(BASE_URL + "/1/evaluation")
           .with(csrf())
           .contentType(MediaType.APPLICATION_JSON)
           .content(validEvaluationData().toJSONString())
@@ -117,28 +124,13 @@ class ClerkExamDateControllerTest {
   }
 
   @Test
-  public void testCreateEvaluationWithMissingStartDateReturnsBadRequest() throws Exception {
-    final JSONObject data = validEvaluationData();
-    data.put("evaluationStartDate", null);
+  public void testUpdateEvaluationWithEmptyListReturnsBadRequest() throws Exception {
+    final JSONObject data = new JSONObject();
+    data.put("evaluations", new JSONArray());
 
     mockMvc
       .perform(
-        post(BASE_URL + "/1/evaluation")
-          .with(csrf())
-          .contentType(MediaType.APPLICATION_JSON)
-          .content(data.toJSONString())
-      )
-      .andExpect(status().isBadRequest());
-  }
-
-  @Test
-  public void testCreateEvaluationWithMissingEndDateReturnsBadRequest() throws Exception {
-    final JSONObject data = validEvaluationData();
-    data.put("evaluationEndDate", null);
-
-    mockMvc
-      .perform(
-        post(BASE_URL + "/1/evaluation")
+        put(BASE_URL + "/1/evaluation")
           .with(csrf())
           .contentType(MediaType.APPLICATION_JSON)
           .content(data.toJSONString())

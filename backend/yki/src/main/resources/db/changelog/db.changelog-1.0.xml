@@ -242,4 +242,12 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="2026-04-09-add-max-participants-partial-exam" author="lket">
+        <sql>ALTER TABLE exam_session ALTER COLUMN max_participants DROP NOT NULL</sql>
+        <addColumn tableName="exam_session">
+            <column name="max_participants_read_listen" type="INTEGER"/>
+            <column name="max_participants_speak_write" type="INTEGER"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
