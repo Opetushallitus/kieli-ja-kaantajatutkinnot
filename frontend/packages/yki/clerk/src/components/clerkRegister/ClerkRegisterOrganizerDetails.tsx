@@ -16,8 +16,9 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
 import { ClerkOrganizer } from 'interfaces/clerkOrganizer';
 import { ExamSession } from 'interfaces/examSessions';
+import { RouteType } from 'interfaces/user';
 import { H4, Label, Text } from 'ophTheme/Text';
-import { loadExamDates } from 'redux/reducers/examDate';
+import { loadExamDates, loadOrganizerExamDates } from 'redux/reducers/examDate';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
 import { examDateSelector } from 'redux/selectors/examDate';
 import {
@@ -29,8 +30,10 @@ import { SerializationUtils } from 'utils/serialization';
 
 export const ClerkRegisterOrganizerDetails = ({
   row,
+  user,
 }: {
   row: ClerkOrganizer;
+  user: RouteType;
 }) => {
   const [examSessions, setExamSessions] = useState<ExamSession[]>([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -46,7 +49,7 @@ export const ClerkRegisterOrganizerDetails = ({
     try {
       const oneYearAgo = dayjs().subtract(1, 'year').format('YYYY-MM-DD');
       const response = await axiosInstance.get(
-        `${APIEndpoints.ClerkOrganizer}/${row.oid}/exam-session`,
+        `${APIEndpoints.Organizer}/${row.oid}/examSession`,
         { params: { from: oneYearAgo } },
       );
       setExamSessions(
@@ -60,8 +63,12 @@ export const ClerkRegisterOrganizerDetails = ({
   }, [row.oid]);
 
   useEffect(() => {
-    dispatch(loadExamDates(true));
-  }, [dispatch]);
+    if (user === 'clerk') {
+      dispatch(loadExamDates(true));
+    } else if (user === 'organizer') {
+      dispatch(loadOrganizerExamDates(row.oid));
+    }
+  }, [dispatch, user, row.oid]);
 
   useEffect(() => {
     fetchExamSessions();

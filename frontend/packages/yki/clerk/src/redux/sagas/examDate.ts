@@ -12,6 +12,7 @@ import {
   addExamDate,
   deleteExamDate,
   loadExamDates,
+  loadOrganizerExamDates,
   rejectAddExamDate,
   rejectDeleteExamDate,
   rejectExamDates,
@@ -26,6 +27,32 @@ import {
   updateExamDate,
 } from 'redux/reducers/examDate';
 import { NotifierUtils } from 'utils/notifier';
+
+function* loadOrganizerExamDatesSaga(action: PayloadAction<string>) {
+  const t = translateOutsideComponent();
+  const oid = action.payload;
+  try {
+    const response: AxiosResponse<ExamDateResponse[]> = yield call(
+      axiosInstance.get,
+      `${APIEndpoints.Organizer}/${oid}/examDates`,
+    );
+
+    const examDates: ExamDate[] = response.data.map((ed) => ({
+      id: ed.id,
+      examDate: dayjs(ed.examDate),
+      registrationStartDate: dayjs(ed.registrationStartDate),
+      registrationEndDate: dayjs(ed.registrationEndDate),
+      examType: ed.examType,
+      languages: ed.languages,
+      examSessionCount: ed.examSessionCount,
+    }));
+
+    yield put(storeExamDates(examDates));
+  } catch (error) {
+    yield put(rejectExamDates());
+    yield put(setAPIError(t('yki.common.errors.loadingExamDatesFailed')));
+  }
+}
 
 function* loadExamDatesSaga(action: PayloadAction<boolean>) {
   const t = translateOutsideComponent();
@@ -136,6 +163,7 @@ function* deleteExamDateSaga(action: ReturnType<typeof deleteExamDate>) {
 }
 
 export function* watchExamDates() {
+  yield takeLatest(loadOrganizerExamDates.type, loadOrganizerExamDatesSaga);
   yield takeLatest(loadExamDates.type, loadExamDatesSaga);
   yield takeLatest(addExamDate.type, addExamDateSaga);
   yield takeLatest(updateExamDate.type, updateExamDateSaga);

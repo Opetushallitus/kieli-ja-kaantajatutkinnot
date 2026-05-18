@@ -31,10 +31,4 @@ public class ClerkOrganizerController {
   public Map<String, List<ClerkOrganizerDTO>> getOrganizers() {
     return Map.of("organizers", clerkOrganizerService.getOrganizers());
   }
-
-  @GetMapping("/{oid}/exam-session")
-  @Operation(tags = TAG_ORGANIZER, summary = "List exam sessions for an organizer")
-  public Map<String, List<ClerkOrganizerExamSessionDTO>> getExamSessions(@PathVariable final String oid) {
-    return Map.of("exam_sessions", clerkOrganizerService.getExamSessionsByOrganizerOid(oid));
-  }
 }

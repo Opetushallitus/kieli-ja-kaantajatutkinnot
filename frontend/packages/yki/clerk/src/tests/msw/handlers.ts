@@ -14,6 +14,7 @@ import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
 import { examDates } from 'tests/msw/fixtures/examDate';
 import { examSessions } from 'tests/msw/fixtures/examSession';
+import { findByOidResponse } from 'tests/msw/fixtures/findByOid';
 import { findByOidsResponse } from 'tests/msw/fixtures/findByOids';
 import { findOrganizations } from 'tests/msw/fixtures/findOrganizations';
 import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
@@ -238,6 +239,25 @@ export const handlers = [
       } else {
         // return all organizations by default for multiple oids
         return HttpResponse.json(findByOidsResponse);
+      }
+    },
+  ),
+  http.get(
+    '/organisaatio-service/rest/organisaatio/v4/1.2.246.562.10.28646781493',
+    async ({ request }) => {
+      const requestBody = (await request.json()) as Array<string>;
+
+      if (requestBody.length === 0) {
+        return HttpResponse.json([]);
+      } else if (requestBody.length === 1) {
+        const oid = requestBody[0];
+        const organization = findByOidResponse.find((org) => org.oid === oid);
+        if (organization) {
+          return HttpResponse.json([organization]);
+        }
+      } else {
+        // return all organizations by default for multiple oids
+        return HttpResponse.json(findByOidResponse);
       }
     },
   ),
