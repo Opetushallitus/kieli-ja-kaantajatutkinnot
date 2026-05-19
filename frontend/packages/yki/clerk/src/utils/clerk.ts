@@ -1,6 +1,7 @@
 import { t } from 'i18next';
 
-import { ExamLevel } from 'enums/app';
+import { ExamLevel, ExamSessionType } from 'enums/app';
+import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { OrganizerLanguage } from 'interfaces/clerkOrganizer';
 import { FindByOidsOrganization } from 'interfaces/clerkOrganizerRegistry';
 
@@ -120,4 +121,27 @@ export const getOrganizerAddress = (
       : '',
     city: organization?.postiosoite?.postitoimipaikka ?? '',
   };
+};
+
+const getExamPartialType2 = (type: ExamSessionType) => {
+  return type === ExamSessionType.READ_SPEAK ? 'Puhuminen' : 'Kuuntelimen';
+};
+
+const getExamPartialType1 = (type: ExamSessionType) => {
+  return type === ExamSessionType.READ_SPEAK ? 'Lukeminen' : 'Kuuntelimen';
+};
+
+export const getExamSessionStartTimesDescription = (
+  examSession: ClerkExamSession,
+) => {
+  return examSession.type === ExamSessionType.FULL
+    ? t('yki.common.examSessionTimes.fullSessionTime', {
+        time: examSession.startTime,
+      })
+    : t('yki.common.examSessionTimes.partialSessionTime', {
+        partialExam1: getExamPartialType1(examSession.type),
+        partialExam2: getExamPartialType2(examSession.type),
+        time1: examSession.startTimeReadListen,
+        time2: examSession.startTimeSpeakWrite,
+      });
 };

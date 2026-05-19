@@ -37,6 +37,10 @@
         "dateFormat": "l",
         "dateTimeFormat": "l [kl.] HH:mm"
       },
+      "examSessionTimes": {
+        "fullSessionTime": "Koko tutkinto klo {{time}}",
+        "partialSessionTime": "{{partialExam1}} klo {{time1}}, {{partialExam2}} klo {{time2}}"
+      },
       "email": "E-postadress",
       "error": "Ett oväntat fel uppstod.",
       "errors": {
@@ -118,6 +122,7 @@
         }
       },
       "institution": "Testplats",
+      "otherLocationInfo": "Tila",
       "lang": {
         "en": "Englanti",
         "fi": "Suomi",

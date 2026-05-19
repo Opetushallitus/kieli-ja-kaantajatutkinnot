@@ -5,7 +5,7 @@ import {
   OphInputFormField,
   OphRadioGroupFormField,
 } from '@opetushallitus/oph-design-system';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ComboBox, CustomModal } from 'shared/components';
 import {
   APIResponseStatus,
@@ -67,6 +67,23 @@ export const ClerkExamSessionEditModal = ({
 
   const [selectedOfficeOid, setSelectedOfficeOid] =
     useState<ComboBoxOption | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState({
+    officeOid: false,
+    language: false,
+    level: false,
+    type: false,
+    examDateId: false,
+    maxParticipants: false,
+    startTime: false,
+    streetAddress: false,
+    postalCode: false,
+    city: false,
+    otherLocationInfo: false,
+    contactName: false,
+    contactEmail: false,
+    contactPhoneNumber: false,
+  });
 
   useEffect(() => {
     if (isOpen && organizerOid) {
@@ -128,6 +145,7 @@ export const ClerkExamSessionEditModal = ({
 
   const setOfficeOid = (office: ComboBoxOption | null) => {
     setSelectedOfficeOid(office);
+    updateField('officeOid', office?.value ?? '');
     ['fi', 'en', 'sv'].map((lang) => {
       updateLocationField(
         lang as ShortLang,
@@ -145,12 +163,15 @@ export const ClerkExamSessionEditModal = ({
     maxParticipantsTotal: String(
       examSessionDetails?.maxParticipantsTotal ?? '',
     ),
-    maxParticipantsPartial1: String(
-      examSessionDetails?.maxParticipantsPartial1 ?? '',
+    maxParticipantsReadListen: String(
+      examSessionDetails?.maxParticipantsReadListen ?? '',
     ),
-    maxParticipantsPartial2: String(
-      examSessionDetails?.maxParticipantsPartial2 ?? '',
+    maxParticipantsSpeakWrite: String(
+      examSessionDetails?.maxParticipantsSpeakWrite ?? '',
     ),
+    startTime: examSessionDetails?.startTime ?? '',
+    startTimeReadListen: examSessionDetails?.startTimeReadListen ?? '',
+    startTimeSpeakWrite: examSessionDetails?.startTimeSpeakWrite ?? '',
     location: (['fi', 'sv', 'en'] as const).map((lang) => {
       const loc = examSessionDetails?.location.find((l) => l.lang === lang);
 
@@ -168,7 +189,7 @@ export const ClerkExamSessionEditModal = ({
     contactName: examSessionDetails?.contactName ?? '',
     contactEmail: examSessionDetails?.contactEmail ?? '',
     contactPhoneNumber: examSessionDetails?.contactPhoneNumber ?? '',
-    officeOid: selectedOfficeOid,
+    officeOid: examSessionDetails?.officeOid ?? '',
   });
 
   const filteredExamDates = examDates.filter(
@@ -219,11 +240,70 @@ export const ClerkExamSessionEditModal = ({
     }));
   };
 
+  const validate = useCallback(() => {
+    const loc = form.location[0];
+    const isFull = form.type === ExamSessionType.FULL || !form.type;
+
+    return {
+      officeOid: mode !== 'edit-partial' && !selectedOfficeOid,
+      language: !form.language,
+      level: !form.level,
+      type: !form.type,
+      examDateId: mode !== 'edit-partial' && !form.examDateId,
+      maxParticipants: isFull
+        ? !form.maxParticipantsTotal
+        : !form.maxParticipantsReadListen || !form.maxParticipantsSpeakWrite,
+      startTime: isFull
+        ? !form.startTime
+        : !form.startTimeReadListen || !form.startTimeSpeakWrite,
+      streetAddress: !loc?.streetAddress,
+      postalCode: !loc?.postalCode,
+      city: !loc?.city,
+      otherLocationInfo: !loc?.otherLocationInfo,
+      contactName: !form.contactName,
+      contactEmail: !form.contactEmail,
+      contactPhoneNumber: !form.contactPhoneNumber,
+    };
+  }, [form, selectedOfficeOid, mode]);
+
+  useEffect(() => {
+    if (submitted) {
+      const current = validate();
+
+      setErrors((prev) => ({
+        officeOid: prev.officeOid && current.officeOid,
+        language: prev.language && current.language,
+        level: prev.level && current.level,
+        type: prev.type && current.type,
+        examDateId: prev.examDateId && current.examDateId,
+        maxParticipants: prev.maxParticipants && current.maxParticipants,
+        startTime: prev.startTime && current.startTime,
+        streetAddress: prev.streetAddress && current.streetAddress,
+        postalCode: prev.postalCode && current.postalCode,
+        city: prev.city && current.city,
+        otherLocationInfo: prev.otherLocationInfo && current.otherLocationInfo,
+        contactName: prev.contactName && current.contactName,
+        contactEmail: prev.contactEmail && current.contactEmail,
+        contactPhoneNumber:
+          prev.contactPhoneNumber && current.contactPhoneNumber,
+      }));
+    }
+  }, [submitted, validate]);
+
   const handleCloseModal = () => {
+    setSubmitted(false);
     setIsOpen(false);
   };
 
   const handleSave = () => {
+    const validationErrors = validate();
+    setErrors(validationErrors);
+    setSubmitted(true);
+
+    if (Object.values(validationErrors).some(Boolean)) {
+      return;
+    }
+
     if (isCreateMode && organizerOid) {
       dispatch(
         createExamSession({
@@ -292,6 +372,12 @@ export const ClerkExamSessionEditModal = ({
                   );
                   setOfficeOid(option ?? null);
                 }}
+                showError={submitted && errors.officeOid}
+                helperText={
+                  submitted && errors.officeOid
+                    ? t('errors.required')
+                    : undefined
+                }
               />
             </div>
 
@@ -303,6 +389,10 @@ export const ClerkExamSessionEditModal = ({
               }
               options={languageOptions}
               disabled={isSaving}
+              error={submitted && errors.language}
+              helperText={
+                submitted && errors.language ? t('errors.required') : undefined
+              }
             />
             <OphRadioGroupFormField
               label={t('fields.level')}
@@ -312,6 +402,10 @@ export const ClerkExamSessionEditModal = ({
               }
               options={levelOptions}
               disabled={isSaving}
+              error={submitted && errors.level}
+              helperText={
+                submitted && errors.level ? t('errors.required') : undefined
+              }
             />
             <OphRadioGroupFormField
               label={t('fields.type')}
@@ -321,6 +415,10 @@ export const ClerkExamSessionEditModal = ({
               }
               options={typeOptions}
               disabled={isSaving}
+              error={submitted && errors.type}
+              helperText={
+                submitted && errors.type ? t('errors.required') : undefined
+              }
             />
             {examDateOptions.length > 0 ? (
               <OphRadioGroupFormField
@@ -334,6 +432,12 @@ export const ClerkExamSessionEditModal = ({
                 }
                 options={examDateOptions}
                 disabled={isSaving}
+                error={submitted && errors.examDateId}
+                helperText={
+                  submitted && errors.examDateId
+                    ? t('errors.required')
+                    : undefined
+                }
               />
             ) : (
               <div className="rows gapped-xxs">
@@ -344,36 +448,101 @@ export const ClerkExamSessionEditModal = ({
           </>
         )}
         {form.type === ExamSessionType.FULL || !form.type ? (
-          <OphInputFormField
-            label={t('fields.maxParticipants')}
-            value={form.maxParticipantsTotal}
-            onChange={(e) =>
-              updateField('maxParticipantsTotal', e.target.value)
-            }
-            type="number"
-            disabled={isSaving}
-          />
-        ) : (
           <div className="columns gapped">
             <OphInputFormField
-              label={t('fields.maxParticipantsPart1')}
-              value={form.maxParticipantsPartial1}
+              label={t('fields.maxParticipants')}
+              value={form.maxParticipantsTotal}
               onChange={(e) =>
-                updateField('maxParticipantsPartial1', e.target.value)
+                updateField('maxParticipantsTotal', e.target.value)
               }
               type="number"
               disabled={isSaving}
+              error={submitted && errors.maxParticipants}
+              helperText={
+                submitted && errors.maxParticipants
+                  ? t('errors.required')
+                  : undefined
+              }
             />
             <OphInputFormField
-              label={t('fields.maxParticipantsPart2')}
-              value={form.maxParticipantsPartial2}
-              onChange={(e) =>
-                updateField('maxParticipantsPartial2', e.target.value)
-              }
-              type="number"
+              label={t('fields.startTime')}
+              value={form.startTime}
+              onChange={(e) => updateField('startTime', e.target.value)}
+              type="time"
               disabled={isSaving}
+              error={submitted && errors.startTime}
+              helperText={
+                submitted && errors.startTime ? t('errors.required') : undefined
+              }
             />
           </div>
+        ) : (
+          <>
+            <div className="columns gapped">
+              <OphInputFormField
+                label={t('fields.maxParticipantsPart1')}
+                value={form.maxParticipantsReadListen}
+                onChange={(e) =>
+                  updateField('maxParticipantsReadListen', e.target.value)
+                }
+                type="number"
+                disabled={isSaving}
+                error={submitted && errors.maxParticipants}
+                helperText={
+                  submitted && errors.maxParticipants
+                    ? t('errors.required')
+                    : undefined
+                }
+              />
+              <OphInputFormField
+                label={t('fields.startTimeReadListen')}
+                value={form.startTimeReadListen}
+                onChange={(e) =>
+                  updateField('startTimeReadListen', e.target.value)
+                }
+                type="time"
+                disabled={isSaving}
+                error={submitted && errors.startTime}
+                helperText={
+                  submitted && errors.startTime
+                    ? t('errors.required')
+                    : undefined
+                }
+              />
+            </div>
+            <div className="columns gapped">
+              <OphInputFormField
+                label={t('fields.maxParticipantsPart2')}
+                value={form.maxParticipantsSpeakWrite}
+                onChange={(e) =>
+                  updateField('maxParticipantsSpeakWrite', e.target.value)
+                }
+                type="number"
+                disabled={isSaving}
+                error={submitted && errors.maxParticipants}
+                helperText={
+                  submitted && errors.maxParticipants
+                    ? t('errors.required')
+                    : undefined
+                }
+              />
+              <OphInputFormField
+                label={t('fields.startTimeSpeakWrite')}
+                value={form.startTimeSpeakWrite}
+                onChange={(e) =>
+                  updateField('startTimeSpeakWrite', e.target.value)
+                }
+                type="time"
+                disabled={isSaving}
+                error={submitted && errors.startTime}
+                helperText={
+                  submitted && errors.startTime
+                    ? t('errors.required')
+                    : undefined
+                }
+              />
+            </div>
+          </>
         )}
         <OphInputFormField
           label={t('fields.streetAddress')}
@@ -382,6 +551,10 @@ export const ClerkExamSessionEditModal = ({
             updateLocationField('fi', 'streetAddress', e.target.value)
           }
           disabled={isSaving}
+          error={submitted && errors.streetAddress}
+          helperText={
+            submitted && errors.streetAddress ? t('errors.required') : undefined
+          }
         />
         <div className="columns gapped">
           <OphInputFormField
@@ -391,12 +564,20 @@ export const ClerkExamSessionEditModal = ({
               updateLocationField('fi', 'postalCode', e.target.value)
             }
             disabled={isSaving}
+            error={submitted && errors.postalCode}
+            helperText={
+              submitted && errors.postalCode ? t('errors.required') : undefined
+            }
           />
           <OphInputFormField
             label={t('fields.city')}
             value={form.location[0]?.city ?? ''}
             onChange={(e) => updateLocationField('fi', 'city', e.target.value)}
             disabled={isSaving}
+            error={submitted && errors.city}
+            helperText={
+              submitted && errors.city ? t('errors.required') : undefined
+            }
           />
         </div>
         <OphInputFormField
@@ -406,6 +587,12 @@ export const ClerkExamSessionEditModal = ({
             updateLocationField('fi', 'otherLocationInfo', e.target.value)
           }
           disabled={isSaving}
+          error={submitted && errors.otherLocationInfo}
+          helperText={
+            submitted && errors.otherLocationInfo
+              ? t('errors.required')
+              : undefined
+          }
         />
         <H3>{t('contactHeading')}</H3>
         <OphInputFormField
@@ -413,18 +600,32 @@ export const ClerkExamSessionEditModal = ({
           value={form.contactName}
           onChange={(e) => updateField('contactName', e.target.value)}
           disabled={isSaving}
+          error={submitted && errors.contactName}
+          helperText={
+            submitted && errors.contactName ? t('errors.required') : undefined
+          }
         />
         <OphInputFormField
           label={t('fields.contactEmail')}
           value={form.contactEmail}
           onChange={(e) => updateField('contactEmail', e.target.value)}
           disabled={isSaving}
+          error={submitted && errors.contactEmail}
+          helperText={
+            submitted && errors.contactEmail ? t('errors.required') : undefined
+          }
         />
         <OphInputFormField
           label={t('fields.contactPhoneNumber')}
           value={form.contactPhoneNumber}
           onChange={(e) => updateField('contactPhoneNumber', e.target.value)}
           disabled={isSaving}
+          error={submitted && errors.contactPhoneNumber}
+          helperText={
+            submitted && errors.contactPhoneNumber
+              ? t('errors.required')
+              : undefined
+          }
         />
         <H3>{t('extraInformationHeading')}</H3>
         <OphInputFormField

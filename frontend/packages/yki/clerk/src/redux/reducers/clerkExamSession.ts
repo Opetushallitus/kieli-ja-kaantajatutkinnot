@@ -20,12 +20,16 @@ export interface ClerkExamSessionEditForm {
   language: string;
   level: string;
   maxParticipantsTotal: string;
-  maxParticipantsPartial1: string;
-  maxParticipantsPartial2: string;
+  maxParticipantsReadListen: string;
+  maxParticipantsSpeakWrite: string;
   location: ClerkExamSessionLocationForm[];
   contactName: string;
   contactEmail: string;
   contactPhoneNumber: string;
+  startTime: string;
+  startTimeReadListen: string;
+  startTimeSpeakWrite: string;
+  officeOid: string;
 }
 
 export interface ClerkExamSessionCreateForm extends ClerkExamSessionEditForm {

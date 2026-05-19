@@ -201,7 +201,13 @@
       "clerkExamSessionRegistrations": {
         "buttons": {
           "downloadExcel": "Lataa excel",
-          "edit": "Muokkaa"
+          "edit": "Muokkaa tutkintotilaisuuden tietoja"
+        },
+        "maxParticipants": {
+          "maxParticipantsReading": "Tekstin ymmärtäminen: {{count}}",
+          "maxParticipantsSpeaking": "Puhuminen: {{count}}",
+          "maxParticipantsSpeech": "Puheen ymmärtäminen: {{count}}",
+          "maxParticipantsWriting": "Kirjoittaminen: {{count}}"
         },
         "modals": {
           "cancel": {
@@ -226,6 +232,9 @@
               "maxParticipants": "Osallistujien enimmäismäärä",
               "maxParticipantsPart1": "Osakoe 1: enimmäismäärä",
               "maxParticipantsPart2": "Osakoe 2: enimmäismäärä",
+              "startTime": "Alkamisaika",
+              "startTimeReadListen": "Osakoe 1: alkamisaika",
+              "startTimeSpeakWrite": "Osakoe 2: alkamisaika",
               "postalCode": "Postinumero",
               "streetAddress": "Katuosoite",
               "type": "Tutkintotyyppi",
@@ -234,6 +243,9 @@
                 "LISTEN_WRITE": "Kuunteleminen ja kirjoittaminen",
                 "READ_SPEAK": "Lukeminen ja puhuminen"
               }
+            },
+            "errors": {
+              "required": "Tieto on pakollinen"
             },
             "contactHeading": "Yhteystiedot",
             "extraInformationHeading": "Lisätiedot",

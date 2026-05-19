@@ -59,12 +59,18 @@ function* saveExamSessionSaga(
         language: form.language,
         level: form.level,
         maxParticipantsTotal: Number(form.maxParticipantsTotal),
-        maxParticipantsPartial1: Number(form.maxParticipantsPartial1) || null,
-        maxParticipantsPartial2: Number(form.maxParticipantsPartial2) || null,
+        maxParticipantsReadListen:
+          Number(form.maxParticipantsReadListen) || null,
+        maxParticipantsSpeakWrite:
+          Number(form.maxParticipantsSpeakWrite) || null,
         location: form.location,
         contactName: form.contactName,
         contactEmail: form.contactEmail,
         contactPhoneNumber: form.contactPhoneNumber,
+        startTime: form.startTime,
+        startTimeReadListen: form.startTimeReadListen || null,
+        startTimeSpeakWrite: form.startTimeSpeakWrite || null,
+        officeOid: form.officeOid,
       },
     );
     const clerkExamSession =
@@ -153,12 +159,16 @@ function* createExamSessionSaga(
       level: form.level,
       type: form.type,
       maxParticipantsTotal: Number(form.maxParticipantsTotal),
-      maxParticipantsPartial1: Number(form.maxParticipantsPartial1) || null,
-      maxParticipantsPartial2: Number(form.maxParticipantsPartial2) || null,
+      maxParticipantsReadListen: Number(form.maxParticipantsReadListen) || null,
+      maxParticipantsSpeakWrite: Number(form.maxParticipantsSpeakWrite) || null,
+      startTime: form.startTime,
+      startTimeReadListen: form.startTimeReadListen || null,
+      startTimeSpeakWrite: form.startTimeSpeakWrite || null,
       location: form.location,
       contactName: form.contactName,
       contactEmail: form.contactEmail,
       contactPhoneNumber: form.contactPhoneNumber,
+      officeOid: form.officeOid,
     });
 
     yield put(acceptCreateExamSession());
