@@ -369,8 +369,9 @@
             "email": "Sähköpostiosoite",
             "emailConfirmation": "Sähköpostiosoitteen vahvistus",
             "firstName": "Etunimi",
-            "hasPreviousEnrollment": "Oletko osallistunut aiemmin hyvän ja tyydyttävän taidon tutkintoon?",
-            "isFullExam": "Haluatko suorittaa sekä suullisen että kirjallisen taidon tutkinnon?",
+            "hasPreviousEnrollment": "Oletko osallistunut aiemmin hyvän ja tyydyttävän taidon tutkintoon",
+            "isFullExam": "Haluatko suorittaa sekä suullisen että kirjallisen taidon tutkinnon",
+            "uploadAttachment": "Lähetä päätös aiemman tutkinnon tuloksesta",
             "message": "Viesti",
             "lastName": "Sukunimi",
             "partialExamSelection": "Kerro, mitkä osakokeet haluat suorittaa",
@@ -512,7 +513,7 @@
                 "no": "En",
                 "yes": "Kyllä"
               },
-              "noEnrollmentError": "Et voi jatkaa ilmoittautumista, jos et ole osallistunut hyvän ja tyydyttävän taidon kielitutkintoon aiemmin.",
+              "noEnrollmentError": "Et voi jatkaa, jos et ole osallistunut hyvän ja tyydyttävän taidon kielitutkintoon aiemmin.",
               "noEnrollmentInfoBox": {
                 "line1": "1.7.2026 alkaen vain aiemmin hylättyjen osakokeiden uusiminen on mahdollista.",
                 "line2": "Jos et ole suorittanut valtionhallinnon kielitutkintoa aikaisemmin, mutta tarvitset todistuksen suomen tai ruotsin kielen taidosta julkishallinnon työtehtävää varten, voit suorittaa yleisen kielitutkinnon eli YKI-testin.",
@@ -533,7 +534,7 @@
                 "title": "Lähetä päätös aiemman tutkinnon tuloksesta",
                 "helpText": "Lisää päätös tutkinnon tuloksesta",
                 "instructions": {
-                  "part1": "Lisää todistus, jossa näkyy aiemmin hylätyn osakokeen tiedot.",
+                  "part1": "Lisää todistus, jossa on tiedot aiemmin hylätystä osakokeesta.",
                   "part2": "Tallenna todistus joko pdf-muodossa tai kuvatiedostona (esim. png tai jpeg). Tiedoston maksimikoko on 1.0 GB.",
                   "part3": "Jos olet osallistunut tutkintoon monta kertaa, voit lisätä useita todistuksia."
                 },

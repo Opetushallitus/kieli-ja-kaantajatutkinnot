@@ -147,26 +147,16 @@ export const PublicEnrollmentContactControlButtons = ({
     } else {
       setShowValidation(true);
 
-      if (enrollment.hasPreviousEnrollment !== true) {
-        showDialog({
-          title: t('errors.title'),
-          severity: Severity.Error,
-          content: <Text>{t('errors.messages.hasPreviousEnrollment')}</Text>,
-          actions: [
-            { title: translateCommon('back'), variant: Variant.Contained },
-          ],
-        });
-
-        return;
-      }
-
       const errors = {
         isFullExam: enrollment.isFullExam === undefined,
         partialExamSelection:
           enrollment.isFullExam === false &&
           (enrollment.partialExamSelection === undefined ||
             StringUtils.isBlankString(enrollment.partialExamSelection)),
-        hasPreviousEnrollment: enrollment.hasPreviousEnrollment === undefined,
+        hasPreviousEnrollment: enrollment.hasPreviousEnrollment !== true,
+        uploadAttachment:
+          enrollment.hasPreviousEnrollment === true &&
+          !enrollment.attachments?.length,
         message: StringUtils.isBlankString(enrollment.message),
       };
 

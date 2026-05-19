@@ -19,6 +19,11 @@
       margin-left: 13rem;
       margin-right: 13rem;
 
+      @include phone {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
       &__step-disabled {
         span,
         svg {
@@ -40,7 +45,7 @@
     }
 
     &__previous-enrollment {
-      width: calc(50% - 1rem);
+      width: calc(80% - 1rem);
 
       @include phone {
         width: 100%;
