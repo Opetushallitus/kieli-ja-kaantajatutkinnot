@@ -1260,4 +1260,9 @@
                                  constraintName="fk_contact_attachment_enrollment_appointment"
                                  onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
+    <changeSet id="2026-05-19-contact-attachment-composite-unique" author="miikavonbell">
+        <dropUniqueConstraint tableName="contact_attachment" constraintName="contact_attachment_key_uniq_idx"/>
+        <addUniqueConstraint tableName="contact_attachment" columnNames="enrollment_appointment_id, key"
+                             constraintName="contact_attachment_enrollment_key_uniq_idx"/>
+    </changeSet>
 </databaseChangeLog>

@@ -27,7 +27,7 @@ public class ContactAttachment extends BaseEntity {
   @JoinColumn(name = "enrollment_appointment_id", referencedColumnName = "enrollment_appointment_id", nullable = false)
   private EnrollmentAppointment enrollmentAppointment;
 
-  @Column(name = "key", unique = true, nullable = false)
+  @Column(name = "key", nullable = false)
   private String key;
 
   @Column(name = "filename", nullable = false)
