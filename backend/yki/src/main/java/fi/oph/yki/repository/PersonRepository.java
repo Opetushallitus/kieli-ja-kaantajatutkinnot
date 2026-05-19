@@ -14,6 +14,20 @@ public interface PersonRepository extends JpaRepository<Person, String> {
 
   @Query(
     value = """
+      SELECT EXISTS (
+        SELECT 1
+        FROM registration r
+        JOIN exam_session es ON r.exam_session_id = es.id
+        JOIN organizer o ON es.organizer_id = o.id
+        WHERE r.person_oid = :personOid AND o.oid = :organizerOid
+      )
+  """,
+    nativeQuery = true
+  )
+  Boolean isPersonRelatedToOrganizer(@Param("personOid") String personOid, @Param("organizerOid") String organizerOid);
+
+  @Query(
+    value = """
 SELECT
     -- Osallistujan tiedot
     p.oid,

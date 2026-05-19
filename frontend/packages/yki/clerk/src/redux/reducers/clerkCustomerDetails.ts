@@ -22,6 +22,12 @@ const clerkCustomerDetailsSlice = createSlice({
   name: 'customerDetails',
   initialState,
   reducers: {
+    loadOrganizerCustomerDetails(
+      state,
+      _action: PayloadAction<{ oid: string; personOid: string }>,
+    ) {
+      state.status = APIResponseStatus.InProgress;
+    },
     loadClerkCustomerDetails(state, _action: PayloadAction<string>) {
       state.status = APIResponseStatus.InProgress;
     },
@@ -55,6 +61,7 @@ const clerkCustomerDetailsSlice = createSlice({
 
 export const clerkCustomerDetailsReducer = clerkCustomerDetailsSlice.reducer;
 export const {
+  loadOrganizerCustomerDetails,
   loadClerkCustomerDetails,
   rejectCustomerDetails,
   storeCustomerDetails,

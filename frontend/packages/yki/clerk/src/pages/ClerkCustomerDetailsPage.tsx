@@ -1,6 +1,6 @@
 import { ChevronRight, HomeOutlined } from '@mui/icons-material';
 import { Box, Grid, IconButton, Paper } from '@mui/material';
-import { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
@@ -9,14 +9,16 @@ import { ClerkCustomerDetails } from 'components/clerkCustomer/ClerkCustomerDeta
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { RouteType } from 'interfaces/user';
 import { H2 } from 'ophTheme/Text';
 import {
   loadClerkCustomerDetails,
+  loadOrganizerCustomerDetails,
   resetCustomerDetails,
 } from 'redux/reducers/clerkCustomerDetails';
 import { clerkCustomerDetailsSelector } from 'redux/selectors/clerkCustomerDetailsSelector';
 
-export const ClerkCustomerDetailsPage: FC = () => {
+export const ClerkCustomerDetailsPage = ({ route }: { route: RouteType }) => {
   const translateCommon = useCommonTranslation();
   const { customerDetails, status } = useAppSelector(
     clerkCustomerDetailsSelector,
@@ -38,16 +40,40 @@ export const ClerkCustomerDetailsPage: FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (status === APIResponseStatus.NotStarted && params.oid) {
-      dispatch(loadClerkCustomerDetails(params.oid));
+    if (
+      route === 'clerk' &&
+      status === APIResponseStatus.NotStarted &&
+      params.personOid
+    ) {
+      dispatch(loadClerkCustomerDetails(params.personOid));
+    } else if (
+      route === 'organizer' &&
+      status === APIResponseStatus.NotStarted &&
+      params.personOid &&
+      params.oid
+    ) {
+      dispatch(
+        loadOrganizerCustomerDetails({
+          oid: params.oid,
+          personOid: params.personOid,
+        }),
+      );
     } else if (status === APIResponseStatus.Error) {
       showToast({
         severity: Severity.Error,
         description: t('details.toasts.notFound'),
       });
-      navigate(AppRoutes.ClerkCustomerDetails);
     }
-  }, [dispatch, navigate, params.oid, showToast, status, t]);
+  }, [
+    dispatch,
+    navigate,
+    route,
+    params.oid,
+    params.personOid,
+    showToast,
+    status,
+    t,
+  ]);
 
   return (
     <Box className="clerk-customer-details-page">

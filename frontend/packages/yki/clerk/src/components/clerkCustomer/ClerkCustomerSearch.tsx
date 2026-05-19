@@ -1,12 +1,17 @@
 import { Box } from '@mui/material';
+import { useParams } from 'react-router-dom';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkCustomerListingFilter } from 'components/clerkCustomer/ClerkCustomerListingFilter';
 import { ClerkCustomersListing } from 'components/clerkCustomer/ClerkCustomersListing';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { RouteType } from 'interfaces/user';
 import { H2 } from 'ophTheme/Text';
-import { loadCustomersSearch } from 'redux/reducers/clerkCustomersSearch';
+import {
+  loadCustomersSearch,
+  loadOrganizerCustomersSearch,
+} from 'redux/reducers/clerkCustomersSearch';
 import { clerkCustomersSearchSelector } from 'redux/selectors/clerkCustomersSearchSelector';
 
 const InfoText = ({ status }: { status: APIResponseStatus }) => {
@@ -26,7 +31,7 @@ const InfoText = ({ status }: { status: APIResponseStatus }) => {
   );
 };
 
-export const ClerkCustomerSearch = () => {
+export const ClerkCustomerSearch = ({ route }: { route: RouteType }) => {
   const {
     status,
     customers,
@@ -41,6 +46,36 @@ export const ClerkCustomerSearch = () => {
   } = useAppSelector(clerkCustomersSearchSelector);
 
   const dispatch = useAppDispatch();
+  const params = useParams();
+  const oid = params.oid ?? '';
+
+  const loadSearch = (page: number) => {
+    dispatch(
+      route === 'clerk'
+        ? loadCustomersSearch({
+            request: {
+              personQuery: searchQueryFilter,
+              organizerId: organizerIdFilter,
+              examDateId: examDateIdFilter,
+              languageCode: languageCodeFilter,
+              levelCode: levelCodeFilter,
+            },
+            page: page,
+            size,
+          })
+        : loadOrganizerCustomersSearch({
+            request: {
+              personQuery: searchQueryFilter,
+              examDateId: examDateIdFilter,
+              languageCode: languageCodeFilter,
+              levelCode: levelCodeFilter,
+            },
+            page: page,
+            size,
+            oid,
+          }),
+    );
+  };
 
   const renderClerkCustomersListing = () => {
     switch (status) {
@@ -53,21 +88,9 @@ export const ClerkCustomerSearch = () => {
             page={page}
             pageSize={size}
             totalCount={totalElements}
-            onPageChange={(newPage) =>
-              dispatch(
-                loadCustomersSearch({
-                  request: {
-                    personQuery: searchQueryFilter,
-                    organizerId: organizerIdFilter,
-                    examDateId: examDateIdFilter,
-                    languageCode: languageCodeFilter,
-                    levelCode: levelCodeFilter,
-                  },
-                  page: newPage,
-                  size,
-                }),
-              )
-            }
+            route={route}
+            oid={oid}
+            onPageChange={(newPage) => loadSearch(newPage)}
           />
         );
       default:
@@ -77,7 +100,11 @@ export const ClerkCustomerSearch = () => {
 
   return (
     <>
-      <ClerkCustomerListingFilter />
+      <ClerkCustomerListingFilter
+        loadSearch={loadSearch}
+        route={route}
+        oid={oid}
+      />
       {renderClerkCustomersListing()}
     </>
   );

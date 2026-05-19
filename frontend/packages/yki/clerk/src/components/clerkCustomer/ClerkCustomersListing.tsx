@@ -7,6 +7,7 @@ import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import { ClerkCustomerSummary } from 'interfaces/clerkCustomer';
+import { RouteType } from 'interfaces/user';
 
 type ClerkCustomerSummaryRow = ClerkCustomerSummary & Row;
 
@@ -16,12 +17,16 @@ export const ClerkCustomersListing = ({
   pageSize,
   totalCount,
   onPageChange,
+  route,
+  oid,
 }: {
   customers: ClerkCustomerSummary[] | undefined;
   page: number;
   pageSize: number;
   totalCount: number;
   onPageChange: (page: number) => void;
+  route: RouteType;
+  oid: string;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkCustomer.search',
@@ -38,7 +43,14 @@ export const ClerkCustomersListing = ({
       render: ({ person }) => (
         <div>
           <Link
-            to={AppRoutes.ClerkCustomerDetails.replace(/:oid$/, person.oid)}
+            to={
+              route === 'clerk'
+                ? AppRoutes.ClerkCustomerDetails.replace(/:oid$/, person.oid)
+                : AppRoutes.OrganizerCustomerDetails.replace(
+                    ':oid',
+                    oid,
+                  ).replace(/:personOid$/, person.oid)
+            }
           >{`${person.firstName} ${person.lastName}`}</Link>
           {person.ssn ? (
             <>

@@ -6,7 +6,7 @@ export enum AppRoutes {
   NotFoundPage = '*',
   ClerkRoot = '/yki/v2/virkailija',
   CustomerSearch = '/yki/v2/virkailija/asiakashaku',
-  ClerkCustomerDetails = '/yki/v2/virkailija/asiakashaku/:oid',
+  ClerkCustomerDetails = '/yki/v2/virkailija/asiakashaku/:personOid',
   ClerkExamDates = '/yki/v2/virkailija/tutkintopaivat',
   ClerkExamSession = '/yki/v2/virkailija/tilaisuus/:id',
   ClerkOrganizerRegister = '/yki/v2/virkailija/jarjestajarekisteri',
@@ -18,6 +18,8 @@ export enum AppRoutes {
   ClerkQuarantine = '/yki/v2/virkailija/osallistumiskiellot',
   Organizer = '/yki/v2/jarjestaja',
   OrganizerHome = '/yki/v2/jarjestaja/:oid',
+  OrganizerCustomerSearch = '/yki/v2/jarjestaja/:oid/asiakashaku',
+  OrganizerCustomerDetails = '/yki/v2/jarjestaja/:oid/asiakashaku/:personOid',
 }
 
 export enum ExamLanguage {

@@ -10,6 +10,7 @@ import {
 } from 'interfaces/clerkCustomer';
 import {
   loadClerkCustomerDetails,
+  loadOrganizerCustomerDetails,
   rejectCustomerContactUpdate,
   rejectCustomerDetails,
   resolveCustomerContactUpdate,
@@ -17,6 +18,27 @@ import {
   updateCustomerContactDetails,
 } from 'redux/reducers/clerkCustomerDetails';
 import { SerializationUtils } from 'utils/serialization';
+
+function* loadOrganizerCustomerDetailsSaga(
+  action: PayloadAction<{ oid: string; personOid: string }>,
+) {
+  try {
+    const { oid, personOid } = action.payload;
+    const response: AxiosResponse<ClerkCustomerDetailsResponse> = yield call(
+      axiosInstance.get,
+      APIEndpoints.OrganizerCustomersDetails.replace(':oid', oid).replace(
+        /:personOid$/,
+        personOid,
+      ),
+    );
+    const clerkCustomerDetails =
+      SerializationUtils.deserializeClerkCustomerDetailsResponse(response.data);
+
+    yield put(storeCustomerDetails(clerkCustomerDetails));
+  } catch (error) {
+    yield put(rejectCustomerDetails());
+  }
+}
 
 function* loadClerkCustomerDetailsSaga(action: PayloadAction<string>) {
   try {
@@ -50,6 +72,10 @@ function* updateCustomerContactDetailsSaga(
 }
 
 export function* watchClerkCustomerDetails() {
+  yield takeLatest(
+    loadOrganizerCustomerDetails.type,
+    loadOrganizerCustomerDetailsSaga,
+  );
   yield takeLatest(loadClerkCustomerDetails.type, loadClerkCustomerDetailsSaga);
   yield takeLatest(
     updateCustomerContactDetails.type,

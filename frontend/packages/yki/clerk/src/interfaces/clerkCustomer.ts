@@ -104,6 +104,18 @@ export interface ClerkPersonContactUpdateRequest {
   zip: string;
 }
 
+export type OrganizerCustomerSearchParams = {
+  request: {
+    personQuery?: string;
+    examDateId?: number;
+    languageCode?: string;
+    levelCode?: string;
+  };
+  page: number;
+  size: number;
+  oid: string;
+};
+
 export type ClerkCustomerSearchParams = {
   request: {
     personQuery?: string;
