@@ -3,6 +3,7 @@ package fi.oph.yki.service;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchDTO;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantinePersonDTO;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineReviewDTO;
+import fi.oph.yki.api.dto.clerk.ClerkQuarantinesDTO;
 import fi.oph.yki.api.dto.clerk.CreateQuarantineRequest;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
@@ -20,6 +21,7 @@ import fi.oph.yki.util.exception.APIExceptionType;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -43,6 +45,39 @@ public class ClerkQuarantineService {
   private final QuarantineReviewRepository quarantineReviewRepository;
   private final OnrService onrService;
   private final AuditService auditService;
+
+  @Transactional(readOnly = true)
+  public List<ClerkQuarantinesDTO> getActiveQuarantine() {
+    var quarantines = quarantineRepository
+      .findAll()
+      .stream()
+      .filter(q -> q.getDeletedAt() == null)
+      .sorted(Comparator.comparingLong(Quarantine::getId).reversed())
+      .map(quarantine -> {
+        final ClerkQuarantinePersonDTO quarantinedPerson = ClerkQuarantinePersonDTO
+          .builder()
+          .firstName(quarantine.getFirstName())
+          .lastName(quarantine.getLastName())
+          .birthdate(quarantine.getBirthdate())
+          .ssn(quarantine.getSsn())
+          .email(quarantine.getEmail())
+          .phoneNumber(quarantine.getPhoneNumber())
+          .build();
+
+        return ClerkQuarantinesDTO
+          .builder()
+          .id(quarantine.getId())
+          .startDate(quarantine.getStartDate())
+          .endDate(quarantine.getEndDate())
+          .languageCode(quarantine.getLanguageCode().trim())
+          .quarantinedPerson(quarantinedPerson)
+          .build();
+      })
+      .collect(Collectors.toList());
+
+    auditService.logOperation(YkiOperation.GET_ACTIVE_QUARANTINES);
+    return quarantines;
+  }
 
   private Map<String, String> getOidToSsnMap(final List<String> oids) {
     try {
