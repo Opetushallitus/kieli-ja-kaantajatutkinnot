@@ -10,15 +10,18 @@ import { PendingReviewsListing } from 'components/clerkQuarantine/listing/Pendin
 import { usePublicTranslation } from 'configs/i18n';
 import { H2 } from 'ophTheme/Text';
 import {
+  loadClerkActiveQuarantines,
   loadClerkQuarantineMatches,
   loadClerkQuarantineReviews,
   resetCreateClerkQuarantineStatus,
   resetQuarantineReviewStatus,
+  setActiveQuarantinesSort,
   setQuarantineReview,
   setQuarantineSort,
 } from 'redux/reducers/clerkQuarantine';
 import {
   clerkQuarantineSelector,
+  selectSortedActiveQuarantines,
   selectSortedQuarantineMatches,
 } from 'redux/selectors/clerkQuarantine';
 
@@ -98,10 +101,13 @@ export const ClerkQuarantine = () => {
     lastReviewAction,
     reviews,
     reviewsStatus,
+    activeQuarantinesStatus,
+    activeQuarantinesSort,
     createStatus,
   } = useSelector(clerkQuarantineSelector);
   const prevCreateStatus = useRef(createStatus);
   const rows = useSelector(selectSortedQuarantineMatches);
+  const activeQuarantineRows = useSelector(selectSortedActiveQuarantines);
   const [activeTab, setActiveTab] =
     useState<ClerkQuarantineTab>('pendingReviews');
   const [page, setPage] = useState(1);
@@ -123,6 +129,15 @@ export const ClerkQuarantine = () => {
       dispatch(loadClerkQuarantineReviews());
     }
   }, [dispatch, activeTab, reviewsStatus]);
+
+  useEffect(() => {
+    if (
+      activeTab === 'activeQuarantines' &&
+      activeQuarantinesStatus === APIResponseStatus.NotStarted
+    ) {
+      dispatch(loadClerkActiveQuarantines());
+    }
+  }, [dispatch, activeTab, activeQuarantinesStatus]);
 
   useEffect(() => {
     if (!lastReviewAction) return;
@@ -183,7 +198,19 @@ export const ClerkQuarantine = () => {
         );
 
       case 'activeQuarantines':
-        return <ActiveQuarantinesListing />;
+        return activeQuarantinesStatus !== APIResponseStatus.Success ? (
+          <InfoText status={activeQuarantinesStatus} />
+        ) : (
+          <ActiveQuarantinesListing
+            rows={activeQuarantineRows}
+            page={page}
+            setPage={setPage}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
+            sort={activeQuarantinesSort}
+            setSort={(s) => dispatch(setActiveQuarantinesSort(s))}
+          />
+        );
 
       case 'pendingReviews':
       default:

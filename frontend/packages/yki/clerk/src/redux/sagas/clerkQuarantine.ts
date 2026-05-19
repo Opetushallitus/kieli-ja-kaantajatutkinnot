@@ -6,6 +6,7 @@ import axiosInstance from 'configs/axios';
 import { translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import {
+  ClerkActiveQuarantineResponse,
   ClerkQuarantineMatchResponse,
   ClerkQuarantineReviewResponse,
   CreateClerkQuarantineRequest,
@@ -13,8 +14,10 @@ import {
 import { setAPIError } from 'redux/reducers/APIError';
 import {
   createClerkQuarantine,
+  loadClerkActiveQuarantines,
   loadClerkQuarantineMatches,
   loadClerkQuarantineReviews,
+  rejectClerkActiveQuarantines,
   rejectClerkQuarantineMatches,
   rejectClerkQuarantineReviews,
   rejectCreateClerkQuarantine,
@@ -22,6 +25,7 @@ import {
   resolveCreateClerkQuarantine,
   resolveQuarantineReview,
   setQuarantineReview,
+  storeClerkActiveQuarantines,
   storeClerkQuarantineMatches,
   storeClerkQuarantineReviews,
 } from 'redux/reducers/clerkQuarantine';
@@ -55,6 +59,21 @@ function* loadClerkQuarantineReviewsSaga() {
     yield put(storeClerkQuarantineReviews(reviews));
   } catch (error) {
     yield put(rejectClerkQuarantineReviews());
+  }
+}
+
+function* loadClerkActiveQuarantinesSaga() {
+  try {
+    const response: AxiosResponse<ClerkActiveQuarantineResponse[]> = yield call(
+      axiosInstance.get,
+      APIEndpoints.ClerkQuarantine,
+    );
+    const activeQuarantines = response.data.map(
+      SerializationUtils.deserializeClerkActiveQuarantineResponse,
+    );
+    yield put(storeClerkActiveQuarantines(activeQuarantines));
+  } catch (error) {
+    yield put(rejectClerkActiveQuarantines());
   }
 }
 
@@ -116,6 +135,10 @@ export function* watchClerkQuarantine() {
   yield takeLatest(
     loadClerkQuarantineReviews.type,
     loadClerkQuarantineReviewsSaga,
+  );
+  yield takeLatest(
+    loadClerkActiveQuarantines.type,
+    loadClerkActiveQuarantinesSaga,
   );
   yield takeLatest(setQuarantineReview.type, setQuarantineReviewSaga);
   yield takeLatest(createClerkQuarantine.type, createClerkQuarantineSaga);

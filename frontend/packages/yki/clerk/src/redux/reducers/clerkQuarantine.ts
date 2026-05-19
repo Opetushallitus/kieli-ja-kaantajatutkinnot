@@ -2,6 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import {
+  ActiveQuarantinesSort,
+  ClerkActiveQuarantine,
   ClerkQuarantineMatch,
   ClerkQuarantineReview,
   ClerkQuarantineSort,
@@ -11,9 +13,12 @@ import {
 interface ClerkQuarantineState {
   matches: ClerkQuarantineMatch[];
   reviews: ClerkQuarantineReview[];
+  activeQuarantines: ClerkActiveQuarantine[];
   sort: ClerkQuarantineSort;
+  activeQuarantinesSort: ActiveQuarantinesSort;
   status: APIResponseStatus;
   reviewsStatus: APIResponseStatus;
+  activeQuarantinesStatus: APIResponseStatus;
   reviewStatus: APIResponseStatus;
   lastReviewAction: 'matchConfirmed' | 'matchRejected' | null;
   createStatus: APIResponseStatus;
@@ -22,9 +27,12 @@ interface ClerkQuarantineState {
 const initialState: ClerkQuarantineState = {
   matches: [],
   reviews: [],
+  activeQuarantines: [],
   sort: 'examDate:asc',
+  activeQuarantinesSort: 'startDate:asc',
   status: APIResponseStatus.NotStarted,
   reviewsStatus: APIResponseStatus.NotStarted,
+  activeQuarantinesStatus: APIResponseStatus.NotStarted,
   reviewStatus: APIResponseStatus.NotStarted,
   lastReviewAction: null,
   createStatus: APIResponseStatus.NotStarted,
@@ -62,6 +70,25 @@ const clerkQuarantineSlice = createSlice({
     },
     setQuarantineSort(state, action: PayloadAction<ClerkQuarantineSort>) {
       state.sort = action.payload;
+    },
+    loadClerkActiveQuarantines(state) {
+      state.activeQuarantinesStatus = APIResponseStatus.InProgress;
+    },
+    rejectClerkActiveQuarantines(state) {
+      state.activeQuarantinesStatus = APIResponseStatus.Error;
+    },
+    storeClerkActiveQuarantines(
+      state,
+      action: PayloadAction<ClerkActiveQuarantine[]>,
+    ) {
+      state.activeQuarantinesStatus = APIResponseStatus.Success;
+      state.activeQuarantines = action.payload;
+    },
+    setActiveQuarantinesSort(
+      state,
+      action: PayloadAction<ActiveQuarantinesSort>,
+    ) {
+      state.activeQuarantinesSort = action.payload;
     },
     setQuarantineReview(
       state,
@@ -112,6 +139,10 @@ export const {
   loadClerkQuarantineReviews,
   rejectClerkQuarantineReviews,
   storeClerkQuarantineReviews,
+  loadClerkActiveQuarantines,
+  rejectClerkActiveQuarantines,
+  storeClerkActiveQuarantines,
+  setActiveQuarantinesSort,
   setQuarantineSort,
   setQuarantineReview,
   resolveQuarantineReview,

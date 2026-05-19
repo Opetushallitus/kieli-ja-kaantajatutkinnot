@@ -382,6 +382,25 @@
       "clerkQuarantine": {
         "activeQuarantines": {
           "addButton": "Lisää osallistumiskielto",
+          "listing": {
+            "columns": {
+              "actions": "Toiminnot",
+              "birthdate": "Syntymäaika",
+              "email": "Sähköposti",
+              "examLanguage": "Tutkinnon kieli",
+              "name": "Etunimi sukunimi",
+              "phoneNumber": "Puhelinnumero",
+              "ssn": "Hetu",
+              "validityPeriod": "Osallistumiskiellon voimassaoloaika"
+            },
+            "resultCount": "{{count}} osallistumiskieltoa",
+            "values": {
+              "actions": {
+                "delete": "Poista",
+                "edit": "Muokkaa"
+              }
+            }
+          },
           "modal": {
             "cancel": "Peruuta",
             "errors": {

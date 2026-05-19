@@ -16,7 +16,7 @@ export enum APIEndpoints {
   ClerkExamDate = '/yki/v2/api/clerk/examDate',
   ClerkPersonContactUpdate = '/yki/v2/api/clerk/person/:oid/contactDetails',
   ClerkPaymentReportExcel = '/yki/v2/api/clerk/paymentReport/excel',
-  ClerkQuarantine = '/yki/v2/api/clerk/quarantine',
+  ClerkQuarantine = '/yki/v2/api/clerk/quarantine/',
   ClerkQuarantineMatches = '/yki/v2/api/clerk/quarantine/matches',
   ClerkQuarantineReviews = '/yki/v2/api/clerk/quarantine/reviews',
   ClerkQuarantineSetReview = '/yki/v2/api/clerk/quarantine/:id/registration/:regId/set',

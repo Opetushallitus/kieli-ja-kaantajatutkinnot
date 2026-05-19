@@ -1,8 +1,9 @@
-type ListingTab = 'pending' | 'past';
+type ListingTab = 'pending' | 'past' | 'active';
 
 const listingTestIds: Record<ListingTab, string> = {
   pending: 'pending-reviews-listing',
   past: 'past-reviews-listing',
+  active: 'active-quarantines-listing',
 };
 
 class ClerkQuarantinePage {
@@ -13,7 +14,9 @@ class ClerkQuarantinePage {
     tableRows: (tab: ListingTab) =>
       cy.get(`[data-testid="${listingTestIds[tab]}"] table tbody tr`),
     addQuarantineButton: () =>
-      cy.findByRole('button', { name: 'Lisää osallistumiskielto' }).first(),
+      cy
+        .get(`[data-testid="${listingTestIds.active}"]`)
+        .findByRole('button', { name: 'Lisää osallistumiskielto' }),
   };
 
   modal = {

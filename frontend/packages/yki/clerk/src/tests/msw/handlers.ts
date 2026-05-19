@@ -9,6 +9,7 @@ import {
   LanguageEvaluation,
   UpdateEvaluationRequest,
 } from 'interfaces/examDate';
+import { activeQuarantines } from 'tests/msw/fixtures/activeQuarantines';
 import { clerkExamSession } from 'tests/msw/fixtures/clerkExamSession';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
@@ -364,6 +365,9 @@ export const handlers = [
   }),
   http.post(APIEndpoints.ClerkQuarantine, () =>
     HttpResponse.json({ success: true }),
+  ),
+  http.get(APIEndpoints.ClerkQuarantine, () =>
+    HttpResponse.json(activeQuarantines),
   ),
   http.get(APIEndpoints.ClerkQuarantineMatches, () =>
     HttpResponse.json(quarantineMatches),

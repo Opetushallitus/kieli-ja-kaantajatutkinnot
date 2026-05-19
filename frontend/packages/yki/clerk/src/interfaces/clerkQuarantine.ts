@@ -65,6 +65,24 @@ export type ClerkQuarantineReview = {
 
 export type ClerkQuarantineSort = 'examDate:asc' | 'examDate:desc';
 
+export type ClerkActiveQuarantineResponse = {
+  id: number;
+  startDate: string;
+  endDate: string;
+  languageCode: string;
+  quarantinedPerson: ClerkQuarantinePerson;
+};
+
+export type ClerkActiveQuarantine = {
+  id: number;
+  startDate: Dayjs;
+  endDate: Dayjs;
+  languageCode: string;
+  quarantinedPerson: ClerkQuarantinePerson;
+};
+
+export type ActiveQuarantinesSort = 'startDate:asc' | 'startDate:desc';
+
 export type CreateClerkQuarantineRequest = {
   firstName: string;
   lastName: string;

@@ -109,6 +109,23 @@ describe('ClerkQuarantinePage', () => {
       onClerkQuarantinePage.clickTab('Voimassa olevat osallistumiskiellot');
     });
 
+    it('should display correct number of rows', () => {
+      onClerkQuarantinePage.expectTableRowCount('active', 3);
+    });
+
+    it('should display correct data in first row', () => {
+      onClerkQuarantinePage.expectCorrectRowData('active', 0, [
+        '1.12.2022 - 1.6.2025',
+        'Ruotsi',
+        'Koira Ihminen',
+        '1992-12-12',
+        '121292A7121',
+        'asdasda@test.fi',
+        '+358401234567',
+        'MuokkaaPoista',
+      ]);
+    });
+
     it('should add new osallistumiskielto', () => {
       onClerkQuarantinePage.elements.addQuarantineButton().click();
       onClerkQuarantinePage.modal.expectVisible();
