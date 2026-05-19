@@ -3,8 +3,10 @@ package fi.oph.yki.service;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchDTO;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantinePersonDTO;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineReviewDTO;
+import fi.oph.yki.api.dto.clerk.CreateQuarantineRequest;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
+import fi.oph.yki.model.Quarantine;
 import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.QuarantineMatchProjection;
@@ -13,6 +15,10 @@ import fi.oph.yki.repository.QuarantineReviewProjection;
 import fi.oph.yki.repository.QuarantineReviewRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.HetuUtils;
+import fi.oph.yki.util.exception.APIException;
+import fi.oph.yki.util.exception.APIExceptionType;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +27,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -155,6 +162,53 @@ public class ClerkQuarantineService {
     auditService.logOperation(YkiOperation.GET_QUARANTINE_REVIEWS);
 
     return reviews;
+  }
+
+  @Transactional
+  public void createQuarantine(final CreateQuarantineRequest request) {
+    final String resolvedBirthdate = resolveBirthdate(request.ssn(), request.birthdate());
+
+    final Quarantine quarantine = new Quarantine();
+    quarantine.setLanguageCode(request.languageCode());
+    quarantine.setStartDate(request.startDate());
+    quarantine.setEndDate(request.endDate());
+    quarantine.setFirstName(request.firstName());
+    quarantine.setLastName(request.lastName());
+    quarantine.setDiaryNumber(request.diaryNumber());
+    quarantine.setBirthdate(resolvedBirthdate);
+    quarantine.setSsn(request.ssn());
+    quarantine.setEmail(request.email());
+    quarantine.setPhoneNumber(request.phoneNumber());
+
+    final Quarantine saved;
+    try {
+      saved = quarantineRepository.save(quarantine);
+    } catch (DataIntegrityViolationException e) {
+      if (e.getMessage() != null && e.getMessage().contains("quarantine_diary_number_key")) {
+        throw new APIException(APIExceptionType.QUARANTINE_DIARY_NUMBER_ALREADY_EXISTS);
+      }
+      throw e;
+    }
+    auditService.logClerkById(YkiOperation.CREATE_QUARANTINE, String.valueOf(saved.getId()));
+  }
+
+  private String resolveBirthdate(final String ssn, final LocalDate birthdate) {
+    if (ssn == null && birthdate == null) {
+      throw new APIException(APIExceptionType.QUARANTINE_MISSING_SSN_AND_BIRTHDATE);
+    }
+    if (ssn != null && !HetuUtils.hetuIsValid(ssn)) {
+      throw new APIException(APIExceptionType.QUARANTINE_INVALID_SSN);
+    }
+    if (ssn != null && birthdate != null) {
+      if (!HetuUtils.dateFromHetu(ssn).equals(birthdate)) {
+        throw new APIException(APIExceptionType.QUARANTINE_SSN_BIRTHDATE_MISMATCH);
+      }
+      return birthdate.format(DateTimeFormatter.ISO_LOCAL_DATE);
+    }
+    if (ssn != null) {
+      return HetuUtils.dateFromHetu(ssn).format(DateTimeFormatter.ISO_LOCAL_DATE);
+    }
+    return birthdate.format(DateTimeFormatter.ISO_LOCAL_DATE);
   }
 
   @Transactional
