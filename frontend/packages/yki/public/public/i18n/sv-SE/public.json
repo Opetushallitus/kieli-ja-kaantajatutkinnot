@@ -182,8 +182,8 @@
         "examSessionCard": {
           "actions": "Toiminnot",
           "exam": "Koe",
-          "examFee": "Tutkintomaksu",
-          "examStartTime": "Alkaa klo {{startTime}}",
+          "examStartTime": "klo {{startTime}}",
+          "examStartTimeTitle": "Alkaa",
           "examType": {
             "full": "Tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen",
             "listen": "Puheen ymmärtäminen",
@@ -194,7 +194,6 @@
             "write": "Kirjoittaminen"
           },
           "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä",
-          "openings": "Paikkoja vapaana",
           "placesAvailable": "Paikkoja vapaana",
           "price": "Hinta",
           "registerToPartialExamsSeparately": "Ilmoittaudu osakokeisiin erikseen",
