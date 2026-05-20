@@ -1,4 +1,5 @@
 import { onClerkQuarantinePage } from 'tests/cypress/support/page-objects/clerkQuarantinePage';
+import { onToast } from 'tests/cypress/support/page-objects/toast';
 
 describe('ClerkQuarantinePage', () => {
   beforeEach(() => {
@@ -46,11 +47,11 @@ describe('ClerkQuarantinePage', () => {
     });
 
     it('should display correct number of rows', () => {
-      onClerkQuarantinePage.expectTableRowCount(4);
+      onClerkQuarantinePage.expectTableRowCount('pending', 4);
     });
 
     it('should display correct data in first row', () => {
-      onClerkQuarantinePage.expectCorrectRowData(0, [
+      onClerkQuarantinePage.expectCorrectRowData('pending', 0, [
         'IlmoittautujaOsallistumiskielto',
         'suomi',
         '20.9.2025',
@@ -69,11 +70,11 @@ describe('ClerkQuarantinePage', () => {
     });
 
     it('should display correct number of rows', () => {
-      onClerkQuarantinePage.expectTableRowCount(2);
+      onClerkQuarantinePage.expectTableRowCount('past', 2);
     });
 
     it('should display correct data in first row', () => {
-      onClerkQuarantinePage.expectCorrectRowData(0, [
+      onClerkQuarantinePage.expectCorrectRowData('past', 0, [
         'IlmoittautujaOsallistumiskielto',
         'suomi',
         '20.9.2025',
@@ -88,7 +89,7 @@ describe('ClerkQuarantinePage', () => {
     });
 
     it('should display correct data in second row', () => {
-      onClerkQuarantinePage.expectCorrectRowData(1, [
+      onClerkQuarantinePage.expectCorrectRowData('past', 1, [
         'IlmoittautujaOsallistumiskielto',
         'suomi',
         '15.11.2025',
@@ -100,6 +101,32 @@ describe('ClerkQuarantinePage', () => {
         'Maksanut',
         '',
       ]);
+    });
+  });
+
+  describe('Voimassa olevat osallistumiskiellot tab', () => {
+    beforeEach(() => {
+      onClerkQuarantinePage.clickTab('Voimassa olevat osallistumiskiellot');
+    });
+
+    it('should add new osallistumiskielto', () => {
+      onClerkQuarantinePage.elements.addQuarantineButton().click();
+      onClerkQuarantinePage.modal.expectVisible();
+
+      onClerkQuarantinePage.modal.fillFirstName('Testi');
+      onClerkQuarantinePage.modal.fillLastName('Henkilö');
+      onClerkQuarantinePage.modal.fillSsn('010190-123A');
+      onClerkQuarantinePage.modal.fillEmail('testi@example.com');
+      onClerkQuarantinePage.modal.fillPhone('+358401234567');
+      onClerkQuarantinePage.modal.selectLanguage('fin');
+      onClerkQuarantinePage.modal.fillStartDate('01.06.2026');
+      onClerkQuarantinePage.modal.fillEndDate('01.06.2027');
+      onClerkQuarantinePage.modal.fillCaseNumber('DIAARINUMERO-001');
+
+      onClerkQuarantinePage.modal.submit();
+
+      onClerkQuarantinePage.modal.expectNotExist();
+      onToast.expectText('Osallistumiskielto lisätty onnistuneesti');
     });
   });
 });

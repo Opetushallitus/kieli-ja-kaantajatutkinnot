@@ -182,7 +182,7 @@ export const PendingReviewsListing = ({
   ];
 
   return (
-    <>
+    <div data-testid="pending-reviews-listing">
       <Text>
         <Trans
           t={t}
@@ -214,6 +214,6 @@ export const PendingReviewsListing = ({
         onClose={() => setModalState(null)}
         onConfirm={handleConfirm}
       />
-    </>
+    </div>
   );
 };
