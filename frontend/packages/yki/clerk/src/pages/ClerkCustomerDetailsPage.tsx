@@ -103,7 +103,7 @@ export const ClerkCustomerDetailsPage = ({ route }: { route: RouteType }) => {
           elevation={3}
           className="clerk-customer-details-page__grid-container__results"
         >
-          <ClerkCustomerDetails />
+          <ClerkCustomerDetails route={route} />
         </Paper>
       </Grid>
     </Box>

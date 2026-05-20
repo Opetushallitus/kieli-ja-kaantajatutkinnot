@@ -4,6 +4,7 @@ import { APIResponseStatus } from 'shared/enums';
 import {
   ClerkCustomerDetails,
   ClerkPersonContactUpdateRequest,
+  OrganizerPersonContactUpdateRequest,
 } from 'interfaces/clerkCustomer';
 
 interface ClerkCustomerDetailsState {
@@ -38,6 +39,12 @@ const clerkCustomerDetailsSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.customerDetails = action.payload;
     },
+    updateOrganizerCustomerContactDetails(
+      state,
+      _action: PayloadAction<OrganizerPersonContactUpdateRequest>,
+    ) {
+      state.updateStatus = APIResponseStatus.InProgress;
+    },
     updateCustomerContactDetails(
       state,
       _action: PayloadAction<ClerkPersonContactUpdateRequest>,
@@ -65,6 +72,7 @@ export const {
   loadClerkCustomerDetails,
   rejectCustomerDetails,
   storeCustomerDetails,
+  updateOrganizerCustomerContactDetails,
   updateCustomerContactDetails,
   resolveCustomerContactUpdate,
   rejectCustomerContactUpdate,

@@ -106,7 +106,7 @@ public class ClerkCustomerService {
   }
 
   @Transactional(readOnly = true)
-  public ClerkCustomerDetailsDTO getOrganizerCustomerDetails(final String personOid, final String organizerOid) {
+  public ClerkCustomerDetailsDTO getCustomerDetails(final String personOid, final String organizerOid) {
     final var hasAccess = personRepository.isPersonRelatedToOrganizer(personOid, organizerOid);
 
     if (!hasAccess) {

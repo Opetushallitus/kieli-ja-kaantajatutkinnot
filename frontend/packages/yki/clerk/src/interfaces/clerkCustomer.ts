@@ -104,6 +104,11 @@ export interface ClerkPersonContactUpdateRequest {
   zip: string;
 }
 
+export interface OrganizerPersonContactUpdateRequest
+  extends ClerkPersonContactUpdateRequest {
+  organizerOid: string;
+}
+
 export type OrganizerCustomerSearchParams = {
   request: {
     personQuery?: string;

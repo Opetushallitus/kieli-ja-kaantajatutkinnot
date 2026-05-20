@@ -7,6 +7,7 @@ import { APIEndpoints } from 'enums/api';
 import {
   ClerkCustomerDetailsResponse,
   ClerkPersonContactUpdateRequest,
+  OrganizerPersonContactUpdateRequest,
 } from 'interfaces/clerkCustomer';
 import {
   loadClerkCustomerDetails,
@@ -16,6 +17,7 @@ import {
   resolveCustomerContactUpdate,
   storeCustomerDetails,
   updateCustomerContactDetails,
+  updateOrganizerCustomerContactDetails,
 } from 'redux/reducers/clerkCustomerDetails';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -55,6 +57,25 @@ function* loadClerkCustomerDetailsSaga(action: PayloadAction<string>) {
   }
 }
 
+function* updateOrganizerCustomerContactDetailsSaga(
+  action: PayloadAction<OrganizerPersonContactUpdateRequest>,
+) {
+  try {
+    yield call(
+      axiosInstance.post,
+      APIEndpoints.OrganizerCustomersDetails.replace(
+        /:oid/,
+        action.payload.organizerOid,
+      ).replace(':personOid', action.payload.oid),
+      action.payload,
+    );
+    yield put(resolveCustomerContactUpdate());
+    yield put(loadClerkCustomerDetails(action.payload.oid));
+  } catch (error) {
+    yield put(rejectCustomerContactUpdate());
+  }
+}
+
 function* updateCustomerContactDetailsSaga(
   action: PayloadAction<ClerkPersonContactUpdateRequest>,
 ) {
@@ -80,5 +101,9 @@ export function* watchClerkCustomerDetails() {
   yield takeLatest(
     updateCustomerContactDetails.type,
     updateCustomerContactDetailsSaga,
+  );
+  yield takeLatest(
+    updateOrganizerCustomerContactDetails.type,
+    updateOrganizerCustomerContactDetailsSaga,
   );
 }

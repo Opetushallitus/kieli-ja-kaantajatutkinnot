@@ -9,6 +9,7 @@ import fi.oph.yki.api.dto.clerk.ClerkCustomerSummaryDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionDTO;
+import fi.oph.yki.api.dto.clerk.ClerkPersonContactUpdateDTO;
 import fi.oph.yki.config.ClerkEnabledCondition;
 import fi.oph.yki.kayttooikeus.PermissionsService;
 import fi.oph.yki.kayttooikeus.dto.KayttooikeusResponseDTO;
@@ -16,8 +17,10 @@ import fi.oph.yki.kayttooikeus.dto.OrganisaatioDTO;
 import fi.oph.yki.service.ClerkCustomerService;
 import fi.oph.yki.service.ClerkExamDateService;
 import fi.oph.yki.service.ClerkOrganizerService;
+import fi.oph.yki.service.PersonService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -52,6 +55,9 @@ public class OrganizerController {
 
   @Resource
   private PermissionsService permissionsService;
+
+  @Resource
+  private PersonService personService;
 
   private static final String TAG_ORGANIZER = "Organizer exam session API";
   private static final int MAX_PAGE_SIZE = 100;
@@ -112,6 +118,16 @@ public class OrganizerController {
     @PathVariable("oid") final String organizerOid,
     @PathVariable final String personOid
   ) throws Exception {
-    return service.getOrganizerCustomerDetails(personOid, organizerOid);
+    return service.getCustomerDetails(personOid, organizerOid);
+  }
+
+  @PostMapping(path = "/customer/{personOid}")
+  @Operation(tags = TAG_ORGANIZER, summary = "Update person contact details")
+  public void updateContactDetails(
+    @PathVariable("oid") final String organizerOid,
+    @PathVariable final String personOid,
+    @RequestBody @Valid final ClerkPersonContactUpdateDTO dto
+  ) {
+    personService.updateContactDetails(personOid, organizerOid, dto);
   }
 }
