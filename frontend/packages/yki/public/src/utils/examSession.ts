@@ -10,6 +10,7 @@ import {
 } from 'interfaces/examSessions';
 import { PartialExamType } from 'interfaces/publicRegistration';
 import { AuthenticatedSession } from 'interfaces/session';
+import { PersonRegistrations } from 'interfaces/userDetails';
 
 export class ExamSessionUtils {
   private static getRegistrationAvailablePlaces(
@@ -283,5 +284,35 @@ export class ExamSessionUtils {
     }
 
     return examSession.start_time;
+  }
+
+  static getStartTimeForPersonRegistrations(r: PersonRegistrations) {
+    if (!r.partialExamType) {
+      return '';
+    }
+
+    if (r.type === 'LISTEN_WRITE') {
+      if (r.partialExamType === 'LISTEN') {
+        return r.start_time_read_listen;
+      }
+      if (r.partialExamType === 'WRITE') {
+        return r.start_time_speak_write;
+      }
+
+      return r.start_time_read_listen;
+    }
+
+    if (r.type === 'READ_SPEAK') {
+      if (r.partialExamType === 'READ') {
+        return r.start_time_read_listen;
+      }
+      if (r.partialExamType === 'SPEAK') {
+        return r.start_time_speak_write;
+      }
+
+      return r.start_time_read_listen;
+    }
+
+    return r.start_time;
   }
 }

@@ -554,7 +554,7 @@ export const PublicExamSessionCard = ({
           <thead>
             <tr>
               <th>{t('examSessionCard.exam')}</th>
-              <th>{t('examSessionCard.examStartTime')}</th>
+              <th>{t('examSessionCard.examStartTimeTitle')}</th>
               <th>{t('examSessionCard.price')}</th>
               <th>{t('examSessionCard.placesAvailable')}</th>
               <th>{t('examSessionCard.actions')}</th>

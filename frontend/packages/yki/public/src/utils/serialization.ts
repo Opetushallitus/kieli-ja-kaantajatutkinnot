@@ -300,6 +300,9 @@ export class SerializationUtils {
             ? (v.position_in_queue || 0) + 1
             : undefined,
         isFreeRegistration: v.is_free_registration,
+        start_time: v.start_time,
+        start_time_read_listen: v.start_time_read_listen,
+        start_time_speak_write: v.start_time_speak_write,
       })),
     };
   }

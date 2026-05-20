@@ -310,7 +310,11 @@ const Registrations: FC<RegistrationsProps> = ({
           <Text className="bold">
             {translateCommon('partialExamTimeLabel')}
           </Text>
-          <Text>{translateCommon('partialExamTime')}</Text>
+          <Text>
+            {translateCommon('partialExamTime', {
+              startTime: ExamSessionUtils.getStartTimeForPersonRegistrations(r),
+            })}
+          </Text>
         </div>
         {r.kind === RegistrationKind.Queue && (
           <div>
