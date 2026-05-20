@@ -45,7 +45,10 @@ export const ClerkCustomersListing = ({
           <Link
             to={
               route === 'clerk'
-                ? AppRoutes.ClerkCustomerDetails.replace(/:oid$/, person.oid)
+                ? AppRoutes.ClerkCustomerDetails.replace(
+                    /:personOid$/,
+                    person.oid,
+                  )
                 : AppRoutes.OrganizerCustomerDetails.replace(
                     ':oid',
                     oid,

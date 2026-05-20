@@ -155,7 +155,12 @@ export const ClerkExamSessionRegistrations = ({
     render: ({ person }) =>
       person && (
         <div className="rows gapped-xxs">
-          <Link to={AppRoutes.ClerkCustomerDetails.replace(':oid', person.oid)}>
+          <Link
+            to={AppRoutes.ClerkCustomerDetails.replace(
+              ':personOid',
+              person.oid,
+            )}
+          >
             {person.firstName} {person.lastName}
           </Link>
           <Text>{person.socialSecurityNumber}</Text>
