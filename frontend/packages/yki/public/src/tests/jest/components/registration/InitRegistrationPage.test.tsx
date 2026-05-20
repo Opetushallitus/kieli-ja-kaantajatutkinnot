@@ -23,6 +23,7 @@ const renderPageWithSession = (examSession: ExamSession) => {
         examSessionId: examSession.id,
         registrationKind: examSession.available_registration_kind,
         registrationId: 123,
+        partialExamType: 'ALL_PARTS',
       },
     },
   };

@@ -413,4 +413,41 @@ export class ExamSessionUtils {
 
     return r.start_time;
   }
+
+  static getPartialExamFee(
+    examSession: ExamSession,
+    partialExamType?: PartialExamType,
+  ) {
+    if (!partialExamType) {
+      return '';
+    }
+
+    if (examSession.type === 'FULL') {
+      return examSession.exam_fee;
+    }
+
+    if (examSession.type === 'LISTEN_WRITE') {
+      if (partialExamType === 'ALL_PARTS') {
+        return 113;
+      }
+      if (partialExamType === 'LISTEN') {
+        return 43;
+      }
+      if (partialExamType === 'WRITE') {
+        return 70;
+      }
+    }
+
+    if (examSession.type === 'READ_SPEAK') {
+      if (partialExamType === 'ALL_PARTS') {
+        return 127;
+      }
+      if (partialExamType === 'READ') {
+        return 43;
+      }
+      if (partialExamType === 'SPEAK') {
+        return 84;
+      }
+    }
+  }
 }

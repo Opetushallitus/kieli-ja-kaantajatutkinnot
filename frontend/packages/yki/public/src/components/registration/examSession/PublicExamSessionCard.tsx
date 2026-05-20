@@ -149,10 +149,6 @@ const getTableBody = ({
   examSession: ExamSession;
   t: ReturnType<typeof usePublicTranslation>['t'];
 }) => {
-  const examSessionFee = ExamSessionUtils.freeRegistrationPossible(examSession)
-    ? `0 / ${examSession.exam_fee} €`
-    : `${examSession.exam_fee} €`;
-
   const renderActions = ({
     examSession,
     partialExamType,
@@ -210,7 +206,17 @@ const getTableBody = ({
                 ExamSessionUtils.getStartTime(examSession, 'ALL_PARTS') || '',
             })}
           </td>
-          <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
+          <td data-label={t('examSessionCard.price')}>
+            {ExamSessionUtils.freeRegistrationPossible(examSession)
+              ? `0 / ${ExamSessionUtils.getPartialExamFee(
+                  examSession,
+                  'ALL_PARTS',
+                )} €`
+              : `${ExamSessionUtils.getPartialExamFee(
+                  examSession,
+                  'ALL_PARTS',
+                )} €`}
+          </td>
           <td data-label={t('examSessionCard.placesAvailable')}>
             {getAvailablePlacesText('ALL_PARTS')}
           </td>
@@ -235,7 +241,14 @@ const getTableBody = ({
                 ExamSessionUtils.getStartTime(examSession, 'READ') || '',
             })}
           </td>
-          <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
+          <td data-label={t('examSessionCard.price')}>
+            {ExamSessionUtils.freeRegistrationPossible(examSession)
+              ? `0 / ${ExamSessionUtils.getPartialExamFee(
+                  examSession,
+                  'READ',
+                )} €`
+              : `${ExamSessionUtils.getPartialExamFee(examSession, 'READ')} €`}
+          </td>
           <td data-label={t('examSessionCard.placesAvailable')}>
             {getAvailablePlacesText('READ')}
           </td>
@@ -260,7 +273,14 @@ const getTableBody = ({
                 ExamSessionUtils.getStartTime(examSession, 'SPEAK') || '',
             })}
           </td>
-          <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
+          <td data-label={t('examSessionCard.price')}>
+            {ExamSessionUtils.freeRegistrationPossible(examSession)
+              ? `0 / ${ExamSessionUtils.getPartialExamFee(
+                  examSession,
+                  'SPEAK',
+                )} €`
+              : `${ExamSessionUtils.getPartialExamFee(examSession, 'SPEAK')} €`}
+          </td>
           <td data-label={t('examSessionCard.placesAvailable')}>
             {getAvailablePlacesText('SPEAK')}
           </td>
@@ -290,7 +310,17 @@ const getTableBody = ({
                 ExamSessionUtils.getStartTime(examSession, 'ALL_PARTS') || '',
             })}
           </td>
-          <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
+          <td data-label={t('examSessionCard.price')}>
+            {ExamSessionUtils.freeRegistrationPossible(examSession)
+              ? `0 / ${ExamSessionUtils.getPartialExamFee(
+                  examSession,
+                  'ALL_PARTS',
+                )} €`
+              : `${ExamSessionUtils.getPartialExamFee(
+                  examSession,
+                  'ALL_PARTS',
+                )} €`}
+          </td>
           <td data-label={t('examSessionCard.placesAvailable')}>
             {getAvailablePlacesText('ALL_PARTS')}
           </td>
@@ -315,7 +345,17 @@ const getTableBody = ({
                 ExamSessionUtils.getStartTime(examSession, 'LISTEN') || '',
             })}
           </td>
-          <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
+          <td data-label={t('examSessionCard.price')}>
+            {ExamSessionUtils.freeRegistrationPossible(examSession)
+              ? `0 / ${ExamSessionUtils.getPartialExamFee(
+                  examSession,
+                  'LISTEN',
+                )} €`
+              : `${ExamSessionUtils.getPartialExamFee(
+                  examSession,
+                  'LISTEN',
+                )} €`}
+          </td>
           <td data-label={t('examSessionCard.placesAvailable')}>
             {getAvailablePlacesText('LISTEN')}
           </td>
@@ -340,7 +380,14 @@ const getTableBody = ({
                 ExamSessionUtils.getStartTime(examSession, 'WRITE') || '',
             })}
           </td>
-          <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
+          <td data-label={t('examSessionCard.price')}>
+            {ExamSessionUtils.freeRegistrationPossible(examSession)
+              ? `0 / ${ExamSessionUtils.getPartialExamFee(
+                  examSession,
+                  'WRITE',
+                )} €`
+              : `${ExamSessionUtils.getPartialExamFee(examSession, 'WRITE')} €`}
+          </td>
           <td data-label={t('examSessionCard.placesAvailable')}>
             {getAvailablePlacesText('WRITE')}
           </td>
@@ -364,7 +411,11 @@ const getTableBody = ({
       <td data-label={t('examSessionCard.examType.full')}>
         {t('examSessionCard.examType.full')}
       </td>
-      <td data-label={t('examSessionCard.price')}>{examSessionFee}</td>
+      <td data-label={t('examSessionCard.price')}>
+        {ExamSessionUtils.freeRegistrationPossible(examSession)
+          ? `0 / ${examSession.exam_fee} €`
+          : `${examSession.exam_fee} €`}
+      </td>
       <td data-label={t('examSessionCard.placesAvailable')}>
         {getAvailablePlacesText('ALL_PARTS')}
       </td>
