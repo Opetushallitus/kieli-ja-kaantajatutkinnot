@@ -171,6 +171,11 @@ public class ClerkEnrollmentUtil {
       .map(ClerkPaymentUtil::createClerkPaymentDTO)
       .sorted(Comparator.comparing(ClerkPaymentDTO::createdAt).reversed())
       .toList();
+    final List<FreeEnrollmentAttachmentDTO> attachmentDTOs = enrollmentAppointment
+      .getAttachments()
+      .stream()
+      .map(a -> new FreeEnrollmentAttachmentDTO(a.getFilename(), a.getKey(), a.getSize()))
+      .collect(Collectors.toList());
 
     final ExaminerAuthLinkDTO examinerAuthLinkDTO = enrollmentAppointment.getAuthHash() != null
       ? ExaminerAuthLinkDTO
@@ -222,12 +227,19 @@ public class ClerkEnrollmentUtil {
       .payments(paymentDTOs)
       .hasPreviousEnrollment(enrollmentAppointment.isHasPreviousEnrollment())
       .previousEnrollment(enrollmentAppointment.getPreviousEnrollment())
+      .attachments(attachmentDTOs)
       .build();
   }
 
   public static ExaminerEnrollmentContactRequestDTO createClerkEnrollmentContactDTO(
     final EnrollmentAppointment enrollmentAppointment
   ) {
+    final List<FreeEnrollmentAttachmentDTO> attachmentDTOs = enrollmentAppointment
+      .getAttachments()
+      .stream()
+      .map(a -> new FreeEnrollmentAttachmentDTO(a.getFilename(), a.getKey(), a.getSize()))
+      .collect(Collectors.toList());
+
     return ExaminerEnrollmentContactRequestDTO
       .builder()
       .id(enrollmentAppointment.getId())
@@ -242,6 +254,7 @@ public class ClerkEnrollmentUtil {
       .lastName(enrollmentAppointment.getLastName())
       .hasPreviousEnrollment(enrollmentAppointment.isHasPreviousEnrollment())
       .message(enrollmentAppointment.getMessage())
+      .attachments(attachmentDTOs)
       .build();
   }
 

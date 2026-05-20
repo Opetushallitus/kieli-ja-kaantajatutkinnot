@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 import { WithId } from 'shared/interfaces';
 
+import { Attachment } from 'interfaces/publicEducation';
 import { PublicEnrollmentContact } from 'interfaces/publicEnrollment';
 import { PublicExaminer } from 'interfaces/publicExaminer';
 
@@ -33,6 +34,7 @@ export const initialState: PublicEnrollmentContactState = {
     privacyStatementConfirmation: false,
     status: undefined,
     message: '',
+    attachments: [],
   },
   contactDetailsNeedConfirmation: false,
   examiner: undefined,
@@ -95,6 +97,17 @@ const publicEnrollmentContactSlice = createSlice({
       state.contactedExaminers = initialState.contactedExaminers;
       state.enrollment = initialState.enrollment;
     },
+    storeContactAttachment(state, action: PayloadAction<Attachment>) {
+      state.enrollment.attachments = [
+        ...(state.enrollment.attachments ?? []),
+        action.payload,
+      ];
+    },
+    removeContactAttachment(state, action: PayloadAction<Attachment>) {
+      state.enrollment.attachments = state.enrollment.attachments?.filter(
+        (a) => a.id !== action.payload.id,
+      );
+    },
     resetPublicEnrollmentContact() {
       return initialState;
     },
@@ -120,6 +133,8 @@ export const {
   storePublicExaminer,
   loadPublicExaminer,
   updatePublicEnrollmentContact,
+  storeContactAttachment,
+  removeContactAttachment,
   resetPublicEnrollmentContact,
   markExaminerAsContacted,
   continueWithEnrollmentDetails,

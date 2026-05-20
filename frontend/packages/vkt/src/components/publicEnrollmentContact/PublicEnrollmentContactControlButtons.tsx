@@ -146,13 +146,17 @@ export const PublicEnrollmentContactControlButtons = ({
       dispatch(loadPublicEnrollmentSave({ enrollment, examinerId }));
     } else {
       setShowValidation(true);
+
       const errors = {
         isFullExam: enrollment.isFullExam === undefined,
         partialExamSelection:
           enrollment.isFullExam === false &&
           (enrollment.partialExamSelection === undefined ||
             StringUtils.isBlankString(enrollment.partialExamSelection)),
-        hasPreviousEnrollment: enrollment.hasPreviousEnrollment === undefined,
+        hasPreviousEnrollment: enrollment.hasPreviousEnrollment !== true,
+        uploadAttachment:
+          enrollment.hasPreviousEnrollment === true &&
+          !enrollment.attachments?.length,
         message: StringUtils.isBlankString(enrollment.message),
       };
 

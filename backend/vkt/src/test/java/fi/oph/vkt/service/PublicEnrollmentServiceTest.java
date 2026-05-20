@@ -25,6 +25,7 @@ import fi.oph.vkt.model.FeatureFlag;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.type.EnrollmentStatus;
+import fi.oph.vkt.repository.ContactAttachmentRepository;
 import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
@@ -98,6 +99,9 @@ public class PublicEnrollmentServiceTest {
   private ExaminerRepository examinerRepository;
 
   @MockBean
+  private ContactAttachmentRepository contactAttachmentRepository;
+
+  @MockBean
   private ContactEmailService contactEmailServiceMock;
 
   @BeforeEach
@@ -122,6 +126,7 @@ public class PublicEnrollmentServiceTest {
       new PublicEnrollmentService(
         enrollmentRepository,
         enrollmentAppointmentRepository,
+        contactAttachmentRepository,
         examEventRepository,
         publicEnrollmentEmailServiceMock,
         publicReservationService,

@@ -152,7 +152,7 @@ export const PublicEnrollmentControlButtons = ({
       setShowValidation(true);
       if (
         activeStep === PublicEnrollmentFormStep.SelectExam &&
-        enrollment.hasPreviousEnrollment !== true
+        enrollment.hasPreviousEnrollment === false
       ) {
         showDialog({
           title: t('errors.title'),

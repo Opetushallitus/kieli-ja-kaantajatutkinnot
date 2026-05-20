@@ -1,18 +1,21 @@
-import { call, put, takeLatest } from '@redux-saga/core/effects';
+import { call, put, takeEvery, takeLatest } from '@redux-saga/core/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints, APIError } from 'enums/api';
 import {
+  PublicContactFileUploadParameters,
   PublicFileUploadParameters,
   UploadPostPolicy,
 } from 'interfaces/publicFileUpload';
 import { setAPIError } from 'redux/reducers/APIError';
 import { storeUploadedFileAttachment } from 'redux/reducers/publicEnrollment';
+import { storeContactAttachment } from 'redux/reducers/publicEnrollmentContact';
 import {
   acceptFileUpload,
   rejectFileUpload,
+  startContactFileUpload,
   startFileUpload,
 } from 'redux/reducers/publicFileUpload';
 import { NotifierUtils } from 'utils/notifier';
@@ -105,6 +108,65 @@ function* startFileUploadSaga(
   }
 }
 
+function* startContactFileUploadSaga(
+  action: PayloadAction<PublicContactFileUploadParameters>,
+) {
+  try {
+    const { examinerId, file } = action.payload;
+    const policyResponse: AxiosResponse<UploadPostPolicyResponse> = yield call(
+      axiosInstance.get,
+      APIEndpoints.UploadContactPostPolicy.replace(
+        /:examinerId/,
+        `${examinerId}`,
+      ),
+      { params: { filename: file.name } },
+    );
+    const { bucketURI, ...policy } = deserializeUploadPostPolicyResponse(
+      policyResponse.data,
+    );
+
+    const formData = new FormData();
+    formData.append('key', policy.key);
+    formData.append('policy', policy.policy);
+    formData.append('expires', policy.expires);
+    formData.append('content-type', policy['content-type']);
+    formData.append('x-amz-algorithm', policy['x-amz-algorithm']);
+    formData.append('x-amz-credential', policy['x-amz-credential']);
+    formData.append('x-amz-date', policy['x-amz-date']);
+    formData.append('x-amz-signature', policy['x-amz-signature']);
+    if (policy['x-amz-security-token']) {
+      formData.append('x-amz-security-token', policy['x-amz-security-token']);
+    }
+    formData.append('file', file);
+
+    const response: Response = yield call(fetch, bucketURI, {
+      method: 'POST',
+      body: formData,
+    });
+    if (!response.ok) {
+      throw new Error(`POSTing to s3 failed, status: ${response.status}`);
+    }
+    yield put(acceptFileUpload());
+    yield put(
+      storeContactAttachment({
+        id: policy.key,
+        name: file.name,
+        size: file.size,
+      }),
+    );
+  } catch (error) {
+    const errorMessage = NotifierUtils.getURLErrorMessage(
+      APIError.FileUploadError,
+    );
+    yield put(setAPIError(errorMessage));
+    yield put(rejectFileUpload());
+  }
+}
+
 export function* watchFileUpload() {
   yield takeLatest(startFileUpload.type, startFileUploadSaga);
+}
+
+export function* watchContactFileUpload() {
+  yield takeEvery(startContactFileUpload.type, startContactFileUploadSaga);
 }
