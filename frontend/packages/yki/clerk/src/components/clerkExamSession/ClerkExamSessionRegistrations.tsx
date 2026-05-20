@@ -300,6 +300,8 @@ export const ClerkExamSessionRegistrations = ({
         registrationId={cancelRegistrationId}
         onClose={() => setCancelRegistrationId(null)}
         examSessionId={examSessionId}
+        route={'clerk'}
+        organizerOid=""
       />
     </Stack>
   );

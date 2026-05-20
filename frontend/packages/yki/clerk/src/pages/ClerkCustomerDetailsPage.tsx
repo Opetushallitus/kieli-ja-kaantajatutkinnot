@@ -17,6 +17,7 @@ import {
   resetCustomerDetails,
 } from 'redux/reducers/clerkCustomerDetails';
 import { clerkCustomerDetailsSelector } from 'redux/selectors/clerkCustomerDetailsSelector';
+import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
 
 export const ClerkCustomerDetailsPage = ({ route }: { route: RouteType }) => {
   const translateCommon = useCommonTranslation();
@@ -38,6 +39,20 @@ export const ClerkCustomerDetailsPage = ({ route }: { route: RouteType }) => {
       dispatch(resetCustomerDetails());
     };
   }, [dispatch]);
+
+  const { cancelStatus } = useAppSelector(clerkExamSessionDetailsSelector);
+  useEffect(() => {
+    if (cancelStatus === APIResponseStatus.Success) {
+      dispatch(resetCustomerDetails());
+    }
+  }, [cancelStatus, dispatch]);
+
+  const { relocateStatus } = useAppSelector(clerkExamSessionDetailsSelector);
+  useEffect(() => {
+    if (relocateStatus === APIResponseStatus.Success) {
+      dispatch(resetCustomerDetails());
+    }
+  }, [relocateStatus, dispatch]);
 
   useEffect(() => {
     if (

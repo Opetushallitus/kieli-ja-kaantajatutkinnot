@@ -127,6 +127,16 @@ const clerkExamSessionSlice = createSlice({
       state.relocateExamSessionsStatus = APIResponseStatus.NotStarted;
       state.relocateStatus = APIResponseStatus.NotStarted;
     },
+    cancelOrganizerRegistration(
+      state,
+      _action: PayloadAction<{
+        registrationId: number;
+        currentExamSessionId: number;
+        organizerOid: string;
+      }>,
+    ) {
+      state.cancelStatus = APIResponseStatus.InProgress;
+    },
     cancelRegistration(
       state,
       _action: PayloadAction<{
@@ -179,6 +189,7 @@ export const {
   rejectRelocateRegistration,
   resetRelocate,
   cancelRegistration,
+  cancelOrganizerRegistration,
   acceptCancelRegistration,
   rejectCancelRegistration,
   resetCancel,

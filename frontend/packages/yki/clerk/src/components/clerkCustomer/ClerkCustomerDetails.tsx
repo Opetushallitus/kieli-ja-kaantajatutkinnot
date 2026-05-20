@@ -12,7 +12,7 @@ export const ClerkCustomerDetails = ({ route }: { route: RouteType }) => {
   return (
     <Stack rowGap={4}>
       <CustomerInformation route={route} person={customerDetails?.person} />
-      <CustomerExamListings customerDetails={customerDetails} />
+      <CustomerExamListings route={route} customerDetails={customerDetails} />
     </Stack>
   );
 };

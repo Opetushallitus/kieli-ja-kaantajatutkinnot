@@ -3,6 +3,7 @@ export enum APIEndpoints {
   Organizer = '/yki/v2/api/organizer',
   OrganizerCustomersSearch = '/yki/v2/api/organizer/:oid/customer/search?page=:page&size=:size',
   OrganizerCustomersDetails = '/yki/v2/api/organizer/:oid/customer/:personOid',
+  OrganizerRegistrationCancel = '/yki/v2/api/organizer/:oid/registration/:registrationId',
   ClerkOrganizer = '/yki/v2/api/clerk/organizer',
   AddClerkOrganizer = '/yki/v2/api/clerk/organizer/add',
   ClerkFreeRegistration = '/yki/v2/api/clerk/registration/approvals',

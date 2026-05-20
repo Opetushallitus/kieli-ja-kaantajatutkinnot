@@ -54,7 +54,12 @@ public class ClerkCustomerService {
     final var session = registration.getExamSession();
 
     final var examDate = session.getExamDate().getExamDate();
-    final var exam = ClerkExamDTO.builder().language(session.getLanguage()).level(session.getLevel()).build();
+    final var exam = ClerkExamDTO
+      .builder()
+      .id(session.getId())
+      .language(session.getLanguage())
+      .level(session.getLevel())
+      .build();
 
     final var examLocation = session
       .getLocations()
@@ -84,6 +89,7 @@ public class ClerkCustomerService {
 
     return ClerkCustomerRegistrationDTO
       .builder()
+      .id(registration.getId())
       .examDate(examDate)
       .exam(exam)
       .examLocation(examLocation)

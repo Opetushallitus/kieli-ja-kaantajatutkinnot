@@ -17,6 +17,7 @@ import fi.oph.yki.kayttooikeus.dto.OrganisaatioDTO;
 import fi.oph.yki.service.ClerkCustomerService;
 import fi.oph.yki.service.ClerkExamDateService;
 import fi.oph.yki.service.ClerkOrganizerService;
+import fi.oph.yki.service.ClerkRegistrationService;
 import fi.oph.yki.service.PersonService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
@@ -30,6 +31,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,6 +60,9 @@ public class OrganizerController {
 
   @Resource
   private PersonService personService;
+
+  @Resource
+  private ClerkRegistrationService clerkRegistrationService;
 
   private static final String TAG_ORGANIZER = "Organizer exam session API";
   private static final int MAX_PAGE_SIZE = 100;
@@ -129,5 +134,14 @@ public class OrganizerController {
     @RequestBody @Valid final ClerkPersonContactUpdateDTO dto
   ) {
     personService.updateContactDetails(personOid, organizerOid, dto);
+  }
+
+  @DeleteMapping(path = "/registration/{registrationId}")
+  @Operation(tags = TAG_ORGANIZER, summary = "Get customer details")
+  public void cancelRegistration(
+    @PathVariable("oid") final String organizerOid,
+    @PathVariable final Long registrationId
+  ) throws Exception {
+    clerkRegistrationService.cancelRegistration(organizerOid, registrationId);
   }
 }

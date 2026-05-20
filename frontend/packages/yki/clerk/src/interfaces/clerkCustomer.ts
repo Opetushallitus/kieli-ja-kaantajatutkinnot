@@ -28,14 +28,17 @@ export type ExamLocation = {
 };
 
 export type AdmissionedRegistration = {
+  id: number;
   examDate: Dayjs;
   exam: {
+    id: number;
     language: ExamLanguage;
     level: ExamLevel;
   };
   examLocation: ExamLocation[];
   registrationStatus: RegistrationStatus;
   registrationDate: Dayjs | undefined;
+  registrationState: string;
 };
 
 export type RegistrationStatus = {
@@ -77,8 +80,10 @@ export interface ClerkCustomerDetails {
 }
 
 export type RegistrationResponse = {
+  id: number;
   examDate: string;
   exam: {
+    id: number;
     language: ExamLanguage;
     level: ExamLevel;
   };

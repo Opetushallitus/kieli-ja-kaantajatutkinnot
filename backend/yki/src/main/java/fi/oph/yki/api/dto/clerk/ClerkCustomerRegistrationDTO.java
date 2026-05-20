@@ -14,6 +14,7 @@ import lombok.Builder;
  */
 @Builder
 public record ClerkCustomerRegistrationDTO(
+  Long id,
   LocalDate examDate,
   ClerkExamDTO exam,
   List<ClerkExamLocationDTO> examLocation,

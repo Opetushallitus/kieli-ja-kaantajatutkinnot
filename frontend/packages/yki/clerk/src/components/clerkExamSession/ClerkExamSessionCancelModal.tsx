@@ -7,8 +7,10 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { RouteType } from 'interfaces/user';
 import { H2, Text } from 'ophTheme/Text';
 import {
+  cancelOrganizerRegistration,
   cancelRegistration,
   resetCancel,
 } from 'redux/reducers/clerkExamSession';
@@ -18,12 +20,16 @@ type ClerkExamSessionCancelModalProps = {
   registrationId: number | null;
   onClose: () => void;
   examSessionId: number;
+  route: RouteType;
+  organizerOid: string;
 };
 
 export const ClerkExamSessionCancelModal = ({
   registrationId,
   onClose,
   examSessionId,
+  route,
+  organizerOid,
 }: ClerkExamSessionCancelModalProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkExamSessionRegistrations.modals',
@@ -81,10 +87,16 @@ export const ClerkExamSessionCancelModal = ({
             onClick={() => {
               if (registrationId) {
                 dispatch(
-                  cancelRegistration({
-                    registrationId,
-                    currentExamSessionId: examSessionId,
-                  }),
+                  route === 'clerk'
+                    ? cancelRegistration({
+                        registrationId,
+                        currentExamSessionId: examSessionId,
+                      })
+                    : cancelOrganizerRegistration({
+                        registrationId,
+                        currentExamSessionId: examSessionId,
+                        organizerOid,
+                      }),
                 );
               }
             }}
