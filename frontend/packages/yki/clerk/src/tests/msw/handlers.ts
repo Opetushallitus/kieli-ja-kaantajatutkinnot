@@ -48,10 +48,19 @@ const adminUser = {
   },
 };
 
+const v2User = {
+  oid: '1.2.246.562.24.98107285507',
+  isAdmin: false,
+  isOrganizer: true,
+};
+
 export const handlers = [
   http.get(APIEndpoints.User, () => {
     return HttpResponse.json(adminUser);
     //return HttpResponse.json(NoSessionResponse);
+  }),
+  http.get(APIEndpoints.AuthUser, () => {
+    return HttpResponse.json(v2User);
   }),
   http.get(APIEndpoints.CountryCodes, () =>
     HttpResponse.json(maatJaValtiot2Response),

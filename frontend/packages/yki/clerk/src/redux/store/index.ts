@@ -13,6 +13,7 @@ import { clerkQuarantineReducer } from 'redux/reducers/clerkQuarantine';
 import { examDateReducer } from 'redux/reducers/examDate';
 import { nationalitiesReducer } from 'redux/reducers/nationalities';
 import { sessionReducer } from 'redux/reducers/session';
+import { userReducer } from 'redux/reducers/user';
 import rootSaga from 'redux/sagas/index';
 
 const saga = createSagaMiddleware();
@@ -29,6 +30,7 @@ export const rootReducer = combineReducers({
   examDate: examDateReducer,
   nationalities: nationalitiesReducer,
   session: sessionReducer,
+  user: userReducer,
 });
 
 export const setupStore = (preloadedState?: Partial<RootState>) => {

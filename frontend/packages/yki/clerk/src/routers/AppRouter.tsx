@@ -3,6 +3,7 @@ import { FC, useEffect } from 'react';
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Outlet,
   Route,
   RouterProvider,
@@ -33,11 +34,49 @@ import { ClerkOrganizerRegisterDetailsPage } from 'pages/ClerkOrganizerRegisterD
 import { ClerkPaymentReportPage } from 'pages/ClerkPaymentReportPage';
 import { ClerkQuarantinePage } from 'pages/ClerkQuarantinePage';
 import { loadSession } from 'redux/reducers/session';
+import { loadUser } from 'redux/reducers/user';
 import { sessionSelector } from 'redux/selectors/session';
+import { userSelector } from 'redux/selectors/user';
+
+const ProtectedRoute = ({
+  requireAdmin,
+  requireOrganizer,
+}: {
+  requireAdmin?: boolean;
+  requireOrganizer?: boolean;
+}) => {
+  const { status, user } = useAppSelector(userSelector);
+
+  if (
+    status === APIResponseStatus.InProgress ||
+    status === APIResponseStatus.NotStarted
+  ) {
+    return null;
+  }
+
+  if (!user) {
+    return null;
+  }
+
+  if (requireAdmin && !user.isAdmin) {
+    return user.isOrganizer ? (
+      <Navigate to={`${AppRoutes.Organizer}/${user.oid}`} replace />
+    ) : null;
+  }
+
+  if (requireOrganizer && !user.isOrganizer) {
+    return user.isAdmin ? (
+      <Navigate to={AppRoutes.ClerkOrganizerRegister} replace />
+    ) : null;
+  }
+
+  return <Outlet />;
+};
 
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
   const sessionStatus = useAppSelector(sessionSelector).status;
+  const userStatus = useAppSelector(userSelector).status;
   const dispatch = useAppDispatch();
   const appTitle = translateCommon('appTitle');
 
@@ -49,6 +88,12 @@ export const AppRouter: FC = () => {
       dispatch(loadSession());
     }
   }, [dispatch, sessionStatus]);
+
+  useEffect(() => {
+    if (userStatus === APIResponseStatus.NotStarted) {
+      dispatch(loadUser());
+    }
+  }, [dispatch, userStatus]);
 
   const ErrorToast = () => {
     useAPIErrorToast();
@@ -83,121 +128,125 @@ export const AppRouter: FC = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route path={AppRoutes.ClerkRoot} element={ClerkRoot}>
-          <Route
-            path={AppRoutes.ClerkOrganizerRegister}
-            element={
-              <YkiTitlePage title="clerk">
-                <ClerkHomePage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ClerkAddOrganizer}
-            element={
-              <YkiTitlePage title="clerk">
-                <ClerkAddOrganizerPage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ClerkOrganizerRegisterDetails}
-            element={
-              <YkiTitlePage title="clerk">
-                <ClerkOrganizerRegisterDetailsPage user="clerk" />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ClerkFreeRegistration}
-            element={
-              <YkiTitlePage title="clerk">
-                <ClerkFreeRegistrationPage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ClerkFreeRegistrationDetails}
-            element={
-              <YkiTitlePage title="clerk">
-                <ClerkFreeRegistrationDetailsPage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ClerkQuarantine}
-            element={
-              <YkiTitlePage title="clerk">
-                <ClerkQuarantinePage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ClerkExamDates}
-            element={
-              <YkiTitlePage title="clerk">
-                <ClerkExamDatesPage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ClerkExamSession}
-            element={
-              <YkiTitlePage title="customerExamSession">
-                <ClerkExamSessionPage />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.CustomerSearch}
-            element={
-              <YkiTitlePage title="customerSearch">
-                <ClerkCustomerSearchPage route="clerk" />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ClerkCustomerDetails}
-            element={
-              <YkiTitlePage title="customerDetails">
-                <ClerkCustomerDetailsPage route="clerk" />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.ClerkPaymentReport}
-            element={
-              <YkiTitlePage title="paymentReport">
-                <ClerkPaymentReportPage />
-              </YkiTitlePage>
-            }
-          />
+        <Route element={<ProtectedRoute requireAdmin />}>
+          <Route path={AppRoutes.ClerkRoot} element={ClerkRoot}>
+            <Route
+              path={AppRoutes.ClerkOrganizerRegister}
+              element={
+                <YkiTitlePage title="clerk">
+                  <ClerkHomePage />
+                </YkiTitlePage>
+              }
+            />
+            <Route
+              path={AppRoutes.ClerkAddOrganizer}
+              element={
+                <YkiTitlePage title="clerk">
+                  <ClerkAddOrganizerPage />
+                </YkiTitlePage>
+              }
+            />
+            <Route
+              path={AppRoutes.ClerkOrganizerRegisterDetails}
+              element={
+                <YkiTitlePage title="clerk">
+                  <ClerkOrganizerRegisterDetailsPage user="clerk" />
+                </YkiTitlePage>
+              }
+            />
+            <Route
+              path={AppRoutes.ClerkFreeRegistration}
+              element={
+                <YkiTitlePage title="clerk">
+                  <ClerkFreeRegistrationPage />
+                </YkiTitlePage>
+              }
+            />
+            <Route
+              path={AppRoutes.ClerkFreeRegistrationDetails}
+              element={
+                <YkiTitlePage title="clerk">
+                  <ClerkFreeRegistrationDetailsPage />
+                </YkiTitlePage>
+              }
+            />
+            <Route
+              path={AppRoutes.ClerkQuarantine}
+              element={
+                <YkiTitlePage title="clerk">
+                  <ClerkQuarantinePage />
+                </YkiTitlePage>
+              }
+            />
+            <Route
+              path={AppRoutes.ClerkExamDates}
+              element={
+                <YkiTitlePage title="clerk">
+                  <ClerkExamDatesPage />
+                </YkiTitlePage>
+              }
+            />
+            <Route
+              path={AppRoutes.ClerkExamSession}
+              element={
+                <YkiTitlePage title="customerExamSession">
+                  <ClerkExamSessionPage />
+                </YkiTitlePage>
+              }
+            />
+            <Route
+              path={AppRoutes.CustomerSearch}
+              element={
+                <YkiTitlePage title="customerSearch">
+                  <ClerkCustomerSearchPage route="clerk" />
+                </YkiTitlePage>
+              }
+            />
+            <Route
+              path={AppRoutes.ClerkCustomerDetails}
+              element={
+                <YkiTitlePage title="customerDetails">
+                  <ClerkCustomerDetailsPage route="clerk" />
+                </YkiTitlePage>
+              }
+            />
+            <Route
+              path={AppRoutes.ClerkPaymentReport}
+              element={
+                <YkiTitlePage title="paymentReport">
+                  <ClerkPaymentReportPage />
+                </YkiTitlePage>
+              }
+            />
+          </Route>
         </Route>
-        <Route path={AppRoutes.Organizer} element={ClerkRoot}>
-          <Route
-            path={AppRoutes.OrganizerHome}
-            element={
-              <YkiTitlePage title="clerk">
-                <ClerkOrganizerRegisterDetailsPage user="organizer" />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.OrganizerCustomerSearch}
-            element={
-              <YkiTitlePage title="customerSearch">
-                <ClerkCustomerSearchPage route="organizer" />
-              </YkiTitlePage>
-            }
-          />
-          <Route
-            path={AppRoutes.OrganizerCustomerDetails}
-            element={
-              <YkiTitlePage title="customerDetails">
-                <ClerkCustomerDetailsPage route="organizer" />
-              </YkiTitlePage>
-            }
-          />
+        <Route element={<ProtectedRoute requireOrganizer />}>
+          <Route path={AppRoutes.Organizer} element={ClerkRoot}>
+            <Route
+              path={AppRoutes.OrganizerHome}
+              element={
+                <YkiTitlePage title="clerk">
+                  <ClerkOrganizerRegisterDetailsPage user="organizer" />
+                </YkiTitlePage>
+              }
+            />
+            <Route
+              path={AppRoutes.OrganizerCustomerSearch}
+              element={
+                <YkiTitlePage title="customerSearch">
+                  <ClerkCustomerSearchPage route="organizer" />
+                </YkiTitlePage>
+              }
+            />
+            <Route
+              path={AppRoutes.OrganizerCustomerDetails}
+              element={
+                <YkiTitlePage title="customerDetails">
+                  <ClerkCustomerDetailsPage route="organizer" />
+                </YkiTitlePage>
+              }
+            />
+          </Route>
         </Route>
       </>,
     ),
