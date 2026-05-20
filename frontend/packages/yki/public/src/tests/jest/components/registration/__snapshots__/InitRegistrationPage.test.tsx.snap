@@ -48,7 +48,9 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                 >
                   partialExams: 
-                  <b />
+                  <b>
+                    Kaikki osakokeet: tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen
+                  </b>
                 </p>
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
@@ -172,7 +174,9 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                 >
                   partialExams: 
-                  <b />
+                  <b>
+                    Puheen ymmärtäminen ja kirjoittaminen
+                  </b>
                 </p>
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
@@ -211,7 +215,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 >
                   examFee: 
                   <b>
-                    0 or 200 €
+                    0 or 113 €
                   </b>
                 </p>
                 <p
@@ -538,7 +542,9 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                   >
                     partialExams: 
-                    <b />
+                    <b>
+                      Kaikki osakokeet: tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen
+                    </b>
                   </p>
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
