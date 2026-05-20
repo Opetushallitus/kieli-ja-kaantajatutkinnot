@@ -499,6 +499,7 @@ export class SerializationUtils {
       startDate: dayjs(response.startDate),
       endDate: dayjs(response.endDate),
       languageCode: response.languageCode,
+      diaryNumber: response.diaryNumber,
       quarantinedPerson: response.quarantinedPerson,
     };
   }

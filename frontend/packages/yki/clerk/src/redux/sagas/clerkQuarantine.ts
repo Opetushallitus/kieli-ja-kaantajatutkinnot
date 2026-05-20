@@ -10,6 +10,7 @@ import {
   ClerkQuarantineMatchResponse,
   ClerkQuarantineReviewResponse,
   CreateClerkQuarantineRequest,
+  UpdateClerkQuarantineRequest,
 } from 'interfaces/clerkQuarantine';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
@@ -22,12 +23,15 @@ import {
   rejectClerkQuarantineReviews,
   rejectCreateClerkQuarantine,
   rejectQuarantineReview,
+  rejectUpdateClerkQuarantine,
   resolveCreateClerkQuarantine,
   resolveQuarantineReview,
+  resolveUpdateClerkQuarantine,
   setQuarantineReview,
   storeClerkActiveQuarantines,
   storeClerkQuarantineMatches,
   storeClerkQuarantineReviews,
+  updateClerkQuarantine,
 } from 'redux/reducers/clerkQuarantine';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
@@ -127,6 +131,31 @@ function* createClerkQuarantineSaga(
   }
 }
 
+function* updateClerkQuarantineSaga(
+  action: PayloadAction<UpdateClerkQuarantineRequest>,
+) {
+  const t = translateOutsideComponent();
+  const { id, ...body } = action.payload;
+  try {
+    yield call(
+      axiosInstance.put,
+      APIEndpoints.ClerkQuarantineById.replace(':id', String(id)),
+      body,
+    );
+    yield put(resolveUpdateClerkQuarantine());
+    yield put(loadClerkActiveQuarantines());
+  } catch (error) {
+    yield put(rejectUpdateClerkQuarantine());
+
+    const errorMessage = NotifierUtils.getAPIErrorMessage(
+      error as AxiosError,
+      t('yki.common.errors.updatingQuarantineFailed'),
+    );
+
+    yield put(setAPIError(errorMessage));
+  }
+}
+
 export function* watchClerkQuarantine() {
   yield takeLatest(
     loadClerkQuarantineMatches.type,
@@ -142,4 +171,5 @@ export function* watchClerkQuarantine() {
   );
   yield takeLatest(setQuarantineReview.type, setQuarantineReviewSaga);
   yield takeLatest(createClerkQuarantine.type, createClerkQuarantineSaga);
+  yield takeLatest(updateClerkQuarantine.type, updateClerkQuarantineSaga);
 }

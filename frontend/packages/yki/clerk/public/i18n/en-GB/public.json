@@ -382,6 +382,10 @@
       "clerkQuarantine": {
         "activeQuarantines": {
           "addButton": "Lisää osallistumiskielto",
+          "editModal": {
+            "submit": "Tallenna muutokset",
+            "title": "Muokkaa osallistumiskieltoa"
+          },
           "listing": {
             "columns": {
               "actions": "Toiminnot",

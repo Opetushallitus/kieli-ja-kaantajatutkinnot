@@ -6,6 +6,7 @@ export const activeQuarantines: ClerkActiveQuarantineResponse[] = [
     startDate: '2022-12-01',
     endDate: '2025-06-01',
     languageCode: 'swe',
+    diaryNumber: 'OPH-1001-2022',
     quarantinedPerson: {
       firstName: 'Koira',
       lastName: 'Ihminen',
@@ -20,6 +21,7 @@ export const activeQuarantines: ClerkActiveQuarantineResponse[] = [
     startDate: '2023-01-15',
     endDate: '2025-09-15',
     languageCode: 'fin',
+    diaryNumber: 'OPH-2002-2023',
     quarantinedPerson: {
       firstName: 'Markku',
       lastName: 'Virtanen',
@@ -34,6 +36,7 @@ export const activeQuarantines: ClerkActiveQuarantineResponse[] = [
     startDate: '2024-03-10',
     endDate: '2026-03-10',
     languageCode: 'eng',
+    diaryNumber: 'OPH-3003-2024',
     quarantinedPerson: {
       firstName: 'Pirjo',
       lastName: 'Mäkinen',

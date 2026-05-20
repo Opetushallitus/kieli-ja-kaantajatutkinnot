@@ -107,6 +107,88 @@ class ClerkQuarantinePage {
     },
   };
 
+  editModal = {
+    elements: {
+      container: () => cy.get('[data-testid="edit-quarantine-modal"]'),
+      firstNameInput: () =>
+        cy.get('[data-testid="edit-quarantine-first-name"]').find('input'),
+      lastNameInput: () =>
+        cy.get('[data-testid="edit-quarantine-last-name"]').find('input'),
+      birthdateInput: () =>
+        cy.get('[data-testid="edit-quarantine-birthdate"]').find('input'),
+      ssnInput: () =>
+        cy.get('[data-testid="edit-quarantine-ssn"]').find('input'),
+      emailInput: () =>
+        cy.get('[data-testid="edit-quarantine-email"]').find('input'),
+      phoneInput: () =>
+        cy.get('[data-testid="edit-quarantine-phone"]').find('input'),
+      caseNumberInput: () =>
+        cy.get('[data-testid="edit-quarantine-case-number"]').find('input'),
+      languageRadio: (languageCode: string) =>
+        cy.get(`input[type="radio"][value="${languageCode}"]`),
+      submitButton: () =>
+        cy
+          .get('[data-testid="edit-quarantine-modal"]')
+          .findByRole('button', { name: 'Tallenna muutokset' }),
+      cancelButton: () =>
+        cy
+          .get('[data-testid="edit-quarantine-modal"]')
+          .findByRole('button', { name: 'Peruuta' }),
+    },
+
+    expectVisible() {
+      this.elements.container().should('be.visible');
+    },
+
+    expectNotExist() {
+      this.elements.container().should('not.exist');
+    },
+
+    expectFieldValue(
+      field:
+        | 'firstName'
+        | 'lastName'
+        | 'birthdate'
+        | 'ssn'
+        | 'email'
+        | 'phone'
+        | 'caseNumber',
+      value: string,
+    ) {
+      const inputs = {
+        firstName: this.elements.firstNameInput,
+        lastName: this.elements.lastNameInput,
+        birthdate: this.elements.birthdateInput,
+        ssn: this.elements.ssnInput,
+        email: this.elements.emailInput,
+        phone: this.elements.phoneInput,
+        caseNumber: this.elements.caseNumberInput,
+      };
+      inputs[field]().should('have.value', value);
+    },
+
+    expectLanguageSelected(languageCode: string) {
+      this.elements.languageRadio(languageCode).should('be.checked');
+    },
+
+    fillFirstName(value: string) {
+      this.elements.firstNameInput().scrollIntoView().clear().type(value);
+    },
+
+    submit() {
+      this.elements.submitButton().scrollIntoView().click();
+    },
+  };
+
+  clickRowAction(tab: ListingTab, index: number, label: string) {
+    this.elements
+      .tableRows(tab)
+      .eq(index)
+      .within(() => {
+        cy.contains('button', label).click();
+      });
+  }
+
   isVisible() {
     this.elements.heading().should('be.visible');
   }

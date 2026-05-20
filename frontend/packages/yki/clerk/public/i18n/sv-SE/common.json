@@ -75,7 +75,8 @@
         },
         "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui",
         "addingEvaluationFailed": "Tarkistusarvioinnin lisääminen epäonnistui",
-        "addingQuarantineFailed": "Osallistumiskiellon lisääminen epäonnistui"
+        "addingQuarantineFailed": "Osallistumiskiellon lisääminen epäonnistui",
+        "updatingQuarantineFailed": "Osallistumiskiellon muokkaaminen epäonnistui"
       },
       "examDate": "Testdag",
       "examination": "Examen",

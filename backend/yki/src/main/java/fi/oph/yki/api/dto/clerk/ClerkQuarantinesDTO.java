@@ -11,5 +11,6 @@ public record ClerkQuarantinesDTO(
   LocalDate startDate,
   LocalDate endDate,
   @NonNull @NotBlank String languageCode,
+  @NonNull @NotBlank String diaryNumber,
   @NonNull @NotBlank ClerkQuarantinePersonDTO quarantinedPerson
 ) {}

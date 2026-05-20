@@ -70,6 +70,7 @@ export type ClerkActiveQuarantineResponse = {
   startDate: string;
   endDate: string;
   languageCode: string;
+  diaryNumber: string;
   quarantinedPerson: ClerkQuarantinePerson;
 };
 
@@ -78,6 +79,7 @@ export type ClerkActiveQuarantine = {
   startDate: Dayjs;
   endDate: Dayjs;
   languageCode: string;
+  diaryNumber: string;
   quarantinedPerson: ClerkQuarantinePerson;
 };
 
@@ -94,4 +96,8 @@ export type CreateClerkQuarantineRequest = {
   startDate: string;
   endDate: string;
   diaryNumber: string;
+};
+
+export type UpdateClerkQuarantineRequest = CreateClerkQuarantineRequest & {
+  id: number;
 };

@@ -71,6 +71,7 @@ public class ClerkQuarantineService {
           .startDate(quarantine.getStartDate())
           .endDate(quarantine.getEndDate())
           .languageCode(quarantine.getLanguageCode().trim())
+          .diaryNumber(quarantine.getDiaryNumber())
           .quarantinedPerson(quarantinedPerson)
           .build();
       })

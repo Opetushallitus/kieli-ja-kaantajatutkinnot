@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Variant } from 'shared/enums';
 
 import { AddNewQuarantineModal } from 'components/clerkQuarantine/listing/AddNewQuarantineModal';
+import { EditQuarantineModal } from 'components/clerkQuarantine/listing/EditQuarantineModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { PageSizeSelector } from 'components/oph-design/table/page-size-selector';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';
@@ -39,6 +40,8 @@ export const ActiveQuarantinesListing = ({
     keyPrefix: 'yki.component.clerkQuarantine.activeQuarantines',
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [quarantineToEdit, setQuarantineToEdit] =
+    useState<ClerkActiveQuarantine | null>(null);
 
   const capitalize = (s: string) =>
     s.length > 0 ? s.charAt(0).toUpperCase() + s.slice(1) : s;
@@ -93,12 +96,12 @@ export const ActiveQuarantinesListing = ({
       key: 'actions',
       title: t('listing.columns.actions'),
       style: { whiteSpace: 'nowrap' },
-      render: () => (
+      render: (row) => (
         <div className="columns gapped-xxs">
           <OphButton
             variant={Variant.Text}
             sx={{ padding: 0, minWidth: 0 }}
-            onClick={() => undefined}
+            onClick={() => setQuarantineToEdit(row)}
           >
             {t('listing.values.actions.edit')}
           </OphButton>
@@ -144,6 +147,10 @@ export const ActiveQuarantinesListing = ({
       <AddNewQuarantineModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+      />
+      <EditQuarantineModal
+        quarantine={quarantineToEdit}
+        onClose={() => setQuarantineToEdit(null)}
       />
     </div>
   );
