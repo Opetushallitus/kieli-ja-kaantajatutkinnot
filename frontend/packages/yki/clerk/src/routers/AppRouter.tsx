@@ -152,7 +152,7 @@ export const AppRouter: FC = () => {
             path={AppRoutes.CustomerSearch}
             element={
               <YkiTitlePage title="customerSearch">
-                <ClerkCustomerSearchPage />
+                <ClerkCustomerSearchPage route="clerk" />
               </YkiTitlePage>
             }
           />
@@ -160,7 +160,7 @@ export const AppRouter: FC = () => {
             path={AppRoutes.ClerkCustomerDetails}
             element={
               <YkiTitlePage title="customerDetails">
-                <ClerkCustomerDetailsPage />
+                <ClerkCustomerDetailsPage route="clerk" />
               </YkiTitlePage>
             }
           />
@@ -179,6 +179,22 @@ export const AppRouter: FC = () => {
             element={
               <YkiTitlePage title="clerk">
                 <ClerkOrganizerRegisterDetailsPage user="organizer" />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.OrganizerCustomerSearch}
+            element={
+              <YkiTitlePage title="customerSearch">
+                <ClerkCustomerSearchPage route="organizer" />
+              </YkiTitlePage>
+            }
+          />
+          <Route
+            path={AppRoutes.OrganizerCustomerDetails}
+            element={
+              <YkiTitlePage title="customerDetails">
+                <ClerkCustomerDetailsPage route="organizer" />
               </YkiTitlePage>
             }
           />

@@ -4,6 +4,7 @@ import { APIResponseStatus } from 'shared/enums';
 import {
   ClerkCustomerSearchParams,
   ClerkCustomerSummary,
+  OrganizerCustomerSearchParams,
 } from 'interfaces/clerkCustomer';
 
 interface ClerkCustomersSearchState {
@@ -35,6 +36,14 @@ const clerkCustomersSearchSlice = createSlice({
   name: 'customersSearch',
   initialState,
   reducers: {
+    loadOrganizerCustomersSearch(
+      state,
+      action: PayloadAction<OrganizerCustomerSearchParams>,
+    ) {
+      state.status = APIResponseStatus.InProgress;
+      state.page = action.payload.page;
+      state.size = action.payload.size;
+    },
     loadCustomersSearch(
       state,
       action: PayloadAction<ClerkCustomerSearchParams>,
@@ -90,6 +99,7 @@ const clerkCustomersSearchSlice = createSlice({
 export const clerkCustomersSearchReducer = clerkCustomersSearchSlice.reducer;
 
 export const {
+  loadOrganizerCustomersSearch,
   loadCustomersSearch,
   rejectCustomersSearch,
   resetCustomersSearch,

@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -179,7 +180,15 @@ public class ClerkQuarantineService {
     quarantine.setEmail(request.email());
     quarantine.setPhoneNumber(request.phoneNumber());
 
-    final Quarantine saved = quarantineRepository.save(quarantine);
+    final Quarantine saved;
+    try {
+      saved = quarantineRepository.save(quarantine);
+    } catch (DataIntegrityViolationException e) {
+      if (e.getMessage() != null && e.getMessage().contains("quarantine_diary_number_key")) {
+        throw new APIException(APIExceptionType.QUARANTINE_DIARY_NUMBER_ALREADY_EXISTS);
+      }
+      throw e;
+    }
     auditService.logClerkById(YkiOperation.CREATE_QUARANTINE, String.valueOf(saved.getId()));
   }
 

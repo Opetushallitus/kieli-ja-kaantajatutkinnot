@@ -10,6 +10,7 @@ import {
   acceptCreateExamSession,
   acceptRelocateRegistration,
   acceptSaveExamSession,
+  cancelOrganizerRegistration,
   cancelRegistration,
   ClerkExamSessionCreateForm,
   ClerkExamSessionEditForm,
@@ -124,6 +125,30 @@ function* relocateRegistrationSaga(
   }
 }
 
+function* cancelOrganizerRegistrationSaga(
+  action: PayloadAction<{
+    registrationId: number;
+    currentExamSessionId: number;
+    organizerOid: string;
+  }>,
+) {
+  const { registrationId, currentExamSessionId, organizerOid } = action.payload;
+  try {
+    yield call(
+      axiosInstance.delete,
+      APIEndpoints.OrganizerRegistrationCancel.replace(
+        ':oid',
+        organizerOid,
+      ).replace(':registrationId', String(registrationId)),
+    );
+
+    yield put(acceptCancelRegistration());
+    yield put(loadClerkExamSessionDetails(currentExamSessionId));
+  } catch (error) {
+    yield put(rejectCancelRegistration());
+  }
+}
+
 function* cancelRegistrationSaga(
   action: PayloadAction<{
     registrationId: number;
@@ -133,7 +158,7 @@ function* cancelRegistrationSaga(
   const { registrationId, currentExamSessionId } = action.payload;
   try {
     yield call(
-      axiosInstance.put,
+      axiosInstance.delete,
       APIEndpoints.ClerkRegistrationCancel.replace(
         ':registrationId',
         String(registrationId),
@@ -186,5 +211,9 @@ export function* watchClerkExamSession() {
   yield takeLatest(loadRelocateExamSessions.type, loadRelocateExamSessionsSaga);
   yield takeLatest(relocateRegistration.type, relocateRegistrationSaga);
   yield takeLatest(cancelRegistration.type, cancelRegistrationSaga);
+  yield takeLatest(
+    cancelOrganizerRegistration.type,
+    cancelOrganizerRegistrationSaga,
+  );
   yield takeLatest(createExamSession.type, createExamSessionSaga);
 }

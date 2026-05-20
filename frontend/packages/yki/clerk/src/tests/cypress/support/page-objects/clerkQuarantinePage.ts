@@ -1,9 +1,17 @@
+type ListingTab = 'pending' | 'past';
+
+const listingTestIds: Record<ListingTab, string> = {
+  pending: 'pending-reviews-listing',
+  past: 'past-reviews-listing',
+};
+
 class ClerkQuarantinePage {
   elements = {
     heading: () => cy.findByRole('heading', { name: 'Osallistumiskiellot' }),
     tabs: () => cy.get('.clerk-quarantine__filter-tabs__tab'),
     activeTab: () => cy.get('.clerk-quarantine__filter-tabs__tab.active'),
-    tableRows: () => cy.get('table tbody tr'),
+    tableRows: (tab: ListingTab) =>
+      cy.get(`[data-testid="${listingTestIds[tab]}"] table tbody tr`),
     addQuarantineButton: () =>
       cy.findByRole('button', { name: 'Lisää osallistumiskielto' }).first(),
   };
@@ -100,8 +108,8 @@ class ClerkQuarantinePage {
     this.elements.heading().should('be.visible');
   }
 
-  expectTableRowCount(count: number) {
-    this.elements.tableRows().should('have.length', count);
+  expectTableRowCount(tab: ListingTab, count: number) {
+    this.elements.tableRows(tab).should('have.length', count);
   }
 
   clickTab(tabText: string) {
@@ -112,9 +120,9 @@ class ClerkQuarantinePage {
     this.elements.activeTab().should('have.text', tabText);
   }
 
-  expectCorrectRowData(index: number, data: string[]) {
+  expectCorrectRowData(tab: ListingTab, index: number, data: string[]) {
     this.elements
-      .tableRows()
+      .tableRows(tab)
       .eq(index)
       .within(() => {
         data.forEach((value, i) => {

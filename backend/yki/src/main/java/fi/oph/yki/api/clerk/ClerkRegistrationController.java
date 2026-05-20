@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Profile;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -62,7 +63,7 @@ public class ClerkRegistrationController {
     clerkRegistrationService.moveRegistration(registrationId, targetExamSessionId);
   }
 
-  @PutMapping(path = "/{registrationId:\\d+}/cancel", consumes = ALL_VALUE)
+  @DeleteMapping(path = "/{registrationId:\\d+}/cancel", consumes = ALL_VALUE)
   @Operation(tags = TAG_REGISTRATION, summary = "Cancel registration")
   public void cancelRegistration(@PathVariable final long registrationId) {
     clerkRegistrationService.cancelRegistration(registrationId);

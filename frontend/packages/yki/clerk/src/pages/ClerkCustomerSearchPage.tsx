@@ -1,12 +1,12 @@
 import { ChevronRight, HomeOutlined } from '@mui/icons-material';
 import { Box, Grid, IconButton, Paper } from '@mui/material';
-import { FC } from 'react';
 
 import { ClerkCustomerSearch } from 'components/clerkCustomer/ClerkCustomerSearch';
 import { usePublicTranslation } from 'configs/i18n';
+import { RouteType } from 'interfaces/user';
 import { H2 } from 'ophTheme/Text';
 
-export const ClerkCustomerSearchPage: FC = () => {
+export const ClerkCustomerSearchPage = ({ route }: { route: RouteType }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.clerkCustomersSearchPage',
   });
@@ -33,7 +33,7 @@ export const ClerkCustomerSearchPage: FC = () => {
           elevation={3}
           className="clerk-customers-search-page__grid-container__results"
         >
-          <ClerkCustomerSearch />
+          <ClerkCustomerSearch route={route} />
         </Paper>
       </Grid>
     </Box>

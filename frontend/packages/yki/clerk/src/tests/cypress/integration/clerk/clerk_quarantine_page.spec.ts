@@ -47,11 +47,11 @@ describe('ClerkQuarantinePage', () => {
     });
 
     it('should display correct number of rows', () => {
-      onClerkQuarantinePage.expectTableRowCount(4);
+      onClerkQuarantinePage.expectTableRowCount('pending', 4);
     });
 
     it('should display correct data in first row', () => {
-      onClerkQuarantinePage.expectCorrectRowData(0, [
+      onClerkQuarantinePage.expectCorrectRowData('pending', 0, [
         'IlmoittautujaOsallistumiskielto',
         'suomi',
         '20.9.2025',
@@ -70,11 +70,11 @@ describe('ClerkQuarantinePage', () => {
     });
 
     it('should display correct number of rows', () => {
-      onClerkQuarantinePage.expectTableRowCount(2);
+      onClerkQuarantinePage.expectTableRowCount('past', 2);
     });
 
     it('should display correct data in first row', () => {
-      onClerkQuarantinePage.expectCorrectRowData(0, [
+      onClerkQuarantinePage.expectCorrectRowData('past', 0, [
         'IlmoittautujaOsallistumiskielto',
         'suomi',
         '20.9.2025',
@@ -89,7 +89,7 @@ describe('ClerkQuarantinePage', () => {
     });
 
     it('should display correct data in second row', () => {
-      onClerkQuarantinePage.expectCorrectRowData(1, [
+      onClerkQuarantinePage.expectCorrectRowData('past', 1, [
         'IlmoittautujaOsallistumiskielto',
         'suomi',
         '15.11.2025',
