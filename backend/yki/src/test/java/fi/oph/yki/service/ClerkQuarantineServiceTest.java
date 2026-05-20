@@ -88,6 +88,7 @@ public class ClerkQuarantineServiceTest {
   private Registration regStarted;
   private Registration regSweMismatch;
   private Registration regReviewed;
+  private Quarantine quarantineSsn;
 
   @BeforeEach
   public void setup() {
@@ -157,7 +158,7 @@ public class ClerkQuarantineServiceTest {
     entityManager.persist(regReviewed);
 
     // fin, SSN=010675-9981, covers Factory.examDate() date
-    final Quarantine quarantineSsn = Factory.quarantine();
+    quarantineSsn = Factory.quarantine();
     quarantineSsn.setSsn("010675-9981");
     quarantineSsn.setBirthdate("1975-06-01");
     quarantineSsn.setFirstName("Anna-Liisa");

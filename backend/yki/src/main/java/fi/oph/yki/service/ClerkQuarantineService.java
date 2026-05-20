@@ -19,6 +19,7 @@ import fi.oph.yki.util.HetuUtils;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -225,6 +226,30 @@ public class ClerkQuarantineService {
       throw e;
     }
     auditService.logClerkById(YkiOperation.CREATE_QUARANTINE, String.valueOf(saved.getId()));
+  }
+
+  @Transactional
+  public void updateQuarantine(final long id, final CreateQuarantineRequest request) {
+    final Quarantine quarantine = quarantineRepository
+      .findById(id)
+      .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
+
+    final String resolvedBirthdate = resolveBirthdate(request.ssn(), request.birthdate());
+
+    quarantine.setLanguageCode(request.languageCode());
+    quarantine.setStartDate(request.startDate());
+    quarantine.setEndDate(request.endDate());
+    quarantine.setFirstName(request.firstName());
+    quarantine.setLastName(request.lastName());
+    quarantine.setDiaryNumber(request.diaryNumber());
+    quarantine.setBirthdate(resolvedBirthdate);
+    quarantine.setSsn(request.ssn());
+    quarantine.setEmail(request.email());
+    quarantine.setPhoneNumber(request.phoneNumber());
+    quarantine.setUpdated(LocalDateTime.now());
+
+    quarantineRepository.save(quarantine);
+    auditService.logClerkById(YkiOperation.UPDATE_QUARANTINE, String.valueOf(id));
   }
 
   private String resolveBirthdate(final String ssn, final LocalDate birthdate) {

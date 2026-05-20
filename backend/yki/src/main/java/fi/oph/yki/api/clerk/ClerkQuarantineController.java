@@ -59,6 +59,12 @@ public class ClerkQuarantineController {
     clerkQuarantineService.createQuarantine(request);
   }
 
+  @PutMapping(path = "/{id:\\d+}", consumes = APPLICATION_JSON_VALUE)
+  @Operation(tags = TAG_QUARANTINE, summary = "Update an existing quarantine entry")
+  public void updateQuarantine(@PathVariable final long id, @Valid @RequestBody final CreateQuarantineRequest request) {
+    clerkQuarantineService.updateQuarantine(id, request);
+  }
+
   @PutMapping(path = "/{id:\\d+}/registration/{regId:\\d+}/set", consumes = APPLICATION_JSON_VALUE)
   @Operation(tags = TAG_QUARANTINE, summary = "Set quarantine review decision for a registration")
   public void setQuarantineReview(
