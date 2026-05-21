@@ -1,8 +1,10 @@
 import { OphButton } from '@opetushallitus/oph-design-system';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Variant } from 'shared/enums';
 
 import { AddNewQuarantineModal } from 'components/clerkQuarantine/listing/AddNewQuarantineModal';
+import { DeleteQuarantineConfirmationModal } from 'components/clerkQuarantine/listing/DeleteQuarantineConfirmationModal';
 import { EditQuarantineModal } from 'components/clerkQuarantine/listing/EditQuarantineModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { PageSizeSelector } from 'components/oph-design/table/page-size-selector';
@@ -13,6 +15,7 @@ import {
   ClerkActiveQuarantine,
 } from 'interfaces/clerkQuarantine';
 import { Text } from 'ophTheme/Text';
+import { deleteClerkQuarantine } from 'redux/reducers/clerkQuarantine';
 import { languageToString } from 'utils/clerk';
 
 type ClerkActiveQuarantineRow = ClerkActiveQuarantine & Row;
@@ -39,8 +42,11 @@ export const ActiveQuarantinesListing = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkQuarantine.activeQuarantines',
   });
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [quarantineToEdit, setQuarantineToEdit] =
+    useState<ClerkActiveQuarantine | null>(null);
+  const [quarantineToDelete, setQuarantineToDelete] =
     useState<ClerkActiveQuarantine | null>(null);
 
   const capitalize = (s: string) =>
@@ -108,7 +114,7 @@ export const ActiveQuarantinesListing = ({
           <OphButton
             variant={Variant.Text}
             sx={{ padding: 0, minWidth: 0 }}
-            onClick={() => undefined}
+            onClick={() => setQuarantineToDelete(row)}
           >
             {t('listing.values.actions.delete')}
           </OphButton>
@@ -151,6 +157,16 @@ export const ActiveQuarantinesListing = ({
       <EditQuarantineModal
         quarantine={quarantineToEdit}
         onClose={() => setQuarantineToEdit(null)}
+      />
+      <DeleteQuarantineConfirmationModal
+        quarantine={quarantineToDelete}
+        onClose={() => setQuarantineToDelete(null)}
+        onConfirm={() => {
+          if (quarantineToDelete) {
+            dispatch(deleteClerkQuarantine(quarantineToDelete.id));
+            setQuarantineToDelete(null);
+          }
+        }}
       />
     </div>
   );

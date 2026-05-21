@@ -24,6 +24,7 @@ interface ClerkQuarantineState {
   lastReviewAction: 'matchConfirmed' | 'matchRejected' | null;
   createStatus: APIResponseStatus;
   updateStatus: APIResponseStatus;
+  deleteStatus: APIResponseStatus;
 }
 
 const initialState: ClerkQuarantineState = {
@@ -39,6 +40,7 @@ const initialState: ClerkQuarantineState = {
   lastReviewAction: null,
   createStatus: APIResponseStatus.NotStarted,
   updateStatus: APIResponseStatus.NotStarted,
+  deleteStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkQuarantineSlice = createSlice({
@@ -146,6 +148,18 @@ const clerkQuarantineSlice = createSlice({
     resetUpdateClerkQuarantineStatus(state) {
       state.updateStatus = APIResponseStatus.NotStarted;
     },
+    deleteClerkQuarantine(state, _action: PayloadAction<number>) {
+      state.deleteStatus = APIResponseStatus.InProgress;
+    },
+    resolveDeleteClerkQuarantine(state) {
+      state.deleteStatus = APIResponseStatus.Success;
+    },
+    rejectDeleteClerkQuarantine(state) {
+      state.deleteStatus = APIResponseStatus.Error;
+    },
+    resetDeleteClerkQuarantineStatus(state) {
+      state.deleteStatus = APIResponseStatus.NotStarted;
+    },
   },
 });
 
@@ -174,4 +188,8 @@ export const {
   resolveUpdateClerkQuarantine,
   rejectUpdateClerkQuarantine,
   resetUpdateClerkQuarantineStatus,
+  deleteClerkQuarantine,
+  resolveDeleteClerkQuarantine,
+  rejectDeleteClerkQuarantine,
+  resetDeleteClerkQuarantineStatus,
 } = clerkQuarantineSlice.actions;

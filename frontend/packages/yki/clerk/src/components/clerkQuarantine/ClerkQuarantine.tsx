@@ -14,6 +14,7 @@ import {
   loadClerkQuarantineMatches,
   loadClerkQuarantineReviews,
   resetCreateClerkQuarantineStatus,
+  resetDeleteClerkQuarantineStatus,
   resetQuarantineReviewStatus,
   setActiveQuarantinesSort,
   setQuarantineReview,
@@ -104,8 +105,10 @@ export const ClerkQuarantine = () => {
     activeQuarantinesStatus,
     activeQuarantinesSort,
     createStatus,
+    deleteStatus,
   } = useSelector(clerkQuarantineSelector);
   const prevCreateStatus = useRef(createStatus);
+  const prevDeleteStatus = useRef(deleteStatus);
   const rows = useSelector(selectSortedQuarantineMatches);
   const activeQuarantineRows = useSelector(selectSortedActiveQuarantines);
   const [activeTab, setActiveTab] =
@@ -170,6 +173,21 @@ export const ClerkQuarantine = () => {
     }
     prevCreateStatus.current = createStatus;
   }, [dispatch, showToast, t, createStatus]);
+
+  useEffect(() => {
+    if (prevDeleteStatus.current === APIResponseStatus.InProgress) {
+      if (deleteStatus === APIResponseStatus.Success) {
+        showToast({
+          severity: Severity.Success,
+          description: t('toasts.quarantineDeleted'),
+        });
+        dispatch(resetDeleteClerkQuarantineStatus());
+      } else if (deleteStatus === APIResponseStatus.Error) {
+        dispatch(resetDeleteClerkQuarantineStatus());
+      }
+    }
+    prevDeleteStatus.current = deleteStatus;
+  }, [dispatch, showToast, t, deleteStatus]);
 
   const renderListing = () => {
     switch (activeTab) {

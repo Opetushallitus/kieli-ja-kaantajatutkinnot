@@ -180,6 +180,42 @@ class ClerkQuarantinePage {
     },
   };
 
+  deleteModal = {
+    elements: {
+      container: () => cy.get('[data-testid="delete-quarantine-modal"]'),
+      confirmButton: () =>
+        cy
+          .get('[data-testid="delete-quarantine-modal"]')
+          .findByRole('button', { name: 'Poista osallistumiskielto' }),
+      cancelButton: () =>
+        cy
+          .get('[data-testid="delete-quarantine-modal"]')
+          .findByRole('button', { name: 'Peruuta' }),
+    },
+
+    expectVisible() {
+      this.elements.container().should('be.visible');
+    },
+
+    expectNotExist() {
+      this.elements.container().should('not.exist');
+    },
+
+    expectDescriptionContains(fragments: string[]) {
+      fragments.forEach((fragment) => {
+        this.elements.container().should('contain.text', fragment);
+      });
+    },
+
+    confirm() {
+      this.elements.confirmButton().scrollIntoView().click();
+    },
+
+    cancel() {
+      this.elements.cancelButton().scrollIntoView().click();
+    },
+  };
+
   clickRowAction(tab: ListingTab, index: number, label: string) {
     this.elements
       .tableRows(tab)

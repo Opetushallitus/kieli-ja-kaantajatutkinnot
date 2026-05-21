@@ -162,6 +162,39 @@ describe('ClerkQuarantinePage', () => {
       onClerkQuarantinePage.editModal.expectNotExist();
     });
 
+    it('should show delete confirmation with row details', () => {
+      onClerkQuarantinePage.clickRowAction('active', 0, 'Poista');
+      onClerkQuarantinePage.deleteModal.expectVisible();
+
+      onClerkQuarantinePage.deleteModal.expectDescriptionContains([
+        'Koira Ihminen',
+        '121292A7121',
+        '1.12.2022 - 1.6.2025',
+        'ruotsi',
+      ]);
+    });
+
+    it('should close delete modal on cancel without removing the row', () => {
+      onClerkQuarantinePage.clickRowAction('active', 0, 'Poista');
+      onClerkQuarantinePage.deleteModal.expectVisible();
+
+      onClerkQuarantinePage.deleteModal.cancel();
+
+      onClerkQuarantinePage.deleteModal.expectNotExist();
+      onClerkQuarantinePage.expectTableRowCount('active', 3);
+    });
+
+    it('should delete osallistumiskielto on confirm', () => {
+      onClerkQuarantinePage.clickRowAction('active', 0, 'Poista');
+      onClerkQuarantinePage.deleteModal.expectVisible();
+
+      onClerkQuarantinePage.deleteModal.confirm();
+
+      onClerkQuarantinePage.deleteModal.expectNotExist();
+      onToast.expectText('Osallistumiskielto poistettu');
+      onClerkQuarantinePage.expectTableRowCount('active', 2);
+    });
+
     it('should add new osallistumiskielto', () => {
       onClerkQuarantinePage.elements.addQuarantineButton().click();
       onClerkQuarantinePage.modal.expectVisible();

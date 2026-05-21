@@ -480,6 +480,12 @@
             "accept": "Hyväksy ilmoittautuminen",
             "reject": "Peru ilmoittautuminen"
           },
+          "delete": {
+            "cancel": "Peruuta",
+            "confirm": "Poista osallistumiskielto",
+            "description": "Olet poistamassa osallistumiskieltoa henkilöltä <bold>{{firstName}} {{lastName}}</bold> ({{identifier}}), voimassaolo <bold>{{startDate}} - {{endDate}}</bold> ja tutkintokieli <bold>{{examLanguage}}</bold>.",
+            "title": "Vahvista osallistumiskiellon poisto"
+          },
           "reject": {
             "cancel": "En halua perua",
             "description": "Olet perumassa <bold>{{firstName}} {{lastName}}</bold> ({{ssn}}) tilaisuudessa <bold>{{examLanguage}}-{{examLevel}} {{examDate}}</bold>",
@@ -500,7 +506,8 @@
           "matchRejectedError": "Hylkääminen epäonnistui",
           "matchRejectedSuccess": "Hylkääminen onnistui",
           "quarantineAdded": "Osallistumiskielto lisätty onnistuneesti",
-          "quarantineAddError": "Osallistumiskiellon lisääminen epäonnistui"
+          "quarantineAddError": "Osallistumiskiellon lisääminen epäonnistui",
+          "quarantineDeleted": "Osallistumiskielto poistettu"
         }
       },
       "clerkRegister": {

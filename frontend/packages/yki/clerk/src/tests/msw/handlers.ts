@@ -369,6 +369,13 @@ export const handlers = [
   http.put(APIEndpoints.ClerkQuarantineById, () =>
     HttpResponse.json({ success: true }),
   ),
+  http.delete(APIEndpoints.ClerkQuarantineById, ({ params }) => {
+    const id = Number(params.id);
+    const idx = activeQuarantines.findIndex((q) => q.id === id);
+    if (idx !== -1) activeQuarantines.splice(idx, 1);
+
+    return new HttpResponse(null, { status: 200 });
+  }),
   http.get(APIEndpoints.ClerkQuarantine, () =>
     HttpResponse.json(activeQuarantines),
   ),

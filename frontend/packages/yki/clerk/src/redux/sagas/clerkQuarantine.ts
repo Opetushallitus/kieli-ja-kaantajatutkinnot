@@ -15,6 +15,7 @@ import {
 import { setAPIError } from 'redux/reducers/APIError';
 import {
   createClerkQuarantine,
+  deleteClerkQuarantine,
   loadClerkActiveQuarantines,
   loadClerkQuarantineMatches,
   loadClerkQuarantineReviews,
@@ -22,9 +23,11 @@ import {
   rejectClerkQuarantineMatches,
   rejectClerkQuarantineReviews,
   rejectCreateClerkQuarantine,
+  rejectDeleteClerkQuarantine,
   rejectQuarantineReview,
   rejectUpdateClerkQuarantine,
   resolveCreateClerkQuarantine,
+  resolveDeleteClerkQuarantine,
   resolveQuarantineReview,
   resolveUpdateClerkQuarantine,
   setQuarantineReview,
@@ -131,6 +134,27 @@ function* createClerkQuarantineSaga(
   }
 }
 
+function* deleteClerkQuarantineSaga(action: PayloadAction<number>) {
+  const t = translateOutsideComponent();
+  try {
+    yield call(
+      axiosInstance.delete,
+      APIEndpoints.ClerkQuarantineById.replace(':id', String(action.payload)),
+    );
+    yield put(resolveDeleteClerkQuarantine());
+    yield put(loadClerkActiveQuarantines());
+  } catch (error) {
+    yield put(rejectDeleteClerkQuarantine());
+
+    const errorMessage = NotifierUtils.getAPIErrorMessage(
+      error as AxiosError,
+      t('yki.common.errors.deletingQuarantineFailed'),
+    );
+
+    yield put(setAPIError(errorMessage));
+  }
+}
+
 function* updateClerkQuarantineSaga(
   action: PayloadAction<UpdateClerkQuarantineRequest>,
 ) {
@@ -172,4 +196,5 @@ export function* watchClerkQuarantine() {
   yield takeLatest(setQuarantineReview.type, setQuarantineReviewSaga);
   yield takeLatest(createClerkQuarantine.type, createClerkQuarantineSaga);
   yield takeLatest(updateClerkQuarantine.type, updateClerkQuarantineSaga);
+  yield takeLatest(deleteClerkQuarantine.type, deleteClerkQuarantineSaga);
 }

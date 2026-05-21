@@ -40,4 +40,5 @@ export enum APIError {
   QuarantineInvalidSsn = 'quarantineInvalidSsn',
   QuarantineMissingSsnAndBirthdate = 'quarantineMissingSsnAndBirthdate',
   QuarantineSsnBirthdateMismatch = 'quarantineSsnBirthdateMismatch',
+  QuarantineAlreadyDeleted = 'quarantineAlreadyDeleted',
 }
