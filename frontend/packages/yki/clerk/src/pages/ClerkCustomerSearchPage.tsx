@@ -14,13 +14,17 @@ export const ClerkCustomerSearchPage = ({ route }: { route: RouteType }) => {
   return (
     <Box className="clerk-customers-search-page">
       <div className="columns gapped-xs">
-        <IconButton
-          color="secondary"
-          className="clerk-customers-search-page__home-button"
-        >
-          <HomeOutlined color="secondary" fontSize="large" />
-        </IconButton>
-        <ChevronRight color="disabled" fontSize="large" />
+        {route === 'clerk' && (
+          <>
+            <IconButton
+              color="secondary"
+              className="clerk-customers-search-page__home-button"
+            >
+              <HomeOutlined color="secondary" fontSize="large" />
+            </IconButton>
+            <ChevronRight color="disabled" fontSize="large" />
+          </>
+        )}
         <H2>{t('heading')}</H2>
       </div>
       <Grid

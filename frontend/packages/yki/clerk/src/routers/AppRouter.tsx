@@ -76,7 +76,7 @@ const ProtectedRoute = ({
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
   const sessionStatus = useAppSelector(sessionSelector).status;
-  const userStatus = useAppSelector(userSelector).status;
+  const { user, status: userStatus } = useAppSelector(userSelector);
   const dispatch = useAppDispatch();
   const appTitle = translateCommon('appTitle');
 
@@ -150,7 +150,7 @@ export const AppRouter: FC = () => {
               path={AppRoutes.ClerkOrganizerRegisterDetails}
               element={
                 <YkiTitlePage title="clerk">
-                  <ClerkOrganizerRegisterDetailsPage user="clerk" />
+                  <ClerkOrganizerRegisterDetailsPage route="clerk" />
                 </YkiTitlePage>
               }
             />
@@ -226,7 +226,7 @@ export const AppRouter: FC = () => {
               path={AppRoutes.OrganizerHome}
               element={
                 <YkiTitlePage title="clerk">
-                  <ClerkOrganizerRegisterDetailsPage user="organizer" />
+                  <ClerkOrganizerRegisterDetailsPage route="organizer" />
                 </YkiTitlePage>
               }
             />
@@ -242,7 +242,7 @@ export const AppRouter: FC = () => {
               path={AppRoutes.OrganizerCustomerDetails}
               element={
                 <YkiTitlePage title="customerDetails">
-                  <ClerkCustomerDetailsPage route="organizer" />
+                  <ClerkCustomerDetailsPage route="organizer" oid={user?.oid} />
                 </YkiTitlePage>
               }
             />

@@ -50,7 +50,7 @@ const adminUser = {
 
 const v2User = {
   oid: '1.2.246.562.10.28646781493',
-  isAdmin: false,
+  isAdmin: true,
   isOrganizer: true,
 };
 

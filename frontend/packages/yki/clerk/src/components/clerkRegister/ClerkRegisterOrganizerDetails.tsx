@@ -30,10 +30,10 @@ import { SerializationUtils } from 'utils/serialization';
 
 export const ClerkRegisterOrganizerDetails = ({
   row,
-  user,
+  route,
 }: {
   row: ClerkOrganizer;
-  user: RouteType;
+  route: RouteType;
 }) => {
   const [examSessions, setExamSessions] = useState<ExamSession[]>([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -63,12 +63,12 @@ export const ClerkRegisterOrganizerDetails = ({
   }, [row.oid]);
 
   useEffect(() => {
-    if (user === 'clerk') {
+    if (route === 'clerk') {
       dispatch(loadExamDates(true));
-    } else if (user === 'organizer') {
+    } else if (route === 'organizer') {
       dispatch(loadOrganizerExamDates(row.oid));
     }
-  }, [dispatch, user, row.oid]);
+  }, [dispatch, route, row.oid]);
 
   useEffect(() => {
     fetchExamSessions();

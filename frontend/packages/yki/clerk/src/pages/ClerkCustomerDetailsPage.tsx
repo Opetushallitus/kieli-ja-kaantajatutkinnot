@@ -19,7 +19,13 @@ import {
 import { clerkCustomerDetailsSelector } from 'redux/selectors/clerkCustomerDetailsSelector';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
 
-export const ClerkCustomerDetailsPage = ({ route }: { route: RouteType }) => {
+export const ClerkCustomerDetailsPage = ({
+  route,
+  oid,
+}: {
+  route: RouteType;
+  oid?: string;
+}) => {
   const translateCommon = useCommonTranslation();
   const { customerDetails, status } = useAppSelector(
     clerkCustomerDetailsSelector,
@@ -96,7 +102,13 @@ export const ClerkCustomerDetailsPage = ({ route }: { route: RouteType }) => {
         <IconButton
           color="secondary"
           className="clerk-customer-details-page__home-button"
-          onClick={() => navigate(AppRoutes.CustomerSearch)}
+          onClick={() =>
+            route === 'clerk'
+              ? navigate(AppRoutes.CustomerSearch)
+              : navigate(
+                  AppRoutes.OrganizerCustomerSearch.replace(':oid', oid ?? ''),
+                )
+          }
         >
           <HomeOutlined color="secondary" fontSize="large" />
         </IconButton>
