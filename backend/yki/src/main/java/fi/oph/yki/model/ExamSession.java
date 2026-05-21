@@ -40,7 +40,7 @@ public class ExamSession {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "organizer_id", referencedColumnName = "id")
-  private Organizer organizerOid;
+  private Organizer organizer;
 
   @Column(name = "language_code")
   private String language;
