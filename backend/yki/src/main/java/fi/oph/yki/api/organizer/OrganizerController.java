@@ -22,6 +22,7 @@ import fi.oph.yki.service.PersonService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -83,8 +84,11 @@ public class OrganizerController {
 
   @GetMapping(path = "/examSession")
   @Operation(tags = TAG_ORGANIZER, summary = "List exam sessions for an organizer")
-  public Map<String, List<ClerkOrganizerExamSessionDTO>> getExamSessions(@PathVariable("oid") final String oid) {
-    return Map.of("exam_sessions", clerkOrganizerService.getExamSessionsByOrganizerOid(oid));
+  public Map<String, List<ClerkOrganizerExamSessionDTO>> getExamSessions(
+    @PathVariable("oid") final String oid,
+    @RequestParam(required = false) final LocalDate from
+  ) {
+    return Map.of("exam_sessions", clerkOrganizerService.getExamSessionsByOrganizerOid(oid, from));
   }
 
   @GetMapping(path = "/examDates")

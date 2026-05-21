@@ -12,6 +12,8 @@ import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.OrganizerRepository;
+import java.time.LocalDate;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,9 +37,11 @@ public class ClerkOrganizerService {
   }
 
   @Transactional(readOnly = true)
-  public List<ClerkOrganizerExamSessionDTO> getExamSessionsByOrganizerOid(final String oid) {
+  public List<ClerkOrganizerExamSessionDTO> getExamSessionsByOrganizerOid(final String oid, final LocalDate from) {
     final Organizer organizer = organizerRepository.findByOidAndDeletedAtIsNull(oid).orElseThrow();
-    final List<ExamSession> examSessions = examSessionRepository.findByOrganizer(organizer).stream().toList();
+    final List<ExamSession> examSessions = from != null
+      ? examSessionRepository.findByOrganizerAndExamDateFrom(organizer, from)
+      : examSessionRepository.findByOrganizer(organizer);
 
     return examSessionRepository
       .findByExamSessionsWithLocation(examSessions)
