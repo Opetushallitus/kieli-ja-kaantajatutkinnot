@@ -17,9 +17,9 @@ import {
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
 
 export const ClerkOrganizerRegisterDetailsPage = ({
-  user,
+  route,
 }: {
-  user: RouteType;
+  route: RouteType;
 }) => {
   const { organizerRegistryStatus, organizerRegistry } = useAppSelector(
     clerkOrganizersSelector,
@@ -39,25 +39,30 @@ export const ClerkOrganizerRegisterDetailsPage = ({
 
   useEffect(() => {
     if (organizerRegistryStatus === APIResponseStatus.NotStarted) {
-      if (user === 'clerk') {
+      if (route === 'clerk') {
         dispatch(loadClerkOrganizerRegistry());
-      } else if (user === 'organizer' && oid) {
+      } else if (route === 'organizer' && oid) {
         dispatch(loadOrganizerRegistry(oid));
       }
     }
-  }, [dispatch, organizerRegistryStatus, user, oid]);
+  }, [dispatch, organizerRegistryStatus, route, oid]);
 
   return (
     <Box className="clerk-register-page">
       <div className="columns gapped-xs">
-        <IconButton
-          color="secondary"
-          className="clerk-register-page__home-button"
-          onClick={() => navigate(AppRoutes.ClerkOrganizerRegister)}
-        >
-          <HomeOutlined color="secondary" fontSize="large" />
-        </IconButton>
-        <ChevronRight color="disabled" fontSize="large" />
+        {route === 'clerk' && (
+          <>
+            <IconButton
+              color="secondary"
+              className="clerk-register-page__home-button"
+              onClick={() => navigate(AppRoutes.ClerkOrganizerRegister)}
+            >
+              <HomeOutlined color="secondary" fontSize="large" />
+            </IconButton>
+
+            <ChevronRight color="disabled" fontSize="large" />
+          </>
+        )}
         {row && <H2>{row.nimi}</H2>}
       </div>
       <Grid
@@ -70,7 +75,7 @@ export const ClerkOrganizerRegisterDetailsPage = ({
           elevation={3}
           className="clerk-register-page__grid-container__results"
         >
-          {row && <ClerkRegisterOrganizerDetails user={user} row={row} />}
+          {row && <ClerkRegisterOrganizerDetails route={route} row={row} />}
         </Paper>
       </Grid>
     </Box>
