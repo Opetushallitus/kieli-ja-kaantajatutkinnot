@@ -49,7 +49,7 @@ const adminUser = {
 };
 
 const v2User = {
-  oid: '1.2.246.562.24.98107285507',
+  oid: '1.2.246.562.10.28646781493',
   isAdmin: false,
   isOrganizer: true,
 };
@@ -66,6 +66,17 @@ export const handlers = [
     HttpResponse.json(maatJaValtiot2Response),
   ),
   http.get(APIEndpoints.ClerkOrganizer, () => HttpResponse.json(organizers)),
+  http.get(`${APIEndpoints.Organizer}/:oid`, ({ params }) => {
+    const oid = params?.oid as string | undefined;
+    const organizer = organizers.organizers.find((o) => {
+      return o.oid === oid;
+    });
+    if (organizer) {
+      return HttpResponse.json({ organizers: [organizer] });
+    } else {
+      return notFound();
+    }
+  }),
   http.put(
     `${APIEndpoints.ClerkOrganizer}/:oid`,
     async ({ params, request }) => {
@@ -253,21 +264,8 @@ export const handlers = [
   ),
   http.get(
     '/organisaatio-service/rest/organisaatio/v4/1.2.246.562.10.28646781493',
-    async ({ request }) => {
-      const requestBody = (await request.json()) as Array<string>;
-
-      if (requestBody.length === 0) {
-        return HttpResponse.json([]);
-      } else if (requestBody.length === 1) {
-        const oid = requestBody[0];
-        const organization = findByOidResponse.find((org) => org.oid === oid);
-        if (organization) {
-          return HttpResponse.json([organization]);
-        }
-      } else {
-        // return all organizations by default for multiple oids
-        return HttpResponse.json(findByOidResponse);
-      }
+    () => {
+      return HttpResponse.json(findByOidResponse);
     },
   ),
   http.get(APIEndpoints.ClerkOrganizer + '/:oid/exam-session', ({ params }) => {
