@@ -2,6 +2,7 @@ package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -570,5 +571,47 @@ public class ClerkQuarantineServiceTest {
     clerkQuarantineService.updateQuarantine(quarantineSsn.getId(), request);
 
     verify(auditService).logClerkById(eq(YkiOperation.UPDATE_QUARANTINE), eq(String.valueOf(quarantineSsn.getId())));
+  }
+
+  @Test
+  public void testDeleteQuarantineSetsDeletedAt() {
+    clerkQuarantineService.deleteQuarantine(quarantineSsn.getId());
+
+    final Quarantine deleted = quarantineRepository.findById(quarantineSsn.getId()).orElseThrow();
+    assertNotNull(deleted.getDeletedAt());
+  }
+
+  @Test
+  public void testDeleteQuarantineExcludesFromActiveListing() {
+    clerkQuarantineService.deleteQuarantine(quarantineSsn.getId());
+
+    final List<ClerkQuarantinesDTO> active = clerkQuarantineService.getActiveQuarantine();
+    assertFalse(active.stream().anyMatch(q -> q.id() == quarantineSsn.getId()));
+  }
+
+  @Test
+  public void testDeleteQuarantineThrowsWhenNotFound() {
+    final APIException ex = assertThrows(APIException.class, () -> clerkQuarantineService.deleteQuarantine(999999L));
+    assertEquals(APIExceptionType.NOT_FOUND, ex.getExceptionType());
+  }
+
+  @Test
+  public void testDeleteQuarantineThrowsWhenAlreadyDeleted() {
+    quarantineSsn.setDeletedAt(LocalDateTime.now());
+    entityManager.persist(quarantineSsn);
+    entityManager.flush();
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkQuarantineService.deleteQuarantine(quarantineSsn.getId())
+    );
+    assertEquals(APIExceptionType.QUARANTINE_ALREADY_DELETED, ex.getExceptionType());
+  }
+
+  @Test
+  public void testDeleteQuarantineLogsAudit() {
+    clerkQuarantineService.deleteQuarantine(quarantineSsn.getId());
+
+    verify(auditService).logClerkById(eq(YkiOperation.DELETE_QUARANTINE), eq(String.valueOf(quarantineSsn.getId())));
   }
 }

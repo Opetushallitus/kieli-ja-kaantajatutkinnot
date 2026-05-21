@@ -273,6 +273,22 @@ public class ClerkQuarantineService {
   }
 
   @Transactional
+  public void deleteQuarantine(final long id) {
+    final Quarantine quarantine = quarantineRepository
+      .findById(id)
+      .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
+
+    if (quarantine.getDeletedAt() != null) {
+      throw new APIException(APIExceptionType.QUARANTINE_ALREADY_DELETED);
+    }
+
+    quarantine.setDeletedAt(LocalDateTime.now());
+    quarantineRepository.save(quarantine);
+
+    auditService.logClerkById(YkiOperation.DELETE_QUARANTINE, String.valueOf(id));
+  }
+
+  @Transactional
   public void setQuarantineReview(final long quarantineId, final long registrationId, final boolean matchConfirmed) {
     final String reviewerOid = SecurityContextHolder.getContext().getAuthentication().getName();
 

@@ -25,4 +25,5 @@ public enum YkiOperation implements Operation {
   SET_QUARANTINE_REVIEW,
   CREATE_QUARANTINE,
   UPDATE_QUARANTINE,
+  DELETE_QUARANTINE,
 }
