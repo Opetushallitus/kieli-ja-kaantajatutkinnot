@@ -2,9 +2,8 @@ package fi.oph.yki.repository;
 
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Organizer;
-import org.springframework.data.jpa.repository.Query;
-
 import java.util.List;
+import org.springframework.data.jpa.repository.Query;
 
 public interface ExamSessionRepository extends BaseRepository<ExamSession> {
   List<ExamSession> getByLanguageAndLevel(String language, String level);
