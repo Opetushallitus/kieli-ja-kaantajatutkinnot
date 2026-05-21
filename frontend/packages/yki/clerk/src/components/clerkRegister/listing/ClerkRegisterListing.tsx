@@ -243,7 +243,7 @@ const ClerkRegisterCollapsibleRow = ({
         try {
           const oneYearAgo = dayjs().subtract(1, 'year').format('YYYY-MM-DD');
           const response = await axiosInstance.get(
-            APIEndpoints.ClerkOrganizer + `/${row.oid}/exam-session`,
+            APIEndpoints.Organizer + `/${row.oid}/examSession`,
             { params: { from: oneYearAgo } },
           );
           setExamSessions(

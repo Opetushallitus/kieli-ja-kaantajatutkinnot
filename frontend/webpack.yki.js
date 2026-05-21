@@ -169,6 +169,11 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = 
         "secure": false,
       },
       {
+        "context": [`/${CONTEXT_PATH}/v2/auth`],
+        "target": env.proxy,
+        "secure": false,
+      },
+      {
         "context": [`/${CONTEXT_PATH}/api`],
         "target": env.proxy,
         "secure": false,
