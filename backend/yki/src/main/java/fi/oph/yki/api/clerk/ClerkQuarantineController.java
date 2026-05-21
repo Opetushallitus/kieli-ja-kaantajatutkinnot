@@ -4,18 +4,23 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchDTO;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineReviewDTO;
+import fi.oph.yki.api.dto.clerk.CreateQuarantineRequest;
 import fi.oph.yki.api.dto.clerk.QuarantineReviewRequest;
 import fi.oph.yki.config.ClerkEnabledCondition;
 import fi.oph.yki.service.ClerkQuarantineService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.context.annotation.Conditional;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -38,6 +43,13 @@ public class ClerkQuarantineController {
   @Operation(tags = TAG_QUARANTINE, summary = "Get completed quarantine reviews")
   public List<ClerkQuarantineReviewDTO> getReviews() {
     return clerkQuarantineService.getReviews();
+  }
+
+  @PostMapping(consumes = APPLICATION_JSON_VALUE)
+  @Operation(tags = TAG_QUARANTINE, summary = "Create a new quarantine entry")
+  @ResponseStatus(HttpStatus.CREATED)
+  public void createQuarantine(@Valid @RequestBody final CreateQuarantineRequest request) {
+    clerkQuarantineService.createQuarantine(request);
   }
 
   @PutMapping(path = "/{id:\\d+}/registration/{regId:\\d+}/set", consumes = APPLICATION_JSON_VALUE)

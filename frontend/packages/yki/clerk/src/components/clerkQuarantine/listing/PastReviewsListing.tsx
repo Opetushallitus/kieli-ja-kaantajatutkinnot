@@ -190,7 +190,7 @@ export const PastReviewsListing = ({
   ];
 
   return (
-    <>
+    <div data-testid="past-reviews-listing">
       <Text>{t('reviewListing.description')}</Text>
       <div className="columns space-between">
         <Text>{t('listing.resultCount', { count: rows.length })}</Text>
@@ -216,6 +216,6 @@ export const PastReviewsListing = ({
         onClose={() => setPendingCancel(null)}
         onConfirm={handleConfirm}
       />
-    </>
+    </div>
   );
 };

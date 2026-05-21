@@ -362,6 +362,9 @@ export const handlers = [
       },
     });
   }),
+  http.post(APIEndpoints.ClerkQuarantine, () =>
+    HttpResponse.json({ success: true }),
+  ),
   http.get(APIEndpoints.ClerkQuarantineMatches, () =>
     HttpResponse.json(quarantineMatches),
   ),

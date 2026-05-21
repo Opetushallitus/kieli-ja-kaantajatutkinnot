@@ -1,24 +1,31 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
+import { translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import {
   ClerkQuarantineMatchResponse,
   ClerkQuarantineReviewResponse,
+  CreateClerkQuarantineRequest,
 } from 'interfaces/clerkQuarantine';
+import { setAPIError } from 'redux/reducers/APIError';
 import {
+  createClerkQuarantine,
   loadClerkQuarantineMatches,
   loadClerkQuarantineReviews,
   rejectClerkQuarantineMatches,
   rejectClerkQuarantineReviews,
+  rejectCreateClerkQuarantine,
   rejectQuarantineReview,
+  resolveCreateClerkQuarantine,
   resolveQuarantineReview,
   setQuarantineReview,
   storeClerkQuarantineMatches,
   storeClerkQuarantineReviews,
 } from 'redux/reducers/clerkQuarantine';
+import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 function* loadClerkQuarantineMatchesSaga() {
@@ -77,6 +84,30 @@ function* setQuarantineReviewSaga(
   }
 }
 
+function* createClerkQuarantineSaga(
+  action: PayloadAction<CreateClerkQuarantineRequest>,
+) {
+  const t = translateOutsideComponent();
+  try {
+    yield call(
+      axiosInstance.post,
+      APIEndpoints.ClerkQuarantine,
+      action.payload,
+    );
+    yield put(resolveCreateClerkQuarantine());
+    yield put(loadClerkQuarantineMatches());
+  } catch (error) {
+    yield put(rejectCreateClerkQuarantine());
+
+    const errorMessage = NotifierUtils.getAPIErrorMessage(
+      error as AxiosError,
+      t('yki.common.errors.addingQuarantineFailed'),
+    );
+
+    yield put(setAPIError(errorMessage));
+  }
+}
+
 export function* watchClerkQuarantine() {
   yield takeLatest(
     loadClerkQuarantineMatches.type,
@@ -87,4 +118,5 @@ export function* watchClerkQuarantine() {
     loadClerkQuarantineReviewsSaga,
   );
   yield takeLatest(setQuarantineReview.type, setQuarantineReviewSaga);
+  yield takeLatest(createClerkQuarantine.type, createClerkQuarantineSaga);
 }
