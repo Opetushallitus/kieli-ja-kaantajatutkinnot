@@ -268,7 +268,7 @@ export const handlers = [
       return HttpResponse.json(findByOidResponse);
     },
   ),
-  http.get(APIEndpoints.ClerkOrganizer + '/:oid/exam-session', ({ params }) => {
+  http.get(APIEndpoints.Organizer + '/:oid/examSession', ({ params }) => {
     const { from } = params;
 
     const filteredExamSessions = from
