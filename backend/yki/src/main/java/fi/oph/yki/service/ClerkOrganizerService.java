@@ -43,7 +43,7 @@ public class ClerkOrganizerService {
 
   private ClerkOrganizerExamSessionDTO toExamSessionDTO(final ExamSession examSession) {
     final ExamDate examDate = examSession.getExamDate();
-    final Organizer organizer = examSession.getOrganizerOid();
+    final Organizer organizer = examSession.getOrganizer();
 
     final List<ClerkOrganizerExamSessionLocationDTO> locations = examSession
       .getLocations()

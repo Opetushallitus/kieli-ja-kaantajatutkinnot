@@ -2,7 +2,6 @@ package fi.oph.yki.repository;
 
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Organizer;
-
 import java.util.List;
 
 public interface ExamSessionRepository extends BaseRepository<ExamSession> {

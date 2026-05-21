@@ -86,7 +86,7 @@ public class ClerkRegistrationService {
   public void cancelRegistration(final String organizerOid, final long registrationId) {
     final Registration registration = registrationRepository.getReferenceById(registrationId);
 
-    if (!organizerOid.equals(registration.getExamSession().getOrganizerOid().getOid())) {
+    if (!organizerOid.equals(registration.getExamSession().getOrganizer().getOid())) {
       throw new AccessDeniedException(
         String.format("Organizer (%s) has no relation to registration (%s)", organizerOid, registrationId)
       );

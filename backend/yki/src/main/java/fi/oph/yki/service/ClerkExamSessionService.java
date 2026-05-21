@@ -156,7 +156,7 @@ public class ClerkExamSessionService {
 
     final ExamSession examSession = new ExamSession();
     examSession.setExamDate(examDate);
-    examSession.setOrganizerOid(organizer);
+    examSession.setOrganizer(organizer);
     examSession.setOfficeOid(dto.officeOid());
     examSession.setLanguage(dto.language());
     examSession.setLevel(dto.level());
