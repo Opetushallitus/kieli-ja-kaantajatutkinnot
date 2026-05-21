@@ -37,8 +37,13 @@ public class ClerkOrganizerService {
   @Transactional(readOnly = true)
   public List<ClerkOrganizerExamSessionDTO> getExamSessionsByOrganizerOid(final String oid) {
     final Organizer organizer = organizerRepository.findByOidAndDeletedAtIsNull(oid).orElseThrow();
+    final List<ExamSession> examSessions = examSessionRepository.findByOrganizer(organizer).stream().toList();
 
-    return examSessionRepository.findByOrganizer(organizer).stream().map(this::toExamSessionDTO).toList();
+    return examSessionRepository
+      .findByExamSessionsWithLocation(examSessions)
+      .stream()
+      .map(this::toExamSessionDTO)
+      .toList();
   }
 
   private ClerkOrganizerExamSessionDTO toExamSessionDTO(final ExamSession examSession) {
