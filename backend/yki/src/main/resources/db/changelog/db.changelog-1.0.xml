@@ -258,4 +258,10 @@
             <column name="start_time_speak_write" type="TEXT"/>
         </addColumn>
     </changeSet>
+
+    <changeSet id="2026-05-21-add-exam-session-organizer-index" author="jrkkp">
+        <createIndex tableName="exam_session" indexName="exam_session_organizer_id_idx">
+            <column name="organizer_id"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>
