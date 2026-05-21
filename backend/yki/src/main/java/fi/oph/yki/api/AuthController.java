@@ -45,7 +45,9 @@ public class AuthController {
     final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     final boolean isAdmin = AuthorizationUtil.hasRole(auth, Constants.APP_ADMIN_ROLE);
     final boolean isOrganizer = AuthorizationUtil.hasRole(auth, Constants.APP_ORGANIZER_ROLE);
-    final String oid = auth.getName();
+    final KayttooikeusResponseDTO kayttooikeusResponseDTO = permissionsService.getPermissionForUser(auth.getName());
+    final OrganisaatioDTO organisaatioDTO = kayttooikeusResponseDTO.organisaatiot().get(0);
+    final String oid = organisaatioDTO.organisaatioOid();
 
     return UserDTO.builder().oid(oid).isAdmin(isAdmin).isOrganizer(isOrganizer).build();
   }
