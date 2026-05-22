@@ -14,16 +14,6 @@
       href="/yki/v2/clerk/assets/ico/favicon.ico"
     />
     <title>Virkailija - Yleiset kielitutkinnot | Opetushallitus</title>
-    <script th:attr="nonce=${cspNonce}">
-      (function() {
-        if ((window.location.href.includes('virkailija') || window.location.hostname === 'localhost') && !window.Cypress) {
-          var s = document.createElement('script');
-          s.src = '/virkailija-raamit/apply-raamit.js';
-          s.onerror = function() {};
-          document.head.appendChild(s);
-        }
-      })();
-    </script>
   </head>
   <body>
     <div id="root">
