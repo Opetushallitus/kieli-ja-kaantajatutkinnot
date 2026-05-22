@@ -2,17 +2,6 @@ import { isCommonAssetRequest } from 'msw';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
-if (
-  (window.location.href.includes('virkailija') ||
-    window.location.hostname === 'localhost') &&
-  !(window as Window & { Cypress?: unknown }).Cypress
-) {
-  const s = document.createElement('script');
-  s.src = '/virkailija-raamit/apply-raamit.js';
-  s.onerror = () => {};
-  document.head.appendChild(s);
-}
-
 import { App } from 'App';
 
 async function enableMocking() {
