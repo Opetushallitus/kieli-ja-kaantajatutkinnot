@@ -1,5 +1,6 @@
 import { OphButton } from '@opetushallitus/oph-design-system';
 import { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   APIResponseStatus,
   AppLanguage,
@@ -18,6 +19,7 @@ import { useAppSelector } from 'configs/redux';
 import { ExamSessionType } from 'enums/app';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { ExamDate } from 'interfaces/examDate';
+import { RouteType } from 'interfaces/user';
 import { H3, Label, Text } from 'ophTheme/Text';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
 import { getExamSessionStartTimesDescription } from 'utils/clerk';
@@ -26,9 +28,11 @@ import { DateTimeUtils } from 'utils/dateTime';
 export const ClerkExamSessionDetails = ({
   examSessionDetails,
   examDates,
+  route,
 }: {
   examSessionDetails: ClerkExamSession | null;
   examDates: ExamDate[];
+  route: RouteType;
 }) => {
   const commonTranslation = useCommonTranslation();
   const { t } = usePublicTranslation({
@@ -38,6 +42,8 @@ export const ClerkExamSessionDetails = ({
   const { updateStatus } = useAppSelector(clerkExamSessionDetailsSelector);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const prevUpdateStatus = useRef(updateStatus);
+  const params = useParams();
+  const oid = params.oid;
 
   useEffect(() => {
     if (prevUpdateStatus.current === APIResponseStatus.InProgress) {
@@ -185,6 +191,8 @@ export const ClerkExamSessionDetails = ({
         setIsOpen={setIsEditModalOpen}
         examSessionDetails={examSessionDetails}
         examDates={examDates}
+        route={route}
+        oid={oid}
       />
     </div>
   );

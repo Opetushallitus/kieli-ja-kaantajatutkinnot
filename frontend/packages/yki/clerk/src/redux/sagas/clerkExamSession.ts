@@ -15,7 +15,9 @@ import {
   ClerkExamSessionCreateForm,
   ClerkExamSessionEditForm,
   createExamSession,
+  createOrganizerExamSession,
   loadClerkExamSessionDetails,
+  loadOrganizerExamSessionDetails,
   loadRelocateExamSessions,
   rejectCancelRegistration,
   rejectCreateExamSession,
@@ -25,10 +27,32 @@ import {
   rejectSaveExamSession,
   relocateRegistration,
   saveExamSession,
+  saveOrganizerExamSession,
   storeExamSessionDetails,
   storeRelocateExamSessions,
 } from 'redux/reducers/clerkExamSession';
 import { SerializationUtils } from 'utils/serialization';
+
+function* loadOrganizerExamSessionDetailsSaga(
+  action: PayloadAction<{ oid: string; examSessionId: number }>,
+) {
+  try {
+    const { oid, examSessionId } = action.payload;
+    const response: AxiosResponse<ClerkExamSessionResponse> = yield call(
+      axiosInstance.get,
+      APIEndpoints.OrganizerExamSession.replace(':oid', oid).replace(
+        /:id$/,
+        String(examSessionId),
+      ),
+    );
+    const clerkExamSession =
+      SerializationUtils.deserializeClerkExamSessionResponse(response.data);
+
+    yield put(storeExamSessionDetails(clerkExamSession));
+  } catch (error) {
+    yield put(rejectExamSessionDetails());
+  }
+}
 
 function* loadClerkExamSessionDetailsSaga(action: PayloadAction<string>) {
   try {
@@ -42,6 +66,48 @@ function* loadClerkExamSessionDetailsSaga(action: PayloadAction<string>) {
     yield put(storeExamSessionDetails(clerkExamSession));
   } catch (error) {
     yield put(rejectExamSessionDetails());
+  }
+}
+
+function* saveOrganizerExamSessionSaga(
+  action: PayloadAction<{
+    examSessionId: number;
+    form: ClerkExamSessionEditForm;
+    oid: string;
+  }>,
+) {
+  const { oid, examSessionId, form } = action.payload;
+  try {
+    const response: AxiosResponse<ClerkExamSessionResponse> = yield call(
+      axiosInstance.put,
+      APIEndpoints.OrganizerExamSession.replace(':oid', oid).replace(
+        /:id$/,
+        `${examSessionId}`,
+      ),
+      {
+        language: form.language,
+        level: form.level,
+        maxParticipantsTotal: Number(form.maxParticipantsTotal),
+        maxParticipantsReadListen:
+          Number(form.maxParticipantsReadListen) || null,
+        maxParticipantsSpeakWrite:
+          Number(form.maxParticipantsSpeakWrite) || null,
+        location: form.location,
+        contactName: form.contactName,
+        contactEmail: form.contactEmail,
+        contactPhoneNumber: form.contactPhoneNumber,
+        startTime: form.startTime,
+        startTimeReadListen: form.startTimeReadListen || null,
+        startTimeSpeakWrite: form.startTimeSpeakWrite || null,
+        officeOid: form.officeOid,
+      },
+    );
+    const clerkExamSession =
+      SerializationUtils.deserializeClerkExamSessionResponse(response.data);
+
+    yield put(acceptSaveExamSession(clerkExamSession));
+  } catch (error) {
+    yield put(rejectSaveExamSession());
   }
 }
 
@@ -172,6 +238,42 @@ function* cancelRegistrationSaga(
   }
 }
 
+function* createOrganizerExamSessionSaga(
+  action: PayloadAction<ClerkExamSessionCreateForm>,
+) {
+  const form = action.payload;
+  try {
+    yield call(
+      axiosInstance.post,
+      APIEndpoints.OrganizerExamSession.replace(':oid', form.organizerOid),
+      {
+        organizerOid: form.organizerOid,
+        examDateId: Number(form.examDateId),
+        language: form.language,
+        level: form.level,
+        type: form.type,
+        maxParticipantsTotal: Number(form.maxParticipantsTotal),
+        maxParticipantsReadListen:
+          Number(form.maxParticipantsReadListen) || null,
+        maxParticipantsSpeakWrite:
+          Number(form.maxParticipantsSpeakWrite) || null,
+        startTime: form.startTime,
+        startTimeReadListen: form.startTimeReadListen || null,
+        startTimeSpeakWrite: form.startTimeSpeakWrite || null,
+        location: form.location,
+        contactName: form.contactName,
+        contactEmail: form.contactEmail,
+        contactPhoneNumber: form.contactPhoneNumber,
+        officeOid: form.officeOid,
+      },
+    );
+
+    yield put(acceptCreateExamSession());
+  } catch (error) {
+    yield put(rejectCreateExamSession());
+  }
+}
+
 function* createExamSessionSaga(
   action: PayloadAction<ClerkExamSessionCreateForm>,
 ) {
@@ -207,7 +309,12 @@ export function* watchClerkExamSession() {
     loadClerkExamSessionDetails.type,
     loadClerkExamSessionDetailsSaga,
   );
+  yield takeLatest(
+    loadOrganizerExamSessionDetails.type,
+    loadOrganizerExamSessionDetailsSaga,
+  );
   yield takeLatest(saveExamSession.type, saveExamSessionSaga);
+  yield takeLatest(saveOrganizerExamSession.type, saveOrganizerExamSessionSaga);
   yield takeLatest(loadRelocateExamSessions.type, loadRelocateExamSessionsSaga);
   yield takeLatest(relocateRegistration.type, relocateRegistrationSaga);
   yield takeLatest(cancelRegistration.type, cancelRegistrationSaga);
@@ -216,4 +323,8 @@ export function* watchClerkExamSession() {
     cancelOrganizerRegistrationSaga,
   );
   yield takeLatest(createExamSession.type, createExamSessionSaga);
+  yield takeLatest(
+    createOrganizerExamSession.type,
+    createOrganizerExamSessionSaga,
+  );
 }

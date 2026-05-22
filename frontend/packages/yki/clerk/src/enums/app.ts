@@ -20,6 +20,7 @@ export enum AppRoutes {
   OrganizerHome = '/yki/v2/jarjestaja/:oid',
   OrganizerCustomerSearch = '/yki/v2/jarjestaja/:oid/asiakashaku',
   OrganizerCustomerDetails = '/yki/v2/jarjestaja/:oid/asiakashaku/:personOid',
+  OrganizerExamSession = '/yki/v2/jarjestaja/:oid/tilaisuus/:id',
 }
 
 export enum ExamLanguage {
