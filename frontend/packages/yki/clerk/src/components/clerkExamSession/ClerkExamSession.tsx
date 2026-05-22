@@ -47,6 +47,7 @@ export const ClerkExamSession = ({
         examRegistrations={clerkExamSession.registrations}
         language={clerkExamSession.language}
         level={clerkExamSession.level}
+        route={route}
       />
     </Stack>
   );

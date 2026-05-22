@@ -10,7 +10,7 @@ import { Divider, IconButton, Stack } from '@mui/material';
 import { OphButton } from '@opetushallitus/oph-design-system';
 import i18next from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
@@ -22,6 +22,7 @@ import { usePublicTranslation } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { ClerkRegistration } from 'interfaces/clerkRegistration';
+import { RouteType } from 'interfaces/user';
 import { Text } from 'ophTheme/Text';
 
 const TABS = [RegistrationKind.Admission, RegistrationKind.Queue] as const;
@@ -78,11 +79,13 @@ export const ClerkExamSessionRegistrations = ({
   examRegistrations,
   language,
   level,
+  route,
 }: {
   examSessionId: number;
   examRegistrations: Array<ClerkRegistration> | null;
   language: string;
   level: string;
+  route: RouteType;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkCustomer.details.listing',
@@ -97,6 +100,8 @@ export const ClerkExamSessionRegistrations = ({
   const [cancelRegistrationId, setCancelRegistrationId] = useState<
     number | null
   >(null);
+  const params = useParams();
+  const oid = params.oid ?? '';
 
   const registrationStateIconMapping: Partial<
     Record<RegistrationStates, JSX.Element>
@@ -156,10 +161,17 @@ export const ClerkExamSessionRegistrations = ({
       person && (
         <div className="rows gapped-xxs">
           <Link
-            to={AppRoutes.ClerkCustomerDetails.replace(
-              ':personOid',
-              person.oid,
-            )}
+            to={
+              route === 'clerk'
+                ? AppRoutes.ClerkCustomerDetails.replace(
+                    ':personOid',
+                    person.oid,
+                  )
+                : AppRoutes.OrganizerCustomerDetails.replace(
+                    ':oid',
+                    oid,
+                  ).replace(':personOid', person.oid)
+            }
           >
             {person.firstName} {person.lastName}
           </Link>
@@ -190,14 +202,16 @@ export const ClerkExamSessionRegistrations = ({
       (state === RegistrationStates.Completed ||
         state === RegistrationStates.Submitted) && (
         <div className="rows gapped-xxs" style={{ alignItems: 'flex-start' }}>
-          <IconButton
-            color="secondary"
-            onClick={() => setRelocateRegistrationId(id)}
-            sx={{ width: 'fit-content' }}
-          >
-            <TurnRightOutlined color="secondary" fontSize="large" />
-            {t('values.actions.relocate')}
-          </IconButton>
+          {route === 'clerk' && (
+            <IconButton
+              color="secondary"
+              onClick={() => setRelocateRegistrationId(id)}
+              sx={{ width: 'fit-content' }}
+            >
+              <TurnRightOutlined color="secondary" fontSize="large" />
+              {t('values.actions.relocate')}
+            </IconButton>
+          )}
           <IconButton
             color="secondary"
             onClick={() => setCancelRegistrationId(id)}
@@ -300,8 +314,8 @@ export const ClerkExamSessionRegistrations = ({
         registrationId={cancelRegistrationId}
         onClose={() => setCancelRegistrationId(null)}
         examSessionId={examSessionId}
-        route={'clerk'}
-        organizerOid=""
+        route={route}
+        organizerOid={oid}
       />
     </Stack>
   );
