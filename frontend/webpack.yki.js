@@ -61,7 +61,7 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = 
       ...getESLintPlugin(env),
       ...getStylelintPlugin(env),
       ...getHtmlWebpackPlugin(env, CONTEXT_PATH, dirName, isClerk),
-      new CSPNoncePlaceholderInjectorPlugin({ cypress: env.cypress }),
+      new CSPNoncePlaceholderInjectorPlugin(),
       new Dotenv()
     ],
   });
@@ -269,9 +269,6 @@ const addThymeleafNoncePlaceholder = (e) => {
 };
 
 class CSPNoncePlaceholderInjectorPlugin {
-  constructor({ cypress } = {}) {
-    this.cypress = cypress;
-  }
   apply(compiler) {
     compiler.hooks.compilation.tap(
       "CSPNoncePlaceholderInjectorPlugin",
@@ -305,21 +302,6 @@ class CSPNoncePlaceholderInjectorPlugin {
                 "window.__CLERK_ENABLED__ = /*[[${clerkEnabled}]]*/ false;"
               )
             );
-            if (!this.cypress) {
-              data.headTags.unshift(
-                HtmlWebpackPlugin.createHtmlTagObject(
-                  "script",
-                  { "th:attr": "nonce=${cspNonce}" },
-                  `(function() {
-                    if (window.location.href.includes('virkailija')) {
-                      var s = document.createElement('script');
-                      s.src = '/virkailija-raamit/apply-raamit.js';
-                      document.head.appendChild(s);
-                    }
-                  })();`
-                )
-              );
-            }
             cb(null, data);
           }
         );
