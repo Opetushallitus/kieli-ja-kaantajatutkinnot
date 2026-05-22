@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import i18next from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { CustomButton } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
@@ -40,6 +41,8 @@ export const ClerkRegisterOrganizerDetails = ({
   const dispatch = useAppDispatch();
   const { examDates } = useAppSelector(examDateSelector);
   const { createStatus } = useAppSelector(clerkExamSessionDetailsSelector);
+  const params = useParams();
+  const oid = params.oid;
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
@@ -49,7 +52,7 @@ export const ClerkRegisterOrganizerDetails = ({
     try {
       const oneYearAgo = dayjs().subtract(1, 'year').format('YYYY-MM-DD');
       const response = await axiosInstance.get(
-        `${APIEndpoints.Organizer}/${row.oid}/examSession`,
+        `${APIEndpoints.Organizer}/${oid}/examSession`,
         { params: { from: oneYearAgo } },
       );
       setExamSessions(
@@ -60,7 +63,7 @@ export const ClerkRegisterOrganizerDetails = ({
     } catch (error) {
       setExamSessions([]);
     }
-  }, [row.oid]);
+  }, [oid]);
 
   useEffect(() => {
     if (route === 'clerk') {
@@ -99,12 +102,17 @@ export const ClerkRegisterOrganizerDetails = ({
   ): ListTableColumn<ExamSession> => ({
     key: 'session_date',
     title: t('examSessionListing.header.sessionDate'),
-    render: (rowProps) => (
+    render: (rowProps) =>
       // TODO use proper url and navigateTo
-      <a href={'/yki/v2/virkailija/tilaisuus/' + rowProps.id}>
-        <span>{rowProps.session_date.format('D.M.YYYY')}</span>
-      </a>
-    ),
+      route === 'clerk' ? (
+        <a href={`/yki/v2/virkailija/tilaisuus/${rowProps.id}`}>
+          <span>{rowProps.session_date.format('D.M.YYYY')}</span>
+        </a>
+      ) : (
+        <a href={`/yki/v2/jarjestaja/${oid}/tilaisuus/${rowProps.id}`}>
+          <span>{rowProps.session_date.format('D.M.YYYY')}</span>
+        </a>
+      ),
   });
 
   const createExamLanguageColumn = (
@@ -243,6 +251,8 @@ export const ClerkRegisterOrganizerDetails = ({
         mode="create"
         organizerOid={row.oid}
         examDates={examDates}
+        route={route}
+        oid={oid}
       />
     </Box>
   );

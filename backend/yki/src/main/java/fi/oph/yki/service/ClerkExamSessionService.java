@@ -22,6 +22,7 @@ import fi.oph.yki.view.ExamSessionXlsxDataRowUtil;
 import fi.oph.yki.view.ExamSessionXlsxView;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.view.document.AbstractXlsxView;
@@ -35,6 +36,20 @@ public class ClerkExamSessionService {
   private final ExamDateRepository examDateRepository;
   private final OrganizerRepository organizerRepository;
   private final AuditService auditService;
+
+  @Transactional(readOnly = true)
+  public ClerkExamSessionDTO getExamSession(final String oid, final Long examSessionId) {
+    final Organizer organizer = organizerRepository.findByOidAndDeletedAtIsNull(oid).orElseThrow();
+    final ExamSession examSession = examSessionRepository.getReferenceById(examSessionId);
+
+    if (examSession.getOrganizer().getId() != organizer.getId()) {
+      throw new AccessDeniedException(
+        String.format("Exam session (%s) not related to organizer (%s)", examSessionId, oid)
+      );
+    }
+
+    return toDTO(examSession);
+  }
 
   @Transactional(readOnly = true)
   public ClerkExamSessionDTO getExamSession(final Long examSessionId) {
@@ -99,6 +114,24 @@ public class ClerkExamSessionService {
     final var excel = new ExamSessionXlsxView(excelData);
 
     return excel;
+  }
+
+  @Transactional
+  public ClerkExamSessionDTO updateExamSession(
+    final String oid,
+    final long examSessionId,
+    final ClerkExamSessionUpdateDTO dto
+  ) {
+    final Organizer organizer = organizerRepository.findByOidAndDeletedAtIsNull(oid).orElseThrow();
+    final ExamSession examSession = examSessionRepository.getReferenceById(examSessionId);
+
+    if (examSession.getOrganizer().getId() != organizer.getId()) {
+      throw new AccessDeniedException(
+        String.format("Exam session (%s) not related to organizer (%s)", examSessionId, oid)
+      );
+    }
+
+    return updateExamSession(examSessionId, dto);
   }
 
   @Transactional

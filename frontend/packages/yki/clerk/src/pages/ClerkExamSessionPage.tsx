@@ -1,6 +1,6 @@
 import { ChevronRight, HomeOutlined } from '@mui/icons-material';
 import { Box, Grid, IconButton, Paper } from '@mui/material';
-import { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
@@ -9,11 +9,15 @@ import { ClerkExamSession } from 'components/clerkExamSession/ClerkExamSession';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { RouteType } from 'interfaces/user';
 import { H2 } from 'ophTheme/Text';
-import { loadClerkExamSessionDetails } from 'redux/reducers/clerkExamSession';
+import {
+  loadClerkExamSessionDetails,
+  loadOrganizerExamSessionDetails,
+} from 'redux/reducers/clerkExamSession';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
 
-export const ClerkExamSessionPage: FC = () => {
+export const ClerkExamSessionPage = ({ route }: { route: RouteType }) => {
   const { status } = useAppSelector(clerkExamSessionDetailsSelector);
 
   const { t } = usePublicTranslation({
@@ -24,17 +28,22 @@ export const ClerkExamSessionPage: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const params = useParams();
+  const oid = params.oid ?? '';
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted && params.id) {
-      dispatch(loadClerkExamSessionDetails(+params.id));
+      dispatch(
+        route === 'clerk'
+          ? loadClerkExamSessionDetails(+params.id)
+          : loadOrganizerExamSessionDetails({ oid, examSessionId: +params.id }),
+      );
     } else if (status === APIResponseStatus.Error) {
       showToast({
         severity: Severity.Error,
         description: t('details.toasts.notFound'),
       });
     }
-  }, [dispatch, navigate, params.id, showToast, status, t]);
+  }, [dispatch, navigate, params.id, oid, route, showToast, status, t]);
 
   return (
     <Box className="clerk-exam-session-page">
@@ -60,7 +69,7 @@ export const ClerkExamSessionPage: FC = () => {
           elevation={3}
           className="clerk-exam-session-page__grid-container__results"
         >
-          <ClerkExamSession />
+          <ClerkExamSession oid={oid} route={route} />
         </Paper>
       </Grid>
     </Box>

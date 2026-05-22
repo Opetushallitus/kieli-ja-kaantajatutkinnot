@@ -76,7 +76,7 @@ const ProtectedRoute = ({
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
   const sessionStatus = useAppSelector(sessionSelector).status;
-  const { user, status: userStatus } = useAppSelector(userSelector);
+  const { status: userStatus } = useAppSelector(userSelector);
   const dispatch = useAppDispatch();
   const appTitle = translateCommon('appTitle');
 
@@ -190,7 +190,7 @@ export const AppRouter: FC = () => {
               path={AppRoutes.ClerkExamSession}
               element={
                 <YkiTitlePage title="customerExamSession">
-                  <ClerkExamSessionPage />
+                  <ClerkExamSessionPage route="clerk" />
                 </YkiTitlePage>
               }
             />
@@ -242,7 +242,15 @@ export const AppRouter: FC = () => {
               path={AppRoutes.OrganizerCustomerDetails}
               element={
                 <YkiTitlePage title="customerDetails">
-                  <ClerkCustomerDetailsPage route="organizer" oid={user?.oid} />
+                  <ClerkCustomerDetailsPage route="organizer" />
+                </YkiTitlePage>
+              }
+            />
+            <Route
+              path={AppRoutes.OrganizerExamSession}
+              element={
+                <YkiTitlePage title="customerExamSession">
+                  <ClerkExamSessionPage route="organizer" />
                 </YkiTitlePage>
               }
             />

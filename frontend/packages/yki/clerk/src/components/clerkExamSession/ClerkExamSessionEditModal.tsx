@@ -20,10 +20,13 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamLanguage, ExamLevel, ExamSessionType } from 'enums/app';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { ExamDate } from 'interfaces/examDate';
+import { RouteType } from 'interfaces/user';
 import { H2, H3, Label, Text } from 'ophTheme/Text';
 import {
   createExamSession,
+  createOrganizerExamSession,
   saveExamSession,
+  saveOrganizerExamSession,
 } from 'redux/reducers/clerkExamSession';
 import { loadOrganizationHierarchy } from 'redux/reducers/clerkOrganizer';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
@@ -39,6 +42,8 @@ type ClerkExamSessionEditModalProps = {
   examDates: ExamDate[];
   mode?: 'create' | 'edit-full' | 'edit-partial';
   organizerOid?: string;
+  route: RouteType;
+  oid?: string;
 };
 
 export const ClerkExamSessionEditModal = ({
@@ -48,6 +53,8 @@ export const ClerkExamSessionEditModal = ({
   examDates,
   mode = 'edit-partial',
   organizerOid,
+  route,
+  oid,
 }: ClerkExamSessionEditModalProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkExamSessionRegistrations.modals.edit',
@@ -306,17 +313,28 @@ export const ClerkExamSessionEditModal = ({
 
     if (isCreateMode && organizerOid) {
       dispatch(
-        createExamSession({
-          ...form,
-          organizerOid,
-        }),
+        route === 'clerk'
+          ? createExamSession({
+              ...form,
+              organizerOid,
+            })
+          : createOrganizerExamSession({
+              ...form,
+              organizerOid,
+            }),
       );
     } else if (examSessionDetails) {
       dispatch(
-        saveExamSession({
-          examSessionId: examSessionDetails.id,
-          form,
-        }),
+        route === 'clerk'
+          ? saveExamSession({
+              examSessionId: examSessionDetails.id,
+              form,
+            })
+          : saveOrganizerExamSession({
+              examSessionId: examSessionDetails.id,
+              form,
+              oid: oid ?? '',
+            }),
       );
     }
   };

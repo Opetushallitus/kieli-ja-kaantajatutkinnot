@@ -7,6 +7,9 @@ import fi.oph.yki.api.dto.clerk.ClerkCustomerDetailsDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCustomerSearchRequestDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCustomerSummaryDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionCreateDTO;
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkPersonContactUpdateDTO;
@@ -16,6 +19,7 @@ import fi.oph.yki.kayttooikeus.dto.KayttooikeusResponseDTO;
 import fi.oph.yki.kayttooikeus.dto.OrganisaatioDTO;
 import fi.oph.yki.service.ClerkCustomerService;
 import fi.oph.yki.service.ClerkExamDateService;
+import fi.oph.yki.service.ClerkExamSessionService;
 import fi.oph.yki.service.ClerkOrganizerService;
 import fi.oph.yki.service.ClerkRegistrationService;
 import fi.oph.yki.service.PersonService;
@@ -30,12 +34,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,6 +71,9 @@ public class OrganizerController {
   @Resource
   private ClerkRegistrationService clerkRegistrationService;
 
+  @Resource
+  private ClerkExamSessionService clerkExamSessionService;
+
   private static final String TAG_ORGANIZER = "Organizer exam session API";
   private static final int MAX_PAGE_SIZE = 100;
 
@@ -89,6 +98,38 @@ public class OrganizerController {
     @RequestParam(required = false) final LocalDate from
   ) {
     return Map.of("exam_sessions", clerkOrganizerService.getExamSessionsByOrganizerOid(oid, from));
+  }
+
+  @GetMapping(path = "/examSession/{examSessionId:\\d+}")
+  @Operation(tags = TAG_ORGANIZER, summary = "Get exam event and registrations")
+  public ClerkExamSessionDTO getExamSession(
+    @PathVariable("oid") final String oid,
+    @PathVariable final long examSessionId
+  ) {
+    return clerkExamSessionService.getExamSession(oid, examSessionId);
+  }
+
+  @PostMapping(path = "/examSession/{examSessionId:\\d+}", consumes = APPLICATION_JSON_VALUE)
+  @Operation(tags = TAG_ORGANIZER, summary = "Create a new exam session")
+  public ClerkExamSessionDTO createExamSession(
+    @PathVariable("oid") final String oid,
+    @RequestBody @Valid final ClerkExamSessionCreateDTO dto
+  ) {
+    if (oid.equals(dto.organizerOid())) {
+      throw new AccessDeniedException(String.format("URL oid (%s) does not match dto (%s)", oid, dto.organizerOid()));
+    }
+
+    return clerkExamSessionService.createExamSession(dto);
+  }
+
+  @PutMapping(path = "/examSession/{examSessionId:\\d+}", consumes = APPLICATION_JSON_VALUE)
+  @Operation(tags = TAG_ORGANIZER, summary = "Update exam session details")
+  public ClerkExamSessionDTO updateExamSession(
+    @PathVariable("oid") final String oid,
+    @PathVariable final long examSessionId,
+    @RequestBody @Valid final ClerkExamSessionUpdateDTO dto
+  ) {
+    return clerkExamSessionService.updateExamSession(oid, examSessionId, dto);
   }
 
   @GetMapping(path = "/examDates")
