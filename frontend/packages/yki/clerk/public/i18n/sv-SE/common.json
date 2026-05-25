@@ -176,6 +176,7 @@
         "evaluationOrder": "Kontrollbedömning",
         "evaluationOrderStatus": "Kontrollbedömning",
         "examDetails": "Test",
+        "customerExamSession": "Tutkintotilaisuus",
         "expiredLoginLink": "Länken gäller inte längre",
         "freeRegistrationSuccess": "Ilmoittautuminen onnistui",
         "initRegistration": "Anmälning",
