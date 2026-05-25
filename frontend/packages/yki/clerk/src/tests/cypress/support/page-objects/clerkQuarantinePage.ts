@@ -235,6 +235,7 @@ class ClerkQuarantinePage {
 
   clickTab(tabText: string) {
     this.elements.tabs().contains(tabText).click();
+    this.elements.tabs().contains(tabText).should('have.class', 'active');
   }
 
   expectActiveTab(tabText: string) {
