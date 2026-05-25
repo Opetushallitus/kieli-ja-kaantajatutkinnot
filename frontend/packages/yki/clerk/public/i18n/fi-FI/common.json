@@ -176,6 +176,7 @@
         "evaluationOrder": "Tarkistusarviointi",
         "evaluationOrderStatus": "Tarkistusarviointi",
         "examDetails": "Tutkinto",
+        "customerExamSession": "Tutkintotilaisuus",
         "expiredLoginLink": "Linkki on vanhentunut",
         "freeRegistrationSuccess": "Ilmoittautuminen onnistui",
         "initRegistration": "Ilmoittautuminen",
