@@ -46,11 +46,6 @@ export const ClerkNavigationLinks = () => {
           label: translateCommon('clerkOrganizerRegister'),
         },
         {
-          active: getTabForPath(pathname) === 'freeRegistration',
-          href: AppRoutes.ClerkFreeRegistration,
-          label: translateCommon('freeRegistration'),
-        },
-        {
           active: getTabForPath(pathname) === 'customerSearch',
           href: AppRoutes.CustomerSearch,
           label: translateCommon('customerSearch'),
