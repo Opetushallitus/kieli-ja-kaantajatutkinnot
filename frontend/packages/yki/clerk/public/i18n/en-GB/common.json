@@ -176,6 +176,7 @@
         "evaluationOrder": "Reassessment",
         "evaluationOrderStatus": "Reassessment",
         "examDetails": "Test",
+        "customerExamSession": "Tutkintotilaisuus",
         "expiredLoginLink": "The link has expired",
         "freeRegistrationSuccess": "Ilmoittautuminen onnistui",
         "initRegistration": "Registration",
