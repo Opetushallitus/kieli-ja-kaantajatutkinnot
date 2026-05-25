@@ -74,7 +74,7 @@ public class OrganizerController {
   @Resource
   private ClerkExamSessionService clerkExamSessionService;
 
-  private static final String TAG_ORGANIZER = "Organizer exam session API";
+  private static final String TAG_ORGANIZER = "Organizer operations API";
   private static final int MAX_PAGE_SIZE = 100;
 
   @GetMapping

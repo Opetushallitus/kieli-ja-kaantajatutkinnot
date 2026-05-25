@@ -28,7 +28,7 @@ import org.springframework.web.servlet.view.document.AbstractXlsxView;
 @Conditional(ClerkEnabledCondition.class)
 public class ClerkExamSessionController {
 
-  private static final String TAG_EXAM_SESSION = "Exam session API";
+  private static final String TAG_EXAM_SESSION = "Clerk exam session API";
 
   @Resource
   private ClerkExamSessionService clerkExamSessionService;

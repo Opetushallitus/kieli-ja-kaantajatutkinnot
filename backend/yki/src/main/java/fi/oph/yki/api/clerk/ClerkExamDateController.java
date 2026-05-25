@@ -39,7 +39,7 @@ public class ClerkExamDateController {
   }
 
   @GetMapping(path = "/all")
-  @Operation(summary = "Get all exam dates")
+  @Operation(tags = TAG_EXAM_DATE, summary = "Get all exam dates")
   public List<ClerkExamDateDTO> getAllExamDates() {
     return clerkExamDateService.getAllExamDates();
   }
