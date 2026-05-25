@@ -1,11 +1,11 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 
 type VirkailijaRaamitProps = {
   scriptUrl: string;
 };
 
 export const VirkailijaRaamit = ({ scriptUrl }: VirkailijaRaamitProps) => {
-  React.useEffect(() => {
+  useEffect(() => {
     const showRaamit = !!scriptUrl;
     const raamitId = 'virkailija-raamit';
     let scriptElement: HTMLScriptElement;

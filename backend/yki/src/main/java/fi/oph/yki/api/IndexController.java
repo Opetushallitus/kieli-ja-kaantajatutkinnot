@@ -28,12 +28,10 @@ public class IndexController {
       "script-src 'self' 'nonce-" +
       nonce +
       "' 'strict-dynamic' https: http: 'unsafe-inline'; " +
-      "style-src 'self' 'nonce-" +
-      nonce +
-      "' 'unsafe-inline'; " +
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
       "connect-src 'self'; " +
       "img-src 'self'; " +
-      "font-src 'self'; " +
+      "font-src 'self' https://fonts.gstatic.com data:; " +
       "base-uri 'self'; " +
       "form-action 'self';";
 
