@@ -53,6 +53,8 @@ public class IndexController {
     path = {
       "v2/jarjestaja/*",
       "v2/jarjestaja/*/",
+      "v2/jarjestaja/*/asiakashaku/*",
+      "v2/virkailija/asiakashaku/*",
       // For local development
       "yki/v2/jarjestaja/*",
       "yki/v2/jarjestaja/*/",
