@@ -27,7 +27,7 @@ public class IndexController {
       "default-src 'none'; " +
       "script-src 'self' 'nonce-" +
       nonce +
-      "' 'strict-dynamic' https: http: 'unsafe-inline'; " +
+      "' 'unsafe-inline'; " +
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
       "connect-src 'self'; " +
       "img-src 'self'; " +
