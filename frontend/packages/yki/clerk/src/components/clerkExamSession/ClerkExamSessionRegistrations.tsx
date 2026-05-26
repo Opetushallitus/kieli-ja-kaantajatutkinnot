@@ -20,7 +20,12 @@ import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
-import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
+import {
+  AppRoutes,
+  ExamSessionType,
+  RegistrationKind,
+  RegistrationStates,
+} from 'enums/app';
 import { ClerkRegistration } from 'interfaces/clerkRegistration';
 import { RouteType } from 'interfaces/user';
 import { Text } from 'ophTheme/Text';
@@ -77,12 +82,14 @@ const ExamsListingTabs = ({
 export const ClerkExamSessionRegistrations = ({
   examSessionId,
   examRegistrations,
+  examSessionType,
   language,
   level,
   route,
 }: {
   examSessionId: number;
   examRegistrations: Array<ClerkRegistration> | null;
+  examSessionType: ExamSessionType;
   language: string;
   level: string;
   route: RouteType;
@@ -120,6 +127,19 @@ export const ClerkExamSessionRegistrations = ({
       <WarningIcon fontSize="large" color="warning" />
     ),
   };
+
+  const createPartialExamTypeColumn = (
+    t: typeof i18next.t,
+  ): ListTableColumn<ClerkRegistration> => ({
+    key: 'partialExamType',
+    title: t('columns.partialExamType'),
+    render: ({ partialExamType }) => {
+      const displayType =
+        partialExamType === 'ALL_PARTS' ? examSessionType : partialExamType;
+
+      return <Text>{t(`values.partialExamType.${displayType}`)}</Text>;
+    },
+  });
 
   const createRegistrationStateColumn = (
     t: typeof i18next.t,
@@ -238,6 +258,7 @@ export const ClerkExamSessionRegistrations = ({
 
   const admissionsColumns = [
     createPersonColumn(t),
+    createPartialExamTypeColumn(t),
     createRegistrationStateColumn(t),
     createRegistrationDateColumn(t),
     createActionsColumn(t),
@@ -246,6 +267,7 @@ export const ClerkExamSessionRegistrations = ({
   const queuedColumns = [
     createPositionInQueueColumn(t),
     createPersonColumn(t),
+    createPartialExamTypeColumn(t),
     createRegistrationStateColumn(t),
     createRegistrationDateColumn(t),
     createActionsColumn(t),

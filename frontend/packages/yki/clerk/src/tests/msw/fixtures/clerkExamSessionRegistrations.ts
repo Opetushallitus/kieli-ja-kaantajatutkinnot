@@ -18,6 +18,7 @@ export const registrations: ClerkRegistrationResponse[] = [
     state: RegistrationStates.Completed,
     registrationDate: '2025-11-21T00:00:00.000Z',
     kind: 'ADMISSION',
+    partialExamType: 'ALL_PARTS',
   },
   {
     id: 2,
@@ -35,6 +36,7 @@ export const registrations: ClerkRegistrationResponse[] = [
     state: RegistrationStates.Cancelled,
     registrationDate: '2025-11-21T00:00:00.000Z',
     kind: 'ADMISSION',
+    partialExamType: 'READ',
   },
   {
     id: 3,
@@ -52,5 +54,6 @@ export const registrations: ClerkRegistrationResponse[] = [
     state: RegistrationStates.Cancelled,
     registrationDate: '2025-11-21T00:00:00.000Z',
     kind: 'QUEUE',
+    partialExamType: 'SPEAK',
   },
 ];

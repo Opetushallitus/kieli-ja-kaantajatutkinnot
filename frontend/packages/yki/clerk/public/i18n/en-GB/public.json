@@ -39,7 +39,9 @@
               "personName": "Nimi",
               "queueSpotOffered": "Jonopaikkaa tarjottu",
               "registrationDate": "Ilmoittautumispvm",
-              "registrationState": "Ilmoittautumisen tila"
+              "partialExamType": "Osakoe",
+              "registrationState": "Ilmoittautumisen tila",
+              "positionInQueue": "Jonosija"
             },
             "headers": {
               "pastExams": "Menneet tutkintotilaisuudet",
@@ -70,6 +72,16 @@
                 "NOT_ACCEPTED": "Ei otettu vastaan",
                 "NOT_OFFERED": "Ei",
                 "OFFERED": "Kyllä"
+              },
+              "partialExamType": {
+                "ALL_PARTS": "Kaikki osakokeet",
+                "FULL": "Koko tutkinto",
+                "READ_SPEAK": "Lukeminen ja puhuminen",
+                "LISTEN_WRITE": "Kuunteleminen ja kirjoittaminen",
+                "READ": "Tekstin ymmärtäminen",
+                "SPEAK": "Puhuminen",
+                "LISTEN": "Puheen ymmärtäminen",
+                "WRITE": "Kirjoittaminen"
               },
               "registrationState": {
                 "CANCELLED": "Peruttu",
