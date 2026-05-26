@@ -10,6 +10,7 @@ import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.FreeRegistrationSource;
 import fi.oph.yki.model.type.FreeRegistrationType;
+import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import java.time.LocalDate;
@@ -31,6 +32,7 @@ public class Factory {
     registration.setPerson(person);
     registration.setState(RegistrationState.SUBMITTED);
     registration.setKind(RegistrationKind.ADMISSION);
+    registration.setPartialExamType(PartialExamType.ALL_PARTS);
 
     return registration;
   }
