@@ -15,8 +15,6 @@ type VirkailijaRaamitProps = {
 
 export const VirkailijaRaamit = ({ scriptUrl }: VirkailijaRaamitProps) => {
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('VirkailijaRaamit: useEffect called with scriptUrl', scriptUrl);
     const showRaamit = !!scriptUrl;
     const raamitId = generateId('virkailijaRaamit');
     let scriptElement: HTMLScriptElement;
@@ -30,11 +28,6 @@ export const VirkailijaRaamit = ({ scriptUrl }: VirkailijaRaamitProps) => {
     }
 
     return () => {
-      // eslint-disable-next-line no-console
-      console.log(
-        'VirkailijaRaamit: useEffect cleanup called with scriptUrl',
-        scriptUrl,
-      );
       scriptElement && document.body.removeChild(scriptElement);
     };
   }, [scriptUrl]);
