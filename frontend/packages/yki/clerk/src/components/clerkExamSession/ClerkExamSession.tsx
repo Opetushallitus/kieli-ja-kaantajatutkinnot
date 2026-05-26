@@ -45,6 +45,7 @@ export const ClerkExamSession = ({
       <ClerkExamSessionRegistrations
         examSessionId={clerkExamSession.id}
         examRegistrations={clerkExamSession.registrations}
+        examSessionType={clerkExamSession.type}
         language={clerkExamSession.language}
         level={clerkExamSession.level}
         route={route}
