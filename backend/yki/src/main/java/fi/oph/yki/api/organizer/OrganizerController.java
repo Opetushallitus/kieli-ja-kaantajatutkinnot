@@ -115,7 +115,7 @@ public class OrganizerController {
     @PathVariable("oid") final String oid,
     @RequestBody @Valid final ClerkExamSessionCreateDTO dto
   ) {
-    if (oid.equals(dto.organizerOid())) {
+    if (!oid.equals(dto.organizerOid())) {
       throw new AccessDeniedException(String.format("URL oid (%s) does not match dto (%s)", oid, dto.organizerOid()));
     }
 
