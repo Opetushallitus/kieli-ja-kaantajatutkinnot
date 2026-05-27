@@ -1,11 +1,13 @@
 package fi.oph.yki.service;
 
+import fi.oph.yki.api.dto.clerk.ClerkOrganizerCreateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionContactDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionLocationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerLanguageDTO;
 import fi.oph.yki.model.ExamDate;
+import fi.oph.yki.model.ExamLanguage;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Organizer;
 import fi.oph.yki.model.type.RegistrationKind;
@@ -34,6 +36,33 @@ public class ClerkOrganizerService {
   @Transactional(readOnly = true)
   public List<ClerkOrganizerDTO> getOrganizers(final List<String> oids) {
     return organizerRepository.findAllByOidInAndDeletedAtIsNull(oids).stream().map(this::toDTO).toList();
+  }
+
+  @Transactional
+  public ClerkOrganizerDTO createOrganizer(final ClerkOrganizerCreateDTO dto) {
+    final Organizer organizer = new Organizer();
+    organizer.setOid(dto.oid());
+    organizer.setAgreementStartDate(dto.agreementStartDate());
+    organizer.setAgreementEndDate(dto.agreementEndDate());
+    organizer.setContactName(dto.contactName());
+    organizer.setContactEmail(dto.contactEmail());
+    organizer.setContactPhoneNumber(dto.contactPhoneNumber());
+    organizer.setExtra(dto.extra());
+
+    final Organizer saved = organizerRepository.save(organizer);
+
+    if (dto.languages() != null) {
+      for (final var langDto : dto.languages()) {
+        final ExamLanguage lang = new ExamLanguage();
+        lang.setOrganizer(saved);
+        lang.setLanguageCode(langDto.languageCode());
+        lang.setLevelCode(langDto.levelCode());
+        saved.getLanguages().add(lang);
+      }
+      organizerRepository.save(saved);
+    }
+
+    return toDTO(saved);
   }
 
   @Transactional(readOnly = true)
