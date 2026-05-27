@@ -80,10 +80,10 @@ function* saveOrganizerExamSessionSaga(
   try {
     const response: AxiosResponse<ClerkExamSessionResponse> = yield call(
       axiosInstance.put,
-      APIEndpoints.OrganizerExamSession.replace(':oid', oid).replace(
-        /:id$/,
-        `${examSessionId}`,
-      ),
+      `${APIEndpoints.OrganizerExamSession.replace(
+        ':oid',
+        oid,
+      )}/${examSessionId}`,
       {
         language: form.language,
         level: form.level,
