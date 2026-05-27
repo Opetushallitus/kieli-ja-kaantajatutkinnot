@@ -9,7 +9,7 @@ export default defineConfig({
     baseUrl: 'http://localhost:4004',
     viewportWidth: 1024,
     viewportHeight: 768,
-    video: false,
+    video: true,
     defaultCommandTimeout: 3000,
     chromeWebSecurity: false,
     retries: 1,

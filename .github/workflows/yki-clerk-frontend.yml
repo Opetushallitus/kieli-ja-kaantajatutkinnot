@@ -79,6 +79,12 @@ jobs:
         with:
           name: cypress-screenshots
           path: ${{ env.FRONTEND_DIR }}/packages/${{ inputs.app-name }}/clerk/src/tests/cypress/screenshots
+      - name: Upload videos
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-videos
+          path: ${{ env.FRONTEND_DIR }}/packages/${{ inputs.app-name }}/clerk/src/tests/cypress/videos
       - name: Build
         working-directory: ${{ env.FRONTEND_DIR }}
         run: yarn ${{ inputs.app-name }}:clerk:build
