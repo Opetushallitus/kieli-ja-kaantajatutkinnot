@@ -31,7 +31,10 @@ const RegisterToExamButton = ({
     keyPrefix: 'yki.component.registration.registrationButtonLabels',
   });
 
-  const { available_registration_kind } = examSession;
+  const registrationKind = ExamSessionUtils.getRegistrationKind({
+    examSession,
+    partialExamType,
+  });
 
   return (
     <CustomButton
@@ -42,13 +45,13 @@ const RegisterToExamButton = ({
         dispatch(
           initRegistration({
             examSessionId: examSession.id,
-            registrationKind: available_registration_kind,
+            registrationKind,
             partialExamType,
           }),
         );
       }}
     >
-      {available_registration_kind === RegistrationKind.Admission
+      {registrationKind === RegistrationKind.Admission
         ? t('register')
         : t('enrollToQueue')}
     </CustomButton>
