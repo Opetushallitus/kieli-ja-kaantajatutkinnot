@@ -12,6 +12,7 @@ import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.Organizer;
 import fi.oph.yki.model.type.ExamSessionType;
+import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
@@ -83,10 +84,34 @@ public class ClerkExamSessionService {
       .map(RegistrationUtil::createClerkExamSessionLocationDTO)
       .toList();
     final ExamDate examDate = examSession.getExamDate();
+    final var activeRegistrations = registrationDTOs
+      .stream()
+      .filter(r -> r.state() == RegistrationState.COMPLETED || r.state() == RegistrationState.SUBMITTED)
+      .toList();
+    final int participants = activeRegistrations.size();
+    final int participantsReadListen = (int) activeRegistrations
+      .stream()
+      .filter(r ->
+        r.partialExamType() == PartialExamType.READ ||
+        r.partialExamType() == PartialExamType.LISTEN ||
+        r.partialExamType() == PartialExamType.ALL_PARTS
+      )
+      .count();
+    final int participantsSpeakWrite = (int) activeRegistrations
+      .stream()
+      .filter(r ->
+        r.partialExamType() == PartialExamType.SPEAK ||
+        r.partialExamType() == PartialExamType.WRITE ||
+        r.partialExamType() == PartialExamType.ALL_PARTS
+      )
+      .count();
 
     return ClerkExamSessionDTO
       .builder()
       .id(examSession.getId())
+      .participants(participants)
+      .participantsReadListen(participantsReadListen)
+      .participantsSpeakWrite(participantsSpeakWrite)
       .level(examSession.getLevel())
       .language(examSession.getLanguage())
       .type(examSession.getType())

@@ -15,6 +15,8 @@ public record ClerkExamSessionDTO(
   Boolean open,
   Boolean upcomingAdmission,
   Integer participants,
+  Integer participantsReadListen,
+  Integer participantsSpeakWrite,
   Integer maxParticipantsTotal,
   Integer maxParticipantsReadListen,
   Integer maxParticipantsSpeakWrite,

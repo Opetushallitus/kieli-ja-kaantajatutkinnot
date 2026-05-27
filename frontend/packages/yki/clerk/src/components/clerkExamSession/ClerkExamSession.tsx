@@ -43,11 +43,7 @@ export const ClerkExamSession = ({
         route={route}
       />
       <ClerkExamSessionRegistrations
-        examSessionId={clerkExamSession.id}
-        examRegistrations={clerkExamSession.registrations}
-        examSessionType={clerkExamSession.type}
-        language={clerkExamSession.language}
-        level={clerkExamSession.level}
+        examSession={clerkExamSession}
         route={route}
       />
     </Stack>

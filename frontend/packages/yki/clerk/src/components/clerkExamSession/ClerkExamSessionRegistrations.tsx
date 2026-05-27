@@ -26,6 +26,7 @@ import {
   RegistrationKind,
   RegistrationStates,
 } from 'enums/app';
+import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { ClerkRegistration } from 'interfaces/clerkRegistration';
 import { RouteType } from 'interfaces/user';
 import { Text } from 'ophTheme/Text';
@@ -80,20 +81,25 @@ const ExamsListingTabs = ({
 };
 
 export const ClerkExamSessionRegistrations = ({
-  examSessionId,
-  examRegistrations,
-  examSessionType,
-  language,
-  level,
+  examSession,
   route,
 }: {
-  examSessionId: number;
-  examRegistrations: Array<ClerkRegistration> | null;
-  examSessionType: ExamSessionType;
-  language: string;
-  level: string;
+  examSession: ClerkExamSession;
   route: RouteType;
 }) => {
+  const {
+    id: examSessionId,
+    registrations: examRegistrations,
+    type: examSessionType,
+    participants,
+    participantsReadListen,
+    participantsSpeakWrite,
+    maxParticipantsTotal,
+    maxParticipantsReadListen,
+    maxParticipantsSpeakWrite,
+    language,
+    level,
+  } = examSession;
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkCustomer.details.listing',
   });
@@ -280,30 +286,67 @@ export const ClerkExamSessionRegistrations = ({
     (r) => r.kind === RegistrationKind.Queue,
   );
 
+  const translatePartialExamTypeReadListen = () =>
+    examSessionType === ExamSessionType.READ_SPEAK
+      ? 'participantsRead'
+      : 'participantsListen';
+
+  const translatePartialExamTypeSpeakWrite = () =>
+    examSessionType === ExamSessionType.READ_SPEAK
+      ? 'participantsSpeak'
+      : 'participantsWrite';
+
   return (
     <Stack spacing={4}>
-      <div className="clerk-exam-session-registrations__tabs grid-2-columns">
-        <ExamsListingTabs
-          admissionCount={admissions.length ?? 0}
-          queuedCount={queued.length ?? 0}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-        />
-        <div className="clerk-exam-session-registrations__filter-buttons">
-          <OphButton
-            color="primary"
-            variant={Variant.Contained}
-            onClick={() =>
-              window.open(
-                APIEndpoints.ClerkExamSessionExcel.replace(
-                  ':id',
-                  String(examSessionId),
-                ),
-              )
-            }
-          >
-            <Download fontSize="large" /> {tButtons('downloadExcel')}
-          </OphButton>
+      <div className="clerk-exam-session-registrations__tabs">
+        <div className="clerk-exam-session-registrations__tabs grid-2-columns">
+          <ExamsListingTabs
+            admissionCount={admissions.length ?? 0}
+            queuedCount={queued.length ?? 0}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
+        </div>
+        <div className="grid-2-columns">
+          {examSessionType === ExamSessionType.FULL ? (
+            <Text>
+              {tButtons('participants', {
+                count: participants,
+                max: maxParticipantsTotal,
+              })}
+            </Text>
+          ) : (
+            <div className="rows gapped-xxs">
+              <Text>
+                {tButtons(translatePartialExamTypeReadListen(), {
+                  count: participantsReadListen,
+                  max: maxParticipantsReadListen,
+                })}
+              </Text>
+              <Text>
+                {tButtons(translatePartialExamTypeSpeakWrite(), {
+                  count: participantsSpeakWrite,
+                  max: maxParticipantsSpeakWrite,
+                })}
+              </Text>
+            </div>
+          )}
+          <div className="clerk-exam-session-registrations__filter-buttons">
+            <OphButton
+              color="primary"
+              variant={Variant.Contained}
+              onClick={() =>
+                window.open(
+                  APIEndpoints.ClerkExamSessionExcel.replace(
+                    ':id',
+                    String(examSessionId),
+                  ),
+                )
+              }
+            >
+              <Download fontSize="large" /> {tButtons('downloadExcel')}
+            </OphButton>
+          </div>
         </div>
       </div>
       {activeTab === RegistrationKind.Admission ? (
