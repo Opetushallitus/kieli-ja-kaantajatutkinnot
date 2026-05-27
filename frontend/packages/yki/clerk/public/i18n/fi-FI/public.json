@@ -220,7 +220,12 @@
       "clerkExamSessionRegistrations": {
         "buttons": {
           "downloadExcel": "Lataa excel",
-          "edit": "Muokkaa tutkintotilaisuuden tietoja"
+          "edit": "Muokkaa tutkintotilaisuuden tietoja",
+          "participants": "Ilmoittautuneita: {{count}} / {{max}}",
+          "participantsRead": "Tekstin ymmärtäminen: {{count}} / {{max}}",
+          "participantsListen": "Puheen ymmärtäminen: {{count}} / {{max}}",
+          "participantsSpeak": "Puhuminen: {{count}} / {{max}}",
+          "participantsWrite": "Kirjoittaminen: {{count}} / {{max}}"
         },
         "maxParticipants": {
           "maxParticipantsReading": "Tekstin ymmärtäminen: {{count}}",

@@ -14,6 +14,8 @@ export const clerkExamSession: ClerkExamSessionResponse = {
   open: true,
   upcomingAdmission: true,
   participants: 15,
+  participantsReadListen: 5,
+  participantsSpeakWrite: 10,
   maxParticipantsTotal: 15,
   maxParticipantsReadListen: 10,
   maxParticipantsSpeakWrite: 10,
