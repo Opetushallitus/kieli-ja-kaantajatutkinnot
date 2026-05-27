@@ -109,7 +109,7 @@ public class OrganizerController {
     return clerkExamSessionService.getExamSession(oid, examSessionId);
   }
 
-  @PostMapping(path = "/examSession/{examSessionId:\\d+}", consumes = APPLICATION_JSON_VALUE)
+  @PostMapping(path = "/examSession", consumes = APPLICATION_JSON_VALUE)
   @Operation(tags = TAG_ORGANIZER, summary = "Create a new exam session")
   public ClerkExamSessionDTO createExamSession(
     @PathVariable("oid") final String oid,
