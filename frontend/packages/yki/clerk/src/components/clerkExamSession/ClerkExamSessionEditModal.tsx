@@ -46,7 +46,6 @@ type ClerkExamSessionEditModalProps = {
   oid?: string;
 };
 
-// TODO remove me: deploy commit
 export const ClerkExamSessionEditModal = ({
   isOpen,
   setIsOpen,
