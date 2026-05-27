@@ -40,10 +40,10 @@ function* loadOrganizerExamSessionDetailsSaga(
     const { oid, examSessionId } = action.payload;
     const response: AxiosResponse<ClerkExamSessionResponse> = yield call(
       axiosInstance.get,
-      APIEndpoints.OrganizerExamSession.replace(':oid', oid).replace(
-        /:id$/,
-        String(examSessionId),
-      ),
+      `${APIEndpoints.OrganizerExamSession.replace(
+        ':oid',
+        oid,
+      )}/${examSessionId}`,
     );
     const clerkExamSession =
       SerializationUtils.deserializeClerkExamSessionResponse(response.data);
