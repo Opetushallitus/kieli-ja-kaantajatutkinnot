@@ -66,8 +66,8 @@
               "partialExamType": {
                 "ALL_PARTS": "Kaikki osakokeet",
                 "FULL": "Koko tutkinto",
-                "READ_SPEAK": "Lukeminen ja puhuminen",
-                "LISTEN_WRITE": "Kuunteleminen ja kirjoittaminen",
+                "READ_SPEAK": "Tekstin ymmärtäminen ja puhuminen",
+                "LISTEN_WRITE": "Puheen ymmärtäminen ja kirjoittaminen",
                 "READ": "Tekstin ymmärtäminen",
                 "SPEAK": "Puhuminen",
                 "LISTEN": "Puheen ymmärtäminen",
@@ -262,8 +262,8 @@
               "type": "Tutkintotyyppi",
               "typeOptions": {
                 "FULL": "Koko tutkinto",
-                "LISTEN_WRITE": "Kuunteleminen ja kirjoittaminen",
-                "READ_SPEAK": "Lukeminen ja puhuminen"
+                "LISTEN_WRITE": "Puheen ymmärtäminen ja kirjoittaminen",
+                "READ_SPEAK": "Tekstin ymmärtäminen ja puhuminen"
               }
             },
             "errors": {
