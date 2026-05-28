@@ -5,6 +5,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerCreateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionDTO;
+import fi.oph.yki.api.dto.clerk.ClerkOrganizerUpdateDTO;
 import fi.oph.yki.config.ClerkEnabledCondition;
 import fi.oph.yki.service.ClerkOrganizerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,5 +48,13 @@ public class ClerkOrganizerController {
   @Operation(tags = TAG_ORGANIZER, summary = "List exam sessions for an organizer")
   public Map<String, List<ClerkOrganizerExamSessionDTO>> getExamSessions(@PathVariable final String oid) {
     return Map.of("exam_sessions", clerkOrganizerService.getExamSessionsByOrganizerOid(oid));
+  }
+  
+  @PutMapping(path = "/{oid}", consumes = APPLICATION_JSON_VALUE)
+  @Operation(tags = TAG_ORGANIZER, summary = "Update an existing organizer")
+  public ClerkOrganizerDTO updateOrganizer(
+      @PathVariable final String oid,
+      @RequestBody @Valid final ClerkOrganizerUpdateDTO dto) {
+    return clerkOrganizerService.updateOrganizer(oid, dto);
   }
 }
