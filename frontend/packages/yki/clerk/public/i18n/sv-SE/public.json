@@ -635,6 +635,11 @@
             "modifyAgreement": {
               "addressLabel": "Osoite",
               "cancelButton": "Peruuta",
+              "contactEmailLabel": "Sähköpostiosoite *",
+              "contactNameLabel": "Nimi *",
+              "contactPersonLabel": "Yhteyshenkilön tiedot",
+              "contactPhoneLabel": "Puhelinnumero *",
+              "extraLabel": "Lisätiedot",
               "endDateBeforeStartDateError": "Sopimuksen päättymispäivä ei voi olla alkamispäivää aiemmin",
               "endDateError": "Valitse sopimuksen päättymispäivä",
               "endDateLabel": "Sopimus päättyy *",
