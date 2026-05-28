@@ -339,6 +339,12 @@ export const ClerkExamSessionEditModal = ({
     }
   };
 
+  const translatePartialExamTypeReadListen = () =>
+    examSessionDetails?.type === ExamSessionType.READ_SPEAK ? 'Read' : 'Listen';
+
+  const translatePartialExamTypeSpeakWrite = () =>
+    examSessionDetails?.type === ExamSessionType.READ_SPEAK ? 'Speak' : 'Write';
+
   return (
     <CustomModal
       open={isOpen}
@@ -496,9 +502,12 @@ export const ClerkExamSessionEditModal = ({
           </div>
         ) : (
           <>
-            <div className="columns gapped">
+            <div className="grid-2-columns gapped">
               <OphInputFormField
-                label={t('fields.maxParticipantsPart1')}
+                label={t(
+                  'fields.maxParticipants' +
+                    translatePartialExamTypeReadListen(),
+                )}
                 value={form.maxParticipantsReadListen}
                 onChange={(e) =>
                   updateField('maxParticipantsReadListen', e.target.value)
@@ -513,7 +522,9 @@ export const ClerkExamSessionEditModal = ({
                 }
               />
               <OphInputFormField
-                label={t('fields.startTimeReadListen')}
+                label={t(
+                  'fields.startTime' + translatePartialExamTypeReadListen(),
+                )}
                 value={form.startTimeReadListen}
                 onChange={(e) =>
                   updateField('startTimeReadListen', e.target.value)
@@ -528,9 +539,12 @@ export const ClerkExamSessionEditModal = ({
                 }
               />
             </div>
-            <div className="columns gapped">
+            <div className="grid-2-columns gapped">
               <OphInputFormField
-                label={t('fields.maxParticipantsPart2')}
+                label={t(
+                  'fields.maxParticipants' +
+                    translatePartialExamTypeSpeakWrite(),
+                )}
                 value={form.maxParticipantsSpeakWrite}
                 onChange={(e) =>
                   updateField('maxParticipantsSpeakWrite', e.target.value)
@@ -545,7 +559,9 @@ export const ClerkExamSessionEditModal = ({
                 }
               />
               <OphInputFormField
-                label={t('fields.startTimeSpeakWrite')}
+                label={t(
+                  'fields.startTime' + translatePartialExamTypeSpeakWrite(),
+                )}
                 value={form.startTimeSpeakWrite}
                 onChange={(e) =>
                   updateField('startTimeSpeakWrite', e.target.value)
