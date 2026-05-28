@@ -13,10 +13,11 @@ initI18n();
 
 const store = setupStore();
 
-const virkailijaRaamitScriptUrl = (window as Window & { Cypress?: unknown })
-  .Cypress
-  ? ''
-  : `${window.location.origin}/virkailija-raamit/apply-raamit.js`;
+const virkailijaRaamitScriptUrl =
+  (window as Window & { Cypress?: unknown }).Cypress ||
+  'localhost' === window.location.hostname
+    ? ''
+    : `${window.location.origin}/virkailija-raamit/apply-raamit.js`;
 
 export const App = () => (
   <Provider store={store}>
