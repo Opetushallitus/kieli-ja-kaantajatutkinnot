@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import i18next from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { CustomButton } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
@@ -210,6 +211,17 @@ export const ClerkRegisterOrganizerDetails = ({
           <Label>{t('listing.contentLabels.extraInfo')}</Label>
           <Text>{row.extra}</Text>
         </div>
+      </div>
+      <div
+        className="columns"
+        style={{ justifyContent: 'flex-end', gap: '1rem' }}
+      >
+        <CustomButton
+          variant="contained"
+          onClick={() => setIsAddModalOpen(true)}
+        >
+          {t('listing.actionButtons.addExamSession')}
+        </CustomButton>
       </div>
       <H4>{t('listing.contentLabels.upcomingExamSessions')}</H4>
       <ListTable
