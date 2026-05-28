@@ -237,4 +237,37 @@ export class ExamSessionUtils {
 
     return examSession.available_registration_kind;
   }
+  static getRegistrationKind({
+    examSession,
+    partialExamType,
+  }: {
+    examSession: ExamSession;
+    partialExamType?: PartialExamType;
+  }) {
+    if (!partialExamType) {
+      return examSession.available_registration_kind;
+    }
+
+    if (examSession.type === 'READ_SPEAK') {
+      if (partialExamType === 'READ') {
+        return examSession.partial_registration_kind.READ;
+      }
+      if (partialExamType === 'SPEAK') {
+        return examSession.partial_registration_kind.SPEAK;
+      }
+
+      return examSession.partial_registration_kind.ALL_PARTS;
+    } else if (examSession.type === 'LISTEN_WRITE') {
+      if (partialExamType === 'LISTEN') {
+        return examSession.partial_registration_kind.LISTEN;
+      }
+      if (partialExamType === 'WRITE') {
+        return examSession.partial_registration_kind.WRITE;
+      }
+
+      return examSession.partial_registration_kind.ALL_PARTS;
+    }
+
+    return examSession.available_registration_kind;
+  }
 }

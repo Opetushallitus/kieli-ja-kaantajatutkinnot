@@ -10,9 +10,6 @@ export const registrationInitResponse: PublicRegistrationInitResponse = {
     max_participants_read_listen: null,
     max_participants_speak_write: null,
     participants: 2,
-    start_time: null,
-    start_time_read_listen: null,
-    start_time_speak_write: null,
     participants_read_listen: null,
     participants_speak_write: null,
     office_oid: '1.2.3.4.5',
@@ -21,6 +18,9 @@ export const registrationInitResponse: PublicRegistrationInitResponse = {
     session_date: '2026-06-01',
     organizer_oid: '1.2.3.4',
     open: true,
+    start_time: '09:00',
+    start_time_read_listen: null,
+    start_time_speak_write: null,
     id: 1,
     location: [
       {
