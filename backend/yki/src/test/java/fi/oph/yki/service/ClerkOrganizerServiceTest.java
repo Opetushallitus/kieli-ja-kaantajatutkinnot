@@ -50,7 +50,8 @@ public class ClerkOrganizerServiceTest {
 
   @BeforeEach
   public void setup() {
-    clerkOrganizerService = new ClerkOrganizerService(organizerRepository, examLanguageRepository, examSessionRepository);
+    clerkOrganizerService =
+      new ClerkOrganizerService(organizerRepository, examLanguageRepository, examSessionRepository);
   }
 
   @Test
@@ -124,14 +125,15 @@ public class ClerkOrganizerServiceTest {
   public void testUpdateOrganizerThrowsForUnknownOid() {
     assertThrows(
       Exception.class,
-      () -> clerkOrganizerService.updateOrganizer(
-        "1.2.3.4.5.99999",
-        ClerkOrganizerUpdateDTO
-          .builder()
-          .agreementStartDate(LocalDate.of(2026, 1, 1))
-          .agreementEndDate(LocalDate.of(2027, 1, 1))
-          .build()
-      )
+      () ->
+        clerkOrganizerService.updateOrganizer(
+          "1.2.3.4.5.99999",
+          ClerkOrganizerUpdateDTO
+            .builder()
+            .agreementStartDate(LocalDate.of(2026, 1, 1))
+            .agreementEndDate(LocalDate.of(2027, 1, 1))
+            .build()
+        )
     );
   }
 }

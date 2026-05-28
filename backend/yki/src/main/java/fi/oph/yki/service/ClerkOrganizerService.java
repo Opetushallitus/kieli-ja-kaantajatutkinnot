@@ -2,11 +2,11 @@ package fi.oph.yki.service;
 
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerCreateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerDTO;
-import fi.oph.yki.api.dto.clerk.ClerkOrganizerUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionContactDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionLocationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerLanguageDTO;
+import fi.oph.yki.api.dto.clerk.ClerkOrganizerUpdateDTO;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamLanguage;
 import fi.oph.yki.model.ExamSession;
@@ -83,13 +83,17 @@ public class ClerkOrganizerService {
     organizer.getLanguages().clear();
 
     if (dto.languages() != null) {
-      final List<ExamLanguage> newLanguages = dto.languages().stream().map(langDto -> {
-        final ExamLanguage lang = new ExamLanguage();
-        lang.setOrganizer(organizer);
-        lang.setLanguageCode(langDto.languageCode());
-        lang.setLevelCode(langDto.levelCode());
-        return lang;
-      }).toList();
+      final List<ExamLanguage> newLanguages = dto
+        .languages()
+        .stream()
+        .map(langDto -> {
+          final ExamLanguage lang = new ExamLanguage();
+          lang.setOrganizer(organizer);
+          lang.setLanguageCode(langDto.languageCode());
+          lang.setLevelCode(langDto.levelCode());
+          return lang;
+        })
+        .toList();
       examLanguageRepository.saveAll(newLanguages);
       organizer.getLanguages().addAll(newLanguages);
     }

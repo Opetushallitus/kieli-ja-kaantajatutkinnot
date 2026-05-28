@@ -53,8 +53,9 @@ public class ClerkOrganizerController {
   @PutMapping(path = "/{oid}", consumes = APPLICATION_JSON_VALUE)
   @Operation(tags = TAG_ORGANIZER, summary = "Update an existing organizer")
   public ClerkOrganizerDTO updateOrganizer(
-      @PathVariable final String oid,
-      @RequestBody @Valid final ClerkOrganizerUpdateDTO dto) {
+    @PathVariable final String oid,
+    @RequestBody @Valid final ClerkOrganizerUpdateDTO dto
+  ) {
     return clerkOrganizerService.updateOrganizer(oid, dto);
   }
 }
