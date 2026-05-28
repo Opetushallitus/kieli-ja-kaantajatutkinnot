@@ -71,8 +71,7 @@ export class SerializationUtils {
   static deserializeExamSessionResponse(
     examSessionResponse: ExamSessionResponse,
   ): ExamSession {
-    return {
-      ...examSessionResponse,
+    const dates = {
       session_date: dayjs(examSessionResponse.session_date),
       registration_start_date: SerializationUtils.deserializeStartTime(
         examSessionResponse.registration_start_date,
@@ -81,6 +80,14 @@ export class SerializationUtils {
         examSessionResponse.registration_end_date,
       ) as Dayjs,
     };
+
+    if (examSessionResponse.type === 'READ_SPEAK') {
+      return { ...examSessionResponse, ...dates };
+    } else if (examSessionResponse.type === 'LISTEN_WRITE') {
+      return { ...examSessionResponse, ...dates };
+    } else {
+      return { ...examSessionResponse, ...dates };
+    }
   }
 
   static deserializeExamSessionsResponse(

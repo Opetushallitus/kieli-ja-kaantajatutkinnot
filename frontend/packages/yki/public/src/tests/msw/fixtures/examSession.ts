@@ -9,10 +9,13 @@ export const examSessions: ExamSessionsResponse = {
       language_code: ExamLanguage.FIN,
       open: true,
       upcoming_admission: true,
-      participants: 10,
+      participants: 8,
+      participants_read_listen: 3,
+      participants_speak_write: 5,
       max_participants: 10,
-      max_participants_read_listen: 10,
-      max_participants_speak_write: 10,
+      max_participants_read_listen: 5,
+      max_participants_speak_write: 5,
+      start_time: null,
       start_time_read_listen: '09:00',
       start_time_speak_write: '13:00',
       queue: 0,
@@ -59,6 +62,11 @@ export const examSessions: ExamSessionsResponse = {
       exam_fee: 200,
       registration_end_date: '2030-12-31',
       available_registration_kind: RegistrationKind.Queue,
+      partial_registration_kind: {
+        ALL_PARTS: RegistrationKind.Queue,
+        READ: RegistrationKind.Admission,
+        SPEAK: RegistrationKind.Queue,
+      },
     },
     {
       type: 'LISTEN_WRITE',
@@ -67,9 +75,12 @@ export const examSessions: ExamSessionsResponse = {
       open: false,
       upcoming_admission: false,
       participants: 10,
+      participants_read_listen: 0,
+      participants_speak_write: 0,
       max_participants: 15,
       max_participants_read_listen: 10,
       max_participants_speak_write: 20,
+      start_time: null,
       start_time_read_listen: '08:00',
       start_time_speak_write: '12:00',
       queue: 0,
@@ -116,6 +127,11 @@ export const examSessions: ExamSessionsResponse = {
       exam_fee: 200,
       registration_end_date: '2023-01-03',
       available_registration_kind: RegistrationKind.Admission,
+      partial_registration_kind: {
+        ALL_PARTS: RegistrationKind.Admission,
+        LISTEN: RegistrationKind.Admission,
+        WRITE: RegistrationKind.Admission,
+      },
     },
     {
       type: 'FULL',
@@ -124,8 +140,17 @@ export const examSessions: ExamSessionsResponse = {
       open: false,
       upcoming_admission: true,
       participants: 15,
+      participants_read_listen: null,
+      participants_speak_write: null,
       max_participants: 15,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       start_time: '09:00',
+      start_time_read_listen: null,
+      start_time_speak_write: null,
+      partial_registration_kind: {
+        ALL_PARTS: RegistrationKind.Queue,
+      },
       queue: 0,
       contact: [
         {
@@ -178,8 +203,17 @@ export const examSessions: ExamSessionsResponse = {
       open: false,
       upcoming_admission: true,
       participants: 0,
+      participants_read_listen: null,
+      participants_speak_write: null,
       max_participants: 50,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       start_time: '09:00',
+      start_time_read_listen: null,
+      start_time_speak_write: null,
+      partial_registration_kind: {
+        ALL_PARTS: RegistrationKind.Admission,
+      },
       queue: 0,
       contact: [
         {
@@ -232,9 +266,18 @@ export const examSessions: ExamSessionsResponse = {
       open: true,
       upcoming_admission: true,
       participants: 0,
+      participants_read_listen: null,
+      participants_speak_write: null,
       max_participants: 20,
-      queue: 0,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       start_time: '09:00',
+      start_time_read_listen: null,
+      start_time_speak_write: null,
+      partial_registration_kind: {
+        ALL_PARTS: RegistrationKind.Admission,
+      },
+      queue: 0,
       contact: [
         {
           name: 'Contact Person',
@@ -288,9 +331,17 @@ export const examSessions: ExamSessionsResponse = {
       open: true,
       upcoming_admission: true,
       participants: 24,
+      participants_read_listen: null,
+      participants_speak_write: null,
       max_participants: 25,
-      queue: 0,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       start_time: '09:00',
+      start_time_read_listen: null,
+      start_time_speak_write: null,
+      partial_registration_kind: {
+        ALL_PARTS: RegistrationKind.Admission,
+      },
       contact: [
         {
           email: 'contact.person@testi.invalid',
@@ -342,8 +393,17 @@ export const examSessions: ExamSessionsResponse = {
       open: true,
       upcoming_admission: true,
       participants: 10,
+      participants_read_listen: null,
+      participants_speak_write: null,
       max_participants: 10,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       start_time: '09:00',
+      start_time_read_listen: null,
+      start_time_speak_write: null,
+      partial_registration_kind: {
+        ALL_PARTS: RegistrationKind.Queue,
+      },
       contact: [
         {
           email: 'contact.person@testi.invalid',
@@ -394,9 +454,19 @@ export const examSessions: ExamSessionsResponse = {
       language_code: ExamLanguage.FIN,
       open: true,
       upcoming_admission: true,
+      queue: 0,
       participants: 20,
+      participants_read_listen: null,
+      participants_speak_write: null,
       max_participants: 20,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       start_time: '09:00',
+      start_time_read_listen: null,
+      start_time_speak_write: null,
+      partial_registration_kind: {
+        ALL_PARTS: RegistrationKind.Queue,
+      },
       contact: [
         {
           email: 'contact.person@testi.invalid',
@@ -439,7 +509,7 @@ export const examSessions: ExamSessionsResponse = {
       ],
       exam_fee: 153,
       registration_end_date: '2039-02-28',
-      available_registration_kind: RegistrationKind.Admission,
+      available_registration_kind: RegistrationKind.Queue,
     },
     {
       type: 'FULL',
@@ -448,8 +518,17 @@ export const examSessions: ExamSessionsResponse = {
       open: true,
       upcoming_admission: true,
       participants: 20,
+      participants_read_listen: null,
+      participants_speak_write: null,
       max_participants: 20,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       start_time: '09:00',
+      start_time_read_listen: null,
+      start_time_speak_write: null,
+      partial_registration_kind: {
+        ALL_PARTS: RegistrationKind.Queue,
+      },
       contact: [
         {
           email: 'contact.person@testi.invalid',
@@ -501,8 +580,17 @@ export const examSessions: ExamSessionsResponse = {
       open: false,
       upcoming_admission: false,
       participants: 10,
+      participants_read_listen: null,
+      participants_speak_write: null,
       max_participants: 20,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       start_time: '09:00',
+      start_time_read_listen: null,
+      start_time_speak_write: null,
+      partial_registration_kind: {
+        ALL_PARTS: RegistrationKind.Admission,
+      },
       contact: [
         {
           name: 'Contact Person',
@@ -556,8 +644,17 @@ export const examSessions: ExamSessionsResponse = {
       open: true,
       upcoming_admission: true,
       participants: 10,
+      participants_read_listen: null,
+      participants_speak_write: null,
       max_participants: 20,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       start_time: '09:00',
+      start_time_read_listen: null,
+      start_time_speak_write: null,
+      partial_registration_kind: {
+        ALL_PARTS: RegistrationKind.Admission,
+      },
       contact: [
         {
           name: 'Contact Person',
@@ -611,8 +708,17 @@ export const examSessions: ExamSessionsResponse = {
       open: true,
       upcoming_admission: true,
       participants: 3,
+      participants_read_listen: null,
+      participants_speak_write: null,
       max_participants: 20,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       start_time: '09:00',
+      start_time_read_listen: null,
+      start_time_speak_write: null,
+      partial_registration_kind: {
+        ALL_PARTS: RegistrationKind.Admission,
+      },
       contact: [
         {
           name: 'Contact Person',
@@ -666,8 +772,17 @@ export const examSessions: ExamSessionsResponse = {
       open: true,
       upcoming_admission: true,
       participants: 1,
+      participants_read_listen: null,
+      participants_speak_write: null,
       max_participants: 20,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       start_time: '09:00',
+      start_time_read_listen: null,
+      start_time_speak_write: null,
+      partial_registration_kind: {
+        ALL_PARTS: RegistrationKind.Admission,
+      },
       contact: [
         {
           name: 'Contact Person',
