@@ -4,6 +4,11 @@ server:
     enabled: true
   servlet:
     context-path: "/yki"
+    session:
+      cookie:
+        http-only: true
+        secure: true
+      timeout: 60m
 spring:
   datasource:
     url: ${postgresql.url:jdbc:postgresql://localhost:5432/yki}

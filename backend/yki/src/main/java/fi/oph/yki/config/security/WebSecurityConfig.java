@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.apereo.cas.client.session.SessionMappingStorage;
 import org.apereo.cas.client.session.SingleSignOutFilter;
 import org.apereo.cas.client.validation.Cas20ProxyTicketValidator;
 import org.apereo.cas.client.validation.TicketValidator;
@@ -53,12 +54,18 @@ public class WebSecurityConfig {
 
   private final Environment environment;
   private final PermissionsService permissionsService;
+  private final SessionMappingStorage sessionMappingStorage;
   private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
 
   @Autowired
-  public WebSecurityConfig(final Environment environment, final PermissionsService permissionsService) {
+  public WebSecurityConfig(
+    final Environment environment,
+    final PermissionsService permissionsService,
+    final SessionMappingStorage sessionMappingStorage
+  ) {
     this.environment = environment;
     this.permissionsService = permissionsService;
+    this.sessionMappingStorage = sessionMappingStorage;
   }
 
   @Bean
@@ -118,6 +125,7 @@ public class WebSecurityConfig {
   public SingleSignOutFilter singleSignOutFilter() {
     final SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
     singleSignOutFilter.setIgnoreInitConfiguration(true);
+    singleSignOutFilter.setSessionMappingStorage(sessionMappingStorage);
     return singleSignOutFilter;
   }
 
@@ -314,7 +322,10 @@ public class WebSecurityConfig {
     requestHandler.setCsrfRequestAttributeName(null);
 
     return httpSecurity.csrf(configurer ->
-      configurer.csrfTokenRepository(csrfTokenRepository).csrfTokenRequestHandler(requestHandler)
+      configurer
+        .csrfTokenRepository(csrfTokenRepository)
+        .csrfTokenRequestHandler(requestHandler)
+        .ignoringRequestMatchers("/yki/v2/virkailija/login/cas") // Required for clerk CAS logout callback
     );
   }
 
