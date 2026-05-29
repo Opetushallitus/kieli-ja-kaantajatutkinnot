@@ -98,6 +98,7 @@
       "freeRegistration": "Maksuttomuus",
       "paymentReport": "Maksuraportti",
       "quarantine": "Osallistumiskiellot",
+      "statistics": "Tilastot",
       "full": "Fullbokat",
       "gender": {
         "female": "Kvinna",
@@ -189,6 +190,7 @@
         "notFound": "Sidan hittades inte",
         "paymentReport": "Betalningsrapport",
         "reassessment": "Kontrollbedömning",
+        "statistics": "Tilastot",
         "registration": "Anmälning",
         "registrationPaymentStatus": "Anmälning",
         "transferRegistration": "Flytta anmälan",

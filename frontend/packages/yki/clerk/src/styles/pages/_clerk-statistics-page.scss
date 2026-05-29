@@ -1,0 +1,13 @@
+.clerk-statistics-page {
+  flex: 1;
+  background-color: $page-background-color;
+
+  & &__grid-container {
+    margin-top: 2rem;
+    display: grid;
+
+    &__results {
+      padding: 2rem;
+    }
+  }
+}

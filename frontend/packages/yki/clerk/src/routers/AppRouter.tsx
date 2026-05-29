@@ -31,6 +31,7 @@ import { ClerkHomePage } from 'pages/ClerkHomePage';
 import { ClerkOrganizerRegisterDetailsPage } from 'pages/ClerkOrganizerRegisterDetails';
 import { ClerkPaymentReportPage } from 'pages/ClerkPaymentReportPage';
 import { ClerkQuarantinePage } from 'pages/ClerkQuarantinePage';
+import { ClerkStatisticsPage } from 'pages/ClerkStatisticsPage';
 import { loadSession } from 'redux/reducers/session';
 import { loadUser } from 'redux/reducers/user';
 import { sessionSelector } from 'redux/selectors/session';
@@ -197,6 +198,14 @@ export const AppRouter: FC = () => {
               element={
                 <YkiTitlePage title="paymentReport">
                   <ClerkPaymentReportPage />
+                </YkiTitlePage>
+              }
+            />
+            <Route
+              path={AppRoutes.ClerkStatistics}
+              element={
+                <YkiTitlePage title="statistics">
+                  <ClerkStatisticsPage />
                 </YkiTitlePage>
               }
             />

@@ -407,6 +407,32 @@
           "previous": "Aiemmat tarkastukset"
         }
       },
+      "clerkStatistics": {
+        "clearFilters": "Tyhjennä hakuehdot",
+        "description": "Valitse alta päivämäärät, joiden ajalta haluat tarkastella tilastoja. Voit rajata tilastoja myös muilla valinnoilla.",
+        "download": "Muodosta raportti (.xlsx)",
+        "fields": {
+          "dateRange": "Aikaväli",
+          "language": "Kieli",
+          "level": "Taso",
+          "municipality": "Paikkakunta",
+          "organizer": "Järjestäjä",
+          "registrationStatus": "Ilmoittautumisen tila"
+        },
+        "placeholder": "Valitse...",
+        "toasts": {
+          "downloadError": "Raportin luominen epäonnistui"
+        },
+        "values": {
+          "registrationStatus": {
+            "CANCELLED": "Peruttu",
+            "COMPLETED": "Maksanut",
+            "EXPIRED": "Erääntynyt",
+            "PAID_AND_CANCELLED": "Maksanut ja peruttu",
+            "SUBMITTED": "Ei Maksanut"
+          }
+        }
+      },
       "clerkPaymentReport": {
         "description": "Välj datumintervallet för vilka du vill granska genomförda examensavgifter. Som standard är hela föregående månad vald. Observera att eventuellt i efterhand återbetalade examensavgifter fortfarande visas i rapporten som betalda.",
         "download": "Skapa rapport (.xlsx)",
@@ -670,6 +696,9 @@
       },
       "clerkPaymentReportPage": {
         "heading": "Rapporter och statistik"
+      },
+      "clerkStatisticsPage": {
+        "heading": "Tilastot"
       },
       "clerkQuarantinePage": {
         "heading": "Osallistumiskiellot"
