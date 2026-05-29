@@ -1,5 +1,7 @@
 package fi.oph.yki.config;
 
+import fi.oph.yki.repository.CasTicketRepository;
+import fi.oph.yki.service.auth.CasSessionMappingStorage;
 import fi.oph.yki.service.email.sender.EmailSender;
 import fi.oph.yki.service.email.sender.EmailSenderNoOp;
 import fi.oph.yki.service.email.sender.EmailSenderViestintapalvelu;
@@ -13,6 +15,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.session.FindByIndexNameSessionRepository;
+import org.springframework.session.Session;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.resources.ConnectionProvider;
@@ -75,5 +79,13 @@ public class AppConfig {
       .baseUrl(emailServiceUrl)
       .build();
     return new EmailSenderViestintapalvelu(webClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
+  }
+
+  @Bean
+  public CasSessionMappingStorage sessionMappingStorage(
+    final FindByIndexNameSessionRepository<? extends Session> sessions,
+    final CasTicketRepository casTicketRepository
+  ) {
+    return new CasSessionMappingStorage(sessions, casTicketRepository);
   }
 }
