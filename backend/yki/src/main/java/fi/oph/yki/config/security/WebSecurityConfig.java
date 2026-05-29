@@ -326,6 +326,7 @@ public class WebSecurityConfig {
         .csrfTokenRepository(csrfTokenRepository)
         .csrfTokenRequestHandler(requestHandler)
         .ignoringRequestMatchers("/yki/v2/virkailija/login/cas") // Required for clerk CAS logout callback
+        .ignoringRequestMatchers("/v2/virkailija/login/cas") // Required for clerk CAS logout callback
     );
   }
 
