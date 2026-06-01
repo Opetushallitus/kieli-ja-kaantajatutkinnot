@@ -5,6 +5,7 @@ export enum APIEndpoints {
   OrganizerCustomersDetails = '/yki/v2/api/organizer/:oid/customer/:personOid',
   OrganizerRegistrationCancel = '/yki/v2/api/organizer/:oid/registration/:registrationId',
   OrganizerExamSession = '/yki/v2/api/organizer/:oid/examSession',
+  OrganizerExamSessionExcel = '/yki/v2/api/organizer/:oid/examSession/:id/excel',
   ClerkOrganizer = '/yki/v2/api/clerk/organizer',
   AddClerkOrganizer = '/yki/v2/api/clerk/organizer/add',
   ClerkFreeRegistration = '/yki/v2/api/clerk/registration/approvals',

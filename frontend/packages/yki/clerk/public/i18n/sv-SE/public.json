@@ -200,8 +200,8 @@
           "downloadExcel": "Lataa excel",
           "edit": "Muokkaa",
           "participants": "Ilmoittautuneita: {{count}} / {{max}}",
-          "participantsListen": "Puheen ymmärtäminen: {{count}} / {{max}}",
           "participantsRead": "Tekstin ymmärtäminen: {{count}} / {{max}}",
+          "participantsListen": "Puheen ymmärtäminen: {{count}} / {{max}}",
           "participantsSpeak": "Puhuminen: {{count}} / {{max}}",
           "participantsWrite": "Kirjoittaminen: {{count}} / {{max}}"
         },
