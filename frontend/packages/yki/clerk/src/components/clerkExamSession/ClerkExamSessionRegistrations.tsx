@@ -337,10 +337,15 @@ export const ClerkExamSessionRegistrations = ({
               variant={Variant.Contained}
               onClick={() =>
                 window.open(
-                  APIEndpoints.ClerkExamSessionExcel.replace(
-                    ':id',
-                    String(examSessionId),
-                  ),
+                  route === 'clerk'
+                    ? APIEndpoints.ClerkExamSessionExcel.replace(
+                        ':id',
+                        String(examSessionId),
+                      )
+                    : APIEndpoints.OrganizerExamSessionExcel.replace(
+                        ':id',
+                        String(examSessionId),
+                      ).replace(':oid', oid),
                 )
               }
             >

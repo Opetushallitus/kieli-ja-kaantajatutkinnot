@@ -38,8 +38,7 @@ public class ClerkExamSessionService {
   private final OrganizerRepository organizerRepository;
   private final AuditService auditService;
 
-  @Transactional(readOnly = true)
-  public ClerkExamSessionDTO getExamSession(final String oid, final Long examSessionId) {
+  private void assertOrganizerAccess(final String oid, final Long examSessionId) {
     final Organizer organizer = organizerRepository.findByOidAndDeletedAtIsNull(oid).orElseThrow();
     final ExamSession examSession = examSessionRepository.getReferenceById(examSessionId);
 
@@ -48,8 +47,13 @@ public class ClerkExamSessionService {
         String.format("Exam session (%s) not related to organizer (%s)", examSessionId, oid)
       );
     }
+  }
 
-    return toDTO(examSession);
+  @Transactional(readOnly = true)
+  public ClerkExamSessionDTO getExamSession(final String oid, final Long examSessionId) {
+    assertOrganizerAccess(oid, examSessionId);
+
+    return getExamSession(examSessionId);
   }
 
   @Transactional(readOnly = true)
@@ -130,6 +134,13 @@ public class ClerkExamSessionService {
       .contactEmail(examSession.getContactEmail())
       .contactPhoneNumber(examSession.getContactPhoneNumber())
       .build();
+  }
+
+  @Transactional(readOnly = true)
+  public AbstractXlsxView getExamSessionExcel(final String oid, final long examSessionId) {
+    assertOrganizerAccess(oid, examSessionId);
+
+    return getExamSessionExcel(examSessionId);
   }
 
   @Transactional(readOnly = true)

@@ -46,6 +46,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 @RequiredArgsConstructor
 @RestController
@@ -130,6 +131,15 @@ public class OrganizerController {
     @RequestBody @Valid final ClerkExamSessionUpdateDTO dto
   ) {
     return clerkExamSessionService.updateExamSession(oid, examSessionId, dto);
+  }
+
+  @GetMapping(value = "/examSession/{examSessionId:\\d+}/excel")
+  @Operation(tags = TAG_ORGANIZER, summary = "Download excel of registrations to exam event")
+  public AbstractXlsxView getExamSessionExcel(
+    @PathVariable("oid") final String oid,
+    @PathVariable final long examSessionId
+  ) {
+    return clerkExamSessionService.getExamSessionExcel(oid, examSessionId);
   }
 
   @GetMapping(path = "/examDates")
