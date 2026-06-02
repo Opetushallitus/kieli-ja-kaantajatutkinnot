@@ -191,6 +191,20 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     final EnrollmentGrade enrollmentGrade = enrollmentGradeOptional.orElseGet(EnrollmentGrade::new);
 
     enrollmentGrade.assertVersion(dto.version());
+
+    if (enrollmentAppointment.isSpeakingPartialExam() && dto.speakingPartialExam() == null) {
+      throw new APIException(APIExceptionType.GRADES_INCOMPLETE);
+    }
+    if (enrollmentAppointment.isWritingPartialExam() && dto.writingPartialExam() == null) {
+      throw new APIException(APIExceptionType.GRADES_INCOMPLETE);
+    }
+    if (enrollmentAppointment.isSpeechComprehensionPartialExam() && dto.speechComprehensionPartialExam() == null) {
+      throw new APIException(APIExceptionType.GRADES_INCOMPLETE);
+    }
+    if (enrollmentAppointment.isReadingComprehensionPartialExam() && dto.readingComprehensionPartialExam() == null) {
+      throw new APIException(APIExceptionType.GRADES_INCOMPLETE);
+    }
+
     if (dto.speakingPartialExam() != null) {
       enrollmentGrade.setSpeakingPartialExamGrade(dto.speakingPartialExam().grade());
       enrollmentGrade.setSpeakingPartialExamComment(dto.speakingPartialExam().comment());

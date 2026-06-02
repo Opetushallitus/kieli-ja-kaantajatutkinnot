@@ -66,6 +66,9 @@ export const GradeModal = ({
   const [newGrades, setGrades] =
     useState<ClerkEnrollmentAppointmentGrades>(grades);
   const isLoading = gradesSaveStatus === APIResponseStatus.InProgress;
+  const isAllGradesFilled = selectedSkills.every(
+    (skill) => newGrades[skill]?.grade && newGrades[skill].grade !== '',
+  );
   const handleSaveGradesButtonClick = () => {
     dispatch(
       upsertClerkEnrollmentAppointmentGrades({
@@ -167,7 +170,7 @@ export const GradeModal = ({
               onClick={handleSaveGradesButtonClick}
               variant={Variant.Contained}
               color={Color.Secondary}
-              disabled={isLoading}
+              disabled={isLoading || !isAllGradesFilled}
             >
               {translateCommon('save')}
             </CustomButton>
