@@ -35,7 +35,8 @@
         "grades": {
           "GOOD": "Hyvä",
           "SATISFACTORY": "Tyydyttävä",
-          "FAILED": "Hylätty"
+          "FAILED": "Hylätty",
+          "NOT_COMPLETED": "Ei suoritettu"
         },
         "textFields": {
           "country": "Maa",

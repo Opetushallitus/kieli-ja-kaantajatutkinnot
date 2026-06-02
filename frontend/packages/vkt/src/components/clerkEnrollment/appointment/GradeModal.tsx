@@ -115,6 +115,10 @@ export const GradeModal = ({
       label: translateCommon(`enrollment.grades.${ExamGrades.FAILED}`),
       value: ExamGrades.FAILED,
     },
+    {
+      label: translateCommon(`enrollment.grades.${ExamGrades.NOT_COMPLETED}`),
+      value: ExamGrades.NOT_COMPLETED,
+    },
   ];
 
   return (

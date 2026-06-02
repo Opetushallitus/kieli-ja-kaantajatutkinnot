@@ -35,7 +35,8 @@
         "grades": {
           "GOOD": "God",
           "SATISFACTORY": "Nöjaktig",
-          "FAILED": "Underkänd"
+          "FAILED": "Underkänd",
+          "NOT_COMPLETED": "Ej genomförd"
         },
         "textFields": {
           "country": "Land",
