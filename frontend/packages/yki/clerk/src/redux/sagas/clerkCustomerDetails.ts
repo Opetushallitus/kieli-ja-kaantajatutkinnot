@@ -70,7 +70,12 @@ function* updateOrganizerCustomerContactDetailsSaga(
       action.payload,
     );
     yield put(resolveCustomerContactUpdate());
-    yield put(loadClerkCustomerDetails(action.payload.oid));
+    yield put(
+      loadOrganizerCustomerDetails({
+        oid: action.payload.organizerOid,
+        personOid: action.payload.oid,
+      }),
+    );
   } catch (error) {
     yield put(rejectCustomerContactUpdate());
   }
