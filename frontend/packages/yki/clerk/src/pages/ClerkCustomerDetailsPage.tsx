@@ -6,7 +6,7 @@ import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
 import { ClerkCustomerDetails } from 'components/clerkCustomer/ClerkCustomerDetails';
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { RouteType } from 'interfaces/user';
@@ -30,10 +30,6 @@ export const ClerkCustomerDetailsPage = ({
   const { customerDetails, status } = useAppSelector(
     clerkCustomerDetailsSelector,
   );
-
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.clerkCustomer',
-  });
 
   const { showToast } = useToast();
   const dispatch = useAppDispatch();
@@ -82,7 +78,7 @@ export const ClerkCustomerDetailsPage = ({
     } else if (status === APIResponseStatus.Error) {
       showToast({
         severity: Severity.Error,
-        description: t('details.toasts.notFound'),
+        description: translateCommon('errors.notFound'),
       });
     }
   }, [
@@ -93,7 +89,7 @@ export const ClerkCustomerDetailsPage = ({
     params.personOid,
     showToast,
     status,
-    t,
+    translateCommon,
   ]);
 
   return (
