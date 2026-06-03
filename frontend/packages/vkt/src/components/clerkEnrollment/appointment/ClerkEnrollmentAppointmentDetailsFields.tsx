@@ -648,6 +648,27 @@ const EnrollmentStatus = ({
     }
   };
 
+  const onOpenPaymentLinkModal = () => {
+    if (
+      !enrollment.examEvent ||
+      !EnrollmentUtils.isValidPartialExamsAndSkills(enrollment)
+    ) {
+      showDialog({
+        title: t('authLinkErrorDialog.header'),
+        severity: Severity.Error,
+        description: t('authLinkErrorDialog.description'),
+        actions: [
+          {
+            title: translateCommon('back'),
+            variant: Variant.Outlined,
+          },
+        ],
+      });
+    } else {
+      setPaymentLinkModalOpen(true);
+    }
+  };
+
   const isCompleted =
     EnrollmentAppointmentStatus.COMPLETED === enrollment.status;
 
@@ -691,9 +712,7 @@ const EnrollmentStatus = ({
           </div>
           <div className="columns flex-start">
             <CustomButton
-              onClick={() => {
-                setPaymentLinkModalOpen(true);
-              }}
+              onClick={onOpenPaymentLinkModal}
               color={Color.Secondary}
               variant={Variant.Text}
             >
