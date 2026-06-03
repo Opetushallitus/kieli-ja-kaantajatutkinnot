@@ -16,6 +16,7 @@ public class ExamSessionXlsxDataRowUtil {
     final List<ExamSessionXlsxDataRow> excelDataRows = examSession
       .getRegistrations()
       .stream()
+      .filter(r -> !(r.getState().equals(RegistrationState.EXPIRED) && r.getPerson() == null))
       .map(ExamSessionXlsxDataRowUtil::createDataRow)
       .toList();
 

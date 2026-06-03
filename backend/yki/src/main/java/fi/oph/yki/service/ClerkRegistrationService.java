@@ -19,6 +19,7 @@ import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.DateUtil;
+import fi.oph.yki.util.RegistrationUtil;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -120,7 +121,7 @@ public class ClerkRegistrationService {
   private ClerkApprovalDTO createClerkApprovalDTO(final FreeRegistration freeRegistration) {
     final Registration registration = freeRegistration.getRegistration();
     final ClerkRegistrationDTO clerkRegistrationDTO = createClerkRegistrationDTO(registration);
-    final ClerkPersonDTO clerkPersonDTO = createClerkPersonDTO(registration.getPerson());
+    final ClerkPersonDTO clerkPersonDTO = RegistrationUtil.createClerkPersonDTO(registration.getPerson());
     final String examDate = DateUtil.formatOptionalDate(registration.getExamSession().getExamDate().getExamDate());
 
     return ClerkApprovalDTO
@@ -132,16 +133,6 @@ public class ClerkRegistrationService {
       .build();
   }
 
-  private ClerkPersonDTO createClerkPersonDTO(final Person person) {
-    return ClerkPersonDTO
-      .builder()
-      .oid(person.getOid())
-      .firstName(person.getFirstName())
-      .lastName(person.getLastName())
-      .socialSecurityNumber("-") // TODO
-      .build();
-  }
-
   private ClerkRegistrationDTO createClerkRegistrationDTO(final Registration registration) {
     return ClerkRegistrationDTO.builder().kind(registration.getKind()).build();
   }
@@ -149,7 +140,7 @@ public class ClerkRegistrationService {
   private ClerkApprovalDetailsDTO createClerkApprovalDetailsDTO(final FreeRegistration freeRegistration) {
     final Registration registration = freeRegistration.getRegistration();
     final ClerkRegistrationDTO clerkRegistrationDTO = createClerkRegistrationDTO(freeRegistration.getRegistration());
-    final ClerkPersonDTO clerkPersonDTO = createClerkPersonDTO(registration.getPerson());
+    final ClerkPersonDTO clerkPersonDTO = RegistrationUtil.createClerkPersonDTO(registration.getPerson());
     final ExamSession examSession = registration.getExamSession();
     final String examDate = DateUtil.formatOptionalDate(examSession.getExamDate().getExamDate());
     final ClerkApprovalExamSessionDTO examSessionDTO = ClerkApprovalExamSessionDTO

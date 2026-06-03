@@ -10,5 +10,10 @@ public record ClerkPersonDTO(
   @NonNull @NotBlank String oid,
   @NonNull @NotBlank String firstName,
   @NonNull @NotBlank String lastName,
-  String socialSecurityNumber
+  String socialSecurityNumber,
+  String email,
+  String phoneNumber,
+  String streetAddress,
+  String zip,
+  String postOffice
 ) {}
