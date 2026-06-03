@@ -106,7 +106,8 @@
         },
         "steps": {
           "authenticate": {
-            "auth": "Tunnistaudu suomi.fi:n kautta"
+            "auth": "Tunnistaudu suomi.fi:n kautta",
+            "description": "Sinun täytyy tunnistautua ilmoittautumista varten. Käytä tunnistautumiseen sen henkilön tietoja, joka osallistuu kielitutkintoon."
           },
           "addressDetails": {
             "title": "Osoitetiedot"
@@ -334,6 +335,7 @@
             "description4": "Saat sähköpostitse vahvistuksen ja kuitin maksusta."
           },
           "preview": {
+            "description": "Tarkista, että tiedot ovat testiin osallistujan tietoja.",
             "examEventDetails": {
               "fullExam": "Koko tutkinto",
               "previousEnrollmentLabel": "Olen osallistunut valtionhallinnon hyvän ja tyydyttävän taidon kielitutkintoon aikaisemmin",
