@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { CustomButton, LoadingProgressIndicator } from 'shared/components';
+import {
+  CustomButton,
+  LoadingProgressIndicator,
+  Text,
+} from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -40,6 +44,7 @@ export const Authenticate = () => {
 
   return (
     <div className="margin-top-xxl rows gapped">
+      <Text>{t('description')}</Text>
       <LoadingProgressIndicator
         translateCommon={translateCommon}
         isLoading={isAuthRedirecting}

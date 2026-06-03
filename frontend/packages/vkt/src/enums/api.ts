@@ -61,4 +61,5 @@ export enum APIError {
   AuthHashExpired = 'authHashExpired',
   InvalidBirthdateFormat = 'invalidBirthdateFormat',
   ExaminerConvertEnrollmentAlreadyCompleted = 'examinerConvertEnrollmentAlreadyCompleted',
+  GradesIncomplete = 'gradesIncomplete',
 }

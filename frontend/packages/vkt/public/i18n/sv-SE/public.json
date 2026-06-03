@@ -106,7 +106,8 @@
         },
         "steps": {
           "authenticate": {
-            "auth": "Identifiera dig via suomi.fi -tjänsten"
+            "auth": "Identifiera dig via suomi.fi -tjänsten",
+            "description": "Du ska identifiera dig för att anmäla dig till språkexamen. Använd testdeltagarens personuppgifter vid anmälan."
           },
           "addressDetails": {
             "title": "Adressinformation"
@@ -334,6 +335,7 @@
             "description4": "Du får en bekräftelse och ett kvitto över betalningen per e-post."
           },
           "preview": {
+            "description": "Kontrollera ett uppgifterna gäller testdeltagaren.",
             "examEventDetails": {
               "fullExam": "Hel examen",
               "previousEnrollmentLabel": "Jag har deltagit examina som gäller goda eller nöjaktiga språkkunskaper tidigare",
