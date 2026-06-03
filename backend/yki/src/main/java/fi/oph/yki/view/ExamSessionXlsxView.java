@@ -45,11 +45,16 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
       "OID",
       "Sukunimi",
       "Etunimi",
+      "Tila",
+      "Ilmoittautumisen tyyppi",
+      "Sähköposti",
+      "Puhelinnumero",
+      "Sukupuoli",
       "Kansalaisuus",
       "Osoite",
       "Postinumero",
       "Postitoimipaikka",
-      "Sähköposti"
+      "Alkuperäinen tutkintopäivä"
     );
     final Sheet sheet = workbook.createSheet("Tilaisuuden tiedot");
 
@@ -65,11 +70,16 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
       row.createCell(++ci).setCellValue(dataRow.oid());
       row.createCell(++ci).setCellValue(dataRow.lastName());
       row.createCell(++ci).setCellValue(dataRow.firstName());
+      setNullableValue(row.createCell(++ci), dataRow.state());
+      setNullableValue(row.createCell(++ci), dataRow.type());
+      setNullableValue(row.createCell(++ci), dataRow.email());
+      setNullableValue(row.createCell(++ci), dataRow.phone());
+      setNullableValue(row.createCell(++ci), dataRow.gender() != null ? dataRow.gender().name() : null);
       setNullableValue(row.createCell(++ci), dataRow.nationalityCode());
       setNullableValue(row.createCell(++ci), dataRow.streetAddress());
       setNullableValue(row.createCell(++ci), dataRow.zip());
       setNullableValue(row.createCell(++ci), dataRow.postOffice());
-      setNullableValue(row.createCell(++ci), dataRow.email());
+      setNullableValue(row.createCell(++ci), dataRow.originalExamDate());
     }
 
     autoresizeExcelColumns(sheet, headers);

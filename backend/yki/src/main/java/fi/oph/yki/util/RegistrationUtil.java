@@ -45,6 +45,12 @@ public class RegistrationUtil {
       .oid(person.getOid())
       .firstName(person.getFirstName())
       .lastName(person.getLastName())
+      .socialSecurityNumber("-") // TODO
+      .email(person.getEmail())
+      .phoneNumber(person.getPhoneNumber())
+      .streetAddress(person.getSteetAddress())
+      .zip(person.getZip())
+      .postOffice(person.getPostOffice())
       .build();
   }
 
