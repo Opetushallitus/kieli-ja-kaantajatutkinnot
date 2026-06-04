@@ -18,5 +18,8 @@ public record ExamSessionXlsxDataRow(
   String streetAddress,
   String zip,
   String postOffice,
-  String originalExamDate
+  String originalExamDate,
+  String examLang,
+  String certificateLang,
+  String nationalityDesc
 ) {}
