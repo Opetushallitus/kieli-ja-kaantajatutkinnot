@@ -89,15 +89,17 @@ export const CustomerInformation = ({
           </div>
         </div>
       </div>
-      <div className="rows gapped-xs">
-        <CustomButton
-          className="align-self-start"
-          variant="outlined"
-          onClick={() => setIsEditModalOpen(true)}
-        >
-          {t('details.buttons.editContact')}
-        </CustomButton>
-      </div>
+      {route === 'clerk' && (
+        <div className="rows gapped-xs">
+          <CustomButton
+            className="align-self-start"
+            variant="outlined"
+            onClick={() => setIsEditModalOpen(true)}
+          >
+            {t('details.buttons.editContact')}
+          </CustomButton>
+        </div>
+      )}
       <EditCustomerInformationModal
         isModalOpen={isEditModalOpen}
         setIsModalOpen={setIsEditModalOpen}
