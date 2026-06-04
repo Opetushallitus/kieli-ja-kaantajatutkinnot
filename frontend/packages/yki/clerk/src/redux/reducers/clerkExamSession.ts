@@ -26,7 +26,6 @@ export interface ClerkExamSessionEditForm {
   contactName: string;
   contactEmail: string;
   contactPhoneNumber: string;
-  startTime: string;
   startTimeReadListen: string;
   startTimeSpeakWrite: string;
   officeOid: string;

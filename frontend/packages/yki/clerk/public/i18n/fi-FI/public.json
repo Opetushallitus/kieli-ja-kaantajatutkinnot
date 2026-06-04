@@ -246,7 +246,6 @@
               "name": "Tila",
               "noExamDates": "Ei tutkintopäiviä valituilla valinnoilla",
               "postalCode": "Postinumero",
-              "startTime": "Alkamisaika",
               "startTimeReadListen": "Osakoe 1: alkamisaika",
               "startTimeSpeakWrite": "Osakoe 2: alkamisaika",
               "streetAddress": "Katuosoite",

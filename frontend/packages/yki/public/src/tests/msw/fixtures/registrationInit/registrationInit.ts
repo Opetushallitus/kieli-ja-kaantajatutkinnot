@@ -18,7 +18,6 @@ export const registrationInitResponse: PublicRegistrationInitResponse = {
     session_date: '2026-06-01',
     organizer_oid: '1.2.3.4',
     open: true,
-    start_time: '09:00',
     start_time_read_listen: null,
     start_time_speak_write: null,
     id: 1,

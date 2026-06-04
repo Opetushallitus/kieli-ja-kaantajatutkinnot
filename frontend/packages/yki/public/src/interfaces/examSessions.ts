@@ -50,7 +50,6 @@ type ExamSessionBase = WithIdType & {
   session_date: Dayjs;
   language_code: ExamLanguage;
   level_code: ExamLevel;
-  start_time: string | null;
   start_time_read_listen: string | null;
   start_time_speak_write: string | null;
   max_participants: number;

@@ -20,7 +20,6 @@ public record ClerkExamSessionDTO(
   Integer maxParticipantsTotal,
   Integer maxParticipantsReadListen,
   Integer maxParticipantsSpeakWrite,
-  String startTime,
   String startTimeReadListen,
   String startTimeSpeakWrite,
   Integer queue,
