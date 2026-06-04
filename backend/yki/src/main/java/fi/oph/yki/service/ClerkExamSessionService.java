@@ -127,7 +127,6 @@ public class ClerkExamSessionService {
       .maxParticipantsTotal(examSession.getMaxParticipants())
       .maxParticipantsReadListen(examSession.getMaxParticipantsReadListen())
       .maxParticipantsSpeakWrite(examSession.getMaxParticipantsSpeakWrite())
-      .startTime(examSession.getStartTime())
       .startTimeReadListen(examSession.getStartTimeReadListen())
       .startTimeSpeakWrite(examSession.getStartTimeSpeakWrite())
       .contactName(examSession.getContactName())
@@ -182,15 +181,14 @@ public class ClerkExamSessionService {
     }
 
     if (examSession.getType().equals(ExamSessionType.FULL)) {
-      examSession.setStartTime(dto.startTime());
       examSession.setMaxParticipants(dto.maxParticipantsTotal());
     } else {
       examSession.setMaxParticipants(dto.maxParticipantsReadListen() + dto.maxParticipantsSpeakWrite());
       examSession.setMaxParticipantsSpeakWrite(dto.maxParticipantsSpeakWrite());
       examSession.setMaxParticipantsReadListen(dto.maxParticipantsReadListen());
-      examSession.setStartTimeReadListen(dto.startTimeReadListen());
-      examSession.setStartTimeSpeakWrite(dto.startTimeSpeakWrite());
     }
+    examSession.setStartTimeReadListen(dto.startTimeReadListen());
+    examSession.setStartTimeSpeakWrite(dto.startTimeSpeakWrite());
 
     if (dto.location() != null && !dto.location().isEmpty()) {
       examSession
@@ -231,15 +229,14 @@ public class ClerkExamSessionService {
     examSession.setLevel(dto.level());
     examSession.setType(dto.type());
     if (dto.type().equals(ExamSessionType.FULL)) {
-      examSession.setStartTime(dto.startTime());
       examSession.setMaxParticipants(dto.maxParticipantsTotal());
     } else {
       examSession.setMaxParticipants(dto.maxParticipantsSpeakWrite() + dto.maxParticipantsReadListen());
       examSession.setMaxParticipantsSpeakWrite(dto.maxParticipantsSpeakWrite());
       examSession.setMaxParticipantsReadListen(dto.maxParticipantsReadListen());
-      examSession.setStartTimeReadListen(dto.startTimeReadListen());
-      examSession.setStartTimeSpeakWrite(dto.startTimeSpeakWrite());
     }
+    examSession.setStartTimeReadListen(dto.startTimeReadListen());
+    examSession.setStartTimeSpeakWrite(dto.startTimeSpeakWrite());
     examSession.setContactName(dto.contactName());
     examSession.setContactEmail(dto.contactEmail());
     examSession.setContactPhoneNumber(dto.contactPhoneNumber());

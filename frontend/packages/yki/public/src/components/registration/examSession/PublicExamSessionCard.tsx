@@ -111,19 +111,28 @@ const MetaField = ({
 const MobileExamRow = ({
   examTypeLabel,
   examSessionFee,
+  examSession,
   availablePlacesText,
   action,
   t,
 }: {
   examTypeLabel: string;
   examSessionFee: string;
+  examSession: ExamSession;
   availablePlacesText: string;
   action: JSX.Element;
   t: ReturnType<typeof usePublicTranslation>['t'];
 }) => (
   <div className="exam-session-card__mobile-exam-row">
     <MetaField label={t('examSessionCard.exam')} value={examTypeLabel} />
-    <MetaField label={t('examSessionCard.examStartTime')} value="klo 14:30" />
+    {examSession.type !== 'FULL' && (
+      <MetaField
+        label={t('examSessionCard.examStartTime')}
+        value={t('examSessionCard.examStartTime', {
+          startTime: ExamSessionUtils.getStartTime(examSession, 'WRITE') || '',
+        })}
+      />
+    )}
     <MetaField label={t('examSessionCard.price')} value={examSessionFee} />
     <MetaField
       label={t('examSessionCard.placesAvailable')}
@@ -402,12 +411,6 @@ const getTableBody = ({
       <td data-label={t('examSessionCard.examType.full')}>
         {t('examSessionCard.examType.full')}
       </td>
-      <td data-label={t('examSessionCard.examStartTime')}>
-        {t('examSessionCard.examStartTime', {
-          startTime:
-            ExamSessionUtils.getStartTime(examSession, 'ALL_PARTS') || '',
-        })}
-      </td>
       <td data-label={t('examSessionCard.price')}>
         {ExamSessionUtils.freeRegistrationPossible(examSession)
           ? `0 / ${examSession.exam_fee} €`
@@ -492,6 +495,7 @@ const getMobileTableBody = ({
       key={partialExamType}
       examTypeLabel={examTypeLabel}
       examSessionFee={examSessionFee}
+      examSession={examSession}
       availablePlacesText={getAvailablePlacesText(partialExamType)}
       action={renderActions({ examSession, partialExamType, availablePlaces })}
       t={t}
@@ -608,7 +612,9 @@ export const PublicExamSessionCard = ({
           <thead>
             <tr>
               <th>{t('examSessionCard.exam')}</th>
-              <th>{t('examSessionCard.examStartTimeTitle')}</th>
+              {examSession.type !== 'FULL' && (
+                <th>{t('examSessionCard.examStartTimeTitle')}</th>
+              )}
               <th>{t('examSessionCard.price')}</th>
               <th>{t('examSessionCard.placesAvailable')}</th>
               <th>{t('examSessionCard.actions')}</th>

@@ -282,8 +282,6 @@ export class ExamSessionUtils {
 
       return examSession.start_time_read_listen;
     }
-
-    return examSession.start_time;
   }
 
   static getStartTimeForPersonRegistrations(r: PersonRegistrations) {
@@ -312,8 +310,6 @@ export class ExamSessionUtils {
 
       return r.start_time_read_listen;
     }
-
-    return r.start_time;
   }
 
   static getPartialExamFee(

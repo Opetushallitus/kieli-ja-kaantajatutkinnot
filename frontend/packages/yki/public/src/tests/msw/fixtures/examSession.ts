@@ -15,7 +15,6 @@ export const examSessions: ExamSessionsResponse = {
       max_participants: 10,
       max_participants_read_listen: 5,
       max_participants_speak_write: 5,
-      start_time: null,
       start_time_read_listen: '09:00',
       start_time_speak_write: '13:00',
       queue: 0,
@@ -80,7 +79,6 @@ export const examSessions: ExamSessionsResponse = {
       max_participants: 15,
       max_participants_read_listen: 10,
       max_participants_speak_write: 20,
-      start_time: null,
       start_time_read_listen: '08:00',
       start_time_speak_write: '12:00',
       queue: 0,
@@ -145,7 +143,6 @@ export const examSessions: ExamSessionsResponse = {
       max_participants: 15,
       max_participants_read_listen: null,
       max_participants_speak_write: null,
-      start_time: '09:00',
       start_time_read_listen: null,
       start_time_speak_write: null,
       partial_registration_kind: {
@@ -208,7 +205,6 @@ export const examSessions: ExamSessionsResponse = {
       max_participants: 50,
       max_participants_read_listen: null,
       max_participants_speak_write: null,
-      start_time: '09:00',
       start_time_read_listen: null,
       start_time_speak_write: null,
       partial_registration_kind: {
@@ -271,7 +267,6 @@ export const examSessions: ExamSessionsResponse = {
       max_participants: 20,
       max_participants_read_listen: null,
       max_participants_speak_write: null,
-      start_time: '09:00',
       start_time_read_listen: null,
       start_time_speak_write: null,
       partial_registration_kind: {
@@ -336,7 +331,6 @@ export const examSessions: ExamSessionsResponse = {
       max_participants: 25,
       max_participants_read_listen: null,
       max_participants_speak_write: null,
-      start_time: '09:00',
       start_time_read_listen: null,
       start_time_speak_write: null,
       partial_registration_kind: {
@@ -398,7 +392,6 @@ export const examSessions: ExamSessionsResponse = {
       max_participants: 10,
       max_participants_read_listen: null,
       max_participants_speak_write: null,
-      start_time: '09:00',
       start_time_read_listen: null,
       start_time_speak_write: null,
       partial_registration_kind: {
@@ -461,7 +454,6 @@ export const examSessions: ExamSessionsResponse = {
       max_participants: 20,
       max_participants_read_listen: null,
       max_participants_speak_write: null,
-      start_time: '09:00',
       start_time_read_listen: null,
       start_time_speak_write: null,
       partial_registration_kind: {
@@ -523,7 +515,6 @@ export const examSessions: ExamSessionsResponse = {
       max_participants: 20,
       max_participants_read_listen: null,
       max_participants_speak_write: null,
-      start_time: '09:00',
       start_time_read_listen: null,
       start_time_speak_write: null,
       partial_registration_kind: {
@@ -585,7 +576,6 @@ export const examSessions: ExamSessionsResponse = {
       max_participants: 20,
       max_participants_read_listen: null,
       max_participants_speak_write: null,
-      start_time: '09:00',
       start_time_read_listen: null,
       start_time_speak_write: null,
       partial_registration_kind: {
@@ -649,7 +639,6 @@ export const examSessions: ExamSessionsResponse = {
       max_participants: 20,
       max_participants_read_listen: null,
       max_participants_speak_write: null,
-      start_time: '09:00',
       start_time_read_listen: null,
       start_time_speak_write: null,
       partial_registration_kind: {
@@ -713,7 +702,6 @@ export const examSessions: ExamSessionsResponse = {
       max_participants: 20,
       max_participants_read_listen: null,
       max_participants_speak_write: null,
-      start_time: '09:00',
       start_time_read_listen: null,
       start_time_speak_write: null,
       partial_registration_kind: {
@@ -777,7 +765,6 @@ export const examSessions: ExamSessionsResponse = {
       max_participants: 20,
       max_participants_read_listen: null,
       max_participants_speak_write: null,
-      start_time: '09:00',
       start_time_read_listen: null,
       start_time_speak_write: null,
       partial_registration_kind: {

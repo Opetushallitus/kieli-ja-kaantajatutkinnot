@@ -51,7 +51,6 @@ export interface ClerkExamSession {
   maxParticipantsTotal: number;
   maxParticipantsReadListen: number;
   maxParticipantsSpeakWrite: number;
-  startTime: string;
   startTimeReadListen: string;
   startTimeSpeakWrite: string;
   queue: number;

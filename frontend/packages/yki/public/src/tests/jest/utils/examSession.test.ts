@@ -47,7 +47,6 @@ describe('ExamSessionUtils', () => {
     upcoming_admission: true,
     available_registration_kind: RegistrationKind.Admission,
     partial_registration_kind: { ALL_PARTS: RegistrationKind.Admission },
-    start_time: null,
     start_time_read_listen: null,
     start_time_speak_write: null,
     max_participants_read_listen: null,

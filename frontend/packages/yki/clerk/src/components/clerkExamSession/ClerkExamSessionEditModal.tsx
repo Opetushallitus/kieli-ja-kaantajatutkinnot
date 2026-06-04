@@ -176,7 +176,6 @@ export const ClerkExamSessionEditModal = ({
     maxParticipantsSpeakWrite: String(
       examSessionDetails?.maxParticipantsSpeakWrite ?? '',
     ),
-    startTime: examSessionDetails?.startTime ?? '',
     startTimeReadListen: examSessionDetails?.startTimeReadListen ?? '',
     startTimeSpeakWrite: examSessionDetails?.startTimeSpeakWrite ?? '',
     location: (['fi', 'sv', 'en'] as const).map((lang) => {
@@ -261,7 +260,7 @@ export const ClerkExamSessionEditModal = ({
         ? !form.maxParticipantsTotal
         : !form.maxParticipantsReadListen || !form.maxParticipantsSpeakWrite,
       startTime: isFull
-        ? !form.startTime
+        ? false
         : !form.startTimeReadListen || !form.startTimeSpeakWrite,
       streetAddress: !loc?.streetAddress,
       postalCode: !loc?.postalCode,
@@ -486,17 +485,6 @@ export const ClerkExamSessionEditModal = ({
                 submitted && errors.maxParticipants
                   ? t('errors.required')
                   : undefined
-              }
-            />
-            <OphInputFormField
-              label={t('fields.startTime')}
-              value={form.startTime}
-              onChange={(e) => updateField('startTime', e.target.value)}
-              type="time"
-              disabled={isSaving}
-              error={submitted && errors.startTime}
-              helperText={
-                submitted && errors.startTime ? t('errors.required') : undefined
               }
             />
           </div>

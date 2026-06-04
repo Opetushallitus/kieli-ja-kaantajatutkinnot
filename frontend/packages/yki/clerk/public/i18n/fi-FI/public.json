@@ -241,7 +241,6 @@
               "maxParticipantsSpeak": "Puhuminen enimmäismäärä",
               "maxParticipantsWrite": "Kirjoittaminen enimmäismäärä",
               "postalCode": "Postinumero",
-              "startTime": "Alkamisaika",
               "startTimekWrite": "Kirjoittaminen alkamisaika",
               "startTimeListen": "Puheen ymmärtäminen alkamisaika",
               "startTimeRead": "Tekstin ymmärtäminen alkamisaika",

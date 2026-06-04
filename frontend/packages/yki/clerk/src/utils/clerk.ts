@@ -135,9 +135,7 @@ export const getExamSessionStartTimesDescription = (
   examSession: ClerkExamSession,
 ) => {
   return examSession.type === ExamSessionType.FULL
-    ? t('yki.common.examSessionTimes.fullSessionTime', {
-        time: examSession.startTime,
-      })
+    ? ''
     : t('yki.common.examSessionTimes.partialSessionTime', {
         partialExam1: getExamPartialType1(examSession.type),
         partialExam2: getExamPartialType2(examSession.type),
