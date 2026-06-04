@@ -177,15 +177,17 @@ export const ClerkExamSessionDetails = ({
           </div>
         </div>
       </div>
-      <div>
-        <OphButton
-          color="primary"
-          variant={Variant.Outlined}
-          onClick={() => setIsEditModalOpen(true)}
-        >
-          {t('buttons.edit')}
-        </OphButton>
-      </div>
+      {route === 'clerk' && (
+        <div>
+          <OphButton
+            color="primary"
+            variant={Variant.Outlined}
+            onClick={() => setIsEditModalOpen(true)}
+          >
+            {t('buttons.edit')}
+          </OphButton>
+        </div>
+      )}
       <ClerkExamSessionEditModal
         isOpen={isEditModalOpen}
         setIsOpen={setIsEditModalOpen}
