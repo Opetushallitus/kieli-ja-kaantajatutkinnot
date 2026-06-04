@@ -12,7 +12,7 @@ import {
   Text,
   WebLink,
 } from 'shared/components';
-import { Variant } from 'shared/enums';
+import { Color, Variant } from 'shared/enums';
 import { CommonUtils } from 'shared/utils';
 
 import {
@@ -29,8 +29,8 @@ const BackButton = () => {
     <CustomButtonLink
       to={AppRoutes.Registration}
       variant={Variant.Text}
+      color={Color.Secondary}
       startIcon={<ArrowBackIosOutlinedIcon />}
-      className="color-secondary-dark"
     >
       {translateCommon('backToHomePage')}
     </CustomButtonLink>
@@ -165,7 +165,7 @@ export const AccessibilityStatementPage = () => {
                     label={translateAccessibility(
                       'content.administrativeAgency.link.label',
                     )}
-                    endIcon={<OpenInNewIcon />}
+                    endIcon={<OpenInNewIcon color="inherit" />}
                   />
                 </Text>
                 <Text>

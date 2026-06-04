@@ -1,4 +1,4 @@
-import { Text } from 'shared/components';
+import { H2, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
@@ -31,7 +31,7 @@ export const PublicRegistrationExamSessionDetails = ({
     publicFreeRegistrationSelector,
   );
   const { loggedInSession } = useAppSelector(sessionSelector);
-  const { activeStep, submitRegistration } =
+  const { activeStep, submitRegistration, initRegistration } =
     useAppSelector(registrationSelector);
 
   if (!examSession) {
@@ -111,14 +111,28 @@ export const PublicRegistrationExamSessionDetails = ({
   return (
     <div className="rows">
       <div className="rows-gapped-xxs">
-        <Text>
-          {`${translateCommon('examSession')}: `}
+        <H2 style={{ marginBottom: '1rem' }}>
           <b>{header}</b>
+        </H2>
+        <Text>
+          {`${translateCommon('partialExams')}: `}
+          <b>
+            {ExamSessionUtils.getPartialExamTypeText(
+              examSession.type,
+              initRegistration.partialExamType,
+            )}
+          </b>
         </Text>
         <Text>
           {`${translateCommon('examDate')}: `}
           <b>{DateUtils.formatOptionalDate(examSession.session_date)}</b>
         </Text>
+
+        <Text>
+          {`${translateCommon('partialExamTimeLabel')}: `}
+          <b>{translateCommon('partialExamTime')}</b>
+        </Text>
+
         <Text>
           {`${translateCommon('institution')}: `}
           <b>{`${location.name}, ${

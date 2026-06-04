@@ -265,6 +265,22 @@ class CSPNoncePlaceholderInjectorPlugin {
             cb(null, data);
           }
         );
+        HtmlWebpackPlugin.getHooks(compilation).alterAssetTagGroups.tapAsync(
+          "CSPNoncePlaceholderInjectorPlugin",
+          (data, cb) => {
+            data.headTags.unshift(
+              HtmlWebpackPlugin.createHtmlTagObject(
+                "script",
+                {
+                  "th:attr": "nonce=${cspNonce}",
+                  "th:inline": "javascript",
+                },
+                "window.__CLERK_ENABLED__ = /*[[${clerkEnabled}]]*/ false;"
+              )
+            );
+            cb(null, data);
+          }
+        );
       }
     );
   }

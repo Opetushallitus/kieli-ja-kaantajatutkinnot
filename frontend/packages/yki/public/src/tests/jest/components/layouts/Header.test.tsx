@@ -21,6 +21,7 @@ describe('Header', () => {
       open_registrations: [
         {
           exam_session_id: 1,
+          registration_id: 999,
           expires_at: '2200-01-01',
         },
       ],

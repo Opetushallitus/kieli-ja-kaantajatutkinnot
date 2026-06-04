@@ -10,9 +10,11 @@ import {
 } from 'enums/publicRegistration';
 import {
   isRegistrationInitErrorResponse,
+  PartialExamType,
   PublicEmailRegistration,
   PublicRegistrationFormSubmitErrorResponse,
   PublicRegistrationFormSubmitSuccessResponse,
+  PublicRegistrationIdentifyPayload,
   PublicRegistrationInitErrorState,
   PublicRegistrationInitPayload,
   PublicRegistrationInitResponse,
@@ -24,6 +26,8 @@ export interface RegistrationState {
     status: APIResponseStatus;
     error?: PublicRegistrationInitErrorState;
     examSessionId?: number;
+    partialExamType?: PartialExamType;
+    registrationId?: number;
     registrationKind?: RegistrationKind;
     expiresIn?: number;
   };
@@ -75,6 +79,7 @@ const registrationSlice = createSlice({
       state.initRegistration.status = APIResponseStatus.InProgress;
       state.initRegistration.examSessionId = action.payload.examSessionId;
       state.initRegistration.registrationKind = action.payload.registrationKind;
+      state.initRegistration.partialExamType = action.payload.partialExamType;
     },
     rejectPublicRegistrationInit(
       state,
@@ -129,6 +134,7 @@ const registrationSlice = createSlice({
     ) {
       state.initRegistration.status = APIResponseStatus.Success;
       state.initRegistration.expiresIn = action.payload?.expires_in;
+      state.initRegistration.partialExamType = action.payload.partial_exam_type;
 
       const {
         registration_id,
@@ -138,6 +144,7 @@ const registrationSlice = createSlice({
       } = action.payload;
       const nationality = user.nationalities && user.nationalities[0];
       state.initRegistration.registrationKind = registration_kind;
+      state.initRegistration.registrationId = registration_id;
       if (is_strongly_identified) {
         state.isEmailRegistration = false;
         state.hasSuomiFiNationalityData = !!nationality;
@@ -230,11 +237,12 @@ const registrationSlice = createSlice({
     },
     identifyRegistration(
       state,
-      action: PayloadAction<PublicRegistrationInitPayload>,
+      action: PayloadAction<PublicRegistrationIdentifyPayload>,
     ) {
       state.initRegistration.status = APIResponseStatus.InProgress;
       state.initRegistration.examSessionId = action.payload.examSessionId;
       state.initRegistration.registrationKind = action.payload.registrationKind;
+      state.initRegistration.registrationId = action.payload.registrationId;
     },
   },
 });

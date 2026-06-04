@@ -1999,6 +1999,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource/open-sans@npm:^5.2.7":
+  version: 5.2.7
+  resolution: "@fontsource/open-sans@npm:5.2.7"
+  checksum: 10/7a1e17c852e0d84f5b7f61a1cbbe6eb829df1086b65205bedff92d626794f848039b3b9b580d56aedf6689d25b2b7da0c1b9489069a79077938f812eac9e612f
+  languageName: node
+  linkType: hard
+
 "@fontsource/roboto@npm:^5.1.0":
   version: 5.1.0
   resolution: "@fontsource/roboto@npm:5.1.0"
@@ -3040,7 +3047,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.14.1":
+"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@2.14.4":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
   languageName: unknown
@@ -3068,8 +3075,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.yki@workspace:packages/yki/public"
   dependencies:
+    "@fontsource/open-sans": "npm:^5.2.7"
     multer: "npm:^2.0.2"
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.14.1"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@2.14.4"
   languageName: unknown
   linkType: soft
 
@@ -12230,6 +12238,13 @@ __metadata:
   dependencies:
     kind-of: "npm:^6.0.2"
   checksum: 10/e066bd540cfec5e1b0f78134853e0d892d1c8945fb9a926a579946052e7cb0c70ca4fc34f875a8083aa7910d751805d36ae64af250a6de6f3d28f9fa7be6c21b
+  languageName: node
+  linkType: hard
+
+"shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.14.1":
+  version: 1.14.1
+  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.14.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40Opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.14.1%2Fb753207b9ab9779d9a1dab5b85da93edad33c6e0"
+  checksum: 10/65eff2a9cf089ce75747f83da9162606f8b29c068ecc82b6c87aeede753f986f7df038985b4d5dc275c92303d2abe69bc352d87a1491e96eb27d36a2fba72b48
   languageName: node
   linkType: hard
 

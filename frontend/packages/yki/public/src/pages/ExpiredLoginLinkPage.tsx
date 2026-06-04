@@ -1,6 +1,7 @@
 import { LockOutlined } from '@mui/icons-material';
 import { Grid, Paper } from '@mui/material';
 import { Box } from '@mui/system';
+import { ophColors } from '@opetushallitus/oph-design-system';
 import { FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {
@@ -14,6 +15,7 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { clerkEnabled } from 'featureFlags';
 import {
   loadLoginLinkRenew,
   resetLoginLinkRenew,
@@ -54,7 +56,14 @@ export const ExpiredLoginLinkPage: FC = () => {
             </div>
           </H1>
           <HeaderSeparator />
-          <Paper elevation={3}>
+          <Paper
+            elevation={3}
+            style={
+              clerkEnabled
+                ? { borderTop: '5px solid ' + ophColors.green2 }
+                : undefined
+            }
+          >
             <Box padding={3} gap={2} display={'flex'} flexDirection="column">
               <Text>{t('part1')}</Text>
               {status !== APIResponseStatus.Success && (

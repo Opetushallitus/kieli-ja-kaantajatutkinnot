@@ -27,7 +27,7 @@ export const ConfirmRegistration = ({
         {t('verifyRegistrationDetails.text2')}{' '}
         {t('verifyRegistrationDetails.text3')}{' '}
         <WebLink
-          startIcon={<OpenInNewIcon />}
+          startIcon={<OpenInNewIcon color="inherit" />}
           href={t('verifyRegistrationDetails.termsAndConditions.url')}
           label={t('verifyRegistrationDetails.termsAndConditions.label')}
         />

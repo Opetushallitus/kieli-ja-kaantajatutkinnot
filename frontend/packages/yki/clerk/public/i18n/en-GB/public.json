@@ -126,7 +126,6 @@
         },
         "header": "Tutkintopäivät",
         "listing": {
-          "addReviewEvaluation": "Lisää tarkistusarviointi",
           "allLevels": "Kaikki tasot",
           "edit": "Muokkaa",
           "editReviewEvaluation": "Edit review evaluations",
