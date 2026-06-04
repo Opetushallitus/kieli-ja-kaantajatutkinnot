@@ -1,5 +1,6 @@
 package fi.oph.yki.view;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.RegistrationKind;
@@ -50,6 +51,9 @@ public class ExamSessionXlsxDataRowUtil {
           ? DATE_FORMAT.format(registration.getOriginalExamSession().getExamDate().getExamDate())
           : null
       )
+      .examLang(getFormField(registration.getForm(), "exam_lang"))
+      .certificateLang(getFormField(registration.getForm(), "certificate_lang"))
+      .nationalityDesc(getFormField(registration.getForm(), "nationality_desc"))
       .build();
   }
 
@@ -63,6 +67,13 @@ public class ExamSessionXlsxDataRowUtil {
       case POST_ADMISSION -> "Jälki-ilmoittautuminen";
       case QUEUE -> "Jonoilmoittautuminen";
     };
+  }
+
+  private static String getFormField(final ObjectNode form, final String field) {
+    if (form == null || !form.has(field) || form.get(field).isNull()) {
+      return null;
+    }
+    return form.get(field).asText();
   }
 
   static String stateToText(final Registration registration) {
