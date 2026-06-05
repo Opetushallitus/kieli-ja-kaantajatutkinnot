@@ -7,18 +7,22 @@ import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 public class ExamSessionXlsxDataRowUtil {
 
   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
   private static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-  public static ExamSessionXlsxData createExcelData(final ExamSession examSession) {
+  public static ExamSessionXlsxData createExcelData(
+    final ExamSession examSession,
+    final Map<String, String> identityNumbersByOid
+  ) {
     final List<ExamSessionXlsxDataRow> excelDataRows = examSession
       .getRegistrations()
       .stream()
       .filter(r -> !(r.getState().equals(RegistrationState.EXPIRED) && r.getPerson() == null))
-      .map(ExamSessionXlsxDataRowUtil::createDataRow)
+      .map(r -> createDataRow(r, identityNumbersByOid))
       .toList();
 
     return ExamSessionXlsxData
@@ -29,7 +33,10 @@ public class ExamSessionXlsxDataRowUtil {
       .build();
   }
 
-  private static ExamSessionXlsxDataRow createDataRow(final Registration registration) {
+  private static ExamSessionXlsxDataRow createDataRow(
+    final Registration registration,
+    final Map<String, String> identityNumbersByOid
+  ) {
     final var person = registration.getPerson();
 
     return ExamSessionXlsxDataRow
@@ -54,6 +61,8 @@ public class ExamSessionXlsxDataRowUtil {
       .examLang(getFormField(registration.getForm(), "exam_lang"))
       .certificateLang(getFormField(registration.getForm(), "certificate_lang"))
       .nationalityDesc(getFormField(registration.getForm(), "nationality_desc"))
+      .identityNumber(person == null ? null : identityNumbersByOid.get(person.getOid()))
+      .birthdate(getFormField(registration.getForm(), "birthdate"))
       .build();
   }
 
