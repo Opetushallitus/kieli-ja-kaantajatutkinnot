@@ -232,6 +232,13 @@ public class ClerkQuarantineService {
       .findById(id)
       .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
 
+    quarantineRepository
+      .findByDiaryNumber(request.diaryNumber())
+      .filter(existing -> existing.getId() != id)
+      .ifPresent(existing -> {
+        throw new APIException(APIExceptionType.QUARANTINE_DIARY_NUMBER_ALREADY_EXISTS);
+      });
+
     final String resolvedBirthdate = resolveBirthdate(request.ssn(), request.birthdate());
 
     quarantine.setLanguageCode(request.languageCode());

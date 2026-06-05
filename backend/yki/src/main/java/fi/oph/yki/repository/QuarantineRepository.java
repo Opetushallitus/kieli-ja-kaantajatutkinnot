@@ -2,6 +2,7 @@ package fi.oph.yki.repository;
 
 import fi.oph.yki.model.Quarantine;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuarantineRepository extends JpaRepository<Quarantine, Long> {
   List<Quarantine> findByDeletedAtIsNullOrderByIdDesc();
+
+  Optional<Quarantine> findByDiaryNumber(String diaryNumber);
 
   @Query(
     value = """
