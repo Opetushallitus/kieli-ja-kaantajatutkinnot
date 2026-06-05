@@ -1,5 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import { OphButton } from '@opetushallitus/oph-design-system';
 import { Trans } from 'react-i18next';
 import { CustomModal } from 'shared/components';
@@ -47,14 +47,13 @@ export const DeleteQuarantineConfirmationModal = ({
           gap={1}
         >
           <H2 id="delete-quarantine-modal-title">{t('title')}</H2>
-          <div style={{ cursor: 'pointer' }}>
+          <IconButton aria-label={t('close')} onClick={onClose}>
             <CloseIcon
               color={Color.Inherit}
               aria-hidden={true}
               fontSize="large"
-              onClick={onClose}
             />
-          </div>
+          </IconButton>
         </Box>
       }
     >

@@ -482,6 +482,7 @@
           },
           "delete": {
             "cancel": "Peruuta",
+            "close": "Sulje",
             "confirm": "Poista osallistumiskielto",
             "description": "Olet poistamassa osallistumiskieltoa henkilöltä <bold>{{firstName}} {{lastName}}</bold> ({{identifier}}), voimassaolo <bold>{{startDate}} - {{endDate}}</bold> ja tutkintokieli <bold>{{examLanguage}}</bold>.",
             "title": "Vahvista osallistumiskiellon poisto"
