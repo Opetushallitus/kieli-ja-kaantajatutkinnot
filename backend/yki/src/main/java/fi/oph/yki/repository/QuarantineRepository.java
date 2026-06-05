@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface QuarantineRepository extends JpaRepository<Quarantine, Long> {
+  List<Quarantine> findByDeletedAtIsNullOrderByIdDesc();
+
   @Query(
     value = """
 SELECT
