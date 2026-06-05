@@ -438,6 +438,25 @@ public class ClerkQuarantineServiceTest {
   }
 
   @Test
+  public void testCreateQuarantineThrowsWhenStartDateEqualsEndDate() {
+    final CreateQuarantineRequest request = new CreateQuarantineRequest(
+      "fin",
+      LocalDate.of(2026, 1, 1),
+      LocalDate.of(2026, 1, 1),
+      "Testi",
+      "Henkilö",
+      "DIARYNO-DATE-1",
+      LocalDate.of(2000, 1, 15),
+      null,
+      null,
+      null
+    );
+
+    final APIException ex = assertThrows(APIException.class, () -> clerkQuarantineService.createQuarantine(request));
+    assertEquals(APIExceptionType.QUARANTINE_INVALID_DATE_ORDER, ex.getExceptionType());
+  }
+
+  @Test
   public void testCreateQuarantineLogsAudit() {
     final CreateQuarantineRequest request = new CreateQuarantineRequest(
       "fin",

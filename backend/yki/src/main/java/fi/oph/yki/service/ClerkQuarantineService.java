@@ -198,11 +198,9 @@ public class ClerkQuarantineService {
     return reviews;
   }
 
-  @Transactional
-  public void createQuarantine(final CreateQuarantineRequest request) {
+  private void setFromRequest(final Quarantine quarantine, final CreateQuarantineRequest request) {
     final String resolvedBirthdate = resolveBirthdate(request.ssn(), request.birthdate());
 
-    final Quarantine quarantine = new Quarantine();
     quarantine.setLanguageCode(request.languageCode());
     quarantine.setStartDate(request.startDate());
     quarantine.setEndDate(request.endDate());
@@ -213,9 +211,18 @@ public class ClerkQuarantineService {
     quarantine.setSsn(request.ssn());
     quarantine.setEmail(request.email());
     quarantine.setPhoneNumber(request.phoneNumber());
+  }
 
+  @Transactional
+  public void createQuarantine(final CreateQuarantineRequest request) {
+    if (!request.startDate().isBefore(request.endDate())) {
+      throw new APIException(APIExceptionType.QUARANTINE_INVALID_DATE_ORDER);
+    }
+
+    final Quarantine quarantine = new Quarantine();
     final Quarantine saved;
     try {
+      setFromRequest(quarantine, request);
       saved = quarantineRepository.save(quarantine);
     } catch (DataIntegrityViolationException e) {
       if (e.getMessage() != null && e.getMessage().contains("quarantine_diary_number_key")) {
@@ -228,7 +235,11 @@ public class ClerkQuarantineService {
 
   @Transactional
   public void updateQuarantine(final long id, final CreateQuarantineRequest request) {
-    final Quarantine quarantine = quarantineRepository
+    if (!request.startDate().isBefore(request.endDate())) {
+      throw new APIException(APIExceptionType.QUARANTINE_INVALID_DATE_ORDER);
+    }
+
+    Quarantine quarantine = quarantineRepository
       .findById(id)
       .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
 
@@ -239,19 +250,7 @@ public class ClerkQuarantineService {
         throw new APIException(APIExceptionType.QUARANTINE_DIARY_NUMBER_ALREADY_EXISTS);
       });
 
-    final String resolvedBirthdate = resolveBirthdate(request.ssn(), request.birthdate());
-
-    quarantine.setLanguageCode(request.languageCode());
-    quarantine.setStartDate(request.startDate());
-    quarantine.setEndDate(request.endDate());
-    quarantine.setFirstName(request.firstName());
-    quarantine.setLastName(request.lastName());
-    quarantine.setDiaryNumber(request.diaryNumber());
-    quarantine.setBirthdate(resolvedBirthdate);
-    quarantine.setSsn(request.ssn());
-    quarantine.setEmail(request.email());
-    quarantine.setPhoneNumber(request.phoneNumber());
-    quarantine.setUpdated(LocalDateTime.now());
+    setFromRequest(quarantine, request);
 
     quarantineRepository.save(quarantine);
     auditService.logClerkById(YkiOperation.UPDATE_QUARANTINE, String.valueOf(id));
