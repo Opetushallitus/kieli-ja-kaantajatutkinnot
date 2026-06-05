@@ -46,6 +46,8 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
       "Tila",
       "Ilmoittautumisen tyyppi",
       "Alkuperäinen tutkintopäivä",
+      "Hetu",
+      "Syntymäaika",
       "Sukupuoli",
       "Sähköposti",
       "Puhelinnumero",
@@ -65,12 +67,14 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
       final ExamSessionXlsxDataRow dataRow = data.rows().get(i);
 
       int ci = 0;
-      row.createCell(++ci).setCellValue(dataRow.oid());
+      row.createCell(ci).setCellValue(dataRow.oid());
       row.createCell(++ci).setCellValue(dataRow.lastName());
       row.createCell(++ci).setCellValue(dataRow.firstName());
       setNullableValue(row.createCell(++ci), dataRow.state());
       setNullableValue(row.createCell(++ci), dataRow.type());
       setNullableValue(row.createCell(++ci), dataRow.originalExamDate());
+      setNullableValue(row.createCell(++ci), dataRow.identityNumber());
+      setNullableValue(row.createCell(++ci), dataRow.birthdate());
       setNullableValue(row.createCell(++ci), dataRow.gender() != null ? dataRow.gender().name() : null);
       setNullableValue(row.createCell(++ci), dataRow.email());
       setNullableValue(row.createCell(++ci), dataRow.phone());

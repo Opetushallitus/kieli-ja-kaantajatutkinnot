@@ -11,9 +11,11 @@ import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.Organizer;
+import fi.oph.yki.model.Person;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationState;
+import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.OrganizerRepository;
@@ -22,7 +24,11 @@ import fi.oph.yki.util.RegistrationUtil;
 import fi.oph.yki.view.ExamSessionXlsxDataRowUtil;
 import fi.oph.yki.view.ExamSessionXlsxView;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +43,8 @@ public class ClerkExamSessionService {
   private final ExamDateRepository examDateRepository;
   private final OrganizerRepository organizerRepository;
   private final AuditService auditService;
+  private final OnrService onrService;
+  private static final Logger LOG = LoggerFactory.getLogger(ClerkExamSessionService.class);
 
   private void assertOrganizerAccess(final String oid, final Long examSessionId) {
     final Organizer organizer = organizerRepository.findByOidAndDeletedAtIsNull(oid).orElseThrow();
@@ -146,10 +154,35 @@ public class ClerkExamSessionService {
   @Transactional(readOnly = true)
   public AbstractXlsxView getExamSessionExcel(final long examSessionId) {
     final var examSession = examSessionRepository.getReferenceById(examSessionId);
-    final var excelData = ExamSessionXlsxDataRowUtil.createExcelData(examSession);
-    final var excel = new ExamSessionXlsxView(excelData);
+    final var identityNumbersByOid = getIdentityNumbersByOid(examSession);
+    final var excelData = ExamSessionXlsxDataRowUtil.createExcelData(examSession, identityNumbersByOid);
 
-    return excel;
+    return new ExamSessionXlsxView(excelData);
+  }
+
+  private Map<String, String> getIdentityNumbersByOid(final ExamSession examSession) {
+    final List<String> oids = examSession
+      .getRegistrations()
+      .stream()
+      .map(r -> r.getPerson())
+      .filter(p -> p != null)
+      .map(Person::getOid)
+      .toList();
+
+    if (oids.isEmpty()) {
+      return Map.of();
+    }
+
+    try {
+      return onrService
+        .listPersonDetails(oids)
+        .stream()
+        .filter(p -> p.getIdentityNumber() != null)
+        .collect(Collectors.toMap(p -> p.getOidHenkilo(), p -> p.getIdentityNumber()));
+    } catch (final Exception e) {
+      LOG.error("Unable to fetch identity numbers from ONR", e);
+      return Map.of();
+    }
   }
 
   @Transactional

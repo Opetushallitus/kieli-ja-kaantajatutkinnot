@@ -12,6 +12,7 @@ import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
+import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.OrganizerRepository;
@@ -49,6 +50,9 @@ public class ClerkExamSessionServiceTest {
   private OrganizerRepository organizerRepository;
 
   @MockitoBean
+  private OnrService onrService;
+
+  @MockitoBean
   private AuditService auditService;
 
   @Resource
@@ -64,7 +68,8 @@ public class ClerkExamSessionServiceTest {
         registrationRepository,
         examDateRepository,
         organizerRepository,
-        auditService
+        auditService,
+        onrService
       );
   }
 
