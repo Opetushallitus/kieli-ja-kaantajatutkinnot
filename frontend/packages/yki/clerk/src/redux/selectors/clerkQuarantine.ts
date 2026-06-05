@@ -28,7 +28,6 @@ export const selectSortedQuarantineMatches = createSelector(
   },
 );
 
-// TODO: Combine sorting
 export const selectSortedActiveQuarantines = createSelector(
   (state: RootState) => state.clerkQuarantine.activeQuarantines,
   (state: RootState) => state.clerkQuarantine.activeQuarantinesSort,
