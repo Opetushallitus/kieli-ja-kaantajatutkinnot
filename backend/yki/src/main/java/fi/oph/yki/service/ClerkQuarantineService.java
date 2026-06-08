@@ -211,6 +211,7 @@ public class ClerkQuarantineService {
     quarantine.setSsn(request.ssn());
     quarantine.setEmail(request.email());
     quarantine.setPhoneNumber(request.phoneNumber());
+    quarantine.setUpdated(LocalDateTime.now());
   }
 
   @Transactional
