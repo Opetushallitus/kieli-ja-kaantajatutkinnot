@@ -51,7 +51,8 @@
           "quarantineInvalidSsn": "Henkilötunnus on virheellinen",
           "quarantineMissingSsnAndBirthdate": "Syntymäaika tai henkilötunnus on annettava",
           "quarantineSsnBirthdateMismatch": "Henkilötunnus ja syntymäaika eivät täsmää",
-          "quarantineDiaryNumberAlreadyExists": "Annettu diaarinumero on jo olemassa"
+          "quarantineDiaryNumberAlreadyExists": "Annettu diaarinumero on jo olemassa",
+          "quarantineAlreadyDeleted": "Osallistumiskielto on jo poistettu."
         },
         "customTextField": {
           "dateFormat": "Ange datum i formatet dd.mm.åååå",
@@ -75,7 +76,9 @@
         },
         "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui",
         "addingEvaluationFailed": "Tarkistusarvioinnin lisääminen epäonnistui",
-        "addingQuarantineFailed": "Osallistumiskiellon lisääminen epäonnistui"
+        "addingQuarantineFailed": "Osallistumiskiellon lisääminen epäonnistui",
+        "updatingQuarantineFailed": "Osallistumiskiellon muokkaaminen epäonnistui",
+        "deletingQuarantineFailed": "Osallistumiskiellon poistaminen epäonnistui"
       },
       "examDate": "Testdag",
       "examination": "Examen",

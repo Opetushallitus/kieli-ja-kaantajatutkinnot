@@ -2,6 +2,7 @@ package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,6 +17,7 @@ import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchDTO;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineReviewDTO;
+import fi.oph.yki.api.dto.clerk.ClerkQuarantinesDTO;
 import fi.oph.yki.api.dto.clerk.CreateQuarantineRequest;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
@@ -87,6 +89,7 @@ public class ClerkQuarantineServiceTest {
   private Registration regStarted;
   private Registration regSweMismatch;
   private Registration regReviewed;
+  private Quarantine quarantineSsn;
 
   @BeforeEach
   public void setup() {
@@ -156,11 +159,12 @@ public class ClerkQuarantineServiceTest {
     entityManager.persist(regReviewed);
 
     // fin, SSN=010675-9981, covers Factory.examDate() date
-    final Quarantine quarantineSsn = Factory.quarantine();
+    quarantineSsn = Factory.quarantine();
     quarantineSsn.setSsn("010675-9981");
     quarantineSsn.setBirthdate("1975-06-01");
     quarantineSsn.setFirstName("Anna-Liisa");
     quarantineSsn.setLastName("Sallinen");
+    quarantineSsn.setDiaryNumber("DIARY-SETUP-1");
     quarantineSsn.setUpdated(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0));
     entityManager.persist(quarantineSsn);
 
@@ -168,6 +172,7 @@ public class ClerkQuarantineServiceTest {
     final Quarantine quarantineBirthdate = Factory.quarantine();
     quarantineBirthdate.setSsn(null);
     quarantineBirthdate.setBirthdate("1980-02-15");
+    quarantineBirthdate.setDiaryNumber("DIARY-SETUP-2");
     entityManager.persist(quarantineBirthdate);
 
     // fin, SSN match with regReviewed — will be reviewed
@@ -176,6 +181,7 @@ public class ClerkQuarantineServiceTest {
     quarantineReviewed.setBirthdate("1910-01-10");
     quarantineReviewed.setFirstName("Reviewed");
     quarantineReviewed.setLastName("Person");
+    quarantineReviewed.setDiaryNumber("DIARY-SETUP-3");
     quarantineSsn.setUpdated(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0));
     entityManager.persist(quarantineReviewed);
 
@@ -432,6 +438,25 @@ public class ClerkQuarantineServiceTest {
   }
 
   @Test
+  public void testCreateQuarantineThrowsWhenStartDateEqualsEndDate() {
+    final CreateQuarantineRequest request = new CreateQuarantineRequest(
+      "fin",
+      LocalDate.of(2026, 1, 1),
+      LocalDate.of(2026, 1, 1),
+      "Testi",
+      "Henkilö",
+      "DIARYNO-DATE-1",
+      LocalDate.of(2000, 1, 15),
+      null,
+      null,
+      null
+    );
+
+    final APIException ex = assertThrows(APIException.class, () -> clerkQuarantineService.createQuarantine(request));
+    assertEquals(APIExceptionType.QUARANTINE_INVALID_DATE_ORDER, ex.getExceptionType());
+  }
+
+  @Test
   public void testCreateQuarantineLogsAudit() {
     final CreateQuarantineRequest request = new CreateQuarantineRequest(
       "fin",
@@ -449,5 +474,163 @@ public class ClerkQuarantineServiceTest {
     clerkQuarantineService.createQuarantine(request);
 
     verify(auditService).logClerkById(eq(YkiOperation.CREATE_QUARANTINE), anyString());
+  }
+
+  @Test
+  public void testUpdateQuarantineUpdatesFields() {
+    final CreateQuarantineRequest request = new CreateQuarantineRequest(
+      "swe",
+      LocalDate.of(2027, 1, 1),
+      LocalDate.of(2027, 12, 31),
+      "Uusi",
+      "Nimi",
+      "DIARY-UPDATED",
+      LocalDate.of(1975, 6, 1),
+      "010675-9981",
+      "uusi@example.com",
+      "+358401111111"
+    );
+
+    clerkQuarantineService.updateQuarantine(quarantineSsn.getId(), request);
+
+    final Quarantine updated = quarantineRepository.findById(quarantineSsn.getId()).orElseThrow();
+    assertEquals("swe", updated.getLanguageCode());
+    assertEquals("Uusi", updated.getFirstName());
+    assertEquals("Nimi", updated.getLastName());
+    assertEquals("DIARY-UPDATED", updated.getDiaryNumber());
+    assertEquals("uusi@example.com", updated.getEmail());
+    assertEquals("+358401111111", updated.getPhoneNumber());
+    assertEquals(LocalDate.of(2027, 1, 1), updated.getStartDate());
+    assertEquals(LocalDate.of(2027, 12, 31), updated.getEndDate());
+  }
+
+  @Test
+  public void testUpdateQuarantineThrowsWhenNotFound() {
+    final CreateQuarantineRequest request = new CreateQuarantineRequest(
+      "fin",
+      LocalDate.of(2026, 1, 1),
+      LocalDate.of(2026, 12, 31),
+      "Testi",
+      "Henkilö",
+      "DIARY-NOOP",
+      LocalDate.of(2000, 1, 15),
+      null,
+      null,
+      null
+    );
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkQuarantineService.updateQuarantine(999999L, request)
+    );
+    assertEquals(APIExceptionType.NOT_FOUND, ex.getExceptionType());
+  }
+
+  @Test
+  public void testGetActiveQuarantineReturnsAllNonDeleted() {
+    final List<ClerkQuarantinesDTO> result = clerkQuarantineService.getActiveQuarantine();
+
+    assertEquals(3, result.size());
+  }
+
+  @Test
+  public void testGetActiveQuarantineExcludesSoftDeleted() {
+    quarantineSsn.setDeletedAt(LocalDateTime.now());
+    entityManager.persist(quarantineSsn);
+    entityManager.flush();
+
+    final List<ClerkQuarantinesDTO> result = clerkQuarantineService.getActiveQuarantine();
+
+    assertEquals(2, result.size());
+    assertFalse(result.stream().anyMatch(q -> q.id() == quarantineSsn.getId()));
+  }
+
+  @Test
+  public void testGetActiveQuarantineSortedByIdDescending() {
+    final List<Long> ids = clerkQuarantineService.getActiveQuarantine().stream().map(ClerkQuarantinesDTO::id).toList();
+
+    final List<Long> sortedDesc = ids.stream().sorted((a, b) -> Long.compare(b, a)).toList();
+    assertEquals(sortedDesc, ids);
+  }
+
+  @Test
+  public void testGetActiveQuarantineMapsFieldsCorrectly() {
+    final ClerkQuarantinesDTO dto = clerkQuarantineService
+      .getActiveQuarantine()
+      .stream()
+      .filter(q -> q.id() == quarantineSsn.getId())
+      .findFirst()
+      .orElseThrow();
+
+    assertEquals("fin", dto.languageCode());
+    assertEquals("DIARY-SETUP-1", dto.diaryNumber());
+    assertEquals(LocalDate.of(2026, 1, 1), dto.startDate());
+    assertEquals(LocalDate.of(2026, 12, 31), dto.endDate());
+    assertEquals("Anna-Liisa", dto.quarantinedPerson().firstName());
+    assertEquals("Sallinen", dto.quarantinedPerson().lastName());
+    assertEquals("1975-06-01", dto.quarantinedPerson().birthdate());
+    assertEquals("010675-9981", dto.quarantinedPerson().ssn());
+  }
+
+  @Test
+  public void testUpdateQuarantineLogsAudit() {
+    final CreateQuarantineRequest request = new CreateQuarantineRequest(
+      "fin",
+      LocalDate.of(2026, 1, 1),
+      LocalDate.of(2026, 12, 31),
+      "Testi",
+      "Henkilö",
+      "DIARY-AUDIT",
+      LocalDate.of(1975, 6, 1),
+      "010675-9981",
+      null,
+      null
+    );
+
+    clerkQuarantineService.updateQuarantine(quarantineSsn.getId(), request);
+
+    verify(auditService).logClerkById(eq(YkiOperation.UPDATE_QUARANTINE), eq(String.valueOf(quarantineSsn.getId())));
+  }
+
+  @Test
+  public void testDeleteQuarantineSetsDeletedAt() {
+    clerkQuarantineService.deleteQuarantine(quarantineSsn.getId());
+
+    final Quarantine deleted = quarantineRepository.findById(quarantineSsn.getId()).orElseThrow();
+    assertNotNull(deleted.getDeletedAt());
+  }
+
+  @Test
+  public void testDeleteQuarantineExcludesFromActiveListing() {
+    clerkQuarantineService.deleteQuarantine(quarantineSsn.getId());
+
+    final List<ClerkQuarantinesDTO> active = clerkQuarantineService.getActiveQuarantine();
+    assertFalse(active.stream().anyMatch(q -> q.id() == quarantineSsn.getId()));
+  }
+
+  @Test
+  public void testDeleteQuarantineThrowsWhenNotFound() {
+    final APIException ex = assertThrows(APIException.class, () -> clerkQuarantineService.deleteQuarantine(999999L));
+    assertEquals(APIExceptionType.NOT_FOUND, ex.getExceptionType());
+  }
+
+  @Test
+  public void testDeleteQuarantineThrowsWhenAlreadyDeleted() {
+    quarantineSsn.setDeletedAt(LocalDateTime.now());
+    entityManager.persist(quarantineSsn);
+    entityManager.flush();
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkQuarantineService.deleteQuarantine(quarantineSsn.getId())
+    );
+    assertEquals(APIExceptionType.QUARANTINE_ALREADY_DELETED, ex.getExceptionType());
+  }
+
+  @Test
+  public void testDeleteQuarantineLogsAudit() {
+    clerkQuarantineService.deleteQuarantine(quarantineSsn.getId());
+
+    verify(auditService).logClerkById(eq(YkiOperation.DELETE_QUARANTINE), eq(String.valueOf(quarantineSsn.getId())));
   }
 }

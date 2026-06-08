@@ -2,32 +2,45 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import {
+  ActiveQuarantinesSort,
+  ClerkActiveQuarantine,
   ClerkQuarantineMatch,
   ClerkQuarantineReview,
   ClerkQuarantineSort,
   CreateClerkQuarantineRequest,
+  UpdateClerkQuarantineRequest,
 } from 'interfaces/clerkQuarantine';
 
 interface ClerkQuarantineState {
   matches: ClerkQuarantineMatch[];
   reviews: ClerkQuarantineReview[];
+  activeQuarantines: ClerkActiveQuarantine[];
   sort: ClerkQuarantineSort;
+  activeQuarantinesSort: ActiveQuarantinesSort;
   status: APIResponseStatus;
   reviewsStatus: APIResponseStatus;
+  activeQuarantinesStatus: APIResponseStatus;
   reviewStatus: APIResponseStatus;
   lastReviewAction: 'matchConfirmed' | 'matchRejected' | null;
   createStatus: APIResponseStatus;
+  updateStatus: APIResponseStatus;
+  deleteStatus: APIResponseStatus;
 }
 
 const initialState: ClerkQuarantineState = {
   matches: [],
   reviews: [],
+  activeQuarantines: [],
   sort: 'examDate:asc',
+  activeQuarantinesSort: 'startDate:asc',
   status: APIResponseStatus.NotStarted,
   reviewsStatus: APIResponseStatus.NotStarted,
+  activeQuarantinesStatus: APIResponseStatus.NotStarted,
   reviewStatus: APIResponseStatus.NotStarted,
   lastReviewAction: null,
   createStatus: APIResponseStatus.NotStarted,
+  updateStatus: APIResponseStatus.NotStarted,
+  deleteStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkQuarantineSlice = createSlice({
@@ -62,6 +75,25 @@ const clerkQuarantineSlice = createSlice({
     },
     setQuarantineSort(state, action: PayloadAction<ClerkQuarantineSort>) {
       state.sort = action.payload;
+    },
+    loadClerkActiveQuarantines(state) {
+      state.activeQuarantinesStatus = APIResponseStatus.InProgress;
+    },
+    rejectClerkActiveQuarantines(state) {
+      state.activeQuarantinesStatus = APIResponseStatus.Error;
+    },
+    storeClerkActiveQuarantines(
+      state,
+      action: PayloadAction<ClerkActiveQuarantine[]>,
+    ) {
+      state.activeQuarantinesStatus = APIResponseStatus.Success;
+      state.activeQuarantines = action.payload;
+    },
+    setActiveQuarantinesSort(
+      state,
+      action: PayloadAction<ActiveQuarantinesSort>,
+    ) {
+      state.activeQuarantinesSort = action.payload;
     },
     setQuarantineReview(
       state,
@@ -101,6 +133,33 @@ const clerkQuarantineSlice = createSlice({
     resetCreateClerkQuarantineStatus(state) {
       state.createStatus = APIResponseStatus.NotStarted;
     },
+    updateClerkQuarantine(
+      state,
+      _action: PayloadAction<UpdateClerkQuarantineRequest>,
+    ) {
+      state.updateStatus = APIResponseStatus.InProgress;
+    },
+    resolveUpdateClerkQuarantine(state) {
+      state.updateStatus = APIResponseStatus.Success;
+    },
+    rejectUpdateClerkQuarantine(state) {
+      state.updateStatus = APIResponseStatus.Error;
+    },
+    resetUpdateClerkQuarantineStatus(state) {
+      state.updateStatus = APIResponseStatus.NotStarted;
+    },
+    deleteClerkQuarantine(state, _action: PayloadAction<number>) {
+      state.deleteStatus = APIResponseStatus.InProgress;
+    },
+    resolveDeleteClerkQuarantine(state) {
+      state.deleteStatus = APIResponseStatus.Success;
+    },
+    rejectDeleteClerkQuarantine(state) {
+      state.deleteStatus = APIResponseStatus.Error;
+    },
+    resetDeleteClerkQuarantineStatus(state) {
+      state.deleteStatus = APIResponseStatus.NotStarted;
+    },
   },
 });
 
@@ -112,6 +171,10 @@ export const {
   loadClerkQuarantineReviews,
   rejectClerkQuarantineReviews,
   storeClerkQuarantineReviews,
+  loadClerkActiveQuarantines,
+  rejectClerkActiveQuarantines,
+  storeClerkActiveQuarantines,
+  setActiveQuarantinesSort,
   setQuarantineSort,
   setQuarantineReview,
   resolveQuarantineReview,
@@ -121,4 +184,12 @@ export const {
   resolveCreateClerkQuarantine,
   rejectCreateClerkQuarantine,
   resetCreateClerkQuarantineStatus,
+  updateClerkQuarantine,
+  resolveUpdateClerkQuarantine,
+  rejectUpdateClerkQuarantine,
+  resetUpdateClerkQuarantineStatus,
+  deleteClerkQuarantine,
+  resolveDeleteClerkQuarantine,
+  rejectDeleteClerkQuarantine,
+  resetDeleteClerkQuarantineStatus,
 } = clerkQuarantineSlice.actions;

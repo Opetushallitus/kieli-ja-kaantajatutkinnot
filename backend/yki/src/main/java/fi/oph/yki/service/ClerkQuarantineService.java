@@ -3,6 +3,7 @@ package fi.oph.yki.service;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchDTO;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantinePersonDTO;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineReviewDTO;
+import fi.oph.yki.api.dto.clerk.ClerkQuarantinesDTO;
 import fi.oph.yki.api.dto.clerk.CreateQuarantineRequest;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
@@ -18,6 +19,7 @@ import fi.oph.yki.util.HetuUtils;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,38 @@ public class ClerkQuarantineService {
   private final QuarantineReviewRepository quarantineReviewRepository;
   private final OnrService onrService;
   private final AuditService auditService;
+
+  @Transactional(readOnly = true)
+  public List<ClerkQuarantinesDTO> getActiveQuarantine() {
+    var quarantines = quarantineRepository
+      .findByDeletedAtIsNullOrderByIdDesc()
+      .stream()
+      .map(quarantine -> {
+        final ClerkQuarantinePersonDTO quarantinedPerson = ClerkQuarantinePersonDTO
+          .builder()
+          .firstName(quarantine.getFirstName())
+          .lastName(quarantine.getLastName())
+          .birthdate(quarantine.getBirthdate())
+          .ssn(quarantine.getSsn())
+          .email(quarantine.getEmail())
+          .phoneNumber(quarantine.getPhoneNumber())
+          .build();
+
+        return ClerkQuarantinesDTO
+          .builder()
+          .id(quarantine.getId())
+          .startDate(quarantine.getStartDate())
+          .endDate(quarantine.getEndDate())
+          .languageCode(quarantine.getLanguageCode().trim())
+          .diaryNumber(quarantine.getDiaryNumber())
+          .quarantinedPerson(quarantinedPerson)
+          .build();
+      })
+      .collect(Collectors.toList());
+
+    auditService.logOperation(YkiOperation.GET_ACTIVE_QUARANTINES);
+    return quarantines;
+  }
 
   private Map<String, String> getOidToSsnMap(final List<String> oids) {
     try {
@@ -164,11 +198,9 @@ public class ClerkQuarantineService {
     return reviews;
   }
 
-  @Transactional
-  public void createQuarantine(final CreateQuarantineRequest request) {
+  private void setFromRequest(final Quarantine quarantine, final CreateQuarantineRequest request) {
     final String resolvedBirthdate = resolveBirthdate(request.ssn(), request.birthdate());
 
-    final Quarantine quarantine = new Quarantine();
     quarantine.setLanguageCode(request.languageCode());
     quarantine.setStartDate(request.startDate());
     quarantine.setEndDate(request.endDate());
@@ -179,9 +211,19 @@ public class ClerkQuarantineService {
     quarantine.setSsn(request.ssn());
     quarantine.setEmail(request.email());
     quarantine.setPhoneNumber(request.phoneNumber());
+    quarantine.setUpdated(LocalDateTime.now());
+  }
 
+  @Transactional
+  public void createQuarantine(final CreateQuarantineRequest request) {
+    if (!request.startDate().isBefore(request.endDate())) {
+      throw new APIException(APIExceptionType.QUARANTINE_INVALID_DATE_ORDER);
+    }
+
+    final Quarantine quarantine = new Quarantine();
     final Quarantine saved;
     try {
+      setFromRequest(quarantine, request);
       saved = quarantineRepository.save(quarantine);
     } catch (DataIntegrityViolationException e) {
       if (e.getMessage() != null && e.getMessage().contains("quarantine_diary_number_key")) {
@@ -190,6 +232,29 @@ public class ClerkQuarantineService {
       throw e;
     }
     auditService.logClerkById(YkiOperation.CREATE_QUARANTINE, String.valueOf(saved.getId()));
+  }
+
+  @Transactional
+  public void updateQuarantine(final long id, final CreateQuarantineRequest request) {
+    if (!request.startDate().isBefore(request.endDate())) {
+      throw new APIException(APIExceptionType.QUARANTINE_INVALID_DATE_ORDER);
+    }
+
+    Quarantine quarantine = quarantineRepository
+      .findById(id)
+      .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
+
+    quarantineRepository
+      .findByDiaryNumber(request.diaryNumber())
+      .filter(existing -> existing.getId() != id)
+      .ifPresent(existing -> {
+        throw new APIException(APIExceptionType.QUARANTINE_DIARY_NUMBER_ALREADY_EXISTS);
+      });
+
+    setFromRequest(quarantine, request);
+
+    quarantineRepository.save(quarantine);
+    auditService.logClerkById(YkiOperation.UPDATE_QUARANTINE, String.valueOf(id));
   }
 
   private String resolveBirthdate(final String ssn, final LocalDate birthdate) {
@@ -209,6 +274,22 @@ public class ClerkQuarantineService {
       return HetuUtils.dateFromHetu(ssn).format(DateTimeFormatter.ISO_LOCAL_DATE);
     }
     return birthdate.format(DateTimeFormatter.ISO_LOCAL_DATE);
+  }
+
+  @Transactional
+  public void deleteQuarantine(final long id) {
+    final Quarantine quarantine = quarantineRepository
+      .findById(id)
+      .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
+
+    if (quarantine.getDeletedAt() != null) {
+      throw new APIException(APIExceptionType.QUARANTINE_ALREADY_DELETED);
+    }
+
+    quarantine.setDeletedAt(LocalDateTime.now());
+    quarantineRepository.save(quarantine);
+
+    auditService.logClerkById(YkiOperation.DELETE_QUARANTINE, String.valueOf(id));
   }
 
   @Transactional

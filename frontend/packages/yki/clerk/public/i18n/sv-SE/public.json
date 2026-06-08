@@ -382,6 +382,29 @@
       "clerkQuarantine": {
         "activeQuarantines": {
           "addButton": "Lisää osallistumiskielto",
+          "editModal": {
+            "submit": "Tallenna muutokset",
+            "title": "Muokkaa osallistumiskieltoa"
+          },
+          "listing": {
+            "columns": {
+              "actions": "Toiminnot",
+              "birthdate": "Syntymäaika",
+              "email": "Sähköposti",
+              "examLanguage": "Tutkinnon kieli",
+              "name": "Etunimi sukunimi",
+              "phoneNumber": "Puhelinnumero",
+              "ssn": "Hetu",
+              "validityPeriod": "Osallistumiskiellon voimassaoloaika"
+            },
+            "resultCount": "{{count}} osallistumiskieltoa",
+            "values": {
+              "actions": {
+                "delete": "Poista",
+                "edit": "Muokkaa"
+              }
+            }
+          },
           "modal": {
             "cancel": "Peruuta",
             "errors": {
@@ -457,6 +480,13 @@
             "accept": "Hyväksy ilmoittautuminen",
             "reject": "Peru ilmoittautuminen"
           },
+          "delete": {
+            "cancel": "Peruuta",
+            "close": "Sulje",
+            "confirm": "Poista osallistumiskielto",
+            "description": "Olet poistamassa osallistumiskieltoa henkilöltä <bold>{{firstName}} {{lastName}}</bold> ({{identifier}}), voimassaolo <bold>{{startDate}} - {{endDate}}</bold> ja tutkintokieli <bold>{{examLanguage}}</bold>.",
+            "title": "Vahvista osallistumiskiellon poisto"
+          },
           "reject": {
             "cancel": "En halua perua",
             "description": "Olet perumassa <bold>{{firstName}} {{lastName}}</bold> ({{ssn}}) tilaisuudessa <bold>{{examLanguage}}-{{examLevel}} {{examDate}}</bold>",
@@ -477,7 +507,8 @@
           "matchRejectedError": "Hylkääminen epäonnistui",
           "matchRejectedSuccess": "Hylkääminen onnistui",
           "quarantineAdded": "Osallistumiskielto lisätty onnistuneesti",
-          "quarantineAddError": "Osallistumiskiellon lisääminen epäonnistui"
+          "quarantineAddError": "Osallistumiskiellon lisääminen epäonnistui",
+          "quarantineDeleted": "Osallistumiskielto poistettu"
         }
       },
       "clerkRegister": {
