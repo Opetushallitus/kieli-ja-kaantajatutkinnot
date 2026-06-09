@@ -56,7 +56,11 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
       "Todistuskieli",
       "Postinumero",
       "Postitoimipaikka",
-      "Kansalaisuus"
+      "Kansalaisuus",
+      "Tekstin ymmärtäminen",
+      "Puheen ymmärtäminen",
+      "Puhuminen",
+      "Kirjoittaminen"
     );
     final Sheet sheet = workbook.createSheet("Tilaisuuden tiedot");
 
@@ -84,6 +88,10 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
       setNullableValue(row.createCell(++ci), dataRow.zip());
       setNullableValue(row.createCell(++ci), dataRow.postOffice());
       setNullableValue(row.createCell(++ci), dataRow.nationalityDesc());
+      setNullableValue(row.createCell(++ci), dataRow.partialExamRead());
+      setNullableValue(row.createCell(++ci), dataRow.partialExamListen());
+      setNullableValue(row.createCell(++ci), dataRow.partialExamSpeak());
+      setNullableValue(row.createCell(++ci), dataRow.partialExamWrite());
     }
 
     autoresizeExcelColumns(sheet, headers);

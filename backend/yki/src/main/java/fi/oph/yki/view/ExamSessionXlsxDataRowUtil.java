@@ -3,6 +3,8 @@ package fi.oph.yki.view;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.type.ExamSessionType;
+import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import java.time.format.DateTimeFormatter;
@@ -63,6 +65,10 @@ public class ExamSessionXlsxDataRowUtil {
       .nationalityDesc(getFormField(registration.getForm(), "nationality_desc"))
       .identityNumber(person == null ? null : identityNumbersByOid.get(person.getOid()))
       .birthdate(getFormField(registration.getForm(), "birthdate"))
+      .partialExamRead(hasPartialExam(registration, PartialExamType.READ))
+      .partialExamListen(hasPartialExam(registration, PartialExamType.LISTEN))
+      .partialExamSpeak(hasPartialExam(registration, PartialExamType.SPEAK))
+      .partialExamWrite(hasPartialExam(registration, PartialExamType.WRITE))
       .build();
   }
 
@@ -76,6 +82,33 @@ public class ExamSessionXlsxDataRowUtil {
       case POST_ADMISSION -> "Jälki-ilmoittautuminen";
       case QUEUE -> "Jonoilmoittautuminen";
     };
+  }
+
+  private static String hasPartialExam(final Registration registration, final PartialExamType type) {
+    final ExamSessionType sessionType = registration.getExamSession().getType();
+
+    if (sessionType == ExamSessionType.FULL) {
+      return "X";
+    }
+
+    final PartialExamType partialExamType = registration.getPartialExamType();
+    if (partialExamType == null) {
+      return null;
+    }
+
+    if (partialExamType == type) {
+      return "X";
+    }
+
+    if (partialExamType == PartialExamType.ALL_PARTS) {
+      return switch (sessionType) {
+        case READ_SPEAK -> (type == PartialExamType.READ || type == PartialExamType.SPEAK) ? "X" : null;
+        case LISTEN_WRITE -> (type == PartialExamType.LISTEN || type == PartialExamType.WRITE) ? "X" : null;
+        default -> null;
+      };
+    }
+
+    return null;
   }
 
   private static String getFormField(final ObjectNode form, final String field) {

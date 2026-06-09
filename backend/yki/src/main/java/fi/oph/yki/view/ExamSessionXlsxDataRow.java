@@ -23,5 +23,9 @@ public record ExamSessionXlsxDataRow(
   String certificateLang,
   String nationalityDesc,
   String identityNumber,
-  String birthdate
+  String birthdate,
+  String partialExamRead,
+  String partialExamListen,
+  String partialExamSpeak,
+  String partialExamWrite
 ) {}

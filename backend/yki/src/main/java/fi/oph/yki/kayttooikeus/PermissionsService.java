@@ -25,6 +25,7 @@ public class PermissionsService {
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
     .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   public static final String YKI_PALVELU = "YKI";
+  public static final String OPH_OID = "1.2.246.562.10.00000000001";
 
   private final CasClient casPermissionsClient;
   private final RequestBuilder defaultRequestBuilder;
@@ -114,8 +115,6 @@ public class PermissionsService {
     return kayttooikeusResponseDTO
       .organisaatiot()
       .stream()
-      .anyMatch(o ->
-        "1.2.246.562.10.00000000001".equals(o.organisaatioOid()) && hasOikeus(o.kayttooikeudet(), "YLLAPITAJA")
-      );
+      .anyMatch(o -> OPH_OID.equals(o.organisaatioOid()) && hasOikeus(o.kayttooikeudet(), "YLLAPITAJA"));
   }
 }
