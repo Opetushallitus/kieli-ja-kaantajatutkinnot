@@ -19,6 +19,7 @@ import {
   PublicRegistrationInitPayload,
   PublicRegistrationInitResponse,
   PublicSuomiFiRegistration,
+  RegistrationDetailsResponse,
 } from 'interfaces/publicRegistration';
 
 export interface RegistrationState {
@@ -244,6 +245,15 @@ const registrationSlice = createSlice({
       state.initRegistration.registrationKind = action.payload.registrationKind;
       state.initRegistration.registrationId = action.payload.registrationId;
     },
+    fetchRegistrationDetails(_state, _action: PayloadAction<number>) {},
+    acceptFetchRegistrationDetails(
+      state,
+      action: PayloadAction<RegistrationDetailsResponse>,
+    ) {
+      state.initRegistration.partialExamType = action.payload.partial_exam_type;
+      state.initRegistration.registrationKind = action.payload.kind;
+      state.initRegistration.examSessionId = action.payload.exam_session_id;
+    },
   },
 });
 
@@ -264,5 +274,7 @@ export const {
   acceptCancelRegistration,
   rejectCancelRegistration,
   identifyRegistration,
+  fetchRegistrationDetails,
+  acceptFetchRegistrationDetails,
   setHasTimerExpired,
 } = registrationSlice.actions;
