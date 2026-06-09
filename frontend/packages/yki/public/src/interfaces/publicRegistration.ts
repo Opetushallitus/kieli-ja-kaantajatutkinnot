@@ -153,3 +153,10 @@ export interface UserOpenRegistration {
 export interface UserOpenRegistrationsResponse {
   open_registrations: Array<UserOpenRegistration>;
 }
+
+export interface RegistrationDetailsResponse {
+  id: number;
+  kind: RegistrationKind;
+  partial_exam_type: PartialExamType;
+  exam_session_id: number;
+}
