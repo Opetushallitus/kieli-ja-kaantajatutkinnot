@@ -7,8 +7,6 @@ import { AppRoutes } from 'enums/app';
 const getTabForPath = (path: string) => {
   if (path.includes(AppRoutes.ClerkOrganizerRegister)) {
     return 'clerkOrganizerRegister';
-  } else if (path.includes(AppRoutes.ClerkFreeRegistration)) {
-    return 'freeRegistration';
   } else if (path.includes(AppRoutes.CustomerSearch)) {
     return 'customerSearch';
   } else if (path.includes(AppRoutes.ClerkQuarantine)) {

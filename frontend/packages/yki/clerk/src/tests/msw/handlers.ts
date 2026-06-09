@@ -16,16 +16,10 @@ import { examDates } from 'tests/msw/fixtures/examDate';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 import { findByOidsResponse } from 'tests/msw/fixtures/findByOids';
 import { findOrganizations } from 'tests/msw/fixtures/findOrganizations';
-import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
-import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { organizers } from 'tests/msw/fixtures/organizers';
 import { quarantineMatches } from 'tests/msw/fixtures/quarantineMatches';
 import { quarantineReviews } from 'tests/msw/fixtures/quarantineReviews';
-
-interface FreeRegistrationRequest {
-  approved: boolean;
-}
 
 interface QuarantineReviewRequest {
   quarantined: boolean;
@@ -74,51 +68,6 @@ export const handlers = [
       } else {
         return notFound();
       }
-    },
-  ),
-  http.get(APIEndpoints.ClerkFreeRegistration, ({ cookies }) => {
-    if (cookies['free-registration-error-500'] === '1') {
-      return HttpResponse.json({ error: 'forced error' }, { status: 500 });
-    }
-
-    return HttpResponse.json(freeRegistrations);
-  }),
-  http.get(APIEndpoints.ClerkFreeRegistrationDetails, ({ params }) => {
-    const index = params?.id ? Number(params.id) - 1 : NaN;
-    if (index >= 0) {
-      return HttpResponse.json(freeRegistrationDetails[index]);
-    } else {
-      return notFound();
-    }
-  }),
-  http.put(
-    APIEndpoints.ClerkFreeRegistrationDetails,
-    async ({ params, request }) => {
-      const index = params?.id ? Number(params.id) - 1 : NaN;
-      const { approved } = (await request.json()) as FreeRegistrationRequest;
-      const response = freeRegistrationDetails[index];
-
-      if (index >= 0) {
-        return HttpResponse.json({
-          ...response,
-          status: approved ? 'APPROVED' : 'REJECTED',
-        });
-      } else {
-        return notFound();
-      }
-    },
-  ),
-  http.post(APIEndpoints.ClerkFreeRegistrationSupplementRequest, () => {
-    return HttpResponse.json({ success: true });
-  }),
-  http.post(
-    APIEndpoints.ClerkFreeRegistrationDetailsMessages,
-    ({ cookies }) => {
-      if (cookies['error'] === '1') {
-        return HttpResponse.json({ error: 'forced error' }, { status: 500 });
-      }
-
-      return HttpResponse.json({ success: true });
     },
   ),
   http.get(APIEndpoints.ClerkCustomerDetails, ({ params }) => {
