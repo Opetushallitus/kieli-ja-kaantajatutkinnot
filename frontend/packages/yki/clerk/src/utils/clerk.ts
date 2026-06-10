@@ -123,12 +123,20 @@ export const getOrganizerAddress = (
   };
 };
 
-const getExamPartialType2 = (type: ExamSessionType) => {
-  return type === ExamSessionType.READ_SPEAK ? 'Puhuminen' : 'Kuuntelimen';
+// Combinations are either:
+// Tekstin ymmärtäminen + Puhuminen
+// or
+// Puheen ymmärtäminen + Kirjoittaminen
+const getExamPartialType1 = (type: ExamSessionType) => {
+  return type === ExamSessionType.READ_SPEAK
+    ? t('yki.common.examParts.readingComprehension')
+    : t('yki.common.examParts.speechComprehension');
 };
 
-const getExamPartialType1 = (type: ExamSessionType) => {
-  return type === ExamSessionType.READ_SPEAK ? 'Lukeminen' : 'Kuuntelimen';
+const getExamPartialType2 = (type: ExamSessionType) => {
+  return type === ExamSessionType.READ_SPEAK
+    ? t('yki.common.examParts.speaking')
+    : t('yki.common.examParts.writing');
 };
 
 export const getExamSessionStartTimesDescription = (

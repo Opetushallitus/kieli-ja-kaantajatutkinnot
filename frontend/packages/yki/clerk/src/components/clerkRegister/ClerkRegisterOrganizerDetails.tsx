@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import i18next from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CustomButton } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
@@ -14,6 +15,7 @@ import axiosInstance from 'configs/axios';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
+import { AppRoutes } from 'enums/app';
 import { ClerkOrganizer } from 'interfaces/clerkOrganizer';
 import { ExamSession } from 'interfaces/examSessions';
 import { H4, Label, Text } from 'ophTheme/Text';
@@ -37,6 +39,7 @@ export const ClerkRegisterOrganizerDetails = ({
   const dispatch = useAppDispatch();
   const { examDates } = useAppSelector(examDateSelector);
   const { createStatus } = useAppSelector(clerkExamSessionDetailsSelector);
+  const navigate = useNavigate();
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
@@ -93,8 +96,14 @@ export const ClerkRegisterOrganizerDetails = ({
     key: 'session_date',
     title: t('examSessionListing.header.sessionDate'),
     render: (rowProps) => (
-      // TODO use proper url and navigateTo
-      <a href={'/yki/v2/virkailija/tilaisuus/' + rowProps.id}>
+      <a
+        href={AppRoutes.ClerkExamSession.replace(':id', String(rowProps.id))}
+        onClick={() =>
+          navigate(
+            AppRoutes.ClerkExamSession.replace(':id', String(rowProps.id)),
+          )
+        }
+      >
         <span>{rowProps.session_date.format('D.M.YYYY')}</span>
       </a>
     ),
