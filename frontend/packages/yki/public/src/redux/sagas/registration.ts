@@ -162,7 +162,7 @@ function* submitRegistrationFormSaga() {
         window.location.href = AppRoutes.FreeRegistrationSuccess.replace(
           /:examSessionId/,
           `${registrationState.initRegistration.examSessionId}`,
-        );
+        ).replace(/:registrationId/, `${registrationState.registration.id}`);
       }
       yield put(resetUserOpenRegistrations());
     } else {
