@@ -22,6 +22,7 @@ const renderPageWithSession = (examSession: ExamSession) => {
         status: APIResponseStatus.Success,
         examSessionId: examSession.id,
         registrationKind: examSession.available_registration_kind,
+        registrationId: 123,
       },
     },
   };

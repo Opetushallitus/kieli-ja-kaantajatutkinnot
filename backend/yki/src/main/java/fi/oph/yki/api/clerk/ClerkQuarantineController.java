@@ -4,6 +4,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineMatchDTO;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantineReviewDTO;
+import fi.oph.yki.api.dto.clerk.ClerkQuarantinesDTO;
 import fi.oph.yki.api.dto.clerk.CreateQuarantineRequest;
 import fi.oph.yki.api.dto.clerk.QuarantineReviewRequest;
 import fi.oph.yki.config.ClerkEnabledCondition;
@@ -14,6 +15,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +35,12 @@ public class ClerkQuarantineController {
   @Resource
   private ClerkQuarantineService clerkQuarantineService;
 
+  @GetMapping(path = "/")
+  @Operation(tags = TAG_QUARANTINE, summary = "Get active quarantines")
+  public List<ClerkQuarantinesDTO> getActiveQuarantine() {
+    return clerkQuarantineService.getActiveQuarantine();
+  }
+
   @GetMapping(path = "/matches")
   @Operation(tags = TAG_QUARANTINE, summary = "Get unreviewed quarantine matches")
   public List<ClerkQuarantineMatchDTO> getQuarantineMatches() {
@@ -50,6 +58,18 @@ public class ClerkQuarantineController {
   @ResponseStatus(HttpStatus.CREATED)
   public void createQuarantine(@Valid @RequestBody final CreateQuarantineRequest request) {
     clerkQuarantineService.createQuarantine(request);
+  }
+
+  @PutMapping(path = "/{id:\\d+}", consumes = APPLICATION_JSON_VALUE)
+  @Operation(tags = TAG_QUARANTINE, summary = "Update an existing quarantine entry")
+  public void updateQuarantine(@PathVariable final long id, @Valid @RequestBody final CreateQuarantineRequest request) {
+    clerkQuarantineService.updateQuarantine(id, request);
+  }
+
+  @DeleteMapping(path = "/{id:\\d+}")
+  @Operation(tags = TAG_QUARANTINE, summary = "Delete an existing quarantine entry")
+  public void deleteQuarantine(@PathVariable final long id) {
+    clerkQuarantineService.deleteQuarantine(id);
   }
 
   @PutMapping(path = "/{id:\\d+}/registration/{regId:\\d+}/set", consumes = APPLICATION_JSON_VALUE)

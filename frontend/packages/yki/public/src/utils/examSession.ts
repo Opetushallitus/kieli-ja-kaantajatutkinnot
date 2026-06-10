@@ -3,7 +3,12 @@ import { StringUtils } from 'shared/utils';
 
 import { translateOutsideComponent } from 'configs/i18n';
 import { ExamLanguage, ExamLevel } from 'enums/app';
-import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
+import {
+  ExamSession,
+  ExamSessionLocation,
+  ExamSessionType,
+} from 'interfaces/examSessions';
+import { PartialExamType } from 'interfaces/publicRegistration';
 import { AuthenticatedSession } from 'interfaces/session';
 
 export class ExamSessionUtils {
@@ -159,5 +164,44 @@ export class ExamSessionUtils {
     }
 
     return true;
+  }
+
+  static getPartialExamTypeText(
+    examSessionType: ExamSessionType,
+    partialExamType?: PartialExamType,
+  ) {
+    if (!partialExamType) {
+      return '';
+    }
+
+    const t = translateOutsideComponent();
+
+    if (examSessionType === 'FULL') {
+      return t('yki.component.examSessionCard.examType.full');
+    }
+
+    if (examSessionType === 'LISTEN_WRITE') {
+      if (partialExamType === 'ALL_PARTS') {
+        return t('yki.component.examSessionCard.examType.listenWrite');
+      }
+      if (partialExamType === 'LISTEN') {
+        return t('yki.component.examSessionCard.examType.listen');
+      }
+      if (partialExamType === 'WRITE') {
+        return t('yki.component.examSessionCard.examType.write');
+      }
+    }
+
+    if (examSessionType === 'READ_SPEAK') {
+      if (partialExamType === 'ALL_PARTS') {
+        return t('yki.component.examSessionCard.examType.readSpeak');
+      }
+      if (partialExamType === 'READ') {
+        return t('yki.component.examSessionCard.examType.read');
+      }
+      if (partialExamType === 'SPEAK') {
+        return t('yki.component.examSessionCard.examType.speak');
+      }
+    }
   }
 }

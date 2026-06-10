@@ -1,6 +1,6 @@
 export enum APIEndpoints {
   CountryCodes = '/yki/api/code/maatjavaltiot2',
-  ClerkOrganizer = '/yki/v2/api/clerk/organizer',
+  ClerkOrganizer = '/yki/api/virkailija/organizer',
   AddClerkOrganizer = '/yki/v2/api/clerk/organizer/add',
   ClerkFreeRegistration = '/yki/v2/api/clerk/registration/approvals',
   ClerkFreeRegistrationDetails = '/yki/v2/api/clerk/registration/approval/:id',
@@ -16,7 +16,8 @@ export enum APIEndpoints {
   ClerkExamDate = '/yki/v2/api/clerk/examDate',
   ClerkPersonContactUpdate = '/yki/v2/api/clerk/person/:oid/contactDetails',
   ClerkPaymentReportExcel = '/yki/v2/api/clerk/paymentReport/excel',
-  ClerkQuarantine = '/yki/v2/api/clerk/quarantine',
+  ClerkQuarantine = '/yki/v2/api/clerk/quarantine/',
+  ClerkQuarantineById = '/yki/v2/api/clerk/quarantine/:id',
   ClerkQuarantineMatches = '/yki/v2/api/clerk/quarantine/matches',
   ClerkQuarantineReviews = '/yki/v2/api/clerk/quarantine/reviews',
   ClerkQuarantineSetReview = '/yki/v2/api/clerk/quarantine/:id/registration/:regId/set',
@@ -39,4 +40,5 @@ export enum APIError {
   QuarantineInvalidSsn = 'quarantineInvalidSsn',
   QuarantineMissingSsnAndBirthdate = 'quarantineMissingSsnAndBirthdate',
   QuarantineSsnBirthdateMismatch = 'quarantineSsnBirthdateMismatch',
+  QuarantineAlreadyDeleted = 'quarantineAlreadyDeleted',
 }

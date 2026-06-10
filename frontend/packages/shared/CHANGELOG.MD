@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.14.4] - 2026-04-01
+
+### Changed
+
+- DialoxBox uses white text color when Button type is 'contained'.
+- CookieBanner accepts ReactNode as button text component
+
+## [1.14.3] - 2026-03-31
+
+### Changed
+
+- DialoxBox accepts title as a ReactNode
+
 ## [1.14.2] - 2026-03-25
 
 ### Changed
