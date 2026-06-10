@@ -181,7 +181,7 @@
         },
         "examSessionCard": {
           "actions": "Toiminnot",
-          "exam": "Koe",
+          "exam": "Delprov",
           "examStartTime": "klo {{startTime}}",
           "examStartTimeTitle": "Alkaa",
           "examType": {
@@ -374,10 +374,11 @@
             "description3Free": "När anmälan är bekräftad är anmälan till YKI-testet bindande. Kontrollera att du har valt det rätta YKI-testet och fyllt i dina uppgifter korrekt.",
             "item1": "Du kan inte ändra nivån på YKI-testet.",
             "item2": "Du kan inte ändra språket på YKI-testet.",
-            "item3": "Du kan inte ändra testplatsen.",
-            "item4": "Du kan inte ändra testdagen.",
-            "item5": "Anmälan är personlig. Du kan inte ändra deltagarens personuppgifter.",
-            "item6": "Om du inte kan delta i det YKI-test kan du ansöka om återbetalning av examensavgiften hos Utbildningsstyrelsen. Utbildningsstyrelsen återbetalar din examensavgift om din ansökan uppfyller alla villkor i lagen om allmänna språkexamina (YKI).",
+            "item3": "Du kan inte ändra delprov i YKI-testet.",
+            "item4": "Du kan inte ändra testplatsen.",
+            "item5": "Du kan inte ändra testdagen.",
+            "item6": "Anmälan är personlig. Du kan inte ändra deltagarens personuppgifter.",
+            "item7": "Om du inte kan delta i det YKI-test kan du ansöka om återbetalning av examensavgiften hos Utbildningsstyrelsen. Utbildningsstyrelsen återbetalar din examensavgift om din ansökan uppfyller alla villkor i lagen om allmänna språkexamina (YKI).",
             "label": "Jag godkänner villkoren för anmälan *",
             "link": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-villkoren-for-anmalan",
             "linkText": "Villkoren för anmälan",
@@ -431,7 +432,7 @@
                 "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-villkoren-for-anmalan"
               },
               "text1": "Innan du betalar ska du kontrollera att du har valt rätt YKI-test.",
-              "text2": "Du kan inte ändra YKI-testets språk, nivå eller testplats efter att du betalat.",
+              "text2": "När anmälan har bekräftats kan du inte ändra YKI-testets språk, nivå, delprov, testplats eller testdag.",
               "text3": "Läs villkoren för anmälan på Utbildningsstyrelsens webbplats:"
             }
           },
@@ -511,7 +512,7 @@
               "suomiFiAuthenticationRequired": "Du ska identifiera dig i tjänsten Suomi.fi för att vi ska kunna kontrollera om du uppfyller villkoren.",
               "threeAttemptsAvailable": "Du kan anmäla dig till YKI-testet utan avgift tre (3) gånger."
             },
-            "registrationIsBindingAdvisory": "<strong>Kontrollera att du anmäler dig till ett YKI-test på rätt språk och nivå.</strong> Du kan inte ändra språk, nivå, testplats eller testdag för YKI-testet efter att du har anmält dig.",
+            "registrationIsBindingAdvisory": "<strong>Kontrollera att du anmäler dig till ett YKI-test på rätt språk och nivå.</strong> När anmälan har bekräftats kan du inte ändra YKI-testets språk, nivå, delprov, testplats eller testdag.",
             "selectIdentificationMethod": "Välj din identifieringsmetod",
             "suomiFiButtonText": "Identifiera dig via Suomi.fi-tjänsten",
             "title": "Identifiera dig för anmälan",
@@ -779,14 +780,14 @@
           "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",
           "excludeNonOpenSessions": "Visa endast examenstillfällen vars anmälan har börjat",
           "filterExamSessions": "Filtrera resultaten",
-          "listen": "Puheen ymmärtäminen",
-          "read": "Tekstin ymmärtäminen",
-          "selectExamType": "Examen",
+          "listen": "Talförståelse",
+          "read": "Textförståelse",
+          "selectExamType": "Vilka delprov vill du söka till?",
           "selectLanguage": "Välj språk",
           "selectLevel": "Välj nivå",
           "selectMunicipality": "Välj ort",
-          "speak": "Puhuminen",
-          "write": "Kirjoittaminen"
+          "speak": "Muntlig framställning",
+          "write": "Skriftlig framställning"
         },
         "register": "Anmäl dig",
         "title": "Allmänna språkexamina (YKI) - Anmälan"

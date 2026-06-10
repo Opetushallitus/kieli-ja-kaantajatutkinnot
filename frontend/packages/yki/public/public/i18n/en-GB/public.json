@@ -181,7 +181,7 @@
         },
         "examSessionCard": {
           "actions": "Toiminnot",
-          "exam": "Koe",
+          "exam": "Subtests",
           "examStartTime": "klo {{startTime}}",
           "examStartTimeTitle": "Alkaa",
           "examType": {
@@ -374,10 +374,11 @@
             "description3Free": "Confirmed registration for YKI test is binding. Check that you are registering for the correct YKI test, and you have filled in your personal information correctly.",
             "item1": "You cannot change the level of the YKI test.",
             "item2": "You cannot change the language of the YKI test.",
-            "item3": "You cannot change the test centre.",
-            "item4": "You cannot change the test day.",
-            "item5": "Registration is personal. You cannot change the participant’s personal information.",
-            "item6": "If you cannot participate in the YKI test, you may apply for a test fee refund from the Finnish National Agency for Education. The Finnish National Agency for Education will refund your test fee if your application meets all the conditions laid down in the Act on National Certificates of Language Proficiency (YKI).",
+            "item3": "You cannot change the subtests of the YKI test.",
+            "item4": "You cannot change the test centre.",
+            "item5": "You cannot change the test day.",
+            "item6": "Registration is personal. You cannot change the participant’s personal information.",
+            "item7": "If you cannot participate in the YKI test, you may apply for a test fee refund from the Finnish National Agency for Education. The Finnish National Agency for Education will refund your test fee if your application meets all the conditions laid down in the Act on National Certificates of Language Proficiency (YKI).",
             "label": "I accept the terms and conditions for registration *",
             "link": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-terms-and-conditions-for-registration",
             "linkText": "Terms and conditions for registration",
@@ -431,7 +432,7 @@
                 "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-terms-and-conditions-for-registration"
               },
               "text1": "Before paying, please check that you have selected the correct YKI test.",
-              "text2": "You cannot change the language, level, test centre or test day of the YKI test after paying the fee.",
+              "text2": "Once the registration has been confirmed, you cannot change the language, level, subtests, test centre or test day of the YKI test.",
               "text3": "Please read the terms and conditions for registration on the Finnish National Agency for Education's website:"
             }
           },
@@ -511,7 +512,7 @@
               "suomiFiAuthenticationRequired": "You must log in using Suomi.fi e-Identification so that we can verify whether you meet the conditions.",
               "threeAttemptsAvailable": "You can register free of charge a total of three (3) times."
             },
-            "registrationIsBindingAdvisory": "<strong>Check that you are registering for the correct YKI test!</strong> Once you have confirmed your registration, you can no longer change the language, level, test centre or the test day.",
+            "registrationIsBindingAdvisory": "<strong>Check that you are registering for the correct YKI test!</strong> Once the registration has been confirmed, you cannot change the language, level, subtests, test centre or test day of the YKI test.",
             "selectIdentificationMethod": "Please select your login method",
             "suomiFiButtonText": "Log in using Suomi.fi e-Identification",
             "title": "Log in to register",
@@ -775,18 +776,18 @@
           "part4": "You can read more about the test results and certificates on the website of the Finnish National Agency for Education:"
         },
         "labels": {
-          "allPartsAtOnce": "All parts at once",
+          "allPartsAtOnce": "All subtests at once",
           "excludeFullSessions": "Show only the tests that have available seats",
           "excludeNonOpenSessions": "Show only the tests that are open for registration at the moment",
           "filterExamSessions": "Filter results",
-          "listen": "Puheen ymmärtäminen",
-          "read": "Tekstin ymmärtäminen",
-          "selectExamType": "Exam",
+          "listen": "Listening comprehension",
+          "read": "Reading comprehension",
+          "selectExamType": "Which subtests do you want to search for?",
           "selectLanguage": "Choose language",
           "selectLevel": "Choose level",
           "selectMunicipality": "Choose municipality",
-          "speak": "Puhuminen",
-          "write": "Kirjoittaminen"
+          "speak": "Speaking",
+          "write": "Writing"
         },
         "register": "Register",
         "title": "National Certificates of Language Proficiency (YKI) - Registration"

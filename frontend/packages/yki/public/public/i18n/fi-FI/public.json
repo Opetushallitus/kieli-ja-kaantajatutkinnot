@@ -181,7 +181,7 @@
         },
         "examSessionCard": {
           "actions": "Toiminnot",
-          "exam": "Koe",
+          "exam": "Osakokeet",
           "examStartTime": "klo {{startTime}}",
           "examStartTimeTitle": "Alkaa",
           "examType": {
@@ -374,10 +374,11 @@
             "description3Free": "Vahvistettu ilmoittautuminen YKI-testiin on sitova. Tarkista, että olet valinnut oikean YKI-testin ja täyttänyt tietosi oikein.",
             "item1": "Et voi vaihtaa YKI-testin tasoa.",
             "item2": "Et voi vaihtaa YKI-testin kieltä.",
-            "item3": "Et voi vaihtaa testipaikkaa.",
-            "item4": "Et voi vaihtaa testipäivää.",
-            "item5": "Ilmoittautuminen on henkilökohtainen. Et voi vaihtaa osallistujan henkilötietoja.",
-            "item6": "Jos et pääse osallistumaan YKI-testiin, voit hakea tutkintomaksun palautusta Opetushallitukselta. Opetushallitus palauttaa tutkintomaksusi, jos hakemuksesi täyttää kaikki lain asettamat ehdot.",
+            "item3": "Et voi vaihtaa YKI-testin osakokeita.",
+            "item4": "Et voi vaihtaa testipaikkaa.",
+            "item5": "Et voi vaihtaa testipäivää.",
+            "item6": "Ilmoittautuminen on henkilökohtainen. Et voi vaihtaa osallistujan henkilötietoja.",
+            "item7": "Jos et pääse osallistumaan YKI-testiin, voit hakea tutkintomaksun palautusta Opetushallitukselta. Opetushallitus palauttaa tutkintomaksusi, jos hakemuksesi täyttää kaikki lain asettamat ehdot.",
             "label": "Hyväksyn ilmoittautumisen ehdot *",
             "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-ilmoittautumisen-ehdot",
             "linkText": "Ilmoittautumisen ehdot",
@@ -431,7 +432,7 @@
                 "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-ilmoittautumisen-ehdot"
               },
               "text1": "Tarkista ennen maksamista, että olet valinnut oikean YKI-testin.",
-              "text2": "Et voi vaihtaa YKI-testin kieltä, tasoa, testipaikkaa tai testipäivää maksamisen jälkeen.",
+              "text2": "Kun ilmoittautuminen on vahvistettu, et voi vaihtaa YKI-testin kieltä, tasoa, osakokeita, testipaikkaa tai testipäivää.",
               "text3": "Lue ilmoittautumisen ehdot Opetushallituksen verkkosivuilta:"
             }
           },
@@ -511,7 +512,7 @@
               "suomiFiAuthenticationRequired": "Sinun täytyy tunnistautua Suomi.fi-palvelussa, jotta voimme tarkistaa, täytätkö ehdot.",
               "threeAttemptsAvailable": "Voit ilmoittautua YKI-testiin maksuttomasti kolme (3) kertaa."
             },
-            "registrationIsBindingAdvisory": "<strong>Tarkista, että olet valinnut oikean YKI-testin!</strong> Et voi vaihtaa YKI-testin kieltä, tasoa, testipaikkaa tai testipäivää ilmoittautumisen jälkeen.",
+            "registrationIsBindingAdvisory": "<strong>Tarkista, että olet valinnut oikean YKI-testin!</strong> Kun ilmoittautuminen on vahvistettu, et voi vaihtaa YKI-testin kieltä, tasoa, osakokeita, testipaikkaa tai testipäivää.",
             "selectIdentificationMethod": "Valitse tunnistautumistapasi",
             "suomiFiButtonText": "Tunnistaudu Suomi.fi-palvelussa",
             "title": "Tunnistaudu ilmoittautumista varten",
@@ -775,13 +776,13 @@
           "part4": "Voit lukea lisää testin tuloksista ja todistuksista Opetushallituksen verkkosivuilta:"
         },
         "labels": {
-          "allPartsAtOnce": "Kaikki osakokeet kerralla",
+          "allPartsAtOnce": "Kaikki osakokeet samana testipäivänä",
           "excludeFullSessions": "Näytä vain kielitutkinnot, joissa on tilaa",
           "excludeNonOpenSessions": "Näytä vain kielitutkinnot, joihin voi ilmoittautua nyt",
           "filterExamSessions": "Rajaa tuloksia",
           "listen": "Puheen ymmärtäminen",
           "read": "Tekstin ymmärtäminen",
-          "selectExamType": "Koe",
+          "selectExamType": "Mitä osakokeita haluat hakea?",
           "selectLanguage": "Valitse kieli",
           "selectLevel": "Valitse taso",
           "selectMunicipality": "Valitse paikkakunta",
