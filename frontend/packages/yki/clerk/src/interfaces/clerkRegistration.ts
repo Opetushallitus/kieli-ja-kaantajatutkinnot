@@ -26,4 +26,5 @@ export type ClerkRegistration = {
   state: RegistrationStates;
   kind: string;
   partialExamType: string;
+  queuePosition: number | null;
 };

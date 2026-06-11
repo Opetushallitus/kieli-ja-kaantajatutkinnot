@@ -19,6 +19,7 @@ export const registrations: ClerkRegistrationResponse[] = [
     registrationDate: '2025-11-21T00:00:00.000Z',
     kind: 'ADMISSION',
     partialExamType: 'ALL_PARTS',
+    queuePosition: null,
   },
   {
     id: 2,
@@ -37,6 +38,7 @@ export const registrations: ClerkRegistrationResponse[] = [
     registrationDate: '2025-11-21T00:00:00.000Z',
     kind: 'ADMISSION',
     partialExamType: 'READ',
+    queuePosition: null,
   },
   {
     id: 3,
@@ -55,5 +57,6 @@ export const registrations: ClerkRegistrationResponse[] = [
     registrationDate: '2025-11-21T00:00:00.000Z',
     kind: 'QUEUE',
     partialExamType: 'SPEAK',
+    queuePosition: 1,
   },
 ];

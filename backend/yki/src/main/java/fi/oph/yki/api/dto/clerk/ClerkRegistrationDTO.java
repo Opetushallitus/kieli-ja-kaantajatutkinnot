@@ -15,5 +15,6 @@ public record ClerkRegistrationDTO(
   ClerkPersonDTO person,
   RegistrationState state,
   @NonNull @NotNull RegistrationKind kind,
-  PartialExamType partialExamType
+  PartialExamType partialExamType,
+  Long queuePosition
 ) {}

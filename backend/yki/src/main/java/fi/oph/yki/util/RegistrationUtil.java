@@ -54,7 +54,10 @@ public class RegistrationUtil {
       .build();
   }
 
-  public static ClerkRegistrationDTO createClerkRegistrationDTO(final Registration registration) {
+  public static ClerkRegistrationDTO createClerkRegistrationDTO(
+    final Registration registration,
+    final Long queuePosition
+  ) {
     final Person person = registration.getPerson();
 
     return ClerkRegistrationDTO
@@ -65,6 +68,7 @@ public class RegistrationUtil {
       .partialExamType(registration.getPartialExamType())
       .registrationDate(registration.getCreatedAt().toLocalDate())
       .person(person != null ? createClerkPersonDTO(person) : null)
+      .queuePosition(queuePosition)
       .build();
   }
 }

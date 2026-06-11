@@ -20,6 +20,7 @@ import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.OrganizerRepository;
 import fi.oph.yki.repository.RegistrationRepository;
+import fi.oph.yki.repository.RegistrationWithQueuePositionProjection;
 import fi.oph.yki.util.RegistrationUtil;
 import fi.oph.yki.view.ExamSessionXlsxDataRowUtil;
 import fi.oph.yki.view.ExamSessionXlsxView;
@@ -76,19 +77,30 @@ public class ClerkExamSessionService {
     return examSessionRepository.getByLanguageAndLevel(language, level).stream().map(this::toDTO).toList();
   }
 
+  private static final List<RegistrationState> VISIBLE_STATES = List.of(
+    RegistrationState.COMPLETED,
+    RegistrationState.SUBMITTED,
+    RegistrationState.CANCELLED,
+    RegistrationState.PAID_AND_CANCELLED
+  );
+
   private ClerkExamSessionDTO toDTO(final ExamSession examSession) {
-    final List<ClerkRegistrationDTO> registrationDTOs = registrationRepository
-      .getByExamSessionAndStateIn(
-        examSession,
-        List.of(
-          RegistrationState.COMPLETED,
-          RegistrationState.SUBMITTED,
-          RegistrationState.CANCELLED,
-          RegistrationState.PAID_AND_CANCELLED
-        )
-      )
+    final var registrations = registrationRepository.getByExamSessionAndStateIn(examSession, VISIBLE_STATES);
+
+    final Map<Long, Long> queuePositions = registrationRepository
+      .getQueuePositionsByExamSessionAndStateIn(examSession.getId(), VISIBLE_STATES.stream().map(Enum::name).toList())
       .stream()
-      .map(RegistrationUtil::createClerkRegistrationDTO)
+      .filter(p -> p.getQueuePosition() != null)
+      .collect(
+        Collectors.toMap(
+          RegistrationWithQueuePositionProjection::getId,
+          RegistrationWithQueuePositionProjection::getQueuePosition
+        )
+      );
+
+    final List<ClerkRegistrationDTO> registrationDTOs = registrations
+      .stream()
+      .map(r -> RegistrationUtil.createClerkRegistrationDTO(r, queuePositions.get(r.getId())))
       .toList();
     final List<ClerkExamSessionLocationDTO> locationDTOS = examSession
       .getLocations()

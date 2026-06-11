@@ -18,6 +18,26 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
   List<Registration> getByPersonOid(String personOid);
   List<Registration> getByExamSessionAndStateIn(ExamSession examSession, List<RegistrationState> states);
 
+  @Query(
+    value = """
+      SELECT r.id AS id,
+        CASE WHEN r.kind = 'QUEUE' THEN
+          ROW_NUMBER() OVER (
+            PARTITION BY r.exam_session_id, CASE WHEN r.kind = 'QUEUE' THEN 1 ELSE 0 END
+            ORDER BY r.created
+          )
+        ELSE NULL END AS queuePosition
+      FROM registration r
+      WHERE r.exam_session_id = :examSessionId
+        AND r.state::text IN (:states)
+    """,
+    nativeQuery = true
+  )
+  List<RegistrationWithQueuePositionProjection> getQueuePositionsByExamSessionAndStateIn(
+    @Param("examSessionId") long examSessionId,
+    @Param("states") List<String> states
+  );
+
   int countByPersonOid(String personOid);
 
   @Query(

@@ -255,7 +255,9 @@ export const ClerkExamSessionRegistrations = ({
   ): ListTableColumn<ClerkRegistration> => ({
     key: 'person',
     title: t('columns.positionInQueue'),
-    render: ({ id }) => <div className="rows gapped-xxs">{id}</div>,
+    render: ({ queuePosition }) => (
+      <div className="rows gapped-xxs">{queuePosition}</div>
+    ),
   });
 
   if (!examRegistrations) {
