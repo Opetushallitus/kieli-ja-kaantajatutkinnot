@@ -51,6 +51,39 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     final String level
   );
 
+  @Query(
+    nativeQuery = true,
+    value = """
+      SELECT
+        o.oid                  AS organizerOid,
+        ed.exam_date           AS examDate,
+        es.language_code       AS languageCode,
+        es.level_code          AS levelCode,
+        CAST(r.state AS text)  AS state,
+        esl.post_office        AS municipality
+      FROM registration r
+      INNER JOIN exam_session es           ON r.exam_session_id = es.id
+      INNER JOIN exam_date ed              ON es.exam_date_id   = ed.id
+      INNER JOIN organizer o               ON es.organizer_id   = o.id
+      LEFT  JOIN exam_session_location esl ON esl.exam_session_id = es.id AND esl.lang = 'fi'
+      WHERE ed.exam_date >= :from
+        AND ed.exam_date <= :to
+        AND es.language_code      IN (:languageCodes)
+        AND es.level_code         IN (:levelCodes)
+        AND CAST(r.state AS text) IN (:stateCodes)
+        AND (:municipality IS NULL
+             OR LOWER(esl.post_office) LIKE '%' || LOWER(:municipality) || '%')
+      """
+  )
+  List<StatisticsProjection> findStatisticsRows(
+    @Param("from") LocalDate from,
+    @Param("to") LocalDate to,
+    @Param("languageCodes") List<String> languageCodes,
+    @Param("levelCodes") List<String> levelCodes,
+    @Param("stateCodes") List<String> stateCodes,
+    @Param("municipality") String municipality
+  );
+
   @Modifying
   @Transactional
   @Query(
