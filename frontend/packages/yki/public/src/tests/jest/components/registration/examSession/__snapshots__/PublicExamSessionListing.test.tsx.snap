@@ -210,7 +210,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
             tabindex="0"
             type="button"
           >
-            register
+            enrollToQueue
           </button>
         </td>
       </tr>

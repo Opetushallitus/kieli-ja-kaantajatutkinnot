@@ -21,6 +21,7 @@ const expectEffectiveRegistrationDetails = (
 describe('ExamSessionUtils', () => {
   const baseExamSession = {
     id: 1,
+    type: 'FULL',
     session_date: dayjs('2099-31-12'),
     language_code: ExamLanguage.ENG,
     level_code: ExamLevel.KESKI,
@@ -45,7 +46,7 @@ describe('ExamSessionUtils', () => {
     registration_end_date: dayjs('2090-06-15'),
     upcoming_admission: true,
     available_registration_kind: RegistrationKind.Admission,
-  };
+  } as const;
 
   describe('compareExamSessions', () => {
     it('should ignore irrelevant changes between exam sessions', () => {

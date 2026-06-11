@@ -44,18 +44,6 @@ exports[`ClerkHeader should render ClerkHeader correctly 1`] = `
             <li>
               <a
                 aria-current="false"
-                href="/yki/v2/virkailija/maksuttomuus"
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-                >
-                  freeRegistration
-                </p>
-              </a>
-            </li>
-            <li>
-              <a
-                aria-current="false"
                 href="/yki/v2/virkailija/asiakashaku"
               >
                 <p

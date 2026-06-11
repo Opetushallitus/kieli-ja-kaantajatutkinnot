@@ -4,6 +4,7 @@ import { ExamSessionsResponse } from 'interfaces/examSessions';
 export const examSessions: ExamSessionsResponse = {
   exam_sessions: [
     {
+      type: 'READ_SPEAK',
       level_code: ExamLevel.YLIN,
       language_code: ExamLanguage.FIN,
       open: true,
@@ -53,9 +54,10 @@ export const examSessions: ExamSessionsResponse = {
       ],
       exam_fee: 200,
       registration_end_date: '2030-12-31',
-      available_registration_kind: RegistrationKind.Admission,
+      available_registration_kind: RegistrationKind.Queue,
     },
     {
+      type: 'LISTEN_WRITE',
       level_code: ExamLevel.YLIN,
       language_code: ExamLanguage.FIN,
       open: false,
@@ -108,6 +110,7 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Queue,
     },
     {
+      type: 'FULL',
       level_code: ExamLevel.YLIN,
       language_code: ExamLanguage.FIN,
       open: false,
@@ -160,6 +163,7 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Queue,
     },
     {
+      type: 'FULL',
       level_code: ExamLevel.PERUS,
       language_code: ExamLanguage.FIN,
       open: false,
@@ -212,6 +216,7 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Admission,
     },
     {
+      type: 'FULL',
       level_code: ExamLevel.KESKI,
       language_code: ExamLanguage.FIN,
       open: true,
@@ -266,6 +271,7 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Admission,
     },
     {
+      type: 'FULL',
       level_code: ExamLevel.YLIN,
       language_code: ExamLanguage.FIN,
       open: true,
@@ -318,6 +324,7 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Admission,
     },
     {
+      type: 'FULL',
       level_code: ExamLevel.YLIN,
       language_code: ExamLanguage.DEU,
       open: true,
@@ -369,6 +376,7 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Queue,
     },
     {
+      type: 'FULL',
       level_code: ExamLevel.PERUS,
       language_code: ExamLanguage.FIN,
       open: true,
@@ -420,6 +428,7 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Admission,
     },
     {
+      type: 'FULL',
       level_code: ExamLevel.PERUS,
       language_code: ExamLanguage.FIN,
       open: true,
@@ -471,6 +480,7 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Queue,
     },
     {
+      type: 'FULL',
       level_code: ExamLevel.KESKI,
       language_code: ExamLanguage.FIN,
       open: false,
@@ -524,6 +534,7 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Admission,
     },
     {
+      type: 'FULL',
       level_code: ExamLevel.KESKI,
       language_code: ExamLanguage.FIN,
       open: true,
@@ -577,6 +588,7 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Admission,
     },
     {
+      type: 'FULL',
       level_code: ExamLevel.KESKI,
       language_code: ExamLanguage.FIN,
       open: true,
@@ -630,6 +642,7 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Admission,
     },
     {
+      type: 'FULL',
       level_code: ExamLevel.KESKI,
       language_code: ExamLanguage.FIN,
       open: true,

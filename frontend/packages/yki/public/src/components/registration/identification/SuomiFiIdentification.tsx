@@ -7,10 +7,12 @@ import { APIEndpoints } from 'enums/api';
 import { RegistrationKind } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
 import { examSessionSelector } from 'redux/selectors/examSession';
+import { registrationSelector } from 'redux/selectors/registration';
 
 export const SuomiFiIdentification = () => {
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
+  const { initRegistration } = useAppSelector(registrationSelector);
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.identify',
@@ -31,7 +33,7 @@ export const SuomiFiIdentification = () => {
           examSession.id
         }&toQueue=${
           examSession.available_registration_kind === RegistrationKind.Queue
-        }`}
+        }&registrationId=${initRegistration.registrationId}`}
       >
         {t('suomiFiButtonText')}
       </CustomButton>

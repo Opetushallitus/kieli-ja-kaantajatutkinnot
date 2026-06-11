@@ -26,15 +26,13 @@ import {
   ClerkExamSessionResponse,
 } from 'interfaces/clerkExamSession';
 import {
-  ClerkFreeRegistrationDetailsResponse,
-  ClerkFreeRegistrationResponse,
-} from 'interfaces/clerkFreeRegistration';
-import {
   ClerkOrganizer,
   ClerkOrganizerResponse,
 } from 'interfaces/clerkOrganizer';
 import { FindByOidsOrganizationResponse } from 'interfaces/clerkOrganizerRegistry';
 import {
+  ClerkActiveQuarantine,
+  ClerkActiveQuarantineResponse,
   ClerkQuarantineMatch,
   ClerkQuarantineMatchResponse,
   ClerkQuarantineReview,
@@ -193,64 +191,6 @@ export class SerializationUtils {
       agreement_end_date: organizer.agreement_end_date
         ? organizer.agreement_end_date.format('YYYY-MM-DD')
         : undefined,
-    };
-  }
-
-  static deserializeClerkFreeRegistrationResponse(
-    freeRegistrationResponse: ClerkFreeRegistrationResponse,
-  ) {
-    return {
-      ...freeRegistrationResponse,
-      supplementRequestDueDate:
-        freeRegistrationResponse.supplementRequestDueDate
-          ? dayjs(freeRegistrationResponse.supplementRequestDueDate)
-          : undefined,
-      assessmentDate: freeRegistrationResponse.assessmentDate
-        ? dayjs(freeRegistrationResponse.assessmentDate)
-        : undefined,
-      examDate: dayjs(freeRegistrationResponse.examDate),
-    };
-  }
-
-  static deserializeClerkFreeRegistrationDetailsResponse(
-    freeRegistrationDetailsResponse: ClerkFreeRegistrationDetailsResponse,
-  ) {
-    return {
-      ...freeRegistrationDetailsResponse,
-      languageOfService:
-        freeRegistrationDetailsResponse.languageOfService.toLowerCase() as
-          | 'fi'
-          | 'sv'
-          | 'en',
-      supplementRequestDueDate:
-        freeRegistrationDetailsResponse.supplementRequestDueDate
-          ? dayjs(freeRegistrationDetailsResponse.supplementRequestDueDate)
-          : undefined,
-      supplementRequest: freeRegistrationDetailsResponse.supplementRequest
-        ? {
-            ...freeRegistrationDetailsResponse.supplementRequest,
-            createdAt: dayjs(
-              freeRegistrationDetailsResponse.supplementRequest.createdAt,
-            ),
-          }
-        : undefined,
-      assessmentDate: freeRegistrationDetailsResponse.assessmentDate
-        ? dayjs(freeRegistrationDetailsResponse.assessmentDate)
-        : undefined,
-      examSession: {
-        ...freeRegistrationDetailsResponse.examSession,
-        examDate: dayjs(freeRegistrationDetailsResponse.examSession.examDate),
-      },
-      attachments: freeRegistrationDetailsResponse.attachments.map(
-        (attachment) => ({
-          ...attachment,
-          submittedAt: dayjs(attachment.submittedAt),
-        }),
-      ),
-      messages: freeRegistrationDetailsResponse.messages.map((message) => ({
-        ...message,
-        createdAt: dayjs(message.createdAt),
-      })),
     };
   }
 
@@ -488,6 +428,19 @@ export class SerializationUtils {
       state: SerializationUtils.deserializeRegistrationState(response.state),
       quarantinedPerson: response.quarantinedPerson,
       registrant: response.registrant,
+    };
+  }
+
+  static deserializeClerkActiveQuarantineResponse(
+    response: ClerkActiveQuarantineResponse,
+  ): ClerkActiveQuarantine {
+    return {
+      id: response.id,
+      startDate: dayjs(response.startDate),
+      endDate: dayjs(response.endDate),
+      languageCode: response.languageCode,
+      diaryNumber: response.diaryNumber,
+      quarantinedPerson: response.quarantinedPerson,
     };
   }
 

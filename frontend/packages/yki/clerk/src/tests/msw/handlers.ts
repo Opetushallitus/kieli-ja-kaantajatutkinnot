@@ -9,6 +9,7 @@ import {
   LanguageEvaluation,
   UpdateEvaluationRequest,
 } from 'interfaces/examDate';
+import { activeQuarantines } from 'tests/msw/fixtures/activeQuarantines';
 import { clerkExamSession } from 'tests/msw/fixtures/clerkExamSession';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
@@ -17,16 +18,10 @@ import { examSessions } from 'tests/msw/fixtures/examSession';
 import { findByOidResponse } from 'tests/msw/fixtures/findByOid';
 import { findByOidsResponse } from 'tests/msw/fixtures/findByOids';
 import { findOrganizations } from 'tests/msw/fixtures/findOrganizations';
-import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
-import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { organizers } from 'tests/msw/fixtures/organizers';
 import { quarantineMatches } from 'tests/msw/fixtures/quarantineMatches';
 import { quarantineReviews } from 'tests/msw/fixtures/quarantineReviews';
-
-interface FreeRegistrationRequest {
-  approved: boolean;
-}
 
 interface QuarantineReviewRequest {
   quarantined: boolean;
@@ -95,51 +90,6 @@ export const handlers = [
       } else {
         return notFound();
       }
-    },
-  ),
-  http.get(APIEndpoints.ClerkFreeRegistration, ({ cookies }) => {
-    if (cookies['free-registration-error-500'] === '1') {
-      return HttpResponse.json({ error: 'forced error' }, { status: 500 });
-    }
-
-    return HttpResponse.json(freeRegistrations);
-  }),
-  http.get(APIEndpoints.ClerkFreeRegistrationDetails, ({ params }) => {
-    const index = params?.id ? Number(params.id) - 1 : NaN;
-    if (index >= 0) {
-      return HttpResponse.json(freeRegistrationDetails[index]);
-    } else {
-      return notFound();
-    }
-  }),
-  http.put(
-    APIEndpoints.ClerkFreeRegistrationDetails,
-    async ({ params, request }) => {
-      const index = params?.id ? Number(params.id) - 1 : NaN;
-      const { approved } = (await request.json()) as FreeRegistrationRequest;
-      const response = freeRegistrationDetails[index];
-
-      if (index >= 0) {
-        return HttpResponse.json({
-          ...response,
-          status: approved ? 'APPROVED' : 'REJECTED',
-        });
-      } else {
-        return notFound();
-      }
-    },
-  ),
-  http.post(APIEndpoints.ClerkFreeRegistrationSupplementRequest, () => {
-    return HttpResponse.json({ success: true });
-  }),
-  http.post(
-    APIEndpoints.ClerkFreeRegistrationDetailsMessages,
-    ({ cookies }) => {
-      if (cookies['error'] === '1') {
-        return HttpResponse.json({ error: 'forced error' }, { status: 500 });
-      }
-
-      return HttpResponse.json({ success: true });
     },
   ),
   http.get(APIEndpoints.ClerkCustomerDetails, ({ params }) => {
@@ -404,6 +354,19 @@ export const handlers = [
   }),
   http.post(APIEndpoints.ClerkQuarantine, () =>
     HttpResponse.json({ success: true }),
+  ),
+  http.put(APIEndpoints.ClerkQuarantineById, () =>
+    HttpResponse.json({ success: true }),
+  ),
+  http.delete(APIEndpoints.ClerkQuarantineById, ({ params }) => {
+    const id = Number(params.id);
+    const idx = activeQuarantines.findIndex((q) => q.id === id);
+    if (idx !== -1) activeQuarantines.splice(idx, 1);
+
+    return new HttpResponse(null, { status: 200 });
+  }),
+  http.get(APIEndpoints.ClerkQuarantine, () =>
+    HttpResponse.json(activeQuarantines),
   ),
   http.get(APIEndpoints.ClerkQuarantineMatches, () =>
     HttpResponse.json(quarantineMatches),

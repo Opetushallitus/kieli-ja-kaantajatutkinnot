@@ -17,7 +17,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
-        .getResultRowsNth(1)
+        .getResultCardsNth(1)
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 
@@ -38,7 +38,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
-        .getResultRowsNth(1)
+        .getResultCardsNth(1)
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 

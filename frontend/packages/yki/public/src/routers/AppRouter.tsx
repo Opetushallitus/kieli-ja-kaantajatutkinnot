@@ -20,9 +20,11 @@ import { TitlePage, TitlePageProps } from 'shared/utils';
 
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
+import { NewYkiFooter } from 'components/layouts/NewYkiFooter';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
+import { clerkEnabled } from 'featureFlags';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
@@ -41,6 +43,169 @@ import { RegistrationPaymentStatusPage } from 'pages/RegistrationPaymentStatusPa
 import { UserDetailsPage } from 'pages/UserDetailsPage';
 import { loadSession } from 'redux/reducers/session';
 import { sessionSelector } from 'redux/selectors/session';
+
+const colorSecondaryLight = '#159ecb'; // not in figma specs
+const colorSecondary = '#378703';
+const colorSecondaryDark = '#5bca13';
+const colorPrimary = '#ffffff';
+const colorGrey200 = '#f5f5f5';
+const colorGrey700 = '#666666';
+const fontWeightBold = 700;
+const colorTextPrimary = '#1d1d1d';
+
+const newYkiPublicTheme = {
+  ...theme,
+  components: {
+    ...theme.components,
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderWidth: '2px',
+          borderColor: colorSecondary,
+          transition: 'color 0.25s, background-color 0.25s, border-color 0.25s',
+          variants: [
+            {
+              props: { variant: Variant.Contained },
+              color: colorPrimary,
+              style: {
+                '&:hover': {
+                  color: colorPrimary,
+                  backgroundColor: colorSecondaryDark,
+                },
+              },
+            },
+            {
+              props: { variant: Variant.Outlined },
+              color: colorPrimary,
+              style: {
+                '&:hover': {
+                  color: colorSecondaryDark,
+                  borderColor: colorSecondaryDark,
+                  backgroundColor: colorPrimary,
+                },
+              },
+            },
+            {
+              props: { variant: Variant.Text },
+              style: {
+                '&:hover': {
+                  color: colorSecondaryDark,
+                  backgroundColor: colorPrimary,
+                },
+              },
+            },
+          ],
+        },
+      },
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          color: colorGrey700,
+          '&.Mui-checked': {
+            color: colorSecondary,
+          },
+        },
+      },
+    },
+    MuiRadio: {
+      styleOverrides: {
+        root: {
+          color: colorGrey700,
+          '&.Mui-checked': {
+            color: colorSecondary,
+          },
+          '&.Mui-disabled': {
+            color: colorGrey700,
+          },
+        },
+      },
+    },
+    MuiAutocomplete: {
+      styleOverrides: {
+        tag: {
+          backgroundColor: colorSecondary,
+          color: colorPrimary,
+          '.MuiChip-deleteIcon': {
+            color: colorGrey200,
+          },
+        },
+      },
+    },
+    MuiStepIcon: {
+      styleOverrides: {
+        root: {
+          '&.Mui-completed': {
+            color: colorSecondary,
+          },
+          '&.Mui-active': {
+            color: colorSecondary,
+          },
+        },
+        text: {
+          fill: colorPrimary,
+        },
+      },
+    },
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          color: colorTextPrimary,
+          fontWeight: fontWeightBold,
+          textDecoration: 'underline',
+          '&:hover': {
+            backgroundColor: 'transparent',
+          },
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          fontFamily: "'Open Sans', sans-serif",
+        },
+      },
+    },
+  },
+  palette: {
+    ...theme.palette,
+    secondary: {
+      main: colorSecondary,
+      light: colorSecondaryLight,
+      dark: colorSecondaryDark,
+      contrastText: colorPrimary,
+    },
+  },
+  typography: {
+    ...theme.typography,
+    h1: {
+      ...theme.typography.h1,
+      color: colorTextPrimary,
+    },
+    h2: {
+      ...theme.typography.h2,
+      color: colorTextPrimary,
+    },
+    h3: {
+      ...theme.typography.h3,
+      color: colorTextPrimary,
+    },
+    body1: {
+      ...theme.typography.body1,
+      color: colorTextPrimary,
+    },
+    caption: {
+      ...theme.typography.caption,
+      color: colorGrey700,
+    },
+    label: {
+      ...theme.typography.label,
+      color: colorTextPrimary,
+    },
+  },
+};
+
+const newYkiThemeOrSharedTheme = clerkEnabled ? newYkiPublicTheme : theme;
 
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
@@ -66,7 +231,7 @@ export const AppRouter: FC = () => {
   const Root = (
     <div className="app">
       <NotifierContextProvider>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={newYkiThemeOrSharedTheme}>
           <Header />
           <ErrorToast />
           <Notifier />
@@ -76,7 +241,7 @@ export const AppRouter: FC = () => {
               <Outlet />
             </div>
           </main>
-          <Footer />
+          {clerkEnabled ? <NewYkiFooter /> : <Footer />}
         </ThemeProvider>
       </NotifierContextProvider>
     </div>
@@ -105,7 +270,7 @@ export const AppRouter: FC = () => {
               to={AppRoutes.UserDetails}
               startIcon={<ArrowBackIcon />}
               variant={Variant.Text}
-              className="color-secondary-dark"
+              className="color-text-primary"
             >
               {translateCommon('back')}
             </CustomButtonLink>

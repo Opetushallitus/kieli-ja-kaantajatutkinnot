@@ -7,6 +7,7 @@ export interface EmailLinkOrder {
   email: string;
   examSessionId: number;
   registrationKind: RegistrationKind;
+  registrationId?: number;
 }
 
 interface EmailLinkOrderState extends Partial<EmailLinkOrder> {

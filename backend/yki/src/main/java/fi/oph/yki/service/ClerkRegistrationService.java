@@ -1,26 +1,15 @@
 package fi.oph.yki.service;
 
-import fi.oph.yki.api.dto.clerk.ClerkApprovalDTO;
-import fi.oph.yki.api.dto.clerk.ClerkApprovalDetailsDTO;
-import fi.oph.yki.api.dto.clerk.ClerkApprovalExamSessionDTO;
-import fi.oph.yki.api.dto.clerk.ClerkApprovalUpdateDTO;
-import fi.oph.yki.api.dto.clerk.ClerkPersonDTO;
-import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.ExamSession;
-import fi.oph.yki.model.FreeRegistration;
-import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
-import fi.oph.yki.model.type.RegistrationLangOfService;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamSessionRepository;
-import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.DateUtil;
 import fi.oph.yki.util.RegistrationUtil;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -30,48 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ClerkRegistrationService {
 
-  public static final int NUM_FREE_REGISTRATIONS = 3;
-  private final FreeRegistrationRepository freeRegistrationRepository;
   private final RegistrationRepository registrationRepository;
   private final ExamSessionRepository examSessionRepository;
   private final AuditService auditService;
   private final PersonRepository personRepository;
-
-  @Transactional(readOnly = true)
-  public List<ClerkApprovalDTO> listApprovals() {
-    auditService.logOperation(YkiOperation.LIST_APPROVALS);
-
-    final List<FreeRegistration> freeRegistrationList = freeRegistrationRepository.findApprovals();
-
-    return freeRegistrationList.stream().map(this::createClerkApprovalDTO).toList();
-  }
-
-  @Transactional(readOnly = true)
-  public ClerkApprovalDetailsDTO getApproval(final Long freeRegistrationId) {
-    auditService.logById(YkiOperation.GET_APPROVAL, freeRegistrationId);
-
-    final FreeRegistration freeRegistration = freeRegistrationRepository.getReferenceById(freeRegistrationId);
-
-    return createClerkApprovalDetailsDTO(freeRegistration);
-  }
-
-  @Transactional
-  public ClerkApprovalDetailsDTO updateApproval(final Long freeRegistrationId, final ClerkApprovalUpdateDTO dto) {
-    auditService.logById(YkiOperation.UPDATE_APPROVAL, freeRegistrationId);
-
-    final Boolean approved = dto.approved();
-    final FreeRegistration freeRegistration = freeRegistrationRepository.getReferenceById(freeRegistrationId);
-
-    if (approved) {
-      freeRegistration.getRegistration().setState(RegistrationState.COMPLETED);
-    } else {
-      freeRegistration.getRegistration().setState(RegistrationState.SUBMITTED);
-    }
-
-    final FreeRegistration freeRegistrationUpdated = freeRegistrationRepository.saveAndFlush(freeRegistration);
-
-    return createClerkApprovalDetailsDTO(freeRegistrationUpdated);
-  }
 
   @Transactional
   public void moveRegistration(final long registrationId, final long targetExamSessionId) {
@@ -107,6 +58,7 @@ public class ClerkRegistrationService {
     registration.setState(RegistrationState.CANCELLED);
     registrationRepository.saveAndFlush(registration);
   }
+<<<<<<< HEAD
 
   @Transactional(readOnly = true)
   public int countFreeRegistrationsLeft(final FreeRegistration freeRegistration) {
@@ -162,4 +114,6 @@ public class ClerkRegistrationService {
       .freeRegistrationsLeft(countFreeRegistrationsLeft(freeRegistration))
       .build();
   }
+=======
+>>>>>>> dev
 }

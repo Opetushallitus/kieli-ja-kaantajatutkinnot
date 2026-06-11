@@ -8,7 +8,7 @@ declare global {
       isOnPage(page: string): Chainable<Element>;
       openPublicRegistrationPage(): void;
       openEvaluationOrderPage(id: number): void;
-      openExamSessionRegistrationForm(id: number): void;
+      openExamSessionRegistrationForm(id: number, registrationId: number): void;
       openPublicUserDetailsPage(): void;
     }
   }

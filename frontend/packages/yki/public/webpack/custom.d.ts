@@ -9,5 +9,10 @@ declare module '*.json' {
   export default content;
 }
 
+declare module '*.scss' {
+  const content: Record<string, string>;
+  export default content;
+}
+
 // Global Vars
 declare const REACT_ENV_PRODUCTION: boolean;

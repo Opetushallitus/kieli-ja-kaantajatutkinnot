@@ -10,8 +10,6 @@ import { userSelector } from 'redux/selectors/user';
 const getTabForPath = (path: string, user: User) => {
   if (path.includes(AppRoutes.ClerkOrganizerRegister)) {
     return 'clerkOrganizerRegister';
-  } else if (path.includes(AppRoutes.ClerkFreeRegistration)) {
-    return 'freeRegistration';
   } else if (path.includes(AppRoutes.CustomerSearch)) {
     return 'customerSearch';
   } else if (path.includes(AppRoutes.ClerkQuarantine)) {
@@ -54,11 +52,6 @@ export const ClerkNavigationLinks = () => {
           active: getTabForPath(pathname, user) === 'clerkOrganizerRegister',
           href: AppRoutes.ClerkOrganizerRegister,
           label: translateCommon('clerkOrganizerRegister'),
-        },
-        {
-          active: getTabForPath(pathname, user) === 'freeRegistration',
-          href: AppRoutes.ClerkFreeRegistration,
-          label: translateCommon('freeRegistration'),
         },
         {
           active: getTabForPath(pathname, user) === 'customerSearch',

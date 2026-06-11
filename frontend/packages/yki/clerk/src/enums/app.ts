@@ -12,8 +12,6 @@ export enum AppRoutes {
   ClerkOrganizerRegister = '/yki/v2/virkailija/jarjestajarekisteri',
   ClerkAddOrganizer = '/yki/v2/virkailija/jarjestajarekisteri/lisaa',
   ClerkOrganizerRegisterDetails = '/yki/v2/virkailija/jarjestajarekisteri/:oid/tutkintotilaisuudet',
-  ClerkFreeRegistration = '/yki/v2/virkailija/maksuttomuus',
-  ClerkFreeRegistrationDetails = '/yki/v2/virkailija/maksuttomuus/:id',
   ClerkPaymentReport = '/yki/v2/virkailija/maksuraportti',
   ClerkQuarantine = '/yki/v2/virkailija/osallistumiskiellot',
   Organizer = '/yki/v2/jarjestaja',
