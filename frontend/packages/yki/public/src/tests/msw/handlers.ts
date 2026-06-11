@@ -203,4 +203,21 @@ export const handlers = [
   http.post(APIEndpoints.PublicFreeRegistrationEducation, () => {
     return HttpResponse.json({ id: 1337 }, { status: 201 });
   }),
+  http.get(APIEndpoints.LoginLinkInfo, () => {
+    return HttpResponse.json({
+      expires_at: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
+    });
+  }),
+  http.get(APIEndpoints.Registration, ({ params }) => {
+    const { registrationId } = params;
+    const id = Number(registrationId);
+    const queued = id % 2 === 1;
+
+    return HttpResponse.json({
+      id,
+      kind: queued ? RegistrationKind.Queue : RegistrationKind.Admission,
+      partial_exam_type: 'ALL_PARTS',
+      exam_session_id: id,
+    });
+  }),
 ];
