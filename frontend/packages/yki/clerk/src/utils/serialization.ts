@@ -31,6 +31,8 @@ import {
 } from 'interfaces/clerkOrganizer';
 import { FindByOidsOrganizationResponse } from 'interfaces/clerkOrganizerRegistry';
 import {
+  ClerkActiveQuarantine,
+  ClerkActiveQuarantineResponse,
   ClerkQuarantineMatch,
   ClerkQuarantineMatchResponse,
   ClerkQuarantineReview,
@@ -424,6 +426,19 @@ export class SerializationUtils {
       state: SerializationUtils.deserializeRegistrationState(response.state),
       quarantinedPerson: response.quarantinedPerson,
       registrant: response.registrant,
+    };
+  }
+
+  static deserializeClerkActiveQuarantineResponse(
+    response: ClerkActiveQuarantineResponse,
+  ): ClerkActiveQuarantine {
+    return {
+      id: response.id,
+      startDate: dayjs(response.startDate),
+      endDate: dayjs(response.endDate),
+      languageCode: response.languageCode,
+      diaryNumber: response.diaryNumber,
+      quarantinedPerson: response.quarantinedPerson,
     };
   }
 

@@ -45,9 +45,11 @@ const generateLogoutURL = () => {
 const OpenRegistrationsContent = ({
   count,
   examSessionId,
+  registrationId,
 }: {
   count: number;
   examSessionId: string;
+  registrationId: string;
 }) => {
   const translateCommon = useCommonTranslation();
 
@@ -61,6 +63,7 @@ const OpenRegistrationsContent = ({
       <Link
         to={generatePath(AppRoutes.ExamSessionRegistration, {
           examSessionId,
+          registrationId,
         })}
       >
         {translateCommon('header.sessionState.continueToRegistration')}
@@ -165,6 +168,7 @@ export const SessionStateHeader: FC = () => {
             <OpenRegistrationsContent
               count={openRegistrationsCount}
               examSessionId={exampleOpenRegistration.exam_session_id.toString()}
+              registrationId={exampleOpenRegistration.registration_id.toString()}
             />
           </div>
         )}
@@ -178,6 +182,7 @@ export const SessionStateHeader: FC = () => {
             <OpenRegistrationsContent
               count={openRegistrationsCount}
               examSessionId={exampleOpenRegistration.exam_session_id.toString()}
+              registrationId={exampleOpenRegistration.registration_id.toString()}
             />
           </div>
         )}

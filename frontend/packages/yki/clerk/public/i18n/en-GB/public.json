@@ -1,16 +1,6 @@
 {
   "yki": {
     "component": {
-      "clerkPaymentReport": {
-        "title": "Exam payment reporting",
-        "description": "Select the date range for which you want to view completed exam payments. By default, the entire previous month is selected. Please note that any subsequently refunded exam payments will still appear in the report as paid.",
-        "from": "From",
-        "to": "To",
-        "download": "Generate report (.xlsx)",
-        "toasts": {
-          "downloadError": "Failed to generate the report"
-        }
-      },
       "clerkCustomer": {
         "details": {
           "buttons": {
@@ -119,11 +109,26 @@
           "description": "You are about to delete exam date <bold>{{examDate}}</bold>.",
           "title": "Confirm exam date deletion"
         },
+        "evaluationModal": {
+          "cancelButton": "Peruuta",
+          "errors": {
+            "endDateBeforeStartDate": "Päättymispäivä ei voi olla ennen alkupäivää",
+            "required": "Tieto on pakollinen",
+            "startDateBeforeExamDate": "Alkupäivä ei voi olla ennen tutkintopäivää"
+          },
+          "header": {
+            "evaluationPeriod": "Tarkistusarvioinnin ajankohta",
+            "languageLevel": "Kieli ja taso"
+          },
+          "infoText": "Tarkistusarvioinnit tutkintopäivälle {{examDate}}.",
+          "submitButton": "Tallenna muutokset",
+          "title": "Tarkistusarvioinnit"
+        },
         "header": "Tutkintopäivät",
         "listing": {
-          "editReviewEvaluation": "Edit review evaluations",
           "allLevels": "Kaikki tasot",
           "edit": "Muokkaa",
+          "editReviewEvaluation": "Edit review evaluations",
           "errors": {
             "loadingFailed": "Tutkintopäivien lataaminen epäonnistui"
           },
@@ -150,7 +155,7 @@
           "examLabel": "Koe",
           "examTypes": {
             "allExamParts": "Kaikki osakokeet",
-            "readingComprehensionAndSpeaking": "Tekstin ymmärtäminen ja Puhuminen",
+            "readingComprehensionAndSpeaking": "Tekstin ymmärtäminen ja puhuminen",
             "speechComprehensionAndWriting": "Puheen ymmärtäminen ja kirjoittaminen"
           },
           "languageLabel": "Kieli",
@@ -172,30 +177,15 @@
           "submitButton": "Tallenna muutokset",
           "title": "Muokkaa tutkintopäivää"
         },
-        "evaluationModal": {
-          "title": "Tarkistusarvioinnit",
-          "infoText": "Tarkistusarvioinnit tutkintopäivälle {{examDate}}.",
-          "header": {
-            "languageLevel": "Kieli ja taso",
-            "evaluationPeriod": "Tarkistusarvioinnin ajankohta"
-          },
-          "cancelButton": "Peruuta",
-          "submitButton": "Tallenna muutokset",
-          "errors": {
-            "required": "Tieto on pakollinen",
-            "startDateBeforeExamDate": "Alkupäivä ei voi olla ennen tutkintopäivää",
-            "endDateBeforeStartDate": "Päättymispäivä ei voi olla ennen alkupäivää"
-          }
-        },
         "toasts": {
+          "evaluationAdded": "Tarkistusarviointi lisätty onnistuneesti",
+          "evaluationAddError": "Tarkistusarvioinnin lisääminen epäonnistui",
           "examDateAdded": "Tutkintopäivä lisätty onnistuneesti",
           "examDateAddError": "Tutkintopäivän lisääminen epäonnistui",
           "examDateDeleted": "Tutkintopäivä poistettu onnistuneesti",
           "examDateDeleteError": "Tutkintopäivän poistaminen epäonnistui",
           "examDateUpdated": "Tutkintopäivän tiedot tallennettu onnistuneesti",
-          "examDateUpdateError": "Tutkintopäivän muokkaaminen epäonnistui",
-          "evaluationAdded": "Tarkistusarviointi lisätty onnistuneesti",
-          "evaluationAddError": "Tarkistusarvioinnin lisääminen epäonnistui"
+          "examDateUpdateError": "Tutkintopäivän muokkaaminen epäonnistui"
         }
       },
       "clerkExamSessionRegistrations": {
@@ -379,7 +369,68 @@
           "previous": "Aiemmat tarkastukset"
         }
       },
+      "clerkPaymentReport": {
+        "description": "Select the date range for which you want to view completed exam payments. By default, the entire previous month is selected. Please note that any subsequently refunded exam payments will still appear in the report as paid.",
+        "download": "Generate report (.xlsx)",
+        "from": "From",
+        "title": "Exam payment reporting",
+        "to": "To",
+        "toasts": {
+          "downloadError": "Failed to generate the report"
+        }
+      },
       "clerkQuarantine": {
+        "activeQuarantines": {
+          "addButton": "Lisää osallistumiskielto",
+          "editModal": {
+            "submit": "Tallenna muutokset",
+            "title": "Muokkaa osallistumiskieltoa"
+          },
+          "listing": {
+            "columns": {
+              "actions": "Toiminnot",
+              "birthdate": "Syntymäaika",
+              "email": "Sähköposti",
+              "examLanguage": "Tutkinnon kieli",
+              "name": "Etunimi sukunimi",
+              "phoneNumber": "Puhelinnumero",
+              "ssn": "Hetu",
+              "validityPeriod": "Osallistumiskiellon voimassaoloaika"
+            },
+            "resultCount": "{{count}} osallistumiskieltoa",
+            "values": {
+              "actions": {
+                "delete": "Poista",
+                "edit": "Muokkaa"
+              }
+            }
+          },
+          "modal": {
+            "cancel": "Peruuta",
+            "errors": {
+              "birthdateOrSsnRequired": "Syntymäaika tai henkilötunnus on annettava",
+              "startDateAfterEndDate": "Alkamispäivän on oltava ennen päättymispäivää"
+            },
+            "fields": {
+              "birthdate": "Syntymäaika",
+              "caseNumber": "Asianumero",
+              "email": "Sähköpostiosoite",
+              "endsAt": "Osallistumiskielto päättyy",
+              "examLanguage": "Tutkinnon kieli",
+              "firstName": "Etunimi",
+              "lastName": "Sukunimi",
+              "phoneNumber": "Puhelinnumero",
+              "ssn": "Henkilötunnus",
+              "startsAt": "Osallistumiskielto alkaa"
+            },
+            "subHeaders": {
+              "generalInfo": "Osallistumiskiellon yleistiedot",
+              "personInfo": "Osallistumiskieltoon asetettavan henkilön tiedot"
+            },
+            "submit": "Lisää osallistumiskielto",
+            "title": "Lisää osallistumiskielto"
+          }
+        },
         "listing": {
           "apiResponseStatus": {
             "CANCELLED": "Tietojen lataaminen epäonnistui",
@@ -419,18 +470,22 @@
             }
           }
         },
-        "reviewListing": {
-          "description": "Sivulla on listattu kaikki tarkistetut ilmoittautumiset. Sarakkeessa Ilmoittumisen tila näet, onko ilmoittautuminen hyväksytty vai peruuttu. Voit perua hyväksytyn päätöksen jälkikäteen."
-        },
         "modals": {
-          "button": {
-            "accept": "Hyväksy ilmoittautuminen",
-            "reject": "Peru ilmoittautuminen"
-          },
           "accept": {
             "cancel": "Peruuta",
             "description": "Olet hyväksymässä <bold>{{firstName}} {{lastName}}</bold> ({{ssn}}) tilaisuudessa <bold>{{examLanguage}}-{{examLevel}} {{examDate}}</bold>",
             "title": "Vahvista ilmoittautumisen hyväksyminen"
+          },
+          "button": {
+            "accept": "Hyväksy ilmoittautuminen",
+            "reject": "Peru ilmoittautuminen"
+          },
+          "delete": {
+            "cancel": "Peruuta",
+            "close": "Sulje",
+            "confirm": "Poista osallistumiskielto",
+            "description": "Olet poistamassa osallistumiskieltoa henkilöltä <bold>{{firstName}} {{lastName}}</bold> ({{identifier}}), voimassaolo <bold>{{startDate}} - {{endDate}}</bold> ja tutkintokieli <bold>{{examLanguage}}</bold>.",
+            "title": "Vahvista osallistumiskiellon poisto"
           },
           "reject": {
             "cancel": "En halua perua",
@@ -438,10 +493,13 @@
             "title": "Vahvista ilmoittautumisen peruminen"
           }
         },
+        "reviewListing": {
+          "description": "Sivulla on listattu kaikki tarkistetut ilmoittautumiset. Sarakkeessa Ilmoittumisen tila näet, onko ilmoittautuminen hyväksytty vai peruuttu. Voit perua hyväksytyn päätöksen jälkikäteen."
+        },
         "tabs": {
           "activeQuarantines": "Voimassa olevat osallistumiskiellot",
-          "pendingReviews": "Odottavat tarkistukset ({{count}})",
-          "pastReviews": "Aiemmat tarkistukset"
+          "pastReviews": "Aiemmat tarkistukset",
+          "pendingReviews": "Odottavat tarkistukset ({{count}})"
         },
         "toasts": {
           "matchConfirmedError": "Hyväksyminen epäonnistui",
@@ -449,35 +507,8 @@
           "matchRejectedError": "Hylkääminen epäonnistui",
           "matchRejectedSuccess": "Hylkääminen onnistui",
           "quarantineAdded": "Osallistumiskielto lisätty onnistuneesti",
-          "quarantineAddError": "Osallistumiskiellon lisääminen epäonnistui"
-        },
-        "activeQuarantines": {
-          "addButton": "Lisää osallistumiskielto",
-          "modal": {
-            "title": "Lisää osallistumiskielto",
-            "cancel": "Peruuta",
-            "submit": "Lisää osallistumiskielto",
-            "subHeaders": {
-              "personInfo": "Osallistumiskieltoon asetettavan henkilön tiedot",
-              "generalInfo": "Osallistumiskiellon yleistiedot"
-            },
-            "fields": {
-              "firstName": "Etunimi",
-              "lastName": "Sukunimi",
-              "birthdate": "Syntymäaika",
-              "ssn": "Henkilötunnus",
-              "email": "Sähköpostiosoite",
-              "phoneNumber": "Puhelinnumero",
-              "examLanguage": "Tutkinnon kieli",
-              "startsAt": "Osallistumiskielto alkaa",
-              "endsAt": "Osallistumiskielto päättyy",
-              "caseNumber": "Asianumero"
-            },
-            "errors": {
-              "birthdateOrSsnRequired": "Syntymäaika tai henkilötunnus on annettava",
-              "startDateAfterEndDate": "Alkamispäivän on oltava ennen päättymispäivää"
-            }
-          }
+          "quarantineAddError": "Osallistumiskiellon lisääminen epäonnistui",
+          "quarantineDeleted": "Osallistumiskielto poistettu"
         }
       },
       "clerkRegister": {

@@ -13,8 +13,8 @@
           "label": "Annullering av deltagandet",
           "url": "https://www.oph.fi/sv/utbildning-och-examina/fore-yki-testdagen#anchor-annullering-av-deltagande"
         },
-        "title": "Vill du annullera anmälan?",
-        "success": "Anmälan har avbrutits"
+        "success": "Anmälan har avbrutits",
+        "title": "Vill du annullera anmälan?"
       },
       "cookieBanner": {
         "buttonAriaLabel": "Stäng informationrutan om kakor",
@@ -43,8 +43,8 @@
           "errors": {
             "invalidBirthdate": "Felaktigt födelsedatum. Ange i formatet dd.mm.åååå."
           },
-          "instructions": "Fyll i uppgifterna om deltagaren som begär kontrollbedömning.",
           "heading": "Deltagarens uppgifter",
+          "instructions": "Fyll i uppgifterna om deltagaren som begär kontrollbedömning.",
           "labels": {
             "birthdate": "Födelsedatum *",
             "email": "E-postadress *",
@@ -118,24 +118,24 @@
           "confirm": "Skicka"
         },
         "enrollModal": {
-          "title": "Anmälning misslyckades",
-          "examIsFull": "Det finns inga lediga platser. Du kan anmäla dig till en köplats.",
           "alreadyRegistered": {
             "part1": "Du har redan anmält dig till YKI test.",
             "part2": "Du kan endast anmäla dig eller köa till ett YKI-test per testdag."
           },
-          "examClosed": "Anmälan är stängd",
-          "enrollToQueue": "Anmäl dig till en köplats",
           "checkingOpenSeats": "Kontrollerar lediga platser...",
-          "reservingQueueSeat": "Reserverar en köplats...",
           "close": "Stäng",
+          "enrollToQueue": "Anmäl dig till en köplats",
+          "examClosed": "Anmälan är stängd",
+          "examIsFull": "Det finns inga lediga platser. Du kan anmäla dig till en köplats.",
           "otherStartedRegistration": {
-            "title": "Pågående anmälan",
+            "backToRegistrationButton": "Fortsätt till anmälningsblanketten",
             "part1": "Du kan bara anmäla dig eller köa till ett YKI-test per testdag.",
             "part2": "Du måste fortsätta med en tidigare anmälan eller avbryta den.",
             "part3": "Om du vill avbryta anmälan, fortsätt först till anmälningsblanketten och klicka sedan på AVBRYT ANMÄLAN.",
-            "backToRegistrationButton": "Fortsätt till anmälningsblanketten"
-          }
+            "title": "Pågående anmälan"
+          },
+          "reservingQueueSeat": "Reserverar en köplats...",
+          "title": "Anmälning misslyckades"
         },
         "enrollToQueue": {
           "dialog": {
@@ -179,6 +179,30 @@
             "info": "I fall det blir lediga platser vid examenstillfället under anmälningstiden, får du en notifikation till adressen <strong>{{email}}</strong>."
           }
         },
+        "examSessionCard": {
+          "actions": "Toiminnot",
+          "exam": "Koe",
+          "examFee": "Tutkintomaksu",
+          "examStartTime": "Alkaa",
+          "examType": {
+            "full": "Tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen",
+            "listen": "Puheen ymmärtäminen",
+            "listenWrite": "Puheen ymmärtäminen ja kirjoittaminen",
+            "read": "Tekstin ymmärtäminen",
+            "readSpeak": "Tekstin ymmärtäminen ja puhuminen",
+            "speak": "Puhuminen",
+            "write": "Kirjoittaminen"
+          },
+          "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä",
+          "openings": "Paikkoja vapaana",
+          "placesAvailable": "Paikkoja vapaana",
+          "price": "Hinta",
+          "registerToPartialExamsSeparately": "Ilmoittaudu osakokeisiin erikseen",
+          "registrationTime": "Ilmoittautumisaika",
+          "registrationType": {
+            "allParts": "Kaikki osakokeet"
+          }
+        },
         "examSessionDetails": {
           "exam": "Examen",
           "examFee": "Examensavgift",
@@ -201,11 +225,6 @@
           "periodNotOpen": "Anmälningstiden har inte börjat",
           "register": "Anmäl dig"
         },
-        "registrationUnavailable": {
-          "admissionOpensOn": "Anmälningstiden börjar {{- startDate}}",
-          "admissionPeriodIsClosed": "Anmälningstiden har upphört",
-          "examSessionIsFull": "Examenstillfället är fullbokat"
-        },
         "registrationDetails": {
           "certificate": {
             "furtherDetails": {
@@ -226,15 +245,15 @@
             },
             "title": "Information om intyget",
             "weaklyAuthenticated": {
+              "part10": "Om du inte har en finländsk personbeteckning eller inte använder <SuomiFiLink></SuomiFiLink>-meddelanden får du YKI intyget per post.",
+              "part11": "Intyget skickas i första hand till postadressen i befolkningsdatasystemet.",
+              "part12": "Om du inte har uppgett din personbeteckning, kommer intyget att skickas till den postadress du har angett.",
               "part4": "Intyget kommer till tjänsten Min Studieinfo om båda följande villkor uppfylls:",
               "part5": "Du har på den här anmälningsblanketten angett din finländska personbeteckning.",
               "part6": "Du använder elektroniska <SuomiFiLink></SuomiFiLink>-meddelanden.",
               "part7": "När intyget är klart i Min Studieinfo skickar Utbildningsstyrelsen ett meddelande till dig.",
               "part8": "Du får meddelandet i tjänsten <SuomiFiLink></SuomiFiLink>-meddelanden.",
-              "part9": "I Min Studieinfo kan du se intyget och ladda ner det på finska, svenska eller engelska.",
-              "part10": "Om du inte har en finländsk personbeteckning eller inte använder <SuomiFiLink></SuomiFiLink>-meddelanden får du YKI intyget per post.",
-              "part11": "Intyget skickas i första hand till postadressen i befolkningsdatasystemet.",
-              "part12": "Om du inte har uppgett din personbeteckning, kommer intyget att skickas till den postadress du har angett."
+              "part9": "I Min Studieinfo kan du se intyget och ladda ner det på finska, svenska eller engelska."
             }
           },
           "certificateLanguage": "Ifall intyget postas, på vilket språk vill du ha intyget? *",
@@ -244,6 +263,7 @@
             "fields": {
               "address": "Gatuadress",
               "certificateLanguage": "Välj språket på intyget",
+              "countryCode": "Land",
               "countryOfEducation": "Välj var du har studerat",
               "dateOfBirth": "Födelsedatum",
               "educationType": "Uppge om du har studier som berättigar till avgiftsfri YKI-testet",
@@ -256,7 +276,6 @@
               "lastName": "Efternamn",
               "nationality": "Nationalitet",
               "nativeLanguage": "Äidinkieli",
-              "countryCode": "Land",
               "phoneNumber": "Telefonnummer",
               "postNumber": "Postnummer",
               "postOffice": "Postanstalt",
@@ -312,8 +331,11 @@
               "selectOne": "Välj ett av alternativen nedan."
             }
           },
+          "finnishSSN": "Har du en finsk personbeteckning? *",
+          "instructionLanguage": "På vilket språk vill du ha anvisningarna för uppgifterna? *",
           "labels": {
             "address": "Gatuadress",
+            "countryCode": "Land",
             "dateOfBirth": "Födelsedatum",
             "email": "E-postadress",
             "emailConfirmation": "Bekräfta din e-postadress",
@@ -322,7 +344,6 @@
             "lastName": "Efternamn",
             "nationality": "Nationalitet",
             "nativeLanguage": "Äidinkieli",
-            "countryCode": "Land",
             "phoneNumber": "Telefonnummer",
             "postNumber": "Postnummer",
             "postOffice": "Postanstalt",
@@ -331,6 +352,7 @@
           },
           "placeholders": {
             "address": "",
+            "countryCode": "Välj land",
             "dateOfBirth": "Skriv i formatet dd.mm.åååå.",
             "email": "Till exempel namn@e-post.fi",
             "emailConfirmation": "Skriv din e-postadress på nytt",
@@ -339,14 +361,11 @@
             "lastName": "",
             "nationality": "Välj nationalitet",
             "nativeLanguage": "Valitse äidinkieli",
-            "countryCode": "Välj land",
             "phoneNumber": "Skriv i formatet +358 50 123 4567",
             "postNumber": "",
             "postOffice": "",
             "preferredName": ""
           },
-          "finnishSSN": "Har du en finsk personbeteckning? *",
-          "instructionLanguage": "På vilket språk vill du ha anvisningarna för uppgifterna? *",
           "requiredFields": "Fält markerade med en asterisk (*) är obligatoriska.",
           "ssn": "Personbeteckning",
           "termsAndConditions": {
@@ -360,14 +379,15 @@
             "item4": "Du kan inte ändra testdagen.",
             "item5": "Anmälan är personlig. Du kan inte ändra deltagarens personuppgifter.",
             "item6": "Om du inte kan delta i det YKI-test kan du ansöka om återbetalning av examensavgiften hos Utbildningsstyrelsen. Utbildningsstyrelsen återbetalar din examensavgift om din ansökan uppfyller alla villkor i lagen om allmänna språkexamina (YKI).",
+            "label": "Jag godkänner villkoren för anmälan *",
             "link": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-villkoren-for-anmalan",
             "linkText": "Villkoren för anmälan",
-            "label": "Jag godkänner villkoren för anmälan *",
-            "title": "Acceptera villkoren",
-            "subTitle": "Villkoren för anmälan"
+            "subTitle": "Villkoren för anmälan",
+            "title": "Acceptera villkoren"
           },
           "title": "Fyll i dina uppgifter",
           "whatsNext": {
+            "description": "När du har skickat anmälningsblanketten ska du betala examensavgiften. Din anmälan bekräftas först när du har betalat examensavgiften.",
             "freeRegistration": {
               "description": "När du har skickat anmälningsblanketten bekräftas din anmälan. När din anmälan har bekräftats har du använt ett avgiftsfritt examenstillfälle.",
               "queued": {
@@ -375,7 +395,6 @@
                 "part2": "Om du får en plats i kön bekräftas din anmälan. När din anmälan har bekräftats har du använt ett avgiftsfritt examenstillfälle."
               }
             },
-            "description": "När du har skickat anmälningsblanketten ska du betala examensavgiften. Din anmälan bekräftas först när du har betalat examensavgiften.",
             "queued": {
               "part1": "När du har skickat anmälningsblanketten får du en e-postbekräftelse om att du anmält dig till en köplats.",
               "part2": "Om du får en plats på YKI-testet får du ett meddelande om det per e-post. Håll koll på din e-post."
@@ -406,6 +425,7 @@
               "text1": "Du har fått ett e-postmeddelande med en länk för att betala examensavgiften.",
               "text2": "Meddelandet skickas från noreply@opintopolku.fi."
             },
+            "title": "Bekräfta anmälan genom att betala examensavgiften",
             "verifyRegistrationDetails": {
               "termsAndConditions": {
                 "label": "Villkor för anmälan",
@@ -414,14 +434,18 @@
               "text1": "Innan du betalar ska du kontrollera att du har valt rätt YKI-test.",
               "text2": "Du kan inte ändra YKI-testets språk, nivå eller testplats efter att du betalat.",
               "text3": "Läs villkoren för anmälan på Utbildningsstyrelsens webbplats:"
-            },
-            "title": "Bekräfta anmälan genom att betala examensavgiften"
+            }
           },
           "queued": {
             "text1": "Du får en bekräftelse om att du anmält dig till en köplats per e-post.",
             "text2": "Om du får en plats på YKI-testet får du ett meddelande om det per e-post. Håll koll på din e-post.",
             "title": "Du har anmält dig till en köplats"
           }
+        },
+        "registrationUnavailable": {
+          "admissionOpensOn": "Anmälningstiden börjar {{- startDate}}",
+          "admissionPeriodIsClosed": "Anmälningstiden har upphört",
+          "examSessionIsFull": "Examenstillfället är fullbokat"
         },
         "stepper": {
           "active": "Aktiv",
@@ -463,8 +487,8 @@
             "emailLink": {
               "error": "Identifieringen misslyckades. Du kan försöka på nytt.",
               "incorrectEmailDialog": {
-                "title": "Begäran misslyckades",
-                "description": "Kontrollera e-postadressen."
+                "description": "Kontrollera e-postadressen.",
+                "title": "Begäran misslyckades"
               },
               "success": "Anmälningslänken har skickats till adressen:"
             },
@@ -513,6 +537,7 @@
               "heading": "Fel vid betalningen"
             },
             "success": {
+              "heading": "Anmälan lyckades!",
               "whatsNext": {
                 "beforeYkiTest": {
                   "description": "Läs också Utbildningsstyrelsens anvisningar för YKI-testet:",
@@ -529,14 +554,13 @@
                 },
                 "title": "Välkommen till allmän språkexamen (YKI)!",
                 "toUserPortal": {
+                  "description": "Du kan se uppgifter om anmälan på YKI-anmälningssidan:",
                   "link": {
                     "label": "Mina anmälningar",
                     "omaOpintopolkuLabel": "Min Studieinfo (opintopolku.fi)"
-                  },
-                  "description": "Du kan se uppgifter om anmälan på YKI-anmälningssidan:"
+                  }
                 }
-              },
-              "heading": "Anmälan lyckades!"
+              }
             }
           },
           "register": {
@@ -558,13 +582,13 @@
             "description2": "Du kan endast anmäla dig eller köa till ett YKI-test per testdag.",
             "title": "Du har redan anmält dig till ett annat YKI-test på samma testdag"
           },
-          "generic": {
-            "description": "Det gick inte att skicka anmälningsblanketten. Du kan gå tillbaka till anmälningsblanketten och försöka igen.",
-            "title": "Det gick inte att skicka anmälningsblanketten"
-          },
           "full": {
             "description1": "Testet är fullbokat",
             "description2": "Det gick inte att skicka anmälningsblanketten. Du kan gå tillbaka till anmälningsblanketten och försöka på nytt.",
+            "title": "Det gick inte att skicka anmälningsblanketten"
+          },
+          "generic": {
+            "description": "Det gick inte att skicka anmälningsblanketten. Du kan gå tillbaka till anmälningsblanketten och försöka igen.",
             "title": "Det gick inte att skicka anmälningsblanketten"
           },
           "past": {
@@ -604,8 +628,8 @@
           "info": "Betalningen av kontrollbedömningsavgiften kunde inte genomföras. Försök betala på nytt."
         },
         "success": {
-          "heading": "Du har begärt kontrollbedömning!",
-          "body": "Du har fått en bekräftelse på din begäran om kontrollbedömning per e-post. E-postmeddelandet innehåller även information om kontrollbedömningsavgiften. Om du inte har fått meddelandet, kolla din skräppostmapp."
+          "body": "Du har fått en bekräftelse på din begäran om kontrollbedömning per e-post. E-postmeddelandet innehåller även information om kontrollbedömningsavgiften. Om du inte har fått meddelandet, kolla din skräppostmapp.",
+          "heading": "Du har begärt kontrollbedömning!"
         }
       },
       "examDetailsPage": {
@@ -653,10 +677,10 @@
           "streetAddress": "",
           "zip": ""
         },
+        "title": "Redigera kontaktuppgifterna",
         "toast": {
           "success": "Kontaktuppgifterna har sparats"
-        },
-        "title": "Redigera kontaktuppgifterna"
+        }
       },
       "notFoundPage": {
         "description": "Kontrollera webbadressen eller gå tillbaka till startsidan.",
@@ -763,13 +787,6 @@
         "title": "Allmänna språkexamina (YKI) - Anmälan"
       },
       "userDetailsPage": {
-        "expiredLoginLink": {
-          "part1": "Länken gäller inte längre. Av datasäkerhetsskäl fungerar länken bara i 14 dagar. Du måste beställa en ny länk.",
-          "buttonText": "Beställ en ny länk till din e-post",
-          "part2": "Om du inte får den nya länken, skicka e-post till oss på kielitutkinnot@oph.fi.",
-          "title": "Länken gäller inte längre",
-          "reply": "Du har fått en ny länk per e-post. Om du inte har fått meddelandet, kolla din skräppostmapp."
-        },
         "contactDetails": {
           "description": {
             "part1": "Vi skickar intyget till dig per post.",
@@ -777,6 +794,13 @@
           },
           "heading": "Dina kontaktuppgifter",
           "modify": "Redigera kontaktuppgifterna"
+        },
+        "expiredLoginLink": {
+          "buttonText": "Beställ en ny länk till din e-post",
+          "part1": "Länken gäller inte längre. Av datasäkerhetsskäl fungerar länken bara i 14 dagar. Du måste beställa en ny länk.",
+          "part2": "Om du inte får den nya länken, skicka e-post till oss på kielitutkinnot@oph.fi.",
+          "reply": "Du har fått en ny länk per e-post. Om du inte har fått meddelandet, kolla din skräppostmapp.",
+          "title": "Länken gäller inte längre"
         },
         "introduction": {
           "bulletPoints": {
@@ -802,10 +826,10 @@
           },
           "examPayment": {
             "expiresAt": "Förfallodatum {{- date }}",
-            "notPaid": "Obetalt {{ examFee }}€",
+            "free": "Avgiftsfri",
             "label": "Examensavgift",
-            "paidAt": "Betald {{- date }}",
-            "free": "Avgiftsfri"
+            "notPaid": "Obetalt {{ examFee }}€",
+            "paidAt": "Betald {{- date }}"
           },
           "header": {
             "cancelled": "Annullerade anmälningar",
@@ -821,6 +845,16 @@
             "part1": "Din anmälan har inte ännu bekräftats.",
             "part2": "Betala examensavgiften för att bekräfta anmälan.",
             "part3": "Om du inte betalar examensavgiften senast på förfallodagen annulleras din anmälan."
+          },
+          "partialExams": {
+            "FULL": "Tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen",
+            "label": "Osakokeet",
+            "LISTEN": "Puheen ymmärtäminen",
+            "LISTEN_WRITE": "Puheen ymmärtäminen ja kirjoittaminen",
+            "READ": "Tekstin ymmärtäminen",
+            "READ_SPEAK": "Tekstin ymmärtäminen ja puhuminen",
+            "SPEAK": "Puhuminen",
+            "WRITE": "Kirjoittaminen"
           },
           "past": {
             "notFound": "Du har inga prestationer eller tidigare anmälningar"

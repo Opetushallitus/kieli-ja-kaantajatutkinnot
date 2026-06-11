@@ -41,7 +41,10 @@ export interface ExamSessionLocation {
 
 type WithIdType = { id: number };
 
+export type ExamSessionType = 'FULL' | 'READ_SPEAK' | 'LISTEN_WRITE';
+
 export type ExamSession = WithIdType & {
+  type: ExamSessionType;
   session_date: Dayjs;
   language_code: ExamLanguage;
   level_code: ExamLevel;

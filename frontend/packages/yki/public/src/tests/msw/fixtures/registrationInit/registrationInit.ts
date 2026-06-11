@@ -3,6 +3,7 @@ import { PublicRegistrationInitResponse } from 'interfaces/publicRegistration';
 
 export const registrationInitResponse: PublicRegistrationInitResponse = {
   exam_session: {
+    type: 'FULL',
     level_code: ExamLevel.PERUS,
     language_code: ExamLanguage.ENG,
     max_participants: 5,
@@ -55,6 +56,7 @@ export const registrationInitResponse: PublicRegistrationInitResponse = {
     nationalities: ['246'],
   },
   registration_id: 1,
-  is_strongly_identified: true,
+  partial_exam_type: 'ALL_PARTS',
+  is_strongly_identified: false,
   registration_kind: RegistrationKind.Admission,
 };

@@ -9,6 +9,7 @@ import {
   LanguageEvaluation,
   UpdateEvaluationRequest,
 } from 'interfaces/examDate';
+import { activeQuarantines } from 'tests/msw/fixtures/activeQuarantines';
 import { clerkExamSession } from 'tests/msw/fixtures/clerkExamSession';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
@@ -313,6 +314,19 @@ export const handlers = [
   }),
   http.post(APIEndpoints.ClerkQuarantine, () =>
     HttpResponse.json({ success: true }),
+  ),
+  http.put(APIEndpoints.ClerkQuarantineById, () =>
+    HttpResponse.json({ success: true }),
+  ),
+  http.delete(APIEndpoints.ClerkQuarantineById, ({ params }) => {
+    const id = Number(params.id);
+    const idx = activeQuarantines.findIndex((q) => q.id === id);
+    if (idx !== -1) activeQuarantines.splice(idx, 1);
+
+    return new HttpResponse(null, { status: 200 });
+  }),
+  http.get(APIEndpoints.ClerkQuarantine, () =>
+    HttpResponse.json(activeQuarantines),
   ),
   http.get(APIEndpoints.ClerkQuarantineMatches, () =>
     HttpResponse.json(quarantineMatches),

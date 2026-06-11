@@ -1,4 +1,5 @@
 import { Grid, Paper } from '@mui/material';
+import { ophColors } from '@opetushallitus/oph-design-system';
 import { useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import {
@@ -21,6 +22,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PaymentStatus } from 'enums/api';
 import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+import { clerkEnabled } from 'featureFlags';
 import { ExamSession } from 'interfaces/examSessions';
 import { loadExamSession } from 'redux/reducers/examSession';
 import { examSessionSelector } from 'redux/selectors/examSession';
@@ -47,11 +49,10 @@ const RegistrationForm = () => {
       code &&
       registrationId
     ) {
-      const params = new URLSearchParams();
-      params.append('submitted', 'true');
-      params.append('code', code);
-      params.append('registrationId', `${registrationId}`);
-      window.location.href = `${window.location.href}?${params.toString()}`;
+      const url = new URL(window.location.href);
+      url.searchParams.set('submitted', 'true');
+      url.searchParams.set('code', code);
+      window.location.href = url.toString();
     }
   });
   useEffect(() => {
@@ -232,7 +233,16 @@ export const PublicRegistrationGrid = () => {
               </div>
             </div>
           </div>
-          <Paper elevation={isPhone ? 0 : 3}>
+          <Paper
+            elevation={isPhone ? 0 : 3}
+            style={
+              isPhone
+                ? {}
+                : clerkEnabled
+                ? { borderTop: '5px solid ' + ophColors.green2 }
+                : undefined
+            }
+          >
             <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
               <StepContentSelector />
             </LoadingProgressIndicator>

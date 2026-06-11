@@ -1,6 +1,8 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Container, Grid, Paper } from '@mui/material';
+import { ophColors } from '@opetushallitus/oph-design-system';
 import { Trans } from 'react-i18next';
+import { generatePath } from 'react-router-dom';
 import {
   CustomButton,
   H1,
@@ -19,6 +21,7 @@ import { PublicRegistrationStepper } from 'components/registration/PublicRegistr
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
+import { clerkEnabled } from 'featureFlags';
 import { ExamSession } from 'interfaces/examSessions';
 import { cancelRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
@@ -34,6 +37,7 @@ const AlreadyLoggedIn = () => {
   const { loggedInSession } = useAppSelector(sessionSelector);
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
+  const { initRegistration } = useAppSelector(registrationSelector);
   const isSuomiFiAuthenticatedSession =
     loggedInSession?.['auth-method'] === 'SUOMIFI';
   const isEmailAuthenticatedSession =
@@ -72,10 +76,15 @@ const AlreadyLoggedIn = () => {
           color={Color.Secondary}
           className="fit-content-max-width"
           size="large"
-          href={(toQueue
-            ? AppRoutes.ExamSessionQueue
-            : AppRoutes.ExamSessionRegistration
-          ).replace(/:examSessionId/, `${examSession.id}`)}
+          href={generatePath(
+            toQueue
+              ? AppRoutes.ExamSessionQueue
+              : AppRoutes.ExamSessionRegistration,
+            {
+              examSessionId: `${examSession.id}`,
+              registrationId: `${initRegistration.registrationId}`,
+            },
+          )}
         >
           {t('alreadyLoggedIn.labels.continueToRegistration')}
         </CustomButton>
@@ -123,7 +132,7 @@ const FreeRegistrationInfoBox = () => {
         <WebLink
           label={t('readMore.link.label')}
           href={t('readMore.link.url')}
-          endIcon={<OpenInNewIcon />}
+          endIcon={<OpenInNewIcon color="inherit" />}
         />
       </Text>
     </Container>
@@ -153,6 +162,7 @@ export const PublicIdentificationGrid = () => {
   if (!registrationKind) {
     return null;
   }
+
   const toQueue = registrationKind === RegistrationKind.Queue;
 
   return (
@@ -177,7 +187,16 @@ export const PublicIdentificationGrid = () => {
               <HeaderSeparator />
             </div>
           </div>
-          <Paper elevation={isPhone ? 0 : 3}>
+          <Paper
+            elevation={isPhone ? 0 : 3}
+            style={
+              isPhone
+                ? {}
+                : clerkEnabled
+                ? { borderTop: '5px solid' + ophColors.green2 }
+                : undefined
+            }
+          >
             <div className="public-registration__grid__form-container">
               <div className="rows gapped">
                 <PublicRegistrationExamSessionDetails
