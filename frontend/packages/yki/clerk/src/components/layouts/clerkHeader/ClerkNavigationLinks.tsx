@@ -7,8 +7,6 @@ import { AppRoutes } from 'enums/app';
 const getTabForPath = (path: string) => {
   if (path.includes(AppRoutes.ClerkOrganizerRegister)) {
     return 'clerkOrganizerRegister';
-  } else if (path.includes(AppRoutes.ClerkFreeRegistration)) {
-    return 'freeRegistration';
   } else if (path.includes(AppRoutes.CustomerSearch)) {
     return 'customerSearch';
   } else if (path.includes(AppRoutes.ClerkQuarantine)) {
@@ -44,11 +42,6 @@ export const ClerkNavigationLinks = () => {
           active: getTabForPath(pathname) === 'clerkOrganizerRegister',
           href: AppRoutes.ClerkOrganizerRegister,
           label: translateCommon('clerkOrganizerRegister'),
-        },
-        {
-          active: getTabForPath(pathname) === 'freeRegistration',
-          href: AppRoutes.ClerkFreeRegistration,
-          label: translateCommon('freeRegistration'),
         },
         {
           active: getTabForPath(pathname) === 'customerSearch',
