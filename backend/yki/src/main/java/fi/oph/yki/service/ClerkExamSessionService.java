@@ -88,9 +88,8 @@ public class ClerkExamSessionService {
     final var registrations = registrationRepository.getByExamSessionAndStateIn(examSession, VISIBLE_STATES);
 
     final Map<Long, Long> queuePositions = registrationRepository
-      .getQueuePositionsByExamSessionAndStateIn(examSession.getId(), VISIBLE_STATES.stream().map(Enum::name).toList())
+      .getQueuePositionsByExamSession(examSession.getId())
       .stream()
-      .filter(p -> p.getQueuePosition() != null)
       .collect(
         Collectors.toMap(
           RegistrationWithQueuePositionProjection::getId,
