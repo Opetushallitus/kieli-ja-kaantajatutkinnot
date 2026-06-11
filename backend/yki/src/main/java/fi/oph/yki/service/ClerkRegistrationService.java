@@ -8,8 +8,6 @@ import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationRepository;
-import fi.oph.yki.util.DateUtil;
-import fi.oph.yki.util.RegistrationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -58,62 +56,4 @@ public class ClerkRegistrationService {
     registration.setState(RegistrationState.CANCELLED);
     registrationRepository.saveAndFlush(registration);
   }
-<<<<<<< HEAD
-
-  @Transactional(readOnly = true)
-  public int countFreeRegistrationsLeft(final FreeRegistration freeRegistration) {
-    final Registration registration = freeRegistration.getRegistration();
-    final Person person = registration.getPerson();
-
-    final int freeRegistrationUsed = freeRegistrationRepository.countFreeRegistrationsUsed(person.getOid());
-
-    return NUM_FREE_REGISTRATIONS - freeRegistrationUsed;
-  }
-
-  private ClerkApprovalDTO createClerkApprovalDTO(final FreeRegistration freeRegistration) {
-    final Registration registration = freeRegistration.getRegistration();
-    final ClerkRegistrationDTO clerkRegistrationDTO = createClerkRegistrationDTO(registration);
-    final ClerkPersonDTO clerkPersonDTO = RegistrationUtil.createClerkPersonDTO(registration.getPerson());
-    final String examDate = DateUtil.formatOptionalDate(registration.getExamSession().getExamDate().getExamDate());
-
-    return ClerkApprovalDTO
-      .builder()
-      .id(freeRegistration.getId())
-      .person(clerkPersonDTO)
-      .examDate(examDate)
-      .registration(clerkRegistrationDTO)
-      .build();
-  }
-
-  private ClerkRegistrationDTO createClerkRegistrationDTO(final Registration registration) {
-    return ClerkRegistrationDTO.builder().kind(registration.getKind()).build();
-  }
-
-  private ClerkApprovalDetailsDTO createClerkApprovalDetailsDTO(final FreeRegistration freeRegistration) {
-    final Registration registration = freeRegistration.getRegistration();
-    final ClerkRegistrationDTO clerkRegistrationDTO = createClerkRegistrationDTO(freeRegistration.getRegistration());
-    final ClerkPersonDTO clerkPersonDTO = RegistrationUtil.createClerkPersonDTO(registration.getPerson());
-    final ExamSession examSession = registration.getExamSession();
-    final String examDate = DateUtil.formatOptionalDate(examSession.getExamDate().getExamDate());
-    final ClerkApprovalExamSessionDTO examSessionDTO = ClerkApprovalExamSessionDTO
-      .builder()
-      .id(examSession.getId())
-      .examDate(examDate)
-      .language(examSession.getLanguage())
-      .level(examSession.getLevel())
-      .build();
-
-    return ClerkApprovalDetailsDTO
-      .builder()
-      .id(freeRegistration.getId())
-      .person(clerkPersonDTO)
-      .registration(clerkRegistrationDTO)
-      .examSession(examSessionDTO)
-      .languageOfService(RegistrationLangOfService.FI) // TODO, get from where?
-      .freeRegistrationBasis(freeRegistration.getType())
-      .freeRegistrationsLeft(countFreeRegistrationsLeft(freeRegistration))
-      .build();
-  }
-=======
->>>>>>> dev
 }

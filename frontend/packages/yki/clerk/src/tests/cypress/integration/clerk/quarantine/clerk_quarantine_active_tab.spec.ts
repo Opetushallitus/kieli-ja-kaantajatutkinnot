@@ -30,19 +30,13 @@ describe('ClerkQuarantinePage - Voimassa olevat osallistumiskiellot tab', () => 
 
     onClerkQuarantinePage.editModal.expectFieldValue('firstName', 'Koira');
     onClerkQuarantinePage.editModal.expectFieldValue('lastName', 'Ihminen');
-    onClerkQuarantinePage.editModal.expectFieldValue(
-      'birthdate',
-      '12.12.1992',
-    );
+    onClerkQuarantinePage.editModal.expectFieldValue('birthdate', '12.12.1992');
     onClerkQuarantinePage.editModal.expectFieldValue('ssn', '121292A7121');
     onClerkQuarantinePage.editModal.expectFieldValue(
       'email',
       'asdasda@test.fi',
     );
-    onClerkQuarantinePage.editModal.expectFieldValue(
-      'phone',
-      '+358401234567',
-    );
+    onClerkQuarantinePage.editModal.expectFieldValue('phone', '+358401234567');
     onClerkQuarantinePage.editModal.expectFieldValue(
       'caseNumber',
       'OPH-1001-2022',
