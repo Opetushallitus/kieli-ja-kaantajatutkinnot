@@ -1,4 +1,4 @@
-import { AppLanguage } from 'shared/enums';
+import { AppLanguage, I18nNamespace } from 'shared/enums';
 import { StringUtils } from 'shared/utils';
 
 import { translateOutsideComponent } from 'configs/i18n';
@@ -224,31 +224,51 @@ export class ExamSessionUtils {
       return '';
     }
 
+    const t = translateOutsideComponent();
+
+    const ns = I18nNamespace.Public;
+
     if (examSessionType === 'FULL') {
-      return 'Kaikki osakokeet: tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen';
+      return t('yki.component.registration.examSessionCard.examType.full', {
+        ns,
+      });
     }
 
     if (examSessionType === 'LISTEN_WRITE') {
       if (partialExamType === 'ALL_PARTS') {
-        return 'Puheen ymmärtäminen ja kirjoittaminen';
+        return t(
+          'yki.component.registration.examSessionCard.examType.listenWrite',
+          { ns },
+        );
       }
       if (partialExamType === 'LISTEN') {
-        return 'Puheen ymmärtäminen';
+        return t('yki.component.registration.examSessionCard.examType.listen', {
+          ns,
+        });
       }
       if (partialExamType === 'WRITE') {
-        return 'Kirjoittaminen';
+        return t('yki.component.registration.examSessionCard.examType.write', {
+          ns,
+        });
       }
     }
 
     if (examSessionType === 'READ_SPEAK') {
       if (partialExamType === 'ALL_PARTS') {
-        return 'Tekstin ymmärtäminen ja puhuminen';
+        return t(
+          'yki.component.registration.examSessionCard.examType.readSpeak',
+          { ns },
+        );
       }
       if (partialExamType === 'READ') {
-        return 'Tekstin ymmärtäminen';
+        return t('yki.component.registration.examSessionCard.examType.read', {
+          ns,
+        });
       }
       if (partialExamType === 'SPEAK') {
-        return 'Puhuminen';
+        return t('yki.component.registration.examSessionCard.examType.speak', {
+          ns,
+        });
       }
     }
   }

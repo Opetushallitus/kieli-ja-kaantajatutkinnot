@@ -32,6 +32,7 @@ import {
   rejectCancelRegistration,
   rejectPublicRegistrationInit,
   rejectPublicRegistrationSubmission,
+  rejectRegistrationDetails,
   resetPublicRegistration,
   setActiveStep,
   submitPublicRegistration,
@@ -219,7 +220,7 @@ function* fetchRegistrationDetailsSaga(action: PayloadAction<number>) {
     );
     yield put(acceptFetchRegistrationDetails(response.data));
   } catch {
-    // Silently fail - partialExamType will be set when identify saga completes
+    yield put(rejectRegistrationDetails());
   }
 }
 

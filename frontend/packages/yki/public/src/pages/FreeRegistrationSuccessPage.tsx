@@ -44,7 +44,7 @@ export const FreeRegistrationSuccessPage = () => {
     if (registrationId) {
       dispatch(fetchRegistrationDetails(registrationId));
     }
-  }, [dispatch]);
+  }, [dispatch, registrationId]);
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted && examSessionId) {

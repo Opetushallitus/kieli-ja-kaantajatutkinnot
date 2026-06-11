@@ -48,6 +48,7 @@ export interface RegistrationState {
   activeStep: PublicRegistrationFormStep;
   showErrors: boolean;
   hasTimerExpired: boolean;
+  fetchRegistrationStatus: APIResponseStatus;
 }
 
 export const initialState: RegistrationState = {
@@ -67,6 +68,7 @@ export const initialState: RegistrationState = {
   },
   showErrors: false,
   hasTimerExpired: false,
+  fetchRegistrationStatus: APIResponseStatus.NotStarted,
 };
 
 const registrationSlice = createSlice({
@@ -245,11 +247,17 @@ const registrationSlice = createSlice({
       state.initRegistration.registrationKind = action.payload.registrationKind;
       state.initRegistration.registrationId = action.payload.registrationId;
     },
-    fetchRegistrationDetails(_state, _action: PayloadAction<number>) {},
+    fetchRegistrationDetails(state, _action: PayloadAction<number>) {
+      state.fetchRegistrationStatus = APIResponseStatus.InProgress;
+    },
+    rejectRegistrationDetails(state) {
+      state.fetchRegistrationStatus = APIResponseStatus.Error;
+    },
     acceptFetchRegistrationDetails(
       state,
       action: PayloadAction<RegistrationDetailsResponse>,
     ) {
+      state.fetchRegistrationStatus = APIResponseStatus.Success;
       state.initRegistration.partialExamType = action.payload.partial_exam_type;
       state.initRegistration.registrationKind = action.payload.kind;
       state.initRegistration.examSessionId = action.payload.exam_session_id;
@@ -275,6 +283,7 @@ export const {
   rejectCancelRegistration,
   identifyRegistration,
   fetchRegistrationDetails,
+  rejectRegistrationDetails,
   acceptFetchRegistrationDetails,
   setHasTimerExpired,
 } = registrationSlice.actions;
