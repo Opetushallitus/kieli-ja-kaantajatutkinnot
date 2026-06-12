@@ -140,15 +140,17 @@ export const PublicRegistrationExamSessionDetails = ({
         <H2 style={{ marginBottom: '1rem' }}>
           <b>{header}</b>
         </H2>
-        <Text>
-          {`${translateCommon('partialExams')}: `}
-          <b>
-            {ExamSessionUtils.getPartialExamTypeText(
-              examSession.type,
-              initRegistration.partialExamType,
-            )}
-          </b>
-        </Text>
+        {activeStep !== PublicRegistrationFormStep.Done && (
+          <Text>
+            {`${translateCommon('partialExams')}: `}
+            <b>
+              {ExamSessionUtils.getPartialExamTypeText(
+                examSession.type,
+                initRegistration.partialExamType,
+              )}
+            </b>
+          </Text>
+        )}
         <Text>
           {`${translateCommon('examDate')}: `}
           <b>{DateUtils.formatOptionalDate(examSession.session_date)}</b>
@@ -179,10 +181,12 @@ export const PublicRegistrationExamSessionDetails = ({
             start,
           )} - ${DateUtils.formatOptionalDate(end)}`}</b>
         </Text>
-        <Text>
-          {`${t('examFee')}: `}
-          <b>{examFeeText}</b>
-        </Text>
+        {activeStep !== PublicRegistrationFormStep.Done && (
+          <Text>
+            {`${t('examFee')}: `}
+            <b>{examFeeText}</b>
+          </Text>
+        )}
         {showOpenings && (
           <Text>
             {`${t('openings')}: `}
