@@ -519,7 +519,9 @@
               },
               "noEnrollmentError": "Et voi jatkaa, jos et ole osallistunut hyvän ja tyydyttävän taidon kielitutkintoon aiemmin.",
               "noEnrollmentInfoBox": {
-                "line1": "1.7.2026 alkaen vain aiemmin hylättyjen osakokeiden uusiminen on mahdollista.",
+                "line1": "1.7.2026 alkaen vain aiemmin hylättyjen osakokeiden uusiminen on mahdollista. Et voi lähettää yhteydenottopyyntöä, jos et ole osallistunut hyvän ja tyydyttävän taidon tutkintoon aiemmin.",
+                "goodLink": "Hyvän ja tyydyttävän taidon tutkinnot",
+                "goodUrl": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/hyvan-ja-tyydyttavan-taidon-tutkinnot#anchor-valtionhallinnon-kielitutkinnot-172026-alkaen",
                 "line2": "Jos et ole suorittanut valtionhallinnon kielitutkintoa aikaisemmin, mutta tarvitset todistuksen suomen tai ruotsin kielen taidosta julkishallinnon työtehtävää varten, voit suorittaa yleisen kielitutkinnon eli YKI-testin.",
                 "readMore": "Lue lisää Opetushallituksen verkkosivuilta:",
                 "link": "Yleiset kielitutkinnot (YKI)",

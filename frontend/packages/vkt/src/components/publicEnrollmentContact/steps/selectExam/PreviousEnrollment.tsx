@@ -321,6 +321,14 @@ export const PreviousEnrollment = ({
             <Text>{t('noEnrollmentInfoBox.line1')}</Text>
           </div>
           <Text className="public-enrollment-contact__grid__previous-enrollment-info-box__body">
+            {t('noEnrollmentInfoBox.readMore')}{' '}
+            <WebLink
+              href={t('noEnrollmentInfoBox.goodUrl')}
+              label={t('noEnrollmentInfoBox.goodLink')}
+              endIcon={<OpenInNewIcon />}
+            />
+          </Text>
+          <Text className="public-enrollment-contact__grid__previous-enrollment-info-box__body">
             {t('noEnrollmentInfoBox.line2')}
           </Text>
           <Text className="public-enrollment-contact__grid__previous-enrollment-info-box__body">
