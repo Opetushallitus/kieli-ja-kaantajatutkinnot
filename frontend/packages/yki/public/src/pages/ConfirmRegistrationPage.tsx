@@ -16,9 +16,8 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
 import { ExamSession } from 'interfaces/examSessions';
 import { loadRegistrationToConfirmDetails } from 'redux/reducers/confirmRegistration';
-import { fetchRegistrationDetails } from 'redux/reducers/registration';
 import { confirmRegistrationSelector } from 'redux/selectors/confirmRegistration';
-import { registrationSelector } from 'redux/selectors/registration';
+import { userDetailsSelector } from 'redux/selectors/userDetails';
 import { SerializationUtils } from 'utils/serialization';
 
 const Header = () => {
@@ -36,10 +35,14 @@ const Header = () => {
 
 const Contents = () => {
   const { registrationDetails } = useAppSelector(confirmRegistrationSelector);
+  const { personDetails } = useAppSelector(userDetailsSelector);
   if (!registrationDetails) {
     return null;
   }
   const lang = getCurrentLang();
+  const partialExamType = personDetails?.registrations.find(
+    (r) => r.id === registrationDetails.id,
+  )?.partialExamType;
 
   return (
     <Grid>
@@ -50,6 +53,7 @@ const Contents = () => {
         <PublicRegistrationExamSessionDetails
           examSession={registrationDetails as unknown as ExamSession}
           showOpenings={false}
+          partialExamType={partialExamType}
         />
         <ConfirmRegistration
           paymentDetails={{
@@ -68,23 +72,9 @@ const Contents = () => {
 export const ConfirmRegistrationPage = () => {
   const dispatch = useAppDispatch();
   const { loadDetailsStatus } = useAppSelector(confirmRegistrationSelector);
-  const { fetchRegistrationStatus } = useAppSelector(registrationSelector);
 
   // React Router
   const params = useParams();
-
-  const registrationId = params.registrationId
-    ? Number(params.registrationId)
-    : undefined;
-
-  useEffect(() => {
-    if (
-      fetchRegistrationStatus === APIResponseStatus.NotStarted &&
-      registrationId
-    ) {
-      dispatch(fetchRegistrationDetails(registrationId));
-    }
-  }, [dispatch, registrationId, fetchRegistrationStatus]);
 
   useEffect(() => {
     if (
@@ -95,9 +85,7 @@ export const ConfirmRegistrationPage = () => {
     }
   }, [dispatch, params.registrationId, loadDetailsStatus]);
 
-  const loading =
-    loadDetailsStatus === APIResponseStatus.InProgress ||
-    fetchRegistrationStatus === APIResponseStatus.InProgress;
+  const loading = loadDetailsStatus === APIResponseStatus.InProgress;
 
   return (
     <Box className="confirm-registration-page">
