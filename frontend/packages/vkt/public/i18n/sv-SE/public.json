@@ -741,7 +741,9 @@
         },
         "discontinuationInfo": {
           "title": "Språkexamina för statsförvaltningen avvecklas stegvis före utgången av 2028",
-          "part1": "Från och med den 1 juli 2026 kan du endast ta om ett tidigare underkänt delprov i språkexamen för statsförvaltningen, om det ena delprovet som ingår i examen har avlagts med godkänt resultat, och det andra delprovet har blivit underkänt. I detta fall kan du ta om endast det underkända delprovet. Du har högst tre år på dig att ta om det underkända delprovet. Tiden räknas från den dag då du avlade den godkända delprovet. Observera ändå att det underkända delprovet måste tas om senast den 31 december 2028.",
+          "description": "I språkexamina för statsförvaltningen kan du avlägga examina som visar förmåga att använda språket i tal eller i skrift eller att förstå språket separat. Varje examen består av två delprov. Du får ett intyg över en viss färdighet när du har avlagt båda delproven med godkänt resultat.",
+          "part1Bold": "Från och med den 1 juli 2026 kan du endast ta om ett underkänt delprov, om du har avlagt det ena delprovet i samma examen med godkänt resultat och det andra delprovet är underkänt.",
+          "part1": "I detta fall kan du ta om endast det underkända delprovet. Du har högst tre år på dig att ta om det underkända delprovet. Tiden räknas från den dag då du avlade det godkända delprovet. Observera ändå att det underkända delprovet måste tas om senast den 31 december 2028.",
           "part2": "Om du inte har avlagt språkexamen för statsförvaltningen, men behöver ett intyg över dina kunskaper i finska eller svenska för en arbetsuppgift inom den offentliga förvaltningen, kan du avlägga allmänna språkexamen, dvs. YKI-testet.",
           "part2Link": {
             "label": "Läs mer om YKI-testet på Utbildningsstyrelsens webbplatts.",

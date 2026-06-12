@@ -143,7 +143,10 @@ const DiscontinuationInfo = () => {
     <Container className="public-homepage__info-box">
       <div className="rows gapped">
         <H2>{t('title')}</H2>
-        <Text>{t('part1')}</Text>
+        <Text>{t('description')}</Text>
+        <Text>
+          <strong>{t('part1Bold')}</strong> {t('part1')}
+        </Text>
         <Text>
           {t('part2')}{' '}
           <WebLink
