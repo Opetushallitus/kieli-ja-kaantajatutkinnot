@@ -138,13 +138,17 @@ export const PublicRegistrationExamSessionDetails = ({
 
   const attemptsLeft = 3 - (attemptsUsed || 0);
 
+  const isPartialExamRegistrationEndStep =
+    activeStep === PublicRegistrationFormStep.Done &&
+    examSession.type !== 'FULL';
+
   return (
     <div className="rows">
       <div className="rows-gapped-xxs">
         <H2 style={{ marginBottom: '1rem' }}>
           <b>{header}</b>
         </H2>
-        {activeStep !== PublicRegistrationFormStep.Done && (
+        {!isPartialExamRegistrationEndStep && (
           <Text>
             {`${translateCommon('partialExams')}: `}
             <b>
@@ -185,7 +189,7 @@ export const PublicRegistrationExamSessionDetails = ({
             start,
           )} - ${DateUtils.formatOptionalDate(end)}`}</b>
         </Text>
-        {activeStep !== PublicRegistrationFormStep.Done && (
+        {!isPartialExamRegistrationEndStep && (
           <Text>
             {`${t('examFee')}: `}
             <b>{examFeeText}</b>
