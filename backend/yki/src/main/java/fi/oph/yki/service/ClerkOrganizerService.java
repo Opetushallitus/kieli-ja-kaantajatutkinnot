@@ -15,7 +15,6 @@ import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.OrganizerRepository;
 import java.time.LocalDate;
-import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -77,6 +76,10 @@ public class ClerkOrganizerService {
       .stream()
       .map(this::toExamSessionDTO)
       .toList();
+  }
+
+  public List<ClerkOrganizerExamSessionDTO> getExamSessionsByOrganizerOid(final String oid) {
+    return examSessionRepository.findByOrganizerOid_Oid(oid).stream().map(this::toExamSessionDTO).toList();
   }
 
   private ClerkOrganizerExamSessionDTO toExamSessionDTO(final ExamSession examSession) {

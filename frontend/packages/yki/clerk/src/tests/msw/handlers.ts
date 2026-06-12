@@ -218,25 +218,22 @@ export const handlers = [
       return HttpResponse.json(findByOidResponse);
     },
   ),
-  http.get(
-    APIEndpoints.Organizer + '/1.2.246.562.10.28646781493/examSession',
-    ({ params }) => {
-      const { from } = params;
+  http.get(APIEndpoints.ClerkOrganizer + '/:oid/exam-session', ({ params }) => {
+    const { from } = params;
 
-      const filteredExamSessions = from
-        ? examSessions.exam_sessions.filter((e) => {
-            return (
-              dayjs().isSame(dayjs(e.session_date), 'day') ||
-              dayjs().isAfter(dayjs(e.session_date), 'day')
-            );
-          })
-        : examSessions.exam_sessions;
+    const filteredExamSessions = from
+      ? examSessions.exam_sessions.filter((e) => {
+          return (
+            dayjs().isSame(dayjs(e.session_date), 'day') ||
+            dayjs().isAfter(dayjs(e.session_date), 'day')
+          );
+        })
+      : examSessions.exam_sessions;
 
-      return HttpResponse.json({ exam_sessions: filteredExamSessions });
-      // all exam dates
-      // return HttpResponse.json({ dates: examDates.dates });
-    },
-  ),
+    return HttpResponse.json({ exam_sessions: filteredExamSessions });
+    // all exam dates
+    // return HttpResponse.json({ dates: examDates.dates });
+  }),
   http.get(
     APIEndpoints.Organizer + '/1.2.246.562.10.28646781493/examDates',
     () => {

@@ -41,4 +41,10 @@ public class ClerkOrganizerController {
   public ClerkOrganizerDTO createOrganizer(@RequestBody @Valid final ClerkOrganizerCreateDTO dto) {
     return clerkOrganizerService.createOrganizer(dto);
   }
+
+  @GetMapping("/{oid}/exam-session")
+  @Operation(tags = TAG_ORGANIZER, summary = "List exam sessions for an organizer")
+  public Map<String, List<ClerkOrganizerExamSessionDTO>> getExamSessions(@PathVariable final String oid) {
+    return Map.of("exam_sessions", clerkOrganizerService.getExamSessionsByOrganizerOid(oid));
+  }
 }

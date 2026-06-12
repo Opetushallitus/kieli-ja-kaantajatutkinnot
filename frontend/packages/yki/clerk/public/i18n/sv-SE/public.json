@@ -216,6 +216,12 @@
           "maxParticipantsSpeech": "Puheen ymmärtäminen: {{count}}",
           "maxParticipantsWriting": "Kirjoittaminen: {{count}}"
         },
+        "maxParticipants": {
+          "maxParticipantsReading": "Tekstin ymmärtäminen: {{count}}",
+          "maxParticipantsSpeaking": "Puhuminen: {{count}}",
+          "maxParticipantsSpeech": "Puheen ymmärtäminen: {{count}}",
+          "maxParticipantsWriting": "Kirjoittaminen: {{count}}"
+        },
         "modals": {
           "cancel": {
             "subTitle": "Haluatko varmasti peruuttaa ilmoittautumisen?",

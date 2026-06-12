@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import i18next from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CustomButton } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
@@ -15,6 +15,7 @@ import axiosInstance from 'configs/axios';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
+import { AppRoutes } from 'enums/app';
 import { ClerkOrganizer } from 'interfaces/clerkOrganizer';
 import { ExamSession } from 'interfaces/examSessions';
 import { RouteType } from 'interfaces/user';
@@ -42,7 +43,8 @@ export const ClerkRegisterOrganizerDetails = ({
   const { examDates } = useAppSelector(examDateSelector);
   const { createStatus } = useAppSelector(clerkExamSessionDetailsSelector);
   const params = useParams();
-  const oid = params.oid;
+  const oid = params.oid ?? '';
+  const navigate = useNavigate();
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
@@ -83,6 +85,20 @@ export const ClerkRegisterOrganizerDetails = ({
     }
   }, [createStatus, fetchExamSessions]);
 
+  useEffect(() => {
+    dispatch(loadExamDates(true));
+  }, [dispatch]);
+
+  useEffect(() => {
+    fetchExamSessions();
+  }, [fetchExamSessions]);
+
+  useEffect(() => {
+    if (createStatus === APIResponseStatus.Success) {
+      fetchExamSessions();
+    }
+  }, [createStatus, fetchExamSessions]);
+
   const upcomingExams = examSessions
     .map((examSession) => ({
       ...examSession,
@@ -103,13 +119,32 @@ export const ClerkRegisterOrganizerDetails = ({
     key: 'session_date',
     title: t('examSessionListing.header.sessionDate'),
     render: (rowProps) =>
-      // TODO use proper url and navigateTo
       route === 'clerk' ? (
-        <a href={`/yki/v2/virkailija/tilaisuus/${rowProps.id}`}>
+        <a
+          href={AppRoutes.ClerkExamSession.replace(':id', String(rowProps.id))}
+          onClick={() =>
+            navigate(
+              AppRoutes.ClerkExamSession.replace(':id', String(rowProps.id)),
+            )
+          }
+        >
           <span>{rowProps.session_date.format('D.M.YYYY')}</span>
         </a>
       ) : (
-        <a href={`/yki/v2/jarjestaja/${oid}/tilaisuus/${rowProps.id}`}>
+        <a
+          href={AppRoutes.OrganizerExamSession.replace(':oid', oid).replace(
+            ':id',
+            String(rowProps.id),
+          )}
+          onClick={() =>
+            navigate(
+              AppRoutes.OrganizerExamSession.replace(':oid', oid).replace(
+                ':id',
+                String(rowProps.id),
+              ),
+            )
+          }
+        >
           <span>{rowProps.session_date.format('D.M.YYYY')}</span>
         </a>
       ),

@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 public interface ExamSessionRepository extends BaseRepository<ExamSession> {
   List<ExamSession> getByLanguageAndLevel(String language, String level);
 
+  List<ExamSession> findByOrganizerOid_Oid(String oid);
+
   boolean existsByExamDateId(long examDateId);
 
   @Query(
