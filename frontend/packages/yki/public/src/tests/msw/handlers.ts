@@ -220,4 +220,17 @@ export const handlers = [
       exam_session_id: id,
     });
   }),
+  http.get(APIEndpoints.ConfirmRegistration, ({ params }) => {
+    const { registrationId } = params;
+
+    const registration = data.personDetails.registrations.find(
+      (r) => `${r.id}` === registrationId,
+    );
+
+    if (registration) {
+      return HttpResponse.json(registration);
+    } else {
+      return notFound();
+    }
+  }),
 ];
