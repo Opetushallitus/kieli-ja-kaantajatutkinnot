@@ -317,7 +317,7 @@ class CSPNoncePlaceholderInjectorPlugin {
                     "th:if": "${clerkEnabled}",
                     "th:attr": "nonce=${cspNonce}",
                     src: "/virkailija-raamit/apply-raamit.js",
-                    async: true,
+                    defer: true,
                   }
                 )
               );
