@@ -10,17 +10,21 @@ import {
 import { useAppSelector } from 'configs/redux';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
+import { PartialExamType } from 'interfaces/publicRegistration';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
 
+// PartialExamTypeProp is only used when ConfirmRegistrationPage renders ExamSessionDetails
 export const PublicRegistrationExamSessionDetails = ({
   examSession,
   showOpenings,
+  partialExamType: partialExamTypeProp,
 }: {
   examSession?: ExamSession;
   showOpenings: boolean;
+  partialExamType?: PartialExamType;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.examSessionDetails',
@@ -146,7 +150,7 @@ export const PublicRegistrationExamSessionDetails = ({
             <b>
               {ExamSessionUtils.getPartialExamTypeText(
                 examSession.type,
-                initRegistration.partialExamType,
+                partialExamTypeProp ?? initRegistration.partialExamType,
               )}
             </b>
           </Text>
