@@ -8,6 +8,7 @@ import { watchClerkQuarantine } from 'redux/sagas/clerkQuarantine';
 import { watchExamDates } from 'redux/sagas/examDate';
 import { watchNationalities } from 'redux/sagas/nationalities';
 import { watchSession } from 'redux/sagas/session';
+import { watchUser } from 'redux/sagas/user';
 
 export default function* rootSaga() {
   yield all([
@@ -18,6 +19,7 @@ export default function* rootSaga() {
     watchExamDates(),
     watchNationalities(),
     watchSession(),
+    watchUser(),
     watchClerkQuarantine(),
   ]);
 }

@@ -15,6 +15,7 @@ import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
 import { examDates } from 'tests/msw/fixtures/examDate';
 import { examSessions } from 'tests/msw/fixtures/examSession';
+import { findByOidResponse } from 'tests/msw/fixtures/findByOid';
 import { findByOidsResponse } from 'tests/msw/fixtures/findByOids';
 import { findOrganizations } from 'tests/msw/fixtures/findOrganizations';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
@@ -42,15 +43,35 @@ const adminUser = {
   },
 };
 
+const v2User = {
+  oid: '1.2.246.562.10.28646781493',
+  isAdmin: true,
+  isOrganizer: true,
+};
+
 export const handlers = [
   http.get(APIEndpoints.User, () => {
     return HttpResponse.json(adminUser);
     //return HttpResponse.json(NoSessionResponse);
   }),
+  http.get(APIEndpoints.AuthUser, () => {
+    return HttpResponse.json(v2User);
+  }),
   http.get(APIEndpoints.CountryCodes, () =>
     HttpResponse.json(maatJaValtiot2Response),
   ),
   http.get(APIEndpoints.ClerkOrganizer, () => HttpResponse.json(organizers)),
+  http.get(`${APIEndpoints.Organizer}/:oid`, ({ params }) => {
+    const oid = params?.oid as string | undefined;
+    const organizer = organizers.organizers.find((o) => {
+      return o.oid === oid;
+    });
+    if (organizer) {
+      return HttpResponse.json({ organizers: [organizer] });
+    } else {
+      return notFound();
+    }
+  }),
   http.put(
     `${APIEndpoints.ClerkOrganizer}/:oid`,
     async ({ params, request }) => {
@@ -191,6 +212,12 @@ export const handlers = [
       }
     },
   ),
+  http.get(
+    '/organisaatio-service/rest/organisaatio/v4/1.2.246.562.10.28646781493',
+    () => {
+      return HttpResponse.json(findByOidResponse);
+    },
+  ),
   http.get(APIEndpoints.ClerkOrganizer + '/:oid/exam-session', ({ params }) => {
     const { from } = params;
 
@@ -207,6 +234,16 @@ export const handlers = [
     // all exam dates
     // return HttpResponse.json({ dates: examDates.dates });
   }),
+  http.get(
+    APIEndpoints.Organizer + '/1.2.246.562.10.28646781493/examDates',
+    () => {
+      return HttpResponse.json(examDates);
+    },
+  ),
+  http.get(
+    APIEndpoints.Organizer + '/1.2.246.562.10.28646781493/examSession/999',
+    () => HttpResponse.json(clerkExamSession),
+  ),
   http.get(`${APIEndpoints.ClerkExamDate}/all`, () => {
     return HttpResponse.json(examDates);
   }),

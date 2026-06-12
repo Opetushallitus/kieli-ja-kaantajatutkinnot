@@ -1,17 +1,20 @@
 package fi.oph.yki.service;
 
+import fi.oph.yki.api.dto.clerk.ClerkOrganizerCreateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionContactDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionLocationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerLanguageDTO;
 import fi.oph.yki.model.ExamDate;
+import fi.oph.yki.model.ExamLanguage;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Organizer;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.OrganizerRepository;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,13 +33,58 @@ public class ClerkOrganizerService {
   }
 
   @Transactional(readOnly = true)
+  public List<ClerkOrganizerDTO> getOrganizers(final List<String> oids) {
+    return organizerRepository.findAllByOidInAndDeletedAtIsNull(oids).stream().map(this::toDTO).toList();
+  }
+
+  @Transactional
+  public ClerkOrganizerDTO createOrganizer(final ClerkOrganizerCreateDTO dto) {
+    final Organizer organizer = new Organizer();
+    organizer.setOid(dto.oid());
+    organizer.setAgreementStartDate(dto.agreementStartDate());
+    organizer.setAgreementEndDate(dto.agreementEndDate());
+    organizer.setContactName(dto.contactName());
+    organizer.setContactEmail(dto.contactEmail());
+    organizer.setContactPhoneNumber(dto.contactPhoneNumber());
+    organizer.setExtra(dto.extra());
+
+    final Organizer saved = organizerRepository.save(organizer);
+
+    if (dto.languages() != null) {
+      for (final var langDto : dto.languages()) {
+        final ExamLanguage lang = new ExamLanguage();
+        lang.setOrganizer(saved);
+        lang.setLanguageCode(langDto.languageCode());
+        lang.setLevelCode(langDto.levelCode());
+        saved.getLanguages().add(lang);
+      }
+      organizerRepository.save(saved);
+    }
+
+    return toDTO(saved);
+  }
+
+  @Transactional(readOnly = true)
+  public List<ClerkOrganizerExamSessionDTO> getExamSessionsByOrganizerOid(final String oid, final LocalDate from) {
+    final Organizer organizer = organizerRepository.findByOidAndDeletedAtIsNull(oid).orElseThrow();
+    final List<ExamSession> examSessions = from != null
+      ? examSessionRepository.findByOrganizerAndExamDateFrom(organizer, from)
+      : examSessionRepository.findByOrganizer(organizer);
+
+    return examSessionRepository
+      .findByExamSessionsWithLocation(examSessions)
+      .stream()
+      .map(this::toExamSessionDTO)
+      .toList();
+  }
+
   public List<ClerkOrganizerExamSessionDTO> getExamSessionsByOrganizerOid(final String oid) {
     return examSessionRepository.findByOrganizerOid_Oid(oid).stream().map(this::toExamSessionDTO).toList();
   }
 
   private ClerkOrganizerExamSessionDTO toExamSessionDTO(final ExamSession examSession) {
     final ExamDate examDate = examSession.getExamDate();
-    final Organizer organizer = examSession.getOrganizerOid();
+    final Organizer organizer = examSession.getOrganizer();
 
     final List<ClerkOrganizerExamSessionLocationDTO> locations = examSession
       .getLocations()

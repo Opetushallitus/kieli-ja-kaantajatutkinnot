@@ -9,6 +9,7 @@ import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.PersonSyncStatusRepository;
 import fi.oph.yki.util.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,23 @@ public class PersonService {
   private final PersonRepository personRepository;
   private final PersonSyncStatusRepository personSyncStatusRepository;
   private final AuditService auditService;
+
+  @Transactional
+  public void updateContactDetails(
+    final String personOid,
+    final String organizerOid,
+    final ClerkPersonContactUpdateDTO dto
+  ) {
+    final var hasAccess = personRepository.isPersonRelatedToOrganizer(personOid, organizerOid);
+
+    if (!hasAccess) {
+      throw new AccessDeniedException(
+        String.format("Organizer (%s) has no relation to person (%s)", organizerOid, personOid)
+      );
+    }
+
+    updateContactDetails(personOid, dto);
+  }
 
   @Transactional
   public void updateContactDetails(final String oid, final ClerkPersonContactUpdateDTO dto) {

@@ -1,5 +1,6 @@
 package fi.oph.yki.api.dto.clerk;
 
+import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import jakarta.validation.constraints.NotNull;
@@ -13,5 +14,7 @@ public record ClerkRegistrationDTO(
   LocalDate registrationDate,
   ClerkPersonDTO person,
   RegistrationState state,
-  @NonNull @NotNull RegistrationKind kind
+  @NonNull @NotNull RegistrationKind kind,
+  PartialExamType partialExamType,
+  Long queuePosition
 ) {}

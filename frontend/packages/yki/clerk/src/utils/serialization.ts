@@ -374,11 +374,13 @@ export class SerializationUtils {
         : 'REGISTERED';
 
     return {
+      id: registration.id,
       exam: registration.exam,
       examDate: dayjs(registration.examDate),
       examLocation: SerializationUtils.deserializaMapLocation(
         registration.examLocation,
       ),
+      registrationState: registration.registrationState,
       state,
     };
   }

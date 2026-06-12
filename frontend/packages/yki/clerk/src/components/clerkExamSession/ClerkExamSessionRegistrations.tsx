@@ -10,7 +10,7 @@ import { Divider, IconButton, Stack } from '@mui/material';
 import { OphButton } from '@opetushallitus/oph-design-system';
 import i18next from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
@@ -20,8 +20,15 @@ import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
-import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
+import {
+  AppRoutes,
+  ExamSessionType,
+  RegistrationKind,
+  RegistrationStates,
+} from 'enums/app';
+import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { ClerkRegistration } from 'interfaces/clerkRegistration';
+import { RouteType } from 'interfaces/user';
 import { Text } from 'ophTheme/Text';
 
 const TABS = [RegistrationKind.Admission, RegistrationKind.Queue] as const;
@@ -74,16 +81,25 @@ const ExamsListingTabs = ({
 };
 
 export const ClerkExamSessionRegistrations = ({
-  examSessionId,
-  examRegistrations,
-  language,
-  level,
+  examSession,
+  route,
 }: {
-  examSessionId: number;
-  examRegistrations: Array<ClerkRegistration> | null;
-  language: string;
-  level: string;
+  examSession: ClerkExamSession;
+  route: RouteType;
 }) => {
+  const {
+    id: examSessionId,
+    registrations: examRegistrations,
+    type: examSessionType,
+    participants,
+    participantsReadListen,
+    participantsSpeakWrite,
+    maxParticipantsTotal,
+    maxParticipantsReadListen,
+    maxParticipantsSpeakWrite,
+    language,
+    level,
+  } = examSession;
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkCustomer.details.listing',
   });
@@ -97,6 +113,8 @@ export const ClerkExamSessionRegistrations = ({
   const [cancelRegistrationId, setCancelRegistrationId] = useState<
     number | null
   >(null);
+  const params = useParams();
+  const oid = params.oid ?? '';
 
   const registrationStateIconMapping: Partial<
     Record<RegistrationStates, JSX.Element>
@@ -115,6 +133,19 @@ export const ClerkExamSessionRegistrations = ({
       <WarningIcon fontSize="large" color="warning" />
     ),
   };
+
+  const createPartialExamTypeColumn = (
+    t: typeof i18next.t,
+  ): ListTableColumn<ClerkRegistration> => ({
+    key: 'partialExamType',
+    title: t('columns.partialExamType'),
+    render: ({ partialExamType }) => {
+      const displayType =
+        partialExamType === 'ALL_PARTS' ? examSessionType : partialExamType;
+
+      return <Text>{t(`values.partialExamType.${displayType}`)}</Text>;
+    },
+  });
 
   const createRegistrationStateColumn = (
     t: typeof i18next.t,
@@ -155,7 +186,19 @@ export const ClerkExamSessionRegistrations = ({
     render: ({ person }) =>
       person && (
         <div className="rows gapped-xxs">
-          <Link to={AppRoutes.ClerkCustomerDetails.replace(':oid', person.oid)}>
+          <Link
+            to={
+              route === 'clerk'
+                ? AppRoutes.ClerkCustomerDetails.replace(
+                    ':personOid',
+                    person.oid,
+                  )
+                : AppRoutes.OrganizerCustomerDetails.replace(
+                    ':oid',
+                    oid,
+                  ).replace(':personOid', person.oid)
+            }
+          >
             {person.firstName} {person.lastName}
           </Link>
           <Text>{person.socialSecurityNumber}</Text>
@@ -185,14 +228,16 @@ export const ClerkExamSessionRegistrations = ({
       (state === RegistrationStates.Completed ||
         state === RegistrationStates.Submitted) && (
         <div className="rows gapped-xxs" style={{ alignItems: 'flex-start' }}>
-          <IconButton
-            color="secondary"
-            onClick={() => setRelocateRegistrationId(id)}
-            sx={{ width: 'fit-content' }}
-          >
-            <TurnRightOutlined color="secondary" fontSize="large" />
-            {t('values.actions.relocate')}
-          </IconButton>
+          {route === 'clerk' && (
+            <IconButton
+              color="secondary"
+              onClick={() => setRelocateRegistrationId(id)}
+              sx={{ width: 'fit-content' }}
+            >
+              <TurnRightOutlined color="secondary" fontSize="large" />
+              {t('values.actions.relocate')}
+            </IconButton>
+          )}
           <IconButton
             color="secondary"
             onClick={() => setCancelRegistrationId(id)}
@@ -210,7 +255,9 @@ export const ClerkExamSessionRegistrations = ({
   ): ListTableColumn<ClerkRegistration> => ({
     key: 'person',
     title: t('columns.positionInQueue'),
-    render: ({ id }) => <div className="rows gapped-xxs">{id}</div>,
+    render: ({ queuePosition }) => (
+      <div className="rows gapped-xxs">{queuePosition}</div>
+    ),
   });
 
   if (!examRegistrations) {
@@ -219,6 +266,7 @@ export const ClerkExamSessionRegistrations = ({
 
   const admissionsColumns = [
     createPersonColumn(t),
+    createPartialExamTypeColumn(t),
     createRegistrationStateColumn(t),
     createRegistrationDateColumn(t),
     createActionsColumn(t),
@@ -227,6 +275,7 @@ export const ClerkExamSessionRegistrations = ({
   const queuedColumns = [
     createPositionInQueueColumn(t),
     createPersonColumn(t),
+    createPartialExamTypeColumn(t),
     createRegistrationStateColumn(t),
     createRegistrationDateColumn(t),
     createActionsColumn(t),
@@ -239,30 +288,72 @@ export const ClerkExamSessionRegistrations = ({
     (r) => r.kind === RegistrationKind.Queue,
   );
 
+  const translatePartialExamTypeReadListen = () =>
+    examSessionType === ExamSessionType.READ_SPEAK
+      ? 'participantsRead'
+      : 'participantsListen';
+
+  const translatePartialExamTypeSpeakWrite = () =>
+    examSessionType === ExamSessionType.READ_SPEAK
+      ? 'participantsSpeak'
+      : 'participantsWrite';
+
   return (
     <Stack spacing={4}>
-      <div className="clerk-exam-session-registrations__tabs grid-2-columns">
-        <ExamsListingTabs
-          admissionCount={admissions.length ?? 0}
-          queuedCount={queued.length ?? 0}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-        />
-        <div className="clerk-exam-session-registrations__filter-buttons">
-          <OphButton
-            color="primary"
-            variant={Variant.Contained}
-            onClick={() =>
-              window.open(
-                APIEndpoints.ClerkExamSessionExcel.replace(
-                  ':id',
-                  String(examSessionId),
-                ),
-              )
-            }
-          >
-            <Download fontSize="large" /> {tButtons('downloadExcel')}
-          </OphButton>
+      <div className="clerk-exam-session-registrations__tabs">
+        <div className="clerk-exam-session-registrations__tabs grid-2-columns">
+          <ExamsListingTabs
+            admissionCount={admissions.length ?? 0}
+            queuedCount={queued.length ?? 0}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
+        </div>
+        <div className="grid-2-columns">
+          {examSessionType === ExamSessionType.FULL ? (
+            <Text>
+              {tButtons('participants', {
+                count: participants,
+                max: maxParticipantsTotal,
+              })}
+            </Text>
+          ) : (
+            <div className="rows gapped-xxs">
+              <Text>
+                {tButtons(translatePartialExamTypeReadListen(), {
+                  count: participantsReadListen,
+                  max: maxParticipantsReadListen,
+                })}
+              </Text>
+              <Text>
+                {tButtons(translatePartialExamTypeSpeakWrite(), {
+                  count: participantsSpeakWrite,
+                  max: maxParticipantsSpeakWrite,
+                })}
+              </Text>
+            </div>
+          )}
+          <div className="clerk-exam-session-registrations__filter-buttons">
+            <OphButton
+              color="primary"
+              variant={Variant.Contained}
+              onClick={() =>
+                window.open(
+                  route === 'clerk'
+                    ? APIEndpoints.ClerkExamSessionExcel.replace(
+                        ':id',
+                        String(examSessionId),
+                      )
+                    : APIEndpoints.OrganizerExamSessionExcel.replace(
+                        ':id',
+                        String(examSessionId),
+                      ).replace(':oid', oid),
+                )
+              }
+            >
+              <Download fontSize="large" /> {tButtons('downloadExcel')}
+            </OphButton>
+          </div>
         </div>
       </div>
       {activeTab === RegistrationKind.Admission ? (
@@ -295,6 +386,8 @@ export const ClerkExamSessionRegistrations = ({
         registrationId={cancelRegistrationId}
         onClose={() => setCancelRegistrationId(null)}
         examSessionId={examSessionId}
+        route={route}
+        organizerOid={oid}
       />
     </Stack>
   );

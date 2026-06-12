@@ -1,12 +1,17 @@
 package fi.oph.yki.model;
 
+import fi.oph.yki.model.type.GenderCode;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 @Getter
 @Setter
@@ -46,6 +51,11 @@ public class Person {
   @Size(max = 255)
   @Column(name = "zip")
   private String zip;
+
+  @Column(name = "gender", columnDefinition = "gender_code")
+  @Enumerated(value = EnumType.STRING)
+  @JdbcType(PostgreSQLEnumJdbcType.class)
+  private GenderCode gender;
 
   @Size(max = 255)
   @Column(name = "nationality_code")

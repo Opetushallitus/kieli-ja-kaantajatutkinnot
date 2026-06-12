@@ -44,6 +44,7 @@
       "email": "Email address",
       "error": "An unexpected error has occurred.",
       "errors": {
+        "notFound": "Tietoja ei löytynyt",
         "addingExamDateFailed": "Tutkintopäivän lisääminen epäonnistui",
         "api": {
           "examDateCreateDuplicateDate": "Tutkintopäivä on jo olemassa valitulle päivämäärälle",

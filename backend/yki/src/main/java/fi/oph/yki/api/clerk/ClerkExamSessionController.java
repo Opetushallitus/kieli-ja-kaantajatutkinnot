@@ -43,7 +43,7 @@ public class ClerkExamSessionController {
   }
 
   @GetMapping(path = "/{examSessionId:\\d+}")
-  @Operation(tags = TAG_EXAM_SESSION, summary = "Get exam event and enrollments")
+  @Operation(tags = TAG_EXAM_SESSION, summary = "Get exam event and registrations")
   public ClerkExamSessionDTO getExamSession(@PathVariable final long examSessionId) {
     return clerkExamSessionService.getExamSession(examSessionId);
   }

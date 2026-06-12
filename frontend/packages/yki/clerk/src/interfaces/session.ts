@@ -16,3 +16,9 @@ interface UnauthenticatedSession {
 export type SessionResponse =
   | CasAuthenticatedClerkSession
   | UnauthenticatedSession;
+
+export interface User {
+  oid: string;
+  isAdmin: boolean;
+  isOrganizer: boolean;
+}

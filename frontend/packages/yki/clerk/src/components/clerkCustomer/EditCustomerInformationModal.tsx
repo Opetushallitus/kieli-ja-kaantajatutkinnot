@@ -8,19 +8,27 @@ import { InputFieldUtils } from 'shared/utils';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { CustomerPerson } from 'interfaces/clerkCustomer';
+import { RouteType } from 'interfaces/user';
 import { Label } from 'ophTheme/Text';
-import { updateCustomerContactDetails } from 'redux/reducers/clerkCustomerDetails';
+import {
+  updateCustomerContactDetails,
+  updateOrganizerCustomerContactDetails,
+} from 'redux/reducers/clerkCustomerDetails';
 
 type EditCustomerInformationModalProps = {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
   person: CustomerPerson;
+  route: RouteType;
+  organizerOid: string;
 };
 
 export const EditCustomerInformationModal = ({
   isModalOpen,
   setIsModalOpen,
   person,
+  route,
+  organizerOid,
 }: EditCustomerInformationModalProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkCustomer',
@@ -164,14 +172,24 @@ export const EditCustomerInformationModal = ({
                 return;
               }
               dispatch(
-                updateCustomerContactDetails({
-                  oid: person.oid,
-                  email: email ?? '',
-                  phoneNumber: phoneNumber ?? '',
-                  streetAddress: streetAddress ?? '',
-                  postOffice: postOffice ?? '',
-                  zip: zip ?? '',
-                }),
+                route === 'clerk'
+                  ? updateCustomerContactDetails({
+                      oid: person.oid,
+                      email: email ?? '',
+                      phoneNumber: phoneNumber ?? '',
+                      streetAddress: streetAddress ?? '',
+                      postOffice: postOffice ?? '',
+                      zip: zip ?? '',
+                    })
+                  : updateOrganizerCustomerContactDetails({
+                      oid: person.oid,
+                      email: email ?? '',
+                      phoneNumber: phoneNumber ?? '',
+                      streetAddress: streetAddress ?? '',
+                      postOffice: postOffice ?? '',
+                      zip: zip ?? '',
+                      organizerOid: organizerOid,
+                    }),
               );
               setIsModalOpen(false);
             }}

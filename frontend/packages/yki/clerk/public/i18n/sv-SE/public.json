@@ -29,7 +29,9 @@
               "personName": "Nimi",
               "queueSpotOffered": "Jonopaikkaa tarjottu",
               "registrationDate": "Ilmoittautumispvm",
-              "registrationState": "Ilmoittautumisen tila"
+              "partialExamType": "Osakoe",
+              "registrationState": "Ilmoittautumisen tila",
+              "positionInQueue": "Jonosija"
             },
             "headers": {
               "pastExams": "Menneet tutkintotilaisuudet",
@@ -60,6 +62,16 @@
                 "NOT_ACCEPTED": "Ei otettu vastaan",
                 "NOT_OFFERED": "Ei",
                 "OFFERED": "Kyllä"
+              },
+              "partialExamType": {
+                "ALL_PARTS": "Kaikki osakokeet",
+                "FULL": "Koko tutkinto",
+                "READ_SPEAK": "Tekstinen ymmärtäminen ja puhuminen",
+                "LISTEN_WRITE": "Puheen ymmärtäminen ja kirjoittaminen",
+                "READ": "Tekstin ymmärtäminen",
+                "SPEAK": "Puhuminen",
+                "LISTEN": "Puheen ymmärtäminen",
+                "WRITE": "Kirjoittaminen"
               },
               "registrationState": {
                 "CANCELLED": "Peruttu",
@@ -191,7 +203,18 @@
       "clerkExamSessionRegistrations": {
         "buttons": {
           "downloadExcel": "Lataa excel",
-          "edit": "Muokkaa"
+          "edit": "Muokkaa",
+          "participants": "Ilmoittautuneita: {{count}} / {{max}}",
+          "participantsRead": "Tekstin ymmärtäminen: {{count}} / {{max}}",
+          "participantsListen": "Puheen ymmärtäminen: {{count}} / {{max}}",
+          "participantsSpeak": "Puhuminen: {{count}} / {{max}}",
+          "participantsWrite": "Kirjoittaminen: {{count}} / {{max}}"
+        },
+        "maxParticipants": {
+          "maxParticipantsReading": "Tekstin ymmärtäminen: {{count}}",
+          "maxParticipantsSpeaking": "Puhuminen: {{count}}",
+          "maxParticipantsSpeech": "Puheen ymmärtäminen: {{count}}",
+          "maxParticipantsWriting": "Kirjoittaminen: {{count}}"
         },
         "maxParticipants": {
           "maxParticipantsReading": "Tekstin ymmärtäminen: {{count}}",
@@ -230,8 +253,8 @@
               "type": "Tutkintotyyppi",
               "typeOptions": {
                 "FULL": "Koko tutkinto",
-                "LISTEN_WRITE": "Kuunteleminen ja kirjoittaminen",
-                "READ_SPEAK": "Lukeminen ja puhuminen"
+                "LISTEN_WRITE": "Puheen ymmärtäminen ja kirjoittaminen",
+                "READ_SPEAK": "Tekstinen ymmärtäminen ja puhuminen"
               }
             },
             "errors": {

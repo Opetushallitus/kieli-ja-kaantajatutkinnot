@@ -8,6 +8,7 @@ import fi.oph.yki.service.ClerkRegistrationService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Conditional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +34,7 @@ public class ClerkRegistrationController {
     clerkRegistrationService.moveRegistration(registrationId, targetExamSessionId);
   }
 
-  @PutMapping(path = "/{registrationId:\\d+}/cancel", consumes = ALL_VALUE)
+  @DeleteMapping(path = "/{registrationId:\\d+}/cancel", consumes = ALL_VALUE)
   @Operation(tags = TAG_REGISTRATION, summary = "Cancel registration")
   public void cancelRegistration(@PathVariable final long registrationId) {
     clerkRegistrationService.cancelRegistration(registrationId);

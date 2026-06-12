@@ -63,7 +63,7 @@ class ClerkCustomerDetailsPage {
     registeredTableHeader().eq(2).should('have.text', 'Testipaikka');
     registeredTableHeader().eq(3).should('have.text', 'Ilmoittautumisen tila');
     registeredTableHeader().eq(4).should('have.text', 'Ilmoittautumispvm');
-    registeredTableHeader().should('have.length', 5); // check no extra columans
+    registeredTableHeader().should('have.length', 6); // check no extra columans
   }
 
   // Jonossa
