@@ -6,24 +6,43 @@ import {
   ClerkExamSessionResponse,
 } from 'interfaces/clerkExamSession';
 
+interface ClerkExamSessionLocationForm {
+  lang: string;
+  streetAddress: string;
+  postalCode: string;
+  city: string;
+  name: string;
+  otherLocationInfo: string;
+  extraInformation: string;
+}
+
 export interface ClerkExamSessionEditForm {
   language: string;
   level: string;
   maxParticipantsTotal: string;
-  maxParticipantsPartial1: string;
-  maxParticipantsPartial2: string;
-  streetAddress: string;
-  postalCode: string;
-  city: string;
+  maxParticipantsReadListen: string;
+  maxParticipantsSpeakWrite: string;
+  location: ClerkExamSessionLocationForm[];
   contactName: string;
   contactEmail: string;
   contactPhoneNumber: string;
+  startTime: string;
+  startTimeReadListen: string;
+  startTimeSpeakWrite: string;
+  officeOid: string;
+}
+
+export interface ClerkExamSessionCreateForm extends ClerkExamSessionEditForm {
+  organizerOid: string;
+  examDateId: string;
+  type: string;
 }
 
 interface ClerkExamSessionState {
   clerkExamSession: ClerkExamSession | null;
   status: APIResponseStatus;
   updateStatus: APIResponseStatus;
+  createStatus: APIResponseStatus;
   relocateExamSessions: ClerkExamSessionResponse[];
   relocateExamSessionsStatus: APIResponseStatus;
   relocateStatus: APIResponseStatus;
@@ -34,6 +53,7 @@ const initialState: ClerkExamSessionState = {
   clerkExamSession: null,
   status: APIResponseStatus.NotStarted,
   updateStatus: APIResponseStatus.NotStarted,
+  createStatus: APIResponseStatus.NotStarted,
   relocateExamSessions: [],
   relocateExamSessionsStatus: APIResponseStatus.NotStarted,
   relocateStatus: APIResponseStatus.NotStarted,
@@ -125,6 +145,18 @@ const clerkExamSessionSlice = createSlice({
     resetCancel(state) {
       state.cancelStatus = APIResponseStatus.NotStarted;
     },
+    createExamSession(
+      state,
+      _action: PayloadAction<ClerkExamSessionCreateForm>,
+    ) {
+      state.createStatus = APIResponseStatus.InProgress;
+    },
+    acceptCreateExamSession(state) {
+      state.createStatus = APIResponseStatus.Success;
+    },
+    rejectCreateExamSession(state) {
+      state.createStatus = APIResponseStatus.Error;
+    },
     resetClerkExamSession() {
       return initialState;
     },
@@ -150,5 +182,8 @@ export const {
   acceptCancelRegistration,
   rejectCancelRegistration,
   resetCancel,
+  createExamSession,
+  acceptCreateExamSession,
+  rejectCreateExamSession,
   resetClerkExamSession,
 } = clerkExamSessionSlice.actions;

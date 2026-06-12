@@ -15,7 +15,7 @@ export const ClerkExamSession = () => {
   const { examDates } = useAppSelector(examDateSelector);
 
   useEffect(() => {
-    dispatch(loadExamDates());
+    dispatch(loadExamDates(false));
 
     return () => {
       dispatch(resetClerkExamSession());
@@ -30,7 +30,6 @@ export const ClerkExamSession = () => {
     <Stack rowGap={4}>
       <ClerkExamSessionDetails
         examSessionDetails={clerkExamSession}
-        languages={['deu', 'eng', 'fin']}
         examDates={examDates}
       />
       <ClerkExamSessionRegistrations

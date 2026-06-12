@@ -1,13 +1,21 @@
 package fi.oph.yki.service;
 
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionCreateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionLocationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
+import fi.oph.yki.audit.AuditService;
+import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
+import fi.oph.yki.model.ExamSessionLocation;
+import fi.oph.yki.model.Organizer;
+import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.RegistrationState;
+import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
+import fi.oph.yki.repository.OrganizerRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.RegistrationUtil;
 import fi.oph.yki.view.ExamSessionXlsxDataRowUtil;
@@ -24,6 +32,9 @@ public class ClerkExamSessionService {
 
   private final ExamSessionRepository examSessionRepository;
   private final RegistrationRepository registrationRepository;
+  private final ExamDateRepository examDateRepository;
+  private final OrganizerRepository organizerRepository;
+  private final AuditService auditService;
 
   @Transactional(readOnly = true)
   public ClerkExamSessionDTO getExamSession(final Long examSessionId) {
@@ -70,8 +81,11 @@ public class ClerkExamSessionService {
       .registrationStartDate(examDate.getRegistrationStartDate())
       .registrationEndDate(examDate.getRegistrationEndDate())
       .maxParticipantsTotal(examSession.getMaxParticipants())
-      .maxParticipantsPartial1(examSession.getMaxParticipants())
-      .maxParticipantsPartial2(examSession.getMaxParticipants())
+      .maxParticipantsReadListen(examSession.getMaxParticipantsReadListen())
+      .maxParticipantsSpeakWrite(examSession.getMaxParticipantsSpeakWrite())
+      .startTime(examSession.getStartTime())
+      .startTimeReadListen(examSession.getStartTimeReadListen())
+      .startTimeSpeakWrite(examSession.getStartTimeSpeakWrite())
       .contactName(examSession.getContactName())
       .contactEmail(examSession.getContactEmail())
       .contactPhoneNumber(examSession.getContactPhoneNumber())
@@ -91,17 +105,39 @@ public class ClerkExamSessionService {
   public ClerkExamSessionDTO updateExamSession(final long examSessionId, final ClerkExamSessionUpdateDTO dto) {
     final ExamSession examSession = examSessionRepository.getReferenceById(examSessionId);
 
-    examSession.setLanguage(dto.language());
-    examSession.setLevel(dto.level());
-    examSession.setType(dto.type());
-    examSession.setMaxParticipants(dto.maxParticipantsTotal());
+    if (dto.language() != null) {
+      examSession.setLanguage(dto.language());
+    }
+    if (dto.level() != null) {
+      examSession.setLevel(dto.level());
+    }
 
-    final var locations = examSession.getLocations();
-    if (!locations.isEmpty()) {
-      final var location = locations.get(0);
-      location.setStreetAddress(dto.streetAddress());
-      location.setZip(dto.zip());
-      location.setPostOffice(dto.postOffice());
+    if (examSession.getType().equals(ExamSessionType.FULL)) {
+      examSession.setStartTime(dto.startTime());
+      examSession.setMaxParticipants(dto.maxParticipantsTotal());
+    } else {
+      examSession.setMaxParticipants(dto.maxParticipantsReadListen() + dto.maxParticipantsSpeakWrite());
+      examSession.setMaxParticipantsSpeakWrite(dto.maxParticipantsSpeakWrite());
+      examSession.setMaxParticipantsReadListen(dto.maxParticipantsReadListen());
+      examSession.setStartTimeReadListen(dto.startTimeReadListen());
+      examSession.setStartTimeSpeakWrite(dto.startTimeSpeakWrite());
+    }
+
+    if (dto.location() != null && !dto.location().isEmpty()) {
+      examSession
+        .getLocations()
+        .forEach(loc -> {
+          final var locDto = dto.location().stream().filter(l -> l.lang().equals(loc.getLang())).findFirst();
+
+          if (locDto.isPresent()) {
+            loc.setLang(locDto.get().lang());
+            loc.setStreetAddress(locDto.get().streetAddress());
+            loc.setZip(locDto.get().postalCode());
+            loc.setPostOffice(locDto.get().city());
+            loc.setOtherLocationInfo(locDto.get().otherLocationInfo());
+            loc.setExtraInformation(locDto.get().extraInformation());
+          }
+        });
     }
 
     examSession.setContactName(dto.contactName());
@@ -109,5 +145,54 @@ public class ClerkExamSessionService {
     examSession.setContactPhoneNumber(dto.contactPhoneNumber());
 
     return getExamSession(examSessionId);
+  }
+
+  @Transactional
+  public ClerkExamSessionDTO createExamSession(final ClerkExamSessionCreateDTO dto) {
+    final ExamDate examDate = examDateRepository.getReferenceById(dto.examDateId());
+    final Organizer organizer = organizerRepository
+      .findByOidAndDeletedAtIsNull(dto.organizerOid())
+      .orElseThrow(() -> new IllegalArgumentException("Organizer not found for oid: " + dto.organizerOid()));
+
+    final ExamSession examSession = new ExamSession();
+    examSession.setExamDate(examDate);
+    examSession.setOrganizerOid(organizer);
+    examSession.setOfficeOid(dto.officeOid());
+    examSession.setLanguage(dto.language());
+    examSession.setLevel(dto.level());
+    examSession.setType(dto.type());
+    if (dto.type().equals(ExamSessionType.FULL)) {
+      examSession.setStartTime(dto.startTime());
+      examSession.setMaxParticipants(dto.maxParticipantsTotal());
+    } else {
+      examSession.setMaxParticipants(dto.maxParticipantsSpeakWrite() + dto.maxParticipantsReadListen());
+      examSession.setMaxParticipantsSpeakWrite(dto.maxParticipantsSpeakWrite());
+      examSession.setMaxParticipantsReadListen(dto.maxParticipantsReadListen());
+      examSession.setStartTimeReadListen(dto.startTimeReadListen());
+      examSession.setStartTimeSpeakWrite(dto.startTimeSpeakWrite());
+    }
+    examSession.setContactName(dto.contactName());
+    examSession.setContactEmail(dto.contactEmail());
+    examSession.setContactPhoneNumber(dto.contactPhoneNumber());
+
+    if (dto.location() != null) {
+      for (final var locDto : dto.location()) {
+        final ExamSessionLocation location = new ExamSessionLocation();
+        location.setExamSession(examSession);
+        location.setLang(locDto.lang() != null ? locDto.lang() : "fi");
+        location.setStreetAddress(locDto.streetAddress());
+        location.setZip(locDto.postalCode());
+        location.setPostOffice(locDto.city());
+        location.setName(locDto.name());
+        location.setOtherLocationInfo(locDto.otherLocationInfo());
+        location.setExtraInformation(locDto.extraInformation());
+        examSession.getLocations().add(location);
+      }
+    }
+
+    final ExamSession saved = examSessionRepository.save(examSession);
+    auditService.logById(YkiOperation.CREATE_EXAM_SESSION, saved.getId());
+
+    return toDTO(saved);
   }
 }

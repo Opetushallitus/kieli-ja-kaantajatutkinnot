@@ -191,7 +191,7 @@ export const handlers = [
       }
     },
   ),
-  http.get('/yki/api/clerk/organizer/:oid/exam-session', ({ params }) => {
+  http.get(APIEndpoints.ClerkOrganizer + '/:oid/exam-session', ({ params }) => {
     const { from } = params;
 
     const filteredExamSessions = from

@@ -58,7 +58,7 @@ export const ClerkCustomerListingFilter = () => {
 
   useEffect(() => {
     if (examDateStatus === APIResponseStatus.NotStarted) {
-      dispatch(loadExamDates());
+      dispatch(loadExamDates(false));
     }
   }, [dispatch, examDateStatus]);
 

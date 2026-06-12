@@ -7,6 +7,7 @@ import { APIEndpoints } from 'enums/api';
 import {
   ClerkOrganization,
   ClerkOrganizer,
+  ClerkOrganizerHierarchyResponse,
   ClerkOrganizerResponse,
 } from 'interfaces/clerkOrganizer';
 import {
@@ -19,20 +20,24 @@ import {
   loadClerkOrganization,
   loadClerkOrganizerRegistry,
   loadClerkOrganizers,
+  loadOrganizationHierarchy,
   rejectAddClerkOrganizer,
   rejectAllOrganizations,
   rejectClerkOrganization,
   rejectClerkOrganizers,
   rejectLoadClerkOrganizerRegistry,
+  rejectOrganizationHierarchy,
   storeAddClerkOrganizer,
   storeAllOrganizations,
   storeClerkOrganization,
   storeClerkOrganizerRegistry,
   storeClerkOrganizers,
+  storeOrganizationHierarchy,
   updateClerkOrganizer,
   updateClerkOrganizerError,
   updateClerkOrganizerSuccess,
 } from 'redux/reducers/clerkOrganizer';
+import { flattenOrganizationHierarchy } from 'utils/organization';
 import { SerializationUtils } from 'utils/serialization';
 
 function* loadClerkOrganizerRegistrySaga() {
@@ -124,6 +129,23 @@ function* updateClerkOrganizerSaga(
   }
 }
 
+function* loadOrganizationHierarchySaga(action: PayloadAction<string>) {
+  try {
+    const response: AxiosResponse<{
+      organisaatiot: Array<ClerkOrganizerHierarchyResponse>;
+    }> = yield call(
+      axiosInstance.get,
+      `/organisaatio-service/rest/organisaatio/v4/hierarkia/hae?aktiiviset=true&suunnitellut=true&lakkautetut=false&oid=${action.payload}`,
+    );
+    const flattenedOrganisations = flattenOrganizationHierarchy(
+      response.data.organisaatiot,
+    );
+    yield put(storeOrganizationHierarchy(flattenedOrganisations));
+  } catch (error) {
+    yield put(rejectOrganizationHierarchy());
+  }
+}
+
 function* loadAllOrganizationsSaga() {
   try {
     const response: AxiosResponse<{
@@ -204,4 +226,8 @@ export function* watchClerkOrganizers() {
   yield takeLatest(loadAllOrganizations.type, loadAllOrganizationsSaga);
   yield takeLatest(loadClerkOrganization.type, loadClerkOrganizationSaga);
   yield takeLatest(addClerkOrganizer.type, addClerkOrganizerSaga);
+  yield takeLatest(
+    loadOrganizationHierarchy.type,
+    loadOrganizationHierarchySaga,
+  );
 }

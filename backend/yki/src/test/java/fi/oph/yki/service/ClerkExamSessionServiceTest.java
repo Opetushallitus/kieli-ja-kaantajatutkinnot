@@ -6,14 +6,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionLocationCreateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
+import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
+import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
+import fi.oph.yki.repository.OrganizerRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -22,6 +27,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @WithMockUser
 @DataJpaTest
@@ -37,13 +43,29 @@ public class ClerkExamSessionServiceTest {
   private RegistrationRepository registrationRepository;
 
   @Resource
+  private ExamDateRepository examDateRepository;
+
+  @Resource
+  private OrganizerRepository organizerRepository;
+
+  @MockitoBean
+  private AuditService auditService;
+
+  @Resource
   private TestEntityManager entityManager;
 
   private ClerkExamSessionService clerkExamSessionService;
 
   @BeforeEach
   public void setup() {
-    clerkExamSessionService = new ClerkExamSessionService(examSessionRepository, registrationRepository);
+    clerkExamSessionService =
+      new ClerkExamSessionService(
+        examSessionRepository,
+        registrationRepository,
+        examDateRepository,
+        organizerRepository,
+        auditService
+      );
   }
 
   @Test
@@ -87,14 +109,21 @@ public class ClerkExamSessionServiceTest {
     entityManager.flush();
     entityManager.clear();
 
+    final ClerkExamSessionLocationCreateDTO locationDTO = ClerkExamSessionLocationCreateDTO
+      .builder()
+      .lang("fi")
+      .name("Testipaikka")
+      .streetAddress("Uusi katu 2")
+      .postalCode("00200")
+      .city("Espoo")
+      .build();
+
     final ClerkExamSessionUpdateDTO updateDTO = ClerkExamSessionUpdateDTO
       .builder()
       .language("deu")
       .level("KESKI")
       .maxParticipantsTotal(30)
-      .streetAddress("Uusi katu 2")
-      .zip("00200")
-      .postOffice("Espoo")
+      .location(List.of(locationDTO))
       .contactName("Uusi Henkilö")
       .contactEmail("uusi@example.com")
       .contactPhoneNumber("0509876543")

@@ -193,33 +193,55 @@
           "downloadExcel": "Lataa excel",
           "edit": "Muokkaa"
         },
+        "maxParticipants": {
+          "maxParticipantsReading": "Tekstin ymmärtäminen: {{count}}",
+          "maxParticipantsSpeaking": "Puhuminen: {{count}}",
+          "maxParticipantsSpeech": "Puheen ymmärtäminen: {{count}}",
+          "maxParticipantsWriting": "Kirjoittaminen: {{count}}"
+        },
         "modals": {
           "cancel": {
             "subTitle": "Haluatko varmasti peruuttaa ilmoittautumisen?",
             "title": "Vahvista peruutus"
           },
           "edit": {
+            "officeOidLabel": "Oppilaitos tai toimipiste",
             "fields": {
               "city": "Postitoimipaikka",
+              "name": "Tila",
+              "extraInformationFi": "Lisätiedot (suomi)",
+              "extraInformationSv": "Lisätiedot (ruotsi)",
+              "extraInformationEn": "Lisätiedot (englanti)",
               "contactEmail": "Sähköposti",
               "contactName": "Yhteyshenkilö",
               "contactPhoneNumber": "Puhelinnumero",
               "examDate": "Tutkintopäivä",
+              "noExamDates": "Ei tutkintopäiviä valituilla valinnoilla",
               "language": "Tutkintokieli",
               "level": "Tutkintotaso",
               "maxParticipants": "Osallistujien enimmäismäärä",
               "maxParticipantsPart1": "Osakoe 1: enimmäismäärä",
               "maxParticipantsPart2": "Osakoe 2: enimmäismäärä",
+              "startTime": "Alkamisaika",
+              "startTimeReadListen": "Osakoe 1: alkamisaika",
+              "startTimeSpeakWrite": "Osakoe 2: alkamisaika",
               "postalCode": "Postinumero",
               "streetAddress": "Katuosoite",
               "type": "Tutkintotyyppi",
               "typeOptions": {
-                "FULL": "Täydellinen tutkinto",
+                "FULL": "Koko tutkinto",
                 "LISTEN_WRITE": "Kuunteleminen ja kirjoittaminen",
                 "READ_SPEAK": "Lukeminen ja puhuminen"
               }
             },
+            "errors": {
+              "required": "Tieto on pakollinen"
+            },
+            "contactHeading": "Yhteystiedot",
+            "extraInformationHeading": "Lisätiedot",
             "saveButton": "Tallenna muutokset",
+            "createButton": "Luo tutkintotilaisuus",
+            "createTitle": "Luo tutkintotilaisuus",
             "title": "Muokkaa tutkintotilaisuutta",
             "toasts": {
               "saveFailed": "Muutosten tallentaminen epäonnistui",
@@ -557,7 +579,8 @@
           "actionButtons": {
             "addOrganizer": "Lisää järjestäjä",
             "adminUserView": "Tarkastele järjestäjän näkymää",
-            "modify": "Muokkaa tietoja"
+            "modify": "Muokkaa tietoja",
+            "addExamSession": "Lisää tutkintotilaisuus"
           },
           "agreementExpired": "Sopimus vanhentunut",
           "contentLabels": {

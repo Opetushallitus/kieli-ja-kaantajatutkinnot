@@ -37,6 +37,10 @@
         "dateFormat": "l",
         "dateTimeFormat": "l [klo] HH.mm"
       },
+      "examSessionTimes": {
+        "fullSessionTime": "Koko tutkinto klo {{time}}",
+        "partialSessionTime": "{{partialExam1}} klo {{time1}}, {{partialExam2}} klo {{time2}}"
+      },
       "email": "Sähköpostiosoite",
       "error": "Tapahtui odottamaton virhe.",
       "errors": {
@@ -126,6 +130,7 @@
         }
       },
       "institution": "Testipaikka",
+      "otherLocationInfo": "Tila",
       "lang": {
         "en": "Englanti",
         "fi": "Suomi",
@@ -174,6 +179,7 @@
         "evaluationOrder": "Tarkistusarviointi",
         "evaluationOrderStatus": "Tarkistusarviointi",
         "examDetails": "Tutkinto",
+        "customerExamSession": "Tutkintotilaisuus",
         "expiredLoginLink": "Linkki on vanhentunut",
         "freeRegistrationSuccess": "Ilmoittautuminen onnistui",
         "initRegistration": "Ilmoittautuminen",

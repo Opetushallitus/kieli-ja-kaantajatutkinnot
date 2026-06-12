@@ -6,6 +6,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const Dotenv = require('dotenv-webpack')
+const findByOids = require("./packages/yki/clerk/src/tests/msw/fixtures/findByOidsData.js");
+const haeOid = require("./packages/yki/clerk/src/tests/msw/fixtures/haeOidData.js");
 
 
 // cloud-base path for new yki clerk is '/yki/v2' 
@@ -136,6 +138,15 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = 
       historyApiFallback: true,
       static: {
         directory: path.join(dirName, "public"),
+      },
+      setupMiddlewares: (middlewares, devServer) => {
+        devServer.app.get('/organisaatio-service/rest/organisaatio/v4/hierarkia/hae', (req, res) => {
+          res.json(haeOid);
+        });
+        devServer.app.post('/organisaatio-service/rest/organisaatio/v3/findbyoids', (req, res) => {
+          res.json(findByOids);
+        });
+        return middlewares;
       },
       compress: true,
       port,

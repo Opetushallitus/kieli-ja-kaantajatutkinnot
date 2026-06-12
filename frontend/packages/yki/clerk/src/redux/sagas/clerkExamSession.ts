@@ -7,13 +7,17 @@ import { APIEndpoints } from 'enums/api';
 import { ClerkExamSessionResponse } from 'interfaces/clerkExamSession';
 import {
   acceptCancelRegistration,
+  acceptCreateExamSession,
   acceptRelocateRegistration,
   acceptSaveExamSession,
   cancelRegistration,
+  ClerkExamSessionCreateForm,
   ClerkExamSessionEditForm,
+  createExamSession,
   loadClerkExamSessionDetails,
   loadRelocateExamSessions,
   rejectCancelRegistration,
+  rejectCreateExamSession,
   rejectExamSessionDetails,
   rejectRelocateExamSessions,
   rejectRelocateRegistration,
@@ -55,14 +59,18 @@ function* saveExamSessionSaga(
         language: form.language,
         level: form.level,
         maxParticipantsTotal: Number(form.maxParticipantsTotal),
-        maxParticipantsPartial1: Number(form.maxParticipantsPartial1) || null,
-        maxParticipantsPartial2: Number(form.maxParticipantsPartial2) || null,
-        streetAddress: form.streetAddress,
-        zip: form.postalCode,
-        postOffice: form.city,
+        maxParticipantsReadListen:
+          Number(form.maxParticipantsReadListen) || null,
+        maxParticipantsSpeakWrite:
+          Number(form.maxParticipantsSpeakWrite) || null,
+        location: form.location,
         contactName: form.contactName,
         contactEmail: form.contactEmail,
         contactPhoneNumber: form.contactPhoneNumber,
+        startTime: form.startTime,
+        startTimeReadListen: form.startTimeReadListen || null,
+        startTimeSpeakWrite: form.startTimeSpeakWrite || null,
+        officeOid: form.officeOid,
       },
     );
     const clerkExamSession =
@@ -139,6 +147,36 @@ function* cancelRegistrationSaga(
   }
 }
 
+function* createExamSessionSaga(
+  action: PayloadAction<ClerkExamSessionCreateForm>,
+) {
+  const form = action.payload;
+  try {
+    yield call(axiosInstance.post, APIEndpoints.ClerkExamSessions, {
+      organizerOid: form.organizerOid,
+      examDateId: Number(form.examDateId),
+      language: form.language,
+      level: form.level,
+      type: form.type,
+      maxParticipantsTotal: Number(form.maxParticipantsTotal),
+      maxParticipantsReadListen: Number(form.maxParticipantsReadListen) || null,
+      maxParticipantsSpeakWrite: Number(form.maxParticipantsSpeakWrite) || null,
+      startTime: form.startTime,
+      startTimeReadListen: form.startTimeReadListen || null,
+      startTimeSpeakWrite: form.startTimeSpeakWrite || null,
+      location: form.location,
+      contactName: form.contactName,
+      contactEmail: form.contactEmail,
+      contactPhoneNumber: form.contactPhoneNumber,
+      officeOid: form.officeOid,
+    });
+
+    yield put(acceptCreateExamSession());
+  } catch (error) {
+    yield put(rejectCreateExamSession());
+  }
+}
+
 export function* watchClerkExamSession() {
   yield takeLatest(
     loadClerkExamSessionDetails.type,
@@ -148,4 +186,5 @@ export function* watchClerkExamSession() {
   yield takeLatest(loadRelocateExamSessions.type, loadRelocateExamSessionsSaga);
   yield takeLatest(relocateRegistration.type, relocateRegistrationSaga);
   yield takeLatest(cancelRegistration.type, cancelRegistrationSaga);
+  yield takeLatest(createExamSession.type, createExamSessionSaga);
 }
