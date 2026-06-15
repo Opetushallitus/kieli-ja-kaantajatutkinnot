@@ -63,7 +63,6 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = 
       ...getStylelintPlugin(env),
       ...getHtmlWebpackPlugin(env, CONTEXT_PATH, dirName, isClerk),
       new CSPNoncePlaceholderInjectorPlugin({ isCypress: !!env.cypress }),
-      new CSPNoncePlaceholderInjectorPlugin(),
       new Dotenv()
     ],
   });
