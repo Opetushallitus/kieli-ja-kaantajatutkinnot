@@ -49,7 +49,7 @@ public class ClerkOrganizerController {
   public Map<String, List<ClerkOrganizerExamSessionDTO>> getExamSessions(@PathVariable final String oid) {
     return Map.of("exam_sessions", clerkOrganizerService.getExamSessionsByOrganizerOid(oid));
   }
-  
+
   @PutMapping(path = "/{oid}", consumes = APPLICATION_JSON_VALUE)
   @Operation(tags = TAG_ORGANIZER, summary = "Update an existing organizer")
   public ClerkOrganizerDTO updateOrganizer(
