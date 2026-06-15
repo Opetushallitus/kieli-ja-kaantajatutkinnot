@@ -150,7 +150,6 @@ export const personDetails: PersonDetailsResponse = {
       type: 'FULL',
       partial_exam_type: 'ALL_PARTS',
       exam_session_id: '1',
-      start_time: '09:00',
       location: [
         {
           street_address: 'School of wizardry',
@@ -193,7 +192,6 @@ export const personDetails: PersonDetailsResponse = {
       type: 'FULL',
       partial_exam_type: 'ALL_PARTS',
       exam_session_id: '3',
-      start_time: '09:00',
       location: [
         {
           street_address: 'Koulukuja 9',
@@ -236,7 +234,6 @@ export const personDetails: PersonDetailsResponse = {
     {
       id: 5003,
       type: 'FULL',
-      start_time: '09:00',
       partial_exam_type: 'ALL_PARTS',
       exam_session_id: '5',
       location: [
@@ -281,7 +278,6 @@ export const personDetails: PersonDetailsResponse = {
     {
       id: 5004,
       type: 'FULL',
-      start_time: '09:00',
       partial_exam_type: 'ALL_PARTS',
       exam_session_id: '5',
       location: [
