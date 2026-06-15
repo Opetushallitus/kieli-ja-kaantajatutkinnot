@@ -62,7 +62,7 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = 
       ...getESLintPlugin(env),
       ...getStylelintPlugin(env),
       ...getHtmlWebpackPlugin(env, CONTEXT_PATH, dirName, isClerk),
-      new CSPNoncePlaceholderInjectorPlugin(),
+      new CSPNoncePlaceholderInjectorPlugin({ isCypress: !!env.cypress }),
       new Dotenv()
     ],
   });
@@ -273,6 +273,10 @@ const addThymeleafNoncePlaceholder = (e) => {
 };
 
 class CSPNoncePlaceholderInjectorPlugin {
+  constructor({ isCypress = false } = {}) {
+    this.isCypress = isCypress;
+  }
+
   apply(compiler) {
     compiler.hooks.compilation.tap(
       "CSPNoncePlaceholderInjectorPlugin",
@@ -306,6 +310,19 @@ class CSPNoncePlaceholderInjectorPlugin {
                 "window.__CLERK_ENABLED__ = /*[[${clerkEnabled}]]*/ false;"
               )
             );
+            if (!this.isCypress) {
+              data.headTags.push(
+                HtmlWebpackPlugin.createHtmlTagObject(
+                  "script",
+                  {
+                    "th:if": "${clerkEnabled}",
+                    "th:attr": "nonce=${cspNonce}",
+                    src: "/virkailija-raamit/apply-raamit.js",
+                    defer: true,
+                  }
+                )
+              );
+            }
             cb(null, data);
           }
         );

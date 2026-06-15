@@ -10,17 +10,21 @@ import {
 import { useAppSelector } from 'configs/redux';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
+import { PartialExamType } from 'interfaces/publicRegistration';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
 
+// PartialExamTypeProp is only used when ConfirmRegistrationPage renders ExamSessionDetails
 export const PublicRegistrationExamSessionDetails = ({
   examSession,
   showOpenings,
+  partialExamType: partialExamTypeProp,
 }: {
   examSession?: ExamSession;
   showOpenings: boolean;
+  partialExamType?: PartialExamType;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.examSessionDetails',
@@ -134,39 +138,45 @@ export const PublicRegistrationExamSessionDetails = ({
 
   const attemptsLeft = 3 - (attemptsUsed || 0);
 
+  const isPartialExamRegistrationEndStep =
+    activeStep === PublicRegistrationFormStep.Done &&
+    examSession.type !== 'FULL';
+
   return (
     <div className="rows">
       <div className="rows-gapped-xxs">
         <H2 style={{ marginBottom: '1rem' }}>
           <b>{header}</b>
         </H2>
-        <Text>
-          {`${translateCommon('partialExams')}: `}
-          <b>
-            {ExamSessionUtils.getPartialExamTypeText(
-              examSession.type,
-              initRegistration.partialExamType,
-            )}
-          </b>
-        </Text>
+        {!isPartialExamRegistrationEndStep && (
+          <Text>
+            {`${translateCommon('partialExams')}: `}
+            <b>
+              {ExamSessionUtils.getPartialExamTypeText(
+                examSession.type,
+                partialExamTypeProp ?? initRegistration.partialExamType,
+              )}
+            </b>
+          </Text>
+        )}
         <Text>
           {`${translateCommon('examDate')}: `}
           <b>{DateUtils.formatOptionalDate(examSession.session_date)}</b>
         </Text>
-
-        <Text>
-          {`${translateCommon('partialExamTimeLabel')}: `}
-          <b>
-            {translateCommon('partialExamTime', {
-              startTime:
-                ExamSessionUtils.getStartTime(
-                  examSession,
-                  initRegistration.partialExamType,
-                ) || '',
-            })}
-          </b>
-        </Text>
-
+        {examSession.type !== 'FULL' && (
+          <Text>
+            {`${translateCommon('partialExamTimeLabel')}: `}
+            <b>
+              {translateCommon('partialExamTime', {
+                startTime:
+                  ExamSessionUtils.getStartTime(
+                    examSession,
+                    initRegistration.partialExamType,
+                  ) || '',
+              })}
+            </b>
+          </Text>
+        )}
         <Text>
           {`${translateCommon('institution')}: `}
           <b>{`${location.name}, ${
@@ -179,10 +189,12 @@ export const PublicRegistrationExamSessionDetails = ({
             start,
           )} - ${DateUtils.formatOptionalDate(end)}`}</b>
         </Text>
-        <Text>
-          {`${t('examFee')}: `}
-          <b>{examFeeText}</b>
-        </Text>
+        {!isPartialExamRegistrationEndStep && (
+          <Text>
+            {`${t('examFee')}: `}
+            <b>{examFeeText}</b>
+          </Text>
+        )}
         {showOpenings && (
           <Text>
             {`${t('openings')}: `}

@@ -17,6 +17,7 @@ import { APIEndpoints } from 'enums/api';
 import { ExamSession } from 'interfaces/examSessions';
 import { loadRegistrationToConfirmDetails } from 'redux/reducers/confirmRegistration';
 import { confirmRegistrationSelector } from 'redux/selectors/confirmRegistration';
+import { userDetailsSelector } from 'redux/selectors/userDetails';
 import { SerializationUtils } from 'utils/serialization';
 
 const Header = () => {
@@ -34,10 +35,14 @@ const Header = () => {
 
 const Contents = () => {
   const { registrationDetails } = useAppSelector(confirmRegistrationSelector);
+  const { personDetails } = useAppSelector(userDetailsSelector);
   if (!registrationDetails) {
     return null;
   }
   const lang = getCurrentLang();
+  const partialExamType = personDetails?.registrations.find(
+    (r) => r.id === registrationDetails.id,
+  )?.partialExamType;
 
   return (
     <Grid>
@@ -48,6 +53,7 @@ const Contents = () => {
         <PublicRegistrationExamSessionDetails
           examSession={registrationDetails as unknown as ExamSession}
           showOpenings={false}
+          partialExamType={partialExamType}
         />
         <ConfirmRegistration
           paymentDetails={{
