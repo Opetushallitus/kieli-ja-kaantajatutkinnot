@@ -49,7 +49,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 >
                   partialExams: 
                   <b>
-                    Kaikki osakokeet: tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen
+                    yki.component.examSessionCard.examType.full
                   </b>
                 </p>
                 <p
@@ -175,7 +175,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 >
                   partialExams: 
                   <b>
-                    Puheen ymmärtäminen ja kirjoittaminen
+                    yki.component.examSessionCard.examType.listenWrite
                   </b>
                 </p>
                 <p
@@ -543,7 +543,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   >
                     partialExams: 
                     <b>
-                      Kaikki osakokeet: tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen
+                      yki.component.examSessionCard.examType.full
                     </b>
                   </p>
                   <p
