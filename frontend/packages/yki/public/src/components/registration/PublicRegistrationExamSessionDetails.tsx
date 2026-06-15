@@ -39,7 +39,10 @@ export const PublicRegistrationExamSessionDetails = ({
   }
 
   const { availablePlaces, start, end } =
-    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(
+      examSession,
+      initRegistration.partialExamType,
+    );
 
   const header = ExamSessionUtils.languageAndLevelText(examSession);
   const location = ExamSessionUtils.getLocationInfo(
@@ -57,7 +60,12 @@ export const PublicRegistrationExamSessionDetails = ({
     switch (activeStep) {
       case PublicRegistrationFormStep.Identify:
         // If user has not yet progressed to registration form, always display an undecided exam fee amount
-        examFeeText = `0 ${translateCommon('or')} ${examSession.exam_fee} €`;
+        examFeeText = `0 ${translateCommon(
+          'or',
+        )} ${ExamSessionUtils.getPartialExamFee(
+          examSession,
+          initRegistration.partialExamType,
+        )} €`;
         break;
       case PublicRegistrationFormStep.Register:
         if (submitRegistration.status === APIResponseStatus.Success) {
@@ -68,7 +76,10 @@ export const PublicRegistrationExamSessionDetails = ({
               examFeeText = '0 €';
               break;
             default:
-              examFeeText = `${examSession.exam_fee} €`;
+              examFeeText = `${ExamSessionUtils.getPartialExamFee(
+                examSession,
+                initRegistration.partialExamType,
+              )} €`;
               break;
           }
         } else {
@@ -79,18 +90,27 @@ export const PublicRegistrationExamSessionDetails = ({
               examFeeText = '0 €';
               break;
             case 'NO':
-              examFeeText = `${examSession.exam_fee} €`;
+              examFeeText = `${ExamSessionUtils.getPartialExamFee(
+                examSession,
+                initRegistration.partialExamType,
+              )} €`;
               break;
             case 'UNDECIDED':
-              examFeeText = `0 ${translateCommon('or')} ${
-                examSession.exam_fee
-              } €`;
+              examFeeText = `0 ${translateCommon(
+                'or',
+              )} ${ExamSessionUtils.getPartialExamFee(
+                examSession,
+                initRegistration.partialExamType,
+              )} €`;
               break;
           }
         }
         break;
       case PublicRegistrationFormStep.Payment:
-        examFeeText = `${examSession.exam_fee} €`;
+        examFeeText = `${ExamSessionUtils.getPartialExamFee(
+          examSession,
+          initRegistration.partialExamType,
+        )} €`;
         break;
       case PublicRegistrationFormStep.Done:
         switch (isFree) {
@@ -98,12 +118,18 @@ export const PublicRegistrationExamSessionDetails = ({
             examFeeText = '0 €';
             break;
           default:
-            examFeeText = `${examSession.exam_fee} €`;
+            examFeeText = `${ExamSessionUtils.getPartialExamFee(
+              examSession,
+              initRegistration.partialExamType,
+            )} €`;
             break;
         }
     }
   } else {
-    examFeeText = `${examSession.exam_fee} €`;
+    examFeeText = `${ExamSessionUtils.getPartialExamFee(
+      examSession,
+      initRegistration.partialExamType,
+    )} €`;
   }
 
   const attemptsLeft = 3 - (attemptsUsed || 0);
@@ -130,7 +156,15 @@ export const PublicRegistrationExamSessionDetails = ({
 
         <Text>
           {`${translateCommon('partialExamTimeLabel')}: `}
-          <b>{translateCommon('partialExamTime')}</b>
+          <b>
+            {translateCommon('partialExamTime', {
+              startTime:
+                ExamSessionUtils.getStartTime(
+                  examSession,
+                  initRegistration.partialExamType,
+                ) || '',
+            })}
+          </b>
         </Text>
 
         <Text>

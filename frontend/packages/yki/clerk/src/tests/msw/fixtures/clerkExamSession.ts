@@ -19,7 +19,6 @@ export const clerkExamSession: ClerkExamSessionResponse = {
   maxParticipantsTotal: 15,
   maxParticipantsReadListen: 10,
   maxParticipantsSpeakWrite: 10,
-  startTime: '12:32',
   startTimeReadListen: '11:00',
   startTimeSpeakWrite: '13:00',
   queue: 0,

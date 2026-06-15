@@ -63,9 +63,6 @@ public class ExamSession {
   @Column(name = "published_at")
   private LocalDateTime publishedAt;
 
-  @Column(name = "start_time")
-  private String startTime;
-
   @Column(name = "start_time_read_listen")
   private String startTimeReadListen;
 

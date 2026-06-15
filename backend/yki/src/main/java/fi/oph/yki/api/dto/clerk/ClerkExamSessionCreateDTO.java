@@ -18,7 +18,6 @@ public record ClerkExamSessionCreateDTO(
   @NotNull Integer maxParticipantsTotal,
   Integer maxParticipantsReadListen,
   Integer maxParticipantsSpeakWrite,
-  @Size(max = 255) String startTime,
   @Size(max = 255) String startTimeReadListen,
   @Size(max = 255) String startTimeSpeakWrite,
   List<ClerkExamSessionLocationCreateDTO> location,

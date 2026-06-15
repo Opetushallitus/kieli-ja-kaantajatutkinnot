@@ -10,22 +10,66 @@ import {
 } from 'interfaces/examSessions';
 import { PartialExamType } from 'interfaces/publicRegistration';
 import { AuthenticatedSession } from 'interfaces/session';
+import { PersonRegistrations } from 'interfaces/userDetails';
 
 export class ExamSessionUtils {
-  private static getRegistrationAvailablePlaces(examSession: ExamSession) {
+  private static getRegistrationAvailablePlaces(
+    examSession: ExamSession,
+    partialExamType?: PartialExamType,
+  ) {
+    if (examSession.type === 'READ_SPEAK') {
+      if (partialExamType === 'READ') {
+        return Math.max(
+          (examSession.max_participants_read_listen ?? 0) -
+            (examSession.participants_read_listen ?? 0),
+          0,
+        );
+      }
+      if (partialExamType === 'SPEAK' || partialExamType === 'ALL_PARTS') {
+        return Math.max(
+          (examSession.max_participants_speak_write ?? 0) -
+            (examSession.participants_speak_write ?? 0),
+          0,
+        );
+      }
+    } else if (examSession.type === 'LISTEN_WRITE') {
+      if (partialExamType === 'LISTEN') {
+        return Math.max(
+          (examSession.max_participants_read_listen ?? 0) -
+            (examSession.participants_read_listen ?? 0),
+          0,
+        );
+      }
+      if (partialExamType === 'WRITE' || partialExamType === 'ALL_PARTS') {
+        return Math.max(
+          (examSession.max_participants_speak_write ?? 0) -
+            (examSession.participants_speak_write ?? 0),
+          0,
+        );
+      }
+    }
+
     return Math.max(examSession.max_participants - examSession.participants, 0);
   }
 
-  static getAvailablePlaces(examSession: ExamSession) {
+  static getAvailablePlaces(
+    examSession: ExamSession,
+    partialExamType?: PartialExamType,
+  ) {
     if (!examSession.upcoming_admission || examSession.queue) {
       return 0;
     } else {
-      return ExamSessionUtils.getRegistrationAvailablePlaces(examSession);
+      return ExamSessionUtils.getRegistrationAvailablePlaces(
+        examSession,
+        partialExamType,
+      );
     }
   }
 
-  static hasRoom(examSession: ExamSession) {
-    return ExamSessionUtils.getAvailablePlaces(examSession) > 0;
+  static hasRoom(examSession: ExamSession, partialExamType?: PartialExamType) {
+    return (
+      ExamSessionUtils.getAvailablePlaces(examSession, partialExamType) > 0
+    );
   }
 
   private static compareExamSessionsByAdmissionAvailability(
@@ -122,14 +166,20 @@ export class ExamSessionUtils {
     return locationData as ExamSessionLocation;
   }
 
-  static getEffectiveRegistrationPeriodDetails(examSession: ExamSession) {
+  static getEffectiveRegistrationPeriodDetails(
+    examSession: ExamSession,
+    partialExamType?: PartialExamType,
+  ) {
     return {
       kind: examSession.available_registration_kind,
       start: examSession.registration_start_date,
       end: examSession.registration_end_date,
       participants: examSession.participants,
       quota: examSession.max_participants,
-      availablePlaces: ExamSessionUtils.getAvailablePlaces(examSession),
+      availablePlaces: ExamSessionUtils.getAvailablePlaces(
+        examSession,
+        partialExamType,
+      ),
       open: examSession.open,
       queue: examSession.queue,
     };
@@ -203,5 +253,134 @@ export class ExamSessionUtils {
         return t('yki.component.examSessionCard.examType.speak');
       }
     }
+  }
+
+  static getStartTime(
+    examSession: ExamSession,
+    partialExamType?: PartialExamType,
+  ) {
+    if (!partialExamType) {
+      return '';
+    }
+
+    if (examSession.type === 'LISTEN_WRITE') {
+      if (partialExamType === 'LISTEN') {
+        return examSession.start_time_read_listen;
+      }
+      if (partialExamType === 'WRITE') {
+        return examSession.start_time_speak_write;
+      }
+
+      return examSession.start_time_read_listen;
+    }
+
+    if (examSession.type === 'READ_SPEAK') {
+      if (partialExamType === 'READ') {
+        return examSession.start_time_read_listen;
+      }
+      if (partialExamType === 'SPEAK') {
+        return examSession.start_time_speak_write;
+      }
+
+      return examSession.start_time_read_listen;
+    }
+  }
+
+  static getStartTimeForPersonRegistrations(r: PersonRegistrations) {
+    if (!r.partialExamType) {
+      return '';
+    }
+
+    if (r.type === 'LISTEN_WRITE') {
+      if (r.partialExamType === 'LISTEN') {
+        return r.start_time_read_listen;
+      }
+      if (r.partialExamType === 'WRITE') {
+        return r.start_time_speak_write;
+      }
+
+      return r.start_time_read_listen;
+    }
+
+    if (r.type === 'READ_SPEAK') {
+      if (r.partialExamType === 'READ') {
+        return r.start_time_read_listen;
+      }
+      if (r.partialExamType === 'SPEAK') {
+        return r.start_time_speak_write;
+      }
+
+      return r.start_time_read_listen;
+    }
+  }
+
+  static getPartialExamFee(
+    examSession: ExamSession,
+    partialExamType?: PartialExamType,
+  ) {
+    if (!partialExamType) {
+      return '';
+    }
+
+    if (examSession.type === 'FULL') {
+      return examSession.exam_fee;
+    }
+
+    if (examSession.type === 'LISTEN_WRITE') {
+      if (partialExamType === 'ALL_PARTS') {
+        return 113;
+      }
+      if (partialExamType === 'LISTEN') {
+        return 43;
+      }
+      if (partialExamType === 'WRITE') {
+        return 70;
+      }
+    }
+
+    if (examSession.type === 'READ_SPEAK') {
+      if (partialExamType === 'ALL_PARTS') {
+        return 127;
+      }
+      if (partialExamType === 'READ') {
+        return 43;
+      }
+      if (partialExamType === 'SPEAK') {
+        return 84;
+      }
+    }
+  }
+  static getRegistrationKind({
+    examSession,
+    partialExamType,
+  }: {
+    examSession: ExamSession;
+    partialExamType?: PartialExamType;
+  }) {
+    if (!partialExamType) {
+      return examSession.available_registration_kind;
+    }
+
+    if (examSession.type === 'READ_SPEAK') {
+      if (partialExamType === 'READ') {
+        return examSession.partial_registration_kind.READ;
+      }
+      if (partialExamType === 'SPEAK') {
+        return examSession.partial_registration_kind.SPEAK;
+      }
+
+      return examSession.partial_registration_kind.ALL_PARTS;
+    } else if (examSession.type === 'LISTEN_WRITE') {
+      if (partialExamType === 'LISTEN') {
+        return examSession.partial_registration_kind.LISTEN;
+      }
+      if (partialExamType === 'WRITE') {
+        return examSession.partial_registration_kind.WRITE;
+      }
+
+      return examSession.partial_registration_kind.ALL_PARTS;
+    }
+
+    return examSession.available_registration_kind;
   }
 }

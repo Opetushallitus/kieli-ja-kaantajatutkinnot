@@ -7,13 +7,19 @@ export const registrationInitResponse: PublicRegistrationInitResponse = {
     level_code: ExamLevel.PERUS,
     language_code: ExamLanguage.ENG,
     max_participants: 5,
+    max_participants_read_listen: null,
+    max_participants_speak_write: null,
     participants: 2,
+    participants_read_listen: null,
+    participants_speak_write: null,
     office_oid: '1.2.3.4.5',
     registration_start_date: '2023-01-01',
     registration_end_date: '2026-05-01',
     session_date: '2026-06-01',
     organizer_oid: '1.2.3.4',
     open: true,
+    start_time_read_listen: null,
+    start_time_speak_write: null,
     id: 1,
     location: [
       {
@@ -44,6 +50,7 @@ export const registrationInitResponse: PublicRegistrationInitResponse = {
     exam_fee: 153,
     published_at: '',
     available_registration_kind: RegistrationKind.Admission,
+    partial_registration_kind: { ALL_PARTS: RegistrationKind.Admission },
   },
   user: {
     last_name: 'Parkkonen-Testi',

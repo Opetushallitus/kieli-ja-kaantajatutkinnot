@@ -23,6 +23,7 @@ const renderPageWithSession = (examSession: ExamSession) => {
         examSessionId: examSession.id,
         registrationKind: examSession.available_registration_kind,
         registrationId: 123,
+        partialExamType: 'ALL_PARTS',
       },
     },
   };
@@ -48,7 +49,7 @@ describe('InitRegistrationPage', () => {
         const { open, availablePlaces } =
           ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
 
-        return open && availablePlaces > 0;
+        return es.type === 'FULL' && open && availablePlaces > 0;
       }) as ExamSession;
       const container = renderPageWithSession(examSession);
       expect(container).toMatchSnapshot();

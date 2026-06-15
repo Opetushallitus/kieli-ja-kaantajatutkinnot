@@ -182,8 +182,8 @@
         "examSessionCard": {
           "actions": "Toiminnot",
           "exam": "Koe",
-          "examFee": "Tutkintomaksu",
-          "examStartTime": "Alkaa",
+          "examStartTime": "klo {{startTime}}",
+          "examStartTimeTitle": "Alkaa",
           "examType": {
             "full": "Tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen",
             "listen": "Puheen ymmärtäminen",
@@ -194,7 +194,6 @@
             "write": "Kirjoittaminen"
           },
           "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä",
-          "openings": "Paikkoja vapaana",
           "placesAvailable": "Paikkoja vapaana",
           "price": "Hinta",
           "registerToPartialExamsSeparately": "Ilmoittaudu osakokeisiin erikseen",
@@ -776,12 +775,18 @@
           "part4": "Voit lukea lisää testin tuloksista ja todistuksista Opetushallituksen verkkosivuilta:"
         },
         "labels": {
+          "allPartsAtOnce": "Kaikki osakokeet kerralla",
           "excludeFullSessions": "Näytä vain kielitutkinnot, joissa on tilaa",
           "excludeNonOpenSessions": "Näytä vain kielitutkinnot, joihin voi ilmoittautua nyt",
           "filterExamSessions": "Rajaa tuloksia",
+          "listen": "Puheen ymmärtäminen",
+          "read": "Tekstin ymmärtäminen",
+          "selectExamType": "Koe",
           "selectLanguage": "Valitse kieli",
           "selectLevel": "Valitse taso",
-          "selectMunicipality": "Valitse paikkakunta"
+          "selectMunicipality": "Valitse paikkakunta",
+          "speak": "Puhuminen",
+          "write": "Kirjoittaminen"
         },
         "register": "Ilmoittaudu",
         "title": "Yleiset kielitutkinnot (YKI) - Ilmoittautuminen"

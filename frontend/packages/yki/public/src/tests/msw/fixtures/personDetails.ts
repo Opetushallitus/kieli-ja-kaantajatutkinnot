@@ -16,6 +16,8 @@ export const personDetails: PersonDetailsResponse = {
       type: 'LISTEN_WRITE',
       partial_exam_type: 'ALL_PARTS',
       exam_session_id: '1',
+      start_time_read_listen: '13:00',
+      start_time_speak_write: '16:00',
       location: [
         {
           street_address: 'School of wizardry 2',
@@ -59,6 +61,8 @@ export const personDetails: PersonDetailsResponse = {
       type: 'READ_SPEAK',
       partial_exam_type: 'ALL_PARTS',
       exam_session_id: '1',
+      start_time_read_listen: '13:00',
+      start_time_speak_write: '16:00',
       location: [
         {
           street_address: 'School of wizardry',
@@ -101,6 +105,8 @@ export const personDetails: PersonDetailsResponse = {
       type: 'LISTEN_WRITE',
       partial_exam_type: 'ALL_PARTS',
       exam_session_id: '2',
+      start_time_read_listen: '13:00',
+      start_time_speak_write: '16:00',
       location: [
         {
           street_address: 'Kirkkokatu 1',
@@ -317,6 +323,8 @@ export const personDetails: PersonDetailsResponse = {
       type: 'LISTEN_WRITE',
       partial_exam_type: 'ALL_PARTS',
       exam_session_id: '3',
+      start_time_read_listen: '13:00',
+      start_time_speak_write: '16:00',
       location: [
         {
           street_address: 'Koulukuja 9',
