@@ -207,7 +207,12 @@ function* cancelOrganizerRegistrationSaga(
     );
 
     yield put(acceptCancelRegistration());
-    yield put(loadClerkExamSessionDetails(currentExamSessionId));
+    yield put(
+      loadOrganizerExamSessionDetails({
+        oid: organizerOid,
+        examSessionId: currentExamSessionId,
+      }),
+    );
   } catch (error) {
     yield put(rejectCancelRegistration());
   }
