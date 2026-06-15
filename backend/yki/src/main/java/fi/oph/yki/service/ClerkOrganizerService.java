@@ -6,12 +6,14 @@ import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionContactDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionLocationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerLanguageDTO;
+import fi.oph.yki.api.dto.clerk.ClerkOrganizerUpdateDTO;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamLanguage;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Organizer;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
+import fi.oph.yki.repository.ExamLanguageRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.OrganizerRepository;
 import java.time.LocalDate;
@@ -25,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClerkOrganizerService {
 
   private final OrganizerRepository organizerRepository;
+  private final ExamLanguageRepository examLanguageRepository;
   private final ExamSessionRepository examSessionRepository;
 
   @Transactional(readOnly = true)
@@ -62,6 +65,40 @@ public class ClerkOrganizerService {
     }
 
     return toDTO(saved);
+  }
+
+  @Transactional
+  public ClerkOrganizerDTO updateOrganizer(final String oid, final ClerkOrganizerUpdateDTO dto) {
+    final Organizer organizer = organizerRepository.findByOidAndDeletedAtIsNull(oid).orElseThrow();
+
+    organizer.setAgreementStartDate(dto.agreementStartDate());
+    organizer.setAgreementEndDate(dto.agreementEndDate());
+    organizer.setContactName(dto.contactName());
+    organizer.setContactEmail(dto.contactEmail());
+    organizer.setContactPhoneNumber(dto.contactPhoneNumber());
+    organizer.setExtra(dto.extra());
+
+    examLanguageRepository.deleteAllByOrganizer(organizer);
+    examLanguageRepository.flush();
+    organizer.getLanguages().clear();
+
+    if (dto.languages() != null) {
+      final List<ExamLanguage> newLanguages = dto
+        .languages()
+        .stream()
+        .map(langDto -> {
+          final ExamLanguage lang = new ExamLanguage();
+          lang.setOrganizer(organizer);
+          lang.setLanguageCode(langDto.languageCode());
+          lang.setLevelCode(langDto.levelCode());
+          return lang;
+        })
+        .toList();
+      examLanguageRepository.saveAll(newLanguages);
+      organizer.getLanguages().addAll(newLanguages);
+    }
+
+    return toDTO(organizer);
   }
 
   @Transactional(readOnly = true)

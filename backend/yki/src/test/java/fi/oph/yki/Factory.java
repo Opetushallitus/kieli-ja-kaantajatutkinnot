@@ -4,6 +4,7 @@ import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.FreeRegistration;
+import fi.oph.yki.model.Organizer;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Quarantine;
 import fi.oph.yki.model.Registration;
@@ -75,6 +76,18 @@ public class Factory {
     examSession.setContactPhoneNumber("0401234567");
 
     return examSession;
+  }
+
+  public static Organizer organizer() {
+    final Organizer organizer = new Organizer();
+    organizer.setOid("1.2.246.562.10.00000000001");
+    organizer.setAgreementStartDate(LocalDate.of(2024, 1, 1));
+    organizer.setAgreementEndDate(LocalDate.of(2025, 12, 31));
+    organizer.setContactName("Testi Järjestäjä");
+    organizer.setContactEmail("jarjestaja@example.com");
+    organizer.setContactPhoneNumber("0401234567");
+
+    return organizer;
   }
 
   public static Quarantine quarantine() {
