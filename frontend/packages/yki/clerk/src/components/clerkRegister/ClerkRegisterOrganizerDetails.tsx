@@ -85,20 +85,6 @@ export const ClerkRegisterOrganizerDetails = ({
     }
   }, [createStatus, fetchExamSessions]);
 
-  useEffect(() => {
-    dispatch(loadExamDates(true));
-  }, [dispatch]);
-
-  useEffect(() => {
-    fetchExamSessions();
-  }, [fetchExamSessions]);
-
-  useEffect(() => {
-    if (createStatus === APIResponseStatus.Success) {
-      fetchExamSessions();
-    }
-  }, [createStatus, fetchExamSessions]);
-
   const upcomingExams = examSessions
     .map((examSession) => ({
       ...examSession,
