@@ -219,6 +219,7 @@ export const NewYkiPublicExamSessionsTable = ({
     (page + 1) * rowsPerPage,
   );
 
+  // Pagination on top and bottom of the card listing
   return (
     <>
       <Pagination
