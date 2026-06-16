@@ -379,7 +379,7 @@ export const PublicExamSessionListing = ({
         inline: 'nearest',
       });
     }
-  }, [status]);
+  }, [page, rowsPerPage, status]);
 
   useEffect(() => {
     if (
