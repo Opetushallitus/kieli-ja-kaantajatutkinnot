@@ -4,6 +4,9 @@ import { onAddExamDateModal } from 'tests/cypress/support/page-objects/addExamDa
 describe('AddExamDateModal', () => {
   beforeEach(() => {
     cy.openClerkExamDatesPage();
+    cy.findByRole('checkbox', { name: /Näytä menneet päivät/i }).should(
+      'exist',
+    );
     cy.findByRole('button', { name: 'Lisää tutkintopäivä' }).click();
     onAddExamDateModal.expectModalVisible();
   });

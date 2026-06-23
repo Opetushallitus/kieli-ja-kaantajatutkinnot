@@ -40,10 +40,10 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
       onPublicRegistrationPage.search();
-      onPublicRegistrationPage.expectResultsCount(6);
+      onPublicRegistrationPage.expectResultsCount(7);
       onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
       onPublicRegistrationPage.search();
-      onPublicRegistrationPage.expectResultsCount(5);
+      onPublicRegistrationPage.expectResultsCount(6);
     });
 
     it('can filter by exam language and level', () => {
@@ -55,7 +55,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.selectExamLevel('ylin taso');
       onPublicRegistrationPage.search();
       onPublicRegistrationPage.expectResultsCount(4);
-      onPublicRegistrationPage.expectResultRowsCount(4);
+      onPublicRegistrationPage.expectResultCardsCount(4);
     });
   });
 
@@ -68,7 +68,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
-        .getResultRows()
+        .getResultCards()
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 
@@ -95,7 +95,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
-        .getResultRows()
+        .getResultCards()
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 
@@ -119,7 +119,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
-        .getResultRowsNth(1)
+        .getResultCardsNth(1)
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 
@@ -134,7 +134,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
-        .getResultRowsNth(2)
+        .getResultCardsNth(2)
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 
@@ -149,7 +149,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
-        .getResultRowsNth(3)
+        .getResultCardsNth(3)
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 
@@ -174,7 +174,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
-        .getResultRowsNth(1)
+        .getResultCardsNth(1)
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 
@@ -195,7 +195,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
-        .getResultRowsNth(0)
+        .getResultCardsNth(0)
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 

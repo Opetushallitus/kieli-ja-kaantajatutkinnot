@@ -1,6 +1,7 @@
 package fi.oph.yki.model;
 
 import fi.oph.yki.model.type.ExamSessionType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,9 +11,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -35,6 +38,10 @@ public class ExamSession {
   @JoinColumn(name = "exam_date_id", referencedColumnName = "id")
   private ExamDate examDate;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "organizer_id", referencedColumnName = "id")
+  private Organizer organizer;
+
   @Column(name = "language_code")
   private String language;
 
@@ -44,8 +51,23 @@ public class ExamSession {
   @Column(name = "max_participants")
   private Integer maxParticipants;
 
+  @Column(name = "max_participants_read_listen")
+  private Integer maxParticipantsReadListen;
+
+  @Column(name = "max_participants_speak_write")
+  private Integer maxParticipantsSpeakWrite;
+
   @Column(name = "office_oid")
   private String officeOid;
+
+  @Column(name = "published_at")
+  private LocalDateTime publishedAt;
+
+  @Column(name = "start_time_read_listen")
+  private String startTimeReadListen;
+
+  @Column(name = "start_time_speak_write")
+  private String startTimeSpeakWrite;
 
   @Column(name = "contact_name")
   private String contactName;
@@ -61,7 +83,7 @@ public class ExamSession {
   @JdbcType(PostgreSQLEnumJdbcType.class)
   private ExamSessionType type;
 
-  @OneToMany(mappedBy = "examSession")
+  @OneToMany(mappedBy = "examSession", cascade = CascadeType.PERSIST)
   private List<ExamSessionLocation> locations = new ArrayList<>();
 
   @OneToMany(mappedBy = "examSession")

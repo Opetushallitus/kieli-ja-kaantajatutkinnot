@@ -2,7 +2,6 @@ package fi.oph.yki.api.oauth2;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import fi.oph.yki.api.dto.clerk.ClerkApprovalUpdateDTO;
 import fi.oph.yki.api.dto.oauth2.EvaluationStatesDTO;
 import fi.oph.yki.api.dto.oauth2.EvaluationStatesResponseDTO;
 import fi.oph.yki.service.RegistrationService;

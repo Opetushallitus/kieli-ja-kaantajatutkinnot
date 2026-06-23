@@ -1,6 +1,7 @@
 package fi.oph.yki.model;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import jakarta.persistence.Column;
@@ -49,6 +50,11 @@ public class Registration {
   @Enumerated(value = EnumType.STRING)
   @JdbcType(PostgreSQLEnumJdbcType.class)
   private RegistrationState state;
+
+  @Column(name = "partial_exam_type")
+  @Enumerated(value = EnumType.STRING)
+  @JdbcType(PostgreSQLEnumJdbcType.class)
+  private PartialExamType partialExamType;
 
   @JdbcTypeCode(SqlTypes.JSON)
   @Column(name = "form")

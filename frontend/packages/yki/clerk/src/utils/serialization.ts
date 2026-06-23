@@ -1,7 +1,12 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { AppLanguage } from 'shared/enums';
 
-import { GenderEnum, RegistrationKind, RegistrationStates } from 'enums/app';
+import {
+  ExamLevel,
+  GenderEnum,
+  RegistrationKind,
+  RegistrationStates,
+} from 'enums/app';
 import {
   AdmissionedRegistration,
   ClerkCustomerDetails,
@@ -21,17 +26,17 @@ import {
   ClerkExamSessionResponse,
 } from 'interfaces/clerkExamSession';
 import {
-  ClerkFreeRegistrationDetailsResponse,
-  ClerkFreeRegistrationResponse,
-} from 'interfaces/clerkFreeRegistration';
-import {
   ClerkOrganizer,
   ClerkOrganizerResponse,
 } from 'interfaces/clerkOrganizer';
 import { FindByOidsOrganizationResponse } from 'interfaces/clerkOrganizerRegistry';
 import {
+  ClerkActiveQuarantine,
+  ClerkActiveQuarantineResponse,
   ClerkQuarantineMatch,
   ClerkQuarantineMatchResponse,
+  ClerkQuarantineReview,
+  ClerkQuarantineReviewResponse,
 } from 'interfaces/clerkQuarantine';
 import { ClerkRegistrationResponse } from 'interfaces/clerkRegistration';
 import {
@@ -186,64 +191,6 @@ export class SerializationUtils {
       agreement_end_date: organizer.agreement_end_date
         ? organizer.agreement_end_date.format('YYYY-MM-DD')
         : undefined,
-    };
-  }
-
-  static deserializeClerkFreeRegistrationResponse(
-    freeRegistrationResponse: ClerkFreeRegistrationResponse,
-  ) {
-    return {
-      ...freeRegistrationResponse,
-      supplementRequestDueDate:
-        freeRegistrationResponse.supplementRequestDueDate
-          ? dayjs(freeRegistrationResponse.supplementRequestDueDate)
-          : undefined,
-      assessmentDate: freeRegistrationResponse.assessmentDate
-        ? dayjs(freeRegistrationResponse.assessmentDate)
-        : undefined,
-      examDate: dayjs(freeRegistrationResponse.examDate),
-    };
-  }
-
-  static deserializeClerkFreeRegistrationDetailsResponse(
-    freeRegistrationDetailsResponse: ClerkFreeRegistrationDetailsResponse,
-  ) {
-    return {
-      ...freeRegistrationDetailsResponse,
-      languageOfService:
-        freeRegistrationDetailsResponse.languageOfService.toLowerCase() as
-          | 'fi'
-          | 'sv'
-          | 'en',
-      supplementRequestDueDate:
-        freeRegistrationDetailsResponse.supplementRequestDueDate
-          ? dayjs(freeRegistrationDetailsResponse.supplementRequestDueDate)
-          : undefined,
-      supplementRequest: freeRegistrationDetailsResponse.supplementRequest
-        ? {
-            ...freeRegistrationDetailsResponse.supplementRequest,
-            createdAt: dayjs(
-              freeRegistrationDetailsResponse.supplementRequest.createdAt,
-            ),
-          }
-        : undefined,
-      assessmentDate: freeRegistrationDetailsResponse.assessmentDate
-        ? dayjs(freeRegistrationDetailsResponse.assessmentDate)
-        : undefined,
-      examSession: {
-        ...freeRegistrationDetailsResponse.examSession,
-        examDate: dayjs(freeRegistrationDetailsResponse.examSession.examDate),
-      },
-      attachments: freeRegistrationDetailsResponse.attachments.map(
-        (attachment) => ({
-          ...attachment,
-          submittedAt: dayjs(attachment.submittedAt),
-        }),
-      ),
-      messages: freeRegistrationDetailsResponse.messages.map((message) => ({
-        ...message,
-        createdAt: dayjs(message.createdAt),
-      })),
     };
   }
 
@@ -427,11 +374,13 @@ export class SerializationUtils {
         : 'REGISTERED';
 
     return {
+      id: registration.id,
       exam: registration.exam,
       examDate: dayjs(registration.examDate),
       examLocation: SerializationUtils.deserializaMapLocation(
         registration.examLocation,
       ),
+      registrationState: registration.registrationState,
       state,
     };
   }
@@ -455,24 +404,43 @@ export class SerializationUtils {
     return {
       quarantineId: response.id,
       registrationId: response.registrationId,
-      examLanguageCode: response.languageCode,
+      examLanguageCode: response.languageCode as 'PERUS' | 'KESKI' | 'YLIN',
+      examLevelCode: response.levelCode,
       examDate: dayjs(response.examDate),
-      quarantinedPerson: {
-        firstName: response.firstName,
-        lastName: response.lastName,
-        birthdate: response.birthdate,
-        ssn: response.ssn,
-        email: response.email,
-        phoneNumber: response.phoneNumber,
-      },
-      registrantForm: {
-        firstName: response.form.firstName,
-        lastName: response.form.lastName,
-        birthdate: response.form.birthdate,
-        ssn: response.form.ssn,
-        email: response.form.email,
-        phoneNumber: response.form.phoneNumber,
-      },
+      state: SerializationUtils.deserializeRegistrationState(response.state),
+      quarantinedPerson: response.quarantinedPerson,
+      registrant: response.registrant,
+    };
+  }
+
+  static deserializeClerkQuarantineReviewResponse(
+    response: ClerkQuarantineReviewResponse,
+  ): ClerkQuarantineReview {
+    return {
+      id: response.id,
+      quarantined: response.quarantined,
+      quarantineId: response.quarantineId,
+      registrationId: response.registrationId,
+      updated: dayjs(response.updated),
+      examDate: dayjs(response.examDate),
+      examLanguageCode: response.languageCode as 'PERUS' | 'KESKI' | 'YLIN',
+      examLevelCode: response.levelCode as ExamLevel,
+      state: SerializationUtils.deserializeRegistrationState(response.state),
+      quarantinedPerson: response.quarantinedPerson,
+      registrant: response.registrant,
+    };
+  }
+
+  static deserializeClerkActiveQuarantineResponse(
+    response: ClerkActiveQuarantineResponse,
+  ): ClerkActiveQuarantine {
+    return {
+      id: response.id,
+      startDate: dayjs(response.startDate),
+      endDate: dayjs(response.endDate),
+      languageCode: response.languageCode,
+      diaryNumber: response.diaryNumber,
+      quarantinedPerson: response.quarantinedPerson,
     };
   }
 

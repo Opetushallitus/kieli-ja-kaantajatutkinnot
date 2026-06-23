@@ -8,6 +8,17 @@ export interface OrganizerLanguage {
   level_code: LanguageLevelCode;
 }
 
+export interface ClerkOrganizerHierarchyResponse {
+  nimi: Record<string, string>;
+  oid: string;
+  children?: Array<ClerkOrganizerHierarchyResponse>;
+}
+
+export interface ClerkOrganizerHierarchy {
+  oid: string;
+  name: Record<'fi' | 'sv' | 'en', string>;
+}
+
 export interface ClerkOrganizer extends WithId {
   oid: string;
   agreement_start_date?: Dayjs;

@@ -67,11 +67,16 @@ const handleRedirect = () => {
 describe.skip('ExamDetailsPage', () => {
   describe('allows filling registration form', () => {
     it('with credentials from Suomi.fi authentication', () => {
-      cy.openExamSessionRegistrationForm(examSessionResponse.id);
-      cy.intercept('POST', APIEndpoints.InitRegistration, {
-        statusCode: 200,
-        body: getInitRegistrationResponse(true),
-      }).as('initRegistration');
+      cy.openExamSessionRegistrationForm(
+        examSessionResponse.id,
+        getInitRegistrationResponse(true).registration_id,
+      ),
+        cy
+          .intercept('POST', APIEndpoints.InitRegistration, {
+            statusCode: 200,
+            body: getInitRegistrationResponse(true),
+          })
+          .as('initRegistration');
       cy.wait('@initRegistration');
       onExamDetailsPage.isVisible();
       onExamDetailsPage.fillFieldByLabel(
@@ -96,7 +101,10 @@ describe.skip('ExamDetailsPage', () => {
     });
 
     it('by authenticating via a login link', () => {
-      cy.openExamSessionRegistrationForm(examSessionResponse.id);
+      cy.openExamSessionRegistrationForm(
+        examSessionResponse.id,
+        getInitRegistrationResponse(true).registration_id,
+      );
       cy.intercept('POST', APIEndpoints.InitRegistration, {
         statusCode: 200,
         body: getInitRegistrationResponse(false),
@@ -133,7 +141,10 @@ describe.skip('ExamDetailsPage', () => {
     });
 
     it('text fields filled by user are trimmed of whitespace before sending to backend', () => {
-      cy.openExamSessionRegistrationForm(examSessionResponse.id);
+      cy.openExamSessionRegistrationForm(
+        examSessionResponse.id,
+        getInitRegistrationResponse(true).registration_id,
+      );
       cy.intercept('POST', APIEndpoints.InitRegistration, {
         statusCode: 200,
         body: getInitRegistrationResponse(true),

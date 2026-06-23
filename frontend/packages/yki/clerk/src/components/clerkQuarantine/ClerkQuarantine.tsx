@@ -1,20 +1,28 @@
 import { Box, Divider } from '@mui/material';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
-import { ClerkQuarantineListing } from 'components/clerkQuarantine/ClerkQuarantineListing';
+import { ActiveQuarantinesListing } from 'components/clerkQuarantine/listing/ActiveQuarantinesListing';
+import { PastReviewsListing } from 'components/clerkQuarantine/listing/PastReviewsListing';
+import { PendingReviewsListing } from 'components/clerkQuarantine/listing/PendingReviewsListing';
 import { usePublicTranslation } from 'configs/i18n';
 import { H2 } from 'ophTheme/Text';
 import {
+  loadClerkActiveQuarantines,
   loadClerkQuarantineMatches,
+  loadClerkQuarantineReviews,
+  resetCreateClerkQuarantineStatus,
+  resetDeleteClerkQuarantineStatus,
   resetQuarantineReviewStatus,
+  setActiveQuarantinesSort,
   setQuarantineReview,
   setQuarantineSort,
 } from 'redux/reducers/clerkQuarantine';
 import {
   clerkQuarantineSelector,
+  selectSortedActiveQuarantines,
   selectSortedQuarantineMatches,
 } from 'redux/selectors/clerkQuarantine';
 
@@ -35,12 +43,12 @@ const InfoText = ({ status }: { status: APIResponseStatus }) => {
   );
 };
 
-const TABS = ['pending', 'previous', 'active'] as const;
-type Tab = (typeof TABS)[number];
+const TABS = ['pendingReviews', 'pastReviews', 'activeQuarantines'] as const;
+type ClerkQuarantineTab = (typeof TABS)[number];
 
 type QuarantineTabsProps = {
-  activeTab: Tab;
-  setActiveTab: Dispatch<SetStateAction<Tab>>;
+  activeTab: ClerkQuarantineTab;
+  setActiveTab: Dispatch<SetStateAction<ClerkQuarantineTab>>;
   setPage: Dispatch<SetStateAction<number>>;
   tableRowsCount?: number;
 };
@@ -55,7 +63,7 @@ const QuarantineTabs = ({
     keyPrefix: 'yki.component.clerkQuarantine.tabs',
   });
 
-  const handleTabChange = (tab: Tab) => {
+  const handleTabChange = (tab: ClerkQuarantineTab) => {
     setActiveTab(tab);
     setPage(1);
   };
@@ -74,8 +82,8 @@ const QuarantineTabs = ({
             tabIndex={0}
             onKeyDown={() => handleTabChange(tab)}
           >
-            {tab === 'pending'
-              ? t('pending', { count: tableRowsCount ?? 0 })
+            {tab === 'pendingReviews'
+              ? t('pendingReviews', { count: tableRowsCount ?? 0 })
               : t(tab)}
           </div>
         ))}
@@ -87,11 +95,24 @@ const QuarantineTabs = ({
 
 export const ClerkQuarantine = () => {
   const dispatch = useDispatch();
-  const { status, sort, reviewStatus, lastReviewAction } = useSelector(
-    clerkQuarantineSelector,
-  );
+  const {
+    status,
+    sort,
+    reviewStatus,
+    lastReviewAction,
+    reviews,
+    reviewsStatus,
+    activeQuarantinesStatus,
+    activeQuarantinesSort,
+    createStatus,
+    deleteStatus,
+  } = useSelector(clerkQuarantineSelector);
+  const prevCreateStatus = useRef(createStatus);
+  const prevDeleteStatus = useRef(deleteStatus);
   const rows = useSelector(selectSortedQuarantineMatches);
-  const [activeTab, setActiveTab] = useState<Tab>('pending');
+  const activeQuarantineRows = useSelector(selectSortedActiveQuarantines);
+  const [activeTab, setActiveTab] =
+    useState<ClerkQuarantineTab>('pendingReviews');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const { showToast } = useToast();
@@ -102,6 +123,24 @@ export const ClerkQuarantine = () => {
   useEffect(() => {
     dispatch(loadClerkQuarantineMatches());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (
+      activeTab === 'pastReviews' &&
+      reviewsStatus === APIResponseStatus.NotStarted
+    ) {
+      dispatch(loadClerkQuarantineReviews());
+    }
+  }, [dispatch, activeTab, reviewsStatus]);
+
+  useEffect(() => {
+    if (
+      activeTab === 'activeQuarantines' &&
+      activeQuarantinesStatus === APIResponseStatus.NotStarted
+    ) {
+      dispatch(loadClerkActiveQuarantines());
+    }
+  }, [dispatch, activeTab, activeQuarantinesStatus]);
 
   useEffect(() => {
     if (!lastReviewAction) return;
@@ -120,11 +159,83 @@ export const ClerkQuarantine = () => {
     }
   }, [dispatch, showToast, t, reviewStatus, lastReviewAction]);
 
+  useEffect(() => {
+    if (prevCreateStatus.current === APIResponseStatus.InProgress) {
+      if (createStatus === APIResponseStatus.Success) {
+        showToast({
+          severity: Severity.Success,
+          description: t('toasts.quarantineAdded'),
+        });
+        dispatch(resetCreateClerkQuarantineStatus());
+      } else if (createStatus === APIResponseStatus.Error) {
+        dispatch(resetCreateClerkQuarantineStatus());
+      }
+    }
+    prevCreateStatus.current = createStatus;
+  }, [dispatch, showToast, t, createStatus]);
+
+  useEffect(() => {
+    if (prevDeleteStatus.current === APIResponseStatus.InProgress) {
+      if (deleteStatus === APIResponseStatus.Success) {
+        showToast({
+          severity: Severity.Success,
+          description: t('toasts.quarantineDeleted'),
+        });
+        dispatch(resetDeleteClerkQuarantineStatus());
+      } else if (deleteStatus === APIResponseStatus.Error) {
+        dispatch(resetDeleteClerkQuarantineStatus());
+      }
+    }
+    prevDeleteStatus.current = deleteStatus;
+  }, [dispatch, showToast, t, deleteStatus]);
+
   const renderListing = () => {
-    switch (status) {
-      case APIResponseStatus.Success:
-        return (
-          <ClerkQuarantineListing
+    switch (activeTab) {
+      case 'pastReviews':
+        return reviewsStatus !== APIResponseStatus.Success ? (
+          <InfoText status={reviewsStatus} />
+        ) : (
+          <PastReviewsListing
+            rows={reviews}
+            page={page}
+            setPage={setPage}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
+            sort={sort}
+            setSort={(s) => dispatch(setQuarantineSort(s))}
+            onCancelRegistration={(quarantineId, registrationId) =>
+              dispatch(
+                setQuarantineReview({
+                  quarantineId,
+                  registrationId,
+                  matchConfirmed: false,
+                }),
+              )
+            }
+          />
+        );
+
+      case 'activeQuarantines':
+        return activeQuarantinesStatus !== APIResponseStatus.Success ? (
+          <InfoText status={activeQuarantinesStatus} />
+        ) : (
+          <ActiveQuarantinesListing
+            rows={activeQuarantineRows}
+            page={page}
+            setPage={setPage}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
+            sort={activeQuarantinesSort}
+            setSort={(s) => dispatch(setActiveQuarantinesSort(s))}
+          />
+        );
+
+      case 'pendingReviews':
+      default:
+        return status !== APIResponseStatus.Success ? (
+          <InfoText status={status} />
+        ) : (
+          <PendingReviewsListing
             rows={rows}
             page={page}
             setPage={setPage}
@@ -133,19 +244,17 @@ export const ClerkQuarantine = () => {
             activeTab={activeTab}
             sort={sort}
             setSort={(s) => dispatch(setQuarantineSort(s))}
-            onSetReview={(quarantineId, registrationId, isQuarantined) =>
+            onSetReview={(quarantineId, registrationId, matchConfirmed) =>
               dispatch(
                 setQuarantineReview({
                   quarantineId,
                   registrationId,
-                  isQuarantined,
+                  matchConfirmed,
                 }),
               )
             }
           />
         );
-      default:
-        return <InfoText status={status} />;
     }
   };
 

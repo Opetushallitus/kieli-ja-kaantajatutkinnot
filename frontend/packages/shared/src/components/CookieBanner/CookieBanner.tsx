@@ -10,7 +10,7 @@ import './CookieBanner.scss';
 
 type CookieBannerProps = {
   title: string;
-  buttonText: string;
+  buttonText: string | React.ReactNode;
   cookieTag: string;
   buttonAriaLabel: string;
   path: string;

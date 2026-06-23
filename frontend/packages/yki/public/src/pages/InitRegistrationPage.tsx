@@ -106,38 +106,22 @@ export const InitRegistrationPage = () => {
       dispatch(
         initRegistration({
           examSessionId: examSession.id,
-          registrationKind: examSession.available_registration_kind,
+          registrationKind: ExamSessionUtils.getRegistrationKind({
+            examSession,
+            partialExamType: initRegistrationState.partialExamType,
+          }),
+          partialExamType: initRegistrationState.partialExamType || 'ALL_PARTS',
         }),
-        [
-          examSession,
-          initRegistrationState.status,
-          initRegistrationState.examSessionId,
-        ],
       );
     }
-  });
-
-  useEffect(() => {
-    if (
-      examSession &&
-      (initRegistrationState.status === APIResponseStatus.NotStarted ||
-        initRegistrationState.examSessionId !== idFromParams)
-    ) {
-      // Ensure registration init endpoint gets called, even if navigating to the page directly by URL.
-      // This is necessary to accurately infer if user can enroll to exam proper or if they must enroll to queue instead.
-      dispatch(
-        initRegistration({
-          examSessionId: examSession.id,
-          registrationKind: examSession.available_registration_kind,
-        }),
-        [
-          examSession,
-          initRegistrationState.status,
-          initRegistrationState.examSessionId,
-        ],
-      );
-    }
-  });
+  }, [
+    dispatch,
+    idFromParams,
+    examSession,
+    initRegistrationState.status,
+    initRegistrationState.examSessionId,
+    initRegistrationState.partialExamType,
+  ]);
 
   return (
     <Box className="public-exam-details-page">

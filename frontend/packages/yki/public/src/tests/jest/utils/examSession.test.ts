@@ -19,8 +19,9 @@ const expectEffectiveRegistrationDetails = (
 };
 
 describe('ExamSessionUtils', () => {
-  const baseExamSession = {
+  const baseExamSession: ExamSession = {
     id: 1,
+    type: 'FULL',
     session_date: dayjs('2099-31-12'),
     language_code: ExamLanguage.ENG,
     level_code: ExamLevel.KESKI,
@@ -45,6 +46,13 @@ describe('ExamSessionUtils', () => {
     registration_end_date: dayjs('2090-06-15'),
     upcoming_admission: true,
     available_registration_kind: RegistrationKind.Admission,
+    partial_registration_kind: { ALL_PARTS: RegistrationKind.Admission },
+    start_time_read_listen: null,
+    start_time_speak_write: null,
+    max_participants_read_listen: null,
+    max_participants_speak_write: null,
+    participants_read_listen: null,
+    participants_speak_write: null,
   };
 
   describe('compareExamSessions', () => {

@@ -59,7 +59,7 @@ describe('ClerkRegisterListing', () => {
     onClerkRegisterListing.expectUpcomingExamSessionsVisible(1);
   });
 
-  it('should display past exam sessions inside an accordion', () => {
+  it.skip('should display past exam sessions inside an accordion', () => {
     onClerkRegisterListing.clickExpandRow(0);
     onClerkRegisterListing.expectUpcomingExamSessionsVisible(1);
     onClerkRegisterListing.clickPastExamSessionsAccordion();

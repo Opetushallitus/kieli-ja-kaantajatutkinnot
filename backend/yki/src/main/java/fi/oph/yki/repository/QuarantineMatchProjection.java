@@ -24,7 +24,15 @@ public interface QuarantineMatchProjection {
 
   Long getRegistrationId();
 
-  String getForm();
+  String getFormFirstName();
+
+  String getFormLastName();
+
+  String getFormBirthdate();
+
+  String getFormEmail();
+
+  String getFormPhoneNumber();
 
   String getState();
 
@@ -33,4 +41,6 @@ public interface QuarantineMatchProjection {
   LocalDate getExamDate();
 
   String getLanguageCode();
+
+  String getLevelCode();
 }

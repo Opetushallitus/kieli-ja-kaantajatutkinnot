@@ -1,4 +1,4 @@
-import { Text } from 'shared/components';
+import { H2, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
@@ -10,17 +10,21 @@ import {
 import { useAppSelector } from 'configs/redux';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
+import { PartialExamType } from 'interfaces/publicRegistration';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
 
+// PartialExamTypeProp is only used when ConfirmRegistrationPage renders ExamSessionDetails
 export const PublicRegistrationExamSessionDetails = ({
   examSession,
   showOpenings,
+  partialExamType: partialExamTypeProp,
 }: {
   examSession?: ExamSession;
   showOpenings: boolean;
+  partialExamType?: PartialExamType;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.examSessionDetails',
@@ -31,7 +35,7 @@ export const PublicRegistrationExamSessionDetails = ({
     publicFreeRegistrationSelector,
   );
   const { loggedInSession } = useAppSelector(sessionSelector);
-  const { activeStep, submitRegistration } =
+  const { activeStep, submitRegistration, initRegistration } =
     useAppSelector(registrationSelector);
 
   if (!examSession) {
@@ -39,7 +43,10 @@ export const PublicRegistrationExamSessionDetails = ({
   }
 
   const { availablePlaces, start, end } =
-    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(
+      examSession,
+      initRegistration.partialExamType,
+    );
 
   const header = ExamSessionUtils.languageAndLevelText(examSession);
   const location = ExamSessionUtils.getLocationInfo(
@@ -57,7 +64,12 @@ export const PublicRegistrationExamSessionDetails = ({
     switch (activeStep) {
       case PublicRegistrationFormStep.Identify:
         // If user has not yet progressed to registration form, always display an undecided exam fee amount
-        examFeeText = `0 ${translateCommon('or')} ${examSession.exam_fee} €`;
+        examFeeText = `0 ${translateCommon(
+          'or',
+        )} ${ExamSessionUtils.getPartialExamFee(
+          examSession,
+          initRegistration.partialExamType,
+        )} €`;
         break;
       case PublicRegistrationFormStep.Register:
         if (submitRegistration.status === APIResponseStatus.Success) {
@@ -68,7 +80,10 @@ export const PublicRegistrationExamSessionDetails = ({
               examFeeText = '0 €';
               break;
             default:
-              examFeeText = `${examSession.exam_fee} €`;
+              examFeeText = `${ExamSessionUtils.getPartialExamFee(
+                examSession,
+                initRegistration.partialExamType,
+              )} €`;
               break;
           }
         } else {
@@ -79,18 +94,27 @@ export const PublicRegistrationExamSessionDetails = ({
               examFeeText = '0 €';
               break;
             case 'NO':
-              examFeeText = `${examSession.exam_fee} €`;
+              examFeeText = `${ExamSessionUtils.getPartialExamFee(
+                examSession,
+                initRegistration.partialExamType,
+              )} €`;
               break;
             case 'UNDECIDED':
-              examFeeText = `0 ${translateCommon('or')} ${
-                examSession.exam_fee
-              } €`;
+              examFeeText = `0 ${translateCommon(
+                'or',
+              )} ${ExamSessionUtils.getPartialExamFee(
+                examSession,
+                initRegistration.partialExamType,
+              )} €`;
               break;
           }
         }
         break;
       case PublicRegistrationFormStep.Payment:
-        examFeeText = `${examSession.exam_fee} €`;
+        examFeeText = `${ExamSessionUtils.getPartialExamFee(
+          examSession,
+          initRegistration.partialExamType,
+        )} €`;
         break;
       case PublicRegistrationFormStep.Done:
         switch (isFree) {
@@ -98,27 +122,61 @@ export const PublicRegistrationExamSessionDetails = ({
             examFeeText = '0 €';
             break;
           default:
-            examFeeText = `${examSession.exam_fee} €`;
+            examFeeText = `${ExamSessionUtils.getPartialExamFee(
+              examSession,
+              initRegistration.partialExamType,
+            )} €`;
             break;
         }
     }
   } else {
-    examFeeText = `${examSession.exam_fee} €`;
+    examFeeText = `${ExamSessionUtils.getPartialExamFee(
+      examSession,
+      initRegistration.partialExamType,
+    )} €`;
   }
 
   const attemptsLeft = 3 - (attemptsUsed || 0);
 
+  const isPartialExamRegistrationEndStep =
+    activeStep === PublicRegistrationFormStep.Done &&
+    examSession.type !== 'FULL';
+
   return (
     <div className="rows">
       <div className="rows-gapped-xxs">
-        <Text>
-          {`${translateCommon('examSession')}: `}
+        <H2 style={{ marginBottom: '1rem' }}>
           <b>{header}</b>
-        </Text>
+        </H2>
+        {!isPartialExamRegistrationEndStep && (
+          <Text>
+            {`${translateCommon('partialExams')}: `}
+            <b>
+              {ExamSessionUtils.getPartialExamTypeText(
+                examSession.type,
+                partialExamTypeProp ?? initRegistration.partialExamType,
+              )}
+            </b>
+          </Text>
+        )}
         <Text>
           {`${translateCommon('examDate')}: `}
           <b>{DateUtils.formatOptionalDate(examSession.session_date)}</b>
         </Text>
+        {examSession.type !== 'FULL' && (
+          <Text>
+            {`${translateCommon('partialExamTimeLabel')}: `}
+            <b>
+              {translateCommon('partialExamTime', {
+                startTime:
+                  ExamSessionUtils.getStartTime(
+                    examSession,
+                    initRegistration.partialExamType,
+                  ) || '',
+              })}
+            </b>
+          </Text>
+        )}
         <Text>
           {`${translateCommon('institution')}: `}
           <b>{`${location.name}, ${
@@ -131,10 +189,12 @@ export const PublicRegistrationExamSessionDetails = ({
             start,
           )} - ${DateUtils.formatOptionalDate(end)}`}</b>
         </Text>
-        <Text>
-          {`${t('examFee')}: `}
-          <b>{examFeeText}</b>
-        </Text>
+        {!isPartialExamRegistrationEndStep && (
+          <Text>
+            {`${t('examFee')}: `}
+            <b>{examFeeText}</b>
+          </Text>
+        )}
         {showOpenings && (
           <Text>
             {`${t('openings')}: `}

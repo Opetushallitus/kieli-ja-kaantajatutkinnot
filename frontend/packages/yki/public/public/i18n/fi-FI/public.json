@@ -13,8 +13,8 @@
           "label": "Osallistumisen peruminen",
           "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ennen-yki-testia#anchor-osallistumisen-peruminen"
         },
-        "title": "Haluatko perua ilmoittautumisen?",
-        "success": "Ilmoittautuminen peruttu onnistuneesti"
+        "success": "Ilmoittautuminen peruttu onnistuneesti",
+        "title": "Haluatko perua ilmoittautumisen?"
       },
       "cookieBanner": {
         "buttonAriaLabel": "Sulje evästetiedot",
@@ -43,8 +43,8 @@
           "errors": {
             "invalidBirthdate": "Virheellinen syntymäaika. Kirjoita muodossa pp.kk.vvvv."
           },
-          "instructions": "Täytä alle sen osallistujan tiedot, joka hakee tarkistusarviointia.",
           "heading": "Osallistujan tiedot",
+          "instructions": "Täytä alle sen osallistujan tiedot, joka hakee tarkistusarviointia.",
           "labels": {
             "birthdate": "Syntymäaika *",
             "email": "Sähköpostiosoite *",
@@ -118,24 +118,24 @@
           "confirm": "Lähetä"
         },
         "enrollModal": {
-          "title": "Ilmoittautuminen epäonnistui",
-          "examIsFull": "YKI-testi on täynnä. Voit ilmoittautua jonoon.",
           "alreadyRegistered": {
             "part1": "Olet jo ilmoittautunut YKI-testiin.",
             "part2": "Voit ilmoittautua tai jonottaa vain yhteen YKI-testiin samana testipäivänä."
           },
-          "examClosed": "Ilmoittautuminen on sulkeutunut",
-          "enrollToQueue": "Ilmoittaudu jonoon",
           "checkingOpenSeats": "Tarkistetaan vapaita paikkoja...",
-          "reservingQueueSeat": "Varataan jonopaikkaa...",
           "close": "Sulje",
+          "enrollToQueue": "Ilmoittaudu jonoon",
+          "examClosed": "Ilmoittautuminen on sulkeutunut",
+          "examIsFull": "YKI-testi on täynnä. Voit ilmoittautua jonoon.",
           "otherStartedRegistration": {
-            "title": "Ilmoittautuminen on kesken",
+            "backToRegistrationButton": "Siirry ilmoittautumislomakkeelle",
             "part1": "Voit ilmoittautua tai jonottaa vain yhteen YKI-testiin samana testipäivänä.",
             "part2": "Sinun täytyy jatkaa aikaisempaa ilmoittautumista tai keskeyttää se.",
             "part3": "Jos haluat keskeyttää ilmoittautumisen, siirry ensin ilmoittautumislomakkeelle ja paina sitten KESKEYTÄ ILMOITTAUTUMINEN.",
-            "backToRegistrationButton": "Siirry ilmoittautumislomakkeelle"
-          }
+            "title": "Ilmoittautuminen on kesken"
+          },
+          "reservingQueueSeat": "Varataan jonopaikkaa...",
+          "title": "Ilmoittautuminen epäonnistui"
         },
         "enrollToQueue": {
           "dialog": {
@@ -179,6 +179,29 @@
             "info": "Jos paikkoja tutkintoon vapautuu ilmoittautumisaikana, saat ilmoituksen antamaasi sähköpostiosoitteeseen <strong>{{email}}</strong>."
           }
         },
+        "examSessionCard": {
+          "actions": "Toiminnot",
+          "exam": "Koe",
+          "examStartTime": "klo {{startTime}}",
+          "examStartTimeTitle": "Alkaa",
+          "examType": {
+            "full": "Tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen",
+            "listen": "Puheen ymmärtäminen",
+            "listenWrite": "Puheen ymmärtäminen ja kirjoittaminen",
+            "read": "Tekstin ymmärtäminen",
+            "readSpeak": "Tekstin ymmärtäminen ja puhuminen",
+            "speak": "Puhuminen",
+            "write": "Kirjoittaminen"
+          },
+          "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä",
+          "placesAvailable": "Paikkoja vapaana",
+          "price": "Hinta",
+          "registerToPartialExamsSeparately": "Ilmoittaudu osakokeisiin erikseen",
+          "registrationTime": "Ilmoittautumisaika",
+          "registrationType": {
+            "allParts": "Kaikki osakokeet"
+          }
+        },
         "examSessionDetails": {
           "exam": "Tutkinto",
           "examFee": "Tutkintomaksu",
@@ -201,11 +224,6 @@
           "periodNotOpen": "Ilmoittautuminen ei ole alkanut",
           "register": "Ilmoittaudu"
         },
-        "registrationUnavailable": {
-          "admissionOpensOn": "Ilmoittaudu {{startDate}} alkaen",
-          "admissionPeriodIsClosed": "Ilmoittautuminen on päättynyt",
-          "examSessionIsFull": "Tutkinto on täynnä"
-        },
         "registrationDetails": {
           "certificate": {
             "furtherDetails": {
@@ -226,15 +244,15 @@
             },
             "title": "Tietoa todistuksesta",
             "weaklyAuthenticated": {
+              "part10": "Jos sinulla ei ole suomalaista henkilötunnusta tai et käytä <SuomiFiLink></SuomiFiLink>-viestejä, saat YKI-todistuksen postitse.",
+              "part11": "Todistus postitetaan ensisijaisesti väestötietojärjestelmässä olevaan postiosoitteeseen.",
+              "part12": "Jos et ole antanut henkilötunnustasi, todistus postitetaan ilmoittamaasi postiosoitteeseen.",
               "part4": "Saat YKI-todistuksen Oma Opintopolku -palveluun, jos molemmat ehdot täyttyvät:",
               "part5": "Olet antanut tällä ilmoittautumislomakkeella suomalaisen henkilötunnuksesi.",
               "part6": "Käytät sähköisiä <SuomiFiLink></SuomiFiLink>-viestejä.",
               "part7": "Kun todistus on valmis Oma Opintopolussa, Opetushallitus lähettää sinulle viestin.",
               "part8": "Saat viestin <SuomiFiLink></SuomiFiLink>-viestit -palvelussa.",
-              "part9": "Oma Opintopolussa voit katsella todistusta ja ladata sen suomeksi, ruotsiksi tai englanniksi.",
-              "part10": "Jos sinulla ei ole suomalaista henkilötunnusta tai et käytä <SuomiFiLink></SuomiFiLink>-viestejä, saat YKI-todistuksen postitse.",
-              "part11": "Todistus postitetaan ensisijaisesti väestötietojärjestelmässä olevaan postiosoitteeseen.",
-              "part12": "Jos et ole antanut henkilötunnustasi, todistus postitetaan ilmoittamaasi postiosoitteeseen."
+              "part9": "Oma Opintopolussa voit katsella todistusta ja ladata sen suomeksi, ruotsiksi tai englanniksi."
             }
           },
           "certificateLanguage": "Jos todistus postitetaan, millä kielellä haluat todistuksesi? *",
@@ -244,6 +262,7 @@
             "fields": {
               "address": "Katuosoite",
               "certificateLanguage": "Valitse todistuksen kieli",
+              "countryCode": "Maa",
               "countryOfEducation": "Valitse, missä olet opiskellut",
               "dateOfBirth": "Syntymäaika",
               "educationType": "Kerro, onko sinulla opintoja, jotka oikeuttavat maksuttomaan YKI-testiin",
@@ -256,7 +275,6 @@
               "lastName": "Sukunimi",
               "nationality": "Kansalaisuus",
               "nativeLanguage": "Äidinkieli",
-              "countryCode": "Maa",
               "phoneNumber": "Puhelinnumero",
               "postNumber": "Postinumero",
               "postOffice": "Postitoimipaikka",
@@ -312,8 +330,11 @@
               "selectOne": "Valitse yksi alla olevista vaihtoehdoista."
             }
           },
+          "finnishSSN": "Onko sinulla suomalainen henkilötunnus? *",
+          "instructionLanguage": "Millä kielellä haluat tehtävien ohjeet? *",
           "labels": {
             "address": "Katuosoite",
+            "countryCode": "Maa",
             "dateOfBirth": "Syntymäaika",
             "email": "Sähköpostiosoite",
             "emailConfirmation": "Vahvista sähköpostiosoite",
@@ -322,7 +343,6 @@
             "lastName": "Sukunimi",
             "nationality": "Kansalaisuus",
             "nativeLanguage": "Äidinkieli",
-            "countryCode": "Maa",
             "phoneNumber": "Puhelinnumero",
             "postNumber": "Postinumero",
             "postOffice": "Postitoimipaikka",
@@ -331,6 +351,7 @@
           },
           "placeholders": {
             "address": "",
+            "countryCode": "Valitse maa",
             "dateOfBirth": "Kirjoita muodossa pp.kk.vvvv",
             "email": "Esim. nimi@sahkoposti.fi",
             "emailConfirmation": "Kirjoita sähköpostiosoite uudelleen",
@@ -339,14 +360,11 @@
             "lastName": "",
             "nationality": "Valitse kansalaisuus",
             "nativeLanguage": "Valitse äidinkieli",
-            "countryCode": "Valitse maa",
             "phoneNumber": "Kirjoita muodossa +358 50 123 4567",
             "postNumber": "",
             "postOffice": "",
             "preferredName": ""
           },
-          "finnishSSN": "Onko sinulla suomalainen henkilötunnus? *",
-          "instructionLanguage": "Millä kielellä haluat tehtävien ohjeet? *",
           "requiredFields": "Tähdellä (*) merkityt osiot ovat pakollisia.",
           "ssn": "Henkilötunnus",
           "termsAndConditions": {
@@ -360,14 +378,15 @@
             "item4": "Et voi vaihtaa testipäivää.",
             "item5": "Ilmoittautuminen on henkilökohtainen. Et voi vaihtaa osallistujan henkilötietoja.",
             "item6": "Jos et pääse osallistumaan YKI-testiin, voit hakea tutkintomaksun palautusta Opetushallitukselta. Opetushallitus palauttaa tutkintomaksusi, jos hakemuksesi täyttää kaikki lain asettamat ehdot.",
+            "label": "Hyväksyn ilmoittautumisen ehdot *",
             "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-ilmoittautumisen-ehdot",
             "linkText": "Ilmoittautumisen ehdot",
-            "label": "Hyväksyn ilmoittautumisen ehdot *",
-            "title": "Hyväksy ehdot",
-            "subTitle": "Ilmoittautumisen ehdot"
+            "subTitle": "Ilmoittautumisen ehdot",
+            "title": "Hyväksy ehdot"
           },
           "title": "Täytä tietosi",
           "whatsNext": {
+            "description": "Kun olet lähettänyt ilmoittautumislomakkeen, sinun täytyy maksaa tutkintomaksu. Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun.",
             "freeRegistration": {
               "description": "Kun olet lähettänyt ilmoittautumislomakkeen, ilmoittautumisesi vahvistetaan. Vahvistettu ilmoittautuminen kuluttaa yhden maksuttoman ilmoittautumisen.",
               "queued": {
@@ -375,7 +394,6 @@
                 "part2": "Jos saat paikan jonosta, ilmoittautumisesi vahvistetaan. Vahvistettu ilmoittautuminen kuluttaa yhden maksuttoman ilmoittautumisen."
               }
             },
-            "description": "Kun olet lähettänyt ilmoittautumislomakkeen, sinun täytyy maksaa tutkintomaksu. Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun.",
             "queued": {
               "part1": "Kun olet lähettänyt ilmoittautumislomakkeen, saat sähköpostiisi vahvistuksen siitä, että olet ilmoittautunut jonoon.",
               "part2": "Jos saat paikan YKI-testiin jonosta, saat siitä tiedon sähköpostilla. Seuraa sähköpostiasi aktiivisesti."
@@ -406,6 +424,7 @@
               "text1": "Olet saanut sähköpostiisi viestin, jossa on linkki tutkintomaksun maksamista varten.",
               "text2": "Viesti tulee osoitteesta noreply@opintopolku.fi."
             },
+            "title": "Vahvista ilmoittautuminen maksamalla tutkintomaksu",
             "verifyRegistrationDetails": {
               "termsAndConditions": {
                 "label": "Ilmoittautumisen ehdot",
@@ -414,14 +433,18 @@
               "text1": "Tarkista ennen maksamista, että olet valinnut oikean YKI-testin.",
               "text2": "Et voi vaihtaa YKI-testin kieltä, tasoa, testipaikkaa tai testipäivää maksamisen jälkeen.",
               "text3": "Lue ilmoittautumisen ehdot Opetushallituksen verkkosivuilta:"
-            },
-            "title": "Vahvista ilmoittautuminen maksamalla tutkintomaksu"
+            }
           },
           "queued": {
             "text1": "Saat sähköpostiisi vahvistuksen siitä, että olet ilmoittautunut jonoon.",
             "text2": "Jos saat paikan YKI-testiin jonosta, saat siitä tiedon sähköpostilla. Seuraa sähköpostiasi aktiivisesti.",
             "title": "Olet ilmoittautunut jonoon"
           }
+        },
+        "registrationUnavailable": {
+          "admissionOpensOn": "Ilmoittaudu {{startDate}} alkaen",
+          "admissionPeriodIsClosed": "Ilmoittautuminen on päättynyt",
+          "examSessionIsFull": "Tutkinto on täynnä"
         },
         "stepper": {
           "active": "Aktiivinen",
@@ -463,8 +486,8 @@
             "emailLink": {
               "error": "Tunnistautuminen epäonnistui. Voit yrittää uudestaan.",
               "incorrectEmailDialog": {
-                "title": "Pyyntö epäonnistui",
-                "description": "Tarkista sähköpostiosoite."
+                "description": "Tarkista sähköpostiosoite.",
+                "title": "Pyyntö epäonnistui"
               },
               "success": "Ilmoittautumislinkki on lähetetty osoitteeseen:"
             },
@@ -513,6 +536,7 @@
               "heading": "Maksu epäonnistui"
             },
             "success": {
+              "heading": "Ilmoittautuminen onnistui!",
               "whatsNext": {
                 "beforeYkiTest": {
                   "description": "Lue myös Opetushallituksen ohjeet YKI-testistä:",
@@ -529,14 +553,13 @@
                 },
                 "title": "Tervetuloa YKI-testiin!",
                 "toUserPortal": {
+                  "description": "Voit katsoa ilmoittautumisen tietoja YKI-ilmoittautumissivulla:",
                   "link": {
                     "label": "Omat ilmoittautumiset",
                     "omaOpintopolkuLabel": "Oma Opintopolku (opintopolku.fi)"
-                  },
-                  "description": "Voit katsoa ilmoittautumisen tietoja YKI-ilmoittautumissivulla:"
+                  }
                 }
-              },
-              "heading": "Ilmoittautuminen onnistui!"
+              }
             }
           },
           "register": {
@@ -558,14 +581,14 @@
             "description2": "Voit ilmoittautua tai jonottaa vain yhteen YKI-testiin samana testipäivänä.",
             "title": "Olet jo ilmoittautunut toiseen YKI-testiin samana testipäivänä"
           },
-          "generic": {
-            "description": "Ilmoittautumislomakkeen lähetys epäonnistui. Voit palata ilmoittautumislomakkeelle ja yrittää uudelleen.",
-            "title": "Ilmoittautumislomakkeen lähetys epäonnistui"
-          },
           "full": {
             "description1": "Voit ilmoittautua tai jonottaa vain yhteen YKI-testiin samalle testipäivälle.",
             "description2": "Jos haluat ilmoittautua tähän YKI-testiin, peru aikaisempi ilmoittautuminen. Lue ohjeet ilmoittautumisen vahvistussähköpostista.",
             "title": "YKI-testi on täynnä"
+          },
+          "generic": {
+            "description": "Ilmoittautumislomakkeen lähetys epäonnistui. Voit palata ilmoittautumislomakkeelle ja yrittää uudelleen.",
+            "title": "Ilmoittautumislomakkeen lähetys epäonnistui"
           },
           "past": {
             "description": "Tilaisuuteen ilmoittautuminen ei ole enää mahdollista. Ilmoittautumisaika on päättynyt.",
@@ -604,8 +627,8 @@
           "info": "Tarkistusarviointimaksun maksaminen ei onnistunut. Yritä maksua uudestaan."
         },
         "success": {
-          "heading": "Olet pyytänyt tarkistusarviointia!",
-          "body": "Sinulle on lähetetty vahvistus tarkistusarviointipyynnöstäsi sähköpostilla. Sähköpostissa on myös kuitti tarkistusarviointimaksustasi. Jos et ole saanut viestiä, tarkista roskapostikansiosi."
+          "body": "Sinulle on lähetetty vahvistus tarkistusarviointipyynnöstäsi sähköpostilla. Sähköpostissa on myös kuitti tarkistusarviointimaksustasi. Jos et ole saanut viestiä, tarkista roskapostikansiosi.",
+          "heading": "Olet pyytänyt tarkistusarviointia!"
         }
       },
       "examDetailsPage": {
@@ -653,10 +676,10 @@
           "streetAddress": "",
           "zip": ""
         },
+        "title": "Muokkaa yhteystietoja",
         "toast": {
           "success": "Yhteystiedot tallennettu onnistuneesti"
-        },
-        "title": "Muokkaa yhteystietoja"
+        }
       },
       "notFoundPage": {
         "description": "Tarkista verkkosivun osoite tai palaa aloitussivulle.",
@@ -752,24 +775,23 @@
           "part4": "Voit lukea lisää testin tuloksista ja todistuksista Opetushallituksen verkkosivuilta:"
         },
         "labels": {
+          "allPartsAtOnce": "Kaikki osakokeet kerralla",
           "excludeFullSessions": "Näytä vain kielitutkinnot, joissa on tilaa",
           "excludeNonOpenSessions": "Näytä vain kielitutkinnot, joihin voi ilmoittautua nyt",
           "filterExamSessions": "Rajaa tuloksia",
+          "listen": "Puheen ymmärtäminen",
+          "read": "Tekstin ymmärtäminen",
+          "selectExamType": "Koe",
           "selectLanguage": "Valitse kieli",
           "selectLevel": "Valitse taso",
-          "selectMunicipality": "Valitse paikkakunta"
+          "selectMunicipality": "Valitse paikkakunta",
+          "speak": "Puhuminen",
+          "write": "Kirjoittaminen"
         },
         "register": "Ilmoittaudu",
         "title": "Yleiset kielitutkinnot (YKI) - Ilmoittautuminen"
       },
       "userDetailsPage": {
-        "expiredLoginLink": {
-          "part1": "Linkki on vanhentunut. Tietoturvan takia linkki toimii vain 14 päivän ajan. Sinun täytyy tilata uusi linkki.",
-          "buttonText": "Tilaa uusi linkki sähköpostiin",
-          "part2": "Jos et saa uutta linkkiä, lähetä meille sähköpostia osoitteeseen kielitutkinnot@oph.fi.",
-          "title": "Linkki on vanhentunut",
-          "reply": "Sinulle on lähetetty uusi linkki sähköpostilla. Jos et ole saanut viestiä, tarkista roskapostikansiosi."
-        },
         "contactDetails": {
           "description": {
             "part1": "Lähetämme todistuksen sinulle postitse.",
@@ -777,6 +799,13 @@
           },
           "heading": "Yhteystietosi",
           "modify": "Muokkaa yhteystietoja"
+        },
+        "expiredLoginLink": {
+          "buttonText": "Tilaa uusi linkki sähköpostiin",
+          "part1": "Linkki on vanhentunut. Tietoturvan takia linkki toimii vain 14 päivän ajan. Sinun täytyy tilata uusi linkki.",
+          "part2": "Jos et saa uutta linkkiä, lähetä meille sähköpostia osoitteeseen kielitutkinnot@oph.fi.",
+          "reply": "Sinulle on lähetetty uusi linkki sähköpostilla. Jos et ole saanut viestiä, tarkista roskapostikansiosi.",
+          "title": "Linkki on vanhentunut"
         },
         "introduction": {
           "bulletPoints": {
@@ -802,10 +831,10 @@
           },
           "examPayment": {
             "expiresAt": "Eräpäivä {{- date }}",
-            "notPaid": "Maksamatta {{ examFee }}€",
+            "free": "Maksuton",
             "label": "Tutkintomaksu",
-            "paidAt": "Maksettu {{- date }}",
-            "free": "Maksuton"
+            "notPaid": "Maksamatta {{ examFee }}€",
+            "paidAt": "Maksettu {{- date }}"
           },
           "header": {
             "cancelled": "Perutut ilmoittautumiset",
@@ -821,6 +850,16 @@
             "part1": "Ilmoittautumista ei ole vielä vahvistettu.",
             "part2": "Maksa tutkintomaksu niin ilmoittautuminen vahvistetaan.",
             "part3": "Jos et maksa tutkintomaksua viimeistään eräpäivänä, ilmoittautuminen perutaan."
+          },
+          "partialExams": {
+            "FULL": "Tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen",
+            "label": "Osakokeet",
+            "LISTEN": "Puheen ymmärtäminen",
+            "LISTEN_WRITE": "Puheen ymmärtäminen ja kirjoittaminen",
+            "READ": "Tekstin ymmärtäminen",
+            "READ_SPEAK": "Tekstin ymmärtäminen ja puhuminen",
+            "SPEAK": "Puhuminen",
+            "WRITE": "Kirjoittaminen"
           },
           "past": {
             "notFound": "Sinulla ei ole suorituksia tai menneitä ilmoittautumisia."

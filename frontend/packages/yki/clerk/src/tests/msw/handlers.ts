@@ -4,26 +4,27 @@ import { http, HttpResponse } from 'msw';
 import { APIEndpoints } from 'enums/api';
 import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
 import {
-  CreateEvaluationRequest,
   ExamDateLanguage,
   ExamDateResponse,
-  LanguageEvaluationOverride,
+  LanguageEvaluation,
+  UpdateEvaluationRequest,
 } from 'interfaces/examDate';
+import { activeQuarantines } from 'tests/msw/fixtures/activeQuarantines';
 import { clerkExamSession } from 'tests/msw/fixtures/clerkExamSession';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
 import { examDates } from 'tests/msw/fixtures/examDate';
 import { examSessions } from 'tests/msw/fixtures/examSession';
+import { findByOidResponse } from 'tests/msw/fixtures/findByOid';
 import { findByOidsResponse } from 'tests/msw/fixtures/findByOids';
 import { findOrganizations } from 'tests/msw/fixtures/findOrganizations';
-import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
-import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { organizers } from 'tests/msw/fixtures/organizers';
 import { quarantineMatches } from 'tests/msw/fixtures/quarantineMatches';
+import { quarantineReviews } from 'tests/msw/fixtures/quarantineReviews';
 
-interface FreeRegistrationRequest {
-  approved: boolean;
+interface QuarantineReviewRequest {
+  quarantined: boolean;
 }
 
 const notFound = () => new HttpResponse(null, { status: 404 });
@@ -42,15 +43,35 @@ const adminUser = {
   },
 };
 
+const v2User = {
+  oid: '1.2.246.562.10.28646781493',
+  isAdmin: true,
+  isOrganizer: true,
+};
+
 export const handlers = [
   http.get(APIEndpoints.User, () => {
     return HttpResponse.json(adminUser);
     //return HttpResponse.json(NoSessionResponse);
   }),
+  http.get(APIEndpoints.AuthUser, () => {
+    return HttpResponse.json(v2User);
+  }),
   http.get(APIEndpoints.CountryCodes, () =>
     HttpResponse.json(maatJaValtiot2Response),
   ),
   http.get(APIEndpoints.ClerkOrganizer, () => HttpResponse.json(organizers)),
+  http.get(`${APIEndpoints.Organizer}/:oid`, ({ params }) => {
+    const oid = params?.oid as string | undefined;
+    const organizer = organizers.organizers.find((o) => {
+      return o.oid === oid;
+    });
+    if (organizer) {
+      return HttpResponse.json({ organizers: [organizer] });
+    } else {
+      return notFound();
+    }
+  }),
   http.put(
     `${APIEndpoints.ClerkOrganizer}/:oid`,
     async ({ params, request }) => {
@@ -69,51 +90,6 @@ export const handlers = [
       } else {
         return notFound();
       }
-    },
-  ),
-  http.get(APIEndpoints.ClerkFreeRegistration, ({ cookies }) => {
-    if (cookies['free-registration-error-500'] === '1') {
-      return HttpResponse.json({ error: 'forced error' }, { status: 500 });
-    }
-
-    return HttpResponse.json(freeRegistrations);
-  }),
-  http.get(APIEndpoints.ClerkFreeRegistrationDetails, ({ params }) => {
-    const index = params?.id ? Number(params.id) - 1 : NaN;
-    if (index >= 0) {
-      return HttpResponse.json(freeRegistrationDetails[index]);
-    } else {
-      return notFound();
-    }
-  }),
-  http.put(
-    APIEndpoints.ClerkFreeRegistrationDetails,
-    async ({ params, request }) => {
-      const index = params?.id ? Number(params.id) - 1 : NaN;
-      const { approved } = (await request.json()) as FreeRegistrationRequest;
-      const response = freeRegistrationDetails[index];
-
-      if (index >= 0) {
-        return HttpResponse.json({
-          ...response,
-          status: approved ? 'APPROVED' : 'REJECTED',
-        });
-      } else {
-        return notFound();
-      }
-    },
-  ),
-  http.post(APIEndpoints.ClerkFreeRegistrationSupplementRequest, () => {
-    return HttpResponse.json({ success: true });
-  }),
-  http.post(
-    APIEndpoints.ClerkFreeRegistrationDetailsMessages,
-    ({ cookies }) => {
-      if (cookies['error'] === '1') {
-        return HttpResponse.json({ error: 'forced error' }, { status: 500 });
-      }
-
-      return HttpResponse.json({ success: true });
     },
   ),
   http.get(APIEndpoints.ClerkCustomerDetails, ({ params }) => {
@@ -236,7 +212,13 @@ export const handlers = [
       }
     },
   ),
-  http.get('/yki/api/clerk/organizer/:oid/exam-session', ({ params }) => {
+  http.get(
+    '/organisaatio-service/rest/organisaatio/v4/1.2.246.562.10.28646781493',
+    () => {
+      return HttpResponse.json(findByOidResponse);
+    },
+  ),
+  http.get(APIEndpoints.ClerkOrganizer + '/:oid/exam-session', ({ params }) => {
     const { from } = params;
 
     const filteredExamSessions = from
@@ -252,6 +234,16 @@ export const handlers = [
     // all exam dates
     // return HttpResponse.json({ dates: examDates.dates });
   }),
+  http.get(
+    APIEndpoints.Organizer + '/1.2.246.562.10.28646781493/examDates',
+    () => {
+      return HttpResponse.json(examDates);
+    },
+  ),
+  http.get(
+    APIEndpoints.Organizer + '/1.2.246.562.10.28646781493/examSession/999',
+    () => HttpResponse.json(clerkExamSession),
+  ),
   http.get(`${APIEndpoints.ClerkExamDate}/all`, () => {
     return HttpResponse.json(examDates);
   }),
@@ -289,24 +281,24 @@ export const handlers = [
 
     return HttpResponse.json({ id: newId, ...body });
   }),
-  http.post(
+  http.put(
     `${APIEndpoints.ClerkExamDate}/:examDateId/evaluation`,
     async ({ params, request }) => {
       const examDateId = Number(params.examDateId);
-      const body = (await request.json()) as CreateEvaluationRequest;
+      const body = (await request.json()) as UpdateEvaluationRequest;
       const examDate = examDates.find((ed) => ed.id === examDateId);
       if (!examDate) {
         return new HttpResponse(null, { status: 404 });
       }
 
       examDate.languages.forEach((lang) => {
-        const override = body.overrides?.find(
-          (o: LanguageEvaluationOverride) => o.examDateLanguageId === lang.id,
+        const evaluation = body.evaluations.find(
+          (e: LanguageEvaluation) => e.examDateLanguageId === lang.id,
         );
-        lang.evaluationStartDate =
-          override?.evaluationStartDate ?? body.evaluationStartDate;
-        lang.evaluationEndDate =
-          override?.evaluationEndDate ?? body.evaluationEndDate;
+        if (evaluation) {
+          lang.evaluationStartDate = evaluation.evaluationStartDate;
+          lang.evaluationEndDate = evaluation.evaluationEndDate;
+        }
       });
 
       return HttpResponse.json(examDate);
@@ -357,19 +349,47 @@ export const handlers = [
       },
     });
   }),
-  http.get(APIEndpoints.ClerkQuarantineMatches, () =>
-    HttpResponse.json({ quarantineMatches }),
+  http.post(APIEndpoints.ClerkQuarantine, () =>
+    HttpResponse.json({ success: true }),
   ),
-  http.put(APIEndpoints.ClerkQuarantineSetReview, ({ params }) => {
+  http.put(APIEndpoints.ClerkQuarantineById, () =>
+    HttpResponse.json({ success: true }),
+  ),
+  http.delete(APIEndpoints.ClerkQuarantineById, ({ params }) => {
     const id = Number(params.id);
-    const regId = Number(params.regId);
-    const idx = quarantineMatches.findIndex(
-      (m) => m.id === id && m.registrationId === regId,
-    );
-    if (idx !== -1) quarantineMatches.splice(idx, 1);
+    const idx = activeQuarantines.findIndex((q) => q.id === id);
+    if (idx !== -1) activeQuarantines.splice(idx, 1);
 
     return new HttpResponse(null, { status: 200 });
   }),
+  http.get(APIEndpoints.ClerkQuarantine, () =>
+    HttpResponse.json(activeQuarantines),
+  ),
+  http.get(APIEndpoints.ClerkQuarantineMatches, () =>
+    HttpResponse.json(quarantineMatches),
+  ),
+  http.get(APIEndpoints.ClerkQuarantineReviews, () =>
+    HttpResponse.json(quarantineReviews),
+  ),
+  http.put(
+    APIEndpoints.ClerkQuarantineSetReview,
+    async ({ params, request }) => {
+      const requestBody = (await request.json()) as QuarantineReviewRequest;
+
+      if (typeof requestBody.quarantined !== 'boolean') {
+        return new HttpResponse(null, { status: 400 });
+      }
+
+      const id = Number(params.id);
+      const regId = Number(params.regId);
+      const idx = quarantineMatches.findIndex(
+        (m) => m.id === id && m.registrationId === regId,
+      );
+      if (idx !== -1) quarantineMatches.splice(idx, 1);
+
+      return new HttpResponse(null, { status: 200 });
+    },
+  ),
   http.post(APIEndpoints.AddClerkOrganizer, async ({ request }) => {
     const requestBody = (await request.json()) as Omit<
       ClerkOrganizerResponse,

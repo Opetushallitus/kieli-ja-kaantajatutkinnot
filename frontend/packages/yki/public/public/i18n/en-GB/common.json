@@ -1,9 +1,9 @@
 {
   "yki": {
     "common": {
-      "and": "and",
       "actions": "Actions",
       "address": "Address",
+      "and": "and",
       "appNameAbbreviation": "YKI",
       "appTitle": "National Certificates of Language Proficiency (YKI) - Finnish National Agency for Education",
       "back": "Back",
@@ -34,6 +34,7 @@
         "hours": "(Weekdays 9-11 am)",
         "jyu": "+358 50 591 9322"
       },
+      "customerSearch": "Asiakashaku",
       "dates": {
         "dateTimeFormat": "l [at] HH:mm"
       },
@@ -44,8 +45,8 @@
           "dateFormat": "Fill in as dd.mm.yyyy.",
           "emailFormat": "The email address is incorrect",
           "maxLength": "The text is too long",
-          "required": "The information is mandatory",
           "personalIdentityCodeFormat": "The form of the personal identity code was not recognised",
+          "required": "The information is mandatory",
           "telFormat": "The telephone number is incorrect"
         },
         "loadingFailed": "Downloading the information failed.",
@@ -61,6 +62,7 @@
         }
       },
       "examDate": "Test day",
+      "examination": "Test",
       "examParts": {
         "readingComprehension": "Reading comprehension",
         "speaking": "Speaking",
@@ -68,7 +70,7 @@
         "writing": "Writing"
       },
       "examSession": "Test",
-      "examination": "Test",
+      "freeRegistration": "Maksuttomuus",
       "full": "Full",
       "gender": {
         "female": "Female",
@@ -82,6 +84,11 @@
           "langSelectorAriaLabel": "Kieli / Språk / Language",
           "mainNavigation": "Main navigation"
         },
+        "lang": {
+          "en": "In English",
+          "fi": "Suomeksi",
+          "sv": "På svenska"
+        },
         "sessionState": {
           "activeRegistrations_one": "You have already started 1 registration.",
           "activeRegistrations_other": "You have already started {{count}} registrations.",
@@ -94,11 +101,6 @@
             "description2": "Any information you have filled in will be lost and your registration will be terminated.",
             "title": "Log out"
           }
-        },
-        "lang": {
-          "en": "In English",
-          "fi": "Suomeksi",
-          "sv": "På svenska"
         }
       },
       "institution": "Test centre",
@@ -125,18 +127,40 @@
       "loadingContent": "Loading content",
       "loadingDone": "Loading complete",
       "municipality": "Municipality",
+      "name": "Name",
       "navigationProtection": {
         "description": "All changes will be lost.",
         "header": "Are you sure you want to leave this page?"
       },
-      "name": "Name",
       "next": "Next",
       "no": "No",
       "ophLogoAlt": "Logo: Finnish National Agency for Education.",
       "ophLogoToFrontPageAlt": "The Finnish National Agency for Education - To the YKI registration page",
       "or": "or",
+      "pageTitle": {
+        "accessibilityStatement": "Accessibility statement",
+        "confirmRegistration": "Confirm registration",
+        "evaluationOrder": "Reassessment",
+        "evaluationOrderStatus": "Reassessment",
+        "examDetails": "Test",
+        "expiredLoginLink": "The link has expired",
+        "freeRegistrationSuccess": "Ilmoittautuminen onnistui",
+        "initRegistration": "Registration",
+        "logoutSuccess": "Log out complete",
+        "modifyContactDetails": "Edit contact information",
+        "notFound": "Page not found",
+        "reassessment": "Reassessment",
+        "registration": "Registration",
+        "registrationPaymentStatus": "Registration",
+        "transferRegistration": "Reschedule registration",
+        "userDetails": "My registrations"
+      },
+      "partialExams": "Osakokeet",
+      "partialExamTime": "klo {{startTime}}",
+      "partialExamTimeLabel": "Testin alkamisaika",
       "phoneNumber": "Telephone number",
       "placesAvailable": "Available seats",
+      "previous": "Previous",
       "price": "Price",
       "privacyStatement": {
         "description": "We follow EU's General Data Protection Regulation on processing personal data.",
@@ -150,38 +174,17 @@
       },
       "reassessment": "Reassessment",
       "registration": "Registration",
-      "freeRegistration": "Maksuttomuus",
-      "customerSearch": "Asiakashaku",
       "registrationPeriod": "Registration period",
       "specialArrangementsLink": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-do-you-need-special-arrangements",
+      "suomiFiLink": {
+        "label": "Suomi.fi",
+        "url": "https://www.suomi.fi/messages"
+      },
       "userRegistrations": "My registrations",
       "yes": "Yes",
       "ykiHomepage": {
         "ariaLabel": "Website of the National Certificates of Language Proficiency (oph.fi), open in a new tab",
         "link": "https://www.oph.fi/en/national-certificates-language-proficiency-yki"
-      },
-      "pageTitle": {
-        "registration": "Registration",
-        "initRegistration": "Registration",
-        "examDetails": "Test",
-        "freeRegistrationSuccess": "Ilmoittautuminen onnistui",
-        "registrationPaymentStatus": "Registration",
-        "reassessment": "Reassessment",
-        "evaluationOrder": "Reassessment",
-        "evaluationOrderStatus": "Reassessment",
-        "accessibilityStatement": "Accessibility statement",
-        "logoutSuccess": "Log out complete",
-        "userDetails": "My registrations",
-        "transferRegistration": "Reschedule registration",
-        "modifyContactDetails": "Edit contact information",
-        "confirmRegistration": "Confirm registration",
-        "notFound": "Page not found",
-        "expiredLoginLink": "The link has expired"
-      },
-      "previous": "Previous",
-      "suomiFiLink": {
-        "label": "Suomi.fi",
-        "url": "https://www.suomi.fi/messages"
       }
     }
   }

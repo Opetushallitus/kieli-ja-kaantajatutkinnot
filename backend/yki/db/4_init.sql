@@ -37,7 +37,7 @@ COPY public.cas_ticketstore (ticket, logged_in) FROM stdin;
 --
 
 COPY public.organizer (id, oid, agreement_start_date, agreement_end_date, contact_name, contact_email, contact_phone_number, extra, deleted_at, created, modified) FROM stdin;
-1	1.2.3.4	2022-01-01	2030-12-31	Kontakti	kontakti@invalid	040123456789		\N	2022-12-01 12:21:45.778485+00	2022-12-01 12:21:45.778485+00
+1	1.2.246.562.10.28646781493	2022-01-01	2030-12-31	Kontakti	kontakti@invalid	040123456789		\N	2022-12-01 12:21:45.778485+00	2022-12-01 12:21:45.778485+00
 \.
 
 
@@ -121,34 +121,6 @@ COPY public.exam_date (id, exam_date, registration_start_date, registration_end_
 44	2026-11-22	2025-12-02	2025-05-06	2025-12-02 15:33:16.721932+00	2025-12-02 15:33:16.721932+00	\N	\N	f	\N
 45	2026-09-05	2025-12-02	2025-05-06	2025-12-02 15:33:16.721932+00	2025-12-02 15:33:16.721932+00	\N	\N	f	\N
 46	2026-10-18	2025-12-02	2025-05-06	2025-12-02 15:33:16.721932+00	2025-12-02 15:33:16.721932+00	\N	\N	f	\N
-\.
-
-
---
--- Data for Name: exam_level; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public.exam_level (code, created) FROM stdin;
-PERUS	2022-11-30 14:13:51.538476+00
-KESKI	2022-11-30 14:13:51.539196+00
-YLIN	2022-11-30 14:13:51.539767+00
-\.
-
-
---
--- Data for Name: language; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public.language (code, created) FROM stdin;
-fin	2022-11-30 14:13:51.532916+00
-swe	2022-11-30 14:13:51.533786+00
-eng	2022-11-30 14:13:51.534399+00
-spa	2022-11-30 14:13:51.534979+00
-ita	2022-11-30 14:13:51.535495+00
-fra	2022-11-30 14:13:51.536075+00
-sme	2022-11-30 14:13:51.536695+00
-deu	2022-11-30 14:13:51.537193+00
-rus	2022-11-30 14:13:51.53784+00
 \.
 
 
@@ -552,6 +524,8 @@ COPY public.quarantine (id, language_code, end_date, birthdate, first_name, last
 10	fin	2023-12-26	1999-04-03	Testi	Testinen	201190-9012	email@invalid.invalid	0401234567	2022-12-28 13:23:09.711442+00	2023-01-05 11:12:05.992913+00	10123421	\N	2022-12-28
 11	fin	2023-02-26	2022-12-06	Testinen	Testi	\N	test@invalid.invalid	0401234567	2022-12-29 09:58:30.342062+00	2023-01-05 11:32:05.599048+00	111234221	\N	2022-12-29
 12	fin	2023-12-29	2018-02-01	Testi	Testinen	201190-9012	email@invalid.invalid	0401234567	2022-12-29 13:01:49.496899+00	2023-01-05 12:06:42.827034+00	121234	\N	2022-12-29
+13	fin	2026-10-17	1990-05-11	Aino	Osallistuja	\N	asdasd@asdsd.asd	34234234234	2026-05-11 14:08:48.603907+00	\N	34534534534	\N	2026-05-11
+14	fin	2222-10-10	1990-01-01	Aino	Osallistuja	\N	asa@asdasd.ss	3242342342	2026-05-11 14:09:47.246273+00	\N	zxczxczxc	\N	2025-01-10
 \.
 
 
@@ -948,7 +922,7 @@ SELECT pg_catalog.setval('public.pgqueues_id_seq', 1, true);
 -- Name: quarantine_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.quarantine_id_seq', 12, true);
+SELECT pg_catalog.setval('public.quarantine_id_seq', 14, true);
 
 
 --

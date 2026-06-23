@@ -7,7 +7,8 @@ import {
   RegistrationKind,
   RegistrationStates,
 } from 'enums/app';
-import { ExamSessionLocation } from 'interfaces/examSessions';
+import { ExamSessionLocation, ExamSessionType } from 'interfaces/examSessions';
+import { PartialExamType } from 'interfaces/publicRegistration';
 
 export interface PersonRegistrations extends WithId {
   state: RegistrationStates;
@@ -27,9 +28,15 @@ export interface PersonRegistrations extends WithId {
   liftedFromQueueAt?: Dayjs;
   positionInQueue?: number;
   isFreeRegistration?: boolean;
+  partialExamType: PartialExamType;
+  type: ExamSessionType;
+  start_time_read_listen?: string;
+  start_time_speak_write?: string;
 }
 
 interface PersonRegistrationsResponse extends WithId {
+  partial_exam_type: PartialExamType;
+  type: ExamSessionType;
   exam_session_id: string;
   language_code: string;
   level_code: string;
@@ -47,6 +54,8 @@ interface PersonRegistrationsResponse extends WithId {
   lifted_from_queue_at?: string;
   position_in_queue?: number;
   is_free_registration?: boolean;
+  start_time_read_listen?: string;
+  start_time_speak_write?: string;
 }
 
 export interface PersonDetails {

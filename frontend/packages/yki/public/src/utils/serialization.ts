@@ -32,6 +32,7 @@ import {
   ExamSessionResponse,
   ExamSessions,
   ExamSessionsResponse,
+  ExamSessionType,
 } from 'interfaces/examSessions';
 import { FreeRegistrationBasis } from 'interfaces/freeRegistration';
 import {
@@ -68,8 +69,7 @@ export class SerializationUtils {
   static deserializeExamSessionResponse(
     examSessionResponse: ExamSessionResponse,
   ): ExamSession {
-    return {
-      ...examSessionResponse,
+    const dates = {
       session_date: dayjs(examSessionResponse.session_date),
       registration_start_date: SerializationUtils.deserializeStartTime(
         examSessionResponse.registration_start_date,
@@ -78,6 +78,14 @@ export class SerializationUtils {
         examSessionResponse.registration_end_date,
       ) as Dayjs,
     };
+
+    if (examSessionResponse.type === 'READ_SPEAK') {
+      return { ...examSessionResponse, ...dates };
+    } else if (examSessionResponse.type === 'LISTEN_WRITE') {
+      return { ...examSessionResponse, ...dates };
+    } else {
+      return { ...examSessionResponse, ...dates };
+    }
   }
 
   static deserializeExamSessionsResponse(
@@ -273,6 +281,8 @@ export class SerializationUtils {
       countryCode: response.country_code,
       registrations: response.registrations?.map((v) => ({
         id: v.id,
+        partialExamType: v.partial_exam_type,
+        type: v.type as ExamSessionType,
         kind: v.kind as RegistrationKind,
         examSessionId: v.exam_session_id,
         examLang: v.language_code as ExamLanguage,
@@ -295,6 +305,8 @@ export class SerializationUtils {
             ? (v.position_in_queue || 0) + 1
             : undefined,
         isFreeRegistration: v.is_free_registration,
+        start_time_read_listen: v.start_time_read_listen,
+        start_time_speak_write: v.start_time_speak_write,
       })),
     };
   }
@@ -329,6 +341,7 @@ export class SerializationUtils {
     return {
       exam_session_id: payload.examSessionId,
       to_queue: payload.registrationKind === RegistrationKind.Queue,
+      partial_exam_type: payload.partialExamType,
     };
   }
 
