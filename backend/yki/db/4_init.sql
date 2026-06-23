@@ -121,6 +121,11 @@ COPY public.exam_date (id, exam_date, registration_start_date, registration_end_
 44	2026-11-22	2025-12-02	2025-05-06	2025-12-02 15:33:16.721932+00	2025-12-02 15:33:16.721932+00	\N	\N	f	\N
 45	2026-09-05	2025-12-02	2025-05-06	2025-12-02 15:33:16.721932+00	2025-12-02 15:33:16.721932+00	\N	\N	f	\N
 46	2026-10-18	2025-12-02	2025-05-06	2025-12-02 15:33:16.721932+00	2025-12-02 15:33:16.721932+00	\N	\N	f	\N
+47	2026-06-15	2026-05-01	2026-05-31	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	\N	f	\N
+48	2026-10-20	2026-09-01	2026-09-30	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	\N	f	\N
+49	2027-04-10	2027-03-01	2027-03-31	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	\N	f	\N
+50	2028-09-05	2028-08-01	2028-08-31	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	\N	f	\N
+51	2030-08-20	2030-07-01	2030-07-31	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	\N	f	\N
 \.
 
 
@@ -275,6 +280,11 @@ COPY public.exam_session (id, organizer_id, language_code, level_code, exam_date
 21	1	deu	YLIN	46	0	\N	\N	2025-12-02 15:33:16.761716+00	2025-12-02 15:33:16.761716+00	\N	f	\N	\N
 22	1	swe	PERUS	44	0	\N	\N	2025-12-02 15:33:16.761716+00	2025-12-02 15:33:16.761716+00	\N	f	\N	\N
 23	1	swe	PERUS	44	0	\N	\N	2025-12-02 15:33:16.761716+00	2025-12-02 15:33:16.761716+00	\N	f	\N	\N
+24	1	fin	PERUS	47	20	\N	\N	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	f	\N	\N
+25	1	swe	KESKI	48	20	\N	\N	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	f	\N	\N
+26	1	eng	YLIN	49	20	\N	\N	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	f	\N	\N
+27	1	deu	PERUS	50	20	\N	\N	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	f	\N	\N
+28	1	rus	KESKI	51	20	\N	\N	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	f	\N	\N
 \.
 
 
@@ -333,6 +343,13 @@ COPY public.registration (id, state, exam_session_id, participant_id, started_at
 183	COMPLETED	4	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "fi", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2025-12-02 15:34:28.685691+00	2025-12-02 15:34:28.685691+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
 184	CANCELLED	2	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "sv", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2025-12-02 15:34:28.685691+00	2025-12-02 15:34:28.685691+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
 185	COMPLETED	3	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "sv", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2025-12-02 15:34:28.685691+00	2025-12-02 15:34:28.685691+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+186	COMPLETED	24	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "fi", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2026-06-01 09:00:00+00	2026-06-01 09:00:00+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+187	SUBMITTED	24	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "fi", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2026-06-02 09:00:00+00	2026-06-02 09:00:00+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+188	CANCELLED	25	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "sv", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2026-06-03 09:00:00+00	2026-06-03 09:00:00+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+189	COMPLETED	25	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "sv", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2026-06-04 09:00:00+00	2026-06-04 09:00:00+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+190	PAID_AND_CANCELLED	26	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "en", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2026-06-05 09:00:00+00	2026-06-05 09:00:00+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+191	SUBMITTED	27	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "de", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2026-06-06 09:00:00+00	2026-06-06 09:00:00+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+192	COMPLETED	28	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "ru", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2026-06-07 09:00:00+00	2026-06-07 09:00:00+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
 \.
 
 
@@ -424,6 +441,11 @@ COPY public.exam_session_location (id, name, street_address, post_office, zip, o
 65	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	fi	8	2025-12-02 15:33:16.822162+00
 66	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	sv	8	2025-12-02 15:33:16.822162+00
 67	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	en	8	2025-12-02 15:33:16.822162+00
+68	Helsingin testikoulu	Helsinginkatu 1	Helsinki	00100	\N	\N	fi	24	2026-06-23 00:00:00+00
+69	Tampereen testikoulu	Tampereenkatu 2	Tampere	33100	\N	\N	fi	25	2026-06-23 00:00:00+00
+70	Oulun testikoulu	Oulunkatu 3	Oulu	90100	\N	\N	fi	26	2026-06-23 00:00:00+00
+71	Turun testikoulu	Turunkatu 4	Turku	20100	\N	\N	fi	27	2026-06-23 00:00:00+00
+72	Jyväskylän testikoulu	Jyväskylänkatu 5	Jyväskylä	40100	\N	\N	fi	28	2026-06-23 00:00:00+00
 \.
 
 
@@ -705,7 +727,7 @@ SELECT pg_catalog.setval('public.evaluation_payment_order_number_seq', 1, false)
 -- Name: exam_date_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.exam_date_id_seq', 46, true);
+SELECT pg_catalog.setval('public.exam_date_id_seq', 51, true);
 
 
 --
@@ -782,14 +804,14 @@ SELECT pg_catalog.setval('public.exam_session_exam_date_id_seq', 1, false);
 -- Name: exam_session_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.exam_session_id_seq', 23, true);
+SELECT pg_catalog.setval('public.exam_session_id_seq', 28, true);
 
 
 --
 -- Name: exam_session_location_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.exam_session_location_id_seq', 67, true);
+SELECT pg_catalog.setval('public.exam_session_location_id_seq', 72, true);
 
 
 --
@@ -936,7 +958,7 @@ SELECT pg_catalog.setval('public.quarantine_review_id_seq', 24, true);
 -- Name: registration_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.registration_id_seq', 185, true);
+SELECT pg_catalog.setval('public.registration_id_seq', 192, true);
 
 
 --
