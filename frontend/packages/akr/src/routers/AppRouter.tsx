@@ -31,6 +31,7 @@ import { PrivacyPolicyPage } from 'pages/PrivacyPolicyPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 import { StatisticsPage } from 'pages/StatisticsPage';
 
+// Trigger CI
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
   const appTitle = translateCommon('appTitle');

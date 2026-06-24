@@ -28,6 +28,7 @@ import { NotFoundPage } from 'pages/NotFoundPage';
 import { PrivacyPolicyPage } from 'pages/PrivacyPolicyPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 
+// Trigger CI
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
   const appTitle = translateCommon('appTitle');

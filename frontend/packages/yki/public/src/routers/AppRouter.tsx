@@ -44,6 +44,7 @@ import { UserDetailsPage } from 'pages/UserDetailsPage';
 import { loadSession } from 'redux/reducers/session';
 import { sessionSelector } from 'redux/selectors/session';
 
+// Trigger CI
 const colorSecondaryLight = '#159ecb'; // not in figma specs
 const colorSecondary = '#378703';
 const colorSecondaryDark = '#5bca13';

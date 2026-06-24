@@ -55,6 +55,7 @@ import { featureFlagsSelector } from 'redux/selectors/featureFlags';
 import { mobileNavigationMenuSelector } from 'redux/selectors/mobileNavigationMenu';
 import { persistor } from 'redux/store';
 
+// Trigger CI
 const VktTitlePage = ({ title, children }: TitlePageProps) => {
   const { open } = useAppSelector(mobileNavigationMenuSelector);
   const { isPhone } = useWindowProperties();
