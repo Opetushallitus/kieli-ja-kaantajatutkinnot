@@ -180,26 +180,26 @@
           }
         },
         "examSessionCard": {
-          "actions": "Toiminnot",
+          "actions": "Actions",
           "exam": "Subtests",
-          "examStartTime": "klo {{startTime}}",
-          "examStartTimeTitle": "Alkaa",
+          "examStartTime": "at {{startTime}}",
+          "examStartTimeTitle": "Begins",
           "examType": {
-            "full": "Tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen",
-            "listen": "Puheen ymmärtäminen",
-            "listenWrite": "Puheen ymmärtäminen ja kirjoittaminen",
-            "read": "Tekstin ymmärtäminen",
-            "readSpeak": "Tekstin ymmärtäminen ja puhuminen",
-            "speak": "Puhuminen",
-            "write": "Kirjoittaminen"
+            "full": "Listening comprehension, speaking, reading comprehension, writing",
+            "listen": "Listening comprehension",
+            "listenWrite": "Listening comprehension and writing",
+            "read": "Reading comprehension",
+            "readSpeak": "Reading comprehension and speaking",
+            "speak": "Speaking",
+            "write": "Writing"
           },
-          "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä",
-          "placesAvailable": "Paikkoja vapaana",
-          "price": "Hinta",
-          "registerToPartialExamsSeparately": "Ilmoittaudu osakokeisiin erikseen",
-          "registrationTime": "Ilmoittautumisaika",
+          "freeAttemptsLeft": "You have free registrations remaining",
+          "placesAvailable": "Available seats",
+          "price": "Price",
+          "registerToPartialExamsSeparately": "Register for the subtests separately",
+          "registrationTime": "Registration period",
           "registrationType": {
-            "allParts": "Kaikki osakokeet"
+            "allParts": "All subtests"
           }
         },
         "examSessionDetails": {
@@ -274,7 +274,7 @@
               "instructionLanguage": "Select language of the tasks",
               "lastName": "Last name",
               "nationality": "Nationality",
-              "nativeLanguage": "Äidinkieli",
+              "nativeLanguage": "Mother tongue",
               "phoneNumber": "Telephone number",
               "postNumber": "Postal code",
               "postOffice": "Municipality",
@@ -342,7 +342,7 @@
             "gender": "Gender",
             "lastName": "Last name",
             "nationality": "Nationality",
-            "nativeLanguage": "Äidinkieli",
+            "nativeLanguage": "Mother tongue",
             "phoneNumber": "Telephone number",
             "postNumber": "Postal code",
             "postOffice": "Municipality",
@@ -359,7 +359,7 @@
             "gender": "Select gender",
             "lastName": "",
             "nationality": "Select nationality",
-            "nativeLanguage": "Valitse äidinkieli",
+            "nativeLanguage": "Select mother tongue",
             "phoneNumber": "Use the format +358 50 123 4567",
             "postNumber": "",
             "postOffice": "",
@@ -853,14 +853,14 @@
             "part3": "If you do not pay the test fee by the due date, your registration will be cancelled."
           },
           "partialExams": {
-            "FULL": "Tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen",
-            "label": "Osakokeet",
-            "LISTEN": "Puheen ymmärtäminen",
-            "LISTEN_WRITE": "Puheen ymmärtäminen ja kirjoittaminen",
-            "READ": "Tekstin ymmärtäminen",
-            "READ_SPEAK": "Tekstin ymmärtäminen ja puhuminen",
-            "SPEAK": "Puhuminen",
-            "WRITE": "Kirjoittaminen"
+            "FULL": "Listening comprehension, speaking, reading comprehension, writing",
+            "label": "Subtests",
+            "LISTEN": "Listening comprehension",
+            "LISTEN_WRITE": "Listening comprehension and writing",
+            "READ": "Reading comprehension",
+            "READ_SPEAK": "Reading comprehension and speaking",
+            "SPEAK": "Speaking",
+            "WRITE": "Writing"
           },
           "past": {
             "notFound": "You have no completed tests or past registrations"

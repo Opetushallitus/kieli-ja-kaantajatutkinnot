@@ -185,7 +185,7 @@
           "examStartTime": "klo {{startTime}}",
           "examStartTimeTitle": "Alkaa",
           "examType": {
-            "full": "Tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen",
+            "full": "Puheen ymmärtäminen, puhuminen, tekstin ymmärtäminen, kirjoittaminen",
             "listen": "Puheen ymmärtäminen",
             "listenWrite": "Puheen ymmärtäminen ja kirjoittaminen",
             "read": "Tekstin ymmärtäminen",
@@ -853,7 +853,7 @@
             "part3": "Jos et maksa tutkintomaksua viimeistään eräpäivänä, ilmoittautuminen perutaan."
           },
           "partialExams": {
-            "FULL": "Tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen",
+            "FULL": "Puheen ymmärtäminen, puhuminen, tekstin ymmärtäminen, kirjoittaminen",
             "label": "Osakokeet",
             "LISTEN": "Puheen ymmärtäminen",
             "LISTEN_WRITE": "Puheen ymmärtäminen ja kirjoittaminen",

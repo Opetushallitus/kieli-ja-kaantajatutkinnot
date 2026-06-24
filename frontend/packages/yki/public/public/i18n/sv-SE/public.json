@@ -180,26 +180,26 @@
           }
         },
         "examSessionCard": {
-          "actions": "Toiminnot",
+          "actions": "Funktioner",
           "exam": "Delprov",
-          "examStartTime": "klo {{startTime}}",
-          "examStartTimeTitle": "Alkaa",
+          "examStartTime": "kl. {{startTime}}",
+          "examStartTimeTitle": "Börjar",
           "examType": {
-            "full": "Tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen",
-            "listen": "Puheen ymmärtäminen",
-            "listenWrite": "Puheen ymmärtäminen ja kirjoittaminen",
-            "read": "Tekstin ymmärtäminen",
-            "readSpeak": "Tekstin ymmärtäminen ja puhuminen",
-            "speak": "Puhuminen",
-            "write": "Kirjoittaminen"
+            "full": "Talförståelse, muntlig framställning, textförståelse, skriftlig framställning",
+            "listen": "Talförståelse",
+            "listenWrite": "Talförståelse och skriftlig framställning",
+            "read": "Textförståelse",
+            "readSpeak": "Textförståelse och muntlig framställning",
+            "speak": "Muntlig framställning",
+            "write": "Skriftlig framställning"
           },
-          "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä",
-          "placesAvailable": "Paikkoja vapaana",
-          "price": "Hinta",
-          "registerToPartialExamsSeparately": "Ilmoittaudu osakokeisiin erikseen",
-          "registrationTime": "Ilmoittautumisaika",
+          "freeAttemptsLeft": "Antal återstående avgiftsfria examenstillfällen",
+          "placesAvailable": "Lediga platser",
+          "price": "Pris",
+          "registerToPartialExamsSeparately": "Anmäl dig till delproven separat",
+          "registrationTime": "Anmälningstid",
           "registrationType": {
-            "allParts": "Kaikki osakokeet"
+            "allParts": "Alla delprov"
           }
         },
         "examSessionDetails": {
@@ -274,7 +274,7 @@
               "instructionLanguage": "Välj språket för uppgifterna",
               "lastName": "Efternamn",
               "nationality": "Nationalitet",
-              "nativeLanguage": "Äidinkieli",
+              "nativeLanguage": "Modersmål",
               "phoneNumber": "Telefonnummer",
               "postNumber": "Postnummer",
               "postOffice": "Postanstalt",
@@ -342,7 +342,7 @@
             "gender": "Kön",
             "lastName": "Efternamn",
             "nationality": "Nationalitet",
-            "nativeLanguage": "Äidinkieli",
+            "nativeLanguage": "Modersmål",
             "phoneNumber": "Telefonnummer",
             "postNumber": "Postnummer",
             "postOffice": "Postanstalt",
@@ -359,7 +359,7 @@
             "gender": "Välj kön",
             "lastName": "",
             "nationality": "Välj nationalitet",
-            "nativeLanguage": "Valitse äidinkieli",
+            "nativeLanguage": "Välj modersmål",
             "phoneNumber": "Skriv i formatet +358 50 123 4567",
             "postNumber": "",
             "postOffice": "",
@@ -853,14 +853,14 @@
             "part3": "Om du inte betalar examensavgiften senast på förfallodagen annulleras din anmälan."
           },
           "partialExams": {
-            "FULL": "Tekstin ymmärtäminen, puhuminen, puheen ymmärtäminen, kirjoittaminen",
-            "label": "Osakokeet",
-            "LISTEN": "Puheen ymmärtäminen",
-            "LISTEN_WRITE": "Puheen ymmärtäminen ja kirjoittaminen",
-            "READ": "Tekstin ymmärtäminen",
-            "READ_SPEAK": "Tekstin ymmärtäminen ja puhuminen",
-            "SPEAK": "Puhuminen",
-            "WRITE": "Kirjoittaminen"
+            "FULL": "Talförståelse, muntlig framställning, textförståelse, skriftlig framställning",
+            "label": "Delprov",
+            "LISTEN": "Talförståelse",
+            "LISTEN_WRITE": "Talförståelse och skriftlig framställning",
+            "READ": "Textförståelse",
+            "READ_SPEAK": "Textförståelse och muntlig framställning",
+            "SPEAK": "Muntlig framställning",
+            "WRITE": "Skriftlig framställning"
           },
           "past": {
             "notFound": "Du har inga prestationer eller tidigare anmälningar"
