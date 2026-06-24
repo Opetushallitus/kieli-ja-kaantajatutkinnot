@@ -45,10 +45,19 @@ public class RegistrationUtil {
       .oid(person.getOid())
       .firstName(person.getFirstName())
       .lastName(person.getLastName())
+      .socialSecurityNumber("-") // TODO
+      .email(person.getEmail())
+      .phoneNumber(person.getPhoneNumber())
+      .streetAddress(person.getSteetAddress())
+      .zip(person.getZip())
+      .postOffice(person.getPostOffice())
       .build();
   }
 
-  public static ClerkRegistrationDTO createClerkRegistrationDTO(final Registration registration) {
+  public static ClerkRegistrationDTO createClerkRegistrationDTO(
+    final Registration registration,
+    final Long queuePosition
+  ) {
     final Person person = registration.getPerson();
 
     return ClerkRegistrationDTO
@@ -56,8 +65,10 @@ public class RegistrationUtil {
       .id(registration.getId())
       .state(registration.getState())
       .kind(registration.getKind())
+      .partialExamType(registration.getPartialExamType())
       .registrationDate(registration.getCreatedAt().toLocalDate())
       .person(person != null ? createClerkPersonDTO(person) : null)
+      .queuePosition(queuePosition)
       .build();
   }
 }

@@ -33,7 +33,10 @@ const examDateSlice = createSlice({
   name: 'examDate',
   initialState,
   reducers: {
-    loadExamDates(state) {
+    loadOrganizerExamDates(state, _action: PayloadAction<string>) {
+      state.status = APIResponseStatus.InProgress;
+    },
+    loadExamDates(state, _action: PayloadAction<boolean>) {
       state.status = APIResponseStatus.InProgress;
     },
     rejectExamDates(state) {
@@ -102,6 +105,7 @@ const examDateSlice = createSlice({
 
 export const examDateReducer = examDateSlice.reducer;
 export const {
+  loadOrganizerExamDates,
   loadExamDates,
   rejectExamDates,
   storeExamDates,

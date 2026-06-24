@@ -40,16 +40,27 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
 
   private void writeExcel(final Workbook workbook) {
     final List<String> headers = List.of(
-      "Päivä",
-      "Kieli",
       "OID",
       "Sukunimi",
       "Etunimi",
-      "Kansalaisuus",
-      "Osoite",
+      "Tila",
+      "Ilmoittautumisen tyyppi",
+      "Alkuperäinen tutkintopäivä",
+      "Hetu",
+      "Syntymäaika",
+      "Sukupuoli",
+      "Sähköposti",
+      "Puhelinnumero",
+      "Katuosoite",
+      "Tehtäväkieli",
+      "Todistuskieli",
       "Postinumero",
       "Postitoimipaikka",
-      "Sähköposti"
+      "Kansalaisuus",
+      "Tekstin ymmärtäminen",
+      "Puheen ymmärtäminen",
+      "Puhuminen",
+      "Kirjoittaminen"
     );
     final Sheet sheet = workbook.createSheet("Tilaisuuden tiedot");
 
@@ -60,16 +71,27 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
       final ExamSessionXlsxDataRow dataRow = data.rows().get(i);
 
       int ci = 0;
-      row.createCell(ci).setCellValue(data.date());
-      row.createCell(++ci).setCellValue(data.language());
-      row.createCell(++ci).setCellValue(dataRow.oid());
+      row.createCell(ci).setCellValue(dataRow.oid());
       row.createCell(++ci).setCellValue(dataRow.lastName());
       row.createCell(++ci).setCellValue(dataRow.firstName());
-      setNullableValue(row.createCell(++ci), dataRow.nationalityCode());
+      setNullableValue(row.createCell(++ci), dataRow.state());
+      setNullableValue(row.createCell(++ci), dataRow.type());
+      setNullableValue(row.createCell(++ci), dataRow.originalExamDate());
+      setNullableValue(row.createCell(++ci), dataRow.identityNumber());
+      setNullableValue(row.createCell(++ci), dataRow.birthdate());
+      setNullableValue(row.createCell(++ci), dataRow.gender() != null ? dataRow.gender().name() : null);
+      setNullableValue(row.createCell(++ci), dataRow.email());
+      setNullableValue(row.createCell(++ci), dataRow.phone());
       setNullableValue(row.createCell(++ci), dataRow.streetAddress());
+      setNullableValue(row.createCell(++ci), dataRow.examLang());
+      setNullableValue(row.createCell(++ci), dataRow.certificateLang());
       setNullableValue(row.createCell(++ci), dataRow.zip());
       setNullableValue(row.createCell(++ci), dataRow.postOffice());
-      setNullableValue(row.createCell(++ci), dataRow.email());
+      setNullableValue(row.createCell(++ci), dataRow.nationalityDesc());
+      setNullableValue(row.createCell(++ci), dataRow.partialExamRead());
+      setNullableValue(row.createCell(++ci), dataRow.partialExamListen());
+      setNullableValue(row.createCell(++ci), dataRow.partialExamSpeak());
+      setNullableValue(row.createCell(++ci), dataRow.partialExamWrite());
     }
 
     autoresizeExcelColumns(sheet, headers);

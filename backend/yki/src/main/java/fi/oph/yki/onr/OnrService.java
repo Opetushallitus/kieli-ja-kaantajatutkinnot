@@ -23,16 +23,16 @@ public class OnrService {
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-  private final CasClient casClient;
+  private final CasClient casOnrClient;
   private final RequestBuilder defaultRequestBuilder;
   private final String onrServiceUrl;
 
   public OnrService(
-    CasClient casClient,
+    CasClient casOnrClient,
     @Qualifier("casRequestBuilder") RequestBuilder requestBuilder,
     @Value("${cas.onr-url}") String onrServiceUrl
   ) {
-    this.casClient = casClient;
+    this.casOnrClient = casOnrClient;
     this.defaultRequestBuilder = requestBuilder;
     this.onrServiceUrl = onrServiceUrl;
   }
@@ -44,7 +44,7 @@ public class OnrService {
       .setMethod(Methods.GET)
       .build();
 
-    final Response response = casClient.executeBlocking(request);
+    final Response response = casOnrClient.executeBlocking(request);
     if (response.getStatusCode() != HttpStatus.OK.value()) {
       throw new RuntimeException("Unexpected status code from ONR: " + response.getStatusCode());
     }
@@ -62,7 +62,7 @@ public class OnrService {
       .setBody(body)
       .build();
 
-    final Response response = casClient.executeBlocking(request);
+    final Response response = casOnrClient.executeBlocking(request);
     if (response.getStatusCode() != HttpStatus.OK.value()) {
       throw new RuntimeException("Unexpected status code from ONR: " + response.getStatusCode());
     }
@@ -77,7 +77,7 @@ public class OnrService {
       .setMethod(Methods.GET)
       .build();
 
-    final Response response = casClient.executeBlocking(request);
+    final Response response = casOnrClient.executeBlocking(request);
 
     if (response.getStatusCode() == HttpStatus.OK.value()) {
       final PersonalDataDTO personalDataDTO = OBJECT_MAPPER.readValue(

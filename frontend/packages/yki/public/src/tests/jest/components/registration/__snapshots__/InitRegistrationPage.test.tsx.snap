@@ -48,7 +48,9 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                 >
                   partialExams: 
-                  <b />
+                  <b>
+                    yki.component.registration.examSessionCard.examType.full
+                  </b>
                 </p>
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
@@ -56,14 +58,6 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                   examDate: 
                   <b>
                     12/29/2039
-                  </b>
-                </p>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-                >
-                  partialExamTimeLabel: 
-                  <b>
-                    partialExamTime
                   </b>
                 </p>
                 <p
@@ -172,7 +166,9 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                 >
                   partialExams: 
-                  <b />
+                  <b>
+                    yki.component.registration.examSessionCard.examType.listenWrite
+                  </b>
                 </p>
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
@@ -211,7 +207,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 >
                   examFee: 
                   <b>
-                    0 or 200 €
+                    0 or 113 €
                   </b>
                 </p>
                 <p
@@ -538,7 +534,9 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                   >
                     partialExams: 
-                    <b />
+                    <b>
+                      yki.component.registration.examSessionCard.examType.full
+                    </b>
                   </p>
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
@@ -546,14 +544,6 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     examDate: 
                     <b>
                       04/06/2019
-                    </b>
-                  </p>
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-                  >
-                    partialExamTimeLabel: 
-                    <b>
-                      partialExamTime
                     </b>
                   </p>
                   <p

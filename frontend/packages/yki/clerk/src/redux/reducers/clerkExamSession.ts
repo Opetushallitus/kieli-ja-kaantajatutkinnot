@@ -6,24 +6,42 @@ import {
   ClerkExamSessionResponse,
 } from 'interfaces/clerkExamSession';
 
+interface ClerkExamSessionLocationForm {
+  lang: string;
+  streetAddress: string;
+  postalCode: string;
+  city: string;
+  name: string;
+  otherLocationInfo: string;
+  extraInformation: string;
+}
+
 export interface ClerkExamSessionEditForm {
   language: string;
   level: string;
   maxParticipantsTotal: string;
-  maxParticipantsPartial1: string;
-  maxParticipantsPartial2: string;
-  streetAddress: string;
-  postalCode: string;
-  city: string;
+  maxParticipantsReadListen: string;
+  maxParticipantsSpeakWrite: string;
+  location: ClerkExamSessionLocationForm[];
   contactName: string;
   contactEmail: string;
   contactPhoneNumber: string;
+  startTimeReadListen: string;
+  startTimeSpeakWrite: string;
+  officeOid: string;
+}
+
+export interface ClerkExamSessionCreateForm extends ClerkExamSessionEditForm {
+  organizerOid: string;
+  examDateId: string;
+  type: string;
 }
 
 interface ClerkExamSessionState {
   clerkExamSession: ClerkExamSession | null;
   status: APIResponseStatus;
   updateStatus: APIResponseStatus;
+  createStatus: APIResponseStatus;
   relocateExamSessions: ClerkExamSessionResponse[];
   relocateExamSessionsStatus: APIResponseStatus;
   relocateStatus: APIResponseStatus;
@@ -34,6 +52,7 @@ const initialState: ClerkExamSessionState = {
   clerkExamSession: null,
   status: APIResponseStatus.NotStarted,
   updateStatus: APIResponseStatus.NotStarted,
+  createStatus: APIResponseStatus.NotStarted,
   relocateExamSessions: [],
   relocateExamSessionsStatus: APIResponseStatus.NotStarted,
   relocateStatus: APIResponseStatus.NotStarted,
@@ -44,6 +63,12 @@ const clerkExamSessionSlice = createSlice({
   name: 'clerkExamSession',
   initialState,
   reducers: {
+    loadOrganizerExamSessionDetails(
+      state,
+      _action: PayloadAction<{ oid: string; examSessionId: number }>,
+    ) {
+      state.status = APIResponseStatus.InProgress;
+    },
     loadClerkExamSessionDetails(state, _action: PayloadAction<number>) {
       state.status = APIResponseStatus.InProgress;
     },
@@ -53,6 +78,16 @@ const clerkExamSessionSlice = createSlice({
     storeExamSessionDetails(state, action: PayloadAction<ClerkExamSession>) {
       state.status = APIResponseStatus.Success;
       state.clerkExamSession = action.payload;
+    },
+    saveOrganizerExamSession(
+      state,
+      _action: PayloadAction<{
+        examSessionId: number;
+        form: ClerkExamSessionEditForm;
+        oid: string;
+      }>,
+    ) {
+      state.updateStatus = APIResponseStatus.InProgress;
     },
     saveExamSession(
       state,
@@ -107,6 +142,16 @@ const clerkExamSessionSlice = createSlice({
       state.relocateExamSessionsStatus = APIResponseStatus.NotStarted;
       state.relocateStatus = APIResponseStatus.NotStarted;
     },
+    cancelOrganizerRegistration(
+      state,
+      _action: PayloadAction<{
+        registrationId: number;
+        currentExamSessionId: number;
+        organizerOid: string;
+      }>,
+    ) {
+      state.cancelStatus = APIResponseStatus.InProgress;
+    },
     cancelRegistration(
       state,
       _action: PayloadAction<{
@@ -125,6 +170,24 @@ const clerkExamSessionSlice = createSlice({
     resetCancel(state) {
       state.cancelStatus = APIResponseStatus.NotStarted;
     },
+    createOrganizerExamSession(
+      state,
+      _action: PayloadAction<ClerkExamSessionCreateForm>,
+    ) {
+      state.createStatus = APIResponseStatus.InProgress;
+    },
+    createExamSession(
+      state,
+      _action: PayloadAction<ClerkExamSessionCreateForm>,
+    ) {
+      state.createStatus = APIResponseStatus.InProgress;
+    },
+    acceptCreateExamSession(state) {
+      state.createStatus = APIResponseStatus.Success;
+    },
+    rejectCreateExamSession(state) {
+      state.createStatus = APIResponseStatus.Error;
+    },
     resetClerkExamSession() {
       return initialState;
     },
@@ -133,10 +196,12 @@ const clerkExamSessionSlice = createSlice({
 
 export const clerkExamSessionReducer = clerkExamSessionSlice.reducer;
 export const {
+  loadOrganizerExamSessionDetails,
   loadClerkExamSessionDetails,
   rejectExamSessionDetails,
   storeExamSessionDetails,
   saveExamSession,
+  saveOrganizerExamSession,
   acceptSaveExamSession,
   rejectSaveExamSession,
   loadRelocateExamSessions,
@@ -147,8 +212,13 @@ export const {
   rejectRelocateRegistration,
   resetRelocate,
   cancelRegistration,
+  cancelOrganizerRegistration,
   acceptCancelRegistration,
   rejectCancelRegistration,
   resetCancel,
+  createExamSession,
+  createOrganizerExamSession,
+  acceptCreateExamSession,
+  rejectCreateExamSession,
   resetClerkExamSession,
 } = clerkExamSessionSlice.actions;

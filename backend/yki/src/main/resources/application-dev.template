@@ -1,10 +1,20 @@
+logging:
+  level:
+    org.hibernate.sql: DEBUG
+    org.hibernate.type: trace
+server:
+  servlet:
+    context-path: "/yki"
+    session:
+      cookie:
+        http-only: false
+        secure: false
+      timeout: 60m
+app:
+  clerk-enabled: true
 cas:
   username: username
   password: password
-
-clerk:
-  enabled: true
-
 dev:
   web:
     security:

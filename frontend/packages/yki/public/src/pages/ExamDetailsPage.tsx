@@ -13,6 +13,7 @@ import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import {
   acceptPublicRegistrationSubmission,
+  fetchRegistrationDetails,
   identifyRegistration,
   setActiveStep,
 } from 'redux/reducers/registration';
@@ -34,14 +35,26 @@ export const ExamDetailsPage = ({
   // Redux
   const dispatch = useAppDispatch();
   const { status, examSession } = useAppSelector(examSessionSelector);
-  const { initRegistration } = useAppSelector(registrationSelector);
+  const { initRegistration, fetchRegistrationStatus } =
+    useAppSelector(registrationSelector);
   // React Router
   const params = useParams();
   const [searchParams] = useSearchParams();
 
   const isLoading =
     status === APIResponseStatus.InProgress ||
+    fetchRegistrationStatus === APIResponseStatus.InProgress ||
     initRegistration.status === APIResponseStatus.InProgress;
+
+  const registrationId = params.registrationId
+    ? Number(params.registrationId)
+    : undefined;
+
+  useEffect(() => {
+    if (registrationId && !initRegistration.partialExamType) {
+      dispatch(fetchRegistrationDetails(registrationId));
+    }
+  }, [dispatch, registrationId, initRegistration.partialExamType]);
 
   useEffect(() => {
     dispatch(setActiveStep(PublicRegistrationFormStep.Register));

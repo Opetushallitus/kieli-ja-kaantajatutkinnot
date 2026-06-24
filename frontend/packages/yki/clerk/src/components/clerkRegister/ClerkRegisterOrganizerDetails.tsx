@@ -2,17 +2,27 @@ import { Error } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import i18next from 'i18next';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CustomButton } from 'shared/components';
+import { APIResponseStatus } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
+import { ClerkExamSessionEditModal } from 'components/clerkExamSession/ClerkExamSessionEditModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import axiosInstance from 'configs/axios';
 import { usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { APIEndpoints } from 'enums/api';
+import { AppRoutes } from 'enums/app';
 import { ClerkOrganizer } from 'interfaces/clerkOrganizer';
 import { ExamSession } from 'interfaces/examSessions';
+import { RouteType } from 'interfaces/user';
 import { H4, Label, Text } from 'ophTheme/Text';
+import { loadExamDates, loadOrganizerExamDates } from 'redux/reducers/examDate';
+import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
+import { examDateSelector } from 'redux/selectors/examDate';
 import {
   getLanguagesWithLevelDescriptions,
   languageToString,
@@ -22,34 +32,58 @@ import { SerializationUtils } from 'utils/serialization';
 
 export const ClerkRegisterOrganizerDetails = ({
   row,
+  route,
 }: {
   row: ClerkOrganizer;
+  route: RouteType;
 }) => {
   const [examSessions, setExamSessions] = useState<ExamSession[]>([]);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const dispatch = useAppDispatch();
+  const { examDates } = useAppSelector(examDateSelector);
+  const { createStatus } = useAppSelector(clerkExamSessionDetailsSelector);
+  const params = useParams();
+  const oid = params.oid ?? '';
+  const navigate = useNavigate();
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
   });
 
+  const fetchExamSessions = useCallback(async () => {
+    try {
+      const oneYearAgo = dayjs().subtract(1, 'year').format('YYYY-MM-DD');
+      const response = await axiosInstance.get(
+        `${APIEndpoints.Organizer}/${oid}/examSession`,
+        { params: { from: oneYearAgo } },
+      );
+      setExamSessions(
+        response.data.exam_sessions.map(
+          SerializationUtils.deserializeExamSessionResponse,
+        ),
+      );
+    } catch (error) {
+      setExamSessions([]);
+    }
+  }, [oid]);
+
   useEffect(() => {
-    const fetchExamSessions = async () => {
-      try {
-        const oneYearAgo = dayjs().subtract(1, 'year').format('YYYY-MM-DD');
-        const response = await axiosInstance.get(
-          `/yki/api/clerk/organizer/${row.oid}/exam-session`,
-          { params: { from: oneYearAgo } },
-        );
-        setExamSessions(
-          response.data.exam_sessions.map(
-            SerializationUtils.deserializeExamSessionResponse,
-          ),
-        );
-      } catch (error) {
-        setExamSessions([]);
-      }
-    };
+    if (route === 'clerk') {
+      dispatch(loadExamDates(true));
+    } else if (route === 'organizer') {
+      dispatch(loadOrganizerExamDates(row.oid));
+    }
+  }, [dispatch, route, row.oid]);
+
+  useEffect(() => {
     fetchExamSessions();
-  }, [row.oid]);
+  }, [fetchExamSessions]);
+
+  useEffect(() => {
+    if (createStatus === APIResponseStatus.Success) {
+      fetchExamSessions();
+    }
+  }, [createStatus, fetchExamSessions]);
 
   const upcomingExams = examSessions
     .map((examSession) => ({
@@ -70,9 +104,36 @@ export const ClerkRegisterOrganizerDetails = ({
   ): ListTableColumn<ExamSession> => ({
     key: 'session_date',
     title: t('examSessionListing.header.sessionDate'),
-    render: (rowProps) => (
-      <span>{rowProps.session_date.format('D.M.YYYY')}</span>
-    ),
+    render: (rowProps) =>
+      route === 'clerk' ? (
+        <a
+          href={AppRoutes.ClerkExamSession.replace(':id', String(rowProps.id))}
+          onClick={() =>
+            navigate(
+              AppRoutes.ClerkExamSession.replace(':id', String(rowProps.id)),
+            )
+          }
+        >
+          <span>{rowProps.session_date.format('D.M.YYYY')}</span>
+        </a>
+      ) : (
+        <a
+          href={AppRoutes.OrganizerExamSession.replace(':oid', oid).replace(
+            ':id',
+            String(rowProps.id),
+          )}
+          onClick={() =>
+            navigate(
+              AppRoutes.OrganizerExamSession.replace(':oid', oid).replace(
+                ':id',
+                String(rowProps.id),
+              ),
+            )
+          }
+        >
+          <span>{rowProps.session_date.format('D.M.YYYY')}</span>
+        </a>
+      ),
   });
 
   const createExamLanguageColumn = (
@@ -176,8 +237,11 @@ export const ClerkRegisterOrganizerDetails = ({
         className="columns"
         style={{ justifyContent: 'flex-end', gap: '1rem' }}
       >
-        <CustomButton variant="outlined">
-          {t('listing.actionButtons.modify')}
+        <CustomButton
+          variant="contained"
+          onClick={() => setIsAddModalOpen(true)}
+        >
+          {t('listing.actionButtons.addExamSession')}
         </CustomButton>
       </div>
       <H4>{t('listing.contentLabels.upcomingExamSessions')}</H4>
@@ -198,6 +262,15 @@ export const ClerkRegisterOrganizerDetails = ({
         columns={columns}
         translateHeader={false}
         rowHeight="small"
+      />
+      <ClerkExamSessionEditModal
+        isOpen={isAddModalOpen}
+        setIsOpen={setIsAddModalOpen}
+        mode="create"
+        organizerOid={row.oid}
+        examDates={examDates}
+        route={route}
+        oid={oid}
       />
     </Box>
   );

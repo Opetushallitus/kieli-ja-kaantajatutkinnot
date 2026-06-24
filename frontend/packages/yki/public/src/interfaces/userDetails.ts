@@ -30,6 +30,8 @@ export interface PersonRegistrations extends WithId {
   isFreeRegistration?: boolean;
   partialExamType: PartialExamType;
   type: ExamSessionType;
+  start_time_read_listen?: string;
+  start_time_speak_write?: string;
 }
 
 interface PersonRegistrationsResponse extends WithId {
@@ -52,6 +54,8 @@ interface PersonRegistrationsResponse extends WithId {
   lifted_from_queue_at?: string;
   position_in_queue?: number;
   is_free_registration?: boolean;
+  start_time_read_listen?: string;
+  start_time_speak_write?: string;
 }
 
 export interface PersonDetails {

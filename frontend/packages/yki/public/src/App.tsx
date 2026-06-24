@@ -6,6 +6,7 @@ import { clerkEnabled } from 'featureFlags';
 import { setupStore } from 'redux/store';
 import { AppRouter } from 'routers/AppRouter';
 
+// import styles
 if (clerkEnabled) {
   import('styles/newStyles.scss');
 } else {

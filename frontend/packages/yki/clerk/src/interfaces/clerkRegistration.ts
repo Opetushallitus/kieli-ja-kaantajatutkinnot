@@ -25,4 +25,6 @@ export type ClerkRegistration = {
   registrationDate: Dayjs;
   state: RegistrationStates;
   kind: string;
+  partialExamType: string;
+  queuePosition: number | null;
 };

@@ -38,12 +38,16 @@ const AlreadyLoggedIn = () => {
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
   const { initRegistration } = useAppSelector(registrationSelector);
+
   const isSuomiFiAuthenticatedSession =
     loggedInSession?.['auth-method'] === 'SUOMIFI';
   const isEmailAuthenticatedSession =
     loggedInSession?.['auth-method'] === 'EMAIL';
   const toQueue =
-    examSession.available_registration_kind === RegistrationKind.Queue;
+    ExamSessionUtils.getRegistrationKind({
+      examSession,
+      partialExamType: initRegistration.partialExamType,
+    }) === RegistrationKind.Queue;
   const onAbort = () => {
     dispatch(cancelRegistration());
   };

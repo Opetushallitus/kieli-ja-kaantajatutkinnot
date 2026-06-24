@@ -69,8 +69,7 @@ export class SerializationUtils {
   static deserializeExamSessionResponse(
     examSessionResponse: ExamSessionResponse,
   ): ExamSession {
-    return {
-      ...examSessionResponse,
+    const dates = {
       session_date: dayjs(examSessionResponse.session_date),
       registration_start_date: SerializationUtils.deserializeStartTime(
         examSessionResponse.registration_start_date,
@@ -79,6 +78,14 @@ export class SerializationUtils {
         examSessionResponse.registration_end_date,
       ) as Dayjs,
     };
+
+    if (examSessionResponse.type === 'READ_SPEAK') {
+      return { ...examSessionResponse, ...dates };
+    } else if (examSessionResponse.type === 'LISTEN_WRITE') {
+      return { ...examSessionResponse, ...dates };
+    } else {
+      return { ...examSessionResponse, ...dates };
+    }
   }
 
   static deserializeExamSessionsResponse(
@@ -298,6 +305,8 @@ export class SerializationUtils {
             ? (v.position_in_queue || 0) + 1
             : undefined,
         isFreeRegistration: v.is_free_registration,
+        start_time_read_listen: v.start_time_read_listen,
+        start_time_speak_write: v.start_time_speak_write,
       })),
     };
   }

@@ -306,12 +306,19 @@ const Registrations: FC<RegistrationsProps> = ({
           <Text className="bold">{translateCommon('examDate')}</Text>
           <Text>{DateUtils.formatOptionalDate(r.examDate, 'l')}</Text>
         </div>
-        <div>
-          <Text className="bold">
-            {translateCommon('partialExamTimeLabel')}
-          </Text>
-          <Text>{translateCommon('partialExamTime')}</Text>
-        </div>
+        {r.type !== 'FULL' && (
+          <div>
+            <Text className="bold">
+              {translateCommon('partialExamTimeLabel')}
+            </Text>
+            <Text>
+              {translateCommon('partialExamTime', {
+                startTime:
+                  ExamSessionUtils.getStartTimeForPersonRegistrations(r),
+              })}
+            </Text>
+          </div>
+        )}
         {r.kind === RegistrationKind.Queue && (
           <div>
             <Text className="bold">

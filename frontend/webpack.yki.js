@@ -6,6 +6,11 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const Dotenv = require('dotenv-webpack')
+const findByOids = require("./packages/yki/clerk/src/tests/msw/fixtures/findByOidsData.js");
+const findByOid = require("./packages/yki/clerk/src/tests/msw/fixtures/findByOidData.js");
+const findByOid2 = require("./packages/yki/clerk/src/tests/msw/fixtures/findByOidData2.js");
+const haeOid = require("./packages/yki/clerk/src/tests/msw/fixtures/haeOidData.js");
+const hae = require("./packages/yki/clerk/src/tests/msw/fixtures/haeData.js");
 
 
 // cloud-base path for new yki clerk is '/yki/v2' 
@@ -57,7 +62,7 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = 
       ...getESLintPlugin(env),
       ...getStylelintPlugin(env),
       ...getHtmlWebpackPlugin(env, CONTEXT_PATH, dirName, isClerk),
-      new CSPNoncePlaceholderInjectorPlugin(),
+      new CSPNoncePlaceholderInjectorPlugin({ isCypress: !!env.cypress }),
       new Dotenv()
     ],
   });
@@ -137,6 +142,24 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = 
       static: {
         directory: path.join(dirName, "public"),
       },
+      setupMiddlewares: (middlewares, devServer) => {
+        devServer.app.get('/organisaatio-service/rest/organisaatio/v4/hae', (req, res) => {
+          res.json(hae);
+        });
+        devServer.app.get('/organisaatio-service/rest/organisaatio/v4/hierarkia/hae', (req, res) => {
+          res.json(haeOid);
+        });
+        devServer.app.post('/organisaatio-service/rest/organisaatio/v3/findbyoids', (req, res) => {
+          res.json(findByOids);
+        });
+        devServer.app.get('/organisaatio-service/rest/organisaatio/v4/1.2.246.562.10.28646781493', (req, res) => {
+          res.json(findByOid);
+        });
+        devServer.app.get('/organisaatio-service/rest/organisaatio/v4/1.2.246.562.10.14901695099', (req, res) => {
+          res.json(findByOid2);
+        });
+        return middlewares;
+      },
       compress: true,
       port,
       proxy: env.proxy && [{
@@ -146,6 +169,11 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = 
       },
       {
         "context": [`/${CONTEXT_PATH}/auth`],
+        "target": env.proxy,
+        "secure": false,
+      },
+      {
+        "context": [`/${CONTEXT_PATH}/v2/auth`],
         "target": env.proxy,
         "secure": false,
       },
@@ -245,6 +273,10 @@ const addThymeleafNoncePlaceholder = (e) => {
 };
 
 class CSPNoncePlaceholderInjectorPlugin {
+  constructor({ isCypress = false } = {}) {
+    this.isCypress = isCypress;
+  }
+
   apply(compiler) {
     compiler.hooks.compilation.tap(
       "CSPNoncePlaceholderInjectorPlugin",
@@ -278,6 +310,19 @@ class CSPNoncePlaceholderInjectorPlugin {
                 "window.__CLERK_ENABLED__ = /*[[${clerkEnabled}]]*/ false;"
               )
             );
+            if (!this.isCypress) {
+              data.headTags.push(
+                HtmlWebpackPlugin.createHtmlTagObject(
+                  "script",
+                  {
+                    "th:if": "${clerkEnabled}",
+                    "th:attr": "nonce=${cspNonce}",
+                    src: "/virkailija-raamit/apply-raamit.js",
+                    defer: true,
+                  }
+                )
+              );
+            }
             cb(null, data);
           }
         );

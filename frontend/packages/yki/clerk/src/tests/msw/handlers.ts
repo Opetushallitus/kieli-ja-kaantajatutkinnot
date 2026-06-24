@@ -15,18 +15,13 @@ import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
 import { examDates } from 'tests/msw/fixtures/examDate';
 import { examSessions } from 'tests/msw/fixtures/examSession';
+import { findByOidResponse } from 'tests/msw/fixtures/findByOid';
 import { findByOidsResponse } from 'tests/msw/fixtures/findByOids';
 import { findOrganizations } from 'tests/msw/fixtures/findOrganizations';
-import { freeRegistrationDetails } from 'tests/msw/fixtures/freeRegistrationDetails';
-import { freeRegistrations } from 'tests/msw/fixtures/freeRegistrations';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { organizers } from 'tests/msw/fixtures/organizers';
 import { quarantineMatches } from 'tests/msw/fixtures/quarantineMatches';
 import { quarantineReviews } from 'tests/msw/fixtures/quarantineReviews';
-
-interface FreeRegistrationRequest {
-  approved: boolean;
-}
 
 interface QuarantineReviewRequest {
   quarantined: boolean;
@@ -48,15 +43,35 @@ const adminUser = {
   },
 };
 
+const v2User = {
+  oid: '1.2.246.562.10.28646781493',
+  isAdmin: true,
+  isOrganizer: true,
+};
+
 export const handlers = [
   http.get(APIEndpoints.User, () => {
     return HttpResponse.json(adminUser);
     //return HttpResponse.json(NoSessionResponse);
   }),
+  http.get(APIEndpoints.AuthUser, () => {
+    return HttpResponse.json(v2User);
+  }),
   http.get(APIEndpoints.CountryCodes, () =>
     HttpResponse.json(maatJaValtiot2Response),
   ),
   http.get(APIEndpoints.ClerkOrganizer, () => HttpResponse.json(organizers)),
+  http.get(`${APIEndpoints.Organizer}/:oid`, ({ params }) => {
+    const oid = params?.oid as string | undefined;
+    const organizer = organizers.organizers.find((o) => {
+      return o.oid === oid;
+    });
+    if (organizer) {
+      return HttpResponse.json({ organizers: [organizer] });
+    } else {
+      return notFound();
+    }
+  }),
   http.put(
     `${APIEndpoints.ClerkOrganizer}/:oid`,
     async ({ params, request }) => {
@@ -75,51 +90,6 @@ export const handlers = [
       } else {
         return notFound();
       }
-    },
-  ),
-  http.get(APIEndpoints.ClerkFreeRegistration, ({ cookies }) => {
-    if (cookies['free-registration-error-500'] === '1') {
-      return HttpResponse.json({ error: 'forced error' }, { status: 500 });
-    }
-
-    return HttpResponse.json(freeRegistrations);
-  }),
-  http.get(APIEndpoints.ClerkFreeRegistrationDetails, ({ params }) => {
-    const index = params?.id ? Number(params.id) - 1 : NaN;
-    if (index >= 0) {
-      return HttpResponse.json(freeRegistrationDetails[index]);
-    } else {
-      return notFound();
-    }
-  }),
-  http.put(
-    APIEndpoints.ClerkFreeRegistrationDetails,
-    async ({ params, request }) => {
-      const index = params?.id ? Number(params.id) - 1 : NaN;
-      const { approved } = (await request.json()) as FreeRegistrationRequest;
-      const response = freeRegistrationDetails[index];
-
-      if (index >= 0) {
-        return HttpResponse.json({
-          ...response,
-          status: approved ? 'APPROVED' : 'REJECTED',
-        });
-      } else {
-        return notFound();
-      }
-    },
-  ),
-  http.post(APIEndpoints.ClerkFreeRegistrationSupplementRequest, () => {
-    return HttpResponse.json({ success: true });
-  }),
-  http.post(
-    APIEndpoints.ClerkFreeRegistrationDetailsMessages,
-    ({ cookies }) => {
-      if (cookies['error'] === '1') {
-        return HttpResponse.json({ error: 'forced error' }, { status: 500 });
-      }
-
-      return HttpResponse.json({ success: true });
     },
   ),
   http.get(APIEndpoints.ClerkCustomerDetails, ({ params }) => {
@@ -242,7 +212,13 @@ export const handlers = [
       }
     },
   ),
-  http.get('/yki/api/clerk/organizer/:oid/exam-session', ({ params }) => {
+  http.get(
+    '/organisaatio-service/rest/organisaatio/v4/1.2.246.562.10.28646781493',
+    () => {
+      return HttpResponse.json(findByOidResponse);
+    },
+  ),
+  http.get(APIEndpoints.ClerkOrganizer + '/:oid/exam-session', ({ params }) => {
     const { from } = params;
 
     const filteredExamSessions = from
@@ -258,6 +234,16 @@ export const handlers = [
     // all exam dates
     // return HttpResponse.json({ dates: examDates.dates });
   }),
+  http.get(
+    APIEndpoints.Organizer + '/1.2.246.562.10.28646781493/examDates',
+    () => {
+      return HttpResponse.json(examDates);
+    },
+  ),
+  http.get(
+    APIEndpoints.Organizer + '/1.2.246.562.10.28646781493/examSession/999',
+    () => HttpResponse.json(clerkExamSession),
+  ),
   http.get(`${APIEndpoints.ClerkExamDate}/all`, () => {
     return HttpResponse.json(examDates);
   }),

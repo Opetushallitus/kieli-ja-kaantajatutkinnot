@@ -11,7 +11,10 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import { setPublicFreeRegistration } from 'redux/reducers/publicFreeRegistration';
-import { setActiveStep } from 'redux/reducers/registration';
+import {
+  fetchRegistrationDetails,
+  setActiveStep,
+} from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 
 export const FreeRegistrationSuccessPage = () => {
@@ -29,13 +32,19 @@ export const FreeRegistrationSuccessPage = () => {
   const examSessionId = params.examSessionId
     ? Number(params.examSessionId)
     : undefined;
+  const registrationId = params.registrationId
+    ? Number(params.registrationId)
+    : undefined;
 
   const isLoading = status === APIResponseStatus.InProgress;
 
   useEffect(() => {
     dispatch(setActiveStep(PublicRegistrationFormStep.Done));
     dispatch(setPublicFreeRegistration({ isFree: 'YES' }));
-  }, [dispatch]);
+    if (registrationId) {
+      dispatch(fetchRegistrationDetails(registrationId));
+    }
+  }, [dispatch, registrationId]);
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted && examSessionId) {

@@ -1,6 +1,8 @@
 package fi.oph.yki.config.security;
 
 import fi.oph.yki.config.Constants;
+import fi.oph.yki.kayttooikeus.PermissionsService;
+import fi.oph.yki.kayttooikeus.dto.KayttooikeusResponseDTO;
 import fi.oph.yki.util.StringUtil;
 import fi.vm.sade.java_utils.security.OpintopolkuCasAuthenticationFilter;
 import fi.vm.sade.javautils.kayttooikeusclient.OphUserDetailsServiceImpl;
@@ -8,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.apereo.cas.client.session.SessionMappingStorage;
 import org.apereo.cas.client.session.SingleSignOutFilter;
 import org.apereo.cas.client.validation.Cas20ProxyTicketValidator;
 import org.apereo.cas.client.validation.TicketValidator;
@@ -21,6 +24,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
@@ -32,6 +36,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -43,17 +48,24 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-@Profile("!dev")
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 
   private final Environment environment;
+  private final PermissionsService permissionsService;
+  private final SessionMappingStorage sessionMappingStorage;
   private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
 
   @Autowired
-  public WebSecurityConfig(final Environment environment) {
+  public WebSecurityConfig(
+    final Environment environment,
+    final PermissionsService permissionsService,
+    final SessionMappingStorage sessionMappingStorage
+  ) {
     this.environment = environment;
+    this.permissionsService = permissionsService;
+    this.sessionMappingStorage = sessionMappingStorage;
   }
 
   @Bean
@@ -113,6 +125,7 @@ public class WebSecurityConfig {
   public SingleSignOutFilter singleSignOutFilter() {
     final SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
     singleSignOutFilter.setIgnoreInitConfiguration(true);
+    singleSignOutFilter.setSessionMappingStorage(sessionMappingStorage);
     return singleSignOutFilter;
   }
 
@@ -185,10 +198,65 @@ public class WebSecurityConfig {
     final HttpSecurity httpSecurity,
     final CasAuthenticationFilter casAuthenticationFilter
   ) throws Exception {
+    final AuthorizationManager<RequestAuthorizationContext> organizerAuthorizationManager =
+      (
+        (authenticationSupplier, object) -> {
+          final Authentication authentication = authenticationSupplier.get();
+          final Map<String, String> requestVariables = object.getVariables();
+          final String method = object.getRequest().getMethod();
+          final String targetOid = requestVariables.get("oid");
+
+          if (
+            targetOid == null ||
+            targetOid.isEmpty() ||
+            !authentication.isAuthenticated() ||
+            authentication instanceof AnonymousAuthenticationToken
+          ) {
+            return new AuthorizationDecision(false);
+          } else {
+            final KayttooikeusResponseDTO kayttooikeusResponseDTO = permissionsService.getPermissionForUser(
+              authentication.getName()
+            );
+
+            final boolean hasAccess = "GET".equals(method)
+              ? (
+                permissionsService.hasAdminPermission(kayttooikeusResponseDTO) ||
+                permissionsService.hasPermissionForOrganisation(kayttooikeusResponseDTO, targetOid, "JARJESTAJA") ||
+                permissionsService.hasPermissionForOrganisation(kayttooikeusResponseDTO, targetOid, "YLLAPITAJA") ||
+                permissionsService.hasReadPermission(kayttooikeusResponseDTO) // For SOLKI read access
+              )
+              : (
+                permissionsService.hasAdminPermission(kayttooikeusResponseDTO) ||
+                permissionsService.hasPermissionForOrganisation(kayttooikeusResponseDTO, targetOid, "JARJESTAJA") ||
+                permissionsService.hasPermissionForOrganisation(kayttooikeusResponseDTO, targetOid, "YLLAPITAJA")
+              );
+
+            return new AuthorizationDecision(hasAccess);
+          }
+        }
+      );
+
     return configCsrf(httpSecurity)
-      .securityMatcher("/v2/api/clerk/**", "/v2/virkailija/**", "/v2/virkailija")
-      .authorizeHttpRequests(registry -> registry.anyRequest().hasRole(Constants.APP_ADMIN_ROLE))
+      .securityMatcher("/v2/api/clerk/**", "/v2/virkailija/**", "/v2/virkailija", "/v2/api/organizer/**", "/v2/auth/**")
       .addFilter(casAuthenticationFilter)
+      .authorizeHttpRequests(auth ->
+        auth
+          .requestMatchers("/v2/api/clerk/**", "/v2/virkailija/**", "/v2/virkailija")
+          .hasRole(Constants.APP_ADMIN_ROLE)
+          .requestMatchers("/v2/api/organizer/{oid}/**")
+          .access(organizerAuthorizationManager)
+          .requestMatchers(
+            "/v2/api/organizer/**",
+            "/v2/api/organizer",
+            "/v2/jarjestaja/**",
+            "/v2/jarjestaja",
+            "/v2/auth/**",
+            "/v2/auth"
+          )
+          .hasAnyRole(Constants.APP_ADMIN_ROLE, Constants.APP_ORGANIZER_ROLE)
+          .anyRequest()
+          .authenticated()
+      )
       .authenticationProvider(casAuthenticationProvider())
       .exceptionHandling(exceptionHandlingConfigurer -> {
         try {
@@ -254,7 +322,11 @@ public class WebSecurityConfig {
     requestHandler.setCsrfRequestAttributeName(null);
 
     return httpSecurity.csrf(configurer ->
-      configurer.csrfTokenRepository(csrfTokenRepository).csrfTokenRequestHandler(requestHandler)
+      configurer
+        .csrfTokenRepository(csrfTokenRepository)
+        .csrfTokenRequestHandler(requestHandler)
+        .ignoringRequestMatchers("/yki/v2/virkailija/login/cas") // Required for clerk CAS logout callback
+        .ignoringRequestMatchers("/v2/virkailija/login/cas") // Required for clerk CAS logout callback
     );
   }
 

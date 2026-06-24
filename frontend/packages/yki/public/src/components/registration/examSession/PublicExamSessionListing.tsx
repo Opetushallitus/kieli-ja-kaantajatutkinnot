@@ -10,6 +10,7 @@ import {
   H2,
   H3,
   ManagedPaginatedTable,
+  Pagination,
   Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
@@ -198,8 +199,11 @@ const RegistrationInitErrorModal = ({
 
 export const NewYkiPublicExamSessionsTable = ({
   examSessions,
+  onPageChange,
+  onRowsPerPageChange,
   page,
   rowsPerPage,
+  rowsPerPageOptions,
 }: {
   examSessions: Array<ExamSession>;
   onPageChange: (page: number) => void;
@@ -208,17 +212,57 @@ export const NewYkiPublicExamSessionsTable = ({
   rowsPerPage: number;
   rowsPerPageOptions: Array<number>;
 }) => {
+  const translateCommon = useCommonTranslation();
+
   const paginatedSessions = examSessions.slice(
     page * rowsPerPage,
     (page + 1) * rowsPerPage,
   );
 
+  // Pagination on top and bottom of the card listing
   return (
-    <div className="exam-session-cards">
-      {paginatedSessions.map((examSession) => (
-        <PublicExamSessionCard key={examSession.id} examSession={examSession} />
-      ))}
-    </div>
+    <>
+      <Pagination
+        count={examSessions.length}
+        page={page}
+        handlePageChange={onPageChange}
+        rowsPerPage={rowsPerPage}
+        handleRowsPerPageChange={onRowsPerPageChange}
+        rowsPerPageOptions={rowsPerPageOptions}
+        rowsPerPageLabel={translateCommon(
+          'component.table.pagination.rowsPerPage',
+        )}
+        labelDisplayedRows={({ from, to, count }) => (
+          <DisplayedRowsLabel from={from} to={to} count={count} />
+        )}
+        backIconButtonProps={TableUtils.getPaginationBackButtonProps()}
+        nextIconButtonProps={TableUtils.getPaginationNextButtonProps()}
+      />
+      <div className="exam-session-cards">
+        {paginatedSessions.map((examSession) => (
+          <PublicExamSessionCard
+            key={examSession.id}
+            examSession={examSession}
+          />
+        ))}
+      </div>
+      <Pagination
+        count={examSessions.length}
+        page={page}
+        handlePageChange={onPageChange}
+        rowsPerPage={rowsPerPage}
+        handleRowsPerPageChange={onRowsPerPageChange}
+        rowsPerPageOptions={rowsPerPageOptions}
+        rowsPerPageLabel={translateCommon(
+          'component.table.pagination.rowsPerPage',
+        )}
+        labelDisplayedRows={({ from, to, count }) => (
+          <DisplayedRowsLabel from={from} to={to} count={count} />
+        )}
+        backIconButtonProps={TableUtils.getPaginationBackButtonProps()}
+        nextIconButtonProps={TableUtils.getPaginationNextButtonProps()}
+      />
+    </>
   );
 };
 
@@ -336,7 +380,7 @@ export const PublicExamSessionListing = ({
         inline: 'nearest',
       });
     }
-  }, [status]);
+  }, [page, rowsPerPage, status]);
 
   useEffect(() => {
     if (

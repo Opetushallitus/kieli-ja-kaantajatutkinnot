@@ -37,7 +37,7 @@ COPY public.cas_ticketstore (ticket, logged_in) FROM stdin;
 --
 
 COPY public.organizer (id, oid, agreement_start_date, agreement_end_date, contact_name, contact_email, contact_phone_number, extra, deleted_at, created, modified) FROM stdin;
-1	1.2.3.4	2022-01-01	2030-12-31	Kontakti	kontakti@invalid	040123456789		\N	2022-12-01 12:21:45.778485+00	2022-12-01 12:21:45.778485+00
+1	1.2.246.562.10.28646781493	2022-01-01	2030-12-31	Kontakti	kontakti@invalid	040123456789		\N	2022-12-01 12:21:45.778485+00	2022-12-01 12:21:45.778485+00
 \.
 
 

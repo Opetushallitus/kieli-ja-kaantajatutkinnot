@@ -26,7 +26,9 @@
               "examState": "Tila",
               "location": "Testipaikka",
               "name": "Tutkinto",
+              "partialExamType": "Osakoe",
               "personName": "Nimi",
+              "positionInQueue": "Jonosija",
               "queueSpotOffered": "Jonopaikkaa tarjottu",
               "registrationDate": "Ilmoittautumispvm",
               "registrationState": "Ilmoittautumisen tila"
@@ -54,6 +56,16 @@
                 "CANCELLED": "Peruttu",
                 "REGISTERED": "Ilmoittautunut",
                 "REVIEWED": "Arvioitu"
+              },
+              "partialExamType": {
+                "ALL_PARTS": "Kaikki osakokeet",
+                "FULL": "Koko tutkinto",
+                "LISTEN": "Puheen ymmärtäminen",
+                "LISTEN_WRITE": "Puheen ymmärtäminen ja kirjoittaminen",
+                "READ": "Tekstin ymmärtäminen",
+                "READ_SPEAK": "Tekstinen ymmärtäminen ja puhuminen",
+                "SPEAK": "Puhuminen",
+                "WRITE": "Kirjoittaminen"
               },
               "queueSpotOffered": {
                 "expiresAt": "Eräpäivä {{ expiresAt }}",
@@ -191,7 +203,18 @@
       "clerkExamSessionRegistrations": {
         "buttons": {
           "downloadExcel": "Lataa excel",
-          "edit": "Muokkaa"
+          "edit": "Muokkaa",
+          "participants": "Ilmoittautuneita: {{count}} / {{max}}",
+          "participantsListen": "Puheen ymmärtäminen: {{count}} / {{max}}",
+          "participantsRead": "Tekstin ymmärtäminen: {{count}} / {{max}}",
+          "participantsSpeak": "Puhuminen: {{count}} / {{max}}",
+          "participantsWrite": "Kirjoittaminen: {{count}} / {{max}}"
+        },
+        "maxParticipants": {
+          "maxParticipantsReading": "Tekstin ymmärtäminen: {{count}}",
+          "maxParticipantsSpeaking": "Puhuminen: {{count}}",
+          "maxParticipantsSpeech": "Puheen ymmärtäminen: {{count}}",
+          "maxParticipantsWriting": "Kirjoittaminen: {{count}}"
         },
         "modals": {
           "cancel": {
@@ -199,26 +222,41 @@
             "title": "Vahvista peruutus"
           },
           "edit": {
+            "contactHeading": "Yhteystiedot",
+            "createButton": "Luo tutkintotilaisuus",
+            "createTitle": "Luo tutkintotilaisuus",
+            "errors": {
+              "required": "Tieto on pakollinen"
+            },
+            "extraInformationHeading": "Lisätiedot",
             "fields": {
               "city": "Postitoimipaikka",
               "contactEmail": "Sähköposti",
               "contactName": "Yhteyshenkilö",
               "contactPhoneNumber": "Puhelinnumero",
               "examDate": "Tutkintopäivä",
+              "extraInformationEn": "Lisätiedot (englanti)",
+              "extraInformationFi": "Lisätiedot (suomi)",
+              "extraInformationSv": "Lisätiedot (ruotsi)",
               "language": "Tutkintokieli",
               "level": "Tutkintotaso",
               "maxParticipants": "Osallistujien enimmäismäärä",
               "maxParticipantsPart1": "Osakoe 1: enimmäismäärä",
               "maxParticipantsPart2": "Osakoe 2: enimmäismäärä",
+              "name": "Tila",
+              "noExamDates": "Ei tutkintopäiviä valituilla valinnoilla",
               "postalCode": "Postinumero",
+              "startTimeReadListen": "Osakoe 1: alkamisaika",
+              "startTimeSpeakWrite": "Osakoe 2: alkamisaika",
               "streetAddress": "Katuosoite",
               "type": "Tutkintotyyppi",
               "typeOptions": {
-                "FULL": "Täydellinen tutkinto",
-                "LISTEN_WRITE": "Kuunteleminen ja kirjoittaminen",
-                "READ_SPEAK": "Lukeminen ja puhuminen"
+                "FULL": "Koko tutkinto",
+                "LISTEN_WRITE": "Puheen ymmärtäminen ja kirjoittaminen",
+                "READ_SPEAK": "Tekstinen ymmärtäminen ja puhuminen"
               }
             },
+            "officeOidLabel": "Oppilaitos tai toimipiste",
             "saveButton": "Tallenna muutokset",
             "title": "Muokkaa tutkintotilaisuutta",
             "toasts": {
@@ -555,6 +593,7 @@
         },
         "listing": {
           "actionButtons": {
+            "addExamSession": "Lisää tutkintotilaisuus",
             "addOrganizer": "Lisää järjestäjä",
             "adminUserView": "Tarkastele järjestäjän näkymää",
             "modify": "Muokkaa tietoja"
@@ -589,9 +628,14 @@
             "modifyAgreement": {
               "addressLabel": "Osoite",
               "cancelButton": "Peruuta",
+              "contactEmailLabel": "Sähköpostiosoite *",
+              "contactNameLabel": "Nimi *",
+              "contactPersonLabel": "Yhteyshenkilön tiedot",
+              "contactPhoneLabel": "Puhelinnumero *",
               "endDateBeforeStartDateError": "Sopimuksen päättymispäivä ei voi olla alkamispäivää aiemmin",
               "endDateError": "Valitse sopimuksen päättymispäivä",
               "endDateLabel": "Sopimus päättyy *",
+              "extraLabel": "Lisätiedot",
               "language": "Kieli *",
               "languagesLabel": "Kielitutkinnot",
               "organizerAgreementLabel": "Järjestäjäsopimus",

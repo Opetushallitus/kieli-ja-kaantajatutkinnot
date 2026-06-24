@@ -777,6 +777,7 @@
         },
         "labels": {
           "allPartsAtOnce": "Alla delprov på en gång",
+          "allPartsAtOnce": "Alla delprov på en gång",
           "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",
           "excludeNonOpenSessions": "Visa endast examenstillfällen vars anmälan har börjat",
           "filterExamSessions": "Filtrera resultaten",

@@ -28,14 +28,17 @@ export type ExamLocation = {
 };
 
 export type AdmissionedRegistration = {
+  id: number;
   examDate: Dayjs;
   exam: {
+    id: number;
     language: ExamLanguage;
     level: ExamLevel;
   };
   examLocation: ExamLocation[];
   registrationStatus: RegistrationStatus;
   registrationDate: Dayjs | undefined;
+  registrationState: string;
 };
 
 export type RegistrationStatus = {
@@ -77,8 +80,10 @@ export interface ClerkCustomerDetails {
 }
 
 export type RegistrationResponse = {
+  id: number;
   examDate: string;
   exam: {
+    id: number;
     language: ExamLanguage;
     level: ExamLevel;
   };
@@ -103,6 +108,23 @@ export interface ClerkPersonContactUpdateRequest {
   postOffice: string;
   zip: string;
 }
+
+export interface OrganizerPersonContactUpdateRequest
+  extends ClerkPersonContactUpdateRequest {
+  organizerOid: string;
+}
+
+export type OrganizerCustomerSearchParams = {
+  request: {
+    personQuery?: string;
+    examDateId?: number;
+    languageCode?: string;
+    levelCode?: string;
+  };
+  page: number;
+  size: number;
+  oid: string;
+};
 
 export type ClerkCustomerSearchParams = {
   request: {

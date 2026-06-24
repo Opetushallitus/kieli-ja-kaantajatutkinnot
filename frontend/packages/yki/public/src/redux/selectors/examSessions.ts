@@ -2,7 +2,11 @@ import { createSelector } from 'reselect';
 
 import { RootState } from 'configs/redux';
 import { ExamLanguage, ExamLevel } from 'enums/app';
-import { ExamSession, ExamSessionFilters } from 'interfaces/examSessions';
+import {
+  ExamSession,
+  ExamSessionFilters,
+  ExamSessionType,
+} from 'interfaces/examSessions';
 import { ExamSessionUtils } from 'utils/examSession';
 
 export const examSessionsSelector = (state: RootState) => state.examSessions;
@@ -50,6 +54,23 @@ const filterExamSessions = (
         return open;
       }
     });
+  }
+
+  if (filters.selectedPartialExamTypes.length > 0) {
+    const allowedTypes = new Set<ExamSessionType>();
+    if (filters.selectedPartialExamTypes.includes('ALL_PARTS'))
+      allowedTypes.add('FULL');
+    if (
+      filters.selectedPartialExamTypes.includes('READ') ||
+      filters.selectedPartialExamTypes.includes('SPEAK')
+    )
+      allowedTypes.add('READ_SPEAK');
+    if (
+      filters.selectedPartialExamTypes.includes('LISTEN') ||
+      filters.selectedPartialExamTypes.includes('WRITE')
+    )
+      allowedTypes.add('LISTEN_WRITE');
+    filteredData = filteredData.filter((es) => allowedTypes.has(es.type));
   }
 
   return filteredData;

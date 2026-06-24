@@ -7,7 +7,7 @@ export enum AppRoutes {
   AccessibilityStatementPage = '/yki/saavutettavuus',
   Registration = '/yki/ilmoittautuminen',
   RegistrationPaymentStatus = '/yki/ilmoittautuminen/maksu/tila',
-  FreeRegistrationSuccess = '/yki/ilmoittautuminen/maksuton/:examSessionId/valmis',
+  FreeRegistrationSuccess = '/yki/ilmoittautuminen/maksuton/:examSessionId/:registrationId/valmis',
   ExamSessionRegistration = '/yki/ilmoittautuminen/tutkintotilaisuus/:examSessionId/:registrationId',
   ExamSessionQueue = '/yki/ilmoittautuminen/tutkintotilaisuus/:examSessionId/:registrationId/jono',
   Reassessment = '/yki/tarkistusarviointi',

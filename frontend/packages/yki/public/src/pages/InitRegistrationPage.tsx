@@ -106,18 +106,22 @@ export const InitRegistrationPage = () => {
       dispatch(
         initRegistration({
           examSessionId: examSession.id,
-          registrationKind: examSession.available_registration_kind,
+          registrationKind: ExamSessionUtils.getRegistrationKind({
+            examSession,
+            partialExamType: initRegistrationState.partialExamType,
+          }),
           partialExamType: initRegistrationState.partialExamType || 'ALL_PARTS',
         }),
-        [
-          examSession,
-          initRegistrationState.status,
-          initRegistrationState.examSessionId,
-          initRegistrationState.partialExamType,
-        ],
       );
     }
-  });
+  }, [
+    dispatch,
+    idFromParams,
+    examSession,
+    initRegistrationState.status,
+    initRegistrationState.examSessionId,
+    initRegistrationState.partialExamType,
+  ]);
 
   return (
     <Box className="public-exam-details-page">
