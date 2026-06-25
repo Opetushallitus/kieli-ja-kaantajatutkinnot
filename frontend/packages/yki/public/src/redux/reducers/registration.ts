@@ -243,6 +243,7 @@ const registrationSlice = createSlice({
       action: PayloadAction<PublicRegistrationIdentifyPayload>,
     ) {
       state.initRegistration.status = APIResponseStatus.InProgress;
+      state.fetchRegistrationStatus = APIResponseStatus.NotStarted;
       state.initRegistration.examSessionId = action.payload.examSessionId;
       state.initRegistration.registrationKind = action.payload.registrationKind;
       state.initRegistration.registrationId = action.payload.registrationId;
