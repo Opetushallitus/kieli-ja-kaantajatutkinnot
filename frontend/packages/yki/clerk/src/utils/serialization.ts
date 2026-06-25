@@ -204,9 +204,7 @@ export class SerializationUtils {
       registrationStartDate: dayjs(
         clerkExamSessionResponse.registrationStartDate,
       ),
-      registrationEndDate: dayjs(
-        clerkExamSessionResponse.registrationStartDate,
-      ),
+      registrationEndDate: dayjs(clerkExamSessionResponse.registrationEndDate),
       availableRegistrationKind:
         clerkExamSessionResponse.availableRegistrationKind === 'ADMISSION'
           ? RegistrationKind.Admission
