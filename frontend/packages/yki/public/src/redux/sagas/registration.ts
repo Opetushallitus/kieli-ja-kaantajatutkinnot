@@ -100,6 +100,7 @@ function* identifyRegistrationSaga(
       ),
     );
     yield put(acceptPublicRegistrationInit(data));
+    yield put(fetchRegistrationDetails(data.registration_id));
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       const response =
