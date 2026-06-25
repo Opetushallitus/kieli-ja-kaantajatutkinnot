@@ -38,7 +38,9 @@ export interface EvaluationOrderDetails extends WithId {
   subtests: Array<Subtest>;
 }
 
-export interface EvaluationOrderDetailsResponse
-  extends Omit<EvaluationOrderDetails, 'exam_date'> {
+export interface EvaluationOrderDetailsResponse extends Omit<
+  EvaluationOrderDetails,
+  'exam_date'
+> {
   exam_date: string;
 }

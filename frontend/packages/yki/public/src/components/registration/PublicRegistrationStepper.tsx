@@ -131,8 +131,8 @@ export const PublicRegistrationStepper = () => {
                 stepValue === i && isError
                   ? 'public-registration__grid__stepper__step-error'
                   : stepValue < i
-                  ? 'public-registration__grid__stepper__step-disabled'
-                  : undefined
+                    ? 'public-registration__grid__stepper__step-disabled'
+                    : undefined
               }
             >
               <Text sx={visuallyHidden}>{getPhaseDescription(i)}</Text>

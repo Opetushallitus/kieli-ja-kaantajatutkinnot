@@ -67,7 +67,7 @@ const handleRedirect = () => {
 describe.skip('ExamDetailsPage', () => {
   describe('allows filling registration form', () => {
     it('with credentials from Suomi.fi authentication', () => {
-      cy.openExamSessionRegistrationForm(
+      (cy.openExamSessionRegistrationForm(
         examSessionResponse.id,
         getInitRegistrationResponse(true).registration_id,
       ),
@@ -76,7 +76,7 @@ describe.skip('ExamDetailsPage', () => {
             statusCode: 200,
             body: getInitRegistrationResponse(true),
           })
-          .as('initRegistration');
+          .as('initRegistration'));
       cy.wait('@initRegistration');
       onExamDetailsPage.isVisible();
       onExamDetailsPage.fillFieldByLabel(

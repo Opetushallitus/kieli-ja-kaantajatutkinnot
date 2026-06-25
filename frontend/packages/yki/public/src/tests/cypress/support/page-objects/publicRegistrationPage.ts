@@ -27,8 +27,8 @@ class PublicRegistrationPage {
       count === 0
         ? 'ei tuloksia'
         : count === 1
-        ? '1 tulos'
-        : `${count} tulosta`;
+          ? '1 tulos'
+          : `${count} tulosta`;
     this.elements
       .resultBox()
       .findByRole('heading', { name: `Tulokset (${resultsLabelSuffix})` })

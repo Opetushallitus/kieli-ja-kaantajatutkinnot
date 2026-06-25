@@ -36,6 +36,7 @@
   "ignorePatterns": ["webpack.config.js", "setupProxy.js", "proxy.ts"],
   "rules": {
     "react/jsx-uses-react": "off",
+    "react-hooks/set-state-in-effect": "off",
     "react/react-in-jsx-scope": "off",
     "import/order": [
       "error",

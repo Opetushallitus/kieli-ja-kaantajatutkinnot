@@ -154,8 +154,8 @@ const ParticipantDetailsTextField = ({
         field === 'email'
           ? TextFieldTypes.Email
           : field === 'birthdate'
-          ? TextFieldTypes.Date
-          : TextFieldTypes.Text;
+            ? TextFieldTypes.Date
+            : TextFieldTypes.Text;
       const error = InputFieldUtils.inspectCustomTextFieldErrors(
         fieldType,
         value,

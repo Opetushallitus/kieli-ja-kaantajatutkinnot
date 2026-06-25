@@ -117,7 +117,7 @@ export const getOrganizerAddress = (
   return {
     street: organization?.postiosoite?.osoite ?? '',
     zipCode: organization?.postiosoite?.postinumeroUri
-      ? organization.postiosoite.postinumeroUri.split('_').pop() ?? ''
+      ? (organization.postiosoite.postinumeroUri.split('_').pop() ?? '')
       : '',
     city: organization?.postiosoite?.postitoimipaikka ?? '',
   };

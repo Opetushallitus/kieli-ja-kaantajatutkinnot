@@ -362,10 +362,10 @@ export const ModifyExamDateModal = ({
                         submitted && errors.registrationEnd
                           ? t('modal.errors.required')
                           : submitted && errors.registrationEndBeforeStart
-                          ? t('modal.errors.registrationEndBeforeStart')
-                          : submitted && errors.registrationEndAfterExamDate
-                          ? t('modal.errors.registrationEndAfterExamDate')
-                          : undefined
+                            ? t('modal.errors.registrationEndBeforeStart')
+                            : submitted && errors.registrationEndAfterExamDate
+                              ? t('modal.errors.registrationEndAfterExamDate')
+                              : undefined
                       }
                     />
                   </div>

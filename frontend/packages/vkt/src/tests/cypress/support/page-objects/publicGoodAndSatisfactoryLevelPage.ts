@@ -23,8 +23,8 @@ class PublicGoodAndSatisfactoryLevelPage {
       language === ExamLanguage.FI
         ? 'Suomi'
         : language === ExamLanguage.SV
-        ? 'Ruotsi'
-        : 'Molemmat kielet';
+          ? 'Ruotsi'
+          : 'Molemmat kielet';
     this.elements.languageFilter().findByRole('radio', { name: label }).click();
   }
 

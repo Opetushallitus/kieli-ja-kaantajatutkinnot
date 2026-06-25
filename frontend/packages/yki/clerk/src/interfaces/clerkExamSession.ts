@@ -21,16 +21,15 @@ type Location = {
   zip: string;
 };
 
-export interface ClerkExamSessionResponse
-  extends Omit<
-    ClerkExamSession,
-    | 'publishedAt'
-    | 'date'
-    | 'registrationStartDate'
-    | 'registrationEndDate'
-    | 'availableRegistrationKind'
-    | 'registrations'
-  > {
+export interface ClerkExamSessionResponse extends Omit<
+  ClerkExamSession,
+  | 'publishedAt'
+  | 'date'
+  | 'registrationStartDate'
+  | 'registrationEndDate'
+  | 'availableRegistrationKind'
+  | 'registrations'
+> {
   publishedAt: string;
   date: string;
   registrationStartDate: string;

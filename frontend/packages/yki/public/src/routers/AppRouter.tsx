@@ -208,26 +208,62 @@ const newYkiPublicTheme = {
 
 const newYkiThemeOrSharedTheme = clerkEnabled ? newYkiPublicTheme : theme;
 
-export const AppRouter: FC = () => {
-  const translateCommon = useCommonTranslation();
-  const sessionStatus = useAppSelector(sessionSelector).status;
-  const dispatch = useAppDispatch();
+const ErrorToast = () => {
+  useAPIErrorToast();
+
+  return <></>;
+};
+
+const YkiTitlePage = ({ title, children }: TitlePageProps) => {
   const appTitle = translateCommon('appTitle');
 
   const createTitle = (title: string) =>
     translateCommon('pageTitle.' + title) + ' - ' + appTitle;
+
+  return (
+    <TitlePage title={createTitle(title)} className="title-page">
+      {children}
+    </TitlePage>
+  );
+};
+
+const FrontPage = (
+  <YkiTitlePage title="registration">
+    <RegistrationPage />
+  </YkiTitlePage>
+);
+
+const UserPortalSubPage = ({ title, children }: TitlePageProps) => {
+  const translateCommon = useCommonTranslation();
+
+  return (
+    <YkiTitlePage title={title}>
+      <div className="rows gapped-xxl">
+        <div className="columns">
+          <CustomButtonLink
+            to={AppRoutes.UserDetails}
+            startIcon={<ArrowBackIcon />}
+            variant={Variant.Text}
+            className="color-text-primary"
+          >
+            {translateCommon('back')}
+          </CustomButtonLink>
+        </div>
+        {children}
+      </div>
+    </YkiTitlePage>
+  );
+};
+
+export const AppRouter: FC = () => {
+  const sessionStatus = useAppSelector(sessionSelector).status;
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (sessionStatus === APIResponseStatus.NotStarted) {
       dispatch(loadSession());
     }
   }, [dispatch, sessionStatus]);
-
-  const ErrorToast = () => {
-    useAPIErrorToast();
-
-    return <></>;
-  };
 
   const Root = (
     <div className="app">
@@ -247,40 +283,6 @@ export const AppRouter: FC = () => {
       </NotifierContextProvider>
     </div>
   );
-
-  const YkiTitlePage = ({ title, children }: TitlePageProps) => (
-    <TitlePage title={createTitle(title)} className="title-page">
-      {children}
-    </TitlePage>
-  );
-
-  const FrontPage = (
-    <YkiTitlePage title="registration">
-      <RegistrationPage />
-    </YkiTitlePage>
-  );
-
-  const UserPortalSubPage = ({ title, children }: TitlePageProps) => {
-    const translateCommon = useCommonTranslation();
-
-    return (
-      <YkiTitlePage title={title}>
-        <div className="rows gapped-xxl">
-          <div className="columns">
-            <CustomButtonLink
-              to={AppRoutes.UserDetails}
-              startIcon={<ArrowBackIcon />}
-              variant={Variant.Text}
-              className="color-text-primary"
-            >
-              {translateCommon('back')}
-            </CustomButtonLink>
-          </div>
-          {children}
-        </div>
-      </YkiTitlePage>
-    );
-  };
 
   const router = createBrowserRouter(
     createRoutesFromElements(
