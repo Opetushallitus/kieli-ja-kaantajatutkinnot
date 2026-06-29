@@ -3103,9 +3103,9 @@ __metadata:
     react-redux: "npm:^9.3.0"
     react-router-dom: "npm:6.30.4"
     redux-saga: "npm:^1.5.0"
-    sass: "npm:^1.101.0"
-    sass-loader: "npm:^13.3.3"
-    style-loader: "npm:^3.3.4"
+    sass: "npm:^1.69.5"
+    sass-loader: "npm:^13.3.2"
+    style-loader: "npm:^3.3.3"
     stylelint: "npm:^15.11.0"
     stylelint-config-prettier: "npm:^9.0.5"
     stylelint-config-sass-guidelines: "npm:^10.0.0"
@@ -13160,7 +13160,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass-loader@npm:^13.3.3":
+"sass-loader@npm:^13.3.2":
   version: 13.3.3
   resolution: "sass-loader@npm:13.3.3"
   dependencies:
@@ -13184,7 +13184,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.101.0":
+"sass@npm:^1.69.5":
   version: 1.101.0
   resolution: "sass@npm:1.101.0"
   dependencies:
@@ -14038,7 +14038,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"style-loader@npm:^3.3.4":
+"style-loader@npm:^3.3.3":
   version: 3.3.4
   resolution: "style-loader@npm:3.3.4"
   peerDependencies:

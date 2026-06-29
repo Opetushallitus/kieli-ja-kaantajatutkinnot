@@ -215,6 +215,7 @@ const ErrorToast = () => {
 };
 
 const YkiTitlePage = ({ title, children }: TitlePageProps) => {
+  const translateCommon = useCommonTranslation();
   const appTitle = translateCommon('appTitle');
 
   const createTitle = (title: string) =>

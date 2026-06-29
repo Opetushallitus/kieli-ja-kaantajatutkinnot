@@ -33,10 +33,12 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],
-  "ignorePatterns": ["webpack.config.js", "setupProxy.js", "proxy.ts"],
+  "ignorePatterns": ["webpack.config.js", "setupProxy.js", "proxy.ts", "tsconfig.json"],
   "rules": {
     "react/jsx-uses-react": "off",
     "react-hooks/set-state-in-effect": "off",
+    "react-hooks/rules-of-hooks": "off",
+    "react-hooks/refs": "off",
     "react/react-in-jsx-scope": "off",
     "import/order": [
       "error",

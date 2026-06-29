@@ -88,14 +88,15 @@ class PublicRegistrationPage {
   }
 
   expectReservationTimerText(visible, text?) {
-    visible
-      ? cy
-          .findByTestId('public-registration__reservation-timer-text')
-          .should('be.visible')
-          .and('have.text', text)
-      : cy
-          .findByTestId('public-registration__reservation-timer-text')
-          .should('not.exist');
+    if (visible) {
+      cy.findByTestId('public-registration__reservation-timer-text')
+        .should('be.visible')
+        .and('have.text', text);
+    } else {
+      cy.findByTestId('public-registration__reservation-timer-text').should(
+        'not.exist',
+      );
+    }
   }
 }
 
