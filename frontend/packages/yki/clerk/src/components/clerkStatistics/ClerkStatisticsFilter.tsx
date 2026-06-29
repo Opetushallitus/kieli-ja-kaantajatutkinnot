@@ -171,14 +171,14 @@ export const ClerkStatisticsFilter = () => {
       <div className="rows gapped-xxs">
         <Typography fontWeight="bold">{t('fields.dateRange')}</Typography>
         <div className="columns gapped-xxs">
-          <div style={{ width: '180px' }}>
+          <div style={{ width: '180px' }} data-testid="statistics-start-date">
             <CustomDatePicker
               value={filters.startDate}
               setValue={(value) => updateFilter('startDate', value)}
             />
           </div>
           <Typography>—</Typography>
-          <div style={{ width: '180px' }}>
+          <div style={{ width: '180px' }} data-testid="statistics-end-date">
             <CustomDatePicker
               value={filters.endDate}
               setValue={(value) => updateFilter('endDate', value)}
