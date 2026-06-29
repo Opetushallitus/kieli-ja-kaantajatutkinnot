@@ -13,5 +13,6 @@ module.exports = class CustomTestEnvironment extends JSDOMEnvironment {
     this.global.Request = Request;
     this.global.TransformStream = TransformStream;
     this.global.BroadcastChannel = BroadcastChannel;
+    this.global.WritableStream = WritableStream;
   }
 };
