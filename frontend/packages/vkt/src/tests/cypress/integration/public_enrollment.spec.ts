@@ -99,8 +99,9 @@ describe('Public enrollment', () => {
       onPublicEnrollmentPage.clickNext();
 
       onPublicEnrollmentPage.checkEnrollmentPreviouslyEnrolledRadio(
-        'previously-enrolled-no',
+        'previously-enrolled-yes',
       );
+      onPublicEnrollmentPage.fillOutPreviousEnrollmentDetails('1.1.2020');
       onPublicEnrollmentPage.enrollmentFullExamRadio();
 
       onPublicEnrollmentPage.clickNext();
@@ -213,9 +214,10 @@ describe('Public enrollment', () => {
 
       onPublicEnrollmentPage.expectPreviouslyEnrolledError();
       onPublicEnrollmentPage.checkEnrollmentPreviouslyEnrolledRadio(
-        'previously-enrolled-no',
+        'previously-enrolled-yes',
       );
       onPublicEnrollmentPage.expectPreviouslyEnrolledErrorNotExist();
+      onPublicEnrollmentPage.fillOutPreviousEnrollmentDetails('1.1.2020');
 
       onPublicEnrollmentPage.clickNext();
       onPublicEnrollmentPage.expectStepHeading('Esikatsele');

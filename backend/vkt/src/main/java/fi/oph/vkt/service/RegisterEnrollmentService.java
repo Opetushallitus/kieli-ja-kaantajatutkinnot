@@ -251,7 +251,7 @@ public class RegisterEnrollmentService {
       return grades;
     }
 
-    if (enrollmentGrade.getReadingComprehensionPartialExamGrade() != null) {
+    if (isGradableGrade(enrollmentGrade.getReadingComprehensionPartialExamGrade())) {
       grades.put(
         READING_COMPREHENSION_PARTIAL_EXAM,
         getGradeDto(
@@ -261,7 +261,7 @@ public class RegisterEnrollmentService {
       );
     }
 
-    if (enrollmentGrade.getSpeechComprehensionPartialExamGrade() != null) {
+    if (isGradableGrade(enrollmentGrade.getSpeechComprehensionPartialExamGrade())) {
       grades.put(
         SPEECH_COMPREHENSION_PARTIAL_EXAM,
         getGradeDto(
@@ -271,14 +271,14 @@ public class RegisterEnrollmentService {
       );
     }
 
-    if (enrollmentGrade.getSpeakingPartialExamGrade() != null) {
+    if (isGradableGrade(enrollmentGrade.getSpeakingPartialExamGrade())) {
       grades.put(
         SPEAKING_PARTIAL_EXAM,
         getGradeDto(enrollmentGrade.getSpeakingPartialExamGrade(), enrollmentGrade.getModifiedAt().toLocalDate())
       );
     }
 
-    if (enrollmentGrade.getWritingPartialExamGrade() != null) {
+    if (isGradableGrade(enrollmentGrade.getWritingPartialExamGrade())) {
       grades.put(
         WRITING_PARTIAL_EXAM,
         getGradeDto(enrollmentGrade.getWritingPartialExamGrade(), enrollmentGrade.getModifiedAt().toLocalDate())
@@ -297,12 +297,17 @@ public class RegisterEnrollmentService {
       .setFollowRedirect(true);
   }
 
+  private boolean isGradableGrade(final EnrollmentGradeType grade) {
+    return grade != null && grade != EnrollmentGradeType.NOT_COMPLETED;
+  }
+
   private GradeDTO getGradeDto(final EnrollmentGradeType grade, final LocalDate date) {
     final String koodiarvo =
       switch (grade) {
         case GOOD -> "hyva";
         case FAILED -> "hylatty";
         case SATISFACTORY -> "tyydyttava";
+        case NOT_COMPLETED -> throw new IllegalArgumentException("NOT_COMPLETED should not be sent to registry");
       };
 
     return GradeDTO.builder().arvosana(koodiarvo).paivamaara(DateUtil.formatOptionalDate(date)).build();

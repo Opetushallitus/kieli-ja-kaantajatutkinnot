@@ -16,6 +16,7 @@ export enum APIEndpoints {
   ClerkPayment = '/vkt/api/v1/clerk/payment',
   FeatureFlags = '/vkt/api/v1/featureFlags',
   UploadPostPolicy = '/vkt/api/v1/uploadPostPolicy/:examEventId',
+  UploadContactPostPolicy = '/vkt/api/v1/uploadPostPolicy/examiner/:examinerId',
   ClerkRefreshKoskiEducationDetails = '/vkt/api/v1/clerk/enrollment/:enrollmentId/refreshKoskiEducationDetails',
   ClerkExaminer = '/vkt/api/v1/clerk/examiner',
   ClerkPaymentReportDownload = '/vkt/api/v1/clerk/payment/downloadReport?from=:from&to=:to',
@@ -24,6 +25,7 @@ export enum APIEndpoints {
   ExaminerExamEvent = '/vkt/api/v1/tv/:oid/examEvent',
   ExaminerEnrollmentAppointment = '/vkt/api/v1/tv/:oid/enrollment/appointment',
   ExaminerEnrollmentContactRequest = '/vkt/api/v1/tv/:oid/enrollment/contact',
+  ExaminerEnrollmentAttachment = '/vkt/api/v1/tv/:oid/enrollment/appointment/:enrollmentAppointmentId/attachment',
 }
 
 /**
@@ -59,4 +61,5 @@ export enum APIError {
   AuthHashExpired = 'authHashExpired',
   InvalidBirthdateFormat = 'invalidBirthdateFormat',
   ExaminerConvertEnrollmentAlreadyCompleted = 'examinerConvertEnrollmentAlreadyCompleted',
+  GradesIncomplete = 'gradesIncomplete',
 }

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import {
+  PublicContactFileUploadParameters,
   PublicFileUploadParameters,
   PublicFileUploadState,
 } from 'interfaces/publicFileUpload';
@@ -17,6 +18,12 @@ const publicFileUploadSlice = createSlice({
     startFileUpload(state, _action: PayloadAction<PublicFileUploadParameters>) {
       state.status = APIResponseStatus.InProgress;
     },
+    startContactFileUpload(
+      state,
+      _action: PayloadAction<PublicContactFileUploadParameters>,
+    ) {
+      state.status = APIResponseStatus.InProgress;
+    },
     acceptFileUpload(state) {
       state.status = APIResponseStatus.Success;
     },
@@ -27,5 +34,9 @@ const publicFileUploadSlice = createSlice({
 });
 
 export const publicFileUploadReducer = publicFileUploadSlice.reducer;
-export const { startFileUpload, acceptFileUpload, rejectFileUpload } =
-  publicFileUploadSlice.actions;
+export const {
+  startFileUpload,
+  startContactFileUpload,
+  acceptFileUpload,
+  rejectFileUpload,
+} = publicFileUploadSlice.actions;

@@ -54,6 +54,9 @@ public class RegisterEnrollmentServiceTest {
   @Value("classpath:register/sync-request3.json")
   private org.springframework.core.io.Resource syncRequest3;
 
+  @Value("classpath:register/sync-request4.json")
+  private org.springframework.core.io.Resource syncRequest4;
+
   @Value("classpath:register/sync-response.json")
   private org.springframework.core.io.Resource syncResponse;
 
@@ -186,6 +189,78 @@ public class RegisterEnrollmentServiceTest {
     assertNull(enrollment2.getLastSyncAt());
   }
 
+  @Test
+  public void testSyncSkipsAllNotCompletedGrades() throws IOException, InterruptedException, ExecutionException {
+    final ExaminerExamEvent examinerExamEvent = createExaminerExamEvent();
+    final EnrollmentGrade grade = Factory.enrollmentGradesAllNotCompleted();
+    final Person person = createPerson("2.2.246.562.10.1234567890");
+    final EnrollmentAppointment enrollment = Factory.enrollmentAppointment(
+      examinerExamEvent.getExaminer(),
+      examinerExamEvent,
+      person
+    );
+    enrollment.setStatus(EnrollmentAppointmentStatus.COMPLETED);
+    enrollment.setGrade(grade);
+    entityManager.persist(grade);
+    entityManager.persist(enrollment);
+
+    final CasClient casClient = mock(CasClient.class);
+    final RegisterEnrollmentService registerEnrollmentService = new RegisterEnrollmentService(
+      casClient,
+      enrollmentRepository,
+      enrollmentAppointmentRepository,
+      environment
+    );
+    registerEnrollmentService.sync();
+
+    verify(casClient, times(0)).executeBlocking(any());
+    assertNull(enrollment.getLastSyncAt());
+  }
+
+  @Test
+  public void testSyncExcludesNotCompletedPartialExams() throws IOException, InterruptedException, ExecutionException {
+    final ExaminerExamEvent examinerExamEvent = createExaminerExamEvent();
+    final EnrollmentGrade grade = Factory.enrollmentGradesWithSomeNotCompleted();
+    final Person person = createPerson("2.2.246.562.10.1234567890");
+    final EnrollmentAppointment enrollment = Factory.enrollmentAppointment(
+      examinerExamEvent.getExaminer(),
+      examinerExamEvent,
+      person
+    );
+    enrollment.setStatus(EnrollmentAppointmentStatus.COMPLETED);
+    enrollment.setGrade(grade);
+    entityManager.persist(grade);
+    entityManager.persist(enrollment);
+
+    final CasClient casClient = mock(CasClient.class);
+    final Response response = mock(Response.class);
+    when(response.getStatusCode()).thenReturn(HttpStatus.OK.value());
+    when(response.getResponseBody()).thenReturn(getMockSyncResponse());
+    when(casClient.executeBlocking(any())).thenReturn(response);
+
+    final RegisterEnrollmentService registerEnrollmentService = new RegisterEnrollmentService(
+      casClient,
+      enrollmentRepository,
+      enrollmentAppointmentRepository,
+      environment
+    );
+    registerEnrollmentService.sync();
+
+    verify(casClient, times(1))
+      .executeBlocking(
+        argThat(r -> {
+          final String actual = r.getStringData();
+          final String today = DateUtil.formatOptionalDate(LocalDate.now());
+          final String expected = getMockSyncRequest4()
+            .replace("[id]", "HTT-" + enrollment.getId())
+            .replace("[date]", today)
+            .trim();
+          return actual != null && actual.trim().equals(expected);
+        })
+      );
+    assertNotNull(enrollment.getLastSyncAt());
+  }
+
   private String getMockSyncRequest1() {
     try {
       return new String(syncRequest1.getInputStream().readAllBytes());
@@ -205,6 +280,14 @@ public class RegisterEnrollmentServiceTest {
   private String getMockSyncRequest3() {
     try {
       return new String(syncRequest3.getInputStream().readAllBytes());
+    } catch (final Exception e) {
+      return "";
+    }
+  }
+
+  private String getMockSyncRequest4() {
+    try {
+      return new String(syncRequest4.getInputStream().readAllBytes());
     } catch (final Exception e) {
       return "";
     }

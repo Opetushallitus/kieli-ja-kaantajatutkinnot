@@ -96,6 +96,9 @@ public class EnrollmentAppointment extends EnrollmentCommon {
   @OneToMany(mappedBy = "enrollmentAppointment")
   private List<Payment> payments = new ArrayList<>();
 
+  @OneToMany(mappedBy = "enrollmentAppointment")
+  private List<ContactAttachment> attachments = new ArrayList<>();
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "examiner_id", referencedColumnName = "examiner_id")
   private Examiner examiner;

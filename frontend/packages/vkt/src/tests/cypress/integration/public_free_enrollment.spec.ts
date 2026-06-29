@@ -35,8 +35,9 @@ describe('Public enrollment without payment', () => {
 
     onPublicEnrollmentPage.expectStepHeading('Valitse tutkinto');
     onPublicEnrollmentPage.checkEnrollmentPreviouslyEnrolledRadio(
-      'previously-enrolled-no',
+      'previously-enrolled-yes',
     );
+    onPublicEnrollmentPage.fillOutPreviousEnrollmentDetails('1.1.2020');
     onPublicEnrollmentPage.enrollmentFullExamRadio();
     onPublicEnrollmentPage.clickNext();
 

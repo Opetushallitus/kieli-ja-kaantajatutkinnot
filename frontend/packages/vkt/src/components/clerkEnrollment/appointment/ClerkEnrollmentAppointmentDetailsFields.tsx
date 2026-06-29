@@ -1,3 +1,4 @@
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {
   Checkbox,
   Divider,
@@ -6,6 +7,7 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { ChangeEvent, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   CustomButton,
   CustomModal,
@@ -38,6 +40,7 @@ import {
   useKoodistoMunicipalitiesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { APIEndpoints } from 'enums/api';
 import { EnrollmentAppointmentStatus, ExamLevel } from 'enums/app';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import {
@@ -645,6 +648,27 @@ const EnrollmentStatus = ({
     }
   };
 
+  const onOpenPaymentLinkModal = () => {
+    if (
+      !enrollment.examEvent ||
+      !EnrollmentUtils.isValidPartialExamsAndSkills(enrollment)
+    ) {
+      showDialog({
+        title: t('authLinkErrorDialog.header'),
+        severity: Severity.Error,
+        description: t('authLinkErrorDialog.description'),
+        actions: [
+          {
+            title: translateCommon('back'),
+            variant: Variant.Outlined,
+          },
+        ],
+      });
+    } else {
+      setPaymentLinkModalOpen(true);
+    }
+  };
+
   const isCompleted =
     EnrollmentAppointmentStatus.COMPLETED === enrollment.status;
 
@@ -688,9 +712,7 @@ const EnrollmentStatus = ({
           </div>
           <div className="columns flex-start">
             <CustomButton
-              onClick={() => {
-                setPaymentLinkModalOpen(true);
-              }}
+              onClick={onOpenPaymentLinkModal}
               color={Color.Secondary}
               variant={Variant.Text}
             >
@@ -959,6 +981,41 @@ export const ClerkEnrollmentAppointmentDetailsFields = ({
                 )}
               />
             </div>
+          </div>
+        )}
+        <div className="rows gapped-xxs margin-top-lg">
+          <H3>{t('header.previousEnrollment')}:</H3>
+          <Text>
+            {enrollment.hasPreviousEnrollment
+              ? translateCommon('yes')
+              : translateCommon('no')}
+          </Text>
+        </div>
+        {enrollment.attachments && enrollment.attachments.length > 0 && (
+          <div className="rows gapped-xxs">
+            <H3>{t('header.previousExamDecision')}:</H3>
+            <ul className="public-enrollment__grid__preview__bullet-list">
+              {enrollment.attachments.map((attachment) => (
+                <Text key={attachment.id}>
+                  <li>
+                    <Link
+                      className="columns gapped-xxs"
+                      to={`${APIEndpoints.ExaminerEnrollmentAttachment.replace(
+                        ':oid',
+                        oid,
+                      ).replace(
+                        ':enrollmentAppointmentId',
+                        String(enrollment.id),
+                      )}?key=${attachment.id}`}
+                      target="_blank"
+                    >
+                      {attachment.name}
+                      <OpenInNewIcon fontSize="small" />
+                    </Link>
+                  </li>
+                </Text>
+              ))}
+            </ul>
           </div>
         )}
         <Divider className="margin-top-lg" />
