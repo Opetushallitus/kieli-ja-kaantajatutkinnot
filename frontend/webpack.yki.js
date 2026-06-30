@@ -62,7 +62,11 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = 
       ...getESLintPlugin(env),
       ...getStylelintPlugin(env),
       ...getHtmlWebpackPlugin(env, CONTEXT_PATH, dirName, isClerk),
-      new CSPNoncePlaceholderInjectorPlugin({ isCypress: !!env.cypress }),
+      new CSPNoncePlaceholderInjectorPlugin({
+        isCypress: !!env.cypress,
+        isProd: !!env.prod,
+        isClerk: !!isClerk,
+      }),
       new Dotenv()
     ],
   });
@@ -273,8 +277,10 @@ const addThymeleafNoncePlaceholder = (e) => {
 };
 
 class CSPNoncePlaceholderInjectorPlugin {
-  constructor({ isCypress = false } = {}) {
+  constructor({ isCypress = false, isProd = false, isClerk = false } = {}) {
     this.isCypress = isCypress;
+    this.isProd = isProd;
+    this.isClerk = isClerk;
   }
 
   apply(compiler) {
@@ -310,7 +316,7 @@ class CSPNoncePlaceholderInjectorPlugin {
                 "window.__CLERK_ENABLED__ = /*[[${clerkEnabled}]]*/ false;"
               )
             );
-            if (!this.isCypress) {
+            if (this.isClerk && !this.isCypress && this.isProd) {
               data.headTags.push(
                 HtmlWebpackPlugin.createHtmlTagObject(
                   "script",
