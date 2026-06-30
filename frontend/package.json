@@ -33,6 +33,9 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@eslint/compat": "^2.1.0",
+    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/js": "^10.0.1",
     "@fontsource/roboto": "^5.2.10",
     "@mui/icons-material": "^7.3.11",
     "@mui/material": "^7.3.11",
@@ -84,7 +87,7 @@
     "css-loader": "6.8.1",
     "cypress": "^14.5.4",
     "dotenv-webpack": "^8.1.1",
-    "eslint": "^8.57.1",
+    "eslint": "^10.6.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-webpack": "^0.13.11",
     "eslint-plugin-eslint-comments": "^3.2.0",
