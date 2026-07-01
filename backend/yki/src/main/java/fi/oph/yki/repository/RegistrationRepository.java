@@ -73,6 +73,7 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
         AND CAST(r.state AS text) IN (:stateCodes)
         AND (:municipality IS NULL
              OR LOWER(esl.post_office) LIKE '%' || LOWER(:municipality) || '%')
+      ORDER BY ed.exam_date, o.oid, es.language_code, es.level_code, r.id
       """
   )
   List<StatisticsProjection> findStatisticsRows(
