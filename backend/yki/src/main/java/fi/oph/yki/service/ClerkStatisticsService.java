@@ -71,6 +71,7 @@ public class ClerkStatisticsService {
           .examLevel(CodeNameMapper.levelName(row.getLevelCode()))
           .registrationState(row.getState())
           .municipality(row.getMunicipality())
+          .availablePlaces(row.getMaxParticipants())
           .build()
       )
       .toList();

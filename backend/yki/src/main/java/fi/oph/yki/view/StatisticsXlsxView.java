@@ -26,6 +26,7 @@ public class StatisticsXlsxView extends AbstractXlsxView {
     "Kieli",
     "Taso",
     "Paikkakunta",
+    "Tarjolla olevat paikat",
     "Ilmoittautumisen tila"
   );
 
@@ -66,6 +67,7 @@ public class StatisticsXlsxView extends AbstractXlsxView {
       setNullableValue(row.createCell(++ci), data.examLanguage());
       setNullableValue(row.createCell(++ci), data.examLevel());
       setNullableValue(row.createCell(++ci), data.municipality());
+      setNullableValue(row.createCell(++ci), data.availablePlaces() != null ? data.availablePlaces().toString() : null);
       setNullableValue(row.createCell(++ci), data.registrationState());
     }
 
