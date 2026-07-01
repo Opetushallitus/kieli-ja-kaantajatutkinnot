@@ -193,6 +193,7 @@ export class InputFieldUtils {
     return true;
   }
 
+  // Fix dont use flag arguments for newer eslint
   private static EMAIL_LOCAL_PART_REGEX = new RegExp(
     /^[\p{Letter}0-9!#$%&'+\-\/=\?\^_`\.\{|\}~]{1,64}$/u,
   );
