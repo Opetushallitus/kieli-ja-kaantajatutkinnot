@@ -7,10 +7,9 @@ import fi.oph.yki.model.type.LevelCode;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.repository.StatisticsProjection;
+import fi.oph.yki.util.CodeNameMapper;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -22,38 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class ClerkStatisticsService {
-
-  private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-  private static final Map<String, String> LANGUAGE_NAMES_FI = Map.of(
-    "fin",
-    "suomi",
-    "swe",
-    "ruotsi",
-    "eng",
-    "englanti",
-    "spa",
-    "espanja",
-    "ita",
-    "italia",
-    "fra",
-    "ranska",
-    "sme",
-    "saame",
-    "deu",
-    "saksa",
-    "rus",
-    "venäjä"
-  );
-
-  private static final Map<String, String> LEVEL_NAMES_FI = Map.of(
-    "PERUS",
-    "Perustaso",
-    "KESKI",
-    "Keskitaso",
-    "YLIN",
-    "Ylin taso"
-  );
 
   private final RegistrationRepository registrationRepository;
   private final OrganizationService organizationService;
@@ -100,21 +67,13 @@ public class ClerkStatisticsService {
           .builder()
           .organizer(organizerNames.getOrDefault(row.getOrganizerOid(), row.getOrganizerOid()))
           .examDate(row.getExamDate())
-          .examLanguage(LANGUAGE_NAMES_FI.getOrDefault(row.getLanguageCode(), row.getLanguageCode()))
-          .examLevel(LEVEL_NAMES_FI.getOrDefault(row.getLevelCode(), row.getLevelCode()))
+          .examLanguage(CodeNameMapper.languageName(row.getLanguageCode()))
+          .examLevel(CodeNameMapper.levelName(row.getLevelCode()))
           .registrationState(row.getState())
-          .registeredAt(formatRegisteredAt(row.getCreatedAt()))
           .municipality(row.getMunicipality())
           .build()
       )
       .toList();
-  }
-
-  private static String formatRegisteredAt(final LocalDateTime createdAt) {
-    if (createdAt == null) {
-      return null;
-    }
-    return createdAt.format(DATETIME_FORMATTER);
   }
 
   private static <T> List<String> toNames(final List<T> values, final Function<T, String> nameMapper) {
