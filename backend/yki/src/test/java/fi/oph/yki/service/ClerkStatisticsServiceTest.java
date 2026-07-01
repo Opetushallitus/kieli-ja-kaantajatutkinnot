@@ -102,6 +102,7 @@ public class ClerkStatisticsServiceTest {
     assertEquals("Perustaso", row.examLevel());
     assertEquals("COMPLETED", row.registrationState());
     assertEquals("Helsinki", row.municipality());
+    assertEquals(20, row.availablePlaces());
   }
 
   @Test

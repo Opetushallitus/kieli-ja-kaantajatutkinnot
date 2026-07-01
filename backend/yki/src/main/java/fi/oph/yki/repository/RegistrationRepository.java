@@ -60,7 +60,8 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
         es.language_code       AS languageCode,
         es.level_code          AS levelCode,
         CAST(r.state AS text)  AS state,
-        esl.post_office        AS municipality
+        esl.post_office        AS municipality,
+        es.max_participants    AS maxParticipants
       FROM registration r
       INNER JOIN exam_session es           ON r.exam_session_id = es.id
       INNER JOIN exam_date ed              ON es.exam_date_id   = ed.id
