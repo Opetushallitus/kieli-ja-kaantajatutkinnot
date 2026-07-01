@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
-import { H2, WebLink } from 'shared/components';
+import { H2, Text, WebLink } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 
 import { ExamEventDetails } from 'components/publicEnrollmentAppointment/steps/ExamEventDetails';
@@ -48,6 +48,9 @@ export const Preview = ({
   setIsStepValid: (isValid: boolean) => void;
 }) => {
   const translateCommon = useCommonTranslation();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicEnrollmentAppointment.steps.preview',
+  });
 
   const { paymentLoadingStatus } = useAppSelector(publicEnrollmentSelector);
 
@@ -70,6 +73,7 @@ export const Preview = ({
 
   return (
     <div className="margin-top-xxl rows gapped-xxl">
+      <Text>{t('description')}</Text>
       <PersonDetails showContactDetails={true} />
       <Divider />
       <ExamEventDetails enrollment={enrollment} />

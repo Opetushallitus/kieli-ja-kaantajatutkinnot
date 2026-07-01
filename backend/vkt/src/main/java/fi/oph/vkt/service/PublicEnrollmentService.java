@@ -17,6 +17,7 @@ import fi.oph.vkt.api.dto.PublicExaminerNameDTO;
 import fi.oph.vkt.api.dto.PublicFreeEnrollmentBasisDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
+import fi.oph.vkt.model.ContactAttachment;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.EnrollmentAppointment;
 import fi.oph.vkt.model.ExamEvent;
@@ -32,6 +33,7 @@ import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.FreeEnrollmentSource;
 import fi.oph.vkt.model.type.FreeEnrollmentType;
+import fi.oph.vkt.repository.ContactAttachmentRepository;
 import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
@@ -65,6 +67,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
 
   private final EnrollmentRepository enrollmentRepository;
   private final EnrollmentAppointmentRepository enrollmentAppointmentRepository;
+  private final ContactAttachmentRepository contactAttachmentRepository;
   private final ExamEventRepository examEventRepository;
   private final PublicEnrollmentEmailService publicEnrollmentEmailService;
   private final PublicReservationService publicReservationService;
@@ -620,6 +623,14 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     return s3Service.getPresignedPostRequest(key, extension);
   }
 
+  public Map<String, String> getPresignedPostRequestForExaminer(final long examinerId, final String filename) {
+    final String millis = String.valueOf(System.currentTimeMillis());
+    final String extension = FilenameUtils.getExtension(filename);
+    final String key = "examiner/" + examinerId + "/" + millis + "." + extension;
+
+    return s3Service.getPresignedPostRequest(key, extension);
+  }
+
   private PublicEnrollmentAppointmentDTO createEnrollmentAppointmentDTO(
     final EnrollmentAppointment enrollmentAppointment
   ) {
@@ -715,6 +726,17 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     // Save contact request first to ensure we have a persisted ID for the enrollment appointment.
     // This is needed to create a correct link to the contact request in the examiner's UI.
     enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
+
+    if (dto.attachments() != null) {
+      for (final FreeEnrollmentAttachmentDTO attachmentDTO : dto.attachments()) {
+        final ContactAttachment attachment = new ContactAttachment();
+        attachment.setEnrollmentAppointment(enrollmentAppointment);
+        attachment.setKey(attachmentDTO.id());
+        attachment.setFilename(attachmentDTO.name());
+        attachment.setSize(attachmentDTO.size());
+        contactAttachmentRepository.save(attachment);
+      }
+    }
 
     // Send emails to contact requester and the examiner.
     contactEmailService.sendReceiptNotificationForContactRequest(enrollmentAppointment);

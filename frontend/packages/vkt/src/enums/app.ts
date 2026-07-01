@@ -112,6 +112,7 @@ export enum ExamGrades {
   GOOD = 'GOOD',
   SATISFACTORY = 'SATISFACTORY',
   FAILED = 'FAILED',
+  NOT_COMPLETED = 'NOT_COMPLETED',
 }
 
 export enum UIMode {

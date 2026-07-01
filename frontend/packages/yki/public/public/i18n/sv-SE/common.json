@@ -155,8 +155,8 @@
         "transferRegistration": "Flytta anmälan",
         "userDetails": "Mina anmälningar"
       },
-      "partialExams": "Osakokeet",
-      "partialExamTime": "klo {{startTime}}",
+      "partialExams": "Delprov",
+      "partialExamTime": "kl. {{startTime}}",
       "partialExamTimeLabel": "Testin alkamisaika",
       "phoneNumber": "Telefonnummer",
       "placesAvailable": "Lediga platser",

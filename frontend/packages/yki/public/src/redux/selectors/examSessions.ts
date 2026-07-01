@@ -59,8 +59,6 @@ const filterExamSessions = (
   if (filters.selectedPartialExamTypes.length > 0) {
     const allowedTypes = new Set<ExamSessionType>();
     allowedTypes.add('FULL');
-    if (filters.selectedPartialExamTypes.includes('ALL_PARTS'))
-      allowedTypes.add('FULL');
     if (
       filters.selectedPartialExamTypes.includes('READ') ||
       filters.selectedPartialExamTypes.includes('SPEAK')

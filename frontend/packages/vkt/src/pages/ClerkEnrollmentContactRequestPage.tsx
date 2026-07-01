@@ -1,6 +1,8 @@
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Box, Divider, Grid, Paper } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import {
   ComboBox,
   CustomButton,
@@ -23,6 +25,7 @@ import { useDialog, useToast } from 'shared/hooks';
 import { TopControls } from 'components/clerkExamEvent/overview/TopControls';
 import { useCommonTranslation, useExaminerTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { APIEndpoints } from 'enums/api';
 import { AppRoutes } from 'enums/app';
 import { useExamEventDescription } from 'hooks/useExamEventDescription';
 import { ExaminerExamEvent } from 'interfaces/examinerExamEvent';
@@ -262,6 +265,33 @@ export const ClerkEnrollmentContactRequestPage: FC = () => {
                     : translateCommon('no')}
                 </Text>
               </div>
+              {enrollment.attachments && enrollment.attachments.length > 0 && (
+                <div className="rows gapped-xxs">
+                  <H3>{t('previousExamDecision')}:</H3>
+                  <ul className="public-enrollment__grid__preview__bullet-list">
+                    {enrollment.attachments.map((attachment) => (
+                      <Text key={attachment.id}>
+                        <li>
+                          <Link
+                            className="columns gapped-xxs"
+                            to={`${APIEndpoints.ExaminerEnrollmentAttachment.replace(
+                              ':oid',
+                              params.oid ?? '',
+                            ).replace(
+                              ':enrollmentAppointmentId',
+                              String(enrollment.id),
+                            )}?key=${attachment.id}`}
+                            target="_blank"
+                          >
+                            {attachment.name}
+                            <OpenInNewIcon fontSize="small" />
+                          </Link>
+                        </li>
+                      </Text>
+                    ))}
+                  </ul>
+                </div>
+              )}
               <div className="rows gapped-xxs">
                 <H3>{t('message')}:</H3>
                 <Text>{enrollment.message}</Text>

@@ -35,7 +35,14 @@
           "enrollToQueue": "Ställ dig i kön",
           "pay": "Betala",
           "enroll": "Anmäl dig",
-          "submit": "Skicka"
+          "submit": "Skicka",
+          "errors": {
+            "title": "Uppgifterna behöver korrigeras!",
+            "fixErrors": "Korrigera de saknade eller felaktiga uppgifterna:",
+            "messages": {
+              "hasPreviousEnrollment": "Du kan inte fortsätta anmälan om du inte har deltagit i en språkexamen för statsförvaltningen som gäller utmärkta språkkunskaper tidigare."
+            }
+          }
         },
         "examEventDetails": {
           "enrollmentToQueue": "Ställ dig i kön",
@@ -99,7 +106,8 @@
         },
         "steps": {
           "authenticate": {
-            "auth": "Identifiera dig via suomi.fi -tjänsten"
+            "auth": "Identifiera dig via suomi.fi -tjänsten",
+            "description": "Du ska identifiera dig för att anmäla dig till språkexamen. Använd testdeltagarens personuppgifter vid anmälan."
           },
           "addressDetails": {
             "title": "Adressinformation"
@@ -255,7 +263,17 @@
               "label": "När har du deltagit senast? *",
               "placeholder": "Datum eller fritext"
             },
-            "title": "Deltagande i tidigare språkexamina för statsförvaltningen som gäller utmärkta språkkunskaper"
+            "title": "Deltagande i tidigare språkexamina för statsförvaltningen som gäller utmärkta språkkunskaper",
+            "noEnrollmentError": "Du kan inte fortsätta anmälan om du inte har deltagit i en språkexamen för statsförvaltningen som gäller utmärkta språkkunskaper tidigare.",
+            "noEnrollmentInfoBox": {
+              "line1": "Från och med den 1 juli 2026 är det endast möjligt att förnya tidigare underkända delprov. Du kan inte fortsätta anmälan om du inte tidigare har deltagit i examen som gäller utmärkta språkkunskaper.",
+              "excellentLink": "Examina som gäller utmärkta språkkunskaper",
+              "excellentUrl": "https://www.oph.fi/sv/utbildning-och-examina/examina-som-galler-utmarkta-sprakkunskaper#anchor-sprakexamina-for-statsforvaltningen-fran-och-med-den-1-juli-2026",
+              "line2": "Om du inte har avlagt språkexamen för statsförvaltningen, men behöver ett intyg över dina kunskaper i finska eller svenska för en arbetsuppgift inom den offentliga förvaltningen, kan du avlägga allmänna språkexamen, dvs. YKI-testet.",
+              "readMore": "Läs mer på Utbildningsstyrelsens webbplats:",
+              "link": "Allmänna språkexamina (YKI)",
+              "url": "https://www.oph.fi/sv/yki"
+            }
           }
         }
       },
@@ -319,6 +337,7 @@
             "description4": "Du får en bekräftelse och ett kvitto över betalningen per e-post."
           },
           "preview": {
+            "description": "Kontrollera ett uppgifterna gäller testdeltagaren.",
             "examEventDetails": {
               "fullExam": "Hel examen",
               "previousEnrollmentLabel": "Jag har deltagit examina som gäller goda eller nöjaktiga språkkunskaper tidigare",
@@ -354,14 +373,18 @@
             "email": "E-postadress",
             "emailConfirmation": "Bekräfta din e-postadress",
             "firstName": "Förnamn",
-            "hasPreviousEnrollment": "Har du tidigare deltagit i examen som gäller goda eller nöjaktiga språkkunskaper?",
-            "isFullExam": "Vill du avlägga examen i både muntliga och skriftliga färdigheter?",
+            "hasPreviousEnrollment": "Har du tidigare deltagit i examen som gäller goda eller nöjaktiga språkkunskaper",
+            "isFullExam": "Vill du avlägga examen i både muntliga och skriftliga färdigheter",
+            "uploadAttachment": "Skicka beslut om resultatet av den tidigare examen",
             "message": "Meddelande",
             "lastName": "Efternamn",
             "partialExamSelection": "Berätta vilka delprov du vill avlägga",
             "phoneNumber": "Telefonnummer"
           },
           "fixErrors": "Fyll i uppgifterna som saknas eller korrigera felaktiga uppgifter:",
+          "messages": {
+            "hasPreviousEnrollment": "Du kan inte skicka en kontakt om du inte har deltagit i en språkexamen för statsförvaltningen som gäller goda eller nöjaktiga språkkunskaper tidigare."
+          },
           "title": "Felaktiga uppgifter!"
         },
         "examinerDetails": {
@@ -493,6 +516,16 @@
                 "no": "Nej",
                 "yes": "Ja"
               },
+              "noEnrollmentError": "Du kan inte fortsätta om du inte har deltagit i en språkexamen för statsförvaltningen som gäller goda eller nöjaktiga språkkunskaper tidigare.",
+              "noEnrollmentInfoBox": {
+                "line1": "Från och med den 1 juli 2026 är det endast möjligt att förnya tidigare underkända delprov. Du kan inte skicka meddelanden om du inte tidigare har deltagit i examen som gäller goda eller nöjaktiga språkkunskaper.",
+                "goodLink": "Examina som gäller goda eller nöjaktiga språkkunskaper",
+                "goodUrl": "https://www.oph.fi/sv/utbildning-och-examina/examina-som-galler-goda-eller-nojaktiga-sprakkunskaper#anchor-sprakexamina-for-statsforvaltningen-fran-och-med-den-1-juli-2026",
+                "line2": "Om du inte har avlagt språkexamen för statsförvaltningen, men behöver ett intyg över dina kunskaper i finska eller svenska för en arbetsuppgift inom den offentliga förvaltningen, kan du avlägga allmänna språkexamen, dvs. YKI-testet.",
+                "readMore": "Läs mer på Utbildningsstyrelsens webbplats:",
+                "link": "Allmänna språkexamina (YKI)",
+                "url": "https://www.oph.fi/sv/yki"
+              },
               "part1": "Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.",
               "radioButtons": {
                 "label": "Har du deltagit i examina som gäller goda eller nöjaktiga språkkunskaper tidigare?"
@@ -501,7 +534,22 @@
                 "label": "När har du deltagit senast?",
                 "placeholder": "Datum eller fritext"
               },
-              "title": "Deltagande i tidigare examina"
+              "title": "Deltagande i tidigare examina",
+              "uploadAttachment": {
+                "title": "Skicka beslut om resultatet av den tidigare examen",
+                "helpText": "Lägg till beslut om examensresultatet",
+                "instructions": {
+                  "part1": "Lägg till ett intyg som innehåller uppgifter om ditt tidigare underkända delprov.",
+                  "part2": "Spara intyget antingen i pdf-format eller som en bildfil (t.ex. png eller jpeg). Filens maximala storlek är 1,0 GB.",
+                  "part3": "Om du har deltagit i examen flera gånger kan du lägga till flera intyg."
+                },
+                "uploadFile": "Skicka filen",
+                "dropFile": "Släpp filen här",
+                "deleteAttachment": {
+                  "title": "",
+                  "description": ""
+                }
+              }
             }
           }
         }
@@ -690,6 +738,17 @@
             "part2": "Examensavgiften är 140 euro om du avlägger antingen examen i muntliga färdigheter, examen i skriftliga färdigheter eller ett enskilt delprov."
           },
           "title": "Examensavgifter"
+        },
+        "discontinuationInfo": {
+          "title": "Språkexamina för statsförvaltningen avvecklas stegvis före utgången av 2028",
+          "description": "I språkexamina för statsförvaltningen kan du avlägga examina som visar förmåga att använda språket i tal eller i skrift eller att förstå språket separat. Varje examen består av två delprov. Du får ett intyg över en viss färdighet när du har avlagt båda delproven med godkänt resultat.",
+          "part1Bold": "Från och med den 1 juli 2026 kan du endast ta om ett underkänt delprov, om du har avlagt det ena delprovet i samma examen med godkänt resultat och det andra delprovet är underkänt.",
+          "part1": "I detta fall kan du ta om endast det underkända delprovet. Du har högst tre år på dig att ta om det underkända delprovet. Tiden räknas från den dag då du avlade det godkända delprovet. Observera ändå att det underkända delprovet måste tas om senast den 31 december 2028.",
+          "part2": "Om du inte har avlagt språkexamen för statsförvaltningen, men behöver ett intyg över dina kunskaper i finska eller svenska för en arbetsuppgift inom den offentliga förvaltningen, kan du avlägga allmänna språkexamen, dvs. YKI-testet.",
+          "part2Link": {
+            "label": "Läs mer om YKI-testet på Utbildningsstyrelsens webbplatts.",
+            "url": "https://www.oph.fi/sv/yki"
+          }
         },
         "title": "Språkexamina för statsförvaltningen (VKT)"
       }

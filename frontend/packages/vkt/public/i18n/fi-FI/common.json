@@ -35,7 +35,8 @@
         "grades": {
           "GOOD": "Hyvä",
           "SATISFACTORY": "Tyydyttävä",
-          "FAILED": "Hylätty"
+          "FAILED": "Hylätty",
+          "NOT_COMPLETED": "Ei suoritettu"
         },
         "textFields": {
           "country": "Maa",
@@ -130,7 +131,7 @@
         }
       },
       "info": {
-        "previousEnrollment": "Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana. Jos toinen tutkintoon kuuluvista osakokeista hylätään, sinulla on enintään kolme vuotta aikaa uusia hylätty osakoe. Huomioi kuitenkin, että hylätty osakoe on suoritettava uudelleen viimeistään 31.12.2028.",
+        "previousEnrollment": "Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana. <0>1.7.2026 alkaen voit uusia vain aiemmin hylättyjä osakokeita, jos toinen tietyn taidon tutkintoon kuuluvista osakokeista on suoritettu hyväksytysti ja toinen osakoe on hylätty.</0> Sinulla on enintään kolme vuotta aikaa uusia hylätty osakoe. Hylätty osakoe on suoritettava uudelleen viimeistään 31.12.2028.",
         "selectExam": "Kun suoritat molemmat tutkintoon kuuluvat osakokeet hyväksytysti, saat todistuksen tietyn taidon tutkintosuorituksesta. Jos suoritat suullisen ja kirjallisen taidon tutkinnot, sinun ei tarvitse suorittaa erikseen ymmärtämisen taidon tutkintoa."
       },
       "infoBox": {

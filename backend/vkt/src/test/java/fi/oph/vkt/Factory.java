@@ -220,6 +220,24 @@ public class Factory {
     return enrollmentGrade;
   }
 
+  public static EnrollmentGrade enrollmentGradesAllNotCompleted() {
+    final EnrollmentGrade enrollmentGrade = new EnrollmentGrade();
+    enrollmentGrade.setSpeakingPartialExamGrade(EnrollmentGradeType.NOT_COMPLETED);
+    enrollmentGrade.setWritingPartialExamGrade(EnrollmentGradeType.NOT_COMPLETED);
+    enrollmentGrade.setReadingComprehensionPartialExamGrade(EnrollmentGradeType.NOT_COMPLETED);
+    enrollmentGrade.setSpeechComprehensionPartialExamGrade(EnrollmentGradeType.NOT_COMPLETED);
+    return enrollmentGrade;
+  }
+
+  public static EnrollmentGrade enrollmentGradesWithSomeNotCompleted() {
+    final EnrollmentGrade enrollmentGrade = new EnrollmentGrade();
+    enrollmentGrade.setSpeakingPartialExamGrade(EnrollmentGradeType.GOOD);
+    enrollmentGrade.setWritingPartialExamGrade(EnrollmentGradeType.NOT_COMPLETED);
+    enrollmentGrade.setReadingComprehensionPartialExamGrade(EnrollmentGradeType.NOT_COMPLETED);
+    enrollmentGrade.setSpeechComprehensionPartialExamGrade(EnrollmentGradeType.SATISFACTORY);
+    return enrollmentGrade;
+  }
+
   public static EnrollmentAppointment enrollmentContact(final Examiner examiner) {
     final EnrollmentAppointment enrollment = new EnrollmentAppointment();
     enrollment.setExaminer(examiner);
