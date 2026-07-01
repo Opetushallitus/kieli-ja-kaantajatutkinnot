@@ -23,7 +23,7 @@ const filterExamSessions = (
   filters: ExamSessionFilters,
 ) => {
   let filteredData = examSessions;
-  // Filter data only if the criteria are defined
+  // Filter data only if the criterias are defined
   if (filters.language && filters.language !== ExamLanguage.ALL) {
     filteredData = filteredData.filter(
       (es) => es.language_code === filters.language,
