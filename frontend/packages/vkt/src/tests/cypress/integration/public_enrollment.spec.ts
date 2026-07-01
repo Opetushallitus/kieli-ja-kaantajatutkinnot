@@ -226,7 +226,6 @@ describe('Public enrollment', () => {
   });
 
   describe('to exam event that is full', () => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     it.skip('WIP: allow user to enroll to the exam event', () => {});
   });
 
