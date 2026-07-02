@@ -16,7 +16,10 @@ import {
   ExaminerExamEvent,
   ExaminerExamEventResponse,
 } from 'interfaces/examinerExamEvent';
-import { PublicFreeEnrollmentDetails } from 'interfaces/publicEducation';
+import {
+  Attachment,
+  PublicFreeEnrollmentDetails,
+} from 'interfaces/publicEducation';
 
 interface ClerkPerson extends WithId, WithVersion {
   lastName: string;
@@ -108,6 +111,7 @@ export interface ClerkEnrollmentContact extends ClerkEnrollmentCommon {
   hasPreviousEnrollment: boolean;
   partialExamSelection?: string;
   message: string;
+  attachments?: Array<Attachment>;
 }
 
 export interface ClerkEnrollmentContactResponse extends Omit<
@@ -142,6 +146,7 @@ export interface ClerkEnrollmentAppointment
   paymentLinkUrl?: string;
   examEvent?: ExaminerExamEvent;
   previousEnrollment?: string;
+  attachments?: Array<Attachment>;
 }
 
 export interface ClerkEnrollmentAppointmentResponse extends Omit<

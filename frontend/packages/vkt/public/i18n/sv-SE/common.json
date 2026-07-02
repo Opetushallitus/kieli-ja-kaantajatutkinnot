@@ -35,7 +35,8 @@
         "grades": {
           "GOOD": "God",
           "SATISFACTORY": "Nöjaktig",
-          "FAILED": "Underkänd"
+          "FAILED": "Underkänd",
+          "NOT_COMPLETED": "Ej genomförd"
         },
         "textFields": {
           "country": "Land",
@@ -128,7 +129,7 @@
         }
       },
       "info": {
-        "previousEnrollment": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen. Om ett av delproven som ingår i examen blir underkänd, har du högst tre år på dig att ta om det underkända delprovet. Observera dock att det underkända delprovet måste tas om senast den 31.12.2028.",
+        "previousEnrollment": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen. <0>Från och med den 1 juli 2026 är det endast möjligt att förnya tidigare underkända delprov, om det ena delprovet som ingår i examen inom en viss färdighet har avlagts med godkänt resultat, och det andra delprovet har blivit underkänt.</0> Du har högst tre år på dig att ta om det underkända delprovet. Ett underkänt delprov ska avläggas på nytt senast den 31 december 2028.",
         "selectExam": "När du avlägger båda delproven som hör till examen med godkänt resultat får du ett intyg över examensprestationen för en viss färdighet. Om du avlägger examina i muntliga och skriftliga färdigheter behöver du inte avlägga examen i förståelse separat."
       },
       "infoBox": {

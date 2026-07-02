@@ -72,17 +72,62 @@ describe('PublicEnrollmentContactPage', () => {
     onPublicEnrollmentContactPage.clickSubmit();
     expectAndCloseErrorDialog();
 
-    onPublicEnrollmentContactPage.selectFullExam(false);
+    // Selecting 'No' for previous enrollment blocks submission
     onPublicEnrollmentContactPage.selectPreviousEnrollment(false);
+    onPublicEnrollmentContactPage.clickSubmit();
+    expectAndCloseErrorDialog();
+
+    onPublicEnrollmentContactPage.selectPreviousEnrollment(true);
+    onPublicEnrollmentContactPage.selectFullExam(false);
     onPublicEnrollmentContactPage.writeMessage('Viestiä pukkaa!');
 
     onPublicEnrollmentContactPage.clickSubmit();
     expectAndCloseErrorDialog('Kerro, mitkä osakokeet haluat suorittaa');
+  });
 
-    onPublicEnrollmentContactPage.writePartialExamDescription('kirjoittaminen');
-    onPublicEnrollmentContactPage.clickSubmit();
+  describe('after specifying all required exam details including attachment', () => {
+    const stateWithAttachment = {
+      publicEnrollmentContact: JSON.stringify({
+        loadExaminerStatus: 'NOT_STARTED',
+        enrollmentSubmitStatus: 'NOT_STARTED',
+        paymentLoadingStatus: 'NOT_STARTED',
+        cancelStatus: 'NOT_STARTED',
+        enrollment: {
+          email: expectedEnrollmentContact.email,
+          emailConfirmation: expectedEnrollmentContact.email,
+          phoneNumber: expectedEnrollmentContact.phoneNumber,
+          firstName: expectedEnrollmentContact.firstName,
+          lastName: expectedEnrollmentContact.lastName,
+          isFullExam: false,
+          id: 1,
+          hasPreviousEnrollment: true,
+          privacyStatementConfirmation: false,
+          status: null,
+          message: expectedEnrollmentContact.message,
+          attachments: [
+            { id: 'fake-attachment-key', name: 'test.pdf', size: 1000 },
+          ],
+        },
+        contactDetailsNeedConfirmation: false,
+        contactedExaminers: [],
+      }),
+    };
 
-    onPublicEnrollmentContactPage.expectStepHeading('Viesti lähetetty');
+    it('should submit successfully after specifying partial exam', () => {
+      cy.openPublicEnrollmentContactPage(
+        examinerToContact.id,
+        'tutkinto',
+        JSON.stringify(stateWithAttachment),
+      );
+      onPublicEnrollmentContactPage.expectStepHeading(
+        'Valitse tutkinto ja lähetä viesti',
+      );
+      onPublicEnrollmentContactPage.writePartialExamDescription(
+        'kirjoittaminen',
+      );
+      onPublicEnrollmentContactPage.clickSubmit();
+      onPublicEnrollmentContactPage.expectStepHeading('Viesti lähetetty');
+    });
   });
 
   describe('after successfully submitting a contact request', () => {

@@ -12,6 +12,7 @@ app:
       account: 375917
   featureFlags:
     freeEnrollmentAllowed: true
+    goodAndSatisfactoryLevel: true
   aws:
     localstack:
       access-key-id: test

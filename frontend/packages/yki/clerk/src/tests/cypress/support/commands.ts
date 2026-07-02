@@ -26,4 +26,8 @@ Cypress.Commands.add('openClerkExamDatesPage', () => {
 
 Cypress.Commands.add('openClerkQuarantinePage', () => {
   cy.visit(AppRoutes.ClerkQuarantine);
+  cy.get('[data-testid="pending-reviews-listing"] table tbody tr').should(
+    'have.length.greaterThan',
+    0,
+  );
 });

@@ -38,6 +38,7 @@
         "selectExamHelp": "Obs! Du kan endast välja ett examenstillfälle för vilket en exakt adress och starttidpunkt har angetts",
         "chooseExamAndCreate": "Välj examenstillfälle och skapa anmälan",
         "chooseExam": "Välj examenstillfälle",
+        "previousExamDecision": "Beslut om resultatet av tidigare examen",
         "viewDetails": "Se uppgifter"
       },
       "examinerDetails": {

@@ -38,7 +38,8 @@
         "selectExamHelp": "Huom. voit valita vain tutkintotilaisuuden, jolle on määritetty tarkka osoite ja alkamisaika",
         "chooseExamAndCreate": "Valitse tutkintotilaisuus ja luo ilmoittautuminen",
         "chooseExam": "Valitse tutkintotilaisuus",
-        "viewDetails": "Katso tiedot"
+        "viewDetails": "Katso tiedot",
+        "previousExamDecision": "Päätös aiemman tutkinnon tuloksesta"
       },
       "examinerDetails": {
         "buttons": {

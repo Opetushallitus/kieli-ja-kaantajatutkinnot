@@ -472,6 +472,9 @@ public class ExaminerEnrollmentServiceTest {
     final ExaminerExamEvent examEvent = Factory.examinerExamEvent(examiner, municipality);
     final Person person = Factory.person();
     final EnrollmentAppointment enrollment = Factory.enrollmentAppointment(examiner, examEvent, person);
+    enrollment.setSpeakingPartialExam(false);
+    enrollment.setWritingPartialExam(false);
+    enrollment.setSpeechComprehensionPartialExam(false);
 
     entityManager.persist(examiner);
     entityManager.persist(municipality);

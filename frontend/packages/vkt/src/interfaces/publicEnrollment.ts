@@ -6,6 +6,7 @@ import {
   PartialExamsAndSkills,
 } from 'interfaces/common/enrollment';
 import {
+  Attachment,
   PublicFreeEnrollmentBasis,
   PublicFreeEnrollmentDetails,
 } from 'interfaces/publicEducation';
@@ -95,6 +96,7 @@ export interface PublicEnrollmentContact extends PublicEnrollmentCommon {
   message: string;
   isFullExam?: boolean;
   partialExamSelection?: string;
+  attachments?: Array<Attachment>;
 }
 
 export interface PublicEnrollmentAppointment

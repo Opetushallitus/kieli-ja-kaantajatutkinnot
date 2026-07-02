@@ -511,4 +511,12 @@ public class PublicController {
       throw new RuntimeException("Not allowed");
     }
   }
+
+  @GetMapping(path = "/uploadPostPolicy/examiner/{examinerId:\\d+}")
+  public Map<String, String> getPresignedPostPolicyForExaminer(
+    @PathVariable final long examinerId,
+    @RequestParam final String filename
+  ) {
+    return publicEnrollmentService.getPresignedPostRequestForExaminer(examinerId, filename);
+  }
 }

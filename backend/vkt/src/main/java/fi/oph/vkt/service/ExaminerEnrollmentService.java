@@ -191,6 +191,20 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     final EnrollmentGrade enrollmentGrade = enrollmentGradeOptional.orElseGet(EnrollmentGrade::new);
 
     enrollmentGrade.assertVersion(dto.version());
+
+    if (enrollmentAppointment.isSpeakingPartialExam() && dto.speakingPartialExam() == null) {
+      throw new APIException(APIExceptionType.GRADES_INCOMPLETE);
+    }
+    if (enrollmentAppointment.isWritingPartialExam() && dto.writingPartialExam() == null) {
+      throw new APIException(APIExceptionType.GRADES_INCOMPLETE);
+    }
+    if (enrollmentAppointment.isSpeechComprehensionPartialExam() && dto.speechComprehensionPartialExam() == null) {
+      throw new APIException(APIExceptionType.GRADES_INCOMPLETE);
+    }
+    if (enrollmentAppointment.isReadingComprehensionPartialExam() && dto.readingComprehensionPartialExam() == null) {
+      throw new APIException(APIExceptionType.GRADES_INCOMPLETE);
+    }
+
     if (dto.speakingPartialExam() != null) {
       enrollmentGrade.setSpeakingPartialExamGrade(dto.speakingPartialExam().grade());
       enrollmentGrade.setSpeakingPartialExamComment(dto.speakingPartialExam().comment());
@@ -252,6 +266,21 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     enrollmentAppointmentRepository.flush();
 
     return ClerkEnrollmentUtil.createClerkEnrollmentAppointmentDTO(enrollmentAppointment, baseUrlAPI);
+  }
+
+  @Transactional(readOnly = true)
+  public void verifyAttachmentAccess(final String oid, final long enrollmentAppointmentId, final String key) {
+    final EnrollmentAppointment enrollmentAppointment = enrollmentAppointmentRepository.getReferenceById(
+      enrollmentAppointmentId
+    );
+    checkExaminerOid(enrollmentAppointment, oid);
+    final boolean keyBelongsToAppointment = enrollmentAppointment
+      .getAttachments()
+      .stream()
+      .anyMatch(a -> a.getKey().equals(key));
+    if (!keyBelongsToAppointment) {
+      throw new APIException(APIExceptionType.ATTACHMENT_PERSON_MISMATCH);
+    }
   }
 
   @Transactional

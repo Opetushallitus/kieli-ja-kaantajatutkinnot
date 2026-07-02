@@ -1,6 +1,7 @@
 package fi.oph.vkt.api.dto.examiner;
 
 import fi.oph.vkt.api.dto.EnrollmentDTOSkillFields;
+import fi.oph.vkt.api.dto.FreeEnrollmentAttachmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
@@ -38,6 +39,7 @@ public record ExaminerEnrollmentAppointmentDTO(
   @NonNull @NotNull List<ClerkPaymentDTO> payments,
   ExaminerExamEventDTO examEvent,
   ExaminerAuthLinkDTO authLink,
-  String paymentLinkUrl
+  String paymentLinkUrl,
+  List<FreeEnrollmentAttachmentDTO> attachments
 )
   implements EnrollmentDTOSkillFields {}
