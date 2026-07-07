@@ -20,7 +20,7 @@ import { ComboBoxOption } from 'shared/interfaces';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { APIEndpoints } from 'enums/api';
+import { APIEndpoints, APIError } from 'enums/api';
 import { RegistrationStates } from 'enums/app';
 import { ClerkStatisticsFilterState } from 'interfaces/clerkStatistics';
 import { loadClerkOrganizerRegistry } from 'redux/reducers/clerkOrganizer';
@@ -141,6 +141,20 @@ export const ClerkStatisticsFilter = () => {
         redirect: 'manual',
       });
       if (!response.ok) {
+        const errorCode = await response
+          .json()
+          .then((data) => data?.errorCode as string | undefined)
+          .catch(() => undefined);
+
+        if (errorCode === APIError.StatisticsEmptyResult) {
+          showToast({
+            severity: Severity.Info,
+            description: t('toasts.emptyResult'),
+          });
+
+          return;
+        }
+
         showToast({
           severity: Severity.Error,
           description: t('toasts.downloadError'),
