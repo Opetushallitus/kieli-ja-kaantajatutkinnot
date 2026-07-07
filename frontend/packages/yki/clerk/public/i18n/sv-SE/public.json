@@ -421,7 +421,8 @@
         },
         "placeholder": "Valitse...",
         "toasts": {
-          "downloadError": "Raportin luominen epäonnistui"
+          "downloadError": "Raportin luominen epäonnistui",
+          "emptyResult": "Ei hakutuloksia"
         },
         "values": {
           "registrationStatus": {

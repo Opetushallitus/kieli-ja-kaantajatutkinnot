@@ -45,4 +45,5 @@ export enum APIError {
   QuarantineMissingSsnAndBirthdate = 'quarantineMissingSsnAndBirthdate',
   QuarantineSsnBirthdateMismatch = 'quarantineSsnBirthdateMismatch',
   QuarantineAlreadyDeleted = 'quarantineAlreadyDeleted',
+  StatisticsEmptyResult = 'statisticsEmptyResult',
 }
