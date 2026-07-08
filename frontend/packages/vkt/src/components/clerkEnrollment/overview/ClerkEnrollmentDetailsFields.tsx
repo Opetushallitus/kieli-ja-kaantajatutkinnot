@@ -513,13 +513,13 @@ export const ClerkEnrollmentDetailsFields = ({
     if (fieldName === 'oralSkill' && enrollment.oralSkill) {
       partialExamsToUncheck.push('speakingPartialExam');
 
-      if (enrollment.understandingSkill) {
+      if (!enrollment.understandingSkill) {
         partialExamsToUncheck.push('speechComprehensionPartialExam');
       }
     } else if (fieldName === 'textualSkill' && enrollment.textualSkill) {
       partialExamsToUncheck.push('writingPartialExam');
 
-      if (enrollment.understandingSkill) {
+      if (!enrollment.understandingSkill) {
         partialExamsToUncheck.push('readingComprehensionPartialExam');
       }
     } else if (
