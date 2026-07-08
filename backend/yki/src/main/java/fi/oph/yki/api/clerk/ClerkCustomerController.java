@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import java.util.concurrent.ExecutionException;
 import org.springframework.context.annotation.Conditional;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
