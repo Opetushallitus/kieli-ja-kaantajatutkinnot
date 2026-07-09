@@ -121,6 +121,8 @@ COPY public.exam_date (id, exam_date, registration_start_date, registration_end_
 44	2026-11-22	2025-12-02	2025-05-06	2025-12-02 15:33:16.721932+00	2025-12-02 15:33:16.721932+00	\N	\N	f	\N
 45	2026-09-05	2025-12-02	2025-05-06	2025-12-02 15:33:16.721932+00	2025-12-02 15:33:16.721932+00	\N	\N	f	\N
 46	2026-10-18	2025-12-02	2025-05-06	2025-12-02 15:33:16.721932+00	2025-12-02 15:33:16.721932+00	\N	\N	f	\N
+47	2026-07-07	2026-05-01	2026-05-31	2026-07-14 12:00:00+00	2026-07-14 12:00:00+00	\N	\N	f	\N
+48	2036-10-20	2036-08-01	2036-08-31	2026-07-14 12:00:00+00	2026-07-14 12:00:00+00	\N	\N	f	\N
 \.
 
 
@@ -174,6 +176,19 @@ COPY public.exam_date_language (id, exam_date_id, language_code, created, level_
 43	27	eng	2022-11-30 14:13:51.664733+00	PERUS	\N
 44	27	fra	2022-11-30 14:13:51.665696+00	PERUS	\N
 45	28	fin	2022-12-01 12:21:45.799331+00	PERUS	\N
+46	47	fin	2026-07-14 12:00:00+00	PERUS	\N
+47	47	fin	2026-07-14 12:00:00+00	KESKI	\N
+48	47	spa	2026-07-14 12:00:00+00	KESKI	\N
+49	47	spa	2026-07-14 12:00:00+00	YLIN	\N
+50	47	eng	2026-07-14 12:00:00+00	KESKI	\N
+51	48	rus	2026-07-14 12:00:00+00	PERUS	\N
+52	48	sme	2026-07-14 12:00:00+00	YLIN	\N
+53	48	fin	2026-07-14 12:00:00+00	PERUS	\N
+54	48	swe	2026-07-14 12:00:00+00	YLIN	\N
+55	48	swe	2026-07-14 12:00:00+00	PERUS	\N
+56	48	swe	2026-07-14 12:00:00+00	KESKI	\N
+57	48	fin	2026-07-14 12:00:00+00	KESKI	\N
+58	48	fin	2026-07-14 12:00:00+00	YLIN	\N
 \.
 
 
@@ -182,6 +197,20 @@ COPY public.exam_date_language (id, exam_date_id, language_code, created, level_
 --
 
 COPY public.evaluation (id, exam_date_id, exam_date_language_id, evaluation_start_date, evaluation_end_date, deleted_at) FROM stdin;
+1	47	46	2026-07-13	2036-07-15	\N
+2	47	47	2026-07-13	2036-07-15	\N
+3	47	48	2026-07-13	2036-07-15	\N
+4	47	49	2026-07-13	2036-07-15	\N
+5	47	50	2026-07-13	2036-07-15	2026-07-01 12:00:00+00
+6	48	51	2036-10-25	2036-10-27	\N
+7	48	52	2036-10-25	2036-10-27	\N
+8	48	53	2036-10-25	2036-10-27	\N
+9	48	54	2036-10-25	2036-10-27	\N
+10	48	55	2036-10-25	2036-10-27	\N
+11	48	56	2036-10-25	2036-10-27	\N
+12	48	57	2036-10-25	2036-10-27	\N
+13	48	58	2036-10-25	2036-10-27	\N
+14	26	42	2021-02-01	2021-02-15	\N
 \.
 
 
@@ -635,7 +664,7 @@ SELECT pg_catalog.setval('public.evaluation_exam_date_language_id_seq', 1, false
 -- Name: evaluation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.evaluation_id_seq', 1, false);
+SELECT pg_catalog.setval('public.evaluation_id_seq', 14, true);
 
 
 --
@@ -705,7 +734,7 @@ SELECT pg_catalog.setval('public.evaluation_payment_order_number_seq', 1, false)
 -- Name: exam_date_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.exam_date_id_seq', 46, true);
+SELECT pg_catalog.setval('public.exam_date_id_seq', 48, true);
 
 
 --
@@ -719,7 +748,7 @@ SELECT pg_catalog.setval('public.exam_date_language_exam_date_id_seq', 1, false)
 -- Name: exam_date_language_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.exam_date_language_id_seq', 45, true);
+SELECT pg_catalog.setval('public.exam_date_language_id_seq', 58, true);
 
 
 --
