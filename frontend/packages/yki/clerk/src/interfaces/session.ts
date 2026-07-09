@@ -22,3 +22,7 @@ export interface User {
   isAdmin: boolean;
   isOrganizer: boolean;
 }
+
+export interface Me {
+  lang: string;
+}

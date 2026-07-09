@@ -25,6 +25,7 @@ export enum APIEndpoints {
   ClerkQuarantineSetReview = '/yki/v2/api/clerk/quarantine/:id/registration/:regId/set',
   User = '/yki/api/user/identity',
   AuthUser = '/yki/v2/auth/user',
+  Me = '/kayttooikeus-service/cas/me',
 }
 
 /**

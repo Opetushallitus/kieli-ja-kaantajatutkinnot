@@ -101,7 +101,7 @@ export const getCurrentLang = (): AppLanguage => {
   return i18n.language as AppLanguage;
 };
 
-const changeLang = (language: AppLanguage) => {
+export const changeLang = (language: AppLanguage) => {
   DateUtils.setDayjsLocale(language);
   document.documentElement.setAttribute('lang', language);
 
