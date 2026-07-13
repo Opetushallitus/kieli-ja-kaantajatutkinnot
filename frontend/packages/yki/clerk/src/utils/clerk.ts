@@ -79,6 +79,15 @@ export const languageToString = (lang: string) => {
 export const languagesToString = (array: OrganizerLanguage[]) => {
   return array
     .map((lang: OrganizerLanguage) => languageToString(lang.language_code))
+    .reduce<Array<string>>((acc, l) => {
+      if (acc.includes(l)) {
+        return acc;
+      }
+
+      acc.push(l);
+
+      return acc;
+    }, [])
     .join(', ');
 };
 
