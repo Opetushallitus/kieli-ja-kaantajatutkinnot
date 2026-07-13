@@ -77,9 +77,9 @@ export const languageToString = (lang: string) => {
 };
 
 export const languagesToString = (array: OrganizerLanguage[]) => {
-  const list = getLanguagesWithLevelDescriptions(array);
-
-  return list.map((lang) => lang.split(' ')[0].toLowerCase()).join(', ');
+  return array
+    .map((lang: OrganizerLanguage) => languageToString(lang.language_code))
+    .join(', ');
 };
 
 export const getLanguagesWithLevelDescriptions = (
