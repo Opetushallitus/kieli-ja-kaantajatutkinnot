@@ -30,7 +30,7 @@ const userSlice = createSlice({
       state.status = APIResponseStatus.Error;
     },
     loadMe(state) {
-      state.status = APIResponseStatus.InProgress;
+      state.meStatus = APIResponseStatus.InProgress;
     },
     acceptMe(state, action: PayloadAction<Me>) {
       state.meStatus = APIResponseStatus.Success;
