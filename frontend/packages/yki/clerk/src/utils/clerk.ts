@@ -73,7 +73,7 @@ export const levelDescription = (level: keyof typeof ExamLevel) => {
 export const languageToString = (lang: string) => {
   const found = LANGUAGES.find((l) => l.code === lang);
 
-  return found ? found.name : '';
+  return found ? t('yki.common.languages.' + found.code) : '';
 };
 
 export const languagesToString = (array: OrganizerLanguage[]) => {
