@@ -2,6 +2,7 @@ package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import fi.oph.yki.Factory;
@@ -11,6 +12,7 @@ import fi.oph.yki.model.Evaluation;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamDateLanguage;
 import fi.oph.yki.repository.EvaluationRepository;
+import fi.oph.yki.util.exception.NotFoundException;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -56,13 +58,19 @@ public class PublicEvaluationServiceTest {
     return Factory.evaluation(examDate, examDateLanguage);
   }
 
-  @Test
-  public void testOngoingPeriodIsReturnedAsOpen() {
-    final Evaluation evaluation = createEvaluation("fin");
-
+  private long persistAndDetach(final Evaluation evaluation) {
     entityManager.persist(evaluation);
     entityManager.flush();
     entityManager.clear();
+
+    return evaluation.getId();
+  }
+
+  @Test
+  public void testOngoingPeriodIsReturnedAsOpen() {
+    final Evaluation evaluation = createEvaluation("fin");
+    persistAndDetach(evaluation);
+
     final List<PublicEvaluationPeriodDTO> result = publicEvaluationService.getUpcomingEvaluationPeriods();
 
     assertEquals(1, result.size());
@@ -81,9 +89,7 @@ public class PublicEvaluationServiceTest {
     final Evaluation evaluation = createEvaluation("swe");
     evaluation.setEvaluationStartDate(LocalDate.now(ZoneId.of("Europe/Helsinki")).plusDays(5));
 
-    entityManager.persist(evaluation);
-    entityManager.flush();
-    entityManager.clear();
+    persistAndDetach(evaluation);
     final List<PublicEvaluationPeriodDTO> result = publicEvaluationService.getUpcomingEvaluationPeriods();
 
     assertEquals(1, result.size());
@@ -96,9 +102,7 @@ public class PublicEvaluationServiceTest {
     evaluation.setEvaluationStartDate(LocalDate.now(ZoneId.of("Europe/Helsinki")).minusDays(20));
     evaluation.setEvaluationEndDate(LocalDate.now(ZoneId.of("Europe/Helsinki")).minusDays(1));
 
-    entityManager.persist(evaluation);
-    entityManager.flush();
-    entityManager.clear();
+    persistAndDetach(evaluation);
     final List<PublicEvaluationPeriodDTO> result = publicEvaluationService.getUpcomingEvaluationPeriods();
 
     assertTrue(result.isEmpty());
@@ -109,9 +113,7 @@ public class PublicEvaluationServiceTest {
     final Evaluation evaluation = createEvaluation("fin");
     evaluation.setEvaluationEndDate(LocalDate.now(ZoneId.of("Europe/Helsinki")));
 
-    entityManager.persist(evaluation);
-    entityManager.flush();
-    entityManager.clear();
+    persistAndDetach(evaluation);
     final List<PublicEvaluationPeriodDTO> result = publicEvaluationService.getUpcomingEvaluationPeriods();
 
     assertEquals(1, result.size());
@@ -123,9 +125,7 @@ public class PublicEvaluationServiceTest {
     final Evaluation evaluation = createEvaluation("fin");
     evaluation.setEvaluationStartDate(LocalDate.now(ZoneId.of("Europe/Helsinki")));
 
-    entityManager.persist(evaluation);
-    entityManager.flush();
-    entityManager.clear();
+    persistAndDetach(evaluation);
     final List<PublicEvaluationPeriodDTO> result = publicEvaluationService.getUpcomingEvaluationPeriods();
 
     assertEquals(1, result.size());
@@ -137,9 +137,7 @@ public class PublicEvaluationServiceTest {
     final Evaluation evaluation = createEvaluation("fin");
     evaluation.setDeletedAt(LocalDateTime.now(ZoneId.of("Europe/Helsinki")));
 
-    entityManager.persist(evaluation);
-    entityManager.flush();
-    entityManager.clear();
+    persistAndDetach(evaluation);
     final List<PublicEvaluationPeriodDTO> result = publicEvaluationService.getUpcomingEvaluationPeriods();
 
     assertTrue(result.isEmpty());
@@ -148,5 +146,49 @@ public class PublicEvaluationServiceTest {
   @Test
   public void testReturnsEmptyListWhenNoEvaluationsExist() {
     assertTrue(publicEvaluationService.getUpcomingEvaluationPeriods().isEmpty());
+  }
+
+  @Test
+  public void testOngoingPeriodIsReturnedByIdAsOpen() {
+    final Evaluation evaluation = createEvaluation("fin");
+
+    final long id = persistAndDetach(evaluation);
+    final PublicEvaluationPeriodDTO period = publicEvaluationService.getEvaluationPeriod(id);
+
+    assertEquals(id, period.id());
+    assertEquals(LocalDate.of(2026, 6, 15), period.examDate());
+    assertEquals("fin", period.languageCode());
+    assertEquals("PERUS", period.levelCode());
+    assertEquals(LocalDate.now(ZoneId.of("Europe/Helsinki")).minusDays(10), period.evaluationStartDate());
+    assertEquals(LocalDate.now(ZoneId.of("Europe/Helsinki")).plusDays(10), period.evaluationEndDate());
+    assertTrue(period.open());
+  }
+
+  @Test
+  public void testPeriodEndedBeforeTodayIsStillReturnedByIdButNotOpen() {
+    final Evaluation evaluation = createEvaluation("eng");
+    evaluation.setEvaluationStartDate(LocalDate.now(ZoneId.of("Europe/Helsinki")).minusDays(20));
+    evaluation.setEvaluationEndDate(LocalDate.now(ZoneId.of("Europe/Helsinki")).minusDays(1));
+
+    final long id = persistAndDetach(evaluation);
+    final PublicEvaluationPeriodDTO period = publicEvaluationService.getEvaluationPeriod(id);
+
+    assertEquals(id, period.id());
+    assertFalse(period.open());
+  }
+
+  @Test
+  public void testDeletedPeriodIsNotFoundById() {
+    final Evaluation evaluation = createEvaluation("fin");
+    evaluation.setDeletedAt(LocalDateTime.now(ZoneId.of("Europe/Helsinki")));
+
+    final long id = persistAndDetach(evaluation);
+
+    assertThrows(NotFoundException.class, () -> publicEvaluationService.getEvaluationPeriod(id));
+  }
+
+  @Test
+  public void testUnknownIdIsNotFound() {
+    assertThrows(NotFoundException.class, () -> publicEvaluationService.getEvaluationPeriod(-1L));
   }
 }

@@ -5,7 +5,7 @@ export enum APIEndpoints {
   ExamSession = '/yki/api/exam-session/:examSessionId',
   ExamSessionQueue = '/yki/api/exam-session/:examSessionId/queue',
   Evaluations = '/yki/v2/api/public/evaluation',
-  Evaluation = '/yki/api/evaluation/:evaluationId',
+  Evaluation = '/yki/v2/api/public/evaluation/:evaluationId',
   EvaluationOrder = '/yki/api/evaluation/:evaluationId/order',
   EvaluationOrderDetails = '/yki/api/evaluation/order/:evaluationOrderId',
   InitRegistration = '/yki/api/registration/init',
