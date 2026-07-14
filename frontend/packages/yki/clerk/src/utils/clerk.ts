@@ -113,7 +113,9 @@ export const getLanguagesWithLevelDescriptions = (
           : levels
               .map((l) => levelDescription(l))
               .join(` ${t('yki.common.and')} `);
-      list.push(`${language.name} - ${capitalize(description)}`);
+      list.push(
+        `${languageToString(language.code)} - ${capitalize(description)}`,
+      );
     }
   }
 
