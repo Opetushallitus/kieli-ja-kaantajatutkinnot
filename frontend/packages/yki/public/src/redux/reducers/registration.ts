@@ -10,13 +10,16 @@ import {
 } from 'enums/publicRegistration';
 import {
   isRegistrationInitErrorResponse,
+  PartialExamType,
   PublicEmailRegistration,
   PublicRegistrationFormSubmitErrorResponse,
   PublicRegistrationFormSubmitSuccessResponse,
+  PublicRegistrationIdentifyPayload,
   PublicRegistrationInitErrorState,
   PublicRegistrationInitPayload,
   PublicRegistrationInitResponse,
   PublicSuomiFiRegistration,
+  RegistrationDetailsResponse,
 } from 'interfaces/publicRegistration';
 
 export interface RegistrationState {
@@ -24,6 +27,8 @@ export interface RegistrationState {
     status: APIResponseStatus;
     error?: PublicRegistrationInitErrorState;
     examSessionId?: number;
+    partialExamType?: PartialExamType;
+    registrationId?: number;
     registrationKind?: RegistrationKind;
     expiresIn?: number;
   };
@@ -43,6 +48,7 @@ export interface RegistrationState {
   activeStep: PublicRegistrationFormStep;
   showErrors: boolean;
   hasTimerExpired: boolean;
+  fetchRegistrationStatus: APIResponseStatus;
 }
 
 export const initialState: RegistrationState = {
@@ -62,6 +68,7 @@ export const initialState: RegistrationState = {
   },
   showErrors: false,
   hasTimerExpired: false,
+  fetchRegistrationStatus: APIResponseStatus.NotStarted,
 };
 
 const registrationSlice = createSlice({
@@ -75,6 +82,7 @@ const registrationSlice = createSlice({
       state.initRegistration.status = APIResponseStatus.InProgress;
       state.initRegistration.examSessionId = action.payload.examSessionId;
       state.initRegistration.registrationKind = action.payload.registrationKind;
+      state.initRegistration.partialExamType = action.payload.partialExamType;
     },
     rejectPublicRegistrationInit(
       state,
@@ -129,6 +137,7 @@ const registrationSlice = createSlice({
     ) {
       state.initRegistration.status = APIResponseStatus.Success;
       state.initRegistration.expiresIn = action.payload?.expires_in;
+      state.initRegistration.partialExamType = action.payload.partial_exam_type;
 
       const {
         registration_id,
@@ -138,6 +147,7 @@ const registrationSlice = createSlice({
       } = action.payload;
       const nationality = user.nationalities && user.nationalities[0];
       state.initRegistration.registrationKind = registration_kind;
+      state.initRegistration.registrationId = registration_id;
       if (is_strongly_identified) {
         state.isEmailRegistration = false;
         state.hasSuomiFiNationalityData = !!nationality;
@@ -230,11 +240,28 @@ const registrationSlice = createSlice({
     },
     identifyRegistration(
       state,
-      action: PayloadAction<PublicRegistrationInitPayload>,
+      action: PayloadAction<PublicRegistrationIdentifyPayload>,
     ) {
       state.initRegistration.status = APIResponseStatus.InProgress;
+      state.fetchRegistrationStatus = APIResponseStatus.NotStarted;
       state.initRegistration.examSessionId = action.payload.examSessionId;
       state.initRegistration.registrationKind = action.payload.registrationKind;
+      state.initRegistration.registrationId = action.payload.registrationId;
+    },
+    fetchRegistrationDetails(state, _action: PayloadAction<number>) {
+      state.fetchRegistrationStatus = APIResponseStatus.InProgress;
+    },
+    rejectRegistrationDetails(state) {
+      state.fetchRegistrationStatus = APIResponseStatus.Error;
+    },
+    acceptFetchRegistrationDetails(
+      state,
+      action: PayloadAction<RegistrationDetailsResponse>,
+    ) {
+      state.fetchRegistrationStatus = APIResponseStatus.Success;
+      state.initRegistration.partialExamType = action.payload.partial_exam_type;
+      state.initRegistration.registrationKind = action.payload.kind;
+      state.initRegistration.examSessionId = action.payload.exam_session_id;
     },
   },
 });
@@ -256,5 +283,8 @@ export const {
   acceptCancelRegistration,
   rejectCancelRegistration,
   identifyRegistration,
+  fetchRegistrationDetails,
+  rejectRegistrationDetails,
+  acceptFetchRegistrationDetails,
   setHasTimerExpired,
 } = registrationSlice.actions;

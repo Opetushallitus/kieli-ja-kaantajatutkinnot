@@ -17,9 +17,12 @@
       padding: 2rem;
     }
   }
+}
 
+.clerk-exam-session-registrations {
   &__filter-tabs {
     justify-self: left;
+    margin-bottom: 2rem;
 
     &__tab {
       padding: 0.5rem 1rem;

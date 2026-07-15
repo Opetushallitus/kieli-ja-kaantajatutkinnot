@@ -20,6 +20,7 @@ const initialState: ExamSessionsState = {
     municipality: undefined,
     excludeFullSessions: false,
     excludeNonOpenSessions: false,
+    selectedPartialExamTypes: [],
   },
 };
 

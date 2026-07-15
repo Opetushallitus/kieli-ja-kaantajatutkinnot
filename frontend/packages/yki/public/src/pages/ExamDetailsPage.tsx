@@ -34,13 +34,15 @@ export const ExamDetailsPage = ({
   // Redux
   const dispatch = useAppDispatch();
   const { status, examSession } = useAppSelector(examSessionSelector);
-  const { initRegistration } = useAppSelector(registrationSelector);
+  const { initRegistration, fetchRegistrationStatus } =
+    useAppSelector(registrationSelector);
   // React Router
   const params = useParams();
   const [searchParams] = useSearchParams();
 
   const isLoading =
     status === APIResponseStatus.InProgress ||
+    fetchRegistrationStatus === APIResponseStatus.InProgress ||
     initRegistration.status === APIResponseStatus.InProgress;
 
   useEffect(() => {
@@ -51,7 +53,8 @@ export const ExamDetailsPage = ({
     if (
       status === APIResponseStatus.NotStarted &&
       !examSession?.id &&
-      params.examSessionId
+      params.examSessionId &&
+      params.registrationId
     ) {
       if (searchParams.get('submitted')) {
         // If form is already submitted, just reload exam session details
@@ -77,6 +80,7 @@ export const ExamDetailsPage = ({
             examSessionId: +params.examSessionId,
             // TODO registrationKind not needed when calling /identify, refactor away!
             registrationKind: RegistrationKind.Admission,
+            registrationId: +params.registrationId,
           }),
         );
       }
@@ -94,11 +98,14 @@ export const ExamDetailsPage = ({
     status,
     dispatch,
     params.examSessionId,
+    params.registrationId,
     showToast,
     examSession?.id,
+    examSession?.type,
     t,
     searchParams,
     registrationKind,
+    initRegistration.status,
   ]);
 
   return (

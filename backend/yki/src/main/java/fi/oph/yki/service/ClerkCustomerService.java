@@ -12,10 +12,12 @@ import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.ExamPayment;
 import fi.oph.yki.model.FreeRegistration;
+import fi.oph.yki.model.Organizer;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
+import fi.oph.yki.repository.OrganizerRepository;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.PersonSearchProjection;
 import fi.oph.yki.repository.RegistrationRepository;
@@ -33,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +44,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClerkCustomerService {
 
   private final PersonRepository personRepository;
+  private final OrganizerRepository organizerRepository;
   private final RegistrationRepository registrationRepository;
   private final OnrService onrService;
   private final AuditService auditService;
@@ -50,7 +54,12 @@ public class ClerkCustomerService {
     final var session = registration.getExamSession();
 
     final var examDate = session.getExamDate().getExamDate();
-    final var exam = ClerkExamDTO.builder().language(session.getLanguage()).level(session.getLevel()).build();
+    final var exam = ClerkExamDTO
+      .builder()
+      .id(session.getId())
+      .language(session.getLanguage())
+      .level(session.getLevel())
+      .build();
 
     final var examLocation = session
       .getLocations()
@@ -80,6 +89,7 @@ public class ClerkCustomerService {
 
     return ClerkCustomerRegistrationDTO
       .builder()
+      .id(registration.getId())
       .examDate(examDate)
       .exam(exam)
       .examLocation(examLocation)
@@ -99,6 +109,19 @@ public class ClerkCustomerService {
       LOG.error("Unable to get identity number from ONR for oid: {}", person.getOid(), e);
       return null;
     }
+  }
+
+  @Transactional(readOnly = true)
+  public ClerkCustomerDetailsDTO getCustomerDetails(final String personOid, final String organizerOid) {
+    final var hasAccess = personRepository.isPersonRelatedToOrganizer(personOid, organizerOid);
+
+    if (!hasAccess) {
+      throw new AccessDeniedException(
+        String.format("Organizer (%s) has no relation to person (%s)", organizerOid, personOid)
+      );
+    }
+
+    return getClerkCustomerDetails(personOid);
   }
 
   @Transactional(readOnly = true)
@@ -167,6 +190,9 @@ public class ClerkCustomerService {
   }
 
   private Map<String, String> getOidToHetuMap(List<String> oids) {
+    if (oids.isEmpty()) {
+      return Map.of();
+    }
     try {
       return onrService
         .listPersonDetails(oids)
@@ -203,6 +229,25 @@ public class ClerkCustomerService {
     }
 
     return targetBuilder.build();
+  }
+
+  @Transactional(readOnly = true)
+  public Page<ClerkCustomerSummaryDTO> searchOrganizerCustomers(
+    final Pageable pageable,
+    final ClerkCustomerSearchRequestDTO request,
+    final String oid
+  ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
+    final Organizer organizer = organizerRepository.findByOidAndDeletedAtIsNull(oid).orElseThrow();
+    final ClerkCustomerSearchRequestDTO newRequestDTO = ClerkCustomerSearchRequestDTO
+      .builder()
+      .organizerId(organizer.getId())
+      .examDateId(request.examDateId())
+      .languageCode(request.languageCode())
+      .levelCode(request.levelCode())
+      .personQuery(request.personQuery())
+      .build();
+
+    return searchClerkCustomers(pageable, newRequestDTO);
   }
 
   @Transactional(readOnly = true)

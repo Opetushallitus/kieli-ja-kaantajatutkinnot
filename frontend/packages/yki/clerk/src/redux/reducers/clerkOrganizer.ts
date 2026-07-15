@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ClerkOrganization, ClerkOrganizer } from 'interfaces/clerkOrganizer';
+import {
+  ClerkOrganization,
+  ClerkOrganizer,
+  ClerkOrganizerHierarchy,
+} from 'interfaces/clerkOrganizer';
 import {
   ClerkOrganizerRegistry,
   FindByOidsOrganization,
@@ -12,9 +16,11 @@ interface ClerkOrganizerState {
   organization?: FindByOidsOrganization;
   organizerRegistry: Array<ClerkOrganizerRegistry>;
   allOrganizations: Array<ClerkOrganization>;
+  organizationHierarchy: Array<ClerkOrganizerHierarchy>;
   status: APIResponseStatus;
   organizationStatus: APIResponseStatus;
   organizerRegistryStatus: APIResponseStatus;
+  organizationHierarchyStatus: APIResponseStatus;
   addClerkOrganizerStatus: APIResponseStatus;
   updateStatus?: APIResponseStatus;
   allOrganizationsStatus?: APIResponseStatus;
@@ -27,9 +33,11 @@ const initialState: ClerkOrganizerState = {
   organizers: [],
   organizerRegistry: [],
   allOrganizations: [],
+  organizationHierarchy: [],
   status: APIResponseStatus.NotStarted,
   organizationStatus: APIResponseStatus.NotStarted,
   organizerRegistryStatus: APIResponseStatus.NotStarted,
+  organizationHierarchyStatus: APIResponseStatus.NotStarted,
   addClerkOrganizerStatus: APIResponseStatus.NotStarted,
   updateStatus: APIResponseStatus.NotStarted,
   allOrganizationsStatus: APIResponseStatus.NotStarted,
@@ -51,6 +59,9 @@ const clerkOrganizersSlice = createSlice({
     storeClerkOrganizers(state, action: PayloadAction<Array<ClerkOrganizer>>) {
       state.status = APIResponseStatus.Success;
       state.organizers = action.payload;
+    },
+    loadOrganizerRegistry(state, _action: PayloadAction<string>) {
+      state.organizerRegistryStatus = APIResponseStatus.InProgress;
     },
     loadClerkOrganizerRegistry(state) {
       state.organizerRegistryStatus = APIResponseStatus.InProgress;
@@ -135,6 +146,19 @@ const clerkOrganizersSlice = createSlice({
       state.organizationStatus = APIResponseStatus.NotStarted;
       state.organization = undefined;
     },
+    loadOrganizationHierarchy(state, _action: PayloadAction<string>) {
+      state.organizationHierarchyStatus = APIResponseStatus.InProgress;
+    },
+    storeOrganizationHierarchy(
+      state,
+      action: PayloadAction<Array<ClerkOrganizerHierarchy>>,
+    ) {
+      state.organizationHierarchyStatus = APIResponseStatus.Success;
+      state.organizationHierarchy = action.payload;
+    },
+    rejectOrganizationHierarchy(state) {
+      state.organizationHierarchyStatus = APIResponseStatus.Error;
+    },
     addClerkOrganizer(
       state,
       _action: PayloadAction<Omit<ClerkOrganizer, 'id' | 'nimi'>>,
@@ -157,6 +181,7 @@ const clerkOrganizersSlice = createSlice({
 
 export const clerkOrganizersReducer = clerkOrganizersSlice.reducer;
 export const {
+  loadOrganizerRegistry,
   loadClerkOrganizers,
   rejectClerkOrganizers,
   storeClerkOrganizers,
@@ -176,6 +201,9 @@ export const {
   storeClerkOrganization,
   rejectClerkOrganization,
   resetClerkOrganization,
+  loadOrganizationHierarchy,
+  storeOrganizationHierarchy,
+  rejectOrganizationHierarchy,
   addClerkOrganizer,
   storeAddClerkOrganizer,
   rejectAddClerkOrganizer,

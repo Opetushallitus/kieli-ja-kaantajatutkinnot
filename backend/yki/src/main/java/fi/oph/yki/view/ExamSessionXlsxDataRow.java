@@ -1,5 +1,6 @@
 package fi.oph.yki.view;
 
+import fi.oph.yki.model.type.GenderCode;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -8,9 +9,23 @@ public record ExamSessionXlsxDataRow(
   @NonNull String oid,
   @NonNull String lastName,
   @NonNull String firstName,
+  String state,
+  String type,
+  String email,
+  String phone,
+  GenderCode gender,
   String nationalityCode,
   String streetAddress,
   String zip,
   String postOffice,
-  String email
+  String originalExamDate,
+  String examLang,
+  String certificateLang,
+  String nationalityDesc,
+  String identityNumber,
+  String birthdate,
+  String partialExamRead,
+  String partialExamListen,
+  String partialExamSpeak,
+  String partialExamWrite
 ) {}

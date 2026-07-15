@@ -20,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.thymeleaf.context.Context;
@@ -31,6 +32,7 @@ import org.thymeleaf.templateresolver.StringTemplateResolver;
 @AutoConfigureMockMvc
 @ActiveProfiles("test-postgres")
 @Import(PostgresTestcontainerConfig.class)
+@TestPropertySource(properties = "app.clerk-enabled=true")
 class ClerkIndexControllerIntegrationTest {
 
   private static String expectedIndexHtml;
@@ -110,6 +112,7 @@ class ClerkIndexControllerIntegrationTest {
   private void fillNonceIntoTemplate(final String nonce) {
     final Context ctx = new Context();
     ctx.setVariable("cspNonce", nonce);
+    ctx.setVariable("clerkEnabled", true);
     expectedIndexHtml = templateEngine.process(expectedIndexHtmlTemplate, ctx);
   }
 

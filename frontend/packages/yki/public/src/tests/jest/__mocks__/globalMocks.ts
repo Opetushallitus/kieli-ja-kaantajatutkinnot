@@ -1,5 +1,7 @@
 import { jest } from '@jest/globals';
 
+(global as unknown as Record<string, unknown>).REACT_ENV_PRODUCTION = false;
+
 jest.mock('configs/i18n', () => ({
   getCurrentLang: () => 'fi-FI',
   getSupportedLangs: () => ['fi-FI', 'sv-SE', 'en-GB'],

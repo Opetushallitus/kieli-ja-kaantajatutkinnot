@@ -15,19 +15,23 @@ import {
   PublicRegistrationInitErrorResponse,
   PublicRegistrationInitPayload,
   PublicRegistrationInitResponse,
+  RegistrationDetailsResponse,
 } from 'interfaces/publicRegistration';
 import { resetExamSession, storeExamSession } from 'redux/reducers/examSession';
 import {
   acceptCancelRegistration,
+  acceptFetchRegistrationDetails,
   acceptPublicRegistrationInit,
   acceptPublicRegistrationSubmission,
   cancelRegistration,
+  fetchRegistrationDetails,
   identifyRegistration,
   initRegistration,
   RegistrationState,
   rejectCancelRegistration,
   rejectPublicRegistrationInit,
   rejectPublicRegistrationSubmission,
+  rejectRegistrationDetails,
   resetPublicRegistration,
   setActiveStep,
   submitPublicRegistration,
@@ -96,6 +100,7 @@ function* identifyRegistrationSaga(
       ),
     );
     yield put(acceptPublicRegistrationInit(data));
+    yield put(fetchRegistrationDetails(data.registration_id));
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       const response =
@@ -159,7 +164,7 @@ function* submitRegistrationFormSaga() {
         window.location.href = AppRoutes.FreeRegistrationSuccess.replace(
           /:examSessionId/,
           `${registrationState.initRegistration.examSessionId}`,
-        );
+        ).replace(/:registrationId/, `${registrationState.registration.id}`);
       }
       yield put(resetUserOpenRegistrations());
     } else {
@@ -207,6 +212,18 @@ function* submitRegistrationFormSaga() {
   }
 }
 
+function* fetchRegistrationDetailsSaga(action: PayloadAction<number>) {
+  try {
+    const response: AxiosResponse<RegistrationDetailsResponse> = yield call(
+      axiosInstance.get,
+      APIEndpoints.Registration.replace(/:registrationId/, `${action.payload}`),
+    );
+    yield put(acceptFetchRegistrationDetails(response.data));
+  } catch {
+    yield put(rejectRegistrationDetails());
+  }
+}
+
 function* cancelRegistrationSaga() {
   try {
     const { registration }: RegistrationState =
@@ -233,6 +250,7 @@ function* cancelRegistrationSaga() {
 export function* watchRegistration() {
   yield takeLatest(initRegistration.type, initRegistrationSaga);
   yield takeLatest(identifyRegistration.type, identifyRegistrationSaga);
+  yield takeLatest(fetchRegistrationDetails.type, fetchRegistrationDetailsSaga);
   yield takeLatest(submitPublicRegistration.type, submitRegistrationFormSaga);
   yield takeLatest(cancelRegistration.type, cancelRegistrationSaga);
 }

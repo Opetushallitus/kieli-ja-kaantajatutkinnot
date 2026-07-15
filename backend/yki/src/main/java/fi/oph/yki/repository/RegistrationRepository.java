@@ -7,13 +7,33 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
   List<Registration> getByPersonOid(String personOid);
   List<Registration> getByExamSessionAndStateIn(ExamSession examSession, List<RegistrationState> states);
+
+  @Query(
+    value = """
+      SELECT r.id AS id,
+          ROW_NUMBER() OVER (
+            ORDER BY r.created
+          ) AS queuePosition
+      FROM registration r
+      WHERE r.exam_session_id = :examSessionId
+        AND r.state = 'SUBMITTED'
+      ORDER BY r.created
+    """,
+    nativeQuery = true
+  )
+  List<RegistrationWithQueuePositionProjection> getQueuePositionsByExamSession(
+    @Param("examSessionId") long examSessionId
+  );
 
   int countByPersonOid(String personOid);
 
@@ -30,4 +50,24 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     final String language,
     final String level
   );
+
+  @Modifying
+  @Transactional
+  @Query(
+    value = """
+UPDATE registration r SET
+    state =
+        CASE WHEN state = 'COMPLETED'::registration_state THEN 'PAID_AND_CANCELLED'::registration_state
+             ELSE 'CANCELLED'::registration_state
+        END
+WHERE r.id = :registrationId
+  AND r.state NOT IN ('CANCELLED', 'PAID_AND_CANCELLED')
+  AND now() < (
+      SELECT ed.exam_date FROM exam_date ed
+      INNER JOIN exam_session es ON ed.id = es.exam_date_id
+      WHERE es.id = r.exam_session_id)
+""",
+    nativeQuery = true
+  )
+  void cancel(@Param("registrationId") Long registrationId);
 }

@@ -8,14 +8,45 @@ import {
   ClerkCustomerSearchParams,
   ClerkCustomerSummary,
   ClerkCustomerSummaryResponse,
+  OrganizerCustomerSearchParams,
   PageResponse,
 } from 'interfaces/clerkCustomer';
 import {
   loadCustomersSearch,
+  loadOrganizerCustomersSearch,
   rejectCustomersSearch,
   storeCustomersSearch,
 } from 'redux/reducers/clerkCustomersSearch';
 import { SerializationUtils } from 'utils/serialization';
+
+function* loadOrganizerCustomersSearchSaga(
+  action: PayloadAction<OrganizerCustomerSearchParams>,
+) {
+  try {
+    const { oid, page, size, request } = action.payload;
+    const response: AxiosResponse<PageResponse<ClerkCustomerSummaryResponse>> =
+      yield call(
+        axiosInstance.post,
+        APIEndpoints.OrganizerCustomersSearch.replace(':page', `${page}`)
+          .replace(':size', `${size}`)
+          .replace(':oid', oid),
+        request,
+      );
+    const customers: ClerkCustomerSummary[] = response.data.content.map(
+      SerializationUtils.deserializeClerkCustomerSummaryResponse,
+    );
+    yield put(
+      storeCustomersSearch({
+        customers,
+        page: response.data.number,
+        size: response.data.size,
+        totalElements: response.data.totalElements,
+      }),
+    );
+  } catch (error) {
+    yield put(rejectCustomersSearch());
+  }
+}
 
 function* loadCustomersSearchSaga(
   action: PayloadAction<ClerkCustomerSearchParams>,
@@ -48,5 +79,9 @@ function* loadCustomersSearchSaga(
 }
 
 export function* watchClerkCustomersSearch() {
+  yield takeLatest(
+    loadOrganizerCustomersSearch.type,
+    loadOrganizerCustomersSearchSaga,
+  );
   yield takeLatest(loadCustomersSearch.type, loadCustomersSearchSaga);
 }

@@ -4,4 +4,5 @@ public enum EnrollmentGradeType {
   GOOD,
   SATISFACTORY,
   FAILED,
+  NOT_COMPLETED,
 }

@@ -109,8 +109,10 @@ export const CancelRegistrationModal = ({
               <Text>
                 {t('descriptionPaid2')}{' '}
                 <div className="columns gapped-xs">
-                  <Link href={t('link.url')}>{t('link.label')}</Link>
-                  <OpenInNewIcon />
+                  <Link href={t('link.url')}>
+                    <Text color="textPrimary">{t('link.label')}</Text>
+                  </Link>
+                  <OpenInNewIcon color="inherit" />
                 </div>
               </Text>
               <Text>{t('descriptionPaid3')}</Text>

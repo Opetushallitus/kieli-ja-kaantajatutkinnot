@@ -1,0 +1,30 @@
+.clerk-quarantine {
+  &__filter-tabs {
+    &__tab {
+      padding: 0.5rem 1rem;
+
+      &.active {
+        color: #0033cc;
+        border-bottom: 2px solid #0033cc;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.clerk-quarantine-page {
+  flex: 1;
+  background-color: $page-background-color;
+
+  & &__grid-container {
+    margin-top: 2rem;
+    display: grid;
+
+    &__results {
+      padding: 2rem;
+    }
+  }
+}

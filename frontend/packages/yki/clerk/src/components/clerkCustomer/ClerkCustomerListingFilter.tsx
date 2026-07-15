@@ -10,8 +10,8 @@ import { APIResponseStatus, Variant } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { RouteType } from 'interfaces/user';
 import {
-  loadCustomersSearch,
   resetCustomersSearch,
   setExamDateFilter,
   setLanguageFilter,
@@ -19,17 +19,28 @@ import {
   setOrganizerFilter,
   setSearchQueryFilter,
 } from 'redux/reducers/clerkCustomersSearch';
-import { loadClerkOrganizerRegistry } from 'redux/reducers/clerkOrganizer';
-import { loadExamDates } from 'redux/reducers/examDate';
+import {
+  loadClerkOrganizerRegistry,
+  loadOrganizerRegistry,
+} from 'redux/reducers/clerkOrganizer';
+import { loadExamDates, loadOrganizerExamDates } from 'redux/reducers/examDate';
 import { clerkCustomersSearchSelector } from 'redux/selectors/clerkCustomersSearchSelector';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
 import { examDateSelector } from 'redux/selectors/examDate';
 import { filteredClerkOrganizersSelector } from 'redux/selectors/filteredClerkOrganizers';
-import { LANGUAGES, levelDescription } from 'utils/clerk';
+import { LANGUAGES, languageToString, levelDescription } from 'utils/clerk';
 
 type LevelCode = 'PERUS' | 'KESKI' | 'YLIN';
 
-export const ClerkCustomerListingFilter = () => {
+export const ClerkCustomerListingFilter = ({
+  route,
+  oid,
+  loadSearch,
+}: {
+  route: RouteType;
+  oid: string;
+  loadSearch: (page: number) => void;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkCustomer.search',
   });
@@ -47,20 +58,25 @@ export const ClerkCustomerListingFilter = () => {
     examDateIdFilter,
     languageCodeFilter,
     levelCodeFilter,
-    size,
   } = useAppSelector(clerkCustomersSearchSelector);
 
   useEffect(() => {
     if (organizerRegistryStatus === APIResponseStatus.NotStarted) {
-      dispatch(loadClerkOrganizerRegistry());
+      dispatch(
+        route === 'clerk'
+          ? loadClerkOrganizerRegistry()
+          : loadOrganizerRegistry(oid),
+      );
     }
-  }, [dispatch, organizerRegistryStatus]);
+  }, [dispatch, organizerRegistryStatus, route, oid]);
 
   useEffect(() => {
     if (examDateStatus === APIResponseStatus.NotStarted) {
-      dispatch(loadExamDates());
+      dispatch(
+        route === 'clerk' ? loadExamDates(false) : loadOrganizerExamDates(oid),
+      );
     }
-  }, [dispatch, examDateStatus]);
+  }, [dispatch, examDateStatus, route, oid]);
 
   return (
     <div
@@ -80,19 +96,7 @@ export const ClerkCustomerListingFilter = () => {
                 aria-label={t('listing.filters.searchLabel')}
                 onClick={() => {
                   dispatch(setSearchQueryFilter(searchQueryFilter));
-                  dispatch(
-                    loadCustomersSearch({
-                      request: {
-                        personQuery: searchQueryFilter,
-                        organizerId: organizerIdFilter,
-                        examDateId: examDateIdFilter,
-                        languageCode: languageCodeFilter,
-                        levelCode: levelCodeFilter,
-                      },
-                      page: 0, // Reset to first page when filters change
-                      size,
-                    }),
-                  );
+                  loadSearch(0);
                 }}
                 onMouseDown={(e) => e.preventDefault()}
                 onMouseUp={(e) => e.preventDefault()}
@@ -104,22 +108,24 @@ export const ClerkCustomerListingFilter = () => {
           }
         />
       </div>
-      <div style={{ flex: 1, maxWidth: '300px' }}>
-        <OphSelectFormField
-          sx={{ width: '100%' }}
-          label={t('labels.organizer')}
-          inputProps={{ 'aria-label': t('labels.organizer') }}
-          value={organizerIdFilter ? String(organizerIdFilter) : ''}
-          options={[
-            { label: t('listing.all'), value: '' },
-            ...organizers.map((org) => ({
-              label: org.name,
-              value: String(org.id),
-            })),
-          ]}
-          onChange={(e) => dispatch(setOrganizerFilter(+e.target.value))}
-        />
-      </div>
+      {route === 'clerk' && (
+        <div style={{ flex: 1, maxWidth: '300px' }}>
+          <OphSelectFormField
+            sx={{ width: '100%' }}
+            label={t('labels.organizer')}
+            inputProps={{ 'aria-label': t('labels.organizer') }}
+            value={organizerIdFilter ? String(organizerIdFilter) : ''}
+            options={[
+              { label: t('listing.all'), value: '' },
+              ...organizers.map((org) => ({
+                label: org.name,
+                value: String(org.id),
+              })),
+            ]}
+            onChange={(e) => dispatch(setOrganizerFilter(+e.target.value))}
+          />
+        </div>
+      )}
       <div style={{ minWidth: '150px' }}>
         <OphSelectFormField
           sx={{ width: '100%' }}
@@ -145,7 +151,7 @@ export const ClerkCustomerListingFilter = () => {
           options={[
             { label: t('listing.all'), value: '' },
             ...LANGUAGES.map((lang) => ({
-              label: lang.name,
+              label: languageToString(lang.code),
               value: lang.code,
             })),
           ]}
@@ -173,21 +179,7 @@ export const ClerkCustomerListingFilter = () => {
           variant={Variant.Contained}
           sx={{ width: '100%' }}
           disabled={status === APIResponseStatus.InProgress}
-          onClick={() =>
-            dispatch(
-              loadCustomersSearch({
-                request: {
-                  personQuery: searchQueryFilter,
-                  organizerId: organizerIdFilter,
-                  examDateId: examDateIdFilter,
-                  languageCode: languageCodeFilter,
-                  levelCode: levelCodeFilter,
-                },
-                page: 0, // Reset to first page when filters change
-                size,
-              }),
-            )
-          }
+          onClick={() => loadSearch(0)}
         >
           {t('submit')}
         </OphButton>

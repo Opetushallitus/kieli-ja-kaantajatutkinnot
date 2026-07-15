@@ -13,7 +13,11 @@ export const personDetails: PersonDetailsResponse = {
   registrations: [
     {
       id: 1336,
+      type: 'LISTEN_WRITE',
+      partial_exam_type: 'ALL_PARTS',
       exam_session_id: '1',
+      start_time_read_listen: '13:00',
+      start_time_speak_write: '16:00',
       location: [
         {
           street_address: 'School of wizardry 2',
@@ -55,7 +59,11 @@ export const personDetails: PersonDetailsResponse = {
     },
     {
       id: 1337,
+      type: 'READ_SPEAK',
+      partial_exam_type: 'ALL_PARTS',
       exam_session_id: '1',
+      start_time_read_listen: '13:00',
+      start_time_speak_write: '16:00',
       location: [
         {
           street_address: 'School of wizardry',
@@ -95,7 +103,11 @@ export const personDetails: PersonDetailsResponse = {
     },
     {
       id: 1338,
+      type: 'LISTEN_WRITE',
+      partial_exam_type: 'ALL_PARTS',
       exam_session_id: '2',
+      start_time_read_listen: '13:00',
+      start_time_speak_write: '16:00',
       location: [
         {
           street_address: 'Kirkkokatu 1',
@@ -136,6 +148,8 @@ export const personDetails: PersonDetailsResponse = {
     },
     {
       id: 1339,
+      type: 'FULL',
+      partial_exam_type: 'ALL_PARTS',
       exam_session_id: '1',
       location: [
         {
@@ -176,6 +190,8 @@ export const personDetails: PersonDetailsResponse = {
     },
     {
       id: 5001,
+      type: 'FULL',
+      partial_exam_type: 'ALL_PARTS',
       exam_session_id: '3',
       location: [
         {
@@ -218,6 +234,8 @@ export const personDetails: PersonDetailsResponse = {
     },
     {
       id: 5003,
+      type: 'FULL',
+      partial_exam_type: 'ALL_PARTS',
       exam_session_id: '5',
       location: [
         {
@@ -260,6 +278,8 @@ export const personDetails: PersonDetailsResponse = {
     },
     {
       id: 5004,
+      type: 'FULL',
+      partial_exam_type: 'ALL_PARTS',
       exam_session_id: '5',
       location: [
         {
@@ -301,7 +321,11 @@ export const personDetails: PersonDetailsResponse = {
     },
     {
       id: 31337,
+      type: 'LISTEN_WRITE',
+      partial_exam_type: 'ALL_PARTS',
       exam_session_id: '3',
+      start_time_read_listen: '13:00',
+      start_time_speak_write: '16:00',
       location: [
         {
           street_address: 'Koulukuja 9',

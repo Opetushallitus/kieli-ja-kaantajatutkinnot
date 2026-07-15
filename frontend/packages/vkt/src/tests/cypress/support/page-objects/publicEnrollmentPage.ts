@@ -28,6 +28,8 @@ class PublicEnrollmentPage {
       cy.findByTestId(`enrollment-checkbox-${radioLabel}`).find('span>input'),
     enrollmentPreviouslyEnrolledError: () =>
       cy.get(`#has-previous-enrollment-error`),
+    enrollmentPreviousEnrollmentField: () =>
+      cy.get('#public-enrollment__previous-enrollment__textField'),
     enrollmentFullExamRadio: () =>
       cy.findByTestId('enrollment-checkbox-full-exam').find('input'),
     fullExamError: () => cy.get('#full-exam-error'),
@@ -132,6 +134,12 @@ class PublicEnrollmentPage {
       .enrollmentPreviouslyEnrolledRadio(radioName)
       .should('be.exist')
       .check();
+  }
+  fillOutPreviousEnrollmentDetails(details: string) {
+    this.elements
+      .enrollmentPreviousEnrollmentField()
+      .should('be.visible')
+      .type(`${details}{enter}`);
   }
   enrollmentFullExamRadio() {
     this.elements.enrollmentFullExamRadio().should('be.exist').check();

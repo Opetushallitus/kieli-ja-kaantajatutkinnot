@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { CustomButton } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
@@ -8,6 +9,7 @@ import { EditCustomerInformationModal } from 'components/clerkCustomer/EditCusto
 import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { CustomerPerson } from 'interfaces/clerkCustomer';
+import { RouteType } from 'interfaces/user';
 import { Label } from 'ophTheme/Text';
 import { resetCustomerContactUpdateStatus } from 'redux/reducers/clerkCustomerDetails';
 import { loadNationalities } from 'redux/reducers/nationalities';
@@ -16,8 +18,10 @@ import { nationalitiesSelector } from 'redux/selectors/nationalities';
 
 export const CustomerInformation = ({
   person,
+  route,
 }: {
   person: CustomerPerson | undefined;
+  route: RouteType;
 }) => {
   const dispatch = useDispatch();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -28,6 +32,7 @@ export const CustomerInformation = ({
   const { showToast } = useToast();
   const { nationalities, status } = useAppSelector(nationalitiesSelector);
   const { updateStatus } = useAppSelector(clerkCustomerDetailsSelector);
+  const params = useParams();
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
@@ -97,6 +102,8 @@ export const CustomerInformation = ({
         isModalOpen={isEditModalOpen}
         setIsModalOpen={setIsEditModalOpen}
         person={person}
+        route={route}
+        organizerOid={params.oid ?? ''}
       />
     </>
   );

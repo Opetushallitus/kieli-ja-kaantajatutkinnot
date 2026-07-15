@@ -35,7 +35,14 @@
           "enrollToQueue": "Ilmoittaudu jonoon",
           "pay": "Siirry maksamaan",
           "enroll": "Ilmoittaudu",
-          "submit": "Lähetä"
+          "submit": "Lähetä",
+          "errors": {
+            "title": "Tiedoissa on korjattavaa!",
+            "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
+            "messages": {
+              "hasPreviousEnrollment": "Et voi jatkaa ilmoittautumista, jos et ole osallistunut erinomaisen taidon tutkintoon aiemmin."
+            }
+          }
         },
         "examEventDetails": {
           "enrollmentToQueue": "ilmoittautuminen jonoon",
@@ -99,7 +106,8 @@
         },
         "steps": {
           "authenticate": {
-            "auth": "Tunnistaudu suomi.fi:n kautta"
+            "auth": "Tunnistaudu suomi.fi:n kautta",
+            "description": "Sinun täytyy tunnistautua ilmoittautumista varten. Käytä tunnistautumiseen sen henkilön tietoja, joka osallistuu kielitutkintoon."
           },
           "addressDetails": {
             "title": "Osoitetiedot"
@@ -255,7 +263,17 @@
               "label": "Milloin olet viimeksi osallistunut? *",
               "placeholder": "Kirjoita päivämäärä tai vapaa teksti"
             },
-            "title": "Aikaisempiin erinomaisen taidon tutkintoihin osallistuminen"
+            "title": "Aikaisempiin erinomaisen taidon tutkintoihin osallistuminen",
+            "noEnrollmentError": "Et voi jatkaa ilmoittautumista, jos et ole osallistunut erinomaisen taidon tutkintoon aiemmin.",
+            "noEnrollmentInfoBox": {
+              "line1": "1.7.2026 alkaen vain aiemmin hylättyjen osakokeiden uusiminen on mahdollista. Et voi jatkaa ilmoittautumista, jos et ole osallistunut erinomaisen taidon tutkintoon aiemmin.",
+              "excellentLink": "Erinomaisen taidon tutkinnot",
+              "excellentUrl": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/erinomaisen-taidon-tutkinnot#anchor-valtionhallinnon-kielitutkinnot-172026-alkaen",
+              "line2": "Jos et ole suorittanut valtionhallinnon kielitutkintoa, mutta tarvitset todistuksen suomen tai ruotsin kielen taidosta julkishallinnon työtehtävää varten, voit suorittaa yleisen kielitutkinnon eli YKI-testin.",
+              "readMore": "Lue lisää Opetushallituksen verkkosivuilta:",
+              "link": "Yleiset kielitutkinnot (YKI)",
+              "url": "https://www.oph.fi/yki"
+            }
           }
         }
       },
@@ -319,6 +337,7 @@
             "description4": "Saat sähköpostitse vahvistuksen ja kuitin maksusta."
           },
           "preview": {
+            "description": "Tarkista, että tiedot ovat testiin osallistujan tietoja.",
             "examEventDetails": {
               "fullExam": "Koko tutkinto",
               "previousEnrollmentLabel": "Olen osallistunut valtionhallinnon hyvän ja tyydyttävän taidon kielitutkintoon aikaisemmin",
@@ -354,14 +373,18 @@
             "email": "Sähköpostiosoite",
             "emailConfirmation": "Sähköpostiosoitteen vahvistus",
             "firstName": "Etunimi",
-            "hasPreviousEnrollment": "Oletko osallistunut aiemmin hyvän ja tyydyttävän taidon tutkintoon?",
-            "isFullExam": "Haluatko suorittaa sekä suullisen että kirjallisen taidon tutkinnon?",
+            "hasPreviousEnrollment": "Oletko osallistunut aiemmin hyvän ja tyydyttävän taidon tutkintoon",
+            "isFullExam": "Haluatko suorittaa sekä suullisen että kirjallisen taidon tutkinnon",
+            "uploadAttachment": "Lähetä päätös aiemman tutkinnon tuloksesta",
             "message": "Viesti",
             "lastName": "Sukunimi",
             "partialExamSelection": "Kerro, mitkä osakokeet haluat suorittaa",
             "phoneNumber": "Puhelinnumero"
           },
           "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
+          "messages": {
+            "hasPreviousEnrollment": "Et voi lähettää yhteydenottopyyntöä, jos et ole osallistunut hyvän ja tyydyttävän taidon kielitutkintoon aiemmin."
+          },
           "title": "Tiedoissa on korjattavaa!"
         },
         "examinerDetails": {
@@ -494,6 +517,16 @@
                 "no": "En",
                 "yes": "Kyllä"
               },
+              "noEnrollmentError": "Et voi jatkaa, jos et ole osallistunut hyvän ja tyydyttävän taidon kielitutkintoon aiemmin.",
+              "noEnrollmentInfoBox": {
+                "line1": "1.7.2026 alkaen vain aiemmin hylättyjen osakokeiden uusiminen on mahdollista. Et voi lähettää yhteydenottopyyntöä, jos et ole osallistunut hyvän ja tyydyttävän taidon tutkintoon aiemmin.",
+                "goodLink": "Hyvän ja tyydyttävän taidon tutkinnot",
+                "goodUrl": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/hyvan-ja-tyydyttavan-taidon-tutkinnot#anchor-valtionhallinnon-kielitutkinnot-172026-alkaen",
+                "line2": "Jos et ole suorittanut valtionhallinnon kielitutkintoa aikaisemmin, mutta tarvitset todistuksen suomen tai ruotsin kielen taidosta julkishallinnon työtehtävää varten, voit suorittaa yleisen kielitutkinnon eli YKI-testin.",
+                "readMore": "Lue lisää Opetushallituksen verkkosivuilta:",
+                "link": "Yleiset kielitutkinnot (YKI)",
+                "url": "https://www.oph.fi/yki"
+              },
               "part1": "Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osan suorittamispäivästä alkaen.",
               "radioButtons": {
                 "label": "Oletko osallistunut aiemmin hyvän ja tyydyttävän taidon kielitutkintoon? *"
@@ -502,7 +535,22 @@
                 "label": "Milloin olet viimeksi osallistunut? *",
                 "placeholder": "Kirjoita päivämäärä tai vapaa teksti"
               },
-              "title": "Aikaisempiin tutkintoihin osallistuminen"
+              "title": "Aikaisempiin tutkintoihin osallistuminen",
+              "uploadAttachment": {
+                "title": "Lähetä päätös aiemman tutkinnon tuloksesta",
+                "helpText": "Lisää päätös tutkinnon tuloksesta",
+                "instructions": {
+                  "part1": "Lisää todistus, jossa on tiedot aiemmin hylätystä osakokeesta.",
+                  "part2": "Tallenna todistus joko pdf-muodossa tai kuvatiedostona (esim. png tai jpeg). Tiedoston maksimikoko on 1.0 GB.",
+                  "part3": "Jos olet osallistunut tutkintoon monta kertaa, voit lisätä useita todistuksia."
+                },
+                "uploadFile": "Lähetä tiedosto",
+                "dropFile": "Pudota tiedosto tähän",
+                "deleteAttachment": {
+                  "title": "Poista tiedosto",
+                  "description": "Haluatko varmasti poistaa tiedoston <0>{{fileName}}</0>?"
+                }
+              }
             }
           }
         }
@@ -691,6 +739,17 @@
             "part2": "Tutkintomaksu on 140 euroa, jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
           },
           "title": "Tutkintomaksut"
+        },
+        "discontinuationInfo": {
+          "title": "Valtionhallinnon kielitutkinnot lakkautetaan vaiheittain vuoden 2028 loppuun mennessä",
+          "description": "Valtionhallinnon kielitutkinnoissa voit suorittaa erikseen suullisen, kirjallisen ja ymmärtämisen taidon tutkinnot. Jokaisessa tutkinnossa on kaksi osakoetta. Saat todistuksen tietyn taidon tutkinnosta, kun olet suorittanut molemmat osakokeet hyväksytysti.",
+          "part1Bold": "1.7.2026 alkaen voit uusia vain hylätyn osakokeen, jos olet suorittanut saman tutkinnon toisen osakokeen hyväksytysti ja toinen osakoe on hylätty.",
+          "part1": "Tällöin voit suorittaa uudelleen vain hylätyn osakokeen. Sinulla on enintään kolme vuotta aikaa uusia hylätty osakoe. Aika alkaa siitä päivästä, kun olet suorittanut hyväksytyn osakokeen. Huomioi kuitenkin, että hylätty osakoe on suoritettava uudelleen viimeistään 31.12.2028.",
+          "part2": "Jos et ole suorittanut valtionhallinnon kielitutkintoa, mutta tarvitset todistuksen suomen tai ruotsin kielen taidosta julkishallinnon työtehtävää varten, voit suorittaa yleisen kielitutkinnon eli YKI-testin.",
+          "part2Link": {
+            "label": "Lue lisää YKI-testeistä Opetushallituksen verkkosivuilta.",
+            "url": "https://www.oph.fi/yki"
+          }
         },
         "title": "Valtionhallinnon kielitutkinnot (VKT)"
       }

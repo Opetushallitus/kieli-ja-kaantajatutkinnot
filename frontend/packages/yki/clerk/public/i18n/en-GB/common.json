@@ -37,9 +37,14 @@
         "dateFormat": "l",
         "dateTimeFormat": "l [at] HH:mm"
       },
+      "examSessionTimes": {
+        "fullSessionTime": "Koko tutkinto klo {{time}}",
+        "partialSessionTime": "{{partialExam1}} klo {{time1}}, {{partialExam2}} klo {{time2}}"
+      },
       "email": "Email address",
       "error": "An unexpected error has occurred.",
       "errors": {
+        "notFound": "Tietoja ei löytynyt",
         "addingExamDateFailed": "Tutkintopäivän lisääminen epäonnistui",
         "api": {
           "examDateCreateDuplicateDate": "Tutkintopäivä on jo olemassa valitulle päivämäärälle",
@@ -47,7 +52,12 @@
           "examDateHasEvaluations": "Tutkintopäivää ei voi poistaa, koska siihen on liitetty tarkistusarviointeja",
           "examDateHasSessions": "Tutkintopäivää ei voi poistaa, koska siihen on liitetty tutkintotilaisuuksia",
           "examDateRegistrationEndBeforeStart": "Ilmoittautumisen päättymispäivän on oltava alkamispäivän jälkeen",
-          "generic": "Tapahtui odottamaton virhe. Yritä uudestaan hetken kuluttua."
+          "generic": "Tapahtui odottamaton virhe. Yritä uudestaan hetken kuluttua.",
+          "quarantineInvalidSsn": "Henkilötunnus on virheellinen",
+          "quarantineMissingSsnAndBirthdate": "Syntymäaika tai henkilötunnus on annettava",
+          "quarantineSsnBirthdateMismatch": "Henkilötunnus ja syntymäaika eivät täsmää",
+          "quarantineDiaryNumberAlreadyExists": "Annettu diaarinumero on jo olemassa",
+          "quarantineAlreadyDeleted": "Osallistumiskielto on jo poistettu."
         },
         "customTextField": {
           "dateFormat": "Fill in as dd.mm.yyyy.",
@@ -70,7 +80,10 @@
           "registrationPeriodClosed": "The registration period has ended."
         },
         "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui",
-        "addingEvaluationFailed": "Tarkistusarvioinnin lisääminen epäonnistui"
+        "addingEvaluationFailed": "Tarkistusarvioinnin lisääminen epäonnistui",
+        "addingQuarantineFailed": "Osallistumiskiellon lisääminen epäonnistui",
+        "updatingQuarantineFailed": "Osallistumiskiellon muokkaaminen epäonnistui",
+        "deletingQuarantineFailed": "Osallistumiskiellon poistaminen epäonnistui"
       },
       "examDate": "Test day",
       "examination": "Test",
@@ -83,6 +96,8 @@
       "examSession": "Test",
       "extraInfo": "Lisätiedot",
       "freeRegistration": "Maksuttomuus",
+      "paymentReport": "Maksuraportti",
+      "quarantine": "Osallistumiskiellot",
       "full": "Full",
       "gender": {
         "female": "Female",
@@ -116,6 +131,7 @@
         }
       },
       "institution": "Test centre",
+      "otherLocationInfo": "Tila",
       "lang": {
         "en": "Englanti",
         "fi": "Suomi",
@@ -164,12 +180,14 @@
         "evaluationOrder": "Reassessment",
         "evaluationOrderStatus": "Reassessment",
         "examDetails": "Test",
+        "customerExamSession": "Tutkintotilaisuus",
         "expiredLoginLink": "The link has expired",
         "freeRegistrationSuccess": "Ilmoittautuminen onnistui",
         "initRegistration": "Registration",
         "logoutSuccess": "Log out complete",
         "modifyContactDetails": "Edit contact information",
         "notFound": "Page not found",
+        "paymentReport": "Payment report",
         "reassessment": "Reassessment",
         "registration": "Registration",
         "registrationPaymentStatus": "Registration",

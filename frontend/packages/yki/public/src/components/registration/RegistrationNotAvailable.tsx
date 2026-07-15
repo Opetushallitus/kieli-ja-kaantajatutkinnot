@@ -1,4 +1,5 @@
 import { Grid, Paper } from '@mui/material';
+import { ophColors } from '@opetushallitus/oph-design-system';
 import { H1, HeaderSeparator, Text } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -6,6 +7,7 @@ import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
+import { clerkEnabled } from 'featureFlags';
 import { ExamSession } from 'interfaces/examSessions';
 import { examSessionSelector } from 'redux/selectors/examSession';
 
@@ -74,7 +76,16 @@ export const RegistrationNotAvailable = () => {
           <RegistrationUnavailableHeader />
           <HeaderSeparator />
         </div>
-        <Paper elevation={isPhone ? 0 : 3}>
+        <Paper
+          elevation={isPhone ? 0 : 3}
+          style={
+            isPhone
+              ? {}
+              : clerkEnabled
+              ? { borderTop: '5px solid ' + ophColors.green2 }
+              : undefined
+          }
+        >
           <div className="public-registration__grid__form-container">
             <div className="rows gapped">
               <PublicRegistrationExamSessionDetails

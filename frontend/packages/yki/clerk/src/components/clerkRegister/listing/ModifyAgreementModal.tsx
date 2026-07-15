@@ -1,5 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import {
   OphButton,
   OphCheckbox,
@@ -12,9 +12,15 @@ import {
   CustomModal,
   LoadingProgressIndicator,
 } from 'shared/components';
-import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import {
+  APIResponseStatus,
+  Color,
+  TextFieldTypes,
+  Variant,
+} from 'shared/enums';
+import { InputFieldUtils } from 'shared/utils';
 
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {
   ClerkOrganizerType,
@@ -26,7 +32,7 @@ import {
   updateClerkOrganizer,
 } from 'redux/reducers/clerkOrganizer';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
-import { LANGUAGES, levelDescription } from 'utils/clerk';
+import { LANGUAGES, languageToString, levelDescription } from 'utils/clerk';
 
 type LanguageSelection = {
   language_code: string;
@@ -57,10 +63,6 @@ export const ModifyAgreementModal = ({
     agreement_end_date,
     address,
     languages,
-    contact_name,
-    contact_email,
-    contact_phone_number,
-    extra,
   } = row;
 
   const [startDate, setStartDate] = useState<Dayjs | null>(
@@ -69,6 +71,15 @@ export const ModifyAgreementModal = ({
   const [endDate, setEndDate] = useState<Dayjs | null>(
     agreement_end_date || null,
   );
+  const [contactName, setContactName] = useState(row.contact_name ?? '');
+  const [contactEmail, setContactEmail] = useState(row.contact_email ?? '');
+  const [contactPhone, setContactPhone] = useState(
+    row.contact_phone_number ?? '',
+  );
+  const [extra, setExtra] = useState(row.extra);
+  const [contactNameError, setContactNameError] = useState('');
+  const [contactEmailError, setContactEmailError] = useState('');
+  const [contactPhoneError, setContactPhoneError] = useState('');
 
   const { updateStatus } = useAppSelector(clerkOrganizersSelector);
   const dispatch = useAppDispatch();
@@ -86,7 +97,7 @@ export const ModifyAgreementModal = ({
 
       return {
         language_code: lang.code,
-        language_name: lang.name,
+        language_name: languageToString(lang.code),
         levels: {
           PERUS: existingLevels.includes('PERUS'),
           KESKI: existingLevels.includes('KESKI'),
@@ -102,6 +113,7 @@ export const ModifyAgreementModal = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
   });
+  const translateCommon = useCommonTranslation();
 
   // Re-initialize language selections when modal opens or languages change
   useEffect(() => {
@@ -109,18 +121,36 @@ export const ModifyAgreementModal = ({
       setLanguageSelections(initializeLanguageSelections());
       setStartDate(agreement_start_date || null);
       setEndDate(agreement_end_date || null);
+      setContactName(row.contact_name ?? '');
+      setContactEmail(row.contact_email ?? '');
+      setContactPhone(row.contact_phone_number ?? '');
+      setExtra(row.extra);
+      setContactNameError('');
+      setContactEmailError('');
+      setContactPhoneError('');
     }
   }, [
     isModalOpen,
     initializeLanguageSelections,
     agreement_start_date,
     agreement_end_date,
+    row.contact_name,
+    row.contact_email,
+    row.contact_phone_number,
+    row.extra,
   ]);
 
   const handleCloseModal = () => {
     setStartDate(agreement_start_date || null);
     setEndDate(agreement_end_date || null);
     setLanguageSelections(initializeLanguageSelections());
+    setContactName(row.contact_name ?? '');
+    setContactEmail(row.contact_email ?? '');
+    setContactPhone(row.contact_phone_number ?? '');
+    setExtra(row.extra);
+    setContactNameError('');
+    setContactEmailError('');
+    setContactPhoneError('');
     setIsModalOpen(false);
     dispatch(resetUpdateClerkOrganizerStatus());
   };
@@ -144,8 +174,46 @@ export const ModifyAgreementModal = ({
     );
   };
 
+  const validateField = (
+    type: TextFieldTypes,
+    value: string,
+    setError: (msg: string) => void,
+  ) => {
+    const error = InputFieldUtils.validateCustomTextFieldErrors({
+      type,
+      value,
+      required: true,
+    });
+    setError(error ? translateCommon(error) : '');
+
+    return !error;
+  };
+
   const handleSave = () => {
-    if (!startDate || !endDate || endDate.isBefore(startDate.add(1, 'day')))
+    const nameValid = validateField(
+      TextFieldTypes.Text,
+      contactName,
+      setContactNameError,
+    );
+    const emailValid = validateField(
+      TextFieldTypes.Email,
+      contactEmail,
+      setContactEmailError,
+    );
+    const phoneValid = validateField(
+      TextFieldTypes.PhoneNumber,
+      contactPhone,
+      setContactPhoneError,
+    );
+
+    if (
+      !startDate ||
+      !endDate ||
+      endDate.isBefore(startDate.add(1, 'day')) ||
+      !nameValid ||
+      !emailValid ||
+      !phoneValid
+    )
       return;
 
     const selectedLanguages: Array<OrganizerLanguage> = [];
@@ -177,9 +245,9 @@ export const ModifyAgreementModal = ({
         agreement_start_date: startDate,
         agreement_end_date: endDate || undefined,
         languages: selectedLanguages,
-        contact_name,
-        contact_email,
-        contact_phone_number,
+        contact_name: contactName,
+        contact_email: contactEmail,
+        contact_phone_number: contactPhone,
         extra,
       }),
     );
@@ -405,6 +473,74 @@ export const ModifyAgreementModal = ({
                     </div>
                   );
                 })}
+              </div>
+            </div>
+
+            <H3>{t('listing.modals.modifyAgreement.contactPersonLabel')}</H3>
+            <div className="rows gapped">
+              <div className="rows gapped-xxs">
+                <Label>
+                  {t('listing.modals.modifyAgreement.contactNameLabel')}
+                </Label>
+                <TextField
+                  value={contactName}
+                  onChange={(e) => setContactName(e.target.value)}
+                  onBlur={() =>
+                    validateField(
+                      TextFieldTypes.Text,
+                      contactName,
+                      setContactNameError,
+                    )
+                  }
+                  error={!!contactNameError}
+                  helperText={contactNameError}
+                />
+              </div>
+              <div className="rows gapped-xxs">
+                <Label>
+                  {t('listing.modals.modifyAgreement.contactEmailLabel')}
+                </Label>
+                <TextField
+                  value={contactEmail}
+                  onChange={(e) => setContactEmail(e.target.value)}
+                  onBlur={() =>
+                    validateField(
+                      TextFieldTypes.Email,
+                      contactEmail,
+                      setContactEmailError,
+                    )
+                  }
+                  error={!!contactEmailError}
+                  helperText={contactEmailError}
+                />
+              </div>
+              <div className="rows gapped-xxs">
+                <Label>
+                  {t('listing.modals.modifyAgreement.contactPhoneLabel')}
+                </Label>
+                <TextField
+                  value={contactPhone}
+                  onChange={(e) => setContactPhone(e.target.value)}
+                  onBlur={() =>
+                    validateField(
+                      TextFieldTypes.PhoneNumber,
+                      contactPhone,
+                      setContactPhoneError,
+                    )
+                  }
+                  error={!!contactPhoneError}
+                  helperText={contactPhoneError}
+                />
+              </div>
+              <div className="rows gapped-xxs">
+                <Label>{t('listing.modals.modifyAgreement.extraLabel')}</Label>
+                <TextField
+                  value={extra}
+                  onChange={(e) => setExtra(e.target.value)}
+                  multiline
+                  rows={4}
+                  fullWidth
+                />
               </div>
             </div>
 

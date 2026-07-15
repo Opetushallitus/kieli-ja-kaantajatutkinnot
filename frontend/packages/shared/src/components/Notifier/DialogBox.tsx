@@ -90,7 +90,11 @@ export const DialogBox = () => {
                 onClick={() => handleBtnAction(a.action)}
                 fullWidth={isPhone}
               >
-                {a.title}
+                {a.variant === 'contained' ? (
+                  <span className="button-color-white">{a.title}</span>
+                ) : (
+                  a.title
+                )}
               </CustomButton>
             ))}
           </DialogActions>

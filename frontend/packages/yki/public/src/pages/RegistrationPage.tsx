@@ -40,7 +40,7 @@ const InformationBox = () => {
           href={t('afterYkiTest.url')}
           label={t('afterYkiTest.label')}
           target="_blank"
-          endIcon={<OpenInNewIcon />}
+          endIcon={<OpenInNewIcon color="inherit" />}
         />
       </Text>
     </Container>
@@ -70,6 +70,11 @@ export const RegistrationPage: FC = () => {
   const rowsPerPageOptions = [10, 20, 50];
   const [rowsPerPage, setRowsPerPage] = useState(20);
 
+  const handleRowsPerPageChange = (newRowsPerPage: number) => {
+    setRowsPerPage(newRowsPerPage);
+    setPage(0);
+  };
+
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
       dispatch(loadExamSessions());
@@ -98,27 +103,33 @@ export const RegistrationPage: FC = () => {
               <Text>{t('description.part1.text')}</Text>
               <div className="columns gapped-xxs">
                 <Link href={t('description.part1.link.url')} target="_blank">
-                  <Text>{t('description.part1.link.label')}</Text>
+                  <Text color="textPrimary">
+                    {t('description.part1.link.label')}
+                  </Text>
                 </Link>
-                <OpenInNewIcon />
+                <OpenInNewIcon color="inherit" />
               </div>
             </div>
             <div>
               <Text>{t('description.part2.text')}</Text>
               <div className="columns gapped-xxs">
                 <Link href={t('description.part2.link.url')} target="_blank">
-                  <Text>{t('description.part2.link.label')}</Text>
+                  <Text color="textPrimary">
+                    {t('description.part2.link.label')}
+                  </Text>
                 </Link>
-                <OpenInNewIcon />
+                <OpenInNewIcon color="inherit" />
               </div>
             </div>
             <div>
               <Text>{t('description.part3.text')}</Text>
               <div className="columns gapped-xxs">
                 <Link href={t('description.part3.link.url')} target="_blank">
-                  <Text>{t('description.part3.link.label')}</Text>
+                  <Text color="textPrimary">
+                    {t('description.part3.link.label')}
+                  </Text>
                 </Link>
-                <OpenInNewIcon />
+                <OpenInNewIcon color="inherit" />
               </div>
             </div>
           </div>
@@ -145,7 +156,7 @@ export const RegistrationPage: FC = () => {
             <PublicExamSessionListing
               examSessions={results}
               onPageChange={setPage}
-              onRowsPerPageChange={setRowsPerPage}
+              onRowsPerPageChange={handleRowsPerPageChange}
               page={page}
               rowsPerPage={rowsPerPage}
               rowsPerPageOptions={rowsPerPageOptions}

@@ -25,9 +25,9 @@
   },
   "testTimeout": 10000,
   "transform": {
-    "^.+\\.(ts|tsx)$": "babel-jest"
+    "^.+\\.(js|ts|tsx)$": "babel-jest"
   },
   "transformIgnorePatterns": [
-    "<rootDir>/node_modules/(?!shared)"
+    "/node_modules/(?!shared|@opetushallitus/oph-design-system)"
   ]
 }

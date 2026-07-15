@@ -8,6 +8,7 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
+import { ophColors } from '@opetushallitus/oph-design-system';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomButton, H2, LabeledTextField, Text } from 'shared/components';
@@ -25,6 +26,7 @@ import { DateUtils, InputFieldUtils } from 'shared/utils';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { clerkEnabled } from 'featureFlags';
 import {
   ExaminationParts,
   ParticipantDetails,
@@ -224,9 +226,11 @@ const AcceptConditions = () => {
             href={translateCommon('privacyStatement.link.url')}
             target="_blank"
           >
-            <Text>{translateCommon('privacyStatement.link.label')}</Text>
+            <Text color="textPrimary">
+              {translateCommon('privacyStatement.link.label')}
+            </Text>
           </Link>
-          <OpenInNewIcon />
+          {clerkEnabled ? <OpenInNewIcon color="inherit" /> : <OpenInNewIcon />}
         </div>
       </div>
       <FormControl error={showErrors && !acceptConditions}>
@@ -376,7 +380,15 @@ export const PublicEvaluationOrderForm = () => {
   });
 
   return (
-    <Paper elevation={3} className="public-evaluation-order-page__order-form">
+    <Paper
+      elevation={3}
+      className="public-evaluation-order-page__order-form"
+      style={
+        clerkEnabled
+          ? { borderTop: '5px solid ' + ophColors.green2 }
+          : undefined
+      }
+    >
       <RenderEvaluationDetails />
       <Text>{t('info.requiredFields')}</Text>
       <SelectExaminationParts />

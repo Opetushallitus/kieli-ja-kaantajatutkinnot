@@ -37,7 +37,7 @@ export const ClerkExamDates = () => {
     status,
     examDateSort,
     updateStatus,
-    addEvaluationStatus,
+    saveEvaluationStatus,
     deleteStatus,
   } = useAppSelector(examDateSelector);
   const examDates = useAppSelector(selectSortedExamDates);
@@ -71,7 +71,7 @@ export const ClerkExamDates = () => {
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
-      dispatch(loadExamDates());
+      dispatch(loadExamDates(false));
     }
   }, [dispatch, status]);
 
@@ -91,19 +91,19 @@ export const ClerkExamDates = () => {
   }, [updateStatus, showToast, handleCloseModifyModal, t]);
 
   useEffect(() => {
-    if (addEvaluationStatus === APIResponseStatus.Success) {
+    if (saveEvaluationStatus === APIResponseStatus.Success) {
       handleCloseEvaluationModal();
       showToast({
         description: t('toasts.evaluationAdded'),
         severity: Severity.Success,
       });
-    } else if (addEvaluationStatus === APIResponseStatus.Error) {
+    } else if (saveEvaluationStatus === APIResponseStatus.Error) {
       showToast({
         description: t('toasts.evaluationAddError'),
         severity: Severity.Error,
       });
     }
-  }, [addEvaluationStatus, showToast, handleCloseEvaluationModal, t]);
+  }, [saveEvaluationStatus, showToast, handleCloseEvaluationModal, t]);
 
   useEffect(() => {
     if (deleteStatus === APIResponseStatus.Success) {
@@ -114,28 +114,6 @@ export const ClerkExamDates = () => {
       });
     }
   }, [deleteStatus, handleCloseModifyModal, showToast, t]);
-
-  const formatLanguageLevel = (ed: ExamDate) => {
-    const grouped = new Map<string, string[]>();
-    ed.languages.forEach((lang) => {
-      const name = languageToString(lang.languageCode);
-      if (!grouped.has(name)) {
-        grouped.set(name, []);
-      }
-      grouped.get(name)!.push(lang.levelCode);
-    });
-
-    return Array.from(grouped.entries()).map(([name, levels]) => {
-      const allLevels = levels.length === 3;
-      const levelStr = allLevels
-        ? t('listing.allLevels')
-        : levels
-            .map((l) => levelDescription(l as 'PERUS' | 'KESKI' | 'YLIN'))
-            .join(', ');
-
-      return `${name} - ${levelStr}`;
-    });
-  };
 
   const columns: ListTableColumn<ExamDate>[] = [
     {
@@ -149,9 +127,40 @@ export const ClerkExamDates = () => {
       title: t('listing.header.languageLevels'),
       render: (row) => (
         <div>
-          {formatLanguageLevel(row).map((line) => (
-            <div key={line}>{line}</div>
+          {row.languages.map((lang) => (
+            <div key={lang.id}>
+              {`${languageToString(lang.languageCode)} - ${levelDescription(
+                lang.levelCode as 'PERUS' | 'KESKI' | 'YLIN',
+              )}`}
+            </div>
           ))}
+          <div aria-hidden="true" style={{ visibility: 'hidden' }}>
+            {t('listing.editReviewEvaluation')}
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: 'reviewEvaluation',
+      title: t('listing.header.reviewEvaluation'),
+      render: (row) => (
+        <div>
+          {row.languages.map((lang) => (
+            <div key={lang.id}>
+              {lang.evaluationStartDate && lang.evaluationEndDate
+                ? `${dayjs(lang.evaluationStartDate).format(
+                    'D.M.YYYY',
+                  )}-${dayjs(lang.evaluationEndDate).format('D.M.YYYY')}`
+                : '\u00A0'}
+            </div>
+          ))}
+          <Link
+            component="button"
+            underline="hover"
+            onClick={() => setExamDateForEvaluation(row)}
+          >
+            {t('listing.editReviewEvaluation')}
+          </Link>
         </div>
       ),
     },
@@ -173,60 +182,6 @@ export const ClerkExamDates = () => {
           {row.registrationEndDate.format('D.M.YYYY')}
         </span>
       ),
-    },
-    {
-      key: 'reviewEvaluation',
-      title: t('listing.header.reviewEvaluation'),
-      render: (row) => {
-        const hasEvaluation = row.languages.some(
-          (l) => l.evaluationStartDate && l.evaluationEndDate,
-        );
-
-        if (hasEvaluation) {
-          const evalLanguages = row.languages.filter(
-            (l) => l.evaluationStartDate && l.evaluationEndDate,
-          );
-          const uniqueDates = Array.from(
-            new Set(
-              evalLanguages.map(
-                (l) => `${l.evaluationStartDate}-${l.evaluationEndDate}`,
-              ),
-            ),
-          );
-
-          if (uniqueDates.length === 1) {
-            const lang = evalLanguages[0];
-
-            return (
-              <span>
-                {dayjs(lang.evaluationStartDate).format('D.M.YYYY')}-
-                {dayjs(lang.evaluationEndDate).format('D.M.YYYY')}
-              </span>
-            );
-          }
-
-          return (
-            <div>
-              {evalLanguages.map((lang) => (
-                <div key={lang.id}>
-                  {dayjs(lang.evaluationStartDate).format('D.M.YYYY')}-
-                  {dayjs(lang.evaluationEndDate).format('D.M.YYYY')}
-                </div>
-              ))}
-            </div>
-          );
-        }
-
-        return (
-          <Link
-            component="button"
-            underline="hover"
-            onClick={() => setExamDateForEvaluation(row)}
-          >
-            {t('listing.addReviewEvaluation')}
-          </Link>
-        );
-      },
     },
     {
       key: 'edit',

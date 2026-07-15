@@ -1,0 +1,58 @@
+import { ClerkQuarantineReviewResponse } from 'interfaces/clerkQuarantine';
+
+export const quarantineReviews: ClerkQuarantineReviewResponse[] = [
+  {
+    id: 10,
+    quarantined: true,
+    quarantineId: 1,
+    registrationId: 1001,
+    updated: '2025-09-15T10:23:00',
+    examDate: '2025-09-20',
+    languageCode: 'fin',
+    levelCode: 'KESKI',
+    state: 'SUBMITTED',
+    quarantinedPerson: {
+      birthdate: '1980-05-15',
+      ssn: '150580-900T',
+      firstName: 'Markku',
+      lastName: 'Virtanen',
+      email: 'markku.virtanen@ban.fi',
+      phoneNumber: '+358401234567',
+    },
+    registrant: {
+      firstName: 'Marko',
+      lastName: 'Virtanen',
+      birthdate: '1980-05-15',
+      ssn: '150580-900T',
+      email: 'marko.virtanen@gmail.com',
+      phoneNumber: '+358401234567',
+    },
+  },
+  {
+    id: 11,
+    quarantined: false,
+    quarantineId: 2,
+    registrationId: 1002,
+    updated: '2025-11-10T14:05:30',
+    examDate: '2025-11-15',
+    languageCode: 'fin',
+    levelCode: 'YLIN',
+    state: 'COMPLETED',
+    quarantinedPerson: {
+      birthdate: '1975-11-03',
+      ssn: '031175-812A',
+      firstName: 'Pirjo',
+      lastName: 'Mäkinen',
+      email: 'pirjo.makinen@ban.fi',
+      phoneNumber: '+358509876543',
+    },
+    registrant: {
+      firstName: 'Pirjo',
+      lastName: 'Mäkinen-Leinonen',
+      birthdate: '1975-11-03',
+      ssn: '031175-812A',
+      email: 'pirjo.ml@yahoo.com',
+      phoneNumber: '+358509876543',
+    },
+  },
+];

@@ -59,7 +59,7 @@ export const CommonRegistrationDetails = () => {
   const { basis, attemptsUsed, isFree } = useAppSelector(
     publicFreeRegistrationSelector,
   );
-  const { isEmailRegistration, registration, showErrors } =
+  const { showErrors, isEmailRegistration, registration } =
     useAppSelector(registrationSelector);
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
@@ -127,7 +127,7 @@ export const CommonRegistrationDetails = () => {
     attemptsUsed,
   ]);
 
-  const getRegistrationErrors = usePublicRegistrationErrors(showErrors);
+  const getRegistrationErrors = usePublicRegistrationErrors(true);
   const registrationErrors = getRegistrationErrors();
 
   return (
@@ -139,7 +139,9 @@ export const CommonRegistrationDetails = () => {
               <b>{t('instructionLanguage')}</b>
             </Text>
           </legend>
-          <FormControl error={!!registrationErrors['instructionLanguage']}>
+          <FormControl
+            error={showErrors && !!registrationErrors['instructionLanguage']}
+          >
             <RadioGroup
               row={!isPhone}
               onChange={handleChange('instructionLanguage')}
@@ -247,7 +249,7 @@ export const CommonRegistrationDetails = () => {
         <WebLink
           href={t('certificate.furtherDetails.url')}
           label={t('certificate.furtherDetails.label')}
-          endIcon={<OpenInNewIcon />}
+          endIcon={<OpenInNewIcon color="inherit" />}
         />
       </Text>
       <fieldset className="registration-details__radio-group">
@@ -256,7 +258,9 @@ export const CommonRegistrationDetails = () => {
             <b>{t('certificateLanguage')}</b>
           </Text>
         </legend>
-        <FormControl error={!!registrationErrors['certificateLanguage']}>
+        <FormControl
+          error={showErrors && !!registrationErrors['certificateLanguage']}
+        >
           <RadioGroup
             row={!isPhone}
             onChange={handleChange('certificateLanguage')}
@@ -300,7 +304,8 @@ export const CommonRegistrationDetails = () => {
             <li>{t('termsAndConditions.item3')}</li>
             <li>{t('termsAndConditions.item4')}</li>
             <li>{t('termsAndConditions.item5')}</li>
-            {isFree !== 'YES' && <li>{t('termsAndConditions.item6')}</li>}
+            <li>{t('termsAndConditions.item6')}</li>
+            {isFree !== 'YES' && <li>{t('termsAndConditions.item7')}</li>}
           </ul>
           {t('termsAndConditions.description2')}:{' '}
           <div
@@ -308,9 +313,11 @@ export const CommonRegistrationDetails = () => {
             style={{ display: 'inline-flex' }}
           >
             <Link href={t('termsAndConditions.link')} target="_blank">
-              <Text>{t('termsAndConditions.linkText')}</Text>
+              <Text color="textPrimary">
+                {t('termsAndConditions.linkText')}
+              </Text>
             </Link>
-            <OpenInNewIcon />
+            <OpenInNewIcon color="inherit" />
           </div>
           <br />
           <p>
@@ -321,7 +328,9 @@ export const CommonRegistrationDetails = () => {
             </b>
           </p>
         </Text>
-        <FormControl error={!!registrationErrors['termsAndConditionsAgreed']}>
+        <FormControl
+          error={showErrors && !!registrationErrors['termsAndConditionsAgreed']}
+        >
           <FormControlLabel
             control={
               <Checkbox
@@ -347,12 +356,18 @@ export const CommonRegistrationDetails = () => {
             href={translateCommon('privacyStatement.link.url')}
             target="_blank"
           >
-            <Text>{translateCommon('privacyStatement.link.label')}</Text>
+            <Text color="textPrimary">
+              {translateCommon('privacyStatement.link.label')}
+            </Text>
           </Link>
-          <OpenInNewIcon />
+          <OpenInNewIcon color="inherit" />
         </div>
       </div>
-      <FormControl error={!!registrationErrors['privacyStatementConfirmation']}>
+      <FormControl
+        error={
+          showErrors && !!registrationErrors['privacyStatementConfirmation']
+        }
+      >
         <FormControlLabel
           control={
             <Checkbox

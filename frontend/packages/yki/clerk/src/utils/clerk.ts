@@ -1,6 +1,7 @@
 import { t } from 'i18next';
 
-import { ExamLevel } from 'enums/app';
+import { ExamLevel, ExamSessionType } from 'enums/app';
+import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { OrganizerLanguage } from 'interfaces/clerkOrganizer';
 import { FindByOidsOrganization } from 'interfaces/clerkOrganizerRegistry';
 
@@ -72,13 +73,22 @@ export const levelDescription = (level: keyof typeof ExamLevel) => {
 export const languageToString = (lang: string) => {
   const found = LANGUAGES.find((l) => l.code === lang);
 
-  return found ? found.name : '';
+  return found ? t('yki.common.languages.' + found.code) : '';
 };
 
 export const languagesToString = (array: OrganizerLanguage[]) => {
-  const list = getLanguagesWithLevelDescriptions(array);
+  return array
+    .map((lang: OrganizerLanguage) => languageToString(lang.language_code))
+    .reduce<Array<string>>((acc, l) => {
+      if (acc.includes(l)) {
+        return acc;
+      }
 
-  return list.map((lang) => lang.split(' ')[0].toLowerCase()).join(', ');
+      acc.push(l);
+
+      return acc;
+    }, [])
+    .join(', ');
 };
 
 export const getLanguagesWithLevelDescriptions = (
@@ -103,7 +113,9 @@ export const getLanguagesWithLevelDescriptions = (
           : levels
               .map((l) => levelDescription(l))
               .join(` ${t('yki.common.and')} `);
-      list.push(`${language.name} - ${capitalize(description)}`);
+      list.push(
+        `${languageToString(language.code)} - ${capitalize(description)}`,
+      );
     }
   }
 
@@ -120,4 +132,33 @@ export const getOrganizerAddress = (
       : '',
     city: organization?.postiosoite?.postitoimipaikka ?? '',
   };
+};
+
+// Combinations are either:
+// Tekstin ymmärtäminen + Puhuminen
+// or
+// Puheen ymmärtäminen + Kirjoittaminen
+const getExamPartialType1 = (type: ExamSessionType) => {
+  return type === ExamSessionType.READ_SPEAK
+    ? t('yki.common.examParts.readingComprehension')
+    : t('yki.common.examParts.speechComprehension');
+};
+
+const getExamPartialType2 = (type: ExamSessionType) => {
+  return type === ExamSessionType.READ_SPEAK
+    ? t('yki.common.examParts.speaking')
+    : t('yki.common.examParts.writing');
+};
+
+export const getExamSessionStartTimesDescription = (
+  examSession: ClerkExamSession,
+) => {
+  return examSession.type === ExamSessionType.FULL
+    ? ''
+    : t('yki.common.examSessionTimes.partialSessionTime', {
+        partialExam1: getExamPartialType1(examSession.type),
+        partialExam2: getExamPartialType2(examSession.type),
+        time1: examSession.startTimeReadListen,
+        time2: examSession.startTimeSpeakWrite,
+      });
 };

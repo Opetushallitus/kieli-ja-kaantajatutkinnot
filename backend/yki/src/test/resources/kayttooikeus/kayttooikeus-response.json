@@ -1,0 +1,150 @@
+[
+  {
+    "oidHenkilo": "1.2.246.562.24.32388211111",
+    "username": "foo",
+    "kayttajaTyyppi": "VIRKAILIJA",
+    "organisaatiot": [
+      {
+        "organisaatioOid": "1.2.246.562.10.00000000001",
+        "kayttooikeudet": [
+          {
+            "palvelu": "OPPIJANUMEROREKISTERI",
+            "oikeus": "MANUAALINEN_YKSILOINTI"
+          },
+          {
+            "palvelu": "KIELITUTKINTOREKISTERI",
+            "oikeus": "READ"
+          },
+          {
+            "palvelu": "KAYTTOOIKEUS",
+            "oikeus": "READ"
+          },
+          {
+            "palvelu": "RYHMASAHKOPOSTI",
+            "oikeus": "SEND"
+          },
+          {
+            "palvelu": "AKT",
+            "oikeus": "PAAKAYTTAJA"
+          },
+          {
+            "palvelu": "KAYTTOOIKEUS",
+            "oikeus": "PALVELUKAYTTAJA_CRUD"
+          },
+          {
+            "palvelu": "OPPIJANUMEROREKISTERI",
+            "oikeus": "REKISTERINPITAJA"
+          },
+          {
+            "palvelu": "YKI",
+            "oikeus": "JARJESTAJA"
+          },
+          {
+            "palvelu": "VIESTINVALITYS",
+            "oikeus": "KATSELU"
+          },
+          {
+            "palvelu": "YKI",
+            "oikeus": "YLLAPITAJA"
+          },
+          {
+            "palvelu": "YHTEYSTIETOTYYPPIENHALLINTA",
+            "oikeus": "CRUD"
+          },
+          {
+            "palvelu": "OSOITE",
+            "oikeus": "CRUD"
+          },
+          {
+            "palvelu": "ASIAKIRJAPALVELU",
+            "oikeus": "CREATE_LETTER"
+          },
+          {
+            "palvelu": "ORGANISAATIOIDEN_REKISTEROITYMINEN",
+            "oikeus": "OPH"
+          },
+          {
+            "palvelu": "KAYTTOOIKEUS",
+            "oikeus": "CRUD"
+          },
+          {
+            "palvelu": "RYHMASAHKOPOSTI",
+            "oikeus": "VIEW"
+          },
+          {
+            "palvelu": "OIKEUSTULKKIREKISTERI",
+            "oikeus": "OIKEUSTULKKI_CRUD"
+          },
+          {
+            "palvelu": "KOODISTO",
+            "oikeus": "CRUD"
+          },
+          {
+            "palvelu": "KAYTTOOIKEUS",
+            "oikeus": "VASTUUKAYTTAJAT"
+          },
+          {
+            "palvelu": "KAYTTOOIKEUS",
+            "oikeus": "KAYTTOOIKEUSRYHMIEN_LUKU"
+          },
+          {
+            "palvelu": "ASIAKIRJAPALVELU",
+            "oikeus": "READ"
+          },
+          {
+            "palvelu": "OPPIJANUMEROREKISTERI",
+            "oikeus": "HENKILON_RU"
+          },
+          {
+            "palvelu": "KAYTTOOIKEUS",
+            "oikeus": "VIRKAILIJANLUONTI"
+          },
+          {
+            "palvelu": "ORGANISAATIOHALLINTA",
+            "oikeus": "CRUD"
+          },
+          {
+            "palvelu": "ASIAKIRJAPALVELU",
+            "oikeus": "SYSTEM_ATTACHMENT_DOWNLOAD"
+          },
+          {
+            "palvelu": "KAYTTOOIKEUS",
+            "oikeus": "REKISTERINPITAJA"
+          },
+          {
+            "palvelu": "ASIAKIRJAPALVELU",
+            "oikeus": "SEND_LETTER_EMAIL"
+          },
+          {
+            "palvelu": "ORGANISAATIOIDEN_REKISTEROITYMINEN",
+            "oikeus": "API_VARDA"
+          },
+          {
+            "palvelu": "LOKALISOINTI",
+            "oikeus": "CRUD"
+          },
+          {
+            "palvelu": "VIESTINVALITYS",
+            "oikeus": "OPH_PAAKAYTTAJA"
+          },
+          {
+            "palvelu": "ORGANISAATIOHALLINTA",
+            "oikeus": "READ"
+          },
+          {
+            "palvelu": "VKT",
+            "oikeus": "PAAKAYTTAJA"
+          },
+          {
+            "palvelu": "TIEDOTUSPALVELU",
+            "oikeus": "KIELITUTKINTOTODISTUS_TIEDOTE_CRUD"
+          },
+          {
+            "palvelu": "ASIAKIRJAPALVELU",
+            "oikeus": "CREATE_TEMPLATE"
+          }
+        ]
+      }
+    ]
+  }
+]

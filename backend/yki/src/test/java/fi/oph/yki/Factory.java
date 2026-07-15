@@ -4,11 +4,14 @@ import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.FreeRegistration;
+import fi.oph.yki.model.Organizer;
 import fi.oph.yki.model.Person;
+import fi.oph.yki.model.Quarantine;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.FreeRegistrationSource;
 import fi.oph.yki.model.type.FreeRegistrationType;
+import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import java.time.LocalDate;
@@ -30,6 +33,7 @@ public class Factory {
     registration.setPerson(person);
     registration.setState(RegistrationState.SUBMITTED);
     registration.setKind(RegistrationKind.ADMISSION);
+    registration.setPartialExamType(PartialExamType.ALL_PARTS);
 
     return registration;
   }
@@ -72,6 +76,30 @@ public class Factory {
     examSession.setContactPhoneNumber("0401234567");
 
     return examSession;
+  }
+
+  public static Organizer organizer() {
+    final Organizer organizer = new Organizer();
+    organizer.setOid("1.2.246.562.10.00000000001");
+    organizer.setAgreementStartDate(LocalDate.of(2024, 1, 1));
+    organizer.setAgreementEndDate(LocalDate.of(2025, 12, 31));
+    organizer.setContactName("Testi Järjestäjä");
+    organizer.setContactEmail("jarjestaja@example.com");
+    organizer.setContactPhoneNumber("0401234567");
+
+    return organizer;
+  }
+
+  public static Quarantine quarantine() {
+    final Quarantine quarantine = new Quarantine();
+    quarantine.setLanguageCode("fin");
+    quarantine.setBirthdate("1975-01-01");
+    quarantine.setFirstName("Testi");
+    quarantine.setLastName("Henkilö");
+    quarantine.setStartDate(LocalDate.of(2026, 1, 1));
+    quarantine.setEndDate(LocalDate.of(2026, 12, 31));
+
+    return quarantine;
   }
 
   public static ExamSessionLocation examSessionLocation(final ExamSession examSession) {

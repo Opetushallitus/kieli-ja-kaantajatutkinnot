@@ -1,30 +1,35 @@
 import { ChevronRight, HomeOutlined } from '@mui/icons-material';
 import { Box, Grid, IconButton, Paper } from '@mui/material';
-import { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
 import { ClerkCustomerDetails } from 'components/clerkCustomer/ClerkCustomerDetails';
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { RouteType } from 'interfaces/user';
 import { H2 } from 'ophTheme/Text';
 import {
   loadClerkCustomerDetails,
+  loadOrganizerCustomerDetails,
   resetCustomerDetails,
 } from 'redux/reducers/clerkCustomerDetails';
 import { clerkCustomerDetailsSelector } from 'redux/selectors/clerkCustomerDetailsSelector';
+import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
 
-export const ClerkCustomerDetailsPage: FC = () => {
+export const ClerkCustomerDetailsPage = ({
+  route,
+  oid,
+}: {
+  route: RouteType;
+  oid?: string;
+}) => {
   const translateCommon = useCommonTranslation();
   const { customerDetails, status } = useAppSelector(
     clerkCustomerDetailsSelector,
   );
-
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.clerkCustomer',
-  });
 
   const { showToast } = useToast();
   const dispatch = useAppDispatch();
@@ -37,17 +42,55 @@ export const ClerkCustomerDetailsPage: FC = () => {
     };
   }, [dispatch]);
 
+  const { cancelStatus } = useAppSelector(clerkExamSessionDetailsSelector);
   useEffect(() => {
-    if (status === APIResponseStatus.NotStarted && params.oid) {
-      dispatch(loadClerkCustomerDetails(params.oid));
+    if (cancelStatus === APIResponseStatus.Success) {
+      dispatch(resetCustomerDetails());
+    }
+  }, [cancelStatus, dispatch]);
+
+  const { relocateStatus } = useAppSelector(clerkExamSessionDetailsSelector);
+  useEffect(() => {
+    if (relocateStatus === APIResponseStatus.Success) {
+      dispatch(resetCustomerDetails());
+    }
+  }, [relocateStatus, dispatch]);
+
+  useEffect(() => {
+    if (
+      route === 'clerk' &&
+      status === APIResponseStatus.NotStarted &&
+      params.personOid
+    ) {
+      dispatch(loadClerkCustomerDetails(params.personOid));
+    } else if (
+      route === 'organizer' &&
+      status === APIResponseStatus.NotStarted &&
+      params.personOid &&
+      params.oid
+    ) {
+      dispatch(
+        loadOrganizerCustomerDetails({
+          oid: params.oid,
+          personOid: params.personOid,
+        }),
+      );
     } else if (status === APIResponseStatus.Error) {
       showToast({
         severity: Severity.Error,
-        description: t('details.toasts.notFound'),
+        description: translateCommon('errors.notFound'),
       });
-      navigate(AppRoutes.ClerkCustomerDetails);
     }
-  }, [dispatch, navigate, params.oid, showToast, status, t]);
+  }, [
+    dispatch,
+    navigate,
+    route,
+    params.oid,
+    params.personOid,
+    showToast,
+    status,
+    translateCommon,
+  ]);
 
   return (
     <Box className="clerk-customer-details-page">
@@ -55,7 +98,13 @@ export const ClerkCustomerDetailsPage: FC = () => {
         <IconButton
           color="secondary"
           className="clerk-customer-details-page__home-button"
-          onClick={() => navigate(AppRoutes.CustomerSearch)}
+          onClick={() =>
+            route === 'clerk'
+              ? navigate(AppRoutes.CustomerSearch)
+              : navigate(
+                  AppRoutes.OrganizerCustomerSearch.replace(':oid', oid ?? ''),
+                )
+          }
         >
           <HomeOutlined color="secondary" fontSize="large" />
         </IconButton>
@@ -77,7 +126,7 @@ export const ClerkCustomerDetailsPage: FC = () => {
           elevation={3}
           className="clerk-customer-details-page__grid-container__results"
         >
-          <ClerkCustomerDetails />
+          <ClerkCustomerDetails route={route} />
         </Paper>
       </Grid>
     </Box>

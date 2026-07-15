@@ -36,12 +36,20 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
               <div
                 class="rows-gapped-xxs"
               >
+                <h2
+                  class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
+                  style="margin-bottom: 1rem;"
+                >
+                  <b>
+                    yki.common.languages.fin, yki.common.languageLevel.YLIN
+                  </b>
+                </h2>
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                 >
-                  examSession: 
+                  partialExams: 
                   <b>
-                    yki.common.languages.fin, yki.common.languageLevel.YLIN
+                    yki.component.registration.examSessionCard.examType.full
                   </b>
                 </p>
                 <p
@@ -146,12 +154,20 @@ exports[`InitRegistrationPage should not let user proceed if registration period
               <div
                 class="rows-gapped-xxs"
               >
+                <h2
+                  class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
+                  style="margin-bottom: 1rem;"
+                >
+                  <b>
+                    yki.common.languages.fin, yki.common.languageLevel.YLIN
+                  </b>
+                </h2>
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                 >
-                  examSession: 
+                  partialExams: 
                   <b>
-                    yki.common.languages.fin, yki.common.languageLevel.YLIN
+                    yki.component.registration.examSessionCard.examType.listenWrite
                   </b>
                 </p>
                 <p
@@ -160,6 +176,14 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                   examDate: 
                   <b>
                     01/01/2035
+                  </b>
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                >
+                  partialExamTimeLabel: 
+                  <b>
+                    partialExamTime
                   </b>
                 </p>
                 <p
@@ -183,7 +207,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 >
                   examFee: 
                   <b>
-                    0 or 200 €
+                    0 or 113 €
                   </b>
                 </p>
                 <p
@@ -498,12 +522,20 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 <div
                   class="rows-gapped-xxs"
                 >
+                  <h2
+                    class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
+                    style="margin-bottom: 1rem;"
+                  >
+                    <b>
+                      yki.common.languages.fin, yki.common.languageLevel.KESKI
+                    </b>
+                  </h2>
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                   >
-                    examSession: 
+                    partialExams: 
                     <b>
-                      yki.common.languages.fin, yki.common.languageLevel.KESKI
+                      yki.component.registration.examSessionCard.examType.full
                     </b>
                   </p>
                   <p
@@ -580,7 +612,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 </div>
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-r1ewpe-MuiButtonBase-root-MuiButton-root"
-                  href="/yki/auth/?examSessionId=11&toQueue=false"
+                  href="/yki/auth/?examSessionId=11&toQueue=false&registrationId=123"
                   tabindex="0"
                 >
                   suomiFiButtonText

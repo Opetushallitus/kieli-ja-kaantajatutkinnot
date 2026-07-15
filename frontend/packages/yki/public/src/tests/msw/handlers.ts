@@ -7,7 +7,7 @@ import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder'
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 import {
-  //NoSessionResponse,
+  // NoSessionResponse,
   SuomiFiAuthenticatedSessionResponse,
 } from 'tests/msw/fixtures/identity';
 import { kieliResponse } from 'tests/msw/fixtures/kieli';
@@ -62,6 +62,7 @@ const initRegistration = async ({
         exam_session,
         registration_kind: _registration_kind,
         registration_id: _registration_id,
+        partial_exam_type: _partial_exam_type,
         ...rest
       } = registrationInitResponse;
       const examSession =
@@ -82,6 +83,7 @@ const initRegistration = async ({
             available_registration_kind: kind,
           },
           registration_kind: kind,
+          partial_exam_type: 'ALL_PARTS',
           // Mock registration id to match exam session id.
           // This is so that we can in the registration submit endpoint
           // return different registration kind (admission vs. queue)
@@ -130,7 +132,7 @@ export const handlers = [
   }),
   http.get(APIEndpoints.User, () => {
     return HttpResponse.json(SuomiFiAuthenticatedSessionResponse);
-    //return HttpResponse.json(NoSessionResponse);
+    // return HttpResponse.json(NoSessionResponse);
   }),
   http.post(APIEndpoints.EvaluationOrder, () =>
     HttpResponse.json(evaluationOrderPostResponse),
@@ -200,5 +202,35 @@ export const handlers = [
   }),
   http.post(APIEndpoints.PublicFreeRegistrationEducation, () => {
     return HttpResponse.json({ id: 1337 }, { status: 201 });
+  }),
+  http.get(APIEndpoints.LoginLinkInfo, () => {
+    return HttpResponse.json({
+      expires_at: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
+    });
+  }),
+  http.get(APIEndpoints.Registration, ({ params }) => {
+    const { registrationId } = params;
+    const id = Number(registrationId);
+    const queued = id % 2 === 1;
+
+    return HttpResponse.json({
+      id,
+      kind: queued ? RegistrationKind.Queue : RegistrationKind.Admission,
+      partial_exam_type: 'ALL_PARTS',
+      exam_session_id: id,
+    });
+  }),
+  http.get(APIEndpoints.ConfirmRegistration, ({ params }) => {
+    const { registrationId } = params;
+
+    const registration = data.personDetails.registrations.find(
+      (r) => `${r.id}` === registrationId,
+    );
+
+    if (registration) {
+      return HttpResponse.json(registration);
+    } else {
+      return notFound();
+    }
   }),
 ];

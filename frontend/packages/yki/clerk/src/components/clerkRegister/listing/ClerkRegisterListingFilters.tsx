@@ -12,7 +12,7 @@ import {
   setLevelFilter,
   setSearchQuery,
 } from 'redux/reducers/clerkOrganizer';
-import { LANGUAGES, levelDescription } from 'utils/clerk';
+import { LANGUAGES, languageToString, levelDescription } from 'utils/clerk';
 
 type LevelCode = 'PERUS' | 'KESKI' | 'YLIN';
 
@@ -65,7 +65,7 @@ export const ClerkRegisterListingFilters = () => {
           options={[
             { label: t('listing.filters.all'), value: '' },
             ...LANGUAGES.map((lang) => ({
-              label: lang.name,
+              label: languageToString(lang.code),
               value: lang.code,
             })),
           ]}

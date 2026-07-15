@@ -4,6 +4,7 @@ import { APIResponseStatus } from 'shared/enums';
 import {
   ClerkCustomerDetails,
   ClerkPersonContactUpdateRequest,
+  OrganizerPersonContactUpdateRequest,
 } from 'interfaces/clerkCustomer';
 
 interface ClerkCustomerDetailsState {
@@ -22,6 +23,12 @@ const clerkCustomerDetailsSlice = createSlice({
   name: 'customerDetails',
   initialState,
   reducers: {
+    loadOrganizerCustomerDetails(
+      state,
+      _action: PayloadAction<{ oid: string; personOid: string }>,
+    ) {
+      state.status = APIResponseStatus.InProgress;
+    },
     loadClerkCustomerDetails(state, _action: PayloadAction<string>) {
       state.status = APIResponseStatus.InProgress;
     },
@@ -31,6 +38,12 @@ const clerkCustomerDetailsSlice = createSlice({
     storeCustomerDetails(state, action: PayloadAction<ClerkCustomerDetails>) {
       state.status = APIResponseStatus.Success;
       state.customerDetails = action.payload;
+    },
+    updateOrganizerCustomerContactDetails(
+      state,
+      _action: PayloadAction<OrganizerPersonContactUpdateRequest>,
+    ) {
+      state.updateStatus = APIResponseStatus.InProgress;
     },
     updateCustomerContactDetails(
       state,
@@ -55,9 +68,11 @@ const clerkCustomerDetailsSlice = createSlice({
 
 export const clerkCustomerDetailsReducer = clerkCustomerDetailsSlice.reducer;
 export const {
+  loadOrganizerCustomerDetails,
   loadClerkCustomerDetails,
   rejectCustomerDetails,
   storeCustomerDetails,
+  updateOrganizerCustomerContactDetails,
   updateCustomerContactDetails,
   resolveCustomerContactUpdate,
   rejectCustomerContactUpdate,

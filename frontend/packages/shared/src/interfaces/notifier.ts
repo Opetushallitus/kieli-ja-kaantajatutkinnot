@@ -21,7 +21,7 @@ export interface Toast extends Notifier {
 
 export interface Dialog extends Notifier {
   type: NotifierTypes.Dialog;
-  title: string;
+  title: string | React.ReactNode;
   description?: string;
   content?: React.ReactNode;
   actions?: Array<DialogButtonAction>;

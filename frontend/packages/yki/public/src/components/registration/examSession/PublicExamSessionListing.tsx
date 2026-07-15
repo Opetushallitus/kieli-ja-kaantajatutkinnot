@@ -10,19 +10,25 @@ import {
   H2,
   H3,
   ManagedPaginatedTable,
+  Pagination,
   Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
+import { PublicExamSessionCard } from 'components/registration/examSession/PublicExamSessionCard';
 import { PublicExamSessionListingHeader } from 'components/registration/examSession/PublicExamSessionListingHeader';
 import { PublicExamSessionListingRow } from 'components/registration/examSession/PublicExamSessionListingRow';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { PublicRegistrationInitError } from 'enums/publicRegistration';
+import { clerkEnabled } from 'featureFlags';
 import { ExamSession } from 'interfaces/examSessions';
-import { PublicRegistrationInitErrorState } from 'interfaces/publicRegistration';
+import {
+  PartialExamType,
+  PublicRegistrationInitErrorState,
+} from 'interfaces/publicRegistration';
 import {
   initRegistration,
   resetPublicRegistration,
@@ -30,48 +36,6 @@ import {
 import { examSessionsSelector } from 'redux/selectors/examSessions';
 import { registrationSelector } from 'redux/selectors/registration';
 import { TableUtils } from 'utils/table';
-
-const getRowDetails = (examSession: ExamSession) => {
-  return <PublicExamSessionListingRow examSession={examSession} />;
-};
-
-const DisplayedRowsLabel = ({
-  from,
-  to,
-  count,
-}: {
-  from: number;
-  to: number;
-  count: number;
-}) => {
-  const translateCommon = useCommonTranslation();
-  const { isPhone } = useWindowProperties();
-  const fullLabelText = translateCommon(
-    'component.table.pagination.displayedRowsAriaLabel',
-    {
-      from,
-      to,
-      count,
-    },
-  );
-
-  if (isPhone) {
-    return (
-      <>
-        <span className="display-none">{fullLabelText}</span>
-        <span aria-hidden="true">
-          {translateCommon('component.table.pagination.displayedRowsLabel', {
-            from,
-            to,
-            count,
-          })}
-        </span>
-      </>
-    );
-  } else {
-    return fullLabelText;
-  }
-};
 
 const RegistrationInitLoadingModal = () => {
   const { initRegistration } = useAppSelector(registrationSelector);
@@ -123,8 +87,10 @@ const OtherStartedRegistrationErrorModal = () => {
 
 const RegistrationInitErrorModal = ({
   examSessionId,
+  partialExamType,
 }: {
   examSessionId: number;
+  partialExamType: PartialExamType;
 }) => {
   const dispatch = useAppDispatch();
   const { initRegistration: initRegistrationState } =
@@ -206,11 +172,18 @@ const RegistrationInitErrorModal = ({
               color={Color.Secondary}
               variant={Variant.Contained}
               onClick={() => {
+                // eslint-disable-next-line no-console
+                console.log(
+                  'Enroll to queue for exam session Error Modal',
+                  examSessionId,
+                  partialExamType,
+                );
                 dispatch(resetPublicRegistration());
                 dispatch(
                   initRegistration({
-                    examSessionId: examSessionId,
+                    examSessionId,
                     registrationKind: RegistrationKind.Queue,
+                    partialExamType,
                   }),
                 );
               }}
@@ -222,6 +195,117 @@ const RegistrationInitErrorModal = ({
       </>
     </CustomModal>
   );
+};
+
+export const NewYkiPublicExamSessionsTable = ({
+  examSessions,
+  onPageChange,
+  onRowsPerPageChange,
+  page,
+  rowsPerPage,
+  rowsPerPageOptions,
+}: {
+  examSessions: Array<ExamSession>;
+  onPageChange: (page: number) => void;
+  onRowsPerPageChange: (rowsPerPage: number) => void;
+  page: number;
+  rowsPerPage: number;
+  rowsPerPageOptions: Array<number>;
+}) => {
+  const translateCommon = useCommonTranslation();
+
+  const paginatedSessions = examSessions.slice(
+    page * rowsPerPage,
+    (page + 1) * rowsPerPage,
+  );
+
+  // Pagination on top and bottom of the card listing
+  return (
+    <>
+      <Pagination
+        count={examSessions.length}
+        page={page}
+        handlePageChange={onPageChange}
+        rowsPerPage={rowsPerPage}
+        handleRowsPerPageChange={onRowsPerPageChange}
+        rowsPerPageOptions={rowsPerPageOptions}
+        rowsPerPageLabel={translateCommon(
+          'component.table.pagination.rowsPerPage',
+        )}
+        labelDisplayedRows={({ from, to, count }) => (
+          <DisplayedRowsLabel from={from} to={to} count={count} />
+        )}
+        backIconButtonProps={TableUtils.getPaginationBackButtonProps()}
+        nextIconButtonProps={TableUtils.getPaginationNextButtonProps()}
+      />
+      <div className="exam-session-cards">
+        {paginatedSessions.map((examSession) => (
+          <PublicExamSessionCard
+            key={examSession.id}
+            examSession={examSession}
+          />
+        ))}
+      </div>
+      <Pagination
+        count={examSessions.length}
+        page={page}
+        handlePageChange={onPageChange}
+        rowsPerPage={rowsPerPage}
+        handleRowsPerPageChange={onRowsPerPageChange}
+        rowsPerPageOptions={rowsPerPageOptions}
+        rowsPerPageLabel={translateCommon(
+          'component.table.pagination.rowsPerPage',
+        )}
+        labelDisplayedRows={({ from, to, count }) => (
+          <DisplayedRowsLabel from={from} to={to} count={count} />
+        )}
+        backIconButtonProps={TableUtils.getPaginationBackButtonProps()}
+        nextIconButtonProps={TableUtils.getPaginationNextButtonProps()}
+      />
+    </>
+  );
+};
+
+const DisplayedRowsLabel = ({
+  from,
+  to,
+  count,
+}: {
+  from: number;
+  to: number;
+  count: number;
+}) => {
+  const translateCommon = useCommonTranslation();
+  const { isPhone } = useWindowProperties();
+  const fullLabelText = translateCommon(
+    'component.table.pagination.displayedRowsAriaLabel',
+    {
+      from,
+      to,
+      count,
+    },
+  );
+
+  if (isPhone) {
+    return (
+      <>
+        <span className="display-none">{fullLabelText}</span>
+        <span aria-hidden="true">
+          {translateCommon('component.table.pagination.displayedRowsLabel', {
+            from,
+            to,
+            count,
+          })}
+        </span>
+      </>
+    );
+  } else {
+    return fullLabelText;
+  }
+};
+
+const getRowDetails = (examSession: ExamSession) => {
+  return <PublicExamSessionListingRow examSession={examSession} />;
 };
 
 export const PublicExamSessionsTable = ({
@@ -296,7 +380,7 @@ export const PublicExamSessionListing = ({
         inline: 'nearest',
       });
     }
-  }, [status]);
+  }, [page, rowsPerPage, status]);
 
   useEffect(() => {
     if (
@@ -304,13 +388,18 @@ export const PublicExamSessionListing = ({
       initRegistration.examSessionId
     ) {
       navigate(
-        AppRoutes.ExamSession.replace(
+        `${AppRoutes.ExamSession.replace(
           /:examSessionId$/,
           `${initRegistration.examSessionId}`,
-        ),
+        )}`,
       );
     }
-  }, [navigate, initRegistration.status, initRegistration.examSessionId]);
+  }, [
+    navigate,
+    initRegistration.status,
+    initRegistration.examSessionId,
+    initRegistration.registrationId,
+  ]);
 
   const isRegistrationLoading =
     initRegistration.status === APIResponseStatus.InProgress;
@@ -337,12 +426,15 @@ export const PublicExamSessionListing = ({
       return (
         <>
           {isRegistrationLoading && <RegistrationInitLoadingModal />}
-          {isRegistrationInitError && initRegistration.examSessionId && (
-            <RegistrationInitErrorModal
-              examSessionId={initRegistration.examSessionId}
-            />
-          )}
-          <div ref={listingHeaderRef}>
+          {isRegistrationInitError &&
+            initRegistration.examSessionId &&
+            initRegistration.partialExamType && (
+              <RegistrationInitErrorModal
+                examSessionId={initRegistration.examSessionId}
+                partialExamType={initRegistration.partialExamType}
+              />
+            )}
+          <div ref={listingHeaderRef} style={{ marginBottom: '2rem' }}>
             <Typography
               variant="h2"
               component="h3"
@@ -360,14 +452,25 @@ export const PublicExamSessionListing = ({
             </Typography>
           </div>
           {examSessions.length > 0 ? (
-            <PublicExamSessionsTable
-              examSessions={examSessions}
-              onPageChange={onPageChange}
-              onRowsPerPageChange={onRowsPerPageChange}
-              page={page}
-              rowsPerPage={rowsPerPage}
-              rowsPerPageOptions={rowsPerPageOptions}
-            />
+            clerkEnabled ? (
+              <NewYkiPublicExamSessionsTable
+                examSessions={examSessions}
+                onPageChange={onPageChange}
+                onRowsPerPageChange={onRowsPerPageChange}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                rowsPerPageOptions={rowsPerPageOptions}
+              />
+            ) : (
+              <PublicExamSessionsTable
+                examSessions={examSessions}
+                onPageChange={onPageChange}
+                onRowsPerPageChange={onRowsPerPageChange}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                rowsPerPageOptions={rowsPerPageOptions}
+              />
+            )
           ) : (
             <Text className="margin-top-lg">{t('noResults')}</Text>
           )}

@@ -42,7 +42,7 @@ const EMPTY_ARRAY = Object.freeze([]) as Array<never>;
 
 const StyledTable = styled(Table)({
   width: '100%',
-  tableLayout: 'fixed',
+  tableLayout: 'auto',
 
   '& .MuiTableCell-root': {
     padding: '8px 8px 8px 16px',

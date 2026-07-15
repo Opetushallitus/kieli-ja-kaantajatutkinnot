@@ -7,23 +7,52 @@ import { APIEndpoints } from 'enums/api';
 import { ClerkExamSessionResponse } from 'interfaces/clerkExamSession';
 import {
   acceptCancelRegistration,
+  acceptCreateExamSession,
   acceptRelocateRegistration,
   acceptSaveExamSession,
+  cancelOrganizerRegistration,
   cancelRegistration,
+  ClerkExamSessionCreateForm,
   ClerkExamSessionEditForm,
+  createExamSession,
+  createOrganizerExamSession,
   loadClerkExamSessionDetails,
+  loadOrganizerExamSessionDetails,
   loadRelocateExamSessions,
   rejectCancelRegistration,
+  rejectCreateExamSession,
   rejectExamSessionDetails,
   rejectRelocateExamSessions,
   rejectRelocateRegistration,
   rejectSaveExamSession,
   relocateRegistration,
   saveExamSession,
+  saveOrganizerExamSession,
   storeExamSessionDetails,
   storeRelocateExamSessions,
 } from 'redux/reducers/clerkExamSession';
 import { SerializationUtils } from 'utils/serialization';
+
+function* loadOrganizerExamSessionDetailsSaga(
+  action: PayloadAction<{ oid: string; examSessionId: number }>,
+) {
+  try {
+    const { oid, examSessionId } = action.payload;
+    const response: AxiosResponse<ClerkExamSessionResponse> = yield call(
+      axiosInstance.get,
+      `${APIEndpoints.OrganizerExamSession.replace(
+        ':oid',
+        oid,
+      )}/${examSessionId}`,
+    );
+    const clerkExamSession =
+      SerializationUtils.deserializeClerkExamSessionResponse(response.data);
+
+    yield put(storeExamSessionDetails(clerkExamSession));
+  } catch (error) {
+    yield put(rejectExamSessionDetails());
+  }
+}
 
 function* loadClerkExamSessionDetailsSaga(action: PayloadAction<string>) {
   try {
@@ -37,6 +66,47 @@ function* loadClerkExamSessionDetailsSaga(action: PayloadAction<string>) {
     yield put(storeExamSessionDetails(clerkExamSession));
   } catch (error) {
     yield put(rejectExamSessionDetails());
+  }
+}
+
+function* saveOrganizerExamSessionSaga(
+  action: PayloadAction<{
+    examSessionId: number;
+    form: ClerkExamSessionEditForm;
+    oid: string;
+  }>,
+) {
+  const { oid, examSessionId, form } = action.payload;
+  try {
+    const response: AxiosResponse<ClerkExamSessionResponse> = yield call(
+      axiosInstance.put,
+      `${APIEndpoints.OrganizerExamSession.replace(
+        ':oid',
+        oid,
+      )}/${examSessionId}`,
+      {
+        language: form.language,
+        level: form.level,
+        maxParticipantsTotal: Number(form.maxParticipantsTotal),
+        maxParticipantsReadListen:
+          Number(form.maxParticipantsReadListen) || null,
+        maxParticipantsSpeakWrite:
+          Number(form.maxParticipantsSpeakWrite) || null,
+        location: form.location,
+        contactName: form.contactName,
+        contactEmail: form.contactEmail,
+        contactPhoneNumber: form.contactPhoneNumber,
+        startTimeReadListen: form.startTimeReadListen || null,
+        startTimeSpeakWrite: form.startTimeSpeakWrite || null,
+        officeOid: form.officeOid,
+      },
+    );
+    const clerkExamSession =
+      SerializationUtils.deserializeClerkExamSessionResponse(response.data);
+
+    yield put(acceptSaveExamSession(clerkExamSession));
+  } catch (error) {
+    yield put(rejectSaveExamSession());
   }
 }
 
@@ -55,14 +125,17 @@ function* saveExamSessionSaga(
         language: form.language,
         level: form.level,
         maxParticipantsTotal: Number(form.maxParticipantsTotal),
-        maxParticipantsPartial1: Number(form.maxParticipantsPartial1) || null,
-        maxParticipantsPartial2: Number(form.maxParticipantsPartial2) || null,
-        streetAddress: form.streetAddress,
-        zip: form.postalCode,
-        postOffice: form.city,
+        maxParticipantsReadListen:
+          Number(form.maxParticipantsReadListen) || null,
+        maxParticipantsSpeakWrite:
+          Number(form.maxParticipantsSpeakWrite) || null,
+        location: form.location,
         contactName: form.contactName,
         contactEmail: form.contactEmail,
         contactPhoneNumber: form.contactPhoneNumber,
+        startTimeReadListen: form.startTimeReadListen || null,
+        startTimeSpeakWrite: form.startTimeSpeakWrite || null,
+        officeOid: form.officeOid,
       },
     );
     const clerkExamSession =
@@ -116,6 +189,35 @@ function* relocateRegistrationSaga(
   }
 }
 
+function* cancelOrganizerRegistrationSaga(
+  action: PayloadAction<{
+    registrationId: number;
+    currentExamSessionId: number;
+    organizerOid: string;
+  }>,
+) {
+  const { registrationId, currentExamSessionId, organizerOid } = action.payload;
+  try {
+    yield call(
+      axiosInstance.delete,
+      APIEndpoints.OrganizerRegistrationCancel.replace(
+        ':oid',
+        organizerOid,
+      ).replace(':registrationId', String(registrationId)),
+    );
+
+    yield put(acceptCancelRegistration());
+    yield put(
+      loadOrganizerExamSessionDetails({
+        oid: organizerOid,
+        examSessionId: currentExamSessionId,
+      }),
+    );
+  } catch (error) {
+    yield put(rejectCancelRegistration());
+  }
+}
+
 function* cancelRegistrationSaga(
   action: PayloadAction<{
     registrationId: number;
@@ -125,7 +227,7 @@ function* cancelRegistrationSaga(
   const { registrationId, currentExamSessionId } = action.payload;
   try {
     yield call(
-      axiosInstance.put,
+      axiosInstance.delete,
       APIEndpoints.ClerkRegistrationCancel.replace(
         ':registrationId',
         String(registrationId),
@@ -139,13 +241,91 @@ function* cancelRegistrationSaga(
   }
 }
 
+function* createOrganizerExamSessionSaga(
+  action: PayloadAction<ClerkExamSessionCreateForm>,
+) {
+  const form = action.payload;
+  try {
+    yield call(
+      axiosInstance.post,
+      APIEndpoints.OrganizerExamSession.replace(':oid', form.organizerOid),
+      {
+        organizerOid: form.organizerOid,
+        examDateId: Number(form.examDateId),
+        language: form.language,
+        level: form.level,
+        type: form.type,
+        maxParticipantsTotal: Number(form.maxParticipantsTotal),
+        maxParticipantsReadListen:
+          Number(form.maxParticipantsReadListen) || null,
+        maxParticipantsSpeakWrite:
+          Number(form.maxParticipantsSpeakWrite) || null,
+        startTimeReadListen: form.startTimeReadListen || null,
+        startTimeSpeakWrite: form.startTimeSpeakWrite || null,
+        location: form.location,
+        contactName: form.contactName,
+        contactEmail: form.contactEmail,
+        contactPhoneNumber: form.contactPhoneNumber,
+        officeOid: form.officeOid,
+      },
+    );
+
+    yield put(acceptCreateExamSession());
+  } catch (error) {
+    yield put(rejectCreateExamSession());
+  }
+}
+
+function* createExamSessionSaga(
+  action: PayloadAction<ClerkExamSessionCreateForm>,
+) {
+  const form = action.payload;
+  try {
+    yield call(axiosInstance.post, APIEndpoints.ClerkExamSessions, {
+      organizerOid: form.organizerOid,
+      examDateId: Number(form.examDateId),
+      language: form.language,
+      level: form.level,
+      type: form.type,
+      maxParticipantsTotal: Number(form.maxParticipantsTotal),
+      maxParticipantsReadListen: Number(form.maxParticipantsReadListen) || null,
+      maxParticipantsSpeakWrite: Number(form.maxParticipantsSpeakWrite) || null,
+      startTimeReadListen: form.startTimeReadListen || null,
+      startTimeSpeakWrite: form.startTimeSpeakWrite || null,
+      location: form.location,
+      contactName: form.contactName,
+      contactEmail: form.contactEmail,
+      contactPhoneNumber: form.contactPhoneNumber,
+      officeOid: form.officeOid,
+    });
+
+    yield put(acceptCreateExamSession());
+  } catch (error) {
+    yield put(rejectCreateExamSession());
+  }
+}
+
 export function* watchClerkExamSession() {
   yield takeLatest(
     loadClerkExamSessionDetails.type,
     loadClerkExamSessionDetailsSaga,
   );
+  yield takeLatest(
+    loadOrganizerExamSessionDetails.type,
+    loadOrganizerExamSessionDetailsSaga,
+  );
   yield takeLatest(saveExamSession.type, saveExamSessionSaga);
+  yield takeLatest(saveOrganizerExamSession.type, saveOrganizerExamSessionSaga);
   yield takeLatest(loadRelocateExamSessions.type, loadRelocateExamSessionsSaga);
   yield takeLatest(relocateRegistration.type, relocateRegistrationSaga);
   yield takeLatest(cancelRegistration.type, cancelRegistrationSaga);
+  yield takeLatest(
+    cancelOrganizerRegistration.type,
+    cancelOrganizerRegistrationSaga,
+  );
+  yield takeLatest(createExamSession.type, createExamSessionSaga);
+  yield takeLatest(
+    createOrganizerExamSession.type,
+    createOrganizerExamSessionSaga,
+  );
 }
