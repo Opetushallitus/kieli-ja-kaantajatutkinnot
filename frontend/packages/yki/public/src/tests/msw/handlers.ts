@@ -16,9 +16,11 @@ import { personDetails } from 'tests/msw/fixtures/personDetails';
 import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/registrationInit';
 
 const data = {
-  evaluationPeriods,
-  examSessions,
   personDetails,
+};
+
+export const resetData = () => {
+  data.personDetails = personDetails;
 };
 
 const notFound = () => new HttpResponse(null, { status: 404 });
