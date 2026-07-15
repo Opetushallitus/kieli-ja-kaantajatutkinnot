@@ -26,7 +26,7 @@ import {
   updateClerkQuarantine,
 } from 'redux/reducers/clerkQuarantine';
 import { clerkQuarantineSelector } from 'redux/selectors/clerkQuarantine';
-import { LANGUAGES } from 'utils/clerk';
+import { LANGUAGES, languageToString } from 'utils/clerk';
 
 type QuarantineField =
   | 'firstName'
@@ -164,7 +164,11 @@ export const EditQuarantineModal = ({
   ]);
 
   const languageOptions = useMemo(
-    () => LANGUAGES.map((lang) => ({ value: lang.code, label: lang.name })),
+    () =>
+      LANGUAGES.map((lang) => ({
+        value: lang.code,
+        label: languageToString(lang.code),
+      })),
     [],
   );
 
