@@ -99,10 +99,10 @@ class PublicEvaluationControllerTest {
   }
 
   @Test
-  public void testUnknownEvaluationPeriodReturnsInternalServerError() throws Exception {
+  public void testUnknownEvaluationPeriodReturnsNotFound() throws Exception {
     when(publicEvaluationService.getEvaluationPeriod(404L)).thenThrow(new NotFoundException("Evaluation not found"));
 
-    mockMvc.perform(get(BASE_URL + "/404")).andExpect(status().isInternalServerError());
+    mockMvc.perform(get(BASE_URL + "/404")).andExpect(status().isNotFound());
   }
 
   @Test
