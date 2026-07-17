@@ -7,7 +7,7 @@ import { worker } from 'tests/msw/browser';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 
 const examSessionResponse = examSessions.exam_sessions.find(
-  (es) => es.id === 999,
+  (es) => es.id === 888,
 );
 
 const expectedSuomiFiRegistrationDetails = {
