@@ -10,8 +10,10 @@ export interface PublicExaminerExamDate {
   isFull: boolean;
 }
 
-interface PublicExaminerExamDateResponse
-  extends Omit<PublicExaminerExamDate, 'examDate'> {
+interface PublicExaminerExamDateResponse extends Omit<
+  PublicExaminerExamDate,
+  'examDate'
+> {
   examDate: string;
 }
 

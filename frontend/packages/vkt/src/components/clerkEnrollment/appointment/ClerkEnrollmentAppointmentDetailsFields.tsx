@@ -236,12 +236,16 @@ const ClerkEnrollmentSkillsListFields = ({
 
     if (fieldName === 'oralSkill' && enrollment.oralSkill) {
       partialExamsToUncheck.push('speakingPartialExam');
-      !enrollment.understandingSkill &&
+
+      if (!enrollment.understandingSkill) {
         partialExamsToUncheck.push('speechComprehensionPartialExam');
+      }
     } else if (fieldName === 'textualSkill' && enrollment.textualSkill) {
       partialExamsToUncheck.push('writingPartialExam');
-      !enrollment.understandingSkill &&
+
+      if (!enrollment.understandingSkill) {
         partialExamsToUncheck.push('readingComprehensionPartialExam');
+      }
     } else if (
       fieldName === 'understandingSkill' &&
       enrollment.understandingSkill

@@ -70,16 +70,15 @@ export interface PersonDetails {
   registrations: Array<PersonRegistrations>;
 }
 
-export interface ModifyContactDetails
-  extends Pick<
-    PersonDetails,
-    | 'email'
-    | 'phoneNumber'
-    | 'postOffice'
-    | 'streetAddress'
-    | 'zip'
-    | 'countryCode'
-  > {
+export interface ModifyContactDetails extends Pick<
+  PersonDetails,
+  | 'email'
+  | 'phoneNumber'
+  | 'postOffice'
+  | 'streetAddress'
+  | 'zip'
+  | 'countryCode'
+> {
   confirmEmail: string;
 }
 

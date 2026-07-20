@@ -28,8 +28,10 @@ export interface ContactRequest extends WithId {
   contactDate: Dayjs;
 }
 
-export interface ContactRequestResponse
-  extends Omit<ContactRequest, 'contactDate'> {
+export interface ContactRequestResponse extends Omit<
+  ContactRequest,
+  'contactDate'
+> {
   contactDate: string;
 }
 
@@ -47,8 +49,10 @@ export interface ExaminerDetails extends WithId {
   contactRequests: Array<ContactRequest>;
 }
 
-export interface ExaminerDetailsResponse
-  extends Omit<ExaminerDetails, 'examEvents' | 'contactRequests'> {
+export interface ExaminerDetailsResponse extends Omit<
+  ExaminerDetails,
+  'examEvents' | 'contactRequests'
+> {
   examEvents: Array<ExaminerExamEventResponse>;
   contactRequests: Array<ContactRequestResponse>;
 }

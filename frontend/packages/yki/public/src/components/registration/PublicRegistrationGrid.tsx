@@ -239,8 +239,8 @@ export const PublicRegistrationGrid = () => {
               isPhone
                 ? {}
                 : clerkEnabled
-                ? { borderTop: '5px solid ' + ophColors.green2 }
-                : undefined
+                  ? { borderTop: '5px solid ' + ophColors.green2 }
+                  : undefined
             }
           >
             <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
