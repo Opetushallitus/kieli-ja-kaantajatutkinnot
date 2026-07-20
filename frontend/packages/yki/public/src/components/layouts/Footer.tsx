@@ -56,7 +56,13 @@ export const Footer = () => {
                 {translateCommon('contactEmail.jyu')}
               </Text>
             </a>
-            <div className="columns gapped-xxs">
+            <div
+              className="columns gapped-xxs"
+              style={{
+                flexWrap: 'wrap',
+                alignItems: 'flex-start',
+              }}
+            >
               <a
                 href={`tel:${translateCommon('contactPhone.jyu')}`}
                 target="_blank"

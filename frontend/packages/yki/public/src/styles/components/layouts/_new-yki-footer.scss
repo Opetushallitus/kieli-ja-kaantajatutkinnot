@@ -6,7 +6,9 @@
   &__info-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(25rem, auto));
-    justify-content: space-evenly;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 3rem;
     padding-top: 4rem;
 
     @include phone {

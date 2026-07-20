@@ -6,7 +6,7 @@ import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
 import { ClerkExamSession } from 'components/clerkExamSession/ClerkExamSession';
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { RouteType } from 'interfaces/user';
@@ -20,6 +20,7 @@ import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessio
 export const ClerkExamSessionPage = ({ route }: { route: RouteType }) => {
   const { status } = useAppSelector(clerkExamSessionDetailsSelector);
 
+  const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkCustomer',
   });
@@ -56,7 +57,7 @@ export const ClerkExamSessionPage = ({ route }: { route: RouteType }) => {
           <HomeOutlined color="secondary" fontSize="large" />
         </IconButton>
         <ChevronRight color="disabled" fontSize="large" />
-        <H2>Tutkintotilaisuus</H2>
+        <H2>{translateCommon('pageTitle.customerExamSession')}</H2>
       </div>
 
       <Grid

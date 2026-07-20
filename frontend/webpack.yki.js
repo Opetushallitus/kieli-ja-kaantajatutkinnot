@@ -11,6 +11,7 @@ const findByOid = require("./packages/yki/clerk/src/tests/msw/fixtures/findByOid
 const findByOid2 = require("./packages/yki/clerk/src/tests/msw/fixtures/findByOidData2.js");
 const haeOid = require("./packages/yki/clerk/src/tests/msw/fixtures/haeOidData.js");
 const hae = require("./packages/yki/clerk/src/tests/msw/fixtures/haeData.js");
+const me = require("./packages/yki/clerk/src/tests/msw/fixtures/meData.js");
 
 
 // cloud-base path for new yki clerk is '/yki/v2' 
@@ -147,6 +148,9 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = 
         directory: path.join(dirName, "public"),
       },
       setupMiddlewares: (middlewares, devServer) => {
+        devServer.app.get('/kayttooikeus-service/cas/me', (req, res) => {
+          res.json(me);
+        });
         devServer.app.get('/organisaatio-service/rest/organisaatio/v4/hae', (req, res) => {
           res.json(hae);
         });

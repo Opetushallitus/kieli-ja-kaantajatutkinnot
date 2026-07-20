@@ -3,8 +3,15 @@ import { AxiosResponse } from 'axios';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { User } from 'interfaces/session';
-import { acceptUser, loadUser, rejectUser } from 'redux/reducers/user';
+import { Me, User } from 'interfaces/session';
+import {
+  acceptMe,
+  acceptUser,
+  loadMe,
+  loadUser,
+  rejectMe,
+  rejectUser,
+} from 'redux/reducers/user';
 
 function* loadUserSaga() {
   try {
@@ -18,6 +25,19 @@ function* loadUserSaga() {
   }
 }
 
+function* loadMeSaga() {
+  try {
+    const response: AxiosResponse<Me> = yield call(
+      axiosInstance.get,
+      APIEndpoints.Me,
+    );
+    yield put(acceptMe(response.data));
+  } catch (error) {
+    yield put(rejectMe());
+  }
+}
+
 export function* watchUser() {
+  yield takeLatest(loadMe.type, loadMeSaga);
   yield takeLatest(loadUser.type, loadUserSaga);
 }

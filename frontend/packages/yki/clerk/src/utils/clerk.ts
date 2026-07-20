@@ -73,13 +73,22 @@ export const levelDescription = (level: keyof typeof ExamLevel) => {
 export const languageToString = (lang: string) => {
   const found = LANGUAGES.find((l) => l.code === lang);
 
-  return found ? found.name : '';
+  return found ? t('yki.common.languages.' + found.code) : '';
 };
 
 export const languagesToString = (array: OrganizerLanguage[]) => {
-  const list = getLanguagesWithLevelDescriptions(array);
+  return array
+    .map((lang: OrganizerLanguage) => languageToString(lang.language_code))
+    .reduce<Array<string>>((acc, l) => {
+      if (acc.includes(l)) {
+        return acc;
+      }
 
-  return list.map((lang) => lang.split(' ')[0].toLowerCase()).join(', ');
+      acc.push(l);
+
+      return acc;
+    }, [])
+    .join(', ');
 };
 
 export const getLanguagesWithLevelDescriptions = (
@@ -104,7 +113,9 @@ export const getLanguagesWithLevelDescriptions = (
           : levels
               .map((l) => levelDescription(l))
               .join(` ${t('yki.common.and')} `);
-      list.push(`${language.name} - ${capitalize(description)}`);
+      list.push(
+        `${languageToString(language.code)} - ${capitalize(description)}`,
+      );
     }
   }
 
