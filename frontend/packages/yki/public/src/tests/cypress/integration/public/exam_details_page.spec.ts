@@ -5,24 +5,16 @@ import { RegistrationKind } from 'enums/app';
 import { onExamDetailsPage } from 'tests/cypress/support/page-objects/examDetailsPage';
 import { worker } from 'tests/msw/browser';
 import { examSessions } from 'tests/msw/fixtures/examSession';
+import { teuvoRegistrationDetails } from 'tests/msw/fixtures/registrationDetails';
 
 const examSessionResponse = examSessions.exam_sessions.find(
   (es) => es.id === 888,
 );
 
-const expectedSuomiFiRegistrationDetails = {
-  first_name: 'Teuvo',
-  last_name: 'Testitapaus',
-  ssn: '030594W903B',
-  post_office: 'Helsinki',
-  zip: '00100',
-  street_address: 'Unioninkatu 1',
-};
-
 const getInitRegistrationResponse = (is_strongly_identified: boolean) => {
   if (is_strongly_identified) {
     const { first_name, last_name, ssn, post_office, zip, street_address } =
-      expectedSuomiFiRegistrationDetails;
+      teuvoRegistrationDetails;
 
     return {
       is_strongly_identified,
@@ -99,10 +91,19 @@ describe('ExamDetailsPage', () => {
       );
       onExamDetailsPage.isVisible();
 
-      const { first_name, last_name, street_address, zip, post_office, ssn } =
-        expectedSuomiFiRegistrationDetails;
+      const {
+        first_name,
+        preferred_name,
+        last_name,
+        street_address,
+        zip,
+        post_office,
+        ssn,
+        native_language,
+      } = teuvoRegistrationDetails;
 
       onExamDetailsPage.fillFieldByLabel('Etunimet *', first_name);
+      onExamDetailsPage.fillFieldByLabel('Kutsumanimi *', preferred_name);
       onExamDetailsPage.fillFieldByLabel('Sukunimi *', last_name);
 
       onExamDetailsPage.fillFieldByLabel('Katuosoite *', street_address);
@@ -111,6 +112,7 @@ describe('ExamDetailsPage', () => {
 
       onExamDetailsPage.selectGender('Mies');
       onExamDetailsPage.selectNationality('Serbia');
+      onExamDetailsPage.selectNativeLanguage(native_language);
 
       onExamDetailsPage.fillFieldByLabel('Puhelinnumero *', '+358501234567');
 

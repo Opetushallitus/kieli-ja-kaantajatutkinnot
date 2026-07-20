@@ -20,6 +20,8 @@ class ExamDetailsPage {
     genderSelect: () => cy.findByRole('combobox', { name: 'Sukupuoli *' }),
     nationalitySelect: () =>
       cy.findByRole('combobox', { name: 'Kansalaisuus *' }),
+    nativeLanguageSelect: () =>
+      cy.findByRole('combobox', { name: 'Äidinkieli *' }),
   };
 
   isVisible() {
@@ -54,6 +56,12 @@ class ExamDetailsPage {
 
   selectNationality(name: string) {
     this.elements.nationalitySelect().click();
+    cy.findByRole('option', { name }).scrollIntoView();
+    cy.findByRole('option', { name }).should('be.visible').click();
+  }
+
+  selectNativeLanguage(name: string) {
+    this.elements.nativeLanguageSelect().click();
     cy.findByRole('option', { name }).scrollIntoView();
     cy.findByRole('option', { name }).should('be.visible').click();
   }
