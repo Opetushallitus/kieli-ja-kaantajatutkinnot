@@ -27,7 +27,7 @@ public class StatisticsXlsxView extends AbstractXlsxView {
     "Taso",
     "Paikkakunta",
     "Tarjolla olevat paikat",
-    "Ilmoittautumisen tila"
+    "Ilmoittautuneet"
   );
 
   private final List<ClerkStatisticsRowDTO> rows;
@@ -68,7 +68,7 @@ public class StatisticsXlsxView extends AbstractXlsxView {
       setNullableValue(row.createCell(++ci), data.examLevel());
       setNullableValue(row.createCell(++ci), data.municipality());
       setNullableValue(row.createCell(++ci), data.availablePlaces() != null ? data.availablePlaces().toString() : null);
-      setNullableValue(row.createCell(++ci), data.registrationState());
+      setNullableValue(row.createCell(++ci), data.registeredCount() != null ? data.registeredCount().toString() : null);
     }
 
     autoresizeExcelColumns(sheet, HEADERS);

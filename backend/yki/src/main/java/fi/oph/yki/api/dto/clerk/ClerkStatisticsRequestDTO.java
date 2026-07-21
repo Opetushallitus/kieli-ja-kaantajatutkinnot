@@ -2,7 +2,6 @@ package fi.oph.yki.api.dto.clerk;
 
 import fi.oph.yki.model.type.LanguageCode;
 import fi.oph.yki.model.type.LevelCode;
-import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.util.StringUtil;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Size;
@@ -17,8 +16,7 @@ public record ClerkStatisticsRequestDTO(
   @Nullable List<LanguageCode> languages,
   @Nullable List<LevelCode> levels,
   @Nullable List<String> organizers,
-  @Nullable @Size(max = 255) String municipality,
-  @Nullable List<RegistrationState> states
+  @Nullable @Size(max = 255) String municipality
 ) {
   public ClerkStatisticsRequestDTO {
     municipality = StringUtil.sanitize(municipality);

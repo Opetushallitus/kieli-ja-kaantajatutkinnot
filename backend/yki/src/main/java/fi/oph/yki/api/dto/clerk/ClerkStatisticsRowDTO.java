@@ -9,7 +9,7 @@ public record ClerkStatisticsRowDTO(
   LocalDate examDate,
   String examLanguage,
   String examLevel,
-  String registrationState,
   String municipality,
-  Integer availablePlaces
+  Integer availablePlaces,
+  Long registeredCount
 ) {}

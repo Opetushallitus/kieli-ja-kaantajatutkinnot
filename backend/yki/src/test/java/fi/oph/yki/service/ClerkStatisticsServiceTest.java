@@ -100,9 +100,61 @@ public class ClerkStatisticsServiceTest {
     assertEquals(LocalDate.of(2026, 6, 15), row.examDate());
     assertEquals("suomi", row.examLanguage());
     assertEquals("Perustaso", row.examLevel());
-    assertEquals("COMPLETED", row.registrationState());
     assertEquals("Helsinki", row.municipality());
     assertEquals(20, row.availablePlaces());
+    assertEquals(1L, row.registeredCount());
+  }
+
+  @Test
+  public void testRegisteredCountOnlyCountsCompletedRegistrations() {
+    final Organizer organizer = Factory.organizer();
+    testEntityManager.persist(organizer);
+
+    final ExamDate examDate = Factory.examDate();
+    testEntityManager.persist(examDate);
+
+    final ExamSession examSession = Factory.examSession(examDate);
+    examSession.setOrganizer(organizer);
+    testEntityManager.persist(examSession);
+
+    final Person person1 = Factory.person();
+    testEntityManager.persist(person1);
+    final Person person2 = Factory.person();
+    person2.setOid("1.2.3.4.6");
+    testEntityManager.persist(person2);
+    final Person person3 = Factory.person();
+    person3.setOid("1.2.3.4.7");
+    testEntityManager.persist(person3);
+
+    // Not counted: still in progress.
+    final Registration submitted = Factory.registration(person1);
+    submitted.setExamSession(examSession);
+    submitted.setState(RegistrationState.SUBMITTED);
+    testEntityManager.persist(submitted);
+
+    final Registration completed1 = Factory.registration(person2);
+    completed1.setExamSession(examSession);
+    completed1.setState(RegistrationState.COMPLETED);
+    testEntityManager.persist(completed1);
+
+    final Registration completed2 = Factory.registration(person3);
+    completed2.setExamSession(examSession);
+    completed2.setState(RegistrationState.COMPLETED);
+    testEntityManager.persist(completed2);
+
+    testEntityManager.flush();
+    testEntityManager.clear();
+
+    final ClerkStatisticsRequestDTO request = ClerkStatisticsRequestDTO
+      .builder()
+      .from(LocalDate.of(2026, 6, 1))
+      .to(LocalDate.of(2026, 6, 30))
+      .build();
+
+    final List<ClerkStatisticsRowDTO> result = clerkStatisticsService.getStatistics(request);
+
+    assertEquals(1, result.size());
+    assertEquals(2L, result.get(0).registeredCount());
   }
 
   @Test
@@ -116,13 +168,6 @@ public class ClerkStatisticsServiceTest {
     final ExamSession examSession = Factory.examSession(examDate);
     examSession.setOrganizer(organizer);
     testEntityManager.persist(examSession);
-
-    final Person person = Factory.person();
-    testEntityManager.persist(person);
-
-    final Registration registration = Factory.registration(person);
-    registration.setExamSession(examSession);
-    testEntityManager.persist(registration);
 
     testEntityManager.flush();
     testEntityManager.clear();
@@ -151,14 +196,6 @@ public class ClerkStatisticsServiceTest {
 
     final ExamSessionLocation location = Factory.examSessionLocation(examSession);
     testEntityManager.persist(location);
-
-    final Person person = Factory.person();
-    testEntityManager.persist(person);
-
-    final Registration registration = Factory.registration(person);
-    registration.setExamSession(examSession);
-    registration.setState(RegistrationState.COMPLETED);
-    testEntityManager.persist(registration);
 
     testEntityManager.flush();
     testEntityManager.clear();
@@ -196,7 +233,7 @@ public class ClerkStatisticsServiceTest {
   }
 
   @Test
-  public void testOrganizerPostFilter() {
+  public void testOrganizerFilter() {
     final String OID_A = "1.2.246.562.10.00000000001";
     final String OID_B = "1.2.246.562.10.00000000002";
 
@@ -217,21 +254,6 @@ public class ClerkStatisticsServiceTest {
     final ExamSession sessionB = Factory.examSession(examDate);
     sessionB.setOrganizer(organizerB);
     testEntityManager.persist(sessionB);
-
-    final Person person1 = Factory.person();
-    testEntityManager.persist(person1);
-
-    final Person person2 = Factory.person();
-    person2.setOid("1.2.3.4.6");
-    testEntityManager.persist(person2);
-
-    final Registration reg1 = Factory.registration(person1);
-    reg1.setExamSession(sessionA);
-    testEntityManager.persist(reg1);
-
-    final Registration reg2 = Factory.registration(person2);
-    reg2.setExamSession(sessionB);
-    testEntityManager.persist(reg2);
 
     testEntityManager.flush();
     testEntityManager.clear();
@@ -285,21 +307,6 @@ public class ClerkStatisticsServiceTest {
     sessionSwe.setOrganizer(organizer);
     testEntityManager.persist(sessionSwe);
 
-    final Person person1 = Factory.person();
-    testEntityManager.persist(person1);
-
-    final Person person2 = Factory.person();
-    person2.setOid("1.2.3.4.6");
-    testEntityManager.persist(person2);
-
-    final Registration reg1 = Factory.registration(person1);
-    reg1.setExamSession(sessionFin);
-    testEntityManager.persist(reg1);
-
-    final Registration reg2 = Factory.registration(person2);
-    reg2.setExamSession(sessionSwe);
-    testEntityManager.persist(reg2);
-
     testEntityManager.flush();
     testEntityManager.clear();
 
@@ -318,9 +325,36 @@ public class ClerkStatisticsServiceTest {
         .to(to)
         .languages(List.of())
         .levels(List.of())
-        .states(List.of())
+        .organizers(List.of())
         .build()
     );
     assertEquals(2, withEmpty.size());
+  }
+
+  @Test
+  public void testSessionsWithoutRegistrationsStillAppear() {
+    final Organizer organizer = Factory.organizer();
+    testEntityManager.persist(organizer);
+
+    final ExamDate examDate = Factory.examDate();
+    testEntityManager.persist(examDate);
+
+    final ExamSession examSession = Factory.examSession(examDate);
+    examSession.setOrganizer(organizer);
+    testEntityManager.persist(examSession);
+
+    testEntityManager.flush();
+    testEntityManager.clear();
+
+    final ClerkStatisticsRequestDTO request = ClerkStatisticsRequestDTO
+      .builder()
+      .from(LocalDate.of(2026, 6, 1))
+      .to(LocalDate.of(2026, 6, 30))
+      .build();
+
+    final List<ClerkStatisticsRowDTO> result = clerkStatisticsService.getStatistics(request);
+
+    assertEquals(1, result.size());
+    assertEquals(0L, result.get(0).registeredCount());
   }
 }

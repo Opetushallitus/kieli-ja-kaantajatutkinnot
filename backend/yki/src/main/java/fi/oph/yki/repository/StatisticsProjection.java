@@ -7,7 +7,7 @@ public interface StatisticsProjection {
   LocalDate getExamDate();
   String getLanguageCode();
   String getLevelCode();
-  String getState();
   String getMunicipality();
   Integer getMaxParticipants();
+  Long getRegisteredCount();
 }

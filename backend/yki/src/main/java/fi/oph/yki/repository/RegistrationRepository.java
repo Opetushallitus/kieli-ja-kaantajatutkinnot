@@ -55,26 +55,27 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     nativeQuery = true,
     value = """
       SELECT
-        o.oid                  AS organizerOid,
-        ed.exam_date           AS examDate,
-        es.language_code       AS languageCode,
-        es.level_code          AS levelCode,
-        CAST(r.state AS text)  AS state,
-        esl.post_office        AS municipality,
-        es.max_participants    AS maxParticipants
-      FROM registration r
-      INNER JOIN exam_session es           ON r.exam_session_id = es.id
+        o.oid                                          AS organizerOid,
+        ed.exam_date                                    AS examDate,
+        es.language_code                                AS languageCode,
+        es.level_code                                    AS levelCode,
+        esl.post_office                                  AS municipality,
+        es.max_participants                             AS maxParticipants,
+        COUNT(*) FILTER (WHERE r.state = 'COMPLETED')    AS registeredCount
+      FROM exam_session es
       INNER JOIN exam_date ed              ON es.exam_date_id   = ed.id
       INNER JOIN organizer o               ON es.organizer_id   = o.id
       LEFT  JOIN exam_session_location esl ON esl.exam_session_id = es.id AND esl.lang = 'fi'
+      LEFT  JOIN registration r            ON r.exam_session_id = es.id
       WHERE ed.exam_date >= :from
         AND ed.exam_date <= :to
-        AND es.language_code      IN (:languageCodes)
-        AND es.level_code         IN (:levelCodes)
-        AND CAST(r.state AS text) IN (:stateCodes)
+        AND es.language_code IN (:languageCodes)
+        AND es.level_code    IN (:levelCodes)
+        AND (CAST(:organizers AS text[]) IS NULL OR o.oid = ANY(CAST(:organizers AS text[])))
         AND (:municipality IS NULL
              OR LOWER(esl.post_office) LIKE '%' || LOWER(:municipality) || '%')
-      ORDER BY ed.exam_date, o.oid, es.language_code, es.level_code, r.id
+      GROUP BY o.oid, ed.exam_date, es.language_code, es.level_code, esl.post_office, es.max_participants
+      ORDER BY ed.exam_date, o.oid, es.language_code, es.level_code
       """
   )
   List<StatisticsProjection> findStatisticsRows(
@@ -82,7 +83,7 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     @Param("to") LocalDate to,
     @Param("languageCodes") List<String> languageCodes,
     @Param("levelCodes") List<String> levelCodes,
-    @Param("stateCodes") List<String> stateCodes,
+    @Param("organizers") String[] organizers,
     @Param("municipality") String municipality
   );
 
