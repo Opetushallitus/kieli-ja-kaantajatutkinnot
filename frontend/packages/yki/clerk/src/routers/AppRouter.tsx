@@ -37,6 +37,7 @@ import { loadMe, loadUser } from 'redux/reducers/user';
 import { sessionSelector } from 'redux/selectors/session';
 import { userSelector } from 'redux/selectors/user';
 
+// Trigger CI
 const ProtectedRoute = ({
   requireAdmin,
   requireOrganizer,
