@@ -29,7 +29,12 @@ import {
   resetClerkOrganization,
 } from 'redux/reducers/clerkOrganizer';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
-import { getOrganizerAddress, LANGUAGES, levelDescription } from 'utils/clerk';
+import {
+  getOrganizerAddress,
+  LANGUAGES,
+  languageToString,
+  levelDescription,
+} from 'utils/clerk';
 
 type ClerkAddOrganizerDetailsProps = {
   selectedOrganizationOid: string;
@@ -76,7 +81,7 @@ export const ClerkAddOrganizerDetails = ({
   const initializeLanguageSelections = useCallback((): LanguageSelection[] => {
     return LANGUAGES.map((lang: { code: string; name: string }) => ({
       language_code: lang.code,
-      language_name: lang.name,
+      language_name: languageToString(lang.code),
       levels: {
         PERUS: false,
         KESKI: false,

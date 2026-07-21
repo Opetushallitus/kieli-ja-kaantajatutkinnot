@@ -13,11 +13,10 @@ export interface PublicExamEvent extends WithId {
   isOpen: boolean;
 }
 
-export interface PublicExamEventResponse
-  extends Omit<
-    PublicExamEvent,
-    'date' | 'registrationCloses' | 'registrationOpens'
-  > {
+export interface PublicExamEventResponse extends Omit<
+  PublicExamEvent,
+  'date' | 'registrationCloses' | 'registrationOpens'
+> {
   date: string;
   registrationCloses: string;
   registrationOpens: string;

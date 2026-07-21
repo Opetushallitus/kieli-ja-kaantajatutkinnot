@@ -17,20 +17,19 @@ export interface ClerkExamEventBasicInformation {
   maxParticipants: number;
 }
 
-export interface DraftClerkExamEvent
-  extends Omit<
-    ClerkExamEvent,
-    | 'id'
-    | 'version'
-    | 'language'
-    | 'level'
-    | 'date'
-    | 'maxParticipants'
-    | 'registrationCloses'
-    | 'registrationOpens'
-    | 'enrollments'
-    | 'unApprovedFreeEnrollments'
-  > {
+export interface DraftClerkExamEvent extends Omit<
+  ClerkExamEvent,
+  | 'id'
+  | 'version'
+  | 'language'
+  | 'level'
+  | 'date'
+  | 'maxParticipants'
+  | 'registrationCloses'
+  | 'registrationOpens'
+  | 'enrollments'
+  | 'unApprovedFreeEnrollments'
+> {
   language?: Exclude<ExamLanguage, ExamLanguage.ALL>;
   level?: ExamLevel;
   date?: Dayjs;
@@ -39,11 +38,10 @@ export interface DraftClerkExamEvent
   maxParticipants?: number;
 }
 
-export interface ClerkExamEventResponse
-  extends Omit<
-    ClerkExamEvent,
-    'date' | 'registrationCloses' | 'registrationOpens' | 'enrollments'
-  > {
+export interface ClerkExamEventResponse extends Omit<
+  ClerkExamEvent,
+  'date' | 'registrationCloses' | 'registrationOpens' | 'enrollments'
+> {
   date: string;
   registrationCloses: string;
   registrationOpens: string;
@@ -51,9 +49,7 @@ export interface ClerkExamEventResponse
 }
 
 export interface ClerkExamEvent
-  extends WithId,
-    WithVersion,
-    ClerkExamEventBasicInformation {
+  extends WithId, WithVersion, ClerkExamEventBasicInformation {
   enrollments: Array<ClerkEnrollment>;
   unApprovedFreeEnrollments: number;
 }

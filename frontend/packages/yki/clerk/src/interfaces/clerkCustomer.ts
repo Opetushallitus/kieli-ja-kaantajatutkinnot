@@ -109,8 +109,7 @@ export interface ClerkPersonContactUpdateRequest {
   zip: string;
 }
 
-export interface OrganizerPersonContactUpdateRequest
-  extends ClerkPersonContactUpdateRequest {
+export interface OrganizerPersonContactUpdateRequest extends ClerkPersonContactUpdateRequest {
   organizerOid: string;
 }
 

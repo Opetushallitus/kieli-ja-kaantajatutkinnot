@@ -9,11 +9,10 @@ import {
 } from 'interfaces/clerkEnrollment';
 import { MunicipalityCode } from 'interfaces/municipality';
 
-export interface ExaminerExamEventResponse
-  extends Omit<
-    ExaminerExamEvent,
-    'date' | 'registrationCloses' | 'enrollments'
-  > {
+export interface ExaminerExamEventResponse extends Omit<
+  ExaminerExamEvent,
+  'date' | 'registrationCloses' | 'enrollments'
+> {
   date: string;
   registrationCloses: string;
   enrollments: Array<ClerkEnrollmentAppointmentResponse>;
@@ -32,8 +31,10 @@ export interface ExaminerExamEvent extends WithId, WithVersion {
   enrollments: Array<ClerkEnrollmentAppointment>;
 }
 
-export interface ExaminerExamEventUpsert
-  extends Omit<ExaminerExamEvent, 'id' | 'version' | 'enrollments'> {
+export interface ExaminerExamEventUpsert extends Omit<
+  ExaminerExamEvent,
+  'id' | 'version' | 'enrollments'
+> {
   id?: number;
 }
 

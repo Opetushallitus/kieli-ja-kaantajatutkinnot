@@ -32,15 +32,15 @@ export interface RegistrationCheckboxDetails {
 }
 
 export interface PublicSuomiFiRegistration
-  extends PersonFillOutDetails,
-    RegistrationCheckboxDetails,
-    WithId {
+  extends PersonFillOutDetails, RegistrationCheckboxDetails, WithId {
   email: string;
   emailConfirmation: string;
 }
 
-export interface PublicEmailRegistration
-  extends Omit<PublicSuomiFiRegistration, 'emailConfirmation'> {
+export interface PublicEmailRegistration extends Omit<
+  PublicSuomiFiRegistration,
+  'emailConfirmation'
+> {
   dateOfBirth?: string;
   gender?: GenderEnum;
   hasSSN?: boolean;

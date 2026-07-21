@@ -44,6 +44,7 @@ import { UserDetailsPage } from 'pages/UserDetailsPage';
 import { loadSession } from 'redux/reducers/session';
 import { sessionSelector } from 'redux/selectors/session';
 
+// Trigger CI
 const colorSecondaryLight = '#159ecb'; // not in figma specs
 const colorSecondary = '#378703';
 const colorSecondaryDark = '#5bca13';
@@ -207,26 +208,63 @@ const newYkiPublicTheme = {
 
 const newYkiThemeOrSharedTheme = clerkEnabled ? newYkiPublicTheme : theme;
 
-export const AppRouter: FC = () => {
+const ErrorToast = () => {
+  useAPIErrorToast();
+
+  return <></>;
+};
+
+const YkiTitlePage = ({ title, children }: TitlePageProps) => {
   const translateCommon = useCommonTranslation();
-  const sessionStatus = useAppSelector(sessionSelector).status;
-  const dispatch = useAppDispatch();
   const appTitle = translateCommon('appTitle');
 
   const createTitle = (title: string) =>
     translateCommon('pageTitle.' + title) + ' - ' + appTitle;
+
+  return (
+    <TitlePage title={createTitle(title)} className="title-page">
+      {children}
+    </TitlePage>
+  );
+};
+
+const FrontPage = (
+  <YkiTitlePage title="registration">
+    <RegistrationPage />
+  </YkiTitlePage>
+);
+
+const UserPortalSubPage = ({ title, children }: TitlePageProps) => {
+  const translateCommon = useCommonTranslation();
+
+  return (
+    <YkiTitlePage title={title}>
+      <div className="rows gapped-xxl">
+        <div className="columns">
+          <CustomButtonLink
+            to={AppRoutes.UserDetails}
+            startIcon={<ArrowBackIcon />}
+            variant={Variant.Text}
+            className="color-text-primary"
+          >
+            {translateCommon('back')}
+          </CustomButtonLink>
+        </div>
+        {children}
+      </div>
+    </YkiTitlePage>
+  );
+};
+
+export const AppRouter: FC = () => {
+  const sessionStatus = useAppSelector(sessionSelector).status;
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (sessionStatus === APIResponseStatus.NotStarted) {
       dispatch(loadSession());
     }
   }, [dispatch, sessionStatus]);
-
-  const ErrorToast = () => {
-    useAPIErrorToast();
-
-    return <></>;
-  };
 
   const Root = (
     <div className="app">
@@ -246,40 +284,6 @@ export const AppRouter: FC = () => {
       </NotifierContextProvider>
     </div>
   );
-
-  const YkiTitlePage = ({ title, children }: TitlePageProps) => (
-    <TitlePage title={createTitle(title)} className="title-page">
-      {children}
-    </TitlePage>
-  );
-
-  const FrontPage = (
-    <YkiTitlePage title="registration">
-      <RegistrationPage />
-    </YkiTitlePage>
-  );
-
-  const UserPortalSubPage = ({ title, children }: TitlePageProps) => {
-    const translateCommon = useCommonTranslation();
-
-    return (
-      <YkiTitlePage title={title}>
-        <div className="rows gapped-xxl">
-          <div className="columns">
-            <CustomButtonLink
-              to={AppRoutes.UserDetails}
-              startIcon={<ArrowBackIcon />}
-              variant={Variant.Text}
-              className="color-text-primary"
-            >
-              {translateCommon('back')}
-            </CustomButtonLink>
-          </div>
-          {children}
-        </div>
-      </YkiTitlePage>
-    );
-  };
 
   const router = createBrowserRouter(
     createRoutesFromElements(

@@ -71,8 +71,9 @@ type ListTablePaginationProps = {
   serverSide?: boolean;
 };
 
-interface ListTableProps<T extends Row>
-  extends React.ComponentProps<typeof StyledTable> {
+interface ListTableProps<T extends Row> extends React.ComponentProps<
+  typeof StyledTable
+> {
   columns?: Array<ListTableColumn<T>>;
   rows?: Array<T>;
   sort?: string;

@@ -153,8 +153,8 @@ export class SerializationUtils {
             metadata.kieli === 'EN'
               ? AppLanguage.English
               : metadata.kieli === 'SV'
-              ? AppLanguage.Swedish
-              : AppLanguage.Finnish,
+                ? AppLanguage.Swedish
+                : AppLanguage.Finnish,
         })),
       )
       .flat();

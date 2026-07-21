@@ -10,8 +10,8 @@
       "backToHomePage": "Tillbaka till startsidan",
       "cancel": "Avbryt",
       "clerk": "Administratör",
-      "clerkExamSessions": "Tutkintopäivät",
-      "clerkOrganizerRegister": "Järjestäjärekisteri",
+      "clerkExamSessions": "Testdatum",
+      "clerkOrganizerRegister": "Anordnarregister",
       "component": {
         "table": {
           "header": {
@@ -31,33 +31,33 @@
         }
       },
       "contactEmail": "kielitutkinnot@oph.fi",
-      "contactInfo": "Yhteystiedot",
-      "customerSearch": "Asiakashaku",
+      "contactInfo": "Kontaktuppgifter",
+      "customerSearch": "Kundsökning",
       "dates": {
         "dateFormat": "l",
         "dateTimeFormat": "l [kl.] HH:mm"
       },
       "examSessionTimes": {
-        "fullSessionTime": "Koko tutkinto klo {{time}}",
+        "fullSessionTime": "Hela examen kl. {{time}}",
         "partialSessionTime": "{{partialExam1}} klo {{time1}}, {{partialExam2}} klo {{time2}}"
       },
       "email": "E-postadress",
       "error": "Ett oväntat fel uppstod.",
       "errors": {
-        "notFound": "Tietoja ei löytynyt",
-        "addingExamDateFailed": "Tutkintopäivän lisääminen epäonnistui",
+        "notFound": "Inga uppgifter hittades",
+        "addingExamDateFailed": "Det gick inte att lägga till testdatumet",
         "api": {
-          "examDateCreateDuplicateDate": "Tutkintopäivä on jo olemassa valitulle päivämäärälle",
-          "examDateExamBeforeRegistrationEnd": "Tutkintopäivän on oltava ilmoittautumisen päättymispäivän jälkeen",
-          "examDateHasEvaluations": "Tutkintopäivää ei voi poistaa, koska siihen on liitetty tarkistusarviointeja",
-          "examDateHasSessions": "Tutkintopäivää ei voi poistaa, koska siihen on liitetty tutkintotilaisuuksia",
-          "examDateRegistrationEndBeforeStart": "Ilmoittautumisen päättymispäivän on oltava alkamispäivän jälkeen",
-          "generic": "Tapahtui odottamaton virhe. Yritä uudestaan hetken kuluttua.",
-          "quarantineInvalidSsn": "Henkilötunnus on virheellinen",
-          "quarantineMissingSsnAndBirthdate": "Syntymäaika tai henkilötunnus on annettava",
-          "quarantineSsnBirthdateMismatch": "Henkilötunnus ja syntymäaika eivät täsmää",
-          "quarantineDiaryNumberAlreadyExists": "Annettu diaarinumero on jo olemassa",
-          "quarantineAlreadyDeleted": "Osallistumiskielto on jo poistettu."
+          "examDateCreateDuplicateDate": "Det finns redan ett testdatum för det valda datumet",
+          "examDateExamBeforeRegistrationEnd": "Testdatumet måste infalla efter anmälningstidens slutdatum",
+          "examDateHasEvaluations": "Testdatumet kan inte tas bort eftersom det är kopplat till kontrollbedömningar",
+          "examDateHasSessions": "Testdatumet kan inte tas bort eftersom det är kopplat till examenstillfällen",
+          "examDateRegistrationEndBeforeStart": "Anmälningstidens slutdatum måste infalla efter startdatumet",
+          "generic": "Ett oväntat fel uppstod. Försök igen om en stund.",
+          "quarantineInvalidSsn": "Personbeteckningen är felaktig",
+          "quarantineMissingSsnAndBirthdate": "Födelsedatum eller personbeteckning ska anges",
+          "quarantineSsnBirthdateMismatch": "Personbeteckningen och födelsedatumet stämmer inte överens",
+          "quarantineDiaryNumberAlreadyExists": "Det angivna diarienumret finns redan",
+          "quarantineAlreadyDeleted": "Deltagandeförbudet har redan tagits bort."
         },
         "customTextField": {
           "dateFormat": "Ange datum i formatet dd.mm.åååå",
@@ -68,7 +68,7 @@
           "telFormat": "Telefonnummret är felaktigt"
         },
         "deletingExamDateFailed": "Det gick inte att ta bort provdatumet",
-        "loadingExamDatesFailed": "Tutkintopäivien lataaminen epäonnistui",
+        "loadingExamDatesFailed": "Det gick inte att ladda testdatumen",
         "loadingFailed": "Det gick inte att ladda uppgifterna.",
         "mismatchingEmails": "Innehållet i fälten för e-postadress motsvarar inte varandra",
         "registration": {
@@ -79,11 +79,11 @@
           "personCreationFailed": "Det gick inte att skicka anmälningsblanketten.",
           "registrationPeriodClosed": "Anmälningstiden har upphört."
         },
-        "updatingExamDateFailed": "Tutkintopäivän muokkaaminen epäonnistui",
-        "addingEvaluationFailed": "Tarkistusarvioinnin lisääminen epäonnistui",
-        "addingQuarantineFailed": "Osallistumiskiellon lisääminen epäonnistui",
-        "updatingQuarantineFailed": "Osallistumiskiellon muokkaaminen epäonnistui",
-        "deletingQuarantineFailed": "Osallistumiskiellon poistaminen epäonnistui"
+        "updatingExamDateFailed": "Det gick inte att redigera testdatumet",
+        "addingEvaluationFailed": "Det gick inte att lägga till kontrollbedömningen",
+        "addingQuarantineFailed": "Det gick inte att lägga till deltagandeförbudet",
+        "updatingQuarantineFailed": "Det gick inte att redigera deltagandeförbudet",
+        "deletingQuarantineFailed": "Det gick inte att ta bort deltagandeförbudet"
       },
       "examDate": "Testdag",
       "examination": "Examen",
@@ -94,11 +94,10 @@
         "writing": "Skrivning"
       },
       "examSession": "Examen",
-      "extraInfo": "Lisätiedot",
-      "freeRegistration": "Maksuttomuus",
-      "paymentReport": "Maksuraportti",
-      "quarantine": "Osallistumiskiellot",
-      "statistics": "Tilastot",
+      "extraInfo": "Mer information",
+      "freeRegistration": "Avgiftsfrihet",
+      "paymentReport": "Betalningsrapport",
+      "quarantine": "Deltagandeförbud",
       "full": "Fullbokat",
       "gender": {
         "female": "Kvinna",
@@ -132,11 +131,11 @@
         }
       },
       "institution": "Testplats",
-      "otherLocationInfo": "Tila",
+      "otherLocationInfo": "Status",
       "lang": {
-        "en": "Englanti",
-        "fi": "Suomi",
-        "sv": "Ruotsi"
+        "en": "Engelska",
+        "fi": "Finska",
+        "sv": "Svenska"
       },
       "language": "Språk",
       "languageLevel": {
@@ -160,7 +159,7 @@
       "level": "Nivå",
       "loadingContent": "Innehållet laddas",
       "loadingDone": "Innehållet har laddats",
-      "maxParticipantsTotal": "Osallistujapaikkojen määrä",
+      "maxParticipantsTotal": "Antalet deltagarplatser",
       "municipality": "Ort",
       "name": "Namn",
       "navigationProtection": {
@@ -176,14 +175,14 @@
         "accessibilityStatement": "Tillgänglighetsutlåtande",
         "clerk": "Administratör",
         "confirmRegistration": "Bekräfta anmälan",
-        "customerDetails": "Asiakkaan tiedot",
-        "customerSearch": "Asiakashaku",
+        "customerDetails": "Kundens uppgifter",
+        "customerSearch": "Kundsökning",
         "evaluationOrder": "Kontrollbedömning",
         "evaluationOrderStatus": "Kontrollbedömning",
         "examDetails": "Test",
-        "customerExamSession": "Tutkintotilaisuus",
+        "customerExamSession": "Examenstillfälle",
         "expiredLoginLink": "Länken gäller inte längre",
-        "freeRegistrationSuccess": "Ilmoittautuminen onnistui",
+        "freeRegistrationSuccess": "Anmälan lyckades",
         "initRegistration": "Anmälning",
         "logoutSuccess": "Utloggning lyckades",
         "modifyContactDetails": "Redigera kontaktuppgifterna",

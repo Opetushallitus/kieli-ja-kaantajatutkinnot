@@ -393,9 +393,8 @@ export const EducationDetails = ({
   const handleEducationChange = useCallback(handleEductionChangeFn, [dispatch]);
 
   useEffect(() => {
-    setIsStepValid(isEducationValid && isAttachmentsValid),
-      [setIsStepValid, isEducationValid, isAttachmentsValid];
-  });
+    setIsStepValid(isEducationValid && isAttachmentsValid);
+  }, [setIsStepValid, isEducationValid, isAttachmentsValid]);
 
   return (
     <div className="rows gapped">
