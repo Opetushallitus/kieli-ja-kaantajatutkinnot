@@ -28,7 +28,7 @@ import { clerkCustomersSearchSelector } from 'redux/selectors/clerkCustomersSear
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
 import { examDateSelector } from 'redux/selectors/examDate';
 import { filteredClerkOrganizersSelector } from 'redux/selectors/filteredClerkOrganizers';
-import { LANGUAGES, levelDescription } from 'utils/clerk';
+import { LANGUAGES, languageToString, levelDescription } from 'utils/clerk';
 
 type LevelCode = 'PERUS' | 'KESKI' | 'YLIN';
 
@@ -151,7 +151,7 @@ export const ClerkCustomerListingFilter = ({
           options={[
             { label: t('listing.all'), value: '' },
             ...LANGUAGES.map((lang) => ({
-              label: lang.name,
+              label: languageToString(lang.code),
               value: lang.code,
             })),
           ]}

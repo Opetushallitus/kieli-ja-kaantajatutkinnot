@@ -25,7 +25,7 @@ import {
   updateExamDate,
 } from 'redux/reducers/examDate';
 import { examDateSelector } from 'redux/selectors/examDate';
-import { LANGUAGES, levelDescription } from 'utils/clerk';
+import { LANGUAGES, languageToString, levelDescription } from 'utils/clerk';
 
 type LanguageSelection = {
   languageCode: string;
@@ -61,7 +61,7 @@ const initializeLanguageSelections = (
 
     return {
       languageCode: lang.code,
-      languageName: lang.name,
+      languageName: languageToString(lang.code),
       levels: {
         PERUS: existing.some((l) => l.levelCode === 'PERUS'),
         KESKI: existing.some((l) => l.levelCode === 'KESKI'),
@@ -362,10 +362,10 @@ export const ModifyExamDateModal = ({
                         submitted && errors.registrationEnd
                           ? t('modal.errors.required')
                           : submitted && errors.registrationEndBeforeStart
-                          ? t('modal.errors.registrationEndBeforeStart')
-                          : submitted && errors.registrationEndAfterExamDate
-                          ? t('modal.errors.registrationEndAfterExamDate')
-                          : undefined
+                            ? t('modal.errors.registrationEndBeforeStart')
+                            : submitted && errors.registrationEndAfterExamDate
+                              ? t('modal.errors.registrationEndAfterExamDate')
+                              : undefined
                       }
                     />
                   </div>

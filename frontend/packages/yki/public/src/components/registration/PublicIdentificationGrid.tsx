@@ -185,8 +185,8 @@ export const PublicIdentificationGrid = () => {
                 {toQueue
                   ? t('titleForQueueing')
                   : loggedInSession
-                  ? t('alreadyLoggedIn.title')
-                  : t('title')}
+                    ? t('alreadyLoggedIn.title')
+                    : t('title')}
               </H1>
               <HeaderSeparator />
             </div>
@@ -197,8 +197,8 @@ export const PublicIdentificationGrid = () => {
               isPhone
                 ? {}
                 : clerkEnabled
-                ? { borderTop: '5px solid' + ophColors.green2 }
-                : undefined
+                  ? { borderTop: '5px solid' + ophColors.green2 }
+                  : undefined
             }
           >
             <div className="public-registration__grid__form-container">

@@ -70,13 +70,11 @@ describe.skip('ExamDetailsPage', () => {
       cy.openExamSessionRegistrationForm(
         examSessionResponse.id,
         getInitRegistrationResponse(true).registration_id,
-      ),
-        cy
-          .intercept('POST', APIEndpoints.InitRegistration, {
-            statusCode: 200,
-            body: getInitRegistrationResponse(true),
-          })
-          .as('initRegistration');
+      );
+      cy.intercept('POST', APIEndpoints.InitRegistration, {
+        statusCode: 200,
+        body: getInitRegistrationResponse(true),
+      }).as('initRegistration');
       cy.wait('@initRegistration');
       onExamDetailsPage.isVisible();
       onExamDetailsPage.fillFieldByLabel(

@@ -14,8 +14,10 @@ interface ClerkRegistrationPerson {
   streetAddress: string;
 }
 
-export interface ClerkRegistrationResponse
-  extends Omit<ClerkRegistration, 'registrationDate'> {
+export interface ClerkRegistrationResponse extends Omit<
+  ClerkRegistration,
+  'registrationDate'
+> {
   registrationDate: string;
 }
 

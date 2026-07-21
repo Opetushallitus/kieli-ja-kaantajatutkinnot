@@ -27,8 +27,8 @@ class PublicRegistrationPage {
       count === 0
         ? 'ei tuloksia'
         : count === 1
-        ? '1 tulos'
-        : `${count} tulosta`;
+          ? '1 tulos'
+          : `${count} tulosta`;
     this.elements
       .resultBox()
       .findByRole('heading', { name: `Tulokset (${resultsLabelSuffix})` })
@@ -88,14 +88,15 @@ class PublicRegistrationPage {
   }
 
   expectReservationTimerText(visible, text?) {
-    visible
-      ? cy
-          .findByTestId('public-registration__reservation-timer-text')
-          .should('be.visible')
-          .and('have.text', text)
-      : cy
-          .findByTestId('public-registration__reservation-timer-text')
-          .should('not.exist');
+    if (visible) {
+      cy.findByTestId('public-registration__reservation-timer-text')
+        .should('be.visible')
+        .and('have.text', text);
+    } else {
+      cy.findByTestId('public-registration__reservation-timer-text').should(
+        'not.exist',
+      );
+    }
   }
 }
 

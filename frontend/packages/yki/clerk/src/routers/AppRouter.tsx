@@ -13,11 +13,11 @@ import {
   NotifierContextProvider,
   ScrollToTop,
 } from 'shared/components';
-import { APIResponseStatus } from 'shared/enums';
+import { APIResponseStatus, AppLanguage } from 'shared/enums';
 import { TitlePage, TitlePageProps } from 'shared/utils';
 
 import { ClerkHeader } from 'components/layouts/clerkHeader/ClerkHeader';
-import { useCommonTranslation } from 'configs/i18n';
+import { changeLang, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
@@ -33,7 +33,7 @@ import { ClerkPaymentReportPage } from 'pages/ClerkPaymentReportPage';
 import { ClerkQuarantinePage } from 'pages/ClerkQuarantinePage';
 import { ClerkStatisticsPage } from 'pages/ClerkStatisticsPage';
 import { loadSession } from 'redux/reducers/session';
-import { loadUser } from 'redux/reducers/user';
+import { loadMe, loadUser } from 'redux/reducers/user';
 import { sessionSelector } from 'redux/selectors/session';
 import { userSelector } from 'redux/selectors/user';
 
@@ -72,15 +72,62 @@ const ProtectedRoute = ({
   return <Outlet />;
 };
 
-export const AppRouter: FC = () => {
+const shortLangToLong = (lang: string) => {
+  if (lang === 'sv') {
+    return AppLanguage.Swedish;
+  }
+  if (lang === 'fi') {
+    return AppLanguage.Finnish;
+  }
+  if (lang === 'en') {
+    return AppLanguage.English;
+  }
+
+  return AppLanguage.Finnish;
+};
+
+const YkiTitlePage = ({ title, children }: TitlePageProps) => {
   const translateCommon = useCommonTranslation();
-  const sessionStatus = useAppSelector(sessionSelector).status;
-  const { status: userStatus } = useAppSelector(userSelector);
-  const dispatch = useAppDispatch();
   const appTitle = translateCommon('appTitle');
 
   const createTitle = (title: string) =>
     translateCommon('pageTitle.' + title) + ' - ' + appTitle;
+
+  return (
+    <TitlePage title={createTitle(title)} className="title-page">
+      {children}
+    </TitlePage>
+  );
+};
+
+const ErrorToast = () => {
+  useAPIErrorToast();
+
+  return <></>;
+};
+
+const ClerkRoot = (
+  <div className="app">
+    <NotifierContextProvider>
+      <OphThemeProvider lang="fi" variant="oph" overrides={clerkTheme}>
+        <ClerkHeader />
+        <ErrorToast />
+        <Notifier />
+        <ScrollToTop />
+        <main className="clerk-content" id="main-content">
+          <div className="clerk-content__container">
+            <Outlet />
+          </div>
+        </main>
+      </OphThemeProvider>
+    </NotifierContextProvider>
+  </div>
+);
+
+export const AppRouter: FC = () => {
+  const sessionStatus = useAppSelector(sessionSelector).status;
+  const { status: userStatus, meStatus, me } = useAppSelector(userSelector);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (sessionStatus === APIResponseStatus.NotStarted) {
@@ -89,40 +136,19 @@ export const AppRouter: FC = () => {
   }, [dispatch, sessionStatus]);
 
   useEffect(() => {
+    if (meStatus === APIResponseStatus.NotStarted) {
+      dispatch(loadMe());
+    }
+    if (meStatus === APIResponseStatus.Success && me && me.lang) {
+      changeLang(shortLangToLong(me.lang));
+    }
+  }, [dispatch, meStatus, me]);
+
+  useEffect(() => {
     if (userStatus === APIResponseStatus.NotStarted) {
       dispatch(loadUser());
     }
   }, [dispatch, userStatus]);
-
-  const ErrorToast = () => {
-    useAPIErrorToast();
-
-    return <></>;
-  };
-
-  const ClerkRoot = (
-    <div className="app">
-      <NotifierContextProvider>
-        <OphThemeProvider lang="fi" variant="oph" overrides={clerkTheme}>
-          <ClerkHeader />
-          <ErrorToast />
-          <Notifier />
-          <ScrollToTop />
-          <main className="clerk-content" id="main-content">
-            <div className="clerk-content__container">
-              <Outlet />
-            </div>
-          </main>
-        </OphThemeProvider>
-      </NotifierContextProvider>
-    </div>
-  );
-
-  const YkiTitlePage = ({ title, children }: TitlePageProps) => (
-    <TitlePage title={createTitle(title)} className="title-page">
-      {children}
-    </TitlePage>
-  );
 
   const router = createBrowserRouter(
     createRoutesFromElements(

@@ -20,7 +20,7 @@ import { CreateExamDateRequest, ExamType } from 'interfaces/examDate';
 import { H2, H3, Label, Text } from 'ophTheme/Text';
 import { addExamDate, resetAddExamDateStatus } from 'redux/reducers/examDate';
 import { examDateSelector } from 'redux/selectors/examDate';
-import { LANGUAGES, levelDescription } from 'utils/clerk';
+import { LANGUAGES, languageToString, levelDescription } from 'utils/clerk';
 
 type LanguageSelection = {
   languageCode: string;
@@ -49,7 +49,7 @@ type FormErrors = {
 const initializeLanguageSelections = (): LanguageSelection[] =>
   LANGUAGES.map((lang) => ({
     languageCode: lang.code,
-    languageName: lang.name,
+    languageName: languageToString(lang.code),
     levels: {
       PERUS: false,
       KESKI: false,
@@ -339,10 +339,10 @@ export const AddExamDateModal = ({
                       submitted && errors.registrationEnd
                         ? t('errors.required')
                         : submitted && errors.registrationEndBeforeStart
-                        ? t('errors.registrationEndBeforeStart')
-                        : submitted && errors.registrationEndAfterExamDate
-                        ? t('errors.registrationEndAfterExamDate')
-                        : undefined
+                          ? t('errors.registrationEndBeforeStart')
+                          : submitted && errors.registrationEndAfterExamDate
+                            ? t('errors.registrationEndAfterExamDate')
+                            : undefined
                     }
                   />
                 </div>

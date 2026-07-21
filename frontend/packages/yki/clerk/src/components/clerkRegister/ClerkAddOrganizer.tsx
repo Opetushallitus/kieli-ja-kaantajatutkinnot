@@ -85,9 +85,19 @@ export const ClerkAddOrganizer: FC = () => {
           <div>
             {(() => {
               const filteredOrgs = allOrganizations.filter((org) => {
-                return org.nimi.fi
-                  .toLocaleLowerCase()
+                if (!org?.nimi?.fi && !org?.nimi?.sv) {
+                  return false;
+                }
+
+                const matchesNimiFi = org?.nimi?.fi
+                  ?.toLocaleLowerCase()
                   .includes(searchQuery.toLocaleLowerCase());
+
+                const matchesNimiSv = org?.nimi?.sv
+                  ?.toLocaleLowerCase()
+                  .includes(searchQuery.toLocaleLowerCase());
+
+                return matchesNimiFi || matchesNimiSv;
               });
 
               return (

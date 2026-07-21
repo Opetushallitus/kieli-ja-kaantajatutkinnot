@@ -204,6 +204,58 @@ const ContactDetailInputFields = ({ showErrors }: { showErrors: boolean }) => {
   );
 };
 
+const CancelButton = ({
+  disabled,
+  fullWidth,
+}: {
+  disabled: boolean;
+  fullWidth: boolean;
+}) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.modifyContactDetailsPage',
+  });
+
+  return (
+    <CustomButtonLink
+      color={Color.Secondary}
+      variant={Variant.Outlined}
+      fullWidth={fullWidth}
+      to={AppRoutes.UserDetails}
+      disabled={disabled}
+    >
+      {t('buttons.cancel')}
+    </CustomButtonLink>
+  );
+};
+
+const SaveButton = ({
+  disabled,
+  fullWidth,
+  onClick,
+}: {
+  disabled: boolean;
+  fullWidth: boolean;
+  onClick: () => void;
+}) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.modifyContactDetailsPage',
+  });
+
+  return (
+    <LoadingProgressIndicator isLoading={disabled}>
+      <CustomButton
+        color={Color.Secondary}
+        variant={Variant.Contained}
+        fullWidth={fullWidth}
+        onClick={onClick}
+        disabled={disabled}
+      >
+        {t('buttons.save')}
+      </CustomButton>
+    </LoadingProgressIndicator>
+  );
+};
+
 const ControlButtons = ({
   setShowErrors,
 }: {
@@ -267,43 +319,26 @@ const ControlButtons = ({
     }
   };
 
-  const SaveButton = () => (
-    <LoadingProgressIndicator isLoading={modifyRequestInProgress}>
-      <CustomButton
-        color={Color.Secondary}
-        variant={Variant.Contained}
-        fullWidth={isPhone}
-        onClick={onSave}
-        disabled={modifyRequestInProgress}
-      >
-        {t('buttons.save')}
-      </CustomButton>
-    </LoadingProgressIndicator>
-  );
-  const CancelButton = () => (
-    <CustomButtonLink
-      color={Color.Secondary}
-      variant={Variant.Outlined}
-      fullWidth={isPhone}
-      to={AppRoutes.UserDetails}
-      disabled={modifyRequestInProgress}
-    >
-      {t('buttons.cancel')}
-    </CustomButtonLink>
-  );
-
   if (isPhone) {
     return (
       <>
-        <SaveButton />
-        <CancelButton />
+        <SaveButton
+          disabled={modifyRequestInProgress}
+          fullWidth
+          onClick={onSave}
+        />
+        <CancelButton disabled={modifyRequestInProgress} fullWidth />
       </>
     );
   } else {
     return (
       <div className="columns gapped margin-top-lg">
-        <SaveButton />
-        <CancelButton />
+        <SaveButton
+          disabled={modifyRequestInProgress}
+          fullWidth={false}
+          onClick={onSave}
+        />
+        <CancelButton disabled={modifyRequestInProgress} fullWidth={false} />
       </div>
     );
   }

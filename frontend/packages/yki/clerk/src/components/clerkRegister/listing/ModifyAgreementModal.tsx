@@ -32,7 +32,7 @@ import {
   updateClerkOrganizer,
 } from 'redux/reducers/clerkOrganizer';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
-import { LANGUAGES, levelDescription } from 'utils/clerk';
+import { LANGUAGES, languageToString, levelDescription } from 'utils/clerk';
 
 type LanguageSelection = {
   language_code: string;
@@ -97,7 +97,7 @@ export const ModifyAgreementModal = ({
 
       return {
         language_code: lang.code,
-        language_name: lang.name,
+        language_name: languageToString(lang.code),
         levels: {
           PERUS: existingLevels.includes('PERUS'),
           KESKI: existingLevels.includes('KESKI'),
