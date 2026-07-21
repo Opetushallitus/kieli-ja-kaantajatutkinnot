@@ -48,9 +48,9 @@ const PARTIAL_EXAM_TYPE_OPTIONS: Array<{
   i18nKey: string;
 }> = [
   { type: 'ALL_PARTS', i18nKey: 'labels.allPartsAtOnce' },
-  { type: 'READ', i18nKey: 'labels.read' },
-  { type: 'SPEAK', i18nKey: 'labels.speak' },
   { type: 'LISTEN', i18nKey: 'labels.listen' },
+  { type: 'SPEAK', i18nKey: 'labels.speak' },
+  { type: 'READ', i18nKey: 'labels.read' },
   { type: 'WRITE', i18nKey: 'labels.write' },
 ];
 
