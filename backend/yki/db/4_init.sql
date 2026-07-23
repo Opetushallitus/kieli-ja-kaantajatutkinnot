@@ -289,6 +289,17 @@ COPY public.exam_session (id, organizer_id, language_code, level_code, exam_date
 
 
 --
+-- Data for Name: exam_session_statistics; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.exam_session_statistics (id, exam_session_id, created_at, participants, queue, max_participant_count, max_queue_count, max_participants_at, max_queue_at, last_processed_event_id) FROM stdin;
+1	1	2026-06-01 08:00:00+00	3	0	3	0	2026-06-01 08:00:00+00	2026-06-01 08:00:00+00	\N
+2	1	2026-06-03 09:00:00+00	8	0	8	0	2026-06-03 09:00:00+00	2026-06-01 08:00:00+00	\N
+3	1	2026-06-05 10:00:00+00	11	1	11	1	2026-06-05 10:00:00+00	2026-06-05 10:00:00+00	\N
+\.
+
+
+--
 -- Data for Name: participant; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
@@ -826,6 +837,13 @@ SELECT pg_catalog.setval('public.exam_session_organizer_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public.exam_session_queue_id_seq', 1, false);
+
+
+--
+-- Name: exam_session_statistics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.exam_session_statistics_id_seq', 3, true);
 
 
 --
