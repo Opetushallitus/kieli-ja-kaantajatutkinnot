@@ -61,12 +61,30 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
         es.level_code                                    AS levelCode,
         esl.post_office                                  AS municipality,
         es.max_participants                             AS maxParticipants,
-        COUNT(*) FILTER (WHERE r.state = 'COMPLETED')    AS registeredCount
+        COUNT(*) FILTER (WHERE r.state = 'COMPLETED')    AS registeredCount,
+        MAX(stats.peak_participants)                     AS peakParticipants,
+        MAX(stats.peak_queue)                            AS peakQueue,
+        CASE WHEN MAX(stats.peak_participants) >= es.max_participants
+             THEN MAX(stats.max_participants_at)
+             ELSE NULL END                               AS filledAt,
+        CASE WHEN MAX(stats.peak_queue) > 0
+             THEN MAX(stats.max_queue_at)
+             ELSE NULL END                               AS queuePeakAt
       FROM exam_session es
       INNER JOIN exam_date ed              ON es.exam_date_id   = ed.id
       INNER JOIN organizer o               ON es.organizer_id   = o.id
       LEFT  JOIN exam_session_location esl ON esl.exam_session_id = es.id AND esl.lang = 'fi'
       LEFT  JOIN registration r            ON r.exam_session_id = es.id
+      LEFT  JOIN (
+        SELECT
+          exam_session_id,
+          MAX(max_participant_count) AS peak_participants,
+          MAX(max_participants_at)   AS max_participants_at,
+          MAX(max_queue_count)       AS peak_queue,
+          MAX(max_queue_at)          AS max_queue_at
+        FROM exam_session_statistics
+        GROUP BY exam_session_id
+      ) stats                              ON stats.exam_session_id = es.id
       WHERE ed.exam_date >= :from
         AND ed.exam_date <= :to
         AND es.language_code IN (:languageCodes)

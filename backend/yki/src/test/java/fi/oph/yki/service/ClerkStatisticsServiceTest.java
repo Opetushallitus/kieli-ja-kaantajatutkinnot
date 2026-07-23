@@ -12,6 +12,7 @@ import fi.oph.yki.api.dto.clerk.ClerkStatisticsRowDTO;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
+import fi.oph.yki.model.ExamSessionStatistics;
 import fi.oph.yki.model.Organizer;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
@@ -21,6 +22,7 @@ import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -103,6 +105,10 @@ public class ClerkStatisticsServiceTest {
     assertEquals("Helsinki", row.municipality());
     assertEquals(20, row.availablePlaces());
     assertEquals(1L, row.registeredCount());
+    assertEquals(null, row.peakParticipants());
+    assertEquals(null, row.peakQueue());
+    assertEquals(null, row.filledAt());
+    assertEquals(null, row.queuePeakAt());
   }
 
   @Test
@@ -356,5 +362,95 @@ public class ClerkStatisticsServiceTest {
 
     assertEquals(1, result.size());
     assertEquals(0L, result.get(0).registeredCount());
+  }
+
+  @Test
+  public void testPeakMetricsPickCorrectMaximumAcrossMultipleStatisticsRows() {
+    final Organizer organizer = Factory.organizer();
+    testEntityManager.persist(organizer);
+
+    final ExamDate examDate = Factory.examDate();
+    testEntityManager.persist(examDate);
+
+    final ExamSession examSession = Factory.examSession(examDate);
+    examSession.setOrganizer(organizer);
+    examSession.setMaxParticipants(6);
+    testEntityManager.persist(examSession);
+
+    final LocalDateTime filledAt = LocalDateTime.of(2026, 6, 5, 9, 0);
+    final LocalDateTime queuePeakAt = LocalDateTime.of(2026, 6, 6, 14, 0);
+
+    final ExamSessionStatistics row1 = Factory.examSessionStatistics(examSession);
+    row1.setMaxParticipantCount(3);
+    row1.setMaxParticipantsAt(LocalDateTime.of(2026, 6, 4, 8, 0));
+    testEntityManager.persist(row1);
+
+    final ExamSessionStatistics row2 = Factory.examSessionStatistics(examSession);
+    row2.setMaxParticipantCount(6);
+    row2.setMaxParticipantsAt(filledAt);
+    row2.setMaxQueueCount(1);
+    row2.setMaxQueueAt(LocalDateTime.of(2026, 6, 5, 15, 0));
+    testEntityManager.persist(row2);
+
+    final ExamSessionStatistics row3 = Factory.examSessionStatistics(examSession);
+    row3.setMaxParticipantCount(6);
+    row3.setMaxParticipantsAt(filledAt);
+    row3.setMaxQueueCount(2);
+    row3.setMaxQueueAt(queuePeakAt);
+    testEntityManager.persist(row3);
+
+    testEntityManager.flush();
+    testEntityManager.clear();
+
+    final ClerkStatisticsRequestDTO request = ClerkStatisticsRequestDTO
+      .builder()
+      .from(LocalDate.of(2026, 6, 1))
+      .to(LocalDate.of(2026, 6, 30))
+      .build();
+
+    final List<ClerkStatisticsRowDTO> result = clerkStatisticsService.getStatistics(request);
+
+    assertEquals(1, result.size());
+    final ClerkStatisticsRowDTO row = result.get(0);
+    assertEquals(6, row.peakParticipants());
+    assertEquals(filledAt, row.filledAt());
+    assertEquals(2, row.peakQueue());
+    assertEquals(queuePeakAt, row.queuePeakAt());
+  }
+
+  @Test
+  public void testGatedColumnsAreNullWhenSessionNeverFilledUpOrQueued() {
+    final Organizer organizer = Factory.organizer();
+    testEntityManager.persist(organizer);
+
+    final ExamDate examDate = Factory.examDate();
+    testEntityManager.persist(examDate);
+
+    final ExamSession examSession = Factory.examSession(examDate);
+    examSession.setOrganizer(organizer);
+    examSession.setMaxParticipants(10);
+    testEntityManager.persist(examSession);
+
+    final ExamSessionStatistics statistics = Factory.examSessionStatistics(examSession);
+    statistics.setMaxParticipantCount(6);
+    testEntityManager.persist(statistics);
+
+    testEntityManager.flush();
+    testEntityManager.clear();
+
+    final ClerkStatisticsRequestDTO request = ClerkStatisticsRequestDTO
+      .builder()
+      .from(LocalDate.of(2026, 6, 1))
+      .to(LocalDate.of(2026, 6, 30))
+      .build();
+
+    final List<ClerkStatisticsRowDTO> result = clerkStatisticsService.getStatistics(request);
+
+    assertEquals(1, result.size());
+    final ClerkStatisticsRowDTO row = result.get(0);
+    assertEquals(6, row.peakParticipants());
+    assertEquals(null, row.filledAt());
+    assertEquals(0, row.peakQueue());
+    assertEquals(null, row.queuePeakAt());
   }
 }

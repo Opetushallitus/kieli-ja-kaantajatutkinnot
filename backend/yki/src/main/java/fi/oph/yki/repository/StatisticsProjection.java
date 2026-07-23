@@ -1,6 +1,7 @@
 package fi.oph.yki.repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public interface StatisticsProjection {
   String getOrganizerOid();
@@ -10,4 +11,8 @@ public interface StatisticsProjection {
   String getMunicipality();
   Integer getMaxParticipants();
   Long getRegisteredCount();
+  Integer getPeakParticipants();
+  Integer getPeakQueue();
+  LocalDateTime getFilledAt();
+  LocalDateTime getQueuePeakAt();
 }

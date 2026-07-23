@@ -67,6 +67,10 @@ public class ClerkStatisticsService {
           .municipality(row.getMunicipality())
           .availablePlaces(row.getMaxParticipants())
           .registeredCount(row.getRegisteredCount())
+          .peakParticipants(row.getPeakParticipants())
+          .peakQueue(row.getPeakQueue())
+          .filledAt(row.getFilledAt())
+          .queuePeakAt(row.getQueuePeakAt())
           .build()
       )
       .toList();

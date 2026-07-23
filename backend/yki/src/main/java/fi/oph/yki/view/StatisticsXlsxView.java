@@ -6,6 +6,7 @@ import static fi.oph.yki.view.ExamSessionXlsxView.setFilenameHeader;
 import static fi.oph.yki.view.ExamSessionXlsxView.setNullableValue;
 
 import fi.oph.yki.api.dto.clerk.ClerkStatisticsRowDTO;
+import fi.oph.yki.util.DateUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
@@ -27,7 +28,11 @@ public class StatisticsXlsxView extends AbstractXlsxView {
     "Taso",
     "Paikkakunta",
     "Tarjolla olevat paikat",
-    "Ilmoittautuneet"
+    "Ilmoittautuneet",
+    "Enimmäismäärä ilmoittautuneita",
+    "Paikat täynnä (pvm)",
+    "Peruutuspaikasta kiinnostuneet enimmillään",
+    "Jono suurimmillaan (pvm)"
   );
 
   private final List<ClerkStatisticsRowDTO> rows;
@@ -69,6 +74,13 @@ public class StatisticsXlsxView extends AbstractXlsxView {
       setNullableValue(row.createCell(++ci), data.municipality());
       setNullableValue(row.createCell(++ci), data.availablePlaces() != null ? data.availablePlaces().toString() : null);
       setNullableValue(row.createCell(++ci), data.registeredCount() != null ? data.registeredCount().toString() : null);
+      setNullableValue(
+        row.createCell(++ci),
+        data.peakParticipants() != null ? data.peakParticipants().toString() : null
+      );
+      setNullableValue(row.createCell(++ci), DateUtil.formatOptionalDateTime(data.filledAt()));
+      setNullableValue(row.createCell(++ci), data.peakQueue() != null ? data.peakQueue().toString() : null);
+      setNullableValue(row.createCell(++ci), DateUtil.formatOptionalDateTime(data.queuePeakAt()));
     }
 
     autoresizeExcelColumns(sheet, HEADERS);
