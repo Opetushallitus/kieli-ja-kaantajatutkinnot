@@ -136,7 +136,6 @@ export class SerializationUtils {
     if (params.municipality) {
       searchParams.append('municipality', params.municipality);
     }
-    params.states.forEach((value) => searchParams.append('states', value));
 
     return searchParams;
   }

@@ -4,7 +4,6 @@ import fi.oph.yki.api.dto.clerk.ClerkStatisticsRequestDTO;
 import fi.oph.yki.api.dto.clerk.ClerkStatisticsRowDTO;
 import fi.oph.yki.model.type.LanguageCode;
 import fi.oph.yki.model.type.LevelCode;
-import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.repository.StatisticsProjection;
 import fi.oph.yki.util.CodeNameMapper;
@@ -35,32 +34,28 @@ public class ClerkStatisticsService {
       ? Arrays.stream(LevelCode.values()).map(Enum::name).toList()
       : toNames(request.levels(), LevelCode::name);
 
-    final List<String> stateCodes = request.states() == null || request.states().isEmpty()
-      ? Arrays.stream(RegistrationState.values()).map(Enum::name).toList()
-      : toNames(request.states(), RegistrationState::name);
+    final String[] organizers = request.organizers() == null || request.organizers().isEmpty()
+      ? null
+      : request.organizers().toArray(String[]::new);
 
     final List<StatisticsProjection> rows = registrationRepository.findStatisticsRows(
       request.from(),
       request.to(),
       languageCodes,
       levelCodes,
-      stateCodes,
+      organizers,
       request.municipality()
     );
 
-    final List<StatisticsProjection> filtered = request.organizers() == null
-      ? rows
-      : rows.stream().filter(row -> request.organizers().contains(row.getOrganizerOid())).toList();
-
-    if (filtered.isEmpty()) {
+    if (rows.isEmpty()) {
       throw new APIException(APIExceptionType.STATISTICS_EMPTY_RESULT);
     }
 
     final Map<String, String> organizerNames = organizationService.getOrganizationNames(
-      filtered.stream().map(StatisticsProjection::getOrganizerOid).distinct().toList()
+      rows.stream().map(StatisticsProjection::getOrganizerOid).distinct().toList()
     );
 
-    return filtered
+    return rows
       .stream()
       .map(row ->
         ClerkStatisticsRowDTO
@@ -69,9 +64,13 @@ public class ClerkStatisticsService {
           .examDate(row.getExamDate())
           .examLanguage(CodeNameMapper.languageName(row.getLanguageCode()))
           .examLevel(CodeNameMapper.levelName(row.getLevelCode()))
-          .registrationState(row.getState())
           .municipality(row.getMunicipality())
           .availablePlaces(row.getMaxParticipants())
+          .registeredCount(row.getRegisteredCount())
+          .peakParticipants(row.getPeakParticipants())
+          .peakQueue(row.getPeakQueue())
+          .filledAt(row.getFilledAt())
+          .queuePeakAt(row.getQueuePeakAt())
           .build()
       )
       .toList();

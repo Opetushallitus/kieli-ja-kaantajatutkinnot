@@ -1,6 +1,7 @@
 package fi.oph.yki.api.dto.clerk;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.Builder;
 
 @Builder
@@ -9,7 +10,11 @@ public record ClerkStatisticsRowDTO(
   LocalDate examDate,
   String examLanguage,
   String examLevel,
-  String registrationState,
   String municipality,
-  Integer availablePlaces
+  Integer availablePlaces,
+  Long registeredCount,
+  Integer peakParticipants,
+  Integer peakQueue,
+  LocalDateTime filledAt,
+  LocalDateTime queuePeakAt
 ) {}

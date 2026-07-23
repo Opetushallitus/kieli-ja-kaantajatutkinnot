@@ -8,7 +8,6 @@ export interface ClerkStatisticsFilterState {
   levels: ComboBoxOption[];
   organizers: ComboBoxOption[];
   municipality: string;
-  registrationStatuses: ComboBoxOption[];
 }
 
 export interface ClerkStatisticsExportParams {
@@ -18,5 +17,4 @@ export interface ClerkStatisticsExportParams {
   levels: string[];
   organizers: string[];
   municipality: string;
-  states: string[];
 }

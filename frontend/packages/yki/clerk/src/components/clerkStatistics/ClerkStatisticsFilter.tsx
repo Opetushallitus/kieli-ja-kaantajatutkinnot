@@ -21,7 +21,6 @@ import { ComboBoxOption } from 'shared/interfaces';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints, APIError } from 'enums/api';
-import { RegistrationStates } from 'enums/app';
 import { ClerkStatisticsFilterState } from 'interfaces/clerkStatistics';
 import { loadClerkOrganizerRegistry } from 'redux/reducers/clerkOrganizer';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
@@ -41,7 +40,6 @@ const emptyFilters: ClerkStatisticsFilterState = {
   levels: [],
   organizers: [],
   municipality: '',
-  registrationStatuses: [],
 };
 
 const initialFilters: ClerkStatisticsFilterState = {
@@ -102,21 +100,6 @@ export const ClerkStatisticsFilter = () => {
     [],
   );
 
-  const registrationStatusOptions = useMemo(
-    () =>
-      [
-        RegistrationStates.Completed,
-        RegistrationStates.PaidAndCancelled,
-        RegistrationStates.Cancelled,
-        RegistrationStates.Submitted,
-        RegistrationStates.Expired,
-      ].map((state) => ({
-        value: state,
-        label: t(`values.registrationStatus.${state}`),
-      })),
-    [t],
-  );
-
   const handleClear = () => setFilters(emptyFilters);
 
   const handleDownload = async () => {
@@ -132,7 +115,6 @@ export const ClerkStatisticsFilter = () => {
         levels: filters.levels.map(({ value }) => value),
         organizers: filters.organizers.map(({ value }) => value),
         municipality: filters.municipality,
-        states: filters.registrationStatuses.map(({ value }) => value),
       });
 
       const url = `${APIEndpoints.ClerkStatisticsExcel}?${params.toString()}`;
@@ -240,17 +222,6 @@ export const ClerkStatisticsFilter = () => {
         label={t('fields.municipality')}
         value={filters.municipality}
         onChange={(e) => updateFilter('municipality', e.target.value)}
-      />
-
-      <LabeledMultipleCheckboxDropdown
-        id="statistics-filter-registration-status"
-        label={t('fields.registrationStatus')}
-        variant={TextFieldVariant.Outlined}
-        values={registrationStatusOptions}
-        value={filters.registrationStatuses}
-        onChange={(_: SyntheticEvent, newValue: ComboBoxOption[]) =>
-          updateFilter('registrationStatuses', newValue)
-        }
       />
 
       <Divider />
