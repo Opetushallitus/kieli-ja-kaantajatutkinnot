@@ -3,11 +3,9 @@ package fi.oph.yki.api.clerk;
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import fi.oph.yki.config.ClerkEnabledCondition;
 import fi.oph.yki.service.ClerkRegistrationService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
   consumes = APPLICATION_JSON_VALUE,
   produces = APPLICATION_JSON_VALUE
 )
-@Conditional(ClerkEnabledCondition.class)
 public class ClerkRegistrationController {
 
   private static final String TAG_REGISTRATION = "Clerk registration API";
