@@ -38,7 +38,7 @@ class ExamDetailsPage {
 
   selectCertificateLanguage(language: string) {
     cy.findByRole('group', {
-      name: 'Jos todistus postitetaan, millä kielellä haluat todistuksesi? *',
+      name: /Millä kielellä haluat todistuksesi\? \*|Jos todistus postitetaan, millä kielellä haluat todistuksesi\? \*/,
     })
       .findByRole('radio', { name: language })
       .click();
