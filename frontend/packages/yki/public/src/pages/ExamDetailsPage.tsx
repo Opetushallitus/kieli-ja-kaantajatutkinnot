@@ -37,13 +37,15 @@ export const ExamDetailsPage = ({
   const dispatch = useAppDispatch();
   const { status: sessionStatus } = useAppSelector(sessionSelector);
   const { status, examSession } = useAppSelector(examSessionSelector);
-  const { initRegistration, fetchRegistrationStatus } =
+  const { initRegistration, fetchRegistrationStatus, submitRegistration } =
     useAppSelector(registrationSelector);
   // React Router
   const params = useParams();
   const [searchParams] = useSearchParams();
 
   const isLoading =
+    sessionStatus === APIResponseStatus.NotStarted ||
+    sessionStatus === APIResponseStatus.InProgress ||
     status === APIResponseStatus.InProgress ||
     fetchRegistrationStatus === APIResponseStatus.InProgress ||
     initRegistration.status === APIResponseStatus.InProgress;
@@ -82,6 +84,45 @@ export const ExamDetailsPage = ({
 
   useEffect(() => {
     if (
+      !searchParams.get('submitted') ||
+      status !== APIResponseStatus.Success ||
+      !examSession?.id ||
+      !params.examSessionId ||
+      !params.registrationId ||
+      initRegistration.status !== APIResponseStatus.NotStarted ||
+      submitRegistration.status !== APIResponseStatus.NotStarted ||
+      examSession.id !== +params.examSessionId
+    ) {
+      return;
+    }
+
+    const code = searchParams.get('code');
+    const queue = searchParams.get('queue');
+    const registration_kind =
+      queue === 'true' ? RegistrationKind.Queue : RegistrationKind.Admission;
+
+    dispatch(fetchRegistrationDetails(+params.registrationId));
+    dispatch(
+      acceptPublicRegistrationSubmission({
+        code: code || '',
+        registration_kind,
+        state: RegistrationStates.Submitted,
+      }),
+    );
+  }, [
+    dispatch,
+    examSession?.id,
+    initRegistration.status,
+    params.examSessionId,
+    params.registrationId,
+    searchParams,
+    status,
+    submitRegistration.status,
+  ]);
+
+  useEffect(() => {
+    if (
+      searchParams.get('submitted') ||
       sessionStatus !== APIResponseStatus.Success ||
       status !== APIResponseStatus.Success ||
       !examSession?.id ||
@@ -90,24 +131,6 @@ export const ExamDetailsPage = ({
       initRegistration.status !== APIResponseStatus.NotStarted ||
       examSession.id !== +params.examSessionId
     ) {
-      return;
-    }
-
-    if (searchParams.get('submitted')) {
-      // If form is already submitted, just manually set registration status to submitted.
-      const code = searchParams.get('code');
-      const queue = searchParams.get('queue');
-      const registration_kind =
-        queue === 'true' ? RegistrationKind.Queue : RegistrationKind.Admission;
-      dispatch(fetchRegistrationDetails(+params.registrationId));
-      dispatch(
-        acceptPublicRegistrationSubmission({
-          code: code || '',
-          registration_kind,
-          state: RegistrationStates.Submitted,
-        }),
-      );
-
       return;
     }
 
