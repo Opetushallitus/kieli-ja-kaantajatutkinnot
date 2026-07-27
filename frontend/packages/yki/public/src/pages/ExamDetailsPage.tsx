@@ -67,6 +67,13 @@ export const ExamDetailsPage = ({
             : RegistrationKind.Admission;
         dispatch(loadExamSession(+params.examSessionId));
         dispatch(
+          identifyRegistration({
+            examSessionId: +params.examSessionId,
+            registrationKind,
+            registrationId: +params.registrationId,
+          }),
+        );
+        dispatch(
           acceptPublicRegistrationSubmission({
             code: code || '',
             registration_kind,
