@@ -13,6 +13,7 @@ import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import {
   acceptPublicRegistrationSubmission,
+  fetchRegistrationDetails,
   identifyRegistration,
   setActiveStep,
 } from 'redux/reducers/registration';
@@ -98,14 +99,7 @@ export const ExamDetailsPage = ({
       const queue = searchParams.get('queue');
       const registration_kind =
         queue === 'true' ? RegistrationKind.Queue : RegistrationKind.Admission;
-
-      dispatch(
-        identifyRegistration({
-          examSessionId: +params.examSessionId,
-          registrationKind,
-          registrationId: +params.registrationId,
-        }),
-      );
+      dispatch(fetchRegistrationDetails(+params.registrationId));
       dispatch(
         acceptPublicRegistrationSubmission({
           code: code || '',
