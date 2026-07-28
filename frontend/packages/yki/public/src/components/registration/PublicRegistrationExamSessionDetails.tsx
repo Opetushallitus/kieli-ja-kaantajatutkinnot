@@ -183,12 +183,14 @@ export const PublicRegistrationExamSessionDetails = ({
             location.street_address
           }, ${ExamSessionUtils.getMunicipality(location)}`}</b>
         </Text>
-        <Text>
-          {`${t('registrationTime')}: `}
-          <b>{`${DateUtils.formatOptionalDate(
-            start,
-          )} - ${DateUtils.formatOptionalDate(end)}`}</b>
-        </Text>
+        {!isPartialExamRegistrationEndStep && (
+          <Text>
+            {`${t('registrationTime')}: `}
+            <b>{`${DateUtils.formatOptionalDate(
+              start,
+            )} - ${DateUtils.formatOptionalDate(end)}`}</b>
+          </Text>
+        )}
         {!isPartialExamRegistrationEndStep && (
           <Text>
             {`${t('examFee')}: `}
