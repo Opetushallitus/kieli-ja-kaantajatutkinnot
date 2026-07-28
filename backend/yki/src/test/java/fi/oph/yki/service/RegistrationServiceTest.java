@@ -125,7 +125,7 @@ public class RegistrationServiceTest {
     verify(auditService)
       .logCreate(
         YkiOperation.CREATE_FREE_REGISTRATION,
-        registration.getId(),
+        registration.getFreeRegistration().getId(),
         RegistrationUtil.createFreeRegistrationDTO(registration.getFreeRegistration())
       );
   }
@@ -167,7 +167,7 @@ public class RegistrationServiceTest {
     verify(auditService)
       .logUpdate(
         YkiOperation.UPDATE_FREE_REGISTRATION,
-        registration.getId(),
+        freeRegistration.getId(),
         freeRegistrationBeforeDTO,
         RegistrationUtil.createFreeRegistrationDTO(registration.getFreeRegistration())
       );
