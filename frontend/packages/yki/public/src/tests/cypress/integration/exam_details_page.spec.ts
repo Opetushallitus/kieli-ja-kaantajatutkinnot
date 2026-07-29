@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import { APIEndpoints } from 'enums/api';
-import { AppRoutes, RegistrationKind } from 'enums/app';
+import { RegistrationKind } from 'enums/app';
 import { onExamDetailsPage } from 'tests/cypress/support/page-objects/examDetailsPage';
 import { worker } from 'tests/msw/browser';
 import { examSessions } from 'tests/msw/fixtures/examSession';
@@ -54,49 +54,6 @@ const getInitRegistrationResponse = (is_strongly_identified: boolean) => {
   }
 };
 
-const handleRedirect = () => {
-  // When browser attempts to logout, send browser instead directly to
-  // successful submission page.
-  // Note that mocking the response with msw doesn't currently work,
-  // as the request to logout is sent to an absolute URL (including hostname).
-  cy.intercept(
-    { url: /^.*\/yki\/auth\/logout\?redirect=/, method: 'GET' },
-    (req) => {
-      const { redirect } = req.query;
-      req.continue((res) => {
-        res.send(301, {}, { location: redirect as string });
-      });
-    },
-  );
-};
-
-const visitExamSessionRegistrationForm = (
-  examSessionId: number,
-  registrationId: number,
-  search = '',
-) => {
-  const path = AppRoutes.ExamSessionRegistration.replace(
-    /:examSessionId/,
-    `${examSessionId}`,
-  ).replace(/:registrationId/, `${registrationId}`);
-
-  cy.window().then((win) => {
-    win.sessionStorage.setItem('persist:root', '{}');
-    cy.setCookie('cookie-consent-yki', 'true');
-  });
-
-  cy.visit(`${path}${search}`, {
-    onBeforeLoad: (win) => {
-      Object.defineProperty(win, '__CLERK_ENABLED__', {
-        get: () => true,
-        set: () => {},
-        configurable: true,
-      });
-      win.localStorage.setItem('clerkEnabled', 'true');
-    },
-  });
-};
-
 describe('ExamDetailsPage', () => {
   describe('allows filling registration form', () => {
     it('with credentials from Suomi.fi authentication', () => {
@@ -127,9 +84,6 @@ describe('ExamDetailsPage', () => {
 
       onExamDetailsPage.acceptTermsOfRegistration();
       onExamDetailsPage.acceptPrivacyPolicy();
-
-      handleRedirect();
-
       onExamDetailsPage.submitForm();
       onExamDetailsPage.isFormSubmitted();
     });
@@ -170,9 +124,6 @@ describe('ExamDetailsPage', () => {
 
       onExamDetailsPage.acceptTermsOfRegistration();
       onExamDetailsPage.acceptPrivacyPolicy();
-
-      handleRedirect();
-
       onExamDetailsPage.submitForm();
       onExamDetailsPage.isFormSubmitted();
     });
@@ -227,16 +178,13 @@ describe('ExamDetailsPage', () => {
         ),
       );
 
-      visitExamSessionRegistrationForm(
+      cy.openExamSessionRegistrationFormWithSearch(
         examSessionResponse.id,
         examSessionResponse.id,
         '?submitted=true&code=test-code&queue=true',
       );
 
-      onExamDetailsPage
-        .elements
-        .submittedFormTitle()
-        .should('be.visible');
+      onExamDetailsPage.elements.submittedFormTitle().should('be.visible');
     });
   });
 });

@@ -5,10 +5,7 @@ class ExamDetailsPage {
         name: /Ilmoittaudu( jonoon)? yleiseen kielitutkintoon \(YKI\)/,
       }),
     submittedFormTitle: () =>
-      cy.contains(
-        'h1',
-        /Ilmoittautumislomake on lähetetty/,
-      ),
+      cy.contains('h1', /Ilmoittautumislomake on lähetetty/),
     textboxByLabel: (label: string) =>
       cy.findByRole('textbox', { name: label }),
     submitButton: () => cy.findByRole('button', { name: 'Lähetä' }),
@@ -41,7 +38,7 @@ class ExamDetailsPage {
 
   selectCertificateLanguage(language: string) {
     cy.findByRole('group', {
-      name: /Millä kielellä haluat todistuksesi\? \*|Jos todistus postitetaan, millä kielellä haluat todistuksesi\? \*/,
+      name: 'Jos todistus postitetaan, millä kielellä haluat todistuksesi? *',
     })
       .findByRole('radio', { name: language })
       .click();
