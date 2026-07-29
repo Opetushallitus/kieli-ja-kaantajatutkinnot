@@ -16,11 +16,10 @@ export interface ClerkListExamEvent extends WithId {
   unApprovedFreeEnrollments: number;
 }
 
-export interface ClerkListExamEventResponse
-  extends Omit<
-    ClerkListExamEvent,
-    'date' | 'registrationCloses' | 'registrationOpens'
-  > {
+export interface ClerkListExamEventResponse extends Omit<
+  ClerkListExamEvent,
+  'date' | 'registrationCloses' | 'registrationOpens'
+> {
   date: string;
   registrationOpens: string;
   registrationCloses: string;

@@ -11,11 +11,10 @@ export interface ExamSessions {
   exam_sessions: Array<ExamSession>;
 }
 
-export interface ExamSessionResponse
-  extends Omit<
-    ExamSession,
-    'session_date' | 'registration_start_date' | 'registration_end_date'
-  > {
+export interface ExamSessionResponse extends Omit<
+  ExamSession,
+  'session_date' | 'registration_start_date' | 'registration_end_date'
+> {
   session_date: string;
   registration_start_date?: string;
   registration_end_date?: string;

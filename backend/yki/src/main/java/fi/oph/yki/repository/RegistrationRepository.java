@@ -51,6 +51,60 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     final String level
   );
 
+  @Query(
+    nativeQuery = true,
+    value = """
+      SELECT
+        o.oid                                          AS organizerOid,
+        ed.exam_date                                    AS examDate,
+        es.language_code                                AS languageCode,
+        es.level_code                                    AS levelCode,
+        esl.post_office                                  AS municipality,
+        es.max_participants                             AS maxParticipants,
+        COUNT(*) FILTER (WHERE r.state = 'COMPLETED')    AS registeredCount,
+        MAX(stats.peak_participants)                     AS peakParticipants,
+        MAX(stats.peak_queue)                            AS peakQueue,
+        CASE WHEN MAX(stats.peak_participants) >= es.max_participants
+             THEN MAX(stats.max_participants_at)
+             ELSE NULL END                               AS filledAt,
+        CASE WHEN MAX(stats.peak_queue) > 0
+             THEN MAX(stats.max_queue_at)
+             ELSE NULL END                               AS queuePeakAt
+      FROM exam_session es
+      INNER JOIN exam_date ed              ON es.exam_date_id   = ed.id
+      INNER JOIN organizer o               ON es.organizer_id   = o.id
+      LEFT  JOIN exam_session_location esl ON esl.exam_session_id = es.id AND esl.lang = 'fi'
+      LEFT  JOIN registration r            ON r.exam_session_id = es.id
+      LEFT  JOIN (
+        SELECT
+          exam_session_id,
+          MAX(max_participant_count) AS peak_participants,
+          MAX(max_participants_at)   AS max_participants_at,
+          MAX(max_queue_count)       AS peak_queue,
+          MAX(max_queue_at)          AS max_queue_at
+        FROM exam_session_statistics
+        GROUP BY exam_session_id
+      ) stats                              ON stats.exam_session_id = es.id
+      WHERE ed.exam_date >= :from
+        AND ed.exam_date <= :to
+        AND es.language_code IN (:languageCodes)
+        AND es.level_code    IN (:levelCodes)
+        AND (CAST(:organizers AS text[]) IS NULL OR o.oid = ANY(CAST(:organizers AS text[])))
+        AND (:municipality IS NULL
+             OR LOWER(esl.post_office) LIKE '%' || LOWER(:municipality) || '%')
+      GROUP BY o.oid, ed.exam_date, es.language_code, es.level_code, esl.post_office, es.max_participants
+      ORDER BY ed.exam_date, o.oid, es.language_code, es.level_code
+      """
+  )
+  List<StatisticsProjection> findStatisticsRows(
+    @Param("from") LocalDate from,
+    @Param("to") LocalDate to,
+    @Param("languageCodes") List<String> languageCodes,
+    @Param("levelCodes") List<String> levelCodes,
+    @Param("organizers") String[] organizers,
+    @Param("municipality") String municipality
+  );
+
   @Modifying
   @Transactional
   @Query(

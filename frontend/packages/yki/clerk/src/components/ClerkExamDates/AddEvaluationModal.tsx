@@ -286,10 +286,10 @@ export const AddEvaluationModal = ({
                               submitted && startMissing
                                 ? t('evaluationModal.errors.required')
                                 : submitted && startBeforeExam
-                                ? t(
-                                    'evaluationModal.errors.startDateBeforeExamDate',
-                                  )
-                                : undefined
+                                  ? t(
+                                      'evaluationModal.errors.startDateBeforeExamDate',
+                                    )
+                                  : undefined
                             }
                           />
                         </div>
@@ -321,10 +321,10 @@ export const AddEvaluationModal = ({
                               submitted && endMissing
                                 ? t('evaluationModal.errors.required')
                                 : submitted && endBeforeStart
-                                ? t(
-                                    'evaluationModal.errors.endDateBeforeStartDate',
-                                  )
-                                : undefined
+                                  ? t(
+                                      'evaluationModal.errors.endDateBeforeStartDate',
+                                    )
+                                  : undefined
                             }
                           />
                         </div>

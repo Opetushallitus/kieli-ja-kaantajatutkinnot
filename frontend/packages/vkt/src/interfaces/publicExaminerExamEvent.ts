@@ -16,8 +16,10 @@ export interface PublicExaminerExamEvent extends WithId {
   openings: number;
 }
 
-export interface PublicExaminerExamEventResponse
-  extends Omit<PublicExaminerExamEvent, 'date' | 'registrationCloses'> {
+export interface PublicExaminerExamEventResponse extends Omit<
+  PublicExaminerExamEvent,
+  'date' | 'registrationCloses'
+> {
   date: string;
   registrationCloses: string;
 }

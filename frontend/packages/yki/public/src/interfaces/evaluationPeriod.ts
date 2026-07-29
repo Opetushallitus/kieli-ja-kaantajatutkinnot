@@ -3,11 +3,10 @@ import { WithId } from 'shared/interfaces';
 
 import { ExamLanguage, ExamLevel } from 'enums/app';
 
-export interface EvaluationPeriodResponse
-  extends Omit<
-    EvaluationPeriod,
-    'exam_date' | 'evaluation_start_date' | 'evaluation_end_date'
-  > {
+export interface EvaluationPeriodResponse extends Omit<
+  EvaluationPeriod,
+  'exam_date' | 'evaluation_start_date' | 'evaluation_end_date'
+> {
   exam_date: string;
   evaluation_start_date: string;
   evaluation_end_date: string;

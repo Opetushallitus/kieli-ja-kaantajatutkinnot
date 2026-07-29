@@ -63,8 +63,8 @@ const renderEnrollmentButton = (
         {examEvent.hasCongestion
           ? t('row.enrollLater')
           : ExamEventUtils.hasOpenings(examEvent)
-          ? t('row.enroll')
-          : t('row.enrollToQueue')}
+            ? t('row.enroll')
+            : t('row.enrollToQueue')}
       </CustomButton>
     </LoadingProgressIndicator>
   );

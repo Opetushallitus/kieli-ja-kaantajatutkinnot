@@ -7,7 +7,8 @@ import { WithId, WithTempId, WithVersion } from 'interfaces/with';
 export type AuthorisationBasis = keyof typeof AuthorisationBasisEnum;
 
 export interface Authorisation
-  extends Partial<WithTempId>,
+  extends
+    Partial<WithTempId>,
     Omit<
       AuthorisationResponse,
       'termBeginDate' | 'termEndDate' | 'examinationDate' | 'diaryNumber'
@@ -19,8 +20,7 @@ export interface Authorisation
 }
 
 export interface AuthorisationResponse
-  extends Partial<WithId>,
-    Partial<WithVersion> {
+  extends Partial<WithId>, Partial<WithVersion> {
   languagePair: LanguagePair;
   basis: AuthorisationBasis;
   termBeginDate?: string;

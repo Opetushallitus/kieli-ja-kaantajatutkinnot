@@ -42,8 +42,10 @@ export interface ClerkOnrSsn {
   oid: string;
 }
 
-export interface ClerkPaymentLinkResponse
-  extends Omit<ClerkPaymentLink, 'expiresAt'> {
+export interface ClerkPaymentLinkResponse extends Omit<
+  ClerkPaymentLink,
+  'expiresAt'
+> {
   expiresAt: string;
 }
 
@@ -55,24 +57,23 @@ export interface ClerkPayment extends WithId, WithVersion {
   refundedAt?: Dayjs;
 }
 
-export interface ClerkPaymentResponse
-  extends Omit<ClerkPayment, 'createdAt' | 'refundedAt'> {
+export interface ClerkPaymentResponse extends Omit<
+  ClerkPayment,
+  'createdAt' | 'refundedAt'
+> {
   createdAt: string;
   refundedAt?: string;
 }
 
 interface ClerkEnrollmentCommon
-  extends WithId,
-    WithVersion,
-    CertificateShippingData {
+  extends WithId, WithVersion, CertificateShippingData {
   enrollmentTime: Dayjs;
   email: string;
   phoneNumber: string;
 }
 
 export interface ClerkEnrollment
-  extends ClerkEnrollmentCommon,
-    PartialExamsAndSkills {
+  extends ClerkEnrollmentCommon, PartialExamsAndSkills {
   status: EnrollmentStatus;
   payments: Array<ClerkPayment>;
   isFree?: boolean;
@@ -82,8 +83,10 @@ export interface ClerkEnrollment
   previousEnrollment?: string;
 }
 
-export interface ClerkEnrollmentResponse
-  extends Omit<ClerkEnrollment, 'enrollmentTime' | 'payments'> {
+export interface ClerkEnrollmentResponse extends Omit<
+  ClerkEnrollment,
+  'enrollmentTime' | 'payments'
+> {
   enrollmentTime: string;
   payments: Array<ClerkPaymentResponse>;
 }
@@ -111,8 +114,10 @@ export interface ClerkEnrollmentContact extends ClerkEnrollmentCommon {
   attachments?: Array<Attachment>;
 }
 
-export interface ClerkEnrollmentContactResponse
-  extends Omit<ClerkEnrollmentContact, 'enrollmentTime'> {
+export interface ClerkEnrollmentContactResponse extends Omit<
+  ClerkEnrollmentContact,
+  'enrollmentTime'
+> {
   enrollmentTime: string;
 }
 
@@ -122,15 +127,18 @@ export interface ClerkAuthLink {
   sentAt: Dayjs;
 }
 
-export interface ClerkAuthLinkResponse
-  extends Omit<ClerkAuthLink, 'expiresAt' | 'sentAt'> {
+export interface ClerkAuthLinkResponse extends Omit<
+  ClerkAuthLink,
+  'expiresAt' | 'sentAt'
+> {
   url: string;
   expiresAt: Dayjs;
   sentAt: Dayjs;
 }
 
 export interface ClerkEnrollmentAppointment
-  extends Omit<ClerkEnrollmentContact, 'isFullExam' | 'partialExamSelection'>,
+  extends
+    Omit<ClerkEnrollmentContact, 'isFullExam' | 'partialExamSelection'>,
     PartialExamsAndSkills {
   payments: Array<ClerkPayment>;
   person?: ClerkPerson;
@@ -141,29 +149,26 @@ export interface ClerkEnrollmentAppointment
   attachments?: Array<Attachment>;
 }
 
-export interface ClerkEnrollmentAppointmentResponse
-  extends Omit<
-    ClerkEnrollmentAppointment,
-    'enrollmentTime' | 'payments' | 'examEvent'
-  > {
+export interface ClerkEnrollmentAppointmentResponse extends Omit<
+  ClerkEnrollmentAppointment,
+  'enrollmentTime' | 'payments' | 'examEvent'
+> {
   enrollmentTime: string;
   payments: Array<ClerkPaymentResponse>;
   examEvent?: ExaminerExamEventResponse;
 }
 
-export interface ClerkEnrollmentAppointmentHistory
-  extends PartialExamsAndSkills {
+export interface ClerkEnrollmentAppointmentHistory extends PartialExamsAndSkills {
   enrollmentTime: Dayjs;
   examEvent: ExaminerExamEvent;
   examinerName: string;
   grades: ClerkEnrollmentAppointmentGrades;
 }
 
-export interface ClerkEnrollmentAppointmentHistoryResponse
-  extends Omit<
-    ClerkEnrollmentAppointmentHistory,
-    'enrollmentTime' | 'examEvent'
-  > {
+export interface ClerkEnrollmentAppointmentHistoryResponse extends Omit<
+  ClerkEnrollmentAppointmentHistory,
+  'enrollmentTime' | 'examEvent'
+> {
   enrollmentTime: string;
   examEvent: ExaminerExamEventResponse;
 }

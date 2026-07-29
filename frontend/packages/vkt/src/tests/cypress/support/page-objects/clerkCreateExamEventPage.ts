@@ -60,7 +60,11 @@ class ClerkExamEventCreatePage {
   saveButtonEnabledIs(enabled: boolean) {
     const button = this.elements.saveButton();
 
-    enabled ? button.should('be.enabled') : button.should('be.disabled');
+    if (enabled) {
+      button.should('be.enabled');
+    } else {
+      button.should('be.disabled');
+    }
   }
 }
 

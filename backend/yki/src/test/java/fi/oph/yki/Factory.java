@@ -5,6 +5,7 @@ import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamDateLanguage;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
+import fi.oph.yki.model.ExamSessionStatistics;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Organizer;
 import fi.oph.yki.model.Person;
@@ -17,6 +18,7 @@ import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Factory {
@@ -121,6 +123,19 @@ public class Factory {
     quarantine.setEndDate(LocalDate.of(2026, 12, 31));
 
     return quarantine;
+  }
+
+  public static ExamSessionStatistics examSessionStatistics(final ExamSession examSession) {
+    final ExamSessionStatistics statistics = new ExamSessionStatistics();
+    statistics.setExamSession(examSession);
+    statistics.setParticipants(0);
+    statistics.setQueue(0);
+    statistics.setMaxParticipantCount(0);
+    statistics.setMaxQueueCount(0);
+    statistics.setMaxParticipantsAt(LocalDateTime.of(2026, 1, 1, 0, 0));
+    statistics.setMaxQueueAt(LocalDateTime.of(2026, 1, 1, 0, 0));
+
+    return statistics;
   }
 
   public static ExamSessionLocation examSessionLocation(final ExamSession examSession) {

@@ -1,8 +1,8 @@
-import axios, { AxiosHeaders } from 'axios';
+import { AxiosHeaders, create } from 'axios';
 
 import { AppConstants } from 'enums/app';
 
-const axiosInstance = axios.create();
+const axiosInstance = create();
 
 axiosInstance.interceptors.request.use((config) => {
   const CSRF_NAME = 'CSRF';

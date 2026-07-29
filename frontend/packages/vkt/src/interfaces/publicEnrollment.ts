@@ -25,8 +25,10 @@ export interface PublicReservation extends WithId {
   isRenewable: boolean;
 }
 
-export interface PublicReservationResponse
-  extends Omit<PublicReservation, 'expiresAt' | 'renewedAt' | 'createdAt'> {
+export interface PublicReservationResponse extends Omit<
+  PublicReservation,
+  'expiresAt' | 'renewedAt' | 'createdAt'
+> {
   expiresAt: string;
   renewedAt?: string;
   createdAt: string;
@@ -62,7 +64,8 @@ export interface PublicEnrollmentCommon extends PublicEnrollmentContactDetails {
 }
 
 export interface PublicEnrollment
-  extends PublicEnrollmentCommon,
+  extends
+    PublicEnrollmentCommon,
     CertificateShippingData,
     PartialExamsAndSkills {
   examEventId?: number;
@@ -74,7 +77,8 @@ export interface PublicEnrollment
 }
 
 export interface PublicEnrollmentResponse
-  extends Omit<
+  extends
+    Omit<
       PublicEnrollment,
       | 'emailConfirmation'
       | 'id'
@@ -96,7 +100,8 @@ export interface PublicEnrollmentContact extends PublicEnrollmentCommon {
 }
 
 export interface PublicEnrollmentAppointment
-  extends Omit<
+  extends
+    Omit<
       PublicEnrollmentContact,
       'firstName' | 'lastName' | 'message' | 'status'
     >,
@@ -112,7 +117,8 @@ export interface PublicEnrollmentAppointment
 }
 
 export interface PublicEnrollmentAppointmentResponse
-  extends Omit<
+  extends
+    Omit<
       PublicEnrollmentAppointment,
       | 'emailConfirmation'
       | 'id'

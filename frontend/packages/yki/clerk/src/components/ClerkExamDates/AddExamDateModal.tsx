@@ -339,10 +339,10 @@ export const AddExamDateModal = ({
                       submitted && errors.registrationEnd
                         ? t('errors.required')
                         : submitted && errors.registrationEndBeforeStart
-                        ? t('errors.registrationEndBeforeStart')
-                        : submitted && errors.registrationEndAfterExamDate
-                        ? t('errors.registrationEndAfterExamDate')
-                        : undefined
+                          ? t('errors.registrationEndBeforeStart')
+                          : submitted && errors.registrationEndAfterExamDate
+                            ? t('errors.registrationEndAfterExamDate')
+                            : undefined
                     }
                   />
                 </div>

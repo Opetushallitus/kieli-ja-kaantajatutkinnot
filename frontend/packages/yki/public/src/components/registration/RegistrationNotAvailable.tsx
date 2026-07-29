@@ -82,8 +82,8 @@ export const RegistrationNotAvailable = () => {
             isPhone
               ? {}
               : clerkEnabled
-              ? { borderTop: '5px solid ' + ophColors.green2 }
-              : undefined
+                ? { borderTop: '5px solid ' + ophColors.green2 }
+                : undefined
           }
         >
           <div className="public-registration__grid__form-container">
