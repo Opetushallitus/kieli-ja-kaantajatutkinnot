@@ -39,6 +39,7 @@ import {
   ClerkQuarantineReviewResponse,
 } from 'interfaces/clerkQuarantine';
 import { ClerkRegistrationResponse } from 'interfaces/clerkRegistration';
+import { ClerkStatisticsExportParams } from 'interfaces/clerkStatistics';
 import {
   ExamSession,
   ExamSessionResponse,
@@ -117,6 +118,26 @@ export class SerializationUtils {
       default:
         return '';
     }
+  }
+
+  static serializeClerkStatisticsExportParams(
+    params: ClerkStatisticsExportParams,
+  ): URLSearchParams {
+    const searchParams = new URLSearchParams();
+    searchParams.append('from', params.from);
+    searchParams.append('to', params.to);
+    params.languages.forEach((value) =>
+      searchParams.append('languages', value),
+    );
+    params.levels.forEach((value) => searchParams.append('levels', value));
+    params.organizers.forEach((value) =>
+      searchParams.append('organizers', value),
+    );
+    if (params.municipality) {
+      searchParams.append('municipality', params.municipality);
+    }
+
+    return searchParams;
   }
 
   static deserializeNationalitiesResponse(

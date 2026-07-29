@@ -350,4 +350,49 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="2026-07-21-add-exam-session-statistics" author="miikavonbell">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <tableExists tableName="exam_session_statistics"/>
+            </not>
+        </preConditions>
+        <createTable tableName="exam_session_statistics">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="exam_session_statistics_pkey"/>
+            </column>
+            <column name="exam_session_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="participants" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="queue" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_participant_count" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_queue_count" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_participants_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_queue_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_processed_event_id" type="BIGINT"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="exam_session_statistics"
+                baseColumnNames="exam_session_id"
+                constraintName="fk_exam_session_statistics_exam_session"
+                referencedTableName="exam_session"
+                referencedColumnNames="id" />
+        <createIndex tableName="exam_session_statistics" indexName="exam_session_statistics_exam_session_id">
+            <column name="exam_session_id"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>
