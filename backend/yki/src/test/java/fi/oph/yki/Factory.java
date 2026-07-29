@@ -1,6 +1,8 @@
 package fi.oph.yki;
 
+import fi.oph.yki.model.Evaluation;
 import fi.oph.yki.model.ExamDate;
+import fi.oph.yki.model.ExamDateLanguage;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.ExamSessionStatistics;
@@ -64,6 +66,25 @@ public class Factory {
     examDate.setExamType(ExamSessionType.FULL);
 
     return examDate;
+  }
+
+  public static ExamDateLanguage examDateLanguage(final ExamDate examDate) {
+    final ExamDateLanguage examDateLanguage = new ExamDateLanguage();
+    examDateLanguage.setExamDate(examDate);
+    examDateLanguage.setLanguageCode("fin");
+    examDateLanguage.setLevelCode("PERUS");
+
+    return examDateLanguage;
+  }
+
+  public static Evaluation evaluation(final ExamDate examDate, final ExamDateLanguage examDateLanguage) {
+    final Evaluation evaluation = new Evaluation();
+    evaluation.setExamDate(examDate);
+    evaluation.setExamDateLanguage(examDateLanguage);
+    evaluation.setEvaluationStartDate(LocalDate.now().minusDays(10));
+    evaluation.setEvaluationEndDate(LocalDate.now().plusDays(10));
+
+    return evaluation;
   }
 
   public static ExamSession examSession(final ExamDate examDate) {

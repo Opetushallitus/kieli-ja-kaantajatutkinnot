@@ -179,6 +179,19 @@ COPY public.exam_date_language (id, exam_date_id, language_code, created, level_
 43	27	eng	2022-11-30 14:13:51.664733+00	PERUS	\N
 44	27	fra	2022-11-30 14:13:51.665696+00	PERUS	\N
 45	28	fin	2022-12-01 12:21:45.799331+00	PERUS	\N
+46	47	fin	2026-07-14 12:00:00+00	PERUS	\N
+47	47	fin	2026-07-14 12:00:00+00	KESKI	\N
+48	47	spa	2026-07-14 12:00:00+00	KESKI	\N
+49	47	spa	2026-07-14 12:00:00+00	YLIN	\N
+50	47	eng	2026-07-14 12:00:00+00	KESKI	\N
+51	48	rus	2026-07-14 12:00:00+00	PERUS	\N
+52	48	sme	2026-07-14 12:00:00+00	YLIN	\N
+53	48	fin	2026-07-14 12:00:00+00	PERUS	\N
+54	48	swe	2026-07-14 12:00:00+00	YLIN	\N
+55	48	swe	2026-07-14 12:00:00+00	PERUS	\N
+56	48	swe	2026-07-14 12:00:00+00	KESKI	\N
+57	48	fin	2026-07-14 12:00:00+00	KESKI	\N
+58	48	fin	2026-07-14 12:00:00+00	YLIN	\N
 \.
 
 
@@ -187,6 +200,20 @@ COPY public.exam_date_language (id, exam_date_id, language_code, created, level_
 --
 
 COPY public.evaluation (id, exam_date_id, exam_date_language_id, evaluation_start_date, evaluation_end_date, deleted_at) FROM stdin;
+1	47	46	2026-07-13	2036-07-15	\N
+2	47	47	2026-07-13	2036-07-15	\N
+3	47	48	2026-07-13	2036-07-15	\N
+4	47	49	2026-07-13	2036-07-15	\N
+5	47	50	2026-07-13	2036-07-15	2026-07-01 12:00:00+00
+6	48	51	2036-10-25	2036-10-27	\N
+7	48	52	2036-10-25	2036-10-27	\N
+8	48	53	2036-10-25	2036-10-27	\N
+9	48	54	2036-10-25	2036-10-27	\N
+10	48	55	2036-10-25	2036-10-27	\N
+11	48	56	2036-10-25	2036-10-27	\N
+12	48	57	2036-10-25	2036-10-27	\N
+13	48	58	2036-10-25	2036-10-27	\N
+14	26	42	2021-02-01	2021-02-15	\N
 \.
 
 
@@ -285,6 +312,17 @@ COPY public.exam_session (id, organizer_id, language_code, level_code, exam_date
 26	1	eng	YLIN	49	20	\N	\N	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	f	\N	\N
 27	1	deu	PERUS	50	20	\N	\N	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	f	\N	\N
 28	1	rus	KESKI	51	20	\N	\N	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	f	\N	\N
+\.
+
+
+--
+-- Data for Name: exam_session_statistics; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.exam_session_statistics (id, exam_session_id, created_at, participants, queue, max_participant_count, max_queue_count, max_participants_at, max_queue_at, last_processed_event_id) FROM stdin;
+1	1	2026-06-01 08:00:00+00	3	0	3	0	2026-06-01 08:00:00+00	2026-06-01 08:00:00+00	\N
+2	1	2026-06-03 09:00:00+00	8	0	8	0	2026-06-03 09:00:00+00	2026-06-01 08:00:00+00	\N
+3	1	2026-06-05 10:00:00+00	11	1	11	1	2026-06-05 10:00:00+00	2026-06-05 10:00:00+00	\N
 \.
 
 
@@ -657,7 +695,7 @@ SELECT pg_catalog.setval('public.evaluation_exam_date_language_id_seq', 1, false
 -- Name: evaluation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.evaluation_id_seq', 1, false);
+SELECT pg_catalog.setval('public.evaluation_id_seq', 14, true);
 
 
 --
@@ -741,7 +779,7 @@ SELECT pg_catalog.setval('public.exam_date_language_exam_date_id_seq', 1, false)
 -- Name: exam_date_language_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.exam_date_language_id_seq', 45, true);
+SELECT pg_catalog.setval('public.exam_date_language_id_seq', 58, true);
 
 
 --
@@ -826,6 +864,13 @@ SELECT pg_catalog.setval('public.exam_session_organizer_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public.exam_session_queue_id_seq', 1, false);
+
+
+--
+-- Name: exam_session_statistics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.exam_session_statistics_id_seq', 3, true);
 
 
 --
