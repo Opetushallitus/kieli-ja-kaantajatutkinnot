@@ -2,7 +2,6 @@ package fi.oph.yki.api.clerk;
 
 import fi.oph.yki.api.dto.clerk.ClerkStatisticsRequestDTO;
 import fi.oph.yki.api.dto.clerk.ClerkStatisticsRowDTO;
-import fi.oph.yki.config.ClerkEnabledCondition;
 import fi.oph.yki.service.ClerkStatisticsService;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
@@ -20,7 +19,6 @@ import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 @RestController
 @RequestMapping(value = "/v2/api/clerk/statistics")
-@Conditional(ClerkEnabledCondition.class)
 public class ClerkStatisticsController {
 
   private static final String TAG = "Statistics API";
