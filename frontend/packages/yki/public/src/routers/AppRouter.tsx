@@ -18,13 +18,11 @@ import { theme } from 'shared/configs';
 import { APIResponseStatus, Variant } from 'shared/enums';
 import { TitlePage, TitlePageProps } from 'shared/utils';
 
-import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
 import { NewYkiFooter } from 'components/layouts/NewYkiFooter';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
-import { clerkEnabled } from 'featureFlags';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
@@ -205,7 +203,7 @@ const newYkiPublicTheme = {
   },
 };
 
-const newYkiThemeOrSharedTheme = clerkEnabled ? newYkiPublicTheme : theme;
+const newYkiThemeOrSharedTheme = newYkiPublicTheme;
 
 const ErrorToast = () => {
   useAPIErrorToast();
@@ -278,7 +276,7 @@ export const AppRouter: FC = () => {
               <Outlet />
             </div>
           </main>
-          {clerkEnabled ? <NewYkiFooter /> : <Footer />}
+          {<NewYkiFooter />}
         </ThemeProvider>
       </NotifierContextProvider>
     </div>
