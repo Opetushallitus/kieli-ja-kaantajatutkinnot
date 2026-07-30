@@ -27,6 +27,8 @@ const getTabForPath = (path: string, user: User) => {
     return 'organizerCustomerSearch';
   } else if (path.includes(AppRoutes.Organizer)) {
     return 'organizerExamSessions';
+  } else if (path.includes(AppRoutes.ClerkStatistics)) {
+    return 'statistics';
   } else {
     return false;
   }
@@ -67,6 +69,11 @@ export const ClerkNavigationLinks = () => {
           active: getTabForPath(pathname, user) === 'paymentReport',
           href: AppRoutes.ClerkPaymentReport,
           label: translateCommon('paymentReport'),
+        },
+        {
+          active: getTabForPath(pathname, user) === 'statistics',
+          href: AppRoutes.ClerkStatistics,
+          label: translateCommon('statistics'),
         },
       ]
     : [

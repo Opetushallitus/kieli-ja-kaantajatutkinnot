@@ -407,6 +407,23 @@
           "previous": "Aiemmat tarkastukset"
         }
       },
+      "clerkStatistics": {
+        "clearFilters": "Tyhjennä hakuehdot",
+        "description": "Valitse alta päivämäärät, joiden ajalta haluat tarkastella tilastoja. Voit rajata tilastoja myös muilla valinnoilla.",
+        "download": "Muodosta raportti (.xlsx)",
+        "fields": {
+          "dateRange": "Aikaväli",
+          "language": "Kieli",
+          "level": "Taso",
+          "municipality": "Paikkakunta",
+          "organizer": "Järjestäjä"
+        },
+        "placeholder": "Valitse...",
+        "toasts": {
+          "downloadError": "Raportin luominen epäonnistui",
+          "emptyResult": "Ei hakutuloksia"
+        }
+      },
       "clerkPaymentReport": {
         "description": "Valitse alta päivämäärät joiden ajalta haluat tarkastella toteutuneita tutkintomaksuja. Oletusarvoisesti valittuna on koko edellinen kuukausi. Huomaathan, että mahdollisesti jälkikäteen palautetut tutkintomaksut näkyvät edelleen raportissa maksettuina.",
         "download": "Muodosta raportti (.xlsx)",
@@ -670,6 +687,9 @@
       },
       "clerkPaymentReportPage": {
         "heading": "Raportit ja tilastot"
+      },
+      "clerkStatisticsPage": {
+        "heading": "Tilastot"
       },
       "clerkQuarantinePage": {
         "heading": "Osallistumiskiellot"

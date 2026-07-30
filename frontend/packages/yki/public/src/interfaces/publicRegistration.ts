@@ -66,6 +66,12 @@ export interface PublicRegistrationIdentifyPayload {
   registrationId: number;
 }
 
+export interface PublicRegistrationIdentifyRequest {
+  exam_session_id: number;
+  to_queue: boolean;
+  registration_id: number;
+}
+
 export interface PublicRegistrationInitRequest {
   exam_session_id: number;
   to_queue: boolean;

@@ -349,6 +349,24 @@ export const handlers = [
       },
     });
   }),
+  http.get(APIEndpoints.ClerkStatisticsExcel, ({ request }) => {
+    const url = new URL(request.url);
+    const from = url.searchParams.get('from');
+    const to = url.searchParams.get('to');
+
+    if (!from || !to) {
+      return new HttpResponse(null, { status: 400 });
+    }
+
+    return new HttpResponse(new Blob(['mock-excel-content']), {
+      status: 200,
+      headers: {
+        'Content-Type':
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'Content-Disposition': `attachment; filename="YKI_tilastot_${from}_${to}.xlsx"`,
+      },
+    });
+  }),
   http.post(APIEndpoints.ClerkQuarantine, () =>
     HttpResponse.json({ success: true }),
   ),
