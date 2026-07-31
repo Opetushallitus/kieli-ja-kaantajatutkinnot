@@ -497,6 +497,95 @@ CREATE TABLE public.databasechangeloglock (
 ALTER TABLE public.databasechangeloglock OWNER TO admin;
 
 --
+-- Name: email; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.email (
+    email_id bigint NOT NULL,
+    version integer DEFAULT 0 NOT NULL,
+    created_by text,
+    modified_by text,
+    deleted_by text,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    modified_at timestamp with time zone DEFAULT now() NOT NULL,
+    deleted_at timestamp with time zone,
+    email_type character varying(255) NOT NULL,
+    recipient_name text NOT NULL,
+    recipient_address text NOT NULL,
+    subject text NOT NULL,
+    body text NOT NULL,
+    sent_at timestamp with time zone,
+    ext_id text,
+    error text
+);
+
+
+ALTER TABLE public.email OWNER TO admin;
+
+--
+-- Name: email_email_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.email_email_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.email_email_id_seq OWNER TO admin;
+
+--
+-- Name: email_email_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.email_email_id_seq OWNED BY public.email.email_id;
+
+--
+-- Name: email_attachment; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.email_attachment (
+    email_attachment_id bigint NOT NULL,
+    version integer DEFAULT 0 NOT NULL,
+    created_by text,
+    modified_by text,
+    deleted_by text,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    modified_at timestamp with time zone DEFAULT now() NOT NULL,
+    deleted_at timestamp with time zone,
+    email_id bigint NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type character varying(255) NOT NULL,
+    data bytea NOT NULL
+);
+
+
+ALTER TABLE public.email_attachment OWNER TO admin;
+
+--
+-- Name: email_attachment_email_attachment_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.email_attachment_email_attachment_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.email_attachment_email_attachment_id_seq OWNER TO admin;
+
+--
+-- Name: email_attachment_email_attachment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.email_attachment_email_attachment_id_seq OWNED BY public.email_attachment.email_attachment_id;
+
+
+--
 -- Name: evaluation; Type: TABLE; Schema: public; Owner: admin
 --
 
@@ -2089,6 +2178,20 @@ ALTER TABLE ONLY public.contact ALTER COLUMN organizer_id SET DEFAULT nextval('p
 
 
 --
+-- Name: email email_id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.email ALTER COLUMN email_id SET DEFAULT nextval('public.email_email_id_seq'::regclass);
+
+
+--
+-- Name: email_attachment email_attachment_id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.email_attachment ALTER COLUMN email_attachment_id SET DEFAULT nextval('public.email_attachment_email_attachment_id_seq'::regclass);
+
+
+--
 -- Name: evaluation id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
@@ -2426,6 +2529,22 @@ ALTER TABLE ONLY public.contact
 
 ALTER TABLE ONLY public.databasechangeloglock
     ADD CONSTRAINT databasechangeloglock_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: email email_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.email
+    ADD CONSTRAINT email_pkey PRIMARY KEY (email_id);
+
+
+--
+-- Name: email_attachment email_attachment_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.email_attachment
+    ADD CONSTRAINT email_attachment_pkey PRIMARY KEY (email_attachment_id);
 
 
 --
@@ -3014,6 +3133,14 @@ CREATE TRIGGER quarantine_review_quarantine_not_deleted_trigger BEFORE INSERT OR
 
 ALTER TABLE ONLY public.contact
     ADD CONSTRAINT contact_organizer_id_fkey FOREIGN KEY (organizer_id) REFERENCES public.organizer(id);
+
+
+--
+-- Name: email_attachment email_attachment_email_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.email_attachment
+    ADD CONSTRAINT email_attachment_email_id_fkey FOREIGN KEY (email_id) REFERENCES public.email(email_id);
 
 
 --

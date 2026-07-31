@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{base-message :: layout(~{::content})}">
+<body>
+  <th:block th:fragment="content">
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{email.transfer_confirmation.content.line1}"></span>:
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 10px;">
+        <span th:text="#{common.test}"></span>: [[${language}]] [[${#strings.toLowerCase(level)}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.subtest}"></span>: <th:block th:each="test, iterStat : ${subtests}">[[${test}]]<th:block th:if="${!iterStat.last}">, </th:block></th:block>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.testDay}"></span>: [[${exam_date}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.testCentre}"></span>: [[${name}]], [[${street_address}]], [[${zip}]] [[${#strings.toUpperCase(post_office)}]]
+      </td>
+    </tr>
+
+    <th:block th:if="${extra_information}">
+      <tr>
+        <td style="padding-left: 20px; padding-top: 20px;">
+          <span th:text="#{email.payment_success.extra_information.label}"></span>:
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px;">
+          [[${extra_information}]]
+        </td>
+      </tr>
+    </th:block>
+
+    <th:block th:if="${contact_info}">
+      <tr>
+        <td style="padding-left: 20px; padding-top: 20px;">
+          <span th:text="#{email.payment_success.organizer_contact.label}"></span>:
+        </td>
+      </tr>
+      <tr th:if="${contact_info.name}">
+        <td style="padding-left: 20px;">
+          <span th:text="#{email.payment_success.organizer_contact.name}"></span>: [[${contact_info.name}]]
+        </td>
+      </tr>
+      <tr th:if="${contact_info.email}">
+        <td style="padding-left: 20px;">
+          <span th:text="#{email.payment_success.organizer_contact.email}"></span>: [[${contact_info.email}]]
+        </td>
+      </tr>
+      <tr th:if="${contact_info.phone_number}">
+        <td style="padding-left: 20px;">
+          <span th:text="#{email.payment_success.organizer_contact.phoneNumber}"></span>: [[${contact_info.phone_number}]]
+        </td>
+      </tr>
+    </th:block>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{email.payment_success.content.line2}"></span>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px">
+        <span th:text="#{email.transfer_confirmation.content.special_arrangements.info1}"></span> <b th:text="#{email.transfer_confirmation.content.special_arrangements.info2}"></b>
+        <span th:text="#{email.transfer_confirmation.content.special_arrangements.info3}"></span>
+        <span th:text="#{email.transfer_confirmation.content.special_arrangements.info4}"></span>:
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <a th:href="#{email.payment_success.special_arrangements.link.url}" target="_blank" th:text="#{email.payment_success.special_arrangements.link.text}"></a>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <b th:text="#{email.payment_success.content.line3.part1}"></b> <span th:text="#{email.payment_success.content.line3.part2}"></span>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <li style="padding-left: 10px;" th:text="#{email.payment_success.idDocument.bulletPoint1}"></li>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <li style="padding-left: 10px;" th:text="#{email.payment_success.idDocument.bulletPoint2}"></li>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <li style="padding-left: 10px;" th:text="#{email.payment_success.idDocument.bulletPoint3}"></li>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <li style="padding-left: 10px;" th:text="#{email.payment_success.idDocument.bulletPoint4}"></li>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <li style="padding-left: 10px;" th:text="#{email.payment_success.idDocument.bulletPoint5}"></li>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <li style="padding-left: 10px;" th:text="#{email.payment_success.idDocument.bulletPoint6}"></li>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{email.payment_success.content.line4}"></span>:
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <a th:href="#{email.payment_success.content.line4.link.url}" target="_blank" th:text="#{email.payment_success.content.line4.link.text}"></a>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{email.payment_success.content.line5}"></span>:
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <a th:href="#{email.payment_success.content.line5.link.url}" target="_blank" th:text="#{email.payment_success.content.line5.link.text}"></a>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{email.payment_success.content.line6}"></span>:
+        <a th:href="${user_portal_link}" target="_blank" th:text="#{email.payment_success.content.line6.link.text}"></a>
+      </td>
+    </tr>
+  </th:block>
+</body>
+</html>

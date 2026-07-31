@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{receipt-base :: layout(~{::participant-header}, ~{::content})}">
+<body>
+<th:block th:fragment="participant-header">
+    <p>
+        [[${last_name}]], [[${first_name}]]
+    </p>
+</th:block>
+<th:block th:fragment="content">
+
+<table style="width: 100%;border-spacing: 0;">
+  <th:block th:each="test : ${subtests}">
+  <tr>
+    <td colspan="4" class="cell" style="font-weight: bold; border-width: 1px 1px 0 1px;" th:text="#{email.receipt.evaluationPayment.title}"></td>
+    <td class="cell" style="border-width: 1px 1px 0 0;">
+      [[${test.price.emailTemplate}]] €
+    </td>
+  </tr>
+  <tr>
+    <td colspan="4" class="cell" style="border-width: 0 1px 0 1px;">
+      <span th:text="#{email.receipt.evaluationPayment.subtest}"></span>: [[${test.name}]]
+    </td>
+    <td class="cell" style="border-width: 0 1px 0 0;"></td>
+  </tr>
+  </th:block>
+  <tr>
+    <td colspan="4" class="cell" style="font-weight: bold;border-width: 1px 1px 0 1px;">
+      <span th:text="#{email.receipt.common.examSession}"></span>: [[${language}]], [[${#strings.toLowerCase(level)}]], [[${exam_date}]]
+    </td>
+    <td class="cell" style="border-width: 1px 1px 0 0;"></td>
+  </tr>
+  <tr>
+    <td colspan="4" class="cell" style="font-weight: bold;border-width: 0 1px 0 1px;">
+      <span th:text="#{email.receipt.common.participant}"></span>: [[${last_name}]], [[${first_name}]]
+    </td>
+    <td class="cell" style="border-width: 0 1px 0 0;"></td>
+  </tr>
+  <tr style="font-weight: bold">
+    <td class="cell" colspan="4" style="font-weight: bold; border-width: 1px 1px 1px 1px;" th:text="#{email.receipt.common.total}"></td>
+    <td class="cell" style="border-width: 1px 1px 1px 0;">
+      [[${amount}]] €
+    </td>
+  </tr>
+</table>
+
+<div style="font-size: 14px;">
+  <p th:text="#{email.receipt.common.vatZero}"></p>
+  <p th:text="#{email.receipt.evaluationPayment.vatZeroJustification}"></p>
+</div>
+
+</th:block>
+</body>
+</html>
