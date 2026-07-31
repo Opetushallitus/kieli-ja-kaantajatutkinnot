@@ -66,7 +66,6 @@ export const ExamDetailsPage = ({
       status === APIResponseStatus.Error ||
       isNaN(Number(params.examSessionId))
     ) {
-      // Show an error
       showToast({
         severity: Severity.Error,
         description: t('toasts.notFound'),
