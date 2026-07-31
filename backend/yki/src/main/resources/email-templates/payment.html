@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{base-message :: layout(~{::content})}">
+<body>
+  <th:block th:fragment="content">
+    <tr>
+      <td style="padding-left: 20px;">
+        <b th:text="#{email.payment.content.line1.part1}"></b> <span th:text="#{email.payment.content.line1.part2}"></span>
+        <a style="color: #0093C4;" th:href="#{email.payment.content.line1.link.url}" target="_blank" th:text="#{email.payment.content.line1.link.text}"></a>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{email.payment.content.line2}"></span>:
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 10px;">
+        <span th:text="#{common.test}"></span>: [[${language}]] [[${#strings.toLowerCase(level)}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.subtest}"></span>: <th:block th:each="test, iterStat : ${subtests}">[[${test}]]<th:block th:if="${!iterStat.last}">, </th:block></th:block>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.testDay}"></span>: [[${exam_date}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.testCentre}"></span>: [[${name}]], [[${street_address}]], [[${zip}]] [[${#strings.toUpperCase(post_office)}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.testFee}"></span>: [[${amount}]] €
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <b><span th:text="#{email.payment.content.line3.part1}"></span> [[${expiration_date}]]</b><span th:text="#{email.payment.content.line3.or}"></span> <span th:text="#{email.payment.content.line3.part2}"></span>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{email.payment.content.line4}"></span>:
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <a style="color: #0093C4;" th:href="${login_url}" target="_blank" th:text="#{email.payment.link_text}"></a>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{email.payment.content.line5}"></span>:
+        <a style="color: #0093C4;" th:href="${user_portal_link}" target="_blank" th:text="#{email.payment.content.line5.link.text}"></a>
+      </td>
+    </tr>
+  </th:block>
+</body>
+</html>
