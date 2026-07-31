@@ -1,5 +1,7 @@
 package fi.oph.yki;
 
+import fi.oph.yki.model.Email;
+import fi.oph.yki.model.EmailType;
 import fi.oph.yki.model.Evaluation;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamDateLanguage;
@@ -148,5 +150,16 @@ public class Factory {
     location.setLang("fi");
 
     return location;
+  }
+
+  public static Email email() {
+    final Email email = new Email();
+    email.setEmailType(EmailType.LOGIN);
+    email.setRecipientName("Testi Henkilö");
+    email.setRecipientAddress("testi.henkilo@invalid");
+    email.setSubject("Otsikko");
+    email.setBody("Sisältö on tässä");
+
+    return email;
   }
 }
