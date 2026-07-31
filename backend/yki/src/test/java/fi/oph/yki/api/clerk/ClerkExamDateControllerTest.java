@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(ClerkExamDateController.class)
 @WithMockUser
-@TestPropertySource(properties = "app.clerk-enabled=true")
 class ClerkExamDateControllerTest {
 
   private static final String BASE_URL = "/v2/api/clerk/examDate";
