@@ -156,6 +156,10 @@
         "userDetails": "Mina anmälningar"
       },
       "partialExams": "Delprov",
+      "partialExamsLink": {
+        "label": "Försök med delprovsdagar för YKI-testerna hösten 2026",
+        "url": "https://www.oph.fi/sv/nyheter/2026/forsok-med-delprovsdagar-yki-testerna-hosten-2026"
+      },
       "partialExamTime": "kl. {{startTime}}",
       "partialExamTimeLabel": "Testin alkamisaika",
       "phoneNumber": "Telefonnummer",

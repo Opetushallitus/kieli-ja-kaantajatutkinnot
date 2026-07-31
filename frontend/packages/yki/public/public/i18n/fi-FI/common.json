@@ -156,6 +156,10 @@
         "userDetails": "Omat ilmoittautumiset"
       },
       "partialExams": "Osakokeet",
+      "partialExamsLink": {
+        "label": "YKI-testien osakoepäiviä kokeillaan syksyllä 2026",
+        "url": "https://www.oph.fi/fi/uutiset/2026/yki-testien-osakoepaivia-kokeillaan-syksylla-2026"
+      },
       "partialExamTime": "klo {{startTime}}",
       "partialExamTimeLabel": "Testin alkamisaika",
       "phoneNumber": "Puhelinnumero",

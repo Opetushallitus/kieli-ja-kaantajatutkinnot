@@ -770,10 +770,9 @@
             "label": "YKI-testin jälkeen",
             "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/yki-testin-jalkeen"
           },
-          "part1": "Jos suoritat testin 1.4.2026 tai sen jälkeen, voit saada digitaalisen YKI-todistuksen.",
-          "part2": "Saat todistuksen Oma Opintopolkuun.",
-          "part3": "Jos käytät <CustomLink></CustomLink>-viestit -palvelua, saat sähköisen <CustomLink></CustomLink>-viestin, kun todistus on valmis.",
-          "part4": "Voit lukea lisää testin tuloksista ja todistuksista Opetushallituksen verkkosivuilta:"
+          "part1": "Ensimmäinen osakoetestipäivä järjestetään 16.9.2026!",
+          "part2": "Osakoetestipäivässä voit tehdä vain kirjoittamisen ja puheen ymmärtämisen osakokeet.",
+          "part3": "Lue lisää Opetushallituksen verkkosivuilta: <CustomLink></CustomLink>"
         },
         "labels": {
           "allPartsAtOnce": "Kaikki osakokeet samana testipäivänä",
@@ -785,9 +784,6 @@
           "selectExamType": "Mitä osakokeita haluat hakea?",
           "selectLanguage": "Valitse kieli",
           "selectLevel": "Valitse taso",
-          "selectMunicipality": "Valitse paikkakunta",
-          "speak": "Puhuminen",
-          "write": "Kirjoittaminen",
           "selectMunicipality": "Valitse paikkakunta",
           "speak": "Puhuminen",
           "write": "Kirjoittaminen"
