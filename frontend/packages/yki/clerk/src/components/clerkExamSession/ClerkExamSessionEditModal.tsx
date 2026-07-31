@@ -1,5 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box } from '@mui/material';
+import { Box, FormHelperText } from '@mui/material';
 import {
   OphButton,
   OphInputFormField,
@@ -463,7 +463,7 @@ export const ClerkExamSessionEditModal = ({
                 <Label>{t('fields.examDate')}</Label>
                 <Text>{t('fields.noExamDates')}</Text>
                 {submitted && errors.examDateId && (
-                  <Text color="error">{t('errors.required')}</Text>
+                  <FormHelperText>{t('errors.required')}</FormHelperText>
                 )}
               </div>
             )}
