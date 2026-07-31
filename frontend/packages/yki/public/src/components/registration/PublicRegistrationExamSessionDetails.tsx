@@ -163,7 +163,7 @@ export const PublicRegistrationExamSessionDetails = ({
           {`${translateCommon('examDate')}: `}
           <b>{DateUtils.formatOptionalDate(examSession.session_date)}</b>
         </Text>
-        {examSession.type !== 'FULL' && (
+        {!isPartialExamRegistrationEndStep && (
           <Text>
             {`${translateCommon('partialExamTimeLabel')}: `}
             <b>
@@ -183,14 +183,14 @@ export const PublicRegistrationExamSessionDetails = ({
             location.street_address
           }, ${ExamSessionUtils.getMunicipality(location)}`}</b>
         </Text>
-        {!isPartialExamRegistrationEndStep && (
-          <Text>
-            {`${t('registrationTime')}: `}
-            <b>{`${DateUtils.formatOptionalDate(
-              start,
-            )} - ${DateUtils.formatOptionalDate(end)}`}</b>
-          </Text>
-        )}
+
+        <Text>
+          {`${t('registrationTime')}: `}
+          <b>{`${DateUtils.formatOptionalDate(
+            start,
+          )} - ${DateUtils.formatOptionalDate(end)}`}</b>
+        </Text>
+
         {!isPartialExamRegistrationEndStep && (
           <Text>
             {`${t('examFee')}: `}
