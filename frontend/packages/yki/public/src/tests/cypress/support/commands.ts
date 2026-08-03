@@ -57,6 +57,6 @@ Cypress.Commands.add(
       cy.setCookie('cookie-consent-yki', 'true');
     });
 
-    visitWithNewYkiUi(`${path}${search}`);
+    cy.visit(`${path}${search}`);
   },
 );
