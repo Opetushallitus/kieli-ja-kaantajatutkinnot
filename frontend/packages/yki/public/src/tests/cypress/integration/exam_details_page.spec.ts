@@ -1,4 +1,5 @@
 import { http, HttpResponse } from 'msw';
+
 import { APIEndpoints } from 'enums/api';
 import { RegistrationKind } from 'enums/app';
 import { onExamDetailsPage } from 'tests/cypress/support/page-objects/examDetailsPage';

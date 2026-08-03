@@ -4,7 +4,7 @@ import { StyleCacheProvider } from 'shared/components';
 import { initI18n } from 'configs/i18n';
 import { setupStore } from 'redux/store';
 import { AppRouter } from 'routers/AppRouter';
-import('styles/newStyles.scss');
+import('styles/styles.scss');
 
 // Initialize I18next
 initI18n();
