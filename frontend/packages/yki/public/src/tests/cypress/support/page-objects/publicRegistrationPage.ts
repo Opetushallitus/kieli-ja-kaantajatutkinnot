@@ -47,6 +47,10 @@ class PublicRegistrationPage {
     return this.elements.resultBox().find('.exam-session-card').eq(nth);
   }
 
+  getResultCardContaining(text: string) {
+    return this.elements.resultBox().contains('.exam-session-card', text);
+  }
+
   alertModalContains(text: string) {
     return cy
       .findAllByRole('alertdialog')
@@ -87,7 +91,7 @@ class PublicRegistrationPage {
     this.elements.showOnlyIfOngoingAdmission().click();
   }
 
-  expectReservationTimerText(visible, text?) {
+  expectReservationTimerText(visible: boolean, text?: string) {
     if (visible) {
       cy.findByTestId('public-registration__reservation-timer-text')
         .should('be.visible')
