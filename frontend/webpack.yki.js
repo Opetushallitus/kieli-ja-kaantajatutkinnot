@@ -310,22 +310,11 @@ class CSPNoncePlaceholderInjectorPlugin {
         HtmlWebpackPlugin.getHooks(compilation).alterAssetTagGroups.tapAsync(
           "CSPNoncePlaceholderInjectorPlugin",
           (data, cb) => {
-            data.headTags.unshift(
-              HtmlWebpackPlugin.createHtmlTagObject(
-                "script",
-                {
-                  "th:attr": "nonce=${cspNonce}",
-                  "th:inline": "javascript",
-                },
-                "window.__CLERK_ENABLED__ = /*[[${clerkEnabled}]]*/ false;"
-              )
-            );
             if (this.isClerk && !this.isCypress && this.isProd) {
               data.headTags.push(
                 HtmlWebpackPlugin.createHtmlTagObject(
                   "script",
                   {
-                    "th:if": "${clerkEnabled}",
                     "th:attr": "nonce=${cspNonce}",
                     src: "/virkailija-raamit/apply-raamit.js",
                     defer: true,

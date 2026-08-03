@@ -1,6 +1,9 @@
 //Shared
 @import 'shared/styles';
 
+// YKI Public overrides
+@import 'overrides/new-yki-overrides';
+
 // Base
 @import 'base/base';
 
@@ -8,6 +11,7 @@
 @import 'components/layouts/header';
 @import 'components/layouts/footer';
 @import 'components/layouts/session-header';
+@import 'components/registration/exam-session-card';
 @import 'components/registration/exam-session-filters';
 @import 'components/registration/exam-session-listing';
 @import 'components/registration/public-registration';

@@ -10,8 +10,6 @@ server:
         http-only: false
         secure: false
       timeout: 60m
-app:
-  clerk-enabled: true
 cas:
   username: username
   password: password
