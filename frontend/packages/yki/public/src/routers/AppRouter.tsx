@@ -42,6 +42,7 @@ import { loadSession } from 'redux/reducers/session';
 import { sessionSelector } from 'redux/selectors/session';
 import { newYkiPublicTheme } from 'themes/theme';
 
+// Trigger CI
 const ErrorToast = () => {
   useAPIErrorToast();
 
