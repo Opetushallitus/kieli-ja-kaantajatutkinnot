@@ -163,20 +163,21 @@ export const PublicRegistrationExamSessionDetails = ({
           {`${translateCommon('examDate')}: `}
           <b>{DateUtils.formatOptionalDate(examSession.session_date)}</b>
         </Text>
-        {!isPartialExamRegistrationEndStep && (
-          <Text>
-            {`${translateCommon('partialExamTimeLabel')}: `}
-            <b>
-              {translateCommon('partialExamTime', {
-                startTime:
-                  ExamSessionUtils.getStartTime(
-                    examSession,
-                    initRegistration.partialExamType,
-                  ) || '',
-              })}
-            </b>
-          </Text>
-        )}
+        {examSession.type !== 'FULL' &&
+          activeStep !== PublicRegistrationFormStep.Done && (
+            <Text>
+              {`${translateCommon('partialExamTimeLabel')}: `}
+              <b>
+                {translateCommon('partialExamTime', {
+                  startTime:
+                    ExamSessionUtils.getStartTime(
+                      examSession,
+                      initRegistration.partialExamType,
+                    ) || '',
+                })}
+              </b>
+            </Text>
+          )}
         <Text>
           {`${translateCommon('institution')}: `}
           <b>{`${location.name}, ${
