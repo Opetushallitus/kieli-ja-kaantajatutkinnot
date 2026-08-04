@@ -13,11 +13,13 @@ import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
 import {
   acceptPublicRegistrationSubmission,
+  fetchRegistrationDetails,
   identifyRegistration,
   setActiveStep,
 } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
+import { sessionSelector } from 'redux/selectors/session';
 
 export const ExamDetailsPage = ({
   registrationKind,
@@ -33,14 +35,17 @@ export const ExamDetailsPage = ({
 
   // Redux
   const dispatch = useAppDispatch();
+  const { status: sessionStatus } = useAppSelector(sessionSelector);
   const { status, examSession } = useAppSelector(examSessionSelector);
-  const { initRegistration, fetchRegistrationStatus } =
+  const { initRegistration, fetchRegistrationStatus, submitRegistration } =
     useAppSelector(registrationSelector);
   // React Router
   const params = useParams();
   const [searchParams] = useSearchParams();
 
   const isLoading =
+    sessionStatus === APIResponseStatus.NotStarted ||
+    sessionStatus === APIResponseStatus.InProgress ||
     status === APIResponseStatus.InProgress ||
     fetchRegistrationStatus === APIResponseStatus.InProgress ||
     initRegistration.status === APIResponseStatus.InProgress;
@@ -56,39 +61,11 @@ export const ExamDetailsPage = ({
       params.examSessionId &&
       params.registrationId
     ) {
-      if (searchParams.get('submitted')) {
-        // If form is already submitted, just reload exam session details
-        // and manually set registration status to submitted.
-        const code = searchParams.get('code');
-        const queue = searchParams.get('queue');
-        const registration_kind =
-          queue === 'true'
-            ? RegistrationKind.Queue
-            : RegistrationKind.Admission;
-        dispatch(loadExamSession(+params.examSessionId));
-        dispatch(
-          acceptPublicRegistrationSubmission({
-            code: code || '',
-            registration_kind,
-            state: RegistrationStates.Submitted,
-          }),
-        );
-      } else {
-        // Else attempt to initiate registration.
-        dispatch(
-          identifyRegistration({
-            examSessionId: +params.examSessionId,
-            // TODO registrationKind not needed when calling /identify, refactor away!
-            registrationKind: RegistrationKind.Admission,
-            registrationId: +params.registrationId,
-          }),
-        );
-      }
+      dispatch(loadExamSession(+params.examSessionId));
     } else if (
       status === APIResponseStatus.Error ||
       isNaN(Number(params.examSessionId))
     ) {
-      // Show an error
       showToast({
         severity: Severity.Error,
         description: t('toasts.notFound'),
@@ -101,11 +78,80 @@ export const ExamDetailsPage = ({
     params.registrationId,
     showToast,
     examSession?.id,
-    examSession?.type,
     t,
-    searchParams,
-    registrationKind,
+  ]);
+
+  useEffect(() => {
+    if (
+      !searchParams.get('submitted') ||
+      status !== APIResponseStatus.Success ||
+      !examSession?.id ||
+      !params.examSessionId ||
+      !params.registrationId ||
+      initRegistration.status !== APIResponseStatus.NotStarted ||
+      submitRegistration.status !== APIResponseStatus.NotStarted ||
+      examSession.id !== +params.examSessionId
+    ) {
+      return;
+    }
+
+    const code = searchParams.get('code');
+    const queue = searchParams.get('queue');
+    const registration_kind =
+      queue === 'true' ? RegistrationKind.Queue : RegistrationKind.Admission;
+
+    dispatch(fetchRegistrationDetails(+params.registrationId));
+    dispatch(
+      acceptPublicRegistrationSubmission({
+        code: code || '',
+        registration_kind,
+        state: RegistrationStates.Submitted,
+      }),
+    );
+  }, [
+    dispatch,
+    examSession?.id,
     initRegistration.status,
+    params.examSessionId,
+    params.registrationId,
+    searchParams,
+    status,
+    submitRegistration.status,
+  ]);
+
+  useEffect(() => {
+    if (
+      searchParams.get('submitted') ||
+      sessionStatus !== APIResponseStatus.Success ||
+      status !== APIResponseStatus.Success ||
+      !examSession?.id ||
+      !params.examSessionId ||
+      !params.registrationId ||
+      initRegistration.status !== APIResponseStatus.NotStarted ||
+      examSession.id !== +params.examSessionId
+    ) {
+      return;
+    }
+
+    // Else attempt to initiate registration.
+    dispatch(
+      identifyRegistration({
+        examSessionId: +params.examSessionId,
+        // TODO registrationKind not needed when calling /identify, refactor away!
+        registrationKind: RegistrationKind.Admission,
+        registrationId: +params.registrationId,
+      }),
+    );
+  }, [
+    dispatch,
+    examSession?.id,
+    initRegistration.status,
+    params.examSessionId,
+    params.registrationId,
+    registrationKind,
+    searchParams,
+    sessionStatus,
+    status,
   ]);
 
   return (

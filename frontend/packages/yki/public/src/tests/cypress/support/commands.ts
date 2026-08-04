@@ -43,3 +43,20 @@ Cypress.Commands.add('openPublicUserDetailsPage', () => {
   });
   cy.visit(AppRoutes.UserDetails);
 });
+
+Cypress.Commands.add(
+  'openExamSessionRegistrationFormWithSearch',
+  (examSessionId: number, registrationId: number, search = '') => {
+    const path = AppRoutes.ExamSessionRegistration.replace(
+      /:examSessionId/,
+      `${examSessionId}`,
+    ).replace(/:registrationId/, `${registrationId}`);
+
+    cy.window().then((win) => {
+      win.sessionStorage.setItem('persist:root', '{}');
+      cy.setCookie('cookie-consent-yki', 'true');
+    });
+
+    visitWithNewYkiUi(`${path}${search}`);
+  },
+);

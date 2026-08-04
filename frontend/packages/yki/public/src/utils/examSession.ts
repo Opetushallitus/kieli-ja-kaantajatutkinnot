@@ -220,10 +220,6 @@ export class ExamSessionUtils {
     examSessionType: ExamSessionType,
     partialExamType?: PartialExamType,
   ) {
-    if (!partialExamType) {
-      return '';
-    }
-
     const t = translateOutsideComponent();
 
     const ns = I18nNamespace.Public;
@@ -232,6 +228,10 @@ export class ExamSessionUtils {
       return t('yki.component.registration.examSessionCard.examType.full', {
         ns,
       });
+    }
+
+    if (!partialExamType) {
+      return '';
     }
 
     if (examSessionType === 'LISTEN_WRITE') {
@@ -336,12 +336,12 @@ export class ExamSessionUtils {
     examSession: ExamSession,
     partialExamType?: PartialExamType,
   ) {
-    if (!partialExamType) {
-      return '';
-    }
-
     if (examSession.type === 'FULL') {
       return examSession.exam_fee;
+    }
+
+    if (!partialExamType) {
+      return '';
     }
 
     if (examSession.type === 'LISTEN_WRITE') {
