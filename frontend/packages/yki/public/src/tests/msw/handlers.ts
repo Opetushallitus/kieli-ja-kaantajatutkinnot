@@ -34,7 +34,7 @@ const initRegistration = async ({
 }: {
   request: StrictRequest<PublicRegistrationInitRequest>;
 }) => {
-  const { exam_session_id } = await request.json();
+  const { exam_session_id, to_queue, partial_exam_type } = await request.json();
   switch (exam_session_id) {
     // exam sessions with ids 2 through 7 are for simulating different error conditions
     case 2:
@@ -62,8 +62,6 @@ const initRegistration = async ({
     case 6:
       return HttpResponse.json({ error: { full: true } }, { status: 409 });
     default:
-      // For odd values, simulate a full exam session, ie. user is enrolling to queue
-      // For even values, allow registering to exam session proper
       const {
         exam_session,
         registration_kind: _registration_kind,
@@ -74,35 +72,23 @@ const initRegistration = async ({
       const examSession =
         examSessions.exam_sessions.find((v) => v.id === exam_session_id) ||
         exam_session;
-      const kind =
-        exam_session_id % 2 === 0
-          ? RegistrationKind.Admission
-          : RegistrationKind.Queue;
+      const kind = to_queue
+        ? RegistrationKind.Queue
+        : RegistrationKind.Admission;
       const thirtyMinutesInSeconds = 1800;
-      const expires_in =
-        exam_session_id % 2 === 0 ? thirtyMinutesInSeconds : undefined;
+      const expires_in = to_queue ? undefined : thirtyMinutesInSeconds;
 
-      return HttpResponse.json(
-        {
-          exam_session: {
-            ...examSession,
-            available_registration_kind: kind,
-          },
-          registration_kind: kind,
-          partial_exam_type: 'ALL_PARTS',
-          // Mock registration id to match exam session id.
-          // This is so that we can in the registration submit endpoint
-          // return different registration kind (admission vs. queue)
-          // based on the parity of registration id.
-          registration_id: exam_session_id,
-          expires_in,
-          ...rest,
+      return HttpResponse.json({
+        exam_session: {
+          ...examSession,
+          available_registration_kind: kind,
         },
-        /*exam_session_id % 2 === 0
-              ? initRegistrationEmailAuth
-              : registrationInitResponse,
-              */
-      );
+        registration_kind: kind,
+        partial_exam_type: partial_exam_type ?? 'ALL_PARTS',
+        registration_id: exam_session_id,
+        expires_in,
+        ...rest,
+      });
   }
 };
 

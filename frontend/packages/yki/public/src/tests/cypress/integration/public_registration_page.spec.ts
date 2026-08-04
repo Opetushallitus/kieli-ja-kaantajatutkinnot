@@ -72,9 +72,7 @@ describe('PublicRegistrationPage', () => {
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 
-      onInitRegistrationPage.expectTitle(
-        'Tunnistaudu jonoon ilmoittautumista varten',
-      );
+      onInitRegistrationPage.expectTitle('Tunnistaudu ilmoittautumista varten');
     });
 
     before(() => {
@@ -99,9 +97,7 @@ describe('PublicRegistrationPage', () => {
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 
-      onInitRegistrationPage.expectTitle(
-        'Tunnistaudu jonoon ilmoittautumista varten',
-      );
+      onInitRegistrationPage.expectTitle('Tunnistaudu ilmoittautumista varten');
       onInitRegistrationPage.expectVisibleContinueToRegistrationButton();
     });
 
@@ -195,8 +191,8 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
-        .getResultCardsNth(0)
-        .findByRole('button', { name: /Ilmoittaudu/ })
+        .getResultCardContaining('Tekstin ymmärtäminen ja puhuminen')
+        .findByRole('button', { name: 'Ilmoittaudu jonoon' })
         .click();
 
       onInitRegistrationPage.expectTitle(

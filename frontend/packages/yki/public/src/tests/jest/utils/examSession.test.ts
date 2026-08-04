@@ -549,9 +549,9 @@ describe('ExamSessionUtils', () => {
 
       // The room comparator looks at the overall session quota, not the
       // per-part quotas, so mixed per-part availability does not affect order.
-      expect(
-        ExamSessionUtils.compareExamSessions(readFull, speakFull),
-      ).toEqual(0);
+      expect(ExamSessionUtils.compareExamSessions(readFull, speakFull)).toEqual(
+        0,
+      );
     });
 
     it('should prioritise a partial session with overall room over a full one', () => {
