@@ -21,6 +21,7 @@ public class ClerkRegistrationService {
   private final ExamSessionRepository examSessionRepository;
   private final AuditService auditService;
   private final PersonRepository personRepository;
+  private final RegistrationEmailService registrationEmailService;
 
   @Transactional
   public void moveRegistration(final long registrationId, final long targetExamSessionId) {
@@ -42,10 +43,7 @@ public class ClerkRegistrationService {
       );
     }
 
-    auditService.logById(YkiOperation.CANCEL_REGISTRATION, registrationId);
-
-    registration.setState(RegistrationState.CANCELLED);
-    registrationRepository.saveAndFlush(registration);
+    cancelRegistration(registrationId);
   }
 
   @Transactional
@@ -53,7 +51,16 @@ public class ClerkRegistrationService {
     auditService.logById(YkiOperation.CANCEL_REGISTRATION, registrationId);
 
     final Registration registration = registrationRepository.getReferenceById(registrationId);
-    registration.setState(RegistrationState.CANCELLED);
+    final RegistrationState previousState = registration.getState();
+    final RegistrationState newState = previousState == RegistrationState.COMPLETED
+      ? RegistrationState.PAID_AND_CANCELLED
+      : RegistrationState.CANCELLED;
+
+    registration.setState(newState);
     registrationRepository.saveAndFlush(registration);
+
+    if (newState == RegistrationState.PAID_AND_CANCELLED) {
+      registrationEmailService.sendCancelRegistrationEmail(registration);
+    }
   }
 }
