@@ -192,7 +192,7 @@ export const PublicRegistrationExamSessionDetails = ({
           )} - ${DateUtils.formatOptionalDate(end)}`}</b>
         </Text>
 
-        {!isPartialExamRegistrationEndStep && (
+        {activeStep !== PublicRegistrationFormStep.Done && (
           <Text>
             {`${t('examFee')}: `}
             <b>{examFeeText}</b>
