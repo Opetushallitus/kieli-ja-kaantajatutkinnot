@@ -63,14 +63,6 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                 >
-                  partialExamTimeLabel: 
-                  <b>
-                    partialExamTime
-                  </b>
-                </p>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-                >
                   institution: 
                   <b>
                     Amiedu, Jokukatu 4, Tampere
@@ -552,14 +544,6 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     examDate: 
                     <b>
                       04/06/2019
-                    </b>
-                  </p>
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-                  >
-                    partialExamTimeLabel: 
-                    <b>
-                      partialExamTime
                     </b>
                   </p>
                   <p
