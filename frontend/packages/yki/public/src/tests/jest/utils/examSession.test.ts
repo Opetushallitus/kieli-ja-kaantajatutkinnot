@@ -175,6 +175,28 @@ describe('ExamSessionUtils', () => {
     });
   });
 
+  describe('queue registration for a full part', () => {
+    it('uses the queue registration kind for a part whose quota is full', () => {
+      const readSpeakSpeakFull: ExamSession = {
+        ...readSpeakExamSession,
+        participants_speak_write:
+          readSpeakExamSession.max_participants_speak_write ?? 0,
+      };
+
+      // SPEAK quota is full, so no admission places remain for that part...
+      expect(
+        ExamSessionUtils.getAvailablePlaces(readSpeakSpeakFull, 'SPEAK'),
+      ).toEqual(0);
+      // ...but queueing is allowed, so the part resolves to the queue kind.
+      expect(
+        ExamSessionUtils.getRegistrationKind({
+          examSession: readSpeakSpeakFull,
+          partialExamType: 'SPEAK',
+        }),
+      ).toEqual(RegistrationKind.Queue);
+    });
+  });
+
   describe('getAvailablePlaces', () => {
     it('should draw from the read/listen quota for READ and LISTEN parts', () => {
       expect(
@@ -508,6 +530,49 @@ describe('ExamSessionUtils', () => {
             language_code: ExamLanguage.DEU,
           },
         ),
+      ).toEqual(-1);
+    });
+
+    it('should ignore per-part availability and compare partial sessions by total quota', () => {
+      // Same total quota/participants, but the parts that are full differ:
+      // one is full in the read/listen part, the other in the speak/write part.
+      const readFull: ExamSession = {
+        ...readSpeakExamSession,
+        participants_read_listen: 5,
+        participants_speak_write: 0,
+      };
+      const speakFull: ExamSession = {
+        ...readSpeakExamSession,
+        participants_read_listen: 0,
+        participants_speak_write: 5,
+      };
+
+      // The room comparator looks at the overall session quota, not the
+      // per-part quotas, so mixed per-part availability does not affect order.
+      expect(
+        ExamSessionUtils.compareExamSessions(readFull, speakFull),
+      ).toEqual(0);
+    });
+
+    it('should prioritise a partial session with overall room over a full one', () => {
+      const full: ExamSession = {
+        ...readSpeakExamSession,
+        participants: readSpeakExamSession.max_participants,
+      };
+
+      expect(
+        ExamSessionUtils.compareExamSessions(readSpeakExamSession, full),
+      ).toEqual(-1);
+      expect(
+        ExamSessionUtils.compareExamSessions(full, readSpeakExamSession),
+      ).toEqual(1);
+    });
+
+    it('should treat a queued partial session as having no room', () => {
+      const queued: ExamSession = { ...readSpeakExamSession, queue: 1 };
+
+      expect(
+        ExamSessionUtils.compareExamSessions(readSpeakExamSession, queued),
       ).toEqual(-1);
     });
   });

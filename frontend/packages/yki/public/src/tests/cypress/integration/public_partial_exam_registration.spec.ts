@@ -39,4 +39,17 @@ describe('PublicPartialExamRegistration', () => {
       'Tunnistaudu jonoon ilmoittautumista varten',
     );
   });
+
+  it('offers a queue registration for a part whose quota is full', () => {
+    // The speak part is full but queueing is allowed, so it is labelled
+    // 'Ilmoittaudu jonoon' instead of 'Ilmoittaudu'.
+    onPublicRegistrationPage
+      .getResultCardContaining(readSpeakLabel)
+      .findByRole('button', { name: 'Ilmoittaudu jonoon' })
+      .click();
+
+    onInitRegistrationPage.expectTitle(
+      'Tunnistaudu jonoon ilmoittautumista varten',
+    );
+  });
 });
