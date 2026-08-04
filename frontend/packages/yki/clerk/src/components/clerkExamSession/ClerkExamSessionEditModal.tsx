@@ -100,7 +100,7 @@ export const ClerkExamSessionEditModal = ({
 
   const officeOidOptions: ComboBoxOption[] = organizationHierarchy.map(
     (org) => ({
-      label: org.name?.fi ?? org.oid,
+      label: org.name?.fi ? `${org.name?.fi} (${org.oid})` : org.oid,
       value: org.oid,
     }),
   );
