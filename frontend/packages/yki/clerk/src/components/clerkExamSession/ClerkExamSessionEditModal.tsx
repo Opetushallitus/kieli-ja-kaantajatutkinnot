@@ -1,5 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box } from '@mui/material';
+import { Box, FormHelperText } from '@mui/material';
 import {
   OphButton,
   OphInputFormField,
@@ -100,7 +100,7 @@ export const ClerkExamSessionEditModal = ({
 
   const officeOidOptions: ComboBoxOption[] = organizationHierarchy.map(
     (org) => ({
-      label: org.name?.fi ?? org.oid,
+      label: org.name?.fi ? `${org.name?.fi} (${org.oid})` : org.oid,
       value: org.oid,
     }),
   );
@@ -255,7 +255,9 @@ export const ClerkExamSessionEditModal = ({
       language: !form.language,
       level: !form.level,
       type: !form.type,
-      examDateId: mode !== 'edit-partial' && !form.examDateId,
+      examDateId:
+        mode !== 'edit-partial' &&
+        !filteredExamDates.some((ed) => String(ed.id) === form.examDateId),
       maxParticipants: isFull
         ? !form.maxParticipantsTotal
         : !form.maxParticipantsReadListen || !form.maxParticipantsSpeakWrite,
@@ -270,7 +272,7 @@ export const ClerkExamSessionEditModal = ({
       contactEmail: !form.contactEmail,
       contactPhoneNumber: !form.contactPhoneNumber,
     };
-  }, [form, selectedOfficeOid, mode]);
+  }, [form, selectedOfficeOid, mode, filteredExamDates]);
 
   useEffect(() => {
     if (submitted) {
@@ -460,6 +462,9 @@ export const ClerkExamSessionEditModal = ({
               <div className="rows gapped-xxs">
                 <Label>{t('fields.examDate')}</Label>
                 <Text>{t('fields.noExamDates')}</Text>
+                {submitted && errors.examDateId && (
+                  <FormHelperText>{t('errors.required')}</FormHelperText>
+                )}
               </div>
             )}
           </>

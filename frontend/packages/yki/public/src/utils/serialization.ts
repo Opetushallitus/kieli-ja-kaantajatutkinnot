@@ -43,6 +43,8 @@ import {
 import { KoskiEducationDTO } from 'interfaces/publicEducation';
 import {
   PublicEmailRegistration,
+  PublicRegistrationIdentifyPayload,
+  PublicRegistrationIdentifyRequest,
   PublicRegistrationInitPayload,
   PublicRegistrationInitRequest,
   PublicSuomiFiRegistration,
@@ -210,8 +212,8 @@ export class SerializationUtils {
             metadata.kieli === 'EN'
               ? AppLanguage.English
               : metadata.kieli === 'SV'
-              ? AppLanguage.Swedish
-              : AppLanguage.Finnish,
+                ? AppLanguage.Swedish
+                : AppLanguage.Finnish,
         })),
       )
       .flat();
@@ -346,6 +348,16 @@ export class SerializationUtils {
       exam_session_id: payload.examSessionId,
       to_queue: payload.registrationKind === RegistrationKind.Queue,
       partial_exam_type: payload.partialExamType,
+    };
+  }
+
+  static serializePublicRegistrationIdentifyRequest(
+    payload: PublicRegistrationIdentifyPayload,
+  ): PublicRegistrationIdentifyRequest {
+    return {
+      exam_session_id: payload.examSessionId,
+      to_queue: payload.registrationKind === RegistrationKind.Queue,
+      registration_id: payload.registrationId,
     };
   }
 

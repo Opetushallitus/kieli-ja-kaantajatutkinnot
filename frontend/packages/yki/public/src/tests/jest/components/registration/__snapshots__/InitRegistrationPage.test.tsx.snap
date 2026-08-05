@@ -22,7 +22,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
       </div>
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-1gtchvp-MuiPaper-root"
-        style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12);"
+        style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12); border-top: 5px solid #378703;"
       >
         <div
           class="public-registration__grid__form-container"
@@ -103,7 +103,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 upcoming.description
               </p>
               <a
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
                 href="/yki/ilmoittautuminen"
                 tabindex="0"
               >
@@ -140,7 +140,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
       </div>
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-1gtchvp-MuiPaper-root"
-        style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12);"
+        style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12); border-top: 5px solid #378703;"
       >
         <div
           class="public-registration__grid__form-container"
@@ -229,7 +229,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 past.description
               </p>
               <a
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
                 href="/yki/ilmoittautuminen"
                 tabindex="0"
               >
@@ -275,7 +275,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root Mui-active css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root Mui-active css-1t8gtdm-MuiSvgIcon-root-MuiStepIcon-root"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -299,7 +299,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   class="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
                 >
                   <span
-                    class="MuiStepLabel-label Mui-active css-12eb3rq-MuiStepLabel-label"
+                    class="MuiStepLabel-label Mui-active css-1dfpv9p-MuiStepLabel-label"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
@@ -334,7 +334,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1t8gtdm-MuiSvgIcon-root-MuiStepIcon-root"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -358,7 +358,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   class="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
                 >
                   <span
-                    class="MuiStepLabel-label Mui-disabled css-12eb3rq-MuiStepLabel-label"
+                    class="MuiStepLabel-label Mui-disabled css-1dfpv9p-MuiStepLabel-label"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
@@ -393,7 +393,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1t8gtdm-MuiSvgIcon-root-MuiStepIcon-root"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -417,7 +417,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   class="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
                 >
                   <span
-                    class="MuiStepLabel-label Mui-disabled css-12eb3rq-MuiStepLabel-label"
+                    class="MuiStepLabel-label Mui-disabled css-1dfpv9p-MuiStepLabel-label"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
@@ -452,7 +452,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1t8gtdm-MuiSvgIcon-root-MuiStepIcon-root"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -476,7 +476,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   class="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
                 >
                   <span
-                    class="MuiStepLabel-label Mui-disabled css-12eb3rq-MuiStepLabel-label"
+                    class="MuiStepLabel-label Mui-disabled css-1dfpv9p-MuiStepLabel-label"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
@@ -611,7 +611,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   </p>
                 </div>
                 <a
-                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-r1ewpe-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-r1ewpe-MuiButtonBase-root-MuiButton-root"
                   href="/yki/auth/?examSessionId=11&toQueue=false&registrationId=123"
                   tabindex="0"
                 >
@@ -693,10 +693,10 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                           />
                           <fieldset
                             aria-hidden="true"
-                            class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                            class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
                           >
                             <legend
-                              class="css-w4cd9x"
+                              class="css-1nf2c5d-MuiNotchedOutlined-root"
                             >
                               <span
                                 aria-hidden="true"
@@ -713,7 +713,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                       class="rows"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-1mns5ui-MuiButtonBase-root-MuiButton-root"
                         tabindex="0"
                         type="button"
                       >
@@ -734,7 +734,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                       href="/yki/ilmoittautuminen"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1xj59sp-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1xj59sp-MuiButtonBase-root-MuiButton-root"
                         data-testid="public-registration__controlButtons__abort"
                         tabindex="0"
                         type="button"

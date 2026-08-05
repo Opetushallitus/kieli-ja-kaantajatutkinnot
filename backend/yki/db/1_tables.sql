@@ -1320,6 +1320,46 @@ ALTER TABLE public.exam_session_queue_id_seq OWNER TO admin;
 
 ALTER SEQUENCE public.exam_session_queue_id_seq OWNED BY public.exam_session_queue.id;
 
+--
+-- Name: exam_session_statistics; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.exam_session_statistics (
+    id bigint NOT NULL,
+    exam_session_id bigint NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    participants integer NOT NULL,
+    queue integer NOT NULL,
+    max_participant_count integer NOT NULL,
+    max_queue_count integer NOT NULL,
+    max_participants_at timestamp with time zone NOT NULL,
+    max_queue_at timestamp with time zone NOT NULL,
+    last_processed_event_id bigint
+);
+
+
+ALTER TABLE public.exam_session_statistics OWNER TO admin;
+
+--
+-- Name: exam_session_statistics_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.exam_session_statistics_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.exam_session_statistics_id_seq OWNER TO admin;
+
+--
+-- Name: exam_session_statistics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.exam_session_statistics_id_seq OWNED BY public.exam_session_statistics.id;
+
 
 --
 -- Name: free_registration; Type: TABLE; Schema: public; Owner: admin
@@ -2231,6 +2271,13 @@ ALTER TABLE ONLY public.exam_session_queue ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
+-- Name: exam_session_statistics id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.exam_session_statistics ALTER COLUMN id SET DEFAULT nextval('public.exam_session_statistics_id_seq'::regclass);
+
+
+--
 -- Name: free_registration registration_id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
@@ -2622,6 +2669,14 @@ ALTER TABLE ONLY public.exam_session_queue
 
 
 --
+-- Name: exam_session_statistics exam_session_statistics_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.exam_session_statistics
+    ADD CONSTRAINT exam_session_statistics_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: free_registration free_registration_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -2853,6 +2908,13 @@ CREATE INDEX exam_session_location_exam_session_id ON public.exam_session_locati
 --
 
 CREATE INDEX exam_session_queue_exam_session_id ON public.exam_session_queue USING btree (exam_session_id);
+
+
+--
+-- Name: exam_session_statistics_exam_session_id; Type: INDEX; Schema: public; Owner: admin
+--
+
+CREATE INDEX exam_session_statistics_exam_session_id ON public.exam_session_statistics USING btree (exam_session_id);
 
 
 --
@@ -3128,6 +3190,14 @@ ALTER TABLE ONLY public.exam_session
 
 ALTER TABLE ONLY public.exam_session_queue
     ADD CONSTRAINT exam_session_queue_exam_session_id_fkey FOREIGN KEY (exam_session_id) REFERENCES public.exam_session(id) ON DELETE CASCADE;
+
+
+--
+-- Name: exam_session_statistics exam_session_statistics_exam_session_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.exam_session_statistics
+    ADD CONSTRAINT exam_session_statistics_exam_session_id_fkey FOREIGN KEY (exam_session_id) REFERENCES public.exam_session(id);
 
 
 --

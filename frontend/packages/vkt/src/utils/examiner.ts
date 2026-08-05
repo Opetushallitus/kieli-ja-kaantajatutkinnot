@@ -11,8 +11,8 @@ export class ExaminerUtils {
         ? [ExamLanguage.FI, ExamLanguage.SV]
         : [ExamLanguage.FI]
       : examiner.examLanguageSwedish
-      ? [ExamLanguage.SV]
-      : [];
+        ? [ExamLanguage.SV]
+        : [];
 
     return examLanguages
       .map((v) => translateCommon(`examLanguage.${v}`))

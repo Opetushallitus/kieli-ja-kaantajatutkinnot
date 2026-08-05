@@ -16,9 +16,15 @@ import { personDetails } from 'tests/msw/fixtures/personDetails';
 import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/registrationInit';
 
 const data = {
-  evaluationPeriods,
-  examSessions,
   personDetails,
+};
+
+export const resetData = () => {
+  data.personDetails = personDetails;
+};
+
+type SubmitRequest = {
+  free_registration_id: number;
 };
 
 const notFound = () => new HttpResponse(null, { status: 404 });
@@ -144,9 +150,11 @@ export const handlers = [
   http.post(APIEndpoints.SubmitRegistration, async ({ params, request }) => {
     const { registrationId } = params;
     const queued = Number(registrationId) % 2 === 1;
-    const body = await request.clone().json();
+    const body = (await request.clone().json()) as SubmitRequest;
     const state =
-      !queued && !!body.free_registration_id ? 'COMPLETED' : 'SUBMITTED';
+      !queued && body && !!body.free_registration_id
+        ? 'COMPLETED'
+        : 'SUBMITTED';
 
     return HttpResponse.json({
       success: true,

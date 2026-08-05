@@ -21,7 +21,6 @@ import { PublicRegistrationStepper } from 'components/registration/PublicRegistr
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
-import { clerkEnabled } from 'featureFlags';
 import { ExamSession } from 'interfaces/examSessions';
 import { cancelRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
@@ -185,21 +184,15 @@ export const PublicIdentificationGrid = () => {
                 {toQueue
                   ? t('titleForQueueing')
                   : loggedInSession
-                  ? t('alreadyLoggedIn.title')
-                  : t('title')}
+                    ? t('alreadyLoggedIn.title')
+                    : t('title')}
               </H1>
               <HeaderSeparator />
             </div>
           </div>
           <Paper
             elevation={isPhone ? 0 : 3}
-            style={
-              isPhone
-                ? {}
-                : clerkEnabled
-                ? { borderTop: '5px solid' + ophColors.green2 }
-                : undefined
-            }
+            style={isPhone ? {} : { borderTop: '5px solid' + ophColors.green2 }}
           >
             <div className="public-registration__grid__form-container">
               <div className="rows gapped">

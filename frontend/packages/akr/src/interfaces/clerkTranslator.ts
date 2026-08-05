@@ -32,8 +32,7 @@ export interface ClerkTranslatorTextFields {
   extraInformation?: string;
 }
 
-export interface ClerkTranslatorBasicInformation
-  extends ClerkTranslatorTextFields {
+export interface ClerkTranslatorBasicInformation extends ClerkTranslatorTextFields {
   onrId?: string;
   isAssuranceGiven: boolean;
 }
@@ -47,9 +46,7 @@ interface ClerkTranslatorAuthorisationsResponse {
 }
 
 export interface ClerkTranslatorResponse
-  extends ClerkTranslatorBasicInformation,
-    WithId,
-    WithVersion {
+  extends ClerkTranslatorBasicInformation, WithId, WithVersion {
   isIndividualised: boolean;
   hasIndividualisedAddress: boolean;
   isDeceased: boolean;
@@ -64,8 +61,10 @@ export interface ClerkTranslatorAuthorisations {
   formerVir: Array<Authorisation>;
 }
 
-export interface ClerkTranslator
-  extends Omit<ClerkTranslatorResponse, 'authorisations'> {
+export interface ClerkTranslator extends Omit<
+  ClerkTranslatorResponse,
+  'authorisations'
+> {
   isIndividualised: boolean;
   hasIndividualisedAddress: boolean;
   authorisations: ClerkTranslatorAuthorisations;

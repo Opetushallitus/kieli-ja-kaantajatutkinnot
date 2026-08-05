@@ -32,15 +32,15 @@ export interface RegistrationCheckboxDetails {
 }
 
 export interface PublicSuomiFiRegistration
-  extends PersonFillOutDetails,
-    RegistrationCheckboxDetails,
-    WithId {
+  extends PersonFillOutDetails, RegistrationCheckboxDetails, WithId {
   email: string;
   emailConfirmation: string;
 }
 
-export interface PublicEmailRegistration
-  extends Omit<PublicSuomiFiRegistration, 'emailConfirmation'> {
+export interface PublicEmailRegistration extends Omit<
+  PublicSuomiFiRegistration,
+  'emailConfirmation'
+> {
   dateOfBirth?: string;
   gender?: GenderEnum;
   hasSSN?: boolean;
@@ -64,6 +64,12 @@ export interface PublicRegistrationIdentifyPayload {
   examSessionId: number;
   registrationKind: RegistrationKind;
   registrationId: number;
+}
+
+export interface PublicRegistrationIdentifyRequest {
+  exam_session_id: number;
+  to_queue: boolean;
+  registration_id: number;
 }
 
 export interface PublicRegistrationInitRequest {

@@ -30,8 +30,10 @@ export interface ClerkOrganizer extends WithId {
   extra: string;
 }
 
-export interface ClerkOrganizerResponse
-  extends Omit<ClerkOrganizer, 'agreement_start_date' | 'agreement_end_date'> {
+export interface ClerkOrganizerResponse extends Omit<
+  ClerkOrganizer,
+  'agreement_start_date' | 'agreement_end_date'
+> {
   agreement_start_date: string;
   agreement_end_date: string;
 }

@@ -2,16 +2,9 @@ import { Provider } from 'react-redux';
 import { StyleCacheProvider } from 'shared/components';
 
 import { initI18n } from 'configs/i18n';
-import { clerkEnabled } from 'featureFlags';
 import { setupStore } from 'redux/store';
 import { AppRouter } from 'routers/AppRouter';
-
-// import styles
-if (clerkEnabled) {
-  import('styles/newStyles.scss');
-} else {
-  import('styles/styles.scss');
-}
+import('styles/styles.scss');
 
 // Initialize I18next
 initI18n();

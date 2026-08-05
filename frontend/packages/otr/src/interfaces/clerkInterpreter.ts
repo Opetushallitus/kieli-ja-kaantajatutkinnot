@@ -20,8 +20,7 @@ export interface ClerkInterpreterTextFields {
   extraInformation?: string;
 }
 
-export interface ClerkInterpreterBasicInformation
-  extends ClerkInterpreterTextFields {
+export interface ClerkInterpreterBasicInformation extends ClerkInterpreterTextFields {
   isAssuranceGiven: boolean;
   permissionToPublishEmail: boolean;
   permissionToPublishPhone: boolean;
@@ -37,9 +36,7 @@ export interface ClerkInterpreterQualifications {
 }
 
 export interface ClerkInterpreter
-  extends WithId,
-    WithVersion,
-    ClerkInterpreterBasicInformation {
+  extends WithId, WithVersion, ClerkInterpreterBasicInformation {
   isIndividualised: boolean;
   isDeceased: boolean;
   hasIndividualisedAddress: boolean;
@@ -53,8 +50,10 @@ interface ClerkInterpreterQualificationsResponse {
   expiredDeduplicated: Array<QualificationResponse>;
 }
 
-export interface ClerkInterpreterResponse
-  extends Omit<ClerkInterpreter, 'qualifications'> {
+export interface ClerkInterpreterResponse extends Omit<
+  ClerkInterpreter,
+  'qualifications'
+> {
   qualifications: ClerkInterpreterQualificationsResponse;
 }
 

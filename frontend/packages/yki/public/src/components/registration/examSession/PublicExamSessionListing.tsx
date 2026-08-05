@@ -23,7 +23,6 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { PublicRegistrationInitError } from 'enums/publicRegistration';
-import { clerkEnabled } from 'featureFlags';
 import { ExamSession } from 'interfaces/examSessions';
 import {
   PartialExamType,
@@ -452,25 +451,14 @@ export const PublicExamSessionListing = ({
             </Typography>
           </div>
           {examSessions.length > 0 ? (
-            clerkEnabled ? (
-              <NewYkiPublicExamSessionsTable
-                examSessions={examSessions}
-                onPageChange={onPageChange}
-                onRowsPerPageChange={onRowsPerPageChange}
-                page={page}
-                rowsPerPage={rowsPerPage}
-                rowsPerPageOptions={rowsPerPageOptions}
-              />
-            ) : (
-              <PublicExamSessionsTable
-                examSessions={examSessions}
-                onPageChange={onPageChange}
-                onRowsPerPageChange={onRowsPerPageChange}
-                page={page}
-                rowsPerPage={rowsPerPage}
-                rowsPerPageOptions={rowsPerPageOptions}
-              />
-            )
+            <NewYkiPublicExamSessionsTable
+              examSessions={examSessions}
+              onPageChange={onPageChange}
+              onRowsPerPageChange={onRowsPerPageChange}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+            />
           ) : (
             <Text className="margin-top-lg">{t('noResults')}</Text>
           )}

@@ -1,28 +1,11 @@
 import { AppRoutes } from 'enums/app';
 
-// localStorage clerkEnabled works in dev, __CLERK_ENABLED__ works in prod.
-// Object.defineProperty prevents the inline <script> in the served HTML from
-// overwriting __CLERK_ENABLED__ after onBeforeLoad runs.
-
-const visitWithNewYkiUi = (url: string) => {
-  cy.visit(url, {
-    onBeforeLoad: (win) => {
-      Object.defineProperty(win, '__CLERK_ENABLED__', {
-        get: () => true,
-        set: () => {},
-        configurable: true,
-      });
-      win.localStorage.setItem('clerkEnabled', 'true');
-    },
-  });
-};
-
 Cypress.Commands.add('openPublicRegistrationPage', () => {
   cy.window().then((win) => {
     win.sessionStorage.setItem('persist:root', '{}');
     cy.setCookie('cookie-consent-yki', 'true');
   });
-  visitWithNewYkiUi(AppRoutes.Registration);
+  cy.visit(AppRoutes.Registration);
 });
 
 Cypress.Commands.add('openEvaluationOrderPage', (id: number) => {
@@ -30,9 +13,7 @@ Cypress.Commands.add('openEvaluationOrderPage', (id: number) => {
     win.sessionStorage.setItem('persist:root', '{}');
     cy.setCookie('cookie-consent-yki', 'true');
   });
-  visitWithNewYkiUi(
-    AppRoutes.ReassessmentOrder.replace(/:evaluationId/, `${id}`),
-  );
+  cy.visit(AppRoutes.ReassessmentOrder.replace(/:evaluationId/, `${id}`));
 });
 
 Cypress.Commands.add('isOnPage', (page: string) => {
@@ -46,7 +27,7 @@ Cypress.Commands.add(
       win.sessionStorage.setItem('persist:root', '{}');
       cy.setCookie('cookie-consent-yki', 'true');
     });
-    visitWithNewYkiUi(
+    cy.visit(
       AppRoutes.ExamSessionRegistration.replace(
         /:examSessionId/,
         `${id}`,
@@ -60,5 +41,22 @@ Cypress.Commands.add('openPublicUserDetailsPage', () => {
     win.sessionStorage.setItem('persist:root', '{}');
     cy.setCookie('cookie-consent-yki', 'true');
   });
-  visitWithNewYkiUi(AppRoutes.UserDetails);
+  cy.visit(AppRoutes.UserDetails);
 });
+
+Cypress.Commands.add(
+  'openExamSessionRegistrationFormWithSearch',
+  (examSessionId: number, registrationId: number, search = '') => {
+    const path = AppRoutes.ExamSessionRegistration.replace(
+      /:examSessionId/,
+      `${examSessionId}`,
+    ).replace(/:registrationId/, `${registrationId}`);
+
+    cy.window().then((win) => {
+      win.sessionStorage.setItem('persist:root', '{}');
+      cy.setCookie('cookie-consent-yki', 'true');
+    });
+
+    cy.visit(`${path}${search}`);
+  },
+);

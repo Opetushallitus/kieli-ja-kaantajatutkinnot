@@ -122,11 +122,10 @@ interface NimiHistoriaResponse extends Omit<NimiHistoria, 'alkuPvm'> {
   alkuPvm: string;
 }
 
-export interface FindByOidsOrganizationResponse
-  extends Omit<
-    FindByOidsOrganization,
-    'nimet' | 'alkuPvm' | 'tarkastusPvm' | 'ytjpaivitysPvm'
-  > {
+export interface FindByOidsOrganizationResponse extends Omit<
+  FindByOidsOrganization,
+  'nimet' | 'alkuPvm' | 'tarkastusPvm' | 'ytjpaivitysPvm'
+> {
   nimet: NimiHistoriaResponse[];
   alkuPvm: string;
   tarkastusPvm?: number;
