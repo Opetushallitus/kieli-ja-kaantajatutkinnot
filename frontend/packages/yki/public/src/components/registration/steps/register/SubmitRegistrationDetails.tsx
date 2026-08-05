@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { H2, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 

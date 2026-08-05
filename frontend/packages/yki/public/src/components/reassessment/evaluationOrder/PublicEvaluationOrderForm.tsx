@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { ophColors } from '@opetushallitus/oph-design-system';
 import { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { CustomButton, H2, LabeledTextField, Text } from 'shared/components';
 import {
   APIResponseStatus,

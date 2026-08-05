@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import * as reactRouterDom from 'react-router-dom';
+import * as reactRouterDom from 'react-router';
 import { APIResponseStatus } from 'shared/enums';
 
 import { initI18nForTests } from 'configs/i18n';

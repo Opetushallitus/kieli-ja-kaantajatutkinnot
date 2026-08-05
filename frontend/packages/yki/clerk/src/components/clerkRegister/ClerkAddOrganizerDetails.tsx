@@ -7,7 +7,7 @@ import {
 } from '@opetushallitus/oph-design-system';
 import { Dayjs } from 'dayjs';
 import { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { CustomDatePicker, LoadingProgressIndicator } from 'shared/components';
 import {
   APIResponseStatus,

@@ -1,4 +1,4 @@
-import { matchPath, useLocation } from 'react-router-dom';
+import { matchPath, useLocation } from 'react-router';
 import { NavigationLinks } from 'shared/components';
 
 import { useCommonTranslation } from 'configs/i18n';
