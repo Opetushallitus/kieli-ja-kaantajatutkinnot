@@ -73,7 +73,7 @@ export const NewYkiFooter = () => {
                 </Text>
               </a>
               <Text className="inline-text">
-                <Text>{translateCommon('contactPhone.hours')}</Text>
+                {translateCommon('contactPhone.hours')}
               </Text>
             </div>
           </div>
