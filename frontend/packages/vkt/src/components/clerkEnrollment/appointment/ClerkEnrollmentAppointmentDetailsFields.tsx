@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import {
   CustomButton,
   CustomModal,

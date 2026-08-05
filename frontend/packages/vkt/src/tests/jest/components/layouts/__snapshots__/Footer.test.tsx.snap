@@ -19,6 +19,7 @@ exports[`Footer should render Footer correctly 1`] = `
           class="footer__container footer__container__links"
         >
           <a
+            data-discover="true"
             href="/vkt/saavutettavuusseloste"
           >
             <p
