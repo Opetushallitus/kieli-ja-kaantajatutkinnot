@@ -228,6 +228,9 @@ export const handlers = [
       exam_session_id: id,
     });
   }),
+  http.delete(APIEndpoints.Registration, () =>
+    HttpResponse.json({ success: true }),
+  ),
   http.get(APIEndpoints.ConfirmRegistration, ({ params }) => {
     const { registrationId } = params;
 
