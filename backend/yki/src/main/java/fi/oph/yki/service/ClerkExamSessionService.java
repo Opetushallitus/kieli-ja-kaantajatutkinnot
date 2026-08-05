@@ -81,7 +81,8 @@ public class ClerkExamSessionService {
     RegistrationState.COMPLETED,
     RegistrationState.SUBMITTED,
     RegistrationState.CANCELLED,
-    RegistrationState.PAID_AND_CANCELLED
+    RegistrationState.PAID_AND_CANCELLED,
+    RegistrationState.EXPIRED
   );
 
   private ClerkExamSessionDTO toDTO(final ExamSession examSession) {
