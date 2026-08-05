@@ -395,4 +395,92 @@
             <column name="exam_session_id"/>
         </createIndex>
     </changeSet>
+
+    <changeSet id="2026-07-30-create-email-table" author="miikavonbell">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <tableExists tableName="email"/>
+            </not>
+        </preConditions>
+        <createTable tableName="email">
+            <column autoIncrement="true" name="email_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="email_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="email_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="recipient_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="recipient_address" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subject" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="body" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sent_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="ext_id" type="TEXT"/>
+            <column name="error" type="TEXT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2026-07-30-create-email-attachment-table" author="miikavonbell">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <tableExists tableName="email_attachment"/>
+            </not>
+        </preConditions>
+        <createTable tableName="email_attachment">
+            <column autoIncrement="true" name="email_attachment_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="email_attachment_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="email_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data" type="${blob_type}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="email_attachment"
+                baseColumnNames="email_id"
+                constraintName="fk_email_attachment_email"
+                referencedTableName="email"
+                referencedColumnNames="email_id" />
+    </changeSet>
 </databaseChangeLog>
