@@ -86,7 +86,10 @@ public class ClerkExamSessionService {
   );
 
   private ClerkExamSessionDTO toDTO(final ExamSession examSession) {
-    final var registrations = registrationRepository.getByExamSessionAndStateIn(examSession, VISIBLE_STATES);
+    final var registrations = registrationRepository.getByExamSessionAndStateInAndFormIsNotNull(
+      examSession,
+      VISIBLE_STATES
+    );
 
     final Map<Long, Long> queuePositions = registrationRepository
       .getQueuePositionsByExamSession(examSession.getId())

@@ -1,8 +1,10 @@
 package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
@@ -65,6 +67,8 @@ public class ClerkExamSessionServiceTest {
   @Resource
   private TestEntityManager entityManager;
 
+  private final ObjectMapper objectMapper = new ObjectMapper();
+
   private ClerkExamSessionService clerkExamSessionService;
 
   @BeforeEach
@@ -124,6 +128,7 @@ public class ClerkExamSessionServiceTest {
     expiredRegistration.setExamSession(examSession);
     expiredRegistration.setState(RegistrationState.EXPIRED);
     expiredRegistration.setCreatedAt(LocalDateTime.of(2026, 4, 1, 10, 0));
+    expiredRegistration.setForm(objectMapper.createObjectNode().put("ssn", "010675-9981"));
 
     final Person completedPerson = Factory.person();
     completedPerson.setOid("1.2.3.4.6");
@@ -131,11 +136,21 @@ public class ClerkExamSessionServiceTest {
     completedRegistration.setExamSession(examSession);
     completedRegistration.setState(RegistrationState.COMPLETED);
     completedRegistration.setCreatedAt(LocalDateTime.of(2026, 4, 2, 10, 0));
+    completedRegistration.setForm(objectMapper.createObjectNode().put("ssn", "020675-9982"));
+
+    final Person neverSubmittedPerson = Factory.person();
+    neverSubmittedPerson.setOid("1.2.3.4.7");
+    final Registration neverSubmittedRegistration = Factory.registration(neverSubmittedPerson);
+    neverSubmittedRegistration.setExamSession(examSession);
+    neverSubmittedRegistration.setState(RegistrationState.EXPIRED);
+    neverSubmittedRegistration.setCreatedAt(LocalDateTime.of(2026, 4, 3, 10, 0));
 
     entityManager.persist(expiredPerson);
     entityManager.persist(expiredRegistration);
     entityManager.persist(completedPerson);
     entityManager.persist(completedRegistration);
+    entityManager.persist(neverSubmittedPerson);
+    entityManager.persist(neverSubmittedRegistration);
     entityManager.flush();
     entityManager.clear();
 
@@ -151,6 +166,13 @@ public class ClerkExamSessionServiceTest {
 
     assertTrue(states.contains(RegistrationState.EXPIRED));
     assertTrue(states.contains(RegistrationState.COMPLETED));
+
+    final boolean containsNeverSubmittedPerson = result
+      .registrations()
+      .stream()
+      .anyMatch(r -> r.person().oid().equals(neverSubmittedPerson.getOid()));
+
+    assertFalse(containsNeverSubmittedPerson);
   }
 
   @Test
