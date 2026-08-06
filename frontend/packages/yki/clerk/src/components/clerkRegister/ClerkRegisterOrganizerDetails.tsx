@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import i18next from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { CustomButton } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { DateUtils } from 'shared/utils';

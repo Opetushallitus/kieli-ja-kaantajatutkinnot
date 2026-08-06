@@ -10,7 +10,7 @@ import { Divider, IconButton, Stack } from '@mui/material';
 import { OphButton } from '@opetushallitus/oph-design-system';
 import i18next from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router';
 import { Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 

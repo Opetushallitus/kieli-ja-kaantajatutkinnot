@@ -9,7 +9,7 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { CustomButtonLink, CustomTable, H2, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 

@@ -28,6 +28,7 @@ exports[`Header should render Header correctly 1`] = `
           header.sessionState.activeRegistrations
         </p>
         <a
+          data-discover="true"
           href="/yki/ilmoittautuminen/tutkintotilaisuus/1/999"
         >
           header.sessionState.continueToRegistration
@@ -75,6 +76,7 @@ exports[`Header should render Header correctly 1`] = `
         class="header__logo"
       >
         <a
+          data-discover="true"
           href="/yki/ilmoittautuminen"
         >
           <div
@@ -104,6 +106,7 @@ exports[`Header should render Header correctly 1`] = `
             <li>
               <a
                 aria-current="false"
+                data-discover="true"
                 href="/yki/ilmoittautuminen"
               >
                 <p
@@ -116,6 +119,7 @@ exports[`Header should render Header correctly 1`] = `
             <li>
               <a
                 aria-current="false"
+                data-discover="true"
                 href="/yki/kayttaja/tiedot"
               >
                 <p
@@ -128,6 +132,7 @@ exports[`Header should render Header correctly 1`] = `
             <li>
               <a
                 aria-current="false"
+                data-discover="true"
                 href="/yki/tarkistusarviointi"
               >
                 <p

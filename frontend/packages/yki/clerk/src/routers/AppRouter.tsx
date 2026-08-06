@@ -7,7 +7,7 @@ import {
   Outlet,
   Route,
   RouterProvider,
-} from 'react-router-dom';
+} from 'react-router';
 import {
   Notifier,
   NotifierContextProvider,

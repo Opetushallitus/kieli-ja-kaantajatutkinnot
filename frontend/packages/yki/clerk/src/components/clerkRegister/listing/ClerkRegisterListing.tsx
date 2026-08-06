@@ -16,7 +16,7 @@ import { Box } from '@mui/system';
 import dayjs from 'dayjs';
 import i18next from 'i18next';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { CustomButton, CustomCircularProgress } from 'shared/components';
 import { APIResponseStatus, Color, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
