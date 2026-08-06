@@ -211,7 +211,7 @@ export const ClerkExamSessionRegistrations = ({
     t: typeof i18next.t,
   ): ListTableColumn<ClerkRegistration> => ({
     key: 'registrationDate',
-    title: t('columns.registrationDate'),
+    title: t('columns.examSessionRegistrationDate'),
     render: ({ registrationDate }) => (
       <div className="rows gapped-xs">
         <Text>{DateUtils.formatOptionalDate(registrationDate, 'l')}</Text>
