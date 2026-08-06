@@ -30,7 +30,7 @@
               "personName": "Nimi",
               "positionInQueue": "Jonosija",
               "queueSpotOffered": "Jonopaikkaa tarjottu",
-              "registrationDate": "Ilmoittautumispvm",
+              "registrationDate": "Ilmoittautumispäivä",
               "registrationState": "Ilmoittautumisen tila"
             },
             "headers": {

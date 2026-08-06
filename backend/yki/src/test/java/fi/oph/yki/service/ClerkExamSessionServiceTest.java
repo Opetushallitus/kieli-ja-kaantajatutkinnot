@@ -3,6 +3,8 @@ package fi.oph.yki.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.yki.Factory;
@@ -19,6 +21,7 @@ import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.onr.OnrService;
+import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.OrganizerRepository;
@@ -173,6 +176,39 @@ public class ClerkExamSessionServiceTest {
       .anyMatch(r -> r.person().oid().equals(neverSubmittedPerson.getOid()));
 
     assertFalse(containsNeverSubmittedPerson);
+  }
+
+  @Test
+  public void testGetExamSessionResolvesSsnFromOnr() throws Exception {
+    final ExamDate examDate = Factory.examDate();
+    final ExamSession examSession = Factory.examSession(examDate);
+    final ExamSessionLocation location = Factory.examSessionLocation(examSession);
+
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
+    entityManager.persist(location);
+
+    final Person person = Factory.person();
+    final Registration registration = Factory.registration(person);
+    registration.setExamSession(examSession);
+    registration.setState(RegistrationState.COMPLETED);
+    registration.setCreatedAt(LocalDateTime.of(2026, 4, 2, 10, 0));
+    registration.setForm(objectMapper.createObjectNode().put("ssn", "020675-9982"));
+
+    entityManager.persist(person);
+    entityManager.persist(registration);
+    entityManager.flush();
+    entityManager.clear();
+
+    final PersonalDataDTO personalDataDTO = new PersonalDataDTO();
+    personalDataDTO.setOidHenkilo(person.getOid());
+    personalDataDTO.setIdentityNumber("SSN-FROM-ONR");
+    when(onrService.listPersonDetails(any())).thenReturn(List.of(personalDataDTO));
+
+    final ClerkExamSessionDTO result = clerkExamSessionService.getExamSession(examSession.getId());
+
+    assertEquals(1, result.registrations().size());
+    assertEquals("SSN-FROM-ONR", result.registrations().get(0).person().socialSecurityNumber());
   }
 
   @Test

@@ -16,6 +16,7 @@ import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.onr.OnrService;
+import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.OrganizerRepository;
@@ -85,6 +86,19 @@ public class ClerkExamSessionService {
     RegistrationState.EXPIRED
   );
 
+  private Map<String, String> getOidToSsnMap(final List<String> oids) {
+    try {
+      return onrService
+        .listPersonDetails(oids)
+        .stream()
+        .filter(dto -> dto.getIdentityNumber() != null)
+        .collect(Collectors.toMap(PersonalDataDTO::getOidHenkilo, PersonalDataDTO::getIdentityNumber));
+    } catch (final Exception e) {
+      LOG.error("Unable to get identity numbers from ONR", e);
+      return Map.of();
+    }
+  }
+
   private ClerkExamSessionDTO toDTO(final ExamSession examSession) {
     final var registrations = registrationRepository.getByExamSessionAndStateInAndFormIsNotNull(
       examSession,
@@ -101,9 +115,17 @@ public class ClerkExamSessionService {
         )
       );
 
+    final List<String> personOids = registrations
+      .stream()
+      .map(r -> r.getPerson() != null ? r.getPerson().getOid() : null)
+      .filter(oid -> oid != null)
+      .distinct()
+      .toList();
+    final Map<String, String> oidToSsn = personOids.isEmpty() ? Map.of() : getOidToSsnMap(personOids);
+
     final List<ClerkRegistrationDTO> registrationDTOs = registrations
       .stream()
-      .map(r -> RegistrationUtil.createClerkRegistrationDTO(r, queuePositions.get(r.getId())))
+      .map(r -> RegistrationUtil.createClerkRegistrationDTO(r, queuePositions.get(r.getId()), oidToSsn))
       .toList();
     final List<ClerkExamSessionLocationDTO> locationDTOS = examSession
       .getLocations()
