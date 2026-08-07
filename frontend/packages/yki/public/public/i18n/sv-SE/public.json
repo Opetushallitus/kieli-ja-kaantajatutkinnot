@@ -350,7 +350,7 @@
             "ssn": "Personbeteckning"
           },
           "placeholders": {
-            "address": "",
+            "address": "Kontrollera att adressen innehåller alla uppgifter (t.ex. lägenhetsnummer). Enbart gatunamn räcker inte.",
             "countryCode": "Välj land",
             "dateOfBirth": "Skriv i formatet dd.mm.åååå.",
             "email": "Till exempel namn@e-post.fi",

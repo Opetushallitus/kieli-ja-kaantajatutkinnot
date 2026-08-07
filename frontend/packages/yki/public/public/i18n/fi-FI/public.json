@@ -350,7 +350,7 @@
             "ssn": "Henkilötunnus"
           },
           "placeholders": {
-            "address": "",
+            "address": "Tarkista, että osoitteessa on kaikki tiedot (esim. asunnon numero). Pelkkä kadunnimi ei riitä.",
             "countryCode": "Valitse maa",
             "dateOfBirth": "Kirjoita muodossa pp.kk.vvvv",
             "email": "Esim. nimi@sahkoposti.fi",
@@ -786,10 +786,10 @@
           "selectLanguage": "Valitse kieli",
           "selectLevel": "Valitse taso",
           "selectMunicipality": "Valitse paikkakunta",
-          "speak": "Puhuminen",
-          "write": "Kirjoittaminen",
           "selectMunicipality": "Valitse paikkakunta",
           "speak": "Puhuminen",
+          "speak": "Puhuminen",
+          "write": "Kirjoittaminen",
           "write": "Kirjoittaminen"
         },
         "register": "Ilmoittaudu",
