@@ -156,6 +156,10 @@
         "userDetails": "My registrations"
       },
       "partialExams": "Subtests",
+      "partialExamsLink": {
+        "label": "Subtest days for the YKI test will be piloted in autumn 2026",
+        "url": "https://www.oph.fi/en/news/2026/subtest-days-yki-test-will-be-piloted-autumn-2026"
+      },
       "partialExamTime": "at {{startTime}}",
       "partialExamTimeLabel": "Testin alkamisaika",
       "phoneNumber": "Telephone number",

@@ -770,10 +770,9 @@
             "label": "After the YKI test",
             "url": "https://www.oph.fi/en/education-and-qualifications/after-yki-test"
           },
-          "part1": "If you take the test on or after 1 April 2026, you can get a digital YKI certificate.",
-          "part2": "You can access the certificate in the My Studyinfo service.",
-          "part3": "If you have activated the <CustomLink></CustomLink> Messages service, you will receive an electronic <CustomLink></CustomLink> message once your certificate is ready.",
-          "part4": "You can read more about the test results and certificates on the website of the Finnish National Agency for Education:"
+          "part1": "The first subtest day will take place on 16 September 2026!",
+          "part2": "On the subtest day, you can only take the writing and listening comprehension subtests.",
+          "part3": "Read more on the website of the Finnish National Agency for Education: <CustomLink></CustomLink>"
         },
         "labels": {
           "allPartsAtOnce": "All subtests at once",
