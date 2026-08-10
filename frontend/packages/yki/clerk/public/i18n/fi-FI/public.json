@@ -23,6 +23,7 @@
             "columns": {
               "actions": "Toiminnot",
               "date": "Tutkintopäivä",
+              "examSessionRegistrationDate": "Ilmoittautumispäivä",
               "examState": "Tila",
               "location": "Testipaikka",
               "name": "Tutkinto",

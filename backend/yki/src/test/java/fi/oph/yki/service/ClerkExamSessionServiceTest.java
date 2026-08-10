@@ -1,25 +1,37 @@
 package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionLocationCreateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
+import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
+import fi.oph.yki.model.Person;
+import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.onr.OnrService;
+import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.OrganizerRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -57,6 +69,8 @@ public class ClerkExamSessionServiceTest {
 
   @Resource
   private TestEntityManager entityManager;
+
+  private final ObjectMapper objectMapper = new ObjectMapper();
 
   private ClerkExamSessionService clerkExamSessionService;
 
@@ -100,6 +114,101 @@ public class ClerkExamSessionServiceTest {
     assertEquals(1, result.location().size());
     assertEquals("Testikatu 1", result.location().get(0).streetAddress());
     assertTrue(result.registrations().isEmpty());
+  }
+
+  @Test
+  public void testGetExamSessionIncludesExpiredRegistrations() {
+    final ExamDate examDate = Factory.examDate();
+    final ExamSession examSession = Factory.examSession(examDate);
+    final ExamSessionLocation location = Factory.examSessionLocation(examSession);
+
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
+    entityManager.persist(location);
+
+    final Person expiredPerson = Factory.person();
+    final Registration expiredRegistration = Factory.registration(expiredPerson);
+    expiredRegistration.setExamSession(examSession);
+    expiredRegistration.setState(RegistrationState.EXPIRED);
+    expiredRegistration.setCreatedAt(LocalDateTime.of(2026, 4, 1, 10, 0));
+    expiredRegistration.setForm(objectMapper.createObjectNode().put("ssn", "010675-9981"));
+
+    final Person completedPerson = Factory.person();
+    completedPerson.setOid("1.2.3.4.6");
+    final Registration completedRegistration = Factory.registration(completedPerson);
+    completedRegistration.setExamSession(examSession);
+    completedRegistration.setState(RegistrationState.COMPLETED);
+    completedRegistration.setCreatedAt(LocalDateTime.of(2026, 4, 2, 10, 0));
+    completedRegistration.setForm(objectMapper.createObjectNode().put("ssn", "020675-9982"));
+
+    final Person neverSubmittedPerson = Factory.person();
+    neverSubmittedPerson.setOid("1.2.3.4.7");
+    final Registration neverSubmittedRegistration = Factory.registration(neverSubmittedPerson);
+    neverSubmittedRegistration.setExamSession(examSession);
+    neverSubmittedRegistration.setState(RegistrationState.EXPIRED);
+    neverSubmittedRegistration.setCreatedAt(LocalDateTime.of(2026, 4, 3, 10, 0));
+
+    entityManager.persist(expiredPerson);
+    entityManager.persist(expiredRegistration);
+    entityManager.persist(completedPerson);
+    entityManager.persist(completedRegistration);
+    entityManager.persist(neverSubmittedPerson);
+    entityManager.persist(neverSubmittedRegistration);
+    entityManager.flush();
+    entityManager.clear();
+
+    final ClerkExamSessionDTO result = clerkExamSessionService.getExamSession(examSession.getId());
+
+    assertEquals(2, result.registrations().size());
+
+    final Set<RegistrationState> states = result
+      .registrations()
+      .stream()
+      .map(ClerkRegistrationDTO::state)
+      .collect(Collectors.toSet());
+
+    assertTrue(states.contains(RegistrationState.EXPIRED));
+    assertTrue(states.contains(RegistrationState.COMPLETED));
+
+    final boolean containsNeverSubmittedPerson = result
+      .registrations()
+      .stream()
+      .anyMatch(r -> r.person().oid().equals(neverSubmittedPerson.getOid()));
+
+    assertFalse(containsNeverSubmittedPerson);
+  }
+
+  @Test
+  public void testGetExamSessionResolvesSsnFromOnr() throws Exception {
+    final ExamDate examDate = Factory.examDate();
+    final ExamSession examSession = Factory.examSession(examDate);
+    final ExamSessionLocation location = Factory.examSessionLocation(examSession);
+
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
+    entityManager.persist(location);
+
+    final Person person = Factory.person();
+    final Registration registration = Factory.registration(person);
+    registration.setExamSession(examSession);
+    registration.setState(RegistrationState.COMPLETED);
+    registration.setCreatedAt(LocalDateTime.of(2026, 4, 2, 10, 0));
+    registration.setForm(objectMapper.createObjectNode().put("ssn", "020675-9982"));
+
+    entityManager.persist(person);
+    entityManager.persist(registration);
+    entityManager.flush();
+    entityManager.clear();
+
+    final PersonalDataDTO personalDataDTO = new PersonalDataDTO();
+    personalDataDTO.setOidHenkilo(person.getOid());
+    personalDataDTO.setIdentityNumber("SSN-FROM-ONR");
+    when(onrService.listPersonDetails(any())).thenReturn(List.of(personalDataDTO));
+
+    final ClerkExamSessionDTO result = clerkExamSessionService.getExamSession(examSession.getId());
+
+    assertEquals(1, result.registrations().size());
+    assertEquals("SSN-FROM-ONR", result.registrations().get(0).person().socialSecurityNumber());
   }
 
   @Test
