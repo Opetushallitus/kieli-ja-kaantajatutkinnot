@@ -17,35 +17,36 @@ export class ExamSessionUtils {
     examSession: ExamSession,
     partialExamType?: PartialExamType,
   ) {
+    const readListenAvailablePlaces = Math.max(
+      (examSession.max_participants_read_listen ?? 0) -
+        (examSession.participants_read_listen ?? 0),
+      0,
+    );
+    const speakWriteAvailablePlaces = Math.max(
+      (examSession.max_participants_speak_write ?? 0) -
+        (examSession.participants_speak_write ?? 0),
+      0,
+    );
+
     if (examSession.type === 'READ_SPEAK') {
       if (partialExamType === 'READ') {
-        return Math.max(
-          (examSession.max_participants_read_listen ?? 0) -
-            (examSession.participants_read_listen ?? 0),
-          0,
-        );
+        return readListenAvailablePlaces;
       }
-      if (partialExamType === 'SPEAK' || partialExamType === 'ALL_PARTS') {
-        return Math.max(
-          (examSession.max_participants_speak_write ?? 0) -
-            (examSession.participants_speak_write ?? 0),
-          0,
-        );
+      if (partialExamType === 'SPEAK') {
+        return speakWriteAvailablePlaces;
+      }
+      if (partialExamType === 'ALL_PARTS') {
+        return Math.min(readListenAvailablePlaces, speakWriteAvailablePlaces);
       }
     } else if (examSession.type === 'LISTEN_WRITE') {
       if (partialExamType === 'LISTEN') {
-        return Math.max(
-          (examSession.max_participants_read_listen ?? 0) -
-            (examSession.participants_read_listen ?? 0),
-          0,
-        );
+        return readListenAvailablePlaces;
       }
-      if (partialExamType === 'WRITE' || partialExamType === 'ALL_PARTS') {
-        return Math.max(
-          (examSession.max_participants_speak_write ?? 0) -
-            (examSession.participants_speak_write ?? 0),
-          0,
-        );
+      if (partialExamType === 'WRITE') {
+        return speakWriteAvailablePlaces;
+      }
+      if (partialExamType === 'ALL_PARTS') {
+        return Math.min(readListenAvailablePlaces, speakWriteAvailablePlaces);
       }
     }
 
