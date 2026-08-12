@@ -8,9 +8,9 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
-import { H2, H3, Text } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 
+import { H2, H3, Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { RegistrationKind } from 'enums/app';

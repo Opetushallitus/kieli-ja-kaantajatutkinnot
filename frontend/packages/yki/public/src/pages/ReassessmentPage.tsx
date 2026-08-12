@@ -2,11 +2,12 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Grid, Paper } from '@mui/material';
 import { Box } from '@mui/system';
 import { FC, useEffect } from 'react';
-import { H1, H2, HeaderSeparator, Text } from 'shared/components';
+import { HeaderSeparator } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
 import { PublicEvaluationPeriodListing } from 'components/reassessment/PublicEvaluationPeriodListing';
 import { PublicEvaluationPeriodListingSkeleton } from 'components/skeletons/PublicEvaluationPeriodListingSkeleton';
+import { H1, H2, Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { loadEvaluationPeriods } from 'redux/reducers/evaluationPeriods';
