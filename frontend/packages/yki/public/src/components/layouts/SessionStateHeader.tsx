@@ -159,7 +159,7 @@ export const SessionStateHeader: FC = () => {
             variant={Variant.Outlined}
             onClick={handleLogout}
           >
-            <LogoutIcon />
+            <LogoutIcon color={Color.Secondary} />
             {translateCommon('header.sessionState.logOut')}
           </Button>
         </div>
