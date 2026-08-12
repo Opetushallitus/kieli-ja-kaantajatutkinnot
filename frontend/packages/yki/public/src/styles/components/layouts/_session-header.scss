@@ -1,5 +1,5 @@
 .session-header {
-  background: #ffffff;
+  background: #f6f6f6;
   justify-content: flex-end;
   padding: 2rem 6rem;
 
@@ -12,9 +12,13 @@
 
   & &__logout-button {
     background-color: $color-primary;
+    border-color: $color-secondary;
+    color: $color-secondary;
   }
 
   & &__user-details {
+    color: $color-secondary;
+
     @include phone {
       align-items: flex-end;
     }
