@@ -10,6 +10,14 @@ const brandColors = {
 export const publicTheme = createOphTheme({
   variant: 'oph',
   overrides: {
+    palette: {
+      // The oph base theme has no secondary color, so `color="secondary"`
+      // controls (buttons etc.) must get the YKI brand green here.
+      secondary: {
+        main: brandColors.green,
+        contrastText: brandColors.white,
+      },
+    },
     components: {
       MuiAppBar: {
         styleOverrides: {
