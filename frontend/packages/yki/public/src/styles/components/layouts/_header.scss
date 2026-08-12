@@ -32,6 +32,7 @@
   &__tabs button,
   &__language-select button {
     @include header-text;
+    color: $color-primary;
   }
 
   &__logo {
@@ -71,7 +72,7 @@
       grid-area: language-select;
     }
     align-self: center;
-    color: $color-secondary;
+    color: $color-primary;
     gap: 2rem;
     justify-self: end;
 
@@ -89,6 +90,24 @@
 
     & > a {
       @include header-text;
+      color: $color-primary;
     }
+  }
+}
+
+// The active navigation tab sits on the green AppBar, so its indicator and
+// label must be white instead of the default green highlight. Imported after
+// the shared/override styles, so it wins on cascade order without extra nesting.
+.navigation-links li.active {
+  p {
+    color: $color-primary;
+  }
+
+  @include desktop-xs-and-up {
+    border-bottom-color: $color-primary;
+  }
+
+  @include mobile {
+    border-left-color: $color-primary;
   }
 }
