@@ -1,8 +1,9 @@
-import { CustomTable, H2, Text } from 'shared/components';
+import { CustomTable } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
 import { PublicEvaluationPeriodListingHeader } from 'components/reassessment/PublicEvaluationPeriodListingHeader';
 import { PublicEvaluationPeriodListingRow } from 'components/reassessment/PublicEvaluationPeriodListingRow';
+import { H2, Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { EvaluationPeriod } from 'interfaces/evaluationPeriod';

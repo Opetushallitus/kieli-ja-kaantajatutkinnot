@@ -6,11 +6,11 @@ import {
   CustomModal,
   H3,
   LoadingProgressIndicator,
-  Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useToast, useWindowProperties } from 'shared/hooks';
 
+import { Text } from 'components/Text';
 import { RegistrationDetails } from 'components/userDetails/RegistrationDetails';
 import { RegistrationState } from 'components/userDetails/RegistrationState';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
