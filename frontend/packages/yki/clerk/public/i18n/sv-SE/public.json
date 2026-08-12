@@ -23,6 +23,7 @@
             "columns": {
               "actions": "Åtgärder",
               "date": "Testdatum",
+              "examSessionRegistrationDate": "Anmälningsdatum",
               "examState": "Status",
               "location": "Testplats",
               "name": "Examen",

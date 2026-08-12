@@ -3,6 +3,7 @@ import { AppLanguage } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import {
+  EvaluationState,
   ExamLanguage,
   ExamLevel,
   GenderEnum,
@@ -307,6 +308,9 @@ export class SerializationUtils {
             ? (v.position_in_queue || 0) + 1
             : undefined,
         isFreeRegistration: v.is_free_registration,
+        evaluationState: v.evaluation_state
+          ? (v.evaluation_state as EvaluationState)
+          : undefined,
         start_time_read_listen: v.start_time_read_listen,
         start_time_speak_write: v.start_time_speak_write,
       })),
