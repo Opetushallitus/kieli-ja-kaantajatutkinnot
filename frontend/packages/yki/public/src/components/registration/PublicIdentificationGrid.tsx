@@ -3,14 +3,7 @@ import { Container, Grid, Paper } from '@mui/material';
 import { ophColors } from '@opetushallitus/oph-design-system';
 import { Trans } from 'react-i18next';
 import { generatePath } from 'react-router';
-import {
-  CustomButton,
-  H1,
-  H2,
-  HeaderSeparator,
-  Text,
-  WebLink,
-} from 'shared/components';
+import { CustomButton, HeaderSeparator, WebLink } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -18,6 +11,7 @@ import { SelectIdentificationMethod } from 'components/registration/identificati
 import { PublicRegistrationControlButtons } from 'components/registration/PublicRegistrationControlButtons';
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
+import { H1, H2, Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';

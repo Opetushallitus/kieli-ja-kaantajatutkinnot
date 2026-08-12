@@ -1,9 +1,9 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Link } from '@mui/material';
 import { useSearchParams } from 'react-router';
-import { H2, Text } from 'shared/components';
 
 import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
+import { H2, Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { APIEndpoints, PaymentStatus } from 'enums/api';

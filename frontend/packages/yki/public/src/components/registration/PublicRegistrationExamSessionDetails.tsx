@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
-import { H2 } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import { ExamSessionFormat } from 'components/registration/examSession/ExamSessionFormat';
+import { H2 } from 'components/Text';
 import {
   getCurrentLang,
   useCommonTranslation,

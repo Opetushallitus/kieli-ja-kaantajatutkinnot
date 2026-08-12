@@ -13,7 +13,6 @@ import {
   CustomButton,
   LanguageSelect,
   LoadingProgressIndicator,
-  Text,
 } from 'shared/components';
 import {
   APIResponseStatus,
@@ -24,6 +23,7 @@ import {
 } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
 
+import { Text } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamLanguage, ExamLevel } from 'enums/app';

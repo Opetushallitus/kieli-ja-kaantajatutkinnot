@@ -3,7 +3,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import { Container } from '@mui/material';
 import { useCallback, useState } from 'react';
-import { CustomButton, LabeledTextField, Text } from 'shared/components';
+import { CustomButton, LabeledTextField } from 'shared/components';
 import {
   Color,
   InputAutoComplete,
@@ -14,6 +14,7 @@ import {
 import { useDialog, useWindowProperties } from 'shared/hooks';
 import { InputFieldUtils } from 'shared/utils';
 
+import { Text } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamSession } from 'interfaces/examSessions';

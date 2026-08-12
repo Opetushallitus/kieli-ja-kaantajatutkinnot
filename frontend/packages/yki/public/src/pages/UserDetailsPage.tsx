@@ -11,16 +11,13 @@ import { Trans } from 'react-i18next';
 import {
   CustomButton,
   CustomButtonLink,
-  H1,
-  H2,
-  H3,
   HeaderSeparator,
-  Text,
   WebLink,
 } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
+import { H1, H2, H3, Text } from 'components/Text';
 import { CancelRegistrationModal } from 'components/userDetails/CancelRegistrationModal';
 import { RegistrationDetails } from 'components/userDetails/RegistrationDetails';
 import { RegistrationState } from 'components/userDetails/RegistrationState';

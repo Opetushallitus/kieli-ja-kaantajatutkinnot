@@ -3,18 +3,11 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Grid, Paper, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';
-import {
-  CustomButtonLink,
-  H1,
-  H2,
-  H3,
-  HeaderSeparator,
-  Text,
-  WebLink,
-} from 'shared/components';
+import { CustomButtonLink, HeaderSeparator, WebLink } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { CommonUtils } from 'shared/utils';
 
+import { H1, H2, H3, Text } from 'components/Text';
 import {
   useAccessibilityTranslation,
   useCommonTranslation,

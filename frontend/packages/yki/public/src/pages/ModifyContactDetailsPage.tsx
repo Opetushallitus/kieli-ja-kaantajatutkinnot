@@ -4,13 +4,10 @@ import { useNavigate } from 'react-router';
 import {
   CustomButton,
   CustomButtonLink,
-  H1,
-  H2,
   HeaderSeparator,
   LabeledComboBox,
   LabeledTextField,
   LoadingProgressIndicator,
-  Text,
 } from 'shared/components';
 import {
   APIResponseStatus,
@@ -24,6 +21,7 @@ import {
 } from 'shared/enums';
 import { useDialog, useToast, useWindowProperties } from 'shared/hooks';
 
+import { H1, H2, Text } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';

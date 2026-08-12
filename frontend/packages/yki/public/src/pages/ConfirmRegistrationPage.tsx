@@ -2,15 +2,12 @@ import { Grid, Paper } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
-import {
-  H1,
-  HeaderSeparator,
-  LoadingProgressIndicator,
-} from 'shared/components';
+import { HeaderSeparator, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
 import { ConfirmRegistration } from 'components/registration/steps/register/ConfirmRegistration';
+import { H1 } from 'components/Text';
 import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
