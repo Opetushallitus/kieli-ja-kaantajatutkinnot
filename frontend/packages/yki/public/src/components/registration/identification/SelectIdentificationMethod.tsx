@@ -1,12 +1,12 @@
 import DoneIcon from '@mui/icons-material/Done';
 import { useEffect } from 'react';
-import { H2, Text } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 import { CommonUtils } from 'shared/utils';
 
 import { EmailIdentification } from 'components/registration/identification/EmailIdentification';
 import { SuomiFiIdentification } from 'components/registration/identification/SuomiFiIdentification';
+import { H2, Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { publicIdentificationSelector } from 'redux/selectors/publicIdentifaction';

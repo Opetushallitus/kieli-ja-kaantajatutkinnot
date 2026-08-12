@@ -7,11 +7,8 @@ import {
   CustomButtonLink,
   CustomCircularProgress,
   CustomModal,
-  H2,
-  H3,
   ManagedPaginatedTable,
   Pagination,
-  Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
@@ -19,6 +16,7 @@ import { useWindowProperties } from 'shared/hooks';
 import { PublicExamSessionCard } from 'components/registration/examSession/PublicExamSessionCard';
 import { PublicExamSessionListingHeader } from 'components/registration/examSession/PublicExamSessionListingHeader';
 import { PublicExamSessionListingRow } from 'components/registration/examSession/PublicExamSessionListingRow';
+import { H2, H3, Text } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';

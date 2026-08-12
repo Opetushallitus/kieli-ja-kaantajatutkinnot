@@ -11,7 +11,7 @@ import {
 import { ophColors } from '@opetushallitus/oph-design-system';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router';
-import { CustomButton, H2, LabeledTextField, Text } from 'shared/components';
+import { CustomButton, LabeledTextField } from 'shared/components';
 import {
   APIResponseStatus,
   Color,
@@ -23,6 +23,7 @@ import {
 import { useDialog, useWindowProperties } from 'shared/hooks';
 import { DateUtils, InputFieldUtils } from 'shared/utils';
 
+import { H2, Text } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';

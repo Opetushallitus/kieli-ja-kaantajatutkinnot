@@ -1,10 +1,11 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Trans } from 'react-i18next';
-import { CustomButton, H2, Text, WebLink } from 'shared/components';
+import { CustomButton, WebLink } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
+import { H2, Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { PaymentDetails } from 'interfaces/confirmRegistration';
 

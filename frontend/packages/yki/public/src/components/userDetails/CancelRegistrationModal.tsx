@@ -5,11 +5,11 @@ import {
   CustomButton,
   CustomModal,
   LoadingProgressIndicator,
-  Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useToast, useWindowProperties } from 'shared/hooks';
 
+import { Text } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PersonRegistrations } from 'interfaces/userDetails';

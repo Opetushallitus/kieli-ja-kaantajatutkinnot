@@ -1,8 +1,9 @@
 import { TableCell, TableRow } from '@mui/material';
-import { CustomSkeleton, CustomTable, H2 } from 'shared/components';
+import { CustomSkeleton, CustomTable } from 'shared/components';
 import { SkeletonVariant } from 'shared/enums';
 
 import { PublicEvaluationPeriodListingHeader } from 'components/reassessment/PublicEvaluationPeriodListingHeader';
+import { H2 } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 
 const getRowDetails = () => (

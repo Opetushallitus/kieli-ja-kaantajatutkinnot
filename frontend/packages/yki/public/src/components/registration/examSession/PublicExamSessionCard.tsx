@@ -1,9 +1,10 @@
 import { Dayjs } from 'dayjs';
-import { CustomButton, Text } from 'shared/components';
+import { CustomButton } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
+import { Text } from 'components/Text';
 import {
   getCurrentLang,
   useCommonTranslation,

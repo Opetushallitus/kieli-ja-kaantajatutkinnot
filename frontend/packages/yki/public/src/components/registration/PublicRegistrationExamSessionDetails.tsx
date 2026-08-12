@@ -1,7 +1,7 @@
-import { H2, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
+import { H2, Text } from 'components/Text';
 import {
   getCurrentLang,
   useCommonTranslation,

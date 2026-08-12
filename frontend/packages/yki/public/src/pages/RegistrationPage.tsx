@@ -2,12 +2,13 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Alert, Box, Container, Grid, Link, Paper } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
-import { H1, H2, HeaderSeparator, Text } from 'shared/components';
+import { HeaderSeparator } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 
 import { PartialExamsLink } from 'components/elements/PartialExamsLink';
 import { PublicExamSessionListing } from 'components/registration/examSession/PublicExamSessionListing';
 import { PublicExamSessionFilters } from 'components/registration/examSession/PublicExamSessionListingFilters';
+import { H1, H2, Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamSession } from 'interfaces/examSessions';

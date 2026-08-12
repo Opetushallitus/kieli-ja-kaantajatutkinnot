@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { LabeledComboBox, LabeledTextField, Text } from 'shared/components';
+import { LabeledComboBox, LabeledTextField } from 'shared/components';
 import {
   InputAutoComplete,
   TextFieldTypes,
@@ -8,6 +8,7 @@ import {
 import { useWindowProperties } from 'shared/hooks';
 
 import { AddressDetails } from 'components/registration/steps/register/AddressDetails';
+import { Text } from 'components/Text';
 import {
   getCurrentLang,
   useCommonTranslation,

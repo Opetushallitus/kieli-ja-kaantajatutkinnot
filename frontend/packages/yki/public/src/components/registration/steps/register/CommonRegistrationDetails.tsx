@@ -9,12 +9,13 @@ import {
 } from '@mui/material';
 import { ChangeEvent, useEffect } from 'react';
 import { Trans } from 'react-i18next';
-import { H2, H3, Text, WebLink } from 'shared/components';
+import { WebLink } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { SuomiFiLink } from 'components/elements/SuomiFiLink';
 import { ExamFee } from 'components/registration/steps/register/ExamFee';
+import { H2, H3, Text } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {

@@ -1,7 +1,6 @@
 import { Dayjs } from 'dayjs';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
-import { H2, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
 import { CommonRegistrationDetails } from 'components/registration/steps/register/CommonRegistrationDetails';
@@ -9,6 +8,7 @@ import { ConfirmRegistration } from 'components/registration/steps/register/Conf
 import { EmailRegistrationDetails } from 'components/registration/steps/register/EmailRegistrationDetails';
 import { DialogContents } from 'components/registration/steps/register/RegistrationNavigationProtectionDialog';
 import { SuomiFiRegistrationDetails } from 'components/registration/steps/register/SuomiFiRegistrationDetails';
+import { H2, Text } from 'components/Text';
 import {
   getCurrentLang,
   useCommonTranslation,

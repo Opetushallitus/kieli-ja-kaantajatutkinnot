@@ -13,15 +13,12 @@ import { Trans } from 'react-i18next';
 import {
   CustomButton,
   CustomButtonLink,
-  H1,
-  H2,
-  H3,
   HeaderSeparator,
-  Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
+import { H1, H2, H3, Text } from 'components/Text';
 import { CancelRegistrationModal } from 'components/userDetails/CancelRegistrationModal';
 import {
   getCurrentLang,
