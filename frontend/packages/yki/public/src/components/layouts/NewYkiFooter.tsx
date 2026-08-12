@@ -1,9 +1,10 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider, Paper } from '@mui/material';
 import { Link } from 'react-router';
-import { OPHLogoViewer, Text } from 'shared/components';
+import { OPHLogoViewer } from 'shared/components';
 import { Direction } from 'shared/enums';
 
+import { Text } from 'components/Text';
 import {
   getCurrentLang,
   useCommonTranslation,

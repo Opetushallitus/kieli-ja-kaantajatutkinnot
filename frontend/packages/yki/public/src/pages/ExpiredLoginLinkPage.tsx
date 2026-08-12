@@ -6,13 +6,12 @@ import { FC, useEffect } from 'react';
 import { useParams } from 'react-router';
 import {
   CustomButton,
-  H1,
   HeaderSeparator,
   LoadingProgressIndicator,
-  Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
+import { H1, Text } from 'components/Text';
 import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {

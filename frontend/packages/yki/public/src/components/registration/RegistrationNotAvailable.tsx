@@ -1,10 +1,11 @@
 import { Grid, Paper } from '@mui/material';
 import { ophColors } from '@opetushallitus/oph-design-system';
-import { H1, HeaderSeparator, Text } from 'shared/components';
+import { HeaderSeparator } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
 import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
+import { H1, Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { ExamSession } from 'interfaces/examSessions';

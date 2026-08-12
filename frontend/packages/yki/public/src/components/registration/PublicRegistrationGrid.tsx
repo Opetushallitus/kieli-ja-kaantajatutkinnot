@@ -2,12 +2,7 @@ import { Grid, Paper } from '@mui/material';
 import { ophColors } from '@opetushallitus/oph-design-system';
 import { useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router';
-import {
-  H1,
-  H2,
-  HeaderSeparator,
-  LoadingProgressIndicator,
-} from 'shared/components';
+import { HeaderSeparator, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -17,6 +12,7 @@ import { PublicRegistrationExamSessionDetails } from 'components/registration/Pu
 import { PublicRegistrationStepContents } from 'components/registration/PublicRegistrationStepContents';
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
 import { MemoizedPublicRegistrationTimer } from 'components/registration/PublicRegistrationTimer';
+import { H1, H2 } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PaymentStatus } from 'enums/api';

@@ -13,7 +13,6 @@ export const ExamSessionFormat = ({
   examSession: Pick<ExamSession, 'id' | 'language_code' | 'session_date'>;
   showDescription?: boolean;
 }) => {
-  // TODO OPHKIOS-383: replace Finnish copy in SV/EN resources when translations arrive.
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.examSessionFormat',
   });

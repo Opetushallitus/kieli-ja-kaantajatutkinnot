@@ -5,13 +5,13 @@ import {
   LangSelector,
   OPHLogoViewer,
   SkipLink,
-  Text,
 } from 'shared/components';
 import { AppLanguage, Direction } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { PublicNavigationLinks } from 'components/layouts/publicHeader/PublicNavigationLinks';
 import { SessionStateHeader } from 'components/layouts/SessionStateHeader';
+import { Text } from 'components/Text';
 import {
   changeLang,
   getCurrentLang,
