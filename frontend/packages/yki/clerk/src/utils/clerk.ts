@@ -138,13 +138,13 @@ export const getOrganizerAddress = (
 // Tekstin ymmärtäminen + Puhuminen
 // or
 // Puheen ymmärtäminen + Kirjoittaminen
-const getExamPartialType1 = (type: ExamSessionType) => {
+export const getExamPartialType1 = (type: ExamSessionType) => {
   return type === ExamSessionType.READ_SPEAK
     ? t('yki.common.examParts.readingComprehension')
     : t('yki.common.examParts.speechComprehension');
 };
 
-const getExamPartialType2 = (type: ExamSessionType) => {
+export const getExamPartialType2 = (type: ExamSessionType) => {
   return type === ExamSessionType.READ_SPEAK
     ? t('yki.common.examParts.speaking')
     : t('yki.common.examParts.writing');
