@@ -8,7 +8,6 @@ import { RegistrationKind } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
-import { ExamSessionUtils } from 'utils/examSession';
 
 export const SuomiFiIdentification = () => {
   const examSession = useAppSelector(examSessionSelector)
@@ -19,10 +18,7 @@ export const SuomiFiIdentification = () => {
     keyPrefix: 'yki.component.registration.steps.identify',
   });
 
-  const registrationKind = ExamSessionUtils.getRegistrationKind({
-    examSession,
-    partialExamType: initRegistration.partialExamType,
-  });
+  const registrationKind = examSession.available_registration_kind;
 
   return (
     <>
