@@ -43,10 +43,7 @@ const AlreadyLoggedIn = () => {
   const isEmailAuthenticatedSession =
     loggedInSession?.['auth-method'] === 'EMAIL';
   const toQueue =
-    ExamSessionUtils.getRegistrationKind({
-      examSession,
-      partialExamType: initRegistration.partialExamType,
-    }) === RegistrationKind.Queue;
+    examSession.available_registration_kind === RegistrationKind.Queue;
   const onAbort = () => {
     dispatch(cancelRegistration());
   };

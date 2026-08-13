@@ -106,10 +106,7 @@ export const InitRegistrationPage = () => {
       dispatch(
         initRegistration({
           examSessionId: examSession.id,
-          registrationKind: ExamSessionUtils.getRegistrationKind({
-            examSession,
-            partialExamType: initRegistrationState.partialExamType,
-          }),
+          registrationKind: examSession.available_registration_kind,
           partialExamType: initRegistrationState.partialExamType || 'ALL_PARTS',
         }),
       );
